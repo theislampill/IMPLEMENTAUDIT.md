@@ -31,7 +31,7 @@ This is not a table of contents. Treat each row as a gate: pass it before moving
 |---|---|---|
 | 0. Safety read | §0: read repo instructions, safety defaults, authorization gates, and `AGENTS.md` conflict rules. | STOP if the requested action is unsafe, unauthorized, unsupported, or contradicts repo policy without an owner decision. |
 | 1. Input gate | §2: confirm the input is a valid audit artifact. | STOP and wait if input is empty, malformed, or not an audit artifact. Restart at Step 2 after corrected input. |
-| 2. Pre-flight | §4a and §5: detect optional tooling, confirm write access, generator/source ownership, authorization chain, repo constraints, and prior run state. | STOP unless every required pre-flight item passes or the failure is the audit target itself. Missing optional tooling is not a failure. |
+| 2. Pre-flight | §4a, §4b, and §5: detect optional tooling, use Graphify-assisted Gemba when available/fresh/authorized, confirm write access, generator/source ownership, authorization chain, repo constraints, and prior run state. | STOP unless every required pre-flight item passes or the failure is the audit target itself. Missing optional tooling is not a failure. |
 | 3. Smoke A | §7: run the baseline before mutation. | Do not mutate until baseline checks are recorded and pre-existing failures are classified as target, unrelated, or unclear. |
 | 4. Implement | §8: process P0 -> P1 -> P2, patch owner/source, keep changes atomic, and guard scope creep. | Andon if owner/source is unclear, generated-source policy is unresolved, a dependency blocks the item, or an AGENTS.md conflict needs an owner decision. |
 | 5. Smoke B | §9: compare post-change checks against Smoke A. | If any Smoke A passing check now fails, follow the regression protocol before claiming success. |
@@ -53,6 +53,7 @@ These invariants shape the run; they are not just final checks.
 - No raw diagnostics, local smoke debris, secrets, build artifacts, or unrelated dirty files are staged or committed.
 - No proof claim is stronger than its evidence type.
 - Graphify output is orientation evidence, not proof; ActiveGraph events are chain-of-custody evidence, not proof by themselves.
+- Graphify may orient Gemba when available, fresh, or explicitly authorized, but live files remain the source of truth.
 - Smoke A happens before mutation; Smoke B happens after implementation; regressions trigger the regression protocol.
 - Domain notation, schema keys, DSL tokens, public API names, paths, release asset names, and contract strings are preserved unless the audit explicitly changes them.
 - Any audit-vs-`AGENTS.md` contradiction becomes `OWNER DECISION`, not an agent judgment call.
@@ -394,6 +395,50 @@ Graphify output is orientation evidence, not proof. ActiveGraph events are chain
 
 ---
 
+## 4b. Graphify-assisted Gemba
+
+When Graphify is available and a graph exists, or when indexing/querying has been explicitly authorized, use Graphify as an optional catalog before choosing owner/source or impact scope.
+
+Graphify is orientation evidence only. It does not decide closure, prove correctness, authorize mutation, replace live-file inspection, override repo instructions, weaken `AGENTS.md`, or hide stale graph risk.
+
+Use Graphify to look for:
+
+- owner/source candidates
+- dependency paths
+- generated-artifact hints
+- impact surfaces
+- test/smoke candidates
+- scope-creep signals
+- stale assumptions
+- source/generated output relationships
+
+Example query commands, adapted to the installed CLI or MCP:
+
+```bash
+graphify query "<finding subject>"
+graphify path "<source>" "<dependent>"
+graphify explain "<entity>"
+graphify query "generated artifacts"
+```
+
+If Graphify is absent, continue with ordinary Gemba. Do not block the run and do not mark absence as a failure.
+
+If graph output is stale, record stale risk. Use it only as weak orientation, or avoid graph use unless refresh/indexing is explicitly authorized.
+
+If Graphify output conflicts with live files, live files win. Record the contradiction as an evidence-boundary caveat and do not make proof claims from graph output.
+
+Record Graphify-assisted Gemba when used:
+
+| Query | Purpose | Result | Evidence boundary | Follow-up |
+|---|---|---|---|---|
+| owner/source query | identify source candidates | candidates found/none/stale | orientation only | inspect live files |
+| dependency path query | identify affected paths | paths found/none/stale | orientation only | verify source and tests |
+| generated artifact query | find source/output relation | relation found/none/stale | orientation only | apply generator-first protocol |
+
+If ActiveGraph is configured, Graphify queries/results may be recorded as terrain-context events such as `gemba.graphify.queried`. Capability Ledger entries may include `graphify_terrain_used`, but that field remains terrain context, not proof.
+
+---
+
 ## 5. Pre-flight checklist
 
 With targets known from Gemba, confirm all items before mutation. Any failed item triggers STOP unless the audit target itself is the failure.
@@ -402,6 +447,7 @@ With targets known from Gemba, confirm all items before mutation. Any failed ite
 - [ ] Source generator identified for generated artifacts in scope, or repo policy cited.
 - [ ] Generator-first order confirmed: generators that embed the finding are fixed before regeneration.
 - [ ] Optional first-run tooling onboarding completed or skipped: Graphify/ActiveGraph availability recorded, missing-tool commands printed when relevant, and no install/index/export/config action taken without explicit authorization.
+- [ ] Graphify-assisted Gemba completed or skipped: graph output used only when available/fresh/authorized, stale risk recorded or avoided, and live files retained as source of truth.
 - [ ] Local commit, push, tag, release, publication, and provenance authorization status resolved separately: not authorized by default, or explicitly cited from input.
 - [ ] Repo safety constraints read and not violated by the plan.
 - [ ] Prior run state checked: if a prior ledger/handoff exists, already-closed items are not re-implemented unless a regression or explicit reason re-opens them.
@@ -845,6 +891,15 @@ and which branch of the regression protocol was followed. -->
 
 ## Commands run
 
+## Graphify-assisted Gemba
+<!-- State:
+- whether Graphify was available
+- whether Graphify-assisted Gemba was used
+- whether graph output was fresh, stale, absent, or avoided
+- whether ordinary Gemba fallback was used
+- any Graphify/live-file contradiction caveats
+-->
+
 ## Local git trace
 <!-- State:
 - whether a local commit was performed
@@ -904,6 +959,12 @@ Run this internally before the final response. Any failing item must be fixed or
 - [ ] Local commit, push, tag, release, publication, and provenance stance stated explicitly.
 - [ ] Capability claims do not exceed evidence.
 - [ ] Graphify terrain context is not treated as proof.
+- [ ] Graphify absence did not block the run.
+- [ ] Stale graph output was recorded or avoided.
+- [ ] Graphify/live-file contradictions were resolved in favor of live files.
+- [ ] No proof claim was made from graph output.
+- [ ] Graphify terrain context, if used, remained orientation evidence only.
+- [ ] Refresh/indexing was not performed without explicit authorization.
 - [ ] ActiveGraph custody is not treated as correctness proof.
 - [ ] Authorization claims do not exceed recorded gates.
 - [ ] Markdown fallback remains valid when ActiveGraph is absent.
