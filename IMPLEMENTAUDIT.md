@@ -348,12 +348,14 @@ python -c "import activegraph; print('ACTIVEGRAPH_IMPORTABLE')" 2>/dev/null || e
 # ActiveGraph CLI availability
 command -v activegraph >/dev/null 2>&1 && activegraph --version || echo "ACTIVEGRAPH_CLI_ABSENT"
 
-# ActiveGraph repo configuration heuristic
+# ActiveGraph repo configuration heuristic (repo-local only, not an upstream config contract)
 find . -maxdepth 3 \( -name "activegraph.toml" -o -path "./.activegraph/*" \) | head -20
 
 # First observed IMPLEMENTAUDIT run heuristic
 find . -maxdepth 3 \( -iname "*implementaudit*" -o -name "HANDOFF*.md" -o -name "AUDIT*.md" \) | head -20
 ```
+
+The `activegraph.toml` / `.activegraph/*` check is a repo-local heuristic only. It is not an upstream ActiveGraph configuration contract. Upstream ActiveGraph configuration may instead be represented through documented store URLs, runbooks, adapter config, or another repo-local convention.
 
 ### First-run ledger
 
@@ -400,6 +402,8 @@ Graphify output is orientation evidence, not proof. ActiveGraph events are chain
 When Graphify is available and a graph exists, or when indexing/querying has been explicitly authorized, use Graphify as an optional catalog before choosing owner/source or impact scope.
 
 Graphify is orientation evidence only. It does not decide closure, prove correctness, authorize mutation, replace live-file inspection, override repo instructions, weaken `AGENTS.md`, or hide stale graph risk.
+
+Graphify terrain tagged `INFERRED` or `AMBIGUOUS` requires live-file confirmation before implementation, closure, or proof claims. Treat those tags as orientation signals, not evidence that the relationship is true.
 
 Use Graphify to look for:
 
@@ -692,7 +696,7 @@ When ActiveGraph is available and configured for the repo, `/implementaudit` sho
 
 ActiveGraph remains optional. If ActiveGraph is absent or unconfigured, continue with the ordinary Markdown ledger, final report, and local git trace discipline. Markdown fallback is first-class and is not a degraded or blocked run.
 
-Capability entries are derived from recorded gate passages, authorization decisions, smokes, Andons, regressions, ledger closures, and boundary records. They are not invented after the run.
+Capability Ledger is an ImplementAudit-derived record. ActiveGraph provides the event custody substrate when configured; ImplementAudit derives capability entries from recorded gate passages, authorization decisions, smokes, Andons, regressions, ledger closures, boundary records, and evidence. Capability entries are not invented after the run, and ActiveGraph does not ship an Officer CV feature by default.
 
 Graphify may enrich entries with terrain context only. ActiveGraph preserves custody only. ImplementAudit remains the competence standard. Capability claims must stay narrow and evidence-bound: this officer closed this class of finding, in this repo area, with these checks, under these boundaries.
 
@@ -714,7 +718,7 @@ Capability entries may include:
 | `final_status` | done/changed/blocked/deferred/unverified |
 | `remaining_risk` | Explicit caveats |
 
-ActiveGraph-backed runs may emit these event names:
+ActiveGraph-backed runs may emit these ImplementAudit-defined custom pack/adapter event names unless a name is explicitly identified as an upstream ActiveGraph built-in. Do not imply ActiveGraph ships these ImplementAudit event names by default.
 
 ```text
 implementaudit.run.opened
@@ -727,7 +731,7 @@ countermeasure.proposed
 mutation.authorization.requested
 mutation.authorization.granted
 mutation.authorization.denied
-patch.applied
+repo.patch.applied
 smoke.post.recorded
 regression.detected
 andon.triggered
@@ -737,18 +741,22 @@ capability.entry.derived
 implementaudit.run.finalized
 ```
 
-Object mapping:
+If an ActiveGraph graph-object patch lifecycle is being recorded, upstream `patch.applied` remains the ActiveGraph built-in. For repo file patching, use a custom event such as `repo.patch.applied` so repo mutations are not confused with ActiveGraph graph-object patch events.
 
-| ImplementAudit concept | ActiveGraph object |
+ActiveGraph policies gate graph object proposals, graph patches, and wrapped behaviors/tools/proposals. ActiveGraph does not inherently gate shell commands, git commit, git push, tag, release, publication, or provenance actions unless those actions are represented through wrapped ActiveGraph behavior/tool/proposal semantics. ImplementAudit's explicit authorization gates still apply regardless of any ActiveGraph policy record.
+
+Object mapping is an ImplementAudit-specific ontology or adapter mapping. It is not a claim that ActiveGraph itself ships base object types; ActiveGraph object and relation vocabularies are developer-defined. Diligence-style names apply only when a compatible pack defines them.
+
+| ImplementAudit concept | ImplementAudit / Diligence-style object |
 |---|---|
-| finding | claim |
-| smoke result | evidence |
-| countermeasure | mitigation/action |
-| blocker | risk |
-| final report | memo |
-| capability entry | derived summary object |
+| finding | claim, when a compatible pack defines it |
+| smoke result | evidence, when a compatible pack defines it |
+| countermeasure | mitigation/action, as an ImplementAudit-specific adapter object |
+| blocker | risk, when a compatible pack defines it |
+| final report | memo, when a compatible pack defines it |
+| capability entry | derived summary object, as an ImplementAudit-specific adapter object |
 
-Relations:
+Relations are likewise ImplementAudit-specific or Diligence-style adapter relations, not upstream base ActiveGraph relations:
 
 ```text
 supports
@@ -914,6 +922,7 @@ and which branch of the regression protocol was followed. -->
 - whether ActiveGraph was configured
 - whether Capability Ledger entries were derived
 - whether Markdown fallback was used
+- whether claims are upstream-supported behavior, ImplementAudit custom extension, repo-local heuristic, or unsupported/uncertain behavior
 - what evidence boundaries apply
 - that no broad competence claim is made from one run
 -->
@@ -967,6 +976,8 @@ Run this internally before the final response. Any failing item must be fixed or
 - [ ] Refresh/indexing was not performed without explicit authorization.
 - [ ] ActiveGraph custody is not treated as correctness proof.
 - [ ] Authorization claims do not exceed recorded gates.
+- [ ] Upstream-supported behavior, ImplementAudit custom extension, repo-local heuristic, and unsupported/uncertain behavior are distinguished in Graphify/ActiveGraph integration claims.
+- [ ] ActiveGraph policy, Capability Ledger, and object/relation claims do not exceed upstream support plus recorded evidence.
 - [ ] Markdown fallback remains valid when ActiveGraph is absent.
 - [ ] No release/provenance capability is claimed without separate authorization and evidence.
 - [ ] Proposed commit message/body included when local commit was not authorized.
