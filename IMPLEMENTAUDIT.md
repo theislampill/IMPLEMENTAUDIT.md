@@ -31,7 +31,7 @@ This is not a table of contents. Treat each row as a gate: pass it before moving
 |---|---|---|
 | 0. Safety read | §0: read repo instructions, safety defaults, authorization gates, and `AGENTS.md` conflict rules. | STOP if the requested action is unsafe, unauthorized, unsupported, or contradicts repo policy without an owner decision. |
 | 1. Input gate | §2: confirm the input is a valid audit artifact. | STOP and wait if input is empty, malformed, or not an audit artifact. Restart at Step 2 after corrected input. |
-| 2. Pre-flight | §5: confirm write access, generator/source ownership, authorization chain, repo constraints, and prior run state. | STOP unless every pre-flight item passes or the failure is the audit target itself. |
+| 2. Pre-flight | §4a and §5: detect optional tooling, confirm write access, generator/source ownership, authorization chain, repo constraints, and prior run state. | STOP unless every required pre-flight item passes or the failure is the audit target itself. Missing optional tooling is not a failure. |
 | 3. Smoke A | §7: run the baseline before mutation. | Do not mutate until baseline checks are recorded and pre-existing failures are classified as target, unrelated, or unclear. |
 | 4. Implement | §8: process P0 -> P1 -> P2, patch owner/source, keep changes atomic, and guard scope creep. | Andon if owner/source is unclear, generated-source policy is unresolved, a dependency blocks the item, or an AGENTS.md conflict needs an owner decision. |
 | 5. Smoke B | §9: compare post-change checks against Smoke A. | If any Smoke A passing check now fails, follow the regression protocol before claiming success. |
@@ -47,9 +47,11 @@ These invariants shape the run; they are not just final checks.
 - Every patch maps to a ledger item and owner/source.
 - Owner/source is patched instead of the nearest symptom.
 - Generated artifacts follow generator-first policy unless repo policy explicitly permits direct edits.
+- Graphify and ActiveGraph remain optional; absence of either tool is not an error.
 - Local commit, push, tag, release, publication, and provenance remain separate explicit gates.
 - No raw diagnostics, local smoke debris, secrets, build artifacts, or unrelated dirty files are staged or committed.
 - No proof claim is stronger than its evidence type.
+- Graphify output is orientation evidence, not proof; ActiveGraph events are chain-of-custody evidence, not proof by themselves.
 - Smoke A happens before mutation; Smoke B happens after implementation; regressions trigger the regression protocol.
 - Domain notation, schema keys, DSL tokens, public API names, paths, release asset names, and contract strings are preserved unless the audit explicitly changes them.
 - Any audit-vs-`AGENTS.md` contradiction becomes `OWNER DECISION`, not an agent judgment call.
@@ -313,6 +315,84 @@ If repo policy explicitly permits direct artifact editing, cite that policy in t
 
 ---
 
+## 4a. Optional first-run tooling onboarding
+
+Run this after the safety read and valid input check, and before any optional Graphify-assisted Gemba or ActiveGraph export.
+
+Graphify and ActiveGraph are optional. Absence of either tool is not an error and must not block `/implementaudit`. The default fallback is to detect availability, record the result, print onboarding commands if a tool is missing, and continue with ordinary Gemba, ordinary ledgers, and ordinary final reporting.
+
+Do not install silently. Install only if the invocation explicitly authorizes onboarding/tool install, such as `/implementaudit --onboard-tools`, or the user directly says to install optional tools.
+
+**Platform note:** Examples below are bash/Unix. On Windows, adapt using PowerShell, `where.exe`, `Test-Path`, or repo-standard commands.
+
+### Detection
+
+```bash
+# Graphify CLI availability
+command -v graphify >/dev/null 2>&1 && graphify --version || echo "GRAPHIFY_ABSENT"
+
+# Graphify output presence
+test -f graphify-out/graph.json && echo "GRAPHIFY_GRAPH_PRESENT" || echo "GRAPHIFY_GRAPH_ABSENT"
+
+# Graphify stale-index heuristic: tracked files newer than graph output
+if test -f graphify-out/graph.json; then
+  git ls-files -z | xargs -0 -r sh -c \
+    'for f do [ "$f" -nt graphify-out/graph.json ] && printf "%s\n" "$f"; done' sh | head -20
+fi
+
+# ActiveGraph Python package
+python -c "import activegraph; print('ACTIVEGRAPH_IMPORTABLE')" 2>/dev/null || echo "ACTIVEGRAPH_ABSENT"
+
+# ActiveGraph CLI availability
+command -v activegraph >/dev/null 2>&1 && activegraph --version || echo "ACTIVEGRAPH_CLI_ABSENT"
+
+# ActiveGraph repo configuration heuristic
+find . -maxdepth 3 \( -name "activegraph.toml" -o -path "./.activegraph/*" \) | head -20
+
+# First observed IMPLEMENTAUDIT run heuristic
+find . -maxdepth 3 \( -iname "*implementaudit*" -o -name "HANDOFF*.md" -o -name "AUDIT*.md" \) | head -20
+```
+
+### First-run ledger
+
+| Tool | Status | Action | Authorization | Evidence | Remaining risk |
+|---|---|---|---|---|---|
+| Graphify | absent/present/stale | skipped/offered/installed/indexed | none/user-approved | command result | graph may be stale |
+| ActiveGraph | absent/present/configured | skipped/offered/installed/export-enabled | none/user-approved | command result | event export is not proof |
+
+### Missing-tool behavior
+
+If Graphify or ActiveGraph is missing, continue without optional tooling by default and print the relevant onboarding commands.
+
+Graphify install commands:
+
+```bash
+uv tool install graphifyy
+graphify install --platform codex
+graphify install --project --platform codex
+```
+
+ActiveGraph install commands:
+
+```bash
+pip install activegraph
+activegraph quickstart
+```
+
+### Authorization boundaries
+
+Tool installation does not authorize Graphify indexing, ActiveGraph event-store setup, ActiveGraph export, committing generated graph output, local commit, push, tag, release, publication, or provenance claims. Each remains a separate explicit gate.
+
+Graphify indexing remains separately authorized. ActiveGraph export remains separately authorized. Project-scoped install or configuration requires explicit repo-mutation authorization.
+
+### Evidence boundary
+
+Installation confirms tool availability only. It does not prove audit correctness.
+
+Graphify output is orientation evidence, not proof. ActiveGraph events are chain-of-custody evidence, not proof by themselves. Live repo files remain the source of truth when tool output conflicts with reality.
+
+---
+
 ## 5. Pre-flight checklist
 
 With targets known from Gemba, confirm all items before mutation. Any failed item triggers STOP unless the audit target itself is the failure.
@@ -320,6 +400,7 @@ With targets known from Gemba, confirm all items before mutation. Any failed ite
 - [ ] Write access confirmed on all target files.
 - [ ] Source generator identified for generated artifacts in scope, or repo policy cited.
 - [ ] Generator-first order confirmed: generators that embed the finding are fixed before regeneration.
+- [ ] Optional first-run tooling onboarding completed or skipped: Graphify/ActiveGraph availability recorded, missing-tool commands printed when relevant, and no install/index/export/config action taken without explicit authorization.
 - [ ] Local commit, push, tag, release, publication, and provenance authorization status resolved separately: not authorized by default, or explicitly cited from input.
 - [ ] Repo safety constraints read and not violated by the plan.
 - [ ] Prior run state checked: if a prior ledger/handoff exists, already-closed items are not re-implemented unless a regression or explicit reason re-opens them.
