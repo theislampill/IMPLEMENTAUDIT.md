@@ -23,6 +23,42 @@ Do not stop at "partial," "safe but unchanged," or "next countermeasure needed" 
 
 ---
 
+## Execution spine (non-skippable gates)
+
+This is not a table of contents. Treat each row as a gate: pass it before moving to the next gate, or STOP/Andon with owner/source, evidence, and the next concrete action.
+
+| Gate | Decision | Halt condition |
+|---|---|---|
+| 0. Safety read | §0: read repo instructions, safety defaults, authorization gates, and `AGENTS.md` conflict rules. | STOP if the requested action is unsafe, unauthorized, unsupported, or contradicts repo policy without an owner decision. |
+| 1. Input gate | §2: confirm the input is a valid audit artifact. | STOP and wait if input is empty, malformed, or not an audit artifact. Restart at Step 2 after corrected input. |
+| 2. Pre-flight | §5: confirm write access, generator/source ownership, authorization chain, repo constraints, and prior run state. | STOP unless every pre-flight item passes or the failure is the audit target itself. |
+| 3. Smoke A | §7: run the baseline before mutation. | Do not mutate until baseline checks are recorded and pre-existing failures are classified as target, unrelated, or unclear. |
+| 4. Implement | §8: process P0 -> P1 -> P2, patch owner/source, keep changes atomic, and guard scope creep. | Andon if owner/source is unclear, generated-source policy is unresolved, a dependency blocks the item, or an AGENTS.md conflict needs an owner decision. |
+| 5. Smoke B | §9: compare post-change checks against Smoke A. | If any Smoke A passing check now fails, follow the regression protocol before claiming success. |
+| 6. Trace | §12-§14: preserve the causal chain in commit body, proposed commit body, audit ledger, and durable `AGENTS.md` rule when warranted. | Do not final until local commit/push/tag/release/publication/provenance boundaries and the `AGENTS.md` decision are explicit. |
+| 7. Self-check | §16: run the quality bar before the final response. | Fix, revert, defer, block, or mark unverified before final if any required invariant is false. |
+
+---
+
+## Run invariants (must stay true)
+
+These invariants shape the run; they are not just final checks.
+
+- Every patch maps to a ledger item and owner/source.
+- Owner/source is patched instead of the nearest symptom.
+- Generated artifacts follow generator-first policy unless repo policy explicitly permits direct edits.
+- Local commit, push, tag, release, publication, and provenance remain separate explicit gates.
+- No raw diagnostics, local smoke debris, secrets, build artifacts, or unrelated dirty files are staged or committed.
+- No proof claim is stronger than its evidence type.
+- Smoke A happens before mutation; Smoke B happens after implementation; regressions trigger the regression protocol.
+- Domain notation, schema keys, DSL tokens, public API names, paths, release asset names, and contract strings are preserved unless the audit explicitly changes them.
+- Any audit-vs-`AGENTS.md` contradiction becomes `OWNER DECISION`, not an agent judgment call.
+- `AGENTS.md` receives durable anti-repeat rules only, not raw evidence or transient local state.
+- Every ledger item reaches `done`, `changed`, `blocked`, `deferred`, or `unverified` before final.
+- If local commit is not authorized, the final report includes a proposed commit message/body.
+
+---
+
 ## 0. Non-negotiable safety defaults
 
 Before touching files, inspect repo instructions when present:
@@ -48,7 +84,9 @@ Never do any of the following unless the input explicitly authorizes the action 
 - hand-edit generated artifacts when a source generator exists
 - claim proof without running the smallest meaningful check
 
-**Explicit authorization** means a direct imperative such as `commit changes`, `push to main`, `push this branch`, `tag vX.Y.Z`, or `update the release assets`. References to CI, deployment, release plans, or implied workflows do not count.
+**Explicit authorization** means a direct imperative such as `commit changes`, `push to main`, `push this branch`, `tag vX.Y.Z`, or `update the release assets`. References to CI, deployment, release plans, or implied workflows do not count. Authorization is action-specific: local commit authorization is not push authorization, push authorization is not tag/release/publication authorization, and release authorization is not provenance authorization.
+
+**Provenance** means signing, attestation, SBOM generation, checksum or manifest publication, or any other claim that an artifact, package, release, or deployment has a verifiable origin/integrity chain.
 
 If the repo contains domain notation, schema keys, DSL tokens, public API names, file paths, release asset names, or exact contract strings, preserve them exactly unless the audit explicitly asks to change them. Do not rename, simplify, transliterate, ASCII-normalize, or "clean up" symbolic tokens just to improve prose, layout, or style.
 
@@ -92,6 +130,8 @@ For non-code artifacts (skills, prompts, config files, markdown docs, data files
 ### Smoke Before Claim
 
 Run the smallest meaningful check before claiming behavior.
+
+Smoke Before Claim is per-claim evidence tagging. Smoke A/B is the broader baseline-vs-post-change comparison used to detect regressions across the implementation run.
 
 ```text
 Smoke Before Claim:
@@ -184,6 +224,8 @@ Next action: request valid input from user.
 
 Do not proceed until valid input is confirmed.
 
+If the user supplies corrected input after this STOP, restart at Step 2 with the new input. Do not reuse a partially normalized ledger from malformed input.
+
 ---
 
 ## 3. Read and normalize input
@@ -267,7 +309,7 @@ If repo policy explicitly permits direct artifact editing, cite that policy in t
 
 **Non-git VCS or no VCS:** If the repo uses a different VCS (SVN, Mercurial, Perforce) or none, adapt all git commands to the appropriate VCS equivalents. For non-VCS targets (zip archives, FTP deployments, CMS content), "rollback" means restoring from a saved backup or cached baseline taken before Step 7.
 
-**Idempotency:** If a prior run exists (check for `HANDOFF.md`, `AUDIT.md`, or a prior ledger), review its closure state. Do not re-implement already-closed items unless a regression has since occurred. Re-open only with explicit reason.
+**Idempotency:** If a prior run exists (check for `HANDOFF.md`, `AUDIT.md`, or a prior ledger), review its closure state. Do not re-implement already-closed items unless a regression or explicit reason re-opens them.
 
 ---
 
@@ -278,8 +320,9 @@ With targets known from Gemba, confirm all items before mutation. Any failed ite
 - [ ] Write access confirmed on all target files.
 - [ ] Source generator identified for generated artifacts in scope, or repo policy cited.
 - [ ] Generator-first order confirmed: generators that embed the finding are fixed before regeneration.
-- [ ] Commit/push authorization status resolved: not authorized by default, or explicitly cited from input.
+- [ ] Local commit, push, tag, release, publication, and provenance authorization status resolved separately: not authorized by default, or explicitly cited from input.
 - [ ] Repo safety constraints read and not violated by the plan.
+- [ ] Prior run state checked: if a prior ledger/handoff exists, already-closed items are not re-implemented unless a regression or explicit reason re-opens them.
 - [ ] Baseline smoke has not yet run; it comes next.
 
 Write access check:
@@ -318,6 +361,8 @@ Use the smallest patch that satisfies the audit.
 ## 7. Baseline smoke: Smoke A before mutation
 
 Run all audit-named verification commands before touching files. This is Smoke A. Subsequent smokes are compared against it.
+
+Smoke A is not a replacement for per-claim Smoke Before Claim entries; it is the run-level baseline that later checks compare against.
 
 If baseline checks are failing, classify each failure before proceeding:
 
@@ -369,6 +414,8 @@ Scope-creep guard remains active throughout this step.
 ## 9. Post-implementation smoke: Smoke B
 
 Run the full verification suite after changes are complete. For P0 or high-risk changes, run an interim smoke after each patch set.
+
+Smoke B is the run-level post-change comparison against Smoke A. Keep per-claim evidence labels when making narrower proof claims inside the implementation.
 
 ```text
 Smoke B (post-patch):
@@ -433,25 +480,155 @@ If a root handoff file is ignored by tooling, mirror important status into a tra
 
 ---
 
-## 12. Commit or push only if explicitly authorized
+## 12. Local git trace checkpoints only if explicitly authorized
 
-If commit/push is not explicitly authorized, do not stage, commit, or push.
+If local commit is not explicitly authorized, do not stage or commit. Preserve the trace in the audit ledger and final report, and include a proposed commit message/body so a maintainer can create the checkpoint later.
 
-If commit/push is explicitly authorized:
+If local commits are explicitly authorized for the `/implementaudit` run, use local git commits as durable trace checkpoints. A local commit records what changed, why it changed, what finding caused it, what root cause was identified, what Andon/Hansei/5 Whys occurred, which checks passed or failed, why the fix worked, what was not claimed, and what durable lesson may need to move into `AGENTS.md`.
 
-1. Run final checks first.
+Keep the gates separate:
+
+- Local commit does not imply push.
+- Push does not imply tag, release, upload, publication, or public provenance.
+- Tag, release, publication, and provenance remain separate explicit gates.
+- Release authorization is not implied by commit authorization or push authorization.
+- Provenance claims require repo-defined release/provenance evidence, not merely local git history.
+
+Commit flow when local commit is authorized:
+
+1. Run Smoke B and final validation first.
 2. Stage explicit paths only; do not use `git add .`.
-3. Verify that raw diagnostics, build artifacts, local smoke outputs, secrets, and unrelated files are not staged.
-4. Commit only after Smoke B and final validation pass.
-5. Push only after commit succeeds and the working tree is reviewable.
+3. Verify staged content with `git status --short` and `git diff --cached --stat`.
+4. Verify raw diagnostics, local smoke debris, secrets, build artifacts, generated debris, and unrelated dirty files are not staged.
+5. Commit only the paths that belong to the finding/fix checkpoint.
+6. Do not push unless push is separately and explicitly authorized.
 
-If release/tag/publication is explicitly authorized, perform a separate release gate check according to repo policy. Release authorization is not implied by commit/push authorization.
+Use a short subject line. Put the trace in the commit body, not in an enormous subject.
 
-For non-git VCS: adapt staging and commit steps to the appropriate VCS commands. For no VCS: record the set of changed files and their checksums as the "commit" record.
+Commit body fields may include, when relevant:
+
+- `Finding`
+- `Owner/source`
+- `Root cause`
+- `Andon`, if there was a failure or warning signal
+- `Hansei`, if there was a gap, regression, or false-pass
+- `5 Whys`, when used
+- `Countermeasure`
+- `Files changed`
+- `Smoke A / baseline result`
+- `Smoke B / post-change result`
+- `Regression protocol`, if triggered
+- `Boundaries preserved`
+- `Follow-up / deferred items`
+
+Use the abbreviated commit body only for ordinary small fixes: a narrow, non-regression fix with no failed/warning signal, no proof-scope gap, no release/provenance boundary, no repeated agent mistake, and no new or changed public contract. The abbreviated body must still state:
+
+- `Finding`
+- `Countermeasure`
+- `Smoke B / checks run`
+- `Boundaries preserved`
+
+Require the fuller trace body, including Andon/Hansei/5 Whys detail, when the commit closes a failure, regression, false-pass, proof-scope gap, release-boundary issue, provenance-boundary issue, generated-artifact mistake, or repeated agent mistake.
+
+Example:
+
+```bash
+git commit -m "fix: enforce hard-output scope floor" -m "
+Finding:
+- The hard-output path accepted audit output below the required scope floor.
+
+Root cause:
+- The checker validated presence of output but not the minimum auditable boundary.
+
+Countermeasure:
+- Enforced the scope floor in the owner checker and updated the focused fixture.
+
+Smoke A:
+- npm test -- hard-output-scope failed before the patch.
+
+Smoke B:
+- npm test -- hard-output-scope passed after the patch.
+
+Boundaries:
+- No push, no tag, no release.
+"
+```
+
+For non-git VCS: adapt staging and commit steps to the appropriate VCS commands. For no VCS: record the set of changed files and their checksums as the local trace record, and still distinguish it from push, tag, release, publication, and provenance.
 
 ---
 
-## 13. Final response format
+## 13. Commit granularity rules
+
+Prefer one logical finding/fix per commit. The commit should let a future maintainer map the patch to a ledger item, root cause, countermeasure, and verification result without reconstructing the whole run from chat context.
+
+Do not squash unrelated findings into one vague commit. Do not split one atomic fix across many commits unless the repo's workflow calls for that.
+
+Separate source, checker, runtime, documentation, release, and provenance lanes when they have different proof boundaries. If a source fix and a release/provenance update require different evidence gates, keep their commits and claims separate.
+
+Keep generated artifacts tied to the source/generator change that produced them. If generated artifacts are committed, cite the generator command and the source change in the commit body.
+
+Never commit raw diagnostic outputs, local smoke debris, secrets, build artifacts, unrelated dirty files, or files changed outside the authorized audit scope.
+
+Before each authorized commit, inspect:
+
+```bash
+git status --short
+git diff --cached --stat
+git diff --cached --check
+```
+
+---
+
+## 14. AGENTS.md standardization discipline
+
+Update repo-local `AGENTS.md` only when an `/implementaudit` finding reveals a durable anti-repeat rule that would prevent future agents from making the same mistake. Do not update `AGENTS.md` on every commit, and do not use it as an evidence dump.
+
+Good `AGENTS.md` content:
+
+- proof/evidence boundaries
+- release/provenance boundaries
+- known harness failure modes
+- generated-artifact rules
+- repo-specific Andon patterns
+- retained proof or smoke promotion rules
+- checker/prose/visual proof distinctions
+- pointers to canonical ledgers, manifests, or runbooks
+
+Bad `AGENTS.md` content:
+
+- raw smoke logs
+- long hash tables
+- transient dirty-worktree notes
+- one-off local failures
+- local-only release claims
+- evidence that belongs in an audit ledger, manifest, release log, or commit body
+
+Use this split:
+
+```text
+Commit body / orchestrator / audit ledger = detailed evidence.
+AGENTS.md = durable anti-repeat rule.
+Release notes = only public release claims after release gate.
+```
+
+When deciding whether to update `AGENTS.md`, ask:
+
+- Is the lesson repo-specific rather than generic agent advice?
+- Would the rule have prevented this finding or false-pass?
+- Is it stable enough to guide future work after this run?
+- Does it avoid raw logs, private diagnostics, release claims, and transient local state?
+- Does it point to the canonical ledger, manifest, or runbook if details are needed?
+
+If yes, add the smallest durable rule to the nearest applicable `AGENTS.md` and cite the finding in the ledger/final report. If no, leave `AGENTS.md` unchanged and state why in the final report.
+
+Never weaken repo-local `AGENTS.md` safety rules while implementing an audit. If an existing `AGENTS.md` rule appears wrong or obsolete, treat that as an owner decision unless the audit explicitly authorizes the update and the repo evidence supports it.
+
+If an audit finding directly contradicts an existing `AGENTS.md` rule, treat the conflict as `OWNER DECISION`. Andon immediately, quote the conflicting rule and finding, do not implement the contradictory change, and ask for an explicit owner decision.
+
+---
+
+## 15. Final response format
 
 ```md
 # /implementaudit Result
@@ -504,11 +681,21 @@ and which branch of the regression protocol was followed. -->
 
 ## Commands run
 
-## Commit / push
-<!-- State exactly one:
-No commit performed. No push performed.
-Commit performed: `<hash>`. No push performed.
-Commit and push performed: `<hash>` to `<remote>/<branch>`.
+## Local git trace
+<!-- State:
+- whether a local commit was performed
+- commit hash, or "none"
+- whether push was performed
+- whether tag/release/publication/provenance was performed
+- proposed commit message/body if commit was not authorized
+-->
+
+## AGENTS.md standardization
+<!-- State:
+- whether AGENTS.md was updated
+- why it was or was not updated
+- durable rule added, if any
+- where detailed evidence lives instead, if not AGENTS.md
 -->
 
 ## Remaining caveats
@@ -518,7 +705,7 @@ owner decisions deferred, or conditions that could invalidate the verdict. -->
 
 ---
 
-## Quality bar self-check
+## 16. Quality bar self-check
 
 Run this internally before the final response. Any failing item must be fixed or marked `unverified` with reason.
 
@@ -540,5 +727,13 @@ Run this internally before the final response. Any failing item must be fixed or
 - [ ] Broken baseline failures classified as target / unrelated / unclear.
 - [ ] Exact notation/API/schema/contract strings preserved unless explicitly changed by audit.
 - [ ] Verdict chosen by rubric, not intuition.
-- [ ] Commit/push stance stated explicitly.
+- [ ] Provenance claims, if any, are backed by signing/attestation/SBOM/checksum/manifest evidence and explicit authorization.
+- [ ] Local commit, push, tag, release, publication, and provenance stance stated explicitly.
+- [ ] Proposed commit message/body included when local commit was not authorized.
+- [ ] Authorized commit bodies include finding, countermeasure, checks run, and boundaries preserved.
+- [ ] Full Andon/Hansei/5 Whys detail included when closing a failure, regression, false-pass, proof-scope gap, release-boundary issue, or repeated agent mistake.
+- [ ] Commit granularity maps each commit to one logical finding/fix unless repo workflow requires otherwise.
+- [ ] `AGENTS.md` update decision recorded, including why it was or was not appropriate.
+- [ ] Any `AGENTS.md` update contains durable anti-repeat rules, not raw evidence or transient local state.
+- [ ] Any audit-vs-`AGENTS.md` contradiction was treated as `OWNER DECISION`, not silently resolved by the agent.
 - [ ] Repo left reviewable and non-broken.
