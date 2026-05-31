@@ -35,7 +35,7 @@ This is not a table of contents. Treat each row as a gate: pass it before moving
 | 3. Smoke A | §7: run the baseline before mutation. | Do not mutate until baseline checks are recorded and pre-existing failures are classified as target, unrelated, or unclear. |
 | 4. Implement | §8: process P0 -> P1 -> P2, patch owner/source, keep changes atomic, and guard scope creep. | Andon if owner/source is unclear, generated-source policy is unresolved, a dependency blocks the item, or an AGENTS.md conflict needs an owner decision. |
 | 5. Smoke B | §9: compare post-change checks against Smoke A. | If any Smoke A passing check now fails, follow the regression protocol before claiming success. |
-| 6. Trace | §12-§14: preserve the causal chain in commit body, proposed commit body, audit ledger, and durable `AGENTS.md` rule when warranted. | Do not final until local commit/push/tag/release/publication/provenance boundaries and the `AGENTS.md` decision are explicit. |
+| 6. Trace | §12-§14: preserve the causal chain in commit body, proposed commit body, audit ledger, ActiveGraph-backed Capability Ledger when configured, and durable `AGENTS.md` rule when warranted. | Do not final until local commit/push/tag/release/publication/provenance boundaries, Capability Ledger or Markdown fallback, and the `AGENTS.md` decision are explicit. |
 | 7. Self-check | §16: run the quality bar before the final response. | Fix, revert, defer, block, or mark unverified before final if any required invariant is false. |
 
 ---
@@ -48,6 +48,7 @@ These invariants shape the run; they are not just final checks.
 - Owner/source is patched instead of the nearest symptom.
 - Generated artifacts follow generator-first policy unless repo policy explicitly permits direct edits.
 - Graphify and ActiveGraph remain optional; absence of either tool is not an error.
+- ActiveGraph-backed runs derive Capability Ledger entries from custody events by default; Markdown ledger/final report fallback remains valid when ActiveGraph is absent.
 - Local commit, push, tag, release, publication, and provenance remain separate explicit gates.
 - No raw diagnostics, local smoke debris, secrets, build artifacts, or unrelated dirty files are staged or committed.
 - No proof claim is stronger than its evidence type.
@@ -639,6 +640,88 @@ For non-git VCS: adapt staging and commit steps to the appropriate VCS commands.
 
 ---
 
+## 12a. ActiveGraph-backed Capability Ledger
+
+When ActiveGraph is available and configured for the repo, `/implementaudit` should emit event-backed Capability Ledger entries as the natural default custody output. Do not require a separate "generate CV" mode for ordinary runs.
+
+ActiveGraph remains optional. If ActiveGraph is absent or unconfigured, continue with the ordinary Markdown ledger, final report, and local git trace discipline. Markdown fallback is first-class and is not a degraded or blocked run.
+
+Capability entries are derived from recorded gate passages, authorization decisions, smokes, Andons, regressions, ledger closures, and boundary records. They are not invented after the run.
+
+Graphify may enrich entries with terrain context only. ActiveGraph preserves custody only. ImplementAudit remains the competence standard. Capability claims must stay narrow and evidence-bound: this officer closed this class of finding, in this repo area, with these checks, under these boundaries.
+
+Capability entries may include:
+
+| Field | Meaning |
+|---|---|
+| `run_id` | Stable run identifier |
+| `repo` | Repo identity/path/remote |
+| `finding_class` | P0/P1/P2/OWNER DECISION/DEFERRED/OUT OF SCOPE |
+| `owner_source` | File/module/artifact patched or inspected |
+| `countermeasure` | What changed or was recommended |
+| `graphify_terrain_used` | Graphify terrain context, if available |
+| `activegraph_events` | Custody event ids, if available |
+| `authorization_gates_respected` | Commit/push/tag/release/provenance/tooling gates |
+| `smoke_a` | Baseline command/result/evidence type |
+| `smoke_b` | Post-change command/result/evidence type |
+| `regression_andon_hansei` | Any warning/failure/recovery trail |
+| `final_status` | done/changed/blocked/deferred/unverified |
+| `remaining_risk` | Explicit caveats |
+
+ActiveGraph-backed runs may emit these event names:
+
+```text
+implementaudit.run.opened
+audit.input.normalized
+gemba.graphify.queried
+owner_source.candidate_identified
+smoke.baseline.recorded
+finding.claim.created
+countermeasure.proposed
+mutation.authorization.requested
+mutation.authorization.granted
+mutation.authorization.denied
+patch.applied
+smoke.post.recorded
+regression.detected
+andon.triggered
+hansei.recorded
+ledger.item.closed
+capability.entry.derived
+implementaudit.run.finalized
+```
+
+Object mapping:
+
+| ImplementAudit concept | ActiveGraph object |
+|---|---|
+| finding | claim |
+| smoke result | evidence |
+| countermeasure | mitigation/action |
+| blocker | risk |
+| final report | memo |
+| capability entry | derived summary object |
+
+Relations:
+
+```text
+supports
+contradicts
+references
+derived_from
+mitigates
+```
+
+Evidence boundaries:
+
+- Do not claim general competence from one run.
+- Do not claim proof from Graphify summaries.
+- Do not claim correctness from ActiveGraph custody alone.
+- Do not claim authorization beyond recorded gates.
+- Do not claim release/provenance unless separately authorized and evidenced.
+
+---
+
 ## 13. Commit granularity rules
 
 Prefer one logical finding/fix per commit. The commit should let a future maintainer map the patch to a ledger item, root cause, countermeasure, and verification result without reconstructing the whole run from chat context.
@@ -771,6 +854,15 @@ and which branch of the regression protocol was followed. -->
 - proposed commit message/body if commit was not authorized
 -->
 
+## Capability Ledger
+<!-- State:
+- whether ActiveGraph was configured
+- whether Capability Ledger entries were derived
+- whether Markdown fallback was used
+- what evidence boundaries apply
+- that no broad competence claim is made from one run
+-->
+
 ## AGENTS.md standardization
 <!-- State:
 - whether AGENTS.md was updated
@@ -810,6 +902,12 @@ Run this internally before the final response. Any failing item must be fixed or
 - [ ] Verdict chosen by rubric, not intuition.
 - [ ] Provenance claims, if any, are backed by signing/attestation/SBOM/checksum/manifest evidence and explicit authorization.
 - [ ] Local commit, push, tag, release, publication, and provenance stance stated explicitly.
+- [ ] Capability claims do not exceed evidence.
+- [ ] Graphify terrain context is not treated as proof.
+- [ ] ActiveGraph custody is not treated as correctness proof.
+- [ ] Authorization claims do not exceed recorded gates.
+- [ ] Markdown fallback remains valid when ActiveGraph is absent.
+- [ ] No release/provenance capability is claimed without separate authorization and evidence.
 - [ ] Proposed commit message/body included when local commit was not authorized.
 - [ ] Authorized commit bodies include finding, countermeasure, checks run, and boundaries preserved.
 - [ ] Full Andon/Hansei/5 Whys detail included when closing a failure, regression, false-pass, proof-scope gap, release-boundary issue, or repeated agent mistake.
