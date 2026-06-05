@@ -1,0 +1,44 @@
+IMPLEMENTAUDIT_PHASE_START
+
+Phase:
+Goal:
+Owner/source:
+Baseline ref:
+
+Acceptance criteria:
+-
+
+Smoke A:
+- Command:
+- Expected baseline classification: target / unrelated / unclear
+
+Implementation notes:
+- Patch owner/source, not nearest symptom.
+- Keep optional Graphify/ActiveGraph tooling absent-safe.
+- Do not install, index, configure, export, push, tag, release, publish, or
+  claim provenance unless separately authorized.
+
+IMPLEMENTAUDIT_PHASE_VERIFY
+
+Smoke B:
+- Command:
+- Delta vs Smoke A:
+- Evidence type:
+- Remaining risk:
+
+AGENTS_UPDATE_DECISION
+
+Decision: updated / not warranted / OWNER DECISION
+Reason:
+Scope:
+
+Failure recovery markers, if needed:
+FAILURE_PROBE
+FAILURE_ESCALATE
+FAILURE_HANDOFF
+
+IMPLEMENTAUDIT_PHASE_DONE
+
+Status: done / changed / blocked / deferred / unverified
+Evidence:
+Follow-up:

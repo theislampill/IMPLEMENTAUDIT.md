@@ -1,0 +1,23 @@
+# Local ImplementAudit run artifacts
+.IMPLEMENTAUDIT/
+
+# Optional local Graphify / ActiveGraph artifacts
+graphify-out/
+.graphify/
+.activegraph/
+*.activegraph.db
+
+# Local diagnostics and smoke debris
+*.log
+*.tmp
+tmp/
+temp/
+
+# Local environment and editor state
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
