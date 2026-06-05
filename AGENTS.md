@@ -506,6 +506,36 @@ Do not label an install flow “verified working” unless it was tested in the 
 
 Codex has no marketplace auto-update path. Manual skill copy must be repeated when the package changes.
 
+## Release asset gate
+
+For the `v0.2.0.0` release gate, the GitHub release asset name is
+`IMPLEMENTAUDIT.skill`.
+
+No local repo evidence proves `.skill` is a universal host-standard archive
+format. Until host evidence says otherwise, treat `IMPLEMENTAUDIT.skill` as this
+repo's GitHub release artifact name. The artifact is a ZIP-format archive built
+by:
+
+```bash
+bash scripts/build-release-asset.sh
+```
+
+The artifact contains the packaged skill payload required for installation:
+`skills/`, `.claude-plugin/` metadata, `IMPLEMENTAUDIT.md`, `README.md`, and
+`CHANGELOG.md`. It must include the `skills/` layout, references, scripts, and
+templates.
+
+The artifact must not include `.IMPLEMENTAUDIT/` run artifacts, local smoke
+debris, Graphify outputs, ActiveGraph stores, secrets, git metadata, or
+untracked diagnostics. Validate it by extracting it to a temporary directory and
+checking package shape before upload. `scripts/verify-package.sh` runs the
+release-asset builder in `--check` mode for this purpose.
+
+Attach `IMPLEMENTAUDIT.skill` to GitHub Releases only during an explicitly
+authorized release gate. Do not upload the asset during ordinary audit, local
+commit, or push-only gates. Building or validating the local asset is not a
+release, publication, marketplace verification, or provenance claim.
+
 ## Transcript markers (load-bearing)
 
 ### Inside the `/goal` session

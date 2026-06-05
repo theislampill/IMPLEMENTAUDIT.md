@@ -22,6 +22,7 @@ require_file CONTRIBUTING.md
 require_file .gitignore
 require_file .claude-plugin/plugin.json
 require_file .claude-plugin/marketplace.json
+require_file scripts/build-release-asset.sh
 require_file skills/SKILL.md
 require_file skills/references/planning-depth.md
 require_file skills/references/phase-design.md
@@ -141,6 +142,8 @@ rm -f /tmp/implementaudit-child-agents-grep.txt
 
 grep -R "Graphify output is orientation evidence, not proof" -n skills IMPLEMENTAUDIT.md README.md AGENTS.md >/dev/null || fail "Graphify proof boundary is missing"
 grep -R "ActiveGraph custody is not correctness proof" -n skills IMPLEMENTAUDIT.md README.md AGENTS.md >/dev/null || fail "ActiveGraph proof boundary is missing"
+
+bash scripts/build-release-asset.sh --check
 
 git diff --check
 

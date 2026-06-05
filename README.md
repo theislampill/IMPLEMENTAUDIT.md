@@ -318,6 +318,39 @@ with `.claude-plugin/plugin.json` as package metadata. This repo validates the
 JSON shape only; it does not claim host install or marketplace behavior was
 tested.
 
+## Release asset notes
+
+For the `v0.2.0.0` release gate, the GitHub release asset name is
+`IMPLEMENTAUDIT.skill`.
+
+No local evidence proves `.skill` is a universal host-standard archive format.
+In this repo, `IMPLEMENTAUDIT.skill` is the GitHub release artifact name. It is
+a ZIP-format archive containing the installable skill payload:
+
+```text
+skills/
+.claude-plugin/
+IMPLEMENTAUDIT.md
+README.md
+CHANGELOG.md
+```
+
+Build and validate it locally with:
+
+```bash
+bash scripts/build-release-asset.sh
+```
+
+`scripts/verify-package.sh` also runs the builder in `--check` mode and validates
+the extracted package shape.
+
+The artifact must not include `.IMPLEMENTAUDIT/` run artifacts, local smoke
+debris, Graphify outputs, ActiveGraph stores, secrets, git metadata, or
+untracked diagnostics. Attaching `IMPLEMENTAUDIT.skill` to GitHub Releases is a
+separate release-gate action. Ordinary audits, local commits, and push-only
+gates do not authorize upload, release, publication, marketplace verification,
+or provenance claims.
+
 ## Safety defaults
 
 Never do these unless explicitly authorized and allowed by repo policy:

@@ -27,6 +27,8 @@ evidence proved four-component plugin manifest versions are accepted.
   reports, and the execution protocol.
 - Added dependency-light validation and orientation scripts under
   `skills/scripts` plus root package validation in `scripts/verify-package.sh`.
+- Added `scripts/build-release-asset.sh` to build and extraction-validate the
+  repo-defined `IMPLEMENTAUDIT.skill` GitHub release asset without uploading it.
 - Added simple audit fixtures and child-agent review fixtures.
 - Added `AGENTS.md`, `CLAUDE.md`, `CONTRIBUTING.md`, and `.gitignore`.
 
@@ -42,6 +44,9 @@ evidence proved four-component plugin manifest versions are accepted.
   packaged reference material remains explanatory.
 - Hardened validation coverage for planner markers, child-agent artifacts,
   evidence boundaries, version/milestone wording, and forbidden naming drift.
+- Documented that `.skill` is not claimed as a universal host-standard archive
+  format by local evidence; `IMPLEMENTAUDIT.skill` is this repo's release asset
+  name unless host evidence later proves a stricter format.
 
 ### Safety
 
@@ -61,8 +66,15 @@ evidence proved four-component plugin manifest versions are accepted.
   license evidence.
 - Host install, marketplace, tag, release, publication, and provenance behavior
   remain unverified and separately gated.
+- Uploading `IMPLEMENTAUDIT.skill` remains blocked until an explicit GitHub
+  release gate authorizes asset attachment.
 
-## [v0.1.0] - Reconstructed
+## [v0.1.0.0] - Reconstructed pre-package baseline
+
+This is the polished single-file `/implementaudit` baseline before the
+`v0.2.0.0` package migration. The historical local tag target is reconstructed
+from `origin/main` at commit `bb3aa37`; it is not a GitHub release, package
+publication, marketplace verification, pushed tag, or provenance claim.
 
 ### Added
 
@@ -86,10 +98,11 @@ evidence proved four-component plugin manifest versions are accepted.
 
 ### Notes
 
-- Reconstructed from repo history, including the 2026-05-31 documentation commits
-  `7d2119b`, `455f410`, `ec640db`, `e8b1bbe`, `62ea480`, and `bb3aa37`.
-- No tag, release, marketplace verification, package publication, or provenance
-  is claimed for this reconstructed entry.
+- Reconstructed from repo history, including the 2026-05-31 documentation
+  commits `7d2119b`, `455f410`, `ec640db`, `e8b1bbe`, `62ea480`, and
+  `bb3aa37`.
+- No pushed tag, GitHub release, marketplace verification, package publication,
+  or provenance is claimed for this reconstructed entry.
 
 ## [v0.0.1] - Reconstructed rough draft
 

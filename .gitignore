@@ -13,6 +13,9 @@ graphify-out/
 tmp/
 temp/
 
+# Local release-asset build output
+dist/
+
 # Local environment and editor state
 .env
 .env.*
