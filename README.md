@@ -39,20 +39,28 @@ Current optional-tooling architecture:
 
 ```mermaid
 flowchart LR
-  G["Graphify<br/>catalog / terrain map<br/>orientation only"]
-  A["ActiveGraph<br/>evidence locker / custody substrate<br/>optional"]
-  I["ImplementAudit<br/>officer / method<br/>competence standard"]
-  C["Capability Ledger<br/>ImplementAudit-derived work history<br/>when ActiveGraph is configured"]
-  M["Markdown ledger + final report<br/>first-class fallback"]
+  I["ImplementAudit<br/>officer / method / standard"]
+  G["Graphify<br/>terrain / repo map / orientation"]
+  A["ActiveGraph<br/>custody / event evidence"]
+  C["Capability Ledger<br/>derived work history"]
+  M["Markdown fallback<br/>always valid when optional tools are absent"]
+  L["Live files<br/>source of truth"]
 
-  G -->|terrain context, not proof| I
-  I -->|gate passages, smokes, closures, boundaries| A
-  A -->|custody events, not correctness proof| C
-  I -->|when ActiveGraph is absent| M
+  G -->|where to look| I
+  I -->|must confirm in| L
+  I -->|gate passages, smokes, Andons, closures| A
+  A -->|what happened, not proof by itself| C
+  I -->|competence standard| C
+  I -->|when tools are absent| M
 ```
 
 Graphify and ActiveGraph are optional. `/implementaudit` remains fully usable
 when neither tool is installed.
+
+Graphify and ActiveGraph are optional but strategically important: Graphify
+improves orientation before mutation, while ActiveGraph preserves custody after
+evidence is produced. Neither replaces ImplementAudit's gates; both strengthen
+the audit trail when available.
 
 ## Invocation modes
 
@@ -134,21 +142,32 @@ flowchart TD
   A["Safety read<br/>repo policy + AGENTS.md"] --> B{"Unsafe, unauthorized,<br/>or policy conflict?"}
   B -->|yes| C["STOP / OWNER DECISION"]
   B -->|no| D["Input gate"]
-  D --> E["Pre-flight<br/>source/generator/tooling/baseline state"]
-  E --> F["Smoke A<br/>baseline before mutation"]
-  F --> G["Implement<br/>P0 -> P1 -> P2<br/>owner/source patch"]
-  G --> H["Smoke B<br/>post-change comparison"]
-  H --> I{"Regression?"}
-  I -->|yes| J["Andon / Hansei<br/>failure recovery"]
-  J --> F
-  I -->|no| K["Trace<br/>commit body or proposed body<br/>AGENTS_UPDATE_DECISION<br/>Capability Ledger when configured"]
-  K --> L["Final audit"]
-  L --> M{"Audit gaps?"}
-  M -->|yes| N["audit-fix round<br/>or AUDIT_HANDOFF"]
-  M -->|no| O["AUDIT_COMPLETE"]
-  O --> P["IMPLEMENTAUDIT_RUN_COMPLETE"]
-  L --> Q{"No AUDIT_COMPLETE?"}
-  Q -->|then| R["No IMPLEMENTAUDIT_RUN_COMPLETE"]
+  D --> E["Pre-flight / tooling detection<br/>source/generator/baseline state"]
+  E --> F{"Graphify available<br/>and fresh/authorized?"}
+  F -->|yes| G["Graphify terrain query<br/>orientation only"]
+  G --> H["Owner/source candidates<br/>dependency paths<br/>generated-artifact hints<br/>impact/smoke candidates"]
+  F -->|absent/stale/unauthorized| I["Ordinary Gemba fallback"]
+  H --> J["Live-file Gemba confirms<br/>before mutation"]
+  I --> J
+  J --> K["Smoke A<br/>baseline before mutation"]
+  K --> L["Implement<br/>P0 -> P1 -> P2<br/>owner/source patch"]
+  L --> M["Smoke B<br/>post-change comparison"]
+  M --> N{"Regression?"}
+  N -->|yes| O["Andon / Hansei<br/>failure recovery"]
+  O --> K
+  N -->|no| P["Ledger closure + trace<br/>commit body or proposed body<br/>AGENTS_UPDATE_DECISION"]
+  P --> Q{"ActiveGraph configured?"}
+  Q -->|yes| R["Custody events<br/>Smoke A/B, Andon, Hansei,<br/>ledger closure"]
+  R --> S["Capability Ledger<br/>derived from evidenced runs"]
+  Q -->|absent| T["Markdown ledger<br/>final report fallback"]
+  S --> U["Final audit"]
+  T --> U
+  U --> V{"Audit gaps?"}
+  V -->|yes| W["audit-fix round<br/>or AUDIT_HANDOFF"]
+  V -->|no| X["AUDIT_COMPLETE"]
+  X --> Y["IMPLEMENTAUDIT_RUN_COMPLETE"]
+  U --> Z{"No AUDIT_COMPLETE?"}
+  Z -->|then| AA["No IMPLEMENTAUDIT_RUN_COMPLETE"]
 ```
 
 | Gate | Purpose |
