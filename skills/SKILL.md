@@ -53,6 +53,7 @@ These invariants shape the run; they are not just final checks.
 - Local commit, push, tag, release, publication, and provenance remain separate explicit gates.
 - No raw diagnostics, local smoke debris, secrets, build artifacts, or unrelated dirty files are staged or committed.
 - No proof claim is stronger than its evidence type.
+- Baseline comparisons for final audit and cleanliness use the complete working tree, not only `HEAD`.
 - Graphify output is orientation evidence, not proof; ActiveGraph events are chain-of-custody evidence, not proof by themselves.
 - Graphify may orient Gemba when available, fresh, or explicitly authorized, but live files remain the source of truth.
 - Smoke A happens before mutation; Smoke B happens after implementation; regressions trigger the regression protocol.
@@ -252,6 +253,7 @@ When goal synthesis or phase planning is needed, load the packaged references wh
 - `skills/references/goal-format.md`
 - `skills/references/transcript-contract.md`, when a host or wrapper needs marker-order/end-state rules
 - `skills/references/routing.md`, when work may be greenfield, brownfield, or mixed
+- `skills/references/repo-state-comparison.md`, when deliverable, final-audit, or cleanliness checks need baseline-to-working-tree evidence
 - `skills/references/child-agents.md`, when a child-agent review loop is warranted
 
 Planner transcript markers:
@@ -348,6 +350,16 @@ If repo policy explicitly permits direct artifact editing, cite that policy in t
 **Non-git VCS or no VCS:** If the repo uses a different VCS (SVN, Mercurial, Perforce) or none, adapt all git commands to the appropriate VCS equivalents. For non-VCS targets (zip archives, FTP deployments, CMS content), "rollback" means restoring from a saved backup or cached baseline taken before Step 7.
 
 **Idempotency:** If a prior run exists (check for `HANDOFF.md`, `AUDIT.md`, or a prior ledger), review its closure state. Do not re-implement already-closed items unless a regression or explicit reason re-opens them.
+
+**Complete repo-state comparison:** Final audit, deliverable checks, release-readiness checks, and cleanliness scans must compare the run baseline to the complete working tree. Do not use a two-dot commit range when the question is "what did this run change?" because staged, unstaged, and untracked files can otherwise disappear from the evidence. When available, use:
+
+```bash
+bash skills/scripts/repo-state.sh changed-files <baseline>
+bash skills/scripts/repo-state.sh added-lines <baseline>
+bash skills/scripts/repo-state.sh deliverable <baseline> <path>
+```
+
+If the baseline is invalid or unavailable, mark the evidence as weaker. Existence-only fallback is not release proof.
 
 ---
 
@@ -1038,6 +1050,7 @@ Run this internally before the final response. Any failing item must be fixed or
 - [ ] Scope-creep loop-exit followed for 5 Whys cycles that hit out-of-scope root causes.
 - [ ] Smoke A recorded before mutation, with pre-existing failure classifications.
 - [ ] Smoke B recorded after implementation.
+- [ ] Final-audit deliverable and cleanliness evidence used complete working-tree comparison, not only `HEAD`, when a baseline was available.
 - [ ] Regression protocol branch identified and followed if triggered.
 - [ ] Broken baseline failures classified as target / unrelated / unclear.
 - [ ] Exact notation/API/schema/contract strings preserved unless explicitly changed by audit.

@@ -30,14 +30,14 @@ or WSL.
 
 ```text
 Finding:
-- README describes behavior that no longer matches IMPLEMENTAUDIT.md.
+- README describes behavior that no longer matches `skills/SKILL.md`.
 
 Owner/source:
-- IMPLEMENTAUDIT.md defines behavior.
+- `skills/SKILL.md` defines behavior.
 - README.md is derived public documentation.
 
 Smoke A:
-- Read IMPLEMENTAUDIT.md and README.md.
+- Read `skills/SKILL.md` and README.md.
 - Run git diff --check.
 
 Countermeasure:

@@ -16,6 +16,18 @@ IMPLEMENTAUDIT_PHASE_DONE
 `IMPLEMENTAUDIT_PHASE_VERIFY` includes acceptance criteria, checks, evidence
 types, and a cleanliness readback against the baseline ref.
 
+Use complete working-tree comparison for cleanliness when the helper is
+available:
+
+```bash
+bash skills/scripts/repo-state.sh added-lines <Baseline ref>
+bash skills/scripts/repo-state.sh changed-files <Baseline ref>
+```
+
+This includes committed-after-baseline, staged, unstaged, deleted, and
+untracked text changes. If the helper or baseline is unavailable, state the
+weaker evidence type and remaining risk.
+
 ## Failure recovery
 
 Use the three-strike recovery ladder when a phase criterion cannot honestly
@@ -58,4 +70,5 @@ Rules:
   terminally closed.
 - If final audit finds gaps, write `.IMPLEMENTAUDIT/phases/audit-fix-<round>.md`
   when phase planning was used.
+- Check deliverables with `bash skills/scripts/repo-state.sh deliverable <Baseline ref> <path>` when available.
 - Warn when more than 30% of checks are `trust-prior-verify`.

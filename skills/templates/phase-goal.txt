@@ -11,6 +11,7 @@ Acceptance criteria:
 Smoke A:
 - Command:
 - Expected baseline classification: target / unrelated / unclear
+- Complete repo-state baseline:
 
 Implementation notes:
 - Patch owner/source, not nearest symptom.
@@ -24,6 +25,7 @@ Smoke B:
 - Command:
 - Delta vs Smoke A:
 - Evidence type:
+- Complete repo-state comparison:
 - Remaining risk:
 
 AGENTS_UPDATE_DECISION

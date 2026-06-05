@@ -1,6 +1,10 @@
 # IMPLEMENTAUDIT.md
 
-`IMPLEMENTAUDIT.md` defines `/implementaudit`: a repo-generic method for turning
+`IMPLEMENTAUDIT.md` names this repo and workflow: audited implementation driven
+by an `AUDIT.md`-style evidence/input artifact. The `.md` in the repo name is
+branding and lineage, not a required root behavior file.
+
+`skills/SKILL.md` defines `/implementaudit`: a repo-generic method for turning
 audit findings, handoffs, checklists, reviews, goals, tasks, gaps, and
 implementation plans into bounded, verified repository changes.
 
@@ -183,7 +187,8 @@ flowchart TD
   B -->|yes| C["STOP / OWNER DECISION"]
   B -->|no| D["Input gate"]
   D --> E["Pre-flight / tooling detection<br/>source/generator/baseline state"]
-  E --> F{"Graphify available<br/>and fresh/authorized?"}
+  E --> E2["Native harness helpers<br/>repo contract, baseline state,<br/>spec validation, cleanliness gates"]
+  E2 --> F{"Graphify available<br/>and fresh/authorized?"}
   F -->|yes| G["Graphify terrain query<br/>orientation only"]
   G --> H["Owner/source candidates<br/>dependency paths<br/>generated-artifact hints<br/>impact/smoke candidates"]
   F -->|absent/stale/unauthorized| I["Ordinary Gemba fallback"]
@@ -202,6 +207,7 @@ flowchart TD
   Q -->|absent| T["Markdown ledger<br/>final report fallback"]
   S --> U["Final audit"]
   T --> U
+  E2 -. "complete working-tree<br/>baseline evidence" .-> U
   U --> V{"Audit gaps?"}
   V -->|yes| W["audit-fix round<br/>or AUDIT_HANDOFF"]
   V -->|no| X["AUDIT_COMPLETE"]
@@ -238,9 +244,9 @@ skills/scripts/
 skills/templates/
 ```
 
-`IMPLEMENTAUDIT.md` remains the compatibility root. `skills/SKILL.md` is the
-packaged skill copy. In the current package contract, they must stay
-synchronized.
+`skills/SKILL.md` is the canonical behavior source and packaged skill entry.
+There is intentionally no tracked root `IMPLEMENTAUDIT.md` file; validators fail
+if one is recreated. Audit handoff inputs named `AUDIT.md` remain valid.
 
 Package metadata lives under `.claude-plugin/`:
 
@@ -253,7 +259,7 @@ The manifest JSON is validated by `scripts/verify-package.sh`. This README does
 not claim that Claude Code marketplace behavior, Codex installation, release,
 publication, or provenance has been verified.
 
-Current project milestone: `v0.2.2.0`. Plugin manifest version: `0.2.2`.
+Current project milestone: `v0.2.3.0`. Plugin manifest version: `0.2.3`.
 No local schema evidence proved four-component plugin manifest versions are
 accepted, so the manifest uses host-conservative package metadata while the
 project milestone is recorded in docs and changelog. This is not a tag, release,
@@ -457,7 +463,7 @@ been verified.
 
 ## Release asset notes
 
-For package release gates, including `v0.2.2.0`, the GitHub release asset name is
+For package release gates, including `v0.2.3.0`, the GitHub release asset name is
 `IMPLEMENTAUDIT.skill`.
 
 No local evidence proves `.skill` is a universal host-standard archive format.
@@ -469,7 +475,6 @@ skills/
 docs/diagrams/
 docs/audits/
 .claude-plugin/
-IMPLEMENTAUDIT.md
 README.md
 CHANGELOG.md
 ```
@@ -541,8 +546,8 @@ message/body instead.
 
 ## Development / maintenance notes
 
-`AGENTS.md` is the authoritative repository contract. `IMPLEMENTAUDIT.md` and
-`skills/SKILL.md` are synchronized under the current flat package contract.
+`AGENTS.md` is the authoritative repository contract. `skills/SKILL.md` is the
+canonical skill behavior source under the current flat package contract.
 
 README Mermaid diagrams are generated from `docs/diagrams/*.mmd`; do not edit
 diagram blocks by hand. Refresh or check them with:
@@ -553,7 +558,7 @@ bash scripts/generate-readme-diagrams.sh --check
 ```
 
 Validation scripts are POSIX shell scripts. On Windows, run them from Git Bash
-or WSL.
+or WSL. The repo pins `*.sh` files to LF line endings for shell portability.
 
 Before committing package changes, run:
 
@@ -581,3 +586,11 @@ Detailed evidence belongs in commit bodies, orchestrator/audit ledgers,
 ActiveGraph custody events when configured, or final reports. Durable
 anti-repeat rules may belong in repo-local `AGENTS.md` when they would prevent
 future agents from repeating the same mistake.
+
+Native harness discipline now includes helpers/checkers for environment and
+repo-contract discovery, brownfield repo summaries, complete baseline-vs-working
+tree evidence, structural audit-spec validation, transcript marker order,
+routing fixtures, release-asset checks, and added-line cleanliness/overclaim
+scans. Complete repo-state checks compare the baseline to the working tree so
+staged, unstaged, deleted, and untracked work cannot disappear from final audit
+evidence.

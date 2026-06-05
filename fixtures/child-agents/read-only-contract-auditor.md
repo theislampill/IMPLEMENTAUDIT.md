@@ -1,12 +1,12 @@
 # Read-Only Contract Auditor
 
-Purpose: inspect package, transcript, and mirror contracts without writing to
+Purpose: inspect package, transcript, and source contracts without writing to
 repo files.
 
 Allowed:
 
-- read `AGENTS.md`, `README.md`, `CHANGELOG.md`, `IMPLEMENTAUDIT.md`,
-  `skills/SKILL.md`, scripts, templates, and fixtures
+- read `AGENTS.md`, `README.md`, `CHANGELOG.md`, `skills/SKILL.md`, scripts,
+  templates, and fixtures
 - run read-only validation commands
 - report findings with owner/source, evidence, and remaining risk
 

@@ -47,10 +47,13 @@ required = {
     "skills/references/goal-format.md",
     "skills/references/transcript-contract.md",
     "skills/references/routing.md",
+    "skills/references/repo-state-comparison.md",
     "skills/references/child-agents.md",
     "skills/scripts/detect-env.sh",
     "skills/scripts/detect-stack.sh",
+    "skills/scripts/repo-state.sh",
     "skills/scripts/summarize-repo.sh",
+    "skills/scripts/validate-audit-spec.sh",
     "skills/scripts/validate-phase.sh",
     "skills/templates/ROADMAP.md",
     "skills/templates/STATE.md",
@@ -59,10 +62,10 @@ required = {
     "skills/templates/PROTOCOL.md",
     ".claude-plugin/plugin.json",
     ".claude-plugin/marketplace.json",
-    "IMPLEMENTAUDIT.md",
     "README.md",
     "CHANGELOG.md",
     "docs/audits/INDEX.md",
+    "docs/audits/v0.2.3.0-harness-adaptation-matrix.md",
 }
 blocked_parts = {
     ".git",
@@ -92,10 +95,10 @@ with zipfile.ZipFile(asset) as zf:
         zf.extractall(temp_dir)
         root = Path(temp_dir)
         plugin = json.loads((root / ".claude-plugin/plugin.json").read_text())
-        if plugin.get("version") != "0.2.2":
-            raise SystemExit("expected plugin version 0.2.2")
-        if (root / "IMPLEMENTAUDIT.md").read_bytes() != (root / "skills/SKILL.md").read_bytes():
-            raise SystemExit("extracted mirror files drifted")
+        if plugin.get("version") != "0.2.3":
+            raise SystemExit("expected plugin version 0.2.3")
+        if (root / "IMPLEMENTAUDIT.md").exists():
+            raise SystemExit("root IMPLEMENTAUDIT.md must not be included")
 
 print("release-asset.test: ok")
 PY

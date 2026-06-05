@@ -52,7 +52,6 @@ include_roots = [
     Path("docs/audits"),
     Path(".claude-plugin/plugin.json"),
     Path(".claude-plugin/marketplace.json"),
-    Path("IMPLEMENTAUDIT.md"),
     Path("README.md"),
     Path("CHANGELOG.md"),
 ]
@@ -64,10 +63,13 @@ required_files = [
     "skills/references/goal-format.md",
     "skills/references/transcript-contract.md",
     "skills/references/routing.md",
+    "skills/references/repo-state-comparison.md",
     "skills/references/child-agents.md",
     "skills/scripts/detect-env.sh",
     "skills/scripts/detect-stack.sh",
+    "skills/scripts/repo-state.sh",
     "skills/scripts/summarize-repo.sh",
+    "skills/scripts/validate-audit-spec.sh",
     "skills/scripts/validate-phase.sh",
     "skills/templates/ROADMAP.md",
     "skills/templates/STATE.md",
@@ -80,7 +82,7 @@ required_files = [
     "docs/diagrams/invocation-modes.mmd",
     "docs/diagrams/execution-spine.mmd",
     "docs/audits/INDEX.md",
-    "IMPLEMENTAUDIT.md",
+    "docs/audits/v0.2.3.0-harness-adaptation-matrix.md",
     "README.md",
     "CHANGELOG.md",
 ]
@@ -161,14 +163,14 @@ with zipfile.ZipFile(asset) as zf:
         marketplace = json.loads((extracted / ".claude-plugin/marketplace.json").read_text())
         if plugin.get("name") != "implementaudit":
             raise SystemExit("extracted plugin name must be implementaudit")
-        if plugin.get("version") != "0.2.2":
-            raise SystemExit("extracted plugin version must be 0.2.2")
+        if plugin.get("version") != "0.2.3":
+            raise SystemExit("extracted plugin version must be 0.2.3")
         if plugin.get("skills") != "./skills/":
             raise SystemExit("extracted plugin skills path must be ./skills/")
         if not marketplace.get("plugins"):
             raise SystemExit("extracted marketplace plugins list is required")
-        if (extracted / "IMPLEMENTAUDIT.md").read_bytes() != (extracted / "skills/SKILL.md").read_bytes():
-            raise SystemExit("extracted IMPLEMENTAUDIT.md and skills/SKILL.md are out of sync")
+        if (extracted / "IMPLEMENTAUDIT.md").exists():
+            raise SystemExit("extracted root IMPLEMENTAUDIT.md must be absent")
 
 print(f"build-release-asset: wrote {asset}")
 print("build-release-asset: extraction validation ok")

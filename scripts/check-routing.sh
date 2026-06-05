@@ -167,7 +167,6 @@ scan_paths = [
     "skills/references/goal-format.md",
     "skills/references/phase-design.md",
     "skills/SKILL.md",
-    "IMPLEMENTAUDIT.md",
 ]
 forbidden_phrases = [
     "autonomously build a software task " + "end-to-end",

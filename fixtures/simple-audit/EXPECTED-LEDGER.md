@@ -2,7 +2,7 @@
 
 | # | Finding | Priority | Owner/source | Action | Status | Evidence | Depends on |
 |---|---|---:|---|---|---|---|---|
-| 1 | README collapses local commit and push authorization. | P1 | README.md derived from IMPLEMENTAUDIT.md | Restore separate-gate wording. | changed | Smoke B grep/manual inspection | - |
+| 1 | README collapses local commit and push authorization. | P1 | README.md derived from `skills/SKILL.md` | Restore separate-gate wording. | changed | Smoke B grep/manual inspection | - |
 
 ## Expected closure
 

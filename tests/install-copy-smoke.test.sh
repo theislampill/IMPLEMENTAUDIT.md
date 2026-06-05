@@ -18,10 +18,13 @@ for file in \
   references/goal-format.md \
   references/transcript-contract.md \
   references/routing.md \
+  references/repo-state-comparison.md \
   references/child-agents.md \
   scripts/detect-env.sh \
   scripts/detect-stack.sh \
+  scripts/repo-state.sh \
   scripts/summarize-repo.sh \
+  scripts/validate-audit-spec.sh \
   scripts/validate-phase.sh \
   templates/ROADMAP.md \
   templates/STATE.md \

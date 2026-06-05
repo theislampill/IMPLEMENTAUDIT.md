@@ -8,8 +8,74 @@ not from verified tags, releases, publication, marketplace verification, or
 provenance.
 
 Plugin manifest versions are host-facing package metadata. Project milestone
-`v0.2.2.0` maps to plugin manifest version `0.2.2` because no local schema
+`v0.2.3.0` maps to plugin manifest version `0.2.3` because no local schema
 evidence proved four-component plugin manifest versions are accepted.
+
+## [v0.2.3.0] - 2026-06-05
+
+### Added
+
+- Added a native harness adaptation matrix at
+  `docs/audits/v0.2.3.0-harness-adaptation-matrix.md`, grounded in a fresh
+  read-only inventory of an external staged-goal comparator at commit
+  `86f1b0095ed1f6f9dc99f550a6053c931a4f96f4`.
+- Added `skills/scripts/repo-state.sh` and
+  `skills/references/repo-state-comparison.md` so final audit, deliverable,
+  release-readiness, and cleanliness checks compare the baseline to the
+  complete working tree, including committed-after-baseline, staged, unstaged,
+  deleted, and untracked work.
+- Added `skills/scripts/validate-audit-spec.sh` plus valid/invalid audit-spec
+  fixtures to check classification, owner/source, scope, constraints,
+  acceptance, rollback, evidence, generated-surface, sidecar, and
+  release/provenance boundary fields.
+- Added `scripts/check-added-lines-clean.sh` to scan added/new lines for debug
+  prints, session task markers, unsupported host/release/license claims,
+  and external comparator identity drift.
+- Added focused tests for repo-state behavior, audit-spec validation, and
+  added-line cleanliness/overclaim scanning.
+
+### Changed
+
+- Bumped plugin manifest metadata from `0.2.2` to `0.2.3` for the
+  `v0.2.3.0` project milestone.
+- Expanded environment, repo-contract, and brownfield summary helpers so they
+  identify package metadata, canonical owners, generated surfaces, fixtures,
+  validators, CI, release/provenance surfaces, optional sidecar roots, and
+  likely regression surfaces.
+- Updated `AGENTS.md` with durable harness-adaptation rules: external staged
+  skills are comparator inputs only, useful concepts must be classified before
+  adaptation, and final audit evidence must include the complete working tree
+  when a baseline is available.
+- Updated the execution-spine Mermaid source and regenerated README so the
+  native harness/checker lane is visible before Graphify-assisted Gemba and
+  final audit.
+- Extended package verification, release-asset validation, and CI workflow
+  coverage for the new helpers, references, fixtures, and tests.
+
+### Safety
+
+- Preserved IMPLEMENTAUDIT identity as audit-governed implementation, not a
+  generic runner.
+- Preserved generated-source discipline: README Mermaid remains generated from
+  `docs/diagrams/*.mmd`; canonical skill behavior lives in `skills/SKILL.md`.
+- Removed the tracked root `IMPLEMENTAUDIT.md` behavior file by owner decision
+  to avoid repo-name/file-name confusion. Prior mirror/pointer compatibility was
+  intentionally replaced with a validator-enforced absence rule.
+- Preserved Graphify as optional terrain only and ActiveGraph as optional
+  custody only; no install, indexing, quickstart, config, event store, or export
+  is claimed.
+- Preserved separate gates for commit, push, tag, release, publication, and
+  checksum-manifest provenance.
+- No license, marketplace verification, host install verification, signing,
+  attestation, SBOM, package publication, or broader provenance claim is made by
+  this changelog entry.
+
+### Provenance notes
+
+- When release/provenance is separately authorized, the repo-supported
+  provenance surface remains the generated checksum manifest for
+  `IMPLEMENTAUDIT.skill`. A checksum manifest is not a signature, attestation,
+  SBOM, license, marketplace verification, or install verification.
 
 ## [v0.2.2.0] - 2026-06-05
 
@@ -44,8 +110,8 @@ evidence proved four-component plugin manifest versions are accepted.
 
 ### Safety
 
-- Preserved generated-source discipline: `IMPLEMENTAUDIT.md` remains synced from
-  `skills/SKILL.md`, and README Mermaid freshness remains checked by
+- Preserved generated-source discipline for the then-current package contract:
+  README Mermaid freshness remains checked by
   `scripts/generate-readme-diagrams.sh --check`.
 - Preserved Graphify as optional terrain only and ActiveGraph as optional
   custody only; neither sidecar is canonical proof for routing decisions.
@@ -77,8 +143,8 @@ evidence proved four-component plugin manifest versions are accepted.
 - Added generated README Mermaid diagram sources under `docs/diagrams/` plus a
   generator/check script to prevent hand-maintained diagram drift.
 - Added focused shell tests for marker ordering, release asset reproducibility,
-  checksum generation, blocked-path exclusion, mirror drift, and manual skill
-  copy smoke behavior.
+  checksum generation, blocked-path exclusion, package contract drift, and
+  manual skill copy smoke behavior.
 - Added a GitHub Actions validation workflow that mirrors the local package
   checks on pushes and pull requests.
 - Added host-claim validation to guard unsupported install, marketplace,
@@ -126,8 +192,9 @@ evidence proved four-component plugin manifest versions are accepted.
 
 ### Added
 
-- Added the flat packaged skill layout at `skills/SKILL.md`, synchronized with
-  `IMPLEMENTAUDIT.md` as the compatibility root.
+- Added the flat packaged skill layout at `skills/SKILL.md`; the package
+  migration originally synchronized it with a root compatibility file, which was
+  later removed by owner decision in `v0.2.3.0`.
 - Added `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json` as
   package metadata. These files are JSON-validated, but no install,
   marketplace, release, publication, or provenance behavior is claimed as

@@ -13,17 +13,21 @@ require_file() {
   [ -f "$1" ] || fail "missing required file: $1"
 }
 
-require_file IMPLEMENTAUDIT.md
+if [ -e IMPLEMENTAUDIT.md ]; then
+  fail "root IMPLEMENTAUDIT.md must be absent; canonical behavior lives in skills/SKILL.md"
+fi
 require_file AGENTS.md
 require_file README.md
 require_file CHANGELOG.md
 require_file CLAUDE.md
 require_file CONTRIBUTING.md
+require_file .gitattributes
 require_file .gitignore
 require_file .claude-plugin/plugin.json
 require_file .claude-plugin/marketplace.json
 require_file scripts/build-release-asset.sh
 require_file scripts/check-host-claims.sh
+require_file scripts/check-added-lines-clean.sh
 require_file scripts/check-marker-order.sh
 require_file scripts/check-routing.sh
 require_file scripts/generate-readme-diagrams.sh
@@ -34,10 +38,13 @@ require_file skills/references/phase-design.md
 require_file skills/references/goal-format.md
 require_file skills/references/transcript-contract.md
 require_file skills/references/routing.md
+require_file skills/references/repo-state-comparison.md
 require_file skills/references/child-agents.md
 require_file skills/scripts/detect-env.sh
 require_file skills/scripts/detect-stack.sh
+require_file skills/scripts/repo-state.sh
 require_file skills/scripts/summarize-repo.sh
+require_file skills/scripts/validate-audit-spec.sh
 require_file skills/scripts/validate-phase.sh
 require_file skills/templates/ROADMAP.md
 require_file skills/templates/STATE.md
@@ -56,6 +63,12 @@ require_file fixtures/routing/brownfield-audit-closure/EXPECTED.md
 require_file fixtures/routing/brownfield-audit-closure/INVALID-MUTATION-FIRST.md
 require_file fixtures/routing/mixed-greenfield-in-brownfield/INPUT.md
 require_file fixtures/routing/mixed-greenfield-in-brownfield/EXPECTED.md
+require_file fixtures/audit-spec/valid-mixed.md
+require_file fixtures/audit-spec/invalid-missing-owner.md
+require_file fixtures/audit-spec/invalid-missing-rollback.md
+require_file fixtures/audit-spec/invalid-missing-evidence.md
+require_file fixtures/audit-spec/invalid-missing-generated-plan.md
+require_file fixtures/audit-spec/invalid-missing-release-boundary.md
 require_file fixtures/child-agents/AGENTS.md
 require_file fixtures/child-agents/README.md
 require_file fixtures/child-agents/read-only-contract-auditor.md
@@ -67,10 +80,14 @@ require_file docs/diagrams/tooling-architecture.mmd
 require_file docs/diagrams/invocation-modes.mmd
 require_file docs/diagrams/execution-spine.mmd
 require_file docs/audits/INDEX.md
+require_file docs/audits/v0.2.3.0-harness-adaptation-matrix.md
 require_file tests/marker-order.test.sh
 require_file tests/release-asset.test.sh
 require_file tests/install-copy-smoke.test.sh
 require_file tests/routing.test.sh
+require_file tests/repo-state.test.sh
+require_file tests/audit-spec.test.sh
+require_file tests/added-lines-clean.test.sh
 require_file .github/workflows/validate.yml
 
 if command -v python >/dev/null 2>&1; then
@@ -97,8 +114,8 @@ if plugin.get("skills") != "./skills/":
     raise SystemExit("plugin skills path must be ./skills/")
 if not plugin.get("version"):
     raise SystemExit("plugin version is required")
-if plugin.get("version") != "0.2.2":
-    raise SystemExit("plugin version must be 0.2.2 for project milestone v0.2.2.0")
+if plugin.get("version") != "0.2.3":
+    raise SystemExit("plugin version must be 0.2.3 for project milestone v0.2.3.0")
 
 marketplace = json.loads(Path(".claude-plugin/marketplace.json").read_text())
 plugins = marketplace.get("plugins")
@@ -107,8 +124,6 @@ if not isinstance(plugins, list) or not plugins:
 if plugins[0].get("path") != "..":
     raise SystemExit("marketplace path should point at plugin root")
 PY
-
-cmp -s IMPLEMENTAUDIT.md skills/SKILL.md || fail "IMPLEMENTAUDIT.md and skills/SKILL.md are out of sync"
 
 for marker in \
   Self-critique: \
@@ -128,18 +143,34 @@ for marker in \
   AUDIT_HANDOFF \
   IMPLEMENTAUDIT_RUN_COMPLETE
 do
-  grep -R "$marker" -n skills IMPLEMENTAUDIT.md >/dev/null || fail "missing transcript marker: $marker"
+  grep -R "$marker" -n skills >/dev/null || fail "missing transcript marker: $marker"
 done
 
-grep -R "\.IMPLEMENTAUDIT" -n skills IMPLEMENTAUDIT.md README.md AGENTS.md >/dev/null || fail ".IMPLEMENTAUDIT runtime path is not documented"
+grep -R "\.IMPLEMENTAUDIT" -n skills README.md AGENTS.md >/dev/null || fail ".IMPLEMENTAUDIT runtime path is not documented"
 grep -R "child-agent reports are review evidence only" -in skills README.md AGENTS.md fixtures >/dev/null || fail "child-agent evidence boundary is missing"
-grep -R "AUDIT_HANDOFF.*conditional\|AUDIT_HANDOFF.*handoff path" -in skills IMPLEMENTAUDIT.md AGENTS.md >/dev/null || fail "AUDIT_HANDOFF conditional boundary is missing"
+grep -R "AUDIT_HANDOFF.*conditional\|AUDIT_HANDOFF.*handoff path" -in skills AGENTS.md >/dev/null || fail "AUDIT_HANDOFF conditional boundary is missing"
 grep -R "AGENTS_UPDATE_DECISION" -n skills/templates/phase-goal.txt skills/templates/STATE.md >/dev/null || fail "AGENTS_UPDATE_DECISION template coverage is missing"
-grep -R "v0.2.2.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.2.0 is not documented"
+grep -R "v0.2.3.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.3.0 is not documented"
+grep -R "v0.2.2.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.2.0 history is not documented"
 grep -R "v0.2.1.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.1.0 history is not documented"
 grep -R "v0.2.0.0" -n CHANGELOG.md README.md AGENTS.md >/dev/null || fail "project milestone v0.2.0.0 history is not documented"
 grep -R "v0.1.0" -n CHANGELOG.md >/dev/null || fail "reconstructed v0.1.0 changelog entry missing"
 grep -R "v0.0.1" -n CHANGELOG.md >/dev/null || fail "reconstructed v0.0.1 changelog entry missing"
+
+if grep -R -n -I --exclude-dir=.git --exclude=verify-package.sh \
+  -e "read root IMPLEMENTAUDIT.md" \
+  -e "read .*IMPLEMENTAUDIT.md.*behavior source" \
+  -e "IMPLEMENTAUDIT.md remains the compatibility root" \
+  -e "IMPLEMENTAUDIT.md and skills/SKILL.md" \
+  -e "IMPLEMENTAUDIT.md remains synced" \
+  . >/tmp/implementaudit-root-file-claim.txt; then
+  cat /tmp/implementaudit-root-file-claim.txt >&2
+  rm -f /tmp/implementaudit-root-file-claim.txt
+  fail "repo docs/checkers must not direct agents to root IMPLEMENTAUDIT.md as a behavior source"
+fi
+rm -f /tmp/implementaudit-root-file-claim.txt
+
+grep -R "skills/SKILL.md" -n README.md AGENTS.md CHANGELOG.md >/dev/null || fail "canonical skills/SKILL.md behavior source is not documented"
 
 legacy_a="Super"
 legacy_b="goal"
@@ -165,17 +196,21 @@ if grep -R -n -I --exclude-dir=.git -e "$child_upper_name" -e "$child_lower_name
 fi
 rm -f /tmp/implementaudit-child-agents-grep.txt
 
-grep -R "Graphify output is orientation evidence, not proof" -n skills IMPLEMENTAUDIT.md README.md AGENTS.md >/dev/null || fail "Graphify proof boundary is missing"
-grep -R "ActiveGraph custody is not correctness proof" -n skills IMPLEMENTAUDIT.md README.md AGENTS.md >/dev/null || fail "ActiveGraph proof boundary is missing"
+grep -R "Graphify output is orientation evidence, not proof" -n skills README.md AGENTS.md >/dev/null || fail "Graphify proof boundary is missing"
+grep -R "ActiveGraph custody is not correctness proof" -n skills README.md AGENTS.md >/dev/null || fail "ActiveGraph proof boundary is missing"
 
 bash scripts/generate-readme-diagrams.sh --check
 bash scripts/check-marker-order.sh fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md fixtures/zero-optional-tool/COMPLETE-RUN.md
 bash scripts/check-routing.sh
 bash scripts/check-host-claims.sh
+bash scripts/check-added-lines-clean.sh HEAD
 bash tests/marker-order.test.sh
 bash tests/release-asset.test.sh
 bash tests/install-copy-smoke.test.sh
 bash tests/routing.test.sh
+bash tests/repo-state.test.sh
+bash tests/audit-spec.test.sh
+bash tests/added-lines-clean.test.sh
 bash scripts/build-release-asset.sh --check
 
 git diff --check

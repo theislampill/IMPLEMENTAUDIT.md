@@ -33,3 +33,6 @@ jobs:
           bash tests/release-asset.test.sh
           bash tests/install-copy-smoke.test.sh
           bash tests/routing.test.sh
+          bash tests/repo-state.test.sh
+          bash tests/audit-spec.test.sh
+          bash tests/added-lines-clean.test.sh

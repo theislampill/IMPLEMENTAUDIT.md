@@ -19,7 +19,6 @@ cp skills/references/planning-depth.md "$tmp/skills/references/planning-depth.md
 cp skills/references/goal-format.md "$tmp/skills/references/goal-format.md"
 cp skills/references/phase-design.md "$tmp/skills/references/phase-design.md"
 cp skills/SKILL.md "$tmp/skills/SKILL.md"
-cp IMPLEMENTAUDIT.md "$tmp/IMPLEMENTAUDIT.md"
 cp README.md "$tmp/README.md"
 cp AGENTS.md "$tmp/AGENTS.md"
 cp fixtures/routing/greenfield-goal-synthesis/EXPECTED.md "$tmp/fixtures/routing/greenfield-goal-synthesis/EXPECTED.md"

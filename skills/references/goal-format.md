@@ -35,6 +35,7 @@ Safety boundaries:
 Required checks:
 - Smoke A: <baseline command or inspection>
 - Smoke B: <post-change command or inspection>
+- Complete repo-state comparison: <baseline ref or reason unavailable>
 
 Final audit:
 - Print AUDIT_COMPLETE before IMPLEMENTAUDIT_RUN_COMPLETE.

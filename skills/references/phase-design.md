@@ -8,6 +8,8 @@ dependent to close as one atomic implementation pass.
 - Each phase must close one coherent slice of audit risk.
 - Each phase needs an owner/source, acceptance criteria, Smoke A, Smoke B, and
   a rollback or deferral path.
+- Final audit and cleanliness checks use complete working-tree comparison
+  against the phase baseline when available.
 - `P0` work precedes `P1`; `P1` precedes `P2` unless a dependency demands a
   different order.
 - Generated artifacts follow generator-first policy.
@@ -53,3 +55,7 @@ IMPLEMENTAUDIT_RUN_COMPLETE
 
 `IMPLEMENTAUDIT_RUN_COMPLETE` may appear only after `AUDIT_COMPLETE`.
 `AUDIT_HANDOFF` is a handoff path only when gaps, blockers, or handoff-required caveats remain; do not print it with `IMPLEMENTAUDIT_RUN_COMPLETE`.
+
+Use `skills/scripts/repo-state.sh` for deliverable and added-line checks when a
+baseline is available. If the baseline is missing or invalid, mark the evidence
+as weaker rather than claiming full release proof.

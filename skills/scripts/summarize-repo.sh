@@ -2,9 +2,12 @@
 set -euo pipefail
 
 printf 'implementaudit.summarize-repo\n'
+printf 'side_effects=none\n'
 
 if git rev-parse --show-toplevel >/dev/null 2>&1; then
   git status --short --branch
+  printf '\nrecent-churn:\n'
+  git log --oneline -n 8
   printf '\ntracked-files:\n'
   git ls-files | sed -n '1,120p'
 else
@@ -15,6 +18,22 @@ fi
 printf '\nrepo-instructions:\n'
 find . -maxdepth 3 \( -name AGENTS.md -o -name CONTRIBUTING.md -o -name README.md \) -print | sort
 
+printf '\ncanonical-owners:\n'
+for path in skills/SKILL.md AGENTS.md README.md CHANGELOG.md scripts/verify-package.sh .github/workflows/validate.yml; do
+  [ -e "$path" ] && printf '%s\n' "$path"
+done
+
+printf '\nchecks-and-smokes:\n'
+find scripts skills/scripts tests -maxdepth 2 -type f 2>/dev/null | sort | sed -n '1,120p' || true
+
+printf '\nfixtures-and-examples:\n'
+find fixtures -maxdepth 3 -type f 2>/dev/null | sort | sed -n '1,120p' || true
+
+printf '\nrelease-boundaries:\n'
+for path in scripts/build-release-asset.sh scripts/write-release-checksums.sh dist .claude-plugin/plugin.json .claude-plugin/marketplace.json; do
+  [ -e "$path" ] && printf '%s\n' "$path"
+done
+
 printf '\npossible-generated-artifacts:\n'
 grep -R -n -I \
   -e 'DO NOT EDIT' \
@@ -22,3 +41,8 @@ grep -R -n -I \
   -e 'auto-generated' \
   -e 'this file is generated' \
   . --exclude-dir=.git 2>/dev/null | sed -n '1,40p' || true
+
+printf '\nlikely-regression-surfaces:\n'
+for path in skills scripts tests fixtures README.md CHANGELOG.md AGENTS.md docs/diagrams docs/audits .github/workflows; do
+  [ -e "$path" ] && printf '%s\n' "$path"
+done

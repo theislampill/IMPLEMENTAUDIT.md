@@ -3,7 +3,8 @@ flowchart TD
   B -->|yes| C["STOP / OWNER DECISION"]
   B -->|no| D["Input gate"]
   D --> E["Pre-flight / tooling detection<br/>source/generator/baseline state"]
-  E --> F{"Graphify available<br/>and fresh/authorized?"}
+  E --> E2["Native harness helpers<br/>repo contract, baseline state,<br/>spec validation, cleanliness gates"]
+  E2 --> F{"Graphify available<br/>and fresh/authorized?"}
   F -->|yes| G["Graphify terrain query<br/>orientation only"]
   G --> H["Owner/source candidates<br/>dependency paths<br/>generated-artifact hints<br/>impact/smoke candidates"]
   F -->|absent/stale/unauthorized| I["Ordinary Gemba fallback"]
@@ -22,6 +23,7 @@ flowchart TD
   Q -->|absent| T["Markdown ledger<br/>final report fallback"]
   S --> U["Final audit"]
   T --> U
+  E2 -. "complete working-tree<br/>baseline evidence" .-> U
   U --> V{"Audit gaps?"}
   V -->|yes| W["audit-fix round<br/>or AUDIT_HANDOFF"]
   V -->|no| X["AUDIT_COMPLETE"]
