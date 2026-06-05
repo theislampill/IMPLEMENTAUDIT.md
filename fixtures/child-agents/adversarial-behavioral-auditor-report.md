@@ -23,6 +23,11 @@ Commands run:
 - manual fixture inspection
 - marker-order contract readback
 
+Andon registration check:
+
+- Challenge whether abnormal command paths were normalized away without Andon
+  records before closure.
+
 ## Findings table
 
 | Exploit | Risk | Countermeasure | Owner decision |

@@ -23,6 +23,11 @@ Commands run:
 - manual fixture inspection
 - package-contract readback
 
+Andon registration check:
+
+- Release-gate command failures, timeouts, shell errors, substitute reruns, and
+  replaced evidence must have Andon records before being closed.
+
 ## Findings table
 
 | Status | Finding | Evidence | Countermeasure | Owner decision |

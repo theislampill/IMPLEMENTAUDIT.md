@@ -12,6 +12,13 @@ Files inspected:
 
 Commands run:
 
+Andon registration check:
+
+- Required gate failures, hangs, timeouts, shell errors, substitute reruns, and
+  replaced evidence were checked for Andon records before closure.
+- If this verifier previously missed that invariant, the prior report is marked
+  superseded for release proof and this report is the rerun evidence.
+
 ## Findings table
 
 | Status | Finding | Evidence | Countermeasure | Owner decision |

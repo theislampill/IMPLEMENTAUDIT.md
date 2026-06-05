@@ -9,6 +9,10 @@ Allowed:
 - compare claims against evidence type
 - identify missing Smoke A/B or marker-order gaps
 - report contradictions and caveats
+- try to prove that an abnormal command path was normalized away as
+  "transient" without Andon registration
+- try to prove that a passing rerun hid a failed, timed-out, shell-error, or
+  substitute evidence path
 
 Not allowed:
 
@@ -30,6 +34,7 @@ Read-only confirmation:
 Verdict:
 Files inspected:
 Commands run:
+Andon registration check:
 Findings table:
 Required patches:
 Required fixtures / canaries:

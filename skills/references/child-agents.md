@@ -34,12 +34,25 @@ Their reports are review evidence only. The main `/implementaudit` agent must
 inspect live files, normalize findings into the ledger, classify priority, and
 run Smoke A/B before claiming closure.
 
+## Andon registration invariant
+
+Release-gate and final-audit abnormalities must be recorded before they are
+closed.
+
+If a required gate fails, hangs, times out, shell-errors, is retried through a
+substitute path, or has evidence replaced by a rerun, an Andon must be recorded
+before it can be closed as blocking or non-blocking.
+
+A verifier that misses this invariant must mark its prior report
+`superseded for release proof` and rerun against the corrected
+ledger/checklist.
+
 ## Recommended pair
 
 | Role | Scope | Output |
 |---|---|---|
-| Read-only contract auditor | Package claims, layout, manifests, templates, scripts, fixtures, README/CHANGELOG truthfulness, and optional-tool evidence boundaries. | PASS / GAP / OWNER DECISION rows. |
-| Adversarial behavioral auditor | False completion paths, marker drift, weak boundaries, stale layout assumptions, authorization drift, and AGENTS_UPDATE_DECISION ambiguity. | exploit / risk / countermeasure / OWNER DECISION rows. |
+| Read-only contract auditor | Package claims, layout, manifests, templates, scripts, fixtures, README/CHANGELOG truthfulness, optional-tool evidence boundaries, and release-gate Andon records for failed/retried/substituted checks. | PASS / GAP / OWNER DECISION rows. |
+| Adversarial behavioral auditor | False completion paths, marker drift, weak boundaries, stale layout assumptions, authorization drift, AGENTS_UPDATE_DECISION ambiguity, and whether abnormal command paths can be normalized away without Andon registration. | exploit / risk / countermeasure / OWNER DECISION rows. |
 
 ## Specialist loops
 

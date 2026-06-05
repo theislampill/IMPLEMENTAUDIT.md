@@ -9,6 +9,8 @@ Allowed:
   templates, and fixtures
 - run read-only validation commands
 - report findings with owner/source, evidence, and remaining risk
+- verify that failed, timed-out, shell-error, substituted, or rerun release-gate
+  commands have Andon records before they are closed
 
 Not allowed:
 
@@ -28,6 +30,7 @@ Read-only confirmation:
 Verdict:
 Files inspected:
 Commands run:
+Andon registration check:
 Findings table:
 Required patches:
 Required fixtures / canaries:
