@@ -17,6 +17,7 @@ for file in \
   references/phase-design.md \
   references/goal-format.md \
   references/transcript-contract.md \
+  references/routing.md \
   references/child-agents.md \
   scripts/detect-env.sh \
   scripts/detect-stack.sh \

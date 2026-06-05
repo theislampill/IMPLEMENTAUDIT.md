@@ -32,3 +32,4 @@ jobs:
           bash tests/marker-order.test.sh
           bash tests/release-asset.test.sh
           bash tests/install-copy-smoke.test.sh
+          bash tests/routing.test.sh

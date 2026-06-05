@@ -8,8 +8,60 @@ not from verified tags, releases, publication, marketplace verification, or
 provenance.
 
 Plugin manifest versions are host-facing package metadata. Project milestone
-`v0.2.1.0` maps to plugin manifest version `0.2.1` because no local schema
+`v0.2.2.0` maps to plugin manifest version `0.2.2` because no local schema
 evidence proved four-component plugin manifest versions are accepted.
+
+## [v0.2.2.0] - 2026-06-05
+
+### Added
+
+- Added canonical greenfield, brownfield, and mixed-mode routing semantics in
+  `skills/references/routing.md`.
+- Added greenfield intake requirements for owner/source, scope, non-scope,
+  constraints, acceptance criteria, rollback/removal path, evidence plan,
+  generated-artifact plan, sidecar status, and canonical-vs-sidecar boundaries.
+- Added brownfield inspection requirements for existing owner/source, contracts,
+  tests, smokes, checkers, generated artifacts, sidecars, regression surface,
+  and rollback path before mutation.
+- Added routing fixtures for `greenfield-goal-synthesis`,
+  `brownfield-audit-closure`, and `mixed-greenfield-in-brownfield`.
+- Added `scripts/check-routing.sh` and `tests/routing.test.sh` so valid routing
+  examples pass, invalid examples fail, sidecar boundaries remain optional, and
+  README/reference identity cannot drift into endorsed generic runner framing.
+- Added `docs/audits/INDEX.md` as a compact dogfood-history index grounded in
+  repo commits, changelog entries, and fixtures.
+
+### Changed
+
+- Bumped plugin manifest metadata from `0.2.1` to `0.2.2` for the
+  `v0.2.2.0` project milestone.
+- Updated `AGENTS.md` with durable routing rules for greenfield, brownfield,
+  and mixed work.
+- Updated README with positive audit-governed identity language and routing
+  intake/inspection boundaries.
+- Extended package validation, release asset validation, install-copy smoke,
+  and CI workflow coverage for the routing reference and tests.
+
+### Safety
+
+- Preserved generated-source discipline: `IMPLEMENTAUDIT.md` remains synced from
+  `skills/SKILL.md`, and README Mermaid freshness remains checked by
+  `scripts/generate-readme-diagrams.sh --check`.
+- Preserved Graphify as optional terrain only and ActiveGraph as optional
+  custody only; neither sidecar is canonical proof for routing decisions.
+- Preserved Markdown ledgers and final reports as valid fallback.
+- Preserved separate gates for commit, push, tag, release, publication, and
+  checksum-manifest provenance.
+- No license, marketplace verification, host install verification, signing,
+  attestation, SBOM, package publication, or broader provenance claim is made by
+  this changelog entry.
+
+### Dogfood evidence
+
+- This entry closes the greenfield/brownfield routing dogfood audit by adding
+  executable validation and fixtures rather than prose-only claims.
+- `docs/audits/INDEX.md` records the prior v0.2.1.0 dogfood evidence found in
+  current repo history and states what remains unverified.
 
 ## [v0.2.1.0] - 2026-06-05
 

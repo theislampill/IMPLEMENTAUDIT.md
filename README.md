@@ -31,9 +31,11 @@ only an idea, gap, or incomplete target.
 ## What it is
 
 `/implementaudit` is the officer/method layer for audit closure and repo hygiene.
-It reads the actual repository, normalizes work into a ledger, patches the
-owner/source instead of the nearest symptom, runs evidence checks before making
-claims, and closes every item terminally.
+It is an audit-governed implementation skill: it routes work through repo-local
+owner/source discovery, acceptance criteria, rollback/evidence planning,
+fixtures/checkers, and smoke-before-claim closure. It can help implement
+changes, but only through the audit contract; it is not a generic autonomous
+build runner.
 
 Current optional-tooling architecture:
 
@@ -117,6 +119,34 @@ It:
   `unverified`
 
 No ledger item may remain open at final response.
+
+## Greenfield / brownfield routing
+
+ImplementAudit classifies work before planning or mutation:
+
+- **Greenfield**: a new governed artifact, fixture family, checker, reference,
+  workflow, runtime capability, sidecar contract, or validation surface is being
+  introduced and has no established repo owner/source yet.
+- **Brownfield**: an existing repo artifact, owner/source, generated output,
+  fixture, checker, contract, or documented invariant is being repaired,
+  verified, or closed.
+- **Mixed**: a new artifact is introduced inside an established repo. The outer
+  shell is brownfield; the new artifact receives greenfield intake after the
+  existing repo surface is inspected.
+
+Greenfield work must define owner/source, scope and non-scope, constraints,
+acceptance criteria, rollback/removal path, evidence plan, generated-artifact
+plan, sidecar status, and canonical-vs-sidecar boundaries before implementation.
+
+Brownfield work must inspect existing owner/source, contracts, tests, smokes,
+checkers, generated artifacts, optional sidecars, regression surface, and
+rollback path before mutation.
+
+Graphify may orient brownfield terrain when available and fresh, but live files
+remain source of truth. ActiveGraph may preserve custody when configured, but
+Markdown ledgers and final reports remain valid fallback. Neither optional
+sidecar replaces repo-local owners, fixtures, checkers, smoke output, or audit
+ledgers.
 
 ## Operating method
 
@@ -223,7 +253,7 @@ The manifest JSON is validated by `scripts/verify-package.sh`. This README does
 not claim that Claude Code marketplace behavior, Codex installation, release,
 publication, or provenance has been verified.
 
-Current project milestone: `v0.2.1.0`. Plugin manifest version: `0.2.1`.
+Current project milestone: `v0.2.2.0`. Plugin manifest version: `0.2.2`.
 No local schema evidence proved four-component plugin manifest versions are
 accepted, so the manifest uses host-conservative package metadata while the
 project milestone is recorded in docs and changelog. This is not a tag, release,
@@ -427,7 +457,7 @@ been verified.
 
 ## Release asset notes
 
-For package release gates, including `v0.2.1.0`, the GitHub release asset name is
+For package release gates, including `v0.2.2.0`, the GitHub release asset name is
 `IMPLEMENTAUDIT.skill`.
 
 No local evidence proves `.skill` is a universal host-standard archive format.
@@ -437,6 +467,7 @@ a ZIP-format archive containing the installable skill payload:
 ```text
 skills/
 docs/diagrams/
+docs/audits/
 .claude-plugin/
 IMPLEMENTAUDIT.md
 README.md

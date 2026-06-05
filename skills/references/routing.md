@@ -1,0 +1,96 @@
+# Greenfield / Brownfield Routing
+
+Use this reference when an ImplementAudit run needs to decide whether work is
+new governed surface, existing repo repair, or both.
+
+Routing is part of audit governance. It does not authorize mutation, commit,
+push, release, publication, provenance, Graphify indexing, or ActiveGraph
+export.
+
+## Definitions
+
+**Greenfield audit-governed work** introduces a new governed artifact, fixture
+family, checker, reference doc, sidecar contract, workflow, runtime capability,
+or validation surface where no established repo owner/source/contract exists
+yet.
+
+**Brownfield audit-governed work** mutates, repairs, verifies, or closes findings
+against existing repo artifacts, owners, tests, generated outputs, sidecars,
+fixtures, contracts, or documented invariants.
+
+**Mixed-mode work** occurs when a new artifact is introduced inside an
+established repo. The outer shell is brownfield: inspect existing owners,
+contracts, tests, generated artifacts, sidecars, and regression surface first.
+The new artifact then receives greenfield intake before creation.
+
+Default to brownfield when an existing repo is present. Do not use "new file" as
+an excuse to skip existing repo contracts.
+
+## Greenfield Intake
+
+Before creating a new governed artifact, define:
+
+- owner/source of truth
+- scope and non-scope
+- constraints and invariants
+- acceptance criteria
+- rollback or removal path
+- evidence plan
+- generated artifact plan: source-owned vs derived
+- Graphify / ActiveGraph sidecar status: applicable, optional, not applicable,
+  or forbidden
+- canonical-vs-sidecar statement: Markdown, docs, checkers, fixtures, and live
+  repo files remain canonical unless repo contract explicitly promotes a
+  sidecar
+
+If any field is unknown, resolve it from repo files or mark the item
+`blocked`, `deferred`, or `unverified`. Do not silently implement.
+
+## Brownfield Inspection
+
+Before mutating existing repo behavior, inspect:
+
+- existing owner/source
+- documented contracts and invariants
+- tests, smokes, and checkers
+- generated artifacts and whether they are source-owned or derived
+- Graphify / ActiveGraph sidecars if present
+- regression surface
+- rollback path
+
+Patch the owner/source, regenerate derived surfaces, and run the smallest
+relevant checks before claiming closure. Stale, missing, ambiguous, or
+unsupported evidence is an Andon or `unverified` caveat, not success.
+
+## Mixed-Mode Rule
+
+For greenfield-inside-brownfield work:
+
+1. Run brownfield inspection across the existing repo, package, contracts,
+   generated surfaces, and validation checks.
+2. Identify the new artifact as greenfield and complete greenfield intake for
+   that artifact.
+3. Add or update fixtures/checkers so the new behavior is not prose-only.
+4. Re-run generated freshness checks when derived surfaces change.
+5. Close the ledger with Smoke A/B evidence.
+
+## Sidecar Boundary
+
+Graphify may aid brownfield terrain inspection before owner/source selection.
+Absent, stale, or unauthorized Graphify falls back to ordinary Gemba and live
+file inspection.
+
+ActiveGraph may preserve sidecar custody for proof events when authorized.
+Absent ActiveGraph falls back to Markdown ledgers and final reports.
+
+Neither sidecar replaces repo-local owners, checkers, fixtures, smoke output,
+audit ledgers, or live-file inspection. Neither is canonical proof unless the
+repo explicitly promotes it with its own evidence and gates.
+
+## Positive Identity
+
+IMPLEMENTAUDIT is an audit-governed implementation skill. It routes work through
+repo-local owner/source discovery, acceptance criteria, rollback/evidence
+planning, fixtures/checkers, and smoke-before-claim closure. It can help
+implement changes, but only through the audit contract; it is not a generic
+autonomous build runner.

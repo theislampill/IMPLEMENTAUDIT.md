@@ -46,6 +46,7 @@ required = {
     "skills/references/phase-design.md",
     "skills/references/goal-format.md",
     "skills/references/transcript-contract.md",
+    "skills/references/routing.md",
     "skills/references/child-agents.md",
     "skills/scripts/detect-env.sh",
     "skills/scripts/detect-stack.sh",
@@ -61,6 +62,7 @@ required = {
     "IMPLEMENTAUDIT.md",
     "README.md",
     "CHANGELOG.md",
+    "docs/audits/INDEX.md",
 }
 blocked_parts = {
     ".git",
@@ -90,8 +92,8 @@ with zipfile.ZipFile(asset) as zf:
         zf.extractall(temp_dir)
         root = Path(temp_dir)
         plugin = json.loads((root / ".claude-plugin/plugin.json").read_text())
-        if plugin.get("version") != "0.2.1":
-            raise SystemExit("expected plugin version 0.2.1")
+        if plugin.get("version") != "0.2.2":
+            raise SystemExit("expected plugin version 0.2.2")
         if (root / "IMPLEMENTAUDIT.md").read_bytes() != (root / "skills/SKILL.md").read_bytes():
             raise SystemExit("extracted mirror files drifted")
 

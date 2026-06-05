@@ -243,12 +243,15 @@ Before planning or patching, identify the invocation shape:
 
 In embedded governance mode, do not print a second `/goal`. Govern the active target with the normal `/implementaudit` gates.
 
+After identifying invocation shape, classify the work route as `greenfield`, `brownfield`, or `mixed`. Default to `brownfield` when an existing repo is present. For `greenfield` or `mixed` work, define intake fields before creating new governed artifacts. For `brownfield` or `mixed` work, inspect existing owner/source, contracts, tests, generated artifacts, sidecars, and regression surface before mutation.
+
 When goal synthesis or phase planning is needed, load the packaged references when available:
 
 - `skills/references/planning-depth.md`
 - `skills/references/phase-design.md`
 - `skills/references/goal-format.md`
 - `skills/references/transcript-contract.md`, when a host or wrapper needs marker-order/end-state rules
+- `skills/references/routing.md`, when work may be greenfield, brownfield, or mixed
 - `skills/references/child-agents.md`, when a child-agent review loop is warranted
 
 Planner transcript markers:
