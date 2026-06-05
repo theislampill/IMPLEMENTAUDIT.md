@@ -90,6 +90,23 @@ require_file tests/audit-spec.test.sh
 require_file tests/added-lines-clean.test.sh
 require_file .github/workflows/validate.yml
 
+for child_report in \
+  skills/templates/child-agent-report.md \
+  fixtures/child-agents/read-only-contract-auditor.md \
+  fixtures/child-agents/adversarial-behavioral-auditor.md \
+  fixtures/child-agents/read-only-contract-auditor-report.md \
+  fixtures/child-agents/adversarial-behavioral-auditor-report.md
+do
+  grep -q "Verdict:" "$child_report" || fail "child-agent report missing Verdict section: $child_report"
+  grep -q "Files inspected:" "$child_report" || fail "child-agent report missing Files inspected section: $child_report"
+  grep -q "Commands run:" "$child_report" || fail "child-agent report missing Commands run section: $child_report"
+  grep -q "Required patches" "$child_report" || fail "child-agent report missing Required patches section: $child_report"
+  grep -q "Required fixtures / canaries" "$child_report" || fail "child-agent report missing Required fixtures / canaries section: $child_report"
+  grep -q "What closes" "$child_report" || fail "child-agent report missing What closes section: $child_report"
+  grep -q "What remains" "$child_report" || fail "child-agent report missing What remains section: $child_report"
+  grep -q "Next smallest safe action" "$child_report" || fail "child-agent report missing Next smallest safe action section: $child_report"
+done
+
 if command -v python >/dev/null 2>&1; then
   py_cmd=(python)
 elif command -v python3 >/dev/null 2>&1; then

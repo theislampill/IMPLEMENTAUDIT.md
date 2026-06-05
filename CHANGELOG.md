@@ -47,8 +47,14 @@ evidence proved four-component plugin manifest versions are accepted.
   adaptation, and final audit evidence must include the complete working tree
   when a baseline is available.
 - Updated the execution-spine Mermaid source and regenerated README so the
-  native harness/checker lane is visible before Graphify-assisted Gemba and
-  final audit.
+  lifecycle is readable as invocation/intake -> greenfield/brownfield/mixed
+  routing -> owner/source patch -> generated refresh -> Smoke A/B -> complete
+  working-tree check -> final audit -> terminal marker, with release/provenance
+  visibly gated after ordinary run completion.
+- Expanded child-agent report templates and examples so v0.2.3.0 dogfood
+  evidence can record read-only and adversarial audit coverage across all three
+  audit inputs with verdicts, inspected files, commands, required patches,
+  canaries, closure, remaining risk, and next action.
 - Extended package verification, release-asset validation, and CI workflow
   coverage for the new helpers, references, fixtures, and tests.
 

@@ -6,12 +6,36 @@ Read-only confirmation:
 
 Scope:
 
+Verdict:
+
 Files inspected:
 
-## Summary rows
+Commands run:
+
+## Findings table
 
 | Status | Finding | Evidence | Countermeasure | Owner decision |
 |---|---|---|---|---|
+
+## Required patches
+
+- TBD
+
+## Required fixtures / canaries
+
+- TBD
+
+## What closes
+
+- TBD
+
+## What remains
+
+- TBD
+
+## Next smallest safe action
+
+- TBD
 
 ## Evidence boundary
 

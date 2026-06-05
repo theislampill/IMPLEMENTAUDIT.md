@@ -26,4 +26,15 @@ Challenged claim:
 Counter-evidence:
 Risk:
 Recommended status:
+Read-only confirmation:
+Verdict:
+Files inspected:
+Commands run:
+Findings table:
+Required patches:
+Required fixtures / canaries:
+What closes:
+What remains:
+Next smallest safe action:
+Evidence boundary:
 ```

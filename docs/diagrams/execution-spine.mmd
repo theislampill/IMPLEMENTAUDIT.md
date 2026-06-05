@@ -1,32 +1,75 @@
 flowchart TD
-  A["Safety read<br/>repo policy + AGENTS.md"] --> B{"Unsafe, unauthorized,<br/>or policy conflict?"}
-  B -->|yes| C["STOP / OWNER DECISION"]
-  B -->|no| D["Input gate"]
-  D --> E["Pre-flight / tooling detection<br/>source/generator/baseline state"]
-  E --> E2["Native harness helpers<br/>repo contract, baseline state,<br/>spec validation, cleanliness gates"]
-  E2 --> F{"Graphify available<br/>and fresh/authorized?"}
-  F -->|yes| G["Graphify terrain query<br/>orientation only"]
-  G --> H["Owner/source candidates<br/>dependency paths<br/>generated-artifact hints<br/>impact/smoke candidates"]
-  F -->|absent/stale/unauthorized| I["Ordinary Gemba fallback"]
-  H --> J["Live-file Gemba confirms<br/>before mutation"]
-  I --> J
-  J --> K["Smoke A<br/>baseline before mutation"]
-  K --> L["Implement<br/>P0 -> P1 -> P2<br/>owner/source patch"]
-  L --> M["Smoke B<br/>post-change comparison"]
-  M --> N{"Regression?"}
-  N -->|yes| O["Andon / Hansei<br/>failure recovery"]
-  O --> K
-  N -->|no| P["Ledger closure + trace<br/>commit body or proposed body<br/>AGENTS_UPDATE_DECISION"]
-  P --> Q{"ActiveGraph configured?"}
-  Q -->|yes| R["Custody events<br/>Smoke A/B, Andon, Hansei,<br/>ledger closure"]
-  R --> S["Capability Ledger<br/>derived from evidenced runs"]
-  Q -->|absent| T["Markdown ledger<br/>final report fallback"]
-  S --> U["Final audit"]
-  T --> U
-  E2 -. "complete working-tree<br/>baseline evidence" .-> U
-  U --> V{"Audit gaps?"}
-  V -->|yes| W["audit-fix round<br/>or AUDIT_HANDOFF"]
-  V -->|no| X["AUDIT_COMPLETE"]
-  X --> Y["IMPLEMENTAUDIT_RUN_COMPLETE"]
-  U --> Z{"No AUDIT_COMPLETE?"}
-  Z -->|then| AA["No IMPLEMENTAUDIT_RUN_COMPLETE"]
+  Input(["Audit, handoff,<br/>goal, gap, or checklist"]):::human
+  Safety["Safety read<br/>AGENTS.md, repo policy,<br/>authorization gates"]:::audit
+  Unsafe{"Unsafe, unauthorized,<br/>or policy conflict?"}:::audit
+  OwnerStop(["STOP / OWNER DECISION"]):::blocker
+
+  Route{"Route the work"}:::audit
+  Green["Greenfield intake<br/>owner/source, scope,<br/>constraints, acceptance,<br/>rollback, evidence"]:::source
+  Brown["Brownfield recon<br/>owners, contracts,<br/>tests, generated surfaces,<br/>regression surface"]:::source
+  Mixed["Mixed mode<br/>brownfield shell first,<br/>greenfield intake for new artifact"]:::source
+
+  Tooling["Pre-flight tooling<br/>and native harness checks"]:::checker
+  Graph{"Graphify available<br/>and fresh/authorized?"}:::optional
+  Terrain["Optional terrain query<br/>orientation only"]:::optional
+  Gemba["Live-file Gemba<br/>confirms truth before mutation"]:::source
+
+  SmokeA["Smoke A<br/>baseline before mutation"]:::checker
+  Patch["Patch owner/source<br/>bounded P0 -> P1 -> P2"]:::source
+  Generated{"Generated surface<br/>affected?"}:::generated
+  Refresh["Refresh from source<br/>run generator/check mode"]:::generated
+  SmokeB["Smoke B<br/>post-change comparison"]:::checker
+  Worktree["Complete repo-state check<br/>baseline vs working tree<br/>staged, unstaged, deleted,<br/>untracked"]:::checker
+
+  Regression{"Regression or<br/>failed gate?"}:::audit
+  Andon["Andon / Hansei<br/>focused countermeasure<br/>or handoff"]:::blocker
+  Trace["Ledger closure + trace<br/>commit body or proposed body<br/>AGENTS_UPDATE_DECISION"]:::audit
+
+  Active{"ActiveGraph configured?"}:::optional
+  Custody["Optional custody events<br/>after evidence exists"]:::optional
+  Markdown["Markdown ledger<br/>and final report fallback"]:::audit
+
+  Final["Final audit<br/>re-check original criteria<br/>and release boundaries"]:::audit
+  Gaps{"Audit gaps?"}:::audit
+  Handoff(["AUDIT_HANDOFF<br/>or focused audit-fix round"]):::blocker
+  AuditDone(["AUDIT_COMPLETE"]):::success
+  RunDone(["IMPLEMENTAUDIT_RUN_COMPLETE"]):::success
+  ReleaseGate{"Separate release /<br/>provenance gate<br/>explicitly authorized?"}:::release
+  Release["Tag / release / asset<br/>checksum manifest only if<br/>produced and verified"]:::release
+  NoRelease["No tag, release,<br/>publication, or provenance"]:::audit
+
+  Input --> Safety --> Unsafe
+  Unsafe -->|yes| OwnerStop
+  Unsafe -->|no| Route
+  Route -->|greenfield| Green --> Tooling
+  Route -->|brownfield| Brown --> Tooling
+  Route -->|mixed| Mixed --> Tooling
+  Tooling --> Graph
+  Graph -->|yes| Terrain --> Gemba
+  Graph -->|absent / stale / unauthorized| Gemba
+  Gemba --> SmokeA --> Patch --> Generated
+  Generated -->|yes| Refresh --> SmokeB
+  Generated -->|no| SmokeB
+  SmokeB --> Worktree --> Regression
+  Regression -->|yes| Andon --> SmokeA
+  Regression -->|blocked| Handoff
+  Regression -->|no| Trace
+  Trace --> Active
+  Active -->|yes| Custody --> Final
+  Active -->|absent| Markdown --> Final
+  Final --> Gaps
+  Gaps -->|yes| Handoff
+  Handoff -->|fixable| Final
+  Gaps -->|no| AuditDone --> RunDone --> ReleaseGate
+  ReleaseGate -->|yes| Release
+  ReleaseGate -->|no| NoRelease
+
+  classDef human fill:#fef3c7,stroke:#d97706,color:#111827
+  classDef source fill:#e0f2fe,stroke:#0284c7,color:#111827
+  classDef generated fill:#ede9fe,stroke:#7c3aed,color:#111827
+  classDef checker fill:#dcfce7,stroke:#16a34a,color:#111827
+  classDef audit fill:#f1f5f9,stroke:#475569,color:#111827
+  classDef optional fill:#f0fdf4,stroke:#65a30d,color:#111827,stroke-dasharray: 4 3
+  classDef release fill:#fff7ed,stroke:#ea580c,color:#111827
+  classDef success fill:#d1fae5,stroke:#059669,color:#064e3b
+  classDef blocker fill:#fee2e2,stroke:#dc2626,color:#7f1d1d

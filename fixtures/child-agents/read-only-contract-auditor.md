@@ -24,8 +24,16 @@ Output shape:
 ```text
 Reviewer:
 Scope:
-Findings:
-Evidence:
-Recommended owner/source:
-Boundary confirmation:
+Read-only confirmation:
+Verdict:
+Files inspected:
+Commands run:
+Findings table:
+Required patches:
+Required fixtures / canaries:
+What closes:
+What remains:
+Next smallest safe action:
+Evidence boundary:
+AGENTS_UPDATE_DECISION input:
 ```
