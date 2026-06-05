@@ -48,6 +48,7 @@ asset = Path(sys.argv[1]).resolve()
 
 include_roots = [
     Path("skills"),
+    Path("docs/diagrams"),
     Path(".claude-plugin/plugin.json"),
     Path(".claude-plugin/marketplace.json"),
     Path("IMPLEMENTAUDIT.md"),
@@ -60,6 +61,7 @@ required_files = [
     "skills/references/planning-depth.md",
     "skills/references/phase-design.md",
     "skills/references/goal-format.md",
+    "skills/references/transcript-contract.md",
     "skills/references/child-agents.md",
     "skills/scripts/detect-env.sh",
     "skills/scripts/detect-stack.sh",
@@ -72,6 +74,9 @@ required_files = [
     "skills/templates/PROTOCOL.md",
     ".claude-plugin/plugin.json",
     ".claude-plugin/marketplace.json",
+    "docs/diagrams/tooling-architecture.mmd",
+    "docs/diagrams/invocation-modes.mmd",
+    "docs/diagrams/execution-spine.mmd",
     "IMPLEMENTAUDIT.md",
     "README.md",
     "CHANGELOG.md",
@@ -153,8 +158,8 @@ with zipfile.ZipFile(asset) as zf:
         marketplace = json.loads((extracted / ".claude-plugin/marketplace.json").read_text())
         if plugin.get("name") != "implementaudit":
             raise SystemExit("extracted plugin name must be implementaudit")
-        if plugin.get("version") != "0.2.0":
-            raise SystemExit("extracted plugin version must be 0.2.0")
+        if plugin.get("version") != "0.2.1":
+            raise SystemExit("extracted plugin version must be 0.2.1")
         if plugin.get("skills") != "./skills/":
             raise SystemExit("extracted plugin skills path must be ./skills/")
         if not marketplace.get("plugins"):

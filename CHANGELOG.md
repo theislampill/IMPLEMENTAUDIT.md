@@ -8,10 +8,69 @@ not from verified tags, releases, publication, marketplace verification, or
 provenance.
 
 Plugin manifest versions are host-facing package metadata. Project milestone
-`v0.2.0.0` maps to plugin manifest version `0.2.0` because no local schema
+`v0.2.1.0` maps to plugin manifest version `0.2.1` because no local schema
 evidence proved four-component plugin manifest versions are accepted.
 
-## [v0.2.0.0] - Unreleased
+## [v0.2.1.0] - 2026-06-05
+
+### Added
+
+- Added a standalone transcript contract reference for planner, phase, failure,
+  final-audit, handoff, and completion markers.
+- Added marker-order validation for transcript skeletons so
+  `AUDIT_COMPLETE` must precede `IMPLEMENTAUDIT_RUN_COMPLETE`, and handoff or
+  failure transcripts cannot also claim run completion.
+- Added a zero-optional-tool worked example showing complete Markdown fallback
+  behavior when Graphify and ActiveGraph are absent.
+- Added generated README Mermaid diagram sources under `docs/diagrams/` plus a
+  generator/check script to prevent hand-maintained diagram drift.
+- Added focused shell tests for marker ordering, release asset reproducibility,
+  checksum generation, blocked-path exclusion, mirror drift, and manual skill
+  copy smoke behavior.
+- Added a GitHub Actions validation workflow that mirrors the local package
+  checks on pushes and pull requests.
+- Added host-claim validation to guard unsupported install, marketplace,
+  license, publication, and provenance claims.
+
+### Changed
+
+- Bumped plugin manifest metadata from `0.2.0` to `0.2.1` for the
+  `v0.2.1.0` project milestone.
+- Tightened `scripts/verify-package.sh` to enforce the new transcript,
+  diagram, fixture, test, host-claim, and release-asset checks.
+- Extended release asset validation to include diagram sources and the
+  transcript contract reference while preserving the `skills/` payload contract.
+- Updated `AGENTS.md`, README, and package docs so the durable repo contract
+  names v0.2.1.0 as the current milestone and keeps checksums separate from
+  signatures, attestations, SBOMs, licenses, marketplace verification, and host
+  install verification.
+
+### Upgrade notes
+
+- After a release, reinstall or update the skill in the host you use. Do not
+  assume a local copied skill has updated just because the GitHub repo has a new
+  release.
+- Codex manual installs do not have a marketplace auto-update path documented in
+  this repo. Repeat the README's flat-layout copy step after each release:
+  `cp -R skills/* ~/.codex/skills/implementaudit/` or the documented PowerShell
+  `Copy-Item -Recurse -Force .\skills\* "$env:USERPROFILE\.codex\skills\implementaudit\"`.
+- Claude Code/plugin users should use the host's documented plugin update or
+  reload flow when available. This changelog does not claim that plugin update,
+  marketplace refresh, install, publication, or provenance behavior has been
+  verified by host execution.
+
+### Safety
+
+- Preserved the default stance that commit, push, tag, release, publication,
+  provenance, Graphify indexing, and ActiveGraph setup/export require separate
+  explicit authorization.
+- Preserved Graphify as optional orientation evidence only and ActiveGraph as
+  optional custody evidence only.
+- Added checksum-manifest provenance support only for release gates where the
+  checksum file is actually generated, validated, and attached.
+- Kept LICENSE as an owner decision because no `LICENSE` file is present.
+
+## [v0.2.0.0] - 2026-06-05
 
 ### Added
 
@@ -61,10 +120,10 @@ evidence proved four-component plugin manifest versions are accepted.
   reload flow when available. This changelog does not claim that plugin update,
   marketplace refresh, install, release, publication, or provenance behavior has
   been verified.
-- Future `v0.2.0.0` GitHub release notes should include this same upgrade
-  guidance if an explicit release gate authorizes publishing them. This
-  changelog entry is not itself a release note, release, publication, or
-  provenance claim.
+- The GitHub release for `v0.2.0.0` includes the `IMPLEMENTAUDIT.skill` release
+  asset. No checksum manifest, attestation, signing, SBOM, license, install
+  verification, marketplace verification, or provenance beyond the release
+  asset upload is claimed for that milestone.
 
 ### Safety
 
@@ -90,9 +149,10 @@ evidence proved four-component plugin manifest versions are accepted.
 ## [v0.1.0.0] - Reconstructed pre-package baseline
 
 This is the polished single-file `/implementaudit` baseline before the
-`v0.2.0.0` package migration. The historical local tag target is reconstructed
-from `origin/main` at commit `bb3aa37`; it is not a GitHub release, package
-publication, marketplace verification, pushed tag, or provenance claim.
+`v0.2.0.0` package migration. The historical tag target is reconstructed from
+`origin/main` at commit `bb3aa37`. A GitHub release for `v0.1.0.0` exists as a
+pre-package baseline and does not include `IMPLEMENTAUDIT.skill`, package
+publication, marketplace verification, host install verification, or provenance.
 
 ### Added
 
@@ -119,8 +179,8 @@ publication, marketplace verification, pushed tag, or provenance claim.
 - Reconstructed from repo history, including the 2026-05-31 documentation
   commits `7d2119b`, `455f410`, `ec640db`, `e8b1bbe`, `62ea480`, and
   `bb3aa37`.
-- No pushed tag, GitHub release, marketplace verification, package publication,
-  or provenance is claimed for this reconstructed entry.
+- No package asset, marketplace verification, package publication, host install
+  verification, or provenance is claimed for this reconstructed entry.
 
 ## [v0.0.1] - Reconstructed rough draft
 

@@ -1,0 +1,34 @@
+name: validate
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate whitespace
+        run: git diff --check
+
+      - name: Validate plugin JSON
+        run: |
+          python -m json.tool .claude-plugin/plugin.json >/dev/null
+          python -m json.tool .claude-plugin/marketplace.json >/dev/null
+
+      - name: Verify package contract
+        run: bash scripts/verify-package.sh
+
+      - name: Validate phase template
+        run: bash skills/scripts/validate-phase.sh skills/templates/phase-goal.txt
+
+      - name: Run focused behavior tests
+        run: |
+          bash tests/marker-order.test.sh
+          bash tests/release-asset.test.sh
+          bash tests/install-copy-smoke.test.sh

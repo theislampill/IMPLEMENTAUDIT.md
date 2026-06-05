@@ -109,18 +109,33 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
 ├── CHANGELOG.md                Project milestone notes. Keep-a-Changelog style.
 ├── README.md                   Public-facing: what it is, install, use, Mermaid flow charts.
 ├── CONTRIBUTING.md             Short onboarding: what ImplementAudit is/is not, minimum method, worked flow.
+├── .github/workflows/
+│   └── validate.yml            GitHub Actions validation mirror of local package checks.
+├── docs/diagrams/              Mermaid sources generated into README.md.
+│   ├── tooling-architecture.mmd
+│   ├── invocation-modes.mmd
+│   └── execution-spine.mmd
 ├── fixtures/
+│   ├── child-agents/           Scoped AGENTS hierarchy and reviewer fixtures.
+│   ├── zero-optional-tool/     Complete Markdown fallback example.
 │   └── simple-audit/
 │       ├── AUDIT.md
 │       └── EXPECTED-LEDGER.md
 ├── scripts/
-│   └── verify-package.sh       Repo/package validation.
+│   ├── build-release-asset.sh  Build/extract-check IMPLEMENTAUDIT.skill.
+│   ├── check-host-claims.sh    Guard unsupported host/release/license claims.
+│   ├── check-marker-order.sh   Guard final-audit transcript marker order.
+│   ├── generate-readme-diagrams.sh Generate/check README Mermaid blocks.
+│   ├── verify-package.sh       Repo/package validation.
+│   └── write-release-checksums.sh Create/check release checksum manifest.
+├── tests/                      Focused shell tests for package behavior.
 └── skills/
     ├── SKILL.md                Canonical skill source.
     ├── references/             Progressive-disclosure docs the agent reads when needed.
     │   ├── planning-depth.md   What makes a plan deserve ...
     │   ├── phase-design.md     How to slice phases (adaptive count, no cap).
     │   ├── goal-format.md      /goal mechanics ...
+    │   ├── transcript-contract.md Host/wrapper transcript marker contract.
     │   └── child-agents.md     Bounded review loops and non-authority boundaries.
     ├── scripts/                Bash scripts the planner executes during stages.
     │   ├── detect-env.sh       Greenfield env recon.
@@ -141,7 +156,7 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
 - **Repo-only**: `README.md`, `CHANGELOG.md`, `AGENTS.md`, `CLAUDE.md`, `CONTRIBUTING.md`, fixtures, root scripts, and `.gitignore`.
 - **Marketplace entry**: `.claude-plugin/marketplace.json` points at the plugin root. Do not claim marketplace behavior was verified unless actually tested.
 - **License**: no `LICENSE` file is present until the owner selects a license and supplies license evidence.
-- **Versioning**: project milestone `v0.2.0.0` maps to plugin manifest version `0.2.0`. The manifest uses host-conservative package metadata; `v0.2.0.0` is not a tag, release, publication, or provenance claim.
+- **Versioning**: project milestone `v0.2.1.0` maps to plugin manifest version `0.2.1`. The manifest uses host-conservative package metadata; project milestones are not tags, releases, publication, or provenance claims until the separate release/provenance gate actually performs and verifies those actions.
 
 ## How the skill works
 
@@ -399,9 +414,9 @@ Durable child/subagent lessons should flow into the nearest applicable `AGENTS.m
 CHANGELOG:
 
 - Keep-a-Changelog style.
-- Keep the current unreleased project milestone at top, e.g. `[v0.2.0.0] - Unreleased`.
+- Keep the current project milestone at top, e.g. `[v0.2.1.0] - Unreleased` before release or `[v0.2.1.0] - <date>` only when the date is grounded.
 - Match manifest version if one exists.
-- Current project milestone is `v0.2.0.0`; plugin manifest version is `0.2.0` unless host evidence supports a four-component manifest version.
+- Current project milestone is `v0.2.1.0`; plugin manifest version is `0.2.1` unless host evidence supports a four-component manifest version.
 - Do not claim tags, releases, provenance, publication, or verified install without evidence.
 - Behavior/package changes should be produced by running `/implementaudit` on this repo itself.
 - Changelog entries should preserve the causal chain: finding/gap, root cause when known, countermeasure, evidence, and remaining risk.
@@ -432,6 +447,7 @@ test -f AGENTS.md
 test -f CHANGELOG.md
 test -f skills/SKILL.md
 test -f skills/references/child-agents.md
+test -f skills/references/transcript-contract.md
 test -f skills/templates/PROTOCOL.md
 test -f skills/templates/ROADMAP.md
 test -f skills/templates/STATE.md
@@ -439,8 +455,19 @@ test -f skills/templates/phase-goal.txt
 test -f skills/templates/child-agent-report.md
 test -f skills/scripts/validate-phase.sh
 test -f fixtures/child-agents/AGENTS.md
+test -f fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md
+test -f fixtures/zero-optional-tool/COMPLETE-RUN.md
+test -f docs/diagrams/tooling-architecture.mmd
+test -f docs/diagrams/invocation-modes.mmd
+test -f docs/diagrams/execution-spine.mmd
 python -m json.tool .claude-plugin/plugin.json >/dev/null
 python -m json.tool .claude-plugin/marketplace.json >/dev/null
+bash scripts/generate-readme-diagrams.sh --check
+bash scripts/check-marker-order.sh fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md
+bash scripts/check-host-claims.sh
+bash tests/marker-order.test.sh
+bash tests/release-asset.test.sh
+bash tests/install-copy-smoke.test.sh
 ```
 
 ## Editing rules
@@ -478,6 +505,7 @@ grep -R "AGENTS_UPDATE_DECISION" -n skills IMPLEMENTAUDIT.md
 grep -R "AUDIT_COMPLETE" -n skills IMPLEMENTAUDIT.md
 grep -R "IMPLEMENTAUDIT_RUN_COMPLETE" -n skills IMPLEMENTAUDIT.md
 grep -R ".IMPLEMENTAUDIT" -n skills IMPLEMENTAUDIT.md README.md AGENTS.md
+grep -R "v0.2.1.0" -n README.md CHANGELOG.md AGENTS.md
 grep -R "v0.2.0.0" -n README.md CHANGELOG.md AGENTS.md
 grep -R "v0.1.0" -n CHANGELOG.md
 grep -R "v0.0.1" -n CHANGELOG.md
@@ -508,7 +536,7 @@ Codex has no marketplace auto-update path. Manual skill copy must be repeated wh
 
 ## Release asset gate
 
-For the `v0.2.0.0` release gate, the GitHub release asset name is
+For package release gates, including `v0.2.1.0`, the GitHub release asset name is
 `IMPLEMENTAUDIT.skill`.
 
 No local repo evidence proves `.skill` is a universal host-standard archive
@@ -521,9 +549,9 @@ bash scripts/build-release-asset.sh
 ```
 
 The artifact contains the packaged skill payload required for installation:
-`skills/`, `.claude-plugin/` metadata, `IMPLEMENTAUDIT.md`, `README.md`, and
-`CHANGELOG.md`. It must include the `skills/` layout, references, scripts, and
-templates.
+`skills/`, `docs/diagrams/`, `.claude-plugin/` metadata, `IMPLEMENTAUDIT.md`,
+`README.md`, and `CHANGELOG.md`. It must include the `skills/` layout,
+references, scripts, and templates.
 
 The artifact must not include `.IMPLEMENTAUDIT/` run artifacts, local smoke
 debris, Graphify outputs, ActiveGraph stores, secrets, git metadata, or
@@ -535,6 +563,17 @@ Attach `IMPLEMENTAUDIT.skill` to GitHub Releases only during an explicitly
 authorized release gate. Do not upload the asset during ordinary audit, local
 commit, or push-only gates. Building or validating the local asset is not a
 release, publication, marketplace verification, or provenance claim.
+
+If provenance is explicitly authorized, publish only the provenance artifacts
+that were actually generated and validated. For `v0.2.1.0`, the repo-supported
+provenance surface is a checksum manifest produced by:
+
+```bash
+bash scripts/write-release-checksums.sh
+```
+
+Do not call a checksum manifest a signature, attestation, SBOM, license,
+marketplace verification, or install verification.
 
 ## Transcript markers (load-bearing)
 
@@ -564,7 +603,8 @@ These are not part of the `/goal` end-state — the `/goal` session hasn't start
 
 ### Other v0.x state
 
-Full format spec: `skills/references/goal-format.md`.
+Full format specs: `skills/references/goal-format.md` and
+`skills/references/transcript-contract.md`.
 
 ## Gotchas
 
@@ -586,6 +626,7 @@ Required reference set:
 - `planning-depth.md` — when ImplementAudit should synthesize a goal vs govern a supplied one.
 - `phase-design.md` — how to slice audit closure into verifiable phases.
 - `goal-format.md` — `/goal` handoff shape, transcript markers, final audit end-state.
+- `transcript-contract.md` — marker ordering, handoff/completion exclusivity, and host/wrapper end-state checks.
 - `child-agents.md` — bounded child/subagent review loops and non-authority boundaries.
 
 Optional later references:

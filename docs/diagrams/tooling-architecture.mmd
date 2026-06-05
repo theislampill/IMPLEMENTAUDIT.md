@@ -1,0 +1,14 @@
+flowchart LR
+  I["ImplementAudit<br/>officer / method / standard"]
+  G["Graphify<br/>terrain / repo map / orientation"]
+  A["ActiveGraph<br/>custody / event evidence"]
+  C["Capability Ledger<br/>derived work history"]
+  M["Markdown fallback<br/>always valid when optional tools are absent"]
+  L["Live files<br/>source of truth"]
+
+  G -->|where to look| I
+  I -->|must confirm in| L
+  I -->|gate passages, smokes, Andons, closures| A
+  A -->|what happened, not proof by itself| C
+  I -->|competence standard| C
+  I -->|when tools are absent| M

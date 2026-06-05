@@ -23,10 +23,15 @@ require_file .gitignore
 require_file .claude-plugin/plugin.json
 require_file .claude-plugin/marketplace.json
 require_file scripts/build-release-asset.sh
+require_file scripts/check-host-claims.sh
+require_file scripts/check-marker-order.sh
+require_file scripts/generate-readme-diagrams.sh
+require_file scripts/write-release-checksums.sh
 require_file skills/SKILL.md
 require_file skills/references/planning-depth.md
 require_file skills/references/phase-design.md
 require_file skills/references/goal-format.md
+require_file skills/references/transcript-contract.md
 require_file skills/references/child-agents.md
 require_file skills/scripts/detect-env.sh
 require_file skills/scripts/detect-stack.sh
@@ -39,10 +44,22 @@ require_file skills/templates/child-agent-report.md
 require_file skills/templates/PROTOCOL.md
 require_file fixtures/simple-audit/AUDIT.md
 require_file fixtures/simple-audit/EXPECTED-LEDGER.md
+require_file fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md
+require_file fixtures/zero-optional-tool/COMPLETE-RUN.md
 require_file fixtures/child-agents/AGENTS.md
+require_file fixtures/child-agents/README.md
+require_file fixtures/child-agents/read-only-contract-auditor.md
+require_file fixtures/child-agents/adversarial-behavioral-auditor.md
 require_file fixtures/child-agents/read-only-contract-auditor-report.md
 require_file fixtures/child-agents/adversarial-behavioral-auditor-report.md
 require_file fixtures/child-agents/normalized-findings-ledger.md
+require_file docs/diagrams/tooling-architecture.mmd
+require_file docs/diagrams/invocation-modes.mmd
+require_file docs/diagrams/execution-spine.mmd
+require_file tests/marker-order.test.sh
+require_file tests/release-asset.test.sh
+require_file tests/install-copy-smoke.test.sh
+require_file .github/workflows/validate.yml
 
 if command -v python >/dev/null 2>&1; then
   py_cmd=(python)
@@ -68,8 +85,8 @@ if plugin.get("skills") != "./skills/":
     raise SystemExit("plugin skills path must be ./skills/")
 if not plugin.get("version"):
     raise SystemExit("plugin version is required")
-if plugin.get("version") != "0.2.0":
-    raise SystemExit("plugin version must be 0.2.0 for project milestone v0.2.0.0")
+if plugin.get("version") != "0.2.1":
+    raise SystemExit("plugin version must be 0.2.1 for project milestone v0.2.1.0")
 
 marketplace = json.loads(Path(".claude-plugin/marketplace.json").read_text())
 plugins = marketplace.get("plugins")
@@ -106,15 +123,10 @@ grep -R "\.IMPLEMENTAUDIT" -n skills IMPLEMENTAUDIT.md README.md AGENTS.md >/dev
 grep -R "child-agent reports are review evidence only" -in skills README.md AGENTS.md fixtures >/dev/null || fail "child-agent evidence boundary is missing"
 grep -R "AUDIT_HANDOFF.*conditional\|AUDIT_HANDOFF.*handoff path" -in skills IMPLEMENTAUDIT.md AGENTS.md >/dev/null || fail "AUDIT_HANDOFF conditional boundary is missing"
 grep -R "AGENTS_UPDATE_DECISION" -n skills/templates/phase-goal.txt skills/templates/STATE.md >/dev/null || fail "AGENTS_UPDATE_DECISION template coverage is missing"
-grep -R "v0.2.0.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.0.0 is not documented"
+grep -R "v0.2.1.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.1.0 is not documented"
+grep -R "v0.2.0.0" -n CHANGELOG.md README.md AGENTS.md >/dev/null || fail "project milestone v0.2.0.0 history is not documented"
 grep -R "v0.1.0" -n CHANGELOG.md >/dev/null || fail "reconstructed v0.1.0 changelog entry missing"
 grep -R "v0.0.1" -n CHANGELOG.md >/dev/null || fail "reconstructed v0.0.1 changelog entry missing"
-if grep -n -i -E "verified release|released on|tagged v|published package|package publication verified|marketplace verified|provenance generated" CHANGELOG.md >/tmp/implementaudit-changelog-claims.txt; then
-  cat /tmp/implementaudit-changelog-claims.txt >&2
-  rm -f /tmp/implementaudit-changelog-claims.txt
-  fail "CHANGELOG.md contains an unsupported release/publication/provenance claim"
-fi
-rm -f /tmp/implementaudit-changelog-claims.txt
 
 legacy_a="Super"
 legacy_b="goal"
@@ -143,6 +155,12 @@ rm -f /tmp/implementaudit-child-agents-grep.txt
 grep -R "Graphify output is orientation evidence, not proof" -n skills IMPLEMENTAUDIT.md README.md AGENTS.md >/dev/null || fail "Graphify proof boundary is missing"
 grep -R "ActiveGraph custody is not correctness proof" -n skills IMPLEMENTAUDIT.md README.md AGENTS.md >/dev/null || fail "ActiveGraph proof boundary is missing"
 
+bash scripts/generate-readme-diagrams.sh --check
+bash scripts/check-marker-order.sh fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md fixtures/zero-optional-tool/COMPLETE-RUN.md
+bash scripts/check-host-claims.sh
+bash tests/marker-order.test.sh
+bash tests/release-asset.test.sh
+bash tests/install-copy-smoke.test.sh
 bash scripts/build-release-asset.sh --check
 
 git diff --check

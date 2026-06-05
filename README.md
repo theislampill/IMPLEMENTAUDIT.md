@@ -37,6 +37,8 @@ claims, and closes every item terminally.
 
 Current optional-tooling architecture:
 
+<!-- BEGIN: implementaudit-diagram:tooling-architecture -->
+
 ```mermaid
 flowchart LR
   I["ImplementAudit<br/>officer / method / standard"]
@@ -54,6 +56,8 @@ flowchart LR
   I -->|when tools are absent| M
 ```
 
+<!-- END: implementaudit-diagram:tooling-architecture -->
+
 Graphify and ActiveGraph are optional. `/implementaudit` remains fully usable
 when neither tool is installed.
 
@@ -65,6 +69,8 @@ the audit trail when available.
 ## Invocation modes
 
 `/implementaudit` has three invocation shapes:
+
+<!-- BEGIN: implementaudit-diagram:invocation-modes -->
 
 ```mermaid
 flowchart TD
@@ -79,6 +85,8 @@ flowchart TD
   I --> J["Gemba + alignment"]
   J --> K["Optional ready-to-paste /goal Using /implementaudit ..."]
 ```
+
+<!-- END: implementaudit-diagram:invocation-modes -->
 
 - **Embedded governance mode**: a host goal/task/plan already exists, such as
   `/goal using /implementaudit ...`. ImplementAudit governs that active target
@@ -137,6 +145,8 @@ interchangeable. Proof claims must not exceed the evidence type.
 The gate diagram shows the normal path and the places where the method must
 stop, recover, or hand off instead of pretending the run is complete.
 
+<!-- BEGIN: implementaudit-diagram:execution-spine -->
+
 ```mermaid
 flowchart TD
   A["Safety read<br/>repo policy + AGENTS.md"] --> B{"Unsafe, unauthorized,<br/>or policy conflict?"}
@@ -169,6 +179,8 @@ flowchart TD
   U --> Z{"No AUDIT_COMPLETE?"}
   Z -->|then| AA["No IMPLEMENTAUDIT_RUN_COMPLETE"]
 ```
+
+<!-- END: implementaudit-diagram:execution-spine -->
 
 | Gate | Purpose |
 |---|---|
@@ -211,7 +223,7 @@ The manifest JSON is validated by `scripts/verify-package.sh`. This README does
 not claim that Claude Code marketplace behavior, Codex installation, release,
 publication, or provenance has been verified.
 
-Current project milestone: `v0.2.0.0`. Plugin manifest version: `0.2.0`.
+Current project milestone: `v0.2.1.0`. Plugin manifest version: `0.2.1`.
 No local schema evidence proved four-component plugin manifest versions are
 accepted, so the manifest uses host-conservative package metadata while the
 project milestone is recorded in docs and changelog. This is not a tag, release,
@@ -415,7 +427,7 @@ been verified.
 
 ## Release asset notes
 
-For the `v0.2.0.0` release gate, the GitHub release asset name is
+For package release gates, including `v0.2.1.0`, the GitHub release asset name is
 `IMPLEMENTAUDIT.skill`.
 
 No local evidence proves `.skill` is a universal host-standard archive format.
@@ -424,6 +436,7 @@ a ZIP-format archive containing the installable skill payload:
 
 ```text
 skills/
+docs/diagrams/
 .claude-plugin/
 IMPLEMENTAUDIT.md
 README.md
@@ -438,6 +451,11 @@ bash scripts/build-release-asset.sh
 
 `scripts/verify-package.sh` also runs the builder in `--check` mode and validates
 the extracted package shape.
+
+When provenance is explicitly authorized for a release gate, this repo may
+publish a checksum manifest such as `CHECKSUMS.txt` for `IMPLEMENTAUDIT.skill`.
+A checksum manifest is not a signature, attestation, SBOM, license, marketplace
+verification, or install verification.
 
 The artifact must not include `.IMPLEMENTAUDIT/` run artifacts, local smoke
 debris, Graphify outputs, ActiveGraph stores, secrets, git metadata, or
@@ -494,6 +512,17 @@ message/body instead.
 
 `AGENTS.md` is the authoritative repository contract. `IMPLEMENTAUDIT.md` and
 `skills/SKILL.md` are synchronized under the current flat package contract.
+
+README Mermaid diagrams are generated from `docs/diagrams/*.mmd`; do not edit
+diagram blocks by hand. Refresh or check them with:
+
+```bash
+bash scripts/generate-readme-diagrams.sh
+bash scripts/generate-readme-diagrams.sh --check
+```
+
+Validation scripts are POSIX shell scripts. On Windows, run them from Git Bash
+or WSL.
 
 Before committing package changes, run:
 

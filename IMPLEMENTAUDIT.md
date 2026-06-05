@@ -248,6 +248,7 @@ When goal synthesis or phase planning is needed, load the packaged references wh
 - `skills/references/planning-depth.md`
 - `skills/references/phase-design.md`
 - `skills/references/goal-format.md`
+- `skills/references/transcript-contract.md`, when a host or wrapper needs marker-order/end-state rules
 - `skills/references/child-agents.md`, when a child-agent review loop is warranted
 
 Planner transcript markers:

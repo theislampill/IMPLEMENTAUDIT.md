@@ -23,6 +23,9 @@ tool install, indexing, and custody export are separate explicit gates.
 9. Use local commits only when explicitly authorized, and never push without
    separate authorization.
 
+Validation scripts are POSIX shell scripts. On Windows, run them from Git Bash
+or WSL.
+
 ## Worked flow
 
 ```text

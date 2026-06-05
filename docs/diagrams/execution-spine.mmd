@@ -1,0 +1,30 @@
+flowchart TD
+  A["Safety read<br/>repo policy + AGENTS.md"] --> B{"Unsafe, unauthorized,<br/>or policy conflict?"}
+  B -->|yes| C["STOP / OWNER DECISION"]
+  B -->|no| D["Input gate"]
+  D --> E["Pre-flight / tooling detection<br/>source/generator/baseline state"]
+  E --> F{"Graphify available<br/>and fresh/authorized?"}
+  F -->|yes| G["Graphify terrain query<br/>orientation only"]
+  G --> H["Owner/source candidates<br/>dependency paths<br/>generated-artifact hints<br/>impact/smoke candidates"]
+  F -->|absent/stale/unauthorized| I["Ordinary Gemba fallback"]
+  H --> J["Live-file Gemba confirms<br/>before mutation"]
+  I --> J
+  J --> K["Smoke A<br/>baseline before mutation"]
+  K --> L["Implement<br/>P0 -> P1 -> P2<br/>owner/source patch"]
+  L --> M["Smoke B<br/>post-change comparison"]
+  M --> N{"Regression?"}
+  N -->|yes| O["Andon / Hansei<br/>failure recovery"]
+  O --> K
+  N -->|no| P["Ledger closure + trace<br/>commit body or proposed body<br/>AGENTS_UPDATE_DECISION"]
+  P --> Q{"ActiveGraph configured?"}
+  Q -->|yes| R["Custody events<br/>Smoke A/B, Andon, Hansei,<br/>ledger closure"]
+  R --> S["Capability Ledger<br/>derived from evidenced runs"]
+  Q -->|absent| T["Markdown ledger<br/>final report fallback"]
+  S --> U["Final audit"]
+  T --> U
+  U --> V{"Audit gaps?"}
+  V -->|yes| W["audit-fix round<br/>or AUDIT_HANDOFF"]
+  V -->|no| X["AUDIT_COMPLETE"]
+  X --> Y["IMPLEMENTAUDIT_RUN_COMPLETE"]
+  U --> Z{"No AUDIT_COMPLETE?"}
+  Z -->|then| AA["No IMPLEMENTAUDIT_RUN_COMPLETE"]
