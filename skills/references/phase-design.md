@@ -48,8 +48,8 @@ AUDIT_START
 AUDIT_VERIFY
 AUDIT_GAPS
 AUDIT_COMPLETE
-AUDIT_HANDOFF
 IMPLEMENTAUDIT_RUN_COMPLETE
 ```
 
 `IMPLEMENTAUDIT_RUN_COMPLETE` may appear only after `AUDIT_COMPLETE`.
+`AUDIT_HANDOFF` is a handoff path only when gaps, blockers, or handoff-required caveats remain; do not print it with `IMPLEMENTAUDIT_RUN_COMPLETE`.

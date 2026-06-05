@@ -19,9 +19,15 @@ Runtime copy target: `.IMPLEMENTAUDIT/STATE.md`
 
 ## AGENTS_UPDATE_DECISION
 
-Status: not evaluated
+Status: pending
 
 Reason:
+
+Scope:
+
+Evidence location:
+
+Final audit rule: this must be `updated`, `not warranted`, or `OWNER DECISION` before `IMPLEMENTAUDIT_RUN_COMPLETE`.
 
 ## Local git trace
 

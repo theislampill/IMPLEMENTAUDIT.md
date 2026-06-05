@@ -1,21 +1,21 @@
 ---
 name: implementaudit
 description: >
-  Implement audit findings from an input report safely and verifiably using
+  Implement audit findings, handoffs, goals, gaps, and implementation plans safely and verifiably using
   PDCA, Gemba, Smoke Before Claim, Andon, Hansei, 5 Whys, and Plan Closure.
   Activate when the user invokes /implementaudit, pipes an audit into it,
   or asks to implement findings from a handoff,
-  review, checklist, audit report, or implementation plan. Also activate when
+  review, checklist, goal, task, gap, audit report, or implementation plan. Also activate when
   the user says "implement these findings", "act on this audit", "close these
   items", or "work through this handoff". Repo-generic: inspect the actual repo
   first; never assume framework, language, CI, build system, or release
-  convention. Does not commit, push, tag, publish, or release unless the input
+  convention. Does not commit, push, tag, publish, release, or claim provenance unless the input
   explicitly authorizes that action and repo instructions allow it.
 ---
 
 # /implementaudit
 
-Convert audit findings, handoffs, reviews, or checklists into safe, verified repo changes.
+Convert audit findings, handoffs, reviews, goals, tasks, gaps, or checklists into safe, verified repo changes.
 
 Every finding closes. No orphan items. No unsafe actions. No proof claim without evidence.
 
@@ -47,6 +47,7 @@ These invariants shape the run; they are not just final checks.
 - Every patch maps to a ledger item and owner/source.
 - Owner/source is patched instead of the nearest symptom.
 - Generated artifacts follow generator-first policy unless repo policy explicitly permits direct edits.
+- Child-agent or subagent review loops are bounded review evidence only; they do not authorize edits, commits, pushes, installs, indexing, exports, releases, publication, or provenance.
 - Graphify and ActiveGraph remain optional; absence of either tool is not an error.
 - ActiveGraph-backed runs derive Capability Ledger entries from custody events by default; Markdown ledger/final report fallback remains valid when ActiveGraph is absent.
 - Local commit, push, tag, release, publication, and provenance remain separate explicit gates.
@@ -107,7 +108,7 @@ Smallest passing check or next action:
 Default stance unless explicitly authorized:
 
 ```text
-No commit. No push. No tag. No release. No publication.
+No commit. No push. No tag. No release. No publication. No provenance.
 ```
 
 ---
@@ -229,6 +230,35 @@ Next action: request valid input from user.
 Do not proceed until valid input is confirmed.
 
 If the user supplies corrected input after this STOP, restart at Step 2 with the new input. Do not reuse a partially normalized ledger from malformed input.
+
+---
+
+## 2a. Invocation shape and planning references
+
+Before planning or patching, identify the invocation shape:
+
+- `embedded governance`: the user already supplied a host goal/task/plan, especially inside `/goal using /implementaudit ...`.
+- `direct governance`: the user supplied a concrete audit, handoff, checklist, review, or bounded implementation plan.
+- `goal synthesis`: the user supplied only an idea, gap, incomplete target, or request for the next best implementation prompt.
+
+In embedded governance mode, do not print a second `/goal`. Govern the active target with the normal `/implementaudit` gates.
+
+When goal synthesis or phase planning is needed, load the packaged references when available:
+
+- `skills/references/planning-depth.md`
+- `skills/references/phase-design.md`
+- `skills/references/goal-format.md`
+- `skills/references/child-agents.md`, when a child-agent review loop is warranted
+
+Planner transcript markers:
+
+```text
+Self-critique:
+PREFLIGHT_GREEN
+PREFLIGHT_RED
+```
+
+`PREFLIGHT_RED` is not permission to bypass safety. Dispatch only when the failing baseline is classified as the audit target itself and the owner accepts that risk; unrelated or unclear baseline failures require Andon or OWNER DECISION.
 
 ---
 
@@ -479,9 +509,9 @@ Item dependencies (if any):
 Risk:
 Verification commands:
 Rollback:
-  Before commit (git)      -> git restore <file> | git checkout <file> | git stash
+  Before commit (git)      -> isolate/reverse only current-run edits after verifying unrelated dirty work is untouched
   After commit (git)       -> git revert <hash>  (preserves history; preferred)
-  Unpushed commit (git)    -> git reset --hard HEAD  (destructive; use with care)
+  Unpushed commit (git)    -> revert; reset only with explicit authorization and only when the target commit is solely current-run work
   Generated output         -> rerun source generator (after confirming generator is correct)
   Non-git / no VCS         -> restore from backup or cached baseline taken before Smoke A
 ```
@@ -529,12 +559,14 @@ For each item:
 6. Update ledger status and evidence.
 7. Continue to the next item.
 
-Mid-item blocker protocol: if a blocker is hit mid-patch, restore clean state before reporting.
+Mid-item blocker protocol: if a blocker is hit mid-patch, isolate the current-run patch before reporting. Do not use `git restore`, `git checkout`, `git reset`, or stash commands against paths with pre-existing or user-owned changes unless the user explicitly authorizes that exact operation and the target paths are verified.
 
-```bash
-git restore <affected_file>
-# or: git checkout <affected_file>
-# non-git: restore from backup
+```text
+Current-run patch isolation:
+Affected paths:
+Pre-existing dirty state checked:
+Safe reverse patch or backup restore available:
+Owner decision needed:
 ```
 
 Then use Andon, update the ledger as `blocked`, and continue if other items remain. Never leave files in a broken intermediate state.
@@ -776,6 +808,33 @@ Evidence boundaries:
 
 ---
 
+## 12b. Child-agent review loops
+
+Use child agents or subagents only as bounded review loops. They are not independent authorization authorities and their reports are review evidence, not proof by themselves.
+
+If the host supports real subagents and the user or run explicitly calls for them, use separate read-only roles when that improves audit quality. If the host does not support real subagents, simulate the roles as separate written audit passes and label them clearly.
+
+Recommended `/implementaudit` review pair:
+
+| Role | Scope | Output |
+|---|---|---|
+| Read-only contract auditor | Check whether repo/package claims match live files, manifests, templates, scripts, fixtures, and safety boundaries. | PASS / GAP / OWNER DECISION rows. |
+| Adversarial behavioral auditor | Try to find false completion paths, contradiction risks, weak evidence boundaries, authorization drift, marker drift, and repo-policy ambiguity. | exploit / risk / countermeasure / OWNER DECISION rows. |
+
+Rules:
+
+- Child agents must be read-only unless the user explicitly authorizes a disjoint write scope.
+- Child agents do not authorize edits, commits, pushes, installs, indexing, exports, releases, publication, provenance, or `AGENTS.md` changes.
+- The main `/implementaudit` agent must normalize child-agent findings into the implementation ledger before patching.
+- Child-agent reports do not replace Gemba. Inspect live files before changing or closing any item.
+- Durable repo-wide child/subagent rules belong in root `AGENTS.md`.
+- Subtree-specific routines belong in the nearest scoped `AGENTS.md`, or `AGENTS.override.md` when that host/repo convention is available and appropriate.
+- Packaged reference material such as `skills/references/child-agents.md` is explanatory guidance, not an instruction-precedence file.
+
+Specialist loops may include Graphify terrain reviewer, ActiveGraph custody verifier, docs auditor, release/provenance reviewer, generated-artifact checker, or adversarial review. Keep each loop bounded to a question, owner/source, evidence type, and explicit non-authority boundary.
+
+---
+
 ## 13. Commit granularity rules
 
 Prefer one logical finding/fix per commit. The commit should let a future maintainer map the patch to a ledger item, root cause, countermeasure, and verification result without reconstructing the whole run from chat context.
@@ -848,6 +907,8 @@ If an audit finding directly contradicts an existing `AGENTS.md` rule, treat the
 
 ## 15. Final response format
 
+Before final, print `AUDIT_COMPLETE` before `IMPLEMENTAUDIT_RUN_COMPLETE`. Print `AUDIT_HANDOFF` only when gaps, blockers, or handoff-required caveats remain; do not print it with `IMPLEMENTAUDIT_RUN_COMPLETE`.
+
 ```md
 # /implementaudit Result
 
@@ -899,6 +960,15 @@ and which branch of the regression protocol was followed. -->
 
 ## Commands run
 
+## Child-agent review
+<!-- Include when child/subagent review was used:
+- role
+- read-only confirmation
+- summary rows
+- how findings were normalized into the ledger
+- what was not treated as proof or authorization
+-->
+
 ## Graphify-assisted Gemba
 <!-- State:
 - whether Graphify was available
@@ -948,6 +1018,10 @@ Run this internally before the final response. Any failing item must be fixed or
 
 - [ ] Every patch connects to a ledger item by number.
 - [ ] Owner/source was patched, not nearest symptom.
+- [ ] Child-agent findings, if used, were normalized into the ledger before patching.
+- [ ] Child agents, if used, stayed read-only unless an explicit disjoint write scope was authorized.
+- [ ] Child-agent reports were treated as review evidence, not proof or authorization.
+- [ ] Repo-wide child/subagent rules live in `AGENTS.md`; packaged child-agent reference material is not described as an instruction-precedence file.
 - [ ] No broad rewrites outside audit scope (threshold: changes limited to the logical unit named in the finding).
 - [ ] Meaningful check/evidence recorded for every changed item.
 - [ ] Every ledger item has a terminal status; zero `open` items remain.

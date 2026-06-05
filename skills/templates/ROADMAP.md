@@ -18,6 +18,7 @@ Runtime copy target: `.IMPLEMENTAUDIT/ROADMAP.md`
 
 ## Scope boundaries
 
+- No commit unless explicitly authorized.
 - No push unless explicitly authorized.
 - No tag unless explicitly authorized.
 - No release unless explicitly authorized.

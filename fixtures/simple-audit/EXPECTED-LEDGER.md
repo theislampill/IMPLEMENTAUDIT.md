@@ -8,4 +8,10 @@
 
 - Smoke A records the pre-change README wording.
 - Smoke B confirms the separate-gate wording.
-- No push, tag, release, publication, or provenance claim is made.
+- `AGENTS_UPDATE_DECISION` states whether a durable repo-local rule was updated,
+  not warranted, or requires OWNER DECISION.
+- No commit, push, tag, release, publication, or provenance claim is made unless
+  separately authorized.
+- Final audit prints `AUDIT_COMPLETE` before `IMPLEMENTAUDIT_RUN_COMPLETE`.
+- `AUDIT_HANDOFF` is printed only if gaps, blockers, or handoff-required caveats
+  remain.

@@ -142,8 +142,32 @@ The manifest JSON is validated by `scripts/verify-package.sh`. This README does
 not claim that Claude Code marketplace behavior, Codex installation, release,
 publication, or provenance has been verified.
 
+Current project milestone: `v0.2.0.0`. Plugin manifest version: `0.2.0`.
+No local schema evidence proved four-component plugin manifest versions are
+accepted, so the manifest uses host-conservative package metadata while the
+project milestone is recorded in docs and changelog. This is not a tag, release,
+publication, or provenance claim.
+
 There is no `LICENSE` file in this repo yet. License selection remains an owner
 decision.
+
+## Child-agent review loops
+
+`/implementaudit` may use child agents or subagents as bounded review loops when
+the host supports them, or may simulate the same pattern as separate written
+read-only audit passes.
+
+The package includes `skills/references/child-agents.md` and
+`skills/templates/child-agent-report.md` as explanatory/reference material.
+Instruction precedence remains with the repo's `AGENTS.md` hierarchy. Root
+`AGENTS.md` holds repo-wide child/subagent rules; scoped `AGENTS.md` or
+`AGENTS.override.md` is used only for subtree-specific guidance when that
+host/repo convention is available.
+
+Child-agent reports do not prove correctness and do not authorize edits,
+commits, pushes, installs, indexing, exports, releases, publication, or
+provenance. The main `/implementaudit` agent must normalize reviewer findings
+into the ledger and inspect live files before patching or closing them.
 
 ## Optional tooling
 

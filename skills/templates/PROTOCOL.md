@@ -40,13 +40,20 @@ AUDIT_START
 AUDIT_VERIFY
 AUDIT_GAPS
 AUDIT_COMPLETE
-AUDIT_HANDOFF
 IMPLEMENTAUDIT_RUN_COMPLETE
+```
+
+Handoff path:
+
+```text
+AUDIT_HANDOFF
 ```
 
 Rules:
 
 - `AUDIT_COMPLETE` must precede `IMPLEMENTAUDIT_RUN_COMPLETE`.
+- `AUDIT_HANDOFF` is conditional: print it only when gaps, blockers, or handoff-required caveats remain.
+- Do not print `AUDIT_HANDOFF` with `IMPLEMENTAUDIT_RUN_COMPLETE`.
 - `IMPLEMENTAUDIT_RUN_COMPLETE` appears only when every phase and ledger item is
   terminally closed.
 - If final audit finds gaps, write `.IMPLEMENTAUDIT/phases/audit-fix-<round>.md`

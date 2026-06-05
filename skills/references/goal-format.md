@@ -24,6 +24,7 @@ Required phases:
 - Phase 2: <next coherent slice, if needed>
 
 Safety boundaries:
+- No commit.
 - No push.
 - No tag.
 - No release.
@@ -37,6 +38,7 @@ Required checks:
 
 Final audit:
 - Print AUDIT_COMPLETE before IMPLEMENTAUDIT_RUN_COMPLETE.
+- Print AUDIT_HANDOFF only when gaps, blockers, or handoff-required caveats remain.
 - Close every ledger item terminally.
 ```
 

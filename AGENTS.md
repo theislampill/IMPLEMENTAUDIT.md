@@ -106,7 +106,7 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
 ├── .gitignore                  Editor/OS junk + .IMPLEMENTAUDIT/ artifact dirs
 ├── AGENTS.md                   This file. Authoritative project doc.
 ├── CLAUDE.md                   Claude Code-specific tips. Points at this file.
-├── CHANGELOG.md                Per-version release notes. Keep-a-Changelog format, SemVer.
+├── CHANGELOG.md                Project milestone notes. Keep-a-Changelog style.
 ├── README.md                   Public-facing: what it is, install, use, Mermaid flow charts.
 ├── CONTRIBUTING.md             Short onboarding: what ImplementAudit is/is not, minimum method, worked flow.
 ├── fixtures/
@@ -120,7 +120,8 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
     ├── references/             Progressive-disclosure docs the agent reads when needed.
     │   ├── planning-depth.md   What makes a plan deserve ...
     │   ├── phase-design.md     How to slice phases (adaptive count, no cap).
-    │   └── goal-format.md      /goal mechanics ...
+    │   ├── goal-format.md      /goal mechanics ...
+    │   └── child-agents.md     Bounded review loops and non-authority boundaries.
     ├── scripts/                Bash scripts the planner executes during stages.
     │   ├── detect-env.sh       Greenfield env recon.
     │   ├── detect-stack.sh     Brownfield stack/framework detection.
@@ -130,6 +131,7 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
         ├── ROADMAP.md          Phase plan with dependencies.
         ├── STATE.md            Live progress file.
         ├── phase-goal.txt      Phase spec skeleton (work, criteria, evidence, commands).
+        ├── child-agent-report.md Read-only reviewer report shape.
         └── PROTOCOL.md         Execution loop + failure recovery + final audit protocol.
 ```
 
@@ -139,6 +141,7 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
 - **Repo-only**: `README.md`, `CHANGELOG.md`, `AGENTS.md`, `CLAUDE.md`, `CONTRIBUTING.md`, fixtures, root scripts, and `.gitignore`.
 - **Marketplace entry**: `.claude-plugin/marketplace.json` points at the plugin root. Do not claim marketplace behavior was verified unless actually tested.
 - **License**: no `LICENSE` file is present until the owner selects a license and supplies license evidence.
+- **Versioning**: project milestone `v0.2.0.0` maps to plugin manifest version `0.2.0`. The manifest uses host-conservative package metadata; `v0.2.0.0` is not a tag, release, publication, or provenance claim.
 
 ## How the skill works
 
@@ -238,6 +241,11 @@ AUDIT_START
 AUDIT_VERIFY
 AUDIT_GAPS
 AUDIT_COMPLETE
+```
+
+Handoff path:
+
+```text
 AUDIT_HANDOFF
 ```
 
@@ -248,6 +256,7 @@ IMPLEMENTAUDIT_RUN_COMPLETE
 ```
 
 `IMPLEMENTAUDIT_RUN_COMPLETE` may appear only after `AUDIT_COMPLETE`.
+`AUDIT_HANDOFF` appears only when gaps, blockers, or handoff-required caveats remain. Do not print `AUDIT_HANDOFF` with `IMPLEMENTAUDIT_RUN_COMPLETE`.
 `AGENTS_UPDATE_DECISION` states whether a durable repo-local rule was added, not warranted, or requires owner decision. If updated, identify the scope: root `AGENTS.md`, nearest scoped `AGENTS.md`, or specialist/subagent guidance.
 
 ---
@@ -367,13 +376,32 @@ If an audit finding contradicts AGENTS.md, treat it as `OWNER DECISION` unless t
 
 ---
 
+## Child/subagent review rules
+
+Use child agents or subagents as bounded review loops, not as independent authorization authorities.
+
+Repo-wide child/subagent rules live in this root `AGENTS.md`. Subtree-specific routines belong in the nearest scoped `AGENTS.md`, or `AGENTS.override.md` when that host/repo convention is available and appropriate. Packaged references such as `skills/references/child-agents.md` are explanatory material and do not change instruction precedence.
+
+Child/subagent review loops:
+
+- are read-only unless the user explicitly authorizes a disjoint write scope
+- do not authorize edits, commits, pushes, installs, indexing, exports, releases, publication, provenance, or `AGENTS.md` changes
+- do not replace live-file inspection
+- become `/implementaudit` ledger items only after the main agent normalizes them with owner/source, evidence, risk, and status
+- may include read-only contract auditor, adversarial behavioral auditor, Graphify terrain reviewer, ActiveGraph custody verifier, docs auditor, release/provenance reviewer, generated-artifact checker, or red-team reviewer roles
+
+Durable child/subagent lessons should flow into the nearest applicable `AGENTS.md` only when they are stable repo-specific anti-repeat rules. Detailed reviewer evidence belongs in audit ledgers, final reports, commit bodies, or configured custody systems.
+
+---
+
 ## CHANGELOG / README / CLAUDE
 
 CHANGELOG:
 
 - Keep-a-Changelog style.
-- Keep `[Unreleased]` at top.
+- Keep the current unreleased project milestone at top, e.g. `[v0.2.0.0] - Unreleased`.
 - Match manifest version if one exists.
+- Current project milestone is `v0.2.0.0`; plugin manifest version is `0.2.0` unless host evidence supports a four-component manifest version.
 - Do not claim tags, releases, provenance, publication, or verified install without evidence.
 - Behavior/package changes should be produced by running `/implementaudit` on this repo itself.
 - Changelog entries should preserve the causal chain: finding/gap, root cause when known, countermeasure, evidence, and remaining risk.
@@ -403,11 +431,14 @@ test -f IMPLEMENTAUDIT.md
 test -f AGENTS.md
 test -f CHANGELOG.md
 test -f skills/SKILL.md
+test -f skills/references/child-agents.md
 test -f skills/templates/PROTOCOL.md
 test -f skills/templates/ROADMAP.md
 test -f skills/templates/STATE.md
 test -f skills/templates/phase-goal.txt
+test -f skills/templates/child-agent-report.md
 test -f skills/scripts/validate-phase.sh
+test -f fixtures/child-agents/AGENTS.md
 python -m json.tool .claude-plugin/plugin.json >/dev/null
 python -m json.tool .claude-plugin/marketplace.json >/dev/null
 ```
@@ -437,6 +468,9 @@ bash scripts/verify-package.sh
 Required readback checks:
 
 ```bash
+grep -R "Self-critique:" -n skills IMPLEMENTAUDIT.md
+grep -R "PREFLIGHT_GREEN" -n skills IMPLEMENTAUDIT.md
+grep -R "PREFLIGHT_RED" -n skills IMPLEMENTAUDIT.md
 grep -R "IMPLEMENTAUDIT_PHASE_START" -n skills IMPLEMENTAUDIT.md
 grep -R "IMPLEMENTAUDIT_PHASE_VERIFY" -n skills IMPLEMENTAUDIT.md
 grep -R "IMPLEMENTAUDIT_PHASE_DONE" -n skills IMPLEMENTAUDIT.md
@@ -444,6 +478,9 @@ grep -R "AGENTS_UPDATE_DECISION" -n skills IMPLEMENTAUDIT.md
 grep -R "AUDIT_COMPLETE" -n skills IMPLEMENTAUDIT.md
 grep -R "IMPLEMENTAUDIT_RUN_COMPLETE" -n skills IMPLEMENTAUDIT.md
 grep -R ".IMPLEMENTAUDIT" -n skills IMPLEMENTAUDIT.md README.md AGENTS.md
+grep -R "v0.2.0.0" -n README.md CHANGELOG.md AGENTS.md
+grep -R "v0.1.0" -n CHANGELOG.md
+grep -R "v0.0.1" -n CHANGELOG.md
 ```
 
 Check that no legacy external planner names or artifact directories appear in repo files.
@@ -480,7 +517,8 @@ Named blocks the executing agent must print into the transcript. The host's `/go
 - `AGENTS_UPDATE_DECISION` — once per phase or final audit. States whether a durable repo-local rule was added, not warranted, or requires owner decision. If updated, identify scope: root `AGENTS.md`, nearest scoped `AGENTS.md`, or specialist/subagent guidance.
 - `IMPLEMENTAUDIT_PHASE_DONE` — once per phase, final block.
 - `FAILURE_PROBE` / `FAILURE_ESCALATE` / `FAILURE_HANDOFF` — 3-strike phase-criterion recovery.
-- `AUDIT_START` / `AUDIT_VERIFY` (includes a `Deliverables:` block from the diff-based check vs `Baseline ref) / `AUDIT_GAPS` / `AUDIT_COMPLETE` (includes `Audit coverage:`) / `AUDIT_HANDOFF` — final audit pass.
+- `AUDIT_START` / `AUDIT_VERIFY` (includes a `Deliverables:` block from the diff-based check vs `Baseline ref) / `AUDIT_GAPS` / `AUDIT_COMPLETE` (includes `Audit coverage:`) — final audit pass.
+- `AUDIT_HANDOFF` — handoff path only when gaps, blockers, or handoff-required caveats remain. Never print with `IMPLEMENTAUDIT_RUN_COMPLETE`.
 - `IMPLEMENTAUDIT_RUN_COMPLETE` — only after `AUDIT_COMPLETE`. Run is done. Prepends a `⚠ Audit coverage: …` warning banner when trust-prior is > 30% of total checks.
 
 The `/goal` end-state requires `IMPLEMENTAUDIT_RUN_COMPLETE` preceded by `AUDIT_COMPLETE` and one `IMPLEMENTAUDIT_PHASE_DONE` per phase, with no `FAILURE_HANDOFF` or `AUDIT_HANDOFF`.
@@ -490,7 +528,7 @@ The `/goal` end-state requires `IMPLEMENTAUDIT_RUN_COMPLETE` preceded by `AUDIT_
 Before the user pastes `/goal`, the planner emits two additional named blocks the user sees in Stage 6/6.5:
 
 - `Self-critique:` — printed inside the Stage 6 plan-review summary (Stage 6a). 1–3 findings (falsifiability of criteria, phase atomicity, weakest dependency) or `clean`. Falsifiability issues are rewritten in place in the phase specs before the summary prints — so the user sees the post-critique version.
-- `PREFLIGHT_GREEN` / `PREFLIGHT_RED` — Stage 6.5 output after running the deduplicated mandatory commands once. `PREFLIGHT_RED` re-enters Stage 6 with a "Skip pre-flight, dispatch anyway" option for cases where the broken baseline is exactly what phase 1 will fix.
+- `PREFLIGHT_GREEN` / `PREFLIGHT_RED` — Stage 6.5 output after running the deduplicated mandatory commands once. `PREFLIGHT_RED` re-enters Stage 6 and may dispatch only when the broken baseline is classified as the phase target and the owner accepts that risk; unrelated or unclear baseline failures require Andon or OWNER DECISION.
 
 These are not part of the `/goal` end-state — the `/goal` session hasn't started yet at this point — but they're load-bearing for plan quality.
 
@@ -505,6 +543,7 @@ Full format spec: `skills/references/goal-format.md`.
 - **`.gitignore` extension filter**: the file has no extension, so `find -name "*.md"` etc. skip it. When doing mass renames, include the gitignore separately.
 - **Codex install is a one-way copy**. There is no marketplace auto-update path. Repeat the README-documented manual copy command when the package changes, and keep that command aligned with the actual `skills/` package layout.
 - **Durable repo-specific learning belongs in AGENTS.md, not user memory.** The agent emits `AGENTS_UPDATE_DECISION` to state whether a durable rule was added, not warranted, or requires owner decision.
+- **Child/subagent guidance follows the AGENTS hierarchy.** Use root `AGENTS.md` for repo-wide rules and scoped `AGENTS.md` or `AGENTS.override.md` only for subtree-specific routines when supported. Reference docs do not change instruction precedence.
 - **Do not print a second `/goal` when already operating inside a `/goal using /implementaudit ...` run.**
 - **Mermaid renders natively in GitHub README** but not always in every external markdown viewer. Stick to standard Mermaid syntax (flowchart TD / LR, subgraphs, classDef styling).
 
@@ -517,6 +556,7 @@ Required reference set:
 - `planning-depth.md` — when ImplementAudit should synthesize a goal vs govern a supplied one.
 - `phase-design.md` — how to slice audit closure into verifiable phases.
 - `goal-format.md` — `/goal` handoff shape, transcript markers, final audit end-state.
+- `child-agents.md` — bounded child/subagent review loops and non-authority boundaries.
 
 Optional later references:
 
