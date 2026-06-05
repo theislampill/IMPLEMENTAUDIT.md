@@ -4,6 +4,11 @@
 audit findings, handoffs, checklists, reviews, goals, tasks, gaps, and
 implementation plans into bounded, verified repository changes.
 
+It is for audit closure and repo hygiene: read the real repo, find the
+owner/source, make the smallest warranted change, prove only what the evidence
+supports, and close the ledger. It is not a release bot, package publisher,
+provenance system, or generic autonomous-build loop.
+
 It does not assume a framework, language, CI system, release convention, package
 host, or optional toolchain. Its default authorization stance is:
 
@@ -12,6 +17,16 @@ No commit. No push. No tag. No release. No publication. No provenance.
 ```
 
 Each action requires separate explicit authorization.
+
+## Runtime at a glance
+
+```text
+Input artifact -> Gemba -> owner/source patch -> Smoke A/B -> trace -> final audit
+```
+
+The small loop closes one supplied audit/handoff/checklist/review/plan. The
+larger package loop can synthesize a bounded `/goal` handoff when the user gives
+only an idea, gap, or incomplete target.
 
 ## What it is
 
@@ -22,11 +37,18 @@ claims, and closes every item terminally.
 
 Current optional-tooling architecture:
 
-```text
-Graphify = catalog / terrain map
-ActiveGraph = evidence locker / custody substrate
-ImplementAudit = officer / method
-Capability Ledger = derived work history when ActiveGraph is configured
+```mermaid
+flowchart LR
+  G["Graphify<br/>catalog / terrain map<br/>orientation only"]
+  A["ActiveGraph<br/>evidence locker / custody substrate<br/>optional"]
+  I["ImplementAudit<br/>officer / method<br/>competence standard"]
+  C["Capability Ledger<br/>ImplementAudit-derived work history<br/>when ActiveGraph is configured"]
+  M["Markdown ledger + final report<br/>first-class fallback"]
+
+  G -->|terrain context, not proof| I
+  I -->|gate passages, smokes, closures, boundaries| A
+  A -->|custody events, not correctness proof| C
+  I -->|when ActiveGraph is absent| M
 ```
 
 Graphify and ActiveGraph are optional. `/implementaudit` remains fully usable
@@ -35,6 +57,20 @@ when neither tool is installed.
 ## Invocation modes
 
 `/implementaudit` has three invocation shapes:
+
+```mermaid
+flowchart TD
+  A["/goal using /implementaudit ..."] --> B["Embedded governance"]
+  B --> C["Govern supplied goal/task/plan"]
+  C --> D["No second /goal"]
+
+  E["/implementaudit + audit / handoff / checklist / review / bounded plan"] --> F["Direct governance"]
+  F --> G["Normalize ledger and execute"]
+
+  H["/implementaudit + idea / gap / incomplete target"] --> I["Goal synthesis"]
+  I --> J["Gemba + alignment"]
+  J --> K["Optional ready-to-paste /goal Using /implementaudit ..."]
+```
 
 - **Embedded governance mode**: a host goal/task/plan already exists, such as
   `/goal using /implementaudit ...`. ImplementAudit governs that active target
@@ -90,15 +126,29 @@ interchangeable. Proof claims must not exceed the evidence type.
 
 ## Execution gates
 
+The gate diagram shows the normal path and the places where the method must
+stop, recover, or hand off instead of pretending the run is complete.
+
 ```mermaid
 flowchart TD
-  A["Safety read"] --> B["Input gate"]
-  B --> C["Pre-flight"]
-  C --> D["Smoke A"]
-  D --> E["Implement"]
-  E --> F["Smoke B"]
-  F --> G["Trace"]
-  G --> H["Self-check"]
+  A["Safety read<br/>repo policy + AGENTS.md"] --> B{"Unsafe, unauthorized,<br/>or policy conflict?"}
+  B -->|yes| C["STOP / OWNER DECISION"]
+  B -->|no| D["Input gate"]
+  D --> E["Pre-flight<br/>source/generator/tooling/baseline state"]
+  E --> F["Smoke A<br/>baseline before mutation"]
+  F --> G["Implement<br/>P0 -> P1 -> P2<br/>owner/source patch"]
+  G --> H["Smoke B<br/>post-change comparison"]
+  H --> I{"Regression?"}
+  I -->|yes| J["Andon / Hansei<br/>failure recovery"]
+  J --> F
+  I -->|no| K["Trace<br/>commit body or proposed body<br/>AGENTS_UPDATE_DECISION<br/>Capability Ledger when configured"]
+  K --> L["Final audit"]
+  L --> M{"Audit gaps?"}
+  M -->|yes| N["audit-fix round<br/>or AUDIT_HANDOFF"]
+  M -->|no| O["AUDIT_COMPLETE"]
+  O --> P["IMPLEMENTAUDIT_RUN_COMPLETE"]
+  L --> Q{"No AUDIT_COMPLETE?"}
+  Q -->|then| R["No IMPLEMENTAUDIT_RUN_COMPLETE"]
 ```
 
 | Gate | Purpose |
