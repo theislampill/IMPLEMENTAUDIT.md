@@ -48,6 +48,24 @@ evidence proved four-component plugin manifest versions are accepted.
   format by local evidence; `IMPLEMENTAUDIT.skill` is this repo's release asset
   name unless host evidence later proves a stricter format.
 
+### Upgrade notes
+
+- After a release, reinstall or update the skill in the host you use. Do not
+  assume a local copied skill has updated just because the GitHub repo has a new
+  release.
+- Codex manual installs do not have a marketplace auto-update path documented in
+  this repo. Repeat the README's flat-layout copy step after each release:
+  `cp -R skills/* ~/.codex/skills/implementaudit/` or the documented PowerShell
+  `Copy-Item -Recurse -Force .\skills\* "$env:USERPROFILE\.codex\skills\implementaudit\"`.
+- Claude Code/plugin users should use the host's documented plugin update or
+  reload flow when available. This changelog does not claim that plugin update,
+  marketplace refresh, install, release, publication, or provenance behavior has
+  been verified.
+- Future `v0.2.0.0` GitHub release notes should include this same upgrade
+  guidance if an explicit release gate authorizes publishing them. This
+  changelog entry is not itself a release note, release, publication, or
+  provenance claim.
+
 ### Safety
 
 - Preserved the default stance: no commit, push, tag, release, publication,

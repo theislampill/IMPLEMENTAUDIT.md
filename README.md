@@ -368,6 +368,32 @@ with `.claude-plugin/plugin.json` as package metadata. This repo validates the
 JSON shape only; it does not claim host install or marketplace behavior was
 tested.
 
+## Upgrade / reinstall
+
+After a release, reinstall or update the skill in the host you use. Do not
+assume a local copied skill has updated just because the GitHub repo has a new
+release.
+
+For Codex manual installs, there is no marketplace auto-update path documented
+in this repo. Repeat the documented copy step after each release:
+
+```bash
+mkdir -p ~/.codex/skills/implementaudit
+cp -R skills/* ~/.codex/skills/implementaudit/
+```
+
+PowerShell:
+
+```powershell
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills\implementaudit" | Out-Null
+Copy-Item -Recurse -Force .\skills\* "$env:USERPROFILE\.codex\skills\implementaudit\"
+```
+
+Claude Code/plugin users should use the host's documented plugin update or
+reload flow when available. This repo does not claim that plugin update,
+marketplace refresh, install, release, publication, or provenance behavior has
+been verified.
+
 ## Release asset notes
 
 For the `v0.2.0.0` release gate, the GitHub release asset name is
