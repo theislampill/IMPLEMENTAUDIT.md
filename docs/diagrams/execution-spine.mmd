@@ -1,68 +1,44 @@
+%%{init: {"flowchart": {"htmlLabels": true, "nodeSpacing": 55, "rankSpacing": 55}, "themeVariables": {"fontSize": "18px", "fontFamily": "Arial"}, "themeCSS": ".nodeLabel, .edgeLabel, .label { font-size: 18px !important; }"}}%%
 flowchart TD
-  Input(["Audit, handoff,<br/>goal, gap, or checklist"]):::human
-  Safety["Safety read<br/>AGENTS.md, repo policy,<br/>authorization gates"]:::audit
-  Unsafe{"Unsafe, unauthorized,<br/>or policy conflict?"}:::audit
-  OwnerStop(["STOP / OWNER DECISION"]):::blocker
+  Input(["AUDIT.md / handoff / goal / gap"]):::human
+  Route["Route before mutation<br/>greenfield / brownfield / mixed<br/>brownfield recon is read-only"]:::audit
+  OwnerDecision(["OWNER DECISION<br/>unsafe request or AGENTS/policy conflict"]):::blocker
 
-  Route{"Route the work"}:::audit
-  Green["Greenfield intake<br/>owner/source, scope,<br/>constraints, acceptance,<br/>rollback, evidence"]:::source
-  Brown["Brownfield recon<br/>owners, contracts,<br/>tests, generated surfaces,<br/>regression surface"]:::source
-  Mixed["Mixed mode<br/>brownfield shell first,<br/>greenfield intake for new artifact"]:::source
-
-  Tooling["Pre-flight tooling<br/>and native harness checks"]:::checker
-  Graph{"Graphify available<br/>and fresh/authorized?"}:::optional
-  Terrain["Optional terrain query<br/>orientation only"]:::optional
-  Gemba["Live-file Gemba<br/>confirms truth before mutation"]:::source
-
-  SmokeA["Smoke A<br/>baseline before mutation"]:::checker
+  Graphify["Graphify optional terrain<br/>orientation only, not proof"]:::optional
+  Gemba["Live-file Gemba<br/>confirm owner/source before mutation"]:::source
+  SmokeA["Smoke A<br/>baseline before change"]:::checker
   Patch["Patch owner/source<br/>bounded P0 -> P1 -> P2"]:::source
-  Generated{"Generated surface<br/>affected?"}:::generated
-  Refresh["Refresh from source<br/>run generator/check mode"]:::generated
-  SmokeB["Smoke B<br/>post-change comparison"]:::checker
-  Worktree["Complete repo-state check<br/>baseline vs working tree<br/>staged, unstaged, deleted,<br/>untracked"]:::checker
+  Generated["Refresh generated artifacts<br/>from source/generator"]:::generated
+  SmokeB["Smoke B + complete<br/>working-tree-vs-baseline check"]:::checker
 
-  Regression{"Regression or<br/>failed gate?"}:::audit
-  Andon["Andon / Hansei<br/>focused countermeasure<br/>or handoff"]:::blocker
-  Trace["Ledger closure + trace<br/>commit body or proposed body<br/>AGENTS_UPDATE_DECISION"]:::audit
+  ActiveGraph["ActiveGraph optional custody<br/>after evidence exists<br/>not correctness proof"]:::optional
+  Ledger["Capability Ledger or<br/>Markdown final report fallback"]:::audit
 
-  Active{"ActiveGraph configured?"}:::optional
-  Custody["Optional custody events<br/>after evidence exists"]:::optional
-  Markdown["Markdown ledger<br/>and final report fallback"]:::audit
-
-  Final["Final audit<br/>re-check original criteria<br/>and release boundaries"]:::audit
-  Gaps{"Audit gaps?"}:::audit
-  Handoff(["AUDIT_HANDOFF<br/>or focused audit-fix round"]):::blocker
+  Andon["Andon / handoff loop<br/>abnormality -> 5 Whys -> Hansei<br/>countermeasure -> rerun"]:::blocker
+  Final["Final audit<br/>criteria, boundaries, evidence"]:::audit
   AuditDone(["AUDIT_COMPLETE"]):::success
   RunDone(["IMPLEMENTAUDIT_RUN_COMPLETE"]):::success
-  ReleaseGate{"Separate release /<br/>provenance gate<br/>explicitly authorized?"}:::release
-  Release["Tag / release / asset<br/>checksum manifest only if<br/>produced and verified"]:::release
-  NoRelease["No tag, release,<br/>publication, or provenance"]:::audit
+  NoRelease["Ordinary completion default<br/>No tag, release, publication, or provenance"]:::audit
+  ReleaseGate{"Separate release/provenance gate<br/>explicitly authorized?"}:::release
+  Release["Tag / release / asset<br/>checksum manifest only if produced and verified"]:::release
+  Legend["Legend: amber human/owner; blue owner/source; purple generated;<br/>green checks; dashed green optional; red blocker; orange release"]:::audit
 
-  Input --> Safety --> Unsafe
-  Unsafe -->|yes| OwnerStop
-  Unsafe -->|no| Route
-  Route -->|greenfield| Green --> Tooling
-  Route -->|brownfield| Brown --> Tooling
-  Route -->|mixed| Mixed --> Tooling
-  Tooling --> Graph
-  Graph -->|yes| Terrain --> Gemba
-  Graph -->|absent / stale / unauthorized| Gemba
-  Gemba --> SmokeA --> Patch --> Generated
-  Generated -->|yes| Refresh --> SmokeB
-  Generated -->|no| SmokeB
-  SmokeB --> Worktree --> Regression
-  Regression -->|yes| Andon --> SmokeA
-  Regression -->|blocked| Handoff
-  Regression -->|no| Trace
-  Trace --> Active
-  Active -->|yes| Custody --> Final
-  Active -->|absent| Markdown --> Final
-  Final --> Gaps
-  Gaps -->|yes| Handoff
-  Handoff -->|fixable| Final
-  Gaps -->|no| AuditDone --> RunDone --> ReleaseGate
-  ReleaseGate -->|yes| Release
-  ReleaseGate -->|no| NoRelease
+  Input --> Route
+  Route -->|unsafe / conflict| OwnerDecision
+  Route -->|authorized scope| Gemba
+  Graphify -. optional query before touching scene .-> Gemba
+  Gemba --> SmokeA --> Patch --> Generated --> SmokeB
+  SmokeB -. custody sidecar .-> ActiveGraph --> Ledger
+  SmokeB --> Final
+  SmokeA -->|unclear baseline| Andon
+  SmokeB -->|regression / failed gate| Andon
+  Final -->|gap remains| Andon
+  Andon -->|fixable rerun| Gemba
+  Final -->|all findings closed| AuditDone --> RunDone --> NoRelease
+  RunDone -. separate explicit gate only .-> ReleaseGate
+  ReleaseGate -->|authorized + evidence| Release
+  ReleaseGate -->|not authorized| NoRelease
+  Legend -. explains classes .-> Route
 
   classDef human fill:#fef3c7,stroke:#d97706,color:#111827
   classDef source fill:#e0f2fe,stroke:#0284c7,color:#111827

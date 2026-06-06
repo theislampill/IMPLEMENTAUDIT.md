@@ -18,3 +18,8 @@ The v0.2.3.0 lane adds a native harness adaptation matrix plus executable
 helpers/checkers for complete repo-state comparison, audit-spec validation, and
 added-line cleanliness/overclaim scans. The detailed matrix lives in
 `docs/audits/v0.2.3.0-harness-adaptation-matrix.md`.
+
+Post-release README/onboarding audit evidence lives in
+`docs/audits/readme-audit_202606052026.md`. That audit patches forward newcomer
+navigation, terminology, loopability, and README ToC validation after the
+`v0.2.3.0` release; it is not part of the original release gate.

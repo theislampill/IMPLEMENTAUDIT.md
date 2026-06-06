@@ -131,6 +131,7 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
 │   ├── check-host-claims.sh    Guard unsupported host/release/license claims.
 │   ├── check-added-lines-clean.sh Guard added-line debug/task-marker/overclaim drift.
 │   ├── check-marker-order.sh   Guard final-audit transcript marker order.
+│   ├── check-readme-toc.sh     Guard README Contents anchors.
 │   ├── generate-readme-diagrams.sh Generate/check README Mermaid blocks.
 │   ├── check-routing.sh     Validate greenfield/brownfield routing fixtures.
 │   ├── verify-package.sh       Repo/package validation.
@@ -522,6 +523,7 @@ test -f docs/audits/v0.2.3.0-harness-adaptation-matrix.md
 python -m json.tool .claude-plugin/plugin.json >/dev/null
 python -m json.tool .claude-plugin/marketplace.json >/dev/null
 bash scripts/generate-readme-diagrams.sh --check
+bash scripts/check-readme-toc.sh
 bash scripts/check-marker-order.sh fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md
 bash scripts/check-routing.sh
 bash scripts/check-host-claims.sh

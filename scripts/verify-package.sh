@@ -29,6 +29,7 @@ require_file scripts/build-release-asset.sh
 require_file scripts/check-host-claims.sh
 require_file scripts/check-added-lines-clean.sh
 require_file scripts/check-marker-order.sh
+require_file scripts/check-readme-toc.sh
 require_file scripts/check-routing.sh
 require_file scripts/generate-readme-diagrams.sh
 require_file scripts/write-release-checksums.sh
@@ -221,6 +222,7 @@ grep -R "Graphify output is orientation evidence, not proof" -n skills README.md
 grep -R "ActiveGraph custody is not correctness proof" -n skills README.md AGENTS.md >/dev/null || fail "ActiveGraph proof boundary is missing"
 
 bash scripts/generate-readme-diagrams.sh --check
+bash scripts/check-readme-toc.sh
 bash scripts/check-marker-order.sh fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md fixtures/zero-optional-tool/COMPLETE-RUN.md
 bash scripts/check-routing.sh
 bash scripts/check-host-claims.sh

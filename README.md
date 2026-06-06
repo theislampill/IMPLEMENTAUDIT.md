@@ -22,6 +22,25 @@ No commit. No push. No tag. No release. No publication. No provenance.
 
 Each action requires separate explicit authorization.
 
+## Contents
+
+- [What it is](#what-it-is)
+- [Terminology](#terminology)
+- [How AUDIT.md drives a run](#how-auditmd-drives-a-run)
+- [Invocation modes](#invocation-modes)
+- [Greenfield / brownfield routing](#greenfield--brownfield-routing)
+- [Execution gates](#execution-gates)
+- [Loopability, Andon, and handoff states](#loopability-andon-and-handoff-states)
+- [Optional tooling](#optional-tooling)
+- [Usage examples](#usage-examples)
+- [Install notes](#install-notes)
+- [Upgrade / reinstall](#upgrade--reinstall)
+- [Artifacts and outputs](#artifacts-and-outputs)
+- [Skill internals / repository layout](#skill-internals--repository-layout)
+- [Validation and release evidence](#validation-and-release-evidence)
+- [Version and release notes](#version-and-release-notes)
+- [What this does not do](#what-this-does-not-do)
+
 ## Runtime at a glance
 
 ```text
@@ -46,10 +65,11 @@ Current optional-tooling architecture:
 <!-- BEGIN: implementaudit-diagram:tooling-architecture -->
 
 ```mermaid
+%%{init: {"flowchart": {"htmlLabels": true, "nodeSpacing": 55, "rankSpacing": 65}, "themeVariables": {"fontSize": "18px", "fontFamily": "Arial"}, "themeCSS": ".nodeLabel, .edgeLabel, .label { font-size: 18px !important; }"}}%%
 flowchart LR
   I["ImplementAudit<br/>officer / method / standard"]
-  G["Graphify<br/>terrain / repo map / orientation"]
-  A["ActiveGraph<br/>custody / event evidence"]
+  G["Graphify<br/>optional terrain / repo map<br/>orientation, not proof"]
+  A["ActiveGraph<br/>optional custody / event evidence<br/>not correctness proof"]
   C["Capability Ledger<br/>derived work history"]
   M["Markdown fallback<br/>always valid when optional tools are absent"]
   L["Live files<br/>source of truth"]
@@ -72,6 +92,51 @@ improves orientation before mutation, while ActiveGraph preserves custody after
 evidence is produced. Neither replaces ImplementAudit's gates; both strengthen
 the audit trail when available.
 
+## Terminology
+
+- `AUDIT.md`: an audit input or evidence-implementation artifact that drives a
+  dogfooded run. It may be a file, attachment, pasted audit, handoff, checklist,
+  review, goal, task, gap, or implementation plan.
+- Greenfield: a new governed artifact or capability where owner/source,
+  contract, acceptance, rollback, and evidence must be defined before
+  implementation.
+- Brownfield: mutation or verification of an existing repo surface where
+  owner/source, contracts, tests, generated artifacts, and regression surface
+  must be inspected before change.
+- Mixed mode: brownfield outer repo work that creates a greenfield subartifact.
+- Owner/source: the canonical file, schema, script, fixture, or doc that owns a
+  claim or behavior.
+- Generated artifact: derived output that must be regenerated from source, not
+  hand-edited.
+- Smoke A / Smoke B: baseline or pre-change verification, then post-change
+  verification compared against that baseline.
+- Andon: a visible abnormality or blocker signal. Failed, hung, substituted, or
+  rerun release-gate commands count even if later contained.
+- 5 Whys: a root-cause drill for why an abnormality happened and what
+  countermeasure prevents recurrence.
+- Hansei: structured reflection: gap, cause, countermeasure, and follow-up
+  evidence.
+- Kaizen: durable process improvement folded back into the standard.
+- Gemba / Genchi Genbutsu: inspect the real repo artifact, output, or path; do
+  not rely on memory or summaries when the live surface exists.
+- Graphify: optional terrain/orientation aid; not canonical proof.
+- ActiveGraph: optional custody/sidecar evidence substrate; not canonical proof.
+- Provenance/checksum manifest: bounded artifact integrity evidence. A checksum
+  manifest is not a signature, SBOM, attestation, marketplace verification, or
+  install proof.
+
+## How AUDIT.md drives a run
+
+An `AUDIT.md`-style input names the work to close and the evidence expected for
+closure. `/implementaudit` normalizes that input into ledger items, classifies
+priority, finds owner/source, records Smoke A, patches only warranted surfaces,
+records Smoke B, and closes each item as `done`, `changed`, `blocked`,
+`deferred`, or `unverified`.
+
+The input does not authorize hidden side effects. Tool install, indexing,
+event-store setup, local commit, push, tag, release, publication, and provenance
+remain separate gates even when the audit asks for implementation.
+
 ## Invocation modes
 
 `/implementaudit` has three invocation shapes:
@@ -79,6 +144,7 @@ the audit trail when available.
 <!-- BEGIN: implementaudit-diagram:invocation-modes -->
 
 ```mermaid
+%%{init: {"flowchart": {"htmlLabels": true, "nodeSpacing": 55, "rankSpacing": 65}, "themeVariables": {"fontSize": "18px", "fontFamily": "Arial"}, "themeCSS": ".nodeLabel, .edgeLabel, .label { font-size: 18px !important; }"}}%%
 flowchart TD
   A["/goal using /implementaudit ..."] --> B["Embedded governance"]
   B --> C["Govern supplied goal/task/plan"]
@@ -182,71 +248,47 @@ stop, recover, or hand off instead of pretending the run is complete.
 <!-- BEGIN: implementaudit-diagram:execution-spine -->
 
 ```mermaid
+%%{init: {"flowchart": {"htmlLabels": true, "nodeSpacing": 55, "rankSpacing": 55}, "themeVariables": {"fontSize": "18px", "fontFamily": "Arial"}, "themeCSS": ".nodeLabel, .edgeLabel, .label { font-size: 18px !important; }"}}%%
 flowchart TD
-  Input(["Audit, handoff,<br/>goal, gap, or checklist"]):::human
-  Safety["Safety read<br/>AGENTS.md, repo policy,<br/>authorization gates"]:::audit
-  Unsafe{"Unsafe, unauthorized,<br/>or policy conflict?"}:::audit
-  OwnerStop(["STOP / OWNER DECISION"]):::blocker
+  Input(["AUDIT.md / handoff / goal / gap"]):::human
+  Route["Route before mutation<br/>greenfield / brownfield / mixed<br/>brownfield recon is read-only"]:::audit
+  OwnerDecision(["OWNER DECISION<br/>unsafe request or AGENTS/policy conflict"]):::blocker
 
-  Route{"Route the work"}:::audit
-  Green["Greenfield intake<br/>owner/source, scope,<br/>constraints, acceptance,<br/>rollback, evidence"]:::source
-  Brown["Brownfield recon<br/>owners, contracts,<br/>tests, generated surfaces,<br/>regression surface"]:::source
-  Mixed["Mixed mode<br/>brownfield shell first,<br/>greenfield intake for new artifact"]:::source
-
-  Tooling["Pre-flight tooling<br/>and native harness checks"]:::checker
-  Graph{"Graphify available<br/>and fresh/authorized?"}:::optional
-  Terrain["Optional terrain query<br/>orientation only"]:::optional
-  Gemba["Live-file Gemba<br/>confirms truth before mutation"]:::source
-
-  SmokeA["Smoke A<br/>baseline before mutation"]:::checker
+  Graphify["Graphify optional terrain<br/>orientation only, not proof"]:::optional
+  Gemba["Live-file Gemba<br/>confirm owner/source before mutation"]:::source
+  SmokeA["Smoke A<br/>baseline before change"]:::checker
   Patch["Patch owner/source<br/>bounded P0 -> P1 -> P2"]:::source
-  Generated{"Generated surface<br/>affected?"}:::generated
-  Refresh["Refresh from source<br/>run generator/check mode"]:::generated
-  SmokeB["Smoke B<br/>post-change comparison"]:::checker
-  Worktree["Complete repo-state check<br/>baseline vs working tree<br/>staged, unstaged, deleted,<br/>untracked"]:::checker
+  Generated["Refresh generated artifacts<br/>from source/generator"]:::generated
+  SmokeB["Smoke B + complete<br/>working-tree-vs-baseline check"]:::checker
 
-  Regression{"Regression or<br/>failed gate?"}:::audit
-  Andon["Andon / Hansei<br/>focused countermeasure<br/>or handoff"]:::blocker
-  Trace["Ledger closure + trace<br/>commit body or proposed body<br/>AGENTS_UPDATE_DECISION"]:::audit
+  ActiveGraph["ActiveGraph optional custody<br/>after evidence exists<br/>not correctness proof"]:::optional
+  Ledger["Capability Ledger or<br/>Markdown final report fallback"]:::audit
 
-  Active{"ActiveGraph configured?"}:::optional
-  Custody["Optional custody events<br/>after evidence exists"]:::optional
-  Markdown["Markdown ledger<br/>and final report fallback"]:::audit
-
-  Final["Final audit<br/>re-check original criteria<br/>and release boundaries"]:::audit
-  Gaps{"Audit gaps?"}:::audit
-  Handoff(["AUDIT_HANDOFF<br/>or focused audit-fix round"]):::blocker
+  Andon["Andon / handoff loop<br/>abnormality -> 5 Whys -> Hansei<br/>countermeasure -> rerun"]:::blocker
+  Final["Final audit<br/>criteria, boundaries, evidence"]:::audit
   AuditDone(["AUDIT_COMPLETE"]):::success
   RunDone(["IMPLEMENTAUDIT_RUN_COMPLETE"]):::success
-  ReleaseGate{"Separate release /<br/>provenance gate<br/>explicitly authorized?"}:::release
-  Release["Tag / release / asset<br/>checksum manifest only if<br/>produced and verified"]:::release
-  NoRelease["No tag, release,<br/>publication, or provenance"]:::audit
+  NoRelease["Ordinary completion default<br/>No tag, release, publication, or provenance"]:::audit
+  ReleaseGate{"Separate release/provenance gate<br/>explicitly authorized?"}:::release
+  Release["Tag / release / asset<br/>checksum manifest only if produced and verified"]:::release
+  Legend["Legend: amber human/owner; blue owner/source; purple generated;<br/>green checks; dashed green optional; red blocker; orange release"]:::audit
 
-  Input --> Safety --> Unsafe
-  Unsafe -->|yes| OwnerStop
-  Unsafe -->|no| Route
-  Route -->|greenfield| Green --> Tooling
-  Route -->|brownfield| Brown --> Tooling
-  Route -->|mixed| Mixed --> Tooling
-  Tooling --> Graph
-  Graph -->|yes| Terrain --> Gemba
-  Graph -->|absent / stale / unauthorized| Gemba
-  Gemba --> SmokeA --> Patch --> Generated
-  Generated -->|yes| Refresh --> SmokeB
-  Generated -->|no| SmokeB
-  SmokeB --> Worktree --> Regression
-  Regression -->|yes| Andon --> SmokeA
-  Regression -->|blocked| Handoff
-  Regression -->|no| Trace
-  Trace --> Active
-  Active -->|yes| Custody --> Final
-  Active -->|absent| Markdown --> Final
-  Final --> Gaps
-  Gaps -->|yes| Handoff
-  Handoff -->|fixable| Final
-  Gaps -->|no| AuditDone --> RunDone --> ReleaseGate
-  ReleaseGate -->|yes| Release
-  ReleaseGate -->|no| NoRelease
+  Input --> Route
+  Route -->|unsafe / conflict| OwnerDecision
+  Route -->|authorized scope| Gemba
+  Graphify -. optional query before touching scene .-> Gemba
+  Gemba --> SmokeA --> Patch --> Generated --> SmokeB
+  SmokeB -. custody sidecar .-> ActiveGraph --> Ledger
+  SmokeB --> Final
+  SmokeA -->|unclear baseline| Andon
+  SmokeB -->|regression / failed gate| Andon
+  Final -->|gap remains| Andon
+  Andon -->|fixable rerun| Gemba
+  Final -->|all findings closed| AuditDone --> RunDone --> NoRelease
+  RunDone -. separate explicit gate only .-> ReleaseGate
+  ReleaseGate -->|authorized + evidence| Release
+  ReleaseGate -->|not authorized| NoRelease
+  Legend -. explains classes .-> Route
 
   classDef human fill:#fef3c7,stroke:#d97706,color:#111827
   classDef source fill:#e0f2fe,stroke:#0284c7,color:#111827
@@ -276,7 +318,53 @@ If an audit finding contradicts repo-local `AGENTS.md` or policy, the conflict
 becomes `OWNER DECISION`. The agent does not silently choose which instruction
 wins.
 
-## Package layout
+## Loopability, Andon, and handoff states
+
+An IMPLEMENTAUDIT run is loopable. It can end in `AUDIT_COMPLETE` plus
+`IMPLEMENTAUDIT_RUN_COMPLETE`, or it can end in `AUDIT_HANDOFF`, `blocked`,
+`deferred`, or `unverified` states with enough evidence for a later agent to
+resume, audit, or repair the work.
+
+Completion is not "deliverables exist." Completion means owner/source changes,
+generated outputs, smoke/check evidence, final audit, ledger closure, and
+terminal markers all align.
+
+Andons are loop points, not just errors:
+
+```text
+record abnormality -> 5 Whys -> Hansei -> countermeasure -> rerun relevant checks -> close/defer/block with evidence
+```
+
+If a checker, shell command, diagram generator, package validator, release-gate
+command, or provenance command fails, hangs, shell-errors, or is replaced by a
+rerun/substitute path, record the abnormal path as an Andon before closing it as
+blocking or non-blocking.
+
+Post-release corrections patch forward. If a release is already out, do not
+pretend the gate is still pre-release; record the post-release audit status,
+make a follow-up source-owned correction when warranted, and propose any release
+notes correction before editing release metadata.
+
+Release and checksum-manifest provenance are a separate gated loop after
+ordinary audit completion. Ordinary success does not imply tag, release,
+publication, asset upload, checksum publication, signature, attestation, SBOM,
+marketplace verification, or install verification.
+
+## Artifacts and outputs
+
+Typical run outputs are a normalized findings ledger, changed owner/source files
+when authorized by the audit, regenerated artifacts when their source changed,
+Smoke A/B evidence, an AGENTS update decision, a final report, and terminal
+markers. Large or phased runs may also create `.IMPLEMENTAUDIT/` local runtime
+artifacts such as roadmaps, state files, phase specs, or protocol files; those
+are run artifacts, not package source.
+
+The packaged skill payload lives under `skills/`. GitHub release assets, when
+separately authorized, are built from the repo-supported release-asset script
+and validated by extraction. Release artifacts and checksum manifests are not
+ordinary audit outputs.
+
+## Skill internals / repository layout
 
 This repo uses the flat package layout declared by `AGENTS.md`:
 
@@ -302,11 +390,17 @@ The manifest JSON is validated by `scripts/verify-package.sh`. This README does
 not claim that Claude Code marketplace behavior, Codex installation, release,
 publication, or provenance has been verified.
 
+## Version and release notes
+
 Current project milestone: `v0.2.3.0`. Plugin manifest version: `0.2.3`.
 No local schema evidence proved four-component plugin manifest versions are
 accepted, so the manifest uses host-conservative package metadata while the
 project milestone is recorded in docs and changelog. This is not a tag, release,
-publication, or provenance claim.
+publication, or provenance claim by itself.
+
+See `CHANGELOG.md` and the GitHub Releases page for release notes. Release notes
+may document release assets and checksum manifests only after those artifacts
+exist and are verified.
 
 There is no `LICENSE` file in this repo yet. License selection remains an owner
 decision.
@@ -542,6 +636,31 @@ untracked diagnostics. Attaching `IMPLEMENTAUDIT.skill` to GitHub Releases is a
 separate release-gate action. Ordinary audits, local commits, and push-only
 gates do not authorize upload, release, publication, marketplace verification,
 or provenance claims.
+
+## Validation and release evidence
+
+Repo-native validation includes README diagram freshness, ToC anchor checks,
+host-claim and forbidden-claim scans, root behavior-file absence, package
+contract validation, routing fixtures, marker-order checks, repo-state checks,
+audit-spec checks, release-asset extraction checks, and checksum-manifest checks.
+
+Run the package validator before local commit or release-gate claims:
+
+```bash
+bash scripts/verify-package.sh
+```
+
+When release assets are mentioned, validate the release asset locally:
+
+```bash
+bash scripts/build-release-asset.sh
+bash scripts/write-release-checksums.sh --check
+```
+
+For `v0.2.3.0`, the GitHub release contains `IMPLEMENTAUDIT.skill` and
+`CHECKSUMS.txt`. The checksum manifest is bounded artifact-integrity evidence
+only; it is not a signature, attestation, SBOM, marketplace verification,
+license claim, or install proof.
 
 ## Safety defaults
 

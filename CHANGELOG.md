@@ -11,6 +11,31 @@ Plugin manifest versions are host-facing package metadata. Project milestone
 `v0.2.3.0` maps to plugin manifest version `0.2.3` because no local schema
 evidence proved four-component plugin manifest versions are accepted.
 
+## [Unreleased]
+
+### Added
+
+- Added a post-release README/onboarding audit ledger at
+  `docs/audits/readme-audit_202606052026.md`.
+- Added `scripts/check-readme-toc.sh` and wired it into package validation so
+  README Contents anchors are checker-validated.
+
+### Changed
+
+- Clarified README newcomer navigation, compact terminology, `AUDIT.md` run
+  flow, loopability/re-entry, post-release correction framing, artifacts, and
+  validation/release-evidence boundaries after the `v0.2.3.0` release.
+- Refined source-generated README Mermaid diagrams after screenshot review so
+  the execution spine is readable at README scale, keeps release/provenance as a
+  dashed separate gate, and labels Graphify/ActiveGraph as optional non-proof
+  sidecars.
+
+### Safety
+
+- This is a post-release patch-forward docs correction. It does not rewrite
+  `v0.2.3.0`, recreate a tag, mutate release assets, or broaden provenance
+  beyond checksum-manifest wording.
+
 ## [v0.2.3.0] - 2026-06-05
 
 ### Added
