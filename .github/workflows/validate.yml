@@ -36,6 +36,7 @@ jobs:
           bash tests/planner-stages.test.sh
           bash tests/release-asset.test.sh
           bash tests/release-asset-install.test.sh
+          bash tests/forbidden-terms.test.sh
           bash tests/install-copy-smoke.test.sh
           bash tests/routing.test.sh
           bash tests/repo-state.test.sh

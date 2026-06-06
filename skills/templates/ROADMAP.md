@@ -6,6 +6,22 @@ Runtime copy target: `.IMPLEMENTAUDIT/ROADMAP.md`
 
 <!-- State the bounded work target. -->
 
+## Audit object
+
+<!-- State the evidence-bearing audit record/surface this roadmap closes. -->
+
+Audit object source:
+
+Audit object mnemonic: tdqyq-audit-object
+
+Audit object terminal closure condition:
+
+Double-audit sequence, if release-affecting or high-risk:
+
+1. ydqyq-audit-action -> tdqyq-audit-object:
+2. ydqyq-audit-action against tdqyq-audit-object:
+3. Final ydqyq-audit-action -> terminal tdqyq-audit-object state:
+
 ## Baseline ref
 
 <!-- Commit hash, branch, or file snapshot used for diff-based final audit. -->

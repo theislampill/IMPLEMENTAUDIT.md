@@ -66,17 +66,46 @@ require_in_file skills/references/planning-depth.md "Native planner stage rule"
 require_in_file skills/references/phase-design.md "Stage 6 self-critique"
 require_in_file skills/references/transcript-contract.md "Stage handoff boundary"
 
-legacy_a="Super"
-legacy_b="goal"
-legacy_name="${legacy_a}${legacy_b}"
-legacy_lower="${legacy_name,,}"
-legacy_dir=".${legacy_lower}"
-if grep -R -n -I --exclude-dir=.git --exclude-dir=.IMPLEMENTAUDIT --exclude-dir=dist \
-  -e "$legacy_name" -e "$legacy_lower" -e "$legacy_dir" . >/tmp/implementaudit-planner-forbidden.txt; then
-  cat /tmp/implementaudit-planner-forbidden.txt >&2
-  rm -f /tmp/implementaudit-planner-forbidden.txt
-  fail "forbidden external comparator identity appears in repo files"
+require_in_file skills/SKILL.md "audit object / audit record / audit surface"
+require_in_file skills/SKILL.md "auditing action / audit operation"
+require_in_file skills/SKILL.md "tdqyq-audit-object"
+require_in_file skills/SKILL.md "ydqyq-audit-action"
+require_in_file skills/SKILL.md "Audit-governed implementation"
+require_in_file skills/SKILL.md "Direct governance binds"
+require_in_file skills/SKILL.md "Embedded governance inherits"
+require_in_file skills/SKILL.md "Goal synthesis constructs"
+require_in_file skills/SKILL.md "Double-audit pattern for high-risk runs"
+require_in_file skills/SKILL.md 'Final `ydqyq-audit-action` -> terminal'
+require_in_file skills/references/transcript-contract.md "audit object lifecycle"
+require_in_file skills/references/transcript-contract.md "double-audit sequence"
+require_in_file skills/references/goal-format.md "audit object"
+require_in_file skills/references/goal-format.md "double-audit pattern"
+require_in_file skills/references/planning-depth.md "audit object"
+require_in_file skills/references/planning-depth.md "double-audit pattern"
+require_in_file skills/references/phase-design.md "audit object"
+require_in_file skills/references/phase-design.md "terminal verified closure"
+require_in_file skills/templates/PROTOCOL.md "audit object"
+require_in_file skills/templates/PROTOCOL.md "double-audit pattern"
+require_in_file skills/templates/ROADMAP.md "Audit object"
+require_in_file skills/templates/ROADMAP.md "tdqyq-audit-object"
+require_in_file skills/templates/ROADMAP.md "Double-audit sequence"
+require_in_file skills/templates/STATE.md "Audit object state"
+require_in_file skills/templates/STATE.md "ydqyq-audit-action"
+require_in_file skills/templates/STATE.md "Implementation action against object"
+require_in_file skills/templates/THINKING.md "Audit object"
+require_in_file skills/templates/THINKING.md "tdqyq-audit-object"
+require_in_file skills/templates/THINKING.md "Double-audit sequence"
+require_in_file skills/templates/phase-goal.txt "Audit object"
+require_in_file skills/templates/phase-goal.txt "ydqyq-audit-action"
+require_in_file skills/templates/phase-goal.txt "Terminal object state to prove"
+require_in_file fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md "Audit object:"
+require_in_file fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md "Auditing actions:"
+require_in_file fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md "tdqyq-audit-object"
+require_in_file fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md "ydqyq-audit-action"
+require_in_file fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md "Double-audit sequence:"
+
+if [ -n "${IMPLEMENTAUDIT_FORBIDDEN_TERMS:-}" ] || [ -n "${IMPLEMENTAUDIT_FORBIDDEN_TERMS_FILE:-}" ]; then
+  bash scripts/check-forbidden-terms.sh --root .
 fi
-rm -f /tmp/implementaudit-planner-forbidden.txt
 
 printf 'check-planner-stages: ok\n'

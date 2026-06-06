@@ -9,6 +9,7 @@ trap 'rm -rf "$tmp"' EXIT
 
 mkdir -p "$tmp/repo/scripts" "$tmp/repo/skills/scripts"
 cp scripts/check-added-lines-clean.sh "$tmp/repo/scripts/check-added-lines-clean.sh"
+cp scripts/check-forbidden-terms.sh "$tmp/repo/scripts/check-forbidden-terms.sh"
 cp skills/scripts/repo-state.sh "$tmp/repo/skills/scripts/repo-state.sh"
 
 cd "$tmp/repo"
@@ -36,11 +37,9 @@ if bash scripts/check-added-lines-clean.sh "$baseline" >/dev/null 2>&1; then
 fi
 rm todo.txt
 
-legacy_a="Super"
-legacy_b="goal"
-printf '%s%s\n' "$legacy_a" "$legacy_b" >identity.txt
-if bash scripts/check-added-lines-clean.sh "$baseline" >/dev/null 2>&1; then
-  printf 'added-lines-clean.test: expected external identity drift to fail\n' >&2
+printf 'FORBIDDEN_EXTERNAL_SENTINEL\n' >identity.txt
+if IMPLEMENTAUDIT_FORBIDDEN_TERMS="FORBIDDEN_EXTERNAL_SENTINEL" bash scripts/check-added-lines-clean.sh "$baseline" >/dev/null 2>&1; then
+  printf 'added-lines-clean.test: expected externally supplied forbidden term to fail\n' >&2
   exit 1
 fi
 rm identity.txt

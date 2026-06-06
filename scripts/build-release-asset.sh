@@ -48,12 +48,8 @@ asset = Path(sys.argv[1]).resolve()
 
 include_roots = [
     Path("skills"),
-    Path("docs/diagrams"),
-    Path("docs/audits"),
     Path(".claude-plugin/plugin.json"),
     Path(".claude-plugin/marketplace.json"),
-    Path("README.md"),
-    Path("CHANGELOG.md"),
 ]
 
 required_files = [
@@ -79,14 +75,6 @@ required_files = [
     "skills/templates/PROTOCOL.md",
     ".claude-plugin/plugin.json",
     ".claude-plugin/marketplace.json",
-    "docs/diagrams/tooling-architecture.mmd",
-    "docs/diagrams/invocation-modes.mmd",
-    "docs/diagrams/execution-spine.mmd",
-    "docs/audits/INDEX.md",
-    "docs/audits/v0.2.3.0-harness-adaptation-matrix.md",
-    "docs/audits/v0.2.4.0-planner-stage-hardening.md",
-    "README.md",
-    "CHANGELOG.md",
 ]
 
 for rel in required_files:
@@ -96,6 +84,10 @@ for rel in required_files:
 blocked_parts = {
     ".git",
     ".IMPLEMENTAUDIT",
+    ".github",
+    "docs",
+    "fixtures",
+    "tests",
     "graphify-out",
     ".graphify",
     ".activegraph",
@@ -150,6 +142,13 @@ with zipfile.ZipFile(asset, "w", compression=zipfile.ZIP_DEFLATED) as zf:
 
 with zipfile.ZipFile(asset) as zf:
     names = zf.namelist()
+    top_level = {Path(name).parts[0] for name in names if Path(name).parts}
+    allowed_top_level = {"skills", ".claude-plugin"}
+    extra_top_level = sorted(top_level - allowed_top_level)
+    if extra_top_level:
+        raise SystemExit(
+            "asset contains repo-only top-level paths: " + ", ".join(extra_top_level)
+        )
     for name in names:
         rel = Path(name)
         if blocked(rel):

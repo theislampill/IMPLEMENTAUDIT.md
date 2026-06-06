@@ -2,6 +2,12 @@ IMPLEMENTAUDIT_PHASE_START
 
 Phase:
 Goal:
+Audit object:
+Audit object mnemonic: tdqyq-audit-object
+Auditing operation:
+Auditing action mnemonic: ydqyq-audit-action
+Action against audit object:
+Terminal object state to prove:
 Owner/source:
 Baseline ref:
 Thinking ref: .IMPLEMENTAUDIT/THINKING.md
@@ -16,6 +22,8 @@ Smoke A:
 
 Implementation notes:
 - Patch owner/source, not nearest symptom.
+- Treat AUDIT_COMPLETE as terminal verified closure of the audit object, not as
+  a decorative label.
 - Use .IMPLEMENTAUDIT/THINKING.md for route, risk, dependency, rollback, and
   evidence context.
 - Keep optional Graphify/ActiveGraph tooling absent-safe.

@@ -7,6 +7,23 @@ The transcript contract is an execution boundary. It is not a release,
 publication, provenance, install, Graphify indexing, or ActiveGraph export
 claim.
 
+The transcript records audit object lifecycle state. The `tdqyq-audit-object`
+is the evidence-bearing record for the run: input, ledger, phase artifacts,
+owner/source decisions, checks, Andons, handoffs, and terminal verification
+state. `ydqyq-audit-action` operations may happen repeatedly, but the run closes
+only when marker state proves the audit object reached terminal verified
+closure.
+
+For release-affecting, multi-phase, package-boundary, provenance, or public-claim
+work, the transcript must preserve the double-audit sequence:
+
+```text
+AUDIT_START          -> creates or normalizes the tdqyq-audit-object
+ydqyq-audit-action   -> acts against that object before mutation or handoff
+AUDIT_VERIFY         -> checks object state against evidence
+AUDIT_COMPLETE       -> terminal verified closure of the object
+```
+
 ## Planner markers
 
 Planner markers appear before a user starts a generated `/goal` handoff.
@@ -76,6 +93,8 @@ IMPLEMENTAUDIT_RUN_COMPLETE
 Rules:
 
 - `AUDIT_COMPLETE` must precede `IMPLEMENTAUDIT_RUN_COMPLETE`.
+- `AUDIT_COMPLETE` means the audit object reached terminal verified closure; it
+  does not merely mean the runtime performed an audit operation.
 - `AUDIT_HANDOFF` appears only when gaps, blockers, or handoff-required caveats
   remain.
 - `AUDIT_HANDOFF` must not appear with `IMPLEMENTAUDIT_RUN_COMPLETE`.

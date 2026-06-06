@@ -715,12 +715,13 @@ a ZIP-format archive containing the installable skill payload:
 
 ```text
 skills/
-docs/diagrams/
-docs/audits/
 .claude-plugin/
-README.md
-CHANGELOG.md
 ```
+
+The release asset intentionally excludes repo-maintenance material such as
+README generation sources, audit ledgers, release-candidate notes, fixtures,
+tests, CI config, Git metadata, and root validation scripts. Those remain
+repo-side evidence and maintenance surfaces, not installed runtime payload.
 
 Build and validate it locally with:
 

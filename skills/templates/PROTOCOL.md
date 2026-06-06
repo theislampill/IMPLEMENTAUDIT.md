@@ -18,6 +18,22 @@ owner/source, risks, dependencies, rollback, evidence strategy, generated
 artifacts, optional sidecar boundaries, and owner decisions. It is not proof by
 itself.
 
+The runtime audit object, `tdqyq-audit-object`, is the evidence-bearing record
+for this run: roadmap, state, phase specs, ledger items, owner/source decisions,
+Smoke A/B evidence, Andons, handoffs, and terminal verification state.
+`ydqyq-audit-action` operations mutate, verify, classify, close, or hand off
+against that object.
+
+For release-affecting, multi-phase, package-boundary, provenance, or public-claim
+work, use the double-audit pattern:
+
+1. Produce or update the audit object with findings, owner/source, allowed
+   scope, evidence needs, and release/package/claim boundaries.
+2. Act against that audit object through implementation, rebuild, repair,
+   rejection, or handoff.
+3. Run final auditing operations to verify the object's terminal state before
+   `AUDIT_COMPLETE`.
+
 Each phase prints these transcript markers:
 
 ```text
@@ -78,6 +94,8 @@ AUDIT_HANDOFF
 Rules:
 
 - `AUDIT_COMPLETE` must precede `IMPLEMENTAUDIT_RUN_COMPLETE`.
+- `AUDIT_COMPLETE` means the audit object reached terminal verified closure; it
+  is not merely a label for having done another review pass.
 - `AUDIT_HANDOFF` is conditional: print it only when gaps, blockers, or handoff-required caveats remain.
 - Do not print `AUDIT_HANDOFF` with `IMPLEMENTAUDIT_RUN_COMPLETE`.
 - `IMPLEMENTAUDIT_RUN_COMPLETE` appears only when every phase and ledger item is

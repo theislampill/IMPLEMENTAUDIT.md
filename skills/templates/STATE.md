@@ -8,10 +8,31 @@ Runtime copy target: `.IMPLEMENTAUDIT/STATE.md`
 |---|---|
 | Phase |  |
 | Status | open |
+| Audit object state | open |
 | Owner/source |  |
 | Baseline ref |  |
 | Last check |  |
 | Next action |  |
+
+## Audit object state
+
+Audit object / record / surface:
+
+Mnemonic: tdqyq-audit-object
+
+Audit object produced/updated by:
+
+Latest auditing operation:
+
+Mnemonic: ydqyq-audit-action
+
+Implementation action against object:
+
+Final auditing operation:
+
+Terminal closure condition:
+
+Handoff state, if any:
 
 ## Runtime artifacts
 

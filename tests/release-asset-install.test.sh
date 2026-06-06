@@ -4,6 +4,17 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
+if command -v python >/dev/null 2>&1; then
+  py_cmd=(python)
+elif command -v python3 >/dev/null 2>&1; then
+  py_cmd=(python3)
+elif command -v py >/dev/null 2>&1; then
+  py_cmd=(py -3)
+else
+  printf 'release-asset-install.test: python, python3, or py -3 is required\n' >&2
+  exit 1
+fi
+
 tmp_parent="$(mktemp -d)"
 trap 'rm -rf "$tmp_parent"' EXIT
 
@@ -65,6 +76,36 @@ if bash scripts/install-codex-from-release.sh \
   --codex-home "$tmp_parent/stale codex home" \
   --version 0.2.4 >/dev/null 2>&1; then
   printf 'release-asset-install.test: stale checksum unexpectedly passed\n' >&2
+  exit 1
+fi
+
+overbroad_dir="$tmp_parent/overbroad asset"
+mkdir -p "$overbroad_dir"
+overbroad="$overbroad_dir/IMPLEMENTAUDIT.skill"
+overbroad_checksums="$overbroad_dir/CHECKSUMS.txt"
+"${py_cmd[@]}" - "$asset" "$overbroad" <<'PY'
+import sys
+import zipfile
+from pathlib import Path
+
+source = Path(sys.argv[1])
+target = Path(sys.argv[2])
+
+with zipfile.ZipFile(source) as src, zipfile.ZipFile(
+    target, "w", compression=zipfile.ZIP_DEFLATED
+) as dst:
+    for info in src.infolist():
+        dst.writestr(info, src.read(info.filename))
+    dst.writestr("README.md", "repo-only doc must not be accepted in skill asset\n")
+PY
+
+bash scripts/write-release-checksums.sh "$overbroad" "$overbroad_checksums"
+if bash scripts/install-codex-from-release.sh \
+  --asset "$overbroad" \
+  --checksum "$overbroad_checksums" \
+  --codex-home "$tmp_parent/overbroad codex home" \
+  --version 0.2.4 >/dev/null 2>&1; then
+  printf 'release-asset-install.test: overbroad archive unexpectedly passed\n' >&2
   exit 1
 fi
 

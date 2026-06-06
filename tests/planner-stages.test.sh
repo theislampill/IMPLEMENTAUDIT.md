@@ -10,6 +10,7 @@ tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
 cp -R skills "$tmp/skills"
+cp -R fixtures "$tmp/fixtures"
 cp scripts/check-planner-stages.sh "$tmp/check-planner-stages.sh"
 
 if ! grep -Fq "Stage 6.5 - Pre-flight smoke" "$tmp/skills/SKILL.md"; then

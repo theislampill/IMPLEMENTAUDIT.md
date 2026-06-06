@@ -65,6 +65,103 @@ These invariants shape the run; they are not just final checks.
 
 ---
 
+## Canonical audit terminology
+
+IMPLEMENTAUDIT uses "audit" in two load-bearing senses. Keep them distinct in
+runtime contracts, templates, ledgers, and final reports.
+
+- **`tdqyq-audit-object` (audit object / audit record / audit surface)**: the evidence-bearing closure
+  state for the run. It includes the supplied or synthesized findings, ledger,
+  transcript markers, phase artifacts, acceptance criteria, owner/source
+  decisions, Smoke A/B evidence, Andons, handoffs, release assets when in scope,
+  and final verification state.
+- **`ydqyq-audit-action` (auditing action / audit operation)**: a runtime act performed against the
+  audit object, such as scrutinizing, comparing, verifying, classifying,
+  patching owner/source under evidence, closing, handing off, refusing, or
+  rerunning checks. It reads or mutates state only through the
+  `tdqyq-audit-object`.
+- **Audit-governed implementation**: implementation that occurs only under an
+  audit object and is closed by auditing actions. IMPLEMENTAUDIT is not merely
+  an auditor and not merely an implementer; it is the runtime that binds
+  implementation to evidence-bearing audit closure.
+- **Final audit**: the terminal verification action over the audit object,
+  changed files, generated artifacts, claims, release assets when in scope, and
+  unresolved gaps. It is not just another review pass.
+- **Audit handoff**: the explicit state when the audit object cannot reach
+  terminal verified closure and must leave evidence, blockers, remaining risk,
+  and next action for a later agent or owner.
+
+Invocation modes bind or construct the audit object differently:
+
+- **Direct governance binds** the audit object from the user's supplied or
+  implied audit, handoff, checklist, review, goal, task, gap, or implementation
+  plan. The skill performs auditing actions and implementation against it.
+- **Embedded governance inherits** the audit object from the outer `/goal`,
+  task, or plan. The skill performs auditing actions inside that object and
+  must not emit a nested `/goal`.
+- **Goal synthesis constructs** the audit object and phase artifacts when the
+  input is too incomplete or ambiguous to execute safely. It emits a bounded
+  `/goal` handoff only when not already embedded.
+
+Markers are audit-object lifecycle state:
+
+- `AUDIT_START` opens, inherits, or normalizes the `tdqyq-audit-object`.
+- `ydqyq-audit-action` operations inspect evidence, classify gaps, authorize or
+  reject mutation, update closure state, and produce handoff if needed.
+- Implementation may proceed only against a live `tdqyq-audit-object`.
+- `AUDIT_VERIFY` performs terminal `ydqyq-audit-action` over the object.
+- `AUDIT_COMPLETE` means the `tdqyq-audit-object` reached verified terminal
+  closure.
+- `AUDIT_START`, `AUDIT_VERIFY`, `AUDIT_GAPS`, `AUDIT_COMPLETE`,
+  `AUDIT_HANDOFF`, and `FAILURE_HANDOFF` are not decorative labels.
+- The runtime may perform auditing actions many times, but completion is valid
+  only when the audit object reaches `AUDIT_COMPLETE`.
+- `IMPLEMENTAUDIT_RUN_COMPLETE` is invalid unless `AUDIT_COMPLETE` proves
+  terminal verified closure of the `tdqyq-audit-object`.
+
+### Double-audit pattern for high-risk runs
+
+For release-affecting, multi-phase, package-boundary, provenance, public-claim,
+or otherwise high-risk work, do not jump directly from inspection to mutation.
+Use the double-audit pattern:
+
+1. First `ydqyq-audit-action` -> `tdqyq-audit-object`: inspect the repo state,
+   claims, package contents, release assets, tests, and unresolved gaps; then
+   produce or update the evidence-bearing audit object.
+2. Second `ydqyq-audit-action` over that `tdqyq-audit-object` -> governed
+   implementation: close items, mutate owner/source, reject claims, repair
+   package boundaries, rebuild assets, or hand off blocked work only through the
+   audit object.
+3. Final `ydqyq-audit-action` -> terminal `tdqyq-audit-object` state: verify
+   the same audit object against changed files, generated artifacts, package
+   contents, checksums, install smoke, release state when in scope, and
+   remaining risk.
+
+Mode binding:
+
+- Direct governance constructs or normalizes the audit object, then acts against
+  it.
+- Embedded governance updates and uses the outer `/goal` audit object without
+  emitting a nested `/goal`.
+- Goal synthesis creates the audit object and phase specs first, then emits a
+  bounded `/goal` only if not already embedded.
+
+Release, package, and claim hygiene use the same pattern:
+
+- pre-release auditing produces the release audit object;
+- implementation/rebuild operates against that object;
+- final release auditing verifies source, package, checksum manifest, install
+  smoke, generated docs, public release state, and claims against that object.
+
+Package-boundary audits produce a package-content manifest before the package
+build acts on it. Final audit verifies the built `.skill` matches the allowed
+runtime-load-bearing scope.
+
+Claim audits produce a claim ledger before edits. Final audit verifies README,
+CHANGELOG, release notes, and package contents do not exceed the evidence.
+
+---
+
 ## 0. Non-negotiable safety defaults
 
 Before touching files, inspect repo instructions when present:

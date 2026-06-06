@@ -531,7 +531,9 @@ test -f docs/diagrams/execution-spine.mmd
 test -f docs/audits/v0.2.3.0-harness-adaptation-matrix.md
 test -f docs/audits/v0.2.4.0-planner-stage-hardening.md
 test -f scripts/install-codex-from-release.sh
+test -f scripts/check-forbidden-terms.sh
 test -f tests/release-asset-install.test.sh
+test -f tests/forbidden-terms.test.sh
 python -m json.tool .claude-plugin/plugin.json >/dev/null
 python -m json.tool .claude-plugin/marketplace.json >/dev/null
 bash scripts/generate-readme-diagrams.sh --check
@@ -545,6 +547,7 @@ bash tests/marker-order.test.sh
 bash tests/planner-stages.test.sh
 bash tests/release-asset.test.sh
 bash tests/release-asset-install.test.sh
+bash tests/forbidden-terms.test.sh
 bash tests/install-copy-smoke.test.sh
 bash tests/routing.test.sh
 bash tests/repo-state.test.sh
@@ -625,6 +628,12 @@ The repo may validate a release-asset-to-Codex-install path with
 checksum-checked when a manifest is supplied, and copied into a Codex-style
 skill directory. It does not prove passive auto-update, marketplace distribution, universal host support, public release download, Graphify setup, or ActiveGraph setup.
 
+Future work: reduce first-time user cognitive load with a dedicated
+quickstart/onboarding docs page. Keep this as future work; it is not a
+`v0.2.4.0` release blocker unless README/install claims become misleading.
+Focus later on clearer first-run path, examples, and decision trees without
+weakening audit-governed truthfulness.
+
 ## Release asset gate
 
 For package release gates, including `v0.2.4.0`, the GitHub release asset name is
@@ -639,11 +648,14 @@ by:
 bash scripts/build-release-asset.sh
 ```
 
-The artifact contains the packaged skill payload required for installation:
-`skills/`, `docs/diagrams/`, `docs/audits/`, `.claude-plugin/` metadata,
-`README.md`, and `CHANGELOG.md`. It must include the `skills/` layout,
-references, scripts, and templates. It must not include a root
-`IMPLEMENTAUDIT.md` behavior file.
+The artifact contains only the packaged skill payload required for installation:
+`skills/` plus `.claude-plugin/` metadata. It must include the `skills/` layout,
+references, scripts, and templates. Repo-maintenance material such as README
+generation sources, audit ledgers, release-candidate notes, fixtures, tests, CI
+config, Git metadata, root validation scripts, and changelog/release-history
+evidence stays repo-side unless a future owner decision proves a file is
+load-bearing for installed runtime behavior. The artifact must not include a
+root `IMPLEMENTAUDIT.md` behavior file.
 
 The artifact must not include `.IMPLEMENTAUDIT/` run artifacts, local smoke
 debris, Graphify outputs, ActiveGraph stores, secrets, git metadata, or

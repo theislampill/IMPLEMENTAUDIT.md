@@ -34,21 +34,6 @@ blocked_dirs = {
 }
 binary_suffixes = {".png", ".jpg", ".jpeg", ".gif", ".zip", ".skill", ".ico", ".pdf"}
 
-legacy = "Super" + "goal"
-legacy_lower = legacy.lower()
-legacy_dir = "." + legacy_lower
-memory_marker = "MEMORY" + "_SAVED"
-child_file = "CHILD" + "_AGENTS.md"
-
-forbidden_tokens = [
-    (legacy, "forbidden external comparator identity"),
-    (legacy_lower, "forbidden external comparator identity"),
-    (legacy_dir, "forbidden external comparator artifact path"),
-    (memory_marker, "user-memory-first learning marker is not an ImplementAudit repo contract"),
-    (child_file, "nonstandard child-agent instruction filename must not be claimed canonical"),
-    (child_file.lower(), "nonstandard child-agent instruction filename must not be claimed canonical"),
-]
-
 unsupported_claims = [
     ("verified " + "install", "host install verification claim requires current host evidence"),
     ("install " + "verified", "host install verification claim requires current host evidence"),
@@ -109,9 +94,6 @@ for path in Path(".").rglob("*"):
         continue
     lowered = text.lower()
 
-    for token, reason in forbidden_tokens:
-        if token in text or token.lower() in lowered:
-            failures.append(f"{path}: {reason}: {token}")
     for phrase, reason in unsupported_claims:
         for line_no, line in enumerate(lowered.splitlines(), start=1):
             if phrase in line and not any(context in line for context in negative_context):
@@ -122,3 +104,7 @@ if failures:
 
 print("check-host-claims: ok")
 PY
+
+if [ -n "${IMPLEMENTAUDIT_FORBIDDEN_TERMS:-}" ] || [ -n "${IMPLEMENTAUDIT_FORBIDDEN_TERMS_FILE:-}" ]; then
+  bash scripts/check-forbidden-terms.sh --root .
+fi

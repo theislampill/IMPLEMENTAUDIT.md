@@ -6,7 +6,24 @@ goal runner handoff.
 ## Embedded governance rule
 
 If the current session is already inside a supplied `/goal using /implementaudit`
-run, do not print a second `/goal`. Continue governing the active target.
+run, do not print a second `/goal`. Continue governing the active target. The
+outer goal owns the audit object; ImplementAudit performs auditing actions
+inside that object.
+
+## Audit object binding
+
+- Direct governance starts from a supplied or implied `tdqyq-audit-object` and
+  closes it through implementation plus `ydqyq-audit-action` operations.
+- Embedded governance inherits the `tdqyq-audit-object` from the outer runner
+  and must not create a nested goal.
+- Goal synthesis constructs the `tdqyq-audit-object` and phase artifacts before
+  printing a bounded handoff, and only when not already embedded.
+
+High-risk or release-affecting handoffs must preserve the double-audit pattern:
+first create or normalize the audit object, then act against that object, then
+run final auditing actions to verify terminal object closure. Do not frame a
+handoff as "inspect, mutate, done" when release assets, package boundaries,
+public claims, generated artifacts, or unresolved gaps are in scope.
 
 ## Ready-to-paste shape
 
@@ -39,6 +56,8 @@ Required checks:
 
 Final audit:
 - Print AUDIT_COMPLETE before IMPLEMENTAUDIT_RUN_COMPLETE.
+- Treat AUDIT_COMPLETE as terminal verified closure of the audit object, not as
+  a decorative label.
 - Print AUDIT_HANDOFF only when gaps, blockers, or handoff-required caveats remain.
 - Close every ledger item terminally.
 ```

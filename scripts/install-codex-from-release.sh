@@ -204,6 +204,13 @@ with zipfile.ZipFile(asset) as zf:
     missing = sorted(required_archive - names)
     if missing:
         raise SystemExit("asset missing required entries: " + ", ".join(missing))
+    allowed_top_level = {"skills", ".claude-plugin"}
+    top_level = {Path(name).parts[0] for name in names if Path(name).parts}
+    extra_top_level = sorted(top_level - allowed_top_level)
+    if extra_top_level:
+        raise SystemExit(
+            "asset contains repo-only top-level paths: " + ", ".join(extra_top_level)
+        )
     for name in names:
         rel = Path(name)
         if rel.is_absolute() or ".." in rel.parts:

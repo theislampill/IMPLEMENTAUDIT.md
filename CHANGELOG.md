@@ -38,6 +38,9 @@ evidence proved four-component plugin manifest versions are accepted.
   `docs/audits/v0.2.4.0-planner-stage-hardening.md`.
 - Added `scripts/check-readme-toc.sh` and wired it into package validation so
   README Contents anchors are checker-validated.
+- Added generic externally supplied forbidden-term validation and neutral
+  sentinel tests so release audits can scan sensitive terms without storing the
+  sensitive source term in tracked files.
 
 ### Changed
 
@@ -64,6 +67,26 @@ evidence proved four-component plugin manifest versions are accepted.
   Stage 0-7 planner behavior are part of the package contract.
 - Updated package validation and CI so the release-asset install smoke verifies
   path-with-spaces handling and proves a stale checksum manifest fails.
+- Clarified audit noun/action terminology so the runtime distinguishes
+  evidence-bearing audit objects from auditing operations across direct,
+  embedded, and goal-synthesis modes.
+- Added stable internal mnemonics `tdqyq-audit-object` and
+  `ydqyq-audit-action` to keep the noun/action distinction explicit in runtime
+  contracts, templates, fixtures, and validators.
+- Updated canonical runtime references, phase templates, checker coverage, and
+  the transcript skeleton so `AUDIT_COMPLETE` means terminal verified closure of
+  the audit object, not merely that an audit operation was attempted.
+- Dogfooded the audit noun/action distinction by requiring release-affecting
+  runs to produce an audit object, act against it, and verify terminal closure
+  before release completion.
+- Audited the `.skill` release asset boundary so installed packages include
+  only runtime-load-bearing skill docs, templates, scripts, host metadata, and
+  package-shape validation surfaces.
+- Hardened release-asset installation so a checksummed archive is still rejected
+  when it contains repo-only top-level paths outside the runtime payload.
+- Removed source-embedded forbidden external-name fragments from the leakage
+  checkers and replaced them with generic externally supplied forbidden-term
+  validation.
 - Bumped plugin manifest metadata from `0.2.3` to `0.2.4` for the
   `v0.2.4.0` project milestone.
 
@@ -78,13 +101,20 @@ evidence proved four-component plugin manifest versions are accepted.
   is claimed.
 - Preserved separate gates for commit, push, tag, release, publication, and
   checksum-manifest provenance.
+- Preserved forbidden external-name hygiene without storing the sensitive source
+  term, fragments, encoded forms, or project-specific marker names in tracked
+  checker source.
+- Preserved repo audit ledgers, release notes, dogfood evidence, CI config,
+  fixtures, and validation history as repo-side evidence rather than installed
+  `.skill` payload.
 - Preserved checksum-manifest provenance as bounded artifact-integrity evidence
   only. No signature, attestation, SBOM, license, marketplace verification,
   host install verification, package publication, or broader provenance claim is
   made by this changelog entry.
-- Public GitHub release download-to-install verification was performed after
-  the v0.2.4.0 release existed by installing the tagged release asset into a
-  temporary Codex-style skill home.
+- Public GitHub release download-to-install verification is a release-gate check
+  for `v0.2.4.0`. Record the final public result in release notes and final
+  audit output after the cleaned tag asset exists; do not treat this source
+  changelog as public download proof by itself.
 
 ## [v0.2.3.0] - 2026-06-05
 

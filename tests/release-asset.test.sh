@@ -63,11 +63,6 @@ required = {
     "skills/templates/PROTOCOL.md",
     ".claude-plugin/plugin.json",
     ".claude-plugin/marketplace.json",
-    "README.md",
-    "CHANGELOG.md",
-    "docs/audits/INDEX.md",
-    "docs/audits/v0.2.3.0-harness-adaptation-matrix.md",
-    "docs/audits/v0.2.4.0-planner-stage-hardening.md",
 }
 blocked_parts = {
     ".git",
@@ -79,12 +74,28 @@ blocked_parts = {
     "temp",
     "dist",
 }
+blocked_top_level = {
+    ".github",
+    "AGENTS.md",
+    "CHANGELOG.md",
+    "CLAUDE.md",
+    "CONTRIBUTING.md",
+    "README.md",
+    "docs",
+    "fixtures",
+    "scripts",
+    "tests",
+}
 
 with zipfile.ZipFile(asset) as zf:
     names = set(zf.namelist())
     missing = sorted(required - names)
     if missing:
         raise SystemExit("missing asset entries: " + ", ".join(missing))
+    top_level = {Path(name).parts[0] for name in names if Path(name).parts}
+    unexpected = sorted(top_level & blocked_top_level)
+    if unexpected:
+        raise SystemExit("repo-only top-level paths included: " + ", ".join(unexpected))
     for name in names:
         parts = set(Path(name).parts)
         if parts & blocked_parts:

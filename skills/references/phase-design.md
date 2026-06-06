@@ -6,6 +6,12 @@ dependent to close as one atomic implementation pass.
 ## Phase rules
 
 - Each phase must close one coherent slice of audit risk.
+- Each phase mutates or verifies against the same `tdqyq-audit-object` unless an
+  owner decision explicitly splits the work into a new audit object.
+- Release-affecting or package-boundary phases must first update the audit
+  object with the finding and allowed scope, then use `ydqyq-audit-action`
+  operations to implement against that object, then verify the object's terminal
+  state.
 - Each phase needs an owner/source, acceptance criteria, Smoke A, Smoke B, and
   a rollback or deferral path.
 - Stage 4 derives the phase count from dependencies, risk, and evidence shape;
@@ -59,7 +65,9 @@ AUDIT_COMPLETE
 IMPLEMENTAUDIT_RUN_COMPLETE
 ```
 
-`IMPLEMENTAUDIT_RUN_COMPLETE` may appear only after `AUDIT_COMPLETE`.
+`AUDIT_COMPLETE` means the audit object reached terminal verified closure, not
+merely that an auditing operation was attempted. `IMPLEMENTAUDIT_RUN_COMPLETE`
+may appear only after `AUDIT_COMPLETE`.
 `AUDIT_HANDOFF` is a handoff path only when gaps, blockers, or handoff-required caveats remain; do not print it with `IMPLEMENTAUDIT_RUN_COMPLETE`.
 
 Use `skills/scripts/repo-state.sh` for deliverable and added-line checks when a

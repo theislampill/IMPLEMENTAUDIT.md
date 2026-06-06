@@ -12,6 +12,22 @@ Top objective:
 
 Audit target:
 
+Audit object / record / surface:
+
+Audit object mnemonic: tdqyq-audit-object
+
+Auditing operations needed:
+
+Auditing action mnemonic: ydqyq-audit-action
+
+Double-audit sequence for high-risk work:
+
+1. Audit operation -> audit object:
+2. Action against audit object:
+3. Final audit operation -> terminal object state:
+
+Terminal closure condition:
+
 Invocation shape: embedded governance / direct governance / goal synthesis
 
 Route: greenfield / brownfield / mixed

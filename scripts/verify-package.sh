@@ -27,6 +27,7 @@ require_file .claude-plugin/plugin.json
 require_file .claude-plugin/marketplace.json
 require_file scripts/build-release-asset.sh
 require_file scripts/check-host-claims.sh
+require_file scripts/check-forbidden-terms.sh
 require_file scripts/check-added-lines-clean.sh
 require_file scripts/check-marker-order.sh
 require_file scripts/check-planner-stages.sh
@@ -90,6 +91,7 @@ require_file tests/marker-order.test.sh
 require_file tests/planner-stages.test.sh
 require_file tests/release-asset.test.sh
 require_file tests/release-asset-install.test.sh
+require_file tests/forbidden-terms.test.sh
 require_file tests/install-copy-smoke.test.sh
 require_file tests/routing.test.sh
 require_file tests/repo-state.test.sh
@@ -215,16 +217,9 @@ rm -f /tmp/implementaudit-root-file-claim.txt
 
 grep -R "skills/SKILL.md" -n README.md AGENTS.md CHANGELOG.md >/dev/null || fail "canonical skills/SKILL.md behavior source is not documented"
 
-legacy_a="Super"
-legacy_b="goal"
-legacy_name="${legacy_a}${legacy_b}"
-legacy_dir=".${legacy_name,,}"
-if grep -R -n -I --exclude-dir=.git -e "$legacy_name" -e "$legacy_dir" . >/tmp/implementaudit-forbidden-grep.txt; then
-  cat /tmp/implementaudit-forbidden-grep.txt >&2
-  rm -f /tmp/implementaudit-forbidden-grep.txt
-  fail "forbidden legacy planner name appears in repo files"
+if [ -n "${IMPLEMENTAUDIT_FORBIDDEN_TERMS:-}" ] || [ -n "${IMPLEMENTAUDIT_FORBIDDEN_TERMS_FILE:-}" ]; then
+  bash scripts/check-forbidden-terms.sh --root .
 fi
-rm -f /tmp/implementaudit-forbidden-grep.txt
 
 child_upper_a="CHILD"
 child_upper_b="AGENTS"
@@ -253,6 +248,7 @@ bash tests/marker-order.test.sh
 bash tests/planner-stages.test.sh
 bash tests/release-asset.test.sh
 bash tests/release-asset-install.test.sh
+bash tests/forbidden-terms.test.sh
 bash tests/install-copy-smoke.test.sh
 bash tests/routing.test.sh
 bash tests/repo-state.test.sh
