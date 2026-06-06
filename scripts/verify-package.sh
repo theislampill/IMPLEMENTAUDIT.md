@@ -184,6 +184,14 @@ grep -R ".IMPLEMENTAUDIT/THINKING.md" -n skills/SKILL.md skills/templates/THINKI
 grep -R "install-codex-from-release.sh" -n README.md AGENTS.md scripts tests >/dev/null || fail "release-asset Codex install path is not documented/validated"
 grep -R "stale checksum" -in tests/release-asset-install.test.sh scripts/install-codex-from-release.sh >/dev/null || fail "stale checksum install failure coverage is missing"
 grep -R "auto-update" -in README.md CHANGELOG.md AGENTS.md | grep -i "no marketplace auto-update\|does not auto-update\|do not assume\|do not claim" >/dev/null || fail "auto-update boundary must remain explicit"
+grep -n "bash scripts/write-release-checksums.sh dist/IMPLEMENTAUDIT.skill dist/CHECKSUMS.txt" README.md >/dev/null || fail "README release-asset validation must write CHECKSUMS.txt before --check"
+grep -n "bash scripts/write-release-checksums.sh --check" README.md >/dev/null || fail "README release-asset validation must include checksum check"
+if grep -n "remain unperformed" docs/audits/v0.2.4.0-planner-stage-hardening.md >/tmp/implementaudit-v024-release-state.txt; then
+  cat /tmp/implementaudit-v024-release-state.txt >&2
+  rm -f /tmp/implementaudit-v024-release-state.txt
+  fail "v0.2.4.0 ledger must not say release/tag surfaces remain unperformed after release readback"
+fi
+rm -f /tmp/implementaudit-v024-release-state.txt
 grep -R "v0.2.4.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.4.0 is not documented"
 grep -R "v0.2.3.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.3.0 is not documented"
 grep -R "v0.2.2.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.2.0 history is not documented"

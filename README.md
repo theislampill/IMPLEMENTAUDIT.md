@@ -761,6 +761,7 @@ When release assets are mentioned, validate the release asset locally:
 
 ```bash
 bash scripts/build-release-asset.sh
+bash scripts/write-release-checksums.sh dist/IMPLEMENTAUDIT.skill dist/CHECKSUMS.txt
 bash scripts/write-release-checksums.sh --check
 bash tests/release-asset-install.test.sh
 ```

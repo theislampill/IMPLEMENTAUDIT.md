@@ -36,8 +36,6 @@ evidence proved four-component plugin manifest versions are accepted.
   Codex-style skill home during validation.
 - Added a v0.2.4.0 audit ledger at
   `docs/audits/v0.2.4.0-planner-stage-hardening.md`.
-- Added a post-release README/onboarding audit ledger at
-  `docs/audits/readme-audit_202606052026.md`.
 - Added `scripts/check-readme-toc.sh` and wired it into package validation so
   README Contents anchors are checker-validated.
 
@@ -46,6 +44,9 @@ evidence proved four-component plugin manifest versions are accepted.
 - Clarified README newcomer navigation, compact terminology, `AUDIT.md` run
   flow, loopability/re-entry, post-release correction framing, artifacts, and
   validation/release-evidence boundaries after the `v0.2.3.0` release.
+- Carried forward the existing post-release README/onboarding audit ledger at
+  `docs/audits/readme-audit_202606052026.md` as prior evidence for the
+  v0.2.4.0 onboarding polish, without claiming that v0.2.4.0 added that file.
 - Refined source-generated README Mermaid diagrams after screenshot review so
   the execution spine is readable at README scale, keeps release/provenance as a
   dashed separate gate, and labels Graphify/ActiveGraph as optional non-proof
@@ -81,9 +82,9 @@ evidence proved four-component plugin manifest versions are accepted.
   only. No signature, attestation, SBOM, license, marketplace verification,
   host install verification, package publication, or broader provenance claim is
   made by this changelog entry.
-- Public GitHub release download-to-install verification remains unverified
-  until a v0.2.4.0 release exists and that exact download/checksum/install smoke
-  is run.
+- Public GitHub release download-to-install verification was performed after
+  the v0.2.4.0 release existed by installing the tagged release asset into a
+  temporary Codex-style skill home.
 
 ## [v0.2.3.0] - 2026-06-05
 
