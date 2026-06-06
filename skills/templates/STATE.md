@@ -9,8 +9,18 @@ Runtime copy target: `.IMPLEMENTAUDIT/STATE.md`
 | Phase |  |
 | Status | open |
 | Owner/source |  |
+| Baseline ref |  |
 | Last check |  |
 | Next action |  |
+
+## Runtime artifacts
+
+| Artifact | Status | Notes |
+|---|---|---|
+| `.IMPLEMENTAUDIT/ROADMAP.md` | open |  |
+| `.IMPLEMENTAUDIT/THINKING.md` | open |  |
+| `.IMPLEMENTAUDIT/PROTOCOL.md` | open |  |
+| `.IMPLEMENTAUDIT/phases/phase-N.md` | open |  |
 
 ## Ledger
 

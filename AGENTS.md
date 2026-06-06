@@ -131,9 +131,11 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
 │   ├── check-host-claims.sh    Guard unsupported host/release/license claims.
 │   ├── check-added-lines-clean.sh Guard added-line debug/task-marker/overclaim drift.
 │   ├── check-marker-order.sh   Guard final-audit transcript marker order.
+│   ├── check-planner-stages.sh Guard native Stage 0-7 planner contract.
 │   ├── check-readme-toc.sh     Guard README Contents anchors.
 │   ├── generate-readme-diagrams.sh Generate/check README Mermaid blocks.
 │   ├── check-routing.sh     Validate greenfield/brownfield routing fixtures.
+│   ├── install-codex-from-release.sh Install a validated release asset into a Codex-style skill home.
 │   ├── verify-package.sh       Repo/package validation.
 │   └── write-release-checksums.sh Create/check release checksum manifest.
 ├── tests/                      Focused shell tests for package behavior.
@@ -157,6 +159,7 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
     └── templates/              Files the planner copies into a user's `.IMPLEMENTAUDIT/` dir.
         ├── ROADMAP.md          Phase plan with dependencies.
         ├── STATE.md            Live progress file.
+        ├── THINKING.md         Reviewable risk/dependency/evidence plan.
         ├── phase-goal.txt      Phase spec skeleton (work, criteria, evidence, commands).
         ├── child-agent-report.md Read-only reviewer report shape.
         └── PROTOCOL.md         Execution loop + failure recovery + final audit protocol.
@@ -168,7 +171,7 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
 - **Repo-only**: `README.md`, `CHANGELOG.md`, `AGENTS.md`, `CLAUDE.md`, `CONTRIBUTING.md`, fixtures, root scripts, and `.gitignore`.
 - **Marketplace entry**: `.claude-plugin/marketplace.json` points at the plugin root. Do not claim marketplace behavior was verified unless actually tested.
 - **License**: no `LICENSE` file is present until the owner selects a license and supplies license evidence.
-- **Versioning**: project milestone `v0.2.3.0` maps to plugin manifest version `0.2.3`. The manifest uses host-conservative package metadata; project milestones are not tags, releases, publication, or provenance claims until the separate release/provenance gate actually performs and verifies those actions.
+- **Versioning**: project milestone `v0.2.4.0` maps to plugin manifest version `0.2.4`. The manifest uses host-conservative package metadata; project milestones are not tags, releases, publication, or provenance claims until the separate release/provenance gate actually performs and verifies those actions.
 - **Root behavior file**: there is intentionally no tracked root
   `IMPLEMENTAUDIT.md` file. The repo name is the project name; canonical
   behavior lives in `skills/SKILL.md` and supporting references/scripts/templates.
@@ -256,6 +259,11 @@ Runtime artifacts:
 .IMPLEMENTAUDIT/PROTOCOL.md
 .IMPLEMENTAUDIT/phases/phase-N.md
 ```
+
+`THINKING.md` is reviewable planning evidence for top objective, route,
+owner/source, risks, dependencies, rollback, evidence strategy, generated
+artifacts, sidecar boundaries, and owner decisions. It is not private
+chain-of-thought or proof by itself.
 
 Slash commands fire only from user input. Agent text containing `/goal ...` is not automatic dispatch.
 
@@ -464,9 +472,9 @@ Durable child/subagent lessons should flow into the nearest applicable `AGENTS.m
 CHANGELOG:
 
 - Keep-a-Changelog style.
-- Keep the current project milestone at top, e.g. `[v0.2.3.0] - Unreleased` before release or `[v0.2.3.0] - <date>` only when the date is grounded.
+- Keep the current project milestone at top, e.g. `[v0.2.4.0] - Unreleased` before release or `[v0.2.4.0] - <date>` only when the date is grounded.
 - Match manifest version if one exists.
-- Current project milestone is `v0.2.3.0`; plugin manifest version is `0.2.3` unless host evidence supports a four-component manifest version.
+- Current project milestone is `v0.2.4.0`; plugin manifest version is `0.2.4` unless host evidence supports a four-component manifest version.
 - Do not claim tags, releases, provenance, publication, or verified install without evidence.
 - Behavior/package changes should be produced by running `/implementaudit` on this repo itself.
 - Changelog entries should preserve the causal chain: finding/gap, root cause when known, countermeasure, evidence, and remaining risk.
@@ -504,6 +512,7 @@ test -f skills/references/repo-state-comparison.md
 test -f skills/templates/PROTOCOL.md
 test -f skills/templates/ROADMAP.md
 test -f skills/templates/STATE.md
+test -f skills/templates/THINKING.md
 test -f skills/templates/phase-goal.txt
 test -f skills/templates/child-agent-report.md
 test -f skills/scripts/repo-state.sh
@@ -520,16 +529,22 @@ test -f docs/diagrams/tooling-architecture.mmd
 test -f docs/diagrams/invocation-modes.mmd
 test -f docs/diagrams/execution-spine.mmd
 test -f docs/audits/v0.2.3.0-harness-adaptation-matrix.md
+test -f docs/audits/v0.2.4.0-planner-stage-hardening.md
+test -f scripts/install-codex-from-release.sh
+test -f tests/release-asset-install.test.sh
 python -m json.tool .claude-plugin/plugin.json >/dev/null
 python -m json.tool .claude-plugin/marketplace.json >/dev/null
 bash scripts/generate-readme-diagrams.sh --check
 bash scripts/check-readme-toc.sh
+bash scripts/check-planner-stages.sh
 bash scripts/check-marker-order.sh fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md
 bash scripts/check-routing.sh
 bash scripts/check-host-claims.sh
 bash scripts/check-added-lines-clean.sh HEAD
 bash tests/marker-order.test.sh
+bash tests/planner-stages.test.sh
 bash tests/release-asset.test.sh
+bash tests/release-asset-install.test.sh
 bash tests/install-copy-smoke.test.sh
 bash tests/routing.test.sh
 bash tests/repo-state.test.sh
@@ -572,6 +587,7 @@ grep -R "AGENTS_UPDATE_DECISION" -n skills
 grep -R "AUDIT_COMPLETE" -n skills
 grep -R "IMPLEMENTAUDIT_RUN_COMPLETE" -n skills
 grep -R ".IMPLEMENTAUDIT" -n skills README.md AGENTS.md
+grep -R "v0.2.4.0" -n README.md CHANGELOG.md AGENTS.md
 grep -R "v0.2.3.0" -n README.md CHANGELOG.md AGENTS.md
 grep -R "v0.2.2.0" -n README.md CHANGELOG.md AGENTS.md
 grep -R "v0.2.1.0" -n README.md CHANGELOG.md AGENTS.md
@@ -603,9 +619,15 @@ Do not label an install flow “verified working” unless it was tested in the 
 
 Codex has no marketplace auto-update path. Manual skill copy must be repeated when the package changes.
 
+The repo may validate a release-asset-to-Codex-install path with
+`scripts/install-codex-from-release.sh` into a temporary `CODEX_HOME` or
+`--codex-home`. That proof means the named local asset can be extracted,
+checksum-checked when a manifest is supplied, and copied into a Codex-style
+skill directory. It does not prove passive auto-update, marketplace distribution, universal host support, public release download, Graphify setup, or ActiveGraph setup.
+
 ## Release asset gate
 
-For package release gates, including `v0.2.3.0`, the GitHub release asset name is
+For package release gates, including `v0.2.4.0`, the GitHub release asset name is
 `IMPLEMENTAUDIT.skill`.
 
 No local repo evidence proves `.skill` is a universal host-standard archive
@@ -635,7 +657,7 @@ commit, or push-only gates. Building or validating the local asset is not a
 release, publication, marketplace verification, or provenance claim.
 
 If provenance is explicitly authorized, publish only the provenance artifacts
-that were actually generated and validated. For `v0.2.3.0`, the repo-supported
+that were actually generated and validated. For `v0.2.4.0`, the repo-supported
 provenance surface is a checksum manifest produced by:
 
 ```bash

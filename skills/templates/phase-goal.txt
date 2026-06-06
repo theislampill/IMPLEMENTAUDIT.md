@@ -4,6 +4,7 @@ Phase:
 Goal:
 Owner/source:
 Baseline ref:
+Thinking ref: .IMPLEMENTAUDIT/THINKING.md
 
 Acceptance criteria:
 -
@@ -15,6 +16,8 @@ Smoke A:
 
 Implementation notes:
 - Patch owner/source, not nearest symptom.
+- Use .IMPLEMENTAUDIT/THINKING.md for route, risk, dependency, rollback, and
+  evidence context.
 - Keep optional Graphify/ActiveGraph tooling absent-safe.
 - Do not commit, install, index, configure, export, push, tag, release, publish, or
   claim provenance unless separately authorized.

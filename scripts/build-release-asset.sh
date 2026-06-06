@@ -73,6 +73,7 @@ required_files = [
     "skills/scripts/validate-phase.sh",
     "skills/templates/ROADMAP.md",
     "skills/templates/STATE.md",
+    "skills/templates/THINKING.md",
     "skills/templates/phase-goal.txt",
     "skills/templates/child-agent-report.md",
     "skills/templates/PROTOCOL.md",
@@ -83,6 +84,7 @@ required_files = [
     "docs/diagrams/execution-spine.mmd",
     "docs/audits/INDEX.md",
     "docs/audits/v0.2.3.0-harness-adaptation-matrix.md",
+    "docs/audits/v0.2.4.0-planner-stage-hardening.md",
     "README.md",
     "CHANGELOG.md",
 ]
@@ -163,8 +165,8 @@ with zipfile.ZipFile(asset) as zf:
         marketplace = json.loads((extracted / ".claude-plugin/marketplace.json").read_text())
         if plugin.get("name") != "implementaudit":
             raise SystemExit("extracted plugin name must be implementaudit")
-        if plugin.get("version") != "0.2.3":
-            raise SystemExit("extracted plugin version must be 0.2.3")
+        if plugin.get("version") != "0.2.4":
+            raise SystemExit("extracted plugin version must be 0.2.4")
         if plugin.get("skills") != "./skills/":
             raise SystemExit("extracted plugin skills path must be ./skills/")
         if not marketplace.get("plugins"):

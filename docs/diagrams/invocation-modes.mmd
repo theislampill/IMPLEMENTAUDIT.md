@@ -1,12 +1,39 @@
-%%{init: {"flowchart": {"htmlLabels": true, "nodeSpacing": 55, "rankSpacing": 65}, "themeVariables": {"fontSize": "18px", "fontFamily": "Arial"}, "themeCSS": ".nodeLabel, .edgeLabel, .label { font-size: 18px !important; }"}}%%
-flowchart TD
-  A["/goal using /implementaudit ..."] --> B["Embedded governance"]
-  B --> C["Govern supplied goal/task/plan"]
-  C --> D["No second /goal"]
+%%{init: {"flowchart": {"htmlLabels": true, "nodeSpacing": 46, "rankSpacing": 58}, "themeVariables": {"fontSize": "16px", "fontFamily": "Arial"}, "themeCSS": ".nodeLabel, .edgeLabel, .label { font-size: 16px !important; }"}}%%
+flowchart TB
+  Final["Final audit<br/>AUDIT_COMPLETE before<br/>IMPLEMENTAUDIT_RUN_COMPLETE"]:::success
 
-  E["/implementaudit + audit / handoff / checklist / review / bounded plan"] --> F["Direct governance"]
-  F --> G["Normalize ledger and execute"]
+  subgraph Direct["Direct governance"]
+    DIn["Input<br/>/implementaudit + bounded audit<br/>handoff / checklist / review"]:::input
+    DLoop["Control loop<br/>normalize ledger -> Smoke A<br/>patch owner/source -> Smoke B"]:::loop
+    DArt["Artifacts<br/>findings ledger<br/>source patches<br/>Smoke A/B evidence"]:::artifact
+    DGoal["Second /goal<br/>not needed"]:::boundary
+    DIn --> DLoop --> DArt --> DGoal
+  end
 
-  H["/implementaudit + idea / gap / incomplete target"] --> I["Goal synthesis"]
-  I --> J["Gemba + alignment"]
-  J --> K["Optional ready-to-paste /goal Using /implementaudit ..."]
+  subgraph Embedded["Embedded governance"]
+    EIn["Input<br/>/goal already owns the run<br/>using /implementaudit"]:::input
+    ELoop["Control loop<br/>govern supplied goal/task/plan<br/>inside audit spine"]:::loop
+    EArt["Artifacts<br/>active goal evidence<br/>ledger updates<br/>repo-local checks"]:::artifact
+    EGoal["Second /goal<br/>forbidden"]:::blocker
+    EIn --> ELoop --> EArt --> EGoal
+  end
+
+  subgraph Synthesis["Goal synthesis / phased handoff"]
+    SIn["Input<br/>idea / gap / incomplete target"]:::input
+    SLoop["Control loop<br/>Gemba + route + Stage 0-7<br/>risk/dependency planning"]:::loop
+    SArt["Artifacts<br/>.IMPLEMENTAUDIT roadmap/state<br/>thinking/protocol/phase specs"]:::artifact
+    SGoal["Second /goal<br/>produced once when not embedded"]:::handoff
+    SIn --> SLoop --> SArt --> SGoal
+  end
+
+  DGoal --> Final
+  EGoal --> Final
+  SGoal --> Final
+
+  classDef input fill:#eff6ff,stroke:#2563eb,color:#111827
+  classDef loop fill:#ecfdf5,stroke:#059669,color:#111827
+  classDef artifact fill:#f5f3ff,stroke:#7c3aed,color:#111827
+  classDef boundary fill:#f8fafc,stroke:#64748b,color:#111827
+  classDef handoff fill:#fff7ed,stroke:#ea580c,color:#111827
+  classDef blocker fill:#fee2e2,stroke:#dc2626,color:#7f1d1d
+  classDef success fill:#d1fae5,stroke:#059669,color:#064e3b

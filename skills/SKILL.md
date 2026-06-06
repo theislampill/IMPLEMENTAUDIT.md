@@ -268,6 +268,201 @@ PREFLIGHT_RED
 
 ---
 
+## 2b. Planner stages for goal synthesis and phased audit closure
+
+Use this section when `/implementaudit` must synthesize a bounded goal, create
+phase specs, or decompose a large audit into phased closure. These stages are
+native IMPLEMENTAUDIT behavior. They do not replace the execution spine; they
+prepare the artifact set that the execution spine then governs.
+
+Do not run these stages just to look busy. Use them when they improve evidence,
+dependency ordering, rollback, owner decisions, or final-audit reliability.
+
+Invocation boundary:
+
+- Embedded governance: if already inside `/goal using /implementaudit ...`, do
+  not print a second `/goal`. Use the supplied target and run the relevant
+  stages only to clarify phase artifacts or missing evidence.
+- Direct governance: if the user supplied a concrete audit or plan, normalize it
+  into a ledger and execute directly unless risk/dependencies require phases.
+- Goal synthesis: if the user supplied an idea, gap, or incomplete target,
+  create a bounded, evidence-aware handoff. Print one ready-to-paste `/goal`
+  only at Stage 7, and only when not already embedded.
+
+### Stage 0 - Context/tool/repo-state detection
+
+Before planning, establish the real operating context:
+
+- read repo instructions and the nearest applicable `AGENTS.md`
+- identify invocation shape and route: embedded, direct, or goal synthesis;
+  greenfield, brownfield, or mixed
+- detect optional Graphify and ActiveGraph availability without installing,
+  indexing, configuring, creating event stores, or exporting
+- detect prior `.IMPLEMENTAUDIT/STATE.md`, `.IMPLEMENTAUDIT/ROADMAP.md`, or
+  other run artifacts and decide whether to resume, audit, or start fresh
+- record the baseline ref for repo-state comparison when a git baseline exists
+- inspect dirty, staged, unstaged, deleted, and untracked state before making
+  proof claims
+- record context in `.IMPLEMENTAUDIT/THINKING.md` or `.IMPLEMENTAUDIT/STATE.md`
+  when phase planning is selected
+
+Repo-local evidence wins. User memory or summaries may orient the run only when
+available and relevant; they do not override live files, `AGENTS.md`, audit
+ledgers, or owner decisions.
+
+### Stage 1 - Audit-governed intake and routing
+
+Restate the target in one sentence, then classify route and material gaps.
+
+Greenfield intake must define owner/source, scope and non-scope, constraints,
+acceptance criteria, rollback/removal path, evidence plan, generated-artifact
+plan, sidecar status, and canonical-vs-sidecar boundaries.
+
+Brownfield intake must inspect existing owner/source, contracts, tests, smokes,
+checkers, generated artifacts, sidecars, regression surface, and rollback path.
+
+Mixed work runs brownfield inspection first, then greenfield intake for the new
+artifact. Do not continue with vague acceptance criteria, missing rollback,
+missing evidence plan, or unresolved owner/source. Resolve the gap, mark it
+`OWNER DECISION`, or close it as `blocked`, `deferred`, or `unverified`.
+
+### Stage 2 - Recon / Gemba
+
+Inspect the real repo surfaces before mutation:
+
+- canonical files and generated outputs
+- scripts, checkers, fixtures, and CI
+- README and generated-doc source owners
+- release/package/provenance surfaces when the audit names them
+- optional Graphify terrain only when available, fresh, or explicitly authorized
+
+Graphify output is orientation evidence only. Live files and repo-local
+contracts remain source of truth.
+
+### Stage 3 - Deep think / risk and dependency analysis
+
+Write or update `.IMPLEMENTAUDIT/THINKING.md` when phase planning is selected.
+It must capture:
+
+- top objective and audit target
+- route classification and why
+- owner/source candidates and final owner/source decision
+- top closure risks
+- dependency order and blocked/deferred relationships
+- rollback or removal strategy
+- evidence strategy and mandatory checks
+- generated-artifact strategy
+- Graphify/ActiveGraph sidecar boundaries
+- owner decisions needed before safe execution
+
+This artifact is not private chain-of-thought. Keep it as concise, reviewable
+planning evidence.
+
+### Stage 4 - Phase decomposition
+
+Derive phases from the work, not from a fixed count. Each phase must close one
+coherent slice of audit risk and be independently verifiable.
+
+Each phase needs:
+
+- owner/source
+- work boundary and non-scope
+- acceptance criteria
+- deliverables
+- Smoke A and Smoke B
+- mandatory checks
+- rollback/defer path
+- dependency list
+- evidence type and remaining-risk rule
+
+The execution spine remains active inside every phase: safety read, Smoke A,
+owner/source patching, generated-artifact policy, Smoke B, trace, final
+self-check, and terminal ledger closure.
+
+### Stage 5 - Write `.IMPLEMENTAUDIT` runtime artifacts
+
+When phase planning is selected, create or update the runtime substrate before
+handoff or mutation:
+
+```text
+.IMPLEMENTAUDIT/ROADMAP.md
+.IMPLEMENTAUDIT/STATE.md
+.IMPLEMENTAUDIT/THINKING.md
+.IMPLEMENTAUDIT/PROTOCOL.md
+.IMPLEMENTAUDIT/phases/phase-N.md
+```
+
+Use the packaged templates under `skills/templates/` when available. Validate
+phase specs with `skills/scripts/validate-phase.sh`. If a generated or copied
+runtime artifact differs from its source template by design, record why in the
+ledger. Do not rely on chat context as the only plan.
+
+### Stage 6 - Plan review and self-critique
+
+Before printing a handoff or mutating through a generated phase plan, run
+self-critique and revise the artifacts in place.
+
+Print:
+
+```text
+Self-critique:
+```
+
+The self-critique must check:
+
+- acceptance criteria are falsifiable and observable
+- phases are atomic and independently verifiable
+- weakest dependency is named
+- owner/source and rollback are explicit
+- generated artifacts follow generator-first policy
+- mandatory checks are deduplicated and runnable
+- Graphify/ActiveGraph remain optional and non-proof
+- no release/provenance claim exceeds authorization and evidence
+- embedded governance did not accidentally create a second `/goal`
+
+If any item fails, patch the artifacts or stop with Andon / OWNER DECISION.
+
+### Stage 6.5 - Pre-flight smoke
+
+Before Stage 7 handoff or phase-plan mutation, run the deduplicated mandatory
+commands once when they are safe and available.
+
+Print exactly one of:
+
+```text
+PREFLIGHT_GREEN
+PREFLIGHT_RED
+```
+
+For `PREFLIGHT_RED`, classify each failure as target, unrelated, or unclear.
+Proceed only when the failure is the audit target itself and the owner accepts
+that risk. Unrelated or unclear baseline failures require Andon or OWNER
+DECISION. Do not count a failed, timed-out, hung, or substituted command as pass
+evidence; record an Andon before using any rerun/substitute path.
+
+### Stage 7 - One ready-to-paste `/goal` handoff when not already embedded
+
+If not already inside a `/goal` run, print one ready-to-paste handoff that tells
+the next agent to:
+
+- use `/implementaudit`
+- read `.IMPLEMENTAUDIT/PROTOCOL.md`
+- execute `.IMPLEMENTAUDIT/ROADMAP.md` phases sequentially
+- read each `.IMPLEMENTAUDIT/phases/phase-N.md`
+- print `IMPLEMENTAUDIT_PHASE_START`, `IMPLEMENTAUDIT_PHASE_VERIFY`,
+  `AGENTS_UPDATE_DECISION`, and `IMPLEMENTAUDIT_PHASE_DONE` for each phase
+- follow `FAILURE_PROBE`, `FAILURE_ESCALATE`, and `FAILURE_HANDOFF` when a
+  phase cannot close
+- run final audit after the last phase
+- print `AUDIT_COMPLETE` before `IMPLEMENTAUDIT_RUN_COMPLETE`
+- never print `IMPLEMENTAUDIT_RUN_COMPLETE` with `FAILURE_HANDOFF` or
+  `AUDIT_HANDOFF`
+
+If already embedded, do not print the handoff. Continue executing the supplied
+goal/task/plan under these same rules.
+
+---
+
 ## 3. Read and normalize input
 
 Extract:

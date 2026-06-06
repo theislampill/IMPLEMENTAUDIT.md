@@ -10,6 +10,7 @@ claim.
 ## Planner markers
 
 Planner markers appear before a user starts a generated `/goal` handoff.
+They are emitted by Stage 6 and Stage 6.5 of the native IMPLEMENTAUDIT planner.
 
 ```text
 Self-critique:
@@ -21,6 +22,16 @@ PREFLIGHT_RED
 - `PREFLIGHT_GREEN` means the deduplicated mandatory checks passed before
   dispatching a generated handoff.
 - `PREFLIGHT_RED` means the pre-flight check failed or needs owner review.
+- `PREFLIGHT_RED` is not a bypass. It must classify the failed baseline as
+  target, unrelated, or unclear before any handoff or mutation continues.
+
+## Stage handoff boundary
+
+When Stage 7 prints a ready-to-paste `/goal`, the handoff is valid only if it
+names the runtime protocol, sequential phase execution, final audit before
+completion, and the handoff/failure exclusion rules. If the current session is
+already inside `/goal using /implementaudit ...`, no second `/goal` should be
+printed.
 
 ## Phase markers
 

@@ -28,6 +28,7 @@ Each action requires separate explicit authorization.
 - [Terminology](#terminology)
 - [How AUDIT.md drives a run](#how-auditmd-drives-a-run)
 - [Invocation modes](#invocation-modes)
+- [Native planner stages](#native-planner-stages)
 - [Greenfield / brownfield routing](#greenfield--brownfield-routing)
 - [Execution gates](#execution-gates)
 - [Loopability, Andon, and handoff states](#loopability-andon-and-handoff-states)
@@ -144,18 +145,45 @@ remain separate gates even when the audit asks for implementation.
 <!-- BEGIN: implementaudit-diagram:invocation-modes -->
 
 ```mermaid
-%%{init: {"flowchart": {"htmlLabels": true, "nodeSpacing": 55, "rankSpacing": 65}, "themeVariables": {"fontSize": "18px", "fontFamily": "Arial"}, "themeCSS": ".nodeLabel, .edgeLabel, .label { font-size: 18px !important; }"}}%%
-flowchart TD
-  A["/goal using /implementaudit ..."] --> B["Embedded governance"]
-  B --> C["Govern supplied goal/task/plan"]
-  C --> D["No second /goal"]
+%%{init: {"flowchart": {"htmlLabels": true, "nodeSpacing": 46, "rankSpacing": 58}, "themeVariables": {"fontSize": "16px", "fontFamily": "Arial"}, "themeCSS": ".nodeLabel, .edgeLabel, .label { font-size: 16px !important; }"}}%%
+flowchart TB
+  Final["Final audit<br/>AUDIT_COMPLETE before<br/>IMPLEMENTAUDIT_RUN_COMPLETE"]:::success
 
-  E["/implementaudit + audit / handoff / checklist / review / bounded plan"] --> F["Direct governance"]
-  F --> G["Normalize ledger and execute"]
+  subgraph Direct["Direct governance"]
+    DIn["Input<br/>/implementaudit + bounded audit<br/>handoff / checklist / review"]:::input
+    DLoop["Control loop<br/>normalize ledger -> Smoke A<br/>patch owner/source -> Smoke B"]:::loop
+    DArt["Artifacts<br/>findings ledger<br/>source patches<br/>Smoke A/B evidence"]:::artifact
+    DGoal["Second /goal<br/>not needed"]:::boundary
+    DIn --> DLoop --> DArt --> DGoal
+  end
 
-  H["/implementaudit + idea / gap / incomplete target"] --> I["Goal synthesis"]
-  I --> J["Gemba + alignment"]
-  J --> K["Optional ready-to-paste /goal Using /implementaudit ..."]
+  subgraph Embedded["Embedded governance"]
+    EIn["Input<br/>/goal already owns the run<br/>using /implementaudit"]:::input
+    ELoop["Control loop<br/>govern supplied goal/task/plan<br/>inside audit spine"]:::loop
+    EArt["Artifacts<br/>active goal evidence<br/>ledger updates<br/>repo-local checks"]:::artifact
+    EGoal["Second /goal<br/>forbidden"]:::blocker
+    EIn --> ELoop --> EArt --> EGoal
+  end
+
+  subgraph Synthesis["Goal synthesis / phased handoff"]
+    SIn["Input<br/>idea / gap / incomplete target"]:::input
+    SLoop["Control loop<br/>Gemba + route + Stage 0-7<br/>risk/dependency planning"]:::loop
+    SArt["Artifacts<br/>.IMPLEMENTAUDIT roadmap/state<br/>thinking/protocol/phase specs"]:::artifact
+    SGoal["Second /goal<br/>produced once when not embedded"]:::handoff
+    SIn --> SLoop --> SArt --> SGoal
+  end
+
+  DGoal --> Final
+  EGoal --> Final
+  SGoal --> Final
+
+  classDef input fill:#eff6ff,stroke:#2563eb,color:#111827
+  classDef loop fill:#ecfdf5,stroke:#059669,color:#111827
+  classDef artifact fill:#f5f3ff,stroke:#7c3aed,color:#111827
+  classDef boundary fill:#f8fafc,stroke:#64748b,color:#111827
+  classDef handoff fill:#fff7ed,stroke:#ea580c,color:#111827
+  classDef blocker fill:#fee2e2,stroke:#dc2626,color:#7f1d1d
+  classDef success fill:#d1fae5,stroke:#059669,color:#064e3b
 ```
 
 <!-- END: implementaudit-diagram:invocation-modes -->
@@ -170,6 +198,46 @@ flowchart TD
   request for the next best implementation prompt. ImplementAudit performs
   enough Gemba and alignment work to produce a bounded handoff, and may print
   one ready-to-paste `/goal Using /implementaudit ...` line.
+
+## Native planner stages
+
+When goal synthesis or phased audit closure is needed, `skills/SKILL.md` defines
+a native Stage 0-7 planner contract:
+
+```text
+Stage 0 - Context/tool/repo-state detection
+Stage 1 - Audit-governed intake and routing
+Stage 2 - Recon / Gemba
+Stage 3 - Deep think / risk and dependency analysis
+Stage 4 - Phase decomposition
+Stage 5 - Write .IMPLEMENTAUDIT roadmap/state/thinking/protocol/phase specs
+Stage 6 - Plan review and self-critique
+Stage 6.5 - Pre-flight smoke
+Stage 7 - One ready-to-paste /goal handoff when not already embedded
+```
+
+The stage contract is audit-governed: it preserves owner/source patching,
+Smoke A/B, generated-artifact discipline, final audit before completion, and
+the separate commit/push/tag/release/provenance gates. It does not turn
+IMPLEMENTAUDIT into open-ended software-builder automation.
+
+When phased planning is selected, the runtime artifacts live under
+`.IMPLEMENTAUDIT/`: `ROADMAP.md`, `STATE.md`, `THINKING.md`, `PROTOCOL.md`, and
+`phases/phase-N.md`. `THINKING.md` is reviewable planning evidence for route,
+risks, dependencies, rollback, and evidence strategy; it is not proof by itself.
+
+### Why one `/goal`, not a chain
+
+A generated `/goal` should carry the bounded end-state and audit completion
+condition. Phase specs live in `.IMPLEMENTAUDIT/*`; the run progresses through
+files, checks, and markers rather than a fragile sequence of user-pasted
+commands. Final completion still requires `AUDIT_COMPLETE` before
+`IMPLEMENTAUDIT_RUN_COMPLETE`.
+
+Inside embedded governance, another `/goal` already owns the run, so
+`/implementaudit` must not emit a nested goal. In goal-synthesis mode, it may
+produce one ready-to-paste `/goal Using /implementaudit ...` handoff after
+Gemba, phase planning, self-critique, and pre-flight.
 
 ## Default behavior
 
@@ -392,7 +460,7 @@ publication, or provenance has been verified.
 
 ## Version and release notes
 
-Current project milestone: `v0.2.3.0`. Plugin manifest version: `0.2.3`.
+Current project milestone: `v0.2.4.0`. Plugin manifest version: `0.2.4`.
 No local schema evidence proved four-component plugin manifest versions are
 accepted, so the manifest uses host-conservative package metadata while the
 project milestone is recorded in docs and changelog. This is not a tag, release,
@@ -551,9 +619,16 @@ method when the input is a valid audit artifact.
 
 ## Install notes
 
-Install flows are documented here but not verified in this repo state.
+Install flows are evidence-bounded. This repo can locally validate the release
+asset-to-Codex-install path into a temporary Codex home. It does not claim passive auto-update, universal host support, marketplace verification, or public GitHub release download verification unless those checks are run and recorded.
 
-Manual Codex-style copy example:
+### Install / update for Codex
+
+Codex manual installs copy the packaged skill payload into a Codex-style skill
+directory. A public GitHub release by itself cannot update a local copied skill.
+
+From a repo checkout, the simplest manual copy is:
+
 
 ```bash
 mkdir -p ~/.codex/skills/implementaudit
@@ -567,10 +642,40 @@ New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills\implementaud
 Copy-Item -Recurse -Force .\skills\* "$env:USERPROFILE\.codex\skills\implementaudit\"
 ```
 
+For a local release asset, build the asset, write checksums, and install with
+checksum verification:
+
+```bash
+bash scripts/build-release-asset.sh
+bash scripts/write-release-checksums.sh dist/IMPLEMENTAUDIT.skill dist/CHECKSUMS.txt
+bash scripts/install-codex-from-release.sh \
+  --asset dist/IMPLEMENTAUDIT.skill \
+  --checksum dist/CHECKSUMS.txt \
+  --codex-home "$HOME/.codex" \
+  --version 0.2.4
+```
+
+After a public release exists, the same installer can be pointed at an explicit
+tag or asset URL from a source checkout:
+
+```bash
+bash scripts/install-codex-from-release.sh --tag v0.2.4.0 --version 0.2.4
+```
+
+That public-download path is a claim only after the release exists and the
+download/checksum/install smoke is actually run. If it cannot be run, treat it
+as unverified or handoff evidence, not as install proof.
+
+### Install / update for Claude Code
+
 Claude Code/plugin consumers should use the host's current plugin instructions
 with `.claude-plugin/plugin.json` as package metadata. This repo validates the
 JSON shape only; it does not claim host install or marketplace behavior was
 tested.
+
+For public clone/plugin setup, an HTTPS repository URL is usually the simplest
+path because it does not require local SSH key configuration. SSH URLs are fine
+when the user already has working GitHub SSH authentication in that host.
 
 ## Upgrade / reinstall
 
@@ -579,7 +684,8 @@ assume a local copied skill has updated just because the GitHub repo has a new
 release.
 
 For Codex manual installs, there is no marketplace auto-update path documented
-in this repo. Repeat the documented copy step after each release:
+in this repo. Repeat the documented copy step or release-asset install step
+after each release:
 
 ```bash
 mkdir -p ~/.codex/skills/implementaudit
@@ -600,7 +706,7 @@ been verified.
 
 ## Release asset notes
 
-For package release gates, including `v0.2.3.0`, the GitHub release asset name is
+For package release gates, including `v0.2.4.0`, the GitHub release asset name is
 `IMPLEMENTAUDIT.skill`.
 
 No local evidence proves `.skill` is a universal host-standard archive format.
@@ -642,7 +748,8 @@ or provenance claims.
 Repo-native validation includes README diagram freshness, ToC anchor checks,
 host-claim and forbidden-claim scans, root behavior-file absence, package
 contract validation, routing fixtures, marker-order checks, repo-state checks,
-audit-spec checks, release-asset extraction checks, and checksum-manifest checks.
+audit-spec checks, release-asset extraction checks, release-asset Codex install
+smoke, stale-checksum failure smoke, and checksum-manifest checks.
 
 Run the package validator before local commit or release-gate claims:
 
@@ -655,9 +762,10 @@ When release assets are mentioned, validate the release asset locally:
 ```bash
 bash scripts/build-release-asset.sh
 bash scripts/write-release-checksums.sh --check
+bash tests/release-asset-install.test.sh
 ```
 
-For `v0.2.3.0`, the GitHub release contains `IMPLEMENTAUDIT.skill` and
+For `v0.2.4.0`, the intended GitHub release assets are `IMPLEMENTAUDIT.skill` and
 `CHECKSUMS.txt`. The checksum manifest is bounded artifact-integrity evidence
 only; it is not a signature, attestation, SBOM, marketplace verification,
 license claim, or install proof.

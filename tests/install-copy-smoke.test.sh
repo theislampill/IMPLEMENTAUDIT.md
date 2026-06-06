@@ -28,6 +28,7 @@ for file in \
   scripts/validate-phase.sh \
   templates/ROADMAP.md \
   templates/STATE.md \
+  templates/THINKING.md \
   templates/phase-goal.txt \
   templates/child-agent-report.md \
   templates/PROTOCOL.md

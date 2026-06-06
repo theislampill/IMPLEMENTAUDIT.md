@@ -23,3 +23,9 @@ Post-release README/onboarding audit evidence lives in
 `docs/audits/readme-audit_202606052026.md`. That audit patches forward newcomer
 navigation, terminology, loopability, and README ToC validation after the
 `v0.2.3.0` release; it is not part of the original release gate.
+
+The v0.2.4.0 lane adds native planner-stage hardening and user-facing
+onboarding/install-pipeline proof. The detailed ledger lives in
+`docs/audits/v0.2.4.0-planner-stage-hardening.md` and covers Stage 0-7 planner
+semantics, `THINKING.md`, pre-flight/self-critique, one-goal handoff, generated
+README diagram readability, and local release-asset-to-Codex-install validation.

@@ -10,6 +10,12 @@ Runtime copy target: `.IMPLEMENTAUDIT/ROADMAP.md`
 
 <!-- Commit hash, branch, or file snapshot used for diff-based final audit. -->
 
+## Planning evidence
+
+Thinking file: `.IMPLEMENTAUDIT/THINKING.md`
+
+Protocol file: `.IMPLEMENTAUDIT/PROTOCOL.md`
+
 ## Phases
 
 | Phase | Objective | Owner/source | Depends on | Smoke A | Smoke B | Status |

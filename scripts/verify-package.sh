@@ -29,9 +29,11 @@ require_file scripts/build-release-asset.sh
 require_file scripts/check-host-claims.sh
 require_file scripts/check-added-lines-clean.sh
 require_file scripts/check-marker-order.sh
+require_file scripts/check-planner-stages.sh
 require_file scripts/check-readme-toc.sh
 require_file scripts/check-routing.sh
 require_file scripts/generate-readme-diagrams.sh
+require_file scripts/install-codex-from-release.sh
 require_file scripts/write-release-checksums.sh
 require_file skills/SKILL.md
 require_file skills/references/planning-depth.md
@@ -49,6 +51,7 @@ require_file skills/scripts/validate-audit-spec.sh
 require_file skills/scripts/validate-phase.sh
 require_file skills/templates/ROADMAP.md
 require_file skills/templates/STATE.md
+require_file skills/templates/THINKING.md
 require_file skills/templates/phase-goal.txt
 require_file skills/templates/child-agent-report.md
 require_file skills/templates/PROTOCOL.md
@@ -82,8 +85,11 @@ require_file docs/diagrams/invocation-modes.mmd
 require_file docs/diagrams/execution-spine.mmd
 require_file docs/audits/INDEX.md
 require_file docs/audits/v0.2.3.0-harness-adaptation-matrix.md
+require_file docs/audits/v0.2.4.0-planner-stage-hardening.md
 require_file tests/marker-order.test.sh
+require_file tests/planner-stages.test.sh
 require_file tests/release-asset.test.sh
+require_file tests/release-asset-install.test.sh
 require_file tests/install-copy-smoke.test.sh
 require_file tests/routing.test.sh
 require_file tests/repo-state.test.sh
@@ -136,8 +142,8 @@ if plugin.get("skills") != "./skills/":
     raise SystemExit("plugin skills path must be ./skills/")
 if not plugin.get("version"):
     raise SystemExit("plugin version is required")
-if plugin.get("version") != "0.2.3":
-    raise SystemExit("plugin version must be 0.2.3 for project milestone v0.2.3.0")
+if plugin.get("version") != "0.2.4":
+    raise SystemExit("plugin version must be 0.2.4 for project milestone v0.2.4.0")
 
 marketplace = json.loads(Path(".claude-plugin/marketplace.json").read_text())
 plugins = marketplace.get("plugins")
@@ -172,6 +178,13 @@ grep -R "\.IMPLEMENTAUDIT" -n skills README.md AGENTS.md >/dev/null || fail ".IM
 grep -R "child-agent reports are review evidence only" -in skills README.md AGENTS.md fixtures >/dev/null || fail "child-agent evidence boundary is missing"
 grep -R "AUDIT_HANDOFF.*conditional\|AUDIT_HANDOFF.*handoff path" -in skills AGENTS.md >/dev/null || fail "AUDIT_HANDOFF conditional boundary is missing"
 grep -R "AGENTS_UPDATE_DECISION" -n skills/templates/phase-goal.txt skills/templates/STATE.md >/dev/null || fail "AGENTS_UPDATE_DECISION template coverage is missing"
+grep -R "Stage 0 - Context/tool/repo-state detection" -n skills/SKILL.md >/dev/null || fail "native Stage 0 planner contract is missing from skills/SKILL.md"
+grep -R "Stage 6.5 - Pre-flight smoke" -n skills/SKILL.md >/dev/null || fail "native Stage 6.5 planner contract is missing from skills/SKILL.md"
+grep -R ".IMPLEMENTAUDIT/THINKING.md" -n skills/SKILL.md skills/templates/THINKING.md skills/templates/PROTOCOL.md >/dev/null || fail "THINKING runtime artifact coverage is missing"
+grep -R "install-codex-from-release.sh" -n README.md AGENTS.md scripts tests >/dev/null || fail "release-asset Codex install path is not documented/validated"
+grep -R "stale checksum" -in tests/release-asset-install.test.sh scripts/install-codex-from-release.sh >/dev/null || fail "stale checksum install failure coverage is missing"
+grep -R "auto-update" -in README.md CHANGELOG.md AGENTS.md | grep -i "no marketplace auto-update\|does not auto-update\|do not assume\|do not claim" >/dev/null || fail "auto-update boundary must remain explicit"
+grep -R "v0.2.4.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.4.0 is not documented"
 grep -R "v0.2.3.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.3.0 is not documented"
 grep -R "v0.2.2.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.2.0 history is not documented"
 grep -R "v0.2.1.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.1.0 history is not documented"
@@ -223,12 +236,15 @@ grep -R "ActiveGraph custody is not correctness proof" -n skills README.md AGENT
 
 bash scripts/generate-readme-diagrams.sh --check
 bash scripts/check-readme-toc.sh
+bash scripts/check-planner-stages.sh
 bash scripts/check-marker-order.sh fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md fixtures/zero-optional-tool/COMPLETE-RUN.md
 bash scripts/check-routing.sh
 bash scripts/check-host-claims.sh
 bash scripts/check-added-lines-clean.sh HEAD
 bash tests/marker-order.test.sh
+bash tests/planner-stages.test.sh
 bash tests/release-asset.test.sh
+bash tests/release-asset-install.test.sh
 bash tests/install-copy-smoke.test.sh
 bash tests/routing.test.sh
 bash tests/repo-state.test.sh

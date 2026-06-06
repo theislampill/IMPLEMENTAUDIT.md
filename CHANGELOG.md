@@ -8,13 +8,34 @@ not from verified tags, releases, publication, marketplace verification, or
 provenance.
 
 Plugin manifest versions are host-facing package metadata. Project milestone
-`v0.2.3.0` maps to plugin manifest version `0.2.3` because no local schema
+`v0.2.4.0` maps to plugin manifest version `0.2.4` because no local schema
 evidence proved four-component plugin manifest versions are accepted.
 
 ## [Unreleased]
 
+- No unreleased changes yet.
+
+## [v0.2.4.0] - 2026-06-06
+
 ### Added
 
+- Added native Stage 0-7 planner semantics to `skills/SKILL.md` for goal
+  synthesis and phased audit closure: context/repo-state detection, audit
+  intake/routing, Recon/Gemba, risk/dependency thinking, phase decomposition,
+  runtime artifact writing, self-critique, pre-flight smoke, and one
+  ready-to-paste handoff when not already embedded.
+- Added `skills/templates/THINKING.md` as a reviewable runtime planning artifact
+  for route, owner/source, risks, dependencies, rollback, evidence strategy,
+  generated artifacts, optional sidecar boundaries, and pre-flight caveats.
+- Added `scripts/check-planner-stages.sh` and `tests/planner-stages.test.sh`
+  to enforce the native planner-stage contract, `THINKING.md` coverage, and
+  absence of external comparator identity in tracked repo files.
+- Added `scripts/install-codex-from-release.sh` and
+  `tests/release-asset-install.test.sh` so a local `IMPLEMENTAUDIT.skill`
+  release asset can be checksum-verified and installed into a temporary
+  Codex-style skill home during validation.
+- Added a v0.2.4.0 audit ledger at
+  `docs/audits/v0.2.4.0-planner-stage-hardening.md`.
 - Added a post-release README/onboarding audit ledger at
   `docs/audits/readme-audit_202606052026.md`.
 - Added `scripts/check-readme-toc.sh` and wired it into package validation so
@@ -29,12 +50,40 @@ evidence proved four-component plugin manifest versions are accepted.
   the execution spine is readable at README scale, keeps release/provenance as a
   dashed separate gate, and labels Graphify/ActiveGraph as optional non-proof
   sidecars.
+- Refined the source-generated invocation-mode Mermaid diagram so direct
+  governance, embedded governance, and goal synthesis/phased handoff show
+  distinct input shapes, control loops, artifacts, completion conditions, and
+  second-`/goal` boundaries.
+- Strengthened README onboarding with clearer Codex install/update guidance,
+  Claude Code/plugin wording, SSH-vs-HTTPS clone caveat, local release-asset
+  install commands, and the native explanation for one `/goal` rather than a
+  fragile command chain.
+- Updated planner references, runtime templates, package validation, release
+  asset validation, install-copy smoke, and GitHub Actions so `THINKING.md` and
+  Stage 0-7 planner behavior are part of the package contract.
+- Updated package validation and CI so the release-asset install smoke verifies
+  path-with-spaces handling and proves a stale checksum manifest fails.
+- Bumped plugin manifest metadata from `0.2.3` to `0.2.4` for the
+  `v0.2.4.0` project milestone.
 
 ### Safety
 
-- This is a post-release patch-forward docs correction. It does not rewrite
-  `v0.2.3.0`, recreate a tag, mutate release assets, or broaden provenance
-  beyond checksum-manifest wording.
+- Preserved IMPLEMENTAUDIT identity as audit-governed implementation, not a
+  generic autonomous build runner.
+- Preserved canonical behavior source in `skills/SKILL.md`; root
+  `IMPLEMENTAUDIT.md` remains intentionally absent.
+- Preserved optional Graphify terrain and optional ActiveGraph custody
+  boundaries; no install, indexing, quickstart, config, event store, or export
+  is claimed.
+- Preserved separate gates for commit, push, tag, release, publication, and
+  checksum-manifest provenance.
+- Preserved checksum-manifest provenance as bounded artifact-integrity evidence
+  only. No signature, attestation, SBOM, license, marketplace verification,
+  host install verification, package publication, or broader provenance claim is
+  made by this changelog entry.
+- Public GitHub release download-to-install verification remains unverified
+  until a v0.2.4.0 release exists and that exact download/checksum/install smoke
+  is run.
 
 ## [v0.2.3.0] - 2026-06-05
 

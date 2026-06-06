@@ -27,10 +27,15 @@ jobs:
       - name: Validate phase template
         run: bash skills/scripts/validate-phase.sh skills/templates/phase-goal.txt
 
+      - name: Validate planner stage contract
+        run: bash scripts/check-planner-stages.sh
+
       - name: Run focused behavior tests
         run: |
           bash tests/marker-order.test.sh
+          bash tests/planner-stages.test.sh
           bash tests/release-asset.test.sh
+          bash tests/release-asset-install.test.sh
           bash tests/install-copy-smoke.test.sh
           bash tests/routing.test.sh
           bash tests/repo-state.test.sh

@@ -57,6 +57,7 @@ required = {
     "skills/scripts/validate-phase.sh",
     "skills/templates/ROADMAP.md",
     "skills/templates/STATE.md",
+    "skills/templates/THINKING.md",
     "skills/templates/phase-goal.txt",
     "skills/templates/child-agent-report.md",
     "skills/templates/PROTOCOL.md",
@@ -66,6 +67,7 @@ required = {
     "CHANGELOG.md",
     "docs/audits/INDEX.md",
     "docs/audits/v0.2.3.0-harness-adaptation-matrix.md",
+    "docs/audits/v0.2.4.0-planner-stage-hardening.md",
 }
 blocked_parts = {
     ".git",
@@ -95,8 +97,8 @@ with zipfile.ZipFile(asset) as zf:
         zf.extractall(temp_dir)
         root = Path(temp_dir)
         plugin = json.loads((root / ".claude-plugin/plugin.json").read_text())
-        if plugin.get("version") != "0.2.3":
-            raise SystemExit("expected plugin version 0.2.3")
+        if plugin.get("version") != "0.2.4":
+            raise SystemExit("expected plugin version 0.2.4")
         if (root / "IMPLEMENTAUDIT.md").exists():
             raise SystemExit("root IMPLEMENTAUDIT.md must not be included")
 

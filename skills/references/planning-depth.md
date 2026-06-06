@@ -42,3 +42,39 @@ Use the smallest planning layer that makes the work safe:
 
 Do not add a planning layer merely because the work is large. Add it when the
 extra structure improves evidence, sequencing, rollback, or owner decisions.
+
+## Native planner stage rule
+
+When goal synthesis or phased audit closure is selected, the stage contract in
+`skills/SKILL.md` is load-bearing:
+
+```text
+Stage 0 - Context/tool/repo-state detection
+Stage 1 - Audit-governed intake and routing
+Stage 2 - Recon / Gemba
+Stage 3 - Deep think / risk and dependency analysis
+Stage 4 - Phase decomposition
+Stage 5 - Write .IMPLEMENTAUDIT roadmap/state/thinking/protocol/phase specs
+Stage 6 - Plan review and self-critique
+Stage 6.5 - Pre-flight smoke
+Stage 7 - One ready-to-paste /goal handoff when not already embedded
+```
+
+The stages are native IMPLEMENTAUDIT behavior. They do not import another
+package's identity, artifact paths, or completion markers. The execution spine
+still governs the actual work inside each phase.
+
+## Planning artifacts
+
+When phase planning is selected, do not leave the plan only in chat. Create or
+update:
+
+- `.IMPLEMENTAUDIT/ROADMAP.md`
+- `.IMPLEMENTAUDIT/STATE.md`
+- `.IMPLEMENTAUDIT/THINKING.md`
+- `.IMPLEMENTAUDIT/PROTOCOL.md`
+- `.IMPLEMENTAUDIT/phases/phase-N.md`
+
+`THINKING.md` is reviewable planning evidence: objective, route, owner/source,
+risks, dependencies, rollback, evidence strategy, generated-artifact plan,
+sidecar boundaries, and owner decisions. It is not private chain-of-thought.

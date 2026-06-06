@@ -4,6 +4,20 @@ Runtime copy target: `.IMPLEMENTAUDIT/PROTOCOL.md`
 
 ## Phase loop
 
+Before executing phase 1, read:
+
+```text
+.IMPLEMENTAUDIT/ROADMAP.md
+.IMPLEMENTAUDIT/STATE.md
+.IMPLEMENTAUDIT/THINKING.md
+.IMPLEMENTAUDIT/PROTOCOL.md
+```
+
+Use `THINKING.md` as reviewable planning evidence for objective, route,
+owner/source, risks, dependencies, rollback, evidence strategy, generated
+artifacts, optional sidecar boundaries, and owner decisions. It is not proof by
+itself.
+
 Each phase prints these transcript markers:
 
 ```text
@@ -72,3 +86,6 @@ Rules:
   when phase planning was used.
 - Check deliverables with `bash skills/scripts/repo-state.sh deliverable <Baseline ref> <path>` when available.
 - Warn when more than 30% of checks are `trust-prior-verify`.
+- If any final-audit command fails, hangs, times out, or is replaced by a rerun
+  or substitute path, record an Andon before closing it as blocking or
+  non-blocking.
