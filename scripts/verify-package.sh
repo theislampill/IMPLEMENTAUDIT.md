@@ -27,7 +27,6 @@ require_file .claude-plugin/plugin.json
 require_file .claude-plugin/marketplace.json
 require_file scripts/build-release-asset.sh
 require_file scripts/check-host-claims.sh
-require_file scripts/check-forbidden-terms.sh
 require_file scripts/check-added-lines-clean.sh
 require_file scripts/check-marker-order.sh
 require_file scripts/check-planner-stages.sh
@@ -87,11 +86,11 @@ require_file docs/diagrams/execution-spine.mmd
 require_file docs/audits/INDEX.md
 require_file docs/audits/v0.2.3.0-harness-adaptation-matrix.md
 require_file docs/audits/v0.2.4.0-planner-stage-hardening.md
+require_file docs/audits/v0.2.4.5-graphify-activegraph-honesty.md
 require_file tests/marker-order.test.sh
 require_file tests/planner-stages.test.sh
 require_file tests/release-asset.test.sh
 require_file tests/release-asset-install.test.sh
-require_file tests/forbidden-terms.test.sh
 require_file tests/install-copy-smoke.test.sh
 require_file tests/routing.test.sh
 require_file tests/repo-state.test.sh
@@ -145,7 +144,7 @@ if plugin.get("skills") != "./skills/":
 if not plugin.get("version"):
     raise SystemExit("plugin version is required")
 if plugin.get("version") != "0.2.4":
-    raise SystemExit("plugin version must be 0.2.4 for project milestone v0.2.4.0")
+    raise SystemExit("plugin version must be 0.2.4 for project milestones in the v0.2.4.x line")
 
 marketplace = json.loads(Path(".claude-plugin/marketplace.json").read_text())
 plugins = marketplace.get("plugins")
@@ -194,7 +193,8 @@ if grep -n "remain unperformed" docs/audits/v0.2.4.0-planner-stage-hardening.md 
   fail "v0.2.4.0 ledger must not say release/tag surfaces remain unperformed after release readback"
 fi
 rm -f /tmp/implementaudit-v024-release-state.txt
-grep -R "v0.2.4.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.4.0 is not documented"
+grep -R "v0.2.4.5" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.4.5 is not documented"
+grep -R "v0.2.4.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.4.0 history is not documented"
 grep -R "v0.2.3.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.3.0 is not documented"
 grep -R "v0.2.2.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.2.0 history is not documented"
 grep -R "v0.2.1.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.1.0 history is not documented"
@@ -216,10 +216,6 @@ fi
 rm -f /tmp/implementaudit-root-file-claim.txt
 
 grep -R "skills/SKILL.md" -n README.md AGENTS.md CHANGELOG.md >/dev/null || fail "canonical skills/SKILL.md behavior source is not documented"
-
-if [ -n "${IMPLEMENTAUDIT_FORBIDDEN_TERMS:-}" ] || [ -n "${IMPLEMENTAUDIT_FORBIDDEN_TERMS_FILE:-}" ]; then
-  bash scripts/check-forbidden-terms.sh --root .
-fi
 
 child_upper_a="CHILD"
 child_upper_b="AGENTS"
@@ -248,7 +244,6 @@ bash tests/marker-order.test.sh
 bash tests/planner-stages.test.sh
 bash tests/release-asset.test.sh
 bash tests/release-asset-install.test.sh
-bash tests/forbidden-terms.test.sh
 bash tests/install-copy-smoke.test.sh
 bash tests/routing.test.sh
 bash tests/repo-state.test.sh

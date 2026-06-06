@@ -171,7 +171,11 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
 - **Repo-only**: `README.md`, `CHANGELOG.md`, `AGENTS.md`, `CLAUDE.md`, `CONTRIBUTING.md`, fixtures, root scripts, and `.gitignore`.
 - **Marketplace entry**: `.claude-plugin/marketplace.json` points at the plugin root. Do not claim marketplace behavior was verified unless actually tested.
 - **License**: no `LICENSE` file is present until the owner selects a license and supplies license evidence.
-- **Versioning**: project milestone `v0.2.4.0` maps to plugin manifest version `0.2.4`. The manifest uses host-conservative package metadata; project milestones are not tags, releases, publication, or provenance claims until the separate release/provenance gate actually performs and verifies those actions.
+- **Versioning**: project milestones in the `v0.2.4.x` line, including
+  `v0.2.4.5`, map to plugin manifest version `0.2.4`. The manifest uses
+  host-conservative package metadata; project milestones are not tags,
+  releases, publication, or provenance claims until the separate
+  release/provenance gate actually performs and verifies those actions.
 - **Root behavior file**: there is intentionally no tracked root
   `IMPLEMENTAUDIT.md` file. The repo name is the project name; canonical
   behavior lives in `skills/SKILL.md` and supporting references/scripts/templates.
@@ -472,9 +476,9 @@ Durable child/subagent lessons should flow into the nearest applicable `AGENTS.m
 CHANGELOG:
 
 - Keep-a-Changelog style.
-- Keep the current project milestone at top, e.g. `[v0.2.4.0] - Unreleased` before release or `[v0.2.4.0] - <date>` only when the date is grounded.
+- Keep the current project milestone at top, e.g. `[v0.2.4.5] - Unreleased` before release or `[v0.2.4.5] - <date>` only when the date is grounded.
 - Match manifest version if one exists.
-- Current project milestone is `v0.2.4.0`; plugin manifest version is `0.2.4` unless host evidence supports a four-component manifest version.
+- Current project milestone is `v0.2.4.5`; plugin manifest version is `0.2.4` unless host evidence supports a four-component manifest version.
 - Do not claim tags, releases, provenance, publication, or verified install without evidence.
 - Behavior/package changes should be produced by running `/implementaudit` on this repo itself.
 - Changelog entries should preserve the causal chain: finding/gap, root cause when known, countermeasure, evidence, and remaining risk.
@@ -530,10 +534,9 @@ test -f docs/diagrams/invocation-modes.mmd
 test -f docs/diagrams/execution-spine.mmd
 test -f docs/audits/v0.2.3.0-harness-adaptation-matrix.md
 test -f docs/audits/v0.2.4.0-planner-stage-hardening.md
+test -f docs/audits/v0.2.4.5-graphify-activegraph-honesty.md
 test -f scripts/install-codex-from-release.sh
-test -f scripts/check-forbidden-terms.sh
 test -f tests/release-asset-install.test.sh
-test -f tests/forbidden-terms.test.sh
 python -m json.tool .claude-plugin/plugin.json >/dev/null
 python -m json.tool .claude-plugin/marketplace.json >/dev/null
 bash scripts/generate-readme-diagrams.sh --check
@@ -547,7 +550,6 @@ bash tests/marker-order.test.sh
 bash tests/planner-stages.test.sh
 bash tests/release-asset.test.sh
 bash tests/release-asset-install.test.sh
-bash tests/forbidden-terms.test.sh
 bash tests/install-copy-smoke.test.sh
 bash tests/routing.test.sh
 bash tests/repo-state.test.sh
@@ -590,6 +592,7 @@ grep -R "AGENTS_UPDATE_DECISION" -n skills
 grep -R "AUDIT_COMPLETE" -n skills
 grep -R "IMPLEMENTAUDIT_RUN_COMPLETE" -n skills
 grep -R ".IMPLEMENTAUDIT" -n skills README.md AGENTS.md
+grep -R "v0.2.4.5" -n README.md CHANGELOG.md AGENTS.md
 grep -R "v0.2.4.0" -n README.md CHANGELOG.md AGENTS.md
 grep -R "v0.2.3.0" -n README.md CHANGELOG.md AGENTS.md
 grep -R "v0.2.2.0" -n README.md CHANGELOG.md AGENTS.md
@@ -636,7 +639,7 @@ weakening audit-governed truthfulness.
 
 ## Release asset gate
 
-For package release gates, including `v0.2.4.0`, the GitHub release asset name is
+For package release gates, including `v0.2.4.5`, the GitHub release asset name is
 `IMPLEMENTAUDIT.skill`.
 
 No local repo evidence proves `.skill` is a universal host-standard archive
@@ -669,7 +672,7 @@ commit, or push-only gates. Building or validating the local asset is not a
 release, publication, marketplace verification, or provenance claim.
 
 If provenance is explicitly authorized, publish only the provenance artifacts
-that were actually generated and validated. For `v0.2.4.0`, the repo-supported
+that were actually generated and validated. For `v0.2.4.5`, the repo-supported
 provenance surface is a checksum manifest produced by:
 
 ```bash

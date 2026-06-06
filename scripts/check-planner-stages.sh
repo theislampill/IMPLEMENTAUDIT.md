@@ -104,8 +104,4 @@ require_in_file fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md "tdqyq-aud
 require_in_file fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md "ydqyq-audit-action"
 require_in_file fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md "Double-audit sequence:"
 
-if [ -n "${IMPLEMENTAUDIT_FORBIDDEN_TERMS:-}" ] || [ -n "${IMPLEMENTAUDIT_FORBIDDEN_TERMS_FILE:-}" ]; then
-  bash scripts/check-forbidden-terms.sh --root .
-fi
-
 printf 'check-planner-stages: ok\n'

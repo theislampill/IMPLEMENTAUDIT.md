@@ -74,6 +74,10 @@ blocked_parts = {
     "temp",
     "dist",
 }
+blocked_names = {
+    "graph.json",
+    "quickstart_demo_run.db",
+}
 blocked_top_level = {
     ".github",
     "AGENTS.md",
@@ -100,7 +104,9 @@ with zipfile.ZipFile(asset) as zf:
         parts = set(Path(name).parts)
         if parts & blocked_parts:
             raise SystemExit(f"blocked path included: {name}")
-        if name.endswith((".log", ".tmp", ".activegraph.db")):
+        if Path(name).name in blocked_names:
+            raise SystemExit(f"blocked sidecar artifact included: {name}")
+        if name.endswith((".log", ".tmp", ".db", ".sqlite", ".sqlite3", ".jsonl")):
             raise SystemExit(f"blocked suffix included: {name}")
         if name.startswith(".env"):
             raise SystemExit(f"environment file included: {name}")

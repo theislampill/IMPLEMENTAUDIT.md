@@ -29,3 +29,9 @@ onboarding/install-pipeline proof. The detailed ledger lives in
 `docs/audits/v0.2.4.0-planner-stage-hardening.md` and covers Stage 0-7 planner
 semantics, `THINKING.md`, pre-flight/self-critique, one-goal handoff, generated
 README diagram readability, and local release-asset-to-Codex-install validation.
+
+The v0.2.4.5 lane audits real optional-sidecar use. The detailed ledger lives
+in `docs/audits/v0.2.4.5-graphify-activegraph-honesty.md` and covers isolated
+Graphify/ActiveGraph installation, project terrain/custody evidence, sidecar
+claim boundaries, package-minimality hardening, and the release gates still to
+be closed by that ledger.

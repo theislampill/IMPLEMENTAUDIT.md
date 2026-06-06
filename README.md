@@ -489,7 +489,7 @@ publication, or provenance has been verified.
 
 ## Version and release notes
 
-Current project milestone: `v0.2.4.0`. Plugin manifest version: `0.2.4`.
+Current project milestone: `v0.2.4.5`. Plugin manifest version: `0.2.4`.
 No local schema evidence proved four-component plugin manifest versions are
 accepted, so the manifest uses host-conservative package metadata while the
 project milestone is recorded in docs and changelog. This is not a tag, release,
@@ -688,7 +688,7 @@ After a public release exists, the same installer can be pointed at an explicit
 tag or asset URL from a source checkout:
 
 ```bash
-bash scripts/install-codex-from-release.sh --tag v0.2.4.0 --version 0.2.4
+bash scripts/install-codex-from-release.sh --tag v0.2.4.5 --version 0.2.4
 ```
 
 That public-download path is a claim only after the release exists and the
@@ -735,7 +735,7 @@ been verified.
 
 ## Release asset notes
 
-For package release gates, including `v0.2.4.0`, the GitHub release asset name is
+For package release gates, including `v0.2.4.5`, the GitHub release asset name is
 `IMPLEMENTAUDIT.skill`.
 
 No local evidence proves `.skill` is a universal host-standard archive format.
@@ -776,7 +776,7 @@ or provenance claims.
 ## Validation and release evidence
 
 Repo-native validation includes README diagram freshness, ToC anchor checks,
-host-claim and forbidden-claim scans, root behavior-file absence, package
+host-claim and claim-boundary checks, root behavior-file absence, package
 contract validation, routing fixtures, marker-order checks, repo-state checks,
 audit-spec checks, release-asset extraction checks, release-asset Codex install
 smoke, stale-checksum failure smoke, and checksum-manifest checks.
@@ -796,7 +796,7 @@ bash scripts/write-release-checksums.sh --check
 bash tests/release-asset-install.test.sh
 ```
 
-For `v0.2.4.0`, the intended GitHub release assets are `IMPLEMENTAUDIT.skill` and
+For `v0.2.4.5`, the intended GitHub release assets are `IMPLEMENTAUDIT.skill` and
 `CHECKSUMS.txt`. The checksum manifest is bounded artifact-integrity evidence
 only; it is not a signature, attestation, SBOM, marketplace verification,
 license claim, or install proof.

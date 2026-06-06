@@ -95,12 +95,18 @@ blocked_parts = {
     "temp",
     "dist",
 }
-blocked_suffixes = (".log", ".tmp", ".activegraph.db")
+blocked_names = {
+    "graph.json",
+    "quickstart_demo_run.db",
+}
+blocked_suffixes = (".log", ".tmp", ".db", ".sqlite", ".sqlite3", ".jsonl")
 
 
 def blocked(rel: Path) -> bool:
     text = rel.as_posix()
     if any(part in blocked_parts for part in rel.parts):
+        return True
+    if rel.name in blocked_names:
         return True
     if text.startswith(".env"):
         return True

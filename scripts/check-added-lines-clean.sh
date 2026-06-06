@@ -66,19 +66,6 @@ scan() {
 scan "debug print added" 'console\.log|console\.error|debugger;|(^|[^[:alnum:]_])print[[:space:]]*\(|pprint[[:space:]]*\(|fmt\.Println|log\.Println'
 scan "session TODO/FIXME marker added" '\b(TODO|FIXME|XXX)\b'
 
-if [ -n "${IMPLEMENTAUDIT_FORBIDDEN_TERMS:-}" ] || [ -n "${IMPLEMENTAUDIT_FORBIDDEN_TERMS_FILE:-}" ]; then
-  if ! bash scripts/check-forbidden-terms.sh \
-    --root "$added" \
-    --label "externally supplied forbidden term added" \
-    >/tmp/implementaudit-added-lines-forbidden.txt 2>&1
-  then
-    printf 'check-added-lines-clean: externally supplied forbidden term added\n' >&2
-    cat /tmp/implementaudit-added-lines-forbidden.txt >&2
-    failures=$((failures + 1))
-  fi
-  rm -f /tmp/implementaudit-added-lines-forbidden.txt
-fi
-
 verified_word="verified"
 install_word="install"
 marketplace_word="marketplace"

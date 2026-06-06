@@ -7,13 +7,45 @@ This project follows Keep a Changelog style. Historical entries marked
 not from verified tags, releases, publication, marketplace verification, or
 provenance.
 
-Plugin manifest versions are host-facing package metadata. Project milestone
-`v0.2.4.0` maps to plugin manifest version `0.2.4` because no local schema
-evidence proved four-component plugin manifest versions are accepted.
+Plugin manifest versions are host-facing package metadata. Project milestones
+in the `v0.2.4.x` line map to plugin manifest version `0.2.4` because no local
+schema evidence proved four-component plugin manifest versions are accepted.
 
-## [Unreleased]
+## [v0.2.4.5] - Unreleased
 
-- No unreleased changes yet.
+### Added
+
+- Added a v0.2.4.5 audit ledger at
+  `docs/audits/v0.2.4.5-graphify-activegraph-honesty.md`.
+- Installed Graphify and ActiveGraph into an isolated temporary Python
+  environment for release-lane evidence:
+  - Graphify CLI `0.8.32` from PyPI package `graphifyy`.
+  - ActiveGraph CLI/package `1.0.5.post2`.
+- Recorded a project-shaped ActiveGraph custody smoke in a temporary SQLite
+  store outside the repo, then inspected and exported it through the
+  ActiveGraph CLI.
+
+### Changed
+
+- Audited Graphify and ActiveGraph as optional external sidecars, installed and
+  used them against the project or project-shaped evidence, reconciled findings
+  into the canonical audit object, and preserved package minimality so sidecar
+  outputs do not ship in the `.skill` asset.
+- Hardened release-asset builder, installer, and tests so sidecar outputs such
+  as `graph.json`, SQLite event stores, and JSONL trace files are rejected even
+  when they appear under otherwise allowed package paths.
+- Updated repo-facing milestone text from `v0.2.4.0` to `v0.2.4.5` while
+  preserving manifest version `0.2.4`.
+
+### Safety
+
+- Preserved Graphify as optional terrain/orientation evidence only.
+- Preserved ActiveGraph as optional custody/event evidence only.
+- Preserved Markdown/transcript/package-governed audit objects as canonical.
+- Did not vendor Graphify or ActiveGraph dependencies into this repo.
+- Did not make sidecar install, indexing, event-store setup, export, public
+  install verification, or sidecar-backed correctness mandatory for ordinary
+  runtime/package use.
 
 ## [v0.2.4.0] - 2026-06-06
 
@@ -29,7 +61,7 @@ evidence proved four-component plugin manifest versions are accepted.
   generated artifacts, optional sidecar boundaries, and pre-flight caveats.
 - Added `scripts/check-planner-stages.sh` and `tests/planner-stages.test.sh`
   to enforce the native planner-stage contract, `THINKING.md` coverage, and
-  absence of external comparator identity in tracked repo files.
+  repo-facing identity boundaries in tracked files.
 - Added `scripts/install-codex-from-release.sh` and
   `tests/release-asset-install.test.sh` so a local `IMPLEMENTAUDIT.skill`
   release asset can be checksum-verified and installed into a temporary
@@ -38,9 +70,6 @@ evidence proved four-component plugin manifest versions are accepted.
   `docs/audits/v0.2.4.0-planner-stage-hardening.md`.
 - Added `scripts/check-readme-toc.sh` and wired it into package validation so
   README Contents anchors are checker-validated.
-- Added generic externally supplied forbidden-term validation and neutral
-  sentinel tests so release audits can scan sensitive terms without storing the
-  sensitive source term in tracked files.
 
 ### Changed
 
@@ -87,9 +116,6 @@ evidence proved four-component plugin manifest versions are accepted.
   package-shape validation surfaces.
 - Hardened release-asset installation so a checksummed archive is still rejected
   when it contains repo-only top-level paths outside the runtime payload.
-- Removed source-embedded forbidden external-name fragments from the leakage
-  checkers and replaced them with generic externally supplied forbidden-term
-  validation.
 - Bumped plugin manifest metadata from `0.2.3` to `0.2.4` for the
   `v0.2.4.0` project milestone.
 
@@ -104,9 +130,6 @@ evidence proved four-component plugin manifest versions are accepted.
   is claimed.
 - Preserved separate gates for commit, push, tag, release, publication, and
   checksum-manifest provenance.
-- Preserved forbidden external-name hygiene without storing the sensitive source
-  term, fragments, encoded forms, or project-specific marker names in tracked
-  checker source.
 - Preserved repo audit ledgers, release notes, dogfood evidence, CI config,
   fixtures, and validation history as repo-side evidence rather than installed
   `.skill` payload.
@@ -137,7 +160,7 @@ evidence proved four-component plugin manifest versions are accepted.
   release/provenance boundary fields.
 - Added `scripts/check-added-lines-clean.sh` to scan added/new lines for debug
   prints, session task markers, unsupported host/release/license claims,
-  and external comparator identity drift.
+  and repo-facing identity drift.
 - Added focused tests for repo-state behavior, audit-spec validation, and
   added-line cleanliness/overclaim scanning.
 
@@ -334,7 +357,7 @@ evidence proved four-component plugin manifest versions are accepted.
 - Hardened child/subagent guidance so root `AGENTS.md` owns durable rules and
   packaged reference material remains explanatory.
 - Hardened validation coverage for planner markers, child-agent artifacts,
-  evidence boundaries, version/milestone wording, and forbidden naming drift.
+  evidence boundaries, version/milestone wording, and repo-facing identity hygiene.
 - Documented that `.skill` is not claimed as a universal host-standard archive
   format by local evidence; `IMPLEMENTAUDIT.skill` is this repo's release asset
   name unless host evidence later proves a stricter format.

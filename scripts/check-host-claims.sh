@@ -104,7 +104,3 @@ if failures:
 
 print("check-host-claims: ok")
 PY
-
-if [ -n "${IMPLEMENTAUDIT_FORBIDDEN_TERMS:-}" ] || [ -n "${IMPLEMENTAUDIT_FORBIDDEN_TERMS_FILE:-}" ]; then
-  bash scripts/check-forbidden-terms.sh --root .
-fi

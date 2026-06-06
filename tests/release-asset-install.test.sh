@@ -109,4 +109,34 @@ if bash scripts/install-codex-from-release.sh \
   exit 1
 fi
 
+sidecar_dir="$tmp_parent/sidecar asset"
+mkdir -p "$sidecar_dir"
+sidecar="$sidecar_dir/IMPLEMENTAUDIT.skill"
+sidecar_checksums="$sidecar_dir/CHECKSUMS.txt"
+"${py_cmd[@]}" - "$asset" "$sidecar" <<'PY'
+import sys
+import zipfile
+from pathlib import Path
+
+source = Path(sys.argv[1])
+target = Path(sys.argv[2])
+
+with zipfile.ZipFile(source) as src, zipfile.ZipFile(
+    target, "w", compression=zipfile.ZIP_DEFLATED
+) as dst:
+    for info in src.infolist():
+        dst.writestr(info, src.read(info.filename))
+    dst.writestr("skills/references/graph.json", "{}\n")
+PY
+
+bash scripts/write-release-checksums.sh "$sidecar" "$sidecar_checksums"
+if bash scripts/install-codex-from-release.sh \
+  --asset "$sidecar" \
+  --checksum "$sidecar_checksums" \
+  --codex-home "$tmp_parent/sidecar codex home" \
+  --version 0.2.4 >/dev/null 2>&1; then
+  printf 'release-asset-install.test: sidecar artifact unexpectedly passed\n' >&2
+  exit 1
+fi
+
 printf 'release-asset-install.test: ok\n'

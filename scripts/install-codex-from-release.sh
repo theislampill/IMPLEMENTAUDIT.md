@@ -173,7 +173,11 @@ blocked_parts = {
     "tmp",
     "temp",
 }
-blocked_suffixes = (".log", ".tmp", ".activegraph.db")
+blocked_names = {
+    "graph.json",
+    "quickstart_demo_run.db",
+}
+blocked_suffixes = (".log", ".tmp", ".db", ".sqlite", ".sqlite3", ".jsonl")
 
 required_archive = {
     "skills/SKILL.md",
@@ -217,6 +221,8 @@ with zipfile.ZipFile(asset) as zf:
             raise SystemExit(f"unsafe archive path: {name}")
         if set(rel.parts) & blocked_parts:
             raise SystemExit(f"blocked archive path: {name}")
+        if rel.name in blocked_names:
+            raise SystemExit(f"blocked archive entry: {name}")
         if name.endswith(blocked_suffixes) or name.startswith(".env"):
             raise SystemExit(f"blocked archive entry: {name}")
 
