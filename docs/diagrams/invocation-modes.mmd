@@ -1,29 +1,31 @@
-%%{init: {"flowchart": {"htmlLabels": true, "nodeSpacing": 46, "rankSpacing": 58}, "themeVariables": {"fontSize": "16px", "fontFamily": "Arial"}, "themeCSS": ".nodeLabel, .edgeLabel, .label { font-size: 16px !important; }"}}%%
 flowchart TB
-  Final["Final audit<br/>AUDIT_COMPLETE before<br/>IMPLEMENTAUDIT_RUN_COMPLETE"]:::success
+  Final["Terminal audit-object closure<br/>AUDIT_COMPLETE before<br/>IMPLEMENTAUDIT_RUN_COMPLETE"]:::success
 
   subgraph Direct["Direct governance"]
     DIn["Input<br/>/implementaudit + bounded audit<br/>handoff / checklist / review"]:::input
-    DLoop["Control loop<br/>normalize ledger -> Smoke A<br/>patch owner/source -> Smoke B"]:::loop
+    DObj["tdqyq-audit-object<br/>user supplies or implies it"]:::artifact
+    DLoop["ydqyq-audit-action<br/>inspect -> classify -> patch -> verify"]:::loop
     DArt["Artifacts<br/>findings ledger<br/>source patches<br/>Smoke A/B evidence"]:::artifact
     DGoal["Second /goal<br/>not needed"]:::boundary
-    DIn --> DLoop --> DArt --> DGoal
+    DIn --> DObj --> DLoop --> DArt --> DGoal
   end
 
   subgraph Embedded["Embedded governance"]
     EIn["Input<br/>/goal already owns the run<br/>using /implementaudit"]:::input
-    ELoop["Control loop<br/>govern supplied goal/task/plan<br/>inside audit spine"]:::loop
+    EObj["tdqyq-audit-object<br/>owned by outer /goal"]:::artifact
+    ELoop["ydqyq-audit-action<br/>govern inside supplied target"]:::loop
     EArt["Artifacts<br/>active goal evidence<br/>ledger updates<br/>repo-local checks"]:::artifact
     EGoal["Second /goal<br/>forbidden"]:::blocker
-    EIn --> ELoop --> EArt --> EGoal
+    EIn --> EObj --> ELoop --> EArt --> EGoal
   end
 
   subgraph Synthesis["Goal synthesis / phased handoff"]
     SIn["Input<br/>idea / gap / incomplete target"]:::input
-    SLoop["Control loop<br/>Gemba + route + Stage 0-7<br/>risk/dependency planning"]:::loop
+    SObj["tdqyq-audit-object<br/>created or normalized first"]:::artifact
+    SLoop["ydqyq-audit-action<br/>Gemba + route + Stage 0-7 planning"]:::loop
     SArt["Artifacts<br/>.IMPLEMENTAUDIT roadmap/state<br/>thinking/protocol/phase specs"]:::artifact
     SGoal["Second /goal<br/>produced once when not embedded"]:::handoff
-    SIn --> SLoop --> SArt --> SGoal
+    SIn --> SObj --> SLoop --> SArt --> SGoal
   end
 
   DGoal --> Final

@@ -51,9 +51,9 @@ evidence proved four-component plugin manifest versions are accepted.
   `docs/audits/readme-audit_202606052026.md` as prior evidence for the
   v0.2.4.0 onboarding polish, without claiming that v0.2.4.0 added that file.
 - Refined source-generated README Mermaid diagrams after screenshot review so
-  the execution spine is readable at README scale, keeps release/provenance as a
-  dashed separate gate, and labels Graphify/ActiveGraph as optional non-proof
-  sidecars.
+  they use standard GitHub-renderable Mermaid without custom init/theme
+  directives, keep release/provenance as a dashed separate gate, and label
+  Graphify/ActiveGraph as optional non-proof sidecars.
 - Refined the source-generated invocation-mode Mermaid diagram so direct
   governance, embedded governance, and goal synthesis/phased handoff show
   distinct input shapes, control loops, artifacts, completion conditions, and
@@ -111,10 +111,9 @@ evidence proved four-component plugin manifest versions are accepted.
   only. No signature, attestation, SBOM, license, marketplace verification,
   host install verification, package publication, or broader provenance claim is
   made by this changelog entry.
-- Public GitHub release download-to-install verification is a release-gate check
-  for `v0.2.4.0`. Record the final public result in release notes and final
-  audit output after the cleaned tag asset exists; do not treat this source
-  changelog as public download proof by itself.
+- Public GitHub release download-to-install verification was performed as a
+  release-gate check for the cleaned `v0.2.4.0` same-version repair by
+  installing the tagged release asset into a temporary Codex-style skill home.
 
 ## [v0.2.3.0] - 2026-06-05
 

@@ -46,6 +46,11 @@ for key, source in diagrams.items():
     begin = f"<!-- BEGIN: implementaudit-diagram:{key} -->"
     end = f"<!-- END: implementaudit-diagram:{key} -->"
     body = source.read_text().strip()
+    for banned in ("%%{init", "themeCSS", "htmlLabels"):
+        if banned in body:
+            raise SystemExit(
+                f"{source} uses Mermaid init/theme syntax that failed GitHub README rendering: {banned}"
+            )
     replacement = f"{begin}\n\n```mermaid\n{body}\n```\n\n{end}"
     pattern = re.compile(
         re.escape(begin) + r".*?" + re.escape(end),

@@ -26,7 +26,8 @@ Each action requires separate explicit authorization.
 
 - [What it is](#what-it-is)
 - [Terminology](#terminology)
-- [How AUDIT.md drives a run](#how-auditmd-drives-a-run)
+- [How an audit input drives a run](#how-an-audit-input-drives-a-run)
+- [How IMPLEMENTAUDIT audits](#how-implementaudit-audits)
 - [Invocation modes](#invocation-modes)
 - [Native planner stages](#native-planner-stages)
 - [Greenfield / brownfield routing](#greenfield--brownfield-routing)
@@ -66,7 +67,6 @@ Current optional-tooling architecture:
 <!-- BEGIN: implementaudit-diagram:tooling-architecture -->
 
 ```mermaid
-%%{init: {"flowchart": {"htmlLabels": true, "nodeSpacing": 55, "rankSpacing": 65}, "themeVariables": {"fontSize": "18px", "fontFamily": "Arial"}, "themeCSS": ".nodeLabel, .edgeLabel, .label { font-size: 18px !important; }"}}%%
 flowchart LR
   I["ImplementAudit<br/>officer / method / standard"]
   G["Graphify<br/>optional terrain / repo map<br/>orientation, not proof"]
@@ -126,7 +126,7 @@ the audit trail when available.
   manifest is not a signature, SBOM, attestation, marketplace verification, or
   install proof.
 
-## How AUDIT.md drives a run
+## How an audit input drives a run
 
 An `AUDIT.md`-style input names the work to close and the evidence expected for
 closure. `/implementaudit` normalizes that input into ledger items, classifies
@@ -138,6 +138,30 @@ The input does not authorize hidden side effects. Tool install, indexing,
 event-store setup, local commit, push, tag, release, publication, and provenance
 remain separate gates even when the audit asks for implementation.
 
+## How IMPLEMENTAUDIT audits
+
+IMPLEMENTAUDIT uses `audit` in two linked senses:
+
+- `tdqyq-audit-object`: the audit-as-noun surface. It is the evidence-bearing
+  record or state for the run: scope, owner/source, claims, changed files,
+  checks, marker state, unresolved gaps, and terminal closure. In a real run it
+  may be represented by `.IMPLEMENTAUDIT/PROTOCOL.md`,
+  `.IMPLEMENTAUDIT/STATE.md`, `.IMPLEMENTAUDIT/THINKING.md`,
+  `.IMPLEMENTAUDIT/ROADMAP.md`, `.IMPLEMENTAUDIT/phases/*`, transcript markers,
+  release/package evidence, and closure tables.
+- `ydqyq-audit-action`: the audit-as-verb operation. It inspects, classifies,
+  verifies, authorizes or rejects mutation, closes findings, or produces a
+  handoff against the live `tdqyq-audit-object`.
+
+Implementation is allowed only against a live `tdqyq-audit-object`.
+`AUDIT_COMPLETE` means that object reached terminal verified closure.
+`IMPLEMENTAUDIT_RUN_COMPLETE` is invalid before that closure.
+
+The double-audit loop is: first `ydqyq-audit-action` inspects and produces or
+updates the `tdqyq-audit-object`; second `ydqyq-audit-action` acts against that
+object to close findings; final `ydqyq-audit-action` verifies terminal closure
+of the object.
+
 ## Invocation modes
 
 `/implementaudit` has three invocation shapes:
@@ -145,32 +169,34 @@ remain separate gates even when the audit asks for implementation.
 <!-- BEGIN: implementaudit-diagram:invocation-modes -->
 
 ```mermaid
-%%{init: {"flowchart": {"htmlLabels": true, "nodeSpacing": 46, "rankSpacing": 58}, "themeVariables": {"fontSize": "16px", "fontFamily": "Arial"}, "themeCSS": ".nodeLabel, .edgeLabel, .label { font-size: 16px !important; }"}}%%
 flowchart TB
-  Final["Final audit<br/>AUDIT_COMPLETE before<br/>IMPLEMENTAUDIT_RUN_COMPLETE"]:::success
+  Final["Terminal audit-object closure<br/>AUDIT_COMPLETE before<br/>IMPLEMENTAUDIT_RUN_COMPLETE"]:::success
 
   subgraph Direct["Direct governance"]
     DIn["Input<br/>/implementaudit + bounded audit<br/>handoff / checklist / review"]:::input
-    DLoop["Control loop<br/>normalize ledger -> Smoke A<br/>patch owner/source -> Smoke B"]:::loop
+    DObj["tdqyq-audit-object<br/>user supplies or implies it"]:::artifact
+    DLoop["ydqyq-audit-action<br/>inspect -> classify -> patch -> verify"]:::loop
     DArt["Artifacts<br/>findings ledger<br/>source patches<br/>Smoke A/B evidence"]:::artifact
     DGoal["Second /goal<br/>not needed"]:::boundary
-    DIn --> DLoop --> DArt --> DGoal
+    DIn --> DObj --> DLoop --> DArt --> DGoal
   end
 
   subgraph Embedded["Embedded governance"]
     EIn["Input<br/>/goal already owns the run<br/>using /implementaudit"]:::input
-    ELoop["Control loop<br/>govern supplied goal/task/plan<br/>inside audit spine"]:::loop
+    EObj["tdqyq-audit-object<br/>owned by outer /goal"]:::artifact
+    ELoop["ydqyq-audit-action<br/>govern inside supplied target"]:::loop
     EArt["Artifacts<br/>active goal evidence<br/>ledger updates<br/>repo-local checks"]:::artifact
     EGoal["Second /goal<br/>forbidden"]:::blocker
-    EIn --> ELoop --> EArt --> EGoal
+    EIn --> EObj --> ELoop --> EArt --> EGoal
   end
 
   subgraph Synthesis["Goal synthesis / phased handoff"]
     SIn["Input<br/>idea / gap / incomplete target"]:::input
-    SLoop["Control loop<br/>Gemba + route + Stage 0-7<br/>risk/dependency planning"]:::loop
+    SObj["tdqyq-audit-object<br/>created or normalized first"]:::artifact
+    SLoop["ydqyq-audit-action<br/>Gemba + route + Stage 0-7 planning"]:::loop
     SArt["Artifacts<br/>.IMPLEMENTAUDIT roadmap/state<br/>thinking/protocol/phase specs"]:::artifact
     SGoal["Second /goal<br/>produced once when not embedded"]:::handoff
-    SIn --> SLoop --> SArt --> SGoal
+    SIn --> SObj --> SLoop --> SArt --> SGoal
   end
 
   DGoal --> Final
@@ -189,15 +215,18 @@ flowchart TB
 <!-- END: implementaudit-diagram:invocation-modes -->
 
 - **Embedded governance mode**: a host goal/task/plan already exists, such as
-  `/goal using /implementaudit ...`. ImplementAudit governs that active target
-  and does not print a second `/goal`.
+  `/goal using /implementaudit ...`. The outer goal owns the
+  `tdqyq-audit-object`; ImplementAudit performs `ydqyq-audit-action` inside
+  that object and does not print a second `/goal`.
 - **Direct governance mode**: the user supplies a concrete audit, handoff,
-  checklist, review, or bounded implementation plan. ImplementAudit normalizes
-  it into a ledger and executes.
+  checklist, review, or bounded implementation plan. The user supplies or
+  implies the `tdqyq-audit-object`; ImplementAudit performs
+  `ydqyq-audit-action` and implementation against it.
 - **Goal-synthesis mode**: the user supplies an idea, gap, incomplete target, or
-  request for the next best implementation prompt. ImplementAudit performs
-  enough Gemba and alignment work to produce a bounded handoff, and may print
-  one ready-to-paste `/goal Using /implementaudit ...` line.
+  request for the next best implementation prompt. ImplementAudit creates or
+  normalizes the `tdqyq-audit-object`, writes phase artifacts, and may print one
+  ready-to-paste `/goal Using /implementaudit ...` line only when not already
+  embedded.
 
 ## Native planner stages
 
@@ -316,9 +345,8 @@ stop, recover, or hand off instead of pretending the run is complete.
 <!-- BEGIN: implementaudit-diagram:execution-spine -->
 
 ```mermaid
-%%{init: {"flowchart": {"htmlLabels": true, "nodeSpacing": 55, "rankSpacing": 55}, "themeVariables": {"fontSize": "18px", "fontFamily": "Arial"}, "themeCSS": ".nodeLabel, .edgeLabel, .label { font-size: 18px !important; }"}}%%
 flowchart TD
-  Input(["AUDIT.md / handoff / goal / gap"]):::human
+  Input(["Audit-style input / handoff / goal / gap"]):::human
   Route["Route before mutation<br/>greenfield / brownfield / mixed<br/>brownfield recon is read-only"]:::audit
   OwnerDecision(["OWNER DECISION<br/>unsafe request or AGENTS/policy conflict"]):::blocker
 
