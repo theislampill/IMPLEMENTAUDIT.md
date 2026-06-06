@@ -24,6 +24,7 @@ Each action requires separate explicit authorization.
 
 ## Contents
 
+- [Runtime at a glance](#runtime-at-a-glance)
 - [What it is](#what-it-is)
 - [Terminology](#terminology)
 - [How an audit input drives a run](#how-an-audit-input-drives-a-run)
@@ -46,7 +47,7 @@ Each action requires separate explicit authorization.
 ## Runtime at a glance
 
 ```text
-Input artifact -> Gemba -> owner/source patch -> Smoke A/B -> trace -> final audit
+Input artifact -> live repo inspection -> owner/source patch -> Smoke A/B -> trace -> final audit
 ```
 
 The small loop closes one supplied audit/handoff/checklist/review/plan. The

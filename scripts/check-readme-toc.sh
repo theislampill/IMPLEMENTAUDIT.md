@@ -60,6 +60,7 @@ if missing:
     raise SystemExit("README ToC has unresolved anchors: " + ", ".join(missing))
 
 required = {
+    "runtime-at-a-glance",
     "what-it-is",
     "terminology",
     "how-an-audit-input-drives-a-run",

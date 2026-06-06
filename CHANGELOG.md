@@ -54,6 +54,9 @@ evidence proved four-component plugin manifest versions are accepted.
   they use standard GitHub-renderable Mermaid without custom init/theme
   directives, keep release/provenance as a dashed separate gate, and label
   Graphify/ActiveGraph as optional non-proof sidecars.
+- Tightened README onboarding navigation by adding `Runtime at a glance` to the
+  Contents list and avoiding unexplained Gemba terminology before the
+  Terminology section.
 - Refined the source-generated invocation-mode Mermaid diagram so direct
   governance, embedded governance, and goal synthesis/phased handoff show
   distinct input shapes, control loops, artifacts, completion conditions, and
