@@ -167,13 +167,29 @@ for archive_rel, src_path in entries:
         seen.add(key)
         deduped.append((archive_rel, src_path))
 
+TEXT_SUFFIXES = {".md", ".txt", ".sh", ".json", ".yaml", ".yml"}
+
+
+def read_normalized(path: Path) -> bytes:
+    """Read file, normalizing CRLF → LF for text files.
+
+    Claude Desktop and YAML parsers expect LF line endings.
+    Windows git checkouts produce CRLF; normalize here so the
+    archive is portable and YAML frontmatter parses correctly.
+    """
+    if path.suffix.lower() in TEXT_SUFFIXES:
+        raw = path.read_bytes()
+        return raw.replace(b"\r\n", b"\n")
+    return path.read_bytes()
+
+
 asset.parent.mkdir(parents=True, exist_ok=True)
 with zipfile.ZipFile(asset, "w", compression=zipfile.ZIP_DEFLATED) as zf:
     for archive_rel, src_path in deduped:
         info = zipfile.ZipInfo(archive_rel.as_posix())
         mode = 0o755 if archive_rel.as_posix().startswith("scripts/") else 0o644
         info.external_attr = (stat.S_IFREG | mode) << 16
-        zf.writestr(info, src_path.read_bytes())
+        zf.writestr(info, read_normalized(src_path))
 
 with zipfile.ZipFile(asset) as zf:
     names = set(zf.namelist())
@@ -224,6 +240,12 @@ with zipfile.ZipFile(asset) as zf:
         # Verify SKILL.md is at root, not nested under skills/
         if not (extracted / "SKILL.md").is_file():
             raise SystemExit("SKILL.md must be at archive root")
+        # Verify SKILL.md has no CRLF (Claude Desktop YAML parser requires LF).
+        skill_md_bytes = (extracted / "SKILL.md").read_bytes()
+        if b"\r\n" in skill_md_bytes:
+            raise SystemExit(
+                "SKILL.md contains CRLF line endings; archive must use LF for Claude import"
+            )
         if (extracted / "skills").exists():
             raise SystemExit(
                 "skills/ subdirectory must not exist at archive root; "

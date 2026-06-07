@@ -1,16 +1,6 @@
 ---
 name: implementaudit
-description: >
-  Implement audit findings, handoffs, goals, gaps, and implementation plans safely and verifiably using
-  PDCA, Gemba, Smoke Before Claim, Andon, Hansei, 5 Whys, and Plan Closure.
-  Activate when the user invokes /implementaudit, pipes an audit into it,
-  or asks to implement findings from a handoff,
-  review, checklist, goal, task, gap, audit report, or implementation plan. Also activate when
-  the user says "implement these findings", "act on this audit", "close these
-  items", or "work through this handoff". Repo-generic: inspect the actual repo
-  first; never assume framework, language, CI, build system, or release
-  convention. Does not commit, push, tag, publish, release, or claim provenance unless the input
-  explicitly authorizes that action and repo instructions allow it.
+description: Implement audit findings, handoffs, goals, gaps, and implementation plans safely and verifiably using PDCA, Smoke Before Claim, Andon, Hansei, 5 Whys, and Plan Closure. Activate on /implementaudit or any audit-closure request.
 ---
 
 # /implementaudit
