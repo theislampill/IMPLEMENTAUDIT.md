@@ -88,11 +88,16 @@ schema evidence proved four-component plugin manifest versions are accepted.
 - Tag `v0.2.5.0` moved from pre-repair commit `8df3c07c` to repair commit
   `9490e73` so GitHub's auto-generated source archives contain the repaired source.
   Old tag object: `411389558c775b59ebd975720b3f4139d5c5b8c2`.
-- `IMPLEMENTAUDIT.skill` rebuilt from repair commit `9490e73`. Archive content
-  (`skills/` + `.claude-plugin/`) is unchanged from the original build; archive
-  SHA256 is unchanged: `a4d953d960ae8d7d586cd81dc7c7f0ea0caa040ca65511b7bbd7ae1486e2a744`.
-- `CHECKSUMS.txt` regenerated from repair commit source.
-- Live `v0.2.5.0` release assets replaced (--clobber) and release notes updated.
+- `IMPLEMENTAUDIT.skill` rebuilt from repair commit. Archive content
+  (`skills/` + `.claude-plugin/`) is identical between the original and repair
+  builds; no skill files changed. Archive SHA256 changed from
+  `a4d953d960ae8d7d586cd81dc7c7f0ea0caa040ca65511b7bbd7ae1486e2a744` (original,
+  built in CI on Linux) to
+  `4590466039c10aca2ab717ca87c509bfe396573cf3918223926f9e7236273c41` (rebuilt
+  locally on Windows) due to ZIP entry ordering differences across platforms.
+  Both archives contain the same `skills/` and `.claude-plugin/` files.
+- `CHECKSUMS.txt` regenerated from repaired-source build.
+- Live `v0.2.5.0` release assets replaced with `--clobber` and release updated.
 
 ## [v0.2.4.5] - 2026-06-06
 
