@@ -26,6 +26,19 @@ done
 printf '\nchecks-and-smokes:\n'
 find scripts skills/scripts tests -maxdepth 2 -type f 2>/dev/null | sort | sed -n '1,120p' || true
 
+printf '\nmandatory-command-candidates:\n'
+for cmd in \
+  "git diff --check" \
+  "bash scripts/verify-package.sh" \
+  "bash scripts/check-planner-stages.sh" \
+  "bash scripts/check-routing.sh" \
+  "bash scripts/check-sidecar-boundaries.sh" \
+  "bash tests/claim-run.test.sh" \
+  "bash tests/phase-validation.test.sh"
+do
+  printf '%s\n' "$cmd"
+done
+
 printf '\nfixtures-and-examples:\n'
 find fixtures -maxdepth 3 -type f 2>/dev/null | sort | sed -n '1,120p' || true
 
@@ -33,6 +46,17 @@ printf '\nrelease-boundaries:\n'
 for path in scripts/build-release-asset.sh scripts/write-release-checksums.sh dist .claude-plugin/plugin.json .claude-plugin/marketplace.json; do
   [ -e "$path" ] && printf '%s\n' "$path"
 done
+
+printf '\nrun-root-boundaries:\n'
+printf 'preferred_base=.IMPLEMENTAUDIT/runs\n'
+printf 'claim_helper=skills/scripts/claim-run.sh\n'
+printf 'legacy_flat=.IMPLEMENTAUDIT/ROADMAP.md .IMPLEMENTAUDIT/STATE.md .IMPLEMENTAUDIT/THINKING.md .IMPLEMENTAUDIT/PROTOCOL.md\n'
+printf 'parallel_source_editing=requires_separate_git_worktrees\n'
+
+printf '\nsidecar-boundaries:\n'
+printf 'graphify=optional_orientation_not_proof\n'
+printf 'activegraph=optional_custody_not_correctness_proof\n'
+printf 'markdown_fallback=first_class\n'
 
 printf '\npossible-generated-artifacts:\n'
 grep -R -n -I \

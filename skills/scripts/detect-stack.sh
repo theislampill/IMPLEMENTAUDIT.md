@@ -37,6 +37,7 @@ check docs/diagrams
 check docs/audits
 check dist
 check .IMPLEMENTAUDIT
+check .IMPLEMENTAUDIT/runs
 
 printf '\nvalidators-and-tests:\n'
 find scripts skills/scripts tests -maxdepth 2 -type f 2>/dev/null | sort | sed -n '1,120p' || true
@@ -59,3 +60,13 @@ printf '\noptional-sidecar-roots:\n'
 check graphify-out
 check .graphify
 check .activegraph
+
+printf '\nruntime-run-artifacts:\n'
+if [ -d .IMPLEMENTAUDIT/runs ]; then
+  find .IMPLEMENTAUDIT/runs -maxdepth 2 -type f 2>/dev/null | sort | sed -n '1,120p'
+else
+  printf 'none\n'
+fi
+for path in .IMPLEMENTAUDIT/ROADMAP.md .IMPLEMENTAUDIT/STATE.md .IMPLEMENTAUDIT/THINKING.md .IMPLEMENTAUDIT/PROTOCOL.md; do
+  [ -e "$path" ] && printf 'legacy-flat: %s\n' "$path"
+done

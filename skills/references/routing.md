@@ -43,6 +43,23 @@ Before creating a new governed artifact, define:
   repo files remain canonical unless repo contract explicitly promotes a
   sidecar
 
+Greenfield question batches may contain at most four material questions at a
+time. Continue only until these categories are answered, assumed with evidence,
+or terminally classified:
+
+- target platform / runtime surface
+- stack / framework / language preference
+- design direction / UX / public-facing shape
+- integrations and external dependencies
+- scope and non-scope cut-line
+- audience / user role / primary use case
+- performance / scale / reliability constraints
+- data model / persistence / schema anchors
+- deployment / hosting / environment assumptions
+- security / privacy / compliance constraints when material
+- accessibility / i18n / content constraints when material
+- acceptance criteria and proof shape
+
 If any field is unknown, resolve it from repo files or mark the item
 `blocked`, `deferred`, or `unverified`. Do not silently implement.
 
@@ -57,6 +74,11 @@ Before mutating existing repo behavior, inspect:
 - Graphify / ActiveGraph sidecars if present
 - regression surface
 - rollback path
+
+Brownfield asks 0-2 true-gap questions after recon. Ask zero when repo files,
+user prompt, applied context, and Gemba already answer the structural gaps. Ask
+one or two only when a material owner decision remains. Convert micro-details
+into explicit assumptions for Stage 6 review instead of blocking intake.
 
 Patch the owner/source, regenerate derived surfaces, and run the smallest
 relevant checks before claiming closure. Stale, missing, ambiguous, or

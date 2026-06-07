@@ -67,26 +67,28 @@ handoff for the user to paste, not automatic dispatch.
 
 ## Full phased handoff condition
 
-Use this fuller form when Stage 5 produced `.IMPLEMENTAUDIT` runtime artifacts:
+Use this fuller form when Stage 5 produced a namespaced `.IMPLEMENTAUDIT`
+runtime root:
 
 ```text
 /goal Using /implementaudit, in <repo path>, execute the phased audit plan in
-.IMPLEMENTAUDIT/ROADMAP.md.
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/ROADMAP.md.
 
-First read .IMPLEMENTAUDIT/PROTOCOL.md, .IMPLEMENTAUDIT/STATE.md,
-.IMPLEMENTAUDIT/THINKING.md, and the applicable .IMPLEMENTAUDIT/phases/phase-N.md
-files. Execute phases sequentially. For each phase, print
+First read the run-root PROTOCOL.md, STATE.md, ROADMAP.md, THINKING.md,
+sidecars.md, and the applicable phases/phase-N.md files. Execute phases
+sequentially. For each phase, print
 IMPLEMENTAUDIT_PHASE_START, then do the work, then print
 IMPLEMENTAUDIT_PHASE_VERIFY with acceptance criteria, Smoke B, evidence type,
 complete repo-state comparison, and remaining risk. Print AGENTS_UPDATE_DECISION
-and IMPLEMENTAUDIT_PHASE_DONE before moving to the next phase.
+and optional CONTINUITY_DECISION, then IMPLEMENTAUDIT_PHASE_DONE before moving
+to the next phase.
 
-If a phase criterion fails, follow the failure protocol in
-.IMPLEMENTAUDIT/PROTOCOL.md and use FAILURE_PROBE, FAILURE_ESCALATE, or
+If a phase criterion fails, follow the failure protocol in the run-root
+PROTOCOL.md and use FAILURE_PROBE, FAILURE_ESCALATE, or
 FAILURE_HANDOFF as required. Do not print IMPLEMENTAUDIT_RUN_COMPLETE after
 FAILURE_HANDOFF.
 
-After the last phase, run the final audit in .IMPLEMENTAUDIT/PROTOCOL.md:
+After the last phase, run the final audit in the run-root PROTOCOL.md:
 re-read ROADMAP.md, re-run deduplicated mandatory checks, spot-check
 acceptance criteria, check deliverables against the baseline with complete
 working-tree evidence, and write an audit-fix phase if gaps are found. Print

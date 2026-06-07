@@ -8,25 +8,30 @@ Auditing operation:
 Auditing action mnemonic: ydqyq-audit-action
 Action against audit object:
 Terminal object state to prove:
+Run root: .IMPLEMENTAUDIT/runs/<task-slug>-<id>
 Owner/source:
 Baseline ref:
-Thinking ref: .IMPLEMENTAUDIT/THINKING.md
+Thinking ref: <run-root>/THINKING.md
+State ref: <run-root>/STATE.md
+Sidecars ref: <run-root>/sidecars.md
 
 Acceptance criteria:
--
+- Criterion: observable pass/fail result tied to this phase owner/source.
 
 Smoke A:
 - Command:
 - Expected baseline classification: target / unrelated / unclear
 - Complete repo-state baseline:
+- Graphify/ActiveGraph status:
 
 Implementation notes:
 - Patch owner/source, not nearest symptom.
 - Treat AUDIT_COMPLETE as terminal verified closure of the audit object, not as
   a decorative label.
-- Use .IMPLEMENTAUDIT/THINKING.md for route, risk, dependency, rollback, and
+- Use <run-root>/THINKING.md for route, risk, dependency, rollback, and
   evidence context.
 - Keep optional Graphify/ActiveGraph tooling absent-safe.
+- Do not treat Graphify terrain or ActiveGraph custody as correctness proof.
 - Do not commit, install, index, configure, export, push, tag, release, publish, or
   claim provenance unless separately authorized.
 
@@ -37,7 +42,11 @@ Smoke B:
 - Delta vs Smoke A:
 - Evidence type:
 - Complete repo-state comparison:
+- Cleanliness counts:
+- Sidecar use: Graphify used/skipped/avoided; ActiveGraph used/skipped/avoided; Markdown fallback yes/no.
 - Remaining risk:
+- Trust-prior count:
+- Re-verified count:
 
 AGENTS_UPDATE_DECISION
 
@@ -46,6 +55,12 @@ Reason:
 Scope:
 Evidence location:
 Conflict or owner-decision note:
+
+CONTINUITY_DECISION
+
+Decision: none / AGENTS.md / memory note / OWNER DECISION
+Reason:
+Evidence boundary:
 
 Failure recovery markers, if needed:
 FAILURE_PROBE

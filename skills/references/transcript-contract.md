@@ -66,6 +66,9 @@ IMPLEMENTAUDIT_PHASE_DONE
   cleanliness readback.
 - `AGENTS_UPDATE_DECISION` states whether a durable repo-local rule was added,
   not warranted, or requires owner decision.
+- `CONTINUITY_DECISION`, when printed, states whether a non-obvious learning
+  warrants a bounded repo-local rule, memory note, deferral, or no writeback.
+  It does not replace `AGENTS_UPDATE_DECISION`.
 - `IMPLEMENTAUDIT_PHASE_DONE` closes the phase.
 
 ## Failure recovery markers
@@ -102,6 +105,10 @@ Rules:
   in-scope ledger item terminally.
 - If the final audit finds gaps, use an audit-fix round or handoff instead of
   printing completion.
+- The final audit must check the namespaced run root when one exists:
+  `ROADMAP.md`, `STATE.md`, `THINKING.md`, `PROTOCOL.md`, `sidecars.md`,
+  phase specs, audit-fix specs, baseline ref, sidecar boundaries, and
+  completion marker ordering.
 
 ## STOP / Andon / Hansei blocks
 

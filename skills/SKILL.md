@@ -54,7 +54,7 @@ These invariants shape the run; they are not just final checks.
 - No raw diagnostics, local smoke debris, secrets, build artifacts, or unrelated dirty files are staged or committed.
 - No proof claim is stronger than its evidence type.
 - Baseline comparisons for final audit and cleanliness use the complete working tree, not only `HEAD`.
-- Graphify output is orientation evidence, not proof; ActiveGraph events are chain-of-custody evidence, not proof by themselves.
+- Graphify output is orientation evidence, not proof; ActiveGraph events are chain-of-custody evidence, not proof by themselves. ActiveGraph custody is not correctness proof.
 - Graphify may orient Gemba when available, fresh, or explicitly authorized, but live files remain the source of truth.
 - Smoke A happens before mutation; Smoke B happens after implementation; regressions trigger the regression protocol.
 - Domain notation, schema keys, DSL tokens, public API names, paths, release asset names, and contract strings are preserved unless the audit explicitly changes them.
@@ -393,15 +393,32 @@ Before planning, establish the real operating context:
 - read repo instructions and the nearest applicable `AGENTS.md`
 - identify invocation shape and route: embedded, direct, or goal synthesis;
   greenfield, brownfield, or mixed
+- claim or select a namespaced run root with `skills/scripts/claim-run.sh`
+  when phase planning is selected; prefer
+  `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/` and treat flat `.IMPLEMENTAUDIT/*`
+  files as legacy resume/audit inputs only
+- record native variables when available:
+  `IMPLEMENTAUDIT_BASE`, `IMPLEMENTAUDIT_RUN_ROOT`, and
+  `IMPLEMENTAUDIT_BASELINE_REF`
+- detect repo root, git state, baseline HEAD/ref, staged, unstaged, deleted,
+  and untracked work before making proof claims
+- detect host/session constraints, available tools, MCPs, skills, shell,
+  language runtimes, package managers, web/current-doc lookup availability, and
+  whether each is authorized for this run
 - detect optional Graphify and ActiveGraph availability without installing,
   indexing, configuring, creating event stores, or exporting
-- detect prior `.IMPLEMENTAUDIT/STATE.md`, `.IMPLEMENTAUDIT/ROADMAP.md`, or
-  other run artifacts and decide whether to resume, audit, or start fresh
-- record the baseline ref for repo-state comparison when a git baseline exists
-- inspect dirty, staged, unstaged, deleted, and untracked state before making
-  proof claims
-- record context in `.IMPLEMENTAUDIT/THINKING.md` or `.IMPLEMENTAUDIT/STATE.md`
-  when phase planning is selected
+- sidecars remain no install, indexing, setup, config, export unless separately
+  and explicitly authorized
+- detect Graphify graph output and freshness/staleness; use it only when fresh
+  or explicitly authorized, and record required live-file follow-up
+- detect ActiveGraph repo-local config/store hints and whether custody/event
+  writing is authorized; absence is not a failure
+- detect memory/continuity directories and prior run roots, but keep memory
+  read-only until bounded continuity is warranted and recorded through a bounded
+  `CONTINUITY_DECISION`
+- write detected context into the run root when phase planning is selected:
+  `context.md`, `tools.md`, `sidecars.md`, `applied-context.md` or
+  `applied-memories.md`, and `repo-map.md` for brownfield work
 
 Repo-local evidence wins. User memory or summaries may orient the run only when
 available and relevant; they do not override live files, `AGENTS.md`, audit
@@ -415,8 +432,18 @@ Greenfield intake must define owner/source, scope and non-scope, constraints,
 acceptance criteria, rollback/removal path, evidence plan, generated-artifact
 plan, sidecar status, and canonical-vs-sidecar boundaries.
 
+Greenfield intake asks material questions in batches of no more than four; this
+means at most four material questions at a time until
+the target platform/runtime surface, stack/framework preference, public shape,
+integrations, scope cut-line, audience/use case, performance/reliability,
+data/persistence, deployment, security/privacy/compliance, accessibility/i18n,
+and acceptance/proof gaps are closed or explicitly terminally classified.
+
 Brownfield intake must inspect existing owner/source, contracts, tests, smokes,
 checkers, generated artifacts, sidecars, regression surface, and rollback path.
+After recon, ask only 0-2 true-gap questions. Do not ask questions already
+answered by repo files, prompt context, applied context, or live Gemba.
+Micro-details become Stage 6 assumptions for owner review, not intake blockers.
 
 Mixed work runs brownfield inspection first, then greenfield intake for the new
 artifact. Do not continue with vague acceptance criteria, missing rollback,
@@ -432,9 +459,17 @@ Inspect the real repo surfaces before mutation:
 - README and generated-doc source owners
 - release/package/provenance surfaces when the audit names them
 - optional Graphify terrain only when available, fresh, or explicitly authorized
+- repo map, package/build/test/lint scripts, source/test layout, owner/source
+  candidates, generated artifacts and source generators, CI/workflows,
+  config/infra/deploy surfaces, recent churn, large/risky files, regression
+  surfaces, and release/provenance surfaces when relevant
+- greenfield environment/tool availability, safe scaffold constraints, target
+  output shape, and assumptions needing Stage 6 review
 
 Graphify output is orientation evidence only. Live files and repo-local
-contracts remain source of truth.
+contracts remain source of truth. If Graphify is used, record query, purpose,
+result summary, freshness, evidence boundary, and required live-file follow-up
+in `sidecars.md` or `repo-map.md`.
 
 ### Stage 3 - Deep think / risk and dependency analysis
 
@@ -445,11 +480,15 @@ It must capture:
 - route classification and why
 - owner/source candidates and final owner/source decision
 - top closure risks
+- top three risks
 - dependency order and blocked/deferred relationships
+- weakest dependency
 - rollback or removal strategy
 - evidence strategy and mandatory checks
 - generated-artifact strategy
 - Graphify/ActiveGraph sidecar boundaries
+- current-best-practice or current-doc lookup status when relevant, including
+  whether lookup was unavailable, skipped, authorized, or used
 - owner decisions needed before safe execution
 
 This artifact is not private chain-of-thought. Keep it as concise, reviewable
@@ -457,8 +496,12 @@ planning evidence.
 
 ### Stage 4 - Phase decomposition
 
-Derive phases from the work, not from a fixed count. Each phase must close one
-coherent slice of audit risk and be independently verifiable.
+Derive phases from the work, not from a fixed count. There is no artificial
+phase cap. Tiny single-surface changes may close directly or in two phases;
+moderate brownfield work gets enough phases for owner/source, patch,
+verification, docs/checkers; package, release, and provenance work get separate
+proof-boundary phases. Each phase must close one coherent slice of audit risk
+and be independently verifiable.
 
 Each phase needs:
 
@@ -481,13 +524,27 @@ self-check, and terminal ledger closure.
 When phase planning is selected, create or update the runtime substrate before
 handoff or mutation:
 
+Preferred new-run layout:
+
 ```text
-.IMPLEMENTAUDIT/ROADMAP.md
-.IMPLEMENTAUDIT/STATE.md
-.IMPLEMENTAUDIT/THINKING.md
-.IMPLEMENTAUDIT/PROTOCOL.md
-.IMPLEMENTAUDIT/phases/phase-N.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/ROADMAP.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/STATE.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/THINKING.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/PROTOCOL.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/context.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/tools.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/sidecars.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/applied-context.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/repo-map.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/phases/phase-N.md
 ```
+
+Flat `.IMPLEMENTAUDIT/ROADMAP.md`, `.IMPLEMENTAUDIT/STATE.md`,
+`.IMPLEMENTAUDIT/THINKING.md`, `.IMPLEMENTAUDIT/PROTOCOL.md`, and
+`.IMPLEMENTAUDIT/phases/*` remain legacy resume/audit compatibility, not the
+preferred target for new planned runs. Namespaced planning artifacts prevent
+artifact clobbering; true parallel source editing in one working tree still
+requires separate git worktrees.
 
 Use the packaged templates under `skills/templates/` when available. Validate
 phase specs with `skills/scripts/validate-phase.sh`. If a generated or copied
@@ -514,10 +571,16 @@ The self-critique must check:
 - generated artifacts follow generator-first policy
 - mandatory checks are deduplicated and runnable
 - Graphify/ActiveGraph remain optional and non-proof
+- applied context, assumptions, top risks, run root, baseline ref, phase list,
+  mandatory checks, remaining caveats, and authorization boundaries are visible
 - no release/provenance claim exceeds authorization and evidence
 - embedded governance did not accidentally create a second `/goal`
 
 If any item fails, patch the artifacts or stop with Andon / OWNER DECISION.
+Show a concrete review menu before Stage 7: Start now; Adjust assumption; Tweak
+a phase; Restructure phases; Abort / handoff. Do not print the ready-to-paste
+handoff until the owner chooses Start now. If interactive choice tooling is not
+available, print the menu and wait for explicit selection.
 
 ### Stage 6.5 - Pre-flight smoke
 
@@ -536,6 +599,8 @@ Proceed only when the failure is the audit target itself and the owner accepts
 that risk. Unrelated or unclear baseline failures require Andon or OWNER
 DECISION. Do not count a failed, timed-out, hung, or substituted command as pass
 evidence; record an Andon before using any rerun/substitute path.
+Red pre-flight must not silently dispatch against unrelated or unclear broken
+baselines.
 
 ### Stage 7 - One ready-to-paste `/goal` handoff when not already embedded
 
@@ -543,14 +608,18 @@ If not already inside a `/goal` run, print one ready-to-paste handoff that tells
 the next agent to:
 
 - use `/implementaudit`
-- read `.IMPLEMENTAUDIT/PROTOCOL.md`
-- execute `.IMPLEMENTAUDIT/ROADMAP.md` phases sequentially
-- read each `.IMPLEMENTAUDIT/phases/phase-N.md`
+- read `<run-root>/PROTOCOL.md`, `<run-root>/STATE.md`,
+  `<run-root>/ROADMAP.md`, `<run-root>/THINKING.md`, and
+  `<run-root>/sidecars.md`
+- execute `<run-root>/ROADMAP.md` phases sequentially
+- read each `<run-root>/phases/phase-N.md`
 - print `IMPLEMENTAUDIT_PHASE_START`, `IMPLEMENTAUDIT_PHASE_VERIFY`,
-  `AGENTS_UPDATE_DECISION`, and `IMPLEMENTAUDIT_PHASE_DONE` for each phase
+  `AGENTS_UPDATE_DECISION`, optional `CONTINUITY_DECISION`, and
+  `IMPLEMENTAUDIT_PHASE_DONE` for each phase
 - follow `FAILURE_PROBE`, `FAILURE_ESCALATE`, and `FAILURE_HANDOFF` when a
   phase cannot close
 - run final audit after the last phase
+- preserve the run root, baseline ref, and authorization boundaries
 - print `AUDIT_COMPLETE` before `IMPLEMENTAUDIT_RUN_COMPLETE`
 - never print `IMPLEMENTAUDIT_RUN_COMPLETE` with `FAILURE_HANDOFF` or
   `AUDIT_HANDOFF`
@@ -1037,6 +1106,9 @@ When ActiveGraph is available and configured for the repo, `/implementaudit` sho
 ActiveGraph remains optional. If ActiveGraph is absent or unconfigured, continue with the ordinary Markdown ledger, final report, and local git trace discipline. Markdown fallback is first-class and is not a degraded or blocked run.
 
 Capability Ledger is an ImplementAudit-derived record. ActiveGraph provides the event custody substrate when configured; ImplementAudit derives capability entries from recorded gate passages, authorization decisions, smokes, Andons, regressions, ledger closures, boundary records, and evidence. Capability entries are not invented after the run, and ActiveGraph does not ship an Officer CV feature by default.
+
+Capability Ledger entries are derived from recorded gate passages and evidence;
+they are not broad competence claims.
 
 Graphify may enrich entries with terrain context only. ActiveGraph preserves custody only. ImplementAudit remains the competence standard. Capability claims must stay narrow and evidence-bound: this officer closed this class of finding, in this repo area, with these checks, under these boundaries.
 

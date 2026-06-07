@@ -35,3 +35,12 @@ in `docs/audits/v0.2.4.5-graphify-activegraph-honesty.md` and covers isolated
 Graphify/ActiveGraph installation, project terrain/custody evidence, sidecar
 claim boundaries, package-minimality hardening, and the release gates still to
 be closed by that ledger.
+
+The v0.2.5.0 lane closes the external staged-goal comparator runtime gap in
+native IMPLEMENTAUDIT terms. The detailed ledger lives in
+`docs/audits/v0.2.5.0-external-staged-goal-runtime-gap-closure.md` and covers
+Stage 0 context detection, greenfield/brownfield intake rules, namespaced run
+roots, `claim-run.sh`, Stage 6/6.5 review and preflight discipline,
+self-healing/final-audit loops, bounded continuity, sidecar boundaries,
+package minimality, and external identity hygiene without importing comparator
+identity or runtime markers.

@@ -20,6 +20,7 @@ for file in \
   references/routing.md \
   references/repo-state-comparison.md \
   references/child-agents.md \
+  scripts/claim-run.sh \
   scripts/detect-env.sh \
   scripts/detect-stack.sh \
   scripts/repo-state.sh \

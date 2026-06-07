@@ -1,16 +1,20 @@
 # IMPLEMENTAUDIT Protocol
 
-Runtime copy target: `.IMPLEMENTAUDIT/PROTOCOL.md`
+Runtime copy target: `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/PROTOCOL.md`
 
 ## Phase loop
 
 Before executing phase 1, read:
 
 ```text
-.IMPLEMENTAUDIT/ROADMAP.md
-.IMPLEMENTAUDIT/STATE.md
-.IMPLEMENTAUDIT/THINKING.md
-.IMPLEMENTAUDIT/PROTOCOL.md
+<run-root>/ROADMAP.md
+<run-root>/STATE.md
+<run-root>/THINKING.md
+<run-root>/PROTOCOL.md
+<run-root>/context.md
+<run-root>/tools.md
+<run-root>/sidecars.md
+<run-root>/applied-context.md or <run-root>/applied-memories.md
 ```
 
 Use `THINKING.md` as reviewable planning evidence for objective, route,
@@ -58,6 +62,24 @@ This includes committed-after-baseline, staged, unstaged, deleted, and
 untracked text changes. If the helper or baseline is unavailable, state the
 weaker evidence type and remaining risk.
 
+## Sidecars and continuity
+
+Read `<run-root>/sidecars.md` before using Graphify or ActiveGraph. Graphify
+output is orientation evidence, not proof. ActiveGraph custody is not correctness
+proof. Missing, stale, or unauthorized sidecars must route to Markdown fallback
+and ordinary Gemba; they must not block the run.
+
+At each phase boundary, print `CONTINUITY_DECISION` only when a non-obvious,
+future-useful learning is found. Durable repo-local rules belong in `AGENTS.md`
+only when stable and repo-specific. Memory/continuity writeback is read-only
+until warranted, evidence-bound, and safe; never write secrets, raw logs,
+private diagnostics, transient dirty state, or unsupported claims.
+
+Capability Ledger entries, when ActiveGraph is configured and authorized, are
+derived only from recorded gate passages, Smoke A/B, Andons, authorization
+decisions, ledger closures, and final audit evidence. Do not claim broad
+competence from one run.
+
 ## Failure recovery
 
 Use the three-strike recovery ladder when a phase criterion cannot honestly
@@ -100,7 +122,7 @@ Rules:
 - Do not print `AUDIT_HANDOFF` with `IMPLEMENTAUDIT_RUN_COMPLETE`.
 - `IMPLEMENTAUDIT_RUN_COMPLETE` appears only when every phase and ledger item is
   terminally closed.
-- If final audit finds gaps, write `.IMPLEMENTAUDIT/phases/audit-fix-<round>.md`
+- If final audit finds gaps, write `<run-root>/phases/audit-fix-<round>.md`
   when phase planning was used.
 - Check deliverables with `bash skills/scripts/repo-state.sh deliverable <Baseline ref> <path>` when available.
 - Warn when more than 30% of checks are `trust-prior-verify`.

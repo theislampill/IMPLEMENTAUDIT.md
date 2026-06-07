@@ -150,6 +150,7 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
     │   ├── repo-state-comparison.md Baseline-to-working-tree audit comparison.
     │   └── child-agents.md     Bounded review loops and non-authority boundaries.
     ├── scripts/                Bash scripts the planner executes during stages.
+    │   ├── claim-run.sh        Atomic namespaced run-root claim helper.
     │   ├── detect-env.sh       Greenfield env recon.
     │   ├── detect-stack.sh     Brownfield repo contract/source detection.
     │   ├── repo-state.sh       Complete baseline-vs-working-tree helper.
@@ -171,8 +172,8 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
 - **Repo-only**: `README.md`, `CHANGELOG.md`, `AGENTS.md`, `CLAUDE.md`, `CONTRIBUTING.md`, fixtures, root scripts, and `.gitignore`.
 - **Marketplace entry**: `.claude-plugin/marketplace.json` points at the plugin root. Do not claim marketplace behavior was verified unless actually tested.
 - **License**: no `LICENSE` file is present until the owner selects a license and supplies license evidence.
-- **Versioning**: project milestones in the `v0.2.4.x` line, including
-  `v0.2.4.5`, map to plugin manifest version `0.2.4`. The manifest uses
+- **Versioning**: project milestone `v0.2.5.0` maps to plugin manifest version
+  `0.2.5`. The manifest uses
   host-conservative package metadata; project milestones are not tags,
   releases, publication, or provenance claims until the separate
   release/provenance gate actually performs and verifies those actions.
@@ -235,6 +236,10 @@ Routing rule:
   matrix, then re-implement useful behavior through native IMPLEMENTAUDIT
   helpers, references, templates, fixtures, or checkers. Do not import external
   package identity, markers, artifact paths, or autonomous-runner framing.
+- Use bounded continuity only when a phase or final audit surfaces a stable,
+  non-obvious, future-useful learning. Record `CONTINUITY_DECISION`; keep
+  transient logs, private diagnostics, secrets, local-only failures, and
+  unsupported claims out of AGENTS.md and memory.
 - Final audits, deliverable checks, release-readiness checks, and cleanliness
   scans use baseline-to-working-tree evidence, including committed,
   staged, unstaged, deleted, and untracked work. Do not rely on a commit range
@@ -248,7 +253,7 @@ When phase planning is needed, planner stages are:
 2. Recon / Gemba
 3. Deep think
 4. Phase decomposition
-5. Write .IMPLEMENTAUDIT roadmap/state/phase specs
+5. Write .IMPLEMENTAUDIT/runs/<task-slug>-<id> runtime artifacts
 6. Plan review + self-critique
 6.5 Pre-flight smoke check
 7. Print one ready-to-paste /goal, only if not already inside a /goal run
@@ -257,12 +262,23 @@ When phase planning is needed, planner stages are:
 Runtime artifacts:
 
 ```text
-.IMPLEMENTAUDIT/ROADMAP.md
-.IMPLEMENTAUDIT/STATE.md
-.IMPLEMENTAUDIT/THINKING.md
-.IMPLEMENTAUDIT/PROTOCOL.md
-.IMPLEMENTAUDIT/phases/phase-N.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/ROADMAP.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/STATE.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/THINKING.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/PROTOCOL.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/context.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/tools.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/sidecars.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/applied-context.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/repo-map.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/phases/phase-N.md
 ```
+
+Flat `.IMPLEMENTAUDIT/*` files remain legacy resume/audit compatibility, not
+the preferred target for new run artifacts. `skills/scripts/claim-run.sh`
+atomically claims new run roots. Namespaced planning artifacts prevent
+artifact clobbering; true parallel source editing still requires separate git
+worktrees.
 
 `THINKING.md` is reviewable planning evidence for top objective, route,
 owner/source, risks, dependencies, rollback, evidence strategy, generated
@@ -375,8 +391,8 @@ The final audit must re-check the final repo state against the original roadmap 
 
 It must:
 
-- re-read `.IMPLEMENTAUDIT/ROADMAP.md` when phase planning was used
-- write `.IMPLEMENTAUDIT/phases/audit-fix-<round>.md` for gaps when phase planning was used
+- re-read the run-root `ROADMAP.md` when phase planning was used
+- write `<run-root>/phases/audit-fix-<round>.md` for gaps when phase planning was used
 - re-run deduplicated mandatory commands
 - spot-check deterministic acceptance criteria
 - diff-check deliverables against `Baseline ref`
@@ -476,9 +492,9 @@ Durable child/subagent lessons should flow into the nearest applicable `AGENTS.m
 CHANGELOG:
 
 - Keep-a-Changelog style.
-- Keep the current project milestone at top, e.g. `[v0.2.4.5] - Unreleased` before release or `[v0.2.4.5] - <date>` only when the date is grounded.
+- Keep the current project milestone at top, e.g. `[v0.2.5.0] - Unreleased` before release or `[v0.2.5.0] - <date>` only when the date is grounded.
 - Match manifest version if one exists.
-- Current project milestone is `v0.2.4.5`; plugin manifest version is `0.2.4` unless host evidence supports a four-component manifest version.
+- Current project milestone is `v0.2.5.0`; plugin manifest version is `0.2.5` unless host evidence supports a four-component manifest version.
 - Do not claim tags, releases, provenance, publication, or verified install without evidence.
 - Behavior/package changes should be produced by running `/implementaudit` on this repo itself.
 - Changelog entries should preserve the causal chain: finding/gap, root cause when known, countermeasure, evidence, and remaining risk.
@@ -519,6 +535,7 @@ test -f skills/templates/STATE.md
 test -f skills/templates/THINKING.md
 test -f skills/templates/phase-goal.txt
 test -f skills/templates/child-agent-report.md
+test -f skills/scripts/claim-run.sh
 test -f skills/scripts/repo-state.sh
 test -f skills/scripts/validate-audit-spec.sh
 test -f skills/scripts/validate-phase.sh
@@ -527,7 +544,12 @@ test -f fixtures/child-agents/AGENTS.md
 test -f fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md
 test -f fixtures/zero-optional-tool/COMPLETE-RUN.md
 test -f fixtures/routing/greenfield-goal-synthesis/EXPECTED.md
+test -f fixtures/routing/greenfield-full-category-intake/EXPECTED.md
+test -f fixtures/routing/greenfield-batched-questions/EXPECTED.md
 test -f fixtures/routing/brownfield-audit-closure/EXPECTED.md
+test -f fixtures/routing/brownfield-zero-question-recon/EXPECTED.md
+test -f fixtures/routing/brownfield-one-question-true-gap/EXPECTED.md
+test -f fixtures/routing/brownfield-two-question-true-gap/EXPECTED.md
 test -f fixtures/routing/mixed-greenfield-in-brownfield/EXPECTED.md
 test -f docs/diagrams/tooling-architecture.mmd
 test -f docs/diagrams/invocation-modes.mmd
@@ -535,6 +557,8 @@ test -f docs/diagrams/execution-spine.mmd
 test -f docs/audits/v0.2.3.0-harness-adaptation-matrix.md
 test -f docs/audits/v0.2.4.0-planner-stage-hardening.md
 test -f docs/audits/v0.2.4.5-graphify-activegraph-honesty.md
+test -f docs/audits/v0.2.5.0-external-staged-goal-runtime-gap-closure.md
+test -f scripts/check-sidecar-boundaries.sh
 test -f scripts/install-codex-from-release.sh
 test -f tests/release-asset-install.test.sh
 python -m json.tool .claude-plugin/plugin.json >/dev/null
@@ -544,6 +568,7 @@ bash scripts/check-readme-toc.sh
 bash scripts/check-planner-stages.sh
 bash scripts/check-marker-order.sh fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md
 bash scripts/check-routing.sh
+bash scripts/check-sidecar-boundaries.sh
 bash scripts/check-host-claims.sh
 bash scripts/check-added-lines-clean.sh HEAD
 bash tests/marker-order.test.sh
@@ -555,6 +580,11 @@ bash tests/routing.test.sh
 bash tests/repo-state.test.sh
 bash tests/audit-spec.test.sh
 bash tests/added-lines-clean.test.sh
+bash tests/claim-run.test.sh
+bash tests/continuity.test.sh
+bash tests/phase-validation.test.sh
+bash tests/sidecars.test.sh
+bash tests/capability-ledger.test.sh
 ```
 
 ## Editing rules
@@ -592,6 +622,7 @@ grep -R "AGENTS_UPDATE_DECISION" -n skills
 grep -R "AUDIT_COMPLETE" -n skills
 grep -R "IMPLEMENTAUDIT_RUN_COMPLETE" -n skills
 grep -R ".IMPLEMENTAUDIT" -n skills README.md AGENTS.md
+grep -R "v0.2.5.0" -n README.md CHANGELOG.md AGENTS.md
 grep -R "v0.2.4.5" -n README.md CHANGELOG.md AGENTS.md
 grep -R "v0.2.4.0" -n README.md CHANGELOG.md AGENTS.md
 grep -R "v0.2.3.0" -n README.md CHANGELOG.md AGENTS.md
@@ -639,7 +670,7 @@ weakening audit-governed truthfulness.
 
 ## Release asset gate
 
-For package release gates, including `v0.2.4.5`, the GitHub release asset name is
+For package release gates, including `v0.2.5.0`, the GitHub release asset name is
 `IMPLEMENTAUDIT.skill`.
 
 No local repo evidence proves `.skill` is a universal host-standard archive
@@ -672,7 +703,7 @@ commit, or push-only gates. Building or validating the local asset is not a
 release, publication, marketplace verification, or provenance claim.
 
 If provenance is explicitly authorized, publish only the provenance artifacts
-that were actually generated and validated. For `v0.2.4.5`, the repo-supported
+that were actually generated and validated. For `v0.2.5.0`, the repo-supported
 provenance surface is a checksum manifest produced by:
 
 ```bash

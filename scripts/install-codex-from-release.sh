@@ -9,9 +9,9 @@ fail() {
 usage() {
   cat <<'EOF'
 Usage:
-  scripts/install-codex-from-release.sh --asset PATH [--checksum PATH] [--codex-home PATH] [--version 0.2.4]
-  scripts/install-codex-from-release.sh --url URL [--checksum-url URL] [--codex-home PATH] [--version 0.2.4]
-  scripts/install-codex-from-release.sh --tag vX.Y.Z.W [--repo OWNER/REPO] [--codex-home PATH] [--version 0.2.4]
+  scripts/install-codex-from-release.sh --asset PATH [--checksum PATH] [--codex-home PATH] [--version 0.2.5]
+  scripts/install-codex-from-release.sh --url URL [--checksum-url URL] [--codex-home PATH] [--version 0.2.5]
+  scripts/install-codex-from-release.sh --tag vX.Y.Z.W [--repo OWNER/REPO] [--codex-home PATH] [--version 0.2.5]
 
 Installs IMPLEMENTAUDIT.skill into a Codex-style skill directory:
   $CODEX_HOME/skills/implementaudit
@@ -42,7 +42,7 @@ checksum_url=""
 tag=""
 repo="theislampill/IMPLEMENTAUDIT.md"
 codex_home="${CODEX_HOME:-$HOME/.codex}"
-expected_version="0.2.4"
+expected_version="0.2.5"
 
 while [ "$#" -gt 0 ]; do
   case "$1" in

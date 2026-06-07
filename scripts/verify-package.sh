@@ -32,6 +32,7 @@ require_file scripts/check-marker-order.sh
 require_file scripts/check-planner-stages.sh
 require_file scripts/check-readme-toc.sh
 require_file scripts/check-routing.sh
+require_file scripts/check-sidecar-boundaries.sh
 require_file scripts/generate-readme-diagrams.sh
 require_file scripts/install-codex-from-release.sh
 require_file scripts/write-release-checksums.sh
@@ -43,6 +44,7 @@ require_file skills/references/transcript-contract.md
 require_file skills/references/routing.md
 require_file skills/references/repo-state-comparison.md
 require_file skills/references/child-agents.md
+require_file skills/scripts/claim-run.sh
 require_file skills/scripts/detect-env.sh
 require_file skills/scripts/detect-stack.sh
 require_file skills/scripts/repo-state.sh
@@ -62,9 +64,14 @@ require_file fixtures/zero-optional-tool/COMPLETE-RUN.md
 require_file fixtures/routing/greenfield-goal-synthesis/INPUT.md
 require_file fixtures/routing/greenfield-goal-synthesis/EXPECTED.md
 require_file fixtures/routing/greenfield-goal-synthesis/INVALID-MISSING-INTAKE.md
+require_file fixtures/routing/greenfield-full-category-intake/EXPECTED.md
+require_file fixtures/routing/greenfield-batched-questions/EXPECTED.md
 require_file fixtures/routing/brownfield-audit-closure/INPUT.md
 require_file fixtures/routing/brownfield-audit-closure/EXPECTED.md
 require_file fixtures/routing/brownfield-audit-closure/INVALID-MUTATION-FIRST.md
+require_file fixtures/routing/brownfield-zero-question-recon/EXPECTED.md
+require_file fixtures/routing/brownfield-one-question-true-gap/EXPECTED.md
+require_file fixtures/routing/brownfield-two-question-true-gap/EXPECTED.md
 require_file fixtures/routing/mixed-greenfield-in-brownfield/INPUT.md
 require_file fixtures/routing/mixed-greenfield-in-brownfield/EXPECTED.md
 require_file fixtures/audit-spec/valid-mixed.md
@@ -87,6 +94,7 @@ require_file docs/audits/INDEX.md
 require_file docs/audits/v0.2.3.0-harness-adaptation-matrix.md
 require_file docs/audits/v0.2.4.0-planner-stage-hardening.md
 require_file docs/audits/v0.2.4.5-graphify-activegraph-honesty.md
+require_file docs/audits/v0.2.5.0-external-staged-goal-runtime-gap-closure.md
 require_file tests/marker-order.test.sh
 require_file tests/planner-stages.test.sh
 require_file tests/release-asset.test.sh
@@ -96,6 +104,11 @@ require_file tests/routing.test.sh
 require_file tests/repo-state.test.sh
 require_file tests/audit-spec.test.sh
 require_file tests/added-lines-clean.test.sh
+require_file tests/claim-run.test.sh
+require_file tests/continuity.test.sh
+require_file tests/phase-validation.test.sh
+require_file tests/sidecars.test.sh
+require_file tests/capability-ledger.test.sh
 require_file .github/workflows/validate.yml
 
 for child_report in \
@@ -143,8 +156,8 @@ if plugin.get("skills") != "./skills/":
     raise SystemExit("plugin skills path must be ./skills/")
 if not plugin.get("version"):
     raise SystemExit("plugin version is required")
-if plugin.get("version") != "0.2.4":
-    raise SystemExit("plugin version must be 0.2.4 for project milestones in the v0.2.4.x line")
+if plugin.get("version") != "0.2.5":
+    raise SystemExit("plugin version must be 0.2.5 for the v0.2.5.0 project milestone")
 
 marketplace = json.loads(Path(".claude-plugin/marketplace.json").read_text())
 plugins = marketplace.get("plugins")
@@ -175,13 +188,13 @@ do
   grep -R "$marker" -n skills >/dev/null || fail "missing transcript marker: $marker"
 done
 
-grep -R "\.IMPLEMENTAUDIT" -n skills README.md AGENTS.md >/dev/null || fail ".IMPLEMENTAUDIT runtime path is not documented"
+grep -R "\.IMPLEMENTAUDIT/runs" -n skills README.md AGENTS.md >/dev/null || fail ".IMPLEMENTAUDIT runs runtime path is not documented"
 grep -R "child-agent reports are review evidence only" -in skills README.md AGENTS.md fixtures >/dev/null || fail "child-agent evidence boundary is missing"
 grep -R "AUDIT_HANDOFF.*conditional\|AUDIT_HANDOFF.*handoff path" -in skills AGENTS.md >/dev/null || fail "AUDIT_HANDOFF conditional boundary is missing"
 grep -R "AGENTS_UPDATE_DECISION" -n skills/templates/phase-goal.txt skills/templates/STATE.md >/dev/null || fail "AGENTS_UPDATE_DECISION template coverage is missing"
 grep -R "Stage 0 - Context/tool/repo-state detection" -n skills/SKILL.md >/dev/null || fail "native Stage 0 planner contract is missing from skills/SKILL.md"
 grep -R "Stage 6.5 - Pre-flight smoke" -n skills/SKILL.md >/dev/null || fail "native Stage 6.5 planner contract is missing from skills/SKILL.md"
-grep -R ".IMPLEMENTAUDIT/THINKING.md" -n skills/SKILL.md skills/templates/THINKING.md skills/templates/PROTOCOL.md >/dev/null || fail "THINKING runtime artifact coverage is missing"
+grep -R "<run-root>/THINKING.md" -n skills/templates/THINKING.md skills/templates/PROTOCOL.md skills/templates/phase-goal.txt >/dev/null || fail "THINKING runtime artifact coverage is missing"
 grep -R "install-codex-from-release.sh" -n README.md AGENTS.md scripts tests >/dev/null || fail "release-asset Codex install path is not documented/validated"
 grep -R "stale checksum" -in tests/release-asset-install.test.sh scripts/install-codex-from-release.sh >/dev/null || fail "stale checksum install failure coverage is missing"
 grep -R "auto-update" -in README.md CHANGELOG.md AGENTS.md | grep -i "no marketplace auto-update\|does not auto-update\|do not assume\|do not claim" >/dev/null || fail "auto-update boundary must remain explicit"
@@ -194,6 +207,7 @@ if grep -n "remain unperformed" docs/audits/v0.2.4.0-planner-stage-hardening.md 
 fi
 rm -f /tmp/implementaudit-v024-release-state.txt
 grep -R "v0.2.4.5" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.4.5 is not documented"
+grep -R "v0.2.5.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.5.0 is not documented"
 grep -R "v0.2.4.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.4.0 history is not documented"
 grep -R "v0.2.3.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.3.0 is not documented"
 grep -R "v0.2.2.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.2.0 history is not documented"
@@ -238,6 +252,7 @@ bash scripts/check-readme-toc.sh
 bash scripts/check-planner-stages.sh
 bash scripts/check-marker-order.sh fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md fixtures/zero-optional-tool/COMPLETE-RUN.md
 bash scripts/check-routing.sh
+bash scripts/check-sidecar-boundaries.sh
 bash scripts/check-host-claims.sh
 bash scripts/check-added-lines-clean.sh HEAD
 bash tests/marker-order.test.sh
@@ -249,6 +264,11 @@ bash tests/routing.test.sh
 bash tests/repo-state.test.sh
 bash tests/audit-spec.test.sh
 bash tests/added-lines-clean.test.sh
+bash tests/claim-run.test.sh
+bash tests/continuity.test.sh
+bash tests/phase-validation.test.sh
+bash tests/sidecars.test.sh
+bash tests/capability-ledger.test.sh
 bash scripts/build-release-asset.sh --check
 
 git diff --check

@@ -25,6 +25,7 @@ require_file skills/templates/ROADMAP.md
 require_file skills/templates/STATE.md
 require_file skills/templates/PROTOCOL.md
 require_file skills/templates/phase-goal.txt
+require_file skills/scripts/claim-run.sh
 require_file skills/references/planning-depth.md
 require_file skills/references/goal-format.md
 require_file skills/references/phase-design.md
@@ -47,8 +48,17 @@ require_in_file skills/SKILL.md "PREFLIGHT_GREEN"
 require_in_file skills/SKILL.md "PREFLIGHT_RED"
 require_in_file skills/SKILL.md "AUDIT_COMPLETE"
 require_in_file skills/SKILL.md "IMPLEMENTAUDIT_RUN_COMPLETE"
+require_in_file skills/SKILL.md "skills/scripts/claim-run.sh"
+require_in_file skills/SKILL.md 'IMPLEMENTAUDIT_BASE'
+require_in_file skills/SKILL.md 'IMPLEMENTAUDIT_RUN_ROOT'
+require_in_file skills/SKILL.md 'IMPLEMENTAUDIT_BASELINE_REF'
+require_in_file skills/SKILL.md "CONTINUITY_DECISION"
+require_in_file skills/SKILL.md ".IMPLEMENTAUDIT/runs/<task-slug>-<id>/"
+require_in_file skills/SKILL.md "Stage 6 assumptions"
+require_in_file skills/SKILL.md "0-2 true-gap questions"
+require_in_file skills/SKILL.md "at most four material questions"
 
-require_in_file skills/templates/THINKING.md 'Runtime copy target: `.IMPLEMENTAUDIT/THINKING.md`'
+require_in_file skills/templates/THINKING.md 'Runtime copy target: `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/THINKING.md`'
 require_in_file skills/templates/THINKING.md "Top objective"
 require_in_file skills/templates/THINKING.md "Owner/source"
 require_in_file skills/templates/THINKING.md "Top closure risks"
@@ -56,15 +66,25 @@ require_in_file skills/templates/THINKING.md "Rollback or removal path"
 require_in_file skills/templates/THINKING.md "Evidence strategy"
 require_in_file skills/templates/THINKING.md "Graphify status"
 require_in_file skills/templates/THINKING.md "ActiveGraph status"
+require_in_file skills/templates/THINKING.md "Available context"
+require_in_file skills/templates/THINKING.md "Memory/continuity locations"
+require_in_file skills/templates/THINKING.md "Sidecars artifact"
 
-require_in_file skills/templates/PROTOCOL.md ".IMPLEMENTAUDIT/THINKING.md"
-require_in_file skills/templates/ROADMAP.md 'Thinking file: `.IMPLEMENTAUDIT/THINKING.md`'
-require_in_file skills/templates/STATE.md '| `.IMPLEMENTAUDIT/THINKING.md` |'
-require_in_file skills/templates/phase-goal.txt "Thinking ref: .IMPLEMENTAUDIT/THINKING.md"
+require_in_file skills/templates/PROTOCOL.md "<run-root>/THINKING.md"
+require_in_file skills/templates/PROTOCOL.md "CONTINUITY_DECISION"
+require_in_file skills/templates/ROADMAP.md 'Thinking file: `<run-root>/THINKING.md`'
+require_in_file skills/templates/ROADMAP.md "IMPLEMENTAUDIT_RUN_ROOT"
+require_in_file skills/templates/STATE.md '| `<run-root>/THINKING.md` |'
+require_in_file skills/templates/STATE.md "Continuity decision"
+require_in_file skills/templates/phase-goal.txt "Thinking ref: <run-root>/THINKING.md"
+require_in_file skills/templates/phase-goal.txt "CONTINUITY_DECISION"
 require_in_file skills/references/goal-format.md "Full phased handoff condition"
 require_in_file skills/references/planning-depth.md "Native planner stage rule"
+require_in_file skills/references/planning-depth.md "skills/scripts/claim-run.sh"
 require_in_file skills/references/phase-design.md "Stage 6 self-critique"
+require_in_file skills/references/phase-design.md "Start now"
 require_in_file skills/references/transcript-contract.md "Stage handoff boundary"
+require_in_file skills/references/transcript-contract.md "CONTINUITY_DECISION"
 
 require_in_file skills/SKILL.md "audit object / audit record / audit surface"
 require_in_file skills/SKILL.md "auditing action / audit operation"

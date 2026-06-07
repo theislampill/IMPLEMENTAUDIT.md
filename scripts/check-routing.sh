@@ -66,6 +66,13 @@ for needle in [
     "generated artifact plan",
     "graphify / activegraph sidecar status",
     "canonical-vs-sidecar statement",
+    "at most four material questions",
+    "target platform / runtime surface",
+    "stack / framework / language preference",
+    "design direction / UX / public-facing shape",
+    "integrations and external dependencies",
+    "performance / scale / reliability constraints",
+    "acceptance criteria and proof shape",
 ]:
     require(routing, needle, "greenfield intake field", routing_path)
 
@@ -77,6 +84,10 @@ for needle in [
     "regression surface",
     "rollback path",
     "andon or `unverified` caveat",
+    "0-2 true-gap questions",
+    "ask zero when",
+    "one or two only when",
+    "explicit assumptions for Stage 6 review",
 ]:
     require(routing, needle, "brownfield inspection field", routing_path)
 
@@ -131,6 +142,41 @@ valid_fixtures = {
         "rollback/removal path",
         "evidence plan",
         "graphify / activegraph sidecar status",
+    ],
+    "fixtures/routing/greenfield-full-category-intake/EXPECTED.md": [
+        "classification: greenfield",
+        "target platform / runtime surface",
+        "stack / framework / language preference",
+        "design direction / UX / public-facing shape",
+        "integrations and external dependencies",
+        "scope and non-scope cut-line",
+        "audience / user role / primary use case",
+        "performance / scale / reliability constraints",
+        "data model / persistence / schema anchors",
+        "deployment / hosting / environment assumptions",
+        "security / privacy / compliance constraints",
+        "accessibility / i18n / content constraints",
+        "acceptance criteria and proof shape",
+    ],
+    "fixtures/routing/greenfield-batched-questions/EXPECTED.md": [
+        "classification: greenfield",
+        "at most four material questions",
+        "Stage 6 assumptions",
+    ],
+    "fixtures/routing/brownfield-zero-question-recon/EXPECTED.md": [
+        "classification: brownfield",
+        "Question count: 0 true-gap questions",
+        "repo files, user prompt, applied context, and live Gemba answer",
+    ],
+    "fixtures/routing/brownfield-one-question-true-gap/EXPECTED.md": [
+        "classification: brownfield",
+        "Question count: 1 true-gap question",
+        "one material owner decision",
+    ],
+    "fixtures/routing/brownfield-two-question-true-gap/EXPECTED.md": [
+        "classification: brownfield",
+        "Question count: 2 true-gap questions",
+        "one material acceptance or release-boundary decision",
     ],
 }
 

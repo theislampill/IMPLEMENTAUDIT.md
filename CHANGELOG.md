@@ -7,9 +7,69 @@ This project follows Keep a Changelog style. Historical entries marked
 not from verified tags, releases, publication, marketplace verification, or
 provenance.
 
-Plugin manifest versions are host-facing package metadata. Project milestones
-in the `v0.2.4.x` line map to plugin manifest version `0.2.4` because no local
+Plugin manifest versions are host-facing package metadata. The `v0.2.5.0`
+project milestone maps to plugin manifest version `0.2.5` because no local
 schema evidence proved four-component plugin manifest versions are accepted.
+
+## [v0.2.5.0] - 2026-06-07
+
+### Added
+
+- Added a neutral v0.2.5.0 comparator gap-closure audit ledger at
+  `docs/audits/v0.2.5.0-external-staged-goal-runtime-gap-closure.md`.
+- Added native namespaced run-root claiming with `skills/scripts/claim-run.sh`
+  and `tests/claim-run.test.sh`.
+- Added focused tests for bounded continuity, sidecar boundaries, Capability
+  Ledger evidence boundaries, and placeholder-only phase validation:
+  `tests/continuity.test.sh`, `tests/sidecars.test.sh`,
+  `tests/capability-ledger.test.sh`, and `tests/phase-validation.test.sh`.
+- Added `scripts/check-sidecar-boundaries.sh` to keep Graphify and ActiveGraph
+  optional, noncanonical, absent-safe, and excluded from package debris.
+- Added routing fixtures for full greenfield category intake, batched
+  greenfield questions, and brownfield 0-2 true-gap question behavior.
+
+### Changed
+
+- Strengthened native Stage 0 context detection, memory/continuity discovery,
+  optional sidecar detection, baseline/ref capture, and available tool/session
+  reporting.
+- Strengthened Stage 1 routing so greenfield work walks material intake
+  categories in batches of up to four, while brownfield work runs recon first
+  and asks only 0-2 true-gap questions.
+- Strengthened Stage 2/3 recon and thinking artifacts with repo maps,
+  mandatory-command candidates, top three risks, weakest dependency, optional
+  lookup status, sidecar boundaries, and Markdown fallback.
+- Moved the preferred planned-run artifact layout to
+  `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/` with `ROADMAP.md`, `STATE.md`,
+  `THINKING.md`, `PROTOCOL.md`, `context.md`, `tools.md`, `sidecars.md`,
+  applied-context/memory files, repo-map files, phase specs, fix specs, and
+  audit-fix specs.
+- Clarified that flat `.IMPLEMENTAUDIT/*` files remain legacy resume/audit
+  compatibility, not the preferred target for new planned runs.
+- Strengthened Stage 6 self-critique with an explicit review menu and blocked
+  Stage 7 handoff until Start now is explicitly selected.
+- Strengthened Stage 6.5 red preflight discipline so failed, timed-out, hung, or
+  substituted commands require Andon evidence and unrelated/unclear red
+  baselines cannot silently dispatch.
+- Strengthened phase templates and validation so placeholder-only acceptance
+  criteria cannot validate as real phase specs.
+- Bumped plugin manifest metadata from `0.2.4` to `0.2.5` for shipped runtime
+  behavior in the `v0.2.5.0` project milestone.
+
+### Safety
+
+- Preserved IMPLEMENTAUDIT identity and native marker vocabulary; external
+  comparator package identity, artifact paths, marker names, and memory markers
+  are not imported into tracked repo files.
+- Preserved Graphify as optional terrain/orientation evidence only and
+  ActiveGraph as optional custody/event evidence only.
+- Preserved Markdown audit objects, transcript markers, fixtures, checkers,
+  package manifests, and final audit closure as canonical.
+- Preserved package minimality: repo audit ledgers, release notes, fixtures,
+  tests, CI config, `.IMPLEMENTAUDIT/` run roots, Graphify outputs, ActiveGraph
+  stores/exports, and local smoke debris remain out of the `.skill` payload.
+- Did not claim marketplace verification, universal host support, signature,
+  attestation, SBOM, license, or passive update automation.
 
 ## [v0.2.4.5] - 2026-06-06
 

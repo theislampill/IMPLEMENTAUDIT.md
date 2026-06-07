@@ -60,7 +60,7 @@ Stage 1 - Audit-governed intake and routing
 Stage 2 - Recon / Gemba
 Stage 3 - Deep think / risk and dependency analysis
 Stage 4 - Phase decomposition
-Stage 5 - Write .IMPLEMENTAUDIT roadmap/state/thinking/protocol/phase specs
+Stage 5 - Write .IMPLEMENTAUDIT/runs/<task-slug>-<id> runtime artifacts
 Stage 6 - Plan review and self-critique
 Stage 6.5 - Pre-flight smoke
 Stage 7 - One ready-to-paste /goal handoff when not already embedded
@@ -80,6 +80,27 @@ update:
 - `.IMPLEMENTAUDIT/THINKING.md`
 - `.IMPLEMENTAUDIT/PROTOCOL.md`
 - `.IMPLEMENTAUDIT/phases/phase-N.md`
+
+For new planned runs, prefer a namespaced run root claimed by
+`skills/scripts/claim-run.sh`:
+
+```text
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/ROADMAP.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/STATE.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/THINKING.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/PROTOCOL.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/context.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/tools.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/sidecars.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/applied-context.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/repo-map.md
+.IMPLEMENTAUDIT/runs/<task-slug>-<id>/phases/phase-N.md
+```
+
+Flat `.IMPLEMENTAUDIT/*` files remain legacy resume/audit compatibility, not
+the preferred target for new run artifacts. Namespacing protects planning
+artifacts from clobbering; use separate git worktrees for true parallel source
+editing.
 
 `THINKING.md` is reviewable planning evidence: objective, route, owner/source,
 risks, dependencies, rollback, evidence strategy, generated-artifact plan,

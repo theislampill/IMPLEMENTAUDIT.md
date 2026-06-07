@@ -1,6 +1,6 @@
 # IMPLEMENTAUDIT Thinking
 
-Runtime copy target: `.IMPLEMENTAUDIT/THINKING.md`
+Runtime copy target: `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/THINKING.md`
 
 This file is reviewable planning evidence for goal synthesis or phased audit
 closure. Keep it concise. Do not use it for private chain-of-thought, raw logs,
@@ -31,6 +31,34 @@ Terminal closure condition:
 Invocation shape: embedded governance / direct governance / goal synthesis
 
 Route: greenfield / brownfield / mixed
+
+Run root:
+
+Baseline ref:
+
+IMPLEMENTAUDIT_BASE:
+
+IMPLEMENTAUDIT_RUN_ROOT:
+
+IMPLEMENTAUDIT_BASELINE_REF:
+
+Legacy flat `.IMPLEMENTAUDIT/` resume status:
+
+## Available context
+
+Host/session constraints:
+
+Shell/language runtimes/package managers:
+
+Available skills/tools/MCPs:
+
+Web/current-doc lookup status:
+
+Memory/continuity locations:
+
+Prior run roots:
+
+Applied context:
 
 ## Owner/source
 
@@ -92,6 +120,16 @@ ActiveGraph status: absent / present / configured / avoided / used as custody on
 
 Canonical-vs-sidecar boundary:
 
+Sidecars artifact: `<run-root>/sidecars.md`
+
+Graphify live-file follow-up required:
+
+ActiveGraph event/custody authorization:
+
+Markdown fallback:
+
+Capability Ledger entry strategy:
+
 ## Plan review notes
 
 Self-critique result:
@@ -99,3 +137,5 @@ Self-critique result:
 Pre-flight result:
 
 Remaining caveats:
+
+Continuity decision:

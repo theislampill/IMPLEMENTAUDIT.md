@@ -41,3 +41,8 @@ jobs:
           bash tests/repo-state.test.sh
           bash tests/audit-spec.test.sh
           bash tests/added-lines-clean.test.sh
+          bash tests/claim-run.test.sh
+          bash tests/continuity.test.sh
+          bash tests/phase-validation.test.sh
+          bash tests/sidecars.test.sh
+          bash tests/capability-ledger.test.sh

@@ -1,6 +1,6 @@
 # IMPLEMENTAUDIT Roadmap
 
-Runtime copy target: `.IMPLEMENTAUDIT/ROADMAP.md`
+Runtime copy target: `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/ROADMAP.md`
 
 ## Goal
 
@@ -26,11 +26,37 @@ Double-audit sequence, if release-affecting or high-risk:
 
 <!-- Commit hash, branch, or file snapshot used for diff-based final audit. -->
 
+## Run root
+
+IMPLEMENTAUDIT_BASE:
+
+IMPLEMENTAUDIT_RUN_ROOT:
+
+IMPLEMENTAUDIT_BASELINE_REF:
+
+Legacy flat `.IMPLEMENTAUDIT/` state:
+
+Run claim command:
+
+```bash
+bash skills/scripts/claim-run.sh "<task summary>"
+```
+
 ## Planning evidence
 
-Thinking file: `.IMPLEMENTAUDIT/THINKING.md`
+Thinking file: `<run-root>/THINKING.md`
 
-Protocol file: `.IMPLEMENTAUDIT/PROTOCOL.md`
+Protocol file: `<run-root>/PROTOCOL.md`
+
+Context file: `<run-root>/context.md`
+
+Tools file: `<run-root>/tools.md`
+
+Sidecars file: `<run-root>/sidecars.md`
+
+Applied context file: `<run-root>/applied-context.md` or `<run-root>/applied-memories.md`
+
+Repo map file for brownfield work: `<run-root>/repo-map.md`
 
 ## Phases
 

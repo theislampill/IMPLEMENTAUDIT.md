@@ -145,11 +145,10 @@ IMPLEMENTAUDIT uses `audit` in two linked senses:
 
 - `tdqyq-audit-object`: the audit-as-noun surface. It is the evidence-bearing
   record or state for the run: scope, owner/source, claims, changed files,
-  checks, marker state, unresolved gaps, and terminal closure. In a real run it
-  may be represented by `.IMPLEMENTAUDIT/PROTOCOL.md`,
-  `.IMPLEMENTAUDIT/STATE.md`, `.IMPLEMENTAUDIT/THINKING.md`,
-  `.IMPLEMENTAUDIT/ROADMAP.md`, `.IMPLEMENTAUDIT/phases/*`, transcript markers,
-  release/package evidence, and closure tables.
+  checks, marker state, unresolved gaps, and terminal closure. In a planned run
+  it may be represented by a namespaced `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/`
+  root containing `PROTOCOL.md`, `STATE.md`, `THINKING.md`, `ROADMAP.md`,
+  `phases/*`, transcript markers, release/package evidence, and closure tables.
 - `ydqyq-audit-action`: the audit-as-verb operation. It inspects, classifies,
   verifies, authorizes or rejects mutation, closes findings, or produces a
   handoff against the live `tdqyq-audit-object`.
@@ -240,7 +239,7 @@ Stage 1 - Audit-governed intake and routing
 Stage 2 - Recon / Gemba
 Stage 3 - Deep think / risk and dependency analysis
 Stage 4 - Phase decomposition
-Stage 5 - Write .IMPLEMENTAUDIT roadmap/state/thinking/protocol/phase specs
+Stage 5 - Write .IMPLEMENTAUDIT/runs/<task-slug>-<id> runtime artifacts
 Stage 6 - Plan review and self-critique
 Stage 6.5 - Pre-flight smoke
 Stage 7 - One ready-to-paste /goal handoff when not already embedded
@@ -251,10 +250,15 @@ Smoke A/B, generated-artifact discipline, final audit before completion, and
 the separate commit/push/tag/release/provenance gates. It does not turn
 IMPLEMENTAUDIT into open-ended software-builder automation.
 
-When phased planning is selected, the runtime artifacts live under
-`.IMPLEMENTAUDIT/`: `ROADMAP.md`, `STATE.md`, `THINKING.md`, `PROTOCOL.md`, and
-`phases/phase-N.md`. `THINKING.md` is reviewable planning evidence for route,
-risks, dependencies, rollback, and evidence strategy; it is not proof by itself.
+When phased planning is selected, new runtime artifacts live under a namespaced
+run root such as `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/`. The package includes
+`skills/scripts/claim-run.sh` to claim that directory atomically. A run root may
+contain `ROADMAP.md`, `STATE.md`, `THINKING.md`, `PROTOCOL.md`, `context.md`,
+`tools.md`, `sidecars.md`, `applied-context.md` or `applied-memories.md`,
+`repo-map.md`, and `phases/phase-N.md`. Flat `.IMPLEMENTAUDIT/*` artifacts are
+legacy resume/audit compatibility, not the preferred new-run target.
+`THINKING.md` is reviewable planning evidence for route, risks, dependencies,
+rollback, and evidence strategy; it is not proof by itself.
 
 ### Why one `/goal`, not a chain
 
@@ -489,7 +493,7 @@ publication, or provenance has been verified.
 
 ## Version and release notes
 
-Current project milestone: `v0.2.4.5`. Plugin manifest version: `0.2.4`.
+Current project milestone: `v0.2.5.0`. Plugin manifest version: `0.2.5`.
 No local schema evidence proved four-component plugin manifest versions are
 accepted, so the manifest uses host-conservative package metadata while the
 project milestone is recorded in docs and changelog. This is not a tag, release,
@@ -681,14 +685,14 @@ bash scripts/install-codex-from-release.sh \
   --asset dist/IMPLEMENTAUDIT.skill \
   --checksum dist/CHECKSUMS.txt \
   --codex-home "$HOME/.codex" \
-  --version 0.2.4
+  --version 0.2.5
 ```
 
 After a public release exists, the same installer can be pointed at an explicit
 tag or asset URL from a source checkout:
 
 ```bash
-bash scripts/install-codex-from-release.sh --tag v0.2.4.5 --version 0.2.4
+bash scripts/install-codex-from-release.sh --tag v0.2.5.0 --version 0.2.5
 ```
 
 That public-download path is a claim only after the release exists and the
@@ -735,7 +739,7 @@ been verified.
 
 ## Release asset notes
 
-For package release gates, including `v0.2.4.5`, the GitHub release asset name is
+For package release gates, including `v0.2.5.0`, the GitHub release asset name is
 `IMPLEMENTAUDIT.skill`.
 
 No local evidence proves `.skill` is a universal host-standard archive format.
@@ -796,7 +800,7 @@ bash scripts/write-release-checksums.sh --check
 bash tests/release-asset-install.test.sh
 ```
 
-For `v0.2.4.5`, the intended GitHub release assets are `IMPLEMENTAUDIT.skill` and
+For `v0.2.5.0`, the intended GitHub release assets are `IMPLEMENTAUDIT.skill` and
 `CHECKSUMS.txt`. The checksum manifest is bounded artifact-integrity evidence
 only; it is not a signature, attestation, SBOM, marketplace verification,
 license claim, or install proof.
