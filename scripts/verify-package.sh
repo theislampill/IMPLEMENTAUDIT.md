@@ -155,8 +155,11 @@ from pathlib import Path
 plugin = json.loads(Path(".claude-plugin/plugin.json").read_text())
 if plugin.get("name") != "implementaudit":
     raise SystemExit("plugin name must be implementaudit")
-if plugin.get("skills") != "./skills/":
-    raise SystemExit("plugin skills path must be ./skills/")
+if plugin.get("skills") != "./":
+    raise SystemExit(
+        "plugin skills path must be ./ "
+        "(SKILL.md at archive root for Claude import)"
+    )
 if not plugin.get("version"):
     raise SystemExit("plugin version is required")
 if plugin.get("version") != "0.2.5":

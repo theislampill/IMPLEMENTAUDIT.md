@@ -130,7 +130,6 @@ fi
 import hashlib
 import json
 import os
-import re
 import shutil
 import sys
 import tempfile
@@ -179,42 +178,54 @@ blocked_names = {
 }
 blocked_suffixes = (".log", ".tmp", ".db", ".sqlite", ".sqlite3", ".jsonl")
 
+# Required archive entries — skill content at root (no skills/ prefix).
 required_archive = {
-    "skills/SKILL.md",
-    "skills/references/planning-depth.md",
-    "skills/references/phase-design.md",
-    "skills/references/goal-format.md",
-    "skills/references/transcript-contract.md",
-    "skills/references/routing.md",
-    "skills/references/repo-state-comparison.md",
-    "skills/references/child-agents.md",
-    "skills/scripts/detect-env.sh",
-    "skills/scripts/detect-stack.sh",
-    "skills/scripts/repo-state.sh",
-    "skills/scripts/summarize-repo.sh",
-    "skills/scripts/validate-audit-spec.sh",
-    "skills/scripts/validate-phase.sh",
-    "skills/templates/ROADMAP.md",
-    "skills/templates/STATE.md",
-    "skills/templates/THINKING.md",
-    "skills/templates/phase-goal.txt",
-    "skills/templates/child-agent-report.md",
-    "skills/templates/PROTOCOL.md",
+    "SKILL.md",
+    "references/planning-depth.md",
+    "references/phase-design.md",
+    "references/goal-format.md",
+    "references/transcript-contract.md",
+    "references/routing.md",
+    "references/repo-state-comparison.md",
+    "references/child-agents.md",
+    "scripts/detect-env.sh",
+    "scripts/detect-stack.sh",
+    "scripts/repo-state.sh",
+    "scripts/summarize-repo.sh",
+    "scripts/validate-audit-spec.sh",
+    "scripts/validate-phase.sh",
+    "templates/ROADMAP.md",
+    "templates/STATE.md",
+    "templates/THINKING.md",
+    "templates/phase-goal.txt",
+    "templates/child-agent-report.md",
+    "templates/PROTOCOL.md",
     ".claude-plugin/plugin.json",
 }
 
 with zipfile.ZipFile(asset) as zf:
     names = set(zf.namelist())
+
+    # Regression guard: wrong-shape archive must be rejected.
+    if "skills/SKILL.md" in names:
+        raise SystemExit(
+            "archive has skills/SKILL.md at nested path; "
+            "SKILL.md must be at archive root for Claude import"
+        )
+
     missing = sorted(required_archive - names)
     if missing:
         raise SystemExit("asset missing required entries: " + ", ".join(missing))
-    allowed_top_level = {"skills", ".claude-plugin"}
+
+    # Only allowed top-level entries may appear.
+    allowed_top_level = {"SKILL.md", "references", "scripts", "templates", ".claude-plugin"}
     top_level = {Path(name).parts[0] for name in names if Path(name).parts}
     extra_top_level = sorted(top_level - allowed_top_level)
     if extra_top_level:
         raise SystemExit(
-            "asset contains repo-only top-level paths: " + ", ".join(extra_top_level)
+            "asset contains unexpected top-level paths: " + ", ".join(extra_top_level)
         )
+
     for name in names:
         rel = Path(name)
         if rel.is_absolute() or ".." in rel.parts:
@@ -236,12 +247,18 @@ with zipfile.ZipFile(asset) as zf:
             raise SystemExit(
                 f"plugin version must be {expected_version}, got {plugin.get('version')}"
             )
-        if plugin.get("skills") != "./skills/":
-            raise SystemExit("plugin skills path must be ./skills/")
+        if plugin.get("skills") != "./":
+            raise SystemExit("plugin skills path must be ./ (SKILL.md at archive root)")
         if (root / "IMPLEMENTAUDIT.md").exists():
             raise SystemExit("root IMPLEMENTAUDIT.md must be absent")
+        if not (root / "SKILL.md").is_file():
+            raise SystemExit("SKILL.md must be at archive root")
+        if (root / "skills").exists():
+            raise SystemExit(
+                "skills/ subdirectory must not exist at archive root; "
+                "skill content must be at archive root"
+            )
 
-        skills_root = root / "skills"
         target = codex_home / "skills" / "implementaudit"
         resolved_home = codex_home.resolve(strict=False)
         resolved_target = target.resolve(strict=False)
@@ -252,7 +269,17 @@ with zipfile.ZipFile(asset) as zf:
         tmp_target = target.parent / f".implementaudit-install-{os.getpid()}"
         if tmp_target.exists():
             shutil.rmtree(tmp_target)
-        shutil.copytree(skills_root, tmp_target)
+        tmp_target.mkdir(parents=True)
+
+        # Copy skill content from archive root to tmp_target (skip .claude-plugin/).
+        for child in root.iterdir():
+            if child.name == ".claude-plugin":
+                continue
+            dest = tmp_target / child.name
+            if child.is_file():
+                shutil.copy2(child, dest)
+            elif child.is_dir():
+                shutil.copytree(child, dest)
 
         for rel in [
             "SKILL.md",

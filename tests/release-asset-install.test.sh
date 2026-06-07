@@ -127,7 +127,7 @@ with zipfile.ZipFile(source) as src, zipfile.ZipFile(
 ) as dst:
     for info in src.infolist():
         dst.writestr(info, src.read(info.filename))
-    dst.writestr("skills/references/graph.json", "{}\n")
+    dst.writestr("references/graph.json", "{}\n")
 PY
 
 bash scripts/write-release-checksums.sh "$sidecar" "$sidecar_checksums"

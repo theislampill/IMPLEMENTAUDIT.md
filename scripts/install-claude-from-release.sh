@@ -13,12 +13,14 @@ Usage:
   scripts/install-claude-from-release.sh --url URL --claude-skills-dir PATH [--checksum-url URL]
   scripts/install-claude-from-release.sh --tag vX.Y.Z.W --claude-skills-dir PATH [--repo OWNER/REPO]
 
-Copies IMPLEMENTAUDIT.skill skill payload into a Claude skill directory:
-  <CLAUDE_SKILLS_DIR>/
+FILE-COPY WORKAROUND — NOT Claude import proof.
 
-This script validates archive shape and checksum when a manifest is supplied.
-It does not install Graphify, install ActiveGraph, index, configure event stores,
-push, tag, release, or publish provenance.
+This script copies IMPLEMENTAUDIT.skill payload files into a Claude session skill
+directory by extracting the archive and copying files directly. It bypasses
+Claude Desktop's normal skill import/install path and does NOT constitute proof
+that Claude Desktop can import the .skill file.
+
+To test actual Claude import, use Claude Desktop's built-in skill import/install UI.
 
 Finding the Claude skills directory:
   Claude Desktop stores session-managed skills under a session-specific path.
@@ -32,13 +34,9 @@ Finding the Claude skills directory:
   Example (Windows):
     --claude-skills-dir "%APPDATA%\Claude\local-agent-mode-sessions\skills-plugin\<id>\<id>\skills\implementaudit"
 
-  After install, Claude Desktop must reload or restart to pick up the changes.
-  If a skill was previously installed via Claude Desktop UI, the UI-managed
-  update path (if available in your Claude version) is preferred over this script.
-
 This script does not prove marketplace behavior, passive auto-update,
-or that Claude Desktop will load the skill. It copies files only.
-No install proof is made by this script; use Claude Desktop to confirm the skill runs.
+Claude Desktop import, or Claude runtime loading.
+No import proof is made by this script.
 EOF
 }
 
@@ -195,42 +193,55 @@ blocked_names = {
 }
 blocked_suffixes = (".log", ".tmp", ".db", ".sqlite", ".sqlite3", ".jsonl")
 
+# Required archive entries — skill content at root (no skills/ prefix).
 required_archive = {
-    "skills/SKILL.md",
-    "skills/references/planning-depth.md",
-    "skills/references/phase-design.md",
-    "skills/references/goal-format.md",
-    "skills/references/transcript-contract.md",
-    "skills/references/routing.md",
-    "skills/references/repo-state-comparison.md",
-    "skills/references/child-agents.md",
-    "skills/scripts/detect-env.sh",
-    "skills/scripts/detect-stack.sh",
-    "skills/scripts/repo-state.sh",
-    "skills/scripts/summarize-repo.sh",
-    "skills/scripts/validate-audit-spec.sh",
-    "skills/scripts/validate-phase.sh",
-    "skills/templates/ROADMAP.md",
-    "skills/templates/STATE.md",
-    "skills/templates/THINKING.md",
-    "skills/templates/phase-goal.txt",
-    "skills/templates/child-agent-report.md",
-    "skills/templates/PROTOCOL.md",
+    "SKILL.md",
+    "references/planning-depth.md",
+    "references/phase-design.md",
+    "references/goal-format.md",
+    "references/transcript-contract.md",
+    "references/routing.md",
+    "references/repo-state-comparison.md",
+    "references/child-agents.md",
+    "scripts/detect-env.sh",
+    "scripts/detect-stack.sh",
+    "scripts/repo-state.sh",
+    "scripts/summarize-repo.sh",
+    "scripts/validate-audit-spec.sh",
+    "scripts/validate-phase.sh",
+    "templates/ROADMAP.md",
+    "templates/STATE.md",
+    "templates/THINKING.md",
+    "templates/phase-goal.txt",
+    "templates/child-agent-report.md",
+    "templates/PROTOCOL.md",
     ".claude-plugin/plugin.json",
 }
 
 with zipfile.ZipFile(asset) as zf:
     names = set(zf.namelist())
+
+    # Regression guard: wrong-shape archive must be rejected.
+    if "skills/SKILL.md" in names:
+        raise SystemExit(
+            "archive has skills/SKILL.md at nested path; "
+            "SKILL.md must be at archive root. "
+            "This archive cannot be imported by Claude Desktop."
+        )
+
     missing = sorted(required_archive - names)
     if missing:
         raise SystemExit("asset missing required entries: " + ", ".join(missing))
-    allowed_top_level = {"skills", ".claude-plugin"}
+
+    # Only allowed top-level entries may appear.
+    allowed_top_level = {"SKILL.md", "references", "scripts", "templates", ".claude-plugin"}
     top_level = {Path(name).parts[0] for name in names if Path(name).parts}
     extra_top_level = sorted(top_level - allowed_top_level)
     if extra_top_level:
         raise SystemExit(
-            "asset contains repo-only top-level paths: " + ", ".join(extra_top_level)
+            "asset contains unexpected top-level paths: " + ", ".join(extra_top_level)
         )
+
     for name in names:
         rel = Path(name)
         if rel.is_absolute() or ".." in rel.parts:
@@ -248,17 +259,33 @@ with zipfile.ZipFile(asset) as zf:
         plugin = json.loads((root / ".claude-plugin/plugin.json").read_text(encoding="utf-8"))
         if plugin.get("name") != "implementaudit":
             raise SystemExit("plugin name must be implementaudit")
-        if plugin.get("skills") != "./skills/":
-            raise SystemExit("plugin skills path must be ./skills/")
+        if plugin.get("skills") != "./":
+            raise SystemExit("plugin skills path must be ./ (SKILL.md at archive root)")
         if (root / "IMPLEMENTAUDIT.md").exists():
             raise SystemExit("root IMPLEMENTAUDIT.md must be absent")
+        if not (root / "SKILL.md").is_file():
+            raise SystemExit("SKILL.md must be at archive root")
+        if (root / "skills").exists():
+            raise SystemExit(
+                "skills/ subdirectory must not exist at archive root; "
+                "this archive is malformed for Claude import"
+            )
 
-        skills_root = root / "skills"
         target_dir.mkdir(parents=True, exist_ok=True)
         tmp_target = target_dir.parent / f".implementaudit-claude-install-{os.getpid()}"
         if tmp_target.exists():
             shutil.rmtree(tmp_target)
-        shutil.copytree(skills_root, tmp_target)
+        tmp_target.mkdir(parents=True)
+
+        # Copy skill content from archive root to tmp_target (skip .claude-plugin/).
+        for child in root.iterdir():
+            if child.name == ".claude-plugin":
+                continue
+            dest = tmp_target / child.name
+            if child.is_file():
+                shutil.copy2(child, dest)
+            elif child.is_dir():
+                shutil.copytree(child, dest)
 
         for rel in [
             "SKILL.md",
@@ -289,13 +316,19 @@ with zipfile.ZipFile(asset) as zf:
             shutil.rmtree(target_dir)
         tmp_target.rename(target_dir)
 
-sys.stdout.write(f"install-claude-from-release: installed {asset.name} into {target_dir}\n")
+sys.stdout.write("install-claude-from-release: FILE-COPY WORKAROUND.\n")
+sys.stdout.write(f"install-claude-from-release: copied {asset.name} files into {target_dir}\n")
 sys.stdout.write(f"install-claude-from-release: sha256 {digest}\n")
 sys.stdout.write(
-    "install-claude-from-release: NOTICE: restart Claude Desktop to reload the skill.\n"
+    "install-claude-from-release: NOTICE: This is a file-copy workaround only.\n"
 )
 sys.stdout.write(
-    "install-claude-from-release: NOTICE: this copies files only. "
-    "No install proof is made by this script. Verify in Claude Desktop after restart.\n"
+    "install-claude-from-release: NOTICE: It is NOT proof that Claude Desktop can import the .skill.\n"
+)
+sys.stdout.write(
+    "install-claude-from-release: NOTICE: To test actual import, use Claude Desktop import UI.\n"
+)
+sys.stdout.write(
+    "install-claude-from-release: NOTICE: After file-copy, restart Claude Desktop to reload.\n"
 )
 PY

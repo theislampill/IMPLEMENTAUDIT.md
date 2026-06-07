@@ -73,31 +73,42 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Repair (post-release, 2026-06-07)
 
-- Root cause: v0.2.5.0 release gates ran only Codex install smoke
-  (`tests/release-asset-install.test.sh`). No Claude Desktop install path was
-  documented, scripted, or tested. The live release asset could not be installed
-  in Claude Desktop by following the README.
-- Added `scripts/install-claude-from-release.sh` for Claude Desktop file-copy
-  install from a local or public release asset.
-- Added `tests/release-asset-install-claude.test.sh` for Claude archive shape
-  smoke (archive validation + file-copy install, not live Claude Desktop proof).
+**Primary root cause:** The original `.skill` archive had skill content nested under
+`skills/SKILL.md` (wrong root shape). Claude Desktop's import contract requires
+`SKILL.md` at archive root. The archive was accepted by the Codex installer
+(which reads from `skills/` explicitly) but rejected by Claude Desktop import with
+"malformed at root." No live Claude import was ever tested before release.
+
+**Structural fix (archive root shape):**
+- `scripts/build-release-asset.sh` rebuilt to strip the `skills/` prefix so
+  archive entries are `SKILL.md`, `references/`, `scripts/`, `templates/`
+  at root — not nested under `skills/`.
+- `.claude-plugin/plugin.json` `skills` field changed from `"./skills/"` to `"./"`.
+- `scripts/install-codex-from-release.sh` updated for new root shape.
+- `scripts/install-claude-from-release.sh` updated for new root shape; usage
+  relabeled as "file-copy workaround only — NOT Claude import proof."
+- `tests/release-asset.test.sh` updated; added regression guard: `skills/SKILL.md`
+  in archive is now a hard failure.
+- `tests/release-asset-install.test.sh`,
+  `tests/release-asset-install-claude.test.sh`: sidecar test paths updated.
+- `scripts/verify-package.sh`: plugin `skills` path check updated.
+
+**Secondary root cause:** No live Claude Desktop import was run in the release gate.
+- Added `scripts/install-claude-from-release.sh` (file-copy workaround, not import proof).
+- Added `tests/release-asset-install-claude.test.sh` for archive shape smoke.
 - Added Claude Desktop install path and boundaries to README §Install notes.
-- Added anti-repeat rule `LIVE_V0_2_5_0_CLAUDE_INSTALL_BROKEN` to AGENTS.md
-  requiring both Codex and Claude archive smoke in future release gates.
+- Added anti-repeat rule `LIVE_V0_2_5_0_CLAUDE_INSTALL_BROKEN` to AGENTS.md.
 - Added `docs/audits/v0.2.5.0-claude-install-repair.md` audit ledger.
-- Tag `v0.2.5.0` moved from pre-repair commit `8df3c07c` to repair commit
-  `9490e73` so GitHub's auto-generated source archives contain the repaired source.
-  Old tag object: `411389558c775b59ebd975720b3f4139d5c5b8c2`.
-- `IMPLEMENTAUDIT.skill` rebuilt from repair commit. Archive content
-  (`skills/` + `.claude-plugin/`) is identical between the original and repair
-  builds; no skill files changed. Archive SHA256 changed from
-  `a4d953d960ae8d7d586cd81dc7c7f0ea0caa040ca65511b7bbd7ae1486e2a744` (original,
-  built in CI on Linux) to
-  `4590466039c10aca2ab717ca87c509bfe396573cf3918223926f9e7236273c41` (rebuilt
-  locally on Windows) due to ZIP entry ordering differences across platforms.
-  Both archives contain the same `skills/` and `.claude-plugin/` files.
-- `CHECKSUMS.txt` regenerated from repaired-source build.
-- Live `v0.2.5.0` release assets replaced with `--clobber` and release updated.
+
+**Tag and asset repair:**
+- Tag `v0.2.5.0` moved from pre-repair commit `8df3c07c`
+  (old tag object `411389558c`) to repair HEAD so GitHub source archives
+  contain the fixed builder and tests.
+- `IMPLEMENTAUDIT.skill` rebuilt with corrected root shape.
+  Archive SHA256: `53b56a5dba67263ef9648289980982b75d0b037acc6ece41811346e9fe425566`
+  (changed from original `a4d953d...` due to structural fix + platform ZIP ordering).
+- `CHECKSUMS.txt` regenerated.
+- Live `v0.2.5.0` release assets replaced with `--clobber`.
 
 ## [v0.2.4.5] - 2026-06-06
 

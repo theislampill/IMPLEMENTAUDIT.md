@@ -40,28 +40,30 @@ import zipfile
 from pathlib import Path
 
 asset = Path(sys.argv[1])
+
+# Skill content must be at archive root (no skills/ prefix) for Claude import.
 required = {
-    "skills/SKILL.md",
-    "skills/references/planning-depth.md",
-    "skills/references/phase-design.md",
-    "skills/references/goal-format.md",
-    "skills/references/transcript-contract.md",
-    "skills/references/routing.md",
-    "skills/references/repo-state-comparison.md",
-    "skills/references/child-agents.md",
-    "skills/scripts/claim-run.sh",
-    "skills/scripts/detect-env.sh",
-    "skills/scripts/detect-stack.sh",
-    "skills/scripts/repo-state.sh",
-    "skills/scripts/summarize-repo.sh",
-    "skills/scripts/validate-audit-spec.sh",
-    "skills/scripts/validate-phase.sh",
-    "skills/templates/ROADMAP.md",
-    "skills/templates/STATE.md",
-    "skills/templates/THINKING.md",
-    "skills/templates/phase-goal.txt",
-    "skills/templates/child-agent-report.md",
-    "skills/templates/PROTOCOL.md",
+    "SKILL.md",
+    "references/planning-depth.md",
+    "references/phase-design.md",
+    "references/goal-format.md",
+    "references/transcript-contract.md",
+    "references/routing.md",
+    "references/repo-state-comparison.md",
+    "references/child-agents.md",
+    "scripts/claim-run.sh",
+    "scripts/detect-env.sh",
+    "scripts/detect-stack.sh",
+    "scripts/repo-state.sh",
+    "scripts/summarize-repo.sh",
+    "scripts/validate-audit-spec.sh",
+    "scripts/validate-phase.sh",
+    "templates/ROADMAP.md",
+    "templates/STATE.md",
+    "templates/THINKING.md",
+    "templates/phase-goal.txt",
+    "templates/child-agent-report.md",
+    "templates/PROTOCOL.md",
     ".claude-plugin/plugin.json",
     ".claude-plugin/marketplace.json",
 }
@@ -79,28 +81,30 @@ blocked_names = {
     "graph.json",
     "quickstart_demo_run.db",
 }
-blocked_top_level = {
-    ".github",
-    "AGENTS.md",
-    "CHANGELOG.md",
-    "CLAUDE.md",
-    "CONTRIBUTING.md",
-    "README.md",
-    "docs",
-    "fixtures",
-    "scripts",
-    "tests",
-}
+# Positive whitelist: only these top-level names are allowed at archive root.
+# Anything else (repo scripts/, docs/, fixtures/, tests/, README.md, etc.) is rejected.
+allowed_top_level = {"SKILL.md", "references", "scripts", "templates", ".claude-plugin"}
 
 with zipfile.ZipFile(asset) as zf:
     names = set(zf.namelist())
+
+    # Regression guard: skills/SKILL.md must NOT be in the archive.
+    # Claude import requires SKILL.md at archive root.
+    if "skills/SKILL.md" in names:
+        raise SystemExit(
+            "REGRESSION: archive has skills/SKILL.md at nested path; "
+            "SKILL.md must be at archive root for Claude import"
+        )
+
     missing = sorted(required - names)
     if missing:
         raise SystemExit("missing asset entries: " + ", ".join(missing))
+
     top_level = {Path(name).parts[0] for name in names if Path(name).parts}
-    unexpected = sorted(top_level & blocked_top_level)
+    unexpected = sorted(top_level - allowed_top_level)
     if unexpected:
-        raise SystemExit("repo-only top-level paths included: " + ", ".join(unexpected))
+        raise SystemExit("unexpected top-level paths in archive: " + ", ".join(unexpected))
+
     for name in names:
         parts = set(Path(name).parts)
         if parts & blocked_parts:
@@ -111,12 +115,30 @@ with zipfile.ZipFile(asset) as zf:
             raise SystemExit(f"blocked suffix included: {name}")
         if name.startswith(".env"):
             raise SystemExit(f"environment file included: {name}")
+
     with tempfile.TemporaryDirectory() as temp_dir:
         zf.extractall(temp_dir)
         root = Path(temp_dir)
+
+        # SKILL.md must be at archive root.
+        if not (root / "SKILL.md").is_file():
+            raise SystemExit("SKILL.md must be at archive root")
+
+        # skills/ subdirectory must not exist at archive root.
+        if (root / "skills").exists():
+            raise SystemExit(
+                "REGRESSION: skills/ subdirectory at archive root; "
+                "skill content must be at archive root for Claude import"
+            )
+
         plugin = json.loads((root / ".claude-plugin/plugin.json").read_text())
         if plugin.get("version") != "0.2.5":
             raise SystemExit("expected plugin version 0.2.5")
+        if plugin.get("skills") != "./":
+            raise SystemExit(
+                "expected plugin skills path ./ "
+                "(SKILL.md at archive root for Claude import)"
+            )
         if (root / "IMPLEMENTAUDIT.md").exists():
             raise SystemExit("root IMPLEMENTAUDIT.md must not be included")
 

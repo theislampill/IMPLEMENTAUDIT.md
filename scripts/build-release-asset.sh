@@ -46,13 +46,9 @@ from pathlib import Path
 repo = Path.cwd()
 asset = Path(sys.argv[1]).resolve()
 
-include_roots = [
-    Path("skills"),
-    Path(".claude-plugin/plugin.json"),
-    Path(".claude-plugin/marketplace.json"),
-]
-
-required_files = [
+# Source files that must exist in the repo before building.
+# These use repo-relative paths (skills/ prefix included).
+required_source = [
     "skills/SKILL.md",
     "skills/references/planning-depth.md",
     "skills/references/phase-design.md",
@@ -78,9 +74,38 @@ required_files = [
     ".claude-plugin/marketplace.json",
 ]
 
-for rel in required_files:
+for rel in required_source:
     if not (repo / rel).is_file():
         raise SystemExit(f"missing required asset input: {rel}")
+
+# Archive entries that must be present in the built .skill file.
+# Skill content is at archive root (no skills/ prefix) so Claude Desktop
+# can import the .skill directly — SKILL.md at root, references/ at root, etc.
+required_archive = [
+    "SKILL.md",
+    "references/planning-depth.md",
+    "references/phase-design.md",
+    "references/goal-format.md",
+    "references/transcript-contract.md",
+    "references/routing.md",
+    "references/repo-state-comparison.md",
+    "references/child-agents.md",
+    "scripts/claim-run.sh",
+    "scripts/detect-env.sh",
+    "scripts/detect-stack.sh",
+    "scripts/repo-state.sh",
+    "scripts/summarize-repo.sh",
+    "scripts/validate-audit-spec.sh",
+    "scripts/validate-phase.sh",
+    "templates/ROADMAP.md",
+    "templates/STATE.md",
+    "templates/THINKING.md",
+    "templates/phase-goal.txt",
+    "templates/child-agent-report.md",
+    "templates/PROTOCOL.md",
+    ".claude-plugin/plugin.json",
+    ".claude-plugin/marketplace.json",
+]
 
 blocked_parts = {
     ".git",
@@ -114,53 +139,67 @@ def blocked(rel: Path) -> bool:
     return text.endswith(blocked_suffixes)
 
 
-def iter_files(root: Path):
-    path = repo / root
-    if path.is_file():
-        yield root
-        return
-    for child in sorted(path.rglob("*")):
-        if child.is_file():
-            yield child.relative_to(repo)
-
-
+# Build entries as (archive_path, source_path) pairs.
+# Skill files: archive path strips skills/ prefix so SKILL.md is at root.
+# Plugin files: archive path is .claude-plugin/... (unchanged).
 entries = []
-for root in include_roots:
-    for rel in iter_files(root):
-        if blocked(rel):
-            raise SystemExit(f"blocked file selected for asset: {rel.as_posix()}")
-        entries.append(rel)
+
+skills_dir = repo / "skills"
+for child in sorted(skills_dir.rglob("*")):
+    if child.is_file():
+        archive_rel = child.relative_to(skills_dir)
+        if blocked(archive_rel):
+            raise SystemExit(f"blocked file selected for asset: {archive_rel.as_posix()}")
+        entries.append((archive_rel, child))
+
+for plugin_rel_str in [".claude-plugin/plugin.json", ".claude-plugin/marketplace.json"]:
+    plugin_rel = Path(plugin_rel_str)
+    plugin_path = repo / plugin_rel
+    if blocked(plugin_rel):
+        raise SystemExit(f"blocked plugin file: {plugin_rel}")
+    entries.append((plugin_rel, plugin_path))
 
 seen = set()
 deduped = []
-for rel in entries:
-    key = rel.as_posix()
+for archive_rel, src_path in entries:
+    key = archive_rel.as_posix()
     if key not in seen:
         seen.add(key)
-        deduped.append(rel)
+        deduped.append((archive_rel, src_path))
 
 asset.parent.mkdir(parents=True, exist_ok=True)
 with zipfile.ZipFile(asset, "w", compression=zipfile.ZIP_DEFLATED) as zf:
-    for rel in deduped:
-        info = zipfile.ZipInfo(rel.as_posix())
-        mode = 0o755 if rel.as_posix().startswith("skills/scripts/") else 0o644
+    for archive_rel, src_path in deduped:
+        info = zipfile.ZipInfo(archive_rel.as_posix())
+        mode = 0o755 if archive_rel.as_posix().startswith("scripts/") else 0o644
         info.external_attr = (stat.S_IFREG | mode) << 16
-        zf.writestr(info, (repo / rel).read_bytes())
+        zf.writestr(info, src_path.read_bytes())
 
 with zipfile.ZipFile(asset) as zf:
-    names = zf.namelist()
+    names = set(zf.namelist())
+
+    # Regression guard: skills/SKILL.md must NOT be in the archive.
+    # The archive root must contain SKILL.md directly for Claude import.
+    if "skills/SKILL.md" in names:
+        raise SystemExit(
+            "archive has skills/SKILL.md at nested path; SKILL.md must be at archive root"
+        )
+
+    # Only allowed top-level entries may appear.
+    allowed_top_level = {"SKILL.md", "references", "scripts", "templates", ".claude-plugin"}
     top_level = {Path(name).parts[0] for name in names if Path(name).parts}
-    allowed_top_level = {"skills", ".claude-plugin"}
     extra_top_level = sorted(top_level - allowed_top_level)
     if extra_top_level:
         raise SystemExit(
-            "asset contains repo-only top-level paths: " + ", ".join(extra_top_level)
+            "asset contains unexpected top-level paths: " + ", ".join(extra_top_level)
         )
+
     for name in names:
         rel = Path(name)
         if blocked(rel):
             raise SystemExit(f"blocked file found in asset: {name}")
-    missing = [name for name in required_files if name not in names]
+
+    missing = [name for name in required_archive if name not in names]
     if missing:
         raise SystemExit(f"asset missing required files: {', '.join(missing)}")
 
@@ -173,12 +212,23 @@ with zipfile.ZipFile(asset) as zf:
             raise SystemExit("extracted plugin name must be implementaudit")
         if plugin.get("version") != "0.2.5":
             raise SystemExit("extracted plugin version must be 0.2.5")
-        if plugin.get("skills") != "./skills/":
-            raise SystemExit("extracted plugin skills path must be ./skills/")
+        if plugin.get("skills") != "./":
+            raise SystemExit(
+                "extracted plugin skills path must be ./ "
+                "(SKILL.md at archive root for Claude import)"
+            )
         if not marketplace.get("plugins"):
             raise SystemExit("extracted marketplace plugins list is required")
         if (extracted / "IMPLEMENTAUDIT.md").exists():
             raise SystemExit("extracted root IMPLEMENTAUDIT.md must be absent")
+        # Verify SKILL.md is at root, not nested under skills/
+        if not (extracted / "SKILL.md").is_file():
+            raise SystemExit("SKILL.md must be at archive root")
+        if (extracted / "skills").exists():
+            raise SystemExit(
+                "skills/ subdirectory must not exist at archive root; "
+                "skill content must be at archive root for Claude import"
+            )
 
 print(f"build-release-asset: wrote {asset}")
 print("build-release-asset: extraction validation ok")
