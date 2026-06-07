@@ -71,6 +71,26 @@ schema evidence proved four-component plugin manifest versions are accepted.
 - Did not claim marketplace verification, universal host support, signature,
   attestation, SBOM, license, or passive update automation.
 
+### Repair (post-release, 2026-06-07)
+
+- Root cause: v0.2.5.0 release gates ran only Codex install smoke
+  (`tests/release-asset-install.test.sh`). No Claude Desktop install path was
+  documented, scripted, or tested. The live release asset could not be installed
+  in Claude Desktop by following the README.
+- Added `scripts/install-claude-from-release.sh` for Claude Desktop file-copy
+  install from a local or public release asset.
+- Added `tests/release-asset-install-claude.test.sh` for Claude archive shape
+  smoke (archive validation + file-copy install, not live Claude Desktop proof).
+- Added Claude Desktop install path and boundaries to README §Install notes.
+- Added anti-repeat rule `LIVE_V0_2_5_0_CLAUDE_INSTALL_BROKEN` to AGENTS.md
+  requiring both Codex and Claude archive smoke in future release gates.
+- Added `docs/audits/v0.2.5.0-claude-install-repair.md` audit ledger.
+- Updated live v0.2.5.0 release notes with root cause, repair evidence, and
+  explicit Claude install BLOCKED boundary (no live `claude` CLI available in
+  this gate environment to produce live Claude install proof).
+- Archive SHA256 unchanged: `a4d953d960ae8d7d586cd81dc7c7f0ea0caa040ca65511b7bbd7ae1486e2a744`.
+  No release asset rebuild was needed; the archive structure was already correct.
+
 ## [v0.2.4.5] - 2026-06-06
 
 ### Added

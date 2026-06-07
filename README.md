@@ -699,9 +699,50 @@ That public-download path is a claim only after the release exists and the
 download/checksum/install smoke is actually run. If it cannot be run, treat it
 as unverified or handoff evidence, not as install proof.
 
-### Install / update for Claude Code
+### Install / update for Claude Desktop
 
-Claude Code/plugin consumers should use the host's current plugin instructions
+Claude Desktop (v0.2.5.0 tested target) stores session-managed skills in a
+session-specific directory. The stable public path to the session skill store is:
+
+- **Windows:** `%APPDATA%\Claude\local-agent-mode-sessions\skills-plugin\`
+- **macOS:** `~/Library/Application Support/Claude/local-agent-mode-sessions/skills-plugin/`
+- **Linux:** `~/.config/Claude/local-agent-mode-sessions/skills-plugin/`
+
+Under that root, locate the subtree containing `skills/implementaudit/` (the
+session UUID path is unique per installation). Pass that directory as
+`--claude-skills-dir` to the install script.
+
+From a local release asset:
+
+```bash
+bash scripts/install-claude-from-release.sh \
+  --asset dist/IMPLEMENTAUDIT.skill \
+  --checksum dist/CHECKSUMS.txt \
+  --claude-skills-dir "<claude-session-path>/skills/implementaudit"
+```
+
+From the live public v0.2.5.0 release:
+
+```bash
+bash scripts/install-claude-from-release.sh \
+  --tag v0.2.5.0 \
+  --claude-skills-dir "<claude-session-path>/skills/implementaudit"
+```
+
+After the script completes, restart Claude Desktop for the changes to take effect.
+
+**Boundaries:** `scripts/install-claude-from-release.sh` copies files only. It
+does not prove the skill loads or runs in Claude Desktop. No install proof is
+claimed here. Verify in Claude Desktop after restart. The session-managed
+path may change between Claude Desktop versions; if the path structure differs,
+use Claude Desktop's built-in skill management UI to update the skill.
+
+This repo does not claim marketplace auto-update, passive install, universal host
+support, or Claude Desktop behavior beyond what is empirically recorded as evidence.
+
+### Install / update for Claude Code (plugin path)
+
+Claude Code plugin consumers should use the host's current plugin instructions
 with `.claude-plugin/plugin.json` as package metadata. This repo validates the
 JSON shape only; it does not claim host install or marketplace behavior was
 tested.
@@ -731,6 +772,10 @@ PowerShell:
 New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills\implementaudit" | Out-Null
 Copy-Item -Recurse -Force .\skills\* "$env:USERPROFILE\.codex\skills\implementaudit\"
 ```
+
+Claude Desktop users: locate the session skill directory (see Install notes above)
+and re-run `scripts/install-claude-from-release.sh` with the new asset. Restart
+Claude Desktop after the script completes.
 
 Claude Code/plugin users should use the host's documented plugin update or
 reload flow when available. This repo does not claim that plugin update,

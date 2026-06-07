@@ -44,3 +44,9 @@ roots, `claim-run.sh`, Stage 6/6.5 review and preflight discipline,
 self-healing/final-audit loops, bounded continuity, sidecar boundaries,
 package minimality, and external identity hygiene without importing comparator
 identity or runtime markers.
+
+A post-release repair for v0.2.5.0 closes the Claude Desktop install gap. The
+detailed ledger lives in `docs/audits/v0.2.5.0-claude-install-repair.md` and
+covers the root cause (Codex-only install coverage), the added Claude install
+script and smoke test, README and AGENTS.md updates, and the explicit BLOCKED
+boundary for live Claude Desktop install proof.

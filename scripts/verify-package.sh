@@ -34,6 +34,7 @@ require_file scripts/check-readme-toc.sh
 require_file scripts/check-routing.sh
 require_file scripts/check-sidecar-boundaries.sh
 require_file scripts/generate-readme-diagrams.sh
+require_file scripts/install-claude-from-release.sh
 require_file scripts/install-codex-from-release.sh
 require_file scripts/write-release-checksums.sh
 require_file skills/SKILL.md
@@ -95,10 +96,12 @@ require_file docs/audits/v0.2.3.0-harness-adaptation-matrix.md
 require_file docs/audits/v0.2.4.0-planner-stage-hardening.md
 require_file docs/audits/v0.2.4.5-graphify-activegraph-honesty.md
 require_file docs/audits/v0.2.5.0-external-staged-goal-runtime-gap-closure.md
+require_file docs/audits/v0.2.5.0-claude-install-repair.md
 require_file tests/marker-order.test.sh
 require_file tests/planner-stages.test.sh
 require_file tests/release-asset.test.sh
 require_file tests/release-asset-install.test.sh
+require_file tests/release-asset-install-claude.test.sh
 require_file tests/install-copy-smoke.test.sh
 require_file tests/routing.test.sh
 require_file tests/repo-state.test.sh
@@ -196,6 +199,9 @@ grep -R "Stage 0 - Context/tool/repo-state detection" -n skills/SKILL.md >/dev/n
 grep -R "Stage 6.5 - Pre-flight smoke" -n skills/SKILL.md >/dev/null || fail "native Stage 6.5 planner contract is missing from skills/SKILL.md"
 grep -R "<run-root>/THINKING.md" -n skills/templates/THINKING.md skills/templates/PROTOCOL.md skills/templates/phase-goal.txt >/dev/null || fail "THINKING runtime artifact coverage is missing"
 grep -R "install-codex-from-release.sh" -n README.md AGENTS.md scripts tests >/dev/null || fail "release-asset Codex install path is not documented/validated"
+grep -R "install-claude-from-release.sh" -n README.md AGENTS.md scripts tests >/dev/null || fail "release-asset Claude install path is not documented/validated"
+grep -R "LIVE_V0_2_5_0_CLAUDE_INSTALL_BROKEN" -n AGENTS.md >/dev/null || fail "Claude install anti-repeat rule LIVE_V0_2_5_0_CLAUDE_INSTALL_BROKEN is missing from AGENTS.md"
+grep -R "release-asset-install-claude.test.sh" -n AGENTS.md scripts >/dev/null || fail "Claude install smoke test is not referenced in AGENTS.md or scripts"
 grep -R "stale checksum" -in tests/release-asset-install.test.sh scripts/install-codex-from-release.sh >/dev/null || fail "stale checksum install failure coverage is missing"
 grep -R "auto-update" -in README.md CHANGELOG.md AGENTS.md | grep -i "no marketplace auto-update\|does not auto-update\|do not assume\|do not claim" >/dev/null || fail "auto-update boundary must remain explicit"
 grep -n "bash scripts/write-release-checksums.sh dist/IMPLEMENTAUDIT.skill dist/CHECKSUMS.txt" README.md >/dev/null || fail "README release-asset validation must write CHECKSUMS.txt before --check"
@@ -259,6 +265,7 @@ bash tests/marker-order.test.sh
 bash tests/planner-stages.test.sh
 bash tests/release-asset.test.sh
 bash tests/release-asset-install.test.sh
+bash tests/release-asset-install-claude.test.sh
 bash tests/install-copy-smoke.test.sh
 bash tests/routing.test.sh
 bash tests/repo-state.test.sh

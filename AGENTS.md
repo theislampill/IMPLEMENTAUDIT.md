@@ -558,9 +558,12 @@ test -f docs/audits/v0.2.3.0-harness-adaptation-matrix.md
 test -f docs/audits/v0.2.4.0-planner-stage-hardening.md
 test -f docs/audits/v0.2.4.5-graphify-activegraph-honesty.md
 test -f docs/audits/v0.2.5.0-external-staged-goal-runtime-gap-closure.md
+test -f docs/audits/v0.2.5.0-claude-install-repair.md
 test -f scripts/check-sidecar-boundaries.sh
+test -f scripts/install-claude-from-release.sh
 test -f scripts/install-codex-from-release.sh
 test -f tests/release-asset-install.test.sh
+test -f tests/release-asset-install-claude.test.sh
 python -m json.tool .claude-plugin/plugin.json >/dev/null
 python -m json.tool .claude-plugin/marketplace.json >/dev/null
 bash scripts/generate-readme-diagrams.sh --check
@@ -575,6 +578,7 @@ bash tests/marker-order.test.sh
 bash tests/planner-stages.test.sh
 bash tests/release-asset.test.sh
 bash tests/release-asset-install.test.sh
+bash tests/release-asset-install-claude.test.sh
 bash tests/install-copy-smoke.test.sh
 bash tests/routing.test.sh
 bash tests/repo-state.test.sh
@@ -661,6 +665,28 @@ The repo may validate a release-asset-to-Codex-install path with
 `--codex-home`. That proof means the named local asset can be extracted,
 checksum-checked when a manifest is supplied, and copied into a Codex-style
 skill directory. It does not prove passive auto-update, marketplace distribution, universal host support, public release download, Graphify setup, or ActiveGraph setup.
+
+The repo may validate a release-asset-to-Claude-Desktop-install path with
+`scripts/install-claude-from-release.sh --claude-skills-dir <path>`. That proof
+means the named local or public asset can be extracted, checksum-checked when a
+manifest is supplied, and the `skills/` contents copied into the target Claude
+skill directory. It does not prove the skill loads, runs, or is discovered by
+Claude Desktop. No install proof is made by the script alone. Verify in
+Claude Desktop after restart.
+
+**Claude Desktop install proof requires the `claude` CLI or Claude Desktop host to
+be available in the release gate environment.** If the `claude` CLI is absent,
+treat Claude install proof as BLOCKED for that gate. Record the blocker explicitly;
+do not claim Claude install verification without live host evidence.
+
+**Anti-repeat rule (LIVE_V0_2_5_0_CLAUDE_INSTALL_BROKEN):** v0.2.5.0 shipped with
+Codex-only install smoke coverage. The Claude Desktop install path was not
+documented or tested. Future release gates must run both
+`tests/release-asset-install.test.sh` (Codex) and
+`tests/release-asset-install-claude.test.sh` (Claude archive smoke) before
+closing the release gate. If the live Claude host is available, also run
+`scripts/install-claude-from-release.sh` against a real Claude skill directory
+and verify in Claude Desktop.
 
 Future work: reduce first-time user cognitive load with a dedicated
 quickstart/onboarding docs page. Keep this as future work; it is not a
