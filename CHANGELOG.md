@@ -85,11 +85,14 @@ schema evidence proved four-component plugin manifest versions are accepted.
 - Added anti-repeat rule `LIVE_V0_2_5_0_CLAUDE_INSTALL_BROKEN` to AGENTS.md
   requiring both Codex and Claude archive smoke in future release gates.
 - Added `docs/audits/v0.2.5.0-claude-install-repair.md` audit ledger.
-- Updated live v0.2.5.0 release notes with root cause, repair evidence, and
-  explicit Claude install BLOCKED boundary (no live `claude` CLI available in
-  this gate environment to produce live Claude install proof).
-- Archive SHA256 unchanged: `a4d953d960ae8d7d586cd81dc7c7f0ea0caa040ca65511b7bbd7ae1486e2a744`.
-  No release asset rebuild was needed; the archive structure was already correct.
+- Tag `v0.2.5.0` moved from pre-repair commit `8df3c07c` to repair commit
+  `9490e73` so GitHub's auto-generated source archives contain the repaired source.
+  Old tag object: `411389558c775b59ebd975720b3f4139d5c5b8c2`.
+- `IMPLEMENTAUDIT.skill` rebuilt from repair commit `9490e73`. Archive content
+  (`skills/` + `.claude-plugin/`) is unchanged from the original build; archive
+  SHA256 is unchanged: `a4d953d960ae8d7d586cd81dc7c7f0ea0caa040ca65511b7bbd7ae1486e2a744`.
+- `CHECKSUMS.txt` regenerated from repair commit source.
+- Live `v0.2.5.0` release assets replaced (--clobber) and release notes updated.
 
 ## [v0.2.4.5] - 2026-06-06
 
