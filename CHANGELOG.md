@@ -11,6 +11,16 @@ Plugin manifest versions are host-facing package metadata. The `v0.2.5.0`
 project milestone maps to plugin manifest version `0.2.5` because no local
 schema evidence proved four-component plugin manifest versions are accepted.
 
+## [Unreleased]
+
+### Changed
+
+- `skills/SKILL.md`: updated `description` frontmatter and opening body to make deep planning and phase-by-phase execution until terminal audit closure or audited handoff explicit in the canonical skill identity. Added the sentence: "IMPLEMENTAUDIT plans deeply and executes repo work phase-by-phase until terminal audit closure or an explicit audited handoff. It makes repo changes that are auditable, bounded, owner/source-grounded, reversible, and not overclaimed."
+- `README.md`: updated opening paragraph and "What it is" section to match SKILL.md identity; added "Blocked work ends in an explicit audited handoff, not fake completion" boundary statement; preserved "not a generic autonomous build runner" distinction.
+- `AGENTS.md`: extended routing rule to include deep-planning and phase-execution identity; guards against regression to "audit-only" or "generic autonomous builder" framing.
+- `skills/references/planning-depth.md`: added one-line terminal closure alignment to Depth rule section.
+- `skills/references/phase-design.md`: added one-line phase execution continuity statement to opening paragraph.
+
 ## [v0.2.6.0] - 2026-06-07
 
 ### Added

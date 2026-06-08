@@ -1,7 +1,10 @@
 # Phase Design
 
 Use phases when a supplied audit or synthesized goal is too large, risky, or
-dependent to close as one atomic implementation pass.
+dependent to close as one atomic implementation pass. Execution continues
+phase-by-phase until terminal audit closure (`AUDIT_COMPLETE`) or an explicit
+audited handoff (`AUDIT_HANDOFF`); the run does not stop at a partial phase
+boundary unless the handoff is explicit and recorded.
 
 ## Phase rules
 

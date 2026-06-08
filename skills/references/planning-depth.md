@@ -49,6 +49,10 @@ For high-risk, release-affecting, package-boundary, provenance, or public-claim
 work, the planning layer must preserve the double-audit pattern: create or
 normalize the audit object, act against it, then verify terminal object closure.
 
+Regardless of planning depth, execution continues phase-by-phase until terminal
+audit closure (`AUDIT_COMPLETE`) or an explicit audited handoff
+(`AUDIT_HANDOFF`). Blocked work ends in handoff, not fake completion.
+
 ## Native planner stage rule
 
 When goal synthesis or phased audit closure is selected, the stage contract in

@@ -1,11 +1,13 @@
 ---
 name: implementaudit
-description: Implement audit findings, handoffs, goals, gaps, and implementation plans safely and verifiably using PDCA, Smoke Before Claim, Andon, Hansei, 5 Whys, and Plan Closure. Activate on /implementaudit or any audit-closure request.
+description: Plan deeply and execute repo work phase-by-phase until terminal audit closure or an explicit audited handoff. Implements audit findings, handoffs, goals, gaps, and plans safely and verifiably using PDCA, Smoke Before Claim, Andon, Hansei, 5 Whys, and Plan Closure. Activate on /implementaudit or any audit-closure request.
 ---
 
 # /implementaudit
 
 Convert audit findings, handoffs, reviews, goals, tasks, gaps, or checklists into safe, verified repo changes.
+
+IMPLEMENTAUDIT plans deeply and executes repo work phase-by-phase until terminal audit closure or an explicit audited handoff. It makes repo changes that are auditable, bounded, owner/source-grounded, reversible, and not overclaimed.
 
 Every finding closes. No orphan items. No unsafe actions. No proof claim without evidence.
 

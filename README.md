@@ -6,11 +6,14 @@ branding and lineage, not a required root behavior file.
 
 `skills/SKILL.md` defines `/implementaudit`: a repo-generic method for turning
 audit findings, handoffs, checklists, reviews, goals, tasks, gaps, and
-implementation plans into bounded, verified repository changes.
+implementation plans into bounded, verified repository changes. It plans deeply
+and executes repo work phase-by-phase until terminal audit closure or an
+explicit audited handoff.
 
 It is for audit closure and repo hygiene: read the real repo, find the
 owner/source, make the smallest warranted change, prove only what the evidence
-supports, and close the ledger. It is not a release bot, package publisher,
+supports, and close the ledger. Blocked work ends in an explicit audited
+handoff, not fake completion. It is not a release bot, package publisher,
 provenance system, or generic autonomous-build loop.
 
 It does not assume a framework, language, CI system, release convention, package
@@ -57,11 +60,14 @@ only an idea, gap, or incomplete target.
 ## What it is
 
 `/implementaudit` is the officer/method layer for audit closure and repo hygiene.
-It is an audit-governed implementation skill: it routes work through repo-local
-owner/source discovery, acceptance criteria, rollback/evidence planning,
-fixtures/checkers, and smoke-before-claim closure. It can help implement
-changes, but only through the audit contract; it is not a generic autonomous
-build runner.
+It is an audit-governed implementation skill: it plans deeply and executes repo
+work phase-by-phase until terminal audit closure or an explicit audited handoff.
+It makes repo changes that are auditable, bounded, owner/source-grounded,
+reversible, and not overclaimed — routing all work through owner/source
+discovery, acceptance criteria, rollback/evidence planning, fixtures/checkers,
+and smoke-before-claim closure. Blocked work ends in an explicit audited
+handoff, not fake completion. It is not a generic autonomous build runner,
+release bot, package publisher, or provenance system.
 
 Current optional-tooling architecture:
 

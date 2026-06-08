@@ -228,8 +228,11 @@ Routing rule:
   canonical proof. Markdown ledgers and final reports remain valid fallback.
 - ADHLBS may discipline an audit as reference input, but it is not a runtime
   source, package dependency, or acronym list for skill output.
-- IMPLEMENTAUDIT is audit-governed implementation, not a generic autonomous
-  build runner.
+- IMPLEMENTAUDIT is audit-governed implementation: it plans deeply and executes
+  repo work phase-by-phase until terminal audit closure or an explicit audited
+  handoff. It is not a generic autonomous build runner (execution without audit
+  governance) and not "audit-only" (inspection without execution). Blocked work
+  ends in an explicit audited handoff, not fake completion.
 - External staged-goal skills are comparator inputs only. If a comparator
   exposes useful harness discipline, classify each concept as adapted,
   already-covered, intentionally-rejected, blocked, or deferred in an audit
