@@ -84,7 +84,7 @@ evidence. A criterion fails if the evidence is absent, weaker than stated, or
 requires an undisclosed assumption. Failures trigger the failure recovery
 ladder (see below) before proceeding.
 
-**Step 9 — Cleanliness check.**
+**Step 9 — Cleanliness check (5S / Seiso + Seiri).**
 Run:
 ```bash
 bash skills/scripts/repo-state.sh added-lines <Baseline ref>
@@ -94,6 +94,20 @@ This covers committed-after-baseline, staged, unstaged, deleted, and untracked
 changes. Record: debug prints added, session debug-markers added
 (todo/fixme/xxx), dead imports added. If the helper or baseline is unavailable,
 state the weaker evidence type and remaining risk.
+
+5S_CHECK (run at every phase boundary):
+- Seiri / Sort: are unnecessary artifacts, scope-creep items, or debug debris
+  logged as new findings rather than silently absorbed?
+- Seiton / Set in order: does every changed artifact have a canonical
+  owner/source, place (run root / docs / tests / package / release), and
+  regeneration path for generated surfaces?
+- Seiso / Shine: are generated docs, debug prints, session markers, sidecar
+  debris, run-root debris, and package bloat removed or explicitly deferred?
+- Seiketsu / Standardize: does the AGENTS_UPDATE_DECISION (Step 12) reflect
+  whether this countermeasure belongs in template/checker/AGENTS.md/CI?
+- Shitsuke / Sustain: is there a test, checker gate, CI step, or AGENTS.md
+  rule that will prevent this class of issue from recurring?
+Record each pillar as: clean / deferred (reason) / blocked (reason).
 
 **Step 10 — Smoke B (after-state evidence).**
 Re-run or re-inspect the owner/source after all changes. Compare with Smoke A.
@@ -176,12 +190,56 @@ When resuming after interruption:
 4. Do not re-print IMPLEMENTAUDIT_PHASE_START; it was already printed.
 5. Continue from the paused step, not from Step 1.
 
+## Nemawashi — owner-decision gate
+
+Before Stage 7 handoff (or before dispatching any phase that crosses a
+consequential boundary), surface all assumptions that require owner awareness:
+
+- Releasing, tagging, publishing, or claiming provenance for an artifact
+- Changing AGENTS.md, package boundaries, release notes, or public-facing claims
+- Changing the owner or generator of a generated artifact
+- Changing sidecar status (install, index, export, configure)
+- Assumptions that, if wrong, would make the work unsafe or incorrect
+
+Record each assumption as: confirmed / explicit-risk-accepted / OWNER DECISION.
+
+Nemawashi does not block autonomous phase execution. Phases that do not cross
+any consequential boundary proceed without waiting. Only phases that mutate
+authorized-scope items (releases, package, AGENTS.md, generated-artifact
+ownership) require surfacing the assumption before executing.
+
 ## Sidecars and continuity
 
 Read `<run-root>/sidecars.md` before using Graphify or ActiveGraph. Graphify
 output is orientation evidence, not proof. ActiveGraph custody is not correctness
 proof. Missing, stale, or unauthorized sidecars must route to Markdown fallback
 and ordinary Gemba; they must not block the run.
+
+**Graphify Lean leverage rules (when present and authorized):**
+- Graphify query results cannot close acceptance criteria without live-file
+  Gemba confirmation. Use Graphify to identify candidates; use live files to prove.
+- Lean 5S steps (Seiri/Seiton/Seiso) may use Graphify terrain to classify artifact
+  classes, map owner/source by degree, and flag stale/isolated node candidates —
+  each confirmed against live files before action.
+- DMAIC Measure/Analyze and DMADV Analyze/Design may use Graphify terrain to
+  identify defect surface, dependency paths, and design alternatives —
+  each confirmed against live files before patching or designing.
+- Record each Graphify query in `<run-root>/sidecars.md`: query purpose, nodes/links,
+  result summary, freshness, evidence boundary, live-file follow-up.
+- Graphify absence is not a blocker. Fall back to live-file Gemba and repo-state.sh.
+
+**ActiveGraph Lean custody rules (when authorized):**
+- Record Lean gate passages as custody events using the event table in
+  `skills/references/lean-operating-discipline.md`. Event names are
+  IMPLEMENTAUDIT-defined custom events unless proven upstream built-ins.
+- ActiveGraph custody cannot close correctness criteria without independent
+  Smoke B / final audit evidence. Custody proves a gate was passed, not that
+  the output is correct.
+- Custody stores are written to `.IMPLEMENTAUDIT/` (gitignored) or an authorized
+  temp path. Never commit, push, or package sidecar stores, event logs, or exports.
+- Derive Capability Ledger entries from readback evidence only. Keep entries narrow.
+- ActiveGraph absence is not a blocker. Markdown ledger and final report remain
+  first-class fallback.
 
 At each phase boundary, print `CONTINUITY_DECISION` only when a non-obvious,
 future-useful learning is found. Durable repo-local rules belong in `AGENTS.md`
@@ -193,6 +251,40 @@ Capability Ledger entries, when ActiveGraph is configured and authorized, are
 derived only from recorded gate passages, Smoke A/B, Andons, authorization
 decisions, ledger closures, and final audit evidence. Do not claim broad
 competence from one run.
+
+## Jidoka stop-the-line chain
+
+Trigger (any of):
+- An acceptance criterion fails after all execution steps
+- A mandatory command exits non-zero, times out, hangs, or is substituted
+- A Smoke B regression is detected vs Smoke A
+- A package-boundary violation or release-asset mismatch is found
+- A generated artifact is stale or regenerated by an unauthorized path
+- An undisclosed assumption surfaces that changes the evidence basis
+
+Chain (in order — do not skip steps):
+
+1. **Andon signal**: print `Andon:` block with status, blocker, failing check,
+   owner/source, and next concrete action.
+2. **FAILURE_PROBE**: enter the three-strike ladder (see below).
+3. **Hansei** (after any strike or substitution): record gap, cause,
+   countermeasure, and follow-up evidence.
+4. **5 Whys** (when cause is non-obvious): drill symptom → systemic cause →
+   countermeasure at the cause level, not the symptom.
+5. **Countermeasure**: implement the smallest safe fix at the root cause.
+6. **Kaizen standardization decision**: ask — does this countermeasure belong
+   in a template, checker, AGENTS.md rule, or CI gate? Record in
+   AGENTS_UPDATE_DECISION and CONTINUITY_DECISION.
+7. **Re-run evidence**: re-run the failing mandatory command and re-evaluate
+   the criterion. Record the result.
+8. **Close / block / defer / handoff**: reach a terminal status.
+
+JIDOKA notes for phase transcripts:
+- Log the trigger type explicitly: `JIDOKA trigger: <type>`.
+- Do not resume execution after a stop until the countermeasure is applied and
+  re-run evidence confirms correction.
+- Substituting a command or accepting a weaker evidence type is itself a
+  JIDOKA trigger; record it as an Andon before using the substitute.
 
 ## Failure recovery
 

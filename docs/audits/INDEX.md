@@ -83,3 +83,30 @@ documents the ZIP_STORED → ZIP_DEFLATED compression repair
 SHA256: `f37f6356b3a342510512e57c3f2785b6be4ea044a5b312d59d40d8ce4eade947`).
 Compression regression is now caught automatically by
 `tests/release-asset.test.sh`.
+
+The v0.2.7.0 lane implements Lean/TPS operating discipline in native
+IMPLEMENTAUDIT runtime behavior. The detailed ledger lives in
+`docs/audits/v0.2.7.0-lean-operating-discipline.md` and classifies 20
+Lean/TPS concepts: 5 already-covered, 2 strengthened, 11 adapted, 0
+intentionally-rejected, 0 deferred. The lane adds DMAIC brownfield routing,
+DMADV greenfield routing, 5S_CHECK per-phase gate (all five pillars),
+Jidoka stop-the-line chain, Nemawashi owner-decision gate, Muda/Mura/Muri
+register in THINKING.md, Quality route field in phase-goal.txt, four Lean
+routing fixtures, and `scripts/check-lean-discipline.sh` poka-yoke checker
+(12 structural requirements, verified by `tests/lean-discipline.test.sh` 11/11).
+Lean terms are runtime behavior, not decorative labels. No sigma-level,
+DPMO, or certification claims.
+
+A Graphify+ActiveGraph maximal-leverage gate for v0.2.7.0 is closed in the same
+lane. Live sidecar smoke was run using installed tools (graphify 0.8.35,
+activegraph 1.0.5.post2) in isolated temp environments. Graphify terrain extraction
+produced 794 nodes, 724 links over the repo; 5 queries were run; 3 owner/source
+candidates (skills/SKILL.md 49 links, skills/templates/PROTOCOL.md 25 links,
+skills/templates/THINKING.md 12 links) were confirmed against live files.
+ActiveGraph custody was written to a gitignored run root
+(.IMPLEMENTAUDIT/runs/v0270-sidecar-smoke/) with 18 events (v7-001..v7-018),
+read back successfully, and used to derive one narrow Capability Ledger entry.
+Sidecar outputs remain excluded from tracked source and the .skill package.
+Graphify terrain leverage and ActiveGraph custody event sections were added to
+lean-operating-discipline.md; check-lean-discipline.sh extended to 12 structural
+requirements; three sidecar fixtures added; tests extended to 11/11.

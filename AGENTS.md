@@ -122,6 +122,7 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
 │                                Generic external-comparator adaptation matrix.
 ├── fixtures/
 │   ├── child-agents/           Scoped AGENTS hierarchy and reviewer fixtures.
+│   ├── lean/                   DMAIC/DMADV/mixed routing fixtures for Lean discipline.
 │   ├── zero-optional-tool/     Complete Markdown fallback example.
 │   └── simple-audit/
 │       ├── AUDIT.md
@@ -135,6 +136,7 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
 │   ├── check-readme-toc.sh     Guard README Contents anchors.
 │   ├── generate-readme-diagrams.sh Generate/check README Mermaid blocks.
 │   ├── check-routing.sh     Validate greenfield/brownfield routing fixtures.
+│   ├── check-lean-discipline.sh  Poka-yoke gate: Lean terms implemented as behavior, not glossary.
 │   ├── install-codex-from-release.sh Install a validated release asset into a Codex-style skill home.
 │   ├── verify-package.sh       Repo/package validation.
 │   └── write-release-checksums.sh Create/check release checksum manifest.
@@ -146,8 +148,9 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
     │   ├── phase-design.md     How to slice phases (adaptive count, no cap).
     │   ├── goal-format.md      /goal mechanics ...
     │   ├── transcript-contract.md Host/wrapper transcript marker contract.
-    │   ├── routing.md          Greenfield/brownfield/mixed routing gates.
+    │   ├── routing.md          Greenfield/brownfield/mixed routing gates + DMAIC/DMADV.
     │   ├── repo-state-comparison.md Baseline-to-working-tree audit comparison.
+    │   ├── lean-operating-discipline.md  Lean/TPS → IMPLEMENTAUDIT behavior mapping (ships in package).
     │   └── child-agents.md     Bounded review loops and non-authority boundaries.
     ├── scripts/                Bash scripts the planner executes during stages.
     │   ├── claim-run.sh        Atomic namespaced run-root claim helper.
@@ -172,8 +175,8 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
 - **Repo-only**: `README.md`, `CHANGELOG.md`, `AGENTS.md`, `CLAUDE.md`, `CONTRIBUTING.md`, fixtures, root scripts, and `.gitignore`.
 - **Marketplace entry**: `.claude-plugin/marketplace.json` points at the plugin root. Do not claim marketplace behavior was verified unless actually tested.
 - **License**: no `LICENSE` file is present until the owner selects a license and supplies license evidence.
-- **Versioning**: project milestone `v0.2.5.0` maps to plugin manifest version
-  `0.2.5`. The manifest uses
+- **Versioning**: project milestone `v0.2.7.0` maps to plugin manifest version
+  `0.2.7`. The manifest uses
   host-conservative package metadata; project milestones are not tags,
   releases, publication, or provenance claims until the separate
   release/provenance gate actually performs and verifies those actions.
@@ -502,9 +505,9 @@ Durable child/subagent lessons should flow into the nearest applicable `AGENTS.m
 CHANGELOG:
 
 - Keep-a-Changelog style.
-- Keep the current project milestone at top, e.g. `[v0.2.5.0] - Unreleased` before release or `[v0.2.5.0] - <date>` only when the date is grounded.
+- Keep the current project milestone at top, e.g. `[v0.2.6.0] - Unreleased` before release or `[v0.2.6.0] - <date>` only when the date is grounded.
 - Match manifest version if one exists.
-- Current project milestone is `v0.2.5.0`; plugin manifest version is `0.2.5` unless host evidence supports a four-component manifest version.
+- Current project milestone is `v0.2.7.0`; plugin manifest version is `0.2.7` unless host evidence supports a four-component manifest version.
 - Do not claim tags, releases, provenance, publication, or verified install without evidence.
 - Behavior/package changes should be produced by running `/implementaudit` on this repo itself.
 - Changelog entries should preserve the causal chain: finding/gap, root cause when known, countermeasure, evidence, and remaining risk.
@@ -569,6 +572,17 @@ test -f docs/audits/v0.2.4.0-planner-stage-hardening.md
 test -f docs/audits/v0.2.4.5-graphify-activegraph-honesty.md
 test -f docs/audits/v0.2.5.0-external-staged-goal-runtime-gap-closure.md
 test -f docs/audits/v0.2.5.0-claude-install-repair.md
+test -f docs/audits/v0.2.7.0-lean-operating-discipline.md
+test -f skills/references/lean-operating-discipline.md
+test -f scripts/check-lean-discipline.sh
+test -f tests/lean-discipline.test.sh
+test -f fixtures/lean/brownfield-dmaic-release-repair.md
+test -f fixtures/lean/brownfield-dmaic-stale-docs.md
+test -f fixtures/lean/greenfield-dmadv-new-runtime-helper.md
+test -f fixtures/lean/mixed-dmaic-dmadv-package-boundary.md
+test -f fixtures/lean/sidecar-graphify-absent-markdown-fallback.md
+test -f fixtures/lean/sidecar-graphify-dmaic-analyze.md
+test -f fixtures/lean/sidecar-activegraph-dmaic-custody.md
 test -f scripts/check-sidecar-boundaries.sh
 test -f scripts/install-claude-from-release.sh
 test -f scripts/install-codex-from-release.sh
@@ -599,6 +613,8 @@ bash tests/continuity.test.sh
 bash tests/phase-validation.test.sh
 bash tests/sidecars.test.sh
 bash tests/capability-ledger.test.sh
+bash scripts/check-lean-discipline.sh
+bash tests/lean-discipline.test.sh
 ```
 
 ## Editing rules
@@ -636,6 +652,8 @@ grep -R "AGENTS_UPDATE_DECISION" -n skills
 grep -R "AUDIT_COMPLETE" -n skills
 grep -R "IMPLEMENTAUDIT_RUN_COMPLETE" -n skills
 grep -R ".IMPLEMENTAUDIT" -n skills README.md AGENTS.md
+grep -R "v0.2.7.0" -n README.md CHANGELOG.md AGENTS.md
+grep -R "v0.2.6.0" -n README.md CHANGELOG.md AGENTS.md
 grep -R "v0.2.5.0" -n README.md CHANGELOG.md AGENTS.md
 grep -R "v0.2.4.5" -n README.md CHANGELOG.md AGENTS.md
 grep -R "v0.2.4.0" -n README.md CHANGELOG.md AGENTS.md
@@ -730,6 +748,56 @@ quickstart/onboarding docs page. Keep this as future work; it is not a
 `v0.2.4.0` release blocker unless README/install claims become misleading.
 Focus later on clearer first-run path, examples, and decision trees without
 weakening audit-governed truthfulness.
+
+**Anti-repeat rule (V0270-LEAN-TERMS-ARE-BEHAVIOR):** Lean/TPS terms (5S,
+Kaizen, Hansei, Jidoka, Gemba, Nemawashi, Muda/Mura/Muri, DMAIC, DMADV,
+Poka-yoke) are not decorative labels. Each maps to a specific auditable runtime
+behavior documented in `skills/references/lean-operating-discipline.md`. Do not
+add Lean terms to prompts, templates, or docs without a matching behavioral
+anchor. `scripts/check-lean-discipline.sh` verifies the structural requirements.
+Rationale: v0.2.7.0 Lean operating discipline (2026-06-07).
+
+**Anti-repeat rule (V0270-DMAIC-DMADV-ROUTING):** Brownfield improvement work
+routes through DMAIC (Define→Measure→Analyze→Improve→Control). Greenfield or
+replacement work routes through DMADV (Define→Measure→Analyze→Design→Verify).
+Mixed work uses both in sequence: DMAIC shell for the brownfield repair + DMADV
+for the new artifact. The quality route is declared in each phase spec. Routing
+fixtures live at `fixtures/lean/`. Rationale: v0.2.7.0.
+
+**Anti-repeat rule (V0270-5S-APPLIES-TO-RUN-ROOTS):** 5S (Sort, Set-in-order,
+Shine, Standardize, Sustain) applies to run roots, package payloads, generated
+artifacts, sidecars, and release assets. Each phase records a 5S_CHECK with all
+five pillars as clean/deferred/blocked. Rationale: v0.2.7.0.
+
+**Anti-repeat rule (V0270-HANSEI-AFTER-FALSE-PASS):** Hansei is required after
+a false pass (a check that passed but should have failed), a regression, an
+abnormal release-gate command, a substitution that wasn't planned, or an owner
+intervention. Record the gap, cause, countermeasure, and follow-up evidence.
+Rationale: v0.2.7.0.
+
+**Anti-repeat rule (V0270-KAIZEN-DURABLE-ONLY):** Kaizen countermeasures belong
+in templates, checkers, or AGENTS.md anti-repeat rules only when they are
+durable (stable, non-obvious, future-useful, and repo-specific). Transient
+countermeasures belong in audit ledgers, final reports, or phase notes, not in
+AGENTS.md or templates. Rationale: v0.2.7.0.
+
+**Anti-repeat rule (V0270-SIDECAR-LEVERAGE-NOT-PROSE):** Graphify terrain
+leverage and ActiveGraph custody event routing must be implemented as behavioral
+rules in `skills/references/lean-operating-discipline.md` (Graphify terrain
+leverage table + ActiveGraph custody events table), `skills/templates/THINKING.md`
+(Graphify terrain plan + ActiveGraph custody plan fields), and
+`skills/templates/PROTOCOL.md` (Graphify/ActiveGraph Lean leverage rules). Sidecar
+leverage must not remain prose-only. `scripts/check-lean-discipline.sh` verifies
+both sections exist. Fixtures in `fixtures/lean/sidecar-*` prove sidecar-absent
+fallback and sidecar-present paths. Rationale: v0.2.7.0 Graphify/ActiveGraph
+leverage gate (2026-06-07).
+
+**Anti-repeat rule (V0270-SIDECAR-OUTPUTS-EXCLUDED):** Graphify outputs
+(`graphify-out/`, `graph.json`), ActiveGraph stores (`.activegraph/`, `*.activegraph.db`,
+`custody*.jsonl`, `custody.db`), and run-root artifacts (`.IMPLEMENTAUDIT/`) are
+gitignored and must never appear in tracked source, commit messages, or the `.skill`
+package. `scripts/check-sidecar-boundaries.sh` and `scripts/verify-package.sh`
+enforce this boundary. Rationale: v0.2.7.0.
 
 ## Release asset gate
 

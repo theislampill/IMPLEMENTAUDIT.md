@@ -116,7 +116,27 @@ Direct-edit policy, if any:
 
 Graphify status: absent / present / stale / avoided / used as orientation only
 
+Graphify terrain plan (when present):
+- Seiri query: classify artifact classes (skills/ vs repo-only vs sidecar debris)
+- Seiton query: identify top owner/source candidates by out-degree; map package boundary
+- Seiso query: flag isolated/low-degree nodes as stale/dead candidates for live-file confirmation
+- Muda/Mura/Muri: surface redundant/uneven/overburdened surfaces for THINKING.md register
+- DMAIC Measure/Analyze: defect surface, owner candidates, dependency paths, regression files
+- DMADV Analyze/Design: package/boundary alternatives, test/checker placement candidates
+- All Graphify results: confirmed against live files before action; record in sidecars.md
+
 ActiveGraph status: absent / present / configured / avoided / used as custody only
+
+ActiveGraph custody plan (when authorized):
+- Events to emit (IMPLEMENTAUDIT-defined): implementaudit.run.opened, gemba.graphify.queried,
+  lean.5s.sort/set_in_order/shine.recorded, lean.standard_work.updated, dmaic/dmadv step events,
+  jidoka.stop.recorded, hansei.recorded, kaizen.countermeasure.standardized,
+  nemawashi.owner_decision.recorded, muda_mura_muri.register.updated, poka_yoke.check.recorded,
+  obeya.run_state.updated, smoke.baseline.recorded, audit.verify.recorded, implementaudit.run.finalized
+- Custody store: .IMPLEMENTAUDIT/ gitignored run root or authorized temp path
+- Capability Ledger: narrow entry derived from readback — repo, run id, owner/source, quality route,
+  Lean principles applied, Graphify terrain used, event ids, checks run, final status, remaining risk
+- No broad competence claims from one run
 
 Canonical-vs-sidecar boundary:
 
@@ -129,6 +149,38 @@ ActiveGraph event/custody authorization:
 Markdown fallback:
 
 Capability Ledger entry strategy:
+
+## Lean quality route
+
+Quality route: DMAIC / DMADV / PDCA / 5S / mixed / not applicable
+
+DMAIC (brownfield defect/repair/regression):
+- Define: defect/gap, owner/source, scope, user impact, acceptance target:
+- Measure: Smoke A baseline, current behavior, failure rate/count when available:
+- Analyze: root cause, Muda/Mura/Muri class, dependency surface, regression risk:
+- Improve: owner/source patch, derived artifacts regenerated, checks run, countermeasure:
+- Control: sustain via tests/AGENTS/CI/package gates/final audit checks:
+
+DMADV (greenfield/replacement design):
+- Define: new capability, users, constraints, non-scope, owner/source, success boundary:
+- Measure: CtQ acceptance measures, evidence types, baseline absence, risk measures:
+- Analyze: design alternatives, dependencies, package/runtime boundary, rollback path:
+- Design: phase specs, templates, fixtures, validation path:
+- Verify: Smoke B, final audit, deliverable/package/sidecar checks, owner acceptance:
+
+## Muda / Mura / Muri register
+
+Muda (waste — unnecessary, redundant, or dead items):
+- Items:
+- Disposition (remove / scope-creep log / defer):
+
+Mura (unevenness — imbalance, inconsistency, stale surfaces):
+- Items:
+- Disposition (rebalance phase / Stage 6 review / defer):
+
+Muri (overburden — too much in one scope, unsafe assumptions):
+- Items:
+- Disposition (split phase / defer / OWNER DECISION):
 
 ## Plan review notes
 

@@ -109,6 +109,60 @@ Neither sidecar replaces repo-local owners, checkers, fixtures, smoke output,
 audit ledgers, or live-file inspection. Neither is canonical proof unless the
 repo explicitly promotes it with its own evidence and gates.
 
+## DMAIC — Brownfield improvement routing
+
+Use DMAIC when work is an existing repo defect, regression, release repair,
+package-bloat issue, stale docs, or broken checker.
+
+- **Define**: state the defect/gap, owner/source, scope, user/consumer impact,
+  and acceptance target.
+- **Measure**: capture baseline evidence (Smoke A), current behavior, failure
+  rate or count when available, and complete working-tree state.
+- **Analyze**: identify root cause, dependency surface, generated-artifact owner,
+  Muda/Mura/Muri class, and regression risk.
+- **Improve**: patch owner/source, regenerate derived artifacts, run checks,
+  and record countermeasure.
+- **Control**: add or verify sustain mechanism — tests, templates, AGENTS.md
+  rules, CI gate, or package gate — so the defect cannot regress silently.
+
+Evidence boundary: DMAIC is a routing and evidence-shaping pattern for
+audit-governed repo work. Do not claim sigma level, DPMO, statistical process
+control, or Six Sigma certification unless those values are actually measured
+and verified in the run.
+
+## DMADV — Greenfield / replacement routing
+
+Use DMADV when work introduces a new governed artifact, new workflow, new
+runtime capability, new package surface, or is a replacement design.
+
+- **Define**: define the new capability or artifact, users, constraints,
+  non-scope, owner/source of truth, and success boundary.
+- **Measure**: define Critical-to-Quality-style acceptance measures, evidence
+  types, baseline absence or starting state, and risk measures.
+- **Analyze**: compare design alternatives, dependencies, package/runtime
+  boundaries, rollback/removal path, and sidecar status.
+- **Design**: create the bounded implementation plan, phase specs, templates,
+  fixtures, and validation path.
+- **Verify**: run Smoke B, final audit, deliverable checks, package/sidecar
+  boundary checks, and obtain owner acceptance where needed.
+
+Evidence boundary: same as DMAIC — routing pattern only, no statistical claim.
+
+## Mixed DMAIC/DMADV
+
+Mixed work runs DMAIC for the brownfield outer shell and DMADV for any new
+governed artifact introduced inside it. Run brownfield inspection first, then
+greenfield intake for the new artifact.
+
+## DMAIC/DMADV routing decision
+
+| Trigger | Route |
+|---|---|
+| Existing defect, regression, release repair, broken checker, stale doc | DMAIC |
+| New governed artifact, new runtime capability, new workflow, replacement design | DMADV |
+| Both (brownfield + new artifact) | Mixed |
+| None of the above / simple single-owner fix | PDCA |
+
 ## Positive Identity
 
 IMPLEMENTAUDIT is an audit-governed implementation skill. It routes work through

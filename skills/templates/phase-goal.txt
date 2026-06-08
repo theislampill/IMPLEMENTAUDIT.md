@@ -29,6 +29,7 @@ Mandatory commands: {{COMMANDS_CSV}}
 Acceptance criteria: {{CRIT_COUNT}}
 Evidence required: {{EVIDENCE_CSV}}
 Depends on phases: {{DEPS}}
+Quality route: DMAIC / DMADV / PDCA / 5S / mixed / not applicable
 
 ## Why
 
@@ -60,8 +61,14 @@ Depends on phases: {{DEPS}}
 
 ## Graphify / ActiveGraph / Markdown fallback status
 
-Graphify: present-and-fresh / present-and-stale / absent
-ActiveGraph: configured-and-authorized / configured-not-authorized / absent
+Graphify: present-and-fresh / present-and-stale / absent / skipped / unauthorized
+Graphify terrain used: yes — <query purpose and result summary> / no
+Graphify live-file confirmation: required before any mutation or criterion closure
+ActiveGraph: configured-and-authorized / configured-not-authorized / absent / skipped
+ActiveGraph custody used: yes — <events emitted> / no
+ActiveGraph evidence boundary: custody of gate passage only, not correctness proof
+Sidecar outputs in tracked source: no (must remain no)
+Sidecar outputs in .skill package: no (must remain no)
 Markdown fallback: yes / no
 
 ## Cleanliness override, if any

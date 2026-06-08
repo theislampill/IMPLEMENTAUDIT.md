@@ -97,6 +97,17 @@ require_file docs/audits/v0.2.4.0-planner-stage-hardening.md
 require_file docs/audits/v0.2.4.5-graphify-activegraph-honesty.md
 require_file docs/audits/v0.2.5.0-external-staged-goal-runtime-gap-closure.md
 require_file docs/audits/v0.2.5.0-claude-install-repair.md
+require_file docs/audits/v0.2.7.0-lean-operating-discipline.md
+require_file skills/references/lean-operating-discipline.md
+require_file scripts/check-lean-discipline.sh
+require_file tests/lean-discipline.test.sh
+require_file fixtures/lean/brownfield-dmaic-release-repair.md
+require_file fixtures/lean/brownfield-dmaic-stale-docs.md
+require_file fixtures/lean/greenfield-dmadv-new-runtime-helper.md
+require_file fixtures/lean/mixed-dmaic-dmadv-package-boundary.md
+require_file fixtures/lean/sidecar-graphify-absent-markdown-fallback.md
+require_file fixtures/lean/sidecar-graphify-dmaic-analyze.md
+require_file fixtures/lean/sidecar-activegraph-dmaic-custody.md
 require_file tests/marker-order.test.sh
 require_file tests/planner-stages.test.sh
 require_file tests/release-asset.test.sh
@@ -162,8 +173,8 @@ if plugin.get("skills") != "./":
     )
 if not plugin.get("version"):
     raise SystemExit("plugin version is required")
-if plugin.get("version") != "0.2.6":
-    raise SystemExit("plugin version must be 0.2.6 for the v0.2.6.0 project milestone")
+if plugin.get("version") != "0.2.7":
+    raise SystemExit("plugin version must be 0.2.7 for the v0.2.7.0 project milestone")
 
 marketplace = json.loads(Path(".claude-plugin/marketplace.json").read_text())
 plugins = marketplace.get("plugins")
@@ -216,6 +227,8 @@ if grep -n "remain unperformed" docs/audits/v0.2.4.0-planner-stage-hardening.md 
 fi
 rm -f /tmp/implementaudit-v024-release-state.txt
 grep -R "v0.2.4.5" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.4.5 is not documented"
+grep -R "v0.2.7.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.7.0 is not documented"
+grep -R "v0.2.6.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.6.0 is not documented"
 grep -R "v0.2.5.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.5.0 is not documented"
 grep -R "v0.2.4.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.4.0 history is not documented"
 grep -R "v0.2.3.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.3.0 is not documented"
@@ -263,7 +276,9 @@ bash scripts/check-marker-order.sh fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKE
 bash scripts/check-routing.sh
 bash scripts/check-sidecar-boundaries.sh
 bash scripts/check-host-claims.sh
+bash scripts/check-lean-discipline.sh
 bash scripts/check-added-lines-clean.sh HEAD
+bash tests/lean-discipline.test.sh
 bash tests/marker-order.test.sh
 bash tests/planner-stages.test.sh
 bash tests/release-asset.test.sh

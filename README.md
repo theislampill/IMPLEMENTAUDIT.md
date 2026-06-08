@@ -345,6 +345,14 @@ The method combines:
 - **Hansei**: reflect after gaps, regressions, false passes, or failures.
 - **5 Whys**: trace symptoms to root cause when the situation warrants it.
 - **Plan Closure**: map every item to a terminal status.
+- **Lean operating discipline**: Lean/TPS terms map to auditable runtime
+  behavior documented in `skills/references/lean-operating-discipline.md`.
+  Brownfield improvement routes through DMAIC
+  (Define→Measure→Analyze→Improve→Control); greenfield or replacement routes
+  through DMADV (Define→Measure→Analyze→Design→Verify). A quality route is
+  declared per phase. 5S gates apply to run roots, package payloads, and
+  generated artifacts. Jidoka means stop-the-line when evidence fails.
+  Lean terms are not decorative labels.
 
 Static checks, local generated-runtime evidence, manual inspection, browser
 evidence, package-bound checks, unit tests, and live runtime checks are not
@@ -524,7 +532,7 @@ publication, or provenance has been verified.
 
 ## Version and release notes
 
-Current project milestone: `v0.2.6.0`. Plugin manifest version: `0.2.6`.
+Current project milestone: `v0.2.7.0`. Plugin manifest version: `0.2.7`.
 No local schema evidence proved four-component plugin manifest versions are
 accepted, so the manifest uses host-conservative package metadata while the
 project milestone is recorded in docs and changelog. This is not a tag, release,

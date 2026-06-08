@@ -11,7 +11,33 @@ Plugin manifest versions are host-facing package metadata. The `v0.2.5.0`
 project milestone maps to plugin manifest version `0.2.5` because no local
 schema evidence proved four-component plugin manifest versions are accepted.
 
-## [Unreleased]
+## [v0.2.7.0] - 2026-06-07
+
+### Added
+
+- `skills/references/lean-operating-discipline.md` (ships in package): Lean/TPS concept-to-behavior mapping table for 20 concepts (5S, Kaizen, Hansei, Jidoka, Gemba, Nemawashi, Muda/Mura/Muri, DMAIC, DMADV, Poka-yoke, etc.). Each concept maps to auditable IMPLEMENTAUDIT runtime behavior with owner/source and evidence check. Evidence boundaries section: no sigma-level, DPMO, or certification claims. Lean terms are not decorative labels.
+- `skills/templates/PROTOCOL.md`: added 5S_CHECK gate to Step 9 (Seiri/Seiton/Seiso/Seiketsu/Shitsuke, all five pillars recorded as clean/deferred/blocked); added Jidoka stop-the-line chain (8-step: Andon → FAILURE_PROBE → Hansei → 5 Whys → countermeasure → Kaizen standardization → re-run evidence → close/block/defer/handoff); added Nemawashi owner-decision gate (surface consequential assumptions before Stage 7 or phase dispatch).
+- `skills/templates/THINKING.md`: added Lean quality route section (DMAIC/DMADV structured fields); added Muda/Mura/Muri register (Items + Disposition per waste type).
+- `skills/templates/phase-goal.txt`: added `Quality route:` field (DMAIC / DMADV / PDCA / 5S / mixed / not applicable).
+- `skills/references/routing.md`: added DMAIC brownfield routing (Define→Measure→Analyze→Improve→Control with evidence boundaries); DMADV greenfield routing (Define→Measure→Analyze→Design→Verify with evidence boundaries); mixed DMAIC+DMADV pattern; DMAIC/DMADV routing decision table.
+- `scripts/check-lean-discipline.sh`: poka-yoke checker (10 structural requirements): lean-operating-discipline.md exists and is load-bearing, 5S in PROTOCOL.md, Jidoka chain in PROTOCOL.md, Nemawashi in PROTOCOL.md, Muda/Mura/Muri in THINKING.md, DMAIC/DMADV in THINKING.md and routing.md, Quality route in phase-goal.txt, no certification overclaims, required fixtures exist, no general Lean essays in skills/.
+- `tests/lean-discipline.test.sh`: 9 test cases (1 positive + 8 negative) verifying the poka-yoke checker catches each missing structural requirement.
+- `fixtures/lean/brownfield-dmaic-release-repair.md`: DMAIC fixture (ZIP_STORED compression bug: Define→Measure→Analyze→Improve→Control).
+- `fixtures/lean/brownfield-dmaic-stale-docs.md`: DMAIC fixture (stale README Mermaid diagrams).
+- `fixtures/lean/greenfield-dmadv-new-runtime-helper.md`: DMADV fixture (check-lean-discipline.sh as new governed artifact).
+- `fixtures/lean/mixed-dmaic-dmadv-package-boundary.md`: mixed DMAIC+DMADV fixture (package boundary repair + new audit doc).
+- `docs/audits/v0.2.7.0-lean-operating-discipline.md`: audit ledger classifying 20 Lean concepts: 5 already-covered, 2 strengthened, 11 adapted, 0 intentionally-rejected, 0 deferred.
+- `skills/references/lean-operating-discipline.md` extended with `## Graphify terrain leverage` section (Seiri/Seiton/Seiso/Muda/DMAIC/DMADV → Graphify query use + live-file confirmation required) and `## ActiveGraph custody events` section (full event table for IMPLEMENTAUDIT-defined custom events, custody boundary rules, and Capability Ledger narrow-entry requirements).
+- `skills/templates/THINKING.md`: extended `## Optional sidecars` with Lean-specific Graphify terrain plan fields (Seiri/Seiton/Seiso/Muda/DMAIC/DMADV queries) and ActiveGraph custody plan fields (events list, custody store location, Capability Ledger format).
+- `skills/templates/PROTOCOL.md`: added `## Sidecars and continuity` Graphify Lean leverage rules and ActiveGraph Lean custody rules (Graphify cannot close criteria without live-file confirmation; ActiveGraph custody cannot close correctness criteria without Smoke B; sidecar absence non-blocking).
+- `skills/templates/phase-goal.txt`: expanded Graphify/ActiveGraph fields to include terrain used/skipped/absent/stale/unauthorized, live-file confirmation required, custody used/skipped/absent, evidence boundary, and sidecar outputs exclusion assertions.
+- `scripts/check-lean-discipline.sh`: extended with 2 new structural requirements (11. Graphify terrain leverage section, 12. ActiveGraph custody events section) — sidecar leverage cannot remain prose-only.
+- `tests/lean-discipline.test.sh`: extended to 11/11 with 2 new negative cases (Graphify terrain section missing, ActiveGraph custody events section missing).
+- `fixtures/lean/sidecar-graphify-absent-markdown-fallback.md`: sidecar-absent scenario — Markdown/Gemba fallback remains valid; AUDIT_COMPLETE not blocked.
+- `fixtures/lean/sidecar-graphify-dmaic-analyze.md`: sidecar-present scenario — Graphify used in DMAIC Analyze, 3 owner/source candidates confirmed against live files.
+- `fixtures/lean/sidecar-activegraph-dmaic-custody.md`: sidecar-present scenario — ActiveGraph custody events emitted and read back; narrow Capability Ledger entry derived.
+- AGENTS.md: 3 additional durable anti-repeat sidecar rules (V0270-SIDECAR-LEVERAGE-NOT-PROSE, V0270-SIDECAR-OUTPUTS-EXCLUDED); 3 sidecar fixtures added to validation checklist.
+- README.md: added Lean operating discipline bullet to Operating method section; version updated to v0.2.7.0 / 0.2.7.
 
 ### Changed
 
@@ -20,6 +46,7 @@ schema evidence proved four-component plugin manifest versions are accepted.
 - `AGENTS.md`: extended routing rule to include deep-planning and phase-execution identity; guards against regression to "audit-only" or "generic autonomous builder" framing.
 - `skills/references/planning-depth.md`: added one-line terminal closure alignment to Depth rule section.
 - `skills/references/phase-design.md`: added one-line phase execution continuity statement to opening paragraph.
+- Plugin manifest: `0.2.6` → `0.2.7`.
 
 ## [v0.2.6.0] - 2026-06-07
 
