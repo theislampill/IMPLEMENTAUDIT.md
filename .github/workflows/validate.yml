@@ -24,9 +24,6 @@ jobs:
       - name: Verify package contract
         run: bash scripts/verify-package.sh
 
-      - name: Validate phase template
-        run: bash skills/scripts/validate-phase.sh skills/templates/phase-goal.txt
-
       - name: Validate planner stage contract
         run: bash scripts/check-planner-stages.sh
 

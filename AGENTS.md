@@ -425,6 +425,13 @@ Rules:
 - Live files beat graph output.
 - Markdown ledger/final report fallback remains first-class.
 - Distinguish upstream behavior from ImplementAudit custom extensions and repo-local heuristics.
+- **V0260-ACTIVEGRAPH-CUSTODY-MODE**: When writing ActiveGraph events during a live release-gate
+  run, include `custody_mode: live_release_gate` in event payloads at write time. Retroactive
+  relabeling via a `custody.run.labeled` append event is valid fallback but not preferred.
+  Transcript-derived historical backfill events must use `custody_mode: historical_backfill` and
+  must carry `source`, `backfilled_at`, `original_event_time`, and `evidence_boundary` fields.
+  This keeps live and backfilled custody unambiguous at the event level, not only at the run_id
+  level. Rationale: v0.2.6.0 backfill gate (2026-06-07).
 
 ---
 
@@ -679,6 +686,33 @@ be available in the release gate environment.** If the `claude` CLI is absent,
 treat Claude install proof as BLOCKED for that gate. Record the blocker explicitly;
 do not claim Claude install verification without live host evidence.
 
+**Anti-repeat rule (V0_2_6_0_TEMPLATE_NOT_A_FILLED_SPEC):** The phase-goal.txt
+template has placeholder content by design. Do not run `validate-phase.sh`
+against the template as if it were a filled phase spec. Validate only filled-in
+phase specs in fixtures/ or run-root phases/. The CI step "Validate phase
+template" was removed in v0.2.6.0 for this reason.
+
+**Anti-repeat rule (V0_2_6_0_FORBIDDEN_TERM_RUNTIME_ONLY):** The
+`check-forbidden-terms.sh` script never embeds the forbidden term in source.
+Always supply the term at runtime via `--term "$FORBIDDEN_TERM"`. Never write the
+forbidden term into a tracked file or commit message to facilitate the check.
+
+**Anti-repeat rule (V0_2_6_0_PROTOCOL_LOOP_MUST_BE_COMPLETE):** Phase loop steps
+must follow the 16-step sequence in PROTOCOL.md. Do not skip validate-phase.sh
+(Step 3), cleanliness check (Step 9), or STATE.md update (Step 16). Each of
+these steps was absent in v0.2.5.0's PROTOCOL.md and caused verifiable gaps.
+
+**Anti-repeat rule (V0_2_6_0_FAILURE_RECOVERY_ORDERED):** The 3-strike failure
+recovery ladder (FAILURE_PROBE → FAILURE_ESCALATE → FAILURE_HANDOFF) is
+sequential. Do not skip to FAILURE_HANDOFF on the first criterion failure; that
+was the v0.2.5.0 gap. Strike 1 requires an inline fix attempt; Strike 2 requires
+a phase-N.fix.md; only Strike 3 yields FAILURE_HANDOFF.
+
+**Anti-repeat rule (V0_2_6_0_DISPATCH_NEEDS_PREFLIGHT):** Stage 7 handoff must
+not be printed before: (a) all 8 dispatch-prep steps in Stage 5 complete, and
+(b) Stage 6.5 prints PREFLIGHT_GREEN or OWNER DECISION accepts PREFLIGHT_RED.
+Printing the handoff before these gates passes was a v0.2.5.0 gap.
+
 **Anti-repeat rule (LIVE_V0_2_5_0_CLAUDE_INSTALL_BROKEN):** v0.2.5.0 shipped with
 Codex-only install smoke coverage. The Claude Desktop install path was not
 documented or tested. Future release gates must run both
@@ -738,6 +772,43 @@ bash scripts/write-release-checksums.sh
 
 Do not call a checksum manifest a signature, attestation, SBOM, license,
 marketplace verification, or install verification.
+
+## Identity hygiene release-gate
+
+Before any release, run the generic forbidden-terms checker to confirm that
+no externally-sourced identity string appears in tracked source files.
+
+The forbidden term(s) are supplied by the release author at runtime — they are
+NOT embedded in the checker source. This prevents the forbidden term from
+appearing in tracked files even via the checker itself.
+
+```bash
+bash scripts/check-forbidden-terms.sh --term "<FORBIDDEN_TERM>" --scan-path skills/
+bash scripts/check-forbidden-terms.sh --term "<FORBIDDEN_TERM>"
+```
+
+**Anti-repeat rule (v0.2.6.0 identity hygiene):** The external staged-goal
+comparator referenced during the v0.2.6.0 hardening run must never have its
+proper name appear in tracked source files, commit messages, branch names, tag
+names, PR/issue titles, or release notes. Use only: "external staged-goal
+comparator", "staged-goal comparator", "external comparator", or "comparator
+package" in any repo-facing surface.
+
+Run the identity hygiene check at every release gate. The final audit ledger
+must record the result as: "tracked files contain forbidden comparator identity
+string: PASS/FAIL".
+
+**Using check-forbidden-terms.sh:**
+
+```bash
+# Supply the forbidden term at runtime; do not write it into a tracked file.
+bash scripts/check-forbidden-terms.sh --term "$FORBIDDEN_TERM" --scan-path skills/
+bash scripts/check-forbidden-terms.sh --term "$FORBIDDEN_TERM"
+```
+
+Exit code 0: no forbidden occurrences. Exit code 1: occurrences found (list
+printed to stderr with file:line:content). Either fix the occurrences or file
+an Andon explaining why the occurrence is intentional before closing the gate.
 
 ## Transcript markers (load-bearing)
 

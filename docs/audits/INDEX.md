@@ -50,3 +50,23 @@ detailed ledger lives in `docs/audits/v0.2.5.0-claude-install-repair.md` and
 covers the root cause (Codex-only install coverage), the added Claude install
 script and smoke test, README and AGENTS.md updates, and the explicit BLOCKED
 boundary for live Claude Desktop install proof.
+
+The v0.2.6.0 lane closes 12 operational-parity gap classes (G1-G12) identified
+by comparing v0.2.5.0 against a read-only external staged-goal comparator package.
+The detailed ledger lives in
+`docs/audits/v0.2.6.0-operational-parity-hardening.md` and covers:
+phase-spec structure (full executable spec with all 16 required fields/sections),
+validate-phase.sh strengthened to 19 failure modes,
+7 phase-design shape rules (hardening/safety-net/visual-polish/provenance/scope),
+8 dispatch-prep steps in Stage 5,
+concrete 16-step per-phase PROTOCOL loop,
+exact 3-strike failure recovery protocol,
+final audit protocol (AUDIT_START, coverage math, 3-round audit-fix),
+mid-run interruption handling (IMPLEMENTAUDIT_PAUSE, 4-option menu),
+deepened detect-stack.sh and summarize-repo.sh recon helpers,
+behavioral continuity tests (25/25) with 6 fixtures,
+behavioral sidecar tests (24/24) with 7 fixtures,
+generic check-forbidden-terms.sh (caller-supplied runtime terms, not source-embedded),
+identity hygiene release-gate instructions in AGENTS.md.
+All 12 gap classes adapted or intentionally rejected with documentation.
+External comparator identity not imported into any tracked surface.

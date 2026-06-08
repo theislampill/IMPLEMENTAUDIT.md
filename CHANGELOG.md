@@ -11,6 +11,42 @@ Plugin manifest versions are host-facing package metadata. The `v0.2.5.0`
 project milestone maps to plugin manifest version `0.2.5` because no local
 schema evidence proved four-component plugin manifest versions are accepted.
 
+## [v0.2.6.0] - 2026-06-07
+
+### Added
+
+- Added `skills/scripts/validate-phase.sh` 19-failure-mode checks: IMPLEMENTAUDIT_PHASE_START/VERIFY/DONE, AGENTS_UPDATE_DECISION, CONTINUITY_DECISION, Run root, Baseline ref, Owner/source, Task, Type, Depends on phases, Work section, Acceptance criteria (non-placeholder), Mandatory commands section (non-placeholder), Evidence required section (non-placeholder), Rollback/defer path, Markdown fallback status. `tests/phase-validation.test.sh` updated to 20/20 (1 positive + 19 failure modes). `fixtures/phase-validation/valid-full-spec.md` added as positive test fixture.
+- Added `scripts/check-forbidden-terms.sh`: generic forbidden-string checker accepting caller-supplied terms at runtime (never embedded in source). Wired into AGENTS.md identity hygiene release-gate instructions.
+- Added `skills/references/phase-design.md` §"Phase shape requirements" with 7 rules: P4-1 hardening-phase requirement, P4-2 visual polish evidence, P4-3 brownfield safety-net, P4-4 package/release split, P4-5 provenance boundary fresh Smoke Before Claim, P4-6 hardening scope restriction, P4-7 skip documentation.
+- Added 5 phase-shape fixture outlines at `fixtures/phase-design/`: simple-greenfield, brownfield-mutation, ui-feature, package-release, full-hardening-run.
+- Added concrete 16-step per-phase execution loop to `skills/templates/PROTOCOL.md`.
+- Added exact 3-strike failure recovery (FAILURE_PROBE / FAILURE_ESCALATE / FAILURE_HANDOFF) with step-by-step protocol to `PROTOCOL.md`; updated `skills/references/transcript-contract.md`.
+- Added final audit exactness to `PROTOCOL.md`: AUDIT_START (round/criteria/command), phase completeness check, mandatory command re-run, coverage math `re_verified/(re_verified+trust_prior)`, trust-prior > 30% warning, 3-round audit-fix loop, AUDIT_HANDOFF path, ordering rules.
+- Added mid-run interruption handling to `PROTOCOL.md`: IMPLEMENTAUDIT_PAUSE marker, 4-option menu (Resume/Revise spec/Skip phase/Stop), resume contract (5 steps), STATE.md INTERRUPTED state.
+- Added 8 dispatch-prep steps to `SKILL.md` Stage 5: STATE.md READY_TO_DISPATCH, baseline ref from git, PROTOCOL.md copy, repo-state.sh evidence, phase-spec existence check, validate-phase.sh on all specs, command dedup, handoff gated on Stage 6.5 PREFLIGHT_GREEN.
+- Added 7 Phase 4 shape rules to `SKILL.md` Stage 4 bullet list (P4-1..P4-7) + fixture reference.
+- Added Stage 7 gating clause: handoff only after Stage 5 dispatch-prep and Stage 6.5 PREFLIGHT_GREEN.
+- Added behavioral continuity tests to `tests/continuity.test.sh` (25/25): 6 scenarios covering memory-absent run, no-write-warranted, safe-note frontmatter, unsafe-content rejection, final-project ordering, no-boundary-crossing. 6 fixtures at `fixtures/continuity/`.
+- Added behavioral sidecar tests to `tests/sidecars.test.sh` (24/24): 7 scenarios covering Graphify absent/fresh/stale, ActiveGraph absent/unauthorized/authorized, sidecar-overclaim-rejected. 7 fixtures at `fixtures/sidecars/`.
+- Deepened `skills/scripts/detect-stack.sh`: package-scripts (npm script enumeration), python-hints (pyproject.toml/requirements.txt), language/framework hints (extension counts, framework config files), source/test directory layout, config/infra inventory.
+- Deepened `skills/scripts/summarize-repo.sh`: test-surface-summary, file-extension-counts, recently-churned-files, largest-tracked-files, likely-generated-outputs, mandatory-command-candidates from detected scripts.
+- Added AGENTS.md §"Identity hygiene release-gate" with anti-repeat rule (v0.2.6.0), check-forbidden-terms.sh usage, and release-gate protocol.
+- Added `docs/audits/v0.2.6.0-operational-parity-hardening.md`: 12 gap classes (G1-G12), all ADAPTED or INTENTIONALLY REJECTED with documented alternative, identity hygiene check section.
+- Updated `docs/audits/INDEX.md` with v0.2.6.0 entry.
+- Updated CI (`validate.yml`): removed "Validate phase template" step (template has placeholder content by design; install-copy-smoke.test.sh covers validator execution).
+
+### Changed
+
+- `skills/templates/phase-goal.txt` expanded from thin mnemonic skeleton to full executable spec with all required structural sections (Phase N/TOTAL, Task, Type, Run root, Baseline ref, Owner/source, Audit object, Auditing operation, Terminal object state, Thinking ref, Mandatory commands, Acceptance criteria, Evidence required, Depends on phases, Why, Work, Acceptance criteria block, Mandatory commands block, Evidence required block, Rollback, Graphify/ActiveGraph/Markdown fallback, Cleanliness override, Notes, IMPLEMENTAUDIT_PHASE_VERIFY full block, AGENTS_UPDATE_DECISION, CONTINUITY_DECISION, IMPLEMENTAUDIT_PHASE_DONE).
+- `tests/install-copy-smoke.test.sh`: replaced `validate-phase.sh` call against template with inline filled smoke spec (template has placeholder content by design).
+- Plugin manifest metadata: `0.2.5` → `0.2.6` (pending release authorization after dogfood gate).
+
+### Safety
+
+- Comparator evidence used as read-only reference only; the external staged-goal comparator's proper name, slash command, marker names, artifact paths, and memory markers were not imported into any tracked repo file, commit message, branch name, tag name, PR title, or release note.
+- All 12 gap classes resolved without importing external identity.
+- `check-forbidden-terms.sh` uses caller-supplied terms at runtime; the forbidden term is never embedded in source.
+
 ## [v0.2.5.0] - 2026-06-07
 
 ### Added

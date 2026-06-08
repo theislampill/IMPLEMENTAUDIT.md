@@ -79,8 +79,26 @@ FAILURE_ESCALATE
 FAILURE_HANDOFF
 ```
 
+The three-strike sequence is ordered: FAILURE_PROBE → FAILURE_ESCALATE →
+FAILURE_HANDOFF. Skipping to FAILURE_HANDOFF on the first failure is invalid.
+
+- **FAILURE_PROBE** (Strike 1): emitted on the first criterion failure; names
+  the failing criterion, failing command, observed output, and smallest
+  reproducible step. STATE.md is updated. A targeted inline fix is attempted.
+  If the fix succeeds, the phase resumes; no new marker is needed.
+
+- **FAILURE_ESCALATE** (Strike 2): emitted when Strike 1's fix attempt also
+  fails. Includes Hansei analysis. A `phase-N.fix.md` is written targeting
+  only the failing criterion (no scope expansion). Fix spec ends with the
+  original VERIFY gate. On success, phase resumes from IMPLEMENTAUDIT_PHASE_VERIFY.
+
+- **FAILURE_HANDOFF** (Strike 3): emitted when Strike 2's fix spec also fails.
+  Includes full probe history. STATE.md set to BLOCKED. Phase done with
+  `Status: blocked`. Run stops. No subsequent phases execute.
+
 `FAILURE_HANDOFF` is terminal for the current run. A transcript containing
 `FAILURE_HANDOFF` must not also contain `IMPLEMENTAUDIT_RUN_COMPLETE`.
+STATE.md `Status: BLOCKED` must be set before the run stops.
 
 ## Final audit markers
 

@@ -45,6 +45,66 @@ find scripts skills/scripts tests -maxdepth 2 -type f 2>/dev/null | sort | sed -
 printf '\nfixtures:\n'
 find fixtures -maxdepth 3 -type f 2>/dev/null | sort | sed -n '1,120p' || true
 
+printf '\npackage-scripts:\n'
+if [ -f package.json ]; then
+  node -pe "JSON.stringify(require('./package.json').scripts||{},null,2)" 2>/dev/null \
+    | sed -n '1,30p' || true
+  printf 'package-name: '
+  node -pe "require('./package.json').name||'(unnamed)'" 2>/dev/null || true
+  printf 'package-version: '
+  node -pe "require('./package.json').version||'(none)'" 2>/dev/null || true
+fi
+
+printf '\npython-hints:\n'
+if [ -f pyproject.toml ]; then
+  grep -E '^\[project\]|^name\s*=|^version\s*=|^\[build-system\]|requires\s*=' pyproject.toml 2>/dev/null | head -10 || true
+fi
+if [ -f requirements.txt ]; then
+  printf 'requirements.txt: '
+  wc -l < requirements.txt 2>/dev/null || true
+  head -5 requirements.txt 2>/dev/null || true
+fi
+
+printf '\nlanguage-and-framework-hints:\n'
+# Detect primary languages by extension count in tracked files
+for ext in ts tsx js jsx py rs go java kt rb cs; do
+  cnt=$(git ls-files 2>/dev/null | grep -c "\.$ext$" || true)
+  [ "$cnt" -gt 0 ] && printf '%s: %d files\n' "$ext" "$cnt"
+done
+# Framework hints
+check src/app.tsx
+check src/main.ts
+check src/index.ts
+check app.py
+check main.go
+check src/lib.rs
+check next.config.js
+check next.config.ts
+check vite.config.ts
+check astro.config.mjs
+
+printf '\nsource-and-test-layout:\n'
+for dir in src lib app pages components api routes tests test spec __tests__; do
+  [ -d "$dir" ] && printf 'dir: %s (%d files)\n' "$dir" "$(find "$dir" -type f 2>/dev/null | wc -l)"
+done
+
+printf '\nconfig-and-infra:\n'
+check .env.example
+check .env.test
+check tsconfig.json
+check jest.config.ts
+check jest.config.js
+check vitest.config.ts
+check .eslintrc.json
+check .eslintrc.js
+check biome.json
+check lefthook.yml
+check .pre-commit-config.yaml
+check helm
+check k8s
+check terraform
+check ansible
+
 printf '\nrelease-and-provenance-surfaces:\n'
 check scripts/build-release-asset.sh
 check scripts/write-release-checksums.sh

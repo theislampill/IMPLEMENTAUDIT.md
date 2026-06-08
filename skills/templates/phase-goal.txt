@@ -1,52 +1,97 @@
+# Phase spec template — write to {{RUN_ROOT}}/phases/phase-N.md
+#
+# {{RUN_ROOT}} is this run's namespaced dir, e.g.
+#   .IMPLEMENTAUDIT/runs/add-dark-mode-Ab3Kx9
+# Substitute the concrete path along with all {{...}} placeholders below.
+#
+# This is a free-form work spec the executing agent reads from disk.
+# No character-budget limit: the agent reads this file in full from disk,
+# not from chat context.
+#
+# The agent follows {{RUN_ROOT}}/PROTOCOL.md for the execution loop,
+# failure recovery, final audit, and continuity writeback.
+#
+# Replace all {{...}} placeholders. Keep the IMPLEMENTAUDIT_PHASE_START block
+# verbatim so validate-phase.sh and the runtime can anchor on it.
+
 IMPLEMENTAUDIT_PHASE_START
-
-Phase:
-Goal:
-Audit object:
-Audit object mnemonic: tdqyq-audit-object
-Auditing operation:
-Auditing action mnemonic: ydqyq-audit-action
-Action against audit object:
-Terminal object state to prove:
-Run root: .IMPLEMENTAUDIT/runs/<task-slug>-<id>
-Owner/source:
-Baseline ref:
+Phase: {{N}} of {{TOTAL}} — {{PHASE_NAME}}
+Task: {{ONE_LINE_TASK}}
+Type: {{TAGS}}
+Run root: {{RUN_ROOT}}
+Baseline ref: {{BASELINE_REF}}
+Owner/source: {{PRIMARY_OWNER_SOURCE_PATH}}
+Audit object: {{RUN_ROOT}}/ROADMAP.md  (the tdqyq-audit-object for this run)
+Auditing operation: {{WHAT_ydqyq-audit-action_THIS_PHASE_PERFORMS}}
+Terminal object state to prove: {{WHAT_MUST_BE_TRUE_WHEN_DONE}}
 Thinking ref: <run-root>/THINKING.md
-State ref: <run-root>/STATE.md
-Sidecars ref: <run-root>/sidecars.md
+Mandatory commands: {{COMMANDS_CSV}}
+Acceptance criteria: {{CRIT_COUNT}}
+Evidence required: {{EVIDENCE_CSV}}
+Depends on phases: {{DEPS}}
 
-Acceptance criteria:
-- Criterion: observable pass/fail result tied to this phase owner/source.
+## Why
 
-Smoke A:
-- Command:
-- Expected baseline classification: target / unrelated / unclear
-- Complete repo-state baseline:
-- Graphify/ActiveGraph status:
+{{WHY_ONE_SENTENCE_TIES_TO_AUDIT_FINDING_OR_GOAL}}
 
-Implementation notes:
-- Patch owner/source, not nearest symptom.
-- Treat AUDIT_COMPLETE as terminal verified closure of the audit object, not as
-  a decorative label.
-- Use <run-root>/THINKING.md for route, risk, dependency, rollback, and
-  evidence context.
-- Keep optional Graphify/ActiveGraph tooling absent-safe.
-- Do not treat Graphify terrain or ActiveGraph custody as correctness proof.
-- Do not commit, install, index, configure, export, push, tag, release, publish, or
-  claim provenance unless separately authorized.
+## Work
+
+- {{WORK_BULLET_1}}
+- {{WORK_BULLET_2}}
+
+## Acceptance criteria (all must pass — verify each in transcript)
+
+- {{CRITERION_1}}
+- {{CRITERION_2}}
+
+## Mandatory commands (run each; surface last ~10 lines + exit code in transcript)
+
+- {{COMMAND_1}}
+- {{COMMAND_2}}
+
+## Evidence required in transcript
+
+- {{EVIDENCE_1}}
+- {{EVIDENCE_2}}
+
+## Rollback / defer path
+
+{{DESCRIBE_HOW_TO_REVERT_OR_DEFER_IF_THIS_PHASE_FAILS}}
+
+## Graphify / ActiveGraph / Markdown fallback status
+
+Graphify: present-and-fresh / present-and-stale / absent
+ActiveGraph: configured-and-authorized / configured-not-authorized / absent
+Markdown fallback: yes / no
+
+## Cleanliness override, if any
+
+(leave blank unless this phase legitimately ships debug output or temporary markers)
+
+## Notes
+
+{{ANY_PHASE_SPECIFIC_GUIDANCE_OR_OWNER_DECISIONS}}
+
+---
 
 IMPLEMENTAUDIT_PHASE_VERIFY
 
-Smoke B:
-- Command:
-- Delta vs Smoke A:
-- Evidence type:
-- Complete repo-state comparison:
-- Cleanliness counts:
-- Sidecar use: Graphify used/skipped/avoided; ActiveGraph used/skipped/avoided; Markdown fallback yes/no.
-- Remaining risk:
-- Trust-prior count:
-- Re-verified count:
+Phase {{N}} acceptance criteria:
+- [pass|fail] {{CRITERION_1}}: <evidence>
+- [pass|fail] {{CRITERION_2}}: <evidence>
+
+Mandatory commands:
+- {{COMMAND_1}} exit 0: <last 10 lines or summary>
+
+Cleanliness (bash {{RUN_ROOT}}/repo-state.sh added-lines {{BASELINE_REF}}):
+- Debug prints added: N
+- Session debug-markers added (todo/fixme/xxx): N
+- Dead imports added: N
+
+Sidecar: Graphify used/skipped/avoided; ActiveGraph used/skipped/avoided; Markdown fallback yes/no
+Remaining risk: <brief or none>
+Trust-prior count: N
+Re-verified count: N
 
 AGENTS_UPDATE_DECISION
 
@@ -61,11 +106,6 @@ CONTINUITY_DECISION
 Decision: none / AGENTS.md / memory note / OWNER DECISION
 Reason:
 Evidence boundary:
-
-Failure recovery markers, if needed:
-FAILURE_PROBE
-FAILURE_ESCALATE
-FAILURE_HANDOFF
 
 IMPLEMENTAUDIT_PHASE_DONE
 

@@ -509,6 +509,18 @@ The execution spine remains active inside every phase: safety read, Smoke A,
 owner/source patching, generated-artifact policy, Smoke B, trace, final
 self-check, and terminal ledger closure.
 
+Phase shape rules (see `skills/references/phase-design.md` §"Phase shape requirements" for full text):
+
+- **P4-1 Hardening phase.** Full plans must include a final hardening phase unless the final audit documents why and what alternative covers each hardening concern.
+- **P4-2 Visual polish evidence.** Any phase producing visible user-facing output requires at minimum a screenshot, browser smoke, or recorded visual inspection in the transcript.
+- **P4-3 Brownfield safety-net.** Before any risky brownfield mutation, a characterization phase must run first to snapshot current behavior and test rollback.
+- **P4-4 Package ≠ release.** Build phases (compile/zip/sign) must be separate from publish phases (registry push/GitHub release). Each has its own evidence boundary.
+- **P4-5 Provenance boundary.** Each boundary crossing (local → package → release → deploy) requires its own fresh Smoke Before Claim; prior-phase evidence does not carry over.
+- **P4-6 Hardening scope.** Hardening phases cover operational concerns only; new feature work found during hardening is logged as scope creep and deferred.
+- **P4-7 Skip documentation.** Omitting any required phase category requires documented rationale in the final audit ledger.
+
+Example phase shapes are in `fixtures/phase-design/`.
+
 ### Stage 5 - Write `.IMPLEMENTAUDIT` runtime artifacts
 
 When phase planning is selected, create or update the runtime substrate before
@@ -536,10 +548,27 @@ preferred target for new planned runs. Namespaced planning artifacts prevent
 artifact clobbering; true parallel source editing in one working tree still
 requires separate git worktrees.
 
-Use the packaged templates under `skills/templates/` when available. Validate
-phase specs with `skills/scripts/validate-phase.sh`. If a generated or copied
-runtime artifact differs from its source template by design, record why in the
-ledger. Do not rely on chat context as the only plan.
+Use the packaged templates under `skills/templates/` when available. If a
+generated or copied runtime artifact differs from its source template by design,
+record why in the ledger. Do not rely on chat context as the only plan.
+
+**Dispatch-prep sequence (complete before Stage 6):**
+
+1. Set `STATE.md` to `Status: READY_TO_DISPATCH` and `Current phase: 1`.
+2. Capture `Baseline ref` with `git rev-parse HEAD`; write it to both
+   `STATE.md` and every `phases/phase-N.md` header.
+3. Copy `skills/templates/PROTOCOL.md` into `<run-root>/PROTOCOL.md`; record
+   the source path and any customisations in THINKING.md.
+4. Record the path and SHA256 of `skills/scripts/repo-state.sh` in THINKING.md
+   so executing agents can verify they are using the correct version.
+5. Verify every `phases/phase-N.md` file exists for each phase listed in
+   ROADMAP.md. Missing phase spec files block dispatch.
+6. Run `skills/scripts/validate-phase.sh` on every phase spec. Any failure
+   requires a spec fix before dispatch; do not dispatch against a failing spec.
+7. Collect the deduplicated mandatory command set across all phase specs; this
+   set feeds the Stage 6.5 pre-flight.
+8. Print the ready-to-paste handoff **only** after Stage 6.5 `PREFLIGHT_GREEN`
+   (or OWNER DECISION accepting a `PREFLIGHT_RED`).
 
 ### Stage 6 - Plan review and self-critique
 
@@ -593,6 +622,10 @@ Red pre-flight must not silently dispatch against unrelated or unclear broken
 baselines.
 
 ### Stage 7 - One ready-to-paste `/goal` handoff when not already embedded
+
+This stage executes only after Stage 6.5 prints `PREFLIGHT_GREEN` (or OWNER
+DECISION on `PREFLIGHT_RED`) and all dispatch-prep steps in Stage 5 are
+complete. Do not print the handoff before those conditions are met.
 
 If not already inside a `/goal` run, print one ready-to-paste handoff that tells
 the next agent to:
