@@ -120,6 +120,17 @@ sys.stdout.write/sys.stderr.write; bash -n YAML evidence replaced with stdlib st
 checker; formal forbidden-term identity hygiene check executed.
 External comparator identity not imported into any tracked surface.
 
+A post-release docs portal, CI, and onboarding audit for v0.2.8.0 is recorded in
+`docs/audits/v0.2.8.0-docs-portal-ci-onboarding.md`. It terminally classifies
+all 12 ledger items (generator, validator, 26/26 test suite, pages.yml CI,
+validate.yml integration, visual/readability smoke, 10-section onboarding,
+live portal HTTP 200 at commit d2829a4, dedicated audit ledger, and three
+additional checks deferred from the adaptation lane: check-host-claims,
+generate-readme-diagrams --check, check-readme-toc). Visual/browser smoke
+remains unverified (browser tooling unavailable; static inspection passes).
+Scope-creep items: workflow_dispatch absent from pages.yml; test 7 nav-anchor
+count display shows 1 instead of 10 (authoritative validator correct at 10).
+
 A Graphify+ActiveGraph maximal-leverage gate for v0.2.7.0 is closed in the same
 lane. Live sidecar smoke was run using installed tools (graphify 0.8.35,
 activegraph 1.0.5.post2) in isolated temp environments. Graphify terrain extraction

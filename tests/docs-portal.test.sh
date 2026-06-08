@@ -8,10 +8,26 @@
 #   4. docs-metadata.json exists with required fields
 #   5. No file:/// URLs in generated output
 #   6. No absolute Windows paths in generated output
-#   7. Nav anchors exist and are unique
-#   8. Required onboarding sections present
+#   7. Nav anchors exist and are unique (authoritative count from check-docs-portal.py)
+#   8. Required onboarding sections present (v0.2.8.0 anchors)
 #   9. Generated output is excluded from .skill package (verify-package.sh still passes)
-#  10. Generator intentionally fails on missing source dir (negative test)
+#  10. Generator writes to any writable out dir (negative test)
+#  11. h1 page title present in index.html
+#  12. Hero zone present
+#  13. Process flow present with all six steps
+#  14. Grouped sidebar labels present (Start, Method, Reference, Evidence)
+#  15. Mobile TOC present
+#  16. Audience cards present (card-grid and audience-card)
+#  17. Four invocation modes present in content
+#  18. "governed casual-build intake" phrase present
+#  19. No stale "three invocation modes" claim
+#  20. No stale "release pending" text
+#  21. No empty inline code elements
+#  22. No forbidden claims (marketplace, provenance claim, certified)
+#  23. Skip link present (accessibility)
+#  24. docs-metadata.json: rough_draft_used is false
+#  25. Sidebar nav-section anchors follow document section order
+#  26. docs-metadata.json: rough_draft_used is explicitly false (boolean)
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -76,12 +92,6 @@ if [ -f "$out/docs-metadata.json" ]; then
       fail_check "docs-metadata.json: field '$field' missing"
     fi
   done
-  # rough_draft_used must be false
-  if python -c "import json,sys; d=json.load(open(sys.argv[1])); assert d.get('rough_draft_used') is False" "$out/docs-metadata.json" 2>/dev/null; then
-    ok "docs-metadata.json: rough_draft_used is false"
-  else
-    fail_check "docs-metadata.json: rough_draft_used is not false"
-  fi
 else
   fail_check "docs-metadata.json missing"
 fi
@@ -101,7 +111,6 @@ fi
 if python -c "
 import re, sys
 html = open(sys.argv[1], encoding='utf-8').read()
-# Only flag unquoted paths in href/src or text content, not escaped JSON
 if re.search(r'(?<!\\\\)[A-Za-z]:\\\\\\\\', html) or re.search(r'href=\"[A-Za-z]:', html):
     sys.exit(1)
 " "$out/index.html" 2>/dev/null; then
@@ -112,26 +121,29 @@ fi
 
 # ---------------------------------------------------------------------------
 # Test 7: nav anchors exist and are unique
+# SC-2 fix: use authoritative nav-section regex matching the generator output
+# (generator produces class="nav-section"><a href="#id">, not class="nav-link")
 # ---------------------------------------------------------------------------
 nav_count=$(python -c "
 import re, sys
 html = open(sys.argv[1], encoding='utf-8').read()
-hrefs = re.findall(r'nav-link[^>]*href=\"#([^\"]+)\"', html) or re.findall(r'href=\"#([^\"]+)\"[^>]*nav-link', html)
+hrefs = re.findall(r'class=\"nav-section\"><a href=\"#([^\"]+)\"', html)
 unique = set(hrefs)
-print(len(hrefs))
 if len(hrefs) != len(unique):
-    import sys; print(0); sys.exit(1)
+    sys.stderr.write('duplicate nav anchors: %s\n' % str(hrefs))
+    sys.exit(1)
+print(len(hrefs))
 " "$out/index.html" 2>/dev/null)
 if [ "${nav_count:-0}" -gt 0 ]; then
   ok "nav anchors present and unique ($nav_count found)"
 else
-  fail_check "nav anchors missing or duplicate in index.html"
+  fail_check "nav anchors missing or duplicate in index.html (nav-section regex)"
 fi
 
 # ---------------------------------------------------------------------------
-# Test 8: required onboarding sections present
+# Test 8: required onboarding sections present (v0.2.8.0 anchors)
 # ---------------------------------------------------------------------------
-required_anchors="what-is-implementaudit when-should-i-use-it when-should-i-not-use-it normal-prompt-vs-goal-vs-implementaudit three-invocation-modes compared-with-a-generic-staged-goal-runner what-graphify-and-activegraph-do what-completion-means install-and-update"
+required_anchors="overview quick-start install for-new-users for-agents-and-operators for-auditors-and-maintainers terminology invocation-modes execution-spine operating-method usage-examples default-behavior routing repo-layout optional-tooling safety-and-boundaries what-it-does-not-do evidence-and-audit-trail audit-status"
 for anchor in $required_anchors; do
   if grep -qF "id=\"$anchor\"" "$out/index.html" 2>/dev/null; then
     ok "section present: #$anchor"
@@ -150,14 +162,234 @@ else
 fi
 
 # ---------------------------------------------------------------------------
-# Test 10: negative — generator with a bad --out should not crash uncleanly
-# (just confirm it exits and doesn't partially write)
+# Test 10: negative — generator with a new dir should not crash
 # ---------------------------------------------------------------------------
 bad_out="$tmp/bad-portal-out"
 if python scripts/build-docs-portal.py --out "$bad_out" >/dev/null 2>&1; then
   ok "negative test: generator writes to any writable out dir (ok)"
 else
   fail_check "negative test: generator crashed on new output dir"
+fi
+
+# ---------------------------------------------------------------------------
+# Test 11: h1 page title present
+# ---------------------------------------------------------------------------
+if grep -qE "<h1[^>]*>" "$out/index.html" 2>/dev/null; then
+  ok "h1 page title present"
+else
+  fail_check "h1 page title missing"
+fi
+
+# ---------------------------------------------------------------------------
+# Test 12: hero zone present
+# ---------------------------------------------------------------------------
+if grep -qF "hero-zone" "$out/index.html" 2>/dev/null; then
+  ok "hero-zone element present"
+else
+  fail_check "hero-zone element missing"
+fi
+
+# ---------------------------------------------------------------------------
+# Test 13: process flow present with all six steps
+# ---------------------------------------------------------------------------
+process_ok=1
+for step in "Input" "Gemba" "Smoke A" "Patch" "Smoke B" "Final Audit"; do
+  if ! grep -qF "$step" "$out/index.html" 2>/dev/null; then
+    fail_check "process flow step missing: $step"
+    process_ok=0
+  fi
+done
+if [ "$process_ok" -eq 1 ]; then
+  ok "process flow present with all six steps (Input → Gemba → Smoke A → Patch → Smoke B → Final Audit)"
+fi
+
+# ---------------------------------------------------------------------------
+# Test 14: grouped sidebar labels present (Start, Method, Reference, Evidence)
+# ---------------------------------------------------------------------------
+sidebar_ok=1
+for group in "Start" "Method" "Reference" "Evidence"; do
+  if ! grep -qF "class=\"nav-group-label\">$group" "$out/index.html" 2>/dev/null; then
+    fail_check "sidebar group label missing: $group"
+    sidebar_ok=0
+  fi
+done
+if [ "$sidebar_ok" -eq 1 ]; then
+  ok "grouped sidebar labels present (Start, Method, Reference, Evidence)"
+fi
+
+# ---------------------------------------------------------------------------
+# Test 15: mobile TOC present
+# ---------------------------------------------------------------------------
+if grep -qF "mobile-toc" "$out/index.html" 2>/dev/null; then
+  ok "mobile-toc element present"
+else
+  fail_check "mobile-toc element missing"
+fi
+
+# ---------------------------------------------------------------------------
+# Test 16: audience cards present
+# ---------------------------------------------------------------------------
+cards_ok=1
+if ! grep -qF "card-grid" "$out/index.html" 2>/dev/null; then
+  fail_check "card-grid element missing"
+  cards_ok=0
+fi
+if ! grep -qF "audience-card" "$out/index.html" 2>/dev/null; then
+  fail_check "audience-card element(s) missing"
+  cards_ok=0
+fi
+if [ "$cards_ok" -eq 1 ]; then
+  ok "audience cards present (card-grid and audience-card elements)"
+fi
+
+# ---------------------------------------------------------------------------
+# Test 17: four invocation modes present (case-insensitive)
+# ---------------------------------------------------------------------------
+modes_ok=1
+for phrase in "direct governance" "embedded governance" "goal synthesis" "governed casual-build intake"; do
+  if python -c "
+import sys
+html = open(sys.argv[1], encoding='utf-8').read().lower()
+phrase = sys.argv[2].lower()
+if phrase not in html:
+    sys.exit(1)
+" "$out/index.html" "$phrase" 2>/dev/null; then
+    ok "invocation mode phrase present: '$phrase'"
+  else
+    fail_check "invocation mode phrase missing: '$phrase'"
+    modes_ok=0
+  fi
+done
+
+# ---------------------------------------------------------------------------
+# Test 18: "governed casual-build intake" phrase present (explicit)
+# ---------------------------------------------------------------------------
+if python -c "
+import sys
+html = open(sys.argv[1], encoding='utf-8').read().lower()
+if 'governed casual-build intake' not in html:
+    sys.exit(1)
+" "$out/index.html" 2>/dev/null; then
+  ok "'governed casual-build intake' phrase present in portal"
+else
+  fail_check "'governed casual-build intake' phrase missing from portal"
+fi
+
+# ---------------------------------------------------------------------------
+# Test 19: no stale "three invocation modes" claim
+# ---------------------------------------------------------------------------
+if python -c "
+import sys
+html = open(sys.argv[1], encoding='utf-8').read().lower()
+if 'three invocation modes' in html:
+    sys.exit(1)
+" "$out/index.html" 2>/dev/null; then
+  ok "no stale 'three invocation modes' claim"
+else
+  fail_check "stale 'three invocation modes' claim found (v0.2.8.0 has four)"
+fi
+
+# ---------------------------------------------------------------------------
+# Test 20: no stale "release pending" text
+# ---------------------------------------------------------------------------
+if python -c "
+import sys
+html = open(sys.argv[1], encoding='utf-8').read().lower()
+if 'release pending' in html:
+    sys.exit(1)
+" "$out/index.html" 2>/dev/null; then
+  ok "no stale 'release pending' text"
+else
+  fail_check "stale 'release pending' text found (release is live)"
+fi
+
+# ---------------------------------------------------------------------------
+# Test 21: no empty inline code elements
+# ---------------------------------------------------------------------------
+if python -c "
+import re, sys
+html = open(sys.argv[1], encoding='utf-8').read()
+empty = re.findall(r'<code>\s*</code>', html)
+if empty:
+    sys.stderr.write('empty code elements: %d\n' % len(empty))
+    sys.exit(1)
+" "$out/index.html" 2>/dev/null; then
+  ok "no empty inline code elements"
+else
+  fail_check "empty <code></code> elements found in index.html"
+fi
+
+# ---------------------------------------------------------------------------
+# Test 22: no forbidden claims (marketplace, provenance claim, certified)
+# ---------------------------------------------------------------------------
+# Note: "marketplace" appears in denial context ("no marketplace publication occurred") —
+# only check for affirmative overclaims, not the bare word.
+claims_ok=1
+for claim in "published to the marketplace" "provenance claim" "certified" "six sigma" "dpmo"; do
+  if python -c "
+import sys
+html = open(sys.argv[1], encoding='utf-8').read().lower()
+if sys.argv[2].lower() in html:
+    sys.exit(1)
+" "$out/index.html" "$claim" 2>/dev/null; then
+    ok "forbidden claim absent: '$claim'"
+  else
+    fail_check "forbidden claim found: '$claim'"
+    claims_ok=0
+  fi
+done
+
+# ---------------------------------------------------------------------------
+# Test 23: skip link present (accessibility)
+# ---------------------------------------------------------------------------
+if grep -qF 'class="skip-link"' "$out/index.html" 2>/dev/null; then
+  ok "skip link present (accessibility)"
+else
+  fail_check "skip link missing (accessibility requirement)"
+fi
+
+# ---------------------------------------------------------------------------
+# Test 24: docs-metadata.json rough_draft_used is false
+# ---------------------------------------------------------------------------
+if python -c "import json,sys; d=json.load(open(sys.argv[1])); assert d.get('rough_draft_used') is False" "$out/docs-metadata.json" 2>/dev/null; then
+  ok "docs-metadata.json: rough_draft_used is false"
+else
+  fail_check "docs-metadata.json: rough_draft_used is not false"
+fi
+
+# ---------------------------------------------------------------------------
+# Test 25: nav-section anchor order matches document section order
+# ---------------------------------------------------------------------------
+if python -c "
+import re, sys
+html = open(sys.argv[1], encoding='utf-8').read()
+nav_hrefs = re.findall(r'class=\"nav-section\"><a href=\"#([^\"]+)\"', html)
+section_ids = re.findall(r'<section id=\"([^\"]+)\"', html)
+nav_set = set(nav_hrefs)
+ordered = [s for s in section_ids if s in nav_set]
+if ordered != nav_hrefs:
+    sys.stderr.write('nav order: %s\n' % nav_hrefs)
+    sys.stderr.write('doc order: %s\n' % ordered)
+    sys.exit(1)
+" "$out/index.html" 2>/dev/null; then
+  ok "nav-section anchor order matches document section order"
+else
+  fail_check "nav-section anchor order does not match document section order"
+fi
+
+# ---------------------------------------------------------------------------
+# Test 26: docs-metadata.json rough_draft_used is explicitly boolean false
+# (not string 'false', not null, not absent)
+# ---------------------------------------------------------------------------
+if python -c "
+import json, sys
+d = json.load(open(sys.argv[1]))
+val = d.get('rough_draft_used')
+assert val is False, 'got: %r' % val
+" "$out/docs-metadata.json" 2>/dev/null; then
+  ok "docs-metadata.json: rough_draft_used is boolean false (not string/null)"
+else
+  fail_check "docs-metadata.json: rough_draft_used is not boolean false"
 fi
 
 # ---------------------------------------------------------------------------

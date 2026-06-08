@@ -12,6 +12,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 # Required permissions for GitHub Pages deployment via OIDC
 permissions:

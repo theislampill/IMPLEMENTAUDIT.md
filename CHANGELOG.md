@@ -46,6 +46,14 @@ schema evidence proved four-component plugin manifest versions are accepted.
 - `.github/workflows/validate.yml`: `bash tests/docs-portal.test.sh` added to focused behavior tests.
 - Plugin manifest: `0.2.7` → `0.2.8`.
 
+### Post-Release Repair (2026-06-08): Docs Portal UX
+
+- `docs/portal/onboarding.md` (rewritten): comprehensive 19-section content source replacing the original 10-section thin version. Sections: Overview, Quick Start, Install, For New Users, For Agents and Operators, For Auditors and Maintainers, Terminology, Invocation Modes (**four** modes: direct governance, embedded governance, goal synthesis, governed casual-build intake), Execution Spine, Operating Method, Usage Examples, Default Behavior, Routing (including Governed casual-build row), Repo Layout, Optional Tooling, Safety and Boundaries, What It Does Not Do, Evidence and Audit Trail, Audit Status. v0.2.8.0 truth throughout: release live, manifest 0.2.8, G5 STRENGTHENED, no marketplace publication, CHECKSUMS.txt is checksum manifest only. Custom conventions: `:::type` callout blocks, `### card: Title` audience card sections.
+- `scripts/build-docs-portal.py` (rewritten): rich portal generator. Dark-navy themed with: fixed collapsible sidebar (Start/Method/Reference/Evidence groups using `<details>`), gradient h1 hero zone, process flow (Input → Gemba → Smoke A → Patch → Smoke B → Final Audit), mobile TOC, audience card grids from `### card:` sections, callout divs from `:::type` blocks, scrollspy JS (requestAnimationFrame), skip link. stdlib only; uses sys.stdout.write/sys.stderr.write throughout.
+- `scripts/check-docs-portal.py` (rewritten, 20 checks): updated required section anchors to 19 v0.2.8.0 anchors. Added checks for: h1 page title, hero zone, process flow steps, grouped sidebar labels (Start/Method/Reference/Evidence), mobile TOC, audience cards, four invocation mode phrases, governed casual-build intake text, no stale "three invocation modes", no stale "release pending", no empty inline code, no affirmative marketplace/provenance overclaims. Nav-anchor regex updated for `class="nav-section"` structure.
+- `tests/docs-portal.test.sh` (rewritten, 58 checks): SC-2 fixed — Test 7 now uses correct nav-section regex (no longer shows "1 found"). Tests 11-26 added: h1, hero zone, all six process flow steps, sidebar groups, mobile TOC, audience cards, four invocation modes, governed casual-build intake, no stale three-modes claim, no stale release-pending text, no empty inline code, no forbidden claims, skip link, rough_draft_used boolean checks, nav order.
+- `.github/workflows/pages.yml`: `workflow_dispatch:` trigger added — SC-1 fix from v0.2.8.0 docs-portal-ci-onboarding audit. Enables manual portal rebuild from GitHub Actions UI.
+
 ## [v0.2.7.0] - 2026-06-07
 
 ### Added
