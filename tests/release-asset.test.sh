@@ -116,6 +116,42 @@ with zipfile.ZipFile(asset) as zf:
         if name.startswith(".env"):
             raise SystemExit(f"environment file included: {name}")
 
+    # Compression regression guard: every non-empty entry must be ZIP_DEFLATED.
+    # ZipInfo defaults to compress_type=ZIP_STORED (0), which silently overrides
+    # the ZipFile-level ZIP_DEFLATED default when writestr() receives a ZipInfo
+    # object.  If build-release-asset.sh ever loses the explicit
+    # `info.compress_type = zipfile.ZIP_DEFLATED` assignment, all entries revert
+    # to stored and the asset bloats from ~60 KB to ~155 KB with no error raised.
+    stored_entries = [
+        info.filename
+        for info in zf.infolist()
+        if info.compress_type == zipfile.ZIP_STORED and info.file_size > 0
+    ]
+    if stored_entries:
+        sample = ", ".join(stored_entries[:5])
+        tail = " ..." if len(stored_entries) > 5 else ""
+        raise SystemExit(
+            f"compression regression: {len(stored_entries)} non-empty entries are "
+            "ZIP_STORED (uncompressed). build-release-asset.sh must set "
+            "info.compress_type = zipfile.ZIP_DEFLATED on each ZipInfo before "
+            f"calling writestr(). Stored: {sample}{tail}"
+        )
+
+    # Total asset size guard: uncompressed asset is ~155 KB; properly deflated
+    # is ~60 KB for the current payload.  120 KB provides ~2x headroom for
+    # legitimate payload growth while still catching accidental ZIP_STORED
+    # regressions.  Update this threshold only after confirming entries remain
+    # ZIP_DEFLATED (the check above) and the payload growth is intentional.
+    asset_bytes = asset.stat().st_size
+    MAX_ASSET_BYTES = 120_000
+    if asset_bytes > MAX_ASSET_BYTES:
+        raise SystemExit(
+            f"asset size {asset_bytes:,} bytes exceeds the {MAX_ASSET_BYTES:,}-byte "
+            "threshold. Verify ZIP_DEFLATED compression is applied (the check above), "
+            "then update MAX_ASSET_BYTES in tests/release-asset.test.sh if the payload "
+            "growth is intentional."
+        )
+
     with tempfile.TemporaryDirectory() as temp_dir:
         zf.extractall(temp_dir)
         root = Path(temp_dir)

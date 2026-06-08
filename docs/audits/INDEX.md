@@ -70,3 +70,16 @@ generic check-forbidden-terms.sh (caller-supplied runtime terms, not source-embe
 identity hygiene release-gate instructions in AGENTS.md.
 All 12 gap classes adapted or intentionally rejected with documentation.
 External comparator identity not imported into any tracked surface.
+
+A pre-release proof-gap closure and package-boundary repair for v0.2.6.0
+is recorded in
+`docs/audits/v0.2.6.0-final-runtime-and-package-boundary-audit.md`.
+It terminally classifies all 25 behavior classes from the external
+staged-goal comparator (16 `native-owner-covered`, 9
+`covered-with-stronger-implementaudit-boundary`, 0 open), proves the
+`.skill` package boundary against an explicit 23-entry manifest, and
+documents the ZIP_STORED → ZIP_DEFLATED compression repair
+(154,750 bytes → 59,551 bytes;
+SHA256: `f37f6356b3a342510512e57c3f2785b6be4ea044a5b312d59d40d8ce4eade947`).
+Compression regression is now caught automatically by
+`tests/release-asset.test.sh`.

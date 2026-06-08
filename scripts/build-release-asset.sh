@@ -189,6 +189,12 @@ with zipfile.ZipFile(asset, "w", compression=zipfile.ZIP_DEFLATED) as zf:
         info = zipfile.ZipInfo(archive_rel.as_posix())
         mode = 0o755 if archive_rel.as_posix().startswith("scripts/") else 0o644
         info.external_attr = (stat.S_IFREG | mode) << 16
+        # Explicitly set compress_type on the ZipInfo object.
+        # When writestr() receives a ZipInfo, the ZipInfo.compress_type overrides
+        # the ZipFile-level default, and ZipInfo defaults to ZIP_STORED (0).
+        # Without this line all entries are stored uncompressed even though the
+        # ZipFile was opened with compression=ZIP_DEFLATED.
+        info.compress_type = zipfile.ZIP_DEFLATED
         zf.writestr(info, read_normalized(src_path))
 
 with zipfile.ZipFile(asset) as zf:

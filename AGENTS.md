@@ -773,6 +773,18 @@ bash scripts/write-release-checksums.sh
 Do not call a checksum manifest a signature, attestation, SBOM, license,
 marketplace verification, or install verification.
 
+**Anti-repeat rule (V0260-ZIPINFO-COMPRESSION):** When building the `.skill`
+ZIP archive with `zipfile.ZipFile(path, "w", compression=zipfile.ZIP_DEFLATED)`,
+the ZipFile-level `compression` default does NOT apply when entries are written
+via `zf.writestr(ZipInfo_object, data)`. The `ZipInfo.compress_type` attribute
+(which defaults to `ZIP_STORED = 0`) overrides the ZipFile-level default.
+Always set `info.compress_type = zipfile.ZIP_DEFLATED` explicitly on each
+`ZipInfo` before calling `writestr()`. Omitting this line silently stores all
+entries uncompressed (~155 KB) even though the `ZipFile` was opened with
+`ZIP_DEFLATED`. `tests/release-asset.test.sh` now catches this regression
+automatically via a per-entry `compress_type` check and a 120 KB total-size
+guard. Rationale: v0.2.6.0 compression repair (2026-06-07).
+
 ## Identity hygiene release-gate
 
 Before any release, run the generic forbidden-terms checker to confirm that
