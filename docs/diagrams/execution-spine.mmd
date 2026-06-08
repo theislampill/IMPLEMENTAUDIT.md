@@ -22,9 +22,25 @@ flowchart TD
   Release["Tag / release / asset<br/>checksum manifest only if produced and verified"]:::release
   Legend["Legend: amber human/owner; blue owner/source; purple generated;<br/>green checks; dashed green optional; red blocker; orange release"]:::audit
 
+  subgraph PhasedRun["Phased planned run — goal synthesis path"]
+    RunRoot["Run-root claim<br/>claim-run.sh<br/>.IMPLEMENTAUDIT/runs/slug-id/"]:::source
+    Stage6["Stage 6<br/>plan review + self-critique<br/>revision menu"]:::audit
+    Stage65["Stage 6.5 preflight smoke<br/>PREFLIGHT_GREEN / PREFLIGHT_RED"]:::checker
+    Stage7["Stage 7 handoff<br/>one-paste /implementaudit<br/>omitted if embedded"]:::audit
+    PhaseSpec["validate-phase.sh<br/>each phase spec<br/>exit 0 required"]:::checker
+    PhaseLoop["16-step phase loop<br/>Smoke A -> execute -> cmds<br/>criteria -> cleanliness -> Smoke B"]:::source
+    Recovery["3-strike failure recovery<br/>FAILURE_PROBE -> FAILURE_ESCALATE<br/>-> FAILURE_HANDOFF"]:::blocker
+    AuditFix["Final audit + audit-fix rounds<br/>up to 3 rounds<br/>AUDIT_GAPS -> fix -> re-round"]:::audit
+    RunRoot --> Stage6 --> Stage65 --> Stage7 --> PhaseSpec --> PhaseLoop
+    PhaseLoop -->|criterion fails| Recovery
+    PhaseLoop -->|all phases done| AuditFix
+  end
+
   Input --> Route
   Route -->|unsafe / conflict| OwnerDecision
   Route -->|authorized scope| Gemba
+  Route -. phased planning .-> RunRoot
+  AuditFix --> Final
   Graphify -. optional query before touching scene .-> Gemba
   Gemba --> SmokeA --> Patch --> Generated --> SmokeB
   SmokeB -. custody sidecar .-> ActiveGraph --> Ledger

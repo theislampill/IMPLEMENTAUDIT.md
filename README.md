@@ -194,7 +194,7 @@ flowchart TB
     SIn["Input<br/>idea / gap / incomplete target"]:::input
     SObj["tdqyq-audit-object<br/>created or normalized first"]:::artifact
     SLoop["ydqyq-audit-action<br/>Gemba + route + Stage 0-7 planning"]:::loop
-    SArt["Artifacts<br/>.IMPLEMENTAUDIT roadmap/state<br/>thinking/protocol/phase specs"]:::artifact
+    SArt["Artifacts<br/>.IMPLEMENTAUDIT/runs/slug-id/<br/>ROADMAP · STATE · THINKING<br/>PROTOCOL · sidecars · applied-context<br/>repo-map · phases/phase-N.md"]:::artifact
     SGoal["Second /goal<br/>produced once when not embedded"]:::handoff
     SIn --> SObj --> SLoop --> SArt --> SGoal
   end
@@ -263,9 +263,11 @@ rollback, and evidence strategy; it is not proof by itself.
 ### Why one `/goal`, not a chain
 
 A generated `/goal` should carry the bounded end-state and audit completion
-condition. Phase specs live in `.IMPLEMENTAUDIT/*`; the run progresses through
-files, checks, and markers rather than a fragile sequence of user-pasted
-commands. Final completion still requires `AUDIT_COMPLETE` before
+condition. Phase specs live under
+`.IMPLEMENTAUDIT/runs/<task-slug>-<id>/phases/` (flat `.IMPLEMENTAUDIT/*` is
+legacy resume/audit compatibility, not the preferred target for new runs); the
+run progresses through files, checks, and markers rather than a fragile
+sequence of user-pasted commands. Final completion still requires `AUDIT_COMPLETE` before
 `IMPLEMENTAUDIT_RUN_COMPLETE`.
 
 Inside embedded governance, another `/goal` already owns the run, so
@@ -374,9 +376,25 @@ flowchart TD
   Release["Tag / release / asset<br/>checksum manifest only if produced and verified"]:::release
   Legend["Legend: amber human/owner; blue owner/source; purple generated;<br/>green checks; dashed green optional; red blocker; orange release"]:::audit
 
+  subgraph PhasedRun["Phased planned run — goal synthesis path"]
+    RunRoot["Run-root claim<br/>claim-run.sh<br/>.IMPLEMENTAUDIT/runs/slug-id/"]:::source
+    Stage6["Stage 6<br/>plan review + self-critique<br/>revision menu"]:::audit
+    Stage65["Stage 6.5 preflight smoke<br/>PREFLIGHT_GREEN / PREFLIGHT_RED"]:::checker
+    Stage7["Stage 7 handoff<br/>one-paste /implementaudit<br/>omitted if embedded"]:::audit
+    PhaseSpec["validate-phase.sh<br/>each phase spec<br/>exit 0 required"]:::checker
+    PhaseLoop["16-step phase loop<br/>Smoke A -> execute -> cmds<br/>criteria -> cleanliness -> Smoke B"]:::source
+    Recovery["3-strike failure recovery<br/>FAILURE_PROBE -> FAILURE_ESCALATE<br/>-> FAILURE_HANDOFF"]:::blocker
+    AuditFix["Final audit + audit-fix rounds<br/>up to 3 rounds<br/>AUDIT_GAPS -> fix -> re-round"]:::audit
+    RunRoot --> Stage6 --> Stage65 --> Stage7 --> PhaseSpec --> PhaseLoop
+    PhaseLoop -->|criterion fails| Recovery
+    PhaseLoop -->|all phases done| AuditFix
+  end
+
   Input --> Route
   Route -->|unsafe / conflict| OwnerDecision
   Route -->|authorized scope| Gemba
+  Route -. phased planning .-> RunRoot
+  AuditFix --> Final
   Graphify -. optional query before touching scene .-> Gemba
   Gemba --> SmokeA --> Patch --> Generated --> SmokeB
   SmokeB -. custody sidecar .-> ActiveGraph --> Ledger
@@ -465,6 +483,13 @@ separately authorized, are built from the repo-supported release-asset script
 and validated by extraction. Release artifacts and checksum manifests are not
 ordinary audit outputs.
 
+The `.skill` release archive contains only the runtime skill payload
+(`SKILL.md`, `references/`, `scripts/`, `templates/`) and plugin metadata
+(`.claude-plugin/`). Repo docs, tests, fixtures, release tooling, audit
+ledgers, run roots, and sidecar stores are excluded from the archive. As of
+v0.2.6.0 all archive entries are ZIP_DEFLATED; compression is validated by
+`tests/release-asset.test.sh` as an asset-integrity hardening measure.
+
 ## Skill internals / repository layout
 
 This repo uses the flat package layout declared by `AGENTS.md`:
@@ -493,7 +518,7 @@ publication, or provenance has been verified.
 
 ## Version and release notes
 
-Current project milestone: `v0.2.5.0`. Plugin manifest version: `0.2.5`.
+Current project milestone: `v0.2.6.0`. Plugin manifest version: `0.2.6`.
 No local schema evidence proved four-component plugin manifest versions are
 accepted, so the manifest uses host-conservative package metadata while the
 project milestone is recorded in docs and changelog. This is not a tag, release,
