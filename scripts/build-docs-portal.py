@@ -49,8 +49,8 @@ SIDEBAR_GROUPS = [
         ("operating-method", "⟳", "Operating Method"),
         ("routing", "◒", "Routing"),
         ("comparison", "≡", "Comparison"),
-        ("default-behavior", "●", "Default Behavior"),
         ("usage-examples", "〈/〉", "Examples"),
+        ("default-behavior", "●", "Default Behavior"),
     ]),
     ("Reference", [
         ("terminology", "Aa", "Terminology"),
@@ -517,9 +517,13 @@ def render_callout(callout_type: str, lines: list) -> str:
     # First line may be a title (starts with **)
     first_line_match = re.match(r"\*\*(.+?)\*\*\.?\s*(.*)", inner, re.DOTALL)
     if first_line_match:
-        title_text = esc(first_line_match.group(1))
+        # Strip trailing period/space before adding the canonical period so titles
+        # like "**Title.**" don't render as "Title..". Apply inline_md so backtick
+        # code spans inside titles render as <code> rather than literal backticks.
+        raw_title = first_line_match.group(1).rstrip(". ")
+        title_html = inline_md(raw_title)
         rest = first_line_match.group(2).strip()
-        content_html = f'<p><span class="callout-title">{title_text}.</span>'
+        content_html = f'<p><span class="callout-title">{title_html}.</span>'
         if rest:
             content_html += " " + inline_md(rest)
         content_html += "</p>"

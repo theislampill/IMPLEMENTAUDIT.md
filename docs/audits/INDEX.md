@@ -121,7 +121,15 @@ checker; formal forbidden-term identity hygiene check executed.
 External comparator identity not imported into any tracked surface.
 
 A post-release docs portal, CI, and onboarding audit for v0.2.8.0 is recorded in
-`docs/audits/v0.2.8.0-docs-portal-ci-onboarding.md`. It terminally classifies
+`docs/audits/v0.2.8.0-docs-portal-ci-onboarding.md`. A follow-on academic/content-model
+repair (commit f9d300c) rewrote the portal to 24 sections with formal thesis, bottleneck
+framing, 10-gate Audit Gate Model, Invocation Model table, State and Artifact Model,
+Continuity/Sidecars intra/inter distinction, and Comparison table (neutral methodology
+dimensions). A coherence and prose quality pass corrected a callout title rendering bug
+(double periods, literal backtick spans), reformatted the AUDIT_COMPLETE "does not mean"
+list, improved the Comparison heading, swapped Usage Examples before Default Behavior,
+added continuity preload/writeback to Terminology, and clarified the ydqyq-audit-action
+example. Audit ledger: `docs/audits/v0.2.8.0-docs-portal-coherence-polish.md`. It terminally classifies
 all 12 ledger items (generator, validator, 26/26 test suite, pages.yml CI,
 validate.yml integration, visual/readability smoke, 10-section onboarding,
 live portal HTTP 200 at commit d2829a4, dedicated audit ledger, and three

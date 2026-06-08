@@ -176,7 +176,7 @@ The execution chain for every IMPLEMENTAUDIT run, regardless of invocation shape
 
 `tdqyq-audit-object` is the audit-as-noun: the evidence-bearing record for the run. It contains scope, findings, owner/source decisions, claims, changed files, checks, and closure state. Everything the run claims is bounded by what this object contains.
 
-`ydqyq-audit-action` is the audit-as-verb: a runtime operation performed against the audit object — inspecting, classifying, verifying, authorizing or rejecting mutation, closing findings, handing off. Implementation is an `ydqyq-audit-action`. A passing CI check is not.
+`ydqyq-audit-action` is the audit-as-verb: a runtime operation performed against the audit object — inspecting, classifying, verifying, authorizing or rejecting mutation, closing findings, handing off. Patching owner/source is an `ydqyq-audit-action`; a passing CI check is evidence but does not itself mutate the audit object.
 
 `AUDIT_COMPLETE` is a terminal `ydqyq-audit-action` verdict over the `tdqyq-audit-object`. It is not a progress label. `IMPLEMENTAUDIT_RUN_COMPLETE` is invalid before it.
 
@@ -228,12 +228,12 @@ Ten gates form the non-skippable execution spine. Each gate must pass before the
 
 `AUDIT_COMPLETE` does **not** mean:
 
-- Not marketplace verification (no listing or publication has been verified).
-- Not universal install proof (host-specific install must be tested on that host with that host's tooling).
-- Not provenance (no signing, attestation, SBOM, or checksum chain is produced unless a dedicated gate authorizes it).
-- Not Graphify proof (Graphify is orientation; the run does not inherit Graphify output as proof of correctness).
-- Not ActiveGraph correctness proof (ActiveGraph is custody/event evidence; it proves gate passages were recorded, not that the implementation was correct).
-- Not "the agent felt done."
+- Marketplace verification — no listing or publication has been verified.
+- Universal install proof — host-specific install must be verified on the target host with that host's tooling.
+- Provenance — no signing, attestation, SBOM, or checksum chain is produced unless a dedicated gate authorizes it.
+- Graphify proof — Graphify is orientation evidence; the run does not inherit Graphify output as proof of correctness.
+- ActiveGraph correctness proof — ActiveGraph records custody/event evidence; it proves gate passages were recorded, not that the implementation was correct.
+- A felt sense of completion — evidence determines terminal state, not the agent's confidence.
 
 :::danger
 **The most common protocol violation is emitting `IMPLEMENTAUDIT_RUN_COMPLETE` before `AUDIT_COMPLETE`.** All run invariants and gate conditions must be verified before the run is declared complete.
@@ -359,9 +359,9 @@ The following table compares tool categories based on published behavior. No ext
 | **Low-friction staged-goal runner** | Implicit (staged goal state) | Phase-gated; runner-managed | Gated per phase | Per-phase writeback (runner-managed) | Typically none |
 | **IMPLEMENTAUDIT** | Explicit `tdqyq-audit-object`, constructed or bound before mutation | Ten explicit gates with documented halt conditions | Requires Gemba, owner/source, Smoke A/B, evidence type | Bounded five-source priority preload and per-phase `CONTINUITY_DECISION` | Optional Polish and Harden phase (Rule P4-8) |
 
-### What IMPLEMENTAUDIT absorbs from staged-goal runners
+### Behaviors shared with staged-goal runners
 
-These behaviors are present in low-friction staged-goal runners. IMPLEMENTAUDIT includes them as native audit-governed runtime discipline:
+These behaviors are common in low-friction staged-goal runners. IMPLEMENTAUDIT includes them as native audit-governed runtime discipline:
 
 - **Casual invocation:** governed casual-build intake synthesizes the audit object from natural-language intent.
 - **Continuity preload:** five-source priority order, loaded before any mutation, orientation only.
@@ -376,18 +376,6 @@ These behaviors are absent by design:
 - **Unbounded autonomy:** every scope-expanding action requires either an owner decision or explicit re-authorization.
 - **Proof without evidence:** every claim must cite an evidence type and remaining risk.
 - **Hidden publication / release / provenance:** local commit authorization does not imply any downstream action.
-
-## Default Behavior
-
-The default small-audit mode operates on one artifact at a time. It:
-
-- Validates the input is a recognizable audit artifact, or synthesizes one for governed casual-build intake.
-- Normalizes findings into a ledger with priority classification: **P0** (blocks goal or safety), **P1** (named in audit), **P2** (nice-to-have), **OWNER DECISION**, **DEFERRED**, **OUT OF SCOPE**.
-- Processes in P0 to P1 to P2 order.
-- Patches owner/source, not nearest symptom.
-- Requires evidence for every claim.
-- Runs Smoke B after implementation and records the A/B comparison.
-- Closes every item terminally — zero open items at `AUDIT_COMPLETE`.
 
 ## Usage Examples
 
@@ -428,6 +416,18 @@ User says: *"Make the docs portal generated by CI and prove it is fresh."*
 
     Closure: Status changed. Commit only if explicitly authorized.
 
+## Default Behavior
+
+The default small-audit mode operates on one artifact at a time. It:
+
+- Validates the input is a recognizable audit artifact, or synthesizes one for governed casual-build intake.
+- Normalizes findings into a ledger with priority classification: **P0** (blocks goal or safety), **P1** (named in audit), **P2** (nice-to-have), **OWNER DECISION**, **DEFERRED**, **OUT OF SCOPE**.
+- Processes in P0 to P1 to P2 order.
+- Patches owner/source, not nearest symptom.
+- Requires evidence for every claim.
+- Runs Smoke B after implementation and records the A/B comparison.
+- Closes every item terminally — zero open items at `AUDIT_COMPLETE`.
+
 ## Terminology
 
 | Term | Meaning |
@@ -448,6 +448,8 @@ User says: *"Make the docs portal generated by CI and prove it is fresh."*
 | DMADV | Greenfield methodology: Define, Measure, Analyze, Design, Verify. |
 | Graphify | Optional terrain/orientation sidecar. Not proof; absence is not an error. |
 | ActiveGraph | Optional custody/event sidecar. Not correctness proof; absence is not an error. |
+| Continuity preload | Loading prior run state and orientation context before any mutation. Priority order: live files and `AGENTS.md` → run-root applied-context → optional personal/project notes → Graphify terrain → ActiveGraph custody events. |
+| Continuity writeback | Recording run findings for future runs via `CONTINUITY_DECISION`. Five options: none / repo-local `AGENTS.md` rule / run-local applied-context / optional personal note / optional ActiveGraph event. A completed writeback is stamped with `IMPLEMENTAUDIT_CONTINUITY_SAVED`. |
 | `CHECKSUMS.txt` | SHA-256 checksum manifest for local integrity verification of the release asset. Not a signature, attestation, SBOM, or provenance chain. |
 
 ## Repo Layout
@@ -539,7 +541,8 @@ The v0.2.8.0 adaptation lane closed G1-G7 comparator-advantage gaps. G5 (per-pha
 - `docs/audits/INDEX.md` — full dogfood history index
 - `docs/audits/v0.2.8.0-adaptation.md` — v0.2.8.0 gap closure ledger (G1-G7)
 - `docs/audits/v0.2.8.0-docs-portal-ci-onboarding.md` — docs portal CI and onboarding audit
-- `docs/diagrams/` — Mermaid source for execution spine and tooling diagrams
+- `docs/audits/v0.2.8.0-docs-portal-coherence-polish.md` — docs portal coherence and prose quality audit
+- `docs/diagrams/` — Mermaid source for execution spine, invocation modes, and tooling diagrams
 
 ## Audit Status
 
@@ -553,4 +556,4 @@ Current release and deployment facts.
 - **Graphify:** Optional sidecar for user runs; canonical for intra-maintenance when available and authorized. Orientation evidence only — not proof.
 - **ActiveGraph:** Optional sidecar for user runs; canonical for intra-maintenance when available and authorized. Custody evidence only — not correctness proof.
 - **Marketplace:** No marketplace publication or update has occurred.
-- **Comparator note:** No all-domain obsolescence claim is made.
+- **Methodology scope:** The comparison table covers methodology dimensions only. No all-domain obsolescence claim is made.
