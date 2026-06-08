@@ -1,8 +1,6 @@
 # IMPLEMENTAUDIT.md
 
-An audit-governed implementation skill for turning findings, handoffs, checklists,
-reviews, goals, and plans into bounded, verified repository changes — with evidence
-for every claim.
+IMPLEMENTAUDIT is an audit-governed implementation method for repo-changing agent work. Every mutation is bounded by an audit contract.
 
 Source file for the docs portal. Generated into _site/index.html by
 scripts/build-docs-portal.py. Do not hand-edit the generated output; edit this file
@@ -10,56 +8,43 @@ and re-run the generator.
 
 ## Overview
 
-**IMPLEMENTAUDIT.md** is a repo and a skill. The repo hosts the canonical definition;
-the skill — invoked as `/implementaudit` — is a method for turning audit findings,
-handoffs, checklists, reviews, goals, tasks, gaps, and implementation plans into
-bounded, verified repository changes.
+**IMPLEMENTAUDIT** is an audit-governed implementation method for repo-changing agent work. It transforms intent, findings, handoffs, checklists, reviews, goals, tasks, gaps, and implementation plans into bounded repository mutations by first constructing or binding a `tdqyq-audit-object`, then acting through `ydqyq-audit-action` operations until terminal audit closure (`AUDIT_COMPLETE`) or an explicit audited handoff (`AUDIT_HANDOFF` / `FAILURE_HANDOFF`).
 
-It is **not** a release bot, package publisher, provenance system, or generic
-autonomous build loop. It is an *audit-governed implementation* runtime: every
-mutation happens under an audit object, and no claim is stronger than its evidence.
+**The bottleneck it addresses.** AI agents can produce repository changes faster than humans can review evidence of ownership, rollback viability, generated-artifact freshness, CI state, and public-claim accuracy. IMPLEMENTAUDIT moves that review discipline into the implementation loop rather than leaving it only at the final review step. Review is not post-hoc; it is per-gate.
 
 :::info
-**Core Invariant.** Every finding closes. No orphan items. No unsafe actions. No proof
-claim without evidence.
+**Design invariant.** Every finding closes. No orphan items. No unsafe actions. No proof claim without evidence. `IMPLEMENTAUDIT_RUN_COMPLETE` is invalid before `AUDIT_COMPLETE`.
 :::
 
-The `.md` in the name is branding and lineage, not a required root behavior file.
-The actual skill definition lives in `skills/SKILL.md`.
+IMPLEMENTAUDIT is not a release bot, a package publisher, a provenance system, or a generic autonomous build loop. It is a runtime that binds implementation to evidence-bearing audit closure for every run, in every invocation shape.
 
 ## Quick Start
 
-New to IMPLEMENTAUDIT? Here is the minimal path to your first governed implementation.
+### 1. What governs a run
 
-### 1. Understand the small loop
-
-Every run follows the same spine:
-
-    Input artifact → live repo inspection → owner/source patch → Smoke A/B → final audit
+Every run first constructs or binds a `tdqyq-audit-object` before any mutation. The object tracks scope, findings, owner/source decisions, evidence type, and closure state. `ydqyq-audit-action` operations read and mutate this object. Implementation is only permitted through the object.
 
 ### 2. Try a simple invocation
 
-With the skill installed, invoke it from your agent:
+With the skill installed:
 
-    /implementaudit < audit-findings.md
     /implementaudit implement these findings
+    /implementaudit < audit-findings.md
     /goal using /implementaudit, close the findings in AUDIT.md
 
-### 3. Understand the basic workflow
-
-- **Read** the input — it must be a recognizable audit artifact.
-- **Go to Gemba** — inspect the real files, not summaries.
-- **Smoke A** — run baseline checks before any change.
-- **Patch** — fix the owner/source, not the nearest symptom.
-- **Smoke B** — verify post-change checks against the baseline.
-- **Close** — every item reaches `done`, `changed`, `blocked`, `deferred`, or `unverified`.
-
-### 4. Default authorization stance
+### 3. Default authorization stance
 
 :::warning
-**No commit. No push. No tag. No release. No publication. No provenance.**
-Each action requires separate explicit authorization.
+**No commit. No push. No tag. No release. No publication. No provenance.** Each action requires separate explicit authorization. No invocation shape implies any downstream action.
 :::
+
+### 4. Navigate by concern
+
+- New to IMPLEMENTAUDIT? Start at [Mental Model](#mental-model).
+- Invoking from an agent? See [Invocation Model](#invocation-model).
+- Reviewing a completed run? See [What AUDIT_COMPLETE Means](#what-audit-complete-means) and [Evidence and Audit Trail](#evidence-and-audit-trail).
+- Auditing gate behavior? See [Audit Gate Model](#audit-gate-model).
+- Understanding run artifacts? See [State and Artifact Model](#state-and-artifact-model).
 
 ## Install
 
@@ -70,7 +55,7 @@ Manual copy from a repo checkout:
     mkdir -p ~/.codex/skills/implementaudit
     cp -R skills/* ~/.codex/skills/implementaudit/
 
-Or from a release asset with checksum verification:
+From the v0.2.8.0 release asset with checksum verification:
 
     bash scripts/build-release-asset.sh
     bash scripts/install-codex-from-release.sh \
@@ -81,334 +66,432 @@ Or from a release asset with checksum verification:
 
 ### Claude Code
 
-Use the host's current plugin instructions with `.claude-plugin/plugin.json` as
-package metadata. For public clone/plugin setup, an HTTPS repo URL is usually the
-simplest path.
+Use the host's current plugin instructions with `.claude-plugin/plugin.json` as package metadata. For public clone/plugin setup, an HTTPS repo URL is the simplest path.
+
+### Release state
+
+Release `v0.2.8.0` is live. Tag at commit `d2829a4`. The release asset `IMPLEMENTAUDIT.skill` includes a `CHECKSUMS.txt` — a SHA-256 checksum manifest for local integrity verification only. No signatures, attestations, SBOMs, or provenance chains are claimed. Pages docs are live and CI-verified.
 
 :::info
-**No auto-update.** A locally installed skill does not update automatically when the
-GitHub repo has a new release. Repeat the install step after each release.
+**No auto-update mechanism exists.** A locally installed skill does not update automatically when the GitHub repo has a new release. Repeat the install step on each release.
 :::
-
-### v0.2.8.0 release
-
-Release `v0.2.8.0` is live. Tag at commit `d2829a4`. The release asset
-`IMPLEMENTAUDIT.skill` includes a `CHECKSUMS.txt` — a SHA-256 checksum manifest for
-local integrity verification. No signatures, attestations, SBOMs, or provenance
-chains are claimed. Pages docs are live.
 
 ## For New Users
 
-You have just discovered IMPLEMENTAUDIT.md. This is the right place to start.
+You have just discovered IMPLEMENTAUDIT.md. Start here.
 
-### card: First encounter?
+### card: What is it?
 
-Start with the Overview and Quick Start to understand what IMPLEMENTAUDIT is and how
-to run your first audit-governed implementation.
+An audit-governed implementation skill. Every repo change must pass audit gates before the run can complete. Read the Mental Model first to understand the execution chain.
 
-- [→ Overview](#overview)
-- [→ Quick Start](#quick-start)
+- [-> Mental Model](#mental-model)
+- [-> Overview](#overview)
 
-### card: Ready to install?
+### card: How do I invoke it?
 
-Skip to the Install section for Codex and Claude Code setup instructions. No auto-update mechanism exists — repeat the install step on each release.
+Four invocation shapes: direct governance, embedded governance, goal synthesis, governed casual-build intake. All four bind an audit object before mutation.
 
-- [→ Install](#install)
+- [-> Invocation Model](#invocation-model)
+- [-> Quick Start](#quick-start)
 
-### card: Confused by the terminology?
+### card: How do I verify a run succeeded?
 
-IMPLEMENTAUDIT uses precise vocabulary. The Terminology table explains every key term.
+AUDIT_COMPLETE is the terminal marker. Read what it means and — critically — what it does not mean.
 
-- [→ Terminology](#terminology)
+- [-> What AUDIT_COMPLETE Means](#what-audit-complete-means)
+- [-> Evidence and Audit Trail](#evidence-and-audit-trail)
 
 ## For Agents and Operators
 
-You will be invoking `/implementaudit` in your AI coding tool. Here is what you need.
+You are invoking `/implementaudit` from a coding agent or CI pipeline.
 
-### card: Invocation reference
+### card: Which invocation shape applies?
 
-Four modes: direct governance, embedded governance, goal synthesis, and governed
-casual-build intake. Know the difference before you invoke.
+Your invocation shape determines how the audit object is sourced and when mutation is permitted. Direct governance, embedded governance, goal synthesis, and governed casual-build intake each have different mutation conditions.
 
-- [→ Invocation Modes](#invocation-modes)
-- [→ Usage Examples](#usage-examples)
+- [-> Invocation Model](#invocation-model)
+- [-> Usage Examples](#usage-examples)
 
-### card: Execution gates
+### card: What are the non-skippable gates?
 
-Eight non-skippable gates. Each must pass before the next. If a gate fails — Andon.
+Ten gates form the execution spine. Each must pass before the next. If a gate cannot pass honestly — Andon. Do not advance past a failing gate.
 
-- [→ Execution Spine](#execution-spine)
-- [→ Operating Method](#operating-method)
+- [-> Audit Gate Model](#audit-gate-model)
+- [-> Operating Method](#operating-method)
 
-### card: Optional tooling
+### card: What sidecars are available?
 
-Graphify and ActiveGraph are optional for ordinary user runs. Orientation and custody
-evidence only — not proof.
+Graphify (terrain/orientation) and ActiveGraph (custody/events) are both optional. Sidecar absence is not a blocker for ordinary user runs. Neither proves correctness.
 
-- [→ Optional Tooling](#optional-tooling)
+- [-> Continuity and Sidecars](#continuity-and-sidecars)
+- [-> Optional Tooling](#optional-tooling)
 
 ## For Auditors and Maintainers
 
-You need the evidence trail. Here is where to look.
+You are reviewing a completed run or maintaining the IMPLEMENTAUDIT repo itself.
 
-### card: Audit dogfood history
+### card: Where is the evidence?
 
-Trace every IMPLEMENTAUDIT run against this repo: what was proven, what was deferred,
-what remained unverified.
+Every run must record a Smoke A/B comparison, owner/source mapping, and closure state. Dogfood audit ledgers link to specific run evidence for each release.
 
-- [→ Evidence and Audit Trail](#evidence-and-audit-trail)
+- [-> Evidence and Audit Trail](#evidence-and-audit-trail)
+- [-> What AUDIT_COMPLETE Means](#what-audit-complete-means)
 
-### card: Diagram sources
+### card: What is the artifact model?
 
-Mermaid source files for the execution spine, invocation modes, and tooling
-architecture flowcharts.
+Run artifacts live under `.IMPLEMENTAUDIT/runs/<slug-id>/`. The state model defines what each artifact is responsible for proving — and what it is not.
 
-- [→ Repo Layout](#repo-layout)
+- [-> State and Artifact Model](#state-and-artifact-model)
+- [-> Repo Layout](#repo-layout)
 
-### card: Canonical sources
+### card: Intra vs inter maintenance?
 
-`skills/SKILL.md` is the canonical method. `AGENTS.md` is the authoritative project
-doc. `CHANGELOG.md` records milestone evidence.
+IMPLEMENTAUDIT maintaining itself (intra-run) differs from IMPLEMENTAUDIT applied to another repo (inter-run) in sidecar authorization scope, ownership boundary, and continuity preload authority.
 
-- [→ Repo Layout](#repo-layout)
-- [→ Safety and Boundaries](#safety-and-boundaries)
+- [-> Continuity and Sidecars](#continuity-and-sidecars)
+- [-> Safety and Boundaries](#safety-and-boundaries)
 
-## Terminology
+## Mental Model
 
-IMPLEMENTAUDIT uses a precise vocabulary. Understanding these terms is essential.
+The execution chain for every IMPLEMENTAUDIT run, regardless of invocation shape:
 
-| Term | Meaning |
-|---|---|
-| `AUDIT.md` | An audit input or evidence-implementation artifact that drives a run: file, attachment, pasted audit, handoff, checklist, review, goal, task, gap, or plan. |
-| `tdqyq-audit-object` | The audit-as-noun: the evidence-bearing record for the run — scope, owner/source, claims, changed files, checks, closure state. |
-| `ydqyq-audit-action` | The audit-as-verb: inspects, classifies, verifies, authorizes or rejects mutation, or closes findings against the audit object. |
-| Owner/source | The canonical file, schema, script, fixture, or doc that owns a claim or behavior. Patch this, not the nearest symptom. |
-| Gemba | Go to the real place of work. Inspect actual files, not summaries. |
-| Smoke A / Smoke B | Baseline pre-change verification (A) then post-change comparison (B). Regressions trigger the regression protocol. |
-| Andon | A visible blocker or abnormality signal. Surface it immediately — do not hide failure. |
-| Hansei | Structured reflection after gaps, regressions, false passes, or failures: gap, cause, countermeasure, follow-up. |
-| 5 Whys | Trace symptoms to root cause. Symptom, condition, system gap, prevention gap, systemic countermeasure. |
-| Kaizen | Durable process improvement folded back into the standard. |
-| Greenfield | A new artifact with no established owner/source — must define acceptance, rollback, and evidence first. |
-| Brownfield | Existing repo surface — inspect owner/source, tests, generated artifacts, and regression surface before change. |
-| Graphify | Optional terrain/orientation aid for finding where to inspect. Not proof. Absence is not an error. |
-| ActiveGraph | Optional custody/event evidence substrate for recording gate passages. Not correctness proof. Absence is not an error. |
-
-## Invocation Modes
-
-`/implementaudit` has four invocation shapes, depending on what the user supplies:
-
-### Direct Governance
-
-The user supplies a concrete audit, handoff, checklist, review, or bounded plan. The
-run applies audit-closure hygiene directly.
-
-    /implementaudit implement this handoff
-    /implementaudit close the findings in this review
-    /implementaudit work through this checklist
-
-### Embedded Governance
-
-The user already supplied a host goal/task/plan, especially inside `/goal`.
-IMPLEMENTAUDIT wraps that target with its gates — it does **not** print a second
-`/goal`.
-
-    /goal using /implementaudit, close the findings in AUDIT.md
-
-### Goal Synthesis
-
-The user supplies an idea, gap, or incomplete target. IMPLEMENTAUDIT performs Gemba,
-phase planning, and self-critique, then produces a bounded handoff.
-
-    /implementaudit audit this repo state and give me the next best implementation goal
-
-### Governed Casual-Build Intake
-
-The user supplies natural-language repo-build intent. IMPLEMENTAUDIT synthesizes a
-bounded audit object before routing to the appropriate work mode — greenfield,
-brownfield, or mixed.
-
-    /implementaudit make the docs portal generated by CI and prove it is fresh
-    /implementaudit fix this repo bug safely and keep the diff reviewable
+    Input / intent
+      -> audit-object binding or synthesis
+      -> route classification (greenfield / brownfield / mixed)
+      -> Gemba (live-file inspection, not summaries)
+      -> Smoke A (baseline verification before mutation)
+      -> owner/source patch (not nearest symptom)
+      -> generated-artifact refresh (follow generator policy)
+      -> Smoke B (post-mutation comparison against Smoke A)
+      -> trace / custody (commit body, ledger, AGENTS.md decision)
+      -> final audit (terminal verification of all claims)
+      -> AUDIT_COMPLETE
+      -> IMPLEMENTAUDIT_RUN_COMPLETE
 
 :::info
-**Embedded governance:** In embedded governance mode, the outer `/goal` owns the
-audit object. IMPLEMENTAUDIT acts inside it and must not emit a nested `/goal`.
+**Casual-build intake is not ungated autonomy.** Governed casual-build intake is an entry route that synthesizes a bounded `tdqyq-audit-object` from the user's natural-language intent *before* any mutation. The same gates apply as in direct governance. The difference is only how the audit object is constructed — not whether gates are enforced.
 :::
 
-## Execution Spine
+**Two audit senses — keep them distinct.**
 
-The execution spine is the non-skippable sequence of gates. Each gate must pass
-before moving to the next, or work stops with an **Andon**.
+`tdqyq-audit-object` is the audit-as-noun: the evidence-bearing record for the run. It contains scope, findings, owner/source decisions, claims, changed files, checks, and closure state. Everything the run claims is bounded by what this object contains.
 
-| Gate | Purpose | Halt Condition |
-|---|---|---|
-| 0. Safety | Read repo instructions, safety defaults, authorization gates, and AGENTS.md conflict rules. | STOP if unsafe, unauthorized, or contradicts repo policy. |
-| 1. Input | Confirm input is a valid audit artifact. | STOP if empty, malformed, or not an audit artifact. |
-| 2. Pre-flight | Detect optional tooling, confirm write access, ownership, constraints. | STOP unless every required pre-flight item passes. |
-| 3. Smoke A | Run baseline before mutation. Classify pre-existing failures. | Do not mutate until baseline is recorded. |
-| 4. Implement | P0 to P1 to P2. Patch owner/source. Guard scope creep. | Andon if owner/source unclear or dependency blocks. |
-| 5. Smoke B | Compare post-change checks against Smoke A. | Regression protocol if any passing check now fails. |
-| 6. Trace | Preserve causal chain in ledger, commit body (if authorized), AGENTS.md. | Do not finalize until authorization boundaries are explicit. |
-| 7. Self-check | Quality bar before final response. | Fix, revert, or mark unverified before final. |
+`ydqyq-audit-action` is the audit-as-verb: a runtime operation performed against the audit object — inspecting, classifying, verifying, authorizing or rejecting mutation, closing findings, handing off. Implementation is an `ydqyq-audit-action`. A passing CI check is not.
+
+`AUDIT_COMPLETE` is a terminal `ydqyq-audit-action` verdict over the `tdqyq-audit-object`. It is not a progress label. `IMPLEMENTAUDIT_RUN_COMPLETE` is invalid before it.
+
+## Invocation Model
+
+`/implementaudit` has four invocation shapes. Each determines how the audit object is sourced, whether a `/goal` is emitted, and when mutation is permitted.
+
+| Shape | Input | Audit-object source | `/goal` emitted? | Mutation allowed when | Failure / handoff |
+|---|---|---|---|---|---|
+| **Direct governance** | Concrete audit, handoff, checklist, review, or bounded plan | Bound from the supplied artifact | No | Audit object is live, gates pass | `AUDIT_HANDOFF` or `FAILURE_HANDOFF` |
+| **Embedded governance** | Host `/goal` or active task already in flight | Inherited from the outer goal/task/plan | Never — would create an illegal nesting | Outer object is live, inner gates pass | Andon inside the outer audit object; no nested `/goal` |
+| **Goal synthesis** | Idea, gap, incomplete target, or ambiguous request | Synthesized through Gemba and phase planning | Yes, once at Stage 7 (never if already embedded) | After the emitted `/goal` is accepted | Emits a bounded handoff; does not itself mutate |
+| **Governed casual-build intake** | Natural-language repo-build intent | Synthesized from intent before routing | No | Synthesized object passes the input gate, then routes as greenfield / brownfield / mixed | `AUDIT_HANDOFF` if synthesis fails or scope is unbounded |
+
+:::warning
+**Embedded governance must never nest.** If the run is already inside a `/goal`, emitting a second `/goal` is a protocol violation. Embedded governance governs the active object in place.
+:::
+
+No invocation shape bypasses the audit gates. Governed casual-build intake is not an escape hatch; it is a front-end that produces the same type of audit object that direct governance starts with.
+
+## Audit Gate Model
+
+Ten gates form the non-skippable execution spine. Each gate must pass before the next. If a gate cannot pass honestly, stop and emit an **Andon** — do not pretend the run is complete.
+
+| Gate | Purpose | Owner / source | Evidence | Halt condition |
+|---|---|---|---|---|
+| **0. Safety / read policy** | Read `AGENTS.md`, `CONTRIBUTING.md`, CI config, repo policy. Classify authorization level. | `AGENTS.md`, `CONTRIBUTING.md` | Static read and classification recorded | STOP if the requested action is unsafe, unauthorized, or contradicts repo policy without an explicit owner decision. |
+| **1. Input / audit-object gate** | Confirm the input is a recognizable audit artifact, or synthesize a `tdqyq-audit-object` from intent. | The supplied artifact or the user's intent | `AUDIT_START` marker; bound or synthesized object | STOP if input is empty, malformed, not an audit artifact, and not synthesizable via governed casual-build intake. |
+| **2. Context / continuity preload** | Load prior run state, `AGENTS.md` rules, optional notes, optional sidecar orientation. Priority: live files first; sidecar context is orientation only. | `.IMPLEMENTAUDIT/runs/<slug>/`, `AGENTS.md`, optional notes | Applied-context log; priority-order record | Block only if a required pre-flight item is absent. Missing optional tooling is not a failure. |
+| **3. Route gate** | Classify work as greenfield, brownfield, or mixed. Determine applicable methodology: DMADV or DMAIC. | Repo state, file inventory | Route classification in `THINKING.md` | Block mutation if route is unclear and risk is non-trivial. |
+| **4. Gemba gate** | Inspect actual files — not summaries, not memory. Identify owner/source, existing tests, generator policies, regression surface. | Live repo files | File reads and documented inspection | Do not mutate until live Gemba is recorded. |
+| **5. Smoke A gate** | Run baseline verification before any mutation. Classify pre-existing failures: target, unrelated, or unclear. | Test suite, CI-equivalent checks | Smoke A output; pre-existing failure classification | Do not mutate until baseline is recorded. Unrelated failures require Andon if risk is non-trivial. |
+| **6. Patch gate** | Apply P0 to P1 to P2 priority. Patch owner/source — not nearest symptom. Refresh generated artifacts per generator policy. Guard scope creep. | Owner/source files identified in Gemba | Changed files; scope-creep register | Andon if owner/source is unclear, generator policy is unresolved, or a dependency blocks. |
+| **7. Smoke B gate** | Compare post-mutation checks against Smoke A. Any Smoke-A-passing check that now fails triggers the regression protocol. | Same checks as Smoke A | Smoke B output; Smoke A/B comparison | Regression protocol if any passing check now fails. Do not advance without recorded comparison. |
+| **8. Trace / custody gate** | Preserve the causal chain: commit body (if authorized), audit ledger, durable `AGENTS.md` rule (if warranted), optional ActiveGraph custody event. | Commit body draft, ledger, `AGENTS.md` decision | Proposed commit message; ledger entries; `AGENTS_UPDATE_DECISION` | Do not finalize until all authorization boundaries are explicit. Local commit is not push; push is not tag; tag is not release; release is not provenance. |
+| **9. Final audit gate** | Terminal `ydqyq-audit-action` over the complete `tdqyq-audit-object`. Every item reaches a terminal status. Claims are verified against evidence. | All changed files, generated artifacts, release assets if in scope | `AUDIT_VERIFY` marker; `AUDIT_COMPLETE` marker | Fix, revert, defer, block, or mark unverified before `AUDIT_COMPLETE`. `IMPLEMENTAUDIT_RUN_COMPLETE` is invalid before `AUDIT_COMPLETE`. |
+
+## What AUDIT_COMPLETE Means
+
+`AUDIT_COMPLETE` is a verifiable terminal state, not a sentiment. It means all of the following are true simultaneously:
+
+1. **All ledger items are terminally classified.** Each item is `done`, `changed`, `blocked`, `deferred`, or `unverified`. Zero items remain `open`.
+2. **Claims do not exceed evidence.** Every behavioral claim is tagged with its evidence type: live runtime, local generated-runtime, package-bound, unit test, integration test, static checker, manual inspection, visual/browser, or unverified. Static evidence is never upgraded to live proof.
+3. **Changed files map to owner/source.** Each patch traces to a ledger item and to the owner/source identified in Gemba. No unexplained mutations exist in the changeset.
+4. **Generated outputs follow generator policy.** If a source generator exists for an artifact, the generator was updated rather than the generated artifact being hand-edited directly.
+5. **Smoke A/B comparison is recorded.** The pre-mutation baseline (Smoke A) and post-mutation state (Smoke B) are both recorded. Any regression was handled by the regression protocol or classified as pre-existing.
+6. **Release / publication / provenance boundaries are explicit.** Local commit is not push. Push is not tag. Tag is not release. Release is not provenance. None implies another. Each is a separate explicit gate.
+7. **`IMPLEMENTAUDIT_RUN_COMPLETE` follows `AUDIT_COMPLETE`.** The run-complete marker is invalid before the audit-complete marker. An agent that emits run-complete before audit-complete has violated the terminal protocol.
+
+`AUDIT_COMPLETE` does **not** mean:
+
+- Not marketplace verification (no listing or publication has been verified).
+- Not universal install proof (host-specific install must be tested on that host with that host's tooling).
+- Not provenance (no signing, attestation, SBOM, or checksum chain is produced unless a dedicated gate authorizes it).
+- Not Graphify proof (Graphify is orientation; the run does not inherit Graphify output as proof of correctness).
+- Not ActiveGraph correctness proof (ActiveGraph is custody/event evidence; it proves gate passages were recorded, not that the implementation was correct).
+- Not "the agent felt done."
 
 :::danger
-**Non-negotiable.** These are gates, not a table of contents. Each row must pass
-before the next. If a gate fails, stop and Andon — do not pretend the run is
-complete.
+**The most common protocol violation is emitting `IMPLEMENTAUDIT_RUN_COMPLETE` before `AUDIT_COMPLETE`.** All run invariants and gate conditions must be verified before the run is declared complete.
 :::
+
+## State and Artifact Model
+
+A run's persistent state lives under `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/`. This table defines the artifact model — what each artifact owns and what it cannot prove.
+
+| Artifact | Owner | Purpose | Proof boundary |
+|---|---|---|---|
+| `tdqyq-audit-object` | The run | Evidence-bearing record: scope, findings, owner/source, claims, changed files, checks, closure state. | Everything the run claims is bounded by this object's contents. |
+| `ydqyq-audit-action` | Runtime | Operations that read or mutate the audit object: inspect, classify, verify, authorize or reject mutation, close, hand off. | Not a file; a runtime operation category. |
+| `ROADMAP.md` | Planner | High-level phase plan: goals, phases, dependencies, milestone. | Orientation only — not a commitment to immutable scope. |
+| `STATE.md` | Runtime | Current custody state; gate-passage log; custody event counter. | Chain-of-custody evidence for this run. |
+| `THINKING.md` | Runtime | Per-phase live reasoning: Gemba notes, Smoke A/B results, 5-Whys drill, route classification, Muda/Mura/Muri register, DMAIC/DMADV fields. | Internal reasoning record; not a public claim. |
+| `PROTOCOL.md` | Runtime | Step-by-step execution log; gate completions; `CONTINUITY_DECISION`; `AGENTS_UPDATE_DECISION`; 5S_CHECK results; Jidoka stop-the-line events. | Protocol execution record. |
+| `sidecars.md` | Runtime | Sidecar tool availability, authorization state, output summaries (Graphify node count, ActiveGraph event count). | Orientation and custody evidence — not correctness proof. |
+| `applied-context.md` / `applied-memories.md` | Runtime | Loaded continuity state from prior runs, personal notes, or project notes. | Orientation only — live files and `AGENTS.md` take priority. |
+| `repo-map.md` | Runtime | Graphify-assisted or manual repo structure map: owner/source candidates, dependency density, stale assumptions. | Orientation — not a substitute for live-file inspection. |
+| `phases/phase-N.md` | Planner / runtime | Per-phase spec: goal, acceptance criteria, rollback plan, Quality route (DMAIC/DMADV/PDCA), evidence plan. | Phase-scoped claim boundary. |
+| `AGENTS_UPDATE_DECISION` | Owner | Decision record for whether to add a durable anti-repeat rule to `AGENTS.md`. | Documents the decision; does not auto-apply it. |
+| `CONTINUITY_DECISION` | Runtime | Per-phase continuity writeback decision: none / repo-local `AGENTS.md` rule / run-local applied-context / optional personal note / optional ActiveGraph event. | Documents the boundary for continuity writes. |
+| `IMPLEMENTAUDIT_CONTINUITY_SAVED` | Runtime | Six-field marker recording a completed continuity writeback: `run_id`, `phase`, `target`, `content_hash`, `boundary`, `timestamp`. | Records that writeback occurred and to which target — not that the content is correct. |
+| Final audit ledger | Runtime | Closure table: all audit items with terminal status, evidence type, and reference. | The primary evidence surface for `AUDIT_COMPLETE`. |
+
+## Continuity and Sidecars
+
+### Continuity preload priority order
+
+When IMPLEMENTAUDIT loads context for a run, it follows this priority order. Higher-priority sources override lower-priority sources on conflicts:
+
+1. **Live repo files and `AGENTS.md`** — authoritative. Always consulted first. Never overridden by any sidecar or memory.
+2. **Run-root applied-context** (`applied-context.md`, `applied-memories.md`) — prior run state for this task.
+3. **Optional personal or project notes** — human-curated guidance; used when available and authorized.
+4. **Graphify terrain** — orientation evidence about repo structure and link density. Not proof; absence is not a failure.
+5. **ActiveGraph custody events** — chain-of-custody evidence for prior gate passages. Not correctness proof; absence is not a failure.
+
+:::warning
+**Continuity context is orientation, not authority.** No continuity source overrides live files or `AGENTS.md`. If a memory or sidecar suggests an action that contradicts live `AGENTS.md`, `AGENTS.md` wins.
+:::
+
+### Sidecar model
+
+| Sidecar | Evidence type | Canonical use | Ordinary user runs | Intra-maintenance runs |
+|---|---|---|---|---|
+| **Graphify** | Terrain / orientation | Gemba orientation: find owner/source candidates, dependency paths, stale assumptions. | Optional — absent is not an error. | Canonical when available and authorized. |
+| **ActiveGraph** | Custody / events | Gate-passage record; Capability Ledger source material. | Optional — absent is not an error. | Canonical when available and authorized. |
+
+Neither sidecar proves correctness. Live files remain source of truth regardless of sidecar output.
+
+### Intra vs inter distinction
+
+| Dimension | Intra-run (IMPLEMENTAUDIT maintaining itself) | Inter-run (IMPLEMENTAUDIT applied to another repo) |
+|---|---|---|
+| **Sidecar authorization scope** | Sidecars may be canonical when already configured and authorized in `.claude-plugin/plugin.json` or `AGENTS.md`. | Sidecars are optional unless explicitly authorized by the target repo's `AGENTS.md` or owner. |
+| **Ownership scope** | The IMPLEMENTAUDIT repo's own files are owner/source. | The target repo's files are owner/source. IMPLEMENTAUDIT does not impose its own policies. |
+| **Continuity preload authority** | Prior intra-run `STATE.md` and `PROTOCOL.md` are first-class inputs. | Prior inter-run context may be loaded but must not override the target repo's `AGENTS.md`. |
+| **Generator policy** | Changes to `build-docs-portal.py` must be reflected in the generated portal before claiming it is current. | Target repo's generator policy applies; IMPLEMENTAUDIT does not impose its own generator policy on the target. |
+
+### No install, index, or export without authorization
+
+Tool installation, Graphify indexing, ActiveGraph event-store setup, and sidecar export are all separate explicit gates. They are never implied by an audit run.
 
 ## Operating Method
 
-IMPLEMENTAUDIT combines core disciplines from Lean and quality management:
+IMPLEMENTAUDIT integrates Lean and quality-management disciplines as auditable runtime behavior, not as decorative labels.
 
 ### PDCA
 
-Plan the smallest safe change. Do it. Check the evidence. Act — standardize
-if successful, revise if not.
+Plan the smallest safe change with explicit owner/source and verification command. Do it. Check the evidence against the Smoke A baseline. Act — standardize if successful, revise or revert if failed. Update the closure ledger.
 
 ### Gemba
 
-Go to the real place of work. Inspect actual files, not summaries or memory.
+Go to the real place of work. Inspect actual files, not summaries or memory. For non-code artifacts (skills, prompts, config, markdown), Gemba means reading the artifact directly and identifying structural, logical, or semantic issues.
 
 ### Smoke Before Claim
 
-Every behavior claim must be tagged with its evidence type. Never upgrade
-static evidence into live proof.
+Every behavior claim must be tagged with its evidence type (live runtime / local generated-runtime / package-bound / unit test / integration test / static checker / manual inspection / visual/browser / unverified). Static evidence is never upgraded to live proof. If a live check cannot run, state the evidence type and remaining risk explicitly.
 
 ### Andon
 
-Surface blockers, failures, unclear ownership, or unsafe conditions immediately.
-Do not hide failure. Do not mark "mostly done."
+Surface blockers, failures, unclear ownership, or unsafe conditions immediately. Do not hide failure. Do not mark "mostly done." Do not advance to the next gate while the current gate cannot honestly pass.
 
 ### Hansei
 
-Reflect after gaps, regressions, false passes, or failures. Name the gap,
-cause, countermeasure, and follow-up.
+Structured reflection after any failure, regression, false pass, or gap: name the gap, the cause, the countermeasure, and the follow-up evidence. Used with 5 Whys.
 
 ### 5 Whys
 
-Trace symptoms to root cause: why the symptom, why the condition, why the
-system allowed it, why it was not caught earlier, what prevents recurrence.
+Trace symptoms to root cause: why did the symptom occur, why did that condition exist, why did the system allow it, why was it not caught earlier, what prevents recurrence? If the root cause is out of scope or requires an OWNER DECISION, log to the scope-creep register and defer.
 
 ### Plan Closure
 
-Every item maps to exactly one terminal status: `done`, `changed`, `blocked`,
-`deferred`, or `unverified`. No item may remain open.
+Every item maps to exactly one terminal status: `done`, `changed`, `blocked`, `deferred`, or `unverified`. No item may remain `open` at `AUDIT_COMPLETE`.
+
+## Routing
+
+IMPLEMENTAUDIT classifies work before mutation. The classification determines the applicable methodology and intake process.
+
+| Route | What it means | Methodology | Intake |
+|---|---|---|---|
+| **Greenfield** | New artifact with no prior owner/source, tests, or regression surface. | DMADV: Define, Measure, Analyze, Design, Verify | Define scope, acceptance criteria, rollback plan, and evidence plan before first mutation. |
+| **Brownfield** | Existing repo surface with established owner/source, tests, and regression surface. | DMAIC: Define, Measure, Analyze, Improve, Control | Inspect owner/source, tests, generator policies, regression surface before mutation. |
+| **Mixed** | New artifact introduced inside an established repo. | Brownfield shell (DMAIC) + greenfield sub-artifact (DMADV) | Brownfield outer inspection first, then greenfield intake for the new artifact only. |
+| **Governed casual-build** | Natural-language intent is the starting point; no audit object yet exists. | Synthesis then greenfield, brownfield, or mixed | Synthesize a bounded `tdqyq-audit-object` from intent, then route the synthesized object. |
+
+### Counterexamples
+
+- Adding a function to an existing file that has tests: **brownfield** (not mixed — no new top-level artifact is created).
+- Creating a new configuration file in an established repo: **mixed** (the file is greenfield; the surrounding repo is brownfield).
+- Interpreting "make the docs portal better" as a direct mutation request: **not valid** — this is governed casual-build intake; it requires audit-object synthesis before any mutation.
+- Running a fix on a brand-new empty repo: **greenfield** (no brownfield surface to protect).
+
+## Comparison
+
+The following table compares tool categories based on published behavior. No external tool is named.
+
+| Approach | Audit object | Gates | Mutation discipline | Continuity | Polish / harden |
+|---|---|---|---|---|---|
+| **Normal prompt** | None | None | Ungated; agent decides | None | None |
+| **Normal `/goal`** | Implicit (the goal state) | Implicit; depends on host | Agent-discretion with phases | Optional; host-managed | None |
+| **Low-friction staged-goal runner** | Implicit (staged goal state) | Phase-gated; runner-managed | Gated per phase | Per-phase writeback (runner-managed) | Typically none |
+| **IMPLEMENTAUDIT** | Explicit `tdqyq-audit-object`, constructed or bound before mutation | Ten explicit gates with documented halt conditions | Requires Gemba, owner/source, Smoke A/B, evidence type | Bounded five-source priority preload and per-phase `CONTINUITY_DECISION` | Optional Polish and Harden phase (Rule P4-8) |
+
+### What IMPLEMENTAUDIT absorbs from staged-goal runners
+
+These behaviors are present in low-friction staged-goal runners. IMPLEMENTAUDIT includes them as native audit-governed runtime discipline:
+
+- **Casual invocation:** governed casual-build intake synthesizes the audit object from natural-language intent.
+- **Continuity preload:** five-source priority order, loaded before any mutation, orientation only.
+- **Per-phase continuity writeback:** `CONTINUITY_DECISION` in every phase's `PROTOCOL.md`, with five bounded options including `IMPLEMENTAUDIT_CONTINUITY_SAVED`.
+- **Optional polish/harden:** Rule P4-8 — an optional terminal phase covering cleanliness, identity hygiene, generated-artifact freshness, and proof-boundary wording.
+
+### What IMPLEMENTAUDIT refuses
+
+These behaviors are absent by design:
+
+- **Ungated mutation:** no change happens outside an audit object with at least one passing gate check.
+- **Unbounded autonomy:** every scope-expanding action requires either an owner decision or explicit re-authorization.
+- **Proof without evidence:** every claim must cite an evidence type and remaining risk.
+- **Hidden publication / release / provenance:** local commit authorization does not imply any downstream action.
+
+## Default Behavior
+
+The default small-audit mode operates on one artifact at a time. It:
+
+- Validates the input is a recognizable audit artifact, or synthesizes one for governed casual-build intake.
+- Normalizes findings into a ledger with priority classification: **P0** (blocks goal or safety), **P1** (named in audit), **P2** (nice-to-have), **OWNER DECISION**, **DEFERRED**, **OUT OF SCOPE**.
+- Processes in P0 to P1 to P2 order.
+- Patches owner/source, not nearest symptom.
+- Requires evidence for every claim.
+- Runs Smoke B after implementation and records the A/B comparison.
+- Closes every item terminally — zero open items at `AUDIT_COMPLETE`.
 
 ## Usage Examples
 
 ### Basic invocations
 
-    /implementaudit < audit.md
     /implementaudit implement these findings
+    /implementaudit < audit.md
     /implementaudit --onboard-tools
     /goal using /implementaudit, close the findings in AUDIT.md
     /implementaudit make the CI workflow generate and deploy the docs portal
 
-Natural-language requests such as *implement these findings*, *act on this audit*,
-*close these items*, or *work through this handoff* also invoke the method.
+Natural-language requests such as *implement these findings*, *act on this audit*, *close these items*, or *work through this handoff* are valid direct-governance invocations.
 
-### Worked flow
+### Governed casual-build intake example
+
+User says: *"Make the docs portal generated by CI and prove it is fresh."*
+
+1. IMPLEMENTAUDIT detects governed casual-build intake: natural-language intent, no supplied audit object.
+2. It synthesizes a `tdqyq-audit-object`: scope = CI-generated docs portal with freshness proof; acceptance = CI workflow runs build and validate; portal accessible at Pages URL; metadata contains current commit SHA.
+3. Routes as mixed: new CI workflow file is greenfield; existing repo is brownfield.
+4. Proceeds through all ten gates — Gemba, Smoke A, Patch, Smoke B, trace, final audit.
+5. `AUDIT_COMPLETE` only after CI run is verified and portal is live.
+
+### Worked trace
 
     Finding: README describes behavior that no longer matches skills/SKILL.md.
 
-    Owner/source: skills/SKILL.md defines behavior.
+    Owner/source: skills/SKILL.md defines the behavior.
                   README.md is derived public documentation.
 
     Smoke A: Read skills/SKILL.md and README.md.
              Run git diff --check.
 
-    Countermeasure: Patch README.md to match live source of truth.
+    Countermeasure: Patch README.md to match current skills/SKILL.md.
 
     Smoke B: Run git diff --check -- README.md.
-             Manually inspect evidence wording.
+             Inspect evidence wording in the changed lines.
 
-    Closure: Status changed. Commit only if authorized.
+    Closure: Status changed. Commit only if explicitly authorized.
 
-## Default Behavior
+## Terminology
 
-The default small-audit mode works on one artifact. It:
-
-- Validates the input is a recognizable audit artifact
-- Normalizes findings into a ledger
-- Classifies items: **P0** (blocks goal or safety), **P1** (named in audit), **P2** (nice-to-have), **OWNER DECISION**, **DEFERRED**, **OUT OF SCOPE**
-- Processes in P0 to P1 to P2 order
-- Patches owner/source, not nearest symptom
-- Requires evidence for every claim
-- Closes every item terminally — zero open items at final response
-
-## Routing
-
-IMPLEMENTAUDIT classifies work before mutation:
-
-| Route | What it means |
+| Term | Meaning |
 |---|---|
-| Greenfield | New artifact with no established owner/source. Define scope, acceptance criteria, rollback, and evidence plan first. |
-| Brownfield | Existing repo surface. Inspect owner/source, tests, generated artifacts, regression surface before change. |
-| Mixed | New artifact inside an established repo. Brownfield outer inspection first, then greenfield intake for the new part. |
-| Governed casual-build | Natural-language repo-build intent. IMPLEMENTAUDIT synthesizes a bounded audit object before routing to greenfield, brownfield, or mixed. |
+| `tdqyq-audit-object` | Audit-as-noun: the evidence-bearing record for a run — scope, findings, owner/source, claims, changed files, checks, closure state. |
+| `ydqyq-audit-action` | Audit-as-verb: a runtime operation against the audit object — inspect, classify, verify, authorize or reject mutation, close, hand off. |
+| `AUDIT_START` | Opens, inherits, or normalizes the `tdqyq-audit-object` at the start of a run or phase. |
+| `AUDIT_COMPLETE` | Terminal verified closure. All items classified. Claims do not exceed evidence. |
+| `IMPLEMENTAUDIT_RUN_COMPLETE` | Run-level completion marker. Invalid before `AUDIT_COMPLETE`. |
+| `IMPLEMENTAUDIT_CONTINUITY_SAVED` | Six-field writeback marker: `run_id`, `phase`, `target`, `content_hash`, `boundary`, `timestamp`. |
+| Owner/source | The canonical file, schema, script, fixture, or doc that owns a claim or behavior. Patch this, not the nearest symptom. |
+| Gemba | Go to the real place of work. Inspect actual files, not summaries. |
+| Smoke A / Smoke B | Pre-mutation baseline verification (A) and post-mutation comparison (B). Any regression triggers the regression protocol. |
+| Andon | Visible blocker signal. Surface immediately — do not hide failure or advance past a failing gate. |
+| Hansei | Structured reflection: gap, cause, countermeasure, follow-up evidence. |
+| 5 Whys | Root-cause drill: symptom, condition, system gap, prevention gap, recurrence countermeasure. |
+| DMAIC | Brownfield methodology: Define, Measure, Analyze, Improve, Control. |
+| DMADV | Greenfield methodology: Define, Measure, Analyze, Design, Verify. |
+| Graphify | Optional terrain/orientation sidecar. Not proof; absence is not an error. |
+| ActiveGraph | Optional custody/event sidecar. Not correctness proof; absence is not an error. |
+| `CHECKSUMS.txt` | SHA-256 checksum manifest for local integrity verification of the release asset. Not a signature, attestation, SBOM, or provenance chain. |
 
 ## Repo Layout
 
-Understanding the repo structure helps you find the right owner/source.
-
-    /
-    ├── AGENTS.md                  Authoritative project doc
-    ├── README.md                  Public-facing overview + install
-    ├── CHANGELOG.md               Milestone notes (Keep a Changelog)
-    ├── CONTRIBUTING.md            Short onboarding
-    ├── skills/                    Canonical skill source
-    │   ├── SKILL.md               The /implementaudit method
-    │   ├── references/            Progressive-disclosure reference docs
-    │   ├── scripts/               Planner-executed bash helpers
-    │   └── templates/             .IMPLEMENTAUDIT/ file templates
-    ├── scripts/                   Repo validation and release tools
-    ├── tests/                     Shell test suites
-    ├── docs/                      Local docs (you are here)
-    │   ├── portal/onboarding.md   Portal content source
-    │   ├── diagrams/              Mermaid source for README flows
-    │   └── audits/                Dogfood audit ledgers
-    ├── fixtures/                  Test fixtures
-    ├── .claude-plugin/            Plugin manifest
-    └── .github/workflows/         CI validation
+| Path | Role |
+|---|---|
+| `AGENTS.md` | Authoritative project doc. Gate 0 reads this first. |
+| `README.md` | Public-facing overview and install guide. |
+| `CHANGELOG.md` | Milestone notes (Keep a Changelog). Evidence for claimed milestones. |
+| `skills/SKILL.md` | Canonical method definition. Source of truth for all gate behavior. |
+| `skills/references/` | Progressive-disclosure reference docs: `routing.md`, `goal-format.md`, `planning-depth.md`, `phase-design.md`, `lean-operating-discipline.md`. |
+| `skills/scripts/` | Planner-executed bash helpers: `claim-run.sh`, `repo-state.sh`. |
+| `skills/templates/` | Run artifact templates: `PROTOCOL.md`, `THINKING.md`, `phase-goal.txt`, `STATE.md`. |
+| `scripts/` | Repo validation tools: release, docs portal generator and checker, workflow structure checker. |
+| `tests/` | Shell test suites: continuity, routing, lean-discipline, docs-portal, phase-validation, and more. |
+| `fixtures/` | Test fixtures for behavioral claims including casual-build, continuity, and routing scenarios. |
+| `docs/portal/onboarding.md` | This file. Portal content source. |
+| `docs/audits/` | Dogfood audit ledgers by version. |
+| `docs/diagrams/` | Mermaid source for execution spine and tooling diagrams. |
+| `.claude-plugin/plugin.json` | Plugin manifest. Version 0.2.8. |
+| `.github/workflows/pages.yml` | Docs portal build and deploy. `workflow_dispatch` enabled. |
+| `.github/workflows/validate.yml` | Full test and check suite. |
 
 ## Optional Tooling
 
-IMPLEMENTAUDIT can optionally integrate with two external tools to strengthen the
-audit trail. Both are optional — the skill is fully usable without either.
+IMPLEMENTAUDIT integrates with two optional external tools. Neither is required for ordinary user runs.
 
-**Graphify** provides terrain and orientation evidence. It can help identify
-owner/source candidates, dependency paths, and stale assumptions. It is not proof.
-Live files remain source of truth. Graphify absence is not an error.
+**Graphify** provides terrain and orientation evidence. Use it during Gemba to identify likely owner/source candidates, trace dependency paths, and surface stale assumptions. It is orientation evidence — not proof. Live files remain source of truth regardless of Graphify output. Graphify absence is not an error.
 
-For ordinary user runs, Graphify is optional. For IMPLEMENTAUDIT self-maintenance
-runs, Graphify is canonical when available and authorized — orientation evidence from
-the skill's own repo supports faster Gemba. Graphify output is never a substitute
-for live-file inspection.
+**ActiveGraph** provides chain-of-custody evidence for audit gate passages. Use it to record gate events and derive Capability Ledger entries. It is custody evidence — not correctness proof. ActiveGraph absence is not an error.
 
-**ActiveGraph** provides chain-of-custody evidence for audit gate passages. It is not
-correctness proof. ActiveGraph absence is not an error.
-
-For ordinary user runs, ActiveGraph is optional. For IMPLEMENTAUDIT self-maintenance
-runs, ActiveGraph is canonical when available and authorized — custody events support
-the Capability Ledger and audit history.
+For ordinary user runs, both sidecars are optional. For IMPLEMENTAUDIT self-maintenance (intra-runs), both are canonical when available and authorized — their outputs support faster Gemba and richer custody evidence, but they still cannot override live files or `AGENTS.md`.
 
 :::success
-**Markdown fallback is first-class.** When Graphify and ActiveGraph are absent,
-IMPLEMENTAUDIT uses ordinary Gemba, ordinary ledgers, and ordinary final reporting.
-This is not a degraded mode.
+**Markdown fallback is first-class.** When Graphify and ActiveGraph are absent, IMPLEMENTAUDIT uses ordinary Gemba, ordinary ledgers, and ordinary final reporting. This is not a degraded mode.
 :::
 
 :::warning
-**No install without authorization.** Tool installation, indexing, event-store setup,
-and export are separate explicit gates — not implied by an audit run.
+**No install without authorization.** Tool installation, Graphify indexing, ActiveGraph event-store setup, and sidecar exports are separate explicit gates — never implied by a run.
 :::
 
 ## Safety and Boundaries
 
-IMPLEMENTAUDIT has firm safety defaults. These actions require **explicit
-authorization**:
+These actions require **explicit authorization** — a direct imperative in the chat interface. References to CI, deployment, release plans, or implied workflows do not count as authorization.
 
 - Commit
 - Push
@@ -422,60 +505,52 @@ authorization**:
 - Hand-edit generated artifacts when a source generator exists
 - Claim proof without evidence
 
-Authorization is **per-action**:
+Authorization is **per-action and non-transitive**:
 
-- Local commit authorization does not imply push authorization
-- Push authorization does not imply tag, release, or publication authorization
-- Release authorization does not imply provenance authorization
+- Local commit authorization is not push authorization.
+- Push authorization is not tag, release, or publication authorization.
+- Release authorization is not provenance authorization.
+- No combination of the above implies any other action.
 
 :::danger
-**AGENTS.md conflicts are OWNER DECISION.** If an audit finding contradicts
-AGENTS.md, the agent must surface the conflict as a human decision — not silently
-choose which instruction wins.
+**`AGENTS.md` conflicts are OWNER DECISION.** If an audit finding contradicts `AGENTS.md`, the agent must surface the conflict as a human decision — not silently choose which instruction wins.
 :::
 
 ## What It Does Not Do
 
 `/implementaudit` is not:
 
-- **A release bot.** It does not push, tag, or publish without explicit gates.
+- **A release bot.** It does not push, tag, or publish without explicit per-action authorization.
 - **A provenance system.** `CHECKSUMS.txt` is a SHA-256 integrity manifest — not a signature, attestation, SBOM, or provenance chain.
-- **A package publisher.** Release assets require separate authorization.
-- **Generic autonomous-build software.** Every mutation happens under an audit contract.
-- **A framework-specific tool.** It is repo-generic and does not assume language, CI, or release conventions.
-- **A marketplace auto-updater.** No marketplace publication or update has occurred. Local copied skills do not update from GitHub releases automatically.
+- **A package publisher.** Release assets require separate authorization per action.
+- **A generic autonomous-build loop.** Every mutation happens under an audit contract with explicit gates.
+- **A framework-specific tool.** It is repo-generic and does not assume language, CI system, or release conventions.
+- **A marketplace lister.** No marketplace publication or update has occurred.
+- **A universal install verifier.** Install proof on a specific host requires running the install on that host.
 
 :::info
-**The authoritative reference is always `skills/SKILL.md` and `AGENTS.md` in the
-repo.** When in doubt, go to Gemba — read the source.
+**The authoritative reference is always `skills/SKILL.md` and `AGENTS.md`.** When in doubt, go to Gemba — read the source.
 :::
 
 ## Evidence and Audit Trail
 
-Audit ledgers and diagram sources live in repo-local docs for maintainers and
-reviewers.
-
-The v0.2.8.0 adaptation lane closed G1-G7 comparator-advantage gaps. G5 (per-phase
-continuity writeback) is classified **STRENGTHENED** — the v0.2.6.0 PROTOCOL loop
-base existed, and v0.2.8.0 added the `IMPLEMENTAUDIT_CONTINUITY_SAVED` marker with 6
-required fields, a bounded writeback options table, ActiveGraph custody path, Graphify
-terrain-update request, and a 34-check continuity test suite.
+The v0.2.8.0 adaptation lane closed G1-G7 comparator-advantage gaps. G5 (per-phase continuity writeback) is classified **STRENGTHENED**: the v0.2.6.0 PROTOCOL loop was the base; v0.2.8.0 added the `IMPLEMENTAUDIT_CONTINUITY_SAVED` marker with six required fields, a bounded writeback options table (five options), an ActiveGraph custody path, a Graphify terrain-update request, and a 34-check continuity test suite (+9 new checks).
 
 - `docs/audits/INDEX.md` — full dogfood history index
-- `docs/audits/v0.2.8.0-adaptation.md` — v0.2.8.0 gap closure ledger
+- `docs/audits/v0.2.8.0-adaptation.md` — v0.2.8.0 gap closure ledger (G1-G7)
 - `docs/audits/v0.2.8.0-docs-portal-ci-onboarding.md` — docs portal CI and onboarding audit
 - `docs/diagrams/` — Mermaid source for execution spine and tooling diagrams
 
 ## Audit Status
 
-Current release and deployment facts for v0.2.8.0:
+Current release and deployment facts.
 
 - **Version:** v0.2.8.0
 - **Plugin manifest:** 0.2.8
-- **Release:** Live. Tag `v0.2.8.0` at commit `d2829a4`. Release asset `IMPLEMENTAUDIT.skill` with `CHECKSUMS.txt` (SHA-256 checksum manifest). No signatures, attestations, SBOMs, or provenance chains are claimed.
-- **Pages docs:** Live and verified.
+- **Release:** Live. Tag `v0.2.8.0` at commit `d2829a4`. Release asset `IMPLEMENTAUDIT.skill` with `CHECKSUMS.txt` (SHA-256 checksum manifest only — no signatures, attestations, SBOMs, or provenance chains claimed).
+- **Pages docs:** Live and CI-verified. `workflow_dispatch` enabled on `pages.yml` for manual rebuild.
 - **G5 status:** STRENGTHENED — v0.2.6.0 PROTOCOL loop base; v0.2.8.0 added `IMPLEMENTAUDIT_CONTINUITY_SAVED` marker, bounded writeback options, and 34-check continuity test suite.
-- **Graphify:** Optional sidecar for user runs; canonical for self-maintenance runs when available and authorized. Orientation evidence only — not proof.
-- **ActiveGraph:** Optional sidecar for user runs; canonical for self-maintenance runs when available and authorized. Custody evidence only — not correctness proof.
+- **Graphify:** Optional sidecar for user runs; canonical for intra-maintenance when available and authorized. Orientation evidence only — not proof.
+- **ActiveGraph:** Optional sidecar for user runs; canonical for intra-maintenance when available and authorized. Custody evidence only — not correctness proof.
 - **Marketplace:** No marketplace publication or update has occurred.
-- **Comparator note:** No all-domain obsolescence claim is made. Each tool has its own scope and users.
+- **Comparator note:** No all-domain obsolescence claim is made.

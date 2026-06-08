@@ -16,20 +16,26 @@ Validates the generated dist/docs-portal/ (or specified dir) for:
 - no absolute Windows paths (C:\\, D:\\, etc.)
 - nav anchors exist and are unique (uses nav-section structure)
 - nav anchors follow document order (same order as sections)
-- required onboarding content sections present (v0.2.8.0 anchors)
+- required onboarding content sections present (24 sections, academic model)
 - h1 exists (page title)
 - hero zone / process flow present
-- grouped sidebar labels (Start, Method, Reference, Evidence)
+- grouped sidebar labels (Start, Concepts, Method, Reference)
 - mobile TOC present
 - audience cards present
-- four invocation modes present (direct governance, embedded governance,
+- four invocation shapes present (direct governance, embedded governance,
   goal synthesis, governed casual-build intake)
 - "governed casual-build intake" text present
 - no stale "three invocation modes" claim
 - no stale "release pending" text
+- no stale "--version 0.2.4" install command
 - no empty inline code elements
 - no unsupported marketplace/provenance/install-proof claims
-- no footer stale freshness disclaimer
+- academic content checks: thesis/bottleneck framing, mental-model section,
+  audit-gate-model section, what-audit-complete-means section,
+  state-and-artifact-model section, continuity-and-sidecars section,
+  DMADV and DMAIC methodology terms, tdqyq-audit-object and ydqyq-audit-action
+  identifiers, AUDIT_COMPLETE and IMPLEMENTAUDIT_RUN_COMPLETE markers,
+  G5 STRENGTHENED status
 
 No external dependencies; Python stdlib only.
 
@@ -54,7 +60,7 @@ REQUIRED_METADATA_FIELDS = [
     "rough_draft_used",
 ]
 
-# Canonical section anchors for v0.2.8.0 portal (derived from onboarding.md h2 titles)
+# Canonical section anchors for academic-model portal (24 sections)
 REQUIRED_CONTENT_ANCHORS = [
     "overview",
     "quick-start",
@@ -62,13 +68,18 @@ REQUIRED_CONTENT_ANCHORS = [
     "for-new-users",
     "for-agents-and-operators",
     "for-auditors-and-maintainers",
-    "terminology",
-    "invocation-modes",
-    "execution-spine",
+    "mental-model",
+    "invocation-model",
+    "audit-gate-model",
+    "what-audit-complete-means",
+    "state-and-artifact-model",
+    "continuity-and-sidecars",
     "operating-method",
-    "usage-examples",
-    "default-behavior",
     "routing",
+    "comparison",
+    "default-behavior",
+    "usage-examples",
+    "terminology",
     "repo-layout",
     "optional-tooling",
     "safety-and-boundaries",
@@ -78,9 +89,9 @@ REQUIRED_CONTENT_ANCHORS = [
 ]
 
 # Required sidebar group labels
-REQUIRED_SIDEBAR_GROUPS = ["Start", "Method", "Reference", "Evidence"]
+REQUIRED_SIDEBAR_GROUPS = ["Start", "Concepts", "Method", "Reference"]
 
-# Invocation mode phrases that must appear in the portal
+# Invocation shape phrases that must appear in the portal
 REQUIRED_INVOCATION_MODE_PHRASES = [
     "direct governance",
     "embedded governance",
@@ -109,10 +120,11 @@ FORBIDDEN_CLAIMS = [
 # Note: "marketplace" is expected as a denial ("no marketplace publication occurred") —
 # do NOT include bare "marketplace" here; only check for affirmative overclaims.
 FORBIDDEN_STALE_TEXT = [
-    ("three invocation modes", "stale 'three invocation modes' claim (v0.2.8.0 has four)"),
+    ("three invocation modes", "stale 'three invocation modes' claim (v0.2.8.0 has four invocation shapes)"),
     ("release pending", "stale 'release pending' text (release is live)"),
     ("published to the marketplace", "affirmative marketplace publication claim"),
     ("listed on the marketplace", "affirmative marketplace listing claim"),
+    ("--version 0.2.4", "stale v0.2.4 install command"),
 ]
 
 _failures = 0
@@ -203,7 +215,7 @@ def main() -> None:
                     f"  Section order: {ordered_nav}"
                 )
 
-    # 9. Required onboarding content sections present
+    # 9. Required onboarding content sections present (24 sections)
     section_ids_set = set(re.findall(r'<section id="([^"]+)"', html))
     for anchor in REQUIRED_CONTENT_ANCHORS:
         if anchor not in section_ids_set:
@@ -223,7 +235,7 @@ def main() -> None:
         if step not in html:
             fail(f"index.html: process flow step missing: {step!r}")
 
-    # 12. Grouped sidebar labels
+    # 12. Grouped sidebar labels (academic model: Start, Concepts, Method, Reference)
     for group_name in REQUIRED_SIDEBAR_GROUPS:
         if f'class="nav-group-label">{group_name}' not in html:
             fail(f"index.html: sidebar group label missing: {group_name!r}")
@@ -238,11 +250,11 @@ def main() -> None:
     if "card-grid" not in html:
         fail("index.html: no card-grid element found")
 
-    # 15. Four invocation modes present (case-insensitive)
+    # 15. Four invocation shapes present (case-insensitive)
     html_lower = html.lower()
     for phrase in REQUIRED_INVOCATION_MODE_PHRASES:
         if phrase.lower() not in html_lower:
-            fail(f"index.html: required invocation mode phrase missing: {phrase!r}")
+            fail(f"index.html: required invocation shape phrase missing: {phrase!r}")
 
     # 16. No stale claims
     for stale_text, stale_label in FORBIDDEN_STALE_TEXT:
@@ -266,6 +278,60 @@ def main() -> None:
     # 20. Semantic headings present
     if "<h1" not in html or "<h2" not in html:
         fail("index.html: semantic headings (h1 and h2) both required")
+
+    # --- Academic content checks ---
+
+    # 21. Thesis / bottleneck framing present
+    # Overview must contain bottleneck framing
+    if "review discipline" not in html_lower and "faster than" not in html_lower:
+        fail("index.html: bottleneck framing missing ('review discipline' or 'faster than' not found)")
+
+    # 22. Mental model section — must contain the execution chain
+    if "mental-model" not in section_ids_set:
+        fail("index.html: mental-model section missing (checked via section id)")
+    if "audit_complete" not in html_lower:
+        fail("index.html: AUDIT_COMPLETE marker missing from content")
+
+    # 23. Audit gate model present and non-trivial (ten gates)
+    if "audit-gate-model" not in section_ids_set:
+        fail("index.html: audit-gate-model section missing (checked via section id)")
+
+    # 24. What AUDIT_COMPLETE means — pass vs does-not-mean items
+    if "what-audit-complete-means" not in section_ids_set:
+        fail("index.html: what-audit-complete-means section missing (checked via section id)")
+    if "implementaudit_run_complete" not in html_lower:
+        fail("index.html: IMPLEMENTAUDIT_RUN_COMPLETE marker missing from content")
+
+    # 25. State and artifact model — tdqyq/ydqyq identifiers
+    if "state-and-artifact-model" not in section_ids_set:
+        fail("index.html: state-and-artifact-model section missing (checked via section id)")
+    if "tdqyq-audit-object" not in html_lower:
+        fail("index.html: tdqyq-audit-object identifier missing from content")
+    if "ydqyq-audit-action" not in html_lower:
+        fail("index.html: ydqyq-audit-action identifier missing from content")
+
+    # 26. Continuity and sidecars section
+    if "continuity-and-sidecars" not in section_ids_set:
+        fail("index.html: continuity-and-sidecars section missing (checked via section id)")
+
+    # 27. DMADV and DMAIC routing methodology terms
+    if "dmadv" not in html_lower:
+        fail("index.html: DMADV routing methodology term missing")
+    if "dmaic" not in html_lower:
+        fail("index.html: DMAIC routing methodology term missing")
+
+    # 28. Comparison section present
+    if "comparison" not in section_ids_set:
+        fail("index.html: comparison section missing (checked via section id)")
+
+    # 29. G5 STRENGTHENED status
+    if "strengthened" not in html_lower:
+        fail("index.html: G5 STRENGTHENED status missing from content")
+
+    # 30. No marketplace/provenance overclaim
+    for phrase in ["published to the marketplace", "listed on the marketplace"]:
+        if phrase in html_lower:
+            fail(f"index.html: affirmative overclaim found: {phrase!r}")
 
     # Report
     if _failures == 0:

@@ -9,16 +9,16 @@
 #   5. No file:/// URLs in generated output
 #   6. No absolute Windows paths in generated output
 #   7. Nav anchors exist and are unique (authoritative count from check-docs-portal.py)
-#   8. Required onboarding sections present (v0.2.8.0 anchors)
+#   8. Required onboarding sections present (24 academic-model anchors)
 #   9. Generated output is excluded from .skill package (verify-package.sh still passes)
 #  10. Generator writes to any writable out dir (negative test)
 #  11. h1 page title present in index.html
 #  12. Hero zone present
 #  13. Process flow present with all six steps
-#  14. Grouped sidebar labels present (Start, Method, Reference, Evidence)
+#  14. Grouped sidebar labels present (Start, Concepts, Method, Reference)
 #  15. Mobile TOC present
 #  16. Audience cards present (card-grid and audience-card)
-#  17. Four invocation modes present in content
+#  17. Four invocation shapes present in content
 #  18. "governed casual-build intake" phrase present
 #  19. No stale "three invocation modes" claim
 #  20. No stale "release pending" text
@@ -28,6 +28,12 @@
 #  24. docs-metadata.json: rough_draft_used is false
 #  25. Sidebar nav-section anchors follow document section order
 #  26. docs-metadata.json: rough_draft_used is explicitly false (boolean)
+#  27. Academic: bottleneck framing present
+#  28. Academic: tdqyq-audit-object and ydqyq-audit-action identifiers present
+#  29. Academic: AUDIT_COMPLETE and IMPLEMENTAUDIT_RUN_COMPLETE markers present
+#  30. Academic: DMADV and DMAIC routing methodology terms present
+#  31. Academic: G5 STRENGTHENED status present
+#  32. Academic: no stale "--version 0.2.4" install command
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -141,9 +147,9 @@ else
 fi
 
 # ---------------------------------------------------------------------------
-# Test 8: required onboarding sections present (v0.2.8.0 anchors)
+# Test 8: required onboarding sections present (24 academic-model anchors)
 # ---------------------------------------------------------------------------
-required_anchors="overview quick-start install for-new-users for-agents-and-operators for-auditors-and-maintainers terminology invocation-modes execution-spine operating-method usage-examples default-behavior routing repo-layout optional-tooling safety-and-boundaries what-it-does-not-do evidence-and-audit-trail audit-status"
+required_anchors="overview quick-start install for-new-users for-agents-and-operators for-auditors-and-maintainers mental-model invocation-model audit-gate-model what-audit-complete-means state-and-artifact-model continuity-and-sidecars operating-method routing comparison default-behavior usage-examples terminology repo-layout optional-tooling safety-and-boundaries what-it-does-not-do evidence-and-audit-trail audit-status"
 for anchor in $required_anchors; do
   if grep -qF "id=\"$anchor\"" "$out/index.html" 2>/dev/null; then
     ok "section present: #$anchor"
@@ -204,17 +210,17 @@ if [ "$process_ok" -eq 1 ]; then
 fi
 
 # ---------------------------------------------------------------------------
-# Test 14: grouped sidebar labels present (Start, Method, Reference, Evidence)
+# Test 14: grouped sidebar labels present (Start, Concepts, Method, Reference)
 # ---------------------------------------------------------------------------
 sidebar_ok=1
-for group in "Start" "Method" "Reference" "Evidence"; do
+for group in "Start" "Concepts" "Method" "Reference"; do
   if ! grep -qF "class=\"nav-group-label\">$group" "$out/index.html" 2>/dev/null; then
     fail_check "sidebar group label missing: $group"
     sidebar_ok=0
   fi
 done
 if [ "$sidebar_ok" -eq 1 ]; then
-  ok "grouped sidebar labels present (Start, Method, Reference, Evidence)"
+  ok "grouped sidebar labels present (Start, Concepts, Method, Reference)"
 fi
 
 # ---------------------------------------------------------------------------
@@ -243,7 +249,7 @@ if [ "$cards_ok" -eq 1 ]; then
 fi
 
 # ---------------------------------------------------------------------------
-# Test 17: four invocation modes present (case-insensitive)
+# Test 17: four invocation shapes present (case-insensitive)
 # ---------------------------------------------------------------------------
 modes_ok=1
 for phrase in "direct governance" "embedded governance" "goal synthesis" "governed casual-build intake"; do
@@ -254,9 +260,9 @@ phrase = sys.argv[2].lower()
 if phrase not in html:
     sys.exit(1)
 " "$out/index.html" "$phrase" 2>/dev/null; then
-    ok "invocation mode phrase present: '$phrase'"
+    ok "invocation shape phrase present: '$phrase'"
   else
-    fail_check "invocation mode phrase missing: '$phrase'"
+    fail_check "invocation shape phrase missing: '$phrase'"
     modes_ok=0
   fi
 done
@@ -286,7 +292,7 @@ if 'three invocation modes' in html:
 " "$out/index.html" 2>/dev/null; then
   ok "no stale 'three invocation modes' claim"
 else
-  fail_check "stale 'three invocation modes' claim found (v0.2.8.0 has four)"
+  fail_check "stale 'three invocation modes' claim found (v0.2.8.0 has four invocation shapes)"
 fi
 
 # ---------------------------------------------------------------------------
@@ -390,6 +396,103 @@ assert val is False, 'got: %r' % val
   ok "docs-metadata.json: rough_draft_used is boolean false (not string/null)"
 else
   fail_check "docs-metadata.json: rough_draft_used is not boolean false"
+fi
+
+# ---------------------------------------------------------------------------
+# Test 27: Academic: bottleneck framing present
+# (must contain "review discipline" or "faster than")
+# ---------------------------------------------------------------------------
+if python -c "
+import sys
+html = open(sys.argv[1], encoding='utf-8').read().lower()
+if 'review discipline' not in html and 'faster than' not in html:
+    sys.exit(1)
+" "$out/index.html" 2>/dev/null; then
+  ok "academic: bottleneck framing present"
+else
+  fail_check "academic: bottleneck framing missing ('review discipline' or 'faster than')"
+fi
+
+# ---------------------------------------------------------------------------
+# Test 28: Academic: tdqyq-audit-object and ydqyq-audit-action identifiers
+# ---------------------------------------------------------------------------
+ids_ok=1
+for identifier in "tdqyq-audit-object" "ydqyq-audit-action"; do
+  if python -c "
+import sys
+html = open(sys.argv[1], encoding='utf-8').read().lower()
+if sys.argv[2].lower() not in html:
+    sys.exit(1)
+" "$out/index.html" "$identifier" 2>/dev/null; then
+    ok "academic: identifier present: '$identifier'"
+  else
+    fail_check "academic: identifier missing: '$identifier'"
+    ids_ok=0
+  fi
+done
+
+# ---------------------------------------------------------------------------
+# Test 29: Academic: AUDIT_COMPLETE and IMPLEMENTAUDIT_RUN_COMPLETE markers
+# ---------------------------------------------------------------------------
+markers_ok=1
+for marker in "AUDIT_COMPLETE" "IMPLEMENTAUDIT_RUN_COMPLETE"; do
+  if python -c "
+import sys
+html = open(sys.argv[1], encoding='utf-8').read().lower()
+if sys.argv[2].lower() not in html:
+    sys.exit(1)
+" "$out/index.html" "$marker" 2>/dev/null; then
+    ok "academic: marker present: '$marker'"
+  else
+    fail_check "academic: marker missing: '$marker'"
+    markers_ok=0
+  fi
+done
+
+# ---------------------------------------------------------------------------
+# Test 30: Academic: DMADV and DMAIC routing methodology terms
+# ---------------------------------------------------------------------------
+routing_ok=1
+for term in "DMADV" "DMAIC"; do
+  if python -c "
+import sys
+html = open(sys.argv[1], encoding='utf-8').read().lower()
+if sys.argv[2].lower() not in html:
+    sys.exit(1)
+" "$out/index.html" "$term" 2>/dev/null; then
+    ok "academic: routing methodology term present: '$term'"
+  else
+    fail_check "academic: routing methodology term missing: '$term'"
+    routing_ok=0
+  fi
+done
+
+# ---------------------------------------------------------------------------
+# Test 31: Academic: G5 STRENGTHENED status
+# ---------------------------------------------------------------------------
+if python -c "
+import sys
+html = open(sys.argv[1], encoding='utf-8').read().lower()
+if 'strengthened' not in html:
+    sys.exit(1)
+" "$out/index.html" 2>/dev/null; then
+  ok "academic: G5 STRENGTHENED status present"
+else
+  fail_check "academic: G5 STRENGTHENED status missing from portal"
+fi
+
+# ---------------------------------------------------------------------------
+# Test 32: Academic: no stale "--version 0.2.4" install command
+# ---------------------------------------------------------------------------
+if python -c "
+import sys
+html = open(sys.argv[1], encoding='utf-8').read()
+if '--version 0.2.4' in html:
+    sys.exit(1)
+" "$out/index.html" 2>/dev/null; then
+  ok "academic: no stale '--version 0.2.4' install command"
+else
+  fail_check "academic: stale '--version 0.2.4' install command found"
 fi
 
 # ---------------------------------------------------------------------------

@@ -37,31 +37,36 @@ SIDEBAR_GROUPS = [
         ("for-agents-and-operators", "⚙", "For Agents &amp; Operators"),
         ("for-auditors-and-maintainers", "◇", "For Auditors &amp; Maintainers"),
     ]),
+    ("Concepts", [
+        ("mental-model", "⟶", "Mental Model"),
+        ("invocation-model", "⇄", "Invocation Model"),
+        ("audit-gate-model", "⊢", "Audit Gate Model"),
+        ("what-audit-complete-means", "✓", "AUDIT_COMPLETE"),
+        ("state-and-artifact-model", "⧉", "State &amp; Artifacts"),
+        ("continuity-and-sidecars", "◐", "Continuity &amp; Sidecars"),
+    ]),
     ("Method", [
-        ("terminology", "Aa", "Terminology"),
-        ("invocation-modes", "⇄", "Invocation Modes"),
-        ("execution-spine", "⟶", "Execution Spine"),
         ("operating-method", "⟳", "Operating Method"),
+        ("routing", "◒", "Routing"),
+        ("comparison", "≡", "Comparison"),
+        ("default-behavior", "●", "Default Behavior"),
         ("usage-examples", "〈/〉", "Examples"),
-        ("default-behavior", "✓", "Default Behavior"),
-        ("routing", "◐", "Routing"),
     ]),
     ("Reference", [
-        ("repo-layout", "⧉", "Repo Layout"),
-        ("optional-tooling", "◇", "Optional Tooling"),
-        ("safety-and-boundaries", "!", "Safety &amp; Boundaries"),
-        ("what-it-does-not-do", "×", "What It Doesn't Do"),
-    ]),
-    ("Evidence", [
+        ("terminology", "Aa", "Terminology"),
+        ("repo-layout", "⊞", "Repo Layout"),
+        ("optional-tooling", "⊕", "Optional Tooling"),
+        ("safety-and-boundaries", "⚠", "Safety &amp; Boundaries"),
+        ("what-it-does-not-do", "×", "What It Doesn&#39;t Do"),
         ("evidence-and-audit-trail", "§", "Evidence &amp; Audit Trail"),
         ("audit-status", "i", "Audit Status"),
     ]),
 ]
 
 HERO_SUBTITLE = (
-    "An audit-governed implementation skill for turning findings, handoffs, "
-    "checklists, reviews, goals, and plans into bounded, verified repository "
-    "changes — with evidence for every claim."
+    "An audit-governed implementation method. Every mutation is bounded "
+    "by an audit contract, verified by ten explicit gates, and closed "
+    "by terminal evidence — not sentiment."
 )
 
 PROCESS_STEPS = ["Input", "Gemba", "Smoke A", "Patch", "Smoke B", "Final Audit"]
