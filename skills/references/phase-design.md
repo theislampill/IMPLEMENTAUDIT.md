@@ -138,6 +138,31 @@ audit ledger with: category omitted, reason, and what alternative coverage
 (or deliberate owner decision) justifies the skip. Undocumented omissions are
 treated as unverified gaps.
 
+**Rule P4-8 — Polish & Harden phase (optional terminal phase shape).**
+A "Polish & Harden" phase is a native optional terminal phase shape in
+IMPLEMENTAUDIT. It is default-recommended for:
+- full plans covering a new feature, migration, or multi-surface change
+- any run that produces public docs, UI, or generated artifacts
+- package-boundary or release-adjacent work
+- high-risk runs with many acceptance criteria
+
+Polish & Harden phases must:
+- address operational concerns only: cleanliness, generated artifact freshness,
+  stale docs, dead/debug debris, UX/accessibility where relevant, proof-boundary
+  wording, identity hygiene
+- not introduce new feature scope (new features discovered during this phase are
+  logged as scope creep and deferred)
+- verify that no external comparator proper name, slash command, or marker
+  appears in tracked surfaces
+- run all smoke checks and mandatory commands from earlier phases
+
+Skippable with explicit rationale in the final audit ledger documenting: what
+was skipped, why, and what alternative coverage (or owner decision) justifies
+the skip. Undocumented omission is treated as a gap per Rule P4-7.
+
+Use `Type: polish-harden` in the `IMPLEMENTAUDIT_PHASE_START` block of a phase
+spec to indicate this phase shape (see `skills/references/goal-format.md`).
+
 ---
 
 ## Phase shape examples

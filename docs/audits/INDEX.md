@@ -97,6 +97,29 @@ routing fixtures, and `scripts/check-lean-discipline.sh` poka-yoke checker
 Lean terms are runtime behavior, not decorative labels. No sigma-level,
 DPMO, or certification claims.
 
+The v0.2.8.0 adaptation lane closes G1-G7 comparator-advantage gaps identified
+against a read-only external staged-goal comparator package. The detailed ledger
+lives in `docs/audits/v0.2.8.0-adaptation.md` and covers: chooser table in
+goal-format.md (G1); neutral comparator language in docs portal with formal
+forbidden-term check (G2); governed casual-build intake as a 4th invocation shape in
+SKILL.md §2/§2a/Stage 0, routing.md, planning-depth.md, and casual-build fixtures (G3);
+bounded continuity preload with 5-source priority order and IMPLEMENTAUDIT_CONTINUITY_SAVED
+marker in SKILL.md Stage 0 and PROTOCOL.md (G4); G5 (per-phase continuity writeback)
+STRENGTHENED — v0.2.6.0 PROTOCOL loop was the base, but v0.2.8.0 added
+IMPLEMENTAUDIT_CONTINUITY_SAVED marker with 6 required fields, bounded writeback options
+table, ActiveGraph custody path, Graphify terrain-update request, and 34-check continuity
+test suite (+9 new); optional Polish & Harden phase type in phase-design.md Rule P4-8 with
+fixtures (G6); docs portal generator (build-docs-portal.py), check script
+(check-docs-portal.py), 26/26 test suite, and easy invocation examples in
+docs/portal/onboarding.md (G7); GitHub Pages CI (pages.yml) with OWNER DECISION note
+for Pages source setting; docs-portal.test.sh wired into validate.yml.
+A bounded audit-fix round (5 items) was executed before AUDIT_COMPLETE: Graphify
+authorization boundary reconciled (terrain reads authorized as self-maintenance; no new
+indexing); G5 reclassified to STRENGTHENED; Python print() replaced with
+sys.stdout.write/sys.stderr.write; bash -n YAML evidence replaced with stdlib structural
+checker; formal forbidden-term identity hygiene check executed.
+External comparator identity not imported into any tracked surface.
+
 A Graphify+ActiveGraph maximal-leverage gate for v0.2.7.0 is closed in the same
 lane. Live sidecar smoke was run using installed tools (graphify 0.8.35,
 activegraph 1.0.5.post2) in isolated temp environments. Graphify terrain extraction

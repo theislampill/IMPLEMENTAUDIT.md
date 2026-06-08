@@ -51,6 +51,7 @@ for needle in [
     "greenfield audit-governed work",
     "brownfield audit-governed work",
     "mixed-mode work",
+    "governed casual-build intake",
     "default to brownfield when an existing repo is present",
     "new file",
 ]:

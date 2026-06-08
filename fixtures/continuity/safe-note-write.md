@@ -14,9 +14,17 @@ Conflict or owner-decision note: none
 
 CONTINUITY_DECISION
 
-Decision: memory note
+Decision: run-local applied-context note
 Reason: The local DB requirement on port 5432 is non-obvious and would cause future sessions to fail integration tests without explanation. Worth persisting as a bounded repo note.
 Evidence boundary: tests/integration/setup.ts:14 — confirmed present at run time, not inferred.
+
+IMPLEMENTAUDIT_CONTINUITY_SAVED
+Target: .IMPLEMENTAUDIT/runs/add-rate-limit-Ab2K/applied-context.md
+Reason: Port-5432 local DB requirement is non-obvious; persisting for continuity on this task
+Evidence: tests/integration/setup.ts:14 — confirmed at run time
+Boundary: run-local note only; not broad project memory; not a secrets file; diagnostic: false
+Authorization: CONTINUITY_DECISION option "run-local applied-context note" selected; no external marker used
+Not saved: raw integration test logs; session debug output; build artifacts
 
 ---
 

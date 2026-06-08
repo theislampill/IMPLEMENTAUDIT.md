@@ -133,6 +133,20 @@ Ask: is there a non-obvious cross-session learning worth persisting beyond
 `AGENTS.md`? Durable repo-local rules already written in Step 12 do not need
 a second continuity entry.
 
+CONTINUITY_DECISION options (select exactly one):
+- `none` — no cross-session learning warrants writeback at this boundary.
+- `repo-local AGENTS.md rule` — a durable anti-repeat rule; already handled in Step 12; do not duplicate here.
+- `run-local applied-context note` — a run-specific learning worth recording in `<run-root>/applied-context.md`; include target, reason, evidence, boundary, and authorization.
+- `optional personal/project note` — a personal or project-level memory note if the host supports it; include target, reason, evidence, boundary, and authorization; absent-safe.
+- `optional ActiveGraph event` — an additional custody event for cross-run continuity when ActiveGraph is configured and authorized.
+
+Never write secrets, raw logs, private diagnostics, transient dirty state, or
+unsupported claims. Continuity writeback from any source never overrides live
+files, `AGENTS.md`, Smoke A/B, or the final audit.
+
+When a writeback is performed, emit `IMPLEMENTAUDIT_CONTINUITY_SAVED` with:
+Target, Reason, Evidence, Boundary, Authorization, Not saved.
+
 **Step 15 — Print CONTINUITY_DECISION.**
 Record: Decision, Reason, Evidence boundary.
 

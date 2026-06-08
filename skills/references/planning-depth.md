@@ -33,6 +33,27 @@ evidence-aware Kaizen handoff. If the host should continue under a goal runner,
 construct the audit object and print one ready-to-paste `/goal Using
 /implementaudit ...` line.
 
+### Governed casual-build intake
+
+The user supplies natural-language repo-build intent (e.g., "add a login page",
+"wire up CI", "ship the CLI tool") without an audit object, plan, or structured
+goal. ImplementAudit synthesizes a `tdqyq-audit-object` from the intent before
+routing.
+
+Use when the input is:
+- a natural-language description of a repo-build goal
+- not yet structured as a handoff, checklist, or implementation plan
+- not empty, unsafe, non-repo, or impossible
+
+**Casual-build planning bar:** at minimum, clarify scope, owner/source
+candidates, acceptance criteria, and rollback path before mutation. Ask up to
+four batched questions when material gaps remain. Do not proceed until the audit
+object is defined. Do not skip the input gate, Smoke A/B, or the final audit.
+
+IMPLEMENTAUDIT is an audit-governed implementation skill that routes natural-
+language build intent through the same audit contract as any other invocation
+mode. Casual-build intake is not a bypass; it is a synthesis step.
+
 ## Depth rule
 
 Use the smallest planning layer that makes the work safe:

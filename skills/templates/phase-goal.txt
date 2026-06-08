@@ -119,3 +119,28 @@ IMPLEMENTAUDIT_PHASE_DONE
 Status: done / changed / blocked / deferred / unverified
 Evidence:
 Follow-up:
+
+# ---------------------------------------------------------------------------
+# Polish & Harden variant
+# For an optional terminal Polish & Harden phase (Rule P4-8 in phase-design.md),
+# use the template above with the following overrides:
+#
+#   Type: polish-harden
+#   Task: Terminal cleanliness + identity hygiene pass
+#
+# Work bullets:
+#   - Run all smoke checks and mandatory commands from prior phases
+#   - Verify no external comparator name in tracked surfaces
+#   - Verify generated artifact freshness (portal, docs, checksums)
+#   - Verify stale docs / dead imports / debug debris removed
+#   - Verify proof-boundary wording (no overclaims)
+#   - Verify UX/accessibility where relevant (visual evidence if P4-2 applies)
+#
+# Acceptance criteria:
+#   - All smoke checks pass
+#   - check-added-lines-clean.sh passes (no debug debris added)
+#   - No external comparator proper name in any tracked surface
+#   - No new feature scope introduced in this phase
+#
+# Skippable only with explicit rationale in final audit ledger.
+# ---------------------------------------------------------------------------

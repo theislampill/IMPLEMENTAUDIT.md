@@ -98,6 +98,15 @@ require_file docs/audits/v0.2.4.5-graphify-activegraph-honesty.md
 require_file docs/audits/v0.2.5.0-external-staged-goal-runtime-gap-closure.md
 require_file docs/audits/v0.2.5.0-claude-install-repair.md
 require_file docs/audits/v0.2.7.0-lean-operating-discipline.md
+require_file docs/audits/v0.2.8.0-adaptation.md
+require_file docs/portal/onboarding.md
+require_file scripts/build-docs-portal.py
+require_file scripts/check-docs-portal.py
+require_file tests/docs-portal.test.sh
+require_file fixtures/casual-build/accepted-intent.md
+require_file fixtures/casual-build/rejected-intent.md
+require_file fixtures/phase-design/polish-harden.md
+require_file .github/workflows/pages.yml
 require_file skills/references/lean-operating-discipline.md
 require_file scripts/check-lean-discipline.sh
 require_file tests/lean-discipline.test.sh
@@ -173,8 +182,8 @@ if plugin.get("skills") != "./":
     )
 if not plugin.get("version"):
     raise SystemExit("plugin version is required")
-if plugin.get("version") != "0.2.7":
-    raise SystemExit("plugin version must be 0.2.7 for the v0.2.7.0 project milestone")
+if plugin.get("version") != "0.2.8":
+    raise SystemExit("plugin version must be 0.2.8 for the v0.2.8.0 project milestone")
 
 marketplace = json.loads(Path(".claude-plugin/marketplace.json").read_text())
 plugins = marketplace.get("plugins")
@@ -227,6 +236,7 @@ if grep -n "remain unperformed" docs/audits/v0.2.4.0-planner-stage-hardening.md 
 fi
 rm -f /tmp/implementaudit-v024-release-state.txt
 grep -R "v0.2.4.5" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.4.5 is not documented"
+grep -R "v0.2.8.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.8.0 is not documented"
 grep -R "v0.2.7.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.7.0 is not documented"
 grep -R "v0.2.6.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.6.0 is not documented"
 grep -R "v0.2.5.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.5.0 is not documented"

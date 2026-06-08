@@ -11,6 +11,41 @@ Plugin manifest versions are host-facing package metadata. The `v0.2.5.0`
 project milestone maps to plugin manifest version `0.2.5` because no local
 schema evidence proved four-component plugin manifest versions are accepted.
 
+## [v0.2.8.0] - 2026-06-08
+
+### Added
+
+- `docs/portal/onboarding.md`: portal content source with 10 onboarding sections (What is IMPLEMENTAUDIT; When to use; When not to use; Normal prompt vs /goal vs IMPLEMENTAUDIT chooser table; Three invocation modes; Compared with a generic staged-goal runner; What Graphify and ActiveGraph do; What completion means; Install and update; Easy invocation examples). Neutral comparator language only. No all-domain obsolescence claim.
+- `scripts/build-docs-portal.py`: stdlib-only docs portal generator. Reads onboarding.md, README.md, CHANGELOG.md, INDEX.md, plugin.json. Generates `dist/docs-portal/index.html` + `docs-metadata.json`. Dark theme, skip link, sidebar nav, IntersectionObserver active-section tracking, 9 required section anchors, `rough_draft_used: false`. Usage: `python scripts/build-docs-portal.py [--out <dir>]`.
+- `scripts/check-docs-portal.py`: 12-check validator for generated portal output. Checks index.html non-empty; metadata fields; source sha256s; manifest version; milestone; rough_draft_used=false; no file:///; no Windows paths; nav anchors unique+ordered; 9 required section anchors; no unsupported claims; skip link; semantic headings. Usage: `python scripts/check-docs-portal.py <output-dir>`.
+- `tests/docs-portal.test.sh`: 26-check test suite (generator exits 0; check-docs-portal passes; metadata fields; no file:///; no Windows paths; nav anchors; 9 required section anchors; verify-package still passes; negative test).
+- `fixtures/casual-build/accepted-intent.md`: documents governed casual-build intake — natural-language intent accepted and normalized into tdqyq-audit-object; Classification: governed casual-build intake; Stage 1 synthesized audit object.
+- `fixtures/casual-build/rejected-intent.md`: 4 rejection cases (empty input STOP; unsafe input STOP; non-repo input STOP; unbounded impossible input → request clarification).
+- `fixtures/phase-design/polish-harden.md`: two variants (Polish & Harden included with default-recommended rationale; Polish & Harden skipped with documented rationale).
+- `.github/workflows/pages.yml`: GitHub Pages deployment pipeline (build+validate+deploy) with OIDC permissions, concurrency guard, and OWNER DECISION note — Pages source must be set to "GitHub Actions" in repo settings before the deploy job can succeed.
+- `scripts/check-workflow-structure.py`: stdlib-only structural checker for GitHub Actions YAML (no external deps). Checks: name/on/jobs keys, steps: key, actions/checkout reference, no tab indentation. Explicitly notes full schema validation is pending CI. Replaces `bash -n` as workflow evidence. Usage: `python scripts/check-workflow-structure.py <workflow-file> [...]`.
+- Added `docs/audits/v0.2.8.0-adaptation.md`: G1-G7 gap closure ledger, phase-by-phase evidence, Graphify authorization boundary, comparator language check, formal forbidden-term identity hygiene check result, Smoke B results (including structural workflow check), audit-fix round record (5 items), remaining risk, terminal closure table. G5 classified as STRENGTHENED (not ALREADY COVERED).
+- Updated `docs/audits/INDEX.md`: v0.2.8.0 entry (G5 STRENGTHENED; audit-fix round summary).
+
+### Changed
+
+- `skills/SKILL.md` §2: added 4th invocation shape bullet — `governed casual-build intake`; added governed casual-build intake bullet to canonical audit terminology; added governed casual-build intake paragraph to §2a invocation boundary; added Bounded continuity preload block to Stage 0 (5-source priority order: AGENTS.md first; run-root applied-context; optional personal/project notes; Graphify terrain; ActiveGraph custody) + IMPLEMENTAUDIT_CONTINUITY_SAVED marker template with all 6 required fields.
+- `skills/templates/PROTOCOL.md` Steps 14/15: CONTINUITY_DECISION options expanded to 5 options (none; repo-local AGENTS.md rule; run-local applied-context note; optional personal/project note; optional ActiveGraph event); override-prevention statement; IMPLEMENTAUDIT_CONTINUITY_SAVED reference.
+- `skills/templates/THINKING.md`: invocation shape line updated: adds `governed casual-build intake`.
+- `skills/templates/phase-goal.txt`: Polish & Harden variant comment block added at end (Type: polish-harden; work bullets; acceptance criteria).
+- `skills/references/routing.md`: Governed casual-build intake definition in Definitions; Governed Casual-Build Intake section (5-step process); updated Positive Identity section.
+- `skills/references/goal-format.md`: chooser table (4 rows: normal prompt / /goal / /implementaudit / governed casual-build intake); easy invocation examples; IMPLEMENTAUDIT_CONTINUITY_SAVED format block; Optional Polish & Harden phase type note.
+- `skills/references/planning-depth.md`: Governed casual-build intake subsection under Invocation shapes; casual-build planning bar definition.
+- `skills/references/phase-design.md`: Rule P4-8 — Polish & Harden phase (optional terminal phase shape; default-recommended for full plans/public surfaces/package boundaries; skippable with rationale; no new features; covers cleanliness, identity hygiene, generated artifact freshness, proof-boundary wording).
+- `scripts/check-planner-stages.sh`: 2 new require_in_file checks for governed casual-build intake.
+- `scripts/check-routing.sh`: "governed casual-build intake" added to routing definitions check.
+- `tests/continuity.test.sh`: extended to 34/34 (was 25/25; +7 IMPLEMENTAUDIT_CONTINUITY_SAVED/override-prevention checks; +2 scenario 3 checks).
+- `fixtures/continuity/safe-note-write.md`: CONTINUITY_DECISION updated to run-local applied-context note; full IMPLEMENTAUDIT_CONTINUITY_SAVED marker block added.
+- `scripts/build-docs-portal.py`, `scripts/check-docs-portal.py`: all user-facing CLI output uses `sys.stdout.write`/`sys.stderr.write` instead of the built-in print function, keeping the debug-print cleanliness gate applicable to `.py` files without a global exemption.
+- `.gitignore`: `_site/` entry added.
+- `.github/workflows/validate.yml`: `bash tests/docs-portal.test.sh` added to focused behavior tests.
+- Plugin manifest: `0.2.7` → `0.2.8`.
+
 ## [v0.2.7.0] - 2026-06-07
 
 ### Added

@@ -94,6 +94,8 @@ require_in_file skills/SKILL.md "Audit-governed implementation"
 require_in_file skills/SKILL.md "Direct governance binds"
 require_in_file skills/SKILL.md "Embedded governance inherits"
 require_in_file skills/SKILL.md "Goal synthesis constructs"
+require_in_file skills/SKILL.md "Governed casual-build intake constructs"
+require_in_file skills/SKILL.md "governed casual-build intake"
 require_in_file skills/SKILL.md "Double-audit pattern for high-risk runs"
 require_in_file skills/SKILL.md 'Final `ydqyq-audit-action` -> terminal'
 require_in_file skills/references/transcript-contract.md "audit object lifecycle"

@@ -44,8 +44,15 @@ require() {
 require skills/SKILL.md "bounded continuity"
 require skills/SKILL.md "CONTINUITY_DECISION"
 require skills/SKILL.md "memory/continuity"
+require skills/SKILL.md "IMPLEMENTAUDIT_CONTINUITY_SAVED"
+require skills/SKILL.md "Bounded continuity preload"
+require skills/SKILL.md "Continuity from any source never overrides"
 require skills/templates/STATE.md "Continuity decision"
 require skills/templates/PROTOCOL.md "CONTINUITY_DECISION"
+require skills/templates/PROTOCOL.md "IMPLEMENTAUDIT_CONTINUITY_SAVED"
+require skills/templates/PROTOCOL.md "run-local applied-context note"
+require skills/templates/PROTOCOL.md "optional personal/project note"
+require skills/templates/PROTOCOL.md "optional ActiveGraph event"
 require skills/templates/THINKING.md "Applied context"
 require AGENTS.md "bounded continuity"
 
@@ -101,6 +108,14 @@ grep -Fq "session: bounded" "$fixture" \
 grep -Fq "evidence:" "$fixture" \
   && check_pass "scenario3: evidence field present in safe-note" 0 \
   || check_pass "scenario3: evidence field present in safe-note" 1
+
+grep -Fq "IMPLEMENTAUDIT_CONTINUITY_SAVED" "$fixture" \
+  && check_pass "scenario3: IMPLEMENTAUDIT_CONTINUITY_SAVED marker present when writeback performed" 0 \
+  || check_pass "scenario3: IMPLEMENTAUDIT_CONTINUITY_SAVED marker present when writeback performed" 1
+
+grep -Fq "Not saved:" "$fixture" \
+  && check_pass "scenario3: Not saved field present in IMPLEMENTAUDIT_CONTINUITY_SAVED" 0 \
+  || check_pass "scenario3: Not saved field present in IMPLEMENTAUDIT_CONTINUITY_SAVED" 1
 
 # ---------------------------------------------------------------------------
 # Scenario 4: unsafe content — rejected

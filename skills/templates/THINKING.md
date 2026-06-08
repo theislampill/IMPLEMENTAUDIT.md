@@ -28,7 +28,7 @@ Double-audit sequence for high-risk work:
 
 Terminal closure condition:
 
-Invocation shape: embedded governance / direct governance / goal synthesis
+Invocation shape: embedded governance / direct governance / goal synthesis / governed casual-build intake
 
 Route: greenfield / brownfield / mixed
 

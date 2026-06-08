@@ -111,7 +111,8 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
 ├── README.md                   Public-facing: what it is, install, use, Mermaid flow charts.
 ├── CONTRIBUTING.md             Short onboarding: what ImplementAudit is/is not, minimum method, worked flow.
 ├── .github/workflows/
-│   └── validate.yml            GitHub Actions validation mirror of local package checks.
+│   ├── validate.yml            GitHub Actions validation mirror of local package checks.
+│   └── pages.yml               GitHub Pages deployment (build + validate + deploy).
 ├── docs/diagrams/              Mermaid sources generated into README.md.
 │   ├── tooling-architecture.mmd
 │   ├── invocation-modes.mmd
@@ -120,6 +121,8 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
 │   ├── INDEX.md                Compact dogfood-history evidence index.
 │   └── v0.2.3.0-harness-adaptation-matrix.md
 │                                Generic external-comparator adaptation matrix.
+├── docs/portal/
+│   └── onboarding.md           Portal content source; generated into dist/docs-portal/ by build-docs-portal.py.
 ├── fixtures/
 │   ├── child-agents/           Scoped AGENTS hierarchy and reviewer fixtures.
 │   ├── lean/                   DMAIC/DMADV/mixed routing fixtures for Lean discipline.
@@ -137,6 +140,8 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
 │   ├── generate-readme-diagrams.sh Generate/check README Mermaid blocks.
 │   ├── check-routing.sh     Validate greenfield/brownfield routing fixtures.
 │   ├── check-lean-discipline.sh  Poka-yoke gate: Lean terms implemented as behavior, not glossary.
+│   ├── build-docs-portal.py    Stdlib-only docs portal generator (reads docs/portal/onboarding.md).
+│   ├── check-docs-portal.py    12-check validator for generated portal output.
 │   ├── install-codex-from-release.sh Install a validated release asset into a Codex-style skill home.
 │   ├── verify-package.sh       Repo/package validation.
 │   └── write-release-checksums.sh Create/check release checksum manifest.
@@ -175,8 +180,8 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
 - **Repo-only**: `README.md`, `CHANGELOG.md`, `AGENTS.md`, `CLAUDE.md`, `CONTRIBUTING.md`, fixtures, root scripts, and `.gitignore`.
 - **Marketplace entry**: `.claude-plugin/marketplace.json` points at the plugin root. Do not claim marketplace behavior was verified unless actually tested.
 - **License**: no `LICENSE` file is present until the owner selects a license and supplies license evidence.
-- **Versioning**: project milestone `v0.2.7.0` maps to plugin manifest version
-  `0.2.7`. The manifest uses
+- **Versioning**: project milestone `v0.2.8.0` maps to plugin manifest version
+  `0.2.8`. The manifest uses
   host-conservative package metadata; project milestones are not tags,
   releases, publication, or provenance claims until the separate
   release/provenance gate actually performs and verifies those actions.
@@ -507,7 +512,7 @@ CHANGELOG:
 - Keep-a-Changelog style.
 - Keep the current project milestone at top, e.g. `[v0.2.6.0] - Unreleased` before release or `[v0.2.6.0] - <date>` only when the date is grounded.
 - Match manifest version if one exists.
-- Current project milestone is `v0.2.7.0`; plugin manifest version is `0.2.7` unless host evidence supports a four-component manifest version.
+- Current project milestone is `v0.2.8.0`; plugin manifest version is `0.2.8` unless host evidence supports a four-component manifest version.
 - Do not claim tags, releases, provenance, publication, or verified install without evidence.
 - Behavior/package changes should be produced by running `/implementaudit` on this repo itself.
 - Changelog entries should preserve the causal chain: finding/gap, root cause when known, countermeasure, evidence, and remaining risk.
@@ -573,6 +578,15 @@ test -f docs/audits/v0.2.4.5-graphify-activegraph-honesty.md
 test -f docs/audits/v0.2.5.0-external-staged-goal-runtime-gap-closure.md
 test -f docs/audits/v0.2.5.0-claude-install-repair.md
 test -f docs/audits/v0.2.7.0-lean-operating-discipline.md
+test -f docs/audits/v0.2.8.0-adaptation.md
+test -f docs/portal/onboarding.md
+test -f scripts/build-docs-portal.py
+test -f scripts/check-docs-portal.py
+test -f tests/docs-portal.test.sh
+test -f fixtures/casual-build/accepted-intent.md
+test -f fixtures/casual-build/rejected-intent.md
+test -f fixtures/phase-design/polish-harden.md
+test -f .github/workflows/pages.yml
 test -f skills/references/lean-operating-discipline.md
 test -f scripts/check-lean-discipline.sh
 test -f tests/lean-discipline.test.sh
@@ -617,6 +631,12 @@ bash scripts/check-lean-discipline.sh
 bash tests/lean-discipline.test.sh
 ```
 
+Run docs-portal separately (it calls verify-package.sh internally; do not nest it inside verify-package.sh):
+
+```bash
+bash tests/docs-portal.test.sh
+```
+
 ## Editing rules
 
 After editing skill behavior:
@@ -652,6 +672,7 @@ grep -R "AGENTS_UPDATE_DECISION" -n skills
 grep -R "AUDIT_COMPLETE" -n skills
 grep -R "IMPLEMENTAUDIT_RUN_COMPLETE" -n skills
 grep -R ".IMPLEMENTAUDIT" -n skills README.md AGENTS.md
+grep -R "v0.2.8.0" -n README.md CHANGELOG.md AGENTS.md
 grep -R "v0.2.7.0" -n README.md CHANGELOG.md AGENTS.md
 grep -R "v0.2.6.0" -n README.md CHANGELOG.md AGENTS.md
 grep -R "v0.2.5.0" -n README.md CHANGELOG.md AGENTS.md
@@ -743,11 +764,10 @@ closing the release gate. If the live Claude host is available, also run
 `scripts/install-claude-from-release.sh` against a real Claude skill directory
 and verify in Claude Desktop.
 
-Future work: reduce first-time user cognitive load with a dedicated
-quickstart/onboarding docs page. Keep this as future work; it is not a
-`v0.2.4.0` release blocker unless README/install claims become misleading.
-Focus later on clearer first-run path, examples, and decision trees without
-weakening audit-governed truthfulness.
+The docs portal generator (`scripts/build-docs-portal.py`) provides the
+quickstart/onboarding docs page. It is generated from `docs/portal/onboarding.md`
+and deployed to GitHub Pages via `.github/workflows/pages.yml`. See v0.2.8.0
+adaptation ledger for evidence.
 
 **Anti-repeat rule (V0270-LEAN-TERMS-ARE-BEHAVIOR):** Lean/TPS terms (5S,
 Kaizen, Hansei, Jidoka, Gemba, Nemawashi, Muda/Mura/Muri, DMAIC, DMADV,
@@ -798,6 +818,57 @@ leverage gate (2026-06-07).
 gitignored and must never appear in tracked source, commit messages, or the `.skill`
 package. `scripts/check-sidecar-boundaries.sh` and `scripts/verify-package.sh`
 enforce this boundary. Rationale: v0.2.7.0.
+
+**Anti-repeat rule (V0280-CASUAL-BUILD-INTAKE-MUST-BE-GOVERNED):** Natural-language
+repo-build intent is a valid 4th invocation shape (governed casual-build intake),
+but it must always synthesize a bounded `tdqyq-audit-object` before any mutation.
+The 5-step intake process in `skills/references/routing.md` (Governed Casual-Build
+Intake section) is mandatory. Reject unbounded, unsafe, empty, or non-repo inputs
+with an explicit STOP. Never route casual intent directly to mutation without owner/source,
+acceptance criteria, and rollback path. `scripts/check-routing.sh` verifies the routing
+definition exists. Rationale: v0.2.8.0 G3 gap closure (2026-06-08).
+
+**Anti-repeat rule (V0280-CONTINUITY-PRELOAD-PRIORITY-ORDER):** Bounded continuity
+preload follows the 5-source priority order defined in `skills/SKILL.md` Stage 0
+(AGENTS.md first; run-root applied-context; optional personal/project notes;
+Graphify terrain; ActiveGraph custody). Loaded continuity may never override
+safety defaults, authorization boundaries, AGENTS.md rules, or repo policy. When
+continuity changes scope or evidence, write `IMPLEMENTAUDIT_CONTINUITY_SAVED`
+with all 6 required fields (Target, Reason, Evidence, Boundary, Authorization,
+Not saved). Rationale: v0.2.8.0 G4 gap closure (2026-06-08).
+
+**Anti-repeat rule (V0280-DOCS-PORTAL-GENERATOR-FIRST):** `dist/docs-portal/` is
+generated output. Never hand-edit `dist/docs-portal/index.html` or
+`dist/docs-portal/docs-metadata.json`. Always regenerate from source:
+`python scripts/build-docs-portal.py`. Validate with:
+`python scripts/check-docs-portal.py dist/docs-portal`. The portal content
+source is `docs/portal/onboarding.md`; edit that file, then regenerate.
+`dist/` is gitignored. `tests/docs-portal.test.sh` runs the full build+validate cycle.
+Rationale: v0.2.8.0 G7 gap closure (2026-06-08).
+
+**Anti-repeat rule (V0280-PAGES-DEPLOYMENT-UNVERIFIED):** GitHub Pages deployment
+is unverified until `.github/workflows/pages.yml` actually succeeds in CI with the
+repository Pages source set to "GitHub Actions" (Settings → Pages). Do not claim
+Pages is live, deployed, or publicly accessible without live CI evidence of a
+successful deploy job. OWNER DECISION required before first deployment. The build
+and validate jobs run independently of the deploy job and may pass even when deploy
+is blocked. Rationale: v0.2.8.0 (2026-06-08).
+
+**Anti-repeat rule (V0280-POLISH-HARDEN-OPTIONAL-TERMINAL):** Polish & Harden is
+an optional terminal phase shape (Rule P4-8 in `skills/references/phase-design.md`).
+It must not introduce new features, only cover: cleanliness, identity hygiene,
+generated artifact freshness, and proof-boundary wording. It is default-recommended
+for full plans, public surfaces, and package boundaries, but skippable with
+documented rationale. Fixtures for both variants live in
+`fixtures/phase-design/polish-harden.md`. Rationale: v0.2.8.0 G6 gap closure (2026-06-08).
+
+**Anti-repeat rule (V0280-PY-USE-STDOUT-WRITE):** Python CLI scripts under
+`scripts/` must use `sys.stdout.write(...)` and `sys.stderr.write(...)` for all
+user-facing output instead of the built-in print function, so the
+`check-added-lines-clean.sh` debug-print gate remains applicable to `.py` files
+without a global exemption. There is no `*.py` exclusion in `is_skipped_path()`.
+If a new Python script needs console output, use sys.stdout.write/sys.stderr.write
+with explicit `\n`. Rationale: v0.2.8.0 audit-fix (2026-06-08).
 
 ## Release asset gate
 

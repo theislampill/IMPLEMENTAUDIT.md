@@ -23,6 +23,14 @@ established repo. The outer shell is brownfield: inspect existing owners,
 contracts, tests, generated artifacts, sidecars, and regression surface first.
 The new artifact then receives greenfield intake before creation.
 
+**Governed casual-build intake** occurs when the user supplies natural-language
+repo-build intent (e.g., "add a login page", "wire up CI", "ship the CLI tool")
+without an audit object, checklist, or plan. The skill synthesizes a
+`tdqyq-audit-object` from the intent at Stage 1 before routing to greenfield,
+brownfield, or mixed work. Empty, unsafe, non-repo, and impossible inputs still
+fail the input gate. Natural-language entry does not bypass Smoke A/B, final
+audit, or authorization gates.
+
 Default to brownfield when an existing repo is present. Do not use "new file" as
 an excuse to skip existing repo contracts.
 
@@ -148,6 +156,20 @@ runtime capability, new package surface, or is a replacement design.
 
 Evidence boundary: same as DMAIC — routing pattern only, no statistical claim.
 
+## Governed Casual-Build Intake
+
+When natural-language repo-build intent is the input:
+
+1. Confirm the input names a recognizable repo-build goal (not empty, unsafe, non-repo, or impossible).
+2. Clarify scope, owner/source candidates, constraints, and acceptance criteria through up to four batched questions before mutation.
+3. Synthesize a `tdqyq-audit-object` from the normalized intent.
+4. Route to greenfield, brownfield, or mixed-mode work as appropriate.
+5. Continue under the same audit gates (Smoke A/B, final audit, authorization boundaries) as direct or goal-synthesis governance.
+
+Do not proceed with vague, unsafe, non-repo, or impossible intent. Do not skip
+Smoke A/B, the final audit, or any authorization gate because the input was
+casual.
+
 ## Mixed DMAIC/DMADV
 
 Mixed work runs DMAIC for the brownfield outer shell and DMADV for any new
@@ -170,3 +192,8 @@ repo-local owner/source discovery, acceptance criteria, rollback/evidence
 planning, fixtures/checkers, and smoke-before-claim closure. It can help
 implement changes, but only through the audit contract; it is not a generic
 autonomous build runner.
+
+IMPLEMENTAUDIT also accepts natural-language repo-build intent through governed
+casual-build intake, which synthesizes a `tdqyq-audit-object` before routing to
+the appropriate work mode. Casual-build intake does not bypass owner/source
+discovery, evidence planning, Smoke A/B, or the final audit.

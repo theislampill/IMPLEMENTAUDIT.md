@@ -1,0 +1,54 @@
+name: Deploy docs portal to GitHub Pages
+
+# OWNER DECISION required before this workflow can deploy successfully:
+# In repository Settings → Pages → Source, select "GitHub Actions".
+# Until that setting is changed, the deploy job will fail at the Pages API
+# step. The build and validate jobs will still run cleanly.
+#
+# Pages deployment status is unverified until the workflow actually succeeds
+# in CI with the Pages source setting active.
+
+on:
+  push:
+    branches:
+      - main
+
+# Required permissions for GitHub Pages deployment via OIDC
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment; cancel in-progress runs
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build docs portal
+        run: python scripts/build-docs-portal.py --out _site
+
+      - name: Validate docs portal output
+        run: python scripts/check-docs-portal.py _site
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

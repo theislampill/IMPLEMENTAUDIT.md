@@ -44,3 +44,4 @@ jobs:
           bash tests/phase-validation.test.sh
           bash tests/sidecars.test.sh
           bash tests/capability-ledger.test.sh
+          bash tests/docs-portal.test.sh

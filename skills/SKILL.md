@@ -94,6 +94,11 @@ Invocation modes bind or construct the audit object differently:
 - **Goal synthesis constructs** the audit object and phase artifacts when the
   input is too incomplete or ambiguous to execute safely. It emits a bounded
   `/goal` handoff only when not already embedded.
+- **Governed casual-build intake constructs** the audit object from
+  natural-language repo-build intent, normalizing it through up to four batched
+  intake questions at Stage 1 before synthesis. It uses the same audit gates,
+  Smoke A/B, final audit, and authorization boundaries as direct governance.
+  Empty, unsafe, non-repo, and impossible inputs still fail the input gate.
 
 Markers are audit-object lifecycle state:
 
@@ -330,6 +335,7 @@ Before planning or patching, identify the invocation shape:
 - `embedded governance`: the user already supplied a host goal/task/plan, especially inside `/goal using /implementaudit ...`.
 - `direct governance`: the user supplied a concrete audit, handoff, checklist, review, or bounded implementation plan.
 - `goal synthesis`: the user supplied only an idea, gap, incomplete target, or request for the next best implementation prompt.
+- `governed casual-build intake`: the user supplied natural-language repo-build intent (e.g., "add a login page", "wire up CI", "ship the CLI tool") without an explicit audit object, checklist, or plan. The skill synthesizes a `tdqyq-audit-object` from the intent before any mutation. Empty, unsafe, non-repo, and impossible inputs still fail the input gate. Natural-language entry does not bypass Smoke A/B, final audit, or authorization gates.
 
 In embedded governance mode, do not print a second `/goal`. Govern the active target with the normal `/implementaudit` gates.
 
@@ -377,6 +383,13 @@ Invocation boundary:
 - Goal synthesis: if the user supplied an idea, gap, or incomplete target,
   create a bounded, evidence-aware handoff. Print one ready-to-paste `/goal`
   only at Stage 7, and only when not already embedded.
+- Governed casual-build intake: if the user supplied natural-language build
+  intent without an audit object or plan, synthesize a `tdqyq-audit-object`
+  from the intent using audit-governed intake at Stage 1. Clarify scope,
+  owner/source, and acceptance criteria through up to four batched questions
+  before mutation. Do not proceed with vague, unsafe, non-repo, or impossible
+  intent. Natural-language entry does not bypass Smoke A/B, the final audit, or
+  any authorization gate.
 
 ### Stage 0 - Context/tool/repo-state detection
 
@@ -415,6 +428,33 @@ Before planning, establish the real operating context:
 Repo-local evidence wins. User memory or summaries may orient the run only when
 available and relevant; they do not override live files, `AGENTS.md`, audit
 ledgers, or owner decisions.
+
+**Bounded continuity preload:** When continuity is warranted, load orientation
+sources in this priority order (all read-only until a `CONTINUITY_DECISION`
+writeback is warranted and recorded):
+
+1. Repo-local `AGENTS.md` — highest-priority orientation source; always read first.
+2. Run-root applied-context note (`applied-context.md` / `applied-memories.md`) — run-local notes from a prior session on the same task.
+3. Optional personal/project memory notes — read-only orientation only; absent-safe.
+4. Graphify terrain — orientation evidence; not proof; use fresh or explicitly authorized graphs only.
+5. ActiveGraph custody — chain-of-custody evidence; not correctness proof.
+
+Continuity from any source never overrides live files, `AGENTS.md`, Smoke A/B,
+or the final audit. When a bounded continuity writeback is performed, emit:
+
+```text
+IMPLEMENTAUDIT_CONTINUITY_SAVED
+Target: <file path or memory system name>
+Reason: <why this learning is worth persisting>
+Evidence: <evidence basis>
+Boundary: <what is NOT included; evidence type limit>
+Authorization: <who or what authorized this writeback>
+Not saved: <what was explicitly excluded>
+```
+
+`IMPLEMENTAUDIT_CONTINUITY_SAVED` appears only when a writeback actually
+occurred. It must not use marker names from external tools or comparator
+systems.
 
 ### Stage 1 - Audit-governed intake and routing
 

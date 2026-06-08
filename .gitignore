@@ -13,8 +13,11 @@ graphify-out/
 tmp/
 temp/
 
-# Local release-asset build output
+# Local release-asset build output and docs portal generated output
 dist/
+
+# GitHub Pages local build output (jekyll/static)
+_site/
 
 # Local environment and editor state
 .env
