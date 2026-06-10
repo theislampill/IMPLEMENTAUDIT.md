@@ -55,12 +55,12 @@ AGENTS_UPDATE_DECISION
 IMPLEMENTAUDIT_PHASE_DONE
 ```
 
-Failure recovery uses:
+Andon escalation uses:
 
 ```text
-FAILURE_PROBE
-FAILURE_ESCALATE
-FAILURE_HANDOFF
+ANDON_PROBE
+ANDON_ESCALATE
+ANDON_HANDOFF
 ```
 
 Final audit uses:
@@ -78,7 +78,7 @@ merely that an auditing operation was attempted. `IMPLEMENTAUDIT_RUN_COMPLETE`
 may appear only after `AUDIT_COMPLETE`.
 `AUDIT_HANDOFF` is a handoff path only when gaps, blockers, or handoff-required caveats remain; do not print it with `IMPLEMENTAUDIT_RUN_COMPLETE`.
 
-Use `skills/scripts/repo-state.sh` for deliverable and added-line checks when a
+Use `"${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/repo-state.sh` for deliverable and added-line checks when a
 baseline is available. If the baseline is missing or invalid, mark the evidence
 as weaker rather than claiming full release proof.
 
@@ -167,7 +167,8 @@ spec to indicate this phase shape (see `skills/references/goal-format.md`).
 
 ## Phase shape examples
 
-See `fixtures/phase-design/` for concrete multi-phase plan outlines:
+See `fixtures/phase-design/` in the IMPLEMENTAUDIT source repo (repo-side;
+not shipped in the installed package) for concrete multi-phase plan outlines:
 
 | Fixture | Shape | Phases |
 |---------|-------|--------|

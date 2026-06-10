@@ -48,7 +48,7 @@ require_in_file skills/SKILL.md "PREFLIGHT_GREEN"
 require_in_file skills/SKILL.md "PREFLIGHT_RED"
 require_in_file skills/SKILL.md "AUDIT_COMPLETE"
 require_in_file skills/SKILL.md "IMPLEMENTAUDIT_RUN_COMPLETE"
-require_in_file skills/SKILL.md "skills/scripts/claim-run.sh"
+require_in_file skills/SKILL.md "scripts/claim-run.sh"
 require_in_file skills/SKILL.md 'IMPLEMENTAUDIT_BASE'
 require_in_file skills/SKILL.md 'IMPLEMENTAUDIT_RUN_ROOT'
 require_in_file skills/SKILL.md 'IMPLEMENTAUDIT_BASELINE_REF'
@@ -80,7 +80,7 @@ require_in_file skills/templates/phase-goal.txt "Thinking ref: <run-root>/THINKI
 require_in_file skills/templates/phase-goal.txt "CONTINUITY_DECISION"
 require_in_file skills/references/goal-format.md "Full phased handoff condition"
 require_in_file skills/references/planning-depth.md "Native planner stage rule"
-require_in_file skills/references/planning-depth.md "skills/scripts/claim-run.sh"
+require_in_file skills/references/planning-depth.md "scripts/claim-run.sh"
 require_in_file skills/references/phase-design.md "Stage 6 self-critique"
 require_in_file skills/references/phase-design.md "Start now"
 require_in_file skills/references/transcript-contract.md "Stage handoff boundary"

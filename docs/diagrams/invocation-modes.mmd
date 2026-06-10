@@ -28,9 +28,19 @@ flowchart TB
     SIn --> SObj --> SLoop --> SArt --> SGoal
   end
 
+  subgraph Casual["Governed casual-build intake"]
+    CIn["Input<br/>natural-language repo-build intent<br/>no audit artifact yet"]:::input
+    CObj["tdqyq-audit-object<br/>synthesized by 5-step intake<br/>owner/source · criteria · rollback"]:::artifact
+    CLoop["ydqyq-audit-action<br/>route greenfield / brownfield / mixed<br/>then govern as direct"]:::loop
+    CArt["Artifacts<br/>bounded intake record<br/>STOP on unbounded / unsafe /<br/>non-repo input"]:::artifact
+    CGoal["Second /goal<br/>not needed"]:::boundary
+    CIn --> CObj --> CLoop --> CArt --> CGoal
+  end
+
   DGoal --> Final
   EGoal --> Final
   SGoal --> Final
+  CGoal --> Final
 
   classDef input fill:#eff6ff,stroke:#2563eb,color:#111827
   classDef loop fill:#ecfdf5,stroke:#059669,color:#111827

@@ -124,12 +124,22 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
 ├── docs/portal/
 │   └── onboarding.md           Portal content source; generated into dist/docs-portal/ by build-docs-portal.py.
 ├── fixtures/
+│   ├── agent-eval/             Adversarial identity-misread eval inputs + expected transcript properties.
 │   ├── child-agents/           Scoped AGENTS hierarchy and reviewer fixtures.
 │   ├── lean/                   DMAIC/DMADV/mixed routing fixtures for Lean discipline.
 │   ├── zero-optional-tool/     Complete Markdown fallback example.
+│   ├── run-root-example/       Tracked exemplar run root (validator-passing, brownfield).
+│   ├── phase-design/           Multi-phase plan outlines + DMADV greenfield phase exemplar.
+│   ├── casual-build/           Governed casual-build intake accepted/rejected fixtures.
+│   ├── routing/                Greenfield/brownfield/mixed routing EXPECTED fixtures.
+│   ├── audit-spec/             Audit/goal/slice spec validation fixtures.
+│   ├── sidecars/               Sidecar presence/absence/staleness fixtures.
 │   └── simple-audit/
 │       ├── AUDIT.md
-│       └── EXPECTED-LEDGER.md
+│       ├── EXPECTED-LEDGER.md
+│       ├── EXPECTED-TRANSCRIPT-SKELETON.md
+│       ├── EXPECTED-ANDON-RECOVERY-SKELETON.md
+│       └── EXPECTED-ANDON-HANDOFF-SKELETON.md
 ├── scripts/
 │   ├── build-release-asset.sh  Build/extract-check IMPLEMENTAUDIT.skill.
 │   ├── check-host-claims.sh    Guard unsupported host/release/license claims.
@@ -140,6 +150,10 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
 │   ├── generate-readme-diagrams.sh Generate/check README Mermaid blocks.
 │   ├── check-routing.sh     Validate greenfield/brownfield routing fixtures.
 │   ├── check-lean-discipline.sh  Poka-yoke gate: Lean terms implemented as behavior, not glossary.
+│   ├── check-no-terminal-cap.sh  Poka-yoke gate: no terminal-cap failure wording in runtime docs.
+│   ├── check-agent-eval-fixtures.sh  Structural gate for the agent-eval misread fixture pack.
+│   ├── grade-agent-eval-transcript.sh  Grade a transcript against a fixture's Graded properties.
+│   ├── check-validation-registry.sh  Meta-gate: every test is wired into verify-package and CI.
 │   ├── build-docs-portal.py    Stdlib-only docs portal generator (reads docs/portal/onboarding.md).
 │   ├── check-docs-portal.py    12-check validator for generated portal output.
 │   ├── install-codex-from-release.sh Install a validated release asset into a Codex-style skill home.
@@ -164,14 +178,19 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
     │   ├── repo-state.sh       Complete baseline-vs-working-tree helper.
     │   ├── summarize-repo.sh   Brownfield owner/regression map.
     │   ├── validate-audit-spec.sh Validate audit/goal/slice specs.
-    │   └── validate-phase.sh   Sanity-checks a phase spec has required markers.
+    │   ├── validate-phase.sh   Sanity-checks a phase spec (--explain prints the checklist).
+    │   ├── validate-run-root.sh Structural conformance of a live run root (resume gate).
+    │   └── custody-append.sh   One-command absent-safe ActiveGraph custody emission.
     └── templates/              Files the planner copies into a user's `.IMPLEMENTAUDIT/` dir.
         ├── ROADMAP.md          Phase plan with dependencies.
-        ├── STATE.md            Live progress file.
+        ├── STATE.md            Live progress file (status enum, Andon log, ledger).
         ├── THINKING.md         Reviewable risk/dependency/evidence plan.
+        ├── sidecars.md         Sidecar status, Graphify query log, custody store fields.
+        ├── tools.md            Stage 0 tool/skill-dir/helper-layer detection record.
+        ├── context.md          Stage 0 operating-context record.
         ├── phase-goal.txt      Phase spec skeleton (work, criteria, evidence, commands).
         ├── child-agent-report.md Read-only reviewer report shape.
-        └── PROTOCOL.md         Execution loop + failure recovery + final audit protocol.
+        └── PROTOCOL.md         Execution loop + Andon escalation + final audit protocol.
 ```
 
 ## What ships vs what doesn't
@@ -180,8 +199,8 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
 - **Repo-only**: `README.md`, `CHANGELOG.md`, `AGENTS.md`, `CLAUDE.md`, `CONTRIBUTING.md`, fixtures, root scripts, and `.gitignore`.
 - **Marketplace entry**: `.claude-plugin/marketplace.json` points at the plugin root. Do not claim marketplace behavior was verified unless actually tested.
 - **License**: no `LICENSE` file is present until the owner selects a license and supplies license evidence.
-- **Versioning**: project milestone `v0.2.8.0` maps to plugin manifest version
-  `0.2.8`. The manifest uses
+- **Versioning**: project milestone `v0.2.9.0` maps to plugin manifest version
+  `0.2.9`. The manifest uses
   host-conservative package metadata; project milestones are not tags,
   releases, publication, or provenance claims until the separate
   release/provenance gate actually performs and verifies those actions.
@@ -328,12 +347,19 @@ AGENTS_UPDATE_DECISION
 IMPLEMENTAUDIT_PHASE_DONE
 ```
 
-Failure recovery:
+Andon escalation (Jidoka):
 
 ```text
-FAILURE_PROBE
-FAILURE_ESCALATE
-FAILURE_HANDOFF
+ANDON_PROBE
+ANDON_ESCALATE
+ANDON_HANDOFF
+```
+
+Interruption / continuity (conditional):
+
+```text
+IMPLEMENTAUDIT_PAUSE
+IMPLEMENTAUDIT_CONTINUITY_SAVED
 ```
 
 Final audit:
@@ -512,7 +538,7 @@ CHANGELOG:
 - Keep-a-Changelog style.
 - Keep the current project milestone at top, e.g. `[v0.2.6.0] - Unreleased` before release or `[v0.2.6.0] - <date>` only when the date is grounded.
 - Match manifest version if one exists.
-- Current project milestone is `v0.2.8.0`; plugin manifest version is `0.2.8` unless host evidence supports a four-component manifest version.
+- Current project milestone is `v0.2.9.0`; plugin manifest version is `0.2.9` unless host evidence supports a four-component manifest version.
 - Do not claim tags, releases, provenance, publication, or verified install without evidence.
 - Behavior/package changes should be produced by running `/implementaudit` on this repo itself.
 - Changelog entries should preserve the causal chain: finding/gap, root cause when known, countermeasure, evidence, and remaining risk.
@@ -560,6 +586,8 @@ test -f skills/scripts/validate-phase.sh
 test -f fixtures/audit-spec/valid-mixed.md
 test -f fixtures/child-agents/AGENTS.md
 test -f fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md
+test -f fixtures/simple-audit/EXPECTED-ANDON-RECOVERY-SKELETON.md
+test -f fixtures/simple-audit/EXPECTED-ANDON-HANDOFF-SKELETON.md
 test -f fixtures/zero-optional-tool/COMPLETE-RUN.md
 test -f fixtures/routing/greenfield-goal-synthesis/EXPECTED.md
 test -f fixtures/routing/greenfield-full-category-intake/EXPECTED.md
@@ -579,6 +607,33 @@ test -f docs/audits/v0.2.5.0-external-staged-goal-runtime-gap-closure.md
 test -f docs/audits/v0.2.5.0-claude-install-repair.md
 test -f docs/audits/v0.2.7.0-lean-operating-discipline.md
 test -f docs/audits/v0.2.8.0-adaptation.md
+test -f docs/audits/v0.2.9.0-andon-escalation-jidoka-repair.md
+test -f scripts/check-no-terminal-cap.sh
+test -f tests/no-terminal-cap.test.sh
+test -f fixtures/agent-eval/terminal-cap-request.md
+test -f fixtures/agent-eval/autonomous-build-runner.md
+test -f fixtures/agent-eval/audit-only-reviewer.md
+test -f fixtures/agent-eval/release-bot-overreach.md
+test -f fixtures/agent-eval/lean-glossary-theater.md
+test -f scripts/check-agent-eval-fixtures.sh
+test -f tests/agent-eval-fixtures.test.sh
+test -f scripts/grade-agent-eval-transcript.sh
+test -f tests/agent-eval-grader.test.sh
+test -f scripts/check-validation-registry.sh
+test -f tests/validation-registry.test.sh
+test -f tests/summarize-repo.test.sh
+test -f tests/shipped-scripts-smoke.test.sh
+test -f skills/scripts/validate-run-root.sh
+test -f tests/run-root-validation.test.sh
+test -f skills/templates/sidecars.md
+test -f skills/templates/tools.md
+test -f skills/templates/context.md
+test -f skills/scripts/custody-append.sh
+test -f tests/custody-append.test.sh
+test -f fixtures/run-root-example/STATE.md
+test -f fixtures/run-root-example/phases/phase-1.md
+test -f fixtures/phase-design/dmadv-greenfield-phase.md
+test -f fixtures/agent-eval/RUNBOOK.md
 test -f docs/portal/onboarding.md
 test -f scripts/build-docs-portal.py
 test -f scripts/check-docs-portal.py
@@ -607,7 +662,7 @@ python -m json.tool .claude-plugin/marketplace.json >/dev/null
 bash scripts/generate-readme-diagrams.sh --check
 bash scripts/check-readme-toc.sh
 bash scripts/check-planner-stages.sh
-bash scripts/check-marker-order.sh fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md
+bash scripts/check-marker-order.sh
 bash scripts/check-routing.sh
 bash scripts/check-sidecar-boundaries.sh
 bash scripts/check-host-claims.sh
@@ -629,6 +684,13 @@ bash tests/sidecars.test.sh
 bash tests/capability-ledger.test.sh
 bash scripts/check-lean-discipline.sh
 bash tests/lean-discipline.test.sh
+bash scripts/check-no-terminal-cap.sh
+bash tests/no-terminal-cap.test.sh
+bash scripts/check-agent-eval-fixtures.sh
+bash tests/agent-eval-fixtures.test.sh
+bash tests/agent-eval-grader.test.sh
+bash scripts/check-validation-registry.sh
+bash tests/validation-registry.test.sh
 ```
 
 Run docs-portal separately (it calls verify-package.sh internally; do not nest it inside verify-package.sh):
@@ -665,6 +727,9 @@ Required readback checks:
 grep -R "Self-critique:" -n skills
 grep -R "PREFLIGHT_GREEN" -n skills
 grep -R "PREFLIGHT_RED" -n skills
+grep -R "ANDON_PROBE" -n skills
+grep -R "ANDON_ESCALATE" -n skills
+grep -R "ANDON_HANDOFF" -n skills
 grep -R "IMPLEMENTAUDIT_PHASE_START" -n skills
 grep -R "IMPLEMENTAUDIT_PHASE_VERIFY" -n skills
 grep -R "IMPLEMENTAUDIT_PHASE_DONE" -n skills
@@ -672,6 +737,7 @@ grep -R "AGENTS_UPDATE_DECISION" -n skills
 grep -R "AUDIT_COMPLETE" -n skills
 grep -R "IMPLEMENTAUDIT_RUN_COMPLETE" -n skills
 grep -R ".IMPLEMENTAUDIT" -n skills README.md AGENTS.md
+grep -R "v0.2.9.0" -n README.md CHANGELOG.md AGENTS.md
 grep -R "v0.2.8.0" -n README.md CHANGELOG.md AGENTS.md
 grep -R "v0.2.7.0" -n README.md CHANGELOG.md AGENTS.md
 grep -R "v0.2.6.0" -n README.md CHANGELOG.md AGENTS.md
@@ -697,7 +763,7 @@ Canonical skill: skills/SKILL.md
 Root behavior file: absent by owner decision
 Runtime dir: .IMPLEMENTAUDIT/
 Planner: Stage 0 through Stage 7 when goal synthesis or phase planning is needed
-Executor: supplied target or one-paste /goal, phase loop when needed, failure recovery, final audit
+Executor: supplied target or one-paste /goal, phase loop when needed, Andon escalation, final audit
 Optional tooling: Graphify orientation, ActiveGraph custody, Markdown fallback
 ```
 
@@ -744,11 +810,86 @@ must follow the 16-step sequence in PROTOCOL.md. Do not skip validate-phase.sh
 (Step 3), cleanliness check (Step 9), or STATE.md update (Step 16). Each of
 these steps was absent in v0.2.5.0's PROTOCOL.md and caused verifiable gaps.
 
-**Anti-repeat rule (V0_2_6_0_FAILURE_RECOVERY_ORDERED):** The 3-strike failure
-recovery ladder (FAILURE_PROBE → FAILURE_ESCALATE → FAILURE_HANDOFF) is
-sequential. Do not skip to FAILURE_HANDOFF on the first criterion failure; that
-was the v0.2.5.0 gap. Strike 1 requires an inline fix attempt; Strike 2 requires
-a phase-N.fix.md; only Strike 3 yields FAILURE_HANDOFF.
+**Anti-repeat rule (V0_2_6_0_FAILURE_RECOVERY_ORDERED, amended v0.2.9.0):** The
+Andon escalation sequence (ANDON_PROBE → ANDON_ESCALATE → ANDON_HANDOFF) is
+ordered. Do not skip to ANDON_HANDOFF on the first criterion failure; that was
+the v0.2.5.0 gap. The v0.2.6.0 fix overcorrected into a fixed try counter that
+contradicted Jidoka; v0.2.9.0 removed every terminal try/round cap. Escalation
+is driven by repeated same-class failure, and ANDON_HANDOFF fires only when
+closure is blocked by owner decision, unsafe scope, missing authorization,
+external dependency, irreproducibility, missing required tool/access, or no
+bounded countermeasure remaining.
+
+**Anti-repeat rule (V0290-README-VERSION-CLAIM-PINNED):** README's "Current
+project milestone:" claim is derived evidence, not free prose. It must match
+the live plugin manifest version; `scripts/verify-package.sh` enforces this by
+reading plugin.json rather than pinning a literal. Rationale: the claim
+drifted silently at the v0.2.9.0 bump because every other version pin was
+checker-enforced and this one was not (2026-06-10).
+
+**Anti-repeat rule (V0290-VALIDATION-REGISTRY-PARITY):** Every
+`tests/*.test.sh` must be invoked by BOTH `scripts/verify-package.sh` and
+`.github/workflows/validate.yml`; `scripts/check-validation-registry.sh`
+enforces parity with a reasoned exemption list (docs-portal.test.sh is exempt
+from verify-package because it invokes verify-package and must not nest).
+Rationale: both registries drifted independently at v0.2.9.0 — three new
+tests missing from verify-package, one test missing from CI (2026-06-10).
+
+**Anti-repeat rule (V0290-PACKAGE-PARITY):** The built `.skill` archive must
+equal the `required_archive` manifest in `scripts/build-release-asset.sh`
+exactly — no missing entries, no extras. Adding payload requires a deliberate
+manifest update (both `required_source` and `required_archive`) plus the
+mirrored set in `tests/release-asset.test.sh`. Rationale: v0.2.9.0 — the lean
+reference shipped while absent from both allowlists, so its deletion would not
+have failed the gate (2026-06-10).
+
+**Anti-repeat rule (V0290-HELPER-PATHS-RESOLVE-VIA-SKILL-DIR):** Packaged
+helper invocations in the payload must resolve through
+`"${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/<helper>` — never a bare
+`skills/scripts/` path, which resolves nowhere for installed consumers (the
+archive strips the `skills/` prefix). The default keeps the same command
+working verbatim in the source repo. Enforced by the path-integrity gate in
+`scripts/verify-package.sh`. Do not reuse `IMPLEMENTAUDIT_BASE` for this: that
+variable is the run-root base (default `.IMPLEMENTAUDIT/runs`) consumed by
+`claim-run.sh`, and the round-5 fix initially collided with it — redefining an
+existing variable without checking its consumers is the anti-pattern this rule
+records. Rationale: v0.2.9.0 rounds 5–7 (2026-06-10).
+
+**Anti-repeat rule (V0290-RUN-ROOT-IS-NOT-EVIDENCE):** `.IMPLEMENTAUDIT/`
+run-root artifacts are the audit substrate, never deliverables or cleanliness
+evidence. `skills/scripts/repo-state.sh` excludes them from `changed-files`
+and `added-lines` enumeration with a visible stderr count (never silently),
+while explicit `deliverable <path>` queries stay honest for any path.
+`claim-run.sh` prints an advisory (stderr, no repo mutation) when the run-root
+base is not gitignored in the target repo, suggesting a local-only
+`.git/info/exclude` entry. Rationale: v0.2.9.0 round-6 audit — in target repos
+without the dogfood gitignore, run roots contaminated the run's own evidence
+(2026-06-10).
+
+**Anti-repeat rule (V0290-NO-DANGLING-SHIPPED-PATHS):** Files under `skills/`
+ship to consumers who do not receive `fixtures/`, `tests/`, or repo-side
+`scripts/check-*`. Any payload line referencing such a path must carry a
+"source repo" label, enforced by the path-integrity gate in
+`scripts/verify-package.sh`. Shipped helper scripts must discover repo
+surfaces at runtime (globs + existence checks), not hardcode IMPLEMENTAUDIT
+repo paths. Rationale: v0.2.9.0 (2026-06-10).
+
+**Anti-repeat rule (V0290-DOGFOOD-VERSION-SKEW):** When the working repo is
+IMPLEMENTAUDIT itself, Stage 0 must compare the installed/running payload
+version against the repo `.claude-plugin/plugin.json`; on mismatch, record an
+orientation Andon (class: evidence-mismatch) and treat live repo files as the
+contract of record. Live evidence: the 2026-06-10 dogfood session ran on a
+pre-repair installed payload while auditing the repaired repo. Rationale:
+v0.2.9.0 G4.
+
+**Anti-repeat rule (V0290-NO-TERMINAL-CAP-WORDING):** Shipped runtime docs and
+runtime-shaping surfaces (skills/, docs/diagrams/, docs/portal/, fixtures/,
+README.md, AGENTS.md) must not contain terminal-cap failure wording (try
+counters, capped audit rounds, run-stopping phrasing) or the legacy
+FAILURE-prefixed marker spellings. `scripts/check-no-terminal-cap.sh` enforces
+the gate; `tests/no-terminal-cap.test.sh` proves both the gate and the
+legacy-history exemption (CHANGELOG.md and docs/audits/ are not scanned).
+Rationale: v0.2.9.0 Jidoka contradiction repair (2026-06-10).
 
 **Anti-repeat rule (V0_2_6_0_DISPATCH_NEEDS_PREFLIGHT):** Stage 7 handoff must
 not be printed before: (a) all 8 dispatch-prep steps in Stage 5 complete, and
@@ -811,6 +952,20 @@ leverage must not remain prose-only. `scripts/check-lean-discipline.sh` verifies
 both sections exist. Fixtures in `fixtures/lean/sidecar-*` prove sidecar-absent
 fallback and sidecar-present paths. Rationale: v0.2.7.0 Graphify/ActiveGraph
 leverage gate (2026-06-07).
+
+**Anti-repeat rule (V0290-SIDECARS-CANONICAL-FOR-DOGFOOD):** Graphify and
+ActiveGraph are canonical for dogfooding this repo (owner decision,
+2026-06-10): terrain lives at `graphify-out/graph.json` (agent-extracted;
+nodes need `id`+`label`, optional `type`; links need `source`/`target`),
+custody lives per-run at `.IMPLEMENTAUDIT/runs/<run>/custody.db` (SQLite) or
+`custody-trace.jsonl`. Prior-run stores are read-only continuity inputs;
+recovery/backfill follows V0260-ACTIVEGRAPH-CUSTODY-MODE labeling
+(`historical_backfill` + source/backfilled_at/original_event_time/
+evidence_boundary). Local persistence of these gitignored outputs is expected,
+not a violation: the boundary is tracked source and the `.skill` package —
+`check-sidecar-boundaries.sh` enforces tracked-status and ignore-cover, not
+existence. Terrain is orientation, custody is chain-of-custody; neither is
+proof.
 
 **Anti-repeat rule (V0270-SIDECAR-OUTPUTS-EXCLUDED):** Graphify outputs
 (`graphify-out/`, `graph.json`), ActiveGraph stores (`.activegraph/`, `*.activegraph.db`,
@@ -974,12 +1129,14 @@ Named blocks the executing agent must print into the transcript. The host's `/go
 - `IMPLEMENTAUDIT_PHASE_VERIFY` — once per phase, before DONE. Each criterion pass/fail with evidence; engineering checks; **`Cleanliness:` section** with grep counts vs `Baseline ref` (debug prints, session task markers, dead imports).
 - `AGENTS_UPDATE_DECISION` — once per phase or final audit. States whether a durable repo-local rule was added, not warranted, or requires owner decision. If updated, identify scope: root `AGENTS.md`, nearest scoped `AGENTS.md`, or specialist/subagent guidance.
 - `IMPLEMENTAUDIT_PHASE_DONE` — once per phase, final block.
-- `FAILURE_PROBE` / `FAILURE_ESCALATE` / `FAILURE_HANDOFF` — 3-strike phase-criterion recovery.
+- `ANDON_PROBE` / `ANDON_ESCALATE` / `ANDON_HANDOFF` — Jidoka escalation on any abnormality (failed criterion, regression, bad evidence, unclear owner, stale sidecar, policy conflict). Ordered; no arbitrary try or round cap; `ANDON_HANDOFF` only on a genuine blocking condition, never "third try failed."
+- `IMPLEMENTAUDIT_PAUSE` — emitted when a user message interrupts a phase in progress; requires a preceding `IMPLEMENTAUDIT_PHASE_START`; resume follows the run-root PROTOCOL.md resume contract.
+- `IMPLEMENTAUDIT_CONTINUITY_SAVED` — emitted only on an actual bounded continuity writeback, with all six fields (Target, Reason, Evidence, Boundary, Authorization, Not saved).
 - `AUDIT_START` / `AUDIT_VERIFY` (includes a `Deliverables:` block from the diff-based check vs `Baseline ref) / `AUDIT_GAPS` / `AUDIT_COMPLETE` (includes `Audit coverage:`) — final audit pass.
 - `AUDIT_HANDOFF` — handoff path only when gaps, blockers, or handoff-required caveats remain. Never print with `IMPLEMENTAUDIT_RUN_COMPLETE`.
 - `IMPLEMENTAUDIT_RUN_COMPLETE` — only after `AUDIT_COMPLETE`. Run is done. Prepends a `⚠ Audit coverage: …` warning banner when trust-prior is > 30% of total checks.
 
-The `/goal` end-state requires `IMPLEMENTAUDIT_RUN_COMPLETE` preceded by `AUDIT_COMPLETE` and one `IMPLEMENTAUDIT_PHASE_DONE` per phase, with no `FAILURE_HANDOFF` or `AUDIT_HANDOFF`.
+The `/goal` end-state requires `IMPLEMENTAUDIT_RUN_COMPLETE` preceded by `AUDIT_COMPLETE` and one `IMPLEMENTAUDIT_PHASE_DONE` per phase, with no `ANDON_HANDOFF` or `AUDIT_HANDOFF`.
 
 ### Inside the planner session
 

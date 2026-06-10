@@ -71,34 +71,112 @@ IMPLEMENTAUDIT_PHASE_DONE
   It does not replace `AGENTS_UPDATE_DECISION`.
 - `IMPLEMENTAUDIT_PHASE_DONE` closes the phase.
 
-## Failure recovery markers
+## Andon escalation markers
 
 ```text
-FAILURE_PROBE
-FAILURE_ESCALATE
-FAILURE_HANDOFF
+ANDON_PROBE
+ANDON_ESCALATE
+ANDON_HANDOFF
 ```
 
-The three-strike sequence is ordered: FAILURE_PROBE → FAILURE_ESCALATE →
-FAILURE_HANDOFF. Skipping to FAILURE_HANDOFF on the first failure is invalid.
+Andon escalation implements Jidoka: abnormality -> stop -> understand why ->
+countermeasure -> rerun evidence. The sequence is ordered: ANDON_PROBE →
+ANDON_ESCALATE → ANDON_HANDOFF. Skipping to ANDON_HANDOFF on the first
+abnormality is invalid. Escalation is driven by repeated same-class failure
+and blocked closure, not by a try counter. There is no arbitrary three-try or
+three-round cap.
 
-- **FAILURE_PROBE** (Strike 1): emitted on the first criterion failure; names
-  the failing criterion, failing command, observed output, and smallest
-  reproducible step. STATE.md is updated. A targeted inline fix is attempted.
-  If the fix succeeds, the phase resumes; no new marker is needed.
+Every Andon event is recorded as one classed row in the run-root STATE.md
+`## Andon log` (`# | Phase | Class | Abnormality | Countermeasure |
+Rerun evidence | Outcome`). `Class` is exactly one official abnormality class:
 
-- **FAILURE_ESCALATE** (Strike 2): emitted when Strike 1's fix attempt also
-  fails. Includes Hansei analysis. A `phase-N.fix.md` is written targeting
-  only the failing criterion (no scope expansion). Fix spec ends with the
-  original VERIFY gate. On success, phase resumes from IMPLEMENTAUDIT_PHASE_VERIFY.
+```text
+failed-criterion
+regression
+hung-command
+substituted-command
+owner-unclear
+generated-artifact-mismatch
+stale-sidecar
+policy-conflict
+impossible-criterion
+evidence-mismatch
+```
 
-- **FAILURE_HANDOFF** (Strike 3): emitted when Strike 2's fix spec also fails.
-  Includes full probe history. STATE.md set to BLOCKED. Phase done with
-  `Status: blocked`. Run stops. No subsequent phases execute.
+Same-class recurrence — not a try count — is what drives escalation. The log
+has no row limit.
 
-`FAILURE_HANDOFF` is terminal for the current run. A transcript containing
-`FAILURE_HANDOFF` must not also contain `IMPLEMENTAUDIT_RUN_COMPLETE`.
-STATE.md `Status: BLOCKED` must be set before the run stops.
+These markers and classes apply to any governed run, phased or not. When no
+run root exists (direct in-session governance), the Markdown findings ledger
+serves as the Andon log substrate: record the abnormality class on the ledger
+row and cite prior same-class rows on escalation.
+
+- **ANDON_PROBE**: emitted on the first abnormality of any class above. It
+  must record: the abnormality and its class; the failing criterion, command,
+  or artifact; owner/source; containment decision; a 5 Whys root-cause drill
+  proportional to the issue; Hansei (gap, cause, countermeasure, follow-up
+  evidence); the countermeasure selected; and the rerun evidence required.
+  The classed `## Andon log` row is appended and STATE.md is updated. A fix
+  may not be attempted merely because a symptom is visible; the fix must
+  follow from the probe. If the countermeasure passes its rerun evidence, the
+  phase resumes; no new marker is needed.
+
+- **ANDON_ESCALATE**: emitted when the first countermeasure fails, the
+  same-class abnormality recurs, the root cause remains unclear, the fix would
+  expand scope, or the owner/source is disputed. A same-class recurrence claim
+  must cite the prior same-class `## Andon log` rows by `#`; a recurrence
+  claim without a cited same-class row is invalid. It must record: the prior
+  ANDON_PROBE history; why the first countermeasure failed; a revised or
+  deeper 5 Whys; `New evidence:` and/or `Changed approach:` — if neither can
+  be truthfully filled, evaluate the ANDON_HANDOFF conditions instead of
+  escalating; the chosen path — split, reframe, rollback, owner decision,
+  or a bounded fix-spec (`phase-N.fix.md` targeting only the failing
+  criterion, no scope expansion, ending with the original VERIFY gate); and
+  rerun evidence. On success, the phase resumes from
+  IMPLEMENTAUDIT_PHASE_VERIFY. Escalation may repeat with new evidence;
+  repeating it without new evidence or progress routes to the ANDON_HANDOFF
+  conditions.
+
+- **ANDON_HANDOFF**: emitted only when closure is blocked by an owner
+  decision, unsafe scope, missing authorization, an external dependency,
+  irreproducibility, a missing required tool or access, or when no bounded
+  countermeasure remains. It is not "third try failed." Includes the full
+  probe and escalation history, the remaining blocker, and the smallest next
+  concrete action for a human owner. STATE.md set to BLOCKED. Phase done with
+  `Status: blocked`. Phases that depend on the blocked surface do not execute;
+  independent in-scope phases may continue when safe, and the run ends in an
+  audited handoff rather than completion.
+
+`ANDON_HANDOFF` is terminal for the blocked surface. A transcript containing
+`ANDON_HANDOFF` must not also contain `IMPLEMENTAUDIT_RUN_COMPLETE`.
+STATE.md `Status: BLOCKED` must be set before the run stops or hands off.
+Legacy transcripts may contain the older FAILURE-prefixed marker spellings;
+hosts must apply the same exclusivity rule to them, but new runs emit only the
+ANDON-prefixed markers.
+
+## Interruption and continuity markers
+
+```text
+IMPLEMENTAUDIT_PAUSE
+IMPLEMENTAUDIT_CONTINUITY_SAVED
+```
+
+- `IMPLEMENTAUDIT_PAUSE` is emitted when a user message interrupts a phase in
+  progress (after IMPLEMENTAUDIT_PHASE_START, before IMPLEMENTAUDIT_PHASE_DONE).
+  It records: phase number, paused-at-boundary or paused-mid-step, last
+  completed step, and whether STATE.md was updated. A transcript containing
+  IMPLEMENTAUDIT_PAUSE must contain a preceding IMPLEMENTAUDIT_PHASE_START.
+  Resume follows the run-root PROTOCOL.md resume contract: re-read state and
+  spec from disk, re-validate the phase spec, and continue from the paused
+  step without re-printing IMPLEMENTAUDIT_PHASE_START.
+- `IMPLEMENTAUDIT_CONTINUITY_SAVED` is emitted only when a bounded continuity
+  writeback is actually performed (SKILL.md Stage 0; PROTOCOL.md continuity
+  steps). It must carry all six fields: Target, Reason, Evidence, Boundary,
+  Authorization, Not saved. Saved continuity never overrides live files,
+  AGENTS.md, Smoke A/B evidence, or the final audit.
+
+Neither marker is a completion or handoff signal; both may appear in
+transcripts that later reach AUDIT_COMPLETE or an audited handoff.
 
 ## Final audit markers
 
@@ -113,6 +191,9 @@ IMPLEMENTAUDIT_RUN_COMPLETE
 
 Rules:
 
+- `AUDIT_START` carries `Skill version:` — the plugin manifest version of the
+  payload that produced the run (`unknown` when unresolvable, never guessed) —
+  so any transcript can be attributed to its contract version.
 - `AUDIT_COMPLETE` must precede `IMPLEMENTAUDIT_RUN_COMPLETE`.
 - `AUDIT_COMPLETE` means the audit object reached terminal verified closure; it
   does not merely mean the runtime performed an audit operation.
@@ -145,11 +226,14 @@ themselves.
 
 ## Machine check
 
-Run:
+In the IMPLEMENTAUDIT source repo (the validator and its fixtures are
+repo-side and do not ship in the installed package), run:
 
 ```bash
-bash scripts/check-marker-order.sh fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md
+bash scripts/check-marker-order.sh  # source repo only; validates the tracked skeletons
 ```
 
-The validator checks marker ordering and rejects handoff/failure transcripts
-that also claim run completion.
+The validator checks marker ordering, the Andon escalation rules (probe-first,
+escalation-progress fields), and rejects handoff/failure transcripts that also
+claim run completion. Installed consumers without the source repo validate
+transcripts against the rules in this document.

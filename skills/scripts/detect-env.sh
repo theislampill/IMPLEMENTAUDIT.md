@@ -31,8 +31,14 @@ printf '\nhost-session:\n'
 printf 'codex_home=%s\n' "${CODEX_HOME:-unset}"
 printf 'claude_config_dir=%s\n' "${CLAUDE_CONFIG_DIR:-unset}"
 printf 'implementaudit_base=%s\n' "${IMPLEMENTAUDIT_BASE:-.IMPLEMENTAUDIT/runs}"
+printf 'implementaudit_skill_dir=%s\n' "${IMPLEMENTAUDIT_SKILL_DIR:-skills (default; set to the installed skill directory)}"
 printf 'implementaudit_run_root=%s\n' "${IMPLEMENTAUDIT_RUN_ROOT:-unset}"
 printf 'implementaudit_baseline_ref=%s\n' "${IMPLEMENTAUDIT_BASELINE_REF:-unset}"
+if command -v bash >/dev/null 2>&1; then
+  printf 'helper_layer=available (bash present)\n'
+else
+  printf 'helper_layer=unavailable (no bash; use documented weaker-evidence fallbacks)\n'
+fi
 
 printf '\noptional-docs-and-web:\n'
 for cmd in gh curl wget; do

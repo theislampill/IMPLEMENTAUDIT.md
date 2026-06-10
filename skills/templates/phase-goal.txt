@@ -9,7 +9,7 @@
 # not from chat context.
 #
 # The agent follows {{RUN_ROOT}}/PROTOCOL.md for the execution loop,
-# failure recovery, final audit, and continuity writeback.
+# Andon escalation, final audit, and continuity writeback.
 #
 # Replace all {{...}} placeholders. Keep the IMPLEMENTAUDIT_PHASE_START block
 # verbatim so validate-phase.sh and the runtime can anchor on it.

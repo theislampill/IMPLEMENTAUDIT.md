@@ -44,4 +44,13 @@ jobs:
           bash tests/phase-validation.test.sh
           bash tests/sidecars.test.sh
           bash tests/capability-ledger.test.sh
+          bash tests/lean-discipline.test.sh
+          bash tests/validation-registry.test.sh
+          bash tests/summarize-repo.test.sh
+          bash tests/shipped-scripts-smoke.test.sh
+          bash tests/run-root-validation.test.sh
+          bash tests/custody-append.test.sh
+          bash tests/no-terminal-cap.test.sh
+          bash tests/agent-eval-fixtures.test.sh
+          bash tests/agent-eval-grader.test.sh
           bash tests/docs-portal.test.sh

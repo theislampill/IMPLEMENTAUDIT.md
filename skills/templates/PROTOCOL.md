@@ -53,7 +53,7 @@ block is present. If the file is missing or the marker is absent, stop and
 report Andon with the missing artifact path.
 
 **Step 3 — Validate phase spec.**
-Run `bash skills/scripts/validate-phase.sh <run-root>/phases/phase-N.md`.
+Run `bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/validate-phase.sh <run-root>/phases/phase-N.md`.
 Exit code must be 0. If not, stop and report the validation error before
 proceeding. Do not execute a phase against an invalid spec.
 
@@ -81,14 +81,14 @@ an Andon before using any rerun or substitute.
 **Step 8 — Evaluate acceptance criteria.**
 For each item in `## Acceptance criteria`, record `[pass]` or `[fail]` with
 evidence. A criterion fails if the evidence is absent, weaker than stated, or
-requires an undisclosed assumption. Failures trigger the failure recovery
-ladder (see below) before proceeding.
+requires an undisclosed assumption. Failures trigger the Andon escalation
+protocol (see below) before proceeding.
 
 **Step 9 — Cleanliness check (5S / Seiso + Seiri).**
 Run:
 ```bash
-bash skills/scripts/repo-state.sh added-lines <Baseline ref>
-bash skills/scripts/repo-state.sh changed-files <Baseline ref>
+bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/repo-state.sh added-lines <Baseline ref>
+bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/repo-state.sh changed-files <Baseline ref>
 ```
 This covers committed-after-baseline, staged, unstaged, deleted, and untracked
 changes. Record: debug prints added, session debug-markers added
@@ -190,7 +190,7 @@ Respond to the user's message. Options the agent must offer:
 3. **Skip phase** — owner decision; mark the phase as `deferred` in STATE.md
    with reason; continue to phase N+1.
 4. **Stop** — owner requests halt; set STATE.md `Status: INTERRUPTED`; record
-   the interruption point in `## Failure log`.
+   the interruption point in `## Andon log`.
 
 Do not restart from phase 1 unless the user explicitly requests it.
 
@@ -199,7 +199,11 @@ Do not restart from phase 1 unless the user explicitly requests it.
 When resuming after interruption:
 1. Re-read `<run-root>/STATE.md`, `<run-root>/phases/phase-N.md`, and
    `<run-root>/THINKING.md` from disk.
-2. Re-validate the phase spec with `validate-phase.sh`.
+2. Validate the run root with
+   `bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/validate-run-root.sh <run-root>`
+   and re-validate the phase spec with `validate-phase.sh`. A corrupted run
+   root is an ANDON_PROBE (class: evidence-mismatch), not something to resume
+   through.
 3. Re-state where the loop is resuming from (which numbered step).
 4. Do not re-print IMPLEMENTAUDIT_PHASE_START; it was already printed.
 5. Continue from the paused step, not from Step 1.
@@ -224,6 +228,11 @@ ownership) require surfacing the assumption before executing.
 
 ## Sidecars and continuity
 
+Version-skew rule: if Stage 0 recorded dogfood version skew (the installed
+skill payload is older or newer than the working repo's manifest), live repo
+files remain the contract of record; never resolve a contradiction in favor
+of packaged instructions.
+
 Read `<run-root>/sidecars.md` before using Graphify or ActiveGraph. Graphify
 output is orientation evidence, not proof. ActiveGraph custody is not correctness
 proof. Missing, stale, or unauthorized sidecars must route to Markdown fallback
@@ -241,6 +250,19 @@ and ordinary Gemba; they must not block the run.
 - Record each Graphify query in `<run-root>/sidecars.md`: query purpose, nodes/links,
   result summary, freshness, evidence boundary, live-file follow-up.
 - Graphify absence is not a blocker. Fall back to live-file Gemba and repo-state.sh.
+
+**ActiveGraph store convention and recovery:**
+- Canonical store location: `<run-root>/custody.db` (SQLite store) or
+  `<run-root>/custody-trace.jsonl` (append-only fallback). One store per run
+  root; never a tracked path.
+- Cross-run continuity preload discovers prior custody read-only by scanning
+  `.IMPLEMENTAUDIT/runs/*/custody.db` and `*/custody-trace.jsonl`; prior
+  events orient the run and never override live files or Smoke evidence.
+- Recovery/backfill follows the custody-mode labeling rules: live events
+  carry the run's live custody mode; transcript- or ledger-derived backfill
+  events must carry `custody_mode: historical_backfill` plus `source`,
+  `backfilled_at`, `original_event_time`, and `evidence_boundary`, so live
+  and reconstructed custody stay unambiguous at the event level.
 
 **ActiveGraph Lean custody rules (when authorized):**
 - Record Lean gate passages as custody events using the event table in
@@ -280,9 +302,10 @@ Chain (in order — do not skip steps):
 
 1. **Andon signal**: print `Andon:` block with status, blocker, failing check,
    owner/source, and next concrete action.
-2. **FAILURE_PROBE**: enter the three-strike ladder (see below).
-3. **Hansei** (after any strike or substitution): record gap, cause,
-   countermeasure, and follow-up evidence.
+2. **ANDON_PROBE**: enter the Andon escalation protocol (see below).
+3. **Hansei** (after any probe, escalation, substitution, regression, or
+   evidence mismatch): record gap, cause, countermeasure, and follow-up
+   evidence.
 4. **5 Whys** (when cause is non-obvious): drill symptom → systemic cause →
    countermeasure at the cause level, not the symptom.
 5. **Countermeasure**: implement the smallest safe fix at the root cause.
@@ -300,83 +323,144 @@ JIDOKA notes for phase transcripts:
 - Substituting a command or accepting a weaker evidence type is itself a
   JIDOKA trigger; record it as an Andon before using the substitute.
 
-## Failure recovery
+## Andon escalation protocol (Jidoka)
 
-Use the three-strike recovery ladder when a phase criterion cannot honestly
-close. Each strike is sequential; do not skip to FAILURE_HANDOFF on the first
-failure.
+Use the Andon escalation protocol when a phase criterion cannot honestly
+close, or any other abnormality stops the line. The Jidoka loop is:
+abnormality -> stop -> understand why -> countermeasure -> rerun evidence.
+The sequence is ordered; do not skip to ANDON_HANDOFF on the first
+abnormality. There is no arbitrary three-try or three-round cap: escalation is
+driven by repeated same-class failure and blocked closure, not a try counter.
 
 ```text
-FAILURE_PROBE
-FAILURE_ESCALATE
-FAILURE_HANDOFF
+ANDON_PROBE
+ANDON_ESCALATE
+ANDON_HANDOFF
 ```
 
-### Strike 1 — FAILURE_PROBE
+When ActiveGraph custody is configured and authorized for the run, mirror
+each Andon event into the store as it happens — `andon.probe.recorded`,
+`andon.escalated`, `andon.handoff.recorded` — carrying the Andon log row
+fields including the abnormality `class` (see the custody events table in
+`skills/references/lean-operating-discipline.md`). Use the packaged helper so
+emission is one command:
 
-Trigger: any acceptance criterion in `## Acceptance criteria` cannot be met
-after the first execution attempt.
+```bash
+bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/custody-append.sh \
+  <run-root>/custody.db <run-id> <event-id> andon.probe.recorded '<payload-json>'
+```
+
+The helper is absent-safe: when ActiveGraph is unavailable it exits 0 with a
+fallback note. Pass the causing event's id as the optional sixth argument so
+escalations chain to their probes (`andon.escalated` caused by the
+`andon.probe.recorded` it cites) and replay reconstructs causality, not just
+sequence. Custody preserves the escalation chain across sessions; it is
+chain-of-custody evidence, never correctness proof, and its absence blocks
+nothing.
+
+### ANDON_PROBE
+
+Trigger: the first abnormality — a failed acceptance criterion, regression,
+hung or substituted command, unclear owner/source, generated-artifact
+mismatch, stale sidecar, policy conflict, impossible acceptance criterion, or
+evidence mismatch.
 
 Steps:
-1. Print `FAILURE_PROBE` with: phase number, failing criterion, failing command
-   or check, observed output, and smallest reproducible step.
-2. Append a Failure entry to `<run-root>/STATE.md` under `## Failure log`:
-   phase, criterion, probe summary, timestamp or sequence number.
+1. Print `ANDON_PROBE` with: phase number; the abnormality; the failing
+   criterion, command, or artifact; observed output and smallest reproducible
+   step; owner/source; containment decision; a 5 Whys root-cause drill
+   proportional to the issue; Hansei (gap, cause, countermeasure, follow-up
+   evidence); the countermeasure selected; and the rerun evidence required.
+2. Append a classed row to `<run-root>/STATE.md` under `## Andon log`:
+   `#`, phase, abnormality class (exactly one official class from the
+   transcript contract: failed-criterion, regression, hung-command,
+   substituted-command, owner-unclear, generated-artifact-mismatch,
+   stale-sidecar, policy-conflict, impossible-criterion, evidence-mismatch),
+   abnormality, countermeasure selected, rerun evidence required, outcome
+   (`open (rerun pending)` until the rerun lands).
 3. Inspect the owner/source file directly (Gemba). Do not infer from summaries.
-4. Attempt the smallest safe fix targeting only the failing criterion.
+4. Apply the smallest safe countermeasure that follows from the probe,
+   targeting only the failing criterion. A fix may not be attempted merely
+   because a symptom is visible; the fix must follow from the probe.
 5. Re-run the failing mandatory command and evaluate the criterion again.
 6. If the criterion now passes, resume the phase from Step 8 (evaluate
    acceptance criteria) of the per-phase loop. Do not restart the full phase.
-7. If the criterion still fails, escalate to Strike 2.
+7. If the countermeasure fails or the same-class abnormality recurs,
+   escalate to ANDON_ESCALATE.
 
-### Strike 2 — FAILURE_ESCALATE
+### ANDON_ESCALATE
 
-Trigger: the criterion still fails after Strike 1's fix attempt.
+Trigger: the first countermeasure failed, the same-class abnormality recurred,
+the root cause remains unclear, the fix would expand scope, or the
+owner/source is disputed.
 
 Steps:
-1. Print `FAILURE_ESCALATE` with: phase number, failing criterion, Strike 1
-   fix attempted, Strike 1 result, Hansei analysis (gap, cause, countermeasure,
-   follow-up evidence).
-2. Write `<run-root>/phases/phase-N.fix.md`:
+1. Print `ANDON_ESCALATE` with: phase number, failing criterion, prior
+   ANDON_PROBE history, why the first countermeasure failed, and a revised or
+   deeper 5 Whys. Before claiming a same-class recurrence, cite the prior
+   same-class `## Andon log` rows by `#`; a recurrence claim without a cited
+   same-class row is invalid.
+2. Record `New evidence:` and/or `Changed approach:` for this escalation. If
+   neither can be truthfully filled, do not escalate — evaluate the
+   ANDON_HANDOFF conditions instead. Append the escalation as a new classed
+   `## Andon log` row with outcome `escalated (cites #N)`.
+3. Choose and record one path: split the phase, reframe the criterion,
+   rollback, request an owner decision, or write a bounded fix-spec
+   `<run-root>/phases/phase-N.fix.md`:
    - Target only the failing criterion; do not expand scope.
    - Forbidden: adding new features, restructuring unrelated code, or changing
      passing criteria.
    - The fix spec must end with the original `IMPLEMENTAUDIT_PHASE_VERIFY`
      gate from phase-N.md (same criteria, same commands).
-3. Execute the fix spec inline (read it from disk, do not rely on chat context).
-4. Re-run the original mandatory commands from phase-N.md.
-5. Re-evaluate all acceptance criteria (including the one that was failing).
-6. If all criteria now pass, resume from Step 11 (print IMPLEMENTAUDIT_PHASE_VERIFY)
-   of the per-phase loop. Record the fix in STATE.md.
-7. If any criterion still fails, escalate to Strike 3.
+4. Execute the chosen path inline (read fix specs from disk, do not rely on
+   chat context).
+5. Re-run the original mandatory commands from phase-N.md.
+6. Re-evaluate all acceptance criteria (including the one that was failing).
+7. If all criteria now pass, resume from Step 11 (print IMPLEMENTAUDIT_PHASE_VERIFY)
+   of the per-phase loop. Update the `## Andon log` row outcome to `resolved`.
+8. If closure is still blocked, escalate again only with new evidence or a
+   materially different countermeasure. Repetition without new evidence or
+   progress is itself an abnormality: evaluate the ANDON_HANDOFF conditions.
 
-### Strike 3 — FAILURE_HANDOFF
+### ANDON_HANDOFF
 
-Trigger: the criterion still fails after Strike 2's fix spec execution.
+Trigger: closure is blocked by an owner decision, unsafe scope, missing
+authorization, an external dependency, irreproducibility, a missing required
+tool or access, or no bounded countermeasure remains. It is not "third try
+failed"; a try count alone never triggers handoff.
 
 Steps:
-1. Print `FAILURE_HANDOFF` with: phase number, failing criterion, full probe
-   history (Strike 1 + Strike 2 attempts and results), remaining blocker, and
-   smallest next concrete action for a human owner.
-2. Set `<run-root>/STATE.md` `Status: BLOCKED` and record the failure in
-   `## Failure log`.
+1. Print `ANDON_HANDOFF` with: phase number, failing criterion, full probe and
+   escalation history (attempts and results), the blocking condition from the
+   trigger list above, remaining blocker, and smallest next concrete action
+   for a human owner.
+2. Set `<run-root>/STATE.md` `Status: BLOCKED` and append the closing
+   `## Andon log` row with outcome `blocked (handoff condition)`.
 3. Print `IMPLEMENTAUDIT_PHASE_DONE` with `Status: blocked`.
-4. Stop. Do not continue to subsequent phases.
-5. Do not print `IMPLEMENTAUDIT_RUN_COMPLETE` after `FAILURE_HANDOFF`.
+4. Do not execute phases that depend on the blocked surface. Independent
+   in-scope phases may continue when safe; the run then ends in an audited
+   handoff (`AUDIT_HANDOFF`), not completion.
+5. Do not print `IMPLEMENTAUDIT_RUN_COMPLETE` after `ANDON_HANDOFF`.
 
 The phase remains `blocked` until the owner resolves the underlying cause and
 restarts the phase.
 
 ## Final audit
 
-Execute after the last phase completes. The final audit may run up to 3 rounds.
-Each round prints one of: `AUDIT_COMPLETE` (success) or `AUDIT_GAPS` (gaps
-found, triggering an audit-fix round).
+Execute after the last phase completes. The final audit loops in audit-fix
+rounds until terminal closure or an audited handoff; there is no arbitrary
+round cap. Each round prints one of: `AUDIT_COMPLETE` (success) or
+`AUDIT_GAPS` (gaps found, triggering an audit-fix round).
 
 ### AUDIT_START
 
 Print `AUDIT_START` with:
-- Round number (1, 2, or 3)
+- Skill version: read from
+  `"${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/.claude-plugin/plugin.json` when
+  present (installed payload), else the source repo's
+  `.claude-plugin/plugin.json`, else `unknown` — never guess. This makes every
+  transcript attributable to the payload version that produced it
+- Round number (1-based)
 - Criteria count: total acceptance criteria being re-verified across all phases
 - Command list: deduplicated mandatory commands to re-run
 - Baseline ref
@@ -406,7 +490,7 @@ record an Andon before classifying the result as blocking or non-blocking.
 For each deliverable listed in ROADMAP.md, run:
 
 ```bash
-bash skills/scripts/repo-state.sh deliverable <Baseline ref> <path>
+bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/repo-state.sh deliverable <Baseline ref> <path>
 ```
 
 Record: exists, non-empty, changed-since-baseline. If the helper is unavailable,
@@ -444,8 +528,11 @@ failing criterion):
 3. Execute the audit-fix spec inline.
 4. Return to AUDIT_START for round N+1.
 
-Maximum 3 rounds. If blocking gaps remain after round 3, print `AUDIT_HANDOFF`
-instead of `AUDIT_COMPLETE`.
+There is no arbitrary round cap. Print `AUDIT_HANDOFF` instead of
+`AUDIT_COMPLETE` only when a blocking gap meets an ANDON_HANDOFF condition
+(owner decision, unsafe scope, missing authorization, external dependency,
+irreproducibility, missing required tool or access), or when a round closes no
+blocking gap and no bounded countermeasure remains.
 
 ### AUDIT_COMPLETE and IMPLEMENTAUDIT_RUN_COMPLETE
 
@@ -461,8 +548,9 @@ Then print `IMPLEMENTAUDIT_RUN_COMPLETE`.
 ### AUDIT_HANDOFF
 
 Print `AUDIT_HANDOFF` (instead of `AUDIT_COMPLETE`) when:
-- Blocking gaps remain after 3 rounds, or
-- An unresolvable FAILURE_HANDOFF prevents a phase from closing, or
+- A blocking gap meets an ANDON_HANDOFF condition or audit-fix rounds stop
+  making progress with no bounded countermeasure remaining, or
+- An unresolved ANDON_HANDOFF prevents a phase from closing, or
 - The owner requests handoff before completion
 
 `AUDIT_HANDOFF` must not appear with `IMPLEMENTAUDIT_RUN_COMPLETE`.
@@ -474,5 +562,5 @@ Print `AUDIT_HANDOFF` (instead of `AUDIT_COMPLETE`) when:
   audit operation.
 - `IMPLEMENTAUDIT_RUN_COMPLETE` appears only when every in-scope ledger item
   is terminally closed.
-- Do not print `IMPLEMENTAUDIT_RUN_COMPLETE` if `FAILURE_HANDOFF` or
+- Do not print `IMPLEMENTAUDIT_RUN_COMPLETE` if `ANDON_HANDOFF` or
   `AUDIT_HANDOFF` appeared in the transcript.

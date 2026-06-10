@@ -495,6 +495,34 @@ else
   fail_check "academic: stale '--version 0.2.4' install command found"
 fi
 
+# README <-> portal install/release parity: these two hand-maintained surfaces
+# drifted (portal said v0.2.8.0 was live while README pinned v0.2.5.0).
+if python - <<'PARITY'
+import re, sys
+readme = open("README.md", encoding="utf-8").read()
+portal = open("docs/portal/onboarding.md", encoding="utf-8").read()
+errs = []
+for script in ("install-codex-from-release.sh", "install-claude-from-release.sh"):
+    if script not in readme:
+        errs.append(f"README missing {script}")
+    if script not in portal:
+        errs.append(f"portal missing {script}")
+m_r = re.search(r"live public (v[\d.]+) release", readme)
+m_p = re.search(r"Release `(v[\d.]+)` is live", portal)
+if not m_r or not m_p:
+    errs.append("could not locate live-release claims in both surfaces")
+elif m_r.group(1) != m_p.group(1):
+    errs.append(f"live-release version drift: README={m_r.group(1)} portal={m_p.group(1)}")
+if errs:
+    sys.stderr.write("\n".join(errs) + "\n")
+    sys.exit(1)
+PARITY
+then
+  ok "parity: README and portal agree on install scripts and live-release version"
+else
+  fail_check "parity: README/portal install or live-release drift"
+fi
+
 # ---------------------------------------------------------------------------
 # Summary
 # ---------------------------------------------------------------------------

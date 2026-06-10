@@ -100,7 +100,7 @@ For greenfield-inside-brownfield work:
    generated surfaces, and validation checks.
 2. Identify the new artifact as greenfield and complete greenfield intake for
    that artifact.
-3. Add or update fixtures/checkers so the new behavior is not prose-only.
+3. Add or update fixtures and checkers so the new behavior is not prose-only.
 4. Re-run generated freshness checks when derived surfaces change.
 5. Close the ledger with Smoke A/B evidence.
 
@@ -189,7 +189,7 @@ greenfield intake for the new artifact.
 
 IMPLEMENTAUDIT is an audit-governed implementation skill. It routes work through
 repo-local owner/source discovery, acceptance criteria, rollback/evidence
-planning, fixtures/checkers, and smoke-before-claim closure. It can help
+planning, fixtures and checkers, and smoke-before-claim closure. It can help
 implement changes, but only through the audit contract; it is not a generic
 autonomous build runner.
 

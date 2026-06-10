@@ -18,6 +18,10 @@ Runtime copy target: `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/STATE.md`
 | Continuity decision | pending |
 | Authorization state | no commit / no push / no tag / no release / no provenance unless separately authorized |
 
+Status values: `open` / `READY_TO_DISPATCH` / `IN_PHASE` / `PAUSED` /
+`BLOCKED` / `INTERRUPTED` / `DONE`. Use these exact tokens; do not invent
+run-state vocabulary.
+
 ## Audit object state
 
 Audit object / record / surface:
@@ -65,6 +69,21 @@ Capability Ledger:
 
 | # | Finding | Priority | Action | Status | Evidence | Depends on | Follow-up |
 |---|---|---:|---|---|---|---|---|
+
+## Andon log
+
+One row per ANDON_PROBE, ANDON_ESCALATE, or ANDON_HANDOFF event. `Class` is
+exactly one official abnormality class from
+`skills/references/transcript-contract.md` §Andon escalation markers.
+ANDON_ESCALATE cites prior same-class rows by `#` before claiming recurrence.
+There is no row-count limit: escalation is driven by same-class recurrence and
+blocked closure, never by how many rows exist.
+
+| # | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |
+|---|---|---|---|---|---|---|
+
+Outcome values: `resolved` / `escalated (cites #N)` / `blocked (handoff condition)` /
+`open (rerun pending)`.
 
 ## AGENTS_UPDATE_DECISION
 

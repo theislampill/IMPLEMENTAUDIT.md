@@ -110,7 +110,7 @@ Markers are audit-object lifecycle state:
 - `AUDIT_COMPLETE` means the `tdqyq-audit-object` reached verified terminal
   closure.
 - `AUDIT_START`, `AUDIT_VERIFY`, `AUDIT_GAPS`, `AUDIT_COMPLETE`,
-  `AUDIT_HANDOFF`, and `FAILURE_HANDOFF` are not decorative labels.
+  `AUDIT_HANDOFF`, and `ANDON_HANDOFF` are not decorative labels.
 - The runtime may perform auditing actions many times, but completion is valid
   only when the audit object reaches `AUDIT_COMPLETE`.
 - `IMPLEMENTAUDIT_RUN_COMPLETE` is invalid unless `AUDIT_COMPLETE` proves
@@ -216,7 +216,7 @@ No commit. No push. No tag. No release. No publication. No provenance.
 |---|---|
 | Plan | Identify finding, owner/source, risk, smallest safe change, and verification command. |
 | Do | Patch the owner/source, not the nearest symptom. Keep changes atomic. Avoid broad rewrites. |
-| Check | Run the smallest meaningful check, relevant tests/smokes, and inspect generated output where applicable. |
+| Check | Run the smallest meaningful check, relevant tests and smokes, and inspect generated output where applicable. |
 | Act | Standardize if successful. Revise or revert if failed. Update the closure ledger. |
 
 **Broad rewrite threshold:** A patch is broad if it touches more than one logical unit not named in the audit, or if it restructures surrounding code unrelated to the finding. When in doubt, make the narrowest change that closes the finding and log the rest to the scope-creep register.
@@ -252,11 +252,20 @@ When work cannot honestly pass, surface it immediately:
 ```text
 Andon:
 Status:
+Class:
 Blocker:
 Failing check:
 Owner/source:
 Next concrete action:
 ```
+
+`Class:` is exactly one official abnormality class from the transcript
+contract: failed-criterion, regression, hung-command, substituted-command,
+owner-unclear, generated-artifact-mismatch, stale-sidecar, policy-conflict,
+impossible-criterion, evidence-mismatch. Classes apply to every governed run,
+phased or not: in a non-phased run with no run root, the findings-ledger row
+serves as the Andon log row, and same-class recurrence — never a try count —
+still drives escalation.
 
 Do not hide failure. Do not mark "mostly done."
 
@@ -398,13 +407,23 @@ Before planning, establish the real operating context:
 - read repo instructions and the nearest applicable `AGENTS.md`
 - identify invocation shape and route: embedded, direct, or goal synthesis;
   greenfield, brownfield, or mixed
-- claim or select a namespaced run root with `skills/scripts/claim-run.sh`
+- claim or select a namespaced run root with
+  `"${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/claim-run.sh`
   when phase planning is selected; prefer
   `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/` and treat flat `.IMPLEMENTAUDIT/*`
   files as legacy resume/audit inputs only
-- record native variables when available:
-  `IMPLEMENTAUDIT_BASE`, `IMPLEMENTAUDIT_RUN_ROOT`, and
-  `IMPLEMENTAUDIT_BASELINE_REF`
+- resolve and export `IMPLEMENTAUDIT_SKILL_DIR` first: the directory that
+  contains this SKILL.md. Hosts supply it as the skill base directory at load
+  time; in the IMPLEMENTAUDIT source repo it is `skills`. Every packaged
+  helper invocation resolves through it as
+  `bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/<helper>` — the default
+  makes the same command work verbatim in the source repo. If the skill
+  directory cannot be resolved, record the helper as unavailable and use the
+  documented weaker-evidence fallback; do not guess paths. Do not confuse it
+  with `IMPLEMENTAUDIT_BASE`, the run-root base inside the target repo
+  (default `.IMPLEMENTAUDIT/runs`, consumed by `claim-run.sh`)
+- record the other native variables when available: `IMPLEMENTAUDIT_BASE`
+  (run-root base), `IMPLEMENTAUDIT_RUN_ROOT`, and `IMPLEMENTAUDIT_BASELINE_REF`
 - detect repo root, git state, baseline HEAD/ref, staged, unstaged, deleted,
   and untracked work before making proof claims
 - detect host/session constraints, available tools, MCPs, skills, shell,
@@ -416,8 +435,23 @@ Before planning, establish the real operating context:
   and explicitly authorized
 - detect Graphify graph output and freshness/staleness; use it only when fresh
   or explicitly authorized, and record required live-file follow-up
-- detect ActiveGraph repo-local config/store hints and whether custody/event
-  writing is authorized; absence is not a failure
+- detect ActiveGraph repo-local config/store hints — including prior
+  per-run stores at `.IMPLEMENTAUDIT/runs/*/custody.db` and
+  `*/custody-trace.jsonl`, which are read-only continuity inputs — and
+  whether custody/event writing is authorized; absence is not a failure
+- detect `bash` availability: every packaged helper under
+  `scripts/` is a bash script. If no bash is available on the host (e.g., a
+  Windows host without Git Bash or WSL), record the helper layer as
+  unavailable in `tools.md` and use the documented weaker-evidence fallbacks
+  (PowerShell/native adaptations for inline commands; existence-only
+  deliverable checks); never claim helper-backed evidence without running the
+  helper
+- detect dogfood version skew: when the working repo's
+  `.claude-plugin/plugin.json` declares the same skill name as the running
+  packaged skill, compare the repo manifest version against the installed
+  payload version when discoverable; on mismatch, record an orientation Andon
+  (class: evidence-mismatch) in `tools.md` and treat live repo files as the
+  contract of record over packaged instructions
 - detect memory/continuity directories and prior run roots, but keep memory
   read-only until bounded continuity is warranted and recorded through a bounded
   `CONTINUITY_DECISION`
@@ -561,7 +595,8 @@ Phase shape rules (see `skills/references/phase-design.md` §"Phase shape requir
 - **P4-6 Hardening scope.** Hardening phases cover operational concerns only; new feature work found during hardening is logged as scope creep and deferred.
 - **P4-7 Skip documentation.** Omitting any required phase category requires documented rationale in the final audit ledger.
 
-Example phase shapes are in `fixtures/phase-design/`.
+Example phase shapes are in `fixtures/phase-design/` (source repo only;
+not shipped in the installed package).
 
 ### Stage 5 - Write `.IMPLEMENTAUDIT` runtime artifacts
 
@@ -601,11 +636,11 @@ record why in the ledger. Do not rely on chat context as the only plan.
    `STATE.md` and every `phases/phase-N.md` header.
 3. Copy `skills/templates/PROTOCOL.md` into `<run-root>/PROTOCOL.md`; record
    the source path and any customisations in THINKING.md.
-4. Record the path and SHA256 of `skills/scripts/repo-state.sh` in THINKING.md
+4. Record the path and SHA256 of `"${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/repo-state.sh` in THINKING.md
    so executing agents can verify they are using the correct version.
 5. Verify every `phases/phase-N.md` file exists for each phase listed in
    ROADMAP.md. Missing phase spec files block dispatch.
-6. Run `skills/scripts/validate-phase.sh` on every phase spec. Any failure
+6. Run `"${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/validate-phase.sh` on every phase spec. Any failure
    requires a spec fix before dispatch; do not dispatch against a failing spec.
 7. Collect the deduplicated mandatory command set across all phase specs; this
    set feeds the Stage 6.5 pre-flight.
@@ -681,12 +716,13 @@ the next agent to:
 - print `IMPLEMENTAUDIT_PHASE_START`, `IMPLEMENTAUDIT_PHASE_VERIFY`,
   `AGENTS_UPDATE_DECISION`, optional `CONTINUITY_DECISION`, and
   `IMPLEMENTAUDIT_PHASE_DONE` for each phase
-- follow `FAILURE_PROBE`, `FAILURE_ESCALATE`, and `FAILURE_HANDOFF` when a
-  phase cannot close
+- follow `ANDON_PROBE`, `ANDON_ESCALATE`, and `ANDON_HANDOFF` when a
+  phase cannot close; escalation has no arbitrary try cap and hands off only
+  on a genuine blocking condition
 - run final audit after the last phase
 - preserve the run root, baseline ref, and authorization boundaries
 - print `AUDIT_COMPLETE` before `IMPLEMENTAUDIT_RUN_COMPLETE`
-- never print `IMPLEMENTAUDIT_RUN_COMPLETE` with `FAILURE_HANDOFF` or
+- never print `IMPLEMENTAUDIT_RUN_COMPLETE` with `ANDON_HANDOFF` or
   `AUDIT_HANDOFF`
 
 If already embedded, do not print the handoff. Continue executing the supplied
@@ -780,9 +816,9 @@ If repo policy explicitly permits direct artifact editing, cite that policy in t
 **Complete repo-state comparison:** Final audit, deliverable checks, release-readiness checks, and cleanliness scans must compare the run baseline to the complete working tree. Do not use a two-dot commit range when the question is "what did this run change?" because staged, unstaged, and untracked files can otherwise disappear from the evidence. When available, use:
 
 ```bash
-bash skills/scripts/repo-state.sh changed-files <baseline>
-bash skills/scripts/repo-state.sh added-lines <baseline>
-bash skills/scripts/repo-state.sh deliverable <baseline> <path>
+bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/repo-state.sh changed-files <baseline>
+bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/repo-state.sh added-lines <baseline>
+bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/repo-state.sh deliverable <baseline> <path>
 ```
 
 If the baseline is invalid or unavailable, mark the evidence as weaker. Existence-only fallback is not release proof.
@@ -1212,6 +1248,9 @@ repo.patch.applied
 smoke.post.recorded
 regression.detected
 andon.triggered
+andon.probe.recorded
+andon.escalated
+andon.handoff.recorded
 hansei.recorded
 ledger.item.closed
 capability.entry.derived

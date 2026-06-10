@@ -27,6 +27,7 @@ Each action requires separate explicit authorization.
 
 ## Contents
 
+- [Quick start](#quick-start)
 - [Runtime at a glance](#runtime-at-a-glance)
 - [What it is](#what-it-is)
 - [Terminology](#terminology)
@@ -34,18 +35,44 @@ Each action requires separate explicit authorization.
 - [How IMPLEMENTAUDIT audits](#how-implementaudit-audits)
 - [Invocation modes](#invocation-modes)
 - [Native planner stages](#native-planner-stages)
+- [Default behavior](#default-behavior)
 - [Greenfield / brownfield routing](#greenfield--brownfield-routing)
+- [Operating method](#operating-method)
 - [Execution gates](#execution-gates)
 - [Loopability, Andon, and handoff states](#loopability-andon-and-handoff-states)
+- [Artifacts and outputs](#artifacts-and-outputs)
+- [Skill internals / repository layout](#skill-internals--repository-layout)
+- [Version and release notes](#version-and-release-notes)
+- [Child-agent review loops](#child-agent-review-loops)
 - [Optional tooling](#optional-tooling)
+- [Evidence boundaries](#evidence-boundaries)
 - [Usage examples](#usage-examples)
 - [Install notes](#install-notes)
 - [Upgrade / reinstall](#upgrade--reinstall)
-- [Artifacts and outputs](#artifacts-and-outputs)
-- [Skill internals / repository layout](#skill-internals--repository-layout)
+- [Release asset notes](#release-asset-notes)
 - [Validation and release evidence](#validation-and-release-evidence)
-- [Version and release notes](#version-and-release-notes)
+- [Safety defaults](#safety-defaults)
 - [What this does not do](#what-this-does-not-do)
+- [Development / maintenance notes](#development--maintenance-notes)
+
+## Quick start
+
+1. Install the skill (see [Install notes](#install-notes) for your host — or
+   note that the latest public release asset predates the current contract;
+   building from source is the current-behavior path).
+2. In a repo you want governed, invoke it with a bounded target:
+   `/implementaudit close the findings in AUDIT.md` — or just describe the
+   work; unbounded asks get a STOP, not a build loop.
+3. What you will see: a findings ledger, `Smoke A` baseline evidence, bounded
+   patches, `Smoke B` comparison, and transcript markers ending in
+   `AUDIT_COMPLETE` + `IMPLEMENTAUDIT_RUN_COMPLETE` — or an explicit audited
+   handoff with next actions. Phased runs write their plan and state under
+   `.IMPLEMENTAUDIT/runs/<task>-<id>/`. The full loop structure is in
+   [Loopability, Andon, and handoff states](#loopability-andon-and-handoff-states);
+   the shipped helper scripts are catalogued in the docs portal's
+   Shipped Scripts Reference.
+4. Nothing is committed, pushed, tagged, or released unless you explicitly
+   say so.
 
 ## Runtime at a glance
 
@@ -76,8 +103,8 @@ Current optional-tooling architecture:
 ```mermaid
 flowchart LR
   I["ImplementAudit<br/>officer / method / standard"]
-  G["Graphify<br/>optional terrain / repo map<br/>orientation, not proof"]
-  A["ActiveGraph<br/>optional custody / event evidence<br/>not correctness proof"]
+  G["Graphify<br/>optional terrain / repo map<br/>graphify-out/graph.json, agent-extracted<br/>orientation, not proof"]
+  A["ActiveGraph<br/>optional custody / event evidence<br/>one store per run root: custody.db<br/>absent-safe custody-append.sh<br/>not correctness proof"]
   C["Capability Ledger<br/>derived work history"]
   M["Markdown fallback<br/>always valid when optional tools are absent"]
   L["Live files<br/>source of truth"]
@@ -92,13 +119,16 @@ flowchart LR
 
 <!-- END: implementaudit-diagram:tooling-architecture -->
 
-Graphify and ActiveGraph are optional. `/implementaudit` remains fully usable
-when neither tool is installed.
-
-Graphify and ActiveGraph are optional but strategically important: Graphify
-improves orientation before mutation, while ActiveGraph preserves custody after
-evidence is produced. Neither replaces ImplementAudit's gates; both strengthen
-the audit trail when available.
+Two-tier policy: the sidecars are **optional everywhere** for users running
+the skill on their own repos — absence blocks nothing, `/implementaudit`
+remains fully usable with neither tool installed, and Markdown fallback is
+first-class — but **canonical for maintaining IMPLEMENTAUDIT itself**:
+dogfood and update rounds on this repo are expected to use Graphify terrain
+for orientation and ActiveGraph custody for gate-passage history (owner
+decision, recorded in `AGENTS.md`). Consumers never inherit the maintenance
+obligation. When present, Graphify improves orientation before mutation and
+ActiveGraph preserves custody after evidence is produced; neither replaces
+the gates, and neither output is proof.
 
 ## Terminology
 
@@ -205,9 +235,19 @@ flowchart TB
     SIn --> SObj --> SLoop --> SArt --> SGoal
   end
 
+  subgraph Casual["Governed casual-build intake"]
+    CIn["Input<br/>natural-language repo-build intent<br/>no audit artifact yet"]:::input
+    CObj["tdqyq-audit-object<br/>synthesized by 5-step intake<br/>owner/source · criteria · rollback"]:::artifact
+    CLoop["ydqyq-audit-action<br/>route greenfield / brownfield / mixed<br/>then govern as direct"]:::loop
+    CArt["Artifacts<br/>bounded intake record<br/>STOP on unbounded / unsafe /<br/>non-repo input"]:::artifact
+    CGoal["Second /goal<br/>not needed"]:::boundary
+    CIn --> CObj --> CLoop --> CArt --> CGoal
+  end
+
   DGoal --> Final
   EGoal --> Final
   SGoal --> Final
+  CGoal --> Final
 
   classDef input fill:#eff6ff,stroke:#2563eb,color:#111827
   classDef loop fill:#ecfdf5,stroke:#059669,color:#111827
@@ -402,8 +442,8 @@ flowchart TD
     Stage7["Stage 7 handoff<br/>one-paste /implementaudit<br/>omitted if embedded"]:::audit
     PhaseSpec["validate-phase.sh<br/>each phase spec<br/>exit 0 required"]:::checker
     PhaseLoop["16-step phase loop<br/>Smoke A -> execute -> cmds<br/>criteria -> cleanliness -> Smoke B"]:::source
-    Recovery["3-strike failure recovery<br/>FAILURE_PROBE -> FAILURE_ESCALATE<br/>-> FAILURE_HANDOFF"]:::blocker
-    AuditFix["Final audit + audit-fix rounds<br/>up to 3 rounds<br/>AUDIT_GAPS -> fix -> re-round"]:::audit
+    Recovery["Andon escalation, no try cap<br/>ANDON_PROBE -> ANDON_ESCALATE<br/>-> ANDON_HANDOFF only when blocked"]:::blocker
+    AuditFix["Final audit + audit-fix rounds<br/>loop until closed or audited handoff<br/>AUDIT_GAPS -> fix -> re-round"]:::audit
     RunRoot --> Stage6 --> Stage65 --> Stage7 --> PhaseSpec --> PhaseLoop
     PhaseLoop -->|criterion fails| Recovery
     PhaseLoop -->|all phases done| AuditFix
@@ -473,6 +513,26 @@ Andons are loop points, not just errors:
 record abnormality -> 5 Whys -> Hansei -> countermeasure -> rerun relevant checks -> close/defer/block with evidence
 ```
 
+### Nested loop model
+
+A full IMPLEMENTAUDIT run is five concentric loops. Each has its own entry,
+exit, and evidence currency:
+
+| Loop | Scope | Exit condition | Markers / currency |
+|---|---|---|---|
+| L1 Planner | Stage 0–7 goal synthesis; `PREFLIGHT_RED` re-enters Stage 6 | `PREFLIGHT_GREEN` + one-paste handoff, or embedded continuation | `Self-critique:`, `PREFLIGHT_GREEN` / `PREFLIGHT_RED` |
+| L2 Run | phases 1→N from ROADMAP.md, sequential, resumable | every phase terminal, or audited handoff | STATE.md, `IMPLEMENTAUDIT_PAUSE` on interruption |
+| L3 Phase | 16 steps: Smoke A → work → commands → criteria → 5S → Smoke B | `IMPLEMENTAUDIT_PHASE_DONE` with terminal status | `IMPLEMENTAUDIT_PHASE_START` / `_VERIFY`, `AGENTS_UPDATE_DECISION` |
+| L4 Andon | abnormality handling; may interrupt any other loop | countermeasure passes rerun evidence, or a genuine blocking condition | `ANDON_PROBE` → `ANDON_ESCALATE` → `ANDON_HANDOFF`, classed Andon log rows |
+| L5 Audit-fix | final audit rounds, uncapped | `AUDIT_COMPLETE`, or `AUDIT_HANDOFF` on a blocking condition | `AUDIT_START` / `_VERIFY` / `_GAPS`, coverage math |
+
+L4 is the only loop that can interrupt any other loop (Jidoka stops the line
+anywhere). L5 is the only loop that can end the run. No loop carries an
+arbitrary try or round cap: L4 escalates on repeated same-class abnormality
+with new evidence, and hands off only when closure is blocked by an owner
+decision, unsafe scope, missing authorization, an external dependency,
+irreproducibility, missing tooling or access, or no bounded countermeasure.
+
 If a checker, shell command, diagram generator, package validator, release-gate
 command, or provenance command fails, hangs, shell-errors, or is replaced by a
 rerun/substitute path, record the abnormal path as an Andon before closing it as
@@ -493,9 +553,16 @@ marketplace verification, or install verification.
 Typical run outputs are a normalized findings ledger, changed owner/source files
 when authorized by the audit, regenerated artifacts when their source changed,
 Smoke A/B evidence, an AGENTS update decision, a final report, and terminal
-markers. Large or phased runs may also create `.IMPLEMENTAUDIT/` local runtime
-artifacts such as roadmaps, state files, phase specs, or protocol files; those
-are run artifacts, not package source.
+markers. Large or phased runs also claim a namespaced run root under
+`.IMPLEMENTAUDIT/runs/<task>-<id>/` holding the full substrate — `ROADMAP.md`,
+`STATE.md` (status enum, ledger, classed Andon log), `THINKING.md`,
+`PROTOCOL.md`, `sidecars.md`, `tools.md`, `context.md`, `applied-context.md`,
+`repo-map.md`, and `phases/phase-N.md` — instantiated from the packaged
+templates and structurally checkable with the shipped `validate-run-root.sh`.
+A completed continuity writeback prints `IMPLEMENTAUDIT_CONTINUITY_SAVED`
+with its six fields (Target, Reason, Evidence, Boundary, Authorization, Not
+saved). Run roots are run artifacts, not package source, and are excluded
+from evidence scans and commits.
 
 The packaged skill payload lives under `skills/`. GitHub release assets, when
 separately authorized, are built from the repo-supported release-asset script
@@ -537,7 +604,7 @@ publication, or provenance has been verified.
 
 ## Version and release notes
 
-Current project milestone: `v0.2.8.0`. Plugin manifest version: `0.2.8`.
+Current project milestone: `v0.2.9.0`. Plugin manifest version: `0.2.9`.
 No local schema evidence proved four-component plugin manifest versions are
 accepted, so the manifest uses host-conservative package metadata while the
 project milestone is recorded in docs and changelog. This is not a tag, release,
@@ -662,6 +729,18 @@ When ActiveGraph is absent, the ordinary Markdown ledger and final report remain
 first-class fallback. The run is not blocked merely because ActiveGraph is
 unavailable.
 
+When custody is configured and authorized, the conventions are concrete:
+one store per run root (`<run-root>/custody.db`, or `custody-trace.jsonl` as
+an append-only fallback), written with the packaged absent-safe
+`custody-append.sh` helper; Andon escalation mirrors into the store as
+`andon.probe.recorded` / `andon.escalated` / `andon.handoff.recorded` events
+carrying the abnormality class; later runs preload prior per-run stores
+read-only for cross-run continuity; and reconstructed history must be labeled
+`custody_mode: historical_backfill` with source, backfill time, original
+event time, and evidence boundary, so live and backfilled custody never blur.
+Run-level sidecar status lives in `<run-root>/sidecars.md`, instantiated from
+the packaged template.
+
 ## Evidence boundaries
 
 Interop boundaries are explicit:
@@ -688,6 +767,8 @@ Interop boundaries are explicit:
 /implementaudit implement these findings
 /implementaudit --onboard-tools
 /goal using /implementaudit, close the findings in AUDIT.md
+/implementaudit add a login page to this app        # governed casual-build intake
+/implementaudit audit this repo and give me the next best goal   # goal synthesis
 ```
 
 Natural-language requests such as "implement these findings", "act on this
@@ -712,6 +793,22 @@ To choose the right invocation shape, see the chooser table in
 
 Install flows are evidence-bounded. This repo can locally validate the release
 asset-to-Codex-install path into a temporary Codex home. It does not claim passive auto-update, universal host support, marketplace verification, or public GitHub release download verification unless those checks are run and recorded.
+
+**Release-staleness disclosure:** the latest public release asset is
+`v0.2.8.0` (verified against the live release list), which predates the
+`v0.2.9.0` Andon/Jidoka failure contract,
+helper-path resolution, run-root validation, and custody tooling described in
+this README. Installing from the public release gives you v0.2.8.0 behavior,
+not what this document teaches. For current behavior, build the asset from
+source (`bash scripts/build-release-asset.sh`) and install that, or wait for
+the next release gate. This is a disclosure, not a release claim.
+
+What each install source carries:
+
+| Source | Failure contract | Helper resolution | Run-root / custody tooling |
+|---|---|---|---|
+| Public release `v0.2.8.0` (latest) | pre-Andon (older recovery semantics) | bare paths (pre-skill-dir) | none |
+| Built from source (`v0.2.9.0` line) | ANDON_PROBE / ANDON_ESCALATE / ANDON_HANDOFF, classed Andon log, no try caps | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper |
 
 ### Install / update for Codex
 
@@ -743,14 +840,14 @@ bash scripts/install-codex-from-release.sh \
   --asset dist/IMPLEMENTAUDIT.skill \
   --checksum dist/CHECKSUMS.txt \
   --codex-home "$HOME/.codex" \
-  --version 0.2.5
+  --version 0.2.8
 ```
 
 After a public release exists, the same installer can be pointed at an explicit
 tag or asset URL from a source checkout:
 
 ```bash
-bash scripts/install-codex-from-release.sh --tag v0.2.5.0 --version 0.2.5
+bash scripts/install-codex-from-release.sh --tag v0.2.8.0 --version 0.2.8
 ```
 
 That public-download path is a claim only after the release exists and the
@@ -779,11 +876,11 @@ bash scripts/install-claude-from-release.sh \
   --claude-skills-dir "<claude-session-path>/skills/implementaudit"
 ```
 
-From the live public v0.2.5.0 release:
+From the live public v0.2.8.0 release:
 
 ```bash
 bash scripts/install-claude-from-release.sh \
-  --tag v0.2.5.0 \
+  --tag v0.2.8.0 \
   --claude-skills-dir "<claude-session-path>/skills/implementaudit"
 ```
 
@@ -903,7 +1000,7 @@ bash scripts/write-release-checksums.sh --check
 bash tests/release-asset-install.test.sh
 ```
 
-For `v0.2.5.0`, the intended GitHub release assets are `IMPLEMENTAUDIT.skill` and
+For release gates since `v0.2.5.0`, the intended GitHub release assets are `IMPLEMENTAUDIT.skill` and
 `CHECKSUMS.txt`. The checksum manifest is bounded artifact-integrity evidence
 only; it is not a signature, attestation, SBOM, marketplace verification,
 license claim, or install proof.

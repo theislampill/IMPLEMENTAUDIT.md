@@ -72,23 +72,51 @@ cmd_deliverable() {
   return 1
 }
 
+# Run-root artifacts under .IMPLEMENTAUDIT/ are the audit substrate, not
+# deliverables: in target repos that do not gitignore them they would
+# contaminate cleanliness and deliverable evidence. They are excluded from the
+# enumeration commands below, and the exclusion is reported (never silent).
+# Explicit `deliverable <path>` queries are answered honestly for any path.
+note_excluded() {
+  if [ "$1" -gt 0 ]; then
+    printf 'repo-state: excluded %d run-root path(s) under .IMPLEMENTAUDIT/ from evidence\n' "$1" >&2
+  fi
+}
+
 cmd_changed_files() {
   local baseline="$1"
   if in_git_repo && baseline_ok "$baseline"; then
-    {
-      git diff --name-only "$baseline" 2>/dev/null || true
-      git ls-files --others --exclude-standard 2>/dev/null || true
-    } | LC_ALL=C sort -u | sed '/^$/d'
+    local excluded=0 f
+    while IFS= read -r f; do
+      case "$f" in
+        .IMPLEMENTAUDIT/*) excluded=$((excluded + 1)) ;;
+        *) printf '%s\n' "$f" ;;
+      esac
+    done < <(
+      {
+        git diff --name-only "$baseline" 2>/dev/null || true
+        git ls-files --others --exclude-standard 2>/dev/null || true
+      } | LC_ALL=C sort -u | sed '/^$/d'
+    )
+    note_excluded "$excluded"
   fi
 }
 
 cmd_added_lines() {
   local baseline="$1"
   if in_git_repo && baseline_ok "$baseline"; then
-    git diff "$baseline" 2>/dev/null | grep '^+' | grep -v '^+++' | sed 's/^+//' || true
-    git ls-files --others --exclude-standard -z 2>/dev/null | while IFS= read -r -d '' file; do
+    git diff "$baseline" -- . ':(exclude).IMPLEMENTAUDIT' 2>/dev/null | grep '^+' | grep -v '^+++' | sed 's/^+//' || true
+    local excluded=0 file
+    while IFS= read -r -d '' file; do
+      case "$file" in
+        .IMPLEMENTAUDIT/*)
+          excluded=$((excluded + 1))
+          continue
+          ;;
+      esac
       [ -f "$file" ] && LC_ALL=C grep -Iq . "$file" 2>/dev/null && cat -- "$file"
-    done
+    done < <(git ls-files --others --exclude-standard -z 2>/dev/null)
+    note_excluded "$excluded"
   fi
 }
 

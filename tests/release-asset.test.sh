@@ -5,7 +5,17 @@ repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
 tmp_parent="$(mktemp -d)"
-trap 'rm -rf "$tmp_parent"' EXIT
+stray_file="skills/zz-package-parity-stray-test.txt"
+trap 'rm -rf "$tmp_parent"; rm -f "$stray_file"' EXIT
+
+# Package parity: a stray file under skills/ must fail the build, because it
+# would otherwise ship without a deliberate manifest update.
+printf 'stray payload parity probe\n' > "$stray_file"
+if bash scripts/build-release-asset.sh --check >/dev/null 2>&1; then
+  printf 'release-asset.test: expected stray skills/ file to fail package parity\n' >&2
+  exit 1
+fi
+rm -f "$stray_file"
 
 out_dir="$tmp_parent/path with spaces"
 mkdir -p "$out_dir"
@@ -51,6 +61,7 @@ required = {
     "references/routing.md",
     "references/repo-state-comparison.md",
     "references/child-agents.md",
+    "references/lean-operating-discipline.md",
     "scripts/claim-run.sh",
     "scripts/detect-env.sh",
     "scripts/detect-stack.sh",
@@ -58,12 +69,17 @@ required = {
     "scripts/summarize-repo.sh",
     "scripts/validate-audit-spec.sh",
     "scripts/validate-phase.sh",
+    "scripts/validate-run-root.sh",
+    "scripts/custody-append.sh",
     "templates/ROADMAP.md",
     "templates/STATE.md",
     "templates/THINKING.md",
     "templates/phase-goal.txt",
     "templates/child-agent-report.md",
     "templates/PROTOCOL.md",
+    "templates/sidecars.md",
+    "templates/tools.md",
+    "templates/context.md",
     ".claude-plugin/plugin.json",
     ".claude-plugin/marketplace.json",
 }
@@ -168,8 +184,8 @@ with zipfile.ZipFile(asset) as zf:
             )
 
         plugin = json.loads((root / ".claude-plugin/plugin.json").read_text())
-        if plugin.get("version") != "0.2.8":
-            raise SystemExit("expected plugin version 0.2.8")
+        if plugin.get("version") != "0.2.9":
+            raise SystemExit("expected plugin version 0.2.9")
         if plugin.get("skills") != "./":
             raise SystemExit(
                 "expected plugin skills path ./ "

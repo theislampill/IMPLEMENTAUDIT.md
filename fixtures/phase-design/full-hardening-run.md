@@ -67,7 +67,8 @@ Depends on: Phase 3
 ## Phase 5 — Final audit + conditional release
 
 Owner/source: docs/audits/<run-name>.md, release surface
-Work: Final audit loop (up to 3 rounds); dogfood; superiority proof;
+Work: Final audit loop (audit-fix rounds until closed or audited handoff);
+      dogfood; superiority proof;
       conditional release if all gates pass.
 Acceptance criteria:
 - AUDIT_COMPLETE printed with coverage math (re_verified / total)

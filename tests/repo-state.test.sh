@@ -80,4 +80,37 @@ printf 'plain\n' >"$tmp/no-git/file.txt"
   bash "$tmp/repo with spaces/skills/scripts/repo-state.sh" deliverable no-git file.txt | grep -F 'baseline unavailable' >/dev/null
 )
 
+# Run-root artifacts under .IMPLEMENTAUDIT/ are excluded from enumeration
+# evidence in target repos that do not gitignore them — visibly, never silently.
+mkdir -p "$tmp/runroot-repo"
+(
+  cd "$tmp/runroot-repo"
+  git init -q
+  printf 'base\n' > base.txt
+  git add base.txt
+  git -c user.email=t@example.invalid -c user.name=t commit -qm init
+  rrbaseline="$(git rev-parse HEAD)"
+  mkdir -p .IMPLEMENTAUDIT/runs/demo-x
+  printf 'RUNROOT_SENTINEL\n' > .IMPLEMENTAUDIT/runs/demo-x/STATE.md
+  printf 'REAL_CHANGE_SENTINEL\n' > new-file.txt
+
+  changed_out="$(bash "$tmp/repo with spaces/skills/scripts/repo-state.sh" changed-files "$rrbaseline" 2>"$tmp/rr-stderr.log")"
+  printf '%s\n' "$changed_out" | grep -Fx new-file.txt >/dev/null
+  if printf '%s\n' "$changed_out" | grep -F '.IMPLEMENTAUDIT/' >/dev/null; then
+    printf 'repo-state.test: run-root path leaked into changed-files\n' >&2
+    exit 1
+  fi
+  grep -F 'excluded 1 run-root path' "$tmp/rr-stderr.log" >/dev/null || {
+    printf 'repo-state.test: run-root exclusion note missing from stderr\n' >&2
+    exit 1
+  }
+
+  added_out="$(bash "$tmp/repo with spaces/skills/scripts/repo-state.sh" added-lines "$rrbaseline" 2>/dev/null)"
+  printf '%s\n' "$added_out" | grep -F 'REAL_CHANGE_SENTINEL' >/dev/null
+  if printf '%s\n' "$added_out" | grep -F 'RUNROOT_SENTINEL' >/dev/null; then
+    printf 'repo-state.test: run-root content leaked into added-lines\n' >&2
+    exit 1
+  fi
+)
+
 printf 'repo-state.test: ok\n'

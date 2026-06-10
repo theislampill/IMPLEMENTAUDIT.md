@@ -130,10 +130,12 @@ ActiveGraph status: absent / present / configured / avoided / used as custody on
 ActiveGraph custody plan (when authorized):
 - Events to emit (IMPLEMENTAUDIT-defined): implementaudit.run.opened, gemba.graphify.queried,
   lean.5s.sort/set_in_order/shine.recorded, lean.standard_work.updated, dmaic/dmadv step events,
-  jidoka.stop.recorded, hansei.recorded, kaizen.countermeasure.standardized,
+  jidoka.stop.recorded, andon.probe.recorded / andon.escalated / andon.handoff.recorded (classed,
+  chained via caused-by), hansei.recorded, kaizen.countermeasure.standardized,
   nemawashi.owner_decision.recorded, muda_mura_muri.register.updated, poka_yoke.check.recorded,
   obeya.run_state.updated, smoke.baseline.recorded, audit.verify.recorded, implementaudit.run.finalized
-- Custody store: .IMPLEMENTAUDIT/ gitignored run root or authorized temp path
+- Custody store: `<run-root>/custody.db` (or `custody-trace.jsonl` fallback); written via the
+  packaged absent-safe custody-append helper; prior run-root stores preload read-only
 - Capability Ledger: narrow entry derived from readback — repo, run id, owner/source, quality route,
   Lean principles applied, Graphify terrain used, event ids, checks run, final status, remaining risk
 - No broad competence claims from one run
@@ -159,7 +161,7 @@ DMAIC (brownfield defect/repair/regression):
 - Measure: Smoke A baseline, current behavior, failure rate/count when available:
 - Analyze: root cause, Muda/Mura/Muri class, dependency surface, regression risk:
 - Improve: owner/source patch, derived artifacts regenerated, checks run, countermeasure:
-- Control: sustain via tests/AGENTS/CI/package gates/final audit checks:
+- Control: sustain via tests, AGENTS.md, CI, package gates, final audit checks:
 
 DMADV (greenfield/replacement design):
 - Define: new capability, users, constraints, non-scope, owner/source, success boundary:

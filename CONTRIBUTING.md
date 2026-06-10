@@ -26,6 +26,20 @@ tool install, indexing, and custody export are separate explicit gates.
 Validation scripts are POSIX shell scripts. On Windows, run them from Git Bash
 or WSL.
 
+## Current contract essentials (v0.2.9.0 line)
+
+- Four invocation shapes: embedded governance, direct governance, goal
+  synthesis, and governed casual-build intake (natural-language intent is
+  synthesized into a bounded audit object before any mutation).
+- Failure handling is Andon escalation, not retry counting:
+  `ANDON_PROBE` → `ANDON_ESCALATE` → `ANDON_HANDOFF`, driven by same-class
+  recurrence with new evidence; handoff fires only on a genuine blocking
+  condition. There is no try or round cap anywhere.
+- Sidecars are two-tier: Graphify/ActiveGraph are optional for every consumer
+  repo, canonical for maintenance rounds on this repo (see `AGENTS.md`).
+- Deeper onboarding: the docs portal (`docs/portal/onboarding.md`, deployed to
+  Pages) and, for the agent-eval pack, `fixtures/agent-eval/RUNBOOK.md`.
+
 ## Worked flow
 
 ```text

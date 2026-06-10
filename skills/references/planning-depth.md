@@ -107,7 +107,7 @@ update:
 - `.IMPLEMENTAUDIT/phases/phase-N.md`
 
 For new planned runs, prefer a namespaced run root claimed by
-`skills/scripts/claim-run.sh`:
+`"${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/claim-run.sh`:
 
 ```text
 .IMPLEMENTAUDIT/runs/<task-slug>-<id>/ROADMAP.md

@@ -69,7 +69,7 @@ printf '\nlanguage-and-framework-hints:\n'
 # Detect primary languages by extension count in tracked files
 for ext in ts tsx js jsx py rs go java kt rb cs; do
   cnt=$(git ls-files 2>/dev/null | grep -c "\.$ext$" || true)
-  [ "$cnt" -gt 0 ] && printf '%s: %d files\n' "$ext" "$cnt"
+  if [ "$cnt" -gt 0 ]; then printf '%s: %d files\n' "$ext" "$cnt"; fi
 done
 # Framework hints
 check src/app.tsx
@@ -85,7 +85,7 @@ check astro.config.mjs
 
 printf '\nsource-and-test-layout:\n'
 for dir in src lib app pages components api routes tests test spec __tests__; do
-  [ -d "$dir" ] && printf 'dir: %s (%d files)\n' "$dir" "$(find "$dir" -type f 2>/dev/null | wc -l)"
+  if [ -d "$dir" ]; then printf 'dir: %s (%d files)\n' "$dir" "$(find "$dir" -type f 2>/dev/null | wc -l)"; fi
 done
 
 printf '\nconfig-and-infra:\n'
@@ -128,5 +128,5 @@ else
   printf 'none\n'
 fi
 for path in .IMPLEMENTAUDIT/ROADMAP.md .IMPLEMENTAUDIT/STATE.md .IMPLEMENTAUDIT/THINKING.md .IMPLEMENTAUDIT/PROTOCOL.md; do
-  [ -e "$path" ] && printf 'legacy-flat: %s\n' "$path"
+  if [ -e "$path" ]; then printf 'legacy-flat: %s\n' "$path"; fi
 done

@@ -39,7 +39,7 @@ Legacy flat `.IMPLEMENTAUDIT/` state:
 Run claim command:
 
 ```bash
-bash skills/scripts/claim-run.sh "<task summary>"
+bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/claim-run.sh "<task summary>"
 ```
 
 ## Planning evidence

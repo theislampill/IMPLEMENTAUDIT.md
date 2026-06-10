@@ -31,9 +31,9 @@ owner/source.
 Use the native helper instead of hand-typing the git incantation:
 
 ```bash
-bash skills/scripts/repo-state.sh deliverable <baseline> <path>
-bash skills/scripts/repo-state.sh changed-files <baseline>
-bash skills/scripts/repo-state.sh added-lines <baseline>
+bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/repo-state.sh deliverable <baseline> <path>
+bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/repo-state.sh changed-files <baseline>
+bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/repo-state.sh added-lines <baseline>
 ```
 
 The helper is read-only. It does not mutate files, repo config, or the git

@@ -7,7 +7,7 @@ printf 'side_effects=none\n'
 if git rev-parse --show-toplevel >/dev/null 2>&1; then
   git status --short --branch
   printf '\nrecent-churn:\n'
-  git log --oneline -n 8
+  git log --oneline -n 8 2>/dev/null || printf 'no-commits-yet\n'
   printf '\ntracked-files:\n'
   git ls-files | sed -n '1,120p'
 else
@@ -20,23 +20,23 @@ find . -maxdepth 3 \( -name AGENTS.md -o -name CONTRIBUTING.md -o -name README.m
 
 printf '\ncanonical-owners:\n'
 for path in skills/SKILL.md AGENTS.md README.md CHANGELOG.md scripts/verify-package.sh .github/workflows/validate.yml; do
-  [ -e "$path" ] && printf '%s\n' "$path"
+  if [ -e "$path" ]; then printf '%s\n' "$path"; fi
 done
 
 printf '\nchecks-and-smokes:\n'
 find scripts skills/scripts tests -maxdepth 2 -type f 2>/dev/null | sort | sed -n '1,120p' || true
 
 printf '\nmandatory-command-candidates:\n'
-for cmd in \
-  "git diff --check" \
-  "bash scripts/verify-package.sh" \
-  "bash scripts/check-planner-stages.sh" \
-  "bash scripts/check-routing.sh" \
-  "bash scripts/check-sidecar-boundaries.sh" \
-  "bash tests/claim-run.test.sh" \
-  "bash tests/phase-validation.test.sh"
-do
-  printf '%s\n' "$cmd"
+printf '%s\n' "git diff --check"
+# Candidates are discovered from the target repo, not hardcoded: only scripts
+# and focused tests that actually exist are offered.
+if [ -e scripts/verify-package.sh ]; then
+  printf 'bash %s\n' "scripts/verify-package.sh"
+fi
+for script in scripts/check-*.sh tests/*.test.sh; do
+  if [ -e "$script" ]; then
+    printf 'bash %s\n' "$script"
+  fi
 done
 
 printf '\ntest-surface-summary:\n'
@@ -71,7 +71,7 @@ if [ -f package.json ]; then
   " 2>/dev/null || true
 fi
 for f in scripts/verify-package.sh scripts/build-release-asset.sh Makefile justfile; do
-  [ -f "$f" ] && printf 'candidate: bash %s\n' "$f"
+  if [ -f "$f" ]; then printf 'candidate: bash %s\n' "$f"; fi
 done
 if [ -f Makefile ]; then
   grep -E '^[a-zA-Z][a-zA-Z0-9_-]+:' Makefile 2>/dev/null | head -10 | sed 's/:.*//' | awk '{printf "make %s\n", $0}' || true
@@ -82,12 +82,12 @@ find fixtures -maxdepth 3 -type f 2>/dev/null | sort | sed -n '1,120p' || true
 
 printf '\nrelease-boundaries:\n'
 for path in scripts/build-release-asset.sh scripts/write-release-checksums.sh dist .claude-plugin/plugin.json .claude-plugin/marketplace.json; do
-  [ -e "$path" ] && printf '%s\n' "$path"
+  if [ -e "$path" ]; then printf '%s\n' "$path"; fi
 done
 
 printf '\nrun-root-boundaries:\n'
 printf 'preferred_base=.IMPLEMENTAUDIT/runs\n'
-printf 'claim_helper=skills/scripts/claim-run.sh\n'
+printf 'claim_helper=%s/scripts/claim-run.sh\n' "${IMPLEMENTAUDIT_SKILL_DIR:-skills}"
 printf 'legacy_flat=.IMPLEMENTAUDIT/ROADMAP.md .IMPLEMENTAUDIT/STATE.md .IMPLEMENTAUDIT/THINKING.md .IMPLEMENTAUDIT/PROTOCOL.md\n'
 printf 'parallel_source_editing=requires_separate_git_worktrees\n'
 
@@ -106,5 +106,5 @@ grep -R -n -I \
 
 printf '\nlikely-regression-surfaces:\n'
 for path in skills scripts tests fixtures README.md CHANGELOG.md AGENTS.md docs/diagrams docs/audits .github/workflows; do
-  [ -e "$path" ] && printf '%s\n' "$path"
+  if [ -e "$path" ]; then printf '%s\n' "$path"; fi
 done

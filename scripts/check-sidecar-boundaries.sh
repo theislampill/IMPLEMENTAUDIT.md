@@ -39,8 +39,18 @@ grep -R "graph.json" -n scripts/build-release-asset.sh tests/release-asset-insta
 grep -R "quickstart_demo_run.db" -n scripts/build-release-asset.sh tests/release-asset-install.test.sh >/dev/null ||
   fail "ActiveGraph store rejection is missing"
 
-if [ -d graphify-out ] || [ -d .graphify ] || [ -d .activegraph ]; then
-  fail "repo-local sidecar output/store directory exists"
+# The boundary (V0270-SIDECAR-OUTPUTS-EXCLUDED) is tracked source and the
+# .skill package — not local existence. Sidecars are canonical for dogfooding
+# this repo, so gitignored local terrain/custody may persist; what must never
+# happen is sidecar output becoming tracked or losing its ignore cover.
+tracked_sidecar="$(git ls-files -- 'graphify-out/*' '.graphify/*' '.activegraph/*' '*custody*.jsonl' '*custody.db' '*.activegraph.db' 2>/dev/null | head -5 || true)"
+if [ -n "$tracked_sidecar" ]; then
+  fail "sidecar output is tracked by git: $tracked_sidecar"
 fi
+for d in graphify-out .graphify .activegraph; do
+  if [ -d "$d" ] && ! git check-ignore -q "$d" 2>/dev/null; then
+    fail "sidecar directory $d exists but is not gitignored"
+  fi
+done
 
 printf 'check-sidecar-boundaries: ok\n'

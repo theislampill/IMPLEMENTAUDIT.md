@@ -8,7 +8,7 @@ and re-run the generator.
 
 ## Overview
 
-**IMPLEMENTAUDIT** is an audit-governed implementation method for repo-changing agent work. It transforms intent, findings, handoffs, checklists, reviews, goals, tasks, gaps, and implementation plans into bounded repository mutations by first constructing or binding a `tdqyq-audit-object`, then acting through `ydqyq-audit-action` operations until terminal audit closure (`AUDIT_COMPLETE`) or an explicit audited handoff (`AUDIT_HANDOFF` / `FAILURE_HANDOFF`).
+**IMPLEMENTAUDIT** is an audit-governed implementation method for repo-changing agent work. It transforms intent, findings, handoffs, checklists, reviews, goals, tasks, gaps, and implementation plans into bounded repository mutations by first constructing or binding a `tdqyq-audit-object`, then acting through `ydqyq-audit-action` operations until terminal audit closure (`AUDIT_COMPLETE`) or an explicit audited handoff (`AUDIT_HANDOFF` / `ANDON_HANDOFF`).
 
 **The bottleneck it addresses.** AI agents can produce repository changes faster than humans can review evidence of ownership, rollback viability, generated-artifact freshness, CI state, and public-claim accuracy. IMPLEMENTAUDIT moves that review discipline into the implementation loop rather than leaving it only at the final review step. Review is not post-hoc; it is per-gate.
 
@@ -68,9 +68,11 @@ From the v0.2.8.0 release asset with checksum verification:
 
 Use the host's current plugin instructions with `.claude-plugin/plugin.json` as package metadata. For public clone/plugin setup, an HTTPS repo URL is the simplest path.
 
+For a release-asset Claude Desktop path, `bash scripts/install-claude-from-release.sh --claude-skills-dir <path>` extracts and checksum-verifies the asset into a Claude skill directory. That proof covers extraction and integrity only — verify the skill loads in the host after restart.
+
 ### Release state
 
-Release `v0.2.8.0` is live. Tag at commit `d2829a4`. The release asset `IMPLEMENTAUDIT.skill` includes a `CHECKSUMS.txt` — a SHA-256 checksum manifest for local integrity verification only. No signatures, attestations, SBOMs, or provenance chains are claimed. Pages docs are live and CI-verified.
+Release `v0.2.8.0` is live (verified 2026-06-10 against the GitHub release list). Tag at commit `d2829a4` (verified via the tag ref API). The release asset `IMPLEMENTAUDIT.skill` includes a `CHECKSUMS.txt` — a SHA-256 checksum manifest for local integrity verification only. No signatures, attestations, SBOMs, or provenance chains are claimed. Pages docs are live and CI-verified (deploy workflow success at the pushed head plus a live HTTP 200, verified 2026-06-10). External claims in this section carry their evidence basis; re-verify on each release gate.
 
 :::info
 **No auto-update mechanism exists.** A locally installed skill does not update automatically when the GitHub repo has a new release. Repeat the install step on each release.
@@ -186,7 +188,7 @@ The execution chain for every IMPLEMENTAUDIT run, regardless of invocation shape
 
 | Shape | Input | Audit-object source | `/goal` emitted? | Mutation allowed when | Failure / handoff |
 |---|---|---|---|---|---|
-| **Direct governance** | Concrete audit, handoff, checklist, review, or bounded plan | Bound from the supplied artifact | No | Audit object is live, gates pass | `AUDIT_HANDOFF` or `FAILURE_HANDOFF` |
+| **Direct governance** | Concrete audit, handoff, checklist, review, or bounded plan | Bound from the supplied artifact | No | Audit object is live, gates pass | `AUDIT_HANDOFF` or `ANDON_HANDOFF` |
 | **Embedded governance** | Host `/goal` or active task already in flight | Inherited from the outer goal/task/plan | Never — would create an illegal nesting | Outer object is live, inner gates pass | Andon inside the outer audit object; no nested `/goal` |
 | **Goal synthesis** | Idea, gap, incomplete target, or ambiguous request | Synthesized through Gemba and phase planning | Yes, once at Stage 7 (never if already embedded) | After the emitted `/goal` is accepted | Emits a bounded handoff; does not itself mutate |
 | **Governed casual-build intake** | Natural-language repo-build intent | Synthesized from intent before routing | No | Synthesized object passes the input gate, then routes as greenfield / brownfield / mixed | `AUDIT_HANDOFF` if synthesis fails or scope is unbounded |
@@ -213,6 +215,44 @@ Ten gates form the non-skippable execution spine. Each gate must pass before the
 | **7. Smoke B gate** | Compare post-mutation checks against Smoke A. Any Smoke-A-passing check that now fails triggers the regression protocol. | Same checks as Smoke A | Smoke B output; Smoke A/B comparison | Regression protocol if any passing check now fails. Do not advance without recorded comparison. |
 | **8. Trace / custody gate** | Preserve the causal chain: commit body (if authorized), audit ledger, durable `AGENTS.md` rule (if warranted), optional ActiveGraph custody event. | Commit body draft, ledger, `AGENTS.md` decision | Proposed commit message; ledger entries; `AGENTS_UPDATE_DECISION` | Do not finalize until all authorization boundaries are explicit. Local commit is not push; push is not tag; tag is not release; release is not provenance. |
 | **9. Final audit gate** | Terminal `ydqyq-audit-action` over the complete `tdqyq-audit-object`. Every item reaches a terminal status. Claims are verified against evidence. | All changed files, generated artifacts, release assets if in scope | `AUDIT_VERIFY` marker; `AUDIT_COMPLETE` marker | Fix, revert, defer, block, or mark unverified before `AUDIT_COMPLETE`. `IMPLEMENTAUDIT_RUN_COMPLETE` is invalid before `AUDIT_COMPLETE`. |
+
+### How this maps to SKILL.md's execution spine
+
+`skills/SKILL.md` presents the same run as an **8-row execution spine** (gates 0–7). The two decompositions describe one contract: this portal model splits the spine's pre-flight row into separate context/continuity-preload and routing gates for teaching purposes (10 = 8 + 2 split-outs). When in doubt, the SKILL.md spine is canonical; this table is the annotated tour.
+
+## Shipped Scripts Reference
+
+The installed payload carries nine bash helpers under `scripts/`. They are the consumer's hands; each is read-only or side-effect-bounded, and all resolve via `"${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/<helper>`:
+
+| Helper | Loop | What it does |
+|---|---|---|
+| `detect-env.sh` | L1 planning | Environment recon: runtimes, tools, helper-layer availability, skill-dir resolution, native variables |
+| `detect-stack.sh` | L1 planning (brownfield) | Target-repo stack profile: languages, frameworks, layout, configs |
+| `summarize-repo.sh` | L1 planning (brownfield) | Owner/regression map; discovers the target repo's own checkers as mandatory-command candidates |
+| `claim-run.sh` | L2 run | Atomically claims a namespaced run root; advises (never writes) a local gitignore entry for run artifacts |
+| `validate-audit-spec.sh` | L1→L2 | Rejects malformed audit/goal/slice specs before they govern work |
+| `validate-phase.sh` | L3 phase | Rejects malformed phase specs before execution; errors name the expected shape |
+| `validate-run-root.sh` | L2 resume | Structural conformance of a live run root (Status enum, Andon log columns, ROADMAP↔phase completeness) — run before resuming an interrupted run |
+| `repo-state.sh` | L3/L5 evidence | Complete working-tree-vs-baseline evidence (changed files, added lines, deliverables); run-root artifacts excluded visibly |
+| `custody-append.sh` | any (sidecar) | One-command, absent-safe ActiveGraph custody event emission |
+
+Shared contract across all nine: every helper degrades honestly — absence, missing baseline, or failure produces a recorded weaker-evidence note, never a silent pass.
+
+## Abnormality Handling (Andon Escalation)
+
+When any gate cannot pass honestly, the run does not retry blindly and does not stop on a counter. It enters the Andon escalation sequence — the Jidoka loop: abnormality, stop, understand why, countermeasure, rerun evidence.
+
+| Marker | Fires when | Must record |
+|---|---|---|
+| `ANDON_PROBE` | The **first** abnormality of any class | The abnormality and its class; failing criterion, command, or artifact; owner/source; containment decision; a 5 Whys drill proportional to the issue; Hansei (gap, cause, countermeasure, follow-up evidence); the selected countermeasure; the rerun evidence required. A fix must follow from the probe, never from the visible symptom alone. |
+| `ANDON_ESCALATE` | The first countermeasure fails, the **same-class** abnormality recurs, the root cause stays unclear, the fix would expand scope, or the owner/source is disputed | Prior probe history; why the countermeasure failed; a deeper 5 Whys; `New evidence:` and/or `Changed approach:` — if neither can be truthfully filled, the run evaluates handoff conditions instead of escalating; the chosen path (split, reframe, rollback, owner decision, or a bounded fix-spec). A recurrence claim must cite the prior same-class Andon log rows by number. |
+| `ANDON_HANDOFF` | Closure is blocked by an owner decision, unsafe scope, missing authorization, an external dependency, irreproducibility, missing tooling or access, or no bounded countermeasure remains | Full probe and escalation history, the blocking condition, the remaining blocker, and the smallest next concrete action for a human owner. It is never "third try failed" — a try count alone cannot trigger handoff. |
+
+Every event is one classed row in the run-root STATE.md `## Andon log` (in a non-phased run, the findings ledger serves as the log). The ten abnormality classes are: failed-criterion, regression, hung-command, substituted-command, owner-unclear, generated-artifact-mismatch, stale-sidecar, policy-conflict, impossible-criterion, evidence-mismatch.
+
+:::info
+There is no arbitrary attempt cap and no capped audit-round count anywhere in the runtime. Escalation is driven by same-class recurrence with new evidence; handoff is driven by genuine blocking conditions. A transcript containing `ANDON_HANDOFF` must never also contain `IMPLEMENTAUDIT_RUN_COMPLETE`.
+:::
 
 ## What AUDIT_COMPLETE Means
 
@@ -248,7 +288,9 @@ A run's persistent state lives under `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/`. T
 | `tdqyq-audit-object` | The run | Evidence-bearing record: scope, findings, owner/source, claims, changed files, checks, closure state. | Everything the run claims is bounded by this object's contents. |
 | `ydqyq-audit-action` | Runtime | Operations that read or mutate the audit object: inspect, classify, verify, authorize or reject mutation, close, hand off. | Not a file; a runtime operation category. |
 | `ROADMAP.md` | Planner | High-level phase plan: goals, phases, dependencies, milestone. | Orientation only — not a commitment to immutable scope. |
-| `STATE.md` | Runtime | Current custody state; gate-passage log; custody event counter. | Chain-of-custody evidence for this run. |
+| `STATE.md` | Runtime | Live run state: Status enum token, current phase, findings ledger, classed Andon log, authorization stance. | Run-state record; custody events live in the run root's `custody.db`, not here. |
+| `tools.md` | Runtime | Stage 0 detection record: skill-dir resolution, helper-layer availability, runtimes, sidecar status. | Detection evidence only. |
+| `context.md` | Runtime | Stage 0 operating context: baseline ref, working-tree state, invocation shape, route, repo instructions read. | Intake record; live files win on conflict. |
 | `THINKING.md` | Runtime | Per-phase live reasoning: Gemba notes, Smoke A/B results, 5-Whys drill, route classification, Muda/Mura/Muri register, DMAIC/DMADV fields. | Internal reasoning record; not a public claim. |
 | `PROTOCOL.md` | Runtime | Step-by-step execution log; gate completions; `CONTINUITY_DECISION`; `AGENTS_UPDATE_DECISION`; 5S_CHECK results; Jidoka stop-the-line events. | Protocol execution record. |
 | `sidecars.md` | Runtime | Sidecar tool availability, authorization state, output summaries (Graphify node count, ActiveGraph event count). | Orientation and custody evidence — not correctness proof. |
@@ -257,7 +299,7 @@ A run's persistent state lives under `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/`. T
 | `phases/phase-N.md` | Planner / runtime | Per-phase spec: goal, acceptance criteria, rollback plan, Quality route (DMAIC/DMADV/PDCA), evidence plan. | Phase-scoped claim boundary. |
 | `AGENTS_UPDATE_DECISION` | Owner | Decision record for whether to add a durable anti-repeat rule to `AGENTS.md`. | Documents the decision; does not auto-apply it. |
 | `CONTINUITY_DECISION` | Runtime | Per-phase continuity writeback decision: none / repo-local `AGENTS.md` rule / run-local applied-context / optional personal note / optional ActiveGraph event. | Documents the boundary for continuity writes. |
-| `IMPLEMENTAUDIT_CONTINUITY_SAVED` | Runtime | Six-field marker recording a completed continuity writeback: `run_id`, `phase`, `target`, `content_hash`, `boundary`, `timestamp`. | Records that writeback occurred and to which target — not that the content is correct. |
+| `IMPLEMENTAUDIT_CONTINUITY_SAVED` | Runtime | Six-field marker recording a completed continuity writeback: `Target`, `Reason`, `Evidence`, `Boundary`, `Authorization`, `Not saved`. | Records that writeback occurred and its boundary — not that the content is correct. |
 | Final audit ledger | Runtime | Closure table: all audit items with terminal status, evidence type, and reference. | The primary evidence surface for `AUDIT_COMPLETE`. |
 
 ## Continuity and Sidecars
@@ -271,6 +313,14 @@ When IMPLEMENTAUDIT loads context for a run, it follows this priority order. Hig
 3. **Optional personal or project notes** — human-curated guidance; used when available and authorized.
 4. **Graphify terrain** — orientation evidence about repo structure and link density. Not proof; absence is not a failure.
 5. **ActiveGraph custody events** — chain-of-custody evidence for prior gate passages. Not correctness proof; absence is not a failure.
+
+### Two-tier sidecar policy
+
+Optional everywhere; canonical only for maintaining IMPLEMENTAUDIT itself. Users running the skill on their own repos never need either sidecar — absence blocks nothing. Maintenance and dogfood rounds on the IMPLEMENTAUDIT repo are expected to use both (owner decision, recorded in `AGENTS.md`).
+
+### Sidecar conventions
+
+When the sidecars are present and authorized, their placement is concrete, not decorative. Graphify terrain is agent-extracted to `graphify-out/graph.json` (gitignored, never packaged) and queried for orientation — owner/source candidates by degree, dependency paths, artifact classification — with every result confirmed against live files before action. ActiveGraph custody uses one store per run root (`custody.db`), written with the packaged absent-safe `custody-append.sh` helper; Andon escalation mirrors into custody as classed `andon.probe.recorded` / `andon.escalated` / `andon.handoff.recorded` events, so the failure-handling chain survives session boundaries. Later runs preload prior stores read-only. Reconstructed history must carry `custody_mode: historical_backfill` with its source and evidence boundary — live and backfilled custody never blur. Run-level status lives in `sidecars.md`, instantiated from the packaged template.
 
 :::warning
 **Continuity context is orientation, not authority.** No continuity source overrides live files or `AGENTS.md`. If a memory or sidecar suggests an action that contradicts live `AGENTS.md`, `AGENTS.md` wins.

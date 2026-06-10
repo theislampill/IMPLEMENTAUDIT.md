@@ -130,10 +130,10 @@ complete repo-state comparison, and remaining risk. Print AGENTS_UPDATE_DECISION
 and optional CONTINUITY_DECISION, then IMPLEMENTAUDIT_PHASE_DONE before moving
 to the next phase.
 
-If a phase criterion fails, follow the failure protocol in the run-root
-PROTOCOL.md and use FAILURE_PROBE, FAILURE_ESCALATE, or
-FAILURE_HANDOFF as required. Do not print IMPLEMENTAUDIT_RUN_COMPLETE after
-FAILURE_HANDOFF.
+If a phase criterion fails, follow the Andon escalation protocol in the
+run-root PROTOCOL.md and use ANDON_PROBE, ANDON_ESCALATE, or
+ANDON_HANDOFF as required. Do not print IMPLEMENTAUDIT_RUN_COMPLETE after
+ANDON_HANDOFF.
 
 After the last phase, run the final audit in the run-root PROTOCOL.md:
 re-read ROADMAP.md, re-run deduplicated mandatory checks, spot-check
@@ -145,7 +145,7 @@ IMPLEMENTAUDIT_RUN_COMPLETE.
 
 Done only when IMPLEMENTAUDIT_RUN_COMPLETE appears after AUDIT_COMPLETE, every
 phase has IMPLEMENTAUDIT_PHASE_DONE, every ledger item is terminally closed, and
-no FAILURE_HANDOFF or AUDIT_HANDOFF appears in this run.
+no ANDON_HANDOFF or AUDIT_HANDOFF appears in this run.
 ```
 
 This is still an audit-governed handoff. It does not authorize commit, push,

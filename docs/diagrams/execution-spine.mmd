@@ -29,8 +29,8 @@ flowchart TD
     Stage7["Stage 7 handoff<br/>one-paste /implementaudit<br/>omitted if embedded"]:::audit
     PhaseSpec["validate-phase.sh<br/>each phase spec<br/>exit 0 required"]:::checker
     PhaseLoop["16-step phase loop<br/>Smoke A -> execute -> cmds<br/>criteria -> cleanliness -> Smoke B"]:::source
-    Recovery["3-strike failure recovery<br/>FAILURE_PROBE -> FAILURE_ESCALATE<br/>-> FAILURE_HANDOFF"]:::blocker
-    AuditFix["Final audit + audit-fix rounds<br/>up to 3 rounds<br/>AUDIT_GAPS -> fix -> re-round"]:::audit
+    Recovery["Andon escalation, no try cap<br/>ANDON_PROBE -> ANDON_ESCALATE<br/>-> ANDON_HANDOFF only when blocked"]:::blocker
+    AuditFix["Final audit + audit-fix rounds<br/>loop until closed or audited handoff<br/>AUDIT_GAPS -> fix -> re-round"]:::audit
     RunRoot --> Stage6 --> Stage65 --> Stage7 --> PhaseSpec --> PhaseLoop
     PhaseLoop -->|criterion fails| Recovery
     PhaseLoop -->|all phases done| AuditFix

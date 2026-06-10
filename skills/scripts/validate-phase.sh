@@ -14,7 +14,27 @@ fail() {
 }
 
 phase_file="${1:-}"
-[ -n "$phase_file" ] || { printf 'usage: validate-phase.sh <phase-file>\n' >&2; exit 2; }
+[ -n "$phase_file" ] || { printf 'usage: validate-phase.sh <phase-file> | --explain\n' >&2; exit 2; }
+
+if [ "$phase_file" = "--explain" ]; then
+  cat <<'EXPLAIN'
+validate-phase: a filled phase spec requires —
+  markers: IMPLEMENTAUDIT_PHASE_START, IMPLEMENTAUDIT_PHASE_VERIFY,
+           AGENTS_UPDATE_DECISION, CONTINUITY_DECISION, IMPLEMENTAUDIT_PHASE_DONE
+  header fields: Task, Type, Run root, Baseline ref, Owner/source,
+                 Audit object, Depends on phases
+  sections: ## Work; ## Acceptance criteria (>=1 non-placeholder `- [ ]` item);
+            ## Mandatory commands (>=1 non-placeholder `- <command>` list item);
+            ## Evidence required (>=1 non-placeholder `- <evidence>` item);
+            ## Rollback / defer path
+  sidecar status: literal `Markdown fallback:` field (any value)
+Canonical filled examples (source repo only): fixtures/run-root-example/phases/phase-1.md (brownfield)
+and (source repo only) fixtures/phase-design/dmadv-greenfield-phase.md (greenfield);
+the blank skeleton ships as templates/phase-goal.txt.
+EXPLAIN
+  exit 0
+fi
+
 [ -f "$phase_file" ] || fail "phase file not found: $phase_file"
 
 errors=0
@@ -70,7 +90,7 @@ done
 grep -qi "^## Rollback" "$phase_file" || err "missing section: ## Rollback / defer path"
 
 # Graphify / ActiveGraph / Markdown fallback status
-grep -qi "Markdown fallback:" "$phase_file" || err "missing: Markdown fallback status"
+grep -qi "Markdown fallback:" "$phase_file" || err "missing literal field \`Markdown fallback:\` (any value) - see the sidecar status block in templates/phase-goal.txt"
 
 # ---------------------------------------------------------------------------
 # Python checks: non-placeholder content validation
@@ -119,10 +139,10 @@ for line in lines:
             items.append(item)
 
 if not items:
-    sys.stderr.write("validate-phase: acceptance criteria are placeholder-only or missing\n")
+    sys.stderr.write("validate-phase: ## Acceptance criteria needs at least one non-placeholder `- [ ] criterion` list item\n")
     raise SystemExit(1)
 PY
-  [ "$python_errors" -eq 0 ] || err "acceptance criteria are placeholder-only or missing"
+  [ "$python_errors" -eq 0 ] || err "## Acceptance criteria needs at least one non-placeholder list item (- [ ] ...)"
   python_errors=0
 
   # Check: mandatory commands section has at least 1 non-placeholder item
@@ -153,10 +173,10 @@ for line in lines:
             items.append(item)
 
 if not items:
-    sys.stderr.write("validate-phase: mandatory commands are placeholder-only or missing\n")
+    sys.stderr.write("validate-phase: ## Mandatory commands needs at least one non-placeholder `- <command>` list item (bare lines are not counted)\n")
     raise SystemExit(1)
 PY
-  [ "$python_errors" -eq 0 ] || err "mandatory commands are placeholder-only or missing"
+  [ "$python_errors" -eq 0 ] || err "## Mandatory commands needs at least one non-placeholder list item (- <command>; bare lines are not counted)"
   python_errors=0
 
   # Check: evidence required section has at least 1 non-placeholder item
@@ -187,17 +207,17 @@ for line in lines:
             items.append(item)
 
 if not items:
-    sys.stderr.write("validate-phase: evidence required is placeholder-only or missing\n")
+    sys.stderr.write("validate-phase: ## Evidence required needs at least one non-placeholder `- <evidence>` list item\n")
     raise SystemExit(1)
 PY
-  [ "$python_errors" -eq 0 ] || err "evidence required is placeholder-only or missing"
+  [ "$python_errors" -eq 0 ] || err "## Evidence required needs at least one non-placeholder list item (- <evidence>)"
 fi
 
 # ---------------------------------------------------------------------------
 # Final verdict
 # ---------------------------------------------------------------------------
 if (( errors > 0 )); then
-  printf 'validate-phase: %d error(s)\n' "$errors" >&2
+  printf 'validate-phase: %d error(s); see templates/phase-goal.txt in the skill directory for the canonical filled shape\n' "$errors" >&2
   exit 1
 fi
 

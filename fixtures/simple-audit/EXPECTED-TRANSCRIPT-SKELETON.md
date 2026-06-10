@@ -34,6 +34,8 @@ Status:
 - changed
 
 AUDIT_START
+Skill version:
+- 0.2.9
 Scope:
 - simple audit fixture
 

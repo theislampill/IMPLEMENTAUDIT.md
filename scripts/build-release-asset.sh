@@ -57,6 +57,7 @@ required_source = [
     "skills/references/routing.md",
     "skills/references/repo-state-comparison.md",
     "skills/references/child-agents.md",
+    "skills/references/lean-operating-discipline.md",
     "skills/scripts/claim-run.sh",
     "skills/scripts/detect-env.sh",
     "skills/scripts/detect-stack.sh",
@@ -64,12 +65,17 @@ required_source = [
     "skills/scripts/summarize-repo.sh",
     "skills/scripts/validate-audit-spec.sh",
     "skills/scripts/validate-phase.sh",
+    "skills/scripts/validate-run-root.sh",
+    "skills/scripts/custody-append.sh",
     "skills/templates/ROADMAP.md",
     "skills/templates/STATE.md",
     "skills/templates/THINKING.md",
     "skills/templates/phase-goal.txt",
     "skills/templates/child-agent-report.md",
     "skills/templates/PROTOCOL.md",
+    "skills/templates/sidecars.md",
+    "skills/templates/tools.md",
+    "skills/templates/context.md",
     ".claude-plugin/plugin.json",
     ".claude-plugin/marketplace.json",
 ]
@@ -90,6 +96,7 @@ required_archive = [
     "references/routing.md",
     "references/repo-state-comparison.md",
     "references/child-agents.md",
+    "references/lean-operating-discipline.md",
     "scripts/claim-run.sh",
     "scripts/detect-env.sh",
     "scripts/detect-stack.sh",
@@ -97,12 +104,17 @@ required_archive = [
     "scripts/summarize-repo.sh",
     "scripts/validate-audit-spec.sh",
     "scripts/validate-phase.sh",
+    "scripts/validate-run-root.sh",
+    "scripts/custody-append.sh",
     "templates/ROADMAP.md",
     "templates/STATE.md",
     "templates/THINKING.md",
     "templates/phase-goal.txt",
     "templates/child-agent-report.md",
     "templates/PROTOCOL.md",
+    "templates/sidecars.md",
+    "templates/tools.md",
+    "templates/context.md",
     ".claude-plugin/plugin.json",
     ".claude-plugin/marketplace.json",
 ]
@@ -225,6 +237,17 @@ with zipfile.ZipFile(asset) as zf:
     if missing:
         raise SystemExit(f"asset missing required files: {', '.join(missing)}")
 
+    # Package parity: the archive must equal the manifest exactly. A file
+    # under skills/ that is not in required_archive ships silently otherwise;
+    # adding payload requires a deliberate manifest update here.
+    extra = sorted(names - set(required_archive))
+    if extra:
+        raise SystemExit(
+            "asset contains entries not in the required_archive manifest "
+            "(update the manifest deliberately or remove the file): "
+            + ", ".join(extra)
+        )
+
     with tempfile.TemporaryDirectory() as tmp:
         zf.extractall(tmp)
         extracted = Path(tmp)
@@ -232,8 +255,8 @@ with zipfile.ZipFile(asset) as zf:
         marketplace = json.loads((extracted / ".claude-plugin/marketplace.json").read_text())
         if plugin.get("name") != "implementaudit":
             raise SystemExit("extracted plugin name must be implementaudit")
-        if plugin.get("version") != "0.2.8":
-            raise SystemExit("extracted plugin version must be 0.2.8")
+        if plugin.get("version") != "0.2.9":
+            raise SystemExit("extracted plugin version must be 0.2.9")
         if plugin.get("skills") != "./":
             raise SystemExit(
                 "extracted plugin skills path must be ./ "

@@ -139,6 +139,31 @@ remains unverified (browser tooling unavailable; static inspection passes).
 Scope-creep items: workflow_dispatch absent from pages.yml; test 7 nav-anchor
 count display shows 1 instead of 10 (authoritative validator correct at 10).
 
+The full v0.2.9.0 lane spans thirteen dogfood rounds in one maintenance arc
+(detailed ledger: `docs/audits/v0.2.9.0-andon-escalation-jidoka-repair.md`):
+Jidoka contradiction repair and the ANDON contract; Andon log substrate and
+abnormality classes; escalation-progress and agent-eval gates; package
+set-parity and shipped-path integrity; README/registry truth gates; installed
+user-journey repair (skill-dir resolution, run-root evidence isolation,
+helper robustness); validator diagnostics and run-root validation; sidecar
+recovery with V0260-labeled custody backfill and Andon custody events; sidecar
+tooling completion (sidecars/tools/context templates, absent-safe
+custody-append helper); and README/docs truthfulness repair including a
+live-verified release-pin correction. Severity decreased strictly across
+rounds; the final rounds produced only coverage and documentation findings.
+
+The v0.2.9.0 lane repairs the Jidoka contradiction introduced by the v0.2.6.0
+hardening round: the shipped transcript contract and PROTOCOL template defined
+a terminal strike-count failure ladder and a capped final-audit fix loop that
+contradicted the canonical no-arbitrary-cap identity in `skills/SKILL.md`. The
+detailed ledger lives in `docs/audits/v0.2.9.0-andon-escalation-jidoka-repair.md`
+and covers the marker rename to ANDON_PROBE / ANDON_ESCALATE / ANDON_HANDOFF,
+abnormality-scoped (not test-failure-only) Andon semantics, blocking-condition-only
+handoff, uncapped audit-fix rounds, the regenerated README execution-spine
+diagram, the `check-no-terminal-cap.sh` poka-yoke gate with
+`tests/no-terminal-cap.test.sh`, and the amended
+V0_2_6_0_FAILURE_RECOVERY_ORDERED anti-repeat rule in AGENTS.md.
+
 A Graphify+ActiveGraph maximal-leverage gate for v0.2.7.0 is closed in the same
 lane. Live sidecar smoke was run using installed tools (graphify 0.8.35,
 activegraph 1.0.5.post2) in isolated temp environments. Graphify terrain extraction

@@ -61,6 +61,13 @@ require_file skills/templates/PROTOCOL.md
 require_file fixtures/simple-audit/AUDIT.md
 require_file fixtures/simple-audit/EXPECTED-LEDGER.md
 require_file fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md
+require_file fixtures/simple-audit/EXPECTED-ANDON-RECOVERY-SKELETON.md
+require_file fixtures/simple-audit/EXPECTED-ANDON-HANDOFF-SKELETON.md
+require_file fixtures/agent-eval/terminal-cap-request.md
+require_file fixtures/agent-eval/autonomous-build-runner.md
+require_file fixtures/agent-eval/audit-only-reviewer.md
+require_file fixtures/agent-eval/release-bot-overreach.md
+require_file fixtures/agent-eval/lean-glossary-theater.md
 require_file fixtures/zero-optional-tool/COMPLETE-RUN.md
 require_file fixtures/routing/greenfield-goal-synthesis/INPUT.md
 require_file fixtures/routing/greenfield-goal-synthesis/EXPECTED.md
@@ -182,8 +189,8 @@ if plugin.get("skills") != "./":
     )
 if not plugin.get("version"):
     raise SystemExit("plugin version is required")
-if plugin.get("version") != "0.2.8":
-    raise SystemExit("plugin version must be 0.2.8 for the v0.2.8.0 project milestone")
+if plugin.get("version") != "0.2.9":
+    raise SystemExit("plugin version must be 0.2.9 for the v0.2.9.0 project milestone")
 
 marketplace = json.loads(Path(".claude-plugin/marketplace.json").read_text())
 plugins = marketplace.get("plugins")
@@ -191,6 +198,53 @@ if not isinstance(plugins, list) or not plugins:
     raise SystemExit("marketplace plugins list is required")
 if plugins[0].get("path") != "..":
     raise SystemExit("marketplace path should point at plugin root")
+
+# Public version-claim truth: README's "Version and release notes" claim must
+# match the live manifest. The other version pins are checker-enforced; this
+# line drifted silently at v0.2.9.0 because nothing derived it from the
+# manifest.
+readme = Path("README.md").read_text(encoding="utf-8")
+version = plugin["version"]
+claim_lines = [l for l in readme.splitlines() if "Current project milestone:" in l]
+if not claim_lines:
+    raise SystemExit("README must state 'Current project milestone:' in Version and release notes")
+for line in claim_lines:
+    if f"v{version}.0" not in line or f"`{version}`" not in line:
+        raise SystemExit(
+            f"README version claim does not match manifest {version}: {line.strip()}"
+        )
+PY
+
+# Shipped-payload path integrity: files under skills/ ship to consumers who do
+# not receive fixtures/, tests/, or the repo-side check-* scripts. Any line in
+# the payload referencing such a path must carry a "source repo" label so
+# installed agents know the path is repo-side, not a dangling instruction.
+"${py_cmd[@]}" - <<'PY'
+import re
+import sys
+from pathlib import Path
+
+# Bare skills/scripts/ paths resolve nowhere for installed consumers (the
+# archive strips the skills/ prefix); helpers resolve via
+# "${IMPLEMENTAUDIT_BASE:-skills}"/scripts/... instead.
+pattern = re.compile(r"(fixtures/[\w.-]+|tests/[\w.-]+|scripts/check-[\w.-]+|skills/scripts/)")
+violations = []
+for path in sorted(Path("skills").rglob("*")):
+    if not path.is_file():
+        continue
+    try:
+        lines = path.read_text(encoding="utf-8").splitlines()
+    except UnicodeDecodeError:
+        continue
+    for lineno, line in enumerate(lines, 1):
+        if pattern.search(line) and "source repo" not in line.lower():
+            violations.append(
+                f"{path.as_posix()}:{lineno}: repo-only path reference without "
+                f"'source repo' label: {line.strip()[:90]}"
+            )
+if violations:
+    sys.stderr.write("\n".join(violations) + "\n")
+    raise SystemExit(1)
 PY
 
 for marker in \
@@ -201,9 +255,9 @@ for marker in \
   IMPLEMENTAUDIT_PHASE_VERIFY \
   AGENTS_UPDATE_DECISION \
   IMPLEMENTAUDIT_PHASE_DONE \
-  FAILURE_PROBE \
-  FAILURE_ESCALATE \
-  FAILURE_HANDOFF \
+  ANDON_PROBE \
+  ANDON_ESCALATE \
+  ANDON_HANDOFF \
   AUDIT_START \
   AUDIT_VERIFY \
   AUDIT_GAPS \
@@ -282,7 +336,11 @@ grep -R "ActiveGraph custody is not correctness proof" -n skills README.md AGENT
 bash scripts/generate-readme-diagrams.sh --check
 bash scripts/check-readme-toc.sh
 bash scripts/check-planner-stages.sh
-bash scripts/check-marker-order.sh fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md fixtures/zero-optional-tool/COMPLETE-RUN.md
+bash scripts/check-marker-order.sh \
+  fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md \
+  fixtures/simple-audit/EXPECTED-ANDON-RECOVERY-SKELETON.md \
+  fixtures/simple-audit/EXPECTED-ANDON-HANDOFF-SKELETON.md \
+  fixtures/zero-optional-tool/COMPLETE-RUN.md
 bash scripts/check-routing.sh
 bash scripts/check-sidecar-boundaries.sh
 bash scripts/check-host-claims.sh
@@ -304,6 +362,15 @@ bash tests/continuity.test.sh
 bash tests/phase-validation.test.sh
 bash tests/sidecars.test.sh
 bash tests/capability-ledger.test.sh
+bash tests/no-terminal-cap.test.sh
+bash tests/summarize-repo.test.sh
+bash tests/shipped-scripts-smoke.test.sh
+bash tests/run-root-validation.test.sh
+bash tests/custody-append.test.sh
+bash tests/agent-eval-fixtures.test.sh
+bash tests/agent-eval-grader.test.sh
+bash scripts/check-validation-registry.sh
+bash tests/validation-registry.test.sh
 bash scripts/build-release-asset.sh --check
 
 git diff --check

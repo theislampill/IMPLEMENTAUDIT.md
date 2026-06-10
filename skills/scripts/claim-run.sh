@@ -28,4 +28,13 @@ run_root="$(mktemp -d "$base/${slug}-XXXXXX" 2>/dev/null)" || {
   exit 1
 }
 
+# Advisory only (this helper never mutates repo config): in target repos that
+# do not ignore the run-root base, run artifacts would appear as untracked
+# changes in commits and evidence scans.
+if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  if ! git check-ignore -q "$base" 2>/dev/null; then
+    printf 'claim-run: note: %s is not gitignored here; consider adding ".IMPLEMENTAUDIT/" to .git/info/exclude (local-only) so run artifacts stay out of commits and evidence\n' "$base" >&2
+  fi
+fi
+
 printf '%s\n' "$run_root"

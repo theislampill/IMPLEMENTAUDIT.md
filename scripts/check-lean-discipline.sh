@@ -76,11 +76,55 @@ for needle in [
 for needle in [
     "jidoka",
     "jidoka trigger",
-    "failure_probe",
+    "andon_probe",
+    "andon log",
+    "andon.probe.recorded",
+    "custody.db",
     "hansei",
     "kaizen standardization",
 ]:
     require(proto, needle, "Jidoka chain", proto_path)
+
+# 3b2. The sidecars run-root template must ship with its contract content
+sidecars_path = "skills/templates/sidecars.md"
+sidecars = read(sidecars_path)
+for needle in [
+    "orientation only",
+    "custody.db",
+    "historical_backfill",
+    "query log",
+]:
+    require(sidecars, needle, "sidecars template contract", sidecars_path)
+
+# 3c. Andon custody events must exist in the lean reference event table
+for needle in [
+    "andon.probe.recorded",
+    "andon.escalated",
+    "andon.handoff.recorded",
+]:
+    require(lean, needle, "Andon custody events", lean_ref)
+
+# 3a. Andon class + version-skew discipline must exist in the canonical skill
+skill_path = "skills/SKILL.md"
+skill = read(skill_path)
+for needle in [
+    "andon:",
+    "class:",
+    "abnormality class",
+    "version skew",
+]:
+    require(skill, needle, "Andon class / version-skew discipline", skill_path)
+
+# 3b. Andon log substrate must exist in the STATE.md template
+state_path = "skills/templates/STATE.md"
+state = read(state_path)
+for needle in [
+    "## andon log",
+    "abnormality class",
+    "rerun evidence",
+    "status values:",
+]:
+    require(state, needle, "Andon log substrate", state_path)
 
 # 4. Nemawashi must appear in PROTOCOL.md
 require(proto, "nemawashi", "Nemawashi gate", proto_path)

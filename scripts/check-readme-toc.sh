@@ -78,5 +78,16 @@ missing_required = sorted(required.difference(links))
 if missing_required:
     raise SystemExit("README ToC missing required anchors: " + ", ".join(missing_required))
 
+# Two-way parity: every level-2 section (except Contents itself) must appear
+# in the ToC. One-way checking let the ToC drift to 19 of 26 sections.
+h2_slugs = []
+for heading in re.findall(r"^## (.+)$", text, re.M):
+    if heading.strip() == "Contents":
+        continue
+    h2_slugs.append(slugify(heading))
+unlisted = sorted(set(h2_slugs) - set(links))
+if unlisted:
+    raise SystemExit("README sections missing from ToC: " + ", ".join(unlisted))
+
 sys.stdout.write("check-readme-toc: ok\n")
 PY
