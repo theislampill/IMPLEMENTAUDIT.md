@@ -11,7 +11,7 @@ Plugin manifest versions are host-facing package metadata. The `v0.2.5.0`
 project milestone maps to plugin manifest version `0.2.5` because no local
 schema evidence proved four-component plugin manifest versions are accepted.
 
-## [v0.2.9.0] - Unreleased
+## [v0.2.9.0] - 2026-06-10
 
 ### Fixed
 

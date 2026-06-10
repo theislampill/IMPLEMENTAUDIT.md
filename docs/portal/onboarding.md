@@ -55,14 +55,14 @@ Manual copy from a repo checkout:
     mkdir -p ~/.codex/skills/implementaudit
     cp -R skills/* ~/.codex/skills/implementaudit/
 
-From the v0.2.8.0 release asset with checksum verification:
+From the v0.2.9.0 release asset with checksum verification:
 
     bash scripts/build-release-asset.sh
     bash scripts/install-codex-from-release.sh \
       --asset dist/IMPLEMENTAUDIT.skill \
       --checksum dist/CHECKSUMS.txt \
       --codex-home "$HOME/.codex" \
-      --version 0.2.8
+      --version 0.2.9
 
 ### Claude Code
 
@@ -72,7 +72,7 @@ For a release-asset Claude Desktop path, `bash scripts/install-claude-from-relea
 
 ### Release state
 
-Release `v0.2.8.0` is live (verified 2026-06-10 against the GitHub release list). Tag at commit `d2829a4` (verified via the tag ref API). The release asset `IMPLEMENTAUDIT.skill` includes a `CHECKSUMS.txt` — a SHA-256 checksum manifest for local integrity verification only. No signatures, attestations, SBOMs, or provenance chains are claimed. Pages docs are live and CI-verified (deploy workflow success at the pushed head plus a live HTTP 200, verified 2026-06-10). External claims in this section carry their evidence basis; re-verify on each release gate.
+Release `v0.2.9.0` is live (verified against the GitHub release list at the 2026-06-10 release gate). Tag at commit `23f67b5` (the CI-green pushed head). The release asset `IMPLEMENTAUDIT.skill` includes a `CHECKSUMS.txt` — a SHA-256 checksum manifest for local integrity verification only. No signatures, attestations, SBOMs, or provenance chains are claimed. Pages docs are live and CI-verified (deploy workflow success at the pushed head plus a live HTTP 200, verified 2026-06-10). External claims in this section carry their evidence basis; re-verify on each release gate.
 
 :::info
 **No auto-update mechanism exists.** A locally installed skill does not update automatically when the GitHub repo has a new release. Repeat the install step on each release.
@@ -519,7 +519,7 @@ The default small-audit mode operates on one artifact at a time. It:
 | `docs/portal/onboarding.md` | This file. Portal content source. |
 | `docs/audits/` | Dogfood audit ledgers by version. |
 | `docs/diagrams/` | Mermaid source for execution spine and tooling diagrams. |
-| `.claude-plugin/plugin.json` | Plugin manifest. Version 0.2.8. |
+| `.claude-plugin/plugin.json` | Plugin manifest. Version 0.2.9. |
 | `.github/workflows/pages.yml` | Docs portal build and deploy. `workflow_dispatch` enabled. |
 | `.github/workflows/validate.yml` | Full test and check suite. |
 

@@ -57,9 +57,8 @@ Each action requires separate explicit authorization.
 
 ## Quick start
 
-1. Install the skill (see [Install notes](#install-notes) for your host — or
-   note that the latest public release asset predates the current contract;
-   building from source is the current-behavior path).
+1. Install the skill (see [Install notes](#install-notes) for your host).
+   The `v0.2.9.0` public release carries the contract this README describes.
 2. In a repo you want governed, invoke it with a bounded target:
    `/implementaudit close the findings in AUDIT.md` — or just describe the
    work; unbounded asks get a STOP, not a build loop.
@@ -794,21 +793,20 @@ To choose the right invocation shape, see the chooser table in
 Install flows are evidence-bounded. This repo can locally validate the release
 asset-to-Codex-install path into a temporary Codex home. It does not claim passive auto-update, universal host support, marketplace verification, or public GitHub release download verification unless those checks are run and recorded.
 
-**Release-staleness disclosure:** the latest public release asset is
-`v0.2.8.0` (verified against the live release list), which predates the
-`v0.2.9.0` Andon/Jidoka failure contract,
-helper-path resolution, run-root validation, and custody tooling described in
-this README. Installing from the public release gives you v0.2.8.0 behavior,
-not what this document teaches. For current behavior, build the asset from
-source (`bash scripts/build-release-asset.sh`) and install that, or wait for
-the next release gate. This is a disclosure, not a release claim.
+**Release/contract alignment:** the latest public release is `v0.2.9.0`
+(verified against the live release list at the release gate), which carries
+the Andon/Jidoka failure contract, helper-path resolution, run-root
+validation, and custody tooling described in this README. Installing from the
+public release gives you the documented behavior. Re-verify this paragraph at
+every release gate; if a future README documents behavior newer than the
+latest release, restore the staleness disclosure.
 
 What each install source carries:
 
 | Source | Failure contract | Helper resolution | Run-root / custody tooling |
 |---|---|---|---|
-| Public release `v0.2.8.0` (latest) | pre-Andon (older recovery semantics) | bare paths (pre-skill-dir) | none |
-| Built from source (`v0.2.9.0` line) | ANDON_PROBE / ANDON_ESCALATE / ANDON_HANDOFF, classed Andon log, no try caps | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper |
+| Public release `v0.2.9.0` (latest) / built from source | ANDON_PROBE / ANDON_ESCALATE / ANDON_HANDOFF, classed Andon log, no try caps | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper |
+| Older public release `v0.2.8.0` | pre-Andon (older recovery semantics) | bare paths (pre-skill-dir) | none |
 
 ### Install / update for Codex
 
@@ -840,14 +838,14 @@ bash scripts/install-codex-from-release.sh \
   --asset dist/IMPLEMENTAUDIT.skill \
   --checksum dist/CHECKSUMS.txt \
   --codex-home "$HOME/.codex" \
-  --version 0.2.8
+  --version 0.2.9
 ```
 
 After a public release exists, the same installer can be pointed at an explicit
 tag or asset URL from a source checkout:
 
 ```bash
-bash scripts/install-codex-from-release.sh --tag v0.2.8.0 --version 0.2.8
+bash scripts/install-codex-from-release.sh --tag v0.2.9.0 --version 0.2.9
 ```
 
 That public-download path is a claim only after the release exists and the
@@ -876,11 +874,11 @@ bash scripts/install-claude-from-release.sh \
   --claude-skills-dir "<claude-session-path>/skills/implementaudit"
 ```
 
-From the live public v0.2.8.0 release:
+From the live public v0.2.9.0 release:
 
 ```bash
 bash scripts/install-claude-from-release.sh \
-  --tag v0.2.8.0 \
+  --tag v0.2.9.0 \
   --claude-skills-dir "<claude-session-path>/skills/implementaudit"
 ```
 
