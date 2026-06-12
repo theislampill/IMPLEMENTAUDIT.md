@@ -1,0 +1,86 @@
+<div class="page-eyebrow">Evidence</div>
+      <h1>State and artifacts</h1>
+      <p class="lead">The files a run writes so reviewers can inspect state, plans, checks, and closure.</p>
+      <div class="hero-card"><h2>Evidence lives in files you can open.</h2><p>The work record is not a decorative transcript dump.<br>For phased or larger runs, the run folder carries the state cursor, roadmap, phase checklists, before/after evidence, failure rows, and final audit closure.</p></div>
+
+      <h2 id="run-folder">Run folder</h2>
+      <p>For phased or larger work, the run folder (run root) is <code>.IMPLEMENTAUDIT/runs/&lt;task-slug&gt;-&lt;id&gt;/</code>.</p>
+      <ul>
+        <li>It is the durable home for run state and should be inspectable after the chat scrolls away.</li>
+        <li>Compact direct runs may instead bind the work record through the audit object, findings ledger, transcript markers, and cited artifacts without a separate run root.</li>
+        <li>The namespaced path prevents one run from clobbering another run's artifacts.</li>
+      </ul>
+
+      <h2 id="files-to-inspect">Files to inspect</h2>
+      <ul>
+        <li><code>STATE.md</code> records status, phase, decisions, and failure rows (Andon rows).</li>
+        <li><code>ROADMAP.md</code> and phase checklists/specs show planned work.</li>
+        <li><code>THINKING.md</code> keeps reviewable planning evidence.</li>
+        <li><code>PROTOCOL.md</code> defines the execution loop, Andon escalation, continuity decision rules, and final audit protocol.</li>
+        <li><code>tools.md</code> and <code>context.md</code> record Stage 0 detection and operating context.</li>
+        <li>Before/after evidence shows what changed.</li>
+        <li>The final audit ledger explains closure or handoff.</li>
+      </ul>
+
+      <h2 id="what-this-proves">What this proves</h2>
+      <p>Artifacts prove what the run recorded and checked.<br>They do not prove commits, pushes, releases, publication, or provenance unless those gates were separately authorized and evidenced.</p>
+
+      <h2 id="source-surfaces">Source surfaces</h2>
+      <ul>
+        <li><code>README.md</code></li>
+        <li><code>AGENTS.md</code></li>
+        <li><code>skills/SKILL.md</code></li>
+        <li><code>skills/templates/STATE.md</code></li>
+        <li><code>skills/templates/ROADMAP.md</code></li>
+        <li><code>skills/templates/THINKING.md</code></li>
+        <li><code>skills/templates/PROTOCOL.md</code></li>
+        <li><code>skills/templates/tools.md</code></li>
+        <li><code>skills/templates/context.md</code></li>
+        <li><code>skills/templates/sidecars.md</code></li>
+        <li><code>skills/references/phase-design.md</code></li>
+      </ul>
+
+      <h2 id="artifact-map">Artifact map</h2>
+      <div class="artifact-card-grid">
+        <section class="artifact-card"><h3>Work record</h3><dl><dt>Maintainer term</dt><dd><code>tdqyq-audit-object</code></dd><dt>Owner</dt><dd>The run</dd><dt>Purpose</dt><dd>Evidence-bearing record: request, scope, findings, owner/source, claims, changed files, checks, and closure state.</dd><dt>Proof boundary</dt><dd>Everything the run claims is bounded by this record.</dd></dl></section>
+        <section class="artifact-card"><h3>Audit action</h3><dl><dt>Maintainer term</dt><dd><code>ydqyq-audit-action</code></dd><dt>Owner</dt><dd>Runtime</dd><dt>Purpose</dt><dd>Operations that inspect, classify, verify, patch owner/source, close, refuse, or hand off.</dd><dt>Proof boundary</dt><dd>Not a file; it is the operation category that updates the work record.</dd></dl></section>
+        <section class="artifact-card"><h3><code>ROADMAP.md</code></h3><dl><dt>Owner</dt><dd>Planner</dd><dt>Purpose</dt><dd>High-level phase plan, dependencies, milestone, and dispatch order.</dd><dt>Proof boundary</dt><dd>Planning evidence, not immutable scope.</dd></dl></section>
+        <section class="artifact-card"><h3><code>STATE.md</code></h3><dl><dt>Owner</dt><dd>Runtime</dd><dt>Purpose</dt><dd>Status token, current phase, route, findings ledger, authorization stance, baseline, and classed Andon log.</dd><dt>Proof boundary</dt><dd>Run-state record; optional custody events live separately.</dd></dl></section>
+        <section class="artifact-card"><h3><code>tools.md</code></h3><dl><dt>Owner</dt><dd>Runtime</dd><dt>Purpose</dt><dd>Stage 0 detection: skill-dir resolution, helper availability, runtimes, and sidecar status.</dd><dt>Proof boundary</dt><dd>Detection evidence only.</dd></dl></section>
+        <section class="artifact-card"><h3><code>context.md</code></h3><dl><dt>Owner</dt><dd>Runtime</dd><dt>Purpose</dt><dd>Operating context: baseline ref, working-tree state, invocation shape, route, and repo instructions read.</dd><dt>Proof boundary</dt><dd>Intake record; live files win on conflict.</dd></dl></section>
+        <section class="artifact-card"><h3><code>THINKING.md</code></h3><dl><dt>Owner</dt><dd>Runtime</dd><dt>Purpose</dt><dd>Reviewable planning evidence: route, risks, real-file notes, before/after checks, and quality-route fields, with formal Lean labels in the operating-method reference.</dd><dt>Proof boundary</dt><dd>Reasoning record, not a public claim by itself.</dd></dl></section>
+        <section class="artifact-card"><h3><code>PROTOCOL.md</code></h3><dl><dt>Owner</dt><dd>Runtime</dd><dt>Purpose</dt><dd>Execution protocol: phase loop, resume rules, Andon escalation protocol, continuity decision rules, and final audit procedure.</dd><dt>Proof boundary</dt><dd>Protocol/rule surface; it does not prove those steps ran. Step evidence must appear in <code>STATE.md</code>, transcript markers, check output, and final audit records.</dd></dl></section>
+        <section class="artifact-card"><h3><code>sidecars.md</code></h3><dl><dt>Owner</dt><dd>Runtime</dd><dt>Purpose</dt><dd>Optional Graphify and ActiveGraph detection, authorization mode, query log, custody store, prior-store preload, output summaries, and Markdown fallback state.</dd><dt>Proof boundary</dt><dd>Orientation and custody evidence, not correctness proof.</dd></dl></section>
+        <section class="artifact-card"><h3><code>applied-context.md</code> / <code>applied-memories.md</code></h3><dl><dt>Owner</dt><dd>Runtime</dd><dt>Purpose</dt><dd>Loaded continuity from prior runs, personal notes, or project notes.</dd><dt>Proof boundary</dt><dd>Orientation only; live files and applicable <code>AGENTS.md</code> outrank it.</dd></dl></section>
+        <section class="artifact-card"><h3><code>repo-map.md</code></h3><dl><dt>Owner</dt><dd>Runtime</dd><dt>Purpose</dt><dd>Manual or Graphify-assisted map of owner/source candidates, dependencies, and stale assumptions.</dd><dt>Proof boundary</dt><dd>Orientation; not a substitute for real-file inspection.</dd></dl></section>
+        <section class="artifact-card"><h3><code>phases/phase-N.md</code></h3><dl><dt>Owner</dt><dd>Planner/runtime</dd><dt>Purpose</dt><dd>Per-phase goal, acceptance criteria, rollback/defer path, quality route, and evidence plan.</dd><dt>Proof boundary</dt><dd>Phase-scoped claim boundary.</dd></dl></section>
+        <section class="artifact-card"><h3>Before/after evidence</h3><dl><dt>Owner</dt><dd>Phase runtime</dd><dt>Purpose</dt><dd>Baseline checks, changed files, added lines, deliverable comparison, and rerun output.</dd><dt>Proof boundary</dt><dd>Shows observed change; does not prove publication or provenance.</dd></dl></section>
+        <section class="artifact-card"><h3>Final audit ledger</h3><dl><dt>Owner</dt><dd>Final audit</dd><dt>Purpose</dt><dd>Closure, gaps, handoff, unresolved risk, evidence references, and completion marker order.</dd><dt>Proof boundary</dt><dd>Completion evidence only within the authorized scope.</dd></dl></section>
+      </div>
+
+      <h2 id="state-tokens">State tokens</h2>
+      <p>The state file uses lifecycle status tokens: <code>open</code>, <code>READY_TO_DISPATCH</code>, <code>IN_PHASE</code>, <code>PAUSED</code>, <code>BLOCKED</code>, <code>INTERRUPTED</code>, and <code>DONE</code>.<br>Transcript markers such as <code>AUDIT_COMPLETE</code>, <code>AUDIT_HANDOFF</code>, and <code>IMPLEMENTAUDIT_RUN_COMPLETE</code> are separate closure evidence, not <code>STATE.md</code> status values.</p>
+
+      <h2 id="audit-object-fields">Work-record fields (audit object)</h2>
+      <p>The run's evidence-bearing work record (audit object/action surfaces) should name:</p>
+      <ul><li>the request</li><li>source</li><li>scope</li><li>route</li><li>owner/source decisions</li><li>criteria</li><li>checks</li><li>authorization state</li><li>final disposition</li></ul>
+      <p>Lightweight invocations may create this from a normal repo request; a separate audit file is not required for a first try.</p>
+
+      <h2 id="continuity-decisions">Continuity decisions</h2>
+      <p><code>AGENTS_UPDATE_DECISION</code> and <code>CONTINUITY_DECISION</code> are artifact decisions.<br>They explain whether durable instructions or continuity notes were updated, skipped, or handed off.</p>
+
+      <h2 id="continuity-writeback-marker">Continuity writeback marker</h2>
+      <p><code>IMPLEMENTAUDIT_CONTINUITY_SAVED</code> appears only when a bounded continuity writeback actually happens.<br>The marker records:</p>
+      <ul><li><code>Target</code></li><li><code>Reason</code></li><li><code>Evidence</code></li><li><code>Boundary</code></li><li><code>Authorization</code></li><li><code>Not saved</code></li></ul>
+      <p>It proves the writeback event and boundary, not that the written content is universally correct.</p>
+
+      <h2 id="local-git-trace">Local git trace</h2>
+      <p>Git status, diff, and proposed commit text can be evidence.<br>They are not permission to commit, push, tag, release, publish, or claim provenance.</p>
+      <ul>
+        <li>Record proposed commit scope and granularity when useful for review.</li>
+        <li>Keep source, checker, docs, release, and provenance lanes separate.</li>
+        <li>Treat a clean diff as review evidence, not as authorization to mutate remote state.</li>
+      </ul>
+
+      <h2 id="artifact-boundary">Artifact boundary</h2>
+      <p>Run artifacts prove audit behavior.<br>They do not by themselves prove product delivery, host load, publication, or provenance.</p>

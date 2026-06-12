@@ -1,0 +1,94 @@
+<div class="page-eyebrow">Overview</div>
+      <h1>What it is</h1>
+      <p class="lead">IMPLEMENTAUDIT is a Claude Code and Codex skill for making repository changes with a durable evidence trail.</p>
+
+      <h2 id="evidence-trail">Repository changes with an evidence trail</h2>
+      <p>IMPLEMENTAUDIT helps Claude Code or Codex make repository changes that leave evidence behind.<br>It makes the agent plan, inspect real files, run before/after checks, stop on failures, and close with an audit.<br>Formal name: implementation with audit gates (audit-governed implementation).</p>
+      <p>The key move is simple: the conversation carries only a short instruction, while the real contract lives in a durable work record on disk.<br>For phased or larger work, that record is organized inside a run folder.</p>
+
+      <h2 id="contract-on-disk">The contract lives on disk</h2>
+      <div class="result-grid">
+        <div><b>Work record</b><span>The request, scope, checks, failures, and closure state are bound before mutation.</span></div>
+        <div><b>Run folder</b><span>Phased or larger work uses <code>.IMPLEMENTAUDIT/runs/&lt;task-slug&gt;-&lt;id&gt;/</code> as the inspectable home for the run.</span></div>
+        <div><b><code>STATE.md</code></b><span>Records status, phase cursor, decisions, failure rows, and closure state.</span></div>
+        <div><b>Phase checklist</b><span>Phase specs define bounded work, acceptance criteria, evidence, and rollback or defer paths.</span></div>
+        <div><b>Evidence surfaces</b><span>Before/after checks, failure log, final audit ledger, and transcript markers preserve review evidence.</span></div>
+      </div>
+
+      <h2 id="not-a-framework">What it is not</h2>
+      <div class="compare">
+        <div class="compare-card compare-bad">
+          <h3>Not this</h3>
+          <ul>
+            <li>a framework, server, or build runner</li>
+            <li>proof that a host loaded the skill</li>
+            <li>a permission to commit, push, tag, release, publish, or claim provenance</li>
+            <li>a promise that optional sidecars exist in every consuming repo</li>
+          </ul>
+        </div>
+        <div class="compare-card compare-good">
+          <h3>It does this</h3>
+          <ul>
+            <li>keeps work bounded by a work record, and by a run folder for phased work</li>
+            <li>forces before/after checks before claiming success</li>
+            <li>records failure handling instead of hiding retries</li>
+            <li>requires final audit completion or an honest handoff</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2 id="what-it-does-not-authorize">What it does not authorize</h2>
+      <p>IMPLEMENTAUDIT can plan, inspect, edit, check, stop, and audit within the authorized request.<br>It does not grant extra authority.</p>
+      <p>Authorization means a direct owner or user instruction for that action; a plan, CI reference, release note, or deployment pointer is not authorization by itself.</p>
+      <p>These remain separate gates:</p>
+      <ul>
+        <li>commit</li>
+        <li>push</li>
+        <li>tag</li>
+        <li>release</li>
+        <li>publish</li>
+        <li>provenance</li>
+        <li>destructive filesystem mutation</li>
+        <li>host installs, global skills, plugins, sidecars, or backups.</li>
+      </ul>
+
+      <h2 id="not-automatic-proof">Not automatic proof</h2>
+      <ul>
+        <li>A run folder is audit substrate, not product deliverable proof.</li>
+        <li>A copied package is not host-load proof.</li>
+        <li>Graphify terrain is orientation, not correctness proof.</li>
+        <li>ActiveGraph custody is event evidence, not correctness proof.</li>
+        <li>A checksum manifest is integrity evidence, not a signature, attestation, SBOM, or provenance chain.</li>
+      </ul>
+
+      <h2 id="allowed-vs-separate">Allowed vs separate</h2>
+      <div class="result-grid">
+        <div><b>Inside a normal run</b><span>Read files, patch authorized scope, run checks, and write run evidence.</span></div>
+        <div><b>Separate owner gate</b><span>Commit, push, tag, release, publish, or claim provenance.</span></div>
+        <div><b>Inside a normal run</b><span>Use installed helpers from the skill payload.</span></div>
+        <div><b>Separate owner gate</b><span>Install host tools, refresh global skills, mutate plugin state, or configure sidecars.</span></div>
+        <div><b>Inside a normal run</b><span>Cite local checksum or package validation as integrity evidence.</span></div>
+        <div><b>Separate owner gate</b><span>Call that provenance, signature proof, SBOM proof, or host-load proof.</span></div>
+      </div>
+
+      <h2 id="not-ungated-autonomy">Not ungated autonomy</h2>
+      <p>Natural-language repo-build requests are allowed only through governed casual-build intake.<br>The skill must synthesize a bounded work record before mutation and reject unsafe, unbounded, or non-repo requests.</p>
+
+      <h2 id="stop-conditions">Stop or hand off</h2>
+      <p>Stop or hand off for:</p>
+      <ul>
+        <li>unsafe scope</li>
+        <li>missing authorization</li>
+        <li>disputed owner/source</li>
+        <li>impossible criteria</li>
+        <li>external dependency</li>
+        <li>irreproducibility</li>
+        <li>missing required access</li>
+        <li>no bounded countermeasure</li>
+      </ul>
+
+      <h2 id="reader-promise">Reader promise</h2>
+      <p>A reader should be able to tell which actions happened, which were only recommended, and which require separate approval.<br>If the page cannot show that boundary, it should use weaker language.</p>
+
+      <h2 id="source-surfaces">Source surfaces</h2>
+      <p><code>README.md</code>, <code>AGENTS.md</code>, <code>skills/SKILL.md</code>, and <code>skills/references/routing.md</code>.</p>

@@ -1,0 +1,39 @@
+<div class="page-eyebrow">Evidence</div>
+      <h1>Repo state comparison</h1>
+      <p class="lead">How deliverable changes are separated from run evidence files.</p>
+      <div class="hero-card"><h2>Run evidence is not the product diff.</h2><p>The work record explains the run, and phased work may add a run folder.<br>Final audit still needs to separate product files from audit files, so <code>.IMPLEMENTAUDIT/</code> evidence does not masquerade as deliverable output.</p></div>
+
+      <h2 id="rule">Rule</h2>
+      <p>Repo-state evidence records committed, staged, unstaged, deleted, and untracked changes against a baseline.</p>
+
+      <h2 id="run-root-exclusion">Run-root exclusion</h2>
+      <p>Evidence files under <code>.IMPLEMENTAUDIT/</code> are excluded from deliverable proof so the run folder does not masquerade as product output.</p>
+
+      <h2 id="audit-use">Audit use</h2>
+      <p>The final audit can compare what changed in the repo against the planned deliverables, then separately cite run evidence.</p>
+
+      <h2 id="source-surfaces">Source surfaces</h2>
+      <p><code>skills/references/repo-state-comparison.md</code> and the shipped helper <code>${IMPLEMENTAUDIT_SKILL_DIR:-skills}/scripts/repo-state.sh</code>.<br>In a source checkout, the <code>skills</code> fallback resolves helper scripts. In an installed package, first export <code>IMPLEMENTAUDIT_SKILL_DIR</code> to the loaded skill directory containing <code>SKILL.md</code>, <code>scripts/</code>, <code>references/</code>, and <code>templates/</code>.<br>Do not point <code>IMPLEMENTAUDIT_SKILL_DIR</code> at the repo root, the <code>IMPLEMENTAUDIT.skill</code> archive file, or <code>IMPLEMENTAUDIT_BASE</code>; <code>IMPLEMENTAUDIT_BASE</code> is the run-root base when used.</p>
+
+      <h2 id="why-one-revision-diff-matters">Why one-revision diff matters</h2>
+      <p><code>git diff &lt;baseline&gt;</code> compares the baseline commit to the current working tree, including staged, unstaged, deleted, and committed-after-baseline changes.<br>A commit range can miss uncommitted work.<br>Untracked files are listed separately with <code>git ls-files --others --exclude-standard</code>; ignored files need an explicit override.<br>If the baseline is invalid, the evidence degrades to existence-only instead of pretending the comparison succeeded.</p>
+
+      <h2 id="helper-modes">Helper modes</h2>
+      <table>
+        <thead><tr><th>Mode</th><th>Use</th></tr></thead>
+        <tbody>
+          <tr><td><code>deliverable</code></td><td>Check whether a path is present, missing, untracked, changed, unchanged, or baseline-unavailable.</td></tr>
+          <tr><td><code>changed-files</code></td><td>Feed final audit and release-readiness review.</td></tr>
+          <tr><td><code>added-lines</code></td><td>Feed cleanliness and overclaim scans; includes untracked text files.</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="review-pattern">Review pattern</h2>
+      <p>Use the work record, and the run folder when present, to explain the audit.<br>Use repo-state comparison to answer what the product diff actually changed.<br>A valid final audit can cite both, but it should not count audit files under <code>.IMPLEMENTAUDIT/</code> as product deliverables.</p>
+      <div class="term-window example-console">
+        <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Repo-state helpers</em><span class="term-badge">review</span></div>
+        <pre><span class="k-cyan">$ export IMPLEMENTAUDIT_SKILL_DIR="$HOME/.codex/skills/implementaudit"</span>
+<span class="k-cyan">$ bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/repo-state.sh changed-files &lt;baseline&gt;</span>
+<span class="k-cyan">$ bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/repo-state.sh deliverable &lt;baseline&gt; src/app.txt</span>
+<span class="k-cyan">$ bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/repo-state.sh added-lines &lt;baseline&gt;</span></pre>
+      </div>

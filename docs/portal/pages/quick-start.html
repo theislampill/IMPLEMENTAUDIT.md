@@ -1,0 +1,89 @@
+<div class="page-eyebrow">First run</div>
+      <h1>Quick Start</h1>
+      <p class="lead">This page walks through the first IMPLEMENTAUDIT run from the user's point of view.<br>You paste one concrete repo request into Claude Code or Codex, then look for the files and markers that prove the run stayed bounded.</p>
+      <p>If this is your first time and the command below feels too fast, open <a href="../../audience/for-new-users/">For new users</a> first, then return here for the canonical first command.</p>
+
+      <h2 id="paste">1. Paste one request</h2>
+      <p>If the skill is already loaded, start here.<br>Open Claude Code or Codex from the repository you want changed and paste one concrete repo request into chat:</p>
+      <div class="term-window example-console">
+        <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Concrete task</em><span class="term-badge">start</span></div>
+        <pre><span class="k-cyan">/implementaudit add tests for the login timeout bug</span></pre>
+      </div>
+      <p>If you already have findings, point at them directly:</p>
+      <div class="term-window example-console">
+        <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Findings file</em><span class="term-badge">audit</span></div>
+        <pre><span class="k-cyan">/implementaudit close the findings in AUDIT.md</span></pre>
+      </div>
+      <div class="callout"><strong>No audit file required for the first try.</strong><br>A normal repo request is enough; IMPLEMENTAUDIT creates or binds the work record (audit object) before it edits.</div>
+
+      <h2 id="written">2. Watch what gets written</h2>
+      <p>A good run creates inspectable evidence instead of relying on chat memory.<br>For phased or larger work, inspect the run folder.<br>For compact work, require the final response to identify the bound work record, cited artifacts, final audit ledger, and transcript markers.</p>
+      <p>Compact work may not create <code>.IMPLEMENTAUDIT/runs/&lt;task-slug&gt;-&lt;id&gt;/</code>; in that case, the bound work record is located by the final response, final audit ledger, cited artifacts, and marker order. A run folder is expected only when the work is phased.</p>
+      <pre><code>.IMPLEMENTAUDIT/runs/&lt;task-slug&gt;-&lt;id&gt;/
+  STATE.md
+  ROADMAP.md
+  THINKING.md
+  PROTOCOL.md
+  tools.md
+  context.md
+  sidecars.md                             # optional-tool status and fallback
+  phases/phase-N.md
+  applied-context.md / applied-memories.md  # prior context, if loaded
+  repo-map.md                              # file/dependency map, if created</code></pre>
+      <p>Transcript markers such as <code>AUDIT_COMPLETE</code> appear in the chat or final transcript, not as run-folder files.</p>
+      <div class="result-grid">
+        <div><b>Run folder, when phased</b><span><code>.IMPLEMENTAUDIT/runs/&lt;task-slug&gt;-&lt;id&gt;/</code></span></div>
+        <div><b>State file</b><span><code>&lt;run-root&gt;/STATE.md</code> records current phase, audit-object state, decisions, and authorization state.</span></div>
+        <div><b>Roadmap and phase checklist</b><span>For phased work, <code>&lt;run-root&gt;/ROADMAP.md</code> and <code>&lt;run-root&gt;/phases/phase-N.md</code> show promised work before editing.</span></div>
+        <div><b>Before/after evidence</b><span>Before/after checks (Smoke A/B) appear in phase evidence and command output cited by the run.</span></div>
+        <div><b>Failure log</b><span>For phased work, <code>&lt;run-root&gt;/STATE.md</code> -> <code>## Andon log</code> records class, cause, countermeasure, and rerun evidence.</span></div>
+        <div><b>Final audit ledger</b><span>The final audit ledger, cited artifacts, and transcript markers explain closure or handoff.</span></div>
+      </div>
+
+      <h2 id="install">3. If the skill is not loaded</h2>
+      <p>Use the install path for your host, then return to the pasted request above.<br>Install verification covers package extraction and integrity only; it does not prove the host loaded the skill.</p>
+      <div class="result-grid">
+        <div><b>Claude Code</b><span>Use Claude Code's current plugin or skill install/update flow, then verify the host shows the skill before treating it as loaded.</span></div>
+        <div><b>Codex</b><span>Use the release-asset install or manual skill copy path, then verify the local host can load <code>/implementaudit</code>.</span></div>
+      </div>
+      <p><a href="../installation/">Open the full installation page</a>.</p>
+
+      <h2 id="failure">4. If evidence fails</h2>
+      <p>The run should not retry blindly and should not fake completion.<br>The visible path is:</p>
+      <ol class="step-card step-list">
+        <li>Evidence fails.</li>
+        <li>Stop the line.</li>
+        <li>Classify abnormality.</li>
+        <li>Inspect cause.</li>
+        <li>Choose a bounded countermeasure.</li>
+        <li>Rerun the relevant check.</li>
+        <li>Escalate only with new evidence.</li>
+        <li>Hand off only on a real blocker.</li>
+      </ol>
+      <p>The formal interrupt loop is Andon, but the ordinary meaning comes first: failure becomes visible, recorded, and bounded.</p>
+      <div class="panel"><span class="k-rose">check failed</span>&nbsp;&nbsp;login timeout test still red<br><span class="k-amber"><code>ANDON_PROBE</code></span>&nbsp;&nbsp;class: failed-criterion; cause: missing timeout assertion<br><span class="k-amber">countermeasure</span>&nbsp;&nbsp;add bounded test case only<br><span class="k-emerald">rerun evidence</span>&nbsp;&nbsp;relevant timeout test passes against baseline<br><span class="k-cyan">outcome</span>&nbsp;&nbsp;resume phase or hand off if still blocked</div>
+
+      <h2 id="complete">5. Trust it only if</h2>
+      <p>A good run ends with <code>AUDIT_COMPLETE</code> before <code>IMPLEMENTAUDIT_RUN_COMPLETE</code>.<br>That means the final audit found final, checkable evidence for the in-scope items.<br>It does not mean the agent committed, pushed, tagged, released, or published anything.</p>
+      <ul>
+        <li>For phased work, the run folder exists and <code>STATE.md</code> shows the current phase or closure state.</li>
+        <li>The roadmap or phase checklist exists before you accept edits.</li>
+        <li>Before/after evidence is present for the edited scope.</li>
+        <li>Any failed check has a failure row, cause, countermeasure, rerun evidence, and outcome.</li>
+        <li><code>AUDIT_COMPLETE</code> appears before <code>IMPLEMENTAUDIT_RUN_COMPLETE</code>. If blocked, a handoff names the blocker and next owner action instead.</li>
+      </ul>
+
+      <h2 id="next">What happens next</h2>
+      <ol>
+        <li><strong>Request</strong> - a concrete repo task or audit finding enters the run.</li>
+        <li><strong>Work record</strong> - the agent binds the request to inspectable evidence; phased work also claims a run folder.</li>
+        <li><strong>Plan</strong> - the planner writes a bounded roadmap and phase checklist when the work needs phases.</li>
+        <li><strong>Inspect</strong> - the agent reads real files before promising edits.</li>
+        <li><strong>Check</strong> - before/after evidence is recorded.</li>
+        <li><strong>Interrupt</strong> - failure stops work and records the path.</li>
+        <li><strong>Close</strong> - final audit verifies or hands off honestly.</li>
+      </ol>
+
+      <h2 id="what-should-feel-different">What should feel different</h2>
+      <p>A normal agent run can blur planning, editing, retrying, and done.<br>The first IMPLEMENTAUDIT run should make those boundaries visible:</p>
+      <ul><li>request</li><li>run folder or work record</li><li>state</li><li>checks</li><li>interruption</li><li>final audit</li></ul>

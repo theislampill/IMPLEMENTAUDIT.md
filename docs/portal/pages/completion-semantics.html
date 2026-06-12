@@ -1,0 +1,75 @@
+<div class="page-eyebrow">Closure</div>
+      <h1>Completion semantics</h1>
+      <p class="lead">What <code>AUDIT_COMPLETE</code> means and why run completion cannot come before it.</p>
+      <div class="hero-card"><h2>Done means final checkable evidence, not a stopped chat.</h2><p><code>AUDIT_COMPLETE</code> is the review record that every in-scope item closed with checkable evidence.<br>If a real blocker remains, the run emits <code>AUDIT_HANDOFF</code> instead, and <code>IMPLEMENTAUDIT_RUN_COMPLETE</code> must not appear.</p></div>
+
+      <h2 id="valid-completion">Valid completion</h2>
+      <p><code>AUDIT_COMPLETE</code> is the final audit verdict over the live work record.<br>Maintainer formal name: <code>tdqyq-audit-object</code>.</p>
+      <p>It means:</p>
+      <ul><li>every in-scope item has final checkable evidence</li><li>every claim is bounded by its evidence type</li><li>every unresolved item is explicitly classified</li></ul>
+      <p>Only then can <code>IMPLEMENTAUDIT_RUN_COMPLETE</code> appear.</p>
+
+      <h2 id="audit-gaps">Audit gaps</h2>
+      <p>If the final audit finds a gap, the run writes <code>AUDIT_GAPS</code>, fixes with new evidence or a changed approach, and audits again.<br>There is no arbitrary retry cap; closure depends on evidence, not on the number of attempts.</p>
+
+      <h2 id="invalid-completion">Invalid completion</h2>
+      <p>A stopped chat, failed check, hidden retry, unresolved owner decision, handoff marker, or missing evidence is not completion.</p>
+
+      <h2 id="evidence-type-taxonomy">Evidence type taxonomy</h2>
+      <p>Every behavioral claim should name the evidence type that supports it:</p>
+      <ul><li><code>live runtime</code></li><li><code>local generated-runtime</code></li><li><code>package-bound</code></li><li><code>unit test</code></li><li><code>integration test</code></li><li><code>static checker</code></li><li><code>manual inspection</code></li><li><code>visual/browser</code></li><li><code>unverified</code></li></ul>
+      <p>Static evidence is never upgraded to live proof.</p>
+
+      <h2 id="what-complete-does-not-mean">What complete does not mean</h2>
+      <ul>
+        <li>Marketplace verification, listing, or publication.</li>
+        <li>Universal install proof across hosts.</li>
+        <li>Provenance, signing, attestation, SBOM, or checksum chain.</li>
+        <li>Graphify proof; Graphify remains orientation evidence.</li>
+        <li>ActiveGraph correctness proof; ActiveGraph records custody/event evidence.</li>
+        <li>A felt sense of completion. Evidence determines closure state.</li>
+      </ul>
+
+      <h2 id="source-surfaces">Source surfaces</h2>
+      <p><code>skills/templates/PROTOCOL.md</code> final audit and <code>skills/references/transcript-contract.md</code>.</p>
+
+      <h2 id="marker-ordering">Marker ordering</h2>
+      <p><code>AUDIT_COMPLETE</code> must precede <code>IMPLEMENTAUDIT_RUN_COMPLETE</code>.<br><code>AUDIT_HANDOFF</code> must not appear with <code>IMPLEMENTAUDIT_RUN_COMPLETE</code>.</p>
+
+      <h2 id="final-audit-checks">Final audit checks</h2>
+      <p>Final audit should inspect the relevant evidence surfaces, not a one-size-fits-all folder checklist.</p>
+      <div class="artifact-card-grid">
+        <section class="artifact-card"><h3>Bound work record</h3><dl><dt>When it applies</dt><dd>Every run</dd><dt>What reviewer checks</dt><dd>Request, scope, owner/source, claims, changed files, checks, and closure state.</dd></dl></section>
+        <section class="artifact-card"><h3>Run folder (run root)</h3><dl><dt>When it applies</dt><dd>Phased or larger work</dd><dt>What reviewer checks</dt><dd>Roadmap, state, phase checklists/specs, thinking/protocol files, sidecars, and final fix-and-verify notes.</dd></dl></section>
+        <section class="artifact-card"><h3>Baseline and deliverables</h3><dl><dt>When it applies</dt><dd>Every mutation claim</dd><dt>What reviewer checks</dt><dd>Baseline reference, deliverable comparison, generated-artifact freshness, and audit coverage math.</dd></dl></section>
+        <section class="artifact-card"><h3>Closure markers</h3><dl><dt>When it applies</dt><dd>Every completion or handoff</dd><dt>What reviewer checks</dt><dd>Marker order, handoff exclusivity, unresolved risk, and sidecar boundaries.</dd></dl></section>
+      </div>
+
+      <h2 id="completion-checklist">Completion checklist</h2>
+      <ul>
+        <li>The bound work record exists; for phased work, the run folder, <code>STATE.md</code>, roadmap, and phase checklist exist for the in-scope work.</li>
+        <li>Each edited scope has before/after evidence or a named reason that evidence is impossible.</li>
+        <li>Every failed check has a class, cause, countermeasure, rerun evidence, and outcome.</li>
+        <li>Each phase verification includes a <code>Cleanliness:</code> section tied to the baseline reference.</li>
+        <li>The final audit includes a <code>Deliverables:</code> block from repo-state comparison.</li>
+        <li>The final audit includes <code>Audit coverage:</code> so reviewers can see what was rerun, skipped, or trusted from prior evidence.</li>
+        <li>Generated artifacts are either verified against source or explicitly excluded from claims.</li>
+        <li>Owner/source, scope, and authorization decisions are recorded where they affected the run.</li>
+        <li>Any trusted earlier evidence is named; if accepted earlier evidence (<code>trust-prior</code>) exceeds 30% of rerun-plus-trusted checks, the run must print <code>AUDIT_WARNING: trust-prior &gt; 30%</code> instead of hiding that reliance.</li>
+        <li>Deliverables are non-empty when the request expected an artifact.</li>
+      </ul>
+
+      <h2 id="terminal-state-checklist">Final state checklist</h2>
+      <div class="artifact-card-grid">
+        <section class="artifact-card"><h3>All ledger items final</h3><p>Every item is <code>done</code>, <code>changed</code>, <code>blocked</code>, <code>deferred</code>, or <code>unverified</code>; nothing is orphaned.</p></section>
+        <section class="artifact-card"><h3>Evidence type is named</h3><p>Each claim cites the right evidence class: file diff, command output, generated artifact readback, release readback, checksum integrity, or explicit handoff.</p></section>
+        <section class="artifact-card"><h3>Generated artifacts checked</h3><p>Generated output is regenerated from source or intentionally excluded from claims. Hand-edited generated output is not silently accepted.</p></section>
+        <section class="artifact-card"><h3>Release and publication gates separated</h3><p>Commit, push, tag, release, publication, host install, and provenance are not implied by local checks.</p></section>
+        <section class="artifact-card"><h3>Marker order valid</h3><p><code>AUDIT_VERIFY</code> precedes <code>AUDIT_COMPLETE</code>; <code>AUDIT_COMPLETE</code> precedes <code>IMPLEMENTAUDIT_RUN_COMPLETE</code>.</p></section>
+        <section class="artifact-card"><h3>Handoff is honest</h3><p>If blocked, the run leaves <code>AUDIT_HANDOFF</code> or <code>ANDON_HANDOFF</code>, blocker, remaining risk, and smallest next owner action.</p></section>
+      </div>
+
+      <h2 id="phase-outcomes">Phase outcomes</h2>
+      <p>A phase can:</p>
+      <ul><li>complete</li><li>defer with an owner decision</li><li>escalate with new evidence</li><li>hand off when blocked</li></ul>
+      <p>It cannot disappear because the final audit found the phase inconvenient.</p>

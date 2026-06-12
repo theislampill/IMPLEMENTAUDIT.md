@@ -7,6 +7,17 @@ cd "$repo_root"
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
+if command -v python >/dev/null 2>&1; then
+  py_cmd=(python)
+elif command -v python3 >/dev/null 2>&1; then
+  py_cmd=(python3)
+elif command -v py >/dev/null 2>&1; then
+  py_cmd=(py -3)
+else
+  printf 'agent-eval-fixtures.test: python, python3, or py -3 is required\n' >&2
+  exit 1
+fi
+
 # 1. The tracked fixture pack must pass.
 bash scripts/check-agent-eval-fixtures.sh
 
@@ -21,7 +32,7 @@ fi
 # 3. A fixture missing a required section must fail.
 mkdir -p "$tmp/broken"
 cp fixtures/agent-eval/*.md "$tmp/broken/"
-python - "$tmp/broken/release-bot-overreach.md" <<'PY'
+"${py_cmd[@]}" - "$tmp/broken/release-bot-overreach.md" <<'PY'
 import sys
 from pathlib import Path
 p = Path(sys.argv[1])
@@ -35,7 +46,7 @@ fi
 # 4. A fixture without the evidence-boundary disclaimer must fail.
 mkdir -p "$tmp/overclaim"
 cp fixtures/agent-eval/*.md "$tmp/overclaim/"
-python - "$tmp/overclaim/lean-glossary-theater.md" <<'PY'
+"${py_cmd[@]}" - "$tmp/overclaim/lean-glossary-theater.md" <<'PY'
 import sys
 from pathlib import Path
 p = Path(sys.argv[1])

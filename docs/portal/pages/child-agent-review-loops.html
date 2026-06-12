@@ -1,0 +1,46 @@
+<div class="page-eyebrow">Evidence</div>
+      <h1>Child-agent review loops</h1>
+      <p class="lead">How specialist review roles feed the audit without becoming authority.</p>
+      <div class="hero-card"><h2>Specialist reviews are evidence inputs.</h2><p>A subagent can find onboarding, runtime, copy, accessibility, or release-evidence defects.<br>The parent run still decides what to adopt, reject, or hand off against source evidence and owner boundaries.</p></div>
+
+      <h2 id="use">Use</h2>
+      <p>Child agents can review onboarding, runtime semantics, copy, tests, accessibility, and release evidence.</p>
+
+      <h2 id="boundary">Boundary</h2>
+      <p>Their reports are evidence inputs.<br>They do not override owner decisions, source evidence, or final audit closure.</p>
+
+      <h2 id="report-shape">Report shape</h2>
+      <p>A useful report names:</p>
+      <ul><li>findings</li><li>required patches</li><li>what closes</li><li>what remains</li><li>next smallest safe action</li><li>evidence boundary</li></ul>
+
+      <h2 id="source-surfaces">Source surfaces</h2>
+      <p><code>skills/references/child-agents.md</code> and <code>skills/templates/child-agent-report.md</code>.</p>
+
+      <h2 id="reviewer-report-checklist">Reviewer report checklist</h2>
+      <ul><li>Findings ordered by severity.</li><li>Evidence paths or screenshots.</li><li>Specific patch target.</li><li>Residual risk and test gaps.</li><li>Recommended accept/reject decision.</li></ul>
+
+      <h2 id="bounded-roles">Bounded roles</h2>
+      <div class="marker-cards">
+        <section><h3>Docs auditor</h3><p><b>Allowed evidence:</b> visible page, source docs, screenshots, link checks.</p><p><b>Boundary:</b> can recommend patches; cannot rewrite product claims beyond source evidence.</p></section>
+        <section><h3>Runtime contract auditor</h3><p><b>Allowed evidence:</b> <code>SKILL.md</code>, templates, transcript contract, validators.</p><p><b>Boundary:</b> can flag marker/order errors; cannot authorize completion.</p></section>
+        <section><h3>Adversarial reviewer</h3><p><b>Allowed evidence:</b> failure paths, ambiguity, overclaim risk.</p><p><b>Boundary:</b> findings still need parent-run triage and evidence.</p></section>
+        <section><h3>Release/provenance reviewer</h3><p><b>Allowed evidence:</b> release readback, ledgers, changelog, package checks.</p><p><b>Boundary:</b> must keep publication, provenance, and host-load claims separate.</p></section>
+      </div>
+
+      <h2 id="parent-run-responsibility">Parent-run responsibility</h2>
+      <p>The parent run must record what it adopted, rejected, or deferred.<br>Child-agent output should not leave orphan findings.</p>
+
+      <h2 id="adoption-record">Adoption record</h2>
+      <p>After review, normalize findings into the main implementation ledger:</p>
+      <ul><li>adopted with patch evidence</li><li>rejected with reason</li><li>deferred with owner/source</li><li>handed off with blocker and next action</li></ul>
+      <p>A reviewer report is not closure by itself.</p>
+
+      <h2 id="review-invariants">Review invariants</h2>
+      <p>Child-agent review is strongest when the parent run preserves the same proof boundaries as ordinary phase work.</p>
+      <ul>
+        <li>Register any abnormal finding as an Andon candidate before patching around it.</li>
+        <li>Rerun release-proof or docs-proof checks when a reviewer report supersedes earlier evidence.</li>
+        <li>Use fixtures or canaries when a reviewer claim can be made executable.</li>
+        <li>Record <code>AGENTS_UPDATE_DECISION</code> when a durable anti-repeat rule is adopted or skipped.</li>
+        <li>Treat child-agent output as evidence, not authority.</li>
+      </ul>

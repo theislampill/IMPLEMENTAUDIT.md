@@ -6,7 +6,7 @@ set -euo pipefail
 # the CI test list in .github/workflows/validate.yml. They drift
 # independently (proven at v0.2.9.0 in both directions). This gate asserts
 # every tests/*.test.sh on disk is invoked in BOTH registries, with an
-# explicit, reasoned exemption list.
+# no hidden exemption list.
 #
 # Usage: check-validation-registry.sh [--repo-root <dir>]
 
@@ -36,13 +36,6 @@ fi
 import sys
 from pathlib import Path
 
-# Exemptions from the verify-package registry only. Each entry needs a reason.
-VERIFY_PACKAGE_EXEMPT = {
-    # docs-portal.test.sh invokes verify-package.sh internally; nesting it
-    # inside verify-package.sh would recurse (documented in AGENTS.md).
-    "docs-portal.test.sh": "invokes verify-package.sh; must not nest",
-}
-
 tests = sorted(p.name for p in Path("tests").glob("*.test.sh"))
 if not tests:
     sys.stderr.write("no tests/*.test.sh found\n")
@@ -54,14 +47,10 @@ ci = Path(".github/workflows/validate.yml").read_text(encoding="utf-8")
 failures = []
 for name in tests:
     ref = f"tests/{name}"
-    if ref not in verify_pkg and name not in VERIFY_PACKAGE_EXEMPT:
+    if ref not in verify_pkg:
         failures.append(f"{ref} is not invoked by scripts/verify-package.sh")
     if ref not in ci:
         failures.append(f"{ref} is not invoked by .github/workflows/validate.yml")
-
-for name in VERIFY_PACKAGE_EXEMPT:
-    if not (Path("tests") / name).is_file():
-        failures.append(f"stale exemption for nonexistent test: {name}")
 
 if failures:
     sys.stderr.write("\n".join(failures) + "\n")

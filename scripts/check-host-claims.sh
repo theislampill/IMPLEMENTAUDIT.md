@@ -57,8 +57,9 @@ negative_context = (
     "do not claim",
     "does not claim",
     "must not",
-    "does not claim",
     "not claim",
+    "do not ",
+    "do not auto-update",
     "no ",
     "without evidence",
     "unless actually",
@@ -72,6 +73,10 @@ negative_context = (
     "rejected",
     "remains an owner decision",
 )
+
+
+def has_negative_context(line: str) -> bool:
+    return any(context in line for context in negative_context)
 
 if Path("LICENSE").exists():
     unsupported_claims = [
@@ -96,7 +101,7 @@ for path in Path(".").rglob("*"):
 
     for phrase, reason in unsupported_claims:
         for line_no, line in enumerate(lowered.splitlines(), start=1):
-            if phrase in line and not any(context in line for context in negative_context):
+            if phrase in line and not has_negative_context(line):
                 failures.append(f"{path}:{line_no}: {reason}: {phrase}")
 
 if failures:

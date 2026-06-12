@@ -1,0 +1,53 @@
+<div class="page-eyebrow">References</div>
+      <h1>Terminology</h1>
+      <p class="lead">Plain-English handles for formal IMPLEMENTAUDIT terms.</p>
+      <div class="hero-card"><h2>Use the ordinary meaning first.</h2><p>The formal vocabulary stays available for maintainers, but first-time readers should never need Lean or IMPLEMENTAUDIT lore before they understand the action on disk.</p></div>
+
+      <h2 id="plain-first">Plain first</h2>
+      <ul><li>work record (audit object)</li><li>real files (Gemba)</li><li>stop-the-line failure handling (Andon)</li><li>before/after checks (Smoke A/B)</li><li>run folder (run root)</li></ul>
+
+      <h2 id="routing-terms">Routing terms</h2>
+      <ul><li>existing-repair/new-build route (DMAIC/DMADV)</li><li>accepted earlier evidence (trust-prior)</li><li>final fix-and-verify loop (audit-fix)</li></ul>
+
+      <h2 id="markers-and-artifacts">Markers and artifacts</h2>
+      <p>Transcript marker means an exact lifecycle string.<br>Final audit ledger means the closure record reviewers inspect.</p>
+      <table>
+        <thead><tr><th>Marker or artifact</th><th>Plain meaning</th></tr></thead>
+        <tbody>
+          <tr><td><code>AUDIT_START</code></td><td>The audit object is opened, inherited, or normalized; the runtime contract records <code>Skill version:</code>.</td></tr>
+          <tr><td><code>AUDIT_VERIFY</code></td><td>The final audit is checking the run against evidence.</td></tr>
+          <tr><td><code>AUDIT_GAPS</code></td><td>The final audit found missing or weak evidence that must be fixed, changed, or handed off.</td></tr>
+          <tr><td><code>AUDIT_COMPLETE</code></td><td>The in-scope work record reached verified, checkable closure.</td></tr>
+          <tr><td><code>AUDIT_HANDOFF</code></td><td>The run cannot honestly close and leaves blocker, risk, and next action.</td></tr>
+          <tr><td><code>AUDIT_WARNING</code></td><td>The final audit names a confidence caveat, such as <code>trust-prior &gt; 30%</code>.</td></tr>
+          <tr><td><code>IMPLEMENTAUDIT_RUN_COMPLETE</code></td><td>The run may end only after <code>AUDIT_COMPLETE</code>.</td></tr>
+          <tr><td><code>IMPLEMENTAUDIT_PAUSE</code></td><td>A user interruption paused a phase; resume must reread the run state before continuing.</td></tr>
+          <tr><td><code>ANDON_PROBE</code></td><td>Failure handling starts: classify abnormality and inspect cause.</td></tr>
+          <tr><td><code>ANDON_ESCALATE</code></td><td>The run escalates with new evidence rather than retrying blindly.</td></tr>
+          <tr><td><code>ANDON_HANDOFF</code></td><td>The failure path is blocked and a handoff is required.</td></tr>
+          <tr><td><code>IMPLEMENTAUDIT_CONTINUITY_SAVED</code></td><td>A bounded continuity writeback happened and recorded <code>Target</code>, <code>Reason</code>, <code>Evidence</code>, <code>Boundary</code>, <code>Authorization</code>, and <code>Not saved</code>. See <a href="../state-and-artifacts/#continuity-writeback-marker">State and artifacts</a>.</td></tr>
+          <tr><td><code>PREFLIGHT_GREEN</code></td><td>Preflight passed; dispatch may proceed under the stated boundary.</td></tr>
+          <tr><td><code>PREFLIGHT_RED</code></td><td>Preflight failed; planning resumes unless the failure itself is the accepted target and the owner accepts that risk.</td></tr>
+          <tr><td><code>CHECKSUMS.txt</code></td><td>Artifact-integrity manifest; it can support a separately authorized release provenance gate, but it is not a signature, SBOM, install check, or host-load proof.</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="source-surfaces">Source surfaces</h2>
+      <p><code>README.md</code>, <code>AGENTS.md</code>, <code>skills/SKILL.md</code>, and the generated docs portal source under <code>docs/portal/</code>.</p>
+
+      <h2 id="front-door-replacements">Front-door replacements</h2>
+      <table><thead><tr><th>Write this first</th><th>Formal term second</th></tr></thead><tbody><tr><td>work record</td><td>audit object</td></tr><tr><td>real files</td><td>Gemba</td></tr><tr><td>stop-the-line failure handling</td><td>Andon</td></tr><tr><td>before/after checks</td><td>Smoke A/B</td></tr><tr><td>run folder</td><td>run root</td></tr><tr><td>phase checklist</td><td>phase spec</td></tr><tr><td>where the change belongs</td><td>owner/source</td></tr><tr><td>accepted earlier evidence</td><td>trust-prior</td></tr><tr><td>final fix-and-verify loop</td><td>audit-fix</td></tr></tbody></table>
+
+      <h2 id="deep-reference-terms">Deep-reference terms</h2>
+      <p>Keep these in reference pages unless a first-time reader needs them for a visible outcome:</p>
+      <ul>
+        <li>custody</li>
+        <li>Jidoka</li>
+        <li>Hansei</li>
+        <li>5 Whys</li>
+        <li>sidecar-specific language</li>
+        <li>detailed marker contracts</li>
+      </ul>
+
+      <h2 id="maintainer-terms">Maintainer terms</h2>
+      <table><thead><tr><th>Plain handle</th><th>Formal term</th><th>Where it belongs</th></tr></thead><tbody><tr><td>work record: the request, scope, evidence, failures, checks, changed files, and closure state for one run</td><td><code>tdqyq-audit-object</code></td><td>Maintainer-level invocation and state reference.</td></tr><tr><td>audit action: an operation that reads or updates the work record</td><td><code>ydqyq-audit-action</code></td><td>Maintainer-level invocation and closure reference.</td></tr><tr><td>pre-alignment before dispatch</td><td>Nemawashi</td><td>Deep operating-method reference.</td></tr><tr><td>clean workspace discipline</td><td>5S</td><td>Operating method, not first-run onboarding.</td></tr><tr><td>waste, unevenness, overload</td><td>Muda/Mura/Muri</td><td>Deep reference only.</td></tr><tr><td>mistake-proofing</td><td>Poka-yoke</td><td>Audit gate and script references.</td></tr><tr><td>repeatable working rule</td><td>Standard Work</td><td>Protocol and maintainer docs.</td></tr><tr><td>structured problem record</td><td>A3</td><td>Repair route reference.</td></tr></tbody></table>

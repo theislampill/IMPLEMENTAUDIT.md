@@ -37,8 +37,9 @@ or WSL.
   condition. There is no try or round cap anywhere.
 - Sidecars are two-tier: Graphify/ActiveGraph are optional for every consumer
   repo, canonical for maintenance rounds on this repo (see `AGENTS.md`).
-- Deeper onboarding: the docs portal (`docs/portal/onboarding.md`, deployed to
-  Pages) and, for the agent-eval pack, `fixtures/agent-eval/RUNBOOK.md`.
+- Deeper onboarding: the docs portal (`docs/portal/`, deployed to Pages) and,
+  for the agent-eval pack, `fixtures/agent-eval/RUNBOOK.md`. The archived
+  legacy source remains at `docs/portal_old/onboarding.md`.
 
 ## Worked flow
 

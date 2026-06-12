@@ -1,0 +1,90 @@
+<div class="page-eyebrow">Core model</div>
+<h1>Usage examples</h1>
+<p class="lead">Use concrete repo requests. The skill turns them into bounded work records before editing.</p>
+
+<h2 id="first-run-examples">First-run examples</h2>
+<div class="example-terminal-grid">
+  <div class="term-window example-console">
+    <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Findings file</em><span class="term-badge">audit</span></div>
+    <pre><span class="k-cyan">/implementaudit fix the findings in AUDIT.md</span></pre>
+  </div>
+  <div class="term-window example-console">
+    <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>stdin findings</em><span class="term-badge">audit</span></div>
+    <pre><span class="k-cyan">/implementaudit &lt; audit.md</span></pre>
+  </div>
+  <div class="term-window example-console">
+    <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Optional tools</em><span class="term-badge">tools</span></div>
+    <pre><span class="k-cyan">/implementaudit --onboard-tools</span></pre>
+  </div>
+  <div class="term-window example-console">
+    <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Concrete task</em><span class="term-badge">start</span></div>
+    <pre><span class="k-cyan">/implementaudit add tests for the login timeout bug</span></pre>
+  </div>
+  <div class="term-window example-console">
+    <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Handoff file</em><span class="term-badge">close</span></div>
+    <pre><span class="k-cyan">/implementaudit close the reviewer comments in HANDOFF.md</span></pre>
+  </div>
+  <div class="term-window example-console">
+    <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Embedded goal</em><span class="term-badge">inside goal</span></div>
+    <pre><span class="k-cyan">/goal using /implementaudit, close the findings in AUDIT.md</span></pre>
+  </div>
+</div>
+<p>Natural-language requests are valid when they can be normalized into a bounded work record, for example:</p>
+<ul>
+  <li>"implement these findings"</li>
+  <li>"act on this audit"</li>
+  <li>"close these items"</li>
+  <li>"work through this handoff".</li>
+</ul>
+<p><code>--onboard-tools</code> is an explicit optional-tooling path.<br>It may detect or offer Graphify/ActiveGraph setup, but it still does not make those tools mandatory and does not prove audit correctness.</p>
+
+<h2 id="governed-casual-build">Governed casual-build intake</h2>
+<div class="term-window example-console">
+  <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Casual-build intake</em><span class="term-badge">governed</span></div>
+  <pre><span class="k-cyan">/implementaudit add a login page to this app</span></pre>
+</div>
+<p>This is valid only as governed casual-build intake.<br>Before any mutation, the skill first synthesizes:</p>
+<ul>
+  <li>scope</li>
+  <li>owner/source</li>
+  <li>acceptance criteria</li>
+  <li>evidence plan</li>
+  <li>rollback or defer path.</li>
+</ul>
+
+<h2 id="goal-synthesis">Goal synthesis</h2>
+<div class="term-window example-console">
+  <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Goal synthesis</em><span class="term-badge">handoff</span></div>
+  <pre><span class="k-cyan">/implementaudit audit this repo and give me the next best goal</span></pre>
+</div>
+<p>This asks for a bounded plan or handoff.<br>If already inside a host goal runner, the skill should not emit a nested goal.</p>
+
+<h2 id="bad-examples">Bad examples</h2>
+<ul>
+  <li><code>/implementaudit do everything</code> - unbounded.</li>
+  <li><code>/implementaudit publish this</code> - publication is a separate gate.</li>
+  <li><code>/implementaudit prove provenance</code> - provenance needs explicit evidence and separate authorization.</li>
+</ul>
+
+<h2 id="worked-trace">Worked trace</h2>
+<table>
+  <thead><tr><th>Trace part</th><th>Example</th></tr></thead>
+  <tbody>
+    <tr><td>Finding</td><td><code>README.md</code> describes behavior that no longer matches <code>skills/SKILL.md</code>.</td></tr>
+    <tr><td>Owner/source</td><td><code>skills/SKILL.md</code> defines behavior.<br><code>README.md</code> is derived public documentation.</td></tr>
+    <tr><td>Smoke A</td><td>Read both files, record the mismatch, and run the smallest relevant check such as <code>git diff --check</code>.</td></tr>
+    <tr><td>Countermeasure</td><td>Patch the derived documentation, not the canonical behavior source, unless the audit proves the source is wrong.</td></tr>
+    <tr><td>Smoke B</td><td>Re-run the check and inspect changed lines for evidence-boundary wording.</td></tr>
+    <tr><td>Closure</td><td>Mark the item terminal. Commit only if explicitly authorized.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="casual-build-worked-example">Casual-build worked example</h2>
+<ol>
+  <li>User asks for a repo change such as "make the docs portal generated by CI and prove it is fresh."</li>
+  <li>IMPLEMENTAUDIT treats that as governed casual-build intake, not ungated autonomy.</li>
+  <li>It synthesizes scope, owner/source, and acceptance criteria.</li>
+  <li>It records evidence plan, rollback/defer path, sidecar status, and generated-artifact policy.</li>
+  <li>It routes mixed work: new CI surfaces are design work; existing repo behavior is repair work.</li>
+  <li>It closes only after checks and final audit evidence support the claim, or it hands off the blocker.</li>
+</ol>

@@ -1,0 +1,115 @@
+<div class="page-eyebrow">Core model</div>
+      <h1>Operating method</h1>
+      <p class="lead">The ordinary meaning behind the Lean vocabulary.</p>
+      <div class="hero-card"><h2>The method exists to make work inspectable.</h2><p>Plan the work, inspect real files, check before claiming, stop when evidence breaks, reflect on the cause, and close only with proof.<br>The Lean labels are secondary to those visible behaviors.</p></div>
+
+      <h2 id="plain-version">Plain version</h2>
+      <p>Plan the work, inspect real files, check before claiming, stop on failure, inspect cause, reflect, and close only with evidence.</p>
+
+      <h2 id="formal-vocabulary">Formal vocabulary</h2>
+      <p>PDCA, Gemba, Smoke Before Claim, Andon, Hansei, 5 Whys, and Plan Closure remain as formal labels after the plain meaning.</p>
+
+      <h2 id="why-it-matters">Why it matters</h2>
+      <p>The method is there to make agent work inspectable, not to make readers learn manufacturing language before they can try it.</p>
+
+      <h2 id="method-source-surfaces">Method source surfaces</h2>
+      <p><code>skills/references/lean-operating-discipline.md</code> and <code>README.md</code> operating method.</p>
+
+      <h2 id="plain-first-method-table">Plain-first method table</h2>
+      <table><thead><tr><th>Plain behavior</th><th>Formal label</th></tr></thead><tbody><tr><td>Inspect real files</td><td>Gemba</td></tr><tr><td>Check before claiming</td><td>Smoke Before Claim</td></tr><tr><td>Stop on abnormal evidence</td><td>Andon / Jidoka</td></tr><tr><td>Reflect after failure</td><td>Hansei</td></tr><tr><td>Find the real blocker</td><td>5 Whys</td></tr><tr><td>Fold durable fixes into standard</td><td>Kaizen</td></tr></tbody></table>
+
+      <h2 id="lean-terms-as-behavior">Lean terms as behavior</h2>
+      <p>The method terms are useful only when they map to visible proof surfaces.</p>
+      <ul>
+        <li><code>5S_CHECK</code> means the run checks cleanliness and artifact placement before claiming closure.</li>
+        <li>Muda/Mura/Muri means waste, unevenness, and overload are treated as inspectable risk, not slogans.</li>
+        <li>Hoshin/Nemawashi means alignment, owner/source, and affected surfaces are named before dispatch.</li>
+        <li>Poka-yoke means validators and templates catch repeatable mistakes before a human reviewer has to.</li>
+      </ul>
+
+      <h2 id="method-boundary">Method boundary</h2>
+      <p>The method is not a badge.<br>A term belongs on the page only when it maps to a visible behavior, artifact, or gate.</p>
+
+      <h2 id="default-behavior">Default sequence</h2>
+      <p>When the user gives a repo request, IMPLEMENTAUDIT defaults to evidence, bounded scope, and honest closure.</p>
+      <ol>
+        <li>Validate the input or synthesize a bounded work record for governed casual-build intake.</li>
+        <li>Inspect the repo and applicable instructions before promising edits.</li>
+        <li>Route existing-repo repair through the repair route (DMAIC) or new-build/replacement work through the design route (DMADV).</li>
+        <li>Write a run folder for phased work, or bind the compact work record when a separate run folder is not needed.</li>
+        <li>Run before/after checks, record failures, and stop on abnormal evidence.</li>
+        <li>Close with final audit or handoff.</li>
+      </ol>
+
+      <h2 id="authorization-defaults">Authorization defaults</h2>
+      <p>An implementation run does not imply:</p>
+      <ul>
+        <li>commit</li>
+        <li>push</li>
+        <li>tag</li>
+        <li>release</li>
+        <li>publication</li>
+        <li>provenance</li>
+        <li>host install</li>
+        <li>sidecar setup</li>
+        <li>plugin-state mutation</li>
+      </ul>
+      <p>It also does not authorize high-risk maintenance actions:</p>
+      <ul>
+        <li>delete data</li>
+        <li>alter credentials or secrets</li>
+        <li>rewrite history</li>
+        <li>commit raw diagnostic outputs</li>
+        <li>hand-edit generated artifacts when a source generator exists</li>
+        <li>claim proof without evidence</li>
+      </ul>
+      <p>If the audit contradicts <code>AGENTS.md</code>, classify the conflict as <code>OWNER DECISION</code> instead of choosing by agent judgment.</p>
+      <p>Each action needs separate authorization and evidence.</p>
+
+      <h2 id="failure-defaults">Failure defaults</h2>
+      <p>When evidence fails, the run:</p>
+      <ul>
+        <li>stops</li>
+        <li>classifies the abnormality</li>
+        <li>inspects cause</li>
+        <li>proposes a countermeasure</li>
+        <li>reruns the relevant evidence</li>
+        <li>escalates only with new evidence</li>
+      </ul>
+      <p>If no bounded countermeasure remains, it hands off honestly.</p>
+
+      <h2 id="scope-creep-register">Scope-creep register</h2>
+      <p>Adjacent work is not a free add-on.<br>If the run finds nearby defects, it records them without silently expanding the task.</p>
+      <ul>
+        <li>Log the adjacent issue with owner/source and evidence.</li>
+        <li>Promote at most one level only when it is required for safe closure.</li>
+        <li>Do not chain promotions into a new project.</li>
+        <li>Ask for an owner decision or hand off when scope, risk, or authority is unclear.</li>
+      </ul>
+
+      <h2 id="ledger-priority-taxonomy">Ledger priority taxonomy</h2>
+      <p>Default closure order is <code>P0 -&gt; P1 -&gt; P2</code>.<br>A finding may also become <code>OWNER DECISION</code>, <code>DEFERRED</code>, or <code>OUT OF SCOPE</code> when the evidence says it should not be patched inside the current run.</p>
+      <table>
+        <thead><tr><th>Class</th><th>Meaning</th><th>Default action</th></tr></thead>
+        <tbody>
+          <tr><td><code>P0</code></td><td>Blocks safe completion, evidence truth, or user-requested acceptance.</td><td>Fix or hand off before claiming completion.</td></tr>
+          <tr><td><code>P1</code></td><td>Material correctness, usability, docs, or validation gap.</td><td>Fix after P0 items unless risk requires split.</td></tr>
+          <tr><td><code>P2</code></td><td>Lower-risk polish, maintainability, or clarity issue.</td><td>Fix when in scope and cheap, or defer explicitly.</td></tr>
+          <tr><td><code>OWNER DECISION</code></td><td>Requires authorization, policy choice, scope change, or business judgment.</td><td>Stop and ask or hand off with the smallest decision needed.</td></tr>
+          <tr><td><code>DEFERRED</code></td><td>Valid but intentionally outside the current closure window.</td><td>Record reason, owner/source, and follow-up surface.</td></tr>
+          <tr><td><code>OUT OF SCOPE</code></td><td>Not part of the supplied audit object or authorized request.</td><td>Do not patch; explain boundary if relevant.</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="polish-and-harden">Polish and Harden</h2>
+      <p>A terminal Polish and Harden phase can be used when the main work is closed but operational quality still needs inspection.<br>It covers cleanliness, identity hygiene, generated-artifact freshness, proof-boundary wording, and anti-repeat standardization.<br>It is not permission to add new feature work.</p>
+      <p>At a release gate, identity hygiene runs forbidden external-comparator identity checks with terms supplied at runtime, for example through <code>scripts/check-forbidden-terms.sh</code>.<br>The ledger records PASS/FAIL; forbidden terms must not be written into tracked files.</p>
+
+      <h2 id="plugin-cache-warning">Plugin cache warning</h2>
+      <p>Claude plugin cache refresh depends on a version-field change.<br>Shipped code changes need a plugin version bump before claiming update behavior; this warning does not prove release, install, or provenance state.</p>
+
+      <h2 id="default-source-surfaces">Default source surfaces</h2>
+      <p><code>skills/SKILL.md</code> safety defaults, <code>skills/templates/PROTOCOL.md</code> phase loop, <code>skills/references/routing.md</code>, <code>skills/references/phase-design.md</code>, and <code>README.md</code> priority/closure descriptions.</p>
+
+      <h2 id="comparison">Compared with a normal agent run</h2>
+      <p>A normal agent run can compress plan, edit, retry, and done into a chat narrative.<br>IMPLEMENTAUDIT splits those states into files, markers, before/after evidence, failure rows, and final audit closure.</p>

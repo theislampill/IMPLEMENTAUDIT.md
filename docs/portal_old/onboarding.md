@@ -516,7 +516,7 @@ The default small-audit mode operates on one artifact at a time. It:
 | `scripts/` | Repo validation tools: release, docs portal generator and checker, workflow structure checker. |
 | `tests/` | Shell test suites: continuity, routing, lean-discipline, docs-portal, phase-validation, and more. |
 | `fixtures/` | Test fixtures for behavioral claims including casual-build, continuity, and routing scenarios. |
-| `docs/portal/onboarding.md` | This file. Portal content source. |
+| `docs/portal_old/onboarding.md` | This file. Portal content source. |
 | `docs/audits/` | Dogfood audit ledgers by version. |
 | `docs/diagrams/` | Mermaid source for execution spine and tooling diagrams. |
 | `.claude-plugin/plugin.json` | Plugin manifest. Version 0.2.9. |

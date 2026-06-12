@@ -43,6 +43,7 @@ for file in \
   references/routing.md \
   references/repo-state-comparison.md \
   references/child-agents.md \
+  references/lean-operating-discipline.md \
   scripts/claim-run.sh \
   scripts/detect-env.sh \
   scripts/detect-stack.sh \
@@ -50,12 +51,19 @@ for file in \
   scripts/summarize-repo.sh \
   scripts/validate-audit-spec.sh \
   scripts/validate-phase.sh \
+  scripts/validate-run-root.sh \
+  scripts/custody-append.sh \
   templates/ROADMAP.md \
   templates/STATE.md \
   templates/THINKING.md \
   templates/phase-goal.txt \
   templates/child-agent-report.md \
-  templates/PROTOCOL.md
+  templates/PROTOCOL.md \
+  templates/sidecars.md \
+  templates/tools.md \
+  templates/context.md \
+  .claude-plugin/plugin.json \
+  .claude-plugin/marketplace.json
 do
   [ -f "$installed/$file" ] || {
     printf 'release-asset-install.test: missing installed file: %s\n' "$file" >&2

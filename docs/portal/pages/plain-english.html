@@ -1,0 +1,63 @@
+<div class="page-eyebrow">Overview</div>
+      <h1>Plain English</h1>
+      <p class="lead">Start here if the product vocabulary is new. This page explains the first run in ordinary terms first, with IMPLEMENTAUDIT terms kept beside the plain meaning.</p>
+
+      <h2 id="twenty-second">The 20-second version</h2>
+      <div class="result-grid">
+        <div><b>You give a repo request</b><span>Use Claude Code or Codex in the repository you want changed.</span></div>
+        <div><b>It creates or binds the work record</b><span>Phased or larger runs use a run folder (run root) such as <code>.IMPLEMENTAUDIT/runs/&lt;task-slug&gt;-&lt;id&gt;/</code>.</span></div>
+        <div><b>It writes state and checklists</b><span><code>STATE.md</code>, a roadmap, phase checklists, decisions, and evidence live on disk.</span></div>
+        <div><b>It checks before and after edits</b><span>Before/after checks (Smoke A/B) make the result comparable instead of conversational.</span></div>
+        <div><b>It stops on failed evidence</b><span>Stop-the-line failure handling (Andon) records the cause, countermeasure, rerun, escalation, or handoff.</span></div>
+        <div><b>It closes only after audit</b><span><code>AUDIT_COMPLETE</code> must precede <code>IMPLEMENTAUDIT_RUN_COMPLETE</code>.</span></div>
+      </div>
+
+      <h2 id="first-command">First command</h2>
+      <p>No special audit file is required for a first try. Paste one concrete repo request into Claude Code or Codex:</p>
+      <div class="term-window example-console">
+        <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Concrete task</em><span class="term-badge">start</span></div>
+        <pre><span class="k-cyan">/implementaudit add tests for the login timeout bug</span></pre>
+      </div>
+      <p>If you already have findings, point at them directly:</p>
+      <div class="term-window example-console">
+        <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Findings file</em><span class="term-badge">audit</span></div>
+        <pre><span class="k-cyan">/implementaudit close the findings in AUDIT.md</span></pre>
+      </div>
+
+      <h2 id="written">What gets written</h2>
+      <div class="surface-strip" aria-label="What the run writes and how it can end">
+        <div><b>Run folder</b><span>For phased or larger work, <code>.IMPLEMENTAUDIT/runs/&lt;task-slug&gt;-&lt;id&gt;/</code> keeps state outside chat.</span></div>
+        <div><b>State file</b><span><code>STATE.md</code> records status, phase, decisions, and failure rows.</span></div>
+        <div><b>Phase checklist</b><span>Phase checklist (phase spec) defines bounded work before mutation.</span></div>
+        <div><b>Evidence</b><span>Before/after checks, failure log, and final audit ledger show what happened.</span></div>
+      </div>
+
+      <h2 id="loop-map">Loop map</h2>
+      <p>Read these as different kinds of control, not five pipeline steps.</p>
+      <ul>
+        <li>The planner frames the work.</li>
+        <li>Run-state control keeps the work record, run folder when present, and phase cursor coherent.</li>
+        <li>Phase execution loops through bounded work.</li>
+        <li>Failure handling can interrupt any layer.</li>
+        <li>Final audit repeats until closure or handoff is honest.</li>
+      </ul>
+      <div class="loop-stack" aria-label="Nested loop stack">
+        <div><small>planner loop</small><b>L1 - Plan the work</b><span>frames the request, writes the roadmap, and critiques before dispatch</span><em>phase checklists (phase specs)</em></div>
+        <div><small>run-state control</small><b>L2 - Track the run</b><span>owns the work record, run folder when present, state cursor, and continuity across the job</span><em><code>STATE.md</code></em></div>
+        <div><small>execution loop</small><b>L3 - Change safely</b><span>runs each execute / verify / update cycle against the real repo</span><em>before/after checks (Smoke A/B)</em></div>
+        <div><small>interrupt loop</small><b>L4 - Stop on failure</b><span>can interrupt any layer to classify, probe, fix, rerun, escalate, or hand off</span><em>failure log (Andon log)</em></div>
+        <div><small>closure loop</small><b>L5 - Verify closure</b><span>loops after phases until final checkable evidence proves completion or handoff</span><em>final fix-and-verify loop (audit-fix)</em></div>
+      </div>
+
+      <h2 id="terms">Terms without the insider tax</h2>
+      <div class="loop-stack" aria-label="Key terms">
+        <div><small>Gemba</small><b>Real files</b><span>Look at the repository, generated source, and current state before deciding what is true.</span><em>proof starts in the actual workspace</em></div>
+        <div><small>Andon</small><b>Stop-the-line failure handling</b><span>When evidence fails, pause to classify the gap, record the cause, choose a countermeasure, rerun, escalate, or hand off honestly.</span><em>no failed check gets waved through</em></div>
+        <div><small>Smoke A/B</small><b>Before/after checks</b><span>Run a focused check before changing things and a comparable check after, so the result is measured against a real baseline.</span><em>same slice, clearer evidence</em></div>
+        <div><small>run root</small><b>Run folder</b><span>The on-disk work record for larger or phased work, usually under <code>.IMPLEMENTAUDIT/runs/&lt;task-slug&gt;-&lt;id&gt;/</code>.</span><em>state survives outside chat</em></div>
+        <div><small>owner/source</small><b>Where the change belongs</b><span>Patch the file or contract that actually owns the behavior, not the nearest symptom or generated copy.</span><em>source first, generated output later</em></div>
+        <div><small>DMAIC/DMADV</small><b>Repair/new-build routing</b><span>Existing behavior is improved through a repair route; new or replacement work gets a design-and-verify route.</span><em>brownfield and greenfield stay distinct</em></div>
+        <div><small>trust-prior</small><b>Accepted earlier evidence</b><span>Evidence from an earlier verified step can be reused only with the boundary named, not treated as fresh proof.</span><em>reuse is explicit</em></div>
+        <div><small>audit-fix</small><b>Final fix-and-verify loop</b><span>Final audit gaps loop back into narrow fixes and reruns until closure is proven or the handoff says what remains.</span><em>closure stays checkable</em></div>
+        <div><small>reference</small><b><a href="../../reference/terminology/">Full terminology</a></b><span>Open the complete glossary when a term needs the formal project definition instead of the short plain-English version.</span><em>the deeper vocabulary map</em></div>
+      </div>

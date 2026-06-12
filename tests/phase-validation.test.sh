@@ -10,6 +10,17 @@ cd "$repo_root"
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
+if command -v python >/dev/null 2>&1; then
+  py_cmd=(python)
+elif command -v python3 >/dev/null 2>&1; then
+  py_cmd=(python3)
+elif command -v py >/dev/null 2>&1; then
+  py_cmd=(py -3)
+else
+  printf 'phase-validation.test: python, python3, or py -3 is required\n' >&2
+  exit 1
+fi
+
 pass=0
 fail=0
 
@@ -261,7 +272,7 @@ check_fail "missing ## Mandatory commands section" "$f"
 f="$tmp/placeholder_mc.md"
 make_valid "$f"
 # Replace real command with placeholder
-python -c "
+"${py_cmd[@]}" -c "
 import re
 from pathlib import Path
 t = Path('$f').read_text(encoding='utf-8')

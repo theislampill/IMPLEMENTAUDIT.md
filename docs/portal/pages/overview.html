@@ -1,0 +1,68 @@
+<section class="hero shell" id="top">
+  <div class="eyebrow">Claude Code + Codex skill - v0.2.9.0</div>
+  <div class="hero-grid hero-grid-vis">
+    <div class="hero-copy">
+      <h1><span class="h1-brand">IMPLEMENTAUDIT</span><span class="h1-tagline">Implementation runs that close like audits.</span></h1>
+      <div class="hero-lede">A Claude Code and Codex skill for repo changes that need evidence.<br>Give it one request. It then:
+        <ul class="lead-list hero-lede-list">
+          <li>creates or binds a work record, with a run folder for phased work</li>
+          <li>writes state and phase checklists</li>
+          <li>runs before/after checks</li>
+          <li>records failed-evidence paths</li>
+          <li>reaches <code>AUDIT_COMPLETE</code> or leaves an honest handoff.</li>
+        </ul>
+      </div>
+      <div class="hero-actions">
+        <a class="btn-primary magnet-link" href="start-here/quick-start/">Get started</a>
+        <a class="btn-secondary magnet-link" href="start-here/installation/">Install</a>
+      </div>
+      <div class="meta-row">
+        <div class="meta-cell"><em>Current</em><b><a href="https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/tag/v0.2.9.0">v0.2.9.0</a></b></div>
+        <div class="meta-cell"><em>Host targets</em><b><a href="https://github.com/theislampill/IMPLEMENTAUDIT.md#install-notes">Claude Code + Codex</a></b></div>
+        <div class="meta-cell"><em>Evidence</em><b><a href="https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/v0.2.9.0-andon-escalation-jidoka-repair.md">v0.2.9.0 audit ledger</a></b></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="term-window">
+        <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Example run</em><span class="term-badge">guided</span></div>
+        <div class="term-caption">One pasted request binds the work, writes state, runs checks, stops on failed evidence, and closes only after final audit.</div>
+        <div class="term-meta" aria-label="Example run metadata">
+          <span class="tpill tpill-c">direct request</span><span class="tpill">existing repo</span><span class="tpill tpill-v">markdown evidence</span>
+        </div>
+        <div class="term-root">example phased run folder (run root): <code>.IMPLEMENTAUDIT/runs/demo</code></div>
+        <div class="term-loops">plan the work contains run-folder tracking, which contains phase checks; failure can interrupt any layer, and final audit closes only after evidence. Formal loop names live in the runtime model.</div>
+        <pre><span class="k-cyan">/implementaudit add tests for login timeout</span>
+
+<span class="tl">RUN</span> create or bind work record - run folder when phased
+<span class="tl">STATE</span> write <code>STATE.md</code> - <code>IN_PHASE</code> - phase 3/5
+<span class="tl">PLAN</span> phase checklist - where the change belongs (owner/source)
+<span class="tl">CHECK</span> before-checks - baseline (Smoke A)
+<span class="k-amber">STOP <code>ANDON_PROBE</code></span> - stop, classify, inspect cause
+<span class="k-amber">FIX countermeasure</span> - bounded fix; escalate only with new evidence
+<span class="tl">RERUN</span> evidence - <span class="k-emerald">passing vs baseline</span> (Smoke B)
+<span class="k-emerald"><code>AUDIT_VERIFY</code></span> - every in-scope item checked
+<span class="k-emerald"><code>AUDIT_COMPLETE</code></span> - final checkable evidence recorded
+<span class="k-cyan"><code>IMPLEMENTAUDIT_RUN_COMPLETE</code></span></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="shell" id="paths">
+  <div class="starthere">
+    <div class="eyebrow">Overview</div>
+    <h2>Start with the splash, then use the pages.</h2>
+    <div class="proto-grid proof-links" aria-label="Overview pages">
+      <a class="proto-card" href="overview/plain-english/"><div class="proto-icon">01</div><h3>Plain English</h3><p>What to paste, what gets written, what failures do, and what the terms mean.</p></a>
+      <a class="proto-card" href="overview/what-it-is/"><div class="proto-icon">02</div><h3>What it is</h3><p>The product promise, the on-disk contract, and what IMPLEMENTAUDIT does not claim.</p></a>
+      <a class="proto-card" href="overview/workflow/"><div class="proto-icon">03</div><h3>Workflow</h3><p>The request-to-proof path, nested loops, and failure interrupt behavior.</p></a>
+      <a class="proto-card" href="overview/proof/"><div class="proto-icon">04</div><h3>Success and proof</h3><p>Closure markers, proof cards, artifacts, and reviewer checks.</p></a>
+    </div>
+    <div class="surface-strip" aria-label="Fast orientation">
+      <div><b>Start here</b><span>Use Quick Start when you want the first pasted command.</span></div>
+      <div><b>Use the sidebar</b><span>Portal pages live in the sidebar, with stable next and previous links.</span></div>
+      <div><b>Runtime model</b><span>The full loop model is a page, not a collapsed overview drawer.</span></div>
+      <div><b>Evidence</b><span>The proof page shows the files, markers, and final audit surfaces.</span></div>
+    </div>
+  </div>
+</section>

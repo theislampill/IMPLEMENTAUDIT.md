@@ -1,0 +1,33 @@
+<div class="page-eyebrow">Audience</div>
+<h1>For agents and operators</h1>
+<p class="lead">This page is for the person or agent running IMPLEMENTAUDIT inside an actual repo.</p>
+
+<h2 id="operator-contract">Operator contract</h2>
+<ul>
+  <li>Pick the invocation shape honestly.</li>
+  <li>Bind or synthesize the work record before mutation.</li>
+  <li>Inspect real files.</li>
+  <li>Write run artifacts.</li>
+  <li>Run before/after checks (Smoke A/B).</li>
+  <li>Close only through final audit or handoff.</li>
+</ul>
+
+<h2 id="invocation-shapes">Invocation shapes</h2>
+<table><thead><tr><th>Shape</th><th>Plain meaning</th><th>Mutation condition</th></tr></thead><tbody>
+<tr><td>Direct governance</td><td>The user supplied a concrete audit, handoff, checklist, review, task, or bounded plan.</td><td>Bind the work record first, then mutate under it.</td></tr>
+<tr><td>Embedded governance</td><td>An outer goal/task already owns the work.</td><td>Do not emit a nested goal; govern the active object in place.</td></tr>
+<tr><td>Goal synthesis</td><td>The input is too incomplete to execute safely.</td><td>Write a bounded plan and handoff before execution.</td></tr>
+<tr><td>Governed casual-build intake</td><td>The user gives natural-language repo-build intent.</td><td>Synthesize a bounded audit object before any mutation.</td></tr>
+</tbody></table>
+
+<h2 id="operator-checklist">Operator checklist</h2>
+<ul>
+  <li>Record owner/source before editing.</li>
+  <li>Use before/after checks instead of trusting the final sentence.</li>
+  <li>Classify failure before retrying.</li>
+  <li>Escalate only with new evidence.</li>
+  <li>Keep commit, push, tag, release, publication, provenance, and sidecar setup behind separate gates.</li>
+</ul>
+
+<h2 id="source-surfaces">Source surfaces</h2>
+<p>Canonical behavior lives in <code>skills/SKILL.md</code>, <code>skills/templates/PROTOCOL.md</code>, <code>skills/references/planning-depth.md</code>, and <code>skills/references/routing.md</code>.</p>

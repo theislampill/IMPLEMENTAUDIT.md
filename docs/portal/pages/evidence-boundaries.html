@@ -1,0 +1,28 @@
+<div class="page-eyebrow">Evidence</div>
+      <h1>Evidence boundaries</h1>
+      <p class="lead">What evidence can prove and what it cannot honestly claim.</p>
+      <div class="hero-card"><h2>Do not let evidence claim more than it proves.</h2><p>A checksum match can prove local integrity.<br>A published checksum manifest can support a separately authorized release provenance gate, but it is not host-load or signature proof.<br>A sidecar can support orientation, not automatically replace live files.</p></div>
+
+      <h2 id="boundary-rule">Boundary rule</h2>
+      <p>Proof must not exceed evidence.<br>Checksum verification is local integrity evidence. A checksum manifest may be part of a separately authorized release provenance gate, but it is not host-load proof, signature proof, SBOM proof, attestation, or install proof.</p>
+
+      <h2 id="install-boundaries">Install boundaries</h2>
+      <p>Running an install command is not proof the host loaded the skill.<br>The host must be checked separately.</p>
+
+      <h2 id="sidecar-boundaries">Sidecar boundaries</h2>
+      <p>Graphify and ActiveGraph can support orientation or custody, but live files and markdown run evidence remain the first-class proof surface.</p>
+      <p>For the full optional-tooling boundary, see <a href="../optional-tooling/">Optional tooling</a>.</p>
+      <ul>
+        <li>No install, indexing, event-store setup, or export happens without separate authorization.</li>
+        <li>Custody events are gate-passage evidence, not correctness proof.</li>
+        <li>Capability Ledger entries must stay narrow and derived from recorded evidence.</li>
+      </ul>
+
+      <h2 id="source-surfaces">Source surfaces</h2>
+      <p><code>README.md</code> evidence boundaries, <code>skills/references/lean-operating-discipline.md</code>, and release audit ledgers.</p>
+
+      <h2 id="common-overclaims-to-avoid">Common overclaims to avoid</h2>
+      <ul><li>Treat a local checksum match as artifact-integrity evidence; use release-provenance language only when a separate authorized gate validated the published checksum manifest and its surrounding evidence.</li><li>Copying a package is not host-load proof.</li><li>Static inspection is not live runtime proof.</li><li>Sidecar presence is not canonical proof by default.</li><li>A generated page is not fresh unless regenerated or checked.</li></ul>
+
+      <h2 id="trust-prior">Trust-prior</h2>
+      <p>Accepted earlier evidence can be reused only when its boundary is explicit.<br>If the run leans heavily on accepted prior evidence, the final audit should warn rather than silently inflate confidence.</p>

@@ -1,0 +1,85 @@
+<div class="page-eyebrow">Evidence</div>
+      <h1>Optional tooling</h1>
+      <p class="lead">Optional orientation and custody tools: useful for maintainers, never required for normal runs.</p>
+      <div class="hero-card"><h2>You do not need these tools for a normal run.</h2><p>Markdown work records, ledgers, final reports, and run folders when phased are the durable fallback.<br>Graphify and ActiveGraph help maintainers inspect terrain and event custody when they are present and authorized.<br>They do not replace real files, before/after checks, or the final audit ledger.</p></div>
+
+      <h2 id="graphify">Graphify</h2>
+      <p><a href="https://github.com/safishamsi/graphify">Graphify</a> can help orient around repo terrain before mutation by showing structure and relationships.<br>In this repo, generated terrain may live under <code>graphify-out/</code> or a graph JSON file, but it remains support evidence unless the run explicitly authorizes and records its use.</p>
+      <p>Repo convention: terrain lives at <code>graphify-out/graph.json</code>; nodes have <code>id</code> and <code>label</code>; links have <code>source</code> and <code>target</code>.<br>If tracked files are newer than the terrain, treat it as stale and let live files win.</p>
+
+      <h2 id="activegraph">ActiveGraph</h2>
+      <p><a href="https://github.com/yoheinakajima/activegraph">ActiveGraph</a> can preserve custody events and Capability Ledger-style traces when available.<br>Event stores help explain how a run moved through gates, but broad capability claims still need to be derived from recorded gates and evidence.</p>
+
+      <h2 id="activegraph-precision">ActiveGraph precision</h2>
+      <p>ActiveGraph is optional custody infrastructure, not correctness proof.</p>
+      <ul>
+        <li>Do not turn one small run into a broad capability or resume-style claim.</li>
+        <li>Custom event names such as <code>repo.patch.applied</code> describe this repo's evidence model; they are not upstream proof by themselves.</li>
+        <li><code>activegraph.toml</code> is a configuration clue, not authorization to write events.</li>
+        <li>Live custody and historical backfill must be labeled differently.</li>
+      </ul>
+
+      <h2 id="authorization-gates">Authorization gates</h2>
+      <p>Tool install, indexing, event-store setup, and export are separate owner-authorized actions.</p>
+      <ul>
+        <li>Do not install Graphify without authorization.</li>
+        <li>Do not index a repo without authorization.</li>
+        <li>Do not configure ActiveGraph without authorization.</li>
+        <li>Do not export sidecar data without authorization.</li>
+      </ul>
+
+      <h2 id="self-maintenance-sidecars">Self-maintenance sidecars</h2>
+      <p>For IMPLEMENTAUDIT maintaining itself, Graphify and ActiveGraph are canonical and expected dogfood sidecar inputs when present and authorized.<br>For consuming repos, they remain optional.<br>Live files, <code>AGENTS.md</code>, run-folder state, before/after evidence (Smoke A/B), and final audit closure still outrank sidecars.</p>
+
+      <h2 id="sidecar-conventions">Sidecar conventions</h2>
+      <div class="artifact-card-grid">
+        <section class="artifact-card"><h3>Graphify terrain</h3><dl><dt>Concrete convention</dt><dd><code>graphify-out/graph.json</code>; nodes use <code>id</code> + <code>label</code>, links use <code>source</code> + <code>target</code>; excluded from package and tracked source.</dd><dt>Proof boundary</dt><dd>Orientation only; stale when tracked files are newer; not proof of correctness.</dd></dl></section>
+        <section class="artifact-card"><h3>ActiveGraph custody</h3><dl><dt>Concrete convention</dt><dd>One <code>&lt;run-root&gt;/custody.db</code> or <code>&lt;run-root&gt;/custody-trace.jsonl</code> store per run folder when configured and authorized.</dd><dt>Proof boundary</dt><dd>Event custody only; not proof a change is correct.</dd></dl></section>
+        <section class="artifact-card"><h3>Andon custody events</h3><dl><dt>Concrete convention</dt><dd><code>andon.probe.recorded</code>, <code>andon.escalated</code>, and <code>andon.handoff.recorded</code> can mirror failure handling.</dd><dt>Proof boundary</dt><dd>Preserves failure chain; does not replace the Markdown Andon log.</dd></dl></section>
+        <section class="artifact-card"><h3>Run-level sidecar status</h3><dl><dt>Concrete convention</dt><dd><code>sidecars.md</code> records availability, authorization, output summaries, and fallback.</dd><dt>Proof boundary</dt><dd>Status evidence; does not authorize setup, export, or indexing.</dd></dl></section>
+      </div>
+
+      <h2 id="historical-backfill">Historical backfill</h2>
+      <p>When older evidence is loaded into a sidecar, label it as historical backfill rather than pretending it was captured live during the current run.<br>This keeps custody evidence honest.</p>
+      <p>A historical backfill record should name:</p>
+      <ul>
+        <li><code>custody_mode: historical_backfill</code></li>
+        <li><code>source</code></li>
+        <li><code>backfilled_at</code></li>
+        <li><code>original_event_time</code></li>
+        <li><code>evidence_boundary</code>.</li>
+      </ul>
+
+      <h2 id="capability-ledger">Capability Ledger (narrow evidence record)</h2>
+      <p>A Capability Ledger is a narrow record of what this run evidenced.</p>
+      <ul>
+        <li>It can be backed by Markdown or authorized ActiveGraph events.</li>
+        <li>When ActiveGraph is configured and authorized, entries can be event-backed.</li>
+        <li>The Markdown ledger remains first-class when ActiveGraph is absent, stale, or out of scope.</li>
+        <li>No ledger entry should turn a small fix into a general competence claim or infer success from chat memory.</li>
+      </ul>
+      <p>When ActiveGraph is configured and authorized, a narrow Capability Ledger entry may include:</p>
+      <ul>
+        <li>repo</li>
+        <li>run id</li>
+        <li>owner/source</li>
+        <li>quality route</li>
+        <li>quality-route and reflection notes</li>
+        <li>whether Graphify terrain was used</li>
+        <li>ActiveGraph event ids</li>
+        <li>checks run</li>
+        <li>final status</li>
+        <li>remaining risk.</li>
+      </ul>
+
+      <h2 id="fallback">Fallback</h2>
+      <p>Missing optional tooling does not block a run.<br>Markdown work records, ledgers, final reports, and run folders when phased remain the durable fallback.</p>
+
+      <h2 id="source-surfaces">Source surfaces</h2>
+      <p><code>README.md</code> optional tooling, <code>skills/templates/sidecars.md</code>, and <code>skills/references/lean-operating-discipline.md</code>.</p>
+
+      <h2 id="absent-safe-rule">Absent-safe rule</h2>
+      <p>If Graphify or ActiveGraph is missing, stale, or unauthorized, continue with live file inspection and Markdown ledgers.<br>Missing optional tooling is not a blocker for ordinary consuming repos, and dogfood sidecars still do not prove correctness by themselves.</p>
+
+      <h2 id="when-optional-tools-help">When optional tools help</h2>
+      <p>Terrain maps help owner/source discovery.<br>Custody events help trace proof events.<br>Neither replaces before/after checks, final audit, or source evidence.</p>

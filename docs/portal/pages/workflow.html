@@ -1,0 +1,42 @@
+<div class="page-eyebrow">Overview</div>
+      <h1>Workflow</h1>
+      <p class="lead">One request enters.<br>Files and checks accumulate.<br>Failures interrupt visibly.<br>Final audit either closes or hands off.</p>
+
+      <h2 id="request-to-proof">From request to inspectable proof</h2>
+      <ol class="flow" data-flow-steps>
+        <li><b>01 - Understand the repo</b><span>Detect the host, prior run folders, version skew, and whether this is existing-code repair or new-build design.</span></li>
+        <li><b>02 - Bind the work on disk</b><span>Create or bind the work record first. For phased or larger work, create a run folder (run root), then write state, roadmap, and phase checklists so the work can be inspected outside chat.</span></li>
+        <li><b>03 - Check before editing</b><span>Inspect the real files (Gemba), identify where the change belongs (owner/source), and record baseline evidence before editing.</span></li>
+        <li><b>04 - Edit with stop-points</b><span>For each phase, run before/after checks (Smoke A/B) and update state.</span></li>
+        <li><b>05 - Verify or hand off</b><span>After phase work, run the final fix-and-verify loop (audit-fix) until <code>AUDIT_COMPLETE</code> or an honest <code>AUDIT_HANDOFF</code>.</span></li>
+      </ol>
+
+      <h2 id="failure-path">When evidence fails</h2>
+      <ol class="step-card step-list">
+        <li>Evidence fails.</li>
+        <li>Stop the line.</li>
+        <li>Classify abnormality.</li>
+        <li>Inspect cause.</li>
+        <li>Choose a bounded countermeasure.</li>
+        <li>Rerun the relevant check.</li>
+        <li>Escalate only with new evidence.</li>
+        <li>Hand off only on a real blocker.</li>
+      </ol>
+      <p>The formal term is stop-the-line failure handling (Andon).<br>The practical behavior is that the run does not retry blindly, hide failure, or fake completion.</p>
+
+      <h2 id="loop-types">Different loop types</h2>
+      <div class="result-grid">
+        <div><b>Nested controls</b><span>Planner, run-state control, and phase execution contain the work at different scales.</span></div>
+        <div><b>Interrupt loop</b><span>Failure handling can stop any layer, classify the abnormality, and choose a countermeasure.</span></div>
+        <div><b>Closure loop</b><span>Final audit repeats only with new evidence or a changed approach until checkable closure or handoff.</span></div>
+        <div><b>Not loops</b><span>DMAIC/DMADV are routing disciplines. Authorization checks are gates.</span></div>
+      </div>
+
+      <h2 id="what-to-inspect">What to inspect during a run</h2>
+      <ul>
+        <li>For phased work, open the run folder and read <code>STATE.md</code>.</li>
+        <li>For compact work, inspect the bound work record, final audit ledger, and transcript markers.</li>
+        <li>Check that the phase checklist exists before accepting edits.</li>
+        <li>Compare the before/after evidence instead of trusting the final sentence.</li>
+        <li>Look for failure rows when checks failed and closure markers when work is done.</li>
+      </ul>

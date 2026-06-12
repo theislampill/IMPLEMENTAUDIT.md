@@ -1,0 +1,82 @@
+<div class="page-eyebrow">First run</div>
+      <h1>Installation</h1>
+      <p class="lead">This portal keeps installation early, but separates install proof from run proof.<br>Package extraction can be verified; host loading and audit correctness still need their own evidence.</p>
+
+      <h2 id="claude">Claude Code path</h2>
+      <p>Use Claude Code's current plugin or skill-install instructions for this repository, then verify the host shows the skill before treating it as loaded.<br>This docs portal does not claim marketplace behavior unless that host path was tested during a release gate.</p>
+      <p>If you are copying a release asset into a Claude Desktop-style local skill directory, use the repo helper and pass the actual session skill directory you inspected:</p>
+      <div class="term-window example-console">
+        <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Claude release copy</em><span class="term-badge">install</span></div>
+        <pre><span class="k-cyan">$ bash scripts/install-claude-from-release.sh \</span>
+<span class="k-cyan">  --tag v0.2.9.0 \</span>
+<span class="k-cyan">  --claude-skills-dir "&lt;path-to-claude-skills/implementaudit&gt;"</span></pre>
+      </div>
+      <p>That helper is a file-copy workaround.<br>It proves extraction and placement only; it does not prove Claude Desktop import, runtime loading, or marketplace installation.</p>
+
+      <h2 id="codex">Codex release asset path</h2>
+      <div class="term-window example-console">
+        <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Codex release copy</em><span class="term-badge">install</span></div>
+        <pre><span class="k-cyan">$ bash scripts/install-codex-from-release.sh \</span>
+<span class="k-cyan">  --tag v0.2.9.0 \</span>
+<span class="k-cyan">  --codex-home "$HOME/.codex" \</span>
+<span class="k-cyan">  --version 0.2.9</span></pre>
+      </div>
+      <p>The local checksum check verifies artifact integrity.<br>A published checksum manifest can support a separately authorized release provenance gate, but this install flow is not a signature, attestation, SBOM, provenance chain, or host-load proof.</p>
+      <p>For a manual Codex copy from a checkout, repeat the copy when the package changes:</p>
+      <div class="term-window example-console">
+        <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Manual Codex copy</em><span class="term-badge">unix</span></div>
+        <pre><span class="k-cyan">$ mkdir -p ~/.codex/skills/implementaudit</span>
+<span class="k-cyan">$ cp -R skills/* ~/.codex/skills/implementaudit/</span></pre>
+      </div>
+      <p>On Windows PowerShell, the same shape is:</p>
+      <div class="term-window example-console">
+        <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Manual Codex copy</em><span class="term-badge">powershell</span></div>
+        <pre><span class="k-cyan">PS&gt; New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills\implementaudit" | Out-Null</span>
+<span class="k-cyan">PS&gt; Copy-Item -Recurse -Force .\skills\* "$env:USERPROFILE\.codex\skills\implementaudit\"</span></pre>
+      </div>
+
+      <h2 id="source-checkout">Source checkout path</h2>
+      <p>When installing from a local checkout instead of a release tag, build and check the archive before copying it into a host directory:</p>
+      <div class="term-window example-console">
+        <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Source checkout install</em><span class="term-badge">local</span></div>
+        <pre><span class="k-cyan">$ bash scripts/build-release-asset.sh</span>
+<span class="k-cyan">$ bash scripts/write-release-checksums.sh dist/IMPLEMENTAUDIT.skill dist/CHECKSUMS.txt</span>
+<span class="k-cyan">$ bash scripts/write-release-checksums.sh --check dist/IMPLEMENTAUDIT.skill dist/CHECKSUMS.txt</span>
+<span class="k-cyan">$ bash scripts/install-codex-from-release.sh \</span>
+<span class="k-cyan">  --asset dist/IMPLEMENTAUDIT.skill \</span>
+<span class="k-cyan">  --checksum dist/CHECKSUMS.txt \</span>
+<span class="k-cyan">  --codex-home "$HOME/.codex" \</span>
+<span class="k-cyan">  --version 0.2.9</span></pre>
+      </div>
+
+      <h2 id="first">First run after install</h2>
+      <div class="term-window example-console">
+        <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>First run</em><span class="term-badge">smoke</span></div>
+        <pre><span class="k-cyan">/implementaudit add tests for the login timeout bug</span></pre>
+      </div>
+      <p>Look for a run folder and state file for phased work, or a bound work record for compact work, plus before/after checks and closure markers.<br>No commit, push, tag, release, publication, or provenance action is implied.</p>
+
+      <h2 id="verification-boundary">Verification boundary</h2>
+      <p>Install evidence has levels:</p>
+      <ul>
+        <li>Archive-shape validation checks package contents.</li>
+        <li>A checksum match verifies the asset against a manifest when one is supplied.</li>
+        <li>A copied skill folder can prove files were placed.</li>
+        <li>Only the host can prove the skill loaded.</li>
+        <li>Keep those claims separate when debugging.</li>
+      </ul>
+      <p>Re-check before claiming release status:</p>
+      <ul>
+        <li>The release tag exists.</li>
+        <li>Assets can be read.</li>
+        <li><code>CHECKSUMS.txt</code> verifies artifact integrity; release provenance still needs a separate authorized gate.</li>
+        <li>Pages is current only after deploy success.</li>
+        <li>Local installs do not auto-update.</li>
+      </ul>
+
+      <h2 id="after-install">After install</h2>
+      <p>The practical smoke is a small repo request.<br>For phased work, look for a run folder and <code>STATE.md</code>; for compact work, look for the bound work record.<br>Either way, check before/after evidence and <code>AUDIT_COMPLETE</code> before <code>IMPLEMENTAUDIT_RUN_COMPLETE</code>.</p>
+
+      <h2 id="updating">Updating later</h2>
+      <p>This repo does not claim passive host updating.<br>Reinstall or refresh the skill using the host's documented update path or the release-asset helper, then rerun a small repo request and check the visible version and closure markers.</p>
+      <p>Claude Desktop users should restart Claude Desktop after a copied skill update and verify the skill inside the host.<br>Session-managed skill paths can change between Claude Desktop versions; if the path differs, use the host's built-in skill management UI.</p>

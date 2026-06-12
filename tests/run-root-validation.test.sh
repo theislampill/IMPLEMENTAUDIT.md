@@ -9,6 +9,17 @@ trap 'rm -rf "$tmp"' EXIT
 
 helper="skills/scripts/validate-run-root.sh"
 
+if command -v python >/dev/null 2>&1; then
+  py_cmd=(python)
+elif command -v python3 >/dev/null 2>&1; then
+  py_cmd=(python3)
+elif command -v py >/dev/null 2>&1; then
+  py_cmd=(py -3)
+else
+  printf 'run-root-validation.test: python, python3, or py -3 is required\n' >&2
+  exit 1
+fi
+
 # 0. The tracked exemplars must pass their validators.
 bash "$helper" fixtures/run-root-example
 bash skills/scripts/validate-phase.sh fixtures/run-root-example/phases/phase-1.md >/dev/null
@@ -34,7 +45,7 @@ bash "$helper" "$tmp/good"
 # 2. An invented Status token must fail.
 mkdir -p "$tmp/badstatus"
 cp -r "$tmp/good/." "$tmp/badstatus/"
-python - "$tmp/badstatus/STATE.md" <<'PY'
+"${py_cmd[@]}" - "$tmp/badstatus/STATE.md" <<'PY'
 import sys
 from pathlib import Path
 p = Path(sys.argv[1])
@@ -48,7 +59,7 @@ fi
 # 3. A missing Andon log section must fail.
 mkdir -p "$tmp/noandon"
 cp -r "$tmp/good/." "$tmp/noandon/"
-python - "$tmp/noandon/STATE.md" <<'PY'
+"${py_cmd[@]}" - "$tmp/noandon/STATE.md" <<'PY'
 import sys
 from pathlib import Path
 p = Path(sys.argv[1])

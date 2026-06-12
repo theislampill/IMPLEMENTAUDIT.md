@@ -1,0 +1,32 @@
+<div class="page-eyebrow">Audience</div>
+<h1>For auditors and maintainers</h1>
+<p class="lead">Use this path when reviewing whether a run, docs claim, package boundary, or release note is truthful to evidence.</p>
+
+<h2 id="review-order">Review order</h2>
+<ol>
+  <li>Read the request and bound work record; for phased work, inspect the run folder, <code>STATE.md</code>, roadmap, phase specs, and failure rows.</li>
+  <li>Check <code>STATE.md</code>, roadmap, phase specs, and failure rows.</li>
+  <li>Compare before/after evidence and repo-state output.</li>
+  <li>Verify marker order: <code>AUDIT_COMPLETE</code> before <code>IMPLEMENTAUDIT_RUN_COMPLETE</code>.</li>
+  <li>At release gates, verify <code>scripts/check-forbidden-terms.sh</code> ran with forbidden external-comparator identity terms supplied at runtime and recorded PASS/FAIL without writing those terms into tracked files.</li>
+  <li>Reject overclaims about install proof, host load, publication, provenance, sidecar proof, or package contents.</li>
+</ol>
+
+<h2 id="maintenance-surfaces">Maintenance surfaces</h2>
+<div class="result-grid">
+  <a class="index-card" href="../../reference/repo-layout/"><b>Repo layout</b><span>Which files are runtime payload, repo-only docs, fixtures, tests, or generated output.</span></a>
+  <a class="index-card" href="../../reference/package-contents/"><b>Package contents</b><span>Repo helpers live under <code>skills/scripts/</code>; in the archive they ship as root <code>scripts/</code>.</span></a>
+  <a class="index-card" href="../../reference/repo-state-comparison/"><b>Repo state comparison</b><span>How to compare before/after evidence without counting run artifacts as deliverables.</span></a>
+  <a class="index-card" href="../../reference/completion-semantics/"><b>Completion semantics</b><span>Marker order, final audit closure, and warning boundaries.</span></a>
+  <a class="index-card" href="../../reference/optional-tooling/"><b>Optional tooling</b><span>Graphify and ActiveGraph boundaries for orientation, custody, and ordinary runs.</span></a>
+  <a class="index-card" href="../../reference/repo-record/"><b>Repo record</b><span>Current release-history claims and their evidence boundaries.</span></a>
+</div>
+
+<h2 id="sidecar-boundary">Sidecar boundary</h2>
+<p>Graphify and ActiveGraph are canonical and expected dogfood sidecar inputs for this repo when present and authorized, but they are optional for consuming repos.<br>Graphify is orientation evidence.<br>ActiveGraph custody is not correctness proof.</p>
+
+<h2 id="plugin-cache-warning">Plugin cache warning</h2>
+<p>Claude plugin cache refresh depends on a version-field change.<br>Shipped code changes need a version bump before claiming update behavior; that warning is not a release or install claim.</p>
+
+<h2 id="source-surfaces">Source surfaces</h2>
+<p>Use <code>AGENTS.md</code>, <code>README.md</code>, <code>docs/audits/</code>, <code>scripts/verify-package.sh</code>, and the docs portal tests for maintainer-level review.</p>

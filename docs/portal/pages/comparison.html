@@ -1,0 +1,56 @@
+<div class="page-eyebrow">First run</div>
+<h1>Comparison</h1>
+<p class="lead">IMPLEMENTAUDIT is not trying to make an agent magical. It makes the run inspectable.</p>
+<p>For a first run, skim the contrast this way: a normal run is mostly chat; an IMPLEMENTAUDIT run gives you a bound work record, before/after evidence, and an explicit ending. The maintainer-level comparison stays below for deeper review.</p>
+
+<h2 id="normal-run">Normal agent run</h2>
+<p>A normal agent run can blur planning, editing, retrying, and completion into one chat transcript.<br>That can be fine for tiny work, but it is hard to audit when a repo change needs evidence.</p>
+
+<h2 id="implementaudit-run">IMPLEMENTAUDIT run</h2>
+<p>IMPLEMENTAUDIT separates those states into files and markers:</p>
+<ul>
+  <li>the request</li>
+  <li>work record, with a run folder when phased</li>
+  <li>state file</li>
+  <li>phase checklists</li>
+  <li>before/after checks</li>
+  <li>failure log</li>
+  <li>final audit</li>
+</ul>
+<p>The key difference is not more jargon; it is a reviewable trail.</p>
+
+<h2 id="comparison-table">Comparison table</h2>
+<table><thead><tr><th>Question</th><th>Normal run risk</th><th>IMPLEMENTAUDIT answer</th></tr></thead><tbody>
+<tr><td>What was requested?</td><td>Buried in chat.</td><td>Bound to a work record and roadmap.</td></tr>
+<tr><td>What changed?</td><td>Final answer may summarize loosely.</td><td>Repo-state comparison separates deliverables from run evidence.</td></tr>
+<tr><td>What failed?</td><td>Retry history can disappear.</td><td>Failure handling records class, cause, countermeasure, rerun evidence, escalation, or handoff.</td></tr>
+<tr><td>What counts as done?</td><td>The chat stops.</td><td><code>AUDIT_COMPLETE</code> must precede <code>IMPLEMENTAUDIT_RUN_COMPLETE</code>.</td></tr>
+</tbody></table>
+
+<h2 id="category-comparison">Category comparison</h2>
+<div class="comparison-cards">
+  <section><h3>Normal prompt</h3><ul><li><b>Audit object:</b> none.</li><li><b>Gates:</b> none.</li><li><b>Mutation:</b> agent discretion.</li><li><b>Continuity:</b> chat memory only.</li><li><b>Polish/harden:</b> none by default.</li></ul></section>
+  <section><h3>Normal goal runner</h3><ul><li><b>Audit object:</b> implicit goal state.</li><li><b>Gates:</b> host-dependent.</li><li><b>Mutation:</b> phase or agent discretion.</li><li><b>Continuity:</b> host-managed when present.</li><li><b>Polish/harden:</b> host-dependent.</li></ul></section>
+  <section><h3>External staged-goal comparator</h3><ul><li><b>Audit object:</b> implicit staged goal state.</li><li><b>Gates:</b> runner-managed phase gates.</li><li><b>Mutation:</b> gated per phase.</li><li><b>Continuity:</b> per-phase writeback when supported.</li><li><b>Polish/harden:</b> usually outside the core loop.</li></ul></section>
+  <section class="comparison-winner card-spotlight"><h3>IMPLEMENTAUDIT</h3><ul><li><b>Work record:</b> explicit evidence-bearing record, with maintainer term <code>tdqyq-audit-object</code>, constructed or bound before mutation.</li><li><b>Gates:</b> non-skippable audit gates with halt conditions.</li><li><b>Mutation:</b> real-file inspection, owner/source, before/after checks, and bounded evidence.</li><li><b>Continuity:</b> five-source priority preload plus explicit <code>CONTINUITY_DECISION</code>.</li><li><b>Polish/harden:</b> optional final Polish and Harden phase.</li></ul></section>
+</div>
+
+<h2 id="shared-with-staged-runners">Behavior IMPLEMENTAUDIT keeps</h2>
+<p>IMPLEMENTAUDIT keeps useful staged-runner behaviors but binds them to audit closure:</p>
+<ul>
+  <li>casual invocation becomes governed casual-build intake</li>
+  <li>continuity preload happens before mutation</li>
+  <li>per-phase writeback is recorded as <code>CONTINUITY_DECISION</code></li>
+  <li>optional Polish and Harden is a terminal phase shape rather than a license for scope creep</li>
+</ul>
+
+<h2 id="refusals">What IMPLEMENTAUDIT refuses</h2>
+<ul>
+  <li>Ungated mutation outside a live work record.</li>
+  <li>Unbounded autonomy or scope expansion without owner decision or re-authorization.</li>
+  <li>Proof without evidence type, boundary, and remaining risk.</li>
+  <li>Hidden commit, push, tag, release, publication, provenance, host install, or sidecar setup.</li>
+</ul>
+
+<h2 id="boundary">Boundary</h2>
+<p>This comparison is scoped to repo-changing agent work and auditability.<br>It is not a claim that every task needs this much structure.</p>

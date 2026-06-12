@@ -1,0 +1,70 @@
+<div class="page-eyebrow">Core model</div>
+      <h1>Audit gate model</h1>
+      <p class="lead">The non-skippable gates that stop a run from advancing without evidence.</p>
+      <div class="hero-card"><h2>A gate is a proof checkpoint.</h2><p>The run may advance only when the current checkpoint has evidence.<br>If policy, scope, baseline checks, after checks, or final audit cannot pass honestly, the run stops and records the blocker instead of treating momentum as success.</p></div>
+
+      <h2 id="what-the-gate-model-does">What the gate model does</h2>
+      <p>It turns a repo request into a sequence of evidence gates.</p>
+      <ul><li>Read policy.</li><li>Bind the request.</li><li>Inspect real files.</li><li>Record a before-check.</li><li>Edit inside a phase.</li><li>Record an after-check.</li><li>Audit closure.</li></ul>
+      <p>The important reader promise is simple: if a gate cannot pass honestly, the run stops and records why instead of pretending the work is done.</p>
+
+      <h2 id="where-it-appears">Where it appears</h2>
+      <p>In the overview terminal, gates show up as work binding, run-folder creation when phased, state writes, before/after checks, failure rows (Andon rows), and final audit markers.</p>
+      <p>In source docs, this maps to the execution-gates section of <code>README.md</code> and the execution spine in <code>skills/SKILL.md</code>.</p>
+
+      <h2 id="what-to-inspect">What to inspect</h2>
+      <p>For phased work, open the run folder, then check:</p>
+      <ul><li><code>STATE.md</code></li><li><code>ROADMAP.md</code></li><li>phase checklists/specs</li><li>before/after evidence (<code>Smoke A/B</code>)</li><li>failure log (<code>Andon</code> log)</li><li>final audit ledger.</li></ul>
+      <p>For compact direct work, inspect the bound work record, final audit ledger, transcript markers, and any before/after evidence the run cites.</p>
+      <p>If the run says complete without <code>AUDIT_COMPLETE</code> before <code>IMPLEMENTAUDIT_RUN_COMPLETE</code>, the gate model failed.</p>
+
+      <h2 id="boundaries">Boundaries</h2>
+      <p>Audit gates do not authorize commit, push, tag, release, publication, provenance, or host installation claims.<br>Those remain separate owner-gated actions.</p>
+
+      <h2 id="gate-sequence">Gate sequence</h2>
+      <ol>
+        <li><strong>Safety read:</strong> confirm repo policy, host policy, authorization, <code>AGENTS.md</code> conflict rules, <code>CONTRIBUTING.md</code>, CI/workflow files, and repo policy.</li>
+        <li><strong>Input gate:</strong> bind the request to an evidence-bearing work record (audit object).</li>
+        <li><strong>Pre-flight:</strong> detect tools, ownership, generators, constraints, optional sidecars, and prior run state.</li>
+        <li><strong>Smoke A:</strong> record baseline evidence before mutation.</li>
+        <li><strong>Implement:</strong> patch bounded phase work only.</li>
+        <li><strong>Smoke B:</strong> compare post-change evidence against Smoke A.</li>
+        <li><strong>Trace:</strong> preserve causal history, ledgers, boundaries, and continuity decisions.</li>
+        <li><strong>Self-check:</strong> verify quality-bar invariants before final response.</li>
+      </ol>
+
+      <h2 id="context-and-trace-surfaces">Context and trace surfaces</h2>
+      <p>The gate model also asks what prior state governs the run and whether a reviewer can reconstruct why the run changed.</p>
+      <ul>
+        <li><strong>Context / continuity preload:</strong> inspect live files, applicable <code>AGENTS.md</code>, the bound work record or run folder, applied context, and authorized sidecar status.</li>
+        <li><strong>Trace / custody:</strong> preserve final audit records, transcript markers, owner/source notes, and optional ActiveGraph custody when available and authorized.</li>
+        <li><strong>Boundary:</strong> optional custody is not correctness proof; live files, before/after evidence, and final audit closure remain higher-priority proof surfaces.</li>
+      </ul>
+
+      <h2 id="annotated-ten-gates">Annotated ten gates</h2>
+      <p>This table keeps the ten reviewer questions visible while the canonical execution spine stays the source of runtime behavior.<br>Each gate has an owner and source of truth, evidence, and a halt condition.</p>
+      <p>The teaching view is <code>10 = 8 + 2</code> split-outs: the <code>skills/SKILL.md</code> execution spine remains canonical, while this page splits inspection, routing, and phase-spec questions so reviewers can audit them.</p>
+      <ol class="gate-cards">
+        <li><h3>Safety read</h3><dl><dt>Question</dt><dd>Is this action authorized here?</dd><dt>Evidence</dt><dd><code>AGENTS.md</code>, <code>README.md</code>, <code>CONTRIBUTING.md</code>, CI/workflow files, repo policy, and host constraints.</dd><dt>Halt</dt><dd>Policy conflict or missing authorization.</dd></dl></li>
+        <li><h3>Input bind</h3><dl><dt>Question</dt><dd>What work record is being closed?</dd><dt>Evidence</dt><dd>Request, audit file, handoff, or synthesized audit object.</dd><dt>Halt</dt><dd>Empty, unsafe, or unbounded input.</dd></dl></li>
+        <li><h3>Repo inspection</h3><dl><dt>Question</dt><dd>What real files own the change?</dd><dt>Evidence</dt><dd>Real-file notes, owner/source, generated-file owner.</dd><dt>Halt</dt><dd>Owner/source unclear.</dd></dl></li>
+        <li><h3>Route choice</h3><dl><dt>Question</dt><dd>Is this repair, design, or mixed work?</dd><dt>Evidence</dt><dd>Routing note, phase route, scope/non-scope.</dd><dt>Halt</dt><dd>Route cannot be justified.</dd></dl></li>
+        <li><h3>Plan and phase spec</h3><dl><dt>Question</dt><dd>Can the work be verified?</dd><dt>Evidence</dt><dd><code>ROADMAP.md</code>, phase checklist/spec, criteria.</dd><dt>Halt</dt><dd>Criteria are not falsifiable.</dd></dl></li>
+        <li><h3>Before evidence</h3><dl><dt>Question</dt><dd>What baseline will after-checks compare to?</dd><dt>Evidence</dt><dd>Smoke A command/output or accepted prior evidence.</dd><dt>Halt</dt><dd>No baseline for a claimed check.</dd></dl></li>
+        <li><h3>Bounded mutation</h3><dl><dt>Question</dt><dd>Did edits stay inside scope?</dd><dt>Evidence</dt><dd>Changed-file list and owner/source notes.</dd><dt>Halt</dt><dd>Unowned or unrelated mutation.</dd></dl></li>
+        <li><h3>After evidence</h3><dl><dt>Question</dt><dd>Did the relevant check improve or pass?</dd><dt>Evidence</dt><dd>Smoke B command/output and comparison.</dd><dt>Halt</dt><dd>Regression or failed criterion.</dd></dl></li>
+        <li><h3>Failure interrupt</h3><dl><dt>Question</dt><dd>Was abnormal evidence handled visibly?</dd><dt>Evidence</dt><dd>Failure row (Andon row) with class, cause, countermeasure, and rerun evidence.</dd><dt>Halt</dt><dd>Hidden retry, missing cause, or fake pass.</dd></dl></li>
+        <li><h3>Final audit</h3><dl><dt>Question</dt><dd>Can the run close honestly?</dd><dt>Evidence</dt><dd><code>AUDIT_VERIFY</code>, <code>AUDIT_COMPLETE</code>, final audit ledger.</dd><dt>Halt</dt><dd>Open gap, blocked handoff, or missing marker order.</dd></dl></li>
+      </ol>
+      <p>Think of the ten-gate view as annotated reviewer questions over the canonical execution spine, not a competing runtime.</p>
+
+      <h2 id="gate-failure-handling">Gate failure handling</h2>
+      <p>A failed gate is not a prompt to keep going.<br>It enters the error interrupt:</p>
+      <ul>
+        <li>classify</li>
+        <li>inspect cause</li>
+        <li>choose a countermeasure</li>
+        <li>rerun the relevant check</li>
+        <li>escalate with new evidence</li>
+        <li>hand off when blocked.</li>
+      </ul>

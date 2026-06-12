@@ -1,0 +1,58 @@
+<div class="page-eyebrow">First run</div>
+      <h1>Possible endings</h1>
+      <p class="lead">A run should not end just because the chat stopped.<br>It ends by proving completion, handing off a real blocker, or refusing unsafe or unbounded work.<br>Audit gaps are repair loops, not final endings.</p>
+
+      <div class="hero-card">
+        <h2>What to look for</h2>
+        <p><code>AUDIT_COMPLETE</code> must appear before <code>IMPLEMENTAUDIT_RUN_COMPLETE</code>.<br>If it cannot, the run should leave a handoff or stop record with the blocker and next owner action named.</p>
+      </div>
+
+      <h2 id="verified-complete">Verified complete</h2>
+      <p>The final audit found final, checkable evidence for every in-scope item.<br>The run may then emit <code>AUDIT_COMPLETE</code>, followed by <code>IMPLEMENTAUDIT_RUN_COMPLETE</code>.</p>
+      <div class="panel"><span class="k-emerald"><code>AUDIT_VERIFY</code></span> checks and deliverables rechecked<br><span class="k-emerald"><code>AUDIT_COMPLETE</code></span> every in-scope item has final checkable evidence<br><span class="k-cyan"><code>IMPLEMENTAUDIT_RUN_COMPLETE</code></span> valid only after audit completion</div>
+
+      <h2 id="audit-gap-repair-loop">Audit gap repair loop</h2>
+      <p>The final audit found a gap, but the run had a bounded fix path.<br>It records the gap, applies the fix, reruns the relevant evidence, and repeats the final audit loop.</p>
+      <div class="panel"><span class="k-amber"><code>AUDIT_GAPS</code></span> missing or weak evidence found<br>countermeasure chosen with a changed approach or new evidence<br><span class="k-emerald"><code>AUDIT_VERIFY</code></span> rerun before closure</div>
+
+      <h2 id="blocked-handoff">Blocked handoff</h2>
+      <p>The run cannot honestly finish without an owner decision, missing credential, unavailable environment, or scope decision.<br>It should name the blocker and the smallest next owner action.</p>
+      <div class="panel"><span class="k-amber"><code>AUDIT_HANDOFF</code></span> not complete<br>blocker: owner decision required<br>next owner action: approve route or provide missing evidence</div>
+
+      <h2 id="unsafe-stop">Unsafe or unbounded stop</h2>
+      <p>If the request asks for:</p>
+      <ul>
+        <li>unauthorized mutation</li>
+        <li>release, publication, or provenance</li>
+        <li>destructive filesystem behavior</li>
+        <li>an unbounded scope jump</li>
+      </ul>
+      <p>the run stops instead of inventing authority.</p>
+      <div class="callout warning"><strong>Important:</strong> install, commit, push, tag, release, publish, and provenance remain separate gates.<br>No ending on this page grants those actions by implication.</div>
+
+      <h2 id="compare">How to inspect it</h2>
+      <div class="result-grid">
+        <div><b>Work record</b><span>For compact work, locate the bound work record through the final response, final audit ledger, cited artifacts, and marker order. For phased work, also open <code>.IMPLEMENTAUDIT/runs/&lt;task-slug&gt;-&lt;id&gt;/</code>.</span></div>
+        <div><b>State file</b><span>For phased work, check <code>STATE.md</code>; for compact work, check the final audit ledger, cited artifacts, and transcript markers.</span></div>
+        <div><b>Final audit ledger</b><span>Look for closure, gap, or handoff evidence.</span></div>
+        <div><b>Transcript markers</b><span>Check marker order: audit completion before run completion.</span></div>
+      </div>
+
+      <h2 id="end-state-matrix">End-state matrix</h2>
+      <table>
+        <thead><tr><th>Ending</th><th>What you should see</th><th>What it means</th></tr></thead>
+        <tbody>
+          <tr><td>Verified complete</td><td><code>AUDIT_COMPLETE</code> before <code>IMPLEMENTAUDIT_RUN_COMPLETE</code></td><td>In-scope items have final checkable evidence.</td></tr>
+          <tr><td>Audit gap repair loop</td><td><code>AUDIT_GAPS</code>, new evidence, then audit again</td><td>The final check found a gap and looped back through repair before any ending.</td></tr>
+          <tr><td>Blocked handoff</td><td><code>AUDIT_HANDOFF</code> or <code>ANDON_HANDOFF</code></td><td>A real blocker remains and the next owner action is named.</td></tr>
+          <tr><td>Unsafe stop</td><td><code>STOP</code> or handoff text</td><td>The request is unbounded, unauthorized, or unsafe to mutate.</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="completion-anti-patterns">Completion anti-patterns</h2>
+      <ul>
+        <li>A stopped chat is not valid closure.</li>
+        <li>A passing-looking rerun without cause analysis is not valid closure.</li>
+        <li>A hidden substitution is not valid closure.</li>
+        <li>A completion marker after a handoff is not valid closure.</li>
+      </ul>

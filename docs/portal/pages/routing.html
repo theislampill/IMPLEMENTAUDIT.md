@@ -1,0 +1,66 @@
+<div class="page-eyebrow">Core model</div>
+      <h1>Routing</h1>
+      <p class="lead">How existing-repo repair and new-build work choose different evidence disciplines.</p>
+      <div class="hero-card"><h2>Routing chooses the evidence discipline.</h2><p>Existing work usually needs repair discipline; new or replacement work needs design discipline.<br>The route shapes planning and checks, but it does not grant permission to widen scope or mutate unowned files.</p></div>
+
+      <h2 id="existing-repo-repair">Existing-repo repair</h2>
+      <p>Existing work uses the repair route (<code>DMAIC</code>):</p>
+      <ul><li>define the problem</li><li>measure current state</li><li>analyze cause</li><li>improve</li><li>control the result with checks.</li></ul>
+
+      <h2 id="new-build-or-replacement">New build or replacement</h2>
+      <p>New or replacement work uses the design route (<code>DMADV</code>):</p>
+      <ul><li>define the goal</li><li>measure constraints</li><li>analyze options</li><li>design</li><li>verify.</li></ul>
+
+      <h2 id="mixed-work">Mixed work</h2>
+      <p>Mixed work uses both routes in sequence: a <code>DMAIC</code> shell for the existing-repo repair, then <code>DMADV</code> for the new artifact.<br>Routing chooses discipline; it does not authorize mutation or replace audit gates.</p>
+
+      <h2 id="brownfield-intake">Existing-repo intake</h2>
+      <p>Default: when an existing repo is present, start as existing-repo repair unless the user explicitly asks for a new artifact or replacement.</p>
+      <p>For brownfield work, inspect:</p>
+      <ul><li>current behavior</li><li>owner and source of truth</li><li>failing or missing evidence</li><li>repo cleanliness</li><li>what must not be touched.</li></ul>
+      <p>The first plan should explain the baseline before proposing edits.</p>
+
+      <h2 id="greenfield-intake">New-build intake</h2>
+      <p>For greenfield or replacement work, inspect constraints, acceptance criteria, integration boundaries, rollback expectations, and the evidence that will prove the new artifact works.</p>
+
+      <h2 id="intake-checklist">Intake checklist</h2>
+      <table>
+        <thead><tr><th>Checkpoint</th><th>Existing-repo repair</th><th>New or replacement work</th></tr></thead>
+        <tbody>
+          <tr><td>Owner / source</td><td>Which current file, generator, test, or doc owns the behavior?</td><td>Where will the new artifact live, and what source will own updates?</td></tr>
+          <tr><td>Scope / non-scope</td><td>What must not change while repairing the defect?</td><td>What is intentionally out of bounds for the first version?</td></tr>
+          <tr><td>Acceptance criteria</td><td>Which failing or stale evidence must change?</td><td>Which new evidence proves the artifact works?</td></tr>
+          <tr><td>Rollback / defer</td><td>How can the change be reverted or deferred if checks fail?</td><td>How can the new artifact be removed or disabled safely?</td></tr>
+          <tr><td>Generated artifacts</td><td>Is the target generated, and what generator owns it?</td><td>Will the new artifact generate output, and how is that regenerated?</td></tr>
+          <tr><td>Sidecar status</td><td>Are optional terrain/custody tools present, absent, stale, or unauthorized?</td><td>Which optional sidecars are explicitly out of scope?</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="casual-build-intake">Casual-build intake</h2>
+      <p>Plain-language requests can still become governed runs.<br>The intake should avoid interrogation while making the work safe enough to execute.</p>
+      <ol>
+        <li>Restate the concrete repo outcome in ordinary language.</li>
+        <li>Classify the route as existing-repair, new-design, or mixed.</li>
+        <li>Ask up to four batched questions only when owner/source, scope, rollback, or evidence cannot be inferred from the repo.</li>
+        <li>Write the bounded work record with acceptance criteria and non-scope.</li>
+        <li>Dispatch only after preflight, or hand off honestly if the target is unsafe or impossible.</li>
+      </ol>
+
+      <h2 id="canonical-vs-sidecar">Canonical files before sidecars</h2>
+      <p>Routing evidence belongs first in the run folder and live repo files.<br>Optional Graphify or ActiveGraph sidecars can help maintainers, but they cannot replace owner/source notes, phase criteria, or before/after checks.</p>
+      <p>For optional sidecar boundaries, see <a href="../optional-tooling/">Optional tooling</a>.</p>
+
+      <h2 id="source-surfaces">Source surfaces</h2>
+      <p><code>skills/references/routing.md</code> and <code>README.md</code> greenfield/brownfield routing.</p>
+
+      <h2 id="route-decision-table">Route decision table</h2>
+      <table><thead><tr><th>Work</th><th>Plain route</th><th>Formal route</th></tr></thead><tbody><tr><td>Existing defect, stale docs, broken checker</td><td>Repair existing</td><td><code>DMAIC</code></td></tr><tr><td>New artifact, workflow, package surface</td><td>Design new</td><td><code>DMADV</code></td></tr><tr><td>New artifact inside existing repo</td><td>Inspect existing, then design new</td><td>Mixed</td></tr><tr><td>Small single-owner fix</td><td>Plan-do-check-act</td><td><code>PDCA</code></td></tr></tbody></table>
+
+      <h2 id="routing-is-not-permission">Routing is not permission</h2>
+      <p>Routing chooses discipline and evidence shape.</p>
+      <ul>
+        <li>Does not authorize mutation.</li>
+        <li>Does not authorize scope expansion.</li>
+        <li>Does not authorize commit, push, release, publication, or provenance.</li>
+        <li>Does not authorize sidecar export.</li>
+      </ul>

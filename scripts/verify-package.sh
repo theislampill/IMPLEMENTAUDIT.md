@@ -106,9 +106,17 @@ require_file docs/audits/v0.2.5.0-external-staged-goal-runtime-gap-closure.md
 require_file docs/audits/v0.2.5.0-claude-install-repair.md
 require_file docs/audits/v0.2.7.0-lean-operating-discipline.md
 require_file docs/audits/v0.2.8.0-adaptation.md
-require_file docs/portal/onboarding.md
+require_file docs/portal_old/onboarding.md
+require_file docs/portal/site.json
+require_file docs/portal/assets/draft-v2.css
+require_file docs/portal/assets/draft-v2.js
+require_file docs/portal/pages/overview.html
+require_file docs/portal/pages/quick-start.html
+require_file docs/portal/pages/runtime-model.html
+require_file docs/portal/pages/reference-index.html
 require_file scripts/build-docs-portal.py
 require_file scripts/check-docs-portal.py
+require_file scripts/verify-docs-portal.sh
 require_file tests/docs-portal.test.sh
 require_file fixtures/casual-build/accepted-intent.md
 require_file fixtures/casual-build/rejected-intent.md
@@ -174,6 +182,50 @@ fi
 
 "${py_cmd[@]}" -m json.tool .claude-plugin/plugin.json >/dev/null
 "${py_cmd[@]}" -m json.tool .claude-plugin/marketplace.json >/dev/null
+
+"${py_cmd[@]}" - <<'PY'
+import json
+import sys
+from pathlib import Path
+
+site_path = Path("docs/portal/site.json")
+site = json.loads(site_path.read_text(encoding="utf-8"))
+pages = site.get("pages", {})
+nav = site.get("nav", [])
+failures = []
+
+if not nav or nav[0].get("group") != "Overview":
+    failures.append("docs/portal/site.json: first nav group must be Overview")
+if not nav or not nav[0].get("pages") or nav[0]["pages"][0] != "overview":
+    failures.append("docs/portal/site.json: first page must be overview")
+if len(pages) < 30:
+    failures.append(f"docs/portal/site.json: expected at least 30 pages, got {len(pages)}")
+
+seen = []
+for group in nav:
+    for page_id in group.get("pages", []):
+        if page_id not in pages:
+            failures.append(f"docs/portal/site.json: nav references missing page {page_id}")
+            continue
+        seen.append(page_id)
+        source = Path("docs/portal/pages") / pages[page_id].get("source", "")
+        if not source.is_file():
+            failures.append(f"docs/portal/site.json: page source missing for {page_id}: {source.as_posix()}")
+
+missing_from_nav = sorted(set(pages) - set(seen))
+if missing_from_nav:
+    failures.append(f"docs/portal/site.json: pages missing from nav: {missing_from_nav}")
+if len(seen) != len(set(seen)):
+    failures.append("docs/portal/site.json: duplicate page id in nav")
+
+for asset in ("draft-v2.css", "draft-v2.js"):
+    if not (Path("docs/portal/assets") / asset).is_file():
+        failures.append(f"docs/portal/assets/{asset}: missing")
+
+if failures:
+    sys.stderr.write("\n".join(failures) + "\n")
+    raise SystemExit(1)
+PY
 
 "${py_cmd[@]}" - <<'PY'
 import json
@@ -369,6 +421,8 @@ bash tests/run-root-validation.test.sh
 bash tests/custody-append.test.sh
 bash tests/agent-eval-fixtures.test.sh
 bash tests/agent-eval-grader.test.sh
+bash tests/docs-portal.test.sh
+bash scripts/verify-docs-portal.sh
 bash scripts/check-validation-registry.sh
 bash tests/validation-registry.test.sh
 bash scripts/build-release-asset.sh --check

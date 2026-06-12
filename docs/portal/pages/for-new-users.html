@@ -1,0 +1,19 @@
+<div class="page-eyebrow">First-run support</div>
+<h1>For new users</h1>
+<p class="lead">Use this page when Quick Start feels too abrupt. It explains what to paste, what appears on disk, and how to tell whether the run finished honestly.</p>
+
+<h2 id="first-path">The first path</h2>
+<ol>
+  <li>Open <a href="../../start-here/quick-start/">Quick Start</a> for the canonical first command.</li>
+  <li>Install the skill in Claude Code or Codex if your host has not loaded it yet.</li>
+  <li>Open the repo you want changed.</li>
+  <li>Paste one concrete request such as <code>/implementaudit fix the findings in AUDIT.md</code>.</li>
+  <li>Look for inspectable evidence: a run folder and <code>STATE.md</code> for phased work, or a final response that names the bound work record, cited artifacts, final audit ledger, and transcript markers for compact work.</li>
+</ol>
+
+<h2 id="what-to-trust">What to trust</h2>
+<p>Trust the run only when evidence is inspectable. A good run shows <code>AUDIT_COMPLETE</code> before <code>IMPLEMENTAUDIT_RUN_COMPLETE</code>.<br>If it cannot close, it should leave <code>AUDIT_HANDOFF</code> or <code>ANDON_HANDOFF</code> with the blocker and next owner action.</p>
+<p>Those markers do not authorize commit, push, tag, release, publication, provenance, host install, or sidecar setup. Each gate needs explicit owner approval.</p>
+
+<h2 id="what-to-ignore-first">What to ignore at first</h2>
+<p>You do not need to understand Lean vocabulary, sidecars, or release history for a first run.<br>Read the plain labels first: work record, run folder when phased, state file, phase checklist, before/after checks, failure log, and final audit.</p>

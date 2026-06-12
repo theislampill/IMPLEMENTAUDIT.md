@@ -1,0 +1,78 @@
+<div class="page-eyebrow">Closure</div>
+      <h1>Continuity and resume</h1>
+      <p class="lead">How the run resumes from files without trusting chat memory.</p>
+      <div class="hero-card"><h2>Resume from disk, not from chat memory.</h2><p>The work record, live repository files, and <code>AGENTS.md</code> are the first continuity surfaces.<br>For phased work, the run folder carries the cursor and phase evidence.<br>Sidecars can add terrain or custody context, but they must not outrank the files the run actually edits and audits.</p></div>
+
+      <h2 id="continuity">Continuity</h2>
+      <p>Resume from the bound work record and live repo files, not chat memory.<br>For phased work, <code>STATE.md</code> and <code>PROTOCOL.md</code> inside the run folder carry the run cursor and rules.</p>
+
+      <h2 id="preload-priority">Preload priority</h2>
+      <p>On resume:</p>
+      <ol>
+        <li>Read live files and applicable <code>AGENTS.md</code> first.</li>
+        <li>Then read the run folder.</li>
+        <li>Then read notes.</li>
+        <li>Then read optional Graphify terrain.</li>
+        <li>Then read optional ActiveGraph custody.</li>
+      </ol>
+      <p>If these disagree, the run must record the conflict instead of silently choosing the convenient source.</p>
+      <table class="priority-table">
+        <colgroup><col class="priority-num"><col><col></colgroup>
+        <thead><tr><th>Priority</th><th>Continuity source</th><th>Boundary</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Live repo files and applicable <code>AGENTS.md</code></td><td>Authoritative. Never overridden by memory, sidecars, or prior run notes.</td></tr>
+          <tr><td>2</td><td>Run-root applied context: <code>applied-context.md</code>, <code>applied-memories.md</code>, <code>STATE.md</code>, and active phase files</td><td>Prior state for this task; must be checked against live files.</td></tr>
+          <tr><td>3</td><td>Optional personal or project notes</td><td>Human-curated guidance; used only when available and authorized.</td></tr>
+          <tr><td>4</td><td>Graphify terrain</td><td>Orientation evidence about repo structure and link density. Canonical dogfood input for this repo when present and authorized; optional for consuming repos. Not proof; absence is not a failure.</td></tr>
+          <tr><td>5</td><td>ActiveGraph custody events</td><td>Gate-passage custody evidence. Canonical dogfood input for this repo when present and authorized; optional for consuming repos. Not correctness proof; absence is not a failure.</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="decision-records">Decision records</h2>
+      <p><code>AGENTS_UPDATE_DECISION</code> records whether durable repo instructions changed.<br><code>CONTINUITY_DECISION</code> records whether continuity material should be persisted, skipped, or handed off.<br>Both are audit decisions, not decorative notes.</p>
+
+      <h2 id="optional-sidecar-context">Optional sidecar context</h2>
+      <table class="stage-table">
+        <colgroup><col class="stage-purpose"><col><col></colgroup>
+        <thead><tr><th>Optional source</th><th>Use</th><th>Boundary</th></tr></thead>
+        <tbody>
+          <tr><td>Graphify terrain</td><td>Orient the maintainer to repo structure and possible owner/source relationships. Convention: <code>graphify-out/graph.json</code>, nodes with <code>id</code> + <code>label</code>, links with <code>source</code> + <code>target</code>.</td><td>Orientation only; stale when tracked files are newer; live files win on conflict.</td></tr>
+          <tr><td>ActiveGraph custody</td><td>Preserve gate-passage or historical-backfill events when configured and authorized.</td><td>Custody evidence only; not correctness proof or authorization to mutate.</td></tr>
+          <tr><td>Optional tooling page</td><td>Setup, conventions, and historical-backfill labels.</td><td><a href="../optional-tooling/">Read the boundary before relying on sidecars.</a></td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="intra-inter-run">Intra-run vs inter-run continuity</h2>
+      <p>Intra-run continuity resumes the current run cursor and active phase.<br>Inter-run continuity carries durable lessons across runs, usually through <code>AGENTS.md</code> or explicitly authorized sidecars.</p>
+
+      <h2 id="writeback-options">Continuity writeback options</h2>
+      <p>Per-phase writeback is explicit.<br><code>CONTINUITY_DECISION</code> records one of five bounded options:</p>
+      <ul>
+        <li>No writeback.</li>
+        <li>Repo-local <code>AGENTS.md</code> rule.</li>
+        <li>Run-local applied context.</li>
+        <li>Optional personal/project note.</li>
+        <li>Optional ActiveGraph event.</li>
+      </ul>
+      <p><code>IMPLEMENTAUDIT_CONTINUITY_SAVED</code> appears only after a real writeback and must name the writeback boundary.</p>
+
+      <h2 id="source-surfaces">Source surfaces</h2>
+      <p><code>AGENTS.md</code>, <code>skills/templates/sidecars.md</code>, and <code>skills/references/lean-operating-discipline.md</code>.</p>
+
+      <h2 id="resume-contract">Resume contract</h2>
+      <p>On resume, reread <code>STATE.md</code>, the active phase spec, and planning evidence from disk.<br>Validate the run root and phase spec before continuing.<br>Do not restart from phase one unless the owner asks.</p>
+      <p>After <code>IMPLEMENTAUDIT_PAUSE</code>, offer the interruption menu: Resume, Revise spec, Skip phase, or Stop.<br>Continue from the disk-backed paused step without re-printing phase start unless a new phase actually begins.</p>
+
+      <h2 id="sidecar-priority">Sidecar priority</h2>
+      <p>Optional sidecars can support maintainers, but live files, <code>AGENTS.md</code>, <code>Smoke A/B</code> evidence, and final audit remain higher-priority proof surfaces.<br>For the broader optional-tooling contract, see <a href="../optional-tooling/">Optional tooling</a>.</p>
+
+      <h2 id="agents-md-boundary">What belongs in <code>AGENTS.md</code></h2>
+      <p><code>AGENTS.md</code> is for durable repo-local operating rules and anti-repeat lessons.<br>It is not for raw terminal output, transient run state, unresolved brainstorm notes, or evidence that belongs in a run folder.</p>
+      <table>
+        <thead><tr><th>Put in <code>AGENTS.md</code></th><th>Keep in the run folder</th></tr></thead>
+        <tbody>
+          <tr><td>A repeated failure mode that future agents must avoid.</td><td>The one-time command output that proved the failure.</td></tr>
+          <tr><td>A stable authorization, package, generated-file, or release boundary.</td><td>Phase-local notes, temporary blockers, and smoke logs.</td></tr>
+          <tr><td>A concise rule with scope and rationale.</td><td>Raw screenshots, local paths, or chat-only context.</td></tr>
+        </tbody>
+      </table>

@@ -1,0 +1,23 @@
+<div class="page-eyebrow">Overview</div>
+      <h1>Success and proof</h1>
+      <p class="lead">This page shows what the reader gets at the end: inspectable artifacts, closure markers, or an honest handoff.</p>
+
+      <h2 id="success-markers">Done means audited, not stopped</h2>
+      <div class="panel"><span class="k-emerald"><code>AUDIT_VERIFY</code></span>&nbsp;&nbsp;per-phase status, deliverable existence, and trusted or rerun evidence reviewed<br><span class="k-emerald"><code>AUDIT_COMPLETE</code></span>&nbsp;&nbsp;every in-scope item has final checkable evidence<br><span class="k-cyan"><code>IMPLEMENTAUDIT_RUN_COMPLETE</code></span>&nbsp;&nbsp;valid only after <code>AUDIT_COMPLETE</code><br><span class="k-amber"><code>AUDIT_HANDOFF</code></span>&nbsp;&nbsp;not complete: blocker and next owner action are named</div>
+
+      <h2 id="proof-cards">Open the files. Check the markers.</h2>
+      <div class="proto-grid proof-card-grid">
+        <div class="proto-card"><div class="proto-icon">&#9638;</div><h3>A work record you can inspect</h3><p>Phased or larger work uses a run folder with plan, phase checklists, state, and evidence. Compact work may not have a run folder; locate its bound work record through the final response, final audit ledger, cited artifacts, and marker order.</p><p class="artifact-line"><span><b>Formal:</b><span class="artifact-value">planning + run tracking<br><code>L1</code>-<code>L2</code><br>work record / <code>run root</code></span></span><span><b>Artifact:</b><span class="artifact-value">roadmap<br>phase specs<br><code>STATE.md</code> when a run folder is used</span></span></p></div>
+        <div class="proto-card"><div class="proto-icon">A/B</div><h3>Before/after checks</h3><p>Each phase records the baseline before edits and compares the result after edits.</p><p class="artifact-line"><span><b>Formal:</b><span class="artifact-value">phase check loop<br><code>L3</code><br><code>Smoke A/B</code></span></span><span><b>Artifact:</b><span class="artifact-value">before/after evidence</span></span></p></div>
+        <div class="proto-card"><div class="proto-icon">&#9208;</div><h3>A failure log, not hidden retries</h3><p>When evidence fails, the log records class, cause, countermeasure, rerun evidence, escalation or handoff reason, and outcome.</p><p class="artifact-line"><span><b>Formal:</b><span class="artifact-value">failure interrupt<br><code>L4</code><br><code>Andon</code></span></span><span><b>Artifact:</b><span class="artifact-value">Andon log</span></span></p></div>
+        <div class="proto-card"><div class="proto-icon">&#10003;</div><h3>A final audit ledger, not vibes-based done</h3><p>The review artifact collects closure status, transcript markers, and evidence references so reviewers can inspect the run.</p><p class="artifact-line"><span><b>Formal:</b><span class="artifact-value">final fix-and-verify loop<br><code>L5</code><br><code>audit-fix</code></span></span><span><b>Artifact:</b><span class="artifact-value">closure record<br>(final audit ledger)</span></span></p></div>
+      </div>
+
+      <h2 id="review-checklist">Reviewer checklist</h2>
+      <ul>
+        <li>Open the bound work record; for compact work, use the final response, final audit ledger, cited artifacts, and marker order; for phased work, the run folder exists and can be opened.</li>
+        <li><code>STATE.md</code> records phase state and closure state when a run folder is used.</li>
+        <li>Before/after evidence exists for edited scope.</li>
+        <li>Failures, if any, have a recorded stop, cause, countermeasure, rerun, escalation, or handoff.</li>
+        <li><code>AUDIT_COMPLETE</code> appears before <code>IMPLEMENTAUDIT_RUN_COMPLETE</code>. If blocked, an honest handoff names the blocker instead.</li>
+      </ul>

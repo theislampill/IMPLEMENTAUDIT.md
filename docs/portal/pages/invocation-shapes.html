@@ -1,0 +1,78 @@
+<div class="page-eyebrow">Core model</div>
+      <h1>Invocation shapes</h1>
+      <p class="lead">How direct requests, handoffs, goals, and casual-build prompts become a bounded work record (audit object).</p>
+      <div class="hero-card"><h2>Any entry shape must become a bounded work record.</h2><p>A direct task, findings file, handoff, broad goal, or casual build request can start a run.<br>Before mutation, the agent still has to bind:</p><ul><li>scope</li><li>owner and source of truth</li><li>route</li><li>evidence</li><li>completion criteria.</li></ul></div>
+
+      <h2 id="the-four-common-shapes">The four common shapes</h2>
+      <div class="shape-command-grid">
+        <div class="shape-command">
+          <h3>Direct governance</h3>
+          <p>A concrete task, finding list, review, handoff, or bounded plan is already the work target.</p>
+          <div class="term-window example-console">
+            <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Direct governance</em><span class="term-badge">direct</span></div>
+            <pre><span class="k-cyan">/implementaudit fix the failing release test</span></pre>
+          </div>
+        </div>
+        <div class="shape-command">
+          <h3>Embedded governance</h3>
+          <p>A host goal, task, or plan already exists; IMPLEMENTAUDIT governs that target and does not print a second goal.</p>
+          <div class="term-window example-console">
+            <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Embedded governance</em><span class="term-badge">inside goal</span></div>
+            <pre><span class="k-cyan">/goal using /implementaudit, close the findings in AUDIT.md</span></pre>
+          </div>
+        </div>
+        <div class="shape-command">
+          <h3>Goal synthesis</h3>
+          <p>A broad goal becomes a bounded work record before execution or handoff.</p>
+          <div class="term-window example-console">
+            <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Goal synthesis</em><span class="term-badge">synthesize</span></div>
+            <pre><span class="k-cyan">/implementaudit audit this repo and give me the next best goal</span></pre>
+          </div>
+        </div>
+        <div class="shape-command">
+          <h3>Governed casual-build intake</h3>
+          <p>A normal build request is accepted only after it becomes scoped repo work with rollback and evidence.</p>
+          <div class="term-window example-console">
+            <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Casual-build intake</em><span class="term-badge">governed</span></div>
+            <pre><span class="k-cyan">/implementaudit add a login page to this app</span></pre>
+          </div>
+        </div>
+      </div>
+      <p>The shape changes where the work record comes from; it does not remove the gates.</p>
+
+      <h2 id="what-to-paste">What to paste</h2>
+      <p>For a first try, paste one concrete request in Claude Code or Codex from the repo you want changed.</p>
+      <div class="term-window example-console">
+        <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Concrete task</em><span class="term-badge">start</span></div>
+        <pre><span class="k-cyan">/implementaudit add tests for the login timeout bug</span></pre>
+      </div>
+      <p>If you already have findings, paste that as a separate request instead.</p>
+      <div class="term-window example-console">
+        <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Findings file</em><span class="term-badge">audit</span></div>
+        <pre><span class="k-cyan">/implementaudit close the findings in AUDIT.md</span></pre>
+      </div>
+
+      <h2 id="what-gets-written">What gets written</h2>
+      <ul>
+        <li>Bound work record (audit object), always.</li>
+        <li>Run folder under <code>.IMPLEMENTAUDIT/runs/&lt;task-slug&gt;-&lt;id&gt;/</code> for phased or larger work.</li>
+        <li><code>STATE.md</code>, roadmap, and phase checklists when a run folder is used.</li>
+        <li>Before/after evidence and final audit references for all runs.</li>
+        <li>Recorded checks before claiming progress.</li>
+      </ul>
+
+      <h2 id="source-surfaces">Source surfaces</h2>
+      <p><code>README.md</code> invocation modes, <code>skills/references/planning-depth.md</code>, <code>skills/references/goal-format.md</code>, and <code>skills/references/routing.md</code>.</p>
+
+      <h2 id="shape-comparison">Shape comparison</h2>
+      <div class="artifact-card-grid">
+        <section class="artifact-card"><h3>Direct governance</h3><dl><dt>Work record source</dt><dd>Concrete task, audit file, finding list, handoff, review, or bounded plan.</dd><dt>Goal emitted?</dt><dd>No.</dd><dt>Mutation allowed when</dt><dd>The request is bound to scope, owner/source, route, evidence, and completion criteria.</dd><dt>If blocked</dt><dd>Stop or hand off with the missing boundary named.</dd></dl></section>
+        <section class="artifact-card"><h3>Embedded governance</h3><dl><dt>Work record source</dt><dd>The host goal/task/plan already owns the work.</dd><dt>Goal emitted?</dt><dd>No nested goal.</dd><dt>Mutation allowed when</dt><dd>The existing work target is governed in place and the run can prove its gates.</dd><dt>If blocked</dt><dd>Return an honest handoff inside the outer goal.</dd></dl></section>
+        <section class="artifact-card"><h3>Goal synthesis</h3><dl><dt>Work record source</dt><dd>A broad idea, gap, or incomplete audit target.</dd><dt>Goal emitted?</dt><dd>Ready-to-paste only; the user must paste it unless already embedded.</dd><dt>Mutation allowed when</dt><dd>Only after the synthesized goal is accepted as a bounded work record.</dd><dt>If blocked</dt><dd>Emit a ready-to-paste handoff or ask only necessary intake questions.</dd></dl></section>
+        <section class="artifact-card"><h3>Governed casual-build intake</h3><dl><dt>Work record source</dt><dd>Normal repo-build intent from the user.</dd><dt>Goal emitted?</dt><dd>No by default.</dd><dt>Mutation allowed when</dt><dd>The request has been normalized into scoped repo work with rollback/defer and evidence plan.</dd><dt>If blocked</dt><dd>Refuse unsafe/non-repo input or hand off impossible scope.</dd></dl></section>
+      </div>
+      <p>A printed <code>/goal</code> line is handoff text, not automatic dispatch.<br>Slash commands fire only when the user submits them.</p>
+
+      <h2 id="boundary-that-does-not-change">Boundary that does not change</h2>
+      <p>Every shape still needs:</p>
+      <ul><li>owner and source of truth</li><li>evidence planning</li><li>before/after checks</li><li>visible failure handling</li><li>final audit closure or handoff.</li></ul>

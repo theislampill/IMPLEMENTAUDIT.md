@@ -1,0 +1,107 @@
+<div class="page-eyebrow">Core model</div>
+      <h1>Runtime model</h1>
+      <p class="lead">The L1-L5 labels are not five ordinary checklist steps.<br>IMPLEMENTAUDIT is a set of concentric controls:</p>
+      <ul class="lead-list">
+        <li>Planning frames the work.</li>
+        <li>Run-state control keeps the work record, and any run folder, coherent.</li>
+        <li>Phase loops execute bounded work.</li>
+        <li>Failures can interrupt any layer.</li>
+        <li>Final audit loops until closure or handoff is honest.</li>
+      </ul>
+
+      <div class="hero-card">
+        <h2>One sentence version</h2>
+        <p>Planner and phase work loop;<br>run-state control owns the work record, run folder when present, and phase cursor;<br>stop-the-line failure handling (Andon) is an interrupt loop;<br>final fix-and-verify (audit-fix) is the closure loop.</p>
+      </div>
+
+      <h2 id="audit-object-action-contract">Audit object/action contract</h2>
+      <p>The run works against a durable work record, not chat momentum.<br>It is the evidence-bearing audit surface that holds:</p>
+      <ul><li>the supplied request</li><li>findings</li><li>run folder when present</li><li>state</li><li>phases</li><li>failure rows</li><li>markers</li><li>closure status</li></ul>
+      <p>Maintainer formal name: <code>tdqyq-audit-object</code>.</p>
+      <p>Plain meaning: one bounded operation against the work record.<br>Formal term: <code>ydqyq-audit-action</code>.</p>
+      <ul><li>inspect</li><li>classify</li><li>compare</li><li>patch owner/source</li><li>rerun checks</li><li>close</li><li>refuse</li><li>hand off</li></ul>
+      <p>Implementation is allowed only through that audit object.</p>
+      <div class="result-grid">
+        <div><b>Work record</b><span>Plain meaning first: the run's evidence-bearing closure record.<br>Maintainer term: <code>tdqyq-audit-object</code>.</span></div>
+        <div><b>Audit action</b><span>Plain meaning first: an operation that reads or updates that record.<br>Maintainer term: <code>ydqyq-audit-action</code>.</span></div>
+      </div>
+
+      <h2 id="loops">The five controls</h2>
+      <table class="layer-table">
+        <colgroup><col class="layer-num"><col><col><col></colgroup>
+        <thead><tr><th>Layer</th><th>Plain meaning</th><th>Formal term</th><th>Evidence surface</th></tr></thead>
+        <tbody>
+          <tr><td>L1</td><td>Plan the work before dispatch</td><td>Planner loop</td><td>Roadmap and phase checklists</td></tr>
+          <tr><td>L2</td><td>Track the work record, run folder when present, and phase cursor</td><td>Run-state control / run root</td><td>Work record, run folder, and <code>STATE.md</code></td></tr>
+          <tr><td>L3</td><td>Execute each bounded phase</td><td>Phase loop</td><td>Phase spec, owner/source notes, before/after checks</td></tr>
+          <tr><td>L4</td><td>Stop on abnormal evidence</td><td>Andon interrupt</td><td>Failure log with class, cause, countermeasure, rerun evidence</td></tr>
+          <tr><td>L5</td><td>Close only after verification</td><td>Audit-fix closure loop</td><td>Final audit ledger and closure markers</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="run-records">What the run records</h2>
+      <div class="result-grid">
+        <div><b>State file</b><span><code>STATE.md</code> records status, phase, decisions, and Andon rows.</span></div>
+        <div><b>Run folder</b><span>The run folder (run root) keeps continuity outside chat memory for phased or larger work.</span></div>
+        <div><b>Phase checklist</b><span>The phase spec says what will be changed and how it will be verified.</span></div>
+        <div><b>Evidence files</b><span>Before/after checks (Smoke A/B) compare actual results.</span></div>
+      </div>
+      <div class="panel"><code>STATE.md</code><br>| Status | <span class="k-emerald"><code>IN_PHASE</code></span> |<br>| Phase | 2 of 5 |<br><br>Andon log<br>| class | cause | countermeasure | outcome |</div>
+
+      <h2 id="failure-interrupt">Failure interrupt</h2>
+      <p>When evidence fails, the run should become more visible, not more vague.<br>The failure path is:</p>
+      <ul><li>stop</li><li>classify</li><li>inspect cause</li><li>choose a bounded countermeasure</li><li>rerun the relevant check</li><li>escalate only with new evidence</li><li>hand off only when truly blocked</li></ul>
+      <div class="panel"><span class="k-amber"><code>ANDON_PROBE</code></span> classify and inspect cause<br><span class="k-amber">countermeasure</span> choose bounded fix<br><span class="k-emerald">rerun evidence</span> compare against baseline<br><span class="k-amber"><code>ANDON_ESCALATE</code></span> requires new evidence<br><span class="k-rose"><code>ANDON_HANDOFF</code></span> only when blocked</div>
+
+      <h2 id="routing">Routing choices are not loops</h2>
+      <p>Existing-repo repair uses the repair route (DMAIC). New-build or replacement work uses the design route (DMADV).<br>These are discipline choices for the work, not extra L-level loops and not authorization to mutate.</p>
+      <div class="result-grid">
+        <div><b>Existing repo repair</b><span>Repair route (<code>DMAIC</code>): define, measure, analyze, improve, control.</span></div>
+        <div><b>New build or replacement</b><span>Design route (<code>DMADV</code>): define, measure, analyze, design, verify.</span></div>
+      </div>
+
+      <h2 id="final-audit">Final audit loop</h2>
+      <p>The final audit checks the whole run after phase work.<br>If it finds gaps, the run writes <code>AUDIT_GAPS</code>, fixes with new evidence or a changed approach, and audits again.<br>It finishes with <code>AUDIT_COMPLETE</code> only when every in-scope item has final, checkable evidence; otherwise it leaves an honest handoff.</p>
+      <div class="panel"><span class="k-emerald"><code>AUDIT_START</code></span> includes <code>Skill version:</code><br><span class="k-emerald"><code>AUDIT_VERIFY</code></span> final evidence checked<br><span class="k-amber"><code>AUDIT_GAPS</code></span> continue with new evidence or changed approach<br><span class="k-amber"><code>AUDIT_WARNING</code></span> names heavy trust-prior reliance<br><span class="k-emerald"><code>AUDIT_COMPLETE</code></span> before <span class="k-cyan"><code>IMPLEMENTAUDIT_RUN_COMPLETE</code></span></div>
+
+      <h2 id="markers">Common transcript markers</h2>
+      <p>Markers make the runtime inspectable.<br>These common exact strings let validators and reviewers scan for order, failure handling, interruption, warning, and closure; the full contract lives in the transcript reference.</p>
+      <div class="chip-row">
+        <span class="chip"><code>IMPLEMENTAUDIT_PHASE_START</code></span>
+        <span class="chip"><code>IMPLEMENTAUDIT_PHASE_VERIFY</code></span>
+        <span class="chip chip-a"><code>ANDON_PROBE</code></span>
+        <span class="chip chip-a"><code>ANDON_ESCALATE</code></span>
+        <span class="chip chip-a"><code>ANDON_HANDOFF</code></span>
+        <span class="chip chip-a"><code>IMPLEMENTAUDIT_PAUSE</code></span>
+        <span class="chip chip-a"><code>AUDIT_WARNING</code></span>
+        <span class="chip chip-g"><code>AUDIT_COMPLETE</code></span>
+        <span class="chip chip-g"><code>IMPLEMENTAUDIT_RUN_COMPLETE</code></span>
+      </div>
+
+      <h2 id="marker-contract">Marker contract</h2>
+      <p>Markers are useful only when they preserve order and meaning.<br>A reviewer should be able to scan the transcript and see phase entry, verification, interruption, resume, audit gaps, and closure.</p>
+      <ul>
+        <li><code>IMPLEMENTAUDIT_PHASE_START</code> begins bounded phase work.</li>
+        <li><code>IMPLEMENTAUDIT_PHASE_VERIFY</code> records phase evidence before the phase can close.</li>
+        <li><code>IMPLEMENTAUDIT_PHASE_DONE</code> means the phase closed, not the whole run.</li>
+        <li><code>IMPLEMENTAUDIT_PAUSE</code> records a user interruption and requires resume from disk.</li>
+        <li><code>ANDON_PROBE</code>, <code>ANDON_ESCALATE</code>, and <code>ANDON_HANDOFF</code> make failure handling visible.</li>
+        <li><code>AUDIT_START</code> carries <code>Skill version:</code> so reviewers can spot installed-payload and repo-manifest skew.</li>
+        <li><code>AUDIT_WARNING</code> names confidence caveats such as <code>trust-prior &gt; 30%</code>.</li>
+        <li><code>AUDIT_GAPS</code> means the final audit found work still open; the run must fix with new evidence or hand off.</li>
+        <li><code>AUDIT_COMPLETE</code> must appear before <code>IMPLEMENTAUDIT_RUN_COMPLETE</code>.</li>
+      </ul>
+      <p>Runtime-supplied forbidden identity checks belong to release-gate hygiene, not normal docs prose.<br>The ledger records PASS/FAIL for those checks, and forbidden comparator terms must not be written into tracked files.</p>
+
+      <h2 id="mental-model">Mental model</h2>
+      <p>Think of L1, L2, and L3 as nested controls rather than one flat pipeline:</p>
+      <ul>
+        <li>L1 frames the work.</li>
+        <li>L2 preserves run state and continuity.</li>
+        <li>L3 loops through bounded phase execution.</li>
+        <li>L4 is an interrupt that can stop any layer.</li>
+        <li>L5 is the closure loop that keeps auditing until checkable closure or handoff.</li>
+      </ul>
+
+      <h2 id="controls-that-are-not-loops">Controls that are not loops</h2>
+      <p><code>Smoke A/B</code> are evidence checks inside phase execution.<br><code>DMAIC</code>/<code>DMADV</code> are routing disciplines.<br>Authorization checks are gates.<br>Treating all of these as the same thing makes the model harder to trust.</p>

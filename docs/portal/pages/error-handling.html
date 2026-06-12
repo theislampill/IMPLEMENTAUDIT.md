@@ -1,0 +1,96 @@
+<div class="page-eyebrow">Evidence</div>
+      <h1>Error handling</h1>
+      <p class="lead">What happens when evidence fails: stop, classify, inspect, countermeasure, rerun, escalate, or hand off.</p>
+      <div class="hero-card"><h2>Failure is an interrupt, not a hidden retry loop.</h2><p>The ordinary rule is stop the line.<br>The formal rule is Andon:</p><ul><li>classify the abnormality</li><li>inspect cause</li><li>choose a bounded countermeasure</li><li>rerun the relevant evidence</li><li>resume, escalate with new evidence, or hand off when blocked</li></ul></div>
+
+      <h2 id="failure-path">Failure path</h2>
+      <ol>
+        <li>Evidence fails.</li>
+        <li>Stop the line.</li>
+        <li>Classify abnormality.</li>
+        <li>Inspect cause.</li>
+        <li>Choose a bounded countermeasure.</li>
+        <li>Rerun the relevant check.</li>
+      </ol>
+
+      <h2 id="probe-before-fix">Probe before fix</h2>
+      <p>A visible symptom is not enough permission to patch blindly.<br>The run must first write an <code>ANDON_PROBE</code> with the:</p>
+      <ul>
+        <li>abnormality class</li>
+        <li>likely cause</li>
+        <li>inspected source</li>
+        <li>next bounded countermeasure.</li>
+      </ul>
+
+      <h2 id="escalation">Escalation</h2>
+      <p>Escalation requires <code>New evidence:</code> or <code>Changed approach:</code>.<br>If neither can be truthfully filled, the run evaluates handoff conditions instead of pretending that another retry is meaningful.<br>A same-class recurrence must cite prior classed Andon rows before claiming recurrence.</p>
+
+      <h2 id="handoff">Handoff</h2>
+      <p>Handoff happens only when actually blocked.<br>It names the blocker and the smallest next owner action.<br>It is not fake completion.</p>
+
+      <h2 id="source-surfaces">Source surfaces</h2>
+      <p><code>skills/templates/PROTOCOL.md</code> Andon sections and <code>skills/references/transcript-contract.md</code>.</p>
+
+      <h2 id="andon-event-fields">Andon event fields</h2>
+      <p>Each failure row must name:</p>
+      <ul><li>the phase</li><li>abnormality class</li><li>failing criterion/command/artifact</li><li>owner/source</li><li>containment decision</li><li>inspected cause</li><li>selected countermeasure</li><li>rerun evidence required</li><li>rerun outcome</li><li>escalation or handoff reason</li><li>smallest next owner action when blocked</li></ul>
+
+      <h2 id="marker-table">Common marker table</h2>
+      <p>This table highlights common failure, pause, and warning markers; it is not the complete transcript contract.</p>
+      <div class="marker-cards">
+        <section>
+          <h3><code>ANDON_PROBE</code></h3>
+          <p><b>Plain event:</b> probe the failure.</p>
+          <p><b>Fires when:</b> the first abnormality of any class appears.</p>
+          <p><b>Must record:</b></p>
+          <ul><li>class</li><li>failing evidence</li><li>owner/source</li><li>containment decision</li><li>proportional cause/reflection notes (<code>5 Whys</code>/<code>Hansei</code> if needed)</li><li>selected countermeasure</li><li>rerun evidence</li></ul>
+        </section>
+        <section>
+          <h3><code>ANDON_ESCALATE</code></h3>
+          <p><b>Plain event:</b> escalate with evidence.</p>
+          <p><b>Fires when:</b> countermeasure failure, same-class recurrence, unclear root cause, scope expansion, or owner/source dispute blocks progress.</p>
+          <p><b>Must record:</b></p>
+          <ul><li>prior probe history</li><li>why the countermeasure failed</li><li>deeper cause analysis</li><li><code>New evidence:</code> or <code>Changed approach:</code></li><li>chosen split, reframe, rollback, owner decision, or fix-spec path</li></ul>
+        </section>
+        <section>
+          <h3><code>ANDON_HANDOFF</code></h3>
+          <p><b>Plain event:</b> hand off honestly.</p>
+          <p><b>Fires when:</b> closure is blocked by owner decision, unsafe scope, missing authorization, external dependency, irreproducibility, missing required access/tooling, or no bounded countermeasure.</p>
+          <p><b>Must record:</b></p>
+          <ul><li>probe and escalation history</li><li>blocking condition</li><li>remaining blocker</li><li>smallest next concrete action</li></ul>
+          <p>Do not pair this with run completion.</p>
+        </section>
+        <section>
+          <h3><code>IMPLEMENTAUDIT_PAUSE</code></h3>
+          <p><b>Plain event:</b> pause after a user interruption.</p>
+          <p><b>Fires when:</b> a user message interrupts a phase in progress.</p>
+          <p><b>Must record:</b></p>
+          <ul><li>active phase</li><li>current state file</li><li>resume point</li><li>next reread action</li></ul>
+          <p><b>Resume menu:</b> Resume, Revise spec, Skip phase, or Stop.<br>Resume from disk and the paused step; do not re-print phase start unless a new phase actually starts.</p>
+        </section>
+        <section>
+          <h3><code>AUDIT_WARNING</code></h3>
+          <p><b>Plain event:</b> name a confidence caveat.</p>
+          <p><b>Fires when:</b> the final audit has a warning condition such as heavy trust-prior reliance.</p>
+          <p><b>Must record:</b></p>
+          <ul><li>warning condition</li><li>affected evidence</li><li>remaining risk</li><li>whether closure is still valid</li></ul>
+        </section>
+      </div>
+
+      <h2 id="official-abnormality-classes">Official abnormality classes</h2>
+      <p>The ten abnormality classes are:</p>
+      <ul>
+        <li><code>failed-criterion</code></li>
+        <li><code>regression</code></li>
+        <li><code>hung-command</code></li>
+        <li><code>substituted-command</code></li>
+        <li><code>owner-unclear</code></li>
+        <li><code>generated-artifact-mismatch</code></li>
+        <li><code>stale-sidecar</code></li>
+        <li><code>policy-conflict</code></li>
+        <li><code>impossible-criterion</code></li>
+        <li><code>evidence-mismatch</code></li>
+      </ul>
+
+      <h2 id="try-count-boundary">Try-count boundary</h2>
+      <p>There is no arbitrary attempt cap.<br>Escalation is driven by evidence and same-class recurrence.<br>Handoff is driven by a real blocker.<br>A transcript with <code>ANDON_HANDOFF</code> must not also claim <code>IMPLEMENTAUDIT_RUN_COMPLETE</code>.</p>

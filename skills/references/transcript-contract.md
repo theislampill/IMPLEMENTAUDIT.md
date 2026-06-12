@@ -184,6 +184,7 @@ transcripts that later reach AUDIT_COMPLETE or an audited handoff.
 AUDIT_START
 AUDIT_VERIFY
 AUDIT_GAPS
+AUDIT_WARNING
 AUDIT_COMPLETE
 AUDIT_HANDOFF
 IMPLEMENTAUDIT_RUN_COMPLETE
@@ -200,6 +201,9 @@ Rules:
 - `AUDIT_HANDOFF` appears only when gaps, blockers, or handoff-required caveats
   remain.
 - `AUDIT_HANDOFF` must not appear with `IMPLEMENTAUDIT_RUN_COMPLETE`.
+- `AUDIT_WARNING` names a confidence caveat that did not block closure, such
+  as accepted earlier evidence exceeding the trust-prior threshold. It is not
+  a completion marker and must not hide weakened evidence.
 - `IMPLEMENTAUDIT_RUN_COMPLETE` appears only after final audit has closed every
   in-scope ledger item terminally.
 - If the final audit finds gaps, use an audit-fix round or handoff instead of

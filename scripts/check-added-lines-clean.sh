@@ -18,7 +18,7 @@ trap 'rm -f "$added"' EXIT
 
 is_skipped_path() {
   case "$1" in
-    tests/*|fixtures/*|docs/audits/*|scripts/check-added-lines-clean.sh)
+    tests/*|fixtures/*|docs/audits/*|scripts/check-added-lines-clean.sh|*__pycache__*|*.pyc)
       return 0
       ;;
     *)
@@ -36,7 +36,9 @@ append_added_lines_for_file() {
     git rev-parse --verify --quiet "${baseline}^{commit}" >/dev/null 2>&1
   then
     if git ls-files --others --exclude-standard -- "$file" | grep -Fx "$file" >/dev/null 2>&1; then
-      [ -f "$file" ] && LC_ALL=C grep -Iq . "$file" 2>/dev/null && cat -- "$file" >>"$added"
+      if [ -f "$file" ] && LC_ALL=C grep -Iq . "$file" 2>/dev/null; then
+        cat -- "$file" >>"$added"
+      fi
     else
       git diff "$baseline" -- "$file" 2>/dev/null |
         grep '^+' |

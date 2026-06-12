@@ -1,0 +1,80 @@
+<div class="page-eyebrow">Repository</div>
+      <h1>Package contents</h1>
+      <p class="lead">What ships in the skill package and which scripts support validation.</p>
+      <div class="hero-card"><h2>The skill package is smaller than the repo.</h2><p>The shipped payload is the skill, references, templates, helper scripts, and plugin metadata.<br>Repo docs, tests, fixtures, release ledgers, generated portal output, and local run artifacts are maintenance material unless the package boundary changes.</p></div>
+
+      <h2 id="contents">Contents</h2>
+      <p>The package includes <code>SKILL.md</code>, <code>references/</code>, <code>templates/</code>, helper <code>scripts/</code>, and plugin metadata.<br>In the repository those files live under <code>skills/</code>; in the built <code>IMPLEMENTAUDIT.skill</code> archive the skill payload is at archive root.<br><code>.claude-plugin/plugin.json</code> uses <code>skills: "./"</code> for that archive-root layout.</p>
+
+      <h2 id="scripts">Shipped scripts</h2>
+      <p>These helper scripts live in the repo under <code>skills/scripts/</code> and ship in <code>IMPLEMENTAUDIT.skill</code> as root <code>scripts/</code>.</p>
+      <table><thead><tr><th>Script</th><th>Plain role</th><th>Typical loop</th></tr></thead><tbody>
+        <tr><td><code>claim-run.sh</code></td><td>Atomically create a namespaced run folder; may advise a gitignore update but does not write it.</td><td>L2 run-state control</td></tr>
+        <tr><td><code>detect-env.sh</code></td><td>Record host/tool orientation.</td><td>L1/L2 planning</td></tr>
+        <tr><td><code>detect-stack.sh</code></td><td>Inspect repo stack and owner/source candidates.</td><td>L1/L3 planning and phase work</td></tr>
+        <tr><td><code>repo-state.sh</code></td><td>Compare deliverable changes while excluding run-root evidence.</td><td>L3/L5 evidence</td></tr>
+        <tr><td><code>summarize-repo.sh</code></td><td>Summarize repo surfaces for brownfield inspection and mandatory-command candidates.</td><td>L1 planning</td></tr>
+        <tr><td><code>validate-audit-spec.sh</code></td><td>Check audit/goal/slice specs for owner/source, evidence, and rollback.</td><td>L1/L2 gates</td></tr>
+        <tr><td><code>validate-phase.sh</code></td><td>Check a filled phase spec before dispatch.</td><td>L3 phase gate</td></tr>
+        <tr><td><code>validate-run-root.sh</code></td><td>Check run-folder structure, status enum, Andon rows, and roadmap completeness during resume or final review.</td><td>L2/L5 closure</td></tr>
+        <tr><td><code>custody-append.sh</code></td><td>Absent-safe optional ActiveGraph custody append when authorized.</td><td>L4/L5 optional custody</td></tr>
+      </tbody></table>
+
+      <h2 id="script-path-boundary">Script path boundary</h2>
+      <p>Packaged helper invocations should resolve through <code>${IMPLEMENTAUDIT_SKILL_DIR:-skills}/scripts/&lt;helper&gt;</code>.<br>Before installed-package use, resolve and export <code>IMPLEMENTAUDIT_SKILL_DIR</code> to the actual loaded skill directory containing <code>SKILL.md</code>, <code>scripts/</code>, <code>references/</code>, and <code>templates/</code>; the <code>:-skills</code> fallback keeps source-checkout commands working.<br>The repository root, the <code>IMPLEMENTAUDIT.skill</code> archive file, and <code>IMPLEMENTAUDIT_BASE</code> are not helper directories. <code>IMPLEMENTAUDIT_BASE</code> is the run-root base when used.</p>
+
+      <h2 id="helper-failure">Helper failure semantics</h2>
+      <p>Helpers are evidence aids, not authority.<br>If a helper is missing, fails, or cannot run in the host shell, the agent must record that fact, classify whether it blocks the current phase, and use the Markdown/run-folder fallback when possible.</p>
+      <ul>
+        <li>Missing optional helper: record absence and continue with manual evidence when the phase can still be verified.</li>
+        <li>Failed required helper: enter stop-the-line handling, inspect cause, and rerun only after a bounded countermeasure.</li>
+        <li>Host incompatibility: hand off with the exact command, error, environment, and next owner action when no safe fallback exists.</li>
+      </ul>
+      <p>Release and package verification scripts live at the repo root; they are maintenance checks, not shipped runtime helpers.</p>
+
+      <h2 id="templates">Templates</h2>
+      <div class="artifact-card-grid">
+        <section class="artifact-card"><h3><code>STATE.md</code></h3><dl><dt>Owner</dt><dd>Runtime</dd><dt>Purpose</dt><dd>Tracks status, current phase, decisions, failure rows, and closure state for a phased run.</dd><dt>Proof boundary</dt><dd>Run-state record; it does not prove the product change by itself.</dd></dl></section>
+        <section class="artifact-card"><h3><code>ROADMAP.md</code></h3><dl><dt>Owner</dt><dd>Planner</dd><dt>Purpose</dt><dd>Names phases, dependencies, dispatch order, milestones, and handoff shape.</dd><dt>Proof boundary</dt><dd>Planning evidence, not immutable scope or completion proof.</dd></dl></section>
+        <section class="artifact-card"><h3><code>THINKING.md</code></h3><dl><dt>Owner</dt><dd>Runtime</dd><dt>Purpose</dt><dd>Captures reviewable route, risks, owner/source notes, evidence strategy, and quality route.</dd><dt>Proof boundary</dt><dd>Reasoning record; final claims still need checks and audit evidence.</dd></dl></section>
+        <section class="artifact-card"><h3><code>PROTOCOL.md</code></h3><dl><dt>Owner</dt><dd>Runtime</dd><dt>Purpose</dt><dd>Defines the phase loop, resume rules, Andon escalation, continuity decisions, and final audit procedure.</dd><dt>Proof boundary</dt><dd>Rule surface; the transcript and run files prove whether it was followed.</dd></dl></section>
+        <section class="artifact-card"><h3><code>sidecars.md</code></h3><dl><dt>Owner</dt><dd>Runtime</dd><dt>Purpose</dt><dd>Records optional Graphify and ActiveGraph availability, authorization, query/custody state, and Markdown fallback.</dd><dt>Proof boundary</dt><dd>Orientation and custody evidence only; live files win on conflict.</dd></dl></section>
+        <section class="artifact-card"><h3><code>tools.md</code></h3><dl><dt>Owner</dt><dd>Runtime</dd><dt>Purpose</dt><dd>Records skill-dir resolution, helper availability, shell/runtime checks, and optional tool status.</dd><dt>Proof boundary</dt><dd>Detection evidence only; missing optional tools are not a failure.</dd></dl></section>
+        <section class="artifact-card"><h3><code>context.md</code></h3><dl><dt>Owner</dt><dd>Runtime</dd><dt>Purpose</dt><dd>Records baseline ref, working-tree state, invocation shape, route, and repo instructions read.</dd><dt>Proof boundary</dt><dd>Intake context; live repository files and applicable <code>AGENTS.md</code> outrank it.</dd></dl></section>
+        <section class="artifact-card"><h3><code>phase-goal.txt</code></h3><dl><dt>Owner</dt><dd>Planner</dd><dt>Purpose</dt><dd>Provides the per-phase work, criteria, evidence, rollback/defer path, and command skeleton.</dd><dt>Proof boundary</dt><dd>Phase dispatch scaffold, not authorization to widen scope.</dd></dl></section>
+        <section class="artifact-card"><h3><code>child-agent-report.md</code></h3><dl><dt>Owner</dt><dd>Reviewer</dd><dt>Purpose</dt><dd>Shapes read-only adversarial review output into findings, evidence, risks, and non-authority boundaries.</dd><dt>Proof boundary</dt><dd>Review input only; the parent run still verifies against source evidence.</dd></dl></section>
+      </div>
+      <p>Graphify and ActiveGraph are not required package dependencies; their optional boundary is documented in <a href="../optional-tooling/">Optional tooling</a>.</p>
+
+      <h2 id="source-surfaces">Source surfaces</h2>
+      <p><code>skills/scripts/*</code> and <code>skills/templates/*</code> describe shipped runtime surfaces.<br>Root <code>scripts/*</code> describe repo-only validation and release maintenance surfaces.</p>
+      <p>Canonical runtime behavior lives in <code>skills/SKILL.md</code> and the supporting references, templates, and helper scripts.<br>Do not recreate a tracked root <code>IMPLEMENTAUDIT.md</code> file; the package artifact is <code>IMPLEMENTAUDIT.skill</code>.<br><code>AUDIT.md</code> inputs remain valid work-record artifacts when a run points at findings.</p>
+
+      <h2 id="package-tree">Package tree</h2>
+      <pre class="panel"><code>IMPLEMENTAUDIT.skill/
+SKILL.md
+references/
+templates/
+scripts/
+.claude-plugin/
+.claude-plugin/plugin.json  (skills: "./")</code></pre>
+      <p>The archive must not contain a nested <code>skills/</code> directory.<br>The release builder rejects <code>skills/SKILL.md</code> in the archive because host import expects <code>SKILL.md</code> at archive root.</p>
+
+      <h2 id="repo-only-material">Repo-only material</h2>
+      <p><code>README.md</code>, <code>CHANGELOG.md</code>, <code>fixtures/</code>, <code>tests/</code>, release ledgers, generated portal output, and local run artifacts are repo-side maintenance material unless a future owner decision changes the package boundary.</p>
+      <p>The marketplace entry at <code>.claude-plugin/marketplace.json</code> is package metadata.<br>Do not claim marketplace behavior was verified unless that host path was actually tested.</p>
+      <p>No <code>LICENSE</code> file exists until the owner selects a license and supplies license evidence.</p>
+
+      <h2 id="release-maintenance-gates">Release maintenance gates</h2>
+      <p>Release checks are repo-maintenance evidence, not permission to publish.</p>
+      <ul>
+        <li><code>build-release-asset.sh</code> builds the archive and enforces the package allowlist.</li>
+        <li><code>verify-package.sh</code> runs the broad repository validation suite.</li>
+        <li><code>tests/release-asset-install.test.sh</code> and <code>tests/release-asset-install-claude.test.sh</code> are separate release-gate checks; each proves only the checked Codex or Claude extraction/copy path unless live host load is also verified.</li>
+        <li><code>check-no-terminal-cap.sh</code> guards terminal-capability overclaims.</li>
+        <li><code>grade-agent-eval-transcript.sh</code> checks transcript behavior against adversarial fixtures.</li>
+        <li>Identity, release asset, checksum, publication, and provenance gates remain separate owner decisions.</li>
+      </ul>
+
+      <h2 id="package-boundary">Package boundary</h2>
+      <p>Do not claim a repo-only document or generated portal output shipped in the skill package unless the release asset readback shows it.<br>A checksum match checks artifact integrity. A published checksum manifest can support a separately authorized release provenance gate, but it is not a signature, SBOM, marketplace check, install check, or host-load proof.</p>

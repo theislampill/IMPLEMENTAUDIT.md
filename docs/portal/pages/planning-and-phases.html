@@ -1,0 +1,71 @@
+<div class="page-eyebrow">Core model</div>
+      <h1>Planning and phases</h1>
+      <p class="lead">How a request becomes a roadmap, phase specs, ownership and source-of-truth notes, and acceptance checks.</p>
+      <div class="hero-card"><h2>The plan has to survive outside the chat.</h2><p>The planner writes a roadmap and phase files so another reader can see:</p><ul><li>what the agent promised</li><li>why it belongs there</li><li>which checks prove it</li><li>what happens if a phase cannot close.</li></ul></div>
+
+      <h2 id="planning-depth">Planning depth</h2>
+      <p>Small tasks can use a compact plan.<br>Larger or riskier tasks need a deeper plan before dispatch.<br>The purpose is bounded work and evidence, not ceremony.</p>
+      <p>The planner loop frames the request, writes the roadmap, self-critiques, and only then dispatches phase work.</p>
+
+      <h2 id="phase-spec-anatomy">Phase spec anatomy</h2>
+      <p>A phase spec names:</p>
+      <ul><li>the work</li><li>why it exists</li><li>acceptance criteria</li><li>mandatory commands</li><li>evidence required in transcript</li><li>rollback/defer path</li><li>optional sidecar status</li><li>cleanliness notes.</li></ul>
+      <p>The phase spec is a file the agent can reopen from disk; it is not just a chat summary.</p>
+
+      <h2 id="owner-source-discipline">Owner/source discipline</h2>
+      <p>Each change needs an owner and source of truth.<br>If a generated file is involved, the phase should identify the generator rather than hand-editing stale output.</p>
+
+      <h2 id="source-surfaces">Source surfaces</h2>
+      <p><code>skills/references/planning-depth.md</code>, <code>skills/references/phase-design.md</code>, <code>skills/templates/ROADMAP.md</code>, and <code>skills/templates/phase-goal.txt</code>.</p>
+
+      <h2 id="phase-file-responsibilities">Phase file responsibilities</h2>
+      <p>A phase file should be reopenable evidence.<br>It should name:</p>
+      <ul><li>work</li><li>owner/source</li><li>route</li><li>acceptance criteria</li><li>mandatory checks</li><li>before evidence</li><li>after evidence</li><li>rollback or defer path</li><li>sidecar status if relevant.</li></ul>
+
+      <h2 id="before-dispatch">Before dispatch</h2>
+      <p>The planner should self-critique phase atomicity and criteria falsifiability.<br>A preflight failure is <code>PREFLIGHT_RED</code>, not a bypass.<br>It must be classified before dispatch continues.</p>
+      <p>After plan review, the planner can offer owner-choice handoff options: Start now, Adjust assumption, Tweak a phase, Restructure phases, or Abort.<br>Those are planner handoff and owner-decision options only; they do not authorize execution, install, release, publication, or provenance by themselves.</p>
+      <p>Stage 7 prints ready-to-paste handoff text only.<br>Slash commands fire only when the user submits or pastes the printed line.</p>
+      <p>Dispatch prep should leave inspectable evidence:</p>
+      <ul>
+        <li><code>STATE.md</code> is set to <code>READY_TO_DISPATCH</code> with <code>Current phase: 1</code>.</li>
+        <li>The baseline reference is recorded before mutation.</li>
+        <li><code>PROTOCOL.md</code> is copied into the run folder.</li>
+        <li>The path and SHA256 of <code>${IMPLEMENTAUDIT_SKILL_DIR:-skills}/scripts/repo-state.sh</code> are recorded in <code>THINKING.md</code> before dispatch.</li>
+        <li>Every phase spec exists and validates before dispatch.</li>
+        <li>Mandatory commands are deduplicated so the run checks evidence, not ceremony.</li>
+      </ul>
+
+      <h2 id="per-phase-execution-loop">Per-phase execution loop</h2>
+      <p>Each phase repeats the same evidence shape before the run advances.</p>
+      <ol>
+        <li>Open the phase spec from disk.</li>
+        <li>Validate the phase with <code>validate-phase.sh</code> when available.</li>
+        <li>Record before evidence (Smoke A).</li>
+        <li>Edit only the owner/source files for the phase.</li>
+        <li>Record after evidence (Smoke B).</li>
+        <li>Check cleanliness and unrelated mutations.</li>
+        <li>Record <code>CONTINUITY_DECISION</code> and <code>AGENTS_UPDATE_DECISION</code> if relevant.</li>
+        <li>Advance <code>STATE.md</code> or hand off with the blocker.</li>
+      </ol>
+
+      <h2 id="goal-synthesis-stages">Goal synthesis stages</h2>
+      <p>When the input is not already a bounded audit target, the planner uses a native Stage 0-7 contract before it hands off or dispatches work.<br>These stages are for creating a safe work record, not for adding ceremony.</p>
+      <table class="stage-table">
+        <colgroup><col class="stage-num"><col class="stage-purpose"><col></colgroup>
+        <thead><tr><th>Stage</th><th>Plain purpose</th><th>Evidence or marker</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>Context/tool/memory detection: detect context, tools, repo state, and applicable instructions.</td><td><code>context.md</code> and <code>tools.md</code></td></tr>
+          <tr><td>1</td><td>Intake: normalize the request and ask only necessary intake questions.</td><td>bounded audit object</td></tr>
+          <tr><td>2</td><td>Recon / Gemba: inspect real files before promising a plan.</td><td>owner/source notes</td></tr>
+          <tr><td>3</td><td>Deep think: choose repair/design/mixed route and evidence needs.</td><td>route note</td></tr>
+          <tr><td>4</td><td>Phase decomposition: draft the roadmap and phase checklist.</td><td><code>ROADMAP.md</code>, phase spec</td></tr>
+          <tr><td>5</td><td>Write run-root artifacts: check scope, rollback, sidecars, and generated-artifact ownership.</td><td><code>STATE.md</code>, <code>PROTOCOL.md</code>, constraints and rollback notes</td></tr>
+          <tr><td>6</td><td>Plan review + self-critique: check atomicity and falsifiable criteria, then surface owner-choice handoff options.</td><td><code>Self-critique:</code> and owner choice</td></tr>
+          <tr><td>6.5</td><td>Pre-flight smoke check: run deduplicated mandatory checks before dispatch.</td><td><code>PREFLIGHT_GREEN</code> or <code>PREFLIGHT_RED</code></td></tr>
+          <tr><td>7</td><td>Print one ready-to-paste handoff only when dispatch is safe; it does not automatically dispatch, and the user must paste a <code>/goal</code> line for it to run.</td><td>ready-to-paste goal or audited handoff</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="preflight-red">Preflight red is not permission to wing it</h2>
+      <p><code>PREFLIGHT_RED</code> re-enters planning.<br>Dispatch may continue only when the broken baseline is the phase target and the owner accepts that risk.<br>Unrelated or unclear baseline failures require stop-the-line handling or an owner decision.</p>

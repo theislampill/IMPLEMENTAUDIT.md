@@ -1,0 +1,466 @@
+{
+  "release": {
+    "milestone": "v0.2.9.0",
+    "manifest_version": "0.2.9",
+    "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/tag/v0.2.9.0",
+    "audit_ledger_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/v0.2.9.0-andon-escalation-jidoka-repair.md",
+    "checksum_boundary": "checksum manifest verifies artifact integrity and may support a separately authorized release provenance gate"
+  },
+  "semantic_sources": [
+    "README.md",
+    "AGENTS.md",
+    "skills/SKILL.md",
+    "skills/templates/PROTOCOL.md",
+    "skills/templates/STATE.md",
+    "skills/templates/THINKING.md",
+    "skills/references/transcript-contract.md",
+    "skills/references/goal-format.md",
+    "skills/references/routing.md",
+    "skills/references/phase-design.md",
+    "skills/references/planning-depth.md",
+    "skills/references/repo-state-comparison.md",
+    "skills/references/lean-operating-discipline.md"
+  ],
+  "nav": [
+    {
+      "group": "Overview",
+      "pages": [
+        "overview",
+        "plain-english",
+        "what-it-is",
+        "workflow",
+        "success-and-proof"
+      ]
+    },
+    {
+      "group": "First run",
+      "pages": [
+        "quick-start",
+        "installation",
+        "possible-endings",
+        "comparison"
+      ]
+    },
+    {
+      "group": "Audience",
+      "pages": [
+        "for-new-users",
+        "for-agents-and-operators",
+        "for-auditors-and-maintainers"
+      ]
+    },
+    {
+      "group": "Core model",
+      "pages": [
+        "runtime-model",
+        "audit-gate-model",
+        "invocation-shapes",
+        "usage-examples",
+        "planning-and-phases",
+        "routing",
+        "operating-method"
+      ]
+    },
+    {
+      "group": "Evidence",
+      "pages": [
+        "state-and-artifacts",
+        "repo-state-comparison",
+        "error-handling",
+        "evidence-boundaries",
+        "optional-tooling",
+        "child-agent-review-loops"
+      ]
+    },
+    {
+      "group": "Closure",
+      "pages": [
+        "completion-semantics",
+        "continuity-and-sidecars"
+      ]
+    },
+    {
+      "group": "Repository",
+      "pages": [
+        "repo-layout",
+        "package-contents",
+        "audit-trail"
+      ]
+    },
+    {
+      "group": "References",
+      "pages": [
+        "terminology",
+        "reference-index"
+      ]
+    }
+  ],
+  "pages": {
+    "overview": {
+      "title": "Start",
+      "path": "",
+      "kind": "overview",
+      "source": "overview.html",
+      "sources": [
+        "README.md",
+        "skills/SKILL.md",
+        "skills/templates/STATE.md"
+      ]
+    },
+    "plain-english": {
+      "title": "Plain English",
+      "path": "overview/plain-english/",
+      "source": "plain-english.html",
+      "sources": [
+        "README.md",
+        "skills/SKILL.md",
+        "skills/templates/STATE.md"
+      ]
+    },
+    "what-it-is": {
+      "title": "What it is",
+      "path": "overview/what-it-is/",
+      "source": "what-it-is.html",
+      "sources": [
+        "README.md",
+        "AGENTS.md",
+        ".claude-plugin/plugin.json",
+        "skills/SKILL.md",
+        "skills/references/routing.md"
+      ]
+    },
+    "workflow": {
+      "title": "Workflow",
+      "path": "overview/workflow/",
+      "source": "workflow.html",
+      "sources": [
+        "skills/SKILL.md",
+        "skills/templates/PROTOCOL.md",
+        "skills/references/routing.md"
+      ]
+    },
+    "success-and-proof": {
+      "title": "Success and proof",
+      "path": "overview/proof/",
+      "source": "success-and-proof.html",
+      "sources": [
+        "skills/references/transcript-contract.md",
+        "skills/templates/STATE.md",
+        "docs/audits/v0.2.9.0-andon-escalation-jidoka-repair.md"
+      ]
+    },
+    "quick-start": {
+      "title": "Quick Start",
+      "path": "start-here/quick-start/",
+      "source": "quick-start.html",
+      "sources": [
+        "README.md",
+        "skills/SKILL.md",
+        "skills/templates/STATE.md",
+        "skills/templates/PROTOCOL.md"
+      ]
+    },
+    "installation": {
+      "title": "Installation",
+      "path": "start-here/installation/",
+      "source": "installation.html",
+      "sources": [
+        "README.md",
+        ".claude-plugin/plugin.json",
+        "scripts/install-codex-from-release.sh",
+        "scripts/install-claude-from-release.sh",
+        "scripts/write-release-checksums.sh"
+      ]
+    },
+    "possible-endings": {
+      "title": "Possible endings",
+      "path": "start-here/possible-endings/",
+      "source": "possible-endings.html",
+      "sources": [
+        "skills/SKILL.md",
+        "skills/references/transcript-contract.md",
+        "skills/templates/STATE.md"
+      ]
+    },
+    "for-new-users": {
+      "title": "For new users",
+      "path": "audience/for-new-users/",
+      "source": "for-new-users.html",
+      "sources": [
+        "README.md",
+        "skills/SKILL.md",
+        "skills/templates/STATE.md"
+      ]
+    },
+    "for-agents-and-operators": {
+      "title": "For agents and operators",
+      "path": "audience/for-agents-and-operators/",
+      "source": "for-agents-and-operators.html",
+      "sources": [
+        "skills/SKILL.md",
+        "skills/templates/PROTOCOL.md",
+        "skills/references/planning-depth.md",
+        "skills/references/routing.md"
+      ]
+    },
+    "for-auditors-and-maintainers": {
+      "title": "For auditors and maintainers",
+      "path": "audience/for-auditors-and-maintainers/",
+      "source": "for-auditors-and-maintainers.html",
+      "sources": [
+        "AGENTS.md",
+        "README.md",
+        "docs/audits/INDEX.md",
+        "scripts/verify-package.sh",
+        "tests/docs-portal.test.sh",
+        "skills/templates/STATE.md",
+        "skills/references/transcript-contract.md",
+        "skills/references/repo-state-comparison.md"
+      ]
+    },
+    "runtime-model": {
+      "title": "Runtime model",
+      "path": "reference/runtime-model/",
+      "source": "runtime-model.html",
+      "sources": [
+        "README.md",
+        "skills/SKILL.md",
+        "skills/templates/PROTOCOL.md",
+        "skills/references/transcript-contract.md"
+      ]
+    },
+    "audit-gate-model": {
+      "title": "Audit gate model",
+      "path": "reference/audit-gate-model/",
+      "source": "audit-gate-model.html",
+      "sources": [
+        "README.md",
+        "skills/SKILL.md",
+        "skills/templates/PROTOCOL.md",
+        "skills/references/transcript-contract.md"
+      ]
+    },
+    "invocation-shapes": {
+      "title": "Invocation shapes",
+      "path": "reference/invocation-shapes/",
+      "source": "invocation-shapes.html",
+      "sources": [
+        "skills/SKILL.md",
+        "skills/references/goal-format.md",
+        "skills/templates/STATE.md"
+      ]
+    },
+    "planning-and-phases": {
+      "title": "Planning and phases",
+      "path": "reference/planning-and-phases/",
+      "source": "planning-and-phases.html",
+      "sources": [
+        "skills/SKILL.md",
+        "skills/references/planning-depth.md",
+        "skills/references/phase-design.md",
+        "skills/templates/phase-goal.txt"
+      ]
+    },
+    "routing": {
+      "title": "Routing",
+      "path": "reference/routing/",
+      "source": "routing.html",
+      "sources": [
+        "README.md",
+        "skills/references/routing.md",
+        "fixtures/routing/greenfield-goal-synthesis/EXPECTED.md",
+        "fixtures/routing/brownfield-audit-closure/EXPECTED.md"
+      ]
+    },
+    "state-and-artifacts": {
+      "title": "State and artifacts",
+      "path": "reference/state-and-artifacts/",
+      "source": "state-and-artifacts.html",
+      "sources": [
+        "skills/templates/STATE.md",
+        "skills/templates/ROADMAP.md",
+        "skills/templates/PROTOCOL.md",
+        "skills/templates/sidecars.md"
+      ]
+    },
+    "repo-state-comparison": {
+      "title": "Repo state comparison",
+      "path": "reference/repo-state-comparison/",
+      "source": "repo-state-comparison.html",
+      "sources": [
+        "skills/references/repo-state-comparison.md",
+        "skills/scripts/repo-state.sh"
+      ]
+    },
+    "error-handling": {
+      "title": "Error handling",
+      "path": "reference/error-handling/",
+      "source": "error-handling.html",
+      "sources": [
+        "skills/SKILL.md",
+        "skills/templates/PROTOCOL.md",
+        "skills/templates/STATE.md"
+      ]
+    },
+    "evidence-boundaries": {
+      "title": "Evidence boundaries",
+      "path": "reference/evidence-boundaries/",
+      "source": "evidence-boundaries.html",
+      "sources": [
+        "skills/SKILL.md",
+        "skills/references/repo-state-comparison.md",
+        "skills/references/lean-operating-discipline.md"
+      ]
+    },
+    "completion-semantics": {
+      "title": "Completion semantics",
+      "path": "reference/completion-semantics/",
+      "source": "completion-semantics.html",
+      "sources": [
+        "skills/SKILL.md",
+        "skills/references/transcript-contract.md"
+      ]
+    },
+    "continuity-and-sidecars": {
+      "title": "Continuity and resume",
+      "path": "reference/continuity-and-sidecars/",
+      "source": "continuity-and-sidecars.html",
+      "sources": [
+        "AGENTS.md",
+        "skills/templates/sidecars.md",
+        "skills/references/lean-operating-discipline.md"
+      ]
+    },
+    "operating-method": {
+      "title": "Operating method",
+      "path": "reference/operating-method/",
+      "source": "operating-method.html",
+      "sources": [
+        "AGENTS.md",
+        "README.md",
+        "skills/SKILL.md",
+        "skills/templates/PROTOCOL.md",
+        "skills/references/lean-operating-discipline.md",
+        "skills/references/routing.md",
+        "skills/references/phase-design.md"
+      ]
+    },
+    "comparison": {
+      "title": "Comparison",
+      "path": "start-here/comparison/",
+      "source": "comparison.html",
+      "sources": [
+        "README.md",
+        "AGENTS.md",
+        "skills/SKILL.md",
+        "skills/references/goal-format.md",
+        "skills/references/phase-design.md"
+      ]
+    },
+    "usage-examples": {
+      "title": "Usage examples",
+      "path": "reference/usage-examples/",
+      "source": "usage-examples.html",
+      "sources": [
+        "README.md",
+        "skills/SKILL.md",
+        "skills/references/routing.md",
+        "skills/references/goal-format.md"
+      ]
+    },
+    "repo-layout": {
+      "title": "Repo layout",
+      "path": "reference/repo-layout/",
+      "source": "repo-layout.html",
+      "sources": [
+        "AGENTS.md",
+        "README.md",
+        ".claude-plugin/plugin.json",
+        "scripts/build-release-asset.sh",
+        "scripts/verify-package.sh",
+        "scripts/check-docs-portal.py",
+        "scripts/verify-docs-portal.sh",
+        ".github/workflows/pages.yml",
+        ".github/workflows/validate.yml"
+      ]
+    },
+    "terminology": {
+      "title": "Terminology",
+      "path": "reference/terminology/",
+      "source": "terminology.html",
+      "sources": [
+        "README.md",
+        "AGENTS.md",
+        "skills/SKILL.md",
+        "skills/references/transcript-contract.md",
+        "skills/references/lean-operating-discipline.md"
+      ]
+    },
+    "child-agent-review-loops": {
+      "title": "Child-agent review loops",
+      "path": "reference/child-agent-review-loops/",
+      "source": "child-agent-review-loops.html",
+      "sources": [
+        "skills/references/child-agents.md",
+        "skills/templates/child-agent-report.md",
+        "AGENTS.md",
+        "fixtures/child-agents/README.md"
+      ]
+    },
+    "optional-tooling": {
+      "title": "Optional tooling",
+      "path": "reference/optional-tooling/",
+      "source": "optional-tooling.html",
+      "sources": [
+        "README.md",
+        "AGENTS.md",
+        "skills/references/lean-operating-discipline.md",
+        "skills/templates/sidecars.md",
+        "skills/scripts/custody-append.sh"
+      ]
+    },
+    "package-contents": {
+      "title": "Package contents",
+      "path": "reference/package-contents/",
+      "source": "package-contents.html",
+      "sources": [
+        "AGENTS.md",
+        ".claude-plugin/plugin.json",
+        "scripts/build-release-asset.sh",
+        "skills/SKILL.md",
+        "skills/scripts/claim-run.sh",
+        "skills/scripts/repo-state.sh",
+        "skills/scripts/validate-phase.sh",
+        "skills/scripts/validate-run-root.sh",
+        "skills/scripts/custody-append.sh",
+        "scripts/verify-package.sh",
+        "skills/templates/STATE.md",
+        "skills/templates/PROTOCOL.md"
+      ]
+    },
+    "audit-trail": {
+      "title": "Repo record",
+      "path": "reference/repo-record/",
+      "source": "audit-trail.html",
+      "sources": [
+        "README.md",
+        "CHANGELOG.md",
+        ".claude-plugin/plugin.json",
+        ".github/workflows/pages.yml",
+        ".github/workflows/validate.yml",
+        "docs/audits/INDEX.md",
+        "docs/audits/v0.2.9.0-andon-escalation-jidoka-repair.md"
+      ]
+    },
+    "reference-index": {
+      "title": "Index",
+      "path": "reference/",
+      "source": "reference-index.html",
+      "sources": [
+        "docs/portal/site.json",
+        "README.md",
+        "AGENTS.md"
+      ]
+    }
+  }
+}

@@ -51,7 +51,7 @@ Use Nemawashi: surface the proposed change, affected owners, tradeoffs, and roll
 
 ## Invocation modes
 
-ImplementAudit has three valid invocation shapes.
+ImplementAudit has four valid invocation shapes.
 
 ### 1. Embedded governance mode
 
@@ -94,6 +94,19 @@ Examples:
 
 In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a bounded, evidence-aware Kaizen handoff. If execution should continue under a host goal runner, it prints a ready-to-paste `/goal Using /implementaudit ...` command.
 
+### 4. Governed casual-build intake
+
+Used when the user gives plain-language repo-build intent without a separate audit artifact.
+
+Examples:
+
+```text
+/implementaudit add a login page to this app
+/implementaudit fix this repo bug safely and keep the diff reviewable
+```
+
+In this mode, ImplementAudit first synthesizes a bounded audit object: owner/source, scope, acceptance criteria, rollback, route, and evidence plan. Unbounded, unsafe, or non-repo input gets an explicit STOP instead of direct mutation.
+
 ---
 
 ## Repo layout
@@ -121,8 +134,8 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
 │   ├── INDEX.md                Compact dogfood-history evidence index.
 │   └── v0.2.3.0-harness-adaptation-matrix.md
 │                                Generic external-comparator adaptation matrix.
-├── docs/portal/
-│   └── onboarding.md           Portal content source; generated into dist/docs-portal/ by build-docs-portal.py.
+├── docs/portal_old/            Archived legacy single-page portal source retained for reference parity.
+├── docs/portal/                Multipage docs portal source; generated into dist/docs-portal/ by build-docs-portal.py.
 ├── fixtures/
 │   ├── agent-eval/             Adversarial identity-misread eval inputs + expected transcript properties.
 │   ├── child-agents/           Scoped AGENTS hierarchy and reviewer fixtures.
@@ -154,8 +167,9 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
 │   ├── check-agent-eval-fixtures.sh  Structural gate for the agent-eval misread fixture pack.
 │   ├── grade-agent-eval-transcript.sh  Grade a transcript against a fixture's Graded properties.
 │   ├── check-validation-registry.sh  Meta-gate: every test is wired into verify-package and CI.
-│   ├── build-docs-portal.py    Stdlib-only docs portal generator (reads docs/portal/onboarding.md).
-│   ├── check-docs-portal.py    12-check validator for generated portal output.
+│   ├── build-docs-portal.py    Stdlib-only docs portal generator (reads docs/portal/).
+│   ├── check-docs-portal.py    Multipage validator for generated portal output.
+│   ├── verify-docs-portal.sh   Nonrecursive build+validate helper for the generated portal.
 │   ├── install-codex-from-release.sh Install a validated release asset into a Codex-style skill home.
 │   ├── verify-package.sh       Repo/package validation.
 │   └── write-release-checksums.sh Create/check release checksum manifest.
@@ -195,7 +209,7 @@ In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a
 
 ## What ships vs what doesn't
 
-- **Ships to consumers**: everything under `skills/`. The plugin manifest declares `skills: "./skills/"`.
+- **Repo runtime source**: everything under `skills/`. The built `.skill` archive places `SKILL.md`, `references/`, `scripts/`, and `templates/` at archive root; `.claude-plugin/plugin.json` uses `skills: "./"` for that archive shape.
 - **Repo-only**: `README.md`, `CHANGELOG.md`, `AGENTS.md`, `CLAUDE.md`, `CONTRIBUTING.md`, fixtures, root scripts, and `.gitignore`.
 - **Marketplace entry**: `.claude-plugin/marketplace.json` points at the plugin root. Do not claim marketplace behavior was verified unless actually tested.
 - **License**: no `LICENSE` file is present until the owner selects a license and supplies license evidence.
@@ -634,9 +648,14 @@ test -f fixtures/run-root-example/STATE.md
 test -f fixtures/run-root-example/phases/phase-1.md
 test -f fixtures/phase-design/dmadv-greenfield-phase.md
 test -f fixtures/agent-eval/RUNBOOK.md
-test -f docs/portal/onboarding.md
+test -f docs/portal_old/onboarding.md
+test -f docs/portal/site.json
+test -f docs/portal/pages/overview.html
+test -f docs/portal/pages/quick-start.html
+test -f docs/portal/pages/reference-index.html
 test -f scripts/build-docs-portal.py
 test -f scripts/check-docs-portal.py
+test -f scripts/verify-docs-portal.sh
 test -f tests/docs-portal.test.sh
 test -f fixtures/casual-build/accepted-intent.md
 test -f fixtures/casual-build/rejected-intent.md
@@ -691,12 +710,6 @@ bash tests/agent-eval-fixtures.test.sh
 bash tests/agent-eval-grader.test.sh
 bash scripts/check-validation-registry.sh
 bash tests/validation-registry.test.sh
-```
-
-Run docs-portal separately (it calls verify-package.sh internally; do not nest it inside verify-package.sh):
-
-```bash
-bash tests/docs-portal.test.sh
 ```
 
 ## Editing rules
@@ -830,8 +843,9 @@ checker-enforced and this one was not (2026-06-10).
 **Anti-repeat rule (V0290-VALIDATION-REGISTRY-PARITY):** Every
 `tests/*.test.sh` must be invoked by BOTH `scripts/verify-package.sh` and
 `.github/workflows/validate.yml`; `scripts/check-validation-registry.sh`
-enforces parity with a reasoned exemption list (docs-portal.test.sh is exempt
-from verify-package because it invokes verify-package and must not nest).
+enforces parity with no hidden test exemption. Docs portal validation uses
+`scripts/verify-docs-portal.sh` so `tests/docs-portal.test.sh` can be called
+from `verify-package.sh` without recursion.
 Rationale: both registries drifted independently at v0.2.9.0 — three new
 tests missing from verify-package, one test missing from CI (2026-06-10).
 
@@ -906,9 +920,11 @@ closing the release gate. If the live Claude host is available, also run
 and verify in Claude Desktop.
 
 The docs portal generator (`scripts/build-docs-portal.py`) provides the
-quickstart/onboarding docs page. It is generated from `docs/portal/onboarding.md`
-and deployed to GitHub Pages via `.github/workflows/pages.yml`. See v0.2.8.0
-adaptation ledger for evidence.
+multipage onboarding and reference docs portal. It is generated from
+`docs/portal/` and deployed to GitHub Pages via `.github/workflows/pages.yml`.
+`docs/portal_old/onboarding.md` is retained as a legacy single-page source for
+parity checks, not as the current portal owner/source. See v0.2.8.0 adaptation
+ledger for evidence.
 
 **Anti-repeat rule (V0270-LEAN-TERMS-ARE-BEHAVIOR):** Lean/TPS terms (5S,
 Kaizen, Hansei, Jidoka, Gemba, Nemawashi, Muda/Mura/Muri, DMAIC, DMADV,
@@ -993,12 +1009,13 @@ with all 6 required fields (Target, Reason, Evidence, Boundary, Authorization,
 Not saved). Rationale: v0.2.8.0 G4 gap closure (2026-06-08).
 
 **Anti-repeat rule (V0280-DOCS-PORTAL-GENERATOR-FIRST):** `dist/docs-portal/` is
-generated output. Never hand-edit `dist/docs-portal/index.html` or
+generated output. Never hand-edit generated portal HTML or
 `dist/docs-portal/docs-metadata.json`. Always regenerate from source:
 `python scripts/build-docs-portal.py`. Validate with:
 `python scripts/check-docs-portal.py dist/docs-portal`. The portal content
-source is `docs/portal/onboarding.md`; edit that file, then regenerate.
-`dist/` is gitignored. `tests/docs-portal.test.sh` runs the full build+validate cycle.
+source is `docs/portal/`; edit that source tree, then regenerate.
+`dist/` is gitignored. `scripts/verify-docs-portal.sh` and
+`tests/docs-portal.test.sh` run the full build+validate cycle.
 Rationale: v0.2.8.0 G7 gap closure (2026-06-08).
 
 **Anti-repeat rule (V0280-PAGES-DEPLOYMENT-UNVERIFIED):** GitHub Pages deployment
@@ -1040,13 +1057,14 @@ bash scripts/build-release-asset.sh
 ```
 
 The artifact contains only the packaged skill payload required for installation:
-`skills/` plus `.claude-plugin/` metadata. It must include the `skills/` layout,
-references, scripts, and templates. Repo-maintenance material such as README
-generation sources, audit ledgers, release-candidate notes, fixtures, tests, CI
-config, Git metadata, root validation scripts, and changelog/release-history
-evidence stays repo-side unless a future owner decision proves a file is
-load-bearing for installed runtime behavior. The artifact must not include a
-root `IMPLEMENTAUDIT.md` behavior file.
+`SKILL.md`, `references/`, `scripts/`, `templates/`, and `.claude-plugin/`
+metadata at archive root. Source files live under repo `skills/`, but the built
+archive must not contain a nested `skills/` directory. Repo-maintenance material
+such as README generation sources, audit ledgers, release-candidate notes,
+fixtures, tests, CI config, Git metadata, root validation scripts, and
+changelog/release-history evidence stays repo-side unless a future owner
+decision proves a file is load-bearing for installed runtime behavior. The
+artifact must not include a root `IMPLEMENTAUDIT.md` behavior file.
 
 The artifact must not include `.IMPLEMENTAUDIT/` run artifacts, local smoke
 debris, Graphify outputs, ActiveGraph stores, secrets, git metadata, or
