@@ -33,15 +33,15 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build docs portal
-        run: python scripts/build-docs-portal.py --out _site
+        run: python scripts/build-docs-portal.py --out dist/docs-portal
 
       - name: Validate docs portal output
-        run: python scripts/check-docs-portal.py _site
+        run: python scripts/check-docs-portal.py dist/docs-portal
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: dist/docs-portal
 
   deploy:
     environment:
