@@ -11,7 +11,7 @@ Plugin manifest versions are host-facing package metadata. The `v0.3.0.0`
 source milestone maps to plugin manifest version `0.3.0` because no local
 schema evidence proved four-component plugin manifest versions are accepted.
 
-## [v0.3.0.0] - 2026-06-12
+## [v0.3.0.0] - 2026-06-13
 
 ### Added
 
@@ -49,9 +49,11 @@ schema evidence proved four-component plugin manifest versions are accepted.
   and `tests/terminology-integration.test.sh` guard against orphan terms,
   glossary theater, duplicate authorities, generic SOLID/FMEA/STRIDE advice,
   active C4 adoption without a fixture, and a recreated second glossary.
-- **Boundary:** this is a source milestone and local package-validation target.
-  No commit, push, tag, GitHub release, publication, provenance, issue creation,
-  or installed-host update is claimed by this changelog entry.
+- **Boundary (source milestone):** the milestone / runtime-integration work above
+  was authored as a source milestone and local package-validation target;
+  authoring it claimed no commit, push, tag, GitHub release, publication,
+  provenance, issue creation, or installed-host update. The release actually
+  performed at the v0.3.0.0 release gate is recorded under **Released** below.
 
 ### Fixed
 
@@ -78,6 +80,19 @@ schema evidence proved four-component plugin manifest versions are accepted.
   `docs/audits/v0.3.0.0-local-package-dogfood-audit.md`.
 - **Remaining risk:** none for shipped runtime (test-only change; payload
   unchanged, `.skill` byte-identical).
+
+### Released
+
+- Tagged `v0.3.0.0` and published the GitHub release on 2026-06-13 under explicit
+  per-action release-gate authorization, after the local-package dogfood
+  (`docs/audits/v0.3.0.0-local-package-dogfood-audit.md`) and all local, package,
+  and remote gates passed.
+- Release asset `IMPLEMENTAUDIT.skill` (deterministic committed-tree build):
+  SHA-256 `25e978dd305706af956be0f65f3ab4b3ba882768790c9b0da92fe4bedd0e57b4`,
+  112509 bytes, 33 entries. Plugin manifest version `0.3.0`.
+- Provenance is a checksum manifest only — not a signature, attestation, SBOM,
+  license, or marketplace verification. No issues were published. Codex installs
+  remain a manual copy; no passive installed-host refresh is claimed.
 
 ## [v0.2.9.0] - 2026-06-10
 
