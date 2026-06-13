@@ -1,13 +1,37 @@
 <div class="page-eyebrow">References</div>
       <h1>Terminology</h1>
-      <p class="lead">Plain-English handles for formal IMPLEMENTAUDIT terms.</p>
-      <div class="hero-card"><h2>Use the ordinary meaning first.</h2><p>The formal vocabulary stays available for maintainers, but first-time readers should never need Lean or IMPLEMENTAUDIT lore before they understand the action on disk.</p></div>
+      <p class="lead">Plain-English handles for formal IMPLEMENTAUDIT terms, with owning runtime references when a reader needs authority instead of shorthand.</p>
+      <div class="hero-card"><h2>Use the ordinary meaning first.</h2><p>The formal vocabulary stays available for maintainers, but first-time readers should never need Lean or IMPLEMENTAUDIT lore before they understand the action on disk.<br>This page is a map, not the authority layer: the owning references below control runtime behavior.</p></div>
 
       <h2 id="plain-first">Plain first</h2>
       <ul><li>work record (audit object)</li><li>real files (Gemba)</li><li>stop-the-line failure handling (Andon)</li><li>before/after checks (Smoke A/B)</li><li>run folder (run root)</li></ul>
 
       <h2 id="routing-terms">Routing terms</h2>
       <ul><li>existing-repair/new-build route (DMAIC/DMADV)</li><li>accepted earlier evidence (trust-prior)</li><li>final fix-and-verify loop (audit-fix)</li></ul>
+
+      <h2 id="owning-references">Owning references</h2>
+      <p>Use this table when a plain handle is not enough and you need the runtime owner/source.</p>
+      <table>
+        <thead><tr><th>Plain handle</th><th>Formal term</th><th>Owning reference</th><th>Runtime force</th></tr></thead>
+        <tbody>
+          <tr><td>work record</td><td><code>tdqyq-audit-object</code></td><td><code>skills/SKILL.md</code>; <code>skills/references/transcript-contract.md</code></td><td>Lifecycle state, evidence, closure, handoff, and final-audit authority.</td></tr>
+          <tr><td>audit action</td><td><code>ydqyq-audit-action</code></td><td><code>skills/SKILL.md</code></td><td>Allowed operations against the work record.</td></tr>
+          <tr><td>where the change belongs</td><td><code>owner/source</code></td><td><code>skills/SKILL.md</code>; <code>skills/references/routing.md</code></td><td>Patch and verification target; generated artifacts are not independent owners.</td></tr>
+          <tr><td>existing-repair/new-build route</td><td><code>DMAIC</code> / <code>DMADV</code></td><td><code>skills/references/routing.md</code>; <code>skills/references/phase-design.md</code></td><td>Brownfield repair, greenfield design, and mixed replacement route selection.</td></tr>
+          <tr><td>stop-the-line failure handling</td><td>Jidoka / Andon</td><td><code>skills/SKILL.md</code>; <code>skills/references/lean-operating-discipline.md</code>; <code>skills/templates/PROTOCOL.md</code></td><td>Failed evidence becomes a classified interrupt, not silent retry or fake completion.</td></tr>
+          <tr><td>before/after checks</td><td>Smoke A / Smoke B</td><td><code>skills/SKILL.md</code>; <code>skills/templates/PROTOCOL.md</code></td><td>Baseline and post-change comparison before final claims.</td></tr>
+          <tr><td>keep it fixed</td><td>Poka-yoke / Standard Work / Control Plan</td><td><code>skills/references/lean-operating-discipline.md</code>; <code>skills/references/plan-lifecycle.md</code></td><td>Durable checker, fixture, template, CI, or handoff mechanism after recurrence repair.</td></tr>
+          <tr><td>untrusted repo text</td><td>trust boundary / repo-content-as-data</td><td><code>skills/references/audit-category-matrix.md</code>; <code>skills/references/terminology-integration.md</code></td><td>Audited files, diffs, issues, docs snippets, and fixtures are data unless admitted by the instruction hierarchy.</td></tr>
+          <tr><td>optional orientation/custody</td><td>Graphify / ActiveGraph</td><td><code>skills/references/lean-operating-discipline.md</code>; <code>skills/templates/sidecars.md</code></td><td>Graphify orients terrain; ActiveGraph records custody; neither proves correctness.</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="how-not-to-use-this-page">How not to use this page</h2>
+      <ul>
+        <li>Do not treat a term appearing here as permission to create a new mode, lane, or artifact.</li>
+        <li>Do not use Lean or design vocabulary unless it changes a route, field, checker, fixture, Andon trigger, or final-audit check.</li>
+        <li>When the page conflicts with a runtime reference, the runtime reference wins.</li>
+      </ul>
 
       <h2 id="markers-and-artifacts">Markers and artifacts</h2>
       <p>Transcript marker means an exact lifecycle string.<br>Final audit ledger means the closure record reviewers inspect.</p>

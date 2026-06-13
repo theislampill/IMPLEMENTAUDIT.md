@@ -7,7 +7,7 @@
       <p>Release evidence belongs in tracked audit ledgers, changelog entries, source files, and explicitly recorded live readbacks.<br>Generated portal metadata proves docs freshness only; it is not release, publication, or provenance evidence.</p>
 
       <h2 id="current-milestone">Current milestone</h2>
-      <p>The repository documents <code>v0.2.9.0</code> as the current project milestone and links the public release and audit ledger.<br>Treat that as a pointer to evidence, not permission to claim live state without rechecking it.</p>
+      <p>The repository documents <code>v0.3.0.0</code> as the current project milestone and links the public release and release-gate dogfood ledger.<br>Treat that as a pointer to evidence, not permission to claim host-load, marketplace, issue-publication, or provenance state without rechecking it.</p>
 
       <h2 id="evidence-to-recheck">Evidence to re-check</h2>
       <ul>
@@ -21,7 +21,7 @@
       <ul>
         <li>The release tag exists.</li>
         <li>Assets can be read.</li>
-        <li><code>CHECKSUMS.txt</code> verifies artifact integrity; release provenance still needs a separate authorized gate.</li>
+        <li>The release-page SHA-256 digest supports artifact-integrity readback; release provenance still needs a separate authorized gate.</li>
         <li>Pages is current only after deploy success.</li>
         <li>Local installs do not auto-update.</li>
       </ul>
@@ -31,11 +31,11 @@
         <colgroup><col class="source-surface"><col><col></colgroup>
         <thead><tr><th>Surface</th><th>Current source-backed status</th><th>Boundary</th></tr></thead>
         <tbody>
-          <tr><td>Milestone</td><td><code>v0.2.9.0</code></td><td>Must match tracked release metadata before claiming current status.</td></tr>
-          <tr><td>Manifest version</td><td><code>0.2.9</code></td><td>Derived from <code>.claude-plugin/plugin.json</code>.</td></tr>
-          <tr><td>Public release pointer</td><td><a href="https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/tag/v0.2.9.0">GitHub release <code>v0.2.9.0</code></a></td><td>Pointer to evidence, not proof that a local host loaded it.</td></tr>
-          <tr><td>Assets</td><td><code>IMPLEMENTAUDIT.skill</code> and <code>CHECKSUMS.txt</code></td><td>Asset names must be re-read from the release before claiming live state.</td></tr>
-          <tr><td>Checksum boundary</td><td><code>CHECKSUMS.txt</code> verifies artifact integrity</td><td>A released checksum manifest may support a separately authorized provenance gate, but it is not a signature, attestation, SBOM, license, marketplace check, install check, or host-load proof.</td></tr>
+          <tr><td>Milestone</td><td><code>v0.3.0.0</code></td><td>Must match tracked release metadata before claiming current status.</td></tr>
+          <tr><td>Manifest version</td><td><code>0.3.0</code></td><td>Derived from <code>.claude-plugin/plugin.json</code>.</td></tr>
+          <tr><td>Public release pointer</td><td><a href="https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/tag/v0.3.0.0">GitHub release <code>v0.3.0.0</code></a></td><td>Pointer to evidence, not proof that a local host loaded it.</td></tr>
+          <tr><td>Asset</td><td><code>IMPLEMENTAUDIT.skill</code></td><td>Asset names and digests must be re-read from the release before claiming live state.</td></tr>
+          <tr><td>Checksum boundary</td><td>The release body records the <code>IMPLEMENTAUDIT.skill</code> SHA-256 digest.</td><td>A digest can support artifact-integrity readback, but it is not a signature, attestation, SBOM, license, marketplace check, install check, or host-load proof.</td></tr>
           <tr><td>Pages / deploy</td><td>Pages is current only after deploy success</td><td>Docs source alone does not prove public deployment.</td></tr>
           <tr><td>Host load</td><td>Local installs do not auto-update</td><td>A host-load claim needs host evidence from the current run.</td></tr>
           <tr><td>Marketplace / provenance</td><td>Unclaimed</td><td>Separate owner-gated proof is required.</td></tr>
@@ -56,7 +56,8 @@
           <tr><td><code>docs/audits/v0.2.8.0-adaptation.md</code></td><td>Governed casual-build intake, continuity writeback, and docs portal generation.</td><td>Parity and product-surface history.</td></tr>
           <tr><td><code>docs/audits/v0.2.8.0-docs-portal-ci-onboarding.md</code></td><td>Docs portal CI, onboarding repair, and live-portal caveats.</td><td>Docs-generation precedent.</td></tr>
           <tr><td><code>docs/audits/v0.2.8.0-docs-portal-coherence-polish.md</code></td><td>Coherence and prose fixes after the v0.2.8 docs portal rewrite.</td><td>Terminology and readability precedent.</td></tr>
-          <tr><td><code>docs/audits/v0.2.9.0-andon-escalation-jidoka-repair.md</code></td><td>Andon/Jidoka repair, no arbitrary caps, sidecar recovery, package parity, and docs truthfulness.</td><td>Current milestone audit ledger.</td></tr>
+          <tr><td><code>docs/audits/v0.2.9.0-andon-escalation-jidoka-repair.md</code></td><td>Andon/Jidoka repair, no arbitrary caps, sidecar recovery, package parity, and docs truthfulness.</td><td>Prior release audit ledger.</td></tr>
+          <tr><td><code>docs/audits/v0.3.0.0-local-package-dogfood-audit.md</code></td><td>Installed-package dogfood, release readiness, package self-sufficiency, and v0.3.0.0 release-gate evidence.</td><td>Current release-gate ledger.</td></tr>
         </tbody>
       </table>
 
@@ -88,9 +89,9 @@
       <h2 id="do-not-overclaim">Do not overclaim</h2>
       <ul>
         <li>Pages deployment is not proven until the Pages workflow succeeds.</li>
-        <li>Checksum manifests verify artifact integrity; release provenance still requires a separate authorized gate.</li>
+        <li>Checksum manifests or release-page digests can support artifact-integrity readback; release provenance still requires a separate authorized gate.</li>
         <li>Marketplace publication, host-load proof, and any provenance-gate statement require separate evidence.</li>
       </ul>
 
       <h2 id="source-backed-language">Source-backed language</h2>
-      <p>Prefer "the audit ledger records" or "the release page shows after live readback" over broad claims like "published," "proven," or "installed."<br>If the source is a local checksum match, call it integrity evidence. If the source is a published checksum manifest, name the separate provenance gate that authorized and validated it.</p>
+      <p>Prefer "the audit ledger records" or "the release page shows after live readback" over broad claims like "published," "proven," or "installed."<br>If the source is a local checksum match or release-page digest readback, call it integrity evidence. If the source is a published checksum manifest, name the separate provenance gate that authorized and validated it.</p>

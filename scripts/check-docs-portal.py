@@ -575,6 +575,19 @@ def validate_page_shell(out_dir: Path, site: dict, ordered: list[dict], pages_by
         html_text = path.read_text(encoding="utf-8")
         html_files.append(path)
         rel = path.relative_to(out_dir).as_posix()
+        if page["id"] == "overview":
+            release = site.get("release", {})
+            milestone = str(release.get("milestone", ""))
+            audit_ledger_url = str(release.get("audit_ledger_url", ""))
+            hero = first_region(html_text, "hero", tag="section")
+            meta_row = first_region(hero, "meta-row", tag="div")
+            if not meta_row:
+                fail(f"{rel}: overview hero missing current release metadata row")
+            else:
+                if milestone and milestone not in meta_row:
+                    fail(f"{rel}: overview hero current release does not match docs/portal/site.json")
+                if audit_ledger_url and audit_ledger_url not in hero:
+                    fail(f"{rel}: overview hero evidence link does not match docs/portal/site.json")
         if len(html_text) < 800:
             fail(f"{rel}: suspiciously small HTML")
         if "<h1" not in html_text:
@@ -1014,6 +1027,9 @@ def validate_site_model(site: dict, ordered: list[dict]) -> None:
     missing = [page_id for page_id in REQUIRED_PAGES if page_id not in ids]
     if missing:
         fail(f"required pages missing from nav: {missing}")
+    titles_by_id = {page["id"]: page.get("title", "") for page in ordered}
+    if titles_by_id.get("terminology") != "Terminology":
+        fail("terminology page title must be Terminology")
     if ids[:5] != ["overview", "plain-english", "what-it-is", "workflow", "success-and-proof"]:
         fail(f"overview group page order mismatch: {ids[:5]}")
     if ids[5:9] != ["quick-start", "installation", "possible-endings", "comparison"]:

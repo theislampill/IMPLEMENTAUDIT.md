@@ -8,7 +8,7 @@
       <div class="term-window example-console">
         <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Claude release copy</em><span class="term-badge">install</span></div>
         <pre><span class="k-cyan">$ bash scripts/install-claude-from-release.sh \</span>
-<span class="k-cyan">  --tag v0.2.9.0 \</span>
+<span class="k-cyan">  --url https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/download/v0.3.0.0/IMPLEMENTAUDIT.skill \</span>
 <span class="k-cyan">  --claude-skills-dir "&lt;path-to-claude-skills/implementaudit&gt;"</span></pre>
       </div>
       <p>That helper is a file-copy workaround.<br>It proves extraction and placement only; it does not prove Claude Desktop import, runtime loading, or marketplace installation.</p>
@@ -17,11 +17,11 @@
       <div class="term-window example-console">
         <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Codex release copy</em><span class="term-badge">install</span></div>
         <pre><span class="k-cyan">$ bash scripts/install-codex-from-release.sh \</span>
-<span class="k-cyan">  --tag v0.2.9.0 \</span>
+<span class="k-cyan">  --url https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/download/v0.3.0.0/IMPLEMENTAUDIT.skill \</span>
 <span class="k-cyan">  --codex-home "$HOME/.codex" \</span>
-<span class="k-cyan">  --version 0.2.9</span></pre>
+<span class="k-cyan">  --version 0.3.0</span></pre>
       </div>
-      <p>The local checksum check verifies artifact integrity.<br>A published checksum manifest can support a separately authorized release provenance gate, but this install flow is not a signature, attestation, SBOM, provenance chain, or host-load proof.</p>
+      <p>The local checksum check verifies artifact integrity when a checksum manifest is supplied.<br>The v0.3.0.0 release page records the asset digest; that is not a signature, attestation, SBOM, provenance chain, or host-load proof.</p>
       <p>For a manual Codex copy from a checkout, repeat the copy when the package changes:</p>
       <div class="term-window example-console">
         <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Manual Codex copy</em><span class="term-badge">unix</span></div>
@@ -46,7 +46,7 @@
 <span class="k-cyan">  --asset dist/IMPLEMENTAUDIT.skill \</span>
 <span class="k-cyan">  --checksum dist/CHECKSUMS.txt \</span>
 <span class="k-cyan">  --codex-home "$HOME/.codex" \</span>
-<span class="k-cyan">  --version 0.2.9</span></pre>
+<span class="k-cyan">  --version 0.3.0</span></pre>
       </div>
 
       <h2 id="first">First run after install</h2>
@@ -69,7 +69,7 @@
       <ul>
         <li>The release tag exists.</li>
         <li>Assets can be read.</li>
-        <li><code>CHECKSUMS.txt</code> verifies artifact integrity; release provenance still needs a separate authorized gate.</li>
+        <li><code>CHECKSUMS.txt</code> verifies artifact integrity when supplied; the v0.3.0.0 release page records the release asset digest.</li>
         <li>Pages is current only after deploy success.</li>
         <li>Local installs do not auto-update.</li>
       </ul>

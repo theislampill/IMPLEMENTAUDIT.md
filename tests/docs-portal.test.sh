@@ -38,6 +38,7 @@ bad_extra="$tmp/bad-extra-output"
 bad_raw_command="$tmp/bad-raw-command"
 bad_table_classes="$tmp/bad-table-classes"
 bad_footer_proof="$tmp/bad-footer-proof"
+bad_overview_release="$tmp/bad-overview-release"
 bad_marker_taxonomy="$tmp/bad-marker-taxonomy"
 bad_slash_boundary="$tmp/bad-slash-boundary"
 bad_helper_path_boundary="$tmp/bad-helper-path-boundary"
@@ -353,6 +354,25 @@ if "${py_cmd[@]}" scripts/check-docs-portal.py "$bad_footer_proof" >/dev/null 2>
   fail_check "check-docs-portal.py accepted footer proof Boundary cell or release-link order drift"
 else
   ok "check-docs-portal.py rejects footer proof Boundary cell and release-link order drift"
+fi
+
+cp -R "$out" "$bad_overview_release"
+"${py_cmd[@]}" - "$bad_overview_release/index.html" <<'PY'
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+text = path.read_text(encoding="utf-8")
+text = text.replace(
+    "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/v0.3.0.0-local-package-dogfood-audit.md",
+    "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/v0.2.9.0-andon-escalation-jidoka-repair.md",
+)
+path.write_text(text, encoding="utf-8")
+PY
+if "${py_cmd[@]}" scripts/check-docs-portal.py "$bad_overview_release" >/dev/null 2>&1; then
+  fail_check "check-docs-portal.py accepted stale overview release evidence link"
+else
+  ok "check-docs-portal.py rejects stale overview release evidence link"
 fi
 
 cp -R "$out" "$bad_marker_taxonomy"
