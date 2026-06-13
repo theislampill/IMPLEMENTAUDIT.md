@@ -7,9 +7,51 @@ This project follows Keep a Changelog style. Historical entries marked
 not from verified tags, releases, publication, marketplace verification, or
 provenance.
 
-Plugin manifest versions are host-facing package metadata. The `v0.2.5.0`
-project milestone maps to plugin manifest version `0.2.5` because no local
+Plugin manifest versions are host-facing package metadata. The `v0.3.0.0`
+source milestone maps to plugin manifest version `0.3.0` because no local
 schema evidence proved four-component plugin manifest versions are accepted.
+
+## [v0.3.0.0] - 2026-06-12
+
+### Added
+
+- **Finding:** IMPLEMENTAUDIT did not yet route the full source-inventory set:
+  audit-object-grounded category pressure, deep/security analysis,
+  direction planning, branch/diff scoping, self-contained handoff-plan quality,
+  plan review, execute/review dispatch semantics, reconciliation, and explicit
+  issue-publication deferral.
+- **Countermeasure:** added shipped references
+  `skills/references/audit-category-matrix.md` and
+  `skills/references/plan-lifecycle.md`; wired the category/deep/security/
+  direction and plan lifecycle contracts into `skills/SKILL.md`,
+  `skills/templates/THINKING.md`, `skills/templates/PROTOCOL.md`, and
+  `skills/templates/phase-goal.txt`; added audit-object-routing fixtures and focused
+  tests; extended routing/planner/lean/package validators and CI wiring; updated
+  README, CONTRIBUTING, portal source, audit index, AGENTS.md, manifest, and
+  package/install allowlists for manifest `0.3.0`.
+- **Rejected/deferred behavior:** external command identity is not copied; root
+  `plans/` is not made canonical; read-only audit-object closure identity is not adopted as
+  IMPLEMENTAUDIT's default; arbitrary review/revision caps remain forbidden;
+  issue publication stays deferred behind a future explicit publication gate.
+- **Evidence / poka-yoke:** new fixtures in `fixtures/audit-object-routing/` and tests
+  `tests/audit-object-routing.test.sh`,
+  `tests/audit-object-plan-lifecycle.test.sh`, and
+  `tests/issues-deferred-gate.test.sh`, plus
+  `tests/audit-object-routing-contract.test.sh`; validators now require the new
+  shipped references, package entries, manifest version, and issue-deferred
+  behavior.
+- **Runtime terminology KISS reduction:** a broad 195-line draft terminology
+  reference was rejected by Andon/KISS review and replaced with the shipped
+  thin cross-reference contract `skills/references/terminology-integration.md`.
+  Term-specific behavior is owned by existing routing, Lean, phase-design,
+  plan-lifecycle, and category/security references; compact fixtures in
+  `fixtures/terminology-integration/`, `scripts/check-terminology-integration.sh`,
+  and `tests/terminology-integration.test.sh` guard against orphan terms,
+  glossary theater, duplicate authorities, generic SOLID/FMEA/STRIDE advice,
+  active C4 adoption without a fixture, and a recreated second glossary.
+- **Boundary:** this is a source milestone and local package-validation target.
+  No commit, push, tag, GitHub release, publication, provenance, issue creation,
+  or installed-host update is claimed by this changelog entry.
 
 ## [v0.2.9.0] - 2026-06-10
 
@@ -34,9 +76,9 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 - **User-journey round F1–F4 (2026-06-10), from the round-5 self-dogfood audit:** (F1) all 17 payload references to `skills/scripts/...` resolved nowhere for installed consumers (the archive strips the prefix); every packaged helper invocation now resolves through `"${IMPLEMENTAUDIT_BASE:-skills}"/scripts/...`, SKILL.md Stage 0 defines the resolution rule (hosts supply the base directory; the default keeps commands working verbatim in the source repo; unresolvable base → helper recorded unavailable, weaker-evidence fallback), and the verify-package path-integrity gate now forbids bare `skills/scripts/` in the payload. (F2) README §Loopability gained a "Nested loop model" subsection naming the five concentric loops (planner, run, phase, Andon, audit-fix) with each loop's exit condition and marker currency. (F3) the docs portal gained an "Abnormality Handling (Andon Escalation)" section teaching the probe/escalate/handoff contract, the ten abnormality classes, and the no-cap invariant — previously the portal never mentioned `ANDON_PROBE` or `ANDON_ESCALATE`. (F4) `docs/diagrams/invocation-modes.mmd` gained the fourth invocation shape (governed casual-build intake), repairing the README/portal disagreement about how many invocation shapes exist; README diagram block regenerated.
 
-- **Target-repo evidence round R6-A + variable-collision repair (2026-06-10), from the round-6 self-dogfood audit:** (R6-A) in target repos that do not gitignore `.IMPLEMENTAUDIT/`, the run's own artifacts appeared as untracked changes in every `repo-state.sh` evidence scan, contaminating cleanliness and deliverable checks; `changed-files` and `added-lines` now exclude run-root paths with a visible stderr count (never silently, per the no-silent-caps doctrine), explicit `deliverable` queries remain honest for any path, and `claim-run.sh` prints a local-only `.git/info/exclude` advisory (stderr; no repo mutation) when the run-root base is not ignored; behavioral test case added. (Collision repair) implementing R6-A exposed that the round-5 helper-path fix had redefined `IMPLEMENTAUDIT_BASE` — a variable `claim-run.sh` and `detect-env.sh` already consumed as the run-root base — as the skill directory, which would have created run roots inside the installed payload; the skill-directory variable is now `IMPLEMENTAUDIT_SKILL_DIR` (18 payload sites renamed), Stage 0 defines both variables explicitly and warns against confusing them, and `IMPLEMENTAUDIT_BASE` keeps its original run-base meaning.
+- **Target-repo evidence round R6-A + variable-collision repair (2026-06-10), from the round-6 self-dogfood audit:** (R6-A) in target repos that do not gitignore `.IMPLEMENTAUDIT/`, the run's own artifacts appeared as untracked changes in every `repo-state.sh` evidence scan, contaminating cleanliness and deliverable checks; `changed-files` and `added-lines` now exclude run-root paths with a visible stderr count (never silently, per the no-silent-caps doctrine), explicit `deliverable` queries remain honest for any path, and `claim-run.sh` prints a local-only `.git/info/exclude` notice (stderr; no repo mutation) when the run-root base is not ignored; behavioral test case added. (Collision repair) implementing R6-A exposed that the round-5 helper-path fix had redefined `IMPLEMENTAUDIT_BASE` — a variable `claim-run.sh` and `detect-env.sh` already consumed as the run-root base — as the skill directory, which would have created run roots inside the installed payload; the skill-directory variable is now `IMPLEMENTAUDIT_SKILL_DIR` (18 payload sites renamed), Stage 0 defines both variables explicitly and warns against confusing them, and `IMPLEMENTAUDIT_BASE` keeps its original run-base meaning.
 
-- **Shipped-script class sweep (2026-06-10), round-7 escalation:** the round-7 live smoke found `detect-stack.sh` exiting 1 in clean target repos — the same compound-condition class repaired in `summarize-repo.sh` during round 4. Escalated with a changed approach instead of another single-file fix: all three remaining `[ test ] && printf` compounds in `detect-stack.sh` converted to if-form, and new `tests/shipped-scripts-smoke.test.sh` runs **every** shipped helper in a minimal target repo (recon helpers must exit 0; claim-run must keep stdout path-only and fire its ignore advisory; repo-state enumeration must succeed; validators must still reject malformed specs), wired into both validation registries so the class cannot return in any shipped script.
+- **Shipped-script class sweep (2026-06-10), round-7 escalation:** the round-7 live smoke found `detect-stack.sh` exiting 1 in clean target repos — the same compound-condition class repaired in `summarize-repo.sh` during round 4. Escalated with a changed approach instead of another single-file fix: all three remaining `[ test ] && printf` compounds in `detect-stack.sh` converted to if-form, and new `tests/shipped-scripts-smoke.test.sh` runs **every** shipped helper in a minimal target repo (recon helpers must exit 0; claim-run must keep stdout path-only and fire its ignore notice; repo-state enumeration must succeed; validators must still reject malformed specs), wired into both validation registries so the class cannot return in any shipped script.
 
 - **Round 9 — M1–M5 + sidecar recovery and leverage maximization (2026-06-10):** (M1) `validate-phase.sh` diagnostics now name the expected shape (list-item requirements, the literal `Markdown fallback:` field) and the error summary points at `templates/phase-goal.txt` — the round-8 dogfood lost two iterations to messages that misnamed their own requirements. (M2) new shipped `skills/scripts/validate-run-root.sh` validates live run-root structure (Status enum token, Andon log columns, ROADMAP↔phase-spec completeness); the PROTOCOL resume contract now validates the run root before resuming (a corrupted root is an ANDON_PROBE, not something to resume through); package manifests updated. (M3) `AUDIT_START` carries `Skill version:` from the payload manifest so every transcript is attributable to its contract version. (M4) `fixtures/agent-eval/RUNBOOK.md` standardizes the first live eval run. (M5) Stage 0 detects bash availability for the helper layer. **Sidecars (owner-authorized this round):** graphify 0.8.37 + activegraph 1.1.0 installed; prior custody recovered read-only (v0.2.7.0/v0.2.8.0 stores: 18+9 JSONL, 8+19 SQLite events); v0.2.9.0 rounds 1–9 backfilled as 15 `historical_backfill` events per V0260 labeling plus 7 live events in `<run-root>/custody.db`, readback verified via `activegraph export-trace`/`inspect`; Graphify terrain re-extracted (144 nodes, 901 links) and queried live. **Leverage audit gaps closed:** Andon escalation custody events (`andon.probe.recorded`/`andon.escalated`/`andon.handoff.recorded` with abnormality class) added to SKILL.md §12a, the lean custody table, and the PROTOCOL Andon protocol; canonical store convention + cross-run read-only discovery + backfill labeling documented in PROTOCOL; Stage 0 detects prior per-run stores; terrain extraction ownership and node schema documented; lean checker enforces the new rows. `check-sidecar-boundaries.sh` corrected to its own documented boundary (tracked source / package / ignore-cover — not local existence, which canonical dogfood sidecars now require).
 

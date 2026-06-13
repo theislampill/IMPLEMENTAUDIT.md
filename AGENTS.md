@@ -28,17 +28,14 @@ Each action needs separate explicit authorization.
 
 ## Operating vocabulary
 
-Kaizen — Continuous improvement
-Apply Kaizen: improve the smallest repeatable part of the process, measure it, and fold it into the standard.
+Improve the smallest repeatable part of the process, measure it, and fold it
+into the standard (Kaizen).
 
-Hansei — Structured reflection
-Use Hansei after failure: name the gap, cause, countermeasure, and follow-up evidence.
+After failure, name the gap, cause, countermeasure, and follow-up evidence
+(Hansei).
 
-Hoshin Kanri — Policy deployment / alignment
-Use Hoshin Kanri lightly: align projects, metrics, owners, and review cadence to the top objective.
-
-Nemawashi — Laying groundwork / consensus before change
-Use Nemawashi: surface the proposed change, affected owners, tradeoffs, and rollback before forcing the decision.
+Before forcing a decision, surface the proposed change, affected owners,
+tradeoffs, and rollback (Nemawashi).
 
 ---
 
@@ -92,20 +89,26 @@ Examples:
 /implementaudit turn this idea into the right implementation goal
 ```
 
-In this mode, ImplementAudit performs enough Gemba and Hoshin Kanri to produce a bounded, evidence-aware Kaizen handoff. If execution should continue under a host goal runner, it prints a ready-to-paste `/goal Using /implementaudit ...` command.
+In this mode, ImplementAudit performs enough Gemba and strategy alignment to
+produce a bounded, evidence-aware Kaizen handoff. If execution should continue
+under a host goal runner, it prints a ready-to-paste `/goal Using
+/implementaudit ...` command.
 
 ### 4. Governed casual-build intake
 
-Used when the user gives plain-language repo-build intent without a separate audit artifact.
+Used when the user gives natural-language repo-build intent without a concrete
+audit artifact yet.
 
 Examples:
 
 ```text
 /implementaudit add a login page to this app
-/implementaudit fix this repo bug safely and keep the diff reviewable
+/implementaudit wire up CI for this package
 ```
 
-In this mode, ImplementAudit first synthesizes a bounded audit object: owner/source, scope, acceptance criteria, rollback, route, and evidence plan. Unbounded, unsafe, or non-repo input gets an explicit STOP instead of direct mutation.
+In this mode, ImplementAudit first synthesizes a bounded work record with
+owner/source, acceptance criteria, rollback path, and evidence boundary. Unsafe,
+unbounded, impossible, or non-repo input stops at intake instead of mutating.
 
 ---
 
@@ -134,12 +137,16 @@ In this mode, ImplementAudit first synthesizes a bounded audit object: owner/sou
 │   ├── INDEX.md                Compact dogfood-history evidence index.
 │   └── v0.2.3.0-harness-adaptation-matrix.md
 │                                Generic external-comparator adaptation matrix.
-├── docs/portal_old/            Archived legacy single-page portal source retained for reference parity.
-├── docs/portal/                Multipage docs portal source; generated into dist/docs-portal/ by build-docs-portal.py.
+├── docs/portal/
+│   ├── site.json               Static portal map and source-current metadata.
+│   ├── pages/                  Static HTML page fragments wrapped by build-docs-portal.py.
+│   └── assets/                 Portal CSS/JS copied into dist/docs-portal/.
 ├── fixtures/
 │   ├── agent-eval/             Adversarial identity-misread eval inputs + expected transcript properties.
 │   ├── child-agents/           Scoped AGENTS hierarchy and reviewer fixtures.
 │   ├── lean/                   DMAIC/DMADV/mixed routing fixtures for Lean discipline.
+│   ├── audit-object-routing/   Fixtures for native category routing, plan lifecycle, and issue deferral behavior.
+│   ├── terminology-integration/  Compact positive/negative fixtures for no-glossary terminology integration.
 │   ├── zero-optional-tool/     Complete Markdown fallback example.
 │   ├── run-root-example/       Tracked exemplar run root (validator-passing, brownfield).
 │   ├── phase-design/           Multi-phase plan outlines + DMADV greenfield phase exemplar.
@@ -163,13 +170,13 @@ In this mode, ImplementAudit first synthesizes a bounded audit object: owner/sou
 │   ├── generate-readme-diagrams.sh Generate/check README Mermaid blocks.
 │   ├── check-routing.sh     Validate greenfield/brownfield routing fixtures.
 │   ├── check-lean-discipline.sh  Poka-yoke gate: Lean terms implemented as behavior, not glossary.
+│   ├── check-terminology-integration.sh  Guard thin precedence hooks; reject orphan/glossary terms.
 │   ├── check-no-terminal-cap.sh  Poka-yoke gate: no terminal-cap failure wording in runtime docs.
 │   ├── check-agent-eval-fixtures.sh  Structural gate for the agent-eval misread fixture pack.
 │   ├── grade-agent-eval-transcript.sh  Grade a transcript against a fixture's Graded properties.
 │   ├── check-validation-registry.sh  Meta-gate: every test is wired into verify-package and CI.
-│   ├── build-docs-portal.py    Stdlib-only docs portal generator (reads docs/portal/).
-│   ├── check-docs-portal.py    Multipage validator for generated portal output.
-│   ├── verify-docs-portal.sh   Nonrecursive build+validate helper for the generated portal.
+│   ├── build-docs-portal.py    Stdlib-only static portal generator (reads docs/portal/site.json + pages/**).
+│   ├── check-docs-portal.py    Static portal output/source-shape validator.
 │   ├── install-codex-from-release.sh Install a validated release asset into a Codex-style skill home.
 │   ├── verify-package.sh       Repo/package validation.
 │   └── write-release-checksums.sh Create/check release checksum manifest.
@@ -184,6 +191,10 @@ In this mode, ImplementAudit first synthesizes a bounded audit object: owner/sou
     │   ├── routing.md          Greenfield/brownfield/mixed routing gates + DMAIC/DMADV.
     │   ├── repo-state-comparison.md Baseline-to-working-tree audit comparison.
     │   ├── lean-operating-discipline.md  Lean/TPS → IMPLEMENTAUDIT behavior mapping (ships in package).
+    │   ├── audit-category-matrix.md  v0.3.0.0 default category/deep/security/direction pressure.
+    │   ├── audit-playbook.md  v0.3.0.0 detailed audit heuristics for native audit-object findings.
+    │   ├── plan-lifecycle.md  v0.3.0.0 plan review, dispatch/review, reconciliation, and issue deferral.
+    │   ├── terminology-integration.md  Thin cross-reference/precedence contract; not a glossary.
     │   └── child-agents.md     Bounded review loops and non-authority boundaries.
     ├── scripts/                Bash scripts the planner executes during stages.
     │   ├── claim-run.sh        Atomic namespaced run-root claim helper.
@@ -209,12 +220,15 @@ In this mode, ImplementAudit first synthesizes a bounded audit object: owner/sou
 
 ## What ships vs what doesn't
 
-- **Repo runtime source**: everything under `skills/`. The built `.skill` archive places `SKILL.md`, `references/`, `scripts/`, and `templates/` at archive root; `.claude-plugin/plugin.json` uses `skills: "./"` for that archive shape.
+- **Ships to consumers**: the flat archive payload built from `skills/` with
+  SKILL.md at archive root. The plugin manifest declares `skills: "./"`;
+  the archive strips the `skills/` prefix while preserving references,
+  scripts, and templates at their installed relative paths.
 - **Repo-only**: `README.md`, `CHANGELOG.md`, `AGENTS.md`, `CLAUDE.md`, `CONTRIBUTING.md`, fixtures, root scripts, and `.gitignore`.
 - **Marketplace entry**: `.claude-plugin/marketplace.json` points at the plugin root. Do not claim marketplace behavior was verified unless actually tested.
 - **License**: no `LICENSE` file is present until the owner selects a license and supplies license evidence.
-- **Versioning**: project milestone `v0.2.9.0` maps to plugin manifest version
-  `0.2.9`. The manifest uses
+- **Versioning**: project milestone `v0.3.0.0` maps to plugin manifest version
+  `0.3.0`. The manifest uses
   host-conservative package metadata; project milestones are not tags,
   releases, publication, or provenance claims until the separate
   release/provenance gate actually performs and verifies those actions.
@@ -226,13 +240,19 @@ In this mode, ImplementAudit first synthesizes a bounded audit object: owner/sou
 
 ## How the skill works
 
-ImplementAudit first identifies the invocation shape: embedded governance, direct governance, or goal synthesis.
+ImplementAudit first identifies the invocation shape: embedded governance,
+direct governance, goal synthesis, or governed casual-build intake.
 
 In embedded governance mode, ImplementAudit is already inside a supplied host goal/task/plan, such as `/goal using /implementaudit ...`. It does not print a second `/goal`. It governs the active target with safety read, input normalization, Gemba, Smoke A/B, owner/source patching, evidence boundaries, final audit, and terminal ledger closure.
 
 In direct governance mode, ImplementAudit receives a concrete audit, handoff, checklist, review, or bounded plan. It applies audit-closure hygiene to that artifact. It may decompose the work into phases when the artifact is large, risky, or multi-step, but it should not invent a new high-level objective when the objective is already clear.
 
-In goal-synthesis mode, ImplementAudit receives only an idea, gap, ambiguous audit target, or request for the next best implementation prompt. It performs enough Gemba and Hoshin Kanri to produce a bounded, evidence-aware Kaizen handoff. If execution should continue under a host goal runner, it prints a ready-to-paste `/goal Using /implementaudit ...` command.
+In goal-synthesis mode, ImplementAudit receives only an idea, gap, ambiguous audit target, or request for the next best implementation prompt. It performs enough Gemba and strategy alignment to produce a bounded, evidence-aware Kaizen handoff. If execution should continue under a host goal runner, it prints a ready-to-paste `/goal Using /implementaudit ...` command.
+
+In governed casual-build intake, ImplementAudit receives natural-language
+repo-build intent and first creates a bounded work record before any mutation.
+That intake records owner/source, acceptance criteria, rollback path, and
+evidence boundary, then routes the work as greenfield, brownfield, or mixed.
 
 All modes preserve the same method:
 
@@ -245,7 +265,7 @@ All modes preserve the same method:
 - use Nemawashi before forcing owner decisions
 - use Hansei after failure or false-pass
 - apply Kaizen to fold repeatable improvements into the standard
-- use Hoshin Kanri lightly to align phases, metrics, owners, and review cadence to the top objective
+- align phases, metrics, owners, and review cadence to the top objective
 - classify regressions honestly
 - close every ledger item terminally
 - write durable repo-local anti-repeat rules to AGENTS.md when warranted
@@ -552,7 +572,7 @@ CHANGELOG:
 - Keep-a-Changelog style.
 - Keep the current project milestone at top, e.g. `[v0.2.6.0] - Unreleased` before release or `[v0.2.6.0] - <date>` only when the date is grounded.
 - Match manifest version if one exists.
-- Current project milestone is `v0.2.9.0`; plugin manifest version is `0.2.9` unless host evidence supports a four-component manifest version.
+- Current project milestone is `v0.3.0.0`; plugin manifest version is `0.3.0` unless host evidence supports a four-component manifest version.
 - Do not claim tags, releases, provenance, publication, or verified install without evidence.
 - Behavior/package changes should be produced by running `/implementaudit` on this repo itself.
 - Changelog entries should preserve the causal chain: finding/gap, root cause when known, countermeasure, evidence, and remaining risk.
@@ -587,6 +607,10 @@ test -f skills/references/child-agents.md
 test -f skills/references/transcript-contract.md
 test -f skills/references/routing.md
 test -f skills/references/repo-state-comparison.md
+test -f skills/references/audit-category-matrix.md
+test -f skills/references/audit-playbook.md
+test -f skills/references/plan-lifecycle.md
+test -f skills/references/terminology-integration.md
 test -f skills/templates/PROTOCOL.md
 test -f skills/templates/ROADMAP.md
 test -f skills/templates/STATE.md
@@ -611,6 +635,9 @@ test -f fixtures/routing/brownfield-zero-question-recon/EXPECTED.md
 test -f fixtures/routing/brownfield-one-question-true-gap/EXPECTED.md
 test -f fixtures/routing/brownfield-two-question-true-gap/EXPECTED.md
 test -f fixtures/routing/mixed-greenfield-in-brownfield/EXPECTED.md
+test -f fixtures/audit-object-routing/category-matrix.md
+test -f fixtures/audit-object-routing/plan-lifecycle.md
+test -f fixtures/audit-object-routing/issues-deferred.md
 test -f docs/diagrams/tooling-architecture.mmd
 test -f docs/diagrams/invocation-modes.mmd
 test -f docs/diagrams/execution-spine.mmd
@@ -622,6 +649,7 @@ test -f docs/audits/v0.2.5.0-claude-install-repair.md
 test -f docs/audits/v0.2.7.0-lean-operating-discipline.md
 test -f docs/audits/v0.2.8.0-adaptation.md
 test -f docs/audits/v0.2.9.0-andon-escalation-jidoka-repair.md
+test -f docs/audits/v0.3.0.0-external-comparator-source-inventory.md
 test -f scripts/check-no-terminal-cap.sh
 test -f tests/no-terminal-cap.test.sh
 test -f fixtures/agent-eval/terminal-cap-request.md
@@ -648,14 +676,14 @@ test -f fixtures/run-root-example/STATE.md
 test -f fixtures/run-root-example/phases/phase-1.md
 test -f fixtures/phase-design/dmadv-greenfield-phase.md
 test -f fixtures/agent-eval/RUNBOOK.md
-test -f docs/portal_old/onboarding.md
 test -f docs/portal/site.json
 test -f docs/portal/pages/overview.html
-test -f docs/portal/pages/quick-start.html
-test -f docs/portal/pages/reference-index.html
+test -f docs/portal/pages/installation.html
+test -f docs/portal/pages/audit-trail.html
+test -f docs/portal/assets/draft-v2.css
+test -f docs/portal/assets/draft-v2.js
 test -f scripts/build-docs-portal.py
 test -f scripts/check-docs-portal.py
-test -f scripts/verify-docs-portal.sh
 test -f tests/docs-portal.test.sh
 test -f fixtures/casual-build/accepted-intent.md
 test -f fixtures/casual-build/rejected-intent.md
@@ -664,6 +692,11 @@ test -f .github/workflows/pages.yml
 test -f skills/references/lean-operating-discipline.md
 test -f scripts/check-lean-discipline.sh
 test -f tests/lean-discipline.test.sh
+test -f scripts/check-terminology-integration.sh
+test -f tests/terminology-integration.test.sh
+test -f fixtures/terminology-integration/full-stack-integration.md
+test -f fixtures/terminology-integration/negative-glossary-orphan.md
+test -f fixtures/terminology-integration/negative-generic-advice.md
 test -f fixtures/lean/brownfield-dmaic-release-repair.md
 test -f fixtures/lean/brownfield-dmaic-stale-docs.md
 test -f fixtures/lean/greenfield-dmadv-new-runtime-helper.md
@@ -701,8 +734,13 @@ bash tests/continuity.test.sh
 bash tests/phase-validation.test.sh
 bash tests/sidecars.test.sh
 bash tests/capability-ledger.test.sh
+bash tests/audit-object-routing.test.sh
+bash tests/audit-object-plan-lifecycle.test.sh
+bash tests/issues-deferred-gate.test.sh
 bash scripts/check-lean-discipline.sh
 bash tests/lean-discipline.test.sh
+bash scripts/check-terminology-integration.sh
+bash tests/terminology-integration.test.sh
 bash scripts/check-no-terminal-cap.sh
 bash tests/no-terminal-cap.test.sh
 bash scripts/check-agent-eval-fixtures.sh
@@ -710,6 +748,12 @@ bash tests/agent-eval-fixtures.test.sh
 bash tests/agent-eval-grader.test.sh
 bash scripts/check-validation-registry.sh
 bash tests/validation-registry.test.sh
+```
+
+Run docs-portal separately (it calls verify-package.sh internally; do not nest it inside verify-package.sh):
+
+```bash
+bash tests/docs-portal.test.sh
 ```
 
 ## Editing rules
@@ -750,6 +794,7 @@ grep -R "AGENTS_UPDATE_DECISION" -n skills
 grep -R "AUDIT_COMPLETE" -n skills
 grep -R "IMPLEMENTAUDIT_RUN_COMPLETE" -n skills
 grep -R ".IMPLEMENTAUDIT" -n skills README.md AGENTS.md
+grep -R "v0.3.0.0" -n README.md CHANGELOG.md AGENTS.md
 grep -R "v0.2.9.0" -n README.md CHANGELOG.md AGENTS.md
 grep -R "v0.2.8.0" -n README.md CHANGELOG.md AGENTS.md
 grep -R "v0.2.7.0" -n README.md CHANGELOG.md AGENTS.md
@@ -843,9 +888,8 @@ checker-enforced and this one was not (2026-06-10).
 **Anti-repeat rule (V0290-VALIDATION-REGISTRY-PARITY):** Every
 `tests/*.test.sh` must be invoked by BOTH `scripts/verify-package.sh` and
 `.github/workflows/validate.yml`; `scripts/check-validation-registry.sh`
-enforces parity with no hidden test exemption. Docs portal validation uses
-`scripts/verify-docs-portal.sh` so `tests/docs-portal.test.sh` can be called
-from `verify-package.sh` without recursion.
+enforces parity with a reasoned exemption list (docs-portal.test.sh is exempt
+from verify-package because it invokes verify-package and must not nest).
 Rationale: both registries drifted independently at v0.2.9.0 — three new
 tests missing from verify-package, one test missing from CI (2026-06-10).
 
@@ -874,7 +918,7 @@ run-root artifacts are the audit substrate, never deliverables or cleanliness
 evidence. `skills/scripts/repo-state.sh` excludes them from `changed-files`
 and `added-lines` enumeration with a visible stderr count (never silently),
 while explicit `deliverable <path>` queries stay honest for any path.
-`claim-run.sh` prints an advisory (stderr, no repo mutation) when the run-root
+`claim-run.sh` prints a notice (stderr, no repo mutation) when the run-root
 base is not gitignored in the target repo, suggesting a local-only
 `.git/info/exclude` entry. Rationale: v0.2.9.0 round-6 audit — in target repos
 without the dogfood gitignore, run roots contaminated the run's own evidence
@@ -905,6 +949,17 @@ the gate; `tests/no-terminal-cap.test.sh` proves both the gate and the
 legacy-history exemption (CHANGELOG.md and docs/audits/ are not scanned).
 Rationale: v0.2.9.0 Jidoka contradiction repair (2026-06-10).
 
+**Anti-repeat rule (V0300-NATIVE-AUDIT-OBJECT-ROUTING-NOT-COMMAND-IDENTITY):**
+Native v0.3.0.0 category/workflow routing means expressing useful
+source-inventory behavior through IMPLEMENTAUDIT's audit-object lifecycle, not
+copying external command identity or making issue publication an implicit side
+effect. Keep category pressure, deep/security pressure, DMADV-routed direction,
+branch/diff scoping, plan review, dispatch/review, and reconciliation under
+existing owner/source, Smoke A/B, Andon, final-audit, and authorization gates.
+Root `plans/` is not the canonical planning substrate, and issue publication
+remains deferred until a future explicit publication gate.
+Rationale: v0.3.0.0 audit-object-routing adaptation (2026-06-12).
+
 **Anti-repeat rule (V0_2_6_0_DISPATCH_NEEDS_PREFLIGHT):** Stage 7 handoff must
 not be printed before: (a) all 8 dispatch-prep steps in Stage 5 complete, and
 (b) Stage 6.5 prints PREFLIGHT_GREEN or OWNER DECISION accepts PREFLIGHT_RED.
@@ -920,11 +975,11 @@ closing the release gate. If the live Claude host is available, also run
 and verify in Claude Desktop.
 
 The docs portal generator (`scripts/build-docs-portal.py`) provides the
-multipage onboarding and reference docs portal. It is generated from
-`docs/portal/` and deployed to GitHub Pages via `.github/workflows/pages.yml`.
-`docs/portal_old/onboarding.md` is retained as a legacy single-page source for
-parity checks, not as the current portal owner/source. See v0.2.8.0 adaptation
-ledger for evidence.
+quickstart/onboarding docs page. It is generated from `docs/portal/site.json`
+and `docs/portal/pages/**`
+and is built for GitHub Pages via `.github/workflows/pages.yml`. Current public
+deployment requires successful deploy evidence and any owner gate. See v0.2.8.0
+adaptation ledger for the historical Pages setup.
 
 **Anti-repeat rule (V0270-LEAN-TERMS-ARE-BEHAVIOR):** Lean/TPS terms (5S,
 Kaizen, Hansei, Jidoka, Gemba, Nemawashi, Muda/Mura/Muri, DMAIC, DMADV,
@@ -933,6 +988,17 @@ behavior documented in `skills/references/lean-operating-discipline.md`. Do not
 add Lean terms to prompts, templates, or docs without a matching behavioral
 anchor. `scripts/check-lean-discipline.sh` verifies the structural requirements.
 Rationale: v0.2.7.0 Lean operating discipline (2026-06-07).
+
+**Anti-repeat rule (V0300-TERMINOLOGY-INTEGRATION-NOT-GLOSSARY):**
+External method terms may strengthen IMPLEMENTAUDIT only as native-parent,
+phase, route/lens, evidence-boundary, Andon/control, checker, or final-audit
+hooks. Do not add a second glossary, term-entry schema, or terminology lane.
+Existing references keep authority: Lean owns A3/Poka-yoke/Standard Work and
+Jidoka/Andon, routing owns DMAIC/DMADV and mixed replacement, Plan Closure owns
+sustainment, and audit-category/security references own repo-content-as-data.
+`skills/references/terminology-integration.md` is a thin precedence map only;
+`scripts/check-terminology-integration.sh` verifies that orphan/glossary terms
+fail. Rationale: v0.3.0.0 runtime terminology KISS Andon (2026-06-12).
 
 **Anti-repeat rule (V0270-DMAIC-DMADV-ROUTING):** Brownfield improvement work
 routes through DMAIC (Define→Measure→Analyze→Improve→Control). Greenfield or
@@ -983,12 +1049,14 @@ not a violation: the boundary is tracked source and the `.skill` package —
 existence. Terrain is orientation, custody is chain-of-custody; neither is
 proof.
 
-**Anti-repeat rule (V0270-SIDECAR-OUTPUTS-EXCLUDED):** Graphify outputs
-(`graphify-out/`, `graph.json`), ActiveGraph stores (`.activegraph/`, `*.activegraph.db`,
-`custody*.jsonl`, `custody.db`), and run-root artifacts (`.IMPLEMENTAUDIT/`) are
-gitignored and must never appear in tracked source, commit messages, or the `.skill`
-package. `scripts/check-sidecar-boundaries.sh` and `scripts/verify-package.sh`
-enforce this boundary. Rationale: v0.2.7.0.
+**Anti-repeat rule (V0270-SIDECAR-OUTPUTS-EXCLUDED):** Graphify outputs belong
+under gitignored `graphify-out/` or `.graphify/`; ActiveGraph stores belong under
+gitignored `.activegraph/`, `.IMPLEMENTAUDIT/`, or files matching
+`*.activegraph.db`. Standalone sidecar debris such as `graph.json`,
+`custody*.jsonl`, or `custody.db` is not guaranteed to be ignored by name and
+must never appear in tracked source, commit messages, or the `.skill` package.
+`scripts/check-sidecar-boundaries.sh` and `scripts/verify-package.sh` enforce the
+tracked-source/package boundary. Rationale: v0.2.7.0.
 
 **Anti-repeat rule (V0280-CASUAL-BUILD-INTAKE-MUST-BE-GOVERNED):** Natural-language
 repo-build intent is a valid 4th invocation shape (governed casual-build intake),
@@ -1009,13 +1077,13 @@ with all 6 required fields (Target, Reason, Evidence, Boundary, Authorization,
 Not saved). Rationale: v0.2.8.0 G4 gap closure (2026-06-08).
 
 **Anti-repeat rule (V0280-DOCS-PORTAL-GENERATOR-FIRST):** `dist/docs-portal/` is
-generated output. Never hand-edit generated portal HTML or
+generated output. Never hand-edit `dist/docs-portal/index.html` or
 `dist/docs-portal/docs-metadata.json`. Always regenerate from source:
 `python scripts/build-docs-portal.py`. Validate with:
 `python scripts/check-docs-portal.py dist/docs-portal`. The portal content
-source is `docs/portal/`; edit that source tree, then regenerate.
-`dist/` is gitignored. `scripts/verify-docs-portal.sh` and
-`tests/docs-portal.test.sh` run the full build+validate cycle.
+source is `docs/portal/site.json` plus `docs/portal/pages/**`; edit those
+files, then regenerate.
+`dist/` is gitignored. `tests/docs-portal.test.sh` runs the full build+validate cycle.
 Rationale: v0.2.8.0 G7 gap closure (2026-06-08).
 
 **Anti-repeat rule (V0280-PAGES-DEPLOYMENT-UNVERIFIED):** GitHub Pages deployment
@@ -1057,11 +1125,12 @@ bash scripts/build-release-asset.sh
 ```
 
 The artifact contains only the packaged skill payload required for installation:
-`SKILL.md`, `references/`, `scripts/`, `templates/`, and `.claude-plugin/`
-metadata at archive root. Source files live under repo `skills/`, but the built
-archive must not contain a nested `skills/` directory. Repo-maintenance material
-such as README generation sources, audit ledgers, release-candidate notes,
-fixtures, tests, CI config, Git metadata, root validation scripts, and
+`.claude-plugin/` metadata plus a flat archive copy of the `skills/` source
+payload, with SKILL.md at archive root and references, scripts, and templates
+under their installed relative paths. The manifest declares `skills: "./"` and
+the archive strips the `skills/` prefix. Repo-maintenance material such as
+README generation sources, audit ledgers, release-candidate notes, fixtures,
+tests, CI config, Git metadata, root validation scripts, and
 changelog/release-history evidence stays repo-side unless a future owner
 decision proves a file is load-bearing for installed runtime behavior. The
 artifact must not include a root `IMPLEMENTAUDIT.md` behavior file.
@@ -1175,7 +1244,7 @@ Full format specs: `skills/references/goal-format.md` and
 - **Slash commands fire only from user input.** Agent text containing `/goal "..."` is *not* parsed as a command. Stage 7 is a one-paste handoff — the planner prints the line, the user pastes it. Never frame this as "automatic dispatch."
 - **Plugin cache only refreshes on version-field change.** If you push a code change without bumping `plugin.json` version, `claude plugin update` reports "already at latest" and the cache stays stale. Always bump on shipped changes.
 - **`.gitignore` extension filter**: the file has no extension, so `find -name "*.md"` etc. skip it. When doing mass renames, include the gitignore separately.
-- **Codex install is a one-way copy**. There is no marketplace auto-update path. Repeat the README-documented manual copy command when the package changes, and keep that command aligned with the actual `skills/` package layout.
+- **Codex install is a one-way copy**. There is no marketplace auto-update path. Repeat the README-documented manual copy command when the package changes, and keep that command aligned with the flat installed package layout.
 - **Durable repo-specific learning belongs in AGENTS.md, not user memory.** The agent emits `AGENTS_UPDATE_DECISION` to state whether a durable rule was added, not warranted, or requires owner decision.
 - **Child/subagent guidance follows the AGENTS hierarchy.** Use root `AGENTS.md` for repo-wide rules and scoped `AGENTS.md` or `AGENTS.override.md` only for subtree-specific routines when supported. Reference docs do not change instruction precedence.
 - **Do not print a second `/goal` when already operating inside a `/goal using /implementaudit ...` run.**
@@ -1194,13 +1263,14 @@ Required reference set:
 - `routing.md` — greenfield, brownfield, and mixed-mode intake/inspection gates.
 - `repo-state-comparison.md` — baseline-to-working-tree comparison for final audit, deliverable, and cleanliness evidence.
 - `child-agents.md` — bounded child/subagent review loops and non-authority boundaries.
+- `lean-operating-discipline.md` — Lean/TPS terms implemented as runtime behavior, not glossary labels.
+- `audit-category-matrix.md` — default category, deep, security, and direction pressure.
+- `audit-playbook.md` — detailed v0.3.0.0 correctness, security, performance, tests, architecture, dependencies, DX, docs, and direction audit heuristics.
+- `plan-lifecycle.md` — plan review, dispatch/review, reconciliation, and issue deferral.
+- `terminology-integration.md` — thin precedence map for orphan-term rejection and native-parent ownership.
 
-Optional later references:
-
-- `activegraph-graphify.md`
-- `agents-standardization.md`
-- `kaizen-hansei-hoshin-nemawashi.md` — operating vocabulary and when each method applies.
-- `evidence-boundaries.md` — proof levels, trust-prior, Graphify/ActiveGraph limits, and no-provenance-without-evidence.
+There is no current optional-later reference set. Do not cite nonexistent
+reference paths as active docs.
 
 ## Related
 

@@ -204,6 +204,9 @@ required_archive = {
     "references/repo-state-comparison.md",
     "references/child-agents.md",
     "references/lean-operating-discipline.md",
+    "references/audit-category-matrix.md",
+    "references/audit-playbook.md",
+    "references/plan-lifecycle.md",
     "scripts/claim-run.sh",
     "scripts/detect-env.sh",
     "scripts/detect-stack.sh",
@@ -285,8 +288,10 @@ with zipfile.ZipFile(asset) as zf:
             shutil.rmtree(tmp_target)
         tmp_target.mkdir(parents=True)
 
-        # Copy the flat skill payload and package metadata exactly as validated.
+        # Copy skill content from archive root to tmp_target (skip .claude-plugin/).
         for child in root.iterdir():
+            if child.name == ".claude-plugin":
+                continue
             dest = tmp_target / child.name
             if child.is_file():
                 shutil.copy2(child, dest)
@@ -303,6 +308,9 @@ with zipfile.ZipFile(asset) as zf:
             "references/repo-state-comparison.md",
             "references/child-agents.md",
             "references/lean-operating-discipline.md",
+            "references/audit-category-matrix.md",
+            "references/audit-playbook.md",
+            "references/plan-lifecycle.md",
             "scripts/claim-run.sh",
             "scripts/detect-env.sh",
             "scripts/detect-stack.sh",
@@ -321,8 +329,6 @@ with zipfile.ZipFile(asset) as zf:
             "templates/sidecars.md",
             "templates/tools.md",
             "templates/context.md",
-            ".claude-plugin/plugin.json",
-            ".claude-plugin/marketplace.json",
         ]:
             if not (tmp_target / rel).is_file():
                 raise SystemExit(f"staging skill missing required file: {rel}")

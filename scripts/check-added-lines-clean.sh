@@ -14,7 +14,8 @@ helper="skills/scripts/repo-state.sh"
 [ -f "$helper" ] || fail "missing helper: $helper"
 
 added="$(mktemp)"
-trap 'rm -f "$added"' EXIT
+session_marker_added="$(mktemp)"
+trap 'rm -f "$added" "$session_marker_added"' EXIT
 
 is_skipped_path() {
   case "$1" in
@@ -66,7 +67,17 @@ scan() {
 }
 
 scan "debug print added" 'console\.log|console\.error|debugger;|(^|[^[:alnum:]_])print[[:space:]]*\(|pprint[[:space:]]*\(|fmt\.Println|log\.Println'
-scan "session TODO/FIXME marker added" '\b(TODO|FIXME|XXX)\b'
+
+# TODO is also a deliberate reconciliation status in the v0.3.0.0 plan
+# lifecycle contract. Remove only that exact status-list context before the
+# generic session-marker scan, so ordinary TODO/FIXME/XXX debris still fails.
+grep -Ev 'Reconciliation statuses|DONE / BLOCKED / IN PROGRESS / TODO / STALE / DRIFTED / FIXED INDEPENDENTLY|`TODO`' "$added" >"$session_marker_added" || true
+if grep -En '\b(TODO|FIXME|XXX)\b' "$session_marker_added" >/tmp/implementaudit-added-lines-hit.txt; then
+  printf 'check-added-lines-clean: session TODO/FIXME marker added\n' >&2
+  cat /tmp/implementaudit-added-lines-hit.txt >&2
+  failures=$((failures + 1))
+fi
+rm -f /tmp/implementaudit-added-lines-hit.txt
 
 verified_word="verified"
 install_word="install"

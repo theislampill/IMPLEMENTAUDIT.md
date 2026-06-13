@@ -42,6 +42,9 @@ for file in \
   references/repo-state-comparison.md \
   references/child-agents.md \
   references/lean-operating-discipline.md \
+  references/audit-category-matrix.md \
+  references/audit-playbook.md \
+  references/plan-lifecycle.md \
   scripts/claim-run.sh \
   scripts/detect-env.sh \
   scripts/detect-stack.sh \
@@ -59,9 +62,7 @@ for file in \
   templates/PROTOCOL.md \
   templates/sidecars.md \
   templates/tools.md \
-  templates/context.md \
-  .claude-plugin/plugin.json \
-  .claude-plugin/marketplace.json
+  templates/context.md
 do
   [ -f "$claude_skills_dir/$file" ] || {
     printf 'release-asset-install-claude.test: missing installed file: %s\n' "$file" >&2

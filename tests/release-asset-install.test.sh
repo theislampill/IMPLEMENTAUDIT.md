@@ -31,7 +31,7 @@ bash scripts/install-codex-from-release.sh \
   --asset "$asset" \
   --checksum "$checksums" \
   --codex-home "$codex_home" \
-  --version 0.2.9
+  --version 0.3.0
 
 installed="$codex_home/skills/implementaudit"
 for file in \
@@ -44,6 +44,9 @@ for file in \
   references/repo-state-comparison.md \
   references/child-agents.md \
   references/lean-operating-discipline.md \
+  references/audit-category-matrix.md \
+  references/audit-playbook.md \
+  references/plan-lifecycle.md \
   scripts/claim-run.sh \
   scripts/detect-env.sh \
   scripts/detect-stack.sh \
@@ -61,9 +64,7 @@ for file in \
   templates/PROTOCOL.md \
   templates/sidecars.md \
   templates/tools.md \
-  templates/context.md \
-  .claude-plugin/plugin.json \
-  .claude-plugin/marketplace.json
+  templates/context.md
 do
   [ -f "$installed/$file" ] || {
     printf 'release-asset-install.test: missing installed file: %s\n' "$file" >&2
@@ -83,7 +84,7 @@ if bash scripts/install-codex-from-release.sh \
   --asset "$asset" \
   --checksum "$stale" \
   --codex-home "$tmp_parent/stale codex home" \
-  --version 0.2.9 >/dev/null 2>&1; then
+  --version 0.3.0 >/dev/null 2>&1; then
   printf 'release-asset-install.test: stale checksum unexpectedly passed\n' >&2
   exit 1
 fi
@@ -113,7 +114,7 @@ if bash scripts/install-codex-from-release.sh \
   --asset "$overbroad" \
   --checksum "$overbroad_checksums" \
   --codex-home "$tmp_parent/overbroad codex home" \
-  --version 0.2.9 >/dev/null 2>&1; then
+  --version 0.3.0 >/dev/null 2>&1; then
   printf 'release-asset-install.test: overbroad archive unexpectedly passed\n' >&2
   exit 1
 fi
@@ -143,7 +144,7 @@ if bash scripts/install-codex-from-release.sh \
   --asset "$sidecar" \
   --checksum "$sidecar_checksums" \
   --codex-home "$tmp_parent/sidecar codex home" \
-  --version 0.2.9 >/dev/null 2>&1; then
+  --version 0.3.0 >/dev/null 2>&1; then
   printf 'release-asset-install.test: sidecar artifact unexpectedly passed\n' >&2
   exit 1
 fi

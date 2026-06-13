@@ -22,16 +22,92 @@ if [ "$#" -lt 5 ] || [ "$#" -gt 6 ]; then
 fi
 store="$1"; run_id="$2"; event_id="$3"; event_type="$4"; payload_json="$5"; caused_by="${6:-}"
 
+py_cmd=()
+fallback_py_cmd=()
+
+remember_python() {
+  if [ "${#fallback_py_cmd[@]}" -eq 0 ]; then
+    fallback_py_cmd=("$@")
+  fi
+}
+
+to_windows_path() {
+  local input="$1"
+  local abs="$input"
+  local drive rest
+  if [ "${abs#/}" = "$abs" ]; then
+    abs="$PWD/$abs"
+  fi
+  case "$abs" in
+    /mnt/[A-Za-z]/*)
+      drive="${abs:5:1}"
+      rest="${abs:7}"
+      rest="${rest//\//\\}"
+      printf '%s:\\%s' "${drive^^}" "$rest"
+      ;;
+    /[A-Za-z]/*)
+      drive="${abs:1:1}"
+      rest="${abs:3}"
+      rest="${rest//\//\\}"
+      printf '%s:\\%s' "${drive^^}" "$rest"
+      ;;
+    *)
+      printf '%s' "$input"
+      ;;
+  esac
+}
+
+try_activegraph_python() {
+  "$@" -c 'import activegraph' >/dev/null 2>&1 || return 1
+  py_cmd=("$@")
+  return 0
+}
+
 if command -v python >/dev/null 2>&1; then
-  py_cmd=(python)
-elif command -v python3 >/dev/null 2>&1; then
-  py_cmd=(python3)
-else
+  remember_python python
+  try_activegraph_python python || true
+fi
+if [ "${#py_cmd[@]}" -eq 0 ] && command -v python3 >/dev/null 2>&1; then
+  remember_python python3
+  try_activegraph_python python3 || true
+fi
+if [ "${#py_cmd[@]}" -eq 0 ] && command -v py >/dev/null 2>&1; then
+  remember_python py -3
+  try_activegraph_python py -3 || true
+fi
+if [ "${#py_cmd[@]}" -eq 0 ]; then
+  IFS=':' read -r -a path_entries <<< "${PATH:-}"
+  for path_entry in "${path_entries[@]}"; do
+    for candidate in "$path_entry/python.exe" "$path_entry/python"; do
+      if [ -x "$candidate" ]; then
+        remember_python "$candidate"
+        if try_activegraph_python "$candidate"; then
+          break 2
+        fi
+      fi
+    done
+  done
+fi
+if [ "${#py_cmd[@]}" -eq 0 ] && [ "${#fallback_py_cmd[@]}" -gt 0 ]; then
+  py_cmd=("${fallback_py_cmd[@]}")
+fi
+if [ "${#py_cmd[@]}" -eq 0 ]; then
   printf 'custody-append: python unavailable; event not recorded (Markdown fallback remains evidence of record)\n'
   exit 0
 fi
 
-"${py_cmd[@]}" - "$store" "$run_id" "$event_id" "$event_type" "$payload_json" "$caused_by" <<'PY'
+store_arg="$store"
+case "${py_cmd[0]}" in
+  *.exe|/mnt/*)
+    if command -v cygpath >/dev/null 2>&1; then
+      store_arg="$(cygpath -w "$store" 2>/dev/null || printf '%s' "$store")"
+    else
+      store_arg="$(to_windows_path "$store")"
+    fi
+    ;;
+esac
+
+"${py_cmd[@]}" - "$store_arg" "$run_id" "$event_id" "$event_type" "$payload_json" "$caused_by" <<'PY'
 import json
 import sys
 import datetime
@@ -80,6 +156,13 @@ except Exception:
 try:
     store = SQLiteEventStore(path=store_path, run_id=run_id)
     ts = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    if store.get_run() is None:
+        store.upsert_run(
+            label="implementaudit",
+            created_at=ts,
+            goal=payload.get("goal") or payload.get("purpose"),
+            frame_id=None,
+        )
     store.append(Event(id=event_id, type=event_type, payload=payload,
                        actor="implementaudit", frame_id=None, caused_by=caused_by,
                        timestamp=ts))

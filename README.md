@@ -30,7 +30,7 @@ Each action requires separate explicit authorization.
 - [Quick start](#quick-start)
 - [Runtime at a glance](#runtime-at-a-glance)
 - [What it is](#what-it-is)
-- [Terminology](#terminology)
+- [Quick vocabulary, not authority](#quick-vocabulary-not-authority)
 - [How an audit input drives a run](#how-an-audit-input-drives-a-run)
 - [How IMPLEMENTAUDIT audits](#how-implementaudit-audits)
 - [Invocation modes](#invocation-modes)
@@ -58,7 +58,9 @@ Each action requires separate explicit authorization.
 ## Quick start
 
 1. Install the skill (see [Install notes](#install-notes) for your host).
-   The `v0.2.9.0` public release carries the contract this README describes.
+   This source checkout documents the `v0.3.0.0` local contract. The last
+   release-gate verified live public release remains `v0.2.9.0`; source changes
+   are not a release by themselves.
 2. In a repo you want governed, invoke it with a bounded target:
    `/implementaudit close the findings in AUDIT.md` — or just describe the
    work; unbounded asks get a STOP, not a build loop.
@@ -68,8 +70,8 @@ Each action requires separate explicit authorization.
    handoff with next actions. Phased runs write their plan and state under
    `.IMPLEMENTAUDIT/runs/<task>-<id>/`. The full loop structure is in
    [Loopability, Andon, and handoff states](#loopability-andon-and-handoff-states);
-   the shipped helper scripts are catalogued in the generated docs portal's
-   Shipped Scripts page.
+   the shipped helper scripts are catalogued in the docs portal's
+   Package contents / shipped scripts reference.
 4. Nothing is committed, pushed, tagged, or released unless you explicitly
    say so.
 
@@ -94,6 +96,13 @@ discovery, acceptance criteria, rollback/evidence planning, fixtures/checkers,
 and smoke-before-claim closure. Blocked work ends in an explicit audited
 handoff, not fake completion. It is not a generic autonomous build runner,
 release bot, package publisher, or provenance system.
+
+For `v0.3.0.0`, native category/workflow routing means audit-object behavior is
+available inside this audit lifecycle: default category pressure, deep/security pressure,
+DMADV-routed direction analysis, self-contained handoff plans, branch/diff
+scoping, plan review, execute/review dispatch semantics, and reconciliation.
+It does not copy external command identity, make root `plans/` canonical, create
+issues, or weaken commit/push/tag/release/publication/provenance gates.
 
 Current optional-tooling architecture:
 
@@ -129,7 +138,12 @@ obligation. When present, Graphify improves orientation before mutation and
 ActiveGraph preserves custody after evidence is produced; neither replaces
 the gates, and neither output is proof.
 
-## Terminology
+## Quick Vocabulary, Not Authority
+
+This section is onboarding shorthand. Runtime authority lives in
+`skills/references/routing.md`, `skills/references/lean-operating-discipline.md`,
+and `skills/references/plan-lifecycle.md`; this README points to those owners
+instead of replacing them.
 
 - `AUDIT.md`: an audit input or evidence-implementation artifact that drives a
   dogfooded run. It may be a file, attachment, pasted audit, handoff, checklist,
@@ -199,7 +213,7 @@ of the object.
 
 ## Invocation modes
 
-`/implementaudit` has four invocation shapes:
+`/implementaudit` has four common invocation shapes:
 
 <!-- BEGIN: implementaudit-diagram:invocation-modes -->
 
@@ -301,8 +315,9 @@ the separate commit/push/tag/release/provenance gates. It does not turn
 IMPLEMENTAUDIT into open-ended software-builder automation.
 
 When phased planning is selected, new runtime artifacts live under a namespaced
-run root such as `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/`. The package includes
-`skills/scripts/claim-run.sh` to claim that directory atomically. A run root may
+run root such as `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/`. In a source checkout,
+the claim helper lives at `skills/scripts/claim-run.sh`; in the installed flat
+archive it loads as `scripts/claim-run.sh` under the active skill directory. A run root may
 contain `ROADMAP.md`, `STATE.md`, `THINKING.md`, `PROTOCOL.md`, `context.md`,
 `tools.md`, `sidecars.md`, `applied-context.md` or `applied-memories.md`,
 `repo-map.md`, and `phases/phase-N.md`. Flat `.IMPLEMENTAUDIT/*` artifacts are
@@ -344,6 +359,15 @@ It:
 
 No ledger item may remain open at final response.
 
+Default repo-audit and plan-synthesis work also applies the shipped audit category
+matrix unless the input narrows scope: correctness/bugs, security/privacy,
+performance/scale, tests/validation, architecture/tech debt,
+dependencies/migrations, DX/tooling, docs/handoff, and direction/design. Deep
+analysis and security review are pressures inside the audit object. Direction
+and roadmap candidates route through DMADV and stay separate from defect
+closure. Plan creation, review, dispatch, and reconciliation follow
+`skills/references/plan-lifecycle.md`; issue publication remains deferred.
+
 ## Greenfield / brownfield routing
 
 ImplementAudit classifies work before planning or mutation:
@@ -374,7 +398,8 @@ ledgers.
 
 ## Operating method
 
-The method combines:
+The method combines these onboarding handles. The owning runtime contracts are
+the references named below, not this short README list:
 
 - **PDCA**: plan the smallest safe change, do it, check evidence, then
   standardize or revise.
@@ -388,7 +413,8 @@ The method combines:
   conditions immediately.
 - **Hansei**: reflect after gaps, regressions, false passes, or failures.
 - **5 Whys**: trace symptoms to root cause when the situation warrants it.
-- **Plan Closure**: map every item to a terminal status.
+- **Plan Closure**: map every item to terminal status, plus sustain/control
+  when recurrence is repaired.
 - **Lean operating discipline**: Lean/TPS terms map to auditable runtime
   behavior documented in `skills/references/lean-operating-discipline.md`.
   Brownfield improvement routes through DMAIC
@@ -563,10 +589,10 @@ with its six fields (Target, Reason, Evidence, Boundary, Authorization, Not
 saved). Run roots are run artifacts, not package source, and are excluded
 from evidence scans and commits.
 
-The repo runtime source lives under `skills/`. GitHub release assets, when
-separately authorized, are built from that source by the repo-supported
-release-asset script and validated by extraction. Release artifacts and
-checksum manifests are not ordinary audit outputs.
+The packaged skill payload lives under `skills/`. GitHub release assets, when
+separately authorized, are built from the repo-supported release-asset script
+and validated by extraction. Release artifacts and checksum manifests are not
+ordinary audit outputs.
 
 The `.skill` release archive contains only the runtime skill payload
 (`SKILL.md`, `references/`, `scripts/`, `templates/`) and plugin metadata
@@ -603,7 +629,7 @@ publication, or provenance has been verified.
 
 ## Version and release notes
 
-Current project milestone: `v0.2.9.0`. Plugin manifest version: `0.2.9`.
+Current project milestone: `v0.3.0.0`. Plugin manifest version: `0.3.0`.
 No local schema evidence proved four-component plugin manifest versions are
 accepted, so the manifest uses host-conservative package metadata while the
 project milestone is recorded in docs and changelog. This is not a tag, release,
@@ -622,8 +648,11 @@ decision.
 the host supports them, or may simulate the same pattern as separate written
 read-only audit passes.
 
-The package includes `skills/references/child-agents.md` and
-`skills/templates/child-agent-report.md` as explanatory/reference material.
+In a source checkout, the child-agent reference lives at
+`skills/references/child-agents.md` and the report template lives at
+`skills/templates/child-agent-report.md`. In the installed flat archive, those
+load as `references/child-agents.md` and `templates/child-agent-report.md`
+under the active skill directory.
 Instruction precedence remains with the repo's `AGENTS.md` hierarchy. Root
 `AGENTS.md` holds repo-wide child/subagent rules; scoped `AGENTS.md` or
 `AGENTS.override.md` is used only for subtree-specific guidance when that
@@ -785,27 +814,27 @@ Governed casual-build intake accepts plain-language repo-build intent:
 
 The skill synthesizes a bounded audit object from the description before routing.
 To choose the right invocation shape, see the chooser table in
-`skills/references/goal-format.md` and the multipage onboarding portal
-generated from `docs/portal/` by `scripts/build-docs-portal.py`.
+`skills/references/goal-format.md` and the onboarding portal generated by
+`scripts/build-docs-portal.py`.
 
 ## Install notes
 
 Install flows are evidence-bounded. This repo can locally validate the release
 asset-to-Codex-install path into a temporary Codex home. It does not claim passive auto-update, universal host support, marketplace verification, or public GitHub release download verification unless those checks are run and recorded.
 
-**Release/contract alignment:** the latest public release is `v0.2.9.0`
-(verified against the live release list at the release gate), which carries
-the Andon/Jidoka failure contract, helper-path resolution, run-root
-validation, and custody tooling described in this README. Installing from the
-public release gives you the documented behavior. Re-verify this paragraph at
-every release gate; if a future README documents behavior newer than the
-latest release, restore the staleness disclosure.
+**Release/contract alignment:** the last release-gate verified live public
+release is `v0.2.9.0` (verified against the live release list at the release
+gate). This source checkout may contain newer unreleased behavior, including
+the `v0.3.0.0` audit-object-routing contract; installing from a checkout or local
+asset uses local source, not a public release claim. Re-verify this paragraph
+at every release gate.
 
 What each install source carries:
 
 | Source | Failure contract | Helper resolution | Run-root / custody tooling |
 |---|---|---|---|
-| Public release `v0.2.9.0` (latest) / built from source | ANDON_PROBE / ANDON_ESCALATE / ANDON_HANDOFF, classed Andon log, no try caps | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper |
+| Source checkout / local asset at manifest `0.3.0` | v0.2.9.0 Andon/Jidoka contract plus audit-object-routing category, audit playbook, plan lifecycle, dispatch/review, reconciliation, and issue-deferred references | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper; audit-object-routing fixtures/checkers |
+| Last release-gate verified live public release `v0.2.9.0` | ANDON_PROBE / ANDON_ESCALATE / ANDON_HANDOFF, classed Andon log, no try caps | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper |
 | Older public release `v0.2.8.0` | pre-Andon (older recovery semantics) | bare paths (pre-skill-dir) | none |
 
 ### Install / update for Codex
@@ -838,11 +867,11 @@ bash scripts/install-codex-from-release.sh \
   --asset dist/IMPLEMENTAUDIT.skill \
   --checksum dist/CHECKSUMS.txt \
   --codex-home "$HOME/.codex" \
-  --version 0.2.9
+  --version 0.3.0
 ```
 
-After a public release exists, the same installer can be pointed at an explicit
-tag or asset URL from a source checkout:
+For the last release-gate verified live public release, the same installer can
+be pointed at its explicit tag or asset URL from a source checkout:
 
 ```bash
 bash scripts/install-codex-from-release.sh --tag v0.2.9.0 --version 0.2.9
@@ -947,9 +976,10 @@ a ZIP-format archive containing the installable skill payload:
 ```text
 SKILL.md
 references/
-templates/
 scripts/
+templates/
 .claude-plugin/
+.claude-plugin/plugin.json  (skills: "./")
 ```
 
 The release asset intentionally excludes repo-maintenance material such as
@@ -999,7 +1029,6 @@ bash scripts/build-release-asset.sh
 bash scripts/write-release-checksums.sh dist/IMPLEMENTAUDIT.skill dist/CHECKSUMS.txt
 bash scripts/write-release-checksums.sh --check
 bash tests/release-asset-install.test.sh
-bash tests/release-asset-install-claude.test.sh
 ```
 
 For release gates since `v0.2.5.0`, the intended GitHub release assets are `IMPLEMENTAUDIT.skill` and

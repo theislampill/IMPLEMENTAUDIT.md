@@ -36,6 +36,12 @@ if bash scripts/check-added-lines-clean.sh "$baseline" >/dev/null 2>&1; then
 fi
 rm todo.txt
 
+cat >reconcile.md <<'OK'
+Reconciliation statuses (DONE / BLOCKED / IN PROGRESS / TODO / STALE / DRIFTED / FIXED INDEPENDENTLY):
+OK
+bash scripts/check-added-lines-clean.sh "$baseline"
+rm reconcile.md
+
 printf 'clean line\n' >clean.txt
 bash scripts/check-added-lines-clean.sh "$baseline"
 

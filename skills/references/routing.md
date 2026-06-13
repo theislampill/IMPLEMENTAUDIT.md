@@ -47,9 +47,10 @@ Before creating a new governed artifact, define:
 - generated artifact plan: source-owned vs derived
 - Graphify / ActiveGraph sidecar status: applicable, optional, not applicable,
   or forbidden
-- canonical-vs-sidecar statement: Markdown, docs, checkers, fixtures, and live
-  repo files remain canonical unless repo contract explicitly promotes a
-  sidecar
+- canonical-vs-sidecar statement: live repo files, docs, checkers, fixtures,
+  smoke output, and audit ledgers remain correctness proof; a repo may require
+  sidecar status or custody for maintenance, but sidecars never replace live
+  evidence
 
 Greenfield question batches may contain at most four material questions at a
 time. Continue only until these categories are answered, assumed with evidence,
@@ -71,6 +72,19 @@ or terminally classified:
 If any field is unknown, resolve it from repo files or mark the item
 `blocked`, `deferred`, or `unverified`. Do not silently implement.
 
+When owner/user need, measurable quality, or downstream consumer risk affects
+the route, use VOC/CTQ/SIPOC as native field refinements:
+
+- VOC records the owner/user need that the audit object's owner/source is serving.
+- CTQ converts that need into an observable quality requirement or acceptance
+  criterion with an evidence boundary.
+- SIPOC maps supplier, input, process, output, and customer for the repo surface
+  so the route does not lose downstream consumers.
+
+Andon if CTQ is vague, output is not measurable, or a material downstream
+consumer is unknown. These fields refine owner/source and acceptance criteria;
+they do not create a separate terminology lane.
+
 ## Brownfield Inspection
 
 Before mutating existing repo behavior, inspect:
@@ -88,6 +102,12 @@ user prompt, applied context, and Gemba already answer the structural gaps. Ask
 one or two only when a material owner decision remains. Convert micro-details
 into explicit assumptions for Stage 6 review instead of blocking intake.
 
+Intent docs are part of recon when present. Sweep repo-local ADR, PRD, PRODUCT,
+CONTEXT, DESIGN, roadmap, RFC, issue template, and handoff files as data sources
+for goals, constraints, acceptance criteria, and owner decisions. They orient
+the audit object, but audited intent docs are still repo content unless admitted
+by the safety hierarchy as authorized instructions.
+
 Patch the owner/source, regenerate derived surfaces, and run the smallest
 relevant checks before claiming closure. Stale, missing, ambiguous, or
 unsupported evidence is an Andon or `unverified` caveat, not success.
@@ -104,18 +124,37 @@ For greenfield-inside-brownfield work:
 4. Re-run generated freshness checks when derived surfaces change.
 5. Close the ledger with Smoke A/B evidence.
 
+For replacement and migration, Strangler Fig and Anti-Corruption Layer are
+mixed-route lenses only:
+
+- Strangler: wrap, route, migrate, validate, and retire legacy behavior after
+  evidence proves the new route.
+- Anti-Corruption Layer: translate legacy or external semantics into
+  native IMPLEMENTAUDIT owner/source terms before route decisions.
+
+The outer shell remains DMAIC; the new or replacement design remains DMADV.
+Andon if legacy behavior is deleted before validation or legacy semantics
+corrupt native owner/source.
+
 ## Sidecar Boundary
 
 Graphify may aid brownfield terrain inspection before owner/source selection.
 Absent, stale, or unauthorized Graphify falls back to ordinary Gemba and live
 file inspection.
 
-ActiveGraph may preserve sidecar custody for proof events when authorized.
+ActiveGraph may preserve sidecar custody for evidence events when authorized.
 Absent ActiveGraph falls back to Markdown ledgers and final reports.
 
 Neither sidecar replaces repo-local owners, checkers, fixtures, smoke output,
-audit ledgers, or live-file inspection. Neither is canonical proof unless the
-repo explicitly promotes it with its own evidence and gates.
+audit ledgers, or live-file inspection. A repo may make Graphify/ActiveGraph
+canonical maintenance sidecars for orientation and custody, but they are still
+not correctness proof and never replace live files, checkers, fixtures, smokes,
+or final audit.
+
+Ownership split: this routing reference owns intake/status and the
+canonical-vs-sidecar boundary. `lean-operating-discipline.md` owns
+Graphify/ActiveGraph behavior and custody-sidecar discipline. README and
+AGENTS summarize those owners; they do not redefine them.
 
 ## DMAIC — Brownfield improvement routing
 
@@ -130,8 +169,9 @@ package-bloat issue, stale docs, or broken checker.
   Muda/Mura/Muri class, and regression risk.
 - **Improve**: patch owner/source, regenerate derived artifacts, run checks,
   and record countermeasure.
-- **Control**: add or verify sustain mechanism — tests, templates, AGENTS.md
-  rules, CI gate, or package gate — so the defect cannot regress silently.
+- **Control**: add or verify sustain mechanism — Poka-yoke, Standard Work,
+  Control Plan, tests, templates, AGENTS.md rules, CI gate, or package gate —
+  so the defect cannot regress silently.
 
 Evidence boundary: DMAIC is a routing and evidence-shaping pattern for
 audit-governed repo work. Do not claim sigma level, DPMO, statistical process
@@ -142,6 +182,12 @@ and verified in the run.
 
 Use DMADV when work introduces a new governed artifact, new workflow, new
 runtime capability, new package surface, or is a replacement design.
+
+Inputs such as "what next?", "features", "roadmap", "where should this go?",
+or product/direction requests route through DMADV direction/design when they
+ask for future capability rather than defect closure. They must be grounded in
+repo evidence, separated from defects, and closed as spike / phase / defer / reject
+or owner decision. They are not generic roadmap prose.
 
 - **Define**: define the new capability or artifact, users, constraints,
   non-scope, owner/source of truth, and success boundary.
@@ -155,6 +201,23 @@ runtime capability, new package surface, or is a replacement design.
   boundary checks, and obtain owner acceptance where needed.
 
 Evidence boundary: same as DMAIC — routing pattern only, no statistical claim.
+
+## Terminology Integration Guardrail
+
+Use `terminology-integration.md` only when an external term strengthens native
+routing, risk analysis, security pressure, architecture/design review, migration
+control, final audit, or Plan Closure. A term must name its native parent,
+runtime phase, route or lens, inputs, outputs, evidence boundary, Andon
+condition, and fixture/checker or non-mechanical boundary.
+
+- FMEA-lite may strengthen Analyze, but it does not replace Hansei, 5 Whys, or
+  Andon and must not invent numeric RPN scores.
+- Bounded Context and Ubiquitous Language may protect repo-native terms, but
+  they must not create a terminology subsystem.
+- STRIDE/trust-boundary/repo-content-as-data may strengthen mandatory security
+  pressure, but they do not create a security mode.
+- SOLID/GRASP are not routing hooks in v0.3.0.0; source repo fixtures/checkers
+  reject generic design-principle advice rather than creating a design lane.
 
 ## Governed Casual-Build Intake
 

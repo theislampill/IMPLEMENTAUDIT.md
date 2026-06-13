@@ -13,7 +13,8 @@ scope: src/
 source: run-Xy/phases/phase-1.md
 secret: false   # WRONG: the content below IS secret material
 ---
-The prod DB password is hunter2; use it in .env.production.
+The prod DB password value is REDACTED_FAKE_SECRET_DO_NOT_USE; record only
+credential-type-only-at-file-line in findings.
 ```
 
 Rejection reason: credential material in memory note. Must NOT write.

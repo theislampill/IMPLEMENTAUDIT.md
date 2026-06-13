@@ -30,6 +30,8 @@ require_file skills/references/planning-depth.md
 require_file skills/references/goal-format.md
 require_file skills/references/phase-design.md
 require_file skills/references/transcript-contract.md
+require_file skills/references/audit-category-matrix.md
+require_file skills/references/plan-lifecycle.md
 
 require_in_file skills/SKILL.md "## 2b. Planner stages for goal synthesis and phased audit closure"
 require_in_file skills/SKILL.md "Stage 0 - Context/tool/repo-state detection"
@@ -78,6 +80,12 @@ require_in_file skills/templates/STATE.md '| `<run-root>/THINKING.md` |'
 require_in_file skills/templates/STATE.md "Continuity decision"
 require_in_file skills/templates/phase-goal.txt "Thinking ref: <run-root>/THINKING.md"
 require_in_file skills/templates/phase-goal.txt "CONTINUITY_DECISION"
+require_in_file skills/templates/phase-goal.txt "Audit categories:"
+require_in_file skills/templates/phase-goal.txt "Deep pressure:"
+require_in_file skills/templates/phase-goal.txt "Security pressure:"
+require_in_file skills/templates/phase-goal.txt "Branch/diff scope:"
+require_in_file skills/templates/phase-goal.txt "Plan lifecycle:"
+require_in_file skills/templates/phase-goal.txt "Issue publication: deferred"
 require_in_file skills/references/goal-format.md "Full phased handoff condition"
 require_in_file skills/references/planning-depth.md "Native planner stage rule"
 require_in_file skills/references/planning-depth.md "scripts/claim-run.sh"
@@ -117,6 +125,10 @@ require_in_file skills/templates/STATE.md "Implementation action against object"
 require_in_file skills/templates/THINKING.md "Audit object"
 require_in_file skills/templates/THINKING.md "tdqyq-audit-object"
 require_in_file skills/templates/THINKING.md "Double-audit sequence"
+require_in_file skills/templates/THINKING.md "Audit category matrix"
+require_in_file skills/templates/THINKING.md "Branch / diff / reconciliation scope"
+require_in_file skills/templates/THINKING.md "Plan lifecycle"
+require_in_file skills/templates/THINKING.md "Issue publication status: deferred"
 require_in_file skills/templates/phase-goal.txt "Audit object"
 require_in_file skills/templates/phase-goal.txt "ydqyq-audit-action"
 require_in_file skills/templates/phase-goal.txt "Terminal object state to prove"
@@ -125,5 +137,14 @@ require_in_file fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md "Auditing 
 require_in_file fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md "tdqyq-audit-object"
 require_in_file fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md "ydqyq-audit-action"
 require_in_file fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md "Double-audit sequence:"
+require_in_file skills/references/audit-category-matrix.md "Deep analysis is a default pressure"
+require_in_file skills/references/audit-category-matrix.md "Security review is also a default pressure"
+require_in_file skills/references/audit-category-matrix.md "Direction analysis routes through DMADV"
+require_in_file skills/references/plan-lifecycle.md "Self-Contained Plan Standard"
+require_in_file skills/references/plan-lifecycle.md "Branch And Diff Scoping"
+require_in_file skills/references/plan-lifecycle.md "Review-Plan Semantics"
+require_in_file skills/references/plan-lifecycle.md "Execute / Dispatch / Review"
+require_in_file skills/references/plan-lifecycle.md "Reconciliation Semantics"
+require_in_file skills/references/plan-lifecycle.md "Issue Publication Deferred"
 
 printf 'check-planner-stages: ok\n'

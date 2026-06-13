@@ -13,13 +13,18 @@ Depends on phases: none
 
 Change 'hello' to 'Hello' in app.txt.
 
+## Current state excerpts
+
+- `app.txt` first line is `hello` at baseline HEAD.
+- No generated artifacts participate in this phase.
+
 ## Acceptance criteria
 
 - [ ] app.txt first line reads 'Hello'
 
 ## Mandatory commands
 
-- grep -q '^Hello' app.txt
+- grep -q '^Hello' app.txt — expected: exit 0 and first line matches `Hello`
 
 ## Evidence required
 
@@ -29,6 +34,10 @@ Change 'hello' to 'Hello' in app.txt.
 ## Rollback / defer path
 
 git checkout -- app.txt
+
+## Maintenance notes
+
+- Keep this fixture minimal and validator-passing when phase spec requirements change.
 
 IMPLEMENTAUDIT_PHASE_VERIFY
 Criteria results, mandatory command outputs, cleanliness readback recorded here.

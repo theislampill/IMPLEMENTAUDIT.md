@@ -20,14 +20,19 @@ Analyze (alternatives: inline README section rejected as duplication) ->
 Design (this spec + template) -> Verify (mandatory command + Smoke B).
 Create docs/quickstart-fragment.md with a 4-step first-run path.
 
+## Current state excerpts
+
+- `docs/quickstart-fragment.md` is absent at baseline HEAD and is a greenfield artifact.
+- README inline section was rejected to avoid duplicating quickstart content.
+
 ## Acceptance criteria
 
 - [ ] docs/quickstart-fragment.md exists, non-empty, with exactly 4 numbered steps
 
 ## Mandatory commands
 
-- test -s docs/quickstart-fragment.md
-- grep -c '^[0-9]\.' docs/quickstart-fragment.md
+- test -s docs/quickstart-fragment.md — expected: exit 0 when the file exists and is non-empty
+- grep -c '^[0-9]\.' docs/quickstart-fragment.md — expected: outputs 4 and exits 0
 
 ## Evidence required
 
@@ -39,6 +44,10 @@ Create docs/quickstart-fragment.md with a 4-step first-run path.
 
 git rm --cached docs/quickstart-fragment.md && rm docs/quickstart-fragment.md
 (removal path: greenfield artifacts roll back by deletion, not revert)
+
+## Maintenance notes
+
+- Keep this greenfield exemplar aligned with validate-phase.sh requirements.
 
 IMPLEMENTAUDIT_PHASE_VERIFY
 Criteria results, mandatory command outputs, cleanliness readback recorded here.

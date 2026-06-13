@@ -62,6 +62,10 @@ required = {
     "references/repo-state-comparison.md",
     "references/child-agents.md",
     "references/lean-operating-discipline.md",
+    "references/audit-category-matrix.md",
+    "references/audit-playbook.md",
+    "references/plan-lifecycle.md",
+    "references/terminology-integration.md",
     "scripts/claim-run.sh",
     "scripts/detect-env.sh",
     "scripts/detect-stack.sh",
@@ -184,8 +188,8 @@ with zipfile.ZipFile(asset) as zf:
             )
 
         plugin = json.loads((root / ".claude-plugin/plugin.json").read_text())
-        if plugin.get("version") != "0.2.9":
-            raise SystemExit("expected plugin version 0.2.9")
+        if plugin.get("version") != "0.3.0":
+            raise SystemExit("expected plugin version 0.3.0")
         if plugin.get("skills") != "./":
             raise SystemExit(
                 "expected plugin skills path ./ "

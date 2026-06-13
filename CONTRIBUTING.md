@@ -26,7 +26,7 @@ tool install, indexing, and custody export are separate explicit gates.
 Validation scripts are POSIX shell scripts. On Windows, run them from Git Bash
 or WSL.
 
-## Current contract essentials (v0.2.9.0 line)
+## Current contract essentials (v0.3.0.0 line)
 
 - Four invocation shapes: embedded governance, direct governance, goal
   synthesis, and governed casual-build intake (natural-language intent is
@@ -37,9 +37,17 @@ or WSL.
   condition. There is no try or round cap anywhere.
 - Sidecars are two-tier: Graphify/ActiveGraph are optional for every consumer
   repo, canonical for maintenance rounds on this repo (see `AGENTS.md`).
-- Deeper onboarding: the docs portal (`docs/portal/`, deployed to Pages) and,
-  for the agent-eval pack, `fixtures/agent-eval/RUNBOOK.md`. The archived
-  legacy source remains at `docs/portal_old/onboarding.md`.
+- Native route integration is behavioral, not command identity: repo-audit and
+  planning requests use the default category matrix, deep/security pressure,
+  DMADV-routed direction analysis, self-contained run-root plans, branch/diff
+  scoping, review-plan checks, execute/review dispatch semantics, and
+  reconciliation under the audit object.
+- Issue publication remains deferred; do not create tracker issues without a
+  future explicit publication gate.
+- Deeper onboarding: the docs portal source (`docs/portal/site.json` plus
+  `docs/portal/pages/**`, built for GitHub Pages; current public deployment
+  requires successful deploy evidence and any owner gate) and, for the agent-eval pack,
+  `fixtures/agent-eval/RUNBOOK.md`.
 
 ## Worked flow
 

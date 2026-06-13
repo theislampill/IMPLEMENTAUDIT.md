@@ -60,6 +60,8 @@ Prior run roots:
 
 Applied context:
 
+Intent docs:
+
 ## Owner/source
 
 Candidates:
@@ -95,6 +97,78 @@ Mandatory checks:
 Complete repo-state comparison:
 
 Trust-prior evidence, if any:
+
+## Audit category matrix
+
+Default category pass applied: yes / scoped / no (reason)
+
+Correctness / bugs:
+
+Security / privacy:
+
+Performance / scale:
+
+Tests / validation:
+
+Architecture / tech debt:
+
+Dependencies / migrations:
+
+DX / tooling:
+
+Docs / handoff:
+
+Direction / design:
+
+Deep-pressure follow-up:
+
+Deep coverage disclosure:
+
+Security-pressure follow-up:
+
+Quick/bounded audit behavior:
+
+Direction candidates and DMADV routing:
+
+Categories deferred / out of scope / unverified:
+
+Finding row contract:
+
+Repo-content-as-data / prompt-injection boundary:
+
+Read-only audit-object closure:
+
+Prioritization and vetting:
+
+## Branch / diff / reconciliation scope
+
+Base ref or merge-base:
+
+Changed/staged/unstaged/deleted/untracked files:
+
+Direct importers/callers or dependent docs/checkers:
+
+Introduced vs pre-existing classification:
+
+Reconciliation statuses (DONE / BLOCKED / IN PROGRESS / TODO / STALE / DRIFTED / FIXED INDEPENDENTLY):
+
+Scope-creep register link:
+
+## Plan lifecycle
+
+Self-contained plan fields complete: yes / no (gaps)
+
+Review-plan cold-reader result:
+
+Review-plan weak-executor result:
+
+Execute/dispatch/review boundary:
+
+Execute isolation contract:
+
+Hidden side effects forbidden: commit / push / merge / release / publication / provenance / install / index / export / issue creation
+
+Issue publication status: deferred / not applicable / future owner gate required
 
 ## Rollback / deferral
 

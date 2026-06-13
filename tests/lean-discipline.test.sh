@@ -145,6 +145,44 @@ if ! bash "$T/scripts/check-lean-discipline.sh" >/dev/null 2>&1; then ok
 else fail_case "FAIL: should fail when ActiveGraph custody events section missing from lean reference"; fi
 rm -rf "$T"
 
+# ── Negative: Jidoka/Andon reduced to a generic error label ─────────────────
+T=$(make_temp)
+$PY -c "
+import pathlib, re, sys
+p=pathlib.Path(sys.argv[1])
+t=p.read_text()
+t=re.sub(r'\| Jidoka \|[^\\n]+', '| Jidoka | Generic error label for failures. | skills/templates/PROTOCOL.md | check-planner-stages.sh |', t)
+t=re.sub(r'\| Andon \|[^\\n]+', '| Andon | Generic error label for failures. | skills/SKILL.md | check-planner-stages.sh |', t)
+p.write_text(t)
+" "$T/skills/references/lean-operating-discipline.md"
+if ! bash "$T/scripts/check-lean-discipline.sh" >/dev/null 2>&1; then ok
+else fail_case "FAIL: should fail when Jidoka/Andon are generic error labels"; fi
+rm -rf "$T"
+
+# ── Negative: Poka-yoke without a concrete prevention mechanism ─────────────
+T=$(make_temp)
+$PY -c "
+import pathlib, re, sys
+p=pathlib.Path(sys.argv[1])
+t=re.sub(r'\| Poka-yoke \|[^\\n]+', '| Poka-yoke | Quality improvement mindset for better work. | skills/references/lean-operating-discipline.md | verify-package.sh |', p.read_text())
+p.write_text(t)
+" "$T/skills/references/lean-operating-discipline.md"
+if ! bash "$T/scripts/check-lean-discipline.sh" >/dev/null 2>&1; then ok
+else fail_case "FAIL: should fail when Poka-yoke lacks concrete prevention mechanism"; fi
+rm -rf "$T"
+
+# ── Negative: Standard Work without stable repo-specific rule/template ──────
+T=$(make_temp)
+$PY -c "
+import pathlib, re, sys
+p=pathlib.Path(sys.argv[1])
+t=re.sub(r'\| Standard Work \|[^\\n]+', '| Standard Work | Repeat good habits whenever possible. | skills/references/lean-operating-discipline.md | verify-package.sh |', p.read_text())
+p.write_text(t)
+" "$T/skills/references/lean-operating-discipline.md"
+if ! bash "$T/scripts/check-lean-discipline.sh" >/dev/null 2>&1; then ok
+else fail_case "FAIL: should fail when Standard Work lacks stable repo-specific rule/template"; fi
+rm -rf "$T"
+
 # ── Summary ───────────────────────────────────────────────────────────────────
 total=$((pass + fail))
 if [ "$fail" -eq 0 ]; then

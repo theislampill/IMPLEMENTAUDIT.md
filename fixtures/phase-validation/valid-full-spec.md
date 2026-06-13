@@ -14,6 +14,11 @@ Depends on phases: none
 
 The audit found no settings endpoint; users cannot retrieve their preferences.
 
+## Current state excerpts
+
+- `src/app.ts` has no registered `/api/settings` route at baseline `abc123def456`.
+- `src/middleware/auth.ts` provides the existing auth middleware to reuse.
+
 ## Work
 
 - Create src/routes/settings.ts with GET handler and auth middleware
@@ -28,8 +33,8 @@ The audit found no settings endpoint; users cannot retrieve their preferences.
 
 ## Mandatory commands (run each; surface last ~10 lines + exit code in transcript)
 
-- npm run build
-- npm test -- --testPathPattern=settings
+- npm run build — expected: exit 0 with no errors
+- npm test -- --testPathPattern=settings — expected: exit 0 with settings tests passing
 
 ## Evidence required in transcript
 
@@ -49,6 +54,10 @@ ActiveGraph: absent
 Markdown fallback: yes
 
 ## Cleanliness override, if any
+
+## Maintenance notes
+
+- Keep the route aligned with existing auth middleware imports and update tests if the middleware path changes.
 
 ## Notes
 

@@ -54,7 +54,26 @@ if bash scripts/check-no-terminal-cap.sh --scan-root "$tmp/bad-legacy" >/dev/nul
   exit 1
 fi
 
-# 5. Legacy history surfaces are exempt: the same wording outside the scanned
+# 5. Cap synonyms must fail when they teach runtime behavior.
+for term in "max retries" "retry limit" "revision limit" "round limit" "capped rounds" "attempt cap" "max-2 revision" "max-3 audit"; do
+  dir="$tmp/bad-synonym-${term// /-}"
+  mkdir -p "$dir/skills/references"
+  printf 'Escalate after the %s is reached.\n' "$term" >"$dir/skills/references/transcript-contract.md"
+  if bash scripts/check-no-terminal-cap.sh --scan-root "$dir" >/dev/null 2>&1; then
+    printf 'no-terminal-cap.test: expected synonym wording to fail: %s\n' "$term" >&2
+    exit 1
+  fi
+done
+
+# 6. Explicit denials of caps must remain valid runtime wording.
+mkdir -p "$tmp/good-denial/skills/templates"
+cat >"$tmp/good-denial/skills/templates/PROTOCOL.md" <<'EOF'
+There is no arbitrary retry cap, revision limit, round limit, or attempt cap.
+Do not use a first/second/third failure ladder.
+EOF
+bash scripts/check-no-terminal-cap.sh --scan-root "$tmp/good-denial"
+
+# 7. Legacy history surfaces are exempt: the same wording outside the scanned
 #    runtime surfaces must pass.
 mkdir -p "$tmp/exempt/docs/audits" "$tmp/exempt/skills"
 cat >"$tmp/exempt/docs/audits/old-ledger.md" <<'EOF'

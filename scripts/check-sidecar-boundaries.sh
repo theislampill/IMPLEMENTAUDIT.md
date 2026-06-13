@@ -34,6 +34,10 @@ grep -R "ActiveGraph status" -n skills/templates/THINKING.md skills/templates/ST
   fail "ActiveGraph runtime status field is missing"
 grep -R "sidecars.md" -n skills/SKILL.md skills/templates README.md AGENTS.md >/dev/null ||
   fail "sidecars.md runtime artifact is missing"
+if grep -R -Ei "canonical proof unless|promotes? .*proof|proof .*unless.*sidecar" \
+  skills/SKILL.md skills/references skills/templates README.md AGENTS.md docs/portal/pages >/dev/null; then
+  fail "sidecar proof-promotion wording is present"
+fi
 grep -R "graph.json" -n scripts/build-release-asset.sh tests/release-asset-install.test.sh >/dev/null ||
   fail "release asset sidecar debris rejection is missing"
 grep -R "quickstart_demo_run.db" -n scripts/build-release-asset.sh tests/release-asset-install.test.sh >/dev/null ||

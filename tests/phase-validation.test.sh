@@ -10,17 +10,6 @@ cd "$repo_root"
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
-if command -v python >/dev/null 2>&1; then
-  py_cmd=(python)
-elif command -v python3 >/dev/null 2>&1; then
-  py_cmd=(python3)
-elif command -v py >/dev/null 2>&1; then
-  py_cmd=(py -3)
-else
-  printf 'phase-validation.test: python, python3, or py -3 is required\n' >&2
-  exit 1
-fi
-
 pass=0
 fail=0
 
@@ -43,6 +32,24 @@ check_fail() {
     fail=$((fail + 1))
   else
     pass=$((pass + 1))
+  fi
+}
+
+check_fail_contains() {
+  local label="$1"
+  local file="$2"
+  local expected="$3"
+  local out="$tmp/${label//[^A-Za-z0-9_]/_}.out"
+  if bash skills/scripts/validate-phase.sh "$file" >"$out" 2>&1; then
+    printf 'phase-validation.test: UNEXPECTED PASS for: %s\n' "$label" >&2
+    fail=$((fail + 1))
+  elif grep -Fq "$expected" "$out"; then
+    pass=$((pass + 1))
+  else
+    printf 'phase-validation.test: WRONG FAILURE for: %s\n' "$label" >&2
+    printf 'phase-validation.test: expected diagnostic: %s\n' "$expected" >&2
+    cat "$out" >&2
+    fail=$((fail + 1))
   fi
 }
 
@@ -154,7 +161,7 @@ check_fail "missing Depends on phases" "$f"
 # ------------------------------------------------------------------
 f="$tmp/no_work.md"
 make_valid "$f"
-sed -i 's/^## Work$/## REMOVED/' "$f"
+sed -i 's/^## Work\r\{0,1\}$/## REMOVED/' "$f"
 check_fail "missing ## Work section" "$f"
 
 # ------------------------------------------------------------------
@@ -169,94 +176,11 @@ check_fail "missing ## Acceptance criteria section" "$f"
 # FAIL: placeholder-only acceptance criteria
 # ------------------------------------------------------------------
 f="$tmp/placeholder_ac.md"
-cat >"$f" <<'SPEC'
-IMPLEMENTAUDIT_PHASE_START
-Phase: 1 of 1 — test
-Task: do something real
-Type: brownfield
-Run root: .IMPLEMENTAUDIT/runs/test-abc
-Baseline ref: abc123
-Owner/source: src/foo.ts
-Mandatory commands: npm test
-Acceptance criteria: 1
-Evidence required: test output
-Depends on phases: none
-
-## Why
-
-Fix something real.
-
-## Work
-
-- Do the real thing
-
-## Acceptance criteria (all must pass — verify each in transcript)
-
-- {{CRITERION_1}}
-
-## Mandatory commands (run each; surface last ~10 lines + exit code in transcript)
-
-- npm test
-
-## Evidence required in transcript
-
-- npm test output
-
-## Rollback / defer path
-
-git checkout HEAD -- src/foo.ts
-
-## Graphify / ActiveGraph / Markdown fallback status
-
-Graphify: absent
-ActiveGraph: absent
-Markdown fallback: yes
-
-## Notes
-
-none
-
----
-
-IMPLEMENTAUDIT_PHASE_VERIFY
-
-Phase 1 acceptance criteria:
-- [pass] placeholder: ok
-
-Mandatory commands:
-- npm test exit 0
-
-Cleanliness:
-- Debug prints added: 0
-- Session debug-markers added (todo/fixme/xxx): 0
-- Dead imports added: 0
-
-Sidecar: Graphify skipped; ActiveGraph skipped; Markdown fallback yes
-Remaining risk: none
-Trust-prior count: 0
-Re-verified count: 0
-
-AGENTS_UPDATE_DECISION
-
-Decision: not warranted
-Reason: none
-Scope: N/A
-Evidence location: N/A
-Conflict or owner-decision note: none
-
-CONTINUITY_DECISION
-
-Decision: none
-Reason: N/A
-Evidence boundary: N/A
-
-IMPLEMENTAUDIT_PHASE_DONE
-
-Status: done
-Evidence: ok
-Follow-up: none
-SPEC
-check_fail "placeholder-only acceptance criteria" "$f"
+make_valid "$f"
+sed -i 's/^- `npm run build`.*/- {{CRITERION_1}}/' "$f"
+sed -i 's/^- `npm test.*/- {{CRITERION_2}}/' "$f"
+sed -i 's|^- GET /api/settings.*|- {{CRITERION_3}}|' "$f"
+check_fail_contains "placeholder-only acceptance criteria" "$f" "## Acceptance criteria needs at least one non-placeholder"
 
 # ------------------------------------------------------------------
 # FAIL: missing ## Mandatory commands section
@@ -267,114 +191,29 @@ sed -i 's/^## Mandatory commands.*/## REMOVED/' "$f"
 check_fail "missing ## Mandatory commands section" "$f"
 
 # ------------------------------------------------------------------
+# FAIL: mandatory commands without expected success shape
+# ------------------------------------------------------------------
+f="$tmp/no_command_expected.md"
+make_valid "$f"
+sed -i 's/^-[[:space:]]*npm run build.*/- npm run build/' "$f"
+sed -i 's/^-[[:space:]]*npm test.*/- npm test -- --testPathPattern=settings/' "$f"
+check_fail "mandatory commands without expected success shape" "$f"
+
+# ------------------------------------------------------------------
 # FAIL: placeholder-only mandatory commands
 # ------------------------------------------------------------------
 f="$tmp/placeholder_mc.md"
 make_valid "$f"
-# Replace real command with placeholder
-"${py_cmd[@]}" -c "
-import re
-from pathlib import Path
-t = Path('$f').read_text(encoding='utf-8')
-t = re.sub(r'(?m)^## Mandatory commands.*?\n(- npm run build\n- npm test.*?\n)',
-           lambda m: m.group(0).replace('npm run build', '{{COMMAND_1}}').replace('npm test -- --testPathPattern=settings', '{{COMMAND_2}}'),
-           t, count=1)
-Path('$f').write_text(t, encoding='utf-8')
-" 2>/dev/null || true
-# Simpler approach: create a spec with placeholder commands
-cat >"$f" <<'SPEC'
-IMPLEMENTAUDIT_PHASE_START
-Phase: 1 of 1 — test
-Task: do something
-Type: brownfield
-Run root: .IMPLEMENTAUDIT/runs/test-abc
-Baseline ref: abc123
-Owner/source: src/foo.ts
-Mandatory commands: {{COMMAND_1}}
-Acceptance criteria: 1
-Evidence required: output
-Depends on phases: none
-
-## Why
-
-Fix a real thing.
-
-## Work
-
-- Do the real thing
-
-## Acceptance criteria (all must pass — verify each in transcript)
-
-- The output file exists at dist/foo.js
-
-## Mandatory commands (run each; surface last ~10 lines + exit code in transcript)
-
-- {{COMMAND_1}}
-
-## Evidence required in transcript
-
-- command output
-
-## Rollback / defer path
-
-git checkout HEAD -- src/foo.ts
-
-## Graphify / ActiveGraph / Markdown fallback status
-
-Graphify: absent
-ActiveGraph: absent
-Markdown fallback: yes
-
-## Notes
-
-none
-
----
-
-IMPLEMENTAUDIT_PHASE_VERIFY
-
-Phase 1 acceptance criteria:
-- [pass] file exists: ok
-
-Mandatory commands:
-- {{COMMAND_1}} exit 0
-
-Cleanliness:
-- Debug prints added: 0
-
-Sidecar: Graphify skipped; ActiveGraph skipped; Markdown fallback yes
-Remaining risk: none
-Trust-prior count: 0
-Re-verified count: 1
-
-AGENTS_UPDATE_DECISION
-
-Decision: not warranted
-Reason: none
-Scope: N/A
-Evidence location: N/A
-Conflict or owner-decision note: none
-
-CONTINUITY_DECISION
-
-Decision: none
-Reason: N/A
-Evidence boundary: N/A
-
-IMPLEMENTAUDIT_PHASE_DONE
-
-Status: done
-Evidence: ok
-Follow-up: none
-SPEC
-check_fail "placeholder-only mandatory commands" "$f"
+sed -i 's/^- npm run build.*/- {{COMMAND_1}}/' "$f"
+sed -i 's/^- npm test.*/- {{COMMAND_2}}/' "$f"
+check_fail_contains "placeholder-only mandatory commands" "$f" "## Mandatory commands needs at least one non-placeholder"
 
 # ------------------------------------------------------------------
 # FAIL: missing ## Evidence required section
 # ------------------------------------------------------------------
 f="$tmp/no_evidence.md"
 make_valid "$f"
-sed -i 's/^## Evidence required in transcript$/## REMOVED/' "$f"
+sed -i 's/^## Evidence required in transcript\r\{0,1\}$/## REMOVED/' "$f"
 check_fail "missing ## Evidence required section" "$f"
 
 # ------------------------------------------------------------------
@@ -382,8 +221,24 @@ check_fail "missing ## Evidence required section" "$f"
 # ------------------------------------------------------------------
 f="$tmp/no_rollback.md"
 make_valid "$f"
-sed -i 's/^## Rollback \/ defer path$/## REMOVED/' "$f"
+sed -i 's/^## Rollback \/ defer path\r\{0,1\}$/## REMOVED/' "$f"
 check_fail "missing ## Rollback section" "$f"
+
+# ------------------------------------------------------------------
+# FAIL: missing ## Current state excerpts section
+# ------------------------------------------------------------------
+f="$tmp/no_current_state.md"
+make_valid "$f"
+sed -i 's/^## Current state excerpts\r\{0,1\}$/## REMOVED/' "$f"
+check_fail "missing ## Current state excerpts section" "$f"
+
+# ------------------------------------------------------------------
+# FAIL: missing ## Maintenance notes section
+# ------------------------------------------------------------------
+f="$tmp/no_maintenance_notes.md"
+make_valid "$f"
+sed -i 's/^## Maintenance notes\r\{0,1\}$/## REMOVED/' "$f"
+check_fail "missing ## Maintenance notes section" "$f"
 
 # ------------------------------------------------------------------
 # FAIL: missing Markdown fallback status

@@ -23,10 +23,12 @@ validate-phase: a filled phase spec requires —
            AGENTS_UPDATE_DECISION, CONTINUITY_DECISION, IMPLEMENTAUDIT_PHASE_DONE
   header fields: Task, Type, Run root, Baseline ref, Owner/source,
                  Audit object, Depends on phases
-  sections: ## Work; ## Acceptance criteria (>=1 non-placeholder `- [ ]` item);
-            ## Mandatory commands (>=1 non-placeholder `- <command>` list item);
+  sections: ## Current state excerpts; ## Work;
+            ## Acceptance criteria (>=1 non-placeholder `- [ ]` item);
+            ## Mandatory commands (>=1 non-placeholder `- <command>` list item
+            with expected success shape);
             ## Evidence required (>=1 non-placeholder `- <evidence>` item);
-            ## Rollback / defer path
+            ## Rollback / defer path; ## Maintenance notes
   sidecar status: literal `Markdown fallback:` field (any value)
 Canonical filled examples (source repo only): fixtures/run-root-example/phases/phase-1.md (brownfield)
 and (source repo only) fixtures/phase-design/dmadv-greenfield-phase.md (greenfield);
@@ -78,10 +80,12 @@ grep -qi "^Depends on phases:" "$phase_file" || err "missing field: Depends on p
 # ---------------------------------------------------------------------------
 for section in \
   "Work" \
+  "Current state excerpts" \
   "Acceptance criteria" \
   "Mandatory commands" \
   "Evidence required" \
-  "Rollback"
+  "Rollback" \
+  "Maintenance notes"
 do
   grep -qi "^## .*${section}" "$phase_file" || err "missing section: ## ${section}"
 done
@@ -145,7 +149,8 @@ PY
   [ "$python_errors" -eq 0 ] || err "## Acceptance criteria needs at least one non-placeholder list item (- [ ] ...)"
   python_errors=0
 
-  # Check: mandatory commands section has at least 1 non-placeholder item
+  # Check: mandatory commands section has at least 1 non-placeholder item and
+  # each command item states an expected success shape.
   "${py_cmd[@]}" - "$phase_file" <<'PY' || python_errors=$((python_errors + 1))
 import re, sys
 from pathlib import Path
@@ -157,6 +162,7 @@ PLACEHOLDER = re.compile(
 
 lines = Path(sys.argv[1]).read_text(encoding="utf-8", errors="replace").splitlines()
 items = []
+missing_expected = []
 in_mc = False
 for line in lines:
     stripped = line.strip()
@@ -171,12 +177,55 @@ for line in lines:
         item = stripped[1:].strip()
         if item and not PLACEHOLDER.search(item):
             items.append(item)
+            if not re.search(r"\b(expected|expects|exit 0|passes|pass|no errors|outputs?|last ~?10 lines)\b", item, re.IGNORECASE):
+                missing_expected.append(item)
 
 if not items:
     sys.stderr.write("validate-phase: ## Mandatory commands needs at least one non-placeholder `- <command>` list item (bare lines are not counted)\n")
     raise SystemExit(1)
+if missing_expected:
+    sys.stderr.write(
+        "validate-phase: ## Mandatory commands items must include expected success shape; missing: "
+        + "; ".join(missing_expected[:3])
+        + "\n"
+    )
+    raise SystemExit(1)
 PY
-  [ "$python_errors" -eq 0 ] || err "## Mandatory commands needs at least one non-placeholder list item (- <command>; bare lines are not counted)"
+  [ "$python_errors" -eq 0 ] || err "## Mandatory commands needs non-placeholder list items with expected success shape"
+  python_errors=0
+
+  # Check: current-state excerpts section has at least one non-placeholder item.
+  "${py_cmd[@]}" - "$phase_file" <<'PY' || python_errors=$((python_errors + 1))
+import re, sys
+from pathlib import Path
+
+PLACEHOLDER = re.compile(
+    r"^\{\{|^tbd$|^todo$|^n/a$|^placeholder$|current state",
+    re.IGNORECASE,
+)
+
+lines = Path(sys.argv[1]).read_text(encoding="utf-8", errors="replace").splitlines()
+items = []
+in_section = False
+for line in lines:
+    stripped = line.strip()
+    if re.match(r"^##\s+Current state excerpts", stripped, re.IGNORECASE):
+        in_section = True
+        continue
+    if in_section and re.match(r"^##\s+", stripped):
+        break
+    if not in_section:
+        continue
+    if stripped.startswith("-"):
+        item = stripped[1:].strip()
+        if item and not PLACEHOLDER.search(item):
+            items.append(item)
+
+if not items:
+    sys.stderr.write("validate-phase: ## Current state excerpts needs at least one non-placeholder list item\n")
+    raise SystemExit(1)
+PY
+  [ "$python_errors" -eq 0 ] || err "## Current state excerpts needs at least one non-placeholder list item"
   python_errors=0
 
   # Check: evidence required section has at least 1 non-placeholder item
@@ -211,6 +260,40 @@ if not items:
     raise SystemExit(1)
 PY
   [ "$python_errors" -eq 0 ] || err "## Evidence required needs at least one non-placeholder list item (- <evidence>)"
+  python_errors=0
+
+  # Check: maintenance notes section has at least one non-placeholder item.
+  "${py_cmd[@]}" - "$phase_file" <<'PY' || python_errors=$((python_errors + 1))
+import re, sys
+from pathlib import Path
+
+PLACEHOLDER = re.compile(
+    r"^\{\{|^tbd$|^todo$|^n/a$|^placeholder$|maintenance note",
+    re.IGNORECASE,
+)
+
+lines = Path(sys.argv[1]).read_text(encoding="utf-8", errors="replace").splitlines()
+items = []
+in_section = False
+for line in lines:
+    stripped = line.strip()
+    if re.match(r"^##\s+Maintenance notes", stripped, re.IGNORECASE):
+        in_section = True
+        continue
+    if in_section and re.match(r"^---\s*$|^##\s+", stripped):
+        break
+    if not in_section:
+        continue
+    if stripped.startswith("-"):
+        item = stripped[1:].strip()
+        if item and not PLACEHOLDER.search(item):
+            items.append(item)
+
+if not items:
+    sys.stderr.write("validate-phase: ## Maintenance notes needs at least one non-placeholder list item\n")
+    raise SystemExit(1)
+PY
+  [ "$python_errors" -eq 0 ] || err "## Maintenance notes needs at least one non-placeholder list item"
 fi
 
 # ---------------------------------------------------------------------------

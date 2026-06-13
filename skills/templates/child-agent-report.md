@@ -21,8 +21,8 @@ Andon registration check:
 
 ## Findings table
 
-| Status | Finding | Evidence | Countermeasure | Owner decision |
-|---|---|---|---|---|
+| Status | Finding title | Category | Evidence | Impact | Effort | Risk | Confidence | Fix sketch / implementation route | Owner/source | Verification | Rejected/deferred rationale | Remaining risk | Route | Countermeasure | Owner decision |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 
 ## Required patches
 

@@ -3,6 +3,14 @@
 Use this reference when goal synthesis mode needs to return a ready-to-paste
 goal runner handoff.
 
+## Native integration support reference
+
+Goal format supports native audit-object integration when a read-only audit-object
+closure request, repo-content-as-data security boundary, or planning-only request needs a
+fresh-agent handoff. The primary capability contracts live in
+`audit-category-matrix.md` and `plan-lifecycle.md`; this file ensures the
+handoff preserves those contracts instead of flattening them into generic prose.
+
 ## Chooser table
 
 | When to use | How to invoke |

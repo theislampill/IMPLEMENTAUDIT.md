@@ -39,6 +39,25 @@ def require(text, needle, label, path):
         failures.append(f"{path}: missing {label}: {needle}")
 
 
+def table_row(text, term):
+    needle = f"| {term.lower()} |"
+    for line in text.splitlines():
+        if line.strip().startswith(needle):
+            return line
+    failures.append(f"missing Lean table row: {term}")
+    return ""
+
+
+def require_row(row, needle, label, path):
+    if row and needle.lower() not in row:
+        failures.append(f"{path}: {label} missing in row: {needle}")
+
+
+def reject_row(row, phrase, label, path):
+    if row and phrase.lower() in row:
+        failures.append(f"{path}: {label}: {phrase}")
+
+
 # 1. lean-operating-discipline.md must exist and be runtime-load-bearing
 lean_ref = "skills/references/lean-operating-discipline.md"
 lean = read(lean_ref)
@@ -104,6 +123,33 @@ for needle in [
 ]:
     require(lean, needle, "Andon custody events", lean_ref)
 
+# 3c2. Lean terms must keep concrete runtime force.
+jidoka_row = table_row(lean, "jidoka")
+require_row(jidoka_row, "stop-the-line", "Jidoka stop-the-line behavior", lean_ref)
+require_row(jidoka_row, "andon", "Jidoka Andon chain", lean_ref)
+require_row(jidoka_row, "owner/source", "Jidoka owner/source routing", lean_ref)
+reject_row(jidoka_row, "generic error", "Jidoka reduced to a generic error label", lean_ref)
+
+andon_row = table_row(lean, "andon")
+require_row(andon_row, "visible abnormality", "Andon visible abnormality signal", lean_ref)
+require_row(andon_row, "owner/source", "Andon owner/source routing", lean_ref)
+require_row(andon_row, "next concrete action", "Andon next-action requirement", lean_ref)
+reject_row(andon_row, "generic error", "Andon reduced to a generic error label", lean_ref)
+
+poka_yoke_row = table_row(lean, "poka-yoke")
+require_row(poka_yoke_row, "structural mistake-proofing", "Poka-yoke concrete prevention", lean_ref)
+if poka_yoke_row and not any(token in poka_yoke_row for token in ("checker", "fixture", "template", "ci gate", "validation", ".sh")):
+    failures.append(
+        f"{lean_ref}: Poka-yoke row lacks a concrete checker/template/fixture/CI/validation mechanism"
+    )
+
+standard_work_row = table_row(lean, "standard work")
+require_row(standard_work_row, "stable", "Standard Work stability boundary", lean_ref)
+if standard_work_row and not any(token in standard_work_row for token in ("template", "checker", "fixture", "agents.md", "ci gate", "rule")):
+    failures.append(
+        f"{lean_ref}: Standard Work row lacks a stable repo-specific template/checker/rule"
+    )
+
 # 3a. Andon class + version-skew discipline must exist in the canonical skill
 skill_path = "skills/SKILL.md"
 skill = read(skill_path)
@@ -147,6 +193,24 @@ routing_path = "skills/references/routing.md"
 routing = read(routing_path)
 require(routing, "dmaic", "DMAIC routing", routing_path)
 require(routing, "dmadv", "DMADV routing", routing_path)
+
+category_path = "skills/references/audit-category-matrix.md"
+category_matrix = read(category_path)
+for needle in [
+    "security review is also a default pressure",
+    "direction analysis routes through dmadv",
+    "deep analysis is a default pressure",
+]:
+    require(category_matrix, needle, "audit-object-routing default pressure", category_path)
+
+plan_lifecycle_path = "skills/references/plan-lifecycle.md"
+plan_lifecycle = read(plan_lifecycle_path)
+for needle in [
+    "no arbitrary revision cap",
+    "continue until terminal closure or audited handoff",
+    "issue publication deferred",
+]:
+    require(plan_lifecycle, needle, "audit-object-routing lifecycle boundary", plan_lifecycle_path)
 
 # 7. Quality route field must appear in phase-goal.txt
 phase_goal_path = "skills/templates/phase-goal.txt"

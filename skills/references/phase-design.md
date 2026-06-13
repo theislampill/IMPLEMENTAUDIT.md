@@ -6,6 +6,16 @@ phase-by-phase until terminal audit closure (`AUDIT_COMPLETE`) or an explicit
 audited handoff (`AUDIT_HANDOFF`); the run does not stop at a partial phase
 boundary unless the handoff is explicit and recorded.
 
+## Native integration support reference
+
+Phase design supports native audit-object integration by preserving read-only audit-object
+closure boundaries, repo-content-as-data security handling,
+branch/diff classification, execute/review isolation, and reconciliation inside the run root. The primary
+behavioral contracts live in `audit-category-matrix.md` and
+`plan-lifecycle.md`; `terminology-integration.md` supplies only route/field/checker
+terms that strengthen those native contracts. Phases carry those contracts into
+executable specs.
+
 ## Phase rules
 
 - Each phase must close one coherent slice of audit risk.
@@ -17,6 +27,9 @@ boundary unless the handoff is explicit and recorded.
   state.
 - Each phase needs an owner/source, acceptance criteria, Smoke A, Smoke B, and
   a rollback or deferral path.
+- If an external term is used, each phase needs its native parent, runtime
+  phase, route or lens, owner/source, evidence boundary, Andon trigger,
+  fixture/checker or justified non-mechanical boundary, and final-audit check.
 - Stage 4 derives the phase count from dependencies, risk, and evidence shape;
   do not merge unrelated work to fit an artificial count.
 - Stage 5 writes a namespaced run root under
@@ -162,6 +175,15 @@ the skip. Undocumented omission is treated as a gap per Rule P4-7.
 
 Use `Type: polish-harden` in the `IMPLEMENTAUDIT_PHASE_START` block of a phase
 spec to indicate this phase shape (see `skills/references/goal-format.md`).
+
+**Rule P4-9 — Terminology cannot be orphaned.**
+External method terms may appear only when attached to a native parent, phase,
+route or lens, evidence boundary, Andon condition, and fixture/checker or
+explicit non-mechanical boundary. Existing references own their concepts:
+Lean owns A3/Poka-yoke/Standard Work/Jidoka/Andon, routing owns DMAIC/DMADV,
+Plan Closure owns sustainment, and final audit owns proof. Orphan terms,
+glossary-only lists, generic "apply SOLID" advice, numeric RPN theater, and
+separate term lanes are phase-design defects and trigger Andon.
 
 ---
 

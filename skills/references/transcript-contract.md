@@ -3,6 +3,15 @@
 Use this reference when a host, wrapper, or `/goal` evaluator needs to inspect
 ImplementAudit transcript state without reading the full skill.
 
+## Native integration support reference
+
+The transcript contract supports native audit-object integration by making
+read-only audit-object closure boundaries, repo-content-as-data security handling, branch/diff scope,
+execute/review decisions, and reconciliation visible to host evaluators. The
+primary integration contracts live in `audit-category-matrix.md` and
+`plan-lifecycle.md`; transcript markers prove those contracts reached terminal
+audit-object state.
+
 The transcript contract is an execution boundary. It is not a release,
 publication, provenance, install, Graphify indexing, or ActiveGraph export
 claim.

@@ -44,6 +44,18 @@ else
   check_pass "Graphify overclaim rejected by boundary check" 0
 fi
 
+tmp_promote="$(mktemp -d)"
+trap 'rm -rf "$tmp" "$tmp_promote"' EXIT
+cp -R skills README.md AGENTS.md docs scripts tests "$tmp_promote/"
+printf '\nNeither sidecar is canonical proof unless the repo promotes it.\n' >> \
+  "$tmp_promote/skills/references/routing.md"
+if (cd "$tmp_promote" && bash scripts/check-sidecar-boundaries.sh >/dev/null 2>&1); then
+  printf 'sidecars.test: expected sidecar proof-promotion wording to fail\n' >&2
+  check_pass "sidecar proof-promotion wording rejected" 1
+else
+  check_pass "sidecar proof-promotion wording rejected" 0
+fi
+
 # ---------------------------------------------------------------------------
 # Scenario 1: Graphify absent — ordinary Gemba passes
 # Fixture: documents expected sidecar block for absent Graphify

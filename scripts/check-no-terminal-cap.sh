@@ -52,20 +52,53 @@ from pathlib import Path
 SCAN_DIRS = ["skills", "docs/diagrams", "docs/portal", "fixtures"]
 SCAN_FILES = ["README.md", "AGENTS.md"]
 
-# Bare "strike" is forbidden: any strike-counter teaching in a runtime
-# surface is cap semantics, regardless of the number attached. Historical
-# mentions stay valid only in the exempt surfaces (CHANGELOG.md and
-# docs/audits/ are never scanned).
+# Runtime-shaping surfaces may deny a cap, but they must not teach a terminal
+# retry/revision/round/strike limit as behavior. Historical mentions stay valid
+# only in exempt surfaces (CHANGELOG.md and docs/audits/ are never scanned).
 FORBIDDEN = [
     "strike",
+    "strikes",
+    "three-strike",
     "recovery ladder",
     "failure ladder",
     "up to 3 rounds",
     "maximum 3 rounds",
-    "no subsequent phases execute",
+    "max 2",
+    "max-2",
+    "two revisions",
+    "max 3",
+    "max-3",
+    "max retry",
+    "max retries",
+    "retry cap",
+    "retry limit",
+    "revision limit",
+    "round limit",
+    "capped round",
+    "capped rounds",
+    "try cap",
+    "attempt cap",
     "failure_probe",
     "failure_escalate",
     "failure_handoff",
+]
+
+ALWAYS_FORBIDDEN = [
+    "no subsequent phases execute",
+]
+
+NEGATED_CONTEXT = [
+    "no ",
+    "not ",
+    "never ",
+    "without ",
+    "do not ",
+    "must not ",
+    "forbid",
+    "forbidden",
+    "reject",
+    "rejected",
+    "anti-repeat",
 ]
 
 paths = []
@@ -86,9 +119,23 @@ for path in paths:
         continue
     for lineno, line in enumerate(text.splitlines(), start=1):
         lowered = line.lower()
-        for term in FORBIDDEN:
+        for term in ALWAYS_FORBIDDEN:
             if term in lowered:
                 violations.append(f"{path.as_posix()}:{lineno}: forbidden terminal-cap wording: {term!r}")
+        for term in FORBIDDEN:
+            if term in lowered and not any(context in lowered for context in NEGATED_CONTEXT):
+                violations.append(f"{path.as_posix()}:{lineno}: forbidden terminal-cap wording: {term!r}")
+        if (
+            "first" in lowered
+            and "second" in lowered
+            and "third" in lowered
+            and "failure" in lowered
+            and "ladder" in lowered
+            and not any(context in lowered for context in NEGATED_CONTEXT)
+        ):
+            violations.append(
+                f"{path.as_posix()}:{lineno}: forbidden terminal-cap wording: first/second/third failure ladder"
+            )
 
 if violations:
     sys.stderr.write("\n".join(violations) + "\n")

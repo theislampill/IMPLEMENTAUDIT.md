@@ -55,14 +55,14 @@ Manual copy from a repo checkout:
     mkdir -p ~/.codex/skills/implementaudit
     cp -R skills/* ~/.codex/skills/implementaudit/
 
-From the v0.2.9.0 release asset with checksum verification:
+From a local source-built release asset with checksum verification:
 
     bash scripts/build-release-asset.sh
     bash scripts/install-codex-from-release.sh \
       --asset dist/IMPLEMENTAUDIT.skill \
       --checksum dist/CHECKSUMS.txt \
       --codex-home "$HOME/.codex" \
-      --version 0.2.9
+      --version 0.3.0
 
 ### Claude Code
 
@@ -72,7 +72,7 @@ For a release-asset Claude Desktop path, `bash scripts/install-claude-from-relea
 
 ### Release state
 
-Release `v0.2.9.0` is live (verified against the GitHub release list at the 2026-06-10 release gate). Tag at commit `23f67b5` (the CI-green pushed head). The release asset `IMPLEMENTAUDIT.skill` includes a `CHECKSUMS.txt` — a SHA-256 checksum manifest for local integrity verification only. No signatures, attestations, SBOMs, or provenance chains are claimed. Pages docs are live and CI-verified (deploy workflow success at the pushed head plus a live HTTP 200, verified 2026-06-10). External claims in this section carry their evidence basis; re-verify on each release gate.
+Release `v0.2.9.0` is live (verified against the GitHub release list at the 2026-06-10 release gate). Tag at commit `23f67b5` (the CI-green pushed head). The release asset `IMPLEMENTAUDIT.skill` includes a `CHECKSUMS.txt` — a SHA-256 checksum manifest for local integrity verification only. No signatures, attestations, SBOMs, or provenance chains are claimed. This source checkout may be ahead at `v0.3.0.0`; local source changes are not a public release, publication, or provenance assertion. Pages docs were live and CI-verified at the v0.2.9.0 release gate (deploy workflow success at the pushed head plus a live HTTP 200, verified 2026-06-10). External claims in this section carry their evidence basis; re-verify on each release gate.
 
 :::info
 **No auto-update mechanism exists.** A locally installed skill does not update automatically when the GitHub repo has a new release. Repeat the install step on each release.
@@ -478,6 +478,16 @@ The default small-audit mode operates on one artifact at a time. It:
 - Runs Smoke B after implementation and records the A/B comparison.
 - Closes every item terminally — zero open items at `AUDIT_COMPLETE`.
 
+Repo-audit and advisor-plan work applies the default category matrix unless the
+input narrows scope: correctness/bugs, security/privacy, performance/scale,
+tests/validation, architecture/tech debt, dependencies/migrations, DX/tooling,
+docs/handoff, and direction/design. Deep analysis and security review are
+pressures inside the audit object, not separate command identities. Direction
+and roadmap candidates route through DMADV and stay separate from defect
+closure. Plan creation, review, dispatch, and reconciliation follow
+`skills/references/plan-lifecycle.md`; issue publication remains deferred
+behind a future explicit publication gate.
+
 ## Terminology
 
 | Term | Meaning |
@@ -487,7 +497,7 @@ The default small-audit mode operates on one artifact at a time. It:
 | `AUDIT_START` | Opens, inherits, or normalizes the `tdqyq-audit-object` at the start of a run or phase. |
 | `AUDIT_COMPLETE` | Terminal verified closure. All items classified. Claims do not exceed evidence. |
 | `IMPLEMENTAUDIT_RUN_COMPLETE` | Run-level completion marker. Invalid before `AUDIT_COMPLETE`. |
-| `IMPLEMENTAUDIT_CONTINUITY_SAVED` | Six-field writeback marker: `run_id`, `phase`, `target`, `content_hash`, `boundary`, `timestamp`. |
+| `IMPLEMENTAUDIT_CONTINUITY_SAVED` | Six-field writeback marker: `Target`, `Reason`, `Evidence`, `Boundary`, `Authorization`, `Not saved`. |
 | Owner/source | The canonical file, schema, script, fixture, or doc that owns a claim or behavior. Patch this, not the nearest symptom. |
 | Gemba | Go to the real place of work. Inspect actual files, not summaries. |
 | Smoke A / Smoke B | Pre-mutation baseline verification (A) and post-mutation comparison (B). Any regression triggers the regression protocol. |
@@ -510,7 +520,7 @@ The default small-audit mode operates on one artifact at a time. It:
 | `README.md` | Public-facing overview and install guide. |
 | `CHANGELOG.md` | Milestone notes (Keep a Changelog). Evidence for claimed milestones. |
 | `skills/SKILL.md` | Canonical method definition. Source of truth for all gate behavior. |
-| `skills/references/` | Progressive-disclosure reference docs: `routing.md`, `goal-format.md`, `planning-depth.md`, `phase-design.md`, `lean-operating-discipline.md`. |
+| `skills/references/` | Progressive-disclosure reference docs: `routing.md`, `goal-format.md`, `planning-depth.md`, `phase-design.md`, `lean-operating-discipline.md`, `audit-category-matrix.md`, `plan-lifecycle.md`. |
 | `skills/scripts/` | Planner-executed bash helpers: `claim-run.sh`, `repo-state.sh`. |
 | `skills/templates/` | Run artifact templates: `PROTOCOL.md`, `THINKING.md`, `phase-goal.txt`, `STATE.md`. |
 | `scripts/` | Repo validation tools: release, docs portal generator and checker, workflow structure checker. |
@@ -519,7 +529,7 @@ The default small-audit mode operates on one artifact at a time. It:
 | `docs/portal_old/onboarding.md` | This file. Portal content source. |
 | `docs/audits/` | Dogfood audit ledgers by version. |
 | `docs/diagrams/` | Mermaid source for execution spine and tooling diagrams. |
-| `.claude-plugin/plugin.json` | Plugin manifest. Version 0.2.9. |
+| `.claude-plugin/plugin.json` | Plugin manifest. Version 0.3.0. |
 | `.github/workflows/pages.yml` | Docs portal build and deploy. `workflow_dispatch` enabled. |
 | `.github/workflows/validate.yml` | Full test and check suite. |
 
@@ -579,6 +589,7 @@ Authorization is **per-action and non-transitive**:
 - **A framework-specific tool.** It is repo-generic and does not assume language, CI system, or release conventions.
 - **A marketplace lister.** No marketplace publication or update has occurred.
 - **A universal install verifier.** Install proof on a specific host requires running the install on that host.
+- **An issue publisher.** Issue-ready rows may be produced inside an audit object, but tracker publication requires a future explicit publication gate.
 
 :::info
 **The authoritative reference is always `skills/SKILL.md` and `AGENTS.md`.** When in doubt, go to Gemba — read the source.
@@ -598,10 +609,10 @@ The v0.2.8.0 adaptation lane closed G1-G7 comparator-advantage gaps. G5 (per-pha
 
 Current release and deployment facts.
 
-- **Version:** v0.2.8.0
-- **Plugin manifest:** 0.2.8
-- **Release:** Live. Tag `v0.2.8.0` at commit `d2829a4`. Release asset `IMPLEMENTAUDIT.skill` with `CHECKSUMS.txt` (SHA-256 checksum manifest only — no signatures, attestations, SBOMs, or provenance chains claimed).
-- **Pages docs:** Live and CI-verified. `workflow_dispatch` enabled on `pages.yml` for manual rebuild.
+- **Version:** v0.3.0.0 source milestone
+- **Plugin manifest:** 0.3.0
+- **Release:** Not performed for v0.3.0.0 in this checkout. Last release-gate verified live public release is `v0.2.9.0` at commit `23f67b5`, with `IMPLEMENTAUDIT.skill` and `CHECKSUMS.txt` (SHA-256 checksum manifest only — no signatures, attestations, SBOMs, or provenance chains claimed).
+- **Pages docs:** Last release-gate verified live and CI evidence is from v0.2.9.0; re-verify at the next release gate. `workflow_dispatch` remains enabled on `pages.yml` for manual rebuild.
 - **G5 status:** STRENGTHENED — v0.2.6.0 PROTOCOL loop base; v0.2.8.0 added `IMPLEMENTAUDIT_CONTINUITY_SAVED` marker, bounded writeback options, and 34-check continuity test suite.
 - **Graphify:** Optional sidecar for user runs; canonical for intra-maintenance when available and authorized. Orientation evidence only — not proof.
 - **ActiveGraph:** Optional sidecar for user runs; canonical for intra-maintenance when available and authorized. Custody evidence only — not correctness proof.

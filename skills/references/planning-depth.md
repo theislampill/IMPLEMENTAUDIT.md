@@ -3,6 +3,15 @@
 Use this reference when `/implementaudit` must decide whether to govern a
 supplied target or synthesize a better bounded work target first.
 
+## Native integration support reference
+
+Planning depth supports native audit-object integration by routing read-only audit-object
+closure requests, repo-content-as-data security boundaries, and
+handoff planning into the audit object. The primary integration contracts live in
+`audit-category-matrix.md`, `plan-lifecycle.md`, and
+`terminology-integration.md`; this file decides whether those contracts close
+directly, through a run-root phase plan, or through a bounded handoff.
+
 ## Invocation shapes
 
 ### Embedded governance
@@ -28,10 +37,12 @@ execute with Smoke A/B, owner/source patching, and terminal audit-object closure
 ### Goal synthesis
 
 The user gives an idea, gap, incomplete target, or asks for the next best
-implementation prompt. Do enough Gemba and Hoshin Kanri to return a bounded,
-evidence-aware Kaizen handoff. If the host should continue under a goal runner,
+implementation prompt. Do enough Gemba and strategy alignment to return a
+bounded, evidence-aware Kaizen handoff. If the host should continue under a goal runner,
 construct the audit object and print one ready-to-paste `/goal Using
 /implementaudit ...` line.
+This is plain strategy alignment, not Hoshin Kanri / policy deployment
+vocabulary.
 
 ### Governed casual-build intake
 
@@ -65,6 +76,12 @@ Use the smallest planning layer that makes the work safe:
 
 Do not add a planning layer merely because the work is large. Add it when the
 extra structure improves evidence, sequencing, rollback, or owner decisions.
+Do not add external terminology merely because it is familiar. Add VOC/CTQ/SIPOC,
+FMEA-lite, STRIDE, Strangler/ACL, Bounded Context, or Poka-yoke/Control Plan
+wording only when it changes a native route, required field, Andon trigger,
+evidence boundary, or Plan Closure control. SOLID/GRASP remains a
+checker/fixture negative guard only in v0.3.0.0; do not add it as a planning
+depth reason or design lens.
 
 For high-risk, release-affecting, package-boundary, provenance, or public-claim
 work, the planning layer must preserve the double-audit pattern: create or
@@ -130,3 +147,6 @@ editing.
 `THINKING.md` is reviewable planning evidence: objective, route, owner/source,
 risks, dependencies, rollback, evidence strategy, generated-artifact plan,
 sidecar boundaries, and owner decisions. It is not private chain-of-thought.
+When terminology integration fires, `THINKING.md` must attach it to native parent,
+phase, route or lens, owner/source, inputs, outputs, evidence boundary, Andon
+trigger, and fixture/checker or justified non-mechanical boundary.

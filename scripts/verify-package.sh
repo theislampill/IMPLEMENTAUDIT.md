@@ -28,11 +28,15 @@ require_file .claude-plugin/marketplace.json
 require_file scripts/build-release-asset.sh
 require_file scripts/check-host-claims.sh
 require_file scripts/check-added-lines-clean.sh
+require_file scripts/check-audit-object-routing-contract.sh
 require_file scripts/check-marker-order.sh
+require_file scripts/check-native-integration.sh
+require_file scripts/check-package-shape-claims.sh
 require_file scripts/check-planner-stages.sh
 require_file scripts/check-readme-toc.sh
 require_file scripts/check-routing.sh
 require_file scripts/check-sidecar-boundaries.sh
+require_file scripts/check-terminology-integration.sh
 require_file scripts/generate-readme-diagrams.sh
 require_file scripts/install-claude-from-release.sh
 require_file scripts/install-codex-from-release.sh
@@ -45,6 +49,10 @@ require_file skills/references/transcript-contract.md
 require_file skills/references/routing.md
 require_file skills/references/repo-state-comparison.md
 require_file skills/references/child-agents.md
+require_file skills/references/audit-category-matrix.md
+require_file skills/references/audit-playbook.md
+require_file skills/references/plan-lifecycle.md
+require_file skills/references/terminology-integration.md
 require_file skills/scripts/claim-run.sh
 require_file skills/scripts/detect-env.sh
 require_file skills/scripts/detect-stack.sh
@@ -95,6 +103,42 @@ require_file fixtures/child-agents/adversarial-behavioral-auditor.md
 require_file fixtures/child-agents/read-only-contract-auditor-report.md
 require_file fixtures/child-agents/adversarial-behavioral-auditor-report.md
 require_file fixtures/child-agents/normalized-findings-ledger.md
+require_file fixtures/audit-object-routing/category-matrix.md
+require_file fixtures/audit-object-routing/plan-lifecycle.md
+require_file fixtures/audit-object-routing/issues-deferred.md
+require_file fixtures/audit-object-routing/quick-bounded-audit.md
+require_file fixtures/audit-object-routing/deep-pressure-disclosure.md
+require_file fixtures/audit-object-routing/dmadv-what-next.md
+require_file fixtures/audit-object-routing/branch-diff-classification.md
+require_file fixtures/audit-object-routing/reconcile-statuses.md
+require_file fixtures/audit-object-routing/execute-dispatch-isolation.md
+require_file fixtures/audit-object-routing/finding-format-contract.md
+require_file fixtures/audit-object-routing/repo-content-as-data.md
+require_file fixtures/audit-object-routing/intent-doc-recon.md
+require_file fixtures/audit-object-routing/read-only-audit-object-closure.md
+require_file fixtures/audit-object-routing/transcripts/quick-bounded-audit-transcript.md
+require_file fixtures/audit-object-routing/transcripts/deep-pressure-disclosure-transcript.md
+require_file fixtures/audit-object-routing/transcripts/dmadv-what-next-transcript.md
+require_file fixtures/audit-object-routing/transcripts/branch-diff-classification-transcript.md
+require_file fixtures/audit-object-routing/transcripts/execute-dispatch-isolation-transcript.md
+require_file fixtures/audit-object-routing/transcripts/execute-preflight-contract-transcript.md
+require_file fixtures/audit-object-routing/transcripts/reconcile-statuses-transcript.md
+require_file fixtures/audit-object-routing/transcripts/finding-format-contract-transcript.md
+require_file fixtures/audit-object-routing/transcripts/repo-content-as-data-transcript.md
+require_file fixtures/audit-object-routing/transcripts/intent-doc-recon-transcript.md
+require_file fixtures/audit-object-routing/transcripts/read-only-audit-object-closure-transcript.md
+require_file fixtures/native-integration/p0-correctness-native-route.md
+require_file fixtures/native-integration/p0-security-native-route.md
+require_file fixtures/native-integration/p0-performance-native-route.md
+require_file fixtures/native-integration/p0-test-coverage-native-route.md
+require_file fixtures/native-integration/p0-architecture-native-route.md
+require_file fixtures/native-integration/p0-dependencies-native-route.md
+require_file fixtures/native-integration/p0-dx-tooling-native-route.md
+require_file fixtures/native-integration/p0-docs-handoff-native-route.md
+require_file fixtures/native-integration/p0-direction-native-route.md
+require_file fixtures/native-integration/negative-generic-roadmap.md
+require_file fixtures/native-integration/single-plan-native-route.md
+require_file fixtures/native-integration/transcripts/audit-object-route-canary-transcript.md
 require_file docs/diagrams/tooling-architecture.mmd
 require_file docs/diagrams/invocation-modes.mmd
 require_file docs/diagrams/execution-spine.mmd
@@ -106,17 +150,14 @@ require_file docs/audits/v0.2.5.0-external-staged-goal-runtime-gap-closure.md
 require_file docs/audits/v0.2.5.0-claude-install-repair.md
 require_file docs/audits/v0.2.7.0-lean-operating-discipline.md
 require_file docs/audits/v0.2.8.0-adaptation.md
-require_file docs/portal_old/onboarding.md
 require_file docs/portal/site.json
+require_file docs/portal/pages/overview.html
+require_file docs/portal/pages/installation.html
+require_file docs/portal/pages/audit-trail.html
 require_file docs/portal/assets/draft-v2.css
 require_file docs/portal/assets/draft-v2.js
-require_file docs/portal/pages/overview.html
-require_file docs/portal/pages/quick-start.html
-require_file docs/portal/pages/runtime-model.html
-require_file docs/portal/pages/reference-index.html
 require_file scripts/build-docs-portal.py
 require_file scripts/check-docs-portal.py
-require_file scripts/verify-docs-portal.sh
 require_file tests/docs-portal.test.sh
 require_file fixtures/casual-build/accepted-intent.md
 require_file fixtures/casual-build/rejected-intent.md
@@ -147,6 +188,16 @@ require_file tests/continuity.test.sh
 require_file tests/phase-validation.test.sh
 require_file tests/sidecars.test.sh
 require_file tests/capability-ledger.test.sh
+require_file tests/audit-object-routing.test.sh
+require_file tests/audit-object-plan-lifecycle.test.sh
+require_file tests/issues-deferred-gate.test.sh
+require_file tests/audit-object-routing-contract.test.sh
+require_file tests/native-integration.test.sh
+require_file tests/package-shape-claims.test.sh
+require_file tests/terminology-integration.test.sh
+require_file fixtures/terminology-integration/full-stack-integration.md
+require_file fixtures/terminology-integration/negative-glossary-orphan.md
+require_file fixtures/terminology-integration/negative-generic-advice.md
 require_file .github/workflows/validate.yml
 
 for child_report in \
@@ -165,6 +216,9 @@ do
   grep -q "What closes" "$child_report" || fail "child-agent report missing What closes section: $child_report"
   grep -q "What remains" "$child_report" || fail "child-agent report missing What remains section: $child_report"
   grep -q "Next smallest safe action" "$child_report" || fail "child-agent report missing Next smallest safe action section: $child_report"
+  for field in "Finding title" "Category" "Evidence" "Impact" "Effort" "Risk" "Confidence" "Fix sketch / implementation route" "Owner/source" "Verification" "Rejected/deferred rationale" "Remaining risk" "Route"; do
+    grep -q "$field" "$child_report" || fail "child-agent report missing finding-format field '$field': $child_report"
+  done
 done
 
 grep -q "Andon registration invariant" skills/references/child-agents.md || fail "child-agent Andon registration invariant is missing"
@@ -185,46 +239,24 @@ fi
 
 "${py_cmd[@]}" - <<'PY'
 import json
-import sys
+import re
 from pathlib import Path
 
-site_path = Path("docs/portal/site.json")
-site = json.loads(site_path.read_text(encoding="utf-8"))
-pages = site.get("pages", {})
-nav = site.get("nav", [])
-failures = []
-
-if not nav or nav[0].get("group") != "Overview":
-    failures.append("docs/portal/site.json: first nav group must be Overview")
-if not nav or not nav[0].get("pages") or nav[0]["pages"][0] != "overview":
-    failures.append("docs/portal/site.json: first page must be overview")
-if len(pages) < 30:
-    failures.append(f"docs/portal/site.json: expected at least 30 pages, got {len(pages)}")
-
-seen = []
-for group in nav:
-    for page_id in group.get("pages", []):
-        if page_id not in pages:
-            failures.append(f"docs/portal/site.json: nav references missing page {page_id}")
-            continue
-        seen.append(page_id)
-        source = Path("docs/portal/pages") / pages[page_id].get("source", "")
-        if not source.is_file():
-            failures.append(f"docs/portal/site.json: page source missing for {page_id}: {source.as_posix()}")
-
-missing_from_nav = sorted(set(pages) - set(seen))
-if missing_from_nav:
-    failures.append(f"docs/portal/site.json: pages missing from nav: {missing_from_nav}")
-if len(seen) != len(set(seen)):
-    failures.append("docs/portal/site.json: duplicate page id in nav")
-
-for asset in ("draft-v2.css", "draft-v2.js"):
-    if not (Path("docs/portal/assets") / asset).is_file():
-        failures.append(f"docs/portal/assets/{asset}: missing")
-
-if failures:
-    sys.stderr.write("\n".join(failures) + "\n")
-    raise SystemExit(1)
+plugin = json.loads(Path(".claude-plugin/plugin.json").read_text(encoding="utf-8"))
+skill_text = Path("skills/SKILL.md").read_text(encoding="utf-8")
+match = re.match(r"---\n(?P<frontmatter>.*?)\n---\n", skill_text, re.S)
+if not match:
+    raise SystemExit("SKILL.md must have YAML frontmatter")
+frontmatter = match.group("frontmatter")
+version_match = re.search(r'(?m)^\s+version:\s*["\']?([^"\'\n]+)["\']?\s*$', frontmatter)
+if not version_match:
+    raise SystemExit("SKILL.md metadata.version is missing")
+skill_version = version_match.group(1).strip()
+plugin_version = str(plugin.get("version", "")).strip()
+if skill_version != plugin_version:
+    raise SystemExit(
+        f"SKILL.md metadata.version {skill_version!r} != plugin.json version {plugin_version!r}"
+    )
 PY
 
 "${py_cmd[@]}" - <<'PY'
@@ -241,8 +273,8 @@ if plugin.get("skills") != "./":
     )
 if not plugin.get("version"):
     raise SystemExit("plugin version is required")
-if plugin.get("version") != "0.2.9":
-    raise SystemExit("plugin version must be 0.2.9 for the v0.2.9.0 project milestone")
+if plugin.get("version") != "0.3.0":
+    raise SystemExit("plugin version must be 0.3.0 for the v0.3.0.0 project milestone")
 
 marketplace = json.loads(Path(".claude-plugin/marketplace.json").read_text())
 plugins = marketplace.get("plugins")
@@ -293,6 +325,11 @@ for path in sorted(Path("skills").rglob("*")):
             violations.append(
                 f"{path.as_posix()}:{lineno}: repo-only path reference without "
                 f"'source repo' label: {line.strip()[:90]}"
+            )
+        if "skills/scripts/" in line and "installed payload" in line.lower():
+            violations.append(
+                f"{path.as_posix()}:{lineno}: installed payload must not use "
+                f"source repo skills/scripts path: {line.strip()[:90]}"
             )
 if violations:
     sys.stderr.write("\n".join(violations) + "\n")
@@ -354,10 +391,11 @@ grep -R "v0.2.0.0" -n CHANGELOG.md README.md AGENTS.md >/dev/null || fail "proje
 grep -R "v0.1.0" -n CHANGELOG.md >/dev/null || fail "reconstructed v0.1.0 changelog entry missing"
 grep -R "v0.0.1" -n CHANGELOG.md >/dev/null || fail "reconstructed v0.0.1 changelog entry missing"
 
-if grep -R -n -I --exclude-dir=.git --exclude=verify-package.sh \
+if grep -R -n -I --exclude-dir=.git --exclude-dir=graphify-out \
+  --exclude-dir=.graphify --exclude-dir=.activegraph --exclude=verify-package.sh \
   -e "read root IMPLEMENTAUDIT.md" \
   -e "read .*IMPLEMENTAUDIT.md.*behavior source" \
-  -e "IMPLEMENTAUDIT.md remains the compatibility root" \
+  -e "IMPLEMENTAUDIT.md remains the root behavior file" \
   -e "IMPLEMENTAUDIT.md and skills/SKILL.md" \
   -e "IMPLEMENTAUDIT.md remains synced" \
   . >/tmp/implementaudit-root-file-claim.txt; then
@@ -375,7 +413,9 @@ child_lower_a="child"
 child_lower_b="agents"
 child_upper_name="${child_upper_a}_${child_upper_b}"
 child_lower_name="${child_lower_a}_${child_lower_b}"
-if grep -R -n -I --exclude-dir=.git -e "$child_upper_name" -e "$child_lower_name" . >/tmp/implementaudit-child-agents-grep.txt; then
+if grep -R -n -I --exclude-dir=.git --exclude-dir=graphify-out \
+  --exclude-dir=.graphify --exclude-dir=.activegraph \
+  -e "$child_upper_name" -e "$child_lower_name" . >/tmp/implementaudit-child-agents-grep.txt; then
   cat /tmp/implementaudit-child-agents-grep.txt >&2
   rm -f /tmp/implementaudit-child-agents-grep.txt
   fail "nonstandard child-agent instruction filename claim appears in repo files"
@@ -384,6 +424,12 @@ rm -f /tmp/implementaudit-child-agents-grep.txt
 
 grep -R "Graphify output is orientation evidence, not proof" -n skills README.md AGENTS.md >/dev/null || fail "Graphify proof boundary is missing"
 grep -R "ActiveGraph custody is not correctness proof" -n skills README.md AGENTS.md >/dev/null || fail "ActiveGraph proof boundary is missing"
+grep -R "Native Audit Category Routing Matrix" -n skills/references/audit-category-matrix.md >/dev/null || fail "native audit category routing matrix is missing"
+grep -R "Audit Playbook" -n skills/references/audit-playbook.md >/dev/null || fail "audit-object-routing audit playbook is missing"
+grep -R "Plan Lifecycle And Dispatch Semantics" -n skills/references/plan-lifecycle.md >/dev/null || fail "audit-object-routing plan lifecycle reference is missing"
+grep -R "Terminology Integration" -n skills/references/terminology-integration.md >/dev/null || fail "terminology integration reference is missing"
+grep -R "Issue Publication Deferred" -n skills/references/plan-lifecycle.md >/dev/null || fail "--issues deferred boundary is missing"
+grep -Ri 'Do not add command identities for quick, deep, security, next' -n skills/references/audit-category-matrix.md >/dev/null || fail "comparator command identity rejection is missing"
 
 bash scripts/generate-readme-diagrams.sh --check
 bash scripts/check-readme-toc.sh
@@ -394,9 +440,13 @@ bash scripts/check-marker-order.sh \
   fixtures/simple-audit/EXPECTED-ANDON-HANDOFF-SKELETON.md \
   fixtures/zero-optional-tool/COMPLETE-RUN.md
 bash scripts/check-routing.sh
+bash scripts/check-audit-object-routing-contract.sh
+bash scripts/check-native-integration.sh
 bash scripts/check-sidecar-boundaries.sh
 bash scripts/check-host-claims.sh
+bash scripts/check-package-shape-claims.sh
 bash scripts/check-lean-discipline.sh
+bash scripts/check-terminology-integration.sh
 bash scripts/check-added-lines-clean.sh HEAD
 bash tests/lean-discipline.test.sh
 bash tests/marker-order.test.sh
@@ -414,6 +464,13 @@ bash tests/continuity.test.sh
 bash tests/phase-validation.test.sh
 bash tests/sidecars.test.sh
 bash tests/capability-ledger.test.sh
+bash tests/audit-object-routing.test.sh
+bash tests/audit-object-plan-lifecycle.test.sh
+bash tests/issues-deferred-gate.test.sh
+bash tests/audit-object-routing-contract.test.sh
+bash tests/native-integration.test.sh
+bash tests/package-shape-claims.test.sh
+bash tests/terminology-integration.test.sh
 bash tests/no-terminal-cap.test.sh
 bash tests/summarize-repo.test.sh
 bash tests/shipped-scripts-smoke.test.sh
@@ -421,8 +478,6 @@ bash tests/run-root-validation.test.sh
 bash tests/custody-append.test.sh
 bash tests/agent-eval-fixtures.test.sh
 bash tests/agent-eval-grader.test.sh
-bash tests/docs-portal.test.sh
-bash scripts/verify-docs-portal.sh
 bash scripts/check-validation-registry.sh
 bash tests/validation-registry.test.sh
 bash scripts/build-release-asset.sh --check

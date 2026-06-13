@@ -62,7 +62,7 @@ if missing:
 required = {
     "runtime-at-a-glance",
     "what-it-is",
-    "terminology",
+    "quick-vocabulary-not-authority",
     "how-an-audit-input-drives-a-run",
     "greenfield--brownfield-routing",
     "execution-gates",

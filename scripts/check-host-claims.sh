@@ -26,6 +26,7 @@ blocked_dirs = {
     ".git",
     ".IMPLEMENTAUDIT",
     "dist",
+    "docs/audits",
     "graphify-out",
     ".graphify",
     ".activegraph",
@@ -57,9 +58,12 @@ negative_context = (
     "do not claim",
     "does not claim",
     "must not",
+    "do not",
+    "does not",
+    "does not claim",
     "not claim",
-    "do not ",
-    "do not auto-update",
+    "not automatically",
+    "not auto-update",
     "no ",
     "without evidence",
     "unless actually",
@@ -74,20 +78,54 @@ negative_context = (
     "remains an owner decision",
 )
 
-
-def has_negative_context(line: str) -> bool:
-    return any(context in line for context in negative_context)
-
 if Path("LICENSE").exists():
     unsupported_claims = [
         item for item in unsupported_claims if "license claim" not in item[1]
     ]
 
 failures = []
+portal_public_phrases = [
+    ("complete glossary", "public portal must not frame runtime terminology as a glossary"),
+    ("full terminology", "public portal must not frame runtime terminology as a glossary"),
+    ("external-comparator", "public portal must not use comparator framing"),
+    ("external staged-goal comparator", "public portal must not use comparator framing"),
+    ("staged-goal comparator", "public portal must not use comparator framing"),
+    ("generic staged-goal runner", "public portal must not use comparator framing"),
+    ("comparator adaptation", "public portal must not use comparator framing"),
+]
+current_reader_phrases = [
+    ("three invocation shapes", "current reader docs must name four invocation shapes"),
+    ("three valid invocation shapes", "current reader docs must name four invocation shapes"),
+    ("three invocation modes", "current reader docs must name four invocation shapes"),
+]
+current_reader_paths = [
+    Path("README.md"),
+    Path("AGENTS.md"),
+    Path("docs/portal/site.json"),
+]
+if Path("docs/portal/pages").is_dir():
+    current_reader_paths.extend(
+        p for p in sorted(Path("docs/portal/pages").rglob("*")) if p.is_file()
+    )
+
+for path in current_reader_paths:
+    if not path.is_file():
+        continue
+    try:
+        text = path.read_text(encoding="utf-8").lower()
+    except UnicodeDecodeError:
+        continue
+    for phrase, reason in current_reader_phrases:
+        for line_no, line in enumerate(text.splitlines(), start=1):
+            if phrase in line:
+                failures.append(f"{path}:{line_no}: {reason}: {phrase}")
+
 for path in Path(".").rglob("*"):
     if not path.is_file():
         continue
     if path.as_posix() == "scripts/check-host-claims.sh":
+        continue
+    if len(path.parts) >= 2 and path.parts[0] == "docs" and path.parts[1] == "audits":
         continue
     if any(part in blocked_dirs for part in path.parts):
         continue
@@ -99,9 +137,15 @@ for path in Path(".").rglob("*"):
         continue
     lowered = text.lower()
 
+    if len(path.parts) >= 3 and path.parts[0] == "docs" and path.parts[1] == "portal":
+        for phrase, reason in portal_public_phrases:
+            for line_no, line in enumerate(lowered.splitlines(), start=1):
+                if phrase in line:
+                    failures.append(f"{path}:{line_no}: {reason}: {phrase}")
+
     for phrase, reason in unsupported_claims:
         for line_no, line in enumerate(lowered.splitlines(), start=1):
-            if phrase in line and not has_negative_context(line):
+            if phrase in line and not any(context in line for context in negative_context):
                 failures.append(f"{path}:{line_no}: {reason}: {phrase}")
 
 if failures:

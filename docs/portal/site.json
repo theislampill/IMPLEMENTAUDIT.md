@@ -1,9 +1,16 @@
 {
   "release": {
-    "milestone": "v0.2.9.0",
-    "manifest_version": "0.2.9",
-    "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/tag/v0.2.9.0",
-    "audit_ledger_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/v0.2.9.0-andon-escalation-jidoka-repair.md",
+    "milestone": "v0.3.0.0",
+    "manifest_version": "0.3.0",
+    "url": "",
+    "audit_ledger_url": "docs/audits/v0.3.0.0-native-integration-proof-audit-rerun.md",
+    "status": "source checkout only; no tag, no release, no publication, no marketplace listing, no host-load proof, and no provenance is implied",
+    "last_release_gate_verified_public_release": {
+      "milestone": "v0.2.9.0",
+      "manifest_version": "0.2.9",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/tag/v0.2.9.0",
+      "audit_ledger_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/v0.2.9.0-andon-escalation-jidoka-repair.md"
+    },
     "checksum_boundary": "checksum manifest verifies artifact integrity and may support a separately authorized release provenance gate"
   },
   "semantic_sources": [
@@ -19,7 +26,8 @@
     "skills/references/phase-design.md",
     "skills/references/planning-depth.md",
     "skills/references/repo-state-comparison.md",
-    "skills/references/lean-operating-discipline.md"
+    "skills/references/lean-operating-discipline.md",
+    "skills/references/terminology-integration.md"
   ],
   "nav": [
     {
@@ -385,7 +393,7 @@
       ]
     },
     "terminology": {
-      "title": "Terminology",
+      "title": "Plain-language term handles",
       "path": "reference/terminology/",
       "source": "terminology.html",
       "sources": [
@@ -393,7 +401,8 @@
         "AGENTS.md",
         "skills/SKILL.md",
         "skills/references/transcript-contract.md",
-        "skills/references/lean-operating-discipline.md"
+        "skills/references/lean-operating-discipline.md",
+        "skills/references/terminology-integration.md"
       ]
     },
     "child-agent-review-loops": {

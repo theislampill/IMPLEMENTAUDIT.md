@@ -30,11 +30,11 @@ Andon registration check:
 
 ## Findings table
 
-| Exploit | Risk | Countermeasure | Owner decision |
-|---|---|---|---|
-| `AUDIT_HANDOFF` appears on the success path. | Agent may print handoff and completion together. | Make handoff conditional and mutually exclusive with run completion. | No |
-| Boundary block omits `No commit`. | Agent may treat commit as implied. | Use the full separate-gate block everywhere. | No |
-| Review report treated as proof. | Closure may be claimed without live-file Gemba. | Require ledger normalization and live owner/source inspection. | No |
+| Status | Finding title | Category | Evidence | Impact | Effort | Risk | Confidence | Fix sketch / implementation route | Owner/source | Verification | Rejected/deferred rationale | Remaining risk | Route | Countermeasure | Owner decision |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| GAP | Success path can include handoff marker. | transcript | `AUDIT_HANDOFF` appears on the success path. | Agent may print handoff and completion together. | S | MED | HIGH | Make handoff conditional and mutually exclusive with run completion. | transcript contract | marker-order checker | Not rejected; actionable marker gap. | Needs rerun. | DMAIC | Make handoff conditional and mutually exclusive with run completion. | No |
+| GAP | Boundary block omits local commit gate. | authorization | Boundary block omits `No commit`. | Agent may treat commit as implied. | S | HIGH | HIGH | Use the full separate-gate block everywhere. | runtime templates | boundary grep/check | Not rejected; actionable authorization gap. | Needs template readback. | DMAIC | Use the full separate-gate boundary block. | No |
+| GAP | Review report can be treated as proof. | evidence | Review report treated as proof. | Closure may be claimed without live-file Gemba. | S | MED | HIGH | Require ledger normalization and live owner/source inspection. | child-agent reference | child-agent fixture checker | Not rejected; actionable evidence-boundary gap. | Reports remain review evidence only. | DMAIC | Require ledger normalization and live owner/source inspection. | No |
 
 ## Required patches
 

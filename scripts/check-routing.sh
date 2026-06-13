@@ -46,6 +46,10 @@ def require_any(text, needles, label, path):
 
 routing_path = "skills/references/routing.md"
 routing = read(routing_path)
+category_path = "skills/references/audit-category-matrix.md"
+category_matrix = read(category_path)
+plan_lifecycle_path = "skills/references/plan-lifecycle.md"
+plan_lifecycle = read(plan_lifecycle_path)
 
 for needle in [
     "greenfield audit-governed work",
@@ -100,6 +104,41 @@ for needle in [
     "neither sidecar replaces repo-local owners",
 ]:
     require(routing, needle, "sidecar boundary", routing_path)
+
+for needle in [
+    "correctness / bugs",
+    "security / privacy",
+    "performance / scale",
+    "tests / validation",
+    "architecture / tech debt",
+    "dependencies / migrations",
+    "dx / tooling",
+    "docs / handoff",
+    "direction / design",
+    "deep analysis is a default pressure",
+    "security review is also a default pressure",
+    "direction analysis routes through dmadv",
+    "do not add command identities for quick, deep, security, next",
+]:
+    require(category_matrix, needle, "audit-object-routing category matrix", category_path)
+
+for needle in [
+    "branch and diff scoping",
+    "git merge-base",
+    "introduced by the diff",
+    "pre-existing",
+    "review-plan semantics",
+    "cold reader",
+    "weak executor",
+    "execute / dispatch / review",
+    "approve means criteria are met",
+    "revise means a bounded fix is needed",
+    "block means owner/source",
+    "reconciliation semantics",
+    "fixed independently",
+    "issue publication deferred",
+]:
+    require(plan_lifecycle, needle, "audit-object-routing plan lifecycle", plan_lifecycle_path)
 
 for path in ["README.md", routing_path, "AGENTS.md"]:
     text = read(path)

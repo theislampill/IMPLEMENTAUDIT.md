@@ -58,6 +58,10 @@ required_source = [
     "skills/references/repo-state-comparison.md",
     "skills/references/child-agents.md",
     "skills/references/lean-operating-discipline.md",
+    "skills/references/audit-category-matrix.md",
+    "skills/references/audit-playbook.md",
+    "skills/references/plan-lifecycle.md",
+    "skills/references/terminology-integration.md",
     "skills/scripts/claim-run.sh",
     "skills/scripts/detect-env.sh",
     "skills/scripts/detect-stack.sh",
@@ -97,6 +101,10 @@ required_archive = [
     "references/repo-state-comparison.md",
     "references/child-agents.md",
     "references/lean-operating-discipline.md",
+    "references/audit-category-matrix.md",
+    "references/audit-playbook.md",
+    "references/plan-lifecycle.md",
+    "references/terminology-integration.md",
     "scripts/claim-run.sh",
     "scripts/detect-env.sh",
     "scripts/detect-stack.sh",
@@ -255,8 +263,8 @@ with zipfile.ZipFile(asset) as zf:
         marketplace = json.loads((extracted / ".claude-plugin/marketplace.json").read_text())
         if plugin.get("name") != "implementaudit":
             raise SystemExit("extracted plugin name must be implementaudit")
-        if plugin.get("version") != "0.2.9":
-            raise SystemExit("extracted plugin version must be 0.2.9")
+        if plugin.get("version") != "0.3.0":
+            raise SystemExit("extracted plugin version must be 0.3.0")
         if plugin.get("skills") != "./":
             raise SystemExit(
                 "extracted plugin skills path must be ./ "

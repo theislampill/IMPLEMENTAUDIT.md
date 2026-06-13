@@ -103,7 +103,7 @@
 
       <h2 id="polish-and-harden">Polish and Harden</h2>
       <p>A terminal Polish and Harden phase can be used when the main work is closed but operational quality still needs inspection.<br>It covers cleanliness, identity hygiene, generated-artifact freshness, proof-boundary wording, and anti-repeat standardization.<br>It is not permission to add new feature work.</p>
-      <p>At a release gate, identity hygiene runs forbidden external-comparator identity checks with terms supplied at runtime, for example through <code>scripts/check-forbidden-terms.sh</code>.<br>The ledger records PASS/FAIL; forbidden terms must not be written into tracked files.</p>
+      <p>At a release gate, identity hygiene runs forbidden identity checks with terms supplied at runtime, for example through <code>scripts/check-forbidden-terms.sh</code>.<br>The ledger records PASS/FAIL; forbidden terms must not be written into tracked files.</p>
 
       <h2 id="plugin-cache-warning">Plugin cache warning</h2>
       <p>Claude plugin cache refresh depends on a version-field change.<br>Shipped code changes need a plugin version bump before claiming update behavior; this warning does not prove release, install, or provenance state.</p>

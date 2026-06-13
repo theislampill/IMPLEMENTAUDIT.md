@@ -44,6 +44,13 @@ jobs:
           bash tests/phase-validation.test.sh
           bash tests/sidecars.test.sh
           bash tests/capability-ledger.test.sh
+          bash tests/audit-object-routing.test.sh
+          bash tests/audit-object-plan-lifecycle.test.sh
+          bash tests/issues-deferred-gate.test.sh
+          bash tests/audit-object-routing-contract.test.sh
+          bash tests/native-integration.test.sh
+          bash tests/package-shape-claims.test.sh
+          bash tests/terminology-integration.test.sh
           bash tests/lean-discipline.test.sh
           bash tests/validation-registry.test.sh
           bash tests/summarize-repo.test.sh

@@ -10,6 +10,36 @@ or raw smoke-output dump.
 | `CHANGELOG.md` v0.2.1.0 entry | Causal history is recorded for transcript contract, marker-order, fixture, generated diagram, host-claim, and checksum-boundary hardening. | Changelog is summary evidence, not a raw transcript. |
 | `fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md` | Final audit markers require `AUDIT_COMPLETE` before `IMPLEMENTAUDIT_RUN_COMPLETE`. | It is a fixture, not a full historical run transcript. |
 
+The v0.3.0.0 native category-routing lane adapts useful external comparator
+behavior into native IMPLEMENTAUDIT semantics without copying external command
+identity. The historical source inventory lives in
+`docs/audits/v0.3.0.0-external-comparator-source-inventory.md` and covers default
+category pressure, deep/security pressure, DMADV direction routing,
+self-contained plan lifecycle, branch/diff scoping, review-plan and
+dispatch/review semantics, reconciliation, root `plans/` rejection, and
+deferred issue publication. It is source milestone evidence, not release,
+publication, provenance, or installed-host proof.
+
+The v0.3.0.0 native-integration rerun proof lives in
+`docs/audits/v0.3.0.0-native-integration-proof-audit-rerun.md`. It records the
+repair loop after the failed native-integration proof audit, including native
+category/workflow fixtures, runtime-lane residue cleanup, public evidence-chain
+repair, stale Graphify sidecar disclosure, ActiveGraph custody readback, and
+the final traceability matrix. It is source-checkout proof, not remote CI,
+publication, marketplace, host-load, or provenance proof.
+
+The v0.3.0.0 runtime-terminology force-multiplier audit lives in
+`docs/audits/v0.3.0.0-runtime-terminology-force-multiplier.md`. It records the
+KISS Andon that deleted a 195-line second glossary draft and kept only a thin
+`terminology-integration.md` precedence contract. Existing Lean, routing,
+phase-design, plan-lifecycle, and category/security references remain the
+source of truth; compact fixtures and
+`scripts/check-terminology-integration.sh` guard against orphan terms,
+glossary theater, duplicate authorities, and generic SOLID/FMEA/STRIDE advice.
+The follow-up proof-control repair lives in
+`docs/audits/v0.3.0.0-runtime-terminology-proof-audit.md`; it records the WEAK
+repair for untracked load-bearing files and diagnostic-specific negative tests.
+
 The v0.2.2.0 lane carried the same convention forward: read-only Gemba first,
 owner/source patching, fixtures/checkers for behavioral claims, Smoke A/B before
 closure, and explicit release/provenance boundaries.
@@ -110,8 +140,9 @@ IMPLEMENTAUDIT_CONTINUITY_SAVED marker with 6 required fields, bounded writeback
 table, ActiveGraph custody path, Graphify terrain-update request, and 34-check continuity
 test suite (+9 new); optional Polish & Harden phase type in phase-design.md Rule P4-8 with
 fixtures (G6); docs portal generator (build-docs-portal.py), check script
-(check-docs-portal.py), 26/26 test suite, and easy invocation examples in
-docs/portal/onboarding.md (G7); GitHub Pages CI (pages.yml) with OWNER DECISION note
+(check-docs-portal.py), 26/26 test suite, and easy invocation examples in the
+historical v0.2.8 source path `docs/portal/onboarding.md` (current portal source
+shape is `docs/portal/site.json` plus `docs/portal/pages/**`) (G7); GitHub Pages CI (pages.yml) with OWNER DECISION note
 for Pages source setting; docs-portal.test.sh wired into validate.yml.
 A bounded audit-fix round (5 items) was executed before AUDIT_COMPLETE: Graphify
 authorization boundary reconciled (terrain reads authorized as self-maintenance; no new

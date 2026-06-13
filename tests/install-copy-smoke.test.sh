@@ -20,6 +20,10 @@ for file in \
   references/routing.md \
   references/repo-state-comparison.md \
   references/child-agents.md \
+  references/lean-operating-discipline.md \
+  references/audit-category-matrix.md \
+  references/audit-playbook.md \
+  references/plan-lifecycle.md \
   scripts/claim-run.sh \
   scripts/detect-env.sh \
   scripts/detect-stack.sh \
@@ -27,12 +31,17 @@ for file in \
   scripts/summarize-repo.sh \
   scripts/validate-audit-spec.sh \
   scripts/validate-phase.sh \
+  scripts/validate-run-root.sh \
+  scripts/custody-append.sh \
   templates/ROADMAP.md \
   templates/STATE.md \
   templates/THINKING.md \
   templates/phase-goal.txt \
   templates/child-agent-report.md \
-  templates/PROTOCOL.md
+  templates/PROTOCOL.md \
+  templates/sidecars.md \
+  templates/tools.md \
+  templates/context.md
 do
   [ -f "$dest/$file" ] || {
     printf 'install-copy-smoke.test: missing copied file: %s\n' "$file" >&2
@@ -61,6 +70,11 @@ Depends on phases: none
 
 Verify the installed validator script executes and accepts a valid spec.
 
+## Current state excerpts
+
+- Installed `scripts/validate-phase.sh` is present in the copied skill payload.
+- This smoke spec is generated in a temporary directory and does not mutate repo source.
+
 ## Work
 
 - Run validate-phase.sh against this spec
@@ -71,7 +85,7 @@ Verify the installed validator script executes and accepts a valid spec.
 
 ## Mandatory commands (run each; surface last ~10 lines + exit code in transcript)
 
-- bash scripts/validate-phase.sh smoke-spec.md
+- bash scripts/validate-phase.sh smoke-spec.md — expected: exit 0 and prints validate-phase: ok
 
 ## Evidence required in transcript
 
@@ -88,6 +102,10 @@ ActiveGraph: absent
 Markdown fallback: yes
 
 ## Cleanliness override, if any
+
+## Maintenance notes
+
+- Keep this smoke spec aligned with validate-phase.sh structural requirements.
 
 ## Notes
 

@@ -926,17 +926,31 @@ def validate_metadata(out_dir: Path, site: dict, ordered: list[dict]) -> None:
             fail("docs-metadata.json plugin_manifest_version does not match docs/portal/site.json release")
         if metadata.get("release_url") != release.get("url"):
             fail("docs-metadata.json release_url does not match docs/portal/site.json release")
+        release_url = str(release.get("url", ""))
+        release_status = str(release.get("status", "")).lower()
         expected_release_prefix = "https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/tag/"
-        if not str(release.get("url", "")).startswith(expected_release_prefix):
-            fail("docs/portal/site.json release url must point at the public GitHub release tag")
-        if str(release.get("milestone", "")) and not str(release.get("url", "")).endswith(str(release.get("milestone"))):
+        source_checkout_only = (
+            release_url == ""
+            and "source checkout only" in release_status
+            and "no tag" in release_status
+            and "no release" in release_status
+            and "no publication" in release_status
+            and "no provenance" in release_status
+        )
+        if source_checkout_only:
+            pass
+        elif not release_url.startswith(expected_release_prefix):
+            fail("docs/portal/site.json release url must point at the public GitHub release tag or declare source-checkout-only no-release status")
+        elif str(release.get("milestone", "")) and not release_url.endswith(str(release.get("milestone"))):
             fail("docs/portal/site.json release url must end with the release milestone")
         if metadata.get("audit_ledger_url") != release.get("audit_ledger_url"):
             fail("docs-metadata.json audit_ledger_url does not match docs/portal/site.json release")
+        audit_ledger_url = str(release.get("audit_ledger_url", ""))
         expected_ledger_prefix = "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/"
-        if not str(release.get("audit_ledger_url", "")).startswith(expected_ledger_prefix):
+        local_ledger = audit_ledger_url.startswith("docs/audits/") and Path(audit_ledger_url).is_file()
+        if not (audit_ledger_url.startswith(expected_ledger_prefix) or local_ledger):
             fail("docs/portal/site.json audit ledger url must point at tracked docs/audits/")
-        if not str(release.get("audit_ledger_url", "")).endswith(".md"):
+        if not audit_ledger_url.endswith(".md"):
             fail("docs/portal/site.json audit ledger url must point at a markdown ledger")
         if metadata.get("checksum_boundary") != release.get("checksum_boundary"):
             fail("docs-metadata.json checksum_boundary does not match docs/portal/site.json release")
