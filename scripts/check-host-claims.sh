@@ -54,6 +54,24 @@ unsupported_claims = [
     ("mit " + "license", "license claim requires a LICENSE file or owner-selected license evidence"),
     ("apache " + "license", "license claim requires a LICENSE file or owner-selected license evidence"),
 ]
+stale_current_release_claims = [
+    (
+        "release-gate verified live public release remains `v0.2.9.0`",
+        "current release claim must not pin the prior public release",
+    ),
+    (
+        "last release-gate verified live public release `v0.2.9.0`",
+        "current release claim must not pin the prior public release",
+    ),
+    (
+        "live public v0.2.9.0 release",
+        "current release install example must not point at the prior public release",
+    ),
+    (
+        "install-codex-from-release.sh --tag v0.2.9.0 --version 0.2.9",
+        "current release install example must not point at the prior public release",
+    ),
+]
 negative_context = (
     "do not claim",
     "does not claim",
@@ -142,6 +160,11 @@ for path in Path(".").rglob("*"):
             for line_no, line in enumerate(lowered.splitlines(), start=1):
                 if phrase in line:
                     failures.append(f"{path}:{line_no}: {reason}: {phrase}")
+
+    for phrase, reason in stale_current_release_claims:
+        for line_no, line in enumerate(lowered.splitlines(), start=1):
+            if phrase in line:
+                failures.append(f"{path}:{line_no}: {reason}: {phrase}")
 
     for phrase, reason in unsupported_claims:
         for line_no, line in enumerate(lowered.splitlines(), start=1):

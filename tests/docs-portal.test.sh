@@ -677,6 +677,22 @@ if bash scripts/check-host-claims.sh >/dev/null 2>&1; then
 else
   ok "check-host-claims.sh rejects positive host update claims"
 fi
+
+"${py_cmd[@]}" - "$host_claim_fixture" <<'PY'
+import sys
+from pathlib import Path
+
+stale = (
+    "The last release-gate verified live public release "
+    "remains `v0.2.9.0`; source changes are not a release by themselves.\n"
+)
+Path(sys.argv[1]).write_text(stale, encoding="utf-8")
+PY
+if bash scripts/check-host-claims.sh >/dev/null 2>&1; then
+  fail_check "check-host-claims.sh accepted a stale current-release claim"
+else
+  ok "check-host-claims.sh rejects stale current-release claims"
+fi
 rm -f "$host_claim_fixture"
 
 if bash scripts/verify-docs-portal.sh >/dev/null; then

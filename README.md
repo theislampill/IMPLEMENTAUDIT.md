@@ -58,9 +58,9 @@ Each action requires separate explicit authorization.
 ## Quick start
 
 1. Install the skill (see [Install notes](#install-notes) for your host).
-   This source checkout documents the `v0.3.0.0` local contract. The last
-   release-gate verified live public release remains `v0.2.9.0`; source changes
-   are not a release by themselves.
+   This source checkout documents the `v0.3.0.0` local contract. The current
+   release-gate verified live public release is `v0.3.0.0`; source changes after
+   that release are not a release by themselves.
 2. In a repo you want governed, invoke it with a bounded target:
    `/implementaudit close the findings in AUDIT.md` — or just describe the
    work; unbounded asks get a STOP, not a build loop.
@@ -822,19 +822,19 @@ To choose the right invocation shape, see the chooser table in
 Install flows are evidence-bounded. This repo can locally validate the release
 asset-to-Codex-install path into a temporary Codex home. It does not claim passive auto-update, universal host support, marketplace verification, or public GitHub release download verification unless those checks are run and recorded.
 
-**Release/contract alignment:** the last release-gate verified live public
-release is `v0.2.9.0` (verified against the live release list at the release
-gate). This source checkout may contain newer unreleased behavior, including
-the `v0.3.0.0` audit-object-routing contract; installing from a checkout or local
-asset uses local source, not a public release claim. Re-verify this paragraph
-at every release gate.
+**Release/contract alignment:** the current release-gate verified live public
+release is `v0.3.0.0` (verified against the live GitHub release on 2026-06-13).
+This source checkout may contain post-release repairs after that tag; installing
+from a checkout or local asset uses local source, not a public release claim.
+Re-verify this paragraph at every release gate.
 
 What each install source carries:
 
 | Source | Failure contract | Helper resolution | Run-root / custody tooling |
 |---|---|---|---|
-| Source checkout / local asset at manifest `0.3.0` | v0.2.9.0 Andon/Jidoka contract plus audit-object-routing category, audit playbook, plan lifecycle, dispatch/review, reconciliation, and issue-deferred references | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper; audit-object-routing fixtures/checkers |
-| Last release-gate verified live public release `v0.2.9.0` | ANDON_PROBE / ANDON_ESCALATE / ANDON_HANDOFF, classed Andon log, no try caps | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper |
+| Source checkout / local asset at manifest `0.3.0` | `v0.3.0.0` native audit-object routing plus post-release source repairs, if any | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper; native integration and terminology/cohesion fixtures/checkers |
+| Current release-gate verified live public release `v0.3.0.0` | native audit-object routing, terminology integration, runtime cohesion, no public deep/security/next modes, no try caps | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper; local installed-package dogfood ledger |
+| Prior public release `v0.2.9.0` | ANDON_PROBE / ANDON_ESCALATE / ANDON_HANDOFF, classed Andon log, no try caps | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper |
 | Older public release `v0.2.8.0` | pre-Andon (older recovery semantics) | bare paths (pre-skill-dir) | none |
 
 ### Install / update for Codex
@@ -870,16 +870,21 @@ bash scripts/install-codex-from-release.sh \
   --version 0.3.0
 ```
 
-For the last release-gate verified live public release, the same installer can
-be pointed at its explicit tag or asset URL from a source checkout:
+For the current release-gate verified live public release, point the installer
+at the explicit `v0.3.0.0` asset URL:
 
 ```bash
-bash scripts/install-codex-from-release.sh --tag v0.2.9.0 --version 0.2.9
+bash scripts/install-codex-from-release.sh \
+  --url https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/download/v0.3.0.0/IMPLEMENTAUDIT.skill \
+  --codex-home "$HOME/.codex" \
+  --version 0.3.0
 ```
 
-That public-download path is a claim only after the release exists and the
-download/checksum/install smoke is actually run. If it cannot be run, treat it
-as unverified or handoff evidence, not as install proof.
+The `v0.3.0.0` release body records the asset SHA-256 digest. The installer
+enforces checksum verification only when a checksum manifest is supplied, and a
+public-download path is an install claim only after the download/install smoke
+is actually run. If it cannot be run, treat it as unverified or handoff evidence,
+not as install proof.
 
 ### Install / update for Claude Desktop
 
@@ -903,11 +908,11 @@ bash scripts/install-claude-from-release.sh \
   --claude-skills-dir "<claude-session-path>/skills/implementaudit"
 ```
 
-From the live public v0.2.9.0 release:
+From the current live public `v0.3.0.0` release:
 
 ```bash
 bash scripts/install-claude-from-release.sh \
-  --tag v0.2.9.0 \
+  --url https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/download/v0.3.0.0/IMPLEMENTAUDIT.skill \
   --claude-skills-dir "<claude-session-path>/skills/implementaudit"
 ```
 
@@ -1031,10 +1036,12 @@ bash scripts/write-release-checksums.sh --check
 bash tests/release-asset-install.test.sh
 ```
 
-For release gates since `v0.2.5.0`, the intended GitHub release assets are `IMPLEMENTAUDIT.skill` and
-`CHECKSUMS.txt`. The checksum manifest is bounded artifact-integrity evidence
-only; it is not a signature, attestation, SBOM, marketplace verification,
-license claim, or install proof.
+For release gates since `v0.2.5.0`, the intended skill release artifact is
+`IMPLEMENTAUDIT.skill`. Local release-asset validation may also write and check
+`CHECKSUMS.txt`; when a checksum manifest is published, it is bounded
+artifact-integrity evidence only. A checksum or release-body digest is not a
+signature, attestation, SBOM, marketplace verification, license claim, or install
+proof.
 
 ## Safety defaults
 
