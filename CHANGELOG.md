@@ -53,6 +53,32 @@ schema evidence proved four-component plugin manifest versions are accepted.
   No commit, push, tag, GitHub release, publication, provenance, issue creation,
   or installed-host update is claimed by this changelog entry.
 
+### Fixed
+
+- **Finding (local-package dogfood):** `scripts/verify-package.sh` failed on a
+  Windows + ActiveGraph machine with `sqlite3.OperationalError: unable to open
+  database file`, traced to `tests/custody-append.test.sh` — the only failing
+  gate. Linux CI never saw it (ActiveGraph absent → the helper's absent-safe
+  path).
+- **Root cause:** the test normalized POSIX→Windows store paths only when the
+  detected `activegraph` command name ended in `.exe` / lived under `/mnt`. On
+  Git Bash `command -v activegraph` resolves to a bare shim name, so
+  normalization was skipped and an MSYS path (`/c/...`) was interpolated into the
+  `sqlite:///` inspect/export-trace URL; MSYS auto-converts standalone path
+  arguments but not paths embedded mid-string, so native `activegraph.exe` could
+  not open it.
+- **Countermeasure:** detect the conversion need from the shell environment
+  (`uname -s` ∈ `MINGW*|MSYS*|CYGWIN*`) as well as the command name, applied to
+  both URL paths. Additive and platform-safe (no-op on plain Linux; prior
+  `.exe`/`/mnt` triggers preserved). The shipped `custody-append.sh` was not
+  changed — its write path is a standalone arg MSYS auto-converts.
+- **Evidence / poka-yoke:** `tests/custody-append.test.sh` and
+  `scripts/verify-package.sh` now pass on the dogfood machine; anti-repeat rule
+  `V0300-MSYS-URL-PATH-NORMALIZATION` added to AGENTS.md. Closure ledger:
+  `docs/audits/v0.3.0.0-local-package-dogfood-audit.md`.
+- **Remaining risk:** none for shipped runtime (test-only change; payload
+  unchanged, `.skill` byte-identical).
+
 ## [v0.2.9.0] - 2026-06-10
 
 ### Fixed

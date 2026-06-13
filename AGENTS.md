@@ -1049,6 +1049,21 @@ not a violation: the boundary is tracked source and the `.skill` package —
 existence. Terrain is orientation, custody is chain-of-custody; neither is
 proof.
 
+**Anti-repeat rule (V0300-MSYS-URL-PATH-NORMALIZATION):** Release-gate tests
+that shell out to a native-Windows sidecar binary (e.g. `activegraph`) must
+normalize POSIX→Windows store paths BEFORE interpolating them into a
+`sqlite:///` URL or any other mid-string argument. Git Bash / MSYS / Cygwin
+auto-converts standalone path *arguments* to Windows form but NOT a path
+embedded inside a larger string, so a store path like `/c/...` reaches native
+`activegraph.exe` unconverted and fails with "unable to open database file".
+Detection must not be gated on the command name alone: `command -v activegraph`
+can resolve to a bare shim (no `.exe`), so also detect the MSYS/Cygwin shell via
+`uname -s` (`MINGW*|MSYS*|CYGWIN*`). `tests/custody-append.test.sh` regressed
+exactly this way on a Windows + ActiveGraph dogfood machine — `verify-package.sh`
+failed while Linux CI stayed green (ActiveGraph absent → absent-safe path). The
+shipped `custody-append.sh` is unaffected: its write path is a standalone arg
+that MSYS auto-converts. Rationale: v0.3.0.0 local-package dogfood (2026-06-13).
+
 **Anti-repeat rule (V0270-SIDECAR-OUTPUTS-EXCLUDED):** Graphify outputs belong
 under gitignored `graphify-out/` or `.graphify/`; ActiveGraph stores belong under
 gitignored `.activegraph/`, `.IMPLEMENTAUDIT/`, or files matching

@@ -48,6 +48,21 @@ else
   done
 fi
 
+# A native-Windows activegraph needs Windows-style paths INSIDE the sqlite:///
+# URL string. Under Git Bash / MSYS / Cygwin the python+activegraph on PATH are
+# native-Windows builds even when `command -v activegraph` reports a bare shim
+# name (no .exe suffix): MSYS auto-converts standalone path arguments but NOT a
+# path embedded mid-string, so the store path must be normalized before it is
+# interpolated into the URL. Detect the conversion need from the shell
+# environment as well as the resolved command name, not the command name alone.
+need_win_url_path=0
+case "$(uname -s 2>/dev/null)" in
+  MINGW*|MSYS*|CYGWIN*) need_win_url_path=1 ;;
+esac
+case "${activegraph_cmd[0]:-}" in
+  *.exe|/mnt/*) need_win_url_path=1 ;;
+esac
+
 # 1. Usage errors exit 2.
 if bash "$helper" only two args >/dev/null 2>&1; then
   printf 'custody-append.test: expected usage error for wrong arity\n' >&2
@@ -86,11 +101,7 @@ case "$out" in
     }
     if [ "${#activegraph_cmd[@]}" -gt 0 ]; then
       store_url_path="$tmp/store.db"
-      case "${activegraph_cmd[0]}" in
-        *.exe|/mnt/*)
-          store_url_path="$(to_windows_url_path "$store_url_path")"
-          ;;
-      esac
+      [ "$need_win_url_path" = 1 ] && store_url_path="$(to_windows_url_path "$store_url_path")"
       inspect_out="$("${activegraph_cmd[@]}" inspect "sqlite:///$store_url_path" --run-id test-run --tail 1 2>&1)" || {
         printf 'custody-append.test: activegraph inspect could not read appended run: %s\n' "$inspect_out" >&2
         exit 1
@@ -105,11 +116,7 @@ case "$out" in
       }
       trace_out="$tmp/trace.jsonl"
       trace_arg="$trace_out"
-      case "${activegraph_cmd[0]}" in
-        *.exe|/mnt/*)
-          trace_arg="$(to_windows_url_path "$trace_arg")"
-          ;;
-      esac
+      [ "$need_win_url_path" = 1 ] && trace_arg="$(to_windows_url_path "$trace_arg")"
       "${activegraph_cmd[@]}" export-trace "sqlite:///$store_url_path" --run-id test-run --format jsonl -o "$trace_arg" >/dev/null
       grep -Fq 'ev-001' "$trace_out" || {
         printf 'custody-append.test: export-trace output missing event id\n' >&2
