@@ -43,7 +43,7 @@ Events readable from custody-trace.jsonl: yes (18 events confirmed)
 - repo: theIslampill/IMPLEMENTAUDIT.md
 - run_id: v0270-sidecar-smoke
 - milestone: v0.2.7.0
-- owner_source: skills/references/lean-operating-discipline.md
+- owner_source: skills/implementaudit/references/lean-operating-discipline.md
 - quality_route: DMAIC
 - lean_principles_applied: 5S (Seiri/Seiton/Seiso), Muda/Mura/Muri, DMAIC, Poka-yoke, Nemawashi
 - graphify_terrain_used: yes (794 nodes, 724 links, 5 queries, 3 candidates confirmed)

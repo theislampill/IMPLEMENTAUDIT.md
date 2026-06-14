@@ -34,7 +34,7 @@ require_text() {
   grep -Fq "$text" "$file" || fail "missing in $file: $text"
 }
 
-runtime_forbidden='Donor Finding Format Contract|Advisor-only / read-only|Advisor-Only|advisor-only/read-only|advisor-only|external-advisor|donor-shaped slash mode|donor command identity|[Dd]onor|Improve Parity|Improve parity|Improve parity support reference|Category Surpass Contract|SURPASSED'
+runtime_forbidden='Foreign Lane Contract|foreign-lane command|foreign lane command|foreign-shaped slash mode|non-native slash mode|non-native command identity|foreign command identity|Category Supremacy Contract|STATUS_THEATER_PASS'
 hit_file="$(mktemp)"
 scan_targets=(skills)
 if [ -d fixtures/audit-object-routing ]; then
@@ -44,7 +44,7 @@ scan_targets+=(fixtures/native-integration)
 if grep -RInE "$runtime_forbidden" "${scan_targets[@]}" >"$hit_file"; then
   cat "$hit_file" >&2
   rm -f "$hit_file"
-  fail "runtime still contains standalone comparator-lane wording"
+  fail "runtime still contains standalone foreign-lane wording"
 fi
 rm -f "$hit_file"
 
@@ -106,23 +106,23 @@ if grep -RInE '/implementaudit (quick|deep|security|next|features|roadmap)' skil
   >"$hit_file"; then
   cat "$hit_file" >&2
   rm -f "$hit_file"
-  fail "runtime advertises comparator-shaped command identity"
+  fail "runtime advertises non-native command identity"
 fi
 rm -f "$hit_file"
 
-require_text skills/references/audit-category-matrix.md "native IMPLEMENTAUDIT classifier"
-require_text skills/references/audit-category-matrix.md "tdqyq-audit-object"
-require_text skills/references/audit-category-matrix.md "ydqyq-audit-action"
-require_text skills/references/audit-category-matrix.md "DMAIC for brownfield"
-require_text skills/references/audit-category-matrix.md "DMADV direction/design routing"
-require_text skills/references/audit-category-matrix.md "Smoke A/B"
-require_text skills/references/audit-category-matrix.md "Andon"
-require_text skills/references/audit-category-matrix.md "final-audit status"
-require_text skills/references/audit-category-matrix.md "Finding Row Contract"
-require_text skills/references/audit-playbook.md "## Finding Row Contract"
-require_text skills/templates/THINKING.md "Audit category matrix"
-require_text skills/templates/phase-goal.txt "Audit categories:"
-require_text skills/templates/PROTOCOL.md "default category matrix"
+require_text skills/implementaudit/references/audit-category-matrix.md "native IMPLEMENTAUDIT classifier"
+require_text skills/implementaudit/references/audit-category-matrix.md "tdqyq-audit-object"
+require_text skills/implementaudit/references/audit-category-matrix.md "ydqyq-audit-action"
+require_text skills/implementaudit/references/audit-category-matrix.md "DMAIC for brownfield"
+require_text skills/implementaudit/references/audit-category-matrix.md "DMADV direction/design routing"
+require_text skills/implementaudit/references/audit-category-matrix.md "Smoke A/B"
+require_text skills/implementaudit/references/audit-category-matrix.md "Andon"
+require_text skills/implementaudit/references/audit-category-matrix.md "final-audit status"
+require_text skills/implementaudit/references/audit-category-matrix.md "Finding Row Contract"
+require_text skills/implementaudit/references/audit-playbook.md "## Finding Row Contract"
+require_text skills/implementaudit/templates/THINKING.md "Audit category matrix"
+require_text skills/implementaudit/templates/phase-goal.txt "Audit categories:"
+require_text skills/implementaudit/templates/PROTOCOL.md "default category matrix"
 
 fixtures=(
   fixtures/native-integration/p0-correctness-native-route.md

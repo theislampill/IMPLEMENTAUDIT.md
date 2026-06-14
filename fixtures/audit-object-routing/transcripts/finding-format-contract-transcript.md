@@ -28,7 +28,7 @@ Positive finding row:
 | Risk | LOW, wording/checker-only change |
 | Confidence | HIGH |
 | Fix sketch / implementation route | Patch owner/source wording and rerun package verifier |
-| Owner/source | `skills/SKILL.md`, `skills/references/*`, `scripts/verify-package.sh` |
+| Owner/source | `skills/implementaudit/SKILL.md`, `skills/implementaudit/references/*`, `scripts/verify-package.sh` |
 | Acceptance criteria | Shipped runtime uses native finding-row wording and package verification passes |
 | Verification | `bash scripts/verify-package.sh` |
 | Rollback / Plan Closure | Revert wording/checker patch if package verification fails; close as changed only after verifier passes |
@@ -42,7 +42,7 @@ Deferred/rejected row:
 |---|---|
 | Finding title | Publish generated issue rows |
 | Category | docs / handoff |
-| Evidence | `skills/references/plan-lifecycle.md` marks issue publication deferred |
+| Evidence | `skills/implementaudit/references/plan-lifecycle.md` marks issue publication deferred |
 | Impact | Issue tracker remains unchanged until owner authorizes publication |
 | Effort | M |
 | Risk | MED, public tracker mutation and sensitive-content review |

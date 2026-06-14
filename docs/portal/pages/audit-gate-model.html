@@ -10,7 +10,7 @@
 
       <h2 id="where-it-appears">Where it appears</h2>
       <p>In the overview terminal, gates show up as work binding, run-folder creation when phased, state writes, before/after checks, failure rows (Andon rows), and final audit markers.</p>
-      <p>In source docs, this maps to the execution-gates section of <code>README.md</code> and the execution spine in <code>skills/SKILL.md</code>.</p>
+      <p>In source docs, this maps to the execution-gates section of <code>README.md</code> and the execution spine in <code>skills/implementaudit/SKILL.md</code>.</p>
 
       <h2 id="what-to-inspect">What to inspect</h2>
       <p>For phased work, open the run folder, then check:</p>
@@ -43,7 +43,7 @@
 
       <h2 id="annotated-ten-gates">Annotated ten gates</h2>
       <p>This table keeps the ten reviewer questions visible while the canonical execution spine stays the source of runtime behavior.<br>Each gate has an owner and source of truth, evidence, and a halt condition.</p>
-      <p>The teaching view is <code>10 = 8 + 2</code> split-outs: the <code>skills/SKILL.md</code> execution spine remains canonical, while this page splits inspection, routing, and phase-spec questions so reviewers can audit them.</p>
+      <p>The teaching view is <code>10 = 8 + 2</code> split-outs: the <code>skills/implementaudit/SKILL.md</code> execution spine remains canonical, while this page splits inspection, routing, and phase-spec questions so reviewers can audit them.</p>
       <ol class="gate-cards">
         <li><h3>Safety read</h3><dl><dt>Question</dt><dd>Is this action authorized here?</dd><dt>Evidence</dt><dd><code>AGENTS.md</code>, <code>README.md</code>, <code>CONTRIBUTING.md</code>, CI/workflow files, repo policy, and host constraints.</dd><dt>Halt</dt><dd>Policy conflict or missing authorization.</dd></dl></li>
         <li><h3>Input bind</h3><dl><dt>Question</dt><dd>What work record is being closed?</dd><dt>Evidence</dt><dd>Request, audit file, handoff, or synthesized audit object.</dd><dt>Halt</dt><dd>Empty, unsafe, or unbounded input.</dd></dl></li>

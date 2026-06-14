@@ -45,41 +45,45 @@ from pathlib import Path
 
 repo = Path.cwd()
 asset = Path(sys.argv[1]).resolve()
+source_skill_dir = repo / "skills" / "implementaudit"
 
 # Source files that must exist in the repo before building.
 # These use repo-relative paths (skills/ prefix included).
 required_source = [
-    "skills/SKILL.md",
-    "skills/references/planning-depth.md",
-    "skills/references/phase-design.md",
-    "skills/references/goal-format.md",
-    "skills/references/transcript-contract.md",
-    "skills/references/routing.md",
-    "skills/references/repo-state-comparison.md",
-    "skills/references/child-agents.md",
-    "skills/references/lean-operating-discipline.md",
-    "skills/references/audit-category-matrix.md",
-    "skills/references/audit-playbook.md",
-    "skills/references/plan-lifecycle.md",
-    "skills/references/terminology-integration.md",
-    "skills/scripts/claim-run.sh",
-    "skills/scripts/detect-env.sh",
-    "skills/scripts/detect-stack.sh",
-    "skills/scripts/repo-state.sh",
-    "skills/scripts/summarize-repo.sh",
-    "skills/scripts/validate-audit-spec.sh",
-    "skills/scripts/validate-phase.sh",
-    "skills/scripts/validate-run-root.sh",
-    "skills/scripts/custody-append.sh",
-    "skills/templates/ROADMAP.md",
-    "skills/templates/STATE.md",
-    "skills/templates/THINKING.md",
-    "skills/templates/phase-goal.txt",
-    "skills/templates/child-agent-report.md",
-    "skills/templates/PROTOCOL.md",
-    "skills/templates/sidecars.md",
-    "skills/templates/tools.md",
-    "skills/templates/context.md",
+    "skills/implementaudit/SKILL.md",
+    "skills/implementaudit/references/planning-depth.md",
+    "skills/implementaudit/references/phase-design.md",
+    "skills/implementaudit/references/goal-format.md",
+    "skills/implementaudit/references/transcript-contract.md",
+    "skills/implementaudit/references/routing.md",
+    "skills/implementaudit/references/repo-state-comparison.md",
+    "skills/implementaudit/references/sidecars.md",
+    "skills/implementaudit/references/child-agents.md",
+    "skills/implementaudit/references/lean-operating-discipline.md",
+    "skills/implementaudit/references/audit-category-matrix.md",
+    "skills/implementaudit/references/audit-playbook.md",
+    "skills/implementaudit/references/plan-lifecycle.md",
+    "skills/implementaudit/references/terminology-integration.md",
+    "skills/implementaudit/scripts/claim-run.sh",
+    "skills/implementaudit/scripts/detect-env.sh",
+    "skills/implementaudit/scripts/detect-stack.sh",
+    "skills/implementaudit/scripts/repo-state.sh",
+    "skills/implementaudit/scripts/summarize-repo.sh",
+    "skills/implementaudit/scripts/validate-audit-spec.sh",
+    "skills/implementaudit/scripts/validate-phase.sh",
+    "skills/implementaudit/scripts/validate-run-root.sh",
+    "skills/implementaudit/scripts/custody-append.sh",
+    "skills/implementaudit/templates/ROADMAP.md",
+    "skills/implementaudit/templates/STATE.md",
+    "skills/implementaudit/templates/THINKING.md",
+    "skills/implementaudit/templates/phase-goal.txt",
+    "skills/implementaudit/templates/child-agent-report.md",
+    "skills/implementaudit/templates/final-report.md",
+    "skills/implementaudit/templates/read-only-plan.md",
+    "skills/implementaudit/templates/PROTOCOL.md",
+    "skills/implementaudit/templates/sidecars.md",
+    "skills/implementaudit/templates/tools.md",
+    "skills/implementaudit/templates/context.md",
     ".claude-plugin/plugin.json",
     ".claude-plugin/marketplace.json",
 ]
@@ -99,6 +103,7 @@ required_archive = [
     "references/transcript-contract.md",
     "references/routing.md",
     "references/repo-state-comparison.md",
+    "references/sidecars.md",
     "references/child-agents.md",
     "references/lean-operating-discipline.md",
     "references/audit-category-matrix.md",
@@ -119,6 +124,8 @@ required_archive = [
     "templates/THINKING.md",
     "templates/phase-goal.txt",
     "templates/child-agent-report.md",
+    "templates/final-report.md",
+    "templates/read-only-plan.md",
     "templates/PROTOCOL.md",
     "templates/sidecars.md",
     "templates/tools.md",
@@ -160,24 +167,17 @@ def blocked(rel: Path) -> bool:
 
 
 # Build entries as (archive_path, source_path) pairs.
-# Skill files: archive path strips skills/ prefix so SKILL.md is at root.
-# Plugin files: archive path is .claude-plugin/... (unchanged).
+# Skill files: archive path strips skills/implementaudit/ so SKILL.md is at root.
+# Plugin files are generated below because source metadata uses ./skills/ while
+# the release archive intentionally flattens the skill payload to archive root.
 entries = []
 
-skills_dir = repo / "skills"
-for child in sorted(skills_dir.rglob("*")):
+for child in sorted(source_skill_dir.rglob("*")):
     if child.is_file():
-        archive_rel = child.relative_to(skills_dir)
+        archive_rel = child.relative_to(source_skill_dir)
         if blocked(archive_rel):
             raise SystemExit(f"blocked file selected for asset: {archive_rel.as_posix()}")
         entries.append((archive_rel, child))
-
-for plugin_rel_str in [".claude-plugin/plugin.json", ".claude-plugin/marketplace.json"]:
-    plugin_rel = Path(plugin_rel_str)
-    plugin_path = repo / plugin_rel
-    if blocked(plugin_rel):
-        raise SystemExit(f"blocked plugin file: {plugin_rel}")
-    entries.append((plugin_rel, plugin_path))
 
 seen = set()
 deduped = []
@@ -203,6 +203,35 @@ def read_normalized(path: Path) -> bytes:
     return path.read_bytes()
 
 
+def normalized_text_bytes(text: str) -> bytes:
+    return text.replace("\r\n", "\n").encode("utf-8")
+
+
+source_plugin = json.loads((repo / ".claude-plugin/plugin.json").read_text(encoding="utf-8"))
+archive_plugin = dict(source_plugin)
+archive_plugin["skills"] = "./"
+
+source_marketplace = json.loads(
+    (repo / ".claude-plugin/marketplace.json").read_text(encoding="utf-8")
+)
+archive_marketplace = json.loads(json.dumps(source_marketplace))
+for plugin in archive_marketplace.get("plugins", []):
+    if plugin.get("name") == "implementaudit":
+        plugin.pop("source", None)
+        plugin["path"] = ".."
+
+generated_entries = [
+    (
+        Path(".claude-plugin/plugin.json"),
+        normalized_text_bytes(json.dumps(archive_plugin, indent=2) + "\n"),
+    ),
+    (
+        Path(".claude-plugin/marketplace.json"),
+        normalized_text_bytes(json.dumps(archive_marketplace, indent=2) + "\n"),
+    ),
+]
+
+
 asset.parent.mkdir(parents=True, exist_ok=True)
 with zipfile.ZipFile(asset, "w", compression=zipfile.ZIP_DEFLATED) as zf:
     for archive_rel, src_path in deduped:
@@ -216,15 +245,20 @@ with zipfile.ZipFile(asset, "w", compression=zipfile.ZIP_DEFLATED) as zf:
         # ZipFile was opened with compression=ZIP_DEFLATED.
         info.compress_type = zipfile.ZIP_DEFLATED
         zf.writestr(info, read_normalized(src_path))
+    for archive_rel, data in generated_entries:
+        info = zipfile.ZipInfo(archive_rel.as_posix())
+        info.external_attr = (stat.S_IFREG | 0o644) << 16
+        info.compress_type = zipfile.ZIP_DEFLATED
+        zf.writestr(info, data)
 
 with zipfile.ZipFile(asset) as zf:
     names = set(zf.namelist())
 
-    # Regression guard: skills/SKILL.md must NOT be in the archive.
+    # Regression guard: skills/implementaudit/SKILL.md must NOT be in the archive.
     # The archive root must contain SKILL.md directly for Claude import.
-    if "skills/SKILL.md" in names:
+    if "skills/implementaudit/SKILL.md" in names:
         raise SystemExit(
-            "archive has skills/SKILL.md at nested path; SKILL.md must be at archive root"
+            "archive has skills/implementaudit/SKILL.md at nested path; SKILL.md must be at archive root"
         )
 
     # Only allowed top-level entries may appear.
@@ -240,6 +274,10 @@ with zipfile.ZipFile(asset) as zf:
         rel = Path(name)
         if blocked(rel):
             raise SystemExit(f"blocked file found in asset: {name}")
+        if name.endswith(".sh") and b"\r\n" in zf.read(name):
+            raise SystemExit(
+                f"shell script contains CRLF line endings in asset: {name}"
+            )
 
     missing = [name for name in required_archive if name not in names]
     if missing:
@@ -263,8 +301,8 @@ with zipfile.ZipFile(asset) as zf:
         marketplace = json.loads((extracted / ".claude-plugin/marketplace.json").read_text())
         if plugin.get("name") != "implementaudit":
             raise SystemExit("extracted plugin name must be implementaudit")
-        if plugin.get("version") != "0.3.0":
-            raise SystemExit("extracted plugin version must be 0.3.0")
+        if plugin.get("version") != "0.3.1":
+            raise SystemExit("extracted plugin version must be 0.3.1")
         if plugin.get("skills") != "./":
             raise SystemExit(
                 "extracted plugin skills path must be ./ "

@@ -3,7 +3,7 @@
     {
       "name": "implementaudit",
       "description": "Audit-closure governance skill for bounded, verified repository changes.",
-      "path": ".."
+      "source": "./"
     }
   ]
 }

@@ -13,12 +13,12 @@ cp -R skills "$tmp/skills"
 cp -R fixtures "$tmp/fixtures"
 cp scripts/check-planner-stages.sh "$tmp/check-planner-stages.sh"
 
-if ! grep -Fq "Stage 6.5 - Pre-flight smoke" "$tmp/skills/SKILL.md"; then
+if ! grep -Fq "Stage 6.5 - Pre-flight smoke" "$tmp/skills/implementaudit/SKILL.md"; then
   printf 'planner-stages.test: fixture setup failed\n' >&2
   exit 1
 fi
 
-perl -0pi -e 's/Stage 6\.5 - Pre-flight smoke/Stage 6.5 - missing/' "$tmp/skills/SKILL.md"
+perl -0pi -e 's/Stage 6\.5 - Pre-flight smoke/Stage 6.5 - missing/' "$tmp/skills/implementaudit/SKILL.md"
 
 (
   cd "$tmp"

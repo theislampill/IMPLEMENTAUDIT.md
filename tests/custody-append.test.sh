@@ -7,7 +7,7 @@ cd "$repo_root"
 tmp="$(mktemp -d -p "$repo_root" .custody-append-test.XXXXXX)"
 trap 'rm -rf "$tmp"' EXIT
 
-helper="skills/scripts/custody-append.sh"
+helper="skills/implementaudit/scripts/custody-append.sh"
 
 to_windows_url_path() {
   local input="$1"

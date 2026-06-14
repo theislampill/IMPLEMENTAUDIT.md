@@ -15,7 +15,7 @@ require() {
   }
 }
 
-reference="skills/references/plan-lifecycle.md"
+reference="skills/implementaudit/references/plan-lifecycle.md"
 fixture="fixtures/audit-object-routing/plan-lifecycle.md"
 
 for text in \
@@ -53,7 +53,7 @@ for text in \
   "Plan lifecycle" \
   "Issue publication status: deferred"
 do
-  require "skills/templates/THINKING.md" "$text"
+  require "skills/implementaudit/templates/THINKING.md" "$text"
 done
 
 for text in \
@@ -63,7 +63,7 @@ for text in \
   "Reconciliation:" \
   "Authorization boundary:"
 do
-  require "skills/templates/phase-goal.txt" "$text"
+  require "skills/implementaudit/templates/phase-goal.txt" "$text"
 done
 
 printf 'audit-object-plan-lifecycle.test: ok\n'

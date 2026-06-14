@@ -19,7 +19,7 @@ audit evidence. Broad competence claims from a single run are forbidden.
 capability: validate-phase.sh exits 0 on well-formed phase specs
 evidence: phase-validation.test: ok (20/20) at run v0-2-6-0-FSZmBq
 source: tests/phase-validation.test.sh, AUDIT_COMPLETE
-scope: skills/scripts/validate-phase.sh
+scope: skills/implementaudit/scripts/validate-phase.sh
 bounded: true
 ```
 

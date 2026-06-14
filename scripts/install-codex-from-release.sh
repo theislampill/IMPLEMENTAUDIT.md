@@ -9,9 +9,9 @@ fail() {
 usage() {
   cat <<'EOF'
 Usage:
-  scripts/install-codex-from-release.sh --asset PATH [--checksum PATH] [--codex-home PATH] [--version 0.3.0]
-  scripts/install-codex-from-release.sh --url URL [--checksum-url URL] [--codex-home PATH] [--version 0.3.0]
-  scripts/install-codex-from-release.sh --tag vX.Y.Z.W [--repo OWNER/REPO] [--codex-home PATH] [--version 0.3.0]
+  scripts/install-codex-from-release.sh --asset PATH [--checksum PATH] [--codex-home PATH] [--version 0.3.1]
+  scripts/install-codex-from-release.sh --url URL [--checksum-url URL] [--codex-home PATH] [--version 0.3.1]
+  scripts/install-codex-from-release.sh --tag vX.Y.Z.W [--repo OWNER/REPO] [--codex-home PATH] [--version 0.3.1]
 
 Installs IMPLEMENTAUDIT.skill into a Codex-style skill directory:
   $CODEX_HOME/skills/implementaudit
@@ -42,7 +42,7 @@ checksum_url=""
 tag=""
 repo="theislampill/IMPLEMENTAUDIT.md"
 codex_home="${CODEX_HOME:-$HOME/.codex}"
-expected_version="0.3.0"
+expected_version="0.3.1"
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
@@ -187,6 +187,7 @@ required_archive = {
     "references/transcript-contract.md",
     "references/routing.md",
     "references/repo-state-comparison.md",
+    "references/sidecars.md",
     "references/child-agents.md",
     "references/lean-operating-discipline.md",
     "references/audit-category-matrix.md",
@@ -206,6 +207,8 @@ required_archive = {
     "templates/THINKING.md",
     "templates/phase-goal.txt",
     "templates/child-agent-report.md",
+    "templates/final-report.md",
+    "templates/read-only-plan.md",
     "templates/PROTOCOL.md",
     "templates/sidecars.md",
     "templates/tools.md",
@@ -218,9 +221,9 @@ with zipfile.ZipFile(asset) as zf:
     names = set(zf.namelist())
 
     # Regression guard: wrong-shape archive must be rejected.
-    if "skills/SKILL.md" in names:
+    if "skills/implementaudit/SKILL.md" in names:
         raise SystemExit(
-            "archive has skills/SKILL.md at nested path; "
+            "archive has skills/implementaudit/SKILL.md at nested path; "
             "SKILL.md must be at archive root for Claude import"
         )
 
@@ -300,6 +303,7 @@ with zipfile.ZipFile(asset) as zf:
             "references/transcript-contract.md",
             "references/routing.md",
             "references/repo-state-comparison.md",
+            "references/sidecars.md",
             "references/child-agents.md",
             "references/lean-operating-discipline.md",
             "references/audit-category-matrix.md",
@@ -319,6 +323,8 @@ with zipfile.ZipFile(asset) as zf:
             "templates/THINKING.md",
             "templates/phase-goal.txt",
             "templates/child-agent-report.md",
+            "templates/final-report.md",
+            "templates/read-only-plan.md",
             "templates/PROTOCOL.md",
             "templates/sidecars.md",
             "templates/tools.md",

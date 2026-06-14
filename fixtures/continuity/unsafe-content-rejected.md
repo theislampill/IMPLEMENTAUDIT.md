@@ -53,8 +53,8 @@ Rejection reason: unsupported broad competence claim from one run. Must NOT writ
 ## Unsafe: external memory marker leak
 
 Any note write that would cause `MEMORY_SAVED` or `GOAL_ACHIEVED` markers
-(external comparator identity markers) to appear in tracked repo files, AGENTS.md,
-README.md, or skills/SKILL.md is rejected.
+(foreign identity markers) to appear in tracked repo files, AGENTS.md,
+README.md, or skills/implementaudit/SKILL.md is rejected.
 
 Rejection reason: external identity contamination. Must NOT write.
 

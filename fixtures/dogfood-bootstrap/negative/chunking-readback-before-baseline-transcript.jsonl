@@ -1,0 +1,3 @@
+{"type":"thread.started","thread_id":"synthetic-negative-chunking"}
+{"type":"item.completed","item":{"type":"agent_message","text":"The installed skill file is long and the first read was truncated by the tool display, so I'm chunking the remaining readback before I mutate anything. installed skill is long, chunking remaining readback before baseline."}}
+{"type":"item.completed","item":{"type":"command_execution","command":"git status --short --branch --untracked-files=all","exit_code":0}}

@@ -3,7 +3,7 @@
 Route: DMADV (greenfield — new governed runtime artifact)
 
 ## Define
-New capability: `skills/scripts/check-lean-discipline.sh` — poka-yoke gate verifying
+New capability: `skills/implementaudit/scripts/check-lean-discipline.sh` — poka-yoke gate verifying
 Lean discipline is implemented as runtime behavior, not glossary-only prose.
 Users: IMPLEMENTAUDIT runtime; CI; pre-release gates.
 Constraints: must not claim Lean/TPS certification; must be concise; must not bloat package.
@@ -32,7 +32,7 @@ Rollback: delete `scripts/check-lean-discipline.sh`; remove call from `verify-pa
 
 ## Design
 Phase spec: single greenfield phase.
-Template: follow check-routing.sh / check-host-claims.sh pattern.
+Template: follow check-routing.sh / check-public-claim-boundaries.sh pattern.
 Fixtures: `fixtures/lean/` — valid and invalid examples for test.
 Validation: `tests/lean-discipline.test.sh` (20 min pass/fail cases).
 

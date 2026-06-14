@@ -7,7 +7,7 @@ cd "$repo_root"
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
-helper="skills/scripts/validate-run-root.sh"
+helper="skills/implementaudit/scripts/validate-run-root.sh"
 
 if command -v python >/dev/null 2>&1; then
   py_cmd=(python)
@@ -22,19 +22,19 @@ fi
 
 # 0. The tracked exemplars must pass their validators.
 bash "$helper" fixtures/run-root-example
-bash skills/scripts/validate-phase.sh fixtures/run-root-example/phases/phase-1.md >/dev/null
-bash skills/scripts/validate-phase.sh fixtures/phase-design/dmadv-greenfield-phase.md >/dev/null
-bash skills/scripts/validate-phase.sh --explain >/dev/null
+bash skills/implementaudit/scripts/validate-phase.sh fixtures/run-root-example/phases/phase-1.md >/dev/null
+bash skills/implementaudit/scripts/validate-phase.sh fixtures/phase-design/dmadv-greenfield-phase.md >/dev/null
+bash skills/implementaudit/scripts/validate-phase.sh --explain >/dev/null
 
 # 1. A run root built from the shipped templates must pass.
 mkdir -p "$tmp/good/phases"
-cp skills/templates/STATE.md "$tmp/good/STATE.md"
-cp skills/templates/PROTOCOL.md "$tmp/good/PROTOCOL.md"
-cp skills/templates/ROADMAP.md "$tmp/good/ROADMAP.md"
-cp skills/templates/THINKING.md "$tmp/good/THINKING.md"
-cp skills/templates/sidecars.md "$tmp/good/sidecars.md"
-cp skills/templates/tools.md "$tmp/good/tools.md"
-cp skills/templates/context.md "$tmp/good/context.md"
+cp skills/implementaudit/templates/STATE.md "$tmp/good/STATE.md"
+cp skills/implementaudit/templates/PROTOCOL.md "$tmp/good/PROTOCOL.md"
+cp skills/implementaudit/templates/ROADMAP.md "$tmp/good/ROADMAP.md"
+cp skills/implementaudit/templates/THINKING.md "$tmp/good/THINKING.md"
+cp skills/implementaudit/templates/sidecars.md "$tmp/good/sidecars.md"
+cp skills/implementaudit/templates/tools.md "$tmp/good/tools.md"
+cp skills/implementaudit/templates/context.md "$tmp/good/context.md"
 # Model a dispatched root: every phase row in ROADMAP has a spec file
 # (dispatch-prep step 5 guarantees this before any run executes).
 grep -oE '^\| *[0-9]+ *\|' "$tmp/good/ROADMAP.md" | grep -oE '[0-9]+' | sort -un | while read -r n; do

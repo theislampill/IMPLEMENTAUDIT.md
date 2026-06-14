@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-helper="$repo_root/skills/scripts/claim-run.sh"
+helper="$repo_root/skills/implementaudit/scripts/claim-run.sh"
 
 [ -f "$helper" ] || {
   printf 'claim-run.test: missing helper: %s\n' "$helper" >&2

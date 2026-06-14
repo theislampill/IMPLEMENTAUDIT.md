@@ -13,7 +13,7 @@
       <p>The method is there to make agent work inspectable, not to make readers learn manufacturing language before they can try it.</p>
 
       <h2 id="method-source-surfaces">Method source surfaces</h2>
-      <p><code>skills/references/lean-operating-discipline.md</code> and <code>README.md</code> operating method.</p>
+      <p><code>skills/implementaudit/references/lean-operating-discipline.md</code> and <code>README.md</code> operating method.</p>
 
       <h2 id="plain-first-method-table">Plain-first method table</h2>
       <table><thead><tr><th>Plain behavior</th><th>Formal label</th></tr></thead><tbody><tr><td>Inspect real files</td><td>Gemba</td></tr><tr><td>Check before claiming</td><td>Smoke Before Claim</td></tr><tr><td>Stop on abnormal evidence</td><td>Andon / Jidoka</td></tr><tr><td>Reflect after failure</td><td>Hansei</td></tr><tr><td>Find the real blocker</td><td>5 Whys</td></tr><tr><td>Fold durable fixes into standard</td><td>Kaizen</td></tr></tbody></table>
@@ -103,13 +103,13 @@
 
       <h2 id="polish-and-harden">Polish and Harden</h2>
       <p>A terminal Polish and Harden phase can be used when the main work is closed but operational quality still needs inspection.<br>It covers cleanliness, identity hygiene, generated-artifact freshness, proof-boundary wording, and anti-repeat standardization.<br>It is not permission to add new feature work.</p>
-      <p>At a release gate, identity hygiene runs forbidden identity checks with terms supplied at runtime, for example through <code>scripts/check-forbidden-terms.sh</code>.<br>The ledger records PASS/FAIL; forbidden terms must not be written into tracked files.</p>
+      <p>At a release gate, identity hygiene runs public-claim boundary checks with terms supplied at runtime, for example through <code>scripts/check-public-claim-boundaries.sh</code>.<br>The ledger records PASS/FAIL; disallowed public-claim terms must not be written into tracked files.</p>
 
       <h2 id="plugin-cache-warning">Plugin cache warning</h2>
       <p>Claude plugin cache refresh depends on a version-field change.<br>Shipped code changes need a plugin version bump before claiming update behavior; this warning does not prove release, install, or provenance state.</p>
 
       <h2 id="default-source-surfaces">Default source surfaces</h2>
-      <p><code>skills/SKILL.md</code> safety defaults, <code>skills/templates/PROTOCOL.md</code> phase loop, <code>skills/references/routing.md</code>, <code>skills/references/phase-design.md</code>, and <code>README.md</code> priority/closure descriptions.</p>
+      <p><code>skills/implementaudit/SKILL.md</code> safety defaults, <code>skills/implementaudit/templates/PROTOCOL.md</code> phase loop, <code>skills/implementaudit/references/routing.md</code>, <code>skills/implementaudit/references/phase-design.md</code>, and <code>README.md</code> priority/closure descriptions.</p>
 
       <h2 id="comparison">Compared with a normal agent run</h2>
       <p>A normal agent run can compress plan, edit, retry, and done into a chat narrative.<br>IMPLEMENTAUDIT splits those states into files, markers, before/after evidence, failure rows, and final audit closure.</p>

@@ -59,7 +59,7 @@ def reject_row(row, phrase, label, path):
 
 
 # 1. lean-operating-discipline.md must exist and be runtime-load-bearing
-lean_ref = "skills/references/lean-operating-discipline.md"
+lean_ref = "skills/implementaudit/references/lean-operating-discipline.md"
 lean = read(lean_ref)
 for needle in [
     "gemba",
@@ -79,7 +79,7 @@ for needle in [
     require(lean, needle, "lean reference content", lean_ref)
 
 # 2. 5S must appear in PROTOCOL.md
-proto_path = "skills/templates/PROTOCOL.md"
+proto_path = "skills/implementaudit/templates/PROTOCOL.md"
 proto = read(proto_path)
 for needle in [
     "5s_check",
@@ -105,7 +105,7 @@ for needle in [
     require(proto, needle, "Jidoka chain", proto_path)
 
 # 3b2. The sidecars run-root template must ship with its contract content
-sidecars_path = "skills/templates/sidecars.md"
+sidecars_path = "skills/implementaudit/templates/sidecars.md"
 sidecars = read(sidecars_path)
 for needle in [
     "orientation only",
@@ -151,7 +151,7 @@ if standard_work_row and not any(token in standard_work_row for token in ("templ
     )
 
 # 3a. Andon class + version-skew discipline must exist in the canonical skill
-skill_path = "skills/SKILL.md"
+skill_path = "skills/implementaudit/SKILL.md"
 skill = read(skill_path)
 for needle in [
     "andon:",
@@ -162,7 +162,7 @@ for needle in [
     require(skill, needle, "Andon class / version-skew discipline", skill_path)
 
 # 3b. Andon log substrate must exist in the STATE.md template
-state_path = "skills/templates/STATE.md"
+state_path = "skills/implementaudit/templates/STATE.md"
 state = read(state_path)
 for needle in [
     "## andon log",
@@ -176,7 +176,7 @@ for needle in [
 require(proto, "nemawashi", "Nemawashi gate", proto_path)
 
 # 5. Muda/Mura/Muri register must appear in THINKING.md
-thinking_path = "skills/templates/THINKING.md"
+thinking_path = "skills/implementaudit/templates/THINKING.md"
 thinking = read(thinking_path)
 for needle in [
     "muda",
@@ -189,12 +189,12 @@ for needle in [
 require(thinking, "dmaic", "DMAIC route", thinking_path)
 require(thinking, "dmadv", "DMADV route", thinking_path)
 
-routing_path = "skills/references/routing.md"
+routing_path = "skills/implementaudit/references/routing.md"
 routing = read(routing_path)
 require(routing, "dmaic", "DMAIC routing", routing_path)
 require(routing, "dmadv", "DMADV routing", routing_path)
 
-category_path = "skills/references/audit-category-matrix.md"
+category_path = "skills/implementaudit/references/audit-category-matrix.md"
 category_matrix = read(category_path)
 for needle in [
     "security review is also a default pressure",
@@ -203,7 +203,7 @@ for needle in [
 ]:
     require(category_matrix, needle, "audit-object-routing default pressure", category_path)
 
-plan_lifecycle_path = "skills/references/plan-lifecycle.md"
+plan_lifecycle_path = "skills/implementaudit/references/plan-lifecycle.md"
 plan_lifecycle = read(plan_lifecycle_path)
 for needle in [
     "no arbitrary revision cap",
@@ -213,7 +213,7 @@ for needle in [
     require(plan_lifecycle, needle, "audit-object-routing lifecycle boundary", plan_lifecycle_path)
 
 # 7. Quality route field must appear in phase-goal.txt
-phase_goal_path = "skills/templates/phase-goal.txt"
+phase_goal_path = "skills/implementaudit/templates/phase-goal.txt"
 phase_goal = read(phase_goal_path)
 require(phase_goal, "quality route", "Quality route field", phase_goal_path)
 

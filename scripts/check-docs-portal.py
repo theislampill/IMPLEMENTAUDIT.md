@@ -170,7 +170,7 @@ REQUIRED_CONCEPTS = [
 
 REQUIRED_CONCEPT_PATTERNS = [
     re.compile(r"IMPLEMENTAUDIT\.skill/(?:<br>|\s+)SKILL\.md", re.IGNORECASE),
-    re.compile(r"\$\{IMPLEMENTAUDIT_SKILL_DIR:-skills\}/scripts/", re.IGNORECASE),
+    re.compile(r"\$\{IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit\}/scripts/", re.IGNORECASE),
 ]
 
 RESERVED_OUTPUT_ROOTS = {"assets"}
@@ -185,12 +185,10 @@ FORBIDDEN_VISIBLE_TEXT = [
     ("provenance claim", "unsupported provenance wording"),
     ("class=\"kdetails\"", "collapsed runtime drawer should not return"),
     ("Open the full runtime model", "collapsed runtime drawer summary should not return"),
-    ("docs/portal_old/onboarding.md", "legacy portal source should not be visible in v2 pages"),
     ("/plugin marketplace add", "unverified Claude Code marketplace command"),
     ("/plugin install implementaudit@implementaudit", "unverified Claude Code marketplace command"),
     ("release asset ships the runtime payload under <code>skills/</code>", "stale package-layout claim"),
-    ("skills: \"./skills/\"", "stale plugin manifest skills path claim"),
-    ("IMPLEMENTAUDIT.skill/<br>skills/SKILL.md", "stale nested package tree claim"),
+    ("IMPLEMENTAUDIT.skill/<br>skills/implementaudit/SKILL.md", "stale nested package tree claim"),
     ("/implementdocs", "future docs-system project should not be claimed in generated pages"),
     ("IMPLEMENTDOCS", "future docs-system project should not be claimed in generated pages"),
     ("Pages is live", "unsupported GitHub Pages publication claim"),
@@ -804,7 +802,7 @@ def validate_page_shell(out_dir: Path, site: dict, ordered: list[dict], pages_by
                 fail(f"{rel}: repo-state helper commands should use a terminal wrapper")
             if re.search(r'<pre class="panel"><code>bash "\$\{IMPLEMENTAUDIT_SKILL_DIR', article_region):
                 fail(f"{rel}: repo-state helper commands should not render as a plain panel")
-            if "${IMPLEMENTAUDIT_SKILL_DIR:-skills}" not in article_region:
+            if "${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit}" not in article_region:
                 fail(f"{rel}: repo-state helper examples must keep IMPLEMENTAUDIT_SKILL_DIR fallback")
             if "/path/to/loaded/IMPLEMENTAUDIT.skill" in article_region:
                 fail(f"{rel}: IMPLEMENTAUDIT_SKILL_DIR must not point at the .skill archive")
@@ -828,7 +826,7 @@ def validate_page_shell(out_dir: Path, site: dict, ordered: list[dict], pages_by
             for marker in ("AUDIT_WARNING", "IMPLEMENTAUDIT_PAUSE"):
                 if marker not in article_region:
                     fail(f"{rel}: marker taxonomy missing {marker}")
-            if "Runtime-supplied forbidden identity checks" not in article_region:
+            if "Runtime-supplied public-claim boundary checks" not in article_region:
                 fail(f"{rel}: runtime model missing release-gate identity hygiene contract")
         if page["id"] == "continuity-and-sidecars":
             article_region = first_region(html_text, "article", tag="article")
@@ -850,7 +848,7 @@ def validate_page_shell(out_dir: Path, site: dict, ordered: list[dict], pages_by
                 fail(f"{rel}: non-action comparison spotlight card should not be keyboard focusable")
         if page["id"] == "package-contents":
             article_region = first_region(html_text, "article", tag="article")
-            if "${IMPLEMENTAUDIT_SKILL_DIR:-skills}/scripts/" not in article_region:
+            if "${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit}/scripts/" not in article_region:
                 fail(f"{rel}: installed helper path boundary must use IMPLEMENTAUDIT_SKILL_DIR fallback")
             for token in ('skills: "./"', "release-asset-install.test.sh", "release-asset-install-claude.test.sh"):
                 if token not in article_region:
@@ -968,8 +966,6 @@ def validate_metadata(out_dir: Path, site: dict, ordered: list[dict]) -> None:
         if metadata.get("checksum_boundary") != release.get("checksum_boundary"):
             fail("docs-metadata.json checksum_boundary does not match docs/portal/site.json release")
     sources = set(metadata.get("source_files_used", []))
-    if "docs/portal_old/onboarding.md" in sources:
-        fail("docs-metadata.json should not treat legacy docs/portal_old/onboarding.md as a v2 semantic source")
     # Keep the unrendered DESIGN.md under freshness protection too. It explains
     # the portal contract that the generator and checker are enforcing.
     required_sources = {

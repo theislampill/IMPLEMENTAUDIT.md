@@ -36,7 +36,7 @@ mkdir -p "$tmp/scripts"
 cp scripts/check-sidecar-boundaries.sh "$tmp/scripts/check-sidecar-boundaries.sh"
 
 perl -0pi -e 's/Graphify output is orientation evidence, not proof/Graphify output proves correctness/g' \
-  "$tmp/skills/SKILL.md"
+  "$tmp/skills/implementaudit/SKILL.md"
 if (cd "$tmp" && bash scripts/check-sidecar-boundaries.sh >/dev/null 2>&1); then
   printf 'sidecars.test: expected Graphify overclaim to fail check-sidecar-boundaries\n' >&2
   check_pass "Graphify overclaim rejected by boundary check" 1
@@ -48,7 +48,7 @@ tmp_promote="$(mktemp -d)"
 trap 'rm -rf "$tmp" "$tmp_promote"' EXIT
 cp -R skills README.md AGENTS.md docs scripts tests "$tmp_promote/"
 printf '\nNeither sidecar is canonical proof unless the repo promotes it.\n' >> \
-  "$tmp_promote/skills/references/routing.md"
+  "$tmp_promote/skills/implementaudit/references/routing.md"
 if (cd "$tmp_promote" && bash scripts/check-sidecar-boundaries.sh >/dev/null 2>&1); then
   printf 'sidecars.test: expected sidecar proof-promotion wording to fail\n' >&2
   check_pass "sidecar proof-promotion wording rejected" 1
@@ -172,11 +172,11 @@ grep -Fq "ActiveGraph custody is not correctness proof" "$fixture" \
   || check_pass "scenario7: required ActiveGraph boundary phrase documented" 1
 
 # The required boundary phrases must also exist in the live SKILL.md
-grep -Fq "Graphify output is orientation evidence, not proof" skills/SKILL.md \
+grep -Fq "Graphify output is orientation evidence, not proof" skills/implementaudit/SKILL.md \
   && check_pass "scenario7: Graphify boundary phrase in live SKILL.md" 0 \
   || check_pass "scenario7: Graphify boundary phrase in live SKILL.md" 1
 
-grep -Fq "ActiveGraph custody is not correctness proof" skills/SKILL.md \
+grep -Fq "ActiveGraph custody is not correctness proof" skills/implementaudit/SKILL.md \
   && check_pass "scenario7: ActiveGraph boundary phrase in live SKILL.md" 0 \
   || check_pass "scenario7: ActiveGraph boundary phrase in live SKILL.md" 1
 

@@ -7,7 +7,7 @@ cd "$repo_root"
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
-helper="$repo_root/skills/scripts/summarize-repo.sh"
+helper="$repo_root/skills/implementaudit/scripts/summarize-repo.sh"
 
 # 1. In a minimal repo with no checkers, candidate discovery offers only the
 #    universal baseline command — no hardcoded IMPLEMENTAUDIT paths.

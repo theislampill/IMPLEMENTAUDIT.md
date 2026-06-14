@@ -1,33 +1,33 @@
 {
   "release": {
-    "milestone": "v0.3.0.0",
-    "manifest_version": "0.3.0",
-    "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/tag/v0.3.0.0",
-    "audit_ledger_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/v0.3.0.0-local-package-dogfood-audit.md",
-    "status": "public GitHub release published and asset read back; no marketplace listing, host-load proof, issue publication, or provenance is implied",
+    "milestone": "v0.3.1.0",
+    "manifest_version": "0.3.1",
+    "url": "",
+    "audit_ledger_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/INDEX.md",
+    "status": "source checkout only; no tag; no release; no publication; no provenance. v0.3.1.0 source milestone proof ledger in progress; no public GitHub release, marketplace listing, host-load proof, issue publication, or license selection is implied",
     "last_release_gate_verified_public_release": {
       "milestone": "v0.3.0.0",
       "manifest_version": "0.3.0",
       "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/tag/v0.3.0.0",
-      "audit_ledger_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/v0.3.0.0-local-package-dogfood-audit.md"
+      "audit_ledger_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/archive/v0.3.0.0-local-package-dogfood-audit.md"
     },
     "checksum_boundary": "release-body SHA-256 digest supports artifact-integrity readback and may support a separately authorized provenance gate"
   },
   "semantic_sources": [
     "README.md",
     "AGENTS.md",
-    "skills/SKILL.md",
-    "skills/templates/PROTOCOL.md",
-    "skills/templates/STATE.md",
-    "skills/templates/THINKING.md",
-    "skills/references/transcript-contract.md",
-    "skills/references/goal-format.md",
-    "skills/references/routing.md",
-    "skills/references/phase-design.md",
-    "skills/references/planning-depth.md",
-    "skills/references/repo-state-comparison.md",
-    "skills/references/lean-operating-discipline.md",
-    "skills/references/terminology-integration.md"
+    "skills/implementaudit/SKILL.md",
+    "skills/implementaudit/templates/PROTOCOL.md",
+    "skills/implementaudit/templates/STATE.md",
+    "skills/implementaudit/templates/THINKING.md",
+    "skills/implementaudit/references/transcript-contract.md",
+    "skills/implementaudit/references/goal-format.md",
+    "skills/implementaudit/references/routing.md",
+    "skills/implementaudit/references/phase-design.md",
+    "skills/implementaudit/references/planning-depth.md",
+    "skills/implementaudit/references/repo-state-comparison.md",
+    "skills/implementaudit/references/lean-operating-discipline.md",
+    "skills/implementaudit/references/terminology-integration.md"
   ],
   "nav": [
     {
@@ -111,8 +111,8 @@
       "source": "overview.html",
       "sources": [
         "README.md",
-        "skills/SKILL.md",
-        "skills/templates/STATE.md"
+        "skills/implementaudit/SKILL.md",
+        "skills/implementaudit/templates/STATE.md"
       ]
     },
     "plain-english": {
@@ -121,8 +121,8 @@
       "source": "plain-english.html",
       "sources": [
         "README.md",
-        "skills/SKILL.md",
-        "skills/templates/STATE.md"
+        "skills/implementaudit/SKILL.md",
+        "skills/implementaudit/templates/STATE.md"
       ]
     },
     "what-it-is": {
@@ -133,8 +133,8 @@
         "README.md",
         "AGENTS.md",
         ".claude-plugin/plugin.json",
-        "skills/SKILL.md",
-        "skills/references/routing.md"
+        "skills/implementaudit/SKILL.md",
+        "skills/implementaudit/references/routing.md"
       ]
     },
     "workflow": {
@@ -142,9 +142,9 @@
       "path": "overview/workflow/",
       "source": "workflow.html",
       "sources": [
-        "skills/SKILL.md",
-        "skills/templates/PROTOCOL.md",
-        "skills/references/routing.md"
+        "skills/implementaudit/SKILL.md",
+        "skills/implementaudit/templates/PROTOCOL.md",
+        "skills/implementaudit/references/routing.md"
       ]
     },
     "success-and-proof": {
@@ -152,9 +152,8 @@
       "path": "overview/proof/",
       "source": "success-and-proof.html",
       "sources": [
-        "skills/references/transcript-contract.md",
-        "skills/templates/STATE.md",
-        "docs/audits/v0.2.9.0-andon-escalation-jidoka-repair.md"
+        "skills/implementaudit/references/transcript-contract.md",
+        "skills/implementaudit/templates/STATE.md"
       ]
     },
     "quick-start": {
@@ -163,9 +162,9 @@
       "source": "quick-start.html",
       "sources": [
         "README.md",
-        "skills/SKILL.md",
-        "skills/templates/STATE.md",
-        "skills/templates/PROTOCOL.md"
+        "skills/implementaudit/SKILL.md",
+        "skills/implementaudit/templates/STATE.md",
+        "skills/implementaudit/templates/PROTOCOL.md"
       ]
     },
     "installation": {
@@ -185,9 +184,9 @@
       "path": "start-here/possible-endings/",
       "source": "possible-endings.html",
       "sources": [
-        "skills/SKILL.md",
-        "skills/references/transcript-contract.md",
-        "skills/templates/STATE.md"
+        "skills/implementaudit/SKILL.md",
+        "skills/implementaudit/references/transcript-contract.md",
+        "skills/implementaudit/templates/STATE.md"
       ]
     },
     "for-new-users": {
@@ -196,8 +195,8 @@
       "source": "for-new-users.html",
       "sources": [
         "README.md",
-        "skills/SKILL.md",
-        "skills/templates/STATE.md"
+        "skills/implementaudit/SKILL.md",
+        "skills/implementaudit/templates/STATE.md"
       ]
     },
     "for-agents-and-operators": {
@@ -205,10 +204,10 @@
       "path": "audience/for-agents-and-operators/",
       "source": "for-agents-and-operators.html",
       "sources": [
-        "skills/SKILL.md",
-        "skills/templates/PROTOCOL.md",
-        "skills/references/planning-depth.md",
-        "skills/references/routing.md"
+        "skills/implementaudit/SKILL.md",
+        "skills/implementaudit/templates/PROTOCOL.md",
+        "skills/implementaudit/references/planning-depth.md",
+        "skills/implementaudit/references/routing.md"
       ]
     },
     "for-auditors-and-maintainers": {
@@ -221,9 +220,9 @@
         "docs/audits/INDEX.md",
         "scripts/verify-package.sh",
         "tests/docs-portal.test.sh",
-        "skills/templates/STATE.md",
-        "skills/references/transcript-contract.md",
-        "skills/references/repo-state-comparison.md"
+        "skills/implementaudit/templates/STATE.md",
+        "skills/implementaudit/references/transcript-contract.md",
+        "skills/implementaudit/references/repo-state-comparison.md"
       ]
     },
     "runtime-model": {
@@ -232,9 +231,9 @@
       "source": "runtime-model.html",
       "sources": [
         "README.md",
-        "skills/SKILL.md",
-        "skills/templates/PROTOCOL.md",
-        "skills/references/transcript-contract.md"
+        "skills/implementaudit/SKILL.md",
+        "skills/implementaudit/templates/PROTOCOL.md",
+        "skills/implementaudit/references/transcript-contract.md"
       ]
     },
     "audit-gate-model": {
@@ -243,9 +242,9 @@
       "source": "audit-gate-model.html",
       "sources": [
         "README.md",
-        "skills/SKILL.md",
-        "skills/templates/PROTOCOL.md",
-        "skills/references/transcript-contract.md"
+        "skills/implementaudit/SKILL.md",
+        "skills/implementaudit/templates/PROTOCOL.md",
+        "skills/implementaudit/references/transcript-contract.md"
       ]
     },
     "invocation-shapes": {
@@ -253,9 +252,9 @@
       "path": "reference/invocation-shapes/",
       "source": "invocation-shapes.html",
       "sources": [
-        "skills/SKILL.md",
-        "skills/references/goal-format.md",
-        "skills/templates/STATE.md"
+        "skills/implementaudit/SKILL.md",
+        "skills/implementaudit/references/goal-format.md",
+        "skills/implementaudit/templates/STATE.md"
       ]
     },
     "planning-and-phases": {
@@ -263,10 +262,10 @@
       "path": "reference/planning-and-phases/",
       "source": "planning-and-phases.html",
       "sources": [
-        "skills/SKILL.md",
-        "skills/references/planning-depth.md",
-        "skills/references/phase-design.md",
-        "skills/templates/phase-goal.txt"
+        "skills/implementaudit/SKILL.md",
+        "skills/implementaudit/references/planning-depth.md",
+        "skills/implementaudit/references/phase-design.md",
+        "skills/implementaudit/templates/phase-goal.txt"
       ]
     },
     "routing": {
@@ -275,7 +274,7 @@
       "source": "routing.html",
       "sources": [
         "README.md",
-        "skills/references/routing.md",
+        "skills/implementaudit/references/routing.md",
         "fixtures/routing/greenfield-goal-synthesis/EXPECTED.md",
         "fixtures/routing/brownfield-audit-closure/EXPECTED.md"
       ]
@@ -285,10 +284,10 @@
       "path": "reference/state-and-artifacts/",
       "source": "state-and-artifacts.html",
       "sources": [
-        "skills/templates/STATE.md",
-        "skills/templates/ROADMAP.md",
-        "skills/templates/PROTOCOL.md",
-        "skills/templates/sidecars.md"
+        "skills/implementaudit/templates/STATE.md",
+        "skills/implementaudit/templates/ROADMAP.md",
+        "skills/implementaudit/templates/PROTOCOL.md",
+        "skills/implementaudit/templates/sidecars.md"
       ]
     },
     "repo-state-comparison": {
@@ -296,8 +295,8 @@
       "path": "reference/repo-state-comparison/",
       "source": "repo-state-comparison.html",
       "sources": [
-        "skills/references/repo-state-comparison.md",
-        "skills/scripts/repo-state.sh"
+        "skills/implementaudit/references/repo-state-comparison.md",
+        "skills/implementaudit/scripts/repo-state.sh"
       ]
     },
     "error-handling": {
@@ -305,9 +304,9 @@
       "path": "reference/error-handling/",
       "source": "error-handling.html",
       "sources": [
-        "skills/SKILL.md",
-        "skills/templates/PROTOCOL.md",
-        "skills/templates/STATE.md"
+        "skills/implementaudit/SKILL.md",
+        "skills/implementaudit/templates/PROTOCOL.md",
+        "skills/implementaudit/templates/STATE.md"
       ]
     },
     "evidence-boundaries": {
@@ -315,9 +314,9 @@
       "path": "reference/evidence-boundaries/",
       "source": "evidence-boundaries.html",
       "sources": [
-        "skills/SKILL.md",
-        "skills/references/repo-state-comparison.md",
-        "skills/references/lean-operating-discipline.md"
+        "skills/implementaudit/SKILL.md",
+        "skills/implementaudit/references/repo-state-comparison.md",
+        "skills/implementaudit/references/lean-operating-discipline.md"
       ]
     },
     "completion-semantics": {
@@ -325,8 +324,8 @@
       "path": "reference/completion-semantics/",
       "source": "completion-semantics.html",
       "sources": [
-        "skills/SKILL.md",
-        "skills/references/transcript-contract.md"
+        "skills/implementaudit/SKILL.md",
+        "skills/implementaudit/references/transcript-contract.md"
       ]
     },
     "continuity-and-sidecars": {
@@ -335,8 +334,8 @@
       "source": "continuity-and-sidecars.html",
       "sources": [
         "AGENTS.md",
-        "skills/templates/sidecars.md",
-        "skills/references/lean-operating-discipline.md"
+        "skills/implementaudit/templates/sidecars.md",
+        "skills/implementaudit/references/lean-operating-discipline.md"
       ]
     },
     "operating-method": {
@@ -346,11 +345,11 @@
       "sources": [
         "AGENTS.md",
         "README.md",
-        "skills/SKILL.md",
-        "skills/templates/PROTOCOL.md",
-        "skills/references/lean-operating-discipline.md",
-        "skills/references/routing.md",
-        "skills/references/phase-design.md"
+        "skills/implementaudit/SKILL.md",
+        "skills/implementaudit/templates/PROTOCOL.md",
+        "skills/implementaudit/references/lean-operating-discipline.md",
+        "skills/implementaudit/references/routing.md",
+        "skills/implementaudit/references/phase-design.md"
       ]
     },
     "comparison": {
@@ -360,9 +359,9 @@
       "sources": [
         "README.md",
         "AGENTS.md",
-        "skills/SKILL.md",
-        "skills/references/goal-format.md",
-        "skills/references/phase-design.md"
+        "skills/implementaudit/SKILL.md",
+        "skills/implementaudit/references/goal-format.md",
+        "skills/implementaudit/references/phase-design.md"
       ]
     },
     "usage-examples": {
@@ -371,9 +370,9 @@
       "source": "usage-examples.html",
       "sources": [
         "README.md",
-        "skills/SKILL.md",
-        "skills/references/routing.md",
-        "skills/references/goal-format.md"
+        "skills/implementaudit/SKILL.md",
+        "skills/implementaudit/references/routing.md",
+        "skills/implementaudit/references/goal-format.md"
       ]
     },
     "repo-layout": {
@@ -399,10 +398,10 @@
       "sources": [
         "README.md",
         "AGENTS.md",
-        "skills/SKILL.md",
-        "skills/references/transcript-contract.md",
-        "skills/references/lean-operating-discipline.md",
-        "skills/references/terminology-integration.md"
+        "skills/implementaudit/SKILL.md",
+        "skills/implementaudit/references/transcript-contract.md",
+        "skills/implementaudit/references/lean-operating-discipline.md",
+        "skills/implementaudit/references/terminology-integration.md"
       ]
     },
     "child-agent-review-loops": {
@@ -410,8 +409,8 @@
       "path": "reference/child-agent-review-loops/",
       "source": "child-agent-review-loops.html",
       "sources": [
-        "skills/references/child-agents.md",
-        "skills/templates/child-agent-report.md",
+        "skills/implementaudit/references/child-agents.md",
+        "skills/implementaudit/templates/child-agent-report.md",
         "AGENTS.md",
         "fixtures/child-agents/README.md"
       ]
@@ -423,9 +422,9 @@
       "sources": [
         "README.md",
         "AGENTS.md",
-        "skills/references/lean-operating-discipline.md",
-        "skills/templates/sidecars.md",
-        "skills/scripts/custody-append.sh"
+        "skills/implementaudit/references/lean-operating-discipline.md",
+        "skills/implementaudit/templates/sidecars.md",
+        "skills/implementaudit/scripts/custody-append.sh"
       ]
     },
     "package-contents": {
@@ -436,15 +435,15 @@
         "AGENTS.md",
         ".claude-plugin/plugin.json",
         "scripts/build-release-asset.sh",
-        "skills/SKILL.md",
-        "skills/scripts/claim-run.sh",
-        "skills/scripts/repo-state.sh",
-        "skills/scripts/validate-phase.sh",
-        "skills/scripts/validate-run-root.sh",
-        "skills/scripts/custody-append.sh",
+        "skills/implementaudit/SKILL.md",
+        "skills/implementaudit/scripts/claim-run.sh",
+        "skills/implementaudit/scripts/repo-state.sh",
+        "skills/implementaudit/scripts/validate-phase.sh",
+        "skills/implementaudit/scripts/validate-run-root.sh",
+        "skills/implementaudit/scripts/custody-append.sh",
         "scripts/verify-package.sh",
-        "skills/templates/STATE.md",
-        "skills/templates/PROTOCOL.md"
+        "skills/implementaudit/templates/STATE.md",
+        "skills/implementaudit/templates/PROTOCOL.md"
       ]
     },
     "audit-trail": {
@@ -457,8 +456,7 @@
         ".claude-plugin/plugin.json",
         ".github/workflows/pages.yml",
         ".github/workflows/validate.yml",
-        "docs/audits/INDEX.md",
-        "docs/audits/v0.2.9.0-andon-escalation-jidoka-repair.md"
+        "docs/audits/INDEX.md"
       ]
     },
     "reference-index": {

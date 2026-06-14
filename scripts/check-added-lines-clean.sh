@@ -10,7 +10,7 @@ repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
 baseline="${1:-HEAD}"
-helper="skills/scripts/repo-state.sh"
+helper="skills/implementaudit/scripts/repo-state.sh"
 [ -f "$helper" ] || fail "missing helper: $helper"
 
 added="$(mktemp)"
@@ -19,7 +19,7 @@ trap 'rm -f "$added" "$session_marker_added"' EXIT
 
 is_skipped_path() {
   case "$1" in
-    tests/*|fixtures/*|docs/audits/*|scripts/check-added-lines-clean.sh|*__pycache__*|*.pyc)
+    tests/*|fixtures/*|docs/audits/*|docs/maintenance/AGENTS-HISTORY.md|scripts/check-added-lines-clean.sh|*__pycache__*|*.pyc)
       return 0
       ;;
     *)

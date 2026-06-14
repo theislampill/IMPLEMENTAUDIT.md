@@ -12,8 +12,8 @@ live files before patching.
 
 Query type: node degree by file (owner/source ranking)
 Graph: graphify-out/graph.json
-Result summary: skills/SKILL.md (49 links), skills/templates/PROTOCOL.md (25 links),
-                skills/templates/THINKING.md (12 links)
+Result summary: skills/implementaudit/SKILL.md (49 links), skills/implementaudit/templates/PROTOCOL.md (25 links),
+                skills/implementaudit/templates/THINKING.md (12 links)
 Evidence boundary: orientation only, not proof
 Freshness: extracted this session, no-cluster mode
 Recorded in: <run-root>/sidecars.md
@@ -21,11 +21,11 @@ Recorded in: <run-root>/sidecars.md
 ## Analyze step
 
 Graphify-derived candidates:
-1. skills/SKILL.md (49 links) — confirmed as canonical behavior owner by reading file header
+1. skills/implementaudit/SKILL.md (49 links) — confirmed as canonical behavior owner by reading file header
    and cross-referencing verify-package.sh require_file check. CONFIRMED.
-2. skills/templates/PROTOCOL.md (25 links) — confirmed as phase execution loop owner by
+2. skills/implementaudit/templates/PROTOCOL.md (25 links) — confirmed as phase execution loop owner by
    reading PROTOCOL.md and checking check-planner-stages.sh references. CONFIRMED.
-3. skills/templates/THINKING.md (12 links) — confirmed as planning template by reading
+3. skills/implementaudit/templates/THINKING.md (12 links) — confirmed as planning template by reading
    file and AGENTS.md documentation. CONFIRMED.
 
 ## Expected runtime behavior

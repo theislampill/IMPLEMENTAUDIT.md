@@ -16,7 +16,7 @@ fail=0
 check_pass() {
   local label="$1"
   local file="$2"
-  if bash skills/scripts/validate-phase.sh "$file" >/dev/null 2>&1; then
+  if bash skills/implementaudit/scripts/validate-phase.sh "$file" >/dev/null 2>&1; then
     pass=$((pass + 1))
   else
     printf 'phase-validation.test: UNEXPECTED FAIL for: %s\n' "$label" >&2
@@ -27,7 +27,7 @@ check_pass() {
 check_fail() {
   local label="$1"
   local file="$2"
-  if bash skills/scripts/validate-phase.sh "$file" >/dev/null 2>&1; then
+  if bash skills/implementaudit/scripts/validate-phase.sh "$file" >/dev/null 2>&1; then
     printf 'phase-validation.test: UNEXPECTED PASS for: %s\n' "$label" >&2
     fail=$((fail + 1))
   else
@@ -40,7 +40,7 @@ check_fail_contains() {
   local file="$2"
   local expected="$3"
   local out="$tmp/${label//[^A-Za-z0-9_]/_}.out"
-  if bash skills/scripts/validate-phase.sh "$file" >"$out" 2>&1; then
+  if bash skills/implementaudit/scripts/validate-phase.sh "$file" >"$out" 2>&1; then
     printf 'phase-validation.test: UNEXPECTED PASS for: %s\n' "$label" >&2
     fail=$((fail + 1))
   elif grep -Fq "$expected" "$out"; then

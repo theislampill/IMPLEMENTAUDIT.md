@@ -19,132 +19,132 @@ require_file() {
   [ -f "$1" ] || fail "missing required file: $1"
 }
 
-require_file skills/SKILL.md
-require_file skills/templates/THINKING.md
-require_file skills/templates/ROADMAP.md
-require_file skills/templates/STATE.md
-require_file skills/templates/PROTOCOL.md
-require_file skills/templates/phase-goal.txt
-require_file skills/scripts/claim-run.sh
-require_file skills/references/planning-depth.md
-require_file skills/references/goal-format.md
-require_file skills/references/phase-design.md
-require_file skills/references/transcript-contract.md
-require_file skills/references/audit-category-matrix.md
-require_file skills/references/plan-lifecycle.md
+require_file skills/implementaudit/SKILL.md
+require_file skills/implementaudit/templates/THINKING.md
+require_file skills/implementaudit/templates/ROADMAP.md
+require_file skills/implementaudit/templates/STATE.md
+require_file skills/implementaudit/templates/PROTOCOL.md
+require_file skills/implementaudit/templates/phase-goal.txt
+require_file skills/implementaudit/scripts/claim-run.sh
+require_file skills/implementaudit/references/planning-depth.md
+require_file skills/implementaudit/references/goal-format.md
+require_file skills/implementaudit/references/phase-design.md
+require_file skills/implementaudit/references/transcript-contract.md
+require_file skills/implementaudit/references/audit-category-matrix.md
+require_file skills/implementaudit/references/plan-lifecycle.md
 
-require_in_file skills/SKILL.md "## 2b. Planner stages for goal synthesis and phased audit closure"
-require_in_file skills/SKILL.md "Stage 0 - Context/tool/repo-state detection"
-require_in_file skills/SKILL.md "Stage 1 - Audit-governed intake and routing"
-require_in_file skills/SKILL.md "Stage 2 - Recon / Gemba"
-require_in_file skills/SKILL.md "Stage 3 - Deep think / risk and dependency analysis"
-require_in_file skills/SKILL.md "Stage 4 - Phase decomposition"
-require_in_file skills/SKILL.md 'Stage 5 - Write `.IMPLEMENTAUDIT` runtime artifacts'
-require_in_file skills/SKILL.md "Stage 6 - Plan review and self-critique"
-require_in_file skills/SKILL.md "Stage 6.5 - Pre-flight smoke"
-require_in_file skills/SKILL.md 'Stage 7 - One ready-to-paste `/goal` handoff when not already embedded'
-require_in_file skills/SKILL.md ".IMPLEMENTAUDIT/THINKING.md"
-require_in_file skills/SKILL.md 'do not print a second `/goal`'
-require_in_file skills/SKILL.md "Self-critique:"
-require_in_file skills/SKILL.md "PREFLIGHT_GREEN"
-require_in_file skills/SKILL.md "PREFLIGHT_RED"
-require_in_file skills/SKILL.md "AUDIT_COMPLETE"
-require_in_file skills/SKILL.md "IMPLEMENTAUDIT_RUN_COMPLETE"
-require_in_file skills/SKILL.md "scripts/claim-run.sh"
-require_in_file skills/SKILL.md 'IMPLEMENTAUDIT_BASE'
-require_in_file skills/SKILL.md 'IMPLEMENTAUDIT_RUN_ROOT'
-require_in_file skills/SKILL.md 'IMPLEMENTAUDIT_BASELINE_REF'
-require_in_file skills/SKILL.md "CONTINUITY_DECISION"
-require_in_file skills/SKILL.md ".IMPLEMENTAUDIT/runs/<task-slug>-<id>/"
-require_in_file skills/SKILL.md "Stage 6 assumptions"
-require_in_file skills/SKILL.md "0-2 true-gap questions"
-require_in_file skills/SKILL.md "at most four material questions"
+require_in_file skills/implementaudit/SKILL.md "## 2b. Planner stages for goal synthesis and phased audit closure"
+require_in_file skills/implementaudit/SKILL.md "Stage 0 - Context/tool/repo-state detection"
+require_in_file skills/implementaudit/SKILL.md "Stage 1 - Audit-governed intake and routing"
+require_in_file skills/implementaudit/SKILL.md "Stage 2 - Recon / Gemba"
+require_in_file skills/implementaudit/SKILL.md "Stage 3 - Deep think / risk and dependency analysis"
+require_in_file skills/implementaudit/SKILL.md "Stage 4 - Phase decomposition"
+require_in_file skills/implementaudit/SKILL.md 'Stage 5 - Write `.IMPLEMENTAUDIT` runtime artifacts'
+require_in_file skills/implementaudit/SKILL.md "Stage 6 - Plan review and self-critique"
+require_in_file skills/implementaudit/SKILL.md "Stage 6.5 - Pre-flight smoke"
+require_in_file skills/implementaudit/SKILL.md 'Stage 7 - One ready-to-paste `/goal` handoff when not already embedded'
+require_in_file skills/implementaudit/SKILL.md ".IMPLEMENTAUDIT/THINKING.md"
+require_in_file skills/implementaudit/SKILL.md 'do not print a second `/goal`'
+require_in_file skills/implementaudit/SKILL.md "Self-critique:"
+require_in_file skills/implementaudit/SKILL.md "PREFLIGHT_GREEN"
+require_in_file skills/implementaudit/SKILL.md "PREFLIGHT_RED"
+require_in_file skills/implementaudit/SKILL.md "AUDIT_COMPLETE"
+require_in_file skills/implementaudit/SKILL.md "IMPLEMENTAUDIT_RUN_COMPLETE"
+require_in_file skills/implementaudit/SKILL.md "scripts/claim-run.sh"
+require_in_file skills/implementaudit/SKILL.md 'IMPLEMENTAUDIT_BASE'
+require_in_file skills/implementaudit/SKILL.md 'IMPLEMENTAUDIT_RUN_ROOT'
+require_in_file skills/implementaudit/SKILL.md 'IMPLEMENTAUDIT_BASELINE_REF'
+require_in_file skills/implementaudit/SKILL.md "CONTINUITY_DECISION"
+require_in_file skills/implementaudit/SKILL.md ".IMPLEMENTAUDIT/runs/<task-slug>-<id>/"
+require_in_file skills/implementaudit/SKILL.md "Stage 6 assumptions"
+require_in_file skills/implementaudit/SKILL.md "0-2 true-gap questions"
+require_in_file skills/implementaudit/SKILL.md "at most four material questions"
 
-require_in_file skills/templates/THINKING.md 'Runtime copy target: `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/THINKING.md`'
-require_in_file skills/templates/THINKING.md "Top objective"
-require_in_file skills/templates/THINKING.md "Owner/source"
-require_in_file skills/templates/THINKING.md "Top closure risks"
-require_in_file skills/templates/THINKING.md "Rollback or removal path"
-require_in_file skills/templates/THINKING.md "Evidence strategy"
-require_in_file skills/templates/THINKING.md "Graphify status"
-require_in_file skills/templates/THINKING.md "ActiveGraph status"
-require_in_file skills/templates/THINKING.md "Available context"
-require_in_file skills/templates/THINKING.md "Memory/continuity locations"
-require_in_file skills/templates/THINKING.md "Sidecars artifact"
+require_in_file skills/implementaudit/templates/THINKING.md 'Runtime copy target: `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/THINKING.md`'
+require_in_file skills/implementaudit/templates/THINKING.md "Top objective"
+require_in_file skills/implementaudit/templates/THINKING.md "Owner/source"
+require_in_file skills/implementaudit/templates/THINKING.md "Top closure risks"
+require_in_file skills/implementaudit/templates/THINKING.md "Rollback or removal path"
+require_in_file skills/implementaudit/templates/THINKING.md "Evidence strategy"
+require_in_file skills/implementaudit/templates/THINKING.md "Graphify status"
+require_in_file skills/implementaudit/templates/THINKING.md "ActiveGraph status"
+require_in_file skills/implementaudit/templates/THINKING.md "Available context"
+require_in_file skills/implementaudit/templates/THINKING.md "Memory/continuity locations"
+require_in_file skills/implementaudit/templates/THINKING.md "Sidecars artifact"
 
-require_in_file skills/templates/PROTOCOL.md "<run-root>/THINKING.md"
-require_in_file skills/templates/PROTOCOL.md "CONTINUITY_DECISION"
-require_in_file skills/templates/ROADMAP.md 'Thinking file: `<run-root>/THINKING.md`'
-require_in_file skills/templates/ROADMAP.md "IMPLEMENTAUDIT_RUN_ROOT"
-require_in_file skills/templates/STATE.md '| `<run-root>/THINKING.md` |'
-require_in_file skills/templates/STATE.md "Continuity decision"
-require_in_file skills/templates/phase-goal.txt "Thinking ref: <run-root>/THINKING.md"
-require_in_file skills/templates/phase-goal.txt "CONTINUITY_DECISION"
-require_in_file skills/templates/phase-goal.txt "Audit categories:"
-require_in_file skills/templates/phase-goal.txt "Deep pressure:"
-require_in_file skills/templates/phase-goal.txt "Security pressure:"
-require_in_file skills/templates/phase-goal.txt "Branch/diff scope:"
-require_in_file skills/templates/phase-goal.txt "Plan lifecycle:"
-require_in_file skills/templates/phase-goal.txt "Issue publication: deferred"
-require_in_file skills/references/goal-format.md "Full phased handoff condition"
-require_in_file skills/references/planning-depth.md "Native planner stage rule"
-require_in_file skills/references/planning-depth.md "scripts/claim-run.sh"
-require_in_file skills/references/phase-design.md "Stage 6 self-critique"
-require_in_file skills/references/phase-design.md "Start now"
-require_in_file skills/references/transcript-contract.md "Stage handoff boundary"
-require_in_file skills/references/transcript-contract.md "CONTINUITY_DECISION"
+require_in_file skills/implementaudit/templates/PROTOCOL.md "<run-root>/THINKING.md"
+require_in_file skills/implementaudit/templates/PROTOCOL.md "CONTINUITY_DECISION"
+require_in_file skills/implementaudit/templates/ROADMAP.md 'Thinking file: `<run-root>/THINKING.md`'
+require_in_file skills/implementaudit/templates/ROADMAP.md "IMPLEMENTAUDIT_RUN_ROOT"
+require_in_file skills/implementaudit/templates/STATE.md '| `<run-root>/THINKING.md` |'
+require_in_file skills/implementaudit/templates/STATE.md "Continuity decision"
+require_in_file skills/implementaudit/templates/phase-goal.txt "Thinking ref: <run-root>/THINKING.md"
+require_in_file skills/implementaudit/templates/phase-goal.txt "CONTINUITY_DECISION"
+require_in_file skills/implementaudit/templates/phase-goal.txt "Audit categories:"
+require_in_file skills/implementaudit/templates/phase-goal.txt "Deep pressure:"
+require_in_file skills/implementaudit/templates/phase-goal.txt "Security pressure:"
+require_in_file skills/implementaudit/templates/phase-goal.txt "Branch/diff scope:"
+require_in_file skills/implementaudit/templates/phase-goal.txt "Plan lifecycle:"
+require_in_file skills/implementaudit/templates/phase-goal.txt "Issue publication: deferred"
+require_in_file skills/implementaudit/references/goal-format.md "Full phased handoff condition"
+require_in_file skills/implementaudit/references/planning-depth.md "Native planner stage rule"
+require_in_file skills/implementaudit/references/planning-depth.md "scripts/claim-run.sh"
+require_in_file skills/implementaudit/references/phase-design.md "Stage 6 self-critique"
+require_in_file skills/implementaudit/references/phase-design.md "Start now"
+require_in_file skills/implementaudit/references/transcript-contract.md "Stage handoff boundary"
+require_in_file skills/implementaudit/references/transcript-contract.md "CONTINUITY_DECISION"
 
-require_in_file skills/SKILL.md "audit object / audit record / audit surface"
-require_in_file skills/SKILL.md "auditing action / audit operation"
-require_in_file skills/SKILL.md "tdqyq-audit-object"
-require_in_file skills/SKILL.md "ydqyq-audit-action"
-require_in_file skills/SKILL.md "Audit-governed implementation"
-require_in_file skills/SKILL.md "Direct governance binds"
-require_in_file skills/SKILL.md "Embedded governance inherits"
-require_in_file skills/SKILL.md "Goal synthesis constructs"
-require_in_file skills/SKILL.md "Governed casual-build intake constructs"
-require_in_file skills/SKILL.md "governed casual-build intake"
-require_in_file skills/SKILL.md "Double-audit pattern for high-risk runs"
-require_in_file skills/SKILL.md 'Final `ydqyq-audit-action` -> terminal'
-require_in_file skills/references/transcript-contract.md "audit object lifecycle"
-require_in_file skills/references/transcript-contract.md "double-audit sequence"
-require_in_file skills/references/goal-format.md "audit object"
-require_in_file skills/references/goal-format.md "double-audit pattern"
-require_in_file skills/references/planning-depth.md "audit object"
-require_in_file skills/references/planning-depth.md "double-audit pattern"
-require_in_file skills/references/phase-design.md "audit object"
-require_in_file skills/references/phase-design.md "terminal verified closure"
-require_in_file skills/templates/PROTOCOL.md "audit object"
-require_in_file skills/templates/PROTOCOL.md "double-audit pattern"
-require_in_file skills/templates/ROADMAP.md "Audit object"
-require_in_file skills/templates/ROADMAP.md "tdqyq-audit-object"
-require_in_file skills/templates/ROADMAP.md "Double-audit sequence"
-require_in_file skills/templates/STATE.md "Audit object state"
-require_in_file skills/templates/STATE.md "ydqyq-audit-action"
-require_in_file skills/templates/STATE.md "Implementation action against object"
-require_in_file skills/templates/THINKING.md "Audit object"
-require_in_file skills/templates/THINKING.md "tdqyq-audit-object"
-require_in_file skills/templates/THINKING.md "Double-audit sequence"
-require_in_file skills/templates/THINKING.md "Audit category matrix"
-require_in_file skills/templates/THINKING.md "Branch / diff / reconciliation scope"
-require_in_file skills/templates/THINKING.md "Plan lifecycle"
-require_in_file skills/templates/THINKING.md "Issue publication status: deferred"
-require_in_file skills/templates/phase-goal.txt "Audit object"
-require_in_file skills/templates/phase-goal.txt "ydqyq-audit-action"
-require_in_file skills/templates/phase-goal.txt "Terminal object state to prove"
+require_in_file skills/implementaudit/SKILL.md "audit object / audit record / audit surface"
+require_in_file skills/implementaudit/SKILL.md "auditing action / audit operation"
+require_in_file skills/implementaudit/SKILL.md "tdqyq-audit-object"
+require_in_file skills/implementaudit/SKILL.md "ydqyq-audit-action"
+require_in_file skills/implementaudit/SKILL.md "Audit-governed implementation"
+require_in_file skills/implementaudit/SKILL.md "Direct governance binds"
+require_in_file skills/implementaudit/SKILL.md "Embedded governance inherits"
+require_in_file skills/implementaudit/SKILL.md "Goal synthesis constructs"
+require_in_file skills/implementaudit/SKILL.md "Governed casual-build intake constructs"
+require_in_file skills/implementaudit/SKILL.md "governed casual-build intake"
+require_in_file skills/implementaudit/SKILL.md "Double-audit pattern for high-risk runs"
+require_in_file skills/implementaudit/SKILL.md 'Final `ydqyq-audit-action` -> terminal'
+require_in_file skills/implementaudit/references/transcript-contract.md "audit object lifecycle"
+require_in_file skills/implementaudit/references/transcript-contract.md "double-audit sequence"
+require_in_file skills/implementaudit/references/goal-format.md "audit object"
+require_in_file skills/implementaudit/references/goal-format.md "double-audit pattern"
+require_in_file skills/implementaudit/references/planning-depth.md "audit object"
+require_in_file skills/implementaudit/references/planning-depth.md "double-audit pattern"
+require_in_file skills/implementaudit/references/phase-design.md "audit object"
+require_in_file skills/implementaudit/references/phase-design.md "terminal verified closure"
+require_in_file skills/implementaudit/templates/PROTOCOL.md "audit object"
+require_in_file skills/implementaudit/templates/PROTOCOL.md "double-audit pattern"
+require_in_file skills/implementaudit/templates/ROADMAP.md "Audit object"
+require_in_file skills/implementaudit/templates/ROADMAP.md "tdqyq-audit-object"
+require_in_file skills/implementaudit/templates/ROADMAP.md "Double-audit sequence"
+require_in_file skills/implementaudit/templates/STATE.md "Audit object state"
+require_in_file skills/implementaudit/templates/STATE.md "ydqyq-audit-action"
+require_in_file skills/implementaudit/templates/STATE.md "Implementation action against object"
+require_in_file skills/implementaudit/templates/THINKING.md "Audit object"
+require_in_file skills/implementaudit/templates/THINKING.md "tdqyq-audit-object"
+require_in_file skills/implementaudit/templates/THINKING.md "Double-audit sequence"
+require_in_file skills/implementaudit/templates/THINKING.md "Audit category matrix"
+require_in_file skills/implementaudit/templates/THINKING.md "Branch / diff / reconciliation scope"
+require_in_file skills/implementaudit/templates/THINKING.md "Plan lifecycle"
+require_in_file skills/implementaudit/templates/THINKING.md "Issue publication status: deferred"
+require_in_file skills/implementaudit/templates/phase-goal.txt "Audit object"
+require_in_file skills/implementaudit/templates/phase-goal.txt "ydqyq-audit-action"
+require_in_file skills/implementaudit/templates/phase-goal.txt "Terminal object state to prove"
 require_in_file fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md "Audit object:"
 require_in_file fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md "Auditing actions:"
 require_in_file fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md "tdqyq-audit-object"
 require_in_file fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md "ydqyq-audit-action"
 require_in_file fixtures/simple-audit/EXPECTED-TRANSCRIPT-SKELETON.md "Double-audit sequence:"
-require_in_file skills/references/audit-category-matrix.md "Deep analysis is a default pressure"
-require_in_file skills/references/audit-category-matrix.md "Security review is also a default pressure"
-require_in_file skills/references/audit-category-matrix.md "Direction analysis routes through DMADV"
-require_in_file skills/references/plan-lifecycle.md "Self-Contained Plan Standard"
-require_in_file skills/references/plan-lifecycle.md "Branch And Diff Scoping"
-require_in_file skills/references/plan-lifecycle.md "Review-Plan Semantics"
-require_in_file skills/references/plan-lifecycle.md "Execute / Dispatch / Review"
-require_in_file skills/references/plan-lifecycle.md "Reconciliation Semantics"
-require_in_file skills/references/plan-lifecycle.md "Issue Publication Deferred"
+require_in_file skills/implementaudit/references/audit-category-matrix.md "Deep analysis is a default pressure"
+require_in_file skills/implementaudit/references/audit-category-matrix.md "Security review is also a default pressure"
+require_in_file skills/implementaudit/references/audit-category-matrix.md "Direction analysis routes through DMADV"
+require_in_file skills/implementaudit/references/plan-lifecycle.md "Self-Contained Plan Standard"
+require_in_file skills/implementaudit/references/plan-lifecycle.md "Branch And Diff Scoping"
+require_in_file skills/implementaudit/references/plan-lifecycle.md "Review-Plan Semantics"
+require_in_file skills/implementaudit/references/plan-lifecycle.md "Execute / Dispatch / Review"
+require_in_file skills/implementaudit/references/plan-lifecycle.md "Reconciliation Semantics"
+require_in_file skills/implementaudit/references/plan-lifecycle.md "Issue Publication Deferred"
 
 printf 'check-planner-stages: ok\n'

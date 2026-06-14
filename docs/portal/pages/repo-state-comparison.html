@@ -13,7 +13,7 @@
       <p>The final audit can compare what changed in the repo against the planned deliverables, then separately cite run evidence.</p>
 
       <h2 id="source-surfaces">Source surfaces</h2>
-      <p><code>skills/references/repo-state-comparison.md</code> and the shipped helper <code>${IMPLEMENTAUDIT_SKILL_DIR:-skills}/scripts/repo-state.sh</code>.<br>In a source checkout, the <code>skills</code> fallback resolves helper scripts. In an installed package, first export <code>IMPLEMENTAUDIT_SKILL_DIR</code> to the loaded skill directory containing <code>SKILL.md</code>, <code>scripts/</code>, <code>references/</code>, and <code>templates/</code>.<br>Do not point <code>IMPLEMENTAUDIT_SKILL_DIR</code> at the repo root, the <code>IMPLEMENTAUDIT.skill</code> archive file, or <code>IMPLEMENTAUDIT_BASE</code>; <code>IMPLEMENTAUDIT_BASE</code> is the run-root base when used.</p>
+      <p><code>skills/implementaudit/references/repo-state-comparison.md</code> and the shipped helper <code>${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit}/scripts/repo-state.sh</code>.<br>In a source checkout, the <code>skills/implementaudit</code> fallback resolves helper scripts. In an installed package, first export <code>IMPLEMENTAUDIT_SKILL_DIR</code> to the loaded skill directory containing <code>SKILL.md</code>, <code>scripts/</code>, <code>references/</code>, and <code>templates/</code>.<br>Do not point <code>IMPLEMENTAUDIT_SKILL_DIR</code> at the repo root, the <code>IMPLEMENTAUDIT.skill</code> archive file, or <code>IMPLEMENTAUDIT_BASE</code>; <code>IMPLEMENTAUDIT_BASE</code> is the run-root base when used.</p>
 
       <h2 id="why-one-revision-diff-matters">Why one-revision diff matters</h2>
       <p><code>git diff &lt;baseline&gt;</code> compares the baseline commit to the current working tree, including staged, unstaged, deleted, and committed-after-baseline changes.<br>A commit range can miss uncommitted work.<br>Untracked files are listed separately with <code>git ls-files --others --exclude-standard</code>; ignored files need an explicit override.<br>If the baseline is invalid, the evidence degrades to existence-only instead of pretending the comparison succeeded.</p>
@@ -33,7 +33,7 @@
       <div class="term-window example-console">
         <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Repo-state helpers</em><span class="term-badge">review</span></div>
         <pre><span class="k-cyan">$ export IMPLEMENTAUDIT_SKILL_DIR="$HOME/.codex/skills/implementaudit"</span>
-<span class="k-cyan">$ bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/repo-state.sh changed-files &lt;baseline&gt;</span>
-<span class="k-cyan">$ bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/repo-state.sh deliverable &lt;baseline&gt; src/app.txt</span>
-<span class="k-cyan">$ bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills}"/scripts/repo-state.sh added-lines &lt;baseline&gt;</span></pre>
+<span class="k-cyan">$ bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit}"/scripts/repo-state.sh changed-files &lt;baseline&gt;</span>
+<span class="k-cyan">$ bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit}"/scripts/repo-state.sh deliverable &lt;baseline&gt; src/app.txt</span>
+<span class="k-cyan">$ bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit}"/scripts/repo-state.sh added-lines &lt;baseline&gt;</span></pre>
       </div>

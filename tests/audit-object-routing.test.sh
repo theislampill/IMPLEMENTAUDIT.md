@@ -17,7 +17,7 @@ require() {
 }
 
 fixture="fixtures/audit-object-routing/category-matrix.md"
-reference="skills/references/audit-category-matrix.md"
+reference="skills/implementaudit/references/audit-category-matrix.md"
 
 for text in \
   "correctness / bugs" \
@@ -76,7 +76,7 @@ if grep -R -n -E '/implementaudit (quick|deep|security|next|features|roadmap)' \
   >/tmp/implementaudit-audit-object-routing-command-mode-hit.txt; then
   cat /tmp/implementaudit-audit-object-routing-command-mode-hit.txt >&2
   rm -f /tmp/implementaudit-audit-object-routing-command-mode-hit.txt
-  printf 'audit-object-routing.test: comparator command mode advertised\n' >&2
+  printf 'audit-object-routing.test: non-native command mode advertised\n' >&2
   exit 1
 fi
 rm -f /tmp/implementaudit-audit-object-routing-command-mode-hit.txt

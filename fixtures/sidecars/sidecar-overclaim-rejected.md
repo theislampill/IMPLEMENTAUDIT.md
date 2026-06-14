@@ -1,10 +1,10 @@
 # Sidecar fixture: sidecar boundary overclaim — rejected
 
-This fixture documents the text patterns that check-sidecar-boundaries.sh
-detects and rejects. It does NOT contain any rejected phrases itself; it
-documents what those phrases are and why they are forbidden.
+This fixture documents the overclaim patterns that check-sidecar-boundaries.sh
+detects and rejects. It does NOT contain any rejected overclaim itself; it
+documents what those claims are and why they are disallowed.
 
-## Forbidden phrases (detected by check-sidecar-boundaries.sh)
+## Disallowed overclaim examples (detected by check-sidecar-boundaries.sh)
 
 The following phrases must NOT appear in tracked skills, README.md, or AGENTS.md:
 
@@ -14,7 +14,7 @@ The following phrases must NOT appear in tracked skills, README.md, or AGENTS.md
 
 ## Required boundary language (must appear in tracked skills)
 
-The following constraints must appear in skills/SKILL.md:
+The following constraints must appear in skills/implementaudit/SKILL.md:
 
 - "Graphify output is orientation evidence, not proof"
 - "ActiveGraph custody is not correctness proof"
@@ -23,7 +23,7 @@ The following constraints must appear in skills/SKILL.md:
 ## How check-sidecar-boundaries.sh enforces this
 
 check-sidecar-boundaries.sh verifies that the required boundary language is
-present in skills/SKILL.md and that no overclaim phrases appear in tracked
+present in skills/implementaudit/SKILL.md and that no overclaim phrases appear in tracked
 native surfaces (skills/, README.md, AGENTS.md).
 
 An overclaim violation fails the check immediately. The test in sidecars.test.sh

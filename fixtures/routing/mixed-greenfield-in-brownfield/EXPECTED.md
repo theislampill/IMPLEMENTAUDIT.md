@@ -6,7 +6,7 @@ Brownfield shell:
 
 - read `AGENTS.md`, package metadata, current skill/reference layout, fixtures,
   validators, generated README diagram sources, and CI workflow
-- identify `skills/SKILL.md` as canonical skill source and verify root
+- identify `skills/implementaudit/SKILL.md` as canonical skill source and verify root
   `IMPLEMENTAUDIT.md` is absent by package contract
 - identify package verifier, host-claim checker, release asset builder, and
   generated README diagram checker as regression surface

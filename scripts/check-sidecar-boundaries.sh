@@ -13,29 +13,29 @@ require_file() {
   [ -f "$1" ] || fail "missing required file: $1"
 }
 
-require_file skills/SKILL.md
-require_file skills/templates/THINKING.md
-require_file skills/templates/PROTOCOL.md
-require_file skills/templates/phase-goal.txt
+require_file skills/implementaudit/SKILL.md
+require_file skills/implementaudit/templates/THINKING.md
+require_file skills/implementaudit/templates/PROTOCOL.md
+require_file skills/implementaudit/templates/phase-goal.txt
 require_file scripts/build-release-asset.sh
 require_file tests/release-asset-install.test.sh
 
-grep -R "Graphify output is orientation evidence, not proof" -n skills/SKILL.md skills/references skills/templates >/dev/null ||
+grep -R "Graphify output is orientation evidence, not proof" -n skills/implementaudit/SKILL.md skills/implementaudit/references skills/implementaudit/templates >/dev/null ||
   fail "Graphify orientation-only boundary is missing"
-grep -R "ActiveGraph custody is not correctness proof" -n skills/SKILL.md skills/references skills/templates >/dev/null ||
+grep -R "ActiveGraph custody is not correctness proof" -n skills/implementaudit/SKILL.md skills/implementaudit/references skills/implementaudit/templates >/dev/null ||
   fail "ActiveGraph custody-only boundary is missing"
 grep -R "Markdown fallback" -n skills README.md AGENTS.md >/dev/null ||
   fail "Markdown fallback boundary is missing"
 grep -R "no install, indexing, setup, config, export" -in skills README.md AGENTS.md >/dev/null ||
   fail "sidecar authorization boundary is missing"
-grep -R "Graphify status" -n skills/templates/THINKING.md skills/templates/STATE.md >/dev/null ||
+grep -R "Graphify status" -n skills/implementaudit/templates/THINKING.md skills/implementaudit/templates/STATE.md >/dev/null ||
   fail "Graphify runtime status field is missing"
-grep -R "ActiveGraph status" -n skills/templates/THINKING.md skills/templates/STATE.md >/dev/null ||
+grep -R "ActiveGraph status" -n skills/implementaudit/templates/THINKING.md skills/implementaudit/templates/STATE.md >/dev/null ||
   fail "ActiveGraph runtime status field is missing"
-grep -R "sidecars.md" -n skills/SKILL.md skills/templates README.md AGENTS.md >/dev/null ||
+grep -R "sidecars.md" -n skills/implementaudit/SKILL.md skills/implementaudit/templates README.md AGENTS.md >/dev/null ||
   fail "sidecars.md runtime artifact is missing"
 if grep -R -Ei "canonical proof unless|promotes? .*proof|proof .*unless.*sidecar" \
-  skills/SKILL.md skills/references skills/templates README.md AGENTS.md docs/portal/pages >/dev/null; then
+  skills/implementaudit/SKILL.md skills/implementaudit/references skills/implementaudit/templates README.md AGENTS.md docs/portal/pages >/dev/null; then
   fail "sidecar proof-promotion wording is present"
 fi
 grep -R "graph.json" -n scripts/build-release-asset.sh tests/release-asset-install.test.sh >/dev/null ||

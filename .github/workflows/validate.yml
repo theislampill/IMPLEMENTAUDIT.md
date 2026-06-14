@@ -27,6 +27,24 @@ jobs:
       - name: Validate planner stage contract
         run: bash scripts/check-planner-stages.sh
 
+      - name: Validate dogfood bootstrap contract
+        run: bash scripts/check-dogfood-bootstrap-contract.sh
+
+      - name: Validate audit retention contract
+        run: bash scripts/check-audit-retention.sh
+
+      - name: Validate AGENTS bootstrap budget
+        run: bash scripts/check-agents-bootstrap-budget.sh
+
+      - name: Validate Safeguard restoration
+        run: bash scripts/check-safeguard-restoration.sh
+
+      - name: Validate skill bootstrap budget
+        run: bash scripts/check-skill-bootstrap-budget.sh
+
+      - name: Validate skill layout contract
+        run: bash scripts/check-skill-layout-contract.sh
+
       - name: Run focused behavior tests
         run: |
           bash tests/marker-order.test.sh
@@ -38,6 +56,8 @@ jobs:
           bash tests/routing.test.sh
           bash tests/repo-state.test.sh
           bash tests/audit-spec.test.sh
+          bash tests/audit-retention.test.sh
+          bash tests/agents-bootstrap-budget.test.sh
           bash tests/added-lines-clean.test.sh
           bash tests/claim-run.test.sh
           bash tests/continuity.test.sh
@@ -51,6 +71,16 @@ jobs:
           bash tests/native-integration.test.sh
           bash tests/package-shape-claims.test.sh
           bash tests/terminology-integration.test.sh
+          bash tests/read-only-plans-lane.test.sh
+          bash tests/source-evidence-pack-runnable.test.sh
+          bash tests/dogfood-bootstrap-contract.test.sh
+          bash tests/safeguard-restoration.test.sh
+          bash tests/plan-quality-contract.test.sh
+          bash tests/installed-payload-self-contained.test.sh
+          bash tests/e2e-mini-audit-loop.test.sh
+          bash tests/skill-bootstrap-budget.test.sh
+          bash tests/source-evidence-pack.test.sh
+          bash tests/skill-layout-contract.test.sh
           bash tests/lean-discipline.test.sh
           bash tests/validation-registry.test.sh
           bash tests/summarize-repo.test.sh
@@ -58,6 +88,4 @@ jobs:
           bash tests/run-root-validation.test.sh
           bash tests/custody-append.test.sh
           bash tests/no-terminal-cap.test.sh
-          bash tests/agent-eval-fixtures.test.sh
-          bash tests/agent-eval-grader.test.sh
           bash tests/docs-portal.test.sh

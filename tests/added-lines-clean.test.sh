@@ -7,9 +7,9 @@ cd "$repo_root"
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
-mkdir -p "$tmp/repo/scripts" "$tmp/repo/skills/scripts"
+mkdir -p "$tmp/repo/scripts" "$tmp/repo/skills/implementaudit/scripts"
 cp scripts/check-added-lines-clean.sh "$tmp/repo/scripts/check-added-lines-clean.sh"
-cp skills/scripts/repo-state.sh "$tmp/repo/skills/scripts/repo-state.sh"
+cp skills/implementaudit/scripts/repo-state.sh "$tmp/repo/skills/implementaudit/scripts/repo-state.sh"
 
 cd "$tmp/repo"
 git init -q

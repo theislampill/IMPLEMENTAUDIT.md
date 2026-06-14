@@ -40,6 +40,7 @@ for file in \
   references/transcript-contract.md \
   references/routing.md \
   references/repo-state-comparison.md \
+  references/sidecars.md \
   references/child-agents.md \
   references/lean-operating-discipline.md \
   references/audit-category-matrix.md \
@@ -59,6 +60,8 @@ for file in \
   templates/THINKING.md \
   templates/phase-goal.txt \
   templates/child-agent-report.md \
+  templates/final-report.md \
+  templates/read-only-plan.md \
   templates/PROTOCOL.md \
   templates/sidecars.md \
   templates/tools.md \

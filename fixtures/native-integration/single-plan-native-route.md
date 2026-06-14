@@ -58,7 +58,7 @@ Forbidden behavior:
 - broad category survey when the plan target is already known;
 - root `plans/` as canonical;
 - multiple competing plan artifacts;
-- command-lane or external-comparator phrasing.
+- command-lane or external-source phrasing.
 
 Negative control:
 

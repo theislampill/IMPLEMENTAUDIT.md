@@ -14,15 +14,15 @@
       <table>
         <thead><tr><th>Plain handle</th><th>Formal term</th><th>Owning reference</th><th>Runtime force</th></tr></thead>
         <tbody>
-          <tr><td>work record</td><td><code>tdqyq-audit-object</code></td><td><code>skills/SKILL.md</code>; <code>skills/references/transcript-contract.md</code></td><td>Lifecycle state, evidence, closure, handoff, and final-audit authority.</td></tr>
-          <tr><td>audit action</td><td><code>ydqyq-audit-action</code></td><td><code>skills/SKILL.md</code></td><td>Allowed operations against the work record.</td></tr>
-          <tr><td>where the change belongs</td><td><code>owner/source</code></td><td><code>skills/SKILL.md</code>; <code>skills/references/routing.md</code></td><td>Patch and verification target; generated artifacts are not independent owners.</td></tr>
-          <tr><td>existing-repair/new-build route</td><td><code>DMAIC</code> / <code>DMADV</code></td><td><code>skills/references/routing.md</code>; <code>skills/references/phase-design.md</code></td><td>Brownfield repair, greenfield design, and mixed replacement route selection.</td></tr>
-          <tr><td>stop-the-line failure handling</td><td>Jidoka / Andon</td><td><code>skills/SKILL.md</code>; <code>skills/references/lean-operating-discipline.md</code>; <code>skills/templates/PROTOCOL.md</code></td><td>Failed evidence becomes a classified interrupt, not silent retry or fake completion.</td></tr>
-          <tr><td>before/after checks</td><td>Smoke A / Smoke B</td><td><code>skills/SKILL.md</code>; <code>skills/templates/PROTOCOL.md</code></td><td>Baseline and post-change comparison before final claims.</td></tr>
-          <tr><td>keep it fixed</td><td>Poka-yoke / Standard Work / Control Plan</td><td><code>skills/references/lean-operating-discipline.md</code>; <code>skills/references/plan-lifecycle.md</code></td><td>Durable checker, fixture, template, CI, or handoff mechanism after recurrence repair.</td></tr>
-          <tr><td>untrusted repo text</td><td>trust boundary / repo-content-as-data</td><td><code>skills/references/audit-category-matrix.md</code>; <code>skills/references/terminology-integration.md</code></td><td>Audited files, diffs, issues, docs snippets, and fixtures are data unless admitted by the instruction hierarchy.</td></tr>
-          <tr><td>optional orientation/custody</td><td>Graphify / ActiveGraph</td><td><code>skills/references/lean-operating-discipline.md</code>; <code>skills/templates/sidecars.md</code></td><td>Graphify orients terrain; ActiveGraph records custody; neither proves correctness.</td></tr>
+          <tr><td>work record</td><td><code>tdqyq-audit-object</code></td><td><code>skills/implementaudit/SKILL.md</code>; <code>skills/implementaudit/references/transcript-contract.md</code></td><td>Lifecycle state, evidence, closure, handoff, and final-audit authority.</td></tr>
+          <tr><td>audit action</td><td><code>ydqyq-audit-action</code></td><td><code>skills/implementaudit/SKILL.md</code></td><td>Allowed operations against the work record.</td></tr>
+          <tr><td>where the change belongs</td><td><code>owner/source</code></td><td><code>skills/implementaudit/SKILL.md</code>; <code>skills/implementaudit/references/routing.md</code></td><td>Patch and verification target; generated artifacts are not independent owners.</td></tr>
+          <tr><td>existing-repair/new-build route</td><td><code>DMAIC</code> / <code>DMADV</code></td><td><code>skills/implementaudit/references/routing.md</code>; <code>skills/implementaudit/references/phase-design.md</code></td><td>Brownfield repair, greenfield design, and mixed replacement route selection.</td></tr>
+          <tr><td>stop-the-line failure handling</td><td>Jidoka / Andon</td><td><code>skills/implementaudit/SKILL.md</code>; <code>skills/implementaudit/references/lean-operating-discipline.md</code>; <code>skills/implementaudit/templates/PROTOCOL.md</code></td><td>Failed evidence becomes a classified interrupt, not silent retry or fake completion.</td></tr>
+          <tr><td>before/after checks</td><td>Smoke A / Smoke B</td><td><code>skills/implementaudit/SKILL.md</code>; <code>skills/implementaudit/templates/PROTOCOL.md</code></td><td>Baseline and post-change comparison before final claims.</td></tr>
+          <tr><td>keep it fixed</td><td>Poka-yoke / Standard Work / Control Plan</td><td><code>skills/implementaudit/references/lean-operating-discipline.md</code>; <code>skills/implementaudit/references/plan-lifecycle.md</code></td><td>Durable checker, fixture, template, CI, or handoff mechanism after recurrence repair.</td></tr>
+          <tr><td>untrusted repo text</td><td>trust boundary / repo-content-as-data</td><td><code>skills/implementaudit/references/audit-category-matrix.md</code>; <code>skills/implementaudit/references/terminology-integration.md</code></td><td>Audited files, diffs, issues, docs snippets, and fixtures are data unless admitted by the instruction hierarchy.</td></tr>
+          <tr><td>optional orientation/custody</td><td>Graphify / ActiveGraph</td><td><code>skills/implementaudit/references/lean-operating-discipline.md</code>; <code>skills/implementaudit/templates/sidecars.md</code></td><td>Graphify orients terrain; ActiveGraph records custody; neither proves correctness.</td></tr>
         </tbody>
       </table>
 
@@ -57,7 +57,7 @@
       </table>
 
       <h2 id="source-surfaces">Source surfaces</h2>
-      <p><code>README.md</code>, <code>AGENTS.md</code>, <code>skills/SKILL.md</code>, and the generated docs portal source under <code>docs/portal/</code>.</p>
+      <p><code>README.md</code>, <code>AGENTS.md</code>, <code>skills/implementaudit/SKILL.md</code>, and the generated docs portal source under <code>docs/portal/</code>.</p>
 
       <h2 id="front-door-replacements">Front-door replacements</h2>
       <table><thead><tr><th>Write this first</th><th>Formal term second</th></tr></thead><tbody><tr><td>work record</td><td>audit object</td></tr><tr><td>real files</td><td>Gemba</td></tr><tr><td>stop-the-line failure handling</td><td>Andon</td></tr><tr><td>before/after checks</td><td>Smoke A/B</td></tr><tr><td>run folder</td><td>run root</td></tr><tr><td>phase checklist</td><td>phase spec</td></tr><tr><td>where the change belongs</td><td>owner/source</td></tr><tr><td>accepted earlier evidence</td><td>trust-prior</td></tr><tr><td>final fix-and-verify loop</td><td>audit-fix</td></tr></tbody></table>

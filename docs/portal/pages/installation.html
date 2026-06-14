@@ -26,13 +26,13 @@
       <div class="term-window example-console">
         <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Manual Codex copy</em><span class="term-badge">unix</span></div>
         <pre><span class="k-cyan">$ mkdir -p ~/.codex/skills/implementaudit</span>
-<span class="k-cyan">$ cp -R skills/* ~/.codex/skills/implementaudit/</span></pre>
+<span class="k-cyan">$ cp -R skills/implementaudit/* ~/.codex/skills/implementaudit/</span></pre>
       </div>
       <p>On Windows PowerShell, the same shape is:</p>
       <div class="term-window example-console">
         <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Manual Codex copy</em><span class="term-badge">powershell</span></div>
         <pre><span class="k-cyan">PS&gt; New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills\implementaudit" | Out-Null</span>
-<span class="k-cyan">PS&gt; Copy-Item -Recurse -Force .\skills\* "$env:USERPROFILE\.codex\skills\implementaudit\"</span></pre>
+<span class="k-cyan">PS&gt; Copy-Item -Recurse -Force .\skills\implementaudit\* "$env:USERPROFILE\.codex\skills\implementaudit\"</span></pre>
       </div>
 
       <h2 id="source-checkout">Source checkout path</h2>

@@ -16,7 +16,7 @@
       <p>Each change needs an owner and source of truth.<br>If a generated file is involved, the phase should identify the generator rather than hand-editing stale output.</p>
 
       <h2 id="source-surfaces">Source surfaces</h2>
-      <p><code>skills/references/planning-depth.md</code>, <code>skills/references/phase-design.md</code>, <code>skills/templates/ROADMAP.md</code>, and <code>skills/templates/phase-goal.txt</code>.</p>
+      <p><code>skills/implementaudit/references/planning-depth.md</code>, <code>skills/implementaudit/references/phase-design.md</code>, <code>skills/implementaudit/templates/ROADMAP.md</code>, and <code>skills/implementaudit/templates/phase-goal.txt</code>.</p>
 
       <h2 id="phase-file-responsibilities">Phase file responsibilities</h2>
       <p>A phase file should be reopenable evidence.<br>It should name:</p>
@@ -31,7 +31,7 @@
         <li><code>STATE.md</code> is set to <code>READY_TO_DISPATCH</code> with <code>Current phase: 1</code>.</li>
         <li>The baseline reference is recorded before mutation.</li>
         <li><code>PROTOCOL.md</code> is copied into the run folder.</li>
-        <li>The path and SHA256 of <code>${IMPLEMENTAUDIT_SKILL_DIR:-skills}/scripts/repo-state.sh</code> are recorded in <code>THINKING.md</code> before dispatch.</li>
+        <li>The path and SHA256 of <code>${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit}/scripts/repo-state.sh</code> are recorded in <code>THINKING.md</code> before dispatch.</li>
         <li>Every phase spec exists and validates before dispatch.</li>
         <li>Mandatory commands are deduplicated so the run checks evidence, not ceremony.</li>
       </ul>

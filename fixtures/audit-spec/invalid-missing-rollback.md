@@ -3,7 +3,7 @@
 Classification: brownfield
 
 Owner/source:
-- `skills/SKILL.md`
+- `skills/implementaudit/SKILL.md`
 
 Scope:
 - Tighten a rule.

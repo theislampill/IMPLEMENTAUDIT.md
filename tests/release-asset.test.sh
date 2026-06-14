@@ -5,14 +5,14 @@ repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
 tmp_parent="$(mktemp -d)"
-stray_file="skills/zz-package-parity-stray-test.txt"
+stray_file="skills/implementaudit/zz-package-parity-stray-test.txt"
 trap 'rm -rf "$tmp_parent"; rm -f "$stray_file"' EXIT
 
-# Package parity: a stray file under skills/ must fail the build, because it
+# Package parity: a stray file under skills/implementaudit/ must fail the build, because it
 # would otherwise ship without a deliberate manifest update.
 printf 'stray payload parity probe\n' > "$stray_file"
 if bash scripts/build-release-asset.sh --check >/dev/null 2>&1; then
-  printf 'release-asset.test: expected stray skills/ file to fail package parity\n' >&2
+  printf 'release-asset.test: expected stray skills/implementaudit/ file to fail package parity\n' >&2
   exit 1
 fi
 rm -f "$stray_file"
@@ -60,6 +60,7 @@ required = {
     "references/transcript-contract.md",
     "references/routing.md",
     "references/repo-state-comparison.md",
+    "references/sidecars.md",
     "references/child-agents.md",
     "references/lean-operating-discipline.md",
     "references/audit-category-matrix.md",
@@ -80,6 +81,8 @@ required = {
     "templates/THINKING.md",
     "templates/phase-goal.txt",
     "templates/child-agent-report.md",
+    "templates/final-report.md",
+    "templates/read-only-plan.md",
     "templates/PROTOCOL.md",
     "templates/sidecars.md",
     "templates/tools.md",
@@ -108,11 +111,11 @@ allowed_top_level = {"SKILL.md", "references", "scripts", "templates", ".claude-
 with zipfile.ZipFile(asset) as zf:
     names = set(zf.namelist())
 
-    # Regression guard: skills/SKILL.md must NOT be in the archive.
+    # Regression guard: skills/implementaudit/SKILL.md must NOT be in the archive.
     # Claude import requires SKILL.md at archive root.
-    if "skills/SKILL.md" in names:
+    if "skills/implementaudit/SKILL.md" in names:
         raise SystemExit(
-            "REGRESSION: archive has skills/SKILL.md at nested path; "
+            "REGRESSION: archive has skills/implementaudit/SKILL.md at nested path; "
             "SKILL.md must be at archive root for Claude import"
         )
 
@@ -188,8 +191,8 @@ with zipfile.ZipFile(asset) as zf:
             )
 
         plugin = json.loads((root / ".claude-plugin/plugin.json").read_text())
-        if plugin.get("version") != "0.3.0":
-            raise SystemExit("expected plugin version 0.3.0")
+        if plugin.get("version") != "0.3.1":
+            raise SystemExit("expected plugin version 0.3.1")
         if plugin.get("skills") != "./":
             raise SystemExit(
                 "expected plugin skills path ./ "

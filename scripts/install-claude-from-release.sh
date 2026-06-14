@@ -202,6 +202,7 @@ required_archive = {
     "references/transcript-contract.md",
     "references/routing.md",
     "references/repo-state-comparison.md",
+    "references/sidecars.md",
     "references/child-agents.md",
     "references/lean-operating-discipline.md",
     "references/audit-category-matrix.md",
@@ -221,6 +222,8 @@ required_archive = {
     "templates/THINKING.md",
     "templates/phase-goal.txt",
     "templates/child-agent-report.md",
+    "templates/final-report.md",
+    "templates/read-only-plan.md",
     "templates/PROTOCOL.md",
     "templates/sidecars.md",
     "templates/tools.md",
@@ -233,9 +236,9 @@ with zipfile.ZipFile(asset) as zf:
     names = set(zf.namelist())
 
     # Regression guard: wrong-shape archive must be rejected.
-    if "skills/SKILL.md" in names:
+    if "skills/implementaudit/SKILL.md" in names:
         raise SystemExit(
-            "archive has skills/SKILL.md at nested path; "
+            "archive has skills/implementaudit/SKILL.md at nested path; "
             "SKILL.md must be at archive root. "
             "This archive cannot be imported by Claude Desktop."
         )
@@ -306,6 +309,7 @@ with zipfile.ZipFile(asset) as zf:
             "references/transcript-contract.md",
             "references/routing.md",
             "references/repo-state-comparison.md",
+            "references/sidecars.md",
             "references/child-agents.md",
             "references/lean-operating-discipline.md",
             "references/audit-category-matrix.md",
@@ -325,6 +329,8 @@ with zipfile.ZipFile(asset) as zf:
             "templates/THINKING.md",
             "templates/phase-goal.txt",
             "templates/child-agent-report.md",
+            "templates/final-report.md",
+            "templates/read-only-plan.md",
             "templates/PROTOCOL.md",
             "templates/sidecars.md",
             "templates/tools.md",

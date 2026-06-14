@@ -10,7 +10,7 @@ Inspection before mutation:
 - contracts/invariants: no proof claim without evidence; release, publication,
   install, marketplace, license, and provenance claims need separate evidence
 - tests/smokes/checkers: `scripts/verify-package.sh`,
-  `scripts/check-host-claims.sh`, JSON validation, and `git diff --check`
+  `scripts/check-public-claim-boundaries.sh`, JSON validation, and `git diff --check`
 - generated artifacts: README Mermaid blocks are generated from
   `docs/diagrams/*.mmd`; edit diagram sources and regenerate if diagram blocks
   change

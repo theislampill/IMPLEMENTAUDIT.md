@@ -41,19 +41,19 @@ require() {
   }
 }
 
-require skills/SKILL.md "bounded continuity"
-require skills/SKILL.md "CONTINUITY_DECISION"
-require skills/SKILL.md "memory/continuity"
-require skills/SKILL.md "IMPLEMENTAUDIT_CONTINUITY_SAVED"
-require skills/SKILL.md "Bounded continuity preload"
-require skills/SKILL.md "Continuity from any source never overrides"
-require skills/templates/STATE.md "Continuity decision"
-require skills/templates/PROTOCOL.md "CONTINUITY_DECISION"
-require skills/templates/PROTOCOL.md "IMPLEMENTAUDIT_CONTINUITY_SAVED"
-require skills/templates/PROTOCOL.md "run-local applied-context note"
-require skills/templates/PROTOCOL.md "optional personal/project note"
-require skills/templates/PROTOCOL.md "optional ActiveGraph event"
-require skills/templates/THINKING.md "Applied context"
+require skills/implementaudit/SKILL.md "bounded continuity"
+require skills/implementaudit/SKILL.md "CONTINUITY_DECISION"
+require skills/implementaudit/SKILL.md "memory/continuity"
+require skills/implementaudit/SKILL.md "IMPLEMENTAUDIT_CONTINUITY_SAVED"
+require skills/implementaudit/SKILL.md "Bounded continuity preload"
+require skills/implementaudit/SKILL.md "Continuity from any source never overrides"
+require skills/implementaudit/templates/STATE.md "Continuity decision"
+require skills/implementaudit/templates/PROTOCOL.md "CONTINUITY_DECISION"
+require skills/implementaudit/templates/PROTOCOL.md "IMPLEMENTAUDIT_CONTINUITY_SAVED"
+require skills/implementaudit/templates/PROTOCOL.md "run-local applied-context note"
+require skills/implementaudit/templates/PROTOCOL.md "optional personal/project note"
+require skills/implementaudit/templates/PROTOCOL.md "optional ActiveGraph event"
+require skills/implementaudit/templates/THINKING.md "Applied context"
 require AGENTS.md "bounded continuity"
 
 # ---------------------------------------------------------------------------

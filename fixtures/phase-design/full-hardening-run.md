@@ -18,7 +18,7 @@ Work: Classify all gap classes; document ADAPTED/REJECTED/DEFERRED per gap;
 Acceptance criteria:
 - Audit ledger file created with all gap classes
 - Each gap has status (ADAPTED/INTENTIONALLY REJECTED/DEFERRED/OUT OF SCOPE)
-- Identity hygiene check section present with PASS/FAIL for forbidden terms
+- Identity hygiene check section present with PASS/FAIL for disallowed public-claim terms
 - Baseline ref recorded
 Mandatory commands: git rev-parse HEAD, grep -r <forbidden-term> (run at audit time)
 Rollback: rm docs/audits/<run-name>.md

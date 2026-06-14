@@ -44,11 +44,11 @@ def require_any(text, needles, label, path):
         failures.append(f"{path}: missing {label}: {' | '.join(needles)}")
 
 
-routing_path = "skills/references/routing.md"
+routing_path = "skills/implementaudit/references/routing.md"
 routing = read(routing_path)
-category_path = "skills/references/audit-category-matrix.md"
+category_path = "skills/implementaudit/references/audit-category-matrix.md"
 category_matrix = read(category_path)
-plan_lifecycle_path = "skills/references/plan-lifecycle.md"
+plan_lifecycle_path = "skills/implementaudit/references/plan-lifecycle.md"
 plan_lifecycle = read(plan_lifecycle_path)
 
 for needle in [
@@ -248,11 +248,11 @@ for path, required_absent in invalid_fixtures.items():
 scan_paths = [
     "README.md",
     "AGENTS.md",
-    "skills/references/routing.md",
-    "skills/references/planning-depth.md",
-    "skills/references/goal-format.md",
-    "skills/references/phase-design.md",
-    "skills/SKILL.md",
+    "skills/implementaudit/references/routing.md",
+    "skills/implementaudit/references/planning-depth.md",
+    "skills/implementaudit/references/goal-format.md",
+    "skills/implementaudit/references/phase-design.md",
+    "skills/implementaudit/SKILL.md",
 ]
 forbidden_phrases = [
     "autonomously build a software task " + "end-to-end",

@@ -25,7 +25,7 @@ Required behavior:
 
 Forbidden behavior:
 
-- do not advertise a new comparator-shaped slash mode;
+- do not advertise a new slash-command variant;
 - do not imply deep/full-repo coverage from a bounded pass;
 - do not hide omitted surfaces.
 

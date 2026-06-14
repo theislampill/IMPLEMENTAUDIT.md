@@ -29,20 +29,20 @@ grep -q "missing required file: fixtures/native-integration/p0-performance-nativ
   exit 1
 }
 
-copy_runtime "$tmp/external-comparator-heading"
-printf '\n## Donor Finding Format Contract\n' >> "$tmp/external-comparator-heading/skills/templates/THINKING.md"
-if bash scripts/check-native-integration.sh --scan-root "$tmp/external-comparator-heading" >/tmp/native-external-comparator-heading.out 2>&1; then
-  printf 'native-integration.test: expected external comparator heading to fail\n' >&2
+copy_runtime "$tmp/foreign-lane-heading"
+printf '\n## Foreign Lane Contract\n' >> "$tmp/foreign-lane-heading/skills/implementaudit/templates/THINKING.md"
+if bash scripts/check-native-integration.sh --scan-root "$tmp/foreign-lane-heading" >/tmp/native-foreign-lane-heading.out 2>&1; then
+  printf 'native-integration.test: expected foreign lane heading to fail\n' >&2
   exit 1
 fi
-grep -q "runtime still contains standalone comparator-lane wording" /tmp/native-external-comparator-heading.out || {
-  printf 'native-integration.test: external comparator heading failure was not specific\n' >&2
-  cat /tmp/native-external-comparator-heading.out >&2
+grep -q "runtime still contains standalone foreign-lane wording" /tmp/native-foreign-lane-heading.out || {
+  printf 'native-integration.test: foreign lane heading failure was not specific\n' >&2
+  cat /tmp/native-foreign-lane-heading.out >&2
   exit 1
 }
 
 copy_runtime "$tmp/weak-fixture"
-sed -i 's/Native route:/Comparator lane:/' \
+sed -i 's/Native route:/Foreign lane:/' \
   "$tmp/weak-fixture/fixtures/native-integration/p0-correctness-native-route.md"
 if bash scripts/check-native-integration.sh --scan-root "$tmp/weak-fixture" >/tmp/native-weak-fixture.out 2>&1; then
   printf 'native-integration.test: expected weak fixture to fail\n' >&2

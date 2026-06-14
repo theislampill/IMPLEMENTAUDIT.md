@@ -1,0 +1,6 @@
+{"type":"thread.started","thread_id":"synthetic-positive"}
+{"type":"item.completed","item":{"type":"command_execution","command":"git status --short --branch --untracked-files=all","exit_code":0}}
+{"type":"item.completed","item":{"type":"command_execution","command":"git rev-parse HEAD","exit_code":0}}
+{"type":"item.completed","item":{"type":"command_execution","command":"rg -n \"Dogfood Bootstrap\" skills/implementaudit/SKILL.md docs/audits/INDEX.md","exit_code":0}}
+{"type":"item.completed","item":{"type":"command_execution","command":"bash scripts/check-dogfood-bootstrap-contract.sh","exit_code":0}}
+{"type":"item.completed","item":{"type":"agent_message","text":"Targeted owner/source read completed after baseline; no full installed payload readback used as proof."}}

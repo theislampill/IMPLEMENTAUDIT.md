@@ -70,8 +70,8 @@
 <table>
   <thead><tr><th>Trace part</th><th>Example</th></tr></thead>
   <tbody>
-    <tr><td>Finding</td><td><code>README.md</code> describes behavior that no longer matches <code>skills/SKILL.md</code>.</td></tr>
-    <tr><td>Owner/source</td><td><code>skills/SKILL.md</code> defines behavior.<br><code>README.md</code> is derived public documentation.</td></tr>
+    <tr><td>Finding</td><td><code>README.md</code> describes behavior that no longer matches <code>skills/implementaudit/SKILL.md</code>.</td></tr>
+    <tr><td>Owner/source</td><td><code>skills/implementaudit/SKILL.md</code> defines behavior.<br><code>README.md</code> is derived public documentation.</td></tr>
     <tr><td>Smoke A</td><td>Read both files, record the mismatch, and run the smallest relevant check such as <code>git diff --check</code>.</td></tr>
     <tr><td>Countermeasure</td><td>Patch the derived documentation, not the canonical behavior source, unless the audit proves the source is wrong.</td></tr>
     <tr><td>Smoke B</td><td>Re-run the check and inspect changed lines for evidence-boundary wording.</td></tr>

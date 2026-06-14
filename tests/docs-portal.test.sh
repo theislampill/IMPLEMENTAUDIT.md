@@ -145,12 +145,6 @@ else
   fail_check "proof metadata still has inline Artifact orphan pattern"
 fi
 
-if grep -R "docs/portal_old/onboarding.md" "$out" --include='*.html' >/dev/null 2>&1; then
-  fail_check "generated v2 pages expose legacy portal source"
-else
-  ok "generated v2 pages do not expose legacy portal source"
-fi
-
 if "${py_cmd[@]}" - "$out" <<'PY'
 import json
 import re
@@ -159,8 +153,6 @@ from pathlib import Path
 
 root = Path(sys.argv[1])
 meta = json.loads((root / "docs-metadata.json").read_text(encoding="utf-8"))
-if "docs/portal_old/onboarding.md" in meta["source_files_used"]:
-    raise SystemExit("legacy portal source still drives v2 metadata")
 html = "\n".join(path.read_text(encoding="utf-8") for path in root.rglob("*.html"))
 required = [
     "P0 -&gt; P1 -&gt; P2",
@@ -193,11 +185,11 @@ required_patterns = [
 missing_patterns = [pattern for pattern in required_patterns if not re.search(pattern, html, re.IGNORECASE)]
 if missing_patterns:
     raise SystemExit(f"missing parity concept patterns: {missing_patterns}")
-if "IMPLEMENTAUDIT.skill/<br>skills/SKILL.md" in html:
+if "IMPLEMENTAUDIT.skill/<br>skills/implementaudit/SKILL.md" in html:
     raise SystemExit("stale nested package tree returned")
 PY
 then
-  ok "v2 parity concepts surpass legacy reference density"
+  ok "v2 parity concepts exceed legacy reference density"
 else
   fail_check "v2 parity concepts missing or stale package tree returned"
 fi
@@ -364,8 +356,8 @@ from pathlib import Path
 path = Path(sys.argv[1])
 text = path.read_text(encoding="utf-8")
 text = text.replace(
-    "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/v0.3.0.0-local-package-dogfood-audit.md",
-    "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/v0.2.9.0-andon-escalation-jidoka-repair.md",
+    "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/INDEX.md",
+    "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/archive/v0.2.9.0-andon-escalation-jidoka-repair.md",
 )
 path.write_text(text, encoding="utf-8")
 PY
@@ -421,7 +413,7 @@ from pathlib import Path
 root = Path(sys.argv[1])
 for path in root.rglob("*.html"):
     text = path.read_text(encoding="utf-8")
-    text = text.replace("${IMPLEMENTAUDIT_SKILL_DIR:-skills}/scripts/", "skills/scripts/")
+    text = text.replace("${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit}/scripts/", "skills/implementaudit/scripts/")
     text = text.replace("IMPLEMENTAUDIT_SKILL_DIR", "SKILL_DIR")
     path.write_text(text, encoding="utf-8")
 PY
@@ -660,10 +652,10 @@ from pathlib import Path
 
 Path(sys.argv[1]).write_text("Local installs do not " + "auto-" + "update.\n", encoding="utf-8")
 PY
-if bash scripts/check-host-claims.sh >/dev/null 2>&1; then
-  ok "check-host-claims.sh allows negative local install update context"
+if bash scripts/check-public-claim-boundaries.sh >/dev/null 2>&1; then
+  ok "check-public-claim-boundaries.sh allows negative local install update context"
 else
-  fail_check "check-host-claims.sh rejected negative local install update context"
+  fail_check "check-public-claim-boundaries.sh rejected negative local install update context"
 fi
 
 "${py_cmd[@]}" - "$host_claim_fixture" <<'PY'
@@ -672,10 +664,10 @@ from pathlib import Path
 
 Path(sys.argv[1]).write_text("This package " + "auto-" + "updates from a host.\n", encoding="utf-8")
 PY
-if bash scripts/check-host-claims.sh >/dev/null 2>&1; then
-  fail_check "check-host-claims.sh accepted a positive host update claim"
+if bash scripts/check-public-claim-boundaries.sh >/dev/null 2>&1; then
+  fail_check "check-public-claim-boundaries.sh accepted a positive host update claim"
 else
-  ok "check-host-claims.sh rejects positive host update claims"
+  ok "check-public-claim-boundaries.sh rejects positive host update claims"
 fi
 
 "${py_cmd[@]}" - "$host_claim_fixture" <<'PY'
@@ -688,10 +680,10 @@ stale = (
 )
 Path(sys.argv[1]).write_text(stale, encoding="utf-8")
 PY
-if bash scripts/check-host-claims.sh >/dev/null 2>&1; then
-  fail_check "check-host-claims.sh accepted a stale current-release claim"
+if bash scripts/check-public-claim-boundaries.sh >/dev/null 2>&1; then
+  fail_check "check-public-claim-boundaries.sh accepted a stale current-release claim"
 else
-  ok "check-host-claims.sh rejects stale current-release claims"
+  ok "check-public-claim-boundaries.sh rejects stale current-release claims"
 fi
 rm -f "$host_claim_fixture"
 

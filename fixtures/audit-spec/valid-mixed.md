@@ -2,7 +2,7 @@
 
 Classification: mixed
 
-Owner/source: `skills/references/example.md`
+Owner/source: `skills/implementaudit/references/example.md`
 
 Scope:
 - Add one governed reference and one fixture.

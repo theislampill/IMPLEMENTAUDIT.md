@@ -11,8 +11,8 @@ trap 'rm -rf "$tmp"' EXIT
 bash scripts/check-no-terminal-cap.sh
 
 # 2. Terminal-cap wording in a shipped runtime doc must fail.
-mkdir -p "$tmp/bad-strike/skills/references"
-cat >"$tmp/bad-strike/skills/references/transcript-contract.md" <<'EOF'
+mkdir -p "$tmp/bad-strike/skills/implementaudit/references"
+cat >"$tmp/bad-strike/skills/implementaudit/references/transcript-contract.md" <<'EOF'
 The three-strike sequence stops the run on Strike 3.
 EOF
 
@@ -22,8 +22,8 @@ if bash scripts/check-no-terminal-cap.sh --scan-root "$tmp/bad-strike" >/dev/nul
 fi
 
 # 3. Capped audit-round wording must fail.
-mkdir -p "$tmp/bad-rounds/skills/templates"
-cat >"$tmp/bad-rounds/skills/templates/PROTOCOL.md" <<'EOF'
+mkdir -p "$tmp/bad-rounds/skills/implementaudit/templates"
+cat >"$tmp/bad-rounds/skills/implementaudit/templates/PROTOCOL.md" <<'EOF'
 The final audit may run up to 3 rounds.
 EOF
 
@@ -33,8 +33,8 @@ if bash scripts/check-no-terminal-cap.sh --scan-root "$tmp/bad-rounds" >/dev/nul
 fi
 
 # 3b. Bare strike-counter wording (no number attached) must fail.
-mkdir -p "$tmp/bad-bare-strike/skills/templates"
-cat >"$tmp/bad-bare-strike/skills/templates/PROTOCOL.md" <<'EOF'
+mkdir -p "$tmp/bad-bare-strike/skills/implementaudit/templates"
+cat >"$tmp/bad-bare-strike/skills/implementaudit/templates/PROTOCOL.md" <<'EOF'
 Hansei is required after any strike or substitution.
 EOF
 
@@ -44,8 +44,8 @@ if bash scripts/check-no-terminal-cap.sh --scan-root "$tmp/bad-bare-strike" >/de
 fi
 
 # 4. Run-stopping wording and legacy marker spellings must fail.
-mkdir -p "$tmp/bad-legacy/skills/references"
-cat >"$tmp/bad-legacy/skills/references/transcript-contract.md" <<'EOF'
+mkdir -p "$tmp/bad-legacy/skills/implementaudit/references"
+cat >"$tmp/bad-legacy/skills/implementaudit/references/transcript-contract.md" <<'EOF'
 FAILURE_HANDOFF: run stops. No subsequent phases execute.
 EOF
 
@@ -57,8 +57,8 @@ fi
 # 5. Cap synonyms must fail when they teach runtime behavior.
 for term in "max retries" "retry limit" "revision limit" "round limit" "capped rounds" "attempt cap" "max-2 revision" "max-3 audit"; do
   dir="$tmp/bad-synonym-${term// /-}"
-  mkdir -p "$dir/skills/references"
-  printf 'Escalate after the %s is reached.\n' "$term" >"$dir/skills/references/transcript-contract.md"
+  mkdir -p "$dir/skills/implementaudit/references"
+  printf 'Escalate after the %s is reached.\n' "$term" >"$dir/skills/implementaudit/references/transcript-contract.md"
   if bash scripts/check-no-terminal-cap.sh --scan-root "$dir" >/dev/null 2>&1; then
     printf 'no-terminal-cap.test: expected synonym wording to fail: %s\n' "$term" >&2
     exit 1
@@ -66,8 +66,8 @@ for term in "max retries" "retry limit" "revision limit" "round limit" "capped r
 done
 
 # 6. Explicit denials of caps must remain valid runtime wording.
-mkdir -p "$tmp/good-denial/skills/templates"
-cat >"$tmp/good-denial/skills/templates/PROTOCOL.md" <<'EOF'
+mkdir -p "$tmp/good-denial/skills/implementaudit/templates"
+cat >"$tmp/good-denial/skills/implementaudit/templates/PROTOCOL.md" <<'EOF'
 There is no arbitrary retry cap, revision limit, round limit, or attempt cap.
 Do not use a first/second/third failure ladder.
 EOF
@@ -75,14 +75,14 @@ bash scripts/check-no-terminal-cap.sh --scan-root "$tmp/good-denial"
 
 # 7. Legacy history surfaces are exempt: the same wording outside the scanned
 #    runtime surfaces must pass.
-mkdir -p "$tmp/exempt/docs/audits" "$tmp/exempt/skills"
+mkdir -p "$tmp/exempt/docs/audits" "$tmp/exempt/skills/implementaudit"
 cat >"$tmp/exempt/docs/audits/old-ledger.md" <<'EOF'
 v0.2.6.0 added exact 3-strike failure recovery (FAILURE_PROBE).
 EOF
 cat >"$tmp/exempt/CHANGELOG.md" <<'EOF'
 - Added exact 3-strike failure recovery with FAILURE_HANDOFF.
 EOF
-cat >"$tmp/exempt/skills/SKILL.md" <<'EOF'
+cat >"$tmp/exempt/skills/implementaudit/SKILL.md" <<'EOF'
 Andon escalation uses ANDON_PROBE, ANDON_ESCALATE, ANDON_HANDOFF.
 EOF
 

@@ -12,8 +12,8 @@ Verdict: GAP
 
 Files inspected:
 
-- `skills/templates/PROTOCOL.md`
-- `skills/SKILL.md`
+- `skills/implementaudit/templates/PROTOCOL.md`
+- `skills/implementaudit/SKILL.md`
 - `AGENTS.md`
 - `README.md`
 - child-agent report examples

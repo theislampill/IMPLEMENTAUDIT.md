@@ -4,7 +4,7 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
-first_line="$(sed -n '1p' skills/scripts/repo-state.sh)"
+first_line="$(sed -n '1p' skills/implementaudit/scripts/repo-state.sh)"
 [ "$first_line" = '#!/usr/bin/env bash' ] || {
   printf 'repo-state.test: repo-state.sh shebang is not LF-safe\n' >&2
   exit 1
@@ -13,8 +13,8 @@ first_line="$(sed -n '1p' skills/scripts/repo-state.sh)"
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
-mkdir -p "$tmp/repo with spaces/skills/scripts"
-cp skills/scripts/repo-state.sh "$tmp/repo with spaces/skills/scripts/repo-state.sh"
+mkdir -p "$tmp/repo with spaces/skills/implementaudit/scripts"
+cp skills/implementaudit/scripts/repo-state.sh "$tmp/repo with spaces/skills/implementaudit/scripts/repo-state.sh"
 
 cd "$tmp/repo with spaces"
 git init -q
@@ -42,7 +42,7 @@ printf 'untracked\nDEBUG_SENTINEL\n' >untracked.txt
 printf 'space file\n' >'space dir/path with spaces.txt'
 printf 'ignored debug\n' >ignored.txt
 
-changed="$(bash skills/scripts/repo-state.sh changed-files "$baseline")"
+changed="$(bash skills/implementaudit/scripts/repo-state.sh changed-files "$baseline")"
 for expected in \
   committed-after.txt \
   delete-me.txt \
@@ -62,22 +62,22 @@ if printf '%s\n' "$changed" | grep -Fx ignored.txt >/dev/null; then
   exit 1
 fi
 
-bash skills/scripts/repo-state.sh deliverable "$baseline" untracked.txt | grep -F 'present - untracked new file' >/dev/null
-bash skills/scripts/repo-state.sh deliverable "$baseline" 'space dir/path with spaces.txt' | grep -F 'present - untracked new file' >/dev/null
+bash skills/implementaudit/scripts/repo-state.sh deliverable "$baseline" untracked.txt | grep -F 'present - untracked new file' >/dev/null
+bash skills/implementaudit/scripts/repo-state.sh deliverable "$baseline" 'space dir/path with spaces.txt' | grep -F 'present - untracked new file' >/dev/null
 
-if bash skills/scripts/repo-state.sh deliverable "$baseline" delete-me.txt >/dev/null 2>&1; then
+if bash skills/implementaudit/scripts/repo-state.sh deliverable "$baseline" delete-me.txt >/dev/null 2>&1; then
   printf 'repo-state.test: deleted deliverable should be missing\n' >&2
   exit 1
 fi
 
-bash skills/scripts/repo-state.sh deliverable not-a-real-ref tracked.txt | grep -F 'baseline unavailable' >/dev/null
-bash skills/scripts/repo-state.sh added-lines "$baseline" | grep -F 'DEBUG_SENTINEL' >/dev/null
+bash skills/implementaudit/scripts/repo-state.sh deliverable not-a-real-ref tracked.txt | grep -F 'baseline unavailable' >/dev/null
+bash skills/implementaudit/scripts/repo-state.sh added-lines "$baseline" | grep -F 'DEBUG_SENTINEL' >/dev/null
 
 mkdir "$tmp/no-git"
 printf 'plain\n' >"$tmp/no-git/file.txt"
 (
   cd "$tmp/no-git"
-  bash "$tmp/repo with spaces/skills/scripts/repo-state.sh" deliverable no-git file.txt | grep -F 'baseline unavailable' >/dev/null
+  bash "$tmp/repo with spaces/skills/implementaudit/scripts/repo-state.sh" deliverable no-git file.txt | grep -F 'baseline unavailable' >/dev/null
 )
 
 # Run-root artifacts under .IMPLEMENTAUDIT/ are excluded from enumeration
@@ -94,7 +94,7 @@ mkdir -p "$tmp/runroot-repo"
   printf 'RUNROOT_SENTINEL\n' > .IMPLEMENTAUDIT/runs/demo-x/STATE.md
   printf 'REAL_CHANGE_SENTINEL\n' > new-file.txt
 
-  changed_out="$(bash "$tmp/repo with spaces/skills/scripts/repo-state.sh" changed-files "$rrbaseline" 2>"$tmp/rr-stderr.log")"
+  changed_out="$(bash "$tmp/repo with spaces/skills/implementaudit/scripts/repo-state.sh" changed-files "$rrbaseline" 2>"$tmp/rr-stderr.log")"
   printf '%s\n' "$changed_out" | grep -Fx new-file.txt >/dev/null
   if printf '%s\n' "$changed_out" | grep -F '.IMPLEMENTAUDIT/' >/dev/null; then
     printf 'repo-state.test: run-root path leaked into changed-files\n' >&2
@@ -105,7 +105,7 @@ mkdir -p "$tmp/runroot-repo"
     exit 1
   }
 
-  added_out="$(bash "$tmp/repo with spaces/skills/scripts/repo-state.sh" added-lines "$rrbaseline" 2>/dev/null)"
+  added_out="$(bash "$tmp/repo with spaces/skills/implementaudit/scripts/repo-state.sh" added-lines "$rrbaseline" 2>/dev/null)"
   printf '%s\n' "$added_out" | grep -F 'REAL_CHANGE_SENTINEL' >/dev/null
   if printf '%s\n' "$added_out" | grep -F 'RUNROOT_SENTINEL' >/dev/null; then
     printf 'repo-state.test: run-root content leaked into added-lines\n' >&2

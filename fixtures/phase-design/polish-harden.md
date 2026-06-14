@@ -1,7 +1,7 @@
 # Phase design fixture: Polish & Harden (optional terminal phase)
 
 This fixture documents the Polish & Harden phase shape (Rule P4-8 in
-`skills/references/phase-design.md`). It shows two variants:
+`skills/implementaudit/references/phase-design.md`). It shows two variants:
 1. Polish & Harden included — default-recommended condition
 2. Polish & Harden skipped — with documented rationale
 
@@ -22,7 +22,7 @@ Owner/source: all files changed since baseline
 Audit object: .IMPLEMENTAUDIT/runs/add-docs-portal-Xq9Pm/ROADMAP.md
 Auditing operation: Verify cleanliness and identity hygiene post-implementation
 Terminal object state to prove: all smoke checks pass; no debug debris; no
-  external comparator name in tracked surfaces; generated portal is fresh
+  foreign command identity in tracked surfaces; generated portal is fresh
 Thinking ref: .IMPLEMENTAUDIT/runs/add-docs-portal-Xq9Pm/THINKING.md
 Mandatory commands: 4
 Acceptance criteria: 5
@@ -42,7 +42,7 @@ and identity hygiene pass before final audit. Rule P4-8 applies.
   docs-portal.test.sh, verify-package.sh
 - Run check-added-lines-clean.sh to verify no debug prints, session markers,
   or dead imports were added since baseline
-- Verify no external comparator proper name in tracked surfaces
+- Verify no foreign command identity in tracked surfaces
   (check-routing.sh scan passes)
 - Verify docs-portal/index.html is fresh (generated at build time, not stale)
 - Verify proof-boundary wording: no sigma/DPMO claims, no broad competence claims
@@ -51,7 +51,7 @@ and identity hygiene pass before final audit. Rule P4-8 applies.
 
 - All smoke test suites pass (6/6)
 - check-added-lines-clean.sh: 0 debug prints, 0 session markers, 0 dead imports added
-- No external comparator proper name in routing.md, SKILL.md, README.md, AGENTS.md
+- No foreign command identity in routing.md, SKILL.md, README.md, AGENTS.md
 - docs-portal/index.html exists and was generated from source by build script
 - No new feature scope introduced in this phase
 
@@ -66,7 +66,7 @@ and identity hygiene pass before final audit. Rule P4-8 applies.
 
 - Each test suite exit-0 output
 - check-added-lines-clean.sh summary line
-- Grep result confirming no external comparator name in tracked surfaces
+- Grep result confirming no foreign command identity in tracked surfaces
 ```
 
 ---

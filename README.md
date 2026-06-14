@@ -4,7 +4,7 @@
 by an `AUDIT.md`-style evidence/input artifact. The `.md` in the repo name is
 branding and lineage, not a required root behavior file.
 
-`skills/SKILL.md` defines `/implementaudit`: a repo-generic method for turning
+`skills/implementaudit/SKILL.md` defines `/implementaudit`: a repo-generic method for turning
 audit findings, handoffs, checklists, reviews, goals, tasks, gaps, and
 implementation plans into bounded, verified repository changes. It plans deeply
 and executes repo work phase-by-phase until terminal audit closure or an
@@ -58,7 +58,7 @@ Each action requires separate explicit authorization.
 ## Quick start
 
 1. Install the skill (see [Install notes](#install-notes) for your host).
-   This source checkout documents the `v0.3.0.0` local contract. The current
+   This source checkout documents the `v0.3.1.0` local contract. The current
    release-gate verified live public release is `v0.3.0.0`; source changes after
    that release are not a release by themselves.
 2. In a repo you want governed, invoke it with a bounded target:
@@ -104,6 +104,18 @@ scoping, plan review, execute/review dispatch semantics, and reconciliation.
 It does not copy external command identity, make root `plans/` canonical, create
 issues, or weaken commit/push/tag/release/publication/provenance gates.
 
+For `v0.3.1.0`, the release adds generic capability gates: read-only
+plan-quality checks, installed-payload self-containment checks, audit-retention
+checks, dogfood bootstrap checks, source-evidence pack checks, and a
+deterministic mini audit-loop fixture.
+
+The current bootloader architecture keeps weak-executor safeguards in
+progressive references/templates: final reports, optional Graphify-assisted
+Gemba, first-run tooling onboarding, commit granularity, broad rewrite
+thresholds, and 5-Whys loop exit. Read-only audit/plan/review/direction work may
+write human-readable `plans/` outputs, but that lane does not authorize source
+mutation and does not replace `.IMPLEMENTAUDIT/runs/` for implementation.
+
 Current optional-tooling architecture:
 
 <!-- BEGIN: implementaudit-diagram:tooling-architecture -->
@@ -141,8 +153,8 @@ the gates, and neither output is proof.
 ## Quick Vocabulary, Not Authority
 
 This section is onboarding shorthand. Runtime authority lives in
-`skills/references/routing.md`, `skills/references/lean-operating-discipline.md`,
-and `skills/references/plan-lifecycle.md`; this README points to those owners
+`skills/implementaudit/references/routing.md`, `skills/implementaudit/references/lean-operating-discipline.md`,
+and `skills/implementaudit/references/plan-lifecycle.md`; this README points to those owners
 instead of replacing them.
 
 - `AUDIT.md`: an audit input or evidence-implementation artifact that drives a
@@ -294,7 +306,7 @@ flowchart TB
 
 ## Native planner stages
 
-When goal synthesis or phased audit closure is needed, `skills/SKILL.md` defines
+When goal synthesis or phased audit closure is needed, `skills/implementaudit/SKILL.md` defines
 a native Stage 0-7 planner contract:
 
 ```text
@@ -316,7 +328,7 @@ IMPLEMENTAUDIT into open-ended software-builder automation.
 
 When phased planning is selected, new runtime artifacts live under a namespaced
 run root such as `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/`. In a source checkout,
-the claim helper lives at `skills/scripts/claim-run.sh`; in the installed flat
+the claim helper lives at `skills/implementaudit/scripts/claim-run.sh`; in the installed flat
 archive it loads as `scripts/claim-run.sh` under the active skill directory. A run root may
 contain `ROADMAP.md`, `STATE.md`, `THINKING.md`, `PROTOCOL.md`, `context.md`,
 `tools.md`, `sidecars.md`, `applied-context.md` or `applied-memories.md`,
@@ -366,7 +378,7 @@ dependencies/migrations, DX/tooling, docs/handoff, and direction/design. Deep
 analysis and security review are pressures inside the audit object. Direction
 and roadmap candidates route through DMADV and stay separate from defect
 closure. Plan creation, review, dispatch, and reconciliation follow
-`skills/references/plan-lifecycle.md`; issue publication remains deferred.
+`skills/implementaudit/references/plan-lifecycle.md`; issue publication remains deferred.
 
 ## Greenfield / brownfield routing
 
@@ -416,7 +428,7 @@ the references named below, not this short README list:
 - **Plan Closure**: map every item to terminal status, plus sustain/control
   when recurrence is repaired.
 - **Lean operating discipline**: Lean/TPS terms map to auditable runtime
-  behavior documented in `skills/references/lean-operating-discipline.md`.
+  behavior documented in `skills/implementaudit/references/lean-operating-discipline.md`.
   Brownfield improvement routes through DMAIC
   (Define→Measure→Analyze→Improve→Control); greenfield or replacement routes
   through DMADV (Define→Measure→Analyze→Design→Verify). A quality route is
@@ -589,7 +601,7 @@ with its six fields (Target, Reason, Evidence, Boundary, Authorization, Not
 saved). Run roots are run artifacts, not package source, and are excluded
 from evidence scans and commits.
 
-The packaged skill payload lives under `skills/`. GitHub release assets, when
+The source skill payload lives under `skills/implementaudit/`. GitHub release assets, when
 separately authorized, are built from the repo-supported release-asset script
 and validated by extraction. Release artifacts and checksum manifests are not
 ordinary audit outputs.
@@ -603,16 +615,23 @@ v0.2.6.0 all archive entries are ZIP_DEFLATED; compression is validated by
 
 ## Skill internals / repository layout
 
-This repo uses the flat package layout declared by `AGENTS.md`:
+### Source layout vs release archive layout
+
+This repo uses the conventional name-matched source skill layout:
 
 ```text
-skills/SKILL.md
-skills/references/
-skills/scripts/
-skills/templates/
+skills/implementaudit/SKILL.md
+skills/implementaudit/references/
+skills/implementaudit/scripts/
+skills/implementaudit/templates/
 ```
 
-`skills/SKILL.md` is the canonical behavior source and packaged skill entry.
+`skills/implementaudit/SKILL.md` is the canonical source behavior entry.
+The release archive intentionally flattens that source directory only as a
+build artifact: the archive contains SKILL.md at archive root with sibling
+`references/`, `scripts/`, and `templates/`, plus generated archive-local
+plugin metadata. Source metadata keeps `.claude-plugin/plugin.json` pointing at
+`./skills/`; release-asset tests prove the archive metadata points at `./`.
 There is intentionally no tracked root `IMPLEMENTAUDIT.md` file; validators fail
 if one is recreated. Audit handoff inputs named `AUDIT.md` remain valid.
 
@@ -629,7 +648,7 @@ publication, or provenance has been verified.
 
 ## Version and release notes
 
-Current project milestone: `v0.3.0.0`. Plugin manifest version: `0.3.0`.
+Current project milestone: `v0.3.1.0`. Plugin manifest version: `0.3.1`.
 No local schema evidence proved four-component plugin manifest versions are
 accepted, so the manifest uses host-conservative package metadata while the
 project milestone is recorded in docs and changelog. This is not a tag, release,
@@ -649,8 +668,8 @@ the host supports them, or may simulate the same pattern as separate written
 read-only audit passes.
 
 In a source checkout, the child-agent reference lives at
-`skills/references/child-agents.md` and the report template lives at
-`skills/templates/child-agent-report.md`. In the installed flat archive, those
+`skills/implementaudit/references/child-agents.md` and the report template lives at
+`skills/implementaudit/templates/child-agent-report.md`. In the installed flat archive, those
 load as `references/child-agents.md` and `templates/child-agent-report.md`
 under the active skill directory.
 Instruction precedence remains with the repo's `AGENTS.md` hierarchy. Root
@@ -814,7 +833,7 @@ Governed casual-build intake accepts plain-language repo-build intent:
 
 The skill synthesizes a bounded audit object from the description before routing.
 To choose the right invocation shape, see the chooser table in
-`skills/references/goal-format.md` and the onboarding portal generated by
+`skills/implementaudit/references/goal-format.md` and the onboarding portal generated by
 `scripts/build-docs-portal.py`.
 
 ## Install notes
@@ -832,7 +851,7 @@ What each install source carries:
 
 | Source | Failure contract | Helper resolution | Run-root / custody tooling |
 |---|---|---|---|
-| Source checkout / local asset at manifest `0.3.0` | `v0.3.0.0` native audit-object routing plus post-release source repairs, if any | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper; native integration and terminology/cohesion fixtures/checkers |
+| Source checkout / local asset at manifest `0.3.1` | `v0.3.1.0` generic capability gates plus post-release source repairs, if any | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper; read-only plans, secret hygiene, stale-proof, repo-hygiene, and payload-self-contained fixtures/checkers |
 | Current release-gate verified live public release `v0.3.0.0` | native audit-object routing, terminology integration, runtime cohesion, no public deep/security/next modes, no try caps | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper; local installed-package dogfood ledger |
 | Prior public release `v0.2.9.0` | ANDON_PROBE / ANDON_ESCALATE / ANDON_HANDOFF, classed Andon log, no try caps | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper |
 | Older public release `v0.2.8.0` | pre-Andon (older recovery semantics) | bare paths (pre-skill-dir) | none |
@@ -847,14 +866,14 @@ From a repo checkout, the simplest manual copy is:
 
 ```bash
 mkdir -p ~/.codex/skills/implementaudit
-cp -R skills/* ~/.codex/skills/implementaudit/
+cp -R skills/implementaudit/* ~/.codex/skills/implementaudit/
 ```
 
 PowerShell equivalent:
 
 ```powershell
 New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills\implementaudit" | Out-Null
-Copy-Item -Recurse -Force .\skills\* "$env:USERPROFILE\.codex\skills\implementaudit\"
+Copy-Item -Recurse -Force .\skills\implementaudit\* "$env:USERPROFILE\.codex\skills\implementaudit\"
 ```
 
 For a local release asset, build the asset, write checksums, and install with
@@ -867,7 +886,7 @@ bash scripts/install-codex-from-release.sh \
   --asset dist/IMPLEMENTAUDIT.skill \
   --checksum dist/CHECKSUMS.txt \
   --codex-home "$HOME/.codex" \
-  --version 0.3.0
+  --version 0.3.1
 ```
 
 For the current release-gate verified live public release, point the installer
@@ -950,14 +969,14 @@ after each release:
 
 ```bash
 mkdir -p ~/.codex/skills/implementaudit
-cp -R skills/* ~/.codex/skills/implementaudit/
+cp -R skills/implementaudit/* ~/.codex/skills/implementaudit/
 ```
 
 PowerShell:
 
 ```powershell
 New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills\implementaudit" | Out-Null
-Copy-Item -Recurse -Force .\skills\* "$env:USERPROFILE\.codex\skills\implementaudit\"
+Copy-Item -Recurse -Force .\skills\implementaudit\* "$env:USERPROFILE\.codex\skills\implementaudit\"
 ```
 
 Claude Desktop users: locate the session skill directory (see Install notes above)
@@ -1018,8 +1037,9 @@ or provenance claims.
 Repo-native validation includes README diagram freshness, ToC anchor checks,
 host-claim and claim-boundary checks, root behavior-file absence, package
 contract validation, routing fixtures, marker-order checks, repo-state checks,
-audit-spec checks, release-asset extraction checks, release-asset Codex install
-smoke, stale-checksum failure smoke, and checksum-manifest checks.
+audit-spec checks, Safeguard restoration checks, source-evidence pack
+smoke, release-asset extraction checks, release-asset Codex install smoke,
+stale-checksum failure smoke, and checksum-manifest checks.
 
 Run the package validator before local commit or release-gate claims:
 
@@ -1034,6 +1054,27 @@ bash scripts/build-release-asset.sh
 bash scripts/write-release-checksums.sh dist/IMPLEMENTAUDIT.skill dist/CHECKSUMS.txt
 bash scripts/write-release-checksums.sh --check
 bash tests/release-asset-install.test.sh
+```
+
+For external source-harness audit, build the local source evidence pack:
+
+```bash
+bash scripts/build-source-evidence-pack.sh dist/IMPLEMENTAUDIT-v0.3.1.0-SOURCE-EVIDENCE.zip
+bash tests/source-evidence-pack.test.sh
+```
+
+The source evidence pack is source repo evidence only. It is not shipped in the
+runtime `.skill` payload and is not a release, publication, marketplace,
+license, install, or provenance claim.
+
+Audit evidence retention is governed by `docs/audits/RETENTION.md`. Current
+proof ownership is summarized in `docs/audits/INDEX.md`; optional historical
+ledgers may live in `docs/audits/archive/` when retained, but current validation
+and source evidence do not require that directory. Validate the boundary with:
+
+```bash
+bash scripts/check-audit-retention.sh
+bash tests/audit-retention.test.sh
 ```
 
 For release gates since `v0.2.5.0`, the intended skill release artifact is
@@ -1089,8 +1130,9 @@ message/body instead.
 
 ## Development / maintenance notes
 
-`AGENTS.md` is the authoritative repository contract. `skills/SKILL.md` is the
-canonical skill behavior source under the current flat package contract.
+`AGENTS.md` is the authoritative repository contract. `skills/implementaudit/SKILL.md` is the
+canonical source skill behavior entry. Release archives flatten that directory
+to `SKILL.md` at archive root only as a build artifact.
 
 README Mermaid diagrams are generated from `docs/diagrams/*.mmd`; do not edit
 diagram blocks by hand. Refresh or check them with:
@@ -1115,7 +1157,7 @@ bash scripts/verify-package.sh
 Also run:
 
 ```bash
-bash skills/scripts/validate-phase.sh skills/templates/phase-goal.txt
+bash skills/implementaudit/scripts/validate-phase.sh skills/implementaudit/templates/phase-goal.txt
 ```
 
 Preserve the distinction between:

@@ -28,12 +28,14 @@ Run `bash tests/release-asset.test.sh` → ok.
 ### Control
 Sustain: `tests/release-asset.test.sh` + `scripts/verify-package.sh` in CI.
 
-## DMADV artifact (greenfield — package boundary audit doc)
+## DMADV artifact (greenfield — package boundary manifest)
 
 ### Define
-New artifact: `docs/audits/v0.2.6.0-final-runtime-and-package-boundary-audit.md`
-Scope: 23-entry manifest proving what is and is not in the `.skill` package.
-Owner/source of truth: the audit doc (manifest); `scripts/build-release-asset.sh` (builder).
+New artifact: package boundary manifest in `scripts/build-release-asset.sh`
+and package verification in `scripts/verify-package.sh`.
+Scope: manifest proving what is and is not in the `.skill` package.
+Owner/source of truth: `scripts/build-release-asset.sh` (builder) and
+`scripts/verify-package.sh` (current gate).
 
 ### Measure
 CtQ: manifest accurately lists all 23 entries; 14 proven-excluded categories documented.
@@ -46,5 +48,5 @@ Rollback: remove audit doc (repo-only, not shipped).
 Phase spec: single phase; write audit doc after build-script repair.
 
 ### Verify
-Smoke B: `bash tests/release-asset.test.sh` ok; audit doc exists and is non-empty.
+Smoke B: `bash tests/release-asset.test.sh` ok; package manifest gate is non-empty.
 Package check: `bash scripts/verify-package.sh` ok.

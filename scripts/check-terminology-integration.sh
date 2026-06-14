@@ -53,13 +53,13 @@ def require(path: str, needle: str, label: str) -> None:
         failures.append(f"{path}: missing {label}: {needle}")
 
 
-if (ROOT / "skills/references/runtime-terminology.md").exists():
+if (ROOT / "skills/implementaudit/references/runtime-terminology.md").exists():
     failures.append(
-        "TERMINOLOGY_GLOSSARY_FILE: skills/references/runtime-terminology.md must not exist; "
+        "TERMINOLOGY_GLOSSARY_FILE: skills/implementaudit/references/runtime-terminology.md must not exist; "
         "use the thin terminology-integration.md contract"
     )
 
-integration_path = "skills/references/terminology-integration.md"
+integration_path = "skills/implementaudit/references/terminology-integration.md"
 integration = read(integration_path)
 if integration:
     line_count = len(integration.splitlines())
@@ -88,8 +88,8 @@ if integration:
 for needle in [
     "## Precedence",
     "`tdqyq-audit-object` and `ydqyq-audit-action` own the audit ontology",
-    "`skills/references/routing.md` owns greenfield/brownfield/mixed routing",
-    "`skills/references/lean-operating-discipline.md` owns A3, Poka-yoke",
+    "`references/routing.md` owns greenfield/brownfield/mixed routing",
+    "`references/lean-operating-discipline.md` owns A3, Poka-yoke",
     "## Retained Hooks",
     "VOC / CTQ / SIPOC",
     "FMEA-lite",
@@ -106,40 +106,40 @@ for needle in [
         failures.append(f"{integration_path}: missing required KISS content: {needle}")
 
 required_owner_hooks = {
-    "skills/references/routing.md": [
+    "skills/implementaudit/references/routing.md": [
         "VOC/CTQ/SIPOC as native field refinements",
         "Strangler Fig and Anti-Corruption Layer are",
         "The outer shell remains DMAIC; the new or replacement design remains DMADV",
         "Terminology Integration Guardrail",
         "SOLID/GRASP are not routing hooks in v0.3.0.0",
     ],
-    "skills/references/phase-design.md": [
+    "skills/implementaudit/references/phase-design.md": [
         "Terminology cannot be orphaned",
         "Existing references own their concepts",
         "numeric RPN theater",
     ],
-    "skills/references/planning-depth.md": [
+    "skills/implementaudit/references/planning-depth.md": [
         "Do not add external terminology merely because it is familiar",
         "terminology integration fires",
         "SOLID/GRASP remains a checker/fixture negative guard only",
     ],
-    "skills/references/plan-lifecycle.md": [
+    "skills/implementaudit/references/plan-lifecycle.md": [
         "Control Plan / Standard Work / Poka-yoke sustain mechanism",
         "Strangler/ACL replacement work",
         'generic terminology requests such as "apply SOLID", "run STRIDE", or "do an',
         "SOLID/GRASP specifically remains a checker/fixture negative guard only",
     ],
-    "skills/references/audit-category-matrix.md": [
+    "skills/implementaudit/references/audit-category-matrix.md": [
         "STRIDE/trust-boundary checks where material",
         "repo-content-as-data handling",
         "SOLID/GRASP as checker-guarded negative design-advice controls",
     ],
-    "skills/references/lean-operating-discipline.md": [
+    "skills/implementaudit/references/lean-operating-discipline.md": [
         "check-terminology-integration.sh",
         "Control Plan",
         "Terminology integration",
     ],
-    "skills/SKILL.md": [
+    "skills/implementaudit/SKILL.md": [
         "terminology-integration.md",
         "FMEA-lite fields when risk is material",
         "STRIDE/trust-boundary notes when a material security surface exists",

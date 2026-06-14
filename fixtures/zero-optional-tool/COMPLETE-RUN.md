@@ -15,20 +15,20 @@ errors.
 
 | # | Finding | Priority | Owner/source | Action | Status | Evidence |
 |---|---|---:|---|---|---|---|
-| 1 | README safety wording drifted from the skill contract | P1 | `skills/SKILL.md`, `README.md` | patched README wording only | changed | `git diff --check -- README.md` |
+| 1 | README safety wording drifted from the skill contract | P1 | `skills/implementaudit/SKILL.md`, `README.md` | patched README wording only | changed | `git diff --check -- README.md` |
 
 ## Smoke A
 
 | Check | Command | Result | Evidence type | Classification |
 |---|---|---|---|---|
-| Read source contract | manual inspection of `skills/SKILL.md` and `README.md` | drift found | manual inspection | target |
+| Read source contract | manual inspection of `skills/implementaudit/SKILL.md` and `README.md` | drift found | manual inspection | target |
 | Whitespace check | `git diff --check -- README.md` | clean baseline | static checker | target |
 
 ## Smoke B
 
 | Check | Command | Result | Evidence type | Remaining risk |
 |---|---|---|---|---|
-| README source consistency | manual inspection against `skills/SKILL.md` | pass | manual inspection | prose could still age |
+| README source consistency | manual inspection against `skills/implementaudit/SKILL.md` | pass | manual inspection | prose could still age |
 | Whitespace check | `git diff --check -- README.md` | pass | static checker | no runtime host install proof |
 
 ## Proposed commit body
@@ -38,7 +38,7 @@ Finding:
 - README safety wording drifted from the canonical skill contract.
 
 Countermeasure:
-- Updated README wording to match `skills/SKILL.md`.
+- Updated README wording to match `skills/implementaudit/SKILL.md`.
 
 Smoke B:
 - git diff --check -- README.md

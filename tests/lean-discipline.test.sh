@@ -49,14 +49,14 @@ make_temp() {
 
 # ── Negative: missing lean-operating-discipline.md ───────────────────────────
 T=$(make_temp)
-rm -f "$T/skills/references/lean-operating-discipline.md"
+rm -f "$T/skills/implementaudit/references/lean-operating-discipline.md"
 if ! bash "$T/scripts/check-lean-discipline.sh" >/dev/null 2>&1; then ok
 else fail_case "FAIL: should fail when lean-operating-discipline.md absent"; fi
 rm -rf "$T"
 
 # ── Negative: 5S_CHECK missing from PROTOCOL.md ──────────────────────────────
 T=$(make_temp)
-py_replace "$T/skills/templates/PROTOCOL.md" "5S_CHECK" "FIVES_REMOVED"
+py_replace "$T/skills/implementaudit/templates/PROTOCOL.md" "5S_CHECK" "FIVES_REMOVED"
 if ! bash "$T/scripts/check-lean-discipline.sh" >/dev/null 2>&1; then ok
 else fail_case "FAIL: should fail when 5S_CHECK missing from PROTOCOL.md"; fi
 rm -rf "$T"
@@ -70,15 +70,15 @@ import pathlib, re, sys
 p=pathlib.Path(sys.argv[1])
 t=re.sub(r'[Jj][Ii][Dd][Oo][Kk][Aa]', 'STOP_SIGNAL', p.read_text())
 p.write_text(t)
-" "$T/skills/templates/PROTOCOL.md"
+" "$T/skills/implementaudit/templates/PROTOCOL.md"
 if ! bash "$T/scripts/check-lean-discipline.sh" >/dev/null 2>&1; then ok
 else fail_case "FAIL: should fail when Jidoka chain missing from PROTOCOL.md"; fi
 rm -rf "$T"
 
 # ── Negative: Muda/Mura/Muri missing from THINKING.md ────────────────────────
 T=$(make_temp)
-py_replace "$T/skills/templates/THINKING.md" "Muda" "WASTE_REMOVED"
-py_replace "$T/skills/templates/THINKING.md" "muda" "waste_removed"
+py_replace "$T/skills/implementaudit/templates/THINKING.md" "Muda" "WASTE_REMOVED"
+py_replace "$T/skills/implementaudit/templates/THINKING.md" "muda" "waste_removed"
 if ! bash "$T/scripts/check-lean-discipline.sh" >/dev/null 2>&1; then ok
 else fail_case "FAIL: should fail when Muda/Mura/Muri missing from THINKING.md"; fi
 rm -rf "$T"
@@ -91,7 +91,7 @@ import pathlib, re, sys
 p=pathlib.Path(sys.argv[1])
 t=re.sub(r'[Dd][Mm][Aa][Ii][Cc]', 'REPAIR_ROUTE', p.read_text())
 p.write_text(t)
-" "$T/skills/references/routing.md"
+" "$T/skills/implementaudit/references/routing.md"
 if ! bash "$T/scripts/check-lean-discipline.sh" >/dev/null 2>&1; then ok
 else fail_case "FAIL: should fail when DMAIC missing from routing.md"; fi
 rm -rf "$T"
@@ -102,7 +102,7 @@ $PY -c "
 import pathlib, sys
 p=pathlib.Path(sys.argv[1])
 p.write_text(p.read_text() + '\nThis run achieves six sigma certification.\n')
-" "$T/skills/references/lean-operating-discipline.md"
+" "$T/skills/implementaudit/references/lean-operating-discipline.md"
 if ! bash "$T/scripts/check-lean-discipline.sh" >/dev/null 2>&1; then ok
 else fail_case "FAIL: should fail when certification overclaim in lean reference"; fi
 rm -rf "$T"
@@ -116,7 +116,7 @@ rm -rf "$T"
 
 # ── Negative: quality route missing from phase-goal.txt ──────────────────────
 T=$(make_temp)
-py_replace "$T/skills/templates/phase-goal.txt" "Quality route:" "QUALITY_REMOVED:"
+py_replace "$T/skills/implementaudit/templates/phase-goal.txt" "Quality route:" "QUALITY_REMOVED:"
 if ! bash "$T/scripts/check-lean-discipline.sh" >/dev/null 2>&1; then ok
 else fail_case "FAIL: should fail when Quality route field missing from phase-goal.txt"; fi
 rm -rf "$T"
@@ -128,7 +128,7 @@ import pathlib, re, sys
 p=pathlib.Path(sys.argv[1])
 t=re.sub(r'[Gg]raphify terrain leverage', 'GRAPHIFY_LEVERAGE_REMOVED', p.read_text())
 p.write_text(t)
-" "$T/skills/references/lean-operating-discipline.md"
+" "$T/skills/implementaudit/references/lean-operating-discipline.md"
 if ! bash "$T/scripts/check-lean-discipline.sh" >/dev/null 2>&1; then ok
 else fail_case "FAIL: should fail when Graphify terrain leverage section missing from lean reference"; fi
 rm -rf "$T"
@@ -140,7 +140,7 @@ import pathlib, re, sys
 p=pathlib.Path(sys.argv[1])
 t=re.sub(r'[Aa]ctive[Gg]raph custody events', 'ACTIVEGRAPH_CUSTODY_REMOVED', p.read_text())
 p.write_text(t)
-" "$T/skills/references/lean-operating-discipline.md"
+" "$T/skills/implementaudit/references/lean-operating-discipline.md"
 if ! bash "$T/scripts/check-lean-discipline.sh" >/dev/null 2>&1; then ok
 else fail_case "FAIL: should fail when ActiveGraph custody events section missing from lean reference"; fi
 rm -rf "$T"
@@ -151,10 +151,10 @@ $PY -c "
 import pathlib, re, sys
 p=pathlib.Path(sys.argv[1])
 t=p.read_text()
-t=re.sub(r'\| Jidoka \|[^\\n]+', '| Jidoka | Generic error label for failures. | skills/templates/PROTOCOL.md | check-planner-stages.sh |', t)
-t=re.sub(r'\| Andon \|[^\\n]+', '| Andon | Generic error label for failures. | skills/SKILL.md | check-planner-stages.sh |', t)
+t=re.sub(r'\| Jidoka \|[^\\n]+', '| Jidoka | Generic error label for failures. | skills/implementaudit/templates/PROTOCOL.md | check-planner-stages.sh |', t)
+t=re.sub(r'\| Andon \|[^\\n]+', '| Andon | Generic error label for failures. | skills/implementaudit/SKILL.md | check-planner-stages.sh |', t)
 p.write_text(t)
-" "$T/skills/references/lean-operating-discipline.md"
+" "$T/skills/implementaudit/references/lean-operating-discipline.md"
 if ! bash "$T/scripts/check-lean-discipline.sh" >/dev/null 2>&1; then ok
 else fail_case "FAIL: should fail when Jidoka/Andon are generic error labels"; fi
 rm -rf "$T"
@@ -164,9 +164,9 @@ T=$(make_temp)
 $PY -c "
 import pathlib, re, sys
 p=pathlib.Path(sys.argv[1])
-t=re.sub(r'\| Poka-yoke \|[^\\n]+', '| Poka-yoke | Quality improvement mindset for better work. | skills/references/lean-operating-discipline.md | verify-package.sh |', p.read_text())
+t=re.sub(r'\| Poka-yoke \|[^\\n]+', '| Poka-yoke | Quality improvement mindset for better work. | skills/implementaudit/references/lean-operating-discipline.md | verify-package.sh |', p.read_text())
 p.write_text(t)
-" "$T/skills/references/lean-operating-discipline.md"
+" "$T/skills/implementaudit/references/lean-operating-discipline.md"
 if ! bash "$T/scripts/check-lean-discipline.sh" >/dev/null 2>&1; then ok
 else fail_case "FAIL: should fail when Poka-yoke lacks concrete prevention mechanism"; fi
 rm -rf "$T"
@@ -176,9 +176,9 @@ T=$(make_temp)
 $PY -c "
 import pathlib, re, sys
 p=pathlib.Path(sys.argv[1])
-t=re.sub(r'\| Standard Work \|[^\\n]+', '| Standard Work | Repeat good habits whenever possible. | skills/references/lean-operating-discipline.md | verify-package.sh |', p.read_text())
+t=re.sub(r'\| Standard Work \|[^\\n]+', '| Standard Work | Repeat good habits whenever possible. | skills/implementaudit/references/lean-operating-discipline.md | verify-package.sh |', p.read_text())
 p.write_text(t)
-" "$T/skills/references/lean-operating-discipline.md"
+" "$T/skills/implementaudit/references/lean-operating-discipline.md"
 if ! bash "$T/scripts/check-lean-discipline.sh" >/dev/null 2>&1; then ok
 else fail_case "FAIL: should fail when Standard Work lacks stable repo-specific rule/template"; fi
 rm -rf "$T"

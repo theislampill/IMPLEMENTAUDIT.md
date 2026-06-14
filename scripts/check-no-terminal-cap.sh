@@ -121,10 +121,10 @@ for path in paths:
         lowered = line.lower()
         for term in ALWAYS_FORBIDDEN:
             if term in lowered:
-                violations.append(f"{path.as_posix()}:{lineno}: forbidden terminal-cap wording: {term!r}")
+                violations.append(f"{path.as_posix()}:{lineno}: disallowed public-claim terminal-cap wording: {term!r}")
         for term in FORBIDDEN:
             if term in lowered and not any(context in lowered for context in NEGATED_CONTEXT):
-                violations.append(f"{path.as_posix()}:{lineno}: forbidden terminal-cap wording: {term!r}")
+                violations.append(f"{path.as_posix()}:{lineno}: disallowed public-claim terminal-cap wording: {term!r}")
         if (
             "first" in lowered
             and "second" in lowered
@@ -134,7 +134,7 @@ for path in paths:
             and not any(context in lowered for context in NEGATED_CONTEXT)
         ):
             violations.append(
-                f"{path.as_posix()}:{lineno}: forbidden terminal-cap wording: first/second/third failure ladder"
+                f"{path.as_posix()}:{lineno}: disallowed public-claim terminal-cap wording: first/second/third failure ladder"
             )
 
 if violations:

@@ -4,10 +4,10 @@
 
 <h2 id="important-paths">Important paths</h2>
 <table><thead><tr><th>Path</th><th>Role</th></tr></thead><tbody>
-<tr><td><code>skills/</code></td><td>Repo runtime source; contents are flattened into the archive root.</td></tr>
-<tr><td><code>skills/templates/</code></td><td>Run artifact templates: roadmap, state, protocol, thinking, sidecars, tools, context, and phase goal.</td></tr>
-<tr><td><code>skills/references/</code></td><td>Progressive-disclosure references used by the skill during runs.</td></tr>
-<tr><td><code>skills/scripts/</code></td><td>Repo location for helper scripts; the built skill archive ships them as root <code>scripts/</code>.</td></tr>
+<tr><td><code>skills/implementaudit/</code></td><td>Repo runtime source; contents are flattened into the archive root.</td></tr>
+<tr><td><code>skills/implementaudit/templates/</code></td><td>Run artifact templates: roadmap, state, protocol, thinking, sidecars, tools, context, and phase goal.</td></tr>
+<tr><td><code>skills/implementaudit/references/</code></td><td>Progressive-disclosure references used by the skill during runs.</td></tr>
+<tr><td><code>skills/implementaudit/scripts/</code></td><td>Repo location for helper scripts; the built skill archive ships them as root <code>scripts/</code>.</td></tr>
 <tr><td><code>CONTRIBUTING.md</code></td><td>Repo-local contribution and minimum-method onboarding.</td></tr>
 <tr><td><code>.github/workflows/pages.yml</code></td><td>GitHub Pages build, validate, and deploy workflow; public-current claims require successful workflow evidence and any required owner gate.</td></tr>
 <tr><td><code>.github/workflows/validate.yml</code></td><td>Validation workflow mirroring local package checks.</td></tr>
@@ -19,7 +19,7 @@
 </tbody></table>
 
 <h2 id="package-boundary">Package boundary</h2>
-<p>In the repository, the runtime source lives under <code>skills/</code>.<br>In the built <code>IMPLEMENTAUDIT.skill</code> archive, <code>SKILL.md</code>, <code>references/</code>, <code>scripts/</code>, and <code>templates/</code> sit at archive root for host import.<br>Do not claim the archive contains a nested <code>skills/</code> directory.</p>
+<p>In the repository, the runtime source lives under <code>skills/implementaudit/</code>.<br>In the built <code>IMPLEMENTAUDIT.skill</code> archive, <code>SKILL.md</code>, <code>references/</code>, <code>scripts/</code>, and <code>templates/</code> sit at archive root for host import.<br>Do not claim the archive contains a nested <code>skills/</code> directory.</p>
 <p>Repo-only docs, fixtures, tests, local run roots, sidecar stores, and generated docs are not runtime payload.</p>
 
 <h2 id="source-surfaces">Source surfaces</h2>

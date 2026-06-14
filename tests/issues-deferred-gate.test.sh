@@ -14,16 +14,16 @@ require() {
 }
 
 for file in \
-  "skills/references/plan-lifecycle.md" \
-  "skills/templates/PROTOCOL.md" \
-  "skills/templates/phase-goal.txt" \
+  "skills/implementaudit/references/plan-lifecycle.md" \
+  "skills/implementaudit/templates/PROTOCOL.md" \
+  "skills/implementaudit/templates/phase-goal.txt" \
   "fixtures/audit-object-routing/issues-deferred.md"
 do
   require "$file" "deferred"
 done
 
-require "skills/references/plan-lifecycle.md" "must not create GitHub issues"
-require "skills/references/plan-lifecycle.md" "future publication gate"
+require "skills/implementaudit/references/plan-lifecycle.md" "must not create GitHub issues"
+require "skills/implementaudit/references/plan-lifecycle.md" "future publication gate"
 require "fixtures/audit-object-routing/issues-deferred.md" "Forbidden: create GitHub issues"
 require "fixtures/audit-object-routing/issues-deferred.md" "explicit authorization"
 require "fixtures/audit-object-routing/issues-deferred.md" "readback evidence"

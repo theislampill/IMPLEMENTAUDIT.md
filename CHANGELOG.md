@@ -7,9 +7,41 @@ This project follows Keep a Changelog style. Historical entries marked
 not from verified tags, releases, publication, marketplace verification, or
 provenance.
 
-Plugin manifest versions are host-facing package metadata. The `v0.3.0.0`
-source milestone maps to plugin manifest version `0.3.0` because no local
+Plugin manifest versions are host-facing package metadata. The `v0.3.1.0`
+source milestone maps to plugin manifest version `0.3.1` because no local
 schema evidence proved four-component plugin manifest versions are accepted.
+
+## [v0.3.1.0] - 2026-06-14
+
+### Added
+
+- Moved the skill source to the conventional `skills/implementaudit/` layout
+  while keeping the release archive flat and self-contained for installation.
+- Kept the runtime bootloader concise and moved detailed operating guidance
+  into progressive references and templates.
+- Added a read-only plans lane for audit, review, and planning tasks that
+  should not mutate source.
+- Added source-evidence packaging so validators and fixtures can be inspected
+  and run outside the installed skill payload.
+- Added package-boundary, validation-registry, audit-retention, docs-portal,
+  dogfood-bootstrap, and bootloader-budget checks.
+
+### Changed
+
+- Strengthened final-report, sidecar-boundary, no-secret planning,
+  repo-content-as-data, Andon/Hansei, and 5-Whys loop-exit guidance without
+  expanding the always-loaded runtime surface.
+- Kept generated/local artifacts, sidecar outputs, raw transcripts, run roots,
+  tests, and fixtures out of the shipped `.skill` package.
+- Bumped host-facing plugin metadata from `0.3.0` to `0.3.1` for this source
+  and package milestone.
+
+### Boundaries
+
+- No license decision, issue publication, provenance claim, marketplace claim,
+  or real-home installation is included in this release.
+- Source evidence remains source-repo evidence only; it is not shipped in the
+  runtime `.skill` payload.
 
 ## [v0.3.0.0] - 2026-06-13
 
@@ -21,11 +53,11 @@ schema evidence proved four-component plugin manifest versions are accepted.
   plan review, execute/review dispatch semantics, reconciliation, and explicit
   issue-publication deferral.
 - **Countermeasure:** added shipped references
-  `skills/references/audit-category-matrix.md` and
-  `skills/references/plan-lifecycle.md`; wired the category/deep/security/
-  direction and plan lifecycle contracts into `skills/SKILL.md`,
-  `skills/templates/THINKING.md`, `skills/templates/PROTOCOL.md`, and
-  `skills/templates/phase-goal.txt`; added audit-object-routing fixtures and focused
+  `skills/implementaudit/references/audit-category-matrix.md` and
+  `skills/implementaudit/references/plan-lifecycle.md`; wired the category/deep/security/
+  direction and plan lifecycle contracts into `skills/implementaudit/SKILL.md`,
+  `skills/implementaudit/templates/THINKING.md`, `skills/implementaudit/templates/PROTOCOL.md`, and
+  `skills/implementaudit/templates/phase-goal.txt`; added audit-object-routing fixtures and focused
   tests; extended routing/planner/lean/package validators and CI wiring; updated
   README, CONTRIBUTING, portal source, audit index, AGENTS.md, manifest, and
   package/install allowlists for manifest `0.3.0`.
@@ -42,7 +74,7 @@ schema evidence proved four-component plugin manifest versions are accepted.
   behavior.
 - **Runtime terminology KISS reduction:** a broad 195-line draft terminology
   reference was rejected by Andon/KISS review and replaced with the shipped
-  thin cross-reference contract `skills/references/terminology-integration.md`.
+  thin cross-reference contract `skills/implementaudit/references/terminology-integration.md`.
   Term-specific behavior is owned by existing routing, Lean, phase-design,
   plan-lifecycle, and category/security references; compact fixtures in
   `fixtures/terminology-integration/`, `scripts/check-terminology-integration.sh`,
@@ -77,7 +109,7 @@ schema evidence proved four-component plugin manifest versions are accepted.
 - **Evidence / poka-yoke:** `tests/custody-append.test.sh` and
   `scripts/verify-package.sh` now pass on the dogfood machine; anti-repeat rule
   `V0300-MSYS-URL-PATH-NORMALIZATION` added to AGENTS.md. Closure ledger:
-  `docs/audits/v0.3.0.0-local-package-dogfood-audit.md`.
+  `docs/audits/archive/v0.3.0.0-local-package-dogfood-audit.md`.
 - **Remaining risk:** none for shipped runtime (test-only change; payload
   unchanged, `.skill` byte-identical).
 
@@ -85,7 +117,7 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 - Tagged `v0.3.0.0` and published the GitHub release on 2026-06-13 under explicit
   per-action release-gate authorization, after the local-package dogfood
-  (`docs/audits/v0.3.0.0-local-package-dogfood-audit.md`) and all local, package,
+  (`docs/audits/archive/v0.3.0.0-local-package-dogfood-audit.md`) and all local, package,
   and remote gates passed.
 - Release asset `IMPLEMENTAUDIT.skill` (deterministic committed-tree build):
   SHA-256 `25e978dd305706af956be0f65f3ab4b3ba882768790c9b0da92fe4bedd0e57b4`,
@@ -98,32 +130,32 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Fixed
 
-- **Finding:** the shipped skill package contradicted its own Lean/Jidoka identity. `skills/SKILL.md` correctly required execution "until terminal audit closure or an explicit audited handoff" with no artificial caps, but `skills/references/transcript-contract.md` (shipped in the package payload) defined a terminal three-strike failure sequence whose third strike set STATE.md to BLOCKED, stopped the run, and prevented subsequent phases; `skills/templates/PROTOCOL.md` shipped the same strike ladder plus a hard cap of three final-audit rounds; the README execution-spine diagram advertised both.
-- **Root cause:** the v0.2.6.0 hardening round adapted an external comparator's exact strike-count recovery and capped audit-fix loop as an anti-skip countermeasure, overcorrecting an ordering rule (do not jump straight to handoff) into arbitrary terminal try/round caps — a Jidoka contradiction (handoff driven by a counter, not by a blocking condition).
+- **Finding:** the shipped skill package contradicted its own Lean/Jidoka identity. `skills/implementaudit/SKILL.md` correctly required execution "until terminal audit closure or an explicit audited handoff" with no artificial caps, but `skills/implementaudit/references/transcript-contract.md` (shipped in the package payload) defined a terminal three-strike failure sequence whose third strike set STATE.md to BLOCKED, stopped the run, and prevented subsequent phases; `skills/implementaudit/templates/PROTOCOL.md` shipped the same strike ladder plus a hard cap of three final-audit rounds; the README execution-spine diagram advertised both.
+- **Root cause:** the v0.2.6.0 hardening round adapted an external staged-goal reference's exact strike-count recovery and capped audit-fix loop as an anti-skip countermeasure, overcorrecting an ordering rule (do not jump straight to handoff) into arbitrary terminal try/round caps — a Jidoka contradiction (handoff driven by a counter, not by a blocking condition).
 - **Countermeasure:** replaced the strike ladder with Jidoka Andon escalation. New markers `ANDON_PROBE` → `ANDON_ESCALATE` → `ANDON_HANDOFF` (legacy FAILURE-prefixed spellings retired; the marker-order checker still rejects legacy handoff+completion transcripts). `ANDON_PROBE` fires on the first abnormality of any class (failed criterion, regression, hung/substituted command, unclear owner/source, generated-artifact mismatch, stale sidecar, policy conflict, evidence mismatch) and records abnormality, failing criterion/command/artifact, owner/source, containment, proportional 5 Whys, Hansei, selected countermeasure, and required rerun evidence; a fix must follow from the probe, not the symptom. `ANDON_ESCALATE` fires on countermeasure failure / same-class recurrence / unclear root cause / scope-expanding fix / disputed owner, and records prior probe history, why the first countermeasure failed, deeper 5 Whys, and the chosen path (split, reframe, rollback, owner decision, or bounded fix-spec). `ANDON_HANDOFF` fires only when closure is blocked by owner decision, unsafe scope, missing authorization, external dependency, irreproducibility, missing required tool/access, or no bounded countermeasure remaining — never by a try count. Final-audit audit-fix rounds now loop until closure or audited handoff with no fixed round cap.
-- Updated surfaces: `skills/references/transcript-contract.md`, `skills/templates/PROTOCOL.md` (Jidoka chain, Andon escalation protocol, final-audit rounds), `skills/SKILL.md`, `skills/references/goal-format.md`, `skills/references/phase-design.md`, `skills/references/lean-operating-discipline.md`, `docs/diagrams/execution-spine.mmd` + regenerated README diagram block, `docs/portal/onboarding.md`, `fixtures/phase-design/full-hardening-run.md`, `AGENTS.md` (marker contract; amended V0_2_6_0_FAILURE_RECOVERY_ORDERED), `scripts/check-marker-order.sh` (ANDON exclusivity, probe-first, ordering; legacy spelling still rejected), `tests/marker-order.test.sh`, `scripts/verify-package.sh` (marker set, version pin), `scripts/check-lean-discipline.sh` (Jidoka needle).
-- **Evidence / poka-yoke:** new `scripts/check-no-terminal-cap.sh` forbids terminal-cap wording (strike counters, capped audit rounds, run-stopping phrasing, legacy marker spellings) in runtime-shaping surfaces (skills/, docs/diagrams/, docs/portal/, fixtures/, README.md, AGENTS.md), with CHANGELOG.md and docs/audits/ exempt as legacy history; `tests/no-terminal-cap.test.sh` proves the gate and the exemption. Closure ledger: `docs/audits/v0.2.9.0-andon-escalation-jidoka-repair.md`.
+- Updated surfaces: `skills/implementaudit/references/transcript-contract.md`, `skills/implementaudit/templates/PROTOCOL.md` (Jidoka chain, Andon escalation protocol, final-audit rounds), `skills/implementaudit/SKILL.md`, `skills/implementaudit/references/goal-format.md`, `skills/implementaudit/references/phase-design.md`, `skills/implementaudit/references/lean-operating-discipline.md`, `docs/diagrams/execution-spine.mmd` + regenerated README diagram block, `docs/portal/onboarding.md`, `fixtures/phase-design/full-hardening-run.md`, `AGENTS.md` (marker contract; amended V0_2_6_0_FAILURE_RECOVERY_ORDERED), `scripts/check-marker-order.sh` (ANDON exclusivity, probe-first, ordering; legacy spelling still rejected), `tests/marker-order.test.sh`, `scripts/verify-package.sh` (marker set, version pin), `scripts/check-lean-discipline.sh` (Jidoka needle).
+- **Evidence / poka-yoke:** new `scripts/check-no-terminal-cap.sh` forbids terminal-cap wording (strike counters, capped audit rounds, run-stopping phrasing, legacy marker spellings) in runtime-shaping surfaces (skills/, docs/diagrams/, docs/portal/, fixtures/, README.md, AGENTS.md), with CHANGELOG.md and docs/audits/ exempt as legacy history; `tests/no-terminal-cap.test.sh` proves the gate and the exemption. Closure ledger: `docs/audits/archive/v0.2.9.0-andon-escalation-jidoka-repair.md`.
 - **Remaining risk:** hosts parsing the retired FAILURE-prefixed markers from new transcripts will not see them; legacy transcripts remain readable and the exclusivity rule still applies to them.
 
-- **Audit-fix round G1–G3 (2026-06-10), from the self-dogfood audit:** (G1) repaired the residual try-counter wording in `skills/templates/PROTOCOL.md` Jidoka chain ("after any probe, escalation, substitution, regression, or evidence mismatch") and tightened `scripts/check-no-terminal-cap.sh` to forbid the bare counter token, with a new negative test case — the prior numbered-phrase list was the blind spot that let the residual ship; AGENTS.md rule wording adjusted to "try counters" accordingly. (G2) added the `## Andon log` substrate to `skills/templates/STATE.md` (`# | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome`), repointed all three PROTOCOL.md references that previously targeted a nonexistent `## Failure log` section, promoted ten official abnormality classes into `skills/references/transcript-contract.md` (failed-criterion, regression, hung-command, substituted-command, owner-unclear, generated-artifact-mismatch, stale-sidecar, policy-conflict, impossible-criterion, evidence-mismatch), required ANDON_ESCALATE to cite prior same-class Andon log rows by `#` before claiming recurrence, and required `New evidence:` and/or `Changed approach:` on every escalation — if neither can be truthfully filled, the run evaluates ANDON_HANDOFF conditions instead of escalating; no row limit, no try cap. `check-lean-discipline.sh` now enforces the Andon log substrate in both PROTOCOL.md and STATE.md. (G3) added tracked Andon-path transcript fixtures `fixtures/simple-audit/EXPECTED-ANDON-RECOVERY-SKELETON.md` (probe → proportional 5 Whys/Hansei → countermeasure → rerun evidence → resume → terminal closure) and `EXPECTED-ANDON-HANDOFF-SKELETON.md` (probe → escalate with same-class citation and new evidence → blocking condition → handoff, no completion marker), wired into `check-marker-order.sh` default arguments and `verify-package.sh`.
+- **Audit-fix round G1–G3 (2026-06-10), from the self-dogfood audit:** (G1) repaired the residual try-counter wording in `skills/implementaudit/templates/PROTOCOL.md` Jidoka chain ("after any probe, escalation, substitution, regression, or evidence mismatch") and tightened `scripts/check-no-terminal-cap.sh` to forbid the bare counter token, with a new negative test case — the prior numbered-phrase list was the blind spot that let the residual ship; AGENTS.md rule wording adjusted to "try counters" accordingly. (G2) added the `## Andon log` substrate to `skills/implementaudit/templates/STATE.md` (`# | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome`), repointed all three PROTOCOL.md references that previously targeted a nonexistent `## Failure log` section, promoted ten official abnormality classes into `skills/implementaudit/references/transcript-contract.md` (failed-criterion, regression, hung-command, substituted-command, owner-unclear, generated-artifact-mismatch, stale-sidecar, policy-conflict, impossible-criterion, evidence-mismatch), required ANDON_ESCALATE to cite prior same-class Andon log rows by `#` before claiming recurrence, and required `New evidence:` and/or `Changed approach:` on every escalation — if neither can be truthfully filled, the run evaluates ANDON_HANDOFF conditions instead of escalating; no row limit, no try cap. `check-lean-discipline.sh` now enforces the Andon log substrate in both PROTOCOL.md and STATE.md. (G3) added tracked Andon-path transcript fixtures `fixtures/simple-audit/EXPECTED-ANDON-RECOVERY-SKELETON.md` (probe → proportional 5 Whys/Hansei → countermeasure → rerun evidence → resume → terminal closure) and `EXPECTED-ANDON-HANDOFF-SKELETON.md` (probe → escalate with same-class citation and new evidence → blocking condition → handoff, no completion marker), wired into `check-marker-order.sh` default arguments and `verify-package.sh`.
 
 - **Hardening round P5–P6 (2026-06-10):** (P5) the `New evidence:` / `Changed approach:` escalation-progress requirement was prose/fixture convention only; `scripts/check-marker-order.sh` now rejects any `ANDON_ESCALATE` block in validated fixtures that contains neither field (lightweight marker-to-marker segmentation, not a transcript parser), with positive and negative cases in `tests/marker-order.test.sh`. No try cap recreated: the rule demands progress evidence, never counts attempts. (P6) added `fixtures/agent-eval/` — five adversarial identity-misread eval fixtures (terminal-cap-request, autonomous-build-runner, audit-only-reviewer, release-bot-overreach, lean-glossary-theater), each with Input, Expected behavior, Forbidden behavior, Owner/source, Evidence boundary, and Minimal passing transcript properties — made load-bearing by `scripts/check-agent-eval-fixtures.sh` (existence, required sections, non-empty bodies, mandatory not-live-proof disclaimer) and `tests/agent-eval-fixtures.test.sh` (4 cases), wired into `verify-package.sh` require_file set, the AGENTS.md validation list, and CI. Fixtures are eval inputs and expected transcript properties, not proof of live model behavior.
 
-- **Hardening round N1–N3/C4/N5 (2026-06-10), from the round-2 self-dogfood audit:** (N1) package parity — `skills/references/lean-operating-discipline.md` shipped while absent from both build manifests, so its deletion would not have failed the gate; added it to `required_source`/`required_archive`, and the builder now requires exact set equality between archive entries and the manifest (extras fail, not just absences), with a stray-file negative case in `tests/release-asset.test.sh`. (N2) shipped-path integrity — payload files referenced repo-only paths that dangle for installed consumers (`transcript-contract.md` Machine check, `SKILL.md`/`phase-design.md` fixture pointers, hardcoded checker lists in `summarize-repo.sh`); repo-side references now carry a "source repo" label, `summarize-repo.sh` discovers mandatory-command candidates from the target repo via existence-guarded globs instead of hardcoding IMPLEMENTAUDIT paths, and a new path-integrity gate in `verify-package.sh` forbids unlabeled `fixtures/`, `tests/`, or `scripts/check-*` references in the payload. (N3) Andon class unification — the core `Andon:` block in `SKILL.md` now carries a `Class:` field with the ten official abnormality classes, and the transcript contract states the markers/classes apply to any governed run: with no run root, the findings ledger is the Andon log substrate; enforced by new `check-lean-discipline.sh` needles. (C4) dogfood version skew — Stage 0 now detects installed-payload vs repo-manifest version skew when operating on IMPLEMENTAUDIT itself, records an orientation Andon, and treats live repo files as the contract of record (PROTOCOL.md version-skew rule; AGENTS.md V0290-DOGFOOD-VERSION-SKEW). (N5) transcript grader — each agent-eval fixture gained a machine-readable `## Graded properties` block (require-marker / require-phrase / require-any / forbid-phrase / marker-order / no-terminal-cap directives); new `scripts/grade-agent-eval-transcript.sh` grades a transcript against a fixture deterministically, delegating structural checks to the existing marker-order and no-terminal-cap gates; `tests/agent-eval-grader.test.sh` proves one passing and one failing synthetic transcript per fixture. A grader PASS is a properties check, not a holistic run judgment.
+- **Hardening round N1–N3/C4/N5 (2026-06-10), from the round-2 self-dogfood audit:** (N1) package parity — `skills/implementaudit/references/lean-operating-discipline.md` shipped while absent from both build manifests, so its deletion would not have failed the gate; added it to `required_source`/`required_archive`, and the builder now requires exact set equality between archive entries and the manifest (extras fail, not just absences), with a stray-file negative case in `tests/release-asset.test.sh`. (N2) shipped-path integrity — payload files referenced repo-only paths that dangle for installed consumers (`transcript-contract.md` Machine check, `SKILL.md`/`phase-design.md` fixture pointers, hardcoded checker lists in `summarize-repo.sh`); repo-side references now carry a "source repo" label, `summarize-repo.sh` discovers mandatory-command candidates from the target repo via existence-guarded globs instead of hardcoding IMPLEMENTAUDIT paths, and a new path-integrity gate in `verify-package.sh` forbids unlabeled `fixtures/`, `tests/`, or `scripts/check-*` references in the payload. (N3) Andon class unification — the core `Andon:` block in `SKILL.md` now carries a `Class:` field with the ten official abnormality classes, and the transcript contract states the markers/classes apply to any governed run: with no run root, the findings ledger is the Andon log substrate; enforced by new `check-lean-discipline.sh` needles. (C4) dogfood version skew — Stage 0 now detects installed-payload vs repo-manifest version skew when operating on IMPLEMENTAUDIT itself, records an orientation Andon, and treats live repo files as the contract of record (PROTOCOL.md version-skew rule; AGENTS.md V0290-DOGFOOD-VERSION-SKEW). (N5) transcript grader — each agent-eval fixture gained a machine-readable `## Graded properties` block (require-marker / require-phrase / require-any / forbid-phrase / marker-order / no-terminal-cap directives); new `scripts/grade-agent-eval-transcript.sh` grades a transcript against a fixture deterministically, delegating structural checks to the existing marker-order and no-terminal-cap gates; `tests/agent-eval-grader.test.sh` proves one passing and one failing synthetic transcript per fixture. A grader PASS is a properties check, not a holistic run judgment.
 
 - **Truth/coherence round R1–R5 (2026-06-10), from the round-3 self-dogfood audit:** (R1) README publicly claimed milestone v0.2.8.0 / manifest 0.2.8 against the live 0.2.9 manifest; corrected, and `verify-package.sh` now derives the README "Current project milestone:" claim check from plugin.json instead of leaving it the only unpinned version surface. (R2) the two validation registries had drifted in both directions — three newest tests absent from `verify-package.sh`'s internal suite, `lean-discipline.test.sh` absent from CI's explicit list; both wired, and new `scripts/check-validation-registry.sh` (+ focused test) enforces that every `tests/*.test.sh` is invoked by both registries, with a reasoned exemption for docs-portal.test.sh (must not nest inside verify-package). (R3) `IMPLEMENTAUDIT_PAUSE` and `IMPLEMENTAUDIT_CONTINUITY_SAVED` were emitted by the runtime but undeclared in the host-facing transcript contract; both documented (fields, position rules, non-completion semantics), added to AGENTS.md marker sections, and `check-marker-order.sh` now requires a preceding `IMPLEMENTAUDIT_PHASE_START` for any PAUSE. (R4) `AUDIT_GAPS` added to the final-audit ordering chain (a transcript printing it after `AUDIT_COMPLETE` now fails), with a negative test. (R5) AGENTS.md repo-layout tree updated to list the three simple-audit transcript skeletons it previously omitted.
 
-- **Hygiene round S1–S3 (2026-06-10), from the round-4 self-dogfood audit:** (S1) `skills/templates/STATE.md` now enumerates the legal Status vocabulary (`open` / `READY_TO_DISPATCH` / `IN_PHASE` / `PAUSED` / `BLOCKED` / `INTERRUPTED` / `DONE`), checker-backed by a `check-lean-discipline.sh` needle — executors previously had to reverse-engineer statuses from scattered PROTOCOL.md mentions. (S2) the AGENTS.md required-readback grep list gained the three ANDON marker greps it lacked since the marker rename. (S3) new `tests/summarize-repo.test.sh` behaviorally tests the shipped recon helper in synthetic bare and checker-rich repos — and immediately caught two real defects in `skills/scripts/summarize-repo.sh`: compound `[ -e ] && printf` conditions made the helper exit non-zero in any repo lacking `.github/workflows` (and similar tails), and `git log` aborted it in commitless repos. All compound conditions converted to if-form; recent-churn now degrades to `no-commits-yet`. The helper's own header promises `side_effects=none`; it now also fails none.
+- **Hygiene round S1–S3 (2026-06-10), from the round-4 self-dogfood audit:** (S1) `skills/implementaudit/templates/STATE.md` now enumerates the legal Status vocabulary (`open` / `READY_TO_DISPATCH` / `IN_PHASE` / `PAUSED` / `BLOCKED` / `INTERRUPTED` / `DONE`), checker-backed by a `check-lean-discipline.sh` needle — executors previously had to reverse-engineer statuses from scattered PROTOCOL.md mentions. (S2) the AGENTS.md required-readback grep list gained the three ANDON marker greps it lacked since the marker rename. (S3) new `tests/summarize-repo.test.sh` behaviorally tests the shipped recon helper in synthetic bare and checker-rich repos — and immediately caught two real defects in `skills/implementaudit/scripts/summarize-repo.sh`: compound `[ -e ] && printf` conditions made the helper exit non-zero in any repo lacking `.github/workflows` (and similar tails), and `git log` aborted it in commitless repos. All compound conditions converted to if-form; recent-churn now degrades to `no-commits-yet`. The helper's own header promises `side_effects=none`; it now also fails none.
 
-- **User-journey round F1–F4 (2026-06-10), from the round-5 self-dogfood audit:** (F1) all 17 payload references to `skills/scripts/...` resolved nowhere for installed consumers (the archive strips the prefix); every packaged helper invocation now resolves through `"${IMPLEMENTAUDIT_BASE:-skills}"/scripts/...`, SKILL.md Stage 0 defines the resolution rule (hosts supply the base directory; the default keeps commands working verbatim in the source repo; unresolvable base → helper recorded unavailable, weaker-evidence fallback), and the verify-package path-integrity gate now forbids bare `skills/scripts/` in the payload. (F2) README §Loopability gained a "Nested loop model" subsection naming the five concentric loops (planner, run, phase, Andon, audit-fix) with each loop's exit condition and marker currency. (F3) the docs portal gained an "Abnormality Handling (Andon Escalation)" section teaching the probe/escalate/handoff contract, the ten abnormality classes, and the no-cap invariant — previously the portal never mentioned `ANDON_PROBE` or `ANDON_ESCALATE`. (F4) `docs/diagrams/invocation-modes.mmd` gained the fourth invocation shape (governed casual-build intake), repairing the README/portal disagreement about how many invocation shapes exist; README diagram block regenerated.
+- **User-journey round F1–F4 (2026-06-10), from the round-5 self-dogfood audit:** (F1) all 17 payload references to `skills/implementaudit/scripts/...` resolved nowhere for installed consumers (the archive strips the prefix); every packaged helper invocation now resolves through `"${IMPLEMENTAUDIT_BASE:-skills}"/scripts/...`, SKILL.md Stage 0 defines the resolution rule (hosts supply the base directory; the default keeps commands working verbatim in the source repo; unresolvable base → helper recorded unavailable, weaker-evidence fallback), and the verify-package path-integrity gate now forbids bare `skills/implementaudit/scripts/` in the payload. (F2) README §Loopability gained a "Nested loop model" subsection naming the five concentric loops (planner, run, phase, Andon, audit-fix) with each loop's exit condition and marker currency. (F3) the docs portal gained an "Abnormality Handling (Andon Escalation)" section teaching the probe/escalate/handoff contract, the ten abnormality classes, and the no-cap invariant — previously the portal never mentioned `ANDON_PROBE` or `ANDON_ESCALATE`. (F4) `docs/diagrams/invocation-modes.mmd` gained the fourth invocation shape (governed casual-build intake), repairing the README/portal disagreement about how many invocation shapes exist; README diagram block regenerated.
 
 - **Target-repo evidence round R6-A + variable-collision repair (2026-06-10), from the round-6 self-dogfood audit:** (R6-A) in target repos that do not gitignore `.IMPLEMENTAUDIT/`, the run's own artifacts appeared as untracked changes in every `repo-state.sh` evidence scan, contaminating cleanliness and deliverable checks; `changed-files` and `added-lines` now exclude run-root paths with a visible stderr count (never silently, per the no-silent-caps doctrine), explicit `deliverable` queries remain honest for any path, and `claim-run.sh` prints a local-only `.git/info/exclude` notice (stderr; no repo mutation) when the run-root base is not ignored; behavioral test case added. (Collision repair) implementing R6-A exposed that the round-5 helper-path fix had redefined `IMPLEMENTAUDIT_BASE` — a variable `claim-run.sh` and `detect-env.sh` already consumed as the run-root base — as the skill directory, which would have created run roots inside the installed payload; the skill-directory variable is now `IMPLEMENTAUDIT_SKILL_DIR` (18 payload sites renamed), Stage 0 defines both variables explicitly and warns against confusing them, and `IMPLEMENTAUDIT_BASE` keeps its original run-base meaning.
 
 - **Shipped-script class sweep (2026-06-10), round-7 escalation:** the round-7 live smoke found `detect-stack.sh` exiting 1 in clean target repos — the same compound-condition class repaired in `summarize-repo.sh` during round 4. Escalated with a changed approach instead of another single-file fix: all three remaining `[ test ] && printf` compounds in `detect-stack.sh` converted to if-form, and new `tests/shipped-scripts-smoke.test.sh` runs **every** shipped helper in a minimal target repo (recon helpers must exit 0; claim-run must keep stdout path-only and fire its ignore notice; repo-state enumeration must succeed; validators must still reject malformed specs), wired into both validation registries so the class cannot return in any shipped script.
 
-- **Round 9 — M1–M5 + sidecar recovery and leverage maximization (2026-06-10):** (M1) `validate-phase.sh` diagnostics now name the expected shape (list-item requirements, the literal `Markdown fallback:` field) and the error summary points at `templates/phase-goal.txt` — the round-8 dogfood lost two iterations to messages that misnamed their own requirements. (M2) new shipped `skills/scripts/validate-run-root.sh` validates live run-root structure (Status enum token, Andon log columns, ROADMAP↔phase-spec completeness); the PROTOCOL resume contract now validates the run root before resuming (a corrupted root is an ANDON_PROBE, not something to resume through); package manifests updated. (M3) `AUDIT_START` carries `Skill version:` from the payload manifest so every transcript is attributable to its contract version. (M4) `fixtures/agent-eval/RUNBOOK.md` standardizes the first live eval run. (M5) Stage 0 detects bash availability for the helper layer. **Sidecars (owner-authorized this round):** graphify 0.8.37 + activegraph 1.1.0 installed; prior custody recovered read-only (v0.2.7.0/v0.2.8.0 stores: 18+9 JSONL, 8+19 SQLite events); v0.2.9.0 rounds 1–9 backfilled as 15 `historical_backfill` events per V0260 labeling plus 7 live events in `<run-root>/custody.db`, readback verified via `activegraph export-trace`/`inspect`; Graphify terrain re-extracted (144 nodes, 901 links) and queried live. **Leverage audit gaps closed:** Andon escalation custody events (`andon.probe.recorded`/`andon.escalated`/`andon.handoff.recorded` with abnormality class) added to SKILL.md §12a, the lean custody table, and the PROTOCOL Andon protocol; canonical store convention + cross-run read-only discovery + backfill labeling documented in PROTOCOL; Stage 0 detects prior per-run stores; terrain extraction ownership and node schema documented; lean checker enforces the new rows. `check-sidecar-boundaries.sh` corrected to its own documented boundary (tracked source / package / ignore-cover — not local existence, which canonical dogfood sidecars now require).
+- **Round 9 — M1–M5 + sidecar recovery and leverage maximization (2026-06-10):** (M1) `validate-phase.sh` diagnostics now name the expected shape (list-item requirements, the literal `Markdown fallback:` field) and the error summary points at `templates/phase-goal.txt` — the round-8 dogfood lost two iterations to messages that misnamed their own requirements. (M2) new shipped `skills/implementaudit/scripts/validate-run-root.sh` validates live run-root structure (Status enum token, Andon log columns, ROADMAP↔phase-spec completeness); the PROTOCOL resume contract now validates the run root before resuming (a corrupted root is an ANDON_PROBE, not something to resume through); package manifests updated. (M3) `AUDIT_START` carries `Skill version:` from the payload manifest so every transcript is attributable to its contract version. (M4) `fixtures/agent-eval/RUNBOOK.md` standardizes the first live eval run. (M5) Stage 0 detects bash availability for the helper layer. **Sidecars (owner-authorized this round):** graphify 0.8.37 + activegraph 1.1.0 installed; prior custody recovered read-only (v0.2.7.0/v0.2.8.0 stores: 18+9 JSONL, 8+19 SQLite events); v0.2.9.0 rounds 1–9 backfilled as 15 `historical_backfill` events per V0260 labeling plus 7 live events in `<run-root>/custody.db`, readback verified via `activegraph export-trace`/`inspect`; Graphify terrain re-extracted (144 nodes, 901 links) and queried live. **Leverage audit gaps closed:** Andon escalation custody events (`andon.probe.recorded`/`andon.escalated`/`andon.handoff.recorded` with abnormality class) added to SKILL.md §12a, the lean custody table, and the PROTOCOL Andon protocol; canonical store convention + cross-run read-only discovery + backfill labeling documented in PROTOCOL; Stage 0 detects prior per-run stores; terrain extraction ownership and node schema documented; lean checker enforces the new rows. `check-sidecar-boundaries.sh` corrected to its own documented boundary (tracked source / package / ignore-cover — not local existence, which canonical dogfood sidecars now require).
 
-- **Round 11 — sidecar tooling completion N1–N4 (2026-06-10), from the round-10 double-dogfood:** (N1) `skills/templates/sidecars.md` now ships — the one mandated run-root artifact with a contract-specified shape (status table, Graphify query log per the lean reference, custody store fields, backfill labeling, evidence boundaries) that every run previously hand-invented; `validate-run-root.sh` now requires it for dispatched runs; lean checker enforces the template's contract content. (N2) `skills/scripts/custody-append.sh` ships — one-command, absent-safe custody emission (activegraph missing → exit 0 with a Markdown-fallback note; never blocks), closing the gap between the PROTOCOL's "mirror Andon events into the store" mandate and the hand-rolled API plumbing it previously required; PROTOCOL names the helper; focused test covers usage errors, invalid JSON, both present/absent paths, and duplicate-id safety. (N3) `detect-env.sh` reports `implementaudit_skill_dir` resolution and an explicit `helper_layer=available/unavailable` line. (N4) README §Optional tooling and the portal's Continuity/Sidecars section now surface the round-9 conventions (per-run store, Andon custody events, read-only prior-store preload, backfill labeling, packaged template). Package manifests grew deliberately to 27 entries under the set-equality gate.
+- **Round 11 — sidecar tooling completion N1–N4 (2026-06-10), from the round-10 double-dogfood:** (N1) `skills/implementaudit/templates/sidecars.md` now ships — the one mandated run-root artifact with a contract-specified shape (status table, Graphify query log per the lean reference, custody store fields, backfill labeling, evidence boundaries) that every run previously hand-invented; `validate-run-root.sh` now requires it for dispatched runs; lean checker enforces the template's contract content. (N2) `skills/implementaudit/scripts/custody-append.sh` ships — one-command, absent-safe custody emission (activegraph missing → exit 0 with a Markdown-fallback note; never blocks), closing the gap between the PROTOCOL's "mirror Andon events into the store" mandate and the hand-rolled API plumbing it previously required; PROTOCOL names the helper; focused test covers usage errors, invalid JSON, both present/absent paths, and duplicate-id safety. (N3) `detect-env.sh` reports `implementaudit_skill_dir` resolution and an explicit `helper_layer=available/unavailable` line. (N4) README §Optional tooling and the portal's Continuity/Sidecars section now surface the round-9 conventions (per-run store, Andon custody events, read-only prior-store preload, backfill labeling, packaged template). Package manifests grew deliberately to 27 entries under the set-equality gate.
 
 - **Round 13 — README/docs truth + onboarding completion (2026-06-10), from the round-12 audit:** (R1) README ToC completed (19 → 27 entries) and `check-readme-toc.sh` now enforces two-way parity (every H2 must be listed). (R2→corrected) the planned release-staleness disclosure exposed a deeper truth defect when written: README pinned `v0.2.5.0` as the live public release while the portal claimed `v0.2.8.0` — **live GitHub verification (release list + tags) confirmed v0.2.8.0 is the latest public release**; seven stale README pins corrected, the disclosure now states the verified fact (v0.2.8.0 still predates the v0.2.9.0 contract — the onboarding hazard stands, one milestone narrower), and `tests/docs-portal.test.sh` gained a README↔portal parity check on install scripts and the live-release version so the two hand-maintained surfaces cannot drift silently again. (R3) Quick start section at the top of README. (R4) the two-tier sidecar policy (optional everywhere; canonical for maintaining IMPLEMENTAUDIT itself) stated in README and portal. (D1) portal "Shipped Scripts Reference": all nine helpers × loop × purpose, with the shared honest-degradation contract. (D2) portal gate-model mapping note (10 teaching gates = 8-row SKILL.md spine + two split-outs; spine canonical). (D3) portal gained the Claude release-install path it omitted. (D4) audits INDEX now summarizes the thirteen-round v0.2.9.0 arc. (K1) `custody-append.sh` enforces V0260 labeling at write time — `custody_mode` required; `historical_backfill` requires source/backfilled_at/original_event_time/evidence_boundary — before the activegraph import, so the contract holds even where events can't be recorded. (K2) `templates/tools.md` + `templates/context.md` ship, completing the Stage-5 substrate (manifests at 29 entries). (K3) tracked exemplar run root at `fixtures/run-root-example/` passing both validators, wired into the run-root test.
 
@@ -137,13 +169,13 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Known issue
 
-- Installed host payloads remain on the pre-repair contract until this milestone is committed, pushed, and the plugin updated (cache refreshes only on a version-field change). Documented as handoff G4 in `docs/audits/v0.2.9.0-andon-escalation-jidoka-repair.md`; no install/update action performed or claimed.
+- Installed host payloads remain on the pre-repair contract until this milestone is committed, pushed, and the plugin updated (cache refreshes only on a version-field change). Documented as handoff G4 in `docs/audits/archive/v0.2.9.0-andon-escalation-jidoka-repair.md`; no install/update action performed or claimed.
 
 ## [v0.2.8.0] - 2026-06-08
 
 ### Added
 
-- `docs/portal/onboarding.md`: portal content source with 10 onboarding sections (What is IMPLEMENTAUDIT; When to use; When not to use; Normal prompt vs /goal vs IMPLEMENTAUDIT chooser table; Three invocation modes; Compared with a generic staged-goal runner; What Graphify and ActiveGraph do; What completion means; Install and update; Easy invocation examples). Neutral comparator language only. No all-domain obsolescence claim.
+- `docs/portal/onboarding.md`: portal content source with 10 onboarding sections (What is IMPLEMENTAUDIT; When to use; When not to use; Normal prompt vs /goal vs IMPLEMENTAUDIT chooser table; Three invocation modes; Compared with a generic staged-goal runner; What Graphify and ActiveGraph do; What completion means; Install and update; Easy invocation examples). Neutral reference-language only. No all-domain obsolescence claim.
 - `scripts/build-docs-portal.py`: stdlib-only docs portal generator. Reads onboarding.md, README.md, CHANGELOG.md, INDEX.md, plugin.json. Generates `dist/docs-portal/index.html` + `docs-metadata.json`. Dark theme, skip link, sidebar nav, IntersectionObserver active-section tracking, 9 required section anchors, `rough_draft_used: false`. Usage: `python scripts/build-docs-portal.py [--out <dir>]`.
 - `scripts/check-docs-portal.py`: 12-check validator for generated portal output. Checks index.html non-empty; metadata fields; source sha256s; manifest version; milestone; rough_draft_used=false; no file:///; no Windows paths; nav anchors unique+ordered; 9 required section anchors; no unsupported claims; skip link; semantic headings. Usage: `python scripts/check-docs-portal.py <output-dir>`.
 - `tests/docs-portal.test.sh`: 26-check test suite (generator exits 0; check-docs-portal passes; metadata fields; no file:///; no Windows paths; nav anchors; 9 required section anchors; verify-package still passes; negative test).
@@ -152,19 +184,19 @@ schema evidence proved four-component plugin manifest versions are accepted.
 - `fixtures/phase-design/polish-harden.md`: two variants (Polish & Harden included with default-recommended rationale; Polish & Harden skipped with documented rationale).
 - `.github/workflows/pages.yml`: GitHub Pages deployment pipeline (build+validate+deploy) with OIDC permissions, concurrency guard, and OWNER DECISION note — Pages source must be set to "GitHub Actions" in repo settings before the deploy job can succeed.
 - `scripts/check-workflow-structure.py`: stdlib-only structural checker for GitHub Actions YAML (no external deps). Checks: name/on/jobs keys, steps: key, actions/checkout reference, no tab indentation. Explicitly notes full schema validation is pending CI. Replaces `bash -n` as workflow evidence. Usage: `python scripts/check-workflow-structure.py <workflow-file> [...]`.
-- Added `docs/audits/v0.2.8.0-adaptation.md`: G1-G7 gap closure ledger, phase-by-phase evidence, Graphify authorization boundary, comparator language check, formal forbidden-term identity hygiene check result, Smoke B results (including structural workflow check), audit-fix round record (5 items), remaining risk, terminal closure table. G5 classified as STRENGTHENED (not ALREADY COVERED).
+- Added `docs/audits/archive/v0.2.8.0-adaptation.md`: G1-G7 gap closure ledger, phase-by-phase evidence, Graphify authorization boundary, reference-language check, formal public-claim boundary hygiene check result, Smoke B results (including structural workflow check), audit-fix round record (5 items), remaining risk, terminal closure table. G5 classified as STRENGTHENED (not ALREADY COVERED).
 - Updated `docs/audits/INDEX.md`: v0.2.8.0 entry (G5 STRENGTHENED; audit-fix round summary).
 
 ### Changed
 
-- `skills/SKILL.md` §2: added 4th invocation shape bullet — `governed casual-build intake`; added governed casual-build intake bullet to canonical audit terminology; added governed casual-build intake paragraph to §2a invocation boundary; added Bounded continuity preload block to Stage 0 (5-source priority order: AGENTS.md first; run-root applied-context; optional personal/project notes; Graphify terrain; ActiveGraph custody) + IMPLEMENTAUDIT_CONTINUITY_SAVED marker template with all 6 required fields.
-- `skills/templates/PROTOCOL.md` Steps 14/15: CONTINUITY_DECISION options expanded to 5 options (none; repo-local AGENTS.md rule; run-local applied-context note; optional personal/project note; optional ActiveGraph event); override-prevention statement; IMPLEMENTAUDIT_CONTINUITY_SAVED reference.
-- `skills/templates/THINKING.md`: invocation shape line updated: adds `governed casual-build intake`.
-- `skills/templates/phase-goal.txt`: Polish & Harden variant comment block added at end (Type: polish-harden; work bullets; acceptance criteria).
-- `skills/references/routing.md`: Governed casual-build intake definition in Definitions; Governed Casual-Build Intake section (5-step process); updated Positive Identity section.
-- `skills/references/goal-format.md`: chooser table (4 rows: normal prompt / /goal / /implementaudit / governed casual-build intake); easy invocation examples; IMPLEMENTAUDIT_CONTINUITY_SAVED format block; Optional Polish & Harden phase type note.
-- `skills/references/planning-depth.md`: Governed casual-build intake subsection under Invocation shapes; casual-build planning bar definition.
-- `skills/references/phase-design.md`: Rule P4-8 — Polish & Harden phase (optional terminal phase shape; default-recommended for full plans/public surfaces/package boundaries; skippable with rationale; no new features; covers cleanliness, identity hygiene, generated artifact freshness, proof-boundary wording).
+- `skills/implementaudit/SKILL.md` §2: added 4th invocation shape bullet — `governed casual-build intake`; added governed casual-build intake bullet to canonical audit terminology; added governed casual-build intake paragraph to §2a invocation boundary; added Bounded continuity preload block to Stage 0 (5-source priority order: AGENTS.md first; run-root applied-context; optional personal/project notes; Graphify terrain; ActiveGraph custody) + IMPLEMENTAUDIT_CONTINUITY_SAVED marker template with all 6 required fields.
+- `skills/implementaudit/templates/PROTOCOL.md` Steps 14/15: CONTINUITY_DECISION options expanded to 5 options (none; repo-local AGENTS.md rule; run-local applied-context note; optional personal/project note; optional ActiveGraph event); override-prevention statement; IMPLEMENTAUDIT_CONTINUITY_SAVED reference.
+- `skills/implementaudit/templates/THINKING.md`: invocation shape line updated: adds `governed casual-build intake`.
+- `skills/implementaudit/templates/phase-goal.txt`: Polish & Harden variant comment block added at end (Type: polish-harden; work bullets; acceptance criteria).
+- `skills/implementaudit/references/routing.md`: Governed casual-build intake definition in Definitions; Governed Casual-Build Intake section (5-step process); updated Positive Identity section.
+- `skills/implementaudit/references/goal-format.md`: chooser table (4 rows: normal prompt / /goal / /implementaudit / governed casual-build intake); easy invocation examples; IMPLEMENTAUDIT_CONTINUITY_SAVED format block; Optional Polish & Harden phase type note.
+- `skills/implementaudit/references/planning-depth.md`: Governed casual-build intake subsection under Invocation shapes; casual-build planning bar definition.
+- `skills/implementaudit/references/phase-design.md`: Rule P4-8 — Polish & Harden phase (optional terminal phase shape; default-recommended for full plans/public surfaces/package boundaries; skippable with rationale; no new features; covers cleanliness, identity hygiene, generated artifact freshness, proof-boundary wording).
 - `scripts/check-planner-stages.sh`: 2 new require_in_file checks for governed casual-build intake.
 - `scripts/check-routing.sh`: "governed casual-build intake" added to routing definitions check.
 - `tests/continuity.test.sh`: extended to 34/34 (was 25/25; +7 IMPLEMENTAUDIT_CONTINUITY_SAVED/override-prevention checks; +2 scenario 3 checks).
@@ -177,8 +209,8 @@ schema evidence proved four-component plugin manifest versions are accepted.
 ### Post-Release Repair (2026-06-08): Docs Portal Coherence and Prose Quality
 
 - `scripts/build-docs-portal.py`: fixed `render_callout` — callout titles now use `inline_md()` (not bare `esc()`) so backtick code spans render as `<code>` elements; trailing period stripped before appending the canonical period, eliminating double-period rendering (`..`) on all callout titles. Swapped Default Behavior and Usage Examples in SIDEBAR_GROUPS Method group (examples now precede abstract behavior spec for operator readers).
-- `docs/portal/onboarding.md`: 8 coherence fixes — (1) "does not mean" list reformatted from redundant "Not ..." prefix to `Term — explanation` pattern; (2) Comparison subheading "absorbs" changed to "Behaviors shared with staged-goal runners"; (3) Usage Examples swapped to precede Default Behavior; (4) Terminology table: added continuity preload (5-source priority order) and continuity writeback (`CONTINUITY_DECISION` five options, `IMPLEMENTAUDIT_CONTINUITY_SAVED`); (5) ydqyq-audit-action example clarified: "patching owner/source is a ydqyq-audit-action; a passing CI check is evidence but does not itself mutate the audit object"; (6) Evidence and Audit Trail: added coherence-polish ledger reference and corrected diagrams line to name all three Mermaid files; (7) Audit Status: "Comparator note" replaced with "Methodology scope" wording; (8) source cleanup only (no callout double-period in source; generator fix handles all cases).
-- `docs/audits/v0.2.8.0-docs-portal-coherence-polish.md` (new): 8-finding coherence and prose quality ledger. Records what was found, changed, and intentionally left alone. Remaining visual risks: install-section ambiguity (deferred), table density on narrow viewports (deferred), screenshot proof (unverified — no browser tooling).
+- `docs/portal/onboarding.md`: 8 coherence fixes — (1) "does not mean" list reformatted from redundant "Not ..." prefix to `Term — explanation` pattern; (2) Comparison subheading "absorbs" changed to "Behaviors shared with staged-goal runners"; (3) Usage Examples swapped to precede Default Behavior; (4) Terminology table: added continuity preload (5-source priority order) and continuity writeback (`CONTINUITY_DECISION` five options, `IMPLEMENTAUDIT_CONTINUITY_SAVED`); (5) ydqyq-audit-action example clarified: "patching owner/source is a ydqyq-audit-action; a passing CI check is evidence but does not itself mutate the audit object"; (6) Evidence and Audit Trail: added coherence-polish ledger reference and corrected diagrams line to name all three Mermaid files; (7) Audit Status: "Methodology scope" replaced with "Methodology scope" wording; (8) source cleanup only (no callout double-period in source; generator fix handles all cases).
+- `docs/audits/archive/v0.2.8.0-docs-portal-coherence-polish.md` (new): 8-finding coherence and prose quality ledger. Records what was found, changed, and intentionally left alone. Remaining visual risks: install-section ambiguity (deferred), table density on narrow viewports (deferred), screenshot proof (unverified — no browser tooling).
 - `docs/audits/INDEX.md`: updated with coherence-polish audit paragraph.
 
 ### Post-Release Repair (2026-06-08): Docs Portal Academic/Content-Model
@@ -200,22 +232,22 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Added
 
-- `skills/references/lean-operating-discipline.md` (ships in package): Lean/TPS concept-to-behavior mapping table for 20 concepts (5S, Kaizen, Hansei, Jidoka, Gemba, Nemawashi, Muda/Mura/Muri, DMAIC, DMADV, Poka-yoke, etc.). Each concept maps to auditable IMPLEMENTAUDIT runtime behavior with owner/source and evidence check. Evidence boundaries section: no sigma-level, DPMO, or certification claims. Lean terms are not decorative labels.
-- `skills/templates/PROTOCOL.md`: added 5S_CHECK gate to Step 9 (Seiri/Seiton/Seiso/Seiketsu/Shitsuke, all five pillars recorded as clean/deferred/blocked); added Jidoka stop-the-line chain (8-step: Andon → FAILURE_PROBE → Hansei → 5 Whys → countermeasure → Kaizen standardization → re-run evidence → close/block/defer/handoff); added Nemawashi owner-decision gate (surface consequential assumptions before Stage 7 or phase dispatch).
-- `skills/templates/THINKING.md`: added Lean quality route section (DMAIC/DMADV structured fields); added Muda/Mura/Muri register (Items + Disposition per waste type).
-- `skills/templates/phase-goal.txt`: added `Quality route:` field (DMAIC / DMADV / PDCA / 5S / mixed / not applicable).
-- `skills/references/routing.md`: added DMAIC brownfield routing (Define→Measure→Analyze→Improve→Control with evidence boundaries); DMADV greenfield routing (Define→Measure→Analyze→Design→Verify with evidence boundaries); mixed DMAIC+DMADV pattern; DMAIC/DMADV routing decision table.
+- `skills/implementaudit/references/lean-operating-discipline.md` (ships in package): Lean/TPS concept-to-behavior mapping table for 20 concepts (5S, Kaizen, Hansei, Jidoka, Gemba, Nemawashi, Muda/Mura/Muri, DMAIC, DMADV, Poka-yoke, etc.). Each concept maps to auditable IMPLEMENTAUDIT runtime behavior with owner/source and evidence check. Evidence boundaries section: no sigma-level, DPMO, or certification claims. Lean terms are not decorative labels.
+- `skills/implementaudit/templates/PROTOCOL.md`: added 5S_CHECK gate to Step 9 (Seiri/Seiton/Seiso/Seiketsu/Shitsuke, all five pillars recorded as clean/deferred/blocked); added Jidoka stop-the-line chain (8-step: Andon → FAILURE_PROBE → Hansei → 5 Whys → countermeasure → Kaizen standardization → re-run evidence → close/block/defer/handoff); added Nemawashi owner-decision gate (surface consequential assumptions before Stage 7 or phase dispatch).
+- `skills/implementaudit/templates/THINKING.md`: added Lean quality route section (DMAIC/DMADV structured fields); added Muda/Mura/Muri register (Items + Disposition per waste type).
+- `skills/implementaudit/templates/phase-goal.txt`: added `Quality route:` field (DMAIC / DMADV / PDCA / 5S / mixed / not applicable).
+- `skills/implementaudit/references/routing.md`: added DMAIC brownfield routing (Define→Measure→Analyze→Improve→Control with evidence boundaries); DMADV greenfield routing (Define→Measure→Analyze→Design→Verify with evidence boundaries); mixed DMAIC+DMADV pattern; DMAIC/DMADV routing decision table.
 - `scripts/check-lean-discipline.sh`: poka-yoke checker (10 structural requirements): lean-operating-discipline.md exists and is load-bearing, 5S in PROTOCOL.md, Jidoka chain in PROTOCOL.md, Nemawashi in PROTOCOL.md, Muda/Mura/Muri in THINKING.md, DMAIC/DMADV in THINKING.md and routing.md, Quality route in phase-goal.txt, no certification overclaims, required fixtures exist, no general Lean essays in skills/.
 - `tests/lean-discipline.test.sh`: 9 test cases (1 positive + 8 negative) verifying the poka-yoke checker catches each missing structural requirement.
 - `fixtures/lean/brownfield-dmaic-release-repair.md`: DMAIC fixture (ZIP_STORED compression bug: Define→Measure→Analyze→Improve→Control).
 - `fixtures/lean/brownfield-dmaic-stale-docs.md`: DMAIC fixture (stale README Mermaid diagrams).
 - `fixtures/lean/greenfield-dmadv-new-runtime-helper.md`: DMADV fixture (check-lean-discipline.sh as new governed artifact).
 - `fixtures/lean/mixed-dmaic-dmadv-package-boundary.md`: mixed DMAIC+DMADV fixture (package boundary repair + new audit doc).
-- `docs/audits/v0.2.7.0-lean-operating-discipline.md`: audit ledger classifying 20 Lean concepts: 5 already-covered, 2 strengthened, 11 adapted, 0 intentionally-rejected, 0 deferred.
-- `skills/references/lean-operating-discipline.md` extended with `## Graphify terrain leverage` section (Seiri/Seiton/Seiso/Muda/DMAIC/DMADV → Graphify query use + live-file confirmation required) and `## ActiveGraph custody events` section (full event table for IMPLEMENTAUDIT-defined custom events, custody boundary rules, and Capability Ledger narrow-entry requirements).
-- `skills/templates/THINKING.md`: extended `## Optional sidecars` with Lean-specific Graphify terrain plan fields (Seiri/Seiton/Seiso/Muda/DMAIC/DMADV queries) and ActiveGraph custody plan fields (events list, custody store location, Capability Ledger format).
-- `skills/templates/PROTOCOL.md`: added `## Sidecars and continuity` Graphify Lean leverage rules and ActiveGraph Lean custody rules (Graphify cannot close criteria without live-file confirmation; ActiveGraph custody cannot close correctness criteria without Smoke B; sidecar absence non-blocking).
-- `skills/templates/phase-goal.txt`: expanded Graphify/ActiveGraph fields to include terrain used/skipped/absent/stale/unauthorized, live-file confirmation required, custody used/skipped/absent, evidence boundary, and sidecar outputs exclusion assertions.
+- `docs/audits/archive/v0.2.7.0-lean-operating-discipline.md`: audit ledger classifying 20 Lean concepts: 5 already-covered, 2 strengthened, 11 adapted, 0 intentionally-rejected, 0 deferred.
+- `skills/implementaudit/references/lean-operating-discipline.md` extended with `## Graphify terrain leverage` section (Seiri/Seiton/Seiso/Muda/DMAIC/DMADV → Graphify query use + live-file confirmation required) and `## ActiveGraph custody events` section (full event table for IMPLEMENTAUDIT-defined custom events, custody boundary rules, and Capability Ledger narrow-entry requirements).
+- `skills/implementaudit/templates/THINKING.md`: extended `## Optional sidecars` with Lean-specific Graphify terrain plan fields (Seiri/Seiton/Seiso/Muda/DMAIC/DMADV queries) and ActiveGraph custody plan fields (events list, custody store location, Capability Ledger format).
+- `skills/implementaudit/templates/PROTOCOL.md`: added `## Sidecars and continuity` Graphify Lean leverage rules and ActiveGraph Lean custody rules (Graphify cannot close criteria without live-file confirmation; ActiveGraph custody cannot close correctness criteria without Smoke B; sidecar absence non-blocking).
+- `skills/implementaudit/templates/phase-goal.txt`: expanded Graphify/ActiveGraph fields to include terrain used/skipped/absent/stale/unauthorized, live-file confirmation required, custody used/skipped/absent, evidence boundary, and sidecar outputs exclusion assertions.
 - `scripts/check-lean-discipline.sh`: extended with 2 new structural requirements (11. Graphify terrain leverage section, 12. ActiveGraph custody events section) — sidecar leverage cannot remain prose-only.
 - `tests/lean-discipline.test.sh`: extended to 11/11 with 2 new negative cases (Graphify terrain section missing, ActiveGraph custody events section missing).
 - `fixtures/lean/sidecar-graphify-absent-markdown-fallback.md`: sidecar-absent scenario — Markdown/Gemba fallback remains valid; AUDIT_COMPLETE not blocked.
@@ -226,23 +258,23 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Changed
 
-- `skills/SKILL.md`: updated `description` frontmatter and opening body to make deep planning and phase-by-phase execution until terminal audit closure or audited handoff explicit in the canonical skill identity. Added the sentence: "IMPLEMENTAUDIT plans deeply and executes repo work phase-by-phase until terminal audit closure or an explicit audited handoff. It makes repo changes that are auditable, bounded, owner/source-grounded, reversible, and not overclaimed."
+- `skills/implementaudit/SKILL.md`: updated `description` frontmatter and opening body to make deep planning and phase-by-phase execution until terminal audit closure or audited handoff explicit in the canonical skill identity. Added the sentence: "IMPLEMENTAUDIT plans deeply and executes repo work phase-by-phase until terminal audit closure or an explicit audited handoff. It makes repo changes that are auditable, bounded, owner/source-grounded, reversible, and not overclaimed."
 - `README.md`: updated opening paragraph and "What it is" section to match SKILL.md identity; added "Blocked work ends in an explicit audited handoff, not fake completion" boundary statement; preserved "not a generic autonomous build runner" distinction.
 - `AGENTS.md`: extended routing rule to include deep-planning and phase-execution identity; guards against regression to "audit-only" or "generic autonomous builder" framing.
-- `skills/references/planning-depth.md`: added one-line terminal closure alignment to Depth rule section.
-- `skills/references/phase-design.md`: added one-line phase execution continuity statement to opening paragraph.
+- `skills/implementaudit/references/planning-depth.md`: added one-line terminal closure alignment to Depth rule section.
+- `skills/implementaudit/references/phase-design.md`: added one-line phase execution continuity statement to opening paragraph.
 - Plugin manifest: `0.2.6` → `0.2.7`.
 
 ## [v0.2.6.0] - 2026-06-07
 
 ### Added
 
-- Added `skills/scripts/validate-phase.sh` 19-failure-mode checks: IMPLEMENTAUDIT_PHASE_START/VERIFY/DONE, AGENTS_UPDATE_DECISION, CONTINUITY_DECISION, Run root, Baseline ref, Owner/source, Task, Type, Depends on phases, Work section, Acceptance criteria (non-placeholder), Mandatory commands section (non-placeholder), Evidence required section (non-placeholder), Rollback/defer path, Markdown fallback status. `tests/phase-validation.test.sh` updated to 20/20 (1 positive + 19 failure modes). `fixtures/phase-validation/valid-full-spec.md` added as positive test fixture.
-- Added `scripts/check-forbidden-terms.sh`: generic forbidden-string checker accepting caller-supplied terms at runtime (never embedded in source). Wired into AGENTS.md identity hygiene release-gate instructions.
-- Added `skills/references/phase-design.md` §"Phase shape requirements" with 7 rules: P4-1 hardening-phase requirement, P4-2 visual polish evidence, P4-3 brownfield safety-net, P4-4 package/release split, P4-5 provenance boundary fresh Smoke Before Claim, P4-6 hardening scope restriction, P4-7 skip documentation.
+- Added `skills/implementaudit/scripts/validate-phase.sh` 19-failure-mode checks: IMPLEMENTAUDIT_PHASE_START/VERIFY/DONE, AGENTS_UPDATE_DECISION, CONTINUITY_DECISION, Run root, Baseline ref, Owner/source, Task, Type, Depends on phases, Work section, Acceptance criteria (non-placeholder), Mandatory commands section (non-placeholder), Evidence required section (non-placeholder), Rollback/defer path, Markdown fallback status. `tests/phase-validation.test.sh` updated to 20/20 (1 positive + 19 failure modes). `fixtures/phase-validation/valid-full-spec.md` added as positive test fixture.
+- Added `scripts/public-claim boundary check`: generic forbidden-string checker accepting caller-supplied terms at runtime (never embedded in source). Wired into AGENTS.md identity hygiene release-gate instructions.
+- Added `skills/implementaudit/references/phase-design.md` §"Phase shape requirements" with 7 rules: P4-1 hardening-phase requirement, P4-2 visual polish evidence, P4-3 brownfield safety-net, P4-4 package/release split, P4-5 provenance boundary fresh Smoke Before Claim, P4-6 hardening scope restriction, P4-7 skip documentation.
 - Added 5 phase-shape fixture outlines at `fixtures/phase-design/`: simple-greenfield, brownfield-mutation, ui-feature, package-release, full-hardening-run.
-- Added concrete 16-step per-phase execution loop to `skills/templates/PROTOCOL.md`.
-- Added exact 3-strike failure recovery (FAILURE_PROBE / FAILURE_ESCALATE / FAILURE_HANDOFF) with step-by-step protocol to `PROTOCOL.md`; updated `skills/references/transcript-contract.md`.
+- Added concrete 16-step per-phase execution loop to `skills/implementaudit/templates/PROTOCOL.md`.
+- Added exact 3-strike failure recovery (FAILURE_PROBE / FAILURE_ESCALATE / FAILURE_HANDOFF) with step-by-step protocol to `PROTOCOL.md`; updated `skills/implementaudit/references/transcript-contract.md`.
 - Added final audit exactness to `PROTOCOL.md`: AUDIT_START (round/criteria/command), phase completeness check, mandatory command re-run, coverage math `re_verified/(re_verified+trust_prior)`, trust-prior > 30% warning, 3-round audit-fix loop, AUDIT_HANDOFF path, ordering rules.
 - Added mid-run interruption handling to `PROTOCOL.md`: IMPLEMENTAUDIT_PAUSE marker, 4-option menu (Resume/Revise spec/Skip phase/Stop), resume contract (5 steps), STATE.md INTERRUPTED state.
 - Added 8 dispatch-prep steps to `SKILL.md` Stage 5: STATE.md READY_TO_DISPATCH, baseline ref from git, PROTOCOL.md copy, repo-state.sh evidence, phase-spec existence check, validate-phase.sh on all specs, command dedup, handoff gated on Stage 6.5 PREFLIGHT_GREEN.
@@ -250,32 +282,32 @@ schema evidence proved four-component plugin manifest versions are accepted.
 - Added Stage 7 gating clause: handoff only after Stage 5 dispatch-prep and Stage 6.5 PREFLIGHT_GREEN.
 - Added behavioral continuity tests to `tests/continuity.test.sh` (25/25): 6 scenarios covering memory-absent run, no-write-warranted, safe-note frontmatter, unsafe-content rejection, final-project ordering, no-boundary-crossing. 6 fixtures at `fixtures/continuity/`.
 - Added behavioral sidecar tests to `tests/sidecars.test.sh` (24/24): 7 scenarios covering Graphify absent/fresh/stale, ActiveGraph absent/unauthorized/authorized, sidecar-overclaim-rejected. 7 fixtures at `fixtures/sidecars/`.
-- Deepened `skills/scripts/detect-stack.sh`: package-scripts (npm script enumeration), python-hints (pyproject.toml/requirements.txt), language/framework hints (extension counts, framework config files), source/test directory layout, config/infra inventory.
-- Deepened `skills/scripts/summarize-repo.sh`: test-surface-summary, file-extension-counts, recently-churned-files, largest-tracked-files, likely-generated-outputs, mandatory-command-candidates from detected scripts.
-- Added AGENTS.md §"Identity hygiene release-gate" with anti-repeat rule (v0.2.6.0), check-forbidden-terms.sh usage, and release-gate protocol.
-- Added `docs/audits/v0.2.6.0-operational-parity-hardening.md`: 12 gap classes (G1-G12), all ADAPTED or INTENTIONALLY REJECTED with documented alternative, identity hygiene check section.
+- Deepened `skills/implementaudit/scripts/detect-stack.sh`: package-scripts (npm script enumeration), python-hints (pyproject.toml/requirements.txt), language/framework hints (extension counts, framework config files), source/test directory layout, config/infra inventory.
+- Deepened `skills/implementaudit/scripts/summarize-repo.sh`: test-surface-summary, file-extension-counts, recently-churned-files, largest-tracked-files, likely-generated-outputs, mandatory-command-candidates from detected scripts.
+- Added AGENTS.md §"Identity hygiene release-gate" with anti-repeat rule (v0.2.6.0), public-claim boundary check usage, and release-gate protocol.
+- Added `docs/audits/archive/v0.2.6.0-operational-parity-hardening.md`: 12 gap classes (G1-G12), all ADAPTED or INTENTIONALLY REJECTED with documented alternative, identity hygiene check section.
 - Updated `docs/audits/INDEX.md` with v0.2.6.0 entry.
 - Updated CI (`validate.yml`): removed "Validate phase template" step (template has placeholder content by design; install-copy-smoke.test.sh covers validator execution).
 
 ### Changed
 
-- `skills/templates/phase-goal.txt` expanded from thin mnemonic skeleton to full executable spec with all required structural sections (Phase N/TOTAL, Task, Type, Run root, Baseline ref, Owner/source, Audit object, Auditing operation, Terminal object state, Thinking ref, Mandatory commands, Acceptance criteria, Evidence required, Depends on phases, Why, Work, Acceptance criteria block, Mandatory commands block, Evidence required block, Rollback, Graphify/ActiveGraph/Markdown fallback, Cleanliness override, Notes, IMPLEMENTAUDIT_PHASE_VERIFY full block, AGENTS_UPDATE_DECISION, CONTINUITY_DECISION, IMPLEMENTAUDIT_PHASE_DONE).
+- `skills/implementaudit/templates/phase-goal.txt` expanded from thin mnemonic skeleton to full executable spec with all required structural sections (Phase N/TOTAL, Task, Type, Run root, Baseline ref, Owner/source, Audit object, Auditing operation, Terminal object state, Thinking ref, Mandatory commands, Acceptance criteria, Evidence required, Depends on phases, Why, Work, Acceptance criteria block, Mandatory commands block, Evidence required block, Rollback, Graphify/ActiveGraph/Markdown fallback, Cleanliness override, Notes, IMPLEMENTAUDIT_PHASE_VERIFY full block, AGENTS_UPDATE_DECISION, CONTINUITY_DECISION, IMPLEMENTAUDIT_PHASE_DONE).
 - `tests/install-copy-smoke.test.sh`: replaced `validate-phase.sh` call against template with inline filled smoke spec (template has placeholder content by design).
 - Plugin manifest metadata: `0.2.5` → `0.2.6` (pending release authorization after dogfood gate).
 
 ### Safety
 
-- Comparator evidence used as read-only reference only; the external staged-goal comparator's proper name, slash command, marker names, artifact paths, and memory markers were not imported into any tracked repo file, commit message, branch name, tag name, PR title, or release note.
+- Reference evidence used as read-only reference only; the external staged-goal reference's proper name, slash command, marker names, artifact paths, and memory markers were not imported into any tracked repo file, commit message, branch name, tag name, PR title, or release note.
 - All 12 gap classes resolved without importing external identity.
-- `check-forbidden-terms.sh` uses caller-supplied terms at runtime; the forbidden term is never embedded in source.
+- `public-claim boundary check` uses caller-supplied terms at runtime; the public-claim boundary term is never embedded in source.
 
 ## [v0.2.5.0] - 2026-06-07
 
 ### Added
 
-- Added a neutral v0.2.5.0 comparator gap-closure audit ledger at
-  `docs/audits/v0.2.5.0-external-staged-goal-runtime-gap-closure.md`.
-- Added native namespaced run-root claiming with `skills/scripts/claim-run.sh`
+- Added a neutral v0.2.5.0 reference gap-closure audit ledger at
+  `docs/audits/archive/v0.2.5.0-external-staged-goal-runtime-gap-closure.md`.
+- Added native namespaced run-root claiming with `skills/implementaudit/scripts/claim-run.sh`
   and `tests/claim-run.test.sh`.
 - Added focused tests for bounded continuity, sidecar boundaries, Capability
   Ledger evidence boundaries, and placeholder-only phase validation:
@@ -317,7 +349,7 @@ schema evidence proved four-component plugin manifest versions are accepted.
 ### Safety
 
 - Preserved IMPLEMENTAUDIT identity and native marker vocabulary; external
-  comparator package identity, artifact paths, marker names, and memory markers
+  reference package identity, artifact paths, marker names, and memory markers
   are not imported into tracked repo files.
 - Preserved Graphify as optional terrain/orientation evidence only and
   ActiveGraph as optional custody/event evidence only.
@@ -332,7 +364,7 @@ schema evidence proved four-component plugin manifest versions are accepted.
 ### Repair (post-release, 2026-06-07)
 
 **Primary root cause:** The original `.skill` archive had skill content nested under
-`skills/SKILL.md` (wrong root shape). Claude Desktop's import contract requires
+`skills/implementaudit/SKILL.md` (wrong root shape). Claude Desktop's import contract requires
 `SKILL.md` at archive root. The archive was accepted by the Codex installer
 (which reads from `skills/` explicitly) but rejected by Claude Desktop import with
 "malformed at root." No live Claude import was ever tested before release.
@@ -345,7 +377,7 @@ schema evidence proved four-component plugin manifest versions are accepted.
 - `scripts/install-codex-from-release.sh` updated for new root shape.
 - `scripts/install-claude-from-release.sh` updated for new root shape; usage
   relabeled as "file-copy workaround only — NOT Claude import proof."
-- `tests/release-asset.test.sh` updated; added regression guard: `skills/SKILL.md`
+- `tests/release-asset.test.sh` updated; added regression guard: `skills/implementaudit/SKILL.md`
   in archive is now a hard failure.
 - `tests/release-asset-install.test.sh`,
   `tests/release-asset-install-claude.test.sh`: sidecar test paths updated.
@@ -356,7 +388,7 @@ schema evidence proved four-component plugin manifest versions are accepted.
 - Added `tests/release-asset-install-claude.test.sh` for archive shape smoke.
 - Added Claude Desktop install path and boundaries to README §Install notes.
 - Added anti-repeat rule `LIVE_V0_2_5_0_CLAUDE_INSTALL_BROKEN` to AGENTS.md.
-- Added `docs/audits/v0.2.5.0-claude-install-repair.md` audit ledger.
+- Added `docs/audits/archive/v0.2.5.0-claude-install-repair.md` audit ledger.
 
 **Tag and asset repair:**
 - Tag `v0.2.5.0` moved from pre-repair commit `8df3c07c`
@@ -373,7 +405,7 @@ schema evidence proved four-component plugin manifest versions are accepted.
 ### Added
 
 - Added a v0.2.4.5 audit ledger at
-  `docs/audits/v0.2.4.5-graphify-activegraph-honesty.md`.
+  `docs/audits/archive/v0.2.4.5-graphify-activegraph-honesty.md`.
 - Installed Graphify and ActiveGraph into an isolated temporary Python
   environment for release-lane evidence:
   - Graphify CLI `0.8.32` from PyPI package `graphifyy`.
@@ -408,12 +440,12 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Added
 
-- Added native Stage 0-7 planner semantics to `skills/SKILL.md` for goal
+- Added native Stage 0-7 planner semantics to `skills/implementaudit/SKILL.md` for goal
   synthesis and phased audit closure: context/repo-state detection, audit
   intake/routing, Recon/Gemba, risk/dependency thinking, phase decomposition,
   runtime artifact writing, self-critique, pre-flight smoke, and one
   ready-to-paste handoff when not already embedded.
-- Added `skills/templates/THINKING.md` as a reviewable runtime planning artifact
+- Added `skills/implementaudit/templates/THINKING.md` as a reviewable runtime planning artifact
   for route, owner/source, risks, dependencies, rollback, evidence strategy,
   generated artifacts, optional sidecar boundaries, and pre-flight caveats.
 - Added `scripts/check-planner-stages.sh` and `tests/planner-stages.test.sh`
@@ -424,7 +456,7 @@ schema evidence proved four-component plugin manifest versions are accepted.
   release asset can be checksum-verified and installed into a temporary
   Codex-style skill home during validation.
 - Added a v0.2.4.0 audit ledger at
-  `docs/audits/v0.2.4.0-planner-stage-hardening.md`.
+  `docs/audits/archive/v0.2.4.0-planner-stage-hardening.md`.
 - Added `scripts/check-readme-toc.sh` and wired it into package validation so
   README Contents anchors are checker-validated.
 
@@ -434,7 +466,7 @@ schema evidence proved four-component plugin manifest versions are accepted.
   flow, loopability/re-entry, post-release correction framing, artifacts, and
   validation/release-evidence boundaries after the `v0.2.3.0` release.
 - Carried forward the existing post-release README/onboarding audit ledger at
-  `docs/audits/readme-audit_202606052026.md` as prior evidence for the
+  `docs/audits/archive/readme-audit_202606052026.md` as prior evidence for the
   v0.2.4.0 onboarding polish, without claiming that v0.2.4.0 added that file.
 - Refined source-generated README Mermaid diagrams after screenshot review so
   they use standard GitHub-renderable Mermaid without custom init/theme
@@ -480,7 +512,7 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 - Preserved IMPLEMENTAUDIT identity as audit-governed implementation, not a
   generic autonomous build runner.
-- Preserved canonical behavior source in `skills/SKILL.md`; root
+- Preserved canonical behavior source in `skills/implementaudit/SKILL.md`; root
   `IMPLEMENTAUDIT.md` remains intentionally absent.
 - Preserved optional Graphify terrain and optional ActiveGraph custody
   boundaries; no install, indexing, quickstart, config, event store, or export
@@ -503,15 +535,15 @@ schema evidence proved four-component plugin manifest versions are accepted.
 ### Added
 
 - Added a native harness adaptation matrix at
-  `docs/audits/v0.2.3.0-harness-adaptation-matrix.md`, grounded in a fresh
-  read-only inventory of an external staged-goal comparator at commit
+  `docs/audits/archive/v0.2.3.0-harness-adaptation-matrix.md`, grounded in a fresh
+  read-only inventory of an external staged-goal reference at commit
   `86f1b0095ed1f6f9dc99f550a6053c931a4f96f4`.
-- Added `skills/scripts/repo-state.sh` and
-  `skills/references/repo-state-comparison.md` so final audit, deliverable,
+- Added `skills/implementaudit/scripts/repo-state.sh` and
+  `skills/implementaudit/references/repo-state-comparison.md` so final audit, deliverable,
   release-readiness, and cleanliness checks compare the baseline to the
   complete working tree, including committed-after-baseline, staged, unstaged,
   deleted, and untracked work.
-- Added `skills/scripts/validate-audit-spec.sh` plus valid/invalid audit-spec
+- Added `skills/implementaudit/scripts/validate-audit-spec.sh` plus valid/invalid audit-spec
   fixtures to check classification, owner/source, scope, constraints,
   acceptance, rollback, evidence, generated-surface, sidecar, and
   release/provenance boundary fields.
@@ -530,7 +562,7 @@ schema evidence proved four-component plugin manifest versions are accepted.
   validators, CI, release/provenance surfaces, optional sidecar roots, and
   likely regression surfaces.
 - Updated `AGENTS.md` with durable harness-adaptation rules: external staged
-  skills are comparator inputs only, useful concepts must be classified before
+  skills are reference inputs only, useful concepts must be classified before
   adaptation, and final audit evidence must include the complete working tree
   when a baseline is available.
 - Updated the execution-spine Mermaid source and regenerated README so the
@@ -550,7 +582,7 @@ schema evidence proved four-component plugin manifest versions are accepted.
 - Preserved IMPLEMENTAUDIT identity as audit-governed implementation, not a
   generic runner.
 - Preserved generated-source discipline: README Mermaid remains generated from
-  `docs/diagrams/*.mmd`; canonical skill behavior lives in `skills/SKILL.md`.
+  `docs/diagrams/*.mmd`; canonical skill behavior lives in `skills/implementaudit/SKILL.md`.
 - Removed the tracked root `IMPLEMENTAUDIT.md` behavior file by owner decision
   to avoid repo-name/file-name confusion. Prior mirror/pointer compatibility was
   intentionally replaced with a validator-enforced absence rule.
@@ -575,7 +607,7 @@ schema evidence proved four-component plugin manifest versions are accepted.
 ### Added
 
 - Added canonical greenfield, brownfield, and mixed-mode routing semantics in
-  `skills/references/routing.md`.
+  `skills/implementaudit/references/routing.md`.
 - Added greenfield intake requirements for owner/source, scope, non-scope,
   constraints, acceptance criteria, rollback/removal path, evidence plan,
   generated-artifact plan, sidecar status, and canonical-vs-sidecar boundaries.
@@ -685,7 +717,7 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Added
 
-- Added the flat packaged skill layout at `skills/SKILL.md`; the package
+- Added the flat packaged skill layout at `skills/implementaudit/SKILL.md`; the package
   migration originally synchronized it with a root compatibility file, which was
   later removed by owner decision in `v0.2.3.0`.
 - Added `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json` as

@@ -3,7 +3,7 @@
 Classification: mixed
 
 Owner/source:
-- `skills/scripts/example.sh`
+- `skills/implementaudit/scripts/example.sh`
 
 Scope:
 - Add a checker.

@@ -71,12 +71,12 @@ else
 fi
 
 T=$(make_temp)
-printf '# Runtime Terminology\n\n## Term Entries\n\n- Term: A3\n' > "$T/skills/references/runtime-terminology.md"
+printf '# Runtime Terminology\n\n## Term Entries\n\n- Term: A3\n' > "$T/skills/implementaudit/references/runtime-terminology.md"
 expect_checker_failure "$T" "TERMINOLOGY_GLOSSARY_FILE:" "should fail when runtime-terminology.md returns"
 rm -rf "$(dirname "$T")"
 
 T=$(make_temp)
-append_text "$T/skills/templates/THINKING.md" "VOC CTQ SIPOC FMEA STRIDE SOLID GRASP Control Plan."
+append_text "$T/skills/implementaudit/templates/THINKING.md" "VOC CTQ SIPOC FMEA STRIDE SOLID GRASP Control Plan."
 expect_checker_failure "$T" "TERMINOLOGY_GLOSSARY_ONLY:" "should fail on glossary-only term list"
 rm -rf "$(dirname "$T")"
 
@@ -96,22 +96,22 @@ expect_checker_failure "$T" "TERMINOLOGY_MISSING_NATIVE_PARENT:" "should fail wh
 rm -rf "$(dirname "$T")"
 
 T=$(make_temp)
-append_text "$T/skills/references/terminology-integration.md" "## Term Entries"
+append_text "$T/skills/implementaudit/references/terminology-integration.md" "## Term Entries"
 expect_checker_failure "$T" "TERMINOLOGY_TERM_ENTRY_DRIFT:" "should fail if thin contract becomes a term-entry glossary"
 rm -rf "$(dirname "$T")"
 
 T=$(make_temp)
-append_text "$T/skills/references/routing.md" "Use C4 to map architecture."
+append_text "$T/skills/implementaudit/references/routing.md" "Use C4 to map architecture."
 expect_checker_failure "$T" "TERMINOLOGY_DEFERRED_C4_ACTIVE:" "should fail when deferred C4 becomes active runtime guidance"
 rm -rf "$(dirname "$T")"
 
 T=$(make_temp)
-append_text "$T/skills/templates/THINKING.md" "FMEA-lite uses numeric RPN scores."
+append_text "$T/skills/implementaudit/templates/THINKING.md" "FMEA-lite uses numeric RPN scores."
 expect_checker_failure "$T" "TERMINOLOGY_RPN_THEATER:" "should fail on numeric RPN theater"
 rm -rf "$(dirname "$T")"
 
 T=$(make_temp)
-append_text "$T/skills/templates/THINKING.md" "FMEA-lite improves the plan."
+append_text "$T/skills/implementaudit/templates/THINKING.md" "FMEA-lite improves the plan."
 expect_checker_failure "$T" "TERMINOLOGY_ORPHAN_TERM:" "should fail on orphan term without runtime mapping"
 rm -rf "$(dirname "$T")"
 

@@ -2,7 +2,7 @@
 
 This fixture represents a transcript that is valid because it contains no
 external memory markers (MEMORY_SAVED, GOAL_ACHIEVED, or similar external
-comparator marker names) in any position.
+foreign marker names) in any position.
 
 A transcript that contains such markers has allowed external identity to cross
 into the native IMPLEMENTAUDIT surface. This must be detected and rejected.

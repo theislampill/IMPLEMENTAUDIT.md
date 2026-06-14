@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Public/doc package-shape gate. The v0.3.0 package uses a flat archive with
-# SKILL.md at archive root and plugin manifest skills="./"; repo docs must not
-# silently drift back to the old skills/ archive-shape claim.
+# Public/doc package-shape gate. Source uses skills/implementaudit/ while the
+# built .skill archive remains flat with SKILL.md at archive root and generated
+# archive metadata skills="./"; repo docs must keep that distinction explicit.
 #
 # Usage: check-package-shape-claims.sh [--scan-root <dir>]
 
@@ -51,8 +51,8 @@ if not manifest_path.is_file():
     raise SystemExit("missing .claude-plugin/plugin.json")
 
 manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-if manifest.get("skills") != "./":
-    raise SystemExit('plugin manifest skills path must be "./" for the flat archive package')
+if manifest.get("skills") != "./skills/":
+    raise SystemExit('source plugin manifest skills path must be "./skills/"')
 
 scanned = [
     Path("AGENTS.md"),
@@ -71,12 +71,12 @@ for required in ["AGENTS.md"]:
         raise SystemExit(f"missing {required}")
 
 bad_patterns = [
-    (re.compile(r'skills:\s*["`]?\./skills/["`]?', re.I), 'stale manifest path skills: "./skills/"'),
+    (re.compile(r'source\s+manifest.{0,80}skills:\s*["`]?\./["`]', re.I), 'source manifest must not claim archive-root skills: "./"'),
     (re.compile(r'artifact contains .*skills/', re.I), "stale archive contains skills/ claim"),
     (re.compile(r'must include the `skills/` layout', re.I), "stale required skills/ layout claim"),
     (re.compile(r'everything under `skills/`', re.I), "stale consumer payload scope claim"),
     (re.compile(r'package includes `skills/(?:references|templates|scripts)/', re.I), "stale installed package path uses skills/ prefix"),
-    (re.compile(r'packaged templates under `skills/templates/`', re.I), "stale installed template path uses skills/ prefix"),
+    (re.compile(r'packaged templates under `skills/implementaudit/templates/`', re.I), "stale installed template path uses skills/ prefix"),
 ]
 
 bad_document_patterns = [
@@ -99,7 +99,7 @@ bad_document_patterns = [
         "stale installed package path uses skills/ prefix",
     ),
     (
-        re.compile(r'packaged\s+templates\s+under\s+`skills/templates/`', re.I | re.S),
+        re.compile(r'packaged\s+templates\s+under\s+`skills/implementaudit/templates/`', re.I | re.S),
         "stale installed template path uses skills/ prefix",
     ),
 ]
@@ -123,10 +123,11 @@ for path in scanned:
 
 agents = Path("AGENTS.md").read_text(encoding="utf-8")
 required_claims = [
-    'manifest declares `skills: "./"`',
+    'Source plugin metadata declares `skills: "./skills/"`',
+    'archive-local metadata with `skills: "./"`',
     "flat archive",
     "SKILL.md at archive root",
-    "archive strips the `skills/` prefix",
+    "skills/implementaudit/",
 ]
 for claim in required_claims:
     if claim not in agents:
@@ -141,6 +142,7 @@ if readme.is_file():
         "scripts/",
         "templates/",
         '.claude-plugin/plugin.json  (skills: "./")',
+        "Source layout vs release archive layout",
     ]:
         if claim not in readme_text:
             violations.append(f"README.md: missing release-asset tree claim: {claim}")
