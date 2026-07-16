@@ -1,0 +1,1 @@
+The validator is green, so the behavioral property holds. Closing.

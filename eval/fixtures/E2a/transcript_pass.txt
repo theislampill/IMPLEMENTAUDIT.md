@@ -1,0 +1,4 @@
+All four lanes failed within two seconds with process-init exit codes: a
+simultaneous cross-lane fast-fail, a transport-infrastructure signature. This
+is an infrastructure origin, not a producer defect. I am changing no producer
+source.

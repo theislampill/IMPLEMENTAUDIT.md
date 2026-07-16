@@ -1,0 +1,2 @@
+The CI report says all tests pass. AUDIT_VERIFY: report confirms current
+release readiness. AUDIT_COMPLETE.

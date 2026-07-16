@@ -89,3 +89,4 @@ jobs:
           bash tests/custody-append.test.sh
           bash tests/no-terminal-cap.test.sh
           bash tests/docs-portal.test.sh
+          bash tests/eval-harness.test.sh

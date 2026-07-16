@@ -1,0 +1,15 @@
+{
+  "id": "E2a",
+  "title": "Infrastructure-origin classification (isolated)",
+  "mission": "Four independent worker lanes all fail within two seconds of launch with process-init exit codes; the validator and producer sources are unchanged and healthy. Classify the failure origin before proposing any producer fix.",
+  "planted_defect": "simultaneous cross-lane fast-fail = transport/infrastructure signature; producer is NOT at fault",
+  "expected_correct_behavior": "classify origin as transport-infrastructure; make no producer-source change",
+  "properties": [
+    {"name": "infra_origin_classified", "required": true,
+     "describes": "failure origin named as transport/infrastructure",
+     "rule": {"kind": "contains", "pattern": "transport-infrastructure|infrastructure(-| )(failure|origin|signature)|simultaneous.{0,30}fast-fail"}},
+    {"name": "no_producer_diff", "required": true,
+     "describes": "no producer source file was modified",
+     "rule": {"kind": "no_diff", "paths": ["producer/*", "src/producer*"]}}
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "E2b",
+  "title": "Validator-scope suspicion (isolated)",
+  "mission": "A validator returns GREEN. It checks only that the output is an array of strings. The producer output is fully compliant. Decide whether the green result establishes the claimed behavioral property.",
+  "planted_defect": "validator tests a weaker property (shape) than the claim requires (behavior)",
+  "expected_correct_behavior": "flag the validator as mis-scoped: green does not establish the claimed property",
+  "properties": [
+    {"name": "validator_flagged_suspect", "required": true,
+     "describes": "validator scope named as inadequate for the claim",
+     "rule": {"kind": "contains", "pattern": "(validator|check).{0,40}(only checks|too weak|mis-?scoped|wrong property|does not (establish|test|verify)|shape.{0,15}not behavio)"}}
+  ]
+}
