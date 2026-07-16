@@ -1,3 +1,4 @@
+ASSISTANT:
 Two independent origins: the lanes show a transport-infrastructure signature
 (simultaneous fast-fail), and separately the validator only checks
 array-of-strings and is mis-scoped. Recording both as linked findings.

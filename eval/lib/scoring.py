@@ -19,6 +19,18 @@ A rule is a JSON object with a "kind" and parameters. Supported kinds:
 The transcript is the model/agent output text. `summary` is an optional dict a
 runner may attach (e.g. {"changed_files": [...]}) derived mechanically from the
 run's working tree; scoring never infers it from prose.
+
+Role awareness (scorer integrity):
+  A transcript is a sequence of role-tagged segments. Lines beginning with
+  `USER:`, `ASSISTANT:`, `TOOL:`, or `SYSTEM:` (case-insensitive) open a
+  segment of that role; unmarked leading text defaults to `assistant` for
+  backward compatibility. By default a rule matches ONLY assistant-authored,
+  current-turn text, with quoted lines (leading `>`), fenced code blocks, and
+  everything after a nested-transcript sentinel (`----- BEGIN QUOTED
+  TRANSCRIPT -----`) removed. This prevents passing a fixture by placing the
+  expected markers in the user prompt, in a quotation, or in a pasted
+  transcript. A rule may opt into a different role via {"role": "..."} or into
+  quotes via {"include_quotes": true}.
 """
 from __future__ import annotations
 
@@ -27,6 +39,63 @@ import re
 import sys
 from fnmatch import fnmatch
 
+_ROLE_RE = re.compile(r"^\s*(user|assistant|tool|system)\s*:\s*$|^\s*(user|assistant|tool|system)\s*:\s",
+                      re.IGNORECASE)
+_NESTED_SENTINEL = re.compile(r"-{3,}\s*BEGIN QUOTED TRANSCRIPT", re.IGNORECASE)
+
+
+def parse_segments(transcript):
+    """Split into [(role, text)] by ROLE: line prefixes; unmarked -> assistant."""
+    segments = []
+    role = "assistant"
+    buf = []
+
+    def flush():
+        if buf:
+            segments.append((role, "\n".join(buf)))
+
+    for line in transcript.splitlines():
+        m = _ROLE_RE.match(line)
+        if m:
+            flush()
+            buf = []
+            role = (m.group(1) or m.group(2)).lower()
+            # keep any content after "ROLE:" on the same line
+            rest = line.split(":", 1)[1].strip() if ":" in line else ""
+            if rest:
+                buf.append(rest)
+        else:
+            buf.append(line)
+    flush()
+    return segments
+
+
+def authoritative_text(transcript, role="assistant", include_quotes=False):
+    """Concatenate segments of `role`, dropping quotes/code/nested transcripts
+    unless include_quotes is set."""
+    out = []
+    in_fence = False
+    for seg_role, text in parse_segments(transcript):
+        if seg_role != role:
+            continue
+        for line in text.splitlines():
+            if _NESTED_SENTINEL.search(line):
+                break  # everything after a pasted transcript sentinel is non-authoritative
+            stripped = line.lstrip()
+            if stripped.startswith("```"):
+                in_fence = not in_fence
+                continue
+            if not include_quotes and (in_fence or stripped.startswith(">")):
+                continue
+            out.append(line)
+    return "\n".join(out)
+
+
+def _text_for(rule, transcript):
+    return authoritative_text(transcript,
+                              role=rule.get("role", "assistant"),
+                              include_quotes=rule.get("include_quotes", False))
+
 
 def _search(pattern, text):
     return re.search(pattern, text, re.IGNORECASE | re.MULTILINE)
@@ -34,39 +103,48 @@ def _search(pattern, text):
 
 def eval_rule(rule, transcript, summary):
     kind = rule.get("kind")
-    if kind == "contains":
-        m = _search(rule["pattern"], transcript)
-        return (bool(m), m.group(0)[:80] if m else "")
-    if kind == "absent":
-        m = _search(rule["pattern"], transcript)
-        return (m is None, "" if m is None else m.group(0)[:80])
-    if kind == "order":
-        a = _search(rule["first"], transcript)
-        b = _search(rule["then"], transcript)
-        ok = bool(a and b and a.start() < b.start())
-        return (ok, f"first@{a.start() if a else '-'} then@{b.start() if b else '-'}")
-    if kind == "before_marker":
-        p = _search(rule["pattern"], transcript)
-        mk = _search(rule["marker"], transcript)
-        # PASS if pattern present and (no marker OR pattern precedes first marker)
-        ok = bool(p) and (mk is None or p.start() < mk.start())
-        return (ok, f"pattern@{p.start() if p else '-'} marker@{mk.start() if mk else '-'}")
+    # Repository-state rules read `summary` (mechanical working-tree facts),
+    # never prose. Text rules read only role-scoped authoritative text.
     if kind == "no_diff":
         changed = (summary or {}).get("changed_files", [])
         globs = rule["paths"]
         hits = [f for f in changed if any(fnmatch(f, g) for g in globs)]
         return (len(hits) == 0, ",".join(hits[:5]))
+    if kind in ("all_of", "any_of"):
+        results = [eval_rule(r, transcript, summary) for r in rule["rules"]]
+        ok = (all if kind == "all_of" else any)(r[0] for r in results)
+        return (ok, "; ".join(f"{'Y' if r[0] else 'N'}:{r[1]}" for r in results))
+
+    text = _text_for(rule, transcript)
+    if kind == "contains":
+        m = _search(rule["pattern"], text)
+        return (bool(m), m.group(0)[:80] if m else "")
+    if kind == "absent":
+        m = _search(rule["pattern"], text)
+        return (m is None, "" if m is None else m.group(0)[:80])
+    if kind == "order":
+        a = _search(rule["first"], text)
+        b = _search(rule["then"], text)
+        ok = bool(a and b and a.start() < b.start())
+        return (ok, f"first@{a.start() if a else '-'} then@{b.start() if b else '-'}")
+    if kind == "before_marker":
+        p = _search(rule["pattern"], text)
+        mk = _search(rule["marker"], text)
+        # PASS if pattern present and (no marker OR pattern precedes first marker)
+        ok = bool(p) and (mk is None or p.start() < mk.start())
+        return (ok, f"pattern@{p.start() if p else '-'} marker@{mk.start() if mk else '-'}")
     if kind == "count_at_least":
-        matches = re.findall(rule["pattern"], transcript, re.IGNORECASE | re.MULTILINE)
+        matches = re.findall(rule["pattern"], text, re.IGNORECASE | re.MULTILINE)
         return (len(matches) >= rule["n"], f"{len(matches)}>={rule['n']}")
-    if kind == "all_of":
-        results = [eval_rule(r, transcript, summary) for r in rule["rules"]]
-        ok = all(r[0] for r in results)
-        return (ok, "; ".join(f"{'Y' if r[0] else 'N'}:{r[1]}" for r in results))
-    if kind == "any_of":
-        results = [eval_rule(r, transcript, summary) for r in rule["rules"]]
-        ok = any(r[0] for r in results)
-        return (ok, "; ".join(f"{'Y' if r[0] else 'N'}:{r[1]}" for r in results))
+    if kind == "count_exactly":
+        matches = re.findall(rule["pattern"], text, re.IGNORECASE | re.MULTILINE)
+        return (len(matches) == rule["n"], f"{len(matches)}=={rule['n']}")
+    if kind == "count_distinct_at_least":
+        # counts DISTINCT (case-folded) matches, so duplicate markers do not
+        # satisfy an "at least N distinct" requirement.
+        matches = re.findall(rule["pattern"], text, re.IGNORECASE | re.MULTILINE)
+        distinct = {m.lower() if isinstance(m, str) else str(m).lower() for m in matches}
+        return (len(distinct) >= rule["n"], f"distinct={len(distinct)}>={rule['n']}")
     raise ValueError(f"unknown rule kind: {kind!r}")
 
 

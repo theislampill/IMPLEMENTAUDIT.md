@@ -1,8 +1,15 @@
-# implementaudit model-in-the-loop evaluation harness
+# implementaudit evaluation harness — deterministic scorer, fixtures, foundation
 
-Implements issue #9. This directory holds a bounded, deterministic evaluation
-of implementaudit's **behavioral** claims — the 42 shipped tests are structural
-shell tests; nothing here or there yet exercises a model following the skill.
+**Status: foundation for issue #9, not a complete model-in-the-loop harness.**
+This directory implements the deterministic transcript **scorer**, the E1–E5
+**fixtures**, and **dry-run** infrastructure. It does **not** yet implement
+model execution (host adapter, execution-plan machinery, transcript capture).
+It therefore does **not close #9** on its own — #9 is closed only when the
+execution half lands and a baseline is produced under owner approval.
+
+The 42 shipped tests are structural shell tests; nothing there exercises a
+model following the skill. This scorer is the part that will judge such runs
+once they exist.
 
 ## Safety posture (read first)
 
@@ -29,7 +36,24 @@ shell tests; nothing here or there yet exercises a model following the skill.
   end-to-end. It never invokes a model.
 - `selftest.py` — unit tests for the scorer (accepts a synthetic passing
   transcript, rejects a synthetic failing one, per fixture) and a runner
-  dry-run smoke. Wired into CI via `tests/eval-harness.test.sh`.
+  dry-run smoke.
+- `adversarial.py` — scorer-integrity suite: 10 attack transcripts (user-echo,
+  quoted transcript, wrong-role markers, wrong order, duplicate markers,
+  action-claim-without-artifact, pasted nested transcript, wrong-fixture,
+  correct-but-lucky E5, and one genuine pass) that the scorer must classify
+  correctly. Both are wired into CI via `tests/eval-harness.test.sh`.
+
+### Scorer integrity (role awareness)
+
+Transcripts are role-tagged (`USER:` / `ASSISTANT:` / `TOOL:` / `SYSTEM:`).
+By default a text rule matches **only assistant-authored, current-turn**
+content: quoted lines (`>`), fenced code blocks, and anything after a
+`----- BEGIN QUOTED TRANSCRIPT -----` sentinel are non-authoritative. Rules
+whose verdict depends on a repository action (`no_diff`) read a mechanical
+working-tree `summary`, never prose — so an assistant that *claims* an action
+it did not perform fails. `count_distinct_at_least` rejects duplicate markers
+standing in for distinct items. This closes the "put the expected words
+anywhere in the text" class of false pass.
 
 ## What each fixture measures
 
