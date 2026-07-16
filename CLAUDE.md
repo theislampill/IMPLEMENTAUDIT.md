@@ -3,7 +3,7 @@
 Read `AGENTS.md` first. It is the authoritative project contract for Claude,
 Codex, and other agents working in this repo.
 
-The packaged skill lives at `skills/SKILL.md`. Do not recreate a root
+The packaged skill lives at `skills/implementaudit/SKILL.md`. Do not recreate a root
 `IMPLEMENTAUDIT.md` mirror or pointer stub; `AGENTS.md` owns that package
 contract.
 

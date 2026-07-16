@@ -62,9 +62,11 @@ target repo named by the audit. Do not install into a real user home.
 Real-home installed skill readback is non-evidence for release-candidate
 dogfood. Before invoking Codex, record the temp `CODEX_HOME`, the installed skill path under that temp home,
 the installed `SKILL.md` line/byte count, and the exact command proving Codex used that temp home. If a proof lane reads from
-`C:\Users\theis\.codex\skills\implementaudit\` before the temp install path is
-established, register `ANDON_PROBE` class `stale-installed-skill /
-real-home-contamination` and do not claim dogfood proof from that run.
+the real user home's installed skill directory (for example
+`$CODEX_HOME/skills/implementaudit` or `~/.codex/skills/implementaudit`)
+before the temp install path is established, register `ANDON_PROBE` (class:
+evidence-mismatch; abnormality: stale-installed-skill /
+real-home-contamination) and do not claim dogfood proof from that run.
 
 Runner order:
 
