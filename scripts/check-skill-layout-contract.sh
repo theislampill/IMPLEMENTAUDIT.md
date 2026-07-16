@@ -257,7 +257,9 @@ from pathlib import Path
 root = Path.cwd()
 payload = root / "skills" / "implementaudit"
 backslash = chr(92)
-sep = "[" + re.escape(backslash) + "/]"
+# One-or-more separators so JSON-escaped Windows paths (double backslash)
+# and forward-slash Windows paths are both caught.
+sep = "[" + re.escape(backslash) + "/]+"
 pattern = re.compile(
     "[A-Za-z]:" + sep + "Users" + sep + "[A-Za-z0-9_.-]+"
     "|/(?:Users|home)/[A-Za-z0-9_.-]+/"

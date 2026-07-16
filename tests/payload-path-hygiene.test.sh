@@ -21,6 +21,8 @@ bash "$copy/scripts/check-skill-layout-contract.sh" --repo-root "$copy" >/dev/nu
   || fail "clean payload unexpectedly rejected"
 
 for planted in 'C:\Users\someone\.codex\skills\implementaudit\SKILL.md' \
+               'C:\\Users\\someone\\.codex\\SKILL.md' \
+               'C:/Users/someone/.codex/SKILL.md' \
                '/Users/someone/skills/implementaudit/' \
                '/home/someone/skills/implementaudit/'; do
   printf 'leaked path: %s\n' "$planted" > "$copy/skills/implementaudit/references/__planted__.md"
@@ -29,6 +31,17 @@ for planted in 'C:\Users\someone\.codex\skills\implementaudit\SKILL.md' \
   fi
   rm -f "$copy/skills/implementaudit/references/__planted__.md"
 done
+
+# False-positive guard: placeholder and env-var forms must NOT be rejected.
+{
+  printf 'placeholder: %s\n' 'C:\Users\<name>\.codex\skills\implementaudit'
+  printf 'env form: %s\n' '$CODEX_HOME/skills/implementaudit'
+  printf 'tilde form: %s\n' '~/.codex/skills/implementaudit'
+  printf 'env posix: %s\n' '/home/$USER/skills/'
+} > "$copy/skills/implementaudit/references/__placeholders__.md"
+bash "$copy/scripts/check-skill-layout-contract.sh" --repo-root "$copy" >/dev/null \
+  || fail "placeholder/env-var forms were wrongly rejected"
+rm -f "$copy/skills/implementaudit/references/__placeholders__.md"
 
 bash "$copy/scripts/check-skill-layout-contract.sh" --repo-root "$copy" >/dev/null \
   || fail "payload rejected after removing planted files"
