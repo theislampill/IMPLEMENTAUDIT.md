@@ -140,65 +140,152 @@ class _BaseAdapter:
         return None
 
     def run_mission(self, fixture_id, custody_root, run_id, work_root,
-                    _test_gate=None):
-        """Everything around exactly one model call. PRODUCTION PATH requires
-        the owner approval token (fail-closed; unconditional CI refusal).
-        `_test_gate` exists ONLY so the mock-driven CI tests can exercise the
-        surrounding machinery with a fake host process — it is a code-level
-        parameter (not an environment switch), so no environment state can
-        disable the production gate."""
+                    _test_gate=None, call_ordinal=1):
+        """PRE-SPAWN CUSTODY + TOTAL TERMINALIZATION: the create-once run
+        root and run-intent.json exist BEFORE any process launches, and a
+        terminal record (PASS-side bundle / FAIL / INVALID / ERROR) is
+        written in a finally path for EVERY launch — a launched call with no
+        record is impossible. `_test_gate` is code-level test plumbing only.
+        """
         (framework.require_owner_approval if _test_gate is None
          else _test_gate)()
         self.preflight()
-        payload_before = (framework.payload_hash(self.product_checkout)
-                          if self.product_checkout else None)
-        repo = framework.seed_fixture_repo(fixture_id, work_root)
-        if self.product_checkout:
-            self.stage_payload(repo)
-        before = reposnapshot.snapshot(repo)
-        fixture_path = os.path.join(HERE, "fixtures", fixture_id,
-                                    "fixture.json")
-        mission = json.load(open(fixture_path, encoding="utf-8"))["mission"]
-        argv = [a.replace("{model}", self.requested_model)
-                for a in self.host_argv_template]
-        outcome = _spawn_once(argv, self._mission_env(repo),
-                              self.host_cwd or repo, self.timeout_s,
-                              stdin_text=mission)
-        if isinstance(outcome, HostRunResult):
-            return outcome  # ERROR class, preserved, no retry
-        try:
-            events = self.parse_events(outcome.stdout)
-        except ValueError as exc:
-            return HostRunResult("invalid",
-                                 f"malformed structured output: {exc}")
-        provenance_stream = "\n".join(
-            [outcome.stderr or "", outcome.stdout or ""])
-        resolved = self.check_provenance(provenance_stream)
-        self.post_checks(provenance_stream)
-        if payload_before is not None:
-            payload_after = framework.payload_hash(self.product_checkout)
-            if payload_after != payload_before:
-                raise framework.AdapterError(
-                    "canonical payload checkout was modified during the "
-                    "mission — aborting; evidence preserved")
-        after = reposnapshot.snapshot(repo)
-        cmp_ = reposnapshot.compare_with_repo(repo, before, after)
-        fields = self.identity_fields(run_id, fixture_id, resolved)
         run_root = framework.custody.resolve_and_create_output_dir(
             custody_root, run_id)
-        bundle_root = os.path.join(run_root, "bundle")
-        ev_objs = [bundlelib.make_event(run_id, fixture_id, i + 1,
-                                        e["role"], e["content"],
-                                        kind=e.get("kind", "message"))
-                   for i, e in enumerate(events)]
-        fixture_bytes = open(fixture_path, "rb").read()
-        manifest = bundlelib.write_bundle(
-            bundle_root, fields, ev_objs, fixture_bytes,
-            ("MISSION:\n" + mission).encode(),
-            repo_before=before, repo_after=after, repo_comparison=cmp_)
-        self.scan_for_leaks(bundle_root)
-        return HostRunResult("ok", bundle_root, raw_events=events,
-                             resolved_model=resolved)
+        intent = {
+            "schema": "implementaudit-run-intent-v1", "run_id": run_id,
+            "fixture_id": fixture_id, "call_ordinal": call_ordinal,
+            "fixture_sha256": bundlelib.sha256_file(os.path.join(
+                HERE, "fixtures", fixture_id, "fixture.json")),
+            "product_checkout": self.product_checkout,
+            "adapter_name": self.name,
+            "adapter_sha256": bundlelib.sha256_file(
+                os.path.abspath(__file__)),
+            "harness_commit": _harness_commit(),
+            "model_requested": self.requested_model_canonical(),
+            "reasoning_effort_requested": getattr(
+                self, "reasoning_effort_requested", None),
+            "policy_requested": self.requested_policy(),
+            "temp_home": getattr(self, "codex_home", None) or getattr(
+                self, "config_dir", None),
+            "started_at": "pre-spawn",
+        }
+        with open(os.path.join(run_root, "run-intent.json"), "x",
+                  encoding="utf-8") as fh:
+            json.dump(intent, fh, indent=1, sort_keys=True)
+        result = HostRunResult("error", "adapter did not terminalize")
+        spawned = False
+        try:
+            payload_before = (framework.payload_hash(self.product_checkout)
+                              if self.product_checkout else None)
+            repo = framework.seed_fixture_repo(fixture_id, work_root)
+            self._current_repo = repo
+            if self.product_checkout:
+                self.stage_payload(repo)
+            before = reposnapshot.snapshot(repo)
+            fixture_path = os.path.join(HERE, "fixtures", fixture_id,
+                                        "fixture.json")
+            fixture_bytes = open(fixture_path, "rb").read()
+            mission = json.loads(fixture_bytes.decode())["mission"]
+            argv = [a.replace("{model}", self.requested_model)
+                    for a in self.host_argv_template]
+            spawned = True
+            outcome = _spawn_once(argv, self._mission_env(repo),
+                                  self.host_cwd or repo, self.timeout_s,
+                                  stdin_text=mission)
+            if isinstance(outcome, HostRunResult):
+                result = outcome
+                return result
+            raw_stream = self.collect_raw_stream(repo, outcome)
+            try:
+                events = self.parse_events(outcome.stdout)
+            except ValueError as exc:
+                result = HostRunResult(
+                    "invalid", f"malformed structured output: {exc}")
+                return result
+            provenance_stream = chr(10).join(
+                [outcome.stderr or "", outcome.stdout or ""])
+            resolved = self.check_provenance(provenance_stream)
+            self.post_checks(provenance_stream)
+            self.check_policy(repo)
+            if payload_before is not None:
+                if framework.payload_hash(
+                        self.product_checkout) != payload_before:
+                    result = HostRunResult(
+                        "invalid", "canonical payload checkout modified "
+                        "during the mission")
+                    return result
+            after = reposnapshot.snapshot(repo)
+            cmp_ = reposnapshot.compare_with_repo(repo, before, after)
+            fields = self.identity_fields(run_id, fixture_id, resolved)
+            fields["policy_requested"] = self.requested_policy()
+            fields["policy_resolved"] = getattr(self, "policy_resolved", {})
+            bundle_root = os.path.join(run_root, "bundle")
+            ev_objs = [bundlelib.make_event(run_id, fixture_id, i + 1,
+                                            e["role"], e["content"],
+                                            kind=e.get("kind", "message"))
+                       for i, e in enumerate(events)]
+            derived_meta = {
+                "schema": "implementaudit-derived-view-v1",
+                "transform": self.name + "-reply-extraction-v1",
+                "source_raw_sha256": (bundlelib._sha256_bytes(raw_stream)
+                                      if raw_stream else None),
+                "rules": "assistant-reply extraction; tool/system events "
+                         "preserved in raw stream; no deletion",
+            }
+            artifacts = dict(self.mission_artifacts or {})
+            if raw_stream:
+                artifacts["raw-host-events.jsonl"] = raw_stream
+            artifacts["derived-transform.json"] = json.dumps(
+                derived_meta, indent=1).encode()
+            bundlelib.write_bundle(
+                bundle_root, fields, ev_objs, fixture_bytes,
+                ("MISSION:" + chr(10) + mission).encode(),
+                repo_before=before, repo_after=after, repo_comparison=cmp_,
+                artifacts=artifacts)
+            self.scan_for_leaks(bundle_root)
+            result = HostRunResult("ok", bundle_root,
+                                   raw_events=events,
+                                   resolved_model=resolved)
+            return result
+        except framework.AdapterError as exc:
+            result = HostRunResult("invalid", str(exc))
+            return result
+        except framework.custody.CustodyError as exc:
+            result = HostRunResult("invalid", f"custody: {exc}")
+            return result
+        except Exception as exc:  # adapter crash still terminalizes
+            result = HostRunResult("error",
+                                   f"adapter exception: {exc!r}")
+            return result
+        finally:
+            term = {"schema": "implementaudit-run-terminal-v1",
+                    "run_id": run_id, "spawned": spawned,
+                    "kind": result.kind, "detail": str(result.detail)[:500],
+                    "resolved_model": result.resolved_model,
+                    "policy_resolved": getattr(self, "policy_resolved", {})}
+            path = os.path.join(run_root, "terminal.json")
+            try:
+                with open(path, "x", encoding="utf-8") as fh:
+                    json.dump(term, fh, indent=1, sort_keys=True)
+            except FileExistsError:
+                with open(os.path.join(run_root, "terminal-2.json"), "x",
+                          encoding="utf-8") as fh:
+                    json.dump(term, fh, indent=1, sort_keys=True)
+
+    def requested_policy(self):
+        return {"sandbox": None, "approval": None, "tools": None,
+                "network": "host-default", "writable_roots": ["<fixture>"]}
+
+    def check_policy(self, repo):
+        """Resolved-vs-requested execution policy; mismatch = INVALID."""
+        return None
+
+    def collect_raw_stream(self, repo, outcome):
+        """Complete host-owned raw session/event stream (bytes) or None."""
+        return None
+
+    mission_artifacts = None
 
     def _mission_env(self, repo):
         return _clean_env()
@@ -326,6 +413,48 @@ class CodexAdapter(_BaseAdapter):
                 "refusing to run against the REAL codex home")
         return _clean_env({"CODEX_HOME": self.codex_home})
 
+    def _select_session(self, repo, not_before=None):
+        """Select the session record by BOUND identity: cwd match and
+        (optionally) start time — never merely the newest file."""
+        import glob as _glob
+        if not self.codex_home:
+            return None, {}
+        best = None
+        for f in sorted(_glob.glob(os.path.join(
+                self.codex_home, "sessions", "**", "*.jsonl"),
+                recursive=True)):
+            try:
+                first = json.loads(open(f, encoding="utf-8").readline())
+            except (OSError, json.JSONDecodeError):
+                continue
+            p = first.get("payload", {})
+            if first.get("type") != "session_meta":
+                continue
+            if os.path.normcase(p.get("cwd", "")) != os.path.normcase(repo):
+                continue
+            if not_before and p.get("timestamp", "") < not_before:
+                continue
+            best = f
+        if not best:
+            return None, {}
+        ctx = {}
+        try:
+            for line in open(best, encoding="utf-8"):
+                d = json.loads(line)
+                pl = d.get("payload", {})
+                if d.get("type") == "session_meta":
+                    ctx["cli_version"] = pl.get("cli_version")
+                    ctx["session_id"] = pl.get("session_id")
+                elif d.get("type") == "turn_context":
+                    ctx["model"] = pl.get("model")
+                    ctx["effort"] = pl.get("effort")
+                    ctx["approval_policy"] = pl.get("approval_policy")
+                    sp = pl.get("sandbox_policy") or {}
+                    ctx["sandbox_resolved"] = sp.get("type")
+        except (OSError, json.JSONDecodeError):
+            return best, {}
+        return best, ctx
+
     def _latest_session_context(self):
         """HOST-OWNED provenance: codex writes session jsonl files under
         CODEX_HOME/sessions with session_meta (cli_version) and turn_context
@@ -353,7 +482,11 @@ class CodexAdapter(_BaseAdapter):
         return ctx
 
     def resolve_model(self, out):
-        ctx = self._latest_session_context()
+        ctx = {}
+        if getattr(self, "_current_repo", None):
+            _f, ctx = self._select_session(self._current_repo)
+        if not ctx:
+            ctx = self._latest_session_context()
         if ctx.get("model"):
             return ctx["model"]
         # fallback (mock hosts): "model: <name>" line in either stream
@@ -366,11 +499,38 @@ class CodexAdapter(_BaseAdapter):
         self.check_cli_version()
         self.check_auth_mode()
 
+    def requested_policy(self):
+        return {"sandbox": "workspace-write", "approval": "never",
+                "tools": "codex-shell", "network": "restricted",
+                "writable_roots": ["<fixture-repo cwd>"]}
+
+    def check_policy(self, repo):
+        f, ctx = self._select_session(repo)
+        self.policy_resolved = {
+            "sandbox": ctx.get("sandbox_resolved"),
+            "approval": ctx.get("approval_policy"),
+            "session_id": ctx.get("session_id"),
+            "cli_version": ctx.get("cli_version")}
+        if ctx.get("sandbox_resolved") != "workspace-write":
+            raise framework.AdapterError(
+                f"policy mismatch: requested sandbox workspace-write but "
+                f"host resolved {ctx.get('sandbox_resolved')!r} - INVALID")
+
+    def collect_raw_stream(self, repo, outcome):
+        f, _ctx = self._select_session(repo)
+        if f:
+            return open(f, "rb").read()
+        return None
+
     def post_checks(self, out):
         self.check_effort(out)
 
     def resolve_effort(self, out):
-        ctx = self._latest_session_context()
+        ctx = {}
+        if getattr(self, "_current_repo", None):
+            _f, ctx = self._select_session(self._current_repo)
+        if not ctx:
+            ctx = self._latest_session_context()
         if ctx.get("effort"):
             return ctx["effort"]
         for line in out.splitlines():
@@ -468,6 +628,35 @@ class ClaudeAdapter(_BaseAdapter):
                 except json.JSONDecodeError:
                     continue
         return None
+
+    def requested_policy(self):
+        return {"sandbox": "claude-headless-tool-permissions",
+                "approval": "auto-deny-outside-allowed",
+                "tools": "Read Glob Grep Write Edit",
+                "network": "tool-mediated only",
+                "writable_roots": ["<fixture-repo cwd>"]}
+
+    def check_policy(self, repo):
+        self.policy_resolved = {
+            "tools": "Read Glob Grep Write Edit (argv-requested)",
+            "note": "claude -p auto-denies permission prompts; writes "
+                    "outside cwd require permission and are auto-denied; "
+                    "verified empirically by the pre-smoke canary"}
+
+    def collect_raw_stream(self, repo, outcome):
+        import glob as _glob
+        if not self.config_dir:
+            return None
+        key = os.path.normcase(repo).replace(os.sep, "-").replace(
+            ":", "-").lstrip("-")
+        for f in sorted(_glob.glob(os.path.join(
+                self.config_dir, "projects", "*", "*.jsonl"))):
+            if os.path.normcase(os.path.basename(
+                    os.path.dirname(f))).endswith(key[-40:]):
+                return open(f, "rb").read()
+        files = sorted(_glob.glob(os.path.join(
+            self.config_dir, "projects", "*", "*.jsonl")))
+        return open(files[-1], "rb").read() if files else None
 
     def resolve_model(self, out):
         data = self._extract_json(out)

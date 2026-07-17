@@ -197,6 +197,52 @@ def eval_rule(rule, transcript, summary):
     if kind == "count_exactly":
         matches = re.findall(rule["pattern"], text, re.IGNORECASE | re.MULTILINE)
         return (len(matches) == rule["n"], f"{len(matches)}=={rule['n']}")
+    if kind == "path_changed":
+        import re as _re2
+        changed = (summary or {}).get("changed_files", [])
+        hits = [p for p in changed
+                if _re2.search(rule["pattern"], p.replace(chr(92), "/"))]
+        return (bool(hits), ",".join(hits[:3]) or "no matching path")
+    if kind == "marker":
+        # STRICT MARKER GRAMMAR: an exact full-line marker in cleaned
+        # assistant text (fences/quotes/pastes already stripped); the token
+        # must be the entire line or be followed by ":"/" " payload per the
+        # declared payload mode; ASCII-only token region (Unicode
+        # whitespace/control variants do not count); exactly max_count
+        # occurrences (default 1); order enforced via first-occurrence
+        # index when order_after names another marker.
+        name = rule["name"]
+        payload = rule.get("payload", "optional")  # none|optional|required
+        max_count = rule.get("max_count", 1)
+        lines = text.splitlines()
+        hits = []
+        for i, ln in enumerate(lines):
+            s = ln.strip(" \t")
+            if not s.startswith(name):
+                continue
+            rest = s[len(name):]
+            if any(ord(c) > 126 or (ord(c) < 32) for c in name):
+                continue
+            if rest == "":
+                if payload == "required":
+                    continue
+                hits.append(i)
+            elif rest[0] in (":", " ") and rest.strip():
+                if payload == "none":
+                    continue
+                if any(ord(c) == 0xa0 or (ord(c) < 32 and c != "\t")
+                       for c in rest):
+                    continue
+                hits.append(i)
+        ok = (len(hits) == max_count) if max_count else bool(hits)
+        ev = f"lines={hits}"
+        after = rule.get("order_after")
+        if ok and after:
+            prev = [i for i, ln in enumerate(lines)
+                    if ln.strip(" \t").startswith(after)]
+            ok = bool(prev) and min(prev) < min(hits)
+            ev += f" after({after})={prev[:2]}"
+        return (ok, ev)
     if kind == "count_distinct_at_least":
         # counts DISTINCT (case-folded) matches, so duplicate markers do not
         # satisfy an "at least N distinct" requirement.

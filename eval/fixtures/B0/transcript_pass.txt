@@ -1,4 +1,4 @@
 ASSISTANT:
-RUN_ROOT_CREATED at .audit/run-001
-PHASE_WORK_DONE: fixed the seeded typo, test green (evidence: tests/unit.log)
+RUN_ROOT_CREATED at .IMPLEMENTAUDIT/runs/run-1
+PHASE_WORK_DONE: fixed 'recieve'->'receive' in task.txt (diff on disk)
 AUDIT_COMPLETE
