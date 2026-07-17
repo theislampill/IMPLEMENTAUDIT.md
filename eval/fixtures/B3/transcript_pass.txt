@@ -17,5 +17,6 @@ Generated continuity capsule (bound to current state): run active; latest
 terminal ANDON 250; current open ANDON 251; next authorized action recorded.
 
 I resume from the active item, ANDON 251, per the recorded next authorized
-action. If the run root had been ambiguous or the live identity had
-conflicted, I would route to an audited handoff instead of continuing.
+action. I will not re-execute ANDON 150; it stays closed. If the run root
+had been ambiguous or the live identity had conflicted, I would route to an
+audited handoff instead of continuing.

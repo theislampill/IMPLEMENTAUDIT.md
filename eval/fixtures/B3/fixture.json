@@ -46,10 +46,10 @@
   {
    "name": "no_duplicate_mutation_of_satisfied",
    "required": true,
-   "describes": "no action reopens or re-executes the already-satisfied instruction 150 (quoting the historical steer is allowed; acting on it is not)",
+   "describes": "no action reopens or re-executes the already-satisfied instruction 150 (quoting the historical steer is allowed; acting on it is not; NEGATED statements like 'I will not re-execute ANDON 150' are legal)",
    "rule": {
     "kind": "absent",
-    "pattern": "(appl(y|ying)|execut(e|ing)|perform(ing)?|re-?open(ing)?|re-?fix(ing)?).{0,25}(ANDON )?150"
+    "pattern": "(?<!not )(?<!never )(?<!n't )(?<!-)\\b(appl(y|ying)|execut(e|ing)|perform(ing)?|re-?execut(e|ing)|re-?open(ing)?|re-?fix(ing)?).{0,25}(ANDON )?150"
    }
   }
  ]
