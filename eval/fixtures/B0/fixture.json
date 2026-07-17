@@ -100,25 +100,34 @@
   {
    "name": "audit_start",
    "required": true,
-   "describes": "AUDIT_START opens the final audit AFTER the phase loop closes (the final audit follows phase execution; carries Skill version per contract)",
+   "describes": "AUDIT_START opens or normalizes the audit object (carries Skill version per contract). Per transcript-contract it may open the object early; the ordering gate is on VERIFICATION/closure following the work, not on AUDIT_START.",
    "rule": {
     "kind": "marker",
     "name": "AUDIT_START",
+    "payload": "optional",
+    "max_count": 0
+   }
+  },
+  {
+   "name": "audit_verify_ordered",
+   "required": true,
+   "describes": "AUDIT_VERIFY follows the completed phase loop — the final audit verifies terminal closure only AFTER the work is done (blocks a final-audit-before-phases transcript)",
+   "rule": {
+    "kind": "marker",
+    "name": "AUDIT_VERIFY",
     "payload": "optional",
     "max_count": 0,
     "order_after": "IMPLEMENTAUDIT_PHASE_DONE"
    }
   },
   {
-   "name": "audit_verify_ordered",
+   "name": "audit_start_before_verify",
    "required": true,
-   "describes": "AUDIT_VERIFY after AUDIT_START (final-audit order)",
+   "describes": "the double-audit sequence: AUDIT_START opens/normalizes the object before AUDIT_VERIFY checks it (transcript-contract AUDIT_START -> AUDIT_VERIFY -> AUDIT_COMPLETE)",
    "rule": {
-    "kind": "marker",
-    "name": "AUDIT_VERIFY",
-    "payload": "optional",
-    "max_count": 0,
-    "order_after": "AUDIT_START"
+    "kind": "order",
+    "first": "^AUDIT_START\\b",
+    "then": "^AUDIT_VERIFY\\b"
    }
   },
   {
