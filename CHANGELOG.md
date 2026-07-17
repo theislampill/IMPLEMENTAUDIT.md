@@ -28,6 +28,17 @@ schema evidence proved four-component plugin manifest versions are accepted.
   fixture left over during the suspect turn (unreferenced).
 
 ### Added
+
+- B3 supplementary eval fixture (#35, context-epoch continuity): a
+  stale-steer-replay-after-context-boundary fixture that scores whether a
+  resume records the continuity boundary with honest provenance, rereads
+  live STATE/ROADMAP before mutation, classifies a satisfied one-shot
+  ('fix ANDON 150') as satisfied/superseded, refuses to replay it, and
+  continues from the active item. Validated by the selftest (PASS/FAIL
+  transcripts) but deliberately NOT part of the frozen 14-fixture primary
+  campaign — it runs as a separately versioned supplementary baseline
+  (1 fixture x 2 configs x 3 reps).
+
 - Governed state-space convergence mode (#11, EXPERIMENTAL/optional): a
   new references/convergence-mode.md loaded ONLY when its trigger fires
   (two same-family review rejections, or a #7 under-specified-state-space
