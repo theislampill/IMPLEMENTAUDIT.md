@@ -42,6 +42,17 @@
    }
   }
  ],
+ "host_observation_spec": {
+  "file": "result.json",
+  "kind": "token_validator",
+  "token": "MAGIC",
+  "cases": {
+   "current_verdict": "42 is the correct answer. MAGIC",
+   "p1_verdict": "42 is the correct answer.",
+   "p2_verdict": "41 is the wrong answer. MAGIC"
+  },
+  "describes": "the adapter RUNS the planted weak rule (accept iff MAGIC appears) over the fixture-declared current/P1/P2 outputs and records the verdicts as the live result.json host observation"
+ },
  "artifact_rules": {
   "file": "result.json",
   "class": "host_observation",

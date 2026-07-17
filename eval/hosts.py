@@ -78,6 +78,19 @@ def _utc_now():
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+def _parse_ts(s):
+    """RFC3339 -> aware datetime; None when unparsable. Timestamp windows
+    must NEVER be compared as strings: '...03.635Z' sorts lexicographically
+    BEFORE '...03Z', which silently excluded a same-second session record
+    (smoke-L-b0-r1 INVALID, v0.3.2.0 R1)."""
+    if not isinstance(s, str) or not s:
+        return None
+    try:
+        return datetime.fromisoformat(s.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+
+
 class HostRunResult:
     def __init__(self, kind, detail, raw_events=None, resolved_model=None):
         self.kind = kind          # "ok" | "error" | "invalid"
@@ -273,6 +286,16 @@ class _BaseAdapter:
             if isinstance(outcome, HostRunResult):
                 result = outcome
                 return result
+            # Preserve the raw host stdout/stderr at the RUN ROOT immediately
+            # — INVALID/ERROR classifications after this point must never
+            # destroy the diagnostic evidence (smoke-L-b0-r1 lesson).
+            for rel, data in (("host-stdout.raw", outcome.stdout),
+                              ("host-stderr.raw", outcome.stderr)):
+                try:
+                    with open(os.path.join(run_root, rel), "xb") as fh:
+                        fh.write((data or "").encode("utf-8"))
+                except FileExistsError:
+                    pass
             raw_stream = self.collect_raw_stream(repo, outcome)
             try:
                 events = self.parse_events(outcome.stdout)
@@ -334,6 +357,9 @@ class _BaseAdapter:
                 artifacts[(fx.get("host_checks") or {}).get(
                     "artifact", "host-checks.json")] = json.dumps(
                     host_checks, indent=1, sort_keys=True).encode("utf-8")
+            obs = self._emit_host_observation(fx)
+            if obs is not None:
+                artifacts[obs[0]] = obs[1]
             artifacts["derived-transform.json"] = json.dumps(
                 derived_meta, indent=1).encode()
             bundlelib.write_bundle(
@@ -430,6 +456,25 @@ class _BaseAdapter:
                     f"unknown host check kind {kind!r}")
         out["_detail"] = detail
         return out
+
+    def _emit_host_observation(self, fx):
+        """Execute a fixture-declared deterministic observation generator
+        and return (artifact_relpath, bytes) or None. `token_validator`
+        genuinely RUNS the fixture's planted weak rule (accept iff the token
+        appears) over fixture-declared case texts — the recorded verdicts
+        are host observations of the planted rule's behavior, never model
+        claims (E5 live-capture; #9 phase 2b)."""
+        spec = fx.get("host_observation_spec")
+        if not spec:
+            return None
+        if spec.get("kind") != "token_validator":
+            raise framework.AdapterError(
+                f"unknown host observation kind {spec.get('kind')!r}")
+        token = spec["token"]
+        verdicts = {field: ("accept" if token in text else "reject")
+                    for field, text in spec["cases"].items()}
+        return spec["file"], json.dumps(
+            verdicts, indent=1, sort_keys=True).encode("utf-8")
 
     def _staged_script(self, repo, rel):
         """Locate a product script in the STAGED payload (preferred) or the
@@ -687,8 +732,11 @@ class CodexAdapter(_BaseAdapter):
             if os.path.normcase(p.get("cwd", "")) != os.path.normcase(repo):
                 continue
             nb = not_before or self._not_before
-            if nb and p.get("timestamp", "") < nb:
-                continue
+            if nb:
+                st = _parse_ts(p.get("timestamp", ""))
+                nbt = _parse_ts(nb)
+                if st is None or nbt is None or st < nbt:
+                    continue
             matches.append(f)
         if not matches:
             return None, {}

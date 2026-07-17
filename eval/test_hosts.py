@@ -496,6 +496,51 @@ def main():
         check("H26 missing-effort-fails-closed",
               r.kind == "invalid" and
               "missing resolved reasoning effort" in r.detail)
+
+        # 27. same-second session binding: fractional session timestamps in
+        # the SAME second as not_before must match (parsed comparison, never
+        # lexicographic — the smoke-L-b0-r1 INVALID class)
+        a27 = make_adapter(tmp, "ok-codex",
+                           home=os.path.join(tmp, "codex-home-h27"))
+        srepo = os.path.join(tmp, "h27-repo")
+        os.makedirs(srepo)
+        sdir = os.path.join(a27.codex_home, "sessions", "2026")
+        os.makedirs(sdir)
+        with open(os.path.join(sdir, "r.jsonl"), "w",
+                  encoding="utf-8") as fh:
+            fh.write(json.dumps({
+                "timestamp": "2026-07-17T08:55:03.635Z",
+                "type": "session_meta",
+                "payload": {"session_id": "s27", "id": "s27",
+                            "timestamp": "2026-07-17T08:55:03.635Z",
+                            "cwd": srepo, "cli_version": "0.144.5"}}) + "\n")
+            fh.write(json.dumps({
+                "timestamp": "2026-07-17T08:55:04.000Z",
+                "type": "turn_context",
+                "payload": {"model": "gpt-5.6-luna", "effort": "max",
+                            "approval_policy": "never",
+                            "sandbox_policy": {
+                                "type": "workspace-write"}}}) + "\n")
+        a27._not_before = "2026-07-17T08:55:03Z"
+        f27, ctx27 = a27._select_session(srepo)
+        check("H27 same-second-session-binding",
+              f27 is not None and ctx27.get("model") == "gpt-5.6-luna")
+
+        # 28. E5 live host observation: the adapter RUNS the planted weak
+        # rule over fixture-declared cases and records the verdicts
+        r = run(make_adapter(tmp, "ok-codex",
+                             home=os.path.join(tmp, "codex-home-h28")),
+                tmp, "r-e5", fixture_id="E5")
+        ok = r.kind == "ok"
+        if ok:
+            art = os.path.join(r.detail, "artifacts", "result.json")
+            v = json.load(open(art, encoding="utf-8"))
+            ok = (v == {"current_verdict": "accept",
+                        "p1_verdict": "reject",
+                        "p2_verdict": "accept"})
+            status, verd = runner.score_bundle(r.detail, repo_dir=None)
+            ok = ok and status in ("PASS", "FAIL")
+        check("H28 e5-live-host-observation", ok)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     if failures:
