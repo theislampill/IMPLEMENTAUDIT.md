@@ -329,6 +329,11 @@ Hansei records gap, cause, countermeasure, and follow-up evidence. 5 Whys is
 for root cause, not loops. Poka-yoke means structural prevention through
 checkers, fixtures, templates, or durable AGENTS rules.
 
+Commands expected to outlive host tool timeouts follow the PROTOCOL
+"Long-running and background commands" contract (detached launch,
+chain-status.txt + chain.done markers, owned-tree abort containment,
+terminal-state-unverified when the completion marker is absent).
+
 ---
 
 ## Trace And Closure

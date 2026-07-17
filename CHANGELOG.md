@@ -15,6 +15,17 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Added
 
+- Long-running/background command contract (#2): new PROTOCOL section —
+  detached launch with `launch-intent.md`, append-only
+  `chain-status.txt`, `chain.done` completion marker; state model
+  running / succeeded / failed / aborted / terminal-state-unverified /
+  contaminated / infrastructure-failed; a missing completion record is
+  never a failure verdict; aborts kill only the owned tree and record
+  possible sibling contamination; infrastructure signatures ground
+  SUSPICION only — producer countermeasures are prohibited until origin
+  is classified. SKILL.md pointer added; six state-transition fixtures
+  in `tests/background-chain-contract.test.sh`.
+
 - Evidence-version anchoring (#4): `detect-env.sh` Stage-0 output now
   names `head=<short-sha> (<committer-date>)`, `upstream=<ref>
   behind_ahead=<L/R>` or `upstream=none`, and

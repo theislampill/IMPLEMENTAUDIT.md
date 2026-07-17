@@ -196,6 +196,7 @@ require_file fixtures/lean/sidecar-graphify-absent-markdown-fallback.md
 require_file fixtures/lean/sidecar-graphify-dmaic-analyze.md
 require_file fixtures/lean/sidecar-activegraph-dmaic-custody.md
 require_file tests/andon-class-contract.test.sh
+require_file tests/background-chain-contract.test.sh
 require_file tests/evidence-anchoring.test.sh
 require_file tests/marker-order.test.sh
 require_file tests/planner-stages.test.sh
@@ -514,6 +515,7 @@ bash scripts/check-terminology-integration.sh
 bash scripts/check-added-lines-clean.sh HEAD
 bash tests/lean-discipline.test.sh
 bash tests/andon-class-contract.test.sh
+bash tests/background-chain-contract.test.sh
 bash tests/evidence-anchoring.test.sh
 bash tests/marker-order.test.sh
 bash tests/planner-stages.test.sh
