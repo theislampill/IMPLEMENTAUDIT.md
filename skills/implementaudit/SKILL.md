@@ -317,10 +317,11 @@ Owner/source:
 Next concrete action:
 ```
 
-`Class:` is an abnormality class from the transcript contract, such as
+`Class:` is an abnormality class from the transcript contract:
 failed-criterion, regression, hung-command, substituted-command, owner-unclear,
 generated-artifact-mismatch, stale-sidecar, policy-conflict,
-impossible-criterion, or evidence-mismatch. Same-class recurrence drives
+impossible-criterion, evidence-mismatch, transport-infrastructure,
+misplacement, or false-closure. Same-class recurrence drives
 escalation; there are no arbitrary try caps, retry caps, strike ladders, or
 fixed audit-count ceilings.
 

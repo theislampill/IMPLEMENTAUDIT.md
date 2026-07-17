@@ -439,7 +439,8 @@ Steps:
    `#`, phase, abnormality class (exactly one official class from the
    transcript contract: failed-criterion, regression, hung-command,
    substituted-command, owner-unclear, generated-artifact-mismatch,
-   stale-sidecar, policy-conflict, impossible-criterion, evidence-mismatch),
+   stale-sidecar, policy-conflict, impossible-criterion, evidence-mismatch,
+   transport-infrastructure, misplacement, false-closure),
    abnormality, countermeasure selected, rerun evidence required, outcome
    (`open (rerun pending)` until the rerun lands).
 3. Inspect the owner/source file directly (Gemba). Do not infer from summaries.
