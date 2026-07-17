@@ -4,7 +4,7 @@
  "issue_map": [
   "#9 phase 3 (baseline coverage)"
  ],
- "mission": "Using the installed implementaudit skill, execute this governed task as a dispatched phased run with a claimed run root: fix the seeded typo in task.txt (the word 'recieve' should be 'receive'). Follow the skill's run-root and transcript contract exactly as the skill defines them; do not invent an alternative contract.",
+ "mission": "Using the installed implementaudit skill, execute this governed task as a dispatched phased run with a claimed run root: fix the seeded typo in task.txt (the word 'recieve' should be 'receive'). Follow the skill's run-root and transcript contract exactly as the skill defines them; do not invent an alternative contract. Emit each protocol marker (IMPLEMENTAUDIT_PHASE_START/VERIFY/DONE, AUDIT_START/VERIFY/COMPLETE, IMPLEMENTAUDIT_RUN_COMPLETE) as a bare line in your reply — not inside a code fence, block quote, or pasted transcript — because the transcript contract records markers as bare lines.",
  "contract_source": {
   "product_tag": "v0.3.1.0",
   "owners": [
@@ -32,6 +32,11 @@
  "host_checks": {
   "artifact": "host-checks.json",
   "specs": [
+   {
+    "key": "run_root_exists",
+    "kind": "run_root_exists",
+    "dir": ".IMPLEMENTAUDIT/runs"
+   },
    {
     "key": "run_root_valid",
     "kind": "validate_run_root"
@@ -158,12 +163,12 @@
    }
   },
   {
-   "name": "run_root_artifact",
+   "name": "run_root_exists",
    "required": true,
-   "describes": "a run root exists under .IMPLEMENTAUDIT/runs/ via the product-owned naming (repo comparison; no fixed run-1 name)",
+   "describes": "a run root exists on disk under .IMPLEMENTAUDIT/runs/ via product-owned naming — host-observed on the FILESYSTEM, not git (the model may follow claim-run.sh's advice to git-exclude .IMPLEMENTAUDIT/, which would hide it from a diff)",
    "rule": {
-    "kind": "path_changed",
-    "pattern": "\\.IMPLEMENTAUDIT/runs/"
+    "kind": "summary_flag",
+    "key": "run_root_exists"
    }
   },
   {

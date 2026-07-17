@@ -378,7 +378,27 @@ class _BaseAdapter:
                 ("MISSION:" + chr(10) + mission).encode(),
                 repo_before=before, repo_after=after, repo_comparison=cmp_,
                 artifacts=artifacts)
-            self.scan_for_leaks(bundle_root)
+            # Credential scan covers BOTH the bundle AND the run-root-level
+            # raw host output (host-stdout.raw / host-stderr.raw): those are
+            # shipped custody too, so a leak in either must quarantine and
+            # fail closed (independent review MAJOR). BOTH locations are
+            # quarantined before raising — a leak lives in both copies, and
+            # quarantining only the bundle would leave cleartext at the run
+            # root.
+            hits = []
+            h1 = self._quarantine_if_leak(bundle_root, "quarantine-bundle")
+            if h1:
+                hits.append(h1)
+            h2 = self._quarantine_if_leak(
+                run_root, "quarantine-raw",
+                only=("host-stdout.raw", "host-stderr.raw"))
+            if h2:
+                hits.append(h2)
+            if hits:
+                raise framework.AdapterError(
+                    f"credential pattern {hits[0][0]!r} found in file "
+                    f"{hits[0][1]!r} — moved to quarantine; custody "
+                    f"violation ({len(hits)} location(s) scrubbed)")
             result = HostRunResult("ok", bundle_root,
                                    raw_events=events,
                                    resolved_model=resolved)
@@ -462,6 +482,15 @@ class _BaseAdapter:
                 out[key] = ok
             elif kind == "validate_run_root":
                 out[key], detail[key] = self._validate_run_root(repo)
+            elif kind == "run_root_exists":
+                base = os.path.join(repo, *spec.get(
+                    "dir", ".IMPLEMENTAUDIT/runs").split("/"))
+                dirs = ([d for d in os.listdir(base)
+                         if os.path.isdir(os.path.join(base, d))]
+                        if os.path.isdir(base) else [])
+                out[key] = bool(dirs)
+                detail[key] = (",".join(dirs[:3]) if dirs
+                               else "no run root on disk")
             else:
                 raise framework.AdapterError(
                     f"unknown host check kind {kind!r}")
@@ -502,9 +531,22 @@ class _BaseAdapter:
                 return c
         return None
 
+    @staticmethod
+    def _bash_path(p):
+        """Translate a Windows path to a bash/MSYS POSIX path so `bash`
+        receives 'C:\\x\\y' as '/c/x/y' (backslashes were being eaten,
+        giving exit 127 on the Windows Claude lane). No-op on POSIX."""
+        if os.name != "nt":
+            return p
+        p = os.path.abspath(p)
+        drive, rest = os.path.splitdrive(p)
+        return "/" + drive[0].lower() + rest.replace("\\", "/")
+
     def _validate_run_root(self, repo):
-        """Run the product-owned validate-run-root.sh against the newest
-        run root the mission created. Deterministic host observation."""
+        """Run the product-owned validate-run-root.sh against the run root
+        the mission created. Deterministic host observation. EXACTLY ONE run
+        root is expected; zero or multiple is a flagged non-pass (never a
+        newest-file guess)."""
         base = os.path.join(repo, ".IMPLEMENTAUDIT", "runs")
         if not os.path.isdir(base):
             return False, "no .IMPLEMENTAUDIT/runs directory"
@@ -512,15 +554,18 @@ class _BaseAdapter:
                 if os.path.isdir(os.path.join(base, d))]
         if not dirs:
             return False, "no run root claimed"
-        target = max(dirs, key=os.path.getmtime)
+        if len(dirs) > 1:
+            return False, (f"ambiguous: {len(dirs)} run roots under "
+                           f".IMPLEMENTAUDIT/runs (expected exactly one)")
+        target = dirs[0]
         script = self._staged_script(repo, os.path.join(
             "scripts", "validate-run-root.sh"))
         if not script:
             return False, "validate-run-root.sh not available"
         try:
             proc = subprocess.run(
-                ["bash", script, target], capture_output=True, text=True,
-                timeout=60)
+                ["bash", self._bash_path(script), self._bash_path(target)],
+                capture_output=True, text=True, timeout=60)
         except (OSError, subprocess.TimeoutExpired) as exc:
             return False, f"validator did not run: {exc!r}"
         rel = os.path.relpath(target, repo).replace("\\", "/")
@@ -578,37 +623,58 @@ class _BaseAdapter:
             ]
         return _BaseAdapter._CRED_PATTERNS
 
-    def scan_for_leaks(self, bundle_root):
-        """Credential nonretention: a detected leak QUARANTINES the bundle
-        (create-once, private, out of the ordinary result set) and reports
-        only the pattern class and file location — NEVER the value."""
+    def _quarantine_if_leak(self, root, quarantine_name, only=None):
+        """Scan `root` for credential shapes; on a hit, quarantine the
+        cleartext (create-once, out of the ordinary result set) and return
+        (pattern, filename) WITHOUT raising, so every custody location can
+        be scrubbed before the run terminalizes. `only` restricts to named
+        top-level files. Reports class + location, never the value."""
         hit = None
-        for base, _dirs, files in os.walk(bundle_root):
-            for name in files:
-                try:
-                    text = open(os.path.join(base, name),
-                                encoding="utf-8").read()
-                except (UnicodeDecodeError, OSError):
-                    continue
-                for pat in self._cred_patterns():
-                    if pat.search(text):
-                        hit = (pat.pattern, name)
-                        break
-                if hit:
+        if only is not None:
+            candidates = [os.path.join(root, n) for n in only
+                          if os.path.isfile(os.path.join(root, n))]
+        else:
+            candidates = [os.path.join(base, name)
+                          for base, _d, files in os.walk(root)
+                          for name in files]
+        for path in candidates:
+            try:
+                text = open(path, encoding="utf-8").read()
+            except (UnicodeDecodeError, OSError):
+                continue
+            for pat in self._cred_patterns():
+                if pat.search(text):
+                    hit = (pat.pattern, os.path.basename(path))
                     break
             if hit:
                 break
-        if hit:
-            quarantine = os.path.join(os.path.dirname(bundle_root),
-                                      "quarantine-bundle")
+        if not hit:
+            return None
+        if only is not None:
+            qdir = os.path.join(root, quarantine_name)
+            os.makedirs(qdir, exist_ok=True)
+            for n in only:
+                src = os.path.join(root, n)
+                if os.path.isfile(src):
+                    os.replace(src, os.path.join(qdir, n))
+        else:
+            quarantine = os.path.join(os.path.dirname(root), quarantine_name)
             try:
-                os.replace(bundle_root, quarantine)
-                where = "quarantine-bundle"
+                os.replace(root, quarantine)
             except OSError:
-                where = "bundle (quarantine move failed)"
+                pass
+        return hit
+
+    def scan_for_leaks(self, root, quarantine_name="quarantine-bundle",
+                       only=None):
+        """Single-location credential scan that RAISES on a hit (used by the
+        mock tests and any single-target caller); run_mission uses
+        `_quarantine_if_leak` directly to scrub every location first."""
+        hit = self._quarantine_if_leak(root, quarantine_name, only=only)
+        if hit:
             raise framework.AdapterError(
-                f"credential pattern {hit[0]!r} found in bundle file "
-                f"{hit[1]!r} — bundle moved to {where}; custody violation")
+                f"credential pattern {hit[0]!r} found in file "
+                f"{hit[1]!r} — moved to {quarantine_name}; custody violation")
 
 
 def _harness_commit():
@@ -913,6 +979,15 @@ class CodexAdapter(_BaseAdapter):
         the session HAS agent messages, the session events are scored."""
         f, sess_events = self._session_agent_events(repo)
         if not sess_events:
+            # A REAL codex lane (temp CODEX_HOME set) must yield host-owned
+            # session agent messages; scoring raw stdout as assistant content
+            # when the host recorded none would let the echoed mission forge
+            # markers. Only the pure-mock path (no codex_home) may fall back.
+            if self.codex_home and self._events_source in (
+                    "codex-stdout-fallback", "codex-exec-transcript"):
+                raise framework.AdapterError(
+                    "no host-owned agent messages in the bound session for a "
+                    "real codex run — refusing to score raw stdout (INVALID)")
             return events
         sess_texts = {e["content"] for e in sess_events}
         if self._events_source == "codex-exec-json":

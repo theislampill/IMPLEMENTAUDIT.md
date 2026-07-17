@@ -16,13 +16,19 @@ remains historical instruction-following evidence only.
 | closure_ordered | "Final audit markers" | "`AUDIT_COMPLETE` means the audit object reached terminal verified closure" | `marker`, exactly 1, `order_after: AUDIT_VERIFY` |
 | run_complete_ordered | "Final audit markers" | "`AUDIT_COMPLETE` must precede `IMPLEMENTAUDIT_RUN_COMPLETE`."; "appears only after final audit has closed every in-scope ledger item terminally" | `marker`, exactly 1, `order_after: AUDIT_COMPLETE` |
 | no_handoff_on_success | "Final audit markers" + Andon section | "`AUDIT_HANDOFF` must not appear with `IMPLEMENTAUDIT_RUN_COMPLETE`."; "A transcript containing `ANDON_HANDOFF` must not also contain `IMPLEMENTAUDIT_RUN_COMPLETE`." | `all_of` two `absent` rules |
-| run_root_artifact | SKILL.md:219/266 + `scripts/claim-run.sh` | run roots live at `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/`; claim-run.sh uses `mktemp -d "$base/${slug}-XXXXXX"` — so NO fixed `run-1` name may be demanded | `path_changed` on `\.IMPLEMENTAUDIT/runs/` |
+| run_root_exists | SKILL.md:219/266 + `scripts/claim-run.sh` | run roots live at `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/`; claim-run.sh uses `mktemp -d "$base/${slug}-XXXXXX"` AND advises adding `.IMPLEMENTAUDIT/` to `.git/info/exclude` — so the run root must be observed on the FILESYSTEM, not via git diff (a git-excluded run root is invisible to `path_changed`) | host check `run_root_exists` → `summary_flag` |
 | run_root_valid | `scripts/validate-run-root.sh` | requires STATE.md + PROTOCOL.md; planning artifacts (ROADMAP/THINKING/sidecars/tools/context); Status contract token; `## Andon log` columns; phase specs per ROADMAP rows | host check `validate_run_root` → `summary_flag` |
 | work_artifact | mission (seeded task) | `task.txt` must actually change | `path_changed` on `task\.txt` |
 | task_fixed | mission (seeded task) | typo actually corrected on disk | host check `file_regex` → `summary_flag` |
 
 Notes:
 
+- The mission directs **bare-line marker emission** (not fenced/quoted),
+  matching the product transcript contract (markers appear as bare lines)
+  and the scorer's anti-forgery rule (fenced/quoted content is stripped as
+  data). This is a fixture-contract clarity requirement, not a relaxation:
+  a model that skips the governed run still fails the on-disk run-root and
+  validator host checks regardless of how it formats text.
 - The mission explicitly requests a **dispatched phased run**; SKILL.md
   Stage 5 owns the run-root artifact list and claims the root with
   `scripts/claim-run.sh`. Direct in-session governance (no run root) is a

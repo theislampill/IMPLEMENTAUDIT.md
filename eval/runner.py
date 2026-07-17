@@ -54,10 +54,16 @@ def _scorer_commit():
         return None
 
 
-def _uses_no_diff(rule):
-    if rule.get("kind") == "no_diff":
+def _uses_repo_state(rule):
+    """A rule needs repository snapshots when it reads changed_files —
+    no_diff OR path_changed (directly or nested)."""
+    if rule.get("kind") in ("no_diff", "path_changed"):
         return True
-    return any(_uses_no_diff(r) for r in rule.get("rules", []))
+    return any(_uses_repo_state(r) for r in rule.get("rules", []))
+
+
+# Back-compat alias (older callers/tests referenced _uses_no_diff).
+_uses_no_diff = _uses_repo_state
 
 
 def _load_json(run_root, name):
@@ -97,11 +103,12 @@ def score_bundle(run_root, repo_dir=None):
         summary = {}
         before = _load_json(run_root, "repo-before.json")
         after = _load_json(run_root, "repo-after.json")
-        needs_repo = any(_uses_no_diff(p["rule"]) for p in fixture["properties"])
+        needs_repo = any(_uses_repo_state(p["rule"])
+                         for p in fixture["properties"])
         if needs_repo and (before is None or after is None):
             raise bundlelib.BundleInvalid(
-                "fixture requires repository evidence (no_diff) but the "
-                "bundle lacks before/after snapshots")
+                "fixture requires repository evidence (no_diff/path_changed) "
+                "but the bundle lacks before/after snapshots")
         if before is not None and after is not None:
             try:
                 cmp_ = (reposnapshot.compare_with_repo(repo_dir, before, after)

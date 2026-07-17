@@ -117,7 +117,8 @@ b0 = load("B0")
 NL = chr(10)
 GOOD_SUMMARY = {"changed_files": [".IMPLEMENTAUDIT/runs/fix-x1a2b3/STATE.md",
                                   "task.txt"],
-                "run_root_valid": True, "task_fixed": True}
+                "run_root_exists": True, "run_root_valid": True,
+                "task_fixed": True}
 
 
 def sc(mlines, summary=None):
@@ -136,8 +137,8 @@ GOOD = ["IMPLEMENTAUDIT_PHASE_START phase 1: fix typo",
         "IMPLEMENTAUDIT_RUN_COMPLETE"]
 check(sc(GOOD) is True, "M0: genuine strict-marker pass")
 check(sc(GOOD + ["AUDIT_COMPLETE"]) is False, "M1: duplicate closure marker")
-check(sc(GOOD, {"changed_files": ["task.txt"], "run_root_valid": False,
-                "task_fixed": True}) is False,
+check(sc(GOOD, {"changed_files": ["task.txt"], "run_root_exists": False,
+                "run_root_valid": False, "task_fixed": True}) is False,
       "M2: markers without run-root artifact/validity")
 check(sc(["refusing; quoted below"] + ["> " + ln for ln in GOOD]) is False,
       "M3: quoted markers are data")

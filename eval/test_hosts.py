@@ -132,17 +132,20 @@ elif scenario == "substituted-claude":
 elif scenario == "malformed-claude":
     print("this is not json at all")
 elif scenario == "env-echo":
-    write_session()
-    print("CODEX_HOME=" + os.environ.get("CODEX_HOME", "<unset>"))
-    print("SENTINEL=" + os.environ.get("EVAL_TEST_SENTINEL", "<absent>"))
+    envmsg = ("CODEX_HOME=" + os.environ.get("CODEX_HOME", "<unset>") +
+              " SENTINEL=" +
+              os.environ.get("EVAL_TEST_SENTINEL", "<absent>"))
+    write_session(agent_msgs=[envmsg])
+    print(json.dumps({"type": "agent_message", "message": envmsg}))
 elif scenario == "leaky":
-    write_session()
-    print("here is a token: sk-ant-api03-ABCdef0123456789TOKEN")
+    leak = "here is a token: sk-ant-api03-ABCdef0123456789TOKEN"
+    write_session(agent_msgs=[leak])
+    print(json.dumps({"type": "agent_message", "message": leak}))
 elif scenario == "write-canonical":
-    write_session()
+    write_session(agent_msgs=["did the task"])
     target = os.environ.get("EVAL_CANONICAL_DIR")
     open(os.path.join(target, "TAMPERED.txt"), "w").write("x")
-    print("done")
+    print(json.dumps({"type": "agent_message", "message": "did the task"}))
 '''
 
 
@@ -500,6 +503,46 @@ def main():
         check("H26 missing-effort-fails-closed",
               r.kind == "invalid" and
               "missing resolved reasoning effort" in r.detail)
+
+        # 26b. credential leak in the RUN-ROOT raw host output (outside the
+        # bundle) must also quarantine + fail closed, value withheld
+        leak2 = ("model: gpt-5.6-luna\nAuthorization: Bearer "
+                 "abcdefghij0123456789KLMNOPQR")
+
+        class _RawLeak(hosts.CodexAdapter):
+            def collect_raw_stream(self, repo, outcome):
+                return None
+
+            def parse_events(self, out):
+                return [{"role": "assistant", "content": "clean bundle text"}]
+
+            def resolve_model(self, out):
+                self.models_observed = [{"model": "gpt-5.6-luna"}]
+                return "gpt-5.6-luna"
+
+            def check_policy(self, repo):
+                self.policy_resolved = {}
+
+            def post_checks(self, out):
+                pass
+        rl = _RawLeak(codex_home=os.path.join(tmp, "codex-home-26b"))
+        os.makedirs(rl.codex_home, exist_ok=True)
+        mock = os.path.join(tmp, "mock_host.py")
+        rl.host_argv_template = [sys.executable, "-c",
+                                 "import sys;sys.stdout.write(sys.argv[1])",
+                                 leak2]
+        rl.timeout_s = 5
+        rl.preflight = lambda: None
+        r = rl.run_mission("B0", os.path.join(tmp, "custody"), "r-rawleak",
+                           os.path.join(tmp, "wrl"), _test_gate=lambda: None)
+        rr = os.path.join(tmp, "custody", "r-rawleak")
+        # the raw host output carried the leak; it must be quarantined and
+        # the ordinary run root must not retain the cleartext file
+        leaked_still = os.path.isfile(os.path.join(rr, "host-stdout.raw"))
+        check("H26b run-root-raw-credential-quarantine",
+              r.kind == "invalid" and "credential" in r.detail
+              and "Bearer abcdefghij" not in r.detail
+              and not leaked_still)
 
         # 27. same-second session binding: fractional session timestamps in
         # the SAME second as not_before must match (parsed comparison, never
