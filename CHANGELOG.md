@@ -13,6 +13,20 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ## [Unreleased]
 
+### Fixed
+
+- Payload scorer robustness (post-merge, Fable re-audit of #13/#12/#15):
+  `check-handoff-packet.sh` and `check-authorization-binding.sh` used a
+  `grep | head | sed` field helper that, under `set -euo pipefail`,
+  aborted the whole script whenever a queried field was ABSENT — so the
+  contradiction/drift logic was silently skipped and the checker exited
+  without naming the abnormality (fail-closed but for the wrong reason).
+  Field lookups now swallow grep no-match to empty; a minimal-field
+  contradicted packet and a no-`binds:` authorization now reach and emit
+  their intended verdicts (regression tests added). `check-lesson-lift.sh`
+  hardened the same way. Removed a stray empty `fixtures/governing-rule/`
+  fixture left over during the suspect turn (unreferenced).
+
 ### Added
 - Governed state-space convergence mode (#11, EXPERIMENTAL/optional): a
   new references/convergence-mode.md loaded ONLY when its trigger fires

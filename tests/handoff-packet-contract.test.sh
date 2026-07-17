@@ -60,4 +60,23 @@ EOF
 bash "$scorer" "$tmp/match.pkt" --repo-root "$repo_root" >/dev/null 2>&1 \
   || fail "matching packet must proceed against live state"
 
-printf 'handoff-packet-contract: ok (contract + contradicted/matching/owner/no-claims)\n'
+# E. ADVERSARIAL (post-merge robustness): a packet with only the required
+# identity fields + a contradicted subject_repo, and NO optional fields
+# (owner_acceptance, branch, tree, clean) must STILL reach the Class-1
+# contradiction logic and NAME the abnormality — not die early on an
+# absent-field lookup under `set -euo pipefail`.
+cat > "$tmp/min-contradicted.pkt" <<EOF
+packet_id: pmin
+packet_version: 1
+packet_content_hash: h
+sender_run_id: r
+subject_repo: DEFINITELY-NOT-THIS-REPO
+has_state_claims: yes
+EOF
+out="$(bash "$scorer" "$tmp/min-contradicted.pkt" --repo-root "$repo_root" 2>&1 || true)"
+printf '%s' "$out" | grep -q 'CONTRADICTED' \
+  || fail "minimal contradicted packet did not reach the contradiction logic (early-death regression)"
+printf '%s' "$out" | grep -q 'evidence-mismatch' \
+  || fail "minimal contradicted packet did not name the abnormality"
+
+printf 'handoff-packet-contract: ok (contract + contradicted/matching/owner/no-claims + minimal-fields regression)\n'

@@ -34,4 +34,18 @@ if bash "$scorer" --auth "$fx/auth.txt" --invocation "$fx/invocation-drift.txt" 
   fail "drift invocation must exit nonzero"
 fi
 
-printf 'authorization-binding-contract: ok (contract + match/drift fixtures)\n'
+# ADVERSARIAL (post-merge robustness): an authorization with NO `binds:`
+# line at all, plus an invocation supplying a consequential parameter, must
+# EVALUATE to AUTHORITY DRIFT (everything is unbound) — not die early on the
+# absent `binds:` lookup under `set -euo pipefail`.
+tmp="$(mktemp -d)"; trap 'rm -rf "$tmp"' EXIT
+printf 'action: commit-only\n' > "$tmp/auth-nobinds.txt"
+printf 'param.diff_scope: eval-only\n' > "$tmp/inv-x.txt"
+out="$(bash "$scorer" --auth "$tmp/auth-nobinds.txt" --invocation "$tmp/inv-x.txt" 2>&1 || true)"
+printf '%s' "$out" | grep -q 'AUTHORITY DRIFT' \
+  || fail "no-binds authorization did not reach the drift evaluation (early-death regression)"
+if bash "$scorer" --auth "$tmp/auth-nobinds.txt" --invocation "$tmp/inv-x.txt" >/dev/null 2>&1; then
+  fail "no-binds authorization with a consequential param must exit nonzero"
+fi
+
+printf 'authorization-binding-contract: ok (contract + match/drift + no-binds regression)\n'
