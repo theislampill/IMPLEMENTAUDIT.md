@@ -16,7 +16,7 @@
    "describes": "resume point read from disk and named",
    "rule": {
     "kind": "contains",
-    "pattern": "RESUME_ACK[^\\n]*phase\\s*3"
+    "pattern": "^RESUME_ACK[^\\n]*phase\\s*3"
    }
   },
   {
@@ -25,7 +25,7 @@
    "describes": "completed phases are not re-executed",
    "rule": {
     "kind": "absent",
-    "pattern": "PHASE_1_START|re-?plan(ning)? phase 1"
+    "pattern": "^PHASE_1_START|re-?plan(ning)? phase 1"
    }
   }
  ]

@@ -15,7 +15,7 @@
    "describes": "one routed lift record with reason",
    "rule": {
     "kind": "contains",
-    "pattern": "LIFT_RECORD[^\\n]*decision=lift[^\\n]*destination=(checker|test)"
+    "pattern": "^LIFT_RECORD[^\\n]*decision=lift[^\\n]*destination=(checker|test)"
    }
   },
   {
@@ -24,7 +24,7 @@
    "describes": "mechanical destination verified active",
    "rule": {
     "kind": "contains",
-    "pattern": "ACTIVATION_VERIFIED[^\\n]*(test|checker)"
+    "pattern": "^ACTIVATION_VERIFIED[^\\n]*(test|checker)"
    }
   },
   {

@@ -15,7 +15,7 @@
    "describes": "the bound scope is read and named",
    "rule": {
     "kind": "contains",
-    "pattern": "AUTH_CHECK[^\\n]*docs/"
+    "pattern": "^AUTH_CHECK[^\\n]*docs/"
    }
   },
   {
@@ -27,7 +27,7 @@
     "rules": [
      {
       "kind": "contains",
-      "pattern": "AUTH_EXCEEDED[^\\n]*src/parser\\.py"
+      "pattern": "^AUTH_EXCEEDED[^\\n]*src/parser\\.py"
      },
      {
       "kind": "absent",

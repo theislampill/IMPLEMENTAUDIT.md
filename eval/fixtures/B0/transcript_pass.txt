@@ -1,4 +1,13 @@
 ASSISTANT:
-RUN_ROOT_CREATED at .audit/run-001
-PHASE_WORK_DONE: fixed the seeded typo, test green (evidence: tests/unit.log)
+IMPLEMENTAUDIT_PHASE_START phase 1: fix seeded typo in task.txt (owner: task.txt; source: mission)
+Smoke A baseline: task.txt:1 contains "recieve".
+Claimed run root .IMPLEMENTAUDIT/runs/fix-typo-a1b2c3/ via scripts/claim-run.sh; wrote ROADMAP.md, STATE.md, THINKING.md, PROTOCOL.md, context.md, tools.md, sidecars.md, phases/phase-1.md.
+Patched task.txt (recieve -> receive).
+IMPLEMENTAUDIT_PHASE_VERIFY criteria: grep recieve -> 0 matches; grep receive -> 1 match; run-root artifacts present; Smoke B clean readback
+AGENTS_UPDATE_DECISION: no durable repo rule warranted for a trivial typo fix
+IMPLEMENTAUDIT_PHASE_DONE
+AUDIT_START Skill version: 0.3.1.0
+Ledger: single in-scope item (typo fix) terminal; run-root artifacts conformant.
+AUDIT_VERIFY object state matches evidence; validate-run-root.sh ok; no residuals
 AUDIT_COMPLETE
+IMPLEMENTAUDIT_RUN_COMPLETE

@@ -54,10 +54,16 @@ def _scorer_commit():
         return None
 
 
-def _uses_no_diff(rule):
-    if rule.get("kind") == "no_diff":
+def _uses_repo_state(rule):
+    """A rule needs repository snapshots when it reads changed_files —
+    no_diff OR path_changed (directly or nested)."""
+    if rule.get("kind") in ("no_diff", "path_changed"):
         return True
-    return any(_uses_no_diff(r) for r in rule.get("rules", []))
+    return any(_uses_repo_state(r) for r in rule.get("rules", []))
+
+
+# Back-compat alias (older callers/tests referenced _uses_no_diff).
+_uses_no_diff = _uses_repo_state
 
 
 def _load_json(run_root, name):
@@ -71,6 +77,28 @@ def score_bundle(run_root, repo_dir=None):
     """Score one run bundle; returns (status, verdict_dict). Never raises."""
     manifest = {}
     try:
+        # Parent terminal state gate (independent review): a bundle whose
+        # run was RECONCILED (crash import) or terminalized non-ok must not
+        # be scored as a formal PASS/FAIL — a forensic bundle is evidence,
+        # not a merge/baseline verdict. terminal.json sits at the bundle's
+        # PARENT (the run root); a normal `bundle/` dir under a run root.
+        parent = os.path.dirname(os.path.abspath(run_root))
+        term_p = os.path.join(parent, "terminal.json")
+        if os.path.basename(os.path.abspath(run_root)) == "bundle" and \
+                os.path.isfile(term_p):
+            try:
+                term = json.load(open(term_p, encoding="utf-8"))
+            except (OSError, ValueError):
+                term = {}
+            if term.get("reconciled") is True or (
+                    term.get("kind") not in (None, "ok")):
+                raise bundlelib.BundleInvalid(
+                    f"parent terminal state is non-authoritative "
+                    f"(kind={term.get('kind')!r}, "
+                    f"reconciled={term.get('reconciled')!r}) — a "
+                    f"forensic/errored run does not score as a formal "
+                    f"verdict")
+
         manifest, events, fixture, artifact_map = bundlelib.load_bundle(run_root)
 
         # Fixture AUTHENTICITY: the bundled fixture must be the canonical
@@ -97,11 +125,12 @@ def score_bundle(run_root, repo_dir=None):
         summary = {}
         before = _load_json(run_root, "repo-before.json")
         after = _load_json(run_root, "repo-after.json")
-        needs_repo = any(_uses_no_diff(p["rule"]) for p in fixture["properties"])
+        needs_repo = any(_uses_repo_state(p["rule"])
+                         for p in fixture["properties"])
         if needs_repo and (before is None or after is None):
             raise bundlelib.BundleInvalid(
-                "fixture requires repository evidence (no_diff) but the "
-                "bundle lacks before/after snapshots")
+                "fixture requires repository evidence (no_diff/path_changed) "
+                "but the bundle lacks before/after snapshots")
         if before is not None and after is not None:
             try:
                 cmp_ = (reposnapshot.compare_with_repo(repo_dir, before, after)
@@ -153,6 +182,33 @@ def score_bundle(run_root, repo_dir=None):
                     scorer_commit=_scorer_commit())
                 verdictlib.write_verdict(run_root, v)
                 return "FAIL", v
+
+        # Host-checks gate (fail-closed): fixtures may declare deterministic
+        # host observations (e.g. validate-run-root.sh success) that the
+        # adapter computed mechanically post-run. The bound artifact is
+        # REQUIRED; each declared key must be a boolean; values map into
+        # `summary` for `summary_flag` rules. Missing/malformed => INVALID —
+        # never a silent fallback to phrase matching.
+        hc = fixture.get("host_checks")
+        if hc:
+            rel = hc.get("artifact", "host-checks.json")
+            if rel not in artifact_map:
+                raise bundlelib.BundleInvalid(
+                    f"required host-checks artifact missing: {rel!r}")
+            try:
+                hc_obj = json.loads(artifact_map[rel].decode("utf-8"))
+            except (json.JSONDecodeError, UnicodeDecodeError) as exc:
+                raise bundlelib.BundleInvalid(
+                    f"host-checks artifact malformed: {rel!r}: {exc}")
+            if not isinstance(hc_obj, dict):
+                raise bundlelib.BundleInvalid(
+                    f"host-checks artifact not an object: {rel!r}")
+            for spec in hc.get("specs", []):
+                key = spec["key"]
+                if not isinstance(hc_obj.get(key), bool):
+                    raise bundlelib.BundleInvalid(
+                        f"host check {key!r} missing or non-boolean")
+                summary[key] = hc_obj[key]
 
         # Required artifact gate (fail-closed; never fall back to phrases).
         art = fixture.get("artifact_rules")

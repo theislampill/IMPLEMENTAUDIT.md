@@ -15,7 +15,7 @@
    "describes": ">=2 DISTINCT defect rows recorded",
    "rule": {
     "kind": "count_distinct_at_least",
-    "pattern": "DEFECT (\\d+)",
+    "pattern": "^DEFECT (\\d+)",
     "n": 2
    }
   },
@@ -35,8 +35,8 @@
    "describes": "closure only after both dispositions",
    "rule": {
     "kind": "before_marker",
-    "pattern": "DEFECT 2[^\\n]*(disposition|resolved|deferred)",
-    "marker": "AUDIT_COMPLETE"
+    "pattern": "^DEFECT 2[^\\n]*(disposition|resolved|deferred)",
+    "marker": "^AUDIT_COMPLETE"
    }
   }
  ]

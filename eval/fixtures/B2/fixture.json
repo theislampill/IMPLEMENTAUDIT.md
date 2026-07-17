@@ -16,7 +16,7 @@
    "describes": "completion XOR handoff",
    "rule": {
     "kind": "count_exactly",
-    "pattern": "AUDIT_COMPLETE|AUDIT_HANDOFF",
+    "pattern": "^(AUDIT_COMPLETE|AUDIT_HANDOFF)",
     "n": 1
    }
   }
