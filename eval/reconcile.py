@@ -50,6 +50,136 @@ def _pid_alive(pid):
         return False
 
 
+def host_os_name():
+    """Coarse host lane OS name recorded in / compared against
+    process-started.json ('windows' | 'posix')."""
+    return "windows" if os.name == "nt" else "posix"
+
+
+def host_boot_id():
+    """Stable-within-a-boot host identifier; None when unavailable.
+    Linux: the kernel boot_id. Windows: the boot epoch derived from
+    GetTickCount64, rounded to whole minutes (compared with +/-1 tolerance
+    to absorb clock slew at a minute boundary)."""
+    if os.name == "posix":
+        try:
+            return open("/proc/sys/kernel/random/boot_id",
+                        encoding="ascii").read().strip()
+        except OSError:
+            return None
+    try:
+        import ctypes
+        import time as _t
+        ticks = int(ctypes.windll.kernel32.GetTickCount64())
+        boot_ms = int(_t.time() * 1000) - ticks
+        return "winboot-" + str(int(round(boot_ms / 60000.0)))
+    except Exception:
+        return None
+
+
+def process_creation_time(pid):
+    """Absolute UTC epoch seconds when `pid` was created; None if unknown.
+    This is the identity field that distinguishes a RECYCLED pid from the
+    original process: a recycled pid has a different creation time.
+    Linux: /proc/stat btime + /proc/<pid>/stat field 22 / CLK_TCK
+    (absolute, so stable across reads within one boot).
+    Windows: GetProcessTimes creation FILETIME (absolute UTC)."""
+    if not isinstance(pid, int) or pid <= 0:
+        return None
+    if os.name == "posix":
+        try:
+            stat = open("/proc/%d/stat" % pid, "rb").read().decode("latin-1")
+            # comm may contain spaces/parens; fields resume after last ')'
+            rest = stat[stat.rindex(")") + 2:].split()
+            start_jiffies = int(rest[19])          # overall field 22
+            hz = os.sysconf("SC_CLK_TCK") or 100
+            btime = None
+            for ln in open("/proc/stat", encoding="ascii", errors="replace"):
+                if ln.startswith("btime "):
+                    btime = int(ln.split()[1])
+                    break
+            if btime is None:
+                return None
+            return round(btime + start_jiffies / float(hz), 2)
+        except Exception:
+            return None
+    try:
+        import ctypes
+        from ctypes import wintypes
+        k32 = ctypes.windll.kernel32
+        PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
+        h = k32.OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, False, pid)
+        if not h:
+            return None
+        try:
+            times = [wintypes.FILETIME() for _ in range(4)]
+            if not k32.GetProcessTimes(h, *[ctypes.byref(t) for t in times]):
+                return None
+            ft = (times[0].dwHighDateTime << 32) | times[0].dwLowDateTime
+            # FILETIME epoch 1601-01-01 UTC in 100ns units
+            return round(ft / 1e7 - 11644473600.0, 2)
+        finally:
+            k32.CloseHandle(h)
+    except Exception:
+        return None
+
+
+def process_identity(pid, lane_id=None):
+    """The identity record written into process-started.json at spawn."""
+    return {"lane_id": lane_id or host_os_name(),
+            "host_os": host_os_name(),
+            "host_boot_id": host_boot_id(),
+            "pid": pid,
+            "process_creation_time": process_creation_time(pid)}
+
+
+def _boot_ids_match(recorded, current):
+    if recorded == current:
+        return True
+    try:
+        if (str(recorded).startswith("winboot-")
+                and str(current).startswith("winboot-")):
+            return abs(int(str(recorded)[8:]) - int(str(current)[8:])) <= 1
+    except ValueError:
+        pass
+    return False
+
+
+def original_process_alive(started):
+    """(alive, reason) — True ONLY when the recorded process identity
+    provably matches a currently live process. A recycled pid, a
+    foreign-OS-lane pid, a reboot, or any missing/unreadable identity
+    field is NEVER 'alive': the reconciler must not keep a run open on a
+    pid number alone (release campaign crash lesson, v0.3.2.0)."""
+    rec_os = started.get("host_os")
+    if rec_os is not None and rec_os != host_os_name():
+        # A KNOWN different lane OS: the pid namespace differs, so local
+        # liveness checks are meaningless. (A legacy record with no
+        # host_os falls through to the identity checks below instead.)
+        return False, "foreign-lane: recorded host_os %r, reconciling on %r" \
+            % (rec_os, host_os_name())
+    pid = started.get("pid")
+    if not _pid_alive(pid):
+        return False, "process dead"
+    rec_ct = started.get("process_creation_time")
+    if rec_ct is None:
+        return False, "no recorded process_creation_time — identity " \
+                      "unverifiable, not treated as the original process"
+    cur_ct = process_creation_time(pid)
+    if cur_ct is None:
+        return False, "live pid identity unreadable — not treated as the " \
+                      "original process"
+    if abs(cur_ct - rec_ct) > 2.0:
+        return False, "pid recycled: creation time %r != recorded %r" \
+            % (cur_ct, rec_ct)
+    rec_boot = started.get("host_boot_id")
+    cur_boot = host_boot_id()
+    if rec_boot and cur_boot and not _boot_ids_match(rec_boot, cur_boot):
+        return False, "boot id mismatch: %r != recorded %r" \
+            % (cur_boot, rec_boot)
+    return True, "alive"
+
+
 def _write_terminal(run_root, record):
     """Create-once terminal write; a conflict is surfaced, never silent."""
     path = os.path.join(run_root, "terminal.json")
@@ -76,6 +206,26 @@ def reconcile_custody(custody_root):
             continue
         intent_p = os.path.join(run_root, "run-intent.json")
         term_p = os.path.join(run_root, "terminal.json")
+        if name.endswith(".claiming"):
+            # Orphan claim staging dir: the adapter crashed between creating
+            # the staging dir and atomically renaming it to the final run
+            # root. It never became a claimed run — terminally classify it
+            # (never silently ignore), keyed by the intended run id.
+            if os.path.isfile(term_p):
+                continue
+            intended = name[:-len(".claiming")]
+            rec = {"schema": "implementaudit-run-terminal-v1",
+                   "run_id": intended, "reconciled": True,
+                   "resolved_model": None, "policy_resolved": {},
+                   "kind": "error", "spawned": False,
+                   "detail": "orphan-claim-swept: staging dir never renamed "
+                             "to a claimed run root (intent %s)"
+                             % ("present" if os.path.isfile(intent_p)
+                                else "absent")}
+            results.append({"run_id": intended,
+                            "disposition": "orphan-claim-swept",
+                            "write": _write_terminal(run_root, rec)})
+            continue
         if not os.path.isfile(intent_p) or os.path.isfile(term_p):
             continue
         base = {"schema": "implementaudit-run-terminal-v1", "run_id": name,
@@ -94,10 +244,20 @@ def reconcile_custody(custody_root):
             started = json.load(open(started_p, encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
             started = {}
-        pid = started.get("pid")
-        if _pid_alive(pid):
+        alive, why = original_process_alive(started)
+        if alive:
             results.append({"run_id": name, "disposition": "running",
                             "write": "none"})
+            continue
+        if why.startswith("foreign-lane"):
+            # A pid from another OS lane cannot be adjudicated here at all
+            # (different pid namespace): classify truthfully rather than
+            # guessing liveness from an unrelated same-numbered process.
+            base.update({"kind": "error", "spawned": True,
+                         "detail": "terminal-state-unverified: " + why})
+            results.append({"run_id": name,
+                            "disposition": "terminal-state-unverified",
+                            "write": _write_terminal(run_root, base)})
             continue
         # dead process: is there host terminal evidence (a sealed bundle)?
         bundle_manifest = os.path.join(run_root, "bundle", "manifest.json")
@@ -114,8 +274,8 @@ def reconcile_custody(custody_root):
             continue
         base.update({"kind": "error", "spawned": True,
                      "detail": "terminal-state-unverified: bound process is "
-                               "dead and no terminal or bundle evidence "
-                               "exists"})
+                               "not verifiably the original (%s) and no "
+                               "terminal or bundle evidence exists" % why})
         results.append({"run_id": name,
                         "disposition": "terminal-state-unverified",
                         "write": _write_terminal(run_root, base)})
