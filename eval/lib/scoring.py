@@ -20,17 +20,25 @@ The transcript is the model/agent output text. `summary` is an optional dict a
 runner may attach (e.g. {"changed_files": [...]}) derived mechanically from the
 run's working tree; scoring never infers it from prose.
 
-Role awareness (scorer integrity):
-  A transcript is a sequence of role-tagged segments. Lines beginning with
-  `USER:`, `ASSISTANT:`, `TOOL:`, or `SYSTEM:` (case-insensitive) open a
-  segment of that role; unmarked leading text defaults to `assistant` for
-  backward compatibility. By default a rule matches ONLY assistant-authored,
-  current-turn text, with quoted lines (leading `>`), fenced code blocks, and
-  everything after a nested-transcript sentinel (`----- BEGIN QUOTED
-  TRANSCRIPT -----`) removed. This prevents passing a fixture by placing the
-  expected markers in the user prompt, in a quotation, or in a pasted
-  transcript. A rule may opt into a different role via {"role": "..."} or into
-  quotes via {"include_quotes": true}.
+TRUST BOUNDARY (scorer integrity):
+  The authoritative input is a HOST-PRODUCED run bundle (see bundle.py): the
+  host adapter or trusted replay builder assigns role/kind/seq/run_id fields
+  out-of-band, in a location the evaluated model cannot write. Score bundles
+  with `score_events`. Role labels PARSED OUT OF FREE TEXT are forgeable by
+  any content author and are NOT an authority boundary; the legacy free-text
+  path (`score` on a raw string) exists only for the bundled synthetic unit
+  fixtures and must run behind the runner's --trusted-synthetic-roles flag.
+
+  Within assistant-authored event content, the following are treated as DATA
+  (defense-in-depth heuristics on top of the host-role boundary, since an
+  assistant can quote or paste text it did not assert): lines that look like
+  role tags (`USER:`/`ASSISTANT:`/...), fenced code blocks, `>`-quoted lines,
+  anything after a `BEGIN QUOTED TRANSCRIPT` sentinel, and lines that parse
+  as JSON objects carrying a "role" key (pasted transcript dumps). Text rules
+  are protocol/order checks; where a fixture declares `artifact_rules`, the
+  machine-readable result artifact is the primary basis for those properties
+  (phrase matching may false-fail correct answers and cannot be the final
+  comparison method).
 """
 from __future__ import annotations
 
@@ -91,9 +99,59 @@ def authoritative_text(transcript, role="assistant", include_quotes=False):
     return "\n".join(out)
 
 
+def _looks_like_json_role_line(line):
+    stripped = line.strip()
+    if not (stripped.startswith("{") and stripped.endswith("}")):
+        return False
+    try:
+        obj = json.loads(stripped)
+    except json.JSONDecodeError:
+        return False
+    return isinstance(obj, dict) and "role" in obj
+
+
+def clean_event_content(content):
+    """Strip DATA from a single event's content: role-tag-looking lines
+    (suspected pasted transcript), fences, quotes, nested-transcript tails,
+    and JSON transcript-dump lines. Heuristic defense-in-depth only — the
+    real boundary is the host-assigned role field."""
+    out = []
+    in_fence = False
+    for line in content.splitlines():
+        if _NESTED_SENTINEL.search(line):
+            break
+        stripped = line.lstrip()
+        if stripped.startswith("```"):
+            in_fence = not in_fence
+            continue
+        if in_fence or stripped.startswith(">"):
+            continue
+        if _ROLE_RE.match(line):
+            continue
+        if _looks_like_json_role_line(line):
+            continue
+        out.append(line)
+    return "\n".join(out)
+
+
+def role_texts_from_events(events):
+    """Build {role: cleaned concatenated text} from host-validated events.
+    Roles come from the HOST-ASSIGNED field, never from content."""
+    texts = {}
+    for ev in events:
+        if ev.get("kind") not in ("message", "marker"):
+            continue
+        cleaned = clean_event_content(ev["content"])
+        texts.setdefault(ev["role"], []).append(cleaned)
+    return {role: "\n".join(parts) for role, parts in texts.items()}
+
+
 def _text_for(rule, transcript):
-    return authoritative_text(transcript,
-                              role=rule.get("role", "assistant"),
+    role = rule.get("role", "assistant")
+    if isinstance(transcript, dict):
+        # pre-extracted {role: text} view from host events
+        return transcript.get(role, "")
+    return authoritative_text(transcript, role=role,
                               include_quotes=rule.get("include_quotes", False))
 
 
@@ -149,11 +207,63 @@ def eval_rule(rule, transcript, summary):
 
 
 def score(fixture, transcript, summary=None):
-    """Return {property_name: {"pass": bool, "evidence": str}} for each scored property."""
+    """Return {property_name: {"pass": bool, "evidence": str}} for each scored property.
+
+    LEGACY free-text entry point: role labels are parsed from the text and are
+    therefore forgeable. Only for bundled synthetic unit fixtures behind the
+    runner's --trusted-synthetic-roles flag. Real evaluation uses score_events.
+    """
     out = {}
     for prop in fixture["properties"]:
         ok, ev = eval_rule(prop["rule"], transcript, summary or {})
         out[prop["name"]] = {"pass": ok, "evidence": ev, "describes": prop.get("describes", "")}
+    return out
+
+
+def score_events(fixture, events, summary=None, artifacts_dir=None):
+    """Score host-validated events (the trusted path). Roles are host-assigned.
+
+    If the fixture declares `artifact_rules` and the named result artifact is
+    present under `artifacts_dir`, those machine-readable fields are the
+    PRIMARY verdict for the properties they name (text rules stay as
+    protocol checks for the remaining properties).
+    """
+    texts = role_texts_from_events(events)
+    out = {}
+    for prop in fixture["properties"]:
+        ok, ev = eval_rule(prop["rule"], texts, summary or {})
+        out[prop["name"]] = {"pass": ok, "evidence": ev,
+                             "describes": prop.get("describes", ""),
+                             "basis": "text"}
+    art = fixture.get("artifact_rules")
+    if art and artifacts_dir is not None:
+        import os
+        path = os.path.join(artifacts_dir, art["file"])
+        if os.path.isfile(path):
+            try:
+                data = json.load(open(path, encoding="utf-8"))
+            except (json.JSONDecodeError, UnicodeDecodeError):
+                data = None
+            if isinstance(data, dict):
+                for field, spec in art["fields"].items():
+                    prop_name = spec["property"]
+                    if prop_name not in out:
+                        continue
+                    value = data.get(field)
+                    if "equals" in spec:
+                        ok = (value == spec["equals"])
+                        ev = f"artifact {field}={value!r}"
+                    elif spec.get("nonempty"):
+                        ok = bool(value)
+                        ev = f"artifact {field} nonempty={bool(value)}"
+                    else:
+                        continue
+                    prior = out[prop_name]
+                    merged_ok = ok and prior["pass"] if prior["basis"] == "artifact" else ok
+                    out[prop_name] = {"pass": merged_ok,
+                                      "evidence": f"{ev}; {prior['evidence']}"[:160],
+                                      "describes": prior["describes"],
+                                      "basis": "artifact"}
     return out
 
 
