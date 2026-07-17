@@ -171,8 +171,8 @@ class _BaseAdapter:
         except ValueError as exc:
             return HostRunResult("invalid",
                                  f"malformed structured output: {exc}")
-        provenance_stream = (outcome.stderr or "") + "
-" +             (outcome.stdout or "")
+        provenance_stream = "\n".join(
+            [outcome.stderr or "", outcome.stdout or ""])
         resolved = self.check_provenance(provenance_stream)
         self.post_checks(provenance_stream)
         if payload_before is not None:
@@ -376,8 +376,7 @@ class CodexAdapter(_BaseAdapter):
                 if lines[j].strip() in ("tokens used", "--------"):
                     end = j
                     break
-            reply = "
-".join(lines[start:end]).strip()
+            reply = chr(10).join(lines[start:end]).strip()
             if not reply:
                 raise ValueError("empty codex reply section")
             return [{"role": "assistant", "content": reply}]
