@@ -280,6 +280,38 @@ When resuming after interruption:
 4. Do not re-print IMPLEMENTAUDIT_PHASE_START; it was already printed.
 5. Continue from the paused step, not from Step 1.
 
+### Long-running and background commands
+
+A command expected to outlive the host tool timeout is launched DETACHED
+with a durable status contract, never awaited inline:
+
+1. Before launch, write `<run-root>/background/<chain-id>/launch-intent.md`
+   (command, owner/source, expected completion marker, abort containment
+   plan). Launch detached; append one line per observed state change to
+   `<chain-id>/chain-status.txt`; the command's last act is creating
+   `<chain-id>/chain.done` (the completion marker).
+2. State model — exactly one terminal token per chain, recorded in
+   `chain-status.txt`: `running`, `succeeded` (exit recorded + `chain.done`
+   present), `failed` (nonzero exit recorded + `chain.done` present),
+   `aborted` (operator kill of the OWNED process tree only, recorded),
+   `terminal-state-unverified` (no completion marker — NEVER reported as
+   failed and NEVER as passed), `contaminated` (an abort or crash may have
+   affected sibling lanes; name the siblings), `infrastructure-failed`
+   (classified `transport-infrastructure` per the abnormality classes).
+3. A missing completion record is not a failure verdict: the chain is
+   `terminal-state-unverified` until origin is classified with recorded
+   evidence.
+4. Abort containment: an abort kills only the chain's OWNED process tree.
+   If containment cannot be proven, record `contaminated` on every sibling
+   that shared resources, and treat their in-flight results as
+   non-evidence.
+5. Infrastructure signatures (cross-lane simultaneous fast-fail,
+   process-init exit codes such as 0xC0000142, known outage windows) are
+   grounds to SUSPECT infrastructure, not proof: origin classification with
+   recorded evidence comes first, and producer countermeasures are
+   PROHIBITED until the run's origin is classified — a lane inside an
+   outage window may still be a genuine producer failure.
+
 ## Nemawashi — owner-decision gate
 
 Before Stage 7 handoff (or before dispatching any phase that crosses a

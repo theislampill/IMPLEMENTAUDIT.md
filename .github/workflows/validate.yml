@@ -48,6 +48,7 @@ jobs:
       - name: Run focused behavior tests
         run: |
           bash tests/andon-class-contract.test.sh
+          bash tests/background-chain-contract.test.sh
           bash tests/evidence-anchoring.test.sh
           bash tests/marker-order.test.sh
           bash tests/planner-stages.test.sh
