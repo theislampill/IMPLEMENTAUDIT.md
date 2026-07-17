@@ -14,6 +14,16 @@ schema evidence proved four-component plugin manifest versions are accepted.
 ## [Unreleased]
 
 ### Added
+- Governed state-space convergence mode (#11, EXPERIMENTAL/optional): a
+  new references/convergence-mode.md loaded ONLY when its trigger fires
+  (two same-family review rejections, or a #7 under-specified-state-space
+  judgment) — bounded read-only discovery -> enumeration artifact ->
+  generated RED fixtures -> one coherent repair -> exactly one outer
+  qualification. NOT core protocol and NOT in the bootloader path; core
+  adoption is gated on a #9 model-in-the-loop evaluation of the two
+  adoption-gate fixtures (3-dimension under-specified machine + single-
+  fault negative control), which has not been run. Zero burden on
+  ordinary runs.
 - Parameter-bound authorization (#12): an authorization enumerates the
   consequential parameters it binds (values or ranges), not just the
   action. A runtime parameter that affects the authorized action and is

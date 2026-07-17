@@ -64,6 +64,7 @@ require_file skills/implementaudit/references/audit-category-matrix.md
 require_file skills/implementaudit/references/audit-playbook.md
 require_file skills/implementaudit/references/plan-lifecycle.md
 require_file skills/implementaudit/references/terminology-integration.md
+require_file skills/implementaudit/references/convergence-mode.md
 require_file skills/implementaudit/scripts/check-evidence-anchor.sh
 require_file skills/implementaudit/scripts/check-lesson-lift.sh
 require_file skills/implementaudit/scripts/check-handoff-packet.sh
@@ -204,6 +205,7 @@ require_file tests/lesson-lift-contract.test.sh
 require_file tests/handoff-packet-contract.test.sh
 require_file tests/closure-surface-contract.test.sh
 require_file tests/authorization-binding-contract.test.sh
+require_file tests/convergence-mode-contract.test.sh
 require_file tests/andon-escalation-judgment.test.sh
 require_file tests/background-chain-contract.test.sh
 require_file tests/evidence-anchoring.test.sh
@@ -528,6 +530,7 @@ bash tests/lesson-lift-contract.test.sh
 bash tests/handoff-packet-contract.test.sh
 bash tests/closure-surface-contract.test.sh
 bash tests/authorization-binding-contract.test.sh
+bash tests/convergence-mode-contract.test.sh
 bash tests/andon-escalation-judgment.test.sh
 bash tests/background-chain-contract.test.sh
 bash tests/evidence-anchoring.test.sh

@@ -52,6 +52,7 @@ jobs:
           bash tests/handoff-packet-contract.test.sh
           bash tests/closure-surface-contract.test.sh
           bash tests/authorization-binding-contract.test.sh
+          bash tests/convergence-mode-contract.test.sh
           bash tests/andon-escalation-judgment.test.sh
           bash tests/background-chain-contract.test.sh
           bash tests/evidence-anchoring.test.sh
