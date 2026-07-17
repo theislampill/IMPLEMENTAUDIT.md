@@ -198,7 +198,9 @@ if missing_expected:
 # evidence property and is not accepted as one.
 TAG = re.compile(r"property:\s*(structural|behavioral|provenance)\b",
                  re.IGNORECASE)
-BAD_TAG = re.compile(r"property:\s*(?!structural|behavioral|provenance)\w+",
+# \b-anchored: a PREFIX of a valid class ("structurally", "behavioralish")
+# is an invalid tag, not an untagged/legacy item (Fable review of PR #25).
+BAD_TAG = re.compile(r"property:\s*(?!(?:structural|behavioral|provenance)\b)\w+",
                      re.IGNORECASE)
 tagged = [i for i in items if TAG.search(i)]
 badly = [i for i in items if BAD_TAG.search(i)]
@@ -215,6 +217,17 @@ if tagged and len(tagged) != len(items):
         "items — every command in a newly authored spec declares "
         "`property: structural|behavioral|provenance`; untagged: "
         + "; ".join(untagged[:3]) + "\n")
+    raise SystemExit(1)
+# A property tag without a scope is the mis-scoped-validator hazard the
+# tag exists to prevent: the class says WHAT KIND of evidence, the scope
+# says what the check actually tests (and implicitly what it does not).
+noscope = [i for i in tagged
+           if not re.search(r"scope:\s*\S", i, re.IGNORECASE)]
+if noscope:
+    sys.stderr.write(
+        "validate-phase: property-tagged command lacks `scope:` (the "
+        "plain-language statement of what this check actually tests): "
+        + "; ".join(noscope[:3]) + "\n")
     raise SystemExit(1)
 if not tagged:
     sys.stderr.write(
