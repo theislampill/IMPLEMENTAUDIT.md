@@ -47,10 +47,26 @@ field() {
 }
 
 rows=0
+seen_ids=""
 while IFS= read -r line; do
+  # A near-miss row (e.g. `Claim:` capitalized) must never be silently
+  # skipped: a bad claim could hide from every rule just by casing its
+  # key (Fable review of PR #31 — a capitalized layer-promotion row
+  # passed invisibly).
+  if printf '%s' "$line" | grep -qiE '^[[:space:]]*claim:'; then
+    case "$line" in claim:*) : ;; *)
+      fail "malformed claim row (key must be exactly lowercase 'claim:'): ${line%%|*}";;
+    esac
+  fi
   case "$line" in claim:*) : ;; *) continue;; esac
   rows=$((rows + 1))
   cid="$(field "$line" claim)"
+  # Claim identity is unique per table: two rows sharing an ID with
+  # different surfaces make the claim ambiguous (Fable review of PR #31).
+  case " $seen_ids " in *" $cid "*)
+    fail "duplicate Claim-ID '$cid' — each closure claim has one row";;
+  esac
+  seen_ids="$seen_ids $cid"
   surface="$(field "$line" surface)"
   status="$(field "$line" status)"
   esurface="$(field "$line" 'evidence-surface')"
