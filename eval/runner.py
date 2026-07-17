@@ -154,6 +154,33 @@ def score_bundle(run_root, repo_dir=None):
                 verdictlib.write_verdict(run_root, v)
                 return "FAIL", v
 
+        # Host-checks gate (fail-closed): fixtures may declare deterministic
+        # host observations (e.g. validate-run-root.sh success) that the
+        # adapter computed mechanically post-run. The bound artifact is
+        # REQUIRED; each declared key must be a boolean; values map into
+        # `summary` for `summary_flag` rules. Missing/malformed => INVALID —
+        # never a silent fallback to phrase matching.
+        hc = fixture.get("host_checks")
+        if hc:
+            rel = hc.get("artifact", "host-checks.json")
+            if rel not in artifact_map:
+                raise bundlelib.BundleInvalid(
+                    f"required host-checks artifact missing: {rel!r}")
+            try:
+                hc_obj = json.loads(artifact_map[rel].decode("utf-8"))
+            except (json.JSONDecodeError, UnicodeDecodeError) as exc:
+                raise bundlelib.BundleInvalid(
+                    f"host-checks artifact malformed: {rel!r}: {exc}")
+            if not isinstance(hc_obj, dict):
+                raise bundlelib.BundleInvalid(
+                    f"host-checks artifact not an object: {rel!r}")
+            for spec in hc.get("specs", []):
+                key = spec["key"]
+                if not isinstance(hc_obj.get(key), bool):
+                    raise bundlelib.BundleInvalid(
+                        f"host check {key!r} missing or non-boolean")
+                summary[key] = hc_obj[key]
+
         # Required artifact gate (fail-closed; never fall back to phrases).
         art = fixture.get("artifact_rules")
         artifact_obj = None

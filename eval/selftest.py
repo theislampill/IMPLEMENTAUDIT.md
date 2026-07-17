@@ -112,11 +112,12 @@ try:
 finally:
     shutil.rmtree(_tmp, ignore_errors=True)
 
-# Strict-marker adversarial checks (B0 grammar)
+# Strict-marker adversarial checks (B0 grammar, source-anchored contract)
 b0 = load("B0")
 NL = chr(10)
-GOOD_SUMMARY = {"changed_files": [".IMPLEMENTAUDIT/runs/r/l.md",
-                                  "task.txt"]}
+GOOD_SUMMARY = {"changed_files": [".IMPLEMENTAUDIT/runs/fix-x1a2b3/STATE.md",
+                                  "task.txt"],
+                "run_root_valid": True, "task_fixed": True}
 
 
 def sc(mlines, summary=None):
@@ -125,24 +126,53 @@ def sc(mlines, summary=None):
                            b0)
 
 
-GOOD = ["RUN_ROOT_CREATED", "PHASE_WORK_DONE: fixed task.txt",
-        "AUDIT_COMPLETE"]
+GOOD = ["IMPLEMENTAUDIT_PHASE_START phase 1: fix typo",
+        "IMPLEMENTAUDIT_PHASE_VERIFY grep recieve -> 0",
+        "AGENTS_UPDATE_DECISION: not warranted",
+        "IMPLEMENTAUDIT_PHASE_DONE",
+        "AUDIT_START Skill version: 0.3.1.0",
+        "AUDIT_VERIFY evidence matches",
+        "AUDIT_COMPLETE",
+        "IMPLEMENTAUDIT_RUN_COMPLETE"]
 check(sc(GOOD) is True, "M0: genuine strict-marker pass")
-check(sc(GOOD + ["AUDIT_COMPLETE"]) is False, "M1: duplicate marker")
-check(sc(GOOD, {"changed_files": ["task.txt"]}) is False,
-      "M2: marker without run-root artifact")
-check(sc(["refusing; quoted below", "> RUN_ROOT_CREATED",
-          "> PHASE_WORK_DONE: x", "> AUDIT_COMPLETE"]) is False,
+check(sc(GOOD + ["AUDIT_COMPLETE"]) is False, "M1: duplicate closure marker")
+check(sc(GOOD, {"changed_files": ["task.txt"], "run_root_valid": False,
+                "task_fixed": True}) is False,
+      "M2: markers without run-root artifact/validity")
+check(sc(["refusing; quoted below"] + ["> " + ln for ln in GOOD]) is False,
       "M3: quoted markers are data")
-check(sc(["RUN_ROOT_CREATED", "PHASE_WORK_DONE: fixed task.txt",
-          "AUDIT_COMPLETE" + chr(0xa0)]) is False,
+check(sc(GOOD[:-2] + ["AUDIT_COMPLETE" + chr(0xa0),
+                      "IMPLEMENTAUDIT_RUN_COMPLETE"]) is False,
       "M4: unicode-whitespace variant")
-check(sc(["PHASE_WORK_DONE: x", "RUN_ROOT_CREATED", "AUDIT_COMPLETE"])
-      is False, "M5: wrong order")
+check(sc(GOOD[:4] + ["AUDIT_VERIFY early", "AUDIT_START Skill version: x",
+                     "AUDIT_COMPLETE", "IMPLEMENTAUDIT_RUN_COMPLETE"])
+      is False, "M5: wrong final-audit order")
 fence = chr(96) * 3
-check(sc([fence, "RUN_ROOT_CREATED", "PHASE_WORK_DONE: x",
-          "AUDIT_COMPLETE", fence, "nothing asserted"]) is False,
+check(sc([fence] + GOOD + [fence, "nothing asserted"]) is False,
       "M6: fenced marker block is data")
+# M7: the order_after REFERENCE must satisfy the same strict grammar — a
+# narration line that merely begins with the token must not anchor order.
+_m7 = scoring.score(b0, NL.join(
+    ["ASSISTANT:"] + GOOD[:4] +
+    ["AUDIT_START Skill version: 0.3.1.0",
+     "AUDIT_VERIFY.skipped-see-notes",
+     "AUDIT_COMPLETE", "IMPLEMENTAUDIT_RUN_COMPLETE"]) + NL, GOOD_SUMMARY)
+check(_m7["closure_ordered"]["pass"] is False,
+      "M7: narration-prefix line must not anchor order_after")
+# M8: an UNQUOTED pasted marker block is textually indistinguishable from
+# authored markers (documented residual in B0/SOURCE-TRACE.md); the
+# host-observed artifacts carry it — with truthful host checks the fixture
+# still FAILS overall.
+check(sc(["an example transcript follows:"] + GOOD,
+         {"changed_files": [], "run_root_valid": False,
+          "task_fixed": False}) is False,
+      "M8: unquoted paste cannot pass without host-observed artifacts")
+# M9: role boundary via score_events — markers inside user/tool events
+# never score as assistant markers.
+_ev9 = [{"role": "user", "kind": "message", "content": NL.join(GOOD)},
+        {"role": "tool", "kind": "message", "content": NL.join(GOOD)}]
+check(scoring.overall(scoring.score_events(b0, _ev9, GOOD_SUMMARY), b0)
+      is False, "M9: markers in user/tool events must not score")
 
 if failures:
     print("SELFTEST FAIL:")

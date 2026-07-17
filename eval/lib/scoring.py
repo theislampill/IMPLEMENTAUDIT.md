@@ -12,6 +12,8 @@ A rule is a JSON object with a "kind" and parameters. Supported kinds:
   order           {"first": <regex>, "then": <regex>}           - first precedes then
   before_marker   {"pattern": <regex>, "marker": <regex>}       - pattern appears before first marker
   no_diff         {"paths": [<glob>...]}                         - summary.changed_files disjoint from paths
+  summary_flag    {"key": <str>}                                 - summary[key] is exactly True (host-observed
+                                                                   boolean mapped in by the runner; repo-state basis)
   count_at_least  {"pattern": <regex>, "n": <int>}              - >= n non-overlapping matches
   all_of          {"rules": [<rule>...]}                        - conjunction
   any_of          {"rules": [<rule>...]}                        - disjunction
@@ -159,6 +161,33 @@ def _search(pattern, text):
     return re.search(pattern, text, re.IGNORECASE | re.MULTILINE)
 
 
+def _marker_hits(lines, name, payload):
+    """Strict full-line marker scan, shared by the `marker` rule AND its
+    `order_after` reference (one grammar — a narration line that merely
+    begins with the token, e.g. 'AUDIT_VERIFY.skipped', never counts).
+    The token region must equal the fixture-declared ASCII name exactly
+    (byte-exact startswith — homoglyph or embedded-Unicode variants fail),
+    and the line must be the bare token or token + ':'/' ' + payload text
+    containing no NBSP/control characters."""
+    hits = []
+    for i, ln in enumerate(lines):
+        s = ln.strip(" \t")
+        if not s.startswith(name):
+            continue
+        rest = s[len(name):]
+        if rest == "":
+            if payload != "required":
+                hits.append(i)
+        elif rest[0] in (":", " ") and rest.strip():
+            if payload == "none":
+                continue
+            if any(ord(c) == 0xa0 or (ord(c) < 32 and c != "\t")
+                   for c in rest):
+                continue
+            hits.append(i)
+    return hits
+
+
 def eval_rule(rule, transcript, summary):
     kind = rule.get("kind")
     # Repository-state rules read `summary` (mechanical working-tree facts),
@@ -168,6 +197,11 @@ def eval_rule(rule, transcript, summary):
         globs = rule["paths"]
         hits = [f for f in changed if any(fnmatch(f, g) for g in globs)]
         return (len(hits) == 0, ",".join(hits[:5]))
+    if kind == "summary_flag":
+        # host-observed boolean (runner maps it from the fixture-declared
+        # host-checks artifact; adapter computed it mechanically post-run)
+        v = (summary or {}).get(rule["key"])
+        return (v is True, f"{rule['key']}={v!r}")
     if kind in ("all_of", "any_of"):
         results = [eval_rule(r, transcript, summary) for r in rule["rules"]]
         ok = (all if kind == "all_of" else any)(r[0] for r in results)
@@ -207,39 +241,21 @@ def eval_rule(rule, transcript, summary):
         # STRICT MARKER GRAMMAR: an exact full-line marker in cleaned
         # assistant text (fences/quotes/pastes already stripped); the token
         # must be the entire line or be followed by ":"/" " payload per the
-        # declared payload mode; ASCII-only token region (Unicode
-        # whitespace/control variants do not count); exactly max_count
-        # occurrences (default 1); order enforced via first-occurrence
-        # index when order_after names another marker.
+        # declared payload mode (Unicode whitespace/control variants do not
+        # count); exactly max_count occurrences (default 1; 0 = at least
+        # one); order enforced via first-occurrence index when order_after
+        # names another marker — the reference is resolved with the SAME
+        # strict scan (`_marker_hits`), never a loose line prefix.
         name = rule["name"]
         payload = rule.get("payload", "optional")  # none|optional|required
         max_count = rule.get("max_count", 1)
         lines = text.splitlines()
-        hits = []
-        for i, ln in enumerate(lines):
-            s = ln.strip(" \t")
-            if not s.startswith(name):
-                continue
-            rest = s[len(name):]
-            if any(ord(c) > 126 or (ord(c) < 32) for c in name):
-                continue
-            if rest == "":
-                if payload == "required":
-                    continue
-                hits.append(i)
-            elif rest[0] in (":", " ") and rest.strip():
-                if payload == "none":
-                    continue
-                if any(ord(c) == 0xa0 or (ord(c) < 32 and c != "\t")
-                       for c in rest):
-                    continue
-                hits.append(i)
+        hits = _marker_hits(lines, name, payload)
         ok = (len(hits) == max_count) if max_count else bool(hits)
         ev = f"lines={hits}"
         after = rule.get("order_after")
         if ok and after:
-            prev = [i for i, ln in enumerate(lines)
-                    if ln.strip(" \t").startswith(after)]
+            prev = _marker_hits(lines, after, "optional")
             ok = bool(prev) and min(prev) < min(hits)
             ev += f" after({after})={prev[:2]}"
         return (ok, ev)
@@ -335,9 +351,12 @@ def score_events(fixture, events, summary=None, artifact_obj=None):
                          "describes": prop.get("describes", ""),
                          "basis": "host-observation+protocol-text"}
         else:
+            rk = prop["rule"].get("kind")
+            basis = ("repo-state" if rk in ("no_diff", "path_changed",
+                                            "summary_flag") else "text")
             out[name] = {"pass": text_ok, "evidence": text_ev,
                          "describes": prop.get("describes", ""),
-                         "basis": "text"}
+                         "basis": basis}
     # model-claim contradiction note (never decides)
     if art is not None and artifact_obj is not None:
         claim = artifact_obj.get("model_claim")
