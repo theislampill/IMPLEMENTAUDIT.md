@@ -12,8 +12,11 @@ set -euo pipefail
 #  - A no-lift decision whose reason is "easy/cheap to redo by hand" FAILS;
 #    a reasoned no-lift (any other substantive reason) PASSES.
 #  - A destination of `checker or deterministic test` claiming the encoding
-#    is active MUST name a target file that is non-empty / changed — an
-#    unchanged target is a claimed-vs-active mismatch and FAILS.
+#    is active MUST name a target file that EXISTS and is NON-EMPTY — a
+#    missing/empty target is a claimed-vs-active mismatch and FAILS.
+#    (Whether a pre-existing target actually CHANGED is not checked here:
+#    the scorer sees one closure record, not the baseline tree. Change
+#    verification is the closure author's PROTOCOL duty, item 6.)
 #  - A closure claiming "recurrence prevented" FAILS (only encoding-written,
 #    mechanically-active, and installed-current are closure-time claims).
 #  - A one-off correction with no qualifying trigger and a single `No-lift:`
@@ -29,13 +32,29 @@ if [ "${2:-}" = "--repo-root" ]; then repo_root="${3:-.}"; fi
 content="$(cat "$file")"
 flat="$(printf '%s' "$content" | tr '\n' ' ')"
 
-# 1. Forbidden closure claim: prevention is future evidence.
-if printf '%s' "$flat" | grep -qiE 'recurrence[ _-]?prevented|prevented recurrence|will not recur|cannot recur'; then
+# 1. Forbidden closure claim: prevention is future evidence. Worded
+# variants count too — "the recurrence has been prevented" and "prevents
+# recurrence" are the same claim in disguise (Fable review of PR #29);
+# intent forms ("meant/intended to prevent", "without preventing") are
+# not claims and stay legal.
+if printf '%s' "$flat" | grep -qiE 'recurrence[ _-]?prevented|prevented recurrence|will not recur|cannot recur|recurrence[^.]{0,60}\b(prevented|averted)\b|\bprevents\b[^.]{0,40}\brecurrence'; then
   fail "closure claims recurrence prevented — prevention is future evidence, not a closure-time claim"
 fi
 
+# One canonical record: two Lesson-lift records in one closure are
+# competing records, which the contract forbids (Fable review of PR #29).
+record_count="$(printf '%s\n' "$content" | grep -ciE '^Lesson-lift:' || true)"
+if [ "${record_count:-0}" -gt 1 ]; then
+  fail "found $record_count Lesson-lift records — one qualifying lesson produces exactly ONE canonical record"
+fi
+
+# The qualifying scan ignores `No-lift:` disposition lines: the one-off
+# disposition describing itself ("no recurrence expected") must not
+# trigger the ceremony the disposition exists to avoid (Fable review of
+# PR #29).
+qual_scan="$(printf '%s\n' "$content" | grep -viE '^No-lift:' | tr '\n' ' ')"
 qualifies=0
-printf '%s' "$flat" | grep -qiE 'qualifying trigger:|recurrence|governing rule|governing-rule|repeated (manual )?workaround|high consequence|cross-project reuse|owner request' \
+printf '%s' "$qual_scan" | grep -qiE 'qualifying trigger:|recurrence|governing rule|governing-rule|repeated (manual )?workaround|high consequence|cross-project reuse|owner request' \
   && qualifies=1
 
 has_record=0
@@ -48,9 +67,18 @@ if [ "$qualifies" -eq 1 ] && [ "$has_record" -eq 0 ]; then
 fi
 
 # 2. No-lift reason quality.
-noreason="$(printf '%s' "$content" | grep -iE '^(No-lift|Lesson-lift:.*decision: *no-lift)' || true)"
 if printf '%s' "$flat" | grep -qiE '(no-lift|no lift)[^.]*\b(easy|cheap|trivial) to redo by hand'; then
   fail "no-lift reason 'easy/cheap to redo by hand' is insufficient — record a substantive reason"
+fi
+# A no-lift DECISION inside a Lesson-lift record requires a non-empty
+# reason — an empty `reason =` field is a bare "no" (Fable review of
+# PR #29). The one-off `No-lift:` disposition line is not a record and
+# is exempt.
+if printf '%s' "$flat" | grep -qiE 'Lesson-lift:.*decision: *no-lift'; then
+  reason_val="$(printf '%s' "$flat" | { grep -ioE 'reason *= *[^;]*' || true; } | head -n1 | sed -E 's/^[Rr]eason *= *//; s/^ +//; s/ +$//')"
+  if ! printf '%s' "$reason_val" | grep -q '[[:alnum:]]'; then
+    fail "no-lift decision with an empty reason — rejecting a lift requires a recorded reason"
+  fi
 fi
 
 # 3. checker/test destination claimed active => target must be non-empty.
