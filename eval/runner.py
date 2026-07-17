@@ -43,6 +43,12 @@ def load_fixture(fid):
                           encoding="utf-8"))
 
 
+def _uses_no_diff(rule):
+    if rule.get("kind") == "no_diff":
+        return True
+    return any(_uses_no_diff(r) for r in rule.get("rules", []))
+
+
 def score_bundle(run_root):
     """Score one run bundle; returns (status, verdict_dict). Never raises."""
     try:
@@ -50,6 +56,13 @@ def score_bundle(run_root):
         fixture = load_fixture(manifest["fixture_id"])
         summary = {}
         after_path = os.path.join(run_root, "repo-after.json")
+        needs_repo = any(_uses_no_diff(p["rule"]) for p in fixture["properties"])
+        if needs_repo and not os.path.isfile(after_path):
+            # fail-closed: a repository-action rule cannot pass vacuously
+            # because the mechanical evidence is missing.
+            raise bundlelib.BundleInvalid(
+                "fixture requires repository evidence (no_diff) but the "
+                "bundle carries no repo-after.json snapshot")
         if os.path.isfile(after_path):
             after = json.load(open(after_path, encoding="utf-8"))
             if after.get("schema") != "implementaudit-repo-snapshot-v1":

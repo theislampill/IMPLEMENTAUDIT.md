@@ -134,6 +134,8 @@ def load_bundle(root, expected_fixture=None):
         if not isinstance(ev["content"], str):
             raise BundleInvalid(f"event {lineno}: content must be a string")
         events.append(ev)
+    if not events:
+        raise BundleInvalid("no events: a zero-event run is not adjudicable")
 
     # Bind the repository snapshots when present.
     for name, key in (("repo-before.json", "repo_before_sha256"),
