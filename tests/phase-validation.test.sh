@@ -277,6 +277,38 @@ else
   fail=$((fail + 1))
 fi
 
+# FAIL: prefix alias of a valid class is an INVALID tag, never a silent
+# downgrade to legacy (Fable review of PR #25: "structurally" matched
+# neither the tag nor the bad-tag regex and passed as legacy-with-warning).
+f="$tmp/alias_property_tag.md"
+make_valid "$f"
+sed -i 's/property: behavioral/property: behaviorally/g' "$f"
+check_fail_contains "prefix-alias property tag" "$f" "invalid evidence property tag"
+
+# FAIL: property tag without scope — the tag alone cannot say what the
+# check actually tests (issue #3 required property PLUS plain-language
+# scope on new-format commands).
+f="$tmp/tag_without_scope.md"
+make_valid "$f"
+sed -i 's/; scope: [^;]*;/;/g' "$f"
+check_fail_contains "property tag without scope" "$f" "lacks \`scope:\`"
+
+# Shipped phase-spec fixtures stay LF-only: PR #25's migration rewrote
+# three fixtures with CRLF, hiding a 7-line substantive change inside a
+# 221-line line-ending churn (Fable review of PR #25).
+for spec in fixtures/phase-design/dmadv-greenfield-phase.md \
+            fixtures/phase-validation/valid-full-spec.md \
+            fixtures/run-root-example/phases/phase-1.md \
+            fixtures/e2e-mini-audit-loop/phase-1.md; do
+  if tr -dc '\r' < "$spec" | grep -q .; then
+    printf 'phase-validation.test: CRLF found in shipped fixture %s\n' \
+      "$spec" >&2
+    fail=$((fail + 1))
+  else
+    pass=$((pass + 1))
+  fi
+done
+
 # ------------------------------------------------------------------
 # Summary
 # ------------------------------------------------------------------
