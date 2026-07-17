@@ -95,6 +95,24 @@ blocked closure, never by how many rows exist.
 Outcome values: `resolved` / `escalated (cites #N)` / `blocked (handoff condition)` /
 `open (rerun pending)`.
 
+## Occurrence resolution and residuals
+
+Occurrence resolution: not-applicable
+
+(Values: `not-applicable` / `unresolved` / `partially-resolved` /
+`resolved`. Route-sufficient rule: established hazard + admissible safe
+route => contain first, record `partially-resolved` with named residual
+rows — not a failure, not closure.)
+
+One row per residual. Disposition values: `unresolved` / `deferred` /
+`transferred` (name the receiving owner) / `owner-assigned` /
+`risk-accepted` (cite the policy) / `validated-resolved`. AUDIT_COMPLETE
+requires every consequential residual to carry a non-`unresolved`
+disposition, and completion language claims audit-completion only.
+
+| Residual | Consequential | Disposition | Owner / policy ref | Evidence |
+|---|---|---|---|---|
+
 ## AGENTS_UPDATE_DECISION
 
 Status: pending

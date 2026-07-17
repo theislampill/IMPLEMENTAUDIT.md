@@ -646,6 +646,26 @@ There is no arbitrary round cap. Print `AUDIT_HANDOFF` instead of
 irreproducibility, missing required tool or access), or when a round closes no
 blocking gap and no bounded countermeasure remains.
 
+### Occurrence resolution, residuals, and the route-sufficient rule
+
+Three representations, never merged:
+
+1. **Occurrence-resolution state** (per underlying case), recorded in
+   STATE.md: `unresolved` / `partially-resolved` / `resolved`.
+2. **Audit-completion state**: the existing marker machinery, unchanged.
+3. **Per-residual disposition** — one STATE.md row per residual:
+   `unresolved` / `deferred` / `transferred` / `owner-assigned` /
+   `risk-accepted` / `validated-resolved`. Dispositions are assigned by
+   owner or policy, never automated.
+
+**Route-sufficient rule:** when a hazard is established and an admissible
+safe route exists (quarantine, rollback, disable, contain), take it BEFORE
+root-cause resolution completes. Record the occurrence as
+`partially-resolved` with the containment evidence, at least two candidate
+causes (or a stated reason fewer exist), and one named residual row per
+open thread. Safe containment before full diagnosis is partial-by-design —
+not a failure, not closure.
+
 ### AUDIT_COMPLETE and IMPLEMENTAUDIT_RUN_COMPLETE
 
 Print `AUDIT_COMPLETE` only when:
@@ -654,6 +674,11 @@ Print `AUDIT_COMPLETE` only when:
 - Every deliverable exists and is non-empty
 - No blocking gaps remain
 - Coverage math printed
+- Every consequential residual carries a non-`unresolved` disposition
+  (`transferred` names the receiving owner; `risk-accepted` cites the
+  policy), and completion language claims AUDIT-COMPLETION ONLY — a
+  full-resolution claim while any consequential residual is `unresolved`
+  is false-closure
 
 Then print `IMPLEMENTAUDIT_RUN_COMPLETE`.
 

@@ -72,6 +72,30 @@ if [ -f "$state" ]; then
   fi
 fi
 
+# Occurrence resolution + residual dispositions (#6): new-format roots
+# (section present) need a valid occurrence-resolution token and a valid
+# disposition per residual row; legacy roots without the section stay
+# valid. Dispositions are owner/policy-assigned; this checks tokens only.
+if [ -f "$state" ] && grep -qi '^## Occurrence resolution and residuals' "$state"; then
+  occ_res="$(awk '/^## Occurrence resolution and residuals/{f=1;next} f&&/^Occurrence resolution:/{sub(/^Occurrence resolution:[ \t]*/,"");print;exit}' "$state")"
+  case "$occ_res" in
+    not-applicable|unresolved|partially-resolved|resolved) : ;;
+    *) err "STATE.md Occurrence resolution '$occ_res' is not a contract token (not-applicable / unresolved / partially-resolved / resolved)" ;;
+  esac
+  bad_disp="$(awk -F'|' '
+    /^## Occurrence resolution and residuals/ { f=1; next }
+    f && /^## / { f=0 }
+    f && /^\|/ {
+      d=$4; gsub(/^[ \t]+|[ \t]+$/, "", d)
+      r=$2; gsub(/^[ \t]+|[ \t]+$/, "", r)
+      if (r == "Residual" || r ~ /^-+$/ || r == "") next
+      if (d !~ /^(unresolved|deferred|transferred|owner-assigned|risk-accepted|validated-resolved)$/) print r
+    }' "$state")"
+  if [ -n "$bad_disp" ]; then
+    err "STATE.md residual row(s) with invalid disposition: $(printf '%s' "$bad_disp" | tr '\n' ' ') (allowed: unresolved / deferred / transferred / owner-assigned / risk-accepted / validated-resolved)"
+  fi
+fi
+
 # Evidence-version anchoring (#4): an ANCHORED evidence token must carry
 # the FULL 40-hex commit SHA — a short-sha anchor is a stale-evidence
 # hazard and fails. Tokens are `@<hex>` with 7+ hex chars (git-sha-like);
