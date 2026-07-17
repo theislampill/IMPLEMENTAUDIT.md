@@ -70,6 +70,11 @@ Capability Ledger:
 | # | Finding | Priority | Action | Status | Evidence | Depends on | Follow-up |
 |---|---|---:|---|---|---|---|---|
 
+Evidence cells for newly recorded rows include the anchor
+`@<full-40-hex-sha>` of the commit the evidence was captured at (legacy
+rows without anchors remain valid). An artifact anchored to a different
+state is never substituted for current-state evidence.
+
 ## Andon log
 
 One row per ANDON_PROBE, ANDON_ESCALATE, or ANDON_HANDOFF event. `Class` is

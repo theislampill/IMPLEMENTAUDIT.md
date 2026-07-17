@@ -15,6 +15,18 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Added
 
+- Evidence-version anchoring (#4): `detect-env.sh` Stage-0 output now
+  names `head=<short-sha> (<committer-date>)`, `upstream=<ref>
+  behind_ahead=<L/R>` or `upstream=none`, and
+  `remote_freshness=not_checked` (read-only; local tracking-ref
+  divergence never implies remote freshness). Smoke A/B and Andon
+  rerun-evidence rows record an Anchor (full 40-hex commit SHA at
+  capture; legacy rows stay valid); new payload consumer check
+  `scripts/check-evidence-anchor.sh` refuses a verdict artifact anchored
+  to a different tree than the one it is offered for, and
+  `validate-run-root.sh` fails short-sha anchors. Pinned by
+  `tests/evidence-anchoring.test.sh`.
+
 - Andon taxonomy (#1): three new official abnormality classes —
   `transport-infrastructure` (environment-level failure incl. blocked
   review channels, with a normative preserve-and-reissue disposition),
