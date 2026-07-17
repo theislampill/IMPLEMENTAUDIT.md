@@ -350,6 +350,12 @@ with a durable status contract, never awaited inline:
    recorded evidence comes first, and producer countermeasures are
    PROHIBITED until the run's origin is classified — a lane inside an
    outage window may still be a genuine producer failure.
+6. Diagnostic retention before cleanup: when a launched command fails at
+   any stage — including BEFORE structured admission — available
+   diagnostics (stream tails, exit codes, partial artifacts) are
+   secret-scanned and RETAINED before any destructive cleanup runs.
+   Credential purging is satisfied by scan-then-retain-then-purge
+   ordering, never by deleting the only failure evidence.
 
 ## Nemawashi — owner-decision gate
 
