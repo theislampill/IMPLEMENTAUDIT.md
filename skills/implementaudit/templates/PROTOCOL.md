@@ -474,7 +474,8 @@ Steps:
    criterion, command, or artifact; observed output and smallest reproducible
    step; owner/source; containment decision; a 5 Whys root-cause drill
    proportional to the issue; Hansei (gap, cause, countermeasure, follow-up
-   evidence); the countermeasure selected; and the rerun evidence required.
+   evidence, governing-rule suspicion — suspected / rejected with recorded
+   reason); the countermeasure selected; and the rerun evidence required.
 2. Append a classed row to `<run-root>/STATE.md` under `## Andon log`:
    `#`, occurrence id (`Occ` — rows born from the same occurrence share
    one short id; one class per row, one or more linked rows per
@@ -516,6 +517,24 @@ Steps:
    neither can be truthfully filled, do not escalate — evaluate the
    ANDON_HANDOFF conditions instead. Append the escalation as a new classed
    `## Andon log` row with outcome `escalated (cites #N)`.
+2b. Governing-rule review (second-order recurrence). Triggered by ANY of:
+   (a) same-class recurrence (with the cited rows); (b) direct evidence —
+   even on FIRST occurrence — that a validator, taxonomy class, evidence
+   standard, criterion, or routing rule produced or concealed the defect,
+   explicitly including correct-by-luck pathways (a check that passes
+   while its evidence is not truth-connected to the claimed property);
+   (c) cross-class recurrences sharing an underlying invariant.
+   Neighboring-perturbation probes — minimal variations of a passing case
+   that expose rule unreliability — are admissible evidence even when the
+   original answer was correct: "correct current placement, defective
+   pathway, high neighboring-case failure risk" is a legitimate,
+   actionable verdict; keep answer-correctness and pathway adequacy as
+   SEPARATE judgments. On the second and later same-class escalations,
+   record an explicit `Governing-rule judgment:` — `case-defect` or
+   `governing-rule-defect (class | standard | validator | route)` — and
+   route rule repairs through poka-yoke and AGENTS_UPDATE_DECISION.
+   Rejecting governing-rule suspicion REQUIRES a recorded reason; a bare
+   "no" fails the contract.
 3. Choose and record one path: split the phase, reframe the criterion,
    rollback, request an owner decision, or write a bounded fix-spec
    `<run-root>/phases/phase-N.fix.md`:
