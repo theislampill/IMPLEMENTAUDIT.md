@@ -145,3 +145,9 @@ Integrator notes: changes shipped payload bytes
 integration; re-run verify-package. No post-merge drift existed on this
 file; no overlap with other review branches except the distinct report
 under `docs/reviews/v0.3.2.0/`.
+
+Live-inventory note (2026-07-17, this session): issues #47–#53 (owner-
+authored `IA-*` native-audit-action remediation program, created
+21:44–21:45Z) appeared during the review program. They are issues, not
+PRs, and not part of the mixed-provenance work under review — recorded
+here per the common protocol’s inventory rule; no scope expansion.
