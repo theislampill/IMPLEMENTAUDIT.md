@@ -67,6 +67,20 @@ if [ -f "$state" ]; then
     if [ -n "$missing_occ" ]; then
       err "STATE.md Andon log new-format rows missing an Occ occurrence id: row(s) $(printf '%s' "$missing_occ" | tr '\n' ' ')"
     fi
+    # One class per row is LOAD-BEARING for the Occ design: a
+    # comma/space-separated multi-class cell would smuggle plural defects
+    # into one row instead of linking rows (Fable review of PR #26).
+    multi_class="$(awk -F'|' '
+      /^## Andon log/ { in_andon=1; next }
+      in_andon && /^## / { in_andon=0 }
+      in_andon && /^\|[[:space:]]*[0-9]+[[:space:]]*\|/ {
+        cls=$5; gsub(/^[ \t]+|[ \t]+$/, "", cls)
+        if (cls != "" && cls !~ /^[A-Za-z-]+$/) {
+          n=$2; gsub(/^[ \t]+|[ \t]+$/, "", n); print n }
+      }' "$state")"
+    if [ -n "$multi_class" ]; then
+      err "STATE.md Andon log row(s) with a non-single-token Class (exactly one class per row; plural defects record one row per class sharing an Occ id): row(s) $(printf '%s' "$multi_class" | tr '\n' ' ')"
+    fi
   elif ! grep -qi '| Class | Abnormality | Countermeasure | Rerun evidence | Outcome |' "$state"; then
     err "STATE.md Andon log table is missing the contract columns (# | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome; legacy shape without Occ also accepted)"
   fi
