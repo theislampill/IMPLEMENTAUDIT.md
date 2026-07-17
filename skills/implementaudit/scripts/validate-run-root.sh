@@ -94,6 +94,25 @@ if [ -f "$state" ] && grep -qi '^## Occurrence resolution and residuals' "$state
   if [ -n "$bad_disp" ]; then
     err "STATE.md residual row(s) with invalid disposition: $(printf '%s' "$bad_disp" | tr '\n' ' ') (allowed: unresolved / deferred / transferred / owner-assigned / risk-accepted / validated-resolved)"
   fi
+  # `transferred` names the receiving owner; `risk-accepted` cites the
+  # policy — the contract says so in the same breath as the tokens, and a
+  # transfer nobody receives (or an authority-less risk acceptance) is the
+  # packet-of-record for a residual that silently evaporates (Fable review
+  # of PR #27). Route-required rows need a non-empty, non-"-" ref cell.
+  no_ref="$(awk -F'|' '
+    /^## Occurrence resolution and residuals/ { f=1; next }
+    f && /^## / { f=0 }
+    f && /^\|/ {
+      d=$4; gsub(/^[ \t]+|[ \t]+$/, "", d)
+      o=$5; gsub(/^[ \t]+|[ \t]+$/, "", o)
+      r=$2; gsub(/^[ \t]+|[ \t]+$/, "", r)
+      if (r == "Residual" || r ~ /^-+$/ || r == "") next
+      if ((d == "transferred" || d == "risk-accepted") &&
+          (o == "" || o ~ /^-+$/)) print r
+    }' "$state")"
+  if [ -n "$no_ref" ]; then
+    err "STATE.md residual row(s) with transferred/risk-accepted but no owner/policy ref: $(printf '%s' "$no_ref" | tr '\n' ' ') (transferred names the receiving owner; risk-accepted cites the policy)"
+  fi
 fi
 
 # Evidence-version anchoring (#4): an ANCHORED evidence token must carry

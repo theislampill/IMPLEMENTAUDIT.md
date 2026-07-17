@@ -177,4 +177,18 @@ res_case res_bad "partially-resolved" \
 # 6e. An invented occurrence-resolution token fails.
 res_case res_badocc "mostly-resolved" "" fail
 
+# 6f. A transferred residual with NO receiving owner fails — a transfer
+# nobody receives silently evaporates (Fable review of PR #27).
+res_case res_noowner "partially-resolved" \
+"| lane handoff | yes | transferred | - | note |" fail
+
+# 6g. A risk-accepted residual with no policy/authority reference fails.
+res_case res_nopolicy "partially-resolved" \
+"| crlf drift | no | risk-accepted |  | row 9 |" fail
+
+# 6h. Control: axes stay independent — an UNRESOLVED occurrence with a
+# properly dispositioned consequential residual remains a valid state.
+res_case res_axes "unresolved" \
+"| open cause | yes | deferred | owner backlog | ledger |" pass
+
 printf 'run-root-validation.test: ok\n'
