@@ -414,8 +414,36 @@ Chain (in order — do not skip steps):
    countermeasure at the cause level, not the symptom.
 5. **Countermeasure**: implement the smallest safe fix at the root cause.
 6. **Kaizen standardization decision**: ask — does this countermeasure belong
-   in a template, checker, AGENTS.md rule, or CI gate? Record in
-   AGENTS_UPDATE_DECISION and CONTINUITY_DECISION.
+   in a template, checker, AGENTS.md rule, or CI gate? Record in the
+   Lesson-lift routing record (below), which satisfies the recording
+   duties of AGENTS_UPDATE_DECISION and CONTINUITY_DECISION.
+
+**Lesson-lift routing record.** A lift decision is REQUIRED only when at
+least one qualifying trigger holds: same-or-neighboring recurrence; direct
+evidence a governing rule / validator / evidence standard / route /
+template caused or concealed the defect; high consequence; a repeated
+manual workaround; plausible cross-project reuse; explicit owner request.
+Otherwise an ordinary one-off correction records at most one short
+`No-lift:` disposition line and creates no artifact.
+
+A qualifying lesson produces exactly ONE canonical lift record (it
+UNIFIES AGENTS_UPDATE_DECISION and CONTINUITY_DECISION — those markers
+become destinations/fields of this record, never competing records). The
+record states nine things: (1) lesson observed; (2) lift/no-lift decision
+WITH reason — "cheap to redo by hand" is explicitly insufficient, a
+reasoned no-lift is fully valid; (3) destination — `no lift` / `current
+run only` / `project docs` / `project AGENTS.md/CLAUDE.md` / `checker or
+deterministic test` / `template` / `reusable skill or command` /
+`implementaudit product issue` / `owner-authorized cross-project
+continuity`; (4) authority required (cross-project and global persistence
+are NEVER automatic; memory is context, not authority); (5) encoding
+written; (6) encoding mechanically ACTIVE where applicable (checker runs /
+test wired) — verified now; (7) installed/deployed copy current where
+applicable — verified now; (8) the recurrence class this encoding
+prevents; (9) later prevention evidence — NOT available at closure.
+Closure may claim only items 5–7; **closure must never claim "recurrence
+prevented"** — prevention is future evidence (the next recurrence window
+or a #9-style evaluation).
 7. **Re-run evidence**: re-run the failing mandatory command and re-evaluate
    the criterion. Record the result.
 8. **Close / block / defer / handoff**: reach a terminal status.

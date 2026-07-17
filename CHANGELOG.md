@@ -14,6 +14,16 @@ schema evidence proved four-component plugin manifest versions are accepted.
 ## [Unreleased]
 
 ### Added
+- Lesson-lift routing record (#13): a qualifying lesson produces ONE
+  canonical lift record that unifies AGENTS_UPDATE_DECISION and
+  CONTINUITY_DECISION (nine fields: lesson, lift/no-lift + reason,
+  destination, authority, encoding written, mechanically active,
+  installed current, recurrence class, later prevention evidence).
+  Bounded trigger — one-off fixes record at most a single No-lift line.
+  Closure may claim only encoding-written / mechanically-active /
+  installed-current; 'recurrence prevented' is future evidence and fails.
+  New payload scorer scripts/check-lesson-lift.sh; seven fixtures in
+  tests/lesson-lift-contract.test.sh.
 - Second-order recurrence review (#7): ANDON_ESCALATE now evaluates
   whether the GOVERNING rule (class / evidence standard / validator /
   route) produced or concealed the defect — triggered by same-class
