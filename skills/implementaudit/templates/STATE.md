@@ -79,13 +79,18 @@ state is never substituted for current-state evidence.
 
 One row per ANDON_PROBE, ANDON_ESCALATE, or ANDON_HANDOFF event. `Class` is
 exactly one official abnormality class from
-`references/transcript-contract.md` §Andon escalation markers.
-ANDON_ESCALATE cites prior same-class rows by `#` before claiming recurrence.
+`references/transcript-contract.md` §Andon escalation markers. One class
+per row; one or more linked rows per occurrence: a single occurrence that
+carries several independent defects records one row per class, sharing the
+same `Occ` id (short occurrence id, e.g. `o1`), so co-occurring defects
+keep their linkage and each remedy is tracked to closure.
+ANDON_ESCALATE cites prior same-class rows by `#` before claiming
+recurrence (per-class citation semantics unchanged by linkage).
 There is no row-count limit: escalation is driven by same-class recurrence and
 blocked closure, never by how many rows exist.
 
-| # | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |
-|---|---|---|---|---|---|---|
+| # | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |
+|---|---|---|---|---|---|---|---|
 
 Outcome values: `resolved` / `escalated (cites #N)` / `blocked (handoff condition)` /
 `open (rerun pending)`.

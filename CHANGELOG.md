@@ -14,6 +14,13 @@ schema evidence proved four-component plugin manifest versions are accepted.
 ## [Unreleased]
 
 ### Added
+- Andon occurrence linkage (#5): the Andon log gains an `Occ` column —
+  one class per row, one or more linked rows per occurrence — so plural
+  co-occurring defects keep their linkage while per-class recurrence
+  citation (ANDON_ESCALATE) is unchanged. Legacy tables without `Occ`
+  remain valid and resume safely; validate-run-root.sh detects the table
+  generation, requires a non-empty Occ id on new-format rows only.
+  Fixtures: legacy-accepted, linked-plural-accepted, missing-occ-rejected.
 
 - Evidence property tags (#3): every mandatory command in a phase spec
   declares `property: structural|behavioral|provenance` plus a

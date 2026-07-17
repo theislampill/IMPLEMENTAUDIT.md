@@ -48,11 +48,27 @@ if [ -f "$state" ]; then
     esac
   fi
 
-  # Andon log substrate must exist with the contract columns.
+  # Andon log substrate must exist with the contract columns. Two valid
+  # generations (#5): the current shape carries an `Occ` occurrence-linkage
+  # column; the legacy shape (no Occ) remains VALID — it was the correct
+  # contract of its time and legacy run roots resume unchanged.
   if ! grep -qi '^## Andon log' "$state"; then
     err "STATE.md is missing the '## Andon log' section"
+  elif grep -qi '| Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |' "$state"; then
+    # New-format table: every data row needs a non-empty Occ id so plural
+    # defect rows born from one occurrence stay linked.
+    missing_occ="$(awk -F'|' '
+      /^## Andon log/ { in_andon=1; next }
+      in_andon && /^## / { in_andon=0 }
+      in_andon && /^\|[[:space:]]*[0-9]+[[:space:]]*\|/ {
+        occ=$3; gsub(/^[ \t]+|[ \t]+$/, "", occ)
+        if (occ == "") { n=$2; gsub(/^[ \t]+|[ \t]+$/, "", n); print n }
+      }' "$state")"
+    if [ -n "$missing_occ" ]; then
+      err "STATE.md Andon log new-format rows missing an Occ occurrence id: row(s) $(printf '%s' "$missing_occ" | tr '\n' ' ')"
+    fi
   elif ! grep -qi '| Class | Abnormality | Countermeasure | Rerun evidence | Outcome |' "$state"; then
-    err "STATE.md Andon log table is missing the contract columns (# | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome)"
+    err "STATE.md Andon log table is missing the contract columns (# | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome; legacy shape without Occ also accepted)"
   fi
 fi
 

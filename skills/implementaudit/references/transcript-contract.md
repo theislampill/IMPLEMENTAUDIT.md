@@ -96,8 +96,13 @@ and blocked closure, not by a try counter. There is no arbitrary three-try or
 three-round cap.
 
 Every Andon event is recorded as one classed row in the run-root STATE.md
-`## Andon log` (`# | Phase | Class | Abnormality | Countermeasure |
-Rerun evidence | Outcome`). `Class` is exactly one official abnormality class:
+`## Andon log` (`# | Occ | Phase | Class | Abnormality | Countermeasure |
+Rerun evidence | Outcome`). One class per row; one or more linked rows per
+occurrence: an occurrence carrying several independent defects records one
+row per class sharing the same `Occ` id, so co-occurring defects stay
+linked while per-class recurrence citation is unchanged. Legacy run roots
+using the previous table shape (no `Occ` column) remain valid and resume
+safely. `Class` is exactly one official abnormality class:
 
 ```text
 failed-criterion

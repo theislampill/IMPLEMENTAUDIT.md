@@ -476,8 +476,10 @@ Steps:
    proportional to the issue; Hansei (gap, cause, countermeasure, follow-up
    evidence); the countermeasure selected; and the rerun evidence required.
 2. Append a classed row to `<run-root>/STATE.md` under `## Andon log`:
-   `#`, phase, abnormality class (exactly one official class from the
-   transcript contract: failed-criterion, regression, hung-command,
+   `#`, occurrence id (`Occ` — rows born from the same occurrence share
+   one short id; one class per row, one or more linked rows per
+   occurrence), phase, abnormality class (exactly one official class from
+   the transcript contract: failed-criterion, regression, hung-command,
    substituted-command, owner-unclear, generated-artifact-mismatch,
    stale-sidecar, policy-conflict, impossible-criterion, evidence-mismatch,
    transport-infrastructure, misplacement, false-closure),
