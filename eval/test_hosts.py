@@ -863,6 +863,51 @@ def main():
               and "unattestable" in str(r39b.detail)
               and not os.path.isfile(os.path.join(
                   tmp, "custody", "r-h39b", "process-started.json")))
+
+        # 40. a process-started.json rewritten with NON-UTF-8 garbage
+        # (jail-less Config-O tamper + hard-killed wrapper) must still be
+        # terminally classified — never a perpetual reconcile-error that
+        # leaves the run without a terminal record on every future pass.
+        rr40 = os.path.join(tmp, "custody", "r-h40")
+        os.makedirs(rr40)
+        json.dump({"run_id": "r-h40"},
+                  open(os.path.join(rr40, "run-intent.json"), "w"))
+        open(os.path.join(rr40, "process-started.json"), "wb").write(
+            b"\x00\xffnot-utf8-garbage")
+        out40 = reconcilelib.reconcile_custody(os.path.join(tmp, "custody"))
+        d40 = {o["run_id"]: o["disposition"] for o in out40}
+        t40p = os.path.join(rr40, "terminal.json")
+        t40 = (json.load(open(t40p, encoding="utf-8"))
+               if os.path.isfile(t40p) else {})
+        check("H40 garbage-process-started-terminalized",
+              d40.get("r-h40") == "terminal-state-unverified"
+              and t40.get("reconciled") is True
+              and t40.get("kind") == "error")
+
+        # 40b. a forged/garbage parent terminal.json must FAIL CLOSED at
+        # the scorer's parent-terminal gate: an unreadable terminal can
+        # never let a planted bundle reach formal scoring (a mission that
+        # writes garbage must not fare better than one that writes nothing).
+        rr40b = os.path.join(tmp, "term40b")
+        os.makedirs(os.path.join(rr40b, "bundle"))
+        open(os.path.join(rr40b, "terminal.json"), "wb").write(
+            b"\xff\xfe garbage")
+        s40b, v40b = runner.score_bundle(os.path.join(rr40b, "bundle"),
+                                         repo_dir=None)
+        check("H40b garbage-terminal-fails-closed",
+              s40b == "INVALID"
+              and "terminal" in (v40b.get("reason") or ""))
+
+        # 40c. a minimal forged dict terminal ({} — no kind) is refused too:
+        # only an explicit kind=='ok', reconciled!=True terminal admits a
+        # bundle to formal scoring.
+        os.remove(os.path.join(rr40b, "terminal.json"))
+        json.dump({}, open(os.path.join(rr40b, "terminal.json"), "w"))
+        s40c, v40c = runner.score_bundle(os.path.join(rr40b, "bundle"),
+                                         repo_dir=None)
+        check("H40c kindless-terminal-fails-closed",
+              s40c == "INVALID"
+              and "terminal" in (v40c.get("reason") or ""))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     if failures:

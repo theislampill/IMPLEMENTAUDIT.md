@@ -89,9 +89,17 @@ def score_bundle(run_root, repo_dir=None):
             try:
                 term = json.load(open(term_p, encoding="utf-8"))
             except (OSError, ValueError):
-                term = {}
-            if term.get("reconciled") is True or (
-                    term.get("kind") not in (None, "ok")):
+                term = None
+            # FAIL CLOSED: only an explicit kind=='ok', non-reconciled
+            # terminal admits the bundle. An unreadable/garbage terminal or
+            # a kind-less forged dict must not fare better than an honest
+            # error terminal (forged-custody threat model, issue #20).
+            if not isinstance(term, dict):
+                raise bundlelib.BundleInvalid(
+                    "parent terminal record unreadable — a corrupted or "
+                    "forged terminal.json never admits a bundle to formal "
+                    "scoring")
+            if term.get("reconciled") is True or term.get("kind") != "ok":
                 raise bundlelib.BundleInvalid(
                     f"parent terminal state is non-authoritative "
                     f"(kind={term.get('kind')!r}, "

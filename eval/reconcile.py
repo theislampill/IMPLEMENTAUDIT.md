@@ -256,7 +256,11 @@ def _reconcile_one(name, run_root):
             continue
         try:
             started = json.load(open(started_p, encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
+        except (OSError, ValueError):
+            # ValueError covers BOTH malformed JSON (JSONDecodeError) and
+            # non-UTF-8 garbage (UnicodeDecodeError): a record tampered
+            # into undecodable bytes must reach the truthful-terminal path
+            # below, never loop as reconcile-error without a terminal.
             started = {}
         if not isinstance(started, dict):
             # a rewritten/garbage record must yield a truthful terminal
