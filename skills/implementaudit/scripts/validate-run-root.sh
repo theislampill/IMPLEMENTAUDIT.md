@@ -56,6 +56,18 @@ if [ -f "$state" ]; then
   fi
 fi
 
+# Evidence-version anchoring (#4): an ANCHORED evidence token must carry
+# the FULL 40-hex commit SHA — a short-sha anchor is a stale-evidence
+# hazard and fails. Tokens are `@<hex>` with 7+ hex chars (git-sha-like);
+# legacy rows without anchors remain valid.
+if [ -f "$state" ]; then
+  short_anchors="$(grep -oE '@[0-9a-f]{7,}' "$state" 2>/dev/null \
+    | grep -vE '^@[0-9a-f]{40}$' || true)"
+  if [ -n "$short_anchors" ]; then
+    err "STATE.md evidence anchor(s) not full 40-hex SHAs: $(printf '%s' "$short_anchors" | tr '\n' ' ')"
+  fi
+fi
+
 # Every phase listed in ROADMAP.md must have a phase spec file.
 if [ -f "$run_root/ROADMAP.md" ] && [ -d "$run_root/phases" ]; then
   while IFS= read -r n; do

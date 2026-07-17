@@ -125,8 +125,9 @@ evidence for this phase.
 
 **Step 5 — Smoke A (before-state evidence).**
 Run or inspect the before-state for the owner/source. Record exactly:
-Command, Result, Evidence type, Remaining risk. Do not upgrade static evidence
-to live proof.
+Command, Result, Evidence type, Anchor (the full 40-hex commit SHA the
+evidence was captured at; display may abbreviate, the record may not),
+Remaining risk. Do not upgrade static evidence to live proof.
 
 **Step 6 — Execute the work.**
 Implement or verify as described in the `## Work` section. Patch the
@@ -172,7 +173,14 @@ Record each pillar as: clean / deferred (reason) / blocked (reason).
 
 **Step 10 — Smoke B (after-state evidence).**
 Re-run or re-inspect the owner/source after all changes. Compare with Smoke A.
-Record the delta as the evidence that the phase work actually landed.
+Record the delta as the evidence that the phase work actually landed, with
+its Anchor (full 40-hex commit SHA at capture). Evidence-version anchoring:
+a verdict/review/smoke artifact attests exactly the tree (and, for a
+generated runtime surface, the exact surface-file hash) it names; never
+accept an artifact anchored to a different state as evidence for the
+current one — re-gather instead (stale-evidence substitution is an
+ANDON_PROBE, class `evidence-mismatch`). Legacy rows recorded before this
+contract carry no anchor and stay valid as historical evidence.
 
 **Step 11 — Print IMPLEMENTAUDIT_PHASE_VERIFY.**
 Include: per-criterion verdicts, mandatory-command outputs, cleanliness
@@ -442,7 +450,9 @@ Steps:
    stale-sidecar, policy-conflict, impossible-criterion, evidence-mismatch,
    transport-infrastructure, misplacement, false-closure),
    abnormality, countermeasure selected, rerun evidence required, outcome
-   (`open (rerun pending)` until the rerun lands).
+   (`open (rerun pending)` until the rerun lands). Rerun evidence, when it
+   lands, records its Anchor (full 40-hex commit SHA at capture) like any
+   other evidence row.
 3. Inspect the owner/source file directly (Gemba). Do not infer from summaries.
 4. Apply the smallest safe countermeasure that follows from the probe,
    targeting only the failing criterion. A fix may not be attempted merely

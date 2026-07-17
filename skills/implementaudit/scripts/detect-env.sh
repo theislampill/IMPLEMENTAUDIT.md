@@ -11,6 +11,24 @@ if command -v git >/dev/null 2>&1; then
   printf 'git=%s\n' "$(git --version)"
   if git rev-parse --show-toplevel >/dev/null 2>&1; then
     printf 'git_root=%s\n' "$(git rev-parse --show-toplevel)"
+    # Evidence-version anchor (#4): name the exact state evidence will be
+    # gathered at, and surface LOCAL tracking-ref divergence. Read-only —
+    # no fetch; a local tracking ref never implies remote freshness.
+    head_sha="$(git rev-parse --short HEAD 2>/dev/null || printf none)"
+    head_date="$(git log -1 --format=%cI 2>/dev/null || printf unknown)"
+    printf 'head=%s (%s)\n' "$head_sha" "$head_date"
+    upstream="$(git rev-parse --abbrev-ref --symbolic-full-name '@{u}' \
+      2>/dev/null || true)"
+    if [ -n "$upstream" ]; then
+      counts="$(git rev-list --left-right --count "@{u}...HEAD" \
+        2>/dev/null || printf 'unknown unknown')"
+      behind="${counts%%[[:space:]]*}"
+      ahead="${counts##*[[:space:]]}"
+      printf 'upstream=%s behind_ahead=%s/%s\n' "$upstream" "$behind" "$ahead"
+    else
+      printf 'upstream=none\n'
+    fi
+    printf 'remote_freshness=not_checked\n'
     git status --short --branch
   else
     printf 'git_root=none\n'
