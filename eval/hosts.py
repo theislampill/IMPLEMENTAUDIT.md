@@ -54,6 +54,7 @@ Shared guarantees (mock-tested in eval/test_hosts.py; NO live mission in CI):
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import shutil
@@ -117,6 +118,26 @@ def _parse_ts(s):
         return None
 
 
+
+def _read_custody_file(path, cap=4 * 1024 * 1024):
+    """Bounded, special-file-safe read for exit-time custody verification:
+    only a REGULAR, non-symlink file up to `cap` bytes is readable — a
+    mission that swapped a custody record for a FIFO/symlink/device must
+    yield a hash mismatch, never a blocked or unbounded read."""
+    try:
+        st = os.lstat(path)
+    except OSError:
+        return None
+    import stat as _stat
+    if not _stat.S_ISREG(st.st_mode) or st.st_size > cap:
+        return None
+    try:
+        with open(path, "rb") as fh:
+            return fh.read(cap + 1)
+    except OSError:
+        return None
+
+
 class HostRunResult:
     def __init__(self, kind, detail, raw_events=None, resolved_model=None):
         self.kind = kind          # "ok" | "error" | "invalid"
@@ -138,36 +159,214 @@ class _Outcome:
         self.returncode = returncode
 
 
+class _WinJob:
+    """Windows Job Object owning the spawned host's whole process tree.
+    kill-on-close means an adapter crash (handle close) also reaps the
+    tree; terminate() reaps it atomically on timeout and verify_empty()
+    proves no descendant survived before the run terminalizes."""
+
+    def __init__(self):
+        import ctypes
+        from ctypes import wintypes
+        self._ct = ctypes
+        self.k32 = ctypes.windll.kernel32
+
+        class _BASIC(ctypes.Structure):
+            _fields_ = [("PerProcessUserTimeLimit", ctypes.c_longlong),
+                        ("PerJobUserTimeLimit", ctypes.c_longlong),
+                        ("LimitFlags", wintypes.DWORD),
+                        ("MinimumWorkingSetSize", ctypes.c_size_t),
+                        ("MaximumWorkingSetSize", ctypes.c_size_t),
+                        ("ActiveProcessLimit", wintypes.DWORD),
+                        ("Affinity", ctypes.c_size_t),
+                        ("PriorityClass", wintypes.DWORD),
+                        ("SchedulingClass", wintypes.DWORD)]
+
+        class _IOC(ctypes.Structure):
+            _fields_ = [(n, ctypes.c_ulonglong) for n in (
+                "ReadOperationCount", "WriteOperationCount",
+                "OtherOperationCount", "ReadTransferCount",
+                "WriteTransferCount", "OtherTransferCount")]
+
+        class _EXT(ctypes.Structure):
+            _fields_ = [("BasicLimitInformation", _BASIC),
+                        ("IoInfo", _IOC),
+                        ("ProcessMemoryLimit", ctypes.c_size_t),
+                        ("JobMemoryLimit", ctypes.c_size_t),
+                        ("PeakProcessMemoryUsed", ctypes.c_size_t),
+                        ("PeakJobMemoryUsed", ctypes.c_size_t)]
+
+        class _ACCT(ctypes.Structure):
+            _fields_ = [("TotalUserTime", ctypes.c_longlong),
+                        ("TotalKernelTime", ctypes.c_longlong),
+                        ("ThisPeriodTotalUserTime", ctypes.c_longlong),
+                        ("ThisPeriodTotalKernelTime", ctypes.c_longlong),
+                        ("TotalPageFaultCount", wintypes.DWORD),
+                        ("TotalProcesses", wintypes.DWORD),
+                        ("ActiveProcesses", wintypes.DWORD),
+                        ("TotalTerminatedProcesses", wintypes.DWORD)]
+
+        self._ACCT = _ACCT
+        self.handle = self.k32.CreateJobObjectW(None, None)
+        if not self.handle:
+            raise OSError("CreateJobObjectW failed")
+        info = _EXT()
+        info.BasicLimitInformation.LimitFlags = 0x2000  # KILL_ON_JOB_CLOSE
+        JobObjectExtendedLimitInformation = 9
+        if not self.k32.SetInformationJobObject(
+                self.handle, JobObjectExtendedLimitInformation,
+                ctypes.byref(info), ctypes.sizeof(info)):
+            self.close()
+            raise OSError("SetInformationJobObject failed")
+
+    def assign(self, proc):
+        if not self.k32.AssignProcessToJobObject(
+                self.handle, int(proc._handle)):
+            raise OSError("AssignProcessToJobObject failed")
+
+    def terminate(self):
+        self.k32.TerminateJobObject(self.handle, 1)
+
+    def verify_empty(self, timeout_s=10.0):
+        """True when zero processes remain in the job."""
+        import time as _t
+        JobObjectBasicAccountingInformation = 1
+        deadline = _t.monotonic() + timeout_s
+        while _t.monotonic() < deadline:
+            acct = self._ACCT()
+            ok = self.k32.QueryInformationJobObject(
+                self.handle, JobObjectBasicAccountingInformation,
+                self._ct.byref(acct), self._ct.sizeof(acct), None)
+            if ok and acct.ActiveProcesses == 0:
+                return True
+            _t.sleep(0.1)
+        return False
+
+    def close(self):
+        try:
+            self.k32.CloseHandle(self.handle)
+        except Exception:
+            pass
+
+
+def _kill_tree(proc, job=None):
+    """Terminate the OWNED process tree, not only the direct child, and
+    return a short verification note ('tree-verified-dead' when no
+    descendant provably survives). Windows: TerminateJobObject on the job
+    the child was assigned to at spawn (taskkill /T fallback). POSIX: the
+    child was spawned in its own session/process group; SIGTERM then
+    SIGKILL the group and verify with killpg(0)."""
+    import time as _t
+    if os.name == "nt":
+        if job is not None:
+            job.terminate()
+            note = ("tree-verified-dead" if job.verify_empty()
+                    else "job-terminate-descendants-unverified")
+        else:
+            try:
+                subprocess.run(["taskkill", "/PID", str(proc.pid),
+                                "/T", "/F"], capture_output=True, timeout=30)
+                note = "taskkill-tree-unverified"
+            except Exception as exc:
+                note = f"taskkill-failed:{exc!r}"
+        try:
+            proc.kill()
+        except OSError:
+            pass
+        return note
+    import signal
+    try:
+        pgid = os.getpgid(proc.pid)
+    except OSError:
+        pgid = None
+    if pgid is not None and pgid != os.getpgid(0):
+        try:
+            os.killpg(pgid, signal.SIGTERM)
+        except OSError:
+            pass
+        deadline = _t.monotonic() + 5.0
+        while _t.monotonic() < deadline and proc.poll() is None:
+            _t.sleep(0.1)
+        try:
+            os.killpg(pgid, signal.SIGKILL)
+        except OSError:
+            pass
+        try:
+            os.killpg(pgid, 0)
+            note = "killpg-descendants-unverified"
+        except OSError:
+            # HONEST LABEL: killpg(0) proves the process GROUP is empty; a
+            # descendant that called setsid() left the group and is not
+            # covered (platform-limited; cgroup containment is v0.3.3.0).
+            note = "process-group-verified-dead"
+    else:
+        note = "no-own-process-group"
+    try:
+        proc.kill()
+    except OSError:
+        pass
+    return note
+
+
 def _spawn_once(argv, env, cwd, timeout_s, stdin_text=None, on_started=None):
     """Exactly one spawn — no hidden retry lives anywhere in this module.
     `on_started` runs immediately after the process exists (create-once
     process-started custody); if it fails the child is killed and the run
-    terminalizes ERROR."""
+    terminalizes ERROR. The child owns a Job Object (Windows) or its own
+    session (POSIX) so every termination path reaps the WHOLE tree."""
+    popen_kw = {}
+    if os.name != "nt":
+        popen_kw["start_new_session"] = True
     try:
         proc = subprocess.Popen(argv, env=env, cwd=cwd,
                                 stdin=subprocess.PIPE,
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE,
                                 text=True, encoding="utf-8",
-                                errors="replace")
+                                errors="replace", **popen_kw)
     except OSError as exc:
         return HostRunResult("error", f"host spawn failed: {exc}")
-    if on_started is not None:
+    job = None
+    if os.name == "nt":
         try:
-            on_started(proc)
-        except Exception as exc:
-            proc.kill()
+            job = _WinJob()
+            job.assign(proc)
+        except OSError as exc:
+            # FAIL CLOSED (independent review): a Windows mission without
+            # job-object tree ownership cannot be verifiably terminated —
+            # do not run it. (The sub-ms window between CreateProcess and
+            # assignment is a documented residual; assignment FAILURE is
+            # not tolerated.)
+            if job is not None:
+                job.close()
+            note = _kill_tree(proc, None)
             proc.communicate()
             return HostRunResult(
-                "error", f"process-started custody write failed: {exc!r}")
+                "error", f"job-object ownership unavailable ({exc}); "
+                         f"refusing to run without verifiable tree "
+                         f"termination (kill: {note})")
     try:
-        out, err = proc.communicate(input=stdin_text, timeout=timeout_s)
-    except subprocess.TimeoutExpired:
-        proc.kill()
-        out, err = proc.communicate()
-        r = HostRunResult("error", f"host timeout after {timeout_s}s")
-        r.stdout, r.stderr = out or "", err or ""
-        return r
+        if on_started is not None:
+            try:
+                on_started(proc)
+            except Exception as exc:
+                note = _kill_tree(proc, job)
+                proc.communicate()
+                return HostRunResult(
+                    "error", f"process-started custody write failed: "
+                             f"{exc!r} (kill: {note})")
+        try:
+            out, err = proc.communicate(input=stdin_text, timeout=timeout_s)
+        except subprocess.TimeoutExpired:
+            note = _kill_tree(proc, job)
+            out, err = proc.communicate()
+            r = HostRunResult(
+                "error", f"host timeout after {timeout_s}s (kill: {note})")
+            r.stdout, r.stderr = out or "", err or ""
+            return r
+    finally:
+        if job is not None:
+            job.close()
     if proc.returncode != 0:
         # Carry the raw streams so the caller can preserve them at the run
         # root — an ERROR run must never leave custody without the host
@@ -191,11 +390,18 @@ class _BaseAdapter:
     capabilities = frozenset()
 
     def __init__(self, host_argv_template, requested_model,
-                 product_checkout=None, host_cwd=None):
+                 product_checkout=None, host_cwd=None, formal=True,
+                 lane_id=None):
         self.host_argv_template = list(host_argv_template)
         self.requested_model = requested_model
         self.product_checkout = product_checkout
         self.host_cwd = host_cwd
+        # A FORMAL run produces evidence (smoke/baseline/comparison) and
+        # must carry an attested product checkout — zero identities are
+        # never a valid fallback for scored evidence. Only explicitly
+        # declared mock/test adapters may run without one.
+        self.formal = formal
+        self.lane_id = lane_id
         self.models_observed = []
         self._events_source = None
         self._staged_payload_hash = None
@@ -252,8 +458,19 @@ class _BaseAdapter:
          else _test_gate)()
         self.preflight()
         reconcilelib.reconcile_custody(custody_root)
-        run_root = framework.custody.resolve_and_create_output_dir(
-            custody_root, run_id)
+        # ATOMIC CLAIM: the intent is written inside a create-once staging
+        # dir which is then renamed to the final run root, so a hard crash
+        # can never leave an intent-less orphan run root — a crash before
+        # the rename leaves only a `<run_id>.claiming` staging dir, which
+        # the reconciler sweeps and terminally classifies.
+        claiming = framework.custody.resolve_and_create_output_dir(
+            custody_root, run_id + ".claiming")
+        run_root = os.path.join(os.path.dirname(claiming), run_id)
+        framework.custody.resolve_output_dir(custody_root, run_id)
+        if os.path.lexists(run_root):
+            os.rmdir(claiming)
+            raise framework.custody.CustodyError(
+                f"destination already exists: {run_root!r}")
         started_ts = _utc_now()
         self._not_before = started_ts
         fixture_path = os.path.join(HERE, "fixtures", fixture_id,
@@ -278,13 +495,69 @@ class _BaseAdapter:
                 self, "config_dir", None),
             "started_at": started_ts,
         }
-        with open(os.path.join(run_root, "run-intent.json"), "x",
-                  encoding="utf-8") as fh:
-            json.dump(intent, fh, indent=1, sort_keys=True)
+        intent_bytes = json.dumps(intent, indent=1,
+                                  sort_keys=True).encode("utf-8")
+        with open(os.path.join(claiming, "run-intent.json"), "xb") as fh:
+            fh.write(intent_bytes)
+        # Atomic claim. Residual TOCTOU (POSIX rename replaces an EMPTY
+        # dst dir created between the lexists check and here) is accepted:
+        # custody is single-orchestrator with serialized lanes and no
+        # mission process is alive during the claim; the create-once
+        # .claiming dir already collides duplicate claims of the same id.
+        os.rename(claiming, run_root)
+        if not os.path.isfile(os.path.join(run_root, "run-intent.json")):
+            raise framework.custody.CustodyError(
+                f"claim postcondition failed: no intent at {run_root!r}")
+        # Custody-record integrity: a Config-O mission process has no OS
+        # filesystem jail (canary-proven), so it could rewrite its own
+        # custody records mid-run. Hash them at write time and re-verify on
+        # every exit path; a mismatch downgrades the run to INVALID.
+        self._custody_hashes = {
+            "run-intent.json": bundlelib._sha256_bytes(intent_bytes)}
         result = HostRunResult("error", "adapter did not terminalize")
         spawned = False
         payload_before = None
         try:
+            if self.formal and not self.product_checkout:
+                raise framework.AdapterError(
+                    "formal run without an attested product checkout — "
+                    "zero identities are not a valid fallback for scored "
+                    "evidence; INVALID before spawn")
+            if self.formal:
+                # PRE-SPAWN ATTESTATION (independent review): presence of a
+                # path is not attestation. Pin the checkout's payload hash
+                # (raises → INVALID on a bogus/non-payload dir) and its git
+                # commit into a create-once custody record BEFORE spawn.
+                try:
+                    att_payload = framework.payload_hash(
+                        self.product_checkout)
+                except Exception as exc:
+                    raise framework.AdapterError(
+                        f"product checkout unattestable "
+                        f"({exc!r}) — INVALID before spawn")
+                if att_payload == hashlib.sha256().hexdigest():
+                    raise framework.AdapterError(
+                        "product checkout unattestable (empty payload "
+                        "tree) — INVALID before spawn")
+                try:
+                    att_commit = subprocess.run(
+                        ["git", "-C", self.product_checkout, "rev-parse",
+                         "HEAD"], capture_output=True, text=True,
+                        timeout=30).stdout.strip() or None
+                except Exception:
+                    att_commit = None
+                att_bytes = json.dumps(
+                    {"schema": "implementaudit-product-attestation-v1",
+                     "run_id": run_id, "path": self.product_checkout,
+                     "payload_sha256": att_payload,
+                     "git_commit": att_commit, "attested_at": _utc_now()},
+                    indent=1, sort_keys=True).encode("utf-8")
+                with open(os.path.join(run_root,
+                                       "product-attestation.json"),
+                          "xb") as fh:
+                    fh.write(att_bytes)
+                self._custody_hashes["product-attestation.json"] = \
+                    bundlelib._sha256_bytes(att_bytes)
             need = set(fx.get("required_capabilities", []))
             missing = sorted(need - set(self.capabilities))
             if missing:
@@ -306,23 +579,58 @@ class _BaseAdapter:
                     for a in self.host_argv_template]
 
             def _on_started(proc):
-                rec = {"schema": "implementaudit-process-started-v1",
-                       "run_id": run_id, "pid": proc.pid,
+                rec = {"schema": "implementaudit-process-started-v2",
+                       "run_id": run_id,
                        "cwd": self.host_cwd or repo,
                        "started_at": _utc_now(),
                        "argv_sha256": bundlelib._sha256_bytes(
                            "\x00".join(argv).encode("utf-8")),
                        "requested_model": self.requested_model_canonical(),
                        "temp_home": intent["temp_home"]}
+                # Full process identity (lane, OS, boot, pid, creation
+                # time): the reconciler refuses to treat a recycled or
+                # foreign-lane pid as the original process, so every field
+                # it compares must be captured at spawn.
+                rec.update(reconcilelib.process_identity(
+                    proc.pid, lane_id=getattr(self, "lane_id", None)))
+                rec_bytes = json.dumps(rec, indent=1,
+                                       sort_keys=True).encode("utf-8")
                 with open(os.path.join(run_root, "process-started.json"),
-                          "x", encoding="utf-8") as fh:
-                    json.dump(rec, fh, indent=1, sort_keys=True)
+                          "xb") as fh:
+                    fh.write(rec_bytes)
+                self._custody_hashes["process-started.json"] = \
+                    bundlelib._sha256_bytes(rec_bytes)
 
             spawned = True
             outcome = _spawn_once(argv, self._mission_env(repo),
                                   self.host_cwd or repo, self.timeout_s,
                                   stdin_text=mission,
                                   on_started=_on_started)
+            # FORGED-CUSTODY SWEEP (independent review blocking): the
+            # mission process is dead now; anything in the run root beyond
+            # what THIS adapter wrote pre-spawn was planted by the mission
+            # (jail-less Config-O can reach custody). A precreated
+            # terminal.json or bundle/ would otherwise become authoritative
+            # (terminal "x" would hit FileExistsError and the forged record
+            # would survive; the scorer would read forged evidence).
+            # Quarantine every unexpected entry and terminalize INVALID.
+            allowed_now = {"run-intent.json", "process-started.json",
+                           "product-attestation.json"}
+            planted = sorted(set(os.listdir(run_root)) - allowed_now)
+            if planted:
+                qdir = os.path.join(run_root, "quarantine-planted")
+                os.makedirs(qdir, exist_ok=True)
+                for n in planted:
+                    try:
+                        os.replace(os.path.join(run_root, n),
+                                   os.path.join(qdir, n))
+                    except OSError:
+                        pass
+                raise framework.AdapterError(
+                    f"mission planted {len(planted)} unexpected entr"
+                    f"{'y' if len(planted) == 1 else 'ies'} in the run "
+                    f"root ({', '.join(planted[:4])}) — quarantined; "
+                    f"INVALID")
             # Preserve the raw host stdout/stderr at the RUN ROOT immediately
             # — for BOTH the nonzero-exit/timeout error path and the normal
             # path — so no INVALID/ERROR classification ever destroys the
@@ -423,7 +731,9 @@ class _BaseAdapter:
                 hits.append(h1)
             h2 = self._quarantine_if_leak(
                 run_root, "quarantine-raw",
-                only=("host-stdout.raw", "host-stderr.raw"))
+                only=("host-stdout.raw", "host-stderr.raw",
+                      "run-intent.json", "process-started.json",
+                      "product-attestation.json"))
             if h2:
                 hits.append(h2)
             if hits:
@@ -431,6 +741,15 @@ class _BaseAdapter:
                     f"credential pattern {hits[0][0]!r} found in file "
                     f"{hits[0][1]!r} — moved to quarantine; custody "
                     f"violation ({len(hits)} location(s) scrubbed)")
+            for rel, want in (getattr(self, "_custody_hashes", None)
+                              or {}).items():
+                data = _read_custody_file(os.path.join(run_root, rel))
+                got = (bundlelib._sha256_bytes(data)
+                       if data is not None else None)
+                if got != want:
+                    raise framework.AdapterError(
+                        f"custody record {rel} modified during the "
+                        f"mission — INVALID")
             result = HostRunResult("ok", bundle_root,
                                    raw_events=events,
                                    resolved_model=resolved)
@@ -460,6 +779,20 @@ class _BaseAdapter:
                             "during the mission (detected on exit)")
                 except OSError:
                     pass
+            # Custody-record integrity on EVERY exit path (Config-O canary
+            # finding, v0.3.2.0): a jail-less mission process that rewrote
+            # its own run-intent.json / process-started.json must be caught
+            # before the run terminalizes.
+            for rel, want in (getattr(self, "_custody_hashes", None)
+                              or {}).items():
+                data = _read_custody_file(os.path.join(run_root, rel))
+                got = (bundlelib._sha256_bytes(data)
+                       if data is not None else None)
+                if got != want:
+                    result = HostRunResult(
+                        "invalid", f"custody record {rel} modified during "
+                                   f"the mission (detected on exit)")
+                    break
             # Credential nonretention on EVERY exit path (independent review
             # blocking): the run-root raw host output is scrubbed and the
             # terminal detail is redacted regardless of kind — a host that
@@ -468,7 +801,9 @@ class _BaseAdapter:
             try:
                 self._quarantine_if_leak(
                     run_root, "quarantine-raw",
-                    only=("host-stdout.raw", "host-stderr.raw"))
+                    only=("host-stdout.raw", "host-stderr.raw",
+                      "run-intent.json", "process-started.json",
+                      "product-attestation.json"))
             except Exception:
                 pass
             term = {"schema": "implementaudit-run-terminal-v1",

@@ -92,6 +92,11 @@ elif scenario == "substituted-codex":
 elif scenario == "no-provenance":
     write_session(omit_model=True, agent_msgs=["output text"])
     print(json.dumps({"type": "agent_message", "message": "output text"}))
+elif scenario == "stdout-only":
+    # NO session file at all: raw stdout is the only "transcript" — a real
+    # codex lane must refuse to score it (forgeable echo).
+    print("IMPLEMENTAUDIT_PHASE_START p1")
+    print("IMPLEMENTAUDIT_RUN_COMPLETE")
 elif scenario == "wrong-effort":
     write_session(effort="low", agent_msgs=["output text"])
     print(json.dumps({"type": "agent_message", "message": "output text"}))
@@ -164,12 +169,12 @@ def make_adapter(tmp, scenario, kind="codex", counter=None, checkout=None,
     if kind == "codex":
         a = hosts.CodexAdapter(
             codex_home=home or os.path.join(tmp, "codex-home"),
-            product_checkout=checkout)
+            product_checkout=checkout, formal=False)
         os.makedirs(a.codex_home, exist_ok=True)
         a.preflight = lambda: None  # version/auth gates unit-tested below
     else:
         a = hosts.ClaudeAdapter(config_dir=os.path.join(tmp, "claude-cfg"),
-                                product_checkout=checkout)
+                                product_checkout=checkout, formal=False)
         os.makedirs(a.config_dir, exist_ok=True)
     a.host_argv_template = argv
     a.timeout_s = 5
@@ -403,7 +408,7 @@ def main():
             json.dump({"run_id": name},
                       open(os.path.join(d, "run-intent.json"), "w"))
             if started is not None:
-                json.dump({"pid": started},
+                json.dump(reconcilelib.process_identity(started),
                           open(os.path.join(d, "process-started.json"),
                                "w"))
             if bundle:
@@ -542,7 +547,8 @@ def main():
 
             def post_checks(self, out):
                 pass
-        rl = _RawLeak(codex_home=os.path.join(tmp, "codex-home-26b"))
+        rl = _RawLeak(codex_home=os.path.join(tmp, "codex-home-26b"),
+                      formal=False)
         os.makedirs(rl.codex_home, exist_ok=True)
         mock = os.path.join(tmp, "mock_host.py")
         rl.host_argv_template = [sys.executable, "-c",
@@ -605,6 +611,258 @@ def main():
             status, verd = runner.score_bundle(r.detail, repo_dir=None)
             ok = ok and status in ("PASS", "FAIL")
         check("H28 e5-live-host-observation", ok)
+
+        # 30. process identity recorded at spawn: process-started.json must
+        # carry every field the reconciler compares (lane/os/boot/pid/
+        # creation time) — pid alone can be recycled.
+        a30 = make_adapter(tmp, "ok-codex",
+                           home=os.path.join(tmp, "codex-home-h30"))
+        a30.lane_id = "test-lane-h30"
+        r = run(a30, tmp, "r-h30")
+        ps = json.load(open(os.path.join(tmp, "custody", "r-h30",
+                                         "process-started.json"),
+                            encoding="utf-8"))
+        check("H30 process-identity-recorded",
+              r.kind == "ok" and ps.get("lane_id") == "test-lane-h30"
+              and ps.get("host_os") == reconcilelib.host_os_name()
+              and ps.get("host_boot_id")
+              and isinstance(ps.get("pid"), int)
+              and isinstance(ps.get("process_creation_time"), float))
+
+        # 31. recycled-pid refusal: an intent bound to a LIVE pid whose
+        # recorded creation time does not match the live process must NOT
+        # stay open as 'running' — it terminalizes truthfully.
+        rr31 = os.path.join(tmp, "custody", "r-h31")
+        os.makedirs(rr31)
+        json.dump({"run_id": "r-h31"},
+                  open(os.path.join(rr31, "run-intent.json"), "w"))
+        json.dump({"run_id": "r-h31", "pid": os.getpid(),
+                   "host_os": reconcilelib.host_os_name(),
+                   "host_boot_id": reconcilelib.host_boot_id(),
+                   "process_creation_time": 12345.0},
+                  open(os.path.join(rr31, "process-started.json"), "w"))
+        out31 = reconcilelib.reconcile_custody(os.path.join(tmp, "custody"))
+        d31 = {o["run_id"]: o["disposition"] for o in out31}
+        t31 = json.load(open(os.path.join(rr31, "terminal.json"),
+                             encoding="utf-8"))
+        check("H31 recycled-pid-not-running",
+              d31.get("r-h31") == "terminal-state-unverified"
+              and t31.get("reconciled") is True
+              and "recycled" in t31.get("detail", ""))
+
+        # 31b. matching identity IS running: same live pid with the TRUE
+        # creation time stays open (no terminal write).
+        rr31b = os.path.join(tmp, "custody", "r-h31b")
+        os.makedirs(rr31b)
+        json.dump({"run_id": "r-h31b"},
+                  open(os.path.join(rr31b, "run-intent.json"), "w"))
+        json.dump({"run_id": "r-h31b", "pid": os.getpid(),
+                   "host_os": reconcilelib.host_os_name(),
+                   "host_boot_id": reconcilelib.host_boot_id(),
+                   "process_creation_time":
+                       reconcilelib.process_creation_time(os.getpid())},
+                  open(os.path.join(rr31b, "process-started.json"), "w"))
+        out31b = reconcilelib.reconcile_custody(os.path.join(tmp, "custody"))
+        d31b = {o["run_id"]: o["disposition"] for o in out31b}
+        check("H31b matching-identity-running",
+              d31b.get("r-h31b") == "running"
+              and not os.path.isfile(os.path.join(rr31b, "terminal.json")))
+        try:
+            os.remove(os.path.join(rr31b, "run-intent.json"))
+        except OSError:
+            pass
+
+        # 32. foreign-lane pid: a recorded host_os from the OTHER lane can
+        # never be adjudicated as alive here (different pid namespace).
+        rr32 = os.path.join(tmp, "custody", "r-h32")
+        os.makedirs(rr32)
+        json.dump({"run_id": "r-h32"},
+                  open(os.path.join(rr32, "run-intent.json"), "w"))
+        other = "posix" if reconcilelib.host_os_name() == "windows" \
+            else "windows"
+        json.dump({"run_id": "r-h32", "pid": os.getpid(),
+                   "host_os": other, "host_boot_id": "x",
+                   "process_creation_time": 1.0},
+                  open(os.path.join(rr32, "process-started.json"), "w"))
+        out32 = reconcilelib.reconcile_custody(os.path.join(tmp, "custody"))
+        d32 = {o["run_id"]: o["disposition"] for o in out32}
+        t32 = json.load(open(os.path.join(rr32, "terminal.json"),
+                             encoding="utf-8"))
+        check("H32 foreign-lane-pid-unverified",
+              d32.get("r-h32") == "terminal-state-unverified"
+              and "foreign-lane" in t32.get("detail", ""))
+
+        # 33. orphan claim sweep: a crash between staging-dir creation and
+        # the atomic rename leaves `<id>.claiming`; the reconciler must
+        # terminally classify it, never silently ignore it.
+        rr33 = os.path.join(tmp, "custody", "r-h33.claiming")
+        os.makedirs(rr33)
+        out33 = reconcilelib.reconcile_custody(os.path.join(tmp, "custody"))
+        d33 = {o["run_id"]: o["disposition"] for o in out33}
+        t33 = json.load(open(os.path.join(rr33, "terminal.json"),
+                             encoding="utf-8"))
+        check("H33 orphan-claim-swept",
+              d33.get("r-h33") == "orphan-claim-swept"
+              and t33.get("reconciled") is True
+              and t33.get("spawned") is False)
+
+        # 34. formal-run checkout attestation: a formal adapter without a
+        # product checkout is INVALID before spawn (no process launched).
+        a34 = make_adapter(tmp, "ok-codex",
+                           home=os.path.join(tmp, "codex-home-h34"))
+        a34.formal = True  # declared formal, but no product_checkout
+        r34 = run(a34, tmp, "r-h34")
+        check("H34 formal-run-requires-checkout",
+              r34.kind == "invalid" and "attested product checkout"
+              in str(r34.detail)
+              and not os.path.isfile(os.path.join(
+                  tmp, "custody", "r-h34", "process-started.json")))
+
+        # 35. tree kill on timeout: the host spawns a GRANDCHILD sleeper
+        # and then blocks past the timeout; after timeout handling neither
+        # the child nor the grandchild may survive.
+        killmock = os.path.join(tmp, "kill_mock.py")
+        open(killmock, "w", encoding="utf-8").write(
+            "import os, subprocess, sys, time\n"
+            "gc = subprocess.Popen([sys.executable, '-c',\n"
+            "                       'import time; time.sleep(120)'])\n"
+            "open(sys.argv[1], 'w').write(str(gc.pid))\n"
+            "time.sleep(120)\n")
+        gcpid_file = os.path.join(tmp, "grandchild.pid")
+        a35 = make_adapter(tmp, "ok-codex",
+                           home=os.path.join(tmp, "codex-home-h35"))
+        a35.host_argv_template = [sys.executable, killmock, gcpid_file]
+        a35.timeout_s = 3
+        r35 = run(a35, tmp, "r-h35")
+        gcpid = int(open(gcpid_file).read().strip())
+        deadline = 10.0
+        import time as _t
+        while deadline > 0 and reconcilelib._pid_alive(gcpid):
+            _t.sleep(0.2)
+            deadline -= 0.2
+        gc_dead = not reconcilelib._pid_alive(gcpid)
+        check("H35 timeout-kills-process-tree",
+              r35.kind == "error" and "timeout" in str(r35.detail)
+              and gc_dead)
+        if not gc_dead:  # never leak a sleeper on failure
+            try:
+                subprocess.run(["taskkill", "/PID", str(gcpid), "/F"]
+                               if os.name == "nt"
+                               else ["kill", "-9", str(gcpid)],
+                               capture_output=True, timeout=15)
+            except Exception:
+                pass
+
+        # 36. custody-record integrity: a mission that rewrites its own
+        # run-intent.json (possible under jail-less Config-O — canary
+        # finding) must terminalize INVALID, on every exit path.
+        real_spawn = hosts._spawn_once
+
+        def _tampering_spawn(argv, env, cwd, timeout_s, **kw):
+            out = real_spawn(argv, env, cwd, timeout_s, **kw)
+            ip = os.path.join(tmp, "custody", "r-h36", "run-intent.json")
+            body = json.load(open(ip, encoding="utf-8"))
+            body["model_requested"] = "forged-model"
+            json.dump(body, open(ip, "w", encoding="utf-8"))
+            return out
+
+        hosts._spawn_once = _tampering_spawn
+        try:
+            r36 = run(make_adapter(tmp, "ok-codex",
+                                   home=os.path.join(tmp, "codex-home-h36")),
+                      tmp, "r-h36")
+        finally:
+            hosts._spawn_once = real_spawn
+        t36 = json.load(open(os.path.join(tmp, "custody", "r-h36",
+                                          "terminal.json"),
+                             encoding="utf-8"))
+        check("H36 custody-record-tamper-INVALID",
+              r36.kind == "invalid"
+              and "custody record run-intent.json modified"
+              in str(r36.detail) and t36.get("kind") == "invalid")
+
+        # 37. structured-event authority: a REAL codex lane (temp
+        # CODEX_HOME) whose host recorded NO session agent messages must
+        # refuse to score raw stdout — echoed text can forge markers.
+        r37 = run(make_adapter(tmp, "stdout-only",
+                               home=os.path.join(tmp, "codex-home-h37")),
+                  tmp, "r-h37")
+        check("H37 real-codex-refuses-stdout-transcript",
+              r37.kind == "invalid"
+              and "refusing to score raw stdout" in str(r37.detail))
+
+        # 38. forged-custody sweep: a mission that PLANTS terminal.json /
+        # bundle/ in its own run root (jail-less Config-O) must be
+        # quarantined and terminalize INVALID — the adapter's own terminal
+        # record must win, never the forged one.
+        real_spawn38 = hosts._spawn_once
+
+        def _planting_spawn(argv, env, cwd, timeout_s, **kw):
+            out = real_spawn38(argv, env, cwd, timeout_s, **kw)
+            rr = os.path.join(tmp, "custody", "r-h38")
+            json.dump({"kind": "ok", "reconciled": False, "forged": True},
+                      open(os.path.join(rr, "terminal.json"), "w"))
+            os.makedirs(os.path.join(rr, "bundle"))
+            json.dump({"forged": True},
+                      open(os.path.join(rr, "bundle", "manifest.json"), "w"))
+            return out
+
+        hosts._spawn_once = _planting_spawn
+        try:
+            r38 = run(make_adapter(tmp, "ok-codex",
+                                   home=os.path.join(tmp, "codex-home-h38")),
+                      tmp, "r-h38")
+        finally:
+            hosts._spawn_once = real_spawn38
+        rr38 = os.path.join(tmp, "custody", "r-h38")
+        t38 = json.load(open(os.path.join(rr38, "terminal.json"),
+                             encoding="utf-8"))
+        check("H38 planted-custody-quarantined-INVALID",
+              r38.kind == "invalid" and "planted" in str(r38.detail)
+              and t38.get("forged") is None
+              and t38.get("kind") == "invalid"
+              and os.path.isfile(os.path.join(
+                  rr38, "quarantine-planted", "terminal.json"))
+              and os.path.isdir(os.path.join(
+                  rr38, "quarantine-planted", "bundle")))
+
+        # 39. pre-spawn product attestation: a formal run pins the payload
+        # hash BEFORE spawn; an unattestable checkout is INVALID with no
+        # process launched.
+        canon39 = os.path.join(tmp, "canon39")
+        os.makedirs(os.path.join(canon39, "skills", "implementaudit"))
+        open(os.path.join(canon39, "skills", "implementaudit", "SKILL.md"),
+             "w").write("payload body" + chr(10))
+        prev_ident39 = framework.product_identity
+        framework.product_identity = (
+            lambda checkout, expected_tag="v0.3.1.0": {
+                "product_tag": "v0.3.1.0", "product_commit": "x",
+                "product_tree": "y"})
+        try:
+            a39 = make_adapter(tmp, "ok-codex", checkout=canon39,
+                               home=os.path.join(tmp, "codex-home-h39"))
+            a39.formal = True
+            r39 = run(a39, tmp, "r-h39")
+        finally:
+            framework.product_identity = prev_ident39
+        att = json.load(open(os.path.join(tmp, "custody", "r-h39",
+                                          "product-attestation.json"),
+                             encoding="utf-8"))
+        check("H39 formal-prespawn-attestation",
+              r39.kind == "ok"
+              and att.get("payload_sha256")
+              == framework.payload_hash(canon39))
+        a39b = make_adapter(tmp, "ok-codex",
+                            checkout=os.path.join(tmp, "empty39"),
+                            home=os.path.join(tmp, "codex-home-h39b"))
+        os.makedirs(os.path.join(tmp, "empty39"))
+        a39b.formal = True
+        r39b = run(a39b, tmp, "r-h39b")
+        check("H39b unattestable-checkout-INVALID",
+              r39b.kind == "invalid"
+              and "unattestable" in str(r39b.detail)
+              and not os.path.isfile(os.path.join(
+                  tmp, "custody", "r-h39b", "process-started.json")))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     if failures:
