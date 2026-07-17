@@ -64,7 +64,7 @@ elif scenario == "env-echo":
     print("SENTINEL=" + os.environ.get("EVAL_TEST_SENTINEL", "<absent>"))
 elif scenario == "leaky":
     print("model: gpt-5.6-luna")
-    print("here is a token: sk-THIS-LOOKS-LIKE-A-KEY")
+    print("here is a token: sk-ant-api03-ABCdef0123456789TOKEN")
 elif scenario == "write-canonical":
     target = os.environ.get("EVAL_CANONICAL_DIR")
     open(os.path.join(target, "TAMPERED.txt"), "w").write("x")
@@ -194,7 +194,7 @@ def main():
         # 11. credential sentinel terminalizes INVALID
         r = run(make_adapter(tmp, "leaky"), tmp, "r-leak")
         check("H11 credential-scan-aborts",
-              r.kind == "invalid" and "sentinel" in r.detail)
+              r.kind == "invalid" and "credential" in r.detail)
 
         # 12. run-root collision refused (custody layer)
         run(make_adapter(tmp, "ok-codex"), tmp, "r-coll")

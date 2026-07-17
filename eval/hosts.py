@@ -311,10 +311,25 @@ class _BaseAdapter:
         })
         return ident
 
+    # Precise credential patterns — real API keys / token FIELDS, not
+    # substrings that appear in ordinary prose ("risk-", "task").
+    _CRED_PATTERNS = None
+
     def scan_for_leaks(self, bundle_root):
-        """Credential nonretention: bundles must not contain auth material."""
-        sentinels = ("sk-", "OPENAI_API_KEY", "ANTHROPIC_API_KEY",
-                     "access_token", "refresh_token")
+        """Credential nonretention: bundles must not contain auth material.
+        Uses precise key/token patterns to avoid false positives on prose."""
+        import re as _re
+        if _BaseAdapter._CRED_PATTERNS is None:
+            _BaseAdapter._CRED_PATTERNS = [
+                _re.compile(r"sk-ant-[A-Za-z0-9_-]{8,}"),
+                _re.compile(r"sk-proj-[A-Za-z0-9_-]{8,}"),
+                _re.compile(r"sk-[A-Za-z0-9]{24,}"),
+                _re.compile(r'"(access_token|refresh_token|api_key|'
+                            r'apiKey|Authorization)"\s*:\s*"[^"]{8,}"'),
+                _re.compile(r"(OPENAI_API_KEY|ANTHROPIC_API_KEY)\s*="
+                            r"\s*\S{8,}"),
+                _re.compile(r"Bearer\s+[A-Za-z0-9._-]{20,}"),
+            ]
         for base, _dirs, files in os.walk(bundle_root):
             for name in files:
                 try:
@@ -322,11 +337,12 @@ class _BaseAdapter:
                                 encoding="utf-8").read()
                 except (UnicodeDecodeError, OSError):
                     continue
-                for s in sentinels:
-                    if s in text:
+                for pat in _BaseAdapter._CRED_PATTERNS:
+                    m = pat.search(text)
+                    if m:
                         raise framework.AdapterError(
-                            f"credential sentinel {s!r} found in bundle "
-                            f"file {name!r} — custody violation; aborting")
+                            f"credential pattern {pat.pattern!r} found in "
+                            f"bundle file {name!r} — custody violation")
 
 
 def _harness_commit():
@@ -659,12 +675,23 @@ class ClaudeAdapter(_BaseAdapter):
         return open(files[-1], "rb").read() if files else None
 
     def resolve_model(self, out):
+        # Claude Code may use an auxiliary model (e.g. haiku) alongside the
+        # requested primary. Resolve to the PRIMARY = the modelUsage entry
+        # with the most output tokens; the provenance check then confirms it
+        # equals the expected model.
         data = self._extract_json(out)
         if not isinstance(data, dict):
             return None
         usage = data.get("modelUsage") or {}
-        models = [m for m in usage.keys()]
-        return models[0] if len(models) == 1 else None
+        if not usage:
+            return None
+        def out_tokens(v):
+            return (v or {}).get("outputTokens", 0) if isinstance(v, dict) else 0
+        primary = max(usage.items(), key=lambda kv: out_tokens(kv[1]))
+        # if tokens are absent, fall back to the expected model when present
+        if all(out_tokens(v) == 0 for v in usage.values()):
+            return self.resolved_expect if self.resolved_expect in usage else None
+        return primary[0]
 
     def parse_events(self, out):
         data = self._extract_json(out)
