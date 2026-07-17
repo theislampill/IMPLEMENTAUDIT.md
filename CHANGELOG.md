@@ -11,6 +11,23 @@ Plugin manifest versions are host-facing package metadata. The `v0.3.1.0`
 source milestone maps to plugin manifest version `0.3.1` because no local
 schema evidence proved four-component plugin manifest versions are accepted.
 
+## [Unreleased]
+
+### Added
+
+- Andon taxonomy (#1): three new official abnormality classes —
+  `transport-infrastructure` (environment-level failure incl. blocked
+  review channels, with a normative preserve-and-reissue disposition),
+  `misplacement` (right layer, wrong instance/copy), and `false-closure`
+  (closure-state accounting collapses non-resolved states) — with
+  normative boundary definitions against `hung-command`,
+  `generated-artifact-mismatch`, and `evidence-mismatch`, and seven
+  boundary fixtures in the transcript contract. The three duplicated
+  class enumerations (SKILL.md, templates/PROTOCOL.md,
+  references/transcript-contract.md) are now pinned to each other by
+  `tests/andon-class-contract.test.sh` (set equality + required
+  membership; no fixed-total assertion).
+
 ## [v0.3.1.0] - 2026-06-14
 
 ### Added

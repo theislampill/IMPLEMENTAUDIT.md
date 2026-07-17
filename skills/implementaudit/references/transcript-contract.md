@@ -110,7 +110,48 @@ stale-sidecar
 policy-conflict
 impossible-criterion
 evidence-mismatch
+transport-infrastructure
+misplacement
+false-closure
 ```
+
+Definitions and boundaries for the three environment/accounting classes:
+
+- `transport-infrastructure` — environment-level failure: network outage
+  windows, process-initialization exit codes (e.g. 0xC0000142), host
+  resource loss, or simultaneous failures across independent lanes.
+  Boundary vs `hung-command`: `hung-command` is a single command failing to
+  return/progress on an otherwise healthy, responsive host; discriminating
+  evidence for infra is cross-lane simultaneity, OS-level init/exit
+  signatures, or a known outage window. A failure of the REVIEW/ADVISORY
+  CHANNEL itself (e.g. a platform-side filter blocking an authorized
+  reviewer before any verdict) is `transport-infrastructure`, never
+  evidence about the reviewed tree: preserve the non-verdict, reissue to
+  the SAME authorized reviewer identity with a narrowed prompt, and never
+  treat a blocked review as an accept or a reject.
+- `misplacement` — right layer, wrong INSTANCE: a correct finding or fix
+  attached to the wrong copy, version, file, component, or occurrence.
+  Boundary vs `generated-artifact-mismatch`: that class is the wrong LAYER
+  of a generator relationship (patching generated output instead of the
+  source owner, or attributing generated state to source).
+- `false-closure` — the closure-state ACCOUNTING is wrong: a completion
+  claim collapses unresolved / unvalidated / deferred / transferred /
+  risk-accepted items into "fully resolved", even when every individually
+  cited piece of evidence is genuine. Boundary vs `evidence-mismatch`:
+  that class is one specific claim whose cited evidence does not support
+  it.
+
+Boundary fixtures (expected classification + rationale):
+
+| Fixture | Expected class | Rationale |
+| --- | --- | --- |
+| Adapter exits 0xC0000142 during a known network outage; sibling lane fails in the same window | `transport-infrastructure` | environment-level signature + cross-lane simultaneity, not a single stalled command |
+| One `grep` never returns on a responsive host; siblings unaffected | `hung-command` | process-level stall in a healthy environment |
+| Fix applied to the deployed copy while the source copy still carries the defect | `misplacement` | right layer (source-owned pair), wrong instance/copy |
+| Patch written into a generated bundle instead of its source owner | `generated-artifact-mismatch` | wrong layer of a generator relationship |
+| Run declared "fully resolved" while two ledger rows are risk-accepted and one is transferred | `false-closure` | closure accounting collapsed non-resolved states |
+| A claim cites a passing test that does not cover the claimed behavior | `evidence-mismatch` | one claim, unsupporting evidence |
+| Authorized reviewer returns no verdict (platform filter blocked the review) | `transport-infrastructure` | review-channel failure; preserve non-verdict, reissue to same reviewer identity |
 
 Same-class recurrence — not a try count — is what drives escalation. The log
 has no row limit.
