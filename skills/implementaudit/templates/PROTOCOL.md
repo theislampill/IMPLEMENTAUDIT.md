@@ -504,9 +504,12 @@ owner/source is disputed.
 Steps:
 1. Print `ANDON_ESCALATE` with: phase number, failing criterion, prior
    ANDON_PROBE history, why the first countermeasure failed, and a revised or
-   deeper 5 Whys. Before claiming a same-class recurrence, cite the prior
-   same-class `## Andon log` rows by `#`; a recurrence claim without a cited
-   same-class row is invalid.
+   deeper 5 Whys. Ask explicitly: is the check testing the evidence
+   property (structural / behavioral / provenance) the claim actually
+   needs? A validator that PASSES while exercising a weaker property than
+   the claim requires is itself suspect. Before claiming a same-class
+   recurrence, cite the prior same-class `## Andon log` rows by `#`; a
+   recurrence claim without a cited same-class row is invalid.
 2. Record `New evidence:` and/or `Changed approach:` for this escalation. If
    neither can be truthfully filled, do not escalate — evaluate the
    ANDON_HANDOFF conditions instead. Append the escalation as a new classed

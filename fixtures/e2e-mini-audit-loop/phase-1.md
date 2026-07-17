@@ -36,8 +36,8 @@ one deliverable, and verify the deliverable against the complete working tree.
 
 ## Mandatory commands (run each; include expected success shape, surface last ~10 lines + exit code in transcript)
 
-- bash skills/implementaudit/scripts/validate-phase.sh fixtures/e2e-mini-audit-loop/phase-1.md - expected: exit 0 with `validate-phase: ok`.
-- bash .IMPLEMENTAUDIT/runs/mini/repo-state.sh deliverable <baseline> src-mini-proof.txt - expected: exit 0 with `present`.
+- bash skills/implementaudit/scripts/validate-phase.sh fixtures/e2e-mini-audit-loop/phase-1.md - property: structural; scope: spec shape only, not work correctness; expected: exit 0 with `validate-phase: ok`.
+- bash .IMPLEMENTAUDIT/runs/mini/repo-state.sh deliverable <baseline> src-mini-proof.txt - property: behavioral; scope: the deliverable file exists in the working tree after the work; expected: exit 0 with `present`.
 
 ## Evidence required in transcript
 

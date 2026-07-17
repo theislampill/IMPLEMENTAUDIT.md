@@ -33,8 +33,8 @@ The audit found no settings endpoint; users cannot retrieve their preferences.
 
 ## Mandatory commands (run each; surface last ~10 lines + exit code in transcript)
 
-- npm run build — expected: exit 0 with no errors
-- npm test -- --testPathPattern=settings — expected: exit 0 with settings tests passing
+- npm run build — property: behavioral; scope: the app compiles from current sources; expected: exit 0 with no errors
+- npm test -- --testPathPattern=settings — property: behavioral; scope: settings behavior under the test suite, not full-app correctness; expected: exit 0 with settings tests passing
 
 ## Evidence required in transcript
 

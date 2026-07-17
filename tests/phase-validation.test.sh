@@ -249,6 +249,35 @@ sed -i '/^Markdown fallback:/d' "$f"
 check_fail "missing Markdown fallback status" "$f"
 
 # ------------------------------------------------------------------
+# Evidence property tags (#3)
+# ------------------------------------------------------------------
+# FAIL: mixed tagged/untagged mandatory commands (newly authored spec)
+f="$tmp/mixed_property_tags.md"
+make_valid "$f"
+sed -i 's/- npm run build .* property: behavioral; scope: [^;]*; expected:/- npm run build - expected:/' "$f"
+check_fail_contains "mixed property tags" "$f" "mixes tagged and untagged"
+
+# FAIL: invalid property tag (authorization is not an evidence property)
+f="$tmp/invalid_property_tag.md"
+make_valid "$f"
+sed -i 's/property: behavioral; scope: the app compiles from current sources;/property: authorization; scope: x;/' "$f"
+check_fail_contains "invalid property tag" "$f" "invalid evidence property tag"
+
+# PASS with warning: fully untagged legacy spec
+f="$tmp/legacy_untagged.md"
+make_valid "$f"
+sed -i 's/property: behavioral; scope: [^;]*; expected:/expected:/g' "$f"
+out="$tmp/legacy_untagged.out"
+if bash skills/implementaudit/scripts/validate-phase.sh "$f" >"$out" 2>&1 \
+    && grep -q "WARNING legacy spec" "$out"; then
+  pass=$((pass + 1))
+else
+  printf 'phase-validation.test: legacy untagged spec must pass WITH warning\n' >&2
+  cat "$out" >&2
+  fail=$((fail + 1))
+fi
+
+# ------------------------------------------------------------------
 # Summary
 # ------------------------------------------------------------------
 total=$((pass + fail))
