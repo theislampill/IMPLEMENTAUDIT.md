@@ -245,3 +245,44 @@ if violations:
 
 sys.stdout.write("check-skill-layout-contract: ok\n")
 PY
+
+# Payload path hygiene: the shipped payload must not contain user-home
+# absolute paths (Windows C:\Users\<name>, macOS /Users/<name>, Linux
+# /home/<name>). Placeholder forms like <user> or $HOME are permitted.
+"${py_cmd[@]}" - <<'PY'
+import re
+import sys
+from pathlib import Path
+
+root = Path.cwd()
+payload = root / "skills" / "implementaudit"
+backslash = chr(92)
+# One-or-more separators so JSON-escaped Windows paths (double backslash)
+# and forward-slash Windows paths are both caught.
+# Windows arm is case-insensitive: the OS is, so c:\users\ leaks identically.
+# POSIX arm stays case-SENSITIVE: a case-insensitive /users/ would
+# false-positive on URL paths such as api.github.com/users/<name>/.
+sep = "[" + re.escape(backslash) + "/]+"
+pattern = re.compile(
+    "(?i:[A-Za-z]:" + sep + "Users" + sep + "[A-Za-z0-9_.-]+)"
+    "|/(?:Users|home)/[A-Za-z0-9_.-]+/"
+)
+bad = []
+for path in sorted(payload.rglob("*")):
+    if not path.is_file():
+        continue
+    try:
+        text = path.read_text(encoding="utf-8")
+    except (UnicodeDecodeError, OSError):
+        continue
+    for lineno, line in enumerate(text.splitlines(), 1):
+        match = pattern.search(line)
+        if match:
+            bad.append(f"{path.relative_to(root).as_posix()}:{lineno}: {match.group(0)}")
+if bad:
+    print("check-skill-layout-contract: user-home absolute path(s) in payload:", file=sys.stderr)
+    for item in bad:
+        print(f"  {item}", file=sys.stderr)
+    raise SystemExit(1)
+print("payload path hygiene: ok")
+PY
