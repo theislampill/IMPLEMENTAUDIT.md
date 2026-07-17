@@ -47,12 +47,18 @@ is +806/−34. The body predates the adjudication commit `511d15b3` →
 - The issue has zero comments; it was closed 2026-07-17T13:08:37Z by the
   merge linkage of PR #21 (`Closes #20`), not by a close comment, so no
   close-comment overclaim exists.
-- CI (`validate` workflow) runs only whitespace, plugin-JSON, and
-  `verify-package.sh` — it does **not** run the eval suites. Closure therefore
-  rested on the PR body’s local-test claims. This review independently
-  re-executed every deterministic suite on current `main` and confirms those
-  claims were true (all green: `selftest`, `test_adapters`, `adversarial`,
-  `test_hosts` H1–H39b).
+- CI (`validate` workflow) runs whitespace, plugin-JSON, `verify-package.sh`,
+  and the focused behavior tests including `tests/eval-harness.test.sh`,
+  which executes all four eval suites (`selftest`, `adversarial`,
+  `test_adapters`, `test_hosts`) on ubuntu — verified at the PR’s base
+  commit (`147ccabf`, validate.yml line 92). PR #21’s green `package` check
+  therefore included H1–H39b in CI. Closure was supported by CI-executed
+  suites plus the PR body’s local-test claims; this review additionally
+  re-executed every deterministic suite on current `main` on Windows and
+  confirms all green.
+  *(Correction, session 02/16: an earlier revision of this report claimed CI
+  did not run the eval suites — an evidence-mismatch caused by reading a
+  truncated workflow listing. Corrected from the exact Git object.)*
 - Supersession check: no commit after merge `6931e2b2` touched
   `eval/hosts.py`, `eval/reconcile.py`, `eval/runner.py`, or
   `eval/test_hosts.py` (only `eval/README.md` and the B3 fixtures changed,
@@ -199,10 +205,13 @@ Product bytes changed: **yes** (two files, minimal diffs), plus tests.
   `setsid`) survives terminalization. On Windows — the OS of both formal
   configurations L and O — the Job Object’s kill-on-close provably reaps
   such survivors (executed evidence, P5). Adjacent to the already-documented
-  setsid/cgroup residual (v0.3.3.0); no POSIX lane exists in this program
-  and no reachable CI executes the eval suites, so a POSIX-only regression
-  could not be executed anywhere from this session — left as a documented
-  residual rather than an untested fix.
+  setsid/cgroup residual (v0.3.3.0). CI (ubuntu-latest) does execute the
+  eval suites, so a POSIX-only regression would run there — but it could
+  not be executed or verified on this Windows review host before pushing,
+  no POSIX lane exists in this program, and both formal configurations run
+  on Windows where the hole is provably closed; left as a documented
+  residual rather than a locally unverifiable fix. The integrator may
+  commission a POSIX-session fix+regression if a POSIX lane is added.
 - **Sub-millisecond Windows job-assignment window** (spawn → assign):
   documented residual carried from the PR; assignment *failure* fails
   closed.
