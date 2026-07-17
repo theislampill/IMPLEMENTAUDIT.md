@@ -2,10 +2,16 @@
 
 **Status: foundation + fixture library + inert adapter framework for issue
 #9 — still not a complete model-in-the-loop harness.** This directory
-implements the deterministic run-bundle scorer, the FULL 15-fixture library
-(B0–B2, E1–E10), and the adapter/replay framework. Per-host adapters with
-actual model execution are separate gated PRs, and the baseline requires the
-owner approval packet. It therefore does **not close #9**.
+implements the deterministic run-bundle scorer, the FULL 15-fixture primary
+library (B0–B2, E1–E10), and the adapter/replay framework. Per-host adapters
+with actual model execution are separate gated PRs, and the baseline requires
+the owner approval packet. It therefore does **not close #9**.
+
+`B3` is a SUPPLEMENTARY fixture for the context-epoch continuity issue
+(#35), run as a separately versioned baseline (1 fixture × 2 configs × 3
+reps). It is validated by the selftest but is deliberately NOT part of the
+frozen 14-fixture primary campaign and must never be folded into the
+primary aggregate.
 
 The 42 shipped tests are structural shell tests; nothing there exercises a
 model following the skill. This scorer is the part that will judge such runs

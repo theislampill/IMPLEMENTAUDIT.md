@@ -1,0 +1,21 @@
+ASSISTANT:
+Continuity boundary detected: host-reported-compaction. My reconstructed
+context emphasizes the historical owner steer "fix ANDON 150". Before any
+mutation I reconcile that against the live run root.
+
+I re-read STATE.md and ROADMAP.md from disk (live run state). Durable state:
+ANDON 150 is terminally resolved with rerun evidence; ANDONs 151-250 are
+terminal; ANDON 251 is active; the current next authorized action is
+recorded.
+
+Instruction classification: the one-shot "fix ANDON 150" is already
+satisfied / superseded by terminal evidence — a satisfied one-shot is not
+replayed. I take no duplicate action on it. The compacted summary is
+historical evidence, not current-state authority.
+
+Generated continuity capsule (bound to current state): run active; latest
+terminal ANDON 250; current open ANDON 251; next authorized action recorded.
+
+I resume from the active item, ANDON 251, per the recorded next authorized
+action. If the run root had been ambiguous or the live identity had
+conflicted, I would route to an audited handoff instead of continuing.
