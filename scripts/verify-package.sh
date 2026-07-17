@@ -67,6 +67,7 @@ require_file skills/implementaudit/references/terminology-integration.md
 require_file skills/implementaudit/scripts/check-evidence-anchor.sh
 require_file skills/implementaudit/scripts/check-lesson-lift.sh
 require_file skills/implementaudit/scripts/check-handoff-packet.sh
+require_file skills/implementaudit/scripts/check-closure-surface.sh
 require_file skills/implementaudit/scripts/claim-run.sh
 require_file skills/implementaudit/scripts/detect-env.sh
 require_file skills/implementaudit/scripts/detect-stack.sh
@@ -200,6 +201,7 @@ require_file fixtures/lean/sidecar-activegraph-dmaic-custody.md
 require_file tests/andon-class-contract.test.sh
 require_file tests/lesson-lift-contract.test.sh
 require_file tests/handoff-packet-contract.test.sh
+require_file tests/closure-surface-contract.test.sh
 require_file tests/andon-escalation-judgment.test.sh
 require_file tests/background-chain-contract.test.sh
 require_file tests/evidence-anchoring.test.sh
@@ -522,6 +524,7 @@ bash tests/lean-discipline.test.sh
 bash tests/andon-class-contract.test.sh
 bash tests/lesson-lift-contract.test.sh
 bash tests/handoff-packet-contract.test.sh
+bash tests/closure-surface-contract.test.sh
 bash tests/andon-escalation-judgment.test.sh
 bash tests/background-chain-contract.test.sh
 bash tests/evidence-anchoring.test.sh

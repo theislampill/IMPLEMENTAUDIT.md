@@ -765,8 +765,35 @@ Print `AUDIT_COMPLETE` only when:
   policy), and completion language claims AUDIT-COMPLETION ONLY — a
   full-resolution claim while any consequential residual is `unresolved`
   is false-closure
+- Every closure claim is indexed to the SUCCESS SURFACE that establishes
+  it (see the closure-claims table below), and closes only with evidence
+  from that surface — evidence from a lower layer is never promoted into a
+  higher-surface claim
 
 Then print `IMPLEMENTAUDIT_RUN_COMPLETE`.
+
+**Closure-claims table (success-surface indexing).** When a run makes any
+closure claim beyond source, record one row per claim:
+
+| Claim ID | Target occurrence/version (#4) | Required success surface | Evidence property (#3) | Evidence IDs | Verification status | Residual disposition ref (#6) | Explicit non-claims |
+
+- **Required success surface** is one of: source / generated artifact /
+  package / installed payload / running local service / deployed service /
+  API / browser or user-visible behavior / publication.
+- **Verification status** = `verified` / `failed` / `unverified` /
+  `not-applicable` — the state of THIS claim's evidence only. Residual
+  disposition (#6) is referenced, never merged into verification status.
+- A claim closes only with evidence FROM the surface that establishes it;
+  a lower layer never substitutes for a higher-surface claim. If an
+  authorized required surface cannot be inspected, record a truthful
+  `unverified` / deferred / handoff disposition (#6) — never a fabricated
+  lower-surface substitute.
+- Inspection applies ONLY to surfaces the run is authorized to reach.
+  Absent authorization routes truthfully to `unverified` / deferred; it
+  must NEVER trigger an unauthorized network or deployment check.
+- Source-only / docs-only / library-only work records a single
+  source-surface row and adds no further steps. This is a closure gate
+  (successive inspection), not defect prevention.
 
 ### AUDIT_HANDOFF
 
