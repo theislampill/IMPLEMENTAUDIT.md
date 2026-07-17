@@ -790,6 +790,79 @@ def main():
         check("H37 real-codex-refuses-stdout-transcript",
               r37.kind == "invalid"
               and "refusing to score raw stdout" in str(r37.detail))
+
+        # 38. forged-custody sweep: a mission that PLANTS terminal.json /
+        # bundle/ in its own run root (jail-less Config-O) must be
+        # quarantined and terminalize INVALID — the adapter's own terminal
+        # record must win, never the forged one.
+        real_spawn38 = hosts._spawn_once
+
+        def _planting_spawn(argv, env, cwd, timeout_s, **kw):
+            out = real_spawn38(argv, env, cwd, timeout_s, **kw)
+            rr = os.path.join(tmp, "custody", "r-h38")
+            json.dump({"kind": "ok", "reconciled": False, "forged": True},
+                      open(os.path.join(rr, "terminal.json"), "w"))
+            os.makedirs(os.path.join(rr, "bundle"))
+            json.dump({"forged": True},
+                      open(os.path.join(rr, "bundle", "manifest.json"), "w"))
+            return out
+
+        hosts._spawn_once = _planting_spawn
+        try:
+            r38 = run(make_adapter(tmp, "ok-codex",
+                                   home=os.path.join(tmp, "codex-home-h38")),
+                      tmp, "r-h38")
+        finally:
+            hosts._spawn_once = real_spawn38
+        rr38 = os.path.join(tmp, "custody", "r-h38")
+        t38 = json.load(open(os.path.join(rr38, "terminal.json"),
+                             encoding="utf-8"))
+        check("H38 planted-custody-quarantined-INVALID",
+              r38.kind == "invalid" and "planted" in str(r38.detail)
+              and t38.get("forged") is None
+              and t38.get("kind") == "invalid"
+              and os.path.isfile(os.path.join(
+                  rr38, "quarantine-planted", "terminal.json"))
+              and os.path.isdir(os.path.join(
+                  rr38, "quarantine-planted", "bundle")))
+
+        # 39. pre-spawn product attestation: a formal run pins the payload
+        # hash BEFORE spawn; an unattestable checkout is INVALID with no
+        # process launched.
+        canon39 = os.path.join(tmp, "canon39")
+        os.makedirs(os.path.join(canon39, "skills", "implementaudit"))
+        open(os.path.join(canon39, "skills", "implementaudit", "SKILL.md"),
+             "w").write("payload body" + chr(10))
+        prev_ident39 = framework.product_identity
+        framework.product_identity = (
+            lambda checkout, expected_tag="v0.3.1.0": {
+                "product_tag": "v0.3.1.0", "product_commit": "x",
+                "product_tree": "y"})
+        try:
+            a39 = make_adapter(tmp, "ok-codex", checkout=canon39,
+                               home=os.path.join(tmp, "codex-home-h39"))
+            a39.formal = True
+            r39 = run(a39, tmp, "r-h39")
+        finally:
+            framework.product_identity = prev_ident39
+        att = json.load(open(os.path.join(tmp, "custody", "r-h39",
+                                          "product-attestation.json"),
+                             encoding="utf-8"))
+        check("H39 formal-prespawn-attestation",
+              r39.kind == "ok"
+              and att.get("payload_sha256")
+              == framework.payload_hash(canon39))
+        a39b = make_adapter(tmp, "ok-codex",
+                            checkout=os.path.join(tmp, "empty39"),
+                            home=os.path.join(tmp, "codex-home-h39b"))
+        os.makedirs(os.path.join(tmp, "empty39"))
+        a39b.formal = True
+        r39b = run(a39b, tmp, "r-h39b")
+        check("H39b unattestable-checkout-INVALID",
+              r39b.kind == "invalid"
+              and "unattestable" in str(r39b.detail)
+              and not os.path.isfile(os.path.join(
+                  tmp, "custody", "r-h39b", "process-started.json")))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     if failures:

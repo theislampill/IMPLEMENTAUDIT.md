@@ -54,6 +54,7 @@ Shared guarantees (mock-tested in eval/test_hosts.py; NO live mission in CI):
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import shutil
@@ -114,6 +115,26 @@ def _parse_ts(s):
     try:
         return datetime.fromisoformat(s.replace("Z", "+00:00"))
     except ValueError:
+        return None
+
+
+
+def _read_custody_file(path, cap=4 * 1024 * 1024):
+    """Bounded, special-file-safe read for exit-time custody verification:
+    only a REGULAR, non-symlink file up to `cap` bytes is readable — a
+    mission that swapped a custody record for a FIFO/symlink/device must
+    yield a hash mismatch, never a blocked or unbounded read."""
+    try:
+        st = os.lstat(path)
+    except OSError:
+        return None
+    import stat as _stat
+    if not _stat.S_ISREG(st.st_mode) or st.st_size > cap:
+        return None
+    try:
+        with open(path, "rb") as fh:
+            return fh.read(cap + 1)
+    except OSError:
         return None
 
 
@@ -274,7 +295,10 @@ def _kill_tree(proc, job=None):
             os.killpg(pgid, 0)
             note = "killpg-descendants-unverified"
         except OSError:
-            note = "tree-verified-dead"
+            # HONEST LABEL: killpg(0) proves the process GROUP is empty; a
+            # descendant that called setsid() left the group and is not
+            # covered (platform-limited; cgroup containment is v0.3.3.0).
+            note = "process-group-verified-dead"
     else:
         note = "no-own-process-group"
     try:
@@ -307,10 +331,20 @@ def _spawn_once(argv, env, cwd, timeout_s, stdin_text=None, on_started=None):
         try:
             job = _WinJob()
             job.assign(proc)
-        except OSError:
+        except OSError as exc:
+            # FAIL CLOSED (independent review): a Windows mission without
+            # job-object tree ownership cannot be verifiably terminated —
+            # do not run it. (The sub-ms window between CreateProcess and
+            # assignment is a documented residual; assignment FAILURE is
+            # not tolerated.)
             if job is not None:
                 job.close()
-            job = None  # taskkill /T fallback still applies on timeout
+            note = _kill_tree(proc, None)
+            proc.communicate()
+            return HostRunResult(
+                "error", f"job-object ownership unavailable ({exc}); "
+                         f"refusing to run without verifiable tree "
+                         f"termination (kill: {note})")
     try:
         if on_started is not None:
             try:
@@ -465,7 +499,15 @@ class _BaseAdapter:
                                   sort_keys=True).encode("utf-8")
         with open(os.path.join(claiming, "run-intent.json"), "xb") as fh:
             fh.write(intent_bytes)
-        os.rename(claiming, run_root)  # atomic claim: intent + root together
+        # Atomic claim. Residual TOCTOU (POSIX rename replaces an EMPTY
+        # dst dir created between the lexists check and here) is accepted:
+        # custody is single-orchestrator with serialized lanes and no
+        # mission process is alive during the claim; the create-once
+        # .claiming dir already collides duplicate claims of the same id.
+        os.rename(claiming, run_root)
+        if not os.path.isfile(os.path.join(run_root, "run-intent.json")):
+            raise framework.custody.CustodyError(
+                f"claim postcondition failed: no intent at {run_root!r}")
         # Custody-record integrity: a Config-O mission process has no OS
         # filesystem jail (canary-proven), so it could rewrite its own
         # custody records mid-run. Hash them at write time and re-verify on
@@ -481,6 +523,41 @@ class _BaseAdapter:
                     "formal run without an attested product checkout — "
                     "zero identities are not a valid fallback for scored "
                     "evidence; INVALID before spawn")
+            if self.formal:
+                # PRE-SPAWN ATTESTATION (independent review): presence of a
+                # path is not attestation. Pin the checkout's payload hash
+                # (raises → INVALID on a bogus/non-payload dir) and its git
+                # commit into a create-once custody record BEFORE spawn.
+                try:
+                    att_payload = framework.payload_hash(
+                        self.product_checkout)
+                except Exception as exc:
+                    raise framework.AdapterError(
+                        f"product checkout unattestable "
+                        f"({exc!r}) — INVALID before spawn")
+                if att_payload == hashlib.sha256().hexdigest():
+                    raise framework.AdapterError(
+                        "product checkout unattestable (empty payload "
+                        "tree) — INVALID before spawn")
+                try:
+                    att_commit = subprocess.run(
+                        ["git", "-C", self.product_checkout, "rev-parse",
+                         "HEAD"], capture_output=True, text=True,
+                        timeout=30).stdout.strip() or None
+                except Exception:
+                    att_commit = None
+                att_bytes = json.dumps(
+                    {"schema": "implementaudit-product-attestation-v1",
+                     "run_id": run_id, "path": self.product_checkout,
+                     "payload_sha256": att_payload,
+                     "git_commit": att_commit, "attested_at": _utc_now()},
+                    indent=1, sort_keys=True).encode("utf-8")
+                with open(os.path.join(run_root,
+                                       "product-attestation.json"),
+                          "xb") as fh:
+                    fh.write(att_bytes)
+                self._custody_hashes["product-attestation.json"] = \
+                    bundlelib._sha256_bytes(att_bytes)
             need = set(fx.get("required_capabilities", []))
             missing = sorted(need - set(self.capabilities))
             if missing:
@@ -529,6 +606,31 @@ class _BaseAdapter:
                                   self.host_cwd or repo, self.timeout_s,
                                   stdin_text=mission,
                                   on_started=_on_started)
+            # FORGED-CUSTODY SWEEP (independent review blocking): the
+            # mission process is dead now; anything in the run root beyond
+            # what THIS adapter wrote pre-spawn was planted by the mission
+            # (jail-less Config-O can reach custody). A precreated
+            # terminal.json or bundle/ would otherwise become authoritative
+            # (terminal "x" would hit FileExistsError and the forged record
+            # would survive; the scorer would read forged evidence).
+            # Quarantine every unexpected entry and terminalize INVALID.
+            allowed_now = {"run-intent.json", "process-started.json",
+                           "product-attestation.json"}
+            planted = sorted(set(os.listdir(run_root)) - allowed_now)
+            if planted:
+                qdir = os.path.join(run_root, "quarantine-planted")
+                os.makedirs(qdir, exist_ok=True)
+                for n in planted:
+                    try:
+                        os.replace(os.path.join(run_root, n),
+                                   os.path.join(qdir, n))
+                    except OSError:
+                        pass
+                raise framework.AdapterError(
+                    f"mission planted {len(planted)} unexpected entr"
+                    f"{'y' if len(planted) == 1 else 'ies'} in the run "
+                    f"root ({', '.join(planted[:4])}) — quarantined; "
+                    f"INVALID")
             # Preserve the raw host stdout/stderr at the RUN ROOT immediately
             # — for BOTH the nonzero-exit/timeout error path and the normal
             # path — so no INVALID/ERROR classification ever destroys the
@@ -629,7 +731,9 @@ class _BaseAdapter:
                 hits.append(h1)
             h2 = self._quarantine_if_leak(
                 run_root, "quarantine-raw",
-                only=("host-stdout.raw", "host-stderr.raw"))
+                only=("host-stdout.raw", "host-stderr.raw",
+                      "run-intent.json", "process-started.json",
+                      "product-attestation.json"))
             if h2:
                 hits.append(h2)
             if hits:
@@ -639,11 +743,9 @@ class _BaseAdapter:
                     f"violation ({len(hits)} location(s) scrubbed)")
             for rel, want in (getattr(self, "_custody_hashes", None)
                               or {}).items():
-                try:
-                    got = bundlelib._sha256_bytes(
-                        open(os.path.join(run_root, rel), "rb").read())
-                except OSError:
-                    got = None
+                data = _read_custody_file(os.path.join(run_root, rel))
+                got = (bundlelib._sha256_bytes(data)
+                       if data is not None else None)
                 if got != want:
                     raise framework.AdapterError(
                         f"custody record {rel} modified during the "
@@ -683,11 +785,9 @@ class _BaseAdapter:
             # before the run terminalizes.
             for rel, want in (getattr(self, "_custody_hashes", None)
                               or {}).items():
-                try:
-                    got = bundlelib._sha256_bytes(
-                        open(os.path.join(run_root, rel), "rb").read())
-                except OSError:
-                    got = None
+                data = _read_custody_file(os.path.join(run_root, rel))
+                got = (bundlelib._sha256_bytes(data)
+                       if data is not None else None)
                 if got != want:
                     result = HostRunResult(
                         "invalid", f"custody record {rel} modified during "
@@ -701,7 +801,9 @@ class _BaseAdapter:
             try:
                 self._quarantine_if_leak(
                     run_root, "quarantine-raw",
-                    only=("host-stdout.raw", "host-stderr.raw"))
+                    only=("host-stdout.raw", "host-stderr.raw",
+                      "run-intent.json", "process-started.json",
+                      "product-attestation.json"))
             except Exception:
                 pass
             term = {"schema": "implementaudit-run-terminal-v1",

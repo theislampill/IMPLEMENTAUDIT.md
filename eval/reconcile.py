@@ -162,14 +162,17 @@ def original_process_alive(started):
     if not _pid_alive(pid):
         return False, "process dead"
     rec_ct = started.get("process_creation_time")
-    if rec_ct is None:
+    if not isinstance(rec_ct, (int, float)):
         return False, "no recorded process_creation_time — identity " \
                       "unverifiable, not treated as the original process"
     cur_ct = process_creation_time(pid)
     if cur_ct is None:
         return False, "live pid identity unreadable — not treated as the " \
                       "original process"
-    if abs(cur_ct - rec_ct) > 2.0:
+    # 1.0s absorbs representation jitter (POSIX btime can slew under NTP)
+    # while keeping the recycled-pid coincidence window minimal — both
+    # reads come from the same kernel source for the same live pid.
+    if abs(cur_ct - rec_ct) > 1.0:
         return False, "pid recycled: creation time %r != recorded %r" \
             % (cur_ct, rec_ct)
     rec_boot = started.get("host_boot_id")
@@ -204,6 +207,17 @@ def reconcile_custody(custody_root):
         run_root = os.path.join(custody_root, name)
         if not os.path.isdir(run_root):
             continue
+        try:
+            results.extend(_reconcile_one(name, run_root))
+        except Exception as exc:  # per-dir contract: never raises
+            results.append({"run_id": name, "disposition": "reconcile-error",
+                            "write": "none", "detail": repr(exc)[:200]})
+    return results
+
+
+def _reconcile_one(name, run_root):
+    results = []
+    for _ in (0,):  # single pass; body uses `continue` as early-exit
         intent_p = os.path.join(run_root, "run-intent.json")
         term_p = os.path.join(run_root, "terminal.json")
         if name.endswith(".claiming"):
@@ -243,6 +257,11 @@ def reconcile_custody(custody_root):
         try:
             started = json.load(open(started_p, encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
+            started = {}
+        if not isinstance(started, dict):
+            # a rewritten/garbage record must yield a truthful terminal
+            # disposition, never crash the reconciler (contract: never
+            # raises for an individual run dir)
             started = {}
         alive, why = original_process_alive(started)
         if alive:
