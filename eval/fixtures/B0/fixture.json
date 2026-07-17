@@ -100,12 +100,13 @@
   {
    "name": "audit_start",
    "required": true,
-   "describes": "AUDIT_START opens the final audit (carries Skill version per contract; payload not force-checked)",
+   "describes": "AUDIT_START opens the final audit AFTER the phase loop closes (the final audit follows phase execution; carries Skill version per contract)",
    "rule": {
     "kind": "marker",
     "name": "AUDIT_START",
     "payload": "optional",
-    "max_count": 0
+    "max_count": 0,
+    "order_after": "IMPLEMENTAUDIT_PHASE_DONE"
    }
   },
   {

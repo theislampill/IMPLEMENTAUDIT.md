@@ -77,6 +77,28 @@ def score_bundle(run_root, repo_dir=None):
     """Score one run bundle; returns (status, verdict_dict). Never raises."""
     manifest = {}
     try:
+        # Parent terminal state gate (independent review): a bundle whose
+        # run was RECONCILED (crash import) or terminalized non-ok must not
+        # be scored as a formal PASS/FAIL — a forensic bundle is evidence,
+        # not a merge/baseline verdict. terminal.json sits at the bundle's
+        # PARENT (the run root); a normal `bundle/` dir under a run root.
+        parent = os.path.dirname(os.path.abspath(run_root))
+        term_p = os.path.join(parent, "terminal.json")
+        if os.path.basename(os.path.abspath(run_root)) == "bundle" and \
+                os.path.isfile(term_p):
+            try:
+                term = json.load(open(term_p, encoding="utf-8"))
+            except (OSError, ValueError):
+                term = {}
+            if term.get("reconciled") is True or (
+                    term.get("kind") not in (None, "ok")):
+                raise bundlelib.BundleInvalid(
+                    f"parent terminal state is non-authoritative "
+                    f"(kind={term.get('kind')!r}, "
+                    f"reconciled={term.get('reconciled')!r}) — a "
+                    f"forensic/errored run does not score as a formal "
+                    f"verdict")
+
         manifest, events, fixture, artifact_map = bundlelib.load_bundle(run_root)
 
         # Fixture AUTHENTICITY: the bundled fixture must be the canonical

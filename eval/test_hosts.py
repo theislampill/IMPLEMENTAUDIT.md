@@ -131,6 +131,12 @@ elif scenario == "substituted-claude":
                       "modelUsage": {"claude-haiku-4-5": {}}}))
 elif scenario == "malformed-claude":
     print("this is not json at all")
+elif scenario == "truncated-claude":
+    # a valid assistant event but NO trailing result event (truncation)
+    print(json.dumps({"type": "assistant", "session_id": "trunc",
+                      "message": {"model": "claude-opus-4-8",
+                                  "content": [{"type": "text",
+                                               "text": "AUDIT_COMPLETE"}]}}))
 elif scenario == "env-echo":
     envmsg = ("CODEX_HOME=" + os.environ.get("CODEX_HOME", "<unset>") +
               " SENTINEL=" +
@@ -375,6 +381,17 @@ def main():
         r = run(a, tmp, "r-realhome")
         check("H15 real-home-refused",
               r.kind == "invalid" and "REAL codex home" in r.detail)
+        # 15b. Claude symmetrically refuses the REAL ~/.claude config home
+        a = make_adapter(tmp, "ok-claude", kind="claude")
+        a.config_dir = os.path.expanduser("~/.claude")
+        r = run(a, tmp, "r-realclaude")
+        check("H15b claude-real-home-refused",
+              r.kind == "invalid" and "REAL claude config home" in r.detail)
+        # 29. truncated stream-json (assistant event, no result) => INVALID
+        r = run(make_adapter(tmp, "truncated-claude", kind="claude"),
+                tmp, "r-trunc")
+        check("H29 truncated-stream-INVALID",
+              r.kind == "invalid" and "truncated" in r.detail)
 
         # 20. crash reconciler: stale intents are adjudicated truthfully
         rec_root = os.path.join(tmp, "rec-custody")

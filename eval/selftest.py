@@ -148,6 +148,15 @@ check(sc(GOOD[:-2] + ["AUDIT_COMPLETE" + chr(0xa0),
 check(sc(GOOD[:4] + ["AUDIT_VERIFY early", "AUDIT_START Skill version: x",
                      "AUDIT_COMPLETE", "IMPLEMENTAUDIT_RUN_COMPLETE"])
       is False, "M5: wrong final-audit order")
+# M5b: the final-audit block BEFORE the phase block must not pass — every
+# pairwise order_after is locally satisfied, but AUDIT_START must follow
+# IMPLEMENTAUDIT_PHASE_DONE (cross-block ordering; Luna review).
+check(sc(["AUDIT_START Skill version: 0.3.1.0", "AUDIT_VERIFY ok",
+          "AUDIT_COMPLETE", "IMPLEMENTAUDIT_RUN_COMPLETE",
+          "IMPLEMENTAUDIT_PHASE_START p1",
+          "IMPLEMENTAUDIT_PHASE_VERIFY ok",
+          "IMPLEMENTAUDIT_PHASE_DONE"]) is False,
+      "M5b: audit block before phase block must not pass")
 fence = chr(96) * 3
 check(sc([fence] + GOOD + [fence, "nothing asserted"]) is False,
       "M6: fenced marker block is data")

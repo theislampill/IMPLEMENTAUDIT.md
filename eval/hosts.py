@@ -78,6 +78,32 @@ def _utc_now():
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+_SECRET_REDACT = None
+
+
+def _redact_secrets(text):
+    """Replace credential-shaped substrings with <redacted> so a host error
+    message can never carry a secret into result.detail / terminal.json."""
+    global _SECRET_REDACT
+    import re as _re
+    if _SECRET_REDACT is None:
+        _SECRET_REDACT = [
+            _re.compile(r"sk-ant-[A-Za-z0-9_-]{8,}"),
+            _re.compile(r"sk-proj-[A-Za-z0-9_-]{8,}"),
+            _re.compile(r"\bsk-[A-Za-z0-9]{24,}"),
+            _re.compile(r"\bghp_[A-Za-z0-9]{20,}"),
+            _re.compile(r"\bgho_[A-Za-z0-9]{20,}"),
+            _re.compile(r"\bgithub_pat_[A-Za-z0-9_]{20,}"),
+            _re.compile(r"\bxox[abprs]-[A-Za-z0-9-]{10,}"),
+            _re.compile(r"Bearer\s+[A-Za-z0-9._-]{20,}"),
+            _re.compile(r"\beyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{10,}"
+                        r"\.[A-Za-z0-9_-]{10,}"),
+        ]
+    for pat in _SECRET_REDACT:
+        text = pat.sub("<redacted>", text)
+    return text
+
+
 def _parse_ts(s):
     """RFC3339 -> aware datetime; None when unparsable. Timestamp windows
     must NEVER be compared as strings: '...03.635Z' sorts lexicographically
@@ -146,9 +172,13 @@ def _spawn_once(argv, env, cwd, timeout_s, stdin_text=None, on_started=None):
         # Carry the raw streams so the caller can preserve them at the run
         # root — an ERROR run must never leave custody without the host
         # output that explains it (v0.3.2.0 R1: an empty-stderr exit-1 was
-        # undiagnosable from custody alone).
+        # undiagnosable from custody alone). The detail message is
+        # secret-redacted; the full raw streams are scrubbed by the caller's
+        # finally-path credential scan.
         r = HostRunResult(
-            "error", f"host exit {proc.returncode}: {(err or '')[:300]}")
+            "error",
+            f"host exit {proc.returncode}: "
+            f"{_redact_secrets(err or '')[:300]}")
         r.stdout, r.stderr = out or "", err or ""
         return r
     return _Outcome(out or "", err or "", proc.returncode)
@@ -253,6 +283,7 @@ class _BaseAdapter:
             json.dump(intent, fh, indent=1, sort_keys=True)
         result = HostRunResult("error", "adapter did not terminalize")
         spawned = False
+        payload_before = None
         try:
             need = set(fx.get("required_capabilities", []))
             missing = sorted(need - set(self.capabilities))
@@ -263,6 +294,7 @@ class _BaseAdapter:
                     f"provide — INVALID")
             payload_before = (framework.payload_hash(self.product_checkout)
                               if self.product_checkout else None)
+            self._payload_before = payload_before
             repo = framework.seed_fixture_repo(fixture_id, work_root)
             self._current_repo = repo
             staged_hash = None
@@ -414,9 +446,35 @@ class _BaseAdapter:
                                    f"adapter exception: {exc!r}")
             return result
         finally:
+            # Canonical-checkout integrity on EVERY exit path (independent
+            # review blocking): a model that tampers with the immutable
+            # payload then exits nonzero / times out must still be caught —
+            # not only on the ok path. A detected tamper downgrades the
+            # terminal record to INVALID.
+            pb = getattr(self, "_payload_before", None)
+            if pb is not None and self.product_checkout and spawned:
+                try:
+                    if framework.payload_hash(self.product_checkout) != pb:
+                        result = HostRunResult(
+                            "invalid", "canonical payload checkout modified "
+                            "during the mission (detected on exit)")
+                except OSError:
+                    pass
+            # Credential nonretention on EVERY exit path (independent review
+            # blocking): the run-root raw host output is scrubbed and the
+            # terminal detail is redacted regardless of kind — a host that
+            # printed a secret then exited nonzero/timed out must not leave
+            # cleartext in host-stderr.raw or in terminal.json's detail.
+            try:
+                self._quarantine_if_leak(
+                    run_root, "quarantine-raw",
+                    only=("host-stdout.raw", "host-stderr.raw"))
+            except Exception:
+                pass
             term = {"schema": "implementaudit-run-terminal-v1",
                     "run_id": run_id, "spawned": spawned,
-                    "kind": result.kind, "detail": str(result.detail)[:500],
+                    "kind": result.kind,
+                    "detail": _redact_secrets(str(result.detail))[:500],
                     "resolved_model": result.resolved_model,
                     "reconciled": False,
                     "started_at": started_ts, "ended_at": _utc_now(),
@@ -719,8 +777,13 @@ class CodexAdapter(_BaseAdapter):
 
     def check_cli_version(self):
         """Fail closed below 0.144.0 (GPT-5.6 access requirement)."""
-        proc = subprocess.run([self.codex_binary, "--version"],
-                              capture_output=True, text=True)
+        try:
+            proc = subprocess.run([self.codex_binary, "--version"],
+                                  capture_output=True, text=True,
+                                  timeout=60)
+        except subprocess.TimeoutExpired:
+            raise framework.AdapterError(
+                "codex --version timed out — fail closed")
         out = (proc.stdout or "") + (proc.stderr or "")
         import re as _re
         m = _re.search(r"(\d+)\.(\d+)\.(\d+)", out)
@@ -737,8 +800,13 @@ class CodexAdapter(_BaseAdapter):
     def check_auth_mode(self):
         """Record auth mode; refuse metered/API auth without owner cap."""
         env = _clean_env({"CODEX_HOME": self.codex_home or ""})
-        proc = subprocess.run([self.codex_binary, "login", "status"],
-                              capture_output=True, text=True, env=env)
+        try:
+            proc = subprocess.run([self.codex_binary, "login", "status"],
+                                  capture_output=True, text=True, env=env,
+                                  timeout=60)
+        except subprocess.TimeoutExpired:
+            raise framework.AdapterError(
+                "codex login status timed out — fail closed")
         out = (proc.stdout or "") + (proc.stderr or "")
         if "ChatGPT" in out:
             self.auth_mode = "chatgpt-subscription"
@@ -892,6 +960,13 @@ class CodexAdapter(_BaseAdapter):
             raise framework.AdapterError(
                 f"policy mismatch: requested sandbox workspace-write but "
                 f"host resolved {ctx.get('sandbox_resolved')!r} - INVALID")
+        if ctx.get("approval_policy") not in ("never", None):
+            # requested approval 'never'; a host that resolved a different
+            # approval policy changes the execution contract (independent
+            # review) — recorded, not silently accepted.
+            raise framework.AdapterError(
+                f"policy mismatch: requested approval 'never' but host "
+                f"resolved {ctx.get('approval_policy')!r} - INVALID")
 
     def collect_raw_stream(self, repo, outcome):
         f, _ctx = self._select_session(repo)
@@ -1045,6 +1120,10 @@ class ClaudeAdapter(_BaseAdapter):
         if not self.config_dir:
             raise framework.AdapterError(
                 "ClaudeAdapter requires a fresh temporary CLAUDE_CONFIG_DIR")
+        real = os.path.realpath(os.path.expanduser("~/.claude"))
+        if os.path.realpath(self.config_dir) == real:
+            raise framework.AdapterError(
+                "refusing to run against the REAL claude config home")
         return _clean_env({"CLAUDE_CONFIG_DIR": self.config_dir})
 
     def stage_payload(self, repo):
@@ -1105,7 +1184,13 @@ class ClaudeAdapter(_BaseAdapter):
         Every intermediate assistant turn is retained; user/system/tool
         events and prompt echoes are never scored as assistant content.
         Legacy fallback for mock hosts: single `result` JSON."""
+        # Reset ALL per-mission state (independent review: a reused adapter
+        # must never inherit the prior run's session id / result / models).
         self._event_models = []
+        self._session_id = None
+        self._result_json = None
+        self._init_event = None
+        self._saw_result = False
         events = []
         for line in (out or "").splitlines():
             line = line.strip()
@@ -1130,10 +1215,19 @@ class ClaudeAdapter(_BaseAdapter):
                         self._event_models.append(m["model"])
             elif t == "result":
                 self._result_json = d
+                self._saw_result = True
             elif t == "system":
                 if self._init_event is None:
                     self._init_event = d
         if events:
+            # A complete stream-json run ends with a `result` event; its
+            # absence means the stream was truncated (network cut, kill)
+            # mid-run and must not score off a partial transcript
+            # (independent review blocking).
+            if not self._saw_result:
+                raise ValueError(
+                    "stream-json ended without a result event — truncated "
+                    "transcript, INVALID")
             self._events_source = "claude-stream-json"
             return events
         data = self._extract_json(out)
