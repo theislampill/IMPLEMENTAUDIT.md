@@ -25,7 +25,11 @@ pkt="${1:-}"
 repo_root="."
 if [ "${2:-}" = "--repo-root" ]; then repo_root="${3:-.}"; fi
 
-get() { grep -iE "^$1:" "$pkt" | head -n1 | sed "s/^[^:]*: *//" | tr -d '\r'; }
+# Absent fields are normal (most packet fields are optional). grep's
+# no-match must NOT abort the script under `set -euo pipefail` — otherwise
+# the contradiction/verbatim logic below is silently skipped and the
+# checker exits without doing its job. Swallow the no-match to empty.
+get() { { grep -iE "^$1:" "$pkt" || true; } | head -n1 | sed "s/^[^:]*: *//" | tr -d '\r'; }
 
 # Packet identity is required.
 for k in packet_id packet_version packet_content_hash sender_run_id; do

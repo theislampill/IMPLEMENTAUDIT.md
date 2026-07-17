@@ -36,7 +36,10 @@ done
 [ -f "$auth" ] || fail "auth file not found: $auth"
 [ -f "$inv" ] || fail "invocation file not found: $inv"
 
-val() { grep -iE "^$2:" "$1" | head -n1 | sed "s/^[^:]*: *//" | tr -d '\r' | sed 's/[[:space:]]*$//'; }
+# An absent key (e.g. no `binds:` line) is a real case that must be
+# EVALUATED (unbound => drift), not an early script death under
+# `set -euo pipefail`. Swallow grep's no-match to empty output.
+val() { { grep -iE "^$2:" "$1" || true; } | head -n1 | sed "s/^[^:]*: *//" | tr -d '\r' | sed 's/[[:space:]]*$//'; }
 
 binds="$(val "$auth" binds)"
 

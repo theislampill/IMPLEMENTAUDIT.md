@@ -56,7 +56,7 @@ fi
 # 3. checker/test destination claimed active => target must be non-empty.
 if printf '%s' "$flat" | grep -qiE 'destination: *(checker or deterministic test|checker|deterministic test)'; then
   if printf '%s' "$flat" | grep -qiE 'mechanically active: *yes|active: *yes'; then
-    target="$(printf '%s' "$content" | grep -ioE 'target: *[^ ;,]+' | head -n1 | sed 's/[Tt]arget: *//')"
+    target="$(printf '%s' "$content" | { grep -ioE 'target: *[^ ;,]+' || true; } | head -n1 | sed 's/[Tt]arget: *//')"
     [ -n "$target" ] || fail "checker destination claims active but names no target file"
     tpath="$repo_root/$target"
     if [ ! -s "$tpath" ]; then
