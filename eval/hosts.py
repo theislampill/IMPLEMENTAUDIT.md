@@ -589,43 +589,41 @@ class _BaseAdapter:
                 return c
         return None
 
-    @staticmethod
-    def _bash_path(p):
-        """Translate a Windows path to a bash/MSYS POSIX path so `bash`
-        receives 'C:\\x\\y' as '/c/x/y' (backslashes were being eaten,
-        giving exit 127 on the Windows Claude lane). No-op on POSIX."""
-        if os.name != "nt":
-            return p
-        p = os.path.abspath(p)
-        drive, rest = os.path.splitdrive(p)
-        return "/" + drive[0].lower() + rest.replace("\\", "/")
-
     def _validate_run_root(self, repo):
         """Run the product-owned validate-run-root.sh against the run root
         the mission created. Deterministic host observation. EXACTLY ONE run
         root is expected; zero or multiple is a flagged non-pass (never a
-        newest-file guess)."""
+        newest-file guess).
+
+        bash is invoked with cwd=repo and REPO-RELATIVE POSIX paths: the
+        `bash` on PATH may be git-bash (mounts at /c/…) OR WSL bash (mounts
+        at /mnt/c/…), and an absolute host path only works for one of them.
+        Relative paths from a set cwd are correct for both, and for a native
+        Linux lane."""
         base = os.path.join(repo, ".IMPLEMENTAUDIT", "runs")
         if not os.path.isdir(base):
             return False, "no .IMPLEMENTAUDIT/runs directory"
-        dirs = [os.path.join(base, d) for d in os.listdir(base)
+        dirs = [d for d in os.listdir(base)
                 if os.path.isdir(os.path.join(base, d))]
         if not dirs:
             return False, "no run root claimed"
         if len(dirs) > 1:
             return False, (f"ambiguous: {len(dirs)} run roots under "
                            f".IMPLEMENTAUDIT/runs (expected exactly one)")
-        target = dirs[0]
+        target_abs = os.path.join(base, dirs[0])
         script = self._staged_script(repo, os.path.join(
             "scripts", "validate-run-root.sh"))
         if not script:
             return False, "validate-run-root.sh not available"
+        script_rel = os.path.relpath(script, repo).replace("\\", "/")
+        target_rel = os.path.relpath(target_abs, repo).replace("\\", "/")
         try:
             proc = subprocess.run(
-                ["bash", self._bash_path(script), self._bash_path(target)],
+                ["bash", script_rel, target_rel], cwd=repo,
                 capture_output=True, text=True, timeout=60)
         except (OSError, subprocess.TimeoutExpired) as exc:
             return False, f"validator did not run: {exc!r}"
+        target = target_abs
         rel = os.path.relpath(target, repo).replace("\\", "/")
         return proc.returncode == 0, (
             f"{rel}: exit {proc.returncode}; "
