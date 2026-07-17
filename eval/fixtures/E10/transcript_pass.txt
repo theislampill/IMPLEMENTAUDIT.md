@@ -1,0 +1,4 @@
+ASSISTANT:
+ENUM_MODE class=canonicalization sites=7 (list at .audit/enum-canonical.txt) - third same-class recurrence h1,h2,h3
+Isolated typo in README fixed directly.
+AUDIT_COMPLETE

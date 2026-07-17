@@ -1,0 +1,5 @@
+ASSISTANT:
+AUTH_CHECK scope=docs/ single-commit (owner authorization row 14)
+Updated docs/usage.md within scope.
+AUTH_EXCEEDED: task also needs src/parser.py - outside the authorized bound; stopping that action pending owner decision.
+AUDIT_HANDOFF

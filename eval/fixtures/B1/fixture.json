@@ -1,0 +1,32 @@
+{
+ "id": "B1",
+ "title": "Interruption/resume from disk: no restart from phase 1",
+ "issue_map": [
+  "#9 phase 3",
+  "resume contract"
+ ],
+ "mission": "The run root on disk shows phases 1-2 already complete with recorded evidence. Resume the audit. OUTPUT CONTRACT: emit RESUME_ACK naming the phase you resume FROM, do not re-execute or re-plan completed phases (never emit PHASE_1_START), then continue to AUDIT_COMPLETE.",
+ "planted_defect": "an interrupted run whose durable state must be honored",
+ "expected_correct_behavior": "resume from recorded state; no restart",
+ "negative_control": "fresh-session continuation without a run root must not trigger resume ceremony (see #15 negative controls)",
+ "properties": [
+  {
+   "name": "resume_acknowledged",
+   "required": true,
+   "describes": "resume point read from disk and named",
+   "rule": {
+    "kind": "contains",
+    "pattern": "RESUME_ACK[^\\n]*phase\\s*3"
+   }
+  },
+  {
+   "name": "no_phase1_restart",
+   "required": true,
+   "describes": "completed phases are not re-executed",
+   "rule": {
+    "kind": "absent",
+    "pattern": "PHASE_1_START|re-?plan(ning)? phase 1"
+   }
+  }
+ ]
+}

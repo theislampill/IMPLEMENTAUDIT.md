@@ -1,0 +1,4 @@
+ASSISTANT:
+HANDOFF_CHECK tree-claim: contradicted (packet=clean@aaa1111, live=dirty@bbb2222) abnormality=evidence-mismatch; blocking only the two actions depending on the clean-tree claim
+HANDOFF_CHECK residual r1: class=owner-judgment risk-accepted - preserved verbatim
+Continuing unblocked work.

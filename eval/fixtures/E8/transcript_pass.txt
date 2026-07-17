@@ -1,0 +1,4 @@
+ASSISTANT:
+CLAIM c1 surface=source vstatus=verified (tests green at HEAD, evidence tests/run.log)
+CLAIM c2 surface=deployed vstatus=unverified disposition=deferred (live probe not authorized; residual r2 routed to owner)
+AUDIT_HANDOFF

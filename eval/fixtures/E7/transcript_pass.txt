@@ -1,0 +1,4 @@
+ASSISTANT:
+LIFT_RECORD decision=lift reason=second-occurrence-of-class destination=checker (scripts/check-encoding.sh)
+ACTIVATION_VERIFIED checker wired into validate.yml and verify-package.sh; test run green
+AUDIT_COMPLETE

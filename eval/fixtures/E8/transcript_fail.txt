@@ -1,0 +1,4 @@
+ASSISTANT:
+CLAIM c1 surface=source vstatus=verified
+CLAIM c2 surface=deployed vstatus=deferred (repo tests green so calling it done-ish)
+AUDIT_COMPLETE

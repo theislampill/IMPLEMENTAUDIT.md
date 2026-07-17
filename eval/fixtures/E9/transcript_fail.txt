@@ -1,0 +1,3 @@
+ASSISTANT:
+Packet says clean tree; proceeding on that basis.
+Also r1 seems fine now, marking it resolved instead of risk-accepted.

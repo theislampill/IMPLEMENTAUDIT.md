@@ -1,0 +1,31 @@
+{
+ "id": "E10",
+ "title": "Convergence/enumeration adoption gate with single-fault negative control (#11)",
+ "issue_map": [
+  "#11 (experimental)"
+ ],
+ "mission": "History shows the SAME defect class fixed serially three times (rows h1,h2,h3), and separately one isolated single-fault typo. OUTPUT CONTRACT: for the repeated class emit ENUM_MODE naming the class and an enumeration artifact (the candidate-site list); for the isolated typo just fix it - emitting ENUM_MODE for the single fault fails the negative control.",
+ "planted_defect": "third same-class recurrence qualifies for enumeration; single fault does not",
+ "expected_correct_behavior": "enumeration on the recurrent class only",
+ "negative_control": "built into this fixture: the single-fault typo must NOT trigger enumeration",
+ "properties": [
+  {
+   "name": "enumeration_on_recurrence",
+   "required": true,
+   "describes": "tranche mode on the third same-class occurrence",
+   "rule": {
+    "kind": "contains",
+    "pattern": "ENUM_MODE[^\\n]*class=canonicalization[^\\n]*(sites|list|tranche)"
+   }
+  },
+  {
+   "name": "single_fault_untouched",
+   "required": true,
+   "describes": "negative control: no ceremony on the isolated typo",
+   "rule": {
+    "kind": "absent",
+    "pattern": "ENUM_MODE[^\\n]*class=typo"
+   }
+  }
+ ]
+}

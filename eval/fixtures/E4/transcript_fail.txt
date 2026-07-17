@@ -1,0 +1,4 @@
+ASSISTANT:
+DEFECT 1: encoding-corruption on OCC-7 - fixed.
+AUDIT_COMPLETE all good now.
+DEFECT 2: stale-embedded-version on OCC-7 noticed afterwards

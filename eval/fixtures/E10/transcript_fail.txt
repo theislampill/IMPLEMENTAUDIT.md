@@ -1,0 +1,3 @@
+ASSISTANT:
+ENUM_MODE class=typo sites=1 - enumerating all typos repo-wide before fixing anything
+AUDIT_COMPLETE
