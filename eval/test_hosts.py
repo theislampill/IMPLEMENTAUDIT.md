@@ -225,10 +225,14 @@ def main():
         check("H4 missing-provenance-fails-closed",
               r.kind == "invalid" and "provenance" in r.detail)
 
-        # 5. nonzero exit => ERROR class, preserved
+        # 5. nonzero exit => ERROR class, preserved WITH raw host output at
+        # the run root (custody must survive a nonzero-exit ERROR)
         r = run(make_adapter(tmp, "nonzero"), tmp, "r-exit")
+        rr5 = os.path.join(tmp, "custody", "r-exit")
         check("H5 nonzero-exit-ERROR",
-              r.kind == "error" and "exit 3" in r.detail)
+              r.kind == "error" and "exit 3" in r.detail
+              and os.path.isfile(os.path.join(rr5, "host-stdout.raw"))
+              and os.path.isfile(os.path.join(rr5, "host-stderr.raw")))
 
         # 6. timeout => ERROR class
         a = make_adapter(tmp, "hang")

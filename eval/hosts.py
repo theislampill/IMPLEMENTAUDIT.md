@@ -138,11 +138,19 @@ def _spawn_once(argv, env, cwd, timeout_s, stdin_text=None, on_started=None):
         out, err = proc.communicate(input=stdin_text, timeout=timeout_s)
     except subprocess.TimeoutExpired:
         proc.kill()
-        proc.communicate()
-        return HostRunResult("error", f"host timeout after {timeout_s}s")
+        out, err = proc.communicate()
+        r = HostRunResult("error", f"host timeout after {timeout_s}s")
+        r.stdout, r.stderr = out or "", err or ""
+        return r
     if proc.returncode != 0:
-        return HostRunResult(
+        # Carry the raw streams so the caller can preserve them at the run
+        # root — an ERROR run must never leave custody without the host
+        # output that explains it (v0.3.2.0 R1: an empty-stderr exit-1 was
+        # undiagnosable from custody alone).
+        r = HostRunResult(
             "error", f"host exit {proc.returncode}: {(err or '')[:300]}")
+        r.stdout, r.stderr = out or "", err or ""
+        return r
     return _Outcome(out or "", err or "", proc.returncode)
 
 
@@ -283,19 +291,22 @@ class _BaseAdapter:
                                   self.host_cwd or repo, self.timeout_s,
                                   stdin_text=mission,
                                   on_started=_on_started)
-            if isinstance(outcome, HostRunResult):
-                result = outcome
-                return result
             # Preserve the raw host stdout/stderr at the RUN ROOT immediately
-            # — INVALID/ERROR classifications after this point must never
-            # destroy the diagnostic evidence (smoke-L-b0-r1 lesson).
-            for rel, data in (("host-stdout.raw", outcome.stdout),
-                              ("host-stderr.raw", outcome.stderr)):
+            # — for BOTH the nonzero-exit/timeout error path and the normal
+            # path — so no INVALID/ERROR classification ever destroys the
+            # diagnostic evidence (v0.3.2.0 R1 lessons).
+            for rel, data in (("host-stdout.raw",
+                               getattr(outcome, "stdout", "")),
+                              ("host-stderr.raw",
+                               getattr(outcome, "stderr", ""))):
                 try:
                     with open(os.path.join(run_root, rel), "xb") as fh:
                         fh.write((data or "").encode("utf-8"))
                 except FileExistsError:
                     pass
+            if isinstance(outcome, HostRunResult):
+                result = outcome
+                return result
             raw_stream = self.collect_raw_stream(repo, outcome)
             try:
                 events = self.parse_events(outcome.stdout)
