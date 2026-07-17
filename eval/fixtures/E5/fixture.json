@@ -44,20 +44,35 @@
  ],
  "artifact_rules": {
   "file": "result.json",
-  "fields": {
-   "current_answer_correct": {
-    "equals": true,
-    "property": "current_answer_correctness"
-   },
-   "rule_adequate": {
-    "equals": false,
-    "property": "pathway_flagged_inadequate"
-   },
-   "perturbation_evidence": {
-    "nonempty": true,
-    "property": "pathway_flagged_inadequate"
-   }
+  "class": "host_observation",
+  "required": true,
+  "describes": "host-recorded validator verdicts on the current output and both perturbations; cross-checked against fixture ground truth. The model cannot pass by asserting rule_adequate - the recorded verdicts must show the misjudgment. Missing/malformed/hash-mismatched artifact => INVALID (no phrase-matching fallback).",
+  "ground_truth": {
+   "current_output_correct": true,
+   "p1_output_correct": true,
+   "p2_output_correct": false
   },
-  "describes": "machine-readable result artifact is the primary basis for these properties when present; text phrase-matching remains a protocol check and may false-fail correct answers"
- }
+  "derive": {
+   "current_answer_correctness": {
+    "kind": "verdict_matches_truth",
+    "verdict_field": "current_verdict",
+    "truth_field": "current_output_correct",
+    "and_truth_is": true
+   },
+   "pathway_flagged_inadequate": {
+    "kind": "rule_misjudged_any",
+    "pairs": [
+     [
+      "p1_verdict",
+      "p1_output_correct"
+     ],
+     [
+      "p2_verdict",
+      "p2_output_correct"
+     ]
+    ]
+   }
+  }
+ },
+ "allowed_paths": []
 }

@@ -220,50 +220,88 @@ def score(fixture, transcript, summary=None):
     return out
 
 
-def score_events(fixture, events, summary=None, artifacts_dir=None):
+def _derive_from_artifact(art, artifact_obj, prop_name):
+    """Derive a property verdict from a HOST-OBSERVATION artifact cross-
+    checked against fixture GROUND TRUTH. Model-authored booleans are claims,
+    never proof: the derivation compares recorded validator VERDICTS against
+    fixture-declared correctness, so a model cannot pass by asserting
+    `rule_adequate: false` — the perturbation observations must show it.
+
+    Returns (pass, evidence) or None when no derivation names prop_name.
+    """
+    spec = (art.get("derive") or {}).get(prop_name)
+    if spec is None:
+        return None
+    truth = art.get("ground_truth", {})
+
+    def accepted(field):
+        v = artifact_obj.get(field)
+        if v not in ("accept", "reject"):
+            raise ValueError(f"artifact field {field!r} must be "
+                             f"'accept'/'reject', got {v!r}")
+        return v == "accept"
+
+    if spec["kind"] == "verdict_matches_truth":
+        acc = accepted(spec["verdict_field"])
+        t = bool(truth[spec["truth_field"]])
+        ok = (acc == t) and (t == bool(spec.get("and_truth_is", t)))
+        return ok, (f"host-observation {spec['verdict_field']}="
+                    f"{'accept' if acc else 'reject'} vs truth={t}")
+    if spec["kind"] == "rule_misjudged_any":
+        misjudged = []
+        for verdict_field, truth_field in spec["pairs"]:
+            if accepted(verdict_field) != bool(truth[truth_field]):
+                misjudged.append(verdict_field)
+        return (len(misjudged) >= 1,
+                f"rule misjudged: {misjudged or 'none'} (derived from host "
+                f"observations vs fixture ground truth)")
+    raise ValueError(f"unknown derivation kind: {spec['kind']!r}")
+
+
+def score_events(fixture, events, summary=None, artifact_obj=None):
     """Score host-validated events (the trusted path). Roles are host-assigned.
 
-    If the fixture declares `artifact_rules` and the named result artifact is
-    present under `artifacts_dir`, those machine-readable fields are the
-    PRIMARY verdict for the properties they name (text rules stay as
-    protocol checks for the remaining properties).
+    Artifact classes: `artifact_rules.class == "host_observation"` artifacts
+    are cross-checked against fixture ground truth and are the PRIMARY basis
+    for the properties their `derive` block names — combined with the text
+    rule as a protocol check (the model must also assert its conclusion in
+    its own voice). Model-claim artifacts never decide a verdict; a
+    model-claim contradiction is surfaced in evidence only. The runner
+    enforces the required-artifact gate (missing/malformed => INVALID)
+    BEFORE calling this function; there is no silent fallback to phrase
+    matching for derivation-scored properties.
     """
     texts = role_texts_from_events(events)
     out = {}
-    for prop in fixture["properties"]:
-        ok, ev = eval_rule(prop["rule"], texts, summary or {})
-        out[prop["name"]] = {"pass": ok, "evidence": ev,
-                             "describes": prop.get("describes", ""),
-                             "basis": "text"}
     art = fixture.get("artifact_rules")
-    if art and artifacts_dir is not None:
-        import os
-        path = os.path.join(artifacts_dir, art["file"])
-        if os.path.isfile(path):
-            try:
-                data = json.load(open(path, encoding="utf-8"))
-            except (json.JSONDecodeError, UnicodeDecodeError):
-                data = None
-            if isinstance(data, dict):
-                for field, spec in art["fields"].items():
-                    prop_name = spec["property"]
-                    if prop_name not in out:
-                        continue
-                    value = data.get(field)
-                    if "equals" in spec:
-                        ok = (value == spec["equals"])
-                        ev = f"artifact {field}={value!r}"
-                    elif spec.get("nonempty"):
-                        ok = bool(value)
-                        ev = f"artifact {field} nonempty={bool(value)}"
-                    else:
-                        continue
-                    prior = out[prop_name]
-                    merged_ok = ok and prior["pass"] if prior["basis"] == "artifact" else ok
-                    out[prop_name] = {"pass": merged_ok,
-                                      "evidence": f"{ev}; {prior['evidence']}"[:160],
-                                      "describes": prior["describes"],
-                                      "basis": "artifact"}
+    for prop in fixture["properties"]:
+        name = prop["name"]
+        text_ok, text_ev = eval_rule(prop["rule"], texts, summary or {})
+        derived = None
+        if art is not None and artifact_obj is not None and \
+                art.get("class") == "host_observation":
+            derived = _derive_from_artifact(art, artifact_obj, name)
+        if derived is not None:
+            d_ok, d_ev = derived
+            out[name] = {"pass": d_ok and text_ok,
+                         "evidence": f"{d_ev}; protocol-text:"
+                                     f"{'Y' if text_ok else 'N'}"[:200],
+                         "describes": prop.get("describes", ""),
+                         "basis": "host-observation+protocol-text"}
+        else:
+            out[name] = {"pass": text_ok, "evidence": text_ev,
+                         "describes": prop.get("describes", ""),
+                         "basis": "text"}
+    # model-claim contradiction note (never decides)
+    if art is not None and artifact_obj is not None:
+        claim = artifact_obj.get("model_claim")
+        if isinstance(claim, dict):
+            for k, v in claim.items():
+                out.setdefault("_notes", {"pass": True, "evidence": "",
+                                          "describes": "non-scoring notes",
+                                          "basis": "note"})
+                out["_notes"]["evidence"] += (
+                    f" model_claim {k}={v!r} (claim, not proof);")
     return out
 
 

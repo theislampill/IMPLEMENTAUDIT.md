@@ -68,6 +68,31 @@ Malformed/truncated records, mixed run or fixture IDs, duplicate sequence
 numbers, unknown roles (including Unicode confusables), or hash-binding
 mismatches ⇒ **INVALID**, never FAIL and never PASS.
 
+### Identity binding (manifest v2)
+
+Hashes/commits are strictly format-validated; timestamps are RFC3339 with
+`started_at <= ended_at`. The bundle CARRIES `fixture.json` and `prompt.txt`,
+both hash-bound; the scorer additionally verifies the fixture is the
+CANONICAL library fixture (a doctored fixture with a self-consistent hash is
+INVALID) and that the prompt contains the mission. Artifacts are enumerated
+in a hash-bound `artifact-manifest.json`. The verdict records an
+**identity-attestation split**: fields the scorer verifies in replay
+(fixture, prompt, events, snapshots, artifacts) vs fields that are
+adapter-attested at capture time and only format-validated in replay
+(product tag/commit/tree, installed payload, adapter, host). A
+requested-vs-resolved model mismatch is a SUBSTITUTION recorded honestly in
+the verdict, never hidden. The comparison (`changed_files`) is RECOMPUTED
+from the bound before/after snapshots (plus the disposable repo or a bound
+`repo-comparison.json` when a committed change must be enumerated); a
+snapshot carrying contradictory `changed_files` is INVALID.
+
+### Create-once custody
+
+Bundles and verdicts are create-once: the run root and every evidence file
+are created exclusively and never overwritten; a second adjudication writes
+`verdict-2.json`, leaving the first intact. Scoring never mutates raw
+evidence.
+
 ### Four-valued status
 
 | Status | Meaning |
@@ -117,15 +142,19 @@ them and are deleted on request.
 
 ### Scoring source: artifacts first, phrases second
 
-Where a fixture declares `artifact_rules`, the machine-readable result
-artifact (`artifacts/result.json`) is the **primary** basis for those
-properties; transcript text rules serve as protocol/order checks. E5 keeps
-three separate artifact fields: `current_answer_correct`,
-`rule_adequate`, `perturbation_evidence`. **Known limitation:** phrase-family
-text matching may false-fail semantically correct answers phrased outside
-the pattern list; it errs in the safe direction for gating but can mask real
-improvements in before/after comparisons, so it cannot be the final
-comparison method — artifact-based scoring is.
+Artifact classes are distinguished: **host observations** (recorded
+validator verdicts, cross-checked against fixture **ground truth**) are the
+primary basis; **model claims** are claims, never proof — a model writing
+`rule_adequate: false` proves nothing; the recorded perturbation verdicts
+must show the misjudgment (E5 derives pathway adequacy from
+`p1_verdict`/`p2_verdict` vs fixture-declared correctness). A required
+artifact that is missing, malformed, or hash-mismatched ⇒ **INVALID** — no
+silent fallback to phrase matching. Text rules remain protocol/order checks
+(the model must assert its conclusion in its own voice). **Known
+limitation:** phrase-family matching may false-fail correct answers phrased
+outside the pattern list; it errs in the safe direction for gating but can
+mask real improvements in before/after comparisons, so it is never the
+final comparison method — derivation from host observations is.
 
 ## What each fixture measures
 
