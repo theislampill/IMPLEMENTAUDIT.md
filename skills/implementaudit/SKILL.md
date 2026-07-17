@@ -207,6 +207,10 @@ Load references only when the current gate needs them:
   Use FMEA-lite fields when risk is material, STRIDE/trust-boundary notes when
   a material security surface exists, SOLID/GRASP generic-advice guard, and a
   terminology integration attachment when used.
+- `references/convergence-mode.md`: EXPERIMENTAL, optional, load ONLY when
+  its trigger fires (two same-family review rejections, or a second-order
+  under-specified-state-space judgment). Not core protocol; not part of the
+  ordinary run.
 
 Required helper/template anchors:
 
