@@ -369,6 +369,20 @@ any consequential boundary proceed without waiting. Only phases that mutate
 authorized-scope items (releases, package, AGENTS.md, generated-artifact
 ownership) require surfacing the assumption before executing.
 
+**Parameter-bound authorization.** An authorization enumerates the
+consequential PARAMETERS it binds — values or explicit ranges — not just
+the action name. "Owner authorized the commit" and "owner authorized THIS
+diff scope with THESE constraints" are different authorizations. At the
+governed boundary, a runtime parameter that affects the authorized action
+and is ABSENT FROM or CONFLICTS WITH the authorization record is AUTHORITY
+DRIFT: classify it (`owner-unclear`, authority), STOP the governed action,
+and request an owner decision. Source-code or tool defaults are NEVER
+implicitly adopted for a governed parameter. Ordinary small authorizations
+stay one line — a parameter table is required only when consequential
+parameters exist to bind (a docs-only commit authorization needs none).
+Existing authorizations remain valid for work already running; new
+authorizations carry the enumeration when applicable.
+
 ## Sidecars and continuity
 
 Version-skew rule: if Stage 0 recorded dogfood version skew (the installed

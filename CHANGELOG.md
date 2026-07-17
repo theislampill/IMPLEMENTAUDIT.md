@@ -14,6 +14,14 @@ schema evidence proved four-component plugin manifest versions are accepted.
 ## [Unreleased]
 
 ### Added
+- Parameter-bound authorization (#12): an authorization enumerates the
+  consequential parameters it binds (values or ranges), not just the
+  action. A runtime parameter that affects the authorized action and is
+  absent from or conflicts with the record is AUTHORITY DRIFT — classify
+  (owner-unclear/authority), stop the governed action, request an owner
+  decision; source/tool defaults are never implicitly adopted for a
+  governed parameter. Ordinary small authorizations stay one line. New
+  payload check-authorization-binding.sh; match/drift fixture pair.
 - Final-audit success-surface indexing (#14): each closure claim is a row
   indexed to the surface that establishes it (source / generated /
   package / installed / running-local / deployed / api / user-visible /
