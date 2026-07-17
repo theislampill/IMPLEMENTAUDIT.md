@@ -326,8 +326,37 @@ class CodexAdapter(_BaseAdapter):
                 "refusing to run against the REAL codex home")
         return _clean_env({"CODEX_HOME": self.codex_home})
 
+    def _latest_session_context(self):
+        """HOST-OWNED provenance: codex writes session jsonl files under
+        CODEX_HOME/sessions with session_meta (cli_version) and turn_context
+        (model, effort). These are written by the host process, not the
+        model, and are the preferred identity mechanism on 0.144.x."""
+        import glob as _glob
+        if not self.codex_home:
+            return {}
+        files = sorted(_glob.glob(os.path.join(
+            self.codex_home, "sessions", "**", "*.jsonl"), recursive=True))
+        if not files:
+            return {}
+        ctx = {}
+        try:
+            for line in open(files[-1], encoding="utf-8"):
+                d = json.loads(line)
+                p = d.get("payload", {})
+                if d.get("type") == "session_meta":
+                    ctx["cli_version"] = p.get("cli_version")
+                elif d.get("type") == "turn_context":
+                    ctx["model"] = p.get("model")
+                    ctx["effort"] = p.get("effort")
+        except (OSError, json.JSONDecodeError):
+            return {}
+        return ctx
+
     def resolve_model(self, out):
-        # Codex session headers print "model: <name>"; absence = no proof.
+        ctx = self._latest_session_context()
+        if ctx.get("model"):
+            return ctx["model"]
+        # fallback (mock hosts): "model: <name>" line in either stream
         for line in out.splitlines():
             if line.strip().lower().startswith("model:"):
                 return line.split(":", 1)[1].strip()
@@ -341,7 +370,9 @@ class CodexAdapter(_BaseAdapter):
         self.check_effort(out)
 
     def resolve_effort(self, out):
-        # Session headers print "reasoning effort: <level>" when exposed.
+        ctx = self._latest_session_context()
+        if ctx.get("effort"):
+            return ctx["effort"]
         for line in out.splitlines():
             if line.strip().lower().startswith("reasoning effort:"):
                 return line.split(":", 1)[1].strip()
@@ -425,20 +456,31 @@ class ClaudeAdapter(_BaseAdapter):
                      "task.\n")
         return framework.payload_hash(dst)
 
+    @staticmethod
+    def _extract_json(out):
+        """The provenance stream may carry stderr noise before the CLI's
+        JSON result; locate the last line that parses as a JSON object."""
+        for line in reversed((out or "").splitlines()):
+            line = line.strip()
+            if line.startswith("{"):
+                try:
+                    return json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+        return None
+
     def resolve_model(self, out):
-        try:
-            data = json.loads(out)
-        except json.JSONDecodeError:
+        data = self._extract_json(out)
+        if not isinstance(data, dict):
             return None
         usage = data.get("modelUsage") or {}
         models = [m for m in usage.keys()]
         return models[0] if len(models) == 1 else None
 
     def parse_events(self, out):
-        try:
-            data = json.loads(out)
-        except json.JSONDecodeError as exc:
-            raise ValueError(f"not JSON: {exc}")
+        data = self._extract_json(out)
+        if data is None:
+            raise ValueError("no JSON object found in host output")
         result = data.get("result")
         if not isinstance(result, str) or not result.strip():
             raise ValueError("JSON output lacks a result field")

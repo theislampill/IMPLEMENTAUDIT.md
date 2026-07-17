@@ -15,7 +15,7 @@
    "describes": "tranche mode on the third same-class occurrence",
    "rule": {
     "kind": "contains",
-    "pattern": "ENUM_MODE[^\\n]*class=canonicalization[^\\n]*(sites|list|tranche)"
+    "pattern": "^ENUM_MODE[^\\n]*class=canonicalization[^\\n]*(sites|list|tranche)"
    }
   },
   {
@@ -24,7 +24,7 @@
    "describes": "negative control: no ceremony on the isolated typo",
    "rule": {
     "kind": "absent",
-    "pattern": "ENUM_MODE[^\\n]*class=typo"
+    "pattern": "^ENUM_MODE[^\\n]*class=typo"
    }
   }
  ]

@@ -15,7 +15,7 @@
    "describes": "claims are surface-indexed rows with verification status",
    "rule": {
     "kind": "count_at_least",
-    "pattern": "CLAIM [A-Za-z0-9-]+ surface=[a-z]+ vstatus=",
+    "pattern": "^CLAIM [A-Za-z0-9-]+ surface=[a-z]+ vstatus=",
     "n": 2
    }
   },

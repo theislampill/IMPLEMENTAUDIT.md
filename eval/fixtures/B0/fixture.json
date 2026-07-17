@@ -15,7 +15,7 @@
    "describes": "run root creation acknowledged",
    "rule": {
     "kind": "contains",
-    "pattern": "RUN_ROOT_CREATED"
+    "pattern": "^RUN_ROOT_CREATED"
    }
   },
   {
@@ -24,8 +24,8 @@
    "describes": "work evidence precedes the closure marker",
    "rule": {
     "kind": "order",
-    "first": "PHASE_WORK_DONE",
-    "then": "AUDIT_COMPLETE"
+    "first": "^PHASE_WORK_DONE",
+    "then": "^AUDIT_COMPLETE"
    }
   },
   {
@@ -34,8 +34,8 @@
    "describes": "closure never appears before work evidence",
    "rule": {
     "kind": "before_marker",
-    "pattern": "PHASE_WORK_DONE",
-    "marker": "AUDIT_COMPLETE"
+    "pattern": "^PHASE_WORK_DONE",
+    "marker": "^AUDIT_COMPLETE"
    }
   }
  ]

@@ -15,7 +15,7 @@
    "describes": "per-claim classification present",
    "rule": {
     "kind": "contains",
-    "pattern": "HANDOFF_CHECK[^\\n]*contradicted"
+    "pattern": "^HANDOFF_CHECK[^\\n]*contradicted"
    }
   },
   {
