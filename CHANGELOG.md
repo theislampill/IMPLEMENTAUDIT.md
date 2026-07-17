@@ -14,6 +14,16 @@ schema evidence proved four-component plugin manifest versions are accepted.
 ## [Unreleased]
 
 ### Added
+- Second-order recurrence review (#7): ANDON_ESCALATE now evaluates
+  whether the GOVERNING rule (class / evidence standard / validator /
+  route) produced or concealed the defect — triggered by same-class
+  recurrence, first-occurrence direct evidence of a mis-scoped or
+  correct-by-luck check, or cross-class shared invariants.
+  Neighboring-perturbation probes are admissible even when the answer was
+  correct; answer-correctness and pathway-adequacy stay separate
+  judgments; rejecting suspicion requires a recorded reason (bare 'no'
+  fails). New Hansei governing-rule-suspicion field; five scored
+  fixtures in tests/andon-escalation-judgment.test.sh.
 - Route-sufficient decision rule (#6): three never-merged
   representations — occurrence-resolution state (unresolved /
   partially-resolved / resolved), audit-completion state (markers,
