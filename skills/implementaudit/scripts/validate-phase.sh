@@ -190,6 +190,37 @@ if missing_expected:
         + "\n"
     )
     raise SystemExit(1)
+
+# Evidence property tags (#3): every command declares which property class
+# it exercises (structural / behavioral / provenance). Newly authored specs
+# (any tagged item present) REQUIRE tags on every item; a fully untagged
+# spec is treated as legacy and warned, not failed. Authorization is not an
+# evidence property and is not accepted as one.
+TAG = re.compile(r"property:\s*(structural|behavioral|provenance)\b",
+                 re.IGNORECASE)
+BAD_TAG = re.compile(r"property:\s*(?!structural|behavioral|provenance)\w+",
+                     re.IGNORECASE)
+tagged = [i for i in items if TAG.search(i)]
+badly = [i for i in items if BAD_TAG.search(i)]
+if badly:
+    sys.stderr.write(
+        "validate-phase: invalid evidence property tag (allowed: "
+        "structural / behavioral / provenance; authorization is a separate "
+        "gate, not a property): " + "; ".join(badly[:3]) + "\n")
+    raise SystemExit(1)
+if tagged and len(tagged) != len(items):
+    untagged = [i for i in items if not TAG.search(i)]
+    sys.stderr.write(
+        "validate-phase: ## Mandatory commands mixes tagged and untagged "
+        "items — every command in a newly authored spec declares "
+        "`property: structural|behavioral|provenance`; untagged: "
+        + "; ".join(untagged[:3]) + "\n")
+    raise SystemExit(1)
+if not tagged:
+    sys.stderr.write(
+        "validate-phase: WARNING legacy spec — mandatory commands carry no "
+        "`property:` evidence tags (structural / behavioral / provenance); "
+        "newly authored specs must tag every command\n")
 PY
   [ "$python_errors" -eq 0 ] || err "## Mandatory commands needs non-placeholder list items with expected success shape"
   python_errors=0

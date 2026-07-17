@@ -31,8 +31,8 @@ Create docs/quickstart-fragment.md with a 4-step first-run path.
 
 ## Mandatory commands
 
-- test -s docs/quickstart-fragment.md — expected: exit 0 when the file exists and is non-empty
-- grep -c '^[0-9]\.' docs/quickstart-fragment.md — expected: outputs 4 and exits 0
+- test -s docs/quickstart-fragment.md — property: structural; scope: file exists and is non-empty, not content quality; expected: exit 0 when the file exists and is non-empty
+- grep -c '^[0-9]\.' docs/quickstart-fragment.md — property: behavioral; scope: the numbered-step count in the produced doc; expected: outputs 4 and exits 0
 
 ## Evidence required
 

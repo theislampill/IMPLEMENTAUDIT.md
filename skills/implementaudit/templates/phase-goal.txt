@@ -66,8 +66,17 @@ Issue publication: deferred / not applicable
 
 ## Mandatory commands (run each; include expected success shape, surface last ~10 lines + exit code in transcript)
 
-- {{COMMAND_1}} — expected: {{EXPECTED_SUCCESS_SHAPE_1}}
-- {{COMMAND_2}} — expected: {{EXPECTED_SUCCESS_SHAPE_2}}
+Each command declares the evidence property it exercises —
+`property: structural` (shape/presence/config), `property: behavioral`
+(the system observed doing the claimed thing), or `property: provenance`
+(who/what produced the artifact and from which state) — plus a
+plain-language scope, and explicit non-claims where confusion is
+plausible. The final audit may not claim a property class no command
+exercised. Authorization is NOT an evidence property; it stays a
+separate gate.
+
+- {{COMMAND_1}} — property: {{structural|behavioral|provenance}}; scope: {{WHAT_THIS_CHECK_ACTUALLY_TESTS}}; expected: {{EXPECTED_SUCCESS_SHAPE_1}}
+- {{COMMAND_2}} — property: {{structural|behavioral|provenance}}; scope: {{WHAT_THIS_CHECK_ACTUALLY_TESTS}}; expected: {{EXPECTED_SUCCESS_SHAPE_2}}
 
 ## Evidence required in transcript
 

@@ -15,6 +15,16 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Added
 
+- Evidence property tags (#3): every mandatory command in a phase spec
+  declares `property: structural|behavioral|provenance` plus a
+  plain-language scope (authorization stays a separate gate, never a
+  property). validate-phase.sh rejects invalid tags and mixed
+  tagged/untagged specs, and warns (without failing) on fully untagged
+  legacy specs; the final audit may not claim a property class no
+  command exercised; ANDON_ESCALATE asks whether the check tests the
+  property the claim needs. Shipped fixtures migrated; three new
+  validator fixtures in tests/phase-validation.test.sh.
+
 - Long-running/background command contract (#2): new PROTOCOL section —
   detached launch with `launch-intent.md`, append-only
   `chain-status.txt`, `chain.done` completion marker; state model

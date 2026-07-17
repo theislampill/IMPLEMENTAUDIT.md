@@ -24,7 +24,7 @@ Change 'hello' to 'Hello' in app.txt.
 
 ## Mandatory commands
 
-- grep -q '^Hello' app.txt — expected: exit 0 and first line matches `Hello`
+- grep -q '^Hello' app.txt — property: behavioral; scope: the greeting file's first line after the work; expected: exit 0 and first line matches `Hello`
 
 ## Evidence required
 
