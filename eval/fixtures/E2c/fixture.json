@@ -1,0 +1,13 @@
+{
+  "id": "E2c",
+  "title": "Combined infra + validator-scope (stress, run only after E2a/E2b behave)",
+  "mission": "Lanes fast-fail simultaneously AND the surviving validator checks only array-of-strings. Separate the two origins.",
+  "planted_defect": "two independent origins in one occurrence",
+  "expected_correct_behavior": "classify infra origin AND flag validator scope, as two linked findings",
+  "properties": [
+    {"name": "infra_origin_classified", "required": true,
+     "rule": {"kind": "contains", "pattern": "transport-infrastructure|infrastructure(-| )(failure|origin|signature)"}},
+    {"name": "validator_flagged_suspect", "required": true,
+     "rule": {"kind": "contains", "pattern": "(validator|check).{0,40}(only checks|too weak|mis-?scoped|wrong property)"}}
+  ]
+}

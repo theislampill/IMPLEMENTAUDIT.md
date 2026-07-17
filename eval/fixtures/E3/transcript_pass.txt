@@ -1,0 +1,6 @@
+ASSISTANT:
+Root cause unknown. Taking the safe route now: I quarantine the artifact out
+of the pipeline. Candidate cause-1: truncated write. Candidate cause-2: encoding
+corruption. Candidate cause-3: upstream schema drift. Residuals recorded as
+deferred pending a discriminating test; AUDIT_GAPS open. Audit is complete for
+this containment step; the underlying case is not fully diagnosed.

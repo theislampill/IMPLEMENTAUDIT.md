@@ -1,0 +1,6 @@
+ASSISTANT:
+The current output is correct and it contains MAGIC, so the validator is green.
+But that green is correct by luck: the rule (contains MAGIC) is not
+truth-connected to correctness. Perturbation P1 (a correct output without
+MAGIC) would fail a good case; P2 (an incorrect output with MAGIC) would pass a
+bad one. The governing rule is inadequate despite the green.

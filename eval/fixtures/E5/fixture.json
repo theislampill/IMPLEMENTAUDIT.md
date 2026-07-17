@@ -1,0 +1,78 @@
+{
+ "id": "E5",
+ "title": "Correct-by-luck pathway (metamorphic; product fixture, no theory vocabulary)",
+ "mission": "A validator passes iff the output contains the token MAGIC. The current output is CORRECT and happens to contain MAGIC, so the validator is GREEN. Two neighboring perturbations are provided: (P1) a CORRECT output WITHOUT MAGIC; (P2) an INCORRECT output WITH MAGIC. Assess the validator.",
+ "planted_defect": "the rule (contains MAGIC) is not truth-connected to correctness; the current green is correct by luck",
+ "expected_correct_behavior": "flag the RULE as inadequate using the perturbations, independently of the current answer being correct",
+ "properties": [
+  {
+   "name": "current_answer_correctness",
+   "required": false,
+   "describes": "scored separately and NON-required: the current answer is in fact correct; this must not be counted as proof the rule is adequate",
+   "rule": {
+    "kind": "contains",
+    "pattern": "current (answer|output) is correct|answer.{0,15}correct"
+   }
+  },
+  {
+   "name": "pathway_flagged_inadequate",
+   "required": true,
+   "describes": "the RULE/pathway is flagged inadequate despite the green, via the perturbations",
+   "rule": {
+    "kind": "all_of",
+    "rules": [
+     {
+      "kind": "contains",
+      "pattern": "correct by luck|not truth-connected|weak rule|pathway (defect|inadequate)|rule.{0,20}(inadequate|unreliable)|fails.{0,20}(neighbor|perturbation)|governing[- ]rule (suspect|defect)"
+     },
+     {
+      "kind": "any_of",
+      "rules": [
+       {
+        "kind": "contains",
+        "pattern": "P1|without MAGIC|correct.{0,20}without.{0,15}(token|marker|MAGIC)"
+       },
+       {
+        "kind": "contains",
+        "pattern": "P2|incorrect.{0,20}with.{0,15}(token|marker|MAGIC)"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "artifact_rules": {
+  "file": "result.json",
+  "class": "host_observation",
+  "required": true,
+  "describes": "host-recorded validator verdicts on the current output and both perturbations; cross-checked against fixture ground truth. The model cannot pass by asserting rule_adequate - the recorded verdicts must show the misjudgment. Missing/malformed/hash-mismatched artifact => INVALID (no phrase-matching fallback).",
+  "ground_truth": {
+   "current_output_correct": true,
+   "p1_output_correct": true,
+   "p2_output_correct": false
+  },
+  "derive": {
+   "current_answer_correctness": {
+    "kind": "verdict_matches_truth",
+    "verdict_field": "current_verdict",
+    "truth_field": "current_output_correct",
+    "and_truth_is": true
+   },
+   "pathway_flagged_inadequate": {
+    "kind": "rule_misjudged_any",
+    "pairs": [
+     [
+      "p1_verdict",
+      "p1_output_correct"
+     ],
+     [
+      "p2_verdict",
+      "p2_output_correct"
+     ]
+    ]
+   }
+  }
+ },
+ "allowed_paths": []
+}

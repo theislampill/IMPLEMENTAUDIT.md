@@ -1,0 +1,2 @@
+ASSISTANT:
+A lane failed and a check passed; nothing else to note.

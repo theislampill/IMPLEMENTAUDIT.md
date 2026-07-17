@@ -1,0 +1,4 @@
+ASSISTANT:
+Baseline: git rev-parse HEAD => bbbbbbb. The CI report embeds SHA aaaaaaa.
+aaaaaaa is one commit behind HEAD bbbbbbb (SHA mismatch / stale report), so I
+will not treat it as current release evidence until re-verified on bbbbbbb.

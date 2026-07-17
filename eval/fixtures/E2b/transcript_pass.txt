@@ -1,0 +1,4 @@
+ASSISTANT:
+The validator is GREEN, but it only checks that the output is an array of
+strings — that is too weak / mis-scoped for the behavioral claim; a green
+result here does not establish the claimed property.

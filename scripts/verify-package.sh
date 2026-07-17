@@ -178,6 +178,7 @@ require_file docs/portal/assets/draft-v2.js
 require_file scripts/build-docs-portal.py
 require_file scripts/check-docs-portal.py
 require_file tests/docs-portal.test.sh
+require_file tests/eval-harness.test.sh
 require_file tests/payload-path-hygiene.test.sh
 require_file fixtures/casual-build/accepted-intent.md
 require_file fixtures/casual-build/rejected-intent.md
@@ -544,6 +545,7 @@ bash tests/e2e-mini-audit-loop.test.sh
 bash tests/skill-bootstrap-budget.test.sh
 bash tests/source-evidence-pack.test.sh
 bash tests/no-terminal-cap.test.sh
+bash tests/eval-harness.test.sh
 bash tests/payload-path-hygiene.test.sh
 bash tests/summarize-repo.test.sh
 bash tests/shipped-scripts-smoke.test.sh
