@@ -14,6 +14,18 @@ schema evidence proved four-component plugin manifest versions are accepted.
 ## [Unreleased]
 
 ### Added
+- Route-sufficient decision rule (#6): three never-merged
+  representations — occurrence-resolution state (unresolved /
+  partially-resolved / resolved), audit-completion state (markers,
+  unchanged), and per-residual dispositions (unresolved / deferred /
+  transferred / owner-assigned / risk-accepted / validated-resolved;
+  owner/policy-assigned, never automated). Established hazard + admissible
+  safe route => contain BEFORE root cause; partially-resolved with named
+  residual rows is partial-by-design — not a failure, not closure.
+  AUDIT_COMPLETE now requires every consequential residual non-unresolved
+  and audit-scoped completion language (full-resolution claims over
+  unresolved residuals are false-closure). STATE.md section + validator
+  token checks + five fixtures.
 - Andon occurrence linkage (#5): the Andon log gains an `Occ` column —
   one class per row, one or more linked rows per occurrence — so plural
   co-occurring defects keep their linkage while per-class recurrence

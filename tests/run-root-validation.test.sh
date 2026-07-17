@@ -131,4 +131,50 @@ if bash "$helper" "$tmp/noocc" >/dev/null 2>&1; then
   exit 1
 fi
 
+# 6. Occurrence resolution + residual dispositions (#6).
+res_case() {  # name, occurrence-line, residual-rows, expectation(pass|fail)
+  local name="$1" occ="$2" rows="$3" expect="$4"
+  mkdir -p "$tmp/$name"
+  cp -r "$tmp/good/." "$tmp/$name/"
+  RES_OCC="$occ" RES_ROWS="$rows" "${py_cmd[@]}" - "$tmp/$name/STATE.md" <<'PY'
+import os, sys
+from pathlib import Path
+p = Path(sys.argv[1])
+s = p.read_text(encoding="utf-8")
+s = s.replace("Occurrence resolution: not-applicable",
+              "Occurrence resolution: " + os.environ["RES_OCC"])
+s = s.replace("| Residual | Consequential | Disposition | Owner / policy ref | Evidence |\n|---|---|---|---|---|",
+              "| Residual | Consequential | Disposition | Owner / policy ref | Evidence |\n|---|---|---|---|---|\n" + os.environ["RES_ROWS"])
+p.write_text(s, encoding="utf-8")
+PY
+  if [ "$expect" = pass ]; then
+    bash "$helper" "$tmp/$name" >/dev/null \
+      || { printf 'run-root-validation.test: %s expected PASS\n' "$name" >&2; exit 1; }
+  else
+    if bash "$helper" "$tmp/$name" >/dev/null 2>&1; then
+      printf 'run-root-validation.test: %s expected FAIL\n' "$name" >&2; exit 1
+    fi
+  fi
+}
+
+# 6a. Quarantined artifact, cause unresolved: valid partial state — no
+# failure classification (containment + residual rows with dispositions).
+res_case res_partial "partially-resolved" \
+"| broken artifact quarantined; cause open (2 candidates: race, stale cache) | yes | deferred | owner backlog | quarantine dir |" pass
+
+# 6b. Owner-transferred residual permits closure bookkeeping.
+res_case res_transfer "partially-resolved" \
+"| flaky lane ownership | yes | transferred | ops-team (named) | handoff note |" pass
+
+# 6c. Risk-accepted residual with policy reference is valid.
+res_case res_risk "partially-resolved" \
+"| legacy CRLF drift | no | risk-accepted | policy: repo-hygiene-v2 | ledger row 9 |" pass
+
+# 6d. An invalid disposition token fails (e.g. 'resolved-ish').
+res_case res_bad "partially-resolved" \
+"| mystery crash | yes | resolved-ish | - | - |" fail
+
+# 6e. An invented occurrence-resolution token fails.
+res_case res_badocc "mostly-resolved" "" fail
+
 printf 'run-root-validation.test: ok\n'
