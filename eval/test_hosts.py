@@ -94,6 +94,7 @@ def make_adapter(tmp, scenario, kind="codex", counter=None, checkout=None):
     a.timeout_s = 5
     if kind == "codex":
         a.preflight = lambda: None  # version/auth gates unit-tested below
+    a.check_policy = lambda repo: None  # policy binding smoke-tested live
     return a
 
 
@@ -126,26 +127,29 @@ def main():
         r = run(make_adapter(tmp, "ok-codex"), tmp, "r-ok")
         ok = r.kind == "ok" and r.resolved_model == "gpt-5.6-luna"
         if ok:
-            status, v = runner.score_bundle(
-                r.detail, repo_dir=None)
-            ok = status in ("PASS", "FAIL")  # scored end to end
-        check("H2 codex-happy-path-scoreable", ok)
+            status, v = runner.score_bundle(r.detail, repo_dir=None)
+            ok = status in ("PASS", "FAIL")
+            rr = os.path.dirname(r.detail)
+            ok = ok and os.path.isfile(os.path.join(rr, "run-intent.json"))
+            ok = ok and os.path.isfile(os.path.join(rr, "terminal.json"))
+        check("H2 codex-happy-path+intent+terminal", ok)
+        # H19: a launched call that dies still terminalizes (Phase-E class)
+        r19 = run(make_adapter(tmp, "nonzero"), tmp, "r-term")
+        term = json.load(open(os.path.join(tmp, "custody", "r-term",
+                                           "terminal.json")))
+        check("H19 launched-call-always-terminalizes",
+              r19.kind == "error" and term["kind"] == "error"
+              and term["spawned"] is True)
 
-        # 3. substitution fails closed and is recorded
-        try:
-            run(make_adapter(tmp, "substituted-codex"), tmp, "r-sub")
-            check("H3 substitution-fails-closed", False)
-        except framework.AdapterError as exc:
-            check("H3 substitution-fails-closed",
-                  "substitution" in str(exc))
+        # 3. substitution terminalizes INVALID and is recorded
+        r = run(make_adapter(tmp, "substituted-codex"), tmp, "r-sub")
+        check("H3 substitution-fails-closed",
+              r.kind == "invalid" and "substitution" in r.detail)
 
-        # 4. missing provenance fails closed
-        try:
-            run(make_adapter(tmp, "no-provenance"), tmp, "r-noprov")
-            check("H4 missing-provenance-fails-closed", False)
-        except framework.AdapterError as exc:
-            check("H4 missing-provenance-fails-closed",
-                  "provenance" in str(exc))
+        # 4. missing provenance terminalizes INVALID
+        r = run(make_adapter(tmp, "no-provenance"), tmp, "r-noprov")
+        check("H4 missing-provenance-fails-closed",
+              r.kind == "invalid" and "provenance" in r.detail)
 
         # 5. nonzero exit => ERROR class, preserved
         r = run(make_adapter(tmp, "nonzero"), tmp, "r-exit")
@@ -168,13 +172,10 @@ def main():
         check("H8 claude-happy-path",
               r.kind == "ok" and r.resolved_model == "claude-opus-4-8")
 
-        # 9. claude substitution fails closed
-        try:
-            run(make_adapter(tmp, "substituted-claude", kind="claude"),
+        # 9. claude substitution terminalizes INVALID
+        r = run(make_adapter(tmp, "substituted-claude", kind="claude"),
                 tmp, "r-clsub")
-            check("H9 claude-substitution-fails-closed", False)
-        except framework.AdapterError:
-            check("H9 claude-substitution-fails-closed", True)
+        check("H9 claude-substitution-fails-closed", r.kind == "invalid")
 
         # 10. clean environment: session sentinel never reaches the host;
         #     temp home (not real home) is what the host sees
@@ -190,12 +191,10 @@ def main():
               and "codex-home" in content
               and ".codex" not in content.replace("codex-home", ""))
 
-        # 11. credential sentinel in output aborts (nonretention scan)
-        try:
-            run(make_adapter(tmp, "leaky"), tmp, "r-leak")
-            check("H11 credential-scan-aborts", False)
-        except framework.AdapterError as exc:
-            check("H11 credential-scan-aborts", "sentinel" in str(exc))
+        # 11. credential sentinel terminalizes INVALID
+        r = run(make_adapter(tmp, "leaky"), tmp, "r-leak")
+        check("H11 credential-scan-aborts",
+              r.kind == "invalid" and "sentinel" in r.detail)
 
         # 12. run-root collision refused (custody layer)
         run(make_adapter(tmp, "ok-codex"), tmp, "r-coll")
@@ -205,28 +204,26 @@ def main():
         except framework.custody.CustodyError:
             check("H12 run-root-collision", True)
 
-        # 13. canonical-checkout write attempt: the REAL run_mission guard
-        # (payload hash before vs after) must abort. product_identity is
-        # stubbed so a plain directory can stand in for the tagged checkout.
+        # 13. canonical-checkout write attempt terminalizes INVALID via the
+        # REAL run_mission guard (product_identity stubbed for a plain dir).
         canon = os.path.join(tmp, "canonical")
         os.makedirs(canon)
-        open(os.path.join(canon, "SKILL.md"), "w").write("payload\n")
+        open(os.path.join(canon, "SKILL.md"), "w").write("payload" + chr(10))
         orig_pi = framework.product_identity
-        framework.product_identity = lambda checkout, expected_tag="v0.3.1.0": {
-            "product_tag": "v0.3.1.0", "product_commit": "b" * 40,
-            "product_tree": "a" * 40}
+        framework.product_identity = (
+            lambda checkout, expected_tag="v0.3.1.0": {
+                "product_tag": "v0.3.1.0", "product_commit": "b" * 40,
+                "product_tree": "a" * 40})
         try:
             a = make_adapter(tmp, "write-canonical", checkout=canon)
             a.stage_payload = lambda repo: None
             base_env = a._mission_env
             a._mission_env = lambda repo: {**base_env(repo),
                                            "EVAL_CANONICAL_DIR": canon}
-            try:
-                run(a, tmp, "r-canon")
-                check("H13 canonical-write-aborts", False)
-            except framework.AdapterError as exc:
-                check("H13 canonical-write-aborts",
-                      "canonical payload checkout was modified" in str(exc))
+            r = run(a, tmp, "r-canon")
+            check("H13 canonical-write-aborts",
+                  r.kind == "invalid" and
+                  "canonical payload checkout" in r.detail)
         finally:
             framework.product_identity = orig_pi
 
@@ -269,21 +266,17 @@ def main():
         except framework.AdapterError as exc:
             check("H17 old-cli-rejected", "below the required" in str(exc))
         check("H17b current-cli-accepted", _ver(newbin) == (0, 144, 5))
-        # 18. reasoning-effort substitution fails closed
-        try:
-            run(make_adapter(tmp, "wrong-effort"), tmp, "r-effort")
-            check("H18 effort-substitution-fails-closed", False)
-        except framework.AdapterError as exc:
-            check("H18 effort-substitution-fails-closed",
-                  "reasoning-effort substitution" in str(exc))
+        # 18. reasoning-effort substitution terminalizes INVALID
+        r = run(make_adapter(tmp, "wrong-effort"), tmp, "r-effort")
+        check("H18 effort-substitution-fails-closed",
+              r.kind == "invalid" and
+              "reasoning-effort substitution" in r.detail)
         # 15. refusing the REAL codex home
         a = make_adapter(tmp, "ok-codex")
         a.codex_home = os.path.expanduser("~/.codex")
-        try:
-            run(a, tmp, "r-realhome")
-            check("H15 real-home-refused", False)
-        except framework.AdapterError as exc:
-            check("H15 real-home-refused", "REAL codex home" in str(exc))
+        r = run(a, tmp, "r-realhome")
+        check("H15 real-home-refused",
+              r.kind == "invalid" and "REAL codex home" in r.detail)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     if failures:

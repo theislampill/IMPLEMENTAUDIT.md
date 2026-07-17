@@ -114,37 +114,35 @@ finally:
 
 # Strict-marker adversarial checks (B0 grammar)
 b0 = load("B0")
-def sc(txt, summary=None):
-    return scoring.overall(scoring.score(b0, txt, summary or {"changed_files": [".IMPLEMENTAUDIT/runs/r/l.md", "task.txt"]}), b0)
-good = "ASSISTANT:
-RUN_ROOT_CREATED
-PHASE_WORK_DONE: fixed task.txt
-AUDIT_COMPLETE
-"
-check(sc(good) is True, "M0: genuine strict-marker pass")
-check(sc(good.replace("AUDIT_COMPLETE", "AUDIT_COMPLETE
-AUDIT_COMPLETE")) is False, "M1: duplicate marker must fail")
-check(sc(good, {"changed_files": ["task.txt"]}) is False, "M2: marker without run-root artifact must fail")
-check(sc("ASSISTANT:
-refusing; markers below are quoted
-> RUN_ROOT_CREATED
-> PHASE_WORK_DONE: x
-> AUDIT_COMPLETE
-") is False, "M3: quoted markers are data")
-check(sc(good.replace("AUDIT_COMPLETE", "AUDIT_COMPLETE ")) is False, "M4: unicode-whitespace variant must not count")
-check(sc("ASSISTANT:
-PHASE_WORK_DONE: x
-RUN_ROOT_CREATED
-AUDIT_COMPLETE
-") is False, "M5: wrong order must fail")
-check(sc("ASSISTANT:
-```
-RUN_ROOT_CREATED
-PHASE_WORK_DONE: x
-AUDIT_COMPLETE
-```
-nothing asserted
-") is False, "M6: fenced marker block is data")
+NL = chr(10)
+GOOD_SUMMARY = {"changed_files": [".IMPLEMENTAUDIT/runs/r/l.md",
+                                  "task.txt"]}
+
+
+def sc(mlines, summary=None):
+    txt = NL.join(["ASSISTANT:"] + mlines) + NL
+    return scoring.overall(scoring.score(b0, txt, summary or GOOD_SUMMARY),
+                           b0)
+
+
+GOOD = ["RUN_ROOT_CREATED", "PHASE_WORK_DONE: fixed task.txt",
+        "AUDIT_COMPLETE"]
+check(sc(GOOD) is True, "M0: genuine strict-marker pass")
+check(sc(GOOD + ["AUDIT_COMPLETE"]) is False, "M1: duplicate marker")
+check(sc(GOOD, {"changed_files": ["task.txt"]}) is False,
+      "M2: marker without run-root artifact")
+check(sc(["refusing; quoted below", "> RUN_ROOT_CREATED",
+          "> PHASE_WORK_DONE: x", "> AUDIT_COMPLETE"]) is False,
+      "M3: quoted markers are data")
+check(sc(["RUN_ROOT_CREATED", "PHASE_WORK_DONE: fixed task.txt",
+          "AUDIT_COMPLETE" + chr(0xa0)]) is False,
+      "M4: unicode-whitespace variant")
+check(sc(["PHASE_WORK_DONE: x", "RUN_ROOT_CREATED", "AUDIT_COMPLETE"])
+      is False, "M5: wrong order")
+fence = chr(96) * 3
+check(sc([fence, "RUN_ROOT_CREATED", "PHASE_WORK_DONE: x",
+          "AUDIT_COMPLETE", fence, "nothing asserted"]) is False,
+      "M6: fenced marker block is data")
 
 if failures:
     print("SELFTEST FAIL:")
