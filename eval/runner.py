@@ -211,6 +211,9 @@ def cmd_bundle(run_root, repo_dir=None):
     status, v = score_bundle(run_root, repo_dir)
     print(json.dumps({"status": status, "run_id": v.get("run_id"),
                       "fixture_id": v.get("fixture_id"),
+                      "adapter_name": v.get("adapter_name"),
+                      "product_tag": v.get("product_tag"),
+                      "model_resolved": v.get("model_resolved"),
                       "failed_invariant": v.get("failed_invariant"),
                       "model_substitution": v.get("model_substitution"),
                       "reason": v.get("reason")}, indent=1))
