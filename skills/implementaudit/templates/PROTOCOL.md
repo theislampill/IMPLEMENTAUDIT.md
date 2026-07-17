@@ -280,6 +280,45 @@ When resuming after interruption:
 4. Do not re-print IMPLEMENTAUDIT_PHASE_START; it was already printed.
 5. Continue from the paused step, not from Step 1.
 
+### Receiving-side handoff inspection
+
+When resuming from a HANDOFF PACKET produced by another run/session (not a
+same-session pause), the receiver verifies the packet against live state
+BEFORE accepting any work-in-process. This gate is not a full re-audit.
+
+Packet identity (required before any claim comparison): packet ID; packet
+version; packet content hash; claimed subject identity (repository +
+expected tree, or — for a non-Git subject — a declared file inventory with
+content hashes over the declared run root); sender run/episode ID. The
+receiving run records its own receiver run/episode ID against the packet,
+so the handoff edge is identified at both ends and superseded packet chains
+are mechanically orderable.
+
+Three claim classes, treated differently:
+
+1. **Mechanically recomputable state** — the receiver independently
+   recomputes only the CONTINUATION-CRITICAL set: repository identity,
+   branch, HEAD/tree, expected base/upstream, staged/unstaged/untracked,
+   run root and active phase, ledger state, active Andons and unresolved
+   gates, residual dispositions (#6), next authorized action. Each row is
+   marked `confirmed` / `stale` / `contradicted` / `unverifiable`. Receiver
+   re-derivation WINS; stale rows are marked superseded (packet ID + row).
+2. **Evidence references** — validated for existence and version/surface
+   binding via #4 anchors; rebound to current identities, or marked
+   `unverifiable` and carried as an open residual (#6).
+3. **Owner/specialist judgment and authorization** — PRESERVED verbatim:
+   acceptance, risk-acceptance, decisions, and authorizations are never
+   recomputed, manufactured, or reinterpreted by the receiver. Only the
+   issuing authority may amend them; mismatches are surfaced to that
+   authority, never dropped or rewritten.
+
+A stale or contradicted Class-1/2 claim raises a named abnormality
+(`evidence-mismatch` or `misplacement`; linked rows per #5) and BLOCKS ONLY
+DEPENDENT EXECUTION — it must not silently normalize the packet and must
+not restart the entire audit. A packet with no state claims records
+"nothing mechanical to verify" and proceeds; a fresh same-session
+continuation with no packet does not trigger this gate.
+
 ### Long-running and background commands
 
 A command expected to outlive the host tool timeout is launched DETACHED

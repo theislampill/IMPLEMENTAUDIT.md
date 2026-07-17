@@ -14,6 +14,16 @@ schema evidence proved four-component plugin manifest versions are accepted.
 ## [Unreleased]
 
 ### Added
+- Receiving-side handoff inspection (#15): before accepting a handoff
+  packet from another run, the receiver verifies packet identity and
+  three claim classes — mechanically recomputable state (receiver
+  re-derivation wins), evidence references (rebound via #4 anchors), and
+  owner/authorization claims (preserved verbatim, only the issuing
+  authority may amend). A contradicted Class-1/2 claim raises a named
+  abnormality and blocks ONLY dependent execution (never restarts the
+  audit, never silently normalizes). New payload check-handoff-packet.sh;
+  four fixtures (contradicted-blocks, matching-proceeds,
+  owner-carried-verbatim, no-claims control).
 - Lesson-lift routing record (#13): a qualifying lesson produces ONE
   canonical lift record that unifies AGENTS_UPDATE_DECISION and
   CONTINUITY_DECISION (nine fields: lesson, lift/no-lift + reason,
