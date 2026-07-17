@@ -31,10 +31,46 @@ if [ "${2:-}" = "--repo-root" ]; then repo_root="${3:-.}"; fi
 # checker exits without doing its job. Swallow the no-match to empty.
 get() { { grep -iE "^$1:" "$pkt" || true; } | head -n1 | sed "s/^[^:]*: *//" | tr -d '\r'; }
 
+# Repeated keys are a malformed packet, never a silent first-wins: a
+# second conflicting `claimed_branch:` (or any recognized key) could
+# smuggle a contradiction past the comparison (Fable review of PR #30).
+for k in packet_id packet_version packet_content_hash sender_run_id \
+         subject_repo claimed_tree claimed_branch claimed_clean \
+         owner_acceptance has_state_claims; do
+  n="$({ grep -ciE "^$k:" "$pkt" || true; })"
+  if [ "${n:-0}" -gt 1 ]; then
+    fail "malformed packet: key '$k' appears $n times — one value per key"
+  fi
+done
+
 # Packet identity is required.
 for k in packet_id packet_version packet_content_hash sender_run_id; do
   [ -n "$(get "$k")" ] || fail "packet missing required identity field: $k"
 done
+
+# Content-hash binding: when packet_content_hash is a sha256 (64 hex), it
+# is RECOMPUTED over the packet bytes minus the packet_content_hash line
+# — this is what makes identity and the verbatim Class-3 text tamper-
+# evident (a rewritten authorization breaks the hash). A non-sha256 token
+# cannot be verified and is said so out loud, never silently trusted
+# (Fable review of PR #30).
+phash="$(get packet_content_hash)"
+if printf '%s' "$phash" | grep -qiE '^[0-9a-f]{64}$'; then
+  if command -v sha256sum >/dev/null 2>&1; then hasher="sha256sum";
+  elif command -v shasum >/dev/null 2>&1; then hasher="shasum -a 256";
+  else hasher=""; fi
+  if [ -n "$hasher" ]; then
+    live_hash="$({ grep -viE '^packet_content_hash:' "$pkt" || true; } \
+      | $hasher | cut -d' ' -f1)"
+    if [ "${phash,,}" != "$live_hash" ]; then
+      fail "packet content hash mismatch (claimed $phash, recomputed $live_hash) — packet identity or Class-3 content was altered after issue"
+    fi
+  else
+    printf 'check-handoff-packet: content hash not verifiable (no sha256 tool on host)\n'
+  fi
+else
+  printf 'check-handoff-packet: content hash not verifiable (non-sha256 token) — identity binding rests on the issuer\n'
+fi
 
 # Class 3 (owner/authorization) is preserved verbatim, regardless of any
 # Class-1 mismatch below.
@@ -68,11 +104,17 @@ fi
 
 claimed_tree="$(get claimed_tree)"
 if [ -n "$claimed_tree" ]; then
-  live_tree="$(git -C "$repo_root" rev-parse HEAD 2>/dev/null || echo none)"
-  case "$live_tree" in
-    "$claimed_tree"*) : ;;
-    *) contradicted=1; note="$note tree(claimed=$claimed_tree live=$live_tree)";;
-  esac
+  # Full-SHA equality only: a prefix (even 39 chars) is never confirmed
+  # tree identity — short tokens are display, not authority (#4; Fable
+  # review of PR #30 found a 4-char prefix was accepted).
+  if ! printf '%s' "$claimed_tree" | grep -qiE '^[0-9a-f]{40}$'; then
+    contradicted=1; note="$note tree(claimed=$claimed_tree — not a full 40-hex SHA; short identity is never confirmed)"
+  else
+    live_tree="$(git -C "$repo_root" rev-parse HEAD 2>/dev/null || echo none)"
+    if [ "${claimed_tree,,}" != "$live_tree" ]; then
+      contradicted=1; note="$note tree(claimed=$claimed_tree live=$live_tree)"
+    fi
+  fi
 fi
 
 claimed_clean="$(get claimed_clean)"
