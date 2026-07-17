@@ -1,0 +1,6 @@
+packet_id: pkt-003
+packet_version: 1
+packet_content_hash: abc123
+sender_run_id: run-sender-C
+has_state_claims: no
+owner_acceptance: none

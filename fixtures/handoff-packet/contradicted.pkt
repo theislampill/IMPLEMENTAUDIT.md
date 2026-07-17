@@ -1,0 +1,10 @@
+packet_id: pkt-001
+packet_version: 1
+packet_content_hash: deadbeefcafe
+sender_run_id: run-sender-A
+subject_repo: IMPLEMENTAUDIT.md
+claimed_branch: some-old-branch
+claimed_tree: 0000000000000000000000000000000000000000
+claimed_clean: yes
+has_state_claims: yes
+owner_acceptance: owner accepted the risk of shipping without E2c (verbatim)

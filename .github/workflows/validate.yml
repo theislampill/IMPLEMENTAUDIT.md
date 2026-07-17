@@ -49,6 +49,7 @@ jobs:
         run: |
           bash tests/andon-class-contract.test.sh
           bash tests/lesson-lift-contract.test.sh
+          bash tests/handoff-packet-contract.test.sh
           bash tests/andon-escalation-judgment.test.sh
           bash tests/background-chain-contract.test.sh
           bash tests/evidence-anchoring.test.sh
