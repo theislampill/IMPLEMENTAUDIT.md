@@ -4,15 +4,17 @@
 Two host-model CONFIGURATIONS (model and host effects are confounded and
 always reported as configurations, never as pure model comparisons):
 
-  Configuration L — Codex CLI / Luna Max (`CodexAdapter`)
-      Known blockers recorded from direct Phase-D CLI testing: `luna-max`
-      requires metered API auth ("not supported when using Codex with a
-      ChatGPT account"), and Codex CLI 0.130.0-alpha.5 cannot run any model
-      on the owner's subscription account. The selector is a parameter; the
-      adapter fails closed until a working (owner-approved) selector exists.
-      Payload presentation: immutable v0.3.1.0 installed into a fresh
-      temporary CODEX_HOME at skills/implementaudit/ (Codex's native skill
-      location).
+  Configuration L — Codex CLI / gpt-5.6-luna / reasoning effort max
+      ("Luna Max" is that TUPLE — model + effort — never a concatenated
+      slug; `luna-max` and `gpt-5.6-luna-max` are REJECTED at construction).
+      Phase-E verified: works under ChatGPT-subscription auth on Codex CLI
+      0.144.5 (the Phase-D metered-auth conclusion is retracted as an
+      invalid test on an outdated CLI). Requires CLI >= 0.144.0 (fail
+      closed); auth mode recorded, API/metered auth blocked without an
+      owner cap; requested and resolved reasoning effort recorded
+      separately when the host exposes them. Payload presentation:
+      immutable v0.3.1.0 installed into a fresh temporary CODEX_HOME at
+      skills/implementaudit/ (Codex's native skill location).
 
   Configuration O — Claude Code CLI / Opus High (`ClaudeAdapter`)
       Verified working selector: `claude -p --model opus --effort high
@@ -57,7 +59,8 @@ import bundle as bundlelib  # noqa: E402
 import reposnapshot  # noqa: E402
 
 ENV_ALLOWLIST = ("SYSTEMROOT", "WINDIR", "PATH", "TEMP", "TMP", "HOME",
-                 "USERPROFILE", "COMSPEC", "PATHEXT", "LANG", "LC_ALL")
+                 "USERPROFILE", "COMSPEC", "PATHEXT", "LANG", "LC_ALL",
+                 "APPDATA", "LOCALAPPDATA", "PROGRAMDATA")
 
 
 class HostRunResult:
@@ -122,6 +125,14 @@ class _BaseAdapter:
     def requested_model_canonical(self):
         return self.requested_model
 
+    def preflight(self):
+        """Configuration-specific pre-spawn gates (version/auth)."""
+        return None
+
+    def post_checks(self, host_output_text):
+        """Configuration-specific post-spawn provenance checks."""
+        return None
+
     # --- mission ----------------------------------------------------------
     def stage_payload(self, repo):
         """Present the product payload to the host (configuration-specific;
@@ -138,6 +149,7 @@ class _BaseAdapter:
         disable the production gate."""
         (framework.require_owner_approval if _test_gate is None
          else _test_gate)()
+        self.preflight()
         payload_before = (framework.payload_hash(self.product_checkout)
                           if self.product_checkout else None)
         repo = framework.seed_fixture_repo(fixture_id, work_root)
@@ -160,6 +172,7 @@ class _BaseAdapter:
             return HostRunResult("invalid",
                                  f"malformed structured output: {exc}")
         resolved = self.check_provenance(outcome.stdout)
+        self.post_checks(outcome.stdout)
         if payload_before is not None:
             payload_after = framework.payload_hash(self.product_checkout)
             if payload_after != payload_before:
@@ -238,18 +251,67 @@ def _harness_commit():
 
 
 class CodexAdapter(_BaseAdapter):
-    """Configuration L: Codex CLI. Temp CODEX_HOME; skill installed at
-    $CODEX_HOME/skills/implementaudit. Fails closed until an owner-approved
-    working selector exists (see module docstring blockers)."""
+    """Configuration L: Codex CLI / gpt-5.6-luna / reasoning effort max
+    ("Luna Max" = that TUPLE, never a concatenated slug). Verified working
+    under ChatGPT-subscription auth on Codex CLI 0.144.5 (Phase E). Temp
+    CODEX_HOME; skill installed at $CODEX_HOME/skills/implementaudit.
+    Fails closed below the minimum CLI version and on any identity or
+    effort substitution."""
 
     name = "codex-cli"
+    MIN_CLI = (0, 144, 0)
+    REJECTED_SLUGS = ("luna-max", "gpt-5.6-luna-max")
 
-    def __init__(self, requested_model="luna-max", codex_home=None, **kw):
+    def __init__(self, requested_model="gpt-5.6-luna",
+                 reasoning_effort="max", codex_binary="codex",
+                 codex_home=None, **kw):
+        if requested_model in self.REJECTED_SLUGS:
+            raise framework.AdapterError(
+                f"{requested_model!r} is a concatenated slug, not a model: "
+                "'Luna Max' means model gpt-5.6-luna + reasoning effort max")
         super().__init__(
-            ["codex", "exec", "--model", "{model}", "--sandbox",
-             "workspace-write", "-"],
+            [codex_binary, "exec", "--model", "{model}",
+             "-c", f'model_reasoning_effort="{reasoning_effort}"',
+             "--sandbox", "workspace-write", "--skip-git-repo-check", "-"],
             requested_model, **kw)
+        self.codex_binary = codex_binary
+        self.reasoning_effort_requested = reasoning_effort
         self.codex_home = codex_home
+        self.auth_mode = None  # recorded (chatgpt-subscription/api); no secrets
+
+    def check_cli_version(self):
+        """Fail closed below 0.144.0 (GPT-5.6 access requirement)."""
+        proc = subprocess.run([self.codex_binary, "--version"],
+                              capture_output=True, text=True)
+        out = (proc.stdout or "") + (proc.stderr or "")
+        import re as _re
+        m = _re.search(r"(\d+)\.(\d+)\.(\d+)", out)
+        if proc.returncode != 0 or not m:
+            raise framework.AdapterError(
+                f"cannot determine codex CLI version: {out.strip()[:120]}")
+        ver = tuple(int(x) for x in m.groups())
+        if ver < self.MIN_CLI:
+            raise framework.AdapterError(
+                f"codex CLI {'.'.join(map(str, ver))} is below the required "
+                f"0.144.0 for gpt-5.6 access — fail closed")
+        return ver
+
+    def check_auth_mode(self):
+        """Record auth mode; refuse metered/API auth without owner cap."""
+        env = _clean_env({"CODEX_HOME": self.codex_home or ""})
+        proc = subprocess.run([self.codex_binary, "login", "status"],
+                              capture_output=True, text=True, env=env)
+        out = (proc.stdout or "") + (proc.stderr or "")
+        if "ChatGPT" in out:
+            self.auth_mode = "chatgpt-subscription"
+        elif "API" in out.upper():
+            raise framework.AdapterError(
+                "codex is using API-key (metered) auth — blocked without an "
+                "explicit owner-approved spend cap")
+        else:
+            raise framework.AdapterError(
+                f"unknown codex auth mode — fail closed: {out.strip()[:120]}")
+        return self.auth_mode
 
     def _mission_env(self, repo):
         if not self.codex_home:
@@ -268,6 +330,30 @@ class CodexAdapter(_BaseAdapter):
             if line.strip().lower().startswith("model:"):
                 return line.split(":", 1)[1].strip()
         return None
+
+    def preflight(self):
+        self.check_cli_version()
+        self.check_auth_mode()
+
+    def post_checks(self, out):
+        self.check_effort(out)
+
+    def resolve_effort(self, out):
+        # Session headers print "reasoning effort: <level>" when exposed.
+        for line in out.splitlines():
+            if line.strip().lower().startswith("reasoning effort:"):
+                return line.split(":", 1)[1].strip()
+        return None
+
+    def check_effort(self, out):
+        resolved = self.resolve_effort(out)
+        self.reasoning_effort_resolved = resolved
+        if resolved is not None and                 resolved != self.reasoning_effort_requested:
+            raise framework.AdapterError(
+                f"reasoning-effort substitution: requested "
+                f"{self.reasoning_effort_requested!r}, resolved "
+                f"{resolved!r} — fail closed")
+        return resolved
 
     def parse_events(self, out):
         # codex exec plain output: treat the final assistant text as one
@@ -339,6 +425,45 @@ class ClaudeAdapter(_BaseAdapter):
         if not isinstance(result, str) or not result.strip():
             raise ValueError("JSON output lacks a result field")
         return [{"role": "assistant", "content": result}]
+
+
+def sanitize_bundle(bundle_root):
+    """RAW-FIRST custody: the sealed bundle is never touched. This creates a
+    SEPARATE sanitized derivative directory next to it plus a redaction
+    manifest binding derivative files to the raw originals by hash."""
+    import re as _re
+    home = os.path.expanduser("~").replace("\\", "/")
+    pat = _re.compile(_re.escape(home) + "|" +
+                      _re.escape(os.path.expanduser("~")).replace("\\", "\\\\"),
+                      _re.IGNORECASE)
+    out_root = bundle_root.rstrip("/\\") + "-sanitized"
+    os.makedirs(out_root, exist_ok=False)
+    manifest = {"schema": "implementaudit-redaction-manifest-v1",
+                "raw_bundle": bundle_root, "files": {}}
+    for base, _dirs, files in os.walk(bundle_root):
+        for name in files:
+            src = os.path.join(base, name)
+            rel = os.path.relpath(src, bundle_root)
+            data = open(src, "rb").read()
+            raw_hash = bundlelib._sha256_bytes(data)
+            try:
+                text = data.decode("utf-8")
+                red, n = pat.subn("<home>", text)
+                out = red.encode("utf-8")
+            except UnicodeDecodeError:
+                out, n = data, 0
+            dst = os.path.join(out_root, rel)
+            os.makedirs(os.path.dirname(dst), exist_ok=True)
+            with open(dst, "xb") as fh:
+                fh.write(out)
+            manifest["files"][rel] = {
+                "raw_sha256": raw_hash,
+                "sanitized_sha256": bundlelib._sha256_bytes(out),
+                "redactions": n, "rule": "home-path -> <home>"}
+    with open(os.path.join(out_root, "redaction-manifest.json"), "x",
+              encoding="utf-8") as fh:
+        json.dump(manifest, fh, indent=1, sort_keys=True)
+    return out_root
 
 
 if __name__ == "__main__":

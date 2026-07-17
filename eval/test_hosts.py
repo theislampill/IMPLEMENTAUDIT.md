@@ -36,7 +36,8 @@ if counter:
     n = int(open(counter).read()) if os.path.isfile(counter) else 0
     open(counter, "w").write(str(n + 1))
 if scenario == "ok-codex":
-    print("model: luna-max")
+    print("model: gpt-5.6-luna")
+    print("reasoning effort: max")
     print("RUN_ROOT_CREATED at .audit/run-1")
     print("PHASE_WORK_DONE: did the task (evidence: log)")
     print("AUDIT_COMPLETE")
@@ -57,17 +58,22 @@ elif scenario == "substituted-claude":
 elif scenario == "malformed-claude":
     print("this is not json at all")
 elif scenario == "env-echo":
-    print("model: luna-max")
+    print("model: gpt-5.6-luna")
+    print("reasoning effort: max")
     print("CODEX_HOME=" + os.environ.get("CODEX_HOME", "<unset>"))
     print("SENTINEL=" + os.environ.get("EVAL_TEST_SENTINEL", "<absent>"))
 elif scenario == "leaky":
-    print("model: luna-max")
+    print("model: gpt-5.6-luna")
     print("here is a token: sk-THIS-LOOKS-LIKE-A-KEY")
 elif scenario == "write-canonical":
     target = os.environ.get("EVAL_CANONICAL_DIR")
     open(os.path.join(target, "TAMPERED.txt"), "w").write("x")
-    print("model: luna-max")
+    print("model: gpt-5.6-luna")
     print("done")
+elif scenario == "wrong-effort":
+    print("model: gpt-5.6-luna")
+    print("reasoning effort: low")
+    print("output")
 '''
 
 
@@ -86,6 +92,8 @@ def make_adapter(tmp, scenario, kind="codex", counter=None, checkout=None):
         os.makedirs(a.config_dir, exist_ok=True)
     a.host_argv_template = argv
     a.timeout_s = 5
+    if kind == "codex":
+        a.preflight = lambda: None  # version/auth gates unit-tested below
     return a
 
 
@@ -116,7 +124,7 @@ def main():
 
         # 2. happy path (codex mock): identity match, bundle written, PASS
         r = run(make_adapter(tmp, "ok-codex"), tmp, "r-ok")
-        ok = r.kind == "ok" and r.resolved_model == "luna-max"
+        ok = r.kind == "ok" and r.resolved_model == "gpt-5.6-luna"
         if ok:
             status, v = runner.score_bundle(
                 r.detail, repo_dir=None)
@@ -227,6 +235,47 @@ def main():
         run(make_adapter(tmp, "ok-codex", counter=counter), tmp, "r-once")
         check("H14 no-hidden-retry", open(counter).read().strip() == "1")
 
+        # 16. concatenated slug rejected at construction
+        for slug in ("luna-max", "gpt-5.6-luna-max"):
+            try:
+                hosts.CodexAdapter(requested_model=slug,
+                                   codex_home=os.path.join(tmp, "ch"))
+                check(f"H16 slug-rejected {slug}", False)
+            except framework.AdapterError as exc:
+                check(f"H16 slug-rejected {slug}",
+                      "concatenated slug" in str(exc))
+        # 17. old CLI version rejected; current accepted (stub binaries)
+        oldbin = os.path.join(tmp, "oldcodex.py")
+        open(oldbin, "w").write("print('codex-cli 0.130.0-alpha.5')")
+        newbin = os.path.join(tmp, "newcodex.py")
+        open(newbin, "w").write("print('codex-cli 0.144.5')")
+        import subprocess as _sp
+        a = hosts.CodexAdapter(codex_home=os.path.join(tmp, "ch2"))
+        a.codex_binary = None  # use argv-wrapped stubs
+        def _ver(binpath):
+            b = hosts.CodexAdapter(codex_home=os.path.join(tmp, "ch3"))
+            b.codex_binary = sys.executable
+            orig = _sp.run
+            def fake_run(argv, **kw):
+                return orig([sys.executable, binpath], **{k: v for k, v in kw.items() if k in ("capture_output", "text")})
+            hosts.subprocess.run = fake_run
+            try:
+                return b.check_cli_version()
+            finally:
+                hosts.subprocess.run = orig
+        try:
+            _ver(oldbin)
+            check("H17 old-cli-rejected", False)
+        except framework.AdapterError as exc:
+            check("H17 old-cli-rejected", "below the required" in str(exc))
+        check("H17b current-cli-accepted", _ver(newbin) == (0, 144, 5))
+        # 18. reasoning-effort substitution fails closed
+        try:
+            run(make_adapter(tmp, "wrong-effort"), tmp, "r-effort")
+            check("H18 effort-substitution-fails-closed", False)
+        except framework.AdapterError as exc:
+            check("H18 effort-substitution-fails-closed",
+                  "reasoning-effort substitution" in str(exc))
         # 15. refusing the REAL codex home
         a = make_adapter(tmp, "ok-codex")
         a.codex_home = os.path.expanduser("~/.codex")
