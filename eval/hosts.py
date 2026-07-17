@@ -171,8 +171,10 @@ class _BaseAdapter:
         except ValueError as exc:
             return HostRunResult("invalid",
                                  f"malformed structured output: {exc}")
-        resolved = self.check_provenance(outcome.stdout)
-        self.post_checks(outcome.stdout)
+        provenance_stream = (outcome.stderr or "") + "
+" +             (outcome.stdout or "")
+        resolved = self.check_provenance(provenance_stream)
+        self.post_checks(provenance_stream)
         if payload_before is not None:
             payload_after = framework.payload_hash(self.product_checkout)
             if payload_after != payload_before:
@@ -356,12 +358,29 @@ class CodexAdapter(_BaseAdapter):
         return resolved
 
     def parse_events(self, out):
-        # codex exec plain output: treat the final assistant text as one
-        # assistant event. Structured event capture is a follow-up once a
-        # working selector exists to test against.
-        text = out.strip()
+        """Extract ONLY the model's reply section. codex exec transcripts
+        echo the user mission (which names the fixture's markers), so
+        treating the whole stdout as assistant content would let the echo
+        forge marker evidence. The reply lies between the standalone
+        'codex' section header and the trailing 'tokens used' line; when
+        those headers are absent (mock hosts), fall back to full text."""
+        text = (out or "").strip()
         if not text:
             raise ValueError("empty host output")
+        lines = text.splitlines()
+        starts = [i for i, ln in enumerate(lines) if ln.strip() == "codex"]
+        if starts:
+            start = starts[-1] + 1
+            end = len(lines)
+            for j in range(start, len(lines)):
+                if lines[j].strip() in ("tokens used", "--------"):
+                    end = j
+                    break
+            reply = "
+".join(lines[start:end]).strip()
+            if not reply:
+                raise ValueError("empty codex reply section")
+            return [{"role": "assistant", "content": reply}]
         return [{"role": "assistant", "content": text}]
 
 
