@@ -1,0 +1,3 @@
+ASSISTANT:
+Residual r1 cannot be verified here; packaging state.
+AUDIT_HANDOFF packet=run-001.p1

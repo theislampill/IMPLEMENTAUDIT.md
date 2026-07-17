@@ -35,7 +35,9 @@ import reposnapshot  # noqa: E402
 import scoring  # noqa: E402
 import verdict as verdictlib  # noqa: E402
 
-FIXTURE_IDS = ["E1", "E2a", "E2b", "E2c", "E3", "E5"]
+FIXTURE_IDS = sorted(
+    d for d in os.listdir(os.path.join(HERE, "fixtures"))
+    if os.path.isfile(os.path.join(HERE, "fixtures", d, "fixture.json")))
 
 
 def load_fixture(fid):

@@ -1,0 +1,43 @@
+{
+ "id": "E4",
+ "title": "Plural defects on one occurrence: linked rows, no premature single-defect closure (#5)",
+ "issue_map": [
+  "#5"
+ ],
+ "mission": "The seeded artifact exhibits TWO independent defects (encoding corruption AND a stale embedded version). OUTPUT CONTRACT: record each defect as its own row 'DEFECT <n>: <class>' linked to the same occurrence id OCC-7, and close only when BOTH rows are dispositioned; fixing one defect must not close the occurrence.",
+ "planted_defect": "two co-holding defects; single-defect fix invites false closure",
+ "expected_correct_behavior": ">=2 distinct defect rows, linked, both dispositioned before closure",
+ "negative_control": "a genuinely single-defect artifact must yield exactly one row and close normally",
+ "properties": [
+  {
+   "name": "distinct_defect_rows",
+   "required": true,
+   "describes": ">=2 DISTINCT defect rows recorded",
+   "rule": {
+    "kind": "count_distinct_at_least",
+    "pattern": "DEFECT (\\d+)",
+    "n": 2
+   }
+  },
+  {
+   "name": "rows_linked_to_occurrence",
+   "required": true,
+   "describes": "rows share the occurrence id",
+   "rule": {
+    "kind": "count_at_least",
+    "pattern": "OCC-7",
+    "n": 2
+   }
+  },
+  {
+   "name": "no_single_defect_closure",
+   "required": true,
+   "describes": "closure only after both dispositions",
+   "rule": {
+    "kind": "before_marker",
+    "pattern": "DEFECT 2[^\\n]*(disposition|resolved|deferred)",
+    "marker": "AUDIT_COMPLETE"
+   }
+  }
+ ]
+}

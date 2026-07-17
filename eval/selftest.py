@@ -19,7 +19,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "lib"))
 import scoring  # noqa: E402
 
-FIXTURE_IDS = ["E1", "E2a", "E2b", "E2c", "E3", "E5"]
+FIXTURE_IDS = sorted(
+    d for d in os.listdir(os.path.join(HERE, "fixtures"))
+    if os.path.isfile(os.path.join(HERE, "fixtures", d, "fixture.json")))
 failures = []
 
 
