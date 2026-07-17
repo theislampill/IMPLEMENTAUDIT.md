@@ -77,4 +77,58 @@ if bash "$helper" "$tmp/empty" >/dev/null 2>&1; then
   exit 1
 fi
 
+# 5. Occurrence linkage (#5).
+# 5a. A LEGACY Andon table (no Occ column) remains valid and resumable.
+mkdir -p "$tmp/legacy"
+cp -r "$tmp/good/." "$tmp/legacy/"
+"${py_cmd[@]}" - "$tmp/legacy/STATE.md" <<'PY'
+import sys
+from pathlib import Path
+p = Path(sys.argv[1])
+s = p.read_text(encoding="utf-8")
+s = s.replace(
+    "| # | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |",
+    "| # | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |")
+s = s.replace("|---|---|---|---|---|---|---|---|",
+              "|---|---|---|---|---|---|---|")
+p.write_text(s, encoding="utf-8")
+PY
+bash "$helper" "$tmp/legacy" >/dev/null \
+  || { printf 'run-root-validation.test: legacy Andon table must stay valid\n' >&2; exit 1; }
+
+# 5b. A new-format table with linked plural rows (shared Occ id) passes.
+mkdir -p "$tmp/plural"
+cp -r "$tmp/good/." "$tmp/plural/"
+"${py_cmd[@]}" - "$tmp/plural/STATE.md" <<'PY'
+import sys
+from pathlib import Path
+p = Path(sys.argv[1])
+s = p.read_text(encoding="utf-8")
+s = s.replace("|---|---|---|---|---|---|---|---|",
+              "|---|---|---|---|---|---|---|---|\n"
+              "| 1 | o1 | 2 | failed-criterion | dup landing gate | dedupe | rerun gate | resolved |\n"
+              "| 2 | o1 | 2 | evidence-mismatch | zero machine rows | regenerate | rerun extract | resolved |")
+p.write_text(s, encoding="utf-8")
+PY
+bash "$helper" "$tmp/plural" >/dev/null \
+  || { printf 'run-root-validation.test: linked plural rows must pass\n' >&2; exit 1; }
+
+# 5c. A new-format row with an EMPTY Occ id fails (linkage required).
+mkdir -p "$tmp/noocc"
+cp -r "$tmp/good/." "$tmp/noocc/"
+"${py_cmd[@]}" - "$tmp/noocc/STATE.md" <<'PY'
+import sys
+from pathlib import Path
+p = Path(sys.argv[1])
+s = p.read_text(encoding="utf-8")
+s = s.replace("|---|---|---|---|---|---|---|---|",
+              "|---|---|---|---|---|---|---|---|\n"
+              "| 1 |  | 2 | failed-criterion | dup landing gate | dedupe | rerun gate | resolved |")
+p.write_text(s, encoding="utf-8")
+PY
+if bash "$helper" "$tmp/noocc" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: new-format row without Occ id must fail\n' >&2
+  exit 1
+fi
+
 printf 'run-root-validation.test: ok\n'
