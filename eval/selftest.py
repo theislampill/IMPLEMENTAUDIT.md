@@ -76,6 +76,42 @@ check(r.returncode == 0, f"runner --dry-run returned {r.returncode}: {r.stderr[:
 check("NO MODEL WAS CALLED" in r.stdout, "runner dry-run must affirm no model was called")
 check("SCORER-MISMATCH" not in r.stdout, "runner dry-run reported a scorer mismatch")
 
+# Per-fixture INVALID synthetic: for EVERY fixture, a zero-event bundle must
+# be INVALID (never PASS, never FAIL) — the generic bundle-validity classes
+# apply uniformly across the library.
+import tempfile
+import shutil
+sys.path.insert(0, HERE)
+import runner as runner_mod  # noqa: E402
+import bundle as bundlelib  # noqa: E402
+
+_tmp = tempfile.mkdtemp(prefix="eval-invalid-")
+try:
+    for fid in FIXTURE_IDS:
+        fxb = open(os.path.join(HERE, "fixtures", fid, "fixture.json"),
+                   "rb").read()
+        mission = json.loads(fxb.decode())["mission"]
+        fields = {"run_id": f"inv-{fid}", "fixture_id": fid,
+                  "product_tag": "v0.3.1.0", "product_commit": "c" * 40,
+                  "product_tree": "d" * 40,
+                  "installed_payload_sha256": "1" * 64,
+                  "harness_commit": "e" * 40, "adapter_name": "t",
+                  "adapter_version": "0", "adapter_sha256": "a" * 64,
+                  "model_requested": "none", "model_resolved": "none",
+                  "host": "unit", "started_at": "1970-01-01T00:00:00Z",
+                  "ended_at": "1970-01-01T00:00:01Z"}
+        root = os.path.join(_tmp, fid)
+        try:
+            bundlelib.write_bundle(root, fields, [], fxb,
+                                   ("MISSION:\n" + mission).encode())
+        except bundlelib.BundleInvalid:
+            pass  # builder may itself refuse; loading must still be INVALID
+        status, _v = runner_mod.score_bundle(root)
+        check(status == "INVALID",
+              f"{fid}: zero-event bundle scored {status}, want INVALID")
+finally:
+    shutil.rmtree(_tmp, ignore_errors=True)
+
 if failures:
     print("SELFTEST FAIL:")
     for f in failures:
