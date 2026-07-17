@@ -48,4 +48,28 @@ if bash "$scorer" --auth "$tmp/auth-nobinds.txt" --invocation "$tmp/inv-x.txt" >
   fail "no-binds authorization with a consequential param must exit nonzero"
 fi
 
-printf 'authorization-binding-contract: ok (contract + match/drift + no-binds regression)\n'
+# --- Fable review of PR #32: adversarial regressions -----------------------
+# A bound consequential parameter the invocation never supplies is drift:
+# the action would run on a default the owner never saw.
+printf 'action: x\nbinds: diff_scope,timeout_s\ndiff_scope: eval-only\ntimeout_s: 1..1800\n' > "$tmp/auth-full.txt"
+printf 'param.diff_scope: eval-only\n' > "$tmp/inv-missing.txt"
+out="$(bash "$scorer" --auth "$tmp/auth-full.txt" --invocation "$tmp/inv-missing.txt" 2>&1 || true)"
+printf '%s' "$out" | grep -q 'bound-but-unsupplied' \
+  || fail "bound-but-unsupplied parameter did not drift"
+
+# Duplicate keys in the authorization are malformed, never first-wins —
+# a permissive spec first must not shadow a stricter one.
+printf 'action: x\nbinds: timeout_s\ntimeout_s: 1..1000000\ntimeout_s: 1..10\n' > "$tmp/auth-dup.txt"
+printf 'param.timeout_s: 500\n' > "$tmp/inv-500.txt"
+out="$(bash "$scorer" --auth "$tmp/auth-dup.txt" --invocation "$tmp/inv-500.txt" 2>&1 || true)"
+printf '%s' "$out" | grep -qi 'malformed authorization' \
+  || fail "duplicate auth spec keys were not rejected as malformed"
+
+# A drifting parameter on a final line WITHOUT a trailing newline is
+# still evaluated, never silently dropped.
+printf 'param.diff_scope: eval-only\nparam.timeout_s: 60\nparam.escape_hatch: stop-early' > "$tmp/inv-nonl.txt"
+if bash "$scorer" --auth "$tmp/auth-full.txt" --invocation "$tmp/inv-nonl.txt" >/dev/null 2>&1; then
+  fail "unterminated final drift line was silently dropped"
+fi
+
+printf 'authorization-binding-contract: ok (contract + match/drift + no-binds + 3 Fable adversarial)\n'

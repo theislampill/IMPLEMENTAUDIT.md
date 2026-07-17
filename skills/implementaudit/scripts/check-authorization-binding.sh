@@ -41,7 +41,18 @@ done
 # `set -euo pipefail`. Swallow grep's no-match to empty output.
 val() { { grep -iE "^$2:" "$1" || true; } | head -n1 | sed "s/^[^:]*: *//" | tr -d '\r' | sed 's/[[:space:]]*$//'; }
 
+# Duplicate keys in the AUTHORIZATION record are ambiguous authority —
+# a permissive spec listed first would silently shadow a stricter one
+# (Fable review of PR #32). One value per key, malformed otherwise.
+dup_check() {
+  n="$({ grep -ciE "^$1:" "$auth" || true; })"
+  [ "${n:-0}" -le 1 ] || fail "malformed authorization: key '$1' appears $n times — one value per key"
+}
+dup_check binds
 binds="$(val "$auth" binds)"
+for k in $(printf '%s' "$binds" | tr ',' ' '); do
+  dup_check "$k"
+done
 
 in_range() {  # value, spec
   local v="$1" spec="$2"
@@ -57,7 +68,10 @@ in_range() {  # value, spec
 # in-range. Consequential params are those the invocation marks with a
 # leading `param.` prefix (so ordinary metadata lines are ignored).
 drifted=""
-while IFS= read -r line; do
+# `|| [ -n "$line" ]` keeps a final line WITHOUT a trailing newline in
+# scope — a drifting parameter on an unterminated last line was silently
+# dropped by plain `while read` (Fable review of PR #32).
+while IFS= read -r line || [ -n "$line" ]; do
   case "$line" in param.*) : ;; *) continue;; esac
   key="$(printf '%s' "$line" | sed -n 's/^\(param\.[a-zA-Z0-9_-]*\):.*/\1/p')"
   short="${key#param.}"
@@ -71,6 +85,15 @@ while IFS= read -r line; do
     drifted="$drifted $short(=$v vs bound $spec)"
   fi
 done < "$inv"
+
+# Every parameter the authorization BINDS must actually be supplied by
+# the invocation: a bound-but-unsupplied parameter means the governed
+# action would run on a source/tool default the owner never saw —
+# defaults are never implicitly adopted (Fable review of PR #32).
+for k in $(printf '%s' "$binds" | tr ',' ' '); do
+  grep -qiE "^param\.$k:" "$inv" \
+    || drifted="$drifted $k(bound-but-unsupplied — runtime value unknown; defaults are never implicitly adopted)"
+done
 
 [ -z "$drifted" ] || drift "$drifted"
 printf 'check-authorization-binding: ok — all consequential parameters bound and in range\n'
