@@ -29,6 +29,12 @@ printf '%s' "$flat" | grep -qi 'PROHIBITED until the run.s origin is classified'
   || fail "producer-countermeasure prohibition missing"
 printf '%s' "$flat" | grep -qi 'missing completion record is not a failure verdict' \
   || fail "missing-marker rule missing"
+# Amendment 2 (retention ordering): scan-then-retain-then-purge, covering
+# pre-admission failures — never purge the only failure evidence.
+printf '%s' "$flat" | grep -qi 'scan-then-retain-then-purge' \
+  || fail "retention-ordering rule missing"
+printf '%s' "$flat" | grep -qi 'never by deleting the only failure evidence' \
+  || fail "retention-over-purge rule missing"
 
 grep -q 'Long-running and background commands' "$skill" \
   || fail "SKILL.md pointer missing"
@@ -93,4 +99,30 @@ printf 'running\ninfrastructure-failed evidence=0xC0000142 cross-lane\n' \
 [ "$(classify "$tmp/infra")" = infrastructure-failed ] \
   || fail "fixture infra != infrastructure-failed"
 
-printf 'background-chain-contract: ok (section + vocabulary + 6 transition fixtures)\n'
+# exit recorded but completion marker ABSENT (host exited; a child may
+# still hold the chain open): never succeeded/failed on exit alone.
+mk exitnomark; printf 'running\nexit=0\n' > "$tmp/exitnomark/chain-status.txt"
+[ "$(classify "$tmp/exitnomark")" = terminal-state-unverified ] \
+  || fail "fixture exitnomark != terminal-state-unverified"
+
+# Amendment 2 fixture: failing PRE-ADMISSION host with a planted secret in
+# stderr. Ordering is scan -> retain (scrubbed) -> purge; afterwards the
+# secret is absent from retained bytes, the diagnostics survive, and the
+# terminal state is recorded — cleanup never destroys the only evidence.
+mk pre; printf 'running\n' > "$tmp/pre/chain-status.txt"
+printf 'init failed 0xC0000142\nAuthorization: Bearer sk-ant-api03-PLANTEDSECRET0123456789ab\n' \
+  > "$tmp/pre/stderr.tail"
+sed -E 's/sk-ant-[A-Za-z0-9_-]{8,}/<redacted>/g' "$tmp/pre/stderr.tail" \
+  > "$tmp/pre/retained-stderr.txt"                     # scan + retain
+printf 'terminal-state-unverified diagnostics-retained\n' \
+  >> "$tmp/pre/chain-status.txt"                       # terminal state
+rm "$tmp/pre/stderr.tail"                              # purge LAST
+grep -q 'PLANTEDSECRET' "$tmp/pre/retained-stderr.txt" \
+  && fail "planted secret present in retained bytes"
+grep -q '0xC0000142' "$tmp/pre/retained-stderr.txt" \
+  || fail "diagnostics lost to cleanup ordering"
+[ -f "$tmp/pre/stderr.tail" ] && fail "purge did not run"
+[ "$(classify "$tmp/pre")" = terminal-state-unverified ] \
+  || fail "pre-admission failure lacks a recorded terminal state"
+
+printf 'background-chain-contract: ok (section + vocabulary + 8 fixtures incl. retention ordering)\n'

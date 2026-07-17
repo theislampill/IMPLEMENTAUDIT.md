@@ -31,6 +31,14 @@ case "$mode" in
     printf '%s' "$tree" | grep -qE '^[0-9a-f]{40}$' \
       || fail "--tree must be a full 40-hex SHA"
     [ -f "$artifact" ] || fail "artifact not found: $artifact"
+    # Every anchor-shaped token must be EXACTLY 40 hex — the same format
+    # rule --row enforces. Without this, `Anchor: <sha><extra-hex>` was
+    # accepted via first-40-chars truncation while the identical token in
+    # a row was flagged (Fable review of PR #23).
+    malformed="$(grep -oE '(Anchor: *|@)[0-9a-f]{7,}' "$artifact" \
+      | sed -E 's/^(Anchor: *|@)//' | grep -vE '^[0-9a-f]{40}$' || true)"
+    [ -z "$malformed" ] || fail \
+      "artifact $artifact carries anchor token(s) that are not full 40-hex SHAs: $(printf '%s' "$malformed" | tr '\n' ' ')"
     anchor="$(grep -oE '(Anchor: *|@)[0-9a-f]{40}' "$artifact" \
       | grep -oE '[0-9a-f]{40}' | head -n 1 || true)"
     [ -n "$anchor" ] || fail \

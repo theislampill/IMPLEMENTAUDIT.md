@@ -177,6 +177,27 @@ res_case res_bad "partially-resolved" \
 # 6e. An invented occurrence-resolution token fails.
 res_case res_badocc "mostly-resolved" "" fail
 
+# 5d. A new-format row with comma-separated classes fails: one class per
+# row is what makes Occ linkage meaningful — plural defects record one
+# row per class sharing an Occ id, never a multi-class cell (Fable
+# review of PR #26).
+mkdir -p "$tmp/multiclass"
+cp -r "$tmp/good/." "$tmp/multiclass/"
+"${py_cmd[@]}" - "$tmp/multiclass/STATE.md" <<'PY'
+import sys
+from pathlib import Path
+p = Path(sys.argv[1])
+s = p.read_text(encoding="utf-8")
+s = s.replace("|---|---|---|---|---|---|---|---|",
+              "|---|---|---|---|---|---|---|---|\n"
+              "| 1 | o1 | 2 | failed-criterion, regression | two defects one row | c | r | resolved |")
+p.write_text(s, encoding="utf-8")
+PY
+if bash "$helper" "$tmp/multiclass" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: comma-separated multi-class row must fail\n' >&2
+  exit 1
+fi
+
 # 6f. A transferred residual with NO receiving owner fails — a transfer
 # nobody receives silently evaporates (Fable review of PR #27).
 res_case res_noowner "partially-resolved" \
