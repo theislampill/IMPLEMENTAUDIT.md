@@ -14,6 +14,17 @@ schema evidence proved four-component plugin manifest versions are accepted.
 ## [Unreleased]
 
 ### Added
+- Final-audit success-surface indexing (#14): each closure claim is a row
+  indexed to the surface that establishes it (source / generated /
+  package / installed / running-local / deployed / api / user-visible /
+  publication); a claim closes only with evidence FROM that surface —
+  lower-layer evidence is never promoted. Verification status (verified /
+  failed / unverified / not-applicable) stays separate from residual
+  disposition (#6). Uninspectable authorized surface routes to
+  unverified/deferred, never a fabricated substitute, and never triggers
+  an unauthorized network/deploy check. Source/docs/library-only work
+  keeps a single source row. New payload check-closure-surface.sh; five
+  fixtures.
 - Receiving-side handoff inspection (#15): before accepting a handoff
   packet from another run, the receiver verifies packet identity and
   three claim classes — mechanically recomputable state (receiver
