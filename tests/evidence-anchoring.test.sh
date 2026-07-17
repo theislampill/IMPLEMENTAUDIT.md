@@ -63,6 +63,25 @@ if bash "$cea" --artifact "$tmp/unanchored.md" --tree "$full" >/dev/null 2>&1; t
   fail "unanchored artifact was accepted as current-state evidence"
 fi
 
+# --- malformed anchor tokens in artifacts (Fable review of PR #23) ----------
+# A 41-hex anchor must not pass by first-40-chars truncation.
+printf 'verdict: ok\nAnchor: %sf\n' "$full" > "$tmp/longhex.md"
+if bash "$cea" --artifact "$tmp/longhex.md" --tree "$full" >/dev/null 2>&1; then
+  fail "41-hex anchor was accepted via truncation"
+fi
+# A short @token in an artifact violates the same format rule rows enforce.
+printf 'see @0123456f\nAnchor: %s\n' "$full" > "$tmp/shorttok.md"
+if bash "$cea" --artifact "$tmp/shorttok.md" --tree "$full" >/dev/null 2>&1; then
+  fail "artifact with a short-sha anchor token was accepted"
+fi
+# Two VALID full anchors (attestation header first, body reference later)
+# stay accepted: the FIRST anchor names the attested tree; later full-SHA
+# tokens are legitimate commit references, not the attestation.
+printf 'Anchor: %s\nfixes regression from @%s\n' "$full" "$other" \
+  > "$tmp/mixed.md"
+bash "$cea" --artifact "$tmp/mixed.md" --tree "$full" >/dev/null \
+  || fail "artifact with a valid header anchor plus a full-SHA body reference was refused"
+
 # --- run-root validation: short-sha anchor in STATE.md fails ----------------
 seed="$tmp/run-root"
 mkdir -p "$seed/phases"
