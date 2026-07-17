@@ -259,9 +259,12 @@ payload = root / "skills" / "implementaudit"
 backslash = chr(92)
 # One-or-more separators so JSON-escaped Windows paths (double backslash)
 # and forward-slash Windows paths are both caught.
+# Windows arm is case-insensitive: the OS is, so c:\users\ leaks identically.
+# POSIX arm stays case-SENSITIVE: a case-insensitive /users/ would
+# false-positive on URL paths such as api.github.com/users/<name>/.
 sep = "[" + re.escape(backslash) + "/]+"
 pattern = re.compile(
-    "[A-Za-z]:" + sep + "Users" + sep + "[A-Za-z0-9_.-]+"
+    "(?i:[A-Za-z]:" + sep + "Users" + sep + "[A-Za-z0-9_.-]+)"
     "|/(?:Users|home)/[A-Za-z0-9_.-]+/"
 )
 bad = []
