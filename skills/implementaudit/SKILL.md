@@ -315,6 +315,18 @@ second `/goal` inside an existing `/goal` run.
 
 ## Runtime Loop
 
+0. Continuity boundary (when resuming): after any `host-reported-compaction`
+   / `new-session` / `handoff-resume` / `manual-resume` /
+   `inferred-context-gap` — never a fabricated compaction — FIRST reread
+   the live run-root STATE.md and ROADMAP.md from disk: a compacted or
+   reconstructed summary is an observation of history, and live state wins.
+   Record the boundary provenance as a STATE epoch row, classify each
+   remembered steer by lifecycle, and refuse to re-execute a satisfied
+   one-shot (e.g. an already-resolved ANDON), citing its terminal evidence:
+   "Target already satisfied at <evidence>; no duplicate action taken."
+   Standing constraints/authorizations survive the boundary. Then continue
+   from the current next authorized action — never restart. Details:
+   `references/continuity.md`. An uninterrupted turn skips this step.
 1. Safety read: `AGENTS.md`, README/CONTRIBUTING/docs/workflows, existing audit
    docs, generator/source ownership, and authorization chain.
 2. Input gate: stop on empty, malformed, unsafe, unsupported, or non-audit

@@ -23,6 +23,15 @@ schema evidence proved four-component plugin manifest versions are accepted.
   (mismatch still refuses; never self-attestation). Tests
   H41/H41b/H41c.
 
+- Context-epoch continuity, bootloader surfacing (#35, B3-driven
+  repair): the post-change B3 wave (b3-post-fable-r1) showed the
+  reference-only placement does not reach a resuming executor — all four
+  candidate missions failed the scored behaviors. The post-boundary
+  reconciliation is now Runtime Loop step 0 in `SKILL.md` itself
+  (provenance enum, live-state-wins reread, epoch-row recording,
+  satisfied-one-shot refusal with terminal evidence, continue-from-
+  current), pinned by `tests/continuity-contract.test.sh`.
+
 - Context-epoch continuity contract (#35): a compacted/reconstructed
   summary is an observation of history, not current-state authority. New
   packaged reference `references/continuity.md`; PROTOCOL template
