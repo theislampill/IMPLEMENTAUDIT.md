@@ -246,6 +246,10 @@ require_file tests/source-evidence-pack.test.sh
 require_file tests/action-selection-contract.test.sh
 require_file tests/fanout-coverage-contract.test.sh
 require_file tests/cold-review-contract.test.sh
+require_file tests/claim-boundary-proof-levels.test.sh
+require_file fixtures/claim-boundaries/allowed-proof-wording.md
+require_file fixtures/claim-boundaries/negative-unqualified-proven.md
+require_file fixtures/claim-boundaries/negative-archived-verdict-unqualified.md
 require_file fixtures/cold-review/independent-review-confirms-handoff.md
 require_file fixtures/cold-review/projection-index-derivative.md
 require_file fixtures/cold-review/negative-self-critique-only-preflight.md
@@ -591,6 +595,7 @@ bash tests/source-evidence-pack.test.sh
 bash tests/action-selection-contract.test.sh
 bash tests/fanout-coverage-contract.test.sh
 bash tests/cold-review-contract.test.sh
+bash tests/claim-boundary-proof-levels.test.sh
 bash tests/no-terminal-cap.test.sh
 bash tests/eval-harness.test.sh
 bash tests/payload-path-hygiene.test.sh

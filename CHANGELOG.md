@@ -15,6 +15,22 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Added
 
+- Proof-level taxonomy and claim discipline (#53, `IA-PROOF-LEVELS`):
+  PL1-PL7 taxonomy defined in `docs/audits/RETENTION.md` (prose presence,
+  runtime instruction, template requirement, structural validation,
+  fixture demonstration, observed live behavior, fresh-executor proof),
+  composing with the per-command structural/behavioral/provenance evidence
+  properties rather than replacing them. Active surfaces using
+  verdict-class wording now require a same-line proof-level qualification —
+  enforced by an extended `check-public-claim-boundaries.sh`; archives stay
+  exempt history and are never rewritten. `docs/audits/INDEX.md` now
+  surfaces the three archived proof ledgers with their qualifications; the
+  final-report template gains proof-level Claim Rows; the eval A-series is
+  explicitly labeled PL4/PL5 pending owner-approved runs. New
+  claim-boundary fixtures (one positive, two path-exempt negatives) and
+  registered test `tests/claim-boundary-proof-levels.test.sh` with probe
+  negative controls.
+
 - Ordinary-invocation behavioral evaluation campaign (#52,
   `IA-EVAL-ACTION-SELECTION`): new SUPPLEMENTARY A-series fixtures A1–A5 in
   the eval harness — factor-derived action selection (A1), actual bounded

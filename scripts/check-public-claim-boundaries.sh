@@ -20,6 +20,7 @@ else
 fi
 
 "${py_cmd[@]}" <<'PY'
+import re
 import sys
 from pathlib import Path
 
@@ -103,6 +104,44 @@ if Path("LICENSE").exists():
     ]
 
 failures = []
+
+# Proof-level discipline (#53, IA-PROOF-LEVELS): on active/current surfaces,
+# verdict-class wording must carry a same-line proof-level qualification
+# (docs/audits/RETENTION.md taxonomy PL1-PL7). docs/audits/archive/** is
+# exempt history; docs/maintenance/** is retained historical rationale;
+# claim-boundary negative fixtures are self-declared counter-examples.
+proof_verdict_re = re.compile(
+    r"\b(V0_\d+_\d+_\d+_[A-Z_]*PROVEN[A-Z_]*|PROVEN_WITH_WEAKNESSES|PROVEN|SURPASSED)\b"
+)
+proof_qualifier_re = re.compile(
+    r"(?i)(proof[- ]level|\bPL[1-7]\b|source[- ]milestone|"
+    r"structural (validation|evidence|only)|fixture[- ]demonstrat|"
+    r"behaviorally observed|fresh-executor proven|not (yet )?(behaviorally|executor))"
+)
+proof_exempt_prefixes = (
+    "docs/audits/archive/",
+    "docs/maintenance/",
+    "fixtures/claim-boundaries/negative-",
+    "tests/claim-boundary-proof-levels.test.sh",
+)
+
+
+def check_proof_wording(path, text):
+    posix = path.as_posix()
+    if any(posix.startswith(prefix) for prefix in proof_exempt_prefixes):
+        return
+    for line_no, line in enumerate(text.splitlines(), start=1):
+        if not proof_verdict_re.search(line):
+            continue
+        if proof_qualifier_re.search(line):
+            continue
+        if any(context in line.lower() for context in negative_context):
+            continue
+        failures.append(
+            f"{posix}:{line_no}: verdict-class wording requires a same-line "
+            f"proof-level qualification (docs/audits/RETENTION.md PL1-PL7): "
+            f"{line.strip()[:100]}"
+        )
 portal_public_phrases = [
     ("complete glossary", "public portal must not frame runtime terminology as a glossary"),
     ("full terminology", "public portal must not frame runtime terminology as a glossary"),
@@ -170,6 +209,15 @@ for path in Path(".").rglob("*"):
         for line_no, line in enumerate(lowered.splitlines(), start=1):
             if phrase in line and not any(context in line for context in negative_context):
                 failures.append(f"{path}:{line_no}: {reason}: {phrase}")
+
+    check_proof_wording(path, text)
+
+# Active audit surfaces: INDEX.md and RETENTION.md are current/active pages
+# (only docs/audits/archive/** is exempt history) — the proof-wording rule
+# applies to them even though the legacy claim scans skip docs/audits.
+for extra in (Path("docs/audits/INDEX.md"), Path("docs/audits/RETENTION.md")):
+    if extra.is_file():
+        check_proof_wording(extra, extra.read_text(encoding="utf-8"))
 
 if failures:
     raise SystemExit("\n".join(failures))

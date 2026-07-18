@@ -38,6 +38,23 @@ Historical evidence may be retained under `docs/audits/archive/` when present,
 but that directory is optional history. Current validation and source evidence
 must not require archived ledgers to exist.
 
+## Archived Proof Ledgers (qualified per RETENTION.md proof levels)
+
+Archived verdict bodies are history and are never rewritten; when surfaced
+here or on any active page they carry proof-level qualification:
+
+- `archive/v0.3.0.0-improve-parity-proof-audit.md` — verdict
+  `PROVEN_WITH_WEAKNESSES` [proof level: PL4 structural validation + PL5
+  fixture demonstration; not PL6 behaviorally observed, not PL7
+  fresh-executor proven].
+- `archive/v0.3.0.0-improve-parity-proof-audit-rerun.md` — verdict `PROVEN` [proof level:
+  PL2 runtime instruction + PL4 structural + PL5 fixture/checker/package
+  evidence; not PL6 behaviorally observed, not PL7 fresh-executor proven].
+- `archive/v0.3.1.0-competitor-surpass-proof-audit.md` — verdict
+  `V0_3_1_0_PROVEN_WITH_WEAKNESSES`, a self-described source milestone
+  proof ledger [proof level: PL1-PL5 source/structural/fixture; not PL6
+  behaviorally observed, not PL7 fresh-executor proven].
+
 ## Boundary
 
 The index points to current proof owners only. Detailed historical narratives,
