@@ -56,7 +56,17 @@ ledger/checklist.
 
 ## Specialist loops
 
-Specialist loops may be useful for:
+Specialist fanout is a warranted `ydqyq-audit-action`, not an optional
+flourish. When the action-selection contract (`planning-depth.md`) or the
+category matrix marks material coverage that one inspection pass cannot
+establish reliably, bounded specialist review lanes are required for those
+coverage areas — parallel when the host supports concurrent subagents,
+serialized as separate bounded written review passes carrying the same
+per-lane contract when it does not. Host concurrency limits may change
+scheduling; they never silently erase a warranted lane. A coverage table
+documents executed lanes; it never substitutes for them.
+
+Specialist lanes cover:
 
 - deep category fanout for correctness, security, performance, tests,
   architecture, dependencies, DX, docs, and direction when broad scope warrants
@@ -70,6 +80,24 @@ Specialist loops may be useful for:
 
 Each loop needs a bounded question, owner/source, evidence boundary, and explicit
 statement that it does not authorize mutation or closure by itself.
+
+## Coverage-lane records
+
+Every warranted specialist lane is recorded in the audit object (the
+`Coverage lanes` field of the run-root `THINKING.md`, or an equivalent
+transcript row), with:
+
+- category and owner/source or scope;
+- the bounded question the lane answers;
+- evidence boundary;
+- the per-lane prompt contract used;
+- status: executed / serialized / skipped with reason;
+- evidence returned, normalized into the ledger;
+- residual risk when the lane was not executed.
+
+Skipped or serialized lanes are explicit, never silent. The final audit
+must not imply full coverage while a warranted lane is unexecuted; the
+omission and its residual risk carry into the closure record.
 
 Child-agent and reviewer prompts for read-only planning, review-plan, direction,
 or plans-output work must carry the planning-security rules from

@@ -244,6 +244,13 @@ require_file tests/e2e-mini-audit-loop.test.sh
 require_file tests/skill-bootstrap-budget.test.sh
 require_file tests/source-evidence-pack.test.sh
 require_file tests/action-selection-contract.test.sh
+require_file tests/fanout-coverage-contract.test.sh
+require_file fixtures/child-agents/broad-scope-four-lanes.md
+require_file fixtures/child-agents/low-concurrency-serialized-lanes.md
+require_file fixtures/child-agents/negative-coverage-table-only.md
+require_file fixtures/child-agents/negative-silent-lane-drop.md
+require_file fixtures/child-agents/negative-generic-single-pass.md
+require_file fixtures/child-agents/negative-child-prompt-missing-fanout-contract.md
 require_file fixtures/audit-action-selection/ordinary-task-deepens.md
 require_file fixtures/audit-action-selection/narrow-direct-stays-shallow.md
 require_file fixtures/audit-action-selection/negative-keyword-gated-depth.md
@@ -575,6 +582,7 @@ bash tests/e2e-mini-audit-loop.test.sh
 bash tests/skill-bootstrap-budget.test.sh
 bash tests/source-evidence-pack.test.sh
 bash tests/action-selection-contract.test.sh
+bash tests/fanout-coverage-contract.test.sh
 bash tests/no-terminal-cap.test.sh
 bash tests/eval-harness.test.sh
 bash tests/payload-path-hygiene.test.sh

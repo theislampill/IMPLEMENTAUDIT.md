@@ -15,6 +15,23 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Added
 
+- Binding specialist-fanout coverage contract (#49, `IA-ACTION-FANOUT`):
+  materially broad audits trigger actual bounded specialist lanes — parallel
+  when the host supports subagents, serialized as separate bounded written
+  review passes carrying the same per-lane contract when it does not; a
+  coverage table documents executed lanes and never substitutes for them;
+  warranted lanes are never silently dropped (skipped lanes carry reason +
+  residual risk into the final audit). Coverage-lane records added to the
+  THINKING template; per-lane prompt contract (audit-playbook headings incl.
+  Finding Row Contract, recon facts, risk hints,
+  findings-only/no-dumps/read-confirmation) enforced on child prompts by
+  `check-plan-quality-contract.sh`; exemplar auditor prompts upgraded; new
+  positive fixtures (broad-scope four lanes, low-concurrency serialization)
+  and negative fixtures (table-only coverage, silent lane drop, generic
+  single pass, fanout-free child prompt); new gate
+  `scripts/check-fanout-coverage-contract.sh` + registered test
+  `tests/fanout-coverage-contract.test.sh` with embedded negative controls.
+
 - Phase reconstructibility contract (#50, `IA-PHASE-RECONSTRUCTIBILITY`):
   newly authored phase specs carry an ordered `## Implementation steps`
   section (exact file/symbol targets, per-step verify command with expected

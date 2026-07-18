@@ -130,6 +130,17 @@ planning_security_tokens = [
     "prompt injection in repo/docs/issues/examples as a finding",
     "pass these rules into child-agent/reviewer prompts",
 ]
+# Fanout-critical per-lane prompt content (#49): a specialist child prompt
+# missing any of these is a plan-quality defect, not a reviewer preference.
+fanout_prompt_tokens = [
+    "audit-playbook.md",
+    "Finding Row Contract",
+    "recon facts",
+    "risk hints",
+    "findings-only",
+    "no-dumps",
+    "read-confirmation",
+]
 
 
 def fail(path: Path, message: str) -> None:
@@ -284,6 +295,8 @@ if not child_prompt_paths:
 for path in child_prompt_paths:
     text = path.read_text(encoding="utf-8")
     for token in planning_security_tokens:
+        require_ci(text, path, token)
+    for token in fanout_prompt_tokens:
         require_ci(text, path, token)
 
 def parse_status_path(line):

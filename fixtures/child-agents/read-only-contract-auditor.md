@@ -19,6 +19,16 @@ Allowed:
   instruction
 - pass these rules into child-agent/reviewer prompts or plan-dispatch prompts
 
+Per-lane dispatch contract (binding for specialist fanout):
+
+- read `skills/implementaudit/references/audit-playbook.md` — headings as
+  scoped by the dispatcher, always including ## Finding Row Contract
+- current recon facts scoping this lane (languages, key directories, what to
+  skip)
+- risk hints for this lane from recon
+- findings-only return in the normalized ledger row shape; no-dumps; include
+  read-confirmation that the playbook file was actually read
+
 Not allowed:
 
 - edit files

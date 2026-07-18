@@ -203,6 +203,11 @@ host proof replaces it. The focused smoke is `tests/release-asset-install-claude
 - `scripts/check-action-selection-contract.sh` guards the action-selection
   contract: factor-derived depth, no activation keywords, and recorded
   omitted-action rationale across runtime, templates, and fixtures.
+- `scripts/check-fanout-coverage-contract.sh` guards the specialist-fanout
+  coverage contract: binding lanes where material coverage demands them,
+  serialized fallback, coverage-lane records, the per-lane prompt contract
+  (also enforced on child prompts by `check-plan-quality-contract.sh`), and
+  no silent lane drops.
 - `scripts/check-source-evidence-pack.sh` does not exist; the builder/test pair
   is `scripts/build-source-evidence-pack.sh` plus `tests/source-evidence-pack.test.sh`.
   The source evidence zip must be LF-clean and exclude `.git/`, `.IMPLEMENTAUDIT/`,

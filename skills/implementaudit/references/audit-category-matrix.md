@@ -115,12 +115,20 @@ or terminally classified.
 
 ## Deep Category Review Loop
 
-For broad or deep audit scopes, use category fanout through subagents or
-separate written review passes when that improves coverage. Historical fixed
+For broad or deep audit scopes, category fanout is required where material
+coverage demands it: actual bounded specialist review lanes through
+subagents when the host supports them, serialized as separate bounded
+written review passes carrying the same per-lane contract when it does not.
+A separate written review pass is the serialized execution of a warranted
+lane — never a license to skip it — and a coverage table alone never
+satisfies a broad-coverage claim. Historical fixed
 reviewer counts are replaced by no arbitrary cap: choose enough bounded loops
 to cover material categories, but stop only on evidence, scope, or owner/source
 grounds. Each review loop receives the playbook/finding-row/security/
 prompt-injection rules and remains non-authoritative review evidence.
+Executed, serialized, and skipped lanes are recorded as coverage-lane
+records in the audit object (see `child-agents.md`); a skipped warranted
+lane carries its reason and residual risk into the final audit.
 
 ## Security Pressure
 
