@@ -908,6 +908,55 @@ def main():
         check("H40c kindless-terminal-fails-closed",
               s40c == "INVALID"
               and "terminal" in (v40c.get("reason") or ""))
+
+        # 41. Candidate-product attestation (#35 post-change / comparison
+        # phases): product_identity attests a checkout at an explicitly
+        # intended non-baseline rev, still refuses a mismatched rev, and
+        # the adapter's product_expected_rev is what identity_fields
+        # passes down — the gate cross-checks against the campaign
+        # intent's identity, never self-attestation.
+        cand41 = os.path.join(tmp, "cand41")
+        subprocess.run(["git", "init", "-q", cand41], check=True)
+        for k, v in (("user.email", "t@t"), ("user.name", "t")):
+            subprocess.run(["git", "-C", cand41, "config", k, v],
+                           check=True)
+        open(os.path.join(cand41, "f.txt"), "w").write("candidate\n")
+        subprocess.run(["git", "-C", cand41, "add", "."], check=True)
+        subprocess.run(["git", "-C", cand41, "commit", "-q", "-m", "c1"],
+                       check=True)
+        head41 = subprocess.run(["git", "-C", cand41, "rev-parse", "HEAD"],
+                                capture_output=True, text=True,
+                                check=True).stdout.strip()
+        ident41 = framework.product_identity(cand41, expected_tag=head41)
+        check("H41 candidate-rev-attests",
+              ident41.get("product_commit") == head41
+              and ident41.get("product_tag") == head41)
+        open(os.path.join(cand41, "f.txt"), "a").write("drift\n")
+        subprocess.run(["git", "-C", cand41, "add", "."], check=True)
+        subprocess.run(["git", "-C", cand41, "commit", "-q", "-m", "c2"],
+                       check=True)
+        try:
+            framework.product_identity(cand41, expected_tag=head41)
+            check("H41b mismatched-rev-refused", False)
+        except framework.AdapterError as exc:
+            check("H41b mismatched-rev-refused",
+                  "refuse to attest" in str(exc))
+        seen41 = {}
+        prev_ident41 = framework.product_identity
+        framework.product_identity = (
+            lambda checkout, expected_tag="v0.3.1.0":
+                (seen41.update(tag=expected_tag) or {
+                    "product_tag": expected_tag, "product_commit": "x",
+                    "product_tree": "y"}))
+        try:
+            a41 = make_adapter(tmp, "ok-codex", checkout=cand41,
+                               home=os.path.join(tmp, "codex-home-h41"))
+            a41.product_expected_rev = "deadbeef-intended-rev"
+            a41.identity_fields("r-h41", "B0", "m", "t0", "t1")
+        finally:
+            framework.product_identity = prev_ident41
+        check("H41c adapter-passes-expected-rev",
+              seen41.get("tag") == "deadbeef-intended-rev")
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     if failures:

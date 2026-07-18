@@ -391,10 +391,16 @@ class _BaseAdapter:
 
     def __init__(self, host_argv_template, requested_model,
                  product_checkout=None, host_cwd=None, formal=True,
-                 lane_id=None):
+                 lane_id=None, product_expected_rev="v0.3.1.0"):
         self.host_argv_template = list(host_argv_template)
         self.requested_model = requested_model
         self.product_checkout = product_checkout
+        # The rev the product checkout MUST be at to attest (tag or full
+        # SHA). Defaults to the immutable baseline tag; candidate-product
+        # campaigns (post-change B3, cluster/final comparisons) pass the
+        # campaign intent's candidate commit so the gate cross-checks the
+        # checkout against the INTENDED identity — never self-attestation.
+        self.product_expected_rev = product_expected_rev
         self.host_cwd = host_cwd
         # A FORMAL run produces evidence (smoke/baseline/comparison) and
         # must carry an attested product checkout — zero identities are
@@ -970,7 +976,9 @@ class _BaseAdapter:
                  "product_tree": "0" * 40,
                  "installed_payload_sha256": "0" * 64}
         if self.product_checkout:
-            ident.update(framework.product_identity(self.product_checkout))
+            ident.update(framework.product_identity(
+                self.product_checkout,
+                expected_tag=self.product_expected_rev))
             canonical = framework.payload_hash(os.path.join(
                 self.product_checkout, "skills", "implementaudit"))
             ident["payload_source_sha256"] = canonical
