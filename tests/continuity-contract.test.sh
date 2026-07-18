@@ -52,6 +52,17 @@ grep -qi "never a fabricated compaction" "$state_t" || fail "STATE template miss
 grep -qi "Context epochs and instruction applicability" "$state_t" || fail "STATE template missing epoch section"
 grep -qi "NO new marker" "$tc" || fail "transcript contract missing no-new-marker rule"
 grep -q "references/continuity.md" skills/implementaudit/SKILL.md || fail "SKILL.md load map missing continuity reference"
+# The bootloader itself must carry the load-bearing runtime instruction —
+# the B3 post-change r1 wave proved reference-only placement does not
+# reach a resuming executor (all four candidate missions failed).
+skill="skills/implementaudit/SKILL.md"
+for tok in host-reported-compaction new-session handoff-resume \
+           manual-resume inferred-context-gap; do
+  grep -q "$tok" "$skill" || fail "SKILL.md runtime loop missing provenance token: $tok"
+done
+grep -qi "live state wins" "$skill" || fail "SKILL.md runtime loop missing live-state-wins rule"
+grep -qi "Target already satisfied at" "$skill" || fail "SKILL.md runtime loop missing refusal sentence"
+grep -qi "epoch row" "$skill" || fail "SKILL.md runtime loop missing epoch-row recording"
 
 # 2. Template-built root (empty epoch tables) passes; a stripped legacy
 # root (no epoch section at all) also passes — old roots stay resumable.
