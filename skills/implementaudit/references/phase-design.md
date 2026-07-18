@@ -203,6 +203,25 @@ Plan Closure owns sustainment, and final audit owns proof. Orphan terms,
 glossary-only lists, generic "apply SOLID" advice, numeric RPN theater, and
 separate term lanes are phase-design defects and trigger Andon.
 
+**Rule P4-10 — Executor reconstructibility (#50).**
+A phase spec is an executor-facing artifact: a fresh, weaker-context executor
+must be able to reconstruct the intended change from disk alone. Newly
+authored specs carry an ordered `## Implementation steps` section in which
+each step names its exact target — file path, plus symbol when symbol
+precision is material (a path alone that leaves plausible wrong-but-compiling
+candidates is a defect; counter-example:
+`fixtures/phase-design/negative-paths-without-symbols.md`, source repo only) —
+states the change precisely, and carries its own verify command with expected
+success shape. Specs also carry `## Scope boundaries` with an explicit
+`Out of scope:` line and plan-specific `## STOP conditions` tied to this
+phase's actual risks; boilerplate STOPs fail validation. Step granularity
+stays proportional to dependency, risk, and executor needs — a single-owner
+hotfix keeps one step; structural completeness never substitutes for
+operational specificity. The read-only handoff lane
+(`templates/read-only-plan.md`) and the executing phase bar align on this
+requirement where their contexts overlap. `validate-phase.sh` enforces the
+mechanical parts; cold review owns materiality judgments.
+
 ---
 
 ## Phase shape examples

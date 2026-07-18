@@ -25,6 +25,22 @@ The audit found no settings endpoint; users cannot retrieve their preferences.
 - Add tests/settings.test.ts with happy path and 401 cases
 - Register route in src/app.ts
 
+## Implementation steps (ordered)
+
+- Step 1: Create the settings route — target: src/routes/settings.ts (registerSettingsRoutes); change: add GET /api/settings handler behind requireAuth from src/middleware/auth.ts; verify: npm run build; expected: exit 0 with no errors
+- Step 2: Add settings tests — target: tests/settings.test.ts; change: happy-path 200 and unauthenticated 401 cases modeled on the existing route tests; verify: npm test -- --testPathPattern=settings; expected: exit 0, all settings tests pass
+- Step 3: Register the route — target: src/app.ts (registerRoutes); change: mount the settings router under /api after auth wiring; verify: npm test -- --testPathPattern=settings; expected: exit 0 including the 200/401 cases
+
+## Scope boundaries
+
+In scope: src/routes/settings.ts, tests/settings.test.ts, src/app.ts
+Out of scope: src/middleware/auth.ts — reused, not modified; any response-shape change to existing endpoints — clients depend on current contracts.
+
+## STOP conditions (plan-specific)
+
+- Stop if `src/middleware/auth.ts` exports differ from the current-state excerpt above — the baseline has drifted; re-anchor before mutating.
+- Stop if registering the route requires touching files outside the in-scope list.
+
 ## Acceptance criteria (all must pass — verify each in transcript)
 
 - `npm run build` exits 0 with no errors

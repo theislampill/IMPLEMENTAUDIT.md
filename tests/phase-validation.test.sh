@@ -293,11 +293,61 @@ make_valid "$f"
 sed -i 's/; scope: [^;]*;/;/g' "$f"
 check_fail_contains "property tag without scope" "$f" "lacks \`scope:\`"
 
+# ------------------------------------------------------------------
+# Reconstructibility (#50): ordered steps, per-step verification,
+# scope boundaries, plan-specific STOP conditions
+# ------------------------------------------------------------------
+# FAIL: vague step language (fixture counter-example)
+check_fail_contains "vague step language" \
+  fixtures/phase-validation/negative-vague-steps.md \
+  "vague step language"
+
+# FAIL: multi-step spec without per-step verification (fixture counter-example)
+check_fail_contains "multi-step without per-step verify" \
+  fixtures/phase-validation/negative-multistep-no-per-step-verify.md \
+  "carries its own verify:"
+
+# FAIL: boilerplate STOP conditions (fixture counter-example)
+check_fail_contains "boilerplate STOP conditions" \
+  fixtures/phase-validation/negative-boilerplate-stop.md \
+  "boilerplate STOP conditions"
+
+# FAIL: new-format spec missing Out of scope
+f="$tmp/no_out_of_scope.md"
+make_valid "$f"
+sed -i 's/^Out of scope:.*$/Removed boundary line./' "$f"
+check_fail_contains "new-format spec without Out of scope" "$f" \
+  "Out of scope"
+
+# FAIL: vague language injected into a valid spec's steps
+f="$tmp/vague_injected.md"
+make_valid "$f"
+sed -i 's/- Step 3: Register the route.*/- Step 3: Register the route — target: src\/app.ts; change: update the relevant files as needed; verify: npm test; expected: exit 0/' "$f"
+check_fail_contains "vague language injected into steps" "$f" \
+  "vague step language"
+
+# PASS with warning: legacy spec without ordered Implementation steps
+f="$tmp/legacy_no_steps.md"
+make_valid "$f"
+sed -i '/^## Implementation steps (ordered)$/,/^## Scope boundaries$/{/^## Scope boundaries$/!d}' "$f"
+out="$tmp/legacy_no_steps.out"
+if bash skills/implementaudit/scripts/validate-phase.sh "$f" >"$out" 2>&1 \
+    && grep -q "no ordered" "$out"; then
+  pass=$((pass + 1))
+else
+  printf 'phase-validation.test: legacy spec without steps must pass WITH warning\n' >&2
+  cat "$out" >&2
+  fail=$((fail + 1))
+fi
+
 # Shipped phase-spec fixtures stay LF-only: PR #25's migration rewrote
 # three fixtures with CRLF, hiding a 7-line substantive change inside a
 # 221-line line-ending churn (Fable review of PR #25).
 for spec in fixtures/phase-design/dmadv-greenfield-phase.md \
             fixtures/phase-validation/valid-full-spec.md \
+            fixtures/phase-validation/negative-vague-steps.md \
+            fixtures/phase-validation/negative-multistep-no-per-step-verify.md \
+            fixtures/phase-validation/negative-boilerplate-stop.md \
             fixtures/run-root-example/phases/phase-1.md \
             fixtures/e2e-mini-audit-loop/phase-1.md; do
   if tr -dc '\r' < "$spec" | grep -q .; then

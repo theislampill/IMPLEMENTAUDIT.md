@@ -124,6 +124,13 @@ scope, uncertainty, risk, dependencies, evidence gaps, authorization state, and
 intended executor — recording both selected and omitted actions with reasons —
 with no activation keywords.
 
+Phase reconstructibility is a native quality requirement (Rule P4-10 in
+`skills/implementaudit/references/phase-design.md`): newly authored phase
+specs carry ordered implementation steps with exact file/symbol targets and
+per-step verification, explicit scope boundaries, and plan-specific STOP
+conditions; `validate-phase.sh` rejects vague step language and boilerplate
+STOPs, and the read-only handoff lane aligns on the same bar.
+
 Current optional-tooling architecture:
 
 <!-- BEGIN: implementaudit-diagram:tooling-architecture -->

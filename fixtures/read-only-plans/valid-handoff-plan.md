@@ -58,6 +58,10 @@ importing context from the planning session.
 
 ## Steps
 
+Each step names its exact targets and carries its own Verify command with an
+expected result — the read-only handoff and executing-phase quality bars
+align on executor reconstructibility.
+
 ### Step 1: Verify capability parity fixtures
 
 Verify that the active fixture roots cover read-only plans, secret hygiene,

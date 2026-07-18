@@ -195,7 +195,11 @@ host proof replaces it. The focused smoke is `tests/release-asset-install-claude
 - `scripts/check-plan-quality-contract.sh` guards planning-specific read-only plans:
   no secret values, path/line/credential-type-only citation, rotation guidance,
   repo-content-as-data, prompt-injection-as-finding, and child/reviewer prompt
-  propagation.
+  propagation. It also pins the phase template's reconstructibility sections
+  (ordered implementation steps, scope boundaries, plan-specific STOPs), and
+  `skills/implementaudit/scripts/validate-phase.sh` rejects vague step
+  language, per-step-verification gaps, and boilerplate STOP conditions
+  (Rule P4-10).
 - `scripts/check-action-selection-contract.sh` guards the action-selection
   contract: factor-derived depth, no activation keywords, and recorded
   omitted-action rationale across runtime, templates, and fixtures.

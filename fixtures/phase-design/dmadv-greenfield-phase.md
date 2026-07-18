@@ -20,6 +20,20 @@ Analyze (alternatives: inline README section rejected as duplication) ->
 Design (this spec + template) -> Verify (mandatory command + Smoke B).
 Create docs/quickstart-fragment.md with a 4-step first-run path.
 
+## Implementation steps (ordered)
+
+- Step 1: Create the quickstart fragment — target: docs/quickstart-fragment.md; change: new file with exactly 4 numbered first-run steps; verify: test -s docs/quickstart-fragment.md; expected: exit 0 (file exists, non-empty)
+- Step 2: Prove the step count — target: docs/quickstart-fragment.md; change: none (verification step); verify: grep -c '^[0-9]\.' docs/quickstart-fragment.md; expected: outputs 4 and exits 0
+
+## Scope boundaries
+
+In scope: docs/quickstart-fragment.md (new greenfield artifact)
+Out of scope: README.md — the inline-section alternative was rejected at Analyze; do not duplicate quickstart content there.
+
+## STOP conditions (plan-specific)
+
+- Stop if `docs/quickstart-fragment.md` already exists at baseline — the greenfield intake assumption failed; route to brownfield inspection instead.
+
 ## Current state excerpts
 
 - `docs/quickstart-fragment.md` is absent at baseline HEAD and is a greenfield artifact.

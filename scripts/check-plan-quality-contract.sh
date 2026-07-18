@@ -114,6 +114,8 @@ forbidden = [
     "works correctly",
     "make it work",
     "just fix it",
+    "update the relevant files",
+    "the relevant module",
     "{{",
     "TBD",
     "task placeholder",
@@ -228,9 +230,24 @@ for token in [
     "Rollback / defer path",
     "Maintenance notes",
     "Authorization boundary: no hidden commit, push, merge, release, publication, provenance, install, index, export, or issue creation",
+    "## Implementation steps (ordered)",
+    "## Scope boundaries",
+    "Out of scope:",
+    "## STOP conditions (plan-specific)",
+    "Vague step language fails validation",
 ]:
     if token not in template:
         raise SystemExit(f"skills/implementaudit/templates/phase-goal.txt: missing plan-quality token: {token}")
+
+# Reconstructibility contract fixture (#50): the review-lane counter-example
+# for path-only targets where symbol precision is material must stay present
+# and self-declared as failing.
+neg_symbols = Path("fixtures/phase-design/negative-paths-without-symbols.md")
+if not neg_symbols.is_file():
+    raise SystemExit(f"missing reconstructibility negative fixture: {neg_symbols}")
+neg_text = neg_symbols.read_text(encoding="utf-8")
+for token in ["NEGATIVE FIXTURE", "must fail", "Expected disposition when reviewed: FAIL"]:
+    require(neg_text, neg_symbols, token)
 
 plan_ref = Path("skills/implementaudit/references/plan-lifecycle.md").read_text(encoding="utf-8")
 for token in [
@@ -255,6 +272,7 @@ for token in [
     "Commands You Will Need",
     "Done Criteria",
     "Rejected / Deferred Findings",
+    "Ordered Steps",
 ]:
     if token not in read_only_template:
         raise SystemExit(f"skills/implementaudit/templates/read-only-plan.md: missing template token: {token}")
