@@ -1,5 +1,9 @@
 # Local ImplementAudit run artifacts
 .IMPLEMENTAUDIT/
+# EXCEPTION: the B3 fixture SEED models a legacy run root as test data —
+# it is not live run state and must ship with the fixture (issue #35).
+!eval/fixtures/B3/seed/.IMPLEMENTAUDIT/
+!eval/fixtures/B3/seed/.IMPLEMENTAUDIT/**
 
 # Optional local Graphify / ActiveGraph artifacts
 graphify-out/

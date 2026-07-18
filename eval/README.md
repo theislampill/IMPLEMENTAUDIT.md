@@ -11,7 +11,14 @@ the owner approval packet. It therefore does **not close #9**.
 (#35), run as a separately versioned baseline (1 fixture × 2 configs × 3
 reps). It is validated by the selftest but is deliberately NOT part of the
 frozen 14-fixture primary campaign and must never be folded into the
-primary aggregate.
+primary aggregate. Its `seed/` materializes the asserted live state as a
+real LEGACY-format run root on disk (validator-clean, no epoch section):
+without it, missions ran in an empty repo and the two arms diverged on
+principle — a pre-#35 model happily narrates the prompt's asserted state,
+while a post-#35 model grounds in disk and truthfully reports no run
+root, confounding the pre/post comparison (b3-post-fable-r1/r2
+evidence). Seed rows: ANDON 150 terminally resolved with rerun evidence,
+151–250 archived terminal, 251 the only active item.
 
 `A1`–`A5` form the SUPPLEMENTARY **ordinary-invocation behavioral
 campaign** (A-series, per issue #52): A1 factor-derived action selection,
