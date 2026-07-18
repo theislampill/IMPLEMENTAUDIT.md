@@ -370,7 +370,7 @@ if plugin.get("skills") != "./skills/":
     )
 if not plugin.get("version"):
     raise SystemExit("plugin version is required")
-if plugin.get("version") != "0.3.1":
+if plugin.get("version") != "0.3.2":
     raise SystemExit("plugin version must be 0.3.2 for the v0.3.2.0 project milestone")
 
 marketplace = json.loads(Path(".claude-plugin/marketplace.json").read_text())
