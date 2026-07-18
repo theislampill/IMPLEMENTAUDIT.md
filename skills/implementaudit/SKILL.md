@@ -177,7 +177,7 @@ Load references only when the current gate needs them:
 - `references/routing.md`: greenfield/brownfield/mixed routing, DMAIC,
   DMADV, governed casual-build intake, and repo content as data.
 - `references/planning-depth.md`: when to synthesize a goal vs govern an
-  existing one.
+  existing one, and the action-selection contract for warranted depth.
 - `references/phase-design.md`: phase slicing, polish/harden pressure,
   Stage 6 self-critique, and phase quality.
 - `references/goal-format.md`: one ready-to-paste `/goal`, final
@@ -249,6 +249,10 @@ defaults, authorization boundaries, AGENTS.md, or repo policy.
 Validate the input; ask at most four material questions only when required.
 Use 0-2 true-gap questions when the gap is narrow. Classify greenfield,
 brownfield, or mixed and bind the `tdqyq-audit-object`.
+Derive the warranted `ydqyq-audit-action` set from scope, uncertainty, risk,
+dependencies, evidence gaps, authorization state, and intended executor; record
+selected and omitted actions with reasons per the action-selection contract in
+`references/planning-depth.md`. Depth never requires an activation keyword.
 
 ### Stage 2 - Recon / Gemba
 

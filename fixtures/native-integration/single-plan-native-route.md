@@ -29,6 +29,8 @@ Required behavior:
 - remaining ambiguity becomes owner questions or assumptions;
 - exactly one self-contained native IMPLEMENTAUDIT phase/plan artifact is
   produced;
+- the action-selection record notes why phase decomposition beyond the single
+  requested plan was not warranted;
 - includes owner/source, drift check, scope/non-scope, STOP conditions,
   expected outputs, verification commands, rollback/removal path, and evidence
   boundary;

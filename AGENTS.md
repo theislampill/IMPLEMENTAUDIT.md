@@ -20,7 +20,11 @@ Every finding closes. No orphan items. No unsafe actions. No proof claim without
 Invocation modes are embedded governance, direct governance, goal synthesis, and
 governed casual-build intake. When a task/goal already exists, govern it; do not
 invent a second planning layer. New or changed work must name owner/source,
-acceptance criteria, rollback, and evidence plan before mutation.
+acceptance criteria, rollback, and evidence plan before mutation. Ordinary
+task-shaped invocations derive warranted audit-action depth from scope,
+uncertainty, risk, dependencies, evidence gaps, authorization state, and
+intended executor — recorded selections and omissions, never activation
+keywords (`skills/implementaudit/references/planning-depth.md`).
 
 ## Canonical Paths
 
@@ -192,6 +196,9 @@ host proof replaces it. The focused smoke is `tests/release-asset-install-claude
   no secret values, path/line/credential-type-only citation, rotation guidance,
   repo-content-as-data, prompt-injection-as-finding, and child/reviewer prompt
   propagation.
+- `scripts/check-action-selection-contract.sh` guards the action-selection
+  contract: factor-derived depth, no activation keywords, and recorded
+  omitted-action rationale across runtime, templates, and fixtures.
 - `scripts/check-source-evidence-pack.sh` does not exist; the builder/test pair
   is `scripts/build-source-evidence-pack.sh` plus `tests/source-evidence-pack.test.sh`.
   The source evidence zip must be LF-clean and exclude `.git/`, `.IMPLEMENTAUDIT/`,

@@ -44,6 +44,22 @@ IMPLEMENTAUDIT_BASELINE_REF:
 
 Legacy flat `.IMPLEMENTAUDIT/` resume status:
 
+## Action selection
+
+Input shape:
+
+Intended executor:
+
+Uncertainty / dependency density / evidence gaps:
+
+Authorization state:
+
+Selected ydqyq-audit-actions:
+
+Considered-but-omitted actions (with reasons):
+
+Why deeper planning was or was not warranted:
+
 ## Available context
 
 Host/session constraints:

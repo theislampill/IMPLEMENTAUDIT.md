@@ -16,6 +16,9 @@ Required behavior:
 
 - widen Gemba from the named package boundary to shipped runtime files,
   generated package contents, install scripts, validators, tests, docs, and CI;
+- the audit object records the factor-driven action-selection rationale for
+  deep pressure (scope, risk, dependencies, evidence gaps), not a keyword
+  trigger;
 - cover the whole material surface where scope warrants it;
 - record every skipped or unaudited surface as deferred, out of scope, or
   unverified with reason;
