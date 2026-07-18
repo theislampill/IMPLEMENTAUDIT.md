@@ -185,6 +185,9 @@ Load references only when the current gate needs them:
 - `references/transcript-contract.md`: marker ordering, `AUDIT_COMPLETE`
   before `IMPLEMENTAUDIT_RUN_COMPLETE`, pause/continuity markers, and handoff
   exclusivity.
+- `references/continuity.md`: context-epoch continuity — post-boundary
+  reconciliation before mutation, instruction lifecycle/applicability,
+  satisfied one-shot replay refusal, capsule binding, single-writer epochs.
 - `references/repo-state-comparison.md`: complete working-tree
   comparison, baseline refs, final audit deliverable checks, and local commit
   granularity.

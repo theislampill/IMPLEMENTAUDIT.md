@@ -113,6 +113,31 @@ disposition, and completion language claims audit-completion only.
 | Residual | Consequential | Disposition | Owner / policy ref | Evidence |
 |---|---|---|---|---|
 
+## Context epochs and instruction applicability
+
+Current epoch: e1
+
+One row per continuity boundary (see `references/continuity.md` and
+PROTOCOL.md §Continuity boundaries). Provenance is exactly one of:
+`host-reported-compaction` / `new-session` / `handoff-resume` /
+`manual-resume` / `inferred-context-gap` — never a fabricated compaction.
+At most one writer claims a new epoch. Legacy run roots without this
+section remain valid; new epochs after the feature version require it.
+
+| Epoch | Boundary provenance | Established at | Repo identity | Reconciled | Notes |
+|---|---|---|---|---|---|
+
+One row per continuity-critical instruction. Kind: `one-shot-action` /
+`standing-constraint` / `standing-authorization` / `persistent-objective` /
+`query-or-information-request`. Status: `active` / `satisfied` /
+`superseded` / `revoked` / `expired` / `ambiguous`. Only a one-shot action
+normally becomes `satisfied`; standing constraints/authorizations survive
+until revoked/superseded/expired or their declared scope ends. Reference
+is a source event id / content hash — never raw conversation text.
+
+| Instr | Reference | Kind | Authority | Subject | Issued epoch | Status | Status evidence | Supersedes/by | Scope end |
+|---|---|---|---|---|---|---|---|---|---|
+
 ## AGENTS_UPDATE_DECISION
 
 Status: pending

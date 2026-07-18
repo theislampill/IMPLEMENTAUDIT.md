@@ -319,6 +319,48 @@ not restart the entire audit. A packet with no state claims records
 "nothing mechanical to verify" and proceeds; a fresh same-session
 continuation with no packet does not trigger this gate.
 
+### Continuity boundaries and context epochs
+
+A compacted or reconstructed summary is an observation of history, not
+current-state authority. After ANY continuity boundary — provenance exactly
+one of `host-reported-compaction` / `new-session` / `handoff-resume` /
+`manual-resume` / `inferred-context-gap`; never a fabricated compaction —
+no repository mutation happens until reconciliation runs:
+
+1. establish the unique active run root and current repository identity
+   (ambiguous/multiple roots => audited handoff; no root => truthful
+   intake, no fabricated recovery);
+2. reread current ROADMAP.md, STATE.md, process/command state, and the
+   relevant terminal evidence from disk;
+3. classify continuity-critical instructions by lifecycle kind
+   (`one-shot-action` / `standing-constraint` / `standing-authorization` /
+   `persistent-objective` / `query-or-information-request`) and status
+   (`active` / `satisfied` / `superseded` / `revoked` / `expired` /
+   `ambiguous`);
+4. compare reconstructed context with durable live state — live state
+   wins; a summary never reopens terminal evidence;
+5. REFUSE replay of a satisfied/superseded one-shot instruction, citing
+   its terminal evidence; standing constraints and authorizations are NOT
+   consumed by boundaries — they bind until revoked/superseded/expired or
+   their declared scope ends;
+6. restore the current next authorized action from STATE.md and continue
+   from it — never restart the run because context was reconstructed;
+7. when continuity cannot be established, hand off rather than speculate.
+
+Record the boundary as a new epoch row in STATE.md `## Context epochs and
+instruction applicability` (create-once: at most one writer claims a new
+epoch; a concurrent loser routes to handoff-or-wait). An identical NEW
+owner message is a fresh authority event: if its target is terminally
+satisfied, answer "Target already satisfied at <evidence>; no duplicate
+action taken. Current open state is <state>." — reactivation needs an
+explicit reopen, a changed target, or evidence invalidating the terminal
+status. The continuity capsule binds current repository identity, epoch id,
+next authorized action, and the ACTIVE instruction set, rederived from
+live owners. An uninterrupted turn crosses no boundary and adds NO epoch
+ceremony. Legacy run roots without the section remain valid; the first
+resume of a legacy root may create the initial epoch after validating
+durable state. Details: `references/continuity.md`.
+
 ### Long-running and background commands
 
 A command expected to outlive the host tool timeout is launched DETACHED

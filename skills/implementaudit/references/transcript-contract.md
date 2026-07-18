@@ -233,6 +233,17 @@ IMPLEMENTAUDIT_CONTINUITY_SAVED
 Neither marker is a completion or handoff signal; both may appear in
 transcripts that later reach AUDIT_COMPLETE or an audited handoff.
 
+Context-epoch continuity (#35) deliberately introduces NO new marker: a
+continuity boundary is recorded as a new epoch row in STATE.md `## Context
+epochs and instruction applicability` (provenance exactly one of
+`host-reported-compaction` / `new-session` / `handoff-resume` /
+`manual-resume` / `inferred-context-gap`), and post-boundary reconciliation
+precedes any repository mutation (PROTOCOL.md §Continuity boundaries;
+`references/continuity.md`). A transcript that mutates the repository
+after a host-reported compaction without a reconciliation record, or that
+re-executes a one-shot instruction whose status is `satisfied`, violates
+this contract even though every marker is well-ordered.
+
 ## Final audit markers
 
 ```text

@@ -58,6 +58,7 @@ required = {
     "references/phase-design.md",
     "references/goal-format.md",
     "references/transcript-contract.md",
+    "references/continuity.md",
     "references/routing.md",
     "references/repo-state-comparison.md",
     "references/sidecars.md",
@@ -167,8 +168,11 @@ with zipfile.ZipFile(asset) as zf:
     # ~2x headroom); raised to 130_000 for #48 (IA-ACTION-DEPTH) after the
     # v0.3.2.0 review-set integration plus the action-selection contract grew
     # the deflated asset to ~121 KB — growth verified intentional and deflated.
+    # Raised to 140_000 for #35 (context-epoch continuity): the new packaged
+    # references/continuity.md plus PROTOCOL/STATE contract text grew the
+    # deflated asset to ~131 KB — growth verified intentional and deflated.
     asset_bytes = asset.stat().st_size
-    MAX_ASSET_BYTES = 130_000
+    MAX_ASSET_BYTES = 140_000
     if asset_bytes > MAX_ASSET_BYTES:
         raise SystemExit(
             f"asset size {asset_bytes:,} bytes exceeds the {MAX_ASSET_BYTES:,}-byte "
