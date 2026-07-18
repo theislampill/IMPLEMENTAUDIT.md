@@ -42,7 +42,7 @@ checksum_url=""
 tag=""
 repo="theislampill/IMPLEMENTAUDIT.md"
 codex_home="${CODEX_HOME:-$HOME/.codex}"
-expected_version="0.3.1"
+expected_version="0.3.2"
 
 while [ "$#" -gt 0 ]; do
   case "$1" in

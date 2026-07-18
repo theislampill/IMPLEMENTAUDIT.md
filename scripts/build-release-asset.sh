@@ -315,8 +315,8 @@ with zipfile.ZipFile(asset) as zf:
         marketplace = json.loads((extracted / ".claude-plugin/marketplace.json").read_text())
         if plugin.get("name") != "implementaudit":
             raise SystemExit("extracted plugin name must be implementaudit")
-        if plugin.get("version") != "0.3.1":
-            raise SystemExit("extracted plugin version must be 0.3.1")
+        if plugin.get("version") != "0.3.2":
+            raise SystemExit("extracted plugin version must be 0.3.2")
         if plugin.get("skills") != "./":
             raise SystemExit(
                 "extracted plugin skills path must be ./ "

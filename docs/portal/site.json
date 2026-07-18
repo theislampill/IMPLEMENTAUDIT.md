@@ -1,10 +1,10 @@
 {
   "release": {
-    "milestone": "v0.3.1.0",
-    "manifest_version": "0.3.1",
+    "milestone": "v0.3.2.0",
+    "manifest_version": "0.3.2",
     "url": "",
     "audit_ledger_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/INDEX.md",
-    "status": "source checkout only; no tag; no release; no publication; no provenance. v0.3.1.0 source milestone proof ledger in progress; no public GitHub release, marketplace listing, host-load proof, issue publication, or license selection is implied",
+    "status": "source checkout only; no tag; no release; no publication; no provenance. v0.3.2.0 release program evidence complete; publication is a separate release-gate action recorded in the release ledger",
     "last_release_gate_verified_public_release": {
       "milestone": "v0.3.0.0",
       "manifest_version": "0.3.0",

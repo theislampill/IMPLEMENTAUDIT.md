@@ -183,7 +183,7 @@ else:
             forbidden_tracked.append(path)
         if name == "custody.db" or name.endswith(".skill"):
             forbidden_tracked.append(path)
-        if "implementaudit-v0.3.1.0-rc" in name and (name.endswith(".zip") or name.endswith(".checksums.txt") or name.endswith(".archive-list.txt")):
+        if ("implementaudit-v0.3.1.0-rc" in name or "implementaudit-v0.3.2.0-rc" in name) and (name.endswith(".zip") or name.endswith(".checksums.txt") or name.endswith(".archive-list.txt")):
             forbidden_tracked.append(path)
         if "codex-exec-transcript" in name and not lowered.startswith("fixtures/"):
             forbidden_tracked.append(path)

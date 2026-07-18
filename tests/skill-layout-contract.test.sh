@@ -28,7 +28,7 @@ Runtime paths use `references/routing.md`,
 `scripts/claim-run.sh`, and `templates/PROTOCOL.md`.
 EOF
   cat >"$dir/.claude-plugin/plugin.json" <<'EOF'
-{"name":"implementaudit","version":"0.3.1","skills":"./skills/"}
+{"name":"implementaudit","version":"0.3.2","skills":"./skills/"}
 EOF
   cat >"$dir/.claude-plugin/marketplace.json" <<'EOF'
 {"plugins":[{"name":"implementaudit","source":"./"}]}
@@ -76,7 +76,7 @@ grep -F "flat canonical source skill file must not exist" "$tmp/flat.out" >/dev/
 source_manifest="$tmp/source-manifest"
 make_minimal_repo "$source_manifest"
 cat >"$source_manifest/.claude-plugin/plugin.json" <<'EOF'
-{"name":"implementaudit","version":"0.3.1","skills":"./"}
+{"name":"implementaudit","version":"0.3.2","skills":"./"}
 EOF
 if bash scripts/check-skill-layout-contract.sh --repo-root "$source_manifest" >"$tmp/source-manifest.out" 2>&1; then
   printf 'skill-layout-contract.test: archive-shaped source manifest unexpectedly passed\n' >&2
