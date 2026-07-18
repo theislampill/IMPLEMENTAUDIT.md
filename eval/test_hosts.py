@@ -957,6 +957,67 @@ def main():
             framework.product_identity = prev_ident41
         check("H41c adapter-passes-expected-rev",
               seen41.get("tag") == "deadbeef-intended-rev")
+
+        # 42. Subagent session lineage (candidate-product fanout, #49): a
+        # child thread's session file in the SAME isolated home with an
+        # explicit parent_thread_id chained to the bound root is the same
+        # mission identity — bound to the ROOT, child ids recorded. True
+        # ambiguity (two roots) and foreign parents still refuse.
+        def _sess(adapter, name, sid, parent=None, repo=None):
+            sdir = os.path.join(adapter.codex_home, "sessions", "2026")
+            os.makedirs(sdir, exist_ok=True)
+            pl = {"session_id": parent or sid, "id": sid,
+                  "timestamp": "2026-07-18T08:00:01.000Z",
+                  "cwd": repo, "cli_version": "0.144.5"}
+            if parent:
+                pl["parent_thread_id"] = parent
+                pl["thread_source"] = "subagent"
+            with open(os.path.join(sdir, name), "w",
+                      encoding="utf-8") as fh:
+                fh.write(json.dumps({
+                    "timestamp": pl["timestamp"],
+                    "type": "session_meta", "payload": pl}) + "\n")
+                fh.write(json.dumps({
+                    "timestamp": pl["timestamp"], "type": "turn_context",
+                    "payload": {"model": "gpt-5.6-luna", "effort": "max",
+                                "approval_policy": "never",
+                                "sandbox_policy": {
+                                    "type": "workspace-write"}}}) + "\n")
+        repo42 = os.path.join(tmp, "h42-repo")
+        os.makedirs(repo42)
+        a42 = make_adapter(tmp, "ok-codex", checkout=None,
+                           home=os.path.join(tmp, "codex-home-h42"))
+        a42._not_before = "2026-07-18T08:00:00Z"
+        _sess(a42, "root.jsonl", "root-42", repo=repo42)
+        _sess(a42, "child.jsonl", "child-42", parent="root-42",
+              repo=repo42)
+        f42, ctx42 = a42._select_session(repo42)
+        check("H42 subagent-child-binds-to-root",
+              f42 is not None and f42.endswith("root.jsonl")
+              and ctx42.get("subagent_sessions") == ["child-42"])
+        a42b = make_adapter(tmp, "ok-codex", checkout=None,
+                            home=os.path.join(tmp, "codex-home-h42b"))
+        a42b._not_before = "2026-07-18T08:00:00Z"
+        _sess(a42b, "r1.jsonl", "r1-42", repo=repo42)
+        _sess(a42b, "r2.jsonl", "r2-42", repo=repo42)
+        try:
+            a42b._select_session(repo42)
+            check("H42b two-roots-still-refused", False)
+        except framework.AdapterError as exc:
+            check("H42b two-roots-still-refused",
+                  "ambiguous" in str(exc))
+        a42c = make_adapter(tmp, "ok-codex", checkout=None,
+                            home=os.path.join(tmp, "codex-home-h42c"))
+        a42c._not_before = "2026-07-18T08:00:00Z"
+        _sess(a42c, "root.jsonl", "root-42c", repo=repo42)
+        _sess(a42c, "orphan.jsonl", "orphan-42c",
+              parent="not-a-matched-id", repo=repo42)
+        try:
+            a42c._select_session(repo42)
+            check("H42c foreign-parent-refused", False)
+        except framework.AdapterError as exc:
+            check("H42c foreign-parent-refused",
+                  "foreign-parent" in str(exc) or "ambiguous" in str(exc))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     if failures:
