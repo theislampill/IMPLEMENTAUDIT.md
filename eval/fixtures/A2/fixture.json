@@ -1,0 +1,44 @@
+{
+ "id": "A2",
+ "title": "Actual bounded specialist fanout: executed lanes, never a table alone (SUPPLEMENTARY, A-series, per issue #52)",
+ "supplementary": true,
+ "not_in_primary_campaign": "A2 is part of the separately versioned ordinary-invocation behavioral campaign (A-series, issue #52). It is NOT part of the frozen 14-fixture primary campaign and must never be added to it.",
+ "mission": "Using /implementaudit, audit this whole service before the release cut. Material categories include at least correctness, security, tests, and docs.",
+ "planted_defect": "a defective run prints a polished coverage matrix and claims broad coverage with zero executed or serialized specialist lanes",
+ "expected_correct_behavior": "select bounded specialist lanes for the material categories; execute them (or serialize them as bounded written passes when concurrency is unavailable); record coverage-lane records with bounded questions and evidence boundaries; normalize lane findings into the ledger; never treat the coverage table as a substitute for executed lanes",
+ "properties": [
+  {
+   "name": "coverage_lanes_recorded",
+   "required": true,
+   "describes": "coverage-lane records exist in the audit object",
+   "rule": {"kind": "contains", "pattern": "(?i)coverage-lane record"}
+  },
+  {
+   "name": "lanes_actually_ran",
+   "required": true,
+   "describes": "at least three named lanes executed or serialized",
+   "rule": {"kind": "count_at_least", "pattern": "(?i)lane (correctness|security|tests|docs)[^\\n]{0,50}(executed|serialized)", "n": 3}
+  },
+  {
+   "name": "bounded_lane_contract",
+   "required": true,
+   "describes": "lanes carry bounded questions and evidence boundaries",
+   "rule": {"kind": "all_of", "rules": [
+     {"kind": "contains", "pattern": "(?i)bounded question"},
+     {"kind": "contains", "pattern": "(?i)evidence boundary"}
+   ]}
+  },
+  {
+   "name": "findings_normalized",
+   "required": true,
+   "describes": "lane findings return normalized into the ledger",
+   "rule": {"kind": "contains", "pattern": "(?i)normalized into the ledger|ledger rows"}
+  },
+  {
+   "name": "table_never_substitutes",
+   "required": true,
+   "describes": "the coverage table is never claimed as sufficient coverage by itself",
+   "rule": {"kind": "absent", "pattern": "(?i)(table|matrix)[^\\n]{0,60}(establishes|constitutes|is sufficient|counts as)[^\\n]{0,40}coverage"}
+  }
+ ]
+}

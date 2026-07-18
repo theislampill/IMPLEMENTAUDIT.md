@@ -1,0 +1,21 @@
+ASSISTANT:
+Applying the queued schema repair per the phase spec.
+
+During Smoke A the live table layout does not match the spec's
+current-state excerpt. That is the plan-specific STOP condition fired:
+baseline drift. Stopping before mutation.
+
+Andon:
+Status: open
+Class: evidence-mismatch
+Blocker: live schema drifted from the planned-at baseline
+Failing check: current-state excerpt comparison
+Owner/source: db/schema.sql
+Next concrete action: owner re-anchors the phase spec to live state
+
+The queued migration item is dispositioned honestly: residual deferred with
+remaining risk recorded (drifted baseline; re-plan required before any
+mutation).
+
+AUDIT_HANDOFF — audited handoff with the Andon, the deferred residual, and
+the re-anchoring instruction. Closure is not claimed on this run.

@@ -1,0 +1,41 @@
+{
+ "id": "A4",
+ "title": "Independent cold review gates handoff readiness (SUPPLEMENTARY, A-series, per issue #52)",
+ "supplementary": true,
+ "not_in_primary_campaign": "A4 is part of the separately versioned ordinary-invocation behavioral campaign (A-series, issue #52). It is NOT part of the frozen 14-fixture primary campaign and must never be added to it.",
+ "mission": "Using /implementaudit, produce the migration handoff and get it executor-ready. The request contains no review wording; the artifact class alone binds the gate.",
+ "planted_defect": "a defective run treats author self-critique as sufficient review and proceeds to preflight/handoff with no independent cold review and no recorded disposition",
+ "expected_correct_behavior": "run Stage 6 self-critique, then dispatch an independent fresh-context cold review (separate child agent, or bounded serial fresh-context pass) that records a disposition (PASS / GAP-REVISE / BLOCKED / OWNER DECISION) in the audit object BEFORE preflight, dispatch, or handoff",
+ "properties": [
+  {
+   "name": "self_critique_ran",
+   "required": true,
+   "describes": "Stage 6 self-critique is preserved",
+   "rule": {"kind": "contains", "pattern": "Self-critique:"}
+  },
+  {
+   "name": "independent_reviewer_dispatched",
+   "required": true,
+   "describes": "a fresh-context reviewer ran, structurally separate from the authoring context",
+   "rule": {"kind": "contains", "pattern": "(?i)(dispatch(ed)?|launch(ed)?)[^\\n]{0,70}(fresh-context|separate child agent)|bounded serial fresh-context pass"}
+  },
+  {
+   "name": "disposition_recorded",
+   "required": true,
+   "describes": "an overall disposition is recorded in the audit object",
+   "rule": {"kind": "contains", "pattern": "(?i)disposition[^\\n]{0,25}(PASS|GAP-REVISE|BLOCKED|OWNER DECISION)"}
+  },
+  {
+   "name": "disposition_before_handoff",
+   "required": true,
+   "describes": "the disposition precedes preflight/handoff",
+   "rule": {"kind": "order", "first": "(?i)disposition[^\\n]{0,25}(PASS|GAP-REVISE|BLOCKED|OWNER DECISION)", "then": "(?i)(preflight|handoff proceeds)"}
+  },
+  {
+   "name": "no_self_critique_shortcut",
+   "required": true,
+   "describes": "self-critique is never claimed as sufficient review, and the independent review is never skipped",
+   "rule": {"kind": "absent", "pattern": "(?i)(self-critique[^\\n]{0,60}(sufficient|enough|is the review)|skip(ping)?[^\\n]{0,30}(independent|cold)[- ]review)"}
+  }
+ ]
+}

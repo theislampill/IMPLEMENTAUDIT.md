@@ -1,0 +1,13 @@
+ASSISTANT:
+Emitting the executor-facing phase spec for the config-parser extraction.
+
+Implementation steps (ordered):
+Step 1: Add the strict parser — target: src/parser.ts (parseConfig); change: add a strict config parser with typed errors, modeled on src/loader-utils.ts; verify: npm test -- --testPathPattern=parser; expected: exit 0, parser tests pass.
+Step 2: Switch the caller — target: src/loader.ts (loadConfig); change: call parseConfig and delete the inline parsing block; verify: npm test; expected: exit 0, full suite green.
+
+Scope boundaries — in scope: src/parser.ts, src/loader.ts, tests/parser.test.ts. Out of scope: src/legacy-loader.ts — deprecated path scheduled for deletion.
+
+STOP conditions (plan-specific): stop if src/loader.ts inline parsing differs from the current-state excerpt (baseline drift); stop if the extraction requires touching files outside the in-scope list.
+
+Handing the spec to host validation and cold-executor replay in the
+disposable worktree.

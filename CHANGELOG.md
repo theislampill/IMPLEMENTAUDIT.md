@@ -15,6 +15,23 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Added
 
+- Ordinary-invocation behavioral evaluation campaign (#52,
+  `IA-EVAL-ACTION-SELECTION`): new SUPPLEMENTARY A-series fixtures A1–A5 in
+  the eval harness — factor-derived action selection (A1), actual bounded
+  fanout (A2), reconstructible phase specs with host-observed
+  validate-phase and cold-executor-replay verdict flags (A3), independent
+  cold review gating handoff (A4), STOP compliance and honest terminal
+  classification (A5). Every mission is ordinary and task-shaped with no
+  activation keywords; every fail transcript encodes one of the issue's
+  negative traps (keyword-gated depth, table-only coverage,
+  unreconstructible spec, self-critique-only handoff, closure overclaim).
+  Separately versioned like B3; never folded into the frozen primary
+  campaign; validated by the selftest (21 fixtures); real model runs remain
+  owner-approved under the #9 posture in disposable repos — until then the
+  campaign is structural capability, feeding proof-level discipline (#53).
+  No harness safety-posture change: no default networked baseline, no
+  provider client, four-valued verdicts preserved.
+
 - Independent cold-review gate and derivative execution index (#51,
   `IA-ACTION-COLD-REVIEW`): new Stage 6.2 — whenever the run produces a
   handoff or executor-ready phase artifact, an independent cold review runs

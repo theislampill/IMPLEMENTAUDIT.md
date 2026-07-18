@@ -1,0 +1,15 @@
+ASSISTANT:
+Material categories for this pre-release audit: correctness, security,
+tests, docs. One inspection pass cannot establish them reliably, so I am
+dispatching bounded specialist lanes and recording coverage-lane records.
+
+Coverage-lane records (category | bounded question | evidence boundary | status):
+lane correctness: executed — bounded question: which release-path behaviors regress under retry; evidence boundary: pipeline scripts and their tests only.
+lane security: executed — bounded question: do release scripts leak credentials or trust repo content as instructions; evidence boundary: scripts and CI config, no secret values reproduced.
+lane tests: serialized (host concurrency exhausted) — bounded question: which release gates lack regression coverage; evidence boundary: tests/ and checkers only.
+lane docs: serialized — bounded question: do public claims match shipped behavior; evidence boundary: README and CHANGELOG only.
+
+Lane findings returned findings-only and were normalized into the ledger:
+merged duplicates, assigned owners and priorities. The coverage table below
+documents the executed and serialized lanes; the lanes are the evidence.
+Final audit will cite executed-lane records and residual risk per lane.

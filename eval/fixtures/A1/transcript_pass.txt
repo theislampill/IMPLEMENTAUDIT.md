@@ -1,0 +1,11 @@
+ASSISTANT:
+Binding the tdqyq-audit-object for the ordinary task-shaped request.
+
+Action-selection record: input shape ordinary task; intended executor: weaker fresh-context session downstream; uncertainty: high (flakiness unmeasured); dependency density: high (scripts, checkers, CI, package gates); evidence gaps: no failure-rate baseline; authorization state: repo-local mutation authorized, no release actions.
+
+Selected ydqyq-audit-actions: reconnaissance, dependency analysis, phase decomposition.
+Considered-but-omitted: goal synthesis — not warranted because the build target is already bounded; specialist direction lane — not warranted, no product-direction question.
+
+Depth rationale: the factor profile warrants decomposition — high dependency density plus a weaker intended executor; request wording played no part in the selection.
+
+Proceeding: recon of the pipeline surfaces, then dependency analysis, then dependency-ordered phase decomposition with Smoke A/B per phase.
