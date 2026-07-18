@@ -58,8 +58,8 @@ Each action requires separate explicit authorization.
 ## Quick start
 
 1. Install the skill (see [Install notes](#install-notes) for your host).
-   This source checkout documents the `v0.3.1.0` local contract. The current
-   release-gate verified live public release is `v0.3.0.0`; source changes after
+   This source checkout documents the `v0.3.2.0` local contract. The current
+   release-gate verified live public release is `v0.3.2.0`; source changes after
    that release are not a release by themselves.
 2. In a repo you want governed, invoke it with a bounded target:
    `/implementaudit close the findings in AUDIT.md` — or just describe the
@@ -108,6 +108,14 @@ For `v0.3.1.0`, the release adds generic capability gates: read-only
 plan-quality checks, installed-payload self-containment checks, audit-retention
 checks, dogfood bootstrap checks, source-evidence pack checks, and a
 deterministic mini audit-loop fixture.
+
+For `v0.3.2.0`, the release closes the evidence-integrity and failure-origin
+hardening program (#10): thirteen behavioral contracts (#1–#7, #11–#15),
+release-critical eval custody hardening (#20), context-epoch continuity
+(#35), the native audit-action remediation set (#47–#53), the sixteen
+genuine-Fable review corrections, and the model-in-the-loop evaluation
+program (#9: 84-mission immutable baseline, B3 supplementary waves, and the
+candidate/control comparison campaign).
 
 The current bootloader architecture keeps weak-executor safeguards in
 progressive references/templates: final reports, optional Graphify-assisted
@@ -679,7 +687,7 @@ publication, or provenance has been verified.
 
 ## Version and release notes
 
-Current project milestone: `v0.3.1.0`. Plugin manifest version: `0.3.1`.
+Current project milestone: `v0.3.2.0`. Plugin manifest version: `0.3.2`.
 No local schema evidence proved four-component plugin manifest versions are
 accepted, so the manifest uses host-conservative package metadata while the
 project milestone is recorded in docs and changelog. This is not a tag, release,
@@ -873,7 +881,8 @@ Install flows are evidence-bounded. This repo can locally validate the release
 asset-to-Codex-install path into a temporary Codex home. It does not claim passive auto-update, universal host support, marketplace verification, or public GitHub release download verification unless those checks are run and recorded.
 
 **Release/contract alignment:** the current release-gate verified live public
-release is `v0.3.0.0` (verified against the live GitHub release on 2026-06-13).
+release is `v0.3.2.0` (verified against the live GitHub release at the
+v0.3.2.0 readback gate, 2026-07-18).
 This source checkout may contain post-release repairs after that tag; installing
 from a checkout or local asset uses local source, not a public release claim.
 Re-verify this paragraph at every release gate.
@@ -882,8 +891,8 @@ What each install source carries:
 
 | Source | Failure contract | Helper resolution | Run-root / custody tooling |
 |---|---|---|---|
-| Source checkout / local asset at manifest `0.3.1` | `v0.3.1.0` generic capability gates plus post-release source repairs, if any | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper; read-only plans, secret hygiene, stale-proof, repo-hygiene, and payload-self-contained fixtures/checkers |
-| Current release-gate verified live public release `v0.3.0.0` | native audit-object routing, terminology integration, runtime cohesion, no public deep/security/next modes, no try caps | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper; local installed-package dogfood ledger |
+| Source checkout / local asset at manifest `0.3.2` | `v0.3.2.0` evidence-integrity program: behavioral contracts #1–#7/#11–#15, custody-hardened eval chain, context-epoch continuity (#35), action remediation #47–#53, review corrections, plus post-release source repairs, if any | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper; read-only plans, secret hygiene, stale-proof, repo-hygiene, and payload-self-contained fixtures/checkers |
+| Current release-gate verified live public release `v0.3.2.0` | the `v0.3.2.0` contract above (this release) | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper; local installed-package dogfood ledger |
 | Prior public release `v0.2.9.0` | ANDON_PROBE / ANDON_ESCALATE / ANDON_HANDOFF, classed Andon log, no try caps | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper |
 | Older public release `v0.2.8.0` | pre-Andon (older recovery semantics) | bare paths (pre-skill-dir) | none |
 
@@ -917,20 +926,20 @@ bash scripts/install-codex-from-release.sh \
   --asset dist/IMPLEMENTAUDIT.skill \
   --checksum dist/CHECKSUMS.txt \
   --codex-home "$HOME/.codex" \
-  --version 0.3.1
+  --version 0.3.2
 ```
 
 For the current release-gate verified live public release, point the installer
-at the explicit `v0.3.0.0` asset URL:
+at the explicit `v0.3.2.0` asset URL:
 
 ```bash
 bash scripts/install-codex-from-release.sh \
-  --url https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/download/v0.3.0.0/IMPLEMENTAUDIT.skill \
+  --url https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/download/v0.3.2.0/IMPLEMENTAUDIT.skill \
   --codex-home "$HOME/.codex" \
-  --version 0.3.0
+  --version 0.3.2
 ```
 
-The `v0.3.0.0` release body records the asset SHA-256 digest. The installer
+The `v0.3.2.0` release body records the asset SHA-256 digest. The installer
 enforces checksum verification only when a checksum manifest is supplied, and a
 public-download path is an install claim only after the download/install smoke
 is actually run. If it cannot be run, treat it as unverified or handoff evidence,

@@ -2,7 +2,7 @@
 name: implementaudit
 description: Plan deeply and execute repo work phase-by-phase until terminal audit closure or an explicit audited handoff. Implements audit findings, handoffs, goals, gaps, and plans safely and verifiably using PDCA, Smoke Before Claim, Andon, Hansei, 5 Whys, and Plan Closure. Activate on /implementaudit or any audit-closure request.
 metadata:
-  version: "0.3.1"
+  version: "0.3.2"
 ---
 
 # /implementaudit

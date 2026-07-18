@@ -13,6 +13,17 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ## [Unreleased]
 
+(nothing yet)
+
+## [v0.3.2.0] - 2026-07-18
+
+Evidence-integrity and failure-origin hardening program (#10) release:
+thirteen behavioral contracts (#1–#7, #11–#15, merged as PRs #22–#33 and
+independently revalidated by the sixteen genuine-Fable review PRs #37–#46,
+#54–#59), release-critical eval custody hardening (#20/#21), the
+model-in-the-loop evaluation program (#9), context-epoch continuity (#35),
+and the native audit-action remediation set (#47–#53, PRs #60–#66).
+
 ### Added
 
 - Eval: candidate-product attestation for the post-change/comparison
