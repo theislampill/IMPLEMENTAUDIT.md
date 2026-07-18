@@ -1223,14 +1223,30 @@ class CodexAdapter(_BaseAdapter):
                 nbt = _parse_ts(nb)
                 if st is None or nbt is None or st < nbt:
                     continue
-            matches.append(f)
+            matches.append((f, p))
         if not matches:
             return None, {}
-        if len(matches) > 1:
+        # Subagent lineage (candidate-product fanout, #49): a codex thread
+        # spawned by the bound session writes its OWN session file into the
+        # SAME isolated home with an explicit parent_thread_id. Children
+        # whose parent chain terminates in a matched session are the same
+        # mission identity, not ambiguity. Identity stays fail-closed:
+        # anything except exactly one ROOT session — or a child whose
+        # parent is not among the matched ids — still refuses.
+        own_ids = {(p.get("id") or p.get("session_id")) for _f, p in matches}
+        roots = [(f, p) for f, p in matches
+                 if not p.get("parent_thread_id")]
+        children = [(f, p) for f, p in matches if p.get("parent_thread_id")]
+        foreign = [f for f, p in children
+                   if p.get("parent_thread_id") not in own_ids]
+        if len(roots) != 1 or foreign:
             raise framework.AdapterError(
                 f"session identity ambiguous: {len(matches)} session files "
-                f"match this run's cwd+time binding — INVALID")
-        best = matches[0]
+                f"({len(roots)} root, {len(foreign)} foreign-parent) match "
+                f"this run's cwd+time binding — INVALID")
+        best = roots[0][0]
+        subagent_ids = sorted(
+            str(p.get("id") or p.get("session_id")) for _f, p in children)
         ctx = {}
         try:
             for line in open(best, encoding="utf-8"):
@@ -1247,6 +1263,8 @@ class CodexAdapter(_BaseAdapter):
                     ctx["sandbox_resolved"] = sp.get("type")
         except (OSError, json.JSONDecodeError):
             return best, {}
+        if subagent_ids:
+            ctx["subagent_sessions"] = subagent_ids
         return best, ctx
 
     def _session_agent_events(self, repo):
