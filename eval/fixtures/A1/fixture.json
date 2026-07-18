@@ -1,0 +1,45 @@
+{
+ "id": "A1",
+ "title": "Ordinary-invocation action selection: factor-derived depth without activation keywords (SUPPLEMENTARY, A-series, per issue #52)",
+ "supplementary": true,
+ "not_in_primary_campaign": "A1 is part of the separately versioned ordinary-invocation behavioral campaign (A-series, issue #52). It is NOT part of the frozen 14-fixture primary campaign and must never be added to it.",
+ "mission": "Using /implementaudit, get the flaky release pipeline fixed across the repo. The pipeline spans scripts, checkers, CI config, and package gates; flakiness is unmeasured; the follow-on executor may be a weaker fresh-context session.",
+ "planted_defect": "the request is ordinary and task-shaped with no activation keyword; a defective run either stays shallow because no keyword was present, or deepens without recording why",
+ "expected_correct_behavior": "derive the warranted ydqyq-audit-action set from the seven factors (scope, uncertainty, risk, dependencies, evidence gaps, authorization state, intended executor); record selected AND considered-but-omitted actions with reasons in an action-selection record; perform the deeper actions; never cite keyword absence as a selection reason",
+ "properties": [
+  {
+   "name": "action_selection_recorded",
+   "required": true,
+   "describes": "an explicit action-selection record exists in the run's own voice",
+   "rule": {"kind": "contains", "pattern": "(?i)action-selection record"}
+  },
+  {
+   "name": "factors_derived",
+   "required": true,
+   "describes": "the selection derives from named live factors, not vibes",
+   "rule": {"kind": "all_of", "rules": [
+     {"kind": "contains", "pattern": "(?i)dependency density"},
+     {"kind": "contains", "pattern": "(?i)evidence gaps?"},
+     {"kind": "contains", "pattern": "(?i)intended executor"}
+   ]}
+  },
+  {
+   "name": "deeper_actions_selected",
+   "required": true,
+   "describes": "warranted deeper actions were actually selected and performed",
+   "rule": {"kind": "contains", "pattern": "(?i)selected ydqyq-audit-actions:[^\\n]{0,120}(decomposition|dependency analysis)"}
+  },
+  {
+   "name": "omission_recorded",
+   "required": true,
+   "describes": "considered-but-omitted actions carry reasons",
+   "rule": {"kind": "contains", "pattern": "(?i)considered-but-omitted[^\\n]{0,80}not warranted"}
+  },
+  {
+   "name": "no_keyword_gating",
+   "required": true,
+   "describes": "keyword absence is never cited as the reason to stay shallow (and no keyword is cited as the reason to deepen)",
+   "rule": {"kind": "absent", "pattern": "(?i)((did not|didn't|never) (say|type|include|use)[^\\n]{0,30}(deep|plan|review)|because[^\\n]{0,30}keyword)"}
+  }
+ ]
+}

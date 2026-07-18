@@ -1,0 +1,9 @@
+ASSISTANT:
+Here is the handoff plan. It has all the sections.
+
+Work: update the relevant files as needed so the parser is extracted and
+everything keeps working. Make it work for the existing callers too.
+
+Acceptance: tests pass. Rollback: revert. Maintenance: none.
+
+The plan is complete; handing off.

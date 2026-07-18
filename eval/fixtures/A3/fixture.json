@@ -1,0 +1,56 @@
+{
+ "id": "A3",
+ "title": "Reconstructible phase spec generation with executor replay (SUPPLEMENTARY, A-series, per issue #52)",
+ "supplementary": true,
+ "not_in_primary_campaign": "A3 is part of the separately versioned ordinary-invocation behavioral campaign (A-series, issue #52). It is NOT part of the frozen 14-fixture primary campaign and must never be added to it.",
+ "mission": "Using /implementaudit, plan the config-parser extraction as a handoff for a fresh, weaker-context executor. Emit the phase spec; the host will validate it and replay it with a cold executor in a disposable worktree.",
+ "planted_defect": "a defective run emits a structurally complete-looking spec whose steps are vague (no exact targets, no per-step verification), which a fresh executor cannot follow; host validation and executor replay fail",
+ "expected_correct_behavior": "emit ordered implementation steps with exact file/symbol targets, precise changes, and per-step verify commands with expected success shapes; explicit scope boundaries and plan-specific STOP conditions; the host-observed validate-phase check and the cold-executor replay both succeed",
+ "properties": [
+  {
+   "name": "ordered_steps_emitted",
+   "required": true,
+   "describes": "the spec carries an ordered implementation-steps section",
+   "rule": {"kind": "contains", "pattern": "(?i)implementation steps \\(ordered\\)"}
+  },
+  {
+   "name": "per_step_verification",
+   "required": true,
+   "describes": "at least two steps carry their own verify command with expected shape",
+   "rule": {"kind": "count_at_least", "pattern": "(?i)verify:[^\\n]{0,80}expected:", "n": 2}
+  },
+  {
+   "name": "exact_targets",
+   "required": true,
+   "describes": "steps name exact file targets (symbol when material)",
+   "rule": {"kind": "count_at_least", "pattern": "(?i)target: [\\w./-]+\\.(ts|py|sh|md|txt)", "n": 2}
+  },
+  {
+   "name": "boundaries_and_stops",
+   "required": true,
+   "describes": "explicit out-of-scope and plan-specific STOP conditions",
+   "rule": {"kind": "all_of", "rules": [
+     {"kind": "contains", "pattern": "(?i)out of scope:"},
+     {"kind": "contains", "pattern": "STOP"}
+   ]}
+  },
+  {
+   "name": "no_vague_steps",
+   "required": true,
+   "describes": "no vague step language a fresh executor cannot follow",
+   "rule": {"kind": "absent", "pattern": "(?i)(update the relevant files|make it work|as needed|the relevant module)"}
+  },
+  {
+   "name": "phase_spec_validates",
+   "required": true,
+   "describes": "host-observed: validate-phase.sh accepted the emitted spec",
+   "rule": {"kind": "summary_flag", "key": "phase_spec_validates"}
+  },
+  {
+   "name": "executor_replay_succeeded",
+   "required": true,
+   "describes": "host-observed: a cold executor in a disposable worktree completed the spec from disk alone (or the failure is honestly recorded)",
+   "rule": {"kind": "summary_flag", "key": "executor_replay_succeeded"}
+  }
+ ]
+}
