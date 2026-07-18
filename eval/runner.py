@@ -7,7 +7,8 @@ Modes:
       binding). Verification order: manifest formats -> fixture bytes+
       authenticity -> prompt bytes+consistency -> events -> snapshots ->
       comparison (recomputed, never accepted) -> artifacts (hash-bound) ->
-      scoring. Writes a create-once verdict. Statuses PASS/FAIL/INVALID/
+      product scoring -> independent host-safety adjudication. Writes a
+      create-once layered verdict. Statuses PASS/FAIL/INVALID/
       ERROR; INVALID and ERROR are never collapsed into product FAIL.
   --dry-run (default)   For each fixture, print the mission and scoring
       properties; then score the bundled SYNTHETIC transcripts to prove rule
@@ -73,9 +74,56 @@ def _load_json(run_root, name):
     return json.load(open(path, encoding="utf-8"))
 
 
+def _invalid_gate(reason):
+    lower = str(reason).lower()
+    if "terminal" in lower or "reconciled" in lower:
+        return "terminal-state-uncertainty"
+    if "substitution" in lower:
+        return "model-substitution"
+    if "artifact" in lower or "evidence" in lower:
+        return "property-evidence-incomplete"
+    return "custody-or-identity-invalid"
+
+
+def _safe_bundle_hash(run_root, manifest):
+    try:
+        return bundlelib.bundle_content_hash(run_root, manifest) if manifest \
+            else None
+    except OSError:
+        return None
+
+
+def _write_layered_verdict(run_root, manifest, fixture, scored,
+                           host_findings, reason=None):
+    status, properties, host_safety, adjudication = \
+        verdictlib.compose_adjudication(
+            fixture, scored=scored, host_findings=host_findings,
+            incomplete_reason=reason)
+    evidence = [f"{name}: {item.get('evidence')}"
+                for name, item in properties.items()
+                if not name.startswith("_")]
+    for finding in host_safety["findings"]:
+        evidence.extend(
+            f"host:{finding['gate']}: {item}"
+            for item in finding.get("evidence", []))
+    v = verdictlib.build_verdict(
+        status, manifest, properties=properties,
+        host_safety=host_safety, adjudication=adjudication,
+        failed_domain=adjudication["failed_domain"],
+        failed_invariant=adjudication["failed_invariant"],
+        evidence=evidence, reason=reason,
+        bundle_sha256=_safe_bundle_hash(run_root, manifest),
+        scorer_commit=_scorer_commit())
+    verdictlib.write_verdict(run_root, v)
+    return status, v
+
+
 def score_bundle(run_root, repo_dir=None):
     """Score one run bundle; returns (status, verdict_dict). Never raises."""
     manifest = {}
+    fixture = None
+    scored = None
+    host_findings = []
     try:
         # Parent terminal state gate (independent review): a bundle whose
         # run was RECONCILED (crash import) or terminalized non-ok must not
@@ -107,7 +155,8 @@ def score_bundle(run_root, repo_dir=None):
                     f"forensic/errored run does not score as a formal "
                     f"verdict")
 
-        manifest, events, fixture, artifact_map = bundlelib.load_bundle(run_root)
+        manifest, events, bundled_fixture, artifact_map = \
+            bundlelib.load_bundle(run_root)
 
         # Fixture AUTHENTICITY: the bundled fixture must be the canonical
         # library fixture (integrity alone would accept a doctored fixture
@@ -121,6 +170,9 @@ def score_bundle(run_root, repo_dir=None):
             raise bundlelib.BundleInvalid(
                 "fixture is not the canonical library fixture "
                 "(hash differs from eval/fixtures/<id>/fixture.json)")
+        # Only after authenticity succeeds may bundled property declarations
+        # shape a verdict. Before this point they are untrusted input.
+        fixture = bundled_fixture
 
         # Prompt consistency: the bound prompt must carry the mission.
         prompt = open(os.path.join(run_root, "prompt.txt"),
@@ -180,16 +232,10 @@ def score_bundle(run_root, repo_dir=None):
             unauthorized = reposnapshot.unauthorized_paths(
                 cmp_["changed_files"], fixture.get("allowed_paths", []))
             if unauthorized:
-                v = verdictlib.build_verdict(
-                    "FAIL", manifest,
-                    failed_invariant="no-unauthorized-repository-change",
+                host_findings.append(verdictlib.host_finding(
+                    "no-unauthorized-repository-change", "FAIL",
                     evidence=[f"unauthorized: {p}" for p in unauthorized],
-                    reason="unauthorized repository change (incl. committed)",
-                    bundle_sha256=bundlelib.bundle_content_hash(run_root,
-                                                                manifest),
-                    scorer_commit=_scorer_commit())
-                verdictlib.write_verdict(run_root, v)
-                return "FAIL", v
+                    reason="unauthorized repository change (incl. committed)"))
 
         # Host-checks gate (fail-closed): fixtures may declare deterministic
         # host observations (e.g. validate-run-root.sh success) that the
@@ -240,35 +286,61 @@ def score_bundle(run_root, repo_dir=None):
 
         scored = scoring.score_events(fixture, events, summary,
                                       artifact_obj=artifact_obj)
-        required = [p["name"] for p in fixture["properties"]
-                    if p.get("required", True)]
-        failed = [n for n in required if not scored[n]["pass"]]
-        status = "PASS" if not failed else "FAIL"
-        v = verdictlib.build_verdict(
-            status, manifest, properties=scored,
-            failed_invariant=(failed[0] if failed else None),
-            evidence=[f"{n}: {scored[n]['evidence']}" for n in scored],
-            bundle_sha256=bundlelib.bundle_content_hash(run_root, manifest),
-            scorer_commit=_scorer_commit())
-        verdictlib.write_verdict(run_root, v)
-        return status, v
+        if manifest.get("model_requested") is not None and \
+                manifest.get("model_requested") != manifest.get(
+                    "model_resolved"):
+            host_findings.append(verdictlib.host_finding(
+                "model-substitution", "INVALID",
+                evidence=[
+                    f"requested={manifest.get('model_requested')!r}",
+                    f"resolved={manifest.get('model_resolved')!r}"],
+                reason="resolved model differs from requested model"))
+        reason = ("host-safety and product-property layers were adjudicated "
+                  "separately") if host_findings else None
+        return _write_layered_verdict(
+            run_root, manifest, fixture, scored, host_findings, reason=reason)
     except bundlelib.BundleInvalid as exc:
-        v = verdictlib.build_verdict("INVALID", manifest, reason=str(exc),
-                                     scorer_commit=_scorer_commit())
+        gate = _invalid_gate(exc)
+        if not any(f.get("gate") == gate for f in host_findings):
+            host_findings.append(verdictlib.host_finding(
+                gate, "INVALID", evidence=[str(exc)], reason=str(exc)))
         try:
-            verdictlib.write_verdict(run_root, v)
+            return _write_layered_verdict(
+                run_root, manifest, fixture, None, host_findings,
+                reason=str(exc))
         except OSError:
-            pass
-        return "INVALID", v
+            status, properties, host_safety, adjudication = \
+                verdictlib.compose_adjudication(
+                    fixture, scored=None, host_findings=host_findings,
+                    incomplete_reason=str(exc))
+            v = verdictlib.build_verdict(
+                status, manifest, properties=properties,
+                host_safety=host_safety, adjudication=adjudication,
+                failed_domain=adjudication["failed_domain"],
+                failed_invariant=adjudication["failed_invariant"],
+                reason=str(exc), scorer_commit=_scorer_commit())
+            return status, v
     except Exception:
-        v = verdictlib.build_verdict(
-            "ERROR", manifest, reason=traceback.format_exc(limit=3),
-            scorer_commit=_scorer_commit())
+        reason = traceback.format_exc(limit=3)
+        host_findings.append(verdictlib.host_finding(
+            "infrastructure-error", "ERROR", evidence=[reason],
+            reason="scoring infrastructure raised unexpectedly"))
         try:
-            verdictlib.write_verdict(run_root, v)
+            return _write_layered_verdict(
+                run_root, manifest, fixture, None, host_findings,
+                reason=reason)
         except OSError:
-            pass
-        return "ERROR", v
+            status, properties, host_safety, adjudication = \
+                verdictlib.compose_adjudication(
+                    fixture, scored=None, host_findings=host_findings,
+                    incomplete_reason=reason)
+            v = verdictlib.build_verdict(
+                status, manifest, properties=properties,
+                host_safety=host_safety, adjudication=adjudication,
+                failed_domain=adjudication["failed_domain"],
+                failed_invariant=adjudication["failed_invariant"],
+                reason=reason, scorer_commit=_scorer_commit())
+            return status, v
 
 
 def cmd_bundle(run_root, repo_dir=None):
@@ -279,6 +351,11 @@ def cmd_bundle(run_root, repo_dir=None):
                       "product_tag": v.get("product_tag"),
                       "model_resolved": v.get("model_resolved"),
                       "failed_invariant": v.get("failed_invariant"),
+                      "failed_domain": v.get("failed_domain"),
+                      "product_status": v.get("adjudication", {}).get(
+                          "product_status"),
+                      "host_status": v.get("adjudication", {}).get(
+                          "host_status"),
                       "model_substitution": v.get("model_substitution"),
                       "reason": v.get("reason")}, indent=1))
     return {"PASS": 0, "FAIL": 1, "INVALID": 2, "ERROR": 3}[status]

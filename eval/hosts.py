@@ -879,6 +879,45 @@ class _BaseAdapter:
                         spec["must_not_match"], text):
                     ok = False
                 out[key] = ok
+            elif kind == "json_fields_equal":
+                rel = str(spec.get("path", "")).replace("\\", "/")
+                expected = spec.get("equals")
+                if (not rel or os.path.isabs(rel) or rel.startswith("/") or
+                        any(part in ("", ".", "..")
+                            for part in rel.split("/"))):
+                    raise framework.AdapterError(
+                        f"unsafe JSON host-check path {rel!r}")
+                if not isinstance(expected, dict) or not expected:
+                    raise framework.AdapterError(
+                        "json_fields_equal requires non-empty equals object")
+                path = os.path.abspath(os.path.join(
+                    repo, *rel.split("/")))
+                root = os.path.abspath(repo)
+                try:
+                    escaped = os.path.commonpath((root, path)) != root
+                except ValueError:
+                    escaped = True
+                if escaped:
+                    raise framework.AdapterError(
+                        f"unsafe JSON host-check path {rel!r}")
+                try:
+                    with open(path, encoding="utf-8") as fh:
+                        observed = json.load(fh)
+                except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+                    out[key] = False
+                    detail[key] = f"JSON unreadable: {type(exc).__name__}"
+                    continue
+                if not isinstance(observed, dict):
+                    out[key] = False
+                    detail[key] = "JSON root is not an object"
+                    continue
+                mismatches = [
+                    field for field, value in expected.items()
+                    if observed.get(field) != value
+                ]
+                out[key] = not mismatches
+                if mismatches:
+                    detail[key] = "mismatched fields: " + ",".join(mismatches)
             elif kind == "validate_run_root":
                 out[key], detail[key] = self._validate_run_root(repo)
             elif kind == "run_root_exists":

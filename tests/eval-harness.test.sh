@@ -9,6 +9,7 @@ elif command -v python3 >/dev/null 2>&1; then py=python3
 else echo "eval-harness.test: python required" >&2; exit 1; fi
 "$py" "$repo_root/eval/selftest.py"
 "$py" "$repo_root/eval/adversarial.py"
+"$py" "$repo_root/eval/test_reporting.py"
 "$py" "$repo_root/eval/test_adapters.py"
 "$py" "$repo_root/eval/test_hosts.py"
 printf 'eval-harness.test: ok\n'

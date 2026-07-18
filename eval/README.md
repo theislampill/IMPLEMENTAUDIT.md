@@ -7,7 +7,7 @@ library (B0–B2, E1–E10), and the adapter/replay framework. Per-host adapters
 with actual model execution are separate gated PRs, and the baseline requires
 the owner approval packet. It therefore does **not close #9**.
 
-`B3` is a SUPPLEMENTARY fixture for the context-epoch continuity issue
+`B3` is the immutable historical v1 SUPPLEMENTARY fixture for the context-epoch continuity issue
 (#35), run as a separately versioned baseline (1 fixture × 2 configs × 3
 reps). It is validated by the selftest but is deliberately NOT part of the
 frozen 14-fixture primary campaign and must never be folded into the
@@ -19,6 +19,23 @@ while a post-#35 model grounds in disk and truthfully reports no run
 root, confounding the pre/post comparison (b3-post-fable-r1/r2
 evidence). Seed rows: ANDON 150 terminally resolved with rerun evidence,
 151–250 archived terminal, 251 the only active item.
+
+The first v0.3.2.0 publication incorrectly described B3-v1 as an identical
+all-true ceiling. Its bound verdicts had empty property maps after the host
+unauthorized-mutation gate, and direct rescoring did not reproduce that
+claim. B3-v1 and its campaigns remain immutable evidence; they are
+inconclusive for the full #35 acceptance criterion and are never relabeled as
+the corrected experiment.
+
+`B3-v2` is the separately versioned corrected design. It preregisters a
+decision-before-forbidden-mutation contract: the model may write one exact
+continuity capsule in the disposable fixture repository, but execution of the
+current ANDON is outside authorization and must route to an audited handoff.
+The host independently compares the capsule's repository, run-root, epoch,
+active-item, next-action, stale-instruction, decision, and authorization
+fields. All six product properties are persisted even if a separate host gate
+fails. The v2 release comparison is 2 configurations × 2 immutable product
+arms × 3 repetitions; it is not part of the primary aggregate.
 
 `A1`–`A5` form the SUPPLEMENTARY **ordinary-invocation behavioral
 campaign** (A-series, per issue #52): A1 factor-derived action selection,
@@ -127,7 +144,16 @@ are created exclusively and never overwritten; a second adjudication writes
 `verdict-2.json`, leaving the first intact. Scoring never mutates raw
 evidence.
 
-### Four-valued status
+### Layered verdict and four-valued status
+
+Verdict schema v3 records three judgments independently. `properties` retains
+every declared product property as `PASS`, `FAIL`, or `INCOMPLETE` with its
+evidence. `host_safety` records repository authorization, identity/custody,
+infrastructure, terminal-state, and substitution findings. `adjudication`
+derives product, host, and overall status without letting a host failure erase
+product measurements or manufacture product PASS. A report claim is eligible
+only when it can be reconstructed from the stored complete property matrix and
+an independent replay matches it.
 
 | Status | Meaning |
 |---|---|

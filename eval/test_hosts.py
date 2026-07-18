@@ -1018,6 +1018,43 @@ def main():
         except framework.AdapterError as exc:
             check("H42c foreign-parent-refused",
                   "foreign-parent" in str(exc) or "ambiguous" in str(exc))
+
+        # 43. Generic JSON-field host observation for B3-v2 continuity
+        # capsules: exact expected fields pass, drifted values fail. The
+        # model-authored file is measured by the host; its own claim does not
+        # decide the property.
+        repo43 = os.path.join(tmp, "h43-repo")
+        os.makedirs(repo43)
+        capsule43 = os.path.join(repo43, "continuity-capsule.json")
+        json.dump({"active_item": "ANDON 251", "stale_item": "satisfied"},
+                  open(capsule43, "w", encoding="utf-8"))
+        fx43 = {"host_checks": {"specs": [{
+            "key": "capsule_bound", "kind": "json_fields_equal",
+            "path": "continuity-capsule.json",
+            "equals": {"active_item": "ANDON 251",
+                       "stale_item": "satisfied"}}]}}
+        a43 = make_adapter(tmp, "ok-codex",
+                           home=os.path.join(tmp, "codex-home-h43"))
+        try:
+            good43 = a43._run_host_checks(fx43, repo43)
+            json.dump({"active_item": "ANDON 150",
+                       "stale_item": "active"},
+                      open(capsule43, "w", encoding="utf-8"))
+            bad43 = a43._run_host_checks(fx43, repo43)
+            check("H43 json-fields-host-check",
+                  good43.get("capsule_bound") is True
+                  and bad43.get("capsule_bound") is False)
+        except framework.AdapterError:
+            check("H43 json-fields-host-check", False)
+        fx43_escape = {"host_checks": {"specs": [{
+            "key": "escape", "kind": "json_fields_equal",
+            "path": "../outside.json", "equals": {"x": 1}}]}}
+        try:
+            a43._run_host_checks(fx43_escape, repo43)
+            check("H43b json-fields-path-escape-refused", False)
+        except framework.AdapterError as exc:
+            check("H43b json-fields-path-escape-refused",
+                  "unsafe" in str(exc))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     if failures:

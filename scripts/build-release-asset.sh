@@ -37,9 +37,11 @@ rm -f "$asset_path"
 
 "${py_cmd[@]}" - "$asset_path" <<'PY'
 import json
+import os
 import stat
 import sys
 import tempfile
+import time
 import zipfile
 from pathlib import Path
 
@@ -246,23 +248,54 @@ generated_entries = [
 ]
 
 
+# ZIP metadata is part of the public asset identity. Pin every field that can
+# vary by checkout host, locale, timezone, umask, or directory traversal. The
+# default is the earliest ZIP timestamp; release jobs may supply another fixed
+# SOURCE_DATE_EPOCH, which is always interpreted as UTC.
+try:
+    source_date_epoch = int(os.environ.get("SOURCE_DATE_EPOCH", "315532800"))
+except ValueError as exc:
+    raise SystemExit("SOURCE_DATE_EPOCH must be an integer") from exc
+archive_timestamp = time.gmtime(source_date_epoch)[:6]
+if not 1980 <= archive_timestamp[0] <= 2107:
+    raise SystemExit("SOURCE_DATE_EPOCH is outside the ZIP timestamp range")
+
+
+def zip_info(archive_rel: Path, mode: int) -> zipfile.ZipInfo:
+    """Return platform-independent metadata for one regular-file entry."""
+    info = zipfile.ZipInfo(
+        archive_rel.as_posix(), date_time=archive_timestamp)
+    info.create_system = 3          # Unix, regardless of build host.
+    info.create_version = 20        # ZIP 2.0 / DEFLATE.
+    info.extract_version = 20
+    info.external_attr = (stat.S_IFREG | mode) << 16
+    info.internal_attr = 0
+    info.compress_type = zipfile.ZIP_DEFLATED
+    info.flag_bits = 0
+    info.extra = b""
+    info.comment = b""
+    return info
+
+
+# Materialize bytes before writing and sort the COMPLETE archive, including
+# generated metadata entries, by the portable archive path. pathlib.Path sort
+# order is host-dependent because native separators differ.
+payload_entries = [
+    (archive_rel, read_normalized(src_path),
+     0o755 if archive_rel.as_posix().startswith("scripts/") else 0o644)
+    for archive_rel, src_path in deduped
+]
+payload_entries.extend(
+    (archive_rel, data, 0o644) for archive_rel, data in generated_entries)
+payload_entries.sort(key=lambda item: item[0].as_posix())
+
+
 asset.parent.mkdir(parents=True, exist_ok=True)
-with zipfile.ZipFile(asset, "w", compression=zipfile.ZIP_DEFLATED) as zf:
-    for archive_rel, src_path in deduped:
-        info = zipfile.ZipInfo(archive_rel.as_posix())
-        mode = 0o755 if archive_rel.as_posix().startswith("scripts/") else 0o644
-        info.external_attr = (stat.S_IFREG | mode) << 16
-        # Explicitly set compress_type on the ZipInfo object.
-        # When writestr() receives a ZipInfo, the ZipInfo.compress_type overrides
-        # the ZipFile-level default, and ZipInfo defaults to ZIP_STORED (0).
-        # Without this line all entries are stored uncompressed even though the
-        # ZipFile was opened with compression=ZIP_DEFLATED.
-        info.compress_type = zipfile.ZIP_DEFLATED
-        zf.writestr(info, read_normalized(src_path))
-    for archive_rel, data in generated_entries:
-        info = zipfile.ZipInfo(archive_rel.as_posix())
-        info.external_attr = (stat.S_IFREG | 0o644) << 16
-        info.compress_type = zipfile.ZIP_DEFLATED
+with zipfile.ZipFile(
+        asset, "w", compression=zipfile.ZIP_DEFLATED,
+        compresslevel=9, strict_timestamps=True) as zf:
+    for archive_rel, data, mode in payload_entries:
+        info = zip_info(archive_rel, mode)
         zf.writestr(info, data)
 
 with zipfile.ZipFile(asset) as zf:
