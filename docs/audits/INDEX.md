@@ -55,6 +55,41 @@ here or on any active page they carry proof-level qualification:
   proof ledger [proof level: PL1-PL5 source/structural/fixture; not PL6
   behaviorally observed, not PL7 fresh-executor proven].
 
+## Native Audit-Action Remediation Program (tracker #47)
+
+Program record for the native audit-action remediation: umbrella issue #47
+(`IA-ACTION-TRACK`), six child issues implemented by PRs #60-#65 and merged
+to `main` in session order (merge head `efc1ea8`):
+
+- #48 `IA-ACTION-DEPTH` (PR #60) — action-selection contract: factor-derived
+  depth, recorded selections and omissions, no activation keywords.
+- #50 `IA-PHASE-RECONSTRUCTIBILITY` (PR #61) — ordered implementation steps
+  with per-step verification, scope boundaries, plan-specific STOPs
+  (Rule P4-10).
+- #49 `IA-ACTION-FANOUT` (PR #62) — binding specialist lanes with serialized
+  fallback and coverage-lane records.
+- #51 `IA-ACTION-COLD-REVIEW` (PR #63) — Stage 6.2 independent cold review;
+  roadmap execution index stays a derivative projection.
+- #52 `IA-EVAL-ACTION-SELECTION` (PR #64) — supplementary A-series
+  behavioral campaign [proof level: PL4 structural + PL5 fixture;
+  owner-approved live runs pending per the #9 posture].
+- #53 `IA-PROOF-LEVELS` (PR #65) — PL1-PL7 taxonomy and active-surface
+  claim discipline (see `RETENTION.md`).
+
+Dependency order: #48 precedes #49 and #50; #50 precedes #51; #48/#49/#50/#51
+precede #52; #52 precedes #53. Implementation order: #48, #50, #49, #51,
+#52, #53.
+
+Architecture conformance (tracker-closure audit at merge `efc1ea8`): no new
+command identities, no keyword-activated modes, no parallel planning
+subsystem, no canonical root competing with the validated `.IMPLEMENTAUDIT/runs/` run root,
+projections derivative-only, archives byte-untouched across the program;
+per-child what-must-remain-unchanged conformance: PASS for all six.
+Standing gate owners: `check-action-selection-contract.sh`,
+`check-fanout-coverage-contract.sh`, `check-cold-review-contract.sh`,
+`check-plan-quality-contract.sh`, `validate-phase.sh`,
+`check-public-claim-boundaries.sh`.
+
 ## Boundary
 
 The index points to current proof owners only. Detailed historical narratives,
