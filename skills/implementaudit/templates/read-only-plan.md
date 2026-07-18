@@ -21,6 +21,16 @@ it never reaches a mutating `ydqyq-audit-action`.
 - `<path>`: evidence excerpt or summary.
 - Repo conventions/exemplar files:
 
+## Ordered Steps
+
+Executing-phase and read-only handoff bars align on reconstructibility: when
+the planned work is multi-step, each step names its exact target — file path,
+plus symbol when symbol precision is material — states the change precisely,
+and carries its own verify command with expected success shape. Vague step
+language is a plan-quality defect.
+
+- Step 1: `<title>` — target: `<file and symbol>`; change: `<precise change>`; verify: `<command>`; expected: `<success shape>`
+
 ## Scope
 
 In scope:

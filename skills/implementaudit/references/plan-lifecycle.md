@@ -19,6 +19,8 @@ agent that has not read the chat transcript. Include:
   base ref is missing;
 - exact files or artifact owners to inspect before mutation;
 - phase order, dependencies, and rollback/defer path;
+- ordered implementation steps with exact file/symbol targets and per-step
+  verification when the work is multi-step;
 - acceptance criteria with observable pass/fail evidence;
 - mandatory commands with expected success shape, not fabricated output;
 - STOP / Andon conditions;

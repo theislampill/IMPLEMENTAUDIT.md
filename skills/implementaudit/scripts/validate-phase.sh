@@ -29,6 +29,12 @@ validate-phase: a filled phase spec requires —
             with expected success shape);
             ## Evidence required (>=1 non-placeholder `- <evidence>` item);
             ## Rollback / defer path; ## Maintenance notes
+  reconstructibility (#50): vague step language always fails; newly authored
+            specs carry ## Implementation steps (ordered, each step with
+            target: exact file/symbol, verify: command, expected shape),
+            ## Scope boundaries with Out of scope:, and plan-specific
+            ## STOP conditions; specs without ordered steps pass as legacy
+            with a warning
   sidecar status: literal `Markdown fallback:` field (any value)
 Canonical filled examples (source repo only): fixtures/run-root-example/phases/phase-1.md (brownfield)
 and (source repo only) fixtures/phase-design/dmadv-greenfield-phase.md (greenfield);
@@ -236,6 +242,126 @@ if not tagged:
         "newly authored specs must tag every command\n")
 PY
   [ "$python_errors" -eq 0 ] || err "## Mandatory commands needs non-placeholder list items with expected success shape"
+  python_errors=0
+
+  # Check (#50): executor reconstructibility — vague language always fails;
+  # ordered implementation steps with per-step verification, scope boundaries,
+  # and plan-specific STOP conditions are required on newly authored specs;
+  # specs without an Implementation steps section pass as legacy with warning.
+  "${py_cmd[@]}" - "$phase_file" <<'PY' || python_errors=$((python_errors + 1))
+import re, sys
+from pathlib import Path
+
+text = Path(sys.argv[1]).read_text(encoding="utf-8", errors="replace")
+lines = text.splitlines()
+
+VAGUE = re.compile(
+    r"update the relevant files?|make it work|fix things|as needed\b|"
+    r"handle (it )?appropriately|the relevant modules?\b",
+    re.IGNORECASE,
+)
+PLACEHOLDER = re.compile(
+    r"^\{\{|^tbd$|^todo$|^n/a$|^placeholder$|step [0-9]+ title|stop_condition",
+    re.IGNORECASE,
+)
+
+def section_items(heading_re):
+    items, in_s = [], False
+    for line in lines:
+        s = line.strip()
+        if re.match(heading_re, s, re.IGNORECASE):
+            in_s = True
+            continue
+        if in_s and re.match(r"^##\s+|^---\s*$", s):
+            break
+        if not in_s:
+            continue
+        if s.startswith("-"):
+            items.append(s[1:].strip())
+        elif s and items:
+            items[-1] += " " + s
+    return [i for i in items if i]
+
+work_items = section_items(r"^##\s+Work\b")
+step_items_raw = section_items(r"^##\s+Implementation steps")
+vague_hits = [i for i in work_items + step_items_raw if VAGUE.search(i)]
+if vague_hits:
+    sys.stderr.write(
+        "validate-phase: vague step language is not executable by a fresh "
+        "executor; name exact files/symbols and the precise change: "
+        + "; ".join(vague_hits[:3]) + "\n")
+    raise SystemExit(1)
+
+if not re.search(r"(?mi)^##\s+Implementation steps", text):
+    sys.stderr.write(
+        "validate-phase: WARNING legacy spec — no ordered `## Implementation "
+        "steps` section; newly authored specs carry ordered steps with "
+        "per-step verification (see templates/phase-goal.txt)\n")
+    raise SystemExit(0)
+
+steps = [i for i in step_items_raw if not PLACEHOLDER.search(i)]
+if not steps:
+    sys.stderr.write(
+        "validate-phase: ## Implementation steps needs at least one "
+        "non-placeholder step item\n")
+    raise SystemExit(1)
+
+PATHISH = re.compile(r"[\w-]+[./][\w./\\-]+")
+bad_target = [s for s in steps
+              if not (re.search(r"target:\s*\S", s, re.IGNORECASE)
+                      and PATHISH.search(s))]
+if bad_target:
+    sys.stderr.write(
+        "validate-phase: each implementation step names its exact target "
+        "(file path, plus symbol when symbol precision is material): "
+        + "; ".join(bad_target[:3]) + "\n")
+    raise SystemExit(1)
+
+EXPECTED = re.compile(
+    r"\b(expected|expects|exit 0|passes|pass|no errors|outputs?)\b",
+    re.IGNORECASE,
+)
+no_verify = [s for s in steps
+             if not (re.search(r"verify:\s*\S", s, re.IGNORECASE)
+                     and EXPECTED.search(s))]
+if no_verify:
+    sys.stderr.write(
+        "validate-phase: each implementation step carries its own verify: "
+        "command with expected success shape — commands only at the end of "
+        "the phase do not reconstruct multi-step work: "
+        + "; ".join(no_verify[:3]) + "\n")
+    raise SystemExit(1)
+
+if (not re.search(r"(?mi)^##\s+Scope boundaries", text)
+        or not re.search(r"(?mi)^Out of scope:", text)):
+    sys.stderr.write(
+        "validate-phase: new-format spec requires ## Scope boundaries with "
+        "an `Out of scope:` line\n")
+    raise SystemExit(1)
+
+stop_items = [i for i in section_items(r"^##\s+STOP conditions")
+              if not PLACEHOLDER.search(i)]
+if not stop_items:
+    sys.stderr.write(
+        "validate-phase: new-format spec requires ## STOP conditions with at "
+        "least one non-placeholder item\n")
+    raise SystemExit(1)
+GENERIC_STOP = re.compile(
+    r"^(stop )?(if )?(something|anything) (goes wrong|fails|breaks)\.?$"
+    r"|^(stop )?(if )?(an )?unexpected errors? occurs?\.?$"
+    r"|^stop (if|when) (there is|you see) (a problem|an error)\.?$",
+    re.IGNORECASE,
+)
+ANCHORED = re.compile(r"`[^`]+`|[\w-]+[./][\w./\\-]+")
+if (all(GENERIC_STOP.match(i) for i in stop_items)
+        or not any(ANCHORED.search(i) for i in stop_items)):
+    sys.stderr.write(
+        "validate-phase: boilerplate STOP conditions do not reflect this "
+        "phase's actual risks; tie at least one STOP to a concrete file, "
+        "command, marker, or assumption of this phase\n")
+    raise SystemExit(1)
+PY
+  [ "$python_errors" -eq 0 ] || err "reconstructibility checks failed: ordered steps / scope boundaries / plan-specific STOP conditions (see --explain)"
   python_errors=0
 
   # Check: current-state excerpts section has at least one non-placeholder item.

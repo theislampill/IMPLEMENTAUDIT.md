@@ -29,6 +29,21 @@ one deliverable, and verify the deliverable against the complete working tree.
 - Copy this phase spec into a temporary run root for the mini-loop test.
 - Create `src-mini-proof.txt` in the temporary repository.
 
+## Implementation steps (ordered)
+
+- Step 1: Validate the spec shape - target: fixtures/e2e-mini-audit-loop/phase-1.md; change: none (read-only validation of this fixture); verify: bash skills/implementaudit/scripts/validate-phase.sh fixtures/e2e-mini-audit-loop/phase-1.md; expected: exit 0 with validate-phase: ok
+- Step 2: Create the deliverable - target: src-mini-proof.txt (temporary repository root); change: write one proof line into the temporary repository; verify: bash .IMPLEMENTAUDIT/runs/mini/repo-state.sh deliverable mini-baseline-ref src-mini-proof.txt; expected: exit 0 reporting present
+
+## Scope boundaries
+
+In scope: the temporary mini-repository files only
+Out of scope: tracked source of this repository - the mini loop performs no tracked mutation.
+
+## STOP conditions (plan-specific)
+
+- Stop if `validate-phase.sh` reports a missing marker or section in this fixture - the fixture and validator have drifted apart.
+- Stop if `repo-state.sh deliverable` reports absent after the write - the deliverable contract has drifted.
+
 ## Acceptance criteria (all must pass - verify each in transcript)
 
 - `bash skills/implementaudit/scripts/validate-phase.sh fixtures/e2e-mini-audit-loop/phase-1.md` exits 0.

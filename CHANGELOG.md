@@ -15,6 +15,21 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Added
 
+- Phase reconstructibility contract (#50, `IA-PHASE-RECONSTRUCTIBILITY`):
+  newly authored phase specs carry an ordered `## Implementation steps`
+  section (exact file/symbol targets, per-step verify command with expected
+  success shape), `## Scope boundaries` with an explicit `Out of scope:`
+  line, and plan-specific `## STOP conditions`. `validate-phase.sh` rejects
+  vague step language ("update the relevant files", "make it work"),
+  per-step-verification gaps on multi-step work, and boilerplate STOPs —
+  legacy specs without ordered steps pass with a warning (same precedent as
+  evidence-property tags). New Rule P4-10 in `phase-design.md`; read-only
+  handoff lane aligned (`## Ordered Steps` in `read-only-plan.md`); four
+  canonical phase fixtures upgraded to the new shape; three mechanical
+  negative fixtures plus a review-lane counter-example
+  (`fixtures/phase-design/negative-paths-without-symbols.md`); source-gate
+  pins in `check-plan-quality-contract.sh`.
+
 - Action-selection contract (#48, `IA-ACTION-DEPTH`): ordinary task-shaped
   invocations derive the warranted `ydqyq-audit-action` set from scope,
   uncertainty, risk, dependencies, evidence gaps, authorization state, and

@@ -13,6 +13,19 @@ Depends on phases: none
 
 Change 'hello' to 'Hello' in app.txt.
 
+## Implementation steps (ordered)
+
+- Step 1: Fix the greeting casing — target: app.txt (first line); change: replace `hello` with `Hello`; verify: grep -q '^Hello' app.txt; expected: exit 0
+
+## Scope boundaries
+
+In scope: app.txt
+Out of scope: every other file — single-owner casing repair; deeper structure adds nothing (proportional granularity).
+
+## STOP conditions (plan-specific)
+
+- Stop if `app.txt` first line is not `hello` at baseline — the input drifted; re-anchor before mutating.
+
 ## Current state excerpts
 
 - `app.txt` first line is `hello` at baseline HEAD.

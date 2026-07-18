@@ -59,6 +59,33 @@ Issue publication: deferred / not applicable
 - {{WORK_BULLET_1}}
 - {{WORK_BULLET_2}}
 
+## Implementation steps (ordered)
+
+Each step names its exact target — file path, plus symbol when symbol
+precision is material — states the change precisely, and carries its own
+verify command with expected success shape. Order steps so the tree stays
+healthy between steps when possible. Vague step language fails validation.
+Step granularity stays proportional to dependency, risk, and executor needs.
+
+- Step 1: {{STEP_1_TITLE}} — target: {{EXACT_FILE_AND_SYMBOL_1}}; change: {{PRECISE_CHANGE_1}}; verify: {{STEP_1_COMMAND}}; expected: {{STEP_1_EXPECTED}}
+- Step 2: {{STEP_2_TITLE}} — target: {{EXACT_FILE_AND_SYMBOL_2}}; change: {{PRECISE_CHANGE_2}}; verify: {{STEP_2_COMMAND}}; expected: {{STEP_2_EXPECTED}}
+
+## Scope boundaries
+
+In scope: {{IN_SCOPE_FILES_OR_SURFACES}}
+Out of scope: {{OUT_OF_SCOPE_WITH_REASON_EVEN_WHEN_RELATED_LOOKING}}
+
+## STOP conditions (plan-specific)
+
+Stop and raise Andon instead of improvising when:
+
+- {{STOP_CONDITION_TIED_TO_THIS_PHASE_ACTUAL_RISK_1}}
+- {{STOP_CONDITION_TIED_TO_THIS_PHASE_ACTUAL_RISK_2}}
+
+Boilerplate STOP conditions that do not reflect this phase's actual risks
+fail validation; tie each STOP to a concrete file, command, marker, or
+assumption of this phase.
+
 ## Acceptance criteria (all must pass — verify each in transcript)
 
 - {{CRITERION_1}}
