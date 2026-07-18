@@ -17,6 +17,47 @@ Keep these files directly under `docs/audits/`:
 | `INDEX.md` | canonical release/proof ledger index | Starting map for current and historical proof. |
 | `RETENTION.md` | canonical retention policy | Defines what stays active, what may be archived, and what must not enter tracked source. |
 
+## Proof-Level Taxonomy (PL1-PL7)
+
+Capability, parity, and surpass claims carry an explicit proof level and
+evidence basis (#53, `IA-PROOF-LEVELS`). The levels, weakest to strongest:
+
+| Level | Name | Evidence basis |
+|---|---|---|
+| PL1 | prose presence | the capability is described in prose |
+| PL2 | authoritative runtime instruction | required by SKILL.md/reference runtime text |
+| PL3 | template requirement | required by a shipped template |
+| PL4 | structural validation | a checker/test mechanically pins the contract |
+| PL5 | fixture/example/transcript demonstration | synthetic fixtures or examples demonstrate accept/reject |
+| PL6 | observed live behavior | an owner-approved live run exhibited the behavior |
+| PL7 | fresh-executor proof | a fresh, weaker-context executor succeeded from the artifact alone |
+
+Rules:
+
+- Active/current surfaces (README, AGENTS, CHANGELOG, portal, eval docs,
+  `INDEX.md`, this file) using verdict-class wording — the proof-level rule
+  covers `PROVEN`, `PROVEN_WITH_WEAKNESSES`, `SURPASSED`, and variants (proof-level scope) —
+  must carry a same-line proof-level qualification naming the attained
+  level(s) and, when below PL6/PL7, stating what the claim is NOT (not
+  behaviorally observed, not fresh-executor proven).
+  `scripts/check-public-claim-boundaries.sh` enforces this on active
+  surfaces.
+- `docs/audits/archive/**` is exempt history: archived verdict bodies are
+  never rewritten. Qualification happens where a verdict is SURFACED on an
+  active/current page, not in the archive.
+- The taxonomy composes with the per-command evidence properties in
+  `skills/implementaudit/templates/phase-goal.txt`
+  (`structural` / `behavioral` / `provenance`): command properties classify
+  individual evidence commands; proof levels classify CLAIMS aggregating
+  that evidence. PL4 rests on structural-property commands; PL6/PL7 require
+  behavioral-property evidence from live runs. Authorization remains a
+  separate gate, never an evidence property or proof level.
+- Upgrade/downgrade: when behavioral or fresh-executor evidence later
+  lands (e.g., owner-approved A-series runs, `eval/README.md`), the claim's
+  proof level is upgraded in place; if evidence is invalidated, it is
+  downgraded — silently neither. Claims genuinely at PL6/PL7 are not
+  artificially downgraded.
+
 ## Archive
 
 Historical ledgers that still carry unique release claims, checksum decisions,

@@ -26,8 +26,10 @@ baseline: 5 fixtures × 1 config × 3 reps), validated by the selftest, and
 must never be folded into the frozen primary aggregate. Real A-series
 model runs are owner-approved under the same #9 approval posture, executed
 in disposable fixture repositories/worktrees; until such runs exist, the
-A-series is structural capability, and any capability claim derived from
-it must say so (proof-level discipline, issue #53). A3's verdict records
+A-series is structural capability — PL4/PL5 in the proof-level taxonomy of
+`docs/audits/RETENTION.md`, not PL6 observed behavior or PL7 fresh-executor
+proof — and any capability claim derived from it must say so
+(proof-level discipline, issue #53). A3's verdict records
 host-observed `phase_spec_validates` and `executor_replay_succeeded`
 flags, so executor-replay success or failure appears explicitly in the
 verdict rather than being inferred from prose.

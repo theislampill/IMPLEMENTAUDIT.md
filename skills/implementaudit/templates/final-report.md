@@ -48,6 +48,19 @@ State what the run proves and what it does not prove: local source, package,
 install-copy smoke, live host execution, public release, marketplace,
 publication, license, issue creation, or provenance.
 
+## Claim Rows (proof-level discipline)
+
+Every capability, parity, or surpass claim this report makes or repeats
+carries an explicit proof level (PL1-PL7 taxonomy, `docs/audits/RETENTION.md`
+in the source repo) and its evidence basis. Per-command evidence properties
+(`structural` / `behavioral` / `provenance`) are the low-level building
+blocks: they classify commands, proof levels classify claims. Do not use
+verdict-class wording (PROVEN / SURPASSED) below PL6 without stating what
+the claim is not.
+
+| Claim | Scope | Proof level | Evidence basis | Freshness | Upgrade condition |
+|---|---|---|---|---|---|
+
 ## Remaining Caveats
 
 List deferrals, owner decisions, unverified lanes, and future invalidation

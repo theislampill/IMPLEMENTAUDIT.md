@@ -212,6 +212,11 @@ host proof replaces it. The focused smoke is `tests/release-asset-install-claude
   gate (Stage 6.2): structural reviewer independence, the
   PASS/GAP-REVISE/BLOCKED/OWNER-DECISION disposition before
   preflight/dispatch/handoff, and the derivative-only roadmap projection.
+- `scripts/check-public-claim-boundaries.sh` also enforces proof-level
+  discipline (#53): verdict-class wording on active/current surfaces needs a
+  same-line proof-level qualification (PL1-PL7 taxonomy in
+  `docs/audits/RETENTION.md`); `docs/audits/archive/**` stays exempt
+  history and is never rewritten.
 - `scripts/check-source-evidence-pack.sh` does not exist; the builder/test pair
   is `scripts/build-source-evidence-pack.sh` plus `tests/source-evidence-pack.test.sh`.
   The source evidence zip must be LF-clean and exclude `.git/`, `.IMPLEMENTAUDIT/`,

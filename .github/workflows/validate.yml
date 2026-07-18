@@ -92,6 +92,7 @@ jobs:
           bash tests/action-selection-contract.test.sh
           bash tests/fanout-coverage-contract.test.sh
           bash tests/cold-review-contract.test.sh
+          bash tests/claim-boundary-proof-levels.test.sh
           bash tests/skill-layout-contract.test.sh
           bash tests/lean-discipline.test.sh
           bash tests/validation-registry.test.sh
