@@ -90,6 +90,24 @@ Standing gate owners: `check-action-selection-contract.sh`,
 `check-plan-quality-contract.sh`, `validate-phase.sh`,
 `check-public-claim-boundaries.sh`.
 
+## v0.3.2.0 release evidence (archived ledgers)
+
+- `docs/audits/archive/v0.3.2.0-release-report.md` - scope, integration
+  adjudications of record (review-set merge order, shared-owner
+  resolution, mid-session main-advance reconciliation, custody Andons,
+  B3 confound + seed de-confound, recorded process deviation), and the
+  qualification chain through the release branch.
+- `docs/audits/archive/v0.3.2.0-evaluation-report.md` - issue #9 program:
+  84/84 immutable v0.3.1.0 baseline (28 PASS / 55 FAIL / 1 classified
+  INVALID, zero substitutions), five B3 supplementary waves (improvement
+  without regression, evidenced), candidate/control comparison campaign,
+  E2c gate decision, evidence limits.
+- `docs/audits/archive/v0.3.2.0-issue-closure-ledger.md` - per-issue close
+  evidence for the v0.3.2.0 milestone.
+- `docs/audits/archive/v0.3.2.0-install-and-drift-report.md` - build,
+  publish, readback, active-install update, and post-release smoke
+  evidence (written at the release gate).
+
 ## Boundary
 
 The index points to current proof owners only. Detailed historical narratives,
