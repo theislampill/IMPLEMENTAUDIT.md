@@ -151,6 +151,28 @@ DEFERRED, or UNVERIFIED. A review may patch the plan only when the owner/source
 is clear and the patch is within the audit object. Otherwise, it records the
 smallest next action.
 
+Self-critique and independent cold review are distinct gates. Stage 6
+self-critique is the author reviewing its own plan. Independent cold review
+is a separate `ydqyq-audit-action` by a reviewer that does not reuse the
+authoring action's working context: prefer a separate child agent (a
+fresh-context reviewer subagent) where the host supports it; otherwise run a
+bounded serial fresh-context pass. Whenever the lifecycle produces a handoff
+or executor-ready phase artifact, independent cold review runs before
+preflight, dispatch, or handoff and records an overall disposition in the
+audit object:
+
+- PASS — executor-ready as written;
+- GAP-REVISE — bounded revision required; the author revises and the
+  reviewer re-checks (no arbitrary revision caps);
+- BLOCKED — owner/source, safety, or authorization prevents readiness;
+- OWNER DECISION — a material choice belongs to the owner.
+
+No handoff or executor-ready artifact proceeds to preflight or dispatch
+without a recorded disposition. A cold review performed by the authoring
+action without separation does not satisfy the gate. The gate binds to
+executor-facing artifacts and materially risky phase plans, not to every
+trivial direct-governance edit, and it never requires a "review" keyword.
+
 ## Execute / Dispatch / Review
 
 Execution semantics are audit-governed:

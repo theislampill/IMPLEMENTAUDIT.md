@@ -15,6 +15,22 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Added
 
+- Independent cold-review gate and derivative execution index (#51,
+  `IA-ACTION-COLD-REVIEW`): new Stage 6.2 — whenever the run produces a
+  handoff or executor-ready phase artifact, an independent cold review runs
+  before preflight, dispatch, or handoff. Independence is structural: a
+  separate fresh-context child agent where the host supports subagents,
+  otherwise a bounded serial fresh-context pass that excludes the authoring
+  context. Disposition PASS / GAP-REVISE / BLOCKED / OWNER DECISION is
+  recorded in the audit object (THINKING field; ROADMAP Review column);
+  Stage 6 self-critique is preserved, not replaced; no "review" keyword and
+  no review-plan mode. The roadmap gains an `Execution index (projection)`
+  section documented as derivative, never canonical. New reviewer lane in
+  `child-agents.md`; contract text in `plan-lifecycle.md`; two positive and
+  four negative fixtures under `fixtures/cold-review/`; new gate
+  `scripts/check-cold-review-contract.sh` + registered test
+  `tests/cold-review-contract.test.sh` with embedded negative controls.
+
 - Binding specialist-fanout coverage contract (#49, `IA-ACTION-FANOUT`):
   materially broad audits trigger actual bounded specialist lanes — parallel
   when the host supports subagents, serialized as separate bounded written

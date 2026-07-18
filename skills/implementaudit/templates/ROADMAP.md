@@ -68,9 +68,19 @@ Repo map file for brownfield work: `<run-root>/repo-map.md`
 
 ## Phases
 
-| Phase | Objective | Owner/source | Depends on | Smoke A | Smoke B | Status |
-|---|---|---|---|---|---|---|
-| 1 |  |  | - |  |  | open |
+| Phase | Objective | Owner/source | Depends on | Smoke A | Smoke B | Review | Status |
+|---|---|---|---|---|---|---|---|
+| 1 |  |  | - |  |  |  | open |
+
+Review column: independent cold-review disposition for executor-facing
+artifacts — PASS / GAP-REVISE / BLOCKED / OWNER DECISION / not applicable.
+
+## Execution index (projection)
+
+This roadmap — execution order, dependencies, phase status, and review
+disposition — is a human-facing projection of the audit object. It is
+derivative, never canonical: on divergence, the run root and phase specs
+govern, and this projection is corrected to match them.
 
 ## Scope boundaries
 

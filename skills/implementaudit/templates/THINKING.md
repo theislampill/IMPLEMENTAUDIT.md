@@ -180,6 +180,8 @@ Review-plan cold-reader result:
 
 Review-plan weak-executor result:
 
+Independent cold-review disposition (PASS / GAP-REVISE / BLOCKED / OWNER DECISION) and reviewer independence (separate child agent / bounded serial fresh-context pass):
+
 Execute/dispatch/review boundary:
 
 Execute isolation contract:

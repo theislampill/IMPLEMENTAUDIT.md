@@ -139,6 +139,14 @@ contract and recorded as coverage-lane records in the audit object. A
 coverage table documents executed lanes; it never substitutes for them, and
 a warranted lane is never silently dropped.
 
+Executor-facing artifacts also pass an independent cold review (Stage 6.2)
+before preflight, dispatch, or handoff: a fresh-context reviewer — a
+separate child agent where the host supports subagents, otherwise a bounded
+serial fresh-context pass — records PASS / GAP-REVISE / BLOCKED /
+OWNER DECISION in the audit object. Self-critique is preserved, not
+replaced, and the roadmap execution index stays a derivative projection of
+the audit object, never canonical.
+
 Current optional-tooling architecture:
 
 <!-- BEGIN: implementaudit-diagram:tooling-architecture -->
