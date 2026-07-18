@@ -54,6 +54,22 @@ ledger/checklist.
 | Read-only contract auditor | Package claims, layout, manifests, templates, scripts, fixtures, README/CHANGELOG truthfulness, optional-tool evidence boundaries, and release-gate Andon records for failed/retried/substituted checks. | PASS / GAP / OWNER DECISION rows. |
 | Adversarial behavioral auditor | False completion paths, marker drift, weak boundaries, stale layout assumptions, authorization drift, AGENTS_UPDATE_DECISION ambiguity, and whether abnormal command paths can be normalized away without Andon registration. | exploit / risk / countermeasure / OWNER DECISION rows. |
 
+## Independent cold-review lane
+
+The independent cold-review action from `plan-lifecycle.md` dispatches a
+fresh-context reviewer over a handoff or executor-ready phase artifact
+before preflight, dispatch, or handoff. The reviewer prompt contains the
+artifact (inlined or by path), the repo baseline ref, and the
+planning-security rules — and deliberately excludes the authoring session's
+working notes, so hidden-context gaps surface instead of being mentally
+filled. The reviewer acts as cold reader and weak executor and returns
+findings plus one overall disposition: PASS / GAP-REVISE / BLOCKED /
+OWNER DECISION. Where the host cannot run subagents, the fallback is a
+bounded serial fresh-context pass with the same exclusion of authoring
+context. Like every child agent, the cold reviewer is non-authoritative:
+the disposition gates readiness, while mutation and closure stay with the
+main governed run.
+
 ## Specialist loops
 
 Specialist fanout is a warranted `ydqyq-audit-action`, not an optional

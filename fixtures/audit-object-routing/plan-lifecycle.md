@@ -17,6 +17,13 @@ Review-plan semantics:
 - cold reader: a fresh agent can execute from disk without chat context
 - weak executor: a literal executor cannot overclaim, mutate the wrong owner, or
   cross authorization gates
+- independent cold review: a reviewer that does not reuse the authoring
+  context — a separate child agent where the host supports subagents, or a
+  bounded serial fresh-context pass — records an overall disposition
+  (PASS / GAP-REVISE / BLOCKED / OWNER DECISION) before any handoff,
+  preflight, or dispatch of an executor-ready artifact
+- projection surfaces (roadmap/index) remain derivative of the audit
+  object, never canonical
 
 Execute / dispatch / review semantics:
 

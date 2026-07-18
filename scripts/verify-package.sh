@@ -245,6 +245,13 @@ require_file tests/skill-bootstrap-budget.test.sh
 require_file tests/source-evidence-pack.test.sh
 require_file tests/action-selection-contract.test.sh
 require_file tests/fanout-coverage-contract.test.sh
+require_file tests/cold-review-contract.test.sh
+require_file fixtures/cold-review/independent-review-confirms-handoff.md
+require_file fixtures/cold-review/projection-index-derivative.md
+require_file fixtures/cold-review/negative-self-critique-only-preflight.md
+require_file fixtures/cold-review/negative-same-context-review.md
+require_file fixtures/cold-review/negative-projection-contradicts-object.md
+require_file fixtures/cold-review/negative-review-keyword-gate.md
 require_file fixtures/child-agents/broad-scope-four-lanes.md
 require_file fixtures/child-agents/low-concurrency-serialized-lanes.md
 require_file fixtures/child-agents/negative-coverage-table-only.md
@@ -583,6 +590,7 @@ bash tests/skill-bootstrap-budget.test.sh
 bash tests/source-evidence-pack.test.sh
 bash tests/action-selection-contract.test.sh
 bash tests/fanout-coverage-contract.test.sh
+bash tests/cold-review-contract.test.sh
 bash tests/no-terminal-cap.test.sh
 bash tests/eval-harness.test.sh
 bash tests/payload-path-hygiene.test.sh

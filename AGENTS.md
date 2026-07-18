@@ -208,6 +208,10 @@ host proof replaces it. The focused smoke is `tests/release-asset-install-claude
   serialized fallback, coverage-lane records, the per-lane prompt contract
   (also enforced on child prompts by `check-plan-quality-contract.sh`), and
   no silent lane drops.
+- `scripts/check-cold-review-contract.sh` guards the independent cold-review
+  gate (Stage 6.2): structural reviewer independence, the
+  PASS/GAP-REVISE/BLOCKED/OWNER-DECISION disposition before
+  preflight/dispatch/handoff, and the derivative-only roadmap projection.
 - `scripts/check-source-evidence-pack.sh` does not exist; the builder/test pair
   is `scripts/build-source-evidence-pack.sh` plus `tests/source-evidence-pack.test.sh`.
   The source evidence zip must be LF-clean and exclude `.git/`, `.IMPLEMENTAUDIT/`,

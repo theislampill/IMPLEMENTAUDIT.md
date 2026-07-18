@@ -146,6 +146,7 @@ Stage 3 - Deep think / risk and dependency analysis
 Stage 4 - Phase decomposition
 Stage 5 - Write .IMPLEMENTAUDIT/runs/<task-slug>-<id> runtime artifacts
 Stage 6 - Plan review and self-critique
+Stage 6.2 - Independent cold review
 Stage 6.5 - Pre-flight smoke
 Stage 7 - One ready-to-paste /goal handoff when not already embedded
 ```
