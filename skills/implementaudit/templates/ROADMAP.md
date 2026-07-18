@@ -22,6 +22,14 @@ Double-audit sequence, if release-affecting or high-risk:
 2. ydqyq-audit-action against tdqyq-audit-object:
 3. Final ydqyq-audit-action -> terminal tdqyq-audit-object state:
 
+## Action selection
+
+Selected ydqyq-audit-actions:
+
+Omitted-but-considered actions (with reasons):
+
+Depth rationale (warranted / not warranted because):
+
 ## Baseline ref
 
 <!-- Commit hash, branch, or file snapshot used for diff-based final audit. -->

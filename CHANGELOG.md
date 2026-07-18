@@ -13,6 +13,20 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ## [Unreleased]
 
+### Added
+
+- Action-selection contract (#48, `IA-ACTION-DEPTH`): ordinary task-shaped
+  invocations derive the warranted `ydqyq-audit-action` set from scope,
+  uncertainty, risk, dependencies, evidence gaps, authorization state, and
+  intended executor — recorded both ways (selected and omitted-with-reason),
+  never keyword-activated. New contract section in
+  `skills/implementaudit/references/planning-depth.md`, Stage-1 derivation line
+  in `SKILL.md`, `## Action selection` blocks in the THINKING/ROADMAP
+  templates, fixture family `fixtures/audit-action-selection/` (two positive,
+  three negative), checker `scripts/check-action-selection-contract.sh` with
+  `--repo-root` support, and registered test
+  `tests/action-selection-contract.test.sh` with embedded negative controls.
+
 ### Fixed
 
 - Payload scorer robustness (post-merge, Fable re-audit of #13/#12/#15):

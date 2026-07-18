@@ -87,6 +87,48 @@ For high-risk, release-affecting, package-boundary, provenance, or public-claim
 work, the planning layer must preserve the double-audit pattern: create or
 normalize the audit object, act against it, then verify terminal object closure.
 
+## Action-selection contract
+
+Every ordinary task-shaped invocation derives the warranted
+`ydqyq-audit-action` set from the live factors of the request and repo:
+
+- scope
+- uncertainty
+- risk
+- dependencies
+- evidence gaps
+- authorization state
+- intended executor
+
+Depth never requires an activation keyword. Do not wait for wording such as
+"deep", "plan", or "review" before selecting reconnaissance, dependency
+analysis, planning depth, or decomposition actions; the factors alone decide.
+The same factors also bound restraint: when a narrow, already-bounded
+owner/source repair gains no safety, evidence, sequencing, or executor
+reconstructibility from deeper structure, stay direct.
+
+Selection is recorded, both ways. Write an action-selection record into the
+audit object: the `## Action selection` section of the run-root `THINKING.md`
+when a run root exists, otherwise an equivalent transcript row. The record
+names:
+
+- input shape and intended executor;
+- uncertainty, dependency density, and evidence gaps;
+- authorization state;
+- selected `ydqyq-audit-actions`;
+- considered-but-omitted actions with the reason each was not warranted;
+- why deeper planning was or was not warranted.
+
+Reference loading follows selection. The selected action set names the
+owner/source references it needs: load `phase-design.md` when decomposition is
+selected, `child-agents.md` when bounded specialist review is selected, and
+`plan-lifecycle.md` when a handoff artifact will be emitted. A weak or
+fresh-context intended executor, material dependency density, ambiguity, or
+risk deepens the action set automatically; request size alone never does.
+
+An absent or hand-wavy action-selection record is a plan-quality defect, not a
+style preference.
+
 Regardless of planning depth, execution continues phase-by-phase until terminal
 audit closure (`AUDIT_COMPLETE`) or an explicit audited handoff
 (`AUDIT_HANDOFF`). Blocked work ends in handoff, not fake completion.

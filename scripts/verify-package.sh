@@ -243,6 +243,12 @@ require_file tests/skill-layout-contract.test.sh
 require_file tests/e2e-mini-audit-loop.test.sh
 require_file tests/skill-bootstrap-budget.test.sh
 require_file tests/source-evidence-pack.test.sh
+require_file tests/action-selection-contract.test.sh
+require_file fixtures/audit-action-selection/ordinary-task-deepens.md
+require_file fixtures/audit-action-selection/narrow-direct-stays-shallow.md
+require_file fixtures/audit-action-selection/negative-keyword-gated-depth.md
+require_file fixtures/audit-action-selection/negative-size-only-deepening.md
+require_file fixtures/audit-action-selection/negative-missing-selection-record.md
 require_file fixtures/dogfood-bootstrap/positive/baseline-first-transcript.jsonl
 require_file fixtures/dogfood-bootstrap/negative/installed-readback-before-baseline-transcript.jsonl
 require_file fixtures/dogfood-bootstrap/negative/chunking-readback-before-baseline-transcript.jsonl
@@ -568,6 +574,7 @@ bash tests/skill-layout-contract.test.sh
 bash tests/e2e-mini-audit-loop.test.sh
 bash tests/skill-bootstrap-budget.test.sh
 bash tests/source-evidence-pack.test.sh
+bash tests/action-selection-contract.test.sh
 bash tests/no-terminal-cap.test.sh
 bash tests/eval-harness.test.sh
 bash tests/payload-path-hygiene.test.sh

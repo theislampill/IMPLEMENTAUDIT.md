@@ -116,6 +116,14 @@ thresholds, and 5-Whys loop exit. Read-only audit/plan/review/direction work may
 write human-readable `plans/` outputs, but that lane does not authorize source
 mutation and does not replace `.IMPLEMENTAUDIT/runs/` for implementation.
 
+Warranted planning depth is not optional detail behind progressive disclosure.
+The action-selection contract in
+`skills/implementaudit/references/planning-depth.md` requires ordinary
+task-shaped invocations to derive the warranted `ydqyq-audit-action` set from
+scope, uncertainty, risk, dependencies, evidence gaps, authorization state, and
+intended executor — recording both selected and omitted actions with reasons —
+with no activation keywords.
+
 Current optional-tooling architecture:
 
 <!-- BEGIN: implementaudit-diagram:tooling-architecture -->

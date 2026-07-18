@@ -160,13 +160,15 @@ with zipfile.ZipFile(asset) as zf:
             f"calling writestr(). Stored: {sample}{tail}"
         )
 
-    # Total asset size guard: uncompressed asset is ~155 KB; properly deflated
-    # is ~60 KB for the current payload.  120 KB provides ~2x headroom for
-    # legitimate payload growth while still catching accidental ZIP_STORED
-    # regressions.  Update this threshold only after confirming entries remain
-    # ZIP_DEFLATED (the check above) and the payload growth is intentional.
+    # Total asset size guard: catches accidental ZIP_STORED regressions and
+    # unintentional payload bloat.  Update this threshold only after confirming
+    # entries remain ZIP_DEFLATED (the check above) and the payload growth is
+    # intentional.  History: 120_000 set at v0.2.6.0 (~60 KB deflated payload,
+    # ~2x headroom); raised to 130_000 for #48 (IA-ACTION-DEPTH) after the
+    # v0.3.2.0 review-set integration plus the action-selection contract grew
+    # the deflated asset to ~121 KB — growth verified intentional and deflated.
     asset_bytes = asset.stat().st_size
-    MAX_ASSET_BYTES = 120_000
+    MAX_ASSET_BYTES = 130_000
     if asset_bytes > MAX_ASSET_BYTES:
         raise SystemExit(
             f"asset size {asset_bytes:,} bytes exceeds the {MAX_ASSET_BYTES:,}-byte "
