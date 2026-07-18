@@ -15,6 +15,14 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Added
 
+- Eval: candidate-product attestation for the post-change/comparison
+  phases — host adapters gain `product_expected_rev` (default
+  `v0.3.1.0`, so every baseline path is byte-identical); campaign
+  runners pass the campaign intent's candidate commit and the identity
+  gate cross-checks the checkout HEAD against that INTENDED identity
+  (mismatch still refuses; never self-attestation). Tests
+  H41/H41b/H41c.
+
 - Context-epoch continuity contract (#35): a compacted/reconstructed
   summary is an observation of history, not current-state authority. New
   packaged reference `references/continuity.md`; PROTOCOL template
