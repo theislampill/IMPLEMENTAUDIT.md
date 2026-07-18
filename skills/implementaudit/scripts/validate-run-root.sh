@@ -129,6 +129,56 @@ if [ -f "$state" ] && grep -qi '^## Occurrence resolution and residuals' "$state
   fi
 fi
 
+# Context epochs + instruction applicability (#35): new-format roots
+# (section present) need a valid boundary-provenance token per epoch row
+# and valid kind/status tokens per instruction row; legacy roots without
+# the section stay valid. Structure/tokens only — reconciliation substance
+# is judged by the run, not this helper.
+if [ -f "$state" ] && grep -qi '^## Context epochs and instruction applicability' "$state"; then
+  bad_prov="$(awk -F'|' '
+    /^## Context epochs and instruction applicability/ { f=1; next }
+    f && /^## / { f=0 }
+    f && /^\|[[:space:]]*e[0-9]+[[:space:]]*\|/ {
+      p=$3; gsub(/^[ \t]+|[ \t]+$/, "", p)
+      e=$2; gsub(/^[ \t]+|[ \t]+$/, "", e)
+      if (p !~ /^(host-reported-compaction|new-session|handoff-resume|manual-resume|inferred-context-gap)$/) print e
+    }' "$state")"
+  if [ -n "$bad_prov" ]; then
+    err "STATE.md epoch row(s) with invalid boundary provenance: $(printf '%s' "$bad_prov" | tr '\n' ' ') (allowed: host-reported-compaction / new-session / handoff-resume / manual-resume / inferred-context-gap; never fabricate a compaction)"
+  fi
+  bad_instr="$(awk -F'|' '
+    /^## Context epochs and instruction applicability/ { f=1; next }
+    f && /^## / { f=0 }
+    f && /^\|[[:space:]]*i[0-9]+[[:space:]]*\|/ {
+      k=$4; gsub(/^[ \t]+|[ \t]+$/, "", k)
+      s=$8; gsub(/^[ \t]+|[ \t]+$/, "", s)
+      n=$2; gsub(/^[ \t]+|[ \t]+$/, "", n)
+      okk = (k ~ /^(one-shot-action|standing-constraint|standing-authorization|persistent-objective|query-or-information-request)$/)
+      oks = (s ~ /^(active|satisfied|superseded|revoked|expired|ambiguous)$/)
+      if (!okk || !oks) print n
+    }' "$state")"
+  if [ -n "$bad_instr" ]; then
+    err "STATE.md instruction row(s) with invalid kind/status token: $(printf '%s' "$bad_instr" | tr '\n' ' ') (kind: one-shot-action / standing-constraint / standing-authorization / persistent-objective / query-or-information-request; status: active / satisfied / superseded / revoked / expired / ambiguous)"
+  fi
+  # A terminal status is a claim about the world; without status evidence
+  # it is exactly the bare assertion that lets a reconstructed summary
+  # replay a "satisfied" one-shot. Terminal rows need a non-empty,
+  # non-"-" Status evidence cell (#35).
+  no_ev="$(awk -F'|' '
+    /^## Context epochs and instruction applicability/ { f=1; next }
+    f && /^## / { f=0 }
+    f && /^\|[[:space:]]*i[0-9]+[[:space:]]*\|/ {
+      s=$8; gsub(/^[ \t]+|[ \t]+$/, "", s)
+      ev=$9; gsub(/^[ \t]+|[ \t]+$/, "", ev)
+      n=$2; gsub(/^[ \t]+|[ \t]+$/, "", n)
+      if (s ~ /^(satisfied|superseded|revoked|expired)$/ &&
+          (ev == "" || ev ~ /^-+$/)) print n
+    }' "$state")"
+  if [ -n "$no_ev" ]; then
+    err "STATE.md instruction row(s) with terminal status but no status evidence: $(printf '%s' "$no_ev" | tr '\n' ' ') (satisfied/superseded/revoked/expired require evidence — a bare terminal claim is the replay hazard #35 forbids)"
+  fi
+fi
+
 # Evidence-version anchoring (#4): an ANCHORED evidence token must carry
 # the FULL 40-hex commit SHA — a short-sha anchor is a stale-evidence
 # hazard and fails. Tokens are `@<hex>` with 7+ hex chars (git-sha-like);

@@ -15,6 +15,29 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Added
 
+- Context-epoch continuity contract (#35): a compacted/reconstructed
+  summary is an observation of history, not current-state authority. New
+  packaged reference `references/continuity.md`; PROTOCOL template
+  §Continuity boundaries (seven-step post-boundary reconciliation before
+  any repository mutation; honest boundary provenance from exactly five
+  host-truthful values; satisfied/superseded one-shot replay refused with
+  cited terminal evidence; standing constraints/authorizations never
+  consumed by a boundary; repeated identical owner message answered as a
+  fresh authority event with no duplicate action; live-bound re-entry
+  capsule; single-writer epoch claim; uninterrupted turns add no
+  ceremony). STATE template gains the optional
+  `## Context epochs and instruction applicability` section (legacy run
+  roots stay valid and resumable; new epochs require it after this
+  version). `validate-run-root.sh` validates the new section when
+  present: provenance tokens, instruction kind/status tokens, and
+  non-empty status evidence on terminal statuses (a bare `satisfied`
+  claim is the replay hazard). Transcript contract records the
+  deliberate no-new-marker decision. New `tests/continuity-contract.test.sh`
+  (surface vocabulary + validator negative controls) registered in both
+  test registries. Behavioral coverage is the separately versioned B3
+  supplementary baseline (PR #36/#59; pre-change 6/6 FAIL recorded before
+  this change).
+
 - Proof-level taxonomy and claim discipline (#53, `IA-PROOF-LEVELS`):
   PL1-PL7 taxonomy defined in `docs/audits/RETENTION.md` (prose presence,
   runtime instruction, template requirement, structural validation,

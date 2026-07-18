@@ -56,6 +56,7 @@ require_file skills/implementaudit/references/planning-depth.md
 require_file skills/implementaudit/references/phase-design.md
 require_file skills/implementaudit/references/goal-format.md
 require_file skills/implementaudit/references/transcript-contract.md
+require_file skills/implementaudit/references/continuity.md
 require_file skills/implementaudit/references/routing.md
 require_file skills/implementaudit/references/repo-state-comparison.md
 require_file skills/implementaudit/references/sidecars.md
@@ -201,6 +202,7 @@ require_file fixtures/lean/sidecar-graphify-absent-markdown-fallback.md
 require_file fixtures/lean/sidecar-graphify-dmaic-analyze.md
 require_file fixtures/lean/sidecar-activegraph-dmaic-custody.md
 require_file tests/andon-class-contract.test.sh
+require_file tests/continuity-contract.test.sh
 require_file tests/lesson-lift-contract.test.sh
 require_file tests/handoff-packet-contract.test.sh
 require_file tests/closure-surface-contract.test.sh
@@ -550,6 +552,7 @@ bash scripts/check-terminology-integration.sh
 bash scripts/check-added-lines-clean.sh HEAD
 bash tests/lean-discipline.test.sh
 bash tests/andon-class-contract.test.sh
+bash tests/continuity-contract.test.sh
 bash tests/lesson-lift-contract.test.sh
 bash tests/handoff-packet-contract.test.sh
 bash tests/closure-surface-contract.test.sh
