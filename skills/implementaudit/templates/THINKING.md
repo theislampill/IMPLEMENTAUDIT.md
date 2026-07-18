@@ -140,6 +140,8 @@ Deep-pressure follow-up:
 
 Deep coverage disclosure:
 
+Coverage lanes (per warranted lane: category | owner/source or scope | bounded question | evidence boundary | prompt contract | status executed/serialized/skipped+reason | evidence returned | residual risk):
+
 Security-pressure follow-up:
 
 Quick/bounded audit behavior:

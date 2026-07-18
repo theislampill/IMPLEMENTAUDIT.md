@@ -90,6 +90,7 @@ jobs:
           bash tests/skill-bootstrap-budget.test.sh
           bash tests/source-evidence-pack.test.sh
           bash tests/action-selection-contract.test.sh
+          bash tests/fanout-coverage-contract.test.sh
           bash tests/skill-layout-contract.test.sh
           bash tests/lean-discipline.test.sh
           bash tests/validation-registry.test.sh

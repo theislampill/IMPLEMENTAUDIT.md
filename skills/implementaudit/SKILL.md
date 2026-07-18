@@ -201,8 +201,9 @@ Load references only when the current gate needs them:
   And Diff Scoping, Review-Plan Semantics, Execute / Dispatch / Review,
   Reconciliation Semantics, read-only `plans/` output lane, and Issue
   Publication Deferred.
-- `references/child-agents.md`: bounded read-only review loops and
-  non-authority boundaries.
+- `references/child-agents.md`: bounded read-only review loops,
+  non-authority boundaries, and the binding specialist-fanout coverage
+  contract with serialized fallback.
 - `references/terminology-integration.md`: thin terminology precedence.
   Use FMEA-lite fields when risk is material, STRIDE/trust-boundary notes when
   a material security surface exists, SOLID/GRASP generic-advice guard, and a

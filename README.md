@@ -131,6 +131,14 @@ per-step verification, explicit scope boundaries, and plan-specific STOP
 conditions; `validate-phase.sh` rejects vague step language and boilerplate
 STOPs, and the read-only handoff lane aligns on the same bar.
 
+Specialist fanout is binding where material coverage demands it
+(`skills/implementaudit/references/child-agents.md`): actual bounded lanes —
+parallel when the host supports subagents, serialized as separate bounded
+written passes when it does not — each dispatched under the per-lane prompt
+contract and recorded as coverage-lane records in the audit object. A
+coverage table documents executed lanes; it never substitutes for them, and
+a warranted lane is never silently dropped.
+
 Current optional-tooling architecture:
 
 <!-- BEGIN: implementaudit-diagram:tooling-architecture -->
