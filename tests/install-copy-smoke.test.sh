@@ -17,6 +17,7 @@ for file in \
   references/phase-design.md \
   references/goal-format.md \
   references/transcript-contract.md \
+  references/continuity.md \
   references/routing.md \
   references/repo-state-comparison.md \
   references/sidecars.md \
