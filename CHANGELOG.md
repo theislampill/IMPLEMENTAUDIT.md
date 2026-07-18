@@ -23,7 +23,7 @@ schema evidence proved four-component plugin manifest versions are accepted.
   host-truthful values; satisfied/superseded one-shot replay refused with
   cited terminal evidence; standing constraints/authorizations never
   consumed by a boundary; repeated identical owner message answered as a
-  fresh authority event with no duplicate action; live-bound re-entry
+  fresh authority event with no duplicate action; live-bound continuity
   capsule; single-writer epoch claim; uninterrupted turns add no
   ceremony). STATE template gains the optional
   `## Context epochs and instruction applicability` section (legacy run

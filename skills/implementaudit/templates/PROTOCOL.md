@@ -354,7 +354,7 @@ owner message is a fresh authority event: if its target is terminally
 satisfied, answer "Target already satisfied at <evidence>; no duplicate
 action taken. Current open state is <state>." — reactivation needs an
 explicit reopen, a changed target, or evidence invalidating the terminal
-status. The re-entry capsule binds current repository identity, epoch id,
+status. The continuity capsule binds current repository identity, epoch id,
 next authorized action, and the ACTIVE instruction set, rederived from
 live owners. An uninterrupted turn crosses no boundary and adds NO epoch
 ceremony. Legacy run roots without the section remain valid; the first
