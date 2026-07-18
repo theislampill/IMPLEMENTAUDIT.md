@@ -197,7 +197,7 @@ with zipfile.ZipFile(asset) as zf:
             )
 
         plugin = json.loads((root / ".claude-plugin/plugin.json").read_text())
-        if plugin.get("version") != "0.3.1":
+        if plugin.get("version") != "0.3.2":
             raise SystemExit("expected plugin version 0.3.1")
         if plugin.get("skills") != "./":
             raise SystemExit(
