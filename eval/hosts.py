@@ -393,7 +393,8 @@ class _BaseAdapter:
 
     def __init__(self, host_argv_template, requested_model,
                  product_checkout=None, host_cwd=None, formal=True,
-                 lane_id=None, product_expected_rev="v0.3.1.0"):
+                 lane_id=None, product_expected_rev="v0.3.1.0",
+                 host_read_attestation=None):
         self.host_argv_template = list(host_argv_template)
         self.requested_model = requested_model
         self.product_checkout = product_checkout
@@ -415,6 +416,8 @@ class _BaseAdapter:
         self._staged_payload_hash = None
         self._not_before = None
         self._tool_trace = []
+        self._host_read_attestation = self._validate_host_read_attestation(
+            host_read_attestation)
 
     # --- provenance -------------------------------------------------------
     def resolve_model(self, host_output_text):
@@ -857,21 +860,52 @@ class _BaseAdapter:
         return _clean_env()
 
     # --- deterministic host checks (fixture-declared) ----------------------
+    @staticmethod
+    def _validate_host_read_attestation(attestation):
+        """Validate optional host-owned shell/executable resolution facts."""
+        if attestation is None:
+            return None
+        if not isinstance(attestation, dict):
+            raise framework.AdapterError(
+                "host_read_attestation must be an object")
+        attestation_id = attestation.get("id")
+        dialect = attestation.get("shell_dialect")
+        executables = attestation.get("executables")
+        if (not isinstance(attestation_id, str) or not attestation_id or
+                dialect not in ("posix", "powershell", "cmd") or
+                not isinstance(executables, dict) or not executables or
+                any(not isinstance(name, str) or not name or
+                    not isinstance(identity, str) or not identity
+                    for name, identity in executables.items())):
+            raise framework.AdapterError(
+                "invalid host_read_attestation identity/dialect/executables")
+        return {
+            "id": attestation_id, "shell_dialect": dialect,
+            "executables": dict(executables)}
+
     def _host_read_profile(self, repo=None):
         """Frozen evidence profile for the deliberately small shell subset."""
         host_kind = "claude" if self.name == "claude-cli" else "codex"
+        attestation = self._host_read_attestation or {}
         return {
             "schema": "implementaudit-host-read-profile-v1",
             "host": host_kind,
             "repo_root": os.path.abspath(repo) if repo else None,
             "filesystem_identity": "exact-case-root-bound-no-symlink-alias",
-            "shell_dialect": "posix-token-subset-v1",
-            "trusted_executables": (
-                "cat", "sed", "head", "tail", "get-content", "type",
-                "rg", "grep"),
-            "host_owned_wrapper": (
-                "/bin/bash", "-lc") if host_kind == "codex" else None,
+            "attestation_id": attestation.get("id"),
+            "shell_dialect": attestation.get("shell_dialect"),
+            "executables": dict(attestation.get("executables") or {}),
         }
+
+    def _bind_command_profile(self, record, host_owned_wrapper=False):
+        """Attach only adapter-owned attestation facts to a command record."""
+        bound = dict(record)
+        profile = self._host_read_profile()
+        if profile["attestation_id"]:
+            bound["host_read_attestation_id"] = profile["attestation_id"]
+            bound["shell_dialect"] = profile["shell_dialect"]
+        bound["wrapper_host_owned"] = bool(host_owned_wrapper)
+        return bound
 
     @staticmethod
     def _strict_json(line):
@@ -895,6 +929,30 @@ class _BaseAdapter:
             "ordinal": ordinal, "invoked_ordinal": ordinal,
             "completed_ordinal": None, "action": "invalid",
             "reason": reason, "source": "host-stream-invalid"})
+
+    @staticmethod
+    def _codex_action_payload(item):
+        """Normalized identity-bearing payload for start/completion binding."""
+        item_type = item.get("type")
+        if item_type == "command_execution":
+            command = item.get("command")
+            return (("command", command) if isinstance(command, str)
+                    else None)
+        if item_type == "file_change":
+            changes = item.get("changes")
+            if not isinstance(changes, list):
+                return None
+            normalized = []
+            for change in changes:
+                if (not isinstance(change, dict) or
+                        not isinstance(change.get("path"), str) or
+                        not change.get("path") or
+                        ("kind" in change and
+                         not isinstance(change.get("kind"), str))):
+                    return None
+                normalized.append((change["path"], change.get("kind")))
+            return ("changes", tuple(normalized))
+        return None
 
     def _extract_tool_trace(self, out):
         """Normalize one host's raw stream into typed action intervals.
@@ -948,8 +1006,15 @@ class _BaseAdapter:
                         self._invalid_trace(
                             records, ordinal, "duplicate Codex item id")
                         continue
+                    payload = self._codex_action_payload(item)
+                    if payload is None:
+                        self._invalid_trace(
+                            records, ordinal,
+                            "Codex started item lacks normalized payload")
+                        continue
                     pending[item_id] = {
-                        "ordinal": ordinal, "item_type": item_type}
+                        "ordinal": ordinal, "item_type": item_type,
+                        "payload": payload}
                     continue
                 if item_id and item_id in completed_ids:
                     self._invalid_trace(
@@ -961,6 +1026,14 @@ class _BaseAdapter:
                 if started and started["item_type"] != item_type:
                     self._invalid_trace(
                         records, ordinal, "Codex item type changed")
+                    continue
+                completed_payload = self._codex_action_payload(item)
+                if completed_payload is None or (
+                        started and
+                        completed_payload != started.get("payload")):
+                    self._invalid_trace(
+                        records, ordinal,
+                        "Codex start/completion payload conflict")
                     continue
                 invoked = started["ordinal"] if started else ordinal
                 if item_type == "command_execution":
@@ -976,12 +1049,12 @@ class _BaseAdapter:
                             records, ordinal,
                             "invalid Codex command completion")
                         continue
-                    records.append({
+                    records.append(self._bind_command_profile({
                         "ordinal": ordinal, "invoked_ordinal": invoked,
                         "completed_ordinal": ordinal, "action": "command",
                         "command": command, "output": output,
                         "exit_code": exit_code,
-                        "source": "codex-command-completed"})
+                        "source": "codex-command-completed"}))
                 else:
                     changes = item.get("changes")
                     if (item.get("status") not in (None, "completed") or
@@ -1100,7 +1173,7 @@ class _BaseAdapter:
                     content = block.get("content", "")
                     if not isinstance(content, str):
                         content = ""
-                    records.append({
+                    normalized = {
                         "ordinal": ordinal,
                         "invoked_ordinal": record["ordinal"],
                         "completed_ordinal": ordinal,
@@ -1108,7 +1181,10 @@ class _BaseAdapter:
                         "path": record.get("path"),
                         "command": record.get("command"),
                         "output": content, "exit_code": 0,
-                        "source": record["source"]})
+                        "source": record["source"]}
+                    if normalized["action"] == "command":
+                        normalized = self._bind_command_profile(normalized)
+                    records.append(normalized)
         if pending:
             self._invalid_trace(
                 records, ordinal + 1, "host action lacks completion")
@@ -1155,7 +1231,7 @@ class _BaseAdapter:
         return name[:-4] if name.endswith(".exe") else name
 
     @classmethod
-    def _resolved_command(cls, stage):
+    def _resolved_command(cls, stage, profile):
         """Resolve a small, explicitly supported transparent-wrapper set."""
         tokens = list(stage)
         index = 0
@@ -1172,8 +1248,13 @@ class _BaseAdapter:
             name = cls._command_name(executable)
             index += 1
             normalized = executable.replace("\\", "/")
-            if "/" in normalized and not (
-                    normalized in (f"/bin/{name}", f"/usr/bin/{name}")):
+            expected_identity = (profile.get("executables") or {}).get(name)
+            if expected_identity is None:
+                return "<unsupported>", tokens[index:]
+            expected_normalized = expected_identity.replace("\\", "/")
+            if "/" in normalized and normalized != expected_normalized:
+                return "<unsupported>", tokens[index:]
+            if "/" in normalized and expected_normalized.startswith("builtin:"):
                 return "<unsupported>", tokens[index:]
             if name == "command":
                 if index < len(tokens) and tokens[index] in ("-v", "-V"):
@@ -1297,13 +1378,15 @@ class _BaseAdapter:
                     quote = None
                 elif quote == '"' and char == "\\":
                     escaped = True
+                elif quote == '"' and char in ("$", "`"):
+                    return True
                 index += 1
                 continue
             if char == "\\":
                 escaped = True
             elif char in ("'", '"'):
                 quote = char
-            elif char == "`" or char in "()":
+            elif char == "`" or char in "(){}*?[~":
                 return True
             elif char == "$":
                 following = text[index + 1:index + 2]
@@ -1313,15 +1396,40 @@ class _BaseAdapter:
             index += 1
         return quote is not None
 
+    @staticmethod
+    def _has_dynamic_expansion(text):
+        """Detect shell expansion outside single-quoted literal data."""
+        quote = None
+        escaped = False
+        for char in str(text or ""):
+            if escaped:
+                escaped = False
+                continue
+            if char == "\\" and quote != "'":
+                escaped = True
+                continue
+            if char in ("'", '"'):
+                if quote is None:
+                    quote = char
+                elif quote == char:
+                    quote = None
+                continue
+            if char in ("$", "`", "*", "?", "[", "{", "~") and \
+                    quote != "'":
+                return True
+        return False
+
     @classmethod
-    def _unwrap_host_command(cls, command, source):
+    def _unwrap_host_command(cls, command, source,
+                             wrapper_host_owned=False):
         """Unwrap only the frozen, host-owned Codex bash login envelope."""
         text = str(command or "")
         try:
             tokens = shlex.split(text, posix=True)
         except ValueError:
             return text, False
-        if (source == "codex-command-completed" and len(tokens) == 3 and
+        if (wrapper_host_owned and
+                source == "codex-command-completed" and len(tokens) == 3 and
                 tokens[0] in ("/bin/bash", "/usr/bin/bash") and
                 tokens[1] == "-lc"):
             return tokens[2], True
@@ -1404,7 +1512,8 @@ class _BaseAdapter:
                     (wanted == observed or wanted.startswith(observed + "/")))
 
     @classmethod
-    def _reader_effect(cls, name, args, stdin_paths, expected, repo, output):
+    def _reader_effect(cls, name, args, stdin_paths, expected, repo, output,
+                       shell_dialect):
         """Return ``read``, ``not``, or ``ambiguous`` for one shell stage."""
         if name in ("<unsupported>", "<xargs-unsupported>"):
             return "ambiguous" if any(
@@ -1427,6 +1536,15 @@ class _BaseAdapter:
             return "ambiguous" if any(
                 cls._target_mentioned(token, expected)
                 for token in args) else "not"
+        dialect_readers = {
+            "posix": {"cat", "sed", "head", "tail", "rg", "grep"},
+            "powershell": {"get-content", "rg", "grep"},
+            "cmd": {"type", "rg", "grep"},
+        }
+        if name not in dialect_readers.get(shell_dialect, set()):
+            return "ambiguous" if any(
+                cls._target_mentioned(token, expected)
+                for token in args + stdin_paths) else "not"
         if any(arg in ("--help", "--version") for arg in args):
             return "not"
 
@@ -1513,6 +1631,16 @@ class _BaseAdapter:
                 return "not"
             index = 0
             pattern_supplied = False
+            output_identity_safe = True
+            unsafe_output_modes = {
+                "--no-filename", "-I", "--replace", "-r", "--json",
+                "--vimgrep", "--count", "--count-matches",
+                "--files-with-matches", "-l", "--files-without-match",
+                "--only-matching", "-o", "--passthru", "--heading",
+                "-h", "--null", "-0", "--null-data", "--stats"}
+            unsafe_output_options_with_value = {
+                "--label", "--path-separator", "--field-match-separator",
+                "--field-context-separator"}
             while index < len(args):
                 arg = args[index]
                 if arg == "--":
@@ -1540,6 +1668,29 @@ class _BaseAdapter:
                     if index + 1 >= len(args):
                         return "ambiguous"
                     index += 2
+                elif arg in ("--replace", "-r"):
+                    output_identity_safe = False
+                    if index + 1 >= len(args):
+                        return "ambiguous"
+                    index += 2
+                elif arg.startswith("--replace=") or (
+                        arg.startswith("-r") and len(arg) > 2):
+                    output_identity_safe = False
+                    index += 1
+                elif arg in unsafe_output_options_with_value:
+                    output_identity_safe = False
+                    if index + 1 >= len(args):
+                        return "ambiguous"
+                    index += 2
+                elif any(arg.startswith(option + "=")
+                         for option in unsafe_output_options_with_value):
+                    output_identity_safe = False
+                    index += 1
+                elif arg in unsafe_output_modes or (
+                        arg.startswith("-") and not arg.startswith("--") and
+                        any(flag in arg[1:] for flag in ("I", "l", "o"))):
+                    output_identity_safe = False
+                    index += 1
                 elif arg.startswith("-"):
                     index += 1
                 else:
@@ -1554,6 +1705,7 @@ class _BaseAdapter:
                 if state == "exact":
                     direct.append(operand)
                 elif (state == "other" and
+                      output_identity_safe and
                       cls._scope_contains_target(operand, expected, repo) and
                       cls._output_identifies_path(output, expected, repo)):
                     scopes.append(operand)
@@ -1569,8 +1721,10 @@ class _BaseAdapter:
         return "not"
 
     @classmethod
-    def _parse_shell(cls, command, expected, repo, output, source):
-        text, _unwrapped = cls._unwrap_host_command(command, source)
+    def _parse_shell(cls, command, expected, repo, output, source, profile,
+                     wrapper_host_owned=False):
+        text, _unwrapped = cls._unwrap_host_command(
+            command, source, wrapper_host_owned)
         if "\n" in text or "\r" in text:
             heredoc = re.fullmatch(
                 r"(?s)(?P<head>.*)<<-?\s*(?P<tag>[A-Za-z_][A-Za-z0-9_]*)"
@@ -1592,6 +1746,11 @@ class _BaseAdapter:
             return []
         separators = {"|", "|&", "&&", "||", ";"}
         unsupported = {"&", ";;", ";&", ";;&"}
+        if profile.get("shell_dialect") != "posix" and any(
+                token in separators | unsupported |
+                {"<", ">", ">>", "<>", ">&", "<&", "<<<", "<<"}
+                for token in tokens):
+            return None
         if (tokens[0] in separators | unsupported or
                 tokens[-1] in separators | unsupported):
             return None
@@ -1627,9 +1786,10 @@ class _BaseAdapter:
                 argv, stdin_paths, outputs = cls._split_redirections(raw_stage)
                 if argv is None or not argv:
                     return None
-                name, args = cls._resolved_command(argv)
+                name, args = cls._resolved_command(argv, profile)
                 effect = cls._reader_effect(
-                    name, args, stdin_paths, expected, repo, output)
+                    name, args, stdin_paths, expected, repo, output,
+                    profile.get("shell_dialect"))
                 constant = True if name == "true" else (
                     False if name == "false" else None)
                 terminates = False
@@ -1654,11 +1814,20 @@ class _BaseAdapter:
         if not source.startswith(profile["host"] + "-"):
             return ("fail-closed" if cls._target_mentioned(command, expected)
                     else "not-content-read")
+        if (not profile.get("attestation_id") or
+                record.get("host_read_attestation_id") !=
+                profile.get("attestation_id") or
+                record.get("shell_dialect") !=
+                profile.get("shell_dialect")):
+            return "fail-closed"
         parsed = cls._parse_shell(
             command, expected, repo, record.get("output", ""),
-            record.get("source"))
+            record.get("source"), profile,
+            bool(record.get("wrapper_host_owned")))
         if parsed is None:
-            return ("fail-closed" if cls._target_mentioned(command, expected)
+            return ("fail-closed" if (
+                    cls._target_mentioned(command, expected) or
+                    cls._has_dynamic_expansion(command))
                     else "not-content-read")
         pipelines, connectors = parsed
         if not pipelines:
@@ -1755,7 +1924,8 @@ class _BaseAdapter:
     def _command_write_paths(cls, record):
         """Return lexically explicit shell output paths for ordering only."""
         command, _unwrapped = cls._unwrap_host_command(
-            record.get("command"), record.get("source"))
+            record.get("command"), record.get("source"),
+            bool(record.get("wrapper_host_owned")))
         replaced = cls._replace_process_substitutions(command)
         if replaced is None or cls._unsupported_unquoted_syntax(replaced):
             return []

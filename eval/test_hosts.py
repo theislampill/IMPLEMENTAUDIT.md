@@ -160,8 +160,34 @@ elif scenario == "write-canonical":
 '''
 
 
+TEST_POSIX_READ_ATTESTATION = {
+    "id": "test-posix-read-profile-v1", "shell_dialect": "posix",
+    "executables": {
+        "cat": "/bin/cat", "sed": "/bin/sed", "head": "/usr/bin/head",
+        "tail": "/usr/bin/tail", "rg": "/usr/bin/rg",
+        "grep": "/bin/grep", "command": "builtin:command",
+        "exec": "builtin:exec", "env": "/usr/bin/env",
+        "sudo": "/usr/bin/sudo", "xargs": "/usr/bin/xargs",
+        "true": "builtin:true", "false": "builtin:false",
+        "exit": "builtin:exit", "printf": "builtin:printf",
+        "echo": "builtin:echo", "find": "/usr/bin/find",
+        "ls": "/bin/ls", "stat": "/usr/bin/stat",
+        "git": "/usr/bin/git", "touch": "/usr/bin/touch",
+        "tee": "/usr/bin/tee", "alias": "builtin:alias",
+        "type": "builtin:type"}}
+
+TEST_POWERSHELL_READ_ATTESTATION = {
+    "id": "test-powershell-read-profile-v1",
+    "shell_dialect": "powershell",
+    "executables": {"get-content": "powershell:Get-Content"}}
+
+TEST_CMD_READ_ATTESTATION = {
+    "id": "test-cmd-read-profile-v1", "shell_dialect": "cmd",
+    "executables": {"type": "cmd:type"}}
+
+
 def make_adapter(tmp, scenario, kind="codex", counter=None, checkout=None,
-                 home=None):
+                 home=None, host_read_attestation=TEST_POSIX_READ_ATTESTATION):
     mock = os.path.join(tmp, "mock_host.py")
     if not os.path.isfile(mock):
         open(mock, "w", encoding="utf-8").write(MOCK)
@@ -169,12 +195,14 @@ def make_adapter(tmp, scenario, kind="codex", counter=None, checkout=None,
     if kind == "codex":
         a = hosts.CodexAdapter(
             codex_home=home or os.path.join(tmp, "codex-home"),
-            product_checkout=checkout, formal=False)
+            product_checkout=checkout, formal=False,
+            host_read_attestation=host_read_attestation)
         os.makedirs(a.codex_home, exist_ok=True)
         a.preflight = lambda: None  # version/auth gates unit-tested below
     else:
         a = hosts.ClaudeAdapter(config_dir=os.path.join(tmp, "claude-cfg"),
-                                product_checkout=checkout, formal=False)
+                                product_checkout=checkout, formal=False,
+                                host_read_attestation=host_read_attestation)
         os.makedirs(a.config_dir, exist_ok=True)
     a.host_argv_template = argv
     a.timeout_s = 5
@@ -1042,6 +1070,12 @@ def main():
                        "stale_item": "satisfied"}}]}}
         a43 = make_adapter(tmp, "ok-codex",
                            home=os.path.join(tmp, "codex-home-h43"))
+        powershell43 = make_adapter(
+            tmp, "ok-codex", home=os.path.join(tmp, "codex-home-h43-ps"),
+            host_read_attestation=TEST_POWERSHELL_READ_ATTESTATION)
+        cmd43 = make_adapter(
+            tmp, "ok-codex", home=os.path.join(tmp, "codex-home-h43-cmd"),
+            host_read_attestation=TEST_CMD_READ_ATTESTATION)
         try:
             good43 = a43._run_host_checks(fx43, repo43)
             json.dump({"active_item": "ANDON 150",
@@ -1170,11 +1204,15 @@ def main():
             "aggregated_output":
                 "notes.txt:1:.IMPLEMENTAUDIT/runs/run-1/STATE.md\n"
                 "notes.txt:2:.IMPLEMENTAUDIT/runs/run-1/ROADMAP.md\n"}})
-        type44 = json.dumps({"type": "item.completed", "item": {
-            "type": "command_execution", "exit_code": 0,
-            "command": "type .IMPLEMENTAUDIT/runs/run-1/STATE.md && type "
-                       ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md",
-            "aggregated_output": "state contents\nroadmap contents\n"}})
+        type44 = "\n".join((
+            json.dumps({"type": "item.completed", "item": {
+                "type": "command_execution", "exit_code": 0,
+                "command": "type .IMPLEMENTAUDIT/runs/run-1/STATE.md",
+                "aggregated_output": "state contents\n"}}),
+            json.dumps({"type": "item.completed", "item": {
+                "type": "command_execution", "exit_code": 0,
+                "command": "type .IMPLEMENTAUDIT/runs/run-1/ROADMAP.md",
+                "aggregated_output": "roadmap contents\n"}})))
         find_grep44 = json.dumps({"type": "item.completed", "item": {
             "type": "command_execution", "exit_code": 0,
             "command": "find .IMPLEMENTAUDIT/runs/run-1 -type f -print | "
@@ -1254,9 +1292,9 @@ def main():
             a43._tool_trace = a43._extract_tool_trace(
                 mixed_list44 + "\n" + write_event)
             mixed_list_only44d = a43._run_host_checks(fx44, repo43)
-            a43._tool_trace = a43._extract_tool_trace(
+            cmd43._tool_trace = cmd43._extract_tool_trace(
                 type44 + "\n" + write_event)
-            type_read44d = a43._run_host_checks(fx44, repo43)
+            type_read44d = cmd43._run_host_checks(fx44, repo43)
             check("H44d content-read-not-file-listing",
                   good44d.get("read_before_write") is True
                   and bad44d.get("read_before_write") is False
@@ -1271,9 +1309,10 @@ def main():
             a43._tool_trace = a43._extract_tool_trace(
                 mixed_list44 + "\n" + write_event)
             listing_before_write44e = a43._run_host_checks(fx44, repo43)
-            a43._tool_trace = a43._extract_tool_trace(
+            cmd43._tool_trace = cmd43._extract_tool_trace(
                 mixed_list44 + "\n" + type44 + "\n" + write_event)
-            content_read_before_write44e = a43._run_host_checks(fx44, repo43)
+            content_read_before_write44e = cmd43._run_host_checks(
+                fx44, repo43)
             check("H44e listing-stays-false-until-content-read",
                   listing_before_write44e.get("read_before_write") is False
                   and content_read_before_write44e.get(
@@ -1316,10 +1355,12 @@ def main():
             # unrelated `-type` option as a reader command.
             wrapped_results44h = []
             for event in wrapped_readers44:
-                a43._tool_trace = a43._extract_tool_trace(
+                adapter44h = (powershell43 if "Get-Content" in event
+                              else a43)
+                adapter44h._tool_trace = adapter44h._extract_tool_trace(
                     event + "\n" + write_event)
                 wrapped_results44h.append(
-                    a43._run_host_checks(fx44, repo43).get(
+                    adapter44h._run_host_checks(fx44, repo43).get(
                         "read_before_write"))
             check("H44h wrapped-reader-command-position",
                   wrapped_results44h == [False, True, True, True, True]
@@ -1342,12 +1383,15 @@ def main():
         W45 = ".IMPLEMENTAUDIT/runs/run-1/capsule.json"
 
         def command_state(command, target, output="", exit_code=0):
+            adapter = (powershell43 if command.lower().lstrip().startswith(
+                       "get-content") else a43)
             record = {
                 "action": "command", "command": command,
                 "output": output, "exit_code": exit_code,
                 "invoked_ordinal": 1, "completed_ordinal": 2,
                 "source": "codex-command-completed"}
-            return a43._classify_command_target(
+            record = adapter._bind_command_profile(record)
+            return adapter._classify_command_target(
                 record, target, repo43)
 
         shell_cases45 = [
@@ -1545,19 +1589,29 @@ def main():
         try:
             a43._tool_trace = a43._extract_tool_trace(
                 codex_wrapped45 + "\n" + codex_write45)
+            untrusted_wrapped_result45 = a43._run_host_checks(
+                fx44, repo43).get("read_before_write")
+            a43._tool_trace = [
+                a43._bind_command_profile(record, host_owned_wrapper=True)
+                if record.get("action") == "command" else record
+                for record in a43._tool_trace]
             wrapped_result45 = a43._run_host_checks(
                 fx44, repo43).get("read_before_write")
         except (AttributeError, framework.AdapterError, ValueError):
+            untrusted_wrapped_result45 = True
             wrapped_result45 = False
-        check("H45e host-owned-wrapper-green", wrapped_result45 is True)
+        check("H45e host-owned-wrapper-green",
+              untrusted_wrapped_result45 is False
+              and wrapped_result45 is True)
         profile45 = a43._host_read_profile(repo43)
         check("H45e2 frozen-host-read-profile",
               profile45.get("schema") ==
               "implementaudit-host-read-profile-v1"
               and profile45.get("host") == "codex"
               and profile45.get("repo_root") == os.path.abspath(repo43)
-              and profile45.get("shell_dialect") ==
-              "posix-token-subset-v1")
+              and profile45.get("shell_dialect") == "posix"
+              and profile45.get("attestation_id") ==
+              "test-posix-read-profile-v1")
 
         # Claude actions are intervals. Read completion must precede write
         # invocation, tool IDs are unique, result status is strict, and a
@@ -1869,6 +1923,160 @@ def main():
         check("H45i claude-schema-search-and-path-boundary",
               all(observed == expected for _case, observed, expected
                   in claude_more_results45))
+
+        # 46. Exact-commit cold-review controls. Wrapper ownership and reader
+        # identity come from trusted normalization/profile evidence, never
+        # merely from model-authored argv or a generic host source label.
+        user_wrapper46 = {
+            "action": "command",
+            "command": "/bin/bash -lc 'cat " + S45 + " " + R45 + "'",
+            "output": "epoch\nANDON\n", "exit_code": 0,
+            "invoked_ordinal": 1, "completed_ordinal": 2,
+            "source": "codex-command-completed"}
+        user_wrapper46 = a43._bind_command_profile(user_wrapper46)
+        trusted_wrapper46 = dict(user_wrapper46)
+        trusted_wrapper46 = a43._bind_command_profile(
+            trusted_wrapper46, host_owned_wrapper=True)
+        try:
+            wrapper_results46 = [
+                a43._classify_command_target(user_wrapper46, S45, repo43),
+                a43._classify_command_target(
+                    trusted_wrapper46, S45, repo43)]
+        except (AttributeError, framework.AdapterError, ValueError):
+            wrapper_results46 = ["api-error", "api-error"]
+        check("H46a explicit-host-wrapper-ownership",
+              wrapper_results46 == ["fail-closed", "content-read"])
+        raw_wrapper_claim46 = codex_event({
+            "type": "command_execution", "exit_code": 0,
+            "command": user_wrapper46["command"],
+            "aggregated_output": "epoch\nANDON\n",
+            "wrapper_host_owned": True}) + "\n" + codex_write45
+        a43._tool_trace = a43._extract_tool_trace(raw_wrapper_claim46)
+        check("H46a2 raw-wrapper-claim-is-not-attestation",
+              a43._run_host_checks(
+                  fx44, repo43).get("read_before_write") is False)
+
+        conflict_command46 = "\n".join((
+            codex_event({
+                "id": "cmd-conflict", "type": "command_execution",
+                "command": "cat /dev/null"}, "item.started"),
+            codex_event({
+                "id": "cmd-conflict", "type": "command_execution",
+                "exit_code": 0,
+                "command": "cat " + S45 + " " + R45,
+                "aggregated_output": "epoch\nANDON\n"}),
+            codex_write45))
+        conflict_file46 = "\n".join((
+            codex_reader45,
+            codex_event({
+                "id": "write-conflict", "type": "file_change",
+                "changes": [{"path": "other.json", "kind": "add"}]},
+                "item.started"),
+            codex_event({
+                "id": "write-conflict", "type": "file_change",
+                "changes": [{"path": W45, "kind": "add"}]})))
+        correlation_results46 = []
+        for stream in (conflict_command46, conflict_file46):
+            a43._tool_trace = a43._extract_tool_trace(stream)
+            correlation_results46.append(a43._run_host_checks(
+                fx44, repo43).get("read_before_write"))
+        check("H46b codex-full-payload-correlation",
+              correlation_results46 == [False, False])
+
+        shaping_cases46 = [
+            "rg --no-filename -n 'epoch|ANDON' " +
+            ".IMPLEMENTAUDIT/runs/run-1",
+            "rg -I -n 'epoch|ANDON' .IMPLEMENTAUDIT/runs/run-1",
+            "rg --replace X -n 'epoch|ANDON' " +
+            ".IMPLEMENTAUDIT/runs/run-1",
+            "rg --label " + S45 + " -n 'epoch|ANDON' " +
+            ".IMPLEMENTAUDIT/runs/run-1",
+        ]
+        shaping_results46 = []
+        for command in shaping_cases46:
+            record = {
+                "action": "command", "command": command,
+                "output": S45 + ":1:epoch\n" + R45 + ":1:ANDON\n",
+                "exit_code": 0, "invoked_ordinal": 1,
+                "completed_ordinal": 2,
+                "source": "codex-command-completed"}
+            record = a43._bind_command_profile(record)
+            shaping_results46.append(
+                a43._classify_command_target(record, S45, repo43))
+        canonical_scope46 = {
+            "action": "command",
+            "command": "rg -n 'epoch|ANDON' " +
+                       ".IMPLEMENTAUDIT/runs/run-1",
+            "output": S45 + ":1:epoch\n" + R45 + ":1:ANDON\n",
+            "exit_code": 0, "invoked_ordinal": 1,
+            "completed_ordinal": 2,
+            "source": "codex-command-completed"}
+        canonical_scope46 = a43._bind_command_profile(canonical_scope46)
+        shaping_results46.append(
+            a43._classify_command_target(canonical_scope46, S45, repo43))
+        check("H46c rg-output-identity-shaping",
+              shaping_results46 == [
+                  "not-content-read", "not-content-read",
+                  "not-content-read", "not-content-read",
+                  "content-read"])
+
+        unattested46 = {
+            "action": "command", "command": "cat " + S45,
+            "output": "epoch\n", "exit_code": 0,
+            "invoked_ordinal": 1, "completed_ordinal": 2,
+            "source": "codex-command-completed"}
+        posix_type46 = dict(unattested46)
+        posix_type46["command"] = "type " + S45
+        posix_type46 = a43._bind_command_profile(posix_type46)
+        cmd_type46 = cmd43._bind_command_profile(posix_type46)
+        powershell_compound46 = powershell43._bind_command_profile({
+            "action": "command",
+            "command": "Get-Content " + S45 + "; Get-Content " + R45,
+            "output": "epoch\nANDON\n", "exit_code": 0,
+            "invoked_ordinal": 1, "completed_ordinal": 2,
+            "source": "codex-command-completed"})
+        unattested_adapter46 = make_adapter(
+            tmp, "ok-codex", home=os.path.join(tmp, "codex-home-h46-none"),
+            host_read_attestation=None)
+        raw_attestation_claim46 = codex_event({
+            "type": "command_execution", "exit_code": 0,
+            "command": "cat " + S45 + " " + R45,
+            "aggregated_output": "epoch\nANDON\n",
+            "host_read_attestation_id": "test-posix-read-profile-v1",
+            "shell_dialect": "posix"}) + "\n" + codex_write45
+        unattested_adapter46._tool_trace = \
+            unattested_adapter46._extract_tool_trace(
+                raw_attestation_claim46)
+        try:
+            attestation_results46 = [
+                a43._classify_command_target(unattested46, S45, repo43),
+                a43._classify_command_target(posix_type46, S45, repo43),
+                cmd43._classify_command_target(cmd_type46, S45, repo43),
+                powershell43._classify_command_target(
+                    powershell_compound46, S45, repo43),
+                unattested_adapter46._run_host_checks(
+                    fx44, repo43).get("read_before_write")]
+        except (AttributeError, framework.AdapterError, ValueError):
+            attestation_results46 = [
+                "api-error", "api-error", "api-error", "api-error", True]
+        check("H46d enforced-dialect-and-executable-attestation",
+              attestation_results46 == [
+                  "fail-closed", "fail-closed", "content-read",
+                  "fail-closed", False])
+
+        variable_records46 = []
+        for command in ('cat "$TARGET"', "cat $TARGET", "cat *.md",
+                        "cat ${TARGET}"):
+            variable_records46.append(a43._bind_command_profile({
+                "action": "command", "command": command,
+                "output": "epoch\n", "exit_code": 0,
+                "invoked_ordinal": 1, "completed_ordinal": 2,
+                "source": "codex-command-completed"}))
+        variable_results46 = [
+            a43._classify_command_target(record, S45, repo43)
+            for record in variable_records46]
+        check("H46e dynamic-path-fails-closed-without-literal-target",
+              variable_results46 == ["fail-closed"] * 4)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     if failures:
