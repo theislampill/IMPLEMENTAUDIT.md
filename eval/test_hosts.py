@@ -2711,6 +2711,27 @@ def main():
                   and malformed_requested_helper47 == [False, False]
                   and malformed_requested_arguments47 == ["INVALID"] * 5)
 
+            malformed_binding_crashed47 = False
+            malformed_binding_statuses47 = []
+            for malformed_binding47 in (
+                    ["not-a-binding"], "not-a-binding", 1, True):
+                try:
+                    malformed_binding_statuses47.extend((
+                        hosts.hostread.normalize_claude(
+                            "", requested_tools=["Read"],
+                            binding=malformed_binding47,
+                            profile=profile47, formal=True).get(
+                                "host_status"),
+                        hosts.hostread.normalize_codex(
+                            "", binding=malformed_binding47,
+                            profile=codex_profile47, formal=True).get(
+                                "host_status")))
+                except Exception:
+                    malformed_binding_crashed47 = True
+            check("H47ag1 malformed-normalizer-bindings-fail-closed",
+                  malformed_binding_crashed47 is False
+                  and malformed_binding_statuses47 == ["INVALID"] * 8)
+
             mismatched_identity_preimages47 = json.loads(json.dumps(
                 preimages47))
             mismatched_identity_preimages47["targets"][S45][
@@ -2752,6 +2773,35 @@ def main():
                       "etc/hosts", root_preimages47) == "/etc/hosts"
                   and hosts.hostread._path_matches(
                       "/etc/hosts", "etc/hosts", root_preimages47))
+
+            check("H47ah windows-drive-root-remains-absolute",
+                  not hosts.hostread._same_path("C:", "C:/")
+                  and not hosts.hostread._within("C:", "C:/")
+                  and hosts.hostread._same_path("C:/", "C:/")
+                  and hosts.hostread._within("C:/file.txt", "C:/"))
+
+            empty_tool_mint_refused47 = False
+            try:
+                hosts.hostread.mint_claude_profile(repo43, [""])
+            except ValueError:
+                empty_tool_mint_refused47 = True
+            empty_tool_profile47 = json.loads(json.dumps(profile47))
+            empty_tool_profile47["native_tools"]["requested"] = [""]
+            empty_tool_spec47 = dict(replay_spec47,
+                                     requested_tools=[""])
+            empty_tool_trace47 = hosts.hostread.normalize_claude(
+                "", requested_tools=[""], profile=profile47,
+                formal=True)
+            check("H47ai requested-tool-names-are-nonempty",
+                  empty_tool_mint_refused47 and
+                  hosts.hostread.validate_profile(
+                      empty_tool_profile47, formal=False).get(
+                          "host_status") == "INVALID"
+                  and empty_tool_trace47.get("host_status") == "INVALID"
+                  and not hosts.hostread._validate_replay_spec(
+                      empty_tool_spec47, True)
+                  and not hosts.hostread._profile_matches_replay_spec(
+                      empty_tool_profile47, empty_tool_spec47))
             adapter47._attempt_finalize_formal_host_read(
                 fx44, repo43, outcome47, capture47, "ok")
             adapter47._tool_trace = [{"action": "invalid"}]
@@ -2794,6 +2844,58 @@ def main():
             check("H47b replay-regenerates-derivatives",
                   hosts.hostread.replay_capture(
                       forged_trace47, formal=True).get("status") == "INVALID")
+
+            malformed_binding_replay47 = os.path.join(
+                tmp, "h47-malformed-binding-replay")
+            shutil.copytree(capture47, malformed_binding_replay47)
+            malformed_binding_terminal47 = json.load(open(os.path.join(
+                malformed_binding_replay47, "host-read-terminal.json"),
+                encoding="utf-8"))
+            malformed_binding_terminal47["binding"] = ["not-a-binding"]
+            rewrite_json47(malformed_binding_replay47,
+                           "host-read-terminal.json",
+                           malformed_binding_terminal47)
+            rehash47(malformed_binding_replay47)
+            malformed_binding_replay_crashed47 = False
+            try:
+                malformed_binding_replay_status47 = \
+                    hosts.hostread.replay_capture(
+                        malformed_binding_replay47,
+                        formal=True).get("status")
+            except Exception:
+                malformed_binding_replay_crashed47 = True
+                malformed_binding_replay_status47 = None
+
+            malformed_binding_seal47 = os.path.join(
+                tmp, "h47-malformed-binding-seal")
+            hosts.hostread.begin_capture(
+                malformed_binding_seal47, profile47, preimages47,
+                replay_spec=replay_spec47, fixture_bytes=fixture_bytes47,
+                formal=True)
+            sealed_trace47 = json.load(open(os.path.join(
+                capture47, "host-tool-trace.json"), encoding="utf-8"))
+            sealed_matrix47 = json.load(open(os.path.join(
+                capture47, "host-read-matrix.json"), encoding="utf-8"))
+            malformed_binding_seal_refused47 = False
+            try:
+                hosts.hostread.finish_capture(
+                    malformed_binding_seal47,
+                    open(os.path.join(capture47, "host-stdout.raw"),
+                         "rb").read(),
+                    open(os.path.join(capture47, "host-session.raw"),
+                         "rb").read(),
+                    sealed_trace47, sealed_matrix47,
+                    {"native_tools": profile47["native_tools"]},
+                    binding=["not-a-binding"], formal=True,
+                    minted_profile=profile47)
+            except ValueError:
+                malformed_binding_seal_refused47 = True
+            check("H47ag2 capture-and-replay-binding-shape-bound",
+                  malformed_binding_replay_crashed47 is False
+                  and malformed_binding_replay_status47 == "INVALID"
+                  and malformed_binding_seal_refused47
+                  and not os.path.exists(os.path.join(
+                      malformed_binding_seal47, "host-stdout.raw")))
 
             # The full post-probe is bound. Rehashing a forged probe and a
             # false PASS status does not survive independent profile replay.
@@ -2975,6 +3077,26 @@ def main():
                                      "2026-07-19T00:53:04.000Z"})
             check("H47t case-insensitive-codex-session-root-correlation",
                   insensitive_lineage_status47 == "VALID")
+            malformed_session_binding_crashed47 = False
+            malformed_session_binding_statuses47 = []
+            for malformed_session_binding47 in (
+                    ["not-a-binding"], "not-a-binding", 1, True):
+                try:
+                    malformed_session_binding_statuses47.append(
+                        hosts.hostread.corroborate_session(
+                            retained_stdout47, retained_session47, "codex",
+                            malformed_session_binding47, retained_trace47,
+                            profile=retained_profile47,
+                            process_started={"started_at":
+                                             "2026-07-19T00:53:04.000Z"}))
+                except Exception:
+                    malformed_session_binding_crashed47 = True
+            check("H47ag3 malformed-session-bindings-invalid",
+                  malformed_session_binding_crashed47 is False
+                  and malformed_session_binding_statuses47 == [
+                      "INVALID"] * 4
+                  and hosts.hostread.augment_codex_binding(
+                      ["not-a-binding"], retained_session47) is None)
             malformed_case_statuses47 = []
             for malformed_case47 in ("false", [], 1, None, {}):
                 malformed_case_profile47 = json.loads(json.dumps(

@@ -149,29 +149,27 @@ def _strict_object(line):
     return value
 
 
+def _path_identity_text(value):
+    text = str(value or "").replace("\\", "/")
+    if text == "/" or re.fullmatch(r"[A-Za-z]:/", text):
+        return text
+    return text.rstrip("/")
+
+
 def _within(path, root, case_sensitive=True):
-    path = str(path or "").replace("\\", "/")
-    root = str(root or "").replace("\\", "/")
-    if path != "/":
-        path = path.rstrip("/")
-    if root != "/":
-        root = root.rstrip("/")
+    path = _path_identity_text(path)
+    root = _path_identity_text(root)
     if not case_sensitive:
         path = path.casefold()
         root = root.casefold()
+    prefix = root if root.endswith("/") else root + "/"
     return bool(path and root and (
-        path == root or
-        (root == "/" and path.startswith("/")) or
-        path.startswith(root + "/")))
+        path == root or path.startswith(prefix)))
 
 
 def _same_path(first, second, case_sensitive=True):
-    first = str(first or "").replace("\\", "/")
-    second = str(second or "").replace("\\", "/")
-    if first != "/":
-        first = first.rstrip("/")
-    if second != "/":
-        second = second.rstrip("/")
+    first = _path_identity_text(first)
+    second = _path_identity_text(second)
     if not case_sensitive:
         first = first.casefold()
         second = second.casefold()
@@ -181,6 +179,18 @@ def _same_path(first, second, case_sensitive=True):
 def _mapping(value):
     """Return mapping-shaped input or an empty mapping for fail-closed use."""
     return value if isinstance(value, dict) else {}
+
+
+def _valid_tool_list(value):
+    return (isinstance(value, list) and
+            all(isinstance(tool, str) and tool for tool in value))
+
+
+def _valid_binding_shape(value):
+    return (isinstance(value, dict) and all(
+        isinstance(key, str) and key and (
+            (isinstance(item, str) and item) or type(item) is int)
+        for key, item in value.items()))
 
 
 def _profile_result(ok, reason=None):
@@ -222,9 +232,7 @@ def validate_profile(profile, post_probe=None, formal=True,
             type(repo.get("case_sensitive")) is bool):
         native_tools = profile.get("native_tools")
         if (not isinstance(native_tools, dict) or
-                not isinstance(native_tools.get("requested"), list) or
-                any(not isinstance(tool, str) or not tool
-                    for tool in native_tools["requested"]) or
+                not _valid_tool_list(native_tools.get("requested")) or
                 not re.fullmatch(r"[0-9a-f]{64}",
                                  str(profile.get("probe_sha256", "")))):
             return _profile_result(False, "native profile shape")
@@ -387,6 +395,8 @@ def mint_codex_profile(repo_root, shell_executable, env=None,
 def mint_claude_profile(repo_root, requested_tools):
     """Mint the pre-spawn native-tool boundary for a Claude host run."""
     repo_abs = os.path.abspath(repo_root).replace("\\", "/")
+    if not _valid_tool_list(requested_tools):
+        raise ValueError("invalid requested tool list")
     native_tools = {"requested": list(requested_tools)}
     probe = {"repo": repo_abs, "native_tools": native_tools}
     return _mint_profile({
@@ -518,10 +528,8 @@ def _profile_matches_replay_spec(profile, replay_spec):
         profile_requested = _mapping(profile.get("native_tools")).get(
             "requested")
         replay_requested = replay_spec.get("requested_tools")
-        return (isinstance(profile_requested, list) and
-                all(isinstance(tool, str) for tool in profile_requested) and
-                isinstance(replay_requested, list) and
-                all(isinstance(tool, str) for tool in replay_requested) and
+        return (_valid_tool_list(profile_requested) and
+                _valid_tool_list(replay_requested) and
                 profile_requested == replay_requested)
     return True
 
@@ -721,7 +729,11 @@ def normalize_codex(raw_stdout, profile=None, binding=None, formal=True):
             profile, formal=True,
             expected_host="codex")["host_status"] != "PASS":
         machine.invalid_action(0, "invalid formal Codex profile")
-    binding = binding or {}
+    if binding is None:
+        binding = {}
+    elif not _valid_binding_shape(binding):
+        machine.invalid_action(0, "invalid Codex binding")
+        binding = {}
     active_thread = None
     active_turn = None
     turns = 0
@@ -972,10 +984,12 @@ def normalize_claude(raw_stdout, requested_tools, binding=None, profile=None,
             profile, formal=True,
             expected_host="claude")["host_status"] != "PASS":
         machine.invalid_action(0, "invalid formal Claude profile")
-    binding = binding or {}
-    requested_shape_valid = (isinstance(requested_tools, list) and
-                             all(isinstance(tool, str)
-                                 for tool in requested_tools))
+    if binding is None:
+        binding = {}
+    elif not _valid_binding_shape(binding):
+        machine.invalid_action(0, "invalid Claude binding")
+        binding = {}
+    requested_shape_valid = _valid_tool_list(requested_tools)
     if formal and not requested_shape_valid:
         machine.invalid_action(0, "invalid requested tool list")
     if requested_shape_valid:
@@ -988,8 +1002,7 @@ def normalize_claude(raw_stdout, requested_tools, binding=None, profile=None,
     profile_requested = _mapping(
         _mapping(profile).get("native_tools")).get("requested")
     if (formal and
-            (not isinstance(profile_requested, list) or
-             any(not isinstance(tool, str) for tool in profile_requested) or
+            (not _valid_tool_list(profile_requested) or
              profile_requested != requested)):
         machine.invalid = True
         machine.findings.append({
@@ -1888,9 +1901,7 @@ def _validate_replay_spec(spec, formal):
             spec.get("host") not in ("codex", "claude") or
             not isinstance(spec.get("checks"), list) or
             not spec["checks"] or
-            not isinstance(spec.get("requested_tools"), list) or
-            any(not isinstance(tool, str) for tool in
-                spec["requested_tools"]) or
+            not _valid_tool_list(spec.get("requested_tools")) or
             not re.fullmatch(r"[0-9a-f]{64}",
                              str(spec.get("fixture_sha256", ""))) or
             not re.fullmatch(r"[0-9a-f]{64}",
@@ -1982,6 +1993,10 @@ def finish_capture(root, raw_stdout, raw_session, trace, matrix, post_probe,
         raise ValueError("trace schema")
     if not isinstance(matrix, dict) or matrix.get("schema") != MATRIX_SCHEMA:
         raise ValueError("matrix schema")
+    if binding is None:
+        binding = {}
+    if not _valid_binding_shape(binding):
+        raise ValueError("binding shape")
     stdout_bytes = (raw_stdout if isinstance(raw_stdout, bytes) else
                     str(raw_stdout).encode("utf-8"))
     session_bytes = (raw_session if isinstance(raw_session, bytes) else
@@ -1997,7 +2012,7 @@ def finish_capture(root, raw_stdout, raw_session, trace, matrix, post_probe,
     terminal = {"schema": TERMINAL_SCHEMA, "hashes": bound,
                 "post_probe_sha256": _sha256(_canonical_bytes(post_probe)),
                 "profile_post_status": profile_post_status,
-                "binding": binding or {},
+                "binding": binding,
                 "actual_tools": list(trace.get("observed_tools") or []),
                 "normalized_host_status": trace.get("host_status"),
                 "host_terminal_kind": host_terminal_kind,
@@ -2080,6 +2095,8 @@ def _parse_utc(value):
 
 def augment_codex_binding(binding, raw_session):
     """Bind the one native turn_context ID omitted by exec stdout."""
+    if binding is not None and not _valid_binding_shape(binding):
+        return None
     if not binding or not raw_session:
         return binding
     try:
@@ -2101,6 +2118,11 @@ def corroborate_session(raw_stdout, raw_session, host, binding, trace,
     """Corroborate lineage/action identity from the distinct native stream."""
     if not raw_session:
         return "MISSING"
+    if process_started is None:
+        process_started = {}
+    if (not _valid_binding_shape(binding) or not isinstance(trace, dict) or
+            not isinstance(process_started, dict)):
+        return "INVALID"
     stdout_bytes = (raw_stdout.encode("utf-8") if isinstance(raw_stdout, str)
                     else bytes(raw_stdout))
     session_bytes = (raw_session.encode("utf-8")
@@ -2297,6 +2319,8 @@ def replay_capture(root, formal=True):
             raw_session = open(os.path.join(root, "host-session.raw"),
                                "rb").read()
             binding = terminal.get("binding")
+            if not _valid_binding_shape(binding):
+                raise ValueError("terminal binding invalid")
             if replay_spec["host"] == "codex":
                 derived = derive_codex_binding(raw_stdout)
                 lineage_valid = bool(derived) and all(
