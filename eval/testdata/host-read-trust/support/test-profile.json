@@ -1,0 +1,37 @@
+{
+  "schema": "implementaudit-host-read-profile-v2",
+  "authority": "test-fixture-only",
+  "host": "codex",
+  "repo": {
+    "lexical_root": "/fixture/repo",
+    "real_root": "/fixture/repo",
+    "case_sensitive": true
+  },
+  "shell": {
+    "logical_path": "/bin/bash",
+    "realpath": "/usr/bin/bash",
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "stat": "dev=1;ino=10;mode=100755;size=100"
+  },
+  "outer_wrapper": {
+    "argv_prefix": ["/bin/bash", "-lc"],
+    "max_unwrap_layers": 1
+  },
+  "environment": {
+    "PATH": "/usr/bin",
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8",
+    "BASH_ENV": null,
+    "ENV": null,
+    "SHELL": "/bin/bash"
+  },
+  "executables": {
+    "cat": {"kind":"file","path":"/usr/bin/cat","sha256":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb","stat":"dev=1;ino=11;mode=100755;size=101"},
+    "grep": {"kind":"file","path":"/usr/bin/grep","sha256":"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc","stat":"dev=1;ino=12;mode=100755;size=102"},
+    "head": {"kind":"file","path":"/usr/bin/head","sha256":"dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd","stat":"dev=1;ino=13;mode=100755;size=103"},
+    "rg": {"kind":"file","path":"/usr/bin/rg","sha256":"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee","stat":"dev=1;ino=14;mode=100755;size=104"},
+    "sed": {"kind":"file","path":"/usr/bin/sed","sha256":"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff","stat":"dev=1;ino=15;mode=100755;size=105"},
+    "tail": {"kind":"file","path":"/usr/bin/tail","sha256":"1111111111111111111111111111111111111111111111111111111111111111","stat":"dev=1;ino=16;mode=100755;size=106"}
+  },
+  "probe_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+}

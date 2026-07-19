@@ -1,0 +1,98 @@
+[
+  {
+    "id":"A01","operation":"validate-profile",
+    "input":{"profile":null,"post_probe":null,"formal":true},
+    "select":{"host":"host_status","property":"property_status"},
+    "expected":{"host":"INVALID","property":"INCOMPLETE"}
+  },
+  {
+    "id":"A02","operation":"validate-profile",
+    "input":{"formal":true,"profile":{"schema":"implementaudit-host-read-profile-v2","authority":"caller","host":"codex","repo":{"lexical_root":"/fixture/repo","real_root":"/fixture/repo","case_sensitive":true},"shell":{"logical_path":"/bin/bash","realpath":"/no/such/bash","sha256":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","stat":"missing"},"outer_wrapper":{"argv_prefix":["/bin/bash","-lc"],"max_unwrap_layers":1},"environment":{"PATH":"/usr/bin","LANG":"C","LC_ALL":"C","BASH_ENV":null,"ENV":null,"SHELL":"/bin/bash"},"executables":{"cat":{"kind":"file","path":"/no/such/cat","sha256":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb","stat":"missing"}},"probe_sha256":"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"},"post_probe":null},
+    "select":{"host":"host_status","property":"property_status"},
+    "expected":{"host":"INVALID","property":"INCOMPLETE"}
+  },
+  {
+    "id":"A03","operation":"validate-profile",
+    "input":{"formal":false,"profile_file":"support/test-profile.json","post_probe":{"environment":{"PATH":"/usr/bin","LANG":"C.UTF-8","LC_ALL":"C.UTF-8","BASH_ENV":null,"ENV":null,"SHELL":"/bin/bash"},"shell":{"realpath":"/usr/bin/bash","sha256":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","stat":"dev=1;ino=10;mode=100755;size=100"},"executables":{"cat":{"kind":"alias","definition":"alias cat='cat -n'"},"grep":{"kind":"file","path":"/usr/bin/grep","sha256":"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc","stat":"dev=1;ino=12;mode=100755;size=102"}}}},
+    "select":{"host":"host_status","property":"property_status"},
+    "expected":{"host":"INVALID","property":"INCOMPLETE"}
+  },
+  {
+    "id":"A04","operation":"normalize-codex",
+    "input":{"formal":false,"profile_file":"support/test-profile.json","binding":{"thread_id":"thread-1","turn_id":"turn-1"},"stdout_jsonl":[{"type":"thread.started","thread_id":"thread-1"},{"type":"turn.started","thread_id":"thread-1","turn_id":"turn-1"},{"type":"item.started","thread_id":"thread-1","turn_id":"turn-1","item":{"id":"cmd-1","type":"command_execution","status":"in_progress","command":"/bin/bash -lc 'cat .IMPLEMENTAUDIT/runs/run-1/STATE.md'"}},{"type":"item.completed","thread_id":"thread-1","turn_id":"turn-1","item":{"id":"cmd-1","type":"command_execution","status":"completed","command":"/bin/bash -lc 'cat .IMPLEMENTAUDIT/runs/run-1/STATE.md'","aggregated_output":"STATE\n","exit_code":0}},{"type":"turn.completed","thread_id":"thread-1","turn_id":"turn-1"}]},
+    "select":{"interval":"actions.0.state","wrapper_layers":"actions.0.wrapper_layers"},
+    "expected":{"interval":"COMPLETED","wrapper_layers":1}
+  },
+  {
+    "id":"A05","operation":"normalize-classify-codex",
+    "input":{"formal":false,"profile_file":"support/test-profile.json","preimages_file":"support/test-preimages.json","target":".IMPLEMENTAUDIT/runs/run-1/STATE.md","binding":{"thread_id":"thread-1","turn_id":"turn-1"},"stdout_jsonl":[{"type":"thread.started","thread_id":"thread-1"},{"type":"turn.started","thread_id":"thread-1","turn_id":"turn-1"},{"type":"item.started","thread_id":"thread-1","turn_id":"turn-1","item":{"id":"cmd-1","type":"command_execution","status":"in_progress","command":"/bin/bash -lc \"bash -c 'cat .IMPLEMENTAUDIT/runs/run-1/STATE.md'\""}},{"type":"item.completed","thread_id":"thread-1","turn_id":"turn-1","item":{"id":"cmd-1","type":"command_execution","status":"completed","command":"/bin/bash -lc \"bash -c 'cat .IMPLEMENTAUDIT/runs/run-1/STATE.md'\"","aggregated_output":"STATE\n","exit_code":0}},{"type":"turn.completed","thread_id":"thread-1","turn_id":"turn-1"}]},
+    "select":{"classification":"matrix.classification","wrapper_layers":"actions.0.wrapper_layers"},
+    "expected":{"classification":"fail-closed","wrapper_layers":1}
+  },
+  {
+    "id":"A06","operation":"normalize-classify-codex","inputs":[
+      {"formal":false,"profile_file":"support/test-profile.json","preimages_file":"support/test-preimages.json","target":".IMPLEMENTAUDIT/runs/run-1/STATE.md","binding":{"thread_id":"thread-1","turn_id":"turn-1"},"stdout_jsonl":[{"type":"thread.started","thread_id":"thread-1"},{"type":"turn.started","thread_id":"thread-1","turn_id":"turn-1"},{"type":"item.started","item":{"id":"x","type":"command_execution","status":"in_progress","command":"/usr/bin/bash -lc 'cat .IMPLEMENTAUDIT/runs/run-1/STATE.md'"}},{"type":"item.completed","item":{"id":"x","type":"command_execution","status":"completed","command":"/usr/bin/bash -lc 'cat .IMPLEMENTAUDIT/runs/run-1/STATE.md'","aggregated_output":"STATE\n","exit_code":0}},{"type":"turn.completed","thread_id":"thread-1","turn_id":"turn-1"}]},
+      {"formal":false,"profile_file":"support/test-profile.json","preimages_file":"support/test-preimages.json","target":".IMPLEMENTAUDIT/runs/run-1/STATE.md","binding":{"thread_id":"thread-1","turn_id":"turn-1"},"stdout_jsonl":[{"type":"thread.started","thread_id":"thread-1"},{"type":"turn.started","thread_id":"thread-1","turn_id":"turn-1"},{"type":"item.started","item":{"id":"x","type":"command_execution","status":"in_progress","command":"/bin/bash -l -c 'cat .IMPLEMENTAUDIT/runs/run-1/STATE.md'"}},{"type":"item.completed","item":{"id":"x","type":"command_execution","status":"completed","command":"/bin/bash -l -c 'cat .IMPLEMENTAUDIT/runs/run-1/STATE.md'","aggregated_output":"STATE\n","exit_code":0}},{"type":"turn.completed","thread_id":"thread-1","turn_id":"turn-1"}]},
+      {"formal":false,"profile_file":"support/test-profile.json","preimages_file":"support/test-preimages.json","target":".IMPLEMENTAUDIT/runs/run-1/STATE.md","binding":{"thread_id":"thread-1","turn_id":"turn-1"},"stdout_jsonl":[{"type":"thread.started","thread_id":"thread-1"},{"type":"turn.started","thread_id":"thread-1","turn_id":"turn-1"},{"type":"item.started","item":{"id":"x","type":"command_execution","status":"in_progress","command":"env /bin/bash -lc 'cat .IMPLEMENTAUDIT/runs/run-1/STATE.md'"}},{"type":"item.completed","item":{"id":"x","type":"command_execution","status":"completed","command":"env /bin/bash -lc 'cat .IMPLEMENTAUDIT/runs/run-1/STATE.md'","aggregated_output":"STATE\n","exit_code":0}},{"type":"turn.completed","thread_id":"thread-1","turn_id":"turn-1"}]}
+    ],
+    "select":{"classification":"matrix.classification"},
+    "expected":[{"classification":"fail-closed"},{"classification":"fail-closed"},{"classification":"fail-closed"}]
+  },
+  {
+    "id":"A07","operation":"normalize-codex",
+    "input":{"formal":false,"profile_file":"support/test-profile.json","binding":{"thread_id":"thread-1","turn_id":"turn-1"},"stdout_jsonl":[{"type":"thread.started","thread_id":"thread-1"},{"type":"turn.started","thread_id":"thread-1","turn_id":"turn-1"},{"type":"item.started","item":{"id":"cmd-1","type":"command_execution","status":"in_progress","command":"cat .IMPLEMENTAUDIT/runs/run-1/STATE.md"}},{"type":"item.completed","item":{"id":"cmd-1","type":"command_execution","status":"completed","command":"cat .IMPLEMENTAUDIT/runs/run-1/STATE.md","aggregated_output":"STATE\n","exit_code":0}},{"type":"turn.completed","thread_id":"thread-1","turn_id":"turn-1"}]},
+    "select":{"state":"actions.0.state","invalid":"invalid"},
+    "expected":{"state":"COMPLETED","invalid":false}
+  },
+  {
+    "id":"A08","operation":"normalize-codex","inputs":[
+      {"formal":false,"profile_file":"support/test-profile.json","binding":{"thread_id":"thread-1","turn_id":"turn-1"},"stdout_jsonl":[{"type":"thread.started","thread_id":"thread-1"},{"type":"turn.started","thread_id":"thread-1","turn_id":"turn-1"},{"type":"item.completed","item":{"id":"cmd-1","type":"command_execution","status":"completed","command":"cat .IMPLEMENTAUDIT/runs/run-1/STATE.md","aggregated_output":"STATE\n","exit_code":0}},{"type":"turn.completed","thread_id":"thread-1","turn_id":"turn-1"}]},
+      {"formal":false,"profile_file":"support/test-profile.json","binding":{"thread_id":"thread-1","turn_id":"turn-1"},"stdout_jsonl":[{"type":"thread.started","thread_id":"thread-1"},{"type":"turn.started","thread_id":"thread-1","turn_id":"turn-1"},{"type":"item.completed","item":{"id":"w-1","type":"file_change","status":"completed","changes":[{"path":".IMPLEMENTAUDIT/runs/run-1/capsule.json","kind":"add"}]}},{"type":"turn.completed","thread_id":"thread-1","turn_id":"turn-1"}]}
+    ],
+    "select":{"state":"actions.0.state","invented_invocation":"actions.0.invocation_invented"},
+    "expected":[{"state":"INVALID","invented_invocation":false},{"state":"INVALID","invented_invocation":false}]
+  },
+  {
+    "id":"A09","operation":"normalize-codex",
+    "input":{"formal":false,"profile_file":"support/test-profile.json","binding":{"thread_id":"thread-1","turn_id":"turn-1"},"stdout_jsonl":[{"type":"thread.started","thread_id":"thread-1"},{"type":"turn.started","thread_id":"thread-1","turn_id":"turn-1"},{"type":"item.started","item":{"id":"cmd-1","type":"command_execution","status":"in_progress","command":"cat .IMPLEMENTAUDIT/runs/run-1/STATE.md"}},{"type":"turn.completed","thread_id":"thread-1","turn_id":"turn-1"}]},
+    "select":{"state":"actions.0.state"},"expected":{"state":"INCOMPLETE"}
+  },
+  {
+    "id":"A10","operation":"normalize-codex","inputs":[
+      {"formal":false,"profile_file":"support/test-profile.json","binding":{"thread_id":"thread-1","turn_id":"turn-1"},"stdout_jsonl":[{"type":"thread.started","thread_id":"thread-1"},{"type":"turn.started","thread_id":"thread-1","turn_id":"turn-1"},{"type":"item.started","item":{"id":"dup","type":"command_execution","status":"in_progress","command":"cat S"}},{"type":"item.started","item":{"id":"dup","type":"command_execution","status":"in_progress","command":"cat S"}},{"type":"turn.completed","thread_id":"thread-1","turn_id":"turn-1"}]},
+      {"formal":false,"profile_file":"support/test-profile.json","binding":{"thread_id":"thread-1","turn_id":"turn-1"},"stdout_jsonl":[{"type":"thread.started","thread_id":"thread-1"},{"type":"turn.started","thread_id":"thread-1","turn_id":"turn-1"},{"type":"item.started","item":{"id":"x","type":"command_execution","status":"in_progress","command":"cat S"}},{"type":"item.completed","item":{"id":"x","type":"command_execution","status":"completed","command":"cat R","aggregated_output":"ROADMAP\n","exit_code":0}},{"type":"turn.completed","thread_id":"thread-1","turn_id":"turn-1"}]},
+      {"formal":false,"profile_file":"support/test-profile.json","binding":{"thread_id":"thread-1","turn_id":"turn-1"},"stdout_jsonl":[{"type":"thread.started","thread_id":"thread-1"},{"type":"turn.started","thread_id":"thread-1","turn_id":"turn-1"},{"type":"item.started","item":{"id":"x","type":"file_change","status":"in_progress","changes":[{"path":"a","kind":"add"}]}},{"type":"item.completed","item":{"id":"x","type":"file_change","status":"completed","changes":[{"path":"b","kind":"add"}]}},{"type":"turn.completed","thread_id":"thread-1","turn_id":"turn-1"}]}
+    ],
+    "select":{"invalid":"invalid"},"expected":[{"invalid":true},{"invalid":true},{"invalid":true}]
+  },
+  {
+    "id":"A11","operation":"normalize-codex","inputs":[
+      {"formal":false,"profile_file":"support/test-profile.json","binding":{"thread_id":"thread-1","turn_id":"turn-1"},"stdout_jsonl":[{"type":"thread.started","thread_id":"thread-1"},{"type":"turn.started","thread_id":"thread-1","turn_id":"turn-1"},{"type":"item.started","item":{"id":"x","type":"command_execution","status":"in_progress","command":"rg no-match .IMPLEMENTAUDIT/runs/run-1/STATE.md"}},{"type":"item.completed","item":{"id":"x","type":"command_execution","status":"failed","command":"rg no-match .IMPLEMENTAUDIT/runs/run-1/STATE.md","aggregated_output":"","exit_code":1}},{"type":"turn.completed","thread_id":"thread-1","turn_id":"turn-1"}]},
+      {"formal":false,"profile_file":"support/test-profile.json","binding":{"thread_id":"thread-1","turn_id":"turn-1"},"stdout_jsonl":[{"type":"thread.started","thread_id":"thread-1"},{"type":"turn.started","thread_id":"thread-1","turn_id":"turn-1"},{"type":"item.started","item":{"id":"x","type":"command_execution","status":"in_progress","command":"missing-reader .IMPLEMENTAUDIT/runs/run-1/STATE.md"}},{"type":"item.completed","item":{"id":"x","type":"command_execution","status":"failed","command":"missing-reader .IMPLEMENTAUDIT/runs/run-1/STATE.md","aggregated_output":"not found","exit_code":127}},{"type":"turn.completed","thread_id":"thread-1","turn_id":"turn-1"}]}
+    ],
+    "select":{"state":"actions.0.state","stream_invalid":"invalid"},
+    "expected":[{"state":"COMPLETED","stream_invalid":false},{"state":"COMPLETED","stream_invalid":false}]
+  },
+  {
+    "id":"A12","operation":"adjudicate-claude",
+    "input":{"formal":false,"preimages_file":"support/test-preimages.json","binding":{"session_id":"session-1"},"requested_tools":["Read","Write"],"stdout_jsonl":[{"type":"system","subtype":"init","session_id":"session-1","tools":["Read","Write"]},{"type":"assistant","session_id":"session-1","message":{"content":[{"type":"tool_use","id":"r","name":"Read","input":{"file_path":".IMPLEMENTAUDIT/runs/run-1/STATE.md"}}]}},{"type":"assistant","session_id":"session-1","message":{"content":[{"type":"tool_use","id":"w","name":"Write","input":{"file_path":".IMPLEMENTAUDIT/runs/run-1/capsule.json","content":"{}"}}]}},{"type":"user","session_id":"session-1","message":{"content":[{"type":"tool_result","tool_use_id":"w","content":"ok","is_error":false}]}},{"type":"user","session_id":"session-1","message":{"content":[{"type":"tool_result","tool_use_id":"r","content":"STATE\n","is_error":false}]}},{"type":"result","session_id":"session-1","is_error":false}],"reads":[".IMPLEMENTAUDIT/runs/run-1/STATE.md"],"write":".IMPLEMENTAUDIT/runs/run-1/capsule.json"},
+    "select":{"property":"property_status","ordered":"ordered"},"expected":{"property":"INCOMPLETE","ordered":false}
+  },
+  {
+    "id":"A13","operation":"replay-capture",
+    "input":{"files":{"host-read-pre-spawn.json":"{\"schema\":\"implementaudit-host-read-pre-spawn-v1\"}","host-read-terminal.json":"{\"schema\":\"implementaudit-host-read-terminal-v1\"}"}},
+    "select":{"replay":"status"},"expected":{"replay":"INVALID"}
+  },
+  {
+    "id":"A14","operation":"seal-and-tamper","inputs":[
+      {"tamper":"host-stdout.raw"},{"tamper":"host-session.raw"},{"tamper":"host-tool-trace.json"},{"tamper":"host-read-matrix.json"}
+    ],
+    "select":{"replay":"status"},"expected":[{"replay":"INVALID"},{"replay":"INVALID"},{"replay":"INVALID"},{"replay":"INVALID"}]
+  },
+  {
+    "id":"A15","operation":"adjudicate-codex",
+    "input":{"formal":false,"profile_file":"support/test-profile.json","preimages_file":"support/test-preimages.json","binding":{"thread_id":"thread-1","turn_id":"turn-1"},"stdout_jsonl":[{"type":"thread.started","thread_id":"thread-1"},{"type":"turn.started","thread_id":"thread-1","turn_id":"turn-1"},{"type":"item.started","item":{"id":"x","type":"command_execution","status":"in_progress","command":"bash -c 'cat .IMPLEMENTAUDIT/runs/run-1/STATE.md'"}},{"type":"item.completed","item":{"id":"x","type":"command_execution","status":"completed","command":"bash -c 'cat .IMPLEMENTAUDIT/runs/run-1/STATE.md'","aggregated_output":"STATE\n","exit_code":0}},{"type":"item.started","item":{"id":"w","type":"file_change","status":"in_progress","changes":[{"path":".IMPLEMENTAUDIT/runs/run-1/capsule.json","kind":"add"}]}},{"type":"item.completed","item":{"id":"w","type":"file_change","status":"completed","changes":[{"path":".IMPLEMENTAUDIT/runs/run-1/capsule.json","kind":"add"}]}},{"type":"turn.completed","thread_id":"thread-1","turn_id":"turn-1"}],"reads":[".IMPLEMENTAUDIT/runs/run-1/STATE.md"],"write":".IMPLEMENTAUDIT/runs/run-1/capsule.json"},
+    "select":{"property":"property_status","host_finding":"host_findings.0.code"},
+    "expected":{"property":"INCOMPLETE","host_finding":"fail-closed-command"}
+  }
+]

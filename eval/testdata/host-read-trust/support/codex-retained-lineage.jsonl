@@ -1,0 +1,3 @@
+{"timestamp":"2026-07-19T00:53:04.821Z","type":"session_meta","payload":{"session_id":"019f77dc-c42c-7511-b77e-dea799279bc6","id":"019f77dc-c42c-7511-b77e-dea799279bc6","timestamp":"2026-07-19T00:53:04.696Z","cwd":"/fixture/repo"}}
+{"timestamp":"2026-07-19T00:53:07.141Z","type":"turn_context","payload":{"turn_id":"019f77dc-c4a6-75b3-ab18-130c2efdb677","cwd":"/fixture/repo"}}
+{"timestamp":"2026-07-19T00:53:09.000Z","type":"response_item","payload":{"type":"function_call","id":"ctc_0bec30f5966f4e33016a5c1ff7e4488196adc08e619568af98","name":"exec_command"}}

@@ -22,6 +22,7 @@ import adapters as framework  # noqa: E402
 import hosts  # noqa: E402
 import reconcile as reconcilelib  # noqa: E402
 import runner  # noqa: E402
+import test_host_read_contract  # noqa: E402
 
 failures = []
 
@@ -2077,6 +2078,503 @@ def main():
             for record in variable_records46]
         check("H46e dynamic-path-fails-closed-without-literal-target",
               variable_results46 == ["fail-closed"] * 4)
+
+        # 47. The formal path-order production branch consumes the sealed v2
+        # normalizer/adjudicator result, not the legacy heuristic trace.  This
+        # is a no-spawn deterministic integration check over native Claude
+        # events with exact preimage output and two-phase custody.
+        capture47 = os.path.join(tmp, "host-read-capture-h47")
+        os.makedirs(capture47)
+        requested47 = "Read Glob Grep Write Edit Bash".split()
+        retained_tools47 = json.load(open(os.path.join(
+            HERE, "testdata", "host-read-trust", "support",
+            "claude-retained-tools.json"), encoding="utf-8"))
+        profile47 = hosts.hostread.mint_claude_profile(repo43, requested47)
+        preimages47 = hosts.hostread.capture_preimages(repo43, [S45, R45])
+        fixture_bytes47 = json.dumps(
+            fx44, sort_keys=True, separators=(",", ":")).encode()
+        fixture_hash47 = hosts.bundlelib._sha256_bytes(fixture_bytes47)
+        intent47 = {"schema": "implementaudit-run-intent-v1",
+                    "fixture_sha256": fixture_hash47}
+        intent_bytes47 = json.dumps(
+            intent47, sort_keys=True, separators=(",", ":")).encode()
+        open(os.path.join(capture47, "run-intent.json"), "wb").write(
+            intent_bytes47)
+        intent_hash47 = hosts.bundlelib._sha256_bytes(intent_bytes47)
+        replay_spec47 = hosts.hostread.make_replay_spec(
+            "claude", [{"key": "read_before_write",
+                        "reads": [S45, R45], "write": W45}],
+            requested_tools=requested47, fixture_sha256=fixture_hash47,
+            run_intent_sha256=intent_hash47)
+        hosts.hostread.begin_capture(
+            capture47, profile47, preimages47,
+            replay_spec=replay_spec47, fixture_bytes=fixture_bytes47,
+            formal=True)
+        pre_spawn_hash47 = hosts.bundlelib.sha256_file(os.path.join(
+            capture47, "host-read-pre-spawn.json"))
+        json.dump({"schema": "implementaudit-process-started-v2",
+                   "host_read_pre_spawn_sha256": pre_spawn_hash47},
+                  open(os.path.join(capture47, "process-started.json"),
+                       "w", encoding="utf-8"), sort_keys=True)
+        adapter47 = make_adapter(
+            tmp, "ok-claude", kind="claude",
+            home=os.path.join(tmp, "claude-home-h47"))
+        adapter47.formal = True
+        adapter47._session_id = "session-h47"
+        adapter47._custody_hashes = {}
+        adapter47._formal_host_read = {
+            "profile": profile47, "preimages": preimages47,
+            "runtime": {"requested_tools": requested47},
+            "replay_spec": replay_spec47,
+            "run_root": capture47}
+        state47 = open(os.path.join(repo43, *S45.split("/")),
+                       "rb").read().decode("utf-8")
+        roadmap47 = open(os.path.join(repo43, *R45.split("/")),
+                         "rb").read().decode("utf-8")
+        stream47 = "\n".join((
+            json.dumps({"type": "system", "subtype": "init",
+                        "session_id": "session-h47",
+                        "tools": retained_tools47}),
+            cuse("s47", "Read", {"file_path": S45}),
+            cresult("s47", state47, is_error=False),
+            cuse("r47", "Read", {"file_path": R45}),
+            cresult("r47", roadmap47, is_error=False),
+            cuse("w47", "Write", {"file_path": W45, "content": "{}"}),
+            cresult("w47", "ok", is_error=False),
+            json.dumps({"type": "result", "session_id": "session-h47",
+                        "is_error": False})))
+        # Bind the session id to every helper-generated event.
+        stream47 = "\n".join(
+            json.dumps(dict(json.loads(line), session_id="session-h47"))
+            for line in stream47.splitlines())
+        session47 = (json.dumps({"type": "system", "subtype": "transcript",
+                                 "session_id": "session-h47",
+                                 "action_ids": ["s47", "r47", "w47"]}) +
+                     "\n" + stream47 + "\n")
+        transcript47 = os.path.join(
+            adapter47.config_dir, "projects", "fixture",
+            "session-h47.jsonl")
+        os.makedirs(os.path.dirname(transcript47), exist_ok=True)
+        open(transcript47, "w", encoding="utf-8").write(session47)
+        outcome47 = hosts._Outcome(stream47, "", 0)
+        try:
+            retained_trace47 = hosts.hostread.normalize_claude(
+                stream47, requested_tools=requested47,
+                binding={"session_id": "session-h47"},
+                profile=profile47, formal=True)
+            missing_requested47 = hosts.hostread.normalize_claude(
+                json.dumps({"type": "system", "subtype": "init",
+                            "session_id": "session-h47",
+                            "tools": retained_tools47}) + "\n",
+                requested_tools=requested47 + ["MissingRequestedTool"],
+                binding={"session_id": "session-h47"},
+                profile=profile47, formal=True)
+            unknown_stream47 = "\n".join((
+                json.dumps({"type": "system", "subtype": "init",
+                            "session_id": "session-h47",
+                            "tools": retained_tools47}),
+                cuse("unknown47", "NotebookEdit", {"path": "notes.ipynb"}),
+                cresult("unknown47", "ok", is_error=False)))
+            unknown_stream47 = "\n".join(
+                json.dumps(dict(json.loads(line),
+                                session_id="session-h47"))
+                for line in unknown_stream47.splitlines())
+            unknown_trace47 = hosts.hostread.normalize_claude(
+                unknown_stream47, requested_tools=requested47,
+                binding={"session_id": "session-h47"},
+                profile=profile47, formal=True)
+            unavailable_stream47 = "\n".join((
+                json.dumps({"type": "system", "subtype": "init",
+                            "session_id": "session-h47",
+                            "tools": ["Write"]}),
+                cuse("unavailable47", "Read", {"file_path": S45}),
+                cresult("unavailable47", state47, is_error=False)))
+            unavailable_stream47 = "\n".join(
+                json.dumps(dict(json.loads(line),
+                                session_id="session-h47"))
+                for line in unavailable_stream47.splitlines())
+            unavailable_trace47 = hosts.hostread.normalize_claude(
+                unavailable_stream47, requested_tools=["Write"],
+                binding={"session_id": "session-h47"},
+                profile=profile47, formal=True)
+            check("H47h retained-inventory-availability-boundary",
+                  len(retained_tools47) == 32
+                  and retained_trace47.get("host_status") == "PASS"
+                  and retained_trace47.get("observed_tools") ==
+                  retained_tools47
+                  and all(action.get("state") == "COMPLETED"
+                          for action in retained_trace47.get("actions", []))
+                  and missing_requested47.get("host_status") == "INVALID"
+                  and any(finding.get("code") ==
+                          "requested-tool-unavailable"
+                          for finding in missing_requested47.get(
+                              "host_findings", []))
+                  and unknown_trace47.get("host_status") == "INVALID"
+                  and unknown_trace47.get("actions", [{}])[0].get(
+                      "state") == "INVALID"
+                  and any(finding.get("code") ==
+                          "unsupported-invoked-tool"
+                          for finding in unknown_trace47.get(
+                              "host_findings", []))
+                  and unavailable_trace47.get("host_status") == "INVALID"
+                  and any(finding.get("code") ==
+                          "invoked-tool-unavailable"
+                          for finding in unavailable_trace47.get(
+                              "host_findings", [])))
+
+            def rendered_read47(content, start=1):
+                return "\n".join(
+                    f"{start + index}\t{part}"
+                    for index, part in enumerate(content.split("\n")))
+
+            def native_result47(tool_id, visible, metadata):
+                return json.dumps({
+                    "type": "user", "session_id": "session-h47",
+                    "tool_use_result": metadata,
+                    "message": {"content": [{
+                        "type": "tool_result", "tool_use_id": tool_id,
+                        "content": visible}]}})
+
+            def native_read_trace47(label, visible, metadata):
+                raw = "\n".join((
+                    json.dumps({"type": "system", "subtype": "init",
+                                "session_id": "session-h47",
+                                "tools": retained_tools47}),
+                    json.dumps(dict(json.loads(cuse(
+                        label, "Read", {"file_path": S45})),
+                        session_id="session-h47")),
+                    native_result47(label, visible, metadata)))
+                trace = hosts.hostread.normalize_claude(
+                    raw, requested_tools=requested47,
+                    binding={"session_id": "session-h47"},
+                    profile=profile47, formal=True)
+                classified = hosts.hostread.classify_actions(
+                    trace.get("actions", []), [S45], preimages47,
+                    profile=profile47, formal=True)[S45]
+                return trace, classified
+
+            line_count47 = len(state47.split("\n"))
+            full_file47 = {
+                "type": "text", "file": {
+                    "filePath": S45, "content": state47,
+                    "startLine": 1, "numLines": line_count47,
+                    "totalLines": line_count47}}
+            full_read47, full_class47 = native_read_trace47(
+                "full47", rendered_read47(state47), full_file47)
+            omitted_visible47 = "\n".join(
+                rendered_read47(state47).split("\n")[:-1])
+            omitted_read47, omitted_class47 = native_read_trace47(
+                "omitted47", omitted_visible47, full_file47)
+            reordered_parts47 = rendered_read47(state47).split("\n")
+            if len(reordered_parts47) > 1:
+                reordered_parts47[0], reordered_parts47[1] = (
+                    reordered_parts47[1], reordered_parts47[0])
+            reordered_read47, reordered_class47 = native_read_trace47(
+                "reordered47", "\n".join(reordered_parts47), full_file47)
+            partial_file47 = {"type": "text", "file": {
+                "filePath": S45, "content": state47,
+                "startLine": 2, "numLines": line_count47 - 1,
+                "totalLines": line_count47}}
+            partial_read47, partial_class47 = native_read_trace47(
+                "partial47", rendered_read47(state47, start=2),
+                partial_file47)
+            wrong_type_file47 = {"type": "binary", "file": dict(
+                full_file47["file"])}
+            wrong_type_read47, wrong_type_class47 = native_read_trace47(
+                "wrong-type47", rendered_read47(state47),
+                wrong_type_file47)
+            check("H47i native-read-renderer-full-state-boundary",
+                  full_read47.get("actions", [{}])[0].get("state") ==
+                  "COMPLETED"
+                  and full_class47.get("classification") == "content-read"
+                  and all(trace.get("actions", [{}])[0].get("state") ==
+                          "INCOMPLETE" for trace in (
+                              omitted_read47, reordered_read47,
+                              partial_read47, wrong_type_read47))
+                  and all(item.get("classification") == "fail-closed"
+                          for item in (omitted_class47, reordered_class47,
+                                       partial_class47,
+                                       wrong_type_class47)))
+
+            write_false47 = "\n".join((
+                json.dumps({"type": "system", "subtype": "init",
+                            "session_id": "session-h47",
+                            "tools": retained_tools47}),
+                json.dumps(dict(json.loads(cuse(
+                    "write-false47", "Write",
+                    {"file_path": W45, "content": "{}"})),
+                    session_id="session-h47")),
+                native_result47("write-false47", "created", {
+                    "type": "create", "filePath": W45,
+                    "content": "{}", "originalFile": None,
+                    "structuredPatch": [], "userModified": False})))
+            write_false_trace47 = hosts.hostread.normalize_claude(
+                write_false47, requested_tools=requested47,
+                binding={"session_id": "session-h47"},
+                profile=profile47, formal=True)
+            check("H47j native-write-userModified-false-completes",
+                  write_false_trace47.get("host_status") == "PASS"
+                  and write_false_trace47.get("actions", [{}])[0].get(
+                      "state") == "COMPLETED")
+            adapter47._attempt_finalize_formal_host_read(
+                fx44, repo43, outcome47, capture47, "ok")
+            adapter47._tool_trace = [{"action": "invalid"}]
+            result47 = adapter47._run_host_checks(fx44, repo43)
+            replay47 = hosts.hostread.replay_capture(
+                capture47, formal=True)
+            check("H47 formal-v2-custody-integration",
+                  result47.get("read_before_write") is True
+                  and replay47.get("status") == "PASS"
+                  and os.path.isfile(os.path.join(
+                      capture47, "host-read-manifest.json")))
+
+            def rewrite_json47(root, name, value):
+                open(os.path.join(root, name), "wb").write(
+                    hosts.hostread._canonical_bytes(value) + b"\n")
+
+            def rehash47(root):
+                terminal = json.load(open(os.path.join(
+                    root, "host-read-terminal.json"), encoding="utf-8"))
+                terminal["hashes"] = {
+                    name: hosts.hostread._file_sha256(os.path.join(root, name))
+                    for name in hosts.hostread._CAPTURE_FILES[:-1]}
+                rewrite_json47(root, "host-read-terminal.json", terminal)
+                manifest = {
+                    "schema": hosts.hostread.MANIFEST_SCHEMA,
+                    "files": {name: hosts.hostread._file_sha256(
+                        os.path.join(root, name))
+                        for name in hosts.hostread._CAPTURE_FILES}}
+                rewrite_json47(root, "host-read-manifest.json", manifest)
+
+            # An attacker who forges derivatives and recomputes every stored
+            # digest still cannot make them disagree with raw replay.
+            forged_trace47 = os.path.join(tmp, "h47-forged-trace")
+            shutil.copytree(capture47, forged_trace47)
+            trace47 = json.load(open(os.path.join(
+                forged_trace47, "host-tool-trace.json"), encoding="utf-8"))
+            trace47["actions"][0]["output"] = "forged\n"
+            rewrite_json47(forged_trace47, "host-tool-trace.json", trace47)
+            rehash47(forged_trace47)
+            check("H47b replay-regenerates-derivatives",
+                  hosts.hostread.replay_capture(
+                      forged_trace47, formal=True).get("status") == "INVALID")
+
+            # The full post-probe is bound. Rehashing a forged probe and a
+            # false PASS status does not survive independent profile replay.
+            forged_probe47 = os.path.join(tmp, "h47-forged-probe")
+            shutil.copytree(capture47, forged_probe47)
+            rewrite_json47(forged_probe47, "host-read-post-probe.json",
+                           {"native_tools": {"requested": ["Read"]}})
+            terminal47 = json.load(open(os.path.join(
+                forged_probe47, "host-read-terminal.json"), encoding="utf-8"))
+            forged_post47 = json.load(open(os.path.join(
+                forged_probe47, "host-read-post-probe.json"),
+                encoding="utf-8"))
+            terminal47["post_probe_sha256"] = hosts.hostread._sha256(
+                hosts.hostread._canonical_bytes(forged_post47))
+            terminal47["profile_post_status"] = "PASS"
+            rewrite_json47(forged_probe47, "host-read-terminal.json",
+                           terminal47)
+            rehash47(forged_probe47)
+            check("H47c post-probe-status-rederived",
+                  hosts.hostread.replay_capture(
+                      forged_probe47, formal=True).get("status") == "INVALID")
+
+            session_results47 = []
+            for label47, replacement47 in (
+                    ("swap", open(os.path.join(
+                        capture47, "host-stdout.raw"), "rb").read()),
+                    ("arbitrary", (json.dumps({
+                        "type": "system", "session_id": "session-h47",
+                        "note": "no correlated action identities"}) +
+                        "\n").encode()),
+                    ("partial", (json.dumps({
+                        "type": "system", "subtype": "transcript",
+                        "session_id": "session-h47",
+                        "action_ids": ["s47"]}) + "\n").encode())):
+                forged_session47 = os.path.join(
+                    tmp, "h47-forged-session-" + label47)
+                shutil.copytree(capture47, forged_session47)
+                open(os.path.join(forged_session47, "host-session.raw"),
+                     "wb").write(replacement47)
+                rehash47(forged_session47)
+                session_results47.append(hosts.hostread.replay_capture(
+                    forged_session47, formal=True).get("status"))
+            check("H47d native-session-substitution-rejected",
+                  session_results47 == ["INVALID", "INVALID", "INVALID"])
+
+            # Recipe substitution cannot escape the exact fixture and parent
+            # run-intent/process-started custody chain.
+            forged_recipe47 = os.path.join(tmp, "h47-forged-recipe")
+            shutil.copytree(capture47, forged_recipe47)
+            recipe47 = json.load(open(os.path.join(
+                forged_recipe47, "host-read-replay-spec.json"),
+                encoding="utf-8"))
+            recipe47["checks"][0]["write"] = "other.json"
+            rewrite_json47(forged_recipe47, "host-read-replay-spec.json",
+                           recipe47)
+            prespawn47 = json.load(open(os.path.join(
+                forged_recipe47, "host-read-pre-spawn.json"),
+                encoding="utf-8"))
+            prespawn47["replay_spec_sha256"] = hosts.hostread._file_sha256(
+                os.path.join(forged_recipe47,
+                             "host-read-replay-spec.json"))
+            rewrite_json47(forged_recipe47, "host-read-pre-spawn.json",
+                           prespawn47)
+            process47 = json.load(open(os.path.join(
+                forged_recipe47, "process-started.json"), encoding="utf-8"))
+            process47["host_read_pre_spawn_sha256"] = \
+                hosts.hostread._file_sha256(os.path.join(
+                    forged_recipe47, "host-read-pre-spawn.json"))
+            rewrite_json47(forged_recipe47, "process-started.json", process47)
+            rehash47(forged_recipe47)
+            bad_hash_missing47 = dict(replay_spec47)
+            bad_hash_missing47.pop("fixture_sha256")
+            bad_hash_format47 = dict(replay_spec47,
+                                     fixture_sha256="not-a-digest")
+            check("H47e fixture-parent-recipe-chain",
+                  hosts.hostread.replay_capture(
+                      forged_recipe47, formal=True).get("status") == "INVALID"
+                  and not hosts.hostread._validate_replay_spec(
+                      bad_hash_missing47, True)
+                  and not hosts.hostread._validate_replay_spec(
+                      bad_hash_format47, True))
+
+            # Even an invalid/error terminal stream is sealed as a
+            # reconstructible incomplete property matrix; adapter reuse then
+            # clears all per-run evidence state.
+            failed47 = os.path.join(tmp, "h47-terminal-error")
+            os.makedirs(failed47)
+            open(os.path.join(failed47, "run-intent.json"), "wb").write(
+                intent_bytes47)
+            hosts.hostread.begin_capture(
+                failed47, profile47, preimages47,
+                replay_spec=replay_spec47, fixture_bytes=fixture_bytes47,
+                formal=True)
+            json.dump({"schema": "implementaudit-process-started-v2",
+                       "host_read_pre_spawn_sha256":
+                       hosts.hostread._file_sha256(os.path.join(
+                           failed47, "host-read-pre-spawn.json"))},
+                      open(os.path.join(failed47, "process-started.json"),
+                           "w", encoding="utf-8"), sort_keys=True)
+            failed_adapter47 = make_adapter(
+                tmp, "ok-claude", kind="claude",
+                home=os.path.join(tmp, "claude-home-h47-error"))
+            failed_adapter47.formal = True
+            failed_adapter47._custody_hashes = {}
+            failed_adapter47._formal_host_read = {
+                "profile": profile47, "preimages": preimages47,
+                "runtime": {"requested_tools": requested47},
+                "replay_spec": replay_spec47, "run_root": failed47}
+            failed_adapter47._attempt_finalize_formal_host_read(
+                fx44, repo43, hosts._Outcome("{malformed\n", "", 1),
+                failed47, "error")
+            failed_terminal47 = json.load(open(os.path.join(
+                failed47, "host-read-terminal.json"), encoding="utf-8"))
+            failed_matrix47 = json.load(open(os.path.join(
+                failed47, "host-read-matrix.json"), encoding="utf-8"))
+            sealed_error47 = (
+                failed_terminal47.get("host_terminal_kind") == "error" and
+                failed_matrix47["specs"]["read_before_write"].get(
+                    "property_status") == "INCOMPLETE")
+            failed_adapter47._reset_formal_host_read_state()
+            check("H47f terminal-failure-seals-and-reuse-resets",
+                  sealed_error47
+                  and failed_adapter47._formal_host_read is None
+                  and failed_adapter47._formal_host_read_results == {})
+
+            # Literal retained Config-L shape: exec stdout omits turn_id,
+            # while the native rollout binds it in one turn_context and uses
+            # ctc/message IDs that intentionally do not equal stdout item IDs.
+            retained_thread47 = "019f77dc-c42c-7511-b77e-dea799279bc6"
+            retained_stdout47 = "\n".join((
+                json.dumps({"type": "thread.started",
+                            "thread_id": retained_thread47}),
+                json.dumps({"type": "turn.started"}),
+                json.dumps({"type": "item.started", "item": {
+                    "id": "item_1", "type": "command_execution",
+                    "status": "in_progress", "command": "cat " + S45}}),
+                json.dumps({"type": "item.completed", "item": {
+                    "id": "item_1", "type": "command_execution",
+                    "status": "completed", "command": "cat " + S45,
+                    "aggregated_output": state47, "exit_code": 0}}),
+                json.dumps({"type": "turn.completed"}))) + "\n"
+            retained_session47 = open(os.path.join(
+                HERE, "testdata", "host-read-trust", "support",
+                "codex-retained-lineage.jsonl"), "rb").read()
+            retained_binding47 = hosts.hostread.derive_codex_binding(
+                retained_stdout47)
+            retained_binding47 = hosts.hostread.augment_codex_binding(
+                retained_binding47, retained_session47)
+            retained_profile47 = json.load(open(os.path.join(
+                HERE, "testdata", "host-read-trust", "support",
+                "test-profile.json"), encoding="utf-8"))
+            retained_trace47 = hosts.hostread.normalize_codex(
+                retained_stdout47, profile=retained_profile47,
+                binding=retained_binding47, formal=False)
+            retained_status47 = hosts.hostread.corroborate_session(
+                retained_stdout47, retained_session47, "codex",
+                retained_binding47, retained_trace47,
+                profile=retained_profile47,
+                process_started={"started_at":
+                                 "2026-07-19T00:53:04.000Z"})
+            check("H47g retained-codex-lineage-shape",
+                  retained_binding47.get("stdout_turn_ordinal") == 1
+                  and "turn_id" not in retained_binding47
+                  and retained_binding47.get("native_turn_id") ==
+                  "019f77dc-c4a6-75b3-ab18-130c2efdb677"
+                  and retained_trace47.get("host_status") == "PASS"
+                  and retained_status47 == "VALID")
+            retained_todo_events47 = open(os.path.join(
+                HERE, "testdata", "host-read-trust", "support",
+                "codex-retained-todo.jsonl"), encoding="utf-8").read()
+
+            def todo_trace47(action_events):
+                raw = "\n".join((
+                    json.dumps({"type": "thread.started",
+                                "thread_id": "todo-thread47"}),
+                    json.dumps({"type": "turn.started",
+                                "thread_id": "todo-thread47",
+                                "turn_id": "todo-turn47"}),
+                    action_events.rstrip("\n"),
+                    json.dumps({"type": "turn.completed",
+                                "thread_id": "todo-thread47",
+                                "turn_id": "todo-turn47"}))) + "\n"
+                return hosts.hostread.normalize_codex(
+                    raw, profile=retained_profile47,
+                    binding={"thread_id": "todo-thread47",
+                             "turn_id": "todo-turn47"}, formal=False)
+
+            retained_todo_trace47 = todo_trace47(retained_todo_events47)
+            malformed_todos47 = []
+            for events47 in (
+                    [{"type": "item.started", "item": {
+                        "id": "bad-status", "type": "todo_list",
+                        "status": "completed", "items": []}}],
+                    [{"type": "item.started", "item": {
+                        "id": "missing-items", "type": "todo_list"}}],
+                    [{"type": "item.started", "item": {
+                        "id": "bad-items", "type": "todo_list",
+                        "items": "not-a-list"}}],
+                    [{"type": "item.started", "item": {
+                        "id": "bad-entry", "type": "todo_list",
+                        "items": [{"text": "x", "completed": "yes"}]}}]):
+                malformed_todos47.append(todo_trace47("\n".join(
+                    json.dumps(event) for event in events47)))
+            check("H47k retained-codex-todo-statusless-lifecycle",
+                  retained_todo_trace47.get("host_status") == "PASS"
+                  and retained_todo_trace47.get("actions", [{}])[0].get(
+                      "state") == "COMPLETED"
+                  and retained_todo_trace47.get("actions", [{}])[0].get(
+                      "effect") == "safe-other"
+                  and len(retained_todo_trace47.get(
+                      "actions", [{}])[0].get("updates", [])) == 1
+                  and all(trace.get("host_status") == "INVALID"
+                          for trace in malformed_todos47))
+            check("H48 generated-host-read-contract-112",
+                  test_host_read_contract.main([]) == 0)
+        except (framework.AdapterError, OSError, ValueError):
+            check("H47 formal-v2-custody-integration", False)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     if failures:

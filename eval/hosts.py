@@ -69,6 +69,7 @@ sys.path.insert(0, os.path.join(HERE, "lib"))
 sys.path.insert(0, HERE)
 import adapters as framework  # noqa: E402
 import bundle as bundlelib  # noqa: E402
+import hostread  # noqa: E402
 import reconcile as reconcilelib  # noqa: E402
 import reposnapshot  # noqa: E402
 
@@ -416,6 +417,8 @@ class _BaseAdapter:
         self._staged_payload_hash = None
         self._not_before = None
         self._tool_trace = []
+        self._formal_host_read = None
+        self._formal_host_read_results = {}
         self._host_read_attestation = self._validate_host_read_attestation(
             host_read_attestation)
 
@@ -466,6 +469,7 @@ class _BaseAdapter:
         process-started.json exists immediately AFTER launch; and one
         canonical terminal record is written in a finally path for EVERY
         launch. `_test_gate` is code-level test plumbing only."""
+        self._reset_formal_host_read_state()
         (framework.require_owner_approval if _test_gate is None
          else _test_gate)()
         self.preflight()
@@ -585,6 +589,14 @@ class _BaseAdapter:
             staged_hash = None
             if self.product_checkout:
                 staged_hash = self.stage_payload(repo)
+            if self.formal and any(
+                    spec.get("kind") == "path_access_order"
+                    for spec in (fx.get("host_checks") or {}).get(
+                        "specs", [])):
+                self._prepare_formal_host_read(
+                    fx, repo, run_root, intent["fixture_sha256"],
+                    self._custody_hashes["run-intent.json"],
+                    fixture_bytes)
             before = reposnapshot.snapshot(repo)
             mission = fx["mission"]
             argv = [a.replace("{model}", self.requested_model)
@@ -605,6 +617,10 @@ class _BaseAdapter:
                 # it compares must be captured at spawn.
                 rec.update(reconcilelib.process_identity(
                     proc.pid, lane_id=getattr(self, "lane_id", None)))
+                if self._formal_host_read is not None:
+                    rec["host_read_pre_spawn_sha256"] = \
+                        self._custody_hashes[
+                            "host-read-pre-spawn.json"]
                 rec_bytes = json.dumps(rec, indent=1,
                                        sort_keys=True).encode("utf-8")
                 with open(os.path.join(run_root, "process-started.json"),
@@ -628,6 +644,12 @@ class _BaseAdapter:
             # Quarantine every unexpected entry and terminalize INVALID.
             allowed_now = {"run-intent.json", "process-started.json",
                            "product-attestation.json"}
+            if self._formal_host_read is not None:
+                allowed_now.update({"host-read-profile.json",
+                                    "host-read-preimages.json",
+                                    "host-read-fixture.raw",
+                                    "host-read-replay-spec.json",
+                                    "host-read-pre-spawn.json"})
             planted = sorted(set(os.listdir(run_root)) - allowed_now)
             if planted:
                 qdir = os.path.join(run_root, "quarantine-planted")
@@ -638,6 +660,17 @@ class _BaseAdapter:
                                    os.path.join(qdir, n))
                     except OSError:
                         pass
+                # A process was launched, so the formal property layer must
+                # still get a best-effort terminal seal.  The forged entries
+                # have already been removed from the custody root and cannot
+                # become inputs to this seal; the host layer remains INVALID.
+                if self._formal_host_read is not None:
+                    try:
+                        self._attempt_finalize_formal_host_read(
+                            fx, repo, outcome, run_root, "invalid")
+                    except Exception as exc:  # preserve the custody verdict
+                        self._formal_host_read_host_status = "INVALID"
+                        self._formal_host_read_seal_error = type(exc).__name__
                 raise framework.AdapterError(
                     f"mission planted {len(planted)} unexpected entr"
                     f"{'y' if len(planted) == 1 else 'ies'} in the run "
@@ -647,19 +680,39 @@ class _BaseAdapter:
             # — for BOTH the nonzero-exit/timeout error path and the normal
             # path — so no INVALID/ERROR classification ever destroys the
             # diagnostic evidence (v0.3.2.0 R1 lessons).
-            for rel, data in (("host-stdout.raw",
-                               getattr(outcome, "stdout", "")),
-                              ("host-stderr.raw",
-                               getattr(outcome, "stderr", ""))):
+            raw_records = [("host-stderr.raw",
+                            getattr(outcome, "stderr", ""))]
+            if self._formal_host_read is None:
+                raw_records.insert(0, ("host-stdout.raw",
+                                       getattr(outcome, "stdout", "")))
+            for rel, data in raw_records:
                 try:
                     with open(os.path.join(run_root, rel), "xb") as fh:
                         fh.write((data or "").encode("utf-8"))
                 except FileExistsError:
                     pass
+            if self._formal_host_read is not None:
+                terminal_kind = (outcome.kind if isinstance(
+                    outcome, HostRunResult) else
+                    "ok" if getattr(outcome, "returncode", 0) == 0 else
+                    "error")
+                try:
+                    self._attempt_finalize_formal_host_read(
+                        fx, repo, outcome, run_root, terminal_kind)
+                except Exception as exc:
+                    # A sealing defect must never replace the original
+                    # timeout/error result from the launched host process.
+                    self._formal_host_read_host_status = "INVALID"
+                    self._formal_host_read_seal_error = type(exc).__name__
             if isinstance(outcome, HostRunResult):
                 result = outcome
                 return result
-            raw_stream = self.collect_raw_stream(repo, outcome)
+            if (self._formal_host_read is not None and
+                    self._formal_host_read_host_status != "PASS"):
+                result = HostRunResult(
+                    "invalid", "formal host-read evidence boundary INVALID; "
+                    "separate product-property measurements were sealed")
+                return result
             self._tool_trace = self._extract_tool_trace(outcome.stdout)
             try:
                 events = self.parse_events(outcome.stdout)
@@ -668,6 +721,7 @@ class _BaseAdapter:
                     "invalid", f"malformed structured output: {exc}")
                 return result
             events = self.reconcile_events(events, repo, outcome)
+            raw_stream = self.collect_raw_stream(repo, outcome)
             provenance_stream = chr(10).join(
                 [outcome.stderr or "", outcome.stdout or ""])
             resolved = self.check_provenance(provenance_stream)
@@ -717,6 +771,12 @@ class _BaseAdapter:
                 "utf-8")
             if raw_stream:
                 artifacts["raw-host-events.jsonl"] = raw_stream
+            if self._formal_host_read is not None:
+                for name in hostread._CAPTURE_FILES + (
+                        "host-read-manifest.json",):
+                    path = os.path.join(run_root, name)
+                    if os.path.isfile(path):
+                        artifacts[name] = open(path, "rb").read()
             if host_checks is not None:
                 artifacts[(fx.get("host_checks") or {}).get(
                     "artifact", "host-checks.json")] = json.dumps(
@@ -858,6 +918,178 @@ class _BaseAdapter:
 
     def _mission_env(self, repo):
         return _clean_env()
+
+    @staticmethod
+    def _path_order_specs(fx):
+        return [spec for spec in (fx.get("host_checks") or {}).get(
+            "specs", []) if spec.get("kind") == "path_access_order"]
+
+    def _reset_formal_host_read_state(self):
+        self._formal_host_read = None
+        self._formal_host_read_results = {}
+        self._formal_host_read_host_status = None
+        self._formal_host_read_seal_error = None
+
+    def _prepare_formal_host_read(self, fx, repo, run_root,
+                                  fixture_sha256, run_intent_sha256,
+                                  fixture_bytes):
+        """Mint immutable profile/preimages before the host process starts."""
+        specs = self._path_order_specs(fx)
+        targets = []
+        for spec in specs:
+            for target in spec.get("reads", []):
+                if target not in targets:
+                    targets.append(target)
+        if not targets:
+            raise framework.AdapterError(
+                "formal path-order check has no read targets — INVALID")
+        try:
+            preimages = hostread.capture_preimages(repo, targets)
+            if self.name == "codex-cli":
+                env = self._mission_env(repo)
+                shell = shutil.which("bash", path=env.get("PATH"))
+                if not shell:
+                    raise ValueError("no internally resolved POSIX bash")
+                profile = hostread.mint_codex_profile(
+                    repo, shell, env=env, writable_roots=(repo,))
+                profile_runtime = {"shell": shell, "env": env}
+            elif self.name == "claude-cli":
+                requested = self.tools.split()
+                profile = hostread.mint_claude_profile(repo, requested)
+                profile_runtime = {"requested_tools": requested}
+            else:
+                raise ValueError(f"unsupported formal host {self.name!r}")
+            replay_checks = [
+                {"key": spec["key"], "reads": list(spec.get("reads") or []),
+                 "write": spec.get("write")}
+                for spec in specs]
+            replay_spec = hostread.make_replay_spec(
+                "codex" if self.name == "codex-cli" else "claude",
+                replay_checks,
+                requested_tools=(profile_runtime.get("requested_tools") or
+                                 []),
+                fixture_sha256=fixture_sha256,
+                run_intent_sha256=run_intent_sha256)
+            hostread.begin_capture(run_root, profile, preimages,
+                                   replay_spec=replay_spec,
+                                   fixture_bytes=fixture_bytes, formal=True)
+        except (OSError, ValueError, FileExistsError) as exc:
+            raise framework.AdapterError(
+                f"formal host-read pre-spawn custody failed: {exc} — "
+                "INVALID")
+        self._formal_host_read = {
+            "profile": profile, "preimages": preimages,
+            "runtime": profile_runtime, "replay_spec": replay_spec,
+            "run_root": run_root}
+        for name in ("host-read-profile.json",
+                     "host-read-preimages.json",
+                     "host-read-fixture.raw",
+                     "host-read-replay-spec.json",
+                     "host-read-pre-spawn.json"):
+            data = _read_custody_file(os.path.join(run_root, name))
+            self._custody_hashes[name] = bundlelib._sha256_bytes(data)
+
+    def _collect_formal_session_stream(self, repo, outcome, binding):
+        """Collect the bound native stream without depending on scoring parse."""
+        if self.name == "codex-cli":
+            path, context = self._select_session(repo)
+            if (not path or context.get("session_id") !=
+                    (binding or {}).get("thread_id")):
+                return None
+            return open(path, "rb").read()
+        session_id = (binding or {}).get("session_id")
+        if not session_id or not self.config_dir:
+            return None
+        import glob as _glob
+        matches = _glob.glob(os.path.join(
+            self.config_dir, "projects", "*", session_id + ".jsonl"))
+        return open(matches[0], "rb").read() if len(matches) == 1 else None
+
+    def _attempt_finalize_formal_host_read(self, fx, repo, outcome, run_root,
+                                           host_terminal_kind):
+        """Seal reconstructible facts on every launched terminal path."""
+        context = self._formal_host_read
+        profile = context["profile"]
+        preimages = context["preimages"]
+        raw_stdout = getattr(outcome, "stdout", "") or ""
+        if self.name == "codex-cli":
+            binding = hostread.derive_codex_binding(raw_stdout)
+            normalized = hostread.normalize_codex(
+                raw_stdout, profile=profile, binding=binding or {},
+                formal=True)
+            runtime = context["runtime"]
+            try:
+                post = hostread.post_probe(profile, runtime["shell"],
+                                           env=runtime["env"])
+            except Exception as exc:
+                post = {"probe_error": type(exc).__name__}
+        else:
+            binding = hostread.derive_claude_binding(raw_stdout)
+            requested = context["runtime"]["requested_tools"]
+            normalized = hostread.normalize_claude(
+                raw_stdout, requested_tools=requested,
+                binding=binding or {},
+                profile=profile, formal=True)
+            post = {"native_tools": profile["native_tools"]}
+        post_status = hostread.validate_profile(
+            profile, post_probe=post, formal=True)["host_status"]
+        try:
+            raw_session = self._collect_formal_session_stream(
+                repo, outcome, binding)
+        except Exception:
+            raw_session = None
+        if self.name == "codex-cli" and binding is not None:
+            binding = hostread.augment_codex_binding(
+                binding, raw_session or b"")
+        try:
+            process_started = json.load(open(os.path.join(
+                run_root, "process-started.json"), encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            process_started = {}
+        session_status = hostread.corroborate_session(
+            raw_stdout, raw_session or b"",
+            context["replay_spec"]["host"], binding or {}, normalized,
+            profile=profile, process_started=process_started)
+        if binding is None:
+            hostread.add_host_finding(normalized,
+                                      "lineage-binding-invalid")
+        if post_status != "PASS":
+            hostread.add_host_finding(normalized,
+                                      "profile-post-probe-invalid")
+        if session_status != "VALID":
+            hostread.add_host_finding(normalized,
+                                      "native-session-unbound")
+        if host_terminal_kind == "error":
+            hostread.add_host_finding(normalized, "host-terminal-error",
+                                      host_status="ERROR")
+        elif host_terminal_kind == "invalid":
+            hostread.add_host_finding(normalized, "host-terminal-invalid")
+        matrix = hostread.build_matrix(
+            normalized, context["replay_spec"], preimages, profile,
+            profile_post_status=post_status, formal=True)
+        adjudications = matrix["specs"]
+        try:
+            hostread.finish_capture(
+                run_root, raw_stdout=raw_stdout.encode("utf-8"),
+                raw_session=raw_session or b"", trace=normalized,
+                matrix=matrix, post_probe=post, binding=binding or {},
+                host_terminal_kind=host_terminal_kind,
+                session_status=session_status, formal=True)
+        except (OSError, ValueError, FileExistsError) as exc:
+            self._formal_host_read_host_status = "INVALID"
+            self._formal_host_read_seal_error = type(exc).__name__
+            return False
+        replay = hostread.replay_capture(run_root, formal=True)
+        self._formal_host_read_results = adjudications
+        for name in hostread._CAPTURE_FILES + ("host-read-manifest.json",):
+            data = _read_custody_file(os.path.join(run_root, name))
+            self._custody_hashes[name] = bundlelib._sha256_bytes(data)
+        self._formal_host_read_host_status = (
+            "PASS" if replay.get("status") == "PASS" and
+            normalized.get("host_status") == "PASS" and
+            post_status == "PASS" and session_status == "VALID" and
+            binding is not None else "INVALID")
+        return replay.get("status") == "PASS"
 
     # --- deterministic host checks (fixture-declared) ----------------------
     @staticmethod
@@ -2024,6 +2256,21 @@ class _BaseAdapter:
                             for path in reads + [write])):
                     raise framework.AdapterError(
                         "path_access_order requires safe relative paths")
+
+                if self.formal:
+                    adjudication = self._formal_host_read_results.get(key)
+                    if not isinstance(adjudication, dict):
+                        raise framework.AdapterError(
+                            "formal path_access_order lacks a sealed "
+                            "host-read adjudication — INVALID")
+                    out[key] = adjudication.get("property_status") == "PASS"
+                    detail[key] = json.dumps(
+                        {name: adjudication.get(name) for name in
+                         ("property_status", "host_status", "overall_status",
+                          "ordered", "write_completed", "live_preimage",
+                          "ordering_source")},
+                        sort_keys=True, separators=(",", ":"))
+                    continue
 
                 contaminated = any(
                     record.get("action") == "invalid"

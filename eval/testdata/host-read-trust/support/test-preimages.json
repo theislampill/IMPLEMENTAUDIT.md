@@ -1,0 +1,24 @@
+{
+  "schema": "implementaudit-host-read-preimages-v1",
+  "repo": {"lexical_root":"/fixture/repo","real_root":"/fixture/repo","case_sensitive":true},
+  "targets": {
+    ".IMPLEMENTAUDIT/runs/run-1/STATE.md": {
+      "canonical_path": "/fixture/repo/.IMPLEMENTAUDIT/runs/run-1/STATE.md",
+      "relative_path": ".IMPLEMENTAUDIT/runs/run-1/STATE.md",
+      "content_base64": "U1RBVEUK",
+      "sha256": "67a6dc4b86440c58cb95dabf079e13cd9758d3268c15ebfad42167af3cf400f5",
+      "size": 6,
+      "mode": 33188,
+      "symlink_free": true
+    },
+    ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md": {
+      "canonical_path": "/fixture/repo/.IMPLEMENTAUDIT/runs/run-1/ROADMAP.md",
+      "relative_path": ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md",
+      "content_base64": "Uk9BRE1BUAo=",
+      "sha256": "cce060fcf7eeac6cbc98174afc84534a54686aa62e76eca34629bc30e55eeda8",
+      "size": 8,
+      "mode": 33188,
+      "symlink_free": true
+    }
+  }
+}
