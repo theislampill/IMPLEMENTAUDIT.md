@@ -104,7 +104,9 @@ def compose_adjudication(fixture, scored=None, host_findings=None,
         fixture, scored=scored, incomplete_reason=incomplete_reason)
     required = [p["name"] for p in (fixture or {}).get("properties", [])
                 if p.get("required", True)]
-    complete = bool(fixture) and all(
+    # A fixture with no required properties cannot prove a product ceiling.
+    # Treat the matrix as incomplete instead of accepting ``all([])``.
+    complete = bool(required) and all(
         name in properties and properties[name].get("state") in ("PASS", "FAIL")
         for name in required)
     all_true = (all(properties[name].get("pass") is True for name in required)
@@ -128,6 +130,8 @@ def compose_adjudication(fixture, scored=None, host_findings=None,
     product_failed = next(
         (name for name in required
          if properties.get(name, {}).get("state") == "FAIL"), None)
+    first_host_failed = next(
+        (f for f in findings if f.get("status") != "PASS"), None)
     host_failed = next(
         (f for f in findings if f["status"] == host_status), None)
     if overall in ("INVALID", "ERROR"):
@@ -152,10 +156,15 @@ def compose_adjudication(fixture, scored=None, host_findings=None,
         "overall_status": overall,
         "property_evidence_complete": complete,
         "all_required_properties_true": all_true,
+        "product_failed_invariant": product_failed,
+        "host_failed_invariant": (first_host_failed or {}).get("gate"),
+        "host_failed_status": (first_host_failed or {}).get("status"),
         "failed_domain": failed_domain,
         "failed_invariant": failed_invariant,
     }
     host_safety = {"schema": HOST_SAFETY_SCHEMA, "status": host_status,
+                   "failed_invariant": (first_host_failed or {}).get("gate"),
+                   "failed_status": (first_host_failed or {}).get("status"),
                    "findings": findings}
     return overall, properties, host_safety, adjudication
 
@@ -189,6 +198,8 @@ def build_verdict(status, manifest=None, properties=None,
     verdict["host_safety"] = host_safety or {
         "schema": HOST_SAFETY_SCHEMA,
         "status": "PASS" if status == "PASS" else status,
+        "failed_invariant": None,
+        "failed_status": None,
         "findings": [],
     }
     verdict["adjudication"] = adjudication or {
@@ -198,6 +209,10 @@ def build_verdict(status, manifest=None, properties=None,
         "overall_status": status,
         "property_evidence_complete": False,
         "all_required_properties_true": None,
+        "product_failed_invariant": None,
+        "host_failed_invariant": verdict["host_safety"].get(
+            "failed_invariant"),
+        "host_failed_status": verdict["host_safety"].get("failed_status"),
         "failed_domain": failed_domain,
         "failed_invariant": failed_invariant,
     }

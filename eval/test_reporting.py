@@ -8,6 +8,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "lib"))
 import reporting  # noqa: E402
+import verdict as verdictlib  # noqa: E402
 
 
 FIXTURE = {
@@ -78,6 +79,35 @@ def main():
         lambda: reporting.require_all_required_true(
             [verdict(p2=False)], FIXTURE,
             claim="all properties at ceiling"), failures)
+    no_required = {"id": "no-required-properties", "properties": [
+        {"name": "note", "required": False},
+    ]}
+    vacuous = {
+        "properties": {"note": {
+            "state": "PASS", "pass": True, "evidence": "bound-event:1"}},
+        "adjudication": {
+            "property_evidence_complete": True,
+            "all_required_properties_true": True,
+        },
+    }
+    must_refuse(
+        "report-refuses-vacuous-no-required-property-ceiling",
+        lambda: reporting.require_all_required_true(
+            [vacuous], no_required, claim="all properties at ceiling"),
+        failures)
+
+    status_empty, _props_empty, _host_empty, adj_empty = (
+        verdictlib.compose_adjudication(
+            no_required,
+            scored={"note": {"pass": True, "evidence": "bound-event:1"}},
+            host_findings=[]))
+    empty_ok = (
+        status_empty == "INVALID"
+        and adj_empty.get("product_status") == "INCOMPLETE"
+        and adj_empty.get("property_evidence_complete") is False
+        and adj_empty.get("all_required_properties_true") is None)
+    if not empty_ok:
+        failures.append("no-required-properties-is-incomplete")
 
     rescored = {
         "p1": {"pass": True, "evidence": "replay:1"},

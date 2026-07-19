@@ -13,6 +13,10 @@ def _required_names(fixture):
 
 def reconstruct_required_matrix(verdict, fixture):
     """Return required property booleans or refuse incomplete/inconsistent data."""
+    required = _required_names(fixture)
+    if not required:
+        raise ClaimNotReconstructible(
+            "fixture declares no required properties; ceiling is undefined")
     props = verdict.get("properties")
     adj = verdict.get("adjudication")
     if not isinstance(props, dict) or not isinstance(adj, dict):
@@ -22,7 +26,7 @@ def reconstruct_required_matrix(verdict, fixture):
         raise ClaimNotReconstructible("property evidence is incomplete")
 
     matrix = {}
-    for name in _required_names(fixture):
+    for name in required:
         item = props.get(name)
         if not isinstance(item, dict):
             raise ClaimNotReconstructible(
