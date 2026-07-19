@@ -2502,6 +2502,154 @@ def main():
                   absolute_result_trace47.get("host_status") == "PASS"
                   and absolute_result_trace47.get("actions", [{}])[0].get(
                       "state") == "COMPLETED")
+
+            reinit_profile47 = hosts.hostread.mint_claude_profile(
+                repo43, requested47)
+            reinit_before47 = hosts.hostread._canonical_bytes(
+                reinit_profile47)
+            reinit_rejections47 = []
+            changed_repo47 = dict(reinit_profile47["repo"])
+            changed_repo47["case_sensitive"] = not changed_repo47[
+                "case_sensitive"]
+            try:
+                reinit_profile47["repo"].__init__(changed_repo47)
+            except TypeError:
+                reinit_rejections47.append("dict-init")
+            try:
+                reinit_profile47["native_tools"]["requested"].__init__(
+                    list(requested47) + ["ForgedTool"])
+            except TypeError:
+                reinit_rejections47.append("list-init")
+            check("H47u minted-profile-reinitialization-refused",
+                  reinit_rejections47 == ["dict-init", "list-init"]
+                  and hosts.hostread._canonical_bytes(reinit_profile47) ==
+                  reinit_before47)
+
+            drifted_claude_profile47 = json.loads(json.dumps(profile47))
+            drifted_claude_profile47["native_tools"]["requested"].append(
+                "ForgedTool")
+            drifted_codex_profile47 = json.loads(json.dumps(codex_profile47))
+            drifted_codex_profile47["environment"]["PATH"] += \
+                ":profile-drift"
+            drift_rejections47 = []
+            for label47, drifted_profile47 in (
+                    ("claude", drifted_claude_profile47),
+                    ("codex", drifted_codex_profile47)):
+                try:
+                    hosts.hostread._admit_persisted_profile(
+                        drifted_profile47)
+                except ValueError:
+                    drift_rejections47.append(label47)
+            check("H47v persisted-profile-probe-drift-rejected",
+                  drift_rejections47 == ["claude", "codex"])
+
+            profile_gate_stream47 = "\n".join((
+                json.dumps({"type": "system", "subtype": "init",
+                            "session_id": "session-h47",
+                            "tools": ["Read"]}),
+                json.dumps(dict(json.loads(cuse(
+                    "profile-gate47", "Read", {"file_path": S45})),
+                    session_id="session-h47")),
+                json.dumps({"type": "user", "session_id": "session-h47",
+                            "message": {"content": [{
+                                "type": "tool_result",
+                                "tool_use_id": "profile-gate47",
+                                "content": state47}]}})))
+            profile_gate_statuses47 = []
+            for wrong_profile47 in (None, codex_profile47):
+                profile_gate_statuses47.append(
+                    hosts.hostread.normalize_claude(
+                        profile_gate_stream47, requested_tools=["Read"],
+                        binding={"session_id": "session-h47"},
+                        profile=wrong_profile47,
+                        formal=True).get("host_status"))
+            codex_wrong_profile_crashed47 = False
+            try:
+                codex_wrong_profile_trace47 = \
+                    hosts.hostread.normalize_codex(
+                        bare_stream47, profile=profile47,
+                        binding={"thread_id": "bare-thread47",
+                                 "turn_id": "bare-turn47"}, formal=True)
+            except Exception:
+                codex_wrong_profile_crashed47 = True
+                codex_wrong_profile_trace47 = {}
+            check("H47w formal-profile-is-required-and-host-bound",
+                  profile_gate_statuses47 == ["INVALID", "INVALID"]
+                  and codex_wrong_profile_crashed47 is False
+                  and codex_wrong_profile_trace47.get("host_status") ==
+                  "INVALID")
+
+            absolute_path47 = os.path.abspath(os.path.join(
+                repo43, *S45.split("/"))).replace("\\", "/")
+            lexical_absolute_metadata47 = {
+                "type": "text", "file": {
+                    "filePath": absolute_path47, "content": state47}}
+            lexical_absolute_stream47 = "\n".join((
+                json.dumps({"type": "system", "subtype": "init",
+                            "session_id": "session-h47",
+                            "tools": ["Read"]}),
+                json.dumps(dict(json.loads(cuse(
+                    "lexical-absolute47", "Read",
+                    {"file_path": absolute_path47})),
+                    session_id="session-h47")),
+                native_result47("lexical-absolute47", state47,
+                                lexical_absolute_metadata47)))
+            lexical_absolute_trace47 = hosts.hostread.normalize_claude(
+                lexical_absolute_stream47, requested_tools=["Read"],
+                binding={"session_id": "session-h47"}, profile=None,
+                formal=False)
+            check("H47x nonformal-absolute-paths-remain-lexical",
+                  lexical_absolute_trace47.get("host_status") == "PASS"
+                  and lexical_absolute_trace47.get(
+                      "actions", [{}])[0].get("state") == "COMPLETED")
+
+            contradictory_metadata47 = {
+                "type": "text", "filePath": S45,
+                "file": {"filePath": R45, "content": state47}}
+            contradictory_path_stream47 = "\n".join((
+                json.dumps({"type": "system", "subtype": "init",
+                            "session_id": "session-h47",
+                            "tools": ["Read"]}),
+                json.dumps(dict(json.loads(cuse(
+                    "contradictory-path47", "Read", {"file_path": S45})),
+                    session_id="session-h47")),
+                native_result47("contradictory-path47", state47,
+                                contradictory_metadata47)))
+            contradictory_path_trace47 = hosts.hostread.normalize_claude(
+                contradictory_path_stream47, requested_tools=["Read"],
+                binding={"session_id": "session-h47"}, profile=profile47,
+                formal=True)
+            check("H47y contradictory-claude-result-paths-invalid",
+                  contradictory_path_trace47.get("host_status") == "INVALID"
+                  and contradictory_path_trace47.get(
+                      "actions", [{}])[0].get("state") == "INVALID")
+
+            requested_mismatch_trace47 = hosts.hostread.normalize_claude(
+                profile_gate_stream47, requested_tools=["Read"],
+                binding={"session_id": "session-h47"}, profile=profile47,
+                formal=True)
+            check("H47z formal-claude-requested-tools-profile-bound",
+                  requested_mismatch_trace47.get("host_status") == "INVALID"
+                  and any(finding.get("code") ==
+                          "profile-requested-tools-mismatch"
+                          for finding in requested_mismatch_trace47.get(
+                              "host_findings", [])))
+
+            mismatched_repo_profile47 = \
+                hosts.hostread.mint_claude_profile(
+                    repo43 + "-different-repository", requested47)
+            mismatched_repo_capture47 = os.path.join(
+                tmp, "host-read-capture-h47-repo-mismatch")
+            mismatched_repo_rejected47 = False
+            try:
+                hosts.hostread.begin_capture(
+                    mismatched_repo_capture47, mismatched_repo_profile47,
+                    preimages47, replay_spec=replay_spec47,
+                    fixture_bytes=fixture_bytes47, formal=True)
+            except ValueError:
+                mismatched_repo_rejected47 = True
+            check("H47aa formal-profile-and-preimages-share-repository",
+                  mismatched_repo_rejected47)
             adapter47._attempt_finalize_formal_host_read(
                 fx44, repo43, outcome47, capture47, "ok")
             adapter47._tool_trace = [{"action": "invalid"}]

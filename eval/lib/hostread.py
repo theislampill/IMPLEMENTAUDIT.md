@@ -42,8 +42,14 @@ def _immutable_profile_value(*_args, **_kwargs):
 
 
 class _FrozenList(list):
-    def __init__(self, value):
-        list.__init__(self, (_freeze_profile_value(item) for item in value))
+    def __init__(self, *_args, **_kwargs):
+        raise TypeError("formal profile is immutable")
+
+    @classmethod
+    def _create(cls, value):
+        result = list.__new__(cls)
+        list.__init__(result, (_freeze_profile_value(item) for item in value))
+        return result
 
     __setitem__ = _immutable_profile_value
     __delitem__ = _immutable_profile_value
@@ -60,10 +66,16 @@ class _FrozenList(list):
 
 
 class _FrozenDict(dict):
-    def __init__(self, value):
-        dict.__init__(self)
+    def __init__(self, *_args, **_kwargs):
+        raise TypeError("formal profile is immutable")
+
+    @classmethod
+    def _create(cls, value):
+        result = dict.__new__(cls)
+        dict.__init__(result)
         for key, item in value.items():
-            dict.__setitem__(self, key, _freeze_profile_value(item))
+            dict.__setitem__(result, key, _freeze_profile_value(item))
+        return result
 
     __setitem__ = _immutable_profile_value
     __delitem__ = _immutable_profile_value
@@ -77,9 +89,9 @@ class _FrozenDict(dict):
 
 def _freeze_profile_value(value):
     if isinstance(value, dict):
-        return _FrozenDict(value)
+        return _FrozenDict._create(value)
     if isinstance(value, list):
-        return _FrozenList(value)
+        return _FrozenList._create(value)
     return value
 
 
@@ -91,14 +103,19 @@ class _MintedProfile(_FrozenDict):
     cannot grant itself formal authority by copying the serialized marker.
     """
 
-    def __init__(self, value, capability=None):
+    @classmethod
+    def _create(cls, value, capability=None):
         if capability is not _PROFILE_CAPABILITY:
             raise TypeError("formal profile capability is internal")
-        super().__init__(value)
+        result = dict.__new__(cls)
+        dict.__init__(result)
+        for key, item in value.items():
+            dict.__setitem__(result, key, _freeze_profile_value(item))
+        return result
 
 
 def _mint_profile(value):
-    return _MintedProfile(value, _PROFILE_CAPABILITY)
+    return _MintedProfile._create(value, _PROFILE_CAPABILITY)
 
 
 def _canonical_bytes(value):
@@ -159,7 +176,7 @@ def _profile_result(ok, reason=None):
 
 
 def validate_profile(profile, post_probe=None, formal=True,
-                     writable_roots=()):
+                     writable_roots=(), expected_host=None):
     """Validate an internally minted profile and optional post-mission probe.
 
     Caller dictionaries are never accepted as formal authority.  Test fixtures
@@ -171,6 +188,11 @@ def validate_profile(profile, post_probe=None, formal=True,
         return _profile_result(False, "profile provenance")
     if profile.get("schema") != PROFILE_SCHEMA:
         return _profile_result(False, "profile schema")
+    host = profile.get("host")
+    if host not in ("codex", "claude"):
+        return _profile_result(False, "profile host")
+    if expected_host is not None and host != expected_host:
+        return _profile_result(False, "profile host mismatch")
     authority = profile.get("authority")
     if formal and authority != "mechanically-minted":
         return _profile_result(False, "profile authority")
@@ -178,7 +200,7 @@ def validate_profile(profile, post_probe=None, formal=True,
                                         "test-fixture-only"):
         return _profile_result(False, "profile authority")
     repo = profile.get("repo")
-    if (profile.get("host") == "claude" and isinstance(repo, dict) and
+    if (host == "claude" and isinstance(repo, dict) and
             isinstance(repo.get("lexical_root"), str) and
             isinstance(repo.get("real_root"), str) and
             type(repo.get("case_sensitive")) is bool):
@@ -190,6 +212,11 @@ def validate_profile(profile, post_probe=None, formal=True,
                 not re.fullmatch(r"[0-9a-f]{64}",
                                  str(profile.get("probe_sha256", "")))):
             return _profile_result(False, "native profile shape")
+        expected_probe = {
+            "repo": repo["lexical_root"], "native_tools": native_tools}
+        if (formal and profile.get("probe_sha256") !=
+                _sha256(_canonical_bytes(expected_probe))):
+            return _profile_result(False, "native profile probe digest")
         if post_probe is not None and post_probe != {
                 "native_tools": native_tools}:
             return _profile_result(False, "native profile drift")
@@ -224,6 +251,11 @@ def validate_profile(profile, post_probe=None, formal=True,
                                  str(identity.get("sha256", ""))) or
                 not isinstance(identity.get("stat"), str)):
             return _profile_result(False, "executable identity")
+    expected_probe = {"environment": environment, "shell": shell,
+                      "executables": executables}
+    if (formal and profile.get("probe_sha256") !=
+            _sha256(_canonical_bytes(expected_probe))):
+        return _profile_result(False, "profile probe digest")
     protected = [shell["realpath"]] + [entry["path"]
                                        for entry in executables.values()]
     for path in protected:
@@ -245,13 +277,15 @@ def validate_profile(profile, post_probe=None, formal=True,
     return _profile_result(True)
 
 
-def _admit_persisted_profile(profile):
+def _admit_persisted_profile(profile, expected_host=None):
     """Restore formal capability after replay has verified parent custody."""
     if not isinstance(profile, dict) or \
             profile.get("authority") != "mechanically-minted":
         raise ValueError("persisted profile authority")
     admitted = _mint_profile(profile)
-    if validate_profile(admitted, formal=True)["host_status"] != "PASS":
+    if validate_profile(
+            admitted, formal=True,
+            expected_host=expected_host)["host_status"] != "PASS":
         raise ValueError("persisted profile invalid")
     return admitted
 
@@ -436,6 +470,34 @@ def snapshot_digest(preimages):
     return _sha256(_canonical_bytes(preimages))
 
 
+def _profile_matches_preimages(profile, preimages):
+    profile_repo = (profile or {}).get("repo") or {}
+    snapshot_repo = (preimages or {}).get("repo") or {}
+    case_sensitive = profile_repo.get("case_sensitive")
+    snapshot_case_sensitive = snapshot_repo.get("case_sensitive")
+    if (type(case_sensitive) is not bool or
+            type(snapshot_case_sensitive) is not bool or
+            snapshot_case_sensitive != case_sensitive):
+        return False
+    return (_same_path(profile_repo.get("lexical_root"),
+                       snapshot_repo.get("lexical_root"),
+                       case_sensitive=case_sensitive) and
+            _same_path(profile_repo.get("real_root"),
+                       snapshot_repo.get("real_root"),
+                       case_sensitive=case_sensitive))
+
+
+def _profile_matches_replay_spec(profile, replay_spec):
+    host = (profile or {}).get("host")
+    if host != (replay_spec or {}).get("host"):
+        return False
+    if host == "claude":
+        return list(((profile or {}).get("native_tools") or {}).get(
+            "requested") or []) == list(
+                (replay_spec or {}).get("requested_tools") or [])
+    return True
+
+
 def _preimage_bytes(preimages, target):
     if validate_preimages(preimages)["status"] != "PASS":
         return None
@@ -608,7 +670,9 @@ def _valid_todo_items(items):
 
 
 def _profile_allows_wrapper(profile, formal):
-    return validate_profile(profile, formal=formal)["host_status"] == "PASS"
+    return validate_profile(
+        profile, formal=formal,
+        expected_host="codex")["host_status"] == "PASS"
 
 
 def _wrapper_layers(command, profile, formal):
@@ -625,6 +689,10 @@ def _wrapper_layers(command, profile, formal):
 
 def normalize_codex(raw_stdout, profile=None, binding=None, formal=True):
     machine = _ActionMachine()
+    if formal and validate_profile(
+            profile, formal=True,
+            expected_host="codex")["host_status"] != "PASS":
+        machine.invalid_action(0, "invalid formal Codex profile")
     binding = binding or {}
     active_thread = None
     active_turn = None
@@ -777,15 +845,18 @@ def _claude_result_metadata(event):
     return metadata if isinstance(metadata, dict) else "<malformed>"
 
 
-def _result_path(metadata):
+def _result_paths(metadata):
     if not isinstance(metadata, dict):
-        return None
+        return []
+    paths = []
     if "filePath" in metadata:
-        return metadata.get("filePath")
+        paths.append(metadata.get("filePath"))
     file_obj = metadata.get("file")
     if file_obj is not None and not isinstance(file_obj, dict):
         return "<malformed>"
-    return file_obj.get("filePath") if isinstance(file_obj, dict) else None
+    if isinstance(file_obj, dict) and "filePath" in file_obj:
+        paths.append(file_obj.get("filePath"))
+    return paths
 
 
 def _lexical_path(path):
@@ -797,7 +868,7 @@ def _lexical_path(path):
     return str(PurePosixPath(text))
 
 
-def _profile_path(path, profile):
+def _profile_path(path, profile, formal=True):
     """Resolve one lexical tool path inside the profiled repository root."""
     observed = _lexical_path(path)
     if observed is None:
@@ -807,11 +878,11 @@ def _profile_path(path, profile):
     repo = (profile or {}).get("repo") or {}
     root = _lexical_path(repo.get("lexical_root"))
     case_sensitive = repo.get("case_sensitive")
-    # Non-formal fixture calls historically omit a profile.  Keep their
-    # lexical-only behavior; formal normalization independently rejects a
-    # missing or malformed profile before any result can become evidence.
+    # Non-formal fixture calls historically omit a profile. Keep their
+    # lexical-only behavior while formal normalization requires a root-bound
+    # host-specific profile before any result can become evidence.
     if root is None or type(case_sensitive) is not bool:
-        return None if absolute else observed
+        return None if formal else observed
     if not absolute:
         observed = str(PurePosixPath(root, observed))
     if not _within(observed, root, case_sensitive=case_sensitive):
@@ -869,8 +940,19 @@ def _claude_read_transport(visible, metadata):
 def normalize_claude(raw_stdout, requested_tools, binding=None, profile=None,
                      formal=True):
     machine = _ActionMachine()
+    if formal and validate_profile(
+            profile, formal=True,
+            expected_host="claude")["host_status"] != "PASS":
+        machine.invalid_action(0, "invalid formal Claude profile")
     binding = binding or {}
     requested = list(requested_tools or [])
+    if (formal and isinstance(profile, dict) and
+            list((profile.get("native_tools") or {}).get(
+                "requested") or []) != requested):
+        machine.invalid = True
+        machine.findings.append({
+            "code": "profile-requested-tools-mismatch",
+            "classification": "fail-closed"})
     observed = None
     session = binding.get("session_id")
     for ordinal, line in enumerate(str(raw_stdout or "").splitlines(), 1):
@@ -930,11 +1012,13 @@ def normalize_claude(raw_stdout, requested_tools, binding=None, profile=None,
                 command = inputs.get("command") if effect == "command" else None
                 invalid_input = False
                 if effect in ("read", "write"):
-                    invalid_input = _profile_path(path, profile) is None
+                    invalid_input = _profile_path(
+                        path, profile, formal=formal) is None
                 elif effect == "command":
                     invalid_input = not isinstance(command, str) or not command
                 elif effect == "search":
-                    invalid_input = (_profile_path(path, profile) is None or
+                    invalid_input = (_profile_path(
+                        path, profile, formal=formal) is None or
                                      inputs.get("output_mode") not in
                                      ("content", "files_with_matches"))
                 if invalid_input:
@@ -971,16 +1055,34 @@ def normalize_claude(raw_stdout, requested_tools, binding=None, profile=None,
                 malformed = not isinstance(content, str)
                 if metadata == "<malformed>":
                     malformed = True
-                result_path = _result_path(metadata)
-                if result_path == "<malformed>":
+                result_paths = _result_paths(metadata)
+                if result_paths == "<malformed>":
                     malformed = True
-                if (result_path is not None and action.get("path") and
-                        not _same_path(
-                            _profile_path(result_path, profile),
-                            _profile_path(action.get("path"), profile),
-                            case_sensitive=((profile or {}).get("repo") or {}).get(
-                                "case_sensitive", True))):
+                    result_paths = []
+                action_lexical = _lexical_path(action.get("path"))
+                profile_root = _lexical_path(
+                    ((profile or {}).get("repo") or {}).get("lexical_root"))
+                if (not formal and profile_root is None and
+                        isinstance(action_lexical, str) and
+                        (action_lexical.startswith("/") or re.match(
+                            r"^[A-Za-z]:/", action_lexical)) and
+                        not result_paths):
+                    # A profileless non-formal absolute path remains lexical
+                    # only when the result independently repeats that exact
+                    # identity. It never becomes formal/root-bound evidence.
                     malformed = True
+                if result_paths and action.get("path"):
+                    action_path = _profile_path(
+                        action.get("path"), profile, formal=formal)
+                    case_sensitive = ((profile or {}).get("repo") or {}).get(
+                        "case_sensitive", True)
+                    if (action_path is None or any(
+                            not _same_path(
+                                _profile_path(path, profile, formal=formal),
+                                action_path,
+                                case_sensitive=case_sensitive)
+                            for path in result_paths)):
+                        malformed = True
                 if action["effect"] == "command" and isinstance(metadata, dict):
                     if metadata.get("interrupted") is True:
                         failure = True
@@ -1141,7 +1243,9 @@ def _finite_shell_tokens(command):
 
 
 def _unwrap_profiled_command(command, profile, formal):
-    if validate_profile(profile, formal=formal)["host_status"] != "PASS":
+    if validate_profile(
+            profile, formal=formal,
+            expected_host="codex")["host_status"] != "PASS":
         return None
     try:
         tokens = shlex.split(command, posix=True)
@@ -1773,11 +1877,19 @@ def begin_capture(root, profile, preimages, replay_spec=None,
         raise ValueError("invalid pre-spawn profile")
     if validate_preimages(preimages)["status"] != "PASS":
         raise ValueError("invalid pre-spawn snapshot")
+    if formal and not _profile_matches_preimages(profile, preimages):
+        raise ValueError("profile/preimage repository mismatch")
     if replay_spec is None:
         replay_spec = {"schema": REPLAY_SCHEMA,
                        "mode": "custody-only-test"}
     if not _validate_replay_spec(replay_spec, formal):
         raise ValueError("invalid pre-spawn replay recipe")
+    if (formal and validate_profile(
+            profile, formal=True,
+            expected_host=replay_spec["host"])["host_status"] != "PASS"):
+        raise ValueError("pre-spawn profile host mismatch")
+    if formal and not _profile_matches_replay_spec(profile, replay_spec):
+        raise ValueError("profile/replay boundary mismatch")
     if fixture_bytes is None:
         fixture_bytes = b"{}"
     if not isinstance(fixture_bytes, bytes):
@@ -1822,6 +1934,8 @@ def finish_capture(root, raw_stdout, raw_session, trace, matrix, post_probe,
         profile, post_probe=post_probe, formal=formal)["host_status"]
     if validate_preimages(preimages)["status"] != "PASS":
         raise ValueError("preimage custody mismatch")
+    if formal and not _profile_matches_preimages(profile, preimages):
+        raise ValueError("profile/preimage custody mismatch")
     if not isinstance(trace, dict) or trace.get("schema") != TRACE_SCHEMA:
         raise ValueError("trace schema")
     if not isinstance(matrix, dict) or matrix.get("schema") != MATRIX_SCHEMA:
@@ -2122,7 +2236,11 @@ def replay_capture(root, formal=True):
                     process.get("host_read_pre_spawn_sha256") !=
                     actual["host-read-pre-spawn.json"]):
                 raise ValueError("parent custody chain mismatch")
-            profile = _admit_persisted_profile(profile)
+            profile = _admit_persisted_profile(
+                profile, expected_host=replay_spec["host"])
+            if (not _profile_matches_preimages(profile, preimages) or
+                    not _profile_matches_replay_spec(profile, replay_spec)):
+                raise ValueError("profile replay boundary mismatch")
             recomputed_post_status = validate_profile(
                 profile, post_probe=post_probe, formal=True)["host_status"]
             if (terminal.get("post_probe_sha256") !=
