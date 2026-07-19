@@ -2665,8 +2665,11 @@ class CodexAdapter(_BaseAdapter):
                 first = json.loads(open(f, encoding="utf-8").readline())
             except (OSError, json.JSONDecodeError):
                 continue
-            p = first.get("payload", {})
-            if first.get("type") != "session_meta":
+            if not isinstance(first, dict) or first.get(
+                    "type") != "session_meta":
+                continue
+            p = first.get("payload")
+            if not isinstance(p, dict):
                 continue
             if os.path.normcase(p.get("cwd", "")) != os.path.normcase(repo):
                 continue
@@ -2704,15 +2707,26 @@ class CodexAdapter(_BaseAdapter):
         try:
             for line in open(best, encoding="utf-8"):
                 d = json.loads(line)
-                pl = d.get("payload", {})
-                if d.get("type") == "session_meta":
+                if not isinstance(d, dict):
+                    return best, {}
+                event_type = d.get("type")
+                if event_type not in ("session_meta", "turn_context"):
+                    continue
+                pl = d.get("payload")
+                if not isinstance(pl, dict):
+                    return best, {}
+                if event_type == "session_meta":
                     ctx["cli_version"] = pl.get("cli_version")
                     ctx["session_id"] = pl.get("session_id")
-                elif d.get("type") == "turn_context":
+                else:
                     ctx["model"] = pl.get("model")
                     ctx["effort"] = pl.get("effort")
                     ctx["approval_policy"] = pl.get("approval_policy")
-                    sp = pl.get("sandbox_policy") or {}
+                    sp = pl.get("sandbox_policy")
+                    if sp is None:
+                        sp = {}
+                    elif not isinstance(sp, dict):
+                        return best, {}
                     ctx["sandbox_resolved"] = sp.get("type")
         except (OSError, json.JSONDecodeError):
             return best, {}
@@ -2729,10 +2743,15 @@ class CodexAdapter(_BaseAdapter):
         try:
             for line in open(f, encoding="utf-8"):
                 d = json.loads(line)
-                pl = d.get("payload", {})
-                if d.get("type") == "event_msg" and \
-                        pl.get("type") == "agent_message" and \
-                        isinstance(pl.get("message"), str):
+                if not isinstance(d, dict):
+                    return f, []
+                if d.get("type") != "event_msg":
+                    continue
+                pl = d.get("payload")
+                if not isinstance(pl, dict):
+                    return f, []
+                if (pl.get("type") == "agent_message" and
+                        isinstance(pl.get("message"), str)):
                     events.append({"role": "assistant",
                                    "content": pl["message"],
                                    "ts": d.get("timestamp")})

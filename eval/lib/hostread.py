@@ -1076,8 +1076,7 @@ def normalize_claude(raw_stdout, requested_tools, binding=None, profile=None,
         event_type = event.get("type")
         if event_type == "system" and event.get("subtype") == "init":
             tools = event.get("tools")
-            if not isinstance(tools, list) or any(not isinstance(t, str)
-                                                 for t in tools):
+            if not _valid_tool_list(tools):
                 machine.invalid_action(ordinal, "invalid tool inventory")
             elif observed is not None:
                 machine.invalid_action(ordinal, "duplicate tool inventory")
@@ -2474,13 +2473,9 @@ def replay_capture(root, formal=True):
                     raw_stdout,
                     requested_tools=replay_spec["requested_tools"],
                     binding=binding, profile=profile, formal=formal)
-            if derived is not None and not lineage_valid:
-                raise ValueError("lineage binding mismatch")
             session_status = corroborate_session(
                 raw_stdout, raw_session, replay_spec["host"], binding,
                 normalized, profile=profile, process_started=process)
-            if session_status in ("INVALID", "SUBSTITUTED"):
-                raise ValueError("native session stream invalid")
             if not lineage_valid:
                 add_host_finding(normalized, "lineage-binding-invalid")
             if recomputed_post_status != "PASS":
@@ -2521,7 +2516,9 @@ def replay_capture(root, formal=True):
                 raise ValueError("post-probe adjudication mismatch")
     except (OSError, ValueError, TypeError, KeyError, json.JSONDecodeError):
         return {"status": "INVALID"}
-    return {"status": "PASS", "matrix": matrix, "trace": trace,
+    return {"status": "PASS", "custody_status": "PASS",
+            "host_status": trace.get("host_status", "INVALID"),
+            "matrix": matrix, "trace": trace,
             "snapshot_sha256": snapshot_digest(preimages)}
 
 

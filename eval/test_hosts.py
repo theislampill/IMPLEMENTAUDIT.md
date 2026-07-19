@@ -2995,6 +2995,37 @@ def main():
             check("H47ao non-string-action-ids-fail-closed",
                   malformed_action_id_crashed47 is False
                   and malformed_action_id_statuses47 == ["INVALID"] * 16)
+            inventory_profile47 = hosts.hostread.mint_claude_profile(
+                repo43, ["Read"])
+            inventory_replay_spec47 = hosts.hostread.make_replay_spec(
+                "claude", replay_spec47["checks"], requested_tools=["Read"],
+                fixture_sha256=fixture_hash47,
+                run_intent_sha256=intent_hash47)
+            malformed_inventory_traces47 = []
+            malformed_inventory_streams47 = []
+            malformed_inventory_crashed47 = False
+            for malformed_inventory47 in (["Read", ""], ["Read", 1]):
+                malformed_inventory_stream47 = json.dumps({
+                    "type": "system", "subtype": "init",
+                    "session_id": "inventory-session47",
+                    "tools": malformed_inventory47}) + "\n"
+                try:
+                    malformed_inventory_trace47 = \
+                        hosts.hostread.normalize_claude(
+                            malformed_inventory_stream47,
+                            requested_tools=["Read"],
+                            binding={"session_id": "inventory-session47"},
+                            profile=inventory_profile47, formal=True)
+                    malformed_inventory_traces47.append(
+                        malformed_inventory_trace47)
+                    malformed_inventory_streams47.append(
+                        malformed_inventory_stream47)
+                except Exception:
+                    malformed_inventory_crashed47 = True
+            check("H47aq malformed-claude-inventory-is-host-invalid",
+                  malformed_inventory_crashed47 is False
+                  and [trace47.get("host_status") for trace47 in
+                       malformed_inventory_traces47] == ["INVALID"] * 2)
             adapter47._attempt_finalize_formal_host_read(
                 fx44, repo43, outcome47, capture47, "ok")
             adapter47._tool_trace = [{"action": "invalid"}]
@@ -3073,35 +3104,136 @@ def main():
                 tmp, "host-read-capture-h47-invalid-action-id")
             invalid_id_property_sealed47 = False
             if invalid_id_claude_traces47:
+                os.makedirs(invalid_id_seal47)
+                open(os.path.join(invalid_id_seal47, "run-intent.json"),
+                     "wb").write(intent_bytes47)
                 hosts.hostread.begin_capture(
                     invalid_id_seal47, profile47, preimages47,
                     replay_spec=replay_spec47, fixture_bytes=fixture_bytes47,
                     formal=True)
+                json.dump({
+                    "schema": "implementaudit-process-started-v2",
+                    "host_read_pre_spawn_sha256":
+                    hosts.hostread._file_sha256(os.path.join(
+                        invalid_id_seal47, "host-read-pre-spawn.json"))},
+                    open(os.path.join(invalid_id_seal47,
+                                      "process-started.json"),
+                         "w", encoding="utf-8"), sort_keys=True)
+                invalid_id_replay_trace47 = json.loads(json.dumps(
+                    invalid_id_claude_traces47[0]))
+                invalid_id_session_status47 = \
+                    hosts.hostread.corroborate_session(
+                        invalid_id_claude_streams47[0], session47, "claude",
+                        {"session_id": "session-h47"},
+                        invalid_id_replay_trace47, profile=profile47,
+                        process_started={})
+                hosts.hostread.add_host_finding(
+                    invalid_id_replay_trace47, "native-session-unbound")
+                hosts.hostread.add_host_finding(
+                    invalid_id_replay_trace47, "host-terminal-invalid")
                 invalid_id_matrix47 = hosts.hostread.build_matrix(
-                    invalid_id_claude_traces47[0], replay_spec47, preimages47,
+                    invalid_id_replay_trace47, replay_spec47, preimages47,
                     profile47, formal=True)
                 invalid_id_seal_result47 = hosts.hostread.finish_capture(
                     invalid_id_seal47,
                     raw_stdout=invalid_id_claude_streams47[0],
                     raw_session=session47,
-                    trace=invalid_id_claude_traces47[0],
+                    trace=invalid_id_replay_trace47,
                     matrix=invalid_id_matrix47,
                     post_probe={"native_tools": profile47["native_tools"]},
                     binding={"session_id": "session-h47"},
-                    host_terminal_kind="invalid", session_status="INVALID",
+                    host_terminal_kind="invalid",
+                    session_status=invalid_id_session_status47,
                     formal=True, minted_profile=profile47)
                 invalid_id_terminal47 = json.load(open(os.path.join(
                     invalid_id_seal47, "host-read-terminal.json"),
                     encoding="utf-8"))
+                invalid_id_replay47 = hosts.hostread.replay_capture(
+                    invalid_id_seal47, formal=True)
                 invalid_id_property_sealed47 = (
                     invalid_id_seal_result47.get("status") == "PASS"
+                    and invalid_id_session_status47 == "INVALID"
                     and invalid_id_terminal47.get(
                         "normalized_host_status") == "INVALID"
                     and invalid_id_matrix47["specs"][
                         "read_before_write"].get("property_status") ==
-                    "INCOMPLETE")
+                    "INCOMPLETE"
+                    and invalid_id_replay47.get("status") == "PASS"
+                    and invalid_id_replay47.get("custody_status") == "PASS"
+                    and invalid_id_replay47.get("host_status") == "INVALID"
+                    and invalid_id_replay47.get("matrix", {}).get(
+                        "specs", {}).get("read_before_write", {}).get(
+                            "property_status") == "INCOMPLETE"
+                    and invalid_id_replay47.get("trace", {}).get(
+                        "host_status") == "INVALID")
             check("H47ao2 invalid-action-trace-seals-property-evidence",
                   invalid_id_property_sealed47)
+            malformed_inventory_reconstructible47 = False
+            if malformed_inventory_traces47:
+                malformed_inventory_capture47 = os.path.join(
+                    tmp, "host-read-capture-h47-malformed-inventory")
+                os.makedirs(malformed_inventory_capture47)
+                open(os.path.join(malformed_inventory_capture47,
+                                  "run-intent.json"), "wb").write(
+                                      intent_bytes47)
+                hosts.hostread.begin_capture(
+                    malformed_inventory_capture47, inventory_profile47,
+                    preimages47, replay_spec=inventory_replay_spec47,
+                    fixture_bytes=fixture_bytes47, formal=True)
+                json.dump({
+                    "schema": "implementaudit-process-started-v2",
+                    "host_read_pre_spawn_sha256":
+                    hosts.hostread._file_sha256(os.path.join(
+                        malformed_inventory_capture47,
+                        "host-read-pre-spawn.json"))},
+                    open(os.path.join(malformed_inventory_capture47,
+                                      "process-started.json"),
+                         "w", encoding="utf-8"), sort_keys=True)
+                malformed_inventory_native47 = json.dumps({
+                    "type": "system", "subtype": "transcript",
+                    "session_id": "inventory-session47"}) + "\n"
+                inventory_replay_trace47 = json.loads(json.dumps(
+                    malformed_inventory_traces47[0]))
+                inventory_session_status47 = \
+                    hosts.hostread.corroborate_session(
+                        malformed_inventory_streams47[0],
+                        malformed_inventory_native47, "claude",
+                        {"session_id": "inventory-session47"},
+                        inventory_replay_trace47,
+                        profile=inventory_profile47, process_started={})
+                if inventory_session_status47 != "VALID":
+                    hosts.hostread.add_host_finding(
+                        inventory_replay_trace47, "native-session-unbound")
+                inventory_matrix47 = hosts.hostread.build_matrix(
+                    inventory_replay_trace47, inventory_replay_spec47,
+                    preimages47, inventory_profile47, formal=True)
+                try:
+                    hosts.hostread.finish_capture(
+                        malformed_inventory_capture47,
+                        raw_stdout=malformed_inventory_streams47[0],
+                        raw_session=malformed_inventory_native47,
+                        trace=inventory_replay_trace47,
+                        matrix=inventory_matrix47,
+                        post_probe={"native_tools":
+                                    inventory_profile47["native_tools"]},
+                        binding={"session_id": "inventory-session47"},
+                        session_status=inventory_session_status47,
+                        formal=True, minted_profile=inventory_profile47)
+                    malformed_inventory_replay47 = \
+                        hosts.hostread.replay_capture(
+                            malformed_inventory_capture47, formal=True)
+                    malformed_inventory_reconstructible47 = (
+                        malformed_inventory_replay47.get("status") == "PASS"
+                        and malformed_inventory_replay47.get(
+                            "trace", {}).get("host_status") == "INVALID"
+                        and malformed_inventory_replay47.get(
+                            "matrix", {}).get("specs", {}).get(
+                                "read_before_write", {}).get(
+                                    "property_status") == "INCOMPLETE")
+                except ValueError:
+                    malformed_inventory_reconstructible47 = False
+            check("H47aq2 malformed-inventory-evidence-reconstructs",
+                  malformed_inventory_reconstructible47)
             terminal_outputs47 = (
                 "host-stdout.raw", "host-session.raw",
                 "host-tool-trace.json", "host-read-matrix.json",
@@ -3394,6 +3526,57 @@ def main():
                   and malformed_native_augment_results47 == [
                       retained_unaugmented_binding47] * 4
                   and malformed_native_session_statuses47 == ["INVALID"] * 8)
+            production_session_shapes47 = []
+            for top_level47 in ([], 1, True):
+                production_session_shapes47.append((
+                    "top-" + type(top_level47).__name__, [top_level47]))
+            for meta_payload47 in ([], 1, "not-a-map"):
+                production_session_shapes47.append((
+                    "meta-" + type(meta_payload47).__name__, [{
+                        "type": "session_meta", "payload": meta_payload47}]))
+            valid_session_meta47 = {
+                "type": "session_meta", "payload": {
+                    "id": "production-session47",
+                    "session_id": "production-session47",
+                    "cwd": repo43, "timestamp": "2026-07-19T00:53:05Z",
+                    "cli_version": "test"}}
+            for later_top_level47 in ([], 1, True):
+                production_session_shapes47.append((
+                    "later-top-" + type(later_top_level47).__name__,
+                    [valid_session_meta47, later_top_level47]))
+            for turn_payload47 in (None, False, 1.5, [], "not-a-map"):
+                production_session_shapes47.append((
+                    "turn-" + type(turn_payload47).__name__,
+                    [valid_session_meta47, {
+                        "type": "turn_context", "payload": turn_payload47}]))
+            production_session_totality47 = []
+            for label47, rows47 in production_session_shapes47:
+                production_home47 = os.path.join(
+                    tmp, "codex-home-h47-production-session-" + label47)
+                production_adapter47 = make_adapter(
+                    tmp, "ok-codex", home=production_home47)
+                production_session_path47 = os.path.join(
+                    production_home47, "sessions", "2026", "07",
+                    "production-session.jsonl")
+                os.makedirs(os.path.dirname(production_session_path47),
+                            exist_ok=True)
+                open(production_session_path47, "w", encoding="utf-8").write(
+                    "\n".join(json.dumps(row47) for row47 in rows47) + "\n")
+                production_shape_total47 = True
+                try:
+                    production_adapter47._select_session(repo43)
+                    production_adapter47._session_agent_events(repo43)
+                    try:
+                        production_adapter47.check_policy(repo43)
+                    except framework.AdapterError:
+                        pass
+                except Exception:
+                    production_shape_total47 = False
+                production_session_totality47.append(
+                    production_shape_total47)
+            check("H47ap2 production-codex-session-selection-is-total",
+                  production_session_totality47 == [True] * len(
+                      production_session_shapes47))
             check("H47g retained-codex-lineage-shape",
                   retained_binding47.get("stdout_turn_ordinal") == 1
                   and "turn_id" not in retained_binding47
