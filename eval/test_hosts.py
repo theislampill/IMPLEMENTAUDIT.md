@@ -2898,6 +2898,103 @@ def main():
                   unknown_host_status47 == "INVALID"
                   and malformed_raw_session_crashed47 is False
                   and malformed_raw_session_statuses47 == ["INVALID"] * 3)
+            malformed_action_id_statuses47 = []
+            malformed_action_id_crashed47 = False
+            invalid_id_claude_traces47 = []
+            invalid_id_claude_streams47 = []
+            for malformed_action_id47 in (True, 47, [], {"bad": "id"}):
+                invalid_id_codex_stream47 = "\n".join((
+                    json.dumps({"type": "thread.started",
+                                "thread_id": "invalid-id-thread47"}),
+                    json.dumps({"type": "turn.started",
+                                "thread_id": "invalid-id-thread47",
+                                "turn_id": "invalid-id-turn47"}),
+                    json.dumps({"type": "item.started", "item": {
+                        "id": malformed_action_id47,
+                        "type": "command_execution",
+                        "status": "in_progress", "command": "cat " + S45}}),
+                    json.dumps({"type": "turn.completed",
+                                "thread_id": "invalid-id-thread47",
+                                "turn_id": "invalid-id-turn47"}))) + "\n"
+                invalid_id_claude_event47 = json.loads(cuse(
+                    "placeholder-id47", "Read", {"file_path": S45}))
+                invalid_id_claude_event47["session_id"] = "session-h47"
+                invalid_id_claude_event47["message"]["content"][0][
+                    "id"] = malformed_action_id47
+                invalid_id_claude_stream47 = "\n".join((
+                    json.dumps({"type": "system", "subtype": "init",
+                                "session_id": "session-h47",
+                                "tools": retained_tools47}),
+                    json.dumps(invalid_id_claude_event47))) + "\n"
+                invalid_id_codex_completion47 = "\n".join((
+                    json.dumps({"type": "thread.started",
+                                "thread_id": "invalid-id-thread47"}),
+                    json.dumps({"type": "turn.started",
+                                "thread_id": "invalid-id-thread47",
+                                "turn_id": "invalid-id-turn47"}),
+                    json.dumps({"type": "item.completed", "item": {
+                        "id": malformed_action_id47,
+                        "type": "command_execution", "status": "completed",
+                        "command": "cat " + S45,
+                        "aggregated_output": state47, "exit_code": 0}}),
+                    json.dumps({"type": "turn.completed",
+                                "thread_id": "invalid-id-thread47",
+                                "turn_id": "invalid-id-turn47"}))) + "\n"
+                invalid_id_claude_result47 = json.loads(cresult(
+                    "placeholder-id47", state47, is_error=False))
+                invalid_id_claude_result47["session_id"] = "session-h47"
+                invalid_id_claude_result47["message"]["content"][0][
+                    "tool_use_id"] = malformed_action_id47
+                invalid_id_claude_completion47 = "\n".join((
+                    json.dumps({"type": "system", "subtype": "init",
+                                "session_id": "session-h47",
+                                "tools": retained_tools47}),
+                    json.dumps(invalid_id_claude_result47))) + "\n"
+                try:
+                    invalid_id_codex_trace47 = \
+                        hosts.hostread.normalize_codex(
+                            invalid_id_codex_stream47,
+                            profile=codex_profile47,
+                            binding={"thread_id": "invalid-id-thread47",
+                                     "stdout_turn_ordinal": 1,
+                                     "turn_id": "invalid-id-turn47"},
+                            formal=True)
+                    invalid_id_claude_trace47 = \
+                        hosts.hostread.normalize_claude(
+                            invalid_id_claude_stream47,
+                            requested_tools=requested47,
+                            binding={"session_id": "session-h47"},
+                            profile=profile47, formal=True)
+                    invalid_id_codex_completion_trace47 = \
+                        hosts.hostread.normalize_codex(
+                            invalid_id_codex_completion47,
+                            profile=codex_profile47,
+                            binding={"thread_id": "invalid-id-thread47",
+                                     "stdout_turn_ordinal": 1,
+                                     "turn_id": "invalid-id-turn47"},
+                            formal=True)
+                    invalid_id_claude_completion_trace47 = \
+                        hosts.hostread.normalize_claude(
+                            invalid_id_claude_completion47,
+                            requested_tools=requested47,
+                            binding={"session_id": "session-h47"},
+                            profile=profile47, formal=True)
+                    malformed_action_id_statuses47.extend((
+                        invalid_id_codex_trace47.get("host_status"),
+                        invalid_id_claude_trace47.get("host_status"),
+                        invalid_id_codex_completion_trace47.get(
+                            "host_status"),
+                        invalid_id_claude_completion_trace47.get(
+                            "host_status")))
+                    invalid_id_claude_traces47.append(
+                        invalid_id_claude_trace47)
+                    invalid_id_claude_streams47.append(
+                        invalid_id_claude_stream47)
+                except Exception:
+                    malformed_action_id_crashed47 = True
+            check("H47ao non-string-action-ids-fail-closed",
+                  malformed_action_id_crashed47 is False
+                  and malformed_action_id_statuses47 == ["INVALID"] * 16)
             adapter47._attempt_finalize_formal_host_read(
                 fx44, repo43, outcome47, capture47, "ok")
             adapter47._tool_trace = [{"action": "invalid"}]
@@ -2972,6 +3069,39 @@ def main():
                 capture47, "host-tool-trace.json"), encoding="utf-8"))
             sealed_matrix47 = json.load(open(os.path.join(
                 capture47, "host-read-matrix.json"), encoding="utf-8"))
+            invalid_id_seal47 = os.path.join(
+                tmp, "host-read-capture-h47-invalid-action-id")
+            invalid_id_property_sealed47 = False
+            if invalid_id_claude_traces47:
+                hosts.hostread.begin_capture(
+                    invalid_id_seal47, profile47, preimages47,
+                    replay_spec=replay_spec47, fixture_bytes=fixture_bytes47,
+                    formal=True)
+                invalid_id_matrix47 = hosts.hostread.build_matrix(
+                    invalid_id_claude_traces47[0], replay_spec47, preimages47,
+                    profile47, formal=True)
+                invalid_id_seal_result47 = hosts.hostread.finish_capture(
+                    invalid_id_seal47,
+                    raw_stdout=invalid_id_claude_streams47[0],
+                    raw_session=session47,
+                    trace=invalid_id_claude_traces47[0],
+                    matrix=invalid_id_matrix47,
+                    post_probe={"native_tools": profile47["native_tools"]},
+                    binding={"session_id": "session-h47"},
+                    host_terminal_kind="invalid", session_status="INVALID",
+                    formal=True, minted_profile=profile47)
+                invalid_id_terminal47 = json.load(open(os.path.join(
+                    invalid_id_seal47, "host-read-terminal.json"),
+                    encoding="utf-8"))
+                invalid_id_property_sealed47 = (
+                    invalid_id_seal_result47.get("status") == "PASS"
+                    and invalid_id_terminal47.get(
+                        "normalized_host_status") == "INVALID"
+                    and invalid_id_matrix47["specs"][
+                        "read_before_write"].get("property_status") ==
+                    "INCOMPLETE")
+            check("H47ao2 invalid-action-trace-seals-property-evidence",
+                  invalid_id_property_sealed47)
             terminal_outputs47 = (
                 "host-stdout.raw", "host-session.raw",
                 "host-tool-trace.json", "host-read-matrix.json",
@@ -3211,6 +3341,7 @@ def main():
                 "codex-retained-lineage.jsonl"), "rb").read()
             retained_binding47 = hosts.hostread.derive_codex_binding(
                 retained_stdout47)
+            retained_unaugmented_binding47 = dict(retained_binding47)
             retained_binding47 = hosts.hostread.augment_codex_binding(
                 retained_binding47, retained_session47)
             retained_profile47 = json.load(open(os.path.join(
@@ -3225,6 +3356,44 @@ def main():
                 profile=retained_profile47,
                 process_started={"started_at":
                                  "2026-07-19T00:53:04.000Z"})
+            malformed_native_payload_crashed47 = False
+            malformed_native_augment_results47 = []
+            malformed_native_session_statuses47 = []
+            for malformed_native_payload47 in (1, True, [], "not-a-map"):
+                for native_event_type47 in ("session_meta", "turn_context"):
+                    malformed_native_rows47 = [json.loads(line47)
+                                               for line47 in
+                                               retained_session47.decode(
+                                                   "utf-8").splitlines()
+                                               if line47.strip()]
+                    for native_row47 in malformed_native_rows47:
+                        if native_row47.get("type") == native_event_type47:
+                            native_row47["payload"] = \
+                                malformed_native_payload47
+                    malformed_native_session47 = ("\n".join(
+                        json.dumps(row47) for row47 in
+                        malformed_native_rows47) + "\n").encode("utf-8")
+                    try:
+                        if native_event_type47 == "turn_context":
+                            malformed_native_augment_results47.append(
+                                hosts.hostread.augment_codex_binding(
+                                    retained_unaugmented_binding47,
+                                    malformed_native_session47))
+                        malformed_native_session_statuses47.append(
+                            hosts.hostread.corroborate_session(
+                                retained_stdout47,
+                                malformed_native_session47, "codex",
+                                retained_binding47, retained_trace47,
+                                profile=retained_profile47,
+                                process_started={"started_at":
+                                                 "2026-07-19T00:53:04.000Z"}))
+                    except Exception:
+                        malformed_native_payload_crashed47 = True
+            check("H47ap nonmapping-codex-native-payloads-invalid",
+                  malformed_native_payload_crashed47 is False
+                  and malformed_native_augment_results47 == [
+                      retained_unaugmented_binding47] * 4
+                  and malformed_native_session_statuses47 == ["INVALID"] * 8)
             check("H47g retained-codex-lineage-shape",
                   retained_binding47.get("stdout_turn_ordinal") == 1
                   and "turn_id" not in retained_binding47

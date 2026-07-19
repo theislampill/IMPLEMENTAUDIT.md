@@ -631,7 +631,8 @@ class _ActionMachine:
         self.findings.append({"code": "invalid-host-event",
                               "reason": reason, "ordinal": ordinal,
                               "classification": "fail-closed"})
-        return self._append({"id": action_id or f"invalid@{ordinal}",
+        diagnostic_id = f"invalid@{ordinal}:{len(self.actions) + 1}"
+        return self._append({"id": diagnostic_id,
                              "state": "INVALID", "effect": effect,
                              "classification": "fail-closed",
                              "invocation_invented": False,
@@ -655,6 +656,9 @@ class _ActionMachine:
         return self._append(action)
 
     def update(self, action_id, ordinal, payload):
+        if not isinstance(action_id, str) or not action_id:
+            return self.invalid_action(ordinal, "invalid action update",
+                                       action_id)
         action = self.pending.get(action_id)
         if not action or action.get("effect") != "safe-other" or \
                 action.get("action_type") != "todo_list":
@@ -666,6 +670,9 @@ class _ActionMachine:
 
     def complete(self, action_id, ordinal, payload=None, state="COMPLETED",
                  **fields):
+        if not isinstance(action_id, str) or not action_id:
+            return self.invalid_action(ordinal, "completion without invocation",
+                                       action_id)
         action = self.pending.pop(action_id, None)
         if action is None:
             return self.invalid_action(ordinal, "completion without invocation",
@@ -876,6 +883,10 @@ def normalize_codex(raw_stdout, profile=None, binding=None, formal=True):
                                        action_id)
             else:
                 machine.update(action_id, ordinal, item.get("items"))
+            continue
+        if not isinstance(action_id, str) or not action_id:
+            machine.invalid_action(ordinal, "completion without invocation",
+                                   action_id)
             continue
         action = machine.pending.get(action_id)
         if action is None:
@@ -1135,6 +1146,10 @@ def normalize_claude(raw_stdout, requested_tools, binding=None, profile=None,
                 continue
             if event_type == "user" and block_type == "tool_result":
                 action_id = block.get("tool_use_id")
+                if not isinstance(action_id, str) or not action_id:
+                    machine.invalid_action(ordinal, "unmatched Claude result",
+                                           action_id)
+                    continue
                 action = machine.pending.get(action_id)
                 if action is None:
                     machine.invalid_action(ordinal, "unmatched Claude result",
@@ -2210,9 +2225,10 @@ def augment_codex_binding(binding, raw_session):
             "utf-8").splitlines() if line.strip()]
     except (UnicodeError, ValueError, TypeError, json.JSONDecodeError):
         return binding
-    turns = [obj.get("payload") or {} for obj in objects
+    turns = [obj.get("payload") for obj in objects
              if obj.get("type") == "turn_context"]
-    if len(turns) == 1 and isinstance(turns[0].get("turn_id"), str):
+    if (len(turns) == 1 and isinstance(turns[0], dict) and
+            isinstance(turns[0].get("turn_id"), str)):
         result = dict(binding)
         result["native_turn_id"] = turns[0]["turn_id"]
         return result
@@ -2261,8 +2277,10 @@ def corroborate_session(raw_stdout, raw_session, host, binding, trace,
         turns = [obj for obj in objects if obj.get("type") == "turn_context"]
         if len(metas) != 1 or len(turns) != 1:
             return "INVALID"
-        meta = metas[0].get("payload") or {}
-        turn = turns[0].get("payload") or {}
+        meta = metas[0].get("payload")
+        turn = turns[0].get("payload")
+        if not isinstance(meta, dict) or not isinstance(turn, dict):
+            return "INVALID"
         repo = _mapping(_mapping(profile).get("repo"))
         case_sensitive = repo.get("case_sensitive", True)
         if type(case_sensitive) is not bool:
