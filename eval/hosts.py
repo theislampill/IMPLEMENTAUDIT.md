@@ -857,115 +857,296 @@ class _BaseAdapter:
         return _clean_env()
 
     # --- deterministic host checks (fixture-declared) ----------------------
+    def _host_read_profile(self, repo=None):
+        """Frozen evidence profile for the deliberately small shell subset."""
+        host_kind = "claude" if self.name == "claude-cli" else "codex"
+        return {
+            "schema": "implementaudit-host-read-profile-v1",
+            "host": host_kind,
+            "repo_root": os.path.abspath(repo) if repo else None,
+            "filesystem_identity": "exact-case-root-bound-no-symlink-alias",
+            "shell_dialect": "posix-token-subset-v1",
+            "trusted_executables": (
+                "cat", "sed", "head", "tail", "get-content", "type",
+                "rg", "grep"),
+            "host_owned_wrapper": (
+                "/bin/bash", "-lc") if host_kind == "codex" else None,
+        }
+
     @staticmethod
-    def _extract_tool_trace(out):
-        """Extract successful host-assigned file/tool actions in order.
+    def _strict_json(line):
+        """Decode one JSON object while rejecting duplicate object keys."""
+        def unique_object(pairs):
+            result = {}
+            for key, value in pairs:
+                if key in result:
+                    raise ValueError(f"duplicate JSON key {key!r}")
+                result[key] = value
+            return result
 
-        The trace is transient adjudication input. Raw host streams remain the
-        authoritative retained evidence; only boolean results and ordinals are
-        copied into host-checks.json, so tool arguments are not duplicated.
+        value = json.loads(line, object_pairs_hook=unique_object)
+        if not isinstance(value, dict):
+            raise ValueError("host event is not a JSON object")
+        return value
+
+    @staticmethod
+    def _invalid_trace(records, ordinal, reason):
+        records.append({
+            "ordinal": ordinal, "invoked_ordinal": ordinal,
+            "completed_ordinal": None, "action": "invalid",
+            "reason": reason, "source": "host-stream-invalid"})
+
+    def _extract_tool_trace(self, out):
+        """Normalize one host's raw stream into typed action intervals.
+
+        Codex and Claude schemas are intentionally disjoint. Malformed or
+        cross-host data remains in the diagnostic trace as an ``invalid``
+        record, which contaminates ordering proof without discarding later
+        valid events. Invocation and completion ordinals stay separate so a
+        read completing after a write starts cannot be credited.
         """
+        host_kind = self._host_read_profile()["host"]
         records = []
-        pending_claude = []
-        claude_results = {}
+        pending = {}
+        completed_ids = set()
         ordinal = 0
-        for line in (out or "").splitlines():
-            try:
-                event = json.loads(line)
-            except (TypeError, json.JSONDecodeError):
-                continue
+        for raw_line in (out or "").splitlines():
             ordinal += 1
-            item = event.get("item") or {}
-            if event.get("type") == "item.completed":
-                if item.get("type") == "command_execution" and \
-                        item.get("exit_code") == 0:
-                    records.append({
-                        "ordinal": ordinal, "action": "command",
-                        "command": str(item.get("command") or ""),
-                        "output": str(item.get("aggregated_output") or ""),
-                        "source": "codex-command-completed"})
-                elif item.get("type") == "file_change" and \
-                        item.get("status") in (None, "completed"):
-                    for change in item.get("changes") or []:
-                        if isinstance(change, dict) and change.get("path"):
-                            records.append({
-                                "ordinal": ordinal, "action": "write",
-                                "path": str(change["path"]),
-                                "source": "codex-file-change-completed"})
-
-            message = event.get("message") or {}
-            if not isinstance(message, dict):
-                message = {}
-            blocks = message.get("content") or []
-            if event.get("type") == "assistant":
-                for block in blocks:
-                    if not isinstance(block, dict) or \
-                            block.get("type") != "tool_use":
+            try:
+                event = self._strict_json(raw_line)
+            except (TypeError, json.JSONDecodeError, ValueError) as exc:
+                self._invalid_trace(records, ordinal, str(exc))
+                continue
+            event_type = event.get("type")
+            if host_kind == "codex":
+                if event_type in ("assistant", "user"):
+                    self._invalid_trace(
+                        records, ordinal, "Claude envelope in Codex stream")
+                    continue
+                if event_type not in ("item.started", "item.completed"):
+                    continue
+                item = event.get("item")
+                if not isinstance(item, dict):
+                    self._invalid_trace(
+                        records, ordinal, "Codex item is not an object")
+                    continue
+                item_type = item.get("type")
+                if item_type not in ("command_execution", "file_change"):
+                    continue
+                item_id = item.get("id")
+                if item_id is not None and not isinstance(item_id, str):
+                    self._invalid_trace(
+                        records, ordinal, "Codex item id is not a string")
+                    continue
+                if event_type == "item.started":
+                    if not item_id:
+                        self._invalid_trace(
+                            records, ordinal,
+                            "Codex started item lacks correlation id")
                         continue
-                    tool = str(block.get("name") or "")
-                    inputs = block.get("input") or {}
+                    if item_id in pending or item_id in completed_ids:
+                        self._invalid_trace(
+                            records, ordinal, "duplicate Codex item id")
+                        continue
+                    pending[item_id] = {
+                        "ordinal": ordinal, "item_type": item_type}
+                    continue
+                if item_id and item_id in completed_ids:
+                    self._invalid_trace(
+                        records, ordinal, "duplicate Codex completion")
+                    continue
+                if item_id:
+                    completed_ids.add(item_id)
+                started = pending.pop(item_id, None) if item_id else None
+                if started and started["item_type"] != item_type:
+                    self._invalid_trace(
+                        records, ordinal, "Codex item type changed")
+                    continue
+                invoked = started["ordinal"] if started else ordinal
+                if item_type == "command_execution":
+                    exit_code = item.get("exit_code")
+                    command = item.get("command")
+                    output = item.get("aggregated_output", "")
+                    if (type(exit_code) is not int or
+                            not isinstance(command, str) or
+                            not isinstance(output, str) or
+                            item.get("status") in ("failed", "error") or
+                            event.get("status") in ("failed", "error")):
+                        self._invalid_trace(
+                            records, ordinal,
+                            "invalid Codex command completion")
+                        continue
+                    records.append({
+                        "ordinal": ordinal, "invoked_ordinal": invoked,
+                        "completed_ordinal": ordinal, "action": "command",
+                        "command": command, "output": output,
+                        "exit_code": exit_code,
+                        "source": "codex-command-completed"})
+                else:
+                    changes = item.get("changes")
+                    if (item.get("status") not in (None, "completed") or
+                            not isinstance(changes, list)):
+                        self._invalid_trace(
+                            records, ordinal,
+                            "invalid Codex file-change completion")
+                        continue
+                    for change in changes:
+                        if (not isinstance(change, dict) or
+                                not isinstance(change.get("path"), str) or
+                                not change.get("path")):
+                            self._invalid_trace(
+                                records, ordinal,
+                                "invalid Codex file-change path")
+                            continue
+                        records.append({
+                            "ordinal": ordinal, "invoked_ordinal": invoked,
+                            "completed_ordinal": ordinal, "action": "write",
+                            "path": change["path"],
+                            "source": "codex-file-change-completed"})
+                continue
+
+            # Claude stream-json normalization. Codex envelopes are a hard
+            # host-isolation failure, while unrelated system/result messages
+            # contain no file action and are ignored here.
+            if event_type in ("item.started", "item.completed"):
+                self._invalid_trace(
+                    records, ordinal, "Codex envelope in Claude stream")
+                continue
+            if event_type not in ("assistant", "user"):
+                continue
+            message = event.get("message")
+            if not isinstance(message, dict):
+                self._invalid_trace(
+                    records, ordinal, "Claude message is not an object")
+                continue
+            blocks = message.get("content")
+            if not isinstance(blocks, list):
+                self._invalid_trace(
+                    records, ordinal, "Claude content is not a list")
+                continue
+            for block in blocks:
+                if not isinstance(block, dict):
+                    self._invalid_trace(
+                        records, ordinal, "Claude content block is not object")
+                    continue
+                if event_type == "assistant" and \
+                        block.get("type") == "tool_use":
+                    tool_id = block.get("id")
+                    tool = block.get("name")
+                    inputs = block.get("input")
+                    if (not isinstance(tool_id, str) or not tool_id or
+                            tool_id in pending or tool_id in completed_ids or
+                            not isinstance(tool, str) or
+                            not isinstance(inputs, dict)):
+                        self._invalid_trace(
+                            records, ordinal, "invalid Claude tool use")
+                        continue
                     action = None
                     path = None
                     command = None
                     if tool == "Read":
-                        action = "read"
-                        path = inputs.get("file_path")
+                        action, path = "read", inputs.get("file_path")
                     elif tool in ("Write", "Edit"):
-                        action = "write"
-                        path = inputs.get("file_path")
+                        action, path = "write", inputs.get("file_path")
                     elif tool == "Bash":
-                        action = "command"
-                        command = inputs.get("command")
-                    if action:
-                        pending_claude.append({
-                            "ordinal": ordinal, "action": action,
-                            "path": str(path) if path else None,
-                            "command": str(command) if command else None,
-                            "source": f"claude-{tool.lower()}-completed",
-                            "tool_use_id": block.get("id")})
-            elif event.get("type") == "user":
-                for block in blocks:
-                    if isinstance(block, dict) and \
-                            block.get("type") == "tool_result":
-                        claude_results[block.get("tool_use_id")] = \
-                            not bool(block.get("is_error"))
-        for record in pending_claude:
-            if claude_results.get(record.pop("tool_use_id")) is True:
-                records.append(record)
+                        action, command = "command", inputs.get("command")
+                    else:
+                        continue
+                    if ((action in ("read", "write") and
+                         (not isinstance(path, str) or not path)) or
+                            (action == "command" and
+                             (not isinstance(command, str) or not command))):
+                        self._invalid_trace(
+                            records, ordinal, "invalid Claude tool input")
+                        continue
+                    pending[tool_id] = {
+                        "ordinal": ordinal, "action": action,
+                        "path": path, "command": command,
+                        "source": f"claude-{tool.lower()}-completed"}
+                elif event_type == "user" and \
+                        block.get("type") == "tool_result":
+                    tool_id = block.get("tool_use_id")
+                    if (not isinstance(tool_id, str) or not tool_id or
+                            tool_id not in pending or tool_id in completed_ids):
+                        self._invalid_trace(
+                            records, ordinal, "unmatched Claude tool result")
+                        continue
+                    is_error = block.get("is_error", None)
+                    status = block.get("status")
+                    if (("is_error" in block and
+                         not isinstance(is_error, bool)) or
+                            status in ("failed", "error") or
+                            is_error is True):
+                        self._invalid_trace(
+                            records, ordinal, "failed Claude tool result")
+                        completed_ids.add(tool_id)
+                        pending.pop(tool_id, None)
+                        continue
+                    record = pending.pop(tool_id)
+                    completed_ids.add(tool_id)
+                    result_path = (((event.get("tool_use_result") or {})
+                                    .get("file") or {}).get("filePath")
+                                   if isinstance(
+                                       event.get("tool_use_result"), dict)
+                                   else None)
+                    if (result_path is not None and
+                            (not isinstance(result_path, str) or
+                             (record.get("path") and
+                              result_path != record["path"]))):
+                        self._invalid_trace(
+                            records, ordinal,
+                            "Claude result path contradicts tool use")
+                        continue
+                    content = block.get("content", "")
+                    if not isinstance(content, str):
+                        content = ""
+                    records.append({
+                        "ordinal": ordinal,
+                        "invoked_ordinal": record["ordinal"],
+                        "completed_ordinal": ordinal,
+                        "action": record["action"],
+                        "path": record.get("path"),
+                        "command": record.get("command"),
+                        "output": content, "exit_code": 0,
+                        "source": record["source"]})
+        if pending:
+            self._invalid_trace(
+                records, ordinal + 1, "host action lacks completion")
         return sorted(records, key=lambda record: record["ordinal"])
 
     @staticmethod
-    def _trace_path_match(observed, expected):
-        if not observed:
-            return False
-        obs = str(observed).replace("\\", "/").rstrip("/").lower()
-        exp = str(expected).replace("\\", "/").strip("/").lower()
-        return obs == exp or obs.endswith("/" + exp)
+    def _canonical_trace_path(observed, repo):
+        if not isinstance(observed, str) or not observed or "\x00" in observed:
+            return None
+        text = observed.replace("\\", "/")
+        if any(part == ".." for part in text.split("/")):
+            return None
+        root_native = os.path.abspath(repo)
+        root = root_native.replace("\\", "/").rstrip("/")
+        if os.path.isabs(observed):
+            candidate = os.path.abspath(observed).replace("\\", "/")
+        else:
+            candidate = os.path.abspath(os.path.join(
+                repo, *text.split("/"))).replace("\\", "/")
+        if candidate != root and not candidate.startswith(root + "/"):
+            return None
+        # Lexical aliases through a symlink/junction do not establish exact
+        # fixture-file identity without host-retained accessed-path evidence.
+        real_candidate = os.path.realpath(candidate).replace(
+            "\\", "/").rstrip("/")
+        real_root = os.path.realpath(root_native).replace(
+            "\\", "/").rstrip("/")
+        if ((real_candidate != candidate.rstrip("/")) or
+                (real_candidate != real_root and
+                 not real_candidate.startswith(real_root + "/"))):
+            return None
+        return candidate.rstrip("/")
 
-    @staticmethod
-    def _has_output_redirection(command):
-        """Return true for an unquoted shell output-redirection operator."""
-        quote = None
-        escaped = False
-        for char in str(command or ""):
-            if escaped:
-                escaped = False
-                continue
-            if quote is not None:
-                if char == quote:
-                    quote = None
-                elif quote == '"' and char == "\\":
-                    escaped = True
-                continue
-            if char == "\\":
-                escaped = True
-                continue
-            if char in ("'", '"'):
-                quote = char
-                continue
-            if char == ">":
-                return True
-        return False
+    @classmethod
+    def _trace_path_match(cls, observed, expected, repo):
+        obs = cls._canonical_trace_path(observed, repo)
+        exp = cls._canonical_trace_path(expected, repo)
+        return bool(obs and exp and obs == exp)
 
     @staticmethod
     def _command_name(token):
@@ -975,108 +1156,629 @@ class _BaseAdapter:
 
     @classmethod
     def _resolved_command(cls, stage):
-        """Resolve only the common wrappers accepted as read evidence."""
+        """Resolve a small, explicitly supported transparent-wrapper set."""
         tokens = list(stage)
         index = 0
         assignment = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*=")
         while index < len(tokens):
             while index < len(tokens) and assignment.match(tokens[index]):
+                if tokens[index].split("=", 1)[0] in (
+                        "PATH", "CDPATH", "ENV", "BASH_ENV", "SHELL"):
+                    return "<unsupported>", tokens[index:]
                 index += 1
             if index >= len(tokens):
                 return None, []
-            name = cls._command_name(tokens[index])
+            executable = tokens[index]
+            name = cls._command_name(executable)
             index += 1
+            normalized = executable.replace("\\", "/")
+            if "/" in normalized and not (
+                    normalized in (f"/bin/{name}", f"/usr/bin/{name}")):
+                return "<unsupported>", tokens[index:]
             if name == "command":
                 if index < len(tokens) and tokens[index] in ("-v", "-V"):
                     return None, []
-                continue
-            if name in ("exec", "env", "sudo", "xargs"):
-                # Wrapper options without operands (including xargs -0) are
-                # transparent. Operand-taking options fail closed because the
-                # next token will not resolve to a reader command.
-                while index < len(tokens) and tokens[index].startswith("-"):
+                if index < len(tokens) and tokens[index] == "-p":
                     index += 1
+                continue
+            if name in ("env", "sudo", "xargs") and index < len(tokens) and \
+                    tokens[index] in ("--help", "--version"):
+                return None, []
+            if name == "exec" and index < len(tokens) and \
+                    tokens[index] == "-a":
+                if index + 1 >= len(tokens):
+                    return "<unsupported>", []
+                index += 2
             if name == "env":
+                while index < len(tokens):
+                    option = tokens[index]
+                    if option in ("-i", "--ignore-environment"):
+                        index += 1
+                    elif option in ("-u", "--unset"):
+                        if index + 1 >= len(tokens):
+                            return "<unsupported>", []
+                        index += 2
+                    elif option.startswith("--unset="):
+                        index += 1
+                    else:
+                        break
                 while index < len(tokens) and assignment.match(tokens[index]):
+                    if tokens[index].split("=", 1)[0] in (
+                            "PATH", "CDPATH", "ENV", "BASH_ENV", "SHELL"):
+                        return "<unsupported>", tokens[index:]
                     index += 1
                 continue
-            if name in ("exec", "sudo"):
+            if name == "sudo":
+                while index < len(tokens):
+                    option = tokens[index]
+                    if option in ("-n", "--non-interactive"):
+                        index += 1
+                    elif option in ("-u", "--user"):
+                        if index + 1 >= len(tokens):
+                            return "<unsupported>", []
+                        index += 2
+                    elif option.startswith("--user="):
+                        index += 1
+                    else:
+                        break
+                continue
+            if name == "exec":
                 continue
             if name == "xargs":
-                if index >= len(tokens):
-                    return None, []
-                continue
+                # Raw aggregate events do not retain expanded child argv or
+                # per-child status. Never infer content reads through xargs.
+                return "<xargs-unsupported>", tokens[index:]
             return name, tokens[index:]
         return None, []
 
+    @staticmethod
+    def _target_mentioned(command, expected):
+        text = str(command or "").replace("\\", "/")
+        target = str(expected).replace("\\", "/").strip("/")
+        return bool(target and target in text)
+
+    @staticmethod
+    def _replace_process_substitutions(text):
+        """Replace balanced POSIX process substitutions with /dev/null.
+
+        Their generated streams are not reads of path-looking text inside the
+        substitution. Unbalanced forms remain untouched and fail parsing.
+        """
+        result = []
+        index = 0
+        while index < len(text):
+            if index + 1 < len(text) and text[index:index + 2] in ("<(", ">("):
+                depth = 1
+                quote = None
+                escaped = False
+                end = index + 2
+                while end < len(text) and depth:
+                    char = text[end]
+                    if escaped:
+                        escaped = False
+                    elif quote:
+                        if char == quote:
+                            quote = None
+                        elif quote == '"' and char == "\\":
+                            escaped = True
+                    elif char in ("'", '"'):
+                        quote = char
+                    elif char == "\\":
+                        escaped = True
+                    elif char == "(":
+                        depth += 1
+                    elif char == ")":
+                        depth -= 1
+                    end += 1
+                if depth:
+                    return None
+                result.append("/dev/null")
+                index = end
+                continue
+            result.append(text[index])
+            index += 1
+        return "".join(result)
+
+    @staticmethod
+    def _unsupported_unquoted_syntax(text):
+        quote = None
+        escaped = False
+        index = 0
+        while index < len(text):
+            char = text[index]
+            if char == "\x00" or char in "\r\n":
+                return True
+            if escaped:
+                escaped = False
+                index += 1
+                continue
+            if quote:
+                if char == quote:
+                    quote = None
+                elif quote == '"' and char == "\\":
+                    escaped = True
+                index += 1
+                continue
+            if char == "\\":
+                escaped = True
+            elif char in ("'", '"'):
+                quote = char
+            elif char == "`" or char in "()":
+                return True
+            elif char == "$":
+                following = text[index + 1:index + 2]
+                if following == "(" or following == "{" or \
+                        following == "_" or following.isalpha():
+                    return True
+            index += 1
+        return quote is not None
+
     @classmethod
-    def _read_only_command(cls, command):
+    def _unwrap_host_command(cls, command, source):
+        """Unwrap only the frozen, host-owned Codex bash login envelope."""
         text = str(command or "")
-        lowered = text.lower()
-        if cls._has_output_redirection(text) or any(
-                token in lowered for token in (
-                    "apply_patch", "set-content", "add-content",
-                    "write_text", " tee ", "rm ", "mv ", "cp ", "touch ",
-                    "mkdir ", "chmod ", "chown ", "git add",
-                    "git commit")):
+        try:
+            tokens = shlex.split(text, posix=True)
+        except ValueError:
+            return text, False
+        if (source == "codex-command-completed" and len(tokens) == 3 and
+                tokens[0] in ("/bin/bash", "/usr/bin/bash") and
+                tokens[1] == "-lc"):
+            return tokens[2], True
+        return text, False
+
+    @staticmethod
+    def _split_redirections(tokens):
+        """Return argv, stdin paths, output paths, or an error marker."""
+        argv = []
+        inputs = []
+        outputs = []
+        index = 0
+        redirs = {"<", ">", ">>", "<>", ">&", "<&", "<<<", "<<"}
+        while index < len(tokens):
+            token = tokens[index]
+            fd = None
+            if (index + 1 < len(tokens) and token.isdigit() and
+                    tokens[index + 1] in redirs):
+                fd = int(token)
+                index += 1
+                token = tokens[index]
+            if token not in redirs:
+                argv.append(token)
+                index += 1
+                continue
+            if index + 1 >= len(tokens):
+                return None, None, None
+            operand = tokens[index + 1]
+            index += 2
+            if token in (">&", "<&"):
+                if operand != "-" and not operand.isdigit():
+                    return None, None, None
+                continue
+            if token in ("<<<", "<<"):
+                # Here strings/documents carry literal data, not a file path.
+                continue
+            if token in ("<", "<>"):
+                if fd in (None, 0):
+                    inputs.append(operand)
+                if token == "<>" and fd in (None, 0, 1):
+                    outputs.append(operand)
+            elif token in (">", ">>"):
+                outputs.append(operand)
+        return argv, inputs, outputs
+
+    @classmethod
+    def _token_path_state(cls, operand, expected, repo):
+        if not isinstance(operand, str):
+            return "ambiguous"
+        if any(mark in operand for mark in ("$", "`", "*", "?", "[", "]")):
+            return "ambiguous" if cls._target_mentioned(operand, expected) \
+                else "other"
+        observed = cls._canonical_trace_path(operand.rstrip(","), repo)
+        wanted = cls._canonical_trace_path(expected, repo)
+        if observed and wanted and observed == wanted:
+            return "exact"
+        return "other"
+
+    @classmethod
+    def _output_identifies_path(cls, output, expected, repo):
+        """Recognize a search-result filename only at the line's source edge."""
+        wanted = cls._canonical_trace_path(expected, repo)
+        if not wanted:
             return False
+        relative = os.path.relpath(wanted, os.path.abspath(repo)).replace(
+            "\\", "/")
+        absolute = wanted.replace("\\", "/")
+        for raw_line in str(output or "").splitlines():
+            line = raw_line.strip().replace("\\", "/")
+            if (line == relative or line.startswith(relative + ":") or
+                    line == absolute or line.startswith(absolute + ":")):
+                return True
+        return False
+
+    @classmethod
+    def _scope_contains_target(cls, scope, expected, repo):
+        observed = cls._canonical_trace_path(scope, repo)
+        wanted = cls._canonical_trace_path(expected, repo)
+        return bool(observed and wanted and
+                    (wanted == observed or wanted.startswith(observed + "/")))
+
+    @classmethod
+    def _reader_effect(cls, name, args, stdin_paths, expected, repo, output):
+        """Return ``read``, ``not``, or ``ambiguous`` for one shell stage."""
+        if name in ("<unsupported>", "<xargs-unsupported>"):
+            return "ambiguous" if any(
+                cls._target_mentioned(token, expected)
+                for token in args) else "not"
+        if name in (None, "true", "false", "exit", "printf", "echo",
+                    "find", "ls", "stat", "git", "touch", "tee"):
+            return "not"
+        if name in ("sh", "bash", "cmd", "powershell", "pwsh"):
+            return "ambiguous" if any(
+                cls._target_mentioned(token, expected)
+                for token in args) else "not"
+
+        direct = list(stdin_paths)
+        scopes = []
+        terminal_no_read = False
+        reader = name in ("cat", "sed", "head", "tail", "get-content",
+                          "type", "rg", "grep")
+        if not reader:
+            return "ambiguous" if any(
+                cls._target_mentioned(token, expected)
+                for token in args) else "not"
+        if any(arg in ("--help", "--version") for arg in args):
+            return "not"
+
+        if name in ("cat", "type"):
+            direct.extend(arg for arg in args if arg == "-" or
+                          not arg.startswith("-"))
+        elif name in ("head", "tail"):
+            index = 0
+            while index < len(args):
+                arg = args[index]
+                if arg in ("-n", "--lines"):
+                    if index + 1 >= len(args):
+                        return "ambiguous"
+                    terminal_no_read = args[index + 1] == "0"
+                    index += 2
+                elif arg.startswith("--lines="):
+                    terminal_no_read = arg.split("=", 1)[1] == "0"
+                    index += 1
+                elif arg.startswith("-") and arg[1:].isdigit():
+                    terminal_no_read = int(arg[1:]) == 0
+                    index += 1
+                else:
+                    direct.append(arg)
+                    index += 1
+        elif name == "get-content":
+            index = 0
+            while index < len(args):
+                arg = args[index]
+                lower = arg.lower()
+                if lower in ("-delimiter", "-totalcount", "-tail",
+                             "-readcount", "-encoding", "-filter",
+                             "-include", "-exclude"):
+                    if index + 1 >= len(args):
+                        return "ambiguous"
+                    index += 2
+                elif lower in ("-literalpath", "-path"):
+                    if index + 1 >= len(args):
+                        return "ambiguous"
+                    direct.extend(args[index + 1].split(","))
+                    index += 2
+                elif arg.startswith("-"):
+                    index += 1
+                else:
+                    direct.extend(arg.split(","))
+                    index += 1
+        elif name == "sed":
+            index = 0
+            saw_program = False
+            while index < len(args):
+                arg = args[index]
+                if arg == "--":
+                    index += 1
+                    break
+                if arg in ("-e", "--expression"):
+                    if index + 1 >= len(args):
+                        return "ambiguous"
+                    saw_program = True
+                    index += 2
+                elif arg.startswith("-e") and len(arg) > 2:
+                    saw_program = True
+                    index += 1
+                elif arg in ("-f", "--file"):
+                    if index + 1 >= len(args):
+                        return "ambiguous"
+                    direct.append(args[index + 1])
+                    saw_program = True
+                    index += 2
+                elif arg.startswith("-f") and len(arg) > 2:
+                    direct.append(arg[2:])
+                    saw_program = True
+                    index += 1
+                elif arg.startswith("-"):
+                    index += 1
+                elif not saw_program:
+                    saw_program = True
+                    index += 1
+                else:
+                    break
+            direct.extend(args[index:])
+        else:  # grep / rg
+            if name == "rg" and "--files" in args[:args.index("--")
+                                                   if "--" in args
+                                                   else len(args)]:
+                return "not"
+            index = 0
+            pattern_supplied = False
+            while index < len(args):
+                arg = args[index]
+                if arg == "--":
+                    index += 1
+                    break
+                if arg in ("-e", "--regexp"):
+                    if index + 1 >= len(args):
+                        return "ambiguous"
+                    pattern_supplied = True
+                    index += 2
+                elif arg.startswith("-e") and len(arg) > 2:
+                    pattern_supplied = True
+                    index += 1
+                elif arg in ("-f", "--file"):
+                    if index + 1 >= len(args):
+                        return "ambiguous"
+                    direct.append(args[index + 1])
+                    pattern_supplied = True
+                    index += 2
+                elif arg.startswith("-f") and len(arg) > 2:
+                    direct.append(arg[2:])
+                    pattern_supplied = True
+                    index += 1
+                elif arg in ("-g", "--glob", "--type", "--type-add"):
+                    if index + 1 >= len(args):
+                        return "ambiguous"
+                    index += 2
+                elif arg.startswith("-"):
+                    index += 1
+                else:
+                    break
+            remaining = args[index:]
+            if not pattern_supplied:
+                if not remaining:
+                    return "not"
+                remaining = remaining[1:]
+            for operand in remaining:
+                state = cls._token_path_state(operand, expected, repo)
+                if state == "exact":
+                    direct.append(operand)
+                elif (state == "other" and
+                      cls._scope_contains_target(operand, expected, repo) and
+                      cls._output_identifies_path(output, expected, repo)):
+                    scopes.append(operand)
+
+        if terminal_no_read:
+            return "not"
+        states = [cls._token_path_state(path, expected, repo)
+                  for path in direct]
+        if "exact" in states or scopes:
+            return "read"
+        if "ambiguous" in states:
+            return "ambiguous"
+        return "not"
+
+    @classmethod
+    def _parse_shell(cls, command, expected, repo, output, source):
+        text, _unwrapped = cls._unwrap_host_command(command, source)
+        if "\n" in text or "\r" in text:
+            heredoc = re.fullmatch(
+                r"(?s)(?P<head>.*)<<-?\s*(?P<tag>[A-Za-z_][A-Za-z0-9_]*)"
+                r"\r?\n.*\r?\n(?P=tag)\s*", text)
+            if heredoc:
+                text = heredoc.group("head") + " << " + heredoc.group("tag")
+        replaced = cls._replace_process_substitutions(text)
+        if replaced is None or cls._unsupported_unquoted_syntax(replaced):
+            return None
         try:
             lexer = shlex.shlex(
-                text, posix=True, punctuation_chars=";&|<>")
+                replaced, posix=True, punctuation_chars=";&|<>")
             lexer.whitespace_split = True
-            lexer.commenters = ""
+            lexer.commenters = "#"
             tokens = list(lexer)
         except ValueError:
-            return False
-
+            return None
+        if not tokens:
+            return []
+        separators = {"|", "|&", "&&", "||", ";"}
+        unsupported = {"&", ";;", ";&", ";;&"}
+        if (tokens[0] in separators | unsupported or
+                tokens[-1] in separators | unsupported):
+            return None
+        pipelines = []
+        connectors = []
+        stages = []
         stage = []
-        piped_input = False
-
-        def stage_reads_content(stage_tokens, consumes_pipe):
-            name, args = cls._resolved_command(stage_tokens)
-            if name in ("sed", "cat", "head", "tail", "get-content",
-                        "type"):
-                return True
-            if name in ("rg", "grep") and not consumes_pipe:
-                return name != "rg" or "--files" not in args
-            return False
-
         for token in tokens + [";"]:
+            if token in unsupported:
+                return None
             if token in ("|", "|&"):
-                if stage_reads_content(stage, piped_input):
-                    return True
+                if not stage:
+                    return None
+                stages.append(stage)
                 stage = []
-                piped_input = True
-            elif token in ("&&", "||", ";", "&", ";;", ";&", ";;&"):
-                if stage_reads_content(stage, piped_input):
-                    return True
+            elif token in ("&&", "||", ";"):
+                if not stage:
+                    return None
+                stages.append(stage)
+                pipelines.append(stages)
+                stages = []
                 stage = []
-                piped_input = False
+                if token != ";" or len(pipelines) > 0:
+                    connectors.append(token)
             else:
                 stage.append(token)
-        return False
+        # The synthetic trailing ';' adds one connector too many.
+        connectors = connectors[:max(0, len(pipelines) - 1)]
+        parsed = []
+        for pipeline in pipelines:
+            parsed_stages = []
+            for raw_stage in pipeline:
+                argv, stdin_paths, outputs = cls._split_redirections(raw_stage)
+                if argv is None or not argv:
+                    return None
+                name, args = cls._resolved_command(argv)
+                effect = cls._reader_effect(
+                    name, args, stdin_paths, expected, repo, output)
+                constant = True if name == "true" else (
+                    False if name == "false" else None)
+                terminates = False
+                if name == "exit":
+                    if len(args) > 1 or (args and not args[0].isdigit()):
+                        return None
+                    constant = (not args or int(args[0]) == 0)
+                    terminates = True
+                parsed_stages.append({
+                    "name": name, "effect": effect, "constant": constant,
+                    "terminates": terminates, "outputs": outputs,
+                    "args": args})
+            parsed.append(parsed_stages)
+        return parsed, connectors
 
-    @staticmethod
-    def _command_mentions_path(command, expected):
-        text = str(command or "").replace("\\", "/").lower()
-        path = str(expected).replace("\\", "/").strip("/").lower()
-        return path in text
-
-    @staticmethod
-    def _output_identifies_path(output, expected):
-        """Accept a search-result source path, not a path string in content."""
-        path = str(expected).replace("\\", "/").strip("/").lower()
-        for raw_line in str(output or "").splitlines():
-            line = raw_line.strip().replace("\\", "/").lower()
-            at = line.find(path)
-            if at < 0:
+    def _classify_command_target(self, record, expected, repo):
+        """Classify one exact target as content-read/not-read/fail-closed."""
+        cls = type(self)
+        command = record.get("command")
+        profile = self._host_read_profile(repo)
+        source = str(record.get("source") or "")
+        if not source.startswith(profile["host"] + "-"):
+            return ("fail-closed" if cls._target_mentioned(command, expected)
+                    else "not-content-read")
+        parsed = cls._parse_shell(
+            command, expected, repo, record.get("output", ""),
+            record.get("source"))
+        if parsed is None:
+            return ("fail-closed" if cls._target_mentioned(command, expected)
+                    else "not-content-read")
+        pipelines, connectors = parsed
+        if not pipelines:
+            return "not-content-read"
+        if cls._target_mentioned(command, expected):
+            known = {
+                None,
+                "cat", "sed", "head", "tail", "get-content", "type",
+                "rg", "grep", "true", "false", "exit", "printf", "echo",
+                "find", "ls", "stat", "git", "touch", "tee"}
+            for pipeline in pipelines:
+                for stage in pipeline:
+                    if stage["name"] in (
+                            "<unsupported>", "<xargs-unsupported>"):
+                        stage["effect"] = "ambiguous"
+                    elif stage["name"] not in known:
+                        stage["effect"] = "ambiguous"
+        # A literal empty printf feeding xargs proves that no child argv was
+        # executed. This narrow negative control does not infer any expansion.
+        for pipeline in pipelines:
+            if (len(pipeline) >= 2 and pipeline[0]["name"] == "printf" and
+                    pipeline[0]["args"] == [""] and
+                    pipeline[1]["name"] == "<xargs-unsupported>"):
+                pipeline[1]["effect"] = "not"
+        stage_count = sum(len(pipeline) for pipeline in pipelines)
+        if stage_count > 12:
+            return ("fail-closed" if cls._target_mentioned(command, expected)
+                    else "not-content-read")
+        variables = []
+        for p_index, pipeline in enumerate(pipelines):
+            for s_index, stage in enumerate(pipeline):
+                if stage["constant"] is None:
+                    variables.append((p_index, s_index))
+        if len(variables) > 12:
+            return ("fail-closed" if cls._target_mentioned(command, expected)
+                    else "not-content-read")
+        exit_code = record.get("exit_code")
+        if type(exit_code) is not int:
+            return "fail-closed"
+        wanted_status = exit_code == 0
+        worlds = []
+        for mask in range(1 << len(variables)):
+            statuses = {}
+            for bit, key in enumerate(variables):
+                statuses[key] = bool(mask & (1 << bit))
+            executed = []
+            current_status = None
+            terminated = False
+            for p_index, pipeline in enumerate(pipelines):
+                if p_index:
+                    connector = connectors[p_index - 1]
+                    should_run = (connector == ";" or
+                                  (connector == "&&" and current_status) or
+                                  (connector == "||" and not current_status))
+                    if terminated or not should_run:
+                        executed.append([])
+                        continue
+                pipeline_exec = []
+                for s_index, stage in enumerate(pipeline):
+                    status = (stage["constant"] if
+                              stage["constant"] is not None else
+                              statuses[(p_index, s_index)])
+                    pipeline_exec.append((stage, status, s_index))
+                executed.append(pipeline_exec)
+                current_status = pipeline_exec[-1][1]
+                if len(pipeline) == 1 and pipeline[0]["terminates"]:
+                    terminated = True
+            if current_status is None or current_status != wanted_status:
                 continue
-            before_ok = at == 0 or line[at - 1] == "/"
-            end = at + len(path)
-            after_ok = end == len(line) or line[end] in (":", "-", "\t")
-            if before_ok and after_ok:
-                return True
-        return False
+            read = False
+            ambiguous = False
+            for p_index, pipeline_exec in enumerate(executed):
+                for stage, status, s_index in pipeline_exec:
+                    if stage["effect"] == "ambiguous":
+                        ambiguous = True
+                    elif stage["effect"] == "read":
+                        no_match_read = (
+                            exit_code == 1 and
+                            stage["name"] in ("grep", "rg") and
+                            p_index == len(executed) - 1 and
+                            s_index == len(pipelines[p_index]) - 1)
+                        if status or no_match_read:
+                            read = True
+            worlds.append((read, ambiguous))
+        if not worlds:
+            return "fail-closed"
+        if all(read and not ambiguous for read, ambiguous in worlds):
+            return "content-read"
+        if any(read or ambiguous for read, ambiguous in worlds):
+            return "fail-closed"
+        return "not-content-read"
+
+    @classmethod
+    def _command_write_paths(cls, record):
+        """Return lexically explicit shell output paths for ordering only."""
+        command, _unwrapped = cls._unwrap_host_command(
+            record.get("command"), record.get("source"))
+        replaced = cls._replace_process_substitutions(command)
+        if replaced is None or cls._unsupported_unquoted_syntax(replaced):
+            return []
+        try:
+            lexer = shlex.shlex(
+                replaced, posix=True, punctuation_chars=";&|<>")
+            lexer.whitespace_split = True
+            lexer.commenters = "#"
+            tokens = list(lexer)
+        except ValueError:
+            return []
+        paths = []
+        stage = []
+        for token in tokens + [";"]:
+            if token in ("|", "|&", "&&", "||", ";"):
+                if stage:
+                    _argv, _inputs, outputs = cls._split_redirections(stage)
+                    if outputs is not None:
+                        paths.extend(outputs)
+                stage = []
+            else:
+                stage.append(token)
+        return paths
 
     def _run_host_checks(self, fx, repo):
         hc = fx.get("host_checks")
@@ -1153,33 +1855,65 @@ class _BaseAdapter:
                     raise framework.AdapterError(
                         "path_access_order requires safe relative paths")
 
-                def first_ordinal(action, expected):
+                contaminated = any(
+                    record.get("action") == "invalid"
+                    for record in self._tool_trace)
+
+                def first_read_completion(expected):
                     hits = []
                     for record in self._tool_trace:
-                        if record.get("action") == action and \
+                        if record.get("action") == "read" and \
                                 self._trace_path_match(
-                                    record.get("path"), expected):
-                            hits.append(record["ordinal"])
-                        elif action == "read" and \
-                                record.get("action") == "command" and \
-                                self._read_only_command(record.get("command")) \
-                                and (self._command_mentions_path(
-                                    record.get("command"), expected) or
-                                     self._output_identifies_path(
-                                         record.get("output"), expected)):
-                            hits.append(record["ordinal"])
+                                    record.get("path"), expected, repo):
+                            completed = record.get(
+                                "completed_ordinal", record.get("ordinal"))
+                            if completed is not None:
+                                hits.append(completed)
+                        elif record.get("action") == "command" and \
+                                self._classify_command_target(
+                                    record, expected, repo) == "content-read":
+                            completed = record.get(
+                                "completed_ordinal", record.get("ordinal"))
+                            if completed is not None:
+                                hits.append(completed)
                     return min(hits) if hits else None
 
-                read_ordinals = [first_ordinal("read", path)
+                write_invocations = []
+                write_completions = []
+                for record in self._tool_trace:
+                    if record.get("action") == "write" and \
+                            self._trace_path_match(
+                                record.get("path"), write, repo):
+                        invoked = record.get(
+                            "invoked_ordinal", record.get("ordinal"))
+                        completed = record.get(
+                            "completed_ordinal", record.get("ordinal"))
+                        if invoked is not None:
+                            write_invocations.append(invoked)
+                        if completed is not None:
+                            write_completions.append(completed)
+                    elif record.get("action") == "command":
+                        for path in self._command_write_paths(record):
+                            if self._trace_path_match(path, write, repo):
+                                invoked = record.get(
+                                    "invoked_ordinal", record.get("ordinal"))
+                                if invoked is not None:
+                                    write_invocations.append(invoked)
+
+                read_ordinals = [first_read_completion(path)
                                  for path in reads]
-                write_ordinal = first_ordinal("write", write)
-                ok = (write_ordinal is not None and
+                write_ordinal = (min(write_invocations)
+                                 if write_invocations else None)
+                ok = (not contaminated and write_ordinal is not None and
+                      bool(write_completions) and
                       all(value is not None for value in read_ordinals) and
                       max(read_ordinals) < write_ordinal)
                 out[key] = ok
                 detail[key] = (
                     f"read_ordinals={read_ordinals}; "
-                    f"write_ordinal={write_ordinal}")
+                    f"write_ordinal={write_ordinal}; "
+                    f"write_completed={bool(write_completions)}; "
+                    f"stream_contaminated={contaminated}")
             elif kind == "validate_run_root":
                 out[key], detail[key] = self._validate_run_root(repo)
             elif kind == "run_root_exists":
