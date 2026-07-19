@@ -173,7 +173,10 @@ adapter completed a custody-clean, authoritative bundle; it does not mean the
 mission or product passed. The bundle carries the complete host-read capture
 plus its pre-spawn parent records. The tagged scorer independently replays that
 hash-bound capture, cross-checks the replayed path-property state against
-`host-checks.json`, and derives host safety from the replayed trace. A
+`host-checks.json`, and derives host safety from the replayed trace. Declared
+JSON-field checks retain the exact input bytes as bundle artifacts, bind those
+bytes to the complete after-snapshot worktree file map, and are recomputed from
+the canonical fixture before the adapter Boolean is accepted. A
 replay-valid capture may therefore retain complete product-property results
 while reporting host `INVALID`. Missing, malformed, replay-invalid, or
 parent-terminal-inconsistent captures remain inadmissible and cannot produce a

@@ -76,6 +76,15 @@ def _load_json(run_root, name):
     return json.load(open(path, encoding="utf-8"))
 
 
+def _unique_json_pairs(pairs):
+    value = {}
+    for key, item in pairs:
+        if key in value:
+            raise ValueError(f"duplicate JSON key {key!r}")
+        value[key] = item
+    return value
+
+
 def _invalid_gate(reason):
     lower = str(reason).lower()
     if "terminal" in lower or "reconciled" in lower:
@@ -330,6 +339,47 @@ def score_bundle(run_root, repo_dir=None):
                             f"host check {key!r} contradicts independent "
                             "formal host-read replay")
                     summary[key] = True if replay_boolean else None
+                elif spec.get("kind") == "json_fields_equal":
+                    relpath = str(spec.get("path", "")).replace("\\", "/")
+                    expected = spec.get("equals")
+                    if (not relpath or os.path.isabs(relpath) or
+                            any(part in ("", ".", "..")
+                                for part in relpath.split("/")) or
+                            not isinstance(expected, dict) or not expected):
+                        raise bundlelib.BundleInvalid(
+                            "json host check fixture declaration invalid")
+                    evidence_rel = "host-check-inputs/" + relpath
+                    entry = ((after or {}).get("worktree_files") or {}).get(
+                        relpath)
+                    observed = None
+                    if isinstance(entry, dict) and entry.get("type") == "file":
+                        if evidence_rel not in artifact_map:
+                            raise bundlelib.BundleInvalid(
+                                f"json host check input missing: {relpath!r}")
+                        data = artifact_map[evidence_rel]
+                        if bundlelib._sha256_bytes(data) != entry.get("sha256"):
+                            raise bundlelib.BundleInvalid(
+                                f"json host check input contradicts after "
+                                f"snapshot: {relpath!r}")
+                        try:
+                            observed = json.loads(
+                                data.decode("utf-8"),
+                                object_pairs_hook=_unique_json_pairs)
+                        except (UnicodeDecodeError, json.JSONDecodeError,
+                                ValueError):
+                            observed = None
+                    elif evidence_rel in artifact_map:
+                        raise bundlelib.BundleInvalid(
+                            f"json host check input has no after-snapshot "
+                            f"file identity: {relpath!r}")
+                    recomputed = (isinstance(observed, dict) and all(
+                        observed.get(field) == value
+                        for field, value in expected.items()))
+                    if hc_obj[key] is not recomputed:
+                        raise bundlelib.BundleInvalid(
+                            f"json host check {key!r} contradicts "
+                            "independent retained-input replay")
+                    summary[key] = recomputed
                 else:
                     summary[key] = hc_obj[key]
 

@@ -85,6 +85,61 @@ def _untracked_entry(repo_dir, rel_path):
     return {"type": "file", "sha256": _hash_regular_file(full)}
 
 
+def _worktree_entry(path):
+    """Describe one worktree leaf without following links or junctions."""
+    try:
+        st = os.lstat(path)
+    except OSError as exc:
+        raise SnapshotInvalid(f"cannot lstat worktree path {path!r}: {exc}")
+    reparse = getattr(st, "st_file_attributes", 0) & getattr(
+        statmod, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400)
+    if statmod.S_ISLNK(st.st_mode) or reparse:
+        try:
+            target = os.readlink(path)
+        except OSError:
+            target = "<unreadable>"
+        return {"type": "symlink",
+                "target_sha256": hashlib.sha256(
+                    target.encode("utf-8", "replace")).hexdigest()}
+    if statmod.S_ISREG(st.st_mode):
+        return {"type": "file", "sha256": _hash_regular_file(path)}
+    return {"type": "special"}
+
+
+def _worktree_file_map(repo_dir):
+    """Hash every repository worktree leaf, excluding Git's own metadata.
+
+    This complete map lets an offline scorer bind retained host-check input
+    bytes to the exact after-state rather than trusting an adapter Boolean.
+    Directory links/junctions are recorded but never traversed.
+    """
+    out = {}
+    root_abs = os.path.abspath(repo_dir)
+    for root, dirs, files in os.walk(root_abs, topdown=True,
+                                     followlinks=False):
+        dirs.sort()
+        files.sort()
+        if os.path.abspath(root) == root_abs and ".git" in dirs:
+            dirs.remove(".git")
+        for name in list(dirs):
+            path = os.path.join(root, name)
+            entry = _worktree_entry(path)
+            if entry["type"] != "special":
+                if entry["type"] == "symlink":
+                    rel = os.path.relpath(path, root_abs).replace("\\", "/")
+                    out[rel] = entry
+                    dirs.remove(name)
+            elif not os.path.isdir(path):
+                rel = os.path.relpath(path, root_abs).replace("\\", "/")
+                out[rel] = entry
+                dirs.remove(name)
+        for name in files:
+            path = os.path.join(root, name)
+            rel = os.path.relpath(path, root_abs).replace("\\", "/")
+            out[rel] = _worktree_entry(path)
+    return out
+
+
 def _parse_status_z(raw):
     """Parse `git status --porcelain=v2 -z --untracked-files=all` bytes.
 
@@ -163,6 +218,7 @@ def snapshot(repo_dir):
         "unstaged": unstaged,
         "renames": renames,
         "untracked": untracked,
+        "worktree_files": _worktree_file_map(repo_dir),
         "tracked_diff_sha256": hashlib.sha256(diff).hexdigest(),
     }
     snap["snapshot_sha256"] = _canonical_hash(snap)
@@ -188,6 +244,32 @@ def verify_snapshot(snap):
             raise SnapshotInvalid(f"snapshot missing field {field!r}")
     if _canonical_hash(snap) != snap["snapshot_sha256"]:
         raise SnapshotInvalid("snapshot_sha256 does not match content")
+    worktree_files = snap.get("worktree_files")
+    if worktree_files is not None:
+        if not isinstance(worktree_files, dict):
+            raise SnapshotInvalid("snapshot worktree_files is not an object")
+        for rel, entry in worktree_files.items():
+            norm = str(rel).replace("\\", "/")
+            if (not isinstance(rel, str) or not rel or
+                    norm.startswith("/") or ".." in norm.split("/") or
+                    not isinstance(entry, dict)):
+                raise SnapshotInvalid(
+                    f"snapshot worktree file identity invalid: {rel!r}")
+            kind = entry.get("type")
+            if kind == "file":
+                digest = entry.get("sha256")
+            elif kind == "symlink":
+                digest = entry.get("target_sha256")
+            elif kind == "special":
+                digest = None
+            else:
+                raise SnapshotInvalid(
+                    f"snapshot worktree file type invalid: {kind!r}")
+            if digest is not None and (not isinstance(digest, str) or
+                    len(digest) != 64 or
+                    any(c not in "0123456789abcdef" for c in digest)):
+                raise SnapshotInvalid(
+                    f"snapshot worktree digest invalid: {rel!r}")
 
 
 def _norm_globs(globs):

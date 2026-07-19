@@ -114,7 +114,8 @@ elif scenario == "session-mismatch":
     print(json.dumps({"type": "agent_message",
                       "message": "not in the session record"}))
 elif scenario in ("b3-host-invalid-claude",
-                  "b3-incomplete-host-invalid-claude"):
+                  "b3-incomplete-host-invalid-claude",
+                  "b3-false-json-hostcheck-claude"):
     sid = "b3-host-invalid-session"
     state_path = (".IMPLEMENTAUDIT/runs/audit-closure-a7Kx2f/"
                   "STATE.md")
@@ -135,6 +136,8 @@ elif scenario in ("b3-host-invalid-claude",
         "stale_one_shot_status": "satisfied",
         "decision": "audited-handoff",
         "authorization_reason": "execution not authorized; capsule only"}
+    if scenario == "b3-false-json-hostcheck-claude":
+        capsule = {}
     os.makedirs(os.path.dirname(capsule_path), exist_ok=True)
     with open(capsule_path, "x", encoding="utf-8") as fh:
         json.dump(capsule, fh, sort_keys=True)
@@ -162,7 +165,7 @@ elif scenario in ("b3-host-invalid-claude",
            "effort": "high"})
     tool_use("state-read", "Read", {"file_path": state_path})
     tool_result("state-read", state)
-    if scenario == "b3-host-invalid-claude":
+    if scenario != "b3-incomplete-host-invalid-claude":
         tool_use("roadmap-read", "Read", {"file_path": roadmap_path})
         tool_result("roadmap-read", roadmap)
     tool_use("capsule-write", "Write", {
@@ -3946,6 +3949,47 @@ def main():
                   and (verdict47au or {}).get(
                       "host_safety", {}).get("status") == "INVALID"
                   and (verdict47au or {}).get("status") == "INVALID")
+
+            adapter47av = make_adapter(
+                tmp, "b3-false-json-hostcheck-claude", kind="claude",
+                checkout=canon47at,
+                home=os.path.join(tmp, "claude-home-h47av"))
+            adapter47av.formal = True
+            adapter47av.preflight = lambda: None
+            real_host_checks47av = adapter47av._run_host_checks
+
+            def defective_host_checks47av(fixture47, repo47):
+                result47 = real_host_checks47av(fixture47, repo47)
+                for spec47 in fixture47.get("host_checks", {}).get(
+                        "specs", []):
+                    if spec47.get("kind") == "json_fields_equal":
+                        result47[spec47["key"]] = True
+                return result47
+
+            adapter47av._run_host_checks = defective_host_checks47av
+            framework.product_identity = lambda *args, **kwargs: {
+                "product_tag": "v0.3.1.0",
+                "product_commit": "1" * 40,
+                "product_tree": "2" * 40}
+            try:
+                result47av = run(adapter47av, tmp, "r-h47av",
+                                 fixture_id="B3-v3")
+            finally:
+                framework.product_identity = previous_identity47
+            verdict47av = None
+            if result47av.kind == "ok" and os.path.isdir(result47av.detail):
+                _status47av, verdict47av = runner.score_bundle(
+                    result47av.detail, repo_dir=None)
+            states47av = [item47.get("state") for item47 in
+                          ((verdict47av or {}).get(
+                              "properties") or {}).values()]
+            check("H47av json-host-check-adapter-pass-is-rederived",
+                  result47av.kind == "ok"
+                  and (verdict47av or {}).get("status") == "INVALID"
+                  and not states47av == ["PASS"] * 6
+                  and "json" in ((verdict47av or {}).get("reason") or "")
+                  and "contradict" in (
+                      (verdict47av or {}).get("reason") or ""))
             check("H48 generated-host-read-contract-112",
                   test_host_read_contract.main([]) == 0)
         except (framework.AdapterError, OSError, ValueError):

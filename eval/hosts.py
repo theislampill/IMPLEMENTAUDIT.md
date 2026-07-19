@@ -789,6 +789,24 @@ class _BaseAdapter:
                 artifacts[(fx.get("host_checks") or {}).get(
                     "artifact", "host-checks.json")] = json.dumps(
                     host_checks, indent=1, sort_keys=True).encode("utf-8")
+                for spec in (fx.get("host_checks") or {}).get("specs", []):
+                    if spec.get("kind") != "json_fields_equal":
+                        continue
+                    rel = str(spec.get("path", "")).replace("\\", "/")
+                    if (not rel or os.path.isabs(rel) or
+                            any(part in ("", ".", "..")
+                                for part in rel.split("/"))):
+                        raise framework.AdapterError(
+                            f"unsafe JSON host-check evidence path {rel!r}")
+                    entry = (after.get("worktree_files") or {}).get(rel)
+                    if isinstance(entry, dict) and entry.get("type") == "file":
+                        data = _read_custody_file(os.path.join(
+                            repo, *rel.split("/")))
+                        if data is None or bundlelib._sha256_bytes(data) != \
+                                entry.get("sha256"):
+                            raise framework.AdapterError(
+                                f"JSON host-check evidence drift: {rel!r}")
+                        artifacts["host-check-inputs/" + rel] = data
             obs = self._emit_host_observation(fx)
             if obs is not None:
                 artifacts[obs[0]] = obs[1]
