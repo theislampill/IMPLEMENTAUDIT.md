@@ -1074,7 +1074,8 @@ class _BaseAdapter:
                 raw_session=raw_session or b"", trace=normalized,
                 matrix=matrix, post_probe=post, binding=binding or {},
                 host_terminal_kind=host_terminal_kind,
-                session_status=session_status, formal=True)
+                session_status=session_status, formal=True,
+                minted_profile=profile)
         except (OSError, ValueError, FileExistsError) as exc:
             self._formal_host_read_host_status = "INVALID"
             self._formal_host_read_seal_error = type(exc).__name__

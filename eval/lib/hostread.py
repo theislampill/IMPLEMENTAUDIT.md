@@ -34,6 +34,27 @@ SUPPORTED_CLAUDE = frozenset(
      "Task", "Workflow"))
 
 
+_PROFILE_CAPABILITY = object()
+
+
+class _MintedProfile(dict):
+    """Process-local capability returned only by mechanical profile minting.
+
+    Persisted JSON is promoted back to this type only after replay verifies the
+    pre-spawn and parent custody chain.  A caller-created dictionary therefore
+    cannot grant itself formal authority by copying the serialized marker.
+    """
+
+    def __init__(self, value, capability=None):
+        if capability is not _PROFILE_CAPABILITY:
+            raise TypeError("formal profile capability is internal")
+        super().__init__(value)
+
+
+def _mint_profile(value):
+    return _MintedProfile(value, _PROFILE_CAPABILITY)
+
+
 def _canonical_bytes(value):
     return json.dumps(value, sort_keys=True, separators=(",", ":"),
                       ensure_ascii=False).encode("utf-8")
@@ -65,9 +86,12 @@ def _strict_object(line):
     return value
 
 
-def _within(path, root):
+def _within(path, root, case_sensitive=True):
     path = str(path or "").replace("\\", "/").rstrip("/")
     root = str(root or "").replace("\\", "/").rstrip("/")
+    if not case_sensitive:
+        path = path.casefold()
+        root = root.casefold()
     return bool(path and root and (path == root or path.startswith(root + "/")))
 
 
@@ -88,6 +112,8 @@ def validate_profile(profile, post_probe=None, formal=True,
     """
     if not isinstance(profile, dict):
         return _profile_result(False, "missing profile")
+    if formal and not isinstance(profile, _MintedProfile):
+        return _profile_result(False, "profile provenance")
     if profile.get("schema") != PROFILE_SCHEMA:
         return _profile_result(False, "profile schema")
     authority = profile.get("authority")
@@ -164,6 +190,17 @@ def validate_profile(profile, post_probe=None, formal=True,
     return _profile_result(True)
 
 
+def _admit_persisted_profile(profile):
+    """Restore formal capability after replay has verified parent custody."""
+    if not isinstance(profile, dict) or \
+            profile.get("authority") != "mechanically-minted":
+        raise ValueError("persisted profile authority")
+    admitted = _mint_profile(profile)
+    if validate_profile(admitted, formal=True)["host_status"] != "PASS":
+        raise ValueError("persisted profile invalid")
+    return admitted
+
+
 def _stat_identity(path):
     info = os.stat(path)
     return (f"dev={info.st_dev};ino={info.st_ino};mode={info.st_mode:o};"
@@ -223,7 +260,7 @@ def probe_posix(shell_executable, env=None):
 def mint_codex_profile(repo_root, shell_executable, env=None,
                        writable_roots=()):
     probe = probe_posix(shell_executable, env=env)
-    profile = {
+    profile = _mint_profile({
         "schema": PROFILE_SCHEMA, "authority": "mechanically-minted",
         "host": "codex",
         "repo": {"lexical_root": os.path.abspath(repo_root).replace("\\", "/"),
@@ -234,7 +271,7 @@ def mint_codex_profile(repo_root, shell_executable, env=None,
                           "max_unwrap_layers": 1},
         "environment": probe["environment"],
         "executables": probe["executables"],
-        "probe_sha256": probe["probe_sha256"]}
+        "probe_sha256": probe["probe_sha256"]})
     result = validate_profile(profile, formal=False,
                               writable_roots=writable_roots)
     if result["host_status"] != "PASS":
@@ -247,14 +284,14 @@ def mint_claude_profile(repo_root, requested_tools):
     repo_abs = os.path.abspath(repo_root).replace("\\", "/")
     native_tools = {"requested": list(requested_tools)}
     probe = {"repo": repo_abs, "native_tools": native_tools}
-    return {
+    return _mint_profile({
         "schema": PROFILE_SCHEMA, "authority": "mechanically-minted",
         "host": "claude",
         "repo": {"lexical_root": repo_abs,
                  "real_root": os.path.realpath(repo_root).replace("\\", "/"),
                  "case_sensitive": os.path.normcase("A") != os.path.normcase("a")},
         "native_tools": native_tools,
-        "probe_sha256": _sha256(_canonical_bytes(probe))}
+        "probe_sha256": _sha256(_canonical_bytes(probe))})
 
 
 def post_probe(profile, shell_executable, env=None):
@@ -332,7 +369,8 @@ def validate_preimages(preimages):
                     entry.get("relative_path") != relative or
                     entry.get("symlink_free") is not True or
                     not _within(entry.get("canonical_path"),
-                                repo.get("lexical_root"))):
+                                repo.get("lexical_root"),
+                                case_sensitive=repo["case_sensitive"])):
                 raise ValueError("preimage mismatch")
     except (ValueError, TypeError, base64.binascii.Error):
         return {"status": "INVALID"}
@@ -366,7 +404,8 @@ def _normalize_path(path, preimages):
         candidate = str(PurePosixPath(
             preimages["repo"]["lexical_root"], *parts))
     root = preimages["repo"]["lexical_root"].rstrip("/")
-    if not _within(candidate, root):
+    case_sensitive = preimages["repo"]["case_sensitive"]
+    if not _within(candidate, root, case_sensitive=case_sensitive):
         return None
     return candidate
 
@@ -374,7 +413,12 @@ def _normalize_path(path, preimages):
 def _path_matches(path, target, preimages):
     entry = (preimages.get("targets") or {}).get(target)
     observed = _normalize_path(path, preimages)
-    return bool(entry and observed and observed == entry["canonical_path"])
+    case_sensitive = (preimages.get("repo") or {}).get(
+        "case_sensitive", True)
+    return bool(entry and observed and _within(
+        observed, entry["canonical_path"], case_sensitive=case_sensitive) and
+        _within(entry["canonical_path"], observed,
+                case_sensitive=case_sensitive))
 
 
 class _ActionMachine:
@@ -612,9 +656,12 @@ def normalize_codex(raw_stdout, profile=None, binding=None, formal=True):
                       "write" if item_type == "file_change" else "safe-other")
             fields = {"action_type": item_type}
             if item_type == "command_execution":
+                wrapper_layers = _wrapper_layers(
+                    item.get("command"), profile, formal)
                 fields.update({"command": item.get("command"),
-                               "wrapper_layers": _wrapper_layers(
-                                   item.get("command"), profile, formal)})
+                               "wrapper_layers": wrapper_layers,
+                               "protocol_wrapper_valid":
+                               not formal or wrapper_layers == 1})
             elif item_type == "file_change":
                 fields["paths"] = [change["path"]
                                    for change in item["changes"]]
@@ -644,6 +691,11 @@ def normalize_codex(raw_stdout, profile=None, binding=None, formal=True):
                     outer_status in ("failed", "error") or not valid_status):
                 machine.complete(action_id, ordinal, state="INVALID",
                                  reason="contradictory command completion")
+                continue
+            if action.get("protocol_wrapper_valid") is not True:
+                machine.complete(
+                    action_id, ordinal, payload=payload, state="INVALID",
+                    reason="unbound Codex protocol wrapper")
                 continue
             machine.complete(action_id, ordinal, payload=payload,
                              exit_code=exit_code, output=output)
@@ -986,9 +1038,11 @@ def _target_relationship(path, target, preimages):
     if not observed or not entry:
         return "invalid"
     canonical = entry["canonical_path"]
-    if observed == canonical:
+    case_sensitive = preimages["repo"]["case_sensitive"]
+    if (_within(observed, canonical, case_sensitive=case_sensitive) and
+            _within(canonical, observed, case_sensitive=case_sensitive)):
         return "direct"
-    if _within(canonical, observed):
+    if _within(canonical, observed, case_sensitive=case_sensitive):
         return "scope"
     return "unrelated"
 
@@ -1001,6 +1055,7 @@ def _finite_shell_tokens(command):
     # evidence grammar.  Redirection is handled below as a small explicit
     # exception; this is not intended to grow into a shell parser.
     if ("\n" in command or "\r" in command or "$" in command or
+            "#" in command or
             "`" in command or any(text in command for text in
                                    (";", "&&", "||", "|", "(", ")",
                                     "{", "}"))):
@@ -1024,7 +1079,7 @@ def _unwrap_profiled_command(command, profile, formal):
     prefix = profile["outer_wrapper"]["argv_prefix"]
     if len(tokens) == 3 and tokens[:2] == prefix:
         return tokens[2]
-    return command
+    return None if formal else command
 
 
 def _split_redirections(tokens):
@@ -1678,11 +1733,18 @@ def begin_capture(root, profile, preimages, replay_spec=None,
 
 def finish_capture(root, raw_stdout, raw_session, trace, matrix, post_probe,
                    binding=None, host_terminal_kind="ok",
-                   session_status="VALID", formal=True):
+                   session_status="VALID", formal=True,
+                   minted_profile=None):
     """Seal terminal custody after a matching post-mission profile probe."""
     profile = _read_json_file(os.path.join(root, "host-read-profile.json"))
     preimages = _read_json_file(os.path.join(root,
-                                             "host-read-preimages.json"))
+                                              "host-read-preimages.json"))
+    if formal:
+        if (not isinstance(minted_profile, _MintedProfile) or
+                _canonical_bytes(minted_profile) !=
+                _canonical_bytes(profile)):
+            raise ValueError("formal profile capability mismatch")
+        profile = minted_profile
     profile_post_status = validate_profile(
         profile, post_probe=post_probe, formal=formal)["host_status"]
     if validate_preimages(preimages)["status"] != "PASS":
@@ -1725,7 +1787,8 @@ def seal_capture(root, profile, preimages, raw_stdout, raw_session, trace,
                  matrix, post_probe, formal=True):
     begin_capture(root, profile, preimages, formal=formal)
     return finish_capture(root, raw_stdout, raw_session, trace, matrix,
-                          post_probe, formal=formal)
+                          post_probe, formal=formal,
+                          minted_profile=profile if formal else None)
 
 
 def derive_codex_binding(raw_stdout):
@@ -1916,7 +1979,9 @@ def replay_capture(root, formal=True):
         matrix = _read_json_file(os.path.join(root, "host-read-matrix.json"))
         post_probe = _read_json_file(os.path.join(
             root, "host-read-post-probe.json"))
-        if validate_profile(profile, formal=formal)["host_status"] != "PASS":
+        if (validate_profile(profile, formal=False)["host_status"] != "PASS" or
+                (formal and profile.get("authority") !=
+                 "mechanically-minted")):
             raise ValueError("profile invalid")
         if validate_preimages(preimages)["status"] != "PASS":
             raise ValueError("preimages invalid")
@@ -1945,13 +2010,6 @@ def replay_capture(root, formal=True):
         if terminal.get("hashes") != {
                 name: actual[name] for name in _CAPTURE_FILES[:-1]}:
             raise ValueError("terminal hash mismatch")
-        recomputed_post_status = validate_profile(
-            profile, post_probe=post_probe, formal=formal)["host_status"]
-        if (terminal.get("post_probe_sha256") !=
-                _sha256(_canonical_bytes(post_probe)) or
-                terminal.get("profile_post_status") !=
-                recomputed_post_status):
-            raise ValueError("post-probe adjudication mismatch")
         if (pre_spawn.get("profile_sha256") !=
                 actual["host-read-profile.json"] or
                 pre_spawn.get("preimages_sha256") !=
@@ -1990,6 +2048,14 @@ def replay_capture(root, formal=True):
                     process.get("host_read_pre_spawn_sha256") !=
                     actual["host-read-pre-spawn.json"]):
                 raise ValueError("parent custody chain mismatch")
+            profile = _admit_persisted_profile(profile)
+            recomputed_post_status = validate_profile(
+                profile, post_probe=post_probe, formal=True)["host_status"]
+            if (terminal.get("post_probe_sha256") !=
+                    _sha256(_canonical_bytes(post_probe)) or
+                    terminal.get("profile_post_status") !=
+                    recomputed_post_status):
+                raise ValueError("post-probe adjudication mismatch")
             raw_stdout = open(os.path.join(root, "host-stdout.raw"),
                               "rb").read().decode("utf-8")
             raw_session = open(os.path.join(root, "host-session.raw"),
@@ -2046,8 +2112,16 @@ def replay_capture(root, formal=True):
                 raise ValueError("normalized host status mismatch")
             if (terminal.get("session_status") != session_status or
                     terminal.get("session_bound") !=
-                    (session_status == "VALID")):
+                     (session_status == "VALID")):
                 raise ValueError("native session status mismatch")
+        else:
+            recomputed_post_status = validate_profile(
+                profile, post_probe=post_probe, formal=False)["host_status"]
+            if (terminal.get("post_probe_sha256") !=
+                    _sha256(_canonical_bytes(post_probe)) or
+                    terminal.get("profile_post_status") !=
+                    recomputed_post_status):
+                raise ValueError("post-probe adjudication mismatch")
     except (OSError, ValueError, TypeError, KeyError, json.JSONDecodeError):
         return {"status": "INVALID"}
     return {"status": "PASS", "matrix": matrix, "trace": trace,

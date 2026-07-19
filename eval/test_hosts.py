@@ -2316,6 +2316,94 @@ def main():
                   write_false_trace47.get("host_status") == "PASS"
                   and write_false_trace47.get("actions", [{}])[0].get(
                       "state") == "COMPLETED")
+
+            # Exact third-cold-review RED controls.  A formal Codex profile is
+            # minted through the production constructor with a deterministic
+            # probe so the wrapper test cannot pass merely because the profile
+            # itself is rejected.
+            fixture_profile47 = json.load(open(os.path.join(
+                HERE, "testdata", "host-read-trust", "support",
+                "test-profile.json"), encoding="utf-8"))
+            probe47 = {
+                "environment": fixture_profile47["environment"],
+                "shell": fixture_profile47["shell"],
+                "executables": fixture_profile47["executables"]}
+            probe47["probe_sha256"] = hosts.hostread._sha256(
+                hosts.hostread._canonical_bytes(probe47))
+            original_probe47 = hosts.hostread.probe_posix
+            try:
+                hosts.hostread.probe_posix = lambda *args, **kwargs: probe47
+                codex_profile47 = hosts.hostread.mint_codex_profile(
+                    repo43, "/bin/bash")
+            finally:
+                hosts.hostread.probe_posix = original_probe47
+
+            bare_events47 = [
+                {"type": "thread.started", "thread_id": "bare-thread47"},
+                {"type": "turn.started", "thread_id": "bare-thread47",
+                 "turn_id": "bare-turn47"}]
+            for action_id47, target47, output47 in (
+                    ("bare-s47", S45, state47),
+                    ("bare-r47", R45, roadmap47)):
+                bare_events47.extend((
+                    {"type": "item.started", "item": {
+                        "id": action_id47, "type": "command_execution",
+                        "status": "in_progress", "command": "cat " + target47}},
+                    {"type": "item.completed", "item": {
+                        "id": action_id47, "type": "command_execution",
+                        "status": "completed", "command": "cat " + target47,
+                        "aggregated_output": output47, "exit_code": 0}}))
+            bare_events47.extend((
+                {"type": "item.started", "item": {
+                    "id": "bare-w47", "type": "file_change",
+                    "status": "in_progress",
+                    "changes": [{"path": W45, "kind": "add"}]}},
+                {"type": "item.completed", "item": {
+                    "id": "bare-w47", "type": "file_change",
+                    "status": "completed",
+                    "changes": [{"path": W45, "kind": "add"}]}},
+                {"type": "turn.completed", "thread_id": "bare-thread47",
+                 "turn_id": "bare-turn47"}))
+            bare_stream47 = "\n".join(json.dumps(event)
+                                       for event in bare_events47) + "\n"
+            bare_trace47 = hosts.hostread.normalize_codex(
+                bare_stream47, profile=codex_profile47,
+                binding={"thread_id": "bare-thread47",
+                         "turn_id": "bare-turn47"}, formal=True)
+            bare_matrix47 = hosts.hostread.adjudicate_path_order(
+                bare_trace47, [S45, R45], W45, preimages47,
+                profile=codex_profile47, formal=True)
+            check("H47l formal-codex-requires-one-protocol-wrapper",
+                  bare_trace47.get("host_status") == "INVALID"
+                  and bare_matrix47.get("property_status") == "INCOMPLETE"
+                  and bare_matrix47.get("overall_status") != "PASS")
+
+            comment_result47 = hosts.hostread.classify_shell(
+                {"command": "/bin/bash -lc 'cat decoy.txt # " + S45 + "'",
+                 "output": state47, "exit_code": 0},
+                S45, preimages47, profile=codex_profile47, formal=True)
+            check("H47m unquoted-shell-comment-cannot-name-read-target",
+                  comment_result47.get("classification") != "content-read")
+
+            forged_profile47 = json.loads(json.dumps(codex_profile47))
+            forged_profile47["shell"]["realpath"] = "/missing/reviewer/bash"
+            for name47, identity47 in forged_profile47["executables"].items():
+                identity47["path"] = "/missing/reviewer/" + name47
+            check("H47n caller-dictionary-cannot-assert-formal-authority",
+                  hosts.hostread.validate_profile(
+                      forged_profile47, formal=True).get("host_status") ==
+                  "INVALID")
+
+            insensitive_preimages47 = json.loads(json.dumps(preimages47))
+            insensitive_preimages47["repo"]["case_sensitive"] = False
+            insensitive_result47 = hosts.hostread.classify_shell(
+                {"command": "/bin/bash -lc 'cat " + S45.lower() + "'",
+                 "output": state47, "exit_code": 0},
+                S45, insensitive_preimages47, profile=codex_profile47,
+                formal=True)
+            check("H47o snapshot-case-insensitive-target-identity",
+                  insensitive_result47.get("classification") ==
+                  "content-read")
             adapter47._attempt_finalize_formal_host_read(
                 fx44, repo43, outcome47, capture47, "ok")
             adapter47._tool_trace = [{"action": "invalid"}]
