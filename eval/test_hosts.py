@@ -2371,6 +2371,59 @@ def main():
                 bare_stream47, profile=codex_profile47,
                 binding={"thread_id": "bare-thread47",
                          "turn_id": "bare-turn47"}, formal=True)
+            codex_binding_validator47 = getattr(
+                hosts.hostread, "_valid_codex_binding", None)
+            claude_binding_validator47 = getattr(
+                hosts.hostread, "_valid_claude_binding", None)
+            lineage_only_codex47 = "\n".join((
+                json.dumps({"type": "thread.started",
+                            "thread_id": "lineage-thread47"}),
+                json.dumps({"type": "turn.started",
+                            "thread_id": "lineage-thread47",
+                            "turn_id": "lineage-turn47"}),
+                json.dumps({"type": "turn.completed",
+                            "thread_id": "lineage-thread47",
+                            "turn_id": "lineage-turn47"}))) + "\n"
+            valid_codex_lineage47 = {
+                "thread_id": "lineage-thread47",
+                "stdout_turn_ordinal": 1,
+                "turn_id": "lineage-turn47"}
+            foreign_codex_lineage47 = dict(
+                valid_codex_lineage47, session_id="foreign-session")
+            valid_codex_lineage_trace47 = hosts.hostread.normalize_codex(
+                lineage_only_codex47, profile=codex_profile47,
+                binding=valid_codex_lineage47, formal=True)
+            foreign_codex_lineage_trace47 = hosts.hostread.normalize_codex(
+                lineage_only_codex47, profile=codex_profile47,
+                binding=foreign_codex_lineage47, formal=True)
+            foreign_claude_lineage_trace47 = hosts.hostread.normalize_claude(
+                stream47, requested_tools=requested47,
+                binding={"session_id": "session-h47",
+                         "thread_id": "foreign-thread"},
+                profile=profile47, formal=True)
+            check("H47al lineage-binding-schema-is-host-specific",
+                  codex_binding_validator47 is not None
+                  and claude_binding_validator47 is not None
+                  and codex_binding_validator47({
+                      "thread_id": "bare-thread47",
+                      "stdout_turn_ordinal": 1,
+                      "turn_id": "bare-turn47"})
+                  and not codex_binding_validator47({
+                      "thread_id": "bare-thread47",
+                      "stdout_turn_ordinal": 1,
+                      "turn_id": "bare-turn47",
+                      "session_id": "foreign-session"})
+                  and claude_binding_validator47({
+                      "session_id": "session-h47"})
+                  and not claude_binding_validator47({
+                      "session_id": "session-h47",
+                      "thread_id": "foreign-thread"})
+                  and valid_codex_lineage_trace47.get("host_status") ==
+                  "PASS"
+                  and foreign_codex_lineage_trace47.get("host_status") ==
+                  "INVALID"
+                  and foreign_claude_lineage_trace47.get("host_status") ==
+                  "INVALID")
             bare_matrix47 = hosts.hostread.adjudicate_path_order(
                 bare_trace47, [S45, R45], W45, preimages47,
                 profile=codex_profile47, formal=True)
@@ -2780,6 +2833,15 @@ def main():
                   and hosts.hostread._same_path("C:/", "C:/")
                   and hosts.hostread._within("C:/file.txt", "C:/"))
 
+            check("H47aj drive-relative-and-unicode-path-semantics",
+                  not hosts.hostread._within("C:/file.txt", "C:")
+                  and not hosts.hostread._same_path(
+                      "C:/Straße/state.md", "C:/STRASSE/state.md",
+                      case_sensitive=False)
+                  and hosts.hostread._same_path(
+                      "C:/STATE.md", "c:/state.MD", case_sensitive=False)
+                  and hosts.hostread._within("C:/file.txt", "C:/"))
+
             empty_tool_mint_refused47 = False
             try:
                 hosts.hostread.mint_claude_profile(repo43, [""])
@@ -2802,6 +2864,40 @@ def main():
                       empty_tool_spec47, True)
                   and not hosts.hostread._profile_matches_replay_spec(
                       empty_tool_profile47, empty_tool_spec47))
+            codex_replay_spec47 = hosts.hostread.make_replay_spec(
+                "codex", replay_spec47["checks"], requested_tools=[],
+                fixture_sha256=fixture_hash47,
+                run_intent_sha256=intent_hash47)
+            codex_requested_spec47 = dict(
+                codex_replay_spec47, requested_tools=["Read"])
+            check("H47ak codex-requested-tools-are-exactly-empty",
+                  hosts.hostread._validate_replay_spec(
+                      codex_replay_spec47, True)
+                  and hosts.hostread._profile_matches_replay_spec(
+                      codex_profile47, codex_replay_spec47)
+                  and not hosts.hostread._validate_replay_spec(
+                      codex_requested_spec47, True)
+                  and not hosts.hostread._profile_matches_replay_spec(
+                      codex_profile47, codex_requested_spec47))
+            unknown_host_status47 = hosts.hostread.corroborate_session(
+                stream47, session47, "unknown",
+                {"session_id": "session-h47"}, retained_trace47,
+                profile=profile47, process_started={})
+            malformed_raw_session_statuses47 = []
+            malformed_raw_session_crashed47 = False
+            for malformed_raw_session47 in ([999], 999, {"line": "value"}):
+                try:
+                    malformed_raw_session_statuses47.append(
+                        hosts.hostread.corroborate_session(
+                            stream47, malformed_raw_session47, "claude",
+                            {"session_id": "session-h47"}, retained_trace47,
+                            profile=profile47, process_started={}))
+                except Exception:
+                    malformed_raw_session_crashed47 = True
+            check("H47am session-corroboration-is-total-and-host-bound",
+                  unknown_host_status47 == "INVALID"
+                  and malformed_raw_session_crashed47 is False
+                  and malformed_raw_session_statuses47 == ["INVALID"] * 3)
             adapter47._attempt_finalize_formal_host_read(
                 fx44, repo43, outcome47, capture47, "ok")
             adapter47._tool_trace = [{"action": "invalid"}]
@@ -2876,6 +2972,79 @@ def main():
                 capture47, "host-tool-trace.json"), encoding="utf-8"))
             sealed_matrix47 = json.load(open(os.path.join(
                 capture47, "host-read-matrix.json"), encoding="utf-8"))
+            terminal_outputs47 = (
+                "host-stdout.raw", "host-session.raw",
+                "host-tool-trace.json", "host-read-matrix.json",
+                "host-read-post-probe.json", "host-read-terminal.json",
+                "host-read-manifest.json")
+            capture_stdout47 = open(os.path.join(
+                capture47, "host-stdout.raw"), "rb").read()
+            capture_session47 = open(os.path.join(
+                capture47, "host-session.raw"), "rb").read()
+            capture_post_probe47 = {
+                "native_tools": profile47["native_tools"]}
+            malformed_observed_trace47 = json.loads(json.dumps(
+                sealed_trace47))
+            malformed_observed_trace47["observed_tools"] = 1
+            malformed_actions_trace47 = json.loads(json.dumps(
+                sealed_trace47))
+            malformed_actions_trace47["actions"] = 1
+            malformed_findings_trace47 = json.loads(json.dumps(
+                sealed_trace47))
+            malformed_findings_trace47["host_findings"] = 1
+            unserializable_trace47 = json.loads(json.dumps(sealed_trace47))
+            unserializable_trace47["unserializable"] = {"not-json"}
+            malformed_specs_matrix47 = json.loads(json.dumps(
+                sealed_matrix47))
+            malformed_specs_matrix47["specs"] = []
+            unserializable_matrix47 = json.loads(json.dumps(
+                sealed_matrix47))
+            unserializable_matrix47["unserializable"] = {"not-json"}
+            invalid_terminal_cases47 = (
+                ("observed-tools", {"trace": malformed_observed_trace47}),
+                ("actions", {"trace": malformed_actions_trace47}),
+                ("findings", {"trace": malformed_findings_trace47}),
+                ("trace-json", {"trace": unserializable_trace47}),
+                ("matrix-specs", {"matrix": malformed_specs_matrix47}),
+                ("matrix-json", {"matrix": unserializable_matrix47}),
+                ("post-probe", {"post_probe": []}),
+                ("stdout", {"raw_stdout": 1}),
+                ("session", {"raw_session": 1}),
+                ("binding", {"binding": {
+                    "session_id": "session-h47",
+                    "thread_id": "foreign-thread"}}),
+                ("terminal-kind", {"host_terminal_kind": "unknown"}),
+                ("session-status", {"session_status": "UNKNOWN"}))
+            terminal_input_results47 = []
+            for label47, overrides47 in invalid_terminal_cases47:
+                malformed_trace_seal47 = os.path.join(
+                    tmp, "host-read-capture-h47-malformed-" + label47)
+                hosts.hostread.begin_capture(
+                    malformed_trace_seal47, profile47, preimages47,
+                    replay_spec=replay_spec47,
+                    fixture_bytes=fixture_bytes47, formal=True)
+                finish_arguments47 = {
+                    "raw_stdout": capture_stdout47,
+                    "raw_session": capture_session47,
+                    "trace": sealed_trace47,
+                    "matrix": sealed_matrix47,
+                    "post_probe": capture_post_probe47,
+                    "binding": {"session_id": "session-h47"},
+                    "formal": True, "minted_profile": profile47}
+                finish_arguments47.update(overrides47)
+                refused47 = False
+                try:
+                    hosts.hostread.finish_capture(
+                        malformed_trace_seal47, **finish_arguments47)
+                except (TypeError, ValueError):
+                    refused47 = True
+                terminal_input_results47.append(
+                    refused47 and all(not os.path.exists(os.path.join(
+                        malformed_trace_seal47, name47))
+                        for name47 in terminal_outputs47))
+            check("H47an malformed-terminal-input-refused-before-writes",
+                  terminal_input_results47 == [True] * len(
+                      invalid_terminal_cases47))
             malformed_binding_seal_refused47 = False
             try:
                 hosts.hostread.finish_capture(

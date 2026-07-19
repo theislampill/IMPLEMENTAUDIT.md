@@ -156,12 +156,18 @@ def _path_identity_text(value):
     return text.rstrip("/")
 
 
+def _drive_relative(value):
+    return bool(re.match(r"^[A-Za-z]:(?:$|[^/])", value))
+
+
 def _within(path, root, case_sensitive=True):
     path = _path_identity_text(path)
     root = _path_identity_text(root)
+    if _drive_relative(path) or _drive_relative(root):
+        return False
     if not case_sensitive:
-        path = path.casefold()
-        root = root.casefold()
+        path = path.lower()
+        root = root.lower()
     prefix = root if root.endswith("/") else root + "/"
     return bool(path and root and (
         path == root or path.startswith(prefix)))
@@ -170,9 +176,11 @@ def _within(path, root, case_sensitive=True):
 def _same_path(first, second, case_sensitive=True):
     first = _path_identity_text(first)
     second = _path_identity_text(second)
+    if _drive_relative(first) or _drive_relative(second):
+        return False
     if not case_sensitive:
-        first = first.casefold()
-        second = second.casefold()
+        first = first.lower()
+        second = second.lower()
     return bool(first and second and first == second)
 
 
@@ -191,6 +199,38 @@ def _valid_binding_shape(value):
         isinstance(key, str) and key and (
             (isinstance(item, str) and item) or type(item) is int)
         for key, item in value.items()))
+
+
+def _valid_codex_binding(value, require_native=False, allow_empty=False):
+    if not isinstance(value, dict):
+        return False
+    if not value:
+        return allow_empty
+    allowed = {"thread_id", "stdout_turn_ordinal", "turn_id",
+               "native_turn_id"}
+    required = {"thread_id", "stdout_turn_ordinal"}
+    if not required.issubset(value) or not set(value).issubset(allowed):
+        return False
+    if (not isinstance(value.get("thread_id"), str) or
+            not value["thread_id"] or
+            type(value.get("stdout_turn_ordinal")) is not int or
+            value["stdout_turn_ordinal"] != 1):
+        return False
+    for key in ("turn_id", "native_turn_id"):
+        if key in value and (not isinstance(value[key], str) or
+                             not value[key]):
+            return False
+    return not require_native or "native_turn_id" in value
+
+
+def _valid_claude_binding(value, allow_empty=False):
+    if not isinstance(value, dict):
+        return False
+    if not value:
+        return allow_empty
+    return (set(value) == {"session_id"} and
+            isinstance(value.get("session_id"), str) and
+            bool(value["session_id"]))
 
 
 def _profile_result(ok, reason=None):
@@ -531,7 +571,7 @@ def _profile_matches_replay_spec(profile, replay_spec):
         return (_valid_tool_list(profile_requested) and
                 _valid_tool_list(replay_requested) and
                 profile_requested == replay_requested)
-    return True
+    return host == "codex" and replay_spec.get("requested_tools") == []
 
 
 def _preimage_bytes(preimages, target):
@@ -731,7 +771,8 @@ def normalize_codex(raw_stdout, profile=None, binding=None, formal=True):
         machine.invalid_action(0, "invalid formal Codex profile")
     if binding is None:
         binding = {}
-    elif not _valid_binding_shape(binding):
+    if ((formal and not _valid_codex_binding(binding)) or
+            (not formal and not _valid_binding_shape(binding))):
         machine.invalid_action(0, "invalid Codex binding")
         binding = {}
     active_thread = None
@@ -986,7 +1027,8 @@ def normalize_claude(raw_stdout, requested_tools, binding=None, profile=None,
         machine.invalid_action(0, "invalid formal Claude profile")
     if binding is None:
         binding = {}
-    elif not _valid_binding_shape(binding):
+    if ((formal and not _valid_claude_binding(binding)) or
+            (not formal and not _valid_binding_shape(binding))):
         machine.invalid_action(0, "invalid Claude binding")
         binding = {}
     requested_shape_valid = _valid_tool_list(requested_tools)
@@ -1882,6 +1924,47 @@ def _unique_pairs(pairs):
     return result
 
 
+def _raw_capture_bytes(value):
+    if isinstance(value, str):
+        return value.encode("utf-8")
+    if isinstance(value, (bytes, bytearray)):
+        return bytes(value)
+    raise ValueError("raw capture value must be text or bytes")
+
+
+def _valid_terminal_trace(trace, formal):
+    if not isinstance(trace, dict) or trace.get("schema") != TRACE_SCHEMA:
+        return False
+    if (not isinstance(trace.get("actions"), list) or
+            any(not isinstance(action, dict)
+                for action in trace["actions"]) or
+            ("observed_tools" in trace and
+             not _valid_tool_list(trace["observed_tools"]))):
+        return False
+    if not formal:
+        return True
+    return (type(trace.get("invalid")) is bool and
+            type(trace.get("ids_reserved")) is bool and
+            isinstance(trace.get("action_states"), list) and
+            isinstance(trace.get("action_effects"), list) and
+            isinstance(trace.get("host_findings"), list) and
+            all(isinstance(finding, dict)
+                for finding in trace["host_findings"]) and
+            trace.get("host_status") in ("PASS", "INVALID", "ERROR") and
+            "observed_tools" in trace)
+
+
+def _valid_terminal_matrix(matrix, formal):
+    if not isinstance(matrix, dict) or matrix.get("schema") != MATRIX_SCHEMA:
+        return False
+    if not formal:
+        return True
+    return (isinstance(matrix.get("raw_transforms"), dict) and
+            isinstance(matrix.get("specs"), dict) and
+            all(isinstance(value, dict)
+                for value in matrix["specs"].values()))
+
+
 def make_replay_spec(host, checks, requested_tools=(), fixture_sha256=None,
                      run_intent_sha256=None):
     """Freeze the production replay recipe before a model process starts."""
@@ -1897,11 +1980,14 @@ def _validate_replay_spec(spec, formal):
         return False
     if not formal and spec.get("mode") == "custody-only-test":
         return True
+    host = spec.get("host")
+    requested_tools = spec.get("requested_tools")
     if (spec.get("mode") != "formal-v2" or
-            spec.get("host") not in ("codex", "claude") or
+            host not in ("codex", "claude") or
             not isinstance(spec.get("checks"), list) or
             not spec["checks"] or
-            not _valid_tool_list(spec.get("requested_tools")) or
+            (host == "codex" and requested_tools != []) or
+            (host == "claude" and not _valid_tool_list(requested_tools)) or
             not re.fullmatch(r"[0-9a-f]{64}",
                              str(spec.get("fixture_sha256", ""))) or
             not re.fullmatch(r"[0-9a-f]{64}",
@@ -1989,24 +2075,43 @@ def finish_capture(root, raw_stdout, raw_session, trace, matrix, post_probe,
         raise ValueError("preimage custody mismatch")
     if formal and not _profile_matches_preimages(profile, preimages):
         raise ValueError("profile/preimage custody mismatch")
-    if not isinstance(trace, dict) or trace.get("schema") != TRACE_SCHEMA:
+    if not _valid_terminal_trace(trace, formal):
         raise ValueError("trace schema")
-    if not isinstance(matrix, dict) or matrix.get("schema") != MATRIX_SCHEMA:
+    if not _valid_terminal_matrix(matrix, formal):
         raise ValueError("matrix schema")
+    if not isinstance(post_probe, dict):
+        raise ValueError("post-probe schema")
+    if host_terminal_kind not in ("ok", "error", "invalid"):
+        raise ValueError("host terminal kind")
+    if session_status not in ("VALID", "MISSING", "INVALID",
+                              "SUBSTITUTED"):
+        raise ValueError("session status")
     if binding is None:
         binding = {}
-    if not _valid_binding_shape(binding):
+    host = _mapping(profile).get("host")
+    if formal and host == "codex":
+        binding_valid = _valid_codex_binding(
+            binding, require_native=bool(binding), allow_empty=True)
+    elif formal and host == "claude":
+        binding_valid = _valid_claude_binding(binding, allow_empty=True)
+    else:
+        binding_valid = _valid_binding_shape(binding)
+    if not binding_valid:
         raise ValueError("binding shape")
-    stdout_bytes = (raw_stdout if isinstance(raw_stdout, bytes) else
-                    str(raw_stdout).encode("utf-8"))
-    session_bytes = (raw_session if isinstance(raw_session, bytes) else
-                     str(raw_session).encode("utf-8"))
+    stdout_bytes = _raw_capture_bytes(raw_stdout)
+    session_bytes = _raw_capture_bytes(raw_session)
+    try:
+        trace_bytes = _canonical_bytes(trace) + b"\n"
+        matrix_bytes = _canonical_bytes(matrix) + b"\n"
+        post_probe_bytes = _canonical_bytes(post_probe) + b"\n"
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise ValueError("terminal capture is not canonical JSON") from exc
     _write_new(os.path.join(root, "host-stdout.raw"), stdout_bytes)
     _write_new(os.path.join(root, "host-session.raw"), session_bytes)
-    _write_new_json(os.path.join(root, "host-tool-trace.json"), trace)
-    _write_new_json(os.path.join(root, "host-read-matrix.json"), matrix)
-    _write_new_json(os.path.join(root, "host-read-post-probe.json"),
-                    post_probe)
+    _write_new(os.path.join(root, "host-tool-trace.json"), trace_bytes)
+    _write_new(os.path.join(root, "host-read-matrix.json"), matrix_bytes)
+    _write_new(os.path.join(root, "host-read-post-probe.json"),
+               post_probe_bytes)
     bound = {name: _file_sha256(os.path.join(root, name))
              for name in _CAPTURE_FILES[:-1]}
     terminal = {"schema": TERMINAL_SCHEMA, "hashes": bound,
@@ -2095,12 +2200,13 @@ def _parse_utc(value):
 
 def augment_codex_binding(binding, raw_session):
     """Bind the one native turn_context ID omitted by exec stdout."""
-    if binding is not None and not _valid_binding_shape(binding):
+    if binding is not None and not _valid_codex_binding(binding):
         return None
     if not binding or not raw_session:
         return binding
     try:
-        objects = [_strict_object(line) for line in bytes(raw_session).decode(
+        session_bytes = _raw_capture_bytes(raw_session)
+        objects = [_strict_object(line) for line in session_bytes.decode(
             "utf-8").splitlines() if line.strip()]
     except (UnicodeError, ValueError, TypeError, json.JSONDecodeError):
         return binding
@@ -2116,17 +2222,26 @@ def augment_codex_binding(binding, raw_session):
 def corroborate_session(raw_stdout, raw_session, host, binding, trace,
                         profile=None, process_started=None):
     """Corroborate lineage/action identity from the distinct native stream."""
-    if not raw_session:
+    if host not in ("codex", "claude"):
+        return "INVALID"
+    if raw_session is None or raw_session == "" or raw_session == b"":
         return "MISSING"
     if process_started is None:
         process_started = {}
-    if (not _valid_binding_shape(binding) or not isinstance(trace, dict) or
+    binding_valid = (_valid_codex_binding(binding, require_native=True)
+                     if host == "codex" else
+                     _valid_claude_binding(binding))
+    if (not binding_valid or not isinstance(trace, dict) or
+            not isinstance(trace.get("actions"), list) or
+            any(not isinstance(action, dict)
+                for action in trace["actions"]) or
             not isinstance(process_started, dict)):
         return "INVALID"
-    stdout_bytes = (raw_stdout.encode("utf-8") if isinstance(raw_stdout, str)
-                    else bytes(raw_stdout))
-    session_bytes = (raw_session.encode("utf-8")
-                     if isinstance(raw_session, str) else bytes(raw_session))
+    try:
+        stdout_bytes = _raw_capture_bytes(raw_stdout)
+        session_bytes = _raw_capture_bytes(raw_session)
+    except ValueError:
+        return "INVALID"
     if session_bytes == stdout_bytes:
         return "SUBSTITUTED"
     try:
@@ -2176,7 +2291,7 @@ def corroborate_session(raw_stdout, raw_session, host, binding, trace,
         scalars.update(_scalar_strings(obj))
     if not binding or any(value not in scalars for value in binding.values()):
         return "INVALID"
-    action_ids = [action.get("id") for action in trace.get("actions", [])
+    action_ids = [action.get("id") for action in trace["actions"]
                   if isinstance(action.get("id"), str) and
                   action.get("state") in ("COMPLETED", "INVALID",
                                           "INCOMPLETE")]
@@ -2251,8 +2366,8 @@ def replay_capture(root, formal=True):
             raise ValueError("terminal invalid")
         if not _validate_replay_spec(replay_spec, formal):
             raise ValueError("replay recipe invalid")
-        if trace.get("schema") != TRACE_SCHEMA or \
-                matrix.get("schema") != MATRIX_SCHEMA:
+        if (not _valid_terminal_trace(trace, formal) or
+                not _valid_terminal_matrix(matrix, formal)):
             raise ValueError("derivative schema invalid")
         if manifest.get("schema") != MANIFEST_SCHEMA or \
                 set(manifest.get("files", {})) != set(_CAPTURE_FILES):
@@ -2319,9 +2434,11 @@ def replay_capture(root, formal=True):
             raw_session = open(os.path.join(root, "host-session.raw"),
                                "rb").read()
             binding = terminal.get("binding")
-            if not _valid_binding_shape(binding):
-                raise ValueError("terminal binding invalid")
             if replay_spec["host"] == "codex":
+                if not _valid_codex_binding(
+                        binding, require_native=bool(binding),
+                        allow_empty=True):
+                    raise ValueError("terminal binding invalid")
                 derived = derive_codex_binding(raw_stdout)
                 lineage_valid = bool(derived) and all(
                     binding.get(key) == value for key, value in
@@ -2331,6 +2448,8 @@ def replay_capture(root, formal=True):
                     raw_stdout, profile=profile, binding=binding,
                     formal=formal)
             else:
+                if not _valid_claude_binding(binding, allow_empty=True):
+                    raise ValueError("terminal binding invalid")
                 derived = derive_claude_binding(raw_stdout)
                 lineage_valid = derived is not None and binding == derived
                 normalized = normalize_claude(
