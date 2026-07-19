@@ -533,6 +533,7 @@ class _BaseAdapter:
         result = HostRunResult("error", "adapter did not terminalize")
         spawned = False
         payload_before = None
+        formal_host_read_replay_valid = None
         try:
             if self.formal and not self.product_checkout:
                 raise framework.AdapterError(
@@ -697,7 +698,8 @@ class _BaseAdapter:
                     "ok" if getattr(outcome, "returncode", 0) == 0 else
                     "error")
                 try:
-                    self._attempt_finalize_formal_host_read(
+                    formal_host_read_replay_valid = \
+                        self._attempt_finalize_formal_host_read(
                         fx, repo, outcome, run_root, terminal_kind)
                 except Exception as exc:
                     # A sealing defect must never replace the original
@@ -708,10 +710,11 @@ class _BaseAdapter:
                 result = outcome
                 return result
             if (self._formal_host_read is not None and
-                    self._formal_host_read_host_status != "PASS"):
+                    formal_host_read_replay_valid is not True):
                 result = HostRunResult(
-                    "invalid", "formal host-read evidence boundary INVALID; "
-                    "separate product-property measurements were sealed")
+                    "invalid", "formal host-read capture could not be "
+                    "independently replayed; no authoritative bundle was "
+                    "created")
                 return result
             self._tool_trace = self._extract_tool_trace(outcome.stdout)
             try:
@@ -772,8 +775,13 @@ class _BaseAdapter:
             if raw_stream:
                 artifacts["raw-host-events.jsonl"] = raw_stream
             if self._formal_host_read is not None:
-                for name in hostread._CAPTURE_FILES + (
-                        "host-read-manifest.json",):
+                # Copy the complete independently replayable capture into the
+                # hash-bound bundle. Parent custody is copied too because the
+                # tagged scorer must reconstruct the pre-spawn chain without
+                # trusting ambient run-root state.
+                for name in (("run-intent.json", "process-started.json") +
+                             hostread._CAPTURE_FILES +
+                             ("host-read-manifest.json",)):
                     path = os.path.join(run_root, name)
                     if os.path.isfile(path):
                         artifacts[name] = open(path, "rb").read()
@@ -2663,7 +2671,7 @@ class CodexAdapter(_BaseAdapter):
                 recursive=True)):
             try:
                 first = json.loads(open(f, encoding="utf-8").readline())
-            except (OSError, json.JSONDecodeError):
+            except (OSError, UnicodeError, json.JSONDecodeError):
                 continue
             if not isinstance(first, dict) or first.get(
                     "type") != "session_meta":
@@ -2671,7 +2679,18 @@ class CodexAdapter(_BaseAdapter):
             p = first.get("payload")
             if not isinstance(p, dict):
                 continue
-            if os.path.normcase(p.get("cwd", "")) != os.path.normcase(repo):
+            cwd = p.get("cwd")
+            identity = p.get("id") or p.get("session_id")
+            parent = p.get("parent_thread_id")
+            timestamp = p.get("timestamp")
+            if (not isinstance(cwd, str) or not cwd or
+                    not isinstance(identity, str) or not identity or
+                    (parent is not None and
+                     (not isinstance(parent, str) or not parent)) or
+                    (timestamp is not None and
+                     not isinstance(timestamp, str))):
+                continue
+            if os.path.normcase(cwd) != os.path.normcase(repo):
                 continue
             nb = not_before or self._not_before
             if nb:
@@ -2728,7 +2747,7 @@ class CodexAdapter(_BaseAdapter):
                     elif not isinstance(sp, dict):
                         return best, {}
                     ctx["sandbox_resolved"] = sp.get("type")
-        except (OSError, json.JSONDecodeError):
+        except (OSError, UnicodeError, json.JSONDecodeError):
             return best, {}
         if subagent_ids:
             ctx["subagent_sessions"] = subagent_ids
@@ -2755,7 +2774,7 @@ class CodexAdapter(_BaseAdapter):
                     events.append({"role": "assistant",
                                    "content": pl["message"],
                                    "ts": d.get("timestamp")})
-        except (OSError, json.JSONDecodeError):
+        except (OSError, UnicodeError, json.JSONDecodeError):
             return f, []
         return f, events
 

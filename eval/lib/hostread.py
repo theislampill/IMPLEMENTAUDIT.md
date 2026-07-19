@@ -331,7 +331,9 @@ def validate_profile(profile, post_probe=None, formal=True,
             return _profile_result(False, "post probe shape")
         if post_probe.get("environment") != environment:
             return _profile_result(False, "environment drift")
-        post_shell = post_probe.get("shell") or {}
+        post_shell = post_probe.get("shell")
+        if not isinstance(post_shell, dict):
+            return _profile_result(False, "post shell shape")
         for field in ("realpath", "sha256", "stat"):
             if post_shell.get(field) != shell.get(field):
                 return _profile_result(False, "shell drift")
@@ -1979,6 +1981,38 @@ def _valid_terminal_matrix(matrix, formal):
                 for value in matrix["specs"].values()))
 
 
+def _valid_terminal_record(terminal):
+    """Admit the sealed terminal only through its complete finite schema."""
+    keys = {"schema", "hashes", "post_probe_sha256",
+            "profile_post_status", "binding", "actual_tools",
+            "normalized_host_status", "host_terminal_kind",
+            "session_bound", "session_status"}
+    if not isinstance(terminal, dict) or set(terminal) != keys:
+        return False
+    hashes = terminal.get("hashes")
+    return (
+        terminal.get("schema") == TERMINAL_SCHEMA and
+        isinstance(hashes, dict) and
+        set(hashes) == set(_CAPTURE_FILES[:-1]) and
+        all(isinstance(value, str) and
+            re.fullmatch(r"[0-9a-f]{64}", value)
+            for value in hashes.values()) and
+        isinstance(terminal.get("post_probe_sha256"), str) and
+        bool(re.fullmatch(r"[0-9a-f]{64}",
+                          terminal["post_probe_sha256"])) and
+        terminal.get("profile_post_status") in ("PASS", "INVALID") and
+        isinstance(terminal.get("binding"), dict) and
+        _valid_tool_list(terminal.get("actual_tools")) and
+        terminal.get("normalized_host_status") in (
+            "PASS", "INVALID", "ERROR") and
+        terminal.get("host_terminal_kind") in ("ok", "error", "invalid") and
+        type(terminal.get("session_bound")) is bool and
+        terminal.get("session_status") in (
+            "VALID", "MISSING", "INVALID", "SUBSTITUTED") and
+        terminal["session_bound"] ==
+        (terminal["session_status"] == "VALID"))
+
+
 def make_replay_spec(host, checks, requested_tools=(), fixture_sha256=None,
                      run_intent_sha256=None):
     """Freeze the production replay recipe before a model process starts."""
@@ -2365,6 +2399,12 @@ def replay_capture(root, formal=True):
         matrix = _read_json_file(os.path.join(root, "host-read-matrix.json"))
         post_probe = _read_json_file(os.path.join(
             root, "host-read-post-probe.json"))
+        if (not isinstance(pre_spawn, dict) or
+                not isinstance(manifest, dict) or
+                not isinstance(replay_spec, dict) or
+                not isinstance(post_probe, dict) or
+                not _valid_terminal_record(terminal)):
+            raise ValueError("capture object schema invalid")
         if (validate_profile(profile, formal=False)["host_status"] != "PASS" or
                 (formal and profile.get("authority") !=
                  "mechanically-minted")):
@@ -2379,8 +2419,6 @@ def replay_capture(root, formal=True):
         if (pre_spawn.get("schema") != PRESPAWN_SCHEMA or
                 pre_spawn.get("created_before_spawn") is not True):
             raise ValueError("pre-spawn invalid")
-        if terminal.get("schema") != TERMINAL_SCHEMA:
-            raise ValueError("terminal invalid")
         if not _validate_replay_spec(replay_spec, formal):
             raise ValueError("replay recipe invalid")
         if (not _valid_terminal_trace(trace, formal) or

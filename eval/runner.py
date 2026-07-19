@@ -32,6 +32,7 @@ import traceback
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "lib"))
 import bundle as bundlelib  # noqa: E402
+import hostread  # noqa: E402
 import reposnapshot  # noqa: E402
 import scoring  # noqa: E402
 import verdict as verdictlib  # noqa: E402
@@ -125,6 +126,7 @@ def score_bundle(run_root, repo_dir=None):
     fixture = None
     scored = None
     host_findings = []
+    parent_terminal = None
     try:
         # Parent terminal state gate (independent review): a bundle whose
         # run was RECONCILED (crash import) or terminalized non-ok must not
@@ -155,6 +157,7 @@ def score_bundle(run_root, repo_dir=None):
                     f"reconciled={term.get('reconciled')!r}) — a "
                     f"forensic/errored run does not score as a formal "
                     f"verdict")
+            parent_terminal = term
 
         manifest, events, bundled_fixture, artifact_map = \
             bundlelib.load_bundle(run_root)
@@ -246,6 +249,52 @@ def score_bundle(run_root, repo_dir=None):
         # `summary` for `summary_flag` rules. Missing/malformed => INVALID —
         # never a silent fallback to phrase matching.
         hc = fixture.get("host_checks")
+        formal_host_read = None
+        path_order_specs = [
+            spec for spec in (hc or {}).get("specs", [])
+            if spec.get("kind") == "path_access_order"]
+        if path_order_specs:
+            capture_names = (("run-intent.json", "process-started.json") +
+                             hostread._CAPTURE_FILES +
+                             ("host-read-manifest.json",))
+            missing_capture = [name for name in capture_names
+                               if name not in artifact_map]
+            if missing_capture:
+                raise bundlelib.BundleInvalid(
+                    "formal host-read capture incomplete: " +
+                    ", ".join(missing_capture))
+            formal_host_read = hostread.replay_capture(
+                os.path.join(run_root, "artifacts"), formal=True)
+            if formal_host_read.get("status") != "PASS":
+                raise bundlelib.BundleInvalid(
+                    "formal host-read capture failed independent replay")
+            try:
+                captured_terminal = json.loads(
+                    artifact_map["host-read-terminal.json"].decode("utf-8"))
+            except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+                raise bundlelib.BundleInvalid(
+                    "formal host-read terminal malformed") from exc
+            if (not isinstance(parent_terminal, dict) or
+                    not isinstance(captured_terminal, dict) or
+                    captured_terminal.get("host_terminal_kind") !=
+                    parent_terminal.get("kind")):
+                raise bundlelib.BundleInvalid(
+                    "formal host-read terminal kind is not independently "
+                    "bound to the authoritative parent terminal")
+            replay_trace = formal_host_read.get("trace") or {}
+            replay_host_status = formal_host_read.get(
+                "host_status", "INVALID")
+            if replay_host_status != "PASS":
+                evidence = sorted({
+                    str(finding.get("code"))
+                    for finding in replay_trace.get("host_findings", [])
+                    if isinstance(finding, dict) and finding.get("code")})
+                host_findings.append(verdictlib.host_finding(
+                    "formal-host-read-boundary", replay_host_status,
+                    evidence=evidence or ["replayed host-read status=" +
+                                          replay_host_status],
+                    reason="hash-bound formal host-read replay reported " +
+                           replay_host_status))
         if hc:
             rel = hc.get("artifact", "host-checks.json")
             if rel not in artifact_map:
@@ -264,7 +313,25 @@ def score_bundle(run_root, repo_dir=None):
                 if not isinstance(hc_obj.get(key), bool):
                     raise bundlelib.BundleInvalid(
                         f"host check {key!r} missing or non-boolean")
-                summary[key] = hc_obj[key]
+                if spec.get("kind") == "path_access_order":
+                    replay_result = (formal_host_read or {}).get(
+                        "matrix", {}).get("specs", {}).get(key)
+                    if not isinstance(replay_result, dict):
+                        raise bundlelib.BundleInvalid(
+                            f"formal host-read result missing: {key!r}")
+                    property_state = replay_result.get("property_status")
+                    if property_state not in ("PASS", "INCOMPLETE"):
+                        raise bundlelib.BundleInvalid(
+                            f"formal host-read property state invalid: "
+                            f"{key!r}={property_state!r}")
+                    replay_boolean = property_state == "PASS"
+                    if hc_obj[key] is not replay_boolean:
+                        raise bundlelib.BundleInvalid(
+                            f"host check {key!r} contradicts independent "
+                            "formal host-read replay")
+                    summary[key] = True if replay_boolean else None
+                else:
+                    summary[key] = hc_obj[key]
 
         # Required artifact gate (fail-closed; never fall back to phrases).
         art = fixture.get("artifact_rules")

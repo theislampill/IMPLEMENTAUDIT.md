@@ -113,6 +113,79 @@ elif scenario == "session-mismatch":
     write_session(agent_msgs=["a different message entirely"])
     print(json.dumps({"type": "agent_message",
                       "message": "not in the session record"}))
+elif scenario in ("b3-host-invalid-claude",
+                  "b3-incomplete-host-invalid-claude"):
+    sid = "b3-host-invalid-session"
+    state_path = (".IMPLEMENTAUDIT/runs/audit-closure-a7Kx2f/"
+                  "STATE.md")
+    roadmap_path = (".IMPLEMENTAUDIT/runs/audit-closure-a7Kx2f/"
+                    "ROADMAP.md")
+    capsule_path = (".IMPLEMENTAUDIT/runs/audit-closure-a7Kx2f/"
+                    "continuity-capsule.json")
+    state = open(state_path, encoding="utf-8").read()
+    roadmap = open(roadmap_path, encoding="utf-8").read()
+    capsule = {
+        "repository_identity": "context-epoch-fixture-repo",
+        "run_root": ".IMPLEMENTAUDIT/runs/audit-closure-a7Kx2f",
+        "boundary_provenance": "host-reported-compaction",
+        "source_epoch": "epoch-7", "new_epoch": "epoch-8",
+        "current_active_item": "ANDON 251",
+        "next_authorized_action": "countermeasure rerun for ANDON 251",
+        "stale_one_shot": "fix ANDON 150",
+        "stale_one_shot_status": "satisfied",
+        "decision": "audited-handoff",
+        "authorization_reason": "execution not authorized; capsule only"}
+    os.makedirs(os.path.dirname(capsule_path), exist_ok=True)
+    with open(capsule_path, "x", encoding="utf-8") as fh:
+        json.dump(capsule, fh, sort_keys=True)
+    tools = ["Task", "Bash", "Edit", "Glob", "Grep", "Read", "Skill",
+             "Workflow", "Write"]
+    rows = []
+
+    def event(obj):
+        obj = dict(obj)
+        obj["session_id"] = sid
+        rows.append(obj)
+
+    def tool_use(tool_id, name, inputs):
+        event({"type": "assistant", "message": {
+            "model": "claude-opus-4-8", "content": [{
+                "type": "tool_use", "id": tool_id, "name": name,
+                "input": inputs}]}})
+
+    def tool_result(tool_id, content):
+        event({"type": "user", "message": {"content": [{
+            "type": "tool_result", "tool_use_id": tool_id,
+            "content": content, "is_error": False}]}})
+
+    event({"type": "system", "subtype": "init", "tools": tools,
+           "effort": "high"})
+    tool_use("state-read", "Read", {"file_path": state_path})
+    tool_result("state-read", state)
+    if scenario == "b3-host-invalid-claude":
+        tool_use("roadmap-read", "Read", {"file_path": roadmap_path})
+        tool_result("roadmap-read", roadmap)
+    tool_use("capsule-write", "Write", {
+        "file_path": capsule_path, "content": json.dumps(capsule)})
+    tool_result("capsule-write", "ok")
+    # Deliberate adjacent malformed host action. It must make host safety
+    # INVALID without erasing the six product-property measurements.
+    tool_use(True, "Read", {"file_path": state_path})
+    event({"type": "assistant", "message": {
+        "model": "claude-opus-4-8", "content": [{
+            "type": "text", "text": "Reconciled live state; audited handoff."}]}})
+    event({"type": "result", "is_error": False,
+           "modelUsage": {"claude-opus-4-8": {"outputTokens": 10}}})
+    config = os.environ["CLAUDE_CONFIG_DIR"]
+    transcript = os.path.join(config, "projects", "fixture", sid + ".jsonl")
+    os.makedirs(os.path.dirname(transcript), exist_ok=True)
+    with open(transcript, "w", encoding="utf-8") as fh:
+        fh.write(json.dumps({"type": "system", "subtype": "transcript",
+                            "session_id": sid}) + "\n")
+        for row in rows:
+            fh.write(json.dumps(row) + "\n")
+    for row in rows:
+        print(json.dumps(row))
 elif scenario == "nonzero":
     sys.exit(3)
 elif scenario == "hang":
@@ -3679,6 +3752,200 @@ def main():
                       "actions", [{}])[0].get("updates", [])) == 1
                   and all(trace.get("host_status") == "INVALID"
                           for trace in malformed_todos47))
+
+            # Review 12: replay admission is strict and total. A recomputed
+            # self-consistent manifest cannot turn a non-object or an
+            # unknown/missing terminal kind into host PASS.
+            terminal_admission_results47 = []
+            malformed_terminal47 = os.path.join(
+                tmp, "h47-malformed-terminal-object")
+            shutil.copytree(capture47, malformed_terminal47)
+            rewrite_json47(malformed_terminal47,
+                           "host-read-terminal.json", [])
+            rewrite_json47(malformed_terminal47,
+                           "host-read-manifest.json", {
+                               "schema": hosts.hostread.MANIFEST_SCHEMA,
+                               "files": {name47:
+                                         hosts.hostread._file_sha256(
+                                             os.path.join(
+                                                 malformed_terminal47,
+                                                 name47))
+                                         for name47 in
+                                         hosts.hostread._CAPTURE_FILES}})
+            try:
+                terminal_admission_results47.append(
+                    hosts.hostread.replay_capture(
+                        malformed_terminal47, formal=True).get("status"))
+            except Exception:
+                terminal_admission_results47.append("CRASH")
+            for label47, mutation47 in (
+                    ("unknown", lambda terminal: terminal.__setitem__(
+                        "host_terminal_kind", "forged")),
+                    ("missing", lambda terminal: terminal.pop(
+                        "host_terminal_kind", None))):
+                forged_terminal47 = os.path.join(
+                    tmp, "h47-terminal-kind-" + label47)
+                shutil.copytree(capture47, forged_terminal47)
+                terminal47 = json.load(open(os.path.join(
+                    forged_terminal47, "host-read-terminal.json"),
+                    encoding="utf-8"))
+                mutation47(terminal47)
+                rewrite_json47(forged_terminal47,
+                               "host-read-terminal.json", terminal47)
+                rehash47(forged_terminal47)
+                try:
+                    terminal_admission_results47.append(
+                        hosts.hostread.replay_capture(
+                            forged_terminal47, formal=True).get("status"))
+                except Exception:
+                    terminal_admission_results47.append("CRASH")
+            malformed_post47 = {
+                "environment": retained_profile47.get("environment"),
+                "shell": ["not-a-mapping"],
+                "executables": retained_profile47.get("executables")}
+            try:
+                malformed_post_status47 = hosts.hostread.validate_profile(
+                    retained_profile47, post_probe=malformed_post47,
+                    formal=False).get("host_status")
+            except Exception:
+                malformed_post_status47 = "CRASH"
+            check("H47ar strict-terminal-admission-and-post-probe-totality",
+                  terminal_admission_results47 == ["INVALID"] * 3
+                  and malformed_post_status47 == "INVALID")
+
+            # Review 12: production Codex session handling remains total over
+            # malformed inner fields and invalid UTF-8 at any record.
+            def codex_session_surface_total47(session_bytes47,
+                                              name47="rollout.jsonl"):
+                home47 = os.path.join(
+                    tmp, "codex-session-total-" + str(
+                        len(os.listdir(tmp))))
+                session_dir47 = os.path.join(home47, "sessions", "2026")
+                os.makedirs(session_dir47)
+                path47 = os.path.join(session_dir47, name47)
+                open(path47, "wb").write(session_bytes47)
+                codex47 = hosts.CodexAdapter(
+                    codex_home=home47, product_checkout=None, formal=False)
+                surfaces47 = (
+                    lambda: codex47._select_session(repo43),
+                    lambda: codex47._session_agent_events(repo43),
+                    lambda: codex47.check_policy(repo43),
+                    lambda: codex47.collect_raw_stream(
+                        repo43, hosts._Outcome("", "", 0)))
+                results47 = []
+                for surface47 in surfaces47:
+                    try:
+                        surface47()
+                        results47.append(True)
+                    except framework.AdapterError:
+                        results47.append(True)
+                    except Exception:
+                        results47.append(False)
+                return all(results47)
+
+            valid_timestamp47 = "2026-07-19T00:53:04Z"
+            malformed_inner_sessions47 = [
+                (json.dumps({"type": "session_meta", "payload": {
+                    "cwd": [], "id": "s", "session_id": "s",
+                    "timestamp": valid_timestamp47}}) + "\n").encode(),
+                (json.dumps({"type": "session_meta", "payload": {
+                    "cwd": repo43, "id": ["s"], "session_id": ["s"],
+                    "timestamp": valid_timestamp47}}) + "\n").encode(),
+                b"\xffinvalid-first-record\n",
+                ((json.dumps({"type": "session_meta", "payload": {
+                    "cwd": repo43, "id": "s", "session_id": "s",
+                    "timestamp": valid_timestamp47}}) + "\n").encode()
+                 + b"\xffinvalid-later-record\n")]
+            check("H47as codex-session-inner-fields-and-utf8-total",
+                  all(codex_session_surface_total47(session47)
+                      for session47 in malformed_inner_sessions47))
+
+            # Review 12 end-to-end regression: a launched formal B3-v3
+            # mission with reconstructible product observations and a host
+            # INVALID still creates the official bundle. The scorer must
+            # persist all six property states and a separate host status.
+            canon47at = os.path.join(tmp, "canon47at")
+            os.makedirs(os.path.join(
+                canon47at, "skills", "implementaudit"))
+            open(os.path.join(canon47at, "skills", "implementaudit",
+                              "SKILL.md"), "w", encoding="utf-8").write(
+                                  "test payload\n")
+            adapter47at = make_adapter(
+                tmp, "b3-host-invalid-claude", kind="claude",
+                checkout=canon47at,
+                home=os.path.join(tmp, "claude-home-h47at"))
+            adapter47at.formal = True
+            adapter47at.preflight = lambda: None
+            previous_identity47 = framework.product_identity
+            framework.product_identity = lambda *args, **kwargs: {
+                "product_tag": "v0.3.1.0",
+                "product_commit": "1" * 40,
+                "product_tree": "2" * 40}
+            try:
+                result47at = run(adapter47at, tmp, "r-h47at",
+                                 fixture_id="B3-v3")
+            finally:
+                framework.product_identity = previous_identity47
+            verdict47at = None
+            terminal47at = json.load(open(os.path.join(
+                tmp, "custody", "r-h47at", "terminal.json"),
+                encoding="utf-8"))
+            if result47at.kind == "ok" and os.path.isdir(result47at.detail):
+                _status47at, verdict47at = runner.score_bundle(
+                    result47at.detail, repo_dir=None)
+            properties47at = ((verdict47at or {}).get("properties") or {})
+            check("H47at host-invalid-official-verdict-preserves-six-properties",
+                  result47at.kind == "ok"
+                  and terminal47at.get("kind") == "ok"
+                  and len(properties47at) == 6
+                  and all(item47.get("state") in (
+                      "PASS", "FAIL", "INCOMPLETE")
+                          for item47 in properties47at.values())
+                  and (verdict47at or {}).get(
+                      "host_safety", {}).get("status") == "INVALID"
+                  and (verdict47at or {}).get(
+                      "adjudication", {}).get("product_status") == "PASS"
+                  and (verdict47at or {}).get("status") == "INVALID")
+
+            adapter47au = make_adapter(
+                tmp, "b3-incomplete-host-invalid-claude", kind="claude",
+                checkout=canon47at,
+                home=os.path.join(tmp, "claude-home-h47au"))
+            adapter47au.formal = True
+            adapter47au.preflight = lambda: None
+            framework.product_identity = lambda *args, **kwargs: {
+                "product_tag": "v0.3.1.0",
+                "product_commit": "1" * 40,
+                "product_tree": "2" * 40}
+            try:
+                result47au = run(adapter47au, tmp, "r-h47au",
+                                 fixture_id="B3-v3")
+            finally:
+                framework.product_identity = previous_identity47
+            verdict47au = None
+            if result47au.kind == "ok" and os.path.isdir(result47au.detail):
+                _status47au, verdict47au = runner.score_bundle(
+                    result47au.detail, repo_dir=None)
+            properties47au = ((verdict47au or {}).get("properties") or {})
+            live_state47au = properties47au.get(
+                "live_state_read_before_mutation", {})
+            check("H47au incomplete-property-is-not-fail-or-ceiling",
+                  result47au.kind == "ok"
+                  and len(properties47au) == 6
+                  and live_state47au.get("state") == "INCOMPLETE"
+                  and live_state47au.get("pass") is None
+                  and (verdict47au or {}).get(
+                      "adjudication", {}).get("product_status") ==
+                  "INCOMPLETE"
+                  and (verdict47au or {}).get(
+                      "adjudication", {}).get(
+                          "property_evidence_complete") is False
+                  and (verdict47au or {}).get(
+                      "adjudication", {}).get(
+                          "all_required_properties_true") is None
+                  and (verdict47au or {}).get(
+                      "host_safety", {}).get("status") == "INVALID"
+                  and (verdict47au or {}).get("status") == "INVALID")
             check("H48 generated-host-read-contract-112",
                   test_host_read_contract.main([]) == 0)
         except (framework.AdapterError, OSError, ValueError):
