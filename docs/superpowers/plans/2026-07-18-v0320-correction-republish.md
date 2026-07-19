@@ -1,10 +1,11 @@
 # v0.3.2.0 corrected evaluator, 28/28 qualification, and republication roadmap
 
 > **Owner amendment, 2026-07-18:** The previously separate 28/28 successor
-> campaign is now part of `v0.3.2.0`. B3-v3 qualifies the evaluation
-> foundation only. Do not move the tag, republish, or close the release issues
-> or milestone until two unchanged 28/28 matrices and the untouched holdout
-> pass.
+> campaign is now part of `v0.3.2.0`. The immutable B3-v3 campaign is a
+> rejected historical evaluator attempt; a separately frozen B3-v4 campaign
+> must qualify the formal-v2 evaluation foundation. Do not move the tag,
+> republish, or close the release issues or milestone until that foundation,
+> two unchanged 28/28 matrices, and the untouched holdout pass.
 
 **Goal:** Transparently republish `v0.3.2.0` only after corrected evidence
 architecture, reproducible packaging, stable 28/28 behavior, holdout evidence,
@@ -41,19 +42,22 @@ archived in the correction report. Release ID `356138470` was withdrawn only
 after remote durability; #9/#10/#35 and milestone 1 were reopened. The tag was
 not moved.
 
-## Checkpoint 2 — corrected evaluator and reproducible builder: complete
+## Checkpoint 2 — layered evaluator and reproducible builder: partial
 
-PR #73's foundation separates product properties, host safety, and overall
-adjudication; rejects unreconstructible claims; adds negative controls; and
-normalizes ZIP ordering, time, modes, creator metadata, compression, paths,
+PR #73's existing foundation separates product properties, host safety, and
+overall adjudication; rejects unreconstructible claims; adds negative controls;
+and normalizes ZIP ordering, time, modes, creator metadata, compression, paths,
 locale, and timezone. Intermediate two-clean-checkout archive bytes match.
-Final-commit cross-platform proof remains a release gate.
+The later host-read Andon requires the omission-reviewed formal-v2 custody and
+replay repair before the evaluator portion is complete. Final-commit
+cross-platform proof remains a release gate.
 
-## Checkpoint 3 — B3-v3 evaluator-foundation qualification: complete
+## Checkpoint 3 — B3-v3 historical campaign: rejected as qualification
 
 The immutable B3-v2 calibration remains failed phrase-measurement evidence.
-B3-v3 was frozen before execution with intent SHA-256 `0e99120d392eb2d5982590c693b9a53c346812f4e89f383d7160fa42f305b6f0`.
-The 12-mission interleaved campaign produced:
+B3-v3 was frozen before execution with intent SHA-256
+`0e99120d392eb2d5982590c693b9a53c346812f4e89f383d7160fa42f305b6f0`.
+Its original evaluator recorded:
 
 - 12/12 terminal PASS;
 - 72/72 required property cells true;
@@ -63,22 +67,47 @@ The 12-mission interleaved campaign produced:
 - exactly one authorized capsule change per mission.
 
 A separate implementation importing none of the evaluator host/scorer/runner
-modules rederived the raw host tool order, capsule fields, repository snapshot
-deltas, identities, and stored matrix. It matched all rows; result SHA-256 is
+modules reproduced that stored matrix under the same insufficient host-read
+trust assumptions; result SHA-256 is
 `0be6f31af047e10441b19c93295766eba93337f8f0e9208d525f94f66ced8f0a`.
-This closes the evaluator-foundation checkpoint, not the release.
+The later 112-state adversarial review showed that B3-v3 did not bind the
+capture-time shell/executable profile, complete native-event custody, and
+replay inputs needed to prove those rows. Formal-v2 replay therefore treats
+0/12 missions as eligible and 12/12 as INVALID; it does not produce a
+replacement campaign score. A test-only posthoc diagnostic can reconstruct the
+six Claude/O property projections, while all six Codex/L projections remain
+incomplete because their capture-time profile cannot be manufactured. The
+recorded 12/12 and 72/72 values remain immutable historical output, not
+qualification evidence.
 
 ## Phase 4 — cold-review and merge PR #73 as foundation only
 
-1. Record the B3-v3 campaign hashes and full matrix in the correction report.
-2. Perform a bounded fresh-context cold review of PR #73 without reusing the
-   authoring rationale as proof.
-3. Run complete eval, adversarial, host, adapter, reporting, package,
-   reproducibility, docs, and exact-head CI gates.
-4. Resolve every review finding and merge PR #73 only when green.
+1. Obtain an independent cold-review PASS on exact formal-v2 commit
+   `79cc2fe304ad4397bc65237435f4a9618cf5edf3`, including the retained
+   112-state adversarial corpus and complete 59-test package gate.
+2. Preserve all rejected attempts and the full parser/evidence convergence
+   lineage; do not cherry-pick only the final patch.
+3. Integrate that reviewed lineage into PR #73 and correct every B3-v3 claim to
+   distinguish stored historical output from admissible qualification.
+4. Run the complete eval, adversarial, host, adapter, reporting, package,
+   reproducibility, docs, and exact-head CI gates on the combined PR head.
+5. Perform a separate cold review of the exact combined head, resolve every
+   finding, and merge PR #73 only when green.
 
 **Publication boundary:** merging PR #73 does not authorize tag movement,
 release publication, or closure.
+
+## Phase 4B — qualify the formal-v2 foundation with B3-v4
+
+After PR #73 merges, freeze a new B3-v4 intent before any mission. Bind the
+formal-v2 fixture, scorer, products, campaign intent, L/O host configurations,
+seed, repetitions, authorization, evidence profiles, acceptance/comparison
+rules, INVALID/ERROR treatment, and stop conditions. Run the contemporaneous
+12-mission interleaved candidate/control campaign, require property results in
+every verdict, zero unexplained ERROR/INVALID/substitution, and independently
+rederive the result from retained raw evidence. B3-v4 must remain versioned and
+immutable regardless of outcome. If it is not green, repair causally and freeze
+a later version; do not edit or rerun B3-v3 in place.
 
 ## Phase 5 — freeze the v0.3.2.0 28-cell design and untouched holdout
 
@@ -100,22 +129,26 @@ Before new product tuning:
 seeing its qualification result. A necessary correction creates a new version
 and applies symmetrically; failed evidence is never edited in place.
 
-## Phase 6 — fresh foundation measurement and complete 17-cell causal ledger
+## Phase 6 — preserve fresh measurement and the completed 17-cell causal ledger
 
-Run the corrected evaluator against the current v0.3.2.0 foundation before
-product changes. For each of the 17 historical non-PASS candidate cells,
-record raw evidence, invariant, observed/expected behavior, primary and
-secondary cause classes, falsifying probe, smallest coherent correction,
-deterministic RED/GREEN test, targeted model check, shared-rule hypothesis,
-and dependencies.
+After B3-v4 qualifies the evaluator foundation, measure the current v0.3.2.0
+foundation afresh before product changes. Preserve that score separately from
+the historical 10/28 control and 11/28 candidate results.
 
-Each cell is an individual Andon occurrence. Where host capacity permits, one
-read-only forensic subagent owns one cell and must inspect the raw bundle,
-transcript, tool events, repository before/after state, fixture, scorer, and
-verdict rather than infer from the aggregate ledger. The subagent returns a
-normalized evidence-bound Gemba/5-Whys report and cannot modify the product,
-scorer, fixture, campaign, or repository. The main executor reviews and
-materializes the durable report.
+The 17 historical non-PASS candidate cells have already received individual
+raw-bundle Gemba and evidence-supported 5-Whys investigations. Do not repeat
+that forensic phase. Preserve each report's invariant, evidence,
+observed/expected behavior, origin classification, falsifying probe, smallest
+coherent correction, deterministic RED/GREEN test, targeted model check,
+shared-rule hypothesis, dependencies, and Andon disposition.
+
+Each cell was treated as an individual Andon occurrence. Where host capacity
+permitted, one read-only forensic subagent inspected the raw bundle, transcript,
+tool events, repository before/after state, fixture, scorer, and verdict rather
+than inferring from the aggregate ledger. Each subagent returned a normalized
+evidence-bound Gemba/5-Whys report without modifying the product, scorer,
+fixture, campaign, or repository; the main executor reviewed and materialized
+the durable reports.
 
 Historical cells entering the ledger:
 
@@ -132,10 +165,11 @@ review also found manufactured PASS evidence, append-only corrected
 adjudication covers all 56 historical candidate/control bundles, not only the
 17 candidate FAILs.
 
-After all 17 reports exist, a separate synthesis pass clusters shared causes,
-and a separate adversarial review challenges every cluster, contradiction, and
-product-versus-measurement classification. Implementation cannot begin until
-those dispositions are reconciled into cluster-level governing Andons.
+The separate synthesis and adversarial-review artifacts already exist. Resume
+from their reconciled shared-cause map rather than dispatching new cell
+investigators. Implementation cannot begin for a cluster until measurement
+defects and product defects are distinguished and its disposition is approved
+as a cluster-level governing Andon.
 
 ## Phase 7 — measurement repair, re-adjudication, and causal probes
 
@@ -227,8 +261,11 @@ Only after every public/install/closure readback passes may the terminal marker
 
 ## Current next authorized action
 
-Finish and reconcile the independent adversarial review of the complete
-17-cell Andon register and causal-cluster synthesis. Only then approve the
-first coherent evaluator/fixture countermeasure tranche. PR #73 still requires
-its own cold review and complete foundation gates; a green merge does not
-authorize publication.
+Obtain the required independent exact-commit cold-review verdict on the
+formal-v2 host-read repair at `79cc2fe304ad4397bc65237435f4a9618cf5edf3`.
+If PASS, preserve the review ledger, integrate the full repair lineage into PR
+#73, run the combined exact-head gates/review/CI, and merge only the foundation
+without publishing. Then freeze and run B3-v4. Only after B3-v4 is green should
+work resume from the existing 17-cell synthesis: fixture preflight, separate
+scorer mechanisms, append-only 56-bundle re-adjudication, falsifying probes,
+and approved causal-cluster product tranches.
