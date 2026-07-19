@@ -317,6 +317,33 @@ def score_bundle(run_root, repo_dir=None):
             if not isinstance(hc_obj, dict):
                 raise bundlelib.BundleInvalid(
                     f"host-checks artifact not an object: {rel!r}")
+            declared_json_inputs = set()
+            for declared_spec in hc.get("specs", []):
+                if declared_spec.get("kind") != "json_fields_equal":
+                    continue
+                declared_rel = str(
+                    declared_spec.get("path", "")).replace("\\", "/")
+                declared_entry = ((after or {}).get(
+                    "worktree_files") or {}).get(declared_rel)
+                if (isinstance(declared_entry, dict) and
+                        declared_entry.get("type") == "file"):
+                    declared_json_inputs.add(
+                        "host-check-inputs/" + declared_rel)
+            reserved_json_inputs = [
+                name for name in artifact_map
+                if name.replace("\\", "/") == "host-check-inputs" or
+                name.replace("\\", "/").startswith("host-check-inputs/")]
+            normalized_reserved = {
+                name.replace("\\", "/") for name in reserved_json_inputs}
+            if len(normalized_reserved) != len(reserved_json_inputs):
+                raise bundlelib.BundleInvalid(
+                    "json host-check input path collision")
+            undeclared_json_inputs = sorted(
+                normalized_reserved - declared_json_inputs)
+            if undeclared_json_inputs:
+                raise bundlelib.BundleInvalid(
+                    "undeclared json host-check input: " +
+                    ", ".join(undeclared_json_inputs))
             for spec in hc.get("specs", []):
                 key = spec["key"]
                 if not isinstance(hc_obj.get(key), bool):

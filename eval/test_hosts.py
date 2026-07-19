@@ -21,6 +21,7 @@ sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.join(HERE, "lib"))
 import adapters as framework  # noqa: E402
 import hosts  # noqa: E402
+import reposnapshot  # noqa: E402
 import reconcile as reconcilelib  # noqa: E402
 import runner  # noqa: E402
 import test_host_read_contract  # noqa: E402
@@ -3990,6 +3991,71 @@ def main():
                   and "json" in ((verdict47av or {}).get("reason") or "")
                   and "contradict" in (
                       (verdict47av or {}).get("reason") or ""))
+
+            normal_repo47aw = os.path.join(tmp, "h47aw-normal-repo")
+            linked_repo47aw = os.path.join(tmp, "h47aw-linked-repo")
+            os.makedirs(os.path.join(normal_repo47aw, ".git"))
+            os.makedirs(linked_repo47aw)
+            open(os.path.join(normal_repo47aw, ".git", "config"), "w",
+                 encoding="utf-8").write("private git metadata\n")
+            open(os.path.join(normal_repo47aw, "visible.txt"), "w",
+                 encoding="utf-8").write("visible\n")
+            open(os.path.join(linked_repo47aw, ".git"), "w",
+                 encoding="utf-8").write(
+                     "gitdir: C:/private/admin/worktrees/linked\n")
+            open(os.path.join(linked_repo47aw, "visible.txt"), "w",
+                 encoding="utf-8").write("visible\n")
+            normal_map47aw = reposnapshot._worktree_file_map(
+                normal_repo47aw)
+            linked_map47aw = reposnapshot._worktree_file_map(
+                linked_repo47aw)
+            check("H47aw git-administrative-state-excluded-from-snapshot",
+                  ".git" not in normal_map47aw
+                  and not any(key47.startswith(".git/")
+                              for key47 in normal_map47aw)
+                  and ".git" not in linked_map47aw
+                  and not any(key47.startswith(".git/")
+                              for key47 in linked_map47aw)
+                  and set(normal_map47aw) == {"visible.txt"}
+                  and set(linked_map47aw) == {"visible.txt"})
+
+            verdict47ax = None
+            if result47at.kind == "ok" and os.path.isdir(result47at.detail):
+                source_run47ax = os.path.dirname(result47at.detail)
+                copied_run47ax = os.path.join(tmp, "custody", "r-h47ax")
+                shutil.copytree(source_run47ax, copied_run47ax)
+                bundle47ax = os.path.join(copied_run47ax, "bundle")
+                extra_rel47ax = "host-check-inputs/unreferenced.json"
+                extra_path47ax = os.path.join(
+                    bundle47ax, "artifacts", *extra_rel47ax.split("/"))
+                os.makedirs(os.path.dirname(extra_path47ax), exist_ok=True)
+                extra_bytes47ax = b'{"unreferenced":true}\n'
+                open(extra_path47ax, "wb").write(extra_bytes47ax)
+                artifact_manifest_path47ax = os.path.join(
+                    bundle47ax, "artifact-manifest.json")
+                artifact_manifest47ax = json.load(open(
+                    artifact_manifest_path47ax, encoding="utf-8"))
+                artifact_manifest47ax["files"][extra_rel47ax] = \
+                    hosts.bundlelib._sha256_bytes(extra_bytes47ax)
+                artifact_manifest_bytes47ax = json.dumps(
+                    artifact_manifest47ax, indent=1,
+                    sort_keys=True).encode("utf-8")
+                open(artifact_manifest_path47ax, "wb").write(
+                    artifact_manifest_bytes47ax)
+                manifest_path47ax = os.path.join(bundle47ax, "manifest.json")
+                manifest47ax = json.load(open(
+                    manifest_path47ax, encoding="utf-8"))
+                manifest47ax["artifact_manifest_sha256"] = \
+                    hosts.bundlelib._sha256_bytes(
+                        artifact_manifest_bytes47ax)
+                open(manifest_path47ax, "w", encoding="utf-8").write(
+                    json.dumps(manifest47ax, indent=1, sort_keys=True))
+                _status47ax, verdict47ax = runner.score_bundle(
+                    bundle47ax, repo_dir=None)
+            check("H47ax undeclared-json-host-check-input-refused",
+                  (verdict47ax or {}).get("status") == "INVALID"
+                  and "undeclared json host-check input" in (
+                      (verdict47ax or {}).get("reason") or ""))
             check("H48 generated-host-read-contract-112",
                   test_host_read_contract.main([]) == 0)
         except (framework.AdapterError, OSError, ValueError):

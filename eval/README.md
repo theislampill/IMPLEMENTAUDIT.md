@@ -176,7 +176,9 @@ hash-bound capture, cross-checks the replayed path-property state against
 `host-checks.json`, and derives host safety from the replayed trace. Declared
 JSON-field checks retain the exact input bytes as bundle artifacts, bind those
 bytes to the complete after-snapshot worktree file map, and are recomputed from
-the canonical fixture before the adapter Boolean is accepted. A
+the canonical fixture before the adapter Boolean is accepted. The worktree map
+excludes Git administrative state for both normal and linked checkouts, and the
+reserved `host-check-inputs/` namespace rejects undeclared evidence. A
 replay-valid capture may therefore retain complete product-property results
 while reporting host `INVALID`. Missing, malformed, replay-invalid, or
 parent-terminal-inconsistent captures remain inadmissible and cannot produce a

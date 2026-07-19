@@ -119,8 +119,14 @@ def _worktree_file_map(repo_dir):
                                      followlinks=False):
         dirs.sort()
         files.sort()
-        if os.path.abspath(root) == root_abs and ".git" in dirs:
-            dirs.remove(".git")
+        if os.path.abspath(root) == root_abs:
+            # A normal checkout exposes .git as a directory; a linked
+            # worktree exposes it as an administrative pointer file. Neither
+            # is repository content and neither may influence evidence hashes.
+            dirs[:] = [name for name in dirs
+                       if os.path.normcase(name) != os.path.normcase(".git")]
+            files = [name for name in files
+                     if os.path.normcase(name) != os.path.normcase(".git")]
         for name in list(dirs):
             path = os.path.join(root, name)
             entry = _worktree_entry(path)
