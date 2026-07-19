@@ -167,6 +167,11 @@ def _same_path(first, second, case_sensitive=True):
     return bool(first and second and first == second)
 
 
+def _mapping(value):
+    """Return mapping-shaped input or an empty mapping for fail-closed use."""
+    return value if isinstance(value, dict) else {}
+
+
 def _profile_result(ok, reason=None):
     result = {"host_status": "PASS" if ok else "INVALID",
               "property_status": "PASS" if ok else "INCOMPLETE"}
@@ -453,10 +458,15 @@ def validate_preimages(preimages):
                 raise ValueError("target identity")
             data = base64.b64decode(entry.get("content_base64", ""),
                                     validate=True)
+            expected_path = str(PurePosixPath(repo["lexical_root"],
+                                              relative))
             if (_sha256(data) != entry.get("sha256") or
                     len(data) != entry.get("size") or
                     entry.get("relative_path") != relative or
                     entry.get("symlink_free") is not True or
+                    not _same_path(entry.get("canonical_path"),
+                                   expected_path,
+                                   case_sensitive=repo["case_sensitive"]) or
                     not _within(entry.get("canonical_path"),
                                 repo.get("lexical_root"),
                                 case_sensitive=repo["case_sensitive"])):
@@ -471,8 +481,8 @@ def snapshot_digest(preimages):
 
 
 def _profile_matches_preimages(profile, preimages):
-    profile_repo = (profile or {}).get("repo") or {}
-    snapshot_repo = (preimages or {}).get("repo") or {}
+    profile_repo = _mapping(_mapping(profile).get("repo"))
+    snapshot_repo = _mapping(_mapping(preimages).get("repo"))
     case_sensitive = profile_repo.get("case_sensitive")
     snapshot_case_sensitive = snapshot_repo.get("case_sensitive")
     if (type(case_sensitive) is not bool or
@@ -488,13 +498,15 @@ def _profile_matches_preimages(profile, preimages):
 
 
 def _profile_matches_replay_spec(profile, replay_spec):
-    host = (profile or {}).get("host")
-    if host != (replay_spec or {}).get("host"):
+    profile = _mapping(profile)
+    replay_spec = _mapping(replay_spec)
+    host = profile.get("host")
+    if host != replay_spec.get("host"):
         return False
     if host == "claude":
-        return list(((profile or {}).get("native_tools") or {}).get(
+        return list(_mapping(profile.get("native_tools")).get(
             "requested") or []) == list(
-                (replay_spec or {}).get("requested_tools") or [])
+                replay_spec.get("requested_tools") or [])
     return True
 
 
@@ -875,7 +887,7 @@ def _profile_path(path, profile, formal=True):
         return None
     absolute = observed.startswith("/") or bool(
         re.match(r"^[A-Za-z]:/", observed))
-    repo = (profile or {}).get("repo") or {}
+    repo = _mapping(_mapping(profile).get("repo"))
     root = _lexical_path(repo.get("lexical_root"))
     case_sensitive = repo.get("case_sensitive")
     # Non-formal fixture calls historically omit a profile. Keep their
@@ -947,7 +959,7 @@ def normalize_claude(raw_stdout, requested_tools, binding=None, profile=None,
     binding = binding or {}
     requested = list(requested_tools or [])
     if (formal and isinstance(profile, dict) and
-            list((profile.get("native_tools") or {}).get(
+            list(_mapping(profile.get("native_tools")).get(
                 "requested") or []) != requested):
         machine.invalid = True
         machine.findings.append({
@@ -1060,8 +1072,8 @@ def normalize_claude(raw_stdout, requested_tools, binding=None, profile=None,
                     malformed = True
                     result_paths = []
                 action_lexical = _lexical_path(action.get("path"))
-                profile_root = _lexical_path(
-                    ((profile or {}).get("repo") or {}).get("lexical_root"))
+                profile_repo = _mapping(_mapping(profile).get("repo"))
+                profile_root = _lexical_path(profile_repo.get("lexical_root"))
                 if (not formal and profile_root is None and
                         isinstance(action_lexical, str) and
                         (action_lexical.startswith("/") or re.match(
@@ -1074,8 +1086,7 @@ def normalize_claude(raw_stdout, requested_tools, binding=None, profile=None,
                 if result_paths and action.get("path"):
                     action_path = _profile_path(
                         action.get("path"), profile, formal=formal)
-                    case_sensitive = ((profile or {}).get("repo") or {}).get(
-                        "case_sensitive", True)
+                    case_sensitive = profile_repo.get("case_sensitive", True)
                     if (action_path is None or any(
                             not _same_path(
                                 _profile_path(path, profile, formal=formal),
@@ -1293,8 +1304,9 @@ def _split_redirections(tokens):
 def _reader_identity(argv0, profile):
     if not argv0 or not isinstance(profile, dict):
         return None
-    for name, identity in (profile.get("executables") or {}).items():
-        if argv0 == name or argv0 == identity.get("path"):
+    for name, identity in _mapping(profile.get("executables")).items():
+        if (isinstance(identity, dict) and
+                (argv0 == name or argv0 == identity.get("path"))):
             return name
     return None
 
@@ -2084,7 +2096,7 @@ def corroborate_session(raw_stdout, raw_session, host, binding, trace,
             return "INVALID"
         meta = metas[0].get("payload") or {}
         turn = turns[0].get("payload") or {}
-        repo = (profile or {}).get("repo") or {}
+        repo = _mapping(_mapping(profile).get("repo"))
         case_sensitive = repo.get("case_sensitive", True)
         if (meta.get("id") != binding.get("thread_id") or
                 meta.get("session_id") != binding.get("thread_id") or

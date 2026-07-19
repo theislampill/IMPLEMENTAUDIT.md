@@ -2650,6 +2650,48 @@ def main():
                 mismatched_repo_rejected47 = True
             check("H47aa formal-profile-and-preimages-share-repository",
                   mismatched_repo_rejected47)
+
+            malformed_profile_statuses47 = []
+            malformed_profile_crashed47 = False
+            for malformed_profile47 in (
+                    ["not-a-profile"],
+                    {"native_tools": ["not-a-mapping"]},
+                    {"repo": ["not-a-mapping"]}):
+                try:
+                    malformed_profile_trace47 = \
+                        hosts.hostread.normalize_claude(
+                            profile_gate_stream47,
+                            requested_tools=["Read"],
+                            binding={"session_id": "session-h47"},
+                            profile=malformed_profile47, formal=True)
+                    malformed_profile_statuses47.append(
+                        malformed_profile_trace47.get("host_status"))
+                except Exception:
+                    malformed_profile_crashed47 = True
+            check("H47ab malformed-formal-profile-fails-closed",
+                  malformed_profile_crashed47 is False
+                  and malformed_profile_statuses47 == ["INVALID"] * 3)
+
+            mismatched_identity_preimages47 = json.loads(json.dumps(
+                preimages47))
+            mismatched_identity_preimages47["targets"][S45][
+                "canonical_path"] = preimages47["targets"][R45][
+                    "canonical_path"]
+            mismatched_identity_capture47 = os.path.join(
+                tmp, "host-read-capture-h47-identity-mismatch")
+            mismatched_identity_rejected47 = False
+            try:
+                hosts.hostread.begin_capture(
+                    mismatched_identity_capture47, profile47,
+                    mismatched_identity_preimages47,
+                    replay_spec=replay_spec47,
+                    fixture_bytes=fixture_bytes47, formal=True)
+            except ValueError:
+                mismatched_identity_rejected47 = True
+            check("H47ac preimage-relative-canonical-identity-bound",
+                  hosts.hostread.validate_preimages(
+                      mismatched_identity_preimages47).get("status") ==
+                  "INVALID" and mismatched_identity_rejected47)
             adapter47._attempt_finalize_formal_host_read(
                 fx44, repo43, outcome47, capture47, "ok")
             adapter47._tool_trace = [{"action": "invalid"}]
