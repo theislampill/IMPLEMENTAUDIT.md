@@ -37,7 +37,53 @@ SUPPORTED_CLAUDE = frozenset(
 _PROFILE_CAPABILITY = object()
 
 
-class _MintedProfile(dict):
+def _immutable_profile_value(*_args, **_kwargs):
+    raise TypeError("formal profile is immutable")
+
+
+class _FrozenList(list):
+    def __init__(self, value):
+        list.__init__(self, (_freeze_profile_value(item) for item in value))
+
+    __setitem__ = _immutable_profile_value
+    __delitem__ = _immutable_profile_value
+    __iadd__ = _immutable_profile_value
+    __imul__ = _immutable_profile_value
+    append = _immutable_profile_value
+    clear = _immutable_profile_value
+    extend = _immutable_profile_value
+    insert = _immutable_profile_value
+    pop = _immutable_profile_value
+    remove = _immutable_profile_value
+    reverse = _immutable_profile_value
+    sort = _immutable_profile_value
+
+
+class _FrozenDict(dict):
+    def __init__(self, value):
+        dict.__init__(self)
+        for key, item in value.items():
+            dict.__setitem__(self, key, _freeze_profile_value(item))
+
+    __setitem__ = _immutable_profile_value
+    __delitem__ = _immutable_profile_value
+    __ior__ = _immutable_profile_value
+    clear = _immutable_profile_value
+    pop = _immutable_profile_value
+    popitem = _immutable_profile_value
+    setdefault = _immutable_profile_value
+    update = _immutable_profile_value
+
+
+def _freeze_profile_value(value):
+    if isinstance(value, dict):
+        return _FrozenDict(value)
+    if isinstance(value, list):
+        return _FrozenList(value)
+    return value
+
+
+class _MintedProfile(_FrozenDict):
     """Process-local capability returned only by mechanical profile minting.
 
     Persisted JSON is promoted back to this type only after replay verifies the
@@ -93,6 +139,15 @@ def _within(path, root, case_sensitive=True):
         path = path.casefold()
         root = root.casefold()
     return bool(path and root and (path == root or path.startswith(root + "/")))
+
+
+def _same_path(first, second, case_sensitive=True):
+    first = str(first or "").replace("\\", "/").rstrip("/")
+    second = str(second or "").replace("\\", "/").rstrip("/")
+    if not case_sensitive:
+        first = first.casefold()
+        second = second.casefold()
+    return bool(first and second and first == second)
 
 
 def _profile_result(ok, reason=None):
@@ -415,10 +470,8 @@ def _path_matches(path, target, preimages):
     observed = _normalize_path(path, preimages)
     case_sensitive = (preimages.get("repo") or {}).get(
         "case_sensitive", True)
-    return bool(entry and observed and _within(
-        observed, entry["canonical_path"], case_sensitive=case_sensitive) and
-        _within(entry["canonical_path"], observed,
-                case_sensitive=case_sensitive))
+    return bool(entry and observed and _same_path(
+        observed, entry["canonical_path"], case_sensitive=case_sensitive))
 
 
 class _ActionMachine:
@@ -744,6 +797,28 @@ def _lexical_path(path):
     return str(PurePosixPath(text))
 
 
+def _profile_path(path, profile):
+    """Resolve one lexical tool path inside the profiled repository root."""
+    observed = _lexical_path(path)
+    if observed is None:
+        return None
+    absolute = observed.startswith("/") or bool(
+        re.match(r"^[A-Za-z]:/", observed))
+    repo = (profile or {}).get("repo") or {}
+    root = _lexical_path(repo.get("lexical_root"))
+    case_sensitive = repo.get("case_sensitive")
+    # Non-formal fixture calls historically omit a profile.  Keep their
+    # lexical-only behavior; formal normalization independently rejects a
+    # missing or malformed profile before any result can become evidence.
+    if root is None or type(case_sensitive) is not bool:
+        return None if absolute else observed
+    if not absolute:
+        observed = str(PurePosixPath(root, observed))
+    if not _within(observed, root, case_sensitive=case_sensitive):
+        return None
+    return observed
+
+
 def _claude_read_transport(visible, metadata):
     """Validate Claude's narrow native Read rendering contract.
 
@@ -855,19 +930,13 @@ def normalize_claude(raw_stdout, requested_tools, binding=None, profile=None,
                 command = inputs.get("command") if effect == "command" else None
                 invalid_input = False
                 if effect in ("read", "write"):
-                    invalid_input = _lexical_path(path) is None
+                    invalid_input = _profile_path(path, profile) is None
                 elif effect == "command":
                     invalid_input = not isinstance(command, str) or not command
                 elif effect == "search":
-                    invalid_input = (_lexical_path(path) is None or
+                    invalid_input = (_profile_path(path, profile) is None or
                                      inputs.get("output_mode") not in
                                      ("content", "files_with_matches"))
-                if (effect in ("read", "write", "search") and
-                        isinstance(path, str) and path.startswith("/") and
-                        (not isinstance(profile, dict) or
-                         not _within(path, (profile.get("repo") or {}).get(
-                             "lexical_root")))):
-                    invalid_input = True
                 if invalid_input:
                     machine.invalid_action(ordinal, "invalid Claude tool input",
                                            action_id, effect=effect)
@@ -906,8 +975,11 @@ def normalize_claude(raw_stdout, requested_tools, binding=None, profile=None,
                 if result_path == "<malformed>":
                     malformed = True
                 if (result_path is not None and action.get("path") and
-                        _lexical_path(result_path) !=
-                        _lexical_path(action.get("path"))):
+                        not _same_path(
+                            _profile_path(result_path, profile),
+                            _profile_path(action.get("path"), profile),
+                            case_sensitive=((profile or {}).get("repo") or {}).get(
+                                "case_sensitive", True))):
                     malformed = True
                 if action["effect"] == "command" and isinstance(metadata, dict):
                     if metadata.get("interrupted") is True:
@@ -1039,8 +1111,7 @@ def _target_relationship(path, target, preimages):
         return "invalid"
     canonical = entry["canonical_path"]
     case_sensitive = preimages["repo"]["case_sensitive"]
-    if (_within(observed, canonical, case_sensitive=case_sensitive) and
-            _within(canonical, observed, case_sensitive=case_sensitive)):
+    if _same_path(observed, canonical, case_sensitive=case_sensitive):
         return "direct"
     if _within(canonical, observed, case_sensitive=case_sensitive):
         return "scope"
@@ -1470,7 +1541,9 @@ def classify_actions(actions, targets, preimages, profile=None, formal=True):
 def _equivalent_path(first, second, preimages):
     left = _normalize_path(first, preimages)
     right = _normalize_path(second, preimages)
-    return bool(left and right and left == right)
+    case_sensitive = preimages["repo"]["case_sensitive"]
+    return bool(left and right and _same_path(
+        left, right, case_sensitive=case_sensitive))
 
 
 def classify_shell_write(record, write, preimages, profile=None, formal=True):
@@ -1898,14 +1971,15 @@ def corroborate_session(raw_stdout, raw_session, host, binding, trace,
         meta = metas[0].get("payload") or {}
         turn = turns[0].get("payload") or {}
         repo = (profile or {}).get("repo") or {}
+        case_sensitive = repo.get("case_sensitive", True)
         if (meta.get("id") != binding.get("thread_id") or
                 meta.get("session_id") != binding.get("thread_id") or
                 binding.get("stdout_turn_ordinal") != 1 or
                 turn.get("turn_id") != binding.get("native_turn_id") or
-                str(turn.get("cwd", "")).replace("\\", "/") !=
-                str(repo.get("lexical_root", "")).replace("\\", "/") or
-                str(meta.get("cwd", "")).replace("\\", "/") !=
-                str(repo.get("lexical_root", "")).replace("\\", "/")):
+                not _same_path(turn.get("cwd"), repo.get("lexical_root"),
+                               case_sensitive=case_sensitive) or
+                not _same_path(meta.get("cwd"), repo.get("lexical_root"),
+                               case_sensitive=case_sensitive)):
             return "INVALID"
         meta_time = _parse_utc(metas[0].get("timestamp") or
                                meta.get("timestamp"))

@@ -2404,6 +2404,104 @@ def main():
             check("H47o snapshot-case-insensitive-target-identity",
                   insensitive_result47.get("classification") ==
                   "content-read")
+
+            case_variant_actions47 = [
+                {"id": "prewrite-case47", "effect": "write",
+                 "path": S45.lower(), "state": "COMPLETED",
+                 "invocation_ordinal": 1, "completion_ordinal": 2},
+                {"id": "read-after-case47", "effect": "read",
+                 "path": S45, "inputs": {}, "output": state47,
+                 "state": "COMPLETED", "invocation_ordinal": 3,
+                 "completion_ordinal": 4},
+                {"id": "capsule-after-case47", "effect": "write",
+                 "path": W45, "state": "COMPLETED",
+                 "invocation_ordinal": 5, "completion_ordinal": 6}]
+            case_variant_matrix47 = hosts.hostread.adjudicate_path_order(
+                {"schema": hosts.hostread.TRACE_SCHEMA,
+                 "actions": case_variant_actions47,
+                 "host_status": "PASS", "host_findings": []},
+                [S45], W45, insensitive_preimages47,
+                profile=profile47, formal=True)
+            check("H47p case-insensitive-pre-read-write-breaks-live-preimage",
+                  case_variant_matrix47.get("live_preimage") is False
+                  and case_variant_matrix47.get("property_status") ==
+                  "INCOMPLETE"
+                  and case_variant_matrix47.get("overall_status") != "PASS")
+
+            original_normcase47 = hosts.hostread.os.path.normcase
+            try:
+                hosts.hostread.os.path.normcase = \
+                    lambda value: str(value).casefold()
+                insensitive_claude_profile47 = \
+                    hosts.hostread.mint_claude_profile(
+                        repo43, requested47)
+            finally:
+                hosts.hostread.os.path.normcase = original_normcase47
+            case_result_file47 = json.loads(json.dumps(full_file47))
+            case_result_file47["file"]["filePath"] = S45.lower()
+            case_result_stream47 = "\n".join((
+                json.dumps({"type": "system", "subtype": "init",
+                            "session_id": "session-h47",
+                            "tools": retained_tools47}),
+                json.dumps(dict(json.loads(cuse(
+                    "case-read47", "Read", {"file_path": S45})),
+                    session_id="session-h47")),
+                native_result47("case-read47", rendered_read47(state47),
+                                case_result_file47)))
+            case_result_trace47 = hosts.hostread.normalize_claude(
+                case_result_stream47, requested_tools=requested47,
+                binding={"session_id": "session-h47"},
+                profile=insensitive_claude_profile47, formal=True)
+            check("H47q case-insensitive-claude-result-path-correlation",
+                  case_result_trace47.get("host_status") == "PASS"
+                  and case_result_trace47.get("actions", [{}])[0].get(
+                      "state") == "COMPLETED")
+
+            immutable_profile47 = hosts.hostread.mint_claude_profile(
+                repo43, requested47)
+            immutable_before47 = hosts.hostread._canonical_bytes(
+                immutable_profile47)
+            mutation_rejections47 = []
+            try:
+                immutable_profile47["repo"]["case_sensitive"] = False
+            except TypeError:
+                mutation_rejections47.append("nested-dict")
+            try:
+                immutable_profile47["native_tools"]["requested"].append(
+                    "ForgedTool")
+            except TypeError:
+                mutation_rejections47.append("nested-list")
+            try:
+                immutable_profile47["host"] = "forged"
+            except TypeError:
+                mutation_rejections47.append("top-level")
+            check("H47r minted-profile-is-recursively-immutable",
+                  mutation_rejections47 == [
+                      "nested-dict", "nested-list", "top-level"]
+                  and hosts.hostread._canonical_bytes(immutable_profile47) ==
+                  immutable_before47)
+
+            absolute_result_file47 = json.loads(json.dumps(full_file47))
+            absolute_result_file47["file"]["filePath"] = os.path.abspath(
+                os.path.join(repo43, *S45.split("/"))).replace("\\", "/")
+            absolute_result_stream47 = "\n".join((
+                json.dumps({"type": "system", "subtype": "init",
+                            "session_id": "session-h47",
+                            "tools": retained_tools47}),
+                json.dumps(dict(json.loads(cuse(
+                    "absolute-read47", "Read", {"file_path": S45})),
+                    session_id="session-h47")),
+                native_result47(
+                    "absolute-read47", rendered_read47(state47),
+                    absolute_result_file47)))
+            absolute_result_trace47 = hosts.hostread.normalize_claude(
+                absolute_result_stream47, requested_tools=requested47,
+                binding={"session_id": "session-h47"},
+                profile=profile47, formal=True)
+            check("H47s relative-absolute-claude-path-correlation",
+                  absolute_result_trace47.get("host_status") == "PASS"
+                  and absolute_result_trace47.get("actions", [{}])[0].get(
+                      "state") == "COMPLETED")
             adapter47._attempt_finalize_formal_host_read(
                 fx44, repo43, outcome47, capture47, "ok")
             adapter47._tool_trace = [{"action": "invalid"}]
@@ -2613,6 +2711,20 @@ def main():
                   "019f77dc-c4a6-75b3-ab18-130c2efdb677"
                   and retained_trace47.get("host_status") == "PASS"
                   and retained_status47 == "VALID")
+            insensitive_lineage_profile47 = json.loads(json.dumps(
+                retained_profile47))
+            insensitive_lineage_profile47["repo"]["case_sensitive"] = False
+            insensitive_lineage_session47 = retained_session47.replace(
+                b"/fixture/repo", b"/FIXTURE/REPO")
+            insensitive_lineage_status47 = \
+                hosts.hostread.corroborate_session(
+                    retained_stdout47, insensitive_lineage_session47,
+                    "codex", retained_binding47, retained_trace47,
+                    profile=insensitive_lineage_profile47,
+                    process_started={"started_at":
+                                     "2026-07-19T00:53:04.000Z"})
+            check("H47t case-insensitive-codex-session-root-correlation",
+                  insensitive_lineage_status47 == "VALID")
             retained_todo_events47 = open(os.path.join(
                 HERE, "testdata", "host-read-trust", "support",
                 "codex-retained-todo.jsonl"), encoding="utf-8").read()
