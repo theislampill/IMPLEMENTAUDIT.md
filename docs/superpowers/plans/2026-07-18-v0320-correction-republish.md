@@ -1,207 +1,234 @@
-# v0.3.2.0 correction and republication implementation plan
+# v0.3.2.0 corrected evaluator, 28/28 qualification, and republication roadmap
 
-> **Executor note:** This plan is governed by `/implementaudit`. Execute phases
-> in order. Do not republish while any B3 or reproducibility gate is red.
+> **Owner amendment, 2026-07-18:** The previously separate 28/28 successor
+> campaign is now part of `v0.3.2.0`. B3-v3 qualifies the evaluation
+> foundation only. Do not move the tag, republish, or close the release issues
+> or milestone until two unchanged 28/28 matrices and the untouched holdout
+> pass.
 
-**Goal:** Transparently correct and republish `v0.3.2.0`, then freeze it and
-open the separate `v0.3.3.0 — 28/28 behavioral qualification` program.
+**Goal:** Transparently republish `v0.3.2.0` only after corrected evidence
+architecture, reproducible packaging, stable 28/28 behavior, holdout evidence,
+and complete public/install readback are all green.
 
-**Owner/source:** 2026-07-18 owner correction directive.
-**Planned-at baseline:** `e7102711c0c514dc8478c807039c098335bb00cf`, clean,
-tracking identical `origin/main`.
-**Correction branch:** `fix/v0.3.2.0-b3-evidence-correction-sol`.
-**Worktree:** `C:\workspace\ai\improveimplementaudit\IMPLEMENTAUDIT-correction-v0320-sol`.
-**Run root:** `.IMPLEMENTAUDIT/runs/v0-3-2-0-corrected-republication-sol-5FIN9Y`.
+**Owner/source:** 2026-07-18 correction directive plus later same-day scope
+amendment.
+**Planned-at baseline:** `e7102711c0c514dc8478c807039c098335bb00cf`.
+**Foundation branch/PR:**
+`fix/v0.3.2.0-b3-evidence-correction-sol` / PR #73.
+**Run root:**
+`.IMPLEMENTAUDIT/runs/v0-3-2-0-corrected-republication-sol-5FIN9Y`.
 **Provenance:** Sol.
 
-## Scope and fixed boundaries
+## Fixed boundaries
 
-In scope: A1-A11 and the Program B start deliverables in the owner directive.
-The private raw campaigns are read-only. The original B3 fixture is immutable.
-The old public release may be deleted, issues/milestone reopened, and the tag
-replaced only in the authorized order. Commit, push, PR, merge, release,
-publication, public-asset install, issue creation/edit/closure, milestone
-creation/edit/closure, and the one-time tag replacement are explicitly owner
-authorized for this task.
+- The original public release is withdrawn; `v0.3.1.0` remains Latest.
+- The old annotated `v0.3.2.0` tag stays at its archived target until the final
+  combined release gate passes.
+- Issues #9, #10, and #35 and milestone `v0.3.2.0` stay open.
+- No `v0.3.3.0` milestone or release is created for this campaign.
+- Historical B3, B3-v2, 10/28, and 11/28 evidence is immutable.
+- No metered API spend, silent retry, cherry-picking, model substitution, or
+  fixture/scorer edit in place.
+- L/O model and host identities remain comparable unless the owner explicitly
+  changes them.
+- Sol-authored work is labeled Sol, never Fable.
 
-Out of scope: publishing a `v0.3.3.0` release; metered API spend; model
-substitution; silent retries; rewriting private raw evidence; claiming general
-model superiority; unrelated repo cleanup.
+## Checkpoint 1 — failed-publication preservation and withdrawal: complete
 
-## Phase 1 — Preserve and withdraw
+The old release metadata, tag object/target, downloaded assets, hashes,
+closure state, B3-v1 raw-event/verdict/bundle hashes, and contradiction are
+archived in the correction report. Release ID `356138470` was withdrawn only
+after remote durability; #9/#10/#35 and milestone 1 were reopened. The tag was
+not moved.
 
-**Files:**
+## Checkpoint 2 — corrected evaluator and reproducible builder: complete
 
-- `docs/audits/archive/v0.3.2.0-correction-and-republish-report.md`
-- `docs/superpowers/specs/2026-07-18-v0320-correction-republish-design.md`
-- this plan and the ignored run root
+PR #73's foundation separates product properties, host safety, and overall
+adjudication; rejects unreconstructible claims; adds negative controls; and
+normalizes ZIP ordering, time, modes, creator metadata, compression, paths,
+locale, and timezone. Intermediate two-clean-checkout archive bytes match.
+Final-commit cross-platform proof remains a release gate.
 
-**Steps:**
+## Checkpoint 3 — B3-v3 evaluator-foundation qualification: complete
 
-1. Record release ID/URL/title/body/times/Latest state, tag object/target,
-   downloaded assets and `CHECKSUMS.txt`, issue/milestone state, and clean
-   `main`/tag/worktree facts.
-2. Hash both original seeded B3 campaign intents, ledgers, completion records,
-   raw event streams, verdicts, and canonical bundle hashes.
-3. Re-score all 12 event streams with the byte-identical tagged scorer and
-   record the per-property matrix showing 0/12 all-true.
-4. Commit and push the evidence/design/plan; open the correction PR so the
-   historical record is remotely durable.
-5. Delete the GitHub release (not the tag), verify it is no longer Latest,
-   reopen #9/#10/#35, and reopen milestone 1.
+The immutable B3-v2 calibration remains failed phrase-measurement evidence.
+B3-v3 was frozen before execution with intent SHA-256 `0e99120d392eb2d5982590c693b9a53c346812f4e89f383d7160fa42f305b6f0`.
+The 12-mission interleaved campaign produced:
 
-**Verification:** remote branch/PR contains the A1 record; public release tag
-endpoint returns absent while git ref remains; three issues OPEN; milestone
-OPEN.
-**STOP:** any A1 hash cannot be reproduced, the public release differs from the
-snapshot, or remote durability is not confirmed.
+- 12/12 terminal PASS;
+- 72/72 required property cells true;
+- 12/12 host-safety PASS;
+- zero INVALID, ERROR, or model substitution;
+- exact candidate/control and L/O identities;
+- exactly one authorized capsule change per mission.
 
-## Phase 2 — B3-v1 RED and layered verdict GREEN
+A separate implementation importing none of the evaluator host/scorer/runner
+modules rederived the raw host tool order, capsule fields, repository snapshot
+deltas, identities, and stored matrix. It matched all rows; result SHA-256 is
+`0be6f31af047e10441b19c93295766eba93337f8f0e9208d525f94f66ced8f0a`.
+This closes the evaluator-foundation checkpoint, not the release.
 
-**Files/symbols:**
+## Phase 4 — cold-review and merge PR #73 as foundation only
 
-- `eval/runner.py::score_bundle`
-- `eval/lib/verdict.py::build_verdict`
-- `eval/lib/scoring.py::score_events` only if evidence proves a scorer defect
-- `eval/test_*.py`, `tests/eval-harness.test.sh`, and new focused regression
-  tests
+1. Record the B3-v3 campaign hashes and full matrix in the correction report.
+2. Perform a bounded fresh-context cold review of PR #73 without reusing the
+   authoring rationale as proof.
+3. Run complete eval, adversarial, host, adapter, reporting, package,
+   reproducibility, docs, and exact-head CI gates.
+4. Resolve every review finding and merge PR #73 only when green.
 
-**Steps:**
+**Publication boundary:** merging PR #73 does not authorize tag movement,
+release publication, or closure.
 
-1. Add a failing regression test using a minimal authentic B3-style bundle:
-   host unauthorized mutation plus scoreable events must retain all product
-   property results.
-2. Add negative RED cases for manufacture, erasure, incomplete-ceiling,
-   unreconstructible report claim, and replay mismatch.
-3. Refactor bundle evaluation so product measurements and host-safety findings
-   are composed separately; add an explicit adjudication object.
-4. Re-run the old B3-v1 reproducer and focused eval suites.
+## Phase 5 — freeze the v0.3.2.0 28-cell design and untouched holdout
 
-**Verification:** old implementation fails the new tests; corrected
-implementation passes; original stored events independently reproduce the
-recorded derived matrix.
-**STOP:** a foundational custody gate would need weakening, a property result
-could be inferred without evidence, or backward compatibility would silently
-reinterpret old verdicts.
+Before new product tuning:
 
-## Phase 3 — Freeze B3-v2 and prove the builder
+1. Preserve the historical contemporaneous control at 10/28 and original WIP
+   candidate at 11/28, including all splits, INVALID/ERROR records, and the two
+   invariant-level improvements. Never describe the one-cell delta as general
+   superiority.
+2. Freeze the original 14 fixtures × L/O = 28-cell matrix, fixture and scorer
+   hashes, exact host/model identities, attempt retention, no-retry rule,
+   comparison/repetition rule, and INVALID/ERROR treatment.
+3. Create an untouched holdout or preregistered perturbation suite and keep it
+   separate from development fixtures.
+4. Define the final gate before tuning: one 28/28 matrix, a second unchanged
+   28/28 confirmation, then the unchanged holdout.
 
-**Files:**
+**STOP:** any rule, scorer, fixture, or holdout content is selected after
+seeing its qualification result. A necessary correction creates a new version
+and applies symmetrically; failed evidence is never edited in place.
 
-- new `eval/fixtures/B3-v2/**` (never modify `eval/fixtures/B3/**`)
-- `eval/README.md`, self/adversarial/host tests
-- `scripts/build-release-asset.sh`
-- new release reproducibility checker/test plus both validation registries
+## Phase 6 — fresh foundation measurement and complete 17-cell causal ledger
 
-**Steps:**
+Run the corrected evaluator against the current v0.3.2.0 foundation before
+product changes. For each of the 17 historical non-PASS candidate cells,
+record raw evidence, invariant, observed/expected behavior, primary and
+secondary cause classes, falsifying probe, smallest coherent correction,
+deterministic RED/GREEN test, targeted model check, shared-rule hypothesis,
+and dependencies.
 
-1. Add B3-v2 with the six owner-required properties and decision/handoff
-   semantics observable before canonical mutation.
-2. Add deterministic PASS/FAIL/host-fail/incomplete negative controls.
-3. Canonicalize ZIP entries, timestamps, modes, creator/platform fields,
-   compression, paths, timezone, and locale effects.
-4. Add a two-independent-checkout reproducibility test comparing archive hash
-   and per-entry metadata/content/manifest.
-5. Freeze and hash B3-v2 fixture, scorer, candidate/control products, configs,
-   seed, repetitions, rules, and authorization boundary in a private campaign
-   intent before any live mission.
+Each cell is an individual Andon occurrence. Where host capacity permits, one
+read-only forensic subagent owns one cell and must inspect the raw bundle,
+transcript, tool events, repository before/after state, fixture, scorer, and
+verdict rather than infer from the aggregate ledger. The subagent returns a
+normalized evidence-bound Gemba/5-Whys report and cannot modify the product,
+scorer, fixture, campaign, or repository. The main executor reviews and
+materializes the durable report.
 
-**Verification:** all focused tests and two-checkout proof green; `git diff
---exit-code -- eval/fixtures/B3` proves B3-v1 unchanged.
-**STOP:** fixture/scorer choice changes after live output is observed, or two
-clean builds differ.
+Historical cells entering the ledger:
 
-## Phase 4 — Corrected 12-mission B3 comparison
+| Preliminary group | Cells |
+|---|---|
+| Continuity/resume and receiving-side state | B1-O; E9-L; E9-O |
+| Evidence skepticism, multi-cause reasoning, and residual closure | E2b-L/O; E3-L/O; E4-L/O; E5-L/O |
+| Authorization, durable lift, public-claim boundaries, and recurrence | E6-O; E7-L/O; E8-O; E10-O |
+| Infrastructure-origin separation | E2a-L |
 
-**Inputs:** immutable control `v0.3.1.0`; exact correction candidate; existing
-owner-approved subscription configs L and O; three repetitions; interleaved
-arms; no automatic retries.
+The corrected fresh measurement may reclassify host-short-circuited cells,
+but it never overwrites the historical 17-cell table. Because the forensic
+review also found manufactured PASS evidence, append-only corrected
+adjudication covers all 56 historical candidate/control bundles, not only the
+17 candidate FAILs.
 
-**Steps:**
+After all 17 reports exist, a separate synthesis pass clusters shared causes,
+and a separate adversarial review challenges every cluster, contradiction, and
+product-versus-measurement classification. Implementation cannot begin until
+those dispositions are reconciled into cluster-level governing Andons.
 
-1. Attest exact candidate/control/model/host identities and launch the frozen
-   12-mission plan.
-2. Preserve every attempt and terminal record; stop on quota/auth/substitution
-   and classify infrastructure origin without contaminating results.
-3. Require 12/12 terminal, property results in every verdict, zero unexplained
-   ERROR, zero unaccounted INVALID, and zero substitution.
-4. Independently replay the raw events and compare the complete property
-   matrix byte-for-byte with recorded verdicts.
-5. Apply the preregistered improvement/no-regression rule. If it fails, keep
-   the release unpublished and return to a bounded causal repair.
+## Phase 7 — measurement repair, re-adjudication, and causal probes
 
-**Verification:** campaign ledger, intent hash, run hashes, property matrix,
-identity attestations, and independent re-derivation recorded in the correction
-report.
-**STOP:** any rule ambiguity, missing property result, identity mismatch,
-unauthorized canonical write, or failed preregistered release criterion.
+The adversarial synthesis accepted the shared measurement diagnosis but
+rejected premature product attribution. Execute this order before any product
+countermeasure:
 
-## Phase 5 — Records, review, qualification, and merge
+1. generalize layered verdict persistence and report-claim reconstruction;
+2. add fixture preflight for materialized state, authority/artifact coherence,
+   oracle/doctrine consistency, and discriminating seeds;
+3. repair four distinct scoring mechanisms: semantic classification,
+   protocol-record parsing/negation, entity counting, and visible/grounded
+   oracle identity;
+4. append corrected adjudications for all 56 historical bundles without
+   overwriting any original verdict;
+5. add activation, governing-rule-use, model-visible authority, host
+   enforcement, and external-write observability;
+6. run preregistered falsifying diagnostics for E3, E4/E7/E8, and E10;
+7. approve a cluster-level product governing Andon only when those probes
+   establish product causality.
 
-**Files:** README, CHANGELOG, portal sources, audit index, four v0.3.2.0 release
-ledgers, correction report, release-body source, package evidence/checksums.
+Only then may implementation subagents work at an approved causal-cluster
+boundary, never one per cell. One coherent product countermeasure is expected
+to close every related cell; the main executor reviews and integrates it.
 
-**Steps:**
+Every evaluator, fixture, instrumentation, diagnostic, or proven product
+tranche must pass, in order:
 
-1. Correct the historical false claim without deleting the historical record;
-   replace stale mandatory-Fable-gate wording with optional future review.
-2. Correct `#1-#7 + #11-#15` to twelve core contracts plus #35 separately.
-3. Add the owner-specified public “What’s New” and keep structural tests,
-   independent review, and live model behavior visibly distinct.
-4. Run a bounded fresh-context cold review of the complete diff and evidence;
-   record PASS/GAP-REVISE/BLOCKED/OWNER-DECISION and resolve every gap.
-5. Run all deterministic/eval/adversarial/host/adapter/package/portal gates,
-   two-checkout reproducibility, exact-head CI, and clean-scope checks.
-6. Commit/push review fixes, make the PR ready, wait for exact-head CI, and
-   merge only when all release-critical evidence is green.
+1. deterministic RED/GREEN regression tests;
+2. adversarial/negative controls;
+3. focused L/O model comparison under the frozen boundary;
+4. independent cold review;
+5. full no-regression qualification before merge.
 
-**Verification:** correction PR merged; exact merge commit and CI checks green;
-main clean/synced; no unrelated changes.
-**STOP:** any release-critical test, review disposition, or exact-head check is
-not green.
+No fixture names, magic evaluation keywords, test-string special cases,
+model-specific transcript hacks, post-output scorer relaxation, or giant
+always-loaded instruction expansion are permitted.
 
-## Phase 6 — Corrected tag/release transaction
+Required hierarchy:
 
-**Steps:**
+`17 cell Andons -> evidence-bound Gemba and 5-Whys reports -> shared
+causal-cluster map -> cluster-level governing Andons -> coherent countermeasure
+tranches -> full 28/28 -> unchanged 28/28 confirmation -> holdout`.
 
-1. Archive the old tag object/target already captured in Phase 1, delete the
-   old tag ref, and create a corrected annotated `v0.3.2.0` tag at the final
-   CI-green release commit with the authorized-republication disclosure.
-2. Build twice from independent clean checkouts; require identical bytes and
-   SHA-256; generate matching `CHECKSUMS.txt`.
-3. Publish non-draft/non-prerelease/Latest with a visible correction note and
-   complete old/new tag and asset hashes.
-4. Download public assets to a clean location, verify hashes and metadata,
-   install from the downloaded public asset, compare installed-file parity,
-   and run post-install smoke.
-5. Verify tag dereference, CI, release body, asset API metadata, Latest state,
-   and public readback; only then close #9/#10/#35 and milestone 1.
+## Phase 8 — final behavioral qualification
 
-**Verification:** every A11 readback passes. Only then print
-`V0.3.2.0_CORRECTED_REPUBLISH_COMPLETE`.
-**Rollback:** if publication/readback fails, withdraw the corrected release,
-keep issues/milestone open, preserve the tag state/evidence, and repair before
-republication; do not invent success.
+1. Freeze the final candidate commit and verify every development attempt is
+   retained.
+2. Run the full preregistered 28-cell matrix once. Require 28/28, zero INVALID,
+   zero unexplained ERROR, zero substitution, and no release-critical
+   regression.
+3. Without changing product, fixture, scorer, config, or rules, run a second
+   clean confirmation matrix and require 28/28 again.
+4. Run the untouched holdout/perturbation suite unchanged.
+5. Independently rederive both matrices and the holdout from raw ledgers.
 
-## Phase 7 — Start, do not publish, the 28/28 successor
+A single 28/28 attempt is not stable qualification. If nondeterminism prevents
+two confirmations, report exact unstable cells; do not weaken the definition.
 
-**Steps:**
+## Phase 9 — final records, package, review, and CI
 
-1. Freeze corrected `v0.3.2.0`; make no further tag changes.
-2. Create milestone `v0.3.3.0 — 28/28 behavioral qualification` unless live
-   roadmap evidence assigns another version; create umbrella tracker.
-3. Commit campaign intent, untouched holdout policy, 28-cell historical
-   baseline, 17-cell causal ledger, cluster map, and first tranche artifact.
-4. Open the first causal tranche issue/branch/PR as appropriate, but do not
-   publish a successor release without a later owner decision.
+Update the evaluation/release/install/closure reports, CHANGELOG, README, audit
+index, portal, release-body source, checksums, and public “What's New.” Keep
+deterministic structural tests, independent implementation review, and observed
+model behavior distinct. Correct the count to twelve core contracts
+(`#1-#7` plus `#11-#15`) plus context continuity separately.
 
-**Verification:** milestone/tracker/artifacts exist and first tranche is
-actively opened. Only then print `CAMPAIGN_28_OF_28_STARTED`.
+Run complete deterministic registries, evaluation suites, `verify-package.sh`,
+two independent clean-checkout and cross-platform byte-reproducibility proof,
+fresh install smoke, cold review, exact-head CI, and clean-scope checks.
 
-## Final done condition
+## Phase 10 — transparent v0.3.2.0 tag replacement and republication
 
-The corrected public release is verifiably installed and frozen, release
-issues/milestone are closed after readback, the separate 28/28 program is
-actively opened with frozen evidence and a first tranche, and the consolidated
-owner report identifies every hash, commit, PR, matrix, provenance boundary,
-and remaining risk. `AUDIT_COMPLETE` is forbidden before those conditions.
+Only after Phases 4-9 are green:
+
+1. archive/read back the old annotated tag again, delete the old ref, and
+   create the disclosed owner-authorized corrected annotation at the final
+   CI-green commit;
+2. build twice and require byte-identical assets/checksums;
+3. publish non-draft, non-prerelease, Latest with the visible correction note
+   and old/new tag and asset hashes;
+4. download public assets cleanly, verify hashes/metadata, install from the
+   public asset, verify installed parity, and run smoke;
+5. verify public tag/release/CI/readback, then and only then close #9/#10/#35
+   and milestone `v0.3.2.0`.
+
+Only after every public/install/closure readback passes may the terminal marker
+`V0.3.2.0_CORRECTED_REPUBLISH_COMPLETE` be printed.
+
+## Current next authorized action
+
+Finish and reconcile the independent adversarial review of the complete
+17-cell Andon register and causal-cluster synthesis. Only then approve the
+first coherent evaluator/fixture countermeasure tranche. PR #73 still requires
+its own cold review and complete foundation gates; a green merge does not
+authorize publication.
