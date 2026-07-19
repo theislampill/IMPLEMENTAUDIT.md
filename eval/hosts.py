@@ -58,6 +58,7 @@ import hashlib
 import json
 import os
 import re
+import shlex
 import shutil
 import subprocess
 import sys
@@ -942,18 +943,118 @@ class _BaseAdapter:
         return obs == exp or obs.endswith("/" + exp)
 
     @staticmethod
-    def _read_only_command(command):
-        text = str(command or "").lower()
-        if any(token in text for token in (
-                "apply_patch", "set-content", "add-content", "write_text",
-                " tee ", ">>", " > ", "rm ", "mv ", "cp ", "touch ",
-                "mkdir ", "chmod ", "chown ", "git add", "git commit")):
+    def _has_output_redirection(command):
+        """Return true for an unquoted shell output-redirection operator."""
+        quote = None
+        escaped = False
+        for char in str(command or ""):
+            if escaped:
+                escaped = False
+                continue
+            if quote is not None:
+                if char == quote:
+                    quote = None
+                elif quote == '"' and char == "\\":
+                    escaped = True
+                continue
+            if char == "\\":
+                escaped = True
+                continue
+            if char in ("'", '"'):
+                quote = char
+                continue
+            if char == ">":
+                return True
+        return False
+
+    @staticmethod
+    def _command_name(token):
+        name = str(token or "").replace("\\", "/").rsplit("/", 1)[-1]
+        name = name.lower()
+        return name[:-4] if name.endswith(".exe") else name
+
+    @classmethod
+    def _resolved_command(cls, stage):
+        """Resolve only the common wrappers accepted as read evidence."""
+        tokens = list(stage)
+        index = 0
+        assignment = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*=")
+        while index < len(tokens):
+            while index < len(tokens) and assignment.match(tokens[index]):
+                index += 1
+            if index >= len(tokens):
+                return None, []
+            name = cls._command_name(tokens[index])
+            index += 1
+            if name == "command":
+                if index < len(tokens) and tokens[index] in ("-v", "-V"):
+                    return None, []
+                continue
+            if name in ("exec", "env", "sudo", "xargs"):
+                # Wrapper options without operands (including xargs -0) are
+                # transparent. Operand-taking options fail closed because the
+                # next token will not resolve to a reader command.
+                while index < len(tokens) and tokens[index].startswith("-"):
+                    index += 1
+            if name == "env":
+                while index < len(tokens) and assignment.match(tokens[index]):
+                    index += 1
+                continue
+            if name in ("exec", "sudo"):
+                continue
+            if name == "xargs":
+                if index >= len(tokens):
+                    return None, []
+                continue
+            return name, tokens[index:]
+        return None, []
+
+    @classmethod
+    def _read_only_command(cls, command):
+        text = str(command or "")
+        lowered = text.lower()
+        if cls._has_output_redirection(text) or any(
+                token in lowered for token in (
+                    "apply_patch", "set-content", "add-content",
+                    "write_text", " tee ", "rm ", "mv ", "cp ", "touch ",
+                    "mkdir ", "chmod ", "chown ", "git add",
+                    "git commit")):
             return False
-        direct_reader = bool(re.search(
-            r"\b(sed|cat|head|tail|get-content|type)\b", text))
-        content_search = bool(re.search(r"\b(rg|grep)\b", text)) and \
-            not bool(re.search(r"(?:^|\s)--files(?:\s|$)", text))
-        return direct_reader or content_search
+        try:
+            lexer = shlex.shlex(
+                text, posix=True, punctuation_chars=";&|<>")
+            lexer.whitespace_split = True
+            lexer.commenters = ""
+            tokens = list(lexer)
+        except ValueError:
+            return False
+
+        stage = []
+        piped_input = False
+
+        def stage_reads_content(stage_tokens, consumes_pipe):
+            name, args = cls._resolved_command(stage_tokens)
+            if name in ("sed", "cat", "head", "tail", "get-content",
+                        "type"):
+                return True
+            if name in ("rg", "grep") and not consumes_pipe:
+                return name != "rg" or "--files" not in args
+            return False
+
+        for token in tokens + [";"]:
+            if token in ("|", "|&"):
+                if stage_reads_content(stage, piped_input):
+                    return True
+                stage = []
+                piped_input = True
+            elif token in ("&&", "||", ";", "&", ";;", ";&", ";;&"):
+                if stage_reads_content(stage, piped_input):
+                    return True
+                stage = []
+                piped_input = False
+            else:
+                stage.append(token)
+        return False
 
     @staticmethod
     def _command_mentions_path(command, expected):

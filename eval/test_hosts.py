@@ -1141,12 +1141,92 @@ def main():
             "aggregated_output":
                 ".IMPLEMENTAUDIT/runs/run-1/STATE.md\n"
                 ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md\n"}})
+        find44 = json.dumps({"type": "item.completed", "item": {
+            "type": "command_execution", "exit_code": 0,
+            "command": "find .IMPLEMENTAUDIT/runs/run-1 -type f -print",
+            "aggregated_output":
+                ".IMPLEMENTAUDIT/runs/run-1/STATE.md\n"
+                ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md\n"}})
+        mixed_list44 = json.dumps({"type": "item.completed", "item": {
+            "type": "command_execution", "exit_code": 0,
+            "command": "rg --files .IMPLEMENTAUDIT/runs/run-1 && find "
+                       ".IMPLEMENTAUDIT/runs/run-1 -type f -print",
+            "aggregated_output":
+                ".IMPLEMENTAUDIT/runs/run-1/STATE.md\n"
+                ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md\n"}})
         spoof44 = json.dumps({"type": "item.completed", "item": {
             "type": "command_execution", "exit_code": 0,
             "command": "rg -n 'STATE.md|ROADMAP.md' notes.txt",
             "aggregated_output":
                 "notes.txt:1:.IMPLEMENTAUDIT/runs/run-1/STATE.md\n"
                 "notes.txt:2:.IMPLEMENTAUDIT/runs/run-1/ROADMAP.md\n"}})
+        type44 = json.dumps({"type": "item.completed", "item": {
+            "type": "command_execution", "exit_code": 0,
+            "command": "type .IMPLEMENTAUDIT/runs/run-1/STATE.md && type "
+                       ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md",
+            "aggregated_output": "state contents\nroadmap contents\n"}})
+        find_grep44 = json.dumps({"type": "item.completed", "item": {
+            "type": "command_execution", "exit_code": 0,
+            "command": "find .IMPLEMENTAUDIT/runs/run-1 -type f -print | "
+                       "grep -E 'STATE|ROADMAP'",
+            "aggregated_output":
+                ".IMPLEMENTAUDIT/runs/run-1/STATE.md\n"
+                ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md\n"}})
+        synthetic_grep44 = json.dumps({"type": "item.completed", "item": {
+            "type": "command_execution", "exit_code": 0,
+            "command": "printf '%s\\n' .IMPLEMENTAUDIT/runs/run-1/STATE.md "
+                       ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md | "
+                       "grep -E 'STATE|ROADMAP'",
+            "aggregated_output":
+                ".IMPLEMENTAUDIT/runs/run-1/STATE.md\n"
+                ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md\n"}})
+        cat_grep44 = json.dumps({"type": "item.completed", "item": {
+            "type": "command_execution", "exit_code": 0,
+            "command": "cat .IMPLEMENTAUDIT/runs/run-1/STATE.md "
+                       ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md | grep ANDON",
+            "aggregated_output": "ANDON 251\n"}})
+        overwrite44 = json.dumps({"type": "item.completed", "item": {
+            "type": "command_execution", "exit_code": 0,
+            "command": "cat .IMPLEMENTAUDIT/runs/run-1/STATE.md "
+                       ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md"
+                       ">.IMPLEMENTAUDIT/runs/run-1/capsule.json",
+            "aggregated_output": ""}})
+        append44 = json.dumps({"type": "item.completed", "item": {
+            "type": "command_execution", "exit_code": 0,
+            "command": "cat .IMPLEMENTAUDIT/runs/run-1/STATE.md "
+                       ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md"
+                       ">>.IMPLEMENTAUDIT/runs/run-1/capsule.json",
+            "aggregated_output": ""}})
+        stderr_redirect44 = json.dumps({"type": "item.completed", "item": {
+            "type": "command_execution", "exit_code": 0,
+            "command": "cat .IMPLEMENTAUDIT/runs/run-1/STATE.md "
+                       ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md 2>errors.log",
+            "aggregated_output": "state contents\nroadmap contents\n"}})
+        quoted_arg_redirect44 = json.dumps({
+            "type": "item.completed", "item": {
+                "type": "command_execution", "exit_code": 0,
+                "command": "cat \"label's value\" "
+                           ".IMPLEMENTAUDIT/runs/run-1/STATE.md "
+                           ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md"
+                           ">.IMPLEMENTAUDIT/runs/run-1/capsule.json",
+                "aggregated_output": ""}})
+        wrapped_readers44 = [
+            json.dumps({"type": "item.completed", "item": {
+                "type": "command_execution", "exit_code": 0,
+                "command": command,
+                "aggregated_output": "state contents\nroadmap contents\n"}})
+            for command in (
+                "printf '%s\\0' .IMPLEMENTAUDIT/runs/run-1/STATE.md "
+                ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md | xargs -0 cat",
+                "env CONTINUITY=1 cat .IMPLEMENTAUDIT/runs/run-1/STATE.md "
+                ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md",
+                "sudo cat .IMPLEMENTAUDIT/runs/run-1/STATE.md "
+                ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md",
+                "exec cat .IMPLEMENTAUDIT/runs/run-1/STATE.md "
+                ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md",
+                "Get-Content .IMPLEMENTAUDIT/runs/run-1/STATE.md,"
+                ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md",
+            )]
         try:
             write_event = codex44.splitlines()[-1]
             a43._tool_trace = a43._extract_tool_trace(
@@ -1158,12 +1238,88 @@ def main():
             a43._tool_trace = a43._extract_tool_trace(
                 spoof44 + "\n" + write_event)
             spoofed44d = a43._run_host_checks(fx44, repo43)
+            a43._tool_trace = a43._extract_tool_trace(
+                find44 + "\n" + write_event)
+            find_only44d = a43._run_host_checks(fx44, repo43)
+            a43._tool_trace = a43._extract_tool_trace(
+                mixed_list44 + "\n" + write_event)
+            mixed_list_only44d = a43._run_host_checks(fx44, repo43)
+            a43._tool_trace = a43._extract_tool_trace(
+                type44 + "\n" + write_event)
+            type_read44d = a43._run_host_checks(fx44, repo43)
             check("H44d content-read-not-file-listing",
                   good44d.get("read_before_write") is True
                   and bad44d.get("read_before_write") is False
-                  and spoofed44d.get("read_before_write") is False)
+                  and spoofed44d.get("read_before_write") is False
+                  and find_only44d.get("read_before_write") is False
+                  and mixed_list_only44d.get("read_before_write") is False
+                  and type_read44d.get("read_before_write") is True)
+
+            # A successful filename-listing event remains non-evidence in a
+            # complete trace. The property turns true only after both files
+            # are subsequently read by a genuine content-reader command.
+            a43._tool_trace = a43._extract_tool_trace(
+                mixed_list44 + "\n" + write_event)
+            listing_before_write44e = a43._run_host_checks(fx44, repo43)
+            a43._tool_trace = a43._extract_tool_trace(
+                mixed_list44 + "\n" + type44 + "\n" + write_event)
+            content_read_before_write44e = a43._run_host_checks(fx44, repo43)
+            check("H44e listing-stays-false-until-content-read",
+                  listing_before_write44e.get("read_before_write") is False
+                  and content_read_before_write44e.get(
+                      "read_before_write") is True)
+
+            # A search command consuming pipeline input proves only that it
+            # searched the producer's output. Listing/synthetic producers do
+            # not become file-content reads; an actual cat producer does.
+            pipeline_results44f = []
+            for event in (find_grep44, synthetic_grep44, cat_grep44):
+                a43._tool_trace = a43._extract_tool_trace(
+                    event + "\n" + write_event)
+                pipeline_results44f.append(
+                    a43._run_host_checks(fx44, repo43).get(
+                        "read_before_write"))
+            check("H44f pipeline-source-controls-content-read",
+                  pipeline_results44f == [False, False, True])
+
+            # Output redirection opens a write before the content command
+            # executes, so the same command event cannot establish read-before-
+            # write ordering. A later clean reader event may establish it.
+            redirect_results44g = []
+            for event in (overwrite44, append44, stderr_redirect44,
+                          quoted_arg_redirect44):
+                a43._tool_trace = a43._extract_tool_trace(
+                    event + "\n" + write_event)
+                redirect_results44g.append(
+                    a43._run_host_checks(fx44, repo43).get(
+                        "read_before_write"))
+            a43._tool_trace = a43._extract_tool_trace(
+                overwrite44 + "\n" + type44 + "\n" + write_event)
+            redirect_then_clean44g = a43._run_host_checks(fx44, repo43)
+            check("H44g output-redirection-disqualifies-read-event",
+                  redirect_results44g == [False, False, False, False]
+                  and redirect_then_clean44g.get(
+                      "read_before_write") is True)
+
+            # Common execution wrappers preserve the actual command position.
+            # They must recognize cat/Get-Content without treating find's
+            # unrelated `-type` option as a reader command.
+            wrapped_results44h = []
+            for event in wrapped_readers44:
+                a43._tool_trace = a43._extract_tool_trace(
+                    event + "\n" + write_event)
+                wrapped_results44h.append(
+                    a43._run_host_checks(fx44, repo43).get(
+                        "read_before_write"))
+            check("H44h wrapped-reader-command-position",
+                  wrapped_results44h == [True, True, True, True, True]
+                  and find_only44d.get("read_before_write") is False)
         except (AttributeError, framework.AdapterError):
             check("H44d content-read-not-file-listing", False)
+            check("H44e listing-stays-false-until-content-read", False)
+            check("H44f pipeline-source-controls-content-read", False)
+            check("H44g output-redirection-disqualifies-read-event", False)
+            check("H44h wrapped-reader-command-position", False)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     if failures:
