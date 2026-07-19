@@ -82,9 +82,12 @@ qualification evidence.
 
 ## Phase 4 — cold-review and merge PR #73 as foundation only
 
-1. Obtain an independent cold-review PASS on exact formal-v2 commit
-   `79cc2fe304ad4397bc65237435f4a9618cf5edf3`, including the retained
-   112-state adversarial corpus and complete 59-test package gate.
+1. Preserve exact commit `79cc2fe304ad4397bc65237435f4a9618cf5edf3`
+   as a third independent `BLOCK` despite its broad green gates. Obtain an
+   independent cold-review PASS on repaired exact commit
+   `7b9a0e7bf5c4d52f7d16a1c0d93669fdafc81b77`, including the retained
+   112-state adversarial corpus, four appended reviewer controls, and complete
+   59-test package gate.
 2. Preserve all rejected attempts and the full parser/evidence convergence
    lineage; do not cherry-pick only the final patch.
 3. Integrate that reviewed lineage into PR #73 and correct every B3-v3 claim to
@@ -262,7 +265,7 @@ Only after every public/install/closure readback passes may the terminal marker
 ## Current next authorized action
 
 Obtain the required independent exact-commit cold-review verdict on the
-formal-v2 host-read repair at `79cc2fe304ad4397bc65237435f4a9618cf5edf3`.
+formal-v2 host-read repair at `7b9a0e7bf5c4d52f7d16a1c0d93669fdafc81b77`.
 If PASS, preserve the review ledger, integrate the full repair lineage into PR
 #73, run the combined exact-head gates/review/CI, and merge only the foundation
 without publishing. Then freeze and run B3-v4. Only after B3-v4 is green should
