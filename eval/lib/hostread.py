@@ -150,17 +150,28 @@ def _strict_object(line):
 
 
 def _within(path, root, case_sensitive=True):
-    path = str(path or "").replace("\\", "/").rstrip("/")
-    root = str(root or "").replace("\\", "/").rstrip("/")
+    path = str(path or "").replace("\\", "/")
+    root = str(root or "").replace("\\", "/")
+    if path != "/":
+        path = path.rstrip("/")
+    if root != "/":
+        root = root.rstrip("/")
     if not case_sensitive:
         path = path.casefold()
         root = root.casefold()
-    return bool(path and root and (path == root or path.startswith(root + "/")))
+    return bool(path and root and (
+        path == root or
+        (root == "/" and path.startswith("/")) or
+        path.startswith(root + "/")))
 
 
 def _same_path(first, second, case_sensitive=True):
-    first = str(first or "").replace("\\", "/").rstrip("/")
-    second = str(second or "").replace("\\", "/").rstrip("/")
+    first = str(first or "").replace("\\", "/")
+    second = str(second or "").replace("\\", "/")
+    if first != "/":
+        first = first.rstrip("/")
+    if second != "/":
+        second = second.rstrip("/")
     if not case_sensitive:
         first = first.casefold()
         second = second.casefold()
@@ -504,9 +515,14 @@ def _profile_matches_replay_spec(profile, replay_spec):
     if host != replay_spec.get("host"):
         return False
     if host == "claude":
-        return list(_mapping(profile.get("native_tools")).get(
-            "requested") or []) == list(
-                replay_spec.get("requested_tools") or [])
+        profile_requested = _mapping(profile.get("native_tools")).get(
+            "requested")
+        replay_requested = replay_spec.get("requested_tools")
+        return (isinstance(profile_requested, list) and
+                all(isinstance(tool, str) for tool in profile_requested) and
+                isinstance(replay_requested, list) and
+                all(isinstance(tool, str) for tool in replay_requested) and
+                profile_requested == replay_requested)
     return True
 
 
@@ -532,7 +548,7 @@ def _normalize_path(path, preimages):
         parts = [part for part in parts if part not in ("", ".")]
         candidate = str(PurePosixPath(
             preimages["repo"]["lexical_root"], *parts))
-    root = preimages["repo"]["lexical_root"].rstrip("/")
+    root = preimages["repo"]["lexical_root"]
     case_sensitive = preimages["repo"]["case_sensitive"]
     if not _within(candidate, root, case_sensitive=case_sensitive):
         return None
@@ -957,10 +973,24 @@ def normalize_claude(raw_stdout, requested_tools, binding=None, profile=None,
             expected_host="claude")["host_status"] != "PASS":
         machine.invalid_action(0, "invalid formal Claude profile")
     binding = binding or {}
-    requested = list(requested_tools or [])
-    if (formal and isinstance(profile, dict) and
-            list(_mapping(profile.get("native_tools")).get(
-                "requested") or []) != requested):
+    requested_shape_valid = (isinstance(requested_tools, list) and
+                             all(isinstance(tool, str)
+                                 for tool in requested_tools))
+    if formal and not requested_shape_valid:
+        machine.invalid_action(0, "invalid requested tool list")
+    if requested_shape_valid:
+        requested = list(requested_tools)
+    elif not formal and isinstance(requested_tools, tuple) and all(
+            isinstance(tool, str) for tool in requested_tools):
+        requested = list(requested_tools)
+    else:
+        requested = []
+    profile_requested = _mapping(
+        _mapping(profile).get("native_tools")).get("requested")
+    if (formal and
+            (not isinstance(profile_requested, list) or
+             any(not isinstance(tool, str) for tool in profile_requested) or
+             profile_requested != requested)):
         machine.invalid = True
         machine.findings.append({
             "code": "profile-requested-tools-mismatch",
@@ -2098,6 +2128,8 @@ def corroborate_session(raw_stdout, raw_session, host, binding, trace,
         turn = turns[0].get("payload") or {}
         repo = _mapping(_mapping(profile).get("repo"))
         case_sensitive = repo.get("case_sensitive", True)
+        if type(case_sensitive) is not bool:
+            return "INVALID"
         if (meta.get("id") != binding.get("thread_id") or
                 meta.get("session_id") != binding.get("thread_id") or
                 binding.get("stdout_turn_ordinal") != 1 or

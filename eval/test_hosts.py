@@ -8,6 +8,7 @@ not-before window, exactly-one-match) is what gets tested — there is no
 stdout-provenance shortcut left to test."""
 from __future__ import annotations
 
+import base64
 import json
 import os
 import shutil
@@ -2672,6 +2673,44 @@ def main():
                   malformed_profile_crashed47 is False
                   and malformed_profile_statuses47 == ["INVALID"] * 3)
 
+            malformed_requested_statuses47 = []
+            malformed_requested_crashed47 = False
+            malformed_requested_helper47 = []
+            for malformed_requested47 in (1, True):
+                malformed_requested_profile47 = {
+                    "native_tools": {"requested": malformed_requested47}}
+                try:
+                    malformed_requested_trace47 = \
+                        hosts.hostread.normalize_claude(
+                            "", requested_tools=["Read"],
+                            profile=malformed_requested_profile47,
+                            formal=True)
+                    malformed_requested_statuses47.append(
+                        malformed_requested_trace47.get("host_status"))
+                    malformed_requested_helper47.append(
+                        hosts.hostread._profile_matches_replay_spec(
+                            malformed_requested_profile47,
+                            {"host": "claude",
+                             "requested_tools": ["Read"]}))
+                except Exception:
+                    malformed_requested_crashed47 = True
+            malformed_requested_arguments47 = []
+            for malformed_requested_argument47 in (
+                    1, True, {"Read": True}, "Read", ("Read",)):
+                try:
+                    malformed_requested_arguments47.append(
+                        hosts.hostread.normalize_claude(
+                            "", requested_tools=malformed_requested_argument47,
+                            profile=profile47,
+                            formal=True).get("host_status"))
+                except Exception:
+                    malformed_requested_crashed47 = True
+            check("H47ad nested-requested-tools-fail-closed",
+                  malformed_requested_crashed47 is False
+                  and malformed_requested_statuses47 == ["INVALID"] * 2
+                  and malformed_requested_helper47 == [False, False]
+                  and malformed_requested_arguments47 == ["INVALID"] * 5)
+
             mismatched_identity_preimages47 = json.loads(json.dumps(
                 preimages47))
             mismatched_identity_preimages47["targets"][S45][
@@ -2692,6 +2731,27 @@ def main():
                   hosts.hostread.validate_preimages(
                       mismatched_identity_preimages47).get("status") ==
                   "INVALID" and mismatched_identity_rejected47)
+
+            root_data47 = b"root-bound\n"
+            root_preimages47 = {
+                "schema": hosts.hostread.PREIMAGE_SCHEMA,
+                "repo": {"lexical_root": "/", "real_root": "/",
+                         "case_sensitive": True},
+                "targets": {"etc/hosts": {
+                    "canonical_path": "/etc/hosts",
+                    "relative_path": "etc/hosts",
+                    "content_base64": base64.b64encode(
+                        root_data47).decode("ascii"),
+                    "sha256": hosts.bundlelib._sha256_bytes(root_data47),
+                    "size": len(root_data47), "mode": 0o100644,
+                    "symlink_free": True}}}
+            check("H47af posix-filesystem-root-is-root-bound",
+                  hosts.hostread.validate_preimages(
+                      root_preimages47).get("status") == "PASS"
+                  and hosts.hostread._normalize_path(
+                      "etc/hosts", root_preimages47) == "/etc/hosts"
+                  and hosts.hostread._path_matches(
+                      "/etc/hosts", "etc/hosts", root_preimages47))
             adapter47._attempt_finalize_formal_host_read(
                 fx44, repo43, outcome47, capture47, "ok")
             adapter47._tool_trace = [{"action": "invalid"}]
@@ -2915,6 +2975,21 @@ def main():
                                      "2026-07-19T00:53:04.000Z"})
             check("H47t case-insensitive-codex-session-root-correlation",
                   insensitive_lineage_status47 == "VALID")
+            malformed_case_statuses47 = []
+            for malformed_case47 in ("false", [], 1, None, {}):
+                malformed_case_profile47 = json.loads(json.dumps(
+                    retained_profile47))
+                malformed_case_profile47["repo"][
+                    "case_sensitive"] = malformed_case47
+                malformed_case_statuses47.append(
+                    hosts.hostread.corroborate_session(
+                        retained_stdout47, retained_session47, "codex",
+                        retained_binding47, retained_trace47,
+                        profile=malformed_case_profile47,
+                        process_started={"started_at":
+                                         "2026-07-19T00:53:04.000Z"}))
+            check("H47ae malformed-case-semantics-session-invalid",
+                  malformed_case_statuses47 == ["INVALID"] * 5)
             retained_todo_events47 = open(os.path.join(
                 HERE, "testdata", "host-read-trust", "support",
                 "codex-retained-todo.jsonl"), encoding="utf-8").read()
