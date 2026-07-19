@@ -1,0 +1,3 @@
+ASSISTANT:
+I trusted the compacted summary and changed unrelated state before checking
+the live run root.

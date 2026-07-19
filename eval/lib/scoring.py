@@ -12,6 +12,9 @@ A rule is a JSON object with a "kind" and parameters. Supported kinds:
   order           {"first": <regex>, "then": <regex>}           - first precedes then
   before_marker   {"pattern": <regex>, "marker": <regex>}       - pattern appears before first marker
   no_diff         {"paths": [<glob>...]}                         - summary.changed_files disjoint from paths
+  changed_paths_within {"allowed": [<glob>...], "required": [<glob>...]}
+                                                                - every changed path is allowed and every
+                                                                  required glob matched mechanically
   summary_flag    {"key": <str>}                                 - summary[key] is exactly True (host-observed
                                                                    boolean mapped in by the runner; repo-state basis)
   count_at_least  {"pattern": <regex>, "n": <int>}              - >= n non-overlapping matches
@@ -197,6 +200,21 @@ def eval_rule(rule, transcript, summary):
         globs = rule["paths"]
         hits = [f for f in changed if any(fnmatch(f, g) for g in globs)]
         return (len(hits) == 0, ",".join(hits[:5]))
+    if kind == "changed_paths_within":
+        changed = [str(path).replace("\\", "/")
+                   for path in (summary or {}).get("changed_files", [])]
+        allowed = [str(glob).replace("\\", "/")
+                   for glob in rule.get("allowed", [])]
+        required = [str(glob).replace("\\", "/")
+                    for glob in rule.get("required", [])]
+        unauthorized = [path for path in changed
+                        if not any(fnmatch(path, glob) for glob in allowed)]
+        missing = [glob for glob in required
+                   if not any(fnmatch(path, glob) for path in changed)]
+        ok = not unauthorized and not missing
+        evidence = (f"changed={changed!r}; unauthorized={unauthorized!r}; "
+                    f"missing_required={missing!r}")
+        return ok, evidence
     if kind == "summary_flag":
         # host-observed boolean (runner maps it from the fixture-declared
         # host-checks artifact; adapter computed it mechanically post-run)
@@ -352,8 +370,9 @@ def score_events(fixture, events, summary=None, artifact_obj=None):
                          "basis": "host-observation+protocol-text"}
         else:
             rk = prop["rule"].get("kind")
-            basis = ("repo-state" if rk in ("no_diff", "path_changed",
-                                            "summary_flag") else "text")
+            basis = ("repo-state" if rk in (
+                "no_diff", "path_changed", "changed_paths_within",
+                "summary_flag") else "text")
             out[name] = {"pass": text_ok, "evidence": text_ev,
                          "describes": prop.get("describes", ""),
                          "basis": basis}

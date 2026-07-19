@@ -1055,6 +1055,115 @@ def main():
         except framework.AdapterError as exc:
             check("H43b json-fields-path-escape-refused",
                   "unsafe" in str(exc))
+
+        # 44. Host-owned tool sequence proves both durable-state reads
+        # precede the sole authorized capsule write. Phrase order in the
+        # final answer is not a substitute for the tool trace.
+        fx44 = {"host_checks": {"specs": [{
+            "key": "read_before_write", "kind": "path_access_order",
+            "reads": [
+                ".IMPLEMENTAUDIT/runs/run-1/STATE.md",
+                ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md"],
+            "write": ".IMPLEMENTAUDIT/runs/run-1/capsule.json"}]}}
+        a43._tool_trace = [
+            {"ordinal": 1, "action": "read",
+             "path": ".IMPLEMENTAUDIT/runs/run-1/STATE.md",
+             "source": "unit"},
+            {"ordinal": 2, "action": "read",
+             "path": ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md",
+             "source": "unit"},
+            {"ordinal": 3, "action": "write",
+             "path": ".IMPLEMENTAUDIT/runs/run-1/capsule.json",
+             "source": "unit"},
+        ]
+        try:
+            good44 = a43._run_host_checks(fx44, repo43)
+            a43._tool_trace[0]["ordinal"] = 4
+            bad44 = a43._run_host_checks(fx44, repo43)
+            check("H44 durable-reads-before-write",
+                  good44.get("read_before_write") is True
+                  and bad44.get("read_before_write") is False)
+        except framework.AdapterError:
+            check("H44 durable-reads-before-write", False)
+        codex44 = "\n".join((
+            json.dumps({"type": "item.completed", "item": {
+                "type": "command_execution", "exit_code": 0,
+                "command": "sed -n 1,200p .IMPLEMENTAUDIT/runs/run-1/"
+                           "STATE.md && sed -n 1,200p "
+                           ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md"}}),
+            json.dumps({"type": "item.completed", "item": {
+                "type": "file_change", "changes": [{
+                    "path": ".IMPLEMENTAUDIT/runs/run-1/capsule.json",
+                    "kind": "add"}]}})))
+        claude44 = "\n".join((
+            json.dumps({"type": "assistant", "message": {"content": [{
+                "type": "tool_use", "id": "read-state", "name": "Read", "input": {
+                    "file_path": ".IMPLEMENTAUDIT/runs/run-1/STATE.md"}}]}}),
+            json.dumps({"type": "user", "message": {"content": [{
+                "type": "tool_result", "tool_use_id": "read-state",
+                "content": "ok", "is_error": False}]}}),
+            json.dumps({"type": "assistant", "message": {"content": [{
+                "type": "tool_use", "id": "read-roadmap", "name": "Read", "input": {
+                    "file_path": ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md"}}]}}),
+            json.dumps({"type": "user", "message": {"content": [{
+                "type": "tool_result", "tool_use_id": "read-roadmap",
+                "content": "ok", "is_error": False}]}}),
+            json.dumps({"type": "assistant", "message": {"content": [{
+                "type": "tool_use", "id": "write-capsule", "name": "Write", "input": {
+                    "file_path": ".IMPLEMENTAUDIT/runs/run-1/capsule.json",
+                    "content": "{}"}}]}}),
+            json.dumps({"type": "user", "message": {"content": [{
+                "type": "tool_result", "tool_use_id": "write-capsule",
+                "content": "ok", "is_error": False}]}})))
+        try:
+            a43._tool_trace = a43._extract_tool_trace(codex44)
+            c44 = a43._run_host_checks(fx44, repo43)
+            a43._tool_trace = a43._extract_tool_trace(claude44)
+            o44 = a43._run_host_checks(fx44, repo43)
+            check("H44c cross-host-tool-trace",
+                  c44.get("read_before_write") is True
+                  and o44.get("read_before_write") is True)
+        except (AttributeError, framework.AdapterError):
+            check("H44c cross-host-tool-trace", False)
+
+        # 44d. A content search over the run root counts only when its
+        # successful host output identifies both files. Listing-only and
+        # mixed mutating commands cannot manufacture the read result.
+        rg44 = json.dumps({"type": "item.completed", "item": {
+            "type": "command_execution", "exit_code": 0,
+            "command": "rg -n 'ANDON|epoch' .IMPLEMENTAUDIT/runs/run-1",
+            "aggregated_output":
+                ".IMPLEMENTAUDIT/runs/run-1/STATE.md:1:epoch\n"
+                ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md:1:ANDON\n"}})
+        list44 = json.dumps({"type": "item.completed", "item": {
+            "type": "command_execution", "exit_code": 0,
+            "command": "rg --files .IMPLEMENTAUDIT/runs/run-1",
+            "aggregated_output":
+                ".IMPLEMENTAUDIT/runs/run-1/STATE.md\n"
+                ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md\n"}})
+        spoof44 = json.dumps({"type": "item.completed", "item": {
+            "type": "command_execution", "exit_code": 0,
+            "command": "rg -n 'STATE.md|ROADMAP.md' notes.txt",
+            "aggregated_output":
+                "notes.txt:1:.IMPLEMENTAUDIT/runs/run-1/STATE.md\n"
+                "notes.txt:2:.IMPLEMENTAUDIT/runs/run-1/ROADMAP.md\n"}})
+        try:
+            write_event = codex44.splitlines()[-1]
+            a43._tool_trace = a43._extract_tool_trace(
+                rg44 + "\n" + write_event)
+            good44d = a43._run_host_checks(fx44, repo43)
+            a43._tool_trace = a43._extract_tool_trace(
+                list44 + "\n" + write_event)
+            bad44d = a43._run_host_checks(fx44, repo43)
+            a43._tool_trace = a43._extract_tool_trace(
+                spoof44 + "\n" + write_event)
+            spoofed44d = a43._run_host_checks(fx44, repo43)
+            check("H44d content-read-not-file-listing",
+                  good44d.get("read_before_write") is True
+                  and bad44d.get("read_before_write") is False
+                  and spoofed44d.get("read_before_write") is False)
+        except (AttributeError, framework.AdapterError):
+            check("H44d content-read-not-file-listing", False)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     if failures:

@@ -1,0 +1,8 @@
+{
+ "boundary_provenance_bound": false,
+ "live_state_read_before_capsule_write": false,
+ "stale_one_shot_satisfied": false,
+ "continuity_capsule_bound": false,
+ "current_work_handoff_bound": false,
+ "changed_files": ["STATE.md"]
+}

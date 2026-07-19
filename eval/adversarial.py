@@ -101,6 +101,24 @@ def run_rule_semantics_cases():
         print(f"  [{'OK' if ok else 'XX'}] {name}: overall_pass={got} (want {must_pass})")
         if not ok:
             failures.append(name)
+    path_rule = {
+        "kind": "changed_paths_within",
+        "allowed": [".IMPLEMENTAUDIT/runs/run-1/capsule.json"],
+        "required": [".IMPLEMENTAUDIT/runs/run-1/capsule.json"],
+    }
+    for name, changed, must_pass in (
+            ("A11 authorized-exact-change",
+             [".IMPLEMENTAUDIT/runs/run-1/capsule.json"], True),
+            ("A12 unauthorized-extra-change",
+             [".IMPLEMENTAUDIT/runs/run-1/capsule.json", "STATE.md"], False),
+            ("A13 required-change-missing", [], False)):
+        got, _evidence = scoring.eval_rule(
+            path_rule, "", {"changed_files": changed})
+        ok = got == must_pass
+        print(f"  [{'OK' if ok else 'XX'}] {name}: pass={got} "
+              f"(want {must_pass})")
+        if not ok:
+            failures.append(name)
     return failures
 
 
@@ -615,8 +633,8 @@ def main():
     if failures:
         print("ADVERSARIAL FAIL:", ", ".join(failures))
         return 1
-    print("ADVERSARIAL OK: %d rule cases + 29 bundle/identity/snapshot "
-          "cases, no model called." % len(CASES))
+    print("ADVERSARIAL OK: %d rule cases + 3 changed-path cases + 29 "
+          "bundle/identity/snapshot cases, no model called." % len(CASES))
     return 0
 
 

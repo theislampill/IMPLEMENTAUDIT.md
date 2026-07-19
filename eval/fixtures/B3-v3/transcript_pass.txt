@@ -1,0 +1,4 @@
+ASSISTANT:
+Live state reconciled. The exact bound continuity capsule was written after
+the durable-state reads, no other path changed, and the current ANDON 251
+action is routed to an audited handoff under the execution boundary.

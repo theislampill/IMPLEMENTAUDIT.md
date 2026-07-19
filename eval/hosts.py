@@ -57,6 +57,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -385,7 +386,7 @@ def _spawn_once(argv, env, cwd, timeout_s, stdin_text=None, on_started=None):
 
 class _BaseAdapter:
     name = "base"
-    version = "2"
+    version = "3"
     timeout_s = 1800
     capabilities = frozenset()
 
@@ -412,6 +413,7 @@ class _BaseAdapter:
         self._events_source = None
         self._staged_payload_hash = None
         self._not_before = None
+        self._tool_trace = []
 
     # --- provenance -------------------------------------------------------
     def resolve_model(self, host_output_text):
@@ -654,6 +656,7 @@ class _BaseAdapter:
                 result = outcome
                 return result
             raw_stream = self.collect_raw_stream(repo, outcome)
+            self._tool_trace = self._extract_tool_trace(outcome.stdout)
             try:
                 events = self.parse_events(outcome.stdout)
             except ValueError as exc:
@@ -853,6 +856,127 @@ class _BaseAdapter:
         return _clean_env()
 
     # --- deterministic host checks (fixture-declared) ----------------------
+    @staticmethod
+    def _extract_tool_trace(out):
+        """Extract successful host-assigned file/tool actions in order.
+
+        The trace is transient adjudication input. Raw host streams remain the
+        authoritative retained evidence; only boolean results and ordinals are
+        copied into host-checks.json, so tool arguments are not duplicated.
+        """
+        records = []
+        pending_claude = []
+        claude_results = {}
+        ordinal = 0
+        for line in (out or "").splitlines():
+            try:
+                event = json.loads(line)
+            except (TypeError, json.JSONDecodeError):
+                continue
+            ordinal += 1
+            item = event.get("item") or {}
+            if event.get("type") == "item.completed":
+                if item.get("type") == "command_execution" and \
+                        item.get("exit_code") == 0:
+                    records.append({
+                        "ordinal": ordinal, "action": "command",
+                        "command": str(item.get("command") or ""),
+                        "output": str(item.get("aggregated_output") or ""),
+                        "source": "codex-command-completed"})
+                elif item.get("type") == "file_change" and \
+                        item.get("status") in (None, "completed"):
+                    for change in item.get("changes") or []:
+                        if isinstance(change, dict) and change.get("path"):
+                            records.append({
+                                "ordinal": ordinal, "action": "write",
+                                "path": str(change["path"]),
+                                "source": "codex-file-change-completed"})
+
+            message = event.get("message") or {}
+            if not isinstance(message, dict):
+                message = {}
+            blocks = message.get("content") or []
+            if event.get("type") == "assistant":
+                for block in blocks:
+                    if not isinstance(block, dict) or \
+                            block.get("type") != "tool_use":
+                        continue
+                    tool = str(block.get("name") or "")
+                    inputs = block.get("input") or {}
+                    action = None
+                    path = None
+                    command = None
+                    if tool == "Read":
+                        action = "read"
+                        path = inputs.get("file_path")
+                    elif tool in ("Write", "Edit"):
+                        action = "write"
+                        path = inputs.get("file_path")
+                    elif tool == "Bash":
+                        action = "command"
+                        command = inputs.get("command")
+                    if action:
+                        pending_claude.append({
+                            "ordinal": ordinal, "action": action,
+                            "path": str(path) if path else None,
+                            "command": str(command) if command else None,
+                            "source": f"claude-{tool.lower()}-completed",
+                            "tool_use_id": block.get("id")})
+            elif event.get("type") == "user":
+                for block in blocks:
+                    if isinstance(block, dict) and \
+                            block.get("type") == "tool_result":
+                        claude_results[block.get("tool_use_id")] = \
+                            not bool(block.get("is_error"))
+        for record in pending_claude:
+            if claude_results.get(record.pop("tool_use_id")) is True:
+                records.append(record)
+        return sorted(records, key=lambda record: record["ordinal"])
+
+    @staticmethod
+    def _trace_path_match(observed, expected):
+        if not observed:
+            return False
+        obs = str(observed).replace("\\", "/").rstrip("/").lower()
+        exp = str(expected).replace("\\", "/").strip("/").lower()
+        return obs == exp or obs.endswith("/" + exp)
+
+    @staticmethod
+    def _read_only_command(command):
+        text = str(command or "").lower()
+        if any(token in text for token in (
+                "apply_patch", "set-content", "add-content", "write_text",
+                " tee ", ">>", " > ", "rm ", "mv ", "cp ", "touch ",
+                "mkdir ", "chmod ", "chown ", "git add", "git commit")):
+            return False
+        direct_reader = bool(re.search(
+            r"\b(sed|cat|head|tail|get-content|type)\b", text))
+        content_search = bool(re.search(r"\b(rg|grep)\b", text)) and \
+            not bool(re.search(r"(?:^|\s)--files(?:\s|$)", text))
+        return direct_reader or content_search
+
+    @staticmethod
+    def _command_mentions_path(command, expected):
+        text = str(command or "").replace("\\", "/").lower()
+        path = str(expected).replace("\\", "/").strip("/").lower()
+        return path in text
+
+    @staticmethod
+    def _output_identifies_path(output, expected):
+        """Accept a search-result source path, not a path string in content."""
+        path = str(expected).replace("\\", "/").strip("/").lower()
+        for raw_line in str(output or "").splitlines():
+            line = raw_line.strip().replace("\\", "/").lower()
+            at = line.find(path)
+            if at < 0:
+                continue
+            before_ok = at == 0 or line[at - 1] == "/"
+            end = at + len(path)
+            after_ok = end == len(line) or line[end] in (":", "-", "\t")
+            if before_ok and after_ok:
+                return True
+        return False
+
     def _run_host_checks(self, fx, repo):
         hc = fx.get("host_checks")
         if not hc:
@@ -918,6 +1042,43 @@ class _BaseAdapter:
                 out[key] = not mismatches
                 if mismatches:
                     detail[key] = "mismatched fields: " + ",".join(mismatches)
+            elif kind == "path_access_order":
+                reads = [str(path).replace("\\", "/")
+                         for path in spec.get("reads", [])]
+                write = str(spec.get("write", "")).replace("\\", "/")
+                if (not reads or not write or
+                        any(os.path.isabs(path) or ".." in path.split("/")
+                            for path in reads + [write])):
+                    raise framework.AdapterError(
+                        "path_access_order requires safe relative paths")
+
+                def first_ordinal(action, expected):
+                    hits = []
+                    for record in self._tool_trace:
+                        if record.get("action") == action and \
+                                self._trace_path_match(
+                                    record.get("path"), expected):
+                            hits.append(record["ordinal"])
+                        elif action == "read" and \
+                                record.get("action") == "command" and \
+                                self._read_only_command(record.get("command")) \
+                                and (self._command_mentions_path(
+                                    record.get("command"), expected) or
+                                     self._output_identifies_path(
+                                         record.get("output"), expected)):
+                            hits.append(record["ordinal"])
+                    return min(hits) if hits else None
+
+                read_ordinals = [first_ordinal("read", path)
+                                 for path in reads]
+                write_ordinal = first_ordinal("write", write)
+                ok = (write_ordinal is not None and
+                      all(value is not None for value in read_ordinals) and
+                      max(read_ordinals) < write_ordinal)
+                out[key] = ok
+                detail[key] = (
+                    f"read_ordinals={read_ordinals}; "
+                    f"write_ordinal={write_ordinal}")
             elif kind == "validate_run_root":
                 out[key], detail[key] = self._validate_run_root(repo)
             elif kind == "run_root_exists":

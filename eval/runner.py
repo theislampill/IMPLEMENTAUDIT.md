@@ -57,8 +57,9 @@ def _scorer_commit():
 
 def _uses_repo_state(rule):
     """A rule needs repository snapshots when it reads changed_files —
-    no_diff OR path_changed (directly or nested)."""
-    if rule.get("kind") in ("no_diff", "path_changed"):
+    no_diff, path_changed, or changed_paths_within (directly or nested)."""
+    if rule.get("kind") in (
+            "no_diff", "path_changed", "changed_paths_within"):
         return True
     return any(_uses_repo_state(r) for r in rule.get("rules", []))
 
@@ -189,7 +190,8 @@ def score_bundle(run_root, repo_dir=None):
                          for p in fixture["properties"])
         if needs_repo and (before is None or after is None):
             raise bundlelib.BundleInvalid(
-                "fixture requires repository evidence (no_diff/path_changed) "
+                "fixture requires repository evidence "
+                "(no_diff/path_changed/changed_paths_within) "
                 "but the bundle lacks before/after snapshots")
         if before is not None and after is not None:
             try:
