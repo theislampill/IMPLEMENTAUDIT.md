@@ -117,6 +117,17 @@ def main():
                  lifecycle.decode_strict_json_bytes(value, "nonfinite row"))
     rejected("utf-8", lambda: lifecycle.decode_strict_json_bytes(
         b"\xff", "invalid row"))
+    overflow_failures = []
+    for label, raw in (("positive exponent overflow", b"1e400"),
+                       ("negative exponent overflow", b"-1e400")):
+        collect_rejection(
+            label, "non-finite",
+            lambda value=raw: lifecycle.decode_strict_json_bytes(
+                value, "overflow row"),
+            overflow_failures)
+    assert not overflow_failures, (
+        "decoded exponent overflow unexpectedly accepted: " +
+        ", ".join(overflow_failures))
 
     class IntSubclass(int):
         pass
@@ -530,6 +541,27 @@ def main():
         rejected("missing", lambda: lifecycle.validate_stage_resume(
             root, stage(missions), binding(1)))
 
+    with tempfile.TemporaryDirectory(prefix="campaign-tuple-missions-") as tmp:
+        root = pathlib.Path(tmp).resolve()
+        lifecycle.write_new_json(root / "campaign-manifest.json", {
+            "schema": "campaign-a-manifest-v1", "campaign": "campaign-a"})
+        missions = [mission(0)]
+        write_attempt(root, missions[0])
+        tuple_stage = stage(tuple(missions))
+        rejected("stage descriptor missions must be an exact list", lambda:
+                 lifecycle.write_stage_terminal(root, tuple_stage, binding(1)))
+
+    with tempfile.TemporaryDirectory(prefix="campaign-set-stop-states-") as tmp:
+        root = pathlib.Path(tmp).resolve()
+        lifecycle.write_new_json(root / "campaign-manifest.json", {
+            "schema": "campaign-a-manifest-v1", "campaign": "campaign-a"})
+        missions = [mission(0)]
+        write_attempt(root, missions[0])
+        set_stage = stage(missions)
+        set_stage["stop_states"] = {"INVALID", "ERROR"}
+        rejected("stage descriptor stop_states must be an exact list", lambda:
+                 lifecycle.write_stage_terminal(root, set_stage, binding(1)))
+
     with tempfile.TemporaryDirectory(prefix="campaign-stage-identity-") as tmp:
         root = pathlib.Path(tmp).resolve()
         lifecycle.write_new_json(root / "campaign-manifest.json", {
@@ -540,6 +572,107 @@ def main():
                  lifecycle.write_stage_terminal(
                      root, stage(foreign_missions, campaign="campaign-a"),
                      binding(1, campaign="campaign-a")))
+
+    root_campaign_failures = []
+    with tempfile.TemporaryDirectory(prefix="campaign-foreign-root-") as tmp:
+        root = pathlib.Path(tmp).resolve()
+        lifecycle.write_new_json(root / "campaign-manifest.json", {
+            "schema": "campaign-b-manifest-v1", "campaign": "campaign-b"})
+        local_missions = [mission(0, "campaign-a")]
+        write_attempt(root, local_missions[0])
+        foreign_root_stage = stage(local_missions, campaign="campaign-a")
+        foreign_root_stage["allowed_root"] = root_policy("campaign-b")
+        collect_rejection(
+            "foreign-only root campaign", "root campaign identity",
+            lambda: lifecycle.write_stage_terminal(
+                root, foreign_root_stage, binding(1, campaign="campaign-a")),
+            root_campaign_failures)
+
+    with tempfile.TemporaryDirectory(prefix="campaign-conflicting-root-") as tmp:
+        root = pathlib.Path(tmp).resolve()
+        lifecycle.write_new_json(root / "campaign-manifest.json", {
+            "schema": "campaign-a-manifest-v1", "campaign": "campaign-a"})
+        lifecycle.write_new_json(root / "foreign-root.json", {
+            "schema": "campaign-b-root-v1", "campaign": "campaign-b"})
+        local_missions = [mission(0, "campaign-a")]
+        write_attempt(root, local_missions[0])
+        conflicting_stage = stage(local_missions, campaign="campaign-a")
+        conflicting_stage["allowed_root"]["foreign-root.json"] = {
+            "kind": "json_identity",
+            "identity": {
+                "schema": "campaign-b-root-v1", "campaign": "campaign-b"},
+        }
+        collect_rejection(
+            "conflicting additional root campaign", "root campaign identity",
+            lambda: lifecycle.write_stage_terminal(
+                root, conflicting_stage, binding(1, campaign="campaign-a")),
+            root_campaign_failures)
+    assert not root_campaign_failures, (
+        "root campaign conflict unexpectedly accepted: " +
+        ", ".join(root_campaign_failures))
+
+    with tempfile.TemporaryDirectory(prefix="campaign-generic-root-") as tmp:
+        root = pathlib.Path(tmp).resolve()
+        lifecycle.write_new_json(root / "campaign-manifest.json", {
+            "schema": "campaign-a-manifest-v1", "campaign": "campaign-a"})
+        lifecycle.write_new_json(root / "generic-root.json", {
+            "schema": "generic-root-v1", "purpose": "non-campaign evidence"})
+        local_missions = [mission(0, "campaign-a")]
+        write_attempt(root, local_missions[0])
+        generic_stage = stage(local_missions, campaign="campaign-a")
+        generic_stage["allowed_root"]["generic-root.json"] = {
+            "kind": "json_identity",
+            "identity": {"schema": "generic-root-v1"},
+        }
+        lifecycle.write_stage_terminal(
+            root, generic_stage, binding(1, campaign="campaign-a"))
+
+    with tempfile.TemporaryDirectory(prefix="campaign-complete-attempt-") as tmp:
+        root = pathlib.Path(tmp).resolve()
+        lifecycle.write_new_json(root / "campaign-manifest.json", {
+            "schema": "campaign-a-manifest-v1", "campaign": "campaign-a"})
+        complete_missions = [mission(0)]
+        complete_descriptor = complete_missions[0]
+        complete_descriptor["allowed_attempt"].update({
+            "optional-evidence.bin": {"kind": "custodied_file"},
+            "retained-evidence.bin": {"kind": "custodied_file"},
+        })
+        write_attempt(root, complete_descriptor)
+        attempt = root / complete_descriptor["attempt"]
+        retained_path = attempt / "retained-evidence.bin"
+        retained_bytes = b"retained-at-pause"
+        lifecycle.write_new_bytes(retained_path, retained_bytes)
+        lifecycle.write_stage_terminal(
+            root, stage(complete_missions), binding(1))
+
+        complete_set_failures = []
+        retained_path.write_bytes(b"mutated-after-pause")
+        collect_rejection(
+            "mutated present attempt artifact", "stage snapshot",
+            lambda: lifecycle.validate_stage_resume(
+                root, stage(complete_missions), binding(1)),
+            complete_set_failures)
+        retained_path.write_bytes(retained_bytes)
+
+        optional_path = attempt / "optional-evidence.bin"
+        lifecycle.write_new_bytes(optional_path, b"added-after-pause")
+        collect_rejection(
+            "added declared attempt artifact", "stage snapshot",
+            lambda: lifecycle.validate_stage_resume(
+                root, stage(complete_missions), binding(1)),
+            complete_set_failures)
+        optional_path.unlink()
+
+        retained_path.unlink()
+        collect_rejection(
+            "removed declared attempt artifact", "stage snapshot",
+            lambda: lifecycle.validate_stage_resume(
+                root, stage(complete_missions), binding(1)),
+            complete_set_failures)
+        lifecycle.write_new_bytes(retained_path, retained_bytes)
+        assert not complete_set_failures, (
+            "complete attempt evidence drift unexpectedly accepted: " +
+            ", ".join(complete_set_failures))
 
     print("test_campaign_lifecycle: ok")
 

@@ -49,6 +49,7 @@ def decode_strict_json_bytes(data, owner, *, require_object=False):
             text, object_pairs_hook=_unique, parse_constant=_nonfinite)
     except json.JSONDecodeError as exc:
         raise ValueError(f"{owner} is malformed JSON") from exc
+    _validate_strict_json_model(value, owner)
     if require_object and type(value) is not dict:
         raise ValueError(f"{owner} must be an object")
     return value
@@ -369,13 +370,13 @@ def validate_terminal_prefix(root, missions, *, stop_states, allowed_root):
                     raw, owner, require_object=True)
                 _identity(value, policy["identity"], owner)
                 decoded[name] = value
-                retained_bytes[name] = raw
             else:
                 raw = read_custodied_bytes(attempt / name, owner, root=root)
                 if policy["kind"] == "exact_bytes" and (
                         len(raw) != policy["byte_length"] or
                         hashlib.sha256(raw).hexdigest() != policy["sha256"]):
                     raise ValueError(f"{owner} exact bytes or hash drift")
+            retained_bytes[name] = raw
         status = decoded["attempt-status.json"]
         terminal = decoded["attempt-terminal.json"]
         _identity(status, descriptor["status_identity"], "attempt status")
@@ -395,7 +396,8 @@ def validate_terminal_prefix(root, missions, *, stop_states, allowed_root):
         rows.append({"attempt": descriptor["attempt"], "status": status,
                      "terminal": terminal,
                      "status_bytes": retained_bytes["attempt-status.json"],
-                     "terminal_bytes": retained_bytes["attempt-terminal.json"]})
+                     "terminal_bytes": retained_bytes["attempt-terminal.json"],
+                     "artifact_bytes": retained_bytes})
     return TerminalPrefix(rows, root_artifacts)
 
 
@@ -410,8 +412,13 @@ def _stage_descriptor(value):
         if type(value[key]) is not str or not value[key]:
             raise ValueError(f"stage descriptor {key} invalid")
     _direct_name(value["terminal_name"], "stage terminal")
-    if type(value["missions"]) not in (list, tuple):
-        raise ValueError("stage descriptor missions must be ordered")
+    if type(value["missions"]) is not list:
+        raise ValueError("stage descriptor missions must be an exact list")
+    if type(value["stop_states"]) is not list:
+        raise ValueError("stage descriptor stop_states must be an exact list")
+    if type(value["allowed_root"]) is not dict:
+        raise ValueError("stage descriptor allowed_root must be an exact object")
+    _validate_strict_json_model(value, "stage descriptor")
     for index, mission in enumerate(value["missions"]):
         if type(mission) is not dict:
             raise ValueError(f"stage mission {index} must be an object")
@@ -421,6 +428,19 @@ def _stage_descriptor(value):
                     identity.get("campaign") != value["campaign"]):
                 raise ValueError(
                     f"stage mission campaign identity mismatch at {index}")
+    matching_campaign_roots = 0
+    for name, policy in value["allowed_root"].items():
+        if type(policy) is not dict or policy.get("kind") != "json_identity":
+            continue
+        identity = policy.get("identity")
+        if type(identity) is not dict or "campaign" not in identity:
+            continue
+        if identity["campaign"] != value["campaign"]:
+            raise ValueError(
+                f"stage root campaign identity mismatch for {name}")
+        matching_campaign_roots += 1
+    if matching_campaign_roots == 0:
+        raise ValueError("stage root campaign identity missing")
     return value
 
 
@@ -452,15 +472,18 @@ def _stage_snapshot_sha256(stage, rows):
         })
     entries = []
     for descriptor, row in zip(stage["missions"], rows):
-        status_bytes = row["status_bytes"]
-        terminal_bytes = row["terminal_bytes"]
+        artifacts = []
+        for name in sorted(row["artifact_bytes"]):
+            raw = row["artifact_bytes"][name]
+            artifacts.append({
+                "name": name,
+                "byte_length": len(raw),
+                "sha256": hashlib.sha256(raw).hexdigest(),
+            })
         entries.append({
             "mission_descriptor": descriptor,
             "attempt": row["attempt"],
-            "status_byte_length": len(status_bytes),
-            "status_sha256": hashlib.sha256(status_bytes).hexdigest(),
-            "terminal_byte_length": len(terminal_bytes),
-            "terminal_sha256": hashlib.sha256(terminal_bytes).hexdigest(),
+            "artifacts": artifacts,
         })
     snapshot = {
         "schema": "implementaudit-closed-stage-snapshot-v1",
