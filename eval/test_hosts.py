@@ -8,6 +8,7 @@ not-before window, exactly-one-match) is what gets tested — there is no
 stdout-provenance shortcut left to test."""
 from __future__ import annotations
 
+import base64
 import json
 import os
 import shutil
@@ -20,8 +21,10 @@ sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.join(HERE, "lib"))
 import adapters as framework  # noqa: E402
 import hosts  # noqa: E402
+import reposnapshot  # noqa: E402
 import reconcile as reconcilelib  # noqa: E402
 import runner  # noqa: E402
+import test_host_read_contract  # noqa: E402
 
 failures = []
 
@@ -111,6 +114,82 @@ elif scenario == "session-mismatch":
     write_session(agent_msgs=["a different message entirely"])
     print(json.dumps({"type": "agent_message",
                       "message": "not in the session record"}))
+elif scenario in ("b3-host-invalid-claude",
+                  "b3-incomplete-host-invalid-claude",
+                  "b3-false-json-hostcheck-claude"):
+    sid = "b3-host-invalid-session"
+    state_path = (".IMPLEMENTAUDIT/runs/audit-closure-a7Kx2f/"
+                  "STATE.md")
+    roadmap_path = (".IMPLEMENTAUDIT/runs/audit-closure-a7Kx2f/"
+                    "ROADMAP.md")
+    capsule_path = (".IMPLEMENTAUDIT/runs/audit-closure-a7Kx2f/"
+                    "continuity-capsule.json")
+    state = open(state_path, encoding="utf-8").read()
+    roadmap = open(roadmap_path, encoding="utf-8").read()
+    capsule = {
+        "repository_identity": "context-epoch-fixture-repo",
+        "run_root": ".IMPLEMENTAUDIT/runs/audit-closure-a7Kx2f",
+        "boundary_provenance": "host-reported-compaction",
+        "source_epoch": "epoch-7", "new_epoch": "epoch-8",
+        "current_active_item": "ANDON 251",
+        "next_authorized_action": "countermeasure rerun for ANDON 251",
+        "stale_one_shot": "fix ANDON 150",
+        "stale_one_shot_status": "satisfied",
+        "decision": "audited-handoff",
+        "authorization_reason": "execution not authorized; capsule only"}
+    if scenario == "b3-false-json-hostcheck-claude":
+        capsule = {}
+    os.makedirs(os.path.dirname(capsule_path), exist_ok=True)
+    with open(capsule_path, "x", encoding="utf-8") as fh:
+        json.dump(capsule, fh, sort_keys=True)
+    tools = ["Task", "Bash", "Edit", "Glob", "Grep", "Read", "Skill",
+             "Workflow", "Write"]
+    rows = []
+
+    def event(obj):
+        obj = dict(obj)
+        obj["session_id"] = sid
+        rows.append(obj)
+
+    def tool_use(tool_id, name, inputs):
+        event({"type": "assistant", "message": {
+            "model": "claude-opus-4-8", "content": [{
+                "type": "tool_use", "id": tool_id, "name": name,
+                "input": inputs}]}})
+
+    def tool_result(tool_id, content):
+        event({"type": "user", "message": {"content": [{
+            "type": "tool_result", "tool_use_id": tool_id,
+            "content": content, "is_error": False}]}})
+
+    event({"type": "system", "subtype": "init", "tools": tools,
+           "effort": "high"})
+    tool_use("state-read", "Read", {"file_path": state_path})
+    tool_result("state-read", state)
+    if scenario != "b3-incomplete-host-invalid-claude":
+        tool_use("roadmap-read", "Read", {"file_path": roadmap_path})
+        tool_result("roadmap-read", roadmap)
+    tool_use("capsule-write", "Write", {
+        "file_path": capsule_path, "content": json.dumps(capsule)})
+    tool_result("capsule-write", "ok")
+    # Deliberate adjacent malformed host action. It must make host safety
+    # INVALID without erasing the six product-property measurements.
+    tool_use(True, "Read", {"file_path": state_path})
+    event({"type": "assistant", "message": {
+        "model": "claude-opus-4-8", "content": [{
+            "type": "text", "text": "Reconciled live state; audited handoff."}]}})
+    event({"type": "result", "is_error": False,
+           "modelUsage": {"claude-opus-4-8": {"outputTokens": 10}}})
+    config = os.environ["CLAUDE_CONFIG_DIR"]
+    transcript = os.path.join(config, "projects", "fixture", sid + ".jsonl")
+    os.makedirs(os.path.dirname(transcript), exist_ok=True)
+    with open(transcript, "w", encoding="utf-8") as fh:
+        fh.write(json.dumps({"type": "system", "subtype": "transcript",
+                            "session_id": sid}) + "\n")
+        for row in rows:
+            fh.write(json.dumps(row) + "\n")
+    for row in rows:
+        print(json.dumps(row))
 elif scenario == "nonzero":
     sys.exit(3)
 elif scenario == "hang":
@@ -160,8 +239,34 @@ elif scenario == "write-canonical":
 '''
 
 
+TEST_POSIX_READ_ATTESTATION = {
+    "id": "test-posix-read-profile-v1", "shell_dialect": "posix",
+    "executables": {
+        "cat": "/bin/cat", "sed": "/bin/sed", "head": "/usr/bin/head",
+        "tail": "/usr/bin/tail", "rg": "/usr/bin/rg",
+        "grep": "/bin/grep", "command": "builtin:command",
+        "exec": "builtin:exec", "env": "/usr/bin/env",
+        "sudo": "/usr/bin/sudo", "xargs": "/usr/bin/xargs",
+        "true": "builtin:true", "false": "builtin:false",
+        "exit": "builtin:exit", "printf": "builtin:printf",
+        "echo": "builtin:echo", "find": "/usr/bin/find",
+        "ls": "/bin/ls", "stat": "/usr/bin/stat",
+        "git": "/usr/bin/git", "touch": "/usr/bin/touch",
+        "tee": "/usr/bin/tee", "alias": "builtin:alias",
+        "type": "builtin:type"}}
+
+TEST_POWERSHELL_READ_ATTESTATION = {
+    "id": "test-powershell-read-profile-v1",
+    "shell_dialect": "powershell",
+    "executables": {"get-content": "powershell:Get-Content"}}
+
+TEST_CMD_READ_ATTESTATION = {
+    "id": "test-cmd-read-profile-v1", "shell_dialect": "cmd",
+    "executables": {"type": "cmd:type"}}
+
+
 def make_adapter(tmp, scenario, kind="codex", counter=None, checkout=None,
-                 home=None):
+                 home=None, host_read_attestation=TEST_POSIX_READ_ATTESTATION):
     mock = os.path.join(tmp, "mock_host.py")
     if not os.path.isfile(mock):
         open(mock, "w", encoding="utf-8").write(MOCK)
@@ -169,12 +274,14 @@ def make_adapter(tmp, scenario, kind="codex", counter=None, checkout=None,
     if kind == "codex":
         a = hosts.CodexAdapter(
             codex_home=home or os.path.join(tmp, "codex-home"),
-            product_checkout=checkout, formal=False)
+            product_checkout=checkout, formal=False,
+            host_read_attestation=host_read_attestation)
         os.makedirs(a.codex_home, exist_ok=True)
         a.preflight = lambda: None  # version/auth gates unit-tested below
     else:
         a = hosts.ClaudeAdapter(config_dir=os.path.join(tmp, "claude-cfg"),
-                                product_checkout=checkout, formal=False)
+                                product_checkout=checkout, formal=False,
+                                host_read_attestation=host_read_attestation)
         os.makedirs(a.config_dir, exist_ok=True)
     a.host_argv_template = argv
     a.timeout_s = 5
@@ -1025,6 +1132,13 @@ def main():
         # decide the property.
         repo43 = os.path.join(tmp, "h43-repo")
         os.makedirs(repo43)
+        state43 = os.path.join(
+            repo43, ".IMPLEMENTAUDIT", "runs", "run-1", "STATE.md")
+        roadmap43 = os.path.join(
+            repo43, ".IMPLEMENTAUDIT", "runs", "run-1", "ROADMAP.md")
+        os.makedirs(os.path.dirname(state43), exist_ok=True)
+        open(state43, "w", encoding="utf-8").write("epoch\n")
+        open(roadmap43, "w", encoding="utf-8").write("ANDON\n")
         capsule43 = os.path.join(repo43, "continuity-capsule.json")
         json.dump({"active_item": "ANDON 251", "stale_item": "satisfied"},
                   open(capsule43, "w", encoding="utf-8"))
@@ -1035,6 +1149,12 @@ def main():
                        "stale_item": "satisfied"}}]}}
         a43 = make_adapter(tmp, "ok-codex",
                            home=os.path.join(tmp, "codex-home-h43"))
+        powershell43 = make_adapter(
+            tmp, "ok-codex", home=os.path.join(tmp, "codex-home-h43-ps"),
+            host_read_attestation=TEST_POWERSHELL_READ_ATTESTATION)
+        cmd43 = make_adapter(
+            tmp, "ok-codex", home=os.path.join(tmp, "codex-home-h43-cmd"),
+            host_read_attestation=TEST_CMD_READ_ATTESTATION)
         try:
             good43 = a43._run_host_checks(fx43, repo43)
             json.dump({"active_item": "ANDON 150",
@@ -1118,8 +1238,11 @@ def main():
         try:
             a43._tool_trace = a43._extract_tool_trace(codex44)
             c44 = a43._run_host_checks(fx44, repo43)
-            a43._tool_trace = a43._extract_tool_trace(claude44)
-            o44 = a43._run_host_checks(fx44, repo43)
+            o43 = make_adapter(
+                tmp, "ok-claude", kind="claude",
+                home=os.path.join(tmp, "claude-home-h44"))
+            o43._tool_trace = o43._extract_tool_trace(claude44)
+            o44 = o43._run_host_checks(fx44, repo43)
             check("H44c cross-host-tool-trace",
                   c44.get("read_before_write") is True
                   and o44.get("read_before_write") is True)
@@ -1141,12 +1264,96 @@ def main():
             "aggregated_output":
                 ".IMPLEMENTAUDIT/runs/run-1/STATE.md\n"
                 ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md\n"}})
+        find44 = json.dumps({"type": "item.completed", "item": {
+            "type": "command_execution", "exit_code": 0,
+            "command": "find .IMPLEMENTAUDIT/runs/run-1 -type f -print",
+            "aggregated_output":
+                ".IMPLEMENTAUDIT/runs/run-1/STATE.md\n"
+                ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md\n"}})
+        mixed_list44 = json.dumps({"type": "item.completed", "item": {
+            "type": "command_execution", "exit_code": 0,
+            "command": "rg --files .IMPLEMENTAUDIT/runs/run-1 && find "
+                       ".IMPLEMENTAUDIT/runs/run-1 -type f -print",
+            "aggregated_output":
+                ".IMPLEMENTAUDIT/runs/run-1/STATE.md\n"
+                ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md\n"}})
         spoof44 = json.dumps({"type": "item.completed", "item": {
             "type": "command_execution", "exit_code": 0,
             "command": "rg -n 'STATE.md|ROADMAP.md' notes.txt",
             "aggregated_output":
                 "notes.txt:1:.IMPLEMENTAUDIT/runs/run-1/STATE.md\n"
                 "notes.txt:2:.IMPLEMENTAUDIT/runs/run-1/ROADMAP.md\n"}})
+        type44 = "\n".join((
+            json.dumps({"type": "item.completed", "item": {
+                "type": "command_execution", "exit_code": 0,
+                "command": "type .IMPLEMENTAUDIT/runs/run-1/STATE.md",
+                "aggregated_output": "state contents\n"}}),
+            json.dumps({"type": "item.completed", "item": {
+                "type": "command_execution", "exit_code": 0,
+                "command": "type .IMPLEMENTAUDIT/runs/run-1/ROADMAP.md",
+                "aggregated_output": "roadmap contents\n"}})))
+        find_grep44 = json.dumps({"type": "item.completed", "item": {
+            "type": "command_execution", "exit_code": 0,
+            "command": "find .IMPLEMENTAUDIT/runs/run-1 -type f -print | "
+                       "grep -E 'STATE|ROADMAP'",
+            "aggregated_output":
+                ".IMPLEMENTAUDIT/runs/run-1/STATE.md\n"
+                ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md\n"}})
+        synthetic_grep44 = json.dumps({"type": "item.completed", "item": {
+            "type": "command_execution", "exit_code": 0,
+            "command": "printf '%s\\n' .IMPLEMENTAUDIT/runs/run-1/STATE.md "
+                       ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md | "
+                       "grep -E 'STATE|ROADMAP'",
+            "aggregated_output":
+                ".IMPLEMENTAUDIT/runs/run-1/STATE.md\n"
+                ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md\n"}})
+        cat_grep44 = json.dumps({"type": "item.completed", "item": {
+            "type": "command_execution", "exit_code": 0,
+            "command": "cat .IMPLEMENTAUDIT/runs/run-1/STATE.md "
+                       ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md | grep ANDON",
+            "aggregated_output": "ANDON 251\n"}})
+        overwrite44 = json.dumps({"type": "item.completed", "item": {
+            "type": "command_execution", "exit_code": 0,
+            "command": "cat .IMPLEMENTAUDIT/runs/run-1/STATE.md "
+                       ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md"
+                       ">.IMPLEMENTAUDIT/runs/run-1/capsule.json",
+            "aggregated_output": ""}})
+        append44 = json.dumps({"type": "item.completed", "item": {
+            "type": "command_execution", "exit_code": 0,
+            "command": "cat .IMPLEMENTAUDIT/runs/run-1/STATE.md "
+                       ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md"
+                       ">>.IMPLEMENTAUDIT/runs/run-1/capsule.json",
+            "aggregated_output": ""}})
+        stderr_redirect44 = json.dumps({"type": "item.completed", "item": {
+            "type": "command_execution", "exit_code": 0,
+            "command": "cat .IMPLEMENTAUDIT/runs/run-1/STATE.md "
+                       ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md 2>errors.log",
+            "aggregated_output": "state contents\nroadmap contents\n"}})
+        quoted_arg_redirect44 = json.dumps({
+            "type": "item.completed", "item": {
+                "type": "command_execution", "exit_code": 0,
+                "command": "cat \"label's value\" "
+                           ".IMPLEMENTAUDIT/runs/run-1/STATE.md "
+                           ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md"
+                           ">.IMPLEMENTAUDIT/runs/run-1/capsule.json",
+                "aggregated_output": ""}})
+        wrapped_readers44 = [
+            json.dumps({"type": "item.completed", "item": {
+                "type": "command_execution", "exit_code": 0,
+                "command": command,
+                "aggregated_output": "state contents\nroadmap contents\n"}})
+            for command in (
+                "printf '%s\\0' .IMPLEMENTAUDIT/runs/run-1/STATE.md "
+                ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md | xargs -0 cat",
+                "env CONTINUITY=1 cat .IMPLEMENTAUDIT/runs/run-1/STATE.md "
+                ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md",
+                "sudo cat .IMPLEMENTAUDIT/runs/run-1/STATE.md "
+                ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md",
+                "exec cat .IMPLEMENTAUDIT/runs/run-1/STATE.md "
+                ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md",
+                "Get-Content .IMPLEMENTAUDIT/runs/run-1/STATE.md,"
+                ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md",
+            )]
         try:
             write_event = codex44.splitlines()[-1]
             a43._tool_trace = a43._extract_tool_trace(
@@ -1158,12 +1365,2701 @@ def main():
             a43._tool_trace = a43._extract_tool_trace(
                 spoof44 + "\n" + write_event)
             spoofed44d = a43._run_host_checks(fx44, repo43)
+            a43._tool_trace = a43._extract_tool_trace(
+                find44 + "\n" + write_event)
+            find_only44d = a43._run_host_checks(fx44, repo43)
+            a43._tool_trace = a43._extract_tool_trace(
+                mixed_list44 + "\n" + write_event)
+            mixed_list_only44d = a43._run_host_checks(fx44, repo43)
+            cmd43._tool_trace = cmd43._extract_tool_trace(
+                type44 + "\n" + write_event)
+            type_read44d = cmd43._run_host_checks(fx44, repo43)
             check("H44d content-read-not-file-listing",
                   good44d.get("read_before_write") is True
                   and bad44d.get("read_before_write") is False
-                  and spoofed44d.get("read_before_write") is False)
+                  and spoofed44d.get("read_before_write") is False
+                  and find_only44d.get("read_before_write") is False
+                  and mixed_list_only44d.get("read_before_write") is False
+                  and type_read44d.get("read_before_write") is True)
+
+            # A successful filename-listing event remains non-evidence in a
+            # complete trace. The property turns true only after both files
+            # are subsequently read by a genuine content-reader command.
+            a43._tool_trace = a43._extract_tool_trace(
+                mixed_list44 + "\n" + write_event)
+            listing_before_write44e = a43._run_host_checks(fx44, repo43)
+            cmd43._tool_trace = cmd43._extract_tool_trace(
+                mixed_list44 + "\n" + type44 + "\n" + write_event)
+            content_read_before_write44e = cmd43._run_host_checks(
+                fx44, repo43)
+            check("H44e listing-stays-false-until-content-read",
+                  listing_before_write44e.get("read_before_write") is False
+                  and content_read_before_write44e.get(
+                      "read_before_write") is True)
+
+            # A search command consuming pipeline input proves only that it
+            # searched the producer's output. Listing/synthetic producers do
+            # not become file-content reads; an actual cat producer does.
+            pipeline_results44f = []
+            for event in (find_grep44, synthetic_grep44, cat_grep44):
+                a43._tool_trace = a43._extract_tool_trace(
+                    event + "\n" + write_event)
+                pipeline_results44f.append(
+                    a43._run_host_checks(fx44, repo43).get(
+                        "read_before_write"))
+            check("H44f pipeline-source-controls-content-read",
+                  pipeline_results44f == [False, False, False])
+
+            # Output redirection opens a write before the content command
+            # executes, so the same command event cannot establish read-before-
+            # write ordering. A later clean reader event may establish it.
+            redirect_results44g = []
+            for event in (overwrite44, append44, stderr_redirect44,
+                          quoted_arg_redirect44):
+                a43._tool_trace = a43._extract_tool_trace(
+                    event + "\n" + write_event)
+                redirect_results44g.append(
+                    a43._run_host_checks(fx44, repo43).get(
+                        "read_before_write"))
+            a43._tool_trace = a43._extract_tool_trace(
+                overwrite44 + "\n" + type44 + "\n" + write_event)
+            redirect_then_clean44g = a43._run_host_checks(fx44, repo43)
+            check("H44g output-redirection-disqualifies-read-event",
+                  redirect_results44g == [False, False, True, False]
+                  and redirect_then_clean44g.get(
+                      "read_before_write") is False)
+
+            # Common execution wrappers preserve the actual command position.
+            # They must recognize cat/Get-Content without treating find's
+            # unrelated `-type` option as a reader command.
+            wrapped_results44h = []
+            for event in wrapped_readers44:
+                adapter44h = (powershell43 if "Get-Content" in event
+                              else a43)
+                adapter44h._tool_trace = adapter44h._extract_tool_trace(
+                    event + "\n" + write_event)
+                wrapped_results44h.append(
+                    adapter44h._run_host_checks(fx44, repo43).get(
+                        "read_before_write"))
+            check("H44h wrapped-reader-command-position",
+                  wrapped_results44h == [False, True, True, True, True]
+                  and find_only44d.get("read_before_write") is False)
         except (AttributeError, framework.AdapterError):
             check("H44d content-read-not-file-listing", False)
+            check("H44e listing-stays-false-until-content-read", False)
+            check("H44f pipeline-source-controls-content-read", False)
+            check("H44g output-redirection-disqualifies-read-event", False)
+            check("H44h wrapped-reader-command-position", False)
+
+        # 45. Reviewed adversarial contract for the cross-host content-read
+        # boundary. These table-driven cases are deliberately expressed in
+        # terms of the production tri-state API: ambiguity is distinct from a
+        # proved non-read, and neither state may manufacture positive evidence.
+        # See docs/audits/archive/
+        # v0.3.2.0-host-read-parser-adversarial-corpus.md.
+        S45 = ".IMPLEMENTAUDIT/runs/run-1/STATE.md"
+        R45 = ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md"
+        W45 = ".IMPLEMENTAUDIT/runs/run-1/capsule.json"
+
+        def command_state(command, target, output="", exit_code=0):
+            adapter = (powershell43 if command.lower().lstrip().startswith(
+                       "get-content") else a43)
+            record = {
+                "action": "command", "command": command,
+                "output": output, "exit_code": exit_code,
+                "invoked_ordinal": 1, "completed_ordinal": 2,
+                "source": "codex-command-completed"}
+            record = adapter._bind_command_profile(record)
+            return adapter._classify_command_target(
+                record, target, repo43)
+
+        shell_cases45 = [
+            # stage/path/executable binding
+            ("A01-S", "cat /dev/null && printf '%s\\n' " + S45 + " " + R45,
+             S45, "not-content-read"),
+            ("A02-S", "echo " + S45 + "; cat " + R45,
+             S45, "not-content-read"),
+            ("A02-R", "echo " + S45 + "; cat " + R45,
+             R45, "content-read"),
+            ("A03-S", "cat " + S45 + "; echo " + R45,
+             S45, "fail-closed"),
+            ("A04", "cat /dev/null # " + S45 + " " + R45,
+             S45, "not-content-read"),
+            ("A05-pattern", "grep -F -e '" + S45 + "' -e '" + R45 +
+             "' notes.txt", S45, "not-content-read"),
+            ("A07", "cat " + S45 + ".backup " + R45 + ".backup",
+             S45, "not-content-read"),
+            ("A10", "./tools/cat " + S45 + " " + R45,
+             S45, "fail-closed"),
+            # pipeline provenance and status entailment
+            ("B01", "printf '%s\\n' " + S45 + " " + R45 +
+             " | cat | rg 'STATE|ROADMAP'", S45, "not-content-read"),
+            ("B03", "cat " + S45 + " | grep ROADMAP",
+             S45, "fail-closed"),
+            ("B04", "printf junk | rg -n 'epoch|ANDON' " + S45 +
+             " " + R45, S45, "content-read"),
+            ("B06", "printf paths | grep x || cat " + S45 + " " + R45,
+             S45, "fail-closed"),
+            ("B07-S", "true || cat " + S45 + "; cat " + R45,
+             S45, "not-content-read"),
+            ("B07-R", "true || cat " + S45 + "; cat " + R45,
+             R45, "content-read"),
+            ("B10", "printf '%s\\0' " + S45 + " " + R45 +
+             " | xargs -0 -n 1 cat", S45, "fail-closed"),
+            # descriptor-aware redirection
+            ("C01-S", "cat 3<" + S45 + " 4<" + R45 + " </dev/null",
+             S45, "not-content-read"),
+            ("C02-S", "cat 0<" + S45 + " 3<" + R45,
+             S45, "content-read"),
+            ("C02-R", "cat 0<" + S45 + " 3<" + R45,
+             R45, "not-content-read"),
+            ("C07", "cat " + S45 + " " + R45 + " 2>&1",
+             S45, "content-read"),
+            ("C10", "cat " + S45 + " " + R45 + ">output.tmp",
+             S45, "content-read"),
+            ("C15-S", "cat " + S45 + ">" + R45,
+             S45, "content-read"),
+            ("C15-R", "cat " + S45 + ">" + R45,
+             R45, "not-content-read"),
+            # reader/wrapper argument grammar
+            ("D01", "cat --help " + S45 + " " + R45,
+             S45, "not-content-read"),
+            ("D07", "command -p cat " + S45 + " " + R45,
+             S45, "content-read"),
+            ("D08", "exec -a audit cat " + S45 + " " + R45,
+             S45, "content-read"),
+            ("D09", "env -u NAME cat " + S45 + " " + R45,
+             S45, "content-read"),
+            ("D10", "sudo -u root cat " + S45 + " " + R45,
+             S45, "content-read"),
+            ("D14", "rg -- '--files' " + S45 + " " + R45,
+             S45, "content-read"),
+            ("reader-grep-e", "grep -e '" + S45 + "' notes.txt",
+             S45, "not-content-read"),
+            ("reader-grep-f", "grep -f " + S45 + " " + R45,
+             S45, "content-read"),
+            ("reader-sed-e", "sed -e '/STATE/p' notes.txt",
+             S45, "not-content-read"),
+            ("reader-sed-f", "sed -f " + S45 + " " + R45,
+             S45, "content-read"),
+            ("reader-head-zero", "head -n 0 " + S45,
+             S45, "not-content-read"),
+            ("reader-rg-files", "rg --files " + S45,
+             S45, "not-content-read"),
+            # lexical data and deliberately unsupported syntax
+            ("E01", "rg -n 'apply_patch|git commit' " + S45 + " " + R45,
+             S45, "content-read"),
+            ("E03", "exit 0; cat " + S45 + "; cat " + R45,
+             S45, "not-content-read"),
+            ("E04-S", "cat " + S45 + " || true; cat " + R45,
+             S45, "fail-closed"),
+            ("E04-R", "cat " + S45 + " || true; cat " + R45,
+             R45, "content-read"),
+            ("nested-shell", "bash -c 'cat " + S45 + "'",
+             S45, "fail-closed"),
+            ("expansion", "cat ${ROOT}/" + S45,
+             S45, "fail-closed"),
+            ("substitution", "cat $(printf " + S45 + ")",
+             S45, "fail-closed"),
+            ("path-assignment", "PATH=./tools cat " + S45,
+             S45, "fail-closed"),
+            ("env-path-assignment", "env PATH=./tools cat " + S45,
+             S45, "fail-closed"),
+            ("alias-definition", "alias cat='printf'; cat " + S45,
+             S45, "fail-closed"),
+        ]
+        shell_results45 = []
+        for case_id, command, target, expected in shell_cases45:
+            try:
+                observed = command_state(command, target)
+            except (AttributeError, framework.AdapterError, ValueError):
+                observed = "api-error"
+            shell_results45.append((case_id, observed, expected))
+        check("H45a tri-state-shell-corpus",
+              all(observed == expected
+                  for _case, observed, expected in shell_results45))
+        for case_id, observed, expected in shell_results45:
+            check("H45a/" + case_id, observed == expected)
+
+        malformed45 = [
+            "cat " + S45 + " |", "| cat " + S45,
+            "cat " + S45 + " &&", "&& cat " + S45,
+            "cat " + S45 + " <", "cat " + S45 + " <<<",
+            "cat $(printf " + S45, "cat `printf " + S45,
+            "cat " + S45 + " )", "cat " + S45 + " && (",
+            "cat " + S45 + "\n|", "cat " + S45 + "\x00"]
+        malformed_results45 = []
+        for command in malformed45:
+            try:
+                malformed_results45.append(command_state(command, S45))
+            except (AttributeError, framework.AdapterError, ValueError):
+                malformed_results45.append("api-error")
+        check("H45b malformed-shell-fails-closed",
+              malformed_results45 == ["fail-closed"] * len(malformed45))
+
+        # Absolute identities are accepted only under the bound repository
+        # root. Case-distinct and suffix-decoy identities do not alias it.
+        absolute_s45 = state43.replace("\\", "/")
+        external_s45 = "/tmp/decoy/" + S45
+        identity_cases45 = [
+            ("absolute", "cat '" + absolute_s45 + "'", "content-read"),
+            ("external-suffix", "cat " + external_s45,
+             "not-content-read"),
+            ("case-distinct", "cat " + S45.replace("STATE", "state"),
+             "not-content-read"),
+        ]
+        identity_results45 = []
+        for case_id, command, expected in identity_cases45:
+            try:
+                observed = command_state(command, S45)
+            except (AttributeError, framework.AdapterError, ValueError):
+                observed = "api-error"
+            identity_results45.append((case_id, observed, expected))
+        check("H45c root-bound-file-identity",
+              all(observed == expected
+                  for _case, observed, expected in identity_results45))
+
+        def codex_event(item, event_type="item.completed", **outer):
+            return json.dumps(dict(
+                {"type": event_type, "item": item}, **outer))
+
+        codex_reader45 = codex_event({
+            "id": "cmd-r", "type": "command_execution", "exit_code": 0,
+            "command": "cat " + S45 + " " + R45,
+            "aggregated_output": "epoch\nANDON\n"})
+        codex_write45 = codex_event({
+            "id": "write-w", "type": "file_change", "changes": [{
+                "path": W45, "kind": "add"}]})
+        codex_cases45 = [
+            ("strict-green", codex_reader45 + "\n" + codex_write45, True),
+            ("bool-exit", codex_event({
+                "type": "command_execution", "exit_code": False,
+                "command": "cat " + S45 + " " + R45}) + "\n" +
+             codex_write45, False),
+            ("failed-status", codex_event({
+                "type": "command_execution", "status": "failed",
+                "exit_code": 0, "command": "cat " + S45 + " " + R45}) +
+             "\n" + codex_write45, False),
+            ("scalar-contaminates", "null\n" + codex_reader45 + "\n" +
+             codex_write45, False),
+            ("duplicate-key", '{"type":"item.completed","item":{' +
+             '"type":"command_execution","exit_code":0,' +
+             '"command":"cat /dev/null","command":"cat ' + S45 +
+             ' ' + R45 + '"}}\n' + codex_write45, False),
+        ]
+        codex_results45 = []
+        for case_id, stream, expected in codex_cases45:
+            try:
+                a43._tool_trace = a43._extract_tool_trace(stream)
+                observed = a43._run_host_checks(
+                    fx44, repo43).get("read_before_write")
+            except (AttributeError, framework.AdapterError, ValueError):
+                observed = False
+            codex_results45.append((case_id, observed, expected))
+        check("H45d strict-codex-normalization",
+              all(observed == expected
+                  for _case, observed, expected in codex_results45))
+
+        # A host-owned wrapper is the only recursively unwrapped interpreter.
+        codex_wrapped45 = codex_event({
+            "type": "command_execution", "exit_code": 0,
+            "command": "/bin/bash -lc \"cat " + S45 + " " + R45 + "\"",
+            "aggregated_output": "epoch\nANDON\n"})
+        try:
+            a43._tool_trace = a43._extract_tool_trace(
+                codex_wrapped45 + "\n" + codex_write45)
+            untrusted_wrapped_result45 = a43._run_host_checks(
+                fx44, repo43).get("read_before_write")
+            a43._tool_trace = [
+                a43._bind_command_profile(record, host_owned_wrapper=True)
+                if record.get("action") == "command" else record
+                for record in a43._tool_trace]
+            wrapped_result45 = a43._run_host_checks(
+                fx44, repo43).get("read_before_write")
+        except (AttributeError, framework.AdapterError, ValueError):
+            untrusted_wrapped_result45 = True
+            wrapped_result45 = False
+        check("H45e host-owned-wrapper-green",
+              untrusted_wrapped_result45 is False
+              and wrapped_result45 is True)
+        profile45 = a43._host_read_profile(repo43)
+        check("H45e2 frozen-host-read-profile",
+              profile45.get("schema") ==
+              "implementaudit-host-read-profile-v1"
+              and profile45.get("host") == "codex"
+              and profile45.get("repo_root") == os.path.abspath(repo43)
+              and profile45.get("shell_dialect") == "posix"
+              and profile45.get("attestation_id") ==
+              "test-posix-read-profile-v1")
+
+        # Claude actions are intervals. Read completion must precede write
+        # invocation, tool IDs are unique, result status is strict, and a
+        # Claude stream cannot borrow Codex envelopes.
+        claude45_adapter = make_adapter(
+            tmp, "ok-claude", kind="claude",
+            home=os.path.join(tmp, "claude-home-h45"))
+
+        def cuse(tool_id, name, inputs):
+            return json.dumps({"type": "assistant", "message": {"content":
+                [{"type": "tool_use", "id": tool_id, "name": name,
+                  "input": inputs}]}})
+
+        def cresult(tool_id, content="ok", **fields):
+            block = {"type": "tool_result", "tool_use_id": tool_id,
+                     "content": content}
+            block.update(fields)
+            return json.dumps({"type": "user", "message": {"content":
+                [block]}})
+
+        claude_green45 = "\n".join((
+            cuse("s", "Read", {"file_path": S45}),
+            cresult("s", is_error=False),
+            cuse("r", "Read", {"file_path": R45}),
+            cresult("r", is_error=False),
+            cuse("w", "Write", {"file_path": W45, "content": "{}"}),
+            cresult("w", is_error=False)))
+        claude_inverted45 = "\n".join((
+            cuse("s", "Read", {"file_path": S45}),
+            cuse("w", "Write", {"file_path": W45, "content": "{}"}),
+            cresult("w", is_error=False), cresult("s", is_error=False),
+            cuse("r", "Read", {"file_path": R45}),
+            cresult("r", is_error=False)))
+        claude_duplicate45 = "\n".join((
+            cuse("dup", "Read", {"file_path": S45}),
+            cuse("dup", "Read", {"file_path": R45}),
+            cresult("dup", is_error=False),
+            cuse("w", "Write", {"file_path": W45, "content": "{}"}),
+            cresult("w", is_error=False)))
+        claude_bad_status45 = "\n".join((
+            cuse("s", "Read", {"file_path": S45}),
+            cresult("s", is_error=False, status="failed"),
+            cuse("r", "Read", {"file_path": R45}),
+            cresult("r", is_error=False),
+            cuse("w", "Write", {"file_path": W45, "content": "{}"}),
+            cresult("w", is_error=False)))
+        claude_mixed45 = codex_reader45 + "\n" + claude_green45
+        claude_cases45 = [
+            ("green", claude_green45, True),
+            ("completion-inversion", claude_inverted45, False),
+            ("duplicate-id", claude_duplicate45, False),
+            ("failed-status", claude_bad_status45, False),
+            ("mixed-host", claude_mixed45, False),
+        ]
+        claude_results45 = []
+        for case_id, stream, expected in claude_cases45:
+            try:
+                claude45_adapter._tool_trace = \
+                    claude45_adapter._extract_tool_trace(stream)
+                observed = claude45_adapter._run_host_checks(
+                    fx44, repo43).get("read_before_write")
+            except (AttributeError, framework.AdapterError, ValueError):
+                observed = False
+            claude_results45.append((case_id, observed, expected))
+        check("H45f strict-claude-intervals",
+              all(observed == expected
+                  for _case, observed, expected in claude_results45))
+
+        # The remaining rows complete the mandatory mechanism inventory with
+        # paired reader grammars, descriptor controls, path edge cases, strict
+        # raw-event types, and realistic start/completion envelopes.
+        spaced_rel45 = ".IMPLEMENTAUDIT/runs/run-1/space dir/Ünicode.md"
+        spaced_abs45 = os.path.join(repo43, *spaced_rel45.split("/"))
+        os.makedirs(os.path.dirname(spaced_abs45), exist_ok=True)
+        open(spaced_abs45, "w", encoding="utf-8").write("evidence\n")
+        command_word_rel45 = ".IMPLEMENTAUDIT/runs/run-1/git commit/EVIDENCE.md"
+        command_word_abs45 = os.path.join(
+            repo43, *command_word_rel45.split("/"))
+        os.makedirs(os.path.dirname(command_word_abs45), exist_ok=True)
+        open(command_word_abs45, "w", encoding="utf-8").write("safe\n")
+        extra_shell_cases45 = [
+            ("A06-delimiter", "Get-Content notes.txt -Delimiter '" + S45 +
+             "|" + R45 + "'", S45, "not-content-read", 0),
+            ("A08-prefix", "cat x" + S45, S45, "not-content-read", 0),
+            ("A09-output-spoof", "cat notes.txt", S45,
+             "not-content-read", 0),
+            ("A11-local-type", "./tools/type.exe " + S45,
+             S45, "fail-closed", 0),
+            ("A12-local-grep", "./tools/grep pattern " + S45,
+             S45, "fail-closed", 0),
+            ("B02-synthetic-pipeline", "printf '%s\\n' " + S45 + " " +
+             R45 + " | sed -n p | grep -E 'STATE|ROADMAP'",
+             S45, "not-content-read", 0),
+            ("B05-final-grep-files", "printf junk | grep -nE " +
+             "'epoch|ANDON' " + S45 + " " + R45,
+             S45, "content-read", 0),
+            ("B09-pipe-producer", "cat " + S45 + " " + R45 +
+             " |& grep x", S45, "fail-closed", 0),
+            ("B11-xargs-rg", "printf '%s\\0' " + S45 + " " + R45 +
+             " | xargs -0 rg -n 'epoch|ANDON'", S45, "fail-closed", 0),
+            ("B12-output-spoof", "rg --no-filename '^' notes.txt",
+             S45, "not-content-read", 0),
+            ("C02-fd0", "cat 0<" + S45 + " 3<" + R45,
+             S45, "content-read", 0),
+            ("C03-heredoc", "cat <<EOF\n" + S45 + "\n" + R45 +
+             "\nEOF", S45, "not-content-read", 0),
+            ("C04-here-string", "cat <<< '" + S45 + " " + R45 + "'",
+             S45, "not-content-read", 0),
+            ("C05-process-substitution", "cat < <(printf '%s\\n' " +
+             S45 + " " + R45 + ")", S45, "not-content-read", 0),
+            ("C06-leading-S", "<" + S45 + " cat; <" + R45 + " cat",
+             S45, "fail-closed", 0),
+            ("C06-leading-R", "<" + S45 + " cat; <" + R45 + " cat",
+             R45, "content-read", 0),
+            ("C08-close-fd", "cat " + S45 + " " + R45 + " 2>&-",
+             S45, "content-read", 0),
+            ("C09-dup-fd", "cat " + S45 + " " + R45 + " 1>&2",
+             S45, "content-read", 0),
+            ("C11-append-other", "cat " + S45 + " " + R45 +
+             ">>output.tmp", S45, "content-read", 0),
+            ("C13-nested-write", "cat $(sh -c 'printf x >" + W45 +
+             "; printf %s " + S45 + "')", S45, "fail-closed", 0),
+            ("C16-layered", "cat " + S45 + " " + R45 +
+             " && touch unrelated.tmp", S45, "content-read", 0),
+            ("D02-version", "cat --version " + S45,
+             S45, "not-content-read", 0),
+            ("D03-rg-help", "rg --help " + S45,
+             S45, "not-content-read", 0),
+            ("D04-env-help", "env --help cat " + S45,
+             S45, "not-content-read", 0),
+            ("D05-xargs-help", "xargs --help cat " + S45,
+             S45, "not-content-read", 0),
+            ("D06-sudo-help", "sudo --help cat " + S45,
+             S45, "not-content-read", 0),
+            ("D11-xargs-n", "printf paths | xargs -n 2 cat " + S45,
+             S45, "fail-closed", 0),
+            ("D12-xargs-I", "printf paths | xargs -I {} cat " + S45,
+             S45, "fail-closed", 0),
+            ("D13-empty-xargs", "printf '' | xargs -E cat printf " +
+             S45 + " " + R45, S45, "not-content-read", 0),
+            ("grep-f-R", "grep -f " + S45 + " " + R45,
+             R45, "content-read", 0),
+            ("sed-f-R", "sed -f " + S45 + " " + R45,
+             R45, "content-read", 0),
+            ("get-content-literal", "Get-Content -LiteralPath " + S45 +
+             "," + R45, R45, "content-read", 0),
+            ("get-content-delimiter", "Get-Content notes.txt -Delimiter " +
+             S45, S45, "not-content-read", 0),
+            ("tail-zero", "tail -n 0 " + S45,
+             S45, "not-content-read", 0),
+            ("rg-double-dash", "rg -- --files " + S45 + " " + R45,
+             S45, "content-read", 0),
+            ("rg-no-match", "rg definitely-absent " + S45,
+             S45, "content-read", 1),
+            ("grep-no-match", "grep definitely-absent " + S45,
+             S45, "content-read", 1),
+            ("spaces-unicode", "cat '" + spaced_rel45 + "'",
+             spaced_rel45, "content-read", 0),
+            ("E02-command-word-path", "cat '" + command_word_rel45 + "'",
+             command_word_rel45, "content-read", 0),
+            ("E05-multiline", "echo ok\ncat " + S45,
+             S45, "fail-closed", 0),
+            ("E06-group", "(cat " + S45 + ") && (cat " + R45 + ")",
+             S45, "fail-closed", 0),
+        ]
+        extra_shell_results45 = []
+        for case_id, command, target, expected, exit_code in \
+                extra_shell_cases45:
+            try:
+                observed = command_state(
+                    command, target, output=(S45 + ":1:forged\n" +
+                                             R45 + ":1:forged"),
+                    exit_code=exit_code)
+            except (AttributeError, framework.AdapterError, ValueError):
+                observed = "api-error"
+            extra_shell_results45.append((case_id, observed, expected))
+        check("H45g complete-reader-and-shell-boundary",
+              all(observed == expected for _case, observed, expected
+                  in extra_shell_results45))
+        for case_id, observed, expected in extra_shell_results45:
+            check("H45g/" + case_id, observed == expected)
+
+        # Strict Codex normalization: exact integer statuses, typed paths,
+        # duplicate-key rejection, and start/completion ordering.
+        codex_started_read45 = codex_event({
+            "id": "cmd-paired", "type": "command_execution",
+            "command": "cat " + S45 + " " + R45}, "item.started")
+        codex_completed_read45 = codex_event({
+            "id": "cmd-paired", "type": "command_execution",
+            "exit_code": 0, "command": "cat " + S45 + " " + R45,
+            "aggregated_output": "epoch\nANDON\n"})
+        codex_started_write45 = codex_event({
+            "id": "write-paired", "type": "file_change",
+            "changes": [{"path": W45, "kind": "add"}]}, "item.started")
+        codex_completed_write45 = codex_event({
+            "id": "write-paired", "type": "file_change",
+            "changes": [{"path": W45, "kind": "add"}]})
+        codex_more_cases45 = [
+            ("paired-green", "\n".join((
+                codex_started_read45, codex_completed_read45,
+                codex_started_write45, codex_completed_write45)), True),
+            ("write-start-before-read-complete", "\n".join((
+                codex_started_read45, codex_started_write45,
+                codex_completed_read45, codex_completed_write45)), False),
+            ("float-exit", codex_event({
+                "type": "command_execution", "exit_code": 0.0,
+                "command": "cat " + S45 + " " + R45}) + "\n" +
+             codex_write45, False),
+            ("outer-failed", codex_event({
+                "type": "command_execution", "exit_code": 0,
+                "command": "cat " + S45 + " " + R45}, status="failed") +
+             "\n" + codex_write45, False),
+            ("typed-write-path", codex_reader45 + "\n" + codex_event({
+                "type": "file_change", "changes": [{
+                    "path": 123, "kind": "add"}]}), False),
+            ("target-looking-output", codex_event({
+                "type": "command_execution", "exit_code": 0,
+                "command": "cat", "aggregated_output": S45 + "\n" + R45}) +
+             "\n" + codex_write45, False),
+            ("dev-null-output", codex_event({
+                "type": "command_execution", "exit_code": 0,
+                "command": "cat /dev/null",
+                "aggregated_output": S45 + "\n" + R45}) + "\n" +
+             codex_write45, False),
+            ("list-event", "[]\n" + codex_reader45 + "\n" +
+             codex_write45, False),
+            ("nonobject-item", json.dumps({
+                "type": "item.completed", "item": "oops"}) + "\n" +
+             codex_reader45 + "\n" + codex_write45, False),
+            ("duplicate-start-id", "\n".join((
+                codex_started_read45, codex_started_read45,
+                codex_completed_read45, codex_started_write45,
+                codex_completed_write45)), False),
+            ("duplicate-completion-id", "\n".join((
+                codex_completed_read45, codex_completed_read45,
+                codex_completed_write45)), False),
+        ]
+        codex_more_results45 = []
+        for case_id, stream, expected in codex_more_cases45:
+            a43._tool_trace = a43._extract_tool_trace(stream)
+            observed = a43._run_host_checks(
+                fx44, repo43).get("read_before_write")
+            codex_more_results45.append((case_id, observed, expected))
+        check("H45h codex-schema-and-interval-boundary",
+              all(observed == expected for _case, observed, expected
+                  in codex_more_results45))
+
+        claude_bash_search45 = "\n".join((
+            cuse("b", "Bash", {"command":
+                 "rg -n 'epoch|ANDON' .IMPLEMENTAUDIT/runs/run-1"}),
+            cresult("b", S45 + ":1:epoch\n" + R45 + ":1:ANDON\n",
+                    is_error=False),
+            cuse("w", "Write", {"file_path": W45, "content": "{}"}),
+            cresult("w", is_error=False)))
+        claude_missing_id45 = "\n".join((
+            json.dumps({"type": "assistant", "message": {"content": [{
+                "type": "tool_use", "name": "Read",
+                "input": {"file_path": S45}}]}}),
+            cresult("", is_error=False)))
+        claude_result_before45 = "\n".join((
+            cresult("s", is_error=False),
+            cuse("s", "Read", {"file_path": S45})))
+        claude_nonbool45 = "\n".join((
+            cuse("s", "Read", {"file_path": S45}),
+            cresult("s", is_error=0),
+            cuse("r", "Read", {"file_path": R45}),
+            cresult("r", is_error=False),
+            cuse("w", "Write", {"file_path": W45, "content": "{}"}),
+            cresult("w", is_error=False)))
+        claude_duplicate_result45 = "\n".join((
+            cuse("s", "Read", {"file_path": S45}),
+            cresult("s", is_error=True), cresult("s", is_error=False)))
+        claude_bad_input45 = "\n".join((
+            json.dumps({"type": "assistant", "message": {"content": [{
+                "type": "tool_use", "id": "s", "name": "Read",
+                "input": "not-an-object"}]}}),
+            cresult("s", is_error=False)))
+        claude_path_conflict45 = "\n".join((
+            cuse("s", "Read", {"file_path": S45}),
+            json.dumps({"type": "user", "message": {"content": [{
+                "type": "tool_result", "tool_use_id": "s",
+                "content": "ROADMAP"}]}, "tool_use_result": {
+                    "type": "text", "file": {"filePath": R45,
+                    "content": "ROADMAP"}}})))
+        claude_external45 = "\n".join((
+            cuse("s", "Read", {"file_path": "/tmp/decoy/" + S45}),
+            cresult("s", is_error=False),
+            cuse("r", "Read", {"file_path": "/tmp/decoy/" + R45}),
+            cresult("r", is_error=False),
+            cuse("w", "Write", {"file_path": W45, "content": "{}"}),
+            cresult("w", is_error=False)))
+        claude_more_cases45 = [
+            ("bash-search-green", claude_bash_search45, True),
+            ("missing-id", claude_missing_id45, False),
+            ("result-before-use", claude_result_before45, False),
+            ("nonbool-error", claude_nonbool45, False),
+            ("duplicate-result", claude_duplicate_result45, False),
+            ("nonobject-input", claude_bad_input45, False),
+            ("result-path-conflict", claude_path_conflict45, False),
+            ("external-suffix", claude_external45, False),
+        ]
+        claude_more_results45 = []
+        for case_id, stream, expected in claude_more_cases45:
+            claude45_adapter._tool_trace = \
+                claude45_adapter._extract_tool_trace(stream)
+            observed = claude45_adapter._run_host_checks(
+                fx44, repo43).get("read_before_write")
+            claude_more_results45.append((case_id, observed, expected))
+        check("H45i claude-schema-search-and-path-boundary",
+              all(observed == expected for _case, observed, expected
+                  in claude_more_results45))
+
+        # 46. Exact-commit cold-review controls. Wrapper ownership and reader
+        # identity come from trusted normalization/profile evidence, never
+        # merely from model-authored argv or a generic host source label.
+        user_wrapper46 = {
+            "action": "command",
+            "command": "/bin/bash -lc 'cat " + S45 + " " + R45 + "'",
+            "output": "epoch\nANDON\n", "exit_code": 0,
+            "invoked_ordinal": 1, "completed_ordinal": 2,
+            "source": "codex-command-completed"}
+        user_wrapper46 = a43._bind_command_profile(user_wrapper46)
+        trusted_wrapper46 = dict(user_wrapper46)
+        trusted_wrapper46 = a43._bind_command_profile(
+            trusted_wrapper46, host_owned_wrapper=True)
+        try:
+            wrapper_results46 = [
+                a43._classify_command_target(user_wrapper46, S45, repo43),
+                a43._classify_command_target(
+                    trusted_wrapper46, S45, repo43)]
+        except (AttributeError, framework.AdapterError, ValueError):
+            wrapper_results46 = ["api-error", "api-error"]
+        check("H46a explicit-host-wrapper-ownership",
+              wrapper_results46 == ["fail-closed", "content-read"])
+        raw_wrapper_claim46 = codex_event({
+            "type": "command_execution", "exit_code": 0,
+            "command": user_wrapper46["command"],
+            "aggregated_output": "epoch\nANDON\n",
+            "wrapper_host_owned": True}) + "\n" + codex_write45
+        a43._tool_trace = a43._extract_tool_trace(raw_wrapper_claim46)
+        check("H46a2 raw-wrapper-claim-is-not-attestation",
+              a43._run_host_checks(
+                  fx44, repo43).get("read_before_write") is False)
+
+        conflict_command46 = "\n".join((
+            codex_event({
+                "id": "cmd-conflict", "type": "command_execution",
+                "command": "cat /dev/null"}, "item.started"),
+            codex_event({
+                "id": "cmd-conflict", "type": "command_execution",
+                "exit_code": 0,
+                "command": "cat " + S45 + " " + R45,
+                "aggregated_output": "epoch\nANDON\n"}),
+            codex_write45))
+        conflict_file46 = "\n".join((
+            codex_reader45,
+            codex_event({
+                "id": "write-conflict", "type": "file_change",
+                "changes": [{"path": "other.json", "kind": "add"}]},
+                "item.started"),
+            codex_event({
+                "id": "write-conflict", "type": "file_change",
+                "changes": [{"path": W45, "kind": "add"}]})))
+        correlation_results46 = []
+        for stream in (conflict_command46, conflict_file46):
+            a43._tool_trace = a43._extract_tool_trace(stream)
+            correlation_results46.append(a43._run_host_checks(
+                fx44, repo43).get("read_before_write"))
+        check("H46b codex-full-payload-correlation",
+              correlation_results46 == [False, False])
+
+        shaping_cases46 = [
+            "rg --no-filename -n 'epoch|ANDON' " +
+            ".IMPLEMENTAUDIT/runs/run-1",
+            "rg -I -n 'epoch|ANDON' .IMPLEMENTAUDIT/runs/run-1",
+            "rg --replace X -n 'epoch|ANDON' " +
+            ".IMPLEMENTAUDIT/runs/run-1",
+            "rg --label " + S45 + " -n 'epoch|ANDON' " +
+            ".IMPLEMENTAUDIT/runs/run-1",
+        ]
+        shaping_results46 = []
+        for command in shaping_cases46:
+            record = {
+                "action": "command", "command": command,
+                "output": S45 + ":1:epoch\n" + R45 + ":1:ANDON\n",
+                "exit_code": 0, "invoked_ordinal": 1,
+                "completed_ordinal": 2,
+                "source": "codex-command-completed"}
+            record = a43._bind_command_profile(record)
+            shaping_results46.append(
+                a43._classify_command_target(record, S45, repo43))
+        canonical_scope46 = {
+            "action": "command",
+            "command": "rg -n 'epoch|ANDON' " +
+                       ".IMPLEMENTAUDIT/runs/run-1",
+            "output": S45 + ":1:epoch\n" + R45 + ":1:ANDON\n",
+            "exit_code": 0, "invoked_ordinal": 1,
+            "completed_ordinal": 2,
+            "source": "codex-command-completed"}
+        canonical_scope46 = a43._bind_command_profile(canonical_scope46)
+        shaping_results46.append(
+            a43._classify_command_target(canonical_scope46, S45, repo43))
+        check("H46c rg-output-identity-shaping",
+              shaping_results46 == [
+                  "not-content-read", "not-content-read",
+                  "not-content-read", "not-content-read",
+                  "content-read"])
+
+        unattested46 = {
+            "action": "command", "command": "cat " + S45,
+            "output": "epoch\n", "exit_code": 0,
+            "invoked_ordinal": 1, "completed_ordinal": 2,
+            "source": "codex-command-completed"}
+        posix_type46 = dict(unattested46)
+        posix_type46["command"] = "type " + S45
+        posix_type46 = a43._bind_command_profile(posix_type46)
+        cmd_type46 = cmd43._bind_command_profile(posix_type46)
+        powershell_compound46 = powershell43._bind_command_profile({
+            "action": "command",
+            "command": "Get-Content " + S45 + "; Get-Content " + R45,
+            "output": "epoch\nANDON\n", "exit_code": 0,
+            "invoked_ordinal": 1, "completed_ordinal": 2,
+            "source": "codex-command-completed"})
+        unattested_adapter46 = make_adapter(
+            tmp, "ok-codex", home=os.path.join(tmp, "codex-home-h46-none"),
+            host_read_attestation=None)
+        raw_attestation_claim46 = codex_event({
+            "type": "command_execution", "exit_code": 0,
+            "command": "cat " + S45 + " " + R45,
+            "aggregated_output": "epoch\nANDON\n",
+            "host_read_attestation_id": "test-posix-read-profile-v1",
+            "shell_dialect": "posix"}) + "\n" + codex_write45
+        unattested_adapter46._tool_trace = \
+            unattested_adapter46._extract_tool_trace(
+                raw_attestation_claim46)
+        try:
+            attestation_results46 = [
+                a43._classify_command_target(unattested46, S45, repo43),
+                a43._classify_command_target(posix_type46, S45, repo43),
+                cmd43._classify_command_target(cmd_type46, S45, repo43),
+                powershell43._classify_command_target(
+                    powershell_compound46, S45, repo43),
+                unattested_adapter46._run_host_checks(
+                    fx44, repo43).get("read_before_write")]
+        except (AttributeError, framework.AdapterError, ValueError):
+            attestation_results46 = [
+                "api-error", "api-error", "api-error", "api-error", True]
+        check("H46d enforced-dialect-and-executable-attestation",
+              attestation_results46 == [
+                  "fail-closed", "fail-closed", "content-read",
+                  "fail-closed", False])
+
+        variable_records46 = []
+        for command in ('cat "$TARGET"', "cat $TARGET", "cat *.md",
+                        "cat ${TARGET}"):
+            variable_records46.append(a43._bind_command_profile({
+                "action": "command", "command": command,
+                "output": "epoch\n", "exit_code": 0,
+                "invoked_ordinal": 1, "completed_ordinal": 2,
+                "source": "codex-command-completed"}))
+        variable_results46 = [
+            a43._classify_command_target(record, S45, repo43)
+            for record in variable_records46]
+        check("H46e dynamic-path-fails-closed-without-literal-target",
+              variable_results46 == ["fail-closed"] * 4)
+
+        # 47. The formal path-order production branch consumes the sealed v2
+        # normalizer/adjudicator result, not the legacy heuristic trace.  This
+        # is a no-spawn deterministic integration check over native Claude
+        # events with exact preimage output and two-phase custody.
+        capture47 = os.path.join(tmp, "host-read-capture-h47")
+        os.makedirs(capture47)
+        requested47 = "Read Glob Grep Write Edit Bash".split()
+        retained_tools47 = json.load(open(os.path.join(
+            HERE, "testdata", "host-read-trust", "support",
+            "claude-retained-tools.json"), encoding="utf-8"))
+        profile47 = hosts.hostread.mint_claude_profile(repo43, requested47)
+        preimages47 = hosts.hostread.capture_preimages(repo43, [S45, R45])
+        fixture_bytes47 = json.dumps(
+            fx44, sort_keys=True, separators=(",", ":")).encode()
+        fixture_hash47 = hosts.bundlelib._sha256_bytes(fixture_bytes47)
+        intent47 = {"schema": "implementaudit-run-intent-v1",
+                    "fixture_sha256": fixture_hash47}
+        intent_bytes47 = json.dumps(
+            intent47, sort_keys=True, separators=(",", ":")).encode()
+        open(os.path.join(capture47, "run-intent.json"), "wb").write(
+            intent_bytes47)
+        intent_hash47 = hosts.bundlelib._sha256_bytes(intent_bytes47)
+        replay_spec47 = hosts.hostread.make_replay_spec(
+            "claude", [{"key": "read_before_write",
+                        "reads": [S45, R45], "write": W45}],
+            requested_tools=requested47, fixture_sha256=fixture_hash47,
+            run_intent_sha256=intent_hash47)
+        hosts.hostread.begin_capture(
+            capture47, profile47, preimages47,
+            replay_spec=replay_spec47, fixture_bytes=fixture_bytes47,
+            formal=True)
+        pre_spawn_hash47 = hosts.bundlelib.sha256_file(os.path.join(
+            capture47, "host-read-pre-spawn.json"))
+        json.dump({"schema": "implementaudit-process-started-v2",
+                   "host_read_pre_spawn_sha256": pre_spawn_hash47},
+                  open(os.path.join(capture47, "process-started.json"),
+                       "w", encoding="utf-8"), sort_keys=True)
+        adapter47 = make_adapter(
+            tmp, "ok-claude", kind="claude",
+            home=os.path.join(tmp, "claude-home-h47"))
+        adapter47.formal = True
+        adapter47._session_id = "session-h47"
+        adapter47._custody_hashes = {}
+        adapter47._formal_host_read = {
+            "profile": profile47, "preimages": preimages47,
+            "runtime": {"requested_tools": requested47},
+            "replay_spec": replay_spec47,
+            "run_root": capture47}
+        state47 = open(os.path.join(repo43, *S45.split("/")),
+                       "rb").read().decode("utf-8")
+        roadmap47 = open(os.path.join(repo43, *R45.split("/")),
+                         "rb").read().decode("utf-8")
+        stream47 = "\n".join((
+            json.dumps({"type": "system", "subtype": "init",
+                        "session_id": "session-h47",
+                        "tools": retained_tools47}),
+            cuse("s47", "Read", {"file_path": S45}),
+            cresult("s47", state47, is_error=False),
+            cuse("r47", "Read", {"file_path": R45}),
+            cresult("r47", roadmap47, is_error=False),
+            cuse("w47", "Write", {"file_path": W45, "content": "{}"}),
+            cresult("w47", "ok", is_error=False),
+            json.dumps({"type": "result", "session_id": "session-h47",
+                        "is_error": False})))
+        # Bind the session id to every helper-generated event.
+        stream47 = "\n".join(
+            json.dumps(dict(json.loads(line), session_id="session-h47"))
+            for line in stream47.splitlines())
+        session47 = (json.dumps({"type": "system", "subtype": "transcript",
+                                 "session_id": "session-h47",
+                                 "action_ids": ["s47", "r47", "w47"]}) +
+                     "\n" + stream47 + "\n")
+        transcript47 = os.path.join(
+            adapter47.config_dir, "projects", "fixture",
+            "session-h47.jsonl")
+        os.makedirs(os.path.dirname(transcript47), exist_ok=True)
+        open(transcript47, "w", encoding="utf-8").write(session47)
+        outcome47 = hosts._Outcome(stream47, "", 0)
+        try:
+            retained_trace47 = hosts.hostread.normalize_claude(
+                stream47, requested_tools=requested47,
+                binding={"session_id": "session-h47"},
+                profile=profile47, formal=True)
+            missing_requested47 = hosts.hostread.normalize_claude(
+                json.dumps({"type": "system", "subtype": "init",
+                            "session_id": "session-h47",
+                            "tools": retained_tools47}) + "\n",
+                requested_tools=requested47 + ["MissingRequestedTool"],
+                binding={"session_id": "session-h47"},
+                profile=profile47, formal=True)
+            unknown_stream47 = "\n".join((
+                json.dumps({"type": "system", "subtype": "init",
+                            "session_id": "session-h47",
+                            "tools": retained_tools47}),
+                cuse("unknown47", "NotebookEdit", {"path": "notes.ipynb"}),
+                cresult("unknown47", "ok", is_error=False)))
+            unknown_stream47 = "\n".join(
+                json.dumps(dict(json.loads(line),
+                                session_id="session-h47"))
+                for line in unknown_stream47.splitlines())
+            unknown_trace47 = hosts.hostread.normalize_claude(
+                unknown_stream47, requested_tools=requested47,
+                binding={"session_id": "session-h47"},
+                profile=profile47, formal=True)
+            unavailable_stream47 = "\n".join((
+                json.dumps({"type": "system", "subtype": "init",
+                            "session_id": "session-h47",
+                            "tools": ["Write"]}),
+                cuse("unavailable47", "Read", {"file_path": S45}),
+                cresult("unavailable47", state47, is_error=False)))
+            unavailable_stream47 = "\n".join(
+                json.dumps(dict(json.loads(line),
+                                session_id="session-h47"))
+                for line in unavailable_stream47.splitlines())
+            unavailable_trace47 = hosts.hostread.normalize_claude(
+                unavailable_stream47, requested_tools=["Write"],
+                binding={"session_id": "session-h47"},
+                profile=profile47, formal=True)
+            check("H47h retained-inventory-availability-boundary",
+                  len(retained_tools47) == 32
+                  and retained_trace47.get("host_status") == "PASS"
+                  and retained_trace47.get("observed_tools") ==
+                  retained_tools47
+                  and all(action.get("state") == "COMPLETED"
+                          for action in retained_trace47.get("actions", []))
+                  and missing_requested47.get("host_status") == "INVALID"
+                  and any(finding.get("code") ==
+                          "requested-tool-unavailable"
+                          for finding in missing_requested47.get(
+                              "host_findings", []))
+                  and unknown_trace47.get("host_status") == "INVALID"
+                  and unknown_trace47.get("actions", [{}])[0].get(
+                      "state") == "INVALID"
+                  and any(finding.get("code") ==
+                          "unsupported-invoked-tool"
+                          for finding in unknown_trace47.get(
+                              "host_findings", []))
+                  and unavailable_trace47.get("host_status") == "INVALID"
+                  and any(finding.get("code") ==
+                          "invoked-tool-unavailable"
+                          for finding in unavailable_trace47.get(
+                              "host_findings", [])))
+
+            def rendered_read47(content, start=1):
+                return "\n".join(
+                    f"{start + index}\t{part}"
+                    for index, part in enumerate(content.split("\n")))
+
+            def native_result47(tool_id, visible, metadata):
+                return json.dumps({
+                    "type": "user", "session_id": "session-h47",
+                    "tool_use_result": metadata,
+                    "message": {"content": [{
+                        "type": "tool_result", "tool_use_id": tool_id,
+                        "content": visible}]}})
+
+            def native_read_trace47(label, visible, metadata):
+                raw = "\n".join((
+                    json.dumps({"type": "system", "subtype": "init",
+                                "session_id": "session-h47",
+                                "tools": retained_tools47}),
+                    json.dumps(dict(json.loads(cuse(
+                        label, "Read", {"file_path": S45})),
+                        session_id="session-h47")),
+                    native_result47(label, visible, metadata)))
+                trace = hosts.hostread.normalize_claude(
+                    raw, requested_tools=requested47,
+                    binding={"session_id": "session-h47"},
+                    profile=profile47, formal=True)
+                classified = hosts.hostread.classify_actions(
+                    trace.get("actions", []), [S45], preimages47,
+                    profile=profile47, formal=True)[S45]
+                return trace, classified
+
+            line_count47 = len(state47.split("\n"))
+            full_file47 = {
+                "type": "text", "file": {
+                    "filePath": S45, "content": state47,
+                    "startLine": 1, "numLines": line_count47,
+                    "totalLines": line_count47}}
+            full_read47, full_class47 = native_read_trace47(
+                "full47", rendered_read47(state47), full_file47)
+            omitted_visible47 = "\n".join(
+                rendered_read47(state47).split("\n")[:-1])
+            omitted_read47, omitted_class47 = native_read_trace47(
+                "omitted47", omitted_visible47, full_file47)
+            reordered_parts47 = rendered_read47(state47).split("\n")
+            if len(reordered_parts47) > 1:
+                reordered_parts47[0], reordered_parts47[1] = (
+                    reordered_parts47[1], reordered_parts47[0])
+            reordered_read47, reordered_class47 = native_read_trace47(
+                "reordered47", "\n".join(reordered_parts47), full_file47)
+            partial_file47 = {"type": "text", "file": {
+                "filePath": S45, "content": state47,
+                "startLine": 2, "numLines": line_count47 - 1,
+                "totalLines": line_count47}}
+            partial_read47, partial_class47 = native_read_trace47(
+                "partial47", rendered_read47(state47, start=2),
+                partial_file47)
+            wrong_type_file47 = {"type": "binary", "file": dict(
+                full_file47["file"])}
+            wrong_type_read47, wrong_type_class47 = native_read_trace47(
+                "wrong-type47", rendered_read47(state47),
+                wrong_type_file47)
+            check("H47i native-read-renderer-full-state-boundary",
+                  full_read47.get("actions", [{}])[0].get("state") ==
+                  "COMPLETED"
+                  and full_class47.get("classification") == "content-read"
+                  and all(trace.get("actions", [{}])[0].get("state") ==
+                          "INCOMPLETE" for trace in (
+                              omitted_read47, reordered_read47,
+                              partial_read47, wrong_type_read47))
+                  and all(item.get("classification") == "fail-closed"
+                          for item in (omitted_class47, reordered_class47,
+                                       partial_class47,
+                                       wrong_type_class47)))
+
+            write_false47 = "\n".join((
+                json.dumps({"type": "system", "subtype": "init",
+                            "session_id": "session-h47",
+                            "tools": retained_tools47}),
+                json.dumps(dict(json.loads(cuse(
+                    "write-false47", "Write",
+                    {"file_path": W45, "content": "{}"})),
+                    session_id="session-h47")),
+                native_result47("write-false47", "created", {
+                    "type": "create", "filePath": W45,
+                    "content": "{}", "originalFile": None,
+                    "structuredPatch": [], "userModified": False})))
+            write_false_trace47 = hosts.hostread.normalize_claude(
+                write_false47, requested_tools=requested47,
+                binding={"session_id": "session-h47"},
+                profile=profile47, formal=True)
+            check("H47j native-write-userModified-false-completes",
+                  write_false_trace47.get("host_status") == "PASS"
+                  and write_false_trace47.get("actions", [{}])[0].get(
+                      "state") == "COMPLETED")
+
+            # Exact third-cold-review RED controls.  A formal Codex profile is
+            # minted through the production constructor with a deterministic
+            # probe so the wrapper test cannot pass merely because the profile
+            # itself is rejected.
+            fixture_profile47 = json.load(open(os.path.join(
+                HERE, "testdata", "host-read-trust", "support",
+                "test-profile.json"), encoding="utf-8"))
+            probe47 = {
+                "environment": fixture_profile47["environment"],
+                "shell": fixture_profile47["shell"],
+                "executables": fixture_profile47["executables"]}
+            probe47["probe_sha256"] = hosts.hostread._sha256(
+                hosts.hostread._canonical_bytes(probe47))
+            original_probe47 = hosts.hostread.probe_posix
+            try:
+                hosts.hostread.probe_posix = lambda *args, **kwargs: probe47
+                codex_profile47 = hosts.hostread.mint_codex_profile(
+                    repo43, "/bin/bash")
+            finally:
+                hosts.hostread.probe_posix = original_probe47
+
+            bare_events47 = [
+                {"type": "thread.started", "thread_id": "bare-thread47"},
+                {"type": "turn.started", "thread_id": "bare-thread47",
+                 "turn_id": "bare-turn47"}]
+            for action_id47, target47, output47 in (
+                    ("bare-s47", S45, state47),
+                    ("bare-r47", R45, roadmap47)):
+                bare_events47.extend((
+                    {"type": "item.started", "item": {
+                        "id": action_id47, "type": "command_execution",
+                        "status": "in_progress", "command": "cat " + target47}},
+                    {"type": "item.completed", "item": {
+                        "id": action_id47, "type": "command_execution",
+                        "status": "completed", "command": "cat " + target47,
+                        "aggregated_output": output47, "exit_code": 0}}))
+            bare_events47.extend((
+                {"type": "item.started", "item": {
+                    "id": "bare-w47", "type": "file_change",
+                    "status": "in_progress",
+                    "changes": [{"path": W45, "kind": "add"}]}},
+                {"type": "item.completed", "item": {
+                    "id": "bare-w47", "type": "file_change",
+                    "status": "completed",
+                    "changes": [{"path": W45, "kind": "add"}]}},
+                {"type": "turn.completed", "thread_id": "bare-thread47",
+                 "turn_id": "bare-turn47"}))
+            bare_stream47 = "\n".join(json.dumps(event)
+                                       for event in bare_events47) + "\n"
+            bare_trace47 = hosts.hostread.normalize_codex(
+                bare_stream47, profile=codex_profile47,
+                binding={"thread_id": "bare-thread47",
+                         "turn_id": "bare-turn47"}, formal=True)
+            codex_binding_validator47 = getattr(
+                hosts.hostread, "_valid_codex_binding", None)
+            claude_binding_validator47 = getattr(
+                hosts.hostread, "_valid_claude_binding", None)
+            lineage_only_codex47 = "\n".join((
+                json.dumps({"type": "thread.started",
+                            "thread_id": "lineage-thread47"}),
+                json.dumps({"type": "turn.started",
+                            "thread_id": "lineage-thread47",
+                            "turn_id": "lineage-turn47"}),
+                json.dumps({"type": "turn.completed",
+                            "thread_id": "lineage-thread47",
+                            "turn_id": "lineage-turn47"}))) + "\n"
+            valid_codex_lineage47 = {
+                "thread_id": "lineage-thread47",
+                "stdout_turn_ordinal": 1,
+                "turn_id": "lineage-turn47"}
+            foreign_codex_lineage47 = dict(
+                valid_codex_lineage47, session_id="foreign-session")
+            valid_codex_lineage_trace47 = hosts.hostread.normalize_codex(
+                lineage_only_codex47, profile=codex_profile47,
+                binding=valid_codex_lineage47, formal=True)
+            foreign_codex_lineage_trace47 = hosts.hostread.normalize_codex(
+                lineage_only_codex47, profile=codex_profile47,
+                binding=foreign_codex_lineage47, formal=True)
+            foreign_claude_lineage_trace47 = hosts.hostread.normalize_claude(
+                stream47, requested_tools=requested47,
+                binding={"session_id": "session-h47",
+                         "thread_id": "foreign-thread"},
+                profile=profile47, formal=True)
+            check("H47al lineage-binding-schema-is-host-specific",
+                  codex_binding_validator47 is not None
+                  and claude_binding_validator47 is not None
+                  and codex_binding_validator47({
+                      "thread_id": "bare-thread47",
+                      "stdout_turn_ordinal": 1,
+                      "turn_id": "bare-turn47"})
+                  and not codex_binding_validator47({
+                      "thread_id": "bare-thread47",
+                      "stdout_turn_ordinal": 1,
+                      "turn_id": "bare-turn47",
+                      "session_id": "foreign-session"})
+                  and claude_binding_validator47({
+                      "session_id": "session-h47"})
+                  and not claude_binding_validator47({
+                      "session_id": "session-h47",
+                      "thread_id": "foreign-thread"})
+                  and valid_codex_lineage_trace47.get("host_status") ==
+                  "PASS"
+                  and foreign_codex_lineage_trace47.get("host_status") ==
+                  "INVALID"
+                  and foreign_claude_lineage_trace47.get("host_status") ==
+                  "INVALID")
+            bare_matrix47 = hosts.hostread.adjudicate_path_order(
+                bare_trace47, [S45, R45], W45, preimages47,
+                profile=codex_profile47, formal=True)
+            check("H47l formal-codex-requires-one-protocol-wrapper",
+                  bare_trace47.get("host_status") == "INVALID"
+                  and bare_matrix47.get("property_status") == "INCOMPLETE"
+                  and bare_matrix47.get("overall_status") != "PASS")
+
+            comment_result47 = hosts.hostread.classify_shell(
+                {"command": "/bin/bash -lc 'cat decoy.txt # " + S45 + "'",
+                 "output": state47, "exit_code": 0},
+                S45, preimages47, profile=codex_profile47, formal=True)
+            check("H47m unquoted-shell-comment-cannot-name-read-target",
+                  comment_result47.get("classification") != "content-read")
+
+            forged_profile47 = json.loads(json.dumps(codex_profile47))
+            forged_profile47["shell"]["realpath"] = "/missing/reviewer/bash"
+            for name47, identity47 in forged_profile47["executables"].items():
+                identity47["path"] = "/missing/reviewer/" + name47
+            check("H47n caller-dictionary-cannot-assert-formal-authority",
+                  hosts.hostread.validate_profile(
+                      forged_profile47, formal=True).get("host_status") ==
+                  "INVALID")
+
+            insensitive_preimages47 = json.loads(json.dumps(preimages47))
+            insensitive_preimages47["repo"]["case_sensitive"] = False
+            insensitive_result47 = hosts.hostread.classify_shell(
+                {"command": "/bin/bash -lc 'cat " + S45.lower() + "'",
+                 "output": state47, "exit_code": 0},
+                S45, insensitive_preimages47, profile=codex_profile47,
+                formal=True)
+            check("H47o snapshot-case-insensitive-target-identity",
+                  insensitive_result47.get("classification") ==
+                  "content-read")
+
+            case_variant_actions47 = [
+                {"id": "prewrite-case47", "effect": "write",
+                 "path": S45.lower(), "state": "COMPLETED",
+                 "invocation_ordinal": 1, "completion_ordinal": 2},
+                {"id": "read-after-case47", "effect": "read",
+                 "path": S45, "inputs": {}, "output": state47,
+                 "state": "COMPLETED", "invocation_ordinal": 3,
+                 "completion_ordinal": 4},
+                {"id": "capsule-after-case47", "effect": "write",
+                 "path": W45, "state": "COMPLETED",
+                 "invocation_ordinal": 5, "completion_ordinal": 6}]
+            case_variant_matrix47 = hosts.hostread.adjudicate_path_order(
+                {"schema": hosts.hostread.TRACE_SCHEMA,
+                 "actions": case_variant_actions47,
+                 "host_status": "PASS", "host_findings": []},
+                [S45], W45, insensitive_preimages47,
+                profile=profile47, formal=True)
+            check("H47p case-insensitive-pre-read-write-breaks-live-preimage",
+                  case_variant_matrix47.get("live_preimage") is False
+                  and case_variant_matrix47.get("property_status") ==
+                  "INCOMPLETE"
+                  and case_variant_matrix47.get("overall_status") != "PASS")
+
+            original_normcase47 = hosts.hostread.os.path.normcase
+            try:
+                hosts.hostread.os.path.normcase = \
+                    lambda value: str(value).casefold()
+                insensitive_claude_profile47 = \
+                    hosts.hostread.mint_claude_profile(
+                        repo43, requested47)
+            finally:
+                hosts.hostread.os.path.normcase = original_normcase47
+            case_result_file47 = json.loads(json.dumps(full_file47))
+            case_result_file47["file"]["filePath"] = S45.lower()
+            case_result_stream47 = "\n".join((
+                json.dumps({"type": "system", "subtype": "init",
+                            "session_id": "session-h47",
+                            "tools": retained_tools47}),
+                json.dumps(dict(json.loads(cuse(
+                    "case-read47", "Read", {"file_path": S45})),
+                    session_id="session-h47")),
+                native_result47("case-read47", rendered_read47(state47),
+                                case_result_file47)))
+            case_result_trace47 = hosts.hostread.normalize_claude(
+                case_result_stream47, requested_tools=requested47,
+                binding={"session_id": "session-h47"},
+                profile=insensitive_claude_profile47, formal=True)
+            check("H47q case-insensitive-claude-result-path-correlation",
+                  case_result_trace47.get("host_status") == "PASS"
+                  and case_result_trace47.get("actions", [{}])[0].get(
+                      "state") == "COMPLETED")
+
+            immutable_profile47 = hosts.hostread.mint_claude_profile(
+                repo43, requested47)
+            immutable_before47 = hosts.hostread._canonical_bytes(
+                immutable_profile47)
+            mutation_rejections47 = []
+            try:
+                immutable_profile47["repo"]["case_sensitive"] = False
+            except TypeError:
+                mutation_rejections47.append("nested-dict")
+            try:
+                immutable_profile47["native_tools"]["requested"].append(
+                    "ForgedTool")
+            except TypeError:
+                mutation_rejections47.append("nested-list")
+            try:
+                immutable_profile47["host"] = "forged"
+            except TypeError:
+                mutation_rejections47.append("top-level")
+            check("H47r minted-profile-is-recursively-immutable",
+                  mutation_rejections47 == [
+                      "nested-dict", "nested-list", "top-level"]
+                  and hosts.hostread._canonical_bytes(immutable_profile47) ==
+                  immutable_before47)
+
+            absolute_result_file47 = json.loads(json.dumps(full_file47))
+            absolute_result_file47["file"]["filePath"] = os.path.abspath(
+                os.path.join(repo43, *S45.split("/"))).replace("\\", "/")
+            absolute_result_stream47 = "\n".join((
+                json.dumps({"type": "system", "subtype": "init",
+                            "session_id": "session-h47",
+                            "tools": retained_tools47}),
+                json.dumps(dict(json.loads(cuse(
+                    "absolute-read47", "Read", {"file_path": S45})),
+                    session_id="session-h47")),
+                native_result47(
+                    "absolute-read47", rendered_read47(state47),
+                    absolute_result_file47)))
+            absolute_result_trace47 = hosts.hostread.normalize_claude(
+                absolute_result_stream47, requested_tools=requested47,
+                binding={"session_id": "session-h47"},
+                profile=profile47, formal=True)
+            check("H47s relative-absolute-claude-path-correlation",
+                  absolute_result_trace47.get("host_status") == "PASS"
+                  and absolute_result_trace47.get("actions", [{}])[0].get(
+                      "state") == "COMPLETED")
+
+            reinit_profile47 = hosts.hostread.mint_claude_profile(
+                repo43, requested47)
+            reinit_before47 = hosts.hostread._canonical_bytes(
+                reinit_profile47)
+            reinit_rejections47 = []
+            changed_repo47 = dict(reinit_profile47["repo"])
+            changed_repo47["case_sensitive"] = not changed_repo47[
+                "case_sensitive"]
+            try:
+                reinit_profile47["repo"].__init__(changed_repo47)
+            except TypeError:
+                reinit_rejections47.append("dict-init")
+            try:
+                reinit_profile47["native_tools"]["requested"].__init__(
+                    list(requested47) + ["ForgedTool"])
+            except TypeError:
+                reinit_rejections47.append("list-init")
+            check("H47u minted-profile-reinitialization-refused",
+                  reinit_rejections47 == ["dict-init", "list-init"]
+                  and hosts.hostread._canonical_bytes(reinit_profile47) ==
+                  reinit_before47)
+
+            drifted_claude_profile47 = json.loads(json.dumps(profile47))
+            drifted_claude_profile47["native_tools"]["requested"].append(
+                "ForgedTool")
+            drifted_codex_profile47 = json.loads(json.dumps(codex_profile47))
+            drifted_codex_profile47["environment"]["PATH"] += \
+                ":profile-drift"
+            drift_rejections47 = []
+            for label47, drifted_profile47 in (
+                    ("claude", drifted_claude_profile47),
+                    ("codex", drifted_codex_profile47)):
+                try:
+                    hosts.hostread._admit_persisted_profile(
+                        drifted_profile47)
+                except ValueError:
+                    drift_rejections47.append(label47)
+            check("H47v persisted-profile-probe-drift-rejected",
+                  drift_rejections47 == ["claude", "codex"])
+
+            profile_gate_stream47 = "\n".join((
+                json.dumps({"type": "system", "subtype": "init",
+                            "session_id": "session-h47",
+                            "tools": ["Read"]}),
+                json.dumps(dict(json.loads(cuse(
+                    "profile-gate47", "Read", {"file_path": S45})),
+                    session_id="session-h47")),
+                json.dumps({"type": "user", "session_id": "session-h47",
+                            "message": {"content": [{
+                                "type": "tool_result",
+                                "tool_use_id": "profile-gate47",
+                                "content": state47}]}})))
+            profile_gate_statuses47 = []
+            for wrong_profile47 in (None, codex_profile47):
+                profile_gate_statuses47.append(
+                    hosts.hostread.normalize_claude(
+                        profile_gate_stream47, requested_tools=["Read"],
+                        binding={"session_id": "session-h47"},
+                        profile=wrong_profile47,
+                        formal=True).get("host_status"))
+            codex_wrong_profile_crashed47 = False
+            try:
+                codex_wrong_profile_trace47 = \
+                    hosts.hostread.normalize_codex(
+                        bare_stream47, profile=profile47,
+                        binding={"thread_id": "bare-thread47",
+                                 "turn_id": "bare-turn47"}, formal=True)
+            except Exception:
+                codex_wrong_profile_crashed47 = True
+                codex_wrong_profile_trace47 = {}
+            check("H47w formal-profile-is-required-and-host-bound",
+                  profile_gate_statuses47 == ["INVALID", "INVALID"]
+                  and codex_wrong_profile_crashed47 is False
+                  and codex_wrong_profile_trace47.get("host_status") ==
+                  "INVALID")
+
+            absolute_path47 = os.path.abspath(os.path.join(
+                repo43, *S45.split("/"))).replace("\\", "/")
+            lexical_absolute_metadata47 = {
+                "type": "text", "file": {
+                    "filePath": absolute_path47, "content": state47}}
+            lexical_absolute_stream47 = "\n".join((
+                json.dumps({"type": "system", "subtype": "init",
+                            "session_id": "session-h47",
+                            "tools": ["Read"]}),
+                json.dumps(dict(json.loads(cuse(
+                    "lexical-absolute47", "Read",
+                    {"file_path": absolute_path47})),
+                    session_id="session-h47")),
+                native_result47("lexical-absolute47", state47,
+                                lexical_absolute_metadata47)))
+            lexical_absolute_trace47 = hosts.hostread.normalize_claude(
+                lexical_absolute_stream47, requested_tools=["Read"],
+                binding={"session_id": "session-h47"}, profile=None,
+                formal=False)
+            check("H47x nonformal-absolute-paths-remain-lexical",
+                  lexical_absolute_trace47.get("host_status") == "PASS"
+                  and lexical_absolute_trace47.get(
+                      "actions", [{}])[0].get("state") == "COMPLETED")
+
+            contradictory_metadata47 = {
+                "type": "text", "filePath": S45,
+                "file": {"filePath": R45, "content": state47}}
+            contradictory_path_stream47 = "\n".join((
+                json.dumps({"type": "system", "subtype": "init",
+                            "session_id": "session-h47",
+                            "tools": ["Read"]}),
+                json.dumps(dict(json.loads(cuse(
+                    "contradictory-path47", "Read", {"file_path": S45})),
+                    session_id="session-h47")),
+                native_result47("contradictory-path47", state47,
+                                contradictory_metadata47)))
+            contradictory_path_trace47 = hosts.hostread.normalize_claude(
+                contradictory_path_stream47, requested_tools=["Read"],
+                binding={"session_id": "session-h47"}, profile=profile47,
+                formal=True)
+            check("H47y contradictory-claude-result-paths-invalid",
+                  contradictory_path_trace47.get("host_status") == "INVALID"
+                  and contradictory_path_trace47.get(
+                      "actions", [{}])[0].get("state") == "INVALID")
+
+            requested_mismatch_trace47 = hosts.hostread.normalize_claude(
+                profile_gate_stream47, requested_tools=["Read"],
+                binding={"session_id": "session-h47"}, profile=profile47,
+                formal=True)
+            check("H47z formal-claude-requested-tools-profile-bound",
+                  requested_mismatch_trace47.get("host_status") == "INVALID"
+                  and any(finding.get("code") ==
+                          "profile-requested-tools-mismatch"
+                          for finding in requested_mismatch_trace47.get(
+                              "host_findings", [])))
+
+            mismatched_repo_profile47 = \
+                hosts.hostread.mint_claude_profile(
+                    repo43 + "-different-repository", requested47)
+            mismatched_repo_capture47 = os.path.join(
+                tmp, "host-read-capture-h47-repo-mismatch")
+            mismatched_repo_rejected47 = False
+            try:
+                hosts.hostread.begin_capture(
+                    mismatched_repo_capture47, mismatched_repo_profile47,
+                    preimages47, replay_spec=replay_spec47,
+                    fixture_bytes=fixture_bytes47, formal=True)
+            except ValueError:
+                mismatched_repo_rejected47 = True
+            check("H47aa formal-profile-and-preimages-share-repository",
+                  mismatched_repo_rejected47)
+
+            malformed_profile_statuses47 = []
+            malformed_profile_crashed47 = False
+            for malformed_profile47 in (
+                    ["not-a-profile"],
+                    {"native_tools": ["not-a-mapping"]},
+                    {"repo": ["not-a-mapping"]}):
+                try:
+                    malformed_profile_trace47 = \
+                        hosts.hostread.normalize_claude(
+                            profile_gate_stream47,
+                            requested_tools=["Read"],
+                            binding={"session_id": "session-h47"},
+                            profile=malformed_profile47, formal=True)
+                    malformed_profile_statuses47.append(
+                        malformed_profile_trace47.get("host_status"))
+                except Exception:
+                    malformed_profile_crashed47 = True
+            check("H47ab malformed-formal-profile-fails-closed",
+                  malformed_profile_crashed47 is False
+                  and malformed_profile_statuses47 == ["INVALID"] * 3)
+
+            malformed_requested_statuses47 = []
+            malformed_requested_crashed47 = False
+            malformed_requested_helper47 = []
+            for malformed_requested47 in (1, True):
+                malformed_requested_profile47 = {
+                    "native_tools": {"requested": malformed_requested47}}
+                try:
+                    malformed_requested_trace47 = \
+                        hosts.hostread.normalize_claude(
+                            "", requested_tools=["Read"],
+                            profile=malformed_requested_profile47,
+                            formal=True)
+                    malformed_requested_statuses47.append(
+                        malformed_requested_trace47.get("host_status"))
+                    malformed_requested_helper47.append(
+                        hosts.hostread._profile_matches_replay_spec(
+                            malformed_requested_profile47,
+                            {"host": "claude",
+                             "requested_tools": ["Read"]}))
+                except Exception:
+                    malformed_requested_crashed47 = True
+            malformed_requested_arguments47 = []
+            for malformed_requested_argument47 in (
+                    1, True, {"Read": True}, "Read", ("Read",)):
+                try:
+                    malformed_requested_arguments47.append(
+                        hosts.hostread.normalize_claude(
+                            "", requested_tools=malformed_requested_argument47,
+                            profile=profile47,
+                            formal=True).get("host_status"))
+                except Exception:
+                    malformed_requested_crashed47 = True
+            check("H47ad nested-requested-tools-fail-closed",
+                  malformed_requested_crashed47 is False
+                  and malformed_requested_statuses47 == ["INVALID"] * 2
+                  and malformed_requested_helper47 == [False, False]
+                  and malformed_requested_arguments47 == ["INVALID"] * 5)
+
+            malformed_binding_crashed47 = False
+            malformed_binding_statuses47 = []
+            for malformed_binding47 in (
+                    ["not-a-binding"], "not-a-binding", 1, True):
+                try:
+                    malformed_binding_statuses47.extend((
+                        hosts.hostread.normalize_claude(
+                            "", requested_tools=["Read"],
+                            binding=malformed_binding47,
+                            profile=profile47, formal=True).get(
+                                "host_status"),
+                        hosts.hostread.normalize_codex(
+                            "", binding=malformed_binding47,
+                            profile=codex_profile47, formal=True).get(
+                                "host_status")))
+                except Exception:
+                    malformed_binding_crashed47 = True
+            check("H47ag1 malformed-normalizer-bindings-fail-closed",
+                  malformed_binding_crashed47 is False
+                  and malformed_binding_statuses47 == ["INVALID"] * 8)
+
+            mismatched_identity_preimages47 = json.loads(json.dumps(
+                preimages47))
+            mismatched_identity_preimages47["targets"][S45][
+                "canonical_path"] = preimages47["targets"][R45][
+                    "canonical_path"]
+            mismatched_identity_capture47 = os.path.join(
+                tmp, "host-read-capture-h47-identity-mismatch")
+            mismatched_identity_rejected47 = False
+            try:
+                hosts.hostread.begin_capture(
+                    mismatched_identity_capture47, profile47,
+                    mismatched_identity_preimages47,
+                    replay_spec=replay_spec47,
+                    fixture_bytes=fixture_bytes47, formal=True)
+            except ValueError:
+                mismatched_identity_rejected47 = True
+            check("H47ac preimage-relative-canonical-identity-bound",
+                  hosts.hostread.validate_preimages(
+                      mismatched_identity_preimages47).get("status") ==
+                  "INVALID" and mismatched_identity_rejected47)
+
+            root_data47 = b"root-bound\n"
+            root_preimages47 = {
+                "schema": hosts.hostread.PREIMAGE_SCHEMA,
+                "repo": {"lexical_root": "/", "real_root": "/",
+                         "case_sensitive": True},
+                "targets": {"etc/hosts": {
+                    "canonical_path": "/etc/hosts",
+                    "relative_path": "etc/hosts",
+                    "content_base64": base64.b64encode(
+                        root_data47).decode("ascii"),
+                    "sha256": hosts.bundlelib._sha256_bytes(root_data47),
+                    "size": len(root_data47), "mode": 0o100644,
+                    "symlink_free": True}}}
+            check("H47af posix-filesystem-root-is-root-bound",
+                  hosts.hostread.validate_preimages(
+                      root_preimages47).get("status") == "PASS"
+                  and hosts.hostread._normalize_path(
+                      "etc/hosts", root_preimages47) == "/etc/hosts"
+                  and hosts.hostread._path_matches(
+                      "/etc/hosts", "etc/hosts", root_preimages47))
+
+            check("H47ah windows-drive-root-remains-absolute",
+                  not hosts.hostread._same_path("C:", "C:/")
+                  and not hosts.hostread._within("C:", "C:/")
+                  and hosts.hostread._same_path("C:/", "C:/")
+                  and hosts.hostread._within("C:/file.txt", "C:/"))
+
+            check("H47aj drive-relative-and-unicode-path-semantics",
+                  not hosts.hostread._within("C:/file.txt", "C:")
+                  and not hosts.hostread._same_path(
+                      "C:/Straße/state.md", "C:/STRASSE/state.md",
+                      case_sensitive=False)
+                  and hosts.hostread._same_path(
+                      "C:/STATE.md", "c:/state.MD", case_sensitive=False)
+                  and hosts.hostread._within("C:/file.txt", "C:/"))
+
+            empty_tool_mint_refused47 = False
+            try:
+                hosts.hostread.mint_claude_profile(repo43, [""])
+            except ValueError:
+                empty_tool_mint_refused47 = True
+            empty_tool_profile47 = json.loads(json.dumps(profile47))
+            empty_tool_profile47["native_tools"]["requested"] = [""]
+            empty_tool_spec47 = dict(replay_spec47,
+                                     requested_tools=[""])
+            empty_tool_trace47 = hosts.hostread.normalize_claude(
+                "", requested_tools=[""], profile=profile47,
+                formal=True)
+            check("H47ai requested-tool-names-are-nonempty",
+                  empty_tool_mint_refused47 and
+                  hosts.hostread.validate_profile(
+                      empty_tool_profile47, formal=False).get(
+                          "host_status") == "INVALID"
+                  and empty_tool_trace47.get("host_status") == "INVALID"
+                  and not hosts.hostread._validate_replay_spec(
+                      empty_tool_spec47, True)
+                  and not hosts.hostread._profile_matches_replay_spec(
+                      empty_tool_profile47, empty_tool_spec47))
+            codex_replay_spec47 = hosts.hostread.make_replay_spec(
+                "codex", replay_spec47["checks"], requested_tools=[],
+                fixture_sha256=fixture_hash47,
+                run_intent_sha256=intent_hash47)
+            codex_requested_spec47 = dict(
+                codex_replay_spec47, requested_tools=["Read"])
+            check("H47ak codex-requested-tools-are-exactly-empty",
+                  hosts.hostread._validate_replay_spec(
+                      codex_replay_spec47, True)
+                  and hosts.hostread._profile_matches_replay_spec(
+                      codex_profile47, codex_replay_spec47)
+                  and not hosts.hostread._validate_replay_spec(
+                      codex_requested_spec47, True)
+                  and not hosts.hostread._profile_matches_replay_spec(
+                      codex_profile47, codex_requested_spec47))
+            unknown_host_status47 = hosts.hostread.corroborate_session(
+                stream47, session47, "unknown",
+                {"session_id": "session-h47"}, retained_trace47,
+                profile=profile47, process_started={})
+            malformed_raw_session_statuses47 = []
+            malformed_raw_session_crashed47 = False
+            for malformed_raw_session47 in ([999], 999, {"line": "value"}):
+                try:
+                    malformed_raw_session_statuses47.append(
+                        hosts.hostread.corroborate_session(
+                            stream47, malformed_raw_session47, "claude",
+                            {"session_id": "session-h47"}, retained_trace47,
+                            profile=profile47, process_started={}))
+                except Exception:
+                    malformed_raw_session_crashed47 = True
+            check("H47am session-corroboration-is-total-and-host-bound",
+                  unknown_host_status47 == "INVALID"
+                  and malformed_raw_session_crashed47 is False
+                  and malformed_raw_session_statuses47 == ["INVALID"] * 3)
+            malformed_action_id_statuses47 = []
+            malformed_action_id_crashed47 = False
+            invalid_id_claude_traces47 = []
+            invalid_id_claude_streams47 = []
+            for malformed_action_id47 in (True, 47, [], {"bad": "id"}):
+                invalid_id_codex_stream47 = "\n".join((
+                    json.dumps({"type": "thread.started",
+                                "thread_id": "invalid-id-thread47"}),
+                    json.dumps({"type": "turn.started",
+                                "thread_id": "invalid-id-thread47",
+                                "turn_id": "invalid-id-turn47"}),
+                    json.dumps({"type": "item.started", "item": {
+                        "id": malformed_action_id47,
+                        "type": "command_execution",
+                        "status": "in_progress", "command": "cat " + S45}}),
+                    json.dumps({"type": "turn.completed",
+                                "thread_id": "invalid-id-thread47",
+                                "turn_id": "invalid-id-turn47"}))) + "\n"
+                invalid_id_claude_event47 = json.loads(cuse(
+                    "placeholder-id47", "Read", {"file_path": S45}))
+                invalid_id_claude_event47["session_id"] = "session-h47"
+                invalid_id_claude_event47["message"]["content"][0][
+                    "id"] = malformed_action_id47
+                invalid_id_claude_stream47 = "\n".join((
+                    json.dumps({"type": "system", "subtype": "init",
+                                "session_id": "session-h47",
+                                "tools": retained_tools47}),
+                    json.dumps(invalid_id_claude_event47))) + "\n"
+                invalid_id_codex_completion47 = "\n".join((
+                    json.dumps({"type": "thread.started",
+                                "thread_id": "invalid-id-thread47"}),
+                    json.dumps({"type": "turn.started",
+                                "thread_id": "invalid-id-thread47",
+                                "turn_id": "invalid-id-turn47"}),
+                    json.dumps({"type": "item.completed", "item": {
+                        "id": malformed_action_id47,
+                        "type": "command_execution", "status": "completed",
+                        "command": "cat " + S45,
+                        "aggregated_output": state47, "exit_code": 0}}),
+                    json.dumps({"type": "turn.completed",
+                                "thread_id": "invalid-id-thread47",
+                                "turn_id": "invalid-id-turn47"}))) + "\n"
+                invalid_id_claude_result47 = json.loads(cresult(
+                    "placeholder-id47", state47, is_error=False))
+                invalid_id_claude_result47["session_id"] = "session-h47"
+                invalid_id_claude_result47["message"]["content"][0][
+                    "tool_use_id"] = malformed_action_id47
+                invalid_id_claude_completion47 = "\n".join((
+                    json.dumps({"type": "system", "subtype": "init",
+                                "session_id": "session-h47",
+                                "tools": retained_tools47}),
+                    json.dumps(invalid_id_claude_result47))) + "\n"
+                try:
+                    invalid_id_codex_trace47 = \
+                        hosts.hostread.normalize_codex(
+                            invalid_id_codex_stream47,
+                            profile=codex_profile47,
+                            binding={"thread_id": "invalid-id-thread47",
+                                     "stdout_turn_ordinal": 1,
+                                     "turn_id": "invalid-id-turn47"},
+                            formal=True)
+                    invalid_id_claude_trace47 = \
+                        hosts.hostread.normalize_claude(
+                            invalid_id_claude_stream47,
+                            requested_tools=requested47,
+                            binding={"session_id": "session-h47"},
+                            profile=profile47, formal=True)
+                    invalid_id_codex_completion_trace47 = \
+                        hosts.hostread.normalize_codex(
+                            invalid_id_codex_completion47,
+                            profile=codex_profile47,
+                            binding={"thread_id": "invalid-id-thread47",
+                                     "stdout_turn_ordinal": 1,
+                                     "turn_id": "invalid-id-turn47"},
+                            formal=True)
+                    invalid_id_claude_completion_trace47 = \
+                        hosts.hostread.normalize_claude(
+                            invalid_id_claude_completion47,
+                            requested_tools=requested47,
+                            binding={"session_id": "session-h47"},
+                            profile=profile47, formal=True)
+                    malformed_action_id_statuses47.extend((
+                        invalid_id_codex_trace47.get("host_status"),
+                        invalid_id_claude_trace47.get("host_status"),
+                        invalid_id_codex_completion_trace47.get(
+                            "host_status"),
+                        invalid_id_claude_completion_trace47.get(
+                            "host_status")))
+                    invalid_id_claude_traces47.append(
+                        invalid_id_claude_trace47)
+                    invalid_id_claude_streams47.append(
+                        invalid_id_claude_stream47)
+                except Exception:
+                    malformed_action_id_crashed47 = True
+            check("H47ao non-string-action-ids-fail-closed",
+                  malformed_action_id_crashed47 is False
+                  and malformed_action_id_statuses47 == ["INVALID"] * 16)
+            inventory_profile47 = hosts.hostread.mint_claude_profile(
+                repo43, ["Read"])
+            inventory_replay_spec47 = hosts.hostread.make_replay_spec(
+                "claude", replay_spec47["checks"], requested_tools=["Read"],
+                fixture_sha256=fixture_hash47,
+                run_intent_sha256=intent_hash47)
+            malformed_inventory_traces47 = []
+            malformed_inventory_streams47 = []
+            malformed_inventory_crashed47 = False
+            for malformed_inventory47 in (["Read", ""], ["Read", 1]):
+                malformed_inventory_stream47 = json.dumps({
+                    "type": "system", "subtype": "init",
+                    "session_id": "inventory-session47",
+                    "tools": malformed_inventory47}) + "\n"
+                try:
+                    malformed_inventory_trace47 = \
+                        hosts.hostread.normalize_claude(
+                            malformed_inventory_stream47,
+                            requested_tools=["Read"],
+                            binding={"session_id": "inventory-session47"},
+                            profile=inventory_profile47, formal=True)
+                    malformed_inventory_traces47.append(
+                        malformed_inventory_trace47)
+                    malformed_inventory_streams47.append(
+                        malformed_inventory_stream47)
+                except Exception:
+                    malformed_inventory_crashed47 = True
+            check("H47aq malformed-claude-inventory-is-host-invalid",
+                  malformed_inventory_crashed47 is False
+                  and [trace47.get("host_status") for trace47 in
+                       malformed_inventory_traces47] == ["INVALID"] * 2)
+            adapter47._attempt_finalize_formal_host_read(
+                fx44, repo43, outcome47, capture47, "ok")
+            adapter47._tool_trace = [{"action": "invalid"}]
+            result47 = adapter47._run_host_checks(fx44, repo43)
+            replay47 = hosts.hostread.replay_capture(
+                capture47, formal=True)
+            check("H47 formal-v2-custody-integration",
+                  result47.get("read_before_write") is True
+                  and replay47.get("status") == "PASS"
+                  and os.path.isfile(os.path.join(
+                      capture47, "host-read-manifest.json")))
+
+            def rewrite_json47(root, name, value):
+                open(os.path.join(root, name), "wb").write(
+                    hosts.hostread._canonical_bytes(value) + b"\n")
+
+            def rehash47(root):
+                terminal = json.load(open(os.path.join(
+                    root, "host-read-terminal.json"), encoding="utf-8"))
+                terminal["hashes"] = {
+                    name: hosts.hostread._file_sha256(os.path.join(root, name))
+                    for name in hosts.hostread._CAPTURE_FILES[:-1]}
+                rewrite_json47(root, "host-read-terminal.json", terminal)
+                manifest = {
+                    "schema": hosts.hostread.MANIFEST_SCHEMA,
+                    "files": {name: hosts.hostread._file_sha256(
+                        os.path.join(root, name))
+                        for name in hosts.hostread._CAPTURE_FILES}}
+                rewrite_json47(root, "host-read-manifest.json", manifest)
+
+            # An attacker who forges derivatives and recomputes every stored
+            # digest still cannot make them disagree with raw replay.
+            forged_trace47 = os.path.join(tmp, "h47-forged-trace")
+            shutil.copytree(capture47, forged_trace47)
+            trace47 = json.load(open(os.path.join(
+                forged_trace47, "host-tool-trace.json"), encoding="utf-8"))
+            trace47["actions"][0]["output"] = "forged\n"
+            rewrite_json47(forged_trace47, "host-tool-trace.json", trace47)
+            rehash47(forged_trace47)
+            check("H47b replay-regenerates-derivatives",
+                  hosts.hostread.replay_capture(
+                      forged_trace47, formal=True).get("status") == "INVALID")
+
+            malformed_binding_replay47 = os.path.join(
+                tmp, "h47-malformed-binding-replay")
+            shutil.copytree(capture47, malformed_binding_replay47)
+            malformed_binding_terminal47 = json.load(open(os.path.join(
+                malformed_binding_replay47, "host-read-terminal.json"),
+                encoding="utf-8"))
+            malformed_binding_terminal47["binding"] = ["not-a-binding"]
+            rewrite_json47(malformed_binding_replay47,
+                           "host-read-terminal.json",
+                           malformed_binding_terminal47)
+            rehash47(malformed_binding_replay47)
+            malformed_binding_replay_crashed47 = False
+            try:
+                malformed_binding_replay_status47 = \
+                    hosts.hostread.replay_capture(
+                        malformed_binding_replay47,
+                        formal=True).get("status")
+            except Exception:
+                malformed_binding_replay_crashed47 = True
+                malformed_binding_replay_status47 = None
+
+            malformed_binding_seal47 = os.path.join(
+                tmp, "h47-malformed-binding-seal")
+            hosts.hostread.begin_capture(
+                malformed_binding_seal47, profile47, preimages47,
+                replay_spec=replay_spec47, fixture_bytes=fixture_bytes47,
+                formal=True)
+            sealed_trace47 = json.load(open(os.path.join(
+                capture47, "host-tool-trace.json"), encoding="utf-8"))
+            sealed_matrix47 = json.load(open(os.path.join(
+                capture47, "host-read-matrix.json"), encoding="utf-8"))
+            invalid_id_seal47 = os.path.join(
+                tmp, "host-read-capture-h47-invalid-action-id")
+            invalid_id_property_sealed47 = False
+            if invalid_id_claude_traces47:
+                os.makedirs(invalid_id_seal47)
+                open(os.path.join(invalid_id_seal47, "run-intent.json"),
+                     "wb").write(intent_bytes47)
+                hosts.hostread.begin_capture(
+                    invalid_id_seal47, profile47, preimages47,
+                    replay_spec=replay_spec47, fixture_bytes=fixture_bytes47,
+                    formal=True)
+                json.dump({
+                    "schema": "implementaudit-process-started-v2",
+                    "host_read_pre_spawn_sha256":
+                    hosts.hostread._file_sha256(os.path.join(
+                        invalid_id_seal47, "host-read-pre-spawn.json"))},
+                    open(os.path.join(invalid_id_seal47,
+                                      "process-started.json"),
+                         "w", encoding="utf-8"), sort_keys=True)
+                invalid_id_replay_trace47 = json.loads(json.dumps(
+                    invalid_id_claude_traces47[0]))
+                invalid_id_session_status47 = \
+                    hosts.hostread.corroborate_session(
+                        invalid_id_claude_streams47[0], session47, "claude",
+                        {"session_id": "session-h47"},
+                        invalid_id_replay_trace47, profile=profile47,
+                        process_started={})
+                hosts.hostread.add_host_finding(
+                    invalid_id_replay_trace47, "native-session-unbound")
+                hosts.hostread.add_host_finding(
+                    invalid_id_replay_trace47, "host-terminal-invalid")
+                invalid_id_matrix47 = hosts.hostread.build_matrix(
+                    invalid_id_replay_trace47, replay_spec47, preimages47,
+                    profile47, formal=True)
+                invalid_id_seal_result47 = hosts.hostread.finish_capture(
+                    invalid_id_seal47,
+                    raw_stdout=invalid_id_claude_streams47[0],
+                    raw_session=session47,
+                    trace=invalid_id_replay_trace47,
+                    matrix=invalid_id_matrix47,
+                    post_probe={"native_tools": profile47["native_tools"]},
+                    binding={"session_id": "session-h47"},
+                    host_terminal_kind="invalid",
+                    session_status=invalid_id_session_status47,
+                    formal=True, minted_profile=profile47)
+                invalid_id_terminal47 = json.load(open(os.path.join(
+                    invalid_id_seal47, "host-read-terminal.json"),
+                    encoding="utf-8"))
+                invalid_id_replay47 = hosts.hostread.replay_capture(
+                    invalid_id_seal47, formal=True)
+                invalid_id_property_sealed47 = (
+                    invalid_id_seal_result47.get("status") == "PASS"
+                    and invalid_id_session_status47 == "INVALID"
+                    and invalid_id_terminal47.get(
+                        "normalized_host_status") == "INVALID"
+                    and invalid_id_matrix47["specs"][
+                        "read_before_write"].get("property_status") ==
+                    "INCOMPLETE"
+                    and invalid_id_replay47.get("status") == "PASS"
+                    and invalid_id_replay47.get("custody_status") == "PASS"
+                    and invalid_id_replay47.get("host_status") == "INVALID"
+                    and invalid_id_replay47.get("matrix", {}).get(
+                        "specs", {}).get("read_before_write", {}).get(
+                            "property_status") == "INCOMPLETE"
+                    and invalid_id_replay47.get("trace", {}).get(
+                        "host_status") == "INVALID")
+            check("H47ao2 invalid-action-trace-seals-property-evidence",
+                  invalid_id_property_sealed47)
+            malformed_inventory_reconstructible47 = False
+            if malformed_inventory_traces47:
+                malformed_inventory_capture47 = os.path.join(
+                    tmp, "host-read-capture-h47-malformed-inventory")
+                os.makedirs(malformed_inventory_capture47)
+                open(os.path.join(malformed_inventory_capture47,
+                                  "run-intent.json"), "wb").write(
+                                      intent_bytes47)
+                hosts.hostread.begin_capture(
+                    malformed_inventory_capture47, inventory_profile47,
+                    preimages47, replay_spec=inventory_replay_spec47,
+                    fixture_bytes=fixture_bytes47, formal=True)
+                json.dump({
+                    "schema": "implementaudit-process-started-v2",
+                    "host_read_pre_spawn_sha256":
+                    hosts.hostread._file_sha256(os.path.join(
+                        malformed_inventory_capture47,
+                        "host-read-pre-spawn.json"))},
+                    open(os.path.join(malformed_inventory_capture47,
+                                      "process-started.json"),
+                         "w", encoding="utf-8"), sort_keys=True)
+                malformed_inventory_native47 = json.dumps({
+                    "type": "system", "subtype": "transcript",
+                    "session_id": "inventory-session47"}) + "\n"
+                inventory_replay_trace47 = json.loads(json.dumps(
+                    malformed_inventory_traces47[0]))
+                inventory_session_status47 = \
+                    hosts.hostread.corroborate_session(
+                        malformed_inventory_streams47[0],
+                        malformed_inventory_native47, "claude",
+                        {"session_id": "inventory-session47"},
+                        inventory_replay_trace47,
+                        profile=inventory_profile47, process_started={})
+                if inventory_session_status47 != "VALID":
+                    hosts.hostread.add_host_finding(
+                        inventory_replay_trace47, "native-session-unbound")
+                inventory_matrix47 = hosts.hostread.build_matrix(
+                    inventory_replay_trace47, inventory_replay_spec47,
+                    preimages47, inventory_profile47, formal=True)
+                try:
+                    hosts.hostread.finish_capture(
+                        malformed_inventory_capture47,
+                        raw_stdout=malformed_inventory_streams47[0],
+                        raw_session=malformed_inventory_native47,
+                        trace=inventory_replay_trace47,
+                        matrix=inventory_matrix47,
+                        post_probe={"native_tools":
+                                    inventory_profile47["native_tools"]},
+                        binding={"session_id": "inventory-session47"},
+                        session_status=inventory_session_status47,
+                        formal=True, minted_profile=inventory_profile47)
+                    malformed_inventory_replay47 = \
+                        hosts.hostread.replay_capture(
+                            malformed_inventory_capture47, formal=True)
+                    malformed_inventory_reconstructible47 = (
+                        malformed_inventory_replay47.get("status") == "PASS"
+                        and malformed_inventory_replay47.get(
+                            "trace", {}).get("host_status") == "INVALID"
+                        and malformed_inventory_replay47.get(
+                            "matrix", {}).get("specs", {}).get(
+                                "read_before_write", {}).get(
+                                    "property_status") == "INCOMPLETE")
+                except ValueError:
+                    malformed_inventory_reconstructible47 = False
+            check("H47aq2 malformed-inventory-evidence-reconstructs",
+                  malformed_inventory_reconstructible47)
+            terminal_outputs47 = (
+                "host-stdout.raw", "host-session.raw",
+                "host-tool-trace.json", "host-read-matrix.json",
+                "host-read-post-probe.json", "host-read-terminal.json",
+                "host-read-manifest.json")
+            capture_stdout47 = open(os.path.join(
+                capture47, "host-stdout.raw"), "rb").read()
+            capture_session47 = open(os.path.join(
+                capture47, "host-session.raw"), "rb").read()
+            capture_post_probe47 = {
+                "native_tools": profile47["native_tools"]}
+            malformed_observed_trace47 = json.loads(json.dumps(
+                sealed_trace47))
+            malformed_observed_trace47["observed_tools"] = 1
+            malformed_actions_trace47 = json.loads(json.dumps(
+                sealed_trace47))
+            malformed_actions_trace47["actions"] = 1
+            malformed_findings_trace47 = json.loads(json.dumps(
+                sealed_trace47))
+            malformed_findings_trace47["host_findings"] = 1
+            unserializable_trace47 = json.loads(json.dumps(sealed_trace47))
+            unserializable_trace47["unserializable"] = {"not-json"}
+            malformed_specs_matrix47 = json.loads(json.dumps(
+                sealed_matrix47))
+            malformed_specs_matrix47["specs"] = []
+            unserializable_matrix47 = json.loads(json.dumps(
+                sealed_matrix47))
+            unserializable_matrix47["unserializable"] = {"not-json"}
+            invalid_terminal_cases47 = (
+                ("observed-tools", {"trace": malformed_observed_trace47}),
+                ("actions", {"trace": malformed_actions_trace47}),
+                ("findings", {"trace": malformed_findings_trace47}),
+                ("trace-json", {"trace": unserializable_trace47}),
+                ("matrix-specs", {"matrix": malformed_specs_matrix47}),
+                ("matrix-json", {"matrix": unserializable_matrix47}),
+                ("post-probe", {"post_probe": []}),
+                ("stdout", {"raw_stdout": 1}),
+                ("session", {"raw_session": 1}),
+                ("binding", {"binding": {
+                    "session_id": "session-h47",
+                    "thread_id": "foreign-thread"}}),
+                ("terminal-kind", {"host_terminal_kind": "unknown"}),
+                ("session-status", {"session_status": "UNKNOWN"}))
+            terminal_input_results47 = []
+            for label47, overrides47 in invalid_terminal_cases47:
+                malformed_trace_seal47 = os.path.join(
+                    tmp, "host-read-capture-h47-malformed-" + label47)
+                hosts.hostread.begin_capture(
+                    malformed_trace_seal47, profile47, preimages47,
+                    replay_spec=replay_spec47,
+                    fixture_bytes=fixture_bytes47, formal=True)
+                finish_arguments47 = {
+                    "raw_stdout": capture_stdout47,
+                    "raw_session": capture_session47,
+                    "trace": sealed_trace47,
+                    "matrix": sealed_matrix47,
+                    "post_probe": capture_post_probe47,
+                    "binding": {"session_id": "session-h47"},
+                    "formal": True, "minted_profile": profile47}
+                finish_arguments47.update(overrides47)
+                refused47 = False
+                try:
+                    hosts.hostread.finish_capture(
+                        malformed_trace_seal47, **finish_arguments47)
+                except (TypeError, ValueError):
+                    refused47 = True
+                terminal_input_results47.append(
+                    refused47 and all(not os.path.exists(os.path.join(
+                        malformed_trace_seal47, name47))
+                        for name47 in terminal_outputs47))
+            check("H47an malformed-terminal-input-refused-before-writes",
+                  terminal_input_results47 == [True] * len(
+                      invalid_terminal_cases47))
+            malformed_binding_seal_refused47 = False
+            try:
+                hosts.hostread.finish_capture(
+                    malformed_binding_seal47,
+                    open(os.path.join(capture47, "host-stdout.raw"),
+                         "rb").read(),
+                    open(os.path.join(capture47, "host-session.raw"),
+                         "rb").read(),
+                    sealed_trace47, sealed_matrix47,
+                    {"native_tools": profile47["native_tools"]},
+                    binding=["not-a-binding"], formal=True,
+                    minted_profile=profile47)
+            except ValueError:
+                malformed_binding_seal_refused47 = True
+            check("H47ag2 capture-and-replay-binding-shape-bound",
+                  malformed_binding_replay_crashed47 is False
+                  and malformed_binding_replay_status47 == "INVALID"
+                  and malformed_binding_seal_refused47
+                  and not os.path.exists(os.path.join(
+                      malformed_binding_seal47, "host-stdout.raw")))
+
+            # The full post-probe is bound. Rehashing a forged probe and a
+            # false PASS status does not survive independent profile replay.
+            forged_probe47 = os.path.join(tmp, "h47-forged-probe")
+            shutil.copytree(capture47, forged_probe47)
+            rewrite_json47(forged_probe47, "host-read-post-probe.json",
+                           {"native_tools": {"requested": ["Read"]}})
+            terminal47 = json.load(open(os.path.join(
+                forged_probe47, "host-read-terminal.json"), encoding="utf-8"))
+            forged_post47 = json.load(open(os.path.join(
+                forged_probe47, "host-read-post-probe.json"),
+                encoding="utf-8"))
+            terminal47["post_probe_sha256"] = hosts.hostread._sha256(
+                hosts.hostread._canonical_bytes(forged_post47))
+            terminal47["profile_post_status"] = "PASS"
+            rewrite_json47(forged_probe47, "host-read-terminal.json",
+                           terminal47)
+            rehash47(forged_probe47)
+            check("H47c post-probe-status-rederived",
+                  hosts.hostread.replay_capture(
+                      forged_probe47, formal=True).get("status") == "INVALID")
+
+            session_results47 = []
+            for label47, replacement47 in (
+                    ("swap", open(os.path.join(
+                        capture47, "host-stdout.raw"), "rb").read()),
+                    ("arbitrary", (json.dumps({
+                        "type": "system", "session_id": "session-h47",
+                        "note": "no correlated action identities"}) +
+                        "\n").encode()),
+                    ("partial", (json.dumps({
+                        "type": "system", "subtype": "transcript",
+                        "session_id": "session-h47",
+                        "action_ids": ["s47"]}) + "\n").encode())):
+                forged_session47 = os.path.join(
+                    tmp, "h47-forged-session-" + label47)
+                shutil.copytree(capture47, forged_session47)
+                open(os.path.join(forged_session47, "host-session.raw"),
+                     "wb").write(replacement47)
+                rehash47(forged_session47)
+                session_results47.append(hosts.hostread.replay_capture(
+                    forged_session47, formal=True).get("status"))
+            check("H47d native-session-substitution-rejected",
+                  session_results47 == ["INVALID", "INVALID", "INVALID"])
+
+            # Recipe substitution cannot escape the exact fixture and parent
+            # run-intent/process-started custody chain.
+            forged_recipe47 = os.path.join(tmp, "h47-forged-recipe")
+            shutil.copytree(capture47, forged_recipe47)
+            recipe47 = json.load(open(os.path.join(
+                forged_recipe47, "host-read-replay-spec.json"),
+                encoding="utf-8"))
+            recipe47["checks"][0]["write"] = "other.json"
+            rewrite_json47(forged_recipe47, "host-read-replay-spec.json",
+                           recipe47)
+            prespawn47 = json.load(open(os.path.join(
+                forged_recipe47, "host-read-pre-spawn.json"),
+                encoding="utf-8"))
+            prespawn47["replay_spec_sha256"] = hosts.hostread._file_sha256(
+                os.path.join(forged_recipe47,
+                             "host-read-replay-spec.json"))
+            rewrite_json47(forged_recipe47, "host-read-pre-spawn.json",
+                           prespawn47)
+            process47 = json.load(open(os.path.join(
+                forged_recipe47, "process-started.json"), encoding="utf-8"))
+            process47["host_read_pre_spawn_sha256"] = \
+                hosts.hostread._file_sha256(os.path.join(
+                    forged_recipe47, "host-read-pre-spawn.json"))
+            rewrite_json47(forged_recipe47, "process-started.json", process47)
+            rehash47(forged_recipe47)
+            bad_hash_missing47 = dict(replay_spec47)
+            bad_hash_missing47.pop("fixture_sha256")
+            bad_hash_format47 = dict(replay_spec47,
+                                     fixture_sha256="not-a-digest")
+            check("H47e fixture-parent-recipe-chain",
+                  hosts.hostread.replay_capture(
+                      forged_recipe47, formal=True).get("status") == "INVALID"
+                  and not hosts.hostread._validate_replay_spec(
+                      bad_hash_missing47, True)
+                  and not hosts.hostread._validate_replay_spec(
+                      bad_hash_format47, True))
+
+            # Even an invalid/error terminal stream is sealed as a
+            # reconstructible incomplete property matrix; adapter reuse then
+            # clears all per-run evidence state.
+            failed47 = os.path.join(tmp, "h47-terminal-error")
+            os.makedirs(failed47)
+            open(os.path.join(failed47, "run-intent.json"), "wb").write(
+                intent_bytes47)
+            hosts.hostread.begin_capture(
+                failed47, profile47, preimages47,
+                replay_spec=replay_spec47, fixture_bytes=fixture_bytes47,
+                formal=True)
+            json.dump({"schema": "implementaudit-process-started-v2",
+                       "host_read_pre_spawn_sha256":
+                       hosts.hostread._file_sha256(os.path.join(
+                           failed47, "host-read-pre-spawn.json"))},
+                      open(os.path.join(failed47, "process-started.json"),
+                           "w", encoding="utf-8"), sort_keys=True)
+            failed_adapter47 = make_adapter(
+                tmp, "ok-claude", kind="claude",
+                home=os.path.join(tmp, "claude-home-h47-error"))
+            failed_adapter47.formal = True
+            failed_adapter47._custody_hashes = {}
+            failed_adapter47._formal_host_read = {
+                "profile": profile47, "preimages": preimages47,
+                "runtime": {"requested_tools": requested47},
+                "replay_spec": replay_spec47, "run_root": failed47}
+            failed_adapter47._attempt_finalize_formal_host_read(
+                fx44, repo43, hosts._Outcome("{malformed\n", "", 1),
+                failed47, "error")
+            failed_terminal47 = json.load(open(os.path.join(
+                failed47, "host-read-terminal.json"), encoding="utf-8"))
+            failed_matrix47 = json.load(open(os.path.join(
+                failed47, "host-read-matrix.json"), encoding="utf-8"))
+            sealed_error47 = (
+                failed_terminal47.get("host_terminal_kind") == "error" and
+                failed_matrix47["specs"]["read_before_write"].get(
+                    "property_status") == "INCOMPLETE")
+            failed_adapter47._reset_formal_host_read_state()
+            check("H47f terminal-failure-seals-and-reuse-resets",
+                  sealed_error47
+                  and failed_adapter47._formal_host_read is None
+                  and failed_adapter47._formal_host_read_results == {})
+
+            # Literal retained Config-L shape: exec stdout omits turn_id,
+            # while the native rollout binds it in one turn_context and uses
+            # ctc/message IDs that intentionally do not equal stdout item IDs.
+            retained_thread47 = "019f77dc-c42c-7511-b77e-dea799279bc6"
+            retained_stdout47 = "\n".join((
+                json.dumps({"type": "thread.started",
+                            "thread_id": retained_thread47}),
+                json.dumps({"type": "turn.started"}),
+                json.dumps({"type": "item.started", "item": {
+                    "id": "item_1", "type": "command_execution",
+                    "status": "in_progress", "command": "cat " + S45}}),
+                json.dumps({"type": "item.completed", "item": {
+                    "id": "item_1", "type": "command_execution",
+                    "status": "completed", "command": "cat " + S45,
+                    "aggregated_output": state47, "exit_code": 0}}),
+                json.dumps({"type": "turn.completed"}))) + "\n"
+            retained_session47 = open(os.path.join(
+                HERE, "testdata", "host-read-trust", "support",
+                "codex-retained-lineage.jsonl"), "rb").read()
+            retained_binding47 = hosts.hostread.derive_codex_binding(
+                retained_stdout47)
+            retained_unaugmented_binding47 = dict(retained_binding47)
+            retained_binding47 = hosts.hostread.augment_codex_binding(
+                retained_binding47, retained_session47)
+            retained_profile47 = json.load(open(os.path.join(
+                HERE, "testdata", "host-read-trust", "support",
+                "test-profile.json"), encoding="utf-8"))
+            retained_trace47 = hosts.hostread.normalize_codex(
+                retained_stdout47, profile=retained_profile47,
+                binding=retained_binding47, formal=False)
+            retained_status47 = hosts.hostread.corroborate_session(
+                retained_stdout47, retained_session47, "codex",
+                retained_binding47, retained_trace47,
+                profile=retained_profile47,
+                process_started={"started_at":
+                                 "2026-07-19T00:53:04.000Z"})
+            malformed_native_payload_crashed47 = False
+            malformed_native_augment_results47 = []
+            malformed_native_session_statuses47 = []
+            for malformed_native_payload47 in (1, True, [], "not-a-map"):
+                for native_event_type47 in ("session_meta", "turn_context"):
+                    malformed_native_rows47 = [json.loads(line47)
+                                               for line47 in
+                                               retained_session47.decode(
+                                                   "utf-8").splitlines()
+                                               if line47.strip()]
+                    for native_row47 in malformed_native_rows47:
+                        if native_row47.get("type") == native_event_type47:
+                            native_row47["payload"] = \
+                                malformed_native_payload47
+                    malformed_native_session47 = ("\n".join(
+                        json.dumps(row47) for row47 in
+                        malformed_native_rows47) + "\n").encode("utf-8")
+                    try:
+                        if native_event_type47 == "turn_context":
+                            malformed_native_augment_results47.append(
+                                hosts.hostread.augment_codex_binding(
+                                    retained_unaugmented_binding47,
+                                    malformed_native_session47))
+                        malformed_native_session_statuses47.append(
+                            hosts.hostread.corroborate_session(
+                                retained_stdout47,
+                                malformed_native_session47, "codex",
+                                retained_binding47, retained_trace47,
+                                profile=retained_profile47,
+                                process_started={"started_at":
+                                                 "2026-07-19T00:53:04.000Z"}))
+                    except Exception:
+                        malformed_native_payload_crashed47 = True
+            check("H47ap nonmapping-codex-native-payloads-invalid",
+                  malformed_native_payload_crashed47 is False
+                  and malformed_native_augment_results47 == [
+                      retained_unaugmented_binding47] * 4
+                  and malformed_native_session_statuses47 == ["INVALID"] * 8)
+            production_session_shapes47 = []
+            for top_level47 in ([], 1, True):
+                production_session_shapes47.append((
+                    "top-" + type(top_level47).__name__, [top_level47]))
+            for meta_payload47 in ([], 1, "not-a-map"):
+                production_session_shapes47.append((
+                    "meta-" + type(meta_payload47).__name__, [{
+                        "type": "session_meta", "payload": meta_payload47}]))
+            valid_session_meta47 = {
+                "type": "session_meta", "payload": {
+                    "id": "production-session47",
+                    "session_id": "production-session47",
+                    "cwd": repo43, "timestamp": "2026-07-19T00:53:05Z",
+                    "cli_version": "test"}}
+            for later_top_level47 in ([], 1, True):
+                production_session_shapes47.append((
+                    "later-top-" + type(later_top_level47).__name__,
+                    [valid_session_meta47, later_top_level47]))
+            for turn_payload47 in (None, False, 1.5, [], "not-a-map"):
+                production_session_shapes47.append((
+                    "turn-" + type(turn_payload47).__name__,
+                    [valid_session_meta47, {
+                        "type": "turn_context", "payload": turn_payload47}]))
+            production_session_totality47 = []
+            for label47, rows47 in production_session_shapes47:
+                production_home47 = os.path.join(
+                    tmp, "codex-home-h47-production-session-" + label47)
+                production_adapter47 = make_adapter(
+                    tmp, "ok-codex", home=production_home47)
+                production_session_path47 = os.path.join(
+                    production_home47, "sessions", "2026", "07",
+                    "production-session.jsonl")
+                os.makedirs(os.path.dirname(production_session_path47),
+                            exist_ok=True)
+                open(production_session_path47, "w", encoding="utf-8").write(
+                    "\n".join(json.dumps(row47) for row47 in rows47) + "\n")
+                production_shape_total47 = True
+                try:
+                    production_adapter47._select_session(repo43)
+                    production_adapter47._session_agent_events(repo43)
+                    try:
+                        production_adapter47.check_policy(repo43)
+                    except framework.AdapterError:
+                        pass
+                except Exception:
+                    production_shape_total47 = False
+                production_session_totality47.append(
+                    production_shape_total47)
+            check("H47ap2 production-codex-session-selection-is-total",
+                  production_session_totality47 == [True] * len(
+                      production_session_shapes47))
+            check("H47g retained-codex-lineage-shape",
+                  retained_binding47.get("stdout_turn_ordinal") == 1
+                  and "turn_id" not in retained_binding47
+                  and retained_binding47.get("native_turn_id") ==
+                  "019f77dc-c4a6-75b3-ab18-130c2efdb677"
+                  and retained_trace47.get("host_status") == "PASS"
+                  and retained_status47 == "VALID")
+            insensitive_lineage_profile47 = json.loads(json.dumps(
+                retained_profile47))
+            insensitive_lineage_profile47["repo"]["case_sensitive"] = False
+            insensitive_lineage_session47 = retained_session47.replace(
+                b"/fixture/repo", b"/FIXTURE/REPO")
+            insensitive_lineage_status47 = \
+                hosts.hostread.corroborate_session(
+                    retained_stdout47, insensitive_lineage_session47,
+                    "codex", retained_binding47, retained_trace47,
+                    profile=insensitive_lineage_profile47,
+                    process_started={"started_at":
+                                     "2026-07-19T00:53:04.000Z"})
+            check("H47t case-insensitive-codex-session-root-correlation",
+                  insensitive_lineage_status47 == "VALID")
+            malformed_session_binding_crashed47 = False
+            malformed_session_binding_statuses47 = []
+            for malformed_session_binding47 in (
+                    ["not-a-binding"], "not-a-binding", 1, True):
+                try:
+                    malformed_session_binding_statuses47.append(
+                        hosts.hostread.corroborate_session(
+                            retained_stdout47, retained_session47, "codex",
+                            malformed_session_binding47, retained_trace47,
+                            profile=retained_profile47,
+                            process_started={"started_at":
+                                             "2026-07-19T00:53:04.000Z"}))
+                except Exception:
+                    malformed_session_binding_crashed47 = True
+            check("H47ag3 malformed-session-bindings-invalid",
+                  malformed_session_binding_crashed47 is False
+                  and malformed_session_binding_statuses47 == [
+                      "INVALID"] * 4
+                  and hosts.hostread.augment_codex_binding(
+                      ["not-a-binding"], retained_session47) is None)
+            malformed_case_statuses47 = []
+            for malformed_case47 in ("false", [], 1, None, {}):
+                malformed_case_profile47 = json.loads(json.dumps(
+                    retained_profile47))
+                malformed_case_profile47["repo"][
+                    "case_sensitive"] = malformed_case47
+                malformed_case_statuses47.append(
+                    hosts.hostread.corroborate_session(
+                        retained_stdout47, retained_session47, "codex",
+                        retained_binding47, retained_trace47,
+                        profile=malformed_case_profile47,
+                        process_started={"started_at":
+                                         "2026-07-19T00:53:04.000Z"}))
+            check("H47ae malformed-case-semantics-session-invalid",
+                  malformed_case_statuses47 == ["INVALID"] * 5)
+            retained_todo_events47 = open(os.path.join(
+                HERE, "testdata", "host-read-trust", "support",
+                "codex-retained-todo.jsonl"), encoding="utf-8").read()
+
+            def todo_trace47(action_events):
+                raw = "\n".join((
+                    json.dumps({"type": "thread.started",
+                                "thread_id": "todo-thread47"}),
+                    json.dumps({"type": "turn.started",
+                                "thread_id": "todo-thread47",
+                                "turn_id": "todo-turn47"}),
+                    action_events.rstrip("\n"),
+                    json.dumps({"type": "turn.completed",
+                                "thread_id": "todo-thread47",
+                                "turn_id": "todo-turn47"}))) + "\n"
+                return hosts.hostread.normalize_codex(
+                    raw, profile=retained_profile47,
+                    binding={"thread_id": "todo-thread47",
+                             "turn_id": "todo-turn47"}, formal=False)
+
+            retained_todo_trace47 = todo_trace47(retained_todo_events47)
+            malformed_todos47 = []
+            for events47 in (
+                    [{"type": "item.started", "item": {
+                        "id": "bad-status", "type": "todo_list",
+                        "status": "completed", "items": []}}],
+                    [{"type": "item.started", "item": {
+                        "id": "missing-items", "type": "todo_list"}}],
+                    [{"type": "item.started", "item": {
+                        "id": "bad-items", "type": "todo_list",
+                        "items": "not-a-list"}}],
+                    [{"type": "item.started", "item": {
+                        "id": "bad-entry", "type": "todo_list",
+                        "items": [{"text": "x", "completed": "yes"}]}}]):
+                malformed_todos47.append(todo_trace47("\n".join(
+                    json.dumps(event) for event in events47)))
+            check("H47k retained-codex-todo-statusless-lifecycle",
+                  retained_todo_trace47.get("host_status") == "PASS"
+                  and retained_todo_trace47.get("actions", [{}])[0].get(
+                      "state") == "COMPLETED"
+                  and retained_todo_trace47.get("actions", [{}])[0].get(
+                      "effect") == "safe-other"
+                  and len(retained_todo_trace47.get(
+                      "actions", [{}])[0].get("updates", [])) == 1
+                  and all(trace.get("host_status") == "INVALID"
+                          for trace in malformed_todos47))
+
+            # Review 12: replay admission is strict and total. A recomputed
+            # self-consistent manifest cannot turn a non-object or an
+            # unknown/missing terminal kind into host PASS.
+            terminal_admission_results47 = []
+            malformed_terminal47 = os.path.join(
+                tmp, "h47-malformed-terminal-object")
+            shutil.copytree(capture47, malformed_terminal47)
+            rewrite_json47(malformed_terminal47,
+                           "host-read-terminal.json", [])
+            rewrite_json47(malformed_terminal47,
+                           "host-read-manifest.json", {
+                               "schema": hosts.hostread.MANIFEST_SCHEMA,
+                               "files": {name47:
+                                         hosts.hostread._file_sha256(
+                                             os.path.join(
+                                                 malformed_terminal47,
+                                                 name47))
+                                         for name47 in
+                                         hosts.hostread._CAPTURE_FILES}})
+            try:
+                terminal_admission_results47.append(
+                    hosts.hostread.replay_capture(
+                        malformed_terminal47, formal=True).get("status"))
+            except Exception:
+                terminal_admission_results47.append("CRASH")
+            for label47, mutation47 in (
+                    ("unknown", lambda terminal: terminal.__setitem__(
+                        "host_terminal_kind", "forged")),
+                    ("missing", lambda terminal: terminal.pop(
+                        "host_terminal_kind", None))):
+                forged_terminal47 = os.path.join(
+                    tmp, "h47-terminal-kind-" + label47)
+                shutil.copytree(capture47, forged_terminal47)
+                terminal47 = json.load(open(os.path.join(
+                    forged_terminal47, "host-read-terminal.json"),
+                    encoding="utf-8"))
+                mutation47(terminal47)
+                rewrite_json47(forged_terminal47,
+                               "host-read-terminal.json", terminal47)
+                rehash47(forged_terminal47)
+                try:
+                    terminal_admission_results47.append(
+                        hosts.hostread.replay_capture(
+                            forged_terminal47, formal=True).get("status"))
+                except Exception:
+                    terminal_admission_results47.append("CRASH")
+            malformed_post47 = {
+                "environment": retained_profile47.get("environment"),
+                "shell": ["not-a-mapping"],
+                "executables": retained_profile47.get("executables")}
+            try:
+                malformed_post_status47 = hosts.hostread.validate_profile(
+                    retained_profile47, post_probe=malformed_post47,
+                    formal=False).get("host_status")
+            except Exception:
+                malformed_post_status47 = "CRASH"
+            check("H47ar strict-terminal-admission-and-post-probe-totality",
+                  terminal_admission_results47 == ["INVALID"] * 3
+                  and malformed_post_status47 == "INVALID")
+
+            # Review 12: production Codex session handling remains total over
+            # malformed inner fields and invalid UTF-8 at any record.
+            def codex_session_surface_total47(session_bytes47,
+                                              name47="rollout.jsonl"):
+                home47 = os.path.join(
+                    tmp, "codex-session-total-" + str(
+                        len(os.listdir(tmp))))
+                session_dir47 = os.path.join(home47, "sessions", "2026")
+                os.makedirs(session_dir47)
+                path47 = os.path.join(session_dir47, name47)
+                open(path47, "wb").write(session_bytes47)
+                codex47 = hosts.CodexAdapter(
+                    codex_home=home47, product_checkout=None, formal=False)
+                surfaces47 = (
+                    lambda: codex47._select_session(repo43),
+                    lambda: codex47._session_agent_events(repo43),
+                    lambda: codex47.check_policy(repo43),
+                    lambda: codex47.collect_raw_stream(
+                        repo43, hosts._Outcome("", "", 0)))
+                results47 = []
+                for surface47 in surfaces47:
+                    try:
+                        surface47()
+                        results47.append(True)
+                    except framework.AdapterError:
+                        results47.append(True)
+                    except Exception:
+                        results47.append(False)
+                return all(results47)
+
+            valid_timestamp47 = "2026-07-19T00:53:04Z"
+            malformed_inner_sessions47 = [
+                (json.dumps({"type": "session_meta", "payload": {
+                    "cwd": [], "id": "s", "session_id": "s",
+                    "timestamp": valid_timestamp47}}) + "\n").encode(),
+                (json.dumps({"type": "session_meta", "payload": {
+                    "cwd": repo43, "id": ["s"], "session_id": ["s"],
+                    "timestamp": valid_timestamp47}}) + "\n").encode(),
+                b"\xffinvalid-first-record\n",
+                ((json.dumps({"type": "session_meta", "payload": {
+                    "cwd": repo43, "id": "s", "session_id": "s",
+                    "timestamp": valid_timestamp47}}) + "\n").encode()
+                 + b"\xffinvalid-later-record\n")]
+            check("H47as codex-session-inner-fields-and-utf8-total",
+                  all(codex_session_surface_total47(session47)
+                      for session47 in malformed_inner_sessions47))
+
+            # Review 12 end-to-end regression: a launched formal B3-v3
+            # mission with reconstructible product observations and a host
+            # INVALID still creates the official bundle. The scorer must
+            # persist all six property states and a separate host status.
+            canon47at = os.path.join(tmp, "canon47at")
+            os.makedirs(os.path.join(
+                canon47at, "skills", "implementaudit"))
+            open(os.path.join(canon47at, "skills", "implementaudit",
+                              "SKILL.md"), "w", encoding="utf-8").write(
+                                  "test payload\n")
+            adapter47at = make_adapter(
+                tmp, "b3-host-invalid-claude", kind="claude",
+                checkout=canon47at,
+                home=os.path.join(tmp, "claude-home-h47at"))
+            adapter47at.formal = True
+            adapter47at.preflight = lambda: None
+            previous_identity47 = framework.product_identity
+            framework.product_identity = lambda *args, **kwargs: {
+                "product_tag": "v0.3.1.0",
+                "product_commit": "1" * 40,
+                "product_tree": "2" * 40}
+            try:
+                result47at = run(adapter47at, tmp, "r-h47at",
+                                 fixture_id="B3-v3")
+            finally:
+                framework.product_identity = previous_identity47
+            verdict47at = None
+            terminal47at = json.load(open(os.path.join(
+                tmp, "custody", "r-h47at", "terminal.json"),
+                encoding="utf-8"))
+            if result47at.kind == "ok" and os.path.isdir(result47at.detail):
+                _status47at, verdict47at = runner.score_bundle(
+                    result47at.detail, repo_dir=None)
+            properties47at = ((verdict47at or {}).get("properties") or {})
+            check("H47at host-invalid-official-verdict-preserves-six-properties",
+                  result47at.kind == "ok"
+                  and terminal47at.get("kind") == "ok"
+                  and len(properties47at) == 6
+                  and all(item47.get("state") in (
+                      "PASS", "FAIL", "INCOMPLETE")
+                          for item47 in properties47at.values())
+                  and (verdict47at or {}).get(
+                      "host_safety", {}).get("status") == "INVALID"
+                  and (verdict47at or {}).get(
+                      "adjudication", {}).get("product_status") == "PASS"
+                  and (verdict47at or {}).get("status") == "INVALID")
+
+            adapter47au = make_adapter(
+                tmp, "b3-incomplete-host-invalid-claude", kind="claude",
+                checkout=canon47at,
+                home=os.path.join(tmp, "claude-home-h47au"))
+            adapter47au.formal = True
+            adapter47au.preflight = lambda: None
+            framework.product_identity = lambda *args, **kwargs: {
+                "product_tag": "v0.3.1.0",
+                "product_commit": "1" * 40,
+                "product_tree": "2" * 40}
+            try:
+                result47au = run(adapter47au, tmp, "r-h47au",
+                                 fixture_id="B3-v3")
+            finally:
+                framework.product_identity = previous_identity47
+            verdict47au = None
+            if result47au.kind == "ok" and os.path.isdir(result47au.detail):
+                _status47au, verdict47au = runner.score_bundle(
+                    result47au.detail, repo_dir=None)
+            properties47au = ((verdict47au or {}).get("properties") or {})
+            live_state47au = properties47au.get(
+                "live_state_read_before_mutation", {})
+            check("H47au incomplete-property-is-not-fail-or-ceiling",
+                  result47au.kind == "ok"
+                  and len(properties47au) == 6
+                  and live_state47au.get("state") == "INCOMPLETE"
+                  and live_state47au.get("pass") is None
+                  and (verdict47au or {}).get(
+                      "adjudication", {}).get("product_status") ==
+                  "INCOMPLETE"
+                  and (verdict47au or {}).get(
+                      "adjudication", {}).get(
+                          "property_evidence_complete") is False
+                  and (verdict47au or {}).get(
+                      "adjudication", {}).get(
+                          "all_required_properties_true") is None
+                  and (verdict47au or {}).get(
+                      "host_safety", {}).get("status") == "INVALID"
+                  and (verdict47au or {}).get("status") == "INVALID")
+
+            adapter47av = make_adapter(
+                tmp, "b3-false-json-hostcheck-claude", kind="claude",
+                checkout=canon47at,
+                home=os.path.join(tmp, "claude-home-h47av"))
+            adapter47av.formal = True
+            adapter47av.preflight = lambda: None
+            real_host_checks47av = adapter47av._run_host_checks
+
+            def defective_host_checks47av(fixture47, repo47):
+                result47 = real_host_checks47av(fixture47, repo47)
+                for spec47 in fixture47.get("host_checks", {}).get(
+                        "specs", []):
+                    if spec47.get("kind") == "json_fields_equal":
+                        result47[spec47["key"]] = True
+                return result47
+
+            adapter47av._run_host_checks = defective_host_checks47av
+            framework.product_identity = lambda *args, **kwargs: {
+                "product_tag": "v0.3.1.0",
+                "product_commit": "1" * 40,
+                "product_tree": "2" * 40}
+            try:
+                result47av = run(adapter47av, tmp, "r-h47av",
+                                 fixture_id="B3-v3")
+            finally:
+                framework.product_identity = previous_identity47
+            verdict47av = None
+            if result47av.kind == "ok" and os.path.isdir(result47av.detail):
+                _status47av, verdict47av = runner.score_bundle(
+                    result47av.detail, repo_dir=None)
+            states47av = [item47.get("state") for item47 in
+                          ((verdict47av or {}).get(
+                              "properties") or {}).values()]
+            check("H47av json-host-check-adapter-pass-is-rederived",
+                  result47av.kind == "ok"
+                  and (verdict47av or {}).get("status") == "INVALID"
+                  and not states47av == ["PASS"] * 6
+                  and "json" in ((verdict47av or {}).get("reason") or "")
+                  and "contradict" in (
+                      (verdict47av or {}).get("reason") or ""))
+
+            normal_repo47aw = os.path.join(tmp, "h47aw-normal-repo")
+            linked_repo47aw = os.path.join(tmp, "h47aw-linked-repo")
+            os.makedirs(os.path.join(normal_repo47aw, ".git"))
+            os.makedirs(linked_repo47aw)
+            open(os.path.join(normal_repo47aw, ".git", "config"), "w",
+                 encoding="utf-8").write("private git metadata\n")
+            open(os.path.join(normal_repo47aw, "visible.txt"), "w",
+                 encoding="utf-8").write("visible\n")
+            open(os.path.join(linked_repo47aw, ".git"), "w",
+                 encoding="utf-8").write(
+                     "gitdir: C:/private/admin/worktrees/linked\n")
+            open(os.path.join(linked_repo47aw, "visible.txt"), "w",
+                 encoding="utf-8").write("visible\n")
+            normal_map47aw = reposnapshot._worktree_file_map(
+                normal_repo47aw)
+            linked_map47aw = reposnapshot._worktree_file_map(
+                linked_repo47aw)
+            check("H47aw git-administrative-state-excluded-from-snapshot",
+                  ".git" not in normal_map47aw
+                  and not any(key47.startswith(".git/")
+                              for key47 in normal_map47aw)
+                  and ".git" not in linked_map47aw
+                  and not any(key47.startswith(".git/")
+                              for key47 in linked_map47aw)
+                  and set(normal_map47aw) == {"visible.txt"}
+                  and set(linked_map47aw) == {"visible.txt"})
+
+            verdict47ax = None
+            if result47at.kind == "ok" and os.path.isdir(result47at.detail):
+                source_run47ax = os.path.dirname(result47at.detail)
+                copied_run47ax = os.path.join(tmp, "custody", "r-h47ax")
+                shutil.copytree(source_run47ax, copied_run47ax)
+                bundle47ax = os.path.join(copied_run47ax, "bundle")
+                extra_rel47ax = "host-check-inputs/unreferenced.json"
+                extra_path47ax = os.path.join(
+                    bundle47ax, "artifacts", *extra_rel47ax.split("/"))
+                os.makedirs(os.path.dirname(extra_path47ax), exist_ok=True)
+                extra_bytes47ax = b'{"unreferenced":true}\n'
+                open(extra_path47ax, "wb").write(extra_bytes47ax)
+                artifact_manifest_path47ax = os.path.join(
+                    bundle47ax, "artifact-manifest.json")
+                artifact_manifest47ax = json.load(open(
+                    artifact_manifest_path47ax, encoding="utf-8"))
+                artifact_manifest47ax["files"][extra_rel47ax] = \
+                    hosts.bundlelib._sha256_bytes(extra_bytes47ax)
+                artifact_manifest_bytes47ax = json.dumps(
+                    artifact_manifest47ax, indent=1,
+                    sort_keys=True).encode("utf-8")
+                open(artifact_manifest_path47ax, "wb").write(
+                    artifact_manifest_bytes47ax)
+                manifest_path47ax = os.path.join(bundle47ax, "manifest.json")
+                manifest47ax = json.load(open(
+                    manifest_path47ax, encoding="utf-8"))
+                manifest47ax["artifact_manifest_sha256"] = \
+                    hosts.bundlelib._sha256_bytes(
+                        artifact_manifest_bytes47ax)
+                open(manifest_path47ax, "w", encoding="utf-8").write(
+                    json.dumps(manifest47ax, indent=1, sort_keys=True))
+                _status47ax, verdict47ax = runner.score_bundle(
+                    bundle47ax, repo_dir=None)
+            check("H47ax undeclared-json-host-check-input-refused",
+                  (verdict47ax or {}).get("status") == "INVALID"
+                  and "undeclared json host-check input" in (
+                      (verdict47ax or {}).get("reason") or ""))
+            check("H48 generated-host-read-contract-112",
+                  test_host_read_contract.main([]) == 0)
+        except (framework.AdapterError, OSError, ValueError):
+            check("H47 formal-v2-custody-integration", False)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     if failures:
