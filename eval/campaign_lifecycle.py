@@ -169,6 +169,32 @@ def _identity(value, expected, owner):
             raise ValueError(f"{owner} identity drift")
 
 
+def _artifact_policy(value, owner):
+    if type(value) is not dict or "kind" not in value:
+        raise ValueError(f"{owner} policy invalid")
+    kind = value["kind"]
+    if kind == "json_identity":
+        if (set(value) != {"kind", "identity"} or
+                type(value["identity"]) is not dict or
+                not value["identity"]):
+            raise ValueError(f"{owner} JSON identity policy invalid")
+    elif kind == "custodied_file":
+        if set(value) != {"kind"}:
+            raise ValueError(f"{owner} custody policy invalid")
+    elif kind == "exact_bytes":
+        if set(value) != {"kind", "byte_length", "sha256"}:
+            raise ValueError(f"{owner} exact-bytes policy invalid")
+        digest = value["sha256"]
+        if (type(value["byte_length"]) is not int or
+                value["byte_length"] < 0 or type(digest) is not str or
+                len(digest) != 64 or
+                any(character not in "0123456789abcdef" for character in digest)):
+            raise ValueError(f"{owner} exact-bytes policy invalid")
+    else:
+        raise ValueError(f"{owner} policy kind invalid")
+    return value
+
+
 def _mission_descriptor(value, index):
     if type(value) is not dict:
         raise ValueError(f"mission descriptor {index} must be an object")
@@ -190,14 +216,26 @@ def _mission_descriptor(value, index):
                  f"mission descriptor {index} terminal state field")
     _direct_name(value["terminal_stop_reason_field"],
                  f"mission descriptor {index} stop reason field")
-    if type(value["allowed_attempt"]) not in (set, frozenset, list, tuple):
-        raise ValueError(f"mission descriptor {index} allowed entries invalid")
-    allowed_attempt = {
-        _direct_name(name, f"mission descriptor {index} allowed entry")
-        for name in value["allowed_attempt"]
-    }
-    if not {"attempt-status.json", "attempt-terminal.json"} <= allowed_attempt:
+    if type(value["allowed_attempt"]) is not dict:
+        raise ValueError(
+            f"mission descriptor {index} allowed policy must be explicit")
+    allowed_attempt = {}
+    for name, policy in value["allowed_attempt"].items():
+        name = _direct_name(name, f"mission descriptor {index} allowed entry")
+        allowed_attempt[name] = _artifact_policy(
+            policy, f"mission descriptor {index} artifact {name}")
+    if not {"attempt-status.json", "attempt-terminal.json"} <= set(allowed_attempt):
         raise ValueError(f"mission descriptor {index} lifecycle entries missing")
+    required_policies = {
+        "attempt-status.json": value["status_identity"],
+        "attempt-terminal.json": value["terminal_identity"],
+    }
+    for name, identity in required_policies.items():
+        policy = allowed_attempt[name]
+        if (policy["kind"] != "json_identity" or
+                policy["identity"] != identity):
+            raise ValueError(
+                f"mission descriptor {index} {name} identity policy drift")
     return value
 
 
@@ -211,24 +249,27 @@ def validate_terminal_prefix(root, missions, *, stop_states, allowed_root):
     names = [row["attempt"] for row in descriptors]
     if len(names) != len(set(names)):
         raise ValueError("duplicate attempt identity in mission descriptors")
+    status_identities = [canonical_json_bytes(row["status_identity"])
+                         for row in descriptors]
+    terminal_identities = [canonical_json_bytes(row["terminal_identity"])
+                           for row in descriptors]
+    if (len(status_identities) != len(set(status_identities)) or
+            len(terminal_identities) != len(set(terminal_identities))):
+        raise ValueError("duplicate semantic mission identity")
     if type(stop_states) not in (set, frozenset, list, tuple):
         raise ValueError("stop states must be a collection")
     stop_states = set(stop_states)
     if any(type(value) is not str or not value for value in stop_states):
         raise ValueError("stop states contain an invalid value")
-    root_identities = {}
-    if type(allowed_root) is dict:
-        for name, identity in allowed_root.items():
-            name = _direct_name(name, "allowed root entry")
-            if identity is not None and type(identity) is not dict:
-                raise ValueError("allowed root identity must be an object or null")
-            root_identities[name] = identity
-        allowed = set(root_identities)
-    elif type(allowed_root) in (set, frozenset, list, tuple):
-        allowed = {_direct_name(value, "allowed root entry")
-                   for value in allowed_root}
-    else:
-        raise ValueError("allowed root entries must be a collection")
+    if type(allowed_root) is not dict:
+        raise ValueError(
+            "allowed root policy must explicitly cover every artifact")
+    root_policies = {}
+    for name, policy in allowed_root.items():
+        name = _direct_name(name, "allowed root entry")
+        root_policies[name] = _artifact_policy(
+            policy, f"allowed root artifact {name}")
+    allowed = set(root_policies)
     claiming = {name + ".claiming" for name in names}
     entries = list(root.iterdir())
     entry_names = [entry.name for entry in entries]
@@ -238,14 +279,19 @@ def validate_terminal_prefix(root, missions, *, stop_states, allowed_root):
     if unexpected:
         raise ValueError("unexpected campaign custody entry: " +
                          ", ".join(sorted(unexpected)))
-    for name, expected_identity in root_identities.items():
-        if expected_identity is None:
-            continue
+    for name, policy in root_policies.items():
         if name not in entry_names:
             raise ValueError(f"required campaign root artifact missing: {name}")
-        value = read_strict_json_bytes(
-            root / name, f"campaign root artifact {name}", root=root)
-        _identity(value, expected_identity, f"campaign root artifact {name}")
+        owner = f"campaign root artifact {name}"
+        if policy["kind"] == "json_identity":
+            value = read_strict_json_bytes(root / name, owner, root=root)
+            _identity(value, policy["identity"], owner)
+        else:
+            raw = read_custodied_bytes(root / name, owner, root=root)
+            if policy["kind"] == "exact_bytes" and (
+                    len(raw) != policy["byte_length"] or
+                    hashlib.sha256(raw).hexdigest() != policy["sha256"]):
+                raise ValueError(f"{owner} exact bytes or hash drift")
     present_claims = set(entry_names) & claiming
     if present_claims:
         raise ValueError("campaign contains a nonterminal claiming directory")
@@ -264,15 +310,28 @@ def validate_terminal_prefix(root, missions, *, stop_states, allowed_root):
             root / descriptor["attempt"], "attempt custody", directory=True)
         attempt_entries = {entry.name for entry in attempt.iterdir()}
         required = {"attempt-status.json", "attempt-terminal.json"}
-        allowed_attempt = set(descriptor["allowed_attempt"])
-        if not attempt_entries <= allowed_attempt:
+        allowed_attempt = descriptor["allowed_attempt"]
+        if not attempt_entries <= set(allowed_attempt):
             raise ValueError("unexpected attempt custody entry")
         if not required <= attempt_entries:
             raise ValueError("campaign terminal prefix is nonterminal")
-        status = read_strict_json_bytes(
-            attempt / "attempt-status.json", "attempt status", root=root)
-        terminal = read_strict_json_bytes(
-            attempt / "attempt-terminal.json", "attempt terminal", root=root)
+        decoded = {}
+        for name in sorted(attempt_entries):
+            policy = allowed_attempt[name]
+            owner = f"attempt artifact {name}"
+            if policy["kind"] == "json_identity":
+                value = read_strict_json_bytes(
+                    attempt / name, owner, root=root)
+                _identity(value, policy["identity"], owner)
+                decoded[name] = value
+            else:
+                raw = read_custodied_bytes(attempt / name, owner, root=root)
+                if policy["kind"] == "exact_bytes" and (
+                        len(raw) != policy["byte_length"] or
+                        hashlib.sha256(raw).hexdigest() != policy["sha256"]):
+                    raise ValueError(f"{owner} exact bytes or hash drift")
+        status = decoded["attempt-status.json"]
+        terminal = decoded["attempt-terminal.json"]
         _identity(status, descriptor["status_identity"], "attempt status")
         _identity(terminal, descriptor["terminal_identity"], "attempt terminal")
         state_field = descriptor["terminal_state_field"]
@@ -323,15 +382,26 @@ def _validate_stage_binding(stage, binding):
         raise ValueError("stage binding prefix length mismatch")
 
 
-def _stage_prefix(root, stage, *, include_terminal):
-    allowed = (dict(stage["allowed_root"])
-               if type(stage["allowed_root"]) is dict
-               else set(stage["allowed_root"]))
-    if include_terminal:
-        if type(allowed) is dict:
-            allowed[stage["terminal_name"]] = None
-        else:
-            allowed.add(stage["terminal_name"])
+def _stage_terminal_value(stage, binding):
+    return {
+        "schema": STAGE_TERMINAL_SCHEMA,
+        "campaign": stage["campaign"],
+        "stage": stage["name"],
+        "stage_schema": stage["schema"],
+        "mission_count": len(stage["missions"]),
+        "binding_sha256": hashlib.sha256(
+            canonical_json_bytes(binding)).hexdigest(),
+    }
+
+
+def _stage_prefix(root, stage, *, expected_terminal=None):
+    allowed = dict(stage["allowed_root"])
+    if expected_terminal is not None:
+        raw = canonical_json_bytes(expected_terminal)
+        allowed[stage["terminal_name"]] = {
+            "kind": "exact_bytes", "byte_length": len(raw),
+            "sha256": hashlib.sha256(raw).hexdigest(),
+        }
     rows = validate_terminal_prefix(
         root, stage["missions"], stop_states=stage["stop_states"],
         allowed_root=allowed)
@@ -353,37 +423,21 @@ def write_stage_terminal(root, stage, binding):
     if terminal_path.exists():
         raise ValueError(
             f"create-once artifact already exists: {stage['terminal_name']}")
-    _stage_prefix(root, stage, include_terminal=False)
-    binding_sha256 = hashlib.sha256(canonical_json_bytes(binding)).hexdigest()
-    terminal = {
-        "schema": STAGE_TERMINAL_SCHEMA,
-        "campaign": stage["campaign"],
-        "stage": stage["name"],
-        "stage_schema": stage["schema"],
-        "mission_count": len(stage["missions"]),
-        "binding_sha256": binding_sha256,
-    }
+    _stage_prefix(root, stage)
+    terminal = _stage_terminal_value(stage, binding)
     return write_new_json(terminal_path, terminal)
 
 
 def validate_stage_resume(root, stage, binding):
     stage = _stage_descriptor(stage)
     _validate_stage_binding(stage, binding)
-    _stage_prefix(root, stage, include_terminal=True)
+    expected = _stage_terminal_value(stage, binding)
+    _stage_prefix(root, stage, expected_terminal=expected)
     terminal_path = pathlib.Path(root) / stage["terminal_name"]
     if not terminal_path.exists():
         raise ValueError("stage terminal is missing")
     terminal = read_strict_json_bytes(
         terminal_path, "stage terminal", root=root)
-    expected = {
-        "schema": STAGE_TERMINAL_SCHEMA,
-        "campaign": stage["campaign"],
-        "stage": stage["name"],
-        "stage_schema": stage["schema"],
-        "mission_count": len(stage["missions"]),
-        "binding_sha256": hashlib.sha256(
-            canonical_json_bytes(binding)).hexdigest(),
-    }
     if terminal.get("campaign") != expected["campaign"]:
         raise ValueError("stage terminal campaign mismatch")
     identity_fields = {
