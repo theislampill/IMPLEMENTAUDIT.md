@@ -161,6 +161,16 @@ def build_campaign(root, fixture_override=None):
         bundle = host_root / "bundle"
         model = packet["configurations"][mission["config"]][
             "model_resolved_required"]
+        config = packet["configurations"][mission["config"]]
+        dialect, reader = (("posix", "cat") if mission["config"] == "L"
+                           else ("powershell", "get-content"))
+        attestation = {
+            "id": f"b3v4-{mission['config']}-host",
+            "shell_dialect": dialect,
+            "executables": {reader: f"{dialect}:{reader}"},
+        }
+        attestation_bytes = encoded(attestation)
+        write(attempt / "host-attestation.json", attestation_bytes)
         adapter = "codex-cli" if mission["config"] == "L" else "claude-cli"
         write(attempt / "attempt-status.json", {
             "schema": "implementaudit-b3v4-attempt-status-v1",
@@ -168,6 +178,11 @@ def build_campaign(root, fixture_override=None):
             "contract_sha256": packet["artifact_contract"]["sha256"],
             "mission": mission, "state": "PREPARED_BEFORE_HOST_SPAWN",
             "execution_mode": "production", "created_at": "2030-01-01T00:00:00Z",
+            "host_attestation_binding": {
+                "path": "host-attestation.json", "sha256": sha(attestation_bytes),
+                "config": mission["config"], "host": config["host"],
+                "model_resolved_required": config["model_resolved_required"],
+            },
         })
         attempt_terminal = {
             "schema": "implementaudit-b3v4-attempt-terminal-v1",
@@ -993,10 +1008,83 @@ def assert_retained_schema_matrix(module):
             ", ".join(accepted))
 
 
+def assert_host_attestation_custody_matrix(module):
+    """Retained attestations stay frozen even after enclosing hash rebound."""
+    accepted = []
+    cases = ("missing", "extra-rebound", "malformed-rebound", "substituted",
+             "hash-mismatch", "wrong-path", "wrong-config", "wrong-host",
+             "wrong-model")
+    for label in cases:
+        with tempfile.TemporaryDirectory(prefix=f"b3v4-attestation-{label}-") as tmp:
+            root = pathlib.Path(tmp) / "campaign"
+            packet = build_campaign(root)
+            first = root / "attempt-000-L-candidate-r1"
+            attestation_path = first / "host-attestation.json"
+            status_path = first / "attempt-status.json"
+            status = json.loads(status_path.read_text(encoding="utf-8"))
+            if label == "missing":
+                attestation_path.unlink()
+            elif label in ("extra-rebound", "malformed-rebound"):
+                if label == "extra-rebound":
+                    value = json.loads(attestation_path.read_text(encoding="utf-8"))
+                    value["mutable_summary"] = "PASS"
+                    raw = encoded(value)
+                else:
+                    raw = (b'{"executables":{"cat":"posix:cat"},'
+                           b'"id":"b3v4-L-host","id":"b3v4-L-host",'
+                           b'"shell_dialect":"posix"}\n')
+                digest = sha(raw)
+                packet["configurations"]["L"]["host_attestation"]["sha256"] = digest
+                for mission in packet["missions"]:
+                    if mission["config"] != "L":
+                        continue
+                    name = (f"attempt-{mission['index']:03d}-{mission['config']}-"
+                            f"{mission['arm']}-r{mission['rep']}")
+                    attempt = root / name
+                    write(attempt / "host-attestation.json", raw)
+                    bound_path = attempt / "attempt-status.json"
+                    bound = json.loads(bound_path.read_text(encoding="utf-8"))
+                    bound["host_attestation_binding"]["sha256"] = digest
+                    write(bound_path, bound)
+                rebind_freeze(root, packet)
+            elif label == "substituted":
+                other = root / "attempt-002-O-control-r1" / "host-attestation.json"
+                raw = other.read_bytes()
+                write(attestation_path, raw)
+                status["host_attestation_binding"]["sha256"] = sha(raw)
+                write(status_path, status)
+            elif label == "hash-mismatch":
+                attestation_path.write_bytes(attestation_path.read_bytes() + b" ")
+            elif label == "wrong-path":
+                alternate = first / "alternate-attestation.json"
+                attestation_path.rename(alternate)
+                status["host_attestation_binding"]["path"] = alternate.name
+                write(status_path, status)
+            else:
+                key, value = {
+                    "wrong-config": ("config", "O"),
+                    "wrong-host": ("host", "Windows Claude CLI"),
+                    "wrong-model": ("model_resolved_required", "claude-opus-4-8"),
+                }[label]
+                status["host_attestation_binding"][key] = value
+                write(status_path, status)
+            try:
+                result = module.rederive_campaign(
+                    root / "campaign-freeze.json", root)
+            except module.EvidenceInvalid:
+                continue
+            if result["campaign_status"] != "INVALID" or result["accepted"]:
+                accepted.append(f"{label}={result['campaign_status']}")
+    assert not accepted, (
+        "rederiver accepted host attestation custody mutations: " +
+        ", ".join(accepted))
+
+
 def main():
     assert_independent_import_boundary()
     module = load_module()
     assert_retained_schema_matrix(module)
+    assert_host_attestation_custody_matrix(module)
     with tempfile.TemporaryDirectory(prefix="b3v4-rederive-freeze-") as tmp:
         root = pathlib.Path(tmp) / "campaign"
         packet = build_campaign(root)

@@ -27,6 +27,17 @@ def valid_packet():
     sha = "a" * 64
     commit = "b" * 40
     tree = "c" * 40
+    host_attestations = {
+        "L": {"id": "b3v4-L-host", "shell_dialect": "posix",
+              "executables": {"cat": "posix:cat"}},
+        "O": {"id": "b3v4-O-host", "shell_dialect": "powershell",
+              "executables": {"get-content": "powershell:get-content"}},
+    }
+    host_attestation_hashes = {
+        name: hashlib.sha256((json.dumps(value, sort_keys=True,
+              separators=(",", ":")) + "\n").encode()).hexdigest()
+        for name, value in host_attestations.items()
+    }
     missions = [
         {"index": i, "config": config, "arm": arm, "rep": rep}
         for i, (config, arm, rep) in enumerate([
@@ -66,13 +77,17 @@ def valid_packet():
                   "reasoning_effort": "max",
                   "auth_mode": "chatgpt-subscription",
                   "executable": {"path": "/bin/codex", "version": "1.2.3",
-                                 "sha256": sha}},
+                                 "sha256": sha},
+                  "host_attestation": {"id": host_attestations["L"]["id"],
+                                       "sha256": host_attestation_hashes["L"]}},
             "O": {"host": "Windows Claude CLI",
                   "model_requested": "opus",
                   "model_resolved_required": "claude-opus-4-8",
                   "reasoning_effort": "high", "auth_mode": "claude.ai-max",
                   "executable": {"path": "C:/bin/claude.exe", "version": "2.3.4",
-                                 "sha256": sha}},
+                                 "sha256": sha},
+                  "host_attestation": {"id": host_attestations["O"]["id"],
+                                       "sha256": host_attestation_hashes["O"]}},
         },
         "authorization": {"acknowledgement_path": "private/APPROVAL.txt",
                           "acknowledgement_sha256": sha,

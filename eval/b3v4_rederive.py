@@ -64,8 +64,12 @@ CAMPAIGN_MANIFEST_FIELDS = {
 }
 ATTEMPT_STATUS_FIELDS = {
     "schema", "campaign", "freeze_sha256", "contract_sha256", "mission",
-    "state", "execution_mode", "created_at",
+    "state", "execution_mode", "created_at", "host_attestation_binding",
 }
+HOST_ATTESTATION_BINDING_FIELDS = {
+    "path", "sha256", "config", "host", "model_resolved_required",
+}
+HOST_ATTESTATION_FIELDS = {"id", "shell_dialect", "executables"}
 ATTEMPT_TERMINAL_FIELDS = {
     "schema", "campaign", "mission_index", "execution_mode",
     "overall_status", "resolved_model", "host_run_root",
@@ -597,7 +601,8 @@ def _validate_freeze_contract(packet):
               "claude.ai-max"),
     }
     config_fields = {"host", "model_requested", "model_resolved_required",
-                     "reasoning_effort", "auth_mode", "executable"}
+                     "reasoning_effort", "auth_mode", "executable",
+                     "host_attestation"}
     for name, boundary in expected.items():
         config = _exact_fields(configurations[name], config_fields,
                                f"configuration {name}")
@@ -614,6 +619,14 @@ def _validate_freeze_contract(packet):
                 f"configuration {name} executable identity incomplete")
         _digest(executable["sha256"],
                 f"configuration {name} executable.sha256")
+        host_attestation = _exact_fields(
+            config["host_attestation"], {"id", "sha256"},
+            f"configuration {name} host attestation")
+        _expect(type(host_attestation["id"]) is str and
+                bool(host_attestation["id"]),
+                f"configuration {name} host attestation id invalid")
+        _digest(host_attestation["sha256"],
+                f"configuration {name} host attestation.sha256")
 
     authorization = _exact_fields(
         packet["authorization"],
@@ -758,7 +771,7 @@ def _contained(root, relative, owner):
     return resolved
 
 
-def _validate_attempt_status(status, mission, freeze_sha, contract_sha):
+def _validate_attempt_status(status, mission, freeze_sha, contract_sha, config):
     status = _exact_fields(status, ATTEMPT_STATUS_FIELDS, "attempt status")
     _expect(status["schema"] == "implementaudit-b3v4-attempt-status-v1" and
             status["campaign"] == "b3v4-sol-r1" and
@@ -769,7 +782,36 @@ def _validate_attempt_status(status, mission, freeze_sha, contract_sha):
             status["execution_mode"] in ("production", "test") and
             type(status["created_at"]) is str and bool(status["created_at"]),
             "attempt status identity invalid")
+    binding = _exact_fields(status["host_attestation_binding"],
+                            HOST_ATTESTATION_BINDING_FIELDS,
+                            "attempt status host attestation binding")
+    _expect(binding == {
+        "path": "host-attestation.json",
+        "sha256": config["host_attestation"]["sha256"],
+        "config": mission["config"], "host": config["host"],
+        "model_resolved_required": config["model_resolved_required"],
+    }, "host attestation mission identity invalid")
     return status
+
+
+def _load_host_attestation(attempt, status, config):
+    binding = status["host_attestation_binding"]
+    path = _contained(attempt, binding["path"], "host attestation")
+    attestation, raw = _read_json(path, "host attestation")
+    attestation = _exact_fields(attestation, HOST_ATTESTATION_FIELDS,
+                                "host attestation")
+    _expect(attestation["id"] == config["host_attestation"]["id"] and
+            _sha(raw) == binding["sha256"],
+            "host attestation frozen identity or hash invalid")
+    _expect(attestation["shell_dialect"] in ("posix", "powershell", "cmd"),
+            "host attestation shell dialect invalid")
+    executables = attestation["executables"]
+    _expect(type(executables) is dict and bool(executables) and
+            all(type(name) is str and bool(name) and
+                type(identity) is str and bool(identity)
+                for name, identity in executables.items()),
+            "host attestation executable identities invalid")
+    return attestation
 
 
 def _validate_attempt_terminal(terminal, mission):
@@ -2265,12 +2307,13 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha):
     try:
         status, _ = _read_json(attempt / "attempt-status.json", "attempt status")
         terminal, _ = _read_json(attempt / "attempt-terminal.json", "attempt terminal")
+        config = packet["configurations"][mission["config"]]
         status = _validate_attempt_status(
             status, mission, freeze_sha,
-            packet["artifact_contract"]["sha256"])
+            packet["artifact_contract"]["sha256"], config)
+        _load_host_attestation(attempt, status, config)
         terminal = _validate_attempt_terminal(terminal, mission)
-        expected_model = packet["configurations"][mission["config"]][
-            "model_resolved_required"]
+        expected_model = config["model_resolved_required"]
         if (terminal["overall_status"] in STOP_STATES and
                 terminal["official_verdict_sha256"] is None):
             _expect((terminal["overall_status"] == "ERROR" and
@@ -2391,7 +2434,8 @@ def rederive_campaign(packet_path, campaign_root):
     for name in expected_order[:completed_count]:
         attempt = campaign_root / name
         allowed_attempt = {"attempt-status.json", "attempt-terminal.json",
-                           "official-verdict.json", "host-custody"}
+                           "host-attestation.json", "official-verdict.json",
+                           "host-custody"}
         _expect({path.name for path in attempt.iterdir()} <= allowed_attempt,
                 "attempt contains unexpected custody entry")
         _expect((attempt / "attempt-status.json").is_file() and

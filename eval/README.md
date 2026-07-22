@@ -70,6 +70,14 @@ a model or exposing the owner approval acknowledgement contents.
 `eval/b3v4_campaign.py` consumes it one mission at a time, revalidates frozen
 and live identities, creates a distinct attempt status before host spawn, and
 refuses retries, order gaps, substitution, `INVALID`, `ERROR`, or input drift.
+Each configuration freezes the expected formal host-attestation ID and byte
+hash. Before host spawn the driver copies those exact bytes create-once to
+`host-attestation.json`, binds its fixed path/hash plus mission config, host,
+and required resolved model in the attempt status, and thereafter gives the
+adapter only the retained copy. The independent rederiver separately enforces
+the same exact attestation key set, scalar types, frozen ID/hash, fixed path,
+and mission binding; rebinding a weakened or substituted attestation fails
+closed.
 Before terminal closure it preserves the complete official scorer verdict as a
 create-once attempt artifact and binds that artifact's SHA-256 and official
 overall status in the attempt terminal. Verdict admission uses the exact root,

@@ -47,6 +47,15 @@ def add_duplicate_to_file(path, name, value):
 
 def make_driver(module, root, executor):
     packet = write_packet(root)
+    attestations = {}
+    for config, dialect, reader in (("L", "posix", "cat"),
+                                    ("O", "powershell", "get-content")):
+        path = pathlib.Path(root) / f"{config}-host-attestation.json"
+        path.write_bytes((json.dumps({
+            "id": f"b3v4-{config}-host", "shell_dialect": dialect,
+            "executables": {reader: f"{dialect}:{reader}"},
+        }, sort_keys=True, separators=(",", ":")) + "\n").encode())
+        attestations[config] = path
     return module.CampaignDriver(
         packet_path=packet,
         repo_root=HERE.parent,
@@ -54,6 +63,7 @@ def make_driver(module, root, executor):
         candidate_checkout=pathlib.Path(root) / "candidate",
         control_checkout=pathlib.Path(root) / "control",
         runtime_root=pathlib.Path(root) / "runtime",
+        attestations=attestations,
         mission_executor=executor,
         execution_mode="test",
         live_validator=lambda packet, repo: packet,
@@ -291,6 +301,16 @@ def main():
                             (1, "L", "control", 1)]
         first_root = pathlib.Path(tmp) / "campaign" / \
             "attempt-000-L-candidate-r1"
+        retained = first_root / "host-attestation.json"
+        status = json.loads((first_root / "attempt-status.json").read_text(
+            encoding="utf-8"))
+        assert retained.is_file(), "create-once host attestation custody missing"
+        assert status["host_attestation_binding"] == {
+            "path": "host-attestation.json",
+            "sha256": hashlib.sha256(retained.read_bytes()).hexdigest(),
+            "config": "L", "host": "WSL Ubuntu Codex CLI",
+            "model_resolved_required": "gpt-5.6-luna",
+        }
         assert json.loads((first_root / "attempt-terminal.json").read_text(
             encoding="utf-8"))["overall_status"] == "PASS"
 
@@ -329,6 +349,36 @@ def main():
         verdict["reason"] = "post-terminal drift"
         verdict_path.write_text(json.dumps(verdict), encoding="utf-8")
         expect_error("official verdict custody drift", driver.run_next)
+
+    for label, mutate in (
+            ("missing", lambda attempt, status: (attempt / "host-attestation.json").unlink()),
+            ("extra", lambda attempt, status: (attempt / "host-attestation.json").write_text(
+                '{"executables":{"cat":"posix:cat"},"id":"b3v4-L-host",'
+                '"mutable_summary":"PASS","shell_dialect":"posix"}', encoding="utf-8")),
+            ("malformed", lambda attempt, status: (attempt / "host-attestation.json").write_bytes(
+                b'{"id":"b3v4-L-host","id":"substituted"}')),
+            ("substituted", lambda attempt, status: (attempt / "host-attestation.json").write_text(
+                '{"executables":{"get-content":"powershell:get-content"},'
+                '"id":"b3v4-O-host","shell_dialect":"powershell"}', encoding="utf-8")),
+            ("wrong-config", lambda attempt, status: status["host_attestation_binding"].update(config="O")),
+            ("wrong-host", lambda attempt, status: status["host_attestation_binding"].update(host="Windows Claude CLI")),
+            ("wrong-model", lambda attempt, status: status["host_attestation_binding"].update(
+                model_resolved_required="claude-opus-4-8")),
+            ("wrong-path", lambda attempt, status: status["host_attestation_binding"].update(
+                path="alternate-attestation.json"))):
+        with tempfile.TemporaryDirectory(prefix=f"b3v4-attestation-{label}-") as tmp:
+            driver = make_driver(module, tmp, scored_outcome)
+            driver.run_next()
+            attempt = pathlib.Path(tmp) / "campaign" / "attempt-000-L-candidate-r1"
+            status_path = attempt / "attempt-status.json"
+            status = json.loads(status_path.read_text(encoding="utf-8"))
+            mutate(attempt, status)
+            retained = attempt / "host-attestation.json"
+            if retained.is_file():
+                status["host_attestation_binding"]["sha256"] = hashlib.sha256(
+                    retained.read_bytes()).hexdigest()
+            status_path.write_text(json.dumps(status), encoding="utf-8")
+            expect_error("host attestation", driver.run_next)
 
     retained_cases = (
         ("campaign-manifest.json", "campaign", "b3v4-sol-r1"),

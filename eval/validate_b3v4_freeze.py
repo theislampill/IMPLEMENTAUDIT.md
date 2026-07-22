@@ -159,7 +159,8 @@ def validate_structure(packet):
     for name, values in expected.items():
         item = _mapping(configurations[name], f"configurations.{name}")
         _required(item, {"host", "model_requested", "model_resolved_required",
-                         "reasoning_effort", "auth_mode", "executable"},
+                         "reasoning_effort", "auth_mode", "executable",
+                         "host_attestation"},
                   f"configurations.{name}")
         observed = (item["model_requested"], item["model_resolved_required"],
                     item["reasoning_effort"], item["auth_mode"])
@@ -174,6 +175,15 @@ def validate_structure(packet):
             raise ValueError(f"configuration {name} executable identity incomplete")
         _digest(executable["sha256"],
                 f"configurations.{name}.executable.sha256")
+        attestation = _mapping(item["host_attestation"],
+                               f"configurations.{name}.host_attestation")
+        _required(attestation, {"id", "sha256"},
+                  f"configurations.{name}.host_attestation")
+        if not isinstance(attestation["id"], str) or not attestation["id"]:
+            raise ValueError(
+                f"configuration {name} host attestation id invalid")
+        _digest(attestation["sha256"],
+                f"configurations.{name}.host_attestation.sha256")
 
     authorization = _mapping(packet["authorization"], "authorization")
     _required(authorization, {"acknowledgement_path",

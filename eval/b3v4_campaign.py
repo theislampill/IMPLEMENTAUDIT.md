@@ -470,7 +470,8 @@ class CampaignDriver:
             if not root.is_dir():
                 raise ValueError("attempt custody entry is not a directory")
             allowed_attempt = {"attempt-status.json", "attempt-terminal.json",
-                               "official-verdict.json", "host-custody"}
+                               "host-attestation.json", "official-verdict.json",
+                               "host-custody"}
             if {path.name for path in root.iterdir()} - allowed_attempt:
                 raise ValueError("unexpected attempt custody entry")
             status_path = root / "attempt-status.json"
@@ -484,6 +485,7 @@ class CampaignDriver:
             if (status.get("mission") != mission or
                     terminal.get("mission_index") != mission["index"]):
                 raise ValueError("prior attempt identity drift")
+            self._verify_host_attestation(root, status, mission, packet)
             overall = terminal.get("overall_status")
             if terminal.get("official_verdict_sha256") is not None:
                 _verify_official_verdict(
@@ -498,17 +500,60 @@ class CampaignDriver:
                 raise ValueError("prior attempt has unsupported terminal state")
         raise ValueError("campaign already contains all 12 attempts")
 
-    def _claim_attempt(self, mission, packet_sha256):
+    def _load_host_attestation(self, mission, packet):
+        config_name = mission["config"]
+        source = self.attestations.get(config_name)
+        if not source:
+            raise ValueError("formal host attestation is required")
+        raw = pathlib.Path(source).read_bytes()
+        attestation = contract.decode_json_bytes(raw, "host attestation")
+        contract.validate_host_attestation(attestation)
+        expected = packet["configurations"][config_name]["host_attestation"]
+        if (attestation["id"] != expected["id"] or
+                _sha256_bytes(raw) != expected["sha256"]):
+            raise ValueError("host attestation frozen identity mismatch")
+        return raw, attestation
+
+    @staticmethod
+    def _verify_host_attestation(root, status, mission, packet):
+        binding = status["host_attestation_binding"]
+        config = packet["configurations"][mission["config"]]
+        if binding != {
+                "path": "host-attestation.json",
+                "sha256": config["host_attestation"]["sha256"],
+                "config": mission["config"], "host": config["host"],
+                "model_resolved_required": config["model_resolved_required"]}:
+            raise ValueError("host attestation mission identity mismatch")
+        path = root / binding["path"]
+        if not path.is_file() or _sha256_file(path) != binding["sha256"]:
+            raise ValueError("host attestation custody hash mismatch")
+        retained = _read_object(path, "host attestation")
+        contract.validate_host_attestation(retained)
+        if retained["id"] != config["host_attestation"]["id"]:
+            raise ValueError("host attestation retained identity mismatch")
+        return retained
+
+    def _claim_attempt(self, mission, packet_sha256, packet):
         name = self._attempt_name(mission)
         claiming = self.campaign_root / (name + ".claiming")
         final = self.campaign_root / name
         claiming.mkdir(exist_ok=False)
+        attestation_raw, _ = self._load_host_attestation(mission, packet)
+        with open(claiming / "host-attestation.json", "xb") as stream:
+            stream.write(attestation_raw)
+        config = packet["configurations"][mission["config"]]
         _write_new_json(claiming / "attempt-status.json", {
             "schema": "implementaudit-b3v4-attempt-status-v1",
             "campaign": "b3v4-sol-r1", "freeze_sha256": packet_sha256,
             "contract_sha256": contract.contract_sha256(),
             "mission": mission, "state": "PREPARED_BEFORE_HOST_SPAWN",
             "execution_mode": self.execution_mode, "created_at": _utc_now(),
+            "host_attestation_binding": {
+                "path": "host-attestation.json",
+                "sha256": config["host_attestation"]["sha256"],
+                "config": mission["config"], "host": config["host"],
+                "model_resolved_required": config["model_resolved_required"],
+            },
         })
         os.rename(claiming, final)
         return final
@@ -531,13 +576,18 @@ class CampaignDriver:
         self._ensure_campaign(raw, packet_sha256)
         self._validate_identities(packet)
         mission = self._next_mission(packet)
-        attempt_root = self._claim_attempt(mission, packet_sha256)
+        attempt_root = self._claim_attempt(mission, packet_sha256, packet)
+        status = _read_object(attempt_root / "attempt-status.json",
+                              "attempt status")
+        retained_attestation = self._verify_host_attestation(
+            attempt_root, status, mission, packet)
         context = MissionContext(
             packet=packet, packet_sha256=packet_sha256, mission=mission,
             attempt_root=attempt_root,
             candidate_checkout=self.candidate_checkout,
             control_checkout=self.control_checkout,
-            runtime_root=self.runtime_root, attestations=self.attestations)
+            runtime_root=self.runtime_root, attestations=self.attestations,
+            host_attestation=retained_attestation)
         terminal = {
             "schema": "implementaudit-b3v4-attempt-terminal-v1",
             "campaign": "b3v4-sol-r1", "mission_index": mission["index"],
@@ -621,11 +671,7 @@ class CampaignDriver:
                    else context.control_checkout)
         runtime = context.runtime_root / self._attempt_name(mission)
         runtime.mkdir(parents=True, exist_ok=False)
-        attestation_path = context.attestations.get(config_name)
-        if not attestation_path:
-            raise ValueError("formal host-read attestation is required")
-        attestation = _read_object(attestation_path, "host-read attestation")
-        contract.validate_host_attestation(attestation)
+        attestation = context.host_attestation
         executable = config["executable"]["path"]
         common = {
             "product_checkout": str(product),

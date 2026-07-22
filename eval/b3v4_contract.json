@@ -52,7 +52,7 @@
  },
  "lifecycle_schemas": {
   "campaign_manifest": ["schema","campaign","freeze_sha256","contract_sha256","created_at","execution_stage"],
-  "attempt_status": ["schema","campaign","freeze_sha256","contract_sha256","mission","state","execution_mode","created_at"],
+  "attempt_status": ["schema","campaign","freeze_sha256","contract_sha256","mission","state","execution_mode","created_at","host_attestation_binding"],
   "attempt_terminal": ["schema","campaign","mission_index","execution_mode","overall_status","resolved_model","host_run_root","official_overall_status","official_verdict_sha256","stop_reason","error_type","completed_at"]
  }
 }

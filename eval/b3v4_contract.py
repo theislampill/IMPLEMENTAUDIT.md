@@ -230,7 +230,8 @@ def validate_freeze_envelope(packet):
         raise ValueError("configurations key set invalid")
     expected_hosts = {"L": "WSL Ubuntu Codex CLI", "O": "Windows Claude CLI"}
     config_fields = {"host", "model_requested", "model_resolved_required",
-                     "reasoning_effort", "auth_mode", "executable"}
+                     "reasoning_effort", "auth_mode", "executable",
+                     "host_attestation"}
     for name, row in configurations.items():
         row = _exact(row, config_fields, f"configuration {name}")
         if row["host"] != expected_hosts[name]:
@@ -240,6 +241,13 @@ def validate_freeze_envelope(packet):
         for key in ("path", "version"):
             _string(executable[key], f"configuration {name} executable {key}")
         _digest(executable["sha256"], f"configuration {name} executable sha256")
+        host_attestation = _exact(
+            row["host_attestation"], {"id", "sha256"},
+            f"configuration {name} host attestation")
+        _string(host_attestation["id"],
+                f"configuration {name} host attestation id")
+        _digest(host_attestation["sha256"],
+                f"configuration {name} host attestation sha256")
     authorization = _exact(packet["authorization"], {"acknowledgement_path",
                            "acknowledgement_sha256", "metered_api_spend"}, "authorization")
     _string(authorization["acknowledgement_path"], "authorization acknowledgement_path")
@@ -291,6 +299,18 @@ def validate_artifact(name, value):
             raise ValueError("attempt status state invalid")
         if value["execution_mode"] not in ("production", "test"):
             raise ValueError("attempt status execution mode invalid")
+        binding = _exact(value["host_attestation_binding"],
+                         {"path", "sha256", "config", "host",
+                          "model_resolved_required"},
+                         "attempt status host attestation binding")
+        if binding["path"] != "host-attestation.json":
+            raise ValueError("attempt status host attestation path invalid")
+        _digest(binding["sha256"], "attempt status host attestation sha256")
+        if binding["config"] not in ("L", "O"):
+            raise ValueError("attempt status host attestation config invalid")
+        _string(binding["host"], "attempt status host attestation host")
+        _string(binding["model_resolved_required"],
+                "attempt status host attestation model")
     if name == "attempt_terminal":
         if type(value["mission_index"]) is not int or not 0 <= value["mission_index"] < 12:
             raise ValueError("attempt terminal mission index invalid")

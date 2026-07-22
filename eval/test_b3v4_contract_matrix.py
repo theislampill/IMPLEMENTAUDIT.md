@@ -59,6 +59,13 @@ def lifecycle_rows(packet):
             "contract_sha256": digest, "mission": mission,
             "state": "PREPARED_BEFORE_HOST_SPAWN", "execution_mode": "test",
             "created_at": "2030-01-01T00:00:00Z",
+            "host_attestation_binding": {
+                "path": "host-attestation.json",
+                "sha256": packet["configurations"]["L"][
+                    "host_attestation"]["sha256"],
+                "config": "L", "host": "WSL Ubuntu Codex CLI",
+                "model_resolved_required": "gpt-5.6-luna",
+            },
         },
         "attempt_terminal": {
             "schema": "implementaudit-b3v4-attempt-terminal-v1",
