@@ -234,6 +234,45 @@ def main():
         "cross-type JSON identity drift unexpectedly accepted: " +
         ", ".join(exact_identity_failures))
 
+    with tempfile.TemporaryDirectory(prefix="campaign-stage-terminal-type-") as tmp:
+        root = pathlib.Path(tmp).resolve()
+        lifecycle.write_new_json(root / "campaign-manifest.json", {
+            "schema": "campaign-a-manifest-v1", "campaign": "campaign-a"})
+        missions = [mission(0)]
+        write_attempt(root, missions[0])
+        terminal_path = lifecycle.write_stage_terminal(
+            root, stage(missions), binding(1))
+        terminal_bytes = terminal_path.read_bytes()
+        terminal_value = lifecycle.decode_strict_json_bytes(
+            terminal_bytes, "typed stage terminal", require_object=True)
+        stage_terminal_type_failures = []
+        for label, retained_count in (
+                ("boolean mission count", True),
+                ("float mission count", 1.0)):
+            drifted = dict(terminal_value)
+            drifted["mission_count"] = retained_count
+            terminal_path.write_bytes(lifecycle.canonical_json_bytes(drifted))
+            collect_rejection(
+                label, "stage terminal identity mismatch",
+                lambda: lifecycle.validate_stage_resume(
+                    root, stage(missions), binding(1)),
+                stage_terminal_type_failures)
+        terminal_path.write_bytes(terminal_bytes)
+        assert not stage_terminal_type_failures, (
+            "cross-type stage terminal identity drift unexpectedly accepted: " +
+            ", ".join(stage_terminal_type_failures))
+
+        for label, extra_value in (
+                ("boolean extra field", True),
+                ("float extra field", 1.0)):
+            drifted = dict(terminal_value)
+            drifted["unexpected"] = extra_value
+            terminal_path.write_bytes(lifecycle.canonical_json_bytes(drifted))
+            rejected("stage terminal key set invalid", lambda:
+                     lifecycle.validate_stage_resume(
+                         root, stage(missions), binding(1)))
+        terminal_path.write_bytes(terminal_bytes)
+
     # RED 1: an identity-bearing root artifact may not be admitted through a
     # name-only policy that leaves its campaign and schema unchecked.
     with tempfile.TemporaryDirectory(prefix="campaign-root-policy-") as tmp:

@@ -579,18 +579,22 @@ def validate_stage_resume(root, stage, binding):
     stage_snapshot_sha256 = _stage_snapshot_sha256(stage, rows)
     _validate_caller_snapshot(binding, stage_snapshot_sha256)
     expected = _stage_terminal_value(stage, binding, stage_snapshot_sha256)
-    if terminal.get("campaign") != expected["campaign"]:
+    if not _exact_json_equal(
+            terminal.get("campaign"), expected["campaign"]):
         raise ValueError("stage terminal campaign mismatch")
     identity_fields = {
         "schema", "stage", "stage_schema", "mission_count",
     }
-    if any(terminal.get(key) != expected[key] for key in identity_fields):
+    if any(not _exact_json_equal(terminal.get(key), expected[key])
+           for key in identity_fields):
         raise ValueError("stage terminal identity mismatch")
-    if terminal.get("binding_sha256") != expected["binding_sha256"]:
+    if not _exact_json_equal(
+            terminal.get("binding_sha256"), expected["binding_sha256"]):
         raise ValueError("stage terminal binding hash mismatch")
-    if (terminal.get("stage_snapshot_sha256") !=
+    if not _exact_json_equal(
+            terminal.get("stage_snapshot_sha256"),
             expected["stage_snapshot_sha256"]):
         raise ValueError("stage snapshot hash mismatch")
-    if terminal != expected:
+    if not _exact_json_equal(terminal, expected):
         raise ValueError("stage terminal key set invalid")
     return terminal
