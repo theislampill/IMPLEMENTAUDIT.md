@@ -60,6 +60,11 @@ product identities, subscription-backed L/O host identities, fixed mission
 order, attempt-retention rules, stop conditions, and a separate rederivation
 contract. `eval/validate_b3v4_freeze.py` validates that packet without invoking
 a model or exposing the owner approval acknowledgement contents.
+`eval/b3v4_campaign.py` consumes it one mission at a time, revalidates frozen
+and live identities, creates a distinct attempt status before host spawn, and
+refuses retries, order gaps, substitution, `INVALID`, `ERROR`, or input drift.
+Its injectable executor and validators exist only in explicit test mode; the
+CLI always delegates execution to the existing formal host adapters and scorer.
 
 `A1`–`A5` form the SUPPLEMENTARY **ordinary-invocation behavioral
 campaign** (A-series, per issue #52): A1 factor-derived action selection,
