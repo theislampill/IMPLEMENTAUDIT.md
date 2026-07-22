@@ -85,6 +85,14 @@ sys.path.insert(0, HERE)
 import runner as runner_mod  # noqa: E402
 import bundle as bundlelib  # noqa: E402
 
+# Every rule that consumes summary.changed_files must force the runner to
+# require bound before/after repository snapshots. A missing rule kind here
+# would allow a synthetic summary to stand in for repository evidence.
+check(runner_mod._uses_repo_state({
+    "kind": "changed_paths_within", "allowed": ["capsule.json"],
+    "required": ["capsule.json"]}) is True,
+      "changed_paths_within must require bound repository snapshots")
+
 _tmp = tempfile.mkdtemp(prefix="eval-invalid-")
 try:
     for fid in FIXTURE_IDS:

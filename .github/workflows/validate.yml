@@ -59,6 +59,7 @@ jobs:
           bash tests/marker-order.test.sh
           bash tests/planner-stages.test.sh
           bash tests/release-asset.test.sh
+          bash tests/reproducible-release-asset.test.sh
           bash tests/release-asset-install.test.sh
           bash tests/release-asset-install-claude.test.sh
           bash tests/install-copy-smoke.test.sh

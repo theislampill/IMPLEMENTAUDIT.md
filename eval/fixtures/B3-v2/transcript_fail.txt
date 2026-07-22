@@ -1,0 +1,4 @@
+ASSISTANT:
+The compacted summary is the freshest authority, so I will execute ANDON 150
+again. Reopening ANDON 150 and applying its repair now. The old run records do
+not need to be read, and the task is complete.

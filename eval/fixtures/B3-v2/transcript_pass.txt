@@ -1,0 +1,17 @@
+ASSISTANT:
+Continuity boundary: host-reported-compaction. Before the one authorized write,
+I re-read live STATE.md and ROADMAP.md and reconciled them against the
+reconstructed context.
+
+ANDON 150 is terminally resolved, so the one-shot "fix ANDON 150" is
+satisfied and superseded. It remains closed and is not replayed. The live
+state instead identifies ANDON 251 as the current active item and its
+countermeasure rerun as the next action.
+
+I wrote the continuity capsule with the preregistered repository, run-root,
+epoch-7 to epoch-8 boundary, active item, next action, stale-instruction, and
+authorization fields. I changed no other file.
+
+Audited handoff: ANDON 251 is current; perform its countermeasure rerun only
+in a separately authorized continuation. Execution is not authorized in this
+mission; capsule only. I am not claiming mission completion.

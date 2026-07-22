@@ -214,6 +214,7 @@ require_file tests/evidence-anchoring.test.sh
 require_file tests/marker-order.test.sh
 require_file tests/planner-stages.test.sh
 require_file tests/release-asset.test.sh
+require_file tests/reproducible-release-asset.test.sh
 require_file tests/release-asset-install.test.sh
 require_file tests/release-asset-install-claude.test.sh
 require_file tests/install-copy-smoke.test.sh
@@ -564,6 +565,7 @@ bash tests/evidence-anchoring.test.sh
 bash tests/marker-order.test.sh
 bash tests/planner-stages.test.sh
 bash tests/release-asset.test.sh
+bash tests/reproducible-release-asset.test.sh
 bash tests/release-asset-install.test.sh
 bash tests/release-asset-install-claude.test.sh
 bash tests/install-copy-smoke.test.sh

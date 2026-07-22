@@ -17,6 +17,9 @@ Hardening (Phase C):
   special files are represented explicitly.
 - Every snapshot carries `snapshot_sha256` over its canonical JSON; loaders
   must call `verify_snapshot` before trusting one.
+- Complete worktree entries use canonical relative POSIX identities and exact
+  digest-only schemas; replay rejects administrative, aliased, or byte-bearing
+  identities even when the enclosing snapshot was self-consistently rehashed.
 - `changed_files` is COMPUTED from immutable before/after state by the
   compare functions; it is never accepted from model prose or an arbitrary
   adjacent summary.
@@ -83,6 +86,67 @@ def _untracked_entry(repo_dir, rel_path):
     if not statmod.S_ISREG(st.st_mode):
         return {"type": "special"}
     return {"type": "file", "sha256": _hash_regular_file(full)}
+
+
+def _worktree_entry(path):
+    """Describe one worktree leaf without following links or junctions."""
+    try:
+        st = os.lstat(path)
+    except OSError as exc:
+        raise SnapshotInvalid(f"cannot lstat worktree path {path!r}: {exc}")
+    reparse = getattr(st, "st_file_attributes", 0) & getattr(
+        statmod, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400)
+    if statmod.S_ISLNK(st.st_mode) or reparse:
+        try:
+            target = os.readlink(path)
+        except OSError:
+            target = "<unreadable>"
+        return {"type": "symlink",
+                "target_sha256": hashlib.sha256(
+                    target.encode("utf-8", "replace")).hexdigest()}
+    if statmod.S_ISREG(st.st_mode):
+        return {"type": "file", "sha256": _hash_regular_file(path)}
+    return {"type": "special"}
+
+
+def _worktree_file_map(repo_dir):
+    """Hash every repository worktree leaf, excluding Git's own metadata.
+
+    This complete map lets an offline scorer bind retained host-check input
+    bytes to the exact after-state rather than trusting an adapter Boolean.
+    Directory links/junctions are recorded but never traversed.
+    """
+    out = {}
+    root_abs = os.path.abspath(repo_dir)
+    for root, dirs, files in os.walk(root_abs, topdown=True,
+                                     followlinks=False):
+        dirs.sort()
+        files.sort()
+        if os.path.abspath(root) == root_abs:
+            # A normal checkout exposes .git as a directory; a linked
+            # worktree exposes it as an administrative pointer file. Neither
+            # is repository content and neither may influence evidence hashes.
+            dirs[:] = [name for name in dirs
+                       if os.path.normcase(name) != os.path.normcase(".git")]
+            files = [name for name in files
+                     if os.path.normcase(name) != os.path.normcase(".git")]
+        for name in list(dirs):
+            path = os.path.join(root, name)
+            entry = _worktree_entry(path)
+            if entry["type"] != "special":
+                if entry["type"] == "symlink":
+                    rel = os.path.relpath(path, root_abs).replace("\\", "/")
+                    out[rel] = entry
+                    dirs.remove(name)
+            elif not os.path.isdir(path):
+                rel = os.path.relpath(path, root_abs).replace("\\", "/")
+                out[rel] = entry
+                dirs.remove(name)
+        for name in files:
+            path = os.path.join(root, name)
+            rel = os.path.relpath(path, root_abs).replace("\\", "/")
+            out[rel] = _worktree_entry(path)
+    return out
 
 
 def _parse_status_z(raw):
@@ -163,6 +227,7 @@ def snapshot(repo_dir):
         "unstaged": unstaged,
         "renames": renames,
         "untracked": untracked,
+        "worktree_files": _worktree_file_map(repo_dir),
         "tracked_diff_sha256": hashlib.sha256(diff).hexdigest(),
     }
     snap["snapshot_sha256"] = _canonical_hash(snap)
@@ -174,6 +239,44 @@ def _canonical_hash(snap):
             ("snapshot_sha256", "changed_files", "unauthorized")}
     return hashlib.sha256(
         json.dumps(body, sort_keys=True).encode("utf-8")).hexdigest()
+
+
+def _validate_worktree_file_identity(rel, entry):
+    """Require canonical relative POSIX identity plus an exact digest schema."""
+    if not isinstance(rel, str) or not rel or "\\" in rel or "\x00" in rel:
+        raise SnapshotInvalid(
+            f"snapshot worktree file identity invalid: {rel!r}")
+    parts = rel.split("/")
+    if (rel.startswith("/") or any(part in ("", ".", "..")
+                                   for part in parts) or
+            (len(rel) >= 2 and rel[0].isalpha() and rel[1] == ":") or
+            parts[0].lower() == ".git"):
+        raise SnapshotInvalid(
+            f"snapshot worktree file identity invalid: {rel!r}")
+    if not isinstance(entry, dict):
+        raise SnapshotInvalid(
+            f"snapshot worktree entry invalid: {rel!r}")
+    kind = entry.get("type")
+    if kind == "file":
+        expected_keys = {"type", "sha256"}
+        digest = entry.get("sha256")
+    elif kind == "symlink":
+        expected_keys = {"type", "target_sha256"}
+        digest = entry.get("target_sha256")
+    elif kind == "special":
+        expected_keys = {"type"}
+        digest = None
+    else:
+        raise SnapshotInvalid(
+            f"snapshot worktree file type invalid: {kind!r}")
+    if set(entry) != expected_keys:
+        raise SnapshotInvalid(
+            f"snapshot worktree entry schema invalid: {rel!r}")
+    if kind != "special" and (not isinstance(digest, str) or
+            len(digest) != 64 or
+            any(c not in "0123456789abcdef" for c in digest)):
+        raise SnapshotInvalid(
+            f"snapshot worktree digest invalid: {rel!r}")
 
 
 def verify_snapshot(snap):
@@ -188,6 +291,12 @@ def verify_snapshot(snap):
             raise SnapshotInvalid(f"snapshot missing field {field!r}")
     if _canonical_hash(snap) != snap["snapshot_sha256"]:
         raise SnapshotInvalid("snapshot_sha256 does not match content")
+    worktree_files = snap.get("worktree_files")
+    if worktree_files is not None:
+        if not isinstance(worktree_files, dict):
+            raise SnapshotInvalid("snapshot worktree_files is not an object")
+        for rel, entry in worktree_files.items():
+            _validate_worktree_file_identity(rel, entry)
 
 
 def _norm_globs(globs):

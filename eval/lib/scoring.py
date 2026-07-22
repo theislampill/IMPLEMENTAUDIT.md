@@ -12,6 +12,9 @@ A rule is a JSON object with a "kind" and parameters. Supported kinds:
   order           {"first": <regex>, "then": <regex>}           - first precedes then
   before_marker   {"pattern": <regex>, "marker": <regex>}       - pattern appears before first marker
   no_diff         {"paths": [<glob>...]}                         - summary.changed_files disjoint from paths
+  changed_paths_within {"allowed": [<glob>...], "required": [<glob>...]}
+                                                                - every changed path is allowed and every
+                                                                  required glob matched mechanically
   summary_flag    {"key": <str>}                                 - summary[key] is exactly True (host-observed
                                                                    boolean mapped in by the runner; repo-state basis)
   count_at_least  {"pattern": <regex>, "n": <int>}              - >= n non-overlapping matches
@@ -197,15 +200,38 @@ def eval_rule(rule, transcript, summary):
         globs = rule["paths"]
         hits = [f for f in changed if any(fnmatch(f, g) for g in globs)]
         return (len(hits) == 0, ",".join(hits[:5]))
+    if kind == "changed_paths_within":
+        changed = [str(path).replace("\\", "/")
+                   for path in (summary or {}).get("changed_files", [])]
+        allowed = [str(glob).replace("\\", "/")
+                   for glob in rule.get("allowed", [])]
+        required = [str(glob).replace("\\", "/")
+                    for glob in rule.get("required", [])]
+        unauthorized = [path for path in changed
+                        if not any(fnmatch(path, glob) for glob in allowed)]
+        missing = [glob for glob in required
+                   if not any(fnmatch(path, glob) for path in changed)]
+        ok = not unauthorized and not missing
+        evidence = (f"changed={changed!r}; unauthorized={unauthorized!r}; "
+                    f"missing_required={missing!r}")
+        return ok, evidence
     if kind == "summary_flag":
-        # host-observed boolean (runner maps it from the fixture-declared
-        # host-checks artifact; adapter computed it mechanically post-run)
+        # Host-observed state. Most checks are booleans. A replayed formal
+        # measurement may be None when the product property is genuinely
+        # incomplete; that must remain INCOMPLETE, never become product FAIL.
         v = (summary or {}).get(rule["key"])
-        return (v is True, f"{rule['key']}={v!r}")
+        return (None if v is None else v is True,
+                f"{rule['key']}={v!r}")
     if kind in ("all_of", "any_of"):
         results = [eval_rule(r, transcript, summary) for r in rule["rules"]]
-        ok = (all if kind == "all_of" else any)(r[0] for r in results)
-        return (ok, "; ".join(f"{'Y' if r[0] else 'N'}:{r[1]}" for r in results))
+        states = [r[0] for r in results]
+        if kind == "all_of":
+            ok = False if False in states else None if None in states else True
+        else:
+            ok = True if True in states else None if None in states else False
+        return (ok, "; ".join(
+            f"{'?' if r[0] is None else 'Y' if r[0] else 'N'}:{r[1]}"
+            for r in results))
 
     text = _text_for(rule, transcript)
     if kind == "contains":
@@ -345,15 +371,19 @@ def score_events(fixture, events, summary=None, artifact_obj=None):
             derived = _derive_from_artifact(art, artifact_obj, name)
         if derived is not None:
             d_ok, d_ev = derived
-            out[name] = {"pass": d_ok and text_ok,
-                         "evidence": f"{d_ev}; protocol-text:"
-                                     f"{'Y' if text_ok else 'N'}"[:200],
+            out[name] = {"pass": (None if text_ok is None
+                                   else d_ok and text_ok),
+                         "evidence": (
+                             f"{d_ev}; protocol-text:"
+                             f"{'?' if text_ok is None else 'Y' if text_ok else 'N'}"
+                         )[:200],
                          "describes": prop.get("describes", ""),
                          "basis": "host-observation+protocol-text"}
         else:
             rk = prop["rule"].get("kind")
-            basis = ("repo-state" if rk in ("no_diff", "path_changed",
-                                            "summary_flag") else "text")
+            basis = ("repo-state" if rk in (
+                "no_diff", "path_changed", "changed_paths_within",
+                "summary_flag") else "text")
             out[name] = {"pass": text_ok, "evidence": text_ev,
                          "describes": prop.get("describes", ""),
                          "basis": basis}
