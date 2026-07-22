@@ -63,6 +63,7 @@ CAPTURE_FILES = (
 )
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
+OFFICIAL_STATES = frozenset({"PASS", "FAIL", "INVALID", "ERROR"})
 
 
 class EvidenceInvalid(ValueError):
@@ -860,6 +861,58 @@ def _invalid_row(mission, host_status, reason):
             "properties": {}, "reason": str(reason)}
 
 
+def _load_official_verdict(attempt, terminal, expected_model):
+    digest = terminal.get("official_verdict_sha256")
+    official_status = terminal.get("official_overall_status")
+    _digest(digest, "attempt terminal official_verdict_sha256")
+    _expect(official_status in OFFICIAL_STATES,
+            "attempt terminal official status invalid")
+    verdict, verdict_bytes = _read_json(
+        attempt / "official-verdict.json", "official verdict")
+    _expect(_sha(verdict_bytes) == digest, "official verdict hash mismatch")
+    adjudication = _mapping(verdict.get("adjudication"),
+                            "official adjudication")
+    host_safety = _mapping(verdict.get("host_safety"),
+                           "official host safety")
+    properties = _mapping(verdict.get("properties"), "official properties")
+    _expect(verdict.get("schema") == "implementaudit-eval-verdict-v3" and
+            verdict.get("status") == official_status and
+            terminal.get("overall_status") == official_status,
+            "official and attempt terminal overall states disagree")
+    _expect(adjudication.get("schema") ==
+            "implementaudit-eval-adjudication-v1" and
+            adjudication.get("overall_status") == official_status and
+            adjudication.get("product_status") in
+            ("PASS", "FAIL", "INCOMPLETE") and
+            adjudication.get("host_status") in OFFICIAL_STATES and
+            isinstance(adjudication.get("property_evidence_complete"), bool),
+            "official adjudication incomplete or inconsistent")
+    _expect(host_safety.get("schema") == "implementaudit-host-safety-v1" and
+            host_safety.get("status") == adjudication.get("host_status") and
+            isinstance(host_safety.get("findings"), list),
+            "official host safety incomplete or inconsistent")
+    _expect(verdict.get("model_resolved") == expected_model and
+            verdict.get("model_substitution") is False,
+            "official model identity invalid")
+    for name, item in properties.items():
+        _expect(isinstance(name, str) and isinstance(item, dict),
+                "official property matrix malformed")
+    return verdict, adjudication, properties
+
+
+def _official_disagreement_row(mission, properties, independent_properties,
+                               official_status, independent_status, reason):
+    return {
+        "index": mission["index"], "config": mission["config"],
+        "arm": mission["arm"], "rep": mission["rep"],
+        "product_status": "INCOMPLETE", "host_status": "INVALID",
+        "overall_status": "INVALID", "properties": independent_properties,
+        "official_properties": properties, "reason": reason,
+        "official_overall_status": official_status,
+        "independent_overall_status": independent_status,
+    }
+
+
 def _rederive_attempt(packet, campaign_root, mission, freeze_sha):
     name = _attempt_name(mission)
     attempt = campaign_root / name
@@ -880,11 +933,8 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha):
             "model_resolved_required"]
         if terminal.get("resolved_model") != expected_model:
             return _invalid_row(mission, "SUBSTITUTION", "model substitution")
-        if terminal.get("overall_status") in ("INVALID", "ERROR"):
-            return _invalid_row(mission, terminal["overall_status"],
-                                "campaign driver recorded terminal stop state")
-        _expect(terminal.get("overall_status") in ("PASS", "FAIL"),
-                "attempt terminal state unsupported")
+        official, official_adjudication, official_properties = \
+            _load_official_verdict(attempt, terminal, expected_model)
         host_root = (attempt / "host-custody" / name).resolve()
         recorded_root = pathlib.Path(str(terminal.get("host_run_root", ""))).resolve()
         _expect(recorded_root == host_root, "attempt host run root identity mismatch")
@@ -906,15 +956,31 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha):
         product_status = "PASS" if all(properties[name]["pass"]
                                        for name in required) else "FAIL"
         independent_overall = product_status
-        official_overall = terminal["overall_status"]
-        statuses_agree = official_overall == independent_overall
-        overall = independent_overall if statuses_agree else "FAIL"
+        official_overall = official["status"]
+        official_complete = official_adjudication[
+            "property_evidence_complete"] is True
+        property_agreement = official_complete and all(
+            name in official_properties and
+            official_properties[name].get("state") == properties[name]["state"] and
+            official_properties[name].get("pass") == properties[name]["pass"]
+            for name in required)
+        layers_agree = (
+            property_agreement and
+            official_adjudication.get("product_status") == product_status and
+            official_adjudication.get("host_status") == "PASS" and
+            official_overall == independent_overall)
+        if not layers_agree:
+            return _official_disagreement_row(
+                mission, official_properties, properties, official_overall,
+                independent_overall,
+                "official and independently rederived property, host, or overall "
+                "states disagree or official property evidence is incomplete")
+        overall = independent_overall
         return {"index": mission["index"], "config": mission["config"],
                 "arm": mission["arm"], "rep": mission["rep"],
                 "product_status": product_status, "host_status": "PASS",
                 "overall_status": overall, "properties": properties,
-                "reason": (None if statuses_agree else
-                           "official and independently rederived overall statuses disagree"),
+                "reason": None,
                 "bundle_manifest_sha256": _sha(
                     _read_bytes(host_root / "bundle" / "manifest.json")),
                 "raw_stdout_sha256": _sha(artifacts["host-stdout.raw"]),

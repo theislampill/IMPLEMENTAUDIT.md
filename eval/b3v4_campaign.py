@@ -20,6 +20,7 @@ import validate_b3v4_freeze as freeze
 
 STOP_STATES = frozenset({"INVALID", "ERROR"})
 CONTINUE_STATES = frozenset({"PASS", "FAIL"})
+OFFICIAL_STATES = CONTINUE_STATES | STOP_STATES
 
 
 def _utc_now():
@@ -49,6 +50,58 @@ def _read_object(path, owner):
     if not isinstance(value, dict):
         raise ValueError(f"{owner} must be a JSON object")
     return value
+
+
+def _validate_official_verdict(verdict):
+    if not isinstance(verdict, dict):
+        raise ValueError("official scorer verdict must be a JSON object")
+    adjudication = verdict.get("adjudication")
+    host_safety = verdict.get("host_safety")
+    properties = verdict.get("properties")
+    status = verdict.get("status")
+    if (verdict.get("schema") != "implementaudit-eval-verdict-v3" or
+            status not in OFFICIAL_STATES or
+            not isinstance(adjudication, dict) or
+            adjudication.get("schema") !=
+            "implementaudit-eval-adjudication-v1" or
+            adjudication.get("overall_status") != status or
+            adjudication.get("product_status") not in
+            ("PASS", "FAIL", "INCOMPLETE") or
+            adjudication.get("host_status") not in OFFICIAL_STATES or
+            not isinstance(adjudication.get("property_evidence_complete"), bool) or
+            not isinstance(host_safety, dict) or
+            host_safety.get("schema") != "implementaudit-host-safety-v1" or
+            host_safety.get("status") != adjudication.get("host_status") or
+            not isinstance(properties, dict) or
+            "model_resolved" not in verdict or
+            not isinstance(verdict.get("model_substitution"), bool)):
+        raise ValueError("official scorer verdict is incomplete or inconsistent")
+    for name, item in properties.items():
+        if not isinstance(name, str) or not isinstance(item, dict):
+            raise ValueError("official scorer property matrix is malformed")
+    return status
+
+
+def _write_official_verdict(attempt_root, verdict):
+    status = _validate_official_verdict(verdict)
+    path = attempt_root / "official-verdict.json"
+    _write_new_json(path, verdict)
+    return status, _sha256_file(path)
+
+
+def _verify_official_verdict(attempt_root, terminal):
+    path = attempt_root / "official-verdict.json"
+    digest = terminal.get("official_verdict_sha256")
+    official = terminal.get("official_overall_status")
+    if not path.is_file() or not isinstance(digest, str):
+        raise ValueError("prior official verdict custody is incomplete")
+    if _sha256_file(path) != digest:
+        raise ValueError("prior official verdict custody drift")
+    verdict = _read_object(path, "official verdict")
+    observed = _validate_official_verdict(verdict)
+    if observed != official:
+        raise ValueError("prior official verdict status drift")
+    return official
 
 
 def _git(repo, *args):
@@ -191,6 +244,10 @@ class CampaignDriver:
                     terminal.get("mission_index") != mission["index"]):
                 raise ValueError("prior attempt identity drift")
             overall = terminal.get("overall_status")
+            if terminal.get("official_verdict_sha256") is not None:
+                _verify_official_verdict(root, terminal)
+            elif overall in CONTINUE_STATES:
+                raise ValueError("prior official verdict custody is incomplete")
             if overall in STOP_STATES or terminal.get("stop_reason"):
                 raise ValueError("prior attempt stopped campaign")
             if overall not in CONTINUE_STATES:
@@ -244,11 +301,31 @@ class CampaignDriver:
             outcome = self.mission_executor(context)
             if not isinstance(outcome, dict):
                 raise TypeError("mission executor returned a non-object")
+            claimed_status = outcome.get("overall_status")
+            official_verdict = outcome.get("official_verdict")
             terminal.update({
-                "overall_status": outcome.get("overall_status"),
+                "overall_status": claimed_status,
                 "resolved_model": outcome.get("resolved_model"),
                 "host_run_root": outcome.get("host_run_root"),
             })
+            if official_verdict is not None:
+                official_status, official_sha = _write_official_verdict(
+                    attempt_root, official_verdict)
+                terminal.update({
+                    "official_overall_status": official_status,
+                    "official_verdict_sha256": official_sha,
+                    "overall_status": official_status,
+                })
+                if claimed_status != official_status:
+                    terminal["stop_reason"] = "executor-status-disagrees-with-official-verdict"
+                if (official_status in CONTINUE_STATES and
+                        official_verdict.get("model_resolved") !=
+                        terminal["resolved_model"]):
+                    terminal["overall_status"] = "INVALID"
+                    terminal["stop_reason"] = "official-model-identity-disagrees"
+            elif claimed_status in CONTINUE_STATES:
+                terminal["overall_status"] = "ERROR"
+                terminal["stop_reason"] = "official-verdict-missing"
             try:
                 self._verify_frozen_binding(packet_sha256)
             except (OSError, ValueError, json.JSONDecodeError):
@@ -333,10 +410,11 @@ class CampaignDriver:
                     "INVALID" if result.kind == "invalid" else "ERROR",
                     "resolved_model": result.resolved_model,
                     "host_run_root": str(host_root)}
-        status, _verdict = runner.score_bundle(result.detail, repo_dir=None)
+        status, verdict = runner.score_bundle(result.detail, repo_dir=None)
         return {"overall_status": status,
                 "resolved_model": result.resolved_model,
-                "host_run_root": str(host_root)}
+                "host_run_root": str(host_root),
+                "official_verdict": verdict}
 
 
 def main(argv=None):

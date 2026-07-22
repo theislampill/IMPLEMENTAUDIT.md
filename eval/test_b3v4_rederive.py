@@ -11,6 +11,7 @@ import pathlib
 import tempfile
 
 from test_b3v4_freeze import valid_packet
+import runner as official_runner
 
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -55,6 +56,36 @@ def make_fixture():
         encoding="utf-8"))
 
 
+def synthetic_official_pass(fixture, model):
+    properties = {
+        prop["name"]: {
+            "state": "PASS", "pass": True,
+            "evidence": "synthetic retained evidence",
+            "describes": prop.get("describes", ""),
+            "basis": "host-observation",
+        }
+        for prop in fixture["properties"]
+    }
+    return {
+        "schema": "implementaudit-eval-verdict-v3", "status": "PASS",
+        "model_resolved": model, "model_substitution": False,
+        "properties": properties,
+        "host_safety": {
+            "schema": "implementaudit-host-safety-v1", "status": "PASS",
+            "failed_invariant": None, "failed_status": None, "findings": [],
+        },
+        "adjudication": {
+            "schema": "implementaudit-eval-adjudication-v1",
+            "product_status": "PASS", "host_status": "PASS",
+            "overall_status": "PASS", "property_evidence_complete": True,
+            "all_required_properties_true": True,
+            "product_failed_invariant": None, "host_failed_invariant": None,
+            "host_failed_status": None, "failed_domain": None,
+            "failed_invariant": None,
+        },
+    }
+
+
 def build_campaign(root):
     root = pathlib.Path(root)
     fixture = make_fixture()
@@ -97,13 +128,14 @@ def build_campaign(root):
             "mission": mission, "state": "PREPARED_BEFORE_HOST_SPAWN",
             "execution_mode": "production", "created_at": "2030-01-01T00:00:00Z",
         })
-        write(attempt / "attempt-terminal.json", {
+        attempt_terminal = {
             "schema": "implementaudit-b3v4-attempt-terminal-v1",
             "campaign": "b3v4-sol-r1", "mission_index": mission["index"],
             "execution_mode": "production", "overall_status": "PASS",
             "resolved_model": model, "host_run_root": str(host_root),
             "completed_at": "2030-01-01T00:00:01Z",
-        })
+        }
+        write(attempt / "attempt-terminal.json", attempt_terminal)
         before = snapshot({})
         after = snapshot({capsule_path: {"type": "file", "sha256": sha(capsule_bytes)}})
         after["untracked"] = {capsule_path: {"type": "file", "sha256": sha(capsule_bytes)}}
@@ -229,6 +261,12 @@ def build_campaign(root):
                                               for spec in fixture["host_checks"]["specs"]})
         files["host-check-inputs/" + capsule_path] = capsule_bytes
         artifact_manifest = {"files": {key: sha(value) for key, value in files.items()}}
+        retained_event = encoded({
+            "schema": "implementaudit-eval-event-v1", "run_id": name,
+            "fixture_id": "B3-v3", "seq": 1, "role": "assistant",
+            "kind": "message", "content": "retained synthetic response",
+            "recorded_at": "2030-01-01T00:00:01Z",
+        })
         manifest = {
             "schema": "implementaudit-eval-manifest-v2", "run_id": name,
             "fixture_id": "B3-v3", "fixture_sha256": sha(fixture_bytes),
@@ -243,7 +281,7 @@ def build_campaign(root):
                                 if mission["config"] == "L" else model),
             "model_resolved": model, "host": adapter,
             "started_at": "2030-01-01T00:00:00Z", "ended_at": "2030-01-01T00:00:01Z",
-            "events_sha256": sha(encoded({"event": "retained"})),
+            "events_sha256": sha(retained_event),
             "repo_before_sha256": sha(encoded(before)),
             "repo_after_sha256": sha(encoded(after)),
             "artifact_manifest_sha256": sha(encoded(artifact_manifest)),
@@ -258,12 +296,21 @@ def build_campaign(root):
         write(bundle / "manifest.json", manifest)
         write(bundle / "fixture.json", fixture_bytes)
         write(bundle / "prompt.txt", ("MISSION:\n" + fixture["mission"]).encode())
-        write(bundle / "events.jsonl", encoded({"event": "retained"}))
+        write(bundle / "events.jsonl", retained_event)
         write(bundle / "repo-before.json", before)
         write(bundle / "repo-after.json", after)
         write(bundle / "artifact-manifest.json", artifact_manifest)
         for rel, data in files.items():
             write(bundle / "artifacts" / rel, data)
+        official_status = "PASS"
+        official_verdict = synthetic_official_pass(fixture, model)
+        official_bytes = encoded(official_verdict)
+        write(attempt / "official-verdict.json", official_bytes)
+        attempt_terminal.update({
+            "official_overall_status": official_status,
+            "official_verdict_sha256": sha(official_bytes),
+        })
+        write(attempt / "attempt-terminal.json", attempt_terminal)
     return packet
 
 
@@ -419,17 +466,41 @@ def main():
         assert all(len(row["properties"]) == 6 for row in result["missions"])
 
         first = root / "attempt-000-L-candidate-r1"
+        bundle = first / "host-custody" / first.name / "bundle"
+        official_status, official_verdict = official_runner.score_bundle(
+            str(bundle), repo_dir=None)
+        assert official_status == "INVALID", official_verdict
+        assert official_verdict["adjudication"]["property_evidence_complete"] is False
+        assert official_verdict["adjudication"]["host_status"] == "INVALID"
+        official_bytes = encoded(official_verdict)
+        write(first / "official-verdict.json", official_bytes)
+        terminal_path = first / "attempt-terminal.json"
+        terminal = json.loads(terminal_path.read_text(encoding="utf-8"))
+        terminal["official_overall_status"] = official_status
+        terminal["official_verdict_sha256"] = sha(official_bytes)
+        terminal["overall_status"] = "PASS"
+        write(terminal_path, terminal)
+        counterexample = module.rederive_campaign(
+            root / "campaign-freeze.json", root)
+        assert counterexample["campaign_status"] == "INVALID", counterexample
+        assert counterexample["accepted"] is False
+
+    with tempfile.TemporaryDirectory(prefix="b3v4-rederive-") as tmp:
+        root = pathlib.Path(tmp) / "campaign"
+        packet = build_campaign(root)
+        result = module.rederive_campaign(root / "campaign-freeze.json", root)
+        assert result["campaign_status"] == "PASS", result
+
+        first = root / "attempt-000-L-candidate-r1"
         terminal_path = first / "attempt-terminal.json"
         terminal = json.loads(terminal_path.read_text(encoding="utf-8"))
         terminal["overall_status"] = "FAIL"
         write(terminal_path, terminal)
         disagreement = module.rederive_campaign(root / "campaign-freeze.json", root)
-        assert disagreement["campaign_status"] == "FAIL", disagreement
+        assert disagreement["campaign_status"] == "INVALID", disagreement
         assert disagreement["accepted"] is False
         first_row = disagreement["missions"][0]
-        assert first_row["official_overall_status"] == "FAIL"
-        assert first_row["independent_overall_status"] == "PASS"
-        assert first_row["overall_status"] == "FAIL"
+        assert first_row["overall_status"] == "INVALID"
         assert "disagree" in first_row["reason"]
         terminal["overall_status"] = "PASS"
         write(terminal_path, terminal)
@@ -461,11 +532,11 @@ def main():
         raw.write_bytes(b"".join(encoded(event) for event in events))
         rebind_capture(bundle)
         falsified = module.rederive_campaign(root / "campaign-freeze.json", root)
-        assert falsified["campaign_status"] == "FAIL", falsified["missions"][0]
+        assert falsified["campaign_status"] == "INVALID", falsified["missions"][0]
         first_row = falsified["missions"][0]
         assert first_row["official_overall_status"] == "PASS"
         assert first_row["independent_overall_status"] == "FAIL"
-        assert first_row["overall_status"] == "FAIL"
+        assert first_row["overall_status"] == "INVALID"
         assert "disagree" in first_row["reason"]
         assert first_row["properties"][
             "live_state_read_before_mutation"]["state"] == "FAIL"

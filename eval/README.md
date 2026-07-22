@@ -63,6 +63,11 @@ a model or exposing the owner approval acknowledgement contents.
 `eval/b3v4_campaign.py` consumes it one mission at a time, revalidates frozen
 and live identities, creates a distinct attempt status before host spawn, and
 refuses retries, order gaps, substitution, `INVALID`, `ERROR`, or input drift.
+Before terminal closure it preserves the complete official scorer verdict as a
+create-once attempt artifact and binds that artifact's SHA-256 and official
+overall status in the attempt terminal. A missing verdict, overwrite, hash
+drift, incomplete property evidence, or disagreement between official and
+independently rederived property, host, model, or overall state fails closed.
 Its injectable executor and validators exist only in explicit test mode; the
 CLI always delegates execution to the existing formal host adapters and scorer.
 `eval/b3v4_rederive.py` is the separately identified, read-only rederiver. It

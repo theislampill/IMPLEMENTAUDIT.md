@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib.util
+import hashlib
 import json
 import pathlib
 import tempfile
@@ -53,8 +54,61 @@ def expect_error(fragment, fn):
         raise AssertionError(f"expected ValueError containing {fragment!r}")
 
 
+def official_verdict(context, status="PASS", *, product="PASS", host="PASS",
+                     resolved_model=None, substituted=False):
+    properties = {
+        f"property-{index}": {"state": "PASS", "pass": True,
+                               "evidence": "synthetic retained evidence"}
+        for index in range(6)
+    }
+    return {
+        "schema": "implementaudit-eval-verdict-v3", "status": status,
+        "model_resolved": resolved_model or context.expected_model,
+        "model_substitution": substituted,
+        "properties": properties,
+        "host_safety": {"schema": "implementaudit-host-safety-v1",
+                        "status": host, "findings": []},
+        "adjudication": {
+            "schema": "implementaudit-eval-adjudication-v1",
+            "product_status": product, "host_status": host,
+            "overall_status": status, "property_evidence_complete": True,
+            "all_required_properties_true": product == "PASS",
+        },
+    }
+
+
+def scored_outcome(context, status="PASS", *, resolved_model=None,
+                   product="PASS", host="PASS", substituted=False):
+    resolved = resolved_model or context.expected_model
+    return {"overall_status": status, "resolved_model": resolved,
+            "host_run_root": "mock-host-run",
+            "official_verdict": official_verdict(
+                context, status, product=product, host=host,
+                resolved_model=resolved, substituted=substituted)}
+
+
 def main():
     module = load_driver()
+
+    with tempfile.TemporaryDirectory(prefix="b3v4-campaign-custody-") as tmp:
+        def contradictory_executor(context):
+            verdict = official_verdict(
+                context, "INVALID", product="INCOMPLETE", host="INVALID")
+            return {"overall_status": "PASS",
+                    "resolved_model": context.expected_model,
+                    "host_run_root": "mock-host-run",
+                    "official_verdict": verdict}
+
+        driver = make_driver(module, tmp, contradictory_executor)
+        result = driver.run_next()
+        attempt = pathlib.Path(tmp) / "campaign" / \
+            "attempt-000-L-candidate-r1"
+        verdict_path = attempt / "official-verdict.json"
+        assert result["official_overall_status"] == "INVALID", result
+        assert result["overall_status"] == "INVALID", result
+        assert verdict_path.is_file(), "official verdict custody missing"
+        assert result["official_verdict_sha256"] == hashlib.sha256(
+            verdict_path.read_bytes()).hexdigest()
 
     with tempfile.TemporaryDirectory(prefix="b3v4-campaign-") as tmp:
         expect_error("cannot replace", lambda: module.CampaignDriver(
@@ -73,9 +127,7 @@ def main():
             assert status.is_file(), "pre-spawn attempt status missing"
             observed.append((context.mission["index"], context.mission["config"],
                              context.mission["arm"], context.mission["rep"]))
-            return {"overall_status": "PASS",
-                    "resolved_model": context.expected_model,
-                    "host_run_root": "mock-host-run"}
+            return scored_outcome(context)
 
         driver = make_driver(module, tmp, pass_once)
         first = driver.run_next()
@@ -105,15 +157,24 @@ def main():
         assert result["overall_status"] == "INVALID"
         expect_error("prior attempt stopped campaign", driver.run_next)
 
+    with tempfile.TemporaryDirectory(prefix="b3v4-campaign-drift-") as tmp:
+        driver = make_driver(module, tmp, scored_outcome)
+        driver.run_next()
+        first = pathlib.Path(tmp) / "campaign" / \
+            "attempt-000-L-candidate-r1"
+        verdict_path = first / "official-verdict.json"
+        verdict = json.loads(verdict_path.read_text(encoding="utf-8"))
+        verdict["reason"] = "post-terminal drift"
+        verdict_path.write_text(json.dumps(verdict), encoding="utf-8")
+        expect_error("official verdict custody drift", driver.run_next)
+
     with tempfile.TemporaryDirectory(prefix="b3v4-campaign-") as tmp:
         order = []
 
         def collect_order(context):
             order.append((context.mission["config"], context.mission["arm"],
                           context.mission["rep"]))
-            return {"overall_status": "PASS",
-                    "resolved_model": context.expected_model,
-                    "host_run_root": "mock-host-run"}
+            return scored_outcome(context)
 
         driver = make_driver(module, tmp, collect_order)
         for _ in range(12):
@@ -123,9 +184,9 @@ def main():
 
     with tempfile.TemporaryDirectory(prefix="b3v4-campaign-") as tmp:
         def substitute(context):
-            return {"overall_status": "PASS",
-                    "resolved_model": "substituted-model",
-                    "host_run_root": "mock-host-run"}
+            return scored_outcome(
+                context, "INVALID", resolved_model="substituted-model",
+                product="PASS", host="INVALID", substituted=True)
 
         driver = make_driver(module, tmp, substitute)
         result = driver.run_next()
@@ -142,10 +203,7 @@ def main():
 
     with tempfile.TemporaryDirectory(prefix="b3v4-campaign-") as tmp:
         driver = make_driver(
-            module, tmp, lambda context: {
-                "overall_status": "PASS",
-                "resolved_model": context.expected_model,
-                "host_run_root": "mock-host-run"})
+            module, tmp, scored_outcome)
         driver.run_next()
         packet = pathlib.Path(tmp) / "intent.json"
         changed = json.loads(packet.read_text(encoding="utf-8"))
