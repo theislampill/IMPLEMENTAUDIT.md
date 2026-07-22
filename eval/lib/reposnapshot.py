@@ -250,7 +250,7 @@ def _validate_worktree_file_identity(rel, entry):
     if (rel.startswith("/") or any(part in ("", ".", "..")
                                    for part in parts) or
             (len(rel) >= 2 and rel[0].isalpha() and rel[1] == ":") or
-            parts[0] == ".git"):
+            parts[0].lower() == ".git"):
         raise SnapshotInvalid(
             f"snapshot worktree file identity invalid: {rel!r}")
     if not isinstance(entry, dict):

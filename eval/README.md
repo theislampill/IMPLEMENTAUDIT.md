@@ -179,7 +179,8 @@ bytes to the complete after-snapshot worktree file map, and are recomputed from
 the canonical fixture before the adapter Boolean is accepted. The worktree map
 excludes Git administrative state for both normal and linked checkouts, and the
 replay validator admits only canonical relative POSIX identities with exact
-digest-only entry schemas. The reserved `host-check-inputs/` namespace rejects
+digest-only entry schemas while rejecting root Git administrative identities
+case-insensitively. The reserved `host-check-inputs/` namespace rejects
 undeclared evidence. A
 replay-valid capture may therefore retain complete product-property results
 while reporting host `INVALID`. Missing, malformed, replay-invalid, or

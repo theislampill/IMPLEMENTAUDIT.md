@@ -473,6 +473,34 @@ def run_bundle_cases():
             % ("OK" if ok12b else "XX", len(malformed_results12b)))
         if not ok12b:
             failures.append("H47ay malformed-worktree-map-fails-closed")
+        # H47az (bundle-case B12c): Windows capture excludes root Git
+        # administration case-insensitively, so replay must reject the same
+        # administrative aliases before official scoring.
+        malformed_results12c = []
+        for rel12c in (".GIT/config", ".Git/config"):
+            snap12c = json.loads(json.dumps(after))
+            snap12c["worktree_files"] = {
+                rel12c: {"type": "file", "sha256": digest12b}}
+            snap12c["snapshot_sha256"] = reposnapshot._canonical_hash(
+                snap12c)
+            bundle12c = build(
+                root(), [ev(1, "assistant", E5_MARKERS)],
+                artifacts=good_art, repo_before=snap12c,
+                repo_after=snap12c)
+            status12c, verdict12c = runner.score_bundle(bundle12c)
+            adjudication12c = verdict12c.get("adjudication", {})
+            malformed_results12c.append(
+                status12c == "INVALID"
+                and adjudication12c.get("product_status") != "PASS"
+                and adjudication12c.get("host_status") != "PASS"
+                and adjudication12c.get(
+                    "all_required_properties_true") is not True)
+        ok12c = all(malformed_results12c)
+        sys.stdout.write(
+            "  [%s] H47az git-admin-case-aliases-fail-closed (%d cases)\n"
+            % ("OK" if ok12c else "XX", len(malformed_results12c)))
+        if not ok12c:
+            failures.append("H47az git-admin-case-aliases-fail-closed")
         # B13: custody escape rejected (check-only and create paths)
         approved = os.path.join(tmp, "approved")
         os.makedirs(approved)
