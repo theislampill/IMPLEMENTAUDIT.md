@@ -9,12 +9,21 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import os
 import pathlib
 import stat
 
 
 STAGE_TERMINAL_SCHEMA = "implementaudit-staged-campaign-terminal-v1"
+
+
+class TerminalPrefix(list):
+    """Validated attempt rows plus the exact root bytes read in the same pass."""
+
+    def __init__(self, rows, root_artifacts):
+        super().__init__(rows)
+        self.root_artifacts = root_artifacts
 
 
 def _unique(pairs):
@@ -45,7 +54,32 @@ def decode_strict_json_bytes(data, owner, *, require_object=False):
     return value
 
 
+def _validate_strict_json_model(value, owner="JSON value"):
+    if type(value) is dict:
+        for key, child in value.items():
+            if type(key) is not str:
+                raise ValueError(f"{owner} object key must be an exact string")
+            _validate_strict_json_model(child, f"{owner}.{key}")
+        return
+    if isinstance(value, dict):
+        raise ValueError(f"{owner} object type must be exact dict")
+    if type(value) is list:
+        for index, child in enumerate(value):
+            _validate_strict_json_model(child, f"{owner}[{index}]")
+        return
+    if isinstance(value, (list, tuple)):
+        raise ValueError(f"{owner} array type must be exact list")
+    if value is None or type(value) in (str, bool, int):
+        return
+    if type(value) is float:
+        if not math.isfinite(value):
+            raise ValueError(f"{owner} contains a non-finite number")
+        return
+    raise ValueError(f"{owner} scalar type is not strict JSON")
+
+
 def canonical_json_bytes(value):
+    _validate_strict_json_model(value)
     return (json.dumps(value, indent=1, sort_keys=True, allow_nan=False) +
             "\n").encode("utf-8")
 
@@ -283,12 +317,16 @@ def validate_terminal_prefix(root, missions, *, stop_states, allowed_root):
     if unexpected:
         raise ValueError("unexpected campaign custody entry: " +
                          ", ".join(sorted(unexpected)))
-    for name, policy in root_policies.items():
+    root_artifacts = {}
+    for name in sorted(root_policies):
+        policy = root_policies[name]
         if name not in entry_names:
             raise ValueError(f"required campaign root artifact missing: {name}")
         owner = f"campaign root artifact {name}"
         if policy["kind"] == "json_identity":
-            value = read_strict_json_bytes(root / name, owner, root=root)
+            raw = read_custodied_bytes(root / name, owner, root=root)
+            value = decode_strict_json_bytes(
+                raw, owner, require_object=True)
             _identity(value, policy["identity"], owner)
         else:
             raw = read_custodied_bytes(root / name, owner, root=root)
@@ -296,6 +334,7 @@ def validate_terminal_prefix(root, missions, *, stop_states, allowed_root):
                     len(raw) != policy["byte_length"] or
                     hashlib.sha256(raw).hexdigest() != policy["sha256"]):
                 raise ValueError(f"{owner} exact bytes or hash drift")
+        root_artifacts[name] = raw
     present_claims = set(entry_names) & claiming
     if present_claims:
         raise ValueError("campaign contains a nonterminal claiming directory")
@@ -357,7 +396,7 @@ def validate_terminal_prefix(root, missions, *, stop_states, allowed_root):
                      "terminal": terminal,
                      "status_bytes": retained_bytes["attempt-status.json"],
                      "terminal_bytes": retained_bytes["attempt-terminal.json"]})
-    return rows
+    return TerminalPrefix(rows, root_artifacts)
 
 
 def _stage_descriptor(value):
@@ -371,6 +410,17 @@ def _stage_descriptor(value):
         if type(value[key]) is not str or not value[key]:
             raise ValueError(f"stage descriptor {key} invalid")
     _direct_name(value["terminal_name"], "stage terminal")
+    if type(value["missions"]) not in (list, tuple):
+        raise ValueError("stage descriptor missions must be ordered")
+    for index, mission in enumerate(value["missions"]):
+        if type(mission) is not dict:
+            raise ValueError(f"stage mission {index} must be an object")
+        for identity_name in ("status_identity", "terminal_identity"):
+            identity = mission.get(identity_name)
+            if (type(identity) is not dict or
+                    identity.get("campaign") != value["campaign"]):
+                raise ValueError(
+                    f"stage mission campaign identity mismatch at {index}")
     return value
 
 
@@ -391,7 +441,15 @@ def _validate_stage_binding(stage, binding):
         raise ValueError("stage binding prefix length mismatch")
 
 
-def _prefix_sha256(stage, rows):
+def _stage_snapshot_sha256(stage, rows):
+    root_artifacts = []
+    for name in sorted(stage["allowed_root"]):
+        raw = rows.root_artifacts[name]
+        root_artifacts.append({
+            "name": name,
+            "byte_length": len(raw),
+            "sha256": hashlib.sha256(raw).hexdigest(),
+        })
     entries = []
     for descriptor, row in zip(stage["missions"], rows):
         status_bytes = row["status_bytes"]
@@ -405,19 +463,22 @@ def _prefix_sha256(stage, rows):
             "terminal_sha256": hashlib.sha256(terminal_bytes).hexdigest(),
         })
     snapshot = {
-        "schema": "implementaudit-staged-prefix-snapshot-v1",
-        "entries": entries,
+        "schema": "implementaudit-closed-stage-snapshot-v1",
+        "stage_descriptor": stage,
+        "root_artifacts": root_artifacts,
+        "attempts": entries,
     }
     return hashlib.sha256(canonical_json_bytes(snapshot)).hexdigest()
 
 
-def _validate_caller_prefix(binding, prefix_sha256):
-    if ("prefix_sha256" in binding and
-            binding["prefix_sha256"] != prefix_sha256):
-        raise ValueError("caller prefix hash disagrees with internal derivation")
+def _validate_caller_snapshot(binding, stage_snapshot_sha256):
+    for key in ("prefix_sha256", "stage_snapshot_sha256"):
+        if key in binding and binding[key] != stage_snapshot_sha256:
+            raise ValueError(
+                "caller stage snapshot hash disagrees with internal derivation")
 
 
-def _stage_terminal_value(stage, binding, prefix_sha256):
+def _stage_terminal_value(stage, binding, stage_snapshot_sha256):
     return {
         "schema": STAGE_TERMINAL_SCHEMA,
         "campaign": stage["campaign"],
@@ -426,7 +487,7 @@ def _stage_terminal_value(stage, binding, prefix_sha256):
         "mission_count": len(stage["missions"]),
         "binding_sha256": hashlib.sha256(
             canonical_json_bytes(binding)).hexdigest(),
-        "prefix_sha256": prefix_sha256,
+        "stage_snapshot_sha256": stage_snapshot_sha256,
     }
 
 
@@ -459,9 +520,9 @@ def write_stage_terminal(root, stage, binding):
         raise ValueError(
             f"create-once artifact already exists: {stage['terminal_name']}")
     rows = _stage_prefix(root, stage)
-    prefix_sha256 = _prefix_sha256(stage, rows)
-    _validate_caller_prefix(binding, prefix_sha256)
-    terminal = _stage_terminal_value(stage, binding, prefix_sha256)
+    stage_snapshot_sha256 = _stage_snapshot_sha256(stage, rows)
+    _validate_caller_snapshot(binding, stage_snapshot_sha256)
+    terminal = _stage_terminal_value(stage, binding, stage_snapshot_sha256)
     return write_new_json(terminal_path, terminal)
 
 
@@ -477,9 +538,9 @@ def validate_stage_resume(root, stage, binding):
         terminal_bytes, "stage terminal", require_object=True)
     rows = _stage_prefix(
         root, stage, stage_terminal_bytes=terminal_bytes)
-    prefix_sha256 = _prefix_sha256(stage, rows)
-    _validate_caller_prefix(binding, prefix_sha256)
-    expected = _stage_terminal_value(stage, binding, prefix_sha256)
+    stage_snapshot_sha256 = _stage_snapshot_sha256(stage, rows)
+    _validate_caller_snapshot(binding, stage_snapshot_sha256)
+    expected = _stage_terminal_value(stage, binding, stage_snapshot_sha256)
     if terminal.get("campaign") != expected["campaign"]:
         raise ValueError("stage terminal campaign mismatch")
     identity_fields = {
@@ -489,8 +550,9 @@ def validate_stage_resume(root, stage, binding):
         raise ValueError("stage terminal identity mismatch")
     if terminal.get("binding_sha256") != expected["binding_sha256"]:
         raise ValueError("stage terminal binding hash mismatch")
-    if terminal.get("prefix_sha256") != expected["prefix_sha256"]:
-        raise ValueError("stage terminal prefix hash mismatch")
+    if (terminal.get("stage_snapshot_sha256") !=
+            expected["stage_snapshot_sha256"]):
+        raise ValueError("stage snapshot hash mismatch")
     if terminal != expected:
         raise ValueError("stage terminal key set invalid")
     return terminal

@@ -21,6 +21,17 @@ def rejected(fragment, fn):
         raise AssertionError(f"unexpectedly accepted; wanted {fragment!r}")
 
 
+def collect_rejection(label, fragment, fn, accepted):
+    try:
+        fn()
+    except (OSError, TypeError, ValueError) as exc:
+        if fragment.lower() not in str(exc).lower():
+            raise AssertionError(
+                f"{label} rejected for wrong reason: {exc}") from exc
+    else:
+        accepted.append(label)
+
+
 def mission(index, campaign="campaign-a"):
     status_identity = {
         "schema": f"{campaign}-attempt-status-v1",
@@ -106,6 +117,44 @@ def main():
                  lifecycle.decode_strict_json_bytes(value, "nonfinite row"))
     rejected("utf-8", lambda: lifecycle.decode_strict_json_bytes(
         b"\xff", "invalid row"))
+
+    class IntSubclass(int):
+        pass
+
+    class StringSubclass(str):
+        pass
+
+    class ListSubclass(list):
+        pass
+
+    class DictSubclass(dict):
+        pass
+
+    strict_model_failures = []
+    strict_cases = [
+        ("nested non-string object key", "object key",
+         {"binding": {1: "x"}}),
+        ("string-key coercion collision", "object key",
+         {StringSubclass("1"): "x"}),
+        ("tuple array coercion", "array type", ("x",)),
+        ("list subclass coercion", "array type", ListSubclass(["x"])),
+        ("dict subclass coercion", "object type", DictSubclass({"x": 1})),
+        ("integer subclass coercion", "scalar type", IntSubclass(1)),
+        ("string subclass coercion", "scalar type", StringSubclass("x")),
+    ]
+    for label, fragment, value in strict_cases:
+        collect_rejection(
+            label, fragment,
+            lambda candidate=value: lifecycle.canonical_json_bytes(candidate),
+            strict_model_failures)
+    assert not strict_model_failures, (
+        "non-strict JSON values unexpectedly accepted: " +
+        ", ".join(strict_model_failures))
+    rejected("non-finite", lambda: lifecycle.canonical_json_bytes(
+        {"nested": [float("nan")]}))
+    lifecycle.canonical_json_bytes({
+        "array": [None, True, False, 0, -1, 1.5, "x", {}],
+    })
 
     # RED 1: an identity-bearing root artifact may not be admitted through a
     # name-only policy that leaves its campaign and schema unchecked.
@@ -245,6 +294,21 @@ def main():
                              caller_root, stage(caller_missions),
                              caller_binding))
 
+        with tempfile.TemporaryDirectory(
+                prefix="campaign-binding-json-model-") as binding_tmp:
+            binding_root = pathlib.Path(binding_tmp).resolve()
+            lifecycle.write_new_json(
+                binding_root / "campaign-manifest.json", {
+                    "schema": "campaign-a-manifest-v1",
+                    "campaign": "campaign-a",
+                })
+            binding_missions = [mission(0)]
+            write_attempt(binding_root, binding_missions[0])
+            non_string_binding = binding(1)
+            non_string_binding["nested"] = {1: "x"}
+            rejected("object key", lambda: lifecycle.write_stage_terminal(
+                binding_root, stage(binding_missions), non_string_binding))
+
         terminal_path = lifecycle.write_stage_terminal(
             root, stage(missions), binding(2))
         terminal_bytes = terminal_path.read_bytes()
@@ -252,11 +316,46 @@ def main():
             root, stage(missions), binding(2))
         assert resumed["binding_sha256"] == hashlib.sha256(
             lifecycle.canonical_json_bytes(binding(2))).hexdigest()
-        assert (len(resumed["prefix_sha256"]) == 64 and
-                resumed["prefix_sha256"] != "0" * 64)
+        assert (len(resumed["stage_snapshot_sha256"]) == 64 and
+                resumed["stage_snapshot_sha256"] != "0" * 64)
         rejected("exists", lambda: lifecycle.write_stage_terminal(
             root, stage(missions), binding(2)))
         assert terminal_path.read_bytes() == terminal_bytes
+
+        stage_contract_failures = []
+        changed_root_policy_stage = stage(missions)
+        changed_root_policy_stage["allowed_root"][
+            "campaign-manifest.json"]["identity"] = {
+                "campaign": "campaign-a"}
+        collect_rejection(
+            "changed allowed_root policy", "stage snapshot",
+            lambda: lifecycle.validate_stage_resume(
+                root, changed_root_policy_stage, binding(2)),
+            stage_contract_failures)
+
+        changed_stop_stage = stage(missions)
+        changed_stop_stage["stop_states"] = ["INVALID", "ERROR", "FAIL"]
+        collect_rejection(
+            "changed stop_states", "stage snapshot",
+            lambda: lifecycle.validate_stage_resume(
+                root, changed_stop_stage, binding(2)),
+            stage_contract_failures)
+
+        manifest_path = root / "campaign-manifest.json"
+        manifest_bytes = manifest_path.read_bytes()
+        changed_manifest = lifecycle.decode_strict_json_bytes(
+            manifest_bytes, "changed manifest", require_object=True)
+        changed_manifest["non_identity_note"] = "changed after pause"
+        manifest_path.write_bytes(lifecycle.canonical_json_bytes(changed_manifest))
+        collect_rejection(
+            "changed root artifact bytes", "stage snapshot",
+            lambda: lifecycle.validate_stage_resume(
+                root, stage(missions), binding(2)),
+            stage_contract_failures)
+        manifest_path.write_bytes(manifest_bytes)
+        assert not stage_contract_failures, (
+            "stage contract drift unexpectedly accepted: " +
+            ", ".join(stage_contract_failures))
 
         drift_failures = []
         second_terminal_path = (
@@ -267,25 +366,21 @@ def main():
         drifted_terminal["post_pause_note"] = "changed bytes, same identity"
         second_terminal_path.write_bytes(
             lifecycle.canonical_json_bytes(drifted_terminal))
-        try:
-            lifecycle.validate_stage_resume(
-                root, stage(missions), binding(2))
-        except (OSError, TypeError, ValueError):
-            pass
-        else:
-            drift_failures.append("post-pause terminal-byte drift")
+        collect_rejection(
+            "post-pause terminal-byte drift", "stage snapshot",
+            lambda: lifecycle.validate_stage_resume(
+                root, stage(missions), binding(2)),
+            drift_failures)
         second_terminal_path.write_bytes(second_terminal_bytes)
 
         changed_missions = copy.deepcopy(missions)
         changed_missions[0]["allowed_attempt"]["optional-evidence.bin"] = {
             "kind": "custodied_file"}
-        try:
-            lifecycle.validate_stage_resume(
-                root, stage(changed_missions), binding(2))
-        except (OSError, TypeError, ValueError):
-            pass
-        else:
-            drift_failures.append("changed descriptor at same mission count")
+        collect_rejection(
+            "changed descriptor at same mission count", "stage snapshot",
+            lambda: lifecycle.validate_stage_resume(
+                root, stage(changed_missions), binding(2)),
+            drift_failures)
         assert not drift_failures, (
             "stage prefix drift unexpectedly accepted: " +
             ", ".join(drift_failures))
@@ -434,6 +529,17 @@ def main():
         write_attempt(root, missions[0])
         rejected("missing", lambda: lifecycle.validate_stage_resume(
             root, stage(missions), binding(1)))
+
+    with tempfile.TemporaryDirectory(prefix="campaign-stage-identity-") as tmp:
+        root = pathlib.Path(tmp).resolve()
+        lifecycle.write_new_json(root / "campaign-manifest.json", {
+            "schema": "campaign-a-manifest-v1", "campaign": "campaign-a"})
+        foreign_missions = [mission(0, "campaign-b")]
+        write_attempt(root, foreign_missions[0])
+        rejected("mission campaign identity", lambda:
+                 lifecycle.write_stage_terminal(
+                     root, stage(foreign_missions, campaign="campaign-a"),
+                     binding(1, campaign="campaign-a")))
 
     print("test_campaign_lifecycle: ok")
 
