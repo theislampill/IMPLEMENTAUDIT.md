@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import copy
 import hashlib
+import math
 import os
 import pathlib
 import subprocess
@@ -109,6 +110,15 @@ def root_policy(campaign="campaign-a", *, stage_terminal=None):
     return policy
 
 
+def raw_number_json(value, token):
+    placeholder = "__RAW_JSON_NUMBER__"
+    prepared = dict(value)
+    prepared["probe"] = placeholder
+    encoded = lifecycle.canonical_json_bytes(prepared)
+    return encoded.replace(
+        lifecycle.canonical_json_bytes(placeholder).strip(), token)
+
+
 def main():
     rejected("duplicate", lambda: lifecycle.decode_strict_json_bytes(
         b'{"outer":{"x":1,"x":2}}', "duplicate row"))
@@ -128,6 +138,83 @@ def main():
     assert not overflow_failures, (
         "decoded exponent overflow unexpectedly accepted: " +
         ", ".join(overflow_failures))
+
+    lossy_number_cases = [
+        ("underflow", b"1e-400", 0.0),
+        ("precision collapse", b"9007199254740993.0", 9007199254740992.0),
+    ]
+    lossy_number_failures = []
+    for label, token, _ in lossy_number_cases:
+        collect_rejection(
+            f"direct {label}", "lossy JSON number",
+            lambda raw=token: lifecycle.decode_strict_json_bytes(
+                raw, "lossy number"),
+            lossy_number_failures)
+
+    for target in ("root", "status", "terminal"):
+        for label, token, expected_probe in lossy_number_cases:
+            with tempfile.TemporaryDirectory(
+                    prefix=f"campaign-lossy-{target}-") as tmp:
+                root = pathlib.Path(tmp).resolve()
+                expected_root = {
+                    "schema": "campaign-a-manifest-v1",
+                    "campaign": "campaign-a",
+                }
+                descriptor = mission(0)
+                if target == "root":
+                    expected_root["probe"] = expected_probe
+                    (root / "campaign-manifest.json").write_bytes(
+                        raw_number_json(expected_root, token))
+                else:
+                    lifecycle.write_new_json(
+                        root / "campaign-manifest.json", expected_root)
+                if target == "status":
+                    descriptor["status_identity"]["probe"] = expected_probe
+                elif target == "terminal":
+                    descriptor["terminal_identity"]["probe"] = expected_probe
+                write_attempt(root, descriptor)
+                attempt = root / descriptor["attempt"]
+                if target == "status":
+                    (attempt / "attempt-status.json").write_bytes(
+                        raw_number_json(descriptor["status_identity"], token))
+                elif target == "terminal":
+                    retained = dict(descriptor["terminal_identity"])
+                    retained.update({
+                        "overall_status": "PASS", "stop_reason": None})
+                    (attempt / "attempt-terminal.json").write_bytes(
+                        raw_number_json(retained, token))
+                expected_root_policy = {
+                    "campaign-manifest.json": {
+                        "kind": "json_identity", "identity": expected_root,
+                    },
+                }
+                collect_rejection(
+                    f"{target} {label}", "lossy JSON number",
+                    lambda path=root, item=descriptor,
+                           policy=expected_root_policy:
+                        lifecycle.validate_terminal_prefix(
+                            path, [item], stop_states={"INVALID", "ERROR"},
+                            allowed_root=policy),
+                    lossy_number_failures)
+    assert not lossy_number_failures, (
+        "lossy JSON numbers unexpectedly accepted: " +
+        ", ".join(lossy_number_failures))
+
+    representative_floats = [0.0, -0.0, 1.5, 1e-7, 1e20]
+    for expected_float in representative_floats:
+        decoded = lifecycle.decode_strict_json_bytes(
+            lifecycle.canonical_json_bytes({"value": expected_float}),
+            "canonical finite float", require_object=True)
+        assert type(decoded["value"]) is float
+        assert decoded["value"] == expected_float
+        if expected_float == 0.0:
+            assert math.copysign(1.0, decoded["value"]) == math.copysign(
+                1.0, expected_float)
+    exact_integer = 9007199254740993
+    decoded_integer = lifecycle.decode_strict_json_bytes(
+        lifecycle.canonical_json_bytes({"value": exact_integer}),
+        "exact integer", require_object=True)["value"]
+    assert type(decoded_integer) is int and decoded_integer == exact_integer
 
     class IntSubclass(int):
         pass

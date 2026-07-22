@@ -7,6 +7,7 @@ states; the helpers enforce only retained-evidence mechanics.
 """
 from __future__ import annotations
 
+import decimal
 import hashlib
 import json
 import math
@@ -39,6 +40,19 @@ def _nonfinite(value):
     raise ValueError(f"non-finite JSON number: {value}")
 
 
+def _lossless_float(token):
+    source = decimal.Decimal(token)
+    value = float(source)
+    if not math.isfinite(value):
+        raise ValueError(f"non-finite JSON number: {token}")
+    round_trip = decimal.Decimal(repr(value))
+    sign_changed = (source.is_zero() and
+                    source.is_signed() != (math.copysign(1.0, value) < 0.0))
+    if round_trip != source or sign_changed:
+        raise ValueError(f"lossy JSON number: {token}")
+    return value
+
+
 def decode_strict_json_bytes(data, owner, *, require_object=False):
     try:
         text = bytes(data).decode("utf-8")
@@ -46,7 +60,8 @@ def decode_strict_json_bytes(data, owner, *, require_object=False):
         raise ValueError(f"{owner} must be UTF-8") from exc
     try:
         value = json.loads(
-            text, object_pairs_hook=_unique, parse_constant=_nonfinite)
+            text, object_pairs_hook=_unique, parse_constant=_nonfinite,
+            parse_float=_lossless_float)
     except json.JSONDecodeError as exc:
         raise ValueError(f"{owner} is malformed JSON") from exc
     _validate_strict_json_model(value, owner)
