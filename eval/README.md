@@ -94,6 +94,13 @@ its exact `INVALID` or `ERROR` classification; a normal exact prefix is
 unaccepted `INCOMPLETE`; a Luna-stage prefix is never campaign completion; and
 an attempt after a terminal stop invalidates the campaign. Only all 12 ordered
 L/O missions can produce an accepted campaign result.
+Every independently consumed retained JSON object and JSONL/nested row is
+decoded against an explicit closed key set and exact scalar/container types;
+fully rehashed unknown or missing metadata is still `INVALID`. The sole open
+content object is the model-authored continuity capsule because the frozen
+`B3-v3` mission expressly allows extra fields; all preregistered capsule fields
+remain required, typed by their frozen values, snapshot-bound, and independently
+compared.
 
 `A1`–`A5` form the SUPPLEMENTARY **ordinary-invocation behavioral
 campaign** (A-series, per issue #52): A1 factor-derived action selection,

@@ -44,7 +44,7 @@ def snapshot(files):
         "schema": "implementaudit-repo-snapshot-v2",
         "head_commit": "d" * 40, "head_tree": "e" * 40,
         "index_tree": "e" * 40, "staged": [], "unstaged": [],
-        "renames": [], "untracked": {}, "worktree_files": files,
+        "renames": {}, "untracked": {}, "worktree_files": files,
         "tracked_diff_sha256": sha(b""),
     }
     body = json.dumps(value, sort_keys=True).encode()
@@ -120,10 +120,12 @@ def synthetic_official_pass(fixture, model, manifest, bundle_sha256):
     }
 
 
-def build_campaign(root):
+def build_campaign(root, fixture_override=None):
     root = pathlib.Path(root)
-    fixture = make_fixture()
-    fixture_bytes = (HERE / "fixtures" / "B3-v3" / "fixture.json").read_bytes()
+    fixture = copy.deepcopy(fixture_override) if fixture_override is not None \
+        else make_fixture()
+    fixture_bytes = (encoded(fixture) if fixture_override is not None else
+                     (HERE / "fixtures" / "B3-v3" / "fixture.json").read_bytes())
     packet = valid_packet()
     packet["independent_rederiver"]["implementation_identity"]["sha256"] = \
         sha(REDERIVER.read_bytes())
@@ -192,14 +194,17 @@ def build_campaign(root):
         }
         if host == "codex":
             probe = {
-                "environment": {"PATH": "/usr/bin"},
+                "environment": {"PATH": "/usr/bin", "LANG": "C.UTF-8",
+                                "LC_ALL": None, "BASH_ENV": None,
+                                "ENV": None, "SHELL": "/bin/bash"},
                 "shell": {"logical_path": "/bin/bash",
                           "realpath": "/bin/bash", "sha256": "7" * 64,
                           "stat": "dev=1;ino=1;mode=100755;size=1"},
-                "executables": {
-                    "cat": {"kind": "file", "path": "/usr/bin/cat",
-                            "sha256": "8" * 64,
-                            "stat": "dev=1;ino=2;mode=100755;size=1"}},
+                "executables": {name: {
+                    "kind": "file", "path": "/usr/bin/" + name,
+                    "sha256": "8" * 64,
+                    "stat": "dev=1;ino=2;mode=100755;size=1"}
+                    for name in ("cat", "grep", "head", "rg", "sed", "tail")},
             }
             profile.update(probe)
             profile["outer_wrapper"] = {
@@ -214,47 +219,85 @@ def build_campaign(root):
                 "repo": "/repo", "native_tools": native_tools},
                 sort_keys=True, separators=(",", ":")).encode())
             post = {"native_tools": copy.deepcopy(native_tools)}
-        reads = fixture["host_checks"]["specs"][1]["reads"]
+        reads = fixture["host_checks"]["specs"][1].get("reads") or \
+            make_fixture()["host_checks"]["specs"][1]["reads"]
         targets = {}
         actions = []
         ordinal = 3 if host == "codex" else 2
         for target in reads:
             content = ("STATE\n" if target.endswith("STATE.md") else "ROADMAP\n").encode()
             targets[target] = {"canonical_path": "/repo/" + target,
+                               "relative_path": target,
                                "sha256": sha(content),
-                               "content_base64": __import__("base64").b64encode(content).decode()}
+                               "content_base64": __import__("base64").b64encode(content).decode(),
+                               "size": len(content), "mode": 0o100644,
+                               "symlink_free": True}
             if host == "codex":
+                command = "/bin/bash -lc " + json.dumps("cat " + target)
                 actions.append({
                     "id": f"read-{ordinal}", "state": "COMPLETED",
                     "effect": "command", "action_type": "command_execution",
-                    "command": "cat " + target, "exit_code": 0,
+                    "classification": None, "invocation_invented": False,
+                    "payload": ["command", command],
+                    "command": command, "wrapper_layers": 1,
+                    "protocol_wrapper_valid": True, "exit_code": 0,
                     "output": content.decode(), "invocation_ordinal": ordinal,
                     "completion_ordinal": ordinal + 1})
             else:
+                inputs = {"file_path": target}
                 actions.append({
                     "id": f"read-{ordinal}", "state": "COMPLETED",
                     "effect": "read", "action_type": "Read", "path": target,
-                    "inputs": {"file_path": target}, "output": content.decode(),
+                    "classification": "fail-closed",
+                    "invocation_invented": False,
+                    "payload": ["Read", json.dumps(
+                        inputs, sort_keys=True, separators=(",", ":"))],
+                    "command": None, "inputs": inputs,
+                    "output": content.decode(), "metadata": None,
+                    "read_transport": "full-exact",
+                    "structured_content": content.decode(),
                     "invocation_ordinal": ordinal,
                     "completion_ordinal": ordinal + 1})
             ordinal += 2
         write_action = {"id": "write", "state": "COMPLETED",
                         "effect": "write", "invocation_ordinal": ordinal,
-                        "completion_ordinal": ordinal + 1}
+                        "completion_ordinal": ordinal + 1,
+                        "classification": None,
+                        "invocation_invented": False}
         if host == "codex":
             write_action.update({"action_type": "file_change",
-                                 "paths": [capsule_path]})
+                                 "paths": [capsule_path],
+                                 "payload": ["changes", [[capsule_path, "add"]]]})
         else:
+            inputs = {"file_path": capsule_path,
+                      "content": capsule_bytes.decode()}
             write_action.update({"action_type": "Write", "path": capsule_path,
-                                 "inputs": {"file_path": capsule_path,
-                                            "content": capsule_bytes.decode()},
-                                 "output": "created"})
+                                 "command": None, "inputs": inputs,
+                                 "payload": ["Write", json.dumps(
+                                     inputs, sort_keys=True,
+                                     separators=(",", ":"))],
+                                 "output": "created", "metadata": None})
         actions.append(write_action)
         preimages = {"schema": "implementaudit-host-read-preimages-v1",
                      "repo": profile["repo"], "targets": targets}
         checks = [{"key": "live_state_read_before_capsule_write",
                    "reads": reads, "write": capsule_path}]
-        intent = {"fixture_sha256": sha(fixture_bytes), "run_id": name}
+        intent = {
+            "schema": "implementaudit-run-intent-v1", "run_id": name,
+            "fixture_id": "B3-v3", "call_ordinal": mission["index"] + 1,
+            "fixture_sha256": sha(fixture_bytes),
+            "product_checkout": "/product", "adapter_name": adapter,
+            "adapter_sha256": "a" * 64,
+            "harness_commit": packet["foundation"]["commit"],
+            "model_requested": (packet["configurations"][mission["config"]][
+                "model_requested"] if mission["config"] == "L" else model),
+            "reasoning_effort_requested": packet["configurations"][
+                mission["config"]]["reasoning_effort"],
+            "policy_requested": {},
+            "required_capabilities": fixture["required_capabilities"],
+            "temp_home": "/tmp/b3v4-home",
+            "started_at": "2030-01-01T00:00:00Z",
+        }
         replay = {"schema": "implementaudit-host-read-replay-spec-v1",
                   "mode": "formal-v2", "host": profile["host"], "checks": checks,
                   "requested_tools": [] if mission["config"] == "L" else ["Read", "Write"],
@@ -312,12 +355,14 @@ def build_campaign(root):
                  "payload": {"id": name, "session_id": name, "cwd": "/repo"}},
                 {"type": "turn_context", "timestamp": "2030-01-01T00:00:00Z",
                  "payload": {"turn_id": "native-turn", "cwd": "/repo"}},
-                {"type": "response_item", "payload": {
+                {"type": "response_item", "timestamp": "2030-01-01T00:00:00Z",
+                 "payload": {
                     "action_ids": [action["id"] for action in actions]}}])
             binding = {"thread_id": name, "stdout_turn_ordinal": 1,
                        "turn_id": "stdout-turn", "native_turn_id": "native-turn"}
         else:
-            raw_session = encoded({"type": "system", "session_id": name,
+            raw_session = encoded({"type": "system", "subtype": "transcript",
+                                   "session_id": name,
                                    "action_ids": [a["id"] for a in actions]})
             binding = {"session_id": name}
         trace = {"schema": "implementaudit-host-tool-trace-v2", "actions": actions,
@@ -379,11 +424,32 @@ def build_campaign(root):
         files["host-read-manifest.json"] = encoded(capture_manifest)
         files["run-intent.json"] = encoded(intent)
         files["process-started.json"] = encoded({
-            "host_read_pre_spawn_sha256": sha(files["host-read-pre-spawn.json"]),
-            "run_id": name, "started_at": "2030-01-01T00:00:00Z"})
+            "schema": "implementaudit-process-started-v2", "run_id": name,
+            "cwd": "/repo", "started_at": "2030-01-01T00:00:00Z",
+            "argv_sha256": "b" * 64, "requested_model": model,
+            "temp_home": "/tmp/b3v4-home",
+            "lane_id": "test-lane", "host_os": (
+                "posix" if mission["config"] == "L" else "windows"),
+            "host_boot_id": "test-boot", "pid": 1234,
+            "process_creation_time": 1.0,
+            "host_read_pre_spawn_sha256": sha(
+                files["host-read-pre-spawn.json"]),
+        })
         files["host-checks.json"] = encoded({spec["key"]: True
                                               for spec in fixture["host_checks"]["specs"]})
         files["host-check-inputs/" + capsule_path] = capsule_bytes
+        files["host-stderr.raw"] = b""
+        files["raw-host-events.jsonl"] = raw_session
+        files["derived-transform.json"] = encoded({
+            "schema": "implementaudit-derived-view-v1",
+            "transform": adapter + "-host-event-extraction-v2",
+            "source": ("codex-session-jsonl" if host == "codex" else
+                       "claude-stream-json"),
+            "source_raw_sha256": sha(raw_session),
+            "rules": "one scored event per HOST-ASSIGNED assistant message; "
+                     "prompt echoes/user/system/tool events are never scored as "
+                     "assistant content; complete raw streams preserved; no deletion",
+        })
         artifact_manifest = {"files": {key: sha(value) for key, value in files.items()}}
         retained_event = encoded({
             "schema": "implementaudit-eval-event-v1", "run_id": name,
@@ -409,7 +475,41 @@ def build_campaign(root):
             "repo_before_sha256": sha(encoded(before)),
             "repo_after_sha256": sha(encoded(after)),
             "artifact_manifest_sha256": sha(encoded(artifact_manifest)),
+            "payload_source_sha256": packet[mission["arm"]]["payload_sha256"],
+            "repo_comparison_sha256": "",
+            "policy_requested": ({
+                "sandbox": "workspace-write", "approval": "never",
+                "tools": "codex-shell", "network": "restricted",
+                "writable_roots": ["<fixture-repo cwd>"]} if host == "codex" else {
+                "sandbox": "claude-headless-tool-permissions",
+                "approval": "auto-deny-outside-allowed",
+                "tools": "Read Glob Grep Write Edit Bash",
+                "network": "tool-mediated only",
+                "writable_roots": ["<fixture-repo cwd>"]}),
+            "policy_resolved": ({
+                "class": "host-owned (session turn_context)",
+                "sandbox": "workspace-write", "approval": "never",
+                "session_id": name, "cli_version": "test"} if host == "codex" else {
+                "class": "adapter-attested (NOT host-owned)",
+                "tools": "Read Glob Grep Write Edit Bash (argv-requested)",
+                "note": "test canary attestation"}),
+            "models_observed": ([{
+                "model": model, "role": "root-agent",
+                "source": "host session turn_context", "session_id": name}]
+                if host == "codex" else [{
+                "model": model, "role": "root-assistant-events",
+                "events": 1, "source": "host-assigned message.model"}]),
+            "reasoning_effort_requested": packet["configurations"][
+                mission["config"]]["reasoning_effort"],
+            "reasoning_effort_resolved": packet["configurations"][
+                mission["config"]]["reasoning_effort"],
         }
+        comparison = {
+            "schema": "implementaudit-repo-comparison-v1",
+            "changed_files": [capsule_path], "committed_change": False,
+            "committed_files_known": True, "committed_files": [],
+        }
+        manifest["repo_comparison_sha256"] = sha(encoded(comparison))
         write(host_root / "terminal.json", {
             "schema": "implementaudit-run-terminal-v1", "run_id": name,
             "spawned": True, "kind": "ok", "detail": str(bundle),
@@ -423,6 +523,7 @@ def build_campaign(root):
         write(bundle / "events.jsonl", retained_event)
         write(bundle / "repo-before.json", before)
         write(bundle / "repo-after.json", after)
+        write(bundle / "repo-comparison.json", comparison)
         write(bundle / "artifact-manifest.json", artifact_manifest)
         for rel, data in files.items():
             write(bundle / "artifacts" / rel, data)
@@ -486,6 +587,84 @@ def rebind_capture(bundle):
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     manifest["artifact_manifest_sha256"] = sha(artifact_manifest_path.read_bytes())
     write(manifest_path, manifest)
+
+
+def rebind_bundle_and_official(root, bundle, capture=False):
+    """Rebind every enclosing digest after a retained-evidence mutation."""
+    root = pathlib.Path(root)
+    bundle = pathlib.Path(bundle)
+    if capture:
+        rebind_capture(bundle)
+    manifest_path = bundle / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    for name, key in (
+            ("fixture.json", "fixture_sha256"),
+            ("prompt.txt", "prompt_sha256"),
+            ("events.jsonl", "events_sha256"),
+            ("repo-before.json", "repo_before_sha256"),
+            ("repo-after.json", "repo_after_sha256"),
+            ("artifact-manifest.json", "artifact_manifest_sha256"),
+            ("repo-comparison.json", "repo_comparison_sha256")):
+        path = bundle / name
+        if path.is_file() and key in manifest:
+            manifest[key] = sha(path.read_bytes())
+    write(manifest_path, manifest)
+    attempt = bundle.parents[2]
+    verdict_path = attempt / "official-verdict.json"
+    verdict = json.loads(verdict_path.read_text(encoding="utf-8"))
+    for key in (
+            "run_id", "fixture_id", "fixture_sha256", "prompt_sha256",
+            "events_sha256", "product_tag", "product_commit", "product_tree",
+            "installed_payload_sha256", "harness_commit", "adapter_name",
+            "adapter_version", "adapter_sha256", "model_requested",
+            "model_resolved", "host", "started_at", "ended_at"):
+        if key in manifest:
+            verdict[key] = manifest[key]
+    verdict["bundle_sha256"] = bundle_hash(bundle)
+    write(verdict_path, verdict)
+    terminal_path = attempt / "attempt-terminal.json"
+    terminal = json.loads(terminal_path.read_text(encoding="utf-8"))
+    terminal["official_verdict_sha256"] = sha(verdict_path.read_bytes())
+    write(terminal_path, terminal)
+
+
+def mutate_mapping(path, object_path, mode, key):
+    value = json.loads(pathlib.Path(path).read_text(encoding="utf-8"))
+    owner = value
+    for part in object_path:
+        owner = owner[part]
+    if mode == "extra":
+        owner["mutable_summary"] = "PASS"
+    else:
+        del owner[key]
+    write(path, value)
+
+
+def mutate_jsonl(path, row_index, object_path, mode, key):
+    rows = [json.loads(line) for line in pathlib.Path(path).read_text(
+        encoding="utf-8").splitlines() if line]
+    owner = rows[row_index]
+    for part in object_path:
+        owner = owner[part]
+    if mode == "extra":
+        owner["mutable_summary"] = "PASS"
+    else:
+        del owner[key]
+    pathlib.Path(path).write_bytes(b"".join(encoded(row) for row in rows))
+
+
+def rebase_campaign_paths(root):
+    """Make a copied synthetic campaign's absolute custody paths truthful."""
+    for attempt in pathlib.Path(root).glob("attempt-*"):
+        host_root = attempt / "host-custody" / attempt.name
+        terminal_path = attempt / "attempt-terminal.json"
+        terminal = json.loads(terminal_path.read_text(encoding="utf-8"))
+        terminal["host_run_root"] = str(host_root)
+        write(terminal_path, terminal)
+        parent_path = host_root / "terminal.json"
+        parent = json.loads(parent_path.read_text(encoding="utf-8"))
+        parent["detail"] = str(host_root / "bundle")
+        write(parent_path, parent)
 
 
 def first_bundle(root, index=0):
@@ -623,9 +802,201 @@ def expect_freeze_invalid(module, root, packet, fragment):
             f"rederiver accepted drifted freeze; wanted {fragment!r}")
 
 
+def assert_retained_schema_matrix(module):
+    """Every retained object boundary rejects rebound extra/missing fields."""
+    with tempfile.TemporaryDirectory(prefix="b3v4-schema-base-") as tmp:
+        baseline = pathlib.Path(tmp) / "baseline"
+        build_campaign(baseline)
+        cases = [
+            # label, attempt index, relative path, nested path, required key,
+            # capture-chain, snapshot-internal-hash, JSONL row
+            ("bundle-manifest", 0, "manifest.json", (), "product_tag",
+             False, False, None),
+            ("bundle-policy", 0, "manifest.json", ("policy_requested",),
+             "network", False, False, None),
+            ("bundle-model-observation", 0, "manifest.json",
+             ("models_observed", 0), "source", False, False, None),
+            ("event-row", 0, "events.jsonl", (), "recorded_at",
+             False, False, 0),
+            ("repo-before", 0, "repo-before.json", (), "renames",
+             False, True, None),
+            ("repo-after", 0, "repo-after.json", (), "renames",
+             False, True, None),
+            ("snapshot-untracked-entry", 0, "repo-after.json",
+             ("untracked", make_fixture()["allowed_paths"][0]), "sha256",
+             False, True, None),
+            ("snapshot-worktree-entry", 0, "repo-after.json",
+             ("worktree_files", make_fixture()["allowed_paths"][0]), "sha256",
+             False, True, None),
+            ("artifact-manifest", 0, "artifact-manifest.json", (), "files",
+             False, False, None),
+            ("repo-comparison", 0, "repo-comparison.json", (),
+             "committed_files", False, False, None),
+            ("host-profile", 0, "artifacts/host-read-profile.json", (),
+             "authority", True, False, None),
+            ("host-profile-repo", 0, "artifacts/host-read-profile.json",
+             ("repo",), "real_root", True, False, None),
+            ("codex-profile-shell", 0, "artifacts/host-read-profile.json",
+             ("shell",), "logical_path", True, False, None),
+            ("codex-profile-wrapper", 0, "artifacts/host-read-profile.json",
+             ("outer_wrapper",), "max_unwrap_layers", True, False, None),
+            ("codex-profile-executable", 0,
+             "artifacts/host-read-profile.json", ("executables", "cat"),
+             "kind", True, False, None),
+            ("claude-profile-native-tools", 2,
+             "artifacts/host-read-profile.json", ("native_tools",),
+             "requested", True, False, None),
+            ("host-preimages", 0, "artifacts/host-read-preimages.json", (),
+             "schema", True, False, None),
+            ("host-preimages-repo", 0,
+             "artifacts/host-read-preimages.json", ("repo",), "real_root",
+             True, False, None),
+            ("host-preimage-target", 0,
+             "artifacts/host-read-preimages.json",
+             ("targets", ".IMPLEMENTAUDIT/runs/audit-closure-a7Kx2f/STATE.md"),
+             "relative_path", True, False, None),
+            ("replay-check-row", 0,
+             "artifacts/host-read-replay-spec.json", ("checks", 0), "key",
+             True, False, None),
+            ("run-intent", 0, "artifacts/run-intent.json", (), "schema",
+             True, False, None),
+            ("process-started", 0, "artifacts/process-started.json", (),
+             "started_at", True, False, None),
+            ("trace-action", 0, "artifacts/host-tool-trace.json",
+             ("actions", 0), "action_type", True, False, None),
+            ("derived-transform", 0, "artifacts/derived-transform.json", (),
+             "rules", True, False, None),
+            ("codex-stdout-row", 0, "artifacts/host-stdout.raw", (),
+             "thread_id", True, False, 0),
+            ("codex-stdout-item", 0, "artifacts/host-stdout.raw", ("item",),
+             "command", True, False, 2),
+            ("codex-stdout-change", 0, "artifacts/host-stdout.raw",
+             ("item", "changes", 0), "kind", True, False, 6),
+            ("codex-session-row", 0, "artifacts/host-session.raw", (),
+             "timestamp", True, False, 0),
+            ("codex-session-payload", 0, "artifacts/host-session.raw",
+             ("payload",), "cwd", True, False, 0),
+            ("claude-stdout-row", 2, "artifacts/host-stdout.raw", (),
+             "session_id", True, False, 0),
+            ("claude-message", 2, "artifacts/host-stdout.raw", ("message",),
+             "content", True, False, 1),
+            ("claude-tool-use", 2, "artifacts/host-stdout.raw",
+             ("message", "content", 0), "name", True, False, 1),
+            ("claude-tool-input", 2, "artifacts/host-stdout.raw",
+             ("message", "content", 0, "input"), "file_path",
+             True, False, 1),
+            ("claude-session-row", 2, "artifacts/host-session.raw", (),
+             "action_ids", True, False, 0),
+        ]
+        accepted = []
+        for label, attempt_index, relative, object_path, required_key, \
+                capture, snapshot_hash, row in cases:
+            for mode in ("extra", "missing"):
+                root = pathlib.Path(tmp) / f"case-{label}-{mode}"
+                shutil.copytree(baseline, root)
+                rebase_campaign_paths(root)
+                attempt, bundle = first_bundle(root, attempt_index)
+                target = bundle / relative
+                if row is None:
+                    mutate_mapping(target, object_path, mode, required_key)
+                else:
+                    mutate_jsonl(target, row, object_path, mode, required_key)
+                if relative == "artifacts/host-session.raw":
+                    (bundle / "artifacts/raw-host-events.jsonl").write_bytes(
+                        target.read_bytes())
+                if snapshot_hash:
+                    snap = json.loads(target.read_text(encoding="utf-8"))
+                    body = {key: value for key, value in snap.items()
+                            if key not in ("snapshot_sha256", "changed_files",
+                                           "unauthorized")}
+                    snap["snapshot_sha256"] = sha(json.dumps(
+                        body, sort_keys=True).encode())
+                    write(target, snap)
+                rebind_bundle_and_official(root, bundle, capture=capture)
+                result = module.rederive_campaign(
+                    root / "campaign-freeze.json", root)
+                if result["campaign_status"] != "INVALID":
+                    accepted.append(
+                        f"{label}:{mode}={result['campaign_status']}")
+
+        fixture_cases = [
+            ("fixture-root", (), "title"),
+            ("fixture-authorization", ("authorization_boundary",),
+             "forbidden_actions"),
+            ("fixture-host-checks", ("host_checks",), "artifact"),
+            ("fixture-json-check", ("host_checks", "specs", 0), "equals"),
+            ("fixture-path-check", ("host_checks", "specs", 1), "reads"),
+            ("fixture-property", ("properties", 0), "describes"),
+            ("fixture-summary-rule", ("properties", 0, "rule"), "key"),
+            ("fixture-change-rule", ("properties", 3, "rule"), "required"),
+        ]
+        canonical = make_fixture()
+        for label, object_path, required_key in fixture_cases:
+            for mode in ("extra", "missing"):
+                fixture = copy.deepcopy(canonical)
+                owner = fixture
+                for part in object_path:
+                    owner = owner[part]
+                if mode == "extra":
+                    owner["mutable_summary"] = "PASS"
+                else:
+                    del owner[required_key]
+                root = pathlib.Path(tmp) / f"case-{label}-{mode}"
+                build_campaign(root, fixture_override=fixture)
+                result = module.rederive_campaign(
+                    root / "campaign-freeze.json", root)
+                if result["campaign_status"] != "INVALID":
+                    accepted.append(
+                        f"{label}:{mode}={result['campaign_status']}")
+
+        for mode in ("extra", "missing"):
+            root = pathlib.Path(tmp) / f"case-host-terminal-{mode}"
+            shutil.copytree(baseline, root)
+            rebase_campaign_paths(root)
+            attempt, bundle = first_bundle(root)
+            parent_path = bundle.parent / "terminal.json"
+            mutate_mapping(parent_path, (), mode, "policy_resolved")
+            result = module.rederive_campaign(
+                root / "campaign-freeze.json", root)
+            if result["campaign_status"] != "INVALID":
+                accepted.append(
+                    f"host-terminal:{mode}={result['campaign_status']}")
+
+        contract = json.loads((HERE / "b3v4_contract.json").read_text(
+            encoding="utf-8"))
+        contract_cases = [
+            ("contract-encoding", ("encoding",), "writes"),
+            ("contract-execution", ("execution",), "unexpected_attempt"),
+            ("contract-artifact-descriptor",
+             ("artifacts", "bundle_manifest"), "role"),
+            ("contract-lifecycle", ("lifecycle_schemas",),
+             "attempt_terminal"),
+        ]
+        for label, object_path, required_key in contract_cases:
+            for mode in ("extra", "missing"):
+                changed = copy.deepcopy(contract)
+                owner = changed
+                for part in object_path:
+                    owner = owner[part]
+                if mode == "extra":
+                    owner["mutable_summary"] = "PASS"
+                else:
+                    del owner[required_key]
+                try:
+                    module._validate_contract_declaration(changed)
+                except module.EvidenceInvalid:
+                    pass
+                else:
+                    accepted.append(f"{label}:{mode}=ACCEPTED")
+        assert not accepted, (
+            "rederiver accepted exact-schema mutations: " +
+            ", ".join(accepted))
+
+
 def main():
     assert_independent_import_boundary()
     module = load_module()
+    assert_retained_schema_matrix(module)
     with tempfile.TemporaryDirectory(prefix="b3v4-rederive-freeze-") as tmp:
         root = pathlib.Path(tmp) / "campaign"
         packet = build_campaign(root)

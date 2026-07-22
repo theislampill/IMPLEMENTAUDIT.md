@@ -137,6 +137,65 @@ ADJUDICATION_FIELDS = {
     "product_failed_invariant", "host_failed_invariant",
     "host_failed_status", "failed_domain", "failed_invariant",
 }
+BUNDLE_MANIFEST_FIELDS = {
+    "schema", "run_id", "fixture_id", "fixture_sha256", "prompt_sha256",
+    "product_tag", "product_commit", "product_tree",
+    "installed_payload_sha256", "harness_commit", "adapter_name",
+    "adapter_version", "adapter_sha256", "model_requested",
+    "model_resolved", "host", "started_at", "ended_at", "events_sha256",
+    "repo_before_sha256", "repo_after_sha256", "artifact_manifest_sha256",
+    "payload_source_sha256", "repo_comparison_sha256", "policy_requested",
+    "policy_resolved", "models_observed", "reasoning_effort_requested",
+    "reasoning_effort_resolved",
+}
+BUNDLE_MANIFEST_OPTIONAL_FIELDS = set()
+FIXTURE_FIELDS = {
+    "id", "title", "supplementary", "fixture_version",
+    "supersedes_for_new_measurement", "historical_fixtures_immutable",
+    "not_in_primary_campaign", "semantic_contract",
+    "measurement_revision_reason", "mission", "planted_defect",
+    "expected_correct_behavior", "required_capabilities",
+    "authorization_boundary", "allowed_paths", "host_checks", "properties",
+}
+SNAPSHOT_FIELDS = {
+    "schema", "head_commit", "head_tree", "index_tree", "staged",
+    "unstaged", "renames", "untracked", "worktree_files",
+    "tracked_diff_sha256", "snapshot_sha256",
+}
+HOST_TERMINAL_FIELDS = {
+    "schema", "run_id", "spawned", "kind", "detail", "resolved_model",
+    "reconciled", "started_at", "ended_at", "policy_resolved",
+}
+RUN_INTENT_FIELDS = {
+    "schema", "run_id", "fixture_id", "call_ordinal", "fixture_sha256",
+    "product_checkout", "adapter_name", "adapter_sha256", "harness_commit",
+    "model_requested", "reasoning_effort_requested", "policy_requested",
+    "required_capabilities", "temp_home", "started_at",
+}
+PROCESS_STARTED_FIELDS = {
+    "schema", "run_id", "cwd", "started_at", "argv_sha256",
+    "requested_model", "temp_home", "lane_id", "host_os", "host_boot_id",
+    "pid", "process_creation_time", "host_read_pre_spawn_sha256",
+}
+FIXTURE_AUTH_FIELDS = {"allowed_repository_writes", "forbidden_actions"}
+FIXTURE_HOST_CHECK_FIELDS = {"artifact", "specs"}
+FIXTURE_PROPERTY_FIELDS = {"name", "required", "describes", "rule"}
+REPO_IDENTITY_FIELDS = {"lexical_root", "real_root", "case_sensitive"}
+PREIMAGE_TARGET_FIELDS = {
+    "canonical_path", "relative_path", "content_base64", "sha256", "size",
+    "mode", "symlink_free",
+}
+TRACE_ACTION_ALLOWED = {
+    "id", "state", "effect", "classification", "invocation_invented",
+    "invocation_ordinal", "completion_ordinal", "payload", "action_type",
+    "command", "path", "paths", "inputs", "output", "exit_code",
+    "metadata", "read_transport", "structured_content", "wrapper_layers",
+    "protocol_wrapper_valid", "updates", "descendant_complete", "reason",
+}
+SUPPORTED_READERS = {"cat", "grep", "head", "rg", "sed", "tail"}
+AUXILIARY_BUNDLE_ARTIFACTS = {
+    "host-stderr.raw", "raw-host-events.jsonl", "derived-transform.json",
+}
 
 
 class EvidenceInvalid(ValueError):
@@ -198,6 +257,251 @@ def _exact_fields(value, fields, owner):
     return value
 
 
+def _closed_fields(value, required, optional, owner):
+    value = _mapping(value, owner)
+    keys = set(value)
+    required = set(required)
+    optional = set(optional)
+    _expect(required <= keys and keys <= required | optional,
+            f"{owner} exact key set invalid")
+    return value
+
+
+def _strings(value, owner, nonempty=True):
+    _expect(isinstance(value, list) and all(
+        type(item) is str and (bool(item) or not nonempty) for item in value),
+        f"{owner} must be a string list")
+    return value
+
+
+def _validate_contract_declaration(declaration):
+    encoding = _exact_fields(
+        declaration["encoding"],
+        {"charset", "duplicate_keys", "non_finite_numbers", "object_keys",
+         "scalar_types", "paths", "writes"}, "artifact contract encoding")
+    _expect(encoding == {
+        "charset": "UTF-8", "duplicate_keys": "REJECT_RECURSIVELY",
+        "non_finite_numbers": "REJECT", "object_keys": "EXACT",
+        "scalar_types": "EXACT_NO_COERCION",
+        "paths": "CANONICAL_ROLE_CONTAINED_NO_LINK_ALIAS",
+        "writes": "CREATE_ONCE"}, "artifact contract encoding drift")
+    execution = _exact_fields(
+        declaration["execution"],
+        {"campaign", "stage_order", "completion_requires", "silent_retry",
+         "unexpected_attempt"}, "artifact contract execution")
+    _expect(execution == {
+        "campaign": "b3v4-sol-r1", "stage_order": ["LUNA", "OPUS"],
+        "completion_requires": ["LUNA", "OPUS", "INDEPENDENT_REDERIVATION"],
+        "silent_retry": "FORBIDDEN", "unexpected_attempt": "INVALID"},
+        "artifact contract execution drift")
+    for name, descriptor in declaration["artifacts"].items():
+        descriptor = _exact_fields(
+            descriptor,
+            {"producer", "readers", "role", "format", "schema",
+             "create_once"}, f"artifact contract descriptor {name}")
+        _expect(type(descriptor["producer"]) is str and descriptor["producer"] and
+                isinstance(descriptor["readers"], list) and
+                descriptor["readers"] and all(
+                    type(reader) is str and reader for reader in
+                    descriptor["readers"]) and
+                type(descriptor["role"]) is str and descriptor["role"] and
+                descriptor["format"] in ("JSON", "JSONL", "BYTES") and
+                (descriptor["schema"] is None or
+                 (type(descriptor["schema"]) is str and descriptor["schema"])) and
+                descriptor["create_once"] is True,
+                f"artifact contract descriptor {name} invalid")
+    lifecycle = _exact_fields(
+        declaration["lifecycle_schemas"],
+        {"campaign_manifest", "attempt_status", "attempt_terminal"},
+        "artifact contract lifecycle schemas")
+    _expect(set(lifecycle["campaign_manifest"]) == CAMPAIGN_MANIFEST_FIELDS and
+            set(lifecycle["attempt_status"]) == ATTEMPT_STATUS_FIELDS and
+            set(lifecycle["attempt_terminal"]) == ATTEMPT_TERMINAL_FIELDS,
+            "artifact contract lifecycle field sets drift")
+
+
+def _validate_fixture_schema(fixture):
+    fixture = _exact_fields(fixture, FIXTURE_FIELDS, "fixture")
+    _expect(fixture["id"] == "B3-v3" and
+            fixture["fixture_version"] == "B3-v3" and
+            fixture["supplementary"] is True,
+            "fixture identity schema invalid")
+    for key in FIXTURE_FIELDS - {
+            "supplementary", "required_capabilities", "authorization_boundary",
+            "allowed_paths", "host_checks", "properties"}:
+        _expect(type(fixture[key]) is str and bool(fixture[key]),
+                f"fixture.{key} invalid")
+    _strings(fixture["required_capabilities"], "fixture.required_capabilities")
+    _strings(fixture["allowed_paths"], "fixture.allowed_paths")
+    authorization = _exact_fields(
+        fixture["authorization_boundary"], FIXTURE_AUTH_FIELDS,
+        "fixture.authorization_boundary")
+    _strings(authorization["allowed_repository_writes"],
+             "fixture allowed writes")
+    _strings(authorization["forbidden_actions"], "fixture forbidden actions")
+    host_checks = _exact_fields(
+        fixture["host_checks"], FIXTURE_HOST_CHECK_FIELDS,
+        "fixture.host_checks")
+    _expect(host_checks["artifact"] == "host-checks.json" and
+            isinstance(host_checks["specs"], list) and host_checks["specs"],
+            "fixture host checks invalid")
+    check_keys = []
+    for index, spec in enumerate(host_checks["specs"]):
+        owner = f"fixture host check {index}"
+        spec = _mapping(spec, owner)
+        kind = spec.get("kind")
+        if kind == "json_fields_equal":
+            spec = _exact_fields(spec, {"key", "kind", "path", "equals"}, owner)
+            _repo_relative(spec["path"], owner + ".path")
+            _expect(isinstance(spec["equals"], dict) and spec["equals"],
+                    owner + " equals invalid")
+        elif kind == "path_access_order":
+            spec = _exact_fields(spec, {"key", "kind", "reads", "write"}, owner)
+            _strings(spec["reads"], owner + ".reads")
+            for path in spec["reads"]:
+                _repo_relative(path, owner + ".reads path")
+            _repo_relative(spec["write"], owner + ".write")
+        else:
+            raise EvidenceInvalid(f"{owner} kind invalid")
+        _expect(type(spec["key"]) is str and spec["key"], owner + " key invalid")
+        check_keys.append(spec["key"])
+    _expect(len(check_keys) == len(set(check_keys)),
+            "fixture host check keys duplicated")
+    _expect(isinstance(fixture["properties"], list) and fixture["properties"],
+            "fixture properties invalid")
+    names = []
+    for index, prop in enumerate(fixture["properties"]):
+        owner = f"fixture property {index}"
+        prop = _exact_fields(prop, FIXTURE_PROPERTY_FIELDS, owner)
+        _expect(type(prop["name"]) is str and prop["name"] and
+                prop["required"] is True and type(prop["describes"]) is str and
+                bool(prop["describes"]), owner + " invalid")
+        rule = _mapping(prop["rule"], owner + ".rule")
+        if rule.get("kind") == "summary_flag":
+            rule = _exact_fields(rule, {"kind", "key"}, owner + ".rule")
+            _expect(rule["key"] in check_keys, owner + " rule key invalid")
+        elif rule.get("kind") == "changed_paths_within":
+            rule = _exact_fields(
+                rule, {"kind", "allowed", "required"}, owner + ".rule")
+            _strings(rule["allowed"], owner + ".rule.allowed")
+            _strings(rule["required"], owner + ".rule.required")
+        else:
+            raise EvidenceInvalid(owner + " rule kind invalid")
+        names.append(prop["name"])
+    _expect(len(names) == len(set(names)), "fixture property names duplicated")
+    return fixture
+
+
+def _validate_event_rows(data, expected_run_id):
+    rows = _raw_json_lines(data, "bundle events")
+    expected_seq = 1
+    for _ordinal, row in rows:
+        row = _exact_fields(
+            row, {"schema", "run_id", "fixture_id", "seq", "role", "kind",
+                  "content", "recorded_at"}, "bundle event")
+        _expect(row["schema"] == "implementaudit-eval-event-v1" and
+                row["run_id"] == expected_run_id and
+                row["fixture_id"] == "B3-v3" and
+                type(row["seq"]) is int and row["seq"] == expected_seq and
+                row["role"] in ("assistant", "user", "system", "tool") and
+                type(row["kind"]) is str and row["kind"] and
+                type(row["content"]) is str and
+                type(row["recorded_at"]) is str and row["recorded_at"],
+                "bundle event row invalid")
+        expected_seq += 1
+
+
+def _validate_bundle_manifest_metadata(manifest, packet, mission):
+    for key in ("fixture_sha256", "prompt_sha256", "installed_payload_sha256",
+                "adapter_sha256", "events_sha256", "repo_before_sha256",
+                "repo_after_sha256", "artifact_manifest_sha256",
+                "payload_source_sha256", "repo_comparison_sha256"):
+        _digest(manifest[key], "bundle manifest " + key)
+    for key in ("product_commit", "product_tree", "harness_commit"):
+        _git_id(manifest[key], "bundle manifest " + key)
+    for key in ("schema", "run_id", "fixture_id", "product_tag",
+                "adapter_name", "adapter_version", "model_requested",
+                "model_resolved", "host", "started_at", "ended_at",
+                "reasoning_effort_requested", "reasoning_effort_resolved"):
+        _expect(type(manifest[key]) is str and manifest[key],
+                "bundle manifest " + key + " invalid")
+    arm = packet[mission["arm"]]
+    config_name = mission["config"]
+    config = packet["configurations"][config_name]
+    _expect(manifest["payload_source_sha256"] == arm["payload_sha256"] and
+            manifest["reasoning_effort_requested"] ==
+            config["reasoning_effort"] and
+            manifest["reasoning_effort_resolved"] ==
+            config["reasoning_effort"],
+            "bundle manifest payload or effort identity invalid")
+    if config_name == "L":
+        expected_requested = {
+            "sandbox": "workspace-write", "approval": "never",
+            "tools": "codex-shell", "network": "restricted",
+            "writable_roots": ["<fixture-repo cwd>"]}
+        resolved = _exact_fields(
+            manifest["policy_resolved"],
+            {"class", "sandbox", "approval", "session_id", "cli_version"},
+            "bundle resolved Codex policy")
+        _expect(resolved["class"] == "host-owned (session turn_context)" and
+                resolved["sandbox"] == "workspace-write" and
+                resolved["approval"] in ("never", None) and
+                type(resolved["session_id"]) is str and resolved["session_id"] and
+                type(resolved["cli_version"]) is str and resolved["cli_version"],
+                "bundle resolved Codex policy invalid")
+    else:
+        expected_requested = {
+            "sandbox": "claude-headless-tool-permissions",
+            "approval": "auto-deny-outside-allowed",
+            "tools": "Read Glob Grep Write Edit Bash",
+            "network": "tool-mediated only",
+            "writable_roots": ["<fixture-repo cwd>"]}
+        resolved = _exact_fields(
+            manifest["policy_resolved"], {"class", "tools", "note"},
+            "bundle resolved Claude policy")
+        _expect(resolved["class"] == "adapter-attested (NOT host-owned)" and
+                resolved["tools"] ==
+                "Read Glob Grep Write Edit Bash (argv-requested)" and
+                type(resolved["note"]) is str and resolved["note"],
+                "bundle resolved Claude policy invalid")
+    _expect(manifest["policy_requested"] == expected_requested,
+            "bundle requested policy invalid")
+    observed = manifest["models_observed"]
+    _expect(isinstance(observed, list) and observed,
+            "bundle model observations missing")
+    root_models = []
+    for index, row in enumerate(observed):
+        owner = f"bundle model observation {index}"
+        row = _mapping(row, owner)
+        role = row.get("role")
+        if role == "root-agent":
+            row = _exact_fields(
+                row, {"model", "role", "source", "session_id"}, owner)
+            _expect(row["source"] == "host session turn_context" and
+                    type(row["session_id"]) is str and row["session_id"],
+                    owner + " invalid")
+            root_models.append(row["model"])
+        elif role == "root-assistant-events":
+            row = _exact_fields(
+                row, {"model", "role", "events", "source"}, owner)
+            _expect(type(row["events"]) is int and row["events"] > 0 and
+                    row["source"] == "host-assigned message.model", owner + " invalid")
+            root_models.append(row["model"])
+        elif role == "modelUsage-accounting":
+            row = _exact_fields(
+                row, {"model", "role", "output_tokens",
+                      "host_internal_auxiliary", "source"}, owner)
+            _expect((row["output_tokens"] is None or
+                     type(row["output_tokens"]) is int) and
+                    type(row["host_internal_auxiliary"]) is bool and
+                    row["source"] == "result.modelUsage", owner + " invalid")
+        else:
+            raise EvidenceInvalid(owner + " role invalid")
+        _expect(type(row["model"]) is str and row["model"], owner + " model invalid")
+    _expect(root_models == [manifest["model_resolved"]],
+            "bundle root model observation invalid")
+
+
 def _digest(value, owner):
     _expect(isinstance(value, str) and bool(HEX64.fullmatch(value)),
             f"{owner} must be a lowercase SHA-256")
@@ -249,6 +553,7 @@ def _validate_freeze_contract(packet):
     _expect(type(declaration["artifacts"]) is dict and
             set(declaration["artifacts"]) == CONTRACT_ARTIFACTS,
             "artifact contract retained artifact set invalid")
+    _validate_contract_declaration(declaration)
 
     foundation = _exact_fields(packet["foundation"], {"commit", "tree"},
                                "foundation")
@@ -511,16 +816,13 @@ def _canonical_snapshot_hash(value):
 
 
 def _validate_snapshot(value, owner):
-    required = {"schema", "head_commit", "head_tree", "index_tree", "staged",
-                "unstaged", "untracked", "tracked_diff_sha256",
-                "snapshot_sha256", "worktree_files"}
-    _expect(required <= set(value), f"{owner} fields incomplete")
+    value = _exact_fields(value, SNAPSHOT_FIELDS, owner)
     _expect(value["schema"] == "implementaudit-repo-snapshot-v2",
             f"{owner} schema invalid")
     _expect(_canonical_snapshot_hash(value) == value["snapshot_sha256"],
             f"{owner} internal hash invalid")
     for key in ("head_commit", "head_tree", "index_tree"):
-        _expect(bool(HEX40.fullmatch(str(value[key]))),
+        _expect(type(value[key]) is str and bool(HEX40.fullmatch(value[key])),
                 f"{owner} {key} invalid")
     for key in ("staged", "unstaged"):
         _expect(isinstance(value[key], list) and
@@ -528,22 +830,37 @@ def _validate_snapshot(value, owner):
                 f"{owner} {key} invalid")
     for key in ("untracked", "worktree_files"):
         _expect(isinstance(value[key], dict), f"{owner} {key} invalid")
-    for rel, entry in value["worktree_files"].items():
-        rel = _safe_rel(rel, owner)
-        _expect(rel.split("/")[0].lower() != ".git",
-                f"{owner} Git administrative identity invalid")
-        _expect(isinstance(entry, dict), f"{owner} file identity invalid")
-        if entry.get("type") == "file":
-            _expect(set(entry) == {"type", "sha256"} and
-                    bool(HEX64.fullmatch(str(entry.get("sha256")))),
-                    f"{owner} file digest invalid")
-        elif entry.get("type") == "symlink":
-            _expect(set(entry) == {"type", "target_sha256"} and
-                    bool(HEX64.fullmatch(str(entry.get("target_sha256")))),
-                    f"{owner} symlink digest invalid")
-        else:
-            _expect(entry == {"type": "special"},
-                    f"{owner} file type invalid")
+    _expect(isinstance(value["renames"], dict), f"{owner} renames invalid")
+    for destination, source in value["renames"].items():
+        _safe_rel(destination, owner + " rename destination")
+        _safe_rel(source, owner + " rename source")
+    _digest(value["tracked_diff_sha256"], owner + " tracked diff")
+    _digest(value["snapshot_sha256"], owner + " snapshot")
+    for mapping_name in ("untracked", "worktree_files"):
+        for rel, entry in value[mapping_name].items():
+            _validate_snapshot_entry(rel, entry, owner, mapping_name)
+
+
+def _validate_snapshot_entry(rel, entry, owner, mapping_name):
+    rel = _safe_rel(rel, owner)
+    _expect(rel.split("/")[0].lower() != ".git",
+            f"{owner} Git administrative identity invalid")
+    _expect(isinstance(entry, dict), f"{owner} file identity invalid")
+    if entry.get("type") == "file":
+        _expect(set(entry) == {"type", "sha256"} and
+                type(entry["sha256"]) is str and
+                bool(HEX64.fullmatch(entry["sha256"])),
+                f"{owner} file digest invalid")
+    elif entry.get("type") == "symlink":
+        _expect(set(entry) == {"type", "target_sha256"} and
+                type(entry["target_sha256"]) is str and
+                bool(HEX64.fullmatch(entry["target_sha256"])),
+                f"{owner} symlink digest invalid")
+    elif mapping_name == "untracked" and entry.get("type") == "dir":
+        _expect(entry == {"type": "dir"}, f"{owner} dir type invalid")
+    else:
+        _expect(entry == {"type": "special"},
+                f"{owner} file type invalid")
 
 
 def _changed_paths(before, after):
@@ -720,6 +1037,134 @@ def _raw_json_lines(data, owner):
     return rows
 
 
+def _validate_codex_stdout_rows(rows):
+    for ordinal, event in rows:
+        owner = f"Codex raw stdout line {ordinal}"
+        event_type = event.get("type")
+        if event_type == "thread.started":
+            _exact_fields(event, {"type", "thread_id"}, owner)
+        elif event_type in ("turn.started", "turn.completed"):
+            _exact_fields(event, {"type", "thread_id", "turn_id"}, owner)
+        elif event_type in ("item.started", "item.updated", "item.completed"):
+            _closed_fields(event, {"type", "item"}, {"status"}, owner)
+            item = _mapping(event["item"], owner + " item")
+            item_type = item.get("type")
+            if item_type == "command_execution":
+                required = {"id", "type", "status", "command"}
+                if event_type == "item.completed":
+                    required |= {"aggregated_output", "exit_code"}
+                _exact_fields(item, required, owner + " command item")
+            elif item_type == "file_change":
+                _exact_fields(
+                    item, {"id", "type", "status", "changes"},
+                    owner + " file-change item")
+                _expect(isinstance(item["changes"], list),
+                        owner + " file-change list invalid")
+                for index, change in enumerate(item["changes"]):
+                    change = _exact_fields(
+                        change, {"path", "kind"},
+                        f"{owner} file-change {index}")
+                    _expect(type(change["path"]) is str and change["path"] and
+                            type(change["kind"]) is str and change["kind"],
+                            f"{owner} file-change {index} invalid")
+            elif item_type == "todo_list":
+                _exact_fields(
+                    item, {"id", "type", "status", "items"},
+                    owner + " todo item")
+                _expect(isinstance(item["items"], list),
+                        owner + " todo list invalid")
+                for index, entry in enumerate(item["items"]):
+                    entry = _exact_fields(
+                        entry, {"text", "completed"},
+                        f"{owner} todo row {index}")
+                    _expect(type(entry["text"]) is str and
+                            type(entry["completed"]) is bool,
+                            f"{owner} todo row {index} invalid")
+            elif event_type == "item.completed" and item_type == "agent_message":
+                _closed_fields(item, {"id", "type", "text"}, {"status"},
+                               owner + " agent message")
+            else:
+                raise EvidenceInvalid(owner + " unsupported item type")
+        else:
+            raise EvidenceInvalid(owner + " unsupported event type")
+
+
+def _validate_claude_block(block, owner):
+    block = _mapping(block, owner)
+    kind = block.get("type")
+    if kind == "tool_use":
+        block = _exact_fields(block, {"type", "id", "name", "input"}, owner)
+        _expect(type(block["id"]) is str and block["id"] and
+                type(block["name"]) is str and block["name"], owner + " invalid")
+        inputs = _mapping(block["input"], owner + " input")
+        if block["name"] == "Read":
+            _closed_fields(inputs, {"file_path"}, {"offset", "limit", "pages"},
+                           owner + " Read input")
+        elif block["name"] == "Write":
+            _exact_fields(inputs, {"file_path", "content"},
+                          owner + " Write input")
+        elif block["name"] == "Edit":
+            _closed_fields(inputs, {"file_path", "old_string", "new_string"},
+                           {"replace_all"}, owner + " Edit input")
+        elif block["name"] == "Bash":
+            _closed_fields(inputs, {"command"},
+                           {"description", "timeout", "run_in_background",
+                            "dangerouslyDisableSandbox"}, owner + " Bash input")
+        else:
+            _expect(set(inputs) <= {
+                "path", "pattern", "glob", "output_mode", "head_limit",
+                "offset", "multiline", "-i", "skill", "prompt",
+                "description", "subagent_type", "resume", "model",
+                "run_in_background", "team_name", "name"},
+                owner + " tool input has unknown field")
+    elif kind == "tool_result":
+        _closed_fields(block, {"type", "tool_use_id", "content", "is_error"},
+                       {"status", "interrupted"}, owner)
+        _expect(type(block["tool_use_id"]) is str and block["tool_use_id"] and
+                type(block["content"]) is str and type(block["is_error"]) is bool,
+                owner + " invalid")
+    elif kind == "text":
+        _exact_fields(block, {"type", "text"}, owner)
+        _expect(type(block["text"]) is str, owner + " text invalid")
+    else:
+        raise EvidenceInvalid(owner + " unsupported block type")
+
+
+def _validate_claude_rows(rows, owner_prefix="Claude raw stdout"):
+    root_optional = {
+        "effort", "cwd", "model", "permissionMode", "apiKeySource",
+        "mcp_servers", "slash_commands", "output_style", "agents", "skills",
+        "plugins", "uuid", "parent_tool_use_id", "tool_use_result",
+        "duration_ms", "duration_api_ms", "num_turns", "result",
+        "total_cost_usd", "usage", "structured_output", "subtype",
+        "tools", "is_error", "action_ids",
+    }
+    for ordinal, event in rows:
+        owner = f"{owner_prefix} line {ordinal}"
+        event_type = event.get("type")
+        if event_type == "system" and event.get("subtype") in ("init", "transcript"):
+            required = {"type", "subtype", "session_id"}
+            required.add("tools" if event["subtype"] == "init" else "action_ids")
+            _closed_fields(event, required, root_optional, owner)
+        elif event_type in ("assistant", "user"):
+            _closed_fields(event, {"type", "session_id", "message"},
+                           root_optional, owner)
+            message = _closed_fields(
+                event["message"], {"content"},
+                {"model", "id", "type", "role", "stop_reason",
+                 "stop_sequence", "usage"}, owner + " message")
+            _expect(isinstance(message["content"], list),
+                    owner + " content invalid")
+            for index, block in enumerate(message["content"]):
+                _validate_claude_block(block, f"{owner} block {index}")
+        elif event_type == "result":
+            _closed_fields(event, {"type", "session_id", "is_error"},
+                           root_optional, owner)
+            _expect(type(event["is_error"]) is bool, owner + " result invalid")
+        else:
+            raise EvidenceInvalid(owner + " unsupported event type")
+
+
 def _parse_codex_actions(raw):
     pending = {}
     actions = []
@@ -728,7 +1173,9 @@ def _parse_codex_actions(raw):
     turn_id = None
     bound_turn_id = None
     turn_count = 0
-    for ordinal, event in _raw_json_lines(raw, "Codex raw stdout"):
+    rows = _raw_json_lines(raw, "Codex raw stdout")
+    _validate_codex_stdout_rows(rows)
+    for ordinal, event in rows:
         event_type = event.get("type")
         if event_type == "thread.started":
             observed = event.get("thread_id")
@@ -867,7 +1314,9 @@ def _parse_claude_actions(raw):
     inventory_seen = False
     session_id = None
     observed_tools = None
-    for ordinal, event in _raw_json_lines(raw, "Claude raw stdout"):
+    rows = _raw_json_lines(raw, "Claude raw stdout")
+    _validate_claude_rows(rows)
+    for ordinal, event in rows:
         if event.get("type") == "system" and event.get("subtype") == "init":
             observed_session = event.get("session_id")
             _expect(not inventory_seen and isinstance(event.get("tools"), list) and
@@ -988,16 +1437,29 @@ def _validate_profile_and_post(profile, post, expected_host):
         shell = profile["shell"]
         wrapper = profile["outer_wrapper"]
         _expect(isinstance(shell, dict) and
-                {"logical_path", "realpath", "sha256", "stat"} <= set(shell) and
+                set(shell) == {"logical_path", "realpath", "sha256", "stat"} and
                 all(type(shell[key]) is str and bool(shell[key])
                     for key in ("logical_path", "realpath", "sha256", "stat")) and
                 bool(HEX64.fullmatch(shell["sha256"])) and
                 wrapper == {"argv_prefix": ["/bin/bash", "-lc"],
                             "max_unwrap_layers": 1} and
                 isinstance(profile["environment"], dict) and
+                set(profile["environment"]) == {
+                    "PATH", "LANG", "LC_ALL", "BASH_ENV", "ENV", "SHELL"} and
+                all(value is None or type(value) is str
+                    for value in profile["environment"].values()) and
                 isinstance(profile["executables"], dict) and
-                bool(profile["executables"]),
+                set(profile["executables"]) == SUPPORTED_READERS,
                 "formal-v2 Codex profile semantics invalid")
+        for name, identity in profile["executables"].items():
+            identity = _exact_fields(
+                identity, {"kind", "path", "sha256", "stat"},
+                f"formal-v2 Codex executable {name}")
+            _expect(identity["kind"] == "file" and
+                    all(type(identity[key]) is str and identity[key]
+                        for key in ("path", "sha256", "stat")) and
+                    bool(HEX64.fullmatch(identity["sha256"])),
+                    f"formal-v2 Codex executable {name} invalid")
         probe = {"environment": profile["environment"], "shell": shell,
                  "executables": profile["executables"]}
         _expect(post == probe and profile["probe_sha256"] == _sha(
@@ -1022,8 +1484,34 @@ def _validate_native_session(stdout, session, expected_host, binding,
     _expect(session and session != stdout, "native session evidence substituted")
     rows = [value for _, value in _raw_json_lines(
         session, expected_host.title() + " native session")]
+    indexed_rows = list(enumerate(rows, 1))
     _expect(isinstance(binding, dict), "terminal lineage binding malformed")
     if expected_host == "codex":
+        for ordinal, row in indexed_rows:
+            owner = f"Codex native session line {ordinal}"
+            _exact_fields(row, {"type", "timestamp", "payload"}, owner)
+            payload = _mapping(row["payload"], owner + " payload")
+            if row["type"] == "session_meta":
+                _closed_fields(
+                    payload, {"id", "session_id", "cwd"},
+                    {"originator", "cli_version", "source", "model_provider",
+                     "git", "base_instructions", "developer_instructions",
+                     "dynamic_tools", "reasoning_effort", "timestamp"},
+                    owner + " payload")
+            elif row["type"] == "turn_context":
+                _closed_fields(
+                    payload, {"turn_id", "cwd"},
+                    {"current_date", "timezone", "approval_policy",
+                     "sandbox_policy", "model", "effort", "summary",
+                     "service_tier"}, owner + " payload")
+            elif row["type"] in ("response_item", "event_msg"):
+                _expect(set(payload) <= {
+                    "action_ids", "type", "role", "content", "id", "status",
+                    "name", "arguments", "call_id", "summary", "message",
+                    "phase", "text", "images", "encrypted_content"},
+                    owner + " payload has unknown field")
+            else:
+                raise EvidenceInvalid(owner + " unsupported row type")
         allowed = {"thread_id", "stdout_turn_ordinal", "turn_id",
                    "native_turn_id"}
         _expect(set(binding) <= allowed and
@@ -1053,6 +1541,7 @@ def _validate_native_session(stdout, session, expected_host, binding,
                 turns[0]["timestamp"],
                 "Codex native session identity mismatch")
     else:
+        _validate_claude_rows(indexed_rows, "Claude native session")
         _expect(set(binding) == {"session_id"} and
                 type(binding["session_id"]) is str and bool(binding["session_id"]) and
                 binding == stdout_binding,
@@ -1105,6 +1594,126 @@ def _validate_trace_agreement(trace, actions, observed_tools, expected_host):
             "formal-v2 trace projections disagree")
 
 
+def _validate_preimages_schema(preimages):
+    preimages = _exact_fields(
+        preimages, {"schema", "repo", "targets"}, "host preimages")
+    _expect(preimages["schema"] == "implementaudit-host-read-preimages-v1",
+            "host preimages schema invalid")
+    repo = _exact_fields(preimages["repo"], REPO_IDENTITY_FIELDS,
+                         "host preimages repository")
+    _expect(type(repo["lexical_root"]) is str and repo["lexical_root"] and
+            type(repo["real_root"]) is str and repo["real_root"] and
+            type(repo["case_sensitive"]) is bool,
+            "host preimages repository invalid")
+    targets = _mapping(preimages["targets"], "host preimage targets")
+    _expect(bool(targets), "host preimage targets empty")
+    for relative, entry in targets.items():
+        _repo_relative(relative, "host preimage target")
+        entry = _exact_fields(
+            entry, PREIMAGE_TARGET_FIELDS, f"host preimage {relative}")
+        _expect(entry["relative_path"] == relative and
+                type(entry["canonical_path"]) is str and
+                bool(entry["canonical_path"]) and
+                type(entry["content_base64"]) is str and
+                type(entry["size"]) is int and entry["size"] >= 0 and
+                type(entry["mode"]) is int and entry["mode"] >= 0 and
+                entry["symlink_free"] is True,
+                f"host preimage {relative} invalid")
+        _digest(entry["sha256"], f"host preimage {relative} sha256")
+        try:
+            decoded = base64.b64decode(entry["content_base64"], validate=True)
+        except (ValueError, TypeError) as exc:
+            raise EvidenceInvalid(f"host preimage {relative} base64 invalid") from exc
+        _expect(len(decoded) == entry["size"] and _sha(decoded) == entry["sha256"],
+                f"host preimage {relative} content invalid")
+
+
+def _validate_replay_schema(replay):
+    replay = _exact_fields(
+        replay, {"schema", "mode", "host", "checks", "requested_tools",
+                 "fixture_sha256", "run_intent_sha256", "parser_sha256"},
+        "host replay specification")
+    _expect(replay["schema"] == "implementaudit-host-read-replay-spec-v1" and
+            replay["mode"] == "formal-v2" and
+            replay["host"] in ("codex", "claude"),
+            "host replay specification identity invalid")
+    for key in ("fixture_sha256", "run_intent_sha256", "parser_sha256"):
+        _digest(replay[key], "host replay " + key)
+    _strings(replay["requested_tools"], "host replay requested tools")
+    _expect(isinstance(replay["checks"], list) and replay["checks"],
+            "host replay checks invalid")
+    for index, check in enumerate(replay["checks"]):
+        check = _exact_fields(
+            check, {"key", "reads", "write"}, f"host replay check {index}")
+        _expect(type(check["key"]) is str and check["key"],
+                f"host replay check {index} key invalid")
+        _strings(check["reads"], f"host replay check {index} reads")
+        for path in check["reads"]:
+            _repo_relative(path, f"host replay check {index} read")
+        _repo_relative(check["write"], f"host replay check {index} write")
+
+
+def _validate_parent_custody_objects(intent, process, expected_run_id):
+    intent = _exact_fields(intent, RUN_INTENT_FIELDS, "run intent")
+    _expect(intent["schema"] == "implementaudit-run-intent-v1" and
+            intent["run_id"] == expected_run_id and
+            intent["fixture_id"] == "B3-v3" and
+            type(intent["call_ordinal"]) is int and intent["call_ordinal"] > 0 and
+            type(intent["product_checkout"]) is str and intent["product_checkout"] and
+            type(intent["adapter_name"]) is str and intent["adapter_name"] and
+            type(intent["harness_commit"]) is str and
+            type(intent["model_requested"]) is str and intent["model_requested"] and
+            type(intent["reasoning_effort_requested"]) is str and
+            isinstance(intent["policy_requested"], dict) and
+            isinstance(intent["required_capabilities"], list) and
+            type(intent["temp_home"]) is str and intent["temp_home"] and
+            type(intent["started_at"]) is str and intent["started_at"],
+            "run intent fields invalid")
+    for key in ("fixture_sha256", "adapter_sha256"):
+        _digest(intent[key], "run intent " + key)
+    _git_id(intent["harness_commit"], "run intent harness commit")
+    _strings(intent["required_capabilities"], "run intent capabilities")
+    process = _exact_fields(process, PROCESS_STARTED_FIELDS, "process started")
+    _expect(process["schema"] == "implementaudit-process-started-v2" and
+            process["run_id"] == expected_run_id and
+            all(type(process[key]) is str and process[key]
+                for key in ("cwd", "started_at", "requested_model", "temp_home",
+                            "lane_id", "host_os", "host_boot_id")) and
+            type(process["pid"]) is int and process["pid"] > 0 and
+            type(process["process_creation_time"]) in (int, float) and
+            not isinstance(process["process_creation_time"], bool),
+            "process started fields invalid")
+    for key in ("argv_sha256", "host_read_pre_spawn_sha256"):
+        _digest(process[key], "process started " + key)
+
+
+def _validate_trace_action_rows(trace):
+    for index, action in enumerate(trace["actions"]):
+        owner = f"host trace action {index}"
+        action = _mapping(action, owner)
+        keys = set(action)
+        _expect(keys <= TRACE_ACTION_ALLOWED, owner + " has unknown field")
+        if action.get("state") == "TERMINAL_SAFE_MESSAGE":
+            required = {"id", "state", "effect", "classification", "payload",
+                        "invocation_invented", "invocation_ordinal",
+                        "completion_ordinal"}
+        else:
+            required = {"id", "state", "effect", "classification",
+                        "invocation_invented", "invocation_ordinal",
+                        "completion_ordinal", "payload", "action_type"}
+        _expect(required <= keys, owner + " fields incomplete")
+        _expect(type(action["id"]) is str and action["id"] and
+                action["state"] in ("COMPLETED", "TERMINAL_SAFE_MESSAGE") and
+                action["effect"] in (
+                    "read", "write", "command", "search", "safe-other",
+                    "descendant") and
+                type(action["completion_ordinal"]) is int and
+                (action["invocation_ordinal"] is None or
+                 type(action["invocation_ordinal"]) is int) and
+                action["invocation_invented"] is False,
+                owner + " core fields invalid")
+
+
 def _matrix_row(spec, actions, preimages):
     reads = spec["reads"]
     write = spec["write"]
@@ -1154,7 +1763,8 @@ def _validate_capture(artifacts, fixture_bytes, fixture, expected_host,
                       parent_kind, expected_run_id):
     required = set(CAPTURE_FILES) | {"host-read-manifest.json",
                                      "run-intent.json", "process-started.json",
-                                     "host-checks.json"}
+                                     "host-checks.json"} | \
+        AUXILIARY_BUNDLE_ARTIFACTS
     for spec in (fixture.get("host_checks") or {}).get("specs", []):
         if spec.get("kind") == "json_fields_equal":
             path = _safe_rel(spec.get("path"), "host-check input")
@@ -1162,11 +1772,29 @@ def _validate_capture(artifacts, fixture_bytes, fixture, expected_host,
     _expect(set(artifacts) == required,
             "formal-v2 capture artifact set incomplete or unexpected")
     objects = {}
-    json_names = [name for name in required if not name.endswith(".raw")]
+    json_names = [name for name in required
+                  if not name.endswith((".raw", ".jsonl"))]
     for name in json_names:
         value = _decode_json(
             artifacts[name], name, f"{name} malformed", True)
         objects[name] = value
+    derived = _exact_fields(
+        objects["derived-transform.json"],
+        {"schema", "transform", "source", "source_raw_sha256", "rules"},
+        "derived transform")
+    adapter = "codex-cli" if expected_host == "codex" else "claude-cli"
+    allowed_sources = ({"codex-exec-json", "codex-exec-transcript",
+                        "codex-stdout-fallback", "codex-session-jsonl"}
+                       if expected_host == "codex" else
+                       {"claude-stream-json", "claude-result-json"})
+    _expect(derived["schema"] == "implementaudit-derived-view-v1" and
+            derived["transform"] == adapter + "-host-event-extraction-v2" and
+            derived["source"] in allowed_sources and
+            derived["source_raw_sha256"] ==
+            _sha(artifacts["raw-host-events.jsonl"]) and
+            type(derived["rules"]) is str and derived["rules"] and
+            artifacts["raw-host-events.jsonl"] == artifacts["host-session.raw"],
+            "derived host-event custody invalid")
     manifest = objects["host-read-manifest.json"]
     _expect(set(manifest) == {"schema", "files"} and
             manifest.get("schema") == "implementaudit-host-read-manifest-v1" and
@@ -1188,6 +1816,7 @@ def _validate_capture(artifacts, fixture_bytes, fixture, expected_host,
     profile = objects["host-read-profile.json"]
     post = objects["host-read-post-probe.json"]
     _validate_profile_and_post(profile, post, expected_host)
+    _validate_preimages_schema(objects["host-read-preimages.json"])
     _expect(terminal.get("profile_post_status") == "PASS" and
             terminal.get("normalized_host_status") == "PASS" and
             terminal.get("session_bound") is True and
@@ -1216,6 +1845,8 @@ def _validate_capture(artifacts, fixture_bytes, fixture, expected_host,
     intent = objects["run-intent.json"]
     replay = objects["host-read-replay-spec.json"]
     process = objects["process-started.json"]
+    _validate_replay_schema(replay)
+    _validate_parent_custody_objects(intent, process, expected_run_id)
     expected_checks = [{"key": spec["key"],
                         "reads": list(spec.get("reads") or []),
                         "write": spec.get("write")}
@@ -1238,6 +1869,7 @@ def _validate_capture(artifacts, fixture_bytes, fixture, expected_host,
             actual["host-read-pre-spawn.json"],
             "formal-v2 parent custody chain invalid")
     trace = objects["host-tool-trace.json"]
+    _validate_trace_action_rows(trace)
     raw_actions, stdout_binding, observed_tools = _parse_raw_actions(
         artifacts["host-stdout.raw"], expected_host)
     writes = [action for action in raw_actions if action.get("effect") == "write"]
@@ -1289,22 +1921,31 @@ def _load_bundle(bundle, packet, mission, parent_terminal):
     events = _read_bytes(bundle / "events.jsonl")
     before, before_bytes = _read_json(bundle / "repo-before.json", "repo-before")
     after, after_bytes = _read_json(bundle / "repo-after.json", "repo-after")
+    comparison, comparison_bytes = _read_json(
+        bundle / "repo-comparison.json", "repo comparison")
     artifact_manifest, artifact_manifest_bytes = _read_json(
         bundle / "artifact-manifest.json", "artifact manifest")
-    _expect(manifest.get("schema") == "implementaudit-eval-manifest-v2",
+    manifest = _closed_fields(
+        manifest, BUNDLE_MANIFEST_FIELDS, BUNDLE_MANIFEST_OPTIONAL_FIELDS,
+        "bundle manifest")
+    _expect(manifest["schema"] == "implementaudit-eval-manifest-v2",
             "bundle manifest schema invalid")
+    _validate_bundle_manifest_metadata(manifest, packet, mission)
     for name, data, key in (("fixture", fixture_bytes, "fixture_sha256"),
                             ("prompt", prompt, "prompt_sha256"),
                             ("events", events, "events_sha256"),
                             ("repo-before", before_bytes, "repo_before_sha256"),
                             ("repo-after", after_bytes, "repo_after_sha256"),
+                            ("repo-comparison", comparison_bytes,
+                             "repo_comparison_sha256"),
                             ("artifact-manifest", artifact_manifest_bytes,
                              "artifact_manifest_sha256")):
         _expect(manifest.get(key) == _sha(data), f"{name} hash mismatch")
-    _expect(bool(events.strip()), "events evidence empty")
+    _validate_event_rows(events, _attempt_name(mission))
     fixture = _decode_json(
         fixture_bytes, "fixture", "fixture malformed", True)
-    _expect(fixture.get("id") == "B3-v3" and
+    fixture = _validate_fixture_schema(fixture)
+    _expect(fixture["id"] == "B3-v3" and
             manifest.get("fixture_id") == "B3-v3" and
             packet["fixture"]["fixture_sha256"] == _sha(fixture_bytes),
             "fixture identity mismatch")
@@ -1326,12 +1967,15 @@ def _load_bundle(bundle, packet, mission, parent_terminal):
             manifest.get("model_requested") == canonical_requested and
             manifest.get("model_resolved") == config["model_resolved_required"],
             "bundle host or model identity mismatch")
-    files = artifact_manifest.get("files")
+    artifact_manifest = _exact_fields(
+        artifact_manifest, {"files"}, "artifact manifest")
+    files = artifact_manifest["files"]
     _expect(isinstance(files, dict) and files, "artifact manifest invalid")
     artifacts = {}
     for rel, digest in files.items():
         rel = _safe_rel(rel, "artifact")
-        _expect(bool(HEX64.fullmatch(str(digest))), "artifact digest invalid")
+        _expect(type(digest) is str and bool(HEX64.fullmatch(digest)),
+                "artifact digest invalid")
         data = _read_bytes(_contained(bundle / "artifacts", rel, "artifact"))
         _expect(_sha(data) == digest, f"artifact hash mismatch: {rel}")
         artifacts[rel] = data
@@ -1340,6 +1984,16 @@ def _load_bundle(bundle, packet, mission, parent_terminal):
         artifacts, fixture_bytes, fixture, expected_host,
         parent_terminal.get("kind"), _attempt_name(mission))
     changed = _changed_paths(before, after)
+    comparison = _exact_fields(
+        comparison, {"schema", "changed_files", "committed_change",
+                     "committed_files_known", "committed_files"},
+        "repo comparison")
+    _expect(comparison["schema"] == "implementaudit-repo-comparison-v1" and
+            comparison["changed_files"] == changed and
+            comparison["committed_change"] is False and
+            comparison["committed_files_known"] is True and
+            comparison["committed_files"] == [],
+            "repo comparison contradicts independent snapshot delta")
     return (manifest, fixture, artifacts, before, after, changed, preimages,
             trace, raw_actions, host_checks)
 
@@ -1634,10 +2288,15 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha):
         recorded_root = pathlib.Path(str(terminal.get("host_run_root", ""))).resolve()
         _expect(recorded_root == host_root, "attempt host run root identity mismatch")
         parent, _ = _read_json(host_root / "terminal.json", "host terminal")
-        _expect(parent.get("schema") == "implementaudit-run-terminal-v1" and
-                parent.get("run_id") == name and parent.get("kind") == "ok" and
-                parent.get("reconciled") is False and
-                parent.get("resolved_model") == expected_model,
+        parent = _exact_fields(parent, HOST_TERMINAL_FIELDS, "host terminal")
+        _expect(parent["schema"] == "implementaudit-run-terminal-v1" and
+                parent["run_id"] == name and parent["spawned"] is True and
+                parent["kind"] == "ok" and parent["reconciled"] is False and
+                parent["resolved_model"] == expected_model and
+                type(parent["detail"]) is str and
+                type(parent["started_at"]) is str and parent["started_at"] and
+                type(parent["ended_at"]) is str and parent["ended_at"] and
+                isinstance(parent["policy_resolved"], dict),
                 "host terminal is non-authoritative")
         (manifest, fixture, artifacts, _before, after, changed, preimages,
          _trace, raw_actions, host_checks) = \
