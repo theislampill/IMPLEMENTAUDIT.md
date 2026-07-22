@@ -40,7 +40,7 @@ but its phrase-family property rules false-failed semantically correct outputs
 and hypothetical replay warnings). It is therefore calibration evidence, not
 the #35 release result, and is never edited or relabeled after the run.
 
-`B3-v3` is the separately versioned qualification instrument. It preserves
+`B3-v3` is the immutable historical qualification attempt. It preserves
 the same decision contract but replaces phrase adjudication with reconstructible
 mechanical observations: successful host tool events must show live `STATE.md`
 and `ROADMAP.md` reads before the capsule write; the host compares every
@@ -48,7 +48,18 @@ preregistered capsule field; and bound repository snapshots must show exactly
 the one required capsule path and no other change. Listing a filename is not a
 content read. Missing snapshots or host observations are `INVALID`, not a
 property PASS. The release comparison is 2 configurations × 2 immutable
-product arms × 3 repetitions; it is not part of the primary aggregate.
+product arms × 3 repetitions; it is not part of the primary aggregate. The
+later formal-v2 review found that its capture-time evidence omitted required
+pre-spawn profile and native-session custody, so its stored result is not
+current qualification evidence.
+
+`B3-v4` is the create-once campaign preregistration for a fresh run of the
+unchanged `B3-v3` fixture under the accepted formal-v2 evaluator foundation.
+The private intent binds the complete fixture manifest, evaluator artifacts,
+product identities, subscription-backed L/O host identities, fixed mission
+order, attempt-retention rules, stop conditions, and a separate rederivation
+contract. `eval/validate_b3v4_freeze.py` validates that packet without invoking
+a model or exposing the owner approval acknowledgement contents.
 
 `A1`–`A5` form the SUPPLEMENTARY **ordinary-invocation behavioral
 campaign** (A-series, per issue #52): A1 factor-derived action selection,
