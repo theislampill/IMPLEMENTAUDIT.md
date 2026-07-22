@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import importlib.util
 import json
 import pathlib
@@ -41,6 +42,12 @@ def valid_packet():
         "schema": "implementaudit-b3v4-campaign-freeze-v1",
         "campaign": "b3v4-sol-r1",
         "state": "FROZEN_BEFORE_FIRST_MISSION",
+        "artifact_contract": {
+            "schema": "implementaudit-b3v4-artifact-contract-v1",
+            "path": "eval/b3v4_contract.json",
+            "sha256": hashlib.sha256(
+                (HERE / "b3v4_contract.json").read_bytes()).hexdigest(),
+        },
         "foundation": {"commit": commit, "tree": tree},
         "fixture": {"id": "B3-v3", "fixture_sha256": sha,
                     "complete_manifest_sha256": sha},
@@ -50,8 +57,8 @@ def valid_packet():
         },
         "candidate": {"commit": commit, "tree": tree,
                       "skill_tree": tree, "payload_sha256": sha},
-        "control": {"commit": commit, "tree": tree,
-                    "skill_tree": tree, "payload_sha256": sha},
+        "control": {"commit": "d" * 40, "tree": "e" * 40,
+                    "skill_tree": "f" * 40, "payload_sha256": "b" * 64},
         "configurations": {
             "L": {"host": "WSL Ubuntu Codex CLI",
                   "model_requested": "gpt-5.6-luna",
@@ -236,12 +243,13 @@ def main():
             fixture_dir / "fixture.json")
         live["fixture"]["complete_manifest_sha256"] = module._tree_manifest(
             fixture_dir)
-        artifact = "eval/validate_b3v4_freeze.py"
-        artifact_hash = module._sha256(repo / artifact)
-        live["artifacts"] = {
-            name: {"path": artifact, "sha256": artifact_hash}
-            for name in ("scorer", "evaluator", "bundle", "runner")
-        }
+        artifact_paths = {
+            "scorer": "eval/lib/scoring.py",
+            "evaluator": "eval/validate_b3v4_freeze.py",
+            "bundle": "eval/lib/bundle.py", "runner": "eval/runner.py"}
+        live["artifacts"] = {name: {"path": path,
+            "sha256": module._sha256(repo / path)}
+            for name, path in artifact_paths.items()}
         live["authorization"]["acknowledgement_path"] = str(approval)
         live["authorization"]["acknowledgement_sha256"] = module._sha256(
             approval)
@@ -250,6 +258,10 @@ def main():
             "sha256"] = module._sha256(rederiver)
         module.validate_structure(live)
         module.validate_live(live, repo)
+
+        tree_as_commit = copy.deepcopy(live)
+        tree_as_commit["foundation"]["commit"] = live["foundation"]["tree"]
+        expect_live_invalid(module, tree_as_commit, repo, "not a commit object")
 
         drifted_rederiver = copy.deepcopy(live)
         drifted_rederiver["independent_rederiver"][

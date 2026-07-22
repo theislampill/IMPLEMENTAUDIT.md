@@ -164,6 +164,14 @@ def main():
         expect_error("prior attempt is nonterminal", driver.run_next)
         assert len(observed) == 2
 
+    with tempfile.TemporaryDirectory(prefix="b3v4-campaign-extra-") as tmp:
+        driver = make_driver(module, tmp, scored_outcome)
+        driver.run_next()
+        attempt = pathlib.Path(tmp) / "campaign" / \
+            "attempt-000-L-candidate-r1"
+        (attempt / "mutable-summary.json").write_text("{}", encoding="utf-8")
+        expect_error("unexpected attempt custody", driver.run_next)
+
     with tempfile.TemporaryDirectory(prefix="b3v4-campaign-") as tmp:
         def invalid_once(context):
             return {"overall_status": "INVALID",

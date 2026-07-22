@@ -1,0 +1,58 @@
+{
+ "schema": "implementaudit-b3v4-artifact-contract-v1",
+ "contract_id": "b3v4-sol-artifact-contract-r1",
+ "encoding": {
+  "charset": "UTF-8",
+  "duplicate_keys": "REJECT_RECURSIVELY",
+  "non_finite_numbers": "REJECT",
+  "object_keys": "EXACT",
+  "scalar_types": "EXACT_NO_COERCION",
+  "paths": "CANONICAL_ROLE_CONTAINED_NO_LINK_ALIAS",
+  "writes": "CREATE_ONCE"
+ },
+ "execution": {
+  "campaign": "b3v4-sol-r1",
+  "stage_order": ["LUNA", "OPUS"],
+  "completion_requires": ["LUNA", "OPUS", "INDEPENDENT_REDERIVATION"],
+  "silent_retry": "FORBIDDEN",
+  "unexpected_attempt": "INVALID"
+ },
+ "artifacts": {
+  "campaign_freeze": {"producer":"freeze-author","readers":["freeze-validator","driver","rederiver"],"role":"repo-contract","format":"JSON","schema":"implementaudit-b3v4-campaign-freeze-v1","create_once":true},
+  "owner_approval": {"producer":"owner","readers":["freeze-validator","driver"],"role":"external-authorization","format":"BYTES","schema":null,"create_once":true},
+  "host_attestation": {"producer":"formal-host-attestation","readers":["driver","formal-adapter","rederiver"],"role":"attempt-input","format":"JSON","schema":"implementaudit-host-read-attestation-v1","create_once":true},
+  "campaign_manifest": {"producer":"driver","readers":["driver","rederiver"],"role":"campaign-root","format":"JSON","schema":"implementaudit-b3v4-campaign-custody-v1","create_once":true},
+  "attempt_status": {"producer":"driver","readers":["driver","rederiver"],"role":"attempt-root","format":"JSON","schema":"implementaudit-b3v4-attempt-status-v1","create_once":true},
+  "official_verdict": {"producer":"official-scorer-via-driver","readers":["driver","rederiver"],"role":"attempt-root","format":"JSON","schema":"implementaudit-eval-verdict-v3","create_once":true},
+  "attempt_terminal": {"producer":"driver","readers":["driver","rederiver"],"role":"attempt-root","format":"JSON","schema":"implementaudit-b3v4-attempt-terminal-v1","create_once":true},
+  "host_terminal": {"producer":"formal-host-runner","readers":["official-scorer","rederiver"],"role":"bundle-root","format":"JSON","schema":"implementaudit-run-terminal-v1","create_once":true},
+  "bundle_manifest": {"producer":"bundle-builder","readers":["official-scorer","rederiver"],"role":"bundle-root","format":"JSON","schema":"implementaudit-eval-manifest-v2","create_once":true},
+  "fixture": {"producer":"frozen-fixture-copier","readers":["official-scorer","rederiver"],"role":"bundle-root","format":"JSON","schema":"implementaudit-eval-fixture-v1","create_once":true},
+  "events": {"producer":"host-event-recorder","readers":["official-scorer","rederiver"],"role":"bundle-root","format":"JSONL","schema":"implementaudit-eval-event-v1","create_once":true},
+  "repo_before": {"producer":"snapshot-capture","readers":["official-scorer","rederiver"],"role":"bundle-root","format":"JSON","schema":"implementaudit-repo-snapshot-v2","create_once":true},
+  "repo_after": {"producer":"snapshot-capture","readers":["official-scorer","rederiver"],"role":"bundle-root","format":"JSON","schema":"implementaudit-repo-snapshot-v2","create_once":true},
+  "artifact_manifest": {"producer":"bundle-capture","readers":["official-scorer","rederiver"],"role":"bundle-root","format":"JSON","schema":"implementaudit-artifact-manifest-v1","create_once":true},
+  "host_read_manifest": {"producer":"formal-capture-finalizer","readers":["host-validator","official-scorer","rederiver"],"role":"host-artifacts","format":"JSON","schema":"implementaudit-host-read-manifest-v1","create_once":true},
+  "host_read_profile": {"producer":"formal-profile-producer","readers":["host-validator","rederiver"],"role":"host-artifacts","format":"JSON","schema":"implementaudit-host-read-profile-v2","create_once":true},
+  "host_read_preimages": {"producer":"pre-spawn-capture","readers":["host-validator","rederiver"],"role":"host-artifacts","format":"JSON","schema":"implementaudit-host-read-preimages-v1","create_once":true},
+  "host_read_fixture": {"producer":"fixture-copier","readers":["host-validator","rederiver"],"role":"host-artifacts","format":"BYTES","schema":null,"create_once":true},
+  "host_read_replay_spec": {"producer":"replay-spec-builder","readers":["host-validator","rederiver"],"role":"host-artifacts","format":"JSON","schema":"implementaudit-host-read-replay-spec-v1","create_once":true},
+  "host_read_pre_spawn": {"producer":"pre-spawn-finalizer","readers":["host-validator","rederiver"],"role":"host-artifacts","format":"JSON","schema":"implementaudit-host-read-pre-spawn-v1","create_once":true},
+  "run_intent": {"producer":"formal-runner","readers":["host-validator","rederiver"],"role":"host-artifacts","format":"JSON","schema":"implementaudit-run-intent-v1","create_once":true},
+  "process_started": {"producer":"process-launcher","readers":["host-validator","rederiver"],"role":"host-artifacts","format":"JSON","schema":"implementaudit-process-started-v1","create_once":true},
+  "host_stdout": {"producer":"host-process-capture","readers":["host-parser","rederiver"],"role":"host-artifacts","format":"JSONL","schema":"host-specific-state-machine","create_once":true},
+  "host_session": {"producer":"native-session-capture","readers":["host-validator","rederiver"],"role":"host-artifacts","format":"BYTES","schema":"host-specific-native-session","create_once":true},
+  "host_tool_trace": {"producer":"formal-normalizer","readers":["host-validator","rederiver"],"role":"host-artifacts","format":"JSON","schema":"implementaudit-host-tool-trace-v2","create_once":true},
+  "host_read_matrix": {"producer":"formal-capture","readers":["host-validator","rederiver"],"role":"host-artifacts","format":"JSON","schema":"implementaudit-host-read-matrix-v1","create_once":true},
+  "host_read_post_probe": {"producer":"post-mission-probe","readers":["host-validator","rederiver"],"role":"host-artifacts","format":"JSON","schema":"implementaudit-host-read-post-probe-v1","create_once":true},
+  "host_read_terminal": {"producer":"formal-capture-finalizer","readers":["host-validator","rederiver"],"role":"host-artifacts","format":"JSON","schema":"implementaudit-host-read-terminal-v1","create_once":true},
+  "host_checks": {"producer":"host-check-evaluator","readers":["official-scorer","rederiver"],"role":"bundle-artifacts","format":"JSON","schema":"implementaudit-host-checks-v1","create_once":true},
+  "host_check_inputs": {"producer":"host-input-capture","readers":["official-scorer","rederiver"],"role":"bundle-artifacts","format":"JSON","schema":"frozen-host-check-input-schema","create_once":true},
+  "independent_rederivation": {"producer":"independent-rederiver","readers":["final-ledger","cold-reviewer"],"role":"campaign-result","format":"JSON","schema":"implementaudit-b3v4-independent-rederivation-v1","create_once":true}
+ },
+ "lifecycle_schemas": {
+  "campaign_manifest": ["schema","campaign","freeze_sha256","contract_sha256","created_at","execution_stage"],
+  "attempt_status": ["schema","campaign","freeze_sha256","contract_sha256","mission","state","execution_mode","created_at"],
+  "attempt_terminal": ["schema","campaign","mission_index","execution_mode","overall_status","resolved_model","host_run_root","official_overall_status","official_verdict_sha256","stop_reason","error_type","completed_at"]
+ }
+}

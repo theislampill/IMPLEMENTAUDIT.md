@@ -26,11 +26,37 @@ PLAN = [
     ("O", "candidate", 3), ("O", "control", 3),
 ]
 FREEZE_FIELDS = {
-    "schema", "campaign", "state", "foundation", "fixture", "artifacts",
+    "schema", "campaign", "state", "artifact_contract", "foundation", "fixture", "artifacts",
     "candidate", "control", "configurations", "authorization", "seed",
     "repetitions_per_configuration_and_arm", "missions", "evidence_profiles",
     "result_composition", "attempt_policy", "acceptance_rule",
     "invalid_error_rule", "stop_conditions", "independent_rederiver",
+}
+CONTRACT_ARTIFACTS = {
+    "campaign_freeze", "owner_approval", "host_attestation",
+    "campaign_manifest", "attempt_status", "official_verdict",
+    "attempt_terminal", "host_terminal", "bundle_manifest", "fixture",
+    "events", "repo_before", "repo_after", "artifact_manifest",
+    "host_read_manifest", "host_read_profile", "host_read_preimages",
+    "host_read_fixture", "host_read_replay_spec", "host_read_pre_spawn",
+    "run_intent", "process_started", "host_stdout", "host_session",
+    "host_tool_trace", "host_read_matrix", "host_read_post_probe",
+    "host_read_terminal", "host_checks", "host_check_inputs",
+    "independent_rederivation",
+}
+CAMPAIGN_MANIFEST_FIELDS = {
+    "schema", "campaign", "freeze_sha256", "contract_sha256", "created_at",
+    "execution_stage",
+}
+ATTEMPT_STATUS_FIELDS = {
+    "schema", "campaign", "freeze_sha256", "contract_sha256", "mission",
+    "state", "execution_mode", "created_at",
+}
+ATTEMPT_TERMINAL_FIELDS = {
+    "schema", "campaign", "mission_index", "execution_mode",
+    "overall_status", "resolved_model", "host_run_root",
+    "official_overall_status", "official_verdict_sha256", "stop_reason",
+    "error_type", "completed_at",
 }
 ACCEPTANCE_RULE = (
     "all 12 missions terminal; independent rederivation agrees with every "
@@ -92,7 +118,10 @@ def _decode_json(data, owner, malformed, require_object=False):
 
     try:
         text = data.decode("utf-8") if isinstance(data, bytes) else data
-        value = json.loads(text, object_pairs_hook=unique)
+        def nonfinite(value):
+            raise EvidenceInvalid(f"{owner} contains non-finite number {value}")
+        value = json.loads(text, object_pairs_hook=unique,
+                           parse_constant=nonfinite)
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
         raise EvidenceInvalid(malformed) from exc
     if require_object and not isinstance(value, dict):
@@ -148,6 +177,32 @@ def _validate_freeze_contract(packet):
     _expect(packet["state"] == "FROZEN_BEFORE_FIRST_MISSION",
             "freeze packet state invalid")
 
+    artifact_contract = _exact_fields(
+        packet["artifact_contract"], {"schema", "path", "sha256"},
+        "artifact contract identity")
+    _expect(artifact_contract["schema"] ==
+            "implementaudit-b3v4-artifact-contract-v1",
+            "artifact contract schema invalid")
+    _expect(artifact_contract["path"] == "eval/b3v4_contract.json",
+            "artifact contract path invalid")
+    _digest(artifact_contract["sha256"], "artifact contract sha256")
+    declaration_path = pathlib.Path(__file__).resolve().parent.parent / \
+        pathlib.PurePosixPath(artifact_contract["path"])
+    declaration_bytes = _read_bytes(declaration_path)
+    _expect(_sha(declaration_bytes) == artifact_contract["sha256"],
+            "artifact contract hash mismatch")
+    declaration = _decode_json(
+        declaration_bytes, "artifact contract",
+        "artifact contract is malformed", True)
+    declaration = _exact_fields(
+        declaration, {"schema", "contract_id", "encoding", "execution",
+                      "artifacts", "lifecycle_schemas"}, "artifact contract")
+    _expect(declaration["schema"] == artifact_contract["schema"],
+            "artifact contract declaration schema invalid")
+    _expect(type(declaration["artifacts"]) is dict and
+            set(declaration["artifacts"]) == CONTRACT_ARTIFACTS,
+            "artifact contract retained artifact set invalid")
+
     foundation = _exact_fields(packet["foundation"], {"commit", "tree"},
                                "foundation")
     for key in ("commit", "tree"):
@@ -177,6 +232,8 @@ def _validate_freeze_contract(packet):
         for key in ("commit", "tree", "skill_tree"):
             _git_id(identity[key], f"{arm}.{key}")
         _digest(identity["payload_sha256"], f"{arm}.payload_sha256")
+    _expect(packet["candidate"] != packet["control"],
+            "candidate and control identities must be distinct")
 
     configurations = _mapping(packet["configurations"], "configurations")
     _expect(set(configurations) == {"L", "O"},
@@ -228,6 +285,9 @@ def _validate_freeze_contract(packet):
         mission = _exact_fields(mission, {"index", "config", "arm", "rep"},
                                 f"mission {index}")
         _expect(type(mission["index"]) is int and mission["index"] == index and
+                type(mission["config"]) is str and
+                type(mission["arm"]) is str and
+                type(mission["rep"]) is int and
                 (mission["config"], mission["arm"], mission["rep"]) == planned,
                 "fixed 12-mission order drift")
 
@@ -305,6 +365,60 @@ def _safe_rel(value, owner):
             all(part not in ("", ".", "..") for part in parts),
             f"{owner} path invalid")
     return value
+
+
+def _contained(root, relative, owner):
+    relative = _safe_rel(relative, owner)
+    root = pathlib.Path(root).resolve()
+    lexical = root.joinpath(*relative.split("/"))
+    try:
+        resolved = lexical.resolve(strict=True)
+        resolved.relative_to(root)
+        current = root
+        for part in relative.split("/"):
+            current = current / part
+            _expect(not current.is_symlink(), f"{owner} link alias forbidden")
+        _expect(resolved.stat().st_nlink == 1,
+                f"{owner} hardlink alias forbidden")
+    except (OSError, ValueError) as exc:
+        raise EvidenceInvalid(f"{owner} path containment invalid") from exc
+    return resolved
+
+
+def _validate_attempt_status(status, mission, freeze_sha, contract_sha):
+    status = _exact_fields(status, ATTEMPT_STATUS_FIELDS, "attempt status")
+    _expect(status["schema"] == "implementaudit-b3v4-attempt-status-v1" and
+            status["campaign"] == "b3v4-sol-r1" and
+            status["freeze_sha256"] == freeze_sha and
+            status["contract_sha256"] == contract_sha and
+            status["mission"] == mission and
+            status["state"] == "PREPARED_BEFORE_HOST_SPAWN" and
+            status["execution_mode"] in ("production", "test") and
+            type(status["created_at"]) is str and bool(status["created_at"]),
+            "attempt status identity invalid")
+    return status
+
+
+def _validate_attempt_terminal(terminal, mission):
+    terminal = _exact_fields(
+        terminal, ATTEMPT_TERMINAL_FIELDS, "attempt terminal")
+    _expect(terminal["schema"] == "implementaudit-b3v4-attempt-terminal-v1" and
+            terminal["campaign"] == "b3v4-sol-r1" and
+            type(terminal["mission_index"]) is int and
+            terminal["mission_index"] == mission["index"] and
+            terminal["execution_mode"] in ("production", "test") and
+            terminal["overall_status"] in OFFICIAL_STATES and
+            type(terminal["completed_at"]) is str and
+            bool(terminal["completed_at"]),
+            "attempt terminal identity invalid")
+    _expect(terminal["official_overall_status"] is None or
+            terminal["official_overall_status"] in OFFICIAL_STATES,
+            "attempt terminal official status invalid")
+    _expect(terminal["official_verdict_sha256"] is None or
+            (type(terminal["official_verdict_sha256"]) is str and
+             bool(HEX64.fullmatch(terminal["official_verdict_sha256"]))),
+            "attempt terminal verdict hash invalid")
+    return terminal
 
 
 def _canonical_snapshot_hash(value):
@@ -658,8 +772,14 @@ def _parse_raw_actions(raw, host):
 def _validate_capture(artifacts, fixture_bytes, fixture, expected_host,
                       parent_kind):
     required = set(CAPTURE_FILES) | {"host-read-manifest.json",
-                                     "run-intent.json", "process-started.json"}
-    _expect(required <= set(artifacts), "formal-v2 capture incomplete")
+                                     "run-intent.json", "process-started.json",
+                                     "host-checks.json"}
+    for spec in (fixture.get("host_checks") or {}).get("specs", []):
+        if spec.get("kind") == "json_fields_equal":
+            path = _safe_rel(spec.get("path"), "host-check input")
+            required.add("host-check-inputs/" + path)
+    _expect(set(artifacts) == required,
+            "formal-v2 capture artifact set incomplete or unexpected")
     objects = {}
     json_names = [name for name in required if not name.endswith(".raw")]
     for name in json_names:
@@ -787,7 +907,7 @@ def _load_bundle(bundle, packet, mission, parent_terminal):
     for rel, digest in files.items():
         rel = _safe_rel(rel, "artifact")
         _expect(bool(HEX64.fullmatch(str(digest))), "artifact digest invalid")
-        data = _read_bytes(bundle / "artifacts" / pathlib.PurePosixPath(rel))
+        data = _read_bytes(_contained(bundle / "artifacts", rel, "artifact"))
         _expect(_sha(data) == digest, f"artifact hash mismatch: {rel}")
         artifacts[rel] = data
     expected_host = "codex" if mission["config"] == "L" else "claude"
@@ -916,16 +1036,10 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha):
     try:
         status, _ = _read_json(attempt / "attempt-status.json", "attempt status")
         terminal, _ = _read_json(attempt / "attempt-terminal.json", "attempt terminal")
-        _expect(status.get("schema") == "implementaudit-b3v4-attempt-status-v1" and
-                status.get("campaign") == "b3v4-sol-r1" and
-                status.get("freeze_sha256") == freeze_sha and
-                status.get("mission") == mission and
-                status.get("state") == "PREPARED_BEFORE_HOST_SPAWN",
-                "attempt status identity invalid")
-        _expect(terminal.get("schema") == "implementaudit-b3v4-attempt-terminal-v1" and
-                terminal.get("campaign") == "b3v4-sol-r1" and
-                terminal.get("mission_index") == mission["index"],
-                "attempt terminal identity invalid")
+        status = _validate_attempt_status(
+            status, mission, freeze_sha,
+            packet["artifact_contract"]["sha256"])
+        terminal = _validate_attempt_terminal(terminal, mission)
         expected_model = packet["configurations"][mission["config"]][
             "model_resolved_required"]
         if terminal.get("resolved_model") != expected_model:
@@ -1002,29 +1116,56 @@ def rederive_campaign(packet_path, campaign_root):
     freeze_sha = _sha(frozen)
     custody, _ = _read_json(campaign_root / "campaign-manifest.json",
                             "campaign manifest")
-    _expect(custody.get("schema") == "implementaudit-b3v4-campaign-custody-v1" and
-            custody.get("campaign") == "b3v4-sol-r1" and
-            custody.get("freeze_sha256") == freeze_sha,
+    custody = _exact_fields(
+        custody, CAMPAIGN_MANIFEST_FIELDS, "campaign manifest")
+    _expect(custody["schema"] == "implementaudit-b3v4-campaign-custody-v1" and
+            custody["campaign"] == "b3v4-sol-r1" and
+            custody["freeze_sha256"] == freeze_sha and
+            custody["contract_sha256"] ==
+            packet["artifact_contract"]["sha256"] and
+            custody["execution_stage"] ==
+            "LUNA_THEN_OPUS_UNCHANGED_PACKET" and
+            type(custody["created_at"]) is str and bool(custody["created_at"]),
             "campaign custody invalid")
-    expected_names = {_attempt_name(mission) for mission in packet["missions"]}
+    expected_order = [_attempt_name(mission) for mission in packet["missions"]]
+    expected_names = set(expected_order)
+    allowed_root = expected_names | {"campaign-freeze.json",
+                                     "campaign-manifest.json"}
+    unexpected_root = {path.name for path in campaign_root.iterdir()} - allowed_root
+    _expect(not unexpected_root, "campaign contains unexpected custody entry")
     actual_names = {path.name for path in campaign_root.glob("attempt-*")
                     if not path.name.endswith(".claiming")}
     _expect(not list(campaign_root.glob("attempt-*.claiming")),
             "campaign contains nonterminal claim")
-    _expect(actual_names == expected_names, "campaign attempt set incomplete or unexpected")
+    completed_count = len(actual_names)
+    _expect(actual_names == set(expected_order[:completed_count]),
+            "campaign attempt set reordered or unexpected")
+    for name in expected_order[:completed_count]:
+        attempt = campaign_root / name
+        allowed_attempt = {"attempt-status.json", "attempt-terminal.json",
+                           "official-verdict.json", "host-custody"}
+        _expect({path.name for path in attempt.iterdir()} <= allowed_attempt,
+                "attempt contains unexpected custody entry")
+        _expect((attempt / "attempt-status.json").is_file() and
+                (attempt / "attempt-terminal.json").is_file(),
+                "attempt lifecycle is nonterminal")
     rows = [_rederive_attempt(packet, campaign_root, mission, freeze_sha)
-            for mission in packet["missions"]]
+            for mission in packet["missions"][:completed_count]]
     if any(row["overall_status"] == "ERROR" for row in rows):
         status = "ERROR"
     elif any(row["overall_status"] == "INVALID" for row in rows):
         status = "INVALID"
     elif any(row["overall_status"] == "FAIL" for row in rows):
         status = "FAIL"
+    elif completed_count < len(packet["missions"]):
+        status = "INCOMPLETE"
     else:
         status = "PASS"
     return {"schema": "implementaudit-b3v4-independent-rederivation-v1",
             "campaign": "b3v4-sol-r1", "freeze_sha256": freeze_sha,
-            "campaign_status": status, "accepted": status == "PASS",
+            "campaign_status": status,
+            "accepted": status == "PASS" and
+            completed_count == len(packet["missions"]),
             "mission_count": len(rows), "missions": rows}
 
 

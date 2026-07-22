@@ -11,6 +11,8 @@ import re
 import subprocess
 import sys
 
+import b3v4_contract as contract
+
 
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
 GIT_ID = re.compile(r"^[0-9a-f]{40}$")
@@ -49,7 +51,7 @@ REDERIVER_IMPORT_BOUNDARY = [
 REDERIVER_INPUT = "retained raw evidence only"
 REDERIVER_OUTPUT = "per-mission property, host, and overall rederivation"
 REQUIRED = {
-    "schema", "campaign", "state", "foundation", "fixture", "artifacts",
+    "schema", "campaign", "state", "artifact_contract", "foundation", "fixture", "artifacts",
     "candidate", "control", "configurations", "authorization", "seed",
     "repetitions_per_configuration_and_arm", "missions", "evidence_profiles",
     "result_composition", "attempt_policy", "acceptance_rule",
@@ -67,7 +69,9 @@ def _reject_duplicate_keys(pairs):
 
 
 def _strict_json_load(stream):
-    return json.load(stream, object_pairs_hook=_reject_duplicate_keys)
+    return json.load(stream, object_pairs_hook=_reject_duplicate_keys,
+                     parse_constant=lambda value: (_ for _ in ()).throw(
+                         ValueError(f"non-finite JSON number: {value}")))
 
 
 def _mapping(value, name):
@@ -105,6 +109,7 @@ def _repo_relative_path(value, name):
 
 
 def validate_structure(packet):
+    contract.validate_freeze_envelope(packet)
     packet = _mapping(packet, "packet")
     _required(packet, REQUIRED, "packet")
     if packet["schema"] != "implementaudit-b3v4-campaign-freeze-v1":
@@ -278,7 +283,13 @@ def _git(repo, *args):
 
 def validate_live(packet, repo_root):
     repo_root = pathlib.Path(repo_root).resolve()
+    contract_identity = packet["artifact_contract"]
+    contract_path = contract.resolve_contained(repo_root, contract_identity["path"])
+    if _sha256(contract_path) != contract_identity["sha256"]:
+        raise ValueError("artifact contract hash mismatch")
     foundation = packet["foundation"]
+    if _git(repo_root, "cat-file", "-t", foundation["commit"]) != "commit":
+        raise ValueError("foundation commit identity is not a commit object")
     if _git(repo_root, "rev-parse", foundation["commit"] + "^{tree}") != foundation["tree"]:
         raise ValueError("foundation commit/tree mismatch")
     fixture_dir = repo_root / "eval" / "fixtures" / packet["fixture"]["id"]
@@ -287,11 +298,13 @@ def validate_live(packet, repo_root):
     if _tree_manifest(fixture_dir) != packet["fixture"]["complete_manifest_sha256"]:
         raise ValueError("complete fixture manifest hash mismatch")
     for name, item in packet["artifacts"].items():
-        path = repo_root / pathlib.PurePosixPath(item["path"])
+        path = contract.resolve_contained(repo_root, item["path"])
         if _sha256(path) != item["sha256"]:
             raise ValueError(f"{name} artifact hash mismatch")
     approval = packet["authorization"]
-    if _sha256(approval["acknowledgement_path"]) != approval["acknowledgement_sha256"]:
+    approval_path = contract.resolve_external_file(
+        approval["acknowledgement_path"], "approval acknowledgement")
+    if _sha256(approval_path) != approval["acknowledgement_sha256"]:
         raise ValueError("approval acknowledgement hash mismatch")
     identity = packet["independent_rederiver"]["implementation_identity"]
     rederiver_path = repo_root / pathlib.PurePosixPath(identity["path"])

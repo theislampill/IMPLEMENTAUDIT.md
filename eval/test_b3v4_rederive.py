@@ -8,6 +8,7 @@ import hashlib
 import importlib.util
 import json
 import pathlib
+import shutil
 import tempfile
 
 from test_b3v4_freeze import valid_packet
@@ -98,7 +99,9 @@ def build_campaign(root):
     write(root / "campaign-manifest.json", {
         "schema": "implementaudit-b3v4-campaign-custody-v1",
         "campaign": "b3v4-sol-r1", "freeze_sha256": freeze_sha,
+        "contract_sha256": packet["artifact_contract"]["sha256"],
         "created_at": "2030-01-01T00:00:00Z",
+        "execution_stage": "LUNA_THEN_OPUS_UNCHANGED_PACKET",
     })
     capsule_path = fixture["allowed_paths"][0]
     capsule = {
@@ -125,6 +128,7 @@ def build_campaign(root):
         write(attempt / "attempt-status.json", {
             "schema": "implementaudit-b3v4-attempt-status-v1",
             "campaign": "b3v4-sol-r1", "freeze_sha256": freeze_sha,
+            "contract_sha256": packet["artifact_contract"]["sha256"],
             "mission": mission, "state": "PREPARED_BEFORE_HOST_SPAWN",
             "execution_mode": "production", "created_at": "2030-01-01T00:00:00Z",
         })
@@ -133,6 +137,9 @@ def build_campaign(root):
             "campaign": "b3v4-sol-r1", "mission_index": mission["index"],
             "execution_mode": "production", "overall_status": "PASS",
             "resolved_model": model, "host_run_root": str(host_root),
+            "official_overall_status": None,
+            "official_verdict_sha256": None,
+            "stop_reason": None, "error_type": None,
             "completed_at": "2030-01-01T00:00:01Z",
         }
         write(attempt / "attempt-terminal.json", attempt_terminal)
@@ -455,6 +462,24 @@ def main():
             owner[path[-1]] = value
             expect_freeze_invalid(module, root, changed, fragment)
 
+    with tempfile.TemporaryDirectory(prefix="b3v4-rederive-prefix-") as tmp:
+        root = pathlib.Path(tmp) / "campaign"
+        packet = build_campaign(root)
+        for mission in packet["missions"][2:]:
+            name = (f"attempt-{mission['index']:03d}-{mission['config']}-"
+                    f"{mission['arm']}-r{mission['rep']}")
+            shutil.rmtree(root / name)
+        prefix = module.rederive_campaign(root / "campaign-freeze.json", root)
+        assert prefix["campaign_status"] == "INCOMPLETE", prefix
+        assert prefix["accepted"] is False and prefix["mission_count"] == 2
+        (root / "unexpected-summary.json").write_text("{}", encoding="utf-8")
+        try:
+            module.rederive_campaign(root / "campaign-freeze.json", root)
+        except module.EvidenceInvalid as exc:
+            assert "unexpected custody" in str(exc), str(exc)
+        else:
+            raise AssertionError("unexpected campaign artifact was accepted")
+
     with tempfile.TemporaryDirectory(prefix="b3v4-rederive-") as tmp:
         root = pathlib.Path(tmp) / "campaign"
         packet = build_campaign(root)
@@ -570,6 +595,28 @@ def main():
         assert ambiguous["campaign_status"] == "INVALID", ambiguous["missions"][0]
         assert ambiguous["accepted"] is False
         assert "duplicate key 'authority'" in ambiguous["missions"][0]["reason"]
+
+    with tempfile.TemporaryDirectory(prefix="b3v4-rederive-extra-") as tmp:
+        root = pathlib.Path(tmp) / "campaign"
+        build_campaign(root)
+        first = root / "attempt-000-L-candidate-r1"
+        bundle = first / "host-custody" / first.name / "bundle"
+        extra = bundle / "artifacts" / "unexpected-summary.json"
+        write(extra, {"status": "PASS"})
+        artifact_manifest_path = bundle / "artifact-manifest.json"
+        artifact_manifest = json.loads(
+            artifact_manifest_path.read_text(encoding="utf-8"))
+        artifact_manifest["files"]["unexpected-summary.json"] = sha(
+            extra.read_bytes())
+        write(artifact_manifest_path, artifact_manifest)
+        manifest_path = bundle / "manifest.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        manifest["artifact_manifest_sha256"] = sha(
+            artifact_manifest_path.read_bytes())
+        write(manifest_path, manifest)
+        rebound = module.rederive_campaign(root / "campaign-freeze.json", root)
+        assert rebound["campaign_status"] == "INVALID", rebound
+        assert "artifact set" in rebound["missions"][0]["reason"]
 
     with tempfile.TemporaryDirectory(prefix="b3v4-rederive-") as tmp:
         root = pathlib.Path(tmp) / "campaign"

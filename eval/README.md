@@ -58,7 +58,14 @@ unchanged `B3-v3` fixture under the accepted formal-v2 evaluator foundation.
 The private intent binds the complete fixture manifest, evaluator artifacts,
 product identities, subscription-backed L/O host identities, fixed mission
 order, attempt-retention rules, stop conditions, and a separate rederivation
-contract. `eval/validate_b3v4_freeze.py` validates that packet without invoking
+contract. The packet also hash-binds `eval/b3v4_contract.json`, the versioned
+ownership and lifecycle declaration for every retained qualification artifact.
+`eval/b3v4_contract.py` is the official-side decoder/custody implementation: it
+rejects duplicate keys, non-finite numbers, coercive scalar aliases, open
+objects, unsafe or link-aliased paths, and overwrite attempts. The independent
+rederiver verifies the same declaration bytes and enforces the frozen envelope
+and lifecycle with separate implementation logic; it does not import the
+official helper. `eval/validate_b3v4_freeze.py` validates that packet without invoking
 a model or exposing the owner approval acknowledgement contents.
 `eval/b3v4_campaign.py` consumes it one mission at a time, revalidates frozen
 and live identities, creates a distinct attempt status before host spawn, and
@@ -76,7 +83,10 @@ packet and retained campaign custody it independently verifies all 12 attempt
 identities, bundle and formal-v2 hash chains, host/model identity, snapshots,
 JSON inputs, and path-order evidence, then emits a deterministic property,
 host, overall, and campaign result. Missing or ambiguous evidence, model
-substitution, and any `INVALID` or `ERROR` state fail closed.
+substitution, and any `INVALID` or `ERROR` state fail closed. An exact retained
+prefix is reported as unaccepted `INCOMPLETE`; a Luna-stage prefix is never
+campaign completion, and only all 12 ordered L/O missions can produce an
+accepted campaign result.
 
 `A1`–`A5` form the SUPPLEMENTARY **ordinary-invocation behavioral
 campaign** (A-series, per issue #52): A1 factor-derived action selection,

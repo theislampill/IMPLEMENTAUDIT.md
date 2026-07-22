@@ -16,6 +16,7 @@ import adapters
 import hosts
 import runner
 import validate_b3v4_freeze as freeze
+import b3v4_contract as contract
 
 
 STOP_STATES = frozenset({"INVALID", "ERROR"})
@@ -23,21 +24,8 @@ CONTINUE_STATES = frozenset({"PASS", "FAIL"})
 OFFICIAL_STATES = CONTINUE_STATES | STOP_STATES
 
 
-def _reject_duplicate_keys(pairs):
-    value = {}
-    for key, item in pairs:
-        if key in value:
-            raise ValueError(f"duplicate JSON key: {key}")
-        value[key] = item
-    return value
-
-
-def _strict_json_load(stream):
-    return json.load(stream, object_pairs_hook=_reject_duplicate_keys)
-
-
 def _strict_json_loads(value):
-    return json.loads(value, object_pairs_hook=_reject_duplicate_keys)
+    return contract.decode_json_bytes(value.encode("utf-8"), "retained JSON")
 
 
 def _utc_now():
@@ -57,16 +45,11 @@ def _sha256_file(path):
 
 
 def _write_new_json(path, value):
-    with open(path, "xb") as stream:
-        stream.write(json.dumps(value, indent=1, sort_keys=True).encode("utf-8"))
+    contract.write_new_json(path, value)
 
 
 def _read_object(path, owner):
-    with open(path, encoding="utf-8") as stream:
-        value = _strict_json_load(stream)
-    if not isinstance(value, dict):
-        raise ValueError(f"{owner} must be a JSON object")
-    return value
+    return contract.load_json_file(path, owner)
 
 
 def _validate_official_verdict(verdict):
@@ -148,8 +131,9 @@ def validate_runtime_identities(packet, *, candidate_checkout,
             raise ValueError(f"{arm} payload identity drift")
     for name in ("L", "O"):
         executable = packet["configurations"][name]["executable"]
-        path = pathlib.Path(executable["path"])
-        if not path.is_file() or _sha256_file(path) != executable["sha256"]:
+        path = contract.resolve_external_file(
+            executable["path"], f"configuration {name} executable")
+        if _sha256_file(path) != executable["sha256"]:
             raise ValueError(f"configuration {name} executable identity drift")
         proc = subprocess.run([str(path), "--version"], capture_output=True,
                               text=True, timeout=60)
@@ -220,12 +204,16 @@ class CampaignDriver:
             _write_new_json(manifest, {
                 "schema": "implementaudit-b3v4-campaign-custody-v1",
                 "campaign": "b3v4-sol-r1", "freeze_sha256": packet_sha256,
+                "contract_sha256": contract.contract_sha256(),
                 "created_at": _utc_now(),
+                "execution_stage": "LUNA_THEN_OPUS_UNCHANGED_PACKET",
             })
         if not frozen.is_file() or not manifest.is_file():
             raise ValueError("campaign custody is incomplete")
         recorded = _read_object(manifest, "campaign manifest")
+        contract.validate_artifact("campaign_manifest", recorded)
         if (recorded.get("freeze_sha256") != packet_sha256 or
+                recorded.get("contract_sha256") != contract.contract_sha256() or
                 _sha256_file(frozen) != packet_sha256 or
                 frozen.read_bytes() != raw):
             raise ValueError("frozen packet drift")
@@ -236,6 +224,13 @@ class CampaignDriver:
                 f"{mission['arm']}-r{mission['rep']}")
 
     def _next_mission(self, packet):
+        allowed_root = {"campaign-freeze.json", "campaign-manifest.json"}
+        allowed_root.update(self._attempt_name(m) for m in packet["missions"])
+        allowed_root.update(self._attempt_name(m) + ".claiming"
+                            for m in packet["missions"])
+        unexpected = {p.name for p in self.campaign_root.iterdir()} - allowed_root
+        if unexpected:
+            raise ValueError("unexpected campaign custody entry")
         expected = {self._attempt_name(m) for m in packet["missions"]}
         actual = {p.name for p in self.campaign_root.glob("attempt-*")
                   if not p.name.endswith(".claiming")}
@@ -251,12 +246,20 @@ class CampaignDriver:
                        if m["index"] > mission["index"]):
                     raise ValueError("campaign attempt order has a gap")
                 return mission
+            if not root.is_dir():
+                raise ValueError("attempt custody entry is not a directory")
+            allowed_attempt = {"attempt-status.json", "attempt-terminal.json",
+                               "official-verdict.json", "host-custody"}
+            if {path.name for path in root.iterdir()} - allowed_attempt:
+                raise ValueError("unexpected attempt custody entry")
             status_path = root / "attempt-status.json"
             terminal_path = root / "attempt-terminal.json"
             if not status_path.is_file() or not terminal_path.is_file():
                 raise ValueError("prior attempt is nonterminal")
             status = _read_object(status_path, "attempt status")
             terminal = _read_object(terminal_path, "attempt terminal")
+            contract.validate_artifact("attempt_status", status)
+            contract.validate_artifact("attempt_terminal", terminal)
             if (status.get("mission") != mission or
                     terminal.get("mission_index") != mission["index"]):
                 raise ValueError("prior attempt identity drift")
@@ -279,6 +282,7 @@ class CampaignDriver:
         _write_new_json(claiming / "attempt-status.json", {
             "schema": "implementaudit-b3v4-attempt-status-v1",
             "campaign": "b3v4-sol-r1", "freeze_sha256": packet_sha256,
+            "contract_sha256": contract.contract_sha256(),
             "mission": mission, "state": "PREPARED_BEFORE_HOST_SPAWN",
             "execution_mode": self.execution_mode, "created_at": _utc_now(),
         })
@@ -313,6 +317,10 @@ class CampaignDriver:
             "schema": "implementaudit-b3v4-attempt-terminal-v1",
             "campaign": "b3v4-sol-r1", "mission_index": mission["index"],
             "execution_mode": self.execution_mode,
+            "overall_status": None, "resolved_model": None,
+            "host_run_root": None, "official_overall_status": None,
+            "official_verdict_sha256": None, "stop_reason": None,
+            "error_type": None, "completed_at": None,
         }
         try:
             outcome = self.mission_executor(context)
@@ -360,8 +368,8 @@ class CampaignDriver:
                 terminal["overall_status"] = "ERROR"
                 terminal["stop_reason"] = "unsupported-executor-result"
             elif terminal["overall_status"] in STOP_STATES:
-                terminal.setdefault(
-                    "stop_reason", "invalid-or-error-halts-campaign")
+                if not terminal.get("stop_reason"):
+                    terminal["stop_reason"] = "invalid-or-error-halts-campaign"
         except Exception as exc:
             terminal.update({
                 "overall_status": "ERROR", "resolved_model": None,
@@ -374,6 +382,7 @@ class CampaignDriver:
                 terminal["overall_status"] = "INVALID"
                 terminal["stop_reason"] = "frozen-input-drift"
         terminal["completed_at"] = _utc_now()
+        contract.validate_artifact("attempt_terminal", terminal)
         _write_new_json(attempt_root / "attempt-terminal.json", terminal)
         return terminal
 
@@ -389,6 +398,7 @@ class CampaignDriver:
         if not attestation_path:
             raise ValueError("formal host-read attestation is required")
         attestation = _read_object(attestation_path, "host-read attestation")
+        contract.validate_host_attestation(attestation)
         executable = config["executable"]["path"]
         common = {
             "product_checkout": str(product),
