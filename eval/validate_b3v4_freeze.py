@@ -22,6 +22,32 @@ PLAN = [
     ("L", "control", 3), ("L", "candidate", 3),
     ("O", "candidate", 3), ("O", "control", 3),
 ]
+FORMAL_HOST_READ_PROFILE = "implementaudit-host-read-profile-v2"
+ACCEPTANCE_RULE = (
+    "all 12 missions terminal; independent rederivation agrees with every "
+    "stored property, host, and overall result; property evidence complete "
+    "in every verdict; host status PASS in every mission; zero "
+    "INVALID/ERROR; zero model substitution; exact candidate, control, "
+    "model, host, fixture, scorer, evaluator, bundle, runner, and rederiver "
+    "identities"
+)
+INVALID_ERROR_RULE = (
+    "INVALID and ERROR are never product PASS; halt campaign and preserve "
+    "every attempt"
+)
+STOP_CONDITIONS = [
+    "authentication or quota failure",
+    "model substitution",
+    "identity or custody mismatch",
+    "any INVALID or ERROR",
+    "frozen input drift",
+]
+REDERIVER_CONTRACT = "implementaudit-b3v4-independent-rederiver-v1"
+REDERIVER_IMPORT_BOUNDARY = [
+    "eval.hosts", "eval.runner", "eval.lib.scoring",
+]
+REDERIVER_INPUT = "retained raw evidence only"
+REDERIVER_OUTPUT = "per-mission property, host, and overall rederivation"
 REQUIRED = {
     "schema", "campaign", "state", "foundation", "fixture", "artifacts",
     "candidate", "control", "configurations", "authorization", "seed",
@@ -51,6 +77,18 @@ def _digest(value, name):
 def _git_id(value, name):
     if not isinstance(value, str) or not GIT_ID.fullmatch(value):
         raise ValueError(f"{name} must be a lowercase full Git object id")
+
+
+def _repo_relative_path(value, name):
+    if not isinstance(value, str) or not value or "\x00" in value:
+        raise ValueError(f"{name} must be a non-empty repository-relative path")
+    normalized = value.replace("\\", "/")
+    parts = normalized.split("/")
+    if (value != normalized or normalized.startswith("/") or
+            re.match(r"^[A-Za-z]:", normalized) or
+            any(part in ("", ".", "..") for part in parts)):
+        raise ValueError(f"{name} must be a non-empty repository-relative path")
+    return normalized
 
 
 def validate_structure(packet):
@@ -150,6 +188,8 @@ def validate_structure(packet):
             "raw_stdout", "native_session", "pre_spawn",
             "post_mission_manifest")):
         raise ValueError("formal-v2 evidence profiles must be required")
+    if profiles["formal_host_read"] != FORMAL_HOST_READ_PROFILE:
+        raise ValueError("evidence_profiles.formal_host_read must bind formal-v2")
 
     composition = _mapping(packet["result_composition"], "result_composition")
     if composition.get("product_property_states") != ["PASS", "FAIL", "INCOMPLETE"]:
@@ -165,19 +205,34 @@ def validate_structure(packet):
     if attempts.get("preserve_every_attempt") is not True:
         raise ValueError("attempt_policy must preserve every attempt")
 
-    if not isinstance(packet["stop_conditions"], list) or len(
-            packet["stop_conditions"]) < 5:
-        raise ValueError("stop_conditions incomplete")
+    if packet["acceptance_rule"] != ACCEPTANCE_RULE:
+        raise ValueError("frozen packet drift: acceptance_rule")
+    if packet["invalid_error_rule"] != INVALID_ERROR_RULE:
+        raise ValueError("invalid_error_rule drift")
+    if packet["stop_conditions"] != STOP_CONDITIONS:
+        raise ValueError("stop_conditions drift")
     rederiver = _mapping(packet["independent_rederiver"],
                          "independent_rederiver")
     _required(rederiver, {"contract_id", "implementation_identity",
                           "must_not_import", "input", "output"},
               "independent_rederiver")
-    forbidden = rederiver["must_not_import"]
-    if not isinstance(forbidden, list) or not {
-            "eval.hosts", "eval.runner", "eval.lib.scoring"}.issubset(
-                set(forbidden)):
-        raise ValueError("independent_rederiver.must_not_import incomplete")
+    if rederiver["contract_id"] != REDERIVER_CONTRACT:
+        raise ValueError("independent_rederiver.contract_id drift")
+    identity = _mapping(rederiver["implementation_identity"],
+                        "independent_rederiver.implementation_identity")
+    if set(identity) != {"path", "sha256"}:
+        raise ValueError(
+            "independent_rederiver.implementation_identity must bind path/sha256")
+    _repo_relative_path(
+        identity["path"], "independent_rederiver.implementation_identity.path")
+    _digest(identity["sha256"],
+            "independent_rederiver.implementation_identity.sha256")
+    if rederiver["must_not_import"] != REDERIVER_IMPORT_BOUNDARY:
+        raise ValueError("independent_rederiver.must_not_import drift")
+    if rederiver["input"] != REDERIVER_INPUT:
+        raise ValueError("independent_rederiver.input drift")
+    if rederiver["output"] != REDERIVER_OUTPUT:
+        raise ValueError("independent_rederiver.output drift")
     return packet
 
 
@@ -225,6 +280,10 @@ def validate_live(packet, repo_root):
     approval = packet["authorization"]
     if _sha256(approval["acknowledgement_path"]) != approval["acknowledgement_sha256"]:
         raise ValueError("approval acknowledgement hash mismatch")
+    identity = packet["independent_rederiver"]["implementation_identity"]
+    rederiver_path = repo_root / pathlib.PurePosixPath(identity["path"])
+    if _sha256(rederiver_path) != identity["sha256"]:
+        raise ValueError("independent rederiver implementation hash mismatch")
     return packet
 
 

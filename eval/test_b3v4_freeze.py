@@ -6,6 +6,8 @@ import copy
 import importlib.util
 import json
 import pathlib
+import subprocess
+import tempfile
 
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -83,14 +85,23 @@ def valid_packet():
         },
         "attempt_policy": {"silent_retry": "FORBIDDEN",
                            "preserve_every_attempt": True},
-        "acceptance_rule": "all 12 terminal and independently rederived",
-        "invalid_error_rule": "never product data; halt and preserve",
+        "acceptance_rule": (
+            "all 12 missions terminal; independent rederivation agrees with "
+            "every stored property, host, and overall result; property "
+            "evidence complete in every verdict; host status PASS in every "
+            "mission; zero INVALID/ERROR; zero model substitution; exact "
+            "candidate, control, model, host, fixture, scorer, evaluator, "
+            "bundle, runner, and rederiver identities"),
+        "invalid_error_rule": (
+            "INVALID and ERROR are never product PASS; halt campaign and "
+            "preserve every attempt"),
         "stop_conditions": ["authentication or quota failure", "model substitution",
                             "identity or custody mismatch", "any INVALID or ERROR",
                             "frozen input drift"],
         "independent_rederiver": {
             "contract_id": "implementaudit-b3v4-independent-rederiver-v1",
-            "implementation_identity": "separate-implementation-required-before-run",
+            "implementation_identity": {
+                "path": "eval/b3v4_rederive.py", "sha256": sha},
             "must_not_import": ["eval.hosts", "eval.runner", "eval.lib.scoring"],
             "input": "retained raw evidence only",
             "output": "per-mission property, host, and overall rederivation",
@@ -105,6 +116,15 @@ def expect_invalid(module, packet, fragment):
         assert fragment in str(exc), str(exc)
     else:
         raise AssertionError(f"packet unexpectedly valid; wanted {fragment!r}")
+
+
+def expect_live_invalid(module, packet, repo, fragment):
+    try:
+        module.validate_live(packet, repo)
+    except ValueError as exc:
+        assert fragment in str(exc), str(exc)
+    else:
+        raise AssertionError(f"live packet unexpectedly valid; wanted {fragment!r}")
 
 
 def main():
@@ -132,6 +152,104 @@ def main():
     weak_rederive = copy.deepcopy(packet)
     weak_rederive["independent_rederiver"]["must_not_import"] = []
     expect_invalid(module, weak_rederive, "must_not_import")
+
+    reviewer_counterexample = copy.deepcopy(packet)
+    reviewer_counterexample["evidence_profiles"]["formal_host_read"] = "optional"
+    reviewer_counterexample["acceptance_rule"] = "one official PASS is enough"
+    reviewer_counterexample["invalid_error_rule"] = \
+        "INVALID and ERROR count as product PASS; continue"
+    reviewer_counterexample["stop_conditions"] = ["continue"] * 5
+    reviewer_counterexample["independent_rederiver"].update({
+        "implementation_identity": "",
+        "input": "copy official result",
+        "output": "copy official result",
+    })
+    expect_invalid(module, reviewer_counterexample, "formal_host_read")
+
+    weak_formal_profile = copy.deepcopy(packet)
+    weak_formal_profile["evidence_profiles"]["formal_host_read"] = "optional"
+    expect_invalid(module, weak_formal_profile, "formal_host_read")
+
+    weak_acceptance = copy.deepcopy(packet)
+    weak_acceptance["acceptance_rule"] = "one official PASS is enough"
+    expect_invalid(module, weak_acceptance, "acceptance_rule")
+
+    weak_invalid_error = copy.deepcopy(packet)
+    weak_invalid_error["invalid_error_rule"] = \
+        "INVALID and ERROR count as product PASS; continue"
+    expect_invalid(module, weak_invalid_error, "invalid_error_rule")
+
+    weak_stops = copy.deepcopy(packet)
+    weak_stops["stop_conditions"] = ["continue"] * 5
+    expect_invalid(module, weak_stops, "stop_conditions")
+
+    empty_identity = copy.deepcopy(packet)
+    empty_identity["independent_rederiver"]["implementation_identity"] = ""
+    expect_invalid(module, empty_identity, "implementation_identity")
+
+    empty_identity_path = copy.deepcopy(packet)
+    empty_identity_path["independent_rederiver"]["implementation_identity"][
+        "path"] = ""
+    expect_invalid(module, empty_identity_path, "implementation_identity.path")
+
+    escaping_identity_path = copy.deepcopy(packet)
+    escaping_identity_path["independent_rederiver"]["implementation_identity"][
+        "path"] = "../eval/b3v4_rederive.py"
+    expect_invalid(module, escaping_identity_path,
+                   "implementation_identity.path")
+
+    bad_identity_hash = copy.deepcopy(packet)
+    bad_identity_hash["independent_rederiver"]["implementation_identity"][
+        "sha256"] = "not-a-digest"
+    expect_invalid(module, bad_identity_hash, "implementation_identity.sha256")
+
+    copy_only_input = copy.deepcopy(packet)
+    copy_only_input["independent_rederiver"]["input"] = "copy official result"
+    expect_invalid(module, copy_only_input, "independent_rederiver.input")
+
+    copy_only_output = copy.deepcopy(packet)
+    copy_only_output["independent_rederiver"]["output"] = "copy official result"
+    expect_invalid(module, copy_only_output, "independent_rederiver.output")
+
+    with tempfile.TemporaryDirectory(prefix="b3v4-freeze-") as tmp:
+        repo = HERE.parent
+        approval = pathlib.Path(tmp) / "APPROVAL.txt"
+        approval.write_text("owner-approved subscription boundary\n",
+                            encoding="utf-8")
+        live = valid_packet()
+        live["foundation"] = {
+            "commit": subprocess.check_output(
+                ["git", "-C", str(repo), "rev-parse", "HEAD"],
+                text=True).strip(),
+            "tree": subprocess.check_output(
+                ["git", "-C", str(repo), "rev-parse", "HEAD^{tree}"],
+                text=True).strip(),
+        }
+        fixture_dir = repo / "eval" / "fixtures" / live["fixture"]["id"]
+        live["fixture"]["fixture_sha256"] = module._sha256(
+            fixture_dir / "fixture.json")
+        live["fixture"]["complete_manifest_sha256"] = module._tree_manifest(
+            fixture_dir)
+        artifact = "eval/validate_b3v4_freeze.py"
+        artifact_hash = module._sha256(repo / artifact)
+        live["artifacts"] = {
+            name: {"path": artifact, "sha256": artifact_hash}
+            for name in ("scorer", "evaluator", "bundle", "runner")
+        }
+        live["authorization"]["acknowledgement_path"] = str(approval)
+        live["authorization"]["acknowledgement_sha256"] = module._sha256(
+            approval)
+        rederiver = repo / "eval" / "b3v4_rederive.py"
+        live["independent_rederiver"]["implementation_identity"][
+            "sha256"] = module._sha256(rederiver)
+        module.validate_structure(live)
+        module.validate_live(live, repo)
+
+        drifted_rederiver = copy.deepcopy(live)
+        drifted_rederiver["independent_rederiver"][
+            "implementation_identity"]["sha256"] = "0" * 64
+        expect_live_invalid(module, drifted_rederiver, repo,
+                            "rederiver implementation hash mismatch")
 
     encoded = json.dumps(packet, sort_keys=True, separators=(",", ":"))
     assert "FROZEN_BEFORE_FIRST_MISSION" in encoded
