@@ -692,16 +692,22 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha):
                 "required property matrix incomplete")
         product_status = "PASS" if all(properties[name]["pass"]
                                        for name in required) else "FAIL"
-        overall = product_status
+        independent_overall = product_status
+        official_overall = terminal["overall_status"]
+        statuses_agree = official_overall == independent_overall
+        overall = independent_overall if statuses_agree else "FAIL"
         return {"index": mission["index"], "config": mission["config"],
                 "arm": mission["arm"], "rep": mission["rep"],
                 "product_status": product_status, "host_status": "PASS",
                 "overall_status": overall, "properties": properties,
-                "reason": None, "bundle_manifest_sha256": _sha(
+                "reason": (None if statuses_agree else
+                           "official and independently rederived overall statuses disagree"),
+                "bundle_manifest_sha256": _sha(
                     _read_bytes(host_root / "bundle" / "manifest.json")),
                 "raw_stdout_sha256": _sha(artifacts["host-stdout.raw"]),
                 "native_session_sha256": _sha(artifacts["host-session.raw"]),
-                "official_overall_status": terminal["overall_status"],
+                "official_overall_status": official_overall,
+                "independent_overall_status": independent_overall,
                 "model_resolved": manifest["model_resolved"]}
     except (EvidenceInvalid, OSError, KeyError, TypeError, ValueError) as exc:
         return _invalid_row(mission, "INVALID", exc)

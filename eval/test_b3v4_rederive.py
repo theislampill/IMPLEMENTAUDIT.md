@@ -315,6 +315,19 @@ def main():
         first = root / "attempt-000-L-candidate-r1"
         terminal_path = first / "attempt-terminal.json"
         terminal = json.loads(terminal_path.read_text(encoding="utf-8"))
+        terminal["overall_status"] = "FAIL"
+        write(terminal_path, terminal)
+        disagreement = module.rederive_campaign(root / "campaign-freeze.json", root)
+        assert disagreement["campaign_status"] == "FAIL", disagreement
+        assert disagreement["accepted"] is False
+        first_row = disagreement["missions"][0]
+        assert first_row["official_overall_status"] == "FAIL"
+        assert first_row["independent_overall_status"] == "PASS"
+        assert first_row["overall_status"] == "FAIL"
+        assert "disagree" in first_row["reason"]
+        terminal["overall_status"] = "PASS"
+        write(terminal_path, terminal)
+
         terminal["resolved_model"] = "substituted-model"
         write(terminal_path, terminal)
         invalid = module.rederive_campaign(root / "campaign-freeze.json", root)
@@ -343,7 +356,12 @@ def main():
         rebind_capture(bundle)
         falsified = module.rederive_campaign(root / "campaign-freeze.json", root)
         assert falsified["campaign_status"] == "FAIL", falsified["missions"][0]
-        assert falsified["missions"][0]["properties"][
+        first_row = falsified["missions"][0]
+        assert first_row["official_overall_status"] == "PASS"
+        assert first_row["independent_overall_status"] == "FAIL"
+        assert first_row["overall_status"] == "FAIL"
+        assert "disagree" in first_row["reason"]
+        assert first_row["properties"][
             "live_state_read_before_mutation"]["state"] == "FAIL"
 
     print("test_b3v4_rederive: ok")
