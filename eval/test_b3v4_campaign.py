@@ -29,6 +29,18 @@ def write_packet(root):
     return path
 
 
+def append_duplicate_member(raw, name, value):
+    end = raw.rfind("}")
+    assert end >= 0
+    return raw[:end] + f',"{name}":{json.dumps(value)}' + raw[end:]
+
+
+def add_duplicate_to_file(path, name, value):
+    path = pathlib.Path(path)
+    path.write_text(append_duplicate_member(
+        path.read_text(encoding="utf-8"), name, value), encoding="utf-8")
+
+
 def make_driver(module, root, executor):
     packet = write_packet(root)
     return module.CampaignDriver(
@@ -89,6 +101,12 @@ def scored_outcome(context, status="PASS", *, resolved_model=None,
 
 def main():
     module = load_driver()
+
+    with tempfile.TemporaryDirectory(prefix="b3v4-campaign-duplicate-") as tmp:
+        driver = make_driver(module, tmp, scored_outcome)
+        packet = pathlib.Path(tmp) / "intent.json"
+        add_duplicate_to_file(packet, "seed", 20260718)
+        expect_error("duplicate JSON key", driver.run_next)
 
     with tempfile.TemporaryDirectory(prefix="b3v4-campaign-custody-") as tmp:
         def contradictory_executor(context):
@@ -167,6 +185,44 @@ def main():
         verdict["reason"] = "post-terminal drift"
         verdict_path.write_text(json.dumps(verdict), encoding="utf-8")
         expect_error("official verdict custody drift", driver.run_next)
+
+    retained_cases = (
+        ("campaign-manifest.json", "campaign", "b3v4-sol-r1"),
+        ("attempt-status.json", "state", "PREPARED_BEFORE_HOST_SPAWN"),
+        ("attempt-terminal.json", "overall_status", "PASS"),
+    )
+    for relative, key, value in retained_cases:
+        with tempfile.TemporaryDirectory(
+                prefix="b3v4-campaign-retained-duplicate-") as tmp:
+            driver = make_driver(module, tmp, scored_outcome)
+            driver.run_next()
+            attempt = pathlib.Path(tmp) / "campaign" / \
+                "attempt-000-L-candidate-r1"
+            target = (pathlib.Path(tmp) / "campaign" / relative
+                      if relative == "campaign-manifest.json"
+                      else attempt / relative)
+            add_duplicate_to_file(target, key, value)
+            expect_error("duplicate JSON key", driver.run_next)
+
+    with tempfile.TemporaryDirectory(
+            prefix="b3v4-campaign-verdict-duplicate-") as tmp:
+        driver = make_driver(module, tmp, scored_outcome)
+        first = driver.run_next()
+        attempt = pathlib.Path(tmp) / "campaign" / \
+            "attempt-000-L-candidate-r1"
+        verdict_path = attempt / "official-verdict.json"
+        raw = verdict_path.read_text(encoding="utf-8")
+        raw = raw.replace(
+            '"overall_status": "PASS",',
+            '"overall_status": "PASS", "overall_status": "PASS",', 1)
+        verdict_path.write_text(raw, encoding="utf-8")
+        terminal_path = attempt / "attempt-terminal.json"
+        terminal = json.loads(terminal_path.read_text(encoding="utf-8"))
+        terminal["official_verdict_sha256"] = hashlib.sha256(
+            verdict_path.read_bytes()).hexdigest()
+        terminal_path.write_text(json.dumps(terminal), encoding="utf-8")
+        assert first["overall_status"] == "PASS"
+        expect_error("duplicate JSON key", driver.run_next)
 
     with tempfile.TemporaryDirectory(prefix="b3v4-campaign-") as tmp:
         order = []

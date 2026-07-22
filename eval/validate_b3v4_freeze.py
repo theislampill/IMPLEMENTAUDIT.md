@@ -57,6 +57,19 @@ REQUIRED = {
 }
 
 
+def _reject_duplicate_keys(pairs):
+    value = {}
+    for key, item in pairs:
+        if key in value:
+            raise ValueError(f"duplicate JSON key: {key}")
+        value[key] = item
+    return value
+
+
+def _strict_json_load(stream):
+    return json.load(stream, object_pairs_hook=_reject_duplicate_keys)
+
+
 def _mapping(value, name):
     if not isinstance(value, dict):
         raise ValueError(f"{name} must be an object")
@@ -294,7 +307,7 @@ def main(argv=None):
     parser.add_argument("--schema-only", action="store_true")
     args = parser.parse_args(argv)
     with open(args.intent, encoding="utf-8") as stream:
-        packet = json.load(stream)
+        packet = _strict_json_load(stream)
     validate_structure(packet)
     if not args.schema_only:
         validate_live(packet, args.repo_root)

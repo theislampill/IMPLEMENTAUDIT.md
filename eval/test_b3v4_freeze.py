@@ -127,6 +127,12 @@ def expect_live_invalid(module, packet, repo, fragment):
         raise AssertionError(f"live packet unexpectedly valid; wanted {fragment!r}")
 
 
+def append_duplicate_member(raw, name, value):
+    end = raw.rfind("}")
+    assert end >= 0
+    return raw[:end] + f',"{name}":{json.dumps(value)}' + raw[end:]
+
+
 def main():
     module = load_validator()
     packet = valid_packet()
@@ -253,6 +259,27 @@ def main():
 
     encoded = json.dumps(packet, sort_keys=True, separators=(",", ":"))
     assert "FROZEN_BEFORE_FIRST_MISSION" in encoded
+    with tempfile.TemporaryDirectory(prefix="b3v4-freeze-duplicate-") as tmp:
+        intent = pathlib.Path(tmp) / "intent.json"
+        intent.write_text(
+            append_duplicate_member(encoded, "seed", 20260718),
+            encoding="utf-8")
+        rejected = subprocess.run(
+            ["python", str(VALIDATOR), str(intent), "--schema-only"],
+            capture_output=True, text=True)
+        assert rejected.returncode == 2, rejected
+        assert "duplicate JSON key" in rejected.stderr, rejected.stderr
+        nested = encoded.replace(
+            f'"fixture_sha256":"{"a" * 64}"',
+            f'"fixture_sha256":"{"a" * 64}",'
+            f'"fixture_sha256":"{"a" * 64}"', 1)
+        intent.write_text(nested, encoding="utf-8")
+        nested_rejected = subprocess.run(
+            ["python", str(VALIDATOR), str(intent), "--schema-only"],
+            capture_output=True, text=True)
+        assert nested_rejected.returncode == 2, nested_rejected
+        assert "duplicate JSON key" in nested_rejected.stderr, \
+            nested_rejected.stderr
     print("test_b3v4_freeze: ok")
 
 

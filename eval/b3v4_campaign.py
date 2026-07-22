@@ -23,6 +23,23 @@ CONTINUE_STATES = frozenset({"PASS", "FAIL"})
 OFFICIAL_STATES = CONTINUE_STATES | STOP_STATES
 
 
+def _reject_duplicate_keys(pairs):
+    value = {}
+    for key, item in pairs:
+        if key in value:
+            raise ValueError(f"duplicate JSON key: {key}")
+        value[key] = item
+    return value
+
+
+def _strict_json_load(stream):
+    return json.load(stream, object_pairs_hook=_reject_duplicate_keys)
+
+
+def _strict_json_loads(value):
+    return json.loads(value, object_pairs_hook=_reject_duplicate_keys)
+
+
 def _utc_now():
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
@@ -46,7 +63,7 @@ def _write_new_json(path, value):
 
 def _read_object(path, owner):
     with open(path, encoding="utf-8") as stream:
-        value = json.load(stream)
+        value = _strict_json_load(stream)
     if not isinstance(value, dict):
         raise ValueError(f"{owner} must be a JSON object")
     return value
@@ -188,7 +205,7 @@ class CampaignDriver:
 
     def _load_packet(self):
         raw = self.packet_path.read_bytes()
-        packet = json.loads(raw.decode("utf-8"))
+        packet = _strict_json_loads(raw.decode("utf-8"))
         freeze.validate_structure(packet)
         self.live_validator(packet, self.repo_root)
         return packet, raw, _sha256_bytes(raw)
