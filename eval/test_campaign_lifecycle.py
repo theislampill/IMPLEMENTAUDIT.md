@@ -78,7 +78,6 @@ def binding(mission_count, campaign="campaign-a"):
         "stage_schema": f"{campaign}-luna-stage-v1",
         "mission_count": mission_count,
         "packet_sha256": "a" * 64,
-        "prefix_sha256": "b" * 64,
     }
 
 
@@ -228,18 +227,71 @@ def main():
             rejected("prefix", lambda: lifecycle.write_stage_terminal(
                 early_root, stage(missions), binding(2)))
 
+        for supplied_digest in (None, "0" * 64):
+            with tempfile.TemporaryDirectory(
+                    prefix="campaign-caller-prefix-") as caller_tmp:
+                caller_root = pathlib.Path(caller_tmp).resolve()
+                lifecycle.write_new_json(
+                    caller_root / "campaign-manifest.json", {
+                        "schema": "campaign-a-manifest-v1",
+                        "campaign": "campaign-a",
+                    })
+                caller_missions = [mission(0)]
+                write_attempt(caller_root, caller_missions[0])
+                caller_binding = binding(1)
+                caller_binding["prefix_sha256"] = supplied_digest
+                rejected("internal derivation", lambda:
+                         lifecycle.write_stage_terminal(
+                             caller_root, stage(caller_missions),
+                             caller_binding))
+
         terminal_path = lifecycle.write_stage_terminal(
             root, stage(missions), binding(2))
         terminal_bytes = terminal_path.read_bytes()
-        assert lifecycle.validate_stage_resume(
-            root, stage(missions), binding(2))["binding_sha256"] == hashlib.sha256(
-                lifecycle.canonical_json_bytes(binding(2))).hexdigest()
+        resumed = lifecycle.validate_stage_resume(
+            root, stage(missions), binding(2))
+        assert resumed["binding_sha256"] == hashlib.sha256(
+            lifecycle.canonical_json_bytes(binding(2))).hexdigest()
+        assert (len(resumed["prefix_sha256"]) == 64 and
+                resumed["prefix_sha256"] != "0" * 64)
         rejected("exists", lambda: lifecycle.write_stage_terminal(
             root, stage(missions), binding(2)))
         assert terminal_path.read_bytes() == terminal_bytes
 
+        drift_failures = []
+        second_terminal_path = (
+            root / missions[1]["attempt"] / "attempt-terminal.json")
+        second_terminal_bytes = second_terminal_path.read_bytes()
+        drifted_terminal = lifecycle.decode_strict_json_bytes(
+            second_terminal_bytes, "drifted terminal", require_object=True)
+        drifted_terminal["post_pause_note"] = "changed bytes, same identity"
+        second_terminal_path.write_bytes(
+            lifecycle.canonical_json_bytes(drifted_terminal))
+        try:
+            lifecycle.validate_stage_resume(
+                root, stage(missions), binding(2))
+        except (OSError, TypeError, ValueError):
+            pass
+        else:
+            drift_failures.append("post-pause terminal-byte drift")
+        second_terminal_path.write_bytes(second_terminal_bytes)
+
+        changed_missions = copy.deepcopy(missions)
+        changed_missions[0]["allowed_attempt"]["optional-evidence.bin"] = {
+            "kind": "custodied_file"}
+        try:
+            lifecycle.validate_stage_resume(
+                root, stage(changed_missions), binding(2))
+        except (OSError, TypeError, ValueError):
+            pass
+        else:
+            drift_failures.append("changed descriptor at same mission count")
+        assert not drift_failures, (
+            "stage prefix drift unexpectedly accepted: " +
+            ", ".join(drift_failures))
+
         wrong_binding = binding(2)
-        wrong_binding["prefix_sha256"] = "c" * 64
+        wrong_binding["packet_sha256"] = "c" * 64
         rejected("hash", lambda: lifecycle.validate_stage_resume(
             root, stage(missions), wrong_binding))
         rejected("campaign", lambda: lifecycle.validate_stage_resume(
@@ -281,24 +333,22 @@ def main():
             "kind": "custodied_file"}
         write_attempt(root, descriptor)
         attempt = root / descriptor["attempt"]
-        source = root / "source.bin"
-        lifecycle.write_new_bytes(source, b"retained")
-        link = attempt / "retained-evidence.bin"
-        try:
-            os.symlink(source, link)
-        except (NotImplementedError, OSError) as exc:
-            print("LIFECYCLE_ATTEMPT_FILE_SYMLINK=SKIP:" + type(exc).__name__)
-            source.unlink()
-        else:
-            rejected("link", lambda: lifecycle.validate_terminal_prefix(
-                root, [descriptor], stop_states={"INVALID", "ERROR"},
-                allowed_root={
-                    **root_policy(),
-                    "source.bin": {"kind": "custodied_file"},
-                }))
-            link.unlink()
-            source.unlink()
-            print("LIFECYCLE_ATTEMPT_FILE_SYMLINK=PASS")
+        with tempfile.TemporaryDirectory(
+                prefix="campaign-attempt-file-link-source-") as source_tmp:
+            source = pathlib.Path(source_tmp).resolve() / "source.bin"
+            lifecycle.write_new_bytes(source, b"retained")
+            link = attempt / "retained-evidence.bin"
+            try:
+                os.symlink(source, link)
+            except (NotImplementedError, OSError) as exc:
+                print("LIFECYCLE_ATTEMPT_FILE_SYMLINK=SKIP:" +
+                      type(exc).__name__)
+            else:
+                rejected("link", lambda: lifecycle.validate_terminal_prefix(
+                    root, [descriptor], stop_states={"INVALID", "ERROR"},
+                    allowed_root=root_policy()))
+                link.unlink()
+                print("LIFECYCLE_ATTEMPT_FILE_SYMLINK=PASS")
 
     with tempfile.TemporaryDirectory(prefix="campaign-attempt-parent-link-") as tmp:
         root = pathlib.Path(tmp).resolve()
