@@ -84,6 +84,9 @@ def lifecycle_rows(packet):
 
 def main():
     contract = load_contract()
+    assert contract.lifecycle.__name__ == "campaign_lifecycle"
+    assert (contract.canonical_json_bytes({"b": 2, "a": 1}) ==
+            contract.lifecycle.canonical_json_bytes({"a": 1, "b": 2}))
     def load(name, path):
         spec = importlib.util.spec_from_file_location(name, path)
         module = importlib.util.module_from_spec(spec)

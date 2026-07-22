@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 import hashlib
-import json
 import os
 import pathlib
 import re
 import stat
+
+import campaign_lifecycle as lifecycle
 
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -25,32 +26,9 @@ FREEZE_FIELDS = {
 }
 
 
-def _unique(pairs):
-    result = {}
-    for key, value in pairs:
-        if key in result:
-            raise ValueError(f"duplicate JSON key: {key}")
-        result[key] = value
-    return result
-
-
-def _nonfinite(value):
-    raise ValueError(f"non-finite JSON number: {value}")
-
-
 def decode_json_bytes(data, owner, *, require_object=False):
-    try:
-        text = bytes(data).decode("utf-8")
-    except UnicodeDecodeError as exc:
-        raise ValueError(f"{owner} must be UTF-8") from exc
-    try:
-        value = json.loads(text, object_pairs_hook=_unique,
-                           parse_constant=_nonfinite)
-    except json.JSONDecodeError as exc:
-        raise ValueError(f"{owner} is malformed JSON") from exc
-    if require_object and type(value) is not dict:
-        raise ValueError(f"{owner} must be an object")
-    return value
+    return lifecycle.decode_strict_json_bytes(
+        data, owner, require_object=require_object)
 
 
 def _reparse_point(path_stat):
@@ -60,32 +38,7 @@ def _reparse_point(path_stat):
 
 def read_custodied_bytes(path, owner, *, root=None):
     """Read one retained regular file only through its unique lexical path."""
-    lexical = pathlib.Path(path).absolute()
-    stop = None
-    if root is not None:
-        stop = pathlib.Path(root).absolute()
-        try:
-            lexical.relative_to(stop)
-        except ValueError as exc:
-            raise ValueError(f"{owner} path escapes owner root") from exc
-    try:
-        resolved = lexical.resolve(strict=True)
-        if resolved != lexical:
-            raise ValueError(f"{owner} link or reparse alias forbidden")
-        if stop is not None:
-            resolved.relative_to(stop.resolve(strict=True))
-        lexical_stat = os.lstat(lexical)
-        if lexical.is_symlink() or _reparse_point(lexical_stat):
-            raise ValueError(f"{owner} link or reparse alias forbidden")
-        with open(lexical, "rb") as stream:
-            opened = os.fstat(stream.fileno())
-            if not stat.S_ISREG(opened.st_mode) or opened.st_nlink != 1:
-                raise ValueError(f"{owner} hardlink or non-file identity forbidden")
-            return stream.read()
-    except ValueError:
-        raise
-    except OSError as exc:
-        raise ValueError(f"{owner} cannot be read as retained evidence") from exc
+    return lifecycle.read_custodied_bytes(path, owner, root=root)
 
 
 def load_json_file(path, owner, *, require_object=True, root=None):
@@ -176,17 +129,11 @@ def resolve_external_file(path, owner):
 
 
 def canonical_json_bytes(value):
-    return (json.dumps(value, indent=1, sort_keys=True, allow_nan=False) +
-            "\n").encode("utf-8")
+    return lifecycle.canonical_json_bytes(value)
 
 
 def write_new_json(path, value):
-    path = pathlib.Path(path)
-    try:
-        with open(path, "xb") as stream:
-            stream.write(canonical_json_bytes(value))
-    except FileExistsError as exc:
-        raise ValueError(f"create-once artifact already exists: {path.name}") from exc
+    return lifecycle.write_new_json(path, value)
 
 
 def _declaration():
