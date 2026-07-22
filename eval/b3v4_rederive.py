@@ -90,6 +90,39 @@ CAPTURE_FILES = (
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 OFFICIAL_STATES = frozenset({"PASS", "FAIL", "INVALID", "ERROR"})
+CONTINUE_STATES = frozenset({"PASS", "FAIL"})
+STOP_STATES = frozenset({"INVALID", "ERROR"})
+VERIFIED_IDENTITIES = [
+    "fixture_sha256 (bytes + canonical-library authenticity)",
+    "prompt_sha256 (bytes + mission consistency)",
+    "events_sha256", "repo_before/after snapshot integrity",
+    "artifact hashes via artifact-manifest",
+]
+ATTESTED_IDENTITIES = [
+    "product_tag/commit/tree", "installed_payload_sha256",
+    "adapter_name/version/sha256", "host",
+    "harness_commit (cross-checked when the scoring checkout is available)",
+]
+VERDICT_FIELDS = {
+    "schema", "status", "run_id", "fixture_id", "fixture_sha256",
+    "prompt_sha256", "events_sha256", "product_tag", "product_commit",
+    "product_tree", "installed_payload_sha256", "harness_commit",
+    "adapter_name", "adapter_version", "adapter_sha256", "model_requested",
+    "model_resolved", "host", "started_at", "ended_at",
+    "model_substitution", "identity_attestation", "bundle_sha256",
+    "scorer_commit", "properties", "host_safety", "adjudication",
+    "failed_domain", "failed_invariant", "evidence", "reason",
+}
+PROPERTY_FIELDS = {"state", "pass", "evidence", "describes", "basis"}
+HOST_SAFETY_FIELDS = {
+    "schema", "status", "failed_invariant", "failed_status", "findings"}
+HOST_FINDING_FIELDS = {"gate", "status", "evidence", "reason"}
+ADJUDICATION_FIELDS = {
+    "schema", "product_status", "host_status", "overall_status",
+    "property_evidence_complete", "all_required_properties_true",
+    "product_failed_invariant", "host_failed_invariant",
+    "host_failed_status", "failed_domain", "failed_invariant",
+}
 
 
 class EvidenceInvalid(ValueError):
@@ -418,6 +451,21 @@ def _validate_attempt_terminal(terminal, mission):
             (type(terminal["official_verdict_sha256"]) is str and
              bool(HEX64.fullmatch(terminal["official_verdict_sha256"]))),
             "attempt terminal verdict hash invalid")
+    _expect((terminal["official_overall_status"] is None) ==
+            (terminal["official_verdict_sha256"] is None),
+            "attempt terminal official custody pair invalid")
+    if terminal["overall_status"] in CONTINUE_STATES:
+        _expect(terminal["official_overall_status"] ==
+                terminal["overall_status"],
+                "attempt terminal and official status disagree")
+        _expect(terminal["official_verdict_sha256"] is not None and
+                terminal["stop_reason"] is None and
+                terminal["error_type"] is None,
+                "attempt terminal continuing state invalid")
+    else:
+        _expect(type(terminal["stop_reason"]) is str and
+                bool(terminal["stop_reason"]),
+                "attempt terminal stop reason missing")
     return terminal
 
 
@@ -641,15 +689,59 @@ def _parse_codex_actions(raw):
     pending = {}
     actions = []
     reserved = set()
+    thread_id = None
+    turn_id = None
+    bound_turn_id = None
+    turn_count = 0
     for ordinal, event in _raw_json_lines(raw, "Codex raw stdout"):
         event_type = event.get("type")
-        if event_type not in ("item.started", "item.completed"):
+        if event_type == "thread.started":
+            observed = event.get("thread_id")
+            _expect(thread_id is None and isinstance(observed, str) and observed,
+                    "Codex raw thread binding invalid")
+            thread_id = observed
             continue
+        if event_type == "turn.started":
+            observed = event.get("turn_id")
+            observed_thread = event.get("thread_id", thread_id)
+            turn_count += 1
+            _expect(thread_id is not None and turn_id is None and
+                    turn_count == 1 and observed_thread == thread_id and
+                    (observed is None or
+                     (isinstance(observed, str) and observed)),
+                    "Codex raw turn binding invalid")
+            turn_id = observed or "<unique-turn>"
+            bound_turn_id = observed
+            continue
+        if event_type == "turn.completed":
+            _expect(turn_id is not None and
+                    event.get("thread_id", thread_id) == thread_id and
+                    event.get("turn_id", turn_id) == turn_id,
+                    "Codex raw turn completion invalid")
+            turn_id = None
+            continue
+        if event_type not in ("item.started", "item.updated", "item.completed"):
+            continue
+        _expect(thread_id is not None and turn_id is not None,
+                "Codex raw action outside bound turn")
         item = event.get("item")
         _expect(isinstance(item, dict), "Codex raw item malformed")
         action_id = item.get("id")
         item_type = item.get("type")
-        if item_type not in ("command_execution", "file_change"):
+        if event_type == "item.completed" and item_type == "agent_message":
+            _expect(isinstance(action_id, str) and action_id and
+                    action_id not in reserved and
+                    item.get("status") in (None, "completed") and
+                    isinstance(item.get("text"), str),
+                    "Codex raw terminal message malformed")
+            reserved.add(action_id)
+            actions.append({"id": action_id,
+                            "state": "TERMINAL_SAFE_MESSAGE",
+                            "effect": "safe-other",
+                            "invocation_ordinal": None,
+                            "completion_ordinal": ordinal})
+            continue
+        if item_type not in ("command_execution", "file_change", "todo_list"):
             continue
         _expect(isinstance(action_id, str) and action_id,
                 "Codex raw action id invalid")
@@ -660,7 +752,8 @@ def _parse_codex_actions(raw):
                 _expect(isinstance(item.get("command"), str),
                         "Codex raw command malformed")
                 action = {"id": action_id, "state": "PENDING",
-                          "effect": "command", "command": item["command"],
+                          "effect": "command", "action_type": item_type,
+                          "command": item["command"],
                           "invocation_ordinal": ordinal,
                           "completion_ordinal": None}
             elif item_type == "file_change":
@@ -670,29 +763,66 @@ def _parse_codex_actions(raw):
                     isinstance(change.get("path"), str) for change in changes),
                     "Codex raw file change malformed")
                 action = {"id": action_id, "state": "PENDING",
-                          "effect": "write",
+                          "effect": "write", "action_type": item_type,
                           "paths": [change["path"] for change in changes],
+                          "invocation_ordinal": ordinal,
+                          "completion_ordinal": None}
+            else:
+                items = item.get("items")
+                _expect(isinstance(items, list) and all(
+                    isinstance(entry, dict) and
+                    set(entry) == {"text", "completed"} and
+                    isinstance(entry["text"], str) and
+                    type(entry["completed"]) is bool for entry in items),
+                    "Codex raw todo list malformed")
+                action = {"id": action_id, "state": "PENDING",
+                          "effect": "safe-other", "action_type": item_type,
                           "invocation_ordinal": ordinal,
                           "completion_ordinal": None}
             pending[action_id] = action
             actions.append(action)
             continue
+        if event_type == "item.updated":
+            action = pending.get(action_id)
+            _expect(action is not None and action["action_type"] == "todo_list" and
+                    item_type == "todo_list" and
+                    item.get("status") in (None, "in_progress") and
+                    isinstance(item.get("items"), list),
+                    "Codex raw todo update invalid")
+            continue
         action = pending.pop(action_id, None)
         _expect(action is not None, "Codex raw completion without invocation")
+        _expect(item_type == action["action_type"],
+                "Codex raw start/completion action type contradiction")
         if action["effect"] == "command":
             exit_code = item.get("exit_code")
             output = item.get("aggregated_output")
             _expect(type(exit_code) is int and isinstance(output, str) and
                     item.get("status") == ("completed" if exit_code == 0 else "failed"),
                     "Codex raw command completion contradictory")
+            _expect(item.get("command") == action["command"],
+                    "Codex raw command payload contradiction")
             action.update({"state": "COMPLETED", "exit_code": exit_code,
                            "output": output, "completion_ordinal": ordinal})
-        else:
-            _expect(item.get("status") == "completed",
+        elif action["effect"] == "write":
+            changes = item.get("changes")
+            _expect(item.get("status") == "completed" and
+                    isinstance(changes, list) and
+                    [change.get("path") for change in changes
+                     if isinstance(change, dict)] == action["paths"],
                     "Codex raw write completion invalid")
             action.update({"state": "COMPLETED", "completion_ordinal": ordinal})
-    _expect(not pending and actions, "Codex raw action stream incomplete")
-    return actions
+        else:
+            _expect(item.get("status") in (None, "completed"),
+                    "Codex raw todo completion invalid")
+            action.update({"state": "COMPLETED", "completion_ordinal": ordinal})
+    _expect(not pending and actions and thread_id is not None and
+            turn_count == 1 and turn_id is None,
+            "Codex raw action stream incomplete")
+    binding = {"thread_id": thread_id, "stdout_turn_ordinal": 1}
+    if bound_turn_id is not None:
+        binding["turn_id"] = bound_turn_id
+    return actions, binding
 
 
 def _parse_claude_actions(raw):
@@ -700,15 +830,26 @@ def _parse_claude_actions(raw):
     actions = []
     reserved = set()
     inventory_seen = False
+    session_id = None
+    observed_tools = None
     for ordinal, event in _raw_json_lines(raw, "Claude raw stdout"):
         if event.get("type") == "system" and event.get("subtype") == "init":
-            _expect(not inventory_seen and isinstance(event.get("tools"), list),
+            observed_session = event.get("session_id")
+            _expect(not inventory_seen and isinstance(event.get("tools"), list) and
+                    all(isinstance(tool, str) and tool
+                        for tool in event["tools"]) and
+                    len(event["tools"]) == len(set(event["tools"])) and
+                    isinstance(observed_session, str) and observed_session,
                     "Claude raw tool inventory invalid")
             inventory_seen = True
+            session_id = observed_session
+            observed_tools = list(event["tools"])
             continue
         role = event.get("type")
         if role not in ("assistant", "user"):
             continue
+        _expect(session_id is not None and event.get("session_id") == session_id,
+                "Claude raw session mismatch")
         message = event.get("message")
         _expect(isinstance(message, dict) and isinstance(message.get("content"), list),
                 "Claude raw message malformed")
@@ -729,6 +870,8 @@ def _parse_claude_actions(raw):
                           "write" if tool in ("Write", "Edit") else
                           "command" if tool == "Bash" else
                           "search" if tool == "Grep" else "safe-other")
+                if tool in ("Task", "Workflow"):
+                    effect = "descendant"
                 path = (inputs.get("file_path") if effect in ("read", "write")
                         else inputs.get("path") if effect == "search" else None)
                 if effect in ("read", "write", "search"):
@@ -739,6 +882,7 @@ def _parse_claude_actions(raw):
                             inputs["command"], "Claude raw command invalid")
                 action = {"id": action_id, "state": "PENDING",
                           "effect": effect,
+                          "action_type": tool,
                           "path": path, "inputs": inputs,
                           "command": inputs.get("command"),
                           "invocation_ordinal": ordinal,
@@ -748,7 +892,9 @@ def _parse_claude_actions(raw):
             elif role == "user" and block.get("type") == "tool_result":
                 action_id = block.get("tool_use_id")
                 action = pending.pop(action_id, None)
-                _expect(action is not None and block.get("is_error") is not True,
+                _expect(action is not None and "is_error" in block and
+                        type(block.get("is_error")) is bool and
+                        block["is_error"] is False,
                         "Claude raw tool completion invalid")
                 content = block.get("content")
                 _expect(isinstance(content, str), "Claude raw tool result malformed")
@@ -756,21 +902,221 @@ def _parse_claude_actions(raw):
                                "completion_ordinal": ordinal})
                 if action["effect"] == "command":
                     action["exit_code"] = 0
-    _expect(inventory_seen and not pending and actions,
+    _expect(inventory_seen and not pending and actions and session_id,
             "Claude raw action stream incomplete")
-    return actions
+    return actions, {"session_id": session_id}, observed_tools
 
 
 def _parse_raw_actions(raw, host):
     if host == "codex":
-        return _parse_codex_actions(raw)
+        actions, binding = _parse_codex_actions(raw)
+        return actions, binding, []
     if host == "claude":
         return _parse_claude_actions(raw)
     raise EvidenceInvalid("unsupported formal-v2 host")
 
 
+def _canonical_json(value):
+    return json.dumps(value, sort_keys=True, separators=(",", ":")).encode(
+        "utf-8")
+
+
+def _scalar_strings(value):
+    if isinstance(value, dict):
+        for item in value.values():
+            yield from _scalar_strings(item)
+    elif isinstance(value, list):
+        for item in value:
+            yield from _scalar_strings(item)
+    elif isinstance(value, str):
+        yield value
+
+
+def _validate_profile_and_post(profile, post, expected_host):
+    common = {"schema", "authority", "host", "repo", "probe_sha256"}
+    _expect(profile.get("schema") == "implementaudit-host-read-profile-v2" and
+            profile.get("authority") == "mechanically-minted" and
+            profile.get("host") == expected_host and
+            bool(HEX64.fullmatch(str(profile.get("probe_sha256", "")))),
+            "formal-v2 host profile invalid")
+    repo = profile.get("repo")
+    _expect(isinstance(repo, dict) and
+            set(repo) == {"lexical_root", "real_root", "case_sensitive"} and
+            type(repo["lexical_root"]) is str and bool(repo["lexical_root"]) and
+            type(repo["real_root"]) is str and bool(repo["real_root"]) and
+            type(repo["case_sensitive"]) is bool,
+            "formal-v2 profile repository invalid")
+    if expected_host == "codex":
+        _expect(set(profile) == common | {
+            "shell", "outer_wrapper", "environment", "executables"},
+            "formal-v2 Codex profile fields invalid")
+        shell = profile["shell"]
+        wrapper = profile["outer_wrapper"]
+        _expect(isinstance(shell, dict) and
+                {"logical_path", "realpath", "sha256", "stat"} <= set(shell) and
+                all(type(shell[key]) is str and bool(shell[key])
+                    for key in ("logical_path", "realpath", "sha256", "stat")) and
+                bool(HEX64.fullmatch(shell["sha256"])) and
+                wrapper == {"argv_prefix": ["/bin/bash", "-lc"],
+                            "max_unwrap_layers": 1} and
+                isinstance(profile["environment"], dict) and
+                isinstance(profile["executables"], dict) and
+                bool(profile["executables"]),
+                "formal-v2 Codex profile semantics invalid")
+        probe = {"environment": profile["environment"], "shell": shell,
+                 "executables": profile["executables"]}
+        _expect(post == probe and profile["probe_sha256"] == _sha(
+            _canonical_json(probe)), "formal-v2 Codex post-probe drift")
+    else:
+        _expect(set(profile) == common | {"native_tools"} and
+                isinstance(profile["native_tools"], dict) and
+                set(profile["native_tools"]) == {"requested"} and
+                isinstance(profile["native_tools"]["requested"], list) and
+                all(type(tool) is str and bool(tool)
+                    for tool in profile["native_tools"]["requested"]),
+                "formal-v2 Claude profile semantics invalid")
+        probe = {"repo": repo["lexical_root"],
+                 "native_tools": profile["native_tools"]}
+        _expect(post == {"native_tools": profile["native_tools"]} and
+                profile["probe_sha256"] == _sha(_canonical_json(probe)),
+                "formal-v2 Claude post-probe drift")
+
+
+def _validate_native_session(stdout, session, expected_host, binding,
+                             stdout_binding, actions, profile, process):
+    _expect(session and session != stdout, "native session evidence substituted")
+    rows = [value for _, value in _raw_json_lines(
+        session, expected_host.title() + " native session")]
+    _expect(isinstance(binding, dict), "terminal lineage binding malformed")
+    if expected_host == "codex":
+        allowed = {"thread_id", "stdout_turn_ordinal", "turn_id",
+                   "native_turn_id"}
+        _expect(set(binding) <= allowed and
+                {"thread_id", "stdout_turn_ordinal", "native_turn_id"} <=
+                set(binding) and binding["stdout_turn_ordinal"] == 1 and
+                all(type(binding[key]) is str and bool(binding[key])
+                    for key in set(binding) - {"stdout_turn_ordinal"}) and
+                all(binding.get(key) == value
+                    for key, value in stdout_binding.items()),
+                "Codex terminal lineage binding invalid")
+        metas = [row for row in rows if row.get("type") == "session_meta"]
+        turns = [row for row in rows if row.get("type") == "turn_context"]
+        _expect(len(metas) == 1 and len(turns) == 1 and
+                isinstance(metas[0].get("payload"), dict) and
+                isinstance(turns[0].get("payload"), dict),
+                "Codex native session state invalid")
+        meta, turn = metas[0]["payload"], turns[0]["payload"]
+        root = profile["repo"]["lexical_root"]
+        _expect(meta.get("id") == binding["thread_id"] and
+                meta.get("session_id") == binding["thread_id"] and
+                meta.get("cwd") == root and turn.get("cwd") == root and
+                turn.get("turn_id") == binding["native_turn_id"] and
+                type(process.get("started_at")) is str and
+                type(metas[0].get("timestamp")) is str and
+                type(turns[0].get("timestamp")) is str and
+                process["started_at"] <= metas[0]["timestamp"] <=
+                turns[0]["timestamp"],
+                "Codex native session identity mismatch")
+    else:
+        _expect(set(binding) == {"session_id"} and
+                type(binding["session_id"]) is str and bool(binding["session_id"]) and
+                binding == stdout_binding,
+                "Claude terminal lineage binding invalid")
+        scalars = set(_scalar_strings(rows))
+        _expect(binding["session_id"] in scalars and
+                all(action["id"] in scalars for action in actions),
+                "Claude native session identity mismatch")
+
+
+def _validate_trace_agreement(trace, actions, observed_tools, expected_host):
+    expected_fields = {"schema", "actions", "invalid", "host_findings",
+                       "ids_reserved", "action_states", "action_effects",
+                       "host_status", "requested_tools", "observed_tools"}
+    if expected_host == "claude":
+        expected_fields.add("crashed")
+    _expect(set(trace) == expected_fields and
+            trace["schema"] == "implementaudit-host-tool-trace-v2" and
+            trace["invalid"] is False and trace["ids_reserved"] is True and
+            trace["host_status"] == "PASS" and trace["host_findings"] == [] and
+            (expected_host != "claude" or trace["crashed"] is False) and
+            trace["observed_tools"] == observed_tools and
+            isinstance(trace["actions"], list),
+            "formal-v2 trace host state invalid")
+    retained = {item.get("id"): item for item in trace["actions"]
+                if isinstance(item, dict) and isinstance(item.get("id"), str)}
+    raw_ids = {item["id"] for item in actions}
+    extras = [item for item in trace["actions"]
+              if isinstance(item, dict) and item.get("id") not in raw_ids]
+    _expect(len(retained) == len(trace["actions"]) and
+            raw_ids <= set(retained) and
+            all(item.get("effect") == "safe-other" and
+                item.get("state") == "TERMINAL_SAFE_MESSAGE"
+                for item in extras),
+            "formal-v2 raw/trace action identity disagreement")
+    for action in actions:
+        item = retained[action["id"]]
+        for key in ("state", "effect", "invocation_ordinal",
+                    "completion_ordinal"):
+            _expect(item.get(key) == action.get(key),
+                    "formal-v2 raw/trace action disagreement")
+        for key in ("action_type", "command", "path", "paths"):
+            if key in action:
+                _expect(item.get(key) == action[key],
+                        "formal-v2 raw/trace payload disagreement")
+    projected = [item for item in trace["actions"]
+                 if not str(item.get("id", "")).startswith("invalid@")]
+    _expect(trace["action_states"] == [item["state"] for item in projected] and
+            trace["action_effects"] == [item["effect"] for item in projected],
+            "formal-v2 trace projections disagree")
+
+
+def _matrix_row(spec, actions, preimages):
+    reads = spec["reads"]
+    write = spec["write"]
+    completions = {}
+    for target in reads:
+        content = _preimage(preimages, target)
+        matches = [action["completion_ordinal"] for action in actions
+                   if _action_is_read(action, target, content, preimages)]
+        completions[target] = min(matches) if matches else None
+    writes = [action for action in actions
+              if action.get("state") == "COMPLETED" and
+              any(_path_equivalent(path, write, preimages)
+                  for path in _write_paths(action))]
+    _expect(len(writes) == 1 and len(_write_paths(writes[0])) == 1,
+            "formal-v2 repeated or ambiguous write")
+    write_invocation = writes[0]["invocation_ordinal"]
+    ordered = all(type(value) is int and value < write_invocation
+                  for value in completions.values())
+    live_preimage = True
+    for target, completion in completions.items():
+        for action in actions:
+            invocation = action.get("invocation_ordinal")
+            if (type(invocation) is int and type(completion) is int and
+                    invocation < completion and any(
+                        _path_equivalent(path, target, preimages)
+                        for path in _write_paths(action))):
+                live_preimage = False
+    passed = all(value is not None for value in completions.values()) and \
+        ordered and live_preimage
+    return {
+        "schema": "implementaudit-host-read-matrix-v1",
+        "property_status": "PASS" if passed else "INCOMPLETE",
+        "host_status": "PASS", "overall_status": (
+            "PASS" if passed else "INCOMPLETE"), "ordered": ordered,
+        "ordering_source": "persisted-ordinal", "write_completed": True,
+        "write_invocation_ordinal": write_invocation,
+        "borrowed_completion": False, "live_preimage": live_preimage,
+        "reads": {target: {
+            "classification": ("content-read" if completions[target] is not None
+                               else "fail-closed"),
+            "completion_ordinal": completions[target]} for target in reads},
+        "host_findings": [], "shell_write_observations": 0,
+    }
+
+
 def _validate_capture(artifacts, fixture_bytes, fixture, expected_host,
-                      parent_kind):
+                      parent_kind, expected_run_id):
     required = set(CAPTURE_FILES) | {"host-read-manifest.json",
                                      "run-intent.json", "process-started.json",
                                      "host-checks.json"}
@@ -787,27 +1133,31 @@ def _validate_capture(artifacts, fixture_bytes, fixture, expected_host,
             artifacts[name], name, f"{name} malformed", True)
         objects[name] = value
     manifest = objects["host-read-manifest.json"]
-    _expect(manifest.get("schema") == "implementaudit-host-read-manifest-v1" and
+    _expect(set(manifest) == {"schema", "files"} and
+            manifest.get("schema") == "implementaudit-host-read-manifest-v1" and
             set(manifest.get("files", {})) == set(CAPTURE_FILES),
             "formal-v2 manifest invalid")
     actual = {name: _sha(artifacts[name]) for name in CAPTURE_FILES}
     _expect(manifest["files"] == actual, "formal-v2 manifest hash mismatch")
     terminal = objects["host-read-terminal.json"]
-    _expect(terminal.get("schema") == "implementaudit-host-read-terminal-v1" and
+    _expect(set(terminal) == {"schema", "hashes", "post_probe_sha256",
+                              "profile_post_status", "binding", "actual_tools",
+                              "normalized_host_status", "host_terminal_kind",
+                              "session_bound", "session_status"} and
+            terminal.get("schema") == "implementaudit-host-read-terminal-v1" and
             terminal.get("hashes") == {name: actual[name]
                                         for name in CAPTURE_FILES[:-1]},
             "formal-v2 terminal hash mismatch")
     _expect(terminal.get("host_terminal_kind") == parent_kind,
             "formal-v2 parent terminal mismatch")
     profile = objects["host-read-profile.json"]
-    _expect(profile.get("schema") == "implementaudit-host-read-profile-v2" and
-            profile.get("authority") == "mechanically-minted" and
-            profile.get("host") == expected_host,
-            "formal-v2 host profile invalid")
+    post = objects["host-read-post-probe.json"]
+    _validate_profile_and_post(profile, post, expected_host)
     _expect(terminal.get("profile_post_status") == "PASS" and
             terminal.get("normalized_host_status") == "PASS" and
             terminal.get("session_bound") is True and
-            terminal.get("session_status") == "VALID",
+            terminal.get("session_status") == "VALID" and
+            terminal.get("post_probe_sha256") == _sha(_canonical_json(post)),
             "formal-v2 terminal host state invalid")
     _expect(bool(artifacts["host-stdout.raw"]) and
             bool(artifacts["host-session.raw"]),
@@ -819,7 +1169,10 @@ def _validate_capture(artifacts, fixture_bytes, fixture, expected_host,
         "fixture_sha256": actual["host-read-fixture.raw"],
         "replay_spec_sha256": actual["host-read-replay-spec.json"],
     }
-    _expect(pre_spawn.get("schema") == "implementaudit-host-read-pre-spawn-v1" and
+    _expect(set(pre_spawn) == {"schema", "created_before_spawn",
+                               "profile_sha256", "preimages_sha256",
+                               "fixture_sha256", "replay_spec_sha256"} and
+            pre_spawn.get("schema") == "implementaudit-host-read-pre-spawn-v1" and
             pre_spawn.get("created_before_spawn") is True and
             all(pre_spawn.get(key) == value for key, value in expected_pre.items()),
             "formal-v2 pre-spawn custody invalid")
@@ -833,7 +1186,10 @@ def _validate_capture(artifacts, fixture_bytes, fixture, expected_host,
                         "write": spec.get("write")}
                        for spec in (fixture.get("host_checks") or {}).get("specs", [])
                        if spec.get("kind") == "path_access_order"]
-    _expect(replay.get("schema") == "implementaudit-host-read-replay-spec-v1" and
+    _expect(set(replay) == {"schema", "mode", "host", "checks",
+                            "requested_tools", "fixture_sha256",
+                            "run_intent_sha256", "parser_sha256"} and
+            replay.get("schema") == "implementaudit-host-read-replay-spec-v1" and
             replay.get("mode") == "formal-v2" and
             replay.get("host") == expected_host and
             replay.get("checks") == expected_checks and
@@ -841,20 +1197,54 @@ def _validate_capture(artifacts, fixture_bytes, fixture, expected_host,
             replay.get("run_intent_sha256") == _sha(artifacts["run-intent.json"]),
             "formal-v2 replay recipe invalid")
     _expect(intent.get("fixture_sha256") == _sha(fixture_bytes) and
+            intent.get("run_id") == expected_run_id and
+            process.get("run_id") == expected_run_id and
             process.get("host_read_pre_spawn_sha256") ==
             actual["host-read-pre-spawn.json"],
             "formal-v2 parent custody chain invalid")
     trace = objects["host-tool-trace.json"]
-    _expect(trace.get("schema") == "implementaudit-host-tool-trace-v2" and
-            trace.get("invalid") is False and trace.get("host_status") == "PASS" and
-            isinstance(trace.get("host_findings"), list) and
-            not trace["host_findings"], "formal-v2 trace host state invalid")
-    post = objects["host-read-post-probe.json"]
-    for key in ("environment", "shell", "executables", "native_tools"):
-        if key in profile and key in post:
-            _expect(profile[key] == post[key], "formal-v2 post-probe drift")
-    raw_actions = _parse_raw_actions(artifacts["host-stdout.raw"], expected_host)
-    return objects["host-read-preimages.json"], trace, raw_actions
+    raw_actions, stdout_binding, observed_tools = _parse_raw_actions(
+        artifacts["host-stdout.raw"], expected_host)
+    writes = [action for action in raw_actions if action.get("effect") == "write"]
+    allowed_writes = fixture.get("allowed_paths")
+    _expect(isinstance(allowed_writes, list) and len(allowed_writes) == 1 and
+            len(writes) == 1 and len(_write_paths(writes[0])) == 1 and
+            _path_equivalent(
+                _write_paths(writes[0])[0], allowed_writes[0],
+                objects["host-read-preimages.json"]),
+            "formal-v2 raw stream violates the one-write boundary")
+    _validate_trace_agreement(trace, raw_actions, observed_tools, expected_host)
+    _validate_native_session(
+        artifacts["host-stdout.raw"], artifacts["host-session.raw"],
+        expected_host, terminal["binding"], stdout_binding, raw_actions,
+        profile, process)
+    _expect(terminal["actual_tools"] == observed_tools,
+            "formal-v2 terminal tool inventory disagreement")
+    matrix = objects["host-read-matrix.json"]
+    expected_specs = {}
+    for spec in (fixture.get("host_checks") or {}).get("specs", []):
+        if spec.get("kind") == "path_access_order":
+            expected_specs[spec["key"]] = _matrix_row(
+                spec, raw_actions, objects["host-read-preimages.json"])
+    expected_matrix = {
+        "schema": "implementaudit-host-read-matrix-v1",
+        "raw_transforms": {
+            "host-stdout.raw": expected_host + "-typed-action-normalizer-v2",
+            "host-session.raw": "lineage-corroboration-only"},
+        "specs": expected_specs,
+    }
+    _expect(matrix == expected_matrix,
+            "formal-v2 matrix does not independently regenerate")
+    host_checks = objects["host-checks.json"]
+    expected_check_keys = {
+        spec["key"] for spec in (fixture.get("host_checks") or {}).get(
+            "specs", [])}
+    _expect(isinstance(host_checks, dict) and
+            set(host_checks) == expected_check_keys and
+            all(type(value) is bool for value in host_checks.values()),
+            "formal-v2 host check aggregate malformed")
+    return (objects["host-read-preimages.json"], trace, raw_actions,
+            host_checks)
 
 
 def _load_bundle(bundle, packet, mission, parent_terminal):
@@ -911,12 +1301,12 @@ def _load_bundle(bundle, packet, mission, parent_terminal):
         _expect(_sha(data) == digest, f"artifact hash mismatch: {rel}")
         artifacts[rel] = data
     expected_host = "codex" if mission["config"] == "L" else "claude"
-    preimages, trace, raw_actions = _validate_capture(
+    preimages, trace, raw_actions, host_checks = _validate_capture(
         artifacts, fixture_bytes, fixture, expected_host,
-        parent_terminal.get("kind"))
+        parent_terminal.get("kind"), _attempt_name(mission))
     changed = _changed_paths(before, after)
     return (manifest, fixture, artifacts, before, after, changed, preimages,
-            trace, raw_actions)
+            trace, raw_actions, host_checks)
 
 
 def _attempt_name(mission):
@@ -924,7 +1314,8 @@ def _attempt_name(mission):
             f"{mission['arm']}-r{mission['rep']}")
 
 
-def _derive_properties(fixture, artifacts, after, changed, preimages, raw_actions):
+def _derive_properties(fixture, artifacts, after, changed, preimages, raw_actions,
+                       host_checks):
     observations = {}
     for spec in (fixture.get("host_checks") or {}).get("specs", []):
         key = spec.get("key")
@@ -948,6 +1339,8 @@ def _derive_properties(fixture, artifacts, after, changed, preimages, raw_action
                 for field, expected in (spec.get("equals") or {}).items())
         else:
             raise EvidenceInvalid(f"unsupported frozen host check: {kind!r}")
+        _expect(host_checks.get(key) is observations[key],
+                f"host check {key!r} disagrees with independent replay")
     results = {}
     for prop in fixture.get("properties", []):
         name = prop.get("name")
@@ -978,7 +1371,29 @@ def _invalid_row(mission, host_status, reason):
             "properties": {}, "reason": str(reason)}
 
 
-def _load_official_verdict(attempt, terminal, expected_model):
+def _stopped_row(mission, status, reason):
+    return {"index": mission["index"], "config": mission["config"],
+            "arm": mission["arm"], "rep": mission["rep"],
+            "product_status": "INCOMPLETE", "host_status": status,
+            "overall_status": status, "properties": {},
+            "reason": str(reason), "official_overall_status": None,
+            "independent_overall_status": status}
+
+
+def _bundle_content_hash(bundle):
+    digest = hashlib.sha256()
+    for name in ("manifest.json", "fixture.json", "prompt.txt",
+                 "events.jsonl", "repo-before.json", "repo-after.json",
+                 "repo-comparison.json", "artifact-manifest.json"):
+        path = pathlib.Path(bundle) / name
+        if path.is_file():
+            digest.update(name.encode("utf-8"))
+            digest.update(_read_bytes(path))
+    return digest.hexdigest()
+
+
+def _load_official_verdict(attempt, terminal, expected_model, fixture,
+                           manifest, bundle, packet, mission):
     digest = terminal.get("official_verdict_sha256")
     official_status = terminal.get("official_overall_status")
     _digest(digest, "attempt terminal official_verdict_sha256")
@@ -987,33 +1402,158 @@ def _load_official_verdict(attempt, terminal, expected_model):
     verdict, verdict_bytes = _read_json(
         attempt / "official-verdict.json", "official verdict")
     _expect(_sha(verdict_bytes) == digest, "official verdict hash mismatch")
+    expected_fields = set(VERDICT_FIELDS)
+    if verdict.get("model_substitution") is True:
+        expected_fields.add("model_substitution_note")
+    _expect(set(verdict) == expected_fields,
+            "official verdict root key set invalid")
     adjudication = _mapping(verdict.get("adjudication"),
                             "official adjudication")
     host_safety = _mapping(verdict.get("host_safety"),
                            "official host safety")
     properties = _mapping(verdict.get("properties"), "official properties")
-    _expect(verdict.get("schema") == "implementaudit-eval-verdict-v3" and
+    _expect(set(adjudication) == ADJUDICATION_FIELDS and
+            set(host_safety) == HOST_SAFETY_FIELDS and
+            verdict.get("schema") == "implementaudit-eval-verdict-v3" and
             verdict.get("status") == official_status and
             terminal.get("overall_status") == official_status,
             "official and attempt terminal overall states disagree")
-    _expect(adjudication.get("schema") ==
-            "implementaudit-eval-adjudication-v1" and
-            adjudication.get("overall_status") == official_status and
-            adjudication.get("product_status") in
-            ("PASS", "FAIL", "INCOMPLETE") and
-            adjudication.get("host_status") in OFFICIAL_STATES and
-            isinstance(adjudication.get("property_evidence_complete"), bool),
-            "official adjudication incomplete or inconsistent")
-    _expect(host_safety.get("schema") == "implementaudit-host-safety-v1" and
-            host_safety.get("status") == adjudication.get("host_status") and
-            isinstance(host_safety.get("findings"), list),
-            "official host safety incomplete or inconsistent")
+    attestation = _mapping(
+        verdict.get("identity_attestation"), "official identity attestation")
+    _expect(set(attestation) == {"verified_in_replay", "adapter_attested_only"} and
+            attestation["verified_in_replay"] == VERIFIED_IDENTITIES and
+            attestation["adapter_attested_only"] == ATTESTED_IDENTITIES,
+            "official identity attestation invalid")
     _expect(verdict.get("model_resolved") == expected_model and
             verdict.get("model_substitution") is False,
             "official model identity invalid")
-    for name, item in properties.items():
-        _expect(isinstance(name, str) and isinstance(item, dict),
-                "official property matrix malformed")
+    specs = fixture.get("properties")
+    _expect(isinstance(specs, list) and specs,
+            "frozen property declarations missing")
+    required = [item.get("name") for item in specs]
+    _expect(all(type(name) is str and bool(name) for name in required) and
+            len(required) == len(set(required)) and
+            set(properties) == set(required),
+            "official property key set does not equal frozen property set")
+    complete = True
+    values = {}
+    for spec in specs:
+        name = spec["name"]
+        item = properties[name]
+        _expect(isinstance(item, dict) and set(item) == PROPERTY_FIELDS,
+                "official property row key set invalid")
+        state, value = item["state"], item["pass"]
+        _expect(state in ("PASS", "FAIL", "INCOMPLETE") and
+                ((state == "PASS" and value is True) or
+                 (state == "FAIL" and value is False) or
+                 (state == "INCOMPLETE" and value is None)) and
+                type(item["evidence"]) is str and bool(item["evidence"]) and
+                item["describes"] == spec.get("describes", "") and
+                type(item["basis"]) is str and bool(item["basis"]),
+                "official property row malformed or contradictory")
+        complete = complete and state in ("PASS", "FAIL")
+        values[name] = value
+    findings = host_safety["findings"]
+    _expect(isinstance(findings, list), "official host findings malformed")
+    for finding in findings:
+        _expect(isinstance(finding, dict) and
+                set(finding) == HOST_FINDING_FIELDS and
+                type(finding["gate"]) is str and bool(finding["gate"]) and
+                finding["status"] in OFFICIAL_STATES and
+                isinstance(finding["evidence"], list) and
+                bool(finding["evidence"]) and
+                all(type(item) is str and bool(item)
+                    for item in finding["evidence"]) and
+                (finding["reason"] is None or
+                 (type(finding["reason"]) is str and bool(finding["reason"]))),
+                "official host finding malformed")
+    severity = {"PASS": 0, "FAIL": 1, "INVALID": 2, "ERROR": 3}
+    host_status = max((item["status"] for item in findings),
+                      key=lambda item: severity[item], default="PASS")
+    first_host = next(
+        (item for item in findings if item["status"] != "PASS"), None)
+    severe_host = next(
+        (item for item in findings if item["status"] == host_status), None)
+    all_true = all(values[name] is True for name in required) if complete else None
+    product_status = ("PASS" if all_true else "FAIL") if complete else "INCOMPLETE"
+    if host_status == "ERROR":
+        overall = "ERROR"
+    elif host_status == "INVALID" or product_status == "INCOMPLETE":
+        overall = "INVALID"
+    elif host_status == "FAIL" or product_status == "FAIL":
+        overall = "FAIL"
+    else:
+        overall = "PASS"
+    product_failed = next(
+        (name for name in required if properties[name]["state"] == "FAIL"), None)
+    if overall in STOP_STATES:
+        failed_domain = ("infrastructure" if overall == "ERROR"
+                         else "identity-custody-or-evidence")
+        failed_invariant = ((severe_host or {}).get("gate") or
+                            "property-evidence-incomplete")
+    elif product_failed:
+        failed_domain, failed_invariant = "product-property", product_failed
+    elif severe_host:
+        failed_domain, failed_invariant = "host-safety", severe_host["gate"]
+    else:
+        failed_domain = failed_invariant = None
+    expected_adjudication = {
+        "schema": "implementaudit-eval-adjudication-v1",
+        "product_status": product_status, "host_status": host_status,
+        "overall_status": overall, "property_evidence_complete": complete,
+        "all_required_properties_true": all_true,
+        "product_failed_invariant": product_failed,
+        "host_failed_invariant": (first_host or {}).get("gate"),
+        "host_failed_status": (first_host or {}).get("status"),
+        "failed_domain": failed_domain, "failed_invariant": failed_invariant,
+    }
+    expected_host = {
+        "schema": "implementaudit-host-safety-v1", "status": host_status,
+        "failed_invariant": (first_host or {}).get("gate"),
+        "failed_status": (first_host or {}).get("status"),
+        "findings": findings,
+    }
+    _expect(type(adjudication["property_evidence_complete"]) is bool and
+            (adjudication["all_required_properties_true"] is None or
+             type(adjudication["all_required_properties_true"]) is bool) and
+            adjudication == expected_adjudication and
+            host_safety == expected_host and official_status == overall and
+            verdict["failed_domain"] == failed_domain and
+            verdict["failed_invariant"] == failed_invariant,
+            "official layered aggregates contradict retained rows")
+    _expect(isinstance(verdict["evidence"], list) and verdict["evidence"] and
+            all(type(item) is str and bool(item) for item in verdict["evidence"]) and
+            (verdict["reason"] is None or
+             (type(verdict["reason"]) is str and bool(verdict["reason"]))),
+            "official evidence references incomplete")
+    manifest_fields = (
+        "run_id", "fixture_id", "fixture_sha256", "prompt_sha256",
+        "events_sha256", "product_tag", "product_commit", "product_tree",
+        "installed_payload_sha256", "harness_commit", "adapter_name",
+        "adapter_version", "adapter_sha256", "model_requested",
+        "model_resolved", "host", "started_at", "ended_at")
+    _expect(all(verdict[field] == manifest.get(field)
+                for field in manifest_fields),
+            "official verdict identity disagrees with bundle manifest")
+    _expect(verdict["bundle_sha256"] == _bundle_content_hash(bundle) and
+            verdict["scorer_commit"] == packet["foundation"]["commit"],
+            "official verdict bundle or scorer identity invalid")
+    arm = packet[mission["arm"]]
+    config = packet["configurations"][mission["config"]]
+    adapter = "codex-cli" if mission["config"] == "L" else "claude-cli"
+    requested = (config["model_requested"] if mission["config"] == "L"
+                 else config["model_resolved_required"])
+    _expect(manifest["run_id"] == _attempt_name(mission) and
+            manifest["fixture_id"] == packet["fixture"]["id"] and
+            manifest["fixture_sha256"] == packet["fixture"]["fixture_sha256"] and
+            manifest["product_commit"] == arm["commit"] and
+            manifest["product_tree"] == arm["tree"] and
+            manifest["installed_payload_sha256"] == arm["payload_sha256"] and
+            manifest["harness_commit"] == packet["foundation"]["commit"] and
+            manifest["adapter_name"] == adapter and manifest["host"] == adapter and
+            manifest["model_requested"] == requested and
+            manifest["model_resolved"] == expected_model,
+            "official verdict frozen identity mismatch")
     return verdict, adjudication, properties
 
 
@@ -1042,10 +1582,19 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha):
         terminal = _validate_attempt_terminal(terminal, mission)
         expected_model = packet["configurations"][mission["config"]][
             "model_resolved_required"]
+        if (terminal["overall_status"] in STOP_STATES and
+                terminal["official_verdict_sha256"] is None):
+            _expect((terminal["overall_status"] == "ERROR" and
+                     terminal["resolved_model"] is None and
+                     type(terminal["error_type"]) is str and
+                     bool(terminal["error_type"])) or
+                    (terminal["overall_status"] == "INVALID" and
+                     terminal["resolved_model"] in (None, expected_model)),
+                    "stopped attempt identity invalid")
+            return _stopped_row(
+                mission, terminal["overall_status"], terminal["stop_reason"])
         if terminal.get("resolved_model") != expected_model:
             return _invalid_row(mission, "SUBSTITUTION", "model substitution")
-        official, official_adjudication, official_properties = \
-            _load_official_verdict(attempt, terminal, expected_model)
         host_root = (attempt / "host-custody" / name).resolve()
         recorded_root = pathlib.Path(str(terminal.get("host_run_root", ""))).resolve()
         _expect(recorded_root == host_root, "attempt host run root identity mismatch")
@@ -1056,10 +1605,15 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha):
                 parent.get("resolved_model") == expected_model,
                 "host terminal is non-authoritative")
         (manifest, fixture, artifacts, _before, after, changed, preimages,
-         _trace, raw_actions) = \
+         _trace, raw_actions, host_checks) = \
             _load_bundle(host_root / "bundle", packet, mission, parent)
+        official, official_adjudication, official_properties = \
+            _load_official_verdict(
+                attempt, terminal, expected_model, fixture, manifest,
+                host_root / "bundle", packet, mission)
         properties = _derive_properties(
-            fixture, artifacts, after, changed, preimages, raw_actions)
+            fixture, artifacts, after, changed, preimages, raw_actions,
+            host_checks)
         required = [prop["name"] for prop in fixture["properties"]
                     if prop.get("required", True)]
         _expect(required and all(name in properties for name in required),
@@ -1151,7 +1705,13 @@ def rederive_campaign(packet_path, campaign_root):
                 "attempt lifecycle is nonterminal")
     rows = [_rederive_attempt(packet, campaign_root, mission, freeze_sha)
             for mission in packet["missions"][:completed_count]]
-    if any(row["overall_status"] == "ERROR" for row in rows):
+    first_stop = next((index for index, row in enumerate(rows)
+                       if row["overall_status"] in STOP_STATES), None)
+    attempts_after_stop = (first_stop is not None and
+                           completed_count != first_stop + 1)
+    if attempts_after_stop:
+        status = "INVALID"
+    elif any(row["overall_status"] == "ERROR" for row in rows):
         status = "ERROR"
     elif any(row["overall_status"] == "INVALID" for row in rows):
         status = "INVALID"
@@ -1161,12 +1721,15 @@ def rederive_campaign(packet_path, campaign_root):
         status = "INCOMPLETE"
     else:
         status = "PASS"
-    return {"schema": "implementaudit-b3v4-independent-rederivation-v1",
+    result = {"schema": "implementaudit-b3v4-independent-rederivation-v1",
             "campaign": "b3v4-sol-r1", "freeze_sha256": freeze_sha,
             "campaign_status": status,
             "accepted": status == "PASS" and
             completed_count == len(packet["missions"]),
             "mission_count": len(rows), "missions": rows}
+    if attempts_after_stop:
+        result["reason"] = "campaign contains attempt after terminal stop"
+    return result
 
 
 def main(argv=None):

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import importlib.util
 import hashlib
+import copy
 import json
 import pathlib
 import tempfile
@@ -25,7 +26,10 @@ def load_driver():
 
 def write_packet(root):
     path = pathlib.Path(root) / "intent.json"
-    path.write_text(json.dumps(valid_packet(), sort_keys=True), encoding="utf-8")
+    packet = valid_packet()
+    packet["fixture"]["fixture_sha256"] = hashlib.sha256(
+        (HERE / "fixtures" / "B3-v3" / "fixture.json").read_bytes()).hexdigest()
+    path.write_text(json.dumps(packet, sort_keys=True), encoding="utf-8")
     return path
 
 
@@ -68,25 +72,92 @@ def expect_error(fragment, fn):
 
 def official_verdict(context, status="PASS", *, product="PASS", host="PASS",
                      resolved_model=None, substituted=False):
+    fixture = json.loads((HERE / "fixtures" / "B3-v3" / "fixture.json").read_text(
+        encoding="utf-8"))
     properties = {
-        f"property-{index}": {"state": "PASS", "pass": True,
-                               "evidence": "synthetic retained evidence"}
-        for index in range(6)
+        prop["name"]: {"state": "PASS", "pass": True,
+                       "evidence": "synthetic retained evidence",
+                       "describes": prop["describes"],
+                       "basis": "host-observation"}
+        for prop in fixture["properties"]
     }
-    return {
+    first_property = next(iter(properties))
+    if product == "FAIL":
+        properties[first_property]["state"] = "FAIL"
+        properties[first_property]["pass"] = False
+    elif product == "INCOMPLETE":
+        properties[first_property]["state"] = "INCOMPLETE"
+        properties[first_property]["pass"] = None
+    host_gate = "model-substitution" if substituted else "synthetic-host-gate"
+    findings = ([] if host == "PASS" else [{
+        "gate": host_gate, "status": host,
+        "evidence": ["synthetic retained host evidence"],
+        "reason": "synthetic retained host reason"}])
+    property_complete = product != "INCOMPLETE"
+    all_true = True if product == "PASS" else False if product == "FAIL" else None
+    product_failed = first_property if product == "FAIL" else None
+    host_failed = findings[0] if findings else None
+    if status in ("INVALID", "ERROR"):
+        failed_domain = ("infrastructure" if status == "ERROR"
+                         else "identity-custody-or-evidence")
+        failed_invariant = host_gate if findings else "property-evidence-incomplete"
+    elif product_failed:
+        failed_domain, failed_invariant = "product-property", product_failed
+    elif host_failed:
+        failed_domain, failed_invariant = "host-safety", host_gate
+    else:
+        failed_domain = failed_invariant = None
+    verdict = {
         "schema": "implementaudit-eval-verdict-v3", "status": status,
+        "run_id": f"attempt-{context.mission['index']:03d}-synthetic",
+        "fixture_id": "B3-v3", "fixture_sha256": "a" * 64,
+        "prompt_sha256": "b" * 64, "events_sha256": "c" * 64,
+        "product_tag": "v0.3.2.0", "product_commit": "d" * 40,
+        "product_tree": "e" * 40, "installed_payload_sha256": "f" * 64,
+        "harness_commit": "1" * 40, "adapter_name": "synthetic",
+        "adapter_version": "test", "adapter_sha256": "2" * 64,
+        "model_requested": resolved_model or context.expected_model,
         "model_resolved": resolved_model or context.expected_model,
         "model_substitution": substituted,
+        "host": "synthetic", "started_at": "2030-01-01T00:00:00Z",
+        "ended_at": "2030-01-01T00:00:01Z",
+        "identity_attestation": {
+            "verified_in_replay": [
+                "fixture_sha256 (bytes + canonical-library authenticity)",
+                "prompt_sha256 (bytes + mission consistency)",
+                "events_sha256", "repo_before/after snapshot integrity",
+                "artifact hashes via artifact-manifest"],
+            "adapter_attested_only": [
+                "product_tag/commit/tree", "installed_payload_sha256",
+                "adapter_name/version/sha256", "host",
+                "harness_commit (cross-checked when the scoring checkout is available)"],
+        },
+        "bundle_sha256": "3" * 64, "scorer_commit": "4" * 40,
         "properties": properties,
         "host_safety": {"schema": "implementaudit-host-safety-v1",
-                        "status": host, "findings": []},
+                        "status": host,
+                        "failed_invariant": host_gate if findings else None,
+                        "failed_status": host if findings else None,
+                        "findings": findings},
         "adjudication": {
             "schema": "implementaudit-eval-adjudication-v1",
             "product_status": product, "host_status": host,
-            "overall_status": status, "property_evidence_complete": True,
-            "all_required_properties_true": product == "PASS",
+            "overall_status": status,
+            "property_evidence_complete": property_complete,
+            "all_required_properties_true": all_true,
+            "product_failed_invariant": product_failed,
+            "host_failed_invariant": host_gate if findings else None,
+            "host_failed_status": host if findings else None,
+            "failed_domain": failed_domain,
+            "failed_invariant": failed_invariant,
         },
+        "failed_domain": failed_domain, "failed_invariant": failed_invariant,
+        "evidence": ["synthetic retained evidence"],
+        "reason": "synthetic retained reason" if findings else None,
     }
+    if substituted:
+        verdict["model_substitution_note"] = "synthetic substitution"
+    return verdict
 
 
 def scored_outcome(context, status="PASS", *, resolved_model=None,
@@ -101,6 +172,71 @@ def scored_outcome(context, status="PASS", *, resolved_model=None,
 
 def main():
     module = load_driver()
+
+    with tempfile.TemporaryDirectory(prefix="b3v4-campaign-verdict-contract-") as tmp:
+        driver = make_driver(module, tmp, scored_outcome)
+        packet, _, _ = driver._load_packet()
+        context = type("Context", (), {
+            "mission": packet["missions"][0],
+            "expected_model": packet["configurations"]["L"][
+                "model_resolved_required"],
+        })()
+        valid = official_verdict(context)
+        cases = []
+        missing_root = copy.deepcopy(valid)
+        del missing_root["bundle_sha256"]
+        cases.append(("missing root", missing_root))
+        extra_root = copy.deepcopy(valid)
+        extra_root["mutable_summary"] = "PASS"
+        cases.append(("extra root", extra_root))
+        numeric_complete = copy.deepcopy(valid)
+        numeric_complete["adjudication"]["property_evidence_complete"] = 1
+        cases.append(("numeric aggregate", numeric_complete))
+        contradictory_aggregate = copy.deepcopy(valid)
+        contradictory_aggregate["adjudication"][
+            "all_required_properties_true"] = False
+        cases.append(("contradictory aggregate", contradictory_aggregate))
+        empty_evidence = copy.deepcopy(valid)
+        first_name = next(iter(empty_evidence["properties"]))
+        empty_evidence["properties"][first_name]["evidence"] = ""
+        cases.append(("empty property evidence", empty_evidence))
+        extra_property_field = copy.deepcopy(valid)
+        extra_property_field["properties"][first_name]["summary"] = "PASS"
+        cases.append(("extra property field", extra_property_field))
+        contradictory_property = copy.deepcopy(valid)
+        contradictory_property["properties"][first_name]["pass"] = False
+        cases.append(("contradictory property", contradictory_property))
+        contradictory_host = copy.deepcopy(valid)
+        contradictory_host["host_safety"]["findings"] = [{
+            "gate": "model-substitution", "status": "INVALID",
+            "evidence": ["substituted"], "reason": "substituted"}]
+        cases.append(("contradictory host", contradictory_host))
+        missing_property = copy.deepcopy(valid)
+        del missing_property["properties"][first_name]
+        cases.append(("missing property", missing_property))
+        fabricated_property = copy.deepcopy(valid)
+        fabricated_property["properties"]["fabricated"] = copy.deepcopy(
+            valid["properties"][first_name])
+        cases.append(("fabricated property", fabricated_property))
+        missing_adjudication_field = copy.deepcopy(valid)
+        del missing_adjudication_field["adjudication"]["failed_domain"]
+        cases.append(("missing adjudication field", missing_adjudication_field))
+        extra_host_field = copy.deepcopy(valid)
+        extra_host_field["host_safety"]["summary"] = "PASS"
+        cases.append(("extra host field", extra_host_field))
+        contradictory_product = copy.deepcopy(valid)
+        contradictory_product["adjudication"]["product_status"] = "FAIL"
+        cases.append(("contradictory product", contradictory_product))
+        contradictory_overall = copy.deepcopy(valid)
+        contradictory_overall["status"] = "FAIL"
+        cases.append(("contradictory overall", contradictory_overall))
+        for label, verdict in cases:
+            try:
+                module._validate_official_verdict(verdict)
+            except ValueError as exc:
+                assert "official scorer verdict" in str(exc), (label, str(exc))
+            else:
+                raise AssertionError(f"official scorer verdict accepted {label}")
 
     with tempfile.TemporaryDirectory(prefix="b3v4-campaign-duplicate-") as tmp:
         driver = make_driver(module, tmp, scored_outcome)

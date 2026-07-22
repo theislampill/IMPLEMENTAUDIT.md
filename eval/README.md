@@ -72,21 +72,28 @@ and live identities, creates a distinct attempt status before host spawn, and
 refuses retries, order gaps, substitution, `INVALID`, `ERROR`, or input drift.
 Before terminal closure it preserves the complete official scorer verdict as a
 create-once attempt artifact and binds that artifact's SHA-256 and official
-overall status in the attempt terminal. A missing verdict, overwrite, hash
-drift, incomplete property evidence, or disagreement between official and
-independently rederived property, host, model, or overall state fails closed.
+overall status in the attempt terminal. Verdict admission uses the exact root,
+property-row, host-finding, and adjudication key sets; recomputes every product,
+host, failure, and overall aggregate; and binds the frozen property descriptions,
+mission identities, model, scorer commit, and bundle hash. A missing verdict,
+overwrite, hash drift, incomplete property evidence, or disagreement between
+official and independently rederived property, host, model, or overall state
+fails closed.
 Its injectable executor and validators exist only in explicit test mode; the
 CLI always delegates execution to the existing formal host adapters and scorer.
 `eval/b3v4_rederive.py` is the separately identified, read-only rederiver. It
 does not import the host adapters, runner, or scoring library. From the frozen
 packet and retained campaign custody it independently verifies all 12 attempt
 identities, bundle and formal-v2 hash chains, host/model identity, snapshots,
-JSON inputs, and path-order evidence, then emits a deterministic property,
-host, overall, and campaign result. Missing or ambiguous evidence, model
-substitution, and any `INVALID` or `ERROR` state fail closed. An exact retained
-prefix is reported as unaccepted `INCOMPLETE`; a Luna-stage prefix is never
-campaign completion, and only all 12 ordered L/O missions can produce an
-accepted campaign result.
+JSON inputs, raw Codex/Claude action and session state machines, raw/trace
+agreement, regenerated host-read matrices, post-probe identity, one-write
+custody, and path-order evidence, then emits a deterministic property, host,
+overall, and campaign result. Missing or ambiguous evidence, model substitution,
+and any `INVALID` or `ERROR` state fail closed. A valid stopped prefix preserves
+its exact `INVALID` or `ERROR` classification; a normal exact prefix is
+unaccepted `INCOMPLETE`; a Luna-stage prefix is never campaign completion; and
+an attempt after a terminal stop invalidates the campaign. Only all 12 ordered
+L/O missions can produce an accepted campaign result.
 
 `A1`–`A5` form the SUPPLEMENTARY **ordinary-invocation behavioral
 campaign** (A-series, per issue #52): A1 factor-derived action selection,

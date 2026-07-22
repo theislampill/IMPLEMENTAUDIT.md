@@ -7,6 +7,7 @@ import hashlib
 import json
 import os
 import pathlib
+import re
 import shutil
 import subprocess
 import sys
@@ -22,6 +23,39 @@ import b3v4_contract as contract
 STOP_STATES = frozenset({"INVALID", "ERROR"})
 CONTINUE_STATES = frozenset({"PASS", "FAIL"})
 OFFICIAL_STATES = CONTINUE_STATES | STOP_STATES
+HEX40 = re.compile(r"^[0-9a-f]{40}$")
+HEX64 = re.compile(r"^[0-9a-f]{64}$")
+VERIFIED_IDENTITIES = [
+    "fixture_sha256 (bytes + canonical-library authenticity)",
+    "prompt_sha256 (bytes + mission consistency)",
+    "events_sha256", "repo_before/after snapshot integrity",
+    "artifact hashes via artifact-manifest",
+]
+ATTESTED_IDENTITIES = [
+    "product_tag/commit/tree", "installed_payload_sha256",
+    "adapter_name/version/sha256", "host",
+    "harness_commit (cross-checked when the scoring checkout is available)",
+]
+VERDICT_FIELDS = {
+    "schema", "status", "run_id", "fixture_id", "fixture_sha256",
+    "prompt_sha256", "events_sha256", "product_tag", "product_commit",
+    "product_tree", "installed_payload_sha256", "harness_commit",
+    "adapter_name", "adapter_version", "adapter_sha256", "model_requested",
+    "model_resolved", "host", "started_at", "ended_at",
+    "model_substitution", "identity_attestation", "bundle_sha256",
+    "scorer_commit", "properties", "host_safety", "adjudication",
+    "failed_domain", "failed_invariant", "evidence", "reason",
+}
+PROPERTY_FIELDS = {"state", "pass", "evidence", "describes", "basis"}
+HOST_SAFETY_FIELDS = {
+    "schema", "status", "failed_invariant", "failed_status", "findings"}
+HOST_FINDING_FIELDS = {"gate", "status", "evidence", "reason"}
+ADJUDICATION_FIELDS = {
+    "schema", "product_status", "host_status", "overall_status",
+    "property_evidence_complete", "all_required_properties_true",
+    "product_failed_invariant", "host_failed_invariant",
+    "host_failed_status", "failed_domain", "failed_invariant",
+}
 
 
 def _strict_json_loads(value):
@@ -52,44 +86,229 @@ def _read_object(path, owner):
     return contract.load_json_file(path, owner)
 
 
-def _validate_official_verdict(verdict):
+def _official_error(message):
+    raise ValueError("official scorer verdict " + message)
+
+
+def _nonempty(value):
+    return type(value) is str and bool(value)
+
+
+def _validate_official_verdict(verdict, fixture=None, *, packet=None,
+                               mission=None, production=False):
+    """Validate the complete scorer-owned verdict, not a mutable summary."""
     if not isinstance(verdict, dict):
-        raise ValueError("official scorer verdict must be a JSON object")
+        _official_error("must be a JSON object")
+    expected_fields = set(VERDICT_FIELDS)
+    if verdict.get("model_substitution") is True:
+        expected_fields.add("model_substitution_note")
+    if set(verdict) != expected_fields:
+        _official_error("has missing or extra root fields")
+    if fixture is None:
+        fixture = _read_object(
+            pathlib.Path(__file__).resolve().parent / "fixtures" / "B3-v3" /
+            "fixture.json", "B3-v3 fixture")
+    if not isinstance(fixture, dict):
+        _official_error("has no authoritative fixture")
     adjudication = verdict.get("adjudication")
     host_safety = verdict.get("host_safety")
     properties = verdict.get("properties")
     status = verdict.get("status")
-    if (verdict.get("schema") != "implementaudit-eval-verdict-v3" or
+    if (verdict["schema"] != "implementaudit-eval-verdict-v3" or
             status not in OFFICIAL_STATES or
+            type(verdict["model_substitution"]) is not bool or
             not isinstance(adjudication, dict) or
-            adjudication.get("schema") !=
-            "implementaudit-eval-adjudication-v1" or
-            adjudication.get("overall_status") != status or
-            adjudication.get("product_status") not in
-            ("PASS", "FAIL", "INCOMPLETE") or
-            adjudication.get("host_status") not in OFFICIAL_STATES or
-            not isinstance(adjudication.get("property_evidence_complete"), bool) or
+            set(adjudication) != ADJUDICATION_FIELDS or
             not isinstance(host_safety, dict) or
-            host_safety.get("schema") != "implementaudit-host-safety-v1" or
-            host_safety.get("status") != adjudication.get("host_status") or
-            not isinstance(properties, dict) or
-            "model_resolved" not in verdict or
-            not isinstance(verdict.get("model_substitution"), bool)):
-        raise ValueError("official scorer verdict is incomplete or inconsistent")
-    for name, item in properties.items():
-        if not isinstance(name, str) or not isinstance(item, dict):
-            raise ValueError("official scorer property matrix is malformed")
+            set(host_safety) != HOST_SAFETY_FIELDS or
+            not isinstance(properties, dict)):
+        _official_error("is incomplete or inconsistent")
+    if verdict["model_substitution"] and not _nonempty(
+            verdict["model_substitution_note"]):
+        _official_error("has malformed substitution custody")
+    attestation = verdict["identity_attestation"]
+    if (not isinstance(attestation, dict) or
+            set(attestation) != {"verified_in_replay", "adapter_attested_only"} or
+            attestation["verified_in_replay"] != VERIFIED_IDENTITIES or
+            attestation["adapter_attested_only"] != ATTESTED_IDENTITIES):
+        _official_error("identity attestation is malformed")
+    required_names = [item.get("name") for item in fixture.get("properties", [])]
+    if (not required_names or any(not _nonempty(name) for name in required_names) or
+            len(required_names) != len(set(required_names)) or
+            set(properties) != set(required_names)):
+        _official_error("property key set differs from the frozen fixture")
+    property_complete = True
+    property_values = {}
+    for spec in fixture["properties"]:
+        name = spec["name"]
+        item = properties[name]
+        if not isinstance(item, dict) or set(item) != PROPERTY_FIELDS:
+            _official_error("property row has missing or extra fields")
+        state = item["state"]
+        value = item["pass"]
+        if (state not in ("PASS", "FAIL", "INCOMPLETE") or
+                (state == "PASS" and value is not True) or
+                (state == "FAIL" and value is not False) or
+                (state == "INCOMPLETE" and value is not None) or
+                not _nonempty(item["evidence"]) or
+                item["describes"] != spec.get("describes", "") or
+                not _nonempty(item["basis"])):
+            _official_error("property row is malformed or contradictory")
+        property_complete = property_complete and state in ("PASS", "FAIL")
+        property_values[name] = value
+    findings = host_safety["findings"]
+    if not isinstance(findings, list):
+        _official_error("host finding list is malformed")
+    for finding in findings:
+        if (not isinstance(finding, dict) or set(finding) != HOST_FINDING_FIELDS or
+                not _nonempty(finding["gate"]) or
+                finding["status"] not in OFFICIAL_STATES or
+                not isinstance(finding["evidence"], list) or
+                not finding["evidence"] or
+                any(not _nonempty(item) for item in finding["evidence"]) or
+                (finding["reason"] is not None and
+                 not _nonempty(finding["reason"]))):
+            _official_error("host finding is malformed")
+    severity = {"PASS": 0, "FAIL": 1, "INVALID": 2, "ERROR": 3}
+    host_status = max((item["status"] for item in findings),
+                      key=lambda item: severity[item], default="PASS")
+    first_host_failed = next(
+        (item for item in findings if item["status"] != "PASS"), None)
+    host_failed = next(
+        (item for item in findings if item["status"] == host_status), None)
+    all_true = (all(property_values[name] is True for name in required_names)
+                if property_complete else None)
+    product_status = ("PASS" if all_true else "FAIL") \
+        if property_complete else "INCOMPLETE"
+    if host_status == "ERROR":
+        overall = "ERROR"
+    elif host_status == "INVALID" or product_status == "INCOMPLETE":
+        overall = "INVALID"
+    elif host_status == "FAIL" or product_status == "FAIL":
+        overall = "FAIL"
+    else:
+        overall = "PASS"
+    product_failed = next(
+        (name for name in required_names
+         if properties[name]["state"] == "FAIL"), None)
+    if overall in STOP_STATES:
+        failed_domain = ("infrastructure" if overall == "ERROR"
+                         else "identity-custody-or-evidence")
+        failed_invariant = ((host_failed or {}).get("gate") or
+                            "property-evidence-incomplete")
+    elif product_failed:
+        failed_domain, failed_invariant = "product-property", product_failed
+    elif host_failed:
+        failed_domain, failed_invariant = "host-safety", host_failed["gate"]
+    else:
+        failed_domain = failed_invariant = None
+    expected_adjudication = {
+        "schema": "implementaudit-eval-adjudication-v1",
+        "product_status": product_status, "host_status": host_status,
+        "overall_status": overall,
+        "property_evidence_complete": property_complete,
+        "all_required_properties_true": all_true,
+        "product_failed_invariant": product_failed,
+        "host_failed_invariant": (first_host_failed or {}).get("gate"),
+        "host_failed_status": (first_host_failed or {}).get("status"),
+        "failed_domain": failed_domain, "failed_invariant": failed_invariant,
+    }
+    expected_host = {
+        "schema": "implementaudit-host-safety-v1", "status": host_status,
+        "failed_invariant": (first_host_failed or {}).get("gate"),
+        "failed_status": (first_host_failed or {}).get("status"),
+        "findings": findings,
+    }
+    if (type(adjudication["property_evidence_complete"]) is not bool or
+            (adjudication["all_required_properties_true"] is not None and
+             type(adjudication["all_required_properties_true"]) is not bool) or
+            adjudication["product_status"] not in
+            ("PASS", "FAIL", "INCOMPLETE") or
+            adjudication["host_status"] not in OFFICIAL_STATES or
+            adjudication["overall_status"] not in OFFICIAL_STATES or
+            any(value is not None and not _nonempty(value) for value in (
+                adjudication["product_failed_invariant"],
+                adjudication["host_failed_invariant"],
+                adjudication["host_failed_status"],
+                adjudication["failed_domain"],
+                adjudication["failed_invariant"])) or
+            adjudication != expected_adjudication or host_safety != expected_host or
+            status != overall or verdict["failed_domain"] != failed_domain or
+            verdict["failed_invariant"] != failed_invariant):
+        _official_error("layered aggregates are contradictory")
+    if (not isinstance(verdict["evidence"], list) or not verdict["evidence"] or
+            any(not _nonempty(item) for item in verdict["evidence"]) or
+            (verdict["reason"] is not None and not _nonempty(verdict["reason"]))):
+        _official_error("evidence custody is incomplete")
+    hash_fields = ("fixture_sha256", "prompt_sha256", "events_sha256",
+                   "installed_payload_sha256", "adapter_sha256")
+    commit_fields = ("product_commit", "product_tree", "harness_commit",
+                     "scorer_commit")
+    if status in CONTINUE_STATES:
+        if (any(not _nonempty(verdict[field]) for field in (
+                "run_id", "fixture_id", "product_tag", "adapter_name",
+                "adapter_version", "model_requested", "model_resolved", "host",
+                "started_at", "ended_at")) or
+                any(not HEX64.fullmatch(str(verdict[field]))
+                    for field in hash_fields + ("bundle_sha256",)) or
+                any(not HEX40.fullmatch(str(verdict[field]))
+                    for field in commit_fields)):
+            _official_error("qualification identity is incomplete")
+    else:
+        for field in hash_fields + ("bundle_sha256",):
+            if verdict[field] is not None and not HEX64.fullmatch(str(verdict[field])):
+                _official_error("has malformed digest identity")
+        for field in commit_fields:
+            if verdict[field] is not None and not HEX40.fullmatch(str(verdict[field])):
+                _official_error("has malformed commit identity")
+    if production and packet is not None and mission is not None:
+        config = packet["configurations"][mission["config"]]
+        arm = packet[mission["arm"]]
+        adapter = "codex-cli" if mission["config"] == "L" else "claude-cli"
+        expected_requested = (config["model_requested"]
+                              if mission["config"] == "L" else
+                              config["model_resolved_required"])
+        expected = {
+            "run_id": (f"attempt-{mission['index']:03d}-{mission['config']}-"
+                       f"{mission['arm']}-r{mission['rep']}"),
+            "fixture_id": packet["fixture"]["id"],
+            "fixture_sha256": packet["fixture"]["fixture_sha256"],
+            "product_commit": arm["commit"], "product_tree": arm["tree"],
+            "installed_payload_sha256": arm["payload_sha256"],
+            "harness_commit": packet["foundation"]["commit"],
+            "scorer_commit": packet["foundation"]["commit"],
+            "adapter_name": adapter, "host": adapter,
+            "model_requested": expected_requested,
+        }
+        if any(verdict.get(key) != value for key, value in expected.items()):
+            _official_error("identity disagrees with the frozen mission")
+        if (not verdict["model_substitution"] and
+                verdict["model_resolved"] != config["model_resolved_required"]):
+            _official_error("resolved model disagrees with the frozen mission")
     return status
 
 
-def _write_official_verdict(attempt_root, verdict):
-    status = _validate_official_verdict(verdict)
+def _write_official_verdict(attempt_root, verdict, fixture, *, packet, mission,
+                            production):
+    status = _validate_official_verdict(
+        verdict, fixture, packet=packet, mission=mission,
+        production=production)
     path = attempt_root / "official-verdict.json"
     _write_new_json(path, verdict)
     return status, _sha256_file(path)
 
 
-def _verify_official_verdict(attempt_root, terminal):
+def _fixture_for_packet(repo_root, packet):
+    path = pathlib.Path(repo_root) / "eval" / "fixtures" / packet["fixture"][
+        "id"] / "fixture.json"
+    raw = path.read_bytes()
+    if _sha256_bytes(raw) != packet["fixture"]["fixture_sha256"]:
+        raise ValueError("frozen fixture custody drift")
+    return contract.decode_json_bytes(raw, "frozen fixture")
+
+
+def _verify_official_verdict(attempt_root, terminal, fixture, *, packet,
+                             mission, production):
     path = attempt_root / "official-verdict.json"
     digest = terminal.get("official_verdict_sha256")
     official = terminal.get("official_overall_status")
@@ -98,7 +317,9 @@ def _verify_official_verdict(attempt_root, terminal):
     if _sha256_file(path) != digest:
         raise ValueError("prior official verdict custody drift")
     verdict = _read_object(path, "official verdict")
-    observed = _validate_official_verdict(verdict)
+    observed = _validate_official_verdict(
+        verdict, fixture, packet=packet, mission=mission,
+        production=production)
     if observed != official:
         raise ValueError("prior official verdict status drift")
     return official
@@ -265,7 +486,10 @@ class CampaignDriver:
                 raise ValueError("prior attempt identity drift")
             overall = terminal.get("overall_status")
             if terminal.get("official_verdict_sha256") is not None:
-                _verify_official_verdict(root, terminal)
+                _verify_official_verdict(
+                    root, terminal, _fixture_for_packet(self.repo_root, packet),
+                    packet=packet, mission=mission,
+                    production=self.execution_mode == "production")
             elif overall in CONTINUE_STATES:
                 raise ValueError("prior official verdict custody is incomplete")
             if overall in STOP_STATES or terminal.get("stop_reason"):
@@ -303,6 +527,7 @@ class CampaignDriver:
 
     def run_next(self):
         packet, raw, packet_sha256 = self._load_packet()
+        fixture = _fixture_for_packet(self.repo_root, packet)
         self._ensure_campaign(raw, packet_sha256)
         self._validate_identities(packet)
         mission = self._next_mission(packet)
@@ -335,7 +560,9 @@ class CampaignDriver:
             })
             if official_verdict is not None:
                 official_status, official_sha = _write_official_verdict(
-                    attempt_root, official_verdict)
+                    attempt_root, official_verdict, fixture, packet=packet,
+                    mission=mission,
+                    production=self.execution_mode == "production")
                 terminal.update({
                     "official_overall_status": official_status,
                     "official_verdict_sha256": official_sha,

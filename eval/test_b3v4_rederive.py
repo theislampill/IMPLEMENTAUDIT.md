@@ -57,7 +57,19 @@ def make_fixture():
         encoding="utf-8"))
 
 
-def synthetic_official_pass(fixture, model):
+def bundle_hash(bundle):
+    digest = hashlib.sha256()
+    for name in ("manifest.json", "fixture.json", "prompt.txt",
+                 "events.jsonl", "repo-before.json", "repo-after.json",
+                 "repo-comparison.json", "artifact-manifest.json"):
+        path = bundle / name
+        if path.is_file():
+            digest.update(name.encode())
+            digest.update(path.read_bytes())
+    return digest.hexdigest()
+
+
+def synthetic_official_pass(fixture, model, manifest, bundle_sha256):
     properties = {
         prop["name"]: {
             "state": "PASS", "pass": True,
@@ -69,7 +81,26 @@ def synthetic_official_pass(fixture, model):
     }
     return {
         "schema": "implementaudit-eval-verdict-v3", "status": "PASS",
+        **{key: manifest[key] for key in (
+            "run_id", "fixture_id", "fixture_sha256", "prompt_sha256",
+            "events_sha256", "product_tag", "product_commit", "product_tree",
+            "installed_payload_sha256", "harness_commit", "adapter_name",
+            "adapter_version", "adapter_sha256", "model_requested",
+            "model_resolved", "host", "started_at", "ended_at")},
         "model_resolved": model, "model_substitution": False,
+        "identity_attestation": {
+            "verified_in_replay": [
+                "fixture_sha256 (bytes + canonical-library authenticity)",
+                "prompt_sha256 (bytes + mission consistency)",
+                "events_sha256", "repo_before/after snapshot integrity",
+                "artifact hashes via artifact-manifest"],
+            "adapter_attested_only": [
+                "product_tag/commit/tree", "installed_payload_sha256",
+                "adapter_name/version/sha256", "host",
+                "harness_commit (cross-checked when the scoring checkout is available)"],
+        },
+        "bundle_sha256": bundle_sha256,
+        "scorer_commit": manifest["harness_commit"],
         "properties": properties,
         "host_safety": {
             "schema": "implementaudit-host-safety-v1", "status": "PASS",
@@ -84,6 +115,8 @@ def synthetic_official_pass(fixture, model):
             "host_failed_status": None, "failed_domain": None,
             "failed_invariant": None,
         },
+        "failed_domain": None, "failed_invariant": None,
+        "evidence": ["synthetic retained evidence"], "reason": None,
     }
 
 
@@ -148,30 +181,73 @@ def build_campaign(root):
         after["untracked"] = {capsule_path: {"type": "file", "sha256": sha(capsule_bytes)}}
         body = {k: v for k, v in after.items() if k != "snapshot_sha256"}
         after["snapshot_sha256"] = sha(json.dumps(body, sort_keys=True).encode())
+        host = "codex" if mission["config"] == "L" else "claude"
         profile = {
             "schema": "implementaudit-host-read-profile-v2",
-            "authority": "mechanically-minted",
-            "host": "codex" if mission["config"] == "L" else "claude",
+            "authority": "mechanically-minted", "host": host,
             "repo": {"lexical_root": "/repo", "real_root": "/repo",
                      "case_sensitive": True},
         }
+        if host == "codex":
+            probe = {
+                "environment": {"PATH": "/usr/bin"},
+                "shell": {"logical_path": "/bin/bash",
+                          "realpath": "/bin/bash", "sha256": "7" * 64,
+                          "stat": "dev=1;ino=1;mode=100755;size=1"},
+                "executables": {
+                    "cat": {"kind": "file", "path": "/usr/bin/cat",
+                            "sha256": "8" * 64,
+                            "stat": "dev=1;ino=2;mode=100755;size=1"}},
+            }
+            profile.update(probe)
+            profile["outer_wrapper"] = {
+                "argv_prefix": ["/bin/bash", "-lc"], "max_unwrap_layers": 1}
+            profile["probe_sha256"] = sha(json.dumps(
+                probe, sort_keys=True, separators=(",", ":")).encode())
+            post = copy.deepcopy(probe)
+        else:
+            native_tools = {"requested": ["Read", "Write"]}
+            profile["native_tools"] = native_tools
+            profile["probe_sha256"] = sha(json.dumps({
+                "repo": "/repo", "native_tools": native_tools},
+                sort_keys=True, separators=(",", ":")).encode())
+            post = {"native_tools": copy.deepcopy(native_tools)}
         reads = fixture["host_checks"]["specs"][1]["reads"]
         targets = {}
         actions = []
-        ordinal = 1
+        ordinal = 3 if host == "codex" else 2
         for target in reads:
             content = ("STATE\n" if target.endswith("STATE.md") else "ROADMAP\n").encode()
             targets[target] = {"canonical_path": "/repo/" + target,
                                "sha256": sha(content),
                                "content_base64": __import__("base64").b64encode(content).decode()}
-            actions.append({"id": f"read-{ordinal}", "state": "COMPLETED",
-                            "effect": "read", "path": target, "inputs": {},
-                            "output": content.decode(), "invocation_ordinal": ordinal,
-                            "completion_ordinal": ordinal + 1})
+            if host == "codex":
+                actions.append({
+                    "id": f"read-{ordinal}", "state": "COMPLETED",
+                    "effect": "command", "action_type": "command_execution",
+                    "command": "cat " + target, "exit_code": 0,
+                    "output": content.decode(), "invocation_ordinal": ordinal,
+                    "completion_ordinal": ordinal + 1})
+            else:
+                actions.append({
+                    "id": f"read-{ordinal}", "state": "COMPLETED",
+                    "effect": "read", "action_type": "Read", "path": target,
+                    "inputs": {"file_path": target}, "output": content.decode(),
+                    "invocation_ordinal": ordinal,
+                    "completion_ordinal": ordinal + 1})
             ordinal += 2
-        actions.append({"id": "write", "state": "COMPLETED", "effect": "write",
-                        "path": capsule_path, "inputs": {},
-                        "invocation_ordinal": ordinal, "completion_ordinal": ordinal + 1})
+        write_action = {"id": "write", "state": "COMPLETED",
+                        "effect": "write", "invocation_ordinal": ordinal,
+                        "completion_ordinal": ordinal + 1}
+        if host == "codex":
+            write_action.update({"action_type": "file_change",
+                                 "paths": [capsule_path]})
+        else:
+            write_action.update({"action_type": "Write", "path": capsule_path,
+                                 "inputs": {"file_path": capsule_path,
+                                            "content": capsule_bytes.decode()},
+                                 "output": "created"})
+        actions.append(write_action)
         preimages = {"schema": "implementaudit-host-read-preimages-v1",
                      "repo": profile["repo"], "targets": targets}
         checks = [{"key": "live_state_read_before_capsule_write",
@@ -183,10 +259,14 @@ def build_campaign(root):
                   "fixture_sha256": sha(fixture_bytes),
                   "run_intent_sha256": sha(encoded(intent)), "parser_sha256": "f" * 64}
         if mission["config"] == "L":
-            raw_events = []
+            raw_events = [
+                {"type": "thread.started", "thread_id": name},
+                {"type": "turn.started", "thread_id": name,
+                 "turn_id": "stdout-turn"},
+            ]
             for action in actions[:-1]:
                 item = {"id": action["id"], "type": "command_execution",
-                        "status": "in_progress", "command": "cat " + action["path"]}
+                        "status": "in_progress", "command": action["command"]}
                 raw_events.append({"type": "item.started", "item": item})
                 item = dict(item, status="completed",
                             aggregated_output=action["output"], exit_code=0)
@@ -197,6 +277,8 @@ def build_campaign(root):
                  "type": "file_change", "status": "in_progress", "changes": changes}},
                 {"type": "item.completed", "item": {"id": "write",
                  "type": "file_change", "status": "completed", "changes": changes}},
+                {"type": "turn.completed", "thread_id": name,
+                 "turn_id": "stdout-turn"},
             ])
         else:
             raw_events = [{"type": "system", "subtype": "init",
@@ -222,15 +304,47 @@ def build_campaign(root):
                   "tool_use_id": "write", "content": "created", "is_error": False}]}},
             ])
         raw_stdout = b"".join(encoded(event) for event in raw_events)
-        raw_session = encoded({"synthetic": "native-session", "run_id": name})
+        if host == "codex":
+            raw_session = b"".join(encoded(event) for event in [
+                {"type": "session_meta", "timestamp": "2030-01-01T00:00:00Z",
+                 "payload": {"id": name, "session_id": name, "cwd": "/repo"}},
+                {"type": "turn_context", "timestamp": "2030-01-01T00:00:00Z",
+                 "payload": {"turn_id": "native-turn", "cwd": "/repo"}},
+                {"type": "response_item", "payload": {
+                    "action_ids": [action["id"] for action in actions]}}])
+            binding = {"thread_id": name, "stdout_turn_ordinal": 1,
+                       "turn_id": "stdout-turn", "native_turn_id": "native-turn"}
+        else:
+            raw_session = encoded({"type": "system", "session_id": name,
+                                   "action_ids": [a["id"] for a in actions]})
+            binding = {"session_id": name}
         trace = {"schema": "implementaudit-host-tool-trace-v2", "actions": actions,
                  "invalid": False, "host_findings": [], "ids_reserved": True,
                  "action_states": ["COMPLETED"] * len(actions),
                  "action_effects": [a["effect"] for a in actions],
-                 "host_status": "PASS", "observed_tools": []}
+                 "host_status": "PASS",
+                 "requested_tools": [] if host == "codex" else ["Read", "Write"],
+                 "observed_tools": [] if host == "codex" else ["Read", "Write"]}
+        if host == "claude":
+            trace["crashed"] = False
+        read_results = {
+            target: {"classification": "content-read",
+                     "completion_ordinal": action["completion_ordinal"]}
+            for target, action in zip(reads, actions[:-1])}
+        matrix_row = {
+            "schema": "implementaudit-host-read-matrix-v1",
+            "property_status": "PASS", "host_status": "PASS",
+            "overall_status": "PASS", "ordered": True,
+            "ordering_source": "persisted-ordinal", "write_completed": True,
+            "write_invocation_ordinal": write_action["invocation_ordinal"],
+            "borrowed_completion": False, "live_preimage": True,
+            "reads": read_results, "host_findings": [],
+            "shell_write_observations": 0}
         matrix = {"schema": "implementaudit-host-read-matrix-v1",
-                  "raw_transforms": {}, "specs": {}}
-        post = copy.deepcopy(profile)
+                  "raw_transforms": {
+                      "host-stdout.raw": host + "-typed-action-normalizer-v2",
+                      "host-session.raw": "lineage-corroboration-only"},
+                  "specs": {"live_state_read_before_capsule_write": matrix_row}}
         files = {
             "host-read-profile.json": encoded(profile),
             "host-read-preimages.json": encoded(preimages),
@@ -252,8 +366,9 @@ def build_campaign(root):
                     "hashes": {key: sha(value) for key, value in files.items()},
                     "post_probe_sha256": sha(json.dumps(post, sort_keys=True,
                                                         separators=(",", ":")).encode()),
-                    "profile_post_status": "PASS", "binding": {},
-                    "actual_tools": [], "normalized_host_status": "PASS",
+                    "profile_post_status": "PASS", "binding": binding,
+                    "actual_tools": trace["observed_tools"],
+                    "normalized_host_status": "PASS",
                     "host_terminal_kind": "ok", "session_bound": True,
                     "session_status": "VALID"}
         files["host-read-terminal.json"] = encoded(terminal)
@@ -263,7 +378,7 @@ def build_campaign(root):
         files["run-intent.json"] = encoded(intent)
         files["process-started.json"] = encoded({
             "host_read_pre_spawn_sha256": sha(files["host-read-pre-spawn.json"]),
-            "run_id": name})
+            "run_id": name, "started_at": "2030-01-01T00:00:00Z"})
         files["host-checks.json"] = encoded({spec["key"]: True
                                               for spec in fixture["host_checks"]["specs"]})
         files["host-check-inputs/" + capsule_path] = capsule_bytes
@@ -310,7 +425,8 @@ def build_campaign(root):
         for rel, data in files.items():
             write(bundle / "artifacts" / rel, data)
         official_status = "PASS"
-        official_verdict = synthetic_official_pass(fixture, model)
+        official_verdict = synthetic_official_pass(
+            fixture, model, manifest, bundle_hash(bundle))
         official_bytes = encoded(official_verdict)
         write(attempt / "official-verdict.json", official_bytes)
         attempt_terminal.update({
@@ -368,6 +484,113 @@ def rebind_capture(bundle):
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     manifest["artifact_manifest_sha256"] = sha(artifact_manifest_path.read_bytes())
     write(manifest_path, manifest)
+
+
+def first_bundle(root, index=0):
+    attempt = sorted(pathlib.Path(root).glob("attempt-*"))[index]
+    return attempt, attempt / "host-custody" / attempt.name / "bundle"
+
+
+def mutate_official(root, mutate):
+    attempt, _ = first_bundle(root)
+    verdict_path = attempt / "official-verdict.json"
+    verdict = json.loads(verdict_path.read_text(encoding="utf-8"))
+    mutate(verdict)
+    write(verdict_path, verdict)
+    terminal_path = attempt / "attempt-terminal.json"
+    terminal = json.loads(terminal_path.read_text(encoding="utf-8"))
+    terminal["official_verdict_sha256"] = sha(verdict_path.read_bytes())
+    write(terminal_path, terminal)
+
+
+def semantic_mutation(root, label):
+    attempt, bundle = first_bundle(root)
+    artifacts = bundle / "artifacts"
+    if label == "empty-matrix":
+        matrix_path = artifacts / "host-read-matrix.json"
+        matrix = json.loads(matrix_path.read_text(encoding="utf-8"))
+        matrix["specs"] = {}
+        write(matrix_path, matrix)
+    elif label == "contradictory-matrix":
+        matrix_path = artifacts / "host-read-matrix.json"
+        matrix = json.loads(matrix_path.read_text(encoding="utf-8"))
+        row = next(iter(matrix["specs"].values()))
+        row["property_status"] = "INCOMPLETE"
+        row["overall_status"] = "INCOMPLETE"
+        write(matrix_path, matrix)
+    elif label == "partial-post-probe":
+        write(artifacts / "host-read-post-probe.json", {})
+    elif label == "arbitrary-native-session":
+        write(artifacts / "host-session.raw", {"unbound": "arbitrary"})
+    elif label == "trace-raw-disagreement":
+        trace_path = artifacts / "host-tool-trace.json"
+        trace = json.loads(trace_path.read_text(encoding="utf-8"))
+        trace["actions"][0]["id"] = "not-in-raw-stream"
+        write(trace_path, trace)
+    elif label == "codex-action-type-contradiction":
+        raw_path = artifacts / "host-stdout.raw"
+        events = [json.loads(line) for line in raw_path.read_text(
+            encoding="utf-8").splitlines()]
+        completion = next(event for event in events
+                          if event.get("type") == "item.completed" and
+                          (event.get("item") or {}).get("type") == "file_change")
+        completion["item"]["type"] = "command_execution"
+        completion["item"]["command"] = "true"
+        completion["item"]["aggregated_output"] = ""
+        completion["item"]["exit_code"] = 0
+        raw_path.write_bytes(b"".join(encoded(event) for event in events))
+    elif label in ("claude-missing-error-state", "claude-cross-session",
+                   "repeated-distinct-write"):
+        second_attempt, bundle = first_bundle(root, 2)
+        artifacts = bundle / "artifacts"
+        raw_path = artifacts / "host-stdout.raw"
+        events = [json.loads(line) for line in raw_path.read_text(
+            encoding="utf-8").splitlines()]
+        if label == "claude-missing-error-state":
+            result = next(event for event in events
+                          if any(block.get("type") == "tool_result"
+                                 for block in event.get("message", {}).get(
+                                     "content", [])))
+            del result["message"]["content"][0]["is_error"]
+        elif label == "claude-cross-session":
+            events[1]["session_id"] = "cross-session"
+        else:
+            name = second_attempt.name
+            capsule = make_fixture()["allowed_paths"][0]
+            events.extend([
+                {"type": "assistant", "session_id": name,
+                 "message": {"content": [{"type": "tool_use",
+                  "id": "write-again", "name": "Write",
+                  "input": {"file_path": capsule, "content": "{}"}}]}},
+                {"type": "user", "session_id": name,
+                 "message": {"content": [{"type": "tool_result",
+                  "tool_use_id": "write-again", "content": "overwritten",
+                  "is_error": False}]}}])
+        raw_path.write_bytes(b"".join(encoded(event) for event in events))
+    else:
+        raise AssertionError(label)
+    rebind_capture(bundle)
+
+
+def stop_after_first(root, status):
+    root = pathlib.Path(root)
+    first, _ = first_bundle(root)
+    terminal_path = first / "attempt-terminal.json"
+    terminal = json.loads(terminal_path.read_text(encoding="utf-8"))
+    terminal.update({
+        "overall_status": status, "official_overall_status": None,
+        "official_verdict_sha256": None,
+        "stop_reason": ("mission-execution-exception" if status == "ERROR"
+                        else "invalid-or-error-halts-campaign"),
+        "error_type": "RuntimeError" if status == "ERROR" else None,
+    })
+    if status == "ERROR":
+        terminal["resolved_model"] = None
+        terminal["host_run_root"] = None
+    write(terminal_path, terminal)
+    (first / "official-verdict.json").unlink()
+    for attempt in sorted(root.glob("attempt-*"))[1:]:
+        shutil.rmtree(attempt)
 
 
 def rebind_freeze(root, packet):
@@ -480,12 +703,94 @@ def main():
         else:
             raise AssertionError("unexpected campaign artifact was accepted")
 
+    for stopped_status in ("INVALID", "ERROR"):
+        with tempfile.TemporaryDirectory(
+                prefix="b3v4-rederive-stopped-prefix-") as tmp:
+            root = pathlib.Path(tmp) / "campaign"
+            build_campaign(root)
+            stop_after_first(root, stopped_status)
+            stopped = module.rederive_campaign(
+                root / "campaign-freeze.json", root)
+            assert stopped["campaign_status"] == stopped_status, stopped
+            assert stopped["accepted"] is False
+            assert stopped["mission_count"] == 1
+
+    with tempfile.TemporaryDirectory(
+            prefix="b3v4-rederive-after-stop-") as tmp:
+        root = pathlib.Path(tmp) / "campaign"
+        build_campaign(root)
+        second = sorted(root.glob("attempt-*"))[1]
+        held = pathlib.Path(tmp) / second.name
+        shutil.move(str(second), held)
+        stop_after_first(root, "INVALID")
+        shutil.move(str(held), root / held.name)
+        after_stop = module.rederive_campaign(
+            root / "campaign-freeze.json", root)
+        assert after_stop["campaign_status"] == "INVALID", after_stop
+        assert after_stop["accepted"] is False
+        assert "after terminal stop" in after_stop["reason"]
+
+    semantic_mutations = [
+        "empty-matrix", "contradictory-matrix", "partial-post-probe",
+        "arbitrary-native-session", "trace-raw-disagreement",
+        "codex-action-type-contradiction", "claude-missing-error-state",
+        "claude-cross-session", "repeated-distinct-write",
+    ]
+    unexpected_passes = []
+    for label in semantic_mutations:
+        with tempfile.TemporaryDirectory(
+                prefix="b3v4-rederive-semantic-red-") as tmp:
+            root = pathlib.Path(tmp) / "campaign"
+            build_campaign(root)
+            semantic_mutation(root, label)
+            try:
+                result = module.rederive_campaign(
+                    root / "campaign-freeze.json", root)
+            except module.EvidenceInvalid:
+                pass
+            else:
+                if (result["campaign_status"] == "PASS" or
+                        result["accepted"] is True):
+                    unexpected_passes.append(label)
+    for label, mutate in (
+            ("official-empty-evidence",
+             lambda verdict: verdict["properties"][next(iter(
+                 verdict["properties"]))].update(evidence="")),
+            ("official-aggregate-contradiction",
+             lambda verdict: verdict["adjudication"].update(
+                 all_required_properties_true=False))):
+        with tempfile.TemporaryDirectory(
+                prefix="b3v4-rederive-official-red-") as tmp:
+            root = pathlib.Path(tmp) / "campaign"
+            build_campaign(root)
+            mutate_official(root, mutate)
+            try:
+                result = module.rederive_campaign(
+                    root / "campaign-freeze.json", root)
+            except module.EvidenceInvalid:
+                pass
+            else:
+                if (result["campaign_status"] == "PASS" or
+                        result["accepted"] is True):
+                    unexpected_passes.append(label)
+    assert not unexpected_passes, (
+        "rederiver accepted hash-rebound semantic mutations: " +
+        ", ".join(unexpected_passes))
+
     with tempfile.TemporaryDirectory(prefix="b3v4-rederive-") as tmp:
         root = pathlib.Path(tmp) / "campaign"
         packet = build_campaign(root)
         result = module.rederive_campaign(root / "campaign-freeze.json", root)
         assert result["campaign_status"] == "PASS", result
         assert result["accepted"] is True
+        repeated = module.rederive_campaign(root / "campaign-freeze.json", root)
+        assert repeated == result
+        first_render = json.dumps(result, indent=1, sort_keys=True) + "\n"
+        second_render = json.dumps(repeated, indent=1, sort_keys=True) + "\n"
+        assert sha(first_render.encode()) == sha(second_render.encode())
+        assert set(result) == {
+            "schema", "campaign", "freeze_sha256", "campaign_status",
+            "accepted", "mission_count", "missions"}
         assert len(result["missions"]) == 12
         assert all(row["product_status"] == "PASS" for row in result["missions"])
         assert all(len(row["properties"]) == 6 for row in result["missions"])
@@ -625,10 +930,41 @@ def main():
         bundle = first / "host-custody" / first.name / "bundle"
         raw = bundle / "artifacts" / "host-stdout.raw"
         events = [json.loads(line) for line in raw.read_text(encoding="utf-8").splitlines()]
-        events[0]["item"]["command"] = "printf 'STATE\\n'"
-        events[1]["item"]["command"] = "printf 'STATE\\n'"
+        command_events = [event for event in events
+                          if (event.get("item") or {}).get("type") ==
+                          "command_execution"]
+        command_events[0]["item"]["command"] = "printf 'STATE\\n'"
+        command_events[1]["item"]["command"] = "printf 'STATE\\n'"
         raw.write_bytes(b"".join(encoded(event) for event in events))
+        artifacts = bundle / "artifacts"
+        trace_path = artifacts / "host-tool-trace.json"
+        trace = json.loads(trace_path.read_text(encoding="utf-8"))
+        trace["actions"][0]["command"] = "printf 'STATE\\n'"
+        write(trace_path, trace)
+        fixture = make_fixture()
+        state_path = fixture["host_checks"]["specs"][1]["reads"][0]
+        matrix_path = artifacts / "host-read-matrix.json"
+        matrix = json.loads(matrix_path.read_text(encoding="utf-8"))
+        matrix_row = matrix["specs"]["live_state_read_before_capsule_write"]
+        matrix_row["property_status"] = "INCOMPLETE"
+        matrix_row["overall_status"] = "INCOMPLETE"
+        matrix_row["ordered"] = False
+        matrix_row["reads"][state_path] = {
+            "classification": "fail-closed", "completion_ordinal": None}
+        write(matrix_path, matrix)
+        checks_path = artifacts / "host-checks.json"
+        checks = json.loads(checks_path.read_text(encoding="utf-8"))
+        checks["live_state_read_before_capsule_write"] = False
+        write(checks_path, checks)
         rebind_capture(bundle)
+        verdict_path = first / "official-verdict.json"
+        verdict = json.loads(verdict_path.read_text(encoding="utf-8"))
+        verdict["bundle_sha256"] = bundle_hash(bundle)
+        write(verdict_path, verdict)
+        terminal_path = first / "attempt-terminal.json"
+        terminal = json.loads(terminal_path.read_text(encoding="utf-8"))
+        terminal["official_verdict_sha256"] = sha(verdict_path.read_bytes())
+        write(terminal_path, terminal)
         falsified = module.rederive_campaign(root / "campaign-freeze.json", root)
         assert falsified["campaign_status"] == "INVALID", falsified["missions"][0]
         first_row = falsified["missions"][0]
