@@ -685,6 +685,35 @@ def main():
             owner[path[-1]] = value
             expect_freeze_invalid(module, root, changed, fragment)
 
+        accepted_numeric_aliases = []
+        exact_integer_mutations = [
+            ("seed-float", "seed", 20260718.0),
+            ("seed-bool", "seed", True),
+            ("seed-string", "seed", "20260718"),
+            ("seed-null", "seed", None),
+            ("repetitions-float", "repetitions_per_configuration_and_arm",
+             3.0),
+            ("repetitions-bool", "repetitions_per_configuration_and_arm",
+             True),
+            ("repetitions-string", "repetitions_per_configuration_and_arm",
+             "3"),
+            ("repetitions-null", "repetitions_per_configuration_and_arm",
+             None),
+        ]
+        for label, key, value in exact_integer_mutations:
+            changed = copy.deepcopy(packet)
+            changed[key] = value
+            rebind_freeze(root, changed)
+            try:
+                module.rederive_campaign(root / "campaign-freeze.json", root)
+            except module.EvidenceInvalid:
+                pass
+            else:
+                accepted_numeric_aliases.append(label)
+        assert not accepted_numeric_aliases, (
+            "rederiver accepted non-int frozen numeric fields: " +
+            ", ".join(accepted_numeric_aliases))
+
     with tempfile.TemporaryDirectory(prefix="b3v4-rederive-prefix-") as tmp:
         root = pathlib.Path(tmp) / "campaign"
         packet = build_campaign(root)

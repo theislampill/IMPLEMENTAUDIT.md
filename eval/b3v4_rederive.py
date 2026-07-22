@@ -308,8 +308,10 @@ def _validate_freeze_contract(packet):
     _expect(authorization["metered_api_spend"] == "FORBIDDEN",
             "authorization.metered_api_spend must be FORBIDDEN")
 
-    _expect(packet["seed"] == 20260718, "seed drift")
-    _expect(packet["repetitions_per_configuration_and_arm"] == 3,
+    _expect(type(packet["seed"]) is int and packet["seed"] == 20260718,
+            "seed drift")
+    _expect(type(packet["repetitions_per_configuration_and_arm"]) is int and
+            packet["repetitions_per_configuration_and_arm"] == 3,
             "repetition count drift")
     missions = packet["missions"]
     _expect(isinstance(missions, list) and len(missions) == len(PLAN),
