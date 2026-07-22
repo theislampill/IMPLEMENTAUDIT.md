@@ -6,6 +6,7 @@ import copy
 import hashlib
 import importlib.util
 import json
+import os
 import pathlib
 import subprocess
 import tempfile
@@ -273,6 +274,28 @@ def main():
             "sha256"] = module._sha256(rederiver)
         module.validate_structure(live)
         module.validate_live(live, repo)
+
+        if os.name == "nt":
+            approval_target = pathlib.Path(tmp) / "approval-target"
+            approval_target.mkdir()
+            junction_approval = approval_target / "APPROVAL.txt"
+            junction_approval.write_text(
+                "owner-approved subscription boundary\n", encoding="utf-8")
+            approval_junction = pathlib.Path(tmp) / "approval-junction"
+            made = subprocess.run(
+                ["cmd", "/c", "mklink", "/J", str(approval_junction),
+                 str(approval_target)], capture_output=True, text=True)
+            if made.returncode:
+                print("LIVE_APPROVAL_PARENT_JUNCTION=SKIP:mklink")
+            else:
+                junction_live = copy.deepcopy(live)
+                alias = approval_junction / "APPROVAL.txt"
+                junction_live["authorization"]["acknowledgement_path"] = str(alias)
+                junction_live["authorization"]["acknowledgement_sha256"] = \
+                    hashlib.sha256(junction_approval.read_bytes()).hexdigest()
+                expect_live_invalid(module, junction_live, repo, "link")
+                os.rmdir(approval_junction)
+                print("LIVE_APPROVAL_PARENT_JUNCTION=PASS")
 
         tree_as_commit = copy.deepcopy(live)
         tree_as_commit["foundation"]["commit"] = live["foundation"]["tree"]

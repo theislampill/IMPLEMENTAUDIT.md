@@ -155,16 +155,23 @@ def resolve_contained(root, relative, *, require_exists=True):
 
 def resolve_external_file(path, owner):
     _string(path, owner)
-    lexical = pathlib.Path(path)
-    if lexical.is_symlink() or _reparse_point(os.lstat(lexical)):
-        raise ValueError(f"{owner} link alias forbidden")
+    lexical = pathlib.Path(path).absolute()
     try:
         resolved = lexical.resolve(strict=True)
-        stat = resolved.stat()
+        if resolved != lexical:
+            raise ValueError(f"{owner} link or reparse alias forbidden")
+        current = pathlib.Path(lexical.anchor)
+        for part in lexical.parts[1:]:
+            current = current / part
+            path_stat = os.lstat(current)
+            if stat.S_ISLNK(path_stat.st_mode) or _reparse_point(path_stat):
+                raise ValueError(f"{owner} link or reparse alias forbidden")
+        with open(lexical, "rb") as stream:
+            opened = os.fstat(stream.fileno())
+            if not stat.S_ISREG(opened.st_mode) or opened.st_nlink != 1:
+                raise ValueError(f"{owner} link or non-file identity forbidden")
     except OSError as exc:
         raise ValueError(f"{owner} cannot be resolved") from exc
-    if not resolved.is_file() or stat.st_nlink != 1:
-        raise ValueError(f"{owner} link or non-file identity forbidden")
     return resolved
 
 

@@ -8,6 +8,7 @@ import copy
 import json
 import os
 import pathlib
+import subprocess
 import tempfile
 
 from test_b3v4_freeze import valid_packet
@@ -181,8 +182,70 @@ def scored_outcome(context, status="PASS", *, resolved_model=None,
                 resolved_model=resolved, substituted=substituted)}
 
 
+def assert_runtime_executable_parent_junction_rejected(module):
+    if os.name != "nt":
+        print("RUNTIME_EXECUTABLE_PARENT_JUNCTION=SKIP:non-windows")
+        return
+    with tempfile.TemporaryDirectory(
+            prefix="b3v4-runtime-executable-junction-") as tmp:
+        root = pathlib.Path(tmp)
+        target = root / "executable-target"
+        target.mkdir()
+        executable = target / "host.exe"
+        executable.write_bytes(b"bounded local executable identity fixture\n")
+        junction = root / "executable-junction"
+        made = subprocess.run(
+            ["cmd", "/c", "mklink", "/J", str(junction), str(target)],
+            capture_output=True, text=True)
+        if made.returncode:
+            print("RUNTIME_EXECUTABLE_PARENT_JUNCTION=SKIP:mklink")
+            return
+
+        packet = valid_packet()
+        alias = junction / "host.exe"
+        packet["configurations"]["L"]["executable"]["path"] = str(alias)
+        packet["configurations"]["L"]["executable"]["sha256"] = \
+            hashlib.sha256(executable.read_bytes()).hexdigest()
+        candidate = root / "candidate"
+        control = root / "control"
+        candidate.mkdir()
+        control.mkdir()
+        original_git = module._git
+        original_payload_hash = module.adapters.payload_hash
+        original_run = module.subprocess.run
+
+        def fake_git(checkout, *args):
+            arm = pathlib.Path(checkout).name
+            field = {"HEAD": "commit", "HEAD^{tree}": "tree",
+                     "HEAD:skills/implementaudit": "skill_tree"}[args[-1]]
+            return packet[arm][field]
+
+        def fake_payload_hash(path):
+            arm = "candidate" if "candidate" in pathlib.Path(path).parts \
+                else "control"
+            return packet[arm]["payload_sha256"]
+
+        def forbid_version_execution(*args, **kwargs):
+            raise AssertionError("parent-junction executable reached execution")
+
+        module._git = fake_git
+        module.adapters.payload_hash = fake_payload_hash
+        module.subprocess.run = forbid_version_execution
+        try:
+            expect_error("link", lambda: module.validate_runtime_identities(
+                packet, candidate_checkout=candidate,
+                control_checkout=control))
+        finally:
+            module._git = original_git
+            module.adapters.payload_hash = original_payload_hash
+            module.subprocess.run = original_run
+            os.rmdir(junction)
+        print("RUNTIME_EXECUTABLE_PARENT_JUNCTION=PASS")
+
+
 def main():
     module = load_driver()
+    assert_runtime_executable_parent_junction_rejected(module)
 
     with tempfile.TemporaryDirectory(prefix="b3v4-campaign-verdict-contract-") as tmp:
         driver = make_driver(module, tmp, scored_outcome)

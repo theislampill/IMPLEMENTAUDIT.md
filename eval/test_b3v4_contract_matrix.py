@@ -280,6 +280,9 @@ def main():
                     junction / "artifact.json", "directory junction", root=root))
                 must_reject(lambda: independent._read_bytes(
                     junction / "artifact.json"))
+                rejected("alias", lambda: contract.resolve_external_file(
+                    str(junction / "artifact.json"),
+                    "external directory junction"))
                 os.rmdir(junction)
                 print("CUSTODY_DIRECTORY_JUNCTION=PASS")
 
