@@ -410,6 +410,69 @@ def run_bundle_cases():
             ev(1, "assistant", E5_MARKERS)], artifacts=good_art,
             repo_before=before, repo_after=after, mutate=corrupt),
             "INVALID", failures)
+        # H47ay (bundle-case B12b): a self-consistently rehashed snapshot still
+        # has a strict, digest-only worktree_files schema. The official scorer
+        # must reject malformed entries before they can coexist with
+        # product/host PASS.
+        digest12b = "0" * 64
+        malformed_worktree_maps12b = {
+            "file-missing-digest": {
+                "leaf": {"type": "file"}},
+            "symlink-missing-digest": {
+                "leaf": {"type": "symlink"}},
+            "file-raw-bytes-field": {
+                "leaf": {"type": "file", "sha256": digest12b,
+                         "bytes": "secret payload"}},
+            "special-extra-field": {
+                "leaf": {"type": "special", "sha256": digest12b}},
+            "slash-backslash-alias": {
+                "a/b": {"type": "file", "sha256": digest12b},
+                "a\\b": {"type": "file", "sha256": digest12b}},
+            "windows-absolute": {
+                "C:/private.txt": {"type": "file",
+                                   "sha256": digest12b}},
+            "empty-segment": {
+                "a//b": {"type": "file", "sha256": digest12b}},
+            "dot-segment": {
+                "a/./b": {"type": "file", "sha256": digest12b}},
+            "nul-identity": {
+                "a\x00b": {"type": "file", "sha256": digest12b}},
+            "git-root": {
+                ".git": {"type": "file", "sha256": digest12b}},
+            "git-descendant": {
+                ".git/config": {"type": "file", "sha256": digest12b}},
+        }
+        malformed_results12b = []
+        for label12b, worktree_map12b in malformed_worktree_maps12b.items():
+            snap12b = json.loads(json.dumps(after))
+            snap12b["worktree_files"] = worktree_map12b
+            snap12b["snapshot_sha256"] = reposnapshot._canonical_hash(
+                snap12b)
+            bundle12b = build(
+                root(), [ev(1, "assistant", E5_MARKERS)],
+                artifacts=good_art, repo_before=snap12b,
+                repo_after=snap12b)
+            status12b, verdict12b = runner.score_bundle(bundle12b)
+            adjudication12b = verdict12b.get("adjudication", {})
+            malformed_results12b.append(
+                status12b == "INVALID"
+                and adjudication12b.get("product_status") != "PASS"
+                and adjudication12b.get("host_status") != "PASS"
+                and adjudication12b.get(
+                    "all_required_properties_true") is not True)
+            if not malformed_results12b[-1]:
+                sys.stdout.write(
+                    "  [XX] H47ay malformed-worktree-map-%s: "
+                    "status=%s product=%s host=%s\n" % (
+                        label12b, status12b,
+                        adjudication12b.get("product_status"),
+                        adjudication12b.get("host_status")))
+        ok12b = all(malformed_results12b)
+        sys.stdout.write(
+            "  [%s] H47ay malformed-worktree-map-fails-closed (%d cases)\n"
+            % ("OK" if ok12b else "XX", len(malformed_results12b)))
+        if not ok12b:
+            failures.append("H47ay malformed-worktree-map-fails-closed")
         # B13: custody escape rejected (check-only and create paths)
         approved = os.path.join(tmp, "approved")
         os.makedirs(approved)
@@ -670,7 +733,7 @@ def main():
         print("ADVERSARIAL FAIL:", ", ".join(failures))
         return 1
     sys.stdout.write(
-        "ADVERSARIAL OK: %d rule cases + 3 changed-path cases + 30 "
+        "ADVERSARIAL OK: %d rule cases + 3 changed-path cases + 31 "
         "bundle/identity/snapshot cases, no model called.\n" % len(CASES))
     return 0
 
