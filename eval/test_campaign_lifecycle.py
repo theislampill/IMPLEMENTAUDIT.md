@@ -122,6 +122,11 @@ def main():
             allowed_root={
                 "campaign-manifest.json": {"kind": "deferred_exact_file"},
             }))
+        rejected("root policy", lambda: lifecycle.validate_terminal_prefix(
+            root, [], stop_states={"INVALID", "ERROR"},
+            allowed_root={
+                "campaign-manifest.json": {"kind": "custodied_file"},
+            }))
 
     with tempfile.TemporaryDirectory(prefix="campaign-lifecycle-") as tmp:
         root = pathlib.Path(tmp).resolve()

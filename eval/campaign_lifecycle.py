@@ -169,7 +169,7 @@ def _identity(value, expected, owner):
             raise ValueError(f"{owner} identity drift")
 
 
-def _artifact_policy(value, owner):
+def _artifact_policy(value, owner, *, allowed_kinds):
     if type(value) is not dict or "kind" not in value:
         raise ValueError(f"{owner} policy invalid")
     kind = value["kind"]
@@ -192,6 +192,8 @@ def _artifact_policy(value, owner):
             raise ValueError(f"{owner} exact-bytes policy invalid")
     else:
         raise ValueError(f"{owner} policy kind invalid")
+    if kind not in allowed_kinds:
+        raise ValueError(f"{owner} policy kind forbidden in this scope")
     return value
 
 
@@ -223,7 +225,8 @@ def _mission_descriptor(value, index):
     for name, policy in value["allowed_attempt"].items():
         name = _direct_name(name, f"mission descriptor {index} allowed entry")
         allowed_attempt[name] = _artifact_policy(
-            policy, f"mission descriptor {index} artifact {name}")
+            policy, f"mission descriptor {index} artifact {name}",
+            allowed_kinds={"json_identity", "custodied_file", "exact_bytes"})
     if not {"attempt-status.json", "attempt-terminal.json"} <= set(allowed_attempt):
         raise ValueError(f"mission descriptor {index} lifecycle entries missing")
     required_policies = {
@@ -268,7 +271,8 @@ def validate_terminal_prefix(root, missions, *, stop_states, allowed_root):
     for name, policy in allowed_root.items():
         name = _direct_name(name, "allowed root entry")
         root_policies[name] = _artifact_policy(
-            policy, f"allowed root artifact {name}")
+            policy, "allowed root",
+            allowed_kinds={"json_identity", "exact_bytes"})
     allowed = set(root_policies)
     claiming = {name + ".claiming" for name in names}
     entries = list(root.iterdir())
