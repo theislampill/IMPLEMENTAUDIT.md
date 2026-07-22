@@ -259,6 +259,8 @@ def main():
         ("scalar float", 1, 1.0),
         ("nested boolean", {"nested": [1]}, {"nested": [True]}),
         ("nested float", {"nested": [1]}, {"nested": [1.0]}),
+        ("positive-to-negative zero", 0.0, -0.0),
+        ("negative-to-positive zero", -0.0, 0.0),
     ]
     exact_identity_failures = []
     for label, expected_probe, retained_probe in exact_identity_cases:
@@ -318,7 +320,7 @@ def main():
                             allowed_root=policy),
                     exact_identity_failures)
     assert not exact_identity_failures, (
-        "cross-type JSON identity drift unexpectedly accepted: " +
+        "exact JSON identity drift unexpectedly accepted: " +
         ", ".join(exact_identity_failures))
 
     with tempfile.TemporaryDirectory(prefix="campaign-stage-terminal-type-") as tmp:

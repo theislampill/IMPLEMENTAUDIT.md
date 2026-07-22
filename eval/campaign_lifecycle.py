@@ -218,7 +218,11 @@ def _exact_json_equal(left, right):
     if type(left) is list:
         return (len(left) == len(right) and
                 all(_exact_json_equal(a, b) for a, b in zip(left, right)))
-    if type(left) in (str, bool, int, float) or left is None:
+    if type(left) is float:
+        return (left == right and
+                (left != 0.0 or math.copysign(1.0, left) ==
+                 math.copysign(1.0, right)))
+    if type(left) in (str, bool, int) or left is None:
         return left == right
     return False
 
