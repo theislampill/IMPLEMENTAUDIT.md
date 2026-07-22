@@ -2,6 +2,7 @@
 """Deterministic tests for the independent B3-v4 evidence rederiver."""
 from __future__ import annotations
 
+import ast
 import copy
 import hashlib
 import importlib.util
@@ -274,6 +275,21 @@ def load_module():
     return module
 
 
+def assert_independent_import_boundary():
+    tree = ast.parse(REDERIVER.read_text(encoding="utf-8"))
+    imports = []
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            imports.extend(alias.name for alias in node.names)
+        elif isinstance(node, ast.ImportFrom) and node.module:
+            imports.append(node.module)
+    forbidden = {
+        "eval.hosts", "eval.runner", "eval.lib.scoring",
+        "eval.validate_b3v4_freeze", "validate_b3v4_freeze",
+    }
+    assert not forbidden.intersection(imports), imports
+
+
 def rebind_capture(bundle):
     artifacts = bundle / "artifacts"
     terminal_path = artifacts / "host-read-terminal.json"
@@ -300,8 +316,98 @@ def rebind_capture(bundle):
     write(manifest_path, manifest)
 
 
+def rebind_freeze(root, packet):
+    packet_bytes = json.dumps(packet, sort_keys=True).encode()
+    freeze_sha = sha(packet_bytes)
+    write(root / "campaign-freeze.json", packet_bytes)
+    custody_path = root / "campaign-manifest.json"
+    custody = json.loads(custody_path.read_text(encoding="utf-8"))
+    custody["freeze_sha256"] = freeze_sha
+    write(custody_path, custody)
+    for mission in packet["missions"]:
+        name = (f"attempt-{mission['index']:03d}-{mission['config']}-"
+                f"{mission['arm']}-r{mission['rep']}")
+        status_path = root / name / "attempt-status.json"
+        status = json.loads(status_path.read_text(encoding="utf-8"))
+        status["freeze_sha256"] = freeze_sha
+        write(status_path, status)
+
+
+def expect_freeze_invalid(module, root, packet, fragment):
+    rebind_freeze(root, packet)
+    try:
+        module.rederive_campaign(root / "campaign-freeze.json", root)
+    except module.EvidenceInvalid as exc:
+        assert fragment in str(exc), str(exc)
+    else:
+        raise AssertionError(
+            f"rederiver accepted drifted freeze; wanted {fragment!r}")
+
+
 def main():
+    assert_independent_import_boundary()
     module = load_module()
+    with tempfile.TemporaryDirectory(prefix="b3v4-rederive-freeze-") as tmp:
+        root = pathlib.Path(tmp) / "campaign"
+        packet = build_campaign(root)
+        reviewer_counterexample = copy.deepcopy(packet)
+        reviewer_counterexample["evidence_profiles"]["formal_host_read"] = \
+            "optional"
+        reviewer_counterexample["acceptance_rule"] = \
+            "one official PASS is enough"
+        expect_freeze_invalid(module, root, reviewer_counterexample,
+                              "formal_host_read")
+        mutations = [
+            (("evidence_profiles", "formal_host_read"), "optional",
+             "formal_host_read"),
+            (("acceptance_rule",), "one official PASS is enough",
+             "acceptance_rule"),
+            (("schema",), "weakened-schema", "schema"),
+            (("campaign",), "b3v4-substitute", "campaign"),
+            (("state",), "RUNNING", "state"),
+            (("foundation", "commit"), "short", "foundation.commit"),
+            (("fixture", "id"), "B3-weakened", "fixture.id"),
+            (("artifacts", "scorer", "sha256"), "short",
+             "artifacts.scorer.sha256"),
+            (("candidate", "payload_sha256"), "short",
+             "candidate.payload_sha256"),
+            (("control", "tree"), "short", "control.tree"),
+            (("configurations", "L", "host"), "substitute",
+             "configuration L"),
+            (("configurations", "O", "auth_mode"), "metered-api",
+             "configuration O"),
+            (("authorization", "metered_api_spend"), "allowed",
+             "metered_api_spend"),
+            (("seed",), 0, "seed"),
+            (("repetitions_per_configuration_and_arm",), 1,
+             "repetition"),
+            (("result_composition", "overall_states"), ["PASS"],
+             "overall state"),
+            (("attempt_policy", "silent_retry"), "allowed",
+             "silent_retry"),
+            (("attempt_policy", "preserve_every_attempt"), False,
+             "preserve every attempt"),
+            (("invalid_error_rule",), "continue", "invalid_error_rule"),
+            (("stop_conditions",), ["continue"] * 5, "stop_conditions"),
+            (("independent_rederiver", "contract_id"), "copy-results-v1",
+             "contract_id"),
+            (("independent_rederiver", "implementation_identity", "path"),
+             "eval/copy_results.py", "implementation_identity.path"),
+            (("independent_rederiver", "must_not_import"), [],
+             "must_not_import"),
+            (("independent_rederiver", "input"), "official result",
+             "independent_rederiver.input"),
+            (("independent_rederiver", "output"), "official result",
+             "independent_rederiver.output"),
+        ]
+        for path, value, fragment in mutations:
+            changed = copy.deepcopy(packet)
+            owner = changed
+            for key in path[:-1]:
+                owner = owner[key]
+            owner[path[-1]] = value
+            expect_freeze_invalid(module, root, changed, fragment)
+
     with tempfile.TemporaryDirectory(prefix="b3v4-rederive-") as tmp:
         root = pathlib.Path(tmp) / "campaign"
         packet = build_campaign(root)

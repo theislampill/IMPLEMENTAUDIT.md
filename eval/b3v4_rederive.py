@@ -25,6 +25,35 @@ PLAN = [
     ("L", "control", 3), ("L", "candidate", 3),
     ("O", "candidate", 3), ("O", "control", 3),
 ]
+FREEZE_FIELDS = {
+    "schema", "campaign", "state", "foundation", "fixture", "artifacts",
+    "candidate", "control", "configurations", "authorization", "seed",
+    "repetitions_per_configuration_and_arm", "missions", "evidence_profiles",
+    "result_composition", "attempt_policy", "acceptance_rule",
+    "invalid_error_rule", "stop_conditions", "independent_rederiver",
+}
+ACCEPTANCE_RULE = (
+    "all 12 missions terminal; independent rederivation agrees with every "
+    "stored property, host, and overall result; property evidence complete "
+    "in every verdict; host status PASS in every mission; zero "
+    "INVALID/ERROR; zero model substitution; exact candidate, control, "
+    "model, host, fixture, scorer, evaluator, bundle, runner, and rederiver "
+    "identities"
+)
+INVALID_ERROR_RULE = (
+    "INVALID and ERROR are never product PASS; halt campaign and preserve "
+    "every attempt"
+)
+STOP_CONDITIONS = [
+    "authentication or quota failure",
+    "model substitution",
+    "identity or custody mismatch",
+    "any INVALID or ERROR",
+    "frozen input drift",
+]
+REDERIVER_IMPORT_BOUNDARY = [
+    "eval.hosts", "eval.runner", "eval.lib.scoring",
+]
 CAPTURE_FILES = (
     "host-read-profile.json", "host-read-preimages.json",
     "host-read-fixture.raw", "host-read-replay-spec.json",
@@ -74,6 +103,190 @@ def _read_json(path, owner):
 def _expect(condition, reason):
     if not condition:
         raise EvidenceInvalid(reason)
+
+
+def _mapping(value, owner):
+    _expect(isinstance(value, dict), f"{owner} must be an object")
+    return value
+
+
+def _exact_fields(value, fields, owner):
+    value = _mapping(value, owner)
+    _expect(set(value) == set(fields), f"{owner} identity shape invalid")
+    return value
+
+
+def _digest(value, owner):
+    _expect(isinstance(value, str) and bool(HEX64.fullmatch(value)),
+            f"{owner} must be a lowercase SHA-256")
+
+
+def _git_id(value, owner):
+    _expect(isinstance(value, str) and bool(HEX40.fullmatch(value)),
+            f"{owner} must be a lowercase full Git object id")
+
+
+def _repo_relative(value, owner):
+    normalized = _safe_rel(value, owner)
+    _expect(value == normalized, f"{owner} must use repository-relative POSIX form")
+    return normalized
+
+
+def _validate_freeze_contract(packet):
+    """Independently validate every qualification-critical frozen semantic."""
+    packet = _exact_fields(packet, FREEZE_FIELDS, "freeze packet")
+    _expect(packet["schema"] == "implementaudit-b3v4-campaign-freeze-v1",
+            "freeze packet schema invalid")
+    _expect(packet["campaign"] == "b3v4-sol-r1",
+            "freeze packet campaign invalid")
+    _expect(packet["state"] == "FROZEN_BEFORE_FIRST_MISSION",
+            "freeze packet state invalid")
+
+    foundation = _exact_fields(packet["foundation"], {"commit", "tree"},
+                               "foundation")
+    for key in ("commit", "tree"):
+        _git_id(foundation[key], f"foundation.{key}")
+
+    fixture = _exact_fields(
+        packet["fixture"],
+        {"id", "fixture_sha256", "complete_manifest_sha256"}, "fixture")
+    _expect(fixture["id"] == "B3-v3", "fixture.id invalid")
+    _digest(fixture["fixture_sha256"], "fixture.fixture_sha256")
+    _digest(fixture["complete_manifest_sha256"],
+            "fixture.complete_manifest_sha256")
+
+    artifacts = _mapping(packet["artifacts"], "artifacts")
+    _expect(set(artifacts) == {"scorer", "evaluator", "bundle", "runner"},
+            "artifacts identity shape invalid")
+    for name, value in artifacts.items():
+        value = _exact_fields(value, {"path", "sha256"},
+                              f"artifacts.{name}")
+        _repo_relative(value["path"], f"artifacts.{name}.path")
+        _digest(value["sha256"], f"artifacts.{name}.sha256")
+
+    for arm in ("candidate", "control"):
+        identity = _exact_fields(
+            packet[arm], {"commit", "tree", "skill_tree", "payload_sha256"},
+            arm)
+        for key in ("commit", "tree", "skill_tree"):
+            _git_id(identity[key], f"{arm}.{key}")
+        _digest(identity["payload_sha256"], f"{arm}.payload_sha256")
+
+    configurations = _mapping(packet["configurations"], "configurations")
+    _expect(set(configurations) == {"L", "O"},
+            "configurations identity shape invalid")
+    expected = {
+        "L": ("WSL Ubuntu Codex CLI", "gpt-5.6-luna", "gpt-5.6-luna",
+              "max", "chatgpt-subscription"),
+        "O": ("Windows Claude CLI", "opus", "claude-opus-4-8", "high",
+              "claude.ai-max"),
+    }
+    config_fields = {"host", "model_requested", "model_resolved_required",
+                     "reasoning_effort", "auth_mode", "executable"}
+    for name, boundary in expected.items():
+        config = _exact_fields(configurations[name], config_fields,
+                               f"configuration {name}")
+        observed = (config["host"], config["model_requested"],
+                    config["model_resolved_required"],
+                    config["reasoning_effort"], config["auth_mode"])
+        _expect(observed == boundary,
+                f"configuration {name} identity/auth boundary drift")
+        executable = _exact_fields(
+            config["executable"], {"path", "version", "sha256"},
+            f"configuration {name} executable")
+        _expect(all(isinstance(executable[key], str) and executable[key]
+                    for key in ("path", "version")),
+                f"configuration {name} executable identity incomplete")
+        _digest(executable["sha256"],
+                f"configuration {name} executable.sha256")
+
+    authorization = _exact_fields(
+        packet["authorization"],
+        {"acknowledgement_path", "acknowledgement_sha256",
+         "metered_api_spend"}, "authorization")
+    _expect(isinstance(authorization["acknowledgement_path"], str) and
+            bool(authorization["acknowledgement_path"]),
+            "authorization.acknowledgement_path invalid")
+    _digest(authorization["acknowledgement_sha256"],
+            "authorization.acknowledgement_sha256")
+    _expect(authorization["metered_api_spend"] == "FORBIDDEN",
+            "authorization.metered_api_spend must be FORBIDDEN")
+
+    _expect(packet["seed"] == 20260718, "seed drift")
+    _expect(packet["repetitions_per_configuration_and_arm"] == 3,
+            "repetition count drift")
+    missions = packet["missions"]
+    _expect(isinstance(missions, list) and len(missions) == len(PLAN),
+            "fixed 12-mission order drift")
+    for index, (mission, planned) in enumerate(zip(missions, PLAN)):
+        mission = _exact_fields(mission, {"index", "config", "arm", "rep"},
+                                f"mission {index}")
+        _expect(type(mission["index"]) is int and mission["index"] == index and
+                (mission["config"], mission["arm"], mission["rep"]) == planned,
+                "fixed 12-mission order drift")
+
+    profiles = _exact_fields(
+        packet["evidence_profiles"],
+        {"formal_host_read", "raw_stdout", "native_session", "pre_spawn",
+         "post_mission_manifest"}, "evidence_profiles")
+    _expect(profiles["formal_host_read"] ==
+            "implementaudit-host-read-profile-v2",
+            "evidence_profiles.formal_host_read must bind formal-v2")
+    _expect(all(profiles[key] == "required" for key in
+                ("raw_stdout", "native_session", "pre_spawn",
+                 "post_mission_manifest")),
+            "formal-v2 evidence profiles must be required")
+
+    composition = _exact_fields(
+        packet["result_composition"],
+        {"product_property_states", "host_states", "overall_states"},
+        "result_composition")
+    _expect(composition["product_property_states"] ==
+            ["PASS", "FAIL", "INCOMPLETE"],
+            "product property state composition drift")
+    _expect(composition["host_states"] ==
+            ["PASS", "INVALID", "ERROR", "SUBSTITUTION"],
+            "host state composition drift")
+    _expect(composition["overall_states"] ==
+            ["PASS", "FAIL", "INVALID", "ERROR"],
+            "overall state composition drift")
+
+    attempts = _exact_fields(packet["attempt_policy"],
+                             {"silent_retry", "preserve_every_attempt"},
+                             "attempt_policy")
+    _expect(attempts["silent_retry"] == "FORBIDDEN",
+            "attempt_policy.silent_retry must be FORBIDDEN")
+    _expect(attempts["preserve_every_attempt"] is True,
+            "attempt_policy must preserve every attempt")
+    _expect(packet["acceptance_rule"] == ACCEPTANCE_RULE,
+            "frozen packet drift: acceptance_rule")
+    _expect(packet["invalid_error_rule"] == INVALID_ERROR_RULE,
+            "invalid_error_rule drift")
+    _expect(packet["stop_conditions"] == STOP_CONDITIONS,
+            "stop_conditions drift")
+
+    rederiver = _exact_fields(
+        packet["independent_rederiver"],
+        {"contract_id", "implementation_identity", "must_not_import",
+         "input", "output"}, "independent_rederiver")
+    _expect(rederiver["contract_id"] ==
+            "implementaudit-b3v4-independent-rederiver-v1",
+            "independent_rederiver.contract_id drift")
+    identity = _exact_fields(
+        rederiver["implementation_identity"], {"path", "sha256"},
+        "independent_rederiver.implementation_identity")
+    _expect(identity["path"] == "eval/b3v4_rederive.py",
+            "independent_rederiver.implementation_identity.path drift")
+    _digest(identity["sha256"],
+            "independent_rederiver.implementation_identity.sha256")
+    _expect(rederiver["must_not_import"] == REDERIVER_IMPORT_BOUNDARY,
+            "independent_rederiver.must_not_import drift")
+    _expect(rederiver["input"] == "retained raw evidence only",
+            "independent_rederiver.input drift")
+    _expect(rederiver["output"] ==
+            "per-mission property, host, and overall rederivation",
+            "independent_rederiver.output drift")
+    return packet
 
 
 def _safe_rel(value, owner):
@@ -717,17 +930,7 @@ def rederive_campaign(packet_path, campaign_root):
     packet_path = pathlib.Path(packet_path).resolve()
     campaign_root = pathlib.Path(campaign_root).resolve()
     packet, packet_bytes = _read_json(packet_path, "freeze packet")
-    _expect(packet.get("schema") == "implementaudit-b3v4-campaign-freeze-v1" and
-            packet.get("campaign") == "b3v4-sol-r1" and
-            packet.get("state") == "FROZEN_BEFORE_FIRST_MISSION",
-            "freeze packet identity invalid")
-    observed_plan = [(row.get("config"), row.get("arm"), row.get("rep"))
-                     for row in packet.get("missions", [])
-                     if isinstance(row, dict)]
-    indices = [row.get("index") for row in packet.get("missions", [])
-               if isinstance(row, dict)]
-    _expect(observed_plan == PLAN and indices == list(range(12)),
-            "fixed 12-mission order drift")
+    _validate_freeze_contract(packet)
     frozen = _read_bytes(campaign_root / "campaign-freeze.json")
     _expect(frozen == packet_bytes, "campaign frozen packet drift")
     freeze_sha = _sha(frozen)
