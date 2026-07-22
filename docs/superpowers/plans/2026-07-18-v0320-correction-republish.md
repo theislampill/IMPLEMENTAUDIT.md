@@ -83,19 +83,29 @@ qualification evidence.
 ## Phase 4 — cold-review and merge PR #73 as foundation only
 
 1. Preserve exact commit `79cc2fe304ad4397bc65237435f4a9618cf5edf3`
-   as a third independent `BLOCK` despite its broad green gates. Obtain an
-   independent cold-review PASS on repaired exact commit
-   `7b9a0e7bf5c4d52f7d16a1c0d93669fdafc81b77`, including the retained
-   112-state adversarial corpus, four appended reviewer controls, and complete
-   59-test package gate.
-2. Preserve all rejected attempts and the full parser/evidence convergence
-   lineage; do not cherry-pick only the final patch.
-3. Integrate that reviewed lineage into PR #73 and correct every B3-v3 claim to
-   distinguish stored historical output from admissible qualification.
-4. Run the complete eval, adversarial, host, adapter, reporting, package,
-   reproducibility, docs, and exact-head CI gates on the combined PR head.
-5. Perform a separate cold review of the exact combined head, resolve every
-   finding, and merge PR #73 only when green.
+   as the third independent `BLOCK` and
+   `7b9a0e7bf5c4d52f7d16a1c0d93669fdafc81b77` as the superseded Cold Review 4
+   `BLOCK`; neither is a current review candidate. The append-only ledger
+   preserves the later rejected attempts through Review 16.
+2. Record the permitted replacement Cold Review 17 `PASS` on exact accepted
+   evaluator commit `64a0eb27a5b6914345611d72aeabfd3627aede58`, and preserve
+   the full parser/evidence convergence lineage rather than cherry-picking the
+   final patch.
+3. Preserve the accepted evaluator lineage integrated with correction parent
+   `2386d16055045611069b0375c68c57f9797e00da` as combined head
+   `30cd18ceecff2462dfc5dc9c6ce57116af19dcd3`, while keeping every B3-v3 claim
+   separated into stored historical output versus admissible qualification.
+4. Retain the combined-head local evidence: Git Bash package exit 0 in 348.108
+   seconds, 59 tests in both registries, 112/112, H47az 2/2, and reproducible
+   asset SHA-256
+   `317ffbd34ed5387a0a00ee99f75d1d46ac8fbd87ba8f7be2a46414c944593d84`.
+5. Treat the first exact combined-head review as `BLOCK` solely on stale active
+   status instructions; parent lineage, file preservation, and focused
+   evaluator integration checks passed.
+6. On the exact repaired head, run the complete local eval, adversarial, host,
+   adapter, reporting, package, reproducibility, and docs gates. Then obtain an
+   independent exact-head review and exact-head CI before any foundation-only
+   PR update or merge.
 
 **Publication boundary:** merging PR #73 does not authorize tag movement,
 release publication, or closure.
@@ -264,11 +274,13 @@ Only after every public/install/closure readback passes may the terminal marker
 
 ## Current next authorized action
 
-Obtain the required independent exact-commit cold-review verdict on the
-formal-v2 host-read repair at `7b9a0e7bf5c4d52f7d16a1c0d93669fdafc81b77`.
-If PASS, preserve the review ledger, integrate the full repair lineage into PR
-#73, run the combined exact-head gates/review/CI, and merge only the foundation
-without publishing. Then freeze and run B3-v4. Only after B3-v4 is green should
-work resume from the existing 17-cell synthesis: fixture preflight, separate
-scorer mechanisms, append-only 56-bundle re-adjudication, falsifying probes,
-and approved causal-cluster product tranches.
+Run the complete local gates on the exact repaired head created by this status
+synchronization, obtain an independent exact-head review, and then require
+exact-head CI before any foundation-only PR update or merge. Preserve the Cold
+Review 17 acceptance of `64a0eb27a5b6914345611d72aeabfd3627aede58`, its
+integration into `30cd18ceecff2462dfc5dc9c6ce57116af19dcd3`, and the
+append-only rejection ledger. Do not publish. After foundation-only merge,
+freeze and run B3-v4. Only after B3-v4 is green should work resume from the
+existing 17-cell synthesis: fixture preflight, separate scorer mechanisms,
+append-only 56-bundle re-adjudication, falsifying probes, and approved
+causal-cluster product tranches.
