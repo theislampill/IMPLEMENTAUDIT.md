@@ -192,7 +192,7 @@ def main():
         "input": "copy official result",
         "output": "copy official result",
     })
-    expect_invalid(module, reviewer_counterexample, "formal_host_read")
+    expect_invalid(module, reviewer_counterexample, "implementation_identity")
 
     weak_formal_profile = copy.deepcopy(packet)
     weak_formal_profile["evidence_profiles"]["formal_host_read"] = "optional"

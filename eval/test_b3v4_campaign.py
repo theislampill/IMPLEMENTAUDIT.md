@@ -6,6 +6,7 @@ import importlib.util
 import hashlib
 import copy
 import json
+import os
 import pathlib
 import tempfile
 
@@ -397,6 +398,30 @@ def main():
                       else attempt / relative)
             add_duplicate_to_file(target, key, value)
             expect_error("duplicate JSON key", driver.run_next)
+
+    # Retained bytes are not authoritative when another pathname aliases the
+    # same inode.  Cover campaign-root and each attempt-root reader family.
+    hardlink_cases = (
+        ("campaign-manifest.json", "campaign manifest"),
+        ("campaign-freeze.json", "frozen packet"),
+        ("attempt-status.json", "attempt status"),
+        ("attempt-terminal.json", "attempt terminal"),
+        ("host-attestation.json", "host attestation"),
+        ("official-verdict.json", "official verdict"),
+    )
+    for relative, owner in hardlink_cases:
+        with tempfile.TemporaryDirectory(
+                prefix=f"b3v4-campaign-hardlink-{relative.split('.')[0]}-") as tmp:
+            driver = make_driver(module, tmp, scored_outcome)
+            driver.run_next()
+            campaign = pathlib.Path(tmp) / "campaign"
+            attempt = campaign / "attempt-000-L-candidate-r1"
+            target = campaign / relative if relative.startswith("campaign-") \
+                else attempt / relative
+            alias = pathlib.Path(tmp) / (relative + ".outside-alias")
+            os.link(target, alias)
+            expect_error("hardlink", driver.run_next)
+            assert target.stat().st_nlink == 2, owner
 
     with tempfile.TemporaryDirectory(
             prefix="b3v4-campaign-verdict-duplicate-") as tmp:

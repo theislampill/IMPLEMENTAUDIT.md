@@ -7,7 +7,9 @@ import copy
 import hashlib
 import importlib.util
 import json
+import os
 import pathlib
+import subprocess
 import tempfile
 
 from test_b3v4_freeze import valid_packet
@@ -107,6 +109,26 @@ def main():
         "host_read_terminal", "host_checks", "host_check_inputs",
         "independent_rederivation",
     }
+    declaration_mutations = []
+    changed = copy.deepcopy(declaration)
+    changed["execution"]["mutable_summary"] = "PASS"
+    declaration_mutations.append(changed)
+    changed = copy.deepcopy(declaration)
+    changed["artifacts"]["campaign_manifest"]["producer"] = "mutable-summary"
+    declaration_mutations.append(changed)
+    changed = copy.deepcopy(declaration)
+    changed["artifacts"]["fabricated_summary"] = copy.deepcopy(
+        changed["artifacts"]["campaign_manifest"])
+    declaration_mutations.append(changed)
+    changed = copy.deepcopy(declaration)
+    changed["lifecycle_schemas"]["campaign_manifest"].append(
+        "mutable_summary")
+    declaration_mutations.append(changed)
+    changed = copy.deepcopy(declaration)
+    changed["lifecycle_schemas"]["fabricated_summary"] = ["status"]
+    declaration_mutations.append(changed)
+    for mutation in declaration_mutations:
+        must_reject(lambda value=mutation: contract.validate_declaration(value))
 
     packet = valid_packet()
     packet["artifact_contract"] = {
@@ -115,6 +137,43 @@ def main():
         "sha256": contract.contract_sha256(),
     }
     contract.validate_freeze_envelope(packet)
+
+    # Every qualification-bearing object is closed.  Exercise both directions
+    # at every nested boundary so a local subset check cannot reopen the packet.
+    nested_objects = [
+        ("artifact_contract",), ("foundation",), ("fixture",),
+        ("artifacts",), ("artifacts", "scorer"),
+        ("candidate",), ("control",), ("configurations",),
+        ("configurations", "L"),
+        ("configurations", "L", "executable"),
+        ("configurations", "L", "host_attestation"),
+        ("configurations", "O"),
+        ("configurations", "O", "executable"),
+        ("configurations", "O", "host_attestation"),
+        ("authorization",), ("missions", 0), ("evidence_profiles",),
+        ("result_composition",), ("attempt_policy",),
+        ("independent_rederiver",),
+        ("independent_rederiver", "implementation_identity"),
+    ]
+
+    def owner_at(value, path):
+        for key in path:
+            value = value[key]
+        return value
+
+    for object_path in nested_objects:
+        extra_nested = copy.deepcopy(packet)
+        owner_at(extra_nested, object_path)["unknown_qualification_field"] = "PASS"
+        missing_nested = copy.deepcopy(packet)
+        nested_owner = owner_at(missing_nested, object_path)
+        nested_owner.pop(next(iter(nested_owner)))
+        for mutation in (extra_nested, missing_nested):
+            must_reject(lambda value=mutation:
+                        contract.validate_freeze_envelope(value))
+            must_reject(lambda value=mutation:
+                        official.validate_structure(value))
+            must_reject(lambda value=mutation:
+                        independent._validate_freeze_contract(value))
 
     freeze_mutations = []
     missing = copy.deepcopy(packet); missing.pop("seed")
@@ -182,6 +241,47 @@ def main():
             alias = root / "safe" / "alias.json"
             alias.hardlink_to(target)
             rejected("link", lambda: contract.resolve_contained(root, "safe/alias.json"))
+            alias.unlink()
+
+        file_link = root / "safe" / "artifact-link.json"
+        try:
+            os.symlink(target, file_link)
+        except (NotImplementedError, OSError) as exc:
+            print("CUSTODY_FILE_SYMLINK=SKIP:" + type(exc).__name__)
+        else:
+            rejected("alias", lambda: contract.read_custodied_bytes(
+                file_link, "file symlink", root=root))
+            must_reject(lambda: independent._read_bytes(file_link))
+            file_link.unlink()
+            print("CUSTODY_FILE_SYMLINK=PASS")
+
+        directory_link = root / "safe-link"
+        try:
+            os.symlink(root / "safe", directory_link, target_is_directory=True)
+        except (NotImplementedError, OSError) as exc:
+            print("CUSTODY_DIRECTORY_SYMLINK=SKIP:" + type(exc).__name__)
+        else:
+            rejected("alias", lambda: contract.read_custodied_bytes(
+                directory_link / "artifact.json", "directory symlink", root=root))
+            must_reject(lambda: independent._read_bytes(
+                directory_link / "artifact.json"))
+            directory_link.unlink()
+            print("CUSTODY_DIRECTORY_SYMLINK=PASS")
+
+        if os.name == "nt":
+            junction = root / "safe-junction"
+            made = subprocess.run(
+                ["cmd", "/c", "mklink", "/J", str(junction),
+                 str(root / "safe")], capture_output=True, text=True)
+            if made.returncode:
+                print("CUSTODY_DIRECTORY_JUNCTION=SKIP:mklink")
+            else:
+                rejected("alias", lambda: contract.read_custodied_bytes(
+                    junction / "artifact.json", "directory junction", root=root))
+                must_reject(lambda: independent._read_bytes(
+                    junction / "artifact.json"))
+                os.rmdir(junction)
+                print("CUSTODY_DIRECTORY_JUNCTION=PASS")
 
     completed = [copy.deepcopy(packet["missions"][i]) for i in range(2)]
     assert contract.next_mission(packet["missions"], completed) == packet["missions"][2]

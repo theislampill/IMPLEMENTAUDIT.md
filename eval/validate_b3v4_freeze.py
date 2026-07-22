@@ -265,11 +265,8 @@ def validate_structure(packet):
 
 
 def _sha256(path):
-    digest = hashlib.sha256()
-    with open(path, "rb") as stream:
-        for block in iter(lambda: stream.read(1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest()
+    return hashlib.sha256(contract.read_custodied_bytes(
+        path, f"retained file {pathlib.Path(path).name}")).hexdigest()
 
 
 def _tree_manifest(root):
@@ -329,8 +326,7 @@ def main(argv=None):
     parser.add_argument("--repo-root", default=os.path.dirname(os.path.dirname(__file__)))
     parser.add_argument("--schema-only", action="store_true")
     args = parser.parse_args(argv)
-    with open(args.intent, encoding="utf-8") as stream:
-        packet = _strict_json_load(stream)
+    packet = contract.load_json_file(args.intent, "B3-v4 freeze packet")
     validate_structure(packet)
     if not args.schema_only:
         validate_live(packet, args.repo_root)

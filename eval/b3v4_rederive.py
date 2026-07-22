@@ -11,9 +11,11 @@ import base64
 import fnmatch
 import hashlib
 import json
+import os
 import pathlib
 import re
 import shlex
+import stat
 import sys
 
 
@@ -107,6 +109,7 @@ CAPTURE_FILES = (
 )
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
+CONTRACT_SHA256 = "4909f2e3b5ec9ba2188594f8e9669b8ea717ed1ecacff2dfa927395689b68495"
 OFFICIAL_STATES = frozenset({"PASS", "FAIL", "INVALID", "ERROR"})
 CONTINUE_STATES = frozenset({"PASS", "FAIL"})
 STOP_STATES = frozenset({"INVALID", "ERROR"})
@@ -206,15 +209,46 @@ class EvidenceInvalid(ValueError):
     """Retained evidence cannot support a campaign result."""
 
 
+_CUSTODY_COMPONENT_CACHE = set()
+
+
 def _sha(data):
     return hashlib.sha256(data).hexdigest()
 
 
+def _reparse_point(path_stat):
+    return bool(getattr(path_stat, "st_file_attributes", 0) &
+                getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400))
+
+
 def _read_bytes(path):
+    """Independently enforce unique-path custody before trusting any bytes."""
+    lexical = pathlib.Path(path).absolute()
     try:
-        return pathlib.Path(path).read_bytes()
+        lexical_stat = os.lstat(lexical)
+        if lexical.is_symlink() or _reparse_point(lexical_stat):
+            raise EvidenceInvalid(
+                f"retained evidence link or reparse alias: {lexical.name}")
+        current = lexical.parent
+        while current.parent != current:
+            if current not in _CUSTODY_COMPONENT_CACHE:
+                current_stat = os.lstat(current)
+                if current.is_symlink() or _reparse_point(current_stat):
+                    raise EvidenceInvalid(
+                        "retained evidence path-component alias: "
+                        f"{lexical.name}")
+                _CUSTODY_COMPONENT_CACHE.add(current)
+            current = current.parent
+        with open(lexical, "rb") as stream:
+            opened = os.fstat(stream.fileno())
+            if not stat.S_ISREG(opened.st_mode) or opened.st_nlink != 1:
+                raise EvidenceInvalid(
+                    f"retained evidence hardlink or non-file alias: {lexical.name}")
+            return stream.read()
+    except EvidenceInvalid:
+        raise
     except OSError as exc:
-        raise EvidenceInvalid(f"missing evidence: {pathlib.Path(path).name}") from exc
+        raise EvidenceInvalid(f"missing evidence: {lexical.name}") from exc
 
 
 def _decode_json(data, owner, malformed, require_object=False):
@@ -541,6 +575,8 @@ def _validate_freeze_contract(packet):
     _expect(artifact_contract["path"] == "eval/b3v4_contract.json",
             "artifact contract path invalid")
     _digest(artifact_contract["sha256"], "artifact contract sha256")
+    _expect(artifact_contract["sha256"] == CONTRACT_SHA256,
+            "artifact contract semantic identity drift")
     declaration_path = pathlib.Path(__file__).resolve().parent.parent / \
         pathlib.PurePosixPath(artifact_contract["path"])
     declaration_bytes = _read_bytes(declaration_path)
@@ -755,7 +791,7 @@ def _safe_rel(value, owner):
 
 def _contained(root, relative, owner):
     relative = _safe_rel(relative, owner)
-    root = pathlib.Path(root).resolve()
+    root = pathlib.Path(root).absolute()
     lexical = root.joinpath(*relative.split("/"))
     try:
         resolved = lexical.resolve(strict=True)
@@ -763,7 +799,10 @@ def _contained(root, relative, owner):
         current = root
         for part in relative.split("/"):
             current = current / part
-            _expect(not current.is_symlink(), f"{owner} link alias forbidden")
+            current_stat = os.lstat(current)
+            _expect(not current.is_symlink() and
+                    not _reparse_point(current_stat),
+                    f"{owner} link alias forbidden")
         _expect(resolved.stat().st_nlink == 1,
                 f"{owner} hardlink alias forbidden")
     except (OSError, ValueError) as exc:
@@ -2327,8 +2366,9 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha):
                 mission, terminal["overall_status"], terminal["stop_reason"])
         if terminal.get("resolved_model") != expected_model:
             return _invalid_row(mission, "SUBSTITUTION", "model substitution")
-        host_root = (attempt / "host-custody" / name).resolve()
-        recorded_root = pathlib.Path(str(terminal.get("host_run_root", ""))).resolve()
+        host_root = (attempt / "host-custody" / name).absolute()
+        recorded_root = pathlib.Path(
+            str(terminal.get("host_run_root", ""))).absolute()
         _expect(recorded_root == host_root, "attempt host run root identity mismatch")
         parent, _ = _read_json(host_root / "terminal.json", "host terminal")
         parent = _exact_fields(parent, HOST_TERMINAL_FIELDS, "host terminal")
@@ -2398,8 +2438,11 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha):
 
 
 def rederive_campaign(packet_path, campaign_root):
-    packet_path = pathlib.Path(packet_path).resolve()
-    campaign_root = pathlib.Path(campaign_root).resolve()
+    # Path-component custody is stable only for one create-once read pass.
+    # A later invocation must not inherit trust after a directory replacement.
+    _CUSTODY_COMPONENT_CACHE.clear()
+    packet_path = pathlib.Path(packet_path).absolute()
+    campaign_root = pathlib.Path(campaign_root).absolute()
     packet, packet_bytes = _read_json(packet_path, "freeze packet")
     _validate_freeze_contract(packet)
     frozen = _read_bytes(campaign_root / "campaign-freeze.json")

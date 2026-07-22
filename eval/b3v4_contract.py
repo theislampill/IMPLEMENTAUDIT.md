@@ -4,12 +4,15 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import pathlib
 import re
+import stat
 
 
 HERE = pathlib.Path(__file__).resolve().parent
 DECLARATION_PATH = HERE / "b3v4_contract.json"
+DECLARATION_SHA256 = "4909f2e3b5ec9ba2188594f8e9669b8ea717ed1ecacff2dfa927395689b68495"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 FREEZE_FIELDS = {
@@ -50,8 +53,43 @@ def decode_json_bytes(data, owner, *, require_object=False):
     return value
 
 
-def load_json_file(path, owner, *, require_object=True):
-    return decode_json_bytes(pathlib.Path(path).read_bytes(), owner,
+def _reparse_point(path_stat):
+    return bool(getattr(path_stat, "st_file_attributes", 0) &
+                getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400))
+
+
+def read_custodied_bytes(path, owner, *, root=None):
+    """Read one retained regular file only through its unique lexical path."""
+    lexical = pathlib.Path(path).absolute()
+    stop = None
+    if root is not None:
+        stop = pathlib.Path(root).absolute()
+        try:
+            lexical.relative_to(stop)
+        except ValueError as exc:
+            raise ValueError(f"{owner} path escapes owner root") from exc
+    try:
+        resolved = lexical.resolve(strict=True)
+        if resolved != lexical:
+            raise ValueError(f"{owner} link or reparse alias forbidden")
+        if stop is not None:
+            resolved.relative_to(stop.resolve(strict=True))
+        lexical_stat = os.lstat(lexical)
+        if lexical.is_symlink() or _reparse_point(lexical_stat):
+            raise ValueError(f"{owner} link or reparse alias forbidden")
+        with open(lexical, "rb") as stream:
+            opened = os.fstat(stream.fileno())
+            if not stat.S_ISREG(opened.st_mode) or opened.st_nlink != 1:
+                raise ValueError(f"{owner} hardlink or non-file identity forbidden")
+            return stream.read()
+    except ValueError:
+        raise
+    except OSError as exc:
+        raise ValueError(f"{owner} cannot be read as retained evidence") from exc
+
+
+def load_json_file(path, owner, *, require_object=True, root=None):
+    return decode_json_bytes(read_custodied_bytes(path, owner, root=root), owner,
                              require_object=require_object)
 
 
@@ -107,7 +145,7 @@ def resolve_contained(root, relative, *, require_exists=True):
         current = root
         for part in relative.split("/"):
             current = current / part
-            if current.is_symlink():
+            if current.is_symlink() or _reparse_point(os.lstat(current)):
                 raise ValueError("artifact link alias forbidden")
         stat = resolved.stat()
         if stat.st_nlink != 1:
@@ -118,7 +156,7 @@ def resolve_contained(root, relative, *, require_exists=True):
 def resolve_external_file(path, owner):
     _string(path, owner)
     lexical = pathlib.Path(path)
-    if lexical.is_symlink():
+    if lexical.is_symlink() or _reparse_point(os.lstat(lexical)):
         raise ValueError(f"{owner} link alias forbidden")
     try:
         resolved = lexical.resolve(strict=True)
@@ -149,7 +187,11 @@ def _declaration():
 
 
 def contract_sha256():
-    return hashlib.sha256(DECLARATION_PATH.read_bytes()).hexdigest()
+    observed = hashlib.sha256(read_custodied_bytes(
+        DECLARATION_PATH, "B3-v4 artifact contract")).hexdigest()
+    if observed != DECLARATION_SHA256:
+        raise ValueError("B3-v4 artifact contract semantic identity drift")
+    return observed
 
 
 def validate_declaration(value):
@@ -183,6 +225,8 @@ def validate_declaration(value):
             raise ValueError(f"artifact {name} format invalid")
         if type(row["create_once"]) is not bool or not row["create_once"]:
             raise ValueError(f"artifact {name} create-once policy invalid")
+    if value != _declaration():
+        raise ValueError("artifact contract semantic declaration drift")
     return value
 
 
@@ -270,6 +314,19 @@ def validate_freeze_envelope(packet):
             raise ValueError("mission enum invalid")
         if type(mission["rep"]) is not int or mission["rep"] not in (1, 2, 3):
             raise ValueError("mission rep invalid")
+    _exact(packet["evidence_profiles"], {
+        "formal_host_read", "raw_stdout", "native_session", "pre_spawn",
+        "post_mission_manifest"}, "evidence_profiles")
+    _exact(packet["result_composition"], {
+        "product_property_states", "host_states", "overall_states"},
+        "result_composition")
+    _exact(packet["attempt_policy"], {
+        "silent_retry", "preserve_every_attempt"}, "attempt_policy")
+    rederiver = _exact(packet["independent_rederiver"], {
+        "contract_id", "implementation_identity", "must_not_import", "input",
+        "output"}, "independent_rederiver")
+    _exact(rederiver["implementation_identity"], {"path", "sha256"},
+           "independent_rederiver.implementation_identity")
     return packet
 
 
@@ -362,3 +419,4 @@ def campaign_complete(plan, completed):
 
 
 validate_declaration(_declaration())
+contract_sha256()

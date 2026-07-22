@@ -70,20 +70,18 @@ def _sha256_bytes(data):
     return hashlib.sha256(data).hexdigest()
 
 
-def _sha256_file(path):
-    digest = hashlib.sha256()
-    with open(path, "rb") as stream:
-        for block in iter(lambda: stream.read(1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest()
+def _sha256_file(path, *, root=None, owner=None):
+    raw = contract.read_custodied_bytes(
+        path, owner or f"retained file {pathlib.Path(path).name}", root=root)
+    return hashlib.sha256(raw).hexdigest()
 
 
 def _write_new_json(path, value):
     contract.write_new_json(path, value)
 
 
-def _read_object(path, owner):
-    return contract.load_json_file(path, owner)
+def _read_object(path, owner, *, root=None):
+    return contract.load_json_file(path, owner, root=root)
 
 
 def _official_error(message):
@@ -295,13 +293,15 @@ def _write_official_verdict(attempt_root, verdict, fixture, *, packet, mission,
         production=production)
     path = attempt_root / "official-verdict.json"
     _write_new_json(path, verdict)
-    return status, _sha256_file(path)
+    return status, _sha256_file(
+        path, root=attempt_root, owner="official verdict")
 
 
 def _fixture_for_packet(repo_root, packet):
     path = pathlib.Path(repo_root) / "eval" / "fixtures" / packet["fixture"][
         "id"] / "fixture.json"
-    raw = path.read_bytes()
+    raw = contract.read_custodied_bytes(
+        path, "frozen fixture", root=pathlib.Path(repo_root))
     if _sha256_bytes(raw) != packet["fixture"]["fixture_sha256"]:
         raise ValueError("frozen fixture custody drift")
     return contract.decode_json_bytes(raw, "frozen fixture")
@@ -314,9 +314,10 @@ def _verify_official_verdict(attempt_root, terminal, fixture, *, packet,
     official = terminal.get("official_overall_status")
     if not path.is_file() or not isinstance(digest, str):
         raise ValueError("prior official verdict custody is incomplete")
-    if _sha256_file(path) != digest:
+    if _sha256_file(
+            path, root=attempt_root, owner="official verdict") != digest:
         raise ValueError("prior official verdict custody drift")
-    verdict = _read_object(path, "official verdict")
+    verdict = _read_object(path, "official verdict", root=attempt_root)
     observed = _validate_official_verdict(
         verdict, fixture, packet=packet, mission=mission,
         production=production)
@@ -394,9 +395,9 @@ class CampaignDriver:
                 "production execution cannot replace validators or host adapters")
         if execution_mode == "test" and mission_executor is None:
             raise ValueError("test execution requires an explicit mock executor")
-        self.packet_path = pathlib.Path(packet_path).resolve()
+        self.packet_path = pathlib.Path(packet_path).absolute()
         self.repo_root = pathlib.Path(repo_root).resolve()
-        self.campaign_root = pathlib.Path(campaign_root).resolve()
+        self.campaign_root = pathlib.Path(campaign_root).absolute()
         self.candidate_checkout = pathlib.Path(candidate_checkout).resolve()
         self.control_checkout = pathlib.Path(control_checkout).resolve()
         self.runtime_root = pathlib.Path(runtime_root).resolve()
@@ -409,7 +410,8 @@ class CampaignDriver:
                                   if codex_auth_source else None)
 
     def _load_packet(self):
-        raw = self.packet_path.read_bytes()
+        raw = contract.read_custodied_bytes(
+            self.packet_path, "B3-v4 freeze input", root=self.packet_path.parent)
         packet = _strict_json_loads(raw.decode("utf-8"))
         freeze.validate_structure(packet)
         self.live_validator(packet, self.repo_root)
@@ -431,12 +433,15 @@ class CampaignDriver:
             })
         if not frozen.is_file() or not manifest.is_file():
             raise ValueError("campaign custody is incomplete")
-        recorded = _read_object(manifest, "campaign manifest")
+        recorded = _read_object(
+            manifest, "campaign manifest", root=self.campaign_root)
         contract.validate_artifact("campaign_manifest", recorded)
         if (recorded.get("freeze_sha256") != packet_sha256 or
                 recorded.get("contract_sha256") != contract.contract_sha256() or
-                _sha256_file(frozen) != packet_sha256 or
-                frozen.read_bytes() != raw):
+                _sha256_file(frozen, root=self.campaign_root,
+                             owner="frozen packet") != packet_sha256 or
+                contract.read_custodied_bytes(
+                    frozen, "frozen packet", root=self.campaign_root) != raw):
             raise ValueError("frozen packet drift")
 
     @staticmethod
@@ -478,8 +483,10 @@ class CampaignDriver:
             terminal_path = root / "attempt-terminal.json"
             if not status_path.is_file() or not terminal_path.is_file():
                 raise ValueError("prior attempt is nonterminal")
-            status = _read_object(status_path, "attempt status")
-            terminal = _read_object(terminal_path, "attempt terminal")
+            status = _read_object(status_path, "attempt status",
+                                  root=self.campaign_root)
+            terminal = _read_object(terminal_path, "attempt terminal",
+                                    root=self.campaign_root)
             contract.validate_artifact("attempt_status", status)
             contract.validate_artifact("attempt_terminal", terminal)
             if (status.get("mission") != mission or
@@ -505,7 +512,9 @@ class CampaignDriver:
         source = self.attestations.get(config_name)
         if not source:
             raise ValueError("formal host attestation is required")
-        raw = pathlib.Path(source).read_bytes()
+        source = pathlib.Path(source)
+        raw = contract.read_custodied_bytes(
+            source, "host attestation source", root=source.parent)
         attestation = contract.decode_json_bytes(raw, "host attestation")
         contract.validate_host_attestation(attestation)
         expected = packet["configurations"][config_name]["host_attestation"]
@@ -525,9 +534,10 @@ class CampaignDriver:
                 "model_resolved_required": config["model_resolved_required"]}:
             raise ValueError("host attestation mission identity mismatch")
         path = root / binding["path"]
-        if not path.is_file() or _sha256_file(path) != binding["sha256"]:
+        if not path.is_file() or _sha256_file(
+                path, root=root, owner="host attestation") != binding["sha256"]:
             raise ValueError("host attestation custody hash mismatch")
-        retained = _read_object(path, "host attestation")
+        retained = _read_object(path, "host attestation", root=root)
         contract.validate_host_attestation(retained)
         if retained["id"] != config["host_attestation"]["id"]:
             raise ValueError("host attestation retained identity mismatch")
@@ -578,7 +588,7 @@ class CampaignDriver:
         mission = self._next_mission(packet)
         attempt_root = self._claim_attempt(mission, packet_sha256, packet)
         status = _read_object(attempt_root / "attempt-status.json",
-                              "attempt status")
+                              "attempt status", root=self.campaign_root)
         retained_attestation = self._verify_host_attestation(
             attempt_root, status, mission, packet)
         context = MissionContext(

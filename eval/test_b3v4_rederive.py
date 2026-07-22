@@ -7,8 +7,10 @@ import copy
 import hashlib
 import importlib.util
 import json
+import os
 import pathlib
 import shutil
+import subprocess
 import tempfile
 
 from test_b3v4_freeze import valid_packet
@@ -1080,9 +1082,85 @@ def assert_host_attestation_custody_matrix(module):
         ", ".join(accepted))
 
 
+def assert_host_root_junction_rejected(module):
+    if os.name != "nt":
+        print("REDERIVER_HOST_ROOT_JUNCTION=SKIP:not-windows")
+        return
+    with tempfile.TemporaryDirectory(prefix="b3v4-rederive-junction-") as tmp:
+        root = pathlib.Path(tmp) / "campaign"
+        build_campaign(root)
+        first = root / "attempt-000-L-candidate-r1"
+        host_root = first / "host-custody" / first.name
+        outside = pathlib.Path(tmp) / "outside-host-root"
+        shutil.move(str(host_root), outside)
+        made = subprocess.run(
+            ["cmd", "/c", "mklink", "/J", str(host_root), str(outside)],
+            capture_output=True, text=True)
+        if made.returncode:
+            shutil.move(str(outside), host_root)
+            print("REDERIVER_HOST_ROOT_JUNCTION=SKIP:mklink")
+            return
+        try:
+            result = module.rederive_campaign(root / "campaign-freeze.json", root)
+            assert result["accepted"] is False, result
+            assert result["campaign_status"] == "INVALID", result
+        finally:
+            os.rmdir(host_root)
+            shutil.move(str(outside), host_root)
+        print("REDERIVER_HOST_ROOT_JUNCTION=PASS")
+
+
 def main():
     assert_independent_import_boundary()
     module = load_module()
+    assert_host_root_junction_rejected(module)
+
+    # One campaign proves the universal retained-file check at every reader
+    # family.  The outside hardlink remains byte-identical and all hashes stay
+    # valid, so rejection can only come from custody identity enforcement.
+    with tempfile.TemporaryDirectory(prefix="b3v4-rederive-hardlinks-") as tmp:
+        root = pathlib.Path(tmp) / "campaign"
+        build_campaign(root)
+        first = root / "attempt-000-L-candidate-r1"
+        bundle = first / "host-custody" / first.name / "bundle"
+        hardlink_cases = {
+            "campaign-freeze": root / "campaign-freeze.json",
+            "campaign-manifest": root / "campaign-manifest.json",
+            "attempt-status": first / "attempt-status.json",
+            "attempt-terminal": first / "attempt-terminal.json",
+            "host-attestation": first / "host-attestation.json",
+            "official-verdict": first / "official-verdict.json",
+            "host-terminal": first / "host-custody" / first.name / "terminal.json",
+            "bundle-manifest": bundle / "manifest.json",
+            "bundle-jsonl": bundle / "events.jsonl",
+            "bundle-bytes": bundle / "prompt.txt",
+            "bundle-snapshot-json": bundle / "repo-before.json",
+            "artifact-json": bundle / "artifacts" / "host-read-profile.json",
+            "artifact-bytes": bundle / "artifacts" / "host-session.raw",
+        }
+        accepted_aliases = []
+        for label, target in hardlink_cases.items():
+            alias = pathlib.Path(tmp) / f"{label}.outside-alias"
+            os.link(target, alias)
+            try:
+                try:
+                    if label == "campaign-manifest":
+                        result = module.rederive_campaign(
+                            root / "campaign-freeze.json", root)
+                        if result.get("accepted") is True:
+                            accepted_aliases.append(label)
+                    else:
+                        module._read_bytes(target)
+                except module.EvidenceInvalid:
+                    pass
+                else:
+                    if label != "campaign-manifest":
+                        accepted_aliases.append(label)
+            finally:
+                alias.unlink()
+        assert not accepted_aliases, (
+            "rederiver accepted retained hardlink aliases: " +
+            ", ".join(accepted_aliases))
     assert_retained_schema_matrix(module)
     assert_host_attestation_custody_matrix(module)
     with tempfile.TemporaryDirectory(prefix="b3v4-rederive-freeze-") as tmp:
