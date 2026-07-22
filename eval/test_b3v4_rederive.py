@@ -487,6 +487,29 @@ def main():
 
     with tempfile.TemporaryDirectory(prefix="b3v4-rederive-") as tmp:
         root = pathlib.Path(tmp) / "campaign"
+        build_campaign(root)
+        first = root / "attempt-000-L-candidate-r1"
+        verdict_path = first / "official-verdict.json"
+        verdict = json.loads(verdict_path.read_text(encoding="utf-8"))
+        verdict["properties"]["fabricated_hash_bound_property"] = {
+            "state": "PASS", "pass": True,
+            "evidence": "fabricated retained evidence",
+            "describes": "not present in the frozen fixture",
+            "basis": "host-observation",
+        }
+        write(verdict_path, verdict)
+        terminal_path = first / "attempt-terminal.json"
+        terminal = json.loads(terminal_path.read_text(encoding="utf-8"))
+        terminal["official_verdict_sha256"] = sha(verdict_path.read_bytes())
+        write(terminal_path, terminal)
+        counterexample = module.rederive_campaign(
+            root / "campaign-freeze.json", root)
+        assert counterexample["campaign_status"] == "INVALID", counterexample
+        assert counterexample["accepted"] is False
+        assert "official property key set" in counterexample["missions"][0]["reason"]
+
+    with tempfile.TemporaryDirectory(prefix="b3v4-rederive-") as tmp:
+        root = pathlib.Path(tmp) / "campaign"
         packet = build_campaign(root)
         result = module.rederive_campaign(root / "campaign-freeze.json", root)
         assert result["campaign_status"] == "PASS", result

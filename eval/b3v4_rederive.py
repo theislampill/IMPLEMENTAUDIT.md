@@ -950,6 +950,9 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha):
                     if prop.get("required", True)]
         _expect(required and all(name in properties for name in required),
                 "required property matrix incomplete")
+        _expect(set(official_properties) == set(required),
+                "official property key set does not equal frozen required "
+                "property set")
         product_status = "PASS" if all(properties[name]["pass"]
                                        for name in required) else "FAIL"
         independent_overall = product_status
