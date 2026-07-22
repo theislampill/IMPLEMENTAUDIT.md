@@ -65,6 +65,13 @@ and live identities, creates a distinct attempt status before host spawn, and
 refuses retries, order gaps, substitution, `INVALID`, `ERROR`, or input drift.
 Its injectable executor and validators exist only in explicit test mode; the
 CLI always delegates execution to the existing formal host adapters and scorer.
+`eval/b3v4_rederive.py` is the separately identified, read-only rederiver. It
+does not import the host adapters, runner, or scoring library. From the frozen
+packet and retained campaign custody it independently verifies all 12 attempt
+identities, bundle and formal-v2 hash chains, host/model identity, snapshots,
+JSON inputs, and path-order evidence, then emits a deterministic property,
+host, overall, and campaign result. Missing or ambiguous evidence, model
+substitution, and any `INVALID` or `ERROR` state fail closed.
 
 `A1`–`A5` form the SUPPLEMENTARY **ordinary-invocation behavioral
 campaign** (A-series, per issue #52): A1 factor-derived action selection,
