@@ -1,4 +1,4 @@
-# v0.3.2.0 Luna-first staged qualification design
+# v0.3.2.0 Luna-only qualification and main-integration design
 
 **Status:** owner-approved architecture; implementation authorized
 **Author/provenance:** Sol
@@ -8,25 +8,26 @@
 
 ## Objective and truth boundary
 
-Qualify two separately frozen campaigns without waiting for Opus:
+Qualify two separately frozen Luna campaigns and merge the qualified branches
+to `main`:
 
-1. B3-v4: six Luna missions, a mandatory create-once pause recorded as
-   `INCOMPLETE_PENDING_OPUS`, then six Opus missions later under the exact same
-   packet.
-2. Provisional candidate matrix: fourteen Luna fixture cells, the same pause
-   disposition, then the fourteen corresponding Opus cells later under the
-   exact same separate matrix packet.
+1. B3-v4: six Luna missions and a create-once terminal result recorded as valid
+   Luna 6/6 with the truthful cross-model boundary `INCOMPLETE_PENDING_OPUS`.
+2. Candidate matrix: fourteen Luna fixture cells and a separate create-once
+   terminal result recorded as valid Luna 14/14 with the same boundary.
 
-Luna-only success is an accepted tranche, not a completed cross-model
-campaign. It may authorize the planned integrations only under
-`PROVISIONAL_LUNA_GREEN_PENDING_OPUS`; it cannot be described as B3-v4 12/12,
-matrix 28/28, final qualification, tag authority, release authority, or closure
-of a claim whose acceptance requires both configurations.
+Luna-only success is accepted qualification for the current integration goal,
+not final cross-model or release qualification. It authorizes the planned
+qualified-branch merges only under
+`LUNA_6_OF_6_AND_14_OF_14_GREEN_MERGED_TO_MAIN`; it cannot authorize tag
+movement, publication, or closure of a claim whose acceptance requires another
+configuration.
 
-No Opus or Terra mission is authorized by this design. No model mission may
-start until its own packet, host and executable identities, authorization,
-runtime roots, and launch command have passed deterministic validation and
-fresh independent freeze review.
+No Opus work—execution, planning, packet completion, or host preparation—is
+part of this instruction. Terra remains unauthorized. No Luna mission may
+start until its packet, host and executable identities, authorization, runtime
+roots, and launch command have passed deterministic validation and fresh
+independent freeze review.
 
 ## Architecture
 
@@ -60,12 +61,13 @@ prefix, and acceptance from retained raw evidence.
 ## B3-v4 contract
 
 The current `implementaudit-b3v4-campaign-freeze-v1` hard-codes an interleaved
-order and cannot express the approved six-Luna pause. It remains historical
-tooling evidence and is superseded before any real campaign by a versioned
-Luna-first schema. No result exists under the old schedule to migrate.
+cross-model order and cannot express the approved Luna-only goal. It remains
+historical tooling evidence and is superseded before any real campaign by a
+versioned six-mission Luna schema. No result exists under the old schedule to
+migrate.
 
-The new packet fixes this mission order, preserving each configuration's
-relative order from the earlier preregistration:
+The new packet fixes this six-mission order, preserving Luna's relative order
+from the earlier preregistration:
 
 | Index | Configuration | Arm | Repetition |
 |---:|---|---|---:|
@@ -75,30 +77,18 @@ relative order from the earlier preregistration:
 | 3 | Luna | candidate | 2 |
 | 4 | Luna | control | 3 |
 | 5 | Luna | candidate | 3 |
-| 6 | Opus | control | 1 |
-| 7 | Opus | candidate | 1 |
-| 8 | Opus | candidate | 2 |
-| 9 | Opus | control | 2 |
-| 10 | Opus | candidate | 3 |
-| 11 | Opus | control | 3 |
-
-After mission 5, the driver refuses mission 6 until a create-once Luna stage
-terminal exists and validates. That terminal binds the packet, exact completed
-prefix, all six terminal records, all official verdicts, the Luna host and
-model identity, and the Luna-only independent rederivation. Its only successful
-campaign disposition is `INCOMPLETE_PENDING_OPUS`; its separate
+After mission 5, the driver refuses any additional mission. A separate
+create-once Luna terminal binds the packet, exact completed prefix, all six
+terminal records, all official verdicts, the Luna host and model identity, and
+the Luna independent rederivation. Its successful evidence disposition remains
+`INCOMPLETE_PENDING_OPUS` to avoid a false cross-model claim; its separate
 `luna_stage_accepted` field may be true only for valid 6/6.
-
-Later Opus continuation reopens no Luna artifact. It first revalidates the
-unchanged packet and bound surfaces, the complete Luna prefix, pause terminal,
-and Luna rederivation, then advances mission 6. Only twelve valid terminals and
-a combined independent rederivation can produce B3-v4 `PASS`.
 
 ## Provisional candidate-matrix contract
 
 The matrix uses a separate first-version schema and root. It evaluates only the
-candidate product across fourteen primary fixtures and two configurations; it
-does not silently import historical candidate-versus-control comparison rules.
+candidate product with Luna across fourteen primary fixtures; it does not
+silently import historical candidate-versus-control comparison rules.
 
 The frozen fixture order is the canonical order already preregistered in the
 historical campaign intent:
@@ -106,17 +96,15 @@ historical campaign intent:
 `B0`, `B1`, `B2`, `E1`, `E2a`, `E2b`, `E3`, `E4`, `E5`, `E6`, `E7`, `E8`,
 `E9`, `E10`.
 
-Indices 0-13 are Luna in that order. Indices 14-27 are the corresponding Opus
-cells in the identical fixture order. This transparent ordering is fixed
-before execution and is independent of the historical campaign's
-seed-shuffled mission sequence.
+Indices 0-13 are Luna in that order. This transparent ordering is fixed before
+execution and is independent of the historical campaign's seed-shuffled
+mission sequence.
 
-After index 13, the matrix driver requires its own create-once Luna stage
-terminal and independent 14-cell rederivation. Successful Luna-only status is
-`INCOMPLETE_PENDING_OPUS` with a separately true `luna_stage_accepted`; it is
-never matrix PASS. Opus continuation later requires the exact unchanged matrix
-packet and all bound surfaces. Only 28 valid cells and the combined independent
-rederivation can produce final matrix PASS.
+After index 13, the matrix driver refuses another mission and requires its own
+create-once Luna terminal and independent 14-cell rederivation. Successful
+status is `INCOMPLETE_PENDING_OPUS` with a separately true
+`luna_stage_accepted`; it is accepted Luna 14/14 but never a final cross-model
+matrix claim.
 
 ## Packet-bound evaluated surfaces
 
@@ -148,7 +136,7 @@ the affected tranche regardless of informal intent.
 The existing preflights are inputs, not launch authorization. Freeze authoring
 must resolve and independently review:
 
-- production Luna and Opus host attestations and their exact producer commands;
+- the production Luna host attestation and its exact producer command;
 - actual `argv[0]` plus transitive launcher/native executable paths, versions,
   and hashes—never a symlink standing in for the executed binary;
 - fresh disposable candidate/control checkouts at exact commits and trees;
@@ -211,7 +199,7 @@ baselines while preserving old and corrected views side by side. This lane may
 run alongside packet preparation because it invokes no model and mutates no
 frozen evaluated candidate.
 
-## Provisional integration certificate
+## Luna-qualified integration certificate
 
 Planned branch integration becomes eligible only when current compatible
 packet versions prove all of the following:
@@ -224,11 +212,13 @@ packet versions prove all of the following:
   existing integration plan;
 - a mechanical relevant-surface equality check for the proposed merged tree.
 
-The create-once integration certificate records only
-`PROVISIONAL_LUNA_GREEN_PENDING_OPUS`. If conflict resolution or any merge
-changes a relevant byte, the certificate is refused and the affected complete
-Luna tranche must rerun on the new exact tree. The certificate grants no tag,
-publication, release, or final cross-model authority.
+After the planned qualified branches are merged to `main`, the create-once
+integration certificate records exactly
+`LUNA_6_OF_6_AND_14_OF_14_GREEN_MERGED_TO_MAIN`. If conflict resolution or any
+merge changes a relevant byte, the certificate is refused and the affected
+complete Luna tranche must rerun on the resulting exact tree before the merge
+is accepted. The certificate grants no tag, publication, release, or final
+cross-model authority.
 
 ## Verification strategy
 
@@ -268,7 +258,8 @@ This design is implemented when:
   rederived as valid 14/14 with `INCOMPLETE_PENDING_OPUS`;
 - all 56 historical bundles have append-only corrected adjudications and a
   corrected baseline/causal summary;
-- provisional integration, if performed, is mechanically byte-preserving and
-  recorded only as `PROVISIONAL_LUNA_GREEN_PENDING_OPUS`;
-- Opus, Terra, tag movement, publication, and final cross-model claims remain
-  unperformed unless separately authorized at their later gates.
+- the planned qualified branches are merged to `main` with mechanically
+  byte-preserving relevant surfaces and the disposition
+  `LUNA_6_OF_6_AND_14_OF_14_GREEN_MERGED_TO_MAIN`;
+- Opus work is absent from the current execution, and Terra, tag movement,
+  publication, and final cross-model claims remain unperformed.
