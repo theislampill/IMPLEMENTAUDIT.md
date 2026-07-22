@@ -17,6 +17,20 @@ import shlex
 import sys
 
 
+_LOADED_REDERIVER_PATH = pathlib.Path(__file__).absolute()
+try:
+    _EXECUTING_REDERIVER_PATH = _LOADED_REDERIVER_PATH.resolve(strict=True)
+    _EXECUTING_REDERIVER_BYTES = _LOADED_REDERIVER_PATH.read_bytes()
+    _EXECUTING_REDERIVER_LINK_COUNT = \
+        _EXECUTING_REDERIVER_PATH.stat().st_nlink
+    _EXECUTING_REDERIVER_LOAD_ERROR = None
+except OSError as exc:
+    _EXECUTING_REDERIVER_PATH = None
+    _EXECUTING_REDERIVER_BYTES = None
+    _EXECUTING_REDERIVER_LINK_COUNT = None
+    _EXECUTING_REDERIVER_LOAD_ERROR = exc
+
+
 PLAN = [
     ("L", "candidate", 1), ("L", "control", 1),
     ("O", "control", 1), ("O", "candidate", 1),
@@ -380,6 +394,25 @@ def _validate_freeze_contract(packet):
             "independent_rederiver.implementation_identity.path drift")
     _digest(identity["sha256"],
             "independent_rederiver.implementation_identity.sha256")
+    _expect(_EXECUTING_REDERIVER_LOAD_ERROR is None,
+            "executing independent rederiver identity unavailable")
+    loaded_repo_root = _LOADED_REDERIVER_PATH.parent.parent
+    expected_loaded_path = loaded_repo_root.joinpath(
+        *identity["path"].split("/")).absolute()
+    _expect(_LOADED_REDERIVER_PATH == expected_loaded_path,
+            "independent rederiver executing path mismatch")
+    try:
+        expected_canonical_path = expected_loaded_path.resolve(strict=True)
+    except OSError as exc:
+        raise EvidenceInvalid(
+            "independent rederiver executing path unavailable") from exc
+    _expect(expected_canonical_path == _EXECUTING_REDERIVER_PATH,
+            "independent rederiver canonical path mismatch")
+    _expect(not _LOADED_REDERIVER_PATH.is_symlink() and
+            _EXECUTING_REDERIVER_LINK_COUNT == 1,
+            "independent rederiver path alias forbidden")
+    _expect(_sha(_EXECUTING_REDERIVER_BYTES) == identity["sha256"],
+            "independent rederiver implementation hash mismatch")
     _expect(rederiver["must_not_import"] == REDERIVER_IMPORT_BOUNDARY,
             "independent_rederiver.must_not_import drift")
     _expect(rederiver["input"] == "retained raw evidence only",

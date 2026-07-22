@@ -125,6 +125,8 @@ def build_campaign(root):
     fixture = make_fixture()
     fixture_bytes = (HERE / "fixtures" / "B3-v3" / "fixture.json").read_bytes()
     packet = valid_packet()
+    packet["independent_rederiver"]["implementation_identity"]["sha256"] = \
+        sha(REDERIVER.read_bytes())
     packet["fixture"]["fixture_sha256"] = sha(fixture_bytes)
     packet_bytes = json.dumps(packet, sort_keys=True).encode()
     freeze_sha = sha(packet_bytes)
@@ -437,8 +439,8 @@ def build_campaign(root):
     return packet
 
 
-def load_module():
-    spec = importlib.util.spec_from_file_location("b3v4rederive", REDERIVER)
+def load_module(source=REDERIVER, name="b3v4rederive"):
+    spec = importlib.util.spec_from_file_location(name, source)
     module = importlib.util.module_from_spec(spec)
     assert spec.loader is not None
     spec.loader.exec_module(module)
@@ -713,6 +715,45 @@ def main():
         assert not accepted_numeric_aliases, (
             "rederiver accepted non-int frozen numeric fields: " +
             ", ".join(accepted_numeric_aliases))
+
+        accepted_identity_substitutions = []
+        for label, digest in (
+                ("zero-digest", "0" * 64),
+                ("other-bytes-digest", sha(b"not the executing rederiver"))):
+            changed = copy.deepcopy(packet)
+            changed["independent_rederiver"]["implementation_identity"][
+                "sha256"] = digest
+            rebind_freeze(root, changed)
+            try:
+                module.rederive_campaign(root / "campaign-freeze.json", root)
+            except module.EvidenceInvalid:
+                pass
+            else:
+                accepted_identity_substitutions.append(label)
+
+        rebind_freeze(root, packet)
+        with tempfile.NamedTemporaryFile(
+                prefix=".b3v4-rederive-alias-", suffix=".py", dir=HERE,
+                delete=False) as stream:
+            stream.write(REDERIVER.read_bytes())
+            alias_path = pathlib.Path(stream.name)
+        try:
+            alias_module = load_module(
+                alias_path, "b3v4rederive_loaded_from_alias")
+            try:
+                alias_module.rederive_campaign(
+                    root / "campaign-freeze.json", root)
+            except alias_module.EvidenceInvalid:
+                pass
+            else:
+                accepted_identity_substitutions.append(
+                    "loaded-module-path-alias")
+        finally:
+            alias_path.unlink()
+
+        assert not accepted_identity_substitutions, (
+            "rederiver accepted frozen implementation identity substitutions: " +
+            ", ".join(accepted_identity_substitutions))
 
     with tempfile.TemporaryDirectory(prefix="b3v4-rederive-prefix-") as tmp:
         root = pathlib.Path(tmp) / "campaign"
