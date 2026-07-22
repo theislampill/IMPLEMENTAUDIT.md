@@ -167,6 +167,73 @@ def main():
         "array": [None, True, False, 0, -1, 1.5, "x", {}],
     })
 
+    exact_identity_cases = [
+        ("scalar boolean", 1, True),
+        ("scalar float", 1, 1.0),
+        ("nested boolean", {"nested": [1]}, {"nested": [True]}),
+        ("nested float", {"nested": [1]}, {"nested": [1.0]}),
+    ]
+    exact_identity_failures = []
+    for label, expected_probe, retained_probe in exact_identity_cases:
+        collect_rejection(
+            f"direct {label}", "identity drift",
+            lambda expected=expected_probe, retained=retained_probe:
+                lifecycle._identity(
+                    {"probe": retained}, {"probe": expected},
+                    "direct identity"),
+            exact_identity_failures)
+
+    for target in ("root", "status", "terminal"):
+        for label, expected_probe, retained_probe in exact_identity_cases:
+            with tempfile.TemporaryDirectory(
+                    prefix=f"campaign-exact-{target}-") as tmp:
+                root = pathlib.Path(tmp).resolve()
+                expected_root = {
+                    "schema": "campaign-a-manifest-v1",
+                    "campaign": "campaign-a",
+                }
+                retained_root = dict(expected_root)
+                descriptor = mission(0)
+                if target == "root":
+                    expected_root["probe"] = expected_probe
+                    retained_root["probe"] = retained_probe
+                elif target == "status":
+                    descriptor["status_identity"]["probe"] = expected_probe
+                else:
+                    descriptor["terminal_identity"]["probe"] = expected_probe
+                lifecycle.write_new_json(
+                    root / "campaign-manifest.json", retained_root)
+                write_attempt(root, descriptor)
+                attempt = root / descriptor["attempt"]
+                if target == "status":
+                    retained = dict(descriptor["status_identity"])
+                    retained["probe"] = retained_probe
+                    (attempt / "attempt-status.json").write_bytes(
+                        lifecycle.canonical_json_bytes(retained))
+                elif target == "terminal":
+                    retained = dict(descriptor["terminal_identity"])
+                    retained["probe"] = retained_probe
+                    retained.update({
+                        "overall_status": "PASS", "stop_reason": None})
+                    (attempt / "attempt-terminal.json").write_bytes(
+                        lifecycle.canonical_json_bytes(retained))
+                expected_root_policy = {
+                    "campaign-manifest.json": {
+                        "kind": "json_identity", "identity": expected_root,
+                    },
+                }
+                collect_rejection(
+                    f"{target} {label}", "identity drift",
+                    lambda path=root, item=descriptor,
+                           policy=expected_root_policy:
+                        lifecycle.validate_terminal_prefix(
+                            path, [item], stop_states={"INVALID", "ERROR"},
+                            allowed_root=policy),
+                    exact_identity_failures)
+    assert not exact_identity_failures, (
+        "cross-type JSON identity drift unexpectedly accepted: " +
+        ", ".join(exact_identity_failures))
+
     # RED 1: an identity-bearing root artifact may not be admitted through a
     # name-only policy that leaves its campaign and schema unchecked.
     with tempfile.TemporaryDirectory(prefix="campaign-root-policy-") as tmp:

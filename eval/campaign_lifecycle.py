@@ -194,11 +194,26 @@ def _direct_name(value, owner):
     return value
 
 
+def _exact_json_equal(left, right):
+    if type(left) is not type(right):
+        return False
+    if type(left) is dict:
+        return (set(left) == set(right) and
+                all(_exact_json_equal(left[key], right[key]) for key in left))
+    if type(left) is list:
+        return (len(left) == len(right) and
+                all(_exact_json_equal(a, b) for a, b in zip(left, right)))
+    if type(left) in (str, bool, int, float) or left is None:
+        return left == right
+    return False
+
+
 def _identity(value, expected, owner):
     if type(value) is not dict or type(expected) is not dict:
         raise ValueError(f"{owner} identity must be an object")
     for key, expected_value in expected.items():
-        if key not in value or value[key] != expected_value:
+        if key not in value or not _exact_json_equal(
+                value[key], expected_value):
             if key == "campaign":
                 raise ValueError(f"{owner} campaign identity drift")
             raise ValueError(f"{owner} identity drift")
