@@ -81,9 +81,7 @@ def _read_bytes(path):
         raise EvidenceInvalid(f"missing evidence: {pathlib.Path(path).name}") from exc
 
 
-def _read_json(path, owner):
-    raw = _read_bytes(path)
-
+def _decode_json(data, owner, malformed, require_object=False):
     def unique(pairs):
         value = {}
         for key, item in pairs:
@@ -93,11 +91,18 @@ def _read_json(path, owner):
         return value
 
     try:
-        value = json.loads(raw.decode("utf-8"), object_pairs_hook=unique)
+        text = data.decode("utf-8") if isinstance(data, bytes) else data
+        value = json.loads(text, object_pairs_hook=unique)
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
-        raise EvidenceInvalid(f"{owner} is malformed") from exc
-    if not isinstance(value, dict):
+        raise EvidenceInvalid(malformed) from exc
+    if require_object and not isinstance(value, dict):
         raise EvidenceInvalid(f"{owner} must be an object")
+    return value
+
+
+def _read_json(path, owner):
+    raw = _read_bytes(path)
+    value = _decode_json(raw, owner, f"{owner} is malformed", True)
     return value, raw
 
 
@@ -510,11 +515,9 @@ def _raw_json_lines(data, owner):
     for ordinal, line in enumerate(text.splitlines(), 1):
         if not line:
             continue
-        try:
-            value = json.loads(line)
-        except json.JSONDecodeError as exc:
-            raise EvidenceInvalid(f"{owner} line {ordinal} malformed") from exc
-        _expect(isinstance(value, dict), f"{owner} line {ordinal} is not an object")
+        line_owner = f"{owner} line {ordinal}"
+        value = _decode_json(
+            line, line_owner, f"{line_owner} malformed", True)
         rows.append((ordinal, value))
     _expect(rows, f"{owner} is empty")
     return rows
@@ -660,11 +663,8 @@ def _validate_capture(artifacts, fixture_bytes, fixture, expected_host,
     objects = {}
     json_names = [name for name in required if not name.endswith(".raw")]
     for name in json_names:
-        try:
-            value = json.loads(artifacts[name].decode("utf-8"))
-        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
-            raise EvidenceInvalid(f"{name} malformed") from exc
-        _expect(isinstance(value, dict), f"{name} must be an object")
+        value = _decode_json(
+            artifacts[name], name, f"{name} malformed", True)
         objects[name] = value
     manifest = objects["host-read-manifest.json"]
     _expect(manifest.get("schema") == "implementaudit-host-read-manifest-v1" and
@@ -757,11 +757,9 @@ def _load_bundle(bundle, packet, mission, parent_terminal):
                              "artifact_manifest_sha256")):
         _expect(manifest.get(key) == _sha(data), f"{name} hash mismatch")
     _expect(bool(events.strip()), "events evidence empty")
-    try:
-        fixture = json.loads(fixture_bytes.decode("utf-8"))
-    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
-        raise EvidenceInvalid("fixture malformed") from exc
-    _expect(isinstance(fixture, dict) and fixture.get("id") == "B3-v3" and
+    fixture = _decode_json(
+        fixture_bytes, "fixture", "fixture malformed", True)
+    _expect(fixture.get("id") == "B3-v3" and
             manifest.get("fixture_id") == "B3-v3" and
             packet["fixture"]["fixture_sha256"] == _sha(fixture_bytes),
             "fixture identity mismatch")
@@ -822,10 +820,9 @@ def _derive_properties(fixture, artifacts, after, changed, preimages, raw_action
             _expect(isinstance(entry, dict) and entry.get("type") == "file" and
                     entry.get("sha256") == _sha(artifacts[artifact]),
                     f"JSON host-check input not bound to snapshot: {rel}")
-            try:
-                value = json.loads(artifacts[artifact].decode("utf-8"))
-            except (UnicodeDecodeError, json.JSONDecodeError) as exc:
-                raise EvidenceInvalid(f"JSON host-check input malformed: {rel}") from exc
+            value = _decode_json(
+                artifacts[artifact], f"JSON host-check input: {rel}",
+                f"JSON host-check input malformed: {rel}")
             observations[key] = isinstance(value, dict) and all(
                 value.get(field) == expected
                 for field, expected in (spec.get("equals") or {}).items())

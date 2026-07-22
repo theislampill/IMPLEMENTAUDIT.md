@@ -525,6 +525,34 @@ def main():
         build_campaign(root)
         first = root / "attempt-000-L-candidate-r1"
         bundle = first / "host-custody" / first.name / "bundle"
+        profile_path = bundle / "artifacts" / "host-read-profile.json"
+        profile_bytes = profile_path.read_bytes()
+        authority = b'"authority":"mechanically-minted"'
+        duplicate_authority = (
+            b'"authority":"untrusted","authority":"mechanically-minted"')
+        assert profile_bytes.count(authority) == 1
+        profile_path.write_bytes(profile_bytes.replace(
+            authority, duplicate_authority))
+        pre_spawn_path = bundle / "artifacts" / "host-read-pre-spawn.json"
+        pre_spawn = json.loads(pre_spawn_path.read_text(encoding="utf-8"))
+        pre_spawn["profile_sha256"] = sha(profile_path.read_bytes())
+        write(pre_spawn_path, pre_spawn)
+        process_path = bundle / "artifacts" / "process-started.json"
+        process = json.loads(process_path.read_text(encoding="utf-8"))
+        process["host_read_pre_spawn_sha256"] = sha(pre_spawn_path.read_bytes())
+        write(process_path, process)
+        rebind_capture(bundle)
+        ambiguous = module.rederive_campaign(
+            root / "campaign-freeze.json", root)
+        assert ambiguous["campaign_status"] == "INVALID", ambiguous["missions"][0]
+        assert ambiguous["accepted"] is False
+        assert "duplicate key 'authority'" in ambiguous["missions"][0]["reason"]
+
+    with tempfile.TemporaryDirectory(prefix="b3v4-rederive-") as tmp:
+        root = pathlib.Path(tmp) / "campaign"
+        build_campaign(root)
+        first = root / "attempt-000-L-candidate-r1"
+        bundle = first / "host-custody" / first.name / "bundle"
         raw = bundle / "artifacts" / "host-stdout.raw"
         events = [json.loads(line) for line in raw.read_text(encoding="utf-8").splitlines()]
         events[0]["item"]["command"] = "printf 'STATE\\n'"
