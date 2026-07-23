@@ -391,7 +391,7 @@ def _mission_descriptor(value, index):
     for name, identity in required_policies.items():
         policy = allowed_attempt[name]
         if (policy["kind"] != "json_identity" or
-                policy["identity"] != identity):
+                not _exact_json_equal(policy["identity"], identity)):
             raise ValueError(
                 f"mission descriptor {index} {name} identity policy drift")
     return value
@@ -416,9 +416,9 @@ def validate_terminal_prefix(root, missions, *, stop_states, allowed_root):
         raise ValueError("duplicate semantic mission identity")
     if type(stop_states) not in (set, frozenset, list, tuple):
         raise ValueError("stop states must be a collection")
-    stop_states = set(stop_states)
     if any(type(value) is not str or not value for value in stop_states):
         raise ValueError("stop states contain an invalid value")
+    stop_states = set(stop_states)
     if type(allowed_root) is not dict:
         raise ValueError(
             "allowed root policy must explicitly cover every artifact")
@@ -503,10 +503,12 @@ def validate_terminal_prefix(root, missions, *, stop_states, allowed_root):
         _identity(terminal, descriptor["terminal_identity"], "attempt terminal")
         state_field = descriptor["terminal_state_field"]
         reason_field = descriptor["terminal_stop_reason_field"]
-        state = terminal.get(state_field)
+        if state_field not in terminal or reason_field not in terminal:
+            raise ValueError("attempt terminal control field missing")
+        state = terminal[state_field]
         if type(state) is not str or not state:
             raise ValueError("attempt terminal state invalid")
-        reason = terminal.get(reason_field)
+        reason = terminal[reason_field]
         if reason is not None and (type(reason) is not str or not reason):
             raise ValueError("attempt terminal stop reason invalid")
         if stopped_at is not None:

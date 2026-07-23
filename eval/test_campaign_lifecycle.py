@@ -109,6 +109,18 @@ def write_attempt(root, descriptor, state="PASS", stop_reason=None):
     lifecycle.write_new_json(attempt / "attempt-terminal.json", terminal)
 
 
+def write_attempt_without_control(root, descriptor, missing):
+    attempt = root / descriptor["attempt"]
+    attempt.mkdir()
+    lifecycle.write_new_json(
+        attempt / "attempt-status.json", descriptor["status_identity"])
+    terminal = dict(descriptor["terminal_identity"])
+    controls = {"overall_status": "PASS", "stop_reason": None}
+    controls.pop(missing)
+    terminal.update(controls)
+    lifecycle.write_new_json(attempt / "attempt-terminal.json", terminal)
+
+
 def stage(missions, campaign="campaign-a"):
     return {
         "name": "luna",
@@ -500,6 +512,131 @@ def main():
     assert not traversal_failures, (
         "JSON traversal was not total: " +
         "; ".join(traversal_failures))
+
+    policy_identity_failures = []
+    policy_identity_cases = [
+        ("integer-to-boolean", 1, True),
+        ("integer-to-float", 1, 1.0),
+        ("signed zero", 0.0, -0.0),
+        ("nested type", {"nested": [1]}, {"nested": [True]}),
+    ]
+    for artifact_name, identity_name in (
+            ("attempt-status.json", "status_identity"),
+            ("attempt-terminal.json", "terminal_identity")):
+        for label, expected_value, policy_value in policy_identity_cases:
+            with tempfile.TemporaryDirectory(
+                    prefix="campaign-policy-identity-") as tmp:
+                root = pathlib.Path(tmp).resolve()
+                lifecycle.write_new_json(root / "campaign-manifest.json", {
+                    "schema": "campaign-a-manifest-v1",
+                    "campaign": "campaign-a",
+                })
+                descriptor = mission(0)
+                descriptor[identity_name] = {"probe": expected_value}
+                descriptor["allowed_attempt"][artifact_name]["identity"] = {
+                    "probe": policy_value,
+                }
+                collect_stable_value_error(
+                    f"{artifact_name} {label}", "identity policy drift",
+                    lambda path=root, item=descriptor:
+                        lifecycle.validate_terminal_prefix(
+                            path, [item], stop_states=["INVALID", "ERROR"],
+                            allowed_root=root_policy()),
+                    policy_identity_failures)
+
+    for depth in (511, 512):
+        with tempfile.TemporaryDirectory(
+                prefix=f"campaign-deep-policy-{depth}-") as tmp:
+            root = pathlib.Path(tmp).resolve()
+            lifecycle.write_new_json(root / "campaign-manifest.json", {
+                "schema": "campaign-a-manifest-v1", "campaign": "campaign-a"})
+            descriptor = mission(0)
+            descriptor["status_identity"] = nested_model(depth, "object")
+            descriptor["terminal_identity"] = nested_model(depth, "object")
+            descriptor["allowed_attempt"]["attempt-status.json"][
+                "identity"] = nested_model(depth, "object")
+            descriptor["allowed_attempt"]["attempt-terminal.json"][
+                "identity"] = nested_model(depth, "object")
+            collect_success(
+                f"valid distinct deep policy identities at depth {depth}",
+                lambda path=root, item=descriptor:
+                    lifecycle.validate_terminal_prefix(
+                        path, [item], stop_states=["INVALID", "ERROR"],
+                        allowed_root=root_policy()),
+                policy_identity_failures)
+    control_key_failures = list(policy_identity_failures)
+    for missing in ("overall_status", "stop_reason"):
+        for operation in ("prefix", "stage write", "stage resume"):
+            with tempfile.TemporaryDirectory(
+                    prefix="campaign-missing-control-") as tmp:
+                root = pathlib.Path(tmp).resolve()
+                lifecycle.write_new_json(root / "campaign-manifest.json", {
+                    "schema": "campaign-a-manifest-v1",
+                    "campaign": "campaign-a",
+                })
+                descriptor = mission(0)
+                write_attempt_without_control(root, descriptor, missing)
+                if operation == "stage resume":
+                    lifecycle.write_new_json(
+                        root / "luna-stage-terminal.json", {})
+                if operation == "prefix":
+                    fn = (lambda path=root, item=descriptor:
+                        lifecycle.validate_terminal_prefix(
+                            path, [item], stop_states=["INVALID", "ERROR"],
+                            allowed_root=root_policy()))
+                elif operation == "stage write":
+                    fn = (lambda path=root, item=descriptor:
+                        lifecycle.write_stage_terminal(
+                            path, stage([item]), binding(1)))
+                else:
+                    fn = (lambda path=root, item=descriptor:
+                        lifecycle.validate_stage_resume(
+                            path, stage([item]), binding(1)))
+                collect_stable_value_error(
+                    f"{operation} missing {missing}",
+                    "terminal control field missing", fn,
+                    control_key_failures)
+    stop_state_failures = list(control_key_failures)
+    invalid_stop_states = [
+        ("list", []), ("object", {}), ("boolean", True),
+        ("null", None), ("number", 1),
+    ]
+    for label, invalid_state in invalid_stop_states:
+        for operation in ("prefix", "stage write", "stage resume"):
+            with tempfile.TemporaryDirectory(
+                    prefix="campaign-invalid-stop-state-") as tmp:
+                root = pathlib.Path(tmp).resolve()
+                lifecycle.write_new_json(root / "campaign-manifest.json", {
+                    "schema": "campaign-a-manifest-v1",
+                    "campaign": "campaign-a",
+                })
+                invalid_states = [invalid_state]
+                if operation == "stage resume":
+                    lifecycle.write_new_json(
+                        root / "luna-stage-terminal.json", {})
+                if operation == "prefix":
+                    fn = (lambda path=root, states=invalid_states:
+                        lifecycle.validate_terminal_prefix(
+                            path, [], stop_states=states,
+                            allowed_root=root_policy()))
+                else:
+                    invalid_stage = stage([])
+                    invalid_stage["stop_states"] = invalid_states
+                    if operation == "stage write":
+                        fn = (lambda path=root, value=invalid_stage:
+                            lifecycle.write_stage_terminal(
+                                path, value, binding(0)))
+                    else:
+                        fn = (lambda path=root, value=invalid_stage:
+                            lifecycle.validate_stage_resume(
+                                path, value, binding(0)))
+                collect_stable_value_error(
+                    f"{operation} invalid {label} stop state",
+                    "stop states contain an invalid value", fn,
+                    stop_state_failures)
+    assert not stop_state_failures, (
+        "invalid stop-state elements were not rejected stably: " +
+        "; ".join(stop_state_failures))
 
     representative_floats = [0.0, -0.0, 1.5, 1e-7, 1e20]
     for expected_float in representative_floats:
