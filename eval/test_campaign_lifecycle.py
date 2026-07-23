@@ -33,6 +33,18 @@ def collect_rejection(label, fragment, fn, accepted):
         accepted.append(label)
 
 
+def collect_stable_value_error(label, fragment, fn, failures):
+    try:
+        fn()
+    except ValueError as exc:
+        if fragment.lower() not in str(exc).lower():
+            failures.append(f"{label} wrong ValueError: {exc}")
+    except Exception as exc:
+        failures.append(f"{label} leaked {type(exc).__name__}: {exc}")
+    else:
+        failures.append(f"{label} unexpectedly accepted")
+
+
 def mission(index, campaign="campaign-a"):
     status_identity = {
         "schema": f"{campaign}-attempt-status-v1",
@@ -199,6 +211,69 @@ def main():
     assert not lossy_number_failures, (
         "lossy JSON numbers unexpectedly accepted: " +
         ", ".join(lossy_number_failures))
+
+    number_domain_cases = [
+        ("positive exponent domain", b"1e1000000000000000000",
+         "JSON number domain"),
+        ("negative exponent domain", b"1e-1000000000000000000",
+         "lossy JSON number"),
+    ]
+    number_domain_failures = []
+    for label, token, reason in number_domain_cases:
+        collect_stable_value_error(
+            f"direct {label}", reason,
+            lambda raw=token: lifecycle.decode_strict_json_bytes(
+                raw, "domain number"),
+            number_domain_failures)
+
+    for target in ("root", "status", "terminal"):
+        for label, token, reason in number_domain_cases:
+            with tempfile.TemporaryDirectory(
+                    prefix=f"campaign-domain-{target}-") as tmp:
+                root = pathlib.Path(tmp).resolve()
+                expected_root = {
+                    "schema": "campaign-a-manifest-v1",
+                    "campaign": "campaign-a",
+                }
+                descriptor = mission(0)
+                if target == "root":
+                    expected_root["probe"] = 0.0
+                    (root / "campaign-manifest.json").write_bytes(
+                        raw_number_json(expected_root, token))
+                else:
+                    lifecycle.write_new_json(
+                        root / "campaign-manifest.json", expected_root)
+                if target == "status":
+                    descriptor["status_identity"]["probe"] = 0.0
+                elif target == "terminal":
+                    descriptor["terminal_identity"]["probe"] = 0.0
+                write_attempt(root, descriptor)
+                attempt = root / descriptor["attempt"]
+                if target == "status":
+                    (attempt / "attempt-status.json").write_bytes(
+                        raw_number_json(descriptor["status_identity"], token))
+                elif target == "terminal":
+                    retained = dict(descriptor["terminal_identity"])
+                    retained.update({
+                        "overall_status": "PASS", "stop_reason": None})
+                    (attempt / "attempt-terminal.json").write_bytes(
+                        raw_number_json(retained, token))
+                expected_root_policy = {
+                    "campaign-manifest.json": {
+                        "kind": "json_identity", "identity": expected_root,
+                    },
+                }
+                collect_stable_value_error(
+                    f"{target} {label}", reason,
+                    lambda path=root, item=descriptor,
+                           policy=expected_root_policy:
+                        lifecycle.validate_terminal_prefix(
+                            path, [item], stop_states={"INVALID", "ERROR"},
+                            allowed_root=policy),
+                    number_domain_failures)
+    assert not number_domain_failures, (
+        "JSON number domain failures were not normalized: " +
+        "; ".join(number_domain_failures))
 
     representative_floats = [0.0, -0.0, 1.5, 1e-7, 1e20]
     for expected_float in representative_floats:

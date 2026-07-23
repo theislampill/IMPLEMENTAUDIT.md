@@ -41,14 +41,20 @@ def _nonfinite(value):
 
 
 def _lossless_float(token):
-    source = decimal.Decimal(token)
-    value = float(source)
+    try:
+        source = decimal.Decimal(token)
+        value = float(source)
+        round_trip = (decimal.Decimal(repr(value))
+                      if math.isfinite(value) else None)
+        numerically_equal = (round_trip == source
+                             if round_trip is not None else False)
+    except decimal.DecimalException as exc:
+        raise ValueError(f"JSON number domain error: {token}") from exc
     if not math.isfinite(value):
         raise ValueError(f"non-finite JSON number: {token}")
-    round_trip = decimal.Decimal(repr(value))
     sign_changed = (source.is_zero() and
                     source.is_signed() != (math.copysign(1.0, value) < 0.0))
-    if round_trip != source or sign_changed:
+    if not numerically_equal or sign_changed:
         raise ValueError(f"lossy JSON number: {token}")
     return value
 
