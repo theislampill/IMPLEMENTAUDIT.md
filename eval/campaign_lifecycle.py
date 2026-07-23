@@ -17,6 +17,7 @@ import stat
 
 
 STAGE_TERMINAL_SCHEMA = "implementaudit-staged-campaign-terminal-v1"
+MAX_JSON_DEPTH = 512
 
 
 class TerminalPrefix(list):
@@ -79,27 +80,56 @@ def decode_strict_json_bytes(data, owner, *, require_object=False):
 
 
 def _validate_strict_json_model(value, owner="JSON value"):
-    if type(value) is dict:
-        for key, child in value.items():
-            if type(key) is not str:
-                raise ValueError(f"{owner} object key must be an exact string")
-            _validate_strict_json_model(child, f"{owner}.{key}")
-        return
-    if isinstance(value, dict):
-        raise ValueError(f"{owner} object type must be exact dict")
-    if type(value) is list:
-        for index, child in enumerate(value):
-            _validate_strict_json_model(child, f"{owner}[{index}]")
-        return
-    if isinstance(value, (list, tuple)):
-        raise ValueError(f"{owner} array type must be exact list")
-    if value is None or type(value) in (str, bool, int):
-        return
-    if type(value) is float:
-        if not math.isfinite(value):
-            raise ValueError(f"{owner} contains a non-finite number")
-        return
-    raise ValueError(f"{owner} scalar type is not strict JSON")
+    active = set()
+    stack = [("visit", value, owner, 0)]
+    while stack:
+        action, current, current_owner, depth = stack.pop()
+        if action == "leave":
+            active.remove(id(current))
+            continue
+        if type(current) is dict:
+            if depth >= MAX_JSON_DEPTH:
+                raise ValueError(f"{current_owner} exceeds JSON depth limit")
+            identity = id(current)
+            if identity in active:
+                raise ValueError(
+                    f"{current_owner} contains a cyclic JSON container")
+            active.add(identity)
+            stack.append(("leave", current, current_owner, depth))
+            children = []
+            for key, child in current.items():
+                if type(key) is not str:
+                    raise ValueError(
+                        f"{current_owner} object key must be an exact string")
+                children.append((
+                    "visit", child, f"{current_owner}.{key}", depth + 1))
+            stack.extend(reversed(children))
+            continue
+        if isinstance(current, dict):
+            raise ValueError(f"{current_owner} object type must be exact dict")
+        if type(current) is list:
+            if depth >= MAX_JSON_DEPTH:
+                raise ValueError(f"{current_owner} exceeds JSON depth limit")
+            identity = id(current)
+            if identity in active:
+                raise ValueError(
+                    f"{current_owner} contains a cyclic JSON container")
+            active.add(identity)
+            stack.append(("leave", current, current_owner, depth))
+            stack.extend(
+                ("visit", child, f"{current_owner}[{index}]", depth + 1)
+                for index, child in reversed(list(enumerate(current))))
+            continue
+        if isinstance(current, (list, tuple)):
+            raise ValueError(f"{current_owner} array type must be exact list")
+        if current is None or type(current) in (str, bool, int):
+            continue
+        if type(current) is float:
+            if not math.isfinite(current):
+                raise ValueError(
+                    f"{current_owner} contains a non-finite number")
+            continue
+        raise ValueError(f"{current_owner} scalar type is not strict JSON")
 
 
 def canonical_json_bytes(value):
@@ -221,21 +251,66 @@ def _direct_name(value, owner):
 
 
 def _exact_json_equal(left, right):
-    if type(left) is not type(right):
+    active_left = set()
+    active_right = set()
+    stack = [("compare", left, right, 0)]
+    while stack:
+        action, current_left, current_right, depth = stack.pop()
+        if action == "leave":
+            active_left.remove(id(current_left))
+            active_right.remove(id(current_right))
+            continue
+        if type(current_left) is not type(current_right):
+            return False
+        if type(current_left) is dict:
+            if depth >= MAX_JSON_DEPTH:
+                return False
+            if set(current_left) != set(current_right):
+                return False
+            left_identity = id(current_left)
+            right_identity = id(current_right)
+            if (left_identity in active_left or
+                    right_identity in active_right):
+                return False
+            active_left.add(left_identity)
+            active_right.add(right_identity)
+            stack.append(("leave", current_left, current_right, depth))
+            stack.extend(
+                ("compare", current_left[key], current_right[key], depth + 1)
+                for key in reversed(list(current_left)))
+            continue
+        if type(current_left) is list:
+            if depth >= MAX_JSON_DEPTH:
+                return False
+            if len(current_left) != len(current_right):
+                return False
+            left_identity = id(current_left)
+            right_identity = id(current_right)
+            if (left_identity in active_left or
+                    right_identity in active_right):
+                return False
+            active_left.add(left_identity)
+            active_right.add(right_identity)
+            stack.append(("leave", current_left, current_right, depth))
+            stack.extend(
+                ("compare", left_child, right_child, depth + 1)
+                for left_child, right_child in reversed(
+                    list(zip(current_left, current_right))))
+            continue
+        if type(current_left) is float:
+            if (current_left != current_right or
+                    (current_left == 0.0 and
+                     math.copysign(1.0, current_left) !=
+                     math.copysign(1.0, current_right))):
+                return False
+            continue
+        if (type(current_left) in (str, bool, int) or
+                current_left is None):
+            if current_left != current_right:
+                return False
+            continue
         return False
-    if type(left) is dict:
-        return (set(left) == set(right) and
-                all(_exact_json_equal(left[key], right[key]) for key in left))
-    if type(left) is list:
-        return (len(left) == len(right) and
-                all(_exact_json_equal(a, b) for a, b in zip(left, right)))
-    if type(left) is float:
-        return (left == right and
-                (left != 0.0 or math.copysign(1.0, left) ==
-                 math.copysign(1.0, right)))
-    if type(left) in (str, bool, int) or left is None:
-        return left == right
-    return False
+    return True
 
 
 def _identity(value, expected, owner):

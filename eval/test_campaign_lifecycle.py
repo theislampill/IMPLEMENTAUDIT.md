@@ -46,6 +46,31 @@ def collect_stable_value_error(label, fragment, fn, failures):
         failures.append(f"{label} unexpectedly accepted")
 
 
+def collect_success(label, fn, failures):
+    try:
+        fn()
+    except Exception as exc:
+        failures.append(f"{label} raised {type(exc).__name__}: {exc}")
+
+
+def nested_model(depth, kind):
+    value = 0
+    for _ in range(depth):
+        value = [value] if kind == "array" else {"child": value}
+    return value
+
+
+def nested_json(depth, kind):
+    if kind == "array":
+        return b"[" * depth + b"0" + b"]" * depth
+    return b'{"child":' * depth + b"0" + b"}" * depth
+
+
+def campaign_manifest_with_raw_probe(raw_value):
+    return (b'{"campaign":"campaign-a","probe":' + raw_value +
+            b',"schema":"campaign-a-manifest-v1"}')
+
+
 def mission(index, campaign="campaign-a"):
     status_identity = {
         "schema": f"{campaign}-attempt-status-v1",
@@ -281,13 +306,13 @@ def main():
         "; ".join(number_domain_failures))
 
     excessive_depth = sys.getrecursionlimit() + 200
-    nested_json = (b"[" * excessive_depth + b"0" +
-                   b"]" * excessive_depth)
+    overlimit_json = (b"[" * excessive_depth + b"0" +
+                      b"]" * excessive_depth)
     json_depth_failures = []
     collect_stable_value_error(
         "direct excessive depth", "JSON depth",
         lambda: lifecycle.decode_strict_json_bytes(
-            nested_json, "deep JSON"),
+            overlimit_json, "deep JSON"),
         json_depth_failures)
 
     for target in ("root", "status", "terminal"):
@@ -302,7 +327,7 @@ def main():
             if target == "root":
                 expected_root["probe"] = []
                 (root / "campaign-manifest.json").write_bytes(
-                    raw_probe_json(expected_root, nested_json))
+                    raw_probe_json(expected_root, overlimit_json))
             else:
                 lifecycle.write_new_json(
                     root / "campaign-manifest.json", expected_root)
@@ -314,13 +339,14 @@ def main():
             attempt = root / descriptor["attempt"]
             if target == "status":
                 (attempt / "attempt-status.json").write_bytes(
-                    raw_probe_json(descriptor["status_identity"], nested_json))
+                    raw_probe_json(
+                        descriptor["status_identity"], overlimit_json))
             elif target == "terminal":
                 retained = dict(descriptor["terminal_identity"])
                 retained.update({
                     "overall_status": "PASS", "stop_reason": None})
                 (attempt / "attempt-terminal.json").write_bytes(
-                    raw_probe_json(retained, nested_json))
+                    raw_probe_json(retained, overlimit_json))
             expected_root_policy = {
                 "campaign-manifest.json": {
                     "kind": "json_identity", "identity": expected_root,
@@ -335,16 +361,145 @@ def main():
                         allowed_root=policy),
                 json_depth_failures)
 
-    nested_model = 0
+    overlimit_model = 0
     for _ in range(excessive_depth):
-        nested_model = [nested_model]
+        overlimit_model = [overlimit_model]
     collect_stable_value_error(
         "canonical excessive depth", "JSON depth",
-        lambda value=nested_model: lifecycle.canonical_json_bytes(value),
+        lambda value=overlimit_model: lifecycle.canonical_json_bytes(value),
         json_depth_failures)
     assert not json_depth_failures, (
         "JSON depth failures were not normalized: " +
         "; ".join(json_depth_failures))
+
+    supported_depth_failures = []
+    for kind in ("array", "object"):
+        collect_success(
+            f"direct supported {kind} identity",
+            lambda shape=kind: lifecycle._identity(
+                {"probe": nested_model(400, shape)},
+                {"probe": nested_model(400, shape)},
+                "supported deep identity"),
+            supported_depth_failures)
+        for target in ("root", "status", "terminal"):
+            with tempfile.TemporaryDirectory(
+                    prefix=f"campaign-supported-{kind}-{target}-") as tmp:
+                root = pathlib.Path(tmp).resolve()
+                expected_root = {
+                    "schema": "campaign-a-manifest-v1",
+                    "campaign": "campaign-a",
+                }
+                descriptor = mission(0)
+                probe = nested_model(400, kind)
+                if target == "root":
+                    expected_root["probe"] = probe
+                elif target == "status":
+                    descriptor["status_identity"]["probe"] = probe
+                else:
+                    descriptor["terminal_identity"]["probe"] = probe
+                lifecycle.write_new_json(
+                    root / "campaign-manifest.json", expected_root)
+                write_attempt(root, descriptor)
+                expected_root_policy = {
+                    "campaign-manifest.json": {
+                        "kind": "json_identity", "identity": expected_root,
+                    },
+                }
+                collect_success(
+                    f"{target} supported {kind} identity",
+                    lambda path=root, item=descriptor,
+                           policy=expected_root_policy:
+                        lifecycle.validate_terminal_prefix(
+                            path, [item], stop_states={"INVALID", "ERROR"},
+                            allowed_root=policy),
+                    supported_depth_failures)
+    traversal_failures = list(supported_depth_failures)
+    for kind in ("array", "object"):
+        deep_model = nested_model(excessive_depth, kind)
+        collect_stable_value_error(
+            f"identity over-limit {kind}", "identity drift",
+            lambda value=deep_model: lifecycle._identity(
+                {"probe": value}, {"probe": value}, "deep identity"),
+            traversal_failures)
+        collect_stable_value_error(
+            f"canonical over-limit {kind}", "JSON depth",
+            lambda value=deep_model: lifecycle.canonical_json_bytes(value),
+            traversal_failures)
+
+        expected_root = {
+            "schema": "campaign-a-manifest-v1",
+            "campaign": "campaign-a",
+            "probe": deep_model,
+        }
+        deep_stage = stage([])
+        deep_stage["allowed_root"] = {
+            "campaign-manifest.json": {
+                "kind": "json_identity", "identity": expected_root,
+            },
+        }
+        raw_manifest = campaign_manifest_with_raw_probe(
+            nested_json(excessive_depth, kind))
+        with tempfile.TemporaryDirectory(
+                prefix=f"campaign-deep-stage-write-{kind}-") as tmp:
+            root = pathlib.Path(tmp).resolve()
+            (root / "campaign-manifest.json").write_bytes(raw_manifest)
+            collect_stable_value_error(
+                f"stage write over-limit {kind}", "JSON depth",
+                lambda path=root, descriptor=deep_stage:
+                    lifecycle.write_stage_terminal(
+                        path, descriptor, binding(0)),
+                traversal_failures)
+        with tempfile.TemporaryDirectory(
+                prefix=f"campaign-deep-stage-resume-{kind}-") as tmp:
+            root = pathlib.Path(tmp).resolve()
+            (root / "campaign-manifest.json").write_bytes(raw_manifest)
+            lifecycle.write_new_json(root / "luna-stage-terminal.json", {})
+            collect_stable_value_error(
+                f"stage resume over-limit {kind}", "JSON depth",
+                lambda path=root, descriptor=deep_stage:
+                    lifecycle.validate_stage_resume(
+                        path, descriptor, binding(0)),
+                traversal_failures)
+
+    cyclic_array = []
+    cyclic_array.append(cyclic_array)
+    cyclic_object = {}
+    cyclic_object["self"] = cyclic_object
+    for label, cyclic in (
+            ("array", cyclic_array), ("object", cyclic_object)):
+        collect_stable_value_error(
+            f"strict-model cyclic {label}", "cyclic",
+            lambda value=cyclic:
+                lifecycle._validate_strict_json_model(value),
+            traversal_failures)
+        collect_stable_value_error(
+            f"canonical cyclic {label}", "cyclic",
+            lambda value=cyclic: lifecycle.canonical_json_bytes(value),
+            traversal_failures)
+        collect_stable_value_error(
+            f"identity cyclic {label}", "identity drift",
+            lambda value=cyclic: lifecycle._identity(
+                {"probe": value}, {"probe": value}, "cyclic identity"),
+            traversal_failures)
+    shared_child = {"values": [1, 2, 3]}
+    shared_model = {"first": shared_child, "second": shared_child}
+    collect_success(
+        "strict-model shared acyclic container",
+        lambda: lifecycle._validate_strict_json_model(shared_model),
+        traversal_failures)
+    collect_success(
+        "canonical shared acyclic container",
+        lambda: lifecycle.canonical_json_bytes(shared_model),
+        traversal_failures)
+    collect_success(
+        "identity shared acyclic container",
+        lambda: lifecycle._identity(
+            {"probe": shared_model}, {"probe": shared_model},
+            "shared identity"),
+        traversal_failures)
+    assert not traversal_failures, (
+        "JSON traversal was not total: " +
+        "; ".join(traversal_failures))
 
     representative_floats = [0.0, -0.0, 1.5, 1e-7, 1e20]
     for expected_float in representative_floats:
