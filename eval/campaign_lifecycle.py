@@ -211,6 +211,98 @@ def read_custodied_bytes(path, owner, *, root=None):
         raise ValueError(f"{owner} cannot be read as retained evidence") from exc
 
 
+def _read_directory_leaf(path, owner, *, expected_stat):
+    flags = os.O_RDONLY | getattr(os, "O_BINARY", 0)
+    flags |= getattr(os, "O_NOFOLLOW", 0)
+    descriptor = None
+    try:
+        descriptor = os.open(path, flags)
+        opened = os.fstat(descriptor)
+        if not stat.S_ISREG(opened.st_mode):
+            raise ValueError(f"{owner} must be a retained regular file")
+        if opened.st_nlink != 1:
+            raise ValueError(f"{owner} hardlink identity forbidden")
+        if ((opened.st_dev, opened.st_ino) !=
+                (expected_stat.st_dev, expected_stat.st_ino)):
+            raise ValueError(f"{owner} identity changed during custody read")
+        with os.fdopen(descriptor, "rb") as stream:
+            descriptor = None
+            return stream.read()
+    except ValueError:
+        raise
+    except OSError as exc:
+        raise ValueError(f"{owner} cannot be read as retained evidence") from exc
+    finally:
+        if descriptor is not None:
+            os.close(descriptor)
+
+
+def read_custodied_directory_manifest(path, owner, *, root):
+    """Return canonical bytes binding one recursive no-link directory tree."""
+    stop = _owner_root(root)
+    directory = pathlib.Path(path).absolute()
+    try:
+        directory.relative_to(stop)
+    except ValueError as exc:
+        raise ValueError(f"{owner} path escapes owner root") from exc
+    entries = []
+    seen_directories = set()
+    pending = [(directory, pathlib.PurePosixPath("."))]
+    try:
+        while pending:
+            current, relative = pending.pop()
+            _walk_no_link(current, owner)
+            current_stat = os.lstat(current)
+            if (stat.S_ISLNK(current_stat.st_mode) or
+                    _reparse_point(current_stat)):
+                raise ValueError(f"{owner} link or reparse alias forbidden")
+            if not stat.S_ISDIR(current_stat.st_mode):
+                raise ValueError(f"{owner} must be a retained directory")
+            identity = (current_stat.st_dev, current_stat.st_ino)
+            if identity in seen_directories:
+                raise ValueError(f"{owner} repeated directory identity forbidden")
+            seen_directories.add(identity)
+            entries.append({
+                "path": relative.as_posix(), "kind": "directory"})
+            with os.scandir(current) as scanned:
+                children = list(scanned)
+            for child in reversed(sorted(children, key=lambda row: row.name)):
+                name = _direct_name(child.name, f"{owner} entry")
+                child_path = current / name
+                child_relative = (pathlib.PurePosixPath(name)
+                                  if relative == pathlib.PurePosixPath(".")
+                                  else relative / name)
+                child_stat = os.lstat(child_path)
+                if (stat.S_ISLNK(child_stat.st_mode) or
+                        _reparse_point(child_stat)):
+                    raise ValueError(
+                        f"{owner} link or reparse alias forbidden")
+                if stat.S_ISDIR(child_stat.st_mode):
+                    pending.append((child_path, child_relative))
+                    continue
+                if not stat.S_ISREG(child_stat.st_mode):
+                    raise ValueError(f"{owner} special file kind forbidden")
+                if child_stat.st_nlink != 1:
+                    raise ValueError(f"{owner} hardlink identity forbidden")
+                _walk_no_link(child_path, owner)
+                payload = _read_directory_leaf(
+                    child_path, owner, expected_stat=child_stat)
+                entries.append({
+                    "path": child_relative.as_posix(), "kind": "file",
+                    "byte_length": len(payload),
+                    "sha256": hashlib.sha256(payload).hexdigest(),
+                })
+    except ValueError:
+        raise
+    except OSError as exc:
+        raise ValueError(f"{owner} cannot be read as retained evidence") from exc
+    entries.sort(key=lambda row: row["path"])
+    return canonical_json_bytes({
+        "schema": "implementaudit-custodied-directory-manifest-v1",
+        "entries": entries,
+    })
+
+
 def read_strict_json_bytes(path, owner, *, root):
     return decode_strict_json_bytes(
         read_custodied_bytes(path, owner, root=root), owner,
@@ -336,6 +428,9 @@ def _artifact_policy(value, owner, *, allowed_kinds):
     elif kind == "custodied_file":
         if set(value) != {"kind"}:
             raise ValueError(f"{owner} custody policy invalid")
+    elif kind == "custodied_directory":
+        if set(value) != {"kind"}:
+            raise ValueError(f"{owner} directory custody policy invalid")
     elif kind == "exact_bytes":
         if set(value) != {"kind", "byte_length", "sha256"}:
             raise ValueError(f"{owner} exact-bytes policy invalid")
@@ -381,7 +476,10 @@ def _mission_descriptor(value, index):
         name = _direct_name(name, f"mission descriptor {index} allowed entry")
         allowed_attempt[name] = _artifact_policy(
             policy, f"mission descriptor {index} artifact {name}",
-            allowed_kinds={"json_identity", "custodied_file", "exact_bytes"})
+            allowed_kinds={
+                "json_identity", "custodied_file", "custodied_directory",
+                "exact_bytes",
+            })
     if not {"attempt-status.json", "attempt-terminal.json"} <= set(allowed_attempt):
         raise ValueError(f"mission descriptor {index} lifecycle entries missing")
     required_policies = {
@@ -484,7 +582,10 @@ def validate_terminal_prefix(root, missions, *, stop_states, allowed_root):
         for name in sorted(attempt_entries):
             policy = allowed_attempt[name]
             owner = f"attempt artifact {name}"
-            if policy["kind"] == "json_identity":
+            if policy["kind"] == "custodied_directory":
+                raw = read_custodied_directory_manifest(
+                    attempt / name, owner, root=root)
+            elif policy["kind"] == "json_identity":
                 raw = read_custodied_bytes(attempt / name, owner, root=root)
                 value = decode_strict_json_bytes(
                     raw, owner, require_object=True)

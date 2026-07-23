@@ -121,6 +121,64 @@ def write_attempt_without_control(root, descriptor, missing):
     lifecycle.write_new_json(attempt / "attempt-terminal.json", terminal)
 
 
+def directory_mission(index=0):
+    descriptor = mission(index)
+    descriptor["allowed_attempt"]["host-custody"] = {
+        "kind": "custodied_directory"}
+    return descriptor
+
+
+def write_directory_tree(attempt, *, reverse=False):
+    host = attempt / "host-custody"
+    host.mkdir()
+    operations = [
+        ("directory", "empty", None),
+        ("directory", "nested", None),
+        ("directory", "nested/deeper", None),
+        ("file", "nested/alpha.bin", b"alpha"),
+        ("file", "nested/deeper/beta.bin", b"beta"),
+        ("file", "top.bin", b"top"),
+    ]
+    if reverse:
+        operations = list(reversed(operations))
+    pending = list(operations)
+    while pending:
+        progressed = False
+        for operation in list(pending):
+            kind, relative, payload = operation
+            path = host / pathlib.PurePosixPath(relative)
+            if not path.parent.exists():
+                continue
+            if kind == "directory":
+                path.mkdir()
+            else:
+                lifecycle.write_new_bytes(path, payload)
+            pending.remove(operation)
+            progressed = True
+        assert progressed, "directory fixture dependency cycle"
+    return host
+
+
+def expected_directory_manifest():
+    def leaf(path, payload):
+        return {
+            "path": path, "kind": "file", "byte_length": len(payload),
+            "sha256": hashlib.sha256(payload).hexdigest(),
+        }
+    return {
+        "schema": "implementaudit-custodied-directory-manifest-v1",
+        "entries": [
+            {"path": ".", "kind": "directory"},
+            {"path": "empty", "kind": "directory"},
+            {"path": "nested", "kind": "directory"},
+            leaf("nested/alpha.bin", b"alpha"),
+            {"path": "nested/deeper", "kind": "directory"},
+            leaf("nested/deeper/beta.bin", b"beta"),
+            leaf("top.bin", b"top"),
+        ],
+    }
+
+
 def stage(missions, campaign="campaign-a"):
     return {
         "name": "luna",
@@ -799,6 +857,254 @@ def main():
                      lifecycle.validate_stage_resume(
                          root, stage(missions), binding(1)))
         terminal_path.write_bytes(terminal_bytes)
+
+    with tempfile.TemporaryDirectory(prefix="campaign-directory-red-") as tmp:
+        root = pathlib.Path(tmp).resolve()
+        lifecycle.write_new_json(root / "campaign-manifest.json", {
+            "schema": "campaign-a-manifest-v1", "campaign": "campaign-a"})
+        descriptor = directory_mission()
+        write_attempt(root, descriptor)
+        write_directory_tree(root / descriptor["attempt"])
+        prefix = lifecycle.validate_terminal_prefix(
+            root, [descriptor], stop_states=["INVALID", "ERROR"],
+            allowed_root=root_policy())
+        assert prefix[0]["artifact_bytes"]["host-custody"] == (
+            lifecycle.canonical_json_bytes(expected_directory_manifest()))
+
+    deterministic_manifests = []
+    for reverse in (False, True):
+        with tempfile.TemporaryDirectory(
+                prefix="campaign-directory-order-") as tmp:
+            root = pathlib.Path(tmp).resolve()
+            lifecycle.write_new_json(root / "campaign-manifest.json", {
+                "schema": "campaign-a-manifest-v1",
+                "campaign": "campaign-a",
+            })
+            descriptor = directory_mission()
+            write_attempt(root, descriptor)
+            write_directory_tree(
+                root / descriptor["attempt"], reverse=reverse)
+            row = lifecycle.validate_terminal_prefix(
+                root, [descriptor], stop_states=["INVALID", "ERROR"],
+                allowed_root=root_policy())[0]
+            deterministic_manifests.append(
+                row["artifact_bytes"]["host-custody"])
+    assert deterministic_manifests[0] == deterministic_manifests[1]
+
+    with tempfile.TemporaryDirectory(prefix="campaign-directory-root-policy-") as tmp:
+        root = pathlib.Path(tmp).resolve()
+        lifecycle.write_new_json(root / "campaign-manifest.json", {
+            "schema": "campaign-a-manifest-v1", "campaign": "campaign-a"})
+        (root / "host-custody").mkdir()
+        forbidden_root_policy = root_policy()
+        forbidden_root_policy["host-custody"] = {
+            "kind": "custodied_directory"}
+        rejected("forbidden", lambda: lifecycle.validate_terminal_prefix(
+            root, [], stop_states=["INVALID", "ERROR"],
+            allowed_root=forbidden_root_policy))
+
+    with tempfile.TemporaryDirectory(prefix="campaign-directory-hardlink-") as tmp:
+        root = pathlib.Path(tmp).resolve()
+        lifecycle.write_new_json(root / "campaign-manifest.json", {
+            "schema": "campaign-a-manifest-v1", "campaign": "campaign-a"})
+        descriptor = directory_mission()
+        write_attempt(root, descriptor)
+        host = root / descriptor["attempt"] / "host-custody"
+        host.mkdir()
+        nested = host / "nested"
+        nested.mkdir()
+        with tempfile.TemporaryDirectory(
+                prefix="campaign-directory-hardlink-source-") as source_tmp:
+            source = pathlib.Path(source_tmp).resolve() / "source.bin"
+            lifecycle.write_new_bytes(source, b"linked")
+            os.link(source, nested / "linked.bin")
+            rejected("hardlink identity", lambda:
+                     lifecycle.validate_terminal_prefix(
+                         root, [descriptor], stop_states=["INVALID", "ERROR"],
+                         allowed_root=root_policy()))
+            print("LIFECYCLE_CUSTODIED_DIRECTORY_HARDLINK=PASS")
+
+    for link_kind in ("file", "directory", "parent"):
+        with tempfile.TemporaryDirectory(
+                prefix=f"campaign-directory-{link_kind}-symlink-") as tmp:
+            root = pathlib.Path(tmp).resolve()
+            lifecycle.write_new_json(root / "campaign-manifest.json", {
+                "schema": "campaign-a-manifest-v1",
+                "campaign": "campaign-a",
+            })
+            descriptor = directory_mission()
+            write_attempt(root, descriptor)
+            host = root / descriptor["attempt"] / "host-custody"
+            host.mkdir()
+            with tempfile.TemporaryDirectory(
+                    prefix="campaign-directory-link-target-") as target_tmp:
+                target = pathlib.Path(target_tmp).resolve()
+                if link_kind == "file":
+                    target_path = target / "target.bin"
+                    lifecycle.write_new_bytes(target_path, b"target")
+                    link = host / "linked.bin"
+                    directory_link = False
+                else:
+                    target_path = target / "target-directory"
+                    target_path.mkdir()
+                    if link_kind == "parent":
+                        lifecycle.write_new_bytes(
+                            target_path / "nested.bin", b"nested")
+                    link = host / ("linked-directory" if link_kind == "directory"
+                                   else "linked-parent")
+                    directory_link = True
+                try:
+                    os.symlink(
+                        target_path, link, target_is_directory=directory_link)
+                except (NotImplementedError, OSError) as exc:
+                    print("LIFECYCLE_CUSTODIED_DIRECTORY_" +
+                          link_kind.upper() + "_SYMLINK=SKIP:" +
+                          type(exc).__name__)
+                else:
+                    rejected("link", lambda: lifecycle.validate_terminal_prefix(
+                        root, [descriptor], stop_states=["INVALID", "ERROR"],
+                        allowed_root=root_policy()))
+                    link.unlink()
+                    print("LIFECYCLE_CUSTODIED_DIRECTORY_" +
+                          link_kind.upper() + "_SYMLINK=PASS")
+
+    if os.name == "nt":
+        with tempfile.TemporaryDirectory(
+                prefix="campaign-directory-junction-") as tmp:
+            root = pathlib.Path(tmp).resolve()
+            lifecycle.write_new_json(root / "campaign-manifest.json", {
+                "schema": "campaign-a-manifest-v1",
+                "campaign": "campaign-a",
+            })
+            descriptor = directory_mission()
+            write_attempt(root, descriptor)
+            host = root / descriptor["attempt"] / "host-custody"
+            host.mkdir()
+            with tempfile.TemporaryDirectory(
+                    prefix="campaign-directory-junction-target-") as target_tmp:
+                target = pathlib.Path(target_tmp).resolve()
+                lifecycle.write_new_bytes(target / "nested.bin", b"nested")
+                junction = host / "junction"
+                made = subprocess.run(
+                    ["cmd", "/c", "mklink", "/J", str(junction), str(target)],
+                    capture_output=True, text=True)
+                if made.returncode:
+                    print("LIFECYCLE_CUSTODIED_DIRECTORY_JUNCTION=SKIP:mklink")
+                else:
+                    rejected("link", lambda:
+                             lifecycle.validate_terminal_prefix(
+                                 root, [descriptor],
+                                 stop_states=["INVALID", "ERROR"],
+                                 allowed_root=root_policy()))
+                    os.rmdir(junction)
+                    print("LIFECYCLE_CUSTODIED_DIRECTORY_JUNCTION=PASS")
+
+    if hasattr(os, "mkfifo"):
+        with tempfile.TemporaryDirectory(
+                prefix="campaign-directory-special-") as tmp:
+            root = pathlib.Path(tmp).resolve()
+            lifecycle.write_new_json(root / "campaign-manifest.json", {
+                "schema": "campaign-a-manifest-v1",
+                "campaign": "campaign-a",
+            })
+            descriptor = directory_mission()
+            write_attempt(root, descriptor)
+            host = root / descriptor["attempt"] / "host-custody"
+            host.mkdir()
+            fifo = host / "retained.fifo"
+            os.mkfifo(fifo)
+            rejected("special", lambda: lifecycle.validate_terminal_prefix(
+                root, [descriptor], stop_states=["INVALID", "ERROR"],
+                allowed_root=root_policy()))
+            fifo.unlink()
+            print("LIFECYCLE_CUSTODIED_DIRECTORY_SPECIAL=PASS")
+    else:
+        print("LIFECYCLE_CUSTODIED_DIRECTORY_SPECIAL=SKIP:unsupported")
+
+    with tempfile.TemporaryDirectory(prefix="campaign-directory-snapshot-") as tmp:
+        root = pathlib.Path(tmp).resolve()
+        lifecycle.write_new_json(root / "campaign-manifest.json", {
+            "schema": "campaign-a-manifest-v1", "campaign": "campaign-a"})
+        descriptor = directory_mission()
+        write_attempt(root, descriptor)
+        host = write_directory_tree(root / descriptor["attempt"])
+        lifecycle.write_stage_terminal(
+            root, stage([descriptor]), binding(1))
+
+        alpha = host / "nested" / "alpha.bin"
+        alpha.write_bytes(b"changed")
+        rejected("stage snapshot", lambda: lifecycle.validate_stage_resume(
+            root, stage([descriptor]), binding(1)))
+        alpha.write_bytes(b"alpha")
+
+        added = host / "added.bin"
+        lifecycle.write_new_bytes(added, b"added")
+        rejected("stage snapshot", lambda: lifecycle.validate_stage_resume(
+            root, stage([descriptor]), binding(1)))
+        added.unlink()
+
+        beta = host / "nested" / "deeper" / "beta.bin"
+        beta.unlink()
+        rejected("stage snapshot", lambda: lifecycle.validate_stage_resume(
+            root, stage([descriptor]), binding(1)))
+        lifecycle.write_new_bytes(beta, b"beta")
+
+        added_empty = host / "added-empty"
+        added_empty.mkdir()
+        rejected("stage snapshot", lambda: lifecycle.validate_stage_resume(
+            root, stage([descriptor]), binding(1)))
+        added_empty.rmdir()
+
+        empty = host / "empty"
+        empty.rmdir()
+        rejected("stage snapshot", lambda: lifecycle.validate_stage_resume(
+            root, stage([descriptor]), binding(1)))
+        empty.mkdir()
+
+        renamed = host / "nested" / "renamed.bin"
+        alpha.rename(renamed)
+        rejected("stage snapshot", lambda: lifecycle.validate_stage_resume(
+            root, stage([descriptor]), binding(1)))
+        renamed.rename(alpha)
+
+        top = host / "top.bin"
+        top.unlink()
+        top.mkdir()
+        rejected("stage snapshot", lambda: lifecycle.validate_stage_resume(
+            root, stage([descriptor]), binding(1)))
+        top.rmdir()
+        lifecycle.write_new_bytes(top, b"top")
+
+        with tempfile.TemporaryDirectory(
+                prefix="campaign-directory-replacement-source-") as source_tmp:
+            hardlink_source = pathlib.Path(source_tmp).resolve() / "source.bin"
+            lifecycle.write_new_bytes(hardlink_source, b"top")
+            top.unlink()
+            os.link(hardlink_source, top)
+            rejected("hardlink", lambda: lifecycle.validate_stage_resume(
+                root, stage([descriptor]), binding(1)))
+            top.unlink()
+            lifecycle.write_new_bytes(top, b"top")
+
+        with tempfile.TemporaryDirectory(
+                prefix="campaign-directory-symlink-source-") as source_tmp:
+            symlink_source = pathlib.Path(source_tmp).resolve() / "source.bin"
+            lifecycle.write_new_bytes(symlink_source, b"top")
+            top.unlink()
+            try:
+                os.symlink(symlink_source, top)
+            except (NotImplementedError, OSError) as exc:
+                lifecycle.write_new_bytes(top, b"top")
+                print("LIFECYCLE_CUSTODIED_DIRECTORY_POST_PAUSE_SYMLINK=SKIP:" +
+                      type(exc).__name__)
+            else:
+                rejected("link", lambda: lifecycle.validate_stage_resume(
+                    root, stage([descriptor]), binding(1)))
+                top.unlink()
+                lifecycle.write_new_bytes(top, b"top")
+                print("LIFECYCLE_CUSTODIED_DIRECTORY_POST_PAUSE_SYMLINK=PASS")
+        lifecycle.validate_stage_resume(
+            root, stage([descriptor]), binding(1))
 
     # RED 1: an identity-bearing root artifact may not be admitted through a
     # name-only policy that leaves its campaign and schema unchecked.
