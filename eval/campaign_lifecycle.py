@@ -68,9 +68,11 @@ def decode_strict_json_bytes(data, owner, *, require_object=False):
         value = json.loads(
             text, object_pairs_hook=_unique, parse_constant=_nonfinite,
             parse_float=_lossless_float)
+        _validate_strict_json_model(value, owner)
+    except RecursionError as exc:
+        raise ValueError(f"{owner} exceeds JSON depth limit") from exc
     except json.JSONDecodeError as exc:
         raise ValueError(f"{owner} is malformed JSON") from exc
-    _validate_strict_json_model(value, owner)
     if require_object and type(value) is not dict:
         raise ValueError(f"{owner} must be an object")
     return value
@@ -101,9 +103,12 @@ def _validate_strict_json_model(value, owner="JSON value"):
 
 
 def canonical_json_bytes(value):
-    _validate_strict_json_model(value)
-    return (json.dumps(value, indent=1, sort_keys=True, allow_nan=False) +
-            "\n").encode("utf-8")
+    try:
+        _validate_strict_json_model(value)
+        text = json.dumps(value, indent=1, sort_keys=True, allow_nan=False)
+    except RecursionError as exc:
+        raise ValueError("JSON value exceeds JSON depth limit") from exc
+    return (text + "\n").encode("utf-8")
 
 
 def _reparse_point(path_stat):

@@ -8,6 +8,7 @@ import math
 import os
 import pathlib
 import subprocess
+import sys
 import tempfile
 
 import campaign_lifecycle as lifecycle
@@ -122,13 +123,17 @@ def root_policy(campaign="campaign-a", *, stage_terminal=None):
     return policy
 
 
-def raw_number_json(value, token):
+def raw_probe_json(value, raw_value):
     placeholder = "__RAW_JSON_NUMBER__"
     prepared = dict(value)
     prepared["probe"] = placeholder
     encoded = lifecycle.canonical_json_bytes(prepared)
     return encoded.replace(
-        lifecycle.canonical_json_bytes(placeholder).strip(), token)
+        lifecycle.canonical_json_bytes(placeholder).strip(), raw_value)
+
+
+def raw_number_json(value, token):
+    return raw_probe_json(value, token)
 
 
 def main():
@@ -274,6 +279,72 @@ def main():
     assert not number_domain_failures, (
         "JSON number domain failures were not normalized: " +
         "; ".join(number_domain_failures))
+
+    excessive_depth = sys.getrecursionlimit() + 200
+    nested_json = (b"[" * excessive_depth + b"0" +
+                   b"]" * excessive_depth)
+    json_depth_failures = []
+    collect_stable_value_error(
+        "direct excessive depth", "JSON depth",
+        lambda: lifecycle.decode_strict_json_bytes(
+            nested_json, "deep JSON"),
+        json_depth_failures)
+
+    for target in ("root", "status", "terminal"):
+        with tempfile.TemporaryDirectory(
+                prefix=f"campaign-depth-{target}-") as tmp:
+            root = pathlib.Path(tmp).resolve()
+            expected_root = {
+                "schema": "campaign-a-manifest-v1",
+                "campaign": "campaign-a",
+            }
+            descriptor = mission(0)
+            if target == "root":
+                expected_root["probe"] = []
+                (root / "campaign-manifest.json").write_bytes(
+                    raw_probe_json(expected_root, nested_json))
+            else:
+                lifecycle.write_new_json(
+                    root / "campaign-manifest.json", expected_root)
+            if target == "status":
+                descriptor["status_identity"]["probe"] = []
+            elif target == "terminal":
+                descriptor["terminal_identity"]["probe"] = []
+            write_attempt(root, descriptor)
+            attempt = root / descriptor["attempt"]
+            if target == "status":
+                (attempt / "attempt-status.json").write_bytes(
+                    raw_probe_json(descriptor["status_identity"], nested_json))
+            elif target == "terminal":
+                retained = dict(descriptor["terminal_identity"])
+                retained.update({
+                    "overall_status": "PASS", "stop_reason": None})
+                (attempt / "attempt-terminal.json").write_bytes(
+                    raw_probe_json(retained, nested_json))
+            expected_root_policy = {
+                "campaign-manifest.json": {
+                    "kind": "json_identity", "identity": expected_root,
+                },
+            }
+            collect_stable_value_error(
+                f"{target} excessive depth", "JSON depth",
+                lambda path=root, item=descriptor,
+                       policy=expected_root_policy:
+                    lifecycle.validate_terminal_prefix(
+                        path, [item], stop_states={"INVALID", "ERROR"},
+                        allowed_root=policy),
+                json_depth_failures)
+
+    nested_model = 0
+    for _ in range(excessive_depth):
+        nested_model = [nested_model]
+    collect_stable_value_error(
+        "canonical excessive depth", "JSON depth",
+        lambda value=nested_model: lifecycle.canonical_json_bytes(value),
+        json_depth_failures)
+    assert not json_depth_failures, (
+        "JSON depth failures were not normalized: " +
+        "; ".join(json_depth_failures))
 
     representative_floats = [0.0, -0.0, 1.5, 1e-7, 1e20]
     for expected_float in representative_floats:
