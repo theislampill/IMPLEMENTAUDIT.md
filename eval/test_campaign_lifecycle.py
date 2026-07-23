@@ -891,6 +891,125 @@ def main():
                 row["artifact_bytes"]["host-custody"])
     assert deterministic_manifests[0] == deterministic_manifests[1]
 
+    with tempfile.TemporaryDirectory(
+            prefix="campaign-directory-entry-boundary-") as tmp:
+        common = pathlib.Path(tmp).resolve()
+        owner = common / "owner"
+        owner.mkdir()
+        sub = owner / "sub"
+        sub.mkdir()
+        outside = common / "outside"
+        outside.mkdir()
+        lifecycle.write_new_bytes(outside / "nested.bin", b"outside")
+        rejected("escapes owner root", lambda:
+                 lifecycle.read_custodied_directory_manifest(
+                     outside, "absolute outside directory", root=owner))
+        lexical_escape = owner / "sub" / ".." / ".." / "outside"
+        directory_bound_failures = []
+        collect_stable_value_error(
+            "lexical dot-dot escape", "canonical",
+            lambda: lifecycle.read_custodied_directory_manifest(
+                lexical_escape, "lexical escape directory", root=owner),
+            directory_bound_failures)
+
+        for label, final_path in (
+                ("final", owner / "final-link"),
+                ("parent", owner / "parent-link" / "nested")):
+            link = (final_path if label == "final" else final_path.parent)
+            target = outside if label == "final" else outside
+            try:
+                os.symlink(target, link, target_is_directory=True)
+            except (NotImplementedError, OSError) as exc:
+                print("LIFECYCLE_CUSTODIED_DIRECTORY_ENTRY_" +
+                      label.upper() + "_SYMLINK=SKIP:" +
+                      type(exc).__name__)
+            else:
+                rejected("link", lambda path=final_path:
+                         lifecycle.read_custodied_directory_manifest(
+                             path, f"{label} symlink directory", root=owner))
+                link.unlink()
+                print("LIFECYCLE_CUSTODIED_DIRECTORY_ENTRY_" +
+                      label.upper() + "_SYMLINK=PASS")
+
+        if os.name == "nt":
+            junction = owner / "parent-junction"
+            made = subprocess.run(
+                ["cmd", "/c", "mklink", "/J", str(junction), str(outside)],
+                capture_output=True, text=True)
+            if made.returncode:
+                print("LIFECYCLE_CUSTODIED_DIRECTORY_ENTRY_JUNCTION=SKIP:mklink")
+            else:
+                rejected("link", lambda:
+                         lifecycle.read_custodied_directory_manifest(
+                             junction / "nested", "parent junction directory",
+                             root=owner))
+                os.rmdir(junction)
+                print("LIFECYCLE_CUSTODIED_DIRECTORY_ENTRY_JUNCTION=PASS")
+
+    with tempfile.TemporaryDirectory(
+            prefix="campaign-directory-bounded-leaf-") as tmp:
+        owner = pathlib.Path(tmp).resolve()
+        retained = owner / "retained"
+        retained.mkdir()
+        leaf = retained / "large-sparse.bin"
+        chunk_size = 1024 * 1024
+        leaf_size = 2 * chunk_size + 17
+        with open(leaf, "wb") as stream:
+            stream.seek(leaf_size - 1)
+            stream.write(b"Z")
+
+        real_fdopen = lifecycle.os.fdopen
+        read_sizes = []
+
+        class BoundedReadStream:
+            def __init__(self, stream):
+                self.stream = stream
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, traceback):
+                self.stream.close()
+
+            def read(self, size=-1):
+                read_sizes.append(size)
+                return self.stream.read(size)
+
+        def instrumented_fdopen(descriptor, mode):
+            return BoundedReadStream(real_fdopen(descriptor, mode))
+
+        lifecycle.os.fdopen = instrumented_fdopen
+        try:
+            manifest_bytes = lifecycle.read_custodied_directory_manifest(
+                retained, "bounded retained directory", root=owner)
+        finally:
+            lifecycle.os.fdopen = real_fdopen
+        if (not read_sizes or
+                any(size <= 0 or size > chunk_size for size in read_sizes)):
+            directory_bound_failures.append(
+                "directory custody used a negative or unbounded read")
+        manifest = lifecycle.decode_strict_json_bytes(
+            manifest_bytes, "bounded directory manifest", require_object=True)
+        leaf_row = next(
+            row for row in manifest["entries"]
+            if row["path"] == "large-sparse.bin")
+        expected_hash = hashlib.sha256()
+        remaining_zeros = leaf_size - 1
+        zero_block = b"\0" * chunk_size
+        while remaining_zeros:
+            take = min(remaining_zeros, chunk_size)
+            expected_hash.update(zero_block[:take])
+            remaining_zeros -= take
+        expected_hash.update(b"Z")
+        assert leaf_row == {
+            "path": "large-sparse.bin", "kind": "file",
+            "byte_length": leaf_size,
+            "sha256": expected_hash.hexdigest(),
+        }
+        assert not directory_bound_failures, (
+            "recursive custody bounds failed: " +
+            "; ".join(directory_bound_failures))
+
     with tempfile.TemporaryDirectory(prefix="campaign-directory-root-policy-") as tmp:
         root = pathlib.Path(tmp).resolve()
         lifecycle.write_new_json(root / "campaign-manifest.json", {

@@ -18,6 +18,7 @@ import stat
 
 STAGE_TERMINAL_SCHEMA = "implementaudit-staged-campaign-terminal-v1"
 MAX_JSON_DEPTH = 512
+CUSTODY_READ_CHUNK_SIZE = 1024 * 1024
 
 
 class TerminalPrefix(list):
@@ -225,9 +226,17 @@ def _read_directory_leaf(path, owner, *, expected_stat):
         if ((opened.st_dev, opened.st_ino) !=
                 (expected_stat.st_dev, expected_stat.st_ino)):
             raise ValueError(f"{owner} identity changed during custody read")
+        digest = hashlib.sha256()
+        byte_length = 0
         with os.fdopen(descriptor, "rb") as stream:
             descriptor = None
-            return stream.read()
+            while True:
+                chunk = stream.read(CUSTODY_READ_CHUNK_SIZE)
+                if not chunk:
+                    break
+                byte_length += len(chunk)
+                digest.update(chunk)
+        return byte_length, digest.hexdigest()
     except ValueError:
         raise
     except OSError as exc:
@@ -237,14 +246,42 @@ def _read_directory_leaf(path, owner, *, expected_stat):
             os.close(descriptor)
 
 
-def read_custodied_directory_manifest(path, owner, *, root):
-    """Return canonical bytes binding one recursive no-link directory tree."""
+def _canonical_directory_entry(path, owner, *, root):
     stop = _owner_root(root)
-    directory = pathlib.Path(path).absolute()
+    supplied = pathlib.Path(path)
+    lexical = supplied if supplied.is_absolute() else pathlib.Path.cwd() / supplied
+    canonical = pathlib.Path(os.path.abspath(os.path.normpath(os.fspath(lexical))))
+    if lexical != canonical:
+        raise ValueError(f"{owner} path is not canonical")
     try:
-        directory.relative_to(stop)
+        canonical.relative_to(stop)
     except ValueError as exc:
         raise ValueError(f"{owner} path escapes owner root") from exc
+    try:
+        _walk_no_link(canonical, owner)
+        path_stat = os.lstat(canonical)
+        if (stat.S_ISLNK(path_stat.st_mode) or
+                _reparse_point(path_stat)):
+            raise ValueError(f"{owner} link or reparse alias forbidden")
+        if not stat.S_ISDIR(path_stat.st_mode):
+            raise ValueError(f"{owner} must be a retained directory")
+        resolved = canonical.resolve(strict=True)
+        if resolved != canonical:
+            raise ValueError(f"{owner} link or reparse alias forbidden")
+        try:
+            resolved.relative_to(stop)
+        except ValueError as exc:
+            raise ValueError(f"{owner} path escapes owner root") from exc
+        return canonical
+    except ValueError:
+        raise
+    except OSError as exc:
+        raise ValueError(f"{owner} cannot be resolved") from exc
+
+
+def read_custodied_directory_manifest(path, owner, *, root):
+    """Return canonical bytes binding one recursive no-link directory tree."""
+    directory = _canonical_directory_entry(path, owner, root=root)
     entries = []
     seen_directories = set()
     pending = [(directory, pathlib.PurePosixPath("."))]
@@ -285,12 +322,12 @@ def read_custodied_directory_manifest(path, owner, *, root):
                 if child_stat.st_nlink != 1:
                     raise ValueError(f"{owner} hardlink identity forbidden")
                 _walk_no_link(child_path, owner)
-                payload = _read_directory_leaf(
+                byte_length, digest = _read_directory_leaf(
                     child_path, owner, expected_stat=child_stat)
                 entries.append({
                     "path": child_relative.as_posix(), "kind": "file",
-                    "byte_length": len(payload),
-                    "sha256": hashlib.sha256(payload).hexdigest(),
+                    "byte_length": byte_length,
+                    "sha256": digest,
                 })
     except ValueError:
         raise
