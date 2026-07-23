@@ -1,6 +1,6 @@
 {
- "schema": "implementaudit-b3v4-artifact-contract-v1",
- "contract_id": "b3v4-sol-artifact-contract-r1",
+ "schema": "implementaudit-b3v4-luna-artifact-contract-v2",
+ "contract_id": "b3v4-sol-luna-artifact-contract-r2",
  "encoding": {
   "charset": "UTF-8",
   "duplicate_keys": "REJECT_RECURSIVELY",
@@ -11,20 +11,22 @@
   "writes": "CREATE_ONCE"
  },
  "execution": {
-  "campaign": "b3v4-sol-r1",
-  "stage_order": ["LUNA", "OPUS"],
-  "completion_requires": ["LUNA", "OPUS", "INDEPENDENT_REDERIVATION"],
+  "campaign": "b3v4-sol-luna-r2",
+  "stage_order": ["LUNA"],
+  "completion_requires": ["LUNA", "INDEPENDENT_REDERIVATION", "MANDATORY_STAGE_TERMINAL"],
+  "luna_success_disposition": "INCOMPLETE_PENDING_OPUS",
+  "final_acceptance": false,
   "silent_retry": "FORBIDDEN",
   "unexpected_attempt": "INVALID"
  },
  "artifacts": {
-  "campaign_freeze": {"producer":"freeze-author","readers":["freeze-validator","driver","rederiver"],"role":"repo-contract","format":"JSON","schema":"implementaudit-b3v4-campaign-freeze-v1","create_once":true},
+  "campaign_freeze": {"producer":"freeze-author","readers":["freeze-validator","driver","rederiver"],"role":"repo-contract","format":"JSON","schema":"implementaudit-b3v4-luna-campaign-freeze-v2","create_once":true},
   "owner_approval": {"producer":"owner","readers":["freeze-validator","driver"],"role":"external-authorization","format":"BYTES","schema":null,"create_once":true},
   "host_attestation": {"producer":"formal-host-attestation","readers":["driver","formal-adapter","rederiver"],"role":"attempt-input","format":"JSON","schema":"implementaudit-host-read-attestation-v1","create_once":true},
-  "campaign_manifest": {"producer":"driver","readers":["driver","rederiver"],"role":"campaign-root","format":"JSON","schema":"implementaudit-b3v4-campaign-custody-v1","create_once":true},
-  "attempt_status": {"producer":"driver","readers":["driver","rederiver"],"role":"attempt-root","format":"JSON","schema":"implementaudit-b3v4-attempt-status-v1","create_once":true},
+  "campaign_manifest": {"producer":"driver","readers":["driver","rederiver"],"role":"campaign-root","format":"JSON","schema":"implementaudit-b3v4-luna-campaign-custody-v2","create_once":true},
+  "attempt_status": {"producer":"driver","readers":["driver","rederiver"],"role":"attempt-root","format":"JSON","schema":"implementaudit-b3v4-luna-attempt-status-v2","create_once":true},
   "official_verdict": {"producer":"official-scorer-via-driver","readers":["driver","rederiver"],"role":"attempt-root","format":"JSON","schema":"implementaudit-eval-verdict-v3","create_once":true},
-  "attempt_terminal": {"producer":"driver","readers":["driver","rederiver"],"role":"attempt-root","format":"JSON","schema":"implementaudit-b3v4-attempt-terminal-v1","create_once":true},
+  "attempt_terminal": {"producer":"driver","readers":["driver","rederiver"],"role":"attempt-root","format":"JSON","schema":"implementaudit-b3v4-luna-attempt-terminal-v2","create_once":true},
   "host_terminal": {"producer":"formal-host-runner","readers":["official-scorer","rederiver"],"role":"bundle-root","format":"JSON","schema":"implementaudit-run-terminal-v1","create_once":true},
   "bundle_manifest": {"producer":"bundle-builder","readers":["official-scorer","rederiver"],"role":"bundle-root","format":"JSON","schema":"implementaudit-eval-manifest-v2","create_once":true},
   "fixture": {"producer":"frozen-fixture-copier","readers":["official-scorer","rederiver"],"role":"bundle-root","format":"JSON","schema":"implementaudit-eval-fixture-v1","create_once":true},
@@ -48,11 +50,14 @@
   "host_read_terminal": {"producer":"formal-capture-finalizer","readers":["host-validator","rederiver"],"role":"host-artifacts","format":"JSON","schema":"implementaudit-host-read-terminal-v1","create_once":true},
   "host_checks": {"producer":"host-check-evaluator","readers":["official-scorer","rederiver"],"role":"bundle-artifacts","format":"JSON","schema":"implementaudit-host-checks-v1","create_once":true},
   "host_check_inputs": {"producer":"host-input-capture","readers":["official-scorer","rederiver"],"role":"bundle-artifacts","format":"JSON","schema":"frozen-host-check-input-schema","create_once":true},
-  "independent_rederivation": {"producer":"independent-rederiver","readers":["final-ledger","cold-reviewer"],"role":"campaign-result","format":"JSON","schema":"implementaudit-b3v4-independent-rederivation-v1","create_once":true}
+  "official_luna_result": {"producer":"driver-finalizer","readers":["independent-rederiver","final-ledger","cold-reviewer"],"role":"campaign-result","format":"JSON","schema":"implementaudit-b3v4-luna-result-v2","create_once":true},
+  "luna_stage_terminal": {"producer":"shared-lifecycle-via-driver","readers":["driver","final-ledger","cold-reviewer"],"role":"campaign-root","format":"JSON","schema":"implementaudit-staged-campaign-terminal-v1","create_once":true},
+  "independent_rederivation": {"producer":"independent-rederiver","readers":["driver-finalizer","final-ledger","cold-reviewer"],"role":"campaign-result","format":"JSON","schema":"implementaudit-b3v4-luna-independent-rederivation-v2","create_once":true}
  },
  "lifecycle_schemas": {
   "campaign_manifest": ["schema","campaign","freeze_sha256","contract_sha256","created_at","execution_stage"],
   "attempt_status": ["schema","campaign","freeze_sha256","contract_sha256","mission","state","execution_mode","created_at","host_attestation_binding"],
-  "attempt_terminal": ["schema","campaign","mission_index","execution_mode","overall_status","resolved_model","host_run_root","official_overall_status","official_verdict_sha256","stop_reason","error_type","completed_at"]
+  "attempt_terminal": ["schema","campaign","mission_index","execution_mode","overall_status","resolved_model","host_run_root","official_overall_status","official_verdict_sha256","stop_reason","error_type","completed_at"],
+  "official_luna_result": ["schema","campaign","freeze_sha256","contract_sha256","disposition","luna_stage_accepted","accepted","mission_count","missions","luna_identity","independent_rederivation","claims"]
  }
 }

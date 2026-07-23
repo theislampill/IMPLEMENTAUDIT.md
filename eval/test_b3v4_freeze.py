@@ -31,8 +31,6 @@ def valid_packet():
     host_attestations = {
         "L": {"id": "b3v4-L-host", "shell_dialect": "posix",
               "executables": {"cat": "posix:cat"}},
-        "O": {"id": "b3v4-O-host", "shell_dialect": "powershell",
-              "executables": {"get-content": "powershell:get-content"}},
     }
     host_attestation_hashes = {
         name: hashlib.sha256((json.dumps(value, sort_keys=True,
@@ -43,19 +41,16 @@ def valid_packet():
         {"index": i, "config": config, "arm": arm, "rep": rep}
         for i, (config, arm, rep) in enumerate([
             ("L", "candidate", 1), ("L", "control", 1),
-            ("O", "control", 1), ("O", "candidate", 1),
-            ("O", "candidate", 2), ("O", "control", 2),
             ("L", "control", 2), ("L", "candidate", 2),
             ("L", "control", 3), ("L", "candidate", 3),
-            ("O", "candidate", 3), ("O", "control", 3),
         ])
     ]
     return {
-        "schema": "implementaudit-b3v4-campaign-freeze-v1",
-        "campaign": "b3v4-sol-r1",
+        "schema": "implementaudit-b3v4-luna-campaign-freeze-v2",
+        "campaign": "b3v4-sol-luna-r2",
         "state": "FROZEN_BEFORE_FIRST_MISSION",
         "artifact_contract": {
-            "schema": "implementaudit-b3v4-artifact-contract-v1",
+            "schema": "implementaudit-b3v4-luna-artifact-contract-v2",
             "path": "eval/b3v4_contract.json",
             "sha256": hashlib.sha256(
                 (HERE / "b3v4_contract.json").read_bytes()).hexdigest(),
@@ -81,21 +76,22 @@ def valid_packet():
                                  "sha256": sha},
                   "host_attestation": {"id": host_attestations["L"]["id"],
                                        "sha256": host_attestation_hashes["L"]}},
-            "O": {"host": "Windows Claude CLI",
-                  "model_requested": "opus",
-                  "model_resolved_required": "claude-opus-4-8",
-                  "reasoning_effort": "high", "auth_mode": "claude.ai-max",
-                  "executable": {"path": "C:/bin/claude.exe", "version": "2.3.4",
-                                 "sha256": sha},
-                  "host_attestation": {"id": host_attestations["O"]["id"],
-                                       "sha256": host_attestation_hashes["O"]}},
         },
         "authorization": {"acknowledgement_path": "private/APPROVAL.txt",
                           "acknowledgement_sha256": sha,
                           "metered_api_spend": "FORBIDDEN"},
         "seed": 20260718,
-        "repetitions_per_configuration_and_arm": 3,
+        "repetitions_per_arm": 3,
         "missions": missions,
+        "luna_stage": {
+            "schema": "implementaudit-b3v4-luna-stage-v2",
+            "name": "LUNA", "mission_count": 6,
+            "terminal_name": "luna-stage-terminal.json",
+            "official_result_name": "b3v4-luna-result.json",
+            "independent_result_name":
+                "b3v4-luna-independent-rederivation.json",
+            "success_disposition": "INCOMPLETE_PENDING_OPUS",
+        },
         "evidence_profiles": {
             "formal_host_read": "implementaudit-host-read-profile-v2",
             "raw_stdout": "required", "native_session": "required",
@@ -105,29 +101,40 @@ def valid_packet():
             "product_property_states": ["PASS", "FAIL", "INCOMPLETE"],
             "host_states": ["PASS", "INVALID", "ERROR", "SUBSTITUTION"],
             "overall_states": ["PASS", "FAIL", "INVALID", "ERROR"],
+            "luna_stage_dispositions": ["INCOMPLETE_PENDING_OPUS"],
         },
         "attempt_policy": {"silent_retry": "FORBIDDEN",
-                           "preserve_every_attempt": True},
+                           "preserve_every_attempt": True,
+                           "maximum_attempts": 6},
         "acceptance_rule": (
-            "all 12 missions terminal; independent rederivation agrees with "
+            "all six Luna missions terminal and PASS; independent Luna "
+            "rederivation agrees with "
             "every stored property, host, and overall result; property "
             "evidence complete in every verdict; host status PASS in every "
             "mission; zero INVALID/ERROR; zero model substitution; exact "
             "candidate, control, model, host, fixture, scorer, evaluator, "
-            "bundle, runner, and rederiver identities"),
+            "bundle, runner, and rederiver identities; successful Luna stage "
+            "is INCOMPLETE_PENDING_OPUS with luna_stage_accepted true and "
+            "accepted false"),
         "invalid_error_rule": (
-            "INVALID and ERROR are never product PASS; halt campaign and "
-            "preserve every attempt"),
+            "FAIL, INVALID, unexplained ERROR, substitution, disagreement, "
+            "and custody or identity failure halt the Luna stage and preserve "
+            "every attempt"),
         "stop_conditions": ["authentication or quota failure", "model substitution",
-                            "identity or custody mismatch", "any INVALID or ERROR",
+                            "identity or custody mismatch",
+                            "any FAIL, INVALID, or unexplained ERROR",
+                            "official and independent disagreement",
                             "frozen input drift"],
         "independent_rederiver": {
-            "contract_id": "implementaudit-b3v4-independent-rederiver-v1",
+            "contract_id":
+                "implementaudit-b3v4-luna-independent-rederiver-v2",
             "implementation_identity": {
                 "path": "eval/b3v4_rederive.py", "sha256": sha},
-            "must_not_import": ["eval.hosts", "eval.runner", "eval.lib.scoring"],
+            "must_not_import": [
+                "eval.b3v4_campaign", "eval.hosts", "eval.runner",
+                "eval.lib.scoring", "eval.adapters", "eval.campaign_lifecycle"],
             "input": "retained raw evidence only",
-            "output": "per-mission property, host, and overall rederivation",
+            "output": "independent Luna stage result",
         },
     }
 
@@ -160,6 +167,46 @@ def main():
     module = load_validator()
     packet = valid_packet()
     module.validate_structure(packet)
+
+    expected_plan = [
+        ("L", "candidate", 1), ("L", "control", 1),
+        ("L", "control", 2), ("L", "candidate", 2),
+        ("L", "control", 3), ("L", "candidate", 3),
+    ]
+    assert [(row["config"], row["arm"], row["rep"])
+            for row in packet["missions"]] == expected_plan
+    assert set(packet["configurations"]) == {"L"}
+
+    old_interleaved = copy.deepcopy(packet)
+    old_interleaved["schema"] = "implementaudit-b3v4-campaign-freeze-v1"
+    old_interleaved["missions"].extend([
+        {"index": 6 + index, "config": "O", "arm": arm, "rep": rep}
+        for index, (arm, rep) in enumerate([
+            ("control", 1), ("candidate", 1), ("candidate", 2),
+            ("control", 2), ("candidate", 3), ("control", 3)])])
+    expect_invalid(module, old_interleaved, "schema")
+
+    mission_mutations = []
+    missing_mission = copy.deepcopy(packet); missing_mission["missions"].pop()
+    mission_mutations.append(missing_mission)
+    duplicate_mission = copy.deepcopy(packet)
+    duplicate_mission["missions"][1] = copy.deepcopy(
+        duplicate_mission["missions"][0])
+    mission_mutations.append(duplicate_mission)
+    reordered_mission = copy.deepcopy(packet)
+    reordered_mission["missions"][0], reordered_mission["missions"][1] = (
+        reordered_mission["missions"][1], reordered_mission["missions"][0])
+    mission_mutations.append(reordered_mission)
+    extra_mission = copy.deepcopy(packet)
+    extra_mission["missions"].append(
+        {"index": 6, "config": "L", "arm": "candidate", "rep": 4})
+    mission_mutations.append(extra_mission)
+    for key, value in (("config", "O"), ("arm", "other"), ("rep", 9)):
+        changed = copy.deepcopy(packet)
+        changed["missions"][0][key] = value
+        mission_mutations.append(changed)
+    for changed in mission_mutations:
+        expect_invalid(module, changed, "mission")
 
     missing = copy.deepcopy(packet)
     del missing["authorization"]

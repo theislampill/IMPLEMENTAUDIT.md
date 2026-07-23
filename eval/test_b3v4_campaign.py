@@ -8,6 +8,7 @@ import copy
 import json
 import os
 import pathlib
+import shutil
 import subprocess
 import tempfile
 
@@ -50,8 +51,7 @@ def add_duplicate_to_file(path, name, value):
 def make_driver(module, root, executor):
     packet = write_packet(root)
     attestations = {}
-    for config, dialect, reader in (("L", "posix", "cat"),
-                                    ("O", "powershell", "get-content")):
+    for config, dialect, reader in (("L", "posix", "cat"),):
         path = pathlib.Path(root) / f"{config}-host-attestation.json"
         path.write_bytes((json.dumps({
             "id": f"b3v4-{config}-host", "shell_dialect": dialect,
@@ -71,6 +71,53 @@ def make_driver(module, root, executor):
         live_validator=lambda packet, repo: packet,
         identity_validator=lambda packet, **paths: None,
     )
+
+
+FINAL_CLAIMS = {
+    "final_12_of_12": False,
+    "cross_model_qualified": False,
+    "release_authorized": False,
+    "tag_authorized": False,
+    "publication_authorized": False,
+}
+
+
+def independent_result_for(driver, *, disagree_at=None):
+    packet, _, freeze_sha = driver._load_packet()
+    rows = []
+    for mission in packet["missions"]:
+        attempt = driver.campaign_root / driver._attempt_name(mission)
+        terminal = json.loads((attempt / "attempt-terminal.json").read_text(
+            encoding="utf-8"))
+        rows.append({
+            "index": mission["index"], "config": mission["config"],
+            "arm": mission["arm"], "rep": mission["rep"],
+            "overall_status": (
+                "INVALID" if mission["index"] == disagree_at else "PASS"),
+            "official_overall_status": terminal["official_overall_status"],
+            "independent_overall_status": (
+                "INVALID" if mission["index"] == disagree_at else "PASS"),
+            "model_resolved": terminal["resolved_model"],
+            "official_verdict_sha256": terminal["official_verdict_sha256"],
+        })
+    return {
+        "schema": "implementaudit-b3v4-luna-independent-rederivation-v2",
+        "campaign": packet["campaign"], "freeze_sha256": freeze_sha,
+        "contract_sha256": packet["artifact_contract"]["sha256"],
+        "luna_stage_status": "PASS",
+        "disposition": "INCOMPLETE_PENDING_OPUS",
+        "luna_stage_accepted": True,
+        "accepted": False, "mission_count": len(rows), "missions": rows,
+        "claims": FINAL_CLAIMS,
+    }
+
+
+def write_independent_result(driver, *, disagree_at=None):
+    path = driver.campaign_root / "b3v4-luna-independent-rederivation.json"
+    path.write_bytes((json.dumps(
+        independent_result_for(driver, disagree_at=disagree_at),
+        sort_keys=True, separators=(",", ":")) + "\n").encode())
+    return path
 
 
 def expect_error(fragment, fn):
@@ -445,7 +492,7 @@ def main():
             expect_error("host attestation", driver.run_next)
 
     retained_cases = (
-        ("campaign-manifest.json", "campaign", "b3v4-sol-r1"),
+        ("campaign-manifest.json", "campaign", "b3v4-sol-luna-r2"),
         ("attempt-status.json", "state", "PREPARED_BEFORE_HOST_SPAWN"),
         ("attempt-terminal.json", "overall_status", "PASS"),
     )
@@ -515,10 +562,94 @@ def main():
             return scored_outcome(context)
 
         driver = make_driver(module, tmp, collect_order)
-        for _ in range(12):
+        for _ in range(6):
             driver.run_next()
         assert order == [tuple(row) for row in module.freeze.PLAN]
-        expect_error("all 12 attempts", driver.run_next)
+        attempts_before = sorted(driver.campaign_root.glob("attempt-*"))
+        expect_error("all six Luna attempts", driver.run_next)
+        assert sorted(driver.campaign_root.glob("attempt-*")) == attempts_before
+        assert not (driver.campaign_root / "b3v4-luna-result.json").exists()
+        assert not (driver.campaign_root / "luna-stage-terminal.json").exists()
+
+    with tempfile.TemporaryDirectory(prefix="b3v4-luna-finalize-early-") as tmp:
+        driver = make_driver(module, tmp, scored_outcome)
+        for _ in range(5):
+            driver.run_next()
+        expect_error("exact declared prefix", driver.finalize_luna_stage)
+        assert not (driver.campaign_root / "b3v4-luna-result.json").exists()
+
+    with tempfile.TemporaryDirectory(prefix="b3v4-luna-finalize-") as tmp:
+        def pass_with_host_custody(context):
+            retained = context.attempt_root / "host-custody" / "retained"
+            retained.mkdir(parents=True)
+            (retained / "evidence.bin").write_bytes(
+                f"mission-{context.mission['index']}\n".encode())
+            return scored_outcome(context)
+
+        driver = make_driver(module, tmp, pass_with_host_custody)
+        for _ in range(6):
+            driver.run_next()
+        independent_path = write_independent_result(driver)
+        result = driver.finalize_luna_stage()
+        assert result["schema"] == "implementaudit-b3v4-luna-result-v2"
+        assert result["disposition"] == "INCOMPLETE_PENDING_OPUS"
+        assert result["luna_stage_accepted"] is True
+        assert result["accepted"] is False
+        assert result["mission_count"] == 6
+        assert result["claims"] == FINAL_CLAIMS
+        assert independent_path.is_file()
+        assert (driver.campaign_root / "b3v4-luna-result.json").is_file()
+        assert (driver.campaign_root / "luna-stage-terminal.json").is_file()
+        driver.validate_luna_stage()
+        expect_error("already exists", driver.finalize_luna_stage)
+        first = driver.campaign_root / "attempt-000-L-candidate-r1"
+        (first / "host-custody" / "retained" / "evidence.bin").write_bytes(
+            b"post-terminal mutation\n")
+        expect_error("snapshot", driver.validate_luna_stage)
+
+    with tempfile.TemporaryDirectory(prefix="b3v4-luna-disagreement-") as tmp:
+        driver = make_driver(module, tmp, scored_outcome)
+        for _ in range(6):
+            driver.run_next()
+        write_independent_result(driver, disagree_at=2)
+        expect_error("disagree", driver.finalize_luna_stage)
+        assert not (driver.campaign_root / "b3v4-luna-result.json").exists()
+        assert not (driver.campaign_root / "luna-stage-terminal.json").exists()
+
+    with tempfile.TemporaryDirectory(prefix="b3v4-luna-claiming-") as tmp:
+        driver = make_driver(module, tmp, scored_outcome)
+        for _ in range(6):
+            driver.run_next()
+        write_independent_result(driver)
+        (driver.campaign_root / "attempt-005-L-candidate-r3.claiming").mkdir()
+        expect_error("claim", driver.finalize_luna_stage)
+
+    with tempfile.TemporaryDirectory(prefix="b3v4-luna-gap-") as tmp:
+        driver = make_driver(module, tmp, scored_outcome)
+        for _ in range(6):
+            driver.run_next()
+        write_independent_result(driver)
+        shutil.rmtree(driver.campaign_root / "attempt-003-L-candidate-r2")
+        expect_error("gap", driver.finalize_luna_stage)
+
+    with tempfile.TemporaryDirectory(prefix="b3v4-luna-seventh-") as tmp:
+        driver = make_driver(module, tmp, scored_outcome)
+        for _ in range(6):
+            driver.run_next()
+        write_independent_result(driver)
+        (driver.campaign_root / "attempt-006-L-candidate-r4").mkdir()
+        expect_error("unexpected", driver.finalize_luna_stage)
+
+    with tempfile.TemporaryDirectory(prefix="b3v4-luna-fail-stop-") as tmp:
+        driver = make_driver(
+            module, tmp,
+            lambda context: scored_outcome(
+                context, "FAIL", product="FAIL", host="PASS"))
+        terminal = driver.run_next()
+        assert terminal["overall_status"] == "FAIL"
+        assert terminal["stop_reason"] == "failed-mission-halts-campaign"
+        expect_error("stopped campaign", driver.run_next)
+        expect_error("stopped prefix", driver.finalize_luna_stage)
 
     with tempfile.TemporaryDirectory(prefix="b3v4-campaign-") as tmp:
         def substitute(context):

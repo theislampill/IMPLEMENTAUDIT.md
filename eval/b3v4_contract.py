@@ -13,17 +13,22 @@ import campaign_lifecycle as lifecycle
 
 HERE = pathlib.Path(__file__).resolve().parent
 DECLARATION_PATH = HERE / "b3v4_contract.json"
-DECLARATION_SHA256 = "4909f2e3b5ec9ba2188594f8e9669b8ea717ed1ecacff2dfa927395689b68495"
+DECLARATION_SHA256 = "cf88f4ca6ce9fa2561a91fcc662ac6e802661175fdc8d5af0041c7e838d5431f"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 FREEZE_FIELDS = {
     "schema", "campaign", "state", "artifact_contract", "foundation",
     "fixture", "artifacts", "candidate", "control", "configurations",
-    "authorization", "seed", "repetitions_per_configuration_and_arm",
-    "missions", "evidence_profiles", "result_composition", "attempt_policy",
+    "authorization", "seed", "repetitions_per_arm", "missions",
+    "luna_stage", "evidence_profiles", "result_composition", "attempt_policy",
     "acceptance_rule", "invalid_error_rule", "stop_conditions",
     "independent_rederiver",
 }
+PLAN = [
+    ("L", "candidate", 1), ("L", "control", 1),
+    ("L", "control", 2), ("L", "candidate", 2),
+    ("L", "control", 3), ("L", "candidate", 3),
+]
 
 
 def decode_json_bytes(data, owner, *, require_object=False):
@@ -152,7 +157,7 @@ def validate_declaration(value):
     value = _exact(value, {"schema", "contract_id", "encoding", "execution",
                            "artifacts", "lifecycle_schemas"},
                    "artifact contract")
-    if value["schema"] != "implementaudit-b3v4-artifact-contract-v1":
+    if value["schema"] != "implementaudit-b3v4-luna-artifact-contract-v2":
         raise ValueError("artifact contract schema invalid")
     encoding = _exact(value["encoding"], {"charset", "duplicate_keys",
                       "non_finite_numbers", "object_keys", "scalar_types",
@@ -186,11 +191,11 @@ def validate_declaration(value):
 
 def validate_freeze_envelope(packet):
     packet = _exact(packet, FREEZE_FIELDS, "freeze packet")
-    if packet["schema"] != "implementaudit-b3v4-campaign-freeze-v1":
+    if packet["schema"] != "implementaudit-b3v4-luna-campaign-freeze-v2":
         raise ValueError("freeze packet schema invalid")
     contract = _exact(packet["artifact_contract"], {"schema", "path", "sha256"},
                       "artifact_contract")
-    if contract["schema"] != "implementaudit-b3v4-artifact-contract-v1":
+    if contract["schema"] != "implementaudit-b3v4-luna-artifact-contract-v2":
         raise ValueError("artifact contract schema invalid")
     if contract["path"] != "eval/b3v4_contract.json":
         raise ValueError("artifact contract path invalid")
@@ -224,9 +229,9 @@ def validate_freeze_envelope(packet):
     if packet["candidate"] == packet["control"]:
         raise ValueError("candidate and control identities must be distinct")
     configurations = packet["configurations"]
-    if type(configurations) is not dict or set(configurations) != {"L", "O"}:
+    if type(configurations) is not dict or set(configurations) != {"L"}:
         raise ValueError("configurations key set invalid")
-    expected_hosts = {"L": "WSL Ubuntu Codex CLI", "O": "Windows Claude CLI"}
+    expected_hosts = {"L": "WSL Ubuntu Codex CLI"}
     config_fields = {"host", "model_requested", "model_resolved_required",
                      "reasoning_effort", "auth_mode", "executable",
                      "host_attestation"}
@@ -234,6 +239,11 @@ def validate_freeze_envelope(packet):
         row = _exact(row, config_fields, f"configuration {name}")
         if row["host"] != expected_hosts[name]:
             raise ValueError(f"configuration {name} host invalid")
+        if (row["model_requested"] != "gpt-5.6-luna" or
+                row["model_resolved_required"] != "gpt-5.6-luna" or
+                row["reasoning_effort"] != "max" or
+                row["auth_mode"] != "chatgpt-subscription"):
+            raise ValueError(f"configuration {name} identity/auth boundary drift")
         executable = _exact(row["executable"], {"path", "version", "sha256"},
                             f"configuration {name} executable")
         for key in ("path", "version"):
@@ -254,28 +264,47 @@ def validate_freeze_envelope(packet):
         raise ValueError("authorization metered_api_spend invalid")
     if type(packet["seed"]) is not int or packet["seed"] != 20260718:
         raise ValueError("seed invalid")
-    if (type(packet["repetitions_per_configuration_and_arm"]) is not int or
-            packet["repetitions_per_configuration_and_arm"] != 3):
+    if (type(packet["repetitions_per_arm"]) is not int or
+            packet["repetitions_per_arm"] != 3):
         raise ValueError("repetition count invalid")
     missions = packet["missions"]
-    if type(missions) is not list or len(missions) != 12:
+    if type(missions) is not list or len(missions) != len(PLAN):
         raise ValueError("mission plan invalid")
     for index, mission in enumerate(missions):
         mission = _exact(mission, {"index", "config", "arm", "rep"}, f"mission {index}")
         if type(mission["index"]) is not int or mission["index"] != index:
             raise ValueError("mission order index invalid")
-        if mission["config"] not in ("L", "O") or mission["arm"] not in ("candidate", "control"):
+        if (type(mission["config"]) is not str or
+                mission["config"] != "L" or
+                type(mission["arm"]) is not str or
+                mission["arm"] not in ("candidate", "control")):
             raise ValueError("mission enum invalid")
         if type(mission["rep"]) is not int or mission["rep"] not in (1, 2, 3):
             raise ValueError("mission rep invalid")
+        if (mission["config"], mission["arm"], mission["rep"]) != PLAN[index]:
+            raise ValueError("mission plan invalid")
+    stage = _exact(packet["luna_stage"], {
+        "schema", "name", "mission_count", "terminal_name",
+        "official_result_name", "independent_result_name",
+        "success_disposition"}, "luna_stage")
+    if stage != {
+            "schema": "implementaudit-b3v4-luna-stage-v2",
+            "name": "LUNA", "mission_count": 6,
+            "terminal_name": "luna-stage-terminal.json",
+            "official_result_name": "b3v4-luna-result.json",
+            "independent_result_name":
+                "b3v4-luna-independent-rederivation.json",
+            "success_disposition": "INCOMPLETE_PENDING_OPUS"}:
+        raise ValueError("luna_stage boundary drift")
     _exact(packet["evidence_profiles"], {
         "formal_host_read", "raw_stdout", "native_session", "pre_spawn",
         "post_mission_manifest"}, "evidence_profiles")
     _exact(packet["result_composition"], {
-        "product_property_states", "host_states", "overall_states"},
-        "result_composition")
+        "product_property_states", "host_states", "overall_states",
+        "luna_stage_dispositions"}, "result_composition")
     _exact(packet["attempt_policy"], {
-        "silent_retry", "preserve_every_attempt"}, "attempt_policy")
+        "silent_retry", "preserve_every_attempt", "maximum_attempts"},
+        "attempt_policy")
     rederiver = _exact(packet["independent_rederiver"], {
         "contract_id", "implementation_identity", "must_not_import", "input",
         "output"}, "independent_rederiver")
@@ -292,17 +321,18 @@ def validate_artifact(name, value):
     value = _exact(value, fields, name)
     schema = value.get("schema")
     expected = {
-        "campaign_manifest": "implementaudit-b3v4-campaign-custody-v1",
-        "attempt_status": "implementaudit-b3v4-attempt-status-v1",
-        "attempt_terminal": "implementaudit-b3v4-attempt-terminal-v1",
+        "campaign_manifest": "implementaudit-b3v4-luna-campaign-custody-v2",
+        "attempt_status": "implementaudit-b3v4-luna-attempt-status-v2",
+        "attempt_terminal": "implementaudit-b3v4-luna-attempt-terminal-v2",
+        "official_luna_result": "implementaudit-b3v4-luna-result-v2",
     }[name]
     if schema != expected:
         raise ValueError(f"{name} schema invalid")
-    if name in ("campaign_manifest", "attempt_status"):
+    if name in ("campaign_manifest", "attempt_status", "official_luna_result"):
         for key in ("freeze_sha256", "contract_sha256"):
             _digest(value[key], f"{name}.{key}")
     if name == "campaign_manifest":
-        if value["execution_stage"] != "LUNA_THEN_OPUS_UNCHANGED_PACKET":
+        if value["execution_stage"] != "LUNA":
             raise ValueError("campaign manifest execution stage invalid")
     if name == "attempt_status":
         validate_mission(value["mission"])
@@ -317,13 +347,13 @@ def validate_artifact(name, value):
         if binding["path"] != "host-attestation.json":
             raise ValueError("attempt status host attestation path invalid")
         _digest(binding["sha256"], "attempt status host attestation sha256")
-        if binding["config"] not in ("L", "O"):
+        if binding["config"] != "L":
             raise ValueError("attempt status host attestation config invalid")
         _string(binding["host"], "attempt status host attestation host")
         _string(binding["model_resolved_required"],
                 "attempt status host attestation model")
     if name == "attempt_terminal":
-        if type(value["mission_index"]) is not int or not 0 <= value["mission_index"] < 12:
+        if type(value["mission_index"]) is not int or not 0 <= value["mission_index"] < 6:
             raise ValueError("attempt terminal mission index invalid")
         if value["overall_status"] not in ("PASS", "FAIL", "INVALID", "ERROR"):
             raise ValueError("attempt terminal overall status invalid")
@@ -331,8 +361,21 @@ def validate_artifact(name, value):
             raise ValueError("attempt terminal official status invalid")
         if value["official_verdict_sha256"] is not None:
             _digest(value["official_verdict_sha256"], "attempt terminal verdict sha256")
-    _string(value["created_at"] if name != "attempt_terminal" else value["completed_at"],
-            f"{name} timestamp")
+    if name == "official_luna_result":
+        if (value["disposition"] != "INCOMPLETE_PENDING_OPUS" or
+                value["luna_stage_accepted"] is not True or
+                value["accepted"] is not False or
+                type(value["mission_count"]) is not int or
+                value["mission_count"] != 6 or
+                type(value["missions"]) is not list or
+                len(value["missions"]) != 6 or
+                type(value["luna_identity"]) is not dict or
+                type(value["independent_rederivation"]) is not dict or
+                type(value["claims"]) is not dict):
+            raise ValueError("official Luna result boundary invalid")
+    else:
+        _string(value["created_at"] if name != "attempt_terminal" else value["completed_at"],
+                f"{name} timestamp")
     return value
 
 
@@ -353,9 +396,9 @@ def validate_host_attestation(value):
 
 def validate_mission(mission):
     mission = _exact(mission, {"index", "config", "arm", "rep"}, "mission")
-    if type(mission["index"]) is not int or not 0 <= mission["index"] < 12:
+    if type(mission["index"]) is not int or not 0 <= mission["index"] < 6:
         raise ValueError("mission index invalid")
-    if mission["config"] not in ("L", "O") or mission["arm"] not in ("candidate", "control"):
+    if mission["config"] != "L" or mission["arm"] not in ("candidate", "control"):
         raise ValueError("mission enum invalid")
     if type(mission["rep"]) is not int or mission["rep"] not in (1, 2, 3):
         raise ValueError("mission rep invalid")
@@ -369,7 +412,7 @@ def next_mission(plan, completed):
 
 
 def campaign_complete(plan, completed):
-    return completed == plan and {m["config"] for m in completed} == {"L", "O"}
+    return completed == plan and {m["config"] for m in completed} == {"L"}
 
 
 validate_declaration(_declaration())

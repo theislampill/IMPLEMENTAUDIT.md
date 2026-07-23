@@ -18,42 +18,43 @@ SHA256 = re.compile(r"^[0-9a-f]{64}$")
 GIT_ID = re.compile(r"^[0-9a-f]{40}$")
 PLAN = [
     ("L", "candidate", 1), ("L", "control", 1),
-    ("O", "control", 1), ("O", "candidate", 1),
-    ("O", "candidate", 2), ("O", "control", 2),
     ("L", "control", 2), ("L", "candidate", 2),
     ("L", "control", 3), ("L", "candidate", 3),
-    ("O", "candidate", 3), ("O", "control", 3),
 ]
 FORMAL_HOST_READ_PROFILE = "implementaudit-host-read-profile-v2"
 ACCEPTANCE_RULE = (
-    "all 12 missions terminal; independent rederivation agrees with every "
+    "all six Luna missions terminal and PASS; independent Luna rederivation "
+    "agrees with every "
     "stored property, host, and overall result; property evidence complete "
     "in every verdict; host status PASS in every mission; zero "
     "INVALID/ERROR; zero model substitution; exact candidate, control, "
     "model, host, fixture, scorer, evaluator, bundle, runner, and rederiver "
-    "identities"
+    "identities; successful Luna stage is INCOMPLETE_PENDING_OPUS with "
+    "luna_stage_accepted true and accepted false"
 )
 INVALID_ERROR_RULE = (
-    "INVALID and ERROR are never product PASS; halt campaign and preserve "
-    "every attempt"
+    "FAIL, INVALID, unexplained ERROR, substitution, disagreement, and "
+    "custody or identity failure halt the Luna stage and preserve every attempt"
 )
 STOP_CONDITIONS = [
     "authentication or quota failure",
     "model substitution",
     "identity or custody mismatch",
-    "any INVALID or ERROR",
+    "any FAIL, INVALID, or unexplained ERROR",
+    "official and independent disagreement",
     "frozen input drift",
 ]
-REDERIVER_CONTRACT = "implementaudit-b3v4-independent-rederiver-v1"
+REDERIVER_CONTRACT = "implementaudit-b3v4-luna-independent-rederiver-v2"
 REDERIVER_IMPORT_BOUNDARY = [
-    "eval.hosts", "eval.runner", "eval.lib.scoring",
+    "eval.b3v4_campaign", "eval.hosts", "eval.runner", "eval.lib.scoring",
+    "eval.adapters", "eval.campaign_lifecycle",
 ]
 REDERIVER_INPUT = "retained raw evidence only"
-REDERIVER_OUTPUT = "per-mission property, host, and overall rederivation"
+REDERIVER_OUTPUT = "independent Luna stage result"
 REQUIRED = {
     "schema", "campaign", "state", "artifact_contract", "foundation", "fixture", "artifacts",
     "candidate", "control", "configurations", "authorization", "seed",
-    "repetitions_per_configuration_and_arm", "missions", "evidence_profiles",
+    "repetitions_per_arm", "missions", "luna_stage", "evidence_profiles",
     "result_composition", "attempt_policy", "acceptance_rule",
     "invalid_error_rule", "stop_conditions", "independent_rederiver",
 }
@@ -112,10 +113,10 @@ def validate_structure(packet):
     contract.validate_freeze_envelope(packet)
     packet = _mapping(packet, "packet")
     _required(packet, REQUIRED, "packet")
-    if packet["schema"] != "implementaudit-b3v4-campaign-freeze-v1":
+    if packet["schema"] != "implementaudit-b3v4-luna-campaign-freeze-v2":
         raise ValueError("unsupported B3-v4 freeze schema")
-    if packet["campaign"] != "b3v4-sol-r1":
-        raise ValueError("campaign must be b3v4-sol-r1")
+    if packet["campaign"] != "b3v4-sol-luna-r2":
+        raise ValueError("campaign must be b3v4-sol-luna-r2")
     if packet["state"] != "FROZEN_BEFORE_FIRST_MISSION":
         raise ValueError("state must freeze the packet before the first mission")
 
@@ -149,12 +150,11 @@ def validate_structure(packet):
         _digest(item["payload_sha256"], f"{arm}.payload_sha256")
 
     configurations = _mapping(packet["configurations"], "configurations")
-    if set(configurations) != {"L", "O"}:
-        raise ValueError("configurations must contain exactly L and O")
+    if set(configurations) != {"L"}:
+        raise ValueError("configurations must contain exactly Luna configuration L")
     expected = {
         "L": ("gpt-5.6-luna", "gpt-5.6-luna", "max",
               "chatgpt-subscription"),
-        "O": ("opus", "claude-opus-4-8", "high", "claude.ai-max"),
     }
     for name, values in expected.items():
         item = _mapping(configurations[name], f"configurations.{name}")
@@ -196,7 +196,7 @@ def validate_structure(packet):
 
     if packet["seed"] != 20260718:
         raise ValueError("seed drift")
-    if packet["repetitions_per_configuration_and_arm"] != 3:
+    if packet["repetitions_per_arm"] != 3:
         raise ValueError("repetition count drift")
     missions = packet["missions"]
     observed_plan = [
@@ -205,8 +205,22 @@ def validate_structure(packet):
     ] if isinstance(missions, list) else []
     indices = [row.get("index") for row in missions
                if isinstance(row, dict)] if isinstance(missions, list) else []
-    if observed_plan != PLAN or indices != list(range(12)):
-        raise ValueError("fixed 12-mission order drift")
+    if observed_plan != PLAN or indices != list(range(6)):
+        raise ValueError("fixed six-mission order drift")
+
+    stage = _mapping(packet["luna_stage"], "luna_stage")
+    _required(stage, {"schema", "name", "mission_count", "terminal_name",
+                      "official_result_name", "independent_result_name",
+                      "success_disposition"}, "luna_stage")
+    if stage != {
+            "schema": "implementaudit-b3v4-luna-stage-v2",
+            "name": "LUNA", "mission_count": 6,
+            "terminal_name": "luna-stage-terminal.json",
+            "official_result_name": "b3v4-luna-result.json",
+            "independent_result_name":
+                "b3v4-luna-independent-rederivation.json",
+            "success_disposition": "INCOMPLETE_PENDING_OPUS"}:
+        raise ValueError("luna_stage boundary drift")
 
     profiles = _mapping(packet["evidence_profiles"], "evidence_profiles")
     _required(profiles, {"formal_host_read", "raw_stdout", "native_session",
@@ -226,12 +240,17 @@ def validate_structure(packet):
         raise ValueError("overall state composition drift")
     if composition.get("host_states") != ["PASS", "INVALID", "ERROR", "SUBSTITUTION"]:
         raise ValueError("host state composition drift")
+    if composition.get("luna_stage_dispositions") != ["INCOMPLETE_PENDING_OPUS"]:
+        raise ValueError("Luna stage disposition composition drift")
 
     attempts = _mapping(packet["attempt_policy"], "attempt_policy")
     if attempts.get("silent_retry") != "FORBIDDEN":
         raise ValueError("attempt_policy.silent_retry must be FORBIDDEN")
     if attempts.get("preserve_every_attempt") is not True:
         raise ValueError("attempt_policy must preserve every attempt")
+    if type(attempts.get("maximum_attempts")) is not int or \
+            attempts["maximum_attempts"] != 6:
+        raise ValueError("attempt_policy.maximum_attempts must be six")
 
     if packet["acceptance_rule"] != ACCEPTANCE_RULE:
         raise ValueError("frozen packet drift: acceptance_rule")

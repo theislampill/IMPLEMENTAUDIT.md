@@ -50,14 +50,14 @@ def lifecycle_rows(packet):
     digest = "a" * 64
     return {
         "campaign_manifest": {
-            "schema": "implementaudit-b3v4-campaign-custody-v1",
-            "campaign": "b3v4-sol-r1", "freeze_sha256": digest,
+            "schema": "implementaudit-b3v4-luna-campaign-custody-v2",
+            "campaign": "b3v4-sol-luna-r2", "freeze_sha256": digest,
             "contract_sha256": digest, "created_at": "2030-01-01T00:00:00Z",
-            "execution_stage": "LUNA_THEN_OPUS_UNCHANGED_PACKET",
+            "execution_stage": "LUNA",
         },
         "attempt_status": {
-            "schema": "implementaudit-b3v4-attempt-status-v1",
-            "campaign": "b3v4-sol-r1", "freeze_sha256": digest,
+            "schema": "implementaudit-b3v4-luna-attempt-status-v2",
+            "campaign": "b3v4-sol-luna-r2", "freeze_sha256": digest,
             "contract_sha256": digest, "mission": mission,
             "state": "PREPARED_BEFORE_HOST_SPAWN", "execution_mode": "test",
             "created_at": "2030-01-01T00:00:00Z",
@@ -70,8 +70,8 @@ def lifecycle_rows(packet):
             },
         },
         "attempt_terminal": {
-            "schema": "implementaudit-b3v4-attempt-terminal-v1",
-            "campaign": "b3v4-sol-r1", "mission_index": 0,
+            "schema": "implementaudit-b3v4-luna-attempt-terminal-v2",
+            "campaign": "b3v4-sol-luna-r2", "mission_index": 0,
             "execution_mode": "test", "overall_status": "ERROR",
             "resolved_model": None, "host_run_root": None,
             "official_overall_status": None,
@@ -110,6 +110,7 @@ def main():
         "run_intent", "process_started", "host_stdout", "host_session",
         "host_tool_trace", "host_read_matrix", "host_read_post_probe",
         "host_read_terminal", "host_checks", "host_check_inputs",
+        "official_luna_result", "luna_stage_terminal",
         "independent_rederivation",
     }
     declaration_mutations = []
@@ -135,7 +136,7 @@ def main():
 
     packet = valid_packet()
     packet["artifact_contract"] = {
-        "schema": "implementaudit-b3v4-artifact-contract-v1",
+        "schema": "implementaudit-b3v4-luna-artifact-contract-v2",
         "path": "eval/b3v4_contract.json",
         "sha256": contract.contract_sha256(),
     }
@@ -150,10 +151,8 @@ def main():
         ("configurations", "L"),
         ("configurations", "L", "executable"),
         ("configurations", "L", "host_attestation"),
-        ("configurations", "O"),
-        ("configurations", "O", "executable"),
-        ("configurations", "O", "host_attestation"),
-        ("authorization",), ("missions", 0), ("evidence_profiles",),
+        ("authorization",), ("missions", 0), ("luna_stage",),
+        ("evidence_profiles",),
         ("result_composition",), ("attempt_policy",),
         ("independent_rederiver",),
         ("independent_rederiver", "implementation_identity"),
@@ -294,7 +293,8 @@ def main():
     rejected("order", lambda: contract.next_mission(
         packet["missions"], [packet["missions"][1]]))
     luna_prefix = [m for m in packet["missions"] if m["config"] == "L"]
-    assert not contract.campaign_complete(packet["missions"], luna_prefix)
+    assert luna_prefix == packet["missions"]
+    assert contract.campaign_complete(packet["missions"], luna_prefix)
     assert contract.campaign_complete(packet["missions"], packet["missions"])
 
     tree = ast.parse((HERE / "b3v4_rederive.py").read_text(encoding="utf-8"))

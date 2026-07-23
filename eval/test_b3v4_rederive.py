@@ -136,11 +136,11 @@ def build_campaign(root, fixture_override=None):
     freeze_sha = sha(packet_bytes)
     write(root / "campaign-freeze.json", packet_bytes)
     write(root / "campaign-manifest.json", {
-        "schema": "implementaudit-b3v4-campaign-custody-v1",
-        "campaign": "b3v4-sol-r1", "freeze_sha256": freeze_sha,
+        "schema": "implementaudit-b3v4-luna-campaign-custody-v2",
+        "campaign": "b3v4-sol-luna-r2", "freeze_sha256": freeze_sha,
         "contract_sha256": packet["artifact_contract"]["sha256"],
         "created_at": "2030-01-01T00:00:00Z",
-        "execution_stage": "LUNA_THEN_OPUS_UNCHANGED_PACKET",
+        "execution_stage": "LUNA",
     })
     capsule_path = fixture["allowed_paths"][0]
     capsule = {
@@ -175,8 +175,8 @@ def build_campaign(root, fixture_override=None):
         write(attempt / "host-attestation.json", attestation_bytes)
         adapter = "codex-cli" if mission["config"] == "L" else "claude-cli"
         write(attempt / "attempt-status.json", {
-            "schema": "implementaudit-b3v4-attempt-status-v1",
-            "campaign": "b3v4-sol-r1", "freeze_sha256": freeze_sha,
+            "schema": "implementaudit-b3v4-luna-attempt-status-v2",
+            "campaign": "b3v4-sol-luna-r2", "freeze_sha256": freeze_sha,
             "contract_sha256": packet["artifact_contract"]["sha256"],
             "mission": mission, "state": "PREPARED_BEFORE_HOST_SPAWN",
             "execution_mode": "production", "created_at": "2030-01-01T00:00:00Z",
@@ -187,8 +187,8 @@ def build_campaign(root, fixture_override=None):
             },
         })
         attempt_terminal = {
-            "schema": "implementaudit-b3v4-attempt-terminal-v1",
-            "campaign": "b3v4-sol-r1", "mission_index": mission["index"],
+            "schema": "implementaudit-b3v4-luna-attempt-terminal-v2",
+            "campaign": "b3v4-sol-luna-r2", "mission_index": mission["index"],
             "execution_mode": "production", "overall_status": "PASS",
             "resolved_model": model, "host_run_root": str(host_root),
             "official_overall_status": None,
@@ -574,8 +574,13 @@ def assert_independent_import_boundary():
         elif isinstance(node, ast.ImportFrom) and node.module:
             imports.append(node.module)
     forbidden = {
-        "eval.hosts", "eval.runner", "eval.lib.scoring",
+        "eval.b3v4_campaign", "b3v4_campaign",
+        "eval.hosts", "hosts", "eval.runner", "runner",
+        "eval.lib.scoring", "lib.scoring",
+        "eval.adapters", "adapters",
+        "eval.campaign_lifecycle", "campaign_lifecycle",
         "eval.validate_b3v4_freeze", "validate_b3v4_freeze",
+        "eval.b3v4_contract", "b3v4_contract",
     }
     assert not forbidden.intersection(imports), imports
 
@@ -860,9 +865,6 @@ def assert_retained_schema_matrix(module):
             ("codex-profile-executable", 0,
              "artifacts/host-read-profile.json", ("executables", "cat"),
              "kind", True, False, None),
-            ("claude-profile-native-tools", 2,
-             "artifacts/host-read-profile.json", ("native_tools",),
-             "requested", True, False, None),
             ("host-preimages", 0, "artifacts/host-read-preimages.json", (),
              "schema", True, False, None),
             ("host-preimages-repo", 0,
@@ -893,17 +895,6 @@ def assert_retained_schema_matrix(module):
              "timestamp", True, False, 0),
             ("codex-session-payload", 0, "artifacts/host-session.raw",
              ("payload",), "cwd", True, False, 0),
-            ("claude-stdout-row", 2, "artifacts/host-stdout.raw", (),
-             "session_id", True, False, 0),
-            ("claude-message", 2, "artifacts/host-stdout.raw", ("message",),
-             "content", True, False, 1),
-            ("claude-tool-use", 2, "artifacts/host-stdout.raw",
-             ("message", "content", 0), "name", True, False, 1),
-            ("claude-tool-input", 2, "artifacts/host-stdout.raw",
-             ("message", "content", 0, "input"), "file_path",
-             True, False, 1),
-            ("claude-session-row", 2, "artifacts/host-session.raw", (),
-             "action_ids", True, False, 0),
         ]
         accepted = []
         for label, attempt_index, relative, object_path, required_key, \
@@ -932,9 +923,9 @@ def assert_retained_schema_matrix(module):
                 rebind_bundle_and_official(root, bundle, capture=capture)
                 result = module.rederive_campaign(
                     root / "campaign-freeze.json", root)
-                if result["campaign_status"] != "INVALID":
+                if result["luna_stage_status"] != "INVALID":
                     accepted.append(
-                        f"{label}:{mode}={result['campaign_status']}")
+                        f"{label}:{mode}={result['luna_stage_status']}")
 
         fixture_cases = [
             ("fixture-root", (), "title"),
@@ -962,9 +953,9 @@ def assert_retained_schema_matrix(module):
                 build_campaign(root, fixture_override=fixture)
                 result = module.rederive_campaign(
                     root / "campaign-freeze.json", root)
-                if result["campaign_status"] != "INVALID":
+                if result["luna_stage_status"] != "INVALID":
                     accepted.append(
-                        f"{label}:{mode}={result['campaign_status']}")
+                        f"{label}:{mode}={result['luna_stage_status']}")
 
         for mode in ("extra", "missing"):
             root = pathlib.Path(tmp) / f"case-host-terminal-{mode}"
@@ -975,9 +966,9 @@ def assert_retained_schema_matrix(module):
             mutate_mapping(parent_path, (), mode, "policy_resolved")
             result = module.rederive_campaign(
                 root / "campaign-freeze.json", root)
-            if result["campaign_status"] != "INVALID":
+            if result["luna_stage_status"] != "INVALID":
                 accepted.append(
-                    f"host-terminal:{mode}={result['campaign_status']}")
+                    f"host-terminal:{mode}={result['luna_stage_status']}")
 
         contract = json.loads((HERE / "b3v4_contract.json").read_text(
             encoding="utf-8"))
@@ -1050,8 +1041,9 @@ def assert_host_attestation_custody_matrix(module):
                     write(bound_path, bound)
                 rebind_freeze(root, packet)
             elif label == "substituted":
-                other = root / "attempt-002-O-control-r1" / "host-attestation.json"
-                raw = other.read_bytes()
+                raw = encoded({
+                    "id": "substituted-host", "shell_dialect": "posix",
+                    "executables": {"cat": "posix:cat"}})
                 write(attestation_path, raw)
                 status["host_attestation_binding"]["sha256"] = sha(raw)
                 write(status_path, status)
@@ -1075,8 +1067,8 @@ def assert_host_attestation_custody_matrix(module):
                     root / "campaign-freeze.json", root)
             except module.EvidenceInvalid:
                 continue
-            if result["campaign_status"] != "INVALID" or result["accepted"]:
-                accepted.append(f"{label}={result['campaign_status']}")
+            if result["luna_stage_status"] != "INVALID" or result["accepted"]:
+                accepted.append(f"{label}={result['luna_stage_status']}")
     assert not accepted, (
         "rederiver accepted host attestation custody mutations: " +
         ", ".join(accepted))
@@ -1103,7 +1095,7 @@ def assert_host_root_junction_rejected(module):
         try:
             result = module.rederive_campaign(root / "campaign-freeze.json", root)
             assert result["accepted"] is False, result
-            assert result["campaign_status"] == "INVALID", result
+            assert result["luna_stage_status"] == "INVALID", result
         finally:
             os.rmdir(host_root)
             shutil.move(str(outside), host_root)
@@ -1147,7 +1139,7 @@ def main():
                     if label == "campaign-manifest":
                         result = module.rederive_campaign(
                             root / "campaign-freeze.json", root)
-                        if result.get("accepted") is True:
+                        if result.get("luna_stage_accepted") is True:
                             accepted_aliases.append(label)
                     else:
                         module._read_bytes(target)
@@ -1190,12 +1182,12 @@ def main():
             (("control", "tree"), "short", "control.tree"),
             (("configurations", "L", "host"), "substitute",
              "configuration L"),
-            (("configurations", "O", "auth_mode"), "metered-api",
-             "configuration O"),
+            (("configurations",), {"L": packet["configurations"]["L"],
+                                    "O": {}}, "configuration"),
             (("authorization", "metered_api_spend"), "allowed",
              "metered_api_spend"),
             (("seed",), 0, "seed"),
-            (("repetitions_per_configuration_and_arm",), 1,
+            (("repetitions_per_arm",), 1,
              "repetition"),
             (("result_composition", "overall_states"), ["PASS"],
              "overall state"),
@@ -1230,13 +1222,13 @@ def main():
             ("seed-bool", "seed", True),
             ("seed-string", "seed", "20260718"),
             ("seed-null", "seed", None),
-            ("repetitions-float", "repetitions_per_configuration_and_arm",
+            ("repetitions-float", "repetitions_per_arm",
              3.0),
-            ("repetitions-bool", "repetitions_per_configuration_and_arm",
+            ("repetitions-bool", "repetitions_per_arm",
              True),
-            ("repetitions-string", "repetitions_per_configuration_and_arm",
+            ("repetitions-string", "repetitions_per_arm",
              "3"),
-            ("repetitions-null", "repetitions_per_configuration_and_arm",
+            ("repetitions-null", "repetitions_per_arm",
              None),
         ]
         for label, key, value in exact_integer_mutations:
@@ -1300,7 +1292,7 @@ def main():
                     f"{mission['arm']}-r{mission['rep']}")
             shutil.rmtree(root / name)
         prefix = module.rederive_campaign(root / "campaign-freeze.json", root)
-        assert prefix["campaign_status"] == "INCOMPLETE", prefix
+        assert prefix["luna_stage_status"] == "INCOMPLETE", prefix
         assert prefix["accepted"] is False and prefix["mission_count"] == 2
         (root / "unexpected-summary.json").write_text("{}", encoding="utf-8")
         try:
@@ -1318,7 +1310,7 @@ def main():
             stop_after_first(root, stopped_status)
             stopped = module.rederive_campaign(
                 root / "campaign-freeze.json", root)
-            assert stopped["campaign_status"] == stopped_status, stopped
+            assert stopped["luna_stage_status"] == stopped_status, stopped
             assert stopped["accepted"] is False
             assert stopped["mission_count"] == 1
 
@@ -1333,15 +1325,14 @@ def main():
         shutil.move(str(held), root / held.name)
         after_stop = module.rederive_campaign(
             root / "campaign-freeze.json", root)
-        assert after_stop["campaign_status"] == "INVALID", after_stop
+        assert after_stop["luna_stage_status"] == "INVALID", after_stop
         assert after_stop["accepted"] is False
         assert "after terminal stop" in after_stop["reason"]
 
     semantic_mutations = [
         "empty-matrix", "contradictory-matrix", "partial-post-probe",
         "arbitrary-native-session", "trace-raw-disagreement",
-        "codex-action-type-contradiction", "claude-missing-error-state",
-        "claude-cross-session", "repeated-distinct-write",
+        "codex-action-type-contradiction", "repeated-distinct-write",
     ]
     unexpected_passes = []
     for label in semantic_mutations:
@@ -1356,7 +1347,7 @@ def main():
             except module.EvidenceInvalid:
                 pass
             else:
-                if (result["campaign_status"] == "PASS" or
+                if (result["luna_stage_status"] == "PASS" or
                         result["accepted"] is True):
                     unexpected_passes.append(label)
     for label, mutate in (
@@ -1377,7 +1368,7 @@ def main():
             except module.EvidenceInvalid:
                 pass
             else:
-                if (result["campaign_status"] == "PASS" or
+                if (result["luna_stage_status"] == "PASS" or
                         result["accepted"] is True):
                     unexpected_passes.append(label)
     assert not unexpected_passes, (
@@ -1388,20 +1379,29 @@ def main():
         root = pathlib.Path(tmp) / "campaign"
         packet = build_campaign(root)
         result = module.rederive_campaign(root / "campaign-freeze.json", root)
-        assert result["campaign_status"] == "PASS", result
-        assert result["accepted"] is True
+        assert result["luna_stage_status"] == "PASS", result
+        assert result["disposition"] == "INCOMPLETE_PENDING_OPUS", result
+        assert result["luna_stage_accepted"] is True
+        assert result["accepted"] is False
         repeated = module.rederive_campaign(root / "campaign-freeze.json", root)
         assert repeated == result
         first_render = json.dumps(result, indent=1, sort_keys=True) + "\n"
         second_render = json.dumps(repeated, indent=1, sort_keys=True) + "\n"
         assert sha(first_render.encode()) == sha(second_render.encode())
         assert set(result) == {
-            "schema", "campaign", "freeze_sha256", "campaign_status",
-            "accepted", "mission_count", "missions"}
-        assert len(result["missions"]) == 12
+            "schema", "campaign", "freeze_sha256", "contract_sha256",
+            "luna_stage_status", "disposition", "luna_stage_accepted",
+            "accepted", "mission_count", "missions", "claims"}
+        assert result["schema"] == \
+            "implementaudit-b3v4-luna-independent-rederivation-v2"
+        assert result["claims"] == {
+            "final_12_of_12": False, "cross_model_qualified": False,
+            "release_authorized": False, "tag_authorized": False,
+            "publication_authorized": False}
+        assert len(result["missions"]) == 6
         assert all(row["product_status"] == "PASS" for row in result["missions"])
         assert all(len(row["properties"]) == 6 for row in result["missions"])
-
+        assert all(row["official_verdict_sha256"] for row in result["missions"])
         first = root / "attempt-000-L-candidate-r1"
         bundle = first / "host-custody" / first.name / "bundle"
         official_status, official_verdict = official_runner.score_bundle(
@@ -1419,8 +1419,22 @@ def main():
         write(terminal_path, terminal)
         counterexample = module.rederive_campaign(
             root / "campaign-freeze.json", root)
-        assert counterexample["campaign_status"] == "INVALID", counterexample
+        assert counterexample["luna_stage_status"] == "INVALID", counterexample
         assert counterexample["accepted"] is False
+
+    with tempfile.TemporaryDirectory(prefix="b3v4-rederive-output-") as tmp:
+        root = pathlib.Path(tmp) / "campaign"
+        build_campaign(root)
+        result = module.rederive_campaign(root / "campaign-freeze.json", root)
+        output = root / "b3v4-luna-independent-rederivation.json"
+        module.write_rederivation(output, result, root=root)
+        assert json.loads(output.read_text(encoding="utf-8")) == result
+        try:
+            module.write_rederivation(output, result, root=root)
+        except module.EvidenceInvalid as exc:
+            assert "already exists" in str(exc), str(exc)
+        else:
+            raise AssertionError("independent result overwrite was accepted")
 
     with tempfile.TemporaryDirectory(prefix="b3v4-rederive-") as tmp:
         root = pathlib.Path(tmp) / "campaign"
@@ -1441,7 +1455,7 @@ def main():
         write(terminal_path, terminal)
         counterexample = module.rederive_campaign(
             root / "campaign-freeze.json", root)
-        assert counterexample["campaign_status"] == "INVALID", counterexample
+        assert counterexample["luna_stage_status"] == "INVALID", counterexample
         assert counterexample["accepted"] is False
         assert "official property key set" in counterexample["missions"][0]["reason"]
 
@@ -1449,26 +1463,29 @@ def main():
         root = pathlib.Path(tmp) / "campaign"
         packet = build_campaign(root)
         result = module.rederive_campaign(root / "campaign-freeze.json", root)
-        assert result["campaign_status"] == "PASS", result
+        assert result["luna_stage_status"] == "PASS", result
 
         first = root / "attempt-000-L-candidate-r1"
         terminal_path = first / "attempt-terminal.json"
         terminal = json.loads(terminal_path.read_text(encoding="utf-8"))
         terminal["overall_status"] = "FAIL"
+        terminal["stop_reason"] = "failed-mission-halts-campaign"
         write(terminal_path, terminal)
         disagreement = module.rederive_campaign(root / "campaign-freeze.json", root)
-        assert disagreement["campaign_status"] == "INVALID", disagreement
+        assert disagreement["luna_stage_status"] == "INVALID", disagreement
         assert disagreement["accepted"] is False
         first_row = disagreement["missions"][0]
         assert first_row["overall_status"] == "INVALID"
         assert "disagree" in first_row["reason"]
+        assert "after terminal stop" in disagreement["reason"]
         terminal["overall_status"] = "PASS"
+        terminal["stop_reason"] = None
         write(terminal_path, terminal)
 
         terminal["resolved_model"] = "substituted-model"
         write(terminal_path, terminal)
         invalid = module.rederive_campaign(root / "campaign-freeze.json", root)
-        assert invalid["campaign_status"] == "INVALID"
+        assert invalid["luna_stage_status"] == "INVALID"
         assert invalid["accepted"] is False
         terminal["resolved_model"] = packet["configurations"]["L"]["model_resolved_required"]
         write(terminal_path, terminal)
@@ -1477,7 +1494,7 @@ def main():
                "host-session.raw")
         raw.write_bytes(b"tampered\n")
         invalid = module.rederive_campaign(root / "campaign-freeze.json", root)
-        assert invalid["campaign_status"] == "INVALID"
+        assert invalid["luna_stage_status"] == "INVALID"
         assert "hash" in invalid["missions"][0]["reason"]
 
     with tempfile.TemporaryDirectory(prefix="b3v4-rederive-") as tmp:
@@ -1504,7 +1521,7 @@ def main():
         rebind_capture(bundle)
         ambiguous = module.rederive_campaign(
             root / "campaign-freeze.json", root)
-        assert ambiguous["campaign_status"] == "INVALID", ambiguous["missions"][0]
+        assert ambiguous["luna_stage_status"] == "INVALID", ambiguous["missions"][0]
         assert ambiguous["accepted"] is False
         assert "duplicate key 'authority'" in ambiguous["missions"][0]["reason"]
 
@@ -1527,7 +1544,7 @@ def main():
             artifact_manifest_path.read_bytes())
         write(manifest_path, manifest)
         rebound = module.rederive_campaign(root / "campaign-freeze.json", root)
-        assert rebound["campaign_status"] == "INVALID", rebound
+        assert rebound["luna_stage_status"] == "INVALID", rebound
         assert "artifact set" in rebound["missions"][0]["reason"]
 
     with tempfile.TemporaryDirectory(prefix="b3v4-rederive-") as tmp:
@@ -1573,7 +1590,7 @@ def main():
         terminal["official_verdict_sha256"] = sha(verdict_path.read_bytes())
         write(terminal_path, terminal)
         falsified = module.rederive_campaign(root / "campaign-freeze.json", root)
-        assert falsified["campaign_status"] == "INVALID", falsified["missions"][0]
+        assert falsified["luna_stage_status"] == "INVALID", falsified["missions"][0]
         first_row = falsified["missions"][0]
         assert first_row["official_overall_status"] == "PASS"
         assert first_row["independent_overall_status"] == "FAIL"

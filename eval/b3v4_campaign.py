@@ -20,9 +20,17 @@ import validate_b3v4_freeze as freeze
 import b3v4_contract as contract
 
 
-STOP_STATES = frozenset({"INVALID", "ERROR"})
-CONTINUE_STATES = frozenset({"PASS", "FAIL"})
+STOP_STATES = frozenset({"FAIL", "INVALID", "ERROR"})
+CONTINUE_STATES = frozenset({"PASS"})
 OFFICIAL_STATES = CONTINUE_STATES | STOP_STATES
+SCORED_STATES = frozenset({"PASS", "FAIL"})
+FINAL_CLAIMS = {
+    "final_12_of_12": False,
+    "cross_model_qualified": False,
+    "release_authorized": False,
+    "tag_authorized": False,
+    "publication_authorized": False,
+}
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 VERIFIED_IDENTITIES = [
@@ -189,7 +197,7 @@ def _validate_official_verdict(verdict, fixture=None, *, packet=None,
     product_failed = next(
         (name for name in required_names
          if properties[name]["state"] == "FAIL"), None)
-    if overall in STOP_STATES:
+    if overall in ("INVALID", "ERROR"):
         failed_domain = ("infrastructure" if overall == "ERROR"
                          else "identity-custody-or-evidence")
         failed_invariant = ((host_failed or {}).get("gate") or
@@ -242,7 +250,7 @@ def _validate_official_verdict(verdict, fixture=None, *, packet=None,
                    "installed_payload_sha256", "adapter_sha256")
     commit_fields = ("product_commit", "product_tree", "harness_commit",
                      "scorer_commit")
-    if status in CONTINUE_STATES:
+    if status in SCORED_STATES:
         if (any(not _nonempty(verdict[field]) for field in (
                 "run_id", "fixture_id", "product_tag", "adapter_name",
                 "adapter_version", "model_requested", "model_resolved", "host",
@@ -351,7 +359,7 @@ def validate_runtime_identities(packet, *, candidate_checkout,
         payload = checkout / "skills" / "implementaudit"
         if adapters.payload_hash(str(payload)) != expected["payload_sha256"]:
             raise ValueError(f"{arm} payload identity drift")
-    for name in ("L", "O"):
+    for name in ("L",):
         executable = packet["configurations"][name]["executable"]
         path = contract.resolve_external_file(
             executable["path"], f"configuration {name} executable")
@@ -425,11 +433,11 @@ class CampaignDriver:
             with open(frozen, "xb") as stream:
                 stream.write(raw)
             _write_new_json(manifest, {
-                "schema": "implementaudit-b3v4-campaign-custody-v1",
-                "campaign": "b3v4-sol-r1", "freeze_sha256": packet_sha256,
+                "schema": "implementaudit-b3v4-luna-campaign-custody-v2",
+                "campaign": "b3v4-sol-luna-r2", "freeze_sha256": packet_sha256,
                 "contract_sha256": contract.contract_sha256(),
                 "created_at": _utc_now(),
-                "execution_stage": "LUNA_THEN_OPUS_UNCHANGED_PACKET",
+                "execution_stage": "LUNA",
             })
         if not frozen.is_file() or not manifest.is_file():
             raise ValueError("campaign custody is incomplete")
@@ -450,7 +458,10 @@ class CampaignDriver:
                 f"{mission['arm']}-r{mission['rep']}")
 
     def _next_mission(self, packet):
-        allowed_root = {"campaign-freeze.json", "campaign-manifest.json"}
+        allowed_root = {
+            "campaign-freeze.json", "campaign-manifest.json",
+            "b3v4-luna-independent-rederivation.json",
+            "b3v4-luna-result.json", "luna-stage-terminal.json"}
         allowed_root.update(self._attempt_name(m) for m in packet["missions"])
         allowed_root.update(self._attempt_name(m) + ".claiming"
                             for m in packet["missions"])
@@ -462,6 +473,12 @@ class CampaignDriver:
                   if not p.name.endswith(".claiming")}
         if actual - expected:
             raise ValueError("unexpected attempt custody entry")
+        stage_artifacts = {
+            "b3v4-luna-independent-rederivation.json",
+            "b3v4-luna-result.json", "luna-stage-terminal.json"}
+        if (stage_artifacts & {p.name for p in self.campaign_root.iterdir()} and
+                len(actual) != len(packet["missions"])):
+            raise ValueError("Luna stage artifact exists before six terminals")
         if list(self.campaign_root.glob("attempt-*.claiming")):
             raise ValueError("prior attempt is nonterminal")
         for mission in packet["missions"]:
@@ -505,7 +522,9 @@ class CampaignDriver:
                 raise ValueError("prior attempt stopped campaign")
             if overall not in CONTINUE_STATES:
                 raise ValueError("prior attempt has unsupported terminal state")
-        raise ValueError("campaign already contains all 12 attempts")
+        raise ValueError(
+            "campaign already contains all six Luna attempts; "
+            "finalize-luna-stage is required")
 
     def _load_host_attestation(self, mission, packet):
         config_name = mission["config"]
@@ -553,8 +572,8 @@ class CampaignDriver:
             stream.write(attestation_raw)
         config = packet["configurations"][mission["config"]]
         _write_new_json(claiming / "attempt-status.json", {
-            "schema": "implementaudit-b3v4-attempt-status-v1",
-            "campaign": "b3v4-sol-r1", "freeze_sha256": packet_sha256,
+            "schema": "implementaudit-b3v4-luna-attempt-status-v2",
+            "campaign": "b3v4-sol-luna-r2", "freeze_sha256": packet_sha256,
             "contract_sha256": contract.contract_sha256(),
             "mission": mission, "state": "PREPARED_BEFORE_HOST_SPAWN",
             "execution_mode": self.execution_mode, "created_at": _utc_now(),
@@ -599,8 +618,8 @@ class CampaignDriver:
             runtime_root=self.runtime_root, attestations=self.attestations,
             host_attestation=retained_attestation)
         terminal = {
-            "schema": "implementaudit-b3v4-attempt-terminal-v1",
-            "campaign": "b3v4-sol-r1", "mission_index": mission["index"],
+            "schema": "implementaudit-b3v4-luna-attempt-terminal-v2",
+            "campaign": "b3v4-sol-luna-r2", "mission_index": mission["index"],
             "execution_mode": self.execution_mode,
             "overall_status": None, "resolved_model": None,
             "host_run_root": None, "official_overall_status": None,
@@ -630,12 +649,12 @@ class CampaignDriver:
                 })
                 if claimed_status != official_status:
                     terminal["stop_reason"] = "executor-status-disagrees-with-official-verdict"
-                if (official_status in CONTINUE_STATES and
+                if (official_status in SCORED_STATES and
                         official_verdict.get("model_resolved") !=
                         terminal["resolved_model"]):
                     terminal["overall_status"] = "INVALID"
                     terminal["stop_reason"] = "official-model-identity-disagrees"
-            elif claimed_status in CONTINUE_STATES:
+            elif claimed_status in SCORED_STATES:
                 terminal["overall_status"] = "ERROR"
                 terminal["stop_reason"] = "official-verdict-missing"
             try:
@@ -644,7 +663,7 @@ class CampaignDriver:
                 terminal["overall_status"] = "INVALID"
                 terminal["stop_reason"] = "frozen-input-drift"
             resolved = terminal.get("resolved_model")
-            if (terminal.get("overall_status") in CONTINUE_STATES and
+            if (terminal.get("overall_status") in SCORED_STATES and
                     resolved != context.expected_model):
                 terminal["overall_status"] = "INVALID"
                 terminal["stop_reason"] = "model-substitution"
@@ -656,7 +675,10 @@ class CampaignDriver:
                 terminal["stop_reason"] = "unsupported-executor-result"
             elif terminal["overall_status"] in STOP_STATES:
                 if not terminal.get("stop_reason"):
-                    terminal["stop_reason"] = "invalid-or-error-halts-campaign"
+                    terminal["stop_reason"] = (
+                        "failed-mission-halts-campaign"
+                        if terminal["overall_status"] == "FAIL" else
+                        "invalid-or-error-halts-campaign")
         except Exception as exc:
             terminal.update({
                 "overall_status": "ERROR", "resolved_model": None,
@@ -672,6 +694,287 @@ class CampaignDriver:
         contract.validate_artifact("attempt_terminal", terminal)
         _write_new_json(attempt_root / "attempt-terminal.json", terminal)
         return terminal
+
+    @staticmethod
+    def _stage_root_policy(packet_raw, packet_sha256, manifest_identity,
+                           independent_raw, official_raw=None):
+        allowed = {
+            "campaign-freeze.json": {
+                "kind": "exact_bytes", "byte_length": len(packet_raw),
+                "sha256": packet_sha256},
+            "campaign-manifest.json": {
+                "kind": "json_identity", "identity": manifest_identity},
+        }
+        if independent_raw is not None:
+            allowed["b3v4-luna-independent-rederivation.json"] = {
+                "kind": "exact_bytes", "byte_length": len(independent_raw),
+                "sha256": _sha256_bytes(independent_raw)}
+        if official_raw is not None:
+            allowed["b3v4-luna-result.json"] = {
+                "kind": "exact_bytes", "byte_length": len(official_raw),
+                "sha256": _sha256_bytes(official_raw)}
+        return allowed
+
+    def _stage_descriptor(self, packet, packet_raw, packet_sha256,
+                          independent_raw=None, official_raw=None):
+        missions = []
+        for mission in packet["missions"]:
+            status_identity = {
+                "schema": "implementaudit-b3v4-luna-attempt-status-v2",
+                "campaign": packet["campaign"],
+                "freeze_sha256": packet_sha256,
+                "contract_sha256": packet["artifact_contract"]["sha256"],
+                "mission": mission,
+            }
+            terminal_identity = {
+                "schema": "implementaudit-b3v4-luna-attempt-terminal-v2",
+                "campaign": packet["campaign"],
+                "mission_index": mission["index"],
+            }
+            missions.append({
+                "attempt": self._attempt_name(mission),
+                "status_identity": status_identity,
+                "terminal_identity": terminal_identity,
+                "terminal_state_field": "overall_status",
+                "terminal_stop_reason_field": "stop_reason",
+                "allowed_attempt": {
+                    "attempt-status.json": {
+                        "kind": "json_identity", "identity": status_identity},
+                    "attempt-terminal.json": {
+                        "kind": "json_identity", "identity": terminal_identity},
+                    "host-attestation.json": {"kind": "custodied_file"},
+                    "official-verdict.json": {"kind": "custodied_file"},
+                    "host-custody": {"kind": "custodied_directory"},
+                },
+            })
+        manifest_identity = {
+            "schema": "implementaudit-b3v4-luna-campaign-custody-v2",
+            "campaign": packet["campaign"],
+            "freeze_sha256": packet_sha256,
+            "contract_sha256": packet["artifact_contract"]["sha256"],
+            "execution_stage": "LUNA",
+        }
+        return {
+            "name": packet["luna_stage"]["name"],
+            "campaign": packet["campaign"],
+            "schema": packet["luna_stage"]["schema"],
+            "terminal_name": packet["luna_stage"]["terminal_name"],
+            "missions": missions,
+            "stop_states": sorted(STOP_STATES),
+            "allowed_root": self._stage_root_policy(
+                packet_raw, packet_sha256, manifest_identity,
+                independent_raw, official_raw),
+        }
+
+    @staticmethod
+    def _result_claims(value, owner):
+        if value != FINAL_CLAIMS:
+            raise ValueError(f"{owner} contains a forbidden final claim")
+
+    def _validate_independent_luna_result(self, value, packet, packet_sha256,
+                                          summaries):
+        fields = {
+            "schema", "campaign", "freeze_sha256", "contract_sha256",
+            "luna_stage_status", "disposition", "luna_stage_accepted",
+            "accepted", "mission_count", "missions", "claims"}
+        if type(value) is not dict or set(value) != fields:
+            raise ValueError("independent Luna result key set invalid")
+        if (value["schema"] !=
+                "implementaudit-b3v4-luna-independent-rederivation-v2" or
+                value["campaign"] != packet["campaign"] or
+                value["freeze_sha256"] != packet_sha256 or
+                value["contract_sha256"] !=
+                packet["artifact_contract"]["sha256"] or
+                value["luna_stage_status"] != "PASS" or
+                value["disposition"] != "INCOMPLETE_PENDING_OPUS" or
+                value["luna_stage_accepted"] is not True or
+                value["accepted"] is not False or
+                type(value["mission_count"]) is not int or
+                value["mission_count"] != 6 or
+                type(value["missions"]) is not list or
+                len(value["missions"]) != 6):
+            raise ValueError("independent Luna result is not accepted 6/6")
+        self._result_claims(value["claims"], "independent Luna result")
+        required = set(summaries[0])
+        for expected, observed in zip(summaries, value["missions"]):
+            if (type(observed) is not dict or not required <= set(observed) or
+                    any(observed[key] != expected[key] for key in required)):
+                raise ValueError("official and independent Luna results disagree")
+        return value
+
+    def _luna_summaries(self, packet, packet_sha256, rows):
+        if len(rows) != len(packet["missions"]):
+            if rows and (rows[-1]["terminal"]["overall_status"] in STOP_STATES or
+                         rows[-1]["terminal"]["stop_reason"] is not None):
+                raise ValueError("stopped prefix cannot create a Luna stage result")
+            raise ValueError("Luna stage terminal requires the exact declared prefix")
+        fixture = _fixture_for_packet(self.repo_root, packet)
+        summaries = []
+        for mission, row in zip(packet["missions"], rows):
+            attempt = self.campaign_root / self._attempt_name(mission)
+            terminal = row["terminal"]
+            status = row["status"]
+            self._verify_host_attestation(attempt, status, mission, packet)
+            if (terminal["overall_status"] != "PASS" or
+                    terminal["official_overall_status"] != "PASS" or
+                    terminal["resolved_model"] != packet["configurations"][
+                        "L"]["model_resolved_required"] or
+                    terminal["stop_reason"] is not None):
+                raise ValueError("stopped prefix cannot create a Luna stage result")
+            _verify_official_verdict(
+                attempt, terminal, fixture, packet=packet, mission=mission,
+                production=self.execution_mode == "production")
+            summaries.append({
+                "index": mission["index"], "config": mission["config"],
+                "arm": mission["arm"], "rep": mission["rep"],
+                "overall_status": terminal["overall_status"],
+                "official_overall_status": terminal["official_overall_status"],
+                "independent_overall_status": "PASS",
+                "model_resolved": terminal["resolved_model"],
+                "official_verdict_sha256":
+                    terminal["official_verdict_sha256"],
+            })
+        return summaries
+
+    @staticmethod
+    def _luna_identity(packet):
+        config = packet["configurations"]["L"]
+        return {
+            "config": "L", "host": config["host"],
+            "model_resolved_required": config["model_resolved_required"],
+            "host_attestation_id": config["host_attestation"]["id"],
+            "host_attestation_sha256": config["host_attestation"]["sha256"],
+        }
+
+    def _official_luna_result(self, packet, packet_sha256, summaries,
+                              independent_raw):
+        independent_path = packet["luna_stage"]["independent_result_name"]
+        return {
+            "schema": "implementaudit-b3v4-luna-result-v2",
+            "campaign": packet["campaign"], "freeze_sha256": packet_sha256,
+            "contract_sha256": packet["artifact_contract"]["sha256"],
+            "disposition": "INCOMPLETE_PENDING_OPUS",
+            "luna_stage_accepted": True, "accepted": False,
+            "mission_count": 6, "missions": summaries,
+            "luna_identity": self._luna_identity(packet),
+            "independent_rederivation": {
+                "path": independent_path,
+                "sha256": _sha256_bytes(independent_raw),
+                "schema":
+                    "implementaudit-b3v4-luna-independent-rederivation-v2",
+                "contract_id": packet["independent_rederiver"]["contract_id"],
+                "implementation_sha256": packet["independent_rederiver"][
+                    "implementation_identity"]["sha256"],
+            },
+            "claims": dict(FINAL_CLAIMS),
+        }
+
+    def _stage_binding(self, packet, packet_sha256, official_raw,
+                       independent_raw):
+        return {
+            "campaign": packet["campaign"], "stage": "LUNA",
+            "stage_schema": packet["luna_stage"]["schema"],
+            "mission_count": 6, "freeze_sha256": packet_sha256,
+            "contract_sha256": packet["artifact_contract"]["sha256"],
+            "official_result_sha256": _sha256_bytes(official_raw),
+            "independent_rederivation_sha256":
+                _sha256_bytes(independent_raw),
+            "independent_rederiver_contract":
+                packet["independent_rederiver"]["contract_id"],
+            "luna_identity": self._luna_identity(packet),
+            "claims": dict(FINAL_CLAIMS),
+        }
+
+    def finalize_luna_stage(self):
+        result_path = self.campaign_root / "b3v4-luna-result.json"
+        terminal_path = self.campaign_root / "luna-stage-terminal.json"
+        if result_path.exists() or terminal_path.exists():
+            raise ValueError("create-once Luna stage artifact already exists")
+        packet, packet_raw, packet_sha256 = self._load_packet()
+        self._ensure_campaign(packet_raw, packet_sha256)
+        self._validate_identities(packet)
+        independent_path = self.campaign_root / packet["luna_stage"][
+            "independent_result_name"]
+        independent_raw = None
+        if independent_path.exists():
+            independent_raw = contract.read_custodied_bytes(
+                independent_path, "independent Luna result",
+                root=self.campaign_root)
+        pre_descriptor = self._stage_descriptor(
+            packet, packet_raw, packet_sha256, independent_raw)
+        pre_rows = contract.lifecycle.validate_terminal_prefix(
+            self.campaign_root, pre_descriptor["missions"],
+            stop_states=pre_descriptor["stop_states"],
+            allowed_root=pre_descriptor["allowed_root"])
+        summaries = self._luna_summaries(packet, packet_sha256, pre_rows)
+        if independent_raw is None:
+            independent_raw = contract.read_custodied_bytes(
+                independent_path, "independent Luna result",
+                root=self.campaign_root)
+        independent = contract.decode_json_bytes(
+            independent_raw, "independent Luna result", require_object=True)
+        self._validate_independent_luna_result(
+            independent, packet, packet_sha256, summaries)
+        result = self._official_luna_result(
+            packet, packet_sha256, summaries, independent_raw)
+        contract.validate_artifact("official_luna_result", result)
+        _write_new_json(result_path, result)
+        official_raw = contract.read_custodied_bytes(
+            result_path, "official Luna result", root=self.campaign_root)
+        descriptor = self._stage_descriptor(
+            packet, packet_raw, packet_sha256, independent_raw, official_raw)
+        binding = self._stage_binding(
+            packet, packet_sha256, official_raw, independent_raw)
+        contract.lifecycle.write_stage_terminal(
+            self.campaign_root, descriptor, binding)
+        return result
+
+    def validate_luna_stage(self):
+        packet, packet_raw, packet_sha256 = self._load_packet()
+        self._ensure_campaign(packet_raw, packet_sha256)
+        self._validate_identities(packet)
+        independent_path = self.campaign_root / packet["luna_stage"][
+            "independent_result_name"]
+        result_path = self.campaign_root / packet["luna_stage"][
+            "official_result_name"]
+        independent_raw = contract.read_custodied_bytes(
+            independent_path, "independent Luna result", root=self.campaign_root)
+        official_raw = contract.read_custodied_bytes(
+            result_path, "official Luna result", root=self.campaign_root)
+        descriptor = self._stage_descriptor(
+            packet, packet_raw, packet_sha256, independent_raw, official_raw)
+        binding = self._stage_binding(
+            packet, packet_sha256, official_raw, independent_raw)
+        contract.lifecycle.validate_stage_resume(
+            self.campaign_root, descriptor, binding)
+        independent = contract.decode_json_bytes(
+            independent_raw, "independent Luna result", require_object=True)
+        official = contract.decode_json_bytes(
+            official_raw, "official Luna result", require_object=True)
+        rows = contract.lifecycle.validate_terminal_prefix(
+            self.campaign_root, descriptor["missions"],
+            stop_states=descriptor["stop_states"],
+            allowed_root={**descriptor["allowed_root"],
+                          "luna-stage-terminal.json": {
+                              "kind": "exact_bytes",
+                              "byte_length": len(contract.read_custodied_bytes(
+                                  self.campaign_root /
+                                  "luna-stage-terminal.json",
+                                  "stage terminal", root=self.campaign_root)),
+                              "sha256": _sha256_file(
+                                  self.campaign_root /
+                                  "luna-stage-terminal.json",
+                                  root=self.campaign_root,
+                                  owner="stage terminal")}})
+        summaries = self._luna_summaries(packet, packet_sha256, rows)
+        self._validate_independent_luna_result(
+            independent, packet, packet_sha256, summaries)
+        expected = self._official_luna_result(
+            packet, packet_sha256, summaries, independent_raw)
+        if contract.canonical_json_bytes(official) != \
+                contract.canonical_json_bytes(expected):
+            raise ValueError("official Luna result drift")
+        return official
 
     def _execute_formal_host(self, context):
         mission = context.mission
@@ -689,23 +992,16 @@ class CampaignDriver:
             "formal": True, "lane_id": config_name,
             "host_read_attestation": attestation,
         }
-        if config_name == "L":
-            home = runtime / "codex-home"
-            home.mkdir()
-            if self.codex_auth_source:
-                shutil.copy2(self.codex_auth_source, home / "auth.json")
-            adapter = hosts.CodexAdapter(
-                requested_model=config["model_requested"],
-                reasoning_effort=config["reasoning_effort"],
-                codex_binary=executable, codex_home=str(home), **common)
-        else:
-            home = runtime / "claude-config"
-            home.mkdir()
-            adapter = hosts.ClaudeAdapter(
-                requested_model=config["model_requested"],
-                effort=config["reasoning_effort"], config_dir=str(home),
-                resolved_expect=config["model_resolved_required"], **common)
-            adapter.host_argv_template[0] = executable
+        if config_name != "L":
+            raise ValueError("only the frozen Luna configuration is authorized")
+        home = runtime / "codex-home"
+        home.mkdir()
+        if self.codex_auth_source:
+            shutil.copy2(self.codex_auth_source, home / "auth.json")
+        adapter = hosts.CodexAdapter(
+            requested_model=config["model_requested"],
+            reasoning_effort=config["reasoning_effort"],
+            codex_binary=executable, codex_home=str(home), **common)
         custody = context.attempt_root / "host-custody"
         custody.mkdir()
         work = runtime / "fixture-work"
@@ -729,29 +1025,47 @@ class CampaignDriver:
 
 def main(argv=None):
     parser = argparse.ArgumentParser()
-    parser.add_argument("intent")
-    parser.add_argument("--repo-root", required=True)
-    parser.add_argument("--campaign-root", required=True)
-    parser.add_argument("--candidate-checkout", required=True)
-    parser.add_argument("--control-checkout", required=True)
-    parser.add_argument("--runtime-root", required=True)
-    parser.add_argument("--l-attestation", required=True)
-    parser.add_argument("--o-attestation", required=True)
-    parser.add_argument("--codex-auth-source")
+    subparsers = parser.add_subparsers(dest="operation", required=True)
+
+    def add_common(name):
+        command = subparsers.add_parser(name)
+        command.add_argument("intent")
+        command.add_argument("--repo-root", required=True)
+        command.add_argument("--campaign-root", required=True)
+        command.add_argument("--candidate-checkout", required=True)
+        command.add_argument("--control-checkout", required=True)
+        command.add_argument("--runtime-root", required=True)
+        command.add_argument("--l-attestation", required=True)
+        command.add_argument("--codex-auth-source")
+        return command
+
+    add_common("run-next")
+    add_common("finalize-luna-stage")
+    add_common("validate-luna-stage")
     args = parser.parse_args(argv)
     driver = CampaignDriver(
         packet_path=args.intent, repo_root=args.repo_root,
         campaign_root=args.campaign_root,
         candidate_checkout=args.candidate_checkout,
         control_checkout=args.control_checkout, runtime_root=args.runtime_root,
-        attestations={"L": args.l_attestation, "O": args.o_attestation},
+        attestations={"L": args.l_attestation},
         codex_auth_source=args.codex_auth_source)
-    terminal = driver.run_next()
-    print(json.dumps({"mission_index": terminal["mission_index"],
-                      "overall_status": terminal["overall_status"],
-                      "stop_reason": terminal.get("stop_reason")},
-                     sort_keys=True))
-    return 0 if terminal["overall_status"] in CONTINUE_STATES else 2
+    if args.operation == "run-next":
+        terminal = driver.run_next()
+        print(json.dumps({"mission_index": terminal["mission_index"],
+                          "overall_status": terminal["overall_status"],
+                          "stop_reason": terminal.get("stop_reason")},
+                         sort_keys=True))
+        return 0 if terminal["overall_status"] in CONTINUE_STATES else 2
+    result = (driver.finalize_luna_stage()
+              if args.operation == "finalize-luna-stage" else
+              driver.validate_luna_stage())
+    print(json.dumps({
+        "disposition": result["disposition"],
+        "luna_stage_accepted": result["luna_stage_accepted"],
+        "accepted": result["accepted"],
+        "mission_count": result["mission_count"]}, sort_keys=True))
+    return 0
 
 
 if __name__ == "__main__":

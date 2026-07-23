@@ -35,16 +35,13 @@ except OSError as exc:
 
 PLAN = [
     ("L", "candidate", 1), ("L", "control", 1),
-    ("O", "control", 1), ("O", "candidate", 1),
-    ("O", "candidate", 2), ("O", "control", 2),
     ("L", "control", 2), ("L", "candidate", 2),
     ("L", "control", 3), ("L", "candidate", 3),
-    ("O", "candidate", 3), ("O", "control", 3),
 ]
 FREEZE_FIELDS = {
     "schema", "campaign", "state", "artifact_contract", "foundation", "fixture", "artifacts",
     "candidate", "control", "configurations", "authorization", "seed",
-    "repetitions_per_configuration_and_arm", "missions", "evidence_profiles",
+    "repetitions_per_arm", "missions", "luna_stage", "evidence_profiles",
     "result_composition", "attempt_policy", "acceptance_rule",
     "invalid_error_rule", "stop_conditions", "independent_rederiver",
 }
@@ -58,7 +55,7 @@ CONTRACT_ARTIFACTS = {
     "run_intent", "process_started", "host_stdout", "host_session",
     "host_tool_trace", "host_read_matrix", "host_read_post_probe",
     "host_read_terminal", "host_checks", "host_check_inputs",
-    "independent_rederivation",
+    "official_luna_result", "luna_stage_terminal", "independent_rederivation",
 }
 CAMPAIGN_MANIFEST_FIELDS = {
     "schema", "campaign", "freeze_sha256", "contract_sha256", "created_at",
@@ -78,27 +75,41 @@ ATTEMPT_TERMINAL_FIELDS = {
     "official_overall_status", "official_verdict_sha256", "stop_reason",
     "error_type", "completed_at",
 }
+OFFICIAL_LUNA_RESULT_FIELDS = {
+    "schema", "campaign", "freeze_sha256", "contract_sha256",
+    "disposition", "luna_stage_accepted", "accepted", "mission_count",
+    "missions", "luna_identity", "independent_rederivation", "claims",
+}
+FINAL_CLAIMS = {
+    "final_12_of_12": False, "cross_model_qualified": False,
+    "release_authorized": False, "tag_authorized": False,
+    "publication_authorized": False,
+}
 ACCEPTANCE_RULE = (
-    "all 12 missions terminal; independent rederivation agrees with every "
+    "all six Luna missions terminal and PASS; independent Luna rederivation "
+    "agrees with every "
     "stored property, host, and overall result; property evidence complete "
     "in every verdict; host status PASS in every mission; zero "
     "INVALID/ERROR; zero model substitution; exact candidate, control, "
     "model, host, fixture, scorer, evaluator, bundle, runner, and rederiver "
-    "identities"
+    "identities; successful Luna stage is INCOMPLETE_PENDING_OPUS with "
+    "luna_stage_accepted true and accepted false"
 )
 INVALID_ERROR_RULE = (
-    "INVALID and ERROR are never product PASS; halt campaign and preserve "
-    "every attempt"
+    "FAIL, INVALID, unexplained ERROR, substitution, disagreement, and "
+    "custody or identity failure halt the Luna stage and preserve every attempt"
 )
 STOP_CONDITIONS = [
     "authentication or quota failure",
     "model substitution",
     "identity or custody mismatch",
-    "any INVALID or ERROR",
+    "any FAIL, INVALID, or unexplained ERROR",
+    "official and independent disagreement",
     "frozen input drift",
 ]
 REDERIVER_IMPORT_BOUNDARY = [
-    "eval.hosts", "eval.runner", "eval.lib.scoring",
+    "eval.b3v4_campaign", "eval.hosts", "eval.runner", "eval.lib.scoring",
+    "eval.adapters", "eval.campaign_lifecycle",
 ]
 CAPTURE_FILES = (
     "host-read-profile.json", "host-read-preimages.json",
@@ -109,10 +120,10 @@ CAPTURE_FILES = (
 )
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
-CONTRACT_SHA256 = "4909f2e3b5ec9ba2188594f8e9669b8ea717ed1ecacff2dfa927395689b68495"
+CONTRACT_SHA256 = "cf88f4ca6ce9fa2561a91fcc662ac6e802661175fdc8d5af0041c7e838d5431f"
 OFFICIAL_STATES = frozenset({"PASS", "FAIL", "INVALID", "ERROR"})
-CONTINUE_STATES = frozenset({"PASS", "FAIL"})
-STOP_STATES = frozenset({"INVALID", "ERROR"})
+CONTINUE_STATES = frozenset({"PASS"})
+STOP_STATES = frozenset({"FAIL", "INVALID", "ERROR"})
 VERIFIED_IDENTITIES = [
     "fixture_sha256 (bytes + canonical-library authenticity)",
     "prompt_sha256 (bytes + mission consistency)",
@@ -326,10 +337,14 @@ def _validate_contract_declaration(declaration):
     execution = _exact_fields(
         declaration["execution"],
         {"campaign", "stage_order", "completion_requires", "silent_retry",
-         "unexpected_attempt"}, "artifact contract execution")
+         "unexpected_attempt", "luna_success_disposition",
+         "final_acceptance"}, "artifact contract execution")
     _expect(execution == {
-        "campaign": "b3v4-sol-r1", "stage_order": ["LUNA", "OPUS"],
-        "completion_requires": ["LUNA", "OPUS", "INDEPENDENT_REDERIVATION"],
+        "campaign": "b3v4-sol-luna-r2", "stage_order": ["LUNA"],
+        "completion_requires": ["LUNA", "INDEPENDENT_REDERIVATION",
+                                "MANDATORY_STAGE_TERMINAL"],
+        "luna_success_disposition": "INCOMPLETE_PENDING_OPUS",
+        "final_acceptance": False,
         "silent_retry": "FORBIDDEN", "unexpected_attempt": "INVALID"},
         "artifact contract execution drift")
     for name, descriptor in declaration["artifacts"].items():
@@ -350,11 +365,14 @@ def _validate_contract_declaration(declaration):
                 f"artifact contract descriptor {name} invalid")
     lifecycle = _exact_fields(
         declaration["lifecycle_schemas"],
-        {"campaign_manifest", "attempt_status", "attempt_terminal"},
+        {"campaign_manifest", "attempt_status", "attempt_terminal",
+         "official_luna_result"},
         "artifact contract lifecycle schemas")
     _expect(set(lifecycle["campaign_manifest"]) == CAMPAIGN_MANIFEST_FIELDS and
             set(lifecycle["attempt_status"]) == ATTEMPT_STATUS_FIELDS and
-            set(lifecycle["attempt_terminal"]) == ATTEMPT_TERMINAL_FIELDS,
+            set(lifecycle["attempt_terminal"]) == ATTEMPT_TERMINAL_FIELDS and
+            set(lifecycle["official_luna_result"]) ==
+            OFFICIAL_LUNA_RESULT_FIELDS,
             "artifact contract lifecycle field sets drift")
 
 
@@ -559,9 +577,10 @@ def _repo_relative(value, owner):
 def _validate_freeze_contract(packet):
     """Independently validate every qualification-critical frozen semantic."""
     packet = _exact_fields(packet, FREEZE_FIELDS, "freeze packet")
-    _expect(packet["schema"] == "implementaudit-b3v4-campaign-freeze-v1",
+    _expect(packet["schema"] ==
+            "implementaudit-b3v4-luna-campaign-freeze-v2",
             "freeze packet schema invalid")
-    _expect(packet["campaign"] == "b3v4-sol-r1",
+    _expect(packet["campaign"] == "b3v4-sol-luna-r2",
             "freeze packet campaign invalid")
     _expect(packet["state"] == "FROZEN_BEFORE_FIRST_MISSION",
             "freeze packet state invalid")
@@ -570,7 +589,7 @@ def _validate_freeze_contract(packet):
         packet["artifact_contract"], {"schema", "path", "sha256"},
         "artifact contract identity")
     _expect(artifact_contract["schema"] ==
-            "implementaudit-b3v4-artifact-contract-v1",
+            "implementaudit-b3v4-luna-artifact-contract-v2",
             "artifact contract schema invalid")
     _expect(artifact_contract["path"] == "eval/b3v4_contract.json",
             "artifact contract path invalid")
@@ -628,13 +647,11 @@ def _validate_freeze_contract(packet):
             "candidate and control identities must be distinct")
 
     configurations = _mapping(packet["configurations"], "configurations")
-    _expect(set(configurations) == {"L", "O"},
+    _expect(set(configurations) == {"L"},
             "configurations identity shape invalid")
     expected = {
         "L": ("WSL Ubuntu Codex CLI", "gpt-5.6-luna", "gpt-5.6-luna",
               "max", "chatgpt-subscription"),
-        "O": ("Windows Claude CLI", "opus", "claude-opus-4-8", "high",
-              "claude.ai-max"),
     }
     config_fields = {"host", "model_requested", "model_resolved_required",
                      "reasoning_effort", "auth_mode", "executable",
@@ -678,12 +695,12 @@ def _validate_freeze_contract(packet):
 
     _expect(type(packet["seed"]) is int and packet["seed"] == 20260718,
             "seed drift")
-    _expect(type(packet["repetitions_per_configuration_and_arm"]) is int and
-            packet["repetitions_per_configuration_and_arm"] == 3,
+    _expect(type(packet["repetitions_per_arm"]) is int and
+            packet["repetitions_per_arm"] == 3,
             "repetition count drift")
     missions = packet["missions"]
     _expect(isinstance(missions, list) and len(missions) == len(PLAN),
-            "fixed 12-mission order drift")
+            "fixed six-mission order drift")
     for index, (mission, planned) in enumerate(zip(missions, PLAN)):
         mission = _exact_fields(mission, {"index", "config", "arm", "rep"},
                                 f"mission {index}")
@@ -692,7 +709,21 @@ def _validate_freeze_contract(packet):
                 type(mission["arm"]) is str and
                 type(mission["rep"]) is int and
                 (mission["config"], mission["arm"], mission["rep"]) == planned,
-                "fixed 12-mission order drift")
+                "fixed six-mission order drift")
+
+    stage = _exact_fields(packet["luna_stage"], {
+        "schema", "name", "mission_count", "terminal_name",
+        "official_result_name", "independent_result_name",
+        "success_disposition"}, "luna_stage")
+    _expect(stage == {
+        "schema": "implementaudit-b3v4-luna-stage-v2",
+        "name": "LUNA", "mission_count": 6,
+        "terminal_name": "luna-stage-terminal.json",
+        "official_result_name": "b3v4-luna-result.json",
+        "independent_result_name":
+            "b3v4-luna-independent-rederivation.json",
+        "success_disposition": "INCOMPLETE_PENDING_OPUS",
+    }, "luna_stage boundary drift")
 
     profiles = _exact_fields(
         packet["evidence_profiles"],
@@ -708,7 +739,8 @@ def _validate_freeze_contract(packet):
 
     composition = _exact_fields(
         packet["result_composition"],
-        {"product_property_states", "host_states", "overall_states"},
+        {"product_property_states", "host_states", "overall_states",
+         "luna_stage_dispositions"},
         "result_composition")
     _expect(composition["product_property_states"] ==
             ["PASS", "FAIL", "INCOMPLETE"],
@@ -719,14 +751,21 @@ def _validate_freeze_contract(packet):
     _expect(composition["overall_states"] ==
             ["PASS", "FAIL", "INVALID", "ERROR"],
             "overall state composition drift")
+    _expect(composition["luna_stage_dispositions"] ==
+            ["INCOMPLETE_PENDING_OPUS"],
+            "Luna stage disposition composition drift")
 
     attempts = _exact_fields(packet["attempt_policy"],
-                             {"silent_retry", "preserve_every_attempt"},
+                             {"silent_retry", "preserve_every_attempt",
+                              "maximum_attempts"},
                              "attempt_policy")
     _expect(attempts["silent_retry"] == "FORBIDDEN",
             "attempt_policy.silent_retry must be FORBIDDEN")
     _expect(attempts["preserve_every_attempt"] is True,
             "attempt_policy must preserve every attempt")
+    _expect(type(attempts["maximum_attempts"]) is int and
+            attempts["maximum_attempts"] == 6,
+            "attempt_policy.maximum_attempts must be six")
     _expect(packet["acceptance_rule"] == ACCEPTANCE_RULE,
             "frozen packet drift: acceptance_rule")
     _expect(packet["invalid_error_rule"] == INVALID_ERROR_RULE,
@@ -739,7 +778,7 @@ def _validate_freeze_contract(packet):
         {"contract_id", "implementation_identity", "must_not_import",
          "input", "output"}, "independent_rederiver")
     _expect(rederiver["contract_id"] ==
-            "implementaudit-b3v4-independent-rederiver-v1",
+            "implementaudit-b3v4-luna-independent-rederiver-v2",
             "independent_rederiver.contract_id drift")
     identity = _exact_fields(
         rederiver["implementation_identity"], {"path", "sha256"},
@@ -772,7 +811,7 @@ def _validate_freeze_contract(packet):
     _expect(rederiver["input"] == "retained raw evidence only",
             "independent_rederiver.input drift")
     _expect(rederiver["output"] ==
-            "per-mission property, host, and overall rederivation",
+            "independent Luna stage result",
             "independent_rederiver.output drift")
     return packet
 
@@ -812,8 +851,9 @@ def _contained(root, relative, owner):
 
 def _validate_attempt_status(status, mission, freeze_sha, contract_sha, config):
     status = _exact_fields(status, ATTEMPT_STATUS_FIELDS, "attempt status")
-    _expect(status["schema"] == "implementaudit-b3v4-attempt-status-v1" and
-            status["campaign"] == "b3v4-sol-r1" and
+    _expect(status["schema"] ==
+            "implementaudit-b3v4-luna-attempt-status-v2" and
+            status["campaign"] == "b3v4-sol-luna-r2" and
             status["freeze_sha256"] == freeze_sha and
             status["contract_sha256"] == contract_sha and
             status["mission"] == mission and
@@ -856,8 +896,9 @@ def _load_host_attestation(attempt, status, config):
 def _validate_attempt_terminal(terminal, mission):
     terminal = _exact_fields(
         terminal, ATTEMPT_TERMINAL_FIELDS, "attempt terminal")
-    _expect(terminal["schema"] == "implementaudit-b3v4-attempt-terminal-v1" and
-            terminal["campaign"] == "b3v4-sol-r1" and
+    _expect(terminal["schema"] ==
+            "implementaudit-b3v4-luna-attempt-terminal-v2" and
+            terminal["campaign"] == "b3v4-sol-luna-r2" and
             type(terminal["mission_index"]) is int and
             terminal["mission_index"] == mission["index"] and
             terminal["execution_mode"] in ("production", "test") and
@@ -2432,7 +2473,9 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha):
                 "native_session_sha256": _sha(artifacts["host-session.raw"]),
                 "official_overall_status": official_overall,
                 "independent_overall_status": independent_overall,
-                "model_resolved": manifest["model_resolved"]}
+                "model_resolved": manifest["model_resolved"],
+                "official_verdict_sha256":
+                    terminal["official_verdict_sha256"]}
     except (EvidenceInvalid, OSError, KeyError, TypeError, ValueError) as exc:
         return _invalid_row(mission, "INVALID", exc)
 
@@ -2452,13 +2495,14 @@ def rederive_campaign(packet_path, campaign_root):
                             "campaign manifest")
     custody = _exact_fields(
         custody, CAMPAIGN_MANIFEST_FIELDS, "campaign manifest")
-    _expect(custody["schema"] == "implementaudit-b3v4-campaign-custody-v1" and
-            custody["campaign"] == "b3v4-sol-r1" and
+    _expect(custody["schema"] ==
+            "implementaudit-b3v4-luna-campaign-custody-v2" and
+            custody["campaign"] == "b3v4-sol-luna-r2" and
             custody["freeze_sha256"] == freeze_sha and
             custody["contract_sha256"] ==
             packet["artifact_contract"]["sha256"] and
             custody["execution_stage"] ==
-            "LUNA_THEN_OPUS_UNCHANGED_PACKET" and
+            "LUNA" and
             type(custody["created_at"]) is str and bool(custody["created_at"]),
             "campaign custody invalid")
     expected_order = [_attempt_name(mission) for mission in packet["missions"]]
@@ -2502,15 +2546,52 @@ def rederive_campaign(packet_path, campaign_root):
         status = "INCOMPLETE"
     else:
         status = "PASS"
-    result = {"schema": "implementaudit-b3v4-independent-rederivation-v1",
-            "campaign": "b3v4-sol-r1", "freeze_sha256": freeze_sha,
-            "campaign_status": status,
-            "accepted": status == "PASS" and
-            completed_count == len(packet["missions"]),
-            "mission_count": len(rows), "missions": rows}
+    stage_accepted = status == "PASS" and \
+        completed_count == len(packet["missions"])
+    disposition = ("INCOMPLETE_PENDING_OPUS" if stage_accepted else
+                   "INCOMPLETE" if status == "INCOMPLETE" else
+                   "ANDON_STOPPED")
+    result = {
+        "schema": "implementaudit-b3v4-luna-independent-rederivation-v2",
+        "campaign": "b3v4-sol-luna-r2", "freeze_sha256": freeze_sha,
+        "contract_sha256": packet["artifact_contract"]["sha256"],
+        "luna_stage_status": status, "disposition": disposition,
+        "luna_stage_accepted": stage_accepted, "accepted": False,
+        "mission_count": len(rows), "missions": rows,
+        "claims": dict(FINAL_CLAIMS)}
     if attempts_after_stop:
         result["reason"] = "campaign contains attempt after terminal stop"
     return result
+
+
+def write_rederivation(path, result, *, root):
+    root = pathlib.Path(root).absolute()
+    path = pathlib.Path(path).absolute()
+    _expect(path.parent == root and
+            path.name == "b3v4-luna-independent-rederivation.json",
+            "independent result path must be the declared campaign-root path")
+    try:
+        root_stat = os.lstat(root)
+        _expect(stat.S_ISDIR(root_stat.st_mode) and
+                not root.is_symlink() and not _reparse_point(root_stat),
+                "independent result parent custody invalid")
+        payload = (json.dumps(result, sort_keys=True,
+                              separators=(",", ":")) + "\n").encode("utf-8")
+        with open(path, "xb") as stream:
+            opened = os.fstat(stream.fileno())
+            _expect(stat.S_ISREG(opened.st_mode) and opened.st_nlink == 1,
+                    "independent result create-once identity invalid")
+            stream.write(payload)
+            stream.flush()
+            os.fsync(stream.fileno())
+    except FileExistsError as exc:
+        raise EvidenceInvalid(
+            "create-once independent result already exists") from exc
+    except EvidenceInvalid:
+        raise
+    except OSError as exc:
+        raise EvidenceInvalid("independent result cannot be created") from exc
+    return path
 
 
 def main(argv=None):
@@ -2522,17 +2603,21 @@ def main(argv=None):
     try:
         result = rederive_campaign(args.intent, args.campaign_root)
     except (EvidenceInvalid, OSError, KeyError, TypeError, ValueError) as exc:
-        result = {"schema": "implementaudit-b3v4-independent-rederivation-v1",
-                  "campaign": "b3v4-sol-r1", "campaign_status": "INVALID",
-                  "accepted": False, "mission_count": 0, "missions": [],
-                  "reason": str(exc)}
+        result = {
+            "schema": "implementaudit-b3v4-luna-independent-rederivation-v2",
+            "campaign": "b3v4-sol-luna-r2", "freeze_sha256": None,
+            "contract_sha256": CONTRACT_SHA256,
+            "luna_stage_status": "INVALID",
+            "disposition": "ANDON_STOPPED",
+            "luna_stage_accepted": False, "accepted": False,
+            "mission_count": 0, "missions": [],
+            "claims": dict(FINAL_CLAIMS), "reason": str(exc)}
     rendered = json.dumps(result, indent=1, sort_keys=True) + "\n"
     if args.output:
-        with open(args.output, "x", encoding="utf-8", newline="\n") as stream:
-            stream.write(rendered)
+        write_rederivation(args.output, result, root=args.campaign_root)
     else:
         sys.stdout.write(rendered)
-    return 0 if result.get("accepted") is True else 2
+    return 0 if result.get("luna_stage_accepted") is True else 2
 
 
 if __name__ == "__main__":
