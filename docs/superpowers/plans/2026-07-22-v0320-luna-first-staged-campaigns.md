@@ -135,6 +135,7 @@ git diff --check
 **Files:**
 
 - Modify: `eval/b3v4_contract.json`
+- Modify: `eval/b3v4_contract.py`
 - Modify: `eval/validate_b3v4_freeze.py`
 - Modify: `eval/b3v4_campaign.py`
 - Modify: `eval/b3v4_rederive.py`
