@@ -54,6 +54,34 @@ def snapshot(files):
     return value
 
 
+def custody_manifest_bytes(path):
+    path = pathlib.Path(path)
+    entries = [{"path": ".", "kind": "directory"}]
+    for current, directories, files in os.walk(path):
+        current = pathlib.Path(current)
+        relative = current.relative_to(path)
+        directories.sort()
+        files.sort()
+        for name in directories:
+            rel = ((relative / name).as_posix()
+                   if relative != pathlib.Path(".") else name)
+            entries.append({"path": rel, "kind": "directory"})
+        for name in files:
+            child = current / name
+            rel = ((relative / name).as_posix()
+                   if relative != pathlib.Path(".") else name)
+            payload = child.read_bytes()
+            entries.append({
+                "path": rel, "kind": "file",
+                "byte_length": len(payload), "sha256": sha(payload),
+            })
+    entries.sort(key=lambda row: row["path"])
+    return (json.dumps({
+        "schema": "implementaudit-custodied-directory-manifest-v1",
+        "entries": entries,
+    }, indent=1, sort_keys=True) + "\n").encode()
+
+
 def make_fixture():
     return json.loads((HERE / "fixtures" / "B3-v3" / "fixture.json").read_text(
         encoding="utf-8"))
@@ -187,7 +215,7 @@ def build_campaign(root, fixture_override=None):
             },
         })
         attempt_terminal = {
-            "schema": "implementaudit-b3v4-luna-attempt-terminal-v2",
+            "schema": "implementaudit-b3v4-luna-attempt-terminal-v3",
             "campaign": "b3v4-sol-luna-r2", "mission_index": mission["index"],
             "execution_mode": "production", "overall_status": "PASS",
             "resolved_model": model, "host_run_root": str(host_root),
@@ -195,6 +223,7 @@ def build_campaign(root, fixture_override=None):
             "official_verdict_sha256": None,
             "stop_reason": None, "error_type": None,
             "completed_at": "2030-01-01T00:00:01Z",
+            "completed_attempt_seal": None,
         }
         write(attempt / "attempt-terminal.json", attempt_terminal)
         before = snapshot({})
@@ -553,6 +582,30 @@ def build_campaign(root, fixture_override=None):
             "official_overall_status": official_status,
             "official_verdict_sha256": sha(official_bytes),
         })
+        status_raw = (attempt / "attempt-status.json").read_bytes()
+        attempt_terminal["completed_attempt_seal"] = {
+            "schema": "implementaudit-b3v4-completed-attempt-seal-v1",
+            "campaign": packet["campaign"],
+            "freeze_sha256": freeze_sha,
+            "contract_sha256": packet["artifact_contract"]["sha256"],
+            "mission": mission,
+            "execution_mode": attempt_terminal["execution_mode"],
+            "overall_status": attempt_terminal["overall_status"],
+            "resolved_model": attempt_terminal["resolved_model"],
+            "host_run_root": attempt_terminal["host_run_root"],
+            "official_overall_status":
+                attempt_terminal["official_overall_status"],
+            "official_verdict_sha256":
+                attempt_terminal["official_verdict_sha256"],
+            "stop_reason": attempt_terminal["stop_reason"],
+            "error_type": attempt_terminal["error_type"],
+            "completed_at": attempt_terminal["completed_at"],
+            "attempt_name": name,
+            "attempt_status_sha256": sha(status_raw),
+            "host_attestation_sha256": sha(attestation_bytes),
+            "host_custody_manifest_sha256": sha(
+                custody_manifest_bytes(attempt / "host-custody")),
+        }
         write(attempt / "attempt-terminal.json", attempt_terminal)
     return packet
 
@@ -611,6 +664,39 @@ def rebind_capture(bundle):
     write(manifest_path, manifest)
 
 
+def rebind_attempt_seal(attempt):
+    attempt = pathlib.Path(attempt)
+    status_raw = (attempt / "attempt-status.json").read_bytes()
+    status = json.loads(status_raw)
+    attestation_raw = (attempt / "host-attestation.json").read_bytes()
+    terminal_path = attempt / "attempt-terminal.json"
+    terminal = json.loads(terminal_path.read_text(encoding="utf-8"))
+    if terminal.get("overall_status") not in ("PASS", "FAIL"):
+        return
+    terminal["completed_attempt_seal"] = {
+        "schema": "implementaudit-b3v4-completed-attempt-seal-v1",
+        "campaign": status["campaign"],
+        "freeze_sha256": status["freeze_sha256"],
+        "contract_sha256": status["contract_sha256"],
+        "mission": status["mission"],
+        "execution_mode": terminal["execution_mode"],
+        "overall_status": terminal["overall_status"],
+        "resolved_model": terminal["resolved_model"],
+        "host_run_root": terminal["host_run_root"],
+        "official_overall_status": terminal["official_overall_status"],
+        "official_verdict_sha256": terminal["official_verdict_sha256"],
+        "stop_reason": terminal["stop_reason"],
+        "error_type": terminal["error_type"],
+        "completed_at": terminal["completed_at"],
+        "attempt_name": attempt.name,
+        "attempt_status_sha256": sha(status_raw),
+        "host_attestation_sha256": sha(attestation_raw),
+        "host_custody_manifest_sha256": sha(
+            custody_manifest_bytes(attempt / "host-custody")),
+    }
+    write(terminal_path, terminal)
+
+
 def rebind_bundle_and_official(root, bundle, capture=False):
     """Rebind every enclosing digest after a retained-evidence mutation."""
     root = pathlib.Path(root)
@@ -648,6 +734,7 @@ def rebind_bundle_and_official(root, bundle, capture=False):
     terminal = json.loads(terminal_path.read_text(encoding="utf-8"))
     terminal["official_verdict_sha256"] = sha(verdict_path.read_bytes())
     write(terminal_path, terminal)
+    rebind_attempt_seal(attempt)
 
 
 def mutate_mapping(path, object_path, mode, key):
@@ -687,6 +774,7 @@ def rebase_campaign_paths(root):
         parent = json.loads(parent_path.read_text(encoding="utf-8"))
         parent["detail"] = str(host_root / "bundle")
         write(parent_path, parent)
+        rebind_attempt_seal(attempt)
 
 
 def first_bundle(root, index=0):
@@ -704,6 +792,7 @@ def mutate_official(root, mutate):
     terminal = json.loads(terminal_path.read_text(encoding="utf-8"))
     terminal["official_verdict_sha256"] = sha(verdict_path.read_bytes())
     write(terminal_path, terminal)
+    rebind_attempt_seal(attempt)
 
 
 def semantic_mutation(root, label):
@@ -786,6 +875,7 @@ def stop_after_first(root, status):
         "stop_reason": ("mission-execution-exception" if status == "ERROR"
                         else "invalid-or-error-halts-campaign"),
         "error_type": "RuntimeError" if status == "ERROR" else None,
+        "completed_attempt_seal": None,
     })
     if status == "ERROR":
         terminal["resolved_model"] = None
@@ -1240,7 +1330,64 @@ def assert_deep_cli_failure_normalized(module):
         assert exit_code == 2
         value = json.loads(output.read_text(encoding="utf-8"))
         assert value["luna_stage_status"] == "INVALID"
-        assert value["luna_stage_accepted"] is False
+    assert value["luna_stage_accepted"] is False
+
+
+def assert_lossless_numeric_domain_rejected(module):
+    tokens = (
+        "1e400",
+        "-1e400",
+        "1e-400",
+        "0.100000000000000005",
+        "4.9406564584124654e-324",
+    )
+    direct_accepts = []
+    raw_exceptions = []
+    for token in tokens:
+        try:
+            module._decode_json(
+                f'{{"value":{token}}}'.encode(),
+                "numeric-domain fixture",
+                "numeric-domain fixture malformed",
+                require_object=True)
+        except module.EvidenceInvalid:
+            pass
+        except Exception as exc:
+            raw_exceptions.append(f"{token}:{type(exc).__name__}")
+        else:
+            direct_accepts.append(token)
+    end_to_end_passes = []
+    for token in tokens:
+        with tempfile.TemporaryDirectory(
+                prefix="b3v4-numeric-domain-") as tmp:
+            root = pathlib.Path(tmp) / "campaign"
+            build_campaign(root)
+            _, bundle = first_bundle(root)
+            process_path = bundle / "artifacts" / "process-started.json"
+            raw = process_path.read_bytes()
+            replaced = raw.replace(
+                b'"process_creation_time":1.0',
+                f'"process_creation_time":{token}'.encode(), 1)
+            assert replaced != raw, token
+            process_path.write_bytes(replaced)
+            rebind_bundle_and_official(root, bundle, capture=True)
+            try:
+                result = module.rederive_campaign(
+                    root / "campaign-freeze.json", root)
+            except module.EvidenceInvalid:
+                continue
+            except Exception as exc:
+                raw_exceptions.append(f"e2e-{token}:{type(exc).__name__}")
+                continue
+            if (result.get("luna_stage_status") == "PASS" or
+                    result.get("luna_stage_accepted") is True):
+                end_to_end_passes.append(token)
+    assert not raw_exceptions, (
+        "numeric-domain retained evidence leaked raw exceptions: " +
+        ", ".join(raw_exceptions))
+    assert not direct_accepts and not end_to_end_passes, (
+        "numeric-domain acceptance: direct=" + ", ".join(direct_accepts) +
+        "; Luna-PASS=" + ", ".join(end_to_end_passes))
 
 
 def assert_complete_pass_row_schema(module):
@@ -1303,6 +1450,7 @@ def main():
     assert_host_root_junction_rejected(module)
     assert_independent_output_custody(module)
     assert_deep_cli_failure_normalized(module)
+    assert_lossless_numeric_domain_rejected(module)
     assert_complete_pass_row_schema(module)
 
     # One campaign proves the universal retained-file check at every reader
@@ -1617,6 +1765,7 @@ def main():
         terminal["official_verdict_sha256"] = sha(official_bytes)
         terminal["overall_status"] = "PASS"
         write(terminal_path, terminal)
+        rebind_attempt_seal(first)
         counterexample = module.rederive_campaign(
             root / "campaign-freeze.json", root)
         assert counterexample["luna_stage_status"] == "INVALID", counterexample
@@ -1653,6 +1802,8 @@ def main():
         terminal = json.loads(terminal_path.read_text(encoding="utf-8"))
         terminal["official_verdict_sha256"] = sha(verdict_path.read_bytes())
         write(terminal_path, terminal)
+        rebind_attempt_seal(first)
+        rebind_attempt_seal(first)
         counterexample = module.rederive_campaign(
             root / "campaign-freeze.json", root)
         assert counterexample["luna_stage_status"] == "INVALID", counterexample
@@ -1671,6 +1822,7 @@ def main():
         terminal["overall_status"] = "FAIL"
         terminal["stop_reason"] = "failed-mission-halts-campaign"
         write(terminal_path, terminal)
+        rebind_attempt_seal(first)
         disagreement = module.rederive_campaign(root / "campaign-freeze.json", root)
         assert disagreement["luna_stage_status"] == "INVALID", disagreement
         assert disagreement["accepted"] is False
@@ -1681,18 +1833,22 @@ def main():
         terminal["overall_status"] = "PASS"
         terminal["stop_reason"] = None
         write(terminal_path, terminal)
+        rebind_attempt_seal(first)
 
         terminal["resolved_model"] = "substituted-model"
         write(terminal_path, terminal)
+        rebind_attempt_seal(first)
         invalid = module.rederive_campaign(root / "campaign-freeze.json", root)
         assert invalid["luna_stage_status"] == "INVALID"
         assert invalid["accepted"] is False
         terminal["resolved_model"] = packet["configurations"]["L"]["model_resolved_required"]
         write(terminal_path, terminal)
+        rebind_attempt_seal(first)
 
         raw = (first / "host-custody" / first.name / "bundle" / "artifacts" /
                "host-session.raw")
         raw.write_bytes(b"tampered\n")
+        rebind_attempt_seal(first)
         invalid = module.rederive_campaign(root / "campaign-freeze.json", root)
         assert invalid["luna_stage_status"] == "INVALID"
         assert "hash" in invalid["missions"][0]["reason"]
@@ -1719,6 +1875,7 @@ def main():
         process["host_read_pre_spawn_sha256"] = sha(pre_spawn_path.read_bytes())
         write(process_path, process)
         rebind_capture(bundle)
+        rebind_attempt_seal(first)
         ambiguous = module.rederive_campaign(
             root / "campaign-freeze.json", root)
         assert ambiguous["luna_stage_status"] == "INVALID", ambiguous["missions"][0]
@@ -1743,6 +1900,7 @@ def main():
         manifest["artifact_manifest_sha256"] = sha(
             artifact_manifest_path.read_bytes())
         write(manifest_path, manifest)
+        rebind_attempt_seal(first)
         rebound = module.rederive_campaign(root / "campaign-freeze.json", root)
         assert rebound["luna_stage_status"] == "INVALID", rebound
         assert "artifact set" in rebound["missions"][0]["reason"]
@@ -1789,6 +1947,7 @@ def main():
         terminal = json.loads(terminal_path.read_text(encoding="utf-8"))
         terminal["official_verdict_sha256"] = sha(verdict_path.read_bytes())
         write(terminal_path, terminal)
+        rebind_attempt_seal(first)
         falsified = module.rederive_campaign(root / "campaign-freeze.json", root)
         assert falsified["luna_stage_status"] == "INVALID", falsified["missions"][0]
         first_row = falsified["missions"][0]

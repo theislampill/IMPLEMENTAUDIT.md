@@ -13,7 +13,7 @@ import campaign_lifecycle as lifecycle
 
 HERE = pathlib.Path(__file__).resolve().parent
 DECLARATION_PATH = HERE / "b3v4_contract.json"
-DECLARATION_SHA256 = "cf88f4ca6ce9fa2561a91fcc662ac6e802661175fdc8d5af0041c7e838d5431f"
+DECLARATION_SHA256 = "00e1acd64a15c6f23a4b5b721c4d437d53240bcc1c734d51a4f11ff0ede5ffe0"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 FREEZE_FIELDS = {
@@ -350,7 +350,7 @@ def validate_artifact(name, value):
     expected = {
         "campaign_manifest": "implementaudit-b3v4-luna-campaign-custody-v2",
         "attempt_status": "implementaudit-b3v4-luna-attempt-status-v2",
-        "attempt_terminal": "implementaudit-b3v4-luna-attempt-terminal-v2",
+        "attempt_terminal": "implementaudit-b3v4-luna-attempt-terminal-v3",
         "official_luna_result": "implementaudit-b3v4-luna-result-v2",
     }[name]
     if schema != expected:
@@ -388,6 +388,53 @@ def validate_artifact(name, value):
             raise ValueError("attempt terminal official status invalid")
         if value["official_verdict_sha256"] is not None:
             _digest(value["official_verdict_sha256"], "attempt terminal verdict sha256")
+        seal = value["completed_attempt_seal"]
+        if value["overall_status"] in ("PASS", "FAIL"):
+            seal = _exact(
+                seal, {
+                    "schema", "campaign", "freeze_sha256", "contract_sha256",
+                    "mission", "execution_mode", "overall_status",
+                    "resolved_model", "host_run_root",
+                    "official_overall_status", "official_verdict_sha256",
+                    "stop_reason", "error_type", "completed_at",
+                    "attempt_name", "attempt_status_sha256",
+                    "host_attestation_sha256",
+                    "host_custody_manifest_sha256",
+                }, "completed attempt seal")
+            if seal["schema"] != \
+                    "implementaudit-b3v4-completed-attempt-seal-v1":
+                raise ValueError("completed attempt seal schema invalid")
+            validate_mission(seal["mission"])
+            for key in (
+                    "freeze_sha256", "contract_sha256",
+                    "official_verdict_sha256", "attempt_status_sha256",
+                    "host_attestation_sha256",
+                    "host_custody_manifest_sha256"):
+                _digest(seal[key], f"completed attempt seal {key}")
+            for key in (
+                    "campaign", "execution_mode", "overall_status",
+                    "resolved_model", "host_run_root", "official_overall_status",
+                    "completed_at", "attempt_name"):
+                _string(seal[key], f"completed attempt seal {key}")
+            if (seal["campaign"] != value["campaign"] or
+                    seal["mission"]["index"] != value["mission_index"] or
+                    seal["execution_mode"] != value["execution_mode"] or
+                    seal["overall_status"] != value["overall_status"] or
+                    seal["resolved_model"] != value["resolved_model"] or
+                    seal["host_run_root"] != value["host_run_root"] or
+                    seal["official_overall_status"] !=
+                    value["official_overall_status"] or
+                    seal["official_verdict_sha256"] !=
+                    value["official_verdict_sha256"] or
+                    not exact_json_equal(
+                        seal["stop_reason"], value["stop_reason"]) or
+                    not exact_json_equal(
+                        seal["error_type"], value["error_type"]) or
+                    seal["completed_at"] != value["completed_at"]):
+                raise ValueError("completed attempt seal terminal identity drift")
+        elif seal is not None:
+            raise ValueError(
+                "non-scored attempt terminal cannot claim a completion seal")
     if name == "official_luna_result":
         if (value["disposition"] != "INCOMPLETE_PENDING_OPUS" or
                 value["luna_stage_accepted"] is not True or

@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import decimal
 import fnmatch
 import hashlib
 import json
@@ -74,7 +75,14 @@ ATTEMPT_TERMINAL_FIELDS = {
     "schema", "campaign", "mission_index", "execution_mode",
     "overall_status", "resolved_model", "host_run_root",
     "official_overall_status", "official_verdict_sha256", "stop_reason",
-    "error_type", "completed_at",
+    "error_type", "completed_at", "completed_attempt_seal",
+}
+COMPLETED_ATTEMPT_SEAL_FIELDS = {
+    "schema", "campaign", "freeze_sha256", "contract_sha256", "mission",
+    "execution_mode", "overall_status", "resolved_model", "host_run_root",
+    "official_overall_status", "official_verdict_sha256", "stop_reason",
+    "error_type", "completed_at", "attempt_name", "attempt_status_sha256",
+    "host_attestation_sha256", "host_custody_manifest_sha256",
 }
 OFFICIAL_LUNA_RESULT_FIELDS = {
     "schema", "campaign", "freeze_sha256", "contract_sha256",
@@ -189,10 +197,11 @@ def _exact_json_equal(left, right):
     return True
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
-CONTRACT_SHA256 = "cf88f4ca6ce9fa2561a91fcc662ac6e802661175fdc8d5af0041c7e838d5431f"
+CONTRACT_SHA256 = "00e1acd64a15c6f23a4b5b721c4d437d53240bcc1c734d51a4f11ff0ede5ffe0"
 OFFICIAL_STATES = frozenset({"PASS", "FAIL", "INVALID", "ERROR"})
 CONTINUE_STATES = frozenset({"PASS"})
 STOP_STATES = frozenset({"FAIL", "INVALID", "ERROR"})
+SCORED_STATES = frozenset({"PASS", "FAIL"})
 VERIFIED_IDENTITIES = [
     "fixture_sha256 (bytes + canonical-library authenticity)",
     "prompt_sha256 (bytes + mission consistency)",
@@ -331,6 +340,71 @@ def _read_bytes(path):
         raise EvidenceInvalid(f"missing evidence: {lexical.name}") from exc
 
 
+def _custodied_directory_manifest(path, owner):
+    """Independently reproduce the canonical recursive custody manifest."""
+    directory = pathlib.Path(path).absolute()
+    entries = []
+    seen_directories = set()
+    pending = [(directory, pathlib.PurePosixPath("."))]
+    try:
+        while pending:
+            current, relative = pending.pop()
+            current_stat = os.lstat(current)
+            if (current.is_symlink() or _reparse_point(current_stat) or
+                    not stat.S_ISDIR(current_stat.st_mode)):
+                raise EvidenceInvalid(
+                    f"{owner} directory identity invalid")
+            identity = (current_stat.st_dev, current_stat.st_ino)
+            if identity in seen_directories:
+                raise EvidenceInvalid(
+                    f"{owner} repeated directory identity forbidden")
+            seen_directories.add(identity)
+            entries.append({
+                "path": relative.as_posix(), "kind": "directory"})
+            with os.scandir(current) as scanned:
+                children = list(scanned)
+            for child in reversed(sorted(children, key=lambda row: row.name)):
+                if child.name in ("", ".", "..") or "/" in child.name or \
+                        "\\" in child.name:
+                    raise EvidenceInvalid(f"{owner} entry name invalid")
+                child_path = current / child.name
+                child_relative = (
+                    pathlib.PurePosixPath(child.name)
+                    if relative == pathlib.PurePosixPath(".")
+                    else relative / child.name)
+                child_stat = os.lstat(child_path)
+                if child_path.is_symlink() or _reparse_point(child_stat):
+                    raise EvidenceInvalid(
+                        f"{owner} link or reparse alias forbidden")
+                if stat.S_ISDIR(child_stat.st_mode):
+                    pending.append((child_path, child_relative))
+                    continue
+                if (not stat.S_ISREG(child_stat.st_mode) or
+                        child_stat.st_nlink != 1):
+                    raise EvidenceInvalid(
+                        f"{owner} hardlink or special file forbidden")
+                payload = _read_bytes(child_path)
+                observed = os.lstat(child_path)
+                if ((observed.st_dev, observed.st_ino, observed.st_size) !=
+                        (child_stat.st_dev, child_stat.st_ino,
+                         child_stat.st_size)):
+                    raise EvidenceInvalid(f"{owner} file identity changed")
+                entries.append({
+                    "path": child_relative.as_posix(), "kind": "file",
+                    "byte_length": len(payload), "sha256": _sha(payload),
+                })
+    except EvidenceInvalid:
+        raise
+    except OSError as exc:
+        raise EvidenceInvalid(
+            f"{owner} cannot be read as retained evidence") from exc
+    entries.sort(key=lambda row: row["path"])
+    return (json.dumps({
+        "schema": "implementaudit-custodied-directory-manifest-v1",
+        "entries": entries,
+    }, indent=1, sort_keys=True, allow_nan=False) + "\n").encode("utf-8")
+
+
 def _decode_json(data, owner, malformed, require_object=False):
     def unique(pairs):
         value = {}
@@ -344,10 +418,39 @@ def _decode_json(data, owner, malformed, require_object=False):
         text = data.decode("utf-8") if isinstance(data, bytes) else data
         def nonfinite(value):
             raise EvidenceInvalid(f"{owner} contains non-finite number {value}")
+
+        def lossless_float(token):
+            try:
+                source = decimal.Decimal(token)
+                value = float(source)
+                round_trip = (decimal.Decimal(repr(value))
+                              if math.isfinite(value) else None)
+                numerically_equal = (
+                    round_trip == source if round_trip is not None else False)
+            except (decimal.DecimalException, OverflowError, ValueError) as exc:
+                raise EvidenceInvalid(
+                    f"{owner} contains JSON number domain error: {token}") \
+                    from exc
+            if not math.isfinite(value):
+                raise EvidenceInvalid(
+                    f"{owner} contains non-finite number {token}")
+            sign_changed = (
+                source.is_zero() and
+                source.is_signed() != (math.copysign(1.0, value) < 0.0))
+            if not numerically_equal or sign_changed:
+                raise EvidenceInvalid(
+                    f"{owner} contains lossy JSON number {token}")
+            return value
+
         value = json.loads(text, object_pairs_hook=unique,
-                           parse_constant=nonfinite)
+                           parse_constant=nonfinite,
+                           parse_float=lossless_float)
+    except EvidenceInvalid:
+        raise
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
         raise EvidenceInvalid(malformed) from exc
+    except ValueError as exc:
+        raise EvidenceInvalid(f"{owner} contains invalid JSON number") from exc
     except (RecursionError, MemoryError) as exc:
         raise EvidenceInvalid(
             f"{owner} exceeds JSON resource limits") from exc
@@ -963,14 +1066,14 @@ def _load_host_attestation(attempt, status, config):
                 type(identity) is str and bool(identity)
                 for name, identity in executables.items()),
             "host attestation executable identities invalid")
-    return attestation
+    return attestation, raw
 
 
 def _validate_attempt_terminal(terminal, mission):
     terminal = _exact_fields(
         terminal, ATTEMPT_TERMINAL_FIELDS, "attempt terminal")
     _expect(terminal["schema"] ==
-            "implementaudit-b3v4-luna-attempt-terminal-v2" and
+            "implementaudit-b3v4-luna-attempt-terminal-v3" and
             terminal["campaign"] == "b3v4-sol-luna-r2" and
             type(terminal["mission_index"]) is int and
             terminal["mission_index"] == mission["index"] and
@@ -1001,7 +1104,46 @@ def _validate_attempt_terminal(terminal, mission):
         _expect(type(terminal["stop_reason"]) is str and
                 bool(terminal["stop_reason"]),
                 "attempt terminal stop reason missing")
+    if terminal["overall_status"] in SCORED_STATES:
+        _expect(type(terminal["completed_attempt_seal"]) is dict,
+                "scored attempt completion seal missing")
+    else:
+        _expect(terminal["completed_attempt_seal"] is None,
+                "non-scored attempt cannot claim completion seal")
     return terminal
+
+
+def _validate_completed_attempt_seal(attempt, status, status_raw, terminal,
+                                     attestation_raw, packet, freeze_sha):
+    seal = _exact_fields(
+        terminal["completed_attempt_seal"], COMPLETED_ATTEMPT_SEAL_FIELDS,
+        "completed attempt seal")
+    host_root = (attempt / "host-custody" / attempt.name).absolute()
+    expected = {
+        "schema": "implementaudit-b3v4-completed-attempt-seal-v1",
+        "campaign": packet["campaign"],
+        "freeze_sha256": freeze_sha,
+        "contract_sha256": packet["artifact_contract"]["sha256"],
+        "mission": status["mission"],
+        "execution_mode": terminal["execution_mode"],
+        "overall_status": terminal["overall_status"],
+        "resolved_model": terminal["resolved_model"],
+        "host_run_root": str(host_root),
+        "official_overall_status": terminal["official_overall_status"],
+        "official_verdict_sha256": terminal["official_verdict_sha256"],
+        "stop_reason": terminal["stop_reason"],
+        "error_type": terminal["error_type"],
+        "completed_at": terminal["completed_at"],
+        "attempt_name": attempt.name,
+        "attempt_status_sha256": _sha(status_raw),
+        "host_attestation_sha256": _sha(attestation_raw),
+        "host_custody_manifest_sha256": _sha(
+            _custodied_directory_manifest(
+                attempt / "host-custody", "completed host custody")),
+    }
+    _expect(_exact_json_equal(seal, expected),
+            "completed attempt seal drift")
+    return seal
 
 
 def _canonical_snapshot_hash(value):
@@ -2470,13 +2612,14 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha):
     name = _attempt_name(mission)
     attempt = campaign_root / name
     try:
-        status, _ = _read_json(attempt / "attempt-status.json", "attempt status")
+        status, status_raw = _read_json(
+            attempt / "attempt-status.json", "attempt status")
         terminal, _ = _read_json(attempt / "attempt-terminal.json", "attempt terminal")
         config = packet["configurations"][mission["config"]]
         status = _validate_attempt_status(
             status, mission, freeze_sha,
             packet["artifact_contract"]["sha256"], config)
-        _load_host_attestation(attempt, status, config)
+        _, attestation_raw = _load_host_attestation(attempt, status, config)
         terminal = _validate_attempt_terminal(terminal, mission)
         expected_model = config["model_resolved_required"]
         if (terminal["overall_status"] in STOP_STATES and
@@ -2493,9 +2636,11 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha):
         if terminal.get("resolved_model") != expected_model:
             return _invalid_row(mission, "SUBSTITUTION", "model substitution")
         host_root = (attempt / "host-custody" / name).absolute()
-        recorded_root = pathlib.Path(
-            str(terminal.get("host_run_root", ""))).absolute()
-        _expect(recorded_root == host_root, "attempt host run root identity mismatch")
+        _expect(terminal.get("host_run_root") == str(host_root),
+                "attempt host run root identity mismatch")
+        _validate_completed_attempt_seal(
+            attempt, status, status_raw, terminal, attestation_raw,
+            packet, freeze_sha)
         parent, _ = _read_json(host_root / "terminal.json", "host terminal")
         parent = _exact_fields(parent, HOST_TERMINAL_FIELDS, "host terminal")
         _expect(parent["schema"] == "implementaudit-run-terminal-v1" and
@@ -2582,7 +2727,7 @@ def rederive_campaign(packet_path, campaign_root):
         custody, CAMPAIGN_MANIFEST_FIELDS, "campaign manifest")
     _expect(custody["schema"] ==
             "implementaudit-b3v4-luna-campaign-custody-v2" and
-            custody["campaign"] == "b3v4-sol-luna-r2" and
+            custody["campaign"] == packet["campaign"] and
             custody["freeze_sha256"] == freeze_sha and
             custody["contract_sha256"] ==
             packet["artifact_contract"]["sha256"] and

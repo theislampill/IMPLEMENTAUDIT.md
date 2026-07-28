@@ -43,6 +43,13 @@ REQUIRED_ATTEMPT_ARTIFACTS = {
     "attempt-status.json", "attempt-terminal.json", "host-attestation.json",
     "official-verdict.json", "host-custody",
 }
+COMPLETED_ATTEMPT_SEAL_FIELDS = {
+    "schema", "campaign", "freeze_sha256", "contract_sha256", "mission",
+    "execution_mode", "overall_status", "resolved_model", "host_run_root",
+    "official_overall_status", "official_verdict_sha256", "stop_reason",
+    "error_type", "completed_at", "attempt_name", "attempt_status_sha256",
+    "host_attestation_sha256", "host_custody_manifest_sha256",
+}
 MAX_JSON_DEPTH = 512
 
 
@@ -162,6 +169,58 @@ def _write_new_json(path, value):
 
 def _read_object(path, owner, *, root=None):
     return contract.load_json_file(path, owner, root=root)
+
+
+def _expected_host_run_root(attempt_root):
+    attempt_root = pathlib.Path(attempt_root).absolute()
+    return attempt_root / "host-custody" / attempt_root.name
+
+
+def _completed_attempt_seal(attempt_root, status, terminal, packet,
+                            packet_sha256):
+    attempt_root = pathlib.Path(attempt_root).absolute()
+    host_root = _expected_host_run_root(attempt_root)
+    if terminal["host_run_root"] != str(host_root):
+        raise ValueError("attempt host run root identity mismatch")
+    host_manifest = contract.read_custodied_directory_manifest(
+        attempt_root / "host-custody", "completed host custody",
+        root=attempt_root)
+    return {
+        "schema": "implementaudit-b3v4-completed-attempt-seal-v1",
+        "campaign": packet["campaign"],
+        "freeze_sha256": packet_sha256,
+        "contract_sha256": packet["artifact_contract"]["sha256"],
+        "mission": status["mission"],
+        "execution_mode": terminal["execution_mode"],
+        "overall_status": terminal["overall_status"],
+        "resolved_model": terminal["resolved_model"],
+        "host_run_root": terminal["host_run_root"],
+        "official_overall_status": terminal["official_overall_status"],
+        "official_verdict_sha256": terminal["official_verdict_sha256"],
+        "stop_reason": terminal["stop_reason"],
+        "error_type": terminal["error_type"],
+        "completed_at": terminal["completed_at"],
+        "attempt_name": attempt_root.name,
+        "attempt_status_sha256": _sha256_file(
+            attempt_root / "attempt-status.json", root=attempt_root,
+            owner="attempt status"),
+        "host_attestation_sha256": _sha256_file(
+            attempt_root / "host-attestation.json", root=attempt_root,
+            owner="host attestation"),
+        "host_custody_manifest_sha256": _sha256_bytes(host_manifest),
+    }
+
+
+def _verify_completed_attempt_seal(attempt_root, status, terminal, packet,
+                                   packet_sha256):
+    seal = terminal.get("completed_attempt_seal")
+    if type(seal) is not dict or set(seal) != COMPLETED_ATTEMPT_SEAL_FIELDS:
+        raise ValueError("completed attempt seal identity shape invalid")
+    expected = _completed_attempt_seal(
+        attempt_root, status, terminal, packet, packet_sha256)
+    if not _exact_json_equal(seal, expected):
+        raise ValueError("completed attempt seal drift")
+    return seal
 
 
 def _official_error(message):
@@ -500,7 +559,7 @@ class CampaignDriver:
         self.live_validator(packet, self.repo_root)
         return packet, raw, _sha256_bytes(raw)
 
-    def _ensure_campaign(self, raw, packet_sha256):
+    def _ensure_campaign(self, raw, packet_sha256, packet):
         frozen = self.campaign_root / "campaign-freeze.json"
         manifest = self.campaign_root / "campaign-manifest.json"
         if not self.campaign_root.exists():
@@ -519,13 +578,14 @@ class CampaignDriver:
         recorded = _read_object(
             manifest, "campaign manifest", root=self.campaign_root)
         contract.validate_artifact("campaign_manifest", recorded)
-        if (recorded.get("freeze_sha256") != packet_sha256 or
+        if (recorded.get("campaign") != packet["campaign"] or
+                recorded.get("freeze_sha256") != packet_sha256 or
                 recorded.get("contract_sha256") != contract.contract_sha256() or
                 _sha256_file(frozen, root=self.campaign_root,
                              owner="frozen packet") != packet_sha256 or
                 contract.read_custodied_bytes(
                     frozen, "frozen packet", root=self.campaign_root) != raw):
-            raise ValueError("frozen packet drift")
+            raise ValueError("frozen packet or campaign manifest drift")
 
     @staticmethod
     def _attempt_name(mission):
@@ -624,6 +684,9 @@ class CampaignDriver:
             contract.read_custodied_directory_manifest(
                 root / "host-custody", "prior host custody",
                 root=self.campaign_root)
+            _verify_completed_attempt_seal(
+                root, status, terminal, packet,
+                status["freeze_sha256"])
         raise ValueError(
             "campaign already contains all six Luna attempts; "
             "finalize-luna-stage is required")
@@ -698,13 +761,13 @@ class CampaignDriver:
         packet, raw, observed_sha = self._load_packet()
         if observed_sha != expected_sha:
             raise ValueError("frozen packet drift")
-        self._ensure_campaign(raw, observed_sha)
+        self._ensure_campaign(raw, observed_sha, packet)
         self._validate_identities(packet)
 
     def run_next(self):
         packet, raw, packet_sha256 = self._load_packet()
         fixture = _fixture_for_packet(self.repo_root, packet)
-        self._ensure_campaign(raw, packet_sha256)
+        self._ensure_campaign(raw, packet_sha256, packet)
         self._validate_identities(packet)
         mission = self._next_mission(packet)
         attempt_root = self._claim_attempt(mission, packet_sha256, packet)
@@ -720,13 +783,14 @@ class CampaignDriver:
             runtime_root=self.runtime_root, attestations=self.attestations,
             host_attestation=retained_attestation)
         terminal = {
-            "schema": "implementaudit-b3v4-luna-attempt-terminal-v2",
+            "schema": "implementaudit-b3v4-luna-attempt-terminal-v3",
             "campaign": "b3v4-sol-luna-r2", "mission_index": mission["index"],
             "execution_mode": self.execution_mode,
             "overall_status": None, "resolved_model": None,
             "host_run_root": None, "official_overall_status": None,
             "official_verdict_sha256": None, "stop_reason": None,
             "error_type": None, "completed_at": None,
+            "completed_attempt_seal": None,
         }
         try:
             outcome = self.mission_executor(context)
@@ -769,6 +833,11 @@ class CampaignDriver:
                     resolved != context.expected_model):
                 terminal["overall_status"] = "INVALID"
                 terminal["stop_reason"] = "model-substitution"
+            expected_host_root = str(_expected_host_run_root(attempt_root))
+            if (terminal.get("overall_status") in SCORED_STATES and
+                    terminal.get("host_run_root") != expected_host_root):
+                terminal["overall_status"] = "INVALID"
+                terminal["stop_reason"] = "host-run-root-identity-mismatch"
             elif (terminal.get("overall_status") == "INVALID" and
                   resolved is not None and resolved != context.expected_model):
                 terminal["stop_reason"] = "model-substitution"
@@ -793,6 +862,9 @@ class CampaignDriver:
                 terminal["overall_status"] = "INVALID"
                 terminal["stop_reason"] = "frozen-input-drift"
         terminal["completed_at"] = _utc_now()
+        if terminal["overall_status"] in SCORED_STATES:
+            terminal["completed_attempt_seal"] = _completed_attempt_seal(
+                attempt_root, status, terminal, packet, packet_sha256)
         contract.validate_artifact("attempt_terminal", terminal)
         _write_new_json(attempt_root / "attempt-terminal.json", terminal)
         return terminal
@@ -829,7 +901,7 @@ class CampaignDriver:
                 "mission": mission,
             }
             terminal_identity = {
-                "schema": "implementaudit-b3v4-luna-attempt-terminal-v2",
+                "schema": "implementaudit-b3v4-luna-attempt-terminal-v3",
                 "campaign": packet["campaign"],
                 "mission_index": mission["index"],
             }
@@ -944,6 +1016,8 @@ class CampaignDriver:
             _verify_official_verdict(
                 attempt, terminal, fixture, packet=packet, mission=mission,
                 production=self.execution_mode == "production")
+            _verify_completed_attempt_seal(
+                attempt, status, terminal, packet, packet_sha256)
             verdict = _read_object(
                 attempt / "official-verdict.json", "official verdict",
                 root=attempt)
@@ -1037,7 +1111,7 @@ class CampaignDriver:
         if result_path.exists() or terminal_path.exists():
             raise ValueError("create-once Luna stage artifact already exists")
         packet, packet_raw, packet_sha256 = self._load_packet()
-        self._ensure_campaign(packet_raw, packet_sha256)
+        self._ensure_campaign(packet_raw, packet_sha256, packet)
         self._validate_identities(packet)
         independent_path = self.campaign_root / packet["luna_stage"][
             "independent_result_name"]
@@ -1077,7 +1151,7 @@ class CampaignDriver:
 
     def validate_luna_stage(self):
         packet, packet_raw, packet_sha256 = self._load_packet()
-        self._ensure_campaign(packet_raw, packet_sha256)
+        self._ensure_campaign(packet_raw, packet_sha256, packet)
         self._validate_identities(packet)
         independent_path = self.campaign_root / packet["luna_stage"][
             "independent_result_name"]

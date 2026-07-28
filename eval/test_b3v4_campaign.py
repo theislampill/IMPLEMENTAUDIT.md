@@ -342,10 +342,208 @@ def scored_outcome(context, status="PASS", *, resolved_model=None,
         f"synthetic session {name}\n".encode())
     resolved = resolved_model or context.expected_model
     return {"overall_status": status, "resolved_model": resolved,
-            "host_run_root": "mock-host-run",
+            "host_run_root": str(
+                (context.attempt_root / "host-custody" / name).absolute()),
             "official_verdict": official_verdict(
-                context, status, product=product, host=host,
-                resolved_model=resolved, substituted=substituted)}
+             context, status, product=product, host=host,
+             resolved_model=resolved, substituted=substituted)}
+
+
+def sealed_probe_outcome(context, *, exact_host_root=True):
+    outcome = scored_outcome(context)
+    name = context.attempt_root.name
+    probe = (context.attempt_root / "host-custody" / name /
+             "seal-probe.bin")
+    probe.write_bytes(f"sealed probe {name}\n".encode())
+    if exact_host_root:
+        outcome["host_run_root"] = str(
+            (context.attempt_root / "host-custody" / name).absolute())
+    return outcome
+
+
+def mutate_nested_host_custody(driver, packet, position):
+    attempt = driver.campaign_root / driver._attempt_name(
+        packet["missions"][position])
+    probe = attempt / "host-custody" / attempt.name / "seal-probe.bin"
+    probe.write_bytes(b"post-terminal nested custody mutation\n")
+
+
+def mutate_campaign_identity(driver):
+    path = driver.campaign_root / "campaign-manifest.json"
+    manifest = json.loads(path.read_text(encoding="utf-8"))
+    manifest["campaign"] = "b3v4-sol-luna-drift"
+    path.write_text(json.dumps(manifest), encoding="utf-8")
+
+
+def assert_completed_attempt_seal_reds(module):
+    accepted = []
+    for position in (0, 3):
+        with tempfile.TemporaryDirectory(
+                prefix=f"b3v4-seal-next-{position}-") as tmp:
+            calls = []
+
+            def counted(context):
+                calls.append(context.mission["index"])
+                return sealed_probe_outcome(context)
+
+            driver = make_driver(module, tmp, counted)
+            for _ in range(position + 1):
+                driver.run_next()
+            packet, _, _ = driver._load_packet()
+            mutate_nested_host_custody(driver, packet, position)
+            try:
+                driver.run_next()
+            except ValueError:
+                assert calls == list(range(position + 1)), calls
+            else:
+                accepted.append(f"next-{position}")
+
+    for position in (0, 3, 5):
+        with tempfile.TemporaryDirectory(
+                prefix=f"b3v4-seal-finalize-{position}-") as tmp:
+            driver = make_driver(module, tmp, sealed_probe_outcome)
+            for _ in range(6):
+                driver.run_next()
+            write_independent_result(driver)
+            packet, _, _ = driver._load_packet()
+            mutate_nested_host_custody(driver, packet, position)
+            try:
+                driver.finalize_luna_stage()
+            except ValueError:
+                pass
+            else:
+                accepted.append(f"finalize-{position}")
+
+    for position in (0, 3, 5):
+        with tempfile.TemporaryDirectory(
+                prefix=f"b3v4-seal-resume-{position}-") as tmp:
+            driver = make_driver(module, tmp, sealed_probe_outcome)
+            for _ in range(6):
+                driver.run_next()
+            write_independent_result(driver)
+            driver.finalize_luna_stage()
+            packet, _, _ = driver._load_packet()
+            mutate_nested_host_custody(driver, packet, position)
+            try:
+                driver.validate_luna_stage()
+            except ValueError:
+                pass
+            else:
+                accepted.append(f"resume-{position}")
+    assert not accepted, (
+        "nested host-custody byte mutation accepted at: " +
+        ", ".join(accepted))
+
+
+def assert_campaign_manifest_join_reds(module):
+    accepted = []
+    with tempfile.TemporaryDirectory(prefix="b3v4-manifest-next-") as tmp:
+        driver = make_driver(module, tmp, sealed_probe_outcome)
+        driver.run_next()
+        mutate_campaign_identity(driver)
+        try:
+            driver.run_next()
+        except ValueError:
+            pass
+        else:
+            accepted.append("next")
+
+    with tempfile.TemporaryDirectory(prefix="b3v4-manifest-finalize-") as tmp:
+        driver = make_driver(module, tmp, sealed_probe_outcome)
+        for _ in range(6):
+            driver.run_next()
+        write_independent_result(driver)
+        mutate_campaign_identity(driver)
+        try:
+            driver.finalize_luna_stage()
+        except ValueError:
+            pass
+        else:
+            accepted.append("finalize")
+
+    with tempfile.TemporaryDirectory(prefix="b3v4-manifest-resume-") as tmp:
+        driver = make_driver(module, tmp, sealed_probe_outcome)
+        for _ in range(6):
+            driver.run_next()
+        write_independent_result(driver)
+        driver.finalize_luna_stage()
+        mutate_campaign_identity(driver)
+        try:
+            driver.validate_luna_stage()
+        except ValueError:
+            pass
+        else:
+            accepted.append("resume")
+    assert not accepted, (
+        "campaign manifest campaign drift accepted at: " +
+        ", ".join(accepted))
+
+
+def assert_exact_host_run_root_reds(module):
+    accepted = []
+    for position in (0, 3, 5):
+        with tempfile.TemporaryDirectory(
+                prefix=f"b3v4-host-root-run-{position}-") as tmp:
+            def executor(context):
+                outcome = sealed_probe_outcome(context)
+                if context.mission["index"] == position:
+                    outcome["host_run_root"] = str(
+                        context.attempt_root / "host-custody" / "other-attempt")
+                return outcome
+
+            driver = make_driver(module, tmp, executor)
+            for _ in range(position + 1):
+                terminal = driver.run_next()
+            if terminal["overall_status"] == "PASS":
+                accepted.append(f"run-{position}")
+
+    for position in (0, 3, 5):
+        with tempfile.TemporaryDirectory(
+                prefix=f"b3v4-host-root-finalize-{position}-") as tmp:
+            driver = make_driver(module, tmp, sealed_probe_outcome)
+            for _ in range(6):
+                driver.run_next()
+            write_independent_result(driver)
+            packet, _, _ = driver._load_packet()
+            attempt = driver.campaign_root / driver._attempt_name(
+                packet["missions"][position])
+            terminal_path = attempt / "attempt-terminal.json"
+            terminal = json.loads(terminal_path.read_text(encoding="utf-8"))
+            terminal["host_run_root"] = str(
+                attempt / "host-custody" / "other-attempt")
+            terminal_path.write_text(json.dumps(terminal), encoding="utf-8")
+            try:
+                driver.finalize_luna_stage()
+            except ValueError:
+                pass
+            else:
+                accepted.append(f"finalize-{position}")
+
+    for position in (0, 3, 5):
+        with tempfile.TemporaryDirectory(
+                prefix=f"b3v4-host-root-resume-{position}-") as tmp:
+            driver = make_driver(module, tmp, sealed_probe_outcome)
+            for _ in range(6):
+                driver.run_next()
+            write_independent_result(driver)
+            driver.finalize_luna_stage()
+            packet, _, _ = driver._load_packet()
+            attempt = driver.campaign_root / driver._attempt_name(
+                packet["missions"][position])
+            terminal_path = attempt / "attempt-terminal.json"
+            terminal = json.loads(terminal_path.read_text(encoding="utf-8"))
+            terminal["host_run_root"] = str(
+                attempt / "host-custody" / "other-attempt")
+            terminal_path.write_text(json.dumps(terminal), encoding="utf-8")
+            try:
+                driver.validate_luna_stage()
+            except ValueError:
+                pass
+            else:
+                accepted.append(f"resume-{position}")
+    assert not accepted, (
+        "non-attempt-owned host_run_root accepted at: " +
+        ", ".join(accepted))
 
 
 def assert_runtime_executable_parent_junction_rejected(module):
@@ -413,6 +611,9 @@ def main():
     module = load_driver()
     assert_exact_independent_result_comparison(module)
     assert_runtime_executable_parent_junction_rejected(module)
+    assert_completed_attempt_seal_reds(module)
+    assert_campaign_manifest_join_reds(module)
+    assert_exact_host_run_root_reds(module)
 
     with tempfile.TemporaryDirectory(prefix="b3v4-campaign-verdict-contract-") as tmp:
         driver = make_driver(module, tmp, scored_outcome)
@@ -669,6 +870,8 @@ def main():
         terminal = json.loads(terminal_path.read_text(encoding="utf-8"))
         terminal["official_verdict_sha256"] = hashlib.sha256(
             verdict_path.read_bytes()).hexdigest()
+        terminal["completed_attempt_seal"]["official_verdict_sha256"] = \
+            terminal["official_verdict_sha256"]
         terminal_path.write_text(json.dumps(terminal), encoding="utf-8")
         assert first["overall_status"] == "PASS"
         expect_error("duplicate JSON key", driver.run_next)

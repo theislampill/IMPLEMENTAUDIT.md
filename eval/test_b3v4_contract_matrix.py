@@ -70,7 +70,7 @@ def lifecycle_rows(packet):
             },
         },
         "attempt_terminal": {
-            "schema": "implementaudit-b3v4-luna-attempt-terminal-v2",
+            "schema": "implementaudit-b3v4-luna-attempt-terminal-v3",
             "campaign": "b3v4-sol-luna-r2", "mission_index": 0,
             "execution_mode": "test", "overall_status": "ERROR",
             "resolved_model": None, "host_run_root": None,
@@ -78,6 +78,7 @@ def lifecycle_rows(packet):
             "official_verdict_sha256": None,
             "stop_reason": "mission-execution-exception",
             "error_type": "RuntimeError", "completed_at": "2030-01-01T00:00:01Z",
+            "completed_attempt_seal": None,
         },
     }
     rows["official_luna_result"] = {
