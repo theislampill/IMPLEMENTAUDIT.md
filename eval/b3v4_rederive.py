@@ -405,6 +405,65 @@ def _custodied_directory_manifest(path, owner):
     }, indent=1, sort_keys=True, allow_nan=False) + "\n").encode("utf-8")
 
 
+def _validate_strict_json_model(value, owner="JSON value"):
+    """Independently enforce the frozen exact-model and depth contract."""
+    active = set()
+    pending = [("visit", value, owner, 0)]
+    while pending:
+        action, current, current_owner, depth = pending.pop()
+        if action == "leave":
+            active.remove(id(current))
+            continue
+        if type(current) is dict:
+            if depth >= MAX_JSON_DEPTH:
+                raise EvidenceInvalid(
+                    f"{current_owner} exceeds JSON depth limit")
+            identity = id(current)
+            if identity in active:
+                raise EvidenceInvalid(
+                    f"{current_owner} contains a cyclic JSON container")
+            active.add(identity)
+            pending.append(("leave", current, current_owner, depth))
+            children = []
+            for key, child in current.items():
+                if type(key) is not str:
+                    raise EvidenceInvalid(
+                        f"{current_owner} object key must be an exact string")
+                children.append((
+                    "visit", child, f"{current_owner}.{key}", depth + 1))
+            pending.extend(reversed(children))
+            continue
+        if isinstance(current, dict):
+            raise EvidenceInvalid(
+                f"{current_owner} object type must be exact dict")
+        if type(current) is list:
+            if depth >= MAX_JSON_DEPTH:
+                raise EvidenceInvalid(
+                    f"{current_owner} exceeds JSON depth limit")
+            identity = id(current)
+            if identity in active:
+                raise EvidenceInvalid(
+                    f"{current_owner} contains a cyclic JSON container")
+            active.add(identity)
+            pending.append(("leave", current, current_owner, depth))
+            pending.extend(
+                ("visit", child, f"{current_owner}[{index}]", depth + 1)
+                for index, child in reversed(list(enumerate(current))))
+            continue
+        if isinstance(current, (list, tuple)):
+            raise EvidenceInvalid(
+                f"{current_owner} array type must be exact list")
+        if current is None or type(current) in (str, bool, int):
+            continue
+        if type(current) is float:
+            if not math.isfinite(current):
+                raise EvidenceInvalid(
+                    f"{current_owner} contains a non-finite number")
+            continue
+        raise EvidenceInvalid(
+            f"{current_owner} scalar type is not strict JSON")
+
+
 def _decode_json(data, owner, malformed, require_object=False):
     def unique(pairs):
         value = {}
@@ -445,6 +504,7 @@ def _decode_json(data, owner, malformed, require_object=False):
         value = json.loads(text, object_pairs_hook=unique,
                            parse_constant=nonfinite,
                            parse_float=lossless_float)
+        _validate_strict_json_model(value, owner)
     except EvidenceInvalid:
         raise
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:

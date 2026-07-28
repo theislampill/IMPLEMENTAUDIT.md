@@ -14,6 +14,7 @@ import subprocess
 import tempfile
 
 from test_b3v4_freeze import valid_packet
+import b3v4_contract as official_contract
 import runner as official_runner
 
 
@@ -1333,6 +1334,112 @@ def assert_deep_cli_failure_normalized(module):
     assert value["luna_stage_accepted"] is False
 
 
+def nested_json_bytes(kind, depth):
+    if kind == "array":
+        opening, closing = [b"["] * depth, [b"]"] * depth
+    elif kind == "object":
+        opening, closing = [b'{"x":'] * depth, [b"}"] * depth
+    else:
+        opening = [b"[" if index % 2 == 0 else b'{"x":'
+                   for index in range(depth)]
+        closing = [b"]" if index % 2 == 0 else b"}"
+                   for index in reversed(range(depth))]
+    return b'{"value":' + b"".join(opening) + b"0" + \
+        b"".join(closing) + b"}"
+
+
+def nested_policy_value(total_depth):
+    # The retained host-terminal object is depth zero and policy_resolved is
+    # depth one.  Add total_depth - 1 descendants below that policy root.
+    value = {"leaf": "valid"}
+    for _ in range(total_depth - 1):
+        value = {"nested": value}
+    return value
+
+
+def assert_exact_depth_parity(module):
+    accepted_over_limit = []
+    rejected_within_limit = []
+    for kind in ("array", "object", "mixed"):
+        for depth in (510, 511, 512, 513):
+            raw = nested_json_bytes(kind, depth)
+            official_accepted = True
+            try:
+                official_contract.decode_json_bytes(
+                    raw, f"official {kind} depth {depth}",
+                    require_object=True)
+            except ValueError as exc:
+                official_accepted = False
+                assert "exceeds JSON depth limit" in str(exc), str(exc)
+            assert official_accepted is (depth <= 511), (
+                kind, depth, official_accepted)
+            try:
+                module._decode_json(
+                    raw, f"independent {kind} depth {depth}",
+                    "depth fixture malformed", require_object=True)
+            except module.EvidenceInvalid as exc:
+                if depth <= 511:
+                    rejected_within_limit.append(
+                        f"{kind}-{depth}:{str(exc)}")
+                else:
+                    assert "depth" in str(exc) or "resource" in str(exc), str(exc)
+            else:
+                if depth >= 512:
+                    accepted_over_limit.append(f"{kind}-{depth}")
+    assert not rejected_within_limit and not accepted_over_limit, (
+        "independent depth parity drift: rejected-valid=" +
+        ", ".join(rejected_within_limit) + "; accepted-invalid=" +
+        ", ".join(accepted_over_limit))
+
+
+def assert_post_decode_model_traversal(module):
+    shared = {"finite": -0.0}
+    module._validate_strict_json_model(
+        {"left": shared, "right": shared}, "shared acyclic fixture")
+    cycle = []
+    cycle.append(cycle)
+    invalid = [
+        ("cycle", cycle),
+        ("tuple", (1, 2)),
+        ("non-string-key", {1: "invalid"}),
+        ("non-finite", {"value": float("inf")}),
+    ]
+    for label, value in invalid:
+        try:
+            module._validate_strict_json_model(value, label)
+        except module.EvidenceInvalid:
+            pass
+        else:
+            raise AssertionError(
+                f"independent strict-model traversal accepted {label}")
+
+
+def assert_retained_depth_boundary(module):
+    results = {}
+    for depth in (511, 512):
+        with tempfile.TemporaryDirectory(
+                prefix=f"b3v4-retained-depth-{depth}-") as tmp:
+            root = pathlib.Path(tmp) / "campaign"
+            build_campaign(root)
+            first = root / "attempt-000-L-candidate-r1"
+            host_terminal_path = (
+                first / "host-custody" / first.name / "terminal.json")
+            host_terminal = json.loads(
+                host_terminal_path.read_text(encoding="utf-8"))
+            host_terminal["policy_resolved"] = nested_policy_value(depth)
+            write(host_terminal_path, host_terminal)
+            rebind_attempt_seal(first)
+            result = module.rederive_campaign(
+                root / "campaign-freeze.json", root)
+            results[depth] = result
+    assert results[511]["luna_stage_status"] == "PASS", results[511]
+    assert results[511]["luna_stage_accepted"] is True, results[511]
+    assert (results[512]["luna_stage_status"] != "PASS" and
+            results[512]["luna_stage_accepted"] is False), (
+        "retained depth-512 evidence produced Luna PASS: " +
+        repr(results[512]))
+
+
 def assert_lossless_numeric_domain_rejected(module):
     tokens = (
         "1e400",
@@ -1450,6 +1557,9 @@ def main():
     assert_host_root_junction_rejected(module)
     assert_independent_output_custody(module)
     assert_deep_cli_failure_normalized(module)
+    assert_exact_depth_parity(module)
+    assert_post_decode_model_traversal(module)
+    assert_retained_depth_boundary(module)
     assert_lossless_numeric_domain_rejected(module)
     assert_complete_pass_row_schema(module)
 
