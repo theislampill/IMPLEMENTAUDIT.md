@@ -11,6 +11,7 @@ import base64
 import fnmatch
 import hashlib
 import json
+import math
 import os
 import pathlib
 import re
@@ -85,6 +86,7 @@ FINAL_CLAIMS = {
     "release_authorized": False, "tag_authorized": False,
     "publication_authorized": False,
 }
+MAX_JSON_DEPTH = 512
 ACCEPTANCE_RULE = (
     "all six Luna missions terminal and PASS; independent Luna rederivation "
     "agrees with every "
@@ -118,6 +120,66 @@ CAPTURE_FILES = (
     "host-tool-trace.json", "host-read-matrix.json",
     "host-read-post-probe.json", "host-read-terminal.json",
 )
+
+
+def _exact_json_equal(left, right):
+    """Independent exact comparison for strict retained JSON values."""
+    active_observed = set()
+    active_expected = set()
+    pending = [("compare", left, right, 0)]
+    while pending:
+        action, observed, expected, depth = pending.pop()
+        if action == "leave":
+            active_observed.remove(id(observed))
+            active_expected.remove(id(expected))
+            continue
+        if type(observed) is not type(expected):
+            return False
+        if type(observed) is dict:
+            if depth >= MAX_JSON_DEPTH or set(observed) != set(expected):
+                return False
+            observed_id = id(observed)
+            expected_id = id(expected)
+            if (observed_id in active_observed or
+                    expected_id in active_expected):
+                return False
+            active_observed.add(observed_id)
+            active_expected.add(expected_id)
+            pending.append(("leave", observed, expected, depth))
+            pending.extend(
+                ("compare", observed[key], expected[key], depth + 1)
+                for key in reversed(list(observed)))
+            continue
+        if type(observed) is list:
+            if depth >= MAX_JSON_DEPTH or len(observed) != len(expected):
+                return False
+            observed_id = id(observed)
+            expected_id = id(expected)
+            if (observed_id in active_observed or
+                    expected_id in active_expected):
+                return False
+            active_observed.add(observed_id)
+            active_expected.add(expected_id)
+            pending.append(("leave", observed, expected, depth))
+            pending.extend(
+                ("compare", observed_item, expected_item, depth + 1)
+                for observed_item, expected_item in reversed(
+                    list(zip(observed, expected))))
+            continue
+        if type(observed) is float:
+            if (not math.isfinite(observed) or not math.isfinite(expected) or
+                    observed != expected or
+                    (observed == 0.0 and
+                     math.copysign(1.0, observed) !=
+                     math.copysign(1.0, expected))):
+                return False
+            continue
+        if type(observed) in (str, bool, int) or observed is None:
+            if observed != expected:
+                return False
+            continue
+        return False
+    return True
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 CONTRACT_SHA256 = "cf88f4ca6ce9fa2561a91fcc662ac6e802661175fdc8d5af0041c7e838d5431f"
@@ -856,7 +918,7 @@ def _validate_attempt_status(status, mission, freeze_sha, contract_sha, config):
             status["campaign"] == "b3v4-sol-luna-r2" and
             status["freeze_sha256"] == freeze_sha and
             status["contract_sha256"] == contract_sha and
-            status["mission"] == mission and
+            _exact_json_equal(status["mission"], mission) and
             status["state"] == "PREPARED_BEFORE_HOST_SPAWN" and
             status["execution_mode"] in ("production", "test") and
             type(status["created_at"]) is str and bool(status["created_at"]),
@@ -864,12 +926,12 @@ def _validate_attempt_status(status, mission, freeze_sha, contract_sha, config):
     binding = _exact_fields(status["host_attestation_binding"],
                             HOST_ATTESTATION_BINDING_FIELDS,
                             "attempt status host attestation binding")
-    _expect(binding == {
+    _expect(_exact_json_equal(binding, {
         "path": "host-attestation.json",
         "sha256": config["host_attestation"]["sha256"],
         "config": mission["config"], "host": config["host"],
         "model_resolved_required": config["model_resolved_required"],
-    }, "host attestation mission identity invalid")
+    }), "host attestation mission identity invalid")
     return status
 
 

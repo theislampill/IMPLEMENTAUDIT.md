@@ -129,6 +129,67 @@ def expect_error(fragment, fn):
         raise AssertionError(f"expected ValueError containing {fragment!r}")
 
 
+def assert_exact_independent_result_comparison(module):
+    """Python numeric aliases must not satisfy frozen JSON identities."""
+    assert module._exact_json_equal({"value": [0.0]}, {"value": [0.0]})
+    assert not module._exact_json_equal(0.0, -0.0)
+    assert not module._exact_json_equal(False, 0)
+    left = {}
+    right = {}
+    left_cursor = left
+    right_cursor = right
+    for _ in range(400):
+        left_cursor["nested"] = {}
+        right_cursor["nested"] = {}
+        left_cursor = left_cursor["nested"]
+        right_cursor = right_cursor["nested"]
+    assert module._exact_json_equal(left, right)
+    left_cursor["cycle"] = left
+    right_cursor["cycle"] = right
+    assert not module._exact_json_equal(left, right)
+    packet = valid_packet()
+    freeze_sha = "a" * 64
+    summaries = [{
+        "index": index, "config": config, "arm": arm, "rep": rep,
+        "overall_status": "PASS", "official_overall_status": "PASS",
+        "independent_overall_status": "PASS",
+        "model_resolved": "gpt-5.6-luna",
+        "official_verdict_sha256": f"{index:x}" * 64,
+    } for index, (config, arm, rep) in enumerate((
+        ("L", "candidate", 1), ("L", "control", 1),
+        ("L", "candidate", 2), ("L", "control", 2),
+        ("L", "candidate", 3), ("L", "control", 3),
+    ))]
+    value = {
+        "schema": "implementaudit-b3v4-luna-independent-rederivation-v2",
+        "campaign": packet["campaign"], "freeze_sha256": freeze_sha,
+        "contract_sha256": packet["artifact_contract"]["sha256"],
+        "luna_stage_status": "PASS",
+        "disposition": "INCOMPLETE_PENDING_OPUS",
+        "luna_stage_accepted": True, "accepted": False,
+        "mission_count": 6, "missions": copy.deepcopy(summaries),
+        "claims": copy.deepcopy(FINAL_CLAIMS),
+    }
+    driver = object.__new__(module.CampaignDriver)
+    claim_aliases = (0, 0.0, -0.0)
+    for alias in claim_aliases:
+        changed = copy.deepcopy(value)
+        changed["claims"]["release_authorized"] = alias
+        expect_error("forbidden final claim", lambda changed=changed:
+                     driver._validate_independent_luna_result(
+                         changed, packet, freeze_sha, summaries))
+    mission_aliases = (
+        ("index", False), ("index", 0.0), ("index", -0.0),
+        ("rep", True), ("rep", 1.0),
+    )
+    for key, alias in mission_aliases:
+        changed = copy.deepcopy(value)
+        changed["missions"][0][key] = alias
+        expect_error("disagree", lambda changed=changed:
+                     driver._validate_independent_luna_result(
+                         changed, packet, freeze_sha, summaries))
+
+
 def official_verdict(context, status="PASS", *, product="PASS", host="PASS",
                      resolved_model=None, substituted=False):
     fixture = json.loads((HERE / "fixtures" / "B3-v3" / "fixture.json").read_text(
@@ -292,6 +353,7 @@ def assert_runtime_executable_parent_junction_rejected(module):
 
 def main():
     module = load_driver()
+    assert_exact_independent_result_comparison(module)
     assert_runtime_executable_parent_junction_rejected(module)
 
     with tempfile.TemporaryDirectory(prefix="b3v4-campaign-verdict-contract-") as tmp:
@@ -615,6 +677,29 @@ def main():
         expect_error("disagree", driver.finalize_luna_stage)
         assert not (driver.campaign_root / "b3v4-luna-result.json").exists()
         assert not (driver.campaign_root / "luna-stage-terminal.json").exists()
+
+    for owner, mutate, fragment in (
+            ("mission-bool-alias",
+             lambda result: result["missions"][0].update(index=False),
+             "disagree"),
+            ("claim-int-alias",
+             lambda result: result["claims"].update(release_authorized=0),
+             "forbidden final claim")):
+        with tempfile.TemporaryDirectory(prefix=f"b3v4-luna-{owner}-") as tmp:
+            driver = make_driver(module, tmp, scored_outcome)
+            for _ in range(6):
+                driver.run_next()
+            result = independent_result_for(driver)
+            mutate(result)
+            path = (driver.campaign_root /
+                    "b3v4-luna-independent-rederivation.json")
+            path.write_bytes((json.dumps(
+                result, sort_keys=True, separators=(",", ":")) + "\n").encode())
+            expect_error(fragment, driver.finalize_luna_stage)
+            assert not (driver.campaign_root /
+                        "b3v4-luna-result.json").exists()
+            assert not (driver.campaign_root /
+                        "luna-stage-terminal.json").exists()
 
     with tempfile.TemporaryDirectory(prefix="b3v4-luna-claiming-") as tmp:
         driver = make_driver(module, tmp, scored_outcome)

@@ -48,7 +48,7 @@ def must_reject(fn):
 def lifecycle_rows(packet):
     mission = packet["missions"][0]
     digest = "a" * 64
-    return {
+    rows = {
         "campaign_manifest": {
             "schema": "implementaudit-b3v4-luna-campaign-custody-v2",
             "campaign": "b3v4-sol-luna-r2", "freeze_sha256": digest,
@@ -80,6 +80,44 @@ def lifecycle_rows(packet):
             "error_type": "RuntimeError", "completed_at": "2030-01-01T00:00:01Z",
         },
     }
+    rows["official_luna_result"] = {
+        "schema": "implementaudit-b3v4-luna-result-v2",
+        "campaign": "b3v4-sol-luna-r2", "freeze_sha256": digest,
+        "contract_sha256": digest,
+        "disposition": "INCOMPLETE_PENDING_OPUS",
+        "luna_stage_accepted": True, "accepted": False,
+        "mission_count": 6,
+        "missions": [{
+            "index": mission["index"], "config": mission["config"],
+            "arm": mission["arm"], "rep": mission["rep"],
+            "overall_status": "PASS",
+            "official_overall_status": "PASS",
+            "independent_overall_status": "PASS",
+            "model_resolved": "gpt-5.6-luna",
+            "official_verdict_sha256": digest,
+        } for mission in packet["missions"]],
+        "luna_identity": {
+            "config": "L", "host": "WSL Ubuntu Codex CLI",
+            "model_resolved_required": "gpt-5.6-luna",
+            "host_attestation_id": "b3v4-L-host",
+            "host_attestation_sha256": digest,
+        },
+        "independent_rederivation": {
+            "path": "b3v4-luna-independent-rederivation.json",
+            "sha256": digest,
+            "schema": "implementaudit-b3v4-luna-independent-rederivation-v2",
+            "contract_id": "implementaudit-b3v4-luna-independent-rederiver-v2",
+            "implementation_sha256": digest,
+        },
+        "claims": {
+            "final_12_of_12": False,
+            "cross_model_qualified": False,
+            "release_authorized": False,
+            "tag_authorized": False,
+            "publication_authorized": False,
+        },
+    }
+    return rows
 
 
 def main():
@@ -141,6 +179,47 @@ def main():
         "sha256": contract.contract_sha256(),
     }
     contract.validate_freeze_envelope(packet)
+    rows = lifecycle_rows(packet)
+    contract.validate_artifact(
+        "official_luna_result", rows["official_luna_result"])
+    official_mutations = []
+    changed = copy.deepcopy(rows["official_luna_result"])
+    changed["missions"] = [{} for _ in range(6)]
+    official_mutations.append(changed)
+    for path, value in (
+            (("missions", 0, "index"), False),
+            (("missions", 0, "index"), 0.0),
+            (("missions", 0, "index"), -0.0),
+            (("missions", 0, "rep"), True),
+            (("missions", 0, "rep"), 1.0),
+            (("luna_identity",), {}),
+            (("independent_rederivation",), {}),
+            (("claims", "release_authorized"), True),
+            (("claims", "release_authorized"), 0),
+            (("claims", "release_authorized"), 0.0),
+            (("claims", "release_authorized"), -0.0)):
+        changed = copy.deepcopy(rows["official_luna_result"])
+        owner = changed
+        for part in path[:-1]:
+            owner = owner[part]
+        owner[path[-1]] = value
+        official_mutations.append(changed)
+    changed = copy.deepcopy(rows["official_luna_result"])
+    changed["missions"][0]["mutable_summary"] = "PASS"
+    official_mutations.append(changed)
+    changed = copy.deepcopy(rows["official_luna_result"])
+    del changed["missions"][0]["official_verdict_sha256"]
+    official_mutations.append(changed)
+    changed = copy.deepcopy(rows["official_luna_result"])
+    changed["campaign"] = "different-nonempty-campaign"
+    official_mutations.append(changed)
+    changed = copy.deepcopy(rows["official_luna_result"])
+    changed["independent_rederivation"]["contract_id"] = \
+        "different-nonempty-contract"
+    official_mutations.append(changed)
+    for mutation in official_mutations:
+        must_reject(lambda mutation=mutation:
+                    contract.validate_artifact("official_luna_result", mutation))
 
     # Every qualification-bearing object is closed.  Exercise both directions
     # at every nested boundary so a local subset check cannot reopen the packet.

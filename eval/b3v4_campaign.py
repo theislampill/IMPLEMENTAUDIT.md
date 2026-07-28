@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import os
 import pathlib
 import re
@@ -31,6 +32,66 @@ FINAL_CLAIMS = {
     "tag_authorized": False,
     "publication_authorized": False,
 }
+MAX_JSON_DEPTH = 512
+
+
+def _exact_json_equal(left, right):
+    """Compare strict JSON models without Python numeric coercion."""
+    active_left = set()
+    active_right = set()
+    stack = [("compare", left, right, 0)]
+    while stack:
+        action, current_left, current_right, depth = stack.pop()
+        if action == "leave":
+            active_left.remove(id(current_left))
+            active_right.remove(id(current_right))
+            continue
+        if type(current_left) is not type(current_right):
+            return False
+        if type(current_left) is dict:
+            if depth >= MAX_JSON_DEPTH or set(current_left) != set(current_right):
+                return False
+            left_id = id(current_left)
+            right_id = id(current_right)
+            if left_id in active_left or right_id in active_right:
+                return False
+            active_left.add(left_id)
+            active_right.add(right_id)
+            stack.append(("leave", current_left, current_right, depth))
+            stack.extend(
+                ("compare", current_left[key], current_right[key], depth + 1)
+                for key in reversed(list(current_left)))
+            continue
+        if type(current_left) is list:
+            if depth >= MAX_JSON_DEPTH or len(current_left) != len(current_right):
+                return False
+            left_id = id(current_left)
+            right_id = id(current_right)
+            if left_id in active_left or right_id in active_right:
+                return False
+            active_left.add(left_id)
+            active_right.add(right_id)
+            stack.append(("leave", current_left, current_right, depth))
+            stack.extend(
+                ("compare", left_item, right_item, depth + 1)
+                for left_item, right_item in reversed(
+                    list(zip(current_left, current_right))))
+            continue
+        if type(current_left) is float:
+            if (not math.isfinite(current_left) or
+                    not math.isfinite(current_right) or
+                    current_left != current_right or
+                    (current_left == 0.0 and
+                     math.copysign(1.0, current_left) !=
+                     math.copysign(1.0, current_right))):
+                return False
+            continue
+        if type(current_left) in (str, bool, int) or current_left is None:
+            if current_left != current_right:
+                return False
+            continue
+        return False
+    return True
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 VERIFIED_IDENTITIES = [
@@ -546,11 +607,11 @@ class CampaignDriver:
     def _verify_host_attestation(root, status, mission, packet):
         binding = status["host_attestation_binding"]
         config = packet["configurations"][mission["config"]]
-        if binding != {
+        if not _exact_json_equal(binding, {
                 "path": "host-attestation.json",
                 "sha256": config["host_attestation"]["sha256"],
                 "config": mission["config"], "host": config["host"],
-                "model_resolved_required": config["model_resolved_required"]}:
+                "model_resolved_required": config["model_resolved_required"]}):
             raise ValueError("host attestation mission identity mismatch")
         path = root / binding["path"]
         if not path.is_file() or _sha256_file(
@@ -768,7 +829,7 @@ class CampaignDriver:
 
     @staticmethod
     def _result_claims(value, owner):
-        if value != FINAL_CLAIMS:
+        if not _exact_json_equal(value, FINAL_CLAIMS):
             raise ValueError(f"{owner} contains a forbidden final claim")
 
     def _validate_independent_luna_result(self, value, packet, packet_sha256,
@@ -798,7 +859,8 @@ class CampaignDriver:
         required = set(summaries[0])
         for expected, observed in zip(summaries, value["missions"]):
             if (type(observed) is not dict or not required <= set(observed) or
-                    any(observed[key] != expected[key] for key in required)):
+                    any(not _exact_json_equal(observed[key], expected[key])
+                        for key in required)):
                 raise ValueError("official and independent Luna results disagree")
         return value
 

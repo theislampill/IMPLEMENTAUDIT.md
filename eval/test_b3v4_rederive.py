@@ -1074,6 +1074,49 @@ def assert_host_attestation_custody_matrix(module):
         ", ".join(accepted))
 
 
+def assert_attempt_status_numeric_aliases_rejected(module):
+    """Retained mission identities use JSON types, not Python equality."""
+    assert module._exact_json_equal({"value": [0.0]}, {"value": [0.0]})
+    assert not module._exact_json_equal(0.0, -0.0)
+    assert not module._exact_json_equal(False, 0)
+    left = []
+    right = []
+    left_cursor = left
+    right_cursor = right
+    for _ in range(400):
+        left_cursor.append([])
+        right_cursor.append([])
+        left_cursor = left_cursor[0]
+        right_cursor = right_cursor[0]
+    assert module._exact_json_equal(left, right)
+    left_cursor.append(left)
+    right_cursor.append(right)
+    assert not module._exact_json_equal(left, right)
+    with tempfile.TemporaryDirectory(prefix="b3v4-status-alias-") as tmp:
+        root = pathlib.Path(tmp) / "campaign"
+        build_campaign(root)
+        first = root / "attempt-000-L-candidate-r1"
+        status_path = first / "attempt-status.json"
+        original = json.loads(status_path.read_text(encoding="utf-8"))
+        cases = (
+            ("index", False), ("index", 0.0), ("index", -0.0),
+            ("rep", True), ("rep", 1.0),
+        )
+        accepted = []
+        for key, alias in cases:
+            changed = copy.deepcopy(original)
+            changed["mission"][key] = alias
+            write(status_path, changed)
+            result = module.rederive_campaign(
+                root / "campaign-freeze.json", root)
+            if result["luna_stage_status"] != "INVALID":
+                accepted.append(f"{key}={alias!r}:{result['luna_stage_status']}")
+        write(status_path, original)
+        assert not accepted, (
+            "rederiver accepted numeric mission aliases: " +
+            ", ".join(accepted))
+
+
 def assert_host_root_junction_rejected(module):
     if os.name != "nt":
         print("REDERIVER_HOST_ROOT_JUNCTION=SKIP:not-windows")
@@ -1155,6 +1198,7 @@ def main():
             ", ".join(accepted_aliases))
     assert_retained_schema_matrix(module)
     assert_host_attestation_custody_matrix(module)
+    assert_attempt_status_numeric_aliases_rejected(module)
     with tempfile.TemporaryDirectory(prefix="b3v4-rederive-freeze-") as tmp:
         root = pathlib.Path(tmp) / "campaign"
         packet = build_campaign(root)

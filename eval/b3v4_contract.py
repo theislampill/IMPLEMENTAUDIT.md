@@ -29,6 +29,22 @@ PLAN = [
     ("L", "control", 2), ("L", "candidate", 2),
     ("L", "control", 3), ("L", "candidate", 3),
 ]
+OFFICIAL_MISSION_FIELDS = {
+    "index", "config", "arm", "rep", "overall_status",
+    "official_overall_status", "independent_overall_status",
+    "model_resolved", "official_verdict_sha256",
+}
+LUNA_IDENTITY_FIELDS = {
+    "config", "host", "model_resolved_required", "host_attestation_id",
+    "host_attestation_sha256",
+}
+INDEPENDENT_REDERIVATION_FIELDS = {
+    "path", "sha256", "schema", "contract_id", "implementation_sha256",
+}
+FINAL_CLAIM_FIELDS = {
+    "final_12_of_12", "cross_model_qualified", "release_authorized",
+    "tag_authorized", "publication_authorized",
+}
 
 
 def decode_json_bytes(data, owner, *, require_object=False):
@@ -373,6 +389,77 @@ def validate_artifact(name, value):
                 type(value["independent_rederivation"]) is not dict or
                 type(value["claims"]) is not dict):
             raise ValueError("official Luna result boundary invalid")
+        if value["campaign"] != "b3v4-sol-luna-r2":
+            raise ValueError("official Luna result campaign invalid")
+        for index, (mission, expected) in enumerate(
+                zip(value["missions"], PLAN)):
+            mission = _exact(
+                mission, OFFICIAL_MISSION_FIELDS,
+                f"official Luna result mission {index}")
+            expected_config, expected_arm, expected_rep = expected
+            if type(mission["index"]) is not int or mission["index"] != index:
+                raise ValueError(
+                    f"official Luna result mission {index} index invalid")
+            if (mission["config"] != expected_config or
+                    mission["arm"] != expected_arm):
+                raise ValueError(
+                    f"official Luna result mission {index} identity invalid")
+            if (type(mission["rep"]) is not int or
+                    mission["rep"] != expected_rep):
+                raise ValueError(
+                    f"official Luna result mission {index} rep invalid")
+            for key in ("overall_status", "official_overall_status",
+                        "independent_overall_status"):
+                if mission[key] != "PASS":
+                    raise ValueError(
+                        f"official Luna result mission {index} {key} invalid")
+            _string(
+                mission["model_resolved"],
+                f"official Luna result mission {index} model")
+            _digest(
+                mission["official_verdict_sha256"],
+                f"official Luna result mission {index} verdict sha256")
+        identity = _exact(
+            value["luna_identity"], LUNA_IDENTITY_FIELDS,
+            "official Luna result Luna identity")
+        if identity["config"] != "L":
+            raise ValueError("official Luna result Luna identity config invalid")
+        for key in ("host", "model_resolved_required",
+                    "host_attestation_id"):
+            _string(identity[key],
+                    f"official Luna result Luna identity {key}")
+        _digest(
+            identity["host_attestation_sha256"],
+            "official Luna result Luna identity attestation sha256")
+        independent = _exact(
+            value["independent_rederivation"],
+            INDEPENDENT_REDERIVATION_FIELDS,
+            "official Luna result independent rederivation")
+        if (independent["path"] !=
+                "b3v4-luna-independent-rederivation.json"):
+            raise ValueError(
+                "official Luna result independent rederivation path invalid")
+        _digest(
+            independent["sha256"],
+            "official Luna result independent rederivation sha256")
+        if (independent["schema"] !=
+                "implementaudit-b3v4-luna-independent-rederivation-v2"):
+            raise ValueError(
+                "official Luna result independent rederivation schema invalid")
+        if (independent["contract_id"] !=
+                "implementaudit-b3v4-luna-independent-rederiver-v2"):
+            raise ValueError(
+                "official Luna result independent rederivation contract invalid")
+        _digest(
+            independent["implementation_sha256"],
+            "official Luna result independent implementation sha256")
+        claims = _exact(
+            value["claims"], FINAL_CLAIM_FIELDS,
+            "official Luna result claims")
+        for key, claim in claims.items():
+            if claim is not False:
+                raise ValueError(
+                    f"official Luna result claim {key} must be false")
     else:
         _string(value["created_at"] if name != "attempt_terminal" else value["completed_at"],
                 f"{name} timestamp")
