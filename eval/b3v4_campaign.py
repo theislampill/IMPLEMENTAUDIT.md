@@ -32,6 +32,17 @@ FINAL_CLAIMS = {
     "tag_authorized": False,
     "publication_authorized": False,
 }
+INDEPENDENT_PASS_ROW_FIELDS = {
+    "index", "config", "arm", "rep", "product_status", "host_status",
+    "overall_status", "properties", "reason", "bundle_manifest_sha256",
+    "raw_stdout_sha256", "native_session_sha256",
+    "official_overall_status", "independent_overall_status",
+    "model_resolved", "official_verdict_sha256",
+}
+REQUIRED_ATTEMPT_ARTIFACTS = {
+    "attempt-status.json", "attempt-terminal.json", "host-attestation.json",
+    "official-verdict.json", "host-custody",
+}
 MAX_JSON_DEPTH = 512
 
 
@@ -196,8 +207,10 @@ def _validate_official_verdict(verdict, fixture=None, *, packet=None,
     attestation = verdict["identity_attestation"]
     if (not isinstance(attestation, dict) or
             set(attestation) != {"verified_in_replay", "adapter_attested_only"} or
-            attestation["verified_in_replay"] != VERIFIED_IDENTITIES or
-            attestation["adapter_attested_only"] != ATTESTED_IDENTITIES):
+            not _exact_json_equal(
+                attestation["verified_in_replay"], VERIFIED_IDENTITIES) or
+            not _exact_json_equal(
+                attestation["adapter_attested_only"], ATTESTED_IDENTITIES)):
         _official_error("identity attestation is malformed")
     required_names = [item.get("name") for item in fixture.get("properties", [])]
     if (not required_names or any(not _nonempty(name) for name in required_names) or
@@ -299,7 +312,8 @@ def _validate_official_verdict(verdict, fixture=None, *, packet=None,
                 adjudication["host_failed_status"],
                 adjudication["failed_domain"],
                 adjudication["failed_invariant"])) or
-            adjudication != expected_adjudication or host_safety != expected_host or
+            not _exact_json_equal(adjudication, expected_adjudication) or
+            not _exact_json_equal(host_safety, expected_host) or
             status != overall or verdict["failed_domain"] != failed_domain or
             verdict["failed_invariant"] != failed_invariant):
         _official_error("layered aggregates are contradictory")
@@ -567,7 +581,18 @@ class CampaignDriver:
                                     root=self.campaign_root)
             contract.validate_artifact("attempt_status", status)
             contract.validate_artifact("attempt_terminal", terminal)
-            if (status.get("mission") != mission or
+            if (status.get("execution_mode") != self.execution_mode or
+                    terminal.get("execution_mode") != self.execution_mode):
+                raise ValueError("prior attempt execution mode drift")
+            if (not _exact_json_equal(status.get("mission"), mission) or
+                    status.get("campaign") != packet["campaign"] or
+                    status.get("freeze_sha256") !=
+                    _sha256_file(
+                        self.campaign_root / "campaign-freeze.json",
+                        root=self.campaign_root, owner="frozen packet") or
+                    status.get("contract_sha256") !=
+                    packet["artifact_contract"]["sha256"] or
+                    terminal.get("campaign") != packet["campaign"] or
                     terminal.get("mission_index") != mission["index"]):
                 raise ValueError("prior attempt identity drift")
             self._verify_host_attestation(root, status, mission, packet)
@@ -583,6 +608,22 @@ class CampaignDriver:
                 raise ValueError("prior attempt stopped campaign")
             if overall not in CONTINUE_STATES:
                 raise ValueError("prior attempt has unsupported terminal state")
+            if {path.name for path in root.iterdir()} != \
+                    REQUIRED_ATTEMPT_ARTIFACTS:
+                raise ValueError(
+                    "required qualification attempt artifact missing or extra")
+            config = packet["configurations"][mission["config"]]
+            if (terminal.get("resolved_model") !=
+                    config["model_resolved_required"] or
+                    terminal.get("official_overall_status") != "PASS" or
+                    terminal.get("official_verdict_sha256") is None or
+                    terminal.get("error_type") is not None or
+                    type(terminal.get("host_run_root")) is not str or
+                    not terminal["host_run_root"]):
+                raise ValueError("prior attempt terminal binding drift")
+            contract.read_custodied_directory_manifest(
+                root / "host-custody", "prior host custody",
+                root=self.campaign_root)
         raise ValueError(
             "campaign already contains all six Luna attempts; "
             "finalize-luna-stage is required")
@@ -856,11 +897,12 @@ class CampaignDriver:
                 len(value["missions"]) != 6):
             raise ValueError("independent Luna result is not accepted 6/6")
         self._result_claims(value["claims"], "independent Luna result")
-        required = set(summaries[0])
         for expected, observed in zip(summaries, value["missions"]):
-            if (type(observed) is not dict or not required <= set(observed) or
-                    any(not _exact_json_equal(observed[key], expected[key])
-                        for key in required)):
+            if type(observed) is not dict or set(observed) != \
+                    INDEPENDENT_PASS_ROW_FIELDS:
+                raise ValueError("independent Luna mission row schema invalid")
+            if (set(expected) != INDEPENDENT_PASS_ROW_FIELDS or
+                    not _exact_json_equal(observed, expected)):
                 raise ValueError("official and independent Luna results disagree")
         return value
 
@@ -876,6 +918,22 @@ class CampaignDriver:
             attempt = self.campaign_root / self._attempt_name(mission)
             terminal = row["terminal"]
             status = row["status"]
+            if {path.name for path in attempt.iterdir()} != \
+                    REQUIRED_ATTEMPT_ARTIFACTS:
+                raise ValueError(
+                    "required qualification attempt artifact missing or extra")
+            contract.validate_artifact("attempt_status", status)
+            contract.validate_artifact("attempt_terminal", terminal)
+            if (not _exact_json_equal(status["mission"], mission) or
+                    status["campaign"] != packet["campaign"] or
+                    status["freeze_sha256"] != packet_sha256 or
+                    status["contract_sha256"] !=
+                    packet["artifact_contract"]["sha256"] or
+                    status["execution_mode"] != self.execution_mode or
+                    terminal["campaign"] != packet["campaign"] or
+                    terminal["mission_index"] != mission["index"] or
+                    terminal["execution_mode"] != self.execution_mode):
+                raise ValueError("retained attempt identity drift")
             self._verify_host_attestation(attempt, status, mission, packet)
             if (terminal["overall_status"] != "PASS" or
                     terminal["official_overall_status"] != "PASS" or
@@ -886,10 +944,36 @@ class CampaignDriver:
             _verify_official_verdict(
                 attempt, terminal, fixture, packet=packet, mission=mission,
                 production=self.execution_mode == "production")
+            verdict = _read_object(
+                attempt / "official-verdict.json", "official verdict",
+                root=attempt)
+            name = self._attempt_name(mission)
+            bundle = attempt / "host-custody" / name / "bundle"
+            properties = {
+                property_name: {
+                    "state": property_row["state"],
+                    "pass": property_row["pass"],
+                }
+                for property_name, property_row in
+                verdict["properties"].items()
+            }
             summaries.append({
                 "index": mission["index"], "config": mission["config"],
                 "arm": mission["arm"], "rep": mission["rep"],
+                "product_status":
+                    verdict["adjudication"]["product_status"],
+                "host_status": verdict["adjudication"]["host_status"],
                 "overall_status": terminal["overall_status"],
+                "properties": properties, "reason": None,
+                "bundle_manifest_sha256": _sha256_file(
+                    bundle / "manifest.json", root=attempt,
+                    owner="bundle manifest"),
+                "raw_stdout_sha256": _sha256_file(
+                    bundle / "artifacts" / "host-stdout.raw", root=attempt,
+                    owner="host stdout"),
+                "native_session_sha256": _sha256_file(
+                    bundle / "artifacts" / "host-session.raw", root=attempt,
+                    owner="host session"),
                 "official_overall_status": terminal["official_overall_status"],
                 "independent_overall_status": "PASS",
                 "model_resolved": terminal["resolved_model"],

@@ -80,6 +80,13 @@ FINAL_CLAIMS = {
     "tag_authorized": False,
     "publication_authorized": False,
 }
+INDEPENDENT_ROW_FIELDS = {
+    "index", "config", "arm", "rep", "product_status", "host_status",
+    "overall_status", "properties", "reason", "bundle_manifest_sha256",
+    "raw_stdout_sha256", "native_session_sha256",
+    "official_overall_status", "independent_overall_status",
+    "model_resolved", "official_verdict_sha256",
+}
 
 
 def independent_result_for(driver, *, disagree_at=None):
@@ -89,11 +96,28 @@ def independent_result_for(driver, *, disagree_at=None):
         attempt = driver.campaign_root / driver._attempt_name(mission)
         terminal = json.loads((attempt / "attempt-terminal.json").read_text(
             encoding="utf-8"))
+        verdict = json.loads((attempt / "official-verdict.json").read_text(
+            encoding="utf-8"))
+        bundle = (attempt / "host-custody" / attempt.name / "bundle")
         rows.append({
             "index": mission["index"], "config": mission["config"],
             "arm": mission["arm"], "rep": mission["rep"],
+            "product_status": "PASS", "host_status": "PASS",
             "overall_status": (
                 "INVALID" if mission["index"] == disagree_at else "PASS"),
+            "properties": {
+                name: {"state": row["state"], "pass": row["pass"]}
+                for name, row in verdict["properties"].items()
+            },
+            "reason": None,
+            "bundle_manifest_sha256": hashlib.sha256(
+                (bundle / "manifest.json").read_bytes()).hexdigest(),
+            "raw_stdout_sha256": hashlib.sha256(
+                (bundle / "artifacts" / "host-stdout.raw").read_bytes()
+            ).hexdigest(),
+            "native_session_sha256": hashlib.sha256(
+                (bundle / "artifacts" / "host-session.raw").read_bytes()
+            ).hexdigest(),
             "official_overall_status": terminal["official_overall_status"],
             "independent_overall_status": (
                 "INVALID" if mission["index"] == disagree_at else "PASS"),
@@ -151,8 +175,14 @@ def assert_exact_independent_result_comparison(module):
     freeze_sha = "a" * 64
     summaries = [{
         "index": index, "config": config, "arm": arm, "rep": rep,
+        "product_status": "PASS", "host_status": "PASS",
         "overall_status": "PASS", "official_overall_status": "PASS",
         "independent_overall_status": "PASS",
+        "properties": {"required": {"state": "PASS", "pass": True}},
+        "reason": None,
+        "bundle_manifest_sha256": f"{index:x}" * 64,
+        "raw_stdout_sha256": f"{index:x}" * 64,
+        "native_session_sha256": f"{index:x}" * 64,
         "model_resolved": "gpt-5.6-luna",
         "official_verdict_sha256": f"{index:x}" * 64,
     } for index, (config, arm, rep) in enumerate((
@@ -185,6 +215,22 @@ def assert_exact_independent_result_comparison(module):
     for key, alias in mission_aliases:
         changed = copy.deepcopy(value)
         changed["missions"][0][key] = alias
+        expect_error("disagree", lambda changed=changed:
+                     driver._validate_independent_luna_result(
+                         changed, packet, freeze_sha, summaries))
+    for position in (0, 3, 5):
+        changed = copy.deepcopy(value)
+        changed["missions"][position]["unexpected"] = "PASS"
+        expect_error("schema", lambda changed=changed:
+                     driver._validate_independent_luna_result(
+                         changed, packet, freeze_sha, summaries))
+        changed = copy.deepcopy(value)
+        del changed["missions"][position]["product_status"]
+        expect_error("schema", lambda changed=changed:
+                     driver._validate_independent_luna_result(
+                         changed, packet, freeze_sha, summaries))
+        changed = copy.deepcopy(value)
+        changed["missions"][position]["product_status"] = "FAIL"
         expect_error("disagree", lambda changed=changed:
                      driver._validate_independent_luna_result(
                          changed, packet, freeze_sha, summaries))
@@ -282,6 +328,18 @@ def official_verdict(context, status="PASS", *, product="PASS", host="PASS",
 
 def scored_outcome(context, status="PASS", *, resolved_model=None,
                    product="PASS", host="PASS", substituted=False):
+    name = (f"attempt-{context.mission['index']:03d}-"
+            f"{context.mission['config']}-{context.mission['arm']}-"
+            f"r{context.mission['rep']}")
+    bundle = context.attempt_root / "host-custody" / name / "bundle"
+    artifacts = bundle / "artifacts"
+    artifacts.mkdir(parents=True)
+    (bundle / "manifest.json").write_bytes(
+        f"synthetic manifest {name}\n".encode())
+    (artifacts / "host-stdout.raw").write_bytes(
+        f"synthetic stdout {name}\n".encode())
+    (artifacts / "host-session.raw").write_bytes(
+        f"synthetic session {name}\n".encode())
     resolved = resolved_model or context.expected_model
     return {"overall_status": status, "resolved_model": resolved,
             "host_run_root": "mock-host-run",
@@ -667,6 +725,69 @@ def main():
         first = driver.campaign_root / "attempt-000-L-candidate-r1"
         (first / "host-custody" / "retained" / "evidence.bin").write_bytes(
             b"post-terminal mutation\n")
+        expect_error("snapshot", driver.validate_luna_stage)
+
+    with tempfile.TemporaryDirectory(prefix="b3v4-next-required-") as tmp:
+        calls = []
+
+        def counted(context):
+            calls.append(context.mission["index"])
+            return scored_outcome(context)
+
+        driver = make_driver(module, tmp, counted)
+        driver.run_next()
+        first = driver.campaign_root / "attempt-000-L-candidate-r1"
+        shutil.rmtree(first / "host-custody")
+        expect_error("required", driver.run_next)
+        assert calls == [0]
+
+    for position in (0, 3):
+        with tempfile.TemporaryDirectory(
+                prefix=f"b3v4-next-status-drift-{position}-") as tmp:
+            calls = []
+
+            def counted(context):
+                calls.append(context.mission["index"])
+                return scored_outcome(context)
+
+            driver = make_driver(module, tmp, counted)
+            for _ in range(position + 1):
+                driver.run_next()
+            packet, _, _ = driver._load_packet()
+            attempt = driver.campaign_root / driver._attempt_name(
+                packet["missions"][position])
+            status_path = attempt / "attempt-status.json"
+            status = json.loads(status_path.read_text(encoding="utf-8"))
+            status["execution_mode"] = "production"
+            status_path.write_text(json.dumps(status), encoding="utf-8")
+            expect_error("execution mode", driver.run_next)
+            assert calls == list(range(position + 1))
+
+    for position in (0, 3, 5):
+        with tempfile.TemporaryDirectory(
+                prefix=f"b3v4-finalize-required-{position}-") as tmp:
+            driver = make_driver(module, tmp, scored_outcome)
+            for _ in range(6):
+                driver.run_next()
+            write_independent_result(driver)
+            packet, _, _ = driver._load_packet()
+            attempt = driver.campaign_root / driver._attempt_name(
+                packet["missions"][position])
+            shutil.rmtree(attempt / "host-custody")
+            expect_error("required", driver.finalize_luna_stage)
+            assert not (driver.campaign_root /
+                        "b3v4-luna-result.json").exists()
+            assert not (driver.campaign_root /
+                        "luna-stage-terminal.json").exists()
+
+    with tempfile.TemporaryDirectory(prefix="b3v4-resume-required-") as tmp:
+        driver = make_driver(module, tmp, scored_outcome)
+        for _ in range(6):
+            driver.run_next()
+        write_independent_result(driver)
+        driver.finalize_luna_stage()
+        first = driver.campaign_root / "attempt-000-L-candidate-r1"
+        shutil.rmtree(first / "host-custody")
         expect_error("snapshot", driver.validate_luna_stage)
 
     with tempfile.TemporaryDirectory(prefix="b3v4-luna-disagreement-") as tmp:

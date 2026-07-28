@@ -167,6 +167,10 @@ def main():
     module = load_validator()
     packet = valid_packet()
     module.validate_structure(packet)
+    for alias in (6.0, True):
+        changed = copy.deepcopy(packet)
+        changed["luna_stage"]["mission_count"] = alias
+        expect_invalid(module, changed, "luna_stage")
 
     expected_plan = [
         ("L", "candidate", 1), ("L", "control", 1),

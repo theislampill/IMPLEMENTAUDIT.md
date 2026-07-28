@@ -86,6 +86,13 @@ FINAL_CLAIMS = {
     "release_authorized": False, "tag_authorized": False,
     "publication_authorized": False,
 }
+INDEPENDENT_PASS_ROW_FIELDS = {
+    "index", "config", "arm", "rep", "product_status", "host_status",
+    "overall_status", "properties", "reason", "bundle_manifest_sha256",
+    "raw_stdout_sha256", "native_session_sha256",
+    "official_overall_status", "independent_overall_status",
+    "model_resolved", "official_verdict_sha256",
+}
 MAX_JSON_DEPTH = 512
 ACCEPTANCE_RULE = (
     "all six Luna missions terminal and PASS; independent Luna rederivation "
@@ -341,6 +348,9 @@ def _decode_json(data, owner, malformed, require_object=False):
                            parse_constant=nonfinite)
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
         raise EvidenceInvalid(malformed) from exc
+    except (RecursionError, MemoryError) as exc:
+        raise EvidenceInvalid(
+            f"{owner} exceeds JSON resource limits") from exc
     if require_object and not isinstance(value, dict):
         raise EvidenceInvalid(f"{owner} must be an object")
     return value
@@ -390,24 +400,24 @@ def _validate_contract_declaration(declaration):
         declaration["encoding"],
         {"charset", "duplicate_keys", "non_finite_numbers", "object_keys",
          "scalar_types", "paths", "writes"}, "artifact contract encoding")
-    _expect(encoding == {
+    _expect(_exact_json_equal(encoding, {
         "charset": "UTF-8", "duplicate_keys": "REJECT_RECURSIVELY",
         "non_finite_numbers": "REJECT", "object_keys": "EXACT",
         "scalar_types": "EXACT_NO_COERCION",
         "paths": "CANONICAL_ROLE_CONTAINED_NO_LINK_ALIAS",
-        "writes": "CREATE_ONCE"}, "artifact contract encoding drift")
+        "writes": "CREATE_ONCE"}), "artifact contract encoding drift")
     execution = _exact_fields(
         declaration["execution"],
         {"campaign", "stage_order", "completion_requires", "silent_retry",
          "unexpected_attempt", "luna_success_disposition",
          "final_acceptance"}, "artifact contract execution")
-    _expect(execution == {
+    _expect(_exact_json_equal(execution, {
         "campaign": "b3v4-sol-luna-r2", "stage_order": ["LUNA"],
         "completion_requires": ["LUNA", "INDEPENDENT_REDERIVATION",
                                 "MANDATORY_STAGE_TERMINAL"],
         "luna_success_disposition": "INCOMPLETE_PENDING_OPUS",
         "final_acceptance": False,
-        "silent_retry": "FORBIDDEN", "unexpected_attempt": "INVALID"},
+        "silent_retry": "FORBIDDEN", "unexpected_attempt": "INVALID"}),
         "artifact contract execution drift")
     for name, descriptor in declaration["artifacts"].items():
         descriptor = _exact_fields(
@@ -582,7 +592,8 @@ def _validate_bundle_manifest_metadata(manifest, packet, mission):
                 "Read Glob Grep Write Edit Bash (argv-requested)" and
                 type(resolved["note"]) is str and resolved["note"],
                 "bundle resolved Claude policy invalid")
-    _expect(manifest["policy_requested"] == expected_requested,
+    _expect(_exact_json_equal(
+                manifest["policy_requested"], expected_requested),
             "bundle requested policy invalid")
     observed = manifest["models_observed"]
     _expect(isinstance(observed, list) and observed,
@@ -616,7 +627,7 @@ def _validate_bundle_manifest_metadata(manifest, packet, mission):
         else:
             raise EvidenceInvalid(owner + " role invalid")
         _expect(type(row["model"]) is str and row["model"], owner + " model invalid")
-    _expect(root_models == [manifest["model_resolved"]],
+    _expect(_exact_json_equal(root_models, [manifest["model_resolved"]]),
             "bundle root model observation invalid")
 
 
@@ -705,7 +716,7 @@ def _validate_freeze_contract(packet):
         for key in ("commit", "tree", "skill_tree"):
             _git_id(identity[key], f"{arm}.{key}")
         _digest(identity["payload_sha256"], f"{arm}.payload_sha256")
-    _expect(packet["candidate"] != packet["control"],
+    _expect(not _exact_json_equal(packet["candidate"], packet["control"]),
             "candidate and control identities must be distinct")
 
     configurations = _mapping(packet["configurations"], "configurations")
@@ -777,7 +788,7 @@ def _validate_freeze_contract(packet):
         "schema", "name", "mission_count", "terminal_name",
         "official_result_name", "independent_result_name",
         "success_disposition"}, "luna_stage")
-    _expect(stage == {
+    _expect(_exact_json_equal(stage, {
         "schema": "implementaudit-b3v4-luna-stage-v2",
         "name": "LUNA", "mission_count": 6,
         "terminal_name": "luna-stage-terminal.json",
@@ -785,7 +796,7 @@ def _validate_freeze_contract(packet):
         "independent_result_name":
             "b3v4-luna-independent-rederivation.json",
         "success_disposition": "INCOMPLETE_PENDING_OPUS",
-    }, "luna_stage boundary drift")
+    }), "luna_stage boundary drift")
 
     profiles = _exact_fields(
         packet["evidence_profiles"],
@@ -804,18 +815,18 @@ def _validate_freeze_contract(packet):
         {"product_property_states", "host_states", "overall_states",
          "luna_stage_dispositions"},
         "result_composition")
-    _expect(composition["product_property_states"] ==
+    _expect(_exact_json_equal(composition["product_property_states"],
             ["PASS", "FAIL", "INCOMPLETE"],
-            "product property state composition drift")
-    _expect(composition["host_states"] ==
+            ), "product property state composition drift")
+    _expect(_exact_json_equal(composition["host_states"],
             ["PASS", "INVALID", "ERROR", "SUBSTITUTION"],
-            "host state composition drift")
-    _expect(composition["overall_states"] ==
+            ), "host state composition drift")
+    _expect(_exact_json_equal(composition["overall_states"],
             ["PASS", "FAIL", "INVALID", "ERROR"],
-            "overall state composition drift")
-    _expect(composition["luna_stage_dispositions"] ==
+            ), "overall state composition drift")
+    _expect(_exact_json_equal(composition["luna_stage_dispositions"],
             ["INCOMPLETE_PENDING_OPUS"],
-            "Luna stage disposition composition drift")
+            ), "Luna stage disposition composition drift")
 
     attempts = _exact_fields(packet["attempt_policy"],
                              {"silent_retry", "preserve_every_attempt",
@@ -1041,9 +1052,10 @@ def _validate_snapshot_entry(rel, entry, owner, mapping_name):
                 bool(HEX64.fullmatch(entry["target_sha256"])),
                 f"{owner} symlink digest invalid")
     elif mapping_name == "untracked" and entry.get("type") == "dir":
-        _expect(entry == {"type": "dir"}, f"{owner} dir type invalid")
+        _expect(_exact_json_equal(entry, {"type": "dir"}),
+                f"{owner} dir type invalid")
     else:
-        _expect(entry == {"type": "special"},
+        _expect(_exact_json_equal(entry, {"type": "special"}),
                 f"{owner} file type invalid")
 
 
@@ -1625,8 +1637,9 @@ def _validate_profile_and_post(profile, post, expected_host):
                 all(type(shell[key]) is str and bool(shell[key])
                     for key in ("logical_path", "realpath", "sha256", "stat")) and
                 bool(HEX64.fullmatch(shell["sha256"])) and
-                wrapper == {"argv_prefix": ["/bin/bash", "-lc"],
-                            "max_unwrap_layers": 1} and
+                _exact_json_equal(
+                    wrapper, {"argv_prefix": ["/bin/bash", "-lc"],
+                              "max_unwrap_layers": 1}) and
                 isinstance(profile["environment"], dict) and
                 set(profile["environment"]) == {
                     "PATH", "LANG", "LC_ALL", "BASH_ENV", "ENV", "SHELL"} and
@@ -1646,7 +1659,7 @@ def _validate_profile_and_post(profile, post, expected_host):
                     f"formal-v2 Codex executable {name} invalid")
         probe = {"environment": profile["environment"], "shell": shell,
                  "executables": profile["executables"]}
-        _expect(post == probe and profile["probe_sha256"] == _sha(
+        _expect(_exact_json_equal(post, probe) and profile["probe_sha256"] == _sha(
             _canonical_json(probe)), "formal-v2 Codex post-probe drift")
     else:
         _expect(set(profile) == common | {"native_tools"} and
@@ -1658,7 +1671,8 @@ def _validate_profile_and_post(profile, post, expected_host):
                 "formal-v2 Claude profile semantics invalid")
         probe = {"repo": repo["lexical_root"],
                  "native_tools": profile["native_tools"]}
-        _expect(post == {"native_tools": profile["native_tools"]} and
+        _expect(_exact_json_equal(
+                    post, {"native_tools": profile["native_tools"]}) and
                 profile["probe_sha256"] == _sha(_canonical_json(probe)),
                 "formal-v2 Claude post-probe drift")
 
@@ -1728,7 +1742,7 @@ def _validate_native_session(stdout, session, expected_host, binding,
         _validate_claude_rows(indexed_rows, "Claude native session")
         _expect(set(binding) == {"session_id"} and
                 type(binding["session_id"]) is str and bool(binding["session_id"]) and
-                binding == stdout_binding,
+                _exact_json_equal(binding, stdout_binding),
                 "Claude terminal lineage binding invalid")
         scalars = set(_scalar_strings(rows))
         _expect(binding["session_id"] in scalars and
@@ -1745,9 +1759,10 @@ def _validate_trace_agreement(trace, actions, observed_tools, expected_host):
     _expect(set(trace) == expected_fields and
             trace["schema"] == "implementaudit-host-tool-trace-v2" and
             trace["invalid"] is False and trace["ids_reserved"] is True and
-            trace["host_status"] == "PASS" and trace["host_findings"] == [] and
+            trace["host_status"] == "PASS" and
+            _exact_json_equal(trace["host_findings"], []) and
             (expected_host != "claude" or trace["crashed"] is False) and
-            trace["observed_tools"] == observed_tools and
+            _exact_json_equal(trace["observed_tools"], observed_tools) and
             isinstance(trace["actions"], list),
             "formal-v2 trace host state invalid")
     retained = {item.get("id"): item for item in trace["actions"]
@@ -1765,16 +1780,20 @@ def _validate_trace_agreement(trace, actions, observed_tools, expected_host):
         item = retained[action["id"]]
         for key in ("state", "effect", "invocation_ordinal",
                     "completion_ordinal"):
-            _expect(item.get(key) == action.get(key),
+            _expect(_exact_json_equal(item.get(key), action.get(key)),
                     "formal-v2 raw/trace action disagreement")
         for key in ("action_type", "command", "path", "paths"):
             if key in action:
-                _expect(item.get(key) == action[key],
+                _expect(_exact_json_equal(item.get(key), action[key]),
                         "formal-v2 raw/trace payload disagreement")
     projected = [item for item in trace["actions"]
                  if not str(item.get("id", "")).startswith("invalid@")]
-    _expect(trace["action_states"] == [item["state"] for item in projected] and
-            trace["action_effects"] == [item["effect"] for item in projected],
+    _expect(_exact_json_equal(
+                trace["action_states"],
+                [item["state"] for item in projected]) and
+            _exact_json_equal(
+                trace["action_effects"],
+                [item["effect"] for item in projected]),
             "formal-v2 trace projections disagree")
 
 
@@ -1985,15 +2004,17 @@ def _validate_capture(artifacts, fixture_bytes, fixture, expected_host,
             set(manifest.get("files", {})) == set(CAPTURE_FILES),
             "formal-v2 manifest invalid")
     actual = {name: _sha(artifacts[name]) for name in CAPTURE_FILES}
-    _expect(manifest["files"] == actual, "formal-v2 manifest hash mismatch")
+    _expect(_exact_json_equal(manifest["files"], actual),
+            "formal-v2 manifest hash mismatch")
     terminal = objects["host-read-terminal.json"]
     _expect(set(terminal) == {"schema", "hashes", "post_probe_sha256",
                               "profile_post_status", "binding", "actual_tools",
                               "normalized_host_status", "host_terminal_kind",
                               "session_bound", "session_status"} and
             terminal.get("schema") == "implementaudit-host-read-terminal-v1" and
-            terminal.get("hashes") == {name: actual[name]
-                                        for name in CAPTURE_FILES[:-1]},
+            _exact_json_equal(
+                terminal.get("hashes"),
+                {name: actual[name] for name in CAPTURE_FILES[:-1]}),
             "formal-v2 terminal hash mismatch")
     _expect(terminal.get("host_terminal_kind") == parent_kind,
             "formal-v2 parent terminal mismatch")
@@ -2022,7 +2043,9 @@ def _validate_capture(artifacts, fixture_bytes, fixture, expected_host,
                                "fixture_sha256", "replay_spec_sha256"} and
             pre_spawn.get("schema") == "implementaudit-host-read-pre-spawn-v1" and
             pre_spawn.get("created_before_spawn") is True and
-            all(pre_spawn.get(key) == value for key, value in expected_pre.items()),
+            _exact_json_equal(
+                {key: pre_spawn.get(key) for key in expected_pre},
+                expected_pre),
             "formal-v2 pre-spawn custody invalid")
     _expect(artifacts["host-read-fixture.raw"] == fixture_bytes,
             "formal-v2 fixture bytes drift")
@@ -2042,7 +2065,7 @@ def _validate_capture(artifacts, fixture_bytes, fixture, expected_host,
             replay.get("schema") == "implementaudit-host-read-replay-spec-v1" and
             replay.get("mode") == "formal-v2" and
             replay.get("host") == expected_host and
-            replay.get("checks") == expected_checks and
+            _exact_json_equal(replay.get("checks"), expected_checks) and
             replay.get("fixture_sha256") == _sha(fixture_bytes) and
             replay.get("run_intent_sha256") == _sha(artifacts["run-intent.json"]),
             "formal-v2 replay recipe invalid")
@@ -2069,7 +2092,7 @@ def _validate_capture(artifacts, fixture_bytes, fixture, expected_host,
         artifacts["host-stdout.raw"], artifacts["host-session.raw"],
         expected_host, terminal["binding"], stdout_binding, raw_actions,
         profile, process)
-    _expect(terminal["actual_tools"] == observed_tools,
+    _expect(_exact_json_equal(terminal["actual_tools"], observed_tools),
             "formal-v2 terminal tool inventory disagreement")
     matrix = objects["host-read-matrix.json"]
     expected_specs = {}
@@ -2084,7 +2107,7 @@ def _validate_capture(artifacts, fixture_bytes, fixture, expected_host,
             "host-session.raw": "lineage-corroboration-only"},
         "specs": expected_specs,
     }
-    _expect(matrix == expected_matrix,
+    _expect(_exact_json_equal(matrix, expected_matrix),
             "formal-v2 matrix does not independently regenerate")
     host_checks = objects["host-checks.json"]
     expected_check_keys = {
@@ -2173,10 +2196,10 @@ def _load_bundle(bundle, packet, mission, parent_terminal):
                      "committed_files_known", "committed_files"},
         "repo comparison")
     _expect(comparison["schema"] == "implementaudit-repo-comparison-v1" and
-            comparison["changed_files"] == changed and
+            _exact_json_equal(comparison["changed_files"], changed) and
             comparison["committed_change"] is False and
             comparison["committed_files_known"] is True and
-            comparison["committed_files"] == [],
+            _exact_json_equal(comparison["committed_files"], []),
             "repo comparison contradicts independent snapshot delta")
     return (manifest, fixture, artifacts, before, after, changed, preimages,
             trace, raw_actions, host_checks)
@@ -2610,6 +2633,36 @@ def rederive_campaign(packet_path, campaign_root):
         status = "PASS"
     stage_accepted = status == "PASS" and \
         completed_count == len(packet["missions"])
+    if stage_accepted:
+        for index, row in enumerate(rows):
+            _exact_fields(
+                row, INDEPENDENT_PASS_ROW_FIELDS,
+                f"independent PASS mission row {index}")
+            _expect(type(row["index"]) is int and row["index"] == index and
+                    row["product_status"] == "PASS" and
+                    row["host_status"] == "PASS" and
+                    row["overall_status"] == "PASS" and
+                    row["official_overall_status"] == "PASS" and
+                    row["independent_overall_status"] == "PASS" and
+                    row["reason"] is None and
+                    type(row["properties"]) is dict and
+                    bool(row["properties"]),
+                    f"independent PASS mission row {index} invalid")
+            for name, property_row in row["properties"].items():
+                _expect(type(name) is str and bool(name),
+                        f"independent PASS mission row {index} property invalid")
+                property_row = _exact_fields(
+                    property_row, {"state", "pass"},
+                    f"independent PASS mission row {index} property")
+                _expect(property_row["state"] == "PASS" and
+                        property_row["pass"] is True,
+                        f"independent PASS mission row {index} property invalid")
+            for key in ("bundle_manifest_sha256", "raw_stdout_sha256",
+                        "native_session_sha256",
+                        "official_verdict_sha256"):
+                _digest(
+                    row[key],
+                    f"independent PASS mission row {index} {key}")
     disposition = ("INCOMPLETE_PENDING_OPUS" if stage_accepted else
                    "INCOMPLETE" if status == "INCOMPLETE" else
                    "ANDON_STOPPED")
@@ -2626,23 +2679,53 @@ def rederive_campaign(packet_path, campaign_root):
     return result
 
 
-def write_rederivation(path, result, *, root):
+def _validate_output_parent(root, path):
     root = pathlib.Path(root).absolute()
     path = pathlib.Path(path).absolute()
     _expect(path.parent == root and
             path.name == "b3v4-luna-independent-rederivation.json",
             "independent result path must be the declared campaign-root path")
+    current = pathlib.Path(root.anchor)
     try:
+        for part in root.parts[1:]:
+            current = current / part
+            component_stat = os.lstat(current)
+            _expect(not current.is_symlink() and
+                    not _reparse_point(component_stat),
+                    "independent result parent path-component alias invalid")
         root_stat = os.lstat(root)
-        _expect(stat.S_ISDIR(root_stat.st_mode) and
-                not root.is_symlink() and not _reparse_point(root_stat),
+        _expect(stat.S_ISDIR(root_stat.st_mode),
                 "independent result parent custody invalid")
+        _expect(path.parent.resolve(strict=True) == root.resolve(strict=True),
+                "independent result parent containment invalid")
+    except EvidenceInvalid:
+        raise
+    except (OSError, ValueError) as exc:
+        raise EvidenceInvalid(
+            "independent result parent custody invalid") from exc
+    return root, path, (root_stat.st_dev, root_stat.st_ino)
+
+
+def write_rederivation(path, result, *, root):
+    root, path, parent_identity = _validate_output_parent(root, path)
+    try:
+        try:
+            os.lstat(path)
+        except FileNotFoundError:
+            pass
+        else:
+            raise EvidenceInvalid(
+                "create-once independent result already exists")
         payload = (json.dumps(result, sort_keys=True,
                               separators=(",", ":")) + "\n").encode("utf-8")
         with open(path, "xb") as stream:
             opened = os.fstat(stream.fileno())
             _expect(stat.S_ISREG(opened.st_mode) and opened.st_nlink == 1,
                     "independent result create-once identity invalid")
+            _root, _path, observed_parent_identity = \
+                _validate_output_parent(root, path)
+            _expect(observed_parent_identity == parent_identity,
+                    "independent result parent changed during create")
             stream.write(payload)
             stream.flush()
             os.fsync(stream.fileno())

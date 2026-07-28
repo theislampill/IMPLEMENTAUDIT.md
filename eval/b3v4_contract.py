@@ -30,7 +30,9 @@ PLAN = [
     ("L", "control", 3), ("L", "candidate", 3),
 ]
 OFFICIAL_MISSION_FIELDS = {
-    "index", "config", "arm", "rep", "overall_status",
+    "index", "config", "arm", "rep", "product_status", "host_status",
+    "overall_status", "properties", "reason", "bundle_manifest_sha256",
+    "raw_stdout_sha256", "native_session_sha256",
     "official_overall_status", "independent_overall_status",
     "model_resolved", "official_verdict_sha256",
 }
@@ -60,6 +62,11 @@ def _reparse_point(path_stat):
 def read_custodied_bytes(path, owner, *, root=None):
     """Read one retained regular file only through its unique lexical path."""
     return lifecycle.read_custodied_bytes(path, owner, root=root)
+
+
+def read_custodied_directory_manifest(path, owner, *, root=None):
+    return lifecycle.read_custodied_directory_manifest(
+        path, owner, root=root)
 
 
 def load_json_file(path, owner, *, require_object=True, root=None):
@@ -153,6 +160,10 @@ def canonical_json_bytes(value):
     return lifecycle.canonical_json_bytes(value)
 
 
+def exact_json_equal(left, right):
+    return lifecycle._exact_json_equal(left, right)
+
+
 def write_new_json(path, value):
     return lifecycle.write_new_json(path, value)
 
@@ -178,12 +189,12 @@ def validate_declaration(value):
     encoding = _exact(value["encoding"], {"charset", "duplicate_keys",
                       "non_finite_numbers", "object_keys", "scalar_types",
                       "paths", "writes"}, "artifact contract encoding")
-    if encoding != {
+    if not exact_json_equal(encoding, {
             "charset": "UTF-8", "duplicate_keys": "REJECT_RECURSIVELY",
             "non_finite_numbers": "REJECT", "object_keys": "EXACT",
             "scalar_types": "EXACT_NO_COERCION",
             "paths": "CANONICAL_ROLE_CONTAINED_NO_LINK_ALIAS",
-            "writes": "CREATE_ONCE"}:
+            "writes": "CREATE_ONCE"}):
         raise ValueError("artifact contract encoding drift")
     artifacts = value["artifacts"]
     if type(artifacts) is not dict or not artifacts:
@@ -200,7 +211,7 @@ def validate_declaration(value):
             raise ValueError(f"artifact {name} format invalid")
         if type(row["create_once"]) is not bool or not row["create_once"]:
             raise ValueError(f"artifact {name} create-once policy invalid")
-    if value != _declaration():
+    if not exact_json_equal(value, _declaration()):
         raise ValueError("artifact contract semantic declaration drift")
     return value
 
@@ -242,7 +253,7 @@ def validate_freeze_envelope(packet):
         for key in ("commit", "tree", "skill_tree"):
             _git_id(row[key], f"{owner}.{key}")
         _digest(row["payload_sha256"], f"{owner}.payload_sha256")
-    if packet["candidate"] == packet["control"]:
+    if exact_json_equal(packet["candidate"], packet["control"]):
         raise ValueError("candidate and control identities must be distinct")
     configurations = packet["configurations"]
     if type(configurations) is not dict or set(configurations) != {"L"}:
@@ -303,14 +314,14 @@ def validate_freeze_envelope(packet):
         "schema", "name", "mission_count", "terminal_name",
         "official_result_name", "independent_result_name",
         "success_disposition"}, "luna_stage")
-    if stage != {
+    if not exact_json_equal(stage, {
             "schema": "implementaudit-b3v4-luna-stage-v2",
             "name": "LUNA", "mission_count": 6,
             "terminal_name": "luna-stage-terminal.json",
             "official_result_name": "b3v4-luna-result.json",
             "independent_result_name":
                 "b3v4-luna-independent-rederivation.json",
-            "success_disposition": "INCOMPLETE_PENDING_OPUS"}:
+            "success_disposition": "INCOMPLETE_PENDING_OPUS"}):
         raise ValueError("luna_stage boundary drift")
     _exact(packet["evidence_profiles"], {
         "formal_host_read", "raw_stdout", "native_session", "pre_spawn",
@@ -413,6 +424,33 @@ def validate_artifact(name, value):
                 if mission[key] != "PASS":
                     raise ValueError(
                         f"official Luna result mission {index} {key} invalid")
+            for key in ("product_status", "host_status"):
+                if mission[key] != "PASS":
+                    raise ValueError(
+                        f"official Luna result mission {index} {key} invalid")
+            properties = mission["properties"]
+            if type(properties) is not dict or not properties:
+                raise ValueError(
+                    f"official Luna result mission {index} properties invalid")
+            for property_name, property_row in properties.items():
+                _string(
+                    property_name,
+                    f"official Luna result mission {index} property name")
+                property_row = _exact(
+                    property_row, {"state", "pass"},
+                    f"official Luna result mission {index} property")
+                if (property_row["state"] != "PASS" or
+                        property_row["pass"] is not True):
+                    raise ValueError(
+                        f"official Luna result mission {index} property invalid")
+            if mission["reason"] is not None:
+                raise ValueError(
+                    f"official Luna result mission {index} reason invalid")
+            for key in ("bundle_manifest_sha256", "raw_stdout_sha256",
+                        "native_session_sha256"):
+                _digest(
+                    mission[key],
+                    f"official Luna result mission {index} {key}")
             _string(
                 mission["model_resolved"],
                 f"official Luna result mission {index} model")
@@ -493,13 +531,14 @@ def validate_mission(mission):
 
 
 def next_mission(plan, completed):
-    if completed != plan[:len(completed)]:
+    if not exact_json_equal(completed, plan[:len(completed)]):
         raise ValueError("campaign attempt order invalid")
     return None if len(completed) == len(plan) else plan[len(completed)]
 
 
 def campaign_complete(plan, completed):
-    return completed == plan and {m["config"] for m in completed} == {"L"}
+    return (exact_json_equal(completed, plan) and
+            {m["config"] for m in completed} == {"L"})
 
 
 validate_declaration(_declaration())

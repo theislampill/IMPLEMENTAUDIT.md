@@ -90,7 +90,14 @@ def lifecycle_rows(packet):
         "missions": [{
             "index": mission["index"], "config": mission["config"],
             "arm": mission["arm"], "rep": mission["rep"],
+            "product_status": "PASS", "host_status": "PASS",
             "overall_status": "PASS",
+            "properties": {
+                "required": {"state": "PASS", "pass": True}},
+            "reason": None,
+            "bundle_manifest_sha256": digest,
+            "raw_stdout_sha256": digest,
+            "native_session_sha256": digest,
             "official_overall_status": "PASS",
             "independent_overall_status": "PASS",
             "model_resolved": "gpt-5.6-luna",
@@ -171,6 +178,11 @@ def main():
     declaration_mutations.append(changed)
     for mutation in declaration_mutations:
         must_reject(lambda value=mutation: contract.validate_declaration(value))
+    for alias in (0, 0.0, -0.0, True):
+        changed = copy.deepcopy(declaration)
+        changed["execution"]["final_acceptance"] = alias
+        must_reject(
+            lambda changed=changed: contract.validate_declaration(changed))
 
     packet = valid_packet()
     packet["artifact_contract"] = {
@@ -179,6 +191,11 @@ def main():
         "sha256": contract.contract_sha256(),
     }
     contract.validate_freeze_envelope(packet)
+    for alias in (6.0, True):
+        changed = copy.deepcopy(packet)
+        changed["luna_stage"]["mission_count"] = alias
+        must_reject(
+            lambda changed=changed: contract.validate_freeze_envelope(changed))
     rows = lifecycle_rows(packet)
     contract.validate_artifact(
         "official_luna_result", rows["official_luna_result"])

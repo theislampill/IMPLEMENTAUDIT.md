@@ -212,14 +212,14 @@ def validate_structure(packet):
     _required(stage, {"schema", "name", "mission_count", "terminal_name",
                       "official_result_name", "independent_result_name",
                       "success_disposition"}, "luna_stage")
-    if stage != {
+    if not contract.exact_json_equal(stage, {
             "schema": "implementaudit-b3v4-luna-stage-v2",
             "name": "LUNA", "mission_count": 6,
             "terminal_name": "luna-stage-terminal.json",
             "official_result_name": "b3v4-luna-result.json",
             "independent_result_name":
                 "b3v4-luna-independent-rederivation.json",
-            "success_disposition": "INCOMPLETE_PENDING_OPUS"}:
+            "success_disposition": "INCOMPLETE_PENDING_OPUS"}):
         raise ValueError("luna_stage boundary drift")
 
     profiles = _mapping(packet["evidence_profiles"], "evidence_profiles")
@@ -234,13 +234,21 @@ def validate_structure(packet):
         raise ValueError("evidence_profiles.formal_host_read must bind formal-v2")
 
     composition = _mapping(packet["result_composition"], "result_composition")
-    if composition.get("product_property_states") != ["PASS", "FAIL", "INCOMPLETE"]:
+    if not contract.exact_json_equal(
+            composition.get("product_property_states"),
+            ["PASS", "FAIL", "INCOMPLETE"]):
         raise ValueError("product property state composition drift")
-    if composition.get("overall_states") != ["PASS", "FAIL", "INVALID", "ERROR"]:
+    if not contract.exact_json_equal(
+            composition.get("overall_states"),
+            ["PASS", "FAIL", "INVALID", "ERROR"]):
         raise ValueError("overall state composition drift")
-    if composition.get("host_states") != ["PASS", "INVALID", "ERROR", "SUBSTITUTION"]:
+    if not contract.exact_json_equal(
+            composition.get("host_states"),
+            ["PASS", "INVALID", "ERROR", "SUBSTITUTION"]):
         raise ValueError("host state composition drift")
-    if composition.get("luna_stage_dispositions") != ["INCOMPLETE_PENDING_OPUS"]:
+    if not contract.exact_json_equal(
+            composition.get("luna_stage_dispositions"),
+            ["INCOMPLETE_PENDING_OPUS"]):
         raise ValueError("Luna stage disposition composition drift")
 
     attempts = _mapping(packet["attempt_policy"], "attempt_policy")

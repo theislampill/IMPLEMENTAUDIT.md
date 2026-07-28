@@ -1117,6 +1117,158 @@ def assert_attempt_status_numeric_aliases_rejected(module):
             ", ".join(accepted))
 
 
+def assert_remaining_exact_scalar_aliases_rejected(module):
+    declaration = json.loads(
+        (HERE / "b3v4_contract.json").read_text(encoding="utf-8"))
+    for alias in (0, 0.0, -0.0, True):
+        changed = copy.deepcopy(declaration)
+        changed["execution"]["final_acceptance"] = alias
+        try:
+            module._validate_contract_declaration(changed)
+        except module.EvidenceInvalid:
+            pass
+        else:
+            raise AssertionError(
+                f"independent contract accepted final_acceptance={alias!r}")
+
+    for alias in (6.0, True):
+        with tempfile.TemporaryDirectory(prefix="b3v4-stage-alias-") as tmp:
+            root = pathlib.Path(tmp) / "campaign"
+            packet = build_campaign(root)
+            packet["luna_stage"]["mission_count"] = alias
+            expect_freeze_invalid(module, root, packet, "luna_stage")
+
+    with tempfile.TemporaryDirectory(prefix="b3v4-matrix-alias-") as tmp:
+        root = pathlib.Path(tmp) / "campaign"
+        build_campaign(root)
+        _attempt, bundle = first_bundle(root, 0)
+        matrix_path = bundle / "artifacts" / "host-read-matrix.json"
+        matrix = json.loads(matrix_path.read_text(encoding="utf-8"))
+        for row in matrix["specs"].values():
+            row["borrowed_completion"] = 0
+        write(matrix_path, matrix)
+        rebind_bundle_and_official(root, bundle, capture=True)
+        result = module.rederive_campaign(
+            root / "campaign-freeze.json", root)
+        assert result["luna_stage_status"] == "INVALID", result
+
+
+def assert_independent_output_custody(module):
+    result = {
+        "schema": "implementaudit-b3v4-luna-independent-rederivation-v2",
+        "campaign": "b3v4-sol-luna-r2", "freeze_sha256": "a" * 64,
+        "contract_sha256": module.CONTRACT_SHA256,
+        "luna_stage_status": "INVALID", "disposition": "ANDON_STOPPED",
+        "luna_stage_accepted": False, "accepted": False,
+        "mission_count": 0, "missions": [],
+        "claims": copy.deepcopy(module.FINAL_CLAIMS), "reason": "fixture",
+    }
+    with tempfile.TemporaryDirectory(prefix="b3v4-output-custody-") as tmp:
+        base = pathlib.Path(tmp)
+        root = base / "campaign"
+        root.mkdir()
+        outside = base / "outside-result.json"
+        outside.write_text("outside\n", encoding="utf-8")
+        output = root / "b3v4-luna-independent-rederivation.json"
+        try:
+            os.symlink(outside, output)
+        except (NotImplementedError, OSError):
+            print("REDERIVER_OUTPUT_LEAF_SYMLINK=SKIP")
+        else:
+            try:
+                module.write_rederivation(output, result, root=root)
+            except module.EvidenceInvalid:
+                pass
+            else:
+                raise AssertionError("output leaf symlink accepted")
+            output.unlink()
+        os.link(outside, output)
+        try:
+            module.write_rederivation(output, result, root=root)
+        except module.EvidenceInvalid:
+            pass
+        else:
+            raise AssertionError("output leaf hardlink accepted")
+        output.unlink()
+
+    if os.name == "nt":
+        with tempfile.TemporaryDirectory(
+                prefix="b3v4-output-parent-junction-") as tmp:
+            base = pathlib.Path(tmp)
+            target = base / "target"
+            target.mkdir()
+            junction = base / "junction"
+            made = subprocess.run(
+                ["cmd", "/c", "mklink", "/J", str(junction), str(target)],
+                capture_output=True, text=True)
+            if made.returncode:
+                print("REDERIVER_OUTPUT_PARENT_JUNCTION=SKIP:mklink")
+            else:
+                try:
+                    root = junction / "campaign"
+                    root.mkdir()
+                    output = (
+                        root /
+                        "b3v4-luna-independent-rederivation.json")
+                    try:
+                        module.write_rederivation(output, result, root=root)
+                    except module.EvidenceInvalid:
+                        pass
+                    else:
+                        raise AssertionError(
+                            "output ancestor junction accepted")
+                finally:
+                    if (target / "campaign" /
+                            "b3v4-luna-independent-rederivation.json").exists():
+                        (target / "campaign" /
+                         "b3v4-luna-independent-rederivation.json").unlink()
+                    if (target / "campaign").exists():
+                        (target / "campaign").rmdir()
+                    os.rmdir(junction)
+
+
+def assert_deep_cli_failure_normalized(module):
+    with tempfile.TemporaryDirectory(prefix="b3v4-deep-cli-") as tmp:
+        root = pathlib.Path(tmp) / "campaign"
+        root.mkdir()
+        intent = pathlib.Path(tmp) / "deep.json"
+        intent.write_bytes(b"[" * 1100 + b"0" + b"]" * 1100)
+        output = root / "b3v4-luna-independent-rederivation.json"
+        exit_code = module.main([
+            str(intent), "--campaign-root", str(root),
+            "--output", str(output)])
+        assert exit_code == 2
+        value = json.loads(output.read_text(encoding="utf-8"))
+        assert value["luna_stage_status"] == "INVALID"
+        assert value["luna_stage_accepted"] is False
+
+
+def assert_complete_pass_row_schema(module):
+    expected_fields = {
+        "index", "config", "arm", "rep", "product_status", "host_status",
+        "overall_status", "properties", "reason",
+        "bundle_manifest_sha256", "raw_stdout_sha256",
+        "native_session_sha256", "official_overall_status",
+        "independent_overall_status", "model_resolved",
+        "official_verdict_sha256",
+    }
+    with tempfile.TemporaryDirectory(prefix="b3v4-complete-row-") as tmp:
+        root = pathlib.Path(tmp) / "campaign"
+        build_campaign(root)
+        result = module.rederive_campaign(
+            root / "campaign-freeze.json", root)
+        assert result["luna_stage_status"] == "PASS"
+        assert len(result["missions"]) == 6
+        for index, row in enumerate(result["missions"]):
+            assert set(row) == expected_fields
+            assert row["index"] == index
+            assert row["product_status"] == "PASS"
+            assert row["host_status"] == "PASS"
+            assert row["overall_status"] == "PASS"
+            assert all(set(value) == {"state", "pass"}
+                       for value in row["properties"].values())
+
+
 def assert_host_root_junction_rejected(module):
     if os.name != "nt":
         print("REDERIVER_HOST_ROOT_JUNCTION=SKIP:not-windows")
@@ -1149,6 +1301,9 @@ def main():
     assert_independent_import_boundary()
     module = load_module()
     assert_host_root_junction_rejected(module)
+    assert_independent_output_custody(module)
+    assert_deep_cli_failure_normalized(module)
+    assert_complete_pass_row_schema(module)
 
     # One campaign proves the universal retained-file check at every reader
     # family.  The outside hardlink remains byte-identical and all hashes stay
@@ -1199,6 +1354,7 @@ def main():
     assert_retained_schema_matrix(module)
     assert_host_attestation_custody_matrix(module)
     assert_attempt_status_numeric_aliases_rejected(module)
+    assert_remaining_exact_scalar_aliases_rejected(module)
     with tempfile.TemporaryDirectory(prefix="b3v4-rederive-freeze-") as tmp:
         root = pathlib.Path(tmp) / "campaign"
         packet = build_campaign(root)
