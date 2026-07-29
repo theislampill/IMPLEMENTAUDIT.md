@@ -200,6 +200,20 @@ def _exact_published_terminal(path, expected, campaign_root):
         return False
 
 
+def _exact_published_campaign_andon(path, expected, campaign_root):
+    try:
+        raw = contract.read_custodied_bytes(
+            path, "campaign ANDON publication", root=campaign_root)
+        if raw != contract.canonical_json_bytes(expected):
+            return False
+        observed = contract.decode_json_bytes(
+            raw, "campaign ANDON publication", require_object=True)
+        contract.validate_artifact("campaign_andon", observed)
+        return _exact_json_equal(observed, expected)
+    except (OSError, TypeError, ValueError, json.JSONDecodeError):
+        return False
+
+
 def _read_object(path, owner, *, root=None):
     return contract.load_json_file(path, owner, root=root)
 
@@ -885,9 +899,22 @@ class CampaignDriver:
                 "created_at": _utc_now(),
             }
             contract.validate_artifact("campaign_andon", marker)
-            _write_new_json(
-                self.campaign_root / CAMPAIGN_ANDON_NAME, marker)
-            return marker
+            marker_path = self.campaign_root / CAMPAIGN_ANDON_NAME
+            last_error = None
+            for publication_attempt in range(2):
+                try:
+                    _write_new_json(marker_path, marker)
+                    return marker
+                except Exception as exc:
+                    last_error = exc
+                    if _exact_published_campaign_andon(
+                            marker_path, marker, self.campaign_root):
+                        return marker
+                    if os.path.lexists(marker_path):
+                        break
+                    if publication_attempt == 1:
+                        break
+            raise last_error
 
     def run_next(self):
         packet, raw, packet_sha256 = self._load_packet()

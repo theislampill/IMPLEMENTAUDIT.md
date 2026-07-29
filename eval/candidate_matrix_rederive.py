@@ -2815,6 +2815,29 @@ def _validate_campaign_andon(marker, packet, campaign_root, freeze_sha):
     return marker, mission
 
 
+def _andon_result(packet, freeze_sha, rows, reason):
+    observed_modes = {row.get("execution_mode") for row in rows}
+    exact_mode = next(iter(observed_modes)) \
+        if len(observed_modes) == 1 and \
+        observed_modes <= {"production", "test"} else None
+    return {
+        "schema":
+            "implementaudit-candidate-matrix-luna-independent-rederivation-v1",
+        "campaign": "candidate-matrix-sol-luna-r1",
+        "freeze_sha256": freeze_sha,
+        "contract_sha256": packet["artifact_contract"]["sha256"],
+        "execution_mode": exact_mode,
+        "luna_stage_status": "ERROR",
+        "disposition": "ANDON_STOPPED",
+        "luna_stage_accepted": False,
+        "accepted": False,
+        "cell_count": len(rows),
+        "cells": rows,
+        "claims": dict(FINAL_CLAIMS),
+        "reason": reason,
+    }
+
+
 def _bundle_content_hash(bundle):
     digest = hashlib.sha256()
     for name in ("manifest.json", "fixture.json", "prompt.txt",
@@ -3213,68 +3236,57 @@ def rederive_campaign(packet_path, campaign_root):
     expected_order = [_attempt_name(mission) for mission in packet["cells"]]
     expected_names = set(expected_order)
     andon_path = campaign_root / "campaign-andon.json"
+    invalid_andon = None
     if os.path.lexists(andon_path):
-        marker_value, _ = _read_json(andon_path, "campaign ANDON")
-        marker, stopped_mission = _validate_campaign_andon(
-            marker_value, packet, campaign_root, freeze_sha)
-        allowed_andon_root = expected_names | {
-            "campaign-freeze.json", "campaign-manifest.json",
-            "campaign-andon.json"}
-        unexpected_root = {
-            path.name for path in campaign_root.iterdir()} - allowed_andon_root
-        _expect(
-            not unexpected_root,
-            "campaign ANDON contains unexpected custody entry")
-        _expect(
-            not list(campaign_root.glob("attempt-*.claiming")),
-            "campaign ANDON contains nonterminal claim")
-        actual_names = {
-            path.name for path in campaign_root.glob("attempt-*")
-            if not path.name.endswith(".claiming")}
-        stopped_index = marker["mission_index"]
-        _expect(
-            actual_names == set(expected_order[:stopped_index + 1]),
-            "campaign ANDON attempt prefix invalid")
-        stopped_attempt = campaign_root / marker["attempt_name"]
-        _expect(
-            stopped_attempt.is_dir() and
-            {path.name for path in stopped_attempt.iterdir()} <= {
-                "attempt-status.json", "attempt-terminal.json",
-                "host-attestation.json", "official-verdict.json",
-                "host-custody"},
-            "campaign ANDON attempt custody invalid")
-        property_declarations = {}
-        rows = [
-            _rederive_attempt(
-                packet, campaign_root, mission, freeze_sha,
-                property_declarations)
-            for mission in packet["cells"][:stopped_index]
-        ]
-        rows.append(_stopped_row(
-            stopped_mission, "ERROR", marker["stop_reason"],
-            marker["execution_mode"]))
-        observed_modes = {row.get("execution_mode") for row in rows}
-        exact_mode = next(iter(observed_modes)) \
-            if len(observed_modes) == 1 and \
-            observed_modes <= {"production", "test"} else None
-        return {
-            "schema":
-                "implementaudit-candidate-matrix-luna-independent-rederivation-v1",
-            "campaign": "candidate-matrix-sol-luna-r1",
-            "freeze_sha256": freeze_sha,
-            "contract_sha256": packet["artifact_contract"]["sha256"],
-            "execution_mode": exact_mode,
-            "luna_stage_status": "ERROR",
-            "disposition": "ANDON_STOPPED",
-            "luna_stage_accepted": False,
-            "accepted": False,
-            "cell_count": len(rows),
-            "cells": rows,
-            "claims": dict(FINAL_CLAIMS),
-            "reason": marker["stop_reason"],
-        }
+        try:
+            marker_value, _ = _read_json(andon_path, "campaign ANDON")
+            marker, stopped_mission = _validate_campaign_andon(
+                marker_value, packet, campaign_root, freeze_sha)
+            allowed_andon_root = expected_names | {
+                "campaign-freeze.json", "campaign-manifest.json",
+                "campaign-andon.json"}
+            unexpected_root = {
+                path.name for path in campaign_root.iterdir()} - \
+                allowed_andon_root
+            _expect(
+                not unexpected_root,
+                "campaign ANDON contains unexpected custody entry")
+            _expect(
+                not list(campaign_root.glob("attempt-*.claiming")),
+                "campaign ANDON contains nonterminal claim")
+            actual_names = {
+                path.name for path in campaign_root.glob("attempt-*")
+                if not path.name.endswith(".claiming")}
+            stopped_index = marker["mission_index"]
+            _expect(
+                actual_names == set(expected_order[:stopped_index + 1]),
+                "campaign ANDON attempt prefix invalid")
+            stopped_attempt = campaign_root / marker["attempt_name"]
+            _expect(
+                stopped_attempt.is_dir() and
+                {path.name for path in stopped_attempt.iterdir()} <= {
+                    "attempt-status.json", "attempt-terminal.json",
+                    "host-attestation.json", "official-verdict.json",
+                    "host-custody"},
+                "campaign ANDON attempt custody invalid")
+            property_declarations = {}
+            rows = [
+                _rederive_attempt(
+                    packet, campaign_root, mission, freeze_sha,
+                    property_declarations)
+                for mission in packet["cells"][:stopped_index]
+            ]
+            rows.append(_stopped_row(
+                stopped_mission, "ERROR", marker["stop_reason"],
+                marker["execution_mode"]))
+            return _andon_result(
+                packet, freeze_sha, rows, marker["stop_reason"])
+        except (EvidenceInvalid, OSError, KeyError, TypeError, ValueError) as exc:
+            invalid_andon = str(exc)
     allowed_root = expected_names | {"campaign-freeze.json",
                                      "campaign-manifest.json"}
+    if os.path.lexists(andon_path):
+        allowed_root.add("campaign-andon.json")
     unexpected_root = {path.name for path in campaign_root.iterdir()} - allowed_root
     _expect(not unexpected_root, "campaign contains unexpected custody entry")
     actual_names = {path.name for path in campaign_root.glob("attempt-*")
@@ -3284,16 +3296,57 @@ def rederive_campaign(packet_path, campaign_root):
     completed_count = len(actual_names)
     _expect(actual_names == set(expected_order[:completed_count]),
             "campaign attempt set reordered or unexpected")
-    for name in expected_order[:completed_count]:
+    nonterminal_index = None
+    for index, name in enumerate(expected_order[:completed_count]):
         attempt = campaign_root / name
         allowed_attempt = {"attempt-status.json", "attempt-terminal.json",
                            "host-attestation.json", "official-verdict.json",
                            "host-custody"}
         _expect({path.name for path in attempt.iterdir()} <= allowed_attempt,
                 "attempt contains unexpected custody entry")
-        _expect((attempt / "attempt-status.json").is_file() and
-                (attempt / "attempt-terminal.json").is_file(),
-                "attempt lifecycle is nonterminal")
+        _expect(
+            (attempt / "attempt-status.json").is_file(),
+            "attempt status is missing")
+        if not (attempt / "attempt-terminal.json").is_file():
+            _expect(
+                index == completed_count - 1,
+                "attempt lifecycle gap precedes later attempt")
+            nonterminal_index = index
+    if nonterminal_index is not None:
+        property_declarations = {}
+        rows = [
+            _rederive_attempt(
+                packet, campaign_root, mission, freeze_sha,
+                property_declarations)
+            for mission in packet["cells"][:nonterminal_index]
+        ]
+        mission = packet["cells"][nonterminal_index]
+        status, _ = _read_json(
+            campaign_root / expected_order[nonterminal_index] /
+            "attempt-status.json", "nonterminal attempt status")
+        status = _validate_attempt_status(
+            status, mission, freeze_sha,
+            packet["artifact_contract"]["sha256"],
+            packet["configuration"])
+        reason = invalid_andon or "attempt lifecycle is nonterminal"
+        rows.append(_stopped_row(
+            mission, "ERROR", reason, status["execution_mode"]))
+        return _andon_result(packet, freeze_sha, rows, reason)
+    if invalid_andon is not None:
+        property_declarations = {}
+        rows = [
+            _rederive_attempt(
+                packet, campaign_root, mission, freeze_sha,
+                property_declarations)
+            for mission in packet["cells"][:completed_count]
+        ]
+        if rows:
+            last = rows[-1]
+            rows[-1] = _stopped_row(
+                packet["cells"][len(rows) - 1], "ERROR",
+                invalid_andon, last.get("execution_mode"))
+        return _andon_result(
+            packet, freeze_sha, rows, invalid_andon)
     property_declarations = {}
     rows = [
         _rederive_attempt(

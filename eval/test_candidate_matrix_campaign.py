@@ -387,7 +387,10 @@ def assert_terminal_publication_failures(module):
     for label in (
             "one-time-pre-create", "valid-then-raise",
             "partial-then-raise", "persistent-failure",
-            "conflicting-preexisting"):
+            "conflicting-preexisting", "transient-marker-failure",
+            "marker-valid-then-raise", "marker-partial",
+            "marker-conflicting", "marker-persistent",
+            "marker-retry-valid-then-raise"):
         with tempfile.TemporaryDirectory(
                 prefix=f"candidate-matrix-terminal-publication-{label}-") as tmp:
             calls = []
@@ -400,6 +403,38 @@ def assert_terminal_publication_failures(module):
             def publication_control(path, value):
                 path = pathlib.Path(path)
                 if path.name != terminal_name:
+                    if path.name == marker_name:
+                        marker_count = injected.setdefault("marker", 0)
+                        injected["marker"] += 1
+                        if (label == "transient-marker-failure" and
+                                marker_count == 0):
+                            raise OSError(
+                                "injected pre-create campaign marker failure")
+                        if (label == "marker-valid-then-raise" and
+                                marker_count == 0):
+                            original(path, value)
+                            raise OSError(
+                                "injected post-create campaign marker failure")
+                        if (label in ("marker-partial",
+                                      "marker-conflicting") and
+                                marker_count == 0):
+                            with open(path, "xb") as stream:
+                                stream.write(
+                                    b"{" if label == "marker-partial"
+                                    else b"{}\n")
+                            raise OSError(
+                                "injected nonconforming campaign marker")
+                        if label == "marker-persistent":
+                            raise OSError(
+                                "injected persistent campaign marker failure")
+                        if label == "marker-retry-valid-then-raise":
+                            if marker_count == 0:
+                                raise OSError(
+                                    "injected first campaign marker failure")
+                            if marker_count == 1:
+                                original(path, value)
+                                raise OSError(
+                                    "injected retry post-create marker failure")
                     return original(path, value)
                 injected["count"] += 1
                 if label == "one-time-pre-create" and injected["count"] == 1:
@@ -411,7 +446,11 @@ def assert_terminal_publication_failures(module):
                     with open(path, "xb") as stream:
                         stream.write(b"{")
                     raise OSError("injected partial terminal failure")
-                if label == "persistent-failure":
+                if label in ("persistent-failure",
+                             "transient-marker-failure",
+                             "marker-valid-then-raise", "marker-partial",
+                             "marker-conflicting", "marker-persistent",
+                             "marker-retry-valid-then-raise"):
                     raise OSError("injected persistent terminal failure")
                 if label == "conflicting-preexisting" and injected["count"] == 1:
                     with open(path, "xb") as stream:
@@ -421,8 +460,15 @@ def assert_terminal_publication_failures(module):
 
             driver = make_driver(module, tmp, counted_executor)
             module._write_new_json = publication_control
+            result = None
             try:
-                result = driver.run_next()
+                try:
+                    result = driver.run_next()
+                except OSError:
+                    if label not in (
+                            "marker-partial", "marker-conflicting",
+                            "marker-persistent"):
+                        raise
             finally:
                 module._write_new_json = original
             attempt = next(driver.campaign_root.glob("attempt-*"))
@@ -446,7 +492,7 @@ def assert_terminal_publication_failures(module):
                     "attempt-terminal-publication-failure"
                 assert terminal_path.is_file()
                 assert not marker_path.exists()
-            else:
+            elif result is not None:
                 assert result["schema"] == \
                     "implementaudit-candidate-matrix-campaign-andon-v1", result
                 assert result["stop_reason"] == \
@@ -457,7 +503,13 @@ def assert_terminal_publication_failures(module):
                 driver.campaign_root)
             assert independent["disposition"] == "ANDON_STOPPED", independent
             assert independent["luna_stage_accepted"] is False, independent
-            expect_error("stopped", driver.run_next)
+            try:
+                driver.run_next()
+            except (OSError, TypeError, ValueError):
+                pass
+            else:
+                raise AssertionError(
+                    "terminal publication failure ran a next mission")
             assert calls == [0]
             try:
                 driver.finalize_luna_stage()
@@ -471,6 +523,18 @@ def assert_terminal_publication_failures(module):
                 "candidate-matrix-luna-result.json").exists()
             assert not (
                 driver.campaign_root / "luna-stage-terminal.json").exists()
+
+
+def assert_malformed_marker_never_qualifies():
+    with tempfile.TemporaryDirectory(
+            prefix="candidate-matrix-malformed-marker-") as tmp:
+        campaign_root = pathlib.Path(tmp) / "campaign"
+        build_campaign(campaign_root, execution_mode="production")
+        (campaign_root / "campaign-andon.json").write_bytes(b"{}\n")
+        independent = load_rederive_module().rederive_campaign(
+            campaign_root / "campaign-freeze.json", campaign_root)
+        assert independent["disposition"] == "ANDON_STOPPED", independent
+        assert independent["luna_stage_accepted"] is False, independent
 
 
 def main():
@@ -569,6 +633,7 @@ def main():
     assert_post_executor_custody_failure_terminal(module)
     assert_post_executor_terminal_step_failures(module)
     assert_terminal_publication_failures(module)
+    assert_malformed_marker_never_qualifies()
     print("candidate matrix campaign: PASS")
 
 
