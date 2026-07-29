@@ -695,8 +695,9 @@ def _gate_identity(b3, matrix, manifests):
     })
 
 
-def _tooling_source_manifest(target_sha, target_tree):
-    repo_root = pathlib.Path(__file__).resolve().parent.parent
+def _tooling_source_manifest(target_sha, target_tree, repo_root=None):
+    repo_root = pathlib.Path(repo_root) if repo_root is not None else \
+        pathlib.Path(__file__).resolve().parent.parent
     return {
         "schema": "implementaudit-tooling-source-manifest-v1",
         "target_sha": target_sha,
@@ -712,7 +713,8 @@ def _tooling_source_manifest(target_sha, target_tree):
 
 def _validate_qualification_identity(
         name, value, qualified_input_sha256, target_sha, target_tree,
-        campaign_qualified_input_sha256, evaluated_surfaces_sha256):
+        campaign_qualified_input_sha256, evaluated_surfaces_sha256,
+        repo_root=None):
     if type(value) is not dict:
         raise ValueError("qualification identity must be an object")
     scope = value.get("qualification_scope")
@@ -728,7 +730,7 @@ def _validate_qualification_identity(
         else:
             raise ValueError("tooling qualification gate invalid")
         expected_manifest = _tooling_source_manifest(
-            target_sha, target_tree)
+            target_sha, target_tree, repo_root)
         manifest = value["tooling_source_manifest"]
         _digest(
             value["tooling_source_manifest_sha256"],
@@ -1495,8 +1497,12 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
     }, evidence_sha256
 
 
-def _validate_failed_gate_evidence(name, gate_root, *,
-                                   allow_test_evidence=False):
+def _validate_failed_gate_evidence(
+        name, gate_root, *, expected_target_sha, expected_target_tree,
+        expected_qualification_scope, expected_qualified_input_sha256,
+        expected_campaign_qualified_input_sha256,
+        expected_evaluated_surfaces_sha256, repo_root,
+        allow_test_evidence=False):
     """Independently validate one closed, non-PASS child-gate attempt."""
     if name not in ("deterministic", "package"):
         raise ValueError("failed child gate unsupported")
@@ -1567,6 +1573,19 @@ def _validate_failed_gate_evidence(name, gate_root, *,
             "PRODUCTION" or start["attempt"] != 1 or
             start["invocation_count"] != 1 or
             start["closed_stdin"] is not True or
+            start["target_sha"] != expected_target_sha or
+            start["target_tree"] != expected_target_tree or
+            start["qualification_scope"] !=
+            expected_qualification_scope or
+            start["qualified_input_sha256"] !=
+            expected_qualified_input_sha256 or
+            start["producer_source_path"] !=
+            "eval/qualification_evidence_producer.py" or
+            start["producer_role"] != GATE_PRODUCER_ROLES[name] or
+            start["command"] != GATE_COMMANDS[name] or
+            start["network_authorized"] is not False or
+            start["credentials_authorized"] is not False or
+            start["model_or_metered_api_authorized"] is not False or
             start["evidence_root_identity"] != {
                 "canonical_path": str(gate_root),
                 "device": root_stat.st_dev,
@@ -1574,8 +1593,41 @@ def _validate_failed_gate_evidence(name, gate_root, *,
                 "mode": root_stat.st_mode,
             }):
         raise ValueError("failed gate start identity invalid")
+    _validate_qualification_identity(
+        name, start["qualification_identity"],
+        expected_qualified_input_sha256,
+        expected_target_sha, expected_target_tree,
+        expected_campaign_qualified_input_sha256,
+        expected_evaluated_surfaces_sha256, repo_root)
+    if name == "package":
+        expected_argv = [
+            start["bash_executable"]["canonical_path"],
+            "scripts/verify-package.sh",
+        ]
+    else:
+        expected_argv = []
+        for check_name in DETERMINISTIC_CHECKS:
+            argv = list(DETERMINISTIC_COMMANDS[check_name])
+            if argv[0] == "bash":
+                argv[0] = start["bash_executable"]["canonical_path"]
+            expected_argv.append(argv)
+    if start["argv"] != expected_argv:
+        raise ValueError("failed gate start argv identity invalid")
     if not allow_test_evidence:
         _validate_production_bash_binding(start["bash_executable"])
+        producer_blob = _git_bytes(
+            pathlib.Path(repo_root), expected_target_sha,
+            "eval/qualification_evidence_producer.py")
+        if start["producer_source_sha256"] != hashlib.sha256(
+                producer_blob).hexdigest():
+            raise ValueError(
+                "failed gate producer source is not target-tree bound")
+    else:
+        observed_producer = pathlib.Path(__file__).resolve().parent / \
+            "qualification_evidence_producer.py"
+        if start["producer_source_sha256"] != hashlib.sha256(
+                observed_producer.read_bytes()).hexdigest():
+            raise ValueError("failed gate producer source hash invalid")
     terminal = lifecycle.decode_strict_json_bytes(
         retained[GATE_FILENAMES[name]], "failed gate terminal",
         require_object=True)
@@ -1615,13 +1667,26 @@ def _validate_failed_gate_evidence(name, gate_root, *,
             "argv", "pid", "started_at", "completed_at",
             "duration_seconds", "exit_code", "stdout_path",
             "stdout_sha256", "stderr_path", "stderr_sha256",
+            "child_completed", "communication_error",
+            "termination_action", "termination_started_at",
+            "termination_completed_at",
         }
         if name == "deterministic":
             child_fields.add("name")
         _exact(child, child_fields, "failed gate child")
-        if (type(child["pid"]) is not int or child["pid"] <= 0 or
+        expected_child_argv = (
+            start["argv"] if name == "package" else
+            start["argv"][DETERMINISTIC_CHECKS.index(child["name"])])
+        if (child["argv"] != expected_child_argv or
+                type(child["pid"]) is not int or child["pid"] <= 0 or
+                child["child_completed"] is not True or
+                type(child["exit_code"]) is not int or
+                type(child["completed_at"]) is not str or
+                not child["completed_at"] or
                 type(child["duration_seconds"]) not in (int, float) or
                 child["duration_seconds"] < 0 or
+                child["termination_action"] not in {
+                    "NONE", "ALREADY_EXITED", "TERMINATE_WAIT", "KILL_WAIT"} or
                 child["stdout_path"] not in command_names or
                 child["stderr_path"] not in command_names or
                 child["stdout_sha256"] != hashlib.sha256(
@@ -1629,14 +1694,42 @@ def _validate_failed_gate_evidence(name, gate_root, *,
                 child["stderr_sha256"] != hashlib.sha256(
                     retained[child["stderr_path"]]).hexdigest()):
             raise ValueError("failed gate child evidence invalid")
+        communication_error = child["communication_error"]
+        if communication_error is None:
+            if (child["termination_action"] != "NONE" or
+                    child["termination_started_at"] is not None or
+                    child["termination_completed_at"] is not None):
+                raise ValueError(
+                    "failed gate child termination evidence invalid")
+        else:
+            _exact(communication_error, {
+                "error_type", "reason", "observed_at",
+            }, "failed gate child communication error")
+            if (child["termination_action"] == "NONE" or
+                    type(child["termination_started_at"]) is not str or
+                    type(child["termination_completed_at"]) is not str):
+                raise ValueError(
+                    "failed gate child recovery evidence invalid")
     if name == "deterministic":
         for row in terminal["checks"]:
             _exact(row, {
                 "name", "argv", "pid", "started_at", "completed_at",
                 "duration_seconds", "exit_code", "stdout_path",
                 "stdout_sha256", "stderr_path", "stderr_sha256",
+                "child_completed", "communication_error",
+                "termination_action", "termination_started_at",
+                "termination_completed_at",
             }, "failed deterministic check")
             if (row["name"] not in DETERMINISTIC_CHECKS or
+                    row["argv"] != start["argv"][
+                        DETERMINISTIC_CHECKS.index(row["name"])] or
+                    row["child_completed"] is not True or
+                    type(row["exit_code"]) is not int or
+                    type(row["completed_at"]) is not str or
+                    row["communication_error"] is not None or
+                    row["termination_action"] != "NONE" or
+                    row["termination_started_at"] is not None or
+                    row["termination_completed_at"] is not None or
                     row["stdout_path"] not in command_names or
                     row["stderr_path"] not in command_names or
                     row["stdout_sha256"] != hashlib.sha256(

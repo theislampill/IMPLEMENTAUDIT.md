@@ -24,6 +24,7 @@ import provisional_integration as integration
 
 
 SOURCE = pathlib.Path(__file__).resolve()
+CHILD_STOP_TIMEOUT_SECONDS = 0.5
 _PACKAGE_CACHE = {}
 TOOLING_SOURCE_PATHS = (
     "eval/provisional_integration.py",
@@ -182,6 +183,26 @@ class _GateEvidenceTransaction:
         except Exception:
             pass
 
+    def open_child_journal(self, child, communication_error,
+                           termination_errors):
+        value = {
+            "schema": "implementaudit-open-child-transaction-v1",
+            "gate": self.name,
+            "attempt": 1,
+            "status": "OPEN",
+            "reason_code": "CHILD_STILL_LIVE",
+            "disposition": "MONITORING_REQUIRED",
+            "child": child,
+            "communication_error": communication_error,
+            "termination_errors": termination_errors,
+            "evidence_root_identity": self.root_identity,
+        }
+        try:
+            self.write(
+                f"{self.name}-open-child-journal.json", _encoded(value))
+        except Exception:
+            pass
+
 
 def _child_record(argv, process, started_at, completed_at,
                   duration_seconds, stdout, stderr, stdout_path, stderr_path):
@@ -196,7 +217,122 @@ def _child_record(argv, process, started_at, completed_at,
         "stdout_sha256": hashlib.sha256(stdout).hexdigest(),
         "stderr_path": stderr_path,
         "stderr_sha256": hashlib.sha256(stderr).hexdigest(),
+        "child_completed": True,
+        "communication_error": None,
+        "termination_action": "NONE",
+        "termination_started_at": None,
+        "termination_completed_at": None,
     }
+
+
+def _read_completed_pipe(stream):
+    if stream is None:
+        return b""
+    try:
+        value = stream.read()
+    except Exception:
+        return b""
+    if value is None:
+        return b""
+    if isinstance(value, str):
+        return value.encode("utf-8")
+    return bytes(value)
+
+
+def _recover_communicate_error(
+        process, argv, started_at, monotonic_started, stdout_path,
+        stderr_path, communication_error, transaction):
+    error = {
+        "error_type": type(communication_error).__name__,
+        "reason": str(communication_error),
+        "observed_at": _utc_now(),
+    }
+    errors = []
+    termination_started = _utc_now()
+    action = "ALREADY_EXITED"
+    try:
+        observed_exit = process.poll()
+    except Exception as exc:
+        observed_exit = None
+        errors.append({
+            "action": "poll", "error_type": type(exc).__name__,
+            "reason": str(exc),
+        })
+    if observed_exit is None:
+        action = "TERMINATE_WAIT"
+        try:
+            process.terminate()
+        except Exception as exc:
+            errors.append({
+                "action": "terminate", "error_type": type(exc).__name__,
+                "reason": str(exc),
+            })
+        try:
+            observed_exit = process.wait(
+                timeout=CHILD_STOP_TIMEOUT_SECONDS)
+        except Exception as exc:
+            observed_exit = None
+            errors.append({
+                "action": "terminate_wait",
+                "error_type": type(exc).__name__, "reason": str(exc),
+            })
+    if observed_exit is None:
+        action = "KILL_WAIT"
+        try:
+            process.kill()
+        except Exception as exc:
+            errors.append({
+                "action": "kill", "error_type": type(exc).__name__,
+                "reason": str(exc),
+            })
+        try:
+            observed_exit = process.wait(
+                timeout=CHILD_STOP_TIMEOUT_SECONDS)
+        except Exception as exc:
+            observed_exit = None
+            errors.append({
+                "action": "kill_wait",
+                "error_type": type(exc).__name__, "reason": str(exc),
+            })
+    if observed_exit is None:
+        try:
+            observed_exit = process.poll()
+        except Exception as exc:
+            errors.append({
+                "action": "final_poll",
+                "error_type": type(exc).__name__, "reason": str(exc),
+            })
+    termination_completed = _utc_now()
+    if type(observed_exit) is not int:
+        child = {
+            "argv": list(argv),
+            "pid": process.pid,
+            "started_at": started_at,
+            "child_completed": False,
+            "exit_code": None,
+            "communication_error": error,
+            "termination_action": action,
+            "termination_started_at": termination_started,
+            "termination_completed_at": termination_completed,
+        }
+        transaction.open_child_journal(child, error, errors)
+        raise _EvidencePublicationError(
+            "child completion could not be established; "
+            "transaction remains OPEN/CHILD_STILL_LIVE")
+    stdout = _read_completed_pipe(getattr(process, "stdout", None))
+    stderr = _read_completed_pipe(getattr(process, "stderr", None))
+    child = _child_record(
+        argv, process, started_at, termination_completed,
+        max(0.0, time.monotonic() - monotonic_started),
+        stdout, stderr, stdout_path, stderr_path)
+    child.update({
+        "exit_code": observed_exit,
+        "communication_error": error,
+        "termination_action": action,
+        "termination_started_at": termination_started,
+        "termination_completed_at": termination_completed,
+    })
+    return child, stdout, stderr
 
 
 def _missing_export_row(label, path):
@@ -692,24 +828,24 @@ def _production_deterministic(repo_root, qualified, bash_binding,
                 f"deterministic-{index:02d}-{name}.stdout.log"
             stderr_name = \
                 f"deterministic-{index:02d}-{name}.stderr.log"
+            child, stdout, stderr = _recover_communicate_error(
+                process, argv, started, monotonic_started,
+                stdout_name, stderr_name, exc, transaction)
+            child["name"] = name
+            try:
+                transaction.write(stdout_name, stdout)
+                transaction.write(stderr_name, stderr)
+            except Exception as write_exc:
+                transaction.failure_journal(
+                    "RAW_LOG_PUBLICATION", write_exc,
+                    child_consumed=True)
+                raise _EvidencePublicationError(
+                    "deterministic raw-log publication failed") from \
+                    write_exc
             raise _ObservedGateFailure(
                 "ERROR", "CHILD_COMMUNICATION_ERROR",
                 type(exc).__name__, str(exc),
-                child={
-                    "argv": argv, "pid": process.pid,
-                    "started_at": started,
-                    "completed_at": _utc_now(),
-                    "duration_seconds":
-                        max(0.0, time.monotonic() -
-                            monotonic_started),
-                    "exit_code": process.returncode,
-                    "stdout_path": stdout_name,
-                    "stdout_sha256":
-                        hashlib.sha256(b"").hexdigest(),
-                    "stderr_path": stderr_name,
-                    "stderr_sha256":
-                        hashlib.sha256(b"").hexdigest(),
-                },
+                child=child,
                 checks=checks) from exc
         completed = _utc_now()
         duration = max(0.0, time.monotonic() - monotonic_started)
@@ -797,20 +933,23 @@ def _production_package(repo_root, evidence_root, qualified,
     try:
         stdout, stderr = process.communicate()
     except Exception as exc:
+        child, stdout, stderr = _recover_communicate_error(
+            process, argv, started, monotonic_started,
+            "package-command.stdout.log", "package-command.stderr.log",
+            exc, transaction)
+        transaction.observed_child = child
+        try:
+            transaction.write("package-command.stdout.log", stdout)
+            transaction.write("package-command.stderr.log", stderr)
+        except Exception as write_exc:
+            transaction.failure_journal(
+                "RAW_LOG_PUBLICATION", write_exc, child_consumed=True)
+            raise _EvidencePublicationError(
+                "package raw-log publication failed") from write_exc
         raise _ObservedGateFailure(
             "ERROR", "CHILD_COMMUNICATION_ERROR",
             type(exc).__name__, str(exc),
-            child={
-                "argv": argv, "pid": process.pid,
-                "started_at": started, "completed_at": _utc_now(),
-                "duration_seconds":
-                    max(0.0, time.monotonic() - monotonic_started),
-                "exit_code": process.returncode,
-                "stdout_path": "package-command.stdout.log",
-                "stdout_sha256": hashlib.sha256(b"").hexdigest(),
-                "stderr_path": "package-command.stderr.log",
-                "stderr_sha256": hashlib.sha256(b"").hexdigest(),
-            },
+            child=child,
             partial_inventory=_export_inventory(asset_a, asset_b)) from exc
     completed = _utc_now()
     duration = max(0.0, time.monotonic() - monotonic_started)

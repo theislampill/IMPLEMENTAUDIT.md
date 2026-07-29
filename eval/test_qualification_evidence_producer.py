@@ -18,6 +18,30 @@ HERE = pathlib.Path(__file__).resolve().parent
 REPO = HERE.parent
 
 
+def _validate_failed_test(name, root, repo_root):
+    start = json.loads(
+        (root / f"{name}-start.json").read_text(encoding="utf-8"))
+    return integration._validate_failed_gate_evidence(
+        name, root, **_failed_expected(start, repo_root))
+
+
+def _failed_expected(start, repo_root):
+    identity = start["qualification_identity"]
+    return {
+        "expected_target_sha": start["target_sha"],
+        "expected_target_tree": start["target_tree"],
+        "expected_qualification_scope": start["qualification_scope"],
+        "expected_qualified_input_sha256":
+            start["qualified_input_sha256"],
+        "expected_campaign_qualified_input_sha256": identity.get(
+            "campaign_qualified_input_sha256"),
+        "expected_evaluated_surfaces_sha256": identity.get(
+            "evaluated_surfaces_sha256"),
+        "repo_root": repo_root,
+        "allow_test_evidence": True,
+    }
+
+
 def _mock_bash_binding():
     empty = hashlib.sha256(b"").hexdigest()
     return {
@@ -40,7 +64,8 @@ def _mock_bash_binding():
     }
 
 
-def _assert_closed_failure_root(root, reason, *, expected_inventory):
+def _assert_closed_failure_root(
+        root, reason, *, expected_inventory, repo_root):
     expected = {
         "package-start.json",
         "package-command.stdout.log",
@@ -89,8 +114,7 @@ def _assert_closed_failure_root(root, reason, *, expected_inventory):
             "sha256": hashlib.sha256(raw).hexdigest(),
         })
     assert manifest["files"] == observed
-    independently = integration._validate_failed_gate_evidence(
-        "package", root, allow_test_evidence=True)
+    independently = _validate_failed_test("package", root, repo_root)
     assert independently == {
         "name": "package",
         "semantic_status": terminal["status"],
@@ -116,6 +140,97 @@ def _rebind_failed_root(root):
     manifest_path.write_bytes(producer._encoded(manifest))
 
 
+def _assert_failed_identity_rebinding_rejected(root, checkout):
+    names = [
+        "package-start.json", "package-terminal.json",
+        "package-report.json", "package-evidence-manifest.json",
+    ]
+    originals = {name: (root / name).read_bytes() for name in names}
+    original_start = json.loads(originals["package-start.json"])
+    expected = _failed_expected(original_start, checkout)
+
+    def restore():
+        for name, raw in originals.items():
+            (root / name).write_bytes(raw)
+
+    def mutate_start(mutator, *, propagate=()):
+        start = json.loads(originals["package-start.json"])
+        terminal = json.loads(originals["package-terminal.json"])
+        report = json.loads(originals["package-report.json"])
+        mutator(start)
+        for field in propagate:
+            terminal[field] = copy.deepcopy(start[field])
+            report[field] = copy.deepcopy(start[field])
+        (root / "package-start.json").write_bytes(
+            producer._encoded(start))
+        (root / "package-terminal.json").write_bytes(
+            producer._encoded(terminal))
+        (root / "package-report.json").write_bytes(
+            producer._encoded(report))
+        _rebind_failed_root(root)
+
+    mutations = [
+        ("identity", lambda value: value.update(
+            target_sha="0" * 40), ("target_sha",)),
+        ("identity", lambda value: value.update(
+            target_tree="1" * 40), ("target_tree",)),
+        ("identity", lambda value: value.update(
+            qualified_input_sha256="2" * 64),
+         ("qualified_input_sha256",)),
+        ("source hash", lambda value: value.update(
+            producer_source_sha256="3" * 64),
+         ("producer_source_sha256",)),
+        ("identity", lambda value: value.update(
+            producer_role="forged-producer"), ()),
+        ("identity", lambda value: value.update(
+            command="untrusted-command"), ()),
+        ("identity", lambda value: value.update(
+            network_authorized=True), ()),
+        ("identity", lambda value: value.update(
+            credentials_authorized=True), ()),
+        ("identity", lambda value: value.update(
+            model_or_metered_api_authorized=True), ()),
+    ]
+    try:
+        for fragment, mutator, propagate in mutations:
+            restore()
+            mutate_start(mutator, propagate=propagate)
+            expect_error(
+                fragment,
+                lambda: integration._validate_failed_gate_evidence(
+                    "package", root, **expected))
+
+        restore()
+        start = json.loads(originals["package-start.json"])
+        terminal = json.loads(originals["package-terminal.json"])
+        start["argv"] = [start["argv"][0], "untrusted.sh"]
+        terminal["child"]["argv"] = list(start["argv"])
+        (root / "package-start.json").write_bytes(producer._encoded(start))
+        (root / "package-terminal.json").write_bytes(
+            producer._encoded(terminal))
+        _rebind_failed_root(root)
+        expect_error(
+            "argv",
+            lambda: integration._validate_failed_gate_evidence(
+                "package", root, **expected))
+
+        restore()
+        terminal = json.loads(originals["package-terminal.json"])
+        terminal["child"]["exit_code"] = None
+        terminal["child"]["child_completed"] = False
+        (root / "package-terminal.json").write_bytes(
+            producer._encoded(terminal))
+        _rebind_failed_root(root)
+        expect_error(
+            "child evidence",
+            lambda: integration._validate_failed_gate_evidence(
+                "package", root, **expected))
+    finally:
+        restore()
+    assert integration._validate_failed_gate_evidence(
+        "package", root, **expected)["semantic_status"] == "ERROR"
+
+
 def _assert_production_failure_transactions(
         base, checkout, sha, tree, archive):
     original_popen = producer.subprocess.Popen
@@ -130,8 +245,12 @@ def _assert_production_failure_transactions(
         def __init__(self, argv, **kwargs):
             calls.append(list(argv))
             self.pid = 70000 + len(calls)
-            self.returncode = behavior["exit_code"]
+            self.returncode = (
+                None if behavior.get("communicate_error")
+                else behavior["exit_code"])
             self.environment = kwargs["env"]
+            self.stdout = None
+            self.stderr = None
 
         def communicate(self):
             action = behavior.get("action")
@@ -140,6 +259,19 @@ def _assert_production_failure_transactions(
             if behavior.get("communicate_error"):
                 raise OSError("mock communicate failure")
             return b"mock child stdout\n", b"mock child stderr\n"
+
+        def poll(self):
+            return self.returncode
+
+        def terminate(self):
+            self.returncode = -15
+
+        def kill(self):
+            self.returncode = -9
+
+        def wait(self, timeout=None):
+            del timeout
+            return self.returncode
 
     def popen(argv, **kwargs):
         if len(argv) >= 2 and argv[1] == "scripts/verify-package.sh":
@@ -207,7 +339,7 @@ def _assert_production_failure_transactions(
                     "B_MANIFEST", root.parent /
                     f".{root.name}-package-export" /
                     "asset-b-entry-manifest.json"),
-            ])
+            ], repo_root=checkout)
         before = len(calls)
         expect_error(
             "already",
@@ -228,7 +360,8 @@ def _assert_production_failure_transactions(
             (root / "package-terminal.json").read_text(encoding="utf-8"))
         _assert_closed_failure_root(
             root, "PACKAGE_EXPORT_PAIR_INCOMPLETE",
-            expected_inventory=terminal["partial_artifact_inventory"])
+            expected_inventory=terminal["partial_artifact_inventory"],
+            repo_root=checkout)
         assert terminal["partial_artifact_inventory"][0]["sha256"] == \
             hashlib.sha256(archive).hexdigest()
         assert terminal["partial_artifact_inventory"][1]["state"] == \
@@ -237,8 +370,7 @@ def _assert_production_failure_transactions(
         export_a.write_bytes(retained_a + b"tamper")
         expect_error(
             "inventory",
-            lambda: integration._validate_failed_gate_evidence(
-                "package", root, allow_test_evidence=True))
+            lambda: _validate_failed_test("package", root, checkout))
 
         root = invoke(
             "only-b", action=write_b,
@@ -247,15 +379,15 @@ def _assert_production_failure_transactions(
             (root / "package-terminal.json").read_text(encoding="utf-8"))
         _assert_closed_failure_root(
             root, "PACKAGE_EXPORT_PAIR_INCOMPLETE",
-            expected_inventory=terminal["partial_artifact_inventory"])
+            expected_inventory=terminal["partial_artifact_inventory"],
+            repo_root=checkout)
         terminal["partial_artifact_inventory"].pop()
         (root / "package-terminal.json").write_bytes(
             producer._encoded(terminal))
         _rebind_failed_root(root)
         expect_error(
             "inventory coverage",
-            lambda: integration._validate_failed_gate_evidence(
-                "package", root, allow_test_evidence=True))
+            lambda: _validate_failed_test("package", root, checkout))
 
         root = invoke(
             "drift", action=lambda env: write_pair(
@@ -265,7 +397,8 @@ def _assert_production_failure_transactions(
             (root / "package-terminal.json").read_text(encoding="utf-8"))
         _assert_closed_failure_root(
             root, "PACKAGE_EXPORT_DRIFT",
-            expected_inventory=terminal["partial_artifact_inventory"])
+            expected_inventory=terminal["partial_artifact_inventory"],
+            repo_root=checkout)
 
         root = invoke(
             "invalid-archive",
@@ -275,7 +408,8 @@ def _assert_production_failure_transactions(
             (root / "package-terminal.json").read_text(encoding="utf-8"))
         _assert_closed_failure_root(
             root, "PACKAGE_ARCHIVE_INVALID",
-            expected_inventory=terminal["partial_artifact_inventory"])
+            expected_inventory=terminal["partial_artifact_inventory"],
+            repo_root=checkout)
 
         def write_alias(environment):
             first = pathlib.Path(
@@ -297,7 +431,8 @@ def _assert_production_failure_transactions(
             _assert_closed_failure_root(
                 root, "PACKAGE_EXPORT_ALIAS",
                 expected_inventory=
-                    terminal["partial_artifact_inventory"])
+                    terminal["partial_artifact_inventory"],
+                repo_root=checkout)
 
         manifest_calls = 0
         def divergent_manifest(repo_root, target_sha, target_tree, raw):
@@ -314,7 +449,8 @@ def _assert_production_failure_transactions(
             (root / "package-terminal.json").read_text(encoding="utf-8"))
         _assert_closed_failure_root(
             root, "PACKAGE_MANIFEST_DRIFT",
-            expected_inventory=terminal["partial_artifact_inventory"])
+            expected_inventory=terminal["partial_artifact_inventory"],
+            repo_root=checkout)
 
         root = invoke(
             "manifest-invalid", action=write_pair,
@@ -324,7 +460,8 @@ def _assert_production_failure_transactions(
             (root / "package-terminal.json").read_text(encoding="utf-8"))
         _assert_closed_failure_root(
             root, "PACKAGE_MANIFEST_INVALID",
-            expected_inventory=terminal["partial_artifact_inventory"])
+            expected_inventory=terminal["partial_artifact_inventory"],
+            repo_root=checkout)
 
         def invalid_source(*_args, **_kwargs):
             raise ValueError("mock source mismatch")
@@ -336,7 +473,8 @@ def _assert_production_failure_transactions(
             (root / "package-terminal.json").read_text(encoding="utf-8"))
         _assert_closed_failure_root(
             root, "PACKAGE_SOURCE_BINDING_INVALID",
-            expected_inventory=terminal["partial_artifact_inventory"])
+            expected_inventory=terminal["partial_artifact_inventory"],
+            repo_root=checkout)
 
         root = invoke(
             "communicate-error", action=write_pair,
@@ -346,7 +484,12 @@ def _assert_production_failure_transactions(
             (root / "package-terminal.json").read_text(encoding="utf-8"))
         _assert_closed_failure_root(
             root, "CHILD_COMMUNICATION_ERROR",
-            expected_inventory=terminal["partial_artifact_inventory"])
+            expected_inventory=terminal["partial_artifact_inventory"],
+            repo_root=checkout)
+        assert terminal["child"]["child_completed"] is True
+        assert terminal["child"]["exit_code"] == -15
+        assert terminal["child"]["termination_action"] == "TERMINATE_WAIT"
+        _assert_failed_identity_rebinding_rejected(root, checkout)
 
         start_root = base / "production-start-write-fault"
         before = len(calls)
@@ -518,9 +661,9 @@ def _assert_deterministic_failure_transaction(
             "deterministic.stderr.log",
             "deterministic-evidence-manifest.json",
         }
-        assert integration._validate_failed_gate_evidence(
+        assert _validate_failed_test(
             "deterministic", root,
-            allow_test_evidence=True)["semantic_status"] == "FAIL"
+            checkout)["semantic_status"] == "FAIL"
         before = len(calls)
         expect_error(
             "already",
@@ -535,6 +678,110 @@ def _assert_deterministic_failure_transaction(
     finally:
         producer.subprocess.Popen = original_popen
         producer._production_bash_binding = original_binding
+
+
+def _assert_real_sleeper_communication_recovery(
+        base, checkout, sha, tree):
+    original_popen = producer.subprocess.Popen
+    original_binding = producer._production_bash_binding
+    wrappers = []
+    mode = {"value": "terminate"}
+
+    class SleeperWrapper:
+        def __init__(self):
+            self.process = original_popen(
+                [os.sys.executable, "-c",
+                 "import time; time.sleep(60)"],
+                stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE, shell=False)
+            self.pid = self.process.pid
+            self.stdout = self.process.stdout
+            self.stderr = self.process.stderr
+            wrappers.append(self)
+
+        @property
+        def returncode(self):
+            return self.process.returncode
+
+        def communicate(self):
+            raise OSError("controlled communicate failure")
+
+        def poll(self):
+            return self.process.poll()
+
+        def terminate(self):
+            if mode["value"] != "open":
+                self.process.terminate()
+
+        def kill(self):
+            if mode["value"] != "open":
+                self.process.kill()
+
+        def wait(self, timeout=None):
+            if mode["value"] == "kill" and self.process.poll() is None:
+                raise subprocess.TimeoutExpired("sleeper", timeout)
+            if mode["value"] == "open":
+                raise subprocess.TimeoutExpired("sleeper", timeout)
+            return self.process.wait(timeout=timeout)
+
+    def popen(argv, **kwargs):
+        if len(argv) >= 2 and argv[1] == "scripts/verify-package.sh":
+            return SleeperWrapper()
+        return original_popen(argv, **kwargs)
+
+    producer.subprocess.Popen = popen
+    producer._production_bash_binding = _mock_bash_binding
+    try:
+        for selected, expected_action in (
+                ("terminate", "TERMINATE_WAIT"),
+                ("kill", "KILL_WAIT")):
+            mode["value"] = selected
+            root = base / f"real-sleeper-{selected}"
+            expect_error(
+                "CHILD_COMMUNICATION_ERROR",
+                lambda: producer.run_gate(
+                    "package", repo_root=checkout, evidence_root=root,
+                    target_sha=sha, target_tree=tree,
+                    qualification_scope="TOOLING_EXACT_SHA",
+                    prior_evidence_sha256="c" * 64))
+            wrapper = wrappers[-1]
+            assert type(wrapper.process.returncode) is int
+            assert wrapper.process.poll() is not None
+            terminal = json.loads(
+                (root / "package-terminal.json").read_text(
+                    encoding="utf-8"))
+            assert terminal["child"]["child_completed"] is True
+            assert type(terminal["child"]["exit_code"]) is int
+            assert terminal["child"]["termination_action"] == expected_action
+
+        mode["value"] = "open"
+        root = base / "real-sleeper-open"
+        expect_error(
+            "OPEN/CHILD_STILL_LIVE",
+            lambda: producer.run_gate(
+                "package", repo_root=checkout, evidence_root=root,
+                target_sha=sha, target_tree=tree,
+                qualification_scope="TOOLING_EXACT_SHA",
+                prior_evidence_sha256="c" * 64))
+        wrapper = wrappers[-1]
+        assert wrapper.process.poll() is None
+        assert not any((root / name).exists() for name in (
+            "package-terminal.json", "package-report.json",
+            "package-evidence-manifest.json"))
+        journal = json.loads(
+            (root / "package-open-child-journal.json").read_text(
+                encoding="utf-8"))
+        assert journal["status"] == "OPEN"
+        assert journal["reason_code"] == "CHILD_STILL_LIVE"
+        assert journal["disposition"] == "MONITORING_REQUIRED"
+    finally:
+        producer.subprocess.Popen = original_popen
+        producer._production_bash_binding = original_binding
+        for wrapper in wrappers:
+            if wrapper.process.poll() is None:
+                wrapper.process.kill()
+                wrapper.process.wait(timeout=5)
+        assert all(wrapper.process.poll() is not None for wrapper in wrappers)
 
 
 def expect_error(fragment, action):
@@ -703,6 +950,8 @@ def main():
         _assert_production_failure_transactions(
             base, checkout, sha, tree, archive_raw)
         _assert_deterministic_failure_transaction(
+            base, checkout, sha, tree)
+        _assert_real_sleeper_communication_recovery(
             base, checkout, sha, tree)
 
         test_evidence = base / "test-only-evidence"
