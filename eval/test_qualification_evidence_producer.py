@@ -905,7 +905,7 @@ def _assert_production_failure_transactions(
                 encoding="utf-8"))
         assert manifest_sha == hashlib.sha256(
             producer._encoded(success_manifest)).hexdigest()
-        assert {row["path"] for row in success_manifest["files"]} == {
+        expected_success_order = (
             "package-start.json",
             "package-terminal.json",
             "package-report.json",
@@ -916,10 +916,60 @@ def _assert_production_failure_transactions(
             "package-retained.skill",
             "package-entry-manifest.json",
             "package-repro-a.skill",
-            "package-repro-b.skill",
             "package-repro-a-entry-manifest.json",
+            "package-repro-b.skill",
             "package-repro-b-entry-manifest.json",
-        }
+        )
+        assert producer.PACKAGE_SUCCESS_EVIDENCE_ORDER == \
+            expected_success_order
+        assert integration._PACKAGE_SUCCESS_EVIDENCE_ORDER == \
+            expected_success_order
+        assert producer.PACKAGE_SUCCESS_EVIDENCE_ORDER is not \
+            integration._PACKAGE_SUCCESS_EVIDENCE_ORDER
+        assert tuple(row["path"] for row in
+                     success_manifest["files"]) == expected_success_order
+        observed_success_rows = [
+            integration._file_row(
+                success_root / path, success_root,
+                f"copied package success fixture {path}")[1]
+            for path in expected_success_order
+        ]
+        assert integration._validate_gate_evidence_manifest(
+            "package", success_manifest,
+            observed_success_rows) == success_manifest
+
+        original_success_manifest = producer._encoded(success_manifest)
+        mutation_rows = (
+            list(reversed(success_manifest["files"])),
+            success_manifest["files"][:-1],
+            success_manifest["files"] +
+                [copy.deepcopy(success_manifest["files"][0])],
+            success_manifest["files"][:7] +
+                [copy.deepcopy(success_manifest["files"][9])] +
+                success_manifest["files"][8:],
+            success_manifest["files"][:7] +
+                [{
+                    "path": "package-substituted.skill",
+                    "byte_length": 0,
+                    "sha256": hashlib.sha256(b"").hexdigest(),
+                }] +
+                success_manifest["files"][8:],
+        )
+        for rows in mutation_rows:
+            changed = copy.deepcopy(success_manifest)
+            changed["files"] = rows
+            (success_root / "package-evidence-manifest.json").write_bytes(
+                producer._encoded(changed))
+            expect_error(
+                "evidence manifest",
+                lambda changed=changed:
+                    integration._validate_gate_evidence_manifest(
+                        "package", changed, observed_success_rows))
+        (success_root / "package-evidence-manifest.json").write_bytes(
+            original_success_manifest)
+        assert integration._validate_gate_evidence_manifest(
+            "package", success_manifest,
+            observed_success_rows) == success_manifest
         before = len(calls)
         expect_error(
             "already",

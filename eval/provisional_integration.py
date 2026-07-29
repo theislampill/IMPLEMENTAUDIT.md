@@ -99,6 +99,21 @@ CI_JOBS = ("package",)
 _CANONICAL_UTC = re.compile(
     r"^(?P<year>[0-9]{4})-[0-9]{2}-[0-9]{2}T"
     r"[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{6}Z$")
+_PACKAGE_SUCCESS_EVIDENCE_ORDER = (
+    "package-start.json",
+    "package-terminal.json",
+    "package-report.json",
+    "package.stdout.log",
+    "package.stderr.log",
+    "package-command.stdout.log",
+    "package-command.stderr.log",
+    "package-retained.skill",
+    "package-entry-manifest.json",
+    "package-repro-a.skill",
+    "package-repro-a-entry-manifest.json",
+    "package-repro-b.skill",
+    "package-repro-b-entry-manifest.json",
+)
 _PACKAGE_FAILURE_TABLE = {
     "PACKAGE_EXPORT_ROOT_EXISTS": (
         "INVALID", "PackagePreflightError",
@@ -1130,6 +1145,19 @@ def _validate_gate_terminal(name, value, qualified_input_sha256,
         raise ValueError(f"{name} terminal does not derive semantic PASS")
 
 
+def _validate_gate_evidence_manifest(name, manifest, rows):
+    _exact(manifest, {"schema", "gate", "files"}, f"{name} manifest")
+    if (manifest["schema"] != "implementaudit-gate-evidence-manifest-v1" or
+            manifest["gate"] != name or
+            type(manifest["files"]) is not list or
+            manifest["files"] != rows):
+        raise ValueError(
+            f"{name} evidence manifest does not match bytes: "
+            f"declared={[row.get('path') for row in manifest.get('files', [])]} "
+            f"observed={[row.get('path') for row in rows]}")
+    return manifest
+
+
 def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
                             target_sha, target_tree, surfaces_sha256,
                             prior_evidence_sha256, allow_test_evidence=False):
@@ -1174,11 +1202,14 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
             "independent-review-structured.json",
             "independent-review.md"]
 
+    retained_names = (
+        _PACKAGE_SUCCESS_EVIDENCE_ORDER
+        if name == "package" and not allow_test_evidence else
+        (start_name, terminal_name, report_name, stdout_name, stderr_name,
+         *artifact_names))
     retained = {}
     rows = []
-    for filename in (
-            start_name, terminal_name, report_name, stdout_name, stderr_name,
-            *artifact_names):
+    for filename in retained_names:
         raw, row = _file_row(
             gate_root / filename, gate_root,
             f"integration gate {name} retained {filename}")
@@ -1187,15 +1218,7 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
 
     manifest, manifest_raw = _read_root_json(
         gate_root, manifest_name, f"integration gate {name} manifest")
-    _exact(manifest, {"schema", "gate", "files"}, f"{name} manifest")
-    if (manifest["schema"] != "implementaudit-gate-evidence-manifest-v1" or
-            manifest["gate"] != name or
-            type(manifest["files"]) is not list or
-            manifest["files"] != rows):
-        raise ValueError(
-            f"{name} evidence manifest does not match bytes: "
-            f"declared={[row.get('path') for row in manifest.get('files', [])]} "
-            f"observed={[row.get('path') for row in rows]}")
+    _validate_gate_evidence_manifest(name, manifest, rows)
 
     start = lifecycle.decode_strict_json_bytes(
         retained[start_name], f"{name} producer start", require_object=True)

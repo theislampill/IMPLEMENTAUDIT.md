@@ -34,6 +34,21 @@ TOOLING_SOURCE_PATHS = (
     "tests/reproducible-release-asset.test.sh",
 )
 QUALIFICATION_SCOPES = ("TOOLING_EXACT_SHA", "FROZEN_CAMPAIGNS")
+PACKAGE_SUCCESS_EVIDENCE_ORDER = (
+    "package-start.json",
+    "package-terminal.json",
+    "package-report.json",
+    "package.stdout.log",
+    "package.stderr.log",
+    "package-command.stdout.log",
+    "package-command.stderr.log",
+    "package-retained.skill",
+    "package-entry-manifest.json",
+    "package-repro-a.skill",
+    "package-repro-a-entry-manifest.json",
+    "package-repro-b.skill",
+    "package-repro-b-entry-manifest.json",
+)
 PACKAGE_FAILURE_TABLE = {
     "PACKAGE_EXPORT_ROOT_EXISTS": (
         "INVALID", "PackagePreflightError",
@@ -1772,25 +1787,22 @@ def run_gate(name, *, repo_root, evidence_root, target_sha, target_tree,
             for filename, raw in retained.items():
                 if filename not in transaction.rows:
                     transaction.write(filename, raw)
-            artifact_order = []
-            if name == "deterministic":
-                for row in terminal["checks"]:
-                    artifact_order.extend([
-                        row["stdout_path"], row["stderr_path"]])
-            elif name == "package":
-                artifact_order = [
-                    "package-command.stdout.log",
-                    "package-command.stderr.log",
-                    *artifacts,
+            if name == "package":
+                order = list(PACKAGE_SUCCESS_EVIDENCE_ORDER)
+            else:
+                artifact_order = []
+                if name == "deterministic":
+                    for row in terminal["checks"]:
+                        artifact_order.extend([
+                            row["stdout_path"], row["stderr_path"]])
+                order = [
+                    f"{name}-start.json",
+                    integration.GATE_FILENAMES[name],
+                    f"{name}-report.json",
+                    f"{name}.stdout.log",
+                    f"{name}.stderr.log",
+                    *artifact_order,
                 ]
-            order = [
-                f"{name}-start.json",
-                integration.GATE_FILENAMES[name],
-                f"{name}-report.json",
-                f"{name}.stdout.log",
-                f"{name}.stderr.log",
-                *artifact_order,
-            ]
             manifest = {
                 "schema": "implementaudit-gate-evidence-manifest-v1",
                 "gate": name,
