@@ -235,7 +235,8 @@ def build_campaign(root, fixture_override=None, *, surface_root=None,
     }
     capsule_bytes = encoded(capsule)
     readiness_path = write_retained_production_readiness_fixture(
-        "b3v4", packet, root.parent / (root.name + "-live-ready"))
+        "b3v4", packet, root.parent / (root.name + "-live-ready"),
+        campaign_root=root)
     readiness_bytes = readiness_path.read_bytes()
     readiness = json.loads(readiness_bytes)
     for mission in packet["missions"]:

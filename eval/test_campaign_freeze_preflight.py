@@ -27,7 +27,8 @@ def write(path, value):
 
 
 def _write_retained_readiness_fixture(
-        campaign, packet, base, execution_mode):
+        campaign, packet, base, execution_mode, campaign_root=None,
+        campaign_initialized=False):
     base = pathlib.Path(base).absolute()
     base.mkdir(parents=True, exist_ok=True)
     native = base / "native-test-executable.bin"
@@ -54,6 +55,9 @@ def _write_retained_readiness_fixture(
         }
     runtime = base / "runtime"
     runtime.mkdir(exist_ok=True)
+    campaign_root = (
+        pathlib.Path(campaign_root).absolute()
+        if campaign_root is not None else base / "campaign")
     config = (packet["configurations"]["L"]
               if campaign == "b3v4" else packet["configuration"])
     report = {
@@ -118,28 +122,38 @@ def _write_retained_readiness_fixture(
             "status": "PASS",
         },
     }
+    if campaign == "b3v4":
+        report["campaign_root_binding"] = \
+            preflight._campaign_directory_binding(
+                str(campaign_root), "test campaign root",
+                initialized=campaign_initialized)
+        report["cross_host_validation"][
+            "campaign_root_path"] = str(campaign_root)
     path = base / f"{campaign}-test-live-readiness.json"
     write(path, report)
     return path
 
 
-def write_test_live_ready(campaign, packet, base, execution_mode="test"):
+def write_test_live_ready(
+        campaign, packet, base, execution_mode="test", campaign_root=None):
     """Build a closed TEST_ONLY boundary incapable of production authority."""
     if execution_mode != "test":
         raise ValueError(
             "write_test_live_ready is TEST_ONLY and non-qualifying")
     return _write_retained_readiness_fixture(
-        campaign, packet, base, "test")
+        campaign, packet, base, "test", campaign_root)
 
 
-def write_retained_production_readiness_fixture(campaign, packet, base):
+def write_retained_production_readiness_fixture(
+        campaign, packet, base, campaign_root=None):
     """Build retained production-shaped bytes for independent parser tests.
 
     This helper is never passed to a production CampaignDriver and does not
     perform or authorize a mission.
     """
     return _write_retained_readiness_fixture(
-        campaign, packet, base, "production")
+        campaign, packet, base, "production", campaign_root,
+        campaign_initialized=campaign_root is not None)
 
 
 def expect_error(fragment, action):
@@ -158,6 +172,23 @@ def exercise_path_type_custody():
         base = pathlib.Path(tmp).absolute()
         ordinary = base / "ordinary-directory"
         (ordinary / "nested-child").mkdir(parents=True)
+        campaign_leaf = ordinary / "campaign"
+        campaign_binding = preflight._absent_directory_binding(
+            str(campaign_leaf), "campaign root")
+        assert campaign_binding["path"] == str(campaign_leaf)
+        assert campaign_binding["parent_path"] == str(ordinary)
+        assert campaign_binding["initial_state"] == "ABSENT_CREATE_ONCE"
+        assert len(campaign_binding["parent_identity_sha256"]) == 64
+        campaign_leaf.mkdir()
+        expect_error(
+            "absent",
+            lambda: preflight._absent_directory_binding(
+                str(campaign_leaf), "campaign root"))
+        (campaign_leaf / "residue").write_text("invalid\n", encoding="utf-8")
+        expect_error(
+            "absent",
+            lambda: preflight._absent_directory_binding(
+                str(campaign_leaf), "campaign root"))
 
         real_lstat = os.lstat
 
@@ -219,6 +250,11 @@ def exercise_path_type_custody():
                 lambda: preflight._absolute_directory(
                     str(symlink / "nested-child"),
                     "directory symlink component"))
+            expect_error(
+                "link",
+                lambda: preflight._absent_directory_binding(
+                    str(symlink / "campaign"),
+                    "campaign symlink parent"))
             print("PREFLIGHT_DIRECTORY_SYMLINK=PASS")
 
         junction = base / "directory-junction"
@@ -237,6 +273,11 @@ def exercise_path_type_custody():
                         lambda: preflight._absolute_directory(
                             str(junction / "nested-child"),
                             "directory junction component"))
+                    expect_error(
+                        "link",
+                        lambda: preflight._absent_directory_binding(
+                            str(junction / "campaign"),
+                            "campaign junction parent"))
                     print("PREFLIGHT_DIRECTORY_JUNCTION=PASS")
                 finally:
                     os.rmdir(junction)
@@ -631,8 +672,19 @@ def main():
         base = pathlib.Path(tmp)
         packet, context = production_fixture(base)
         output = base / "production-ready.json"
+        checkout_collision = copy.deepcopy(context)
+        checkout_collision["campaign_root"] = \
+            checkout_collision["candidate_checkout"]
+        expect_error(
+            "overlap",
+            lambda: preflight._derive_production_live_ready(
+                "b3v4", packet, checkout_collision))
         authored = preflight.author_production_live_ready(
             "b3v4", packet, context, output)
+        assert authored["campaign_root_binding"]["path"] == \
+            context["campaign_root"]
+        assert authored["campaign_root_binding"]["initial_state"] == \
+            "ABSENT_CREATE_ONCE"
         assert authored["ready"] is True
         reread, raw = preflight.validate_live_ready(
             "b3v4", packet, output, execution_mode="production",
@@ -697,6 +749,41 @@ def main():
             lambda: preflight.validate_live_ready(
                 "b3v4", packet, report_path,
                 execution_mode="production"))
+        report_value = json.loads(
+            pathlib.Path(report_path).read_text(encoding="utf-8"))
+        campaign_leaf = pathlib.Path(
+            report_value["campaign_root_binding"]["path"])
+        campaign_leaf.mkdir()
+        expect_error(
+            "absent",
+            lambda: preflight.validate_live_ready(
+                "b3v4", packet, report_path, execution_mode="test"))
+        campaign_leaf.rmdir()
+
+        campaign_parent = pathlib.Path(
+            report_value["campaign_root_binding"]["parent_path"])
+        real_lstat = os.lstat
+
+        class DriftedParentStat:
+            def __init__(self, observed):
+                self._observed = observed
+                self.st_ino = observed.st_ino + 1
+
+            def __getattr__(self, name):
+                return getattr(self._observed, name)
+
+        def drifted_parent_lstat(path, *args, **kwargs):
+            observed = real_lstat(path, *args, **kwargs)
+            if pathlib.Path(path).absolute() == campaign_parent:
+                return DriftedParentStat(observed)
+            return observed
+
+        with mock.patch.object(
+                preflight.os, "lstat", side_effect=drifted_parent_lstat):
+            expect_error(
+                "binding drift",
+                lambda: preflight.validate_live_ready(
+                    "b3v4", packet, report_path, execution_mode="test"))
 
     with tempfile.TemporaryDirectory(prefix="campaign-preflight-") as tmp:
         base = pathlib.Path(tmp)

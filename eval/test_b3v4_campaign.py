@@ -74,7 +74,8 @@ def make_driver(module, root, executor):
         live_validator=lambda packet, repo: packet,
         identity_validator=lambda packet, **paths: None,
         launch_readiness=write_test_live_ready(
-            "b3v4", packet_value, pathlib.Path(root) / "live-ready"),
+            "b3v4", packet_value, pathlib.Path(root) / "live-ready",
+            campaign_root=pathlib.Path(root) / "campaign"),
     )
 
 
@@ -612,8 +613,66 @@ def assert_runtime_executable_parent_junction_rejected(module):
         print("RUNTIME_EXECUTABLE_PARENT_JUNCTION=PASS")
 
 
+def assert_campaign_root_initialization_contract(module):
+    with tempfile.TemporaryDirectory(
+            prefix="b3v4-campaign-preexisting-empty-") as tmp:
+        calls = []
+        driver = make_driver(
+            module, tmp, lambda context: calls.append(context))
+        driver.campaign_root.mkdir()
+        expect_error("absent", driver.run_next)
+        assert calls == []
+
+    with tempfile.TemporaryDirectory(
+            prefix="b3v4-campaign-create-collision-") as tmp:
+        calls = []
+        driver = make_driver(
+            module, tmp, lambda context: calls.append(context))
+        original_readiness = driver._load_launch_readiness
+        absent_checks = 0
+
+        def collide_after_fresh_absence(*args, **kwargs):
+            nonlocal absent_checks
+            result = original_readiness(*args, **kwargs)
+            if kwargs.get("campaign_initialized") is False:
+                absent_checks += 1
+                if absent_checks == 2:
+                    driver.campaign_root.mkdir()
+            return result
+
+        driver._load_launch_readiness = collide_after_fresh_absence
+        expect_error("create-once collision", driver.run_next)
+        assert calls == []
+
+    with tempfile.TemporaryDirectory(
+            prefix="b3v4-campaign-root-rebound-") as tmp:
+        calls = []
+
+        def forbidden_executor(context):
+            calls.append(context)
+            raise AssertionError("rebound campaign root reached executor")
+
+        driver = make_driver(module, tmp, forbidden_executor)
+        original_claim = driver._claim_attempt
+
+        def claim_then_rebind(*args, **kwargs):
+            attempt = original_claim(*args, **kwargs)
+            original = driver.campaign_root.with_name("campaign-original")
+            os.rename(driver.campaign_root, original)
+            shutil.copytree(original, driver.campaign_root)
+            return driver.campaign_root / attempt.name
+
+        driver._claim_attempt = claim_then_rebind
+        terminal = driver.run_next()
+        assert calls == []
+        assert terminal["overall_status"] == "INVALID"
+        assert terminal["stop_reason"] == "frozen-input-drift"
+        assert terminal["error_type"] == "ValueError"
+
+
 def main():
     module = load_driver()
+    assert_campaign_root_initialization_contract(module)
     assert_exact_independent_result_comparison(module)
     assert_runtime_executable_parent_junction_rejected(module)
     assert_completed_attempt_seal_reds(module)

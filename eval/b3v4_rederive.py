@@ -1511,8 +1511,9 @@ def _load_launch_readiness(attempt, status, packet):
         "execution_mode", "disposition", "ready", "mission_authorized",
         "test_mock_authorized", "created_at", "model_scope",
         "host_attestation_binding", "native_executable_binding",
-        "launcher_binding", "checkout_bindings", "runtime_root_binding",
-        "authorization_binding", "cross_host_validation", "producer",
+        "launcher_binding", "checkout_bindings", "campaign_root_binding",
+        "runtime_root_binding", "authorization_binding",
+        "cross_host_validation", "producer",
     }
     report = _exact_fields(report, fields, "launch readiness")
     production = status["execution_mode"] == "production"
@@ -1532,6 +1533,28 @@ def _load_launch_readiness(attempt, status, packet):
             "metered_api_spend": "FORBIDDEN",
         },
         "retained launch readiness identity invalid")
+    campaign_binding = _exact_fields(
+        report["campaign_root_binding"],
+        {"path", "parent_path", "parent_identity_sha256", "initial_state"},
+        "launch readiness campaign root binding")
+    _expect(
+        campaign_binding["path"] == str(attempt.parent) and
+        campaign_binding["parent_path"] == str(attempt.parent.parent) and
+        type(campaign_binding["parent_identity_sha256"]) is str and
+        HEX64.fullmatch(campaign_binding["parent_identity_sha256"]) is not
+        None and
+        campaign_binding["initial_state"] == "ABSENT_CREATE_ONCE",
+        "launch readiness campaign root binding invalid")
+    cross = _exact_fields(
+        report["cross_host_validation"],
+        {"status", "launcher_path", "native_executable_path",
+         "native_executable_version", "checkout_paths",
+         "campaign_root_path", "runtime_root_path",
+         "executable_resolution"},
+        "launch readiness cross-host validation")
+    _expect(
+        cross["campaign_root_path"] == campaign_binding["path"],
+        "launch readiness campaign path mapping invalid")
     return report, raw
 
 

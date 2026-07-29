@@ -10,6 +10,7 @@ import os
 import pathlib
 import re
 import shutil
+import stat
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -563,6 +564,7 @@ class CampaignDriver:
         self.launch_context = (
             pathlib.Path(launch_context).absolute()
             if launch_context else None)
+        self._campaign_root_identity = None
 
     def _load_launch_context(self):
         if self.execution_mode != "production":
@@ -589,13 +591,14 @@ class CampaignDriver:
                 "production host attestation/context mismatch")
         return context
 
-    def _load_launch_readiness(self, packet):
+    def _load_launch_readiness(self, packet, *, campaign_initialized=False):
         if self.launch_readiness is None:
             raise ValueError("live launch readiness is required")
         return launch_preflight.validate_live_ready(
             "b3v4", packet, self.launch_readiness,
             execution_mode=self.execution_mode,
-            live_context=self._load_launch_context())
+            live_context=self._load_launch_context(),
+            campaign_initialized=campaign_initialized)
 
     def _verify_launch_readiness(self, attempt_root, status, packet):
         binding = status["launch_readiness_binding"]
@@ -604,7 +607,8 @@ class CampaignDriver:
             "b3v4", packet, path, execution_mode=self.execution_mode,
             live_context=(self._load_launch_context()
                           if self.launch_context else None),
-            retained_only=self.launch_context is None)
+            retained_only=self.launch_context is None,
+            campaign_initialized=True)
         if (_sha256_bytes(raw) != binding["sha256"] or
                 report["schema"] != binding["schema"] or
                 report["execution_mode"] != binding["execution_mode"] or
@@ -624,7 +628,13 @@ class CampaignDriver:
         frozen = self.campaign_root / "campaign-freeze.json"
         manifest = self.campaign_root / "campaign-manifest.json"
         if not self.campaign_root.exists():
-            self.campaign_root.mkdir(parents=True, exist_ok=False)
+            self._load_launch_readiness(
+                packet, campaign_initialized=False)
+            try:
+                self.campaign_root.mkdir(exist_ok=False)
+            except FileExistsError as exc:
+                raise ValueError(
+                    "campaign root create-once collision") from exc
             with open(frozen, "xb") as stream:
                 stream.write(raw)
             _write_new_json(manifest, {
@@ -634,6 +644,9 @@ class CampaignDriver:
                 "created_at": _utc_now(),
                 "execution_stage": "LUNA",
             })
+            self._load_launch_readiness(
+                packet, campaign_initialized=True)
+        self._validate_campaign_root_identity()
         if not frozen.is_file() or not manifest.is_file():
             raise ValueError("campaign custody is incomplete")
         recorded = _read_object(
@@ -647,6 +660,30 @@ class CampaignDriver:
                 contract.read_custodied_bytes(
                     frozen, "frozen packet", root=self.campaign_root) != raw):
             raise ValueError("frozen packet or campaign manifest drift")
+
+    def _campaign_custody_initialized(self):
+        return (
+            (self.campaign_root / "campaign-freeze.json").is_file() and
+            (self.campaign_root / "campaign-manifest.json").is_file())
+
+    def _validate_campaign_root_identity(self):
+        try:
+            resolved = self.campaign_root.resolve(strict=True)
+            observed = os.lstat(self.campaign_root)
+        except OSError as exc:
+            raise ValueError("campaign root custody unavailable") from exc
+        if (resolved != self.campaign_root or
+                not stat.S_ISDIR(observed.st_mode) or
+                stat.S_ISLNK(observed.st_mode) or
+                bool(getattr(observed, "st_file_attributes", 0) &
+                     getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400))):
+            raise ValueError("campaign root link or reparse alias forbidden")
+        identity = (observed.st_dev, observed.st_ino, observed.st_mode)
+        if getattr(self, "_campaign_root_identity", None) is None:
+            self._campaign_root_identity = identity
+        elif self._campaign_root_identity != identity:
+            raise ValueError("campaign root identity changed before host spawn")
+        return identity
 
     @staticmethod
     def _attempt_name(mission):
@@ -799,7 +836,8 @@ class CampaignDriver:
         launch_preflight.validate_live_ready(
             "b3v4", packet, self.launch_readiness,
             execution_mode=self.execution_mode,
-            live_context=self._load_launch_context())
+            live_context=self._load_launch_context(),
+            campaign_initialized=True)
         claiming.mkdir(exist_ok=False)
         with open(claiming / "host-attestation.json", "xb") as stream:
             stream.write(attestation_raw)
@@ -849,13 +887,16 @@ class CampaignDriver:
 
     def run_next(self):
         packet, raw, packet_sha256 = self._load_packet()
-        readiness, readiness_raw = self._load_launch_readiness(packet)
+        readiness, readiness_raw = self._load_launch_readiness(
+            packet,
+            campaign_initialized=self._campaign_custody_initialized())
         fixture = _fixture_for_packet(self.repo_root, packet)
         self._ensure_campaign(raw, packet_sha256, packet)
         self._validate_identities(packet)
         mission = self._next_mission(packet)
         self._validate_surfaces(packet)
-        reread, reread_raw = self._load_launch_readiness(packet)
+        reread, reread_raw = self._load_launch_readiness(
+            packet, campaign_initialized=True)
         if reread_raw != readiness_raw:
             raise ValueError("live launch readiness changed before claim")
         attempt_root = self._claim_attempt(
@@ -883,8 +924,10 @@ class CampaignDriver:
             "completed_attempt_seal": None,
         }
         try:
+            self._validate_campaign_root_identity()
             self._validate_surfaces(packet)
-            live_again, live_again_raw = self._load_launch_readiness(packet)
+            live_again, live_again_raw = self._load_launch_readiness(
+                packet, campaign_initialized=True)
             retained_again, retained_again_raw = \
                 self._verify_launch_readiness(
                     attempt_root, status, packet)
@@ -893,6 +936,7 @@ class CampaignDriver:
                     live_again != retained_again):
                 raise ValueError(
                     "launch readiness changed before host spawn")
+            self._validate_campaign_root_identity()
             outcome = self.mission_executor(context)
             if not isinstance(outcome, dict):
                 raise TypeError("mission executor returned a non-object")

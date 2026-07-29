@@ -45,6 +45,7 @@ LIVE_READY_FIELDS = {
     "launcher_binding", "checkout_bindings", "runtime_root_binding",
     "authorization_binding", "cross_host_validation", "producer",
 }
+B3V4_LIVE_READY_FIELDS = LIVE_READY_FIELDS | {"campaign_root_binding"}
 PRODUCTION_CONTEXT_FIELDS = {
     "b3v4": {
         "repo_root", "candidate_checkout", "control_checkout",
@@ -123,6 +124,70 @@ def _absolute_directory(path, owner):
     except OSError as exc:
         raise ValueError(f"{owner} unavailable") from exc
     return lexical
+
+
+def _directory_identity_sha(path, owner):
+    directory = _absolute_directory(str(path), owner)
+    before = os.lstat(directory)
+    identity = {
+        "device": before.st_dev,
+        "inode": before.st_ino,
+        "mode": before.st_mode,
+    }
+    after = os.lstat(directory)
+    if ((before.st_dev, before.st_ino, before.st_mode) !=
+            (after.st_dev, after.st_ino, after.st_mode)):
+        raise ValueError(f"{owner} identity changed during custody read")
+    return hashlib.sha256(
+        lifecycle.canonical_json_bytes(identity)).hexdigest()
+
+
+def _absent_directory_binding(path, owner):
+    if type(path) is not str or not pathlib.Path(path).is_absolute():
+        raise ValueError(f"{owner} path must be absolute")
+    supplied = pathlib.Path(path)
+    lexical = supplied.absolute()
+    if supplied != lexical or not lexical.name:
+        raise ValueError(f"{owner} path must be exact")
+    parent = _absolute_directory(str(lexical.parent), f"{owner} parent")
+    before = os.lstat(parent)
+    if os.path.lexists(lexical):
+        raise ValueError(f"{owner} leaf must remain absent before claim")
+    after = os.lstat(parent)
+    if ((before.st_dev, before.st_ino, before.st_mode) !=
+            (after.st_dev, after.st_ino, after.st_mode)):
+        raise ValueError(f"{owner} parent identity changed during custody read")
+    return {
+        "path": str(lexical),
+        "parent_path": str(parent),
+        "parent_identity_sha256": hashlib.sha256(
+            lifecycle.canonical_json_bytes({
+                "device": before.st_dev,
+                "inode": before.st_ino,
+                "mode": before.st_mode,
+            })).hexdigest(),
+        "initial_state": "ABSENT_CREATE_ONCE",
+    }
+
+
+def _campaign_directory_binding(path, owner, *, initialized):
+    if initialized is not True:
+        return _absent_directory_binding(path, owner)
+    if type(path) is not str or not pathlib.Path(path).is_absolute():
+        raise ValueError(f"{owner} path must be absolute")
+    supplied = pathlib.Path(path)
+    lexical = supplied.absolute()
+    if supplied != lexical or not lexical.name:
+        raise ValueError(f"{owner} path must be exact")
+    parent = _absolute_directory(str(lexical.parent), f"{owner} parent")
+    _absolute_directory(str(lexical), owner)
+    return {
+        "path": str(lexical),
+        "parent_path": str(parent),
+        "parent_identity_sha256": _directory_identity_sha(
+            parent, f"{owner} parent"),
+        "initial_state": "ABSENT_CREATE_ONCE",
+    }
 
 
 def _run(argv, owner, *, cwd=None):
@@ -227,7 +292,8 @@ def _path_matches_surface(path, row, root, owner):
     return raw
 
 
-def _derive_production_live_ready(campaign, packet, context):
+def _derive_production_live_ready(
+        campaign, packet, context, *, campaign_initialized=False):
     if campaign not in PRODUCTION_CONTEXT_FIELDS:
         raise ValueError("live READY campaign invalid")
     _exact(
@@ -274,9 +340,18 @@ def _derive_production_live_ready(campaign, packet, context):
         if runtime == checkout or runtime in checkout.parents or \
                 checkout in runtime.parents:
             raise ValueError("live READY runtime/checkouts overlap")
+        if campaign_root == checkout or campaign_root in checkout.parents or \
+                checkout in campaign_root.parents:
+            raise ValueError("live READY campaign/checkouts overlap")
     if campaign_root == runtime or campaign_root in runtime.parents or \
             runtime in campaign_root.parents:
         raise ValueError("live READY campaign/runtime overlap")
+    campaign_binding = None
+    if campaign == "b3v4":
+        campaign_binding = _campaign_directory_binding(
+            context["campaign_root"], "live READY campaign root",
+            initialized=campaign_initialized)
+        campaign_root = pathlib.Path(campaign_binding["path"])
 
     launcher = _regular_path(
         context["launcher_path"], "live READY launcher", read_bytes=True)
@@ -349,7 +424,7 @@ def _derive_production_live_ready(campaign, packet, context):
     manifest_sha = hashlib.sha256(
         lifecycle.canonical_json_bytes(
             packet["evaluated_surfaces"])).hexdigest()
-    return {
+    report = {
         "schema": LIVE_READY_SCHEMAS[campaign],
         "campaign": campaign,
         "freeze_sha256": hashlib.sha256(
@@ -409,6 +484,11 @@ def _derive_production_live_ready(campaign, packet, context):
             "status": "PASS",
         },
     }
+    if campaign == "b3v4":
+        report["campaign_root_binding"] = campaign_binding
+        report["cross_host_validation"][
+            "campaign_root_path"] = str(campaign_root)
+    return report
 
 
 def author_production_live_ready(campaign, packet, context, output):
@@ -423,7 +503,7 @@ def author_production_live_ready(campaign, packet, context, output):
 
 def validate_live_ready(campaign, packet, report_path,
                         *, execution_mode="production", live_context=None,
-                        retained_only=False):
+                        retained_only=False, campaign_initialized=False):
     """Validate the separate packet-bound live launch boundary.
 
     This function never reads authentication contents.  Test-only evidence is
@@ -443,7 +523,10 @@ def validate_live_ready(campaign, packet, report_path,
             raw, "live READY report", require_object=True)
     except OSError as exc:
         raise ValueError("live READY report unavailable") from exc
-    _exact(report, LIVE_READY_FIELDS, "live READY report")
+    expected_fields = (
+        B3V4_LIVE_READY_FIELDS if campaign == "b3v4"
+        else LIVE_READY_FIELDS)
+    _exact(report, expected_fields, "live READY report")
     if (report["schema"] != LIVE_READY_SCHEMAS[campaign] or
             report["campaign"] != campaign or
             report["execution_mode"] != execution_mode):
@@ -534,6 +617,23 @@ def validate_live_ready(campaign, packet, report_path,
                 raise ValueError(f"live READY checkout {key} invalid")
         _digest(row["payload_sha256"], "live READY checkout payload")
 
+    campaign_path = None
+    if campaign == "b3v4":
+        campaign_binding = _exact(report["campaign_root_binding"], {
+            "path", "parent_path", "parent_identity_sha256", "initial_state",
+        }, "live READY campaign root")
+        if campaign_binding["initial_state"] != "ABSENT_CREATE_ONCE":
+            raise ValueError("live READY campaign root state invalid")
+        _digest(
+            campaign_binding["parent_identity_sha256"],
+            "live READY campaign parent identity")
+        observed_campaign = _campaign_directory_binding(
+            campaign_binding["path"], "live READY campaign root",
+            initialized=campaign_initialized)
+        if observed_campaign != campaign_binding:
+            raise ValueError("live READY campaign root binding drift")
+        campaign_path = pathlib.Path(campaign_binding["path"])
+
     runtime = _exact(report["runtime_root_binding"], {
         "path", "disposable", "initial_empty",
     }, "live READY runtime root")
@@ -567,11 +667,16 @@ def validate_live_ready(campaign, packet, report_path,
             (execution_mode == "production")):
         raise ValueError("live READY authorization invalid")
 
-    cross = _exact(report["cross_host_validation"], {
+    cross_fields = {
         "status", "launcher_path", "native_executable_path",
         "native_executable_version", "checkout_paths", "runtime_root_path",
         "executable_resolution",
-    }, "live READY cross-host validation")
+    }
+    if campaign == "b3v4":
+        cross_fields.add("campaign_root_path")
+    cross = _exact(
+        report["cross_host_validation"], cross_fields,
+        "live READY cross-host validation")
     if (cross["status"] != "PASS" or
             cross["launcher_path"] != str(launcher_path) or
             cross["native_executable_path"] != str(native_path) or
@@ -581,6 +686,9 @@ def validate_live_ready(campaign, packet, report_path,
             cross["runtime_root_path"] != str(runtime_path) or
             cross["executable_resolution"] != "PASS"):
         raise ValueError("live READY cross-host validation invalid")
+    if (campaign == "b3v4" and
+            cross["campaign_root_path"] != str(campaign_path)):
+        raise ValueError("live READY campaign path mapping invalid")
     producer = _exact(report["producer"], {
         "command", "command_sha256", "argv_sha256", "status",
     }, "live READY producer")
@@ -598,7 +706,8 @@ def validate_live_ready(campaign, packet, report_path,
             raise ValueError(
                 "live launch context is production-only")
         derived = _derive_production_live_ready(
-            campaign, packet, live_context)
+            campaign, packet, live_context,
+            campaign_initialized=campaign_initialized)
         if lifecycle.canonical_json_bytes(derived) != raw:
             raise ValueError(
                 "live READY report does not match current launch context")
