@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import contextlib
 import hashlib
 import json
 import math
@@ -527,6 +528,112 @@ class MissionContext:
             self.mission["config"]]["model_resolved_required"]
 
 
+class CampaignRootCustody:
+    """Hold the create-once B3 campaign root by physical directory handle."""
+
+    def __init__(self, campaign_root):
+        self.campaign_root = pathlib.Path(campaign_root).absolute()
+        self.parent = self.campaign_root.parent
+        self.leaf = self.campaign_root.name
+        self.parent_fd = None
+        self.root_fd = None
+        if (os.name != "posix" or not self.leaf or
+                not hasattr(os, "O_DIRECTORY") or
+                not hasattr(os, "O_NOFOLLOW")):
+            raise ValueError(
+                "continuous campaign custody requires POSIX directory handles")
+        self.parent_fd = os.open(
+            self.parent,
+            os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        self._verify_parent()
+
+    @staticmethod
+    def _identity(observed):
+        return {
+            "device": observed.st_dev,
+            "inode": observed.st_ino,
+            "mode": observed.st_mode,
+        }
+
+    def _verify_parent(self):
+        if self.parent_fd is None:
+            raise ValueError("continuous campaign custody parent handle lost")
+        try:
+            held = os.fstat(self.parent_fd)
+            live = os.lstat(self.parent)
+        except OSError as exc:
+            raise ValueError(
+                "continuous campaign custody parent unavailable") from exc
+        if (not stat.S_ISDIR(held.st_mode) or
+                self._identity(held) != self._identity(live) or
+                self.parent.resolve(strict=True) != self.parent or
+                self.parent.is_symlink() or
+                bool(getattr(live, "st_file_attributes", 0) &
+                     getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400))):
+            raise ValueError(
+                "continuous campaign custody parent identity drift")
+        return self._identity(held)
+
+    def create_root(self):
+        self._verify_parent()
+        if self.root_fd is not None:
+            raise ValueError(
+                "continuous campaign custody root already created")
+        if os.path.lexists(self.campaign_root):
+            raise ValueError("campaign root create-once collision")
+        try:
+            os.mkdir(self.leaf, mode=0o700, dir_fd=self.parent_fd)
+            self.root_fd = os.open(
+                self.leaf,
+                os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW,
+                dir_fd=self.parent_fd)
+        except FileExistsError as exc:
+            raise ValueError("campaign root create-once collision") from exc
+        except OSError as exc:
+            raise ValueError(
+                "continuous campaign custody root creation failed") from exc
+        return self.verify()
+
+    def verify(self):
+        self._verify_parent()
+        if self.root_fd is None:
+            raise ValueError("continuous campaign custody root handle lost")
+        try:
+            held = os.fstat(self.root_fd)
+            live = os.stat(
+                self.leaf, dir_fd=self.parent_fd, follow_symlinks=False)
+            lexical = os.lstat(self.campaign_root)
+        except OSError as exc:
+            raise ValueError(
+                "continuous campaign custody root unavailable") from exc
+        identity = self._identity(held)
+        if (not stat.S_ISDIR(held.st_mode) or
+                identity != self._identity(live) or
+                identity != self._identity(lexical) or
+                self.campaign_root.resolve(strict=True) !=
+                self.campaign_root or self.campaign_root.is_symlink() or
+                bool(getattr(lexical, "st_file_attributes", 0) &
+                     getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400))):
+            raise ValueError(
+                "continuous campaign custody root identity drift")
+        return identity
+
+    def close(self):
+        root_fd, parent_fd = self.root_fd, self.parent_fd
+        self.root_fd = None
+        self.parent_fd = None
+        for descriptor in (root_fd, parent_fd):
+            if descriptor is not None:
+                with contextlib.suppress(OSError):
+                    os.close(descriptor)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, _kind, _value, _traceback):
+        self.close()
+
+
 class CampaignDriver:
     """Advance exactly one preregistered mission per call without retry."""
 
@@ -565,6 +672,7 @@ class CampaignDriver:
             pathlib.Path(launch_context).absolute()
             if launch_context else None)
         self._campaign_root_identity = None
+        self._custody_session = None
 
     def _load_launch_context(self):
         if self.execution_mode != "production":
@@ -634,12 +742,19 @@ class CampaignDriver:
         if not self.campaign_root.exists():
             self._load_launch_readiness(
                 packet, campaign_initialized=False)
-            try:
-                self.campaign_root.mkdir(exist_ok=False)
-            except FileExistsError as exc:
+            if self._custody_session is not None:
+                root_identity = self._custody_session.create_root()
+            elif self.execution_mode == "production":
                 raise ValueError(
-                    "campaign root create-once collision") from exc
-            root_identity = self._validate_campaign_root_identity()
+                    "production requires continuous campaign custody")
+            else:
+                try:
+                    self.campaign_root.mkdir(exist_ok=False)
+                except FileExistsError as exc:
+                    raise ValueError(
+                        "campaign root create-once collision") from exc
+                root_identity = self._validate_campaign_root_identity()
+            self._campaign_root_identity = root_identity
             with open(frozen, "xb") as stream:
                 stream.write(raw)
             _write_new_json(manifest, {
@@ -675,6 +790,18 @@ class CampaignDriver:
             (self.campaign_root / "campaign-manifest.json").is_file())
 
     def _validate_campaign_root_identity(self, expected=None):
+        custody_session = getattr(self, "_custody_session", None)
+        if custody_session is not None:
+            identity = custody_session.verify()
+            if expected is not None and expected != identity:
+                raise ValueError(
+                    "campaign root physical identity drift")
+            self._campaign_root_identity = identity
+            return identity
+        if (getattr(self, "execution_mode", "test") == "production" and
+                not getattr(self, "_retained_read_only", False)):
+            raise ValueError(
+                "production requires continuous campaign custody")
         try:
             resolved = self.campaign_root.resolve(strict=True)
             observed = os.lstat(self.campaign_root)
@@ -707,6 +834,15 @@ class CampaignDriver:
         elif self._campaign_root_identity != identity:
             raise ValueError("campaign root identity changed before host spawn")
         return identity
+
+    def _verify_continuous_custody(self):
+        if self._custody_session is not None:
+            return self._validate_campaign_root_identity()
+        if (self.execution_mode == "production" and
+                not getattr(self, "_retained_read_only", False)):
+            raise ValueError(
+                "production requires continuous campaign custody")
+        return self._campaign_root_identity
 
     @staticmethod
     def _attempt_name(mission):
@@ -910,6 +1046,13 @@ class CampaignDriver:
         self._validate_surfaces(packet)
 
     def run_next(self):
+        if (self.execution_mode == "production" and
+                self._custody_session is None):
+            raise ValueError(
+                "standalone production run-next cannot resume qualifying custody")
+        if self._custody_session is not None and \
+                self._custody_session.root_fd is not None:
+            self._verify_continuous_custody()
         packet, raw, packet_sha256 = self._load_packet()
         campaign_initialized = self._campaign_custody_initialized()
         readiness = readiness_raw = None
@@ -918,6 +1061,7 @@ class CampaignDriver:
                 packet, campaign_initialized=False)
         fixture = _fixture_for_packet(self.repo_root, packet)
         self._ensure_campaign(raw, packet_sha256, packet)
+        self._verify_continuous_custody()
         if campaign_initialized:
             readiness, readiness_raw = self._load_launch_readiness(
                 packet, campaign_initialized=True)
@@ -928,8 +1072,10 @@ class CampaignDriver:
             packet, campaign_initialized=True)
         if reread_raw != readiness_raw:
             raise ValueError("live launch readiness changed before claim")
+        self._verify_continuous_custody()
         attempt_root = self._claim_attempt(
             mission, packet_sha256, packet, reread_raw, reread)
+        self._verify_continuous_custody()
         status = None
         terminal = {
             "schema": "implementaudit-b3v4-luna-attempt-terminal-v3",
@@ -971,6 +1117,7 @@ class CampaignDriver:
                     "launch readiness changed before host spawn")
             self._validate_campaign_root_identity()
             outcome = self.mission_executor(context)
+            self._verify_continuous_custody()
             if not isinstance(outcome, dict):
                 raise TypeError("mission executor returned a non-object")
             claimed_status = outcome.get("overall_status")
@@ -1039,11 +1186,13 @@ class CampaignDriver:
                 terminal["overall_status"] = "INVALID"
                 terminal["stop_reason"] = "frozen-input-drift"
         terminal["completed_at"] = _utc_now()
+        self._verify_continuous_custody()
         if terminal["overall_status"] in SCORED_STATES:
             terminal["completed_attempt_seal"] = _completed_attempt_seal(
                 attempt_root, status, terminal, packet, packet_sha256)
         contract.validate_artifact("attempt_terminal", terminal)
         _write_new_json(attempt_root / "attempt-terminal.json", terminal)
+        self._verify_continuous_custody()
         return terminal
 
     @staticmethod
@@ -1284,7 +1433,75 @@ class CampaignDriver:
             "claims": dict(FINAL_CLAIMS),
         }
 
+    def _run_independent_rederiver_with_custody(self, packet):
+        self._verify_continuous_custody()
+        if self._custody_session is None or \
+                self._custody_session.root_fd is None:
+            raise ValueError(
+                "independent rederivation requires continuous campaign custody")
+        implementation = (
+            self.repo_root /
+            packet["independent_rederiver"]["implementation_identity"]["path"])
+        output = self.campaign_root / packet["luna_stage"][
+            "independent_result_name"]
+        command = [
+            sys.executable, str(implementation), str(self.packet_path),
+            "--campaign-root", str(self.campaign_root),
+            "--surface-root", str(self.repo_root),
+            "--output", str(output),
+            "--custody-fd", str(self._custody_session.root_fd),
+        ]
+        completed = subprocess.run(
+            command, capture_output=True, text=True, check=False,
+            pass_fds=(self._custody_session.root_fd,))
+        self._verify_continuous_custody()
+        if completed.returncode != 0:
+            reason = (completed.stderr or completed.stdout).strip()
+            raise ValueError(
+                "handle-bound independent rederivation failed: " + reason)
+
+    def run_luna_tranche(self, *, independent_writer=None):
+        """Run the qualifying Luna transaction under one held root handle."""
+        if self.execution_mode == "production" and \
+                independent_writer is not None:
+            raise ValueError(
+                "production cannot replace the independent rederiver")
+        if self.execution_mode == "test" and independent_writer is None:
+            raise ValueError(
+                "test tranche requires an explicit independent writer")
+        if os.path.lexists(self.campaign_root):
+            raise ValueError(
+                "qualifying production tranche cannot resume campaign custody")
+        session = CampaignRootCustody(self.campaign_root)
+        self._custody_session = session
+        try:
+            for expected_index in range(6):
+                terminal = self.run_next()
+                if (terminal["mission_index"] != expected_index or
+                        terminal["overall_status"] != "PASS"):
+                    raise ValueError(
+                        "Luna tranche ANDON stopped before six PASS missions")
+                self._verify_continuous_custody()
+            if self.execution_mode == "production":
+                self._run_independent_rederiver_with_custody(
+                    self._load_packet()[0])
+            else:
+                independent_writer(self)
+                self._verify_continuous_custody()
+            result = self.finalize_luna_stage()
+            self._verify_continuous_custody()
+            self._validate_luna_stage()
+            return result
+        finally:
+            session.close()
+            self._custody_session = None
+
     def finalize_luna_stage(self):
+        if (self.execution_mode == "production" and
+                self._custody_session is None):
+            raise ValueError(
+                "standalone production finalize cannot resume qualifying custody")
+        self._verify_continuous_custody()
         result_path = self.campaign_root / "b3v4-luna-result.json"
         terminal_path = self.campaign_root / "luna-stage-terminal.json"
         if result_path.exists() or terminal_path.exists():
@@ -1327,9 +1544,16 @@ class CampaignDriver:
             packet, packet_sha256, official_raw, independent_raw)
         contract.lifecycle.write_stage_terminal(
             self.campaign_root, descriptor, binding)
+        self._verify_continuous_custody()
         return result
 
     def _validate_luna_stage(self, *, validate_runtime_identities=True):
+        if (self.execution_mode == "production" and
+                self._custody_session is None and
+                not getattr(self, "_retained_read_only", False)):
+            raise ValueError(
+                "standalone production validation is nonqualifying")
+        self._verify_continuous_custody()
         packet, packet_raw, packet_sha256 = self._load_packet()
         self._ensure_campaign(packet_raw, packet_sha256, packet)
         if validate_runtime_identities:
@@ -1376,6 +1600,7 @@ class CampaignDriver:
         if contract.canonical_json_bytes(official) != \
                 contract.canonical_json_bytes(expected):
             raise ValueError("official Luna result drift")
+        self._verify_continuous_custody()
         return official
 
     def validate_luna_stage(self):
@@ -1429,12 +1654,15 @@ class CampaignDriver:
 
 
 def validate_retained_luna_stage(packet_path, campaign_root, surface_root):
-    """Validate a completed retained stage without launching or Git mutation."""
+    """Nonqualifying read-only validation after live handle custody has ended."""
     driver = object.__new__(CampaignDriver)
     driver.packet_path = pathlib.Path(packet_path).absolute()
     driver.repo_root = pathlib.Path(surface_root).resolve()
     driver.campaign_root = pathlib.Path(campaign_root).absolute()
     driver.execution_mode = "production"
+    driver._retained_read_only = True
+    driver._campaign_root_identity = None
+    driver._custody_session = None
     driver.live_validator = lambda packet, root: \
         surfaces.validate_packet_surfaces(
             packet, surfaces.B3_CAMPAIGN, root=root)
@@ -1460,6 +1688,9 @@ def main(argv=None):
     run_next = add_common("run-next")
     run_next.add_argument("--launch-readiness", required=True)
     run_next.add_argument("--launch-context", required=True)
+    tranche = add_common("run-luna-tranche")
+    tranche.add_argument("--launch-readiness", required=True)
+    tranche.add_argument("--launch-context", required=True)
     add_common("finalize-luna-stage")
     add_common("validate-luna-stage")
     args = parser.parse_args(argv)
@@ -1479,6 +1710,14 @@ def main(argv=None):
                           "stop_reason": terminal.get("stop_reason")},
                          sort_keys=True))
         return 0 if terminal["overall_status"] in CONTINUE_STATES else 2
+    if args.operation == "run-luna-tranche":
+        result = driver.run_luna_tranche()
+        print(json.dumps({
+            "disposition": result["disposition"],
+            "luna_stage_accepted": result["luna_stage_accepted"],
+            "accepted": result["accepted"],
+            "mission_count": result["mission_count"]}, sort_keys=True))
+        return 0
     result = (driver.finalize_luna_stage()
               if args.operation == "finalize-luna-stage" else
               driver.validate_luna_stage())

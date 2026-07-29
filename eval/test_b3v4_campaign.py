@@ -748,8 +748,176 @@ def assert_fresh_driver_lifecycle_and_final_root_checks(module):
             expect_error("campaign root physical identity", action)
 
 
+def assert_actual_inode_reuse_rejected(module):
+    if os.name != "posix":
+        print("CAMPAIGN_ROOT_INODE_REUSE=SKIP:requires-posix")
+        return
+    with tempfile.TemporaryDirectory(
+            prefix="b3v4-campaign-inode-reuse-") as tmp:
+        root = pathlib.Path(tmp) / "campaign"
+        root.mkdir()
+        original_stat = os.lstat(root)
+        original = {
+            "device": original_stat.st_dev,
+            "inode": original_stat.st_ino,
+            "mode": original_stat.st_mode,
+        }
+        root.rmdir()
+        reused = False
+        for _ in range(100000):
+            root.mkdir()
+            observed = os.lstat(root)
+            identity = {
+                "device": observed.st_dev,
+                "inode": observed.st_ino,
+                "mode": observed.st_mode,
+            }
+            if identity == original:
+                reused = True
+                break
+            root.rmdir()
+        assert reused, "filesystem did not reproduce directory inode reuse"
+        root.rmdir()
+        session = module.CampaignRootCustody(root)
+        held = session.create_root()
+        root.rmdir()
+        root.mkdir()
+        live = os.lstat(root)
+        assert {
+            "device": live.st_dev,
+            "inode": live.st_ino,
+            "mode": live.st_mode,
+        } != held, "open directory handle did not prevent inode reuse"
+        expect_error(
+            "continuous campaign custody",
+            session.verify)
+        session.close()
+        expect_error("handle lost", session.verify)
+        print("CAMPAIGN_ROOT_INODE_REUSE=PASS")
+
+
+def assert_continuous_custody_tranche_contract(module):
+    with tempfile.TemporaryDirectory(
+            prefix="b3v4-continuous-early-drift-") as tmp:
+        calls = []
+        driver = make_driver(
+            module, tmp,
+            lambda context:
+                calls.append(context) or sealed_probe_outcome(context))
+        original_create = module.CampaignRootCustody.create_root
+
+        def create_then_rebind(session):
+            identity = original_create(session)
+            original = session.campaign_root.with_name("campaign-original")
+            os.rename(session.campaign_root, original)
+            shutil.copytree(original, session.campaign_root)
+            return identity
+
+        module.CampaignRootCustody.create_root = create_then_rebind
+        try:
+            expect_error(
+                "physical identity drift",
+                lambda: driver.run_luna_tranche(
+                    independent_writer=write_independent_result))
+        finally:
+            module.CampaignRootCustody.create_root = original_create
+        assert calls == []
+
+    with tempfile.TemporaryDirectory(
+            prefix="b3v4-continuous-tranche-") as tmp:
+        driver = make_driver(module, tmp, sealed_probe_outcome)
+        observed = []
+
+        def independent_writer(current):
+            observed.append(current._custody_session.verify())
+            write_independent_result(current)
+
+        result = driver.run_luna_tranche(
+            independent_writer=independent_writer)
+        assert result["luna_stage_accepted"] is True, result
+        assert result["mission_count"] == 6 and len(observed) == 1
+        assert driver._custody_session is None
+
+    with tempfile.TemporaryDirectory(
+            prefix="b3v4-continuous-middle-drift-") as tmp:
+        calls = []
+        driver = make_driver(
+            module, tmp,
+            lambda context:
+                calls.append(context) or sealed_probe_outcome(context))
+        original_claim = driver._claim_attempt
+
+        def claim_then_rebind(*args, **kwargs):
+            attempt = original_claim(*args, **kwargs)
+            original = driver.campaign_root.with_name("campaign-original")
+            os.rename(driver.campaign_root, original)
+            shutil.copytree(original, driver.campaign_root)
+            return driver.campaign_root / attempt.name
+
+        driver._claim_attempt = claim_then_rebind
+        expect_error(
+            "continuous campaign custody",
+            lambda: driver.run_luna_tranche(
+                independent_writer=write_independent_result))
+        assert calls == []
+
+    with tempfile.TemporaryDirectory(
+            prefix="b3v4-continuous-final-drift-") as tmp:
+        driver = make_driver(module, tmp, sealed_probe_outcome)
+
+        def rebind_before_independent(current):
+            original = current.campaign_root.with_name("campaign-original")
+            os.rename(current.campaign_root, original)
+            shutil.copytree(original, current.campaign_root)
+            write_independent_result(current)
+
+        expect_error(
+            "continuous campaign custody",
+            lambda: driver.run_luna_tranche(
+                independent_writer=rebind_before_independent))
+        assert not (driver.campaign_root / "b3v4-luna-result.json").exists()
+        assert not (driver.campaign_root / "luna-stage-terminal.json").exists()
+
+    with tempfile.TemporaryDirectory(
+            prefix="b3v4-continuous-handle-loss-") as tmp:
+        calls = []
+        driver = None
+
+        def close_handle(context):
+            calls.append(context)
+            driver._custody_session.close()
+            return sealed_probe_outcome(context)
+
+        driver = make_driver(module, tmp, close_handle)
+        expect_error(
+            "continuous campaign custody",
+            lambda: driver.run_luna_tranche(
+                independent_writer=write_independent_result))
+        assert len(calls) == 1
+
+    with tempfile.TemporaryDirectory(
+            prefix="b3v4-production-resume-forbidden-") as tmp:
+        calls = []
+        driver = make_driver(
+            module, tmp,
+            lambda context:
+                calls.append(context) or sealed_probe_outcome(context))
+        driver.run_next()
+        fresh = fresh_test_driver(
+            module, driver,
+            lambda context:
+                calls.append(context) or sealed_probe_outcome(context))
+        fresh.execution_mode = "production"
+        fresh._custody_session = None
+        expect_error("standalone production run-next", fresh.run_next)
+        assert len(calls) == 1
+
+
 def main():
     module = load_driver()
+    assert_actual_inode_reuse_rejected(module)
+    if os.name == "posix":
+        assert_continuous_custody_tranche_contract(module)
     assert_fresh_driver_rejects_copied_campaign_root(module)
     assert_fresh_driver_lifecycle_and_final_root_checks(module)
     assert_campaign_root_initialization_contract(module)

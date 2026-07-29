@@ -300,12 +300,38 @@ def exercise_path_type_custody():
 def production_fixture(base):
     base = pathlib.Path(base)
     repo = pathlib.Path(__file__).resolve().parent.parent
+    clone_source = repo
+    if os.name == "posix" and (repo / ".git").is_file():
+        primary = repo.parent / "IMPLEMENTAUDIT"
+        assert (primary / ".git").is_dir(), primary
+        gitdir_value = (repo / ".git").read_text(
+            encoding="utf-8").strip().removeprefix("gitdir: ")
+        drive, suffix = gitdir_value.split(":", 1)
+        gitdir = pathlib.Path("/mnt") / drive.lower() / suffix.lstrip("/")
+        head_value = (gitdir / "HEAD").read_text(encoding="utf-8").strip()
+        if head_value.startswith("ref: "):
+            common = (gitdir / (gitdir / "commondir").read_text(
+                encoding="utf-8").strip()).resolve()
+            assigned_head = (common / head_value.removeprefix(
+                "ref: ")).read_text(encoding="utf-8").strip()
+        else:
+            assigned_head = head_value
+        native_repo = base / "source-repo"
+        subprocess.run(
+            ["git", "clone", "--quiet", "--no-hardlinks",
+             str(primary), str(native_repo)],
+            stdin=subprocess.DEVNULL, check=True)
+        subprocess.run(
+            ["git", "-C", str(native_repo), "checkout", "--quiet", "-B",
+             "b3v4-native-test-source", assigned_head],
+            stdin=subprocess.DEVNULL, check=True)
+        repo = clone_source = native_repo
     candidate = base / "candidate-checkout"
     control = base / "control-checkout"
     for checkout in (candidate, control):
         subprocess.run(
             ["git", "clone", "--quiet", "--no-hardlinks",
-             str(repo), str(checkout)],
+             str(clone_source), str(checkout)],
             stdin=subprocess.DEVNULL, check=True)
     subprocess.run(
         ["git", "-C", str(control), "config", "user.email",
@@ -566,11 +592,7 @@ def exercise_production_driver_timing(base, timing, mutation):
         driver._claim_attempt = mutate_before_executor
     else:
         raise AssertionError("unknown timing")
-    if timing == "before-executor":
-        terminal = driver.run_next()
-        assert terminal["overall_status"] in ("ERROR", "INVALID"), terminal
-    else:
-        expect_error(None, driver.run_next)
+    expect_error(None, driver.run_luna_tranche)
     assert calls == []
     campaign_root = pathlib.Path(context["campaign_root"])
     attempts = (
@@ -721,16 +743,19 @@ def main():
                 "b3v4", packet, output, execution_mode="production",
                 live_context=context))
 
-    for timing in ("before-root", "before-claim", "before-executor"):
-        for mutation in (
-                "checkout-dirty", "checkout-head-tree", "runtime",
-                "native", "launcher", "auth-metadata",
-                "acknowledgement", "host-attestation",
-                "path-translation"):
-            with tempfile.TemporaryDirectory(
-                    prefix=f"live-ready-{timing}-{mutation}-") as tmp:
-                exercise_production_driver_timing(
-                    tmp, timing, mutation)
+    if os.name == "posix":
+        for timing in ("before-root", "before-claim", "before-executor"):
+            for mutation in (
+                    "checkout-dirty", "checkout-head-tree", "runtime",
+                    "native", "launcher", "auth-metadata",
+                    "acknowledgement", "host-attestation",
+                    "path-translation"):
+                with tempfile.TemporaryDirectory(
+                        prefix=f"live-ready-{timing}-{mutation}-") as tmp:
+                    exercise_production_driver_timing(
+                        tmp, timing, mutation)
+    else:
+        print("PRODUCTION_CONTINUOUS_CUSTODY_TIMING=SKIP:requires-posix")
 
     # Governing round-2 RED: the implementation must expose the separate live
     # packet-bound READY validator; legacy NOT_READY conversion is insufficient.

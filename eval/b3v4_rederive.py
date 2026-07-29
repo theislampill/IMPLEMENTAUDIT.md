@@ -386,6 +386,29 @@ def _validate_campaign_root_physical_identity(value, path):
     return value
 
 
+def _validate_inherited_campaign_handle(custody_fd, campaign_root):
+    _expect(
+        type(custody_fd) is int and custody_fd >= 0,
+        "continuous campaign custody handle invalid")
+    root = pathlib.Path(campaign_root).absolute()
+    try:
+        held = os.fstat(custody_fd)
+        live = os.lstat(root)
+    except OSError as exc:
+        raise EvidenceInvalid(
+            "continuous campaign custody handle unavailable") from exc
+    held_identity = {
+        "device": held.st_dev, "inode": held.st_ino, "mode": held.st_mode}
+    live_identity = {
+        "device": live.st_dev, "inode": live.st_ino, "mode": live.st_mode}
+    _expect(
+        stat.S_ISDIR(held.st_mode) and held_identity == live_identity and
+        root.resolve(strict=True) == root and not root.is_symlink() and
+        not _reparse_point(live),
+        "continuous campaign custody handle/path drift")
+    return held_identity
+
+
 def _read_bytes(path):
     """Independently enforce unique-path custody before trusting any bytes."""
     lexical = pathlib.Path(path).absolute()
@@ -3270,12 +3293,15 @@ def _rederive_attempt(
         return _invalid_row(mission, "INVALID", exc)
 
 
-def rederive_campaign(packet_path, campaign_root, surface_root=None):
+def rederive_campaign(
+        packet_path, campaign_root, surface_root=None, custody_fd=None):
     # Path-component custody is stable only for one create-once read pass.
     # A later invocation must not inherit trust after a directory replacement.
     _CUSTODY_COMPONENT_CACHE.clear()
     packet_path = pathlib.Path(packet_path).absolute()
     campaign_root = pathlib.Path(campaign_root).absolute()
+    if custody_fd is not None:
+        _validate_inherited_campaign_handle(custody_fd, campaign_root)
     surface_root = (campaign_root if surface_root is None else
                     pathlib.Path(surface_root).absolute())
     observed_root_identity = _campaign_root_physical_identity(campaign_root)
@@ -3401,6 +3427,8 @@ def rederive_campaign(packet_path, campaign_root, surface_root=None):
         "claims": dict(FINAL_CLAIMS)}
     if attempts_after_stop:
         result["reason"] = "campaign contains attempt after terminal stop"
+    if custody_fd is not None:
+        _validate_inherited_campaign_handle(custody_fd, campaign_root)
     return result
 
 
@@ -3431,7 +3459,9 @@ def _validate_output_parent(root, path):
     return root, path, (root_stat.st_dev, root_stat.st_ino)
 
 
-def write_rederivation(path, result, *, root):
+def write_rederivation(path, result, *, root, custody_fd=None):
+    if custody_fd is not None:
+        _validate_inherited_campaign_handle(custody_fd, root)
     root, path, parent_identity = _validate_output_parent(root, path)
     try:
         try:
@@ -3454,6 +3484,8 @@ def write_rederivation(path, result, *, root):
             stream.write(payload)
             stream.flush()
             os.fsync(stream.fileno())
+            if custody_fd is not None:
+                _validate_inherited_campaign_handle(custody_fd, root)
     except FileExistsError as exc:
         raise EvidenceInvalid(
             "create-once independent result already exists") from exc
@@ -3470,10 +3502,15 @@ def main(argv=None):
     parser.add_argument("--campaign-root", required=True)
     parser.add_argument("--surface-root")
     parser.add_argument("--output")
+    parser.add_argument("--custody-fd", type=int)
     args = parser.parse_args(argv)
+    if args.output and args.custody_fd is None:
+        raise SystemExit(
+            "qualifying independent output requires inherited campaign handle")
     try:
         result = rederive_campaign(
-            args.intent, args.campaign_root, args.surface_root)
+            args.intent, args.campaign_root, args.surface_root,
+            custody_fd=args.custody_fd)
     except (EvidenceInvalid, OSError, KeyError, TypeError, ValueError) as exc:
         result = {
             "schema": "implementaudit-b3v4-luna-independent-rederivation-v2",
@@ -3486,7 +3523,9 @@ def main(argv=None):
             "claims": dict(FINAL_CLAIMS), "reason": str(exc)}
     rendered = json.dumps(result, indent=1, sort_keys=True) + "\n"
     if args.output:
-        write_rederivation(args.output, result, root=args.campaign_root)
+        write_rederivation(
+            args.output, result, root=args.campaign_root,
+            custody_fd=args.custody_fd)
     else:
         sys.stdout.write(rendered)
     return 0 if result.get("luna_stage_accepted") is True else 2

@@ -387,6 +387,18 @@ def _finalize_b3(base, external_surface_paths=None):
         surfaces.validate_packet_surfaces(
             packet, surfaces.B3_CAMPAIGN, root=root)
     driver.identity_validator = lambda _packet, **_paths: None
+    retained_manifest = json.loads(
+        (campaign_root / "campaign-manifest.json").read_text(
+            encoding="utf-8"))
+
+    class SyntheticFixtureCustody:
+        root_fd = 1
+
+        @staticmethod
+        def verify():
+            return retained_manifest["campaign_root_identity"]
+
+    driver._custody_session = SyntheticFixtureCustody()
     official = driver.finalize_luna_stage()
     assert official["luna_stage_accepted"] is True
     assert official["mission_count"] == 6

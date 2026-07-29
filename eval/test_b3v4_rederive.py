@@ -11,6 +11,7 @@ import os
 import pathlib
 import shutil
 import subprocess
+import sys
 import tempfile
 
 from test_b3v4_freeze import valid_packet
@@ -1408,13 +1409,94 @@ def assert_deep_cli_failure_normalized(module):
         intent = pathlib.Path(tmp) / "deep.json"
         intent.write_bytes(b"[" * 1100 + b"0" + b"]" * 1100)
         output = root / "b3v4-luna-independent-rederivation.json"
-        exit_code = module.main([
-            str(intent), "--campaign-root", str(root),
-            "--output", str(output)])
+        try:
+            module.main([
+                str(intent), "--campaign-root", str(root),
+                "--output", str(output)])
+        except SystemExit as exc:
+            assert "inherited campaign handle" in str(exc), str(exc)
+        else:
+            raise AssertionError("qualifying output accepted without custody")
+        assert not output.exists()
+        if os.name != "posix":
+            return
+        descriptor = os.open(
+            root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            exit_code = module.main([
+                str(intent), "--campaign-root", str(root),
+                "--output", str(output),
+                "--custody-fd", str(descriptor)])
+        finally:
+            os.close(descriptor)
         assert exit_code == 2
         value = json.loads(output.read_text(encoding="utf-8"))
         assert value["luna_stage_status"] == "INVALID"
     assert value["luna_stage_accepted"] is False
+
+
+def assert_inherited_campaign_handle_contract(module):
+    if os.name != "posix":
+        print("REDERIVER_INHERITED_CUSTODY=SKIP:requires-posix")
+        return
+    with tempfile.TemporaryDirectory(
+            prefix="b3v4-rederive-inherited-custody-") as tmp:
+        root = pathlib.Path(tmp) / "campaign"
+        build_campaign(root)
+        descriptor = os.open(
+            root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        output = root / "b3v4-luna-independent-rederivation.json"
+        try:
+            completed = subprocess.run([
+                sys.executable, str(REDERIVER),
+                str(root / "campaign-freeze.json"),
+                "--campaign-root", str(root),
+                "--output", str(output),
+                "--custody-fd", str(descriptor),
+            ], capture_output=True, text=True, pass_fds=(descriptor,))
+            assert completed.returncode == 0, (
+                completed.stdout, completed.stderr)
+            value = json.loads(output.read_text(encoding="utf-8"))
+            assert value["luna_stage_accepted"] is True, value
+        finally:
+            os.close(descriptor)
+
+    with tempfile.TemporaryDirectory(
+            prefix="b3v4-rederive-inherited-drift-") as tmp:
+        root = pathlib.Path(tmp) / "campaign"
+        build_campaign(root)
+        descriptor = os.open(
+            root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        original = root.with_name("campaign-original")
+        os.rename(root, original)
+        shutil.copytree(original, root)
+        try:
+            try:
+                module.rederive_campaign(
+                    root / "campaign-freeze.json", root,
+                    custody_fd=descriptor)
+            except module.EvidenceInvalid as exc:
+                assert "handle/path drift" in str(exc), str(exc)
+            else:
+                raise AssertionError("rebound campaign root accepted")
+        finally:
+            os.close(descriptor)
+
+    with tempfile.TemporaryDirectory(
+            prefix="b3v4-rederive-inherited-loss-") as tmp:
+        root = pathlib.Path(tmp) / "campaign"
+        build_campaign(root)
+        descriptor = os.open(
+            root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        os.close(descriptor)
+        try:
+            module.rederive_campaign(
+                root / "campaign-freeze.json", root,
+                custody_fd=descriptor)
+        except module.EvidenceInvalid as exc:
+            assert "handle unavailable" in str(exc), str(exc)
+        else:
+            raise AssertionError("lost campaign handle accepted")
 
 
 def nested_json_bytes(kind, depth):
@@ -1637,6 +1719,7 @@ def assert_host_root_junction_rejected(module):
 def main():
     assert_independent_import_boundary()
     module = load_module()
+    assert_inherited_campaign_handle_contract(module)
     with tempfile.TemporaryDirectory(
             prefix="b3v4-rederive-campaign-root-rebound-") as tmp:
         root = pathlib.Path(tmp) / "campaign"
