@@ -11,6 +11,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+from unittest import mock
 
 import adapters
 import b3v4_campaign
@@ -149,6 +150,106 @@ def expect_error(fragment, action):
             assert fragment.lower() in str(exc).lower(), str(exc)
     else:
         raise AssertionError(f"expected error containing {fragment!r}")
+
+
+def exercise_path_type_custody():
+    with tempfile.TemporaryDirectory(
+            prefix="campaign-preflight-path-custody-") as tmp:
+        base = pathlib.Path(tmp).absolute()
+        ordinary = base / "ordinary-directory"
+        (ordinary / "nested-child").mkdir(parents=True)
+
+        real_lstat = os.lstat
+
+        class DirectoryStatWithPosixLinkCount:
+            def __init__(self, observed):
+                self._observed = observed
+                self.st_nlink = max(2, observed.st_nlink)
+
+            def __getattr__(self, name):
+                return getattr(self._observed, name)
+
+        def posix_directory_lstat(path, *args, **kwargs):
+            observed = real_lstat(path, *args, **kwargs)
+            if pathlib.Path(path).absolute() == ordinary:
+                return DirectoryStatWithPosixLinkCount(observed)
+            return observed
+
+        with mock.patch.object(
+                preflight.os, "lstat", side_effect=posix_directory_lstat):
+            assert preflight._absolute_directory(
+                str(ordinary), "ordinary directory") == ordinary
+
+        drifting = base / "drifting-directory"
+        drifting.mkdir()
+        drifting_observations = 0
+
+        class DirectoryStatWithIdentityDrift:
+            def __init__(self, observed):
+                self._observed = observed
+                self.st_ino = observed.st_ino + 1
+
+            def __getattr__(self, name):
+                return getattr(self._observed, name)
+
+        def drifting_directory_lstat(path, *args, **kwargs):
+            nonlocal drifting_observations
+            observed = real_lstat(path, *args, **kwargs)
+            if pathlib.Path(path).absolute() == drifting:
+                drifting_observations += 1
+                if drifting_observations == 3:
+                    return DirectoryStatWithIdentityDrift(observed)
+            return observed
+
+        with mock.patch.object(
+                preflight.os, "lstat", side_effect=drifting_directory_lstat):
+            expect_error(
+                "identity changed",
+                lambda: preflight._absolute_directory(
+                    str(drifting), "drifting directory"))
+
+        symlink = base / "directory-symlink"
+        try:
+            symlink.symlink_to(ordinary, target_is_directory=True)
+        except OSError:
+            print("PREFLIGHT_DIRECTORY_SYMLINK=SKIP:unsupported")
+        else:
+            expect_error(
+                "link",
+                lambda: preflight._absolute_directory(
+                    str(symlink / "nested-child"),
+                    "directory symlink component"))
+            print("PREFLIGHT_DIRECTORY_SYMLINK=PASS")
+
+        junction = base / "directory-junction"
+        if os.name == "nt":
+            created = subprocess.run(
+                ["cmd.exe", "/d", "/c", "mklink", "/J",
+                 str(junction), str(ordinary)],
+                stdin=subprocess.DEVNULL, capture_output=True, text=True,
+                check=False)
+            if created.returncode != 0:
+                print("PREFLIGHT_DIRECTORY_JUNCTION=SKIP:unsupported")
+            else:
+                try:
+                    expect_error(
+                        "link",
+                        lambda: preflight._absolute_directory(
+                            str(junction / "nested-child"),
+                            "directory junction component"))
+                    print("PREFLIGHT_DIRECTORY_JUNCTION=PASS")
+                finally:
+                    os.rmdir(junction)
+
+        retained = base / "retained-evidence.json"
+        alias = base / "retained-evidence-hardlink.json"
+        retained.write_text("{}\n", encoding="utf-8")
+        os.link(retained, alias)
+        expect_error(
+            "hardlink",
+            lambda: preflight._regular_path(
+                str(alias), "retained evidence", read_bytes=True))
+        print("PREFLIGHT_REGULAR_FILE_HARDLINK=PASS")
 
 
 def production_fixture(base):
@@ -488,6 +589,8 @@ def fixtures(base):
 
 
 def main():
+    exercise_path_type_custody()
+
     # Round-3 governing RED: production readiness is controller-derived from
     # an explicit live launch context.  A caller-authored report is never the
     # production authoring API.

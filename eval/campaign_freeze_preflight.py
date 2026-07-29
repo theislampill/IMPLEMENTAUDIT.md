@@ -95,9 +95,33 @@ def _regular_path(path, owner, *, read_bytes=False):
 
 
 def _absolute_directory(path, owner):
-    lexical = _regular_path(path, owner)
-    if not lexical.is_dir():
-        raise ValueError(f"{owner} must be a directory")
+    if type(path) is not str or not pathlib.Path(path).is_absolute():
+        raise ValueError(f"{owner} path must be absolute")
+    lexical = pathlib.Path(path).absolute()
+    try:
+        canonical = lexical.resolve(strict=True)
+        if canonical != lexical:
+            raise ValueError(f"{owner} link or reparse alias forbidden")
+        current = pathlib.Path(lexical.anchor)
+        for part in lexical.parts[1:]:
+            current = current / part
+            observed = os.lstat(current)
+            if (stat.S_ISLNK(observed.st_mode) or
+                    bool(getattr(observed, "st_file_attributes", 0) &
+                         getattr(
+                             stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400))):
+                raise ValueError(f"{owner} link or reparse alias forbidden")
+        before = os.lstat(lexical)
+        if not stat.S_ISDIR(before.st_mode):
+            raise ValueError(f"{owner} must be a directory")
+        after = os.lstat(lexical)
+        if ((before.st_dev, before.st_ino, before.st_mode) !=
+                (after.st_dev, after.st_ino, after.st_mode)):
+            raise ValueError(f"{owner} identity changed during custody read")
+    except ValueError:
+        raise
+    except OSError as exc:
+        raise ValueError(f"{owner} unavailable") from exc
     return lexical
 
 
