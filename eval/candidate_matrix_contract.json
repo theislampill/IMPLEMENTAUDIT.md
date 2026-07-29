@@ -32,6 +32,8 @@
     "mission_count": 14,
     "silent_retry": "FORBIDDEN",
     "preserve_every_attempt": true,
+    "qualifying_execution_mode": "production",
+    "test_mode_disposition": "TEST_ONLY_NON_QUALIFYING",
     "success_disposition": "INCOMPLETE_PENDING_OPUS",
     "luna_stage_accepted": true,
     "final_acceptance": false
@@ -52,6 +54,6 @@
     "campaign_manifest": ["schema","campaign","freeze_sha256","contract_sha256","created_at","execution_stage"],
     "attempt_status": ["schema","campaign","freeze_sha256","contract_sha256","mission","execution_mode","state","created_at","host_attestation_binding"],
     "attempt_terminal": ["schema","campaign","mission_index","execution_mode","overall_status","resolved_model","host_run_root","official_overall_status","official_verdict_sha256","stop_reason","error_type","completed_at","completed_attempt_seal"],
-    "official_luna_result": ["schema","campaign","freeze_sha256","contract_sha256","disposition","luna_stage_accepted","accepted","cell_count","cells","luna_identity","independent_rederivation","claims"]
+    "official_luna_result": ["schema","campaign","freeze_sha256","contract_sha256","execution_mode","disposition","luna_stage_accepted","accepted","cell_count","cells","luna_identity","independent_rederivation","claims"]
   }
 }

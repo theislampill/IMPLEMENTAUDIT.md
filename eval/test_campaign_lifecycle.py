@@ -975,6 +975,9 @@ def main():
                 read_sizes.append(size)
                 return self.stream.read(size)
 
+            def fileno(self):
+                return self.stream.fileno()
+
         def instrumented_fdopen(descriptor, mode):
             return BoundedReadStream(real_fdopen(descriptor, mode))
 
@@ -1009,6 +1012,39 @@ def main():
         assert not directory_bound_failures, (
             "recursive custody bounds failed: " +
             "; ".join(directory_bound_failures))
+
+    with tempfile.TemporaryDirectory(
+            prefix="campaign-directory-post-read-identity-") as tmp:
+        owner = pathlib.Path(tmp).resolve()
+        leaf = owner / "retained.bin"
+        lifecycle.write_new_bytes(leaf, b"stable retained bytes")
+        expected_stat = os.lstat(leaf)
+        real_fstat = lifecycle.os.fstat
+        fstat_calls = []
+
+        class DriftedStat:
+            def __init__(self, source):
+                self.st_mode = source.st_mode
+                self.st_nlink = source.st_nlink
+                self.st_dev = source.st_dev
+                self.st_ino = source.st_ino + 1
+                self.st_size = source.st_size
+
+        def post_read_identity_drift(descriptor):
+            observed = real_fstat(descriptor)
+            fstat_calls.append(observed)
+            return observed if len(fstat_calls) == 1 else DriftedStat(observed)
+
+        lifecycle.os.fstat = post_read_identity_drift
+        try:
+            rejected("identity changed", lambda:
+                     lifecycle._read_directory_leaf(
+                         leaf, "post-read identity drift",
+                         expected_stat=expected_stat))
+        finally:
+            lifecycle.os.fstat = real_fstat
+        assert len(fstat_calls) >= 2, (
+            "directory leaf custody omitted the post-read identity check")
 
     with tempfile.TemporaryDirectory(prefix="campaign-directory-root-policy-") as tmp:
         root = pathlib.Path(tmp).resolve()

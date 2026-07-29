@@ -33,7 +33,8 @@ FINAL_CLAIMS = {
     "publication_authorized": False,
 }
 INDEPENDENT_PASS_ROW_FIELDS = {
-    "index", "config", "fixture", "product_status", "host_status",
+    "index", "config", "fixture", "execution_mode",
+    "product_status", "host_status",
     "overall_status", "properties", "reason", "bundle_manifest_sha256",
     "raw_stdout_sha256", "native_session_sha256",
     "official_overall_status", "independent_overall_status",
@@ -795,8 +796,10 @@ class CampaignDriver:
             "error_type": None, "completed_at": None,
             "completed_attempt_seal": None,
         }
+        executor_returned = False
         try:
             outcome = self.mission_executor(context)
+            executor_returned = True
             if not isinstance(outcome, dict):
                 raise TypeError("mission executor returned a non-object")
             claimed_status = outcome.get("overall_status")
@@ -853,22 +856,39 @@ class CampaignDriver:
                         "failed-mission-halts-campaign"
                         if terminal["overall_status"] == "FAIL" else
                         "invalid-or-error-halts-campaign")
+            terminal["completed_at"] = _utc_now()
+            if terminal["overall_status"] in SCORED_STATES:
+                terminal["completed_attempt_seal"] = _completed_attempt_seal(
+                    attempt_root, status, terminal, packet, packet_sha256)
+            contract.validate_artifact("attempt_terminal", terminal)
         except Exception as exc:
-            terminal.update({
-                "overall_status": "ERROR", "resolved_model": None,
-                "host_run_root": None, "stop_reason": "mission-execution-exception",
+            custody_or_identity = isinstance(
+                exc, (OSError, ValueError, json.JSONDecodeError))
+            terminal = {
+                "schema":
+                    "implementaudit-candidate-matrix-luna-attempt-terminal-v1",
+                "campaign": "candidate-matrix-sol-luna-r1",
+                "mission_index": mission["index"],
+                "execution_mode": self.execution_mode,
+                "overall_status":
+                    "INVALID"
+                    if executor_returned and custody_or_identity else "ERROR",
+                "resolved_model": None, "host_run_root": None,
+                "official_overall_status": None,
+                "official_verdict_sha256": None,
+                "stop_reason":
+                    "post-executor-terminalization-failure"
+                    if executor_returned else "mission-execution-exception",
                 "error_type": type(exc).__name__,
-            })
+                "completed_at": _utc_now(),
+                "completed_attempt_seal": None,
+            }
             try:
                 self._verify_frozen_binding(packet_sha256)
             except (OSError, ValueError, json.JSONDecodeError):
                 terminal["overall_status"] = "INVALID"
                 terminal["stop_reason"] = "frozen-input-drift"
-        terminal["completed_at"] = _utc_now()
-        if terminal["overall_status"] in SCORED_STATES:
-            terminal["completed_attempt_seal"] = _completed_attempt_seal(
-                attempt_root, status, terminal, packet, packet_sha256)
-        contract.validate_artifact("attempt_terminal", terminal)
+            contract.validate_artifact("attempt_terminal", terminal)
         _write_new_json(attempt_root / "attempt-terminal.json", terminal)
         return terminal
 
@@ -902,11 +922,13 @@ class CampaignDriver:
                 "freeze_sha256": packet_sha256,
                 "contract_sha256": packet["artifact_contract"]["sha256"],
                 "mission": mission,
+                "execution_mode": self.execution_mode,
             }
             terminal_identity = {
                 "schema": "implementaudit-candidate-matrix-luna-attempt-terminal-v1",
                 "campaign": packet["campaign"],
                 "mission_index": mission["index"],
+                "execution_mode": self.execution_mode,
             }
             missions.append({
                 "attempt": self._attempt_name(mission),
@@ -952,6 +974,7 @@ class CampaignDriver:
                                           summaries):
         fields = {
             "schema", "campaign", "freeze_sha256", "contract_sha256",
+            "execution_mode",
             "luna_stage_status", "disposition", "luna_stage_accepted",
             "accepted", "cell_count", "cells", "claims"}
         if type(value) is not dict or set(value) != fields:
@@ -962,6 +985,7 @@ class CampaignDriver:
                 value["freeze_sha256"] != packet_sha256 or
                 value["contract_sha256"] !=
                 packet["artifact_contract"]["sha256"] or
+                value["execution_mode"] != "production" or
                 value["luna_stage_status"] != "PASS" or
                 value["disposition"] != "INCOMPLETE_PENDING_OPUS" or
                 value["luna_stage_accepted"] is not True or
@@ -1037,6 +1061,7 @@ class CampaignDriver:
             summaries.append({
                 "index": mission["index"], "config": mission["config"],
                 "fixture": mission["fixture"],
+                "execution_mode": terminal["execution_mode"],
                 "product_status":
                     verdict["adjudication"]["product_status"],
                 "host_status": verdict["adjudication"]["host_status"],
@@ -1076,6 +1101,7 @@ class CampaignDriver:
             "schema": "implementaudit-candidate-matrix-luna-result-v1",
             "campaign": packet["campaign"], "freeze_sha256": packet_sha256,
             "contract_sha256": packet["artifact_contract"]["sha256"],
+            "execution_mode": "production",
             "disposition": "INCOMPLETE_PENDING_OPUS",
             "luna_stage_accepted": True, "accepted": False,
             "cell_count": 14, "cells": summaries,
@@ -1097,6 +1123,9 @@ class CampaignDriver:
         return {
             "campaign": packet["campaign"], "stage": "LUNA",
             "stage_schema": packet["luna_stage"]["schema"],
+            "execution_mode": "production",
+            "disposition": "INCOMPLETE_PENDING_OPUS",
+            "luna_stage_accepted": True,
             "mission_count": 14, "freeze_sha256": packet_sha256,
             "contract_sha256": packet["artifact_contract"]["sha256"],
             "official_result_sha256": _sha256_bytes(official_raw),
@@ -1113,6 +1142,9 @@ class CampaignDriver:
         terminal_path = self.campaign_root / "luna-stage-terminal.json"
         if result_path.exists() or terminal_path.exists():
             raise ValueError("create-once Luna stage artifact already exists")
+        if self.execution_mode != "production":
+            raise ValueError(
+                "test execution is nonqualifying; production mode is required")
         packet, packet_raw, packet_sha256 = self._load_packet()
         self._ensure_campaign(packet_raw, packet_sha256, packet)
         self._validate_identities(packet)
@@ -1156,6 +1188,9 @@ class CampaignDriver:
         return result
 
     def validate_luna_stage(self):
+        if self.execution_mode != "production":
+            raise ValueError(
+                "test execution is nonqualifying; production mode is required")
         packet, packet_raw, packet_sha256 = self._load_packet()
         self._ensure_campaign(packet_raw, packet_sha256, packet)
         self._validate_identities(packet)

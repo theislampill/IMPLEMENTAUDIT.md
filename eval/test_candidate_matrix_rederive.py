@@ -731,6 +731,7 @@ def assert_production_campaign_and_mutation_matrix(module):
         assert result["luna_stage_accepted"] is True
         assert result["accepted"] is False
         assert result["cell_count"] == 14
+        assert result["execution_mode"] == "production"
         assert [row["fixture"] for row in result["cells"]] == list(
             module.FIXTURE_ORDER)
         expected_fields = {
@@ -739,9 +740,12 @@ def assert_production_campaign_and_mutation_matrix(module):
             "bundle_manifest_sha256", "raw_stdout_sha256",
             "native_session_sha256", "official_overall_status",
             "independent_overall_status", "model_resolved",
-            "official_verdict_sha256",
+            "official_verdict_sha256", "execution_mode",
         }
         assert all(set(row) == expected_fields for row in result["cells"])
+        assert all(
+            row["execution_mode"] == "production"
+            for row in result["cells"])
         for fixture_id, optional_name in (
                 ("B0", "agents_update_decision"),
                 ("E5", "current_answer_correctness")):
@@ -778,6 +782,32 @@ def assert_production_campaign_and_mutation_matrix(module):
         assert not false_greens, (
             "production-shaped retained mutation produced Luna-green: " +
             ", ".join(false_greens))
+
+        mixed = pathlib.Path(tmp) / "mixed-execution-mode"
+        shutil.copytree(base, mixed)
+        rebase_campaign_paths(mixed)
+        attempt = mixed / "attempt-007-L-E4"
+        status_path = attempt / "attempt-status.json"
+        status = json.loads(status_path.read_text(encoding="utf-8"))
+        status["execution_mode"] = "test"
+        write(status_path, status)
+        rebind_attempt_seal(attempt)
+        mixed_result = module.rederive_campaign(
+            mixed / "campaign-freeze.json", mixed)
+        assert mixed_result["luna_stage_status"] == "INVALID", mixed_result
+        assert mixed_result["disposition"] == "ANDON_STOPPED"
+        assert mixed_result["luna_stage_accepted"] is False
+
+        test_only = pathlib.Path(tmp) / "test-only"
+        build_campaign(test_only, execution_mode="test")
+        test_result = module.rederive_campaign(
+            test_only / "campaign-freeze.json", test_only)
+        assert test_result["execution_mode"] == "test"
+        assert test_result["luna_stage_status"] == \
+            "TEST_ONLY_NON_QUALIFYING", test_result
+        assert test_result["disposition"] == "TEST_ONLY_NON_QUALIFYING"
+        assert test_result["luna_stage_accepted"] is False
+        assert test_result["accepted"] is False
 
 
 def assert_host_check_producer_contract(module):
@@ -908,6 +938,7 @@ def assert_independent_pass_property_boundary(module):
                 properties[name] = {"state": "FAIL", "pass": False}
         rows.append({
             "index": index, "config": "L", "fixture": fixture_id,
+            "execution_mode": "production",
             "product_status": "PASS", "host_status": "PASS",
             "overall_status": "PASS", "properties": properties,
             "reason": None, "bundle_manifest_sha256": "1" * 64,
@@ -1099,6 +1130,7 @@ def main():
         "campaign": "candidate-matrix-sol-luna-r1",
         "freeze_sha256": "a" * 64,
         "contract_sha256": module.CONTRACT_SHA256,
+        "execution_mode": None,
         "luna_stage_status": "INVALID", "disposition": "ANDON_STOPPED",
         "luna_stage_accepted": False, "accepted": False,
         "cell_count": 0, "cells": [], "claims": dict(module.FINAL_CLAIMS),

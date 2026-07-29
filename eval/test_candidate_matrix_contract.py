@@ -43,6 +43,7 @@ def valid_official_luna_result(packet, packet_sha256):
                 properties[name] = {"state": "FAIL", "pass": False}
         cells.append({
             "index": index, "config": "L", "fixture": fixture_id,
+            "execution_mode": "production",
             "product_status": "PASS", "host_status": "PASS",
             "overall_status": "PASS", "properties": properties,
             "reason": None, "bundle_manifest_sha256": "1" * 64,
@@ -56,6 +57,7 @@ def valid_official_luna_result(packet, packet_sha256):
     return {
         "schema": "implementaudit-candidate-matrix-luna-result-v1",
         "campaign": "candidate-matrix-sol-luna-r1",
+        "execution_mode": "production",
         "freeze_sha256": packet_sha256,
         "contract_sha256": packet["artifact_contract"]["sha256"],
         "disposition": "INCOMPLETE_PENDING_OPUS",
@@ -191,6 +193,14 @@ def main():
         "official_luna_result", value, packet_path=packet_path,
         packet_root=packet_root)
     validate_result(accepted_result)
+    test_only_result = copy.deepcopy(accepted_result)
+    test_only_result["execution_mode"] = "test"
+    for row in test_only_result["cells"]:
+        row["execution_mode"] = "test"
+    reject(lambda: validate_result(test_only_result))
+    mixed_mode_result = copy.deepcopy(accepted_result)
+    mixed_mode_result["cells"][7]["execution_mode"] = "test"
+    reject(lambda: validate_result(mixed_mode_result))
     reject(lambda: module.validate_artifact(
         "official_luna_result", accepted_result,
         packet_path=packet_root / "not-the-freeze.json",

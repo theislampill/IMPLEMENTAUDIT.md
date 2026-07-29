@@ -13,7 +13,7 @@ import campaign_lifecycle as lifecycle
 
 HERE = pathlib.Path(__file__).resolve().parent
 DECLARATION_PATH = HERE / "candidate_matrix_contract.json"
-DECLARATION_SHA256 = "522f54fac32568369863485c1f03714eb0d7d77e796c01d3c0a8e72707decf10"
+DECLARATION_SHA256 = "6617ffd429dd613d244b9b8538c36626729452efa867b6897be88be912a18199"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 FREEZE_FIELDS = {
@@ -33,7 +33,8 @@ PLAN = tuple(
     for index, fixture in enumerate(FIXTURE_ORDER)
 )
 OFFICIAL_CELL_FIELDS = {
-    "index", "config", "fixture", "product_status", "host_status",
+    "index", "config", "fixture", "execution_mode",
+    "product_status", "host_status",
     "overall_status", "properties", "reason", "bundle_manifest_sha256",
     "raw_stdout_sha256", "native_session_sha256",
     "official_overall_status", "independent_overall_status",
@@ -309,13 +310,16 @@ def validate_declaration(value):
         raise ValueError("artifact contract encoding drift")
     execution = _exact(value["execution"], {
         "configuration", "fixture_order", "mission_count", "silent_retry",
-        "preserve_every_attempt", "success_disposition",
+        "preserve_every_attempt", "qualifying_execution_mode",
+        "test_mode_disposition", "success_disposition",
         "luna_stage_accepted", "final_acceptance",
     }, "artifact contract execution")
     if not exact_json_equal(execution, {
             "configuration": "L", "fixture_order": list(FIXTURE_ORDER),
             "mission_count": 14, "silent_retry": "FORBIDDEN",
             "preserve_every_attempt": True,
+            "qualifying_execution_mode": "production",
+            "test_mode_disposition": "TEST_ONLY_NON_QUALIFYING",
             "success_disposition": "INCOMPLETE_PENDING_OPUS",
             "luna_stage_accepted": True, "final_acceptance": False}):
         raise ValueError("artifact contract execution drift")
@@ -580,7 +584,8 @@ def validate_artifact(name, value, *, packet_path=None, packet_root=None):
     if name == "official_luna_result":
         configuration, fixture_identities = _official_result_packet_context(
             value, packet_path, packet_root)
-        if (value["disposition"] != "INCOMPLETE_PENDING_OPUS" or
+        if (value["execution_mode"] != "production" or
+                value["disposition"] != "INCOMPLETE_PENDING_OPUS" or
                 value["luna_stage_accepted"] is not True or
                 value["accepted"] is not False or
                 type(value["cell_count"]) is not int or
@@ -603,7 +608,8 @@ def validate_artifact(name, value, *, packet_path=None, packet_root=None):
                 raise ValueError(
                     f"official Luna result cell {index} index invalid")
             if (cell["config"] != expected["config"] or
-                    cell["fixture"] != expected["fixture"]):
+                    cell["fixture"] != expected["fixture"] or
+                    cell["execution_mode"] != "production"):
                 raise ValueError(
                     f"official Luna result cell {index} identity invalid")
             for key in ("overall_status", "official_overall_status",

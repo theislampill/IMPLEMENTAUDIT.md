@@ -236,6 +236,14 @@ def _read_directory_leaf(path, owner, *, expected_stat):
                     break
                 byte_length += len(chunk)
                 digest.update(chunk)
+            observed = os.fstat(stream.fileno())
+            if (not stat.S_ISREG(observed.st_mode) or
+                    observed.st_nlink != 1 or
+                    (observed.st_dev, observed.st_ino, observed.st_size) !=
+                    (opened.st_dev, opened.st_ino, opened.st_size) or
+                    byte_length != observed.st_size):
+                raise ValueError(
+                    f"{owner} identity changed during custody read")
         return byte_length, digest.hexdigest()
     except ValueError:
         raise

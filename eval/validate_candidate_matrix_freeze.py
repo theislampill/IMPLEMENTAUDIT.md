@@ -16,6 +16,7 @@ import candidate_matrix_contract as contract
 FIXTURE_ORDER = contract.FIXTURE_ORDER
 ACCEPTANCE_RULE = (
     "all fourteen canonical Luna candidate fixture cells terminal and PASS; "
+    "every retained attempt and result execution mode is exactly production; "
     "independent rederivation agrees; zero INVALID, ERROR, or substitution; "
     "successful Luna stage is INCOMPLETE_PENDING_OPUS with "
     "luna_stage_accepted true and accepted false"
@@ -41,38 +42,20 @@ EXPECTED_MUST_NOT_IMPORT = [
 ]
 
 
-def _sha256(path):
-    digest = hashlib.sha256()
-    with open(path, "rb") as stream:
-        while True:
-            chunk = stream.read(1024 * 1024)
-            if not chunk:
-                break
-            digest.update(chunk)
-    return digest.hexdigest()
+def _sha256(path, *, root=None, owner=None):
+    raw = contract.read_custodied_bytes(
+        path, owner or f"retained file {pathlib.Path(path).name}",
+        root=root)
+    return hashlib.sha256(raw).hexdigest()
 
 
-def _tree_manifest(path):
-    path = pathlib.Path(path)
-    rows = []
-    for child in sorted(path.rglob("*"), key=lambda item: item.as_posix()):
-        if child.is_symlink():
-            raise ValueError("fixture tree link alias forbidden")
-        relative = child.relative_to(path).as_posix()
-        if child.is_dir():
-            rows.append({"path": relative, "kind": "directory"})
-        elif child.is_file():
-            rows.append({
-                "path": relative, "kind": "file",
-                "byte_length": child.stat().st_size,
-                "sha256": _sha256(child),
-            })
-        else:
-            raise ValueError("fixture tree special entry forbidden")
-    return hashlib.sha256(contract.canonical_json_bytes({
-        "schema": "implementaudit-candidate-matrix-fixture-tree-v1",
-        "entries": rows,
-    })).hexdigest()
+def _tree_manifest(path, *, root=None, owner="fixture tree"):
+    path = pathlib.Path(path).absolute()
+    custody_root = pathlib.Path(root).absolute() if root is not None else \
+        path.parent
+    manifest = contract.read_custodied_directory_manifest(
+        path, owner, root=custody_root)
+    return hashlib.sha256(manifest).hexdigest()
 
 
 def _git(repo_root, *args):
@@ -110,9 +93,10 @@ def validate_structure(packet):
         raise ValueError("evidence profile drift")
     if not contract.exact_json_equal(packet["result_composition"], {
             "product_property_states": ["PASS", "FAIL", "INCOMPLETE"],
-            "host_states": ["PASS", "INVALID", "ERROR", "SUBSTITUTION"],
-            "overall_states": ["PASS", "FAIL", "INVALID", "ERROR"],
-            "luna_stage_dispositions": ["INCOMPLETE_PENDING_OPUS"]}):
+        "host_states": ["PASS", "INVALID", "ERROR", "SUBSTITUTION"],
+        "overall_states": ["PASS", "FAIL", "INVALID", "ERROR"],
+        "luna_stage_dispositions": [
+            "INCOMPLETE_PENDING_OPUS", "TEST_ONLY_NON_QUALIFYING"]}):
         raise ValueError("result composition drift")
     if packet["acceptance_rule"] != ACCEPTANCE_RULE:
         raise ValueError("acceptance rule drift")
@@ -142,17 +126,26 @@ def validate_live(packet, repo_root):
         raise ValueError("artifact contract drift")
     for fixture in packet["fixtures"]:
         path = contract.resolve_contained(repo_root, fixture["path"])
-        if _sha256(path) != fixture["sha256"]:
+        if _sha256(
+                path, root=repo_root,
+                owner=f"fixture {fixture['id']} bytes") != fixture["sha256"]:
             raise ValueError(f"fixture {fixture['id']} byte drift")
-        if _tree_manifest(path.parent) != fixture["complete_manifest_sha256"]:
+        if _tree_manifest(
+                path.parent, root=repo_root,
+                owner=f"fixture {fixture['id']} tree") != \
+                fixture["complete_manifest_sha256"]:
             raise ValueError(f"fixture {fixture['id']} tree drift")
     for name, identity in packet["artifacts"].items():
         path = contract.resolve_contained(repo_root, identity["path"])
-        if _sha256(path) != identity["sha256"]:
+        if _sha256(
+                path, root=repo_root,
+                owner=f"artifact {name}") != identity["sha256"]:
             raise ValueError(f"artifact {name} byte drift")
     rederiver = packet["independent_rederiver"]["implementation_identity"]
     rederiver_path = contract.resolve_contained(repo_root, rederiver["path"])
-    if _sha256(rederiver_path) != rederiver["sha256"]:
+    if _sha256(
+            rederiver_path, root=repo_root,
+            owner="independent rederiver") != rederiver["sha256"]:
         raise ValueError("independent rederiver byte drift")
     forbidden = _imports(rederiver_path) & FORBIDDEN_IMPORTS
     if forbidden:

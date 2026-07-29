@@ -83,7 +83,8 @@ COMPLETED_ATTEMPT_SEAL_FIELDS = {
 }
 OFFICIAL_LUNA_RESULT_FIELDS = {
     "schema", "campaign", "freeze_sha256", "contract_sha256",
-    "disposition", "luna_stage_accepted", "accepted", "cell_count",
+    "execution_mode", "disposition", "luna_stage_accepted",
+    "accepted", "cell_count",
     "cells", "luna_identity", "independent_rederivation", "claims",
 }
 FINAL_CLAIMS = {
@@ -92,7 +93,8 @@ FINAL_CLAIMS = {
     "publication_authorized": False,
 }
 INDEPENDENT_PASS_ROW_FIELDS = {
-    "index", "config", "fixture", "product_status", "host_status",
+    "index", "config", "fixture", "execution_mode",
+    "product_status", "host_status",
     "overall_status", "properties", "reason", "bundle_manifest_sha256",
     "raw_stdout_sha256", "native_session_sha256",
     "official_overall_status", "independent_overall_status",
@@ -102,6 +104,7 @@ MAX_JSON_DEPTH = 512
 LUNA_MODEL = "gpt-5.6-luna"
 ACCEPTANCE_RULE = (
     "all fourteen canonical Luna candidate fixture cells terminal and PASS; "
+    "every retained attempt and result execution mode is exactly production; "
     "independent rederivation agrees; zero INVALID, ERROR, or substitution; "
     "successful Luna stage is INCOMPLETE_PENDING_OPUS with "
     "luna_stage_accepted true and accepted false"
@@ -192,7 +195,7 @@ def _exact_json_equal(left, right):
     return True
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
-CONTRACT_SHA256 = "522f54fac32568369863485c1f03714eb0d7d77e796c01d3c0a8e72707decf10"
+CONTRACT_SHA256 = "6617ffd429dd613d244b9b8538c36626729452efa867b6897be88be912a18199"
 OFFICIAL_STATES = frozenset({"PASS", "FAIL", "INVALID", "ERROR"})
 CONTINUE_STATES = frozenset({"PASS"})
 STOP_STATES = frozenset({"FAIL", "INVALID", "ERROR"})
@@ -584,13 +587,16 @@ def _validate_contract_declaration(declaration):
         "writes": "CREATE_ONCE"}), "artifact contract encoding drift")
     execution = _exact_fields(declaration["execution"], {
         "configuration", "fixture_order", "mission_count", "silent_retry",
-        "preserve_every_attempt", "success_disposition",
+        "preserve_every_attempt", "qualifying_execution_mode",
+        "test_mode_disposition", "success_disposition",
         "luna_stage_accepted", "final_acceptance",
     }, "artifact contract execution")
     _expect(_exact_json_equal(execution, {
         "configuration": "L", "fixture_order": list(FIXTURE_ORDER),
         "mission_count": 14, "silent_retry": "FORBIDDEN",
         "preserve_every_attempt": True,
+        "qualifying_execution_mode": "production",
+        "test_mode_disposition": "TEST_ONLY_NON_QUALIFYING",
         "success_disposition": "INCOMPLETE_PENDING_OPUS",
         "luna_stage_accepted": True, "final_acceptance": False}),
         "artifact contract execution drift")
@@ -958,7 +964,8 @@ def _validate_freeze_contract(packet):
         "product_property_states": ["PASS", "FAIL", "INCOMPLETE"],
         "host_states": ["PASS", "INVALID", "ERROR", "SUBSTITUTION"],
         "overall_states": ["PASS", "FAIL", "INVALID", "ERROR"],
-        "luna_stage_dispositions": ["INCOMPLETE_PENDING_OPUS"],
+        "luna_stage_dispositions": [
+            "INCOMPLETE_PENDING_OPUS", "TEST_ONLY_NON_QUALIFYING"],
     }), "result composition drift")
     _expect(_exact_json_equal(packet["attempt_policy"], {
         "silent_retry": "FORBIDDEN", "preserve_every_attempt": True,
@@ -2708,17 +2715,19 @@ def _derive_properties(fixture, artifacts, after, changed, preimages, raw_action
     return results
 
 
-def _invalid_row(mission, host_status, reason):
+def _invalid_row(mission, host_status, reason, execution_mode=None):
     return {"index": mission["index"], "config": mission["config"],
             "fixture": mission["fixture"],
+            "execution_mode": execution_mode,
             "product_status": "INCOMPLETE", "host_status": host_status,
             "overall_status": "ERROR" if host_status == "ERROR" else "INVALID",
             "properties": {}, "reason": str(reason)}
 
 
-def _stopped_row(mission, status, reason):
+def _stopped_row(mission, status, reason, execution_mode):
     return {"index": mission["index"], "config": mission["config"],
             "fixture": mission["fixture"],
+            "execution_mode": execution_mode,
             "product_status": "INCOMPLETE", "host_status": status,
             "overall_status": status, "properties": {},
             "reason": str(reason), "official_overall_status": None,
@@ -2909,10 +2918,12 @@ def _load_official_verdict(attempt, terminal, expected_model, fixture,
 
 
 def _official_disagreement_row(mission, properties, independent_properties,
-                               official_status, independent_status, reason):
+                               official_status, independent_status, reason,
+                               execution_mode):
     return {
         "index": mission["index"], "config": mission["config"],
         "fixture": mission["fixture"],
+        "execution_mode": execution_mode,
         "product_status": "INCOMPLETE", "host_status": "INVALID",
         "overall_status": "INVALID", "properties": independent_properties,
         "official_properties": properties, "reason": reason,
@@ -2925,6 +2936,7 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha,
                       property_declarations):
     name = _attempt_name(mission)
     attempt = campaign_root / name
+    execution_mode = None
     try:
         status, status_raw = _read_json(
             attempt / "attempt-status.json", "attempt status")
@@ -2935,6 +2947,10 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha,
             packet["artifact_contract"]["sha256"], config)
         _, attestation_raw = _load_host_attestation(attempt, status, config)
         terminal = _validate_attempt_terminal(terminal, mission)
+        execution_mode = status["execution_mode"]
+        _expect(
+            terminal["execution_mode"] == execution_mode,
+            "attempt status and terminal execution modes disagree")
         expected_model = config["model_resolved_required"]
         if (terminal["overall_status"] in STOP_STATES and
                 terminal["official_verdict_sha256"] is None):
@@ -2946,9 +2962,12 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha,
                      terminal["resolved_model"] in (None, expected_model)),
                     "stopped attempt identity invalid")
             return _stopped_row(
-                mission, terminal["overall_status"], terminal["stop_reason"])
+                mission, terminal["overall_status"], terminal["stop_reason"],
+                execution_mode)
         if terminal.get("resolved_model") != expected_model:
-            return _invalid_row(mission, "SUBSTITUTION", "model substitution")
+            return _invalid_row(
+                mission, "SUBSTITUTION", "model substitution",
+                execution_mode=execution_mode)
         host_root = (attempt / "host-custody" / name).absolute()
         _expect(terminal.get("host_run_root") == str(host_root),
                 "attempt host run root identity mismatch")
@@ -3009,10 +3028,12 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha,
                 mission, official_properties, properties, official_overall,
                 independent_overall,
                 "official and independently rederived property, host, or overall "
-                "states disagree or official property evidence is incomplete")
+                "states disagree or official property evidence is incomplete",
+                execution_mode)
         overall = independent_overall
         return {"index": mission["index"], "config": mission["config"],
                 "fixture": mission["fixture"],
+                "execution_mode": execution_mode,
                 "product_status": product_status, "host_status": "PASS",
                 "overall_status": overall, "properties": properties,
                 "reason": None,
@@ -3026,7 +3047,8 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha,
                 "official_verdict_sha256":
                     terminal["official_verdict_sha256"]}
     except (EvidenceInvalid, OSError, KeyError, TypeError, ValueError) as exc:
-        return _invalid_row(mission, "INVALID", exc)
+        return _invalid_row(
+            mission, "INVALID", exc, execution_mode=execution_mode)
 
 
 def _validate_stage_pass_rows(rows, property_declarations, expected_model):
@@ -3043,6 +3065,7 @@ def _validate_stage_pass_rows(rows, property_declarations, expected_model):
         _expect(type(row["index"]) is int and row["index"] == index and
                 row["config"] == expected["config"] and
                 row["fixture"] == expected["fixture"] and
+                row["execution_mode"] == "production" and
                 row["product_status"] == "PASS" and
                 row["host_status"] == "PASS" and
                 row["overall_status"] == "PASS" and
@@ -3135,6 +3158,10 @@ def rederive_campaign(packet_path, campaign_root):
             packet, campaign_root, mission, freeze_sha,
             property_declarations)
         for mission in packet["cells"][:completed_count]]
+    observed_modes = [row.get("execution_mode") for row in rows]
+    mode_set = set(observed_modes)
+    exact_mode = next(iter(mode_set)) if len(mode_set) == 1 and \
+        mode_set <= {"production", "test"} else None
     first_stop = next((index for index, row in enumerate(rows)
                        if row["overall_status"] in STOP_STATES), None)
     attempts_after_stop = (first_stop is not None and
@@ -3151,13 +3178,20 @@ def rederive_campaign(packet_path, campaign_root):
         status = "INCOMPLETE"
     else:
         status = "PASS"
+    if status == "PASS" and exact_mode == "test":
+        status = "TEST_ONLY_NON_QUALIFYING"
+    elif status == "PASS" and exact_mode != "production":
+        status = "INVALID"
     stage_accepted = status == "PASS" and \
-        completed_count == len(packet["cells"])
+        completed_count == len(packet["cells"]) and \
+        exact_mode == "production"
     if stage_accepted:
         _validate_stage_pass_rows(
             rows, property_declarations,
             packet["configuration"]["model_resolved_required"])
     disposition = ("INCOMPLETE_PENDING_OPUS" if stage_accepted else
+                   "TEST_ONLY_NON_QUALIFYING"
+                   if status == "TEST_ONLY_NON_QUALIFYING" else
                    "INCOMPLETE" if status == "INCOMPLETE" else
                    "ANDON_STOPPED")
     result = {
@@ -3166,12 +3200,15 @@ def rederive_campaign(packet_path, campaign_root):
         "campaign": "candidate-matrix-sol-luna-r1",
         "freeze_sha256": freeze_sha,
         "contract_sha256": packet["artifact_contract"]["sha256"],
+        "execution_mode": exact_mode,
         "luna_stage_status": status, "disposition": disposition,
         "luna_stage_accepted": stage_accepted, "accepted": False,
         "cell_count": len(rows), "cells": rows,
         "claims": dict(FINAL_CLAIMS)}
     if attempts_after_stop:
         result["reason"] = "campaign contains attempt after terminal stop"
+    elif status == "INVALID" and exact_mode is None:
+        result["reason"] = "campaign execution modes are mixed or invalid"
     return result
 
 
@@ -3251,6 +3288,7 @@ def main(argv=None):
             "campaign": "candidate-matrix-sol-luna-r1",
             "freeze_sha256": None,
             "contract_sha256": CONTRACT_SHA256,
+            "execution_mode": None,
             "luna_stage_status": "INVALID",
             "disposition": "ANDON_STOPPED",
             "luna_stage_accepted": False, "accepted": False,

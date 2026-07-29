@@ -6,6 +6,7 @@ import copy
 import hashlib
 import importlib.util
 import json
+import os
 import pathlib
 import subprocess
 import tempfile
@@ -98,7 +99,8 @@ def valid_packet():
             "product_property_states": ["PASS", "FAIL", "INCOMPLETE"],
             "host_states": ["PASS", "INVALID", "ERROR", "SUBSTITUTION"],
             "overall_states": ["PASS", "FAIL", "INVALID", "ERROR"],
-            "luna_stage_dispositions": ["INCOMPLETE_PENDING_OPUS"],
+            "luna_stage_dispositions": [
+                "INCOMPLETE_PENDING_OPUS", "TEST_ONLY_NON_QUALIFYING"],
         },
         "attempt_policy": {
             "silent_retry": "FORBIDDEN", "preserve_every_attempt": True,
@@ -106,7 +108,8 @@ def valid_packet():
         },
         "acceptance_rule": (
             "all fourteen canonical Luna candidate fixture cells terminal and "
-            "PASS; independent rederivation agrees; zero INVALID, ERROR, or "
+            "PASS; every retained attempt and result execution mode is exactly "
+            "production; independent rederivation agrees; zero INVALID, ERROR, or "
             "substitution; successful Luna stage is INCOMPLETE_PENDING_OPUS "
             "with luna_stage_accepted true and accepted false"),
         "invalid_error_rule": (
@@ -184,6 +187,73 @@ def main():
     changed = copy.deepcopy(packet)
     changed["independent_rederiver"]["must_not_import"] = []
     reject(module, changed)
+
+    with tempfile.TemporaryDirectory(
+            prefix="candidate-matrix-fixture-custody-") as tmp:
+        root = pathlib.Path(tmp)
+        tree = root / "fixture"
+        tree.mkdir()
+        external = root / "outside.bin"
+        external.write_bytes(b"support\n")
+        alias = tree / "support-hardlink.bin"
+        os.link(external, alias)
+        try:
+            module._tree_manifest(tree)
+        except ValueError as exc:
+            assert "hardlink" in str(exc).lower(), str(exc)
+        else:
+            raise AssertionError("fixture tree hardlink alias accepted")
+
+    with tempfile.TemporaryDirectory(
+            prefix="candidate-matrix-fixture-junction-") as tmp:
+        root = pathlib.Path(tmp)
+        tree = root / "fixture"
+        outside = root / "outside"
+        tree.mkdir()
+        outside.mkdir()
+        junction = tree / "support-junction"
+        if os.name == "nt":
+            created = subprocess.run(
+                ["cmd.exe", "/c", "mklink", "/J",
+                 str(junction), str(outside)],
+                capture_output=True, text=True, timeout=30)
+            supported = created.returncode == 0
+        else:
+            try:
+                os.symlink(outside, junction, target_is_directory=True)
+            except OSError:
+                supported = False
+            else:
+                supported = True
+        if supported:
+            try:
+                try:
+                    module._tree_manifest(tree)
+                except ValueError as exc:
+                    assert (
+                        "link" in str(exc).lower() or
+                        "reparse" in str(exc).lower()), str(exc)
+                else:
+                    raise AssertionError(
+                        "fixture tree junction/reparse alias accepted")
+            finally:
+                if junction.exists():
+                    os.rmdir(junction)
+            print("CANDIDATE_MATRIX_FIXTURE_JUNCTION=PASS")
+        else:
+            print("CANDIDATE_MATRIX_FIXTURE_JUNCTION=SKIP:unsupported")
+
+    with tempfile.TemporaryDirectory(
+            prefix="candidate-matrix-fixture-mutation-") as tmp:
+        tree = pathlib.Path(tmp) / "fixture"
+        tree.mkdir()
+        support = tree / "support.txt"
+        support.write_bytes(b"before\n")
+        expected = module._tree_manifest(tree)
+        support.write_bytes(b"after\n")
+        observed = module._tree_manifest(tree)
+        assert observed != expected, (
+            "fixture tree mutation retained the validated manifest")
 
     with tempfile.TemporaryDirectory() as tmp:
         path = pathlib.Path(tmp) / "duplicate.json"

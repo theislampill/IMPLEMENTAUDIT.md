@@ -7,6 +7,7 @@ import importlib.util
 import json
 import os
 import pathlib
+import shutil
 import tempfile
 
 from test_candidate_matrix_freeze import valid_packet
@@ -123,6 +124,9 @@ def executor(context):
 def make_driver(module, root, mission_executor=executor):
     root = pathlib.Path(root)
     packet = valid_packet()
+    rederiver_path = HERE / "candidate_matrix_rederive.py"
+    packet["independent_rederiver"]["implementation_identity"]["sha256"] = (
+        hashlib.sha256(rederiver_path.read_bytes()).hexdigest())
     for row in packet["fixtures"]:
         fixture_path = HERE.parent / row["path"]
         row["sha256"] = hashlib.sha256(fixture_path.read_bytes()).hexdigest()
@@ -158,6 +162,16 @@ def complete_summaries(driver):
         packet, freeze_sha, rows)
 
 
+def assert_independent_andon_stopped(driver):
+    independent = load_rederive_module().rederive_campaign(
+        driver.campaign_root / "campaign-freeze.json",
+        driver.campaign_root)
+    assert independent["luna_stage_status"] in ("INVALID", "ERROR"), independent
+    assert independent["disposition"] == "ANDON_STOPPED", independent
+    assert independent["luna_stage_accepted"] is False, independent
+    assert independent["accepted"] is False, independent
+
+
 def write_independent_result(driver, summaries, *, mutate=None):
     packet, _, freeze_sha = driver._load_packet()
     rows = json.loads(json.dumps(summaries))
@@ -168,6 +182,7 @@ def write_independent_result(driver, summaries, *, mutate=None):
             "implementaudit-candidate-matrix-luna-independent-rederivation-v1",
         "campaign": packet["campaign"], "freeze_sha256": freeze_sha,
         "contract_sha256": packet["artifact_contract"]["sha256"],
+        "execution_mode": summaries[0]["execution_mode"],
         "luna_stage_status": "PASS",
         "disposition": "INCOMPLETE_PENDING_OPUS",
         "luna_stage_accepted": True, "accepted": False,
@@ -196,7 +211,11 @@ def assert_real_rederive_finalize(module):
         rederiver = load_rederive_module()
         independent = rederiver.rederive_campaign(
             campaign_root / "campaign-freeze.json", campaign_root)
-        assert independent["luna_stage_status"] == "PASS", independent
+        assert independent["luna_stage_status"] == \
+            "TEST_ONLY_NON_QUALIFYING", independent
+        assert independent["disposition"] == "TEST_ONLY_NON_QUALIFYING"
+        assert independent["luna_stage_accepted"] is False
+        assert independent["accepted"] is False
         output = (
             campaign_root /
             "candidate-matrix-luna-independent-rederivation.json")
@@ -212,6 +231,37 @@ def assert_real_rederive_finalize(module):
             live_validator=lambda packet, repo: packet,
             identity_validator=lambda packet, **paths: None,
         )
+        expect_error("production", driver.finalize_luna_stage)
+        assert not (
+            campaign_root / "candidate-matrix-luna-result.json").exists()
+        assert not (campaign_root / "luna-stage-terminal.json").exists()
+
+
+def assert_production_shaped_rederive_finalize(module):
+    with tempfile.TemporaryDirectory(
+            prefix="candidate-matrix-production-finalize-") as tmp:
+        campaign_root = pathlib.Path(tmp) / "campaign"
+        build_campaign(campaign_root, execution_mode="production")
+        rederiver = load_rederive_module()
+        independent = rederiver.rederive_campaign(
+            campaign_root / "campaign-freeze.json", campaign_root)
+        assert independent["luna_stage_status"] == "PASS", independent
+        assert independent["disposition"] == "INCOMPLETE_PENDING_OPUS"
+        assert independent["luna_stage_accepted"] is True
+        output = (
+            campaign_root /
+            "candidate-matrix-luna-independent-rederivation.json")
+        rederiver.write_rederivation(
+            output, independent, root=campaign_root)
+        driver = module.CampaignDriver(
+            packet_path=campaign_root / "campaign-freeze.json",
+            repo_root=HERE.parent, campaign_root=campaign_root,
+            candidate_checkout=pathlib.Path(tmp) / "candidate",
+            runtime_root=pathlib.Path(tmp) / "runtime",
+            execution_mode="production",
+        )
+        driver.live_validator = lambda packet, repo: packet
+        driver.identity_validator = lambda packet, **paths: None
         official = driver.finalize_luna_stage()
         assert official["cells"] == independent["cells"]
         assert official["disposition"] == "INCOMPLETE_PENDING_OPUS"
@@ -219,7 +269,115 @@ def assert_real_rederive_finalize(module):
         assert official["accepted"] is False
         assert official["cell_count"] == 14
         assert driver.validate_luna_stage() == official
-        expect_error("create-once", driver.finalize_luna_stage)
+
+
+def assert_post_executor_custody_failure_terminal(module):
+    with tempfile.TemporaryDirectory(
+            prefix="candidate-matrix-terminal-transaction-") as tmp:
+        calls = []
+
+        def loses_custody(context):
+            calls.append(context.mission["index"])
+            outcome = executor(context)
+            shutil.rmtree(context.attempt_root / "host-custody")
+            return outcome
+
+        driver = make_driver(module, tmp, loses_custody)
+        terminal = driver.run_next()
+        assert terminal["overall_status"] in ("INVALID", "ERROR")
+        assert terminal["completed_attempt_seal"] is None
+        assert terminal["stop_reason"]
+        attempt = next(driver.campaign_root.glob("attempt-*"))
+        terminal_path = attempt / "attempt-terminal.json"
+        assert terminal_path.is_file()
+        assert len(list(attempt.glob("attempt-terminal.json"))) == 1
+        retained = json.loads(terminal_path.read_text(encoding="utf-8"))
+        assert retained == terminal
+        assert_independent_andon_stopped(driver)
+        expect_error("stopped", driver.run_next)
+        assert calls == [0]
+        try:
+            driver.finalize_luna_stage()
+        except (OSError, TypeError, ValueError):
+            pass
+        else:
+            raise AssertionError(
+                "post-executor custody failure finalized a Luna stage")
+        assert not (
+            driver.campaign_root /
+            "candidate-matrix-luna-result.json").exists()
+        assert not (
+            driver.campaign_root / "luna-stage-terminal.json").exists()
+
+
+def assert_post_executor_terminal_step_failures(module):
+    for label in ("official-verdict-retained-then-failed",
+                  "completed-seal-failed",
+                  "terminal-contract-failed"):
+        with tempfile.TemporaryDirectory(
+                prefix=f"candidate-matrix-{label}-") as tmp:
+            calls = []
+
+            def counted_executor(context):
+                calls.append(context.mission["index"])
+                return executor(context)
+
+            driver = make_driver(module, tmp, counted_executor)
+            restore = None
+            if label == "official-verdict-retained-then-failed":
+                original = module._write_official_verdict
+
+                def retained_then_failed(*args, **kwargs):
+                    original(*args, **kwargs)
+                    raise ValueError("injected official verdict failure")
+
+                module._write_official_verdict = retained_then_failed
+                restore = lambda: setattr(
+                    module, "_write_official_verdict", original)
+            elif label == "completed-seal-failed":
+                original = module._completed_attempt_seal
+
+                def seal_failed(*_args, **_kwargs):
+                    raise ValueError("injected completed seal failure")
+
+                module._completed_attempt_seal = seal_failed
+                restore = lambda: setattr(
+                    module, "_completed_attempt_seal", original)
+            else:
+                original = module.contract.validate_artifact
+                injected = {"done": False}
+
+                def terminal_contract_failed(name, value, **kwargs):
+                    if (name == "attempt_terminal" and
+                            value.get("overall_status") == "PASS" and
+                            not injected["done"]):
+                        injected["done"] = True
+                        raise ValueError("injected terminal contract failure")
+                    return original(name, value, **kwargs)
+
+                module.contract.validate_artifact = terminal_contract_failed
+                restore = lambda: setattr(
+                    module.contract, "validate_artifact", original)
+            try:
+                terminal = driver.run_next()
+            finally:
+                restore()
+            assert terminal["overall_status"] in ("INVALID", "ERROR")
+            assert terminal["completed_attempt_seal"] is None
+            assert terminal["official_overall_status"] is None
+            assert terminal["official_verdict_sha256"] is None
+            assert terminal["stop_reason"]
+            attempt = next(driver.campaign_root.glob("attempt-*"))
+            assert len(list(attempt.glob("attempt-terminal.json"))) == 1
+            retained = json.loads(
+                (attempt / "attempt-terminal.json").read_text(
+                    encoding="utf-8"))
+            assert retained == terminal
+            if label == "official-verdict-retained-then-failed":
+                assert (attempt / "official-verdict.json").is_file()
+            assert_independent_andon_stopped(driver)
+            expect_error("stopped", driver.run_next)
+            assert calls == [0]
 
 
 def main():
@@ -278,13 +436,25 @@ def main():
             expect_error("seal", driver.run_next)
 
     with tempfile.TemporaryDirectory() as tmp:
-        driver = make_driver(module, tmp)
-        for _ in range(14):
-            driver.run_next()
-        _packet, _freeze_sha, summaries = complete_summaries(driver)
-        write_independent_result(
-            driver, summaries,
-            mutate=lambda rows: rows[7].__setitem__("fixture", "B3"))
+        campaign_root = pathlib.Path(tmp) / "campaign"
+        build_campaign(campaign_root, execution_mode="production")
+        rederiver = load_rederive_module()
+        independent = rederiver.rederive_campaign(
+            campaign_root / "campaign-freeze.json", campaign_root)
+        independent["cells"][7]["fixture"] = "B3"
+        rederiver.write_rederivation(
+            campaign_root /
+            "candidate-matrix-luna-independent-rederivation.json",
+            independent, root=campaign_root)
+        driver = module.CampaignDriver(
+            packet_path=campaign_root / "campaign-freeze.json",
+            repo_root=HERE.parent, campaign_root=campaign_root,
+            candidate_checkout=pathlib.Path(tmp) / "candidate",
+            runtime_root=pathlib.Path(tmp) / "runtime",
+            execution_mode="production",
+        )
+        driver.live_validator = lambda packet, repo: packet
+        driver.identity_validator = lambda packet, **paths: None
         expect_error("disagree", driver.finalize_luna_stage)
 
     with tempfile.TemporaryDirectory() as tmp:
@@ -302,6 +472,9 @@ def main():
             expect_error("unexpected", driver.run_next)
             alias.unlink()
     assert_real_rederive_finalize(module)
+    assert_production_shaped_rederive_finalize(module)
+    assert_post_executor_custody_failure_terminal(module)
+    assert_post_executor_terminal_step_failures(module)
     print("candidate matrix campaign: PASS")
 
 
