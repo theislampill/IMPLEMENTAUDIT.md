@@ -291,17 +291,59 @@ def make_adapter(tmp, scenario, kind="codex", counter=None, checkout=None,
 _seq = [0]
 
 
-def run(a, tmp, run_id, fixture_id="B0"):
+def assert_trusted_guard_runs_before_spawn():
+    popen_calls = []
+    original_popen = hosts.subprocess.Popen
+
+    def counted_popen(*args, **kwargs):
+        popen_calls.append((args, kwargs))
+        raise AssertionError("OS spawn must not occur after guard rejection")
+
+    hosts.subprocess.Popen = counted_popen
+    try:
+        try:
+            hosts._spawn_once(
+                ["forbidden-host"], {}, os.getcwd(), 1,
+                before_spawn=lambda: (_ for _ in ()).throw(
+                    ValueError("B3 campaign custody drift")))
+        except ValueError as exc:
+            assert "custody drift" in str(exc), str(exc)
+        else:
+            raise AssertionError("trusted pre-spawn guard rejection swallowed")
+    finally:
+        hosts.subprocess.Popen = original_popen
+    assert popen_calls == [], popen_calls
+
+    guard_calls = []
+    started_receipts = []
+    receipt = {"schema": "test-trusted-spawn-guard-v1", "ordinal": 1}
+
+    def passing_guard():
+        guard_calls.append(1)
+        return receipt
+
+    outcome = hosts._spawn_once(
+        [sys.executable, "-c", "pass"], os.environ.copy(), os.getcwd(), 10,
+        before_spawn=passing_guard,
+        on_started=lambda _proc, observed:
+            started_receipts.append(observed))
+    assert guard_calls == [1], guard_calls
+    assert started_receipts == [receipt], started_receipts
+    assert not isinstance(outcome, hosts.HostRunResult), outcome
+
+
+def run(a, tmp, run_id, fixture_id="B0", **kwargs):
     croot = os.path.join(tmp, "custody")
     os.makedirs(croot, exist_ok=True)
     _seq[0] += 1
     work = os.path.join(tmp, f"work-{_seq[0]}-{run_id}")
     os.makedirs(work)
     return a.run_mission(fixture_id, croot, run_id, work,
-                         _test_gate=lambda: None)
+                         _test_gate=lambda: None, **kwargs)
 
 
 def main():
+    assert_trusted_guard_runs_before_spawn()
     tmp = tempfile.mkdtemp(prefix="eval-hosts-")
     try:
         # 1. production gate refuses without token and unconditionally in CI
@@ -312,6 +354,24 @@ def main():
             check("H1 production-gate-fails-closed", False)
         except framework.AdapterError:
             check("H1 production-gate-fails-closed", True)
+
+        guard_counter = os.path.join(tmp, "guard-counter")
+        guarded = make_adapter(
+            tmp, "ok-codex", counter=guard_counter)
+        guarded_result = run(
+            guarded, tmp, "trusted-guard-reject",
+            trusted_spawn_guard=lambda: (_ for _ in ()).throw(
+                ValueError("B3 campaign custody drift")))
+        guard_root = os.path.join(
+            tmp, "custody", "trusted-guard-reject")
+        guard_terminal = json.load(open(
+            os.path.join(guard_root, "terminal.json"), encoding="utf-8"))
+        check("H1b trusted-guard-rejects-before-host-spawn",
+              guarded_result.kind == "error"
+              and guard_terminal["spawned"] is False
+              and not os.path.exists(guard_counter)
+              and not os.path.exists(os.path.join(
+                  guard_root, "process-started.json")))
 
         # 2. happy path (codex mock): bound-session identity, intermediate
         # agent messages retained, full lifecycle custody records

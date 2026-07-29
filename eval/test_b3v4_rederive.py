@@ -540,7 +540,7 @@ def build_campaign(root, fixture_override=None, *, surface_root=None,
         files["host-read-manifest.json"] = encoded(capture_manifest)
         files["run-intent.json"] = encoded(intent)
         files["process-started.json"] = encoded({
-            "schema": "implementaudit-process-started-v2", "run_id": name,
+            "schema": "implementaudit-process-started-v3", "run_id": name,
             "cwd": "/repo", "started_at": "2030-01-01T00:00:00Z",
             "argv_sha256": "b" * 64, "requested_model": model,
             "temp_home": "/tmp/b3v4-home",
@@ -550,6 +550,23 @@ def build_campaign(root, fixture_override=None, *, surface_root=None,
             "process_creation_time": 1.0,
             "host_read_pre_spawn_sha256": sha(
                 files["host-read-pre-spawn.json"]),
+            "trusted_spawn_guard": {
+                "schema": "implementaudit-b3v4-trusted-spawn-guard-v1",
+                "campaign": "b3v4-sol-luna-r2",
+                "freeze_sha256": freeze_sha,
+                "contract_sha256":
+                    packet["artifact_contract"]["sha256"],
+                "run_id": name,
+                "mission": mission,
+                "campaign_root_identity": {
+                    "device": os.lstat(root).st_dev,
+                    "inode": os.lstat(root).st_ino,
+                    "mode": os.lstat(root).st_mode,
+                },
+                "guard_ordinal": 1,
+                "state":
+                    "GUARD_PASSED_IMMEDIATELY_BEFORE_OS_SPAWN",
+            },
         })
         files["host-checks.json"] = encoded({spec["key"]: True
                                               for spec in fixture["host_checks"]["specs"]})
@@ -859,7 +876,13 @@ def rebase_campaign_paths(root):
         parent = json.loads(parent_path.read_text(encoding="utf-8"))
         parent["detail"] = str(host_root / "bundle")
         write(parent_path, parent)
-        rebind_attempt_seal(attempt)
+        bundle = host_root / "bundle"
+        process_path = bundle / "artifacts" / "process-started.json"
+        process = json.loads(process_path.read_text(encoding="utf-8"))
+        process["trusted_spawn_guard"]["campaign_root_identity"] = \
+            manifest["campaign_root_identity"]
+        write(process_path, process)
+        rebind_bundle_and_official(root, bundle, capture=True)
 
 
 def first_bundle(root, index=0):
@@ -1662,6 +1685,62 @@ def assert_lossless_numeric_domain_rejected(module):
         "; Luna-PASS=" + ", ".join(end_to_end_passes))
 
 
+def assert_trusted_spawn_guard_receipt_closed(module):
+    cases = (
+        ("omitted", lambda value:
+         value.pop("trusted_spawn_guard"), "process started identity"),
+        ("stale-freeze", lambda value:
+         value["trusted_spawn_guard"].update(
+             {"freeze_sha256": "0" * 64}), "spawn guard"),
+        ("root-identity-mismatch", lambda value:
+         value["trusted_spawn_guard"]["campaign_root_identity"].update(
+             {"inode":
+              value["trusted_spawn_guard"]["campaign_root_identity"][
+                  "inode"] + 1}), "spawn guard"),
+        ("duplicate-ordinal", lambda value:
+         value["trusted_spawn_guard"].update(
+             {"guard_ordinal": 2}), "spawn guard"),
+    )
+    for label, mutate, expected_reason in cases:
+        with tempfile.TemporaryDirectory(
+                prefix=f"b3v4-spawn-guard-{label}-") as tmp:
+            root = pathlib.Path(tmp) / "campaign"
+            build_campaign(root)
+            _, bundle = first_bundle(root)
+            process_path = bundle / "artifacts" / "process-started.json"
+            process = json.loads(process_path.read_text(encoding="utf-8"))
+            mutate(process)
+            write(process_path, process)
+            rebind_bundle_and_official(root, bundle, capture=True)
+            result = module.rederive_campaign(
+                root / "campaign-freeze.json", root)
+            assert result["luna_stage_status"] == "INVALID", (label, result)
+            assert expected_reason in result["missions"][0]["reason"], (
+                label, result["missions"][0])
+
+    with tempfile.TemporaryDirectory(
+            prefix="b3v4-spawn-guard-duplicate-key-") as tmp:
+        root = pathlib.Path(tmp) / "campaign"
+        build_campaign(root)
+        _, bundle = first_bundle(root)
+        process_path = bundle / "artifacts" / "process-started.json"
+        process = json.loads(process_path.read_text(encoding="utf-8"))
+        receipt = process.pop("trusted_spawn_guard")
+        base = json.dumps(
+            process, sort_keys=True, separators=(",", ":")).encode()
+        receipt_raw = json.dumps(
+            receipt, sort_keys=True, separators=(",", ":")).encode()
+        process_path.write_bytes(
+            base[:-1] + b',"trusted_spawn_guard":' + receipt_raw +
+            b',"trusted_spawn_guard":' + receipt_raw + b"}\n")
+        rebind_bundle_and_official(root, bundle, capture=True)
+        result = module.rederive_campaign(
+            root / "campaign-freeze.json", root)
+        assert result["luna_stage_status"] == "INVALID", result
+        assert "duplicate key 'trusted_spawn_guard'" in \
+            result["missions"][0]["reason"], result["missions"][0]
+
+
 def assert_complete_pass_row_schema(module):
     expected_fields = {
         "index", "config", "arm", "rep", "product_status", "host_status",
@@ -1719,6 +1798,7 @@ def assert_host_root_junction_rejected(module):
 def main():
     assert_independent_import_boundary()
     module = load_module()
+    assert_trusted_spawn_guard_receipt_closed(module)
     assert_inherited_campaign_handle_contract(module)
     with tempfile.TemporaryDirectory(
             prefix="b3v4-rederive-campaign-root-rebound-") as tmp:

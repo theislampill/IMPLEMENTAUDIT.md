@@ -618,6 +618,45 @@ class CampaignRootCustody:
                 "continuous campaign custody root identity drift")
         return identity
 
+    def preserve_stopped_attempt_terminal(self, attempt_name, raw):
+        """Create the stop record through the held root after lexical drift."""
+        if (self.root_fd is None or type(attempt_name) is not str or
+                not re.fullmatch(r"attempt-[0-9]{3}-L-(?:candidate|control)-r[0-9]+",
+                                 attempt_name)):
+            raise ValueError(
+                "continuous campaign custody stopped terminal target invalid")
+        attempt_fd = None
+        terminal_fd = None
+        try:
+            attempt_fd = os.open(
+                attempt_name,
+                os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW,
+                dir_fd=self.root_fd)
+            terminal_fd = os.open(
+                "attempt-terminal.json",
+                os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+                0o600, dir_fd=attempt_fd)
+            view = memoryview(raw)
+            while view:
+                written = os.write(terminal_fd, view)
+                if written <= 0:
+                    raise OSError("short stopped terminal write")
+                view = view[written:]
+            os.fsync(terminal_fd)
+            os.fsync(attempt_fd)
+        except FileExistsError as exc:
+            raise ValueError(
+                "stopped attempt terminal create-once collision") from exc
+        except OSError as exc:
+            raise ValueError(
+                "held-root stopped attempt terminal preservation failed") \
+                from exc
+        finally:
+            for descriptor in (terminal_fd, attempt_fd):
+                if descriptor is not None:
+                    with contextlib.suppress(OSError):
+                        os.close(descriptor)
+
     def close(self):
         root_fd, parent_fd = self.root_fd, self.parent_fd
         self.root_fd = None
@@ -1181,16 +1220,29 @@ class CampaignDriver:
                 "error_type": type(exc).__name__,
             })
             try:
-                self._verify_frozen_binding(packet_sha256)
-            except (OSError, ValueError, json.JSONDecodeError):
+                self._verify_continuous_custody()
+            except ValueError:
                 terminal["overall_status"] = "INVALID"
-                terminal["stop_reason"] = "frozen-input-drift"
+                terminal["stop_reason"] = "campaign-root-custody-drift"
+            else:
+                try:
+                    self._verify_frozen_binding(packet_sha256)
+                except (OSError, ValueError, json.JSONDecodeError):
+                    terminal["overall_status"] = "INVALID"
+                    terminal["stop_reason"] = "frozen-input-drift"
         terminal["completed_at"] = _utc_now()
-        self._verify_continuous_custody()
         if terminal["overall_status"] in SCORED_STATES:
             terminal["completed_attempt_seal"] = _completed_attempt_seal(
                 attempt_root, status, terminal, packet, packet_sha256)
         contract.validate_artifact("attempt_terminal", terminal)
+        try:
+            self._verify_continuous_custody()
+        except ValueError:
+            if (terminal["overall_status"] in STOP_STATES and
+                    self._custody_session is not None):
+                self._custody_session.preserve_stopped_attempt_terminal(
+                    attempt_root.name, contract.canonical_json_bytes(terminal))
+            raise
         _write_new_json(attempt_root / "attempt-terminal.json", terminal)
         self._verify_continuous_custody()
         return terminal
@@ -1608,6 +1660,30 @@ class CampaignDriver:
 
     def _execute_formal_host(self, context):
         mission = context.mission
+        run_id = self._attempt_name(mission)
+        guard_calls = 0
+
+        def trusted_spawn_guard():
+            """Qualifying B3's last guard inside the controlled spawn path."""
+            nonlocal guard_calls
+            guard_calls += 1
+            if guard_calls != 1:
+                raise ValueError("trusted spawn guard invoked more than once")
+            identity = self._verify_continuous_custody()
+            return {
+                "schema": "implementaudit-b3v4-trusted-spawn-guard-v1",
+                "campaign": "b3v4-sol-luna-r2",
+                "freeze_sha256": context.packet_sha256,
+                "contract_sha256":
+                    context.packet["artifact_contract"]["sha256"],
+                "run_id": run_id,
+                "mission": mission,
+                "campaign_root_identity": identity,
+                "guard_ordinal": 1,
+                "state":
+                    "GUARD_PASSED_IMMEDIATELY_BEFORE_OS_SPAWN",
+            }
+
         config_name = mission["config"]
         config = context.packet["configurations"][config_name]
         product = (context.candidate_checkout if mission["arm"] == "candidate"
@@ -1636,10 +1712,10 @@ class CampaignDriver:
         custody.mkdir()
         work = runtime / "fixture-work"
         work.mkdir()
-        run_id = self._attempt_name(mission)
         result = adapter.run_mission(
             context.packet["fixture"]["id"], str(custody), run_id,
-            str(work), call_ordinal=mission["index"] + 1)
+            str(work), call_ordinal=mission["index"] + 1,
+            trusted_spawn_guard=trusted_spawn_guard)
         host_root = custody / run_id
         if result.kind != "ok":
             return {"overall_status":

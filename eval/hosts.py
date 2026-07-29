@@ -311,8 +311,11 @@ def _kill_tree(proc, job=None):
     return note
 
 
-def _spawn_once(argv, env, cwd, timeout_s, stdin_text=None, on_started=None):
+def _spawn_once(argv, env, cwd, timeout_s, stdin_text=None, on_started=None,
+                before_spawn=None):
     """Exactly one spawn — no hidden retry lives anywhere in this module.
+    `before_spawn`, when supplied by a qualifying campaign, is the trusted
+    last in-process guard immediately before the one OS process creation.
     `on_started` runs immediately after the process exists (create-once
     process-started custody); if it fails the child is killed and the run
     terminalizes ERROR. The child owns a Job Object (Windows) or its own
@@ -320,6 +323,7 @@ def _spawn_once(argv, env, cwd, timeout_s, stdin_text=None, on_started=None):
     popen_kw = {}
     if os.name != "nt":
         popen_kw["start_new_session"] = True
+    spawn_guard_receipt = before_spawn() if before_spawn is not None else None
     try:
         proc = subprocess.Popen(argv, env=env, cwd=cwd,
                                 stdin=subprocess.PIPE,
@@ -351,7 +355,10 @@ def _spawn_once(argv, env, cwd, timeout_s, stdin_text=None, on_started=None):
     try:
         if on_started is not None:
             try:
-                on_started(proc)
+                if before_spawn is None:
+                    on_started(proc)
+                else:
+                    on_started(proc, spawn_guard_receipt)
             except Exception as exc:
                 note = _kill_tree(proc, job)
                 proc.communicate()
@@ -462,7 +469,8 @@ class _BaseAdapter:
         return events
 
     def run_mission(self, fixture_id, custody_root, run_id, work_root,
-                    _test_gate=None, call_ordinal=1):
+                    _test_gate=None, call_ordinal=1,
+                    trusted_spawn_guard=None):
         """CRASH-RECONCILABLE PRE-SPAWN CUSTODY: stale intents are
         reconciled BEFORE a new run id is claimed; the create-once run root
         and run-intent.json exist BEFORE any process launches; a create-once
@@ -603,7 +611,9 @@ class _BaseAdapter:
             argv = [a.replace("{model}", self.requested_model)
                     for a in self.host_argv_template]
 
-            def _on_started(proc):
+            def _on_started(proc, trusted_spawn_receipt=None):
+                nonlocal spawned
+                spawned = True
                 rec = {"schema": "implementaudit-process-started-v2",
                        "run_id": run_id,
                        "cwd": self.host_cwd or repo,
@@ -612,6 +622,12 @@ class _BaseAdapter:
                            "\x00".join(argv).encode("utf-8")),
                        "requested_model": self.requested_model_canonical(),
                        "temp_home": intent["temp_home"]}
+                if trusted_spawn_receipt is not None:
+                    if not isinstance(trusted_spawn_receipt, dict):
+                        raise ValueError(
+                            "trusted spawn guard receipt must be an object")
+                    rec["schema"] = "implementaudit-process-started-v3"
+                    rec["trusted_spawn_guard"] = trusted_spawn_receipt
                 # Full process identity (lane, OS, boot, pid, creation
                 # time): the reconciler refuses to treat a recycled or
                 # foreign-lane pid as the original process, so every field
@@ -630,11 +646,11 @@ class _BaseAdapter:
                 self._custody_hashes["process-started.json"] = \
                     bundlelib._sha256_bytes(rec_bytes)
 
-            spawned = True
             outcome = _spawn_once(argv, self._mission_env(repo),
                                   self.host_cwd or repo, self.timeout_s,
                                   stdin_text=mission,
-                                  on_started=_on_started)
+                                  on_started=_on_started,
+                                  before_spawn=trusted_spawn_guard)
             # FORGED-CUSTODY SWEEP (independent review blocking): the
             # mission process is dead now; anything in the run root beyond
             # what THIS adapter wrote pre-spawn was planted by the mission

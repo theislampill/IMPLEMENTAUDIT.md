@@ -862,6 +862,91 @@ def assert_continuous_custody_tranche_contract(module):
         assert calls == []
 
     with tempfile.TemporaryDirectory(
+            prefix="b3v4-continuous-final-precheck-race-") as tmp:
+        driver = make_driver(module, tmp, sealed_probe_outcome)
+        driver.mission_executor = driver._execute_formal_host
+        actual_spawn_calls = []
+        original_adapter = module.hosts.CodexAdapter
+
+        class RebindingAdapter:
+            def __init__(self, **_kwargs):
+                pass
+
+            def run_mission(
+                    self, _fixture_id, _custody, _run_id, _work,
+                    call_ordinal, trusted_spawn_guard):
+                preserved = driver.campaign_root.with_name(
+                    "campaign-original")
+                os.rename(driver.campaign_root, preserved)
+                shutil.copytree(preserved, driver.campaign_root)
+                trusted_spawn_guard()
+                actual_spawn_calls.append(call_ordinal)
+                raise AssertionError("guard allowed an OS/model spawn")
+
+        module.hosts.CodexAdapter = RebindingAdapter
+        try:
+            expect_error(
+                "continuous campaign custody",
+                lambda: driver.run_luna_tranche(
+                    independent_writer=write_independent_result))
+        finally:
+            module.hosts.CodexAdapter = original_adapter
+        assert actual_spawn_calls == []
+        preserved = pathlib.Path(tmp) / "campaign-original"
+        first = preserved / "attempt-000-L-candidate-r1"
+        terminal = json.loads(
+            (first / "attempt-terminal.json").read_text(encoding="utf-8"))
+        assert terminal["overall_status"] == "INVALID", terminal
+        assert terminal["stop_reason"] == \
+            "campaign-root-custody-drift", terminal
+        assert not (preserved / "attempt-001-L-control-r1").exists()
+        assert not (driver.campaign_root /
+                    "attempt-001-L-control-r1").exists()
+
+    with tempfile.TemporaryDirectory(
+            prefix="b3v4-continuous-post-guard-race-") as tmp:
+        driver = make_driver(module, tmp, sealed_probe_outcome)
+        driver.mission_executor = driver._execute_formal_host
+        guarded_spawns = []
+        original_adapter = module.hosts.CodexAdapter
+
+        class PostGuardRebindingAdapter:
+            def __init__(self, **_kwargs):
+                pass
+
+            def run_mission(
+                    self, _fixture_id, _custody, _run_id, _work,
+                    call_ordinal, trusted_spawn_guard):
+                trusted_spawn_guard()
+                guarded_spawns.append(call_ordinal)
+                preserved = driver.campaign_root.with_name(
+                    "campaign-original")
+                os.rename(driver.campaign_root, preserved)
+                shutil.copytree(preserved, driver.campaign_root)
+                return module.hosts.HostRunResult(
+                    "error", "deterministic post-guard test stop")
+
+        module.hosts.CodexAdapter = PostGuardRebindingAdapter
+        try:
+            expect_error(
+                "continuous campaign custody",
+                lambda: driver.run_luna_tranche(
+                    independent_writer=write_independent_result))
+        finally:
+            module.hosts.CodexAdapter = original_adapter
+        assert guarded_spawns == [1], guarded_spawns
+        preserved = pathlib.Path(tmp) / "campaign-original"
+        first = preserved / "attempt-000-L-candidate-r1"
+        terminal = json.loads(
+            (first / "attempt-terminal.json").read_text(encoding="utf-8"))
+        assert terminal["overall_status"] == "INVALID", terminal
+        assert terminal["stop_reason"] == \
+            "campaign-root-custody-drift", terminal
+        assert not (preserved / "attempt-001-L-control-r1").exists()
+        assert not (driver.campaign_root /
+                    "attempt-001-L-control-r1").exists()
+
+    with tempfile.TemporaryDirectory(
             prefix="b3v4-continuous-final-drift-") as tmp:
         driver = make_driver(module, tmp, sealed_probe_outcome)
 
@@ -913,8 +998,94 @@ def assert_continuous_custody_tranche_contract(module):
         assert len(calls) == 1
 
 
+def assert_production_trusted_spawn_guard_contract(module):
+    original_adapter = module.hosts.CodexAdapter
+    receipts = []
+    spawn_boundaries = []
+
+    class GuardedAdapter:
+        def __init__(self, **_kwargs):
+            pass
+
+        def run_mission(
+                self, _fixture_id, _custody, _run_id, _work,
+                call_ordinal, trusted_spawn_guard):
+            receipt = trusted_spawn_guard()
+            receipts.append(receipt)
+            spawn_boundaries.append(call_ordinal)
+            return module.hosts.HostRunResult(
+                "error", "deterministic test stop before model execution")
+
+    module.hosts.CodexAdapter = GuardedAdapter
+    try:
+        with tempfile.TemporaryDirectory(
+                prefix="b3v4-production-spawn-guard-") as tmp:
+            root = pathlib.Path(tmp)
+            packet = valid_packet()
+            mission = packet["missions"][0]
+            attempt = root / "attempt"
+            attempt.mkdir()
+            identity = {"device": 11, "inode": 22, "mode": 0o40700}
+            driver = object.__new__(module.CampaignDriver)
+            driver.runtime_root = root / "runtime"
+            driver.codex_auth_source = None
+            driver._verify_continuous_custody = lambda: identity
+            context = module.MissionContext(
+                packet=packet, packet_sha256="a" * 64, mission=mission,
+                attempt_root=attempt,
+                candidate_checkout=root / "candidate",
+                control_checkout=root / "control",
+                runtime_root=driver.runtime_root,
+                host_attestation={"id": "test-host"})
+            result = driver._execute_formal_host(context)
+            assert result["overall_status"] == "ERROR", result
+            assert spawn_boundaries == [1], spawn_boundaries
+            assert receipts == [{
+                "schema": "implementaudit-b3v4-trusted-spawn-guard-v1",
+                "campaign": "b3v4-sol-luna-r2",
+                "freeze_sha256": "a" * 64,
+                "contract_sha256":
+                    packet["artifact_contract"]["sha256"],
+                "run_id": "attempt-000-L-candidate-r1",
+                "mission": mission,
+                "campaign_root_identity": identity,
+                "guard_ordinal": 1,
+                "state":
+                    "GUARD_PASSED_IMMEDIATELY_BEFORE_OS_SPAWN",
+            }], receipts
+
+        with tempfile.TemporaryDirectory(
+                prefix="b3v4-production-spawn-guard-drift-") as tmp:
+            root = pathlib.Path(tmp)
+            packet = valid_packet()
+            mission = packet["missions"][0]
+            attempt = root / "attempt"
+            attempt.mkdir()
+            driver = object.__new__(module.CampaignDriver)
+            driver.runtime_root = root / "runtime"
+            driver.codex_auth_source = None
+            driver._verify_continuous_custody = lambda: (
+                (_ for _ in ()).throw(
+                    ValueError("continuous campaign custody root drift")))
+            context = module.MissionContext(
+                packet=packet, packet_sha256="b" * 64, mission=mission,
+                attempt_root=attempt,
+                candidate_checkout=root / "candidate",
+                control_checkout=root / "control",
+                runtime_root=driver.runtime_root,
+                host_attestation={"id": "test-host"})
+            prior = list(spawn_boundaries)
+            expect_error(
+                "continuous campaign custody root drift",
+                lambda: driver._execute_formal_host(context))
+            assert spawn_boundaries == prior, spawn_boundaries
+    finally:
+        module.hosts.CodexAdapter = original_adapter
+
+
 def main():
     module = load_driver()
+    assert_production_trusted_spawn_guard_contract(module)
     assert_actual_inode_reuse_rejected(module)
     if os.name == "posix":
         assert_continuous_custody_tranche_contract(module)

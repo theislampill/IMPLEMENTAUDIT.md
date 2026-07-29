@@ -13,7 +13,7 @@ import campaign_lifecycle as lifecycle
 
 HERE = pathlib.Path(__file__).resolve().parent
 DECLARATION_PATH = HERE / "b3v4_contract.json"
-DECLARATION_SHA256 = "3805b07917458666ffe22d90105b1f7e61054dd5c187840595b1e35be41926c5"
+DECLARATION_SHA256 = "a2866126c0412ddd5a924af7babf4f48f87cd8d928b5b57c98db7d6ce9e73927"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 FREEZE_FIELDS = {

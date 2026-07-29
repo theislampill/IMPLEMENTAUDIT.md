@@ -231,7 +231,7 @@ def _exact_json_equal(left, right):
     return True
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
-CONTRACT_SHA256 = "3805b07917458666ffe22d90105b1f7e61054dd5c187840595b1e35be41926c5"
+CONTRACT_SHA256 = "a2866126c0412ddd5a924af7babf4f48f87cd8d928b5b57c98db7d6ce9e73927"
 OFFICIAL_STATES = frozenset({"PASS", "FAIL", "INVALID", "ERROR"})
 CONTINUE_STATES = frozenset({"PASS"})
 STOP_STATES = frozenset({"FAIL", "INVALID", "ERROR"})
@@ -306,6 +306,11 @@ PROCESS_STARTED_FIELDS = {
     "schema", "run_id", "cwd", "started_at", "argv_sha256",
     "requested_model", "temp_home", "lane_id", "host_os", "host_boot_id",
     "pid", "process_creation_time", "host_read_pre_spawn_sha256",
+    "trusted_spawn_guard",
+}
+TRUSTED_SPAWN_GUARD_FIELDS = {
+    "schema", "campaign", "freeze_sha256", "contract_sha256", "run_id",
+    "mission", "campaign_root_identity", "guard_ordinal", "state",
 }
 FIXTURE_AUTH_FIELDS = {"allowed_repository_writes", "forbidden_actions"}
 FIXTURE_HOST_CHECK_FIELDS = {"artifact", "specs"}
@@ -2577,7 +2582,9 @@ def _validate_replay_schema(replay):
         _repo_relative(check["write"], f"host replay check {index} write")
 
 
-def _validate_parent_custody_objects(intent, process, expected_run_id):
+def _validate_parent_custody_objects(
+        intent, process, expected_run_id, packet, mission, freeze_sha,
+        campaign_root_identity):
     intent = _exact_fields(intent, RUN_INTENT_FIELDS, "run intent")
     _expect(intent["schema"] == "implementaudit-run-intent-v1" and
             intent["run_id"] == expected_run_id and
@@ -2598,7 +2605,7 @@ def _validate_parent_custody_objects(intent, process, expected_run_id):
     _git_id(intent["harness_commit"], "run intent harness commit")
     _strings(intent["required_capabilities"], "run intent capabilities")
     process = _exact_fields(process, PROCESS_STARTED_FIELDS, "process started")
-    _expect(process["schema"] == "implementaudit-process-started-v2" and
+    _expect(process["schema"] == "implementaudit-process-started-v3" and
             process["run_id"] == expected_run_id and
             all(type(process[key]) is str and process[key]
                 for key in ("cwd", "started_at", "requested_model", "temp_home",
@@ -2609,6 +2616,27 @@ def _validate_parent_custody_objects(intent, process, expected_run_id):
             "process started fields invalid")
     for key in ("argv_sha256", "host_read_pre_spawn_sha256"):
         _digest(process[key], "process started " + key)
+    receipt = _exact_fields(
+        process["trusted_spawn_guard"], TRUSTED_SPAWN_GUARD_FIELDS,
+        "trusted spawn guard receipt")
+    identity = _exact_fields(
+        receipt["campaign_root_identity"], {"device", "inode", "mode"},
+        "trusted spawn guard campaign root identity")
+    _expect(
+        receipt["schema"] ==
+        "implementaudit-b3v4-trusted-spawn-guard-v1" and
+        receipt["campaign"] == "b3v4-sol-luna-r2" and
+        receipt["freeze_sha256"] == freeze_sha and
+        receipt["contract_sha256"] ==
+        packet["artifact_contract"]["sha256"] and
+        receipt["run_id"] == expected_run_id and
+        _exact_json_equal(receipt["mission"], mission) and
+        _exact_json_equal(identity, campaign_root_identity) and
+        type(receipt["guard_ordinal"]) is int and
+        receipt["guard_ordinal"] == 1 and
+        receipt["state"] ==
+        "GUARD_PASSED_IMMEDIATELY_BEFORE_OS_SPAWN",
+        "trusted spawn guard receipt identity invalid")
 
 
 def _validate_trace_action_rows(trace):
@@ -2683,8 +2711,10 @@ def _matrix_row(spec, actions, preimages):
     }
 
 
-def _validate_capture(artifacts, fixture_bytes, fixture, expected_host,
-                      parent_kind, expected_run_id):
+def _validate_capture(
+        artifacts, fixture_bytes, fixture, expected_host, parent_kind,
+        expected_run_id, packet, mission, freeze_sha,
+        campaign_root_identity):
     required = set(CAPTURE_FILES) | {"host-read-manifest.json",
                                      "run-intent.json", "process-started.json",
                                      "host-checks.json"} | \
@@ -2774,7 +2804,9 @@ def _validate_capture(artifacts, fixture_bytes, fixture, expected_host,
     replay = objects["host-read-replay-spec.json"]
     process = objects["process-started.json"]
     _validate_replay_schema(replay)
-    _validate_parent_custody_objects(intent, process, expected_run_id)
+    _validate_parent_custody_objects(
+        intent, process, expected_run_id, packet, mission, freeze_sha,
+        campaign_root_identity)
     expected_checks = [{"key": spec["key"],
                         "reads": list(spec.get("reads") or []),
                         "write": spec.get("write")}
@@ -2842,7 +2874,9 @@ def _validate_capture(artifacts, fixture_bytes, fixture, expected_host,
             host_checks)
 
 
-def _load_bundle(bundle, packet, mission, parent_terminal):
+def _load_bundle(
+        bundle, packet, mission, parent_terminal, freeze_sha,
+        campaign_root_identity):
     manifest, _ = _read_json(bundle / "manifest.json", "bundle manifest")
     fixture_bytes = _read_bytes(bundle / "fixture.json")
     prompt = _read_bytes(bundle / "prompt.txt")
@@ -2910,7 +2944,8 @@ def _load_bundle(bundle, packet, mission, parent_terminal):
     expected_host = "codex" if mission["config"] == "L" else "claude"
     preimages, trace, raw_actions, host_checks = _validate_capture(
         artifacts, fixture_bytes, fixture, expected_host,
-        parent_terminal.get("kind"), _attempt_name(mission))
+        parent_terminal.get("kind"), _attempt_name(mission), packet, mission,
+        freeze_sha, campaign_root_identity)
     changed = _changed_paths(before, after)
     comparison = _exact_fields(
         comparison, {"schema", "changed_files", "committed_change",
@@ -3237,7 +3272,9 @@ def _rederive_attempt(
                 "host terminal is non-authoritative")
         (manifest, fixture, artifacts, _before, after, changed, preimages,
          _trace, raw_actions, host_checks) = \
-            _load_bundle(host_root / "bundle", packet, mission, parent)
+            _load_bundle(
+                host_root / "bundle", packet, mission, parent, freeze_sha,
+                campaign_root_identity)
         official, official_adjudication, official_properties = \
             _load_official_verdict(
                 attempt, terminal, expected_model, fixture, manifest,

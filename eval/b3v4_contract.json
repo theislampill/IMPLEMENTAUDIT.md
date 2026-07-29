@@ -42,7 +42,7 @@
   "host_read_replay_spec": {"producer":"replay-spec-builder","readers":["host-validator","rederiver"],"role":"host-artifacts","format":"JSON","schema":"implementaudit-host-read-replay-spec-v1","create_once":true},
   "host_read_pre_spawn": {"producer":"pre-spawn-finalizer","readers":["host-validator","rederiver"],"role":"host-artifacts","format":"JSON","schema":"implementaudit-host-read-pre-spawn-v1","create_once":true},
   "run_intent": {"producer":"formal-runner","readers":["host-validator","rederiver"],"role":"host-artifacts","format":"JSON","schema":"implementaudit-run-intent-v1","create_once":true},
-  "process_started": {"producer":"process-launcher","readers":["host-validator","rederiver"],"role":"host-artifacts","format":"JSON","schema":"implementaudit-process-started-v1","create_once":true},
+  "process_started": {"producer":"trusted-guarded-process-launcher","readers":["host-validator","rederiver"],"role":"host-artifacts","format":"JSON","schema":"implementaudit-process-started-v3","create_once":true},
   "host_stdout": {"producer":"host-process-capture","readers":["host-parser","rederiver"],"role":"host-artifacts","format":"JSONL","schema":"host-specific-state-machine","create_once":true},
   "host_session": {"producer":"native-session-capture","readers":["host-validator","rederiver"],"role":"host-artifacts","format":"BYTES","schema":"host-specific-native-session","create_once":true},
   "host_tool_trace": {"producer":"formal-normalizer","readers":["host-validator","rederiver"],"role":"host-artifacts","format":"JSON","schema":"implementaudit-host-tool-trace-v2","create_once":true},
