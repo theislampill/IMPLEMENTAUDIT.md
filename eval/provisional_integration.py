@@ -45,6 +45,13 @@ GATE_PRODUCER_ROLES = {
     "reproducibility": "reproducibility-runner",
     "independent-review": "independent-read-only-reviewer",
 }
+TOOLING_SOURCE_PATHS = (
+    "eval/provisional_integration.py",
+    "eval/qualification_evidence_producer.py",
+    "scripts/build-release-asset.sh",
+    "scripts/verify-package.sh",
+    "tests/reproducible-release-asset.test.sh",
+)
 DETERMINISTIC_CHECKS = (
     "compile", "lifecycle", "b3-contract", "b3-freeze", "b3-campaign",
     "b3-rederive", "matrix-contract", "matrix-freeze", "matrix-campaign",
@@ -688,6 +695,123 @@ def _gate_identity(b3, matrix, manifests):
     })
 
 
+def _tooling_source_manifest(target_sha, target_tree):
+    repo_root = pathlib.Path(__file__).resolve().parent.parent
+    return {
+        "schema": "implementaudit-tooling-source-manifest-v1",
+        "target_sha": target_sha,
+        "target_tree": target_tree,
+        "files": [{
+            "path": path,
+            "byte_length": len(_git_bytes(repo_root, target_sha, path)),
+            "sha256": hashlib.sha256(
+                _git_bytes(repo_root, target_sha, path)).hexdigest(),
+        } for path in TOOLING_SOURCE_PATHS],
+    }
+
+
+def _validate_qualification_identity(
+        name, value, qualified_input_sha256, target_sha, target_tree,
+        campaign_qualified_input_sha256, evaluated_surfaces_sha256):
+    if type(value) is not dict:
+        raise ValueError("qualification identity must be an object")
+    scope = value.get("qualification_scope")
+    if scope == "TOOLING_EXACT_SHA":
+        _exact(value, {
+            "qualification_scope", "target_sha", "target_tree",
+            "tooling_source_manifest",
+            "tooling_source_manifest_sha256",
+        }, "tooling qualification identity")
+        if name in ("package", "reproducibility", "ci", "deterministic",
+                    "independent-review"):
+            pass
+        else:
+            raise ValueError("tooling qualification gate invalid")
+        expected_manifest = _tooling_source_manifest(
+            target_sha, target_tree)
+        manifest = value["tooling_source_manifest"]
+        _digest(
+            value["tooling_source_manifest_sha256"],
+            "tooling source manifest")
+        if (value["target_sha"] != target_sha or
+                value["target_tree"] != target_tree or
+                manifest != expected_manifest or
+                value["tooling_source_manifest_sha256"] !=
+                hashlib.sha256(
+                    lifecycle.canonical_json_bytes(manifest)).hexdigest() or
+                qualified_input_sha256 != _canonical_sha(value)):
+            raise ValueError(
+                "tooling qualification identity does not match exact SHA/tree")
+    elif scope == "FROZEN_CAMPAIGNS":
+        _exact(value, {
+            "qualification_scope", "target_sha", "target_tree",
+            "campaign_qualified_input_sha256",
+            "evaluated_surfaces_sha256",
+        }, "frozen campaigns qualification identity")
+        if name in ("package", "reproducibility"):
+            raise ValueError(
+                f"{name} qualification scope must be TOOLING_EXACT_SHA")
+        if (value["target_sha"] != target_sha or
+                value["target_tree"] != target_tree or
+                value["campaign_qualified_input_sha256"] !=
+                campaign_qualified_input_sha256 or
+                value["evaluated_surfaces_sha256"] !=
+                evaluated_surfaces_sha256 or
+                qualified_input_sha256 !=
+                campaign_qualified_input_sha256):
+            raise ValueError(
+                "frozen campaigns qualification identity mismatch")
+    else:
+        raise ValueError("qualification scope invalid")
+    return value
+
+
+def _validate_package_asset_binding(value, artifact_hashes):
+    _exact(value, {
+        "selected_archive_path", "selected_archive_sha256", "assets",
+    }, "package reproducibility binding")
+    _digest(value["selected_archive_sha256"], "selected package archive")
+    if (value["selected_archive_path"] != "package-retained.skill" or
+            artifact_hashes.get(value["selected_archive_path"]) !=
+            value["selected_archive_sha256"] or
+            type(value["assets"]) is not list or
+            len(value["assets"]) != 2):
+        raise ValueError("package reproducibility selected archive invalid")
+    expected = (
+        ("A", "package-repro-a.skill",
+         "package-repro-a-entry-manifest.json"),
+        ("B", "package-repro-b.skill",
+         "package-repro-b-entry-manifest.json"),
+    )
+    observed_paths = {value["selected_archive_path"]}
+    observed_manifests = set()
+    for row, (label, path, manifest_path) in zip(value["assets"], expected):
+        _exact(row, {
+            "label", "path", "sha256",
+            "manifest_path", "manifest_sha256",
+        }, f"package reproducibility asset {label}")
+        _digest(row["sha256"], f"package reproducibility asset {label}")
+        _digest(
+            row["manifest_sha256"],
+            f"package reproducibility manifest {label}")
+        if (row["label"] != label or row["path"] != path or
+                row["manifest_path"] != manifest_path or
+                row["sha256"] != value["selected_archive_sha256"] or
+                artifact_hashes.get(path) != row["sha256"] or
+                artifact_hashes.get(manifest_path) !=
+                row["manifest_sha256"]):
+            raise ValueError(
+                f"package reproducibility asset {label} invalid")
+        if path in observed_paths or manifest_path in observed_manifests:
+            raise ValueError("package reproducibility artifact alias invalid")
+        observed_paths.add(path)
+        observed_manifests.add(manifest_path)
+    if value["assets"][0]["manifest_sha256"] != \
+            value["assets"][1]["manifest_sha256"]:
+        raise ValueError("package reproducibility manifests differ")
+    return value
+
+
 def derive_qualified_input_sha256(*, b3_campaign_root,
                                   matrix_campaign_root,
                                   b3_surface_root,
@@ -746,7 +870,10 @@ def _gate_target(packet, owner):
 
 def _validate_gate_terminal(name, value, qualified_input_sha256,
                             artifact_hashes, evidence_mode="TEST_ONLY"):
-    common = {"schema", "gate", "qualified_input_sha256", "exit_code"}
+    common = {
+        "schema", "gate", "qualified_input_sha256", "exit_code",
+        "qualification_scope", "qualification_identity",
+    }
     if name == "deterministic":
         deterministic_fields = {"failed_checks", "checks"}
         if evidence_mode == "PRODUCTION":
@@ -800,10 +927,12 @@ def _validate_gate_terminal(name, value, qualified_input_sha256,
         if evidence_mode == "PRODUCTION":
             package_fields |= {
                 "argv", "started_at", "completed_at", "pid",
-                "bash_executable"}
+                "bash_executable", "package_reproducibility"}
         _exact(value, common | package_fields, name)
         if evidence_mode == "PRODUCTION":
             _validate_production_bash_binding(value["bash_executable"])
+            _validate_package_asset_binding(
+                value["package_reproducibility"], artifact_hashes)
             if (value["argv"][0] !=
                     value["bash_executable"]["canonical_path"] or
                     value["argv"][1:] != ["scripts/verify-package.sh"] or
@@ -876,7 +1005,8 @@ def _validate_gate_terminal(name, value, qualified_input_sha256,
     elif name == "independent-review":
         _exact(value, {
             "schema", "gate", "reviewed_qualified_input_sha256",
-            "verdict", "findings"}, name)
+            "verdict", "findings", "qualification_scope",
+            "qualification_identity"}, name)
         _string_list(value["findings"], "independent review findings")
         passed = value["verdict"] == "PASS" and value["findings"] == []
         if value["reviewed_qualified_input_sha256"] != qualified_input_sha256:
@@ -928,7 +1058,12 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
         if not allow_test_evidence:
             artifact_names.extend([
                 "package-command.stdout.log",
-                "package-command.stderr.log"])
+                "package-command.stderr.log",
+                "package-repro-a.skill",
+                "package-repro-b.skill",
+                "package-repro-a-entry-manifest.json",
+                "package-repro-b-entry-manifest.json",
+            ])
     elif name == "reproducibility":
         artifact_names = ["repro-first.skill", "repro-second.skill"]
     elif name == "ci" and not allow_test_evidence:
@@ -968,7 +1103,8 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
         "producer_source_path", "producer_source_sha256",
         "qualified_input_sha256", "target_sha",
         "target_tree", "command", "producer_role",
-        "evaluated_surfaces_sha256", "invocation_count",
+        "qualification_scope", "qualification_identity",
+        "invocation_count",
         "network_authorized", "credentials_authorized",
         "model_or_metered_api_authorized",
     }
@@ -982,12 +1118,10 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
             "TEST_ONLY" if allow_test_evidence else "PRODUCTION"),
         "producer_source_path":
             "eval/qualification_evidence_producer.py",
-        "qualified_input_sha256": qualified_input_sha256,
         "target_sha": target_sha,
         "target_tree": target_tree,
         "command": GATE_COMMANDS[name],
         "producer_role": GATE_PRODUCER_ROLES[name],
-        "evaluated_surfaces_sha256": surfaces_sha256,
         "invocation_count": 1,
         "network_authorized": False,
         "credentials_authorized": False,
@@ -999,6 +1133,15 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
             raise ValueError(f"{name} producer invocation count type invalid")
         if start[key] != expected:
             raise ValueError(f"{name} producer {key} identity invalid")
+    _validate_qualification_identity(
+        name, start["qualification_identity"],
+        start["qualified_input_sha256"], target_sha, target_tree,
+        qualified_input_sha256, surfaces_sha256)
+    if start["qualification_scope"] != \
+            start["qualification_identity"]["qualification_scope"]:
+        raise ValueError(
+            f"{name} producer qualification scope identity invalid")
+    gate_qualified_input_sha256 = start["qualified_input_sha256"]
     producer_source = pathlib.Path(__file__).resolve().parent / \
         "qualification_evidence_producer.py"
     observed_producer_sha = hashlib.sha256(
@@ -1021,8 +1164,13 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
         for filename in artifact_names
     }
     _validate_gate_terminal(
-        name, terminal, qualified_input_sha256, artifact_hashes,
+        name, terminal, gate_qualified_input_sha256, artifact_hashes,
         start["evidence_mode"])
+    if (terminal["qualification_scope"] != start["qualification_scope"] or
+            terminal["qualification_identity"] !=
+            start["qualification_identity"]):
+        raise ValueError(
+            f"{name} terminal qualification identity invalid")
     if (not allow_test_evidence and name in ("deterministic", "package") and
             start["bash_executable"] != terminal["bash_executable"]):
         raise ValueError(
@@ -1064,6 +1212,24 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
         validate_package_archive(
             gate_root / "package-retained.skill", entry_manifest,
             target_sha, target_tree)
+        if not allow_test_evidence:
+            for label in ("a", "b"):
+                manifest_name = \
+                    f"package-repro-{label}-entry-manifest.json"
+                reproducibility_manifest = \
+                    lifecycle.decode_strict_json_bytes(
+                        retained[manifest_name],
+                        f"package reproducibility {label.upper()} manifest",
+                        require_object=True)
+                validate_package_archive(
+                    gate_root / f"package-repro-{label}.skill",
+                    reproducibility_manifest, target_sha, target_tree)
+            if (retained["package-retained.skill"] !=
+                    retained["package-repro-a.skill"] or
+                    retained["package-repro-a.skill"] !=
+                    retained["package-repro-b.skill"]):
+                raise ValueError(
+                    "package selected/A/B retained archives differ")
     elif name == "reproducibility":
         first = retained["repro-first.skill"]
         second = retained["repro-second.skill"]
@@ -1085,7 +1251,8 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
         "schema", "gate", "qualified_input_sha256", "target_sha",
         "target_tree", "stdout_sha256", "stderr_sha256",
         "terminal_sha256", "producer_source_path",
-        "producer_source_sha256",
+        "producer_source_sha256", "qualification_scope",
+        "qualification_identity",
     }
     if name == "independent-review":
         _exact(report, common | {
@@ -1111,13 +1278,18 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
         _exact(report, report_fields, f"{name} producer report")
     if (report["schema"] != "implementaudit-gate-producer-report-v1" or
             report["gate"] != name or
-            report["qualified_input_sha256"] != qualified_input_sha256 or
+            report["qualified_input_sha256"] !=
+            gate_qualified_input_sha256 or
             report["target_sha"] != target_sha or
             report["target_tree"] != target_tree or
             report["producer_source_path"] !=
             start["producer_source_path"] or
             report["producer_source_sha256"] !=
             start["producer_source_sha256"] or
+            report["qualification_scope"] !=
+            start["qualification_scope"] or
+            report["qualification_identity"] !=
+            start["qualification_identity"] or
             report["stdout_sha256"] !=
             hashlib.sha256(retained[stdout_name]).hexdigest() or
             report["stderr_sha256"] !=
@@ -1134,7 +1306,8 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
         raise ValueError(f"{name} retained stderr is not empty")
     marker = (
         f"IMPLEMENTAUDIT_GATE_PASS gate={name} "
-        f"input={qualified_input_sha256} sha={target_sha} tree={target_tree}")
+        f"input={gate_qualified_input_sha256} "
+        f"sha={target_sha} tree={target_tree}")
     if stdout.splitlines().count(marker) != 1:
         raise ValueError(f"{name} raw PASS marker invalid")
     if name == "deterministic":
@@ -1150,10 +1323,19 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
                     raise ValueError("CI raw job evidence invalid")
     if name == "package":
         asset_hash = artifact_hashes["package-retained.skill"]
-        required = (
-            "verify-package: ok",
-            f"REPRODUCIBLE_ASSET_RETAINED sha256={asset_hash}",
-        )
+        required = ["verify-package: ok"]
+        if allow_test_evidence:
+            required.append(
+                f"REPRODUCIBLE_ASSET_RETAINED sha256={asset_hash}")
+        else:
+            required.extend([
+                "PACKAGE_SELECTED_ARCHIVE_RETAINED "
+                f"path=package-retained.skill sha256={asset_hash}",
+                "PACKAGE_REPRO_A_RETAINED "
+                f"path=package-repro-a.skill sha256={asset_hash}",
+                "PACKAGE_REPRO_B_RETAINED "
+                f"path=package-repro-b.skill sha256={asset_hash}",
+            ])
         if any(stdout.splitlines().count(item) != 1 for item in required):
             raise ValueError("package raw evidence markers invalid")
         if not allow_test_evidence:
@@ -1163,6 +1345,16 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
             if "verify-package: ok" not in command_stdout.splitlines():
                 raise ValueError(
                     "package command raw success missing")
+            for label in ("A", "B"):
+                matches = [
+                    line for line in command_stdout.splitlines()
+                    if line.startswith(
+                        f"REPRODUCIBLE_ASSET_{label}_RETAINED path=") and
+                    line.endswith(f" sha256={asset_hash}")
+                ]
+                if len(matches) != 1:
+                    raise ValueError(
+                        f"package command asset {label} export marker invalid")
     if name == "reproducibility":
         asset_hash = artifact_hashes["repro-first.skill"]
         required = f"REPRODUCIBILITY_EQUAL sha256={asset_hash}"
@@ -1248,6 +1440,10 @@ def _validate_gates(gate_root, qualified_input_sha256, target_sha,
             expected_files.update({
                 "package-command.stdout.log",
                 "package-command.stderr.log",
+                "package-repro-a.skill",
+                "package-repro-b.skill",
+                "package-repro-a-entry-manifest.json",
+                "package-repro-b-entry-manifest.json",
             })
         if not allow_test_evidence and name == "ci":
             expected_files.add("ci-provider-export.json")

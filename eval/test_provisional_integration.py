@@ -132,12 +132,21 @@ def expect_error(fragment, action):
 
 def _assert_production_bash_binding_boundary():
     binding = evidence_producer._production_bash_binding()
+    frozen_identity = {
+        "qualification_scope": "FROZEN_CAMPAIGNS",
+        "target_sha": TARGET_SHA,
+        "target_tree": TARGET_TREE,
+        "campaign_qualified_input_sha256": "a" * 64,
+        "evaluated_surfaces_sha256": "b" * 64,
+    }
     deterministic = {
         "schema": "implementaudit-deterministic-terminal-v2",
         "gate": "deterministic",
         "qualified_input_sha256": "a" * 64,
         "exit_code": 0,
         "failed_checks": [],
+        "qualification_scope": "FROZEN_CAMPAIGNS",
+        "qualification_identity": frozen_identity,
         "bash_executable": binding,
         "checks": [],
     }
@@ -163,6 +172,33 @@ def _assert_production_bash_binding_boundary():
         "deterministic", deterministic, "a" * 64, {},
         evidence_mode="PRODUCTION")
 
+    package_hashes = {
+        "package-entry-manifest.json": "b" * 64,
+        "package-retained.skill": "c" * 64,
+        "package-repro-a.skill": "c" * 64,
+        "package-repro-b.skill": "c" * 64,
+        "package-repro-a-entry-manifest.json": "d" * 64,
+        "package-repro-b-entry-manifest.json": "d" * 64,
+    }
+    tooling_identity = {
+        "qualification_scope": "TOOLING_EXACT_SHA",
+        "target_sha": TARGET_SHA,
+        "target_tree": TARGET_TREE,
+        "tooling_source_manifest": {},
+        "tooling_source_manifest_sha256": "e" * 64,
+    }
+    package_reproducibility = {
+        "selected_archive_path": "package-retained.skill",
+        "selected_archive_sha256": "c" * 64,
+        "assets": [{
+            "label": label,
+            "path": f"package-repro-{label.lower()}.skill",
+            "sha256": "c" * 64,
+            "manifest_path":
+                f"package-repro-{label.lower()}-entry-manifest.json",
+            "manifest_sha256": "d" * 64,
+        } for label in ("A", "B")],
+    }
     package = {
         "schema": "implementaudit-package-terminal-v2",
         "gate": "package",
@@ -175,11 +211,14 @@ def _assert_production_bash_binding_boundary():
         "started_at": "2026-07-29T00:00:00Z",
         "completed_at": "2026-07-29T00:00:01Z",
         "pid": 1,
+        "qualification_scope": "TOOLING_EXACT_SHA",
+        "qualification_identity": tooling_identity,
+        "package_reproducibility": package_reproducibility,
         "bash_executable": binding,
     }
     integration._validate_gate_terminal(
         "package", package, "a" * 64,
-        {"package-entry-manifest.json": "b" * 64},
+        package_hashes,
         evidence_mode="PRODUCTION")
 
     mutations = (
@@ -201,9 +240,101 @@ def _assert_production_bash_binding_boundary():
             "bash",
             lambda changed=changed: integration._validate_gate_terminal(
                 "package", changed, "a" * 64,
-                {"package-entry-manifest.json": "b" * 64},
+                package_hashes,
                 evidence_mode="PRODUCTION"))
     print("PROVISIONAL-PRODUCTION-BASH-BINDING=PASS")
+
+
+def _assert_gate_qualification_scope_boundary():
+    tooling_hash, tooling = evidence_producer._qualification_identity(
+        "package", HERE.parent, TARGET_SHA, TARGET_TREE,
+        qualification_scope="TOOLING_EXACT_SHA")
+    assert integration._validate_qualification_identity(
+        "package", tooling, tooling_hash, TARGET_SHA, TARGET_TREE,
+        "a" * 64, "b" * 64) == tooling
+
+    frozen_hash, frozen = evidence_producer._qualification_identity(
+        "deterministic", HERE.parent, TARGET_SHA, TARGET_TREE,
+        qualification_scope="FROZEN_CAMPAIGNS",
+        qualified_input_sha256="a" * 64,
+        surfaces_sha256="b" * 64)
+    assert integration._validate_qualification_identity(
+        "deterministic", frozen, frozen_hash, TARGET_SHA, TARGET_TREE,
+        "a" * 64, "b" * 64) == frozen
+
+    mutations = (
+        ("scope confusion", lambda value: value.update(
+            qualification_scope="FROZEN_CAMPAIGNS")),
+        ("different SHA", lambda value: value.update(target_sha="0" * 40)),
+        ("different tree", lambda value: value.update(target_tree="0" * 40)),
+        ("missing field", lambda value: value.pop(
+            "tooling_source_manifest")),
+        ("extra field", lambda value: value.update(
+            evaluated_surfaces_sha256="b" * 64)),
+    )
+    for label, mutate in mutations:
+        changed = copy.deepcopy(tooling)
+        mutate(changed)
+        expect_error(
+            None,
+            lambda changed=changed: integration.
+            _validate_qualification_identity(
+                "package", changed, tooling_hash, TARGET_SHA, TARGET_TREE,
+                "a" * 64, "b" * 64))
+    print("PROVISIONAL-QUALIFICATION-SCOPE=PASS")
+
+
+def _assert_package_reproducibility_asset_boundary():
+    asset_hash = "c" * 64
+    manifest_hash = "d" * 64
+    binding = {
+        "selected_archive_path": "package-retained.skill",
+        "selected_archive_sha256": asset_hash,
+        "assets": [
+            {
+                "label": "A",
+                "path": "package-repro-a.skill",
+                "sha256": asset_hash,
+                "manifest_path": "package-repro-a-entry-manifest.json",
+                "manifest_sha256": manifest_hash,
+            },
+            {
+                "label": "B",
+                "path": "package-repro-b.skill",
+                "sha256": asset_hash,
+                "manifest_path": "package-repro-b-entry-manifest.json",
+                "manifest_sha256": manifest_hash,
+            },
+        ],
+    }
+    hashes = {
+        "package-retained.skill": asset_hash,
+        "package-repro-a.skill": asset_hash,
+        "package-repro-b.skill": asset_hash,
+        "package-repro-a-entry-manifest.json": manifest_hash,
+        "package-repro-b-entry-manifest.json": manifest_hash,
+    }
+    assert integration._validate_package_asset_binding(
+        binding, hashes) == binding
+    mutations = (
+        ("missing A/B", lambda value: value["assets"].pop()),
+        ("drift", lambda value: value["assets"][1].update(
+            sha256="e" * 64)),
+        ("asset alias", lambda value: value["assets"][1].update(
+            path="package-repro-a.skill")),
+        ("manifest alias", lambda value: value["assets"][1].update(
+            manifest_path="package-repro-a-entry-manifest.json")),
+        ("extra asset", lambda value: value["assets"].append(
+            copy.deepcopy(value["assets"][0]))),
+    )
+    for _label, mutate in mutations:
+        changed = copy.deepcopy(binding)
+        mutate(changed)
+        expect_error(
+            None,
+            lambda changed=changed: integration.
+            _validate_package_asset_binding(changed, hashes))
+    print("PROVISIONAL-PACKAGE-REPRO-ASSETS=PASS")
 
 
 def _finalize_b3(base, external_surface_paths=None):
@@ -270,7 +401,18 @@ def _gate_values(qualified, package_manifest_hash, artifact_hash):
         (pathlib.Path(__file__).resolve().parent.parent /
          ".github" / "workflows" /
          "validate.yml").read_bytes()).hexdigest()
-    return {
+    frozen_identity = {
+        "qualification_scope": "FROZEN_CAMPAIGNS",
+        "target_sha": TARGET_SHA,
+        "target_tree": TARGET_TREE,
+        "campaign_qualified_input_sha256": qualified,
+        "evaluated_surfaces_sha256": "f" * 64,
+    }
+    common = {
+        "qualification_scope": "FROZEN_CAMPAIGNS",
+        "qualification_identity": frozen_identity,
+    }
+    values = {
         "deterministic": {
             "schema": "implementaudit-deterministic-terminal-v1",
             "gate": "deterministic",
@@ -315,6 +457,9 @@ def _gate_values(qualified, package_manifest_hash, artifact_hash):
             "verdict": "PASS", "findings": [],
         },
     }
+    for value in values.values():
+        value.update(common)
+    return values
 
 
 def _gates(root, qualified, target_sha, target_tree, surfaces_sha256):
@@ -323,6 +468,10 @@ def _gates(root, qualified, target_sha, target_tree, surfaces_sha256):
     prior = hashlib.sha256(b"").hexdigest()
     for name in integration.REQUIRED_GATES:
         review = None
+        qualification_scope = (
+            "TOOLING_EXACT_SHA"
+            if name in ("package", "ci", "reproducibility")
+            else "FROZEN_CAMPAIGNS")
         if name == "independent-review":
             base_sha = subprocess.check_output(
                 ["git", "-C", str(producer_repo), "rev-parse",
@@ -343,8 +492,13 @@ def _gates(root, qualified, target_sha, target_tree, surfaces_sha256):
         manifest_sha = evidence_producer.run_gate(
             name, repo_root=producer_repo, evidence_root=root,
             target_sha=target_sha, target_tree=target_tree,
-            qualified_input_sha256=qualified,
-            surfaces_sha256=surfaces_sha256,
+            qualification_scope=qualification_scope,
+            qualified_input_sha256=(
+                qualified if qualification_scope ==
+                "FROZEN_CAMPAIGNS" else None),
+            surfaces_sha256=(
+                surfaces_sha256 if qualification_scope ==
+                "FROZEN_CAMPAIGNS" else None),
             prior_evidence_sha256=prior, review=review,
             test_only=True)
         prior = integration._canonical_sha({
@@ -821,6 +975,8 @@ def main():
     # controller-owned producer API, never direct test-authored terminals.
     assert callable(evidence_producer.run_gate)
     _assert_production_bash_binding_boundary()
+    _assert_gate_qualification_scope_boundary()
+    _assert_package_reproducibility_asset_boundary()
 
     # Governing round-2 RED: package authority must parse a real canonical
     # archive and derive its exact entry manifest, not merely compare digests.

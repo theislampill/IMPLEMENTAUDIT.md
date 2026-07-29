@@ -24,6 +24,14 @@ import provisional_integration as integration
 
 SOURCE = pathlib.Path(__file__).resolve()
 _PACKAGE_CACHE = {}
+TOOLING_SOURCE_PATHS = (
+    "eval/provisional_integration.py",
+    "eval/qualification_evidence_producer.py",
+    "scripts/build-release-asset.sh",
+    "scripts/verify-package.sh",
+    "tests/reproducible-release-asset.test.sh",
+)
+QUALIFICATION_SCOPES = ("TOOLING_EXACT_SHA", "FROZEN_CAMPAIGNS")
 
 
 def _encoded(value):
@@ -66,6 +74,150 @@ def _verify_target(repo_root, target_sha, target_tree):
     if dirty:
         raise ValueError("qualification producer checkout is dirty")
     return repo_root
+
+
+def _digest(value, owner):
+    if (type(value) is not str or len(value) != 64 or
+            any(char not in "0123456789abcdef" for char in value)):
+        raise ValueError(f"{owner} SHA-256 invalid")
+
+
+def _tooling_source_manifest(repo_root, target_sha, target_tree):
+    rows = []
+    for path in TOOLING_SOURCE_PATHS:
+        raw = _git(repo_root, "show", f"{target_sha}:{path}")
+        rows.append({
+            "path": path,
+            "byte_length": len(raw),
+            "sha256": hashlib.sha256(raw).hexdigest(),
+        })
+    return {
+        "schema": "implementaudit-tooling-source-manifest-v1",
+        "target_sha": target_sha,
+        "target_tree": target_tree,
+        "files": rows,
+    }
+
+
+def _qualification_identity(name, repo_root, target_sha, target_tree, *,
+                            qualification_scope,
+                            qualified_input_sha256=None,
+                            surfaces_sha256=None):
+    if qualification_scope not in QUALIFICATION_SCOPES:
+        raise ValueError("qualification scope invalid")
+    if name in ("package", "reproducibility") and \
+            qualification_scope != "TOOLING_EXACT_SHA":
+        raise ValueError(f"{name} qualification scope must be TOOLING_EXACT_SHA")
+    if qualification_scope == "TOOLING_EXACT_SHA":
+        if qualified_input_sha256 is not None or surfaces_sha256 is not None:
+            raise ValueError(
+                "campaign qualification hashes are not permitted for "
+                "TOOLING_EXACT_SHA")
+        manifest = _tooling_source_manifest(
+            repo_root, target_sha, target_tree)
+        identity = {
+            "qualification_scope": qualification_scope,
+            "target_sha": target_sha,
+            "target_tree": target_tree,
+            "tooling_source_manifest": manifest,
+            "tooling_source_manifest_sha256":
+                hashlib.sha256(_encoded(manifest)).hexdigest(),
+        }
+        return hashlib.sha256(_encoded(identity)).hexdigest(), identity
+    if qualified_input_sha256 is None or surfaces_sha256 is None:
+        raise ValueError(
+            "FROZEN_CAMPAIGNS qualification hashes are required")
+    _digest(qualified_input_sha256, "campaign qualified input")
+    _digest(surfaces_sha256, "evaluated surfaces")
+    return qualified_input_sha256, {
+        "qualification_scope": qualification_scope,
+        "target_sha": target_sha,
+        "target_tree": target_tree,
+        "campaign_qualified_input_sha256": qualified_input_sha256,
+        "evaluated_surfaces_sha256": surfaces_sha256,
+    }
+
+
+def _package_export_contract(repo_root, asset_a, asset_b):
+    if asset_a is None or asset_b is None:
+        raise ValueError("both package reproducibility export paths required")
+    repo = pathlib.Path(repo_root).resolve(strict=True)
+    selected = []
+    for value in (asset_a, asset_b):
+        path = pathlib.Path(value)
+        if not path.is_absolute():
+            raise ValueError(
+                "package reproducibility export path must be absolute")
+        parent = path.parent.absolute()
+        try:
+            canonical_parent = parent.resolve(strict=True)
+            observed = os.lstat(parent)
+        except OSError as exc:
+            raise ValueError(
+                "package reproducibility export parent unavailable") from exc
+        if (canonical_parent != parent or
+                stat.S_ISLNK(observed.st_mode) or
+                bool(getattr(observed, "st_file_attributes", 0) &
+                     getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400)) or
+                not stat.S_ISDIR(observed.st_mode)):
+            raise ValueError(
+                "package reproducibility export parent custody invalid")
+        candidate = canonical_parent / path.name
+        try:
+            candidate.relative_to(repo)
+        except ValueError:
+            pass
+        else:
+            raise ValueError(
+                "package reproducibility export must be outside worktree")
+        if candidate.exists() or candidate.is_symlink():
+            raise ValueError(
+                "package reproducibility export already exists")
+        selected.append(candidate)
+    if os.path.normcase(os.path.normpath(str(selected[0]))) == \
+            os.path.normcase(os.path.normpath(str(selected[1]))):
+        raise ValueError(
+            "package reproducibility export paths must be distinct")
+    return tuple(selected)
+
+
+def _read_exported_package_pair(asset_a, asset_b):
+    first = lifecycle.read_custodied_bytes(
+        asset_a, "package reproducibility asset A",
+        root=pathlib.Path(asset_a).parent)
+    second = lifecycle.read_custodied_bytes(
+        asset_b, "package reproducibility asset B",
+        root=pathlib.Path(asset_b).parent)
+    first_stat = os.lstat(asset_a)
+    second_stat = os.lstat(asset_b)
+    if ((first_stat.st_dev, first_stat.st_ino) ==
+            (second_stat.st_dev, second_stat.st_ino)):
+        raise ValueError("package reproducibility assets alias")
+    if first != second:
+        raise ValueError("package reproducibility assets differ")
+    return first, second
+
+
+def _manifest_for_archive(repo_root, target_sha, target_tree, raw):
+    import io
+    try:
+        with zipfile.ZipFile(io.BytesIO(raw)) as archive:
+            entries = [
+                integration._zip_entry_row(info, archive.read(info))
+                for info in archive.infolist()
+            ]
+    except zipfile.BadZipFile as exc:
+        raise ValueError("package export is not a ZIP archive") from exc
+    return _encoded({
+        "schema": integration.PACKAGE_MANIFEST_SCHEMA,
+        "source_sha": target_sha,
+        "source_tree": target_tree,
+        "builder_source_path": "scripts/build-release-asset.sh",
+        "builder_source_sha256": hashlib.sha256(_git(
+            repo_root, "show",
+            f"{target_sha}:scripts/build-release-asset.sh")).hexdigest(),
+        "entries": entries,
+    })
 
 
 def _package(repo_root, target_sha, target_tree):
@@ -336,22 +488,84 @@ def _production_deterministic(repo_root, qualified, bash_binding):
     return terminal, artifacts
 
 
-def _production_package(repo_root, qualified, target_sha, target_tree,
-                        bash_binding):
+def _production_package(repo_root, evidence_root, qualified,
+                        target_sha, target_tree, bash_binding):
     bash = _resolved_argv(["bash"], bash_binding=bash_binding)[0]
     argv = [bash, "scripts/verify-package.sh"]
+    export_root = evidence_root.parent / \
+        f".{evidence_root.name}-package-export"
+    try:
+        export_root.mkdir()
+    except FileExistsError as exc:
+        raise ValueError(
+            "package reproducibility export root already exists") from exc
+    asset_a, asset_b = _package_export_contract(
+        repo_root, export_root / "asset-a.skill",
+        export_root / "asset-b.skill")
+    environment = os.environ.copy()
+    environment.update({
+        "REPRO_SOURCE_REF": target_sha,
+        "REPRO_RETAINED_ASSET_A": str(asset_a),
+        "REPRO_RETAINED_ASSET_B": str(asset_b),
+    })
     started = _utc_now()
     process = subprocess.Popen(
         argv, cwd=repo_root, stdin=subprocess.DEVNULL,
-        stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False)
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False,
+        env=environment)
     stdout, stderr = process.communicate()
     completed = _utc_now()
     if process.returncode != 0:
         raise ValueError("production full package gate failed")
-    archive, manifest = _package(repo_root, target_sha, target_tree)
+    archive_a, archive_b = _read_exported_package_pair(asset_a, asset_b)
+    manifest_a = _manifest_for_archive(
+        repo_root, target_sha, target_tree, archive_a)
+    manifest_b = _manifest_for_archive(
+        repo_root, target_sha, target_tree, archive_b)
+    if manifest_a != manifest_b:
+        raise ValueError(
+            "package reproducibility entry manifests differ")
+    manifest_a_stage = export_root / "asset-a-entry-manifest.json"
+    manifest_b_stage = export_root / "asset-b-entry-manifest.json"
+    _write_new(manifest_a_stage, manifest_a)
+    _write_new(manifest_b_stage, manifest_b)
+    integration.validate_package_archive(
+        asset_a, manifest_a_stage, target_sha, target_tree,
+        repo_root=repo_root)
+    integration.validate_package_archive(
+        asset_b, manifest_b_stage, target_sha, target_tree,
+        repo_root=repo_root)
+    archive = archive_a
+    manifest = manifest_a
+    asset_sha = hashlib.sha256(archive).hexdigest()
+    manifest_sha = hashlib.sha256(manifest).hexdigest()
+    package_reproducibility = {
+        "selected_archive_path": "package-retained.skill",
+        "selected_archive_sha256": asset_sha,
+        "assets": [
+            {
+                "label": "A",
+                "path": "package-repro-a.skill",
+                "sha256": asset_sha,
+                "manifest_path": "package-repro-a-entry-manifest.json",
+                "manifest_sha256": manifest_sha,
+            },
+            {
+                "label": "B",
+                "path": "package-repro-b.skill",
+                "sha256": asset_sha,
+                "manifest_path": "package-repro-b-entry-manifest.json",
+                "manifest_sha256": manifest_sha,
+            },
+        ],
+    }
     artifacts = {
         "package-retained.skill": archive,
         "package-entry-manifest.json": manifest,
+        "package-repro-a.skill": archive_a,
+        "package-repro-b.skill": archive_b,
+        "package-repro-a-entry-manifest.json": manifest_a,
+        "package-repro-b-entry-manifest.json": manifest_b,
     }
     terminal = {
         "schema": "implementaudit-package-terminal-v2",
@@ -360,19 +574,26 @@ def _production_package(repo_root, qualified, target_sha, target_tree,
         "argv": argv, "started_at": started, "completed_at": completed,
         "pid": process.pid,
         "package_manifest_sha256": hashlib.sha256(manifest).hexdigest(),
+        "package_reproducibility": package_reproducibility,
         "bash_executable": bash_binding,
     }
     return terminal, artifacts, stdout, stderr
 
 
 def run_gate(name, *, repo_root, evidence_root, target_sha, target_tree,
-             qualified_input_sha256, surfaces_sha256,
-             prior_evidence_sha256, review=None, external_ci=None,
-             test_only=False):
+             qualification_scope, prior_evidence_sha256,
+             qualified_input_sha256=None, surfaces_sha256=None,
+             review=None, external_ci=None, test_only=False):
     """Produce one gate's complete evidence, manifest last, exactly once."""
     if name not in integration.REQUIRED_GATES:
         raise ValueError("qualification gate unsupported")
     repo_root = _verify_target(repo_root, target_sha, target_tree)
+    qualified_input_sha256, qualification_identity = \
+        _qualification_identity(
+            name, repo_root, target_sha, target_tree,
+            qualification_scope=qualification_scope,
+            qualified_input_sha256=qualified_input_sha256,
+            surfaces_sha256=surfaces_sha256)
     evidence_root = pathlib.Path(evidence_root).absolute()
     if evidence_root.exists():
         if not evidence_root.is_dir():
@@ -395,8 +616,8 @@ def run_gate(name, *, repo_root, evidence_root, target_sha, target_tree,
     elif not test_only and name == "package":
         terminal, artifacts, production_stdout, production_stderr = \
             _production_package(
-                repo_root, qualified_input_sha256, target_sha, target_tree,
-                bash_binding)
+                repo_root, evidence_root, qualified_input_sha256,
+                target_sha, target_tree, bash_binding)
         artifacts["package-command.stdout.log"] = production_stdout
         artifacts["package-command.stderr.log"] = production_stderr
         package_raw = artifacts["package-retained.skill"]
@@ -537,6 +758,8 @@ def run_gate(name, *, repo_root, evidence_root, target_sha, target_tree,
         terminal = _terminal(
             name, qualified_input_sha256, repo_root, target_sha, target_tree,
             artifacts)
+    terminal["qualification_scope"] = qualification_scope
+    terminal["qualification_identity"] = qualification_identity
     terminal_raw = _encoded(terminal)
     stdout_lines = [
         f"IMPLEMENTAUDIT_GATE_PASS gate={name} "
@@ -552,10 +775,19 @@ def run_gate(name, *, repo_root, evidence_root, target_sha, target_tree,
                 row["log_marker"] for row in terminal["jobs"])
     elif name == "package":
         digest = hashlib.sha256(package_raw).hexdigest()
-        stdout_lines.extend([
-            "verify-package: ok",
-            f"REPRODUCIBLE_ASSET_RETAINED sha256={digest}",
-        ])
+        stdout_lines.append("verify-package: ok")
+        if test_only:
+            stdout_lines.append(
+                f"REPRODUCIBLE_ASSET_RETAINED sha256={digest}")
+        else:
+            stdout_lines.extend([
+                "PACKAGE_SELECTED_ARCHIVE_RETAINED "
+                f"path=package-retained.skill sha256={digest}",
+                "PACKAGE_REPRO_A_RETAINED "
+                f"path=package-repro-a.skill sha256={digest}",
+                "PACKAGE_REPRO_B_RETAINED "
+                f"path=package-repro-b.skill sha256={digest}",
+            ])
     elif name == "reproducibility":
         stdout_lines.append(
             "REPRODUCIBILITY_EQUAL sha256=" +
@@ -571,9 +803,10 @@ def run_gate(name, *, repo_root, evidence_root, target_sha, target_tree,
             hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
         "qualified_input_sha256": qualified_input_sha256,
         "target_sha": target_sha, "target_tree": target_tree,
+        "qualification_scope": qualification_scope,
+        "qualification_identity": qualification_identity,
         "command": integration.GATE_COMMANDS[name],
         "producer_role": integration.GATE_PRODUCER_ROLES[name],
-        "evaluated_surfaces_sha256": surfaces_sha256,
         "invocation_count": 1, "network_authorized": False,
         "credentials_authorized": False,
         "model_or_metered_api_authorized": False,
@@ -585,6 +818,8 @@ def run_gate(name, *, repo_root, evidence_root, target_sha, target_tree,
         "gate": name,
         "qualified_input_sha256": qualified_input_sha256,
         "target_sha": target_sha, "target_tree": target_tree,
+        "qualification_scope": qualification_scope,
+        "qualification_identity": qualification_identity,
         "producer_source_path": "eval/qualification_evidence_producer.py",
         "producer_source_sha256":
             hashlib.sha256(SOURCE.read_bytes()).hexdigest(),

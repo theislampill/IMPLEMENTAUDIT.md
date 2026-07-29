@@ -62,6 +62,113 @@ def main():
         tree = subprocess.check_output(
             ["git", "-C", str(checkout), "show", "-s", "--format=%T",
              "HEAD"], text=True).strip()
+        tooling_hash, tooling_identity = producer._qualification_identity(
+            "package", checkout, sha, tree,
+            qualification_scope="TOOLING_EXACT_SHA")
+        assert len(tooling_hash) == 64
+        assert tooling_identity["qualification_scope"] == \
+            "TOOLING_EXACT_SHA"
+        assert tooling_identity["target_sha"] == sha
+        assert tooling_identity["target_tree"] == tree
+        assert [row["path"] for row in
+                tooling_identity["tooling_source_manifest"]["files"]] == \
+            list(producer.TOOLING_SOURCE_PATHS)
+        expect_error(
+            "not permitted",
+            lambda: producer._qualification_identity(
+                "package", checkout, sha, tree,
+                qualification_scope="TOOLING_EXACT_SHA",
+                qualified_input_sha256="a" * 64,
+                surfaces_sha256="b" * 64))
+        expect_error(
+            "scope",
+            lambda: producer._qualification_identity(
+                "package", checkout, sha, tree,
+                qualification_scope="FROZEN_CAMPAIGNS",
+                qualified_input_sha256="a" * 64,
+                surfaces_sha256="b" * 64))
+        expect_error(
+            "required",
+            lambda: producer._qualification_identity(
+                "deterministic", checkout, sha, tree,
+                qualification_scope="FROZEN_CAMPAIGNS",
+                qualified_input_sha256="a" * 64))
+        frozen_hash, frozen_identity = producer._qualification_identity(
+            "deterministic", checkout, sha, tree,
+            qualification_scope="FROZEN_CAMPAIGNS",
+            qualified_input_sha256="a" * 64,
+            surfaces_sha256="b" * 64)
+        assert frozen_hash == "a" * 64
+        assert frozen_identity == {
+            "qualification_scope": "FROZEN_CAMPAIGNS",
+            "target_sha": sha,
+            "target_tree": tree,
+            "campaign_qualified_input_sha256": "a" * 64,
+            "evaluated_surfaces_sha256": "b" * 64,
+        }
+        export_root = base / "package-export"
+        export_root.mkdir()
+        export_a = export_root / "a.skill"
+        export_b = export_root / "b.skill"
+        expect_error(
+            "both",
+            lambda: producer._package_export_contract(
+                checkout, None, None))
+        expect_error(
+            "both",
+            lambda: producer._package_export_contract(
+                checkout, export_a, None))
+        expect_error(
+            "distinct",
+            lambda: producer._package_export_contract(
+                checkout, export_a, export_a))
+        export_a.write_bytes(b"existing")
+        expect_error(
+            "already exists",
+            lambda: producer._package_export_contract(
+                checkout, export_a, export_b))
+        export_a.unlink()
+        selected_a, selected_b = producer._package_export_contract(
+            checkout, export_a, export_b)
+        assert selected_a == export_a.resolve()
+        assert selected_b == export_b.resolve()
+        export_a.write_bytes(b"same")
+        export_b.write_bytes(b"different")
+        expect_error(
+            "differ",
+            lambda: producer._read_exported_package_pair(
+                export_a, export_b))
+        export_b.write_bytes(b"same")
+        first, second = producer._read_exported_package_pair(
+            export_a, export_b)
+        assert first == second == b"same"
+        shell_contract = base / "shell-export-contract"
+        shell_contract.mkdir()
+        shell_a = shell_contract / "a.skill"
+        shell_b = shell_contract / "b.skill"
+        bash = (r"C:\Program Files\Git\bin\bash.exe"
+                if os.name == "nt" else "bash")
+
+        def export_control(asset_a_value, asset_b_value):
+            environment = os.environ.copy()
+            if asset_a_value is not None:
+                environment["REPRO_RETAINED_ASSET_A"] = str(asset_a_value)
+            if asset_b_value is not None:
+                environment["REPRO_RETAINED_ASSET_B"] = str(asset_b_value)
+            return subprocess.run(
+                [bash, str(
+                    REPO / "tests" /
+                    "reproducible-release-asset.test.sh")],
+                cwd=REPO, stdin=subprocess.DEVNULL,
+                capture_output=True, check=False, env=environment)
+
+        assert export_control(shell_a, None).returncode != 0
+        assert not shell_a.exists()
+        assert export_control(shell_a, shell_a).returncode != 0
+        assert not shell_a.exists()
+        shell_a.write_bytes(b"existing")
+        assert export_control(shell_a, shell_b).returncode != 0
+        assert not shell_b.exists()
         archive_raw, manifest_raw = producer._package(
             checkout, sha, tree)
         archive = base / "source-bound.skill"
@@ -79,6 +186,7 @@ def main():
         producer.run_gate(
             "deterministic", repo_root=checkout,
             evidence_root=test_evidence, target_sha=sha,
+            qualification_scope="FROZEN_CAMPAIGNS",
             target_tree=tree, qualified_input_sha256="a" * 64,
             surfaces_sha256="b" * 64,
             prior_evidence_sha256="c" * 64, test_only=True)
@@ -94,8 +202,7 @@ def main():
                 "ci", repo_root=checkout,
                 evidence_root=base / "production-ci-evidence",
                 target_sha=sha, target_tree=tree,
-                qualified_input_sha256="a" * 64,
-                surfaces_sha256="b" * 64,
+                qualification_scope="TOOLING_EXACT_SHA",
                 prior_evidence_sha256="c" * 64))
         workflow = subprocess.check_output(
             ["git", "-C", str(checkout), "show",
@@ -142,8 +249,7 @@ def main():
                     "ci", repo_root=checkout,
                     evidence_root=base / f"bad-ci-{label}",
                     target_sha=sha, target_tree=tree,
-                    qualified_input_sha256="a" * 64,
-                    surfaces_sha256="b" * 64,
+                    qualification_scope="TOOLING_EXACT_SHA",
                     prior_evidence_sha256="c" * 64,
                     external_ci=raw(changed)))
         expect_error(
@@ -152,16 +258,14 @@ def main():
                 "ci", repo_root=checkout,
                 evidence_root=base / "malformed-ci",
                 target_sha=sha, target_tree=tree,
-                qualified_input_sha256="a" * 64,
-                surfaces_sha256="b" * 64,
+                qualification_scope="TOOLING_EXACT_SHA",
                 prior_evidence_sha256="c" * 64,
                 external_ci=b"{"))
         producer.run_gate(
             "ci", repo_root=checkout,
             evidence_root=base / "valid-hosted-ci",
             target_sha=sha, target_tree=tree,
-            qualified_input_sha256="a" * 64,
-            surfaces_sha256="b" * 64,
+            qualification_scope="TOOLING_EXACT_SHA",
             prior_evidence_sha256="c" * 64,
             external_ci=raw(hosted))
 
@@ -173,6 +277,7 @@ def main():
                 "deterministic", repo_root=checkout,
                 evidence_root=base / "dirty-evidence",
                 target_sha=sha, target_tree=tree,
+                qualification_scope="FROZEN_CAMPAIGNS",
                 qualified_input_sha256="a" * 64,
                 surfaces_sha256="b" * 64,
                 prior_evidence_sha256="c" * 64))
