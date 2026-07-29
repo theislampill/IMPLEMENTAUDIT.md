@@ -1346,13 +1346,14 @@ class CampaignDriver:
             self.campaign_root, descriptor, binding)
         return result
 
-    def validate_luna_stage(self):
+    def _validate_luna_stage(self, *, validate_runtime_identities=True):
         if self.execution_mode != "production":
             raise ValueError(
                 "test execution is nonqualifying; production mode is required")
         packet, packet_raw, packet_sha256 = self._load_packet()
         self._ensure_campaign(packet_raw, packet_sha256, packet)
-        self._validate_identities(packet)
+        if validate_runtime_identities:
+            self._validate_identities(packet)
         self._validate_surfaces(packet)
         self._raise_if_campaign_andon(packet)
         independent_path = self.campaign_root / packet["luna_stage"][
@@ -1402,6 +1403,9 @@ class CampaignDriver:
             raise ValueError("official Luna result drift")
         return official
 
+    def validate_luna_stage(self):
+        return self._validate_luna_stage()
+
     def _execute_formal_host(self, context):
         mission = context.mission
         config_name = "L"
@@ -1446,6 +1450,18 @@ class CampaignDriver:
                 "resolved_model": result.resolved_model,
                 "host_run_root": str(host_root),
                 "official_verdict": verdict}
+
+
+def validate_retained_luna_stage(packet_path, campaign_root, surface_root):
+    """Validate a completed retained stage without launching or Git mutation."""
+    driver = object.__new__(CampaignDriver)
+    driver.packet_path = pathlib.Path(packet_path).absolute()
+    driver.repo_root = pathlib.Path(surface_root).resolve()
+    driver.campaign_root = pathlib.Path(campaign_root).absolute()
+    driver.execution_mode = "production"
+    driver.live_validator = lambda packet, root: surfaces.revalidate_manifest(
+        packet["evaluated_surfaces"], root=root)
+    return driver._validate_luna_stage(validate_runtime_identities=False)
 
 
 def main(argv=None):

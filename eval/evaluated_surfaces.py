@@ -139,7 +139,11 @@ def _stable_file_identity(path, owner):
                      getattr(opened, "st_mtime_ns", None)) or
                     length != after.st_size):
                 raise ValueError(f"{owner} identity changed during custody read")
-            return length, digest.hexdigest()
+            lexical_key = os.path.normcase(os.path.normpath(str(path)))
+            canonical_key = os.path.normcase(os.path.normpath(str(resolved)))
+            physical_key = (opened.st_dev, opened.st_ino)
+            return length, digest.hexdigest(), (
+                lexical_key, canonical_key, physical_key)
         finally:
             if descriptor is not None:
                 os.close(descriptor)
@@ -231,7 +235,12 @@ def validate_manifest(manifest, campaign):
     duplicate_roles = sorted({role for role in roles if roles.count(role) > 1})
     if duplicate_roles:
         raise ValueError(f"evaluated surface duplicate role: {duplicate_roles}")
-    duplicate_paths = sorted({path for path in paths if paths.count(path) > 1})
+    normalized_paths = [
+        os.path.normcase(os.path.normpath(path.replace("/", os.sep)))
+        for path in paths
+    ]
+    duplicate_paths = sorted({
+        path for path in normalized_paths if normalized_paths.count(path) > 1})
     if duplicate_paths:
         raise ValueError(f"evaluated surface duplicate path: {duplicate_paths}")
     expected = list(required_roles(campaign))
@@ -250,6 +259,7 @@ def build_manifest(campaign, sources, *, root):
     if type(sources) is not list:
         raise TypeError("evaluated surface sources must be an exact list")
     entries = []
+    identity_owners = {}
     for source in sources:
         if type(source) is not dict:
             raise TypeError("evaluated surface source must be an exact object")
@@ -261,9 +271,16 @@ def build_manifest(campaign, sources, *, root):
         if type(role) is not str or role not in required_roles(campaign):
             raise ValueError(f"evaluated surface role invalid: {role!r}")
         stored_path = _normalize_path(source["path"], campaign, role)
-        length, digest = _stable_file_identity(
-            _source_path(root, stored_path, campaign, role),
+        source_path = _source_path(root, stored_path, campaign, role)
+        length, digest, identities = _stable_file_identity(
+            source_path,
             f"evaluated surface {role}")
+        for identity in set(identities):
+            if identity in identity_owners:
+                raise ValueError(
+                    "evaluated surface physical alias forbidden: "
+                    f"{identity_owners[identity]} and {role}")
+            identity_owners[identity] = role
         entry = {
             "role": role, "path": stored_path,
             "byte_length": length, "sha256": digest,
@@ -281,10 +298,17 @@ def build_manifest(campaign, sources, *, root):
 def revalidate_manifest(manifest, *, root):
     campaign = manifest.get("campaign") if type(manifest) is dict else None
     validate_manifest(manifest, campaign)
+    identity_owners = {}
     for entry in manifest["entries"]:
-        length, digest = _stable_file_identity(
+        length, digest, identities = _stable_file_identity(
             _source_path(root, entry["path"], campaign, entry["role"]),
             f"evaluated surface {entry['role']}")
+        for identity in set(identities):
+            if identity in identity_owners:
+                raise ValueError(
+                    "evaluated surface physical alias forbidden: "
+                    f"{identity_owners[identity]} and {entry['role']}")
+            identity_owners[identity] = entry["role"]
         if length != entry["byte_length"] or digest != entry["sha256"]:
             raise ValueError(
                 f"evaluated surface byte drift: {entry['role']}")
@@ -309,7 +333,7 @@ def revalidate_file_binding(binding, *, root, owner="bound evidence"):
             type(binding["sha256"]) is not str or
             not SHA256.fullmatch(binding["sha256"])):
         raise ValueError(f"{owner} byte identity invalid")
-    observed_length, observed_sha = _stable_file_identity(
+    observed_length, observed_sha, _identities = _stable_file_identity(
         pathlib.Path(root).absolute() / pathlib.PurePosixPath(path), owner)
     if (observed_length != binding["byte_length"] or
             observed_sha != binding["sha256"]):

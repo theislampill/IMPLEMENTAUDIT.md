@@ -191,8 +191,9 @@ def _trace_action(action_id, ordinal, command, output):
     }
 
 
-def build_campaign(root, *, execution_mode="production"):
+def build_campaign(root, *, execution_mode="production", surface_root=None):
     root = pathlib.Path(root)
+    surface_root = root if surface_root is None else pathlib.Path(surface_root)
     packet = valid_packet()
     packet["independent_rederiver"]["implementation_identity"]["sha256"] = \
         sha(MODULE.read_bytes())
@@ -201,8 +202,15 @@ def build_campaign(root, *, execution_mode="production"):
     for row in packet["fixtures"]:
         raw = (HERE.parent / row["path"]).read_bytes()
         row["sha256"] = sha(raw)
+        if surface_root != root:
+            write(surface_root / row["path"], raw)
         fixture_bytes[row["id"]] = raw
         fixture_values[row["id"]] = json.loads(raw)
+    for index, row in enumerate(packet["evaluated_surfaces"]["entries"]):
+        payload = f"{packet['campaign']}:{row['role']}:{index}\n".encode()
+        write(surface_root / row["path"], payload)
+        row["byte_length"] = len(payload)
+        row["sha256"] = sha(payload)
     packet_bytes = json.dumps(packet, sort_keys=True).encode()
     freeze_sha = sha(packet_bytes)
     write(root / "campaign-freeze.json", packet_bytes)
@@ -1031,6 +1039,42 @@ def main():
             imports.add(node.module)
     assert not (imports & FORBIDDEN), imports & FORBIDDEN
     module = load_module()
+    # Governing RED R5 applies independently to the matrix implementation.
+    with tempfile.TemporaryDirectory(
+            prefix="matrix-surface-custody-red-") as tmp:
+        surface_root = pathlib.Path(tmp).resolve()
+        packet = valid_packet()
+        manifest = copy.deepcopy(packet["evaluated_surfaces"])
+        for index, row in enumerate(manifest["entries"]):
+            path = surface_root / row["path"]
+            payload = f"surface-{index}\n".encode()
+            write(path, payload)
+            row["byte_length"] = len(payload)
+            row["sha256"] = sha(payload)
+        module._validate_evaluated_surfaces(manifest, surface_root)
+        drifted = copy.deepcopy(manifest)
+        drifted["entries"][0]["sha256"] = "0" * 64
+        try:
+            module._validate_evaluated_surfaces(drifted, surface_root)
+        except (TypeError, module.EvidenceInvalid) as exc:
+            assert "drift" in str(exc) or "hash" in str(exc), str(exc)
+        else:
+            raise AssertionError(
+                "independent matrix surface hash drift was accepted")
+        external = copy.deepcopy(manifest)
+        internal = next(
+            row for row in external["entries"]
+            if row["role"] == "acceptance-rules")
+        internal["path"] = str(
+            surface_root / manifest["entries"][0]["path"]).replace("\\", "/")
+        try:
+            module._validate_evaluated_surfaces(external, surface_root)
+        except module.EvidenceInvalid as exc:
+            assert "external" in str(exc), str(exc)
+        else:
+            raise AssertionError(
+                "independent matrix internal role accepted an external path")
+
     assert_host_check_producer_contract(module)
     assert_independent_pass_property_boundary(module)
     assert_production_campaign_and_mutation_matrix(module)

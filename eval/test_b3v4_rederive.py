@@ -151,8 +151,9 @@ def synthetic_official_pass(fixture, model, manifest, bundle_sha256):
     }
 
 
-def build_campaign(root, fixture_override=None):
+def build_campaign(root, fixture_override=None, *, surface_root=None):
     root = pathlib.Path(root)
+    surface_root = root if surface_root is None else pathlib.Path(surface_root)
     fixture = copy.deepcopy(fixture_override) if fixture_override is not None \
         else make_fixture()
     fixture_bytes = (encoded(fixture) if fixture_override is not None else
@@ -161,6 +162,15 @@ def build_campaign(root, fixture_override=None):
     packet["independent_rederiver"]["implementation_identity"]["sha256"] = \
         sha(REDERIVER.read_bytes())
     packet["fixture"]["fixture_sha256"] = sha(fixture_bytes)
+    if surface_root != root:
+        write(
+            surface_root / "eval" / "fixtures" / packet["fixture"]["id"] /
+            "fixture.json", fixture_bytes)
+    for index, row in enumerate(packet["evaluated_surfaces"]["entries"]):
+        payload = f"{packet['campaign']}:{row['role']}:{index}\n".encode()
+        write(surface_root / row["path"], payload)
+        row["byte_length"] = len(payload)
+        row["sha256"] = sha(payload)
     packet_bytes = json.dumps(packet, sort_keys=True).encode()
     freeze_sha = sha(packet_bytes)
     write(root / "campaign-freeze.json", packet_bytes)
@@ -1556,6 +1566,42 @@ def assert_host_root_junction_rejected(module):
 def main():
     assert_independent_import_boundary()
     module = load_module()
+    # Governing RED R5: syntax-valid rebound surface identities must be checked
+    # against retained bytes by the independent implementation.
+    with tempfile.TemporaryDirectory(prefix="b3v4-surface-custody-red-") as tmp:
+        surface_root = pathlib.Path(tmp).resolve()
+        packet = valid_packet()
+        manifest = copy.deepcopy(packet["evaluated_surfaces"])
+        for index, row in enumerate(manifest["entries"]):
+            path = surface_root / row["path"]
+            payload = f"surface-{index}\n".encode()
+            write(path, payload)
+            row["byte_length"] = len(payload)
+            row["sha256"] = sha(payload)
+        module._validate_evaluated_surfaces(manifest, surface_root)
+        drifted = copy.deepcopy(manifest)
+        drifted["entries"][0]["sha256"] = "0" * 64
+        try:
+            module._validate_evaluated_surfaces(drifted, surface_root)
+        except (TypeError, module.EvidenceInvalid) as exc:
+            assert "drift" in str(exc) or "hash" in str(exc), str(exc)
+        else:
+            raise AssertionError(
+                "independent B3 surface hash drift was accepted")
+        external = copy.deepcopy(manifest)
+        internal = next(
+            row for row in external["entries"]
+            if row["role"] == "acceptance-rules")
+        internal["path"] = str(
+            surface_root / manifest["entries"][0]["path"]).replace("\\", "/")
+        try:
+            module._validate_evaluated_surfaces(external, surface_root)
+        except module.EvidenceInvalid as exc:
+            assert "external" in str(exc), str(exc)
+        else:
+            raise AssertionError(
+                "independent B3 internal role accepted an external path")
+
     surface_packet = valid_packet()
     surface_packet["independent_rederiver"]["implementation_identity"][
         "sha256"] = hashlib.sha256(REDERIVER.read_bytes()).hexdigest()

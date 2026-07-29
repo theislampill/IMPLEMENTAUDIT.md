@@ -66,6 +66,11 @@ EVALUATED_SURFACE_GIT_ROLES = {
     "product-candidate", "official-driver", "host-runner", "scorer",
     "evaluator", "adapter", "independent-rederiver",
 }
+EVALUATED_SURFACE_EXTERNAL_ROLES = {
+    "product-candidate", "authorization-acknowledgement",
+    "host-attestation", "launcher", "native-executable",
+    "checkout-runtime-topology",
+}
 CONTRACT_ARTIFACTS = {
     "campaign_freeze", "campaign_manifest", "attempt_status",
     "host_attestation", "official_verdict", "attempt_terminal",
@@ -848,7 +853,87 @@ def _repo_relative(value, owner):
     return normalized
 
 
-def _validate_evaluated_surfaces(value):
+def _surface_path(root, value, role):
+    _expect(type(value) is str and bool(value) and "\\" not in value and
+            "\x00" not in value,
+            f"evaluated surface {role} path invalid")
+    pure = pathlib.PurePosixPath(value)
+    _expect(not any(part in ("", ".", "..") for part in pure.parts),
+            f"evaluated surface {role} path invalid")
+    path = pathlib.Path(value)
+    if path.is_absolute():
+        _expect(role in EVALUATED_SURFACE_EXTERNAL_ROLES,
+                f"evaluated surface {role} cannot use an external path")
+        return path.absolute()
+    root = pathlib.Path(root).absolute()
+    candidate = (root / pure).absolute()
+    try:
+        candidate.relative_to(root)
+    except ValueError as exc:
+        raise EvidenceInvalid(
+            f"evaluated surface {role} escapes surface root") from exc
+    return candidate
+
+
+def _read_surface(path, owner, root, allow_external):
+    path = pathlib.Path(path).absolute()
+    root = pathlib.Path(root).absolute()
+    try:
+        resolved = path.resolve(strict=True)
+        if not allow_external:
+            resolved.relative_to(root.resolve(strict=True))
+        _expect(resolved == path,
+                f"{owner} link or reparse alias forbidden")
+        current = pathlib.Path(path.anchor)
+        for part in path.parts[1:]:
+            current = current / part
+            observed = os.lstat(current)
+            _expect(not stat.S_ISLNK(observed.st_mode) and
+                    not _reparse_point(observed),
+                    f"{owner} link or reparse alias forbidden")
+        before = os.lstat(path)
+        _expect(stat.S_ISREG(before.st_mode) and before.st_nlink == 1,
+                f"{owner} hardlink or non-file alias forbidden")
+        descriptor = os.open(
+            path, os.O_RDONLY | getattr(os, "O_BINARY", 0) |
+            getattr(os, "O_NOFOLLOW", 0))
+        try:
+            opened = os.fstat(descriptor)
+            _expect(stat.S_ISREG(opened.st_mode) and opened.st_nlink == 1 and
+                    (opened.st_dev, opened.st_ino) ==
+                    (before.st_dev, before.st_ino),
+                    f"{owner} identity changed during custody read")
+            digest = hashlib.sha256()
+            length = 0
+            while True:
+                chunk = os.read(descriptor, 1024 * 1024)
+                if not chunk:
+                    break
+                length += len(chunk)
+                digest.update(chunk)
+            after = os.fstat(descriptor)
+            _expect(
+                (after.st_dev, after.st_ino, after.st_size,
+                 getattr(after, "st_mtime_ns", None)) ==
+                (opened.st_dev, opened.st_ino, opened.st_size,
+                 getattr(opened, "st_mtime_ns", None)) and
+                length == after.st_size,
+                f"{owner} identity changed during custody read")
+            identities = (
+                os.path.normcase(os.path.normpath(str(path))),
+                os.path.normcase(os.path.normpath(str(resolved))),
+                (opened.st_dev, opened.st_ino),
+            )
+            return length, digest.hexdigest(), identities
+        finally:
+            os.close(descriptor)
+    except EvidenceInvalid:
+        raise
+    except (OSError, ValueError) as exc:
+        raise EvidenceInvalid(f"{owner} custody read failed") from exc
+
+
+def _validate_evaluated_surfaces(value, surface_root=None):
     value = _exact_fields(
         value, {"schema", "campaign", "entries"},
         "evaluated surface manifest")
@@ -859,6 +944,7 @@ def _validate_evaluated_surfaces(value):
         "evaluated surface manifest identity invalid")
     roles = []
     paths = []
+    identity_owners = {}
     for index, row in enumerate(value["entries"]):
         allowed = {"role", "path", "byte_length", "sha256"}
         if type(row) is dict and (
@@ -868,10 +954,11 @@ def _validate_evaluated_surfaces(value):
         role = row["role"]
         _expect(type(role) is str and role in EVALUATED_SURFACE_ROLES,
                 f"evaluated surface {index} role invalid")
-        _expect(type(row["path"]) is str and bool(row["path"]) and
-                "\\" not in row["path"] and "\x00" not in row["path"] and
-                ".." not in pathlib.PurePosixPath(row["path"]).parts,
-                f"evaluated surface {role} path invalid")
+        if pathlib.Path(row["path"]).is_absolute():
+            _expect(role in EVALUATED_SURFACE_EXTERNAL_ROLES,
+                    f"evaluated surface {role} cannot use an external path")
+        else:
+            _repo_relative(row["path"], f"evaluated surface {role} path")
         _expect(type(row["byte_length"]) is int and
                 row["byte_length"] >= 0,
                 f"evaluated surface {role} length invalid")
@@ -887,16 +974,31 @@ def _validate_evaluated_surfaces(value):
             _git_id(row["git_tree"], f"evaluated surface {role}.git_tree")
         roles.append(role)
         paths.append(row["path"])
+        if surface_root is not None:
+            surface_path = _surface_path(surface_root, row["path"], role)
+            length, digest, identities = _read_surface(
+                surface_path, f"evaluated surface {role}", surface_root,
+                role in EVALUATED_SURFACE_EXTERNAL_ROLES)
+            _expect(length == row["byte_length"] and digest == row["sha256"],
+                    f"evaluated surface {role} hash or length drift")
+            for identity in set(identities):
+                _expect(identity not in identity_owners,
+                        "evaluated surface physical alias forbidden")
+                identity_owners[identity] = role
     _expect(
         roles == list(EVALUATED_SURFACE_ROLES) and
         len(set(roles)) == len(roles),
         "evaluated surface role coverage/order invalid")
-    _expect(len(set(paths)) == len(paths),
+    normalized_paths = {
+        os.path.normcase(os.path.normpath(path.replace("/", os.sep)))
+        for path in paths
+    }
+    _expect(len(normalized_paths) == len(paths),
             "evaluated surface path alias forbidden")
     return value
 
 
-def _validate_freeze_contract(packet):
+def _validate_freeze_contract(packet, surface_root=None):
     """Independently validate every matrix qualification-critical semantic."""
     packet = _exact_fields(packet, FREEZE_FIELDS, "freeze packet")
     _expect(
@@ -904,7 +1006,7 @@ def _validate_freeze_contract(packet):
         and packet["campaign"] == "candidate-matrix-sol-luna-r1"
         and packet["state"] == "FROZEN_BEFORE_FIRST_CELL",
         "freeze packet identity invalid")
-    _validate_evaluated_surfaces(packet["evaluated_surfaces"])
+    _validate_evaluated_surfaces(packet["evaluated_surfaces"], surface_root)
 
     artifact_contract = _exact_fields(
         packet["artifact_contract"], {"schema", "path", "sha256"},
@@ -3274,14 +3376,16 @@ def _validate_stage_pass_rows(rows, property_declarations, expected_model):
             _digest(row[key], f"independent PASS cell row {index} {key}")
 
 
-def rederive_campaign(packet_path, campaign_root):
+def rederive_campaign(packet_path, campaign_root, surface_root=None):
     # Path-component custody is stable only for one create-once read pass.
     # A later invocation must not inherit trust after a directory replacement.
     _CUSTODY_COMPONENT_CACHE.clear()
     packet_path = pathlib.Path(packet_path).absolute()
     campaign_root = pathlib.Path(campaign_root).absolute()
+    surface_root = (campaign_root if surface_root is None else
+                    pathlib.Path(surface_root).absolute())
     packet, packet_bytes = _read_json(packet_path, "freeze packet")
-    _validate_freeze_contract(packet)
+    _validate_freeze_contract(packet, surface_root)
     frozen = _read_bytes(campaign_root / "campaign-freeze.json")
     _expect(frozen == packet_bytes, "campaign frozen packet drift")
     freeze_sha = _sha(frozen)
@@ -3350,7 +3454,15 @@ def rederive_campaign(packet_path, campaign_root):
         except (EvidenceInvalid, OSError, KeyError, TypeError, ValueError) as exc:
             invalid_andon = str(exc)
     allowed_root = expected_names | {"campaign-freeze.json",
-                                     "campaign-manifest.json"}
+                                     "campaign-manifest.json",
+                                     "candidate-matrix-luna-independent-rederivation.json",
+                                     "candidate-matrix-luna-result.json",
+                                     "luna-stage-terminal.json"}
+    if surface_root == campaign_root:
+        allowed_root.update(
+            pathlib.PurePosixPath(row["path"]).parts[0]
+            for row in packet["evaluated_surfaces"]["entries"]
+            if not pathlib.Path(row["path"]).is_absolute())
     if os.path.lexists(andon_path):
         allowed_root.add("campaign-andon.json")
     unexpected_root = {path.name for path in campaign_root.iterdir()} - allowed_root
@@ -3538,10 +3650,12 @@ def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("intent")
     parser.add_argument("--campaign-root", required=True)
+    parser.add_argument("--surface-root")
     parser.add_argument("--output")
     args = parser.parse_args(argv)
     try:
-        result = rederive_campaign(args.intent, args.campaign_root)
+        result = rederive_campaign(
+            args.intent, args.campaign_root, args.surface_root)
     except (EvidenceInvalid, OSError, KeyError, TypeError, ValueError) as exc:
         result = {
             "schema":

@@ -1,351 +1,367 @@
 #!/usr/bin/env python3
-"""Fail-closed evidence builder for the Luna-qualified merge disposition."""
+"""Custody-derived certificate for the Luna-qualified merge disposition."""
 from __future__ import annotations
 
 import hashlib
-import json
+import os
 import pathlib
-import re
+import stat
 
+import b3v4_campaign
+import b3v4_contract
+import b3v4_rederive
 import campaign_lifecycle as lifecycle
+import candidate_matrix_campaign
+import candidate_matrix_contract
+import candidate_matrix_rederive
 import evaluated_surfaces as surfaces
 
 
-SCHEMA = "implementaudit-luna-qualified-integration-certificate-v1"
+SCHEMA = "implementaudit-luna-qualified-integration-certificate-v2"
 DISPOSITION = "LUNA_6_OF_6_AND_14_OF_14_GREEN_MERGED_TO_MAIN"
 REQUIRED_GATES = (
     "deterministic", "package", "ci", "reproducibility",
     "independent-review",
 )
-B3_PLAN = (
-    ("L", "candidate", 1), ("L", "control", 1),
-    ("L", "control", 2), ("L", "candidate", 2),
-    ("L", "control", 3), ("L", "candidate", 3),
-)
-MATRIX_FIXTURES = (
-    "B0", "B1", "B2", "E1", "E2a", "E2b", "E3", "E4",
-    "E5", "E6", "E7", "E8", "E9", "E10",
-)
-HEX64 = re.compile(r"^[0-9a-f]{64}$")
-B3_CLAIMS = {
-    "final_12_of_12": False, "cross_model_qualified": False,
-    "release_authorized": False, "tag_authorized": False,
-    "publication_authorized": False,
-}
-MATRIX_CLAIMS = {
-    "final_28_of_28": False, "cross_model_qualified": False,
-    "release_authorized": False, "tag_authorized": False,
-    "publication_authorized": False,
-}
-PASS_ROW_COMMON = {
-    "index", "config", "product_status", "host_status", "overall_status",
-    "properties", "reason", "bundle_manifest_sha256", "raw_stdout_sha256",
-    "native_session_sha256", "official_overall_status",
-    "independent_overall_status", "model_resolved",
-    "official_verdict_sha256",
+GATE_FILENAMES = {
+    name: f"{name}-terminal.json" for name in REQUIRED_GATES
 }
 
 
 def _exact(value, fields, owner):
     if type(value) is not dict or set(value) != set(fields):
-        raise ValueError(f"{owner} fields invalid")
+        raise ValueError(f"{owner} terminal schema fields invalid")
     return value
 
 
 def _digest(value, owner):
-    if type(value) is not str or not HEX64.fullmatch(value):
+    if (type(value) is not str or len(value) != 64 or
+            any(char not in "0123456789abcdef" for char in value)):
         raise ValueError(f"{owner} SHA-256 invalid")
 
 
+def _reparse_point(path_stat):
+    return bool(getattr(path_stat, "st_file_attributes", 0) &
+                getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400))
+
+
+def _strict_directory(path, owner):
+    lexical = pathlib.Path(path).absolute()
+    try:
+        resolved = lexical.resolve(strict=True)
+        if resolved != lexical:
+            raise ValueError(f"{owner} link or reparse alias forbidden")
+        current = pathlib.Path(lexical.anchor)
+        for part in lexical.parts[1:]:
+            current = current / part
+            observed = os.lstat(current)
+            if stat.S_ISLNK(observed.st_mode) or _reparse_point(observed):
+                raise ValueError(f"{owner} link or reparse alias forbidden")
+        if not lexical.is_dir():
+            raise ValueError(f"{owner} must be a retained directory")
+    except ValueError:
+        raise
+    except OSError as exc:
+        raise ValueError(f"{owner} retained directory unavailable") from exc
+    return lexical
+
+
 def _canonical_sha(value):
-    lifecycle.canonical_json_bytes(value)
-    raw = (json.dumps(
-        value, sort_keys=True, separators=(",", ":"), allow_nan=False) +
-        "\n").encode("utf-8")
-    return hashlib.sha256(raw).hexdigest()
+    return hashlib.sha256(lifecycle.canonical_json_bytes(value)).hexdigest()
 
 
-def _read_bound_json(binding, *, root, owner):
-    surfaces.revalidate_file_binding(binding, root=root, owner=owner)
-    path = pathlib.Path(root).absolute() / pathlib.PurePosixPath(
-        binding["path"])
+def _read_root_json(root, name, owner):
+    path = pathlib.Path(root) / name
     raw = lifecycle.read_custodied_bytes(path, owner, root=root)
-    if (len(raw) != binding["byte_length"] or
-            hashlib.sha256(raw).hexdigest() != binding["sha256"]):
-        raise ValueError(f"{owner} evidence byte drift")
-    return lifecycle.decode_strict_json_bytes(
-        raw, owner, require_object=True), raw
+    value = lifecycle.decode_strict_json_bytes(
+        raw, owner, require_object=True)
+    return value, raw
 
 
-def _validate_claims(value, expected, owner):
-    if type(value) is not dict or value != expected or any(
-            type(item) is not bool for item in value.values()):
-        raise ValueError(f"{owner} final claim boundary invalid")
+def _packet_and_manifest(campaign_root, surface_root, campaign):
+    campaign_root = _strict_directory(campaign_root, f"{campaign} campaign root")
+    surface_root = _strict_directory(surface_root, f"{campaign} surface root")
+    packet, raw = _read_root_json(
+        campaign_root, "campaign-freeze.json", f"{campaign} frozen packet")
+    if campaign == surfaces.B3_CAMPAIGN:
+        b3v4_contract.validate_freeze_envelope(packet)
+    else:
+        candidate_matrix_contract.validate_freeze_envelope(packet)
+    manifest = packet["evaluated_surfaces"]
+    surfaces.revalidate_manifest(manifest, root=surface_root)
+    return packet, raw, manifest
 
 
-def _validate_properties(value, owner):
-    if type(value) is not dict or not value:
-        raise ValueError(f"{owner} property evidence incomplete")
-    for name, row in value.items():
-        if type(name) is not str or not name:
-            raise ValueError(f"{owner} property name invalid")
-        _exact(row, {"state", "pass"}, f"{owner} property {name}")
-        if row != {"state": "PASS", "pass": True}:
-            raise ValueError(f"{owner} property {name} not PASS")
+def _result_fields(campaign):
+    if campaign == surfaces.B3_CAMPAIGN:
+        return (
+            "b3v4-luna-result.json",
+            "b3v4-luna-independent-rederivation.json",
+            "missions", "mission_count", 6)
+    return (
+        "candidate-matrix-luna-result.json",
+        "candidate-matrix-luna-independent-rederivation.json",
+        "cells", "cell_count", 14)
 
 
-def _validate_rows(rows, campaign):
-    matrix = campaign == surfaces.MATRIX_CAMPAIGN
-    plan = MATRIX_FIXTURES if matrix else B3_PLAN
-    if type(rows) is not list or len(rows) != len(plan):
-        target = "fourteen" if matrix else "six"
-        raise ValueError(f"{campaign} requires exact {target}-row Luna stage")
-    expected_fields = PASS_ROW_COMMON | (
-        {"fixture", "execution_mode"} if matrix else {"arm", "rep"})
-    for index, (row, planned) in enumerate(zip(rows, plan)):
-        _exact(row, expected_fields, f"{campaign} row {index}")
-        if type(row["index"]) is not int or row["index"] != index:
-            raise ValueError(f"{campaign} row order invalid")
-        if row["config"] != "L":
-            raise ValueError(f"{campaign} configuration/model invalid")
-        if matrix:
-            if (row["fixture"] != planned or
-                    row["execution_mode"] != "production"):
-                raise ValueError(f"{campaign} fixture/order/production invalid")
-        else:
-            config, arm, rep = planned
-            if (row["config"], row["arm"], row["rep"]) != (
-                    config, arm, rep):
-                raise ValueError(f"{campaign} mission order invalid")
-        if (row["product_status"], row["host_status"],
-                row["overall_status"], row["official_overall_status"],
-                row["independent_overall_status"]) != (
-                    "PASS", "PASS", "PASS", "PASS", "PASS"):
-            raise ValueError(f"{campaign} row is not complete PASS agreement")
-        if row["model_resolved"] != "gpt-5.6-luna":
-            raise ValueError(f"{campaign} model substitution detected")
-        if row["reason"] is not None:
-            raise ValueError(f"{campaign} unexplained row reason/error")
-        _validate_properties(row["properties"], f"{campaign} row {index}")
-        for field in (
-                "bundle_manifest_sha256", "raw_stdout_sha256",
-                "native_session_sha256", "official_verdict_sha256"):
-            _digest(row[field], f"{campaign} row {index} {field}")
-    return rows
-
-
-def _validate_stage(stage, campaign, *, evidence_root):
-    _exact(stage, {"execution_mode", "official", "independent", "evidence"},
-           f"{campaign} stage binding")
-    if stage["execution_mode"] != "production":
-        raise ValueError(f"{campaign} stage must be production")
-    matrix = campaign == surfaces.MATRIX_CAMPAIGN
-    evidence = _exact(
-        stage["evidence"], {"official", "independent", "stage_terminal"},
-        f"{campaign} retained stage evidence")
-    evidence_paths = [
-        binding.get("path") if type(binding) is dict else None
-        for binding in evidence.values()]
-    if len(set(evidence_paths)) != 3:
-        raise ValueError(f"{campaign} retained stage evidence path alias")
-    retained_official, official_raw = _read_bound_json(
-        evidence["official"], root=evidence_root,
-        owner=f"{campaign} official retained result")
-    retained_independent, independent_raw = _read_bound_json(
-        evidence["independent"], root=evidence_root,
-        owner=f"{campaign} independent retained result")
-    terminal, _terminal_raw = _read_bound_json(
-        evidence["stage_terminal"], root=evidence_root,
-        owner=f"{campaign} retained stage terminal")
-    if (retained_official != stage["official"] or
-            retained_independent != stage["independent"]):
-        raise ValueError(f"{campaign} retained stage evidence disagreement")
-    independent_fields = {
-        "schema", "campaign", "freeze_sha256", "contract_sha256",
-        "luna_stage_status", "disposition", "luna_stage_accepted",
-        "accepted", ("cell_count" if matrix else "mission_count"),
-        ("cells" if matrix else "missions"), "claims",
-    }
-    if matrix:
-        independent_fields.add("execution_mode")
-    independent = _exact(
-        stage["independent"], independent_fields,
-        f"{campaign} independent stage")
-    expected_independent_schema = (
-        "implementaudit-candidate-matrix-luna-independent-rederivation-v1"
-        if matrix else
-        "implementaudit-b3v4-luna-independent-rederivation-v2")
-    if (independent["schema"] != expected_independent_schema or
-            independent["campaign"] != campaign):
-        raise ValueError(f"{campaign} independent campaign/schema substitution")
-    if matrix and independent["execution_mode"] != "production":
-        raise ValueError(f"{campaign} independent stage must be production")
-    count_name = "cell_count" if matrix else "mission_count"
-    rows_name = "cells" if matrix else "missions"
-    target = 14 if matrix else 6
-    if (type(independent[count_name]) is not int or
-            independent[count_name] != target or
-            independent["luna_stage_status"] != "PASS" or
-            independent["disposition"] != "INCOMPLETE_PENDING_OPUS" or
-            independent["luna_stage_accepted"] is not True or
-            independent["accepted"] is not False):
-        raise ValueError(f"{campaign} independent Luna stage not accepted")
-    _digest(independent["freeze_sha256"], f"{campaign} freeze")
-    _digest(independent["contract_sha256"], f"{campaign} contract")
-    rows = _validate_rows(independent[rows_name], campaign)
-    claims = MATRIX_CLAIMS if matrix else B3_CLAIMS
-    _validate_claims(independent["claims"], claims, f"{campaign} independent")
-
-    official_fields = {
-        "schema", "campaign", "freeze_sha256", "contract_sha256",
-        "disposition", "luna_stage_accepted", "accepted", count_name,
-        rows_name, "luna_identity", "independent_rederivation", "claims",
-    }
-    if matrix:
-        official_fields.add("execution_mode")
-    official = _exact(
-        stage["official"], official_fields, f"{campaign} official stage")
-    expected_official_schema = (
-        "implementaudit-candidate-matrix-luna-result-v1"
-        if matrix else "implementaudit-b3v4-luna-result-v2")
-    if (official["schema"] != expected_official_schema or
-            official["campaign"] != campaign):
-        raise ValueError(f"{campaign} official campaign/schema substitution")
-    if matrix and official["execution_mode"] != "production":
-        raise ValueError(f"{campaign} official stage must be production")
-    if (type(official[count_name]) is not int or
+def _validate_stage(campaign_root, surface_root, campaign):
+    packet, packet_raw, manifest = _packet_and_manifest(
+        campaign_root, surface_root, campaign)
+    packet_path = pathlib.Path(campaign_root) / "campaign-freeze.json"
+    if campaign == surfaces.B3_CAMPAIGN:
+        official = b3v4_campaign.validate_retained_luna_stage(
+            packet_path, campaign_root, surface_root)
+        rederived = b3v4_rederive.rederive_campaign(
+            packet_path, campaign_root, surface_root)
+    else:
+        official = candidate_matrix_campaign.validate_retained_luna_stage(
+            packet_path, campaign_root, surface_root)
+        rederived = candidate_matrix_rederive.rederive_campaign(
+            packet_path, campaign_root, surface_root)
+    official_name, independent_name, rows_name, count_name, target = \
+        _result_fields(campaign)
+    retained_official, official_raw = _read_root_json(
+        campaign_root, official_name, f"{campaign} official retained result")
+    retained_independent, independent_raw = _read_root_json(
+        campaign_root, independent_name,
+        f"{campaign} independent retained result")
+    terminal, terminal_raw = _read_root_json(
+        campaign_root, "luna-stage-terminal.json",
+        f"{campaign} retained stage terminal")
+    if (lifecycle.canonical_json_bytes(retained_official) !=
+            lifecycle.canonical_json_bytes(official)):
+        raise ValueError(f"{campaign} official retained result drift")
+    if (lifecycle.canonical_json_bytes(retained_independent) !=
+            lifecycle.canonical_json_bytes(rederived)):
+        raise ValueError(f"{campaign} independent retained result drift")
+    if (type(official.get(count_name)) is not int or
             official[count_name] != target or
-            official["disposition"] != "INCOMPLETE_PENDING_OPUS" or
-            official["luna_stage_accepted"] is not True or
-            official["accepted"] is not False or
-            official["freeze_sha256"] != independent["freeze_sha256"] or
-            official["contract_sha256"] != independent["contract_sha256"]):
-        raise ValueError(f"{campaign} official Luna stage not accepted")
-    _validate_claims(official["claims"], claims, f"{campaign} official")
-    if official[rows_name] != rows:
-        raise ValueError(f"{campaign} official/independent agreement invalid")
-    identity = _exact(
-        official["luna_identity"], {
-            "config", "host", "model_resolved_required",
-            "host_attestation_id", "host_attestation_sha256",
-        }, f"{campaign} Luna identity")
-    if (identity["config"] != "L" or
-            identity["model_resolved_required"] != "gpt-5.6-luna" or
-            type(identity["host"]) is not str or not identity["host"] or
-            type(identity["host_attestation_id"]) is not str or
-            not identity["host_attestation_id"]):
-        raise ValueError(f"{campaign} Luna host/model identity invalid")
-    _digest(identity["host_attestation_sha256"],
-            f"{campaign} host attestation")
-    rederivation = _exact(
-        official["independent_rederivation"], {
-            "path", "sha256", "schema", "contract_id",
-            "implementation_sha256",
-        }, f"{campaign} independent binding")
-    independent_sha = hashlib.sha256(independent_raw).hexdigest()
-    official_sha = hashlib.sha256(official_raw).hexdigest()
-    if (rederivation["schema"] != independent["schema"] or
-            rederivation["sha256"] != independent_sha):
-        raise ValueError(
-            f"{campaign} independent rederivation evidence binding invalid")
-    _digest(rederivation["implementation_sha256"],
-            f"{campaign} independent implementation")
-    stage_binding = {
-        "campaign": campaign, "stage": "LUNA",
-        "stage_schema": (
-            "implementaudit-candidate-matrix-luna-stage-v1"
-            if matrix else "implementaudit-b3v4-luna-stage-v2"),
-        "mission_count": target,
-        "freeze_sha256": independent["freeze_sha256"],
-        "contract_sha256": independent["contract_sha256"],
-        "official_result_sha256": official_sha,
-        "independent_rederivation_sha256": independent_sha,
-        "independent_rederiver_contract": rederivation["contract_id"],
-        "luna_identity": identity,
-        "claims": claims,
-    }
-    if matrix:
-        stage_binding.update({
-            "execution_mode": "production",
-            "disposition": "INCOMPLETE_PENDING_OPUS",
-            "luna_stage_accepted": True,
-        })
-    terminal = _exact(terminal, {
-        "schema", "campaign", "stage", "stage_schema", "mission_count",
-        "binding_sha256", "stage_snapshot_sha256",
-    }, f"{campaign} stage terminal")
-    if (terminal["schema"] !=
-            "implementaudit-staged-campaign-terminal-v1" or
-            terminal["campaign"] != campaign or terminal["stage"] != "LUNA" or
-            terminal["stage_schema"] != stage_binding["stage_schema"] or
-            type(terminal["mission_count"]) is not int or
-            terminal["mission_count"] != target or
-            terminal["binding_sha256"] != hashlib.sha256(
-                lifecycle.canonical_json_bytes(stage_binding)).hexdigest()):
-        raise ValueError(f"{campaign} stage terminal binding invalid")
-    _digest(terminal["stage_snapshot_sha256"],
-            f"{campaign} stage snapshot")
+            type(rederived.get(count_name)) is not int or
+            rederived[count_name] != target or
+            official.get("luna_stage_accepted") is not True or
+            rederived.get("luna_stage_accepted") is not True or
+            official.get("accepted") is not False or
+            rederived.get("accepted") is not False or
+            official.get("disposition") != "INCOMPLETE_PENDING_OPUS" or
+            rederived.get("disposition") != "INCOMPLETE_PENDING_OPUS"):
+        raise ValueError(f"{campaign} retained Luna stage is not accepted")
+    if (lifecycle.canonical_json_bytes(official.get(rows_name)) !=
+            lifecycle.canonical_json_bytes(rederived.get(rows_name))):
+        raise ValueError(f"{campaign} official/independent row disagreement")
     return {
         "campaign": campaign,
-        "freeze_sha256": independent["freeze_sha256"],
-        "contract_sha256": independent["contract_sha256"],
-        "official_result_sha256": official_sha,
-        "independent_rederivation_sha256": independent_sha,
-        "stage_terminal_sha256":
-            evidence["stage_terminal"]["sha256"],
+        "freeze_sha256": hashlib.sha256(packet_raw).hexdigest(),
+        "contract_sha256": packet["artifact_contract"]["sha256"],
+        "official_result_sha256": hashlib.sha256(official_raw).hexdigest(),
+        "independent_rederivation_sha256":
+            hashlib.sha256(independent_raw).hexdigest(),
+        "stage_terminal_sha256": hashlib.sha256(terminal_raw).hexdigest(),
+        "stage_snapshot_sha256": terminal["stage_snapshot_sha256"],
         "accepted_count": target,
         "execution_mode": "production",
+    }, manifest
+
+
+def _gate_identity(b3, matrix, manifests):
+    return _canonical_sha({
+        "b3_freeze_sha256": b3["freeze_sha256"],
+        "matrix_freeze_sha256": matrix["freeze_sha256"],
+        "b3_evaluated_surfaces_sha256":
+            _canonical_sha(manifests[surfaces.B3_CAMPAIGN]),
+        "matrix_evaluated_surfaces_sha256":
+            _canonical_sha(manifests[surfaces.MATRIX_CAMPAIGN]),
+    })
+
+
+def derive_qualified_input_sha256(*, b3_campaign_root,
+                                  matrix_campaign_root,
+                                  b3_surface_root,
+                                  matrix_surface_root):
+    b3_packet, b3_raw, b3_manifest = _packet_and_manifest(
+        b3_campaign_root, b3_surface_root, surfaces.B3_CAMPAIGN)
+    matrix_packet, matrix_raw, matrix_manifest = _packet_and_manifest(
+        matrix_campaign_root, matrix_surface_root,
+        surfaces.MATRIX_CAMPAIGN)
+    return _gate_identity(
+        {
+            "freeze_sha256": hashlib.sha256(b3_raw).hexdigest(),
+            "contract_sha256": b3_packet["artifact_contract"]["sha256"],
+        },
+        {
+            "freeze_sha256": hashlib.sha256(matrix_raw).hexdigest(),
+            "contract_sha256":
+                matrix_packet["artifact_contract"]["sha256"],
+        },
+        {
+            surfaces.B3_CAMPAIGN: b3_manifest,
+            surfaces.MATRIX_CAMPAIGN: matrix_manifest,
+        })
+
+
+def _string_list(value, owner):
+    if (type(value) is not list or
+            any(type(item) is not str or not item for item in value)):
+        raise ValueError(f"{owner} must be an exact string list")
+
+
+def _validate_gate_terminal(name, value, qualified_input_sha256):
+    common = {"schema", "gate", "qualified_input_sha256", "exit_code"}
+    if name == "deterministic":
+        _exact(value, common | {"failed_checks"}, name)
+        _string_list(value["failed_checks"], "deterministic failed checks")
+        passed = value["exit_code"] == 0 and value["failed_checks"] == []
+    elif name == "package":
+        _exact(
+            value, common | {
+                "verification_passed", "package_manifest_sha256"}, name)
+        _digest(value["package_manifest_sha256"], "package manifest")
+        passed = (value["exit_code"] == 0 and
+                  value["verification_passed"] is True)
+    elif name == "ci":
+        _exact(value, common | {"failed_jobs"}, name)
+        _string_list(value["failed_jobs"], "CI failed jobs")
+        passed = value["exit_code"] == 0 and value["failed_jobs"] == []
+    elif name == "reproducibility":
+        _exact(
+            value, common | {
+                "comparison_equal", "first_artifact_sha256",
+                "second_artifact_sha256"}, name)
+        _digest(value["first_artifact_sha256"], "first artifact")
+        _digest(value["second_artifact_sha256"], "second artifact")
+        passed = (
+            value["exit_code"] == 0 and
+            value["comparison_equal"] is True and
+            value["first_artifact_sha256"] ==
+            value["second_artifact_sha256"])
+    elif name == "independent-review":
+        _exact(value, {
+            "schema", "gate", "reviewed_qualified_input_sha256",
+            "verdict", "findings"}, name)
+        _string_list(value["findings"], "independent review findings")
+        passed = value["verdict"] == "PASS" and value["findings"] == []
+        if value["reviewed_qualified_input_sha256"] != qualified_input_sha256:
+            raise ValueError("independent-review qualified input mismatch")
+    else:
+        raise ValueError("unsupported integration gate")
+    expected_schema = f"implementaudit-{name}-terminal-v1"
+    if value["schema"] != expected_schema or value["gate"] != name:
+        raise ValueError(f"{name} terminal schema identity invalid")
+    if name != "independent-review":
+        if type(value["exit_code"]) is not int:
+            raise ValueError(f"{name} exit code type invalid")
+        if value["qualified_input_sha256"] != qualified_input_sha256:
+            raise ValueError(f"{name} qualified input mismatch")
+    if not passed:
+        raise ValueError(f"{name} terminal does not derive semantic PASS")
+
+
+def _validate_gates(gate_root, qualified_input_sha256):
+    gate_root = _strict_directory(gate_root, "integration gate root")
+    gates = []
+    for name in REQUIRED_GATES:
+        filename = GATE_FILENAMES[name]
+        value, raw = _read_root_json(
+            gate_root, filename, f"integration gate {name}")
+        _validate_gate_terminal(name, value, qualified_input_sha256)
+        gates.append({
+            "name": name,
+            "semantic_status": "PASS",
+            "path": filename,
+            "byte_length": len(raw),
+            "sha256": hashlib.sha256(raw).hexdigest(),
+            "schema": value["schema"],
+        })
+    return gates
+
+
+def _after_manifest(before, after_root, external_paths):
+    if type(external_paths) is not dict:
+        raise ValueError("post-integration external locators must be an object")
+    expected_external_roles = {
+        row["role"] for row in before["entries"]
+        if pathlib.Path(row["path"]).is_absolute()
     }
+    if set(external_paths) != expected_external_roles:
+        raise ValueError(
+            "post-integration external locator role coverage invalid")
+    prior_paths = {
+        row["role"]: row["path"] for row in before["entries"]
+        if row["role"] in expected_external_roles
+    }
+    sources = []
+    for row in before["entries"]:
+        role = row["role"]
+        path = external_paths.get(role, row["path"])
+        if role in expected_external_roles:
+            if (type(path) is not str or not pathlib.Path(path).is_absolute() or
+                    "\\" in path):
+                raise ValueError(
+                    f"post-integration external locator invalid: {role}")
+            if os.path.normcase(os.path.normpath(path)) == os.path.normcase(
+                    os.path.normpath(prior_paths[role])):
+                raise ValueError(
+                    f"post-integration external locator reuses prior path: "
+                    f"{role}")
+        sources.append({"role": role, "path": path})
+    return surfaces.build_manifest(
+        before["campaign"], sources, root=after_root)
 
 
-def validate_inputs(inputs, *, evidence_root, surface_root=None):
-    _exact(inputs, {
-        "b3_stage", "matrix_stage", "gates", "before", "after"},
-        "integration inputs")
-    b3 = _validate_stage(
-        inputs["b3_stage"], surfaces.B3_CAMPAIGN,
-        evidence_root=evidence_root)
-    matrix = _validate_stage(
-        inputs["matrix_stage"], surfaces.MATRIX_CAMPAIGN,
-        evidence_root=evidence_root)
-    gates = inputs["gates"]
-    if type(gates) is not list or [row.get("name") for row in gates
-                                   if type(row) is dict] != list(REQUIRED_GATES):
-        raise ValueError("integration gate evidence set/order invalid")
-    for row in gates:
-        surfaces.revalidate_file_binding(
-            row, root=evidence_root,
-            owner=f"integration gate {row.get('name')}")
-    gate_paths = [row["path"] for row in gates]
-    if len(set(gate_paths)) != len(gate_paths):
-        raise ValueError("integration gate evidence path alias forbidden")
-    for owner in ("before", "after"):
-        _exact(inputs[owner], set(surfaces.CAMPAIGNS),
-               f"integration {owner} manifests")
+def _compare_after_bytes(before, after, campaign):
+    surfaces.validate_manifest(before, campaign)
+    surfaces.validate_manifest(after, campaign)
+    prior = {row["role"]: row for row in before["entries"]}
+    current = {row["role"]: row for row in after["entries"]}
+    for role in surfaces.required_roles(campaign):
+        for field in ("byte_length", "sha256"):
+            if prior[role][field] != current[role][field]:
+                raise ValueError(
+                    f"evaluated surface byte drift: {role} ({field})")
+    return True
+
+
+def validate_inputs(*, b3_campaign_root, matrix_campaign_root,
+                    b3_surface_root, matrix_surface_root,
+                    b3_after_surface_root, matrix_after_surface_root,
+                    gate_root, b3_after_external_paths=None,
+                    matrix_after_external_paths=None):
+    b3, b3_before = _validate_stage(
+        b3_campaign_root, b3_surface_root, surfaces.B3_CAMPAIGN)
+    matrix, matrix_before = _validate_stage(
+        matrix_campaign_root, matrix_surface_root,
+        surfaces.MATRIX_CAMPAIGN)
+    manifests = {
+        surfaces.B3_CAMPAIGN: b3_before,
+        surfaces.MATRIX_CAMPAIGN: matrix_before,
+    }
+    qualified_input_sha256 = _gate_identity(b3, matrix, manifests)
+    gates = _validate_gates(gate_root, qualified_input_sha256)
     comparisons = {}
-    surface_root = evidence_root if surface_root is None else surface_root
-    for campaign in surfaces.CAMPAIGNS:
-        surfaces.revalidate_manifest(
-            inputs["after"][campaign], root=surface_root)
-        surfaces.compare_relevant_surfaces(
-            inputs["before"][campaign], inputs["after"][campaign], campaign)
+    for campaign, before, after_root, external_paths in (
+            (surfaces.B3_CAMPAIGN, b3_before, b3_after_surface_root,
+             b3_after_external_paths),
+            (surfaces.MATRIX_CAMPAIGN, matrix_before,
+             matrix_after_surface_root, matrix_after_external_paths)):
+        after_root = _strict_directory(
+            after_root, f"{campaign} post-integration surface root")
+        after = _after_manifest(before, after_root, external_paths or {})
+        _compare_after_bytes(before, after, campaign)
         comparisons[campaign] = {
             "equal_relevant_bytes": True,
-            "before_manifest_sha256":
-                _canonical_sha(inputs["before"][campaign]),
-            "after_manifest_sha256":
-                _canonical_sha(inputs["after"][campaign]),
+            "before_manifest_sha256": _canonical_sha(before),
+            "after_manifest_sha256": _canonical_sha(after),
         }
-    return b3, matrix, gates, comparisons
+    return b3, matrix, gates, comparisons, qualified_input_sha256
 
 
-def write_certificate(path, inputs, *, evidence_root, surface_root=None):
+def write_certificate(path, **roots):
     path = pathlib.Path(path).absolute()
-    b3, matrix, gates, comparisons = validate_inputs(
-        inputs, evidence_root=evidence_root, surface_root=surface_root)
+    b3, matrix, gates, comparisons, qualified_input_sha256 = \
+        validate_inputs(**roots)
     certificate = {
         "schema": SCHEMA,
         "disposition": DISPOSITION,
+        "qualified_input_sha256": qualified_input_sha256,
         "b3_luna": b3,
         "matrix_luna": matrix,
         "gates": gates,

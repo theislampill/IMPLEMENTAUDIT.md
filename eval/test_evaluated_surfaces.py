@@ -40,7 +40,7 @@ def _files(root, campaign):
 
 
 def main():
-    production_forbidden = {
+    evaluated_surface_forbidden = {
         "adapters", "hosts", "runner", "b3v4_campaign", "b3v4_rederive",
         "candidate_matrix_campaign", "candidate_matrix_rederive",
         "validate_b3v4_freeze", "validate_candidate_matrix_freeze",
@@ -55,8 +55,12 @@ def main():
                 imports.update(alias.name for alias in node.names)
             elif isinstance(node, ast.ImportFrom) and node.module:
                 imports.add(node.module)
-        assert not imports & production_forbidden, (
-            name, imports & production_forbidden)
+        forbidden = (
+            evaluated_surface_forbidden
+            if name == "evaluated_surfaces.py" else
+            {"adapters", "hosts", "runner", "lib.scoring",
+             "eval.lib.scoring"})
+        assert not imports & forbidden, (name, imports & forbidden)
     print("EVALUATED_SURFACE_STATIC_BOUNDARY=PASS")
 
     with tempfile.TemporaryDirectory() as tmp:
@@ -151,6 +155,18 @@ def main():
         expect_error("hardlink", lambda:
                      surfaces.build_manifest(
                          surfaces.B3_CAMPAIGN, source, root=root))
+
+        # Governing RED R4: distinct case spellings that open the same NTFS
+        # file are one physical identity and cannot fill two roles.
+        if os.name == "nt":
+            case_target = root / "Case-Only-Surface.bin"
+            case_target.write_bytes(b"one physical file\n")
+            source = _files(root, surfaces.B3_CAMPAIGN)
+            source[0]["path"] = case_target.name
+            source[1]["path"] = case_target.name.swapcase()
+            expect_error("physical alias", lambda:
+                         surfaces.build_manifest(
+                             surfaces.B3_CAMPAIGN, source, root=root))
 
         symlink = root / "surface-symlink.bin"
         try:

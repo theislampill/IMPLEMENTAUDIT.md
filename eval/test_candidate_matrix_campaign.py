@@ -130,6 +130,14 @@ def make_driver(module, root, mission_executor=executor):
     for row in packet["fixtures"]:
         fixture_path = HERE.parent / row["path"]
         row["sha256"] = hashlib.sha256(fixture_path.read_bytes()).hexdigest()
+    surface_root = root / "evaluated-surfaces"
+    for index, row in enumerate(packet["evaluated_surfaces"]["entries"]):
+        payload = f"{packet['campaign']}:{row['role']}:{index}\n".encode()
+        path = surface_root / row["path"]
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(payload)
+        row["byte_length"] = len(payload)
+        row["sha256"] = hashlib.sha256(payload).hexdigest()
     packet_path = root / "intent.json"
     packet_path.write_bytes(encoded(packet))
     attestation = root / "L-host-attestation.json"
@@ -137,7 +145,7 @@ def make_driver(module, root, mission_executor=executor):
         "id": "matrix-L-host", "shell_dialect": "posix",
         "executables": {"cat": "posix:cat"},
     }))
-    return module.CampaignDriver(
+    driver = module.CampaignDriver(
         packet_path=packet_path,
         repo_root=HERE.parent,
         campaign_root=root / "campaign",
@@ -149,6 +157,13 @@ def make_driver(module, root, mission_executor=executor):
         live_validator=lambda packet, repo: packet,
         identity_validator=lambda packet, **paths: None,
     )
+    driver.test_surface_root = surface_root
+    return driver
+
+
+def retained_surface_root(campaign_root):
+    return pathlib.Path(campaign_root).parent / (
+        pathlib.Path(campaign_root).name + "-evaluated-surfaces")
 
 
 def complete_summaries(driver):
@@ -165,7 +180,7 @@ def complete_summaries(driver):
 def assert_independent_andon_stopped(driver):
     independent = load_rederive_module().rederive_campaign(
         driver.campaign_root / "campaign-freeze.json",
-        driver.campaign_root)
+        driver.campaign_root, driver.test_surface_root)
     assert independent["luna_stage_status"] in ("INVALID", "ERROR"), independent
     assert independent["disposition"] == "ANDON_STOPPED", independent
     assert independent["luna_stage_accepted"] is False, independent
@@ -207,10 +222,13 @@ def assert_real_rederive_finalize(module):
     with tempfile.TemporaryDirectory(
             prefix="candidate-matrix-real-finalize-") as tmp:
         campaign_root = pathlib.Path(tmp) / "campaign"
-        build_campaign(campaign_root, execution_mode="test")
+        build_campaign(
+            campaign_root, execution_mode="test",
+            surface_root=retained_surface_root(campaign_root))
         rederiver = load_rederive_module()
         independent = rederiver.rederive_campaign(
-            campaign_root / "campaign-freeze.json", campaign_root)
+            campaign_root / "campaign-freeze.json", campaign_root,
+            retained_surface_root(campaign_root))
         assert independent["luna_stage_status"] == \
             "TEST_ONLY_NON_QUALIFYING", independent
         assert independent["disposition"] == "TEST_ONLY_NON_QUALIFYING"
@@ -241,10 +259,13 @@ def assert_production_shaped_rederive_finalize(module):
     with tempfile.TemporaryDirectory(
             prefix="candidate-matrix-production-finalize-") as tmp:
         campaign_root = pathlib.Path(tmp) / "campaign"
-        build_campaign(campaign_root, execution_mode="production")
+        build_campaign(
+            campaign_root, execution_mode="production",
+            surface_root=retained_surface_root(campaign_root))
         rederiver = load_rederive_module()
         independent = rederiver.rederive_campaign(
-            campaign_root / "campaign-freeze.json", campaign_root)
+            campaign_root / "campaign-freeze.json", campaign_root,
+            retained_surface_root(campaign_root))
         assert independent["luna_stage_status"] == "PASS", independent
         assert independent["disposition"] == "INCOMPLETE_PENDING_OPUS"
         assert independent["luna_stage_accepted"] is True
@@ -483,7 +504,7 @@ def assert_terminal_publication_failures(module):
                 assert not marker_path.exists()
                 independent = load_rederive_module().rederive_campaign(
                     driver.campaign_root / "campaign-freeze.json",
-                    driver.campaign_root)
+                    driver.campaign_root, driver.test_surface_root)
                 assert independent["luna_stage_accepted"] is False, independent
                 continue
             if label == "one-time-pre-create":
@@ -501,7 +522,7 @@ def assert_terminal_publication_failures(module):
                 assert marker_path.is_file()
             independent = load_rederive_module().rederive_campaign(
                 driver.campaign_root / "campaign-freeze.json",
-                driver.campaign_root)
+                driver.campaign_root, driver.test_surface_root)
             assert independent["disposition"] == "ANDON_STOPPED", independent
             assert independent["luna_stage_accepted"] is False, independent
             try:
@@ -530,10 +551,13 @@ def assert_malformed_marker_never_qualifies():
     with tempfile.TemporaryDirectory(
             prefix="candidate-matrix-malformed-marker-") as tmp:
         campaign_root = pathlib.Path(tmp) / "campaign"
-        build_campaign(campaign_root, execution_mode="production")
+        build_campaign(
+            campaign_root, execution_mode="production",
+            surface_root=retained_surface_root(campaign_root))
         (campaign_root / "campaign-andon.json").write_bytes(b"{}\n")
         independent = load_rederive_module().rederive_campaign(
-            campaign_root / "campaign-freeze.json", campaign_root)
+            campaign_root / "campaign-freeze.json", campaign_root,
+            retained_surface_root(campaign_root))
         assert independent["disposition"] == "ANDON_STOPPED", independent
         assert independent["luna_stage_accepted"] is False, independent
 
@@ -595,10 +619,13 @@ def main():
 
     with tempfile.TemporaryDirectory() as tmp:
         campaign_root = pathlib.Path(tmp) / "campaign"
-        build_campaign(campaign_root, execution_mode="production")
+        build_campaign(
+            campaign_root, execution_mode="production",
+            surface_root=retained_surface_root(campaign_root))
         rederiver = load_rederive_module()
         independent = rederiver.rederive_campaign(
-            campaign_root / "campaign-freeze.json", campaign_root)
+            campaign_root / "campaign-freeze.json", campaign_root,
+            retained_surface_root(campaign_root))
         independent["cells"][7]["fixture"] = "B3"
         rederiver.write_rederivation(
             campaign_root /

@@ -1,32 +1,34 @@
 #!/usr/bin/env python3
-"""Behavior tests for the create-once Luna integration certificate."""
+"""Production-shaped tests for the custody-derived integration certificate."""
 from __future__ import annotations
 
 import copy
 import hashlib
 import json
+import os
 import pathlib
+import shutil
 import tempfile
 
+import b3v4_campaign
+import b3v4_rederive
+import candidate_matrix_campaign
+import candidate_matrix_rederive
 import evaluated_surfaces as surfaces
 import provisional_integration as integration
-
-
-FALSE_CLAIMS_B3 = {
-    "final_12_of_12": False, "cross_model_qualified": False,
-    "release_authorized": False, "tag_authorized": False,
-    "publication_authorized": False,
-}
-FALSE_CLAIMS_MATRIX = {
-    "final_28_of_28": False, "cross_model_qualified": False,
-    "release_authorized": False, "tag_authorized": False,
-    "publication_authorized": False,
-}
+import test_b3v4_rederive as b3_fixture
+import test_candidate_matrix_rederive as matrix_fixture
 
 
 def encoded(value):
-    return (json.dumps(value, sort_keys=True, separators=(",", ":")) +
-            "\n").encode()
+    return (json.dumps(
+        value, sort_keys=True, separators=(",", ":")) + "\n").encode()
+
+
+def write(path, value):
+    path = pathlib.Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(value if isinstance(value, bytes) else encoded(value))
 
 
 def expect_error(fragment, action):
@@ -34,257 +36,325 @@ def expect_error(fragment, action):
         action()
     except (OSError, TypeError, ValueError) as exc:
         if fragment is not None:
-            assert fragment in str(exc), str(exc)
+            assert fragment.lower() in str(exc).lower(), str(exc)
     else:
         raise AssertionError(f"expected failure containing {fragment!r}")
 
 
-def _row(index, campaign):
-    matrix = campaign == surfaces.MATRIX_CAMPAIGN
-    row = {
-        "index": index, "config": "L",
-        "product_status": "PASS", "host_status": "PASS",
-        "overall_status": "PASS", "official_overall_status": "PASS",
-        "independent_overall_status": "PASS",
-        "properties": {"p": {"state": "PASS", "pass": True}},
-        "reason": None, "bundle_manifest_sha256": "a" * 64,
-        "raw_stdout_sha256": "b" * 64,
-        "native_session_sha256": "c" * 64,
-        "model_resolved": "gpt-5.6-luna",
-        "official_verdict_sha256": "d" * 64,
-    }
-    if matrix:
-        row.update({
-            "fixture": integration.MATRIX_FIXTURES[index],
-            "execution_mode": "production",
-        })
-    else:
-        config, arm, rep = integration.B3_PLAN[index]
-        row.update({"config": config, "arm": arm, "rep": rep})
-    return row
+def _finalize_b3(base):
+    campaign_root = base / "b3-campaign"
+    surface_root = base / "b3-surfaces"
+    b3_fixture.build_campaign(campaign_root, surface_root=surface_root)
+    packet_path = campaign_root / "campaign-freeze.json"
+    independent = b3v4_rederive.rederive_campaign(
+        packet_path, campaign_root, surface_root)
+    assert independent["luna_stage_status"] == "PASS", independent
+    b3v4_rederive.write_rederivation(
+        campaign_root / "b3v4-luna-independent-rederivation.json",
+        independent, root=campaign_root)
+    driver = b3v4_campaign.CampaignDriver(
+        packet_path=packet_path, repo_root=surface_root,
+        campaign_root=campaign_root, candidate_checkout=surface_root,
+        control_checkout=surface_root, runtime_root=base / "b3-runtime",
+        execution_mode="production")
+    driver.live_validator = lambda packet, root: \
+        surfaces.revalidate_manifest(packet["evaluated_surfaces"], root=root)
+    driver.identity_validator = lambda _packet, **_paths: None
+    official = driver.finalize_luna_stage()
+    assert official["luna_stage_accepted"] is True
+    assert official["mission_count"] == 6
+    return campaign_root, surface_root
 
 
-def _stage(campaign):
-    matrix = campaign == surfaces.MATRIX_CAMPAIGN
-    count = 14 if matrix else 6
-    rows = [_row(index, campaign) for index in range(count)]
-    claims = FALSE_CLAIMS_MATRIX if matrix else FALSE_CLAIMS_B3
-    independent = {
-        "schema": (
-            "implementaudit-candidate-matrix-luna-independent-rederivation-v1"
-            if matrix else
-            "implementaudit-b3v4-luna-independent-rederivation-v2"),
-        "campaign": campaign, "freeze_sha256": "e" * 64,
-        "contract_sha256": "f" * 64,
-        "luna_stage_status": "PASS",
-        "disposition": "INCOMPLETE_PENDING_OPUS",
-        "luna_stage_accepted": True, "accepted": False,
-        ("cell_count" if matrix else "mission_count"): count,
-        ("cells" if matrix else "missions"): rows,
-        "claims": claims,
-    }
-    if matrix:
-        independent["execution_mode"] = "production"
-    official = {
-        "schema": (
-            "implementaudit-candidate-matrix-luna-result-v1"
-            if matrix else "implementaudit-b3v4-luna-result-v2"),
-        "campaign": campaign, "freeze_sha256": "e" * 64,
-        "contract_sha256": "f" * 64,
-        "disposition": "INCOMPLETE_PENDING_OPUS",
-        "luna_stage_accepted": True, "accepted": False,
-        ("cell_count" if matrix else "mission_count"): count,
-        ("cells" if matrix else "missions"): copy.deepcopy(rows),
-        "luna_identity": {
-            "config": "L", "host": "approved-host",
-            "model_resolved_required": "gpt-5.6-luna",
-            "host_attestation_id": f"{campaign}-host",
-            "host_attestation_sha256": "1" * 64,
-        },
-        "independent_rederivation": {
-            "path": "independent.json",
-            "sha256": hashlib.sha256(encoded(independent)).hexdigest(),
-            "schema": independent["schema"], "contract_id": "rederiver-v1",
-            "implementation_sha256": "2" * 64,
-        },
-        "claims": claims,
-    }
-    if matrix:
-        official["execution_mode"] = "production"
+def _finalize_matrix(base):
+    campaign_root = base / "matrix-campaign"
+    surface_root = base / "matrix-surfaces"
+    matrix_fixture.build_campaign(
+        campaign_root, execution_mode="production",
+        surface_root=surface_root)
+    packet_path = campaign_root / "campaign-freeze.json"
+    independent = candidate_matrix_rederive.rederive_campaign(
+        packet_path, campaign_root, surface_root)
+    assert independent["luna_stage_status"] == "PASS", independent
+    candidate_matrix_rederive.write_rederivation(
+        campaign_root /
+        "candidate-matrix-luna-independent-rederivation.json",
+        independent, root=campaign_root)
+    driver = candidate_matrix_campaign.CampaignDriver(
+        packet_path=packet_path, repo_root=surface_root,
+        campaign_root=campaign_root, candidate_checkout=surface_root,
+        runtime_root=base / "matrix-runtime", execution_mode="production")
+    driver.live_validator = lambda packet, root: \
+        surfaces.revalidate_manifest(packet["evaluated_surfaces"], root=root)
+    driver.identity_validator = lambda _packet, **_paths: None
+    official = driver.finalize_luna_stage()
+    assert official["luna_stage_accepted"] is True
+    assert official["cell_count"] == 14
+    return campaign_root, surface_root
+
+
+def _gate_values(qualified):
+    artifact = "a" * 64
     return {
-        "execution_mode": "production",
-        "official": official,
-        "independent": independent,
+        "deterministic": {
+            "schema": "implementaudit-deterministic-terminal-v1",
+            "gate": "deterministic",
+            "qualified_input_sha256": qualified,
+            "exit_code": 0, "failed_checks": [],
+        },
+        "package": {
+            "schema": "implementaudit-package-terminal-v1",
+            "gate": "package", "qualified_input_sha256": qualified,
+            "exit_code": 0, "verification_passed": True,
+            "package_manifest_sha256": artifact,
+        },
+        "ci": {
+            "schema": "implementaudit-ci-terminal-v1",
+            "gate": "ci", "qualified_input_sha256": qualified,
+            "exit_code": 0, "failed_jobs": [],
+        },
+        "reproducibility": {
+            "schema": "implementaudit-reproducibility-terminal-v1",
+            "gate": "reproducibility",
+            "qualified_input_sha256": qualified,
+            "exit_code": 0, "comparison_equal": True,
+            "first_artifact_sha256": artifact,
+            "second_artifact_sha256": artifact,
+        },
+        "independent-review": {
+            "schema": "implementaudit-independent-review-terminal-v1",
+            "gate": "independent-review",
+            "reviewed_qualified_input_sha256": qualified,
+            "verdict": "PASS", "findings": [],
+        },
     }
 
 
-def _binding(root, name, path):
-    raw = path.read_bytes()
+def _gates(root, qualified):
+    root.mkdir()
+    for name, value in _gate_values(qualified).items():
+        write(root / integration.GATE_FILENAMES[name], value)
+    return root
+
+
+def _roots(base):
+    b3_campaign_root, b3_surface_root = _finalize_b3(base)
+    matrix_campaign_root, matrix_surface_root = _finalize_matrix(base)
+    b3_after = base / "b3-after"
+    matrix_after = base / "matrix-after"
+    shutil.copytree(b3_surface_root, b3_after)
+    shutil.copytree(matrix_surface_root, matrix_after)
+    qualified = integration.derive_qualified_input_sha256(
+        b3_campaign_root=b3_campaign_root,
+        matrix_campaign_root=matrix_campaign_root,
+        b3_surface_root=b3_surface_root,
+        matrix_surface_root=matrix_surface_root)
+    gate_root = _gates(base / "gates", qualified)
     return {
-        "name": name, "status": "PASS", "path": path.name,
-        "byte_length": len(raw), "sha256": hashlib.sha256(raw).hexdigest(),
+        "b3_campaign_root": b3_campaign_root,
+        "matrix_campaign_root": matrix_campaign_root,
+        "b3_surface_root": b3_surface_root,
+        "matrix_surface_root": matrix_surface_root,
+        "b3_after_surface_root": b3_after,
+        "matrix_after_surface_root": matrix_after,
+        "gate_root": gate_root,
     }
 
 
-def _bind_stage(root, stage, prefix):
-    official_path = root / f"{prefix}-official.json"
-    independent_path = root / f"{prefix}-independent.json"
-    official_path.write_bytes(encoded(stage["official"]))
-    independent_path.write_bytes(encoded(stage["independent"]))
-    official_sha = hashlib.sha256(official_path.read_bytes()).hexdigest()
-    independent_sha = hashlib.sha256(
-        independent_path.read_bytes()).hexdigest()
-    official = stage["official"]
-    matrix = official["campaign"] == surfaces.MATRIX_CAMPAIGN
-    binding = {
-        "campaign": official["campaign"], "stage": "LUNA",
-        "stage_schema": (
-            "implementaudit-candidate-matrix-luna-stage-v1"
-            if matrix else "implementaudit-b3v4-luna-stage-v2"),
-        "mission_count": 14 if matrix else 6,
-        "freeze_sha256": official["freeze_sha256"],
-        "contract_sha256": official["contract_sha256"],
-        "official_result_sha256": official_sha,
-        "independent_rederivation_sha256": independent_sha,
-        "independent_rederiver_contract":
-            official["independent_rederivation"]["contract_id"],
-        "luna_identity": official["luna_identity"],
-        "claims": official["claims"],
+def _replace_all(root):
+    for path in sorted(root.rglob("*")):
+        if path.is_file():
+            path.write_bytes(b"replacement bytes\n")
+
+
+def _exercise_external_after_locator(base):
+    before_root = base / "external-before"
+    after_root = base / "external-after"
+    before_external = {
+        "product-candidate": base / "before-product.bin",
+        "host-attestation": base / "before-attestation.bin",
     }
-    if matrix:
-        binding.update({
-            "execution_mode": "production",
-            "disposition": "INCOMPLETE_PENDING_OPUS",
-            "luna_stage_accepted": True,
-        })
-    terminal = {
-        "schema": "implementaudit-staged-campaign-terminal-v1",
-        "campaign": official["campaign"], "stage": "LUNA",
-        "stage_schema": binding["stage_schema"],
-        "mission_count": binding["mission_count"],
-        "binding_sha256": hashlib.sha256(
-            surfaces_manifest_bytes(binding)).hexdigest(),
-        "stage_snapshot_sha256": "3" * 64,
+    after_external = {
+        "product-candidate": base / "after-product.bin",
+        "host-attestation": base / "after-attestation.bin",
     }
-    terminal_path = root / f"{prefix}-terminal.json"
-    terminal_path.write_bytes(encoded(terminal))
-    stage["evidence"] = {
-        "official": _binding(root, f"{prefix}-official", official_path),
-        "independent": _binding(
-            root, f"{prefix}-independent", independent_path),
-        "stage_terminal": _binding(
-            root, f"{prefix}-terminal", terminal_path),
-    }
-    return stage
-
-
-def surfaces_manifest_bytes(value):
-    import campaign_lifecycle
-    return campaign_lifecycle.canonical_json_bytes(value)
-
-
-def _manifest(root, campaign, prefix):
+    for role in before_external:
+        payload = f"{role} exact bytes\n".encode()
+        write(before_external[role], payload)
+        write(after_external[role], payload)
     sources = []
-    for index, role in enumerate(surfaces.required_roles(campaign)):
-        path = root / f"{prefix}-{index:02d}.bin"
-        path.write_bytes(f"{campaign}:{role}\n".encode())
-        row = {"role": role, "path": path.name}
-        if role in surfaces.GIT_IDENTITY_ROLES[campaign]:
-            row.update({"git_commit": "a" * 40, "git_tree": "b" * 40})
-        sources.append(row)
-    return surfaces.build_manifest(campaign, sources, root=root)
-
-
-def _gates(root):
-    gates = []
-    for name in integration.REQUIRED_GATES:
-        path = root / f"{name}.log"
-        path.write_bytes(f"{name}=PASS\n".encode())
-        raw = path.read_bytes()
-        gates.append({
-            "name": name, "status": "PASS", "path": path.name,
-            "byte_length": len(raw), "sha256": hashlib.sha256(raw).hexdigest(),
+    for index, role in enumerate(
+            surfaces.required_roles(surfaces.MATRIX_CAMPAIGN)):
+        if role in before_external:
+            path = before_external[role].as_posix()
+        else:
+            path = f"surface/{index:02d}.bin"
+            write(before_root / path, f"{role}\n".encode())
+            write(after_root / path, f"{role}\n".encode())
+        sources.append({"role": role, "path": path})
+    before = surfaces.build_manifest(
+        surfaces.MATRIX_CAMPAIGN, sources, root=before_root)
+    locators = {
+        role: path.as_posix() for role, path in after_external.items()
+    }
+    expect_error(
+        "external locator",
+        lambda: integration._after_manifest(before, after_root, {}))
+    expect_error(
+        "external locator",
+        lambda: integration._after_manifest(
+            before, after_root,
+            {**locators, "launcher": (base / "extra.bin").as_posix()}))
+    expect_error(
+        "reuses prior path",
+        lambda: integration._after_manifest(
+            before, after_root, {
+                **locators,
+                "product-candidate":
+                    before_external["product-candidate"].as_posix(),
+            }))
+    expect_error(
+        "physical alias",
+        lambda: integration._after_manifest(
+            before, after_root, {
+                role: after_external["product-candidate"].as_posix()
+                for role in locators
+            }))
+    expect_error(
+        "escapes owner root",
+        lambda: integration._after_manifest(
+            before, after_root, {
+                **locators,
+                "product-candidate": (
+                    after_external["product-candidate"].parent / "alias" /
+                    ".." / after_external["product-candidate"].name
+                ).as_posix(),
+            }))
+    if os.name == "nt":
+        expect_error(
+            "physical alias",
+            lambda: integration._after_manifest(
+                before, after_root, {
+                    "product-candidate":
+                        after_external["product-candidate"].as_posix(),
+                    "host-attestation":
+                        after_external["product-candidate"].as_posix().upper(),
+                }))
+    swapped = integration._after_manifest(
+        before, after_root, {
+            "product-candidate":
+                after_external["host-attestation"].as_posix(),
+            "host-attestation":
+                after_external["product-candidate"].as_posix(),
         })
-    return gates
+    expect_error(
+        "byte drift",
+        lambda: integration._compare_after_bytes(
+            before, swapped, surfaces.MATRIX_CAMPAIGN))
+    after = integration._after_manifest(
+        before, after_root, locators)
+    integration._compare_after_bytes(
+        before, after, surfaces.MATRIX_CAMPAIGN)
+    write(after_external["product-candidate"], b"changed product bytes\n")
+    changed = integration._after_manifest(
+        before, after_root, locators)
+    expect_error(
+        "byte drift",
+        lambda: integration._compare_after_bytes(
+            before, changed, surfaces.MATRIX_CAMPAIGN))
+
+
+def _mutate_stage_rows(campaign_root, official_name, independent_name,
+                       rows_name):
+    independent_path = campaign_root / independent_name
+    independent = json.loads(independent_path.read_text(encoding="utf-8"))
+    independent[rows_name][0]["bundle_manifest_sha256"] = "7" * 64
+    write(independent_path, independent)
+    official_path = campaign_root / official_name
+    official = json.loads(official_path.read_text(encoding="utf-8"))
+    official[rows_name][0]["bundle_manifest_sha256"] = "7" * 64
+    official["independent_rederivation"]["sha256"] = hashlib.sha256(
+        independent_path.read_bytes()).hexdigest()
+    write(official_path, official)
 
 
 def main():
-    with tempfile.TemporaryDirectory() as tmp:
-        root = pathlib.Path(tmp).resolve()
-        b3_before = _manifest(root, surfaces.B3_CAMPAIGN, "b3")
-        matrix_before = _manifest(root, surfaces.MATRIX_CAMPAIGN, "matrix")
-        inputs = {
-            "b3_stage": _bind_stage(
-                root, _stage(surfaces.B3_CAMPAIGN), "b3-stage"),
-            "matrix_stage": _bind_stage(
-                root, _stage(surfaces.MATRIX_CAMPAIGN), "matrix-stage"),
-            "gates": _gates(root),
-            "before": {
-                surfaces.B3_CAMPAIGN: b3_before,
-                surfaces.MATRIX_CAMPAIGN: matrix_before,
-            },
-            "after": {
-                surfaces.B3_CAMPAIGN: copy.deepcopy(b3_before),
-                surfaces.MATRIX_CAMPAIGN: copy.deepcopy(matrix_before),
-            },
-        }
-        output = root / "integration-certificate.json"
-        certificate = integration.write_certificate(
-            output, inputs, evidence_root=root)
+    with tempfile.TemporaryDirectory(
+            prefix="task4-external-after-") as tmp:
+        _exercise_external_after_locator(pathlib.Path(tmp).resolve())
+
+    # The accepted path uses real production-shaped retained roots: six B3
+    # attempts and fourteen matrix attempts, both official and independently
+    # rederived, plus their real lifecycle stage terminals.
+    with tempfile.TemporaryDirectory(
+            prefix="task4-production-roots-") as tmp:
+        base = pathlib.Path(tmp).resolve()
+        roots = _roots(base)
+        output = base / "integration-certificate.json"
+        certificate = integration.write_certificate(output, **roots)
         assert certificate["disposition"] == \
             "LUNA_6_OF_6_AND_14_OF_14_GREEN_MERGED_TO_MAIN"
+        assert certificate["b3_luna"]["accepted_count"] == 6
+        assert certificate["matrix_luna"]["accepted_count"] == 14
+        assert all(
+            row["semantic_status"] == "PASS"
+            for row in certificate["gates"])
         assert certificate["release_authorized"] is False
         assert certificate["tag_authorized"] is False
         assert certificate["publication_authorized"] is False
-        expect_error("create-once", lambda:
-                     integration.write_certificate(
-                         output, inputs, evidence_root=root))
+        expect_error(
+            "create-once",
+            lambda: integration.write_certificate(output, **roots))
 
-        cases = []
-        swapped = copy.deepcopy(inputs)
-        swapped["b3_stage"], swapped["matrix_stage"] = (
-            swapped["matrix_stage"], swapped["b3_stage"])
-        cases.append(("campaign", swapped))
-        incomplete = copy.deepcopy(inputs)
-        incomplete["b3_stage"]["independent"]["missions"].pop()
-        incomplete["b3_stage"]["independent"]["mission_count"] = 5
-        cases.append(("six", incomplete))
-        fabricated = copy.deepcopy(inputs)
-        fabricated["matrix_stage"]["independent"]["cells"][0]["index"] = 7
-        cases.append(("order", fabricated))
-        extra = copy.deepcopy(inputs)
-        extra["b3_stage"]["independent"]["final_12_of_12"] = True
-        cases.append(("fields", extra))
-        nonproduction = copy.deepcopy(inputs)
-        nonproduction["matrix_stage"]["independent"]["execution_mode"] = "test"
-        cases.append(("production", nonproduction))
-        substituted = copy.deepcopy(inputs)
-        substituted["b3_stage"]["independent"]["missions"][0][
-            "model_resolved"] = "terra"
-        cases.append(("model", substituted))
-        disagreement = copy.deepcopy(inputs)
-        disagreement["matrix_stage"]["official"]["cells"][0][
-            "overall_status"] = "FAIL"
-        cases.append(("agreement", disagreement))
-        gate_extra = copy.deepcopy(inputs)
-        gate_extra["gates"].append(copy.deepcopy(gate_extra["gates"][0]))
-        cases.append(("gate", gate_extra))
-        drift = copy.deepcopy(inputs)
-        drift["after"][surfaces.B3_CAMPAIGN]["entries"][0]["sha256"] = "0" * 64
-        cases.append(("byte drift", drift))
-        for index, (_fragment, changed) in enumerate(cases):
+    # R1: packet-derived before bytes govern. Replacing every post-integration
+    # surface cannot be legalized by rebuilding a caller manifest because no
+    # caller manifest exists in the API.
+    with tempfile.TemporaryDirectory(prefix="task4-r1-") as tmp:
+        base = pathlib.Path(tmp).resolve()
+        roots = _roots(base)
+        _replace_all(roots["b3_after_surface_root"])
+        _replace_all(roots["matrix_after_surface_root"])
+        expect_error(
+            "byte drift",
+            lambda: integration.write_certificate(
+                base / "replaced.json", **roots))
+
+    # R2: result and stage summaries are reconstructed from the attempts.
+    # Mutually rebinding fabricated row digests cannot replace campaign roots.
+    with tempfile.TemporaryDirectory(prefix="task4-r2-") as tmp:
+        base = pathlib.Path(tmp).resolve()
+        roots = _roots(base)
+        _mutate_stage_rows(
+            roots["b3_campaign_root"], "b3v4-luna-result.json",
+            "b3v4-luna-independent-rederivation.json", "missions")
+        _mutate_stage_rows(
+            roots["matrix_campaign_root"],
+            "candidate-matrix-luna-result.json",
+            "candidate-matrix-luna-independent-rederivation.json", "cells")
+        expect_error(
+            None,
+            lambda: integration.write_certificate(
+                base / "fabricated.json", **roots))
+
+    # R3 and the neighboring closed terminal states: PASS is derived from each
+    # gate's typed terminal bytes, never from caller status metadata.
+    for label, mutate in (
+            ("arbitrary", lambda value: {"status": "PASS"}),
+            ("non-pass", lambda value: {
+                **value, "exit_code": 1, "failed_checks": ["failed"]}),
+            ("extra", lambda value: {**value, "status": "PASS"}),
+            ("coercive", lambda value: {**value, "exit_code": False})):
+        with tempfile.TemporaryDirectory(prefix=f"task4-r3-{label}-") as tmp:
+            base = pathlib.Path(tmp).resolve()
+            roots = _roots(base)
+            path = roots["gate_root"] / \
+                integration.GATE_FILENAMES["deterministic"]
+            value = json.loads(path.read_text(encoding="utf-8"))
+            write(path, mutate(copy.deepcopy(value)))
             expect_error(
-                None, lambda c=changed, i=index:
-                integration.write_certificate(
-                    root / f"rejected-{i}.json", c, evidence_root=root))
-
-        changed_gate = copy.deepcopy(inputs)
-        (root / f"{integration.REQUIRED_GATES[0]}.log").write_bytes(
-            b"changed\n")
-        expect_error("evidence", lambda:
-                     integration.write_certificate(
-                         root / "changed-evidence.json", changed_gate,
-                         evidence_root=root))
+                None,
+                lambda: integration.write_certificate(
+                    base / f"{label}.json", **roots))
 
     print("PROVISIONAL-INTEGRATION-PASS")
 
