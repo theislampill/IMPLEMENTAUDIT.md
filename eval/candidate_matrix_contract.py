@@ -523,8 +523,13 @@ def validate_artifact(name, value):
                 property_row = _exact(
                     property_row, {"state", "pass"},
                     f"official Luna result cell {index} property")
-                if (property_row["state"] != "PASS" or
-                        property_row["pass"] is not True):
+                if not (
+                        (property_row["state"] == "PASS" and
+                         property_row["pass"] is True) or
+                        (property_row["state"] == "FAIL" and
+                         property_row["pass"] is False) or
+                        (property_row["state"] == "INCOMPLETE" and
+                         property_row["pass"] is None)):
                     raise ValueError(
                         f"official Luna result cell {index} property invalid")
             if cell["reason"] is not None:

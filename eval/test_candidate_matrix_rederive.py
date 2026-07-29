@@ -104,7 +104,12 @@ def bundle_hash(bundle):
 def synthetic_official_pass(fixture, model, manifest, bundle_sha256):
     properties = {
         prop["name"]: {
-            "state": "PASS", "pass": True,
+            "state": (
+                "FAIL" if fixture["id"] in ("B0", "E5") and
+                prop["required"] is False else "PASS"),
+            "pass": not (
+                fixture["id"] in ("B0", "E5") and
+                prop["required"] is False),
             "evidence": "synthetic production-shaped retained evidence",
             "describes": prop.get("describes", ""),
             "basis": "host-observation",
@@ -446,11 +451,20 @@ def build_campaign(root, *, execution_mode="production"):
             "host_read_pre_spawn_sha256":
                 sha(files["host-read-pre-spawn.json"]),
         })
-        checks = {
-            spec["key"]: True
-            for spec in (fixture.get("host_checks") or {}).get("specs", [])
-        }
-        files["host-checks.json"] = encoded(checks)
+        if fixture.get("host_checks"):
+            checks = {
+                spec["key"]: True
+                for spec in fixture["host_checks"]["specs"]
+            }
+            detail = {}
+            for spec in fixture["host_checks"]["specs"]:
+                if spec["kind"] == "run_root_exists":
+                    detail[spec["key"]] = "fix-typo-a1b2c3"
+                elif spec["kind"] == "validate_run_root":
+                    detail[spec["key"]] = (
+                        ".IMPLEMENTAUDIT/runs/fix-typo-a1b2c3: exit 0; ok")
+            checks["_detail"] = detail
+            files["host-checks.json"] = encoded(checks)
         files["host-stderr.raw"] = b""
         files["raw-host-events.jsonl"] = raw_session
         files["derived-transform.json"] = encoded({
@@ -462,7 +476,7 @@ def build_campaign(root, *, execution_mode="production"):
         })
         if fixture_id == "E5":
             files["result.json"] = encoded({
-                "current_verdict": "accept",
+                "current_verdict": "reject",
                 "p1_verdict": "reject",
                 "p2_verdict": "accept",
             })
@@ -472,6 +486,10 @@ def build_campaign(root, *, execution_mode="production"):
         transcript = (
             HERE / "fixtures" / fixture_id /
             "transcript_pass.txt").read_text(encoding="utf-8")
+        if fixture_id == "B0":
+            transcript = "\n".join(
+                line for line in transcript.splitlines()
+                if not line.startswith("AGENTS_UPDATE_DECISION"))
         retained_event = encoded({
             "schema": "implementaudit-eval-event-v1", "run_id": name,
             "fixture_id": fixture_id, "seq": 1, "role": "assistant",
@@ -723,6 +741,16 @@ def assert_production_campaign_and_mutation_matrix(module):
             "official_verdict_sha256",
         }
         assert all(set(row) == expected_fields for row in result["cells"])
+        for fixture_id, optional_name in (
+                ("B0", "agents_update_decision"),
+                ("E5", "current_answer_correctness")):
+            row = next(
+                item for item in result["cells"]
+                if item["fixture"] == fixture_id)
+            assert row["properties"][optional_name] == {
+                "state": "FAIL", "pass": False}
+            assert row["product_status"] == "PASS"
+            assert row["overall_status"] == "PASS"
 
         false_greens = []
         for position in positions:
@@ -751,6 +779,113 @@ def assert_production_campaign_and_mutation_matrix(module):
             ", ".join(false_greens))
 
 
+def assert_host_check_producer_contract(module):
+    accepted = [
+        (
+            {"key": "task_fixed", "kind": "file_regex",
+             "path": "task.txt", "must_match": "receive"},
+            {"task_fixed": True, "_detail": {}},
+        ),
+        (
+            {"key": "task_fixed", "kind": "file_regex",
+             "path": "task.txt", "must_match": "receive"},
+            {"task_fixed": False, "_detail": {}},
+        ),
+        (
+            {"key": "task_fixed", "kind": "file_regex",
+             "path": "task.txt", "must_match": "receive"},
+            {"task_fixed": False,
+             "_detail": {"task_fixed": "file unreadable"}},
+        ),
+        (
+            {"key": "run_root_valid", "kind": "validate_run_root"},
+            {"run_root_valid": True, "_detail": {
+                "run_root_valid": ".IMPLEMENTAUDIT/runs/x: exit 0; ok"}},
+        ),
+        (
+            {"key": "run_root_exists", "kind": "run_root_exists",
+             "dir": ".IMPLEMENTAUDIT/runs"},
+            {"run_root_exists": True,
+             "_detail": {"run_root_exists": "run-a"}},
+        ),
+        (
+            {"key": "result_equal", "kind": "json_fields_equal",
+             "path": "result.json", "equals": {"verdict": "accept"}},
+            {"result_equal": True, "_detail": {}},
+        ),
+        (
+            {"key": "read_before_write", "kind": "path_access_order",
+             "reads": ["input.txt"], "write": "output.txt"},
+            {"read_before_write": True, "_detail": {
+                "read_before_write": json.dumps({
+                    "host_status": "PASS", "live_preimage": True,
+                    "ordered": True, "ordering_source": "persisted-ordinal",
+                    "overall_status": "PASS", "property_status": "PASS",
+                    "write_completed": True,
+                }, sort_keys=True, separators=(",", ":"))}},
+        ),
+    ]
+    for spec, artifact in accepted:
+        module._validate_simple_host_checks([spec], artifact)
+    rejected = [
+        (
+            [{"key": "run_root_exists", "kind": "run_root_exists"}],
+            {"run_root_exists": True},
+        ),
+        (
+            [{"key": "run_root_exists", "kind": "run_root_exists"}],
+            {"run_root_exists": True, "_detail": {}},
+        ),
+        (
+            [{"key": "run_root_exists", "kind": "run_root_exists"}],
+            {"run_root_exists": True, "_detail": {
+                "run_root_exists": "no run root on disk"}},
+        ),
+        (
+            [{"key": "run_root_valid", "kind": "validate_run_root"}],
+            {"run_root_valid": True, "_detail": {
+                "run_root_valid": "validator unavailable"}},
+        ),
+        (
+            [{"key": "task_fixed", "kind": "file_regex"}],
+            {"task_fixed": True,
+             "_detail": {"task_fixed": "file unreadable"}},
+        ),
+        (
+            [{"key": "result_equal", "kind": "json_fields_equal"}],
+            {"result_equal": False, "_detail": {}},
+        ),
+        (
+            [{"key": "read_before_write", "kind": "path_access_order"}],
+            {"read_before_write": False, "_detail": {
+                "read_before_write": json.dumps({
+                    "host_status": "PASS", "live_preimage": True,
+                    "ordered": True, "ordering_source": "persisted-ordinal",
+                    "overall_status": "PASS", "property_status": "PASS",
+                    "write_completed": True,
+                }, sort_keys=True, separators=(",", ":"))}},
+        ),
+        (
+            [{"key": "mystery", "kind": "unknown_kind"}],
+            {"mystery": True, "_detail": {}},
+        ),
+        (
+            [{"key": "run_root_exists", "kind": "run_root_exists"}],
+            {"run_root_exists": True, "_detail": {
+                "run_root_exists": "run-a", "extra": "invented"}},
+        ),
+    ]
+    for specs, artifact in rejected:
+        try:
+            module._validate_simple_host_checks(specs, artifact)
+        except module.EvidenceInvalid:
+            pass
+        else:
+            raise AssertionError(
+                f"host-check producer contract accepted {specs!r}, "
+                f"{artifact!r}")
+
+
 def load_module():
     spec = importlib.util.spec_from_file_location("candidate_matrix_rederive", MODULE)
     module = importlib.util.module_from_spec(spec)
@@ -769,6 +904,7 @@ def main():
             imports.add(node.module)
     assert not (imports & FORBIDDEN), imports & FORBIDDEN
     module = load_module()
+    assert_host_check_producer_contract(module)
     assert_production_campaign_and_mutation_matrix(module)
     assert module.FIXTURE_ORDER == (
         "B0", "B1", "B2", "E1", "E2a", "E2b", "E3", "E4",

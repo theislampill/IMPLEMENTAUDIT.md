@@ -283,6 +283,12 @@ TRACE_ACTION_ALLOWED = {
     "protocol_wrapper_valid", "updates", "descendant_complete", "reason",
 }
 SUPPORTED_READERS = {"cat", "grep", "head", "rg", "sed", "tail"}
+SIMPLE_HOST_CHECK_KINDS = {
+    "file_regex", "run_root_exists", "validate_run_root",
+}
+REPLAY_HOST_CHECK_KINDS = {"json_fields_equal", "path_access_order"}
+SUPPORTED_HOST_CHECK_KINDS = (
+    SIMPLE_HOST_CHECK_KINDS | REPLAY_HOST_CHECK_KINDS)
 AUXILIARY_BUNDLE_ARTIFACTS = {
     "host-stderr.raw", "raw-host-events.jsonl", "derived-transform.json",
 }
@@ -666,8 +672,34 @@ def _validate_fixture_schema(fixture, expected_id):
             fixture["host_checks"], {"artifact", "specs"},
             "fixture.host_checks")
         _expect(host_checks["artifact"] == "host-checks.json" and
-                type(host_checks["specs"]) is list,
+                type(host_checks["specs"]) is list and host_checks["specs"],
                 "fixture host checks invalid")
+        keys = []
+        for index, spec in enumerate(host_checks["specs"]):
+            owner = f"fixture host check {index}"
+            spec = _mapping(spec, owner)
+            kind = spec.get("kind")
+            _expect(kind in SUPPORTED_HOST_CHECK_KINDS,
+                    owner + " kind unsupported")
+            required, optional = {
+                "file_regex": (
+                    {"key", "kind", "path"},
+                    {"must_match", "must_not_match"}),
+                "run_root_exists": (
+                    {"key", "kind"}, {"dir"}),
+                "validate_run_root": (
+                    {"key", "kind"}, set()),
+                "json_fields_equal": (
+                    {"key", "kind", "path", "equals"}, set()),
+                "path_access_order": (
+                    {"key", "kind", "reads", "write"}, set()),
+            }[kind]
+            _closed_fields(spec, required, optional, owner)
+            _expect(type(spec["key"]) is str and spec["key"],
+                    owner + " key invalid")
+            keys.append(spec["key"])
+        _expect(len(keys) == len(set(keys)),
+                "fixture host check keys are not unique")
     return fixture
 
 def _validate_event_rows(data, expected_run_id, expected_fixture):
@@ -2146,8 +2178,9 @@ def _matrix_row(spec, actions, preimages):
 def _required_capture_files(fixture):
     required = set(CAPTURE_FILES) | {"host-read-manifest.json",
                                      "run-intent.json", "process-started.json",
-                                     "host-checks.json"} | \
-        AUXILIARY_BUNDLE_ARTIFACTS
+                                     } | AUXILIARY_BUNDLE_ARTIFACTS
+    if fixture.get("host_checks"):
+        required.add("host-checks.json")
     for spec in (fixture.get("host_checks") or {}).get("specs", []):
         if spec.get("kind") == "json_fields_equal":
             path = _safe_rel(spec.get("path"), "host-check input")
@@ -2158,6 +2191,74 @@ def _required_capture_files(fixture):
             artifact_policy.get("file"), "required host-observation artifact")
         required.add(artifact_path)
     return required
+
+
+def _validate_simple_host_checks(specs, artifact):
+    _expect(isinstance(artifact, dict),
+            "formal-v2 host check aggregate malformed")
+    declared = {spec["key"]: spec for spec in specs}
+    _expect(set(artifact) == set(declared) | {"_detail"},
+            "formal-v2 host check aggregate malformed")
+    detail = artifact["_detail"]
+    _expect(isinstance(detail, dict) and set(detail) <= set(declared) and
+            all(type(value) is str and bool(value) for value in detail.values()),
+            "formal-v2 host check detail malformed")
+    results = {}
+    for key, spec in declared.items():
+        value = artifact[key]
+        _expect(type(value) is bool,
+                "formal-v2 host check aggregate malformed")
+        kind = spec["kind"]
+        explanation = detail.get(key)
+        if kind == "file_regex":
+            _expect(explanation is None or
+                    (value is False and explanation == "file unreadable"),
+                    "formal-v2 file-regex detail contradicts aggregate")
+        elif kind == "run_root_exists":
+            _expect(explanation is not None and
+                    ((value is False and
+                      explanation == "no run root on disk") or
+                     (value is True and
+                      explanation != "no run root on disk")),
+                    "formal-v2 run-root detail contradicts aggregate")
+        elif kind == "validate_run_root":
+            _expect(explanation is not None and
+                    (("exit 0" in explanation) is value),
+                    "formal-v2 validation detail contradicts aggregate")
+        elif kind == "json_fields_equal":
+            failure_detail = (
+                explanation == "JSON root is not an object" or
+                (type(explanation) is str and
+                 ((explanation.startswith("JSON unreadable: ") and
+                   bool(explanation.removeprefix("JSON unreadable: "))) or
+                  (explanation.startswith("mismatched fields: ") and
+                   bool(explanation.removeprefix("mismatched fields: "))))))
+            _expect((value is True and explanation is None) or
+                    (value is False and failure_detail),
+                    "formal-v2 JSON-check detail contradicts aggregate")
+        elif kind == "path_access_order":
+            _expect(explanation is not None,
+                    "formal-v2 path-order detail missing")
+            row = _decode_json(
+                explanation.encode("utf-8"), f"host check detail {key}",
+                "formal-v2 path-order detail malformed", True)
+            _expect(
+                set(row) == {"property_status", "host_status",
+                             "overall_status", "ordered", "write_completed",
+                             "live_preimage", "ordering_source"} and
+                row["property_status"] in ("PASS", "INCOMPLETE") and
+                row["host_status"] == "PASS" and
+                row["overall_status"] == row["property_status"] and
+                type(row["ordered"]) is bool and
+                type(row["write_completed"]) is bool and
+                type(row["live_preimage"]) is bool and
+                row["ordering_source"] == "persisted-ordinal" and
+                value is (row["property_status"] == "PASS"),
+                "formal-v2 path-order detail contradicts aggregate")
+        else:
+            raise EvidenceInvalid("unsupported host-check kind")
+        results[key] = value
+    return results
 
 
 def _validate_capture(artifacts, fixture_bytes, fixture, expected_host,
@@ -2295,14 +2396,9 @@ def _validate_capture(artifacts, fixture_bytes, fixture, expected_host,
     }
     _expect(_exact_json_equal(matrix, expected_matrix),
             "formal-v2 matrix does not independently regenerate")
-    host_checks = objects["host-checks.json"]
-    expected_check_keys = {
-        spec["key"] for spec in (fixture.get("host_checks") or {}).get(
-            "specs", [])}
-    _expect(isinstance(host_checks, dict) and
-            set(host_checks) == expected_check_keys and
-            all(type(value) is bool for value in host_checks.values()),
-            "formal-v2 host check aggregate malformed")
+    check_specs = (fixture.get("host_checks") or {}).get("specs", [])
+    host_checks = (_validate_simple_host_checks(
+        check_specs, objects["host-checks.json"]) if check_specs else {})
     return (objects["host-read-preimages.json"], trace, raw_actions,
             host_checks)
 
@@ -2587,8 +2683,10 @@ def _derive_properties(fixture, artifacts, after, changed, preimages, raw_action
             observations[key] = isinstance(value, dict) and all(
                 value.get(field) == expected
                 for field, expected in (spec.get("equals") or {}).items())
-        else:
+        elif kind in SIMPLE_HOST_CHECK_KINDS:
             observations[key] = host_checks.get(key)
+        else:
+            raise EvidenceInvalid("unsupported host-check kind")
         _expect(host_checks.get(key) is observations[key],
                 f"host check {key!r} disagrees with independent replay")
     summary = {"changed_files": changed, **observations}
@@ -2676,10 +2774,12 @@ def _load_official_verdict(attempt, terminal, expected_model, fixture,
     specs = fixture.get("properties")
     _expect(isinstance(specs, list) and specs,
             "frozen property declarations missing")
-    required = [item.get("name") for item in specs]
-    _expect(all(type(name) is str and bool(name) for name in required) and
-            len(required) == len(set(required)) and
-            set(properties) == set(required),
+    declared = [item.get("name") for item in specs]
+    required = [item.get("name") for item in specs
+                if item.get("required", True)]
+    _expect(all(type(name) is str and bool(name) for name in declared) and
+            len(declared) == len(set(declared)) and required and
+            set(properties) == set(declared),
             "official property key set does not equal frozen property set")
     complete = True
     values = {}
@@ -2697,7 +2797,8 @@ def _load_official_verdict(attempt, terminal, expected_model, fixture,
                 item["describes"] == spec.get("describes", "") and
                 type(item["basis"]) is str and bool(item["basis"]),
                 "official property row malformed or contradictory")
-        complete = complete and state in ("PASS", "FAIL")
+        if name in required:
+            complete = complete and state in ("PASS", "FAIL")
         values[name] = value
     findings = host_safety["findings"]
     _expect(isinstance(findings, list), "official host findings malformed")
@@ -3011,8 +3112,13 @@ def rederive_campaign(packet_path, campaign_root):
                 property_row = _exact_fields(
                     property_row, {"state", "pass"},
                     f"independent PASS cell row {index} property")
-                _expect(property_row["state"] == "PASS" and
-                        property_row["pass"] is True,
+                _expect(
+                    (property_row["state"] == "PASS" and
+                     property_row["pass"] is True) or
+                    (property_row["state"] == "FAIL" and
+                     property_row["pass"] is False) or
+                    (property_row["state"] == "INCOMPLETE" and
+                     property_row["pass"] is None),
                         f"independent PASS cell row {index} property invalid")
             for key in ("bundle_manifest_sha256", "raw_stdout_sha256",
                         "native_session_sha256",

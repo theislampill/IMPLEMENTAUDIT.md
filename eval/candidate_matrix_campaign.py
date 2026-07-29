@@ -271,10 +271,15 @@ def _validate_official_verdict(verdict, fixture=None, *, packet=None,
             not _exact_json_equal(
                 attestation["adapter_attested_only"], ATTESTED_IDENTITIES)):
         _official_error("identity attestation is malformed")
-    required_names = [item.get("name") for item in fixture.get("properties", [])]
-    if (not required_names or any(not _nonempty(name) for name in required_names) or
-            len(required_names) != len(set(required_names)) or
-            set(properties) != set(required_names)):
+    declared_names = [item.get("name")
+                      for item in fixture.get("properties", [])]
+    required_names = [item.get("name")
+                      for item in fixture.get("properties", [])
+                      if item.get("required", True)]
+    if (not required_names or
+            any(not _nonempty(name) for name in declared_names) or
+            len(declared_names) != len(set(declared_names)) or
+            set(properties) != set(declared_names)):
         _official_error("property key set differs from the frozen fixture")
     property_complete = True
     property_values = {}
@@ -293,7 +298,9 @@ def _validate_official_verdict(verdict, fixture=None, *, packet=None,
                 item["describes"] != spec.get("describes", "") or
                 not _nonempty(item["basis"])):
             _official_error("property row is malformed or contradictory")
-        property_complete = property_complete and state in ("PASS", "FAIL")
+        if name in required_names:
+            property_complete = (
+                property_complete and state in ("PASS", "FAIL"))
         property_values[name] = value
     findings = host_safety["findings"]
     if not isinstance(findings, list):
