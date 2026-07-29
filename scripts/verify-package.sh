@@ -188,6 +188,8 @@ require_file tests/docs-portal.test.sh
 require_file tests/eval-harness.test.sh
 require_file eval/campaign_freeze_preflight.py
 require_file eval/test_campaign_freeze_preflight.py
+require_file eval/qualification_evidence_producer.py
+require_file eval/test_qualification_evidence_producer.py
 require_file eval/historical_readjudicate.py
 require_file eval/test_historical_readjudicate.py
 require_file tests/payload-path-hygiene.test.sh

@@ -14,7 +14,9 @@ import subprocess
 import tempfile
 
 from test_b3v4_freeze import valid_packet
-from test_campaign_freeze_preflight import write_test_live_ready
+from test_campaign_freeze_preflight import (
+    write_retained_production_readiness_fixture,
+)
 import b3v4_contract as official_contract
 import evaluated_surfaces as surfaces
 import runner as official_runner
@@ -154,7 +156,7 @@ def synthetic_official_pass(fixture, model, manifest, bundle_sha256):
 
 
 def build_campaign(root, fixture_override=None, *, surface_root=None,
-                   external_surface_paths=None):
+                   external_surface_paths=None, foundation=None):
     root = pathlib.Path(root)
     surface_root = root if surface_root is None else pathlib.Path(surface_root)
     fixture = copy.deepcopy(fixture_override) if fixture_override is not None \
@@ -162,6 +164,8 @@ def build_campaign(root, fixture_override=None, *, surface_root=None,
     fixture_bytes = (encoded(fixture) if fixture_override is not None else
                      (HERE / "fixtures" / "B3-v3" / "fixture.json").read_bytes())
     packet = valid_packet()
+    if foundation is not None:
+        packet["foundation"] = copy.deepcopy(foundation)
     packet["independent_rederiver"]["implementation_identity"]["sha256"] = \
         sha(REDERIVER.read_bytes())
     packet["fixture"]["fixture_sha256"] = sha(fixture_bytes)
@@ -230,9 +234,8 @@ def build_campaign(root, fixture_override=None, *, surface_root=None,
         "authorization_reason": "execution not authorized; capsule only",
     }
     capsule_bytes = encoded(capsule)
-    readiness_path = write_test_live_ready(
-        "b3v4", packet, root.parent / (root.name + "-live-ready"),
-        execution_mode="production")
+    readiness_path = write_retained_production_readiness_fixture(
+        "b3v4", packet, root.parent / (root.name + "-live-ready"))
     readiness_bytes = readiness_path.read_bytes()
     readiness = json.loads(readiness_bytes)
     for mission in packet["missions"]:

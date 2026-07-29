@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import atexit
 import hashlib
 import json
 import io
@@ -21,6 +22,7 @@ import candidate_matrix_campaign
 import candidate_matrix_rederive
 import evaluated_surfaces as surfaces
 import provisional_integration as integration
+import qualification_evidence_producer as evidence_producer
 import test_b3v4_rederive as b3_fixture
 import test_candidate_matrix_rederive as matrix_fixture
 
@@ -36,18 +38,56 @@ def write(path, value):
     path.write_bytes(value if isinstance(value, bytes) else encoded(value))
 
 
+def _git(*args, text=False):
+    return subprocess.run(
+        ["git", "-C", str(HERE.parent), *args],
+        stdin=subprocess.DEVNULL, capture_output=True, check=True,
+        text=text).stdout
+
+
+HERE = pathlib.Path(__file__).resolve().parent
+TARGET_SHA = _git("rev-parse", "HEAD", text=True).strip()
+TARGET_TREE = _git("show", "-s", "--format=%T", "HEAD", text=True).strip()
+TARGET_FOUNDATION = {"commit": TARGET_SHA, "tree": TARGET_TREE}
+_PRODUCER_REPO = None
+
+
+def _producer_repo():
+    global _PRODUCER_REPO
+    if _PRODUCER_REPO is None:
+        _PRODUCER_REPO = pathlib.Path(tempfile.mkdtemp(
+            prefix="qualification-producer-checkout-"))
+        subprocess.run(
+            ["git", "clone", "--quiet", "--no-hardlinks",
+             str(HERE.parent), str(_PRODUCER_REPO)],
+            stdin=subprocess.DEVNULL, check=True)
+        subprocess.run(
+            ["git", "-C", str(_PRODUCER_REPO), "checkout", "--quiet",
+             "--detach", TARGET_SHA],
+            stdin=subprocess.DEVNULL, check=True)
+        atexit.register(
+            shutil.rmtree, _PRODUCER_REPO, ignore_errors=True)
+    return _PRODUCER_REPO
+
+
 def _package_bytes(source_sha, source_tree):
-    payloads = {
-        name: (b"---\nname: implementaudit\ndescription: test\n---\n"
-               if name == "SKILL.md" else b"fixture\n")
-        for name in integration.PACKAGE_REQUIRED_PATHS
-    }
-    payloads[".claude-plugin/plugin.json"] = encoded({
-        "name": "implementaudit", "version": "0.3.2", "skills": "./",
-    })
-    payloads[".claude-plugin/marketplace.json"] = encoded({
-        "plugins": [{"name": "implementaudit", "path": ".."}],
-    })
+    names = _git(
+        "ls-tree", "-r", "--name-only", source_sha,
+        "skills/implementaudit", text=True).splitlines()
+    payloads = {}
+    for source_path in names:
+        archive_path = source_path.removeprefix("skills/implementaudit/")
+        _source, payload, _transform = \
+            integration._source_bound_archive_payload(
+                HERE.parent, source_sha, archive_path)
+        payloads[archive_path] = payload
+    for archive_path in (
+            ".claude-plugin/plugin.json",
+            ".claude-plugin/marketplace.json"):
+        _source, payload, _transform = \
+            integration._source_bound_archive_payload(
+                HERE.parent, source_sha, archive_path)
+        payloads[archive_path] = payload
     stream = io.BytesIO()
     with zipfile.ZipFile(
             stream, "w", compression=zipfile.ZIP_DEFLATED,
@@ -73,6 +113,9 @@ def _package_bytes(source_sha, source_tree):
         "schema": integration.PACKAGE_MANIFEST_SCHEMA,
         "source_sha": source_sha,
         "source_tree": source_tree,
+        "builder_source_path": "scripts/build-release-asset.sh",
+        "builder_source_sha256": hashlib.sha256(_git(
+            "show", f"{source_sha}:scripts/build-release-asset.sh")).hexdigest(),
         "entries": entries,
     }
 
@@ -92,7 +135,8 @@ def _finalize_b3(base, external_surface_paths=None):
     surface_root = base / "b3-surfaces"
     b3_fixture.build_campaign(
         campaign_root, surface_root=surface_root,
-        external_surface_paths=external_surface_paths)
+        external_surface_paths=external_surface_paths,
+        foundation=TARGET_FOUNDATION)
     packet_path = campaign_root / "campaign-freeze.json"
     independent = b3v4_rederive.rederive_campaign(
         packet_path, campaign_root, surface_root)
@@ -121,7 +165,8 @@ def _finalize_matrix(base, external_surface_paths=None):
     matrix_fixture.build_campaign(
         campaign_root, execution_mode="production",
         surface_root=surface_root,
-        external_surface_paths=external_surface_paths)
+        external_surface_paths=external_surface_paths,
+        foundation=TARGET_FOUNDATION)
     packet_path = campaign_root / "campaign-freeze.json"
     independent = candidate_matrix_rederive.rederive_campaign(
         packet_path, campaign_root, surface_root)
@@ -198,107 +243,37 @@ def _gate_values(qualified, package_manifest_hash, artifact_hash):
 
 def _gates(root, qualified, target_sha, target_tree, surfaces_sha256):
     root.mkdir()
-    artifact_bytes, package_manifest = _package_bytes(
-        target_sha, target_tree)
-    artifact_hash = hashlib.sha256(artifact_bytes).hexdigest()
-    package_manifest_bytes = encoded(package_manifest)
-    package_manifest_hash = hashlib.sha256(
-        package_manifest_bytes).hexdigest()
-    values = _gate_values(
-        qualified, package_manifest_hash, artifact_hash)
+    producer_repo = _producer_repo()
     prior = hashlib.sha256(b"").hexdigest()
-    for name, value in values.items():
-        artifacts = {}
-        if name == "package":
-            artifacts["package-retained.skill"] = artifact_bytes
-            artifacts["package-entry-manifest.json"] = \
-                package_manifest_bytes
-        elif name == "reproducibility":
-            artifacts["repro-first.skill"] = artifact_bytes
-            artifacts["repro-second.skill"] = artifact_bytes
-        elif name == "independent-review":
-            artifacts["independent-review.md"] = (
-                b"# Complete-boundary review\n\nVERDICT: PASS\n")
-        stdout_lines = [
-            f"IMPLEMENTAUDIT_GATE_PASS gate={name} input={qualified} "
-            f"sha={target_sha} tree={target_tree}",
-        ]
-        if name == "deterministic":
-            stdout_lines.extend(
-                row["marker"] for row in value["checks"])
-        elif name == "ci":
-            stdout_lines.extend(
-                row["log_marker"] for row in value["jobs"])
-        if name == "package":
-            stdout_lines.extend([
-                "verify-package: ok",
-                f"REPRODUCIBLE_ASSET_RETAINED sha256={artifact_hash}",
-            ])
-        elif name == "reproducibility":
-            stdout_lines.append(
-                f"REPRODUCIBILITY_EQUAL sha256={artifact_hash}")
-        stdout = ("\n".join(stdout_lines) + "\n").encode()
-        stderr = b""
-        start = {
-            "schema": "implementaudit-gate-producer-start-v1",
-            "gate": name,
-            "qualified_input_sha256": qualified,
-            "target_sha": target_sha,
-            "target_tree": target_tree,
-            "command": integration.GATE_COMMANDS[name],
-            "producer_role": integration.GATE_PRODUCER_ROLES[name],
-            "evaluated_surfaces_sha256": surfaces_sha256,
-            "invocation_count": 1,
-            "network_authorized": False,
-            "credentials_authorized": False,
-            "model_or_metered_api_authorized": False,
-        }
-        terminal_raw = encoded(value)
-        report = {
-            "schema": "implementaudit-gate-producer-report-v1",
-            "gate": name,
-            "qualified_input_sha256": qualified,
-            "target_sha": target_sha,
-            "target_tree": target_tree,
-            "stdout_sha256": hashlib.sha256(stdout).hexdigest(),
-            "stderr_sha256": hashlib.sha256(stderr).hexdigest(),
-            "terminal_sha256": hashlib.sha256(terminal_raw).hexdigest(),
-        }
+    for name in integration.REQUIRED_GATES:
+        review = None
         if name == "independent-review":
-            report.update({
+            base_sha = subprocess.check_output(
+                ["git", "-C", str(producer_repo), "rev-parse",
+                 f"{target_sha}^"], text=True).strip()
+            scope = subprocess.check_output(
+                ["git", "-C", str(producer_repo), "diff", "--name-only",
+                 base_sha, target_sha], text=True).splitlines()
+            review = {
                 "reviewer_identity": "fresh-reviewer-1",
                 "reviewer_role": "independent-read-only-reviewer",
                 "reviewed_evidence_sha256": prior,
-                "review_artifact_sha256": hashlib.sha256(
-                    artifacts["independent-review.md"]).hexdigest(),
-            })
-        retained = {
-            f"{name}-start.json": encoded(start),
-            integration.GATE_FILENAMES[name]: terminal_raw,
-            f"{name}-report.json": encoded(report),
-            f"{name}.stdout.log": stdout,
-            f"{name}.stderr.log": stderr,
-            **artifacts,
-        }
-        rows = []
-        for filename, raw in retained.items():
-            write(root / filename, raw)
-            rows.append({
-                "path": filename,
-                "byte_length": len(raw),
-                "sha256": hashlib.sha256(raw).hexdigest(),
-            })
-        manifest = {
-            "schema": "implementaudit-gate-evidence-manifest-v1",
-            "gate": name,
-            "files": rows,
-        }
-        manifest_raw = encoded(manifest)
-        write(root / f"{name}-evidence-manifest.json", manifest_raw)
+                "base_sha": base_sha,
+                "range": f"{base_sha}..{target_sha}",
+                "scope": scope, "findings": [], "verdict": "PASS",
+                "report":
+                    b"# Complete-boundary review\n\nVERDICT: PASS\n",
+            }
+        manifest_sha = evidence_producer.run_gate(
+            name, repo_root=producer_repo, evidence_root=root,
+            target_sha=target_sha, target_tree=target_tree,
+            qualified_input_sha256=qualified,
+            surfaces_sha256=surfaces_sha256,
+            prior_evidence_sha256=prior, review=review,
+            test_only=True)
         prior = integration._canonical_sha({
             "prior": prior, "name": name,
-            "evidence_manifest_sha256":
-                hashlib.sha256(manifest_raw).hexdigest(),
+            "evidence_manifest_sha256": manifest_sha,
         })
     return root
 
@@ -373,6 +348,7 @@ def _roots(base, *, with_external=False):
         "b3_after_surface_root": b3_after,
         "matrix_after_surface_root": matrix_after,
         "gate_root": gate_root,
+        "allow_test_evidence": True,
     }
     if with_external:
         b3_after_external = {}
@@ -765,6 +741,10 @@ def _assert_virtual_projection_integration_boundary(base):
 
 
 def main():
+    # Round-3 governing RED: positive gate evidence comes only from the
+    # controller-owned producer API, never direct test-authored terminals.
+    assert callable(evidence_producer.run_gate)
+
     # Governing round-2 RED: package authority must parse a real canonical
     # archive and derive its exact entry manifest, not merely compare digests.
     with tempfile.TemporaryDirectory(
@@ -838,9 +818,10 @@ def main():
             lambda: integration.write_certificate(
                 roots["b3_campaign_root"], **roots))
 
-    # The accepted path uses real production-shaped retained roots: six B3
+    # The structural path uses production-shaped retained roots: six B3
     # attempts and fourteen matrix attempts, both official and independently
-    # rederived, plus their real lifecycle stage terminals.
+    # rederived, plus their real lifecycle stage terminals.  Its gate evidence
+    # is explicitly TEST_ONLY and therefore cannot authorize integration.
     with tempfile.TemporaryDirectory(
             prefix="task4-production-roots-") as tmp:
         base = pathlib.Path(tmp).resolve()
@@ -849,7 +830,8 @@ def main():
         certificate = integration.write_certificate(output, **roots)
         assert (output / integration.CERTIFICATE_FILENAME).is_file()
         assert certificate["disposition"] == \
-            "LUNA_6_OF_6_AND_14_OF_14_GREEN_MERGED_TO_MAIN"
+            "TEST_ONLY_NON_QUALIFYING"
+        assert certificate["integration_authorized"] is False
         assert certificate["b3_luna"]["accepted_count"] == 6
         assert certificate["matrix_luna"]["accepted_count"] == 14
         assert all(

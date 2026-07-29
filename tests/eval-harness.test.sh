@@ -23,6 +23,7 @@ else echo "eval-harness.test: python required" >&2; exit 1; fi
 "$py" "$repo_root/eval/test_candidate_matrix_rederive.py"
 "$py" "$repo_root/eval/test_evaluated_surfaces.py"
 "$py" "$repo_root/eval/test_provisional_integration.py"
+"$py" "$repo_root/eval/test_qualification_evidence_producer.py"
 "$py" "$repo_root/eval/test_campaign_freeze_preflight.py"
 "$py" "$repo_root/eval/test_historical_readjudicate.py"
 printf 'eval-harness.test: ok\n'

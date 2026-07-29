@@ -585,7 +585,7 @@ class CampaignDriver:
                  mission_executor=None,
                  execution_mode="production", live_validator=None,
                  identity_validator=None, codex_auth_source=None,
-                 launch_readiness=None):
+                 launch_readiness=None, launch_context=None):
         if execution_mode not in ("production", "test"):
             raise ValueError("unsupported execution mode")
         if execution_mode == "production" and any(
@@ -610,20 +610,51 @@ class CampaignDriver:
         self.launch_readiness = (
             pathlib.Path(launch_readiness).absolute()
             if launch_readiness else None)
+        self.launch_context = (
+            pathlib.Path(launch_context).absolute()
+            if launch_context else None)
+
+    def _load_launch_context(self):
+        if self.execution_mode != "production":
+            return None
+        if self.launch_context is None:
+            raise ValueError("production live launch context is required")
+        raw = contract.read_custodied_bytes(
+            self.launch_context, "production live launch context",
+            root=self.launch_context.parent)
+        context = _strict_json_loads(raw.decode("utf-8"))
+        if type(context) is not dict:
+            raise ValueError("production live launch context must be object")
+        auth = context.get("codex_auth_source_path")
+        attestation = context.get("host_attestation_path")
+        if (self.codex_auth_source is None or type(auth) is not str or
+                self.codex_auth_source != pathlib.Path(auth).resolve()):
+            raise ValueError(
+                "production authentication source/context mismatch")
+        if (self.attestation is None or type(attestation) is not str or
+                self.attestation.resolve() !=
+                pathlib.Path(attestation).resolve()):
+            raise ValueError(
+                "production host attestation/context mismatch")
+        return context
 
     def _load_launch_readiness(self, packet):
         if self.launch_readiness is None:
             raise ValueError("live launch readiness is required")
         return launch_preflight.validate_live_ready(
             "candidate-matrix", packet, self.launch_readiness,
-            execution_mode=self.execution_mode)
+            execution_mode=self.execution_mode,
+            live_context=self._load_launch_context())
 
     def _verify_launch_readiness(self, attempt_root, status, packet):
         binding = status["launch_readiness_binding"]
         report, raw = launch_preflight.validate_live_ready(
             "candidate-matrix", packet,
             attempt_root / binding["path"],
-            execution_mode=self.execution_mode)
+            execution_mode=self.execution_mode,
+            live_context=(self._load_launch_context()
+                          if self.launch_context else None),
+            retained_only=self.launch_context is None)
         if (_sha256_bytes(raw) != binding["sha256"] or
                 report["schema"] != binding["schema"] or
                 report["execution_mode"] != binding["execution_mode"] or
@@ -819,7 +850,8 @@ class CampaignDriver:
         attestation_raw, _ = self._load_host_attestation(mission, packet)
         launch_preflight.validate_live_ready(
             "candidate-matrix", packet, self.launch_readiness,
-            execution_mode=self.execution_mode)
+            execution_mode=self.execution_mode,
+            live_context=self._load_launch_context())
         claiming.mkdir(exist_ok=False)
         with open(claiming / "host-attestation.json", "xb") as stream:
             stream.write(attestation_raw)
@@ -1542,6 +1574,7 @@ def main(argv=None):
 
     run_next = add_common("run-next")
     run_next.add_argument("--launch-readiness", required=True)
+    run_next.add_argument("--launch-context", required=True)
     add_common("finalize-luna-stage")
     add_common("validate-luna-stage")
     args = parser.parse_args(argv)
@@ -1552,7 +1585,8 @@ def main(argv=None):
         runtime_root=args.runtime_root,
         attestation=args.l_attestation,
         codex_auth_source=args.codex_auth_source,
-        launch_readiness=getattr(args, "launch_readiness", None))
+        launch_readiness=getattr(args, "launch_readiness", None),
+        launch_context=getattr(args, "launch_context", None))
     if args.operation == "run-next":
         terminal = driver.run_next()
         if terminal.get("schema") == \

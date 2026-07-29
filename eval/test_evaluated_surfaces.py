@@ -541,6 +541,7 @@ def main():
                 "--runtime-root", str(root / "runtime"),
                 "--l-attestation", str(root / "attestation.json"),
                 "--launch-readiness", str(root / "readiness.json"),
+                "--launch-context", str(root / "launch-context.json"),
             ])
         assert exit_code == 2
         assert output.getvalue() == (

@@ -15,7 +15,10 @@ import tempfile
 
 from test_candidate_matrix_freeze import valid_packet
 import evaluated_surfaces as surfaces
-from test_campaign_freeze_preflight import write_test_live_ready
+from test_campaign_freeze_preflight import (
+    write_retained_production_readiness_fixture,
+    write_test_live_ready,
+)
 
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -194,10 +197,12 @@ def _trace_action(action_id, ordinal, command, output):
 
 
 def build_campaign(root, *, execution_mode="production", surface_root=None,
-                   external_surface_paths=None):
+                   external_surface_paths=None, foundation=None):
     root = pathlib.Path(root)
     surface_root = root if surface_root is None else pathlib.Path(surface_root)
     packet = valid_packet()
+    if foundation is not None:
+        packet["foundation"] = copy.deepcopy(foundation)
     packet["independent_rederiver"]["implementation_identity"]["sha256"] = \
         sha(MODULE.read_bytes())
     external_surface_paths = external_surface_paths or {}
@@ -265,10 +270,14 @@ def build_campaign(root, *, execution_mode="production", surface_root=None,
         "executables": {"cat": "posix:cat"},
     }
     attestation_bytes = encoded(attestation)
-    readiness_path = write_test_live_ready(
-        "candidate-matrix", packet,
-        root.parent / (root.name + "-live-ready"),
-        execution_mode=execution_mode)
+    readiness_path = (
+        write_retained_production_readiness_fixture(
+            "candidate-matrix", packet,
+            root.parent / (root.name + "-live-ready"))
+        if execution_mode == "production"
+        else write_test_live_ready(
+            "candidate-matrix", packet,
+            root.parent / (root.name + "-live-ready")))
     readiness_bytes = readiness_path.read_bytes()
     readiness = json.loads(readiness_bytes)
     model = packet["configuration"]["model_resolved_required"]

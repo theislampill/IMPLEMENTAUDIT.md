@@ -6,7 +6,9 @@ import hashlib
 import json
 import os
 import pathlib
+import sys
 import stat
+import subprocess
 import zipfile
 
 import b3v4_campaign
@@ -50,9 +52,43 @@ DETERMINISTIC_CHECKS = (
     "historical", "adversarial", "reporting", "reproducibility",
     "registry-diff",
 )
+DETERMINISTIC_COMMANDS = {
+    "compile": [sys.executable, "-m", "py_compile",
+                "eval/campaign_lifecycle.py",
+                "eval/b3v4_campaign.py", "eval/b3v4_rederive.py",
+                "eval/candidate_matrix_campaign.py",
+                "eval/candidate_matrix_rederive.py",
+                "eval/evaluated_surfaces.py",
+                "eval/campaign_freeze_preflight.py",
+                "eval/historical_readjudicate.py",
+                "eval/qualification_evidence_producer.py",
+                "eval/provisional_integration.py"],
+    "lifecycle": [sys.executable, "eval/test_campaign_lifecycle.py"],
+    "b3-contract": [sys.executable, "eval/test_b3v4_contract_matrix.py"],
+    "b3-freeze": [sys.executable, "eval/test_b3v4_freeze.py"],
+    "b3-campaign": [sys.executable, "eval/test_b3v4_campaign.py"],
+    "b3-rederive": [sys.executable, "eval/test_b3v4_rederive.py"],
+    "matrix-contract":
+        [sys.executable, "eval/test_candidate_matrix_contract.py"],
+    "matrix-freeze":
+        [sys.executable, "eval/test_candidate_matrix_freeze.py"],
+    "matrix-campaign":
+        [sys.executable, "eval/test_candidate_matrix_campaign.py"],
+    "matrix-rederive":
+        [sys.executable, "eval/test_candidate_matrix_rederive.py"],
+    "surfaces": [sys.executable, "eval/test_evaluated_surfaces.py"],
+    "integration": [sys.executable, "eval/test_provisional_integration.py"],
+    "preflight": [sys.executable, "eval/test_campaign_freeze_preflight.py"],
+    "historical": [sys.executable, "eval/test_historical_readjudicate.py"],
+    "adversarial": [sys.executable, "eval/adversarial.py"],
+    "reporting": [sys.executable, "eval/test_reporting.py"],
+    "reproducibility": [
+        "bash", "tests/reproducible-release-asset.test.sh"],
+    "registry-diff": ["git", "diff", "--check"],
+}
 CI_JOBS = ("package",)
 
-PACKAGE_MANIFEST_SCHEMA = "implementaudit-package-entry-manifest-v2"
+PACKAGE_MANIFEST_SCHEMA = "implementaudit-package-entry-manifest-v3"
 PACKAGE_REQUIRED_PATHS = (
     "SKILL.md",
     "references/planning-depth.md",
@@ -115,8 +151,54 @@ def _zip_entry_row(info, payload):
     }
 
 
+def _git_bytes(repo_root, source_sha, path):
+    completed = subprocess.run(
+        ["git", "-C", str(repo_root), "show", f"{source_sha}:{path}"],
+        stdin=subprocess.DEVNULL, capture_output=True, check=False)
+    if completed.returncode != 0:
+        raise ValueError(f"package source path absent from target: {path}")
+    return completed.stdout
+
+
+def _source_bound_archive_payload(repo_root, source_sha, archive_path):
+    if archive_path == ".claude-plugin/plugin.json":
+        source_path = ".claude-plugin/plugin.json"
+        try:
+            value = json.loads(
+                _git_bytes(repo_root, source_sha, source_path).decode("utf-8"))
+        except (UnicodeError, json.JSONDecodeError) as exc:
+            raise ValueError("package source plugin metadata invalid") from exc
+        value["skills"] = "./"
+        payload = (json.dumps(value, indent=2) + "\n").encode("utf-8")
+        transform = "plugin-skills-root-v1"
+    elif archive_path == ".claude-plugin/marketplace.json":
+        source_path = ".claude-plugin/marketplace.json"
+        try:
+            value = json.loads(
+                _git_bytes(repo_root, source_sha, source_path).decode("utf-8"))
+        except (UnicodeError, json.JSONDecodeError) as exc:
+            raise ValueError(
+                "package source marketplace metadata invalid") from exc
+        for plugin in value.get("plugins", []):
+            if type(plugin) is dict and plugin.get("name") == "implementaudit":
+                plugin.pop("source", None)
+                plugin["path"] = ".."
+        payload = (json.dumps(value, indent=2) + "\n").encode("utf-8")
+        transform = "marketplace-flatten-v1"
+    else:
+        source_path = f"skills/implementaudit/{archive_path}"
+        payload = _git_bytes(repo_root, source_sha, source_path)
+        if pathlib.PurePosixPath(archive_path).suffix.lower() in {
+                ".md", ".txt", ".sh", ".json", ".yaml", ".yml"}:
+            payload = payload.replace(b"\r\n", b"\n")
+            transform = "text-crlf-to-lf-v1"
+        else:
+            transform = "identity-v1"
+    return source_path, payload, transform
+
+
 def validate_package_archive(archive_path, entry_manifest,
-                             source_sha, source_tree):
+                             source_sha, source_tree, repo_root=None):
     """Validate a retained IMPLEMENTAUDIT .skill and its exact entry manifest."""
     for value, owner in ((source_sha, "source SHA"),
                          (source_tree, "source tree")):
@@ -129,6 +211,15 @@ def validate_package_archive(archive_path, entry_manifest,
             pass
     except (OSError, zipfile.BadZipFile) as exc:
         raise ValueError("package archive invalid") from exc
+    repo_root = pathlib.Path(
+        repo_root if repo_root is not None
+        else pathlib.Path(__file__).resolve().parent.parent).absolute()
+    completed = subprocess.run(
+        ["git", "-C", str(repo_root), "show", "-s", "--format=%T",
+         source_sha],
+        stdin=subprocess.DEVNULL, capture_output=True, text=True, check=False)
+    if completed.returncode != 0 or completed.stdout.strip() != source_tree:
+        raise ValueError("package target Git SHA/tree binding invalid")
     if isinstance(entry_manifest, (str, os.PathLike)):
         manifest_path = pathlib.Path(entry_manifest)
         manifest_raw = lifecycle.read_custodied_bytes(
@@ -139,11 +230,17 @@ def validate_package_archive(archive_path, entry_manifest,
     if type(entry_manifest) is not dict:
         raise ValueError("package entry manifest must be an object")
     _exact(entry_manifest, {
-        "schema", "source_sha", "source_tree", "entries",
+        "schema", "source_sha", "source_tree", "builder_source_path",
+        "builder_source_sha256", "entries",
     }, "package entry manifest")
+    builder_path = "scripts/build-release-asset.sh"
+    builder_raw = _git_bytes(repo_root, source_sha, builder_path)
     if (entry_manifest["schema"] != PACKAGE_MANIFEST_SCHEMA or
             entry_manifest["source_sha"] != source_sha or
             entry_manifest["source_tree"] != source_tree or
+            entry_manifest["builder_source_path"] != builder_path or
+            entry_manifest["builder_source_sha256"] !=
+            hashlib.sha256(builder_raw).hexdigest() or
             type(entry_manifest["entries"]) is not list):
         raise ValueError("package entry manifest identity invalid")
     try:
@@ -171,12 +268,36 @@ def validate_package_archive(archive_path, entry_manifest,
                 payload = archive.read(info)
                 if info.file_size != len(payload):
                     raise ValueError("package archive entry length invalid")
+                source_path, expected_payload, _transform = \
+                    _source_bound_archive_payload(
+                        repo_root, source_sha, info.filename)
+                if payload != expected_payload:
+                    raise ValueError(
+                        "package archive entry differs from target Git tree: "
+                        f"{info.filename} ({source_path})")
                 observed.append(_zip_entry_row(info, payload))
             missing = sorted(set(PACKAGE_REQUIRED_PATHS) - set(names))
             if missing:
                 raise ValueError(
                     "package archive required entries missing: " +
                     ", ".join(missing))
+            source_names = subprocess.run(
+                ["git", "-C", str(repo_root), "ls-tree", "-r",
+                 "--name-only", source_sha, "skills/implementaudit"],
+                stdin=subprocess.DEVNULL, capture_output=True, text=True,
+                check=False)
+            if source_names.returncode != 0:
+                raise ValueError("package target skill tree unavailable")
+            expected_names = {
+                path.removeprefix("skills/implementaudit/")
+                for path in source_names.stdout.splitlines()
+            } | {
+                ".claude-plugin/plugin.json",
+                ".claude-plugin/marketplace.json",
+            }
+            if set(names) != expected_names:
+                raise ValueError(
+                    "package archive does not exactly cover target skill tree")
             plugin = json.loads(
                 archive.read(".claude-plugin/plugin.json").decode("utf-8"))
             marketplace = json.loads(
@@ -528,7 +649,7 @@ def _gate_target(packet, owner):
 
 
 def _validate_gate_terminal(name, value, qualified_input_sha256,
-                            artifact_hashes):
+                            artifact_hashes, evidence_mode="TEST_ONLY"):
     common = {"schema", "gate", "qualified_input_sha256", "exit_code"}
     if name == "deterministic":
         _exact(value, common | {"failed_checks", "checks"}, name)
@@ -538,26 +659,63 @@ def _validate_gate_terminal(name, value, qualified_input_sha256,
                  for row in value["checks"]] != list(DETERMINISTIC_CHECKS)):
             raise ValueError("deterministic check coverage invalid")
         for row in value["checks"]:
-            _exact(row, {"name", "command", "exit_code", "marker"},
-                   "deterministic check row")
-            if (type(row["command"]) is not str or not row["command"] or
-                    type(row["exit_code"]) is not int or
-                    row["exit_code"] != 0 or
-                    row["marker"] !=
-                    f"FOCUSED_CHECK_PASS name={row['name']}"):
-                raise ValueError("deterministic check row invalid")
+            if evidence_mode == "PRODUCTION":
+                _exact(row, {
+                    "name", "argv", "exit_code", "started_at",
+                    "completed_at", "pid", "stdout_path",
+                    "stdout_sha256", "stderr_path", "stderr_sha256",
+                }, "deterministic production check row")
+                expected_argv = DETERMINISTIC_COMMANDS[row["name"]]
+                if expected_argv[0] == "bash":
+                    if (pathlib.Path(row["argv"][0]).name.lower()
+                            not in ("bash", "bash.exe") or
+                            row["argv"][1:] != expected_argv[1:]):
+                        raise ValueError(
+                            "deterministic production argv invalid")
+                elif row["argv"] != expected_argv:
+                    raise ValueError(
+                        "deterministic production argv invalid")
+                if (type(row["pid"]) is not int or row["pid"] <= 0 or
+                        type(row["started_at"]) is not str or
+                        type(row["completed_at"]) is not str or
+                        row["exit_code"] != 0):
+                    raise ValueError(
+                        "deterministic production execution row invalid")
+                for key in ("stdout_sha256", "stderr_sha256"):
+                    _digest(row[key], f"deterministic {key}")
+            else:
+                _exact(row, {"name", "command", "exit_code", "marker"},
+                       "deterministic check row")
+                if (type(row["command"]) is not str or not row["command"] or
+                        type(row["exit_code"]) is not int or
+                        row["exit_code"] != 0 or
+                        row["marker"] !=
+                        f"FOCUSED_CHECK_PASS name={row['name']}"):
+                    raise ValueError("deterministic check row invalid")
         passed = value["exit_code"] == 0 and value["failed_checks"] == []
     elif name == "package":
-        _exact(
-            value, common | {
-                "verification_passed", "package_manifest_sha256"}, name)
+        package_fields = {
+            "verification_passed", "package_manifest_sha256"}
+        if evidence_mode == "PRODUCTION":
+            package_fields |= {
+                "argv", "started_at", "completed_at", "pid"}
+        _exact(value, common | package_fields, name)
+        if evidence_mode == "PRODUCTION":
+            if (pathlib.Path(value["argv"][0]).name.lower()
+                    not in ("bash", "bash.exe") or
+                    value["argv"][1:] != ["scripts/verify-package.sh"] or
+                    type(value["pid"]) is not int or value["pid"] <= 0):
+                raise ValueError("package production execution invalid")
         _digest(value["package_manifest_sha256"], "package manifest")
         passed = (value["exit_code"] == 0 and
                   value["verification_passed"] is True and
                   value["package_manifest_sha256"] ==
                   artifact_hashes["package-entry-manifest.json"])
     elif name == "ci":
-        _exact(value, common | {"failed_jobs", "jobs"}, name)
+        ci_fields = {"failed_jobs", "jobs"}
+        if evidence_mode == "PRODUCTION":
+            ci_fields |= {"execution_kind", "provider_export_sha256"}
+        _exact(value, common | ci_fields, name)
         _string_list(value["failed_jobs"], "CI failed jobs")
         if (type(value["jobs"]) is not list or
                 [row.get("name") if type(row) is dict else None
@@ -567,18 +725,36 @@ def _validate_gate_terminal(name, value, qualified_input_sha256,
             ".github" / "workflows" / "validate.yml"
         workflow_sha = hashlib.sha256(workflow.read_bytes()).hexdigest()
         for row in value["jobs"]:
-            _exact(row, {
+            row_fields = {
                 "name", "workflow_path", "workflow_sha256",
-                "run_attempt", "conclusion", "log_marker",
-            }, "CI job row")
+                "run_attempt", "conclusion"}
+            if evidence_mode == "PRODUCTION":
+                row_fields |= {
+                    "workflow_run_id", "job_id", "producer_identity"}
+            else:
+                row_fields |= {"log_marker"}
+            _exact(row, row_fields, "CI job row")
             if (row["workflow_path"] != ".github/workflows/validate.yml" or
                     row["workflow_sha256"] != workflow_sha or
                     type(row["run_attempt"]) is not int or
                     row["run_attempt"] != 1 or
-                    row["conclusion"] != "success" or
-                    row["log_marker"] !=
-                    f"CI_JOB_PASS name={row['name']}"):
+                    row["conclusion"] != "success"):
                 raise ValueError("CI job row invalid")
+            if evidence_mode == "PRODUCTION":
+                if (value["execution_kind"] != "HOSTED_CI" or
+                        type(row["workflow_run_id"]) is not int or
+                        row["workflow_run_id"] <= 0 or
+                        type(row["job_id"]) is not int or
+                        row["job_id"] <= 0 or
+                        type(row["producer_identity"]) is not str or
+                        not row["producer_identity"]):
+                    raise ValueError("hosted CI job identity invalid")
+                _digest(
+                    value["provider_export_sha256"],
+                    "hosted CI provider export")
+            elif row["log_marker"] != \
+                    f"CI_JOB_PASS name={row['name']}":
+                raise ValueError("CI job marker invalid")
         passed = value["exit_code"] == 0 and value["failed_jobs"] == []
     elif name == "reproducibility":
         _exact(
@@ -604,7 +780,11 @@ def _validate_gate_terminal(name, value, qualified_input_sha256,
             raise ValueError("independent-review qualified input mismatch")
     else:
         raise ValueError("unsupported integration gate")
-    expected_schema = f"implementaudit-{name}-terminal-v1"
+    expected_schema = (
+        f"implementaudit-{name}-terminal-v2"
+        if evidence_mode == "PRODUCTION" and
+        name in ("deterministic", "package", "ci")
+        else f"implementaudit-{name}-terminal-v1")
     if value["schema"] != expected_schema or value["gate"] != name:
         raise ValueError(f"{name} terminal schema identity invalid")
     if name != "independent-review":
@@ -618,21 +798,42 @@ def _validate_gate_terminal(name, value, qualified_input_sha256,
 
 def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
                             target_sha, target_tree, surfaces_sha256,
-                            prior_evidence_sha256):
+                            prior_evidence_sha256, allow_test_evidence=False):
     start_name = f"{name}-start.json"
     report_name = f"{name}-report.json"
     stdout_name = f"{name}.stdout.log"
     stderr_name = f"{name}.stderr.log"
     manifest_name = f"{name}-evidence-manifest.json"
     terminal_name = GATE_FILENAMES[name]
+    start_probe, _start_probe_raw = _read_root_json(
+        gate_root, start_name, f"integration gate {name} start probe")
+    expected_mode = (
+        "TEST_ONLY" if allow_test_evidence else "PRODUCTION")
+    if start_probe.get("evidence_mode") != expected_mode:
+        raise ValueError(
+            f"{name} producer evidence_mode invalid")
     artifact_names = []
-    if name == "package":
+    if name == "deterministic" and not allow_test_evidence:
+        for index, check in enumerate(DETERMINISTIC_CHECKS):
+            artifact_names.extend([
+                f"deterministic-{index:02d}-{check}.stdout.log",
+                f"deterministic-{index:02d}-{check}.stderr.log",
+            ])
+    elif name == "package":
         artifact_names = [
             "package-retained.skill", "package-entry-manifest.json"]
+        if not allow_test_evidence:
+            artifact_names.extend([
+                "package-command.stdout.log",
+                "package-command.stderr.log"])
     elif name == "reproducibility":
         artifact_names = ["repro-first.skill", "repro-second.skill"]
+    elif name == "ci" and not allow_test_evidence:
+        artifact_names = ["ci-provider-export.json"]
     elif name == "independent-review":
-        artifact_names = ["independent-review.md"]
+        artifact_names = [
+            "independent-review-structured.json",
+            "independent-review.md"]
 
     retained = {}
     rows = []
@@ -652,12 +853,17 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
             manifest["gate"] != name or
             type(manifest["files"]) is not list or
             manifest["files"] != rows):
-        raise ValueError(f"{name} evidence manifest does not match bytes")
+        raise ValueError(
+            f"{name} evidence manifest does not match bytes: "
+            f"declared={[row.get('path') for row in manifest.get('files', [])]} "
+            f"observed={[row.get('path') for row in rows]}")
 
     start = lifecycle.decode_strict_json_bytes(
         retained[start_name], f"{name} producer start", require_object=True)
     _exact(start, {
-        "schema", "gate", "qualified_input_sha256", "target_sha",
+        "schema", "gate", "evidence_mode",
+        "producer_source_path", "producer_source_sha256",
+        "qualified_input_sha256", "target_sha",
         "target_tree", "command", "producer_role",
         "evaluated_surfaces_sha256", "invocation_count",
         "network_authorized", "credentials_authorized",
@@ -666,6 +872,10 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
     expected_start = {
         "schema": "implementaudit-gate-producer-start-v1",
         "gate": name,
+        "evidence_mode": (
+            "TEST_ONLY" if allow_test_evidence else "PRODUCTION"),
+        "producer_source_path":
+            "eval/qualification_evidence_producer.py",
         "qualified_input_sha256": qualified_input_sha256,
         "target_sha": target_sha,
         "target_tree": target_tree,
@@ -683,6 +893,20 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
             raise ValueError(f"{name} producer invocation count type invalid")
         if start[key] != expected:
             raise ValueError(f"{name} producer {key} identity invalid")
+    producer_source = pathlib.Path(__file__).resolve().parent / \
+        "qualification_evidence_producer.py"
+    observed_producer_sha = hashlib.sha256(
+        producer_source.read_bytes()).hexdigest()
+    if start["producer_source_sha256"] != observed_producer_sha:
+        raise ValueError(f"{name} producer source hash invalid")
+    if not allow_test_evidence:
+        if hashlib.sha256(_git_bytes(
+                pathlib.Path(__file__).resolve().parent.parent,
+                target_sha,
+                "eval/qualification_evidence_producer.py")).hexdigest() != \
+                observed_producer_sha:
+            raise ValueError(
+                f"{name} producer source is not target-tree bound")
 
     terminal = lifecycle.decode_strict_json_bytes(
         retained[terminal_name], f"{name} terminal", require_object=True)
@@ -691,7 +915,38 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
         for filename in artifact_names
     }
     _validate_gate_terminal(
-        name, terminal, qualified_input_sha256, artifact_hashes)
+        name, terminal, qualified_input_sha256, artifact_hashes,
+        start["evidence_mode"])
+    if name == "deterministic" and not allow_test_evidence:
+        for row in terminal["checks"]:
+            if (row["stdout_sha256"] !=
+                    artifact_hashes[row["stdout_path"]] or
+                    row["stderr_sha256"] !=
+                    artifact_hashes[row["stderr_path"]]):
+                raise ValueError(
+                    "deterministic production raw log binding invalid")
+    if name == "ci" and not allow_test_evidence:
+        export = lifecycle.decode_strict_json_bytes(
+            retained["ci-provider-export.json"],
+            "hosted CI provider export", require_object=True)
+        row = terminal["jobs"][0]
+        if (terminal["provider_export_sha256"] !=
+                artifact_hashes["ci-provider-export.json"] or
+                export.get("schema") !=
+                "implementaudit-hosted-ci-provider-export-v1" or
+                export.get("evidence_mode") != "PRODUCTION" or
+                export.get("provider") != "github-actions" or
+                export.get("head_sha") != target_sha or
+                export.get("head_tree") != target_tree or
+                export.get("run_id") != row["workflow_run_id"] or
+                export.get("attempt") != row["run_attempt"] or
+                export.get("conclusion") != "success" or
+                export.get("jobs") != [{
+                    "name": "package", "job_id": row["job_id"],
+                    "conclusion": "success",
+                    "producer_identity": row["producer_identity"],
+                }]):
+            raise ValueError("hosted CI provider export binding invalid")
     if name == "package":
         entry_manifest = lifecycle.decode_strict_json_bytes(
             retained["package-entry-manifest.json"],
@@ -719,12 +974,14 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
     common = {
         "schema", "gate", "qualified_input_sha256", "target_sha",
         "target_tree", "stdout_sha256", "stderr_sha256",
-        "terminal_sha256",
+        "terminal_sha256", "producer_source_path",
+        "producer_source_sha256",
     }
     if name == "independent-review":
         _exact(report, common | {
             "reviewer_identity", "reviewer_role",
             "reviewed_evidence_sha256", "review_artifact_sha256",
+            "review_json_sha256",
         }, f"{name} producer report")
         if (type(report["reviewer_identity"]) is not str or
                 not report["reviewer_identity"] or
@@ -733,7 +990,9 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
                 report["reviewed_evidence_sha256"] !=
                 prior_evidence_sha256 or
                 report["review_artifact_sha256"] !=
-                artifact_hashes["independent-review.md"]):
+                artifact_hashes["independent-review.md"] or
+                report["review_json_sha256"] !=
+                artifact_hashes["independent-review-structured.json"]):
             raise ValueError("independent-review identity/evidence invalid")
     else:
         _exact(report, common, f"{name} producer report")
@@ -742,6 +1001,10 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
             report["qualified_input_sha256"] != qualified_input_sha256 or
             report["target_sha"] != target_sha or
             report["target_tree"] != target_tree or
+            report["producer_source_path"] !=
+            start["producer_source_path"] or
+            report["producer_source_sha256"] !=
+            start["producer_source_sha256"] or
             report["stdout_sha256"] !=
             hashlib.sha256(retained[stdout_name]).hexdigest() or
             report["stderr_sha256"] !=
@@ -759,14 +1022,16 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
     if stdout.splitlines().count(marker) != 1:
         raise ValueError(f"{name} raw PASS marker invalid")
     if name == "deterministic":
-        for row in terminal["checks"]:
-            if stdout.splitlines().count(row["marker"]) != 1:
-                raise ValueError(
-                    "deterministic raw check evidence invalid")
+        if allow_test_evidence:
+            for row in terminal["checks"]:
+                if stdout.splitlines().count(row["marker"]) != 1:
+                    raise ValueError(
+                        "deterministic raw check evidence invalid")
     if name == "ci":
-        for row in terminal["jobs"]:
-            if stdout.splitlines().count(row["log_marker"]) != 1:
-                raise ValueError("CI raw job evidence invalid")
+        if allow_test_evidence:
+            for row in terminal["jobs"]:
+                if stdout.splitlines().count(row["log_marker"]) != 1:
+                    raise ValueError("CI raw job evidence invalid")
     if name == "package":
         asset_hash = artifact_hashes["package-retained.skill"]
         required = (
@@ -775,12 +1040,53 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
         )
         if any(stdout.splitlines().count(item) != 1 for item in required):
             raise ValueError("package raw evidence markers invalid")
+        if not allow_test_evidence:
+            command_stdout = retained[
+                "package-command.stdout.log"].decode(
+                    "utf-8", errors="strict")
+            if "verify-package: ok" not in command_stdout.splitlines():
+                raise ValueError(
+                    "package command raw success missing")
     if name == "reproducibility":
         asset_hash = artifact_hashes["repro-first.skill"]
         required = f"REPRODUCIBILITY_EQUAL sha256={asset_hash}"
         if stdout.splitlines().count(required) != 1:
             raise ValueError("reproducibility raw evidence marker invalid")
     if name == "independent-review":
+        structured = lifecycle.decode_strict_json_bytes(
+            retained["independent-review-structured.json"],
+            "independent structured review", require_object=True)
+        _exact(structured, {
+            "schema", "target_sha", "target_tree", "base_sha", "range",
+            "scope", "producer_source_sha256", "reviewer_identity",
+            "reviewer_role", "reviewed_evidence_sha256", "findings",
+            "verdict",
+        }, "independent structured review")
+        expected_scope = subprocess.run(
+            ["git", "-C", str(pathlib.Path(__file__).resolve().parent.parent),
+             "diff", "--name-only", structured["base_sha"], target_sha],
+            stdin=subprocess.DEVNULL, capture_output=True, text=True,
+            check=False)
+        if (expected_scope.returncode != 0 or
+                structured["schema"] !=
+                "implementaudit-independent-review-report-v2" or
+                structured["target_sha"] != target_sha or
+                structured["target_tree"] != target_tree or
+                structured["range"] !=
+                f"{structured['base_sha']}..{target_sha}" or
+                structured["scope"] != expected_scope.stdout.splitlines() or
+                structured["producer_source_sha256"] !=
+                start["producer_source_sha256"] or
+                structured["reviewer_identity"] !=
+                report["reviewer_identity"] or
+                structured["reviewer_role"] !=
+                GATE_PRODUCER_ROLES["independent-review"] or
+                structured["reviewed_evidence_sha256"] !=
+                prior_evidence_sha256 or
+                structured["findings"] != [] or
+                structured["verdict"] != "PASS"):
+            raise ValueError(
+                "independent structured review invalid")
         review = retained["independent-review.md"].decode(
             "utf-8", errors="strict")
         lines = review.splitlines()
@@ -803,7 +1109,8 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
 
 
 def _validate_gates(gate_root, qualified_input_sha256, target_sha,
-                    target_tree, surfaces_sha256):
+                    target_tree, surfaces_sha256,
+                    allow_test_evidence=False):
     gate_root = _strict_directory(gate_root, "integration gate root")
     expected_files = set()
     for name in REQUIRED_GATES:
@@ -815,10 +1122,24 @@ def _validate_gates(gate_root, qualified_input_sha256, target_sha,
             f"{name}.stderr.log",
             f"{name}-evidence-manifest.json",
         })
+        if not allow_test_evidence and name == "deterministic":
+            for index, check in enumerate(DETERMINISTIC_CHECKS):
+                expected_files.update({
+                    f"deterministic-{index:02d}-{check}.stdout.log",
+                    f"deterministic-{index:02d}-{check}.stderr.log",
+                })
+        if not allow_test_evidence and name == "package":
+            expected_files.update({
+                "package-command.stdout.log",
+                "package-command.stderr.log",
+            })
+        if not allow_test_evidence and name == "ci":
+            expected_files.add("ci-provider-export.json")
     expected_files.update({
         "package-retained.skill", "package-entry-manifest.json",
         "repro-first.skill",
         "repro-second.skill",
+        "independent-review-structured.json",
         "independent-review.md",
     })
     try:
@@ -836,7 +1157,7 @@ def _validate_gates(gate_root, qualified_input_sha256, target_sha,
     for name in REQUIRED_GATES:
         row, evidence_sha256 = _validate_gate_evidence(
             name, gate_root, qualified_input_sha256, target_sha,
-            target_tree, surfaces_sha256, prior)
+            target_tree, surfaces_sha256, prior, allow_test_evidence)
         gates.append(row)
         prior = _canonical_sha({
             "prior": prior, "name": name,
@@ -905,7 +1226,8 @@ def validate_inputs(*, b3_campaign_root, matrix_campaign_root,
                     b3_surface_root, matrix_surface_root,
                     b3_after_surface_root, matrix_after_surface_root,
                     gate_root, b3_after_external_paths=None,
-                    matrix_after_external_paths=None):
+                    matrix_after_external_paths=None,
+                    allow_test_evidence=False):
     b3_surface_root, b3_pre_root_identity = _strict_directory_identity(
         b3_surface_root, f"{surfaces.B3_CAMPAIGN} frozen pre surface root")
     matrix_surface_root, matrix_pre_root_identity = \
@@ -956,7 +1278,7 @@ def validate_inputs(*, b3_campaign_root, matrix_campaign_root,
     })
     gates = _validate_gates(
         gate_root, qualified_input_sha256, b3_target[0], b3_target[1],
-        surfaces_sha256)
+        surfaces_sha256, allow_test_evidence)
     comparisons = {}
     for campaign, packet, before, after_root, external_paths, pre_root, post_root in (
             (surfaces.B3_CAMPAIGN, b3_packet, b3_before, b3_after_surface_root,
@@ -995,6 +1317,7 @@ def validate_inputs(*, b3_campaign_root, matrix_campaign_root,
 
 
 def write_certificate(certificate_root, **roots):
+    test_only = roots.get("allow_test_evidence") is True
     certificate_root, certificate_identity = _validate_certificate_root(
         certificate_root, roots)
     b3, matrix, gates, comparisons, qualified_input_sha256 = \
@@ -1010,7 +1333,9 @@ def write_certificate(certificate_root, **roots):
     _validate_certificate_external_disjoint(certificate_identity, roots)
     certificate = {
         "schema": SCHEMA,
-        "disposition": DISPOSITION,
+        "disposition": (
+            "TEST_ONLY_NON_QUALIFYING" if test_only else DISPOSITION),
+        "integration_authorized": not test_only,
         "qualified_input_sha256": qualified_input_sha256,
         "b3_luna": b3,
         "matrix_luna": matrix,

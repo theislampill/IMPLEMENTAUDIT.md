@@ -7,8 +7,14 @@ import hashlib
 import os
 import pathlib
 import stat
+import subprocess
+import sys
 
 import campaign_lifecycle as lifecycle
+import evaluated_surfaces as surfaces
+import adapters
+import validate_b3v4_freeze as b3_freeze
+import validate_candidate_matrix_freeze as matrix_freeze
 
 
 CAMPAIGNS = {
@@ -38,6 +44,22 @@ LIVE_READY_FIELDS = {
     "host_attestation_binding", "native_executable_binding",
     "launcher_binding", "checkout_bindings", "runtime_root_binding",
     "authorization_binding", "cross_host_validation", "producer",
+}
+PRODUCTION_CONTEXT_FIELDS = {
+    "b3v4": {
+        "repo_root", "candidate_checkout", "control_checkout",
+        "runtime_root", "campaign_root", "host_attestation_path",
+        "launcher_path", "native_executable_path",
+        "codex_auth_source_path", "authorization_acknowledgement_path",
+        "created_at", "host_attestation_producer_argv", "controller_argv",
+    },
+    "candidate-matrix": {
+        "repo_root", "candidate_checkout", "runtime_root",
+        "campaign_root", "host_attestation_path", "launcher_path",
+        "native_executable_path", "codex_auth_source_path",
+        "authorization_acknowledgement_path", "created_at",
+        "host_attestation_producer_argv", "controller_argv",
+    },
 }
 
 
@@ -79,8 +101,305 @@ def _absolute_directory(path, owner):
     return lexical
 
 
+def _run(argv, owner, *, cwd=None):
+    if (type(argv) is not list or not argv or
+            any(type(item) is not str or not item for item in argv)):
+        raise ValueError(f"{owner} argv invalid")
+    completed = subprocess.run(
+        argv, cwd=cwd, stdin=subprocess.DEVNULL, capture_output=True,
+        text=True, check=False, shell=False)
+    if completed.returncode != 0:
+        raise ValueError(f"{owner} failed")
+    return completed.stdout.strip()
+
+
+def _git(checkout, *args):
+    return _run(
+        ["git", "-C", str(checkout), *args],
+        f"Git worktree {' '.join(args)}")
+
+
+def _git_checkout_binding(path, owner):
+    checkout = _absolute_directory(path, owner)
+    if _git(checkout, "rev-parse", "--is-inside-work-tree") != "true":
+        raise ValueError(f"{owner} is not a Git worktree")
+    if _git(
+            checkout, "status", "--porcelain=v1",
+            "--untracked-files=all"):
+        raise ValueError(f"{owner} Git worktree is dirty")
+    commit = _git(checkout, "rev-parse", "HEAD")
+    tree = _git(checkout, "show", "-s", "--format=%T", "HEAD")
+    skill_tree = _git(
+        checkout, "rev-parse", "HEAD:skills/implementaudit")
+    for value, label in (
+            (commit, "commit"), (tree, "tree"), (skill_tree, "skill tree")):
+        if (len(value) != 40 or
+                any(char not in "0123456789abcdef" for char in value)):
+            raise ValueError(f"{owner} {label} invalid")
+    skill = checkout / "skills" / "implementaudit"
+    if not skill.is_dir():
+        raise ValueError(f"{owner} skill payload missing")
+    return {
+        "path": str(checkout),
+        "commit": commit,
+        "tree": tree,
+        "skill_tree": skill_tree,
+        "payload_sha256": adapters.payload_hash(skill),
+        "clean": True,
+        "disposable": True,
+        "native": True,
+    }
+
+
+def _canonical_argv_sha(argv):
+    if (type(argv) is not list or not argv or
+            any(type(item) is not str or not item for item in argv)):
+        raise ValueError("producer argv invalid")
+    return hashlib.sha256(lifecycle.canonical_json_bytes(argv)).hexdigest()
+
+
+def _metadata_identity_sha(path):
+    observed = os.lstat(path)
+    return hashlib.sha256(lifecycle.canonical_json_bytes({
+        "device": observed.st_dev,
+        "inode": observed.st_ino,
+        "mode": observed.st_mode,
+        "size": observed.st_size,
+        "mtime_ns": observed.st_mtime_ns,
+    })).hexdigest()
+
+
+def _packet_config(campaign, packet):
+    configs = packet.get("configurations")
+    config = configs.get("L") if type(configs) is dict else \
+        packet.get("configuration")
+    if type(config) is not dict:
+        raise ValueError("live READY Luna configuration missing")
+    return config
+
+
+def _surface_entry(packet, role):
+    manifest = packet.get("evaluated_surfaces")
+    entries = manifest.get("entries") if type(manifest) is dict else None
+    matches = [
+        row for row in entries or []
+        if type(row) is dict and row.get("role") == role
+    ]
+    if len(matches) != 1:
+        raise ValueError(f"live READY evaluated surface {role} missing")
+    return matches[0]
+
+
+def _path_matches_surface(path, row, root, owner):
+    stored = pathlib.Path(row["path"])
+    expected = stored if stored.is_absolute() else \
+        pathlib.Path(root) / pathlib.PurePosixPath(row["path"])
+    if pathlib.Path(path).absolute() != expected.absolute():
+        raise ValueError(f"{owner} does not match evaluated surface")
+    raw = _regular_path(str(path), owner, read_bytes=True).read_bytes()
+    if (row.get("sha256") != hashlib.sha256(raw).hexdigest() or
+            row.get("byte_length") != len(raw)):
+        raise ValueError(f"{owner} evaluated surface bytes drift")
+    return raw
+
+
+def _derive_production_live_ready(campaign, packet, context):
+    if campaign not in PRODUCTION_CONTEXT_FIELDS:
+        raise ValueError("live READY campaign invalid")
+    _exact(
+        context, PRODUCTION_CONTEXT_FIELDS[campaign],
+        "production launch context")
+    repo_root = _absolute_directory(
+        context["repo_root"], "live READY evaluated surface root")
+    checkouts = {
+        "candidate": _git_checkout_binding(
+            context["candidate_checkout"], "candidate Git worktree"),
+    }
+    if campaign == "b3v4":
+        checkouts["control"] = _git_checkout_binding(
+            context["control_checkout"], "control Git worktree")
+    identities = {
+        os.path.normcase(str(pathlib.Path(row["path"]).resolve()))
+        for row in checkouts.values()
+    }
+    if len(identities) != len(checkouts):
+        raise ValueError("live READY checkout identities alias")
+    for name, observed in checkouts.items():
+        expected = packet.get(name)
+        if (type(expected) is not dict or any(
+                observed[key] != expected.get(key)
+                for key in (
+                    "commit", "tree", "skill_tree",
+                    "payload_sha256"))):
+            raise ValueError(
+                f"live READY {name} checkout differs from frozen packet")
+    surface_campaign = (
+        surfaces.B3_CAMPAIGN if campaign == "b3v4"
+        else surfaces.MATRIX_CAMPAIGN)
+    (b3_freeze.validate_live if campaign == "b3v4"
+     else matrix_freeze.validate_live)(packet, repo_root)
+    surfaces.validate_packet_surfaces(
+        packet, surface_campaign, root=repo_root)
+    runtime = _absolute_directory(
+        context["runtime_root"], "live READY runtime root")
+    campaign_root = pathlib.Path(context["campaign_root"]).absolute()
+    if any(runtime.iterdir()):
+        raise ValueError("live READY runtime root is not initially empty")
+    for row in checkouts.values():
+        checkout = pathlib.Path(row["path"]).resolve()
+        if runtime == checkout or runtime in checkout.parents or \
+                checkout in runtime.parents:
+            raise ValueError("live READY runtime/checkouts overlap")
+    if campaign_root == runtime or campaign_root in runtime.parents or \
+            runtime in campaign_root.parents:
+        raise ValueError("live READY campaign/runtime overlap")
+
+    launcher = _regular_path(
+        context["launcher_path"], "live READY launcher", read_bytes=True)
+    native = _regular_path(
+        context["native_executable_path"],
+        "live READY native executable", read_bytes=True)
+    if launcher == native:
+        raise ValueError("live READY launcher/native distinction invalid")
+    launcher_raw = _path_matches_surface(
+        launcher, _surface_entry(packet, "launcher"), repo_root,
+        "live READY launcher")
+    native_raw = _path_matches_surface(
+        native, _surface_entry(packet, "native-executable"), repo_root,
+        "live READY native executable")
+    version = _run(
+        [str(native), "--version"], "live READY native executable version")
+    if not version:
+        raise ValueError("live READY native executable version missing")
+
+    config = _packet_config(campaign, packet)
+    frozen_host = config.get("host_attestation")
+    host_path = _regular_path(
+        context["host_attestation_path"],
+        "live READY host attestation", read_bytes=True)
+    host_raw = _path_matches_surface(
+        host_path, _surface_entry(packet, "host-attestation"), repo_root,
+        "live READY host attestation")
+    if (type(frozen_host) is not dict or
+            frozen_host.get("sha256") !=
+            hashlib.sha256(host_raw).hexdigest()):
+        raise ValueError("live READY host attestation frozen hash mismatch")
+    producer_argv = context["host_attestation_producer_argv"]
+    if str(host_path) not in producer_argv:
+        raise ValueError(
+            "live READY host producer is not attestation-path bound")
+    producer_output = _run(
+        producer_argv, "live READY host attestation producer")
+    expected_host_marker = (
+        "HOST_ATTESTATION_VALID=PASS sha256=" +
+        hashlib.sha256(host_raw).hexdigest())
+    if producer_output != expected_host_marker:
+        raise ValueError(
+            "live READY host attestation producer output invalid")
+
+    auth = _regular_path(
+        context["codex_auth_source_path"],
+        "live READY authentication source")
+    if not auth.is_file():
+        raise ValueError("live READY authentication source must be a file")
+    acknowledgement = _regular_path(
+        context["authorization_acknowledgement_path"],
+        "live READY authorization acknowledgement", read_bytes=True)
+    frozen_authorization = packet.get("authorization")
+    acknowledgement_sha = hashlib.sha256(
+        acknowledgement.read_bytes()).hexdigest()
+    if (type(frozen_authorization) is not dict or
+            pathlib.Path(
+                frozen_authorization.get(
+                    "acknowledgement_path", "")).absolute() !=
+            acknowledgement or
+            frozen_authorization.get("acknowledgement_sha256") !=
+            acknowledgement_sha):
+        raise ValueError(
+            "live READY authorization acknowledgement differs from packet")
+    controller_argv = context["controller_argv"]
+    if str(pathlib.Path(__file__).resolve()) not in controller_argv:
+        raise ValueError(
+            "live READY controller argv is not source-path bound")
+    controller_sha = _canonical_argv_sha(controller_argv)
+    manifest_sha = hashlib.sha256(
+        lifecycle.canonical_json_bytes(
+            packet["evaluated_surfaces"])).hexdigest()
+    return {
+        "schema": LIVE_READY_SCHEMAS[campaign],
+        "campaign": campaign,
+        "freeze_sha256": hashlib.sha256(
+            lifecycle.canonical_json_bytes(packet)).hexdigest(),
+        "contract_sha256": packet["artifact_contract"]["sha256"],
+        "execution_mode": "production",
+        "disposition": "READY_FOR_LUNA_EXECUTION",
+        "ready": True,
+        "mission_authorized": True,
+        "test_mock_authorized": False,
+        "created_at": context["created_at"],
+        "model_scope": MODEL_SCOPE,
+        "host_attestation_binding": {
+            "id": frozen_host["id"],
+            "sha256": hashlib.sha256(host_raw).hexdigest(),
+            "producer_command_sha256": _canonical_argv_sha(producer_argv),
+            "producer_status": "PASS",
+        },
+        "native_executable_binding": {
+            "path": str(native), "version": version,
+            "sha256": hashlib.sha256(native_raw).hexdigest(),
+        },
+        "launcher_binding": {
+            "path": str(launcher),
+            "sha256": hashlib.sha256(launcher_raw).hexdigest(),
+            "evaluated_surface_role": "launcher",
+            "evaluated_surface_manifest_sha256": manifest_sha,
+        },
+        "checkout_bindings": checkouts,
+        "runtime_root_binding": {
+            "path": str(runtime), "disposable": True,
+            "initial_empty": True,
+        },
+        "authorization_binding": {
+            "acknowledgement_sha256":
+                acknowledgement_sha,
+            "metered_api_spend": "FORBIDDEN",
+            "launch_authorized": True,
+            "codex_auth_source_path": str(auth),
+            "codex_auth_source_identity_sha256":
+                _metadata_identity_sha(auth),
+            "auth_contents_read": False,
+        },
+        "cross_host_validation": {
+            "status": "PASS", "launcher_path": str(launcher),
+            "native_executable_path": str(native),
+            "native_executable_version": version,
+            "checkout_paths": {
+                name: row["path"] for name, row in checkouts.items()},
+            "runtime_root_path": str(runtime),
+            "executable_resolution": "PASS",
+        },
+        "producer": {
+            "command": " ".join(controller_argv),
+            "command_sha256": controller_sha,
+            "argv_sha256": controller_sha,
+            "status": "PASS",
+        },
+    }
+
+
+def author_production_live_ready(campaign, packet, context, output):
+    """Create once a production READY report derived from live host state."""
+    report = _derive_production_live_ready(campaign, packet, context)
+    try:
+        lifecycle.write_new_json(output, report)
+    except FileExistsError as exc:
+        raise ValueError("create-once live READY report exists") from exc
+    return report
+
+
 def validate_live_ready(campaign, packet, report_path,
-                        *, execution_mode="production"):
+                        *, execution_mode="production", live_context=None,
+                        retained_only=False):
     """Validate the separate packet-bound live launch boundary.
 
     This function never reads authentication contents.  Test-only evidence is
@@ -153,6 +472,13 @@ def validate_live_ready(campaign, packet, report_path,
         native["path"], "live READY native executable", read_bytes=True)
     launcher_path = _regular_path(
         launcher["path"], "live READY launcher", read_bytes=True)
+    expected_manifest_sha = hashlib.sha256(
+        lifecycle.canonical_json_bytes(
+            packet.get("evaluated_surfaces"))).hexdigest()
+    if (launcher["evaluated_surface_role"] != "launcher" or
+            launcher["evaluated_surface_manifest_sha256"] !=
+            expected_manifest_sha):
+        raise ValueError("live READY launcher surface binding invalid")
     for row, owner, path in (
             (native, "native executable", native_path),
             (launcher, "launcher", launcher_path)):
@@ -196,13 +522,21 @@ def validate_live_ready(campaign, packet, report_path,
     authorization = _exact(report["authorization_binding"], {
         "acknowledgement_sha256", "metered_api_spend",
         "launch_authorized", "codex_auth_source_path",
-        "auth_contents_read",
+        "codex_auth_source_identity_sha256", "auth_contents_read",
     }, "live READY authorization")
     _digest(authorization["acknowledgement_sha256"],
             "live READY acknowledgement")
     _regular_path(
         authorization["codex_auth_source_path"],
         "live READY authentication source")
+    _digest(
+        authorization["codex_auth_source_identity_sha256"],
+        "live READY authentication source identity")
+    if authorization["codex_auth_source_identity_sha256"] != \
+            _metadata_identity_sha(
+                authorization["codex_auth_source_path"]):
+        raise ValueError(
+            "live READY authentication source metadata drift")
     if (authorization["metered_api_spend"] != "FORBIDDEN" or
             authorization["auth_contents_read"] is not False or
             authorization["launch_authorized"] is not
@@ -231,6 +565,19 @@ def validate_live_ready(campaign, packet, report_path,
     if (type(producer["command"]) is not str or not producer["command"] or
             producer["status"] != "PASS"):
         raise ValueError("live READY producer invalid")
+    if execution_mode == "production" and live_context is None and \
+            retained_only is not True:
+        raise ValueError(
+            "production live READY requires current launch context")
+    if live_context is not None:
+        if execution_mode != "production":
+            raise ValueError(
+                "live launch context is production-only")
+        derived = _derive_production_live_ready(
+            campaign, packet, live_context)
+        if lifecycle.canonical_json_bytes(derived) != raw:
+            raise ValueError(
+                "live READY report does not match current launch context")
     return report, raw
 
 

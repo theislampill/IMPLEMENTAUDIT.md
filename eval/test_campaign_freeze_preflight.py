@@ -5,10 +5,18 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
+import os
 import pathlib
+import shutil
+import subprocess
+import sys
 import tempfile
 
+import adapters
+import b3v4_campaign
 import campaign_freeze_preflight as preflight
+import evaluated_surfaces as surfaces
+import test_b3v4_freeze as b3_freeze_fixture
 
 
 def write(path, value):
@@ -17,8 +25,8 @@ def write(path, value):
         encoding="utf-8")
 
 
-def write_test_live_ready(campaign, packet, base, execution_mode="test"):
-    """Build a closed TEST_ONLY readiness boundary for driver unit tests."""
+def _write_retained_readiness_fixture(
+        campaign, packet, base, execution_mode):
     base = pathlib.Path(base).absolute()
     base.mkdir(parents=True, exist_ok=True)
     native = base / "native-test-executable.bin"
@@ -75,8 +83,10 @@ def write_test_live_ready(campaign, packet, base, execution_mode="test"):
         "launcher_binding": {
             "path": str(launcher),
             "sha256": hashlib.sha256(launcher.read_bytes()).hexdigest(),
-            "evaluated_surface_role": "host-runner",
-            "evaluated_surface_manifest_sha256": "6" * 64,
+            "evaluated_surface_role": "launcher",
+            "evaluated_surface_manifest_sha256": hashlib.sha256(
+                preflight.lifecycle.canonical_json_bytes(
+                    packet.get("evaluated_surfaces"))).hexdigest(),
         },
         "checkout_bindings": checkouts,
         "runtime_root_binding": {
@@ -88,6 +98,8 @@ def write_test_live_ready(campaign, packet, base, execution_mode="test"):
             "metered_api_spend": "FORBIDDEN",
             "launch_authorized": execution_mode == "production",
             "codex_auth_source_path": str(auth),
+            "codex_auth_source_identity_sha256":
+                preflight._metadata_identity_sha(auth),
             "auth_contents_read": False,
         },
         "cross_host_validation": {
@@ -110,13 +122,312 @@ def write_test_live_ready(campaign, packet, base, execution_mode="test"):
     return path
 
 
+def write_test_live_ready(campaign, packet, base, execution_mode="test"):
+    """Build a closed TEST_ONLY boundary incapable of production authority."""
+    if execution_mode != "test":
+        raise ValueError(
+            "write_test_live_ready is TEST_ONLY and non-qualifying")
+    return _write_retained_readiness_fixture(
+        campaign, packet, base, "test")
+
+
+def write_retained_production_readiness_fixture(campaign, packet, base):
+    """Build retained production-shaped bytes for independent parser tests.
+
+    This helper is never passed to a production CampaignDriver and does not
+    perform or authorize a mission.
+    """
+    return _write_retained_readiness_fixture(
+        campaign, packet, base, "production")
+
+
 def expect_error(fragment, action):
     try:
         action()
     except (OSError, TypeError, ValueError) as exc:
-        assert fragment.lower() in str(exc).lower(), str(exc)
+        if fragment is not None:
+            assert fragment.lower() in str(exc).lower(), str(exc)
     else:
         raise AssertionError(f"expected error containing {fragment!r}")
+
+
+def production_fixture(base):
+    base = pathlib.Path(base)
+    repo = pathlib.Path(__file__).resolve().parent.parent
+    candidate = base / "candidate-checkout"
+    control = base / "control-checkout"
+    for checkout in (candidate, control):
+        subprocess.run(
+            ["git", "clone", "--quiet", "--no-hardlinks",
+             str(repo), str(checkout)],
+            stdin=subprocess.DEVNULL, check=True)
+    subprocess.run(
+        ["git", "-C", str(control), "config", "user.email",
+         "fixture@example.invalid"], check=True)
+    subprocess.run(
+        ["git", "-C", str(control), "config", "user.name",
+         "Fixture Control"], check=True)
+    (control / "CONTROL-IDENTITY.txt").write_text(
+        "distinct frozen control identity\n", encoding="utf-8")
+    subprocess.run(
+        ["git", "-C", str(control), "add", "CONTROL-IDENTITY.txt"],
+        check=True)
+    subprocess.run(
+        ["git", "-C", str(control), "commit", "--quiet", "-m",
+         "fixture: distinct control identity"], check=True)
+    head = subprocess.check_output(
+        ["git", "-C", str(candidate), "rev-parse", "HEAD"],
+        text=True).strip()
+    tree = subprocess.check_output(
+        ["git", "-C", str(candidate), "show", "-s", "--format=%T", "HEAD"],
+        text=True).strip()
+    packet = b3_freeze_fixture.valid_packet()
+    packet["foundation"] = {"commit": head, "tree": tree}
+    for name, checkout in (("candidate", candidate), ("control", control)):
+        checkout_head = subprocess.check_output(
+            ["git", "-C", str(checkout), "rev-parse", "HEAD"],
+            text=True).strip()
+        checkout_tree = subprocess.check_output(
+            ["git", "-C", str(checkout), "show", "-s", "--format=%T",
+             "HEAD"], text=True).strip()
+        skill_tree = subprocess.check_output(
+            ["git", "-C", str(checkout), "rev-parse",
+             "HEAD:skills/implementaudit"], text=True).strip()
+        packet[name] = {
+            "commit": checkout_head, "tree": checkout_tree,
+            "skill_tree": skill_tree,
+            "payload_sha256":
+                adapters.payload_hash(checkout / "skills" / "implementaudit"),
+        }
+    validator = b3_freeze_fixture.load_validator()
+    fixture_dir = repo / "eval" / "fixtures" / packet["fixture"]["id"]
+    packet["fixture"]["fixture_sha256"] = validator._sha256(
+        fixture_dir / "fixture.json")
+    packet["fixture"]["complete_manifest_sha256"] = validator._tree_manifest(
+        fixture_dir)
+    artifact_paths = {
+        "scorer": "eval/lib/scoring.py",
+        "evaluator": "eval/validate_b3v4_freeze.py",
+        "bundle": "eval/lib/bundle.py", "runner": "eval/runner.py",
+    }
+    packet["artifacts"] = {
+        name: {"path": path, "sha256": validator._sha256(repo / path)}
+        for name, path in artifact_paths.items()
+    }
+    packet["independent_rederiver"]["implementation_identity"]["sha256"] = \
+        validator._sha256(repo / "eval" / "b3v4_rederive.py")
+    acknowledgement = base / "owner-authorization.txt"
+    acknowledgement.write_text(
+        "owner-authorized Luna subscription launch\n", encoding="utf-8")
+    packet["authorization"]["acknowledgement_path"] = str(acknowledgement)
+    packet["authorization"]["acknowledgement_sha256"] = \
+        validator._sha256(acknowledgement)
+    b3_freeze_fixture.attach_surface_contract(packet)
+    owners = packet["evaluated_surface_owners"]["roles"]
+    for role in surfaces.FIXED_FILE_PATHS:
+        path = surfaces.FIXED_FILE_PATHS[role]
+        if role == "artifact-contract":
+            continue
+        if role == "official-driver":
+            path = "eval/b3v4_campaign.py"
+        if path is not None:
+            owners[role]["sha256"] = validator._sha256(repo / path)
+            if role in surfaces.GIT_IDENTITY_ROLES[surfaces.B3_CAMPAIGN]:
+                owners[role].update(
+                    {"git_commit": head, "git_tree": tree})
+    for role in ("scorer", "evaluator", "host-runner",
+                 "independent-rederiver"):
+        owners[role].update({"git_commit": head, "git_tree": tree})
+    host = base / "luna-host-attestation.json"
+    write(host, {
+        "id": "b3v4-L-host", "shell_dialect": "posix",
+        "executables": {"cat": "posix:cat"},
+    })
+    topology = base / "checkout-runtime-topology.json"
+    write(topology, {"candidate": str(candidate), "control": str(control)})
+    launcher = base / "luna-launcher"
+    launcher.write_text("# production launcher fixture\n", encoding="utf-8")
+    owners["host-attestation"]["path"] = host.as_posix()
+    packet["configurations"]["L"]["host_attestation"]["sha256"] = \
+        validator._sha256(host)
+    native = base / pathlib.Path(sys.executable).name
+    shutil.copy2(sys.executable, native)
+    python_dll = pathlib.Path(sys.executable).with_name(
+        f"python{sys.version_info.major}{sys.version_info.minor}.dll")
+    if python_dll.is_file():
+        shutil.copy2(python_dll, base / python_dll.name)
+    packet["configurations"]["L"]["executable"]["path"] = native.as_posix()
+    packet["configurations"]["L"]["executable"]["sha256"] = \
+        validator._sha256(native)
+    owners["checkout-runtime-topology"].update({
+        "path": topology.as_posix(), "sha256": validator._sha256(topology)})
+    owners["launcher"].update({
+        "path": launcher.as_posix(),
+        "sha256": validator._sha256(launcher)})
+    owners["prompt-template"].update({
+        "path": "README.md", "sha256": validator._sha256(repo / "README.md")})
+    for role, name, checkout in (
+            ("product-candidate", "candidate", candidate),
+            ("product-control", "control", control)):
+        payload_root = checkout / "skills" / "implementaudit"
+        commitment = bytearray()
+        for root, dirs, files in os.walk(payload_root):
+            dirs.sort()
+            for filename in sorted(files):
+                path = pathlib.Path(root) / filename
+                relative = path.relative_to(payload_root).as_posix()
+                commitment.extend(relative.encode())
+                commitment.extend(path.read_bytes())
+        projection = base / "surface" / name / "SKILL.md"
+        projection.parent.mkdir(parents=True, exist_ok=True)
+        projection.write_bytes(bytes(commitment))
+        assert hashlib.sha256(commitment).hexdigest() == \
+            packet[name]["payload_sha256"]
+        owners[role]["path"] = projection.as_posix()
+    packet["evaluated_surfaces"] = surfaces.build_manifest_from_packet(
+        packet, surfaces.B3_CAMPAIGN, root=repo)
+    runtime = base / "runtime"
+    runtime.mkdir()
+    auth = base / "auth-source.json"
+    auth.touch()
+    host_producer = base / "host-attestation-producer.py"
+    host_producer.write_text(
+        "import hashlib, pathlib, sys\n"
+        "raw = pathlib.Path(sys.argv[1]).read_bytes()\n"
+        "print('HOST_ATTESTATION_VALID=PASS sha256=' + "
+        "hashlib.sha256(raw).hexdigest())\n",
+        encoding="utf-8")
+    context = {
+        "repo_root": str(repo),
+        "candidate_checkout": str(candidate),
+        "control_checkout": str(control),
+        "runtime_root": str(runtime),
+        "campaign_root": str(base / "campaign"),
+        "host_attestation_path": str(host),
+        "launcher_path": str(launcher),
+        "native_executable_path": str(native),
+        "codex_auth_source_path": str(auth),
+        "authorization_acknowledgement_path": str(acknowledgement),
+        "created_at": "2026-07-29T00:00:00Z",
+        "host_attestation_producer_argv": [
+            sys.executable, str(host_producer), str(host)],
+        "controller_argv": [
+            str(native), str(pathlib.Path(preflight.__file__).resolve()),
+            "author-production-ready"],
+    }
+    return packet, context
+
+
+def exercise_production_driver_timing(base, timing, mutation):
+    base = pathlib.Path(base)
+    packet, context = production_fixture(base)
+    packet_path = base / "campaign-freeze.json"
+    context_path = base / "launch-context.json"
+    readiness_path = base / "production-ready.json"
+    write(packet_path, packet)
+    write(context_path, context)
+    preflight.author_production_live_ready(
+        "b3v4", packet, context, readiness_path)
+    calls = []
+
+    def executor(_mission_context):
+        calls.append("executor")
+        raise AssertionError("executor must not run after live-state drift")
+
+    driver = b3v4_campaign.CampaignDriver(
+        packet_path=packet_path, repo_root=context["repo_root"],
+        campaign_root=context["campaign_root"],
+        candidate_checkout=context["candidate_checkout"],
+        control_checkout=context["control_checkout"],
+        runtime_root=context["runtime_root"],
+        attestations={"L": context["host_attestation_path"]},
+        execution_mode="production",
+        codex_auth_source=context["codex_auth_source_path"],
+        launch_readiness=readiness_path,
+        launch_context=context_path)
+    driver.mission_executor = executor
+    driver.live_validator = lambda value, _root: value
+    driver.identity_validator = lambda _packet, **_paths: None
+
+    def mutate():
+        if mutation == "checkout-dirty":
+            pathlib.Path(
+                context["candidate_checkout"], "dirty-live-state").write_text(
+                    "drift\n", encoding="utf-8")
+        elif mutation == "checkout-head-tree":
+            checkout = pathlib.Path(context["candidate_checkout"])
+            (checkout / "HEAD-DRIFT.txt").write_text(
+                "drift\n", encoding="utf-8")
+            subprocess.run(
+                ["git", "-C", str(checkout), "add", "HEAD-DRIFT.txt"],
+                check=True)
+            subprocess.run(
+                ["git", "-C", str(checkout), "config", "user.email",
+                 "drift@example.invalid"], check=True)
+            subprocess.run(
+                ["git", "-C", str(checkout), "config", "user.name",
+                 "Drift"], check=True)
+            subprocess.run(
+                ["git", "-C", str(checkout), "commit", "--quiet", "-m",
+                 "drift"], check=True)
+        elif mutation == "runtime":
+            pathlib.Path(context["runtime_root"], "residue").write_text(
+                "drift\n", encoding="utf-8")
+        elif mutation == "native":
+            with open(context["native_executable_path"], "ab") as stream:
+                stream.write(b"drift")
+        elif mutation == "launcher":
+            pathlib.Path(context["launcher_path"]).write_text(
+                "drift\n", encoding="utf-8")
+        elif mutation == "auth-metadata":
+            auth = pathlib.Path(context["codex_auth_source_path"])
+            replacement = auth.with_suffix(".replacement")
+            replacement.touch()
+            os.replace(replacement, auth)
+        elif mutation == "acknowledgement":
+            pathlib.Path(
+                context["authorization_acknowledgement_path"]).write_text(
+                "changed authorization\n", encoding="utf-8")
+        elif mutation == "host-attestation":
+            pathlib.Path(context["host_attestation_path"]).write_text(
+                "{}\n", encoding="utf-8")
+        elif mutation == "path-translation":
+            retained = json.loads(context_path.read_text(encoding="utf-8"))
+            launcher = pathlib.Path(retained["launcher_path"])
+            retained["launcher_path"] = str(
+                launcher.parent / "translation" / ".." / launcher.name)
+            write(context_path, retained)
+        else:
+            raise AssertionError("unknown live mutation")
+
+    if timing == "before-root":
+        mutate()
+    elif timing == "before-claim":
+        original = driver._ensure_campaign
+
+        def mutate_before_claim(*args, **kwargs):
+            result = original(*args, **kwargs)
+            mutate()
+            return result
+        driver._ensure_campaign = mutate_before_claim
+    elif timing == "before-executor":
+        original = driver._claim_attempt
+
+        def mutate_before_executor(*args, **kwargs):
+            result = original(*args, **kwargs)
+            mutate()
+            return result
+        driver._claim_attempt = mutate_before_executor
+    else:
+        raise AssertionError("unknown timing")
+    expect_error(None, driver.run_next)
+    assert calls == []
+    campaign_root = pathlib.Path(context["campaign_root"])
+    attempts = (
+        list(campaign_root.glob("attempt-*"))
+        if campaign_root.exists() else [])
+    if timing in ("before-root", "before-claim"):
+        assert attempts == []
 
 
 def fixtures(base):
@@ -177,6 +488,87 @@ def fixtures(base):
 
 
 def main():
+    # Round-3 governing RED: production readiness is controller-derived from
+    # an explicit live launch context.  A caller-authored report is never the
+    # production authoring API.
+    with tempfile.TemporaryDirectory(
+            prefix="live-ready-production-author-red-") as tmp:
+        base = pathlib.Path(tmp)
+        packet = {
+            "artifact_contract": {"sha256": "a" * 64},
+            "configurations": {"L": {
+                "host_attestation": {
+                    "id": "b3v4-L-host", "sha256": "b" * 64},
+            }},
+        }
+        expect_error(
+            "Git worktree",
+            lambda: preflight.author_production_live_ready(
+                "b3v4", packet, {
+                    "repo_root": str(base),
+                    "candidate_checkout": str(base / "fake-candidate"),
+                    "control_checkout": str(base / "fake-control"),
+                    "runtime_root": str(base / "runtime"),
+                    "campaign_root": str(base / "campaign"),
+                    "host_attestation_path": str(base / "host.json"),
+                    "launcher_path": str(base / "launcher"),
+                    "native_executable_path": str(base / "native"),
+                    "codex_auth_source_path": str(base / "auth.json"),
+                    "authorization_acknowledgement_path":
+                        str(base / "ack.json"),
+                    "created_at": "2026-07-29T00:00:00Z",
+                    "host_attestation_producer_argv":
+                        [sys.executable, "--version"],
+                    "controller_argv": [
+                        sys.executable, "campaign_freeze_preflight.py"],
+                }, base / "production-ready.json"))
+
+    with tempfile.TemporaryDirectory(
+            prefix="live-ready-production-author-green-") as tmp:
+        base = pathlib.Path(tmp)
+        packet, context = production_fixture(base)
+        output = base / "production-ready.json"
+        authored = preflight.author_production_live_ready(
+            "b3v4", packet, context, output)
+        assert authored["ready"] is True
+        reread, raw = preflight.validate_live_ready(
+            "b3v4", packet, output, execution_mode="production",
+            live_context=context)
+        assert reread == authored
+        assert raw == preflight.lifecycle.canonical_json_bytes(authored)
+        assert (
+            reread["authorization_binding"][
+                "codex_auth_source_path"] ==
+            context["codex_auth_source_path"])
+        assert (base / "auth-source.json").read_bytes() == b""
+        dirty = pathlib.Path(
+            context["candidate_checkout"]) / "untracked.txt"
+        dirty.write_text("drift\n", encoding="utf-8")
+        expect_error(
+            "dirty",
+            lambda: preflight.validate_live_ready(
+                "b3v4", packet, output, execution_mode="production",
+                live_context=context))
+        dirty.unlink()
+        pathlib.Path(context["runtime_root"], "residue").write_text(
+            "drift\n", encoding="utf-8")
+        expect_error(
+            "initially empty",
+            lambda: preflight.validate_live_ready(
+                "b3v4", packet, output, execution_mode="production",
+                live_context=context))
+
+    for timing in ("before-root", "before-claim", "before-executor"):
+        for mutation in (
+                "checkout-dirty", "checkout-head-tree", "runtime",
+                "native", "launcher", "auth-metadata",
+                "acknowledgement", "host-attestation",
+                "path-translation"):
+            with tempfile.TemporaryDirectory(
+                    prefix=f"live-ready-{timing}-{mutation}-") as tmp:
+                exercise_production_driver_timing(
+                    tmp, timing, mutation)
+
     # Governing round-2 RED: the implementation must expose the separate live
     # packet-bound READY validator; legacy NOT_READY conversion is insufficient.
     expect_error(
