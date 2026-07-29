@@ -199,7 +199,9 @@ def _owned_git(owner, role):
         "git_commit": owner["git_commit"],
         "git_tree": owner["git_tree"],
     }
-    if (not GIT_ID.fullmatch(git["git_commit"]) or
+    if (type(git["git_commit"]) is not str or
+            type(git["git_tree"]) is not str or
+            not GIT_ID.fullmatch(git["git_commit"]) or
             not GIT_ID.fullmatch(git["git_tree"])):
         raise ValueError(f"evaluated surface owner {role} Git identity invalid")
     return git

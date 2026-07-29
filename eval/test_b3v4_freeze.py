@@ -546,6 +546,22 @@ def main():
         assert owner_rejected.returncode == 2, owner_rejected
         assert "duplicate JSON key" in owner_rejected.stderr, \
             owner_rejected.stderr
+        for label, scalar in (("bool", True), ("integer", 7)):
+            wrong_git_type = copy.deepcopy(packet)
+            wrong_git_type["evaluated_surface_owners"]["roles"]["scorer"][
+                "git_commit"] = scalar
+            intent.write_text(
+                json.dumps(wrong_git_type, sort_keys=True),
+                encoding="utf-8")
+            git_type_rejected = subprocess.run(
+                ["python", str(VALIDATOR), str(intent), "--schema-only"],
+                capture_output=True, text=True)
+            assert git_type_rejected.returncode == 2, (
+                label, git_type_rejected)
+            assert "B3V4-FREEZE-INVALID" in git_type_rejected.stderr, (
+                label, git_type_rejected.stderr)
+            assert "Traceback" not in git_type_rejected.stderr, (
+                label, git_type_rejected.stderr)
     print("test_b3v4_freeze: ok")
 
 
