@@ -191,12 +191,18 @@ def _trace_action(action_id, ordinal, command, output):
     }
 
 
-def build_campaign(root, *, execution_mode="production", surface_root=None):
+def build_campaign(root, *, execution_mode="production", surface_root=None,
+                   external_surface_paths=None):
     root = pathlib.Path(root)
     surface_root = root if surface_root is None else pathlib.Path(surface_root)
     packet = valid_packet()
     packet["independent_rederiver"]["implementation_identity"]["sha256"] = \
         sha(MODULE.read_bytes())
+    external_surface_paths = external_surface_paths or {}
+    for row in packet["evaluated_surfaces"]["entries"]:
+        if row["role"] in external_surface_paths:
+            row["path"] = pathlib.Path(
+                external_surface_paths[row["role"]]).resolve().as_posix()
     fixture_values = {}
     fixture_bytes = {}
     for row in packet["fixtures"]:

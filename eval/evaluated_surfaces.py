@@ -315,6 +315,37 @@ def revalidate_manifest(manifest, *, root):
     return manifest
 
 
+def custody_identity_map(manifest, *, root):
+    campaign = manifest.get("campaign") if type(manifest) is dict else None
+    validate_manifest(manifest, campaign)
+    observed = {}
+    identity_owners = {}
+    for entry in manifest["entries"]:
+        role = entry["role"]
+        length, digest, identities = _stable_file_identity(
+            _source_path(root, entry["path"], campaign, role),
+            f"evaluated surface {role}")
+        if length != entry["byte_length"] or digest != entry["sha256"]:
+            raise ValueError(f"evaluated surface byte drift: {role}")
+        lexical, canonical, physical = identities
+        for identity_type, identity in (
+                ("lexical", lexical),
+                ("canonical", canonical),
+                ("physical", physical)):
+            token = (identity_type, identity)
+            if token in identity_owners:
+                raise ValueError(
+                    "evaluated surface physical alias forbidden: "
+                    f"{identity_owners[token]} and {role}")
+            identity_owners[token] = role
+        observed[role] = {
+            "lexical": lexical,
+            "canonical": canonical,
+            "physical": physical,
+        }
+    return observed
+
+
 def revalidate_file_binding(binding, *, root, owner="bound evidence"):
     if type(binding) is not dict or set(binding) != {
             "name", "status", "path", "byte_length", "sha256"}:

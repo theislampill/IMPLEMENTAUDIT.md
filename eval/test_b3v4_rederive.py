@@ -151,7 +151,8 @@ def synthetic_official_pass(fixture, model, manifest, bundle_sha256):
     }
 
 
-def build_campaign(root, fixture_override=None, *, surface_root=None):
+def build_campaign(root, fixture_override=None, *, surface_root=None,
+                   external_surface_paths=None):
     root = pathlib.Path(root)
     surface_root = root if surface_root is None else pathlib.Path(surface_root)
     fixture = copy.deepcopy(fixture_override) if fixture_override is not None \
@@ -162,6 +163,11 @@ def build_campaign(root, fixture_override=None, *, surface_root=None):
     packet["independent_rederiver"]["implementation_identity"]["sha256"] = \
         sha(REDERIVER.read_bytes())
     packet["fixture"]["fixture_sha256"] = sha(fixture_bytes)
+    external_surface_paths = external_surface_paths or {}
+    for row in packet["evaluated_surfaces"]["entries"]:
+        if row["role"] in external_surface_paths:
+            row["path"] = pathlib.Path(
+                external_surface_paths[row["role"]]).resolve().as_posix()
     if surface_root != root:
         write(
             surface_root / "eval" / "fixtures" / packet["fixture"]["id"] /

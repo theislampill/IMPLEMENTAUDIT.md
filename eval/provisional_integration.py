@@ -17,7 +17,7 @@ import candidate_matrix_rederive
 import evaluated_surfaces as surfaces
 
 
-SCHEMA = "implementaudit-luna-qualified-integration-certificate-v2"
+SCHEMA = "implementaudit-luna-qualified-integration-certificate-v3"
 DISPOSITION = "LUNA_6_OF_6_AND_14_OF_14_GREEN_MERGED_TO_MAIN"
 REQUIRED_GATES = (
     "deterministic", "package", "ci", "reproducibility",
@@ -45,7 +45,7 @@ def _reparse_point(path_stat):
                 getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400))
 
 
-def _strict_directory(path, owner):
+def _strict_directory_identity(path, owner):
     lexical = pathlib.Path(path).absolute()
     try:
         resolved = lexical.resolve(strict=True)
@@ -57,13 +57,68 @@ def _strict_directory(path, owner):
             observed = os.lstat(current)
             if stat.S_ISLNK(observed.st_mode) or _reparse_point(observed):
                 raise ValueError(f"{owner} link or reparse alias forbidden")
-        if not lexical.is_dir():
+        before = os.lstat(lexical)
+        if (not stat.S_ISDIR(before.st_mode) or
+                stat.S_ISLNK(before.st_mode) or _reparse_point(before)):
             raise ValueError(f"{owner} must be a retained directory")
+        after = os.lstat(lexical)
+        if ((before.st_dev, before.st_ino, before.st_mode) !=
+                (after.st_dev, after.st_ino, after.st_mode)):
+            raise ValueError(f"{owner} identity changed during custody read")
     except ValueError:
         raise
     except OSError as exc:
         raise ValueError(f"{owner} retained directory unavailable") from exc
-    return lexical
+    return lexical, {
+        "path": str(lexical),
+        "canonical_path": str(resolved),
+        "lexical": os.path.normcase(os.path.normpath(str(lexical))),
+        "canonical": os.path.normcase(os.path.normpath(str(resolved))),
+        "physical": (before.st_dev, before.st_ino),
+    }
+
+
+def _strict_directory(path, owner):
+    return _strict_directory_identity(path, owner)[0]
+
+
+def _identity_tokens(identity):
+    return {
+        ("lexical", identity["lexical"]),
+        ("canonical", identity["canonical"]),
+        ("physical", identity["physical"]),
+    }
+
+
+def _require_distinct_post_roots(pre_roots, post_roots):
+    prior = []
+    for campaign, identity in pre_roots.items():
+        prior.append((f"{campaign} frozen pre root", identity))
+    for campaign, identity in post_roots.items():
+        for owner, previous in prior:
+            if _identity_tokens(identity) & _identity_tokens(previous):
+                raise ValueError(
+                    f"{campaign} post-integration root identity aliases "
+                    f"{owner}")
+        prior.append((f"{campaign} post-integration root", identity))
+
+
+def _require_post_files_distinct_from_pre(
+        post_campaign, post_identities, pre_identities):
+    prior = {}
+    for campaign, roles in pre_identities.items():
+        for role, identity in roles.items():
+            for token in _identity_tokens(identity):
+                prior[token] = f"{campaign}:{role}"
+    for role, identity in post_identities.items():
+        aliases = {
+            prior[token] for token in _identity_tokens(identity)
+            if token in prior
+        }
+        if aliases:
+            raise ValueError(
+                f"{post_campaign} post-integration surface {role} aliases "
+                f"pre-integration physical identity {sorted(aliases)[0]}")
 
 
 def _canonical_sha(value):
@@ -325,6 +380,12 @@ def validate_inputs(*, b3_campaign_root, matrix_campaign_root,
                     b3_after_surface_root, matrix_after_surface_root,
                     gate_root, b3_after_external_paths=None,
                     matrix_after_external_paths=None):
+    b3_surface_root, b3_pre_root_identity = _strict_directory_identity(
+        b3_surface_root, f"{surfaces.B3_CAMPAIGN} frozen pre surface root")
+    matrix_surface_root, matrix_pre_root_identity = \
+        _strict_directory_identity(
+            matrix_surface_root,
+            f"{surfaces.MATRIX_CAMPAIGN} frozen pre surface root")
     b3, b3_before = _validate_stage(
         b3_campaign_root, b3_surface_root, surfaces.B3_CAMPAIGN)
     matrix, matrix_before = _validate_stage(
@@ -334,20 +395,62 @@ def validate_inputs(*, b3_campaign_root, matrix_campaign_root,
         surfaces.B3_CAMPAIGN: b3_before,
         surfaces.MATRIX_CAMPAIGN: matrix_before,
     }
+    pre_root_identities = {
+        surfaces.B3_CAMPAIGN: b3_pre_root_identity,
+        surfaces.MATRIX_CAMPAIGN: matrix_pre_root_identity,
+    }
+    pre_file_identities = {
+        surfaces.B3_CAMPAIGN: surfaces.custody_identity_map(
+            b3_before, root=b3_surface_root),
+        surfaces.MATRIX_CAMPAIGN: surfaces.custody_identity_map(
+            matrix_before, root=matrix_surface_root),
+    }
+    b3_after_surface_root, b3_post_root_identity = \
+        _strict_directory_identity(
+            b3_after_surface_root,
+            f"{surfaces.B3_CAMPAIGN} post-integration surface root")
+    matrix_after_surface_root, matrix_post_root_identity = \
+        _strict_directory_identity(
+            matrix_after_surface_root,
+            f"{surfaces.MATRIX_CAMPAIGN} post-integration surface root")
+    post_root_identities = {
+        surfaces.B3_CAMPAIGN: b3_post_root_identity,
+        surfaces.MATRIX_CAMPAIGN: matrix_post_root_identity,
+    }
+    _require_distinct_post_roots(
+        pre_root_identities, post_root_identities)
     qualified_input_sha256 = _gate_identity(b3, matrix, manifests)
     gates = _validate_gates(gate_root, qualified_input_sha256)
     comparisons = {}
-    for campaign, before, after_root, external_paths in (
+    for campaign, before, after_root, external_paths, pre_root, post_root in (
             (surfaces.B3_CAMPAIGN, b3_before, b3_after_surface_root,
-             b3_after_external_paths),
+             b3_after_external_paths, b3_pre_root_identity,
+             b3_post_root_identity),
             (surfaces.MATRIX_CAMPAIGN, matrix_before,
-             matrix_after_surface_root, matrix_after_external_paths)):
-        after_root = _strict_directory(
-            after_root, f"{campaign} post-integration surface root")
+             matrix_after_surface_root, matrix_after_external_paths,
+             matrix_pre_root_identity, matrix_post_root_identity)):
         after = _after_manifest(before, after_root, external_paths or {})
+        post_file_identities = surfaces.custody_identity_map(
+            after, root=after_root)
+        _require_post_files_distinct_from_pre(
+            campaign, post_file_identities, pre_file_identities)
         _compare_after_bytes(before, after, campaign)
         comparisons[campaign] = {
             "equal_relevant_bytes": True,
+            "post_root_distinct_from_all_pre_and_post_roots": True,
+            "post_files_distinct_from_all_pre_files": True,
+            "pre_root": {
+                "path": pre_root["path"],
+                "canonical_path": pre_root["canonical_path"],
+                "device": pre_root["physical"][0],
+                "inode": pre_root["physical"][1],
+            },
+            "post_root": {
+                "path": post_root["path"],
+                "canonical_path": post_root["canonical_path"],
+                "device": post_root["physical"][0],
+                "inode": post_root["physical"][1],
+            },
             "before_manifest_sha256": _canonical_sha(before),
             "after_manifest_sha256": _canonical_sha(after),
         }

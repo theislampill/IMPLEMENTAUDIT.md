@@ -8,6 +8,8 @@ import json
 import os
 import pathlib
 import shutil
+import subprocess
+import sys
 import tempfile
 
 import b3v4_campaign
@@ -41,10 +43,12 @@ def expect_error(fragment, action):
         raise AssertionError(f"expected failure containing {fragment!r}")
 
 
-def _finalize_b3(base):
+def _finalize_b3(base, external_surface_paths=None):
     campaign_root = base / "b3-campaign"
     surface_root = base / "b3-surfaces"
-    b3_fixture.build_campaign(campaign_root, surface_root=surface_root)
+    b3_fixture.build_campaign(
+        campaign_root, surface_root=surface_root,
+        external_surface_paths=external_surface_paths)
     packet_path = campaign_root / "campaign-freeze.json"
     independent = b3v4_rederive.rederive_campaign(
         packet_path, campaign_root, surface_root)
@@ -66,12 +70,13 @@ def _finalize_b3(base):
     return campaign_root, surface_root
 
 
-def _finalize_matrix(base):
+def _finalize_matrix(base, external_surface_paths=None):
     campaign_root = base / "matrix-campaign"
     surface_root = base / "matrix-surfaces"
     matrix_fixture.build_campaign(
         campaign_root, execution_mode="production",
-        surface_root=surface_root)
+        surface_root=surface_root,
+        external_surface_paths=external_surface_paths)
     packet_path = campaign_root / "campaign-freeze.json"
     independent = candidate_matrix_rederive.rederive_campaign(
         packet_path, campaign_root, surface_root)
@@ -137,9 +142,23 @@ def _gates(root, qualified):
     return root
 
 
-def _roots(base):
-    b3_campaign_root, b3_surface_root = _finalize_b3(base)
-    matrix_campaign_root, matrix_surface_root = _finalize_matrix(base)
+def _roots(base, *, with_external=False):
+    if with_external:
+        b3_pre_external = {
+            role: base / "b3-pre-external" / f"{role}.bin"
+            for role in ("host-attestation", "product-candidate")
+        }
+        matrix_pre_external = {
+            role: base / "matrix-pre-external" / f"{role}.bin"
+            for role in ("host-attestation", "product-candidate")
+        }
+    else:
+        b3_pre_external = {}
+        matrix_pre_external = {}
+    b3_campaign_root, b3_surface_root = _finalize_b3(
+        base, b3_pre_external)
+    matrix_campaign_root, matrix_surface_root = _finalize_matrix(
+        base, matrix_pre_external)
     b3_after = base / "b3-after"
     matrix_after = base / "matrix-after"
     shutil.copytree(b3_surface_root, b3_after)
@@ -150,7 +169,7 @@ def _roots(base):
         b3_surface_root=b3_surface_root,
         matrix_surface_root=matrix_surface_root)
     gate_root = _gates(base / "gates", qualified)
-    return {
+    roots = {
         "b3_campaign_root": b3_campaign_root,
         "matrix_campaign_root": matrix_campaign_root,
         "b3_surface_root": b3_surface_root,
@@ -159,6 +178,19 @@ def _roots(base):
         "matrix_after_surface_root": matrix_after,
         "gate_root": gate_root,
     }
+    if with_external:
+        b3_after_external = {}
+        matrix_after_external = {}
+        for campaign, before, after in (
+                ("b3", b3_pre_external, b3_after_external),
+                ("matrix", matrix_pre_external, matrix_after_external)):
+            for role, source in before.items():
+                target = base / f"{campaign}-after-external" / f"{role}.bin"
+                write(target, pathlib.Path(source).read_bytes())
+                after[role] = target.as_posix()
+        roots["b3_after_external_paths"] = b3_after_external
+        roots["matrix_after_external_paths"] = matrix_after_external
+    return roots
 
 
 def _replace_all(root):
@@ -278,10 +310,128 @@ def _mutate_stage_rows(campaign_root, official_name, independent_name,
     write(official_path, official)
 
 
+ROOT_IDENTITY_CASES = (
+    "b3-same-pre",
+    "matrix-same-pre",
+    "both-same-pre",
+    "dot-alias",
+    "dotdot-alias",
+    "case-alias",
+    "other-campaign-root",
+    "junction-alias",
+    "member-hardlink",
+    "two-member-hardlinks",
+    "external-pre-reuse",
+    "two-external-pre-reuses",
+)
+
+
+def _relative_surface_path(campaign_root, role):
+    packet = json.loads(
+        (campaign_root / "campaign-freeze.json").read_text(encoding="utf-8"))
+    for row in packet["evaluated_surfaces"]["entries"]:
+        if row["role"] == role:
+            assert not pathlib.Path(row["path"]).is_absolute()
+            return pathlib.PurePosixPath(row["path"])
+    raise AssertionError(f"missing role {role}")
+
+
+def _exercise_root_identity_case(base, label):
+    with_external = label in (
+        "external-pre-reuse", "two-external-pre-reuses")
+    roots = _roots(base, with_external=with_external)
+    expected = "post-integration root identity"
+    junction = None
+    if label == "b3-same-pre":
+        roots["b3_after_surface_root"] = roots["b3_surface_root"]
+    elif label == "matrix-same-pre":
+        roots["matrix_after_surface_root"] = roots["matrix_surface_root"]
+    elif label == "both-same-pre":
+        roots["b3_after_surface_root"] = roots["b3_surface_root"]
+        roots["matrix_after_surface_root"] = roots["matrix_surface_root"]
+    elif label == "dot-alias":
+        root = roots["b3_surface_root"]
+        roots["b3_after_surface_root"] = (
+            str(root.parent) + os.sep + "." + os.sep + root.name)
+    elif label == "dotdot-alias":
+        root = roots["b3_surface_root"]
+        alias_component = root.parent / "alias-component"
+        alias_component.mkdir()
+        roots["b3_after_surface_root"] = (
+            str(alias_component) + os.sep + ".." + os.sep + root.name)
+        expected = "link or reparse alias"
+    elif label == "case-alias":
+        if os.name != "nt":
+            print("PROVISIONAL-ROOT-CASE-ALIAS=SKIP:not-windows")
+            return
+        roots["b3_after_surface_root"] = str(
+            roots["b3_surface_root"]).swapcase()
+    elif label == "other-campaign-root":
+        roots["matrix_after_surface_root"] = roots["b3_after_surface_root"]
+    elif label == "junction-alias":
+        if os.name != "nt":
+            print("PROVISIONAL-ROOT-JUNCTION=SKIP:not-windows")
+            return
+        junction = base / "b3-root-junction"
+        result = subprocess.run(
+            ["cmd", "/c", "mklink", "/J", str(junction),
+             str(roots["b3_surface_root"])],
+            capture_output=True, text=True)
+        if result.returncode:
+            print("PROVISIONAL-ROOT-JUNCTION=SKIP:mklink")
+            return
+        roots["b3_after_surface_root"] = junction
+        expected = "link or reparse alias"
+    elif label in ("member-hardlink", "two-member-hardlinks"):
+        roles = ["acceptance-rules"]
+        if label == "two-member-hardlinks":
+            roles.append("adapter")
+        for role in roles:
+            relative = _relative_surface_path(
+                roots["b3_campaign_root"], role)
+            before = roots["b3_surface_root"] / relative
+            after = roots["b3_after_surface_root"] / relative
+            after.unlink()
+            os.link(before, after)
+        expected = "hardlink"
+    elif label in ("external-pre-reuse", "two-external-pre-reuses"):
+        roles = ["product-candidate"]
+        if label == "two-external-pre-reuses":
+            roles.append("host-attestation")
+        for role in roles:
+            roots["b3_after_external_paths"][role] = (
+                base / "b3-pre-external" / f"{role}.bin").as_posix()
+        expected = None
+    else:
+        raise AssertionError(f"unsupported root identity case {label}")
+    try:
+        expect_error(
+            expected,
+            lambda: integration.write_certificate(
+                base / f"{label}.json", **roots))
+    finally:
+        if junction is not None and junction.exists():
+            os.rmdir(junction)
+
+
 def main():
+    if len(sys.argv) == 3 and sys.argv[1] == "--root-identity-case":
+        label = sys.argv[2]
+        assert label in ROOT_IDENTITY_CASES
+        with tempfile.TemporaryDirectory(
+                prefix=f"task4-root-{label}-") as tmp:
+            _exercise_root_identity_case(pathlib.Path(tmp).resolve(), label)
+        print(f"PROVISIONAL-ROOT-IDENTITY-{label}=PASS")
+        return
+
     with tempfile.TemporaryDirectory(
             prefix="task4-external-after-") as tmp:
         _exercise_external_after_locator(pathlib.Path(tmp).resolve())
+
+    for label in ROOT_IDENTITY_CASES:
+        with tempfile.TemporaryDirectory(
+                prefix=f"task4-root-{label}-") as tmp:
+            _exercise_root_identity_case(pathlib.Path(tmp).resolve(), label)
 
     # The accepted path uses real production-shaped retained roots: six B3
     # attempts and fourteen matrix attempts, both official and independently
@@ -305,6 +455,20 @@ def main():
         expect_error(
             "create-once",
             lambda: integration.write_certificate(output, **roots))
+
+    # External roles also use fresh post-integration locator files rather than
+    # the packet's frozen absolute locations.
+    with tempfile.TemporaryDirectory(
+            prefix="task4-production-external-roots-") as tmp:
+        base = pathlib.Path(tmp).resolve()
+        roots = _roots(base, with_external=True)
+        certificate = integration.write_certificate(
+            base / "external-integration-certificate.json", **roots)
+        assert certificate["b3_luna"]["accepted_count"] == 6
+        assert certificate["matrix_luna"]["accepted_count"] == 14
+        assert all(
+            row["post_files_distinct_from_all_pre_files"] is True
+            for row in certificate["surface_comparisons"].values())
 
     # R1: packet-derived before bytes govern. Replacing every post-integration
     # surface cannot be legalized by rebuilding a caller manifest because no
