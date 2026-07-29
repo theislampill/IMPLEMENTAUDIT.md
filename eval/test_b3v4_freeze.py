@@ -11,6 +11,7 @@ import pathlib
 import subprocess
 import tempfile
 
+import evaluated_surfaces as surfaces
 
 HERE = pathlib.Path(__file__).resolve().parent
 VALIDATOR = HERE / "validate_b3v4_freeze.py"
@@ -45,6 +46,19 @@ def valid_packet():
             ("L", "control", 3), ("L", "candidate", 3),
         ])
     ]
+    evaluated = {
+        "schema": surfaces.SCHEMA, "campaign": surfaces.B3_CAMPAIGN,
+        "entries": [],
+    }
+    for index, role in enumerate(surfaces.required_roles(
+            surfaces.B3_CAMPAIGN)):
+        row = {
+            "role": role, "path": f"surface/{index:02d}.bin",
+            "byte_length": 1, "sha256": sha,
+        }
+        if role in surfaces.GIT_IDENTITY_ROLES[surfaces.B3_CAMPAIGN]:
+            row.update({"git_commit": commit, "git_tree": tree})
+        evaluated["entries"].append(row)
     return {
         "schema": "implementaudit-b3v4-luna-campaign-freeze-v2",
         "campaign": "b3v4-sol-luna-r2",
@@ -132,10 +146,13 @@ def valid_packet():
                 "path": "eval/b3v4_rederive.py", "sha256": sha},
             "must_not_import": [
                 "eval.b3v4_campaign", "eval.hosts", "eval.runner",
-                "eval.lib.scoring", "eval.adapters", "eval.campaign_lifecycle"],
+                "eval.lib.scoring", "eval.adapters",
+                "eval.campaign_lifecycle", "eval.evaluated_surfaces",
+                "eval.provisional_integration"],
             "input": "retained raw evidence only",
             "output": "independent Luna stage result",
         },
+        "evaluated_surfaces": evaluated,
     }
 
 
@@ -167,6 +184,13 @@ def main():
     module = load_validator()
     packet = valid_packet()
     module.validate_structure(packet)
+    missing_surface = copy.deepcopy(packet)
+    missing_surface["evaluated_surfaces"]["entries"].pop()
+    expect_invalid(module, missing_surface, "role coverage")
+    duplicate_surface = copy.deepcopy(packet)
+    duplicate_surface["evaluated_surfaces"]["entries"][-1]["path"] = \
+        duplicate_surface["evaluated_surfaces"]["entries"][0]["path"]
+    expect_invalid(module, duplicate_surface, "duplicate path")
     for alias in (6.0, True):
         changed = copy.deepcopy(packet)
         changed["luna_stage"]["mission_count"] = alias
@@ -323,6 +347,26 @@ def main():
         rederiver = repo / "eval" / "b3v4_rederive.py"
         live["independent_rederiver"]["implementation_identity"][
             "sha256"] = module._sha256(rederiver)
+        tracked = subprocess.check_output(
+            ["git", "-C", str(repo), "ls-files"], text=True).splitlines()
+        retained = [
+            path for path in tracked
+            if (repo / pathlib.PurePosixPath(path)).is_file() and
+            os.stat(repo / pathlib.PurePosixPath(path)).st_nlink == 1
+        ]
+        roles = surfaces.required_roles(surfaces.B3_CAMPAIGN)
+        assert len(retained) >= len(roles)
+        surface_sources = []
+        for role, path in zip(roles, retained):
+            row = {"role": role, "path": path}
+            if role in surfaces.GIT_IDENTITY_ROLES[surfaces.B3_CAMPAIGN]:
+                row.update({
+                    "git_commit": live["foundation"]["commit"],
+                    "git_tree": live["foundation"]["tree"],
+                })
+            surface_sources.append(row)
+        live["evaluated_surfaces"] = surfaces.build_manifest(
+            surfaces.B3_CAMPAIGN, surface_sources, root=repo)
         module.validate_structure(live)
         module.validate_live(live, repo)
 

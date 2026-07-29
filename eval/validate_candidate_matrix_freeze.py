@@ -11,6 +11,7 @@ import subprocess
 import sys
 
 import candidate_matrix_contract as contract
+import evaluated_surfaces as surfaces
 
 
 FIXTURE_ORDER = contract.FIXTURE_ORDER
@@ -34,11 +35,13 @@ FORBIDDEN_IMPORTS = {
     "candidate_matrix_campaign", "campaign_lifecycle", "b3v4_campaign",
     "b3v4_rederive", "b3v4_contract", "hosts", "runner", "adapters",
     "lib.scoring", "eval.lib.scoring",
+    "evaluated_surfaces", "provisional_integration",
 }
 EXPECTED_MUST_NOT_IMPORT = [
     "eval.candidate_matrix_campaign", "eval.hosts", "eval.runner",
     "eval.lib.scoring", "eval.adapters", "eval.campaign_lifecycle",
     "eval.b3v4_campaign", "eval.b3v4_rederive", "eval.b3v4_contract",
+    "eval.evaluated_surfaces", "eval.provisional_integration",
 ]
 
 
@@ -82,6 +85,8 @@ def _imports(path):
 
 def validate_structure(packet):
     contract.validate_freeze_envelope(packet)
+    surfaces.validate_manifest(
+        packet["evaluated_surfaces"], surfaces.MATRIX_CAMPAIGN)
     if not contract.exact_json_equal(packet["attempt_policy"], {
             "silent_retry": "FORBIDDEN", "preserve_every_attempt": True,
             "maximum_attempts": 14}):
@@ -117,6 +122,7 @@ def validate_structure(packet):
 def validate_live(packet, repo_root):
     validate_structure(packet)
     repo_root = pathlib.Path(repo_root).resolve(strict=True)
+    surfaces.revalidate_manifest(packet["evaluated_surfaces"], root=repo_root)
     if _git(repo_root, "rev-parse", "HEAD") != packet["foundation"]["commit"]:
         raise ValueError("foundation commit drift")
     if _git(repo_root, "rev-parse", "HEAD^{tree}") != \

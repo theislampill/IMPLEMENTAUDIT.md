@@ -262,6 +262,7 @@ def assert_production_shaped_rederive_finalize(module):
         )
         driver.live_validator = lambda packet, repo: packet
         driver.identity_validator = lambda packet, **paths: None
+        driver._validate_surfaces = lambda packet: None
         official = driver.finalize_luna_stage()
         assert official["cells"] == independent["cells"]
         assert official["disposition"] == "INCOMPLETE_PENDING_OPUS"
@@ -612,6 +613,7 @@ def main():
         )
         driver.live_validator = lambda packet, repo: packet
         driver.identity_validator = lambda packet, **paths: None
+        driver._validate_surfaces = lambda packet: None
         expect_error("disagree", driver.finalize_luna_stage)
 
     with tempfile.TemporaryDirectory() as tmp:

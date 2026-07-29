@@ -22,6 +22,8 @@ FORBIDDEN = {
     "candidate_matrix_campaign", "campaign_lifecycle", "b3v4_campaign",
     "b3v4_rederive", "b3v4_contract", "hosts", "runner", "adapters",
     "lib.scoring", "eval.lib.scoring",
+    "evaluated_surfaces", "eval.evaluated_surfaces",
+    "provisional_integration", "eval.provisional_integration",
 }
 LUNA_MODEL = "gpt-5.6-luna"
 CAPTURE_FILES = (
@@ -1050,6 +1052,20 @@ def main():
     packet["independent_rederiver"]["implementation_identity"]["sha256"] = \
         hashlib.sha256(MODULE.read_bytes()).hexdigest()
     module._validate_freeze_contract(packet)
+    for mutation in ("missing", "duplicate"):
+        changed = copy.deepcopy(packet)
+        if mutation == "missing":
+            changed["evaluated_surfaces"]["entries"].pop()
+        else:
+            changed["evaluated_surfaces"]["entries"][-1]["role"] = \
+                changed["evaluated_surfaces"]["entries"][0]["role"]
+        try:
+            module._validate_freeze_contract(changed)
+        except module.EvidenceInvalid:
+            pass
+        else:
+            raise AssertionError(
+                f"independent rederiver accepted {mutation} surface role")
     for alias in (14.0, True):
         changed = json.loads(json.dumps(packet))
         changed["attempt_policy"]["maximum_attempts"] = alias

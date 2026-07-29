@@ -46,6 +46,22 @@ FREEZE_FIELDS = {
     "repetitions_per_arm", "missions", "luna_stage", "evidence_profiles",
     "result_composition", "attempt_policy", "acceptance_rule",
     "invalid_error_rule", "stop_conditions", "independent_rederiver",
+    "evaluated_surfaces",
+}
+EVALUATED_SURFACE_ROLES = tuple(sorted((
+    "acceptance-rules", "adapter", "artifact-contract",
+    "authorization-acknowledgement", "checkout-runtime-topology",
+    "evaluator", "evidence-contract", "fixture-B3-v3",
+    "fixture-inventory", "host-attestation", "host-read-contract",
+    "host-runner", "independent-rederiver", "launcher",
+    "lifecycle-contract", "model-reasoning-host-identity",
+    "native-executable", "official-driver", "product-candidate",
+    "product-control", "prompt-construction-rules", "prompt-template",
+    "scorer", "seed-order-repetition-rules", "verdict-contract",
+)))
+EVALUATED_SURFACE_GIT_ROLES = {
+    "product-candidate", "product-control", "official-driver", "host-runner",
+    "scorer", "evaluator", "adapter", "independent-rederiver",
 }
 CONTRACT_ARTIFACTS = {
     "campaign_freeze", "owner_approval", "host_attestation",
@@ -127,6 +143,7 @@ STOP_CONDITIONS = [
 REDERIVER_IMPORT_BOUNDARY = [
     "eval.b3v4_campaign", "eval.hosts", "eval.runner", "eval.lib.scoring",
     "eval.adapters", "eval.campaign_lifecycle",
+    "eval.evaluated_surfaces", "eval.provisional_integration",
 ]
 CAPTURE_FILES = (
     "host-read-profile.json", "host-read-preimages.json",
@@ -810,6 +827,54 @@ def _repo_relative(value, owner):
     return normalized
 
 
+def _validate_evaluated_surfaces(value):
+    value = _exact_fields(
+        value, {"schema", "campaign", "entries"},
+        "evaluated surface manifest")
+    _expect(
+        value["schema"] == "implementaudit-evaluated-surfaces-v1" and
+        value["campaign"] == "b3v4-sol-luna-r2" and
+        type(value["entries"]) is list,
+        "evaluated surface manifest identity invalid")
+    roles = []
+    paths = []
+    for index, row in enumerate(value["entries"]):
+        allowed = {"role", "path", "byte_length", "sha256"}
+        if type(row) is dict and (
+                "git_commit" in row or "git_tree" in row):
+            allowed |= {"git_commit", "git_tree"}
+        row = _exact_fields(row, allowed, f"evaluated surface {index}")
+        role = row["role"]
+        _expect(type(role) is str and role in EVALUATED_SURFACE_ROLES,
+                f"evaluated surface {index} role invalid")
+        _expect(type(row["path"]) is str and bool(row["path"]) and
+                "\\" not in row["path"] and "\x00" not in row["path"] and
+                ".." not in pathlib.PurePosixPath(row["path"]).parts,
+                f"evaluated surface {role} path invalid")
+        _expect(type(row["byte_length"]) is int and
+                row["byte_length"] >= 0,
+                f"evaluated surface {role} length invalid")
+        _digest(row["sha256"], f"evaluated surface {role}.sha256")
+        git_fields = {"git_commit", "git_tree"} & set(row)
+        _expect(not git_fields or (
+            git_fields == {"git_commit", "git_tree"} and
+            role in EVALUATED_SURFACE_GIT_ROLES),
+            f"evaluated surface {role} Git identity fields invalid")
+        if git_fields:
+            _git_id(row["git_commit"],
+                    f"evaluated surface {role}.git_commit")
+            _git_id(row["git_tree"], f"evaluated surface {role}.git_tree")
+        roles.append(role)
+        paths.append(row["path"])
+    _expect(
+        roles == list(EVALUATED_SURFACE_ROLES) and
+        len(set(roles)) == len(roles),
+        "evaluated surface role coverage/order invalid")
+    _expect(len(set(paths)) == len(paths),
+            "evaluated surface path alias forbidden")
+    return value
+
+
 def _validate_freeze_contract(packet):
     """Independently validate every qualification-critical frozen semantic."""
     packet = _exact_fields(packet, FREEZE_FIELDS, "freeze packet")
@@ -820,6 +885,7 @@ def _validate_freeze_contract(packet):
             "freeze packet campaign invalid")
     _expect(packet["state"] == "FROZEN_BEFORE_FIRST_MISSION",
             "freeze packet state invalid")
+    _validate_evaluated_surfaces(packet["evaluated_surfaces"])
 
     artifact_contract = _exact_fields(
         packet["artifact_contract"], {"schema", "path", "sha256"},

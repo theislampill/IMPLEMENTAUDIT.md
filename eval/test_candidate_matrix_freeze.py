@@ -11,6 +11,7 @@ import pathlib
 import subprocess
 import tempfile
 
+import evaluated_surfaces as surfaces
 
 HERE = pathlib.Path(__file__).resolve().parent
 MODULE = HERE / "validate_candidate_matrix_freeze.py"
@@ -43,6 +44,19 @@ def valid_packet():
             "sha256": sha,
             "complete_manifest_sha256": sha,
         })
+    evaluated = {
+        "schema": surfaces.SCHEMA, "campaign": surfaces.MATRIX_CAMPAIGN,
+        "entries": [],
+    }
+    for index, role in enumerate(surfaces.required_roles(
+            surfaces.MATRIX_CAMPAIGN)):
+        row = {
+            "role": role, "path": f"surface/{index:02d}.bin",
+            "byte_length": 1, "sha256": sha,
+        }
+        if role in surfaces.GIT_IDENTITY_ROLES[surfaces.MATRIX_CAMPAIGN]:
+            row.update({"git_commit": commit, "git_tree": tree})
+        evaluated["entries"].append(row)
     return {
         "schema": "implementaudit-candidate-matrix-luna-freeze-v1",
         "campaign": "candidate-matrix-sol-luna-r1",
@@ -131,10 +145,12 @@ def valid_packet():
                 "eval.lib.scoring", "eval.adapters",
                 "eval.campaign_lifecycle", "eval.b3v4_campaign",
                 "eval.b3v4_rederive", "eval.b3v4_contract",
+                "eval.evaluated_surfaces", "eval.provisional_integration",
             ],
             "input": "retained raw evidence only",
             "output": "independent Luna matrix result",
         },
+        "evaluated_surfaces": evaluated,
     }
 
 
@@ -150,6 +166,14 @@ def main():
     module = load_module()
     packet = valid_packet()
     module.validate_structure(packet)
+    for mutation in ("missing", "duplicate"):
+        changed = copy.deepcopy(packet)
+        if mutation == "missing":
+            changed["evaluated_surfaces"]["entries"].pop()
+        else:
+            changed["evaluated_surfaces"]["entries"][-1]["path"] = \
+                changed["evaluated_surfaces"]["entries"][0]["path"]
+        reject(module, changed)
     assert [row["fixture"] for row in packet["cells"]] == FIXTURES
     mutations = []
     for cells in (packet["cells"][:-1],

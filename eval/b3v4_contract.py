@@ -22,7 +22,7 @@ FREEZE_FIELDS = {
     "authorization", "seed", "repetitions_per_arm", "missions",
     "luna_stage", "evidence_profiles", "result_composition", "attempt_policy",
     "acceptance_rule", "invalid_error_rule", "stop_conditions",
-    "independent_rederiver",
+    "independent_rederiver", "evaluated_surfaces",
 }
 PLAN = [
     ("L", "candidate", 1), ("L", "control", 1),

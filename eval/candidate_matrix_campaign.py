@@ -19,6 +19,7 @@ import hosts
 import runner
 import validate_candidate_matrix_freeze as freeze
 import candidate_matrix_contract as contract
+import evaluated_surfaces as surfaces
 
 
 STOP_STATES = frozenset({"FAIL", "INVALID", "ERROR"})
@@ -809,12 +810,18 @@ class CampaignDriver:
         self.identity_validator(
             packet, candidate_checkout=self.candidate_checkout)
 
+    def _validate_surfaces(self, packet):
+        if self.execution_mode == "production":
+            surfaces.revalidate_manifest(
+                packet["evaluated_surfaces"], root=self.repo_root)
+
     def _verify_frozen_binding(self, expected_sha):
         packet, raw, observed_sha = self._load_packet()
         if observed_sha != expected_sha:
             raise ValueError("frozen packet drift")
         self._ensure_campaign(raw, observed_sha, packet)
         self._validate_identities(packet)
+        self._validate_surfaces(packet)
 
     def _raise_if_campaign_andon(self, packet):
         path = self.campaign_root / CAMPAIGN_ANDON_NAME
@@ -921,6 +928,7 @@ class CampaignDriver:
         self._ensure_campaign(raw, packet_sha256, packet)
         self._validate_identities(packet)
         mission = self._next_mission(packet)
+        self._validate_surfaces(packet)
         fixture = _fixture_for_packet(self.repo_root, packet, mission)
         attempt_root = self._claim_attempt(mission, packet_sha256, packet)
         status = _read_object(attempt_root / "attempt-status.json",
@@ -946,6 +954,7 @@ class CampaignDriver:
         }
         executor_returned = False
         try:
+            self._validate_surfaces(packet)
             outcome = self.mission_executor(context)
             executor_returned = True
             if not isinstance(outcome, dict):
@@ -1296,6 +1305,7 @@ class CampaignDriver:
         packet, packet_raw, packet_sha256 = self._load_packet()
         self._ensure_campaign(packet_raw, packet_sha256, packet)
         self._validate_identities(packet)
+        self._validate_surfaces(packet)
         self._raise_if_campaign_andon(packet)
         independent_path = self.campaign_root / packet["luna_stage"][
             "independent_result_name"]
@@ -1343,6 +1353,7 @@ class CampaignDriver:
         packet, packet_raw, packet_sha256 = self._load_packet()
         self._ensure_campaign(packet_raw, packet_sha256, packet)
         self._validate_identities(packet)
+        self._validate_surfaces(packet)
         self._raise_if_campaign_andon(packet)
         independent_path = self.campaign_root / packet["luna_stage"][
             "independent_result_name"]
@@ -1465,6 +1476,14 @@ def main(argv=None):
         codex_auth_source=args.codex_auth_source)
     if args.operation == "run-next":
         terminal = driver.run_next()
+        if terminal.get("schema") == \
+                "implementaudit-candidate-matrix-campaign-andon-v1":
+            print(json.dumps({
+                "mission_index": terminal["mission_index"],
+                "overall_status": "ERROR",
+                "stop_reason": terminal["stop_reason"],
+            }, sort_keys=True))
+            return 2
         print(json.dumps({"mission_index": terminal["mission_index"],
                           "overall_status": terminal["overall_status"],
                           "stop_reason": terminal.get("stop_reason")},

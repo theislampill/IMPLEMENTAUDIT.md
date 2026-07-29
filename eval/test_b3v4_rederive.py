@@ -635,6 +635,8 @@ def assert_independent_import_boundary():
         "eval.campaign_lifecycle", "campaign_lifecycle",
         "eval.validate_b3v4_freeze", "validate_b3v4_freeze",
         "eval.b3v4_contract", "b3v4_contract",
+        "eval.evaluated_surfaces", "evaluated_surfaces",
+        "eval.provisional_integration", "provisional_integration",
     }
     assert not forbidden.intersection(imports), imports
 
@@ -1554,6 +1556,24 @@ def assert_host_root_junction_rejected(module):
 def main():
     assert_independent_import_boundary()
     module = load_module()
+    surface_packet = valid_packet()
+    surface_packet["independent_rederiver"]["implementation_identity"][
+        "sha256"] = hashlib.sha256(REDERIVER.read_bytes()).hexdigest()
+    module._validate_freeze_contract(surface_packet)
+    for mutation in ("missing", "duplicate"):
+        changed = copy.deepcopy(surface_packet)
+        if mutation == "missing":
+            changed["evaluated_surfaces"]["entries"].pop()
+        else:
+            changed["evaluated_surfaces"]["entries"][-1]["role"] = \
+                changed["evaluated_surfaces"]["entries"][0]["role"]
+        try:
+            module._validate_freeze_contract(changed)
+        except module.EvidenceInvalid:
+            pass
+        else:
+            raise AssertionError(
+                f"independent rederiver accepted {mutation} surface role")
     assert_host_root_junction_rejected(module)
     assert_independent_output_custody(module)
     assert_deep_cli_failure_normalized(module)

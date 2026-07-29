@@ -12,6 +12,7 @@ import subprocess
 import sys
 
 import b3v4_contract as contract
+import evaluated_surfaces as surfaces
 
 
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
@@ -48,6 +49,7 @@ REDERIVER_CONTRACT = "implementaudit-b3v4-luna-independent-rederiver-v2"
 REDERIVER_IMPORT_BOUNDARY = [
     "eval.b3v4_campaign", "eval.hosts", "eval.runner", "eval.lib.scoring",
     "eval.adapters", "eval.campaign_lifecycle",
+    "eval.evaluated_surfaces", "eval.provisional_integration",
 ]
 REDERIVER_INPUT = "retained raw evidence only"
 REDERIVER_OUTPUT = "independent Luna stage result"
@@ -57,6 +59,7 @@ REQUIRED = {
     "repetitions_per_arm", "missions", "luna_stage", "evidence_profiles",
     "result_composition", "attempt_policy", "acceptance_rule",
     "invalid_error_rule", "stop_conditions", "independent_rederiver",
+    "evaluated_surfaces",
 }
 
 
@@ -119,6 +122,8 @@ def validate_structure(packet):
         raise ValueError("campaign must be b3v4-sol-luna-r2")
     if packet["state"] != "FROZEN_BEFORE_FIRST_MISSION":
         raise ValueError("state must freeze the packet before the first mission")
+    surfaces.validate_manifest(
+        packet["evaluated_surfaces"], surfaces.B3_CAMPAIGN)
 
     foundation = _mapping(packet["foundation"], "foundation")
     _required(foundation, {"commit", "tree"}, "foundation")
@@ -316,7 +321,9 @@ def _git(repo, *args):
 
 
 def validate_live(packet, repo_root):
+    validate_structure(packet)
     repo_root = pathlib.Path(repo_root).resolve()
+    surfaces.revalidate_manifest(packet["evaluated_surfaces"], root=repo_root)
     contract_identity = packet["artifact_contract"]
     contract_path = contract.resolve_contained(repo_root, contract_identity["path"])
     if _sha256(contract_path) != contract_identity["sha256"]:
