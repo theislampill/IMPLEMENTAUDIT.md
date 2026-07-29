@@ -50,10 +50,12 @@ def lifecycle_rows(packet):
     digest = "a" * 64
     rows = {
         "campaign_manifest": {
-            "schema": "implementaudit-b3v4-luna-campaign-custody-v2",
+            "schema": "implementaudit-b3v4-luna-campaign-custody-v3",
             "campaign": "b3v4-sol-luna-r2", "freeze_sha256": digest,
             "contract_sha256": digest, "created_at": "2030-01-01T00:00:00Z",
             "execution_stage": "LUNA",
+            "campaign_root_identity": {
+                "device": 1, "inode": 2, "mode": 0o40755},
         },
         "attempt_status": {
             "schema": "implementaudit-b3v4-luna-attempt-status-v2",
@@ -327,6 +329,22 @@ def main():
         extra = copy.deepcopy(row); extra["extra"] = None
         rejected("key set", lambda name=schema_name, value=extra:
                  contract.validate_artifact(name, value))
+    for label, mutate in (
+            ("missing", lambda value:
+             value["campaign_root_identity"].pop("inode")),
+            ("extra", lambda value:
+             value["campaign_root_identity"].update({"generation": 1})),
+            ("bool", lambda value:
+             value["campaign_root_identity"].update({"device": True})),
+            ("string", lambda value:
+             value["campaign_root_identity"].update({"inode": "2"})),
+            ("non-directory", lambda value:
+             value["campaign_root_identity"].update({"mode": 0o100644}))):
+        changed = copy.deepcopy(rows["campaign_manifest"])
+        mutate(changed)
+        must_reject(
+            lambda value=changed:
+            contract.validate_artifact("campaign_manifest", value))
 
     attestation = {"id": "frozen-host", "shell_dialect": "posix",
                    "executables": {"python": "/usr/bin/python3"}}

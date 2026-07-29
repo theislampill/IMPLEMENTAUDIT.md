@@ -126,7 +126,11 @@ def _write_retained_readiness_fixture(
         report["campaign_root_binding"] = \
             preflight._campaign_directory_binding(
                 str(campaign_root), "test campaign root",
-                initialized=campaign_initialized)
+                initialized=campaign_initialized,
+                root_identity=(
+                    preflight._directory_identity(
+                        campaign_root, "test campaign root")
+                    if campaign_initialized else None))
         report["cross_host_validation"][
             "campaign_root_path"] = str(campaign_root)
     path = base / f"{campaign}-test-live-readiness.json"
@@ -562,7 +566,11 @@ def exercise_production_driver_timing(base, timing, mutation):
         driver._claim_attempt = mutate_before_executor
     else:
         raise AssertionError("unknown timing")
-    expect_error(None, driver.run_next)
+    if timing == "before-executor":
+        terminal = driver.run_next()
+        assert terminal["overall_status"] in ("ERROR", "INVALID"), terminal
+    else:
+        expect_error(None, driver.run_next)
     assert calls == []
     campaign_root = pathlib.Path(context["campaign_root"])
     attempts = (

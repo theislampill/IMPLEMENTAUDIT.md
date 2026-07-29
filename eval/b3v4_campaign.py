@@ -598,7 +598,10 @@ class CampaignDriver:
             "b3v4", packet, self.launch_readiness,
             execution_mode=self.execution_mode,
             live_context=self._load_launch_context(),
-            campaign_initialized=campaign_initialized)
+            campaign_initialized=campaign_initialized,
+            campaign_root_identity=(
+                self._campaign_root_identity
+                if campaign_initialized else None))
 
     def _verify_launch_readiness(self, attempt_root, status, packet):
         binding = status["launch_readiness_binding"]
@@ -608,7 +611,8 @@ class CampaignDriver:
             live_context=(self._load_launch_context()
                           if self.launch_context else None),
             retained_only=self.launch_context is None,
-            campaign_initialized=True)
+            campaign_initialized=True,
+            campaign_root_identity=self._campaign_root_identity)
         if (_sha256_bytes(raw) != binding["sha256"] or
                 report["schema"] != binding["schema"] or
                 report["execution_mode"] != binding["execution_mode"] or
@@ -635,14 +639,16 @@ class CampaignDriver:
             except FileExistsError as exc:
                 raise ValueError(
                     "campaign root create-once collision") from exc
+            root_identity = self._validate_campaign_root_identity()
             with open(frozen, "xb") as stream:
                 stream.write(raw)
             _write_new_json(manifest, {
-                "schema": "implementaudit-b3v4-luna-campaign-custody-v2",
+                "schema": "implementaudit-b3v4-luna-campaign-custody-v3",
                 "campaign": "b3v4-sol-luna-r2", "freeze_sha256": packet_sha256,
                 "contract_sha256": contract.contract_sha256(),
                 "created_at": _utc_now(),
                 "execution_stage": "LUNA",
+                "campaign_root_identity": root_identity,
             })
             self._load_launch_readiness(
                 packet, campaign_initialized=True)
@@ -652,6 +658,8 @@ class CampaignDriver:
         recorded = _read_object(
             manifest, "campaign manifest", root=self.campaign_root)
         contract.validate_artifact("campaign_manifest", recorded)
+        self._validate_campaign_root_identity(
+            recorded["campaign_root_identity"])
         if (recorded.get("campaign") != packet["campaign"] or
                 recorded.get("freeze_sha256") != packet_sha256 or
                 recorded.get("contract_sha256") != contract.contract_sha256() or
@@ -666,7 +674,7 @@ class CampaignDriver:
             (self.campaign_root / "campaign-freeze.json").is_file() and
             (self.campaign_root / "campaign-manifest.json").is_file())
 
-    def _validate_campaign_root_identity(self):
+    def _validate_campaign_root_identity(self, expected=None):
         try:
             resolved = self.campaign_root.resolve(strict=True)
             observed = os.lstat(self.campaign_root)
@@ -678,7 +686,22 @@ class CampaignDriver:
                 bool(getattr(observed, "st_file_attributes", 0) &
                      getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400))):
             raise ValueError("campaign root link or reparse alias forbidden")
-        identity = (observed.st_dev, observed.st_ino, observed.st_mode)
+        identity = {
+            "device": observed.st_dev,
+            "inode": observed.st_ino,
+            "mode": observed.st_mode,
+        }
+        if expected is not None:
+            if (type(expected) is not dict or
+                    set(expected) != {"device", "inode", "mode"} or
+                    any(type(expected[key]) is not int or expected[key] < 0
+                        for key in ("device", "inode", "mode")) or
+                    not stat.S_ISDIR(expected["mode"])):
+                raise ValueError(
+                    "campaign root physical identity invalid")
+            if expected != identity:
+                raise ValueError(
+                    "campaign root physical identity drift")
         if getattr(self, "_campaign_root_identity", None) is None:
             self._campaign_root_identity = identity
         elif self._campaign_root_identity != identity:
@@ -837,7 +860,8 @@ class CampaignDriver:
             "b3v4", packet, self.launch_readiness,
             execution_mode=self.execution_mode,
             live_context=self._load_launch_context(),
-            campaign_initialized=True)
+            campaign_initialized=True,
+            campaign_root_identity=self._campaign_root_identity)
         claiming.mkdir(exist_ok=False)
         with open(claiming / "host-attestation.json", "xb") as stream:
             stream.write(attestation_raw)
@@ -887,11 +911,16 @@ class CampaignDriver:
 
     def run_next(self):
         packet, raw, packet_sha256 = self._load_packet()
-        readiness, readiness_raw = self._load_launch_readiness(
-            packet,
-            campaign_initialized=self._campaign_custody_initialized())
+        campaign_initialized = self._campaign_custody_initialized()
+        readiness = readiness_raw = None
+        if not campaign_initialized:
+            readiness, readiness_raw = self._load_launch_readiness(
+                packet, campaign_initialized=False)
         fixture = _fixture_for_packet(self.repo_root, packet)
         self._ensure_campaign(raw, packet_sha256, packet)
+        if campaign_initialized:
+            readiness, readiness_raw = self._load_launch_readiness(
+                packet, campaign_initialized=True)
         self._validate_identities(packet)
         mission = self._next_mission(packet)
         self._validate_surfaces(packet)
@@ -901,18 +930,7 @@ class CampaignDriver:
             raise ValueError("live launch readiness changed before claim")
         attempt_root = self._claim_attempt(
             mission, packet_sha256, packet, reread_raw, reread)
-        status = _read_object(attempt_root / "attempt-status.json",
-                              "attempt status", root=self.campaign_root)
-        retained_attestation = self._verify_host_attestation(
-            attempt_root, status, mission, packet)
-        self._verify_launch_readiness(attempt_root, status, packet)
-        context = MissionContext(
-            packet=packet, packet_sha256=packet_sha256, mission=mission,
-            attempt_root=attempt_root,
-            candidate_checkout=self.candidate_checkout,
-            control_checkout=self.control_checkout,
-            runtime_root=self.runtime_root, attestations=self.attestations,
-            host_attestation=retained_attestation)
+        status = None
         terminal = {
             "schema": "implementaudit-b3v4-luna-attempt-terminal-v3",
             "campaign": "b3v4-sol-luna-r2", "mission_index": mission["index"],
@@ -925,6 +943,21 @@ class CampaignDriver:
         }
         try:
             self._validate_campaign_root_identity()
+            status = _read_object(
+                attempt_root / "attempt-status.json",
+                "attempt status", root=self.campaign_root)
+            retained_attestation = self._verify_host_attestation(
+                attempt_root, status, mission, packet)
+            self._verify_launch_readiness(
+                attempt_root, status, packet)
+            context = MissionContext(
+                packet=packet, packet_sha256=packet_sha256, mission=mission,
+                attempt_root=attempt_root,
+                candidate_checkout=self.candidate_checkout,
+                control_checkout=self.control_checkout,
+                runtime_root=self.runtime_root,
+                attestations=self.attestations,
+                host_attestation=retained_attestation)
             self._validate_surfaces(packet)
             live_again, live_again_raw = self._load_launch_readiness(
                 packet, campaign_initialized=True)
@@ -1067,11 +1100,12 @@ class CampaignDriver:
                 },
             })
         manifest_identity = {
-            "schema": "implementaudit-b3v4-luna-campaign-custody-v2",
+            "schema": "implementaudit-b3v4-luna-campaign-custody-v3",
             "campaign": packet["campaign"],
             "freeze_sha256": packet_sha256,
             "contract_sha256": packet["artifact_contract"]["sha256"],
             "execution_stage": "LUNA",
+            "campaign_root_identity": self._campaign_root_identity,
         }
         return {
             "name": packet["luna_stage"]["name"],

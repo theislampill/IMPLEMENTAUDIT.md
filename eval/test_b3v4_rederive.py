@@ -215,11 +215,16 @@ def build_campaign(root, fixture_override=None, *, surface_root=None,
     freeze_sha = sha(packet_bytes)
     write(root / "campaign-freeze.json", packet_bytes)
     write(root / "campaign-manifest.json", {
-        "schema": "implementaudit-b3v4-luna-campaign-custody-v2",
+        "schema": "implementaudit-b3v4-luna-campaign-custody-v3",
         "campaign": "b3v4-sol-luna-r2", "freeze_sha256": freeze_sha,
         "contract_sha256": packet["artifact_contract"]["sha256"],
         "created_at": "2030-01-01T00:00:00Z",
         "execution_stage": "LUNA",
+        "campaign_root_identity": {
+            "device": os.lstat(root).st_dev,
+            "inode": os.lstat(root).st_ino,
+            "mode": os.lstat(root).st_mode,
+        },
     })
     capsule_path = fixture["allowed_paths"][0]
     capsule = {
@@ -833,7 +838,17 @@ def mutate_jsonl(path, row_index, object_path, mode, key):
 
 def rebase_campaign_paths(root):
     """Make a copied synthetic campaign's absolute custody paths truthful."""
-    for attempt in pathlib.Path(root).glob("attempt-*"):
+    root = pathlib.Path(root)
+    root_stat = os.lstat(root)
+    manifest_path = root / "campaign-manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["campaign_root_identity"] = {
+        "device": root_stat.st_dev,
+        "inode": root_stat.st_ino,
+        "mode": root_stat.st_mode,
+    }
+    write(manifest_path, manifest)
+    for attempt in root.glob("attempt-*"):
         host_root = attempt / "host-custody" / attempt.name
         terminal_path = attempt / "attempt-terminal.json"
         terminal = json.loads(terminal_path.read_text(encoding="utf-8"))
@@ -1622,6 +1637,51 @@ def assert_host_root_junction_rejected(module):
 def main():
     assert_independent_import_boundary()
     module = load_module()
+    with tempfile.TemporaryDirectory(
+            prefix="b3v4-rederive-campaign-root-rebound-") as tmp:
+        root = pathlib.Path(tmp) / "campaign"
+        build_campaign(root)
+        original = root.with_name("campaign-original")
+        os.rename(root, original)
+        shutil.copytree(original, root)
+        try:
+            module.rederive_campaign(root / "campaign-freeze.json", root)
+        except module.EvidenceInvalid as exc:
+            assert "campaign root physical identity" in str(exc), str(exc)
+        else:
+            raise AssertionError(
+                "rederiver accepted copied campaign root identity")
+
+    for label, mutate in (
+            ("missing", lambda value:
+             value["campaign_root_identity"].pop("inode")),
+            ("extra", lambda value:
+             value["campaign_root_identity"].update({"generation": 1})),
+            ("bool", lambda value:
+             value["campaign_root_identity"].update({"device": True})),
+            ("string", lambda value:
+             value["campaign_root_identity"].update({"inode": "2"})),
+            ("drift", lambda value:
+             value["campaign_root_identity"].update({
+                 "inode": value["campaign_root_identity"]["inode"] + 1}))):
+        with tempfile.TemporaryDirectory(
+                prefix=f"b3v4-rederive-root-identity-{label}-") as tmp:
+            root = pathlib.Path(tmp) / "campaign"
+            build_campaign(root)
+            manifest_path = root / "campaign-manifest.json"
+            manifest = json.loads(
+                manifest_path.read_text(encoding="utf-8"))
+            mutate(manifest)
+            write(manifest_path, manifest)
+            try:
+                module.rederive_campaign(
+                    root / "campaign-freeze.json", root)
+            except module.EvidenceInvalid:
+                pass
+            else:
+                raise AssertionError(
+                    f"rederiver accepted {label} campaign root identity")
+
     # Governing RED R5: syntax-valid rebound surface identities must be checked
     # against retained bytes by the independent implementation.
     with tempfile.TemporaryDirectory(prefix="b3v4-surface-custody-red-") as tmp:

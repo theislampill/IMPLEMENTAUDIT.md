@@ -13,7 +13,7 @@ import campaign_lifecycle as lifecycle
 
 HERE = pathlib.Path(__file__).resolve().parent
 DECLARATION_PATH = HERE / "b3v4_contract.json"
-DECLARATION_SHA256 = "73d4af32e84011aa4f689029feebee7ff1f786a7b3b93eefd518baef4a8ec4d0"
+DECLARATION_SHA256 = "3805b07917458666ffe22d90105b1f7e61054dd5c187840595b1e35be41926c5"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 FREEZE_FIELDS = {
@@ -349,7 +349,7 @@ def validate_artifact(name, value):
     value = _exact(value, fields, name)
     schema = value.get("schema")
     expected = {
-        "campaign_manifest": "implementaudit-b3v4-luna-campaign-custody-v2",
+        "campaign_manifest": "implementaudit-b3v4-luna-campaign-custody-v3",
         "attempt_status": "implementaudit-b3v4-luna-attempt-status-v2",
         "attempt_terminal": "implementaudit-b3v4-luna-attempt-terminal-v3",
         "official_luna_result": "implementaudit-b3v4-luna-result-v2",
@@ -362,6 +362,15 @@ def validate_artifact(name, value):
     if name == "campaign_manifest":
         if value["execution_stage"] != "LUNA":
             raise ValueError("campaign manifest execution stage invalid")
+        identity = _exact(
+            value["campaign_root_identity"], {"device", "inode", "mode"},
+            "campaign manifest root identity")
+        for key in ("device", "inode", "mode"):
+            if type(identity[key]) is not int or identity[key] < 0:
+                raise ValueError(
+                    f"campaign manifest root identity {key} invalid")
+        if not stat.S_ISDIR(identity["mode"]):
+            raise ValueError("campaign manifest root identity mode invalid")
     if name == "attempt_status":
         validate_mission(value["mission"])
         if value["state"] != "PREPARED_BEFORE_HOST_SPAWN":

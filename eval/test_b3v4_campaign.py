@@ -79,6 +79,19 @@ def make_driver(module, root, executor):
     )
 
 
+def fresh_test_driver(module, previous, executor):
+    return module.CampaignDriver(
+        packet_path=previous.packet_path, repo_root=previous.repo_root,
+        campaign_root=previous.campaign_root,
+        candidate_checkout=previous.candidate_checkout,
+        control_checkout=previous.control_checkout,
+        runtime_root=previous.runtime_root,
+        attestations=previous.attestations, mission_executor=executor,
+        execution_mode="test", live_validator=previous.live_validator,
+        identity_validator=previous.identity_validator,
+        launch_readiness=previous.launch_readiness)
+
+
 FINAL_CLAIMS = {
     "final_12_of_12": False,
     "cross_model_qualified": False,
@@ -670,8 +683,75 @@ def assert_campaign_root_initialization_contract(module):
         assert terminal["error_type"] == "ValueError"
 
 
+def assert_fresh_driver_rejects_copied_campaign_root(module):
+    with tempfile.TemporaryDirectory(
+            prefix="b3v4-campaign-fresh-driver-rebound-") as tmp:
+        first_calls = []
+        first = make_driver(
+            module, tmp,
+            lambda context: first_calls.append(context) or
+            scored_outcome(context))
+        terminal = first.run_next()
+        assert terminal["overall_status"] == "PASS", terminal
+        assert len(first_calls) == 1
+
+        original = first.campaign_root.with_name("campaign-original")
+        os.rename(first.campaign_root, original)
+        shutil.copytree(original, first.campaign_root)
+
+        second_calls = []
+        fresh = fresh_test_driver(
+            module, first,
+            lambda context:
+                second_calls.append(context) or scored_outcome(context))
+        expect_error("campaign root physical identity", fresh.run_next)
+        assert second_calls == []
+        assert not (fresh.campaign_root /
+                    fresh._attempt_name(fresh._load_packet()[0]["missions"][1])
+                    ).exists()
+
+
+def assert_fresh_driver_lifecycle_and_final_root_checks(module):
+    with tempfile.TemporaryDirectory(
+            prefix="b3v4-campaign-fresh-lifecycle-") as tmp:
+        driver = make_driver(module, tmp, sealed_probe_outcome)
+        for _ in range(6):
+            terminal = driver.run_next()
+            assert terminal["overall_status"] == "PASS", terminal
+            driver = fresh_test_driver(
+                module, driver, sealed_probe_outcome)
+        write_independent_result(driver)
+        driver = fresh_test_driver(module, driver, sealed_probe_outcome)
+        result = driver.finalize_luna_stage()
+        assert result["luna_stage_accepted"] is True, result
+        driver = fresh_test_driver(module, driver, sealed_probe_outcome)
+        resumed = driver.validate_luna_stage()
+        assert resumed == result
+
+    for operation in ("finalize", "resume"):
+        with tempfile.TemporaryDirectory(
+                prefix=f"b3v4-campaign-root-rebound-{operation}-") as tmp:
+            driver = make_driver(module, tmp, sealed_probe_outcome)
+            for _ in range(6):
+                driver.run_next()
+            write_independent_result(driver)
+            if operation == "resume":
+                driver.finalize_luna_stage()
+            original = driver.campaign_root.with_name("campaign-original")
+            os.rename(driver.campaign_root, original)
+            shutil.copytree(original, driver.campaign_root)
+            fresh = fresh_test_driver(
+                module, driver, sealed_probe_outcome)
+            action = (fresh.finalize_luna_stage
+                      if operation == "finalize"
+                      else fresh.validate_luna_stage)
+            expect_error("campaign root physical identity", action)
+
+
 def main():
     module = load_driver()
+    assert_fresh_driver_rejects_copied_campaign_root(module)
+    assert_fresh_driver_lifecycle_and_final_root_checks(module)
     assert_campaign_root_initialization_contract(module)
     assert_exact_independent_result_comparison(module)
     assert_runtime_executable_parent_junction_rejected(module)

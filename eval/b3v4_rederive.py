@@ -88,7 +88,7 @@ CONTRACT_ARTIFACTS = {
 }
 CAMPAIGN_MANIFEST_FIELDS = {
     "schema", "campaign", "freeze_sha256", "contract_sha256", "created_at",
-    "execution_stage",
+    "execution_stage", "campaign_root_identity",
 }
 ATTEMPT_STATUS_FIELDS = {
     "schema", "campaign", "freeze_sha256", "contract_sha256", "mission",
@@ -231,7 +231,7 @@ def _exact_json_equal(left, right):
     return True
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
-CONTRACT_SHA256 = "73d4af32e84011aa4f689029feebee7ff1f786a7b3b93eefd518baef4a8ec4d0"
+CONTRACT_SHA256 = "3805b07917458666ffe22d90105b1f7e61054dd5c187840595b1e35be41926c5"
 OFFICIAL_STATES = frozenset({"PASS", "FAIL", "INVALID", "ERROR"})
 CONTINUE_STATES = frozenset({"PASS"})
 STOP_STATES = frozenset({"FAIL", "INVALID", "ERROR"})
@@ -342,6 +342,48 @@ def _sha(data):
 def _reparse_point(path_stat):
     return bool(getattr(path_stat, "st_file_attributes", 0) &
                 getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400))
+
+
+def _campaign_root_physical_identity(path):
+    root = pathlib.Path(path).absolute()
+    try:
+        canonical = root.resolve(strict=True)
+        before = os.lstat(root)
+        _expect(
+            canonical == root and not root.is_symlink() and
+            not _reparse_point(before) and stat.S_ISDIR(before.st_mode),
+            "campaign root physical identity invalid")
+        identity = {
+            "device": before.st_dev,
+            "inode": before.st_ino,
+            "mode": before.st_mode,
+        }
+        after = os.lstat(root)
+        _expect(
+            (before.st_dev, before.st_ino, before.st_mode) ==
+            (after.st_dev, after.st_ino, after.st_mode),
+            "campaign root physical identity changed")
+        return identity
+    except EvidenceInvalid:
+        raise
+    except (OSError, ValueError) as exc:
+        raise EvidenceInvalid(
+            "campaign root physical identity unavailable") from exc
+
+
+def _validate_campaign_root_physical_identity(value, path):
+    value = _exact_fields(
+        value, {"device", "inode", "mode"},
+        "campaign root physical identity")
+    _expect(
+        all(type(value[key]) is int and value[key] >= 0
+            for key in ("device", "inode", "mode")) and
+        stat.S_ISDIR(value["mode"]),
+        "campaign root physical identity invalid")
+    _expect(
+        value == _campaign_root_physical_identity(path),
+        "campaign root physical identity drift")
+    return value
 
 
 def _read_bytes(path):
@@ -1502,7 +1544,8 @@ def _validate_attempt_status(status, mission, freeze_sha, contract_sha, config):
     return status
 
 
-def _load_launch_readiness(attempt, status, packet):
+def _load_launch_readiness(
+        attempt, status, packet, campaign_root_identity):
     binding = status["launch_readiness_binding"]
     path = _contained(attempt, binding["path"], "launch readiness")
     report, raw = _read_json(path, "launch readiness")
@@ -1545,6 +1588,8 @@ def _load_launch_readiness(attempt, status, packet):
         None and
         campaign_binding["initial_state"] == "ABSENT_CREATE_ONCE",
         "launch readiness campaign root binding invalid")
+    _validate_campaign_root_physical_identity(
+        campaign_root_identity, attempt.parent)
     cross = _exact_fields(
         report["cross_host_validation"],
         {"status", "launcher_path", "native_executable_path",
@@ -3119,7 +3164,9 @@ def _official_disagreement_row(mission, properties, independent_properties,
     }
 
 
-def _rederive_attempt(packet, campaign_root, mission, freeze_sha):
+def _rederive_attempt(
+        packet, campaign_root, mission, freeze_sha,
+        campaign_root_identity):
     name = _attempt_name(mission)
     attempt = campaign_root / name
     try:
@@ -3132,7 +3179,7 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha):
             packet["artifact_contract"]["sha256"], config)
         _, attestation_raw = _load_host_attestation(attempt, status, config)
         _, readiness_raw = _load_launch_readiness(
-            attempt, status, packet)
+            attempt, status, packet, campaign_root_identity)
         terminal = _validate_attempt_terminal(terminal, mission)
         expected_model = config["model_resolved_required"]
         if (terminal["overall_status"] in STOP_STATES and
@@ -3231,17 +3278,23 @@ def rederive_campaign(packet_path, campaign_root, surface_root=None):
     campaign_root = pathlib.Path(campaign_root).absolute()
     surface_root = (campaign_root if surface_root is None else
                     pathlib.Path(surface_root).absolute())
+    observed_root_identity = _campaign_root_physical_identity(campaign_root)
+    custody, _ = _read_json(campaign_root / "campaign-manifest.json",
+                            "campaign manifest")
+    custody = _exact_fields(
+        custody, CAMPAIGN_MANIFEST_FIELDS, "campaign manifest")
+    _validate_campaign_root_physical_identity(
+        custody["campaign_root_identity"], campaign_root)
+    _expect(
+        custody["campaign_root_identity"] == observed_root_identity,
+        "campaign root physical identity changed")
     packet, packet_bytes = _read_json(packet_path, "freeze packet")
     _validate_freeze_contract(packet, surface_root)
     frozen = _read_bytes(campaign_root / "campaign-freeze.json")
     _expect(frozen == packet_bytes, "campaign frozen packet drift")
     freeze_sha = _sha(frozen)
-    custody, _ = _read_json(campaign_root / "campaign-manifest.json",
-                            "campaign manifest")
-    custody = _exact_fields(
-        custody, CAMPAIGN_MANIFEST_FIELDS, "campaign manifest")
     _expect(custody["schema"] ==
-            "implementaudit-b3v4-luna-campaign-custody-v2" and
+            "implementaudit-b3v4-luna-campaign-custody-v3" and
             custody["campaign"] == packet["campaign"] and
             custody["freeze_sha256"] == freeze_sha and
             custody["contract_sha256"] ==
@@ -3283,7 +3336,9 @@ def rederive_campaign(packet_path, campaign_root, surface_root=None):
         _expect((attempt / "attempt-status.json").is_file() and
                 (attempt / "attempt-terminal.json").is_file(),
                 "attempt lifecycle is nonterminal")
-    rows = [_rederive_attempt(packet, campaign_root, mission, freeze_sha)
+    rows = [_rederive_attempt(
+                packet, campaign_root, mission, freeze_sha,
+                custody["campaign_root_identity"])
             for mission in packet["missions"][:completed_count]]
     first_stop = next((index for index, row in enumerate(rows)
                        if row["overall_status"] in STOP_STATES), None)

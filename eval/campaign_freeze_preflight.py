@@ -126,7 +126,7 @@ def _absolute_directory(path, owner):
     return lexical
 
 
-def _directory_identity_sha(path, owner):
+def _directory_identity(path, owner):
     directory = _absolute_directory(str(path), owner)
     before = os.lstat(directory)
     identity = {
@@ -138,8 +138,25 @@ def _directory_identity_sha(path, owner):
     if ((before.st_dev, before.st_ino, before.st_mode) !=
             (after.st_dev, after.st_ino, after.st_mode)):
         raise ValueError(f"{owner} identity changed during custody read")
-    return hashlib.sha256(
-        lifecycle.canonical_json_bytes(identity)).hexdigest()
+    return identity
+
+
+def _directory_identity_sha(path, owner):
+    return hashlib.sha256(lifecycle.canonical_json_bytes(
+        _directory_identity(path, owner))).hexdigest()
+
+
+def _validate_directory_identity(value, path, owner):
+    value = _exact(
+        value, {"device", "inode", "mode"}, f"{owner} identity")
+    for key in ("device", "inode", "mode"):
+        if type(value[key]) is not int or value[key] < 0:
+            raise ValueError(f"{owner} identity {key} invalid")
+    if not stat.S_ISDIR(value["mode"]):
+        raise ValueError(f"{owner} identity mode invalid")
+    if value != _directory_identity(path, owner):
+        raise ValueError(f"{owner} physical identity drift")
+    return value
 
 
 def _absent_directory_binding(path, owner):
@@ -170,7 +187,8 @@ def _absent_directory_binding(path, owner):
     }
 
 
-def _campaign_directory_binding(path, owner, *, initialized):
+def _campaign_directory_binding(
+        path, owner, *, initialized, root_identity=None):
     if initialized is not True:
         return _absent_directory_binding(path, owner)
     if type(path) is not str or not pathlib.Path(path).is_absolute():
@@ -181,6 +199,10 @@ def _campaign_directory_binding(path, owner, *, initialized):
         raise ValueError(f"{owner} path must be exact")
     parent = _absolute_directory(str(lexical.parent), f"{owner} parent")
     _absolute_directory(str(lexical), owner)
+    if root_identity is None:
+        raise ValueError(
+            f"{owner} persisted physical identity required")
+    _validate_directory_identity(root_identity, lexical, owner)
     return {
         "path": str(lexical),
         "parent_path": str(parent),
@@ -293,7 +315,8 @@ def _path_matches_surface(path, row, root, owner):
 
 
 def _derive_production_live_ready(
-        campaign, packet, context, *, campaign_initialized=False):
+        campaign, packet, context, *, campaign_initialized=False,
+        campaign_root_identity=None):
     if campaign not in PRODUCTION_CONTEXT_FIELDS:
         raise ValueError("live READY campaign invalid")
     _exact(
@@ -350,7 +373,8 @@ def _derive_production_live_ready(
     if campaign == "b3v4":
         campaign_binding = _campaign_directory_binding(
             context["campaign_root"], "live READY campaign root",
-            initialized=campaign_initialized)
+            initialized=campaign_initialized,
+            root_identity=campaign_root_identity)
         campaign_root = pathlib.Path(campaign_binding["path"])
 
     launcher = _regular_path(
@@ -503,7 +527,8 @@ def author_production_live_ready(campaign, packet, context, output):
 
 def validate_live_ready(campaign, packet, report_path,
                         *, execution_mode="production", live_context=None,
-                        retained_only=False, campaign_initialized=False):
+                        retained_only=False, campaign_initialized=False,
+                        campaign_root_identity=None):
     """Validate the separate packet-bound live launch boundary.
 
     This function never reads authentication contents.  Test-only evidence is
@@ -629,7 +654,8 @@ def validate_live_ready(campaign, packet, report_path,
             "live READY campaign parent identity")
         observed_campaign = _campaign_directory_binding(
             campaign_binding["path"], "live READY campaign root",
-            initialized=campaign_initialized)
+            initialized=campaign_initialized,
+            root_identity=campaign_root_identity)
         if observed_campaign != campaign_binding:
             raise ValueError("live READY campaign root binding drift")
         campaign_path = pathlib.Path(campaign_binding["path"])
@@ -707,7 +733,8 @@ def validate_live_ready(campaign, packet, report_path,
                 "live launch context is production-only")
         derived = _derive_production_live_ready(
             campaign, packet, live_context,
-            campaign_initialized=campaign_initialized)
+            campaign_initialized=campaign_initialized,
+            campaign_root_identity=campaign_root_identity)
         if lifecycle.canonical_json_bytes(derived) != raw:
             raise ValueError(
                 "live READY report does not match current launch context")
