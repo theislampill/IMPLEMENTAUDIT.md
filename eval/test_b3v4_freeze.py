@@ -546,10 +546,12 @@ def main():
         assert owner_rejected.returncode == 2, owner_rejected
         assert "duplicate JSON key" in owner_rejected.stderr, \
             owner_rejected.stderr
-        for label, scalar in (("bool", True), ("integer", 7)):
+        for label, scalar in (
+                ("bool", True), ("integer", 7), ("null", None),
+                ("list", []), ("object", {})):
             wrong_git_type = copy.deepcopy(packet)
-            wrong_git_type["evaluated_surface_owners"]["roles"]["scorer"][
-                "git_commit"] = scalar
+            wrong_git_type["evaluated_surface_owners"]["roles"][
+                "prompt-template"]["path"] = scalar
             intent.write_text(
                 json.dumps(wrong_git_type, sort_keys=True),
                 encoding="utf-8")

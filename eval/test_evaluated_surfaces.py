@@ -18,6 +18,8 @@ import test_b3v4_freeze as b3_freeze_test
 import test_candidate_matrix_freeze as matrix_freeze_test
 import test_b3v4_campaign as b3_campaign_test
 import test_candidate_matrix_campaign as matrix_campaign_test
+import b3v4_rederive
+import candidate_matrix_rederive
 
 
 def expect_error(fragment, action):
@@ -27,6 +29,29 @@ def expect_error(fragment, action):
         assert fragment in str(exc), str(exc)
     else:
         raise AssertionError(f"expected failure containing {fragment!r}")
+
+
+def expect_value_error(action):
+    try:
+        action()
+    except ValueError:
+        return
+    except Exception as exc:
+        raise AssertionError(
+            f"owner rejection escaped as {type(exc).__name__}: {exc}") from exc
+    raise AssertionError("invalid owner scalar accepted")
+
+
+def expect_independent_invalid(module, action):
+    try:
+        action()
+    except module.EvidenceInvalid:
+        return
+    except Exception as exc:
+        raise AssertionError(
+            f"independent owner rejection escaped as "
+            f"{type(exc).__name__}: {exc}") from exc
+    raise AssertionError("independent validator accepted invalid owner scalar")
 
 
 def _files(root, campaign):
@@ -129,6 +154,157 @@ def _semantic_owner_negative_matrix():
         expect_error("campaign", lambda p=substituted:
                      validator.validate_structure(p))
 
+        # Every closed owner class rejects every non-string JSON scalar before
+        # comparison, regex, path, or string operations.
+        exemplars = (
+            ("acceptance-rules", ("kind",)),
+            ("artifact-contract", ("kind",)),
+            ("scorer", ("kind", "artifact", "git_commit", "git_tree")),
+            (next(role for role in roles if role.startswith("fixture-")),
+             ("kind", "fixture_id")),
+            ("independent-rederiver",
+             ("kind", "git_commit", "git_tree")),
+            ("native-executable", ("kind",)),
+            ("product-candidate", ("kind", "packet_owner", "path")),
+            ("host-attestation", ("kind", "path")),
+            ("adapter", ("kind", "sha256", "git_commit", "git_tree")),
+            ("prompt-template", ("kind", "path", "sha256")),
+        )
+        independent = (
+            b3v4_rederive if campaign == surfaces.B3_CAMPAIGN
+            else candidate_matrix_rederive)
+        for role, fields in exemplars:
+            for field in fields:
+                for scalar in (True, 7, None, [], {}):
+                    malformed = copy.deepcopy(packet)
+                    malformed["evaluated_surface_owners"]["roles"][role][
+                        field] = scalar
+                    expect_value_error(
+                        lambda p=malformed: validator.validate_structure(p))
+                    expect_independent_invalid(
+                        independent,
+                        lambda p=malformed, m=independent:
+                        m._validate_freeze_contract(p))
+
+
+def _projection_publication_red():
+    packet = b3_freeze_test.valid_packet()
+    with tempfile.TemporaryDirectory(
+            prefix="evaluated-projection-publication-") as tmp:
+        base = pathlib.Path(tmp)
+        root = base / "root"
+        outside = base / "outside"
+        root.mkdir()
+        outside.mkdir()
+        projection = root / "evaluated-surface-projections"
+
+        if os.name == "nt":
+            made = subprocess.run(
+                ["cmd", "/c", "mklink", "/J", str(projection), str(outside)],
+                capture_output=True, text=True)
+            if made.returncode:
+                print("PROJECTION_PARENT_JUNCTION=SKIP")
+            else:
+                try:
+                    expect_error(
+                        "link or reparse",
+                        lambda: surfaces.build_manifest_from_packet(
+                            copy.deepcopy(packet), surfaces.B3_CAMPAIGN,
+                            root=root))
+                    assert not tuple(outside.iterdir()), (
+                        "projection rejection wrote outside the surface root")
+                finally:
+                    os.rmdir(projection)
+                print("PROJECTION_PARENT_JUNCTION=PASS")
+
+        try:
+            projection.symlink_to(outside, target_is_directory=True)
+        except OSError:
+            print("PROJECTION_PARENT_SYMLINK=SKIP")
+        else:
+            try:
+                expect_error(
+                    "link or reparse",
+                    lambda: surfaces.build_manifest_from_packet(
+                        copy.deepcopy(packet), surfaces.B3_CAMPAIGN, root=root))
+                assert not tuple(outside.iterdir()), (
+                    "symlink rejection wrote outside the surface root")
+            finally:
+                projection.unlink()
+            print("PROJECTION_PARENT_SYMLINK=PASS")
+
+        projection.mkdir()
+        leaf = projection / "acceptance-rules.json"
+        raw = surfaces.projection_bytes(
+            packet, surfaces.B3_CAMPAIGN, "acceptance-rules")
+        source = base / "hardlink-source.json"
+        source.write_bytes(raw)
+        os.link(source, leaf)
+        expect_error(
+            "hardlink",
+            lambda: surfaces.build_manifest_from_packet(
+                copy.deepcopy(packet), surfaces.B3_CAMPAIGN, root=root))
+        assert source.read_bytes() == raw
+        assert leaf.exists()
+        print("PROJECTION_LEAF_HARDLINK=PASS")
+        leaf.unlink()
+        source.unlink()
+
+        leaf.write_bytes(raw)
+        expect_error(
+            "create-once",
+            lambda: surfaces.build_manifest_from_packet(
+                copy.deepcopy(packet), surfaces.B3_CAMPAIGN, root=root))
+        assert leaf.read_bytes() == raw
+        assert tuple(projection.iterdir()) == (leaf,)
+        leaf.unlink()
+        print("PROJECTION_LEAF_PREEXISTING=PASS")
+
+        # Deterministically replace the validated parent immediately before
+        # the first leaf open. The before-write identity check must disconfirm
+        # the parent and leave the replacement target empty.
+        if os.name == "nt":
+            original_identity = surfaces._stable_directory_identity
+            parent_checks = 0
+
+            def swap_before_open(path, owner):
+                nonlocal parent_checks
+                if pathlib.Path(path).absolute() == projection.absolute():
+                    parent_checks += 1
+                    if parent_checks == 2:
+                        os.rmdir(projection)
+                        made = subprocess.run(
+                            ["cmd", "/c", "mklink", "/J", str(projection),
+                             str(outside)], capture_output=True, text=True)
+                        assert made.returncode == 0, made.stderr
+                return original_identity(path, owner)
+
+            surfaces._stable_directory_identity = swap_before_open
+            try:
+                expect_error(
+                    "link or reparse",
+                    lambda: surfaces.build_manifest_from_packet(
+                        copy.deepcopy(packet), surfaces.B3_CAMPAIGN, root=root))
+                assert not tuple(outside.iterdir())
+            finally:
+                surfaces._stable_directory_identity = original_identity
+                if projection.exists():
+                    os.rmdir(projection)
+            projection.mkdir()
+            print("PROJECTION_PARENT_SWAP=PASS")
+
+        # A later retained-input rejection rolls back every projection created
+        # by this invocation, including the newly-created parent.
+        rollback_root = base / "rollback-root"
+        rollback_root.mkdir()
+        expect_error(
+            "cannot be read",
+            lambda: surfaces.build_manifest_from_packet(
+                copy.deepcopy(packet), surfaces.B3_CAMPAIGN,
+                root=rollback_root))
+        assert not (rollback_root / "evaluated-surface-projections").exists()
+        print("PROJECTION_REJECTION_NO_RESIDUE=PASS")
+
 
 def main():
     evaluated_surface_forbidden = {
@@ -155,6 +331,7 @@ def main():
     print("EVALUATED_SURFACE_STATIC_BOUNDARY=PASS")
     _semantic_owner_negative_matrix()
     print("EVALUATED_SURFACE_SEMANTIC_OWNER_MATRIX=PASS")
+    _projection_publication_red()
 
     with tempfile.TemporaryDirectory() as tmp:
         root = pathlib.Path(tmp).resolve()

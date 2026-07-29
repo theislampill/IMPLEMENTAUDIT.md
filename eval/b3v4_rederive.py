@@ -1024,6 +1024,10 @@ def _validate_surface_owners(packet):
     }
     for role in EVALUATED_SURFACE_ROLES:
         owner = owners[role]
+        _expect(
+            type(owner) is dict and owner and
+            all(type(value) is str and value for value in owner.values()),
+            f"evaluated surface owner {role} scalar types invalid")
         git = {}
         raw = None
         if role in inline:

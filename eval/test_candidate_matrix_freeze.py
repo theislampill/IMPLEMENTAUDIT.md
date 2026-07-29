@@ -363,6 +363,21 @@ def main():
             capture_output=True, text=True, timeout=30)
         assert proc.returncode == 1
         assert "duplicate JSON key" in proc.stderr
+        for label, scalar in (
+                ("bool", True), ("integer", 7), ("null", None),
+                ("list", []), ("object", {})):
+            wrong_owner_type = copy.deepcopy(packet)
+            wrong_owner_type["evaluated_surface_owners"]["roles"][
+                "prompt-template"]["path"] = scalar
+            path.write_text(
+                json.dumps(wrong_owner_type, sort_keys=True),
+                encoding="utf-8")
+            proc = subprocess.run(
+                ["python", str(MODULE), str(path)],
+                capture_output=True, text=True, timeout=30)
+            assert proc.returncode == 1, (label, proc)
+            assert "INVALID" in proc.stderr, (label, proc.stderr)
+            assert "Traceback" not in proc.stderr, (label, proc.stderr)
     print("candidate matrix freeze: PASS")
 
 
