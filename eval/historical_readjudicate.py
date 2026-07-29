@@ -13,17 +13,33 @@ import campaign_lifecycle as lifecycle
 
 
 INVENTORY_SCHEMA = "implementaudit-historical-bundle-inventory-v1"
-DECISION_SCHEMA = "implementaudit-historical-corrected-decision-v1"
+DECISION_SCHEMA = "implementaudit-historical-corrected-decision-v2"
 EVALUATOR_SCHEMA = "implementaudit-historical-evaluator-manifest-v1"
 RECORD_SCHEMA = "implementaudit-historical-readjudication-record-v1"
 AGGREGATE_SCHEMA = "implementaudit-historical-readjudication-aggregate-v1"
 STATUSES = {"PASS", "FAIL", "INVALID", "ERROR"}
+PROPERTY_FIELDS = {"state", "pass", "evidence", "describes", "basis"}
+HOST_FINDING_FIELDS = {"gate", "status", "evidence", "reason"}
+HOST_SAFETY_FIELDS = {
+    "schema", "status", "failed_invariant", "failed_status", "findings",
+}
+ADJUDICATION_FIELDS = {
+    "schema", "product_status", "host_status", "overall_status",
+    "property_evidence_complete", "all_required_properties_true",
+    "product_failed_invariant", "host_failed_invariant",
+    "host_failed_status", "failed_domain", "failed_invariant",
+}
 ORIGINS = {
     "product-skill", "evaluator-scorer", "fixture-acceptance-contract",
     "host-adapter-runtime", "evidence-custody-identity",
     "transport-infrastructure", "mixed", "unresolved",
     "no-proven-reclassification",
 }
+EVALUATOR_SOURCES = (
+    "eval/historical_readjudicate.py",
+    "eval/lib/verdict.py",
+    "eval/lib/reporting.py",
+)
 
 
 def _sha(raw):
@@ -58,6 +74,155 @@ def _exact(value, fields, owner):
 def _string(value, owner):
     if type(value) is not str or not value:
         raise ValueError(f"{owner} must be a nonempty string")
+
+
+def validate_corrected_verdict_v3(corrected, fixture):
+    """Independently validate the complete corrected layered verdict view."""
+    fields = {
+        "schema", "overall_status", "product_status", "host_status",
+        "model_substitution", "property_contract", "properties",
+        "host_safety", "adjudication", "failed_domain",
+        "failed_invariant", "verdict_evidence", "reason",
+    }
+    if type(corrected) is not dict or set(corrected) != fields:
+        raise ValueError("corrected verdict-v3 layer fields invalid")
+    if corrected["schema"] != "implementaudit-historical-corrected-verdict-v2":
+        raise ValueError("corrected verdict-v3 schema invalid")
+    if type(fixture) is not dict or type(fixture.get("properties")) is not list:
+        raise ValueError("corrected verdict-v3 authoritative fixture invalid")
+    contract = corrected["property_contract"]
+    expected_contract = []
+    for spec in fixture["properties"]:
+        if type(spec) is not dict:
+            raise ValueError("corrected verdict-v3 fixture property invalid")
+        row = {
+            "name": spec.get("name"),
+            "required": spec.get("required", True),
+            "describes": spec.get("describes", ""),
+        }
+        if (type(row["name"]) is not str or not row["name"] or
+                type(row["required"]) is not bool or
+                type(row["describes"]) is not str):
+            raise ValueError("corrected verdict-v3 fixture property invalid")
+        expected_contract.append(row)
+    names = [row["name"] for row in expected_contract]
+    required = [
+        row["name"] for row in expected_contract if row["required"]]
+    if not required or len(names) != len(set(names)) or \
+            contract != expected_contract:
+        raise ValueError("corrected verdict-v3 property contract invalid")
+    properties = corrected["properties"]
+    if type(properties) is not dict or set(properties) != set(names):
+        raise ValueError("corrected verdict-v3 property coverage invalid")
+    complete = True
+    values = {}
+    evidence = []
+    for spec in expected_contract:
+        item = properties[spec["name"]]
+        if type(item) is not dict or set(item) != PROPERTY_FIELDS:
+            raise ValueError("corrected verdict-v3 property row invalid")
+        state, passed = item["state"], item["pass"]
+        if (state not in ("PASS", "FAIL", "INCOMPLETE") or
+                (state == "PASS" and passed is not True) or
+                (state == "FAIL" and passed is not False) or
+                (state == "INCOMPLETE" and passed is not None) or
+                item["describes"] != spec["describes"] or
+                type(item["evidence"]) is not str or not item["evidence"] or
+                type(item["basis"]) is not str or not item["basis"]):
+            raise ValueError(
+                "corrected verdict-v3 property contradiction")
+        if spec["name"] in required:
+            complete = complete and state in ("PASS", "FAIL")
+        values[spec["name"]] = passed
+        evidence.append(f"{spec['name']}: {item['evidence']}")
+    host = corrected["host_safety"]
+    if type(host) is not dict or set(host) != HOST_SAFETY_FIELDS or \
+            type(host["findings"]) is not list:
+        raise ValueError("corrected verdict-v3 host safety invalid")
+    severity = {"PASS": 0, "FAIL": 1, "INVALID": 2, "ERROR": 3}
+    for finding in host["findings"]:
+        if (type(finding) is not dict or
+                set(finding) != HOST_FINDING_FIELDS or
+                type(finding["gate"]) is not str or not finding["gate"] or
+                finding["status"] not in severity or
+                type(finding["evidence"]) is not list or
+                not finding["evidence"] or
+                any(type(item) is not str or not item
+                    for item in finding["evidence"]) or
+                (finding["reason"] is not None and
+                 (type(finding["reason"]) is not str or
+                  not finding["reason"]))):
+            raise ValueError("corrected verdict-v3 host finding invalid")
+        evidence.extend(
+            f"host:{finding['gate']}: {item}"
+            for item in finding["evidence"])
+    host_status = max(
+        (row["status"] for row in host["findings"]),
+        key=lambda value: severity[value], default="PASS")
+    first_host = next(
+        (row for row in host["findings"] if row["status"] != "PASS"), None)
+    worst_host = next(
+        (row for row in host["findings"]
+         if row["status"] == host_status), None)
+    all_true = (all(values[name] is True for name in required)
+                if complete else None)
+    product_status = ("PASS" if all_true else "FAIL") \
+        if complete else "INCOMPLETE"
+    if host_status == "ERROR":
+        overall = "ERROR"
+    elif host_status == "INVALID" or product_status == "INCOMPLETE":
+        overall = "INVALID"
+    elif host_status == "FAIL" or product_status == "FAIL":
+        overall = "FAIL"
+    else:
+        overall = "PASS"
+    product_failed = next(
+        (name for name in required
+         if properties[name]["state"] == "FAIL"), None)
+    if overall in ("INVALID", "ERROR"):
+        failed_domain = ("infrastructure" if overall == "ERROR"
+                         else "identity-custody-or-evidence")
+        failed_invariant = ((worst_host or {}).get("gate") or
+                            "property-evidence-incomplete")
+    elif product_failed:
+        failed_domain, failed_invariant = "product-property", product_failed
+    elif worst_host:
+        failed_domain, failed_invariant = "host-safety", worst_host["gate"]
+    else:
+        failed_domain = failed_invariant = None
+    expected_host = {
+        "schema": "implementaudit-host-safety-v1",
+        "status": host_status,
+        "failed_invariant": (first_host or {}).get("gate"),
+        "failed_status": (first_host or {}).get("status"),
+        "findings": host["findings"],
+    }
+    expected_adjudication = {
+        "schema": "implementaudit-eval-adjudication-v1",
+        "product_status": product_status, "host_status": host_status,
+        "overall_status": overall,
+        "property_evidence_complete": complete,
+        "all_required_properties_true": all_true,
+        "product_failed_invariant": product_failed,
+        "host_failed_invariant": (first_host or {}).get("gate"),
+        "host_failed_status": (first_host or {}).get("status"),
+        "failed_domain": failed_domain, "failed_invariant": failed_invariant,
+    }
+    if (host != expected_host or
+            corrected["adjudication"] != expected_adjudication or
+            corrected["overall_status"] != overall or
+            corrected["product_status"] != product_status or
+            corrected["host_status"] != host_status or
+            type(corrected["model_substitution"]) is not bool or
+            corrected["failed_domain"] != failed_domain or
+            corrected["failed_invariant"] != failed_invariant or
+            corrected["verdict_evidence"] != evidence or
+            (overall == "PASS" and corrected["reason"] is not None) or
+            (overall != "PASS" and
+             (type(corrected["reason"]) is not str or
+              not corrected["reason"]))):
+        raise ValueError("corrected verdict-v3 layered aggregate invalid")
+    return corrected
 
 
 def _validate_inventory(value):
@@ -113,6 +278,41 @@ def _validate_inventory(value):
         raise ValueError("historical candidate/control cell coverage invalid")
 
 
+def _git_identity(repo):
+    try:
+        commit = subprocess.run(
+            ["git", "-C", str(repo), "rev-parse", "HEAD"],
+            check=True, capture_output=True, text=True).stdout.strip()
+        tree = subprocess.run(
+            ["git", "-C", str(repo), "show", "-s", "--format=%T", "HEAD"],
+            check=True, capture_output=True, text=True).stdout.strip()
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise ValueError("historical evaluator Git identity unavailable") from exc
+    return commit, tree
+
+
+def expected_evaluator_manifest():
+    repo = pathlib.Path(__file__).resolve().parent.parent
+    commit, tree = _git_identity(repo)
+    sources = []
+    for relative in EVALUATOR_SOURCES:
+        path = repo / pathlib.PurePosixPath(relative)
+        raw = lifecycle.read_custodied_bytes(
+            path, f"historical evaluator source {relative}", root=repo)
+        observed = os.lstat(path)
+        if (not stat.S_ISREG(observed.st_mode) or observed.st_nlink != 1):
+            raise ValueError(
+                "historical evaluator source must be single-link")
+        sources.append({"path": relative, "sha256": _sha(raw)})
+    return {
+        "schema": EVALUATOR_SCHEMA,
+        "name": "corrected-layered-adjudicator",
+        "git_commit": commit, "git_tree": tree, "sources": sources,
+        "network_used": False, "model_used": False,
+        "rescoring_performed": False,
+    }
+
+
 def _validate_evaluator(value):
     _exact(value, {
         "schema", "name", "git_commit", "git_tree", "sources",
@@ -136,6 +336,8 @@ def _validate_evaluator(value):
             value["model_used"] is not False or
             value["rescoring_performed"] is not False):
         raise ValueError("historical lane must not use network/model/rescoring")
+    if value != expected_evaluator_manifest():
+        raise ValueError("historical evaluator live identity mismatch")
 
 
 def _source_manifest(row):
@@ -237,9 +439,11 @@ def _source_manifest(row):
     return run_root, raw_bundle, manifest
 
 
-def _validate_decision(value, row, inventory_sha256):
+def _validate_decision(value, row, inventory_sha256,
+                       evaluator, evaluator_sha256):
     _exact(value, {
-        "schema", "source", "corrected_view",
+        "schema", "source", "evaluator_binding",
+        "re_adjudicator_identity", "corrected_view",
         "causal_classification", "uncertainty",
     }, "historical corrected decision")
     if value["schema"] != DECISION_SCHEMA:
@@ -263,16 +467,34 @@ def _validate_decision(value, row, inventory_sha256):
     })
     if source != expected:
         raise ValueError("historical corrected decision source mismatch")
-    corrected = value["corrected_view"]
-    _exact(corrected, {
-        "overall_status", "product_status", "host_status",
-        "model_substitution",
-    }, "historical corrected view")
-    if (corrected["overall_status"] not in STATUSES or
-            corrected["product_status"] not in STATUSES or
-            corrected["host_status"] not in STATUSES or
-            corrected["model_substitution"] is not False):
-        raise ValueError("historical corrected layered status invalid")
+    expected_evaluator = {
+        "sha256": evaluator_sha256, "name": evaluator["name"],
+        "git_commit": evaluator["git_commit"],
+        "git_tree": evaluator["git_tree"],
+        "sources": evaluator["sources"],
+    }
+    if value["evaluator_binding"] != expected_evaluator:
+        raise ValueError(
+            "historical corrected decision evaluator identity mismatch")
+    if value["re_adjudicator_identity"] != _implementation_identity():
+        raise ValueError(
+            "historical corrected decision re-adjudicator identity mismatch")
+    fixture_entry = row["key_file_hashes"].get("bundle/fixture.json")
+    if type(fixture_entry) is not dict:
+        raise ValueError(
+            "historical corrected decision fixture identity missing")
+    fixture, _ = _read_json(
+        fixture_entry["path"], "historical authoritative fixture",
+        fixture_entry["sha256"])
+    corrected = validate_corrected_verdict_v3(
+        value["corrected_view"], fixture)
+    identity = row.get("model_host_identity")
+    expected_substitution = (
+        identity.get("requested_model") != identity.get("resolved_model")
+        if type(identity) is dict else False)
+    if corrected["model_substitution"] is not expected_substitution:
+        raise ValueError(
+            "historical corrected model substitution identity invalid")
     causal = value["causal_classification"]
     _exact(causal, {"primary", "evidence"}, "historical causal classification")
     if (causal["primary"] not in ORIGINS or
@@ -307,15 +529,7 @@ def _implementation_identity():
     path = pathlib.Path(__file__).resolve()
     raw = path.read_bytes()
     repo = path.parent.parent
-    try:
-        commit = subprocess.run(
-            ["git", "-C", str(repo), "rev-parse", "HEAD"],
-            check=True, capture_output=True, text=True).stdout.strip()
-        tree = subprocess.run(
-            ["git", "-C", str(repo), "show", "-s", "--format=%T", "HEAD"],
-            check=True, capture_output=True, text=True).stdout.strip()
-    except (OSError, subprocess.CalledProcessError) as exc:
-        raise ValueError("re-adjudicator Git identity unavailable") from exc
+    commit, tree = _git_identity(repo)
     return {
         "path": "eval/historical_readjudicate.py",
         "sha256": _sha(raw), "git_commit": commit, "git_tree": tree,
@@ -336,7 +550,8 @@ def adjudicate_one(inventory_path, inventory_sha256, index,
     decision, decision_raw = _read_json(
         decision_path, "historical corrected decision", decision_sha256)
     row = inventory["bundles"][index]
-    _validate_decision(decision, row, inventory_sha256)
+    _validate_decision(
+        decision, row, inventory_sha256, evaluator, evaluator_sha256)
     _run_root, _bundle, source_manifest = _source_manifest(row)
     _reject_output_inside_sources(output, inventory)
     original = row["retained_historical_verdict"]
@@ -370,7 +585,9 @@ def adjudicate_one(inventory_path, inventory_sha256, index,
         "causal_classification": decision["causal_classification"],
         "uncertainty": decision["uncertainty"],
         "decision_binding": {
+            "path": str(pathlib.Path(decision_path).absolute()),
             "sha256": _sha(decision_raw),
+            "byte_length": len(decision_raw),
         },
     }
     try:
@@ -407,10 +624,20 @@ def _validate_record(value, row, inventory_sha256, evaluator_sha256):
     if (type(corrected) is not dict or
             corrected.get("overall_status") not in STATUSES):
         raise ValueError("historical record corrected status invalid")
+    _exact(value["decision_binding"], {
+        "path", "sha256", "byte_length",
+    }, "historical record decision binding")
+    _digest(value["decision_binding"]["sha256"],
+            "historical record decision")
+    if (type(value["decision_binding"]["path"]) is not str or
+            not pathlib.Path(value["decision_binding"]["path"]).is_absolute() or
+            type(value["decision_binding"]["byte_length"]) is not int or
+            value["decision_binding"]["byte_length"] < 1):
+        raise ValueError("historical record decision binding invalid")
 
 
 def aggregate(inventory_path, inventory_sha256, records_root,
-              evaluator_path, evaluator_sha256, output):
+              decisions_root, evaluator_path, evaluator_sha256, output):
     inventory, _ = _read_json(
         inventory_path, "historical inventory", inventory_sha256)
     _validate_inventory(inventory)
@@ -419,6 +646,7 @@ def aggregate(inventory_path, inventory_sha256, records_root,
     _validate_evaluator(evaluator)
     _reject_output_inside_sources(output, inventory)
     records_root = pathlib.Path(records_root).absolute()
+    decisions_root = pathlib.Path(decisions_root).absolute()
     paths = sorted(records_root.glob("*.json"))
     if len(paths) != 56:
         raise ValueError("historical aggregate requires exactly 56 records")
@@ -428,6 +656,15 @@ def aggregate(inventory_path, inventory_sha256, records_root,
     }
     manifest = []
     indices = []
+    property_coverage = {
+        "declared_rows": 0, "required_rows": 0,
+        "verdict_evidence_entries": 0,
+        "declared_states": {
+            "PASS": 0, "FAIL": 0, "INCOMPLETE": 0},
+        "required_states": {
+            "PASS": 0, "FAIL": 0, "INCOMPLETE": 0},
+    }
+    paired = {"candidate": set(), "control": set()}
     for path in paths:
         record, raw = _read_json(path, "historical record")
         index = record.get("inventory_binding", {}).get("index")
@@ -435,14 +672,55 @@ def aggregate(inventory_path, inventory_sha256, records_root,
             raise ValueError("historical record index invalid")
         row = inventory["bundles"][index]
         _validate_record(record, row, inventory_sha256, evaluator_sha256)
+        decision_path = decisions_root / f"decision-{index:02d}.json"
+        binding = record["decision_binding"]
+        if pathlib.Path(binding["path"]).absolute() != decision_path:
+            raise ValueError("historical record decision path mismatch")
+        decision, decision_raw = _read_json(
+            decision_path, "historical aggregate corrected decision",
+            binding["sha256"])
+        if len(decision_raw) != binding["byte_length"]:
+            raise ValueError("historical aggregate decision length drift")
+        _validate_decision(
+            decision, row, inventory_sha256, evaluator, evaluator_sha256)
+        _run_root, _bundle, source_manifest = _source_manifest(row)
+        if record["source_binding"]["files"] != source_manifest:
+            raise ValueError(
+                "historical aggregate source manifest drift")
+        if (record["corrected_view"] != decision["corrected_view"] or
+                record["causal_classification"] !=
+                decision["causal_classification"] or
+                record["uncertainty"] != decision["uncertainty"]):
+            raise ValueError(
+                "historical aggregate decision/record disagreement")
         indices.append(index)
+        paired[row["arm"]].add((row["fixture"], row["config"]))
         counts[row["arm"]][record["corrected_view"]["overall_status"]] += 1
+        corrected = record["corrected_view"]
+        contract_rows = corrected["property_contract"]
+        property_coverage["declared_rows"] += len(contract_rows)
+        property_coverage["required_rows"] += sum(
+            item["required"] for item in contract_rows)
+        property_coverage["verdict_evidence_entries"] += len(
+            corrected["verdict_evidence"])
+        for item in contract_rows:
+            state = corrected["properties"][item["name"]]["state"]
+            property_coverage["declared_states"][state] += 1
+            if item["required"]:
+                property_coverage["required_states"][state] += 1
         manifest.append({
             "path": str(path), "index": index, "run_id": row["run_id"],
             "sha256": _sha(raw),
+            "decision_sha256": _sha(decision_raw),
+            "source_manifest_sha256": _sha(
+                lifecycle.canonical_json_bytes(source_manifest)),
         })
     if sorted(indices) != list(range(56)) or len(set(indices)) != 56:
         raise ValueError("historical aggregate record coverage invalid")
+    if (paired["candidate"] != paired["control"] or
+            len(paired["candidate"]) != 28):
+        raise ValueError(
+            "historical aggregate candidate/control pair coverage invalid")
     result = {
         "schema": AGGREGATE_SCHEMA,
         "inventory_sha256": inventory_sha256,
@@ -457,7 +735,9 @@ def aggregate(inventory_path, inventory_sha256, records_root,
             "candidate_count": 28,
             "control_count": 28,
             "cells_per_arm": 28,
+            "paired_cell_count": len(paired["candidate"]),
         },
+        "property_coverage": property_coverage,
         "records": sorted(manifest, key=lambda row: row["index"]),
     }
     try:
@@ -483,6 +763,7 @@ def main(argv=None):
     all_records.add_argument("--inventory", required=True)
     all_records.add_argument("--inventory-sha256", required=True)
     all_records.add_argument("--records-root", required=True)
+    all_records.add_argument("--decisions-root", required=True)
     all_records.add_argument("--evaluator-manifest", required=True)
     all_records.add_argument("--evaluator-manifest-sha256", required=True)
     all_records.add_argument("--output", required=True)
@@ -497,6 +778,7 @@ def main(argv=None):
         else:
             aggregate(
                 args.inventory, args.inventory_sha256, args.records_root,
+                args.decisions_root,
                 args.evaluator_manifest, args.evaluator_manifest_sha256,
                 args.output)
     except (OSError, TypeError, ValueError) as exc:

@@ -5,12 +5,15 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
+import io
 import os
 import pathlib
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
+import zipfile
 
 import b3v4_campaign
 import b3v4_rederive
@@ -31,6 +34,47 @@ def write(path, value):
     path = pathlib.Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_bytes(value if isinstance(value, bytes) else encoded(value))
+
+
+def _package_bytes(source_sha, source_tree):
+    payloads = {
+        name: (b"---\nname: implementaudit\ndescription: test\n---\n"
+               if name == "SKILL.md" else b"fixture\n")
+        for name in integration.PACKAGE_REQUIRED_PATHS
+    }
+    payloads[".claude-plugin/plugin.json"] = encoded({
+        "name": "implementaudit", "version": "0.3.2", "skills": "./",
+    })
+    payloads[".claude-plugin/marketplace.json"] = encoded({
+        "plugins": [{"name": "implementaudit", "path": ".."}],
+    })
+    stream = io.BytesIO()
+    with zipfile.ZipFile(
+            stream, "w", compression=zipfile.ZIP_DEFLATED,
+            compresslevel=9) as archive:
+        for name in sorted(payloads):
+            info = zipfile.ZipInfo(name, date_time=(1980, 1, 1, 0, 0, 0))
+            info.create_system = 3
+            info.create_version = 20
+            info.extract_version = 20
+            mode = 0o755 if name.startswith("scripts/") else 0o644
+            info.external_attr = (stat.S_IFREG | mode) << 16
+            info.compress_type = zipfile.ZIP_DEFLATED
+            info.extra = b""
+            info.comment = b""
+            archive.writestr(info, payloads[name])
+    raw = stream.getvalue()
+    with zipfile.ZipFile(io.BytesIO(raw)) as archive:
+        entries = [
+            integration._zip_entry_row(info, archive.read(info))
+            for info in archive.infolist()
+        ]
+    return raw, {
+        "schema": integration.PACKAGE_MANIFEST_SCHEMA,
+        "source_sha": source_sha,
+        "source_tree": source_tree,
+        "entries": entries,
+    }
 
 
 def expect_error(fragment, action):
@@ -101,12 +145,21 @@ def _finalize_matrix(base, external_surface_paths=None):
 
 
 def _gate_values(qualified, package_manifest_hash, artifact_hash):
+    workflow_sha = hashlib.sha256(
+        (pathlib.Path(__file__).resolve().parent.parent /
+         ".github" / "workflows" /
+         "validate.yml").read_bytes()).hexdigest()
     return {
         "deterministic": {
             "schema": "implementaudit-deterministic-terminal-v1",
             "gate": "deterministic",
             "qualified_input_sha256": qualified,
             "exit_code": 0, "failed_checks": [],
+            "checks": [{
+                "name": name, "command": f"focused:{name}",
+                "exit_code": 0,
+                "marker": f"FOCUSED_CHECK_PASS name={name}",
+            } for name in integration.DETERMINISTIC_CHECKS],
         },
         "package": {
             "schema": "implementaudit-package-terminal-v1",
@@ -118,6 +171,13 @@ def _gate_values(qualified, package_manifest_hash, artifact_hash):
             "schema": "implementaudit-ci-terminal-v1",
             "gate": "ci", "qualified_input_sha256": qualified,
             "exit_code": 0, "failed_jobs": [],
+            "jobs": [{
+                "name": "package",
+                "workflow_path": ".github/workflows/validate.yml",
+                "workflow_sha256": workflow_sha,
+                "run_attempt": 1, "conclusion": "success",
+                "log_marker": "CI_JOB_PASS name=package",
+            }],
         },
         "reproducibility": {
             "schema": "implementaudit-reproducibility-terminal-v1",
@@ -138,11 +198,10 @@ def _gate_values(qualified, package_manifest_hash, artifact_hash):
 
 def _gates(root, qualified, target_sha, target_tree, surfaces_sha256):
     root.mkdir()
-    artifact_bytes = b"retained reproducible package bytes\n"
+    artifact_bytes, package_manifest = _package_bytes(
+        target_sha, target_tree)
     artifact_hash = hashlib.sha256(artifact_bytes).hexdigest()
-    package_manifest_bytes = encoded({
-        "entries": [{"path": "SKILL.md", "sha256": "b" * 64}],
-    })
+    package_manifest_bytes = encoded(package_manifest)
     package_manifest_hash = hashlib.sha256(
         package_manifest_bytes).hexdigest()
     values = _gate_values(
@@ -164,6 +223,12 @@ def _gates(root, qualified, target_sha, target_tree, surfaces_sha256):
             f"IMPLEMENTAUDIT_GATE_PASS gate={name} input={qualified} "
             f"sha={target_sha} tree={target_tree}",
         ]
+        if name == "deterministic":
+            stdout_lines.extend(
+                row["marker"] for row in value["checks"])
+        elif name == "ci":
+            stdout_lines.extend(
+                row["log_marker"] for row in value["jobs"])
         if name == "package":
             stdout_lines.extend([
                 "verify-package: ok",
@@ -700,6 +765,40 @@ def _assert_virtual_projection_integration_boundary(base):
 
 
 def main():
+    # Governing round-2 RED: package authority must parse a real canonical
+    # archive and derive its exact entry manifest, not merely compare digests.
+    with tempfile.TemporaryDirectory(
+            prefix="task5-r2-package-archive-red-") as tmp:
+        base = pathlib.Path(tmp)
+        archive = base / "package-retained.skill"
+        archive.write_bytes(b"not a ZIP archive\n")
+        manifest = base / "package-entry-manifest.json"
+        write(manifest, {"entries": []})
+        expect_error(
+            "archive",
+            lambda: integration.validate_package_archive(
+                archive, manifest, "1" * 40, "2" * 40))
+
+    gate_values = _gate_values("a" * 64, "b" * 64, "c" * 64)
+    for label, name, mutate, fragment in (
+            ("focused-order", "deterministic",
+             lambda value: value["checks"].reverse(), "coverage"),
+            ("focused-exit", "deterministic",
+             lambda value: value["checks"][0].update(exit_code=1), "row"),
+            ("ci-workflow-hash", "ci",
+             lambda value: value["jobs"][0].update(
+                 workflow_sha256="0" * 64), "row"),
+            ("ci-duplicate", "ci",
+             lambda value: value["jobs"].append(
+                 copy.deepcopy(value["jobs"][0])), "coverage")):
+        changed = copy.deepcopy(gate_values[name])
+        mutate(changed)
+        expect_error(
+            fragment,
+            lambda name=name, changed=changed:
+            integration._validate_gate_terminal(
+                name, changed, "a" * 64, {}))
+
     if len(sys.argv) == 3 and sys.argv[1] == "--root-identity-case":
         label = sys.argv[2]
         assert label in ROOT_IDENTITY_CASES

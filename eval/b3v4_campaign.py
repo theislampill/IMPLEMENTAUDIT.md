@@ -19,6 +19,7 @@ import hosts
 import runner
 import validate_b3v4_freeze as freeze
 import b3v4_contract as contract
+import campaign_freeze_preflight as launch_preflight
 import evaluated_surfaces as surfaces
 
 
@@ -42,14 +43,15 @@ INDEPENDENT_PASS_ROW_FIELDS = {
 }
 REQUIRED_ATTEMPT_ARTIFACTS = {
     "attempt-status.json", "attempt-terminal.json", "host-attestation.json",
-    "official-verdict.json", "host-custody",
+    "launch-readiness.json", "official-verdict.json", "host-custody",
 }
 COMPLETED_ATTEMPT_SEAL_FIELDS = {
     "schema", "campaign", "freeze_sha256", "contract_sha256", "mission",
     "execution_mode", "overall_status", "resolved_model", "host_run_root",
     "official_overall_status", "official_verdict_sha256", "stop_reason",
     "error_type", "completed_at", "attempt_name", "attempt_status_sha256",
-    "host_attestation_sha256", "host_custody_manifest_sha256",
+    "host_attestation_sha256", "launch_readiness_sha256",
+    "host_custody_manifest_sha256",
 }
 MAX_JSON_DEPTH = 512
 
@@ -208,6 +210,9 @@ def _completed_attempt_seal(attempt_root, status, terminal, packet,
         "host_attestation_sha256": _sha256_file(
             attempt_root / "host-attestation.json", root=attempt_root,
             owner="host attestation"),
+        "launch_readiness_sha256": _sha256_file(
+            attempt_root / "launch-readiness.json", root=attempt_root,
+            owner="launch readiness"),
         "host_custody_manifest_sha256": _sha256_bytes(host_manifest),
     }
 
@@ -528,7 +533,8 @@ class CampaignDriver:
                  candidate_checkout, control_checkout, runtime_root,
                  attestations=None, mission_executor=None,
                  execution_mode="production", live_validator=None,
-                 identity_validator=None, codex_auth_source=None):
+                 identity_validator=None, codex_auth_source=None,
+                 launch_readiness=None):
         if execution_mode not in ("production", "test"):
             raise ValueError("unsupported execution mode")
         if execution_mode == "production" and any(
@@ -551,6 +557,28 @@ class CampaignDriver:
         self.identity_validator = identity_validator or validate_runtime_identities
         self.codex_auth_source = (pathlib.Path(codex_auth_source).resolve()
                                   if codex_auth_source else None)
+        self.launch_readiness = (
+            pathlib.Path(launch_readiness).absolute()
+            if launch_readiness else None)
+
+    def _load_launch_readiness(self, packet):
+        if self.launch_readiness is None:
+            raise ValueError("live launch readiness is required")
+        return launch_preflight.validate_live_ready(
+            "b3v4", packet, self.launch_readiness,
+            execution_mode=self.execution_mode)
+
+    def _verify_launch_readiness(self, attempt_root, status, packet):
+        binding = status["launch_readiness_binding"]
+        path = attempt_root / binding["path"]
+        report, raw = launch_preflight.validate_live_ready(
+            "b3v4", packet, path, execution_mode=self.execution_mode)
+        if (_sha256_bytes(raw) != binding["sha256"] or
+                report["schema"] != binding["schema"] or
+                report["execution_mode"] != binding["execution_mode"] or
+                report["disposition"] != binding["disposition"]):
+            raise ValueError("retained launch readiness binding drift")
+        return report, raw
 
     def _load_packet(self):
         raw = contract.read_custodied_bytes(
@@ -628,7 +656,8 @@ class CampaignDriver:
             if not root.is_dir():
                 raise ValueError("attempt custody entry is not a directory")
             allowed_attempt = {"attempt-status.json", "attempt-terminal.json",
-                               "host-attestation.json", "official-verdict.json",
+                               "host-attestation.json", "launch-readiness.json",
+                               "official-verdict.json",
                                "host-custody"}
             if {path.name for path in root.iterdir()} - allowed_attempt:
                 raise ValueError("unexpected attempt custody entry")
@@ -657,6 +686,7 @@ class CampaignDriver:
                     terminal.get("mission_index") != mission["index"]):
                 raise ValueError("prior attempt identity drift")
             self._verify_host_attestation(root, status, mission, packet)
+            self._verify_launch_readiness(root, status, packet)
             overall = terminal.get("overall_status")
             if terminal.get("official_verdict_sha256") is not None:
                 _verify_official_verdict(
@@ -728,14 +758,20 @@ class CampaignDriver:
             raise ValueError("host attestation retained identity mismatch")
         return retained
 
-    def _claim_attempt(self, mission, packet_sha256, packet):
+    def _claim_attempt(self, mission, packet_sha256, packet,
+                       readiness_raw, readiness):
         name = self._attempt_name(mission)
         claiming = self.campaign_root / (name + ".claiming")
         final = self.campaign_root / name
-        claiming.mkdir(exist_ok=False)
         attestation_raw, _ = self._load_host_attestation(mission, packet)
+        launch_preflight.validate_live_ready(
+            "b3v4", packet, self.launch_readiness,
+            execution_mode=self.execution_mode)
+        claiming.mkdir(exist_ok=False)
         with open(claiming / "host-attestation.json", "xb") as stream:
             stream.write(attestation_raw)
+        with open(claiming / "launch-readiness.json", "xb") as stream:
+            stream.write(readiness_raw)
         config = packet["configurations"][mission["config"]]
         _write_new_json(claiming / "attempt-status.json", {
             "schema": "implementaudit-b3v4-luna-attempt-status-v2",
@@ -748,6 +784,13 @@ class CampaignDriver:
                 "sha256": config["host_attestation"]["sha256"],
                 "config": mission["config"], "host": config["host"],
                 "model_resolved_required": config["model_resolved_required"],
+            },
+            "launch_readiness_binding": {
+                "path": "launch-readiness.json",
+                "sha256": _sha256_bytes(readiness_raw),
+                "schema": readiness["schema"],
+                "execution_mode": readiness["execution_mode"],
+                "disposition": readiness["disposition"],
             },
         })
         os.rename(claiming, final)
@@ -773,16 +816,22 @@ class CampaignDriver:
 
     def run_next(self):
         packet, raw, packet_sha256 = self._load_packet()
+        readiness, readiness_raw = self._load_launch_readiness(packet)
         fixture = _fixture_for_packet(self.repo_root, packet)
         self._ensure_campaign(raw, packet_sha256, packet)
         self._validate_identities(packet)
         mission = self._next_mission(packet)
         self._validate_surfaces(packet)
-        attempt_root = self._claim_attempt(mission, packet_sha256, packet)
+        reread, reread_raw = self._load_launch_readiness(packet)
+        if reread_raw != readiness_raw:
+            raise ValueError("live launch readiness changed before claim")
+        attempt_root = self._claim_attempt(
+            mission, packet_sha256, packet, reread_raw, reread)
         status = _read_object(attempt_root / "attempt-status.json",
                               "attempt status", root=self.campaign_root)
         retained_attestation = self._verify_host_attestation(
             attempt_root, status, mission, packet)
+        self._verify_launch_readiness(attempt_root, status, packet)
         context = MissionContext(
             packet=packet, packet_sha256=packet_sha256, mission=mission,
             attempt_root=attempt_root,
@@ -802,6 +851,15 @@ class CampaignDriver:
         }
         try:
             self._validate_surfaces(packet)
+            live_again, live_again_raw = self._load_launch_readiness(packet)
+            retained_again, retained_again_raw = \
+                self._verify_launch_readiness(
+                    attempt_root, status, packet)
+            if (live_again_raw != readiness_raw or
+                    retained_again_raw != readiness_raw or
+                    live_again != retained_again):
+                raise ValueError(
+                    "launch readiness changed before host spawn")
             outcome = self.mission_executor(context)
             if not isinstance(outcome, dict):
                 raise TypeError("mission executor returned a non-object")
@@ -926,6 +984,7 @@ class CampaignDriver:
                     "attempt-terminal.json": {
                         "kind": "json_identity", "identity": terminal_identity},
                     "host-attestation.json": {"kind": "custodied_file"},
+                    "launch-readiness.json": {"kind": "custodied_file"},
                     "official-verdict.json": {"kind": "custodied_file"},
                     "host-custody": {"kind": "custodied_directory"},
                 },
@@ -1287,7 +1346,8 @@ def main(argv=None):
         command.add_argument("--codex-auth-source")
         return command
 
-    add_common("run-next")
+    run_next = add_common("run-next")
+    run_next.add_argument("--launch-readiness", required=True)
     add_common("finalize-luna-stage")
     add_common("validate-luna-stage")
     args = parser.parse_args(argv)
@@ -1297,7 +1357,8 @@ def main(argv=None):
         candidate_checkout=args.candidate_checkout,
         control_checkout=args.control_checkout, runtime_root=args.runtime_root,
         attestations={"L": args.l_attestation},
-        codex_auth_source=args.codex_auth_source)
+        codex_auth_source=args.codex_auth_source,
+        launch_readiness=getattr(args, "launch_readiness", None))
     if args.operation == "run-next":
         terminal = driver.run_next()
         print(json.dumps({"mission_index": terminal["mission_index"],

@@ -14,6 +14,7 @@ import subprocess
 import tempfile
 
 from test_b3v4_freeze import valid_packet
+from test_campaign_freeze_preflight import write_test_live_ready
 import b3v4_contract as official_contract
 import evaluated_surfaces as surfaces
 import runner as official_runner
@@ -229,6 +230,11 @@ def build_campaign(root, fixture_override=None, *, surface_root=None,
         "authorization_reason": "execution not authorized; capsule only",
     }
     capsule_bytes = encoded(capsule)
+    readiness_path = write_test_live_ready(
+        "b3v4", packet, root.parent / (root.name + "-live-ready"),
+        execution_mode="production")
+    readiness_bytes = readiness_path.read_bytes()
+    readiness = json.loads(readiness_bytes)
     for mission in packet["missions"]:
         name = (f"attempt-{mission['index']:03d}-{mission['config']}-"
                 f"{mission['arm']}-r{mission['rep']}")
@@ -247,6 +253,7 @@ def build_campaign(root, fixture_override=None, *, surface_root=None,
         }
         attestation_bytes = encoded(attestation)
         write(attempt / "host-attestation.json", attestation_bytes)
+        write(attempt / "launch-readiness.json", readiness_bytes)
         adapter = "codex-cli" if mission["config"] == "L" else "claude-cli"
         write(attempt / "attempt-status.json", {
             "schema": "implementaudit-b3v4-luna-attempt-status-v2",
@@ -258,6 +265,13 @@ def build_campaign(root, fixture_override=None, *, surface_root=None,
                 "path": "host-attestation.json", "sha256": sha(attestation_bytes),
                 "config": mission["config"], "host": config["host"],
                 "model_resolved_required": config["model_resolved_required"],
+            },
+            "launch_readiness_binding": {
+                "path": "launch-readiness.json",
+                "sha256": sha(readiness_bytes),
+                "schema": readiness["schema"],
+                "execution_mode": readiness["execution_mode"],
+                "disposition": readiness["disposition"],
             },
         })
         attempt_terminal = {
@@ -649,6 +663,7 @@ def build_campaign(root, fixture_override=None, *, surface_root=None,
             "attempt_name": name,
             "attempt_status_sha256": sha(status_raw),
             "host_attestation_sha256": sha(attestation_bytes),
+            "launch_readiness_sha256": sha(readiness_bytes),
             "host_custody_manifest_sha256": sha(
                 custody_manifest_bytes(attempt / "host-custody")),
         }
@@ -717,6 +732,7 @@ def rebind_attempt_seal(attempt):
     status_raw = (attempt / "attempt-status.json").read_bytes()
     status = json.loads(status_raw)
     attestation_raw = (attempt / "host-attestation.json").read_bytes()
+    readiness_raw = (attempt / "launch-readiness.json").read_bytes()
     terminal_path = attempt / "attempt-terminal.json"
     terminal = json.loads(terminal_path.read_text(encoding="utf-8"))
     if terminal.get("overall_status") not in ("PASS", "FAIL"):
@@ -739,6 +755,7 @@ def rebind_attempt_seal(attempt):
         "attempt_name": attempt.name,
         "attempt_status_sha256": sha(status_raw),
         "host_attestation_sha256": sha(attestation_raw),
+        "launch_readiness_sha256": sha(readiness_raw),
         "host_custody_manifest_sha256": sha(
             custody_manifest_bytes(attempt / "host-custody")),
     }

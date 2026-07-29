@@ -42,6 +42,7 @@ EXPECTED_MUST_NOT_IMPORT = [
     "eval.lib.scoring", "eval.adapters", "eval.campaign_lifecycle",
     "eval.b3v4_campaign", "eval.b3v4_rederive", "eval.b3v4_contract",
     "eval.evaluated_surfaces", "eval.provisional_integration",
+    "eval.campaign_freeze_preflight",
 ]
 
 

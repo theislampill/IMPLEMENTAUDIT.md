@@ -23,6 +23,7 @@
   "campaign_freeze": {"producer":"freeze-author","readers":["freeze-validator","driver","rederiver"],"role":"repo-contract","format":"JSON","schema":"implementaudit-b3v4-luna-campaign-freeze-v2","create_once":true},
   "owner_approval": {"producer":"owner","readers":["freeze-validator","driver"],"role":"external-authorization","format":"BYTES","schema":null,"create_once":true},
   "host_attestation": {"producer":"formal-host-attestation","readers":["driver","formal-adapter","rederiver"],"role":"attempt-input","format":"JSON","schema":"implementaudit-host-read-attestation-v1","create_once":true},
+  "launch_readiness": {"producer":"live-readiness-producer","readers":["driver","rederiver"],"role":"attempt-input","format":"JSON","schema":"implementaudit-b3v4-luna-live-launch-readiness-v1","create_once":true},
   "campaign_manifest": {"producer":"driver","readers":["driver","rederiver"],"role":"campaign-root","format":"JSON","schema":"implementaudit-b3v4-luna-campaign-custody-v2","create_once":true},
   "attempt_status": {"producer":"driver","readers":["driver","rederiver"],"role":"attempt-root","format":"JSON","schema":"implementaudit-b3v4-luna-attempt-status-v2","create_once":true},
   "official_verdict": {"producer":"official-scorer-via-driver","readers":["driver","rederiver"],"role":"attempt-root","format":"JSON","schema":"implementaudit-eval-verdict-v3","create_once":true},
@@ -56,7 +57,7 @@
  },
  "lifecycle_schemas": {
   "campaign_manifest": ["schema","campaign","freeze_sha256","contract_sha256","created_at","execution_stage"],
-  "attempt_status": ["schema","campaign","freeze_sha256","contract_sha256","mission","state","execution_mode","created_at","host_attestation_binding"],
+  "attempt_status": ["schema","campaign","freeze_sha256","contract_sha256","mission","state","execution_mode","created_at","host_attestation_binding","launch_readiness_binding"],
   "attempt_terminal": ["schema","campaign","mission_index","execution_mode","overall_status","resolved_model","host_run_root","official_overall_status","official_verdict_sha256","stop_reason","error_type","completed_at","completed_attempt_seal"],
   "official_luna_result": ["schema","campaign","freeze_sha256","contract_sha256","disposition","luna_stage_accepted","accepted","mission_count","missions","luna_identity","independent_rederivation","claims"]
  }

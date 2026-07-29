@@ -13,6 +13,7 @@ import subprocess
 import tempfile
 
 from test_b3v4_freeze import attach_surface_contract, valid_packet
+from test_campaign_freeze_preflight import write_test_live_ready
 
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -51,6 +52,7 @@ def add_duplicate_to_file(path, name, value):
 
 def make_driver(module, root, executor):
     packet = write_packet(root)
+    packet_value = json.loads(packet.read_text(encoding="utf-8"))
     attestations = {}
     for config, dialect, reader in (("L", "posix", "cat"),):
         path = pathlib.Path(root) / f"{config}-host-attestation.json"
@@ -71,6 +73,8 @@ def make_driver(module, root, executor):
         execution_mode="test",
         live_validator=lambda packet, repo: packet,
         identity_validator=lambda packet, **paths: None,
+        launch_readiness=write_test_live_ready(
+            "b3v4", packet_value, pathlib.Path(root) / "live-ready"),
     )
 
 

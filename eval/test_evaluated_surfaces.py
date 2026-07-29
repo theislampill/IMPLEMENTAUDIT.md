@@ -540,6 +540,7 @@ def main():
                 "--candidate-checkout", str(root / "candidate"),
                 "--runtime-root", str(root / "runtime"),
                 "--l-attestation", str(root / "attestation.json"),
+                "--launch-readiness", str(root / "readiness.json"),
             ])
         assert exit_code == 2
         assert output.getvalue() == (

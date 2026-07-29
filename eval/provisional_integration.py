@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import os
 import pathlib
 import stat
+import zipfile
 
 import b3v4_campaign
 import b3v4_contract
@@ -41,6 +43,162 @@ GATE_PRODUCER_ROLES = {
     "reproducibility": "reproducibility-runner",
     "independent-review": "independent-read-only-reviewer",
 }
+DETERMINISTIC_CHECKS = (
+    "compile", "lifecycle", "b3-contract", "b3-freeze", "b3-campaign",
+    "b3-rederive", "matrix-contract", "matrix-freeze", "matrix-campaign",
+    "matrix-rederive", "surfaces", "integration", "preflight",
+    "historical", "adversarial", "reporting", "reproducibility",
+    "registry-diff",
+)
+CI_JOBS = ("package",)
+
+PACKAGE_MANIFEST_SCHEMA = "implementaudit-package-entry-manifest-v2"
+PACKAGE_REQUIRED_PATHS = (
+    "SKILL.md",
+    "references/planning-depth.md",
+    "references/phase-design.md",
+    "references/goal-format.md",
+    "references/transcript-contract.md",
+    "references/continuity.md",
+    "references/routing.md",
+    "references/repo-state-comparison.md",
+    "references/sidecars.md",
+    "references/child-agents.md",
+    "references/lean-operating-discipline.md",
+    "references/audit-category-matrix.md",
+    "references/audit-playbook.md",
+    "references/plan-lifecycle.md",
+    "references/terminology-integration.md",
+    "references/convergence-mode.md",
+    "scripts/check-evidence-anchor.sh",
+    "scripts/check-lesson-lift.sh",
+    "scripts/check-handoff-packet.sh",
+    "scripts/check-closure-surface.sh",
+    "scripts/check-authorization-binding.sh",
+    "scripts/claim-run.sh",
+    "scripts/detect-env.sh",
+    "scripts/detect-stack.sh",
+    "scripts/repo-state.sh",
+    "scripts/summarize-repo.sh",
+    "scripts/validate-audit-spec.sh",
+    "scripts/validate-phase.sh",
+    "scripts/validate-run-root.sh",
+    "scripts/custody-append.sh",
+    "templates/ROADMAP.md",
+    "templates/STATE.md",
+    "templates/THINKING.md",
+    "templates/phase-goal.txt",
+    "templates/child-agent-report.md",
+    "templates/final-report.md",
+    "templates/read-only-plan.md",
+    "templates/PROTOCOL.md",
+    "templates/sidecars.md",
+    "templates/tools.md",
+    "templates/context.md",
+    ".claude-plugin/plugin.json",
+    ".claude-plugin/marketplace.json",
+)
+PACKAGE_ALLOWED_TOP_LEVEL = {
+    "SKILL.md", "references", "scripts", "templates", ".claude-plugin",
+}
+
+
+def _zip_entry_row(info, payload):
+    return {
+        "path": info.filename,
+        "byte_length": len(payload),
+        "sha256": hashlib.sha256(payload).hexdigest(),
+        "mode": (info.external_attr >> 16) & 0xffff,
+        "compression": info.compress_type,
+        "timestamp": list(info.date_time),
+        "create_system": info.create_system,
+    }
+
+
+def validate_package_archive(archive_path, entry_manifest,
+                             source_sha, source_tree):
+    """Validate a retained IMPLEMENTAUDIT .skill and its exact entry manifest."""
+    for value, owner in ((source_sha, "source SHA"),
+                         (source_tree, "source tree")):
+        if (type(value) is not str or len(value) != 40 or
+                any(char not in "0123456789abcdef" for char in value)):
+            raise ValueError(f"package {owner} invalid")
+    archive_path = pathlib.Path(archive_path)
+    try:
+        with zipfile.ZipFile(archive_path):
+            pass
+    except (OSError, zipfile.BadZipFile) as exc:
+        raise ValueError("package archive invalid") from exc
+    if isinstance(entry_manifest, (str, os.PathLike)):
+        manifest_path = pathlib.Path(entry_manifest)
+        manifest_raw = lifecycle.read_custodied_bytes(
+            manifest_path, "package entry manifest",
+            root=manifest_path.parent)
+        entry_manifest = lifecycle.decode_strict_json_bytes(
+            manifest_raw, "package entry manifest", require_object=True)
+    if type(entry_manifest) is not dict:
+        raise ValueError("package entry manifest must be an object")
+    _exact(entry_manifest, {
+        "schema", "source_sha", "source_tree", "entries",
+    }, "package entry manifest")
+    if (entry_manifest["schema"] != PACKAGE_MANIFEST_SCHEMA or
+            entry_manifest["source_sha"] != source_sha or
+            entry_manifest["source_tree"] != source_tree or
+            type(entry_manifest["entries"]) is not list):
+        raise ValueError("package entry manifest identity invalid")
+    try:
+        with zipfile.ZipFile(archive_path) as archive:
+            infos = archive.infolist()
+            names = [info.filename for info in infos]
+            if len(names) != len(set(names)):
+                raise ValueError("package archive duplicate entry")
+            observed = []
+            for info in infos:
+                pure = pathlib.PurePosixPath(info.filename)
+                if (info.is_dir() or pure.is_absolute() or
+                        ".." in pure.parts or "\\" in info.filename or
+                        not pure.parts or
+                        pure.parts[0] not in PACKAGE_ALLOWED_TOP_LEVEL or
+                        info.flag_bits & 0x1):
+                    raise ValueError("package archive entry is not portable")
+                mode = (info.external_attr >> 16) & 0xffff
+                if (info.create_system != 3 or
+                        stat.S_IFMT(mode) != stat.S_IFREG or
+                        info.compress_type != zipfile.ZIP_DEFLATED or
+                        info.extra or info.comment):
+                    raise ValueError(
+                        "package archive regular-file metadata invalid")
+                payload = archive.read(info)
+                if info.file_size != len(payload):
+                    raise ValueError("package archive entry length invalid")
+                observed.append(_zip_entry_row(info, payload))
+            missing = sorted(set(PACKAGE_REQUIRED_PATHS) - set(names))
+            if missing:
+                raise ValueError(
+                    "package archive required entries missing: " +
+                    ", ".join(missing))
+            plugin = json.loads(
+                archive.read(".claude-plugin/plugin.json").decode("utf-8"))
+            marketplace = json.loads(
+                archive.read(
+                    ".claude-plugin/marketplace.json").decode("utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError,
+            zipfile.BadZipFile, KeyError) as exc:
+        raise ValueError("package archive invalid") from exc
+    if (type(plugin) is not dict or plugin.get("name") != "implementaudit" or
+            plugin.get("skills") != "./"):
+        raise ValueError("package archive plugin metadata invalid")
+    plugins = marketplace.get("plugins") if type(marketplace) is dict else None
+    matching = [
+        item for item in plugins or []
+        if type(item) is dict and item.get("name") == "implementaudit"
+    ]
+    if (len(matching) != 1 or matching[0].get("path") != ".." or
+            "source" in matching[0]):
+        raise ValueError("package archive marketplace metadata invalid")
+    if entry_manifest["entries"] != observed:
+        raise ValueError("package entry manifest does not match archive bytes")
+    return observed
 
 
 def _exact(value, fields, owner):
@@ -373,8 +531,21 @@ def _validate_gate_terminal(name, value, qualified_input_sha256,
                             artifact_hashes):
     common = {"schema", "gate", "qualified_input_sha256", "exit_code"}
     if name == "deterministic":
-        _exact(value, common | {"failed_checks"}, name)
+        _exact(value, common | {"failed_checks", "checks"}, name)
         _string_list(value["failed_checks"], "deterministic failed checks")
+        if (type(value["checks"]) is not list or
+                [row.get("name") if type(row) is dict else None
+                 for row in value["checks"]] != list(DETERMINISTIC_CHECKS)):
+            raise ValueError("deterministic check coverage invalid")
+        for row in value["checks"]:
+            _exact(row, {"name", "command", "exit_code", "marker"},
+                   "deterministic check row")
+            if (type(row["command"]) is not str or not row["command"] or
+                    type(row["exit_code"]) is not int or
+                    row["exit_code"] != 0 or
+                    row["marker"] !=
+                    f"FOCUSED_CHECK_PASS name={row['name']}"):
+                raise ValueError("deterministic check row invalid")
         passed = value["exit_code"] == 0 and value["failed_checks"] == []
     elif name == "package":
         _exact(
@@ -386,8 +557,28 @@ def _validate_gate_terminal(name, value, qualified_input_sha256,
                   value["package_manifest_sha256"] ==
                   artifact_hashes["package-entry-manifest.json"])
     elif name == "ci":
-        _exact(value, common | {"failed_jobs"}, name)
+        _exact(value, common | {"failed_jobs", "jobs"}, name)
         _string_list(value["failed_jobs"], "CI failed jobs")
+        if (type(value["jobs"]) is not list or
+                [row.get("name") if type(row) is dict else None
+                 for row in value["jobs"]] != list(CI_JOBS)):
+            raise ValueError("CI job coverage invalid")
+        workflow = pathlib.Path(__file__).resolve().parent.parent / \
+            ".github" / "workflows" / "validate.yml"
+        workflow_sha = hashlib.sha256(workflow.read_bytes()).hexdigest()
+        for row in value["jobs"]:
+            _exact(row, {
+                "name", "workflow_path", "workflow_sha256",
+                "run_attempt", "conclusion", "log_marker",
+            }, "CI job row")
+            if (row["workflow_path"] != ".github/workflows/validate.yml" or
+                    row["workflow_sha256"] != workflow_sha or
+                    type(row["run_attempt"]) is not int or
+                    row["run_attempt"] != 1 or
+                    row["conclusion"] != "success" or
+                    row["log_marker"] !=
+                    f"CI_JOB_PASS name={row['name']}"):
+                raise ValueError("CI job row invalid")
         passed = value["exit_code"] == 0 and value["failed_jobs"] == []
     elif name == "reproducibility":
         _exact(
@@ -501,6 +692,26 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
     }
     _validate_gate_terminal(
         name, terminal, qualified_input_sha256, artifact_hashes)
+    if name == "package":
+        entry_manifest = lifecycle.decode_strict_json_bytes(
+            retained["package-entry-manifest.json"],
+            "package entry manifest", require_object=True)
+        validate_package_archive(
+            gate_root / "package-retained.skill", entry_manifest,
+            target_sha, target_tree)
+    elif name == "reproducibility":
+        first = retained["repro-first.skill"]
+        second = retained["repro-second.skill"]
+        if first != second:
+            raise ValueError("reproducibility retained archives differ")
+        try:
+            with zipfile.ZipFile(gate_root / "repro-first.skill") as archive:
+                if archive.testzip() is not None:
+                    raise ValueError(
+                        "reproducibility archive CRC verification failed")
+        except zipfile.BadZipFile as exc:
+            raise ValueError(
+                "reproducibility retained artifact is not a ZIP") from exc
 
     report = lifecycle.decode_strict_json_bytes(
         retained[report_name], f"{name} producer report",
@@ -547,6 +758,15 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
         f"input={qualified_input_sha256} sha={target_sha} tree={target_tree}")
     if stdout.splitlines().count(marker) != 1:
         raise ValueError(f"{name} raw PASS marker invalid")
+    if name == "deterministic":
+        for row in terminal["checks"]:
+            if stdout.splitlines().count(row["marker"]) != 1:
+                raise ValueError(
+                    "deterministic raw check evidence invalid")
+    if name == "ci":
+        for row in terminal["jobs"]:
+            if stdout.splitlines().count(row["log_marker"]) != 1:
+                raise ValueError("CI raw job evidence invalid")
     if name == "package":
         asset_hash = artifact_hashes["package-retained.skill"]
         required = (
@@ -563,7 +783,9 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
     if name == "independent-review":
         review = retained["independent-review.md"].decode(
             "utf-8", errors="strict")
-        if "VERDICT: PASS" not in review:
+        lines = review.splitlines()
+        if (lines.count("VERDICT: PASS") != 1 or
+                not lines or lines[-1] != "VERDICT: PASS"):
             raise ValueError("independent-review retained verdict missing")
 
     evidence_sha256 = hashlib.sha256(manifest_raw).hexdigest()

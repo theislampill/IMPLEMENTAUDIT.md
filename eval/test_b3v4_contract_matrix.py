@@ -68,6 +68,13 @@ def lifecycle_rows(packet):
                 "config": "L", "host": "WSL Ubuntu Codex CLI",
                 "model_resolved_required": "gpt-5.6-luna",
             },
+            "launch_readiness_binding": {
+                "path": "launch-readiness.json", "sha256": digest,
+                "schema":
+                    "implementaudit-b3v4-luna-live-launch-readiness-v1",
+                "execution_mode": "test",
+                "disposition": "TEST_ONLY_NON_QUALIFYING",
+            },
         },
         "attempt_terminal": {
             "schema": "implementaudit-b3v4-luna-attempt-terminal-v3",
@@ -148,6 +155,7 @@ def main():
     assert contract.contract_sha256() == hashlib.sha256(declaration_bytes).hexdigest()
     assert set(declaration["artifacts"]) == {
         "campaign_freeze", "owner_approval", "host_attestation",
+        "launch_readiness",
         "campaign_manifest", "attempt_status", "official_verdict",
         "attempt_terminal", "host_terminal", "bundle_manifest", "fixture",
         "events", "repo_before", "repo_after", "artifact_manifest",

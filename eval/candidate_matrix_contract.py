@@ -13,7 +13,7 @@ import campaign_lifecycle as lifecycle
 
 HERE = pathlib.Path(__file__).resolve().parent
 DECLARATION_PATH = HERE / "candidate_matrix_contract.json"
-DECLARATION_SHA256 = "5b84c8a05daa2050538a1e11596227e06fec07add852eb318ede3cd3b36a0a08"
+DECLARATION_SHA256 = "15ce14d59bb33163e7e84490915403011c5b430489e0c82e9adb7fc4bd2792e3"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 FREEZE_FIELDS = {
@@ -558,6 +558,20 @@ def validate_artifact(name, value, *, packet_path=None, packet_root=None):
         _string(binding["host"], "attempt status host attestation host")
         _string(binding["model_resolved_required"],
                 "attempt status host attestation model")
+        readiness = _exact(value["launch_readiness_binding"], {
+            "path", "sha256", "schema", "execution_mode", "disposition",
+        }, "attempt status launch readiness binding")
+        if (readiness["path"] != "launch-readiness.json" or
+                readiness["schema"] !=
+                "implementaudit-candidate-matrix-luna-live-launch-readiness-v1" or
+                readiness["execution_mode"] != value["execution_mode"] or
+                readiness["disposition"] not in (
+                    "READY_FOR_LUNA_EXECUTION",
+                    "TEST_ONLY_NON_QUALIFYING")):
+            raise ValueError(
+                "attempt status launch readiness execution mode invalid")
+        _digest(readiness["sha256"],
+                "attempt status launch readiness sha256")
     if name == "attempt_terminal":
         if (type(value["mission_index"]) is not int or
                 not 0 <= value["mission_index"] < 14):
@@ -578,7 +592,7 @@ def validate_artifact(name, value, *, packet_path=None, packet_root=None):
                     "official_overall_status", "official_verdict_sha256",
                     "stop_reason", "error_type", "completed_at",
                     "attempt_name", "attempt_status_sha256",
-                    "host_attestation_sha256",
+                    "host_attestation_sha256", "launch_readiness_sha256",
                     "host_custody_manifest_sha256",
                 }, "completed attempt seal")
             if seal["schema"] != \
@@ -588,7 +602,7 @@ def validate_artifact(name, value, *, packet_path=None, packet_root=None):
             for key in (
                     "freeze_sha256", "contract_sha256",
                     "official_verdict_sha256", "attempt_status_sha256",
-                    "host_attestation_sha256",
+                    "host_attestation_sha256", "launch_readiness_sha256",
                     "host_custody_manifest_sha256"):
                 _digest(seal[key], f"completed attempt seal {key}")
             for key in (

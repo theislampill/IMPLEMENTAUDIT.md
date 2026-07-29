@@ -50,6 +50,7 @@ REDERIVER_IMPORT_BOUNDARY = [
     "eval.b3v4_campaign", "eval.hosts", "eval.runner", "eval.lib.scoring",
     "eval.adapters", "eval.campaign_lifecycle",
     "eval.evaluated_surfaces", "eval.provisional_integration",
+    "eval.campaign_freeze_preflight",
 ]
 REDERIVER_INPUT = "retained raw evidence only"
 REDERIVER_OUTPUT = "independent Luna stage result"

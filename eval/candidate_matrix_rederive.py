@@ -78,7 +78,8 @@ EVALUATED_SURFACE_VIRTUAL_ROLES = {
 }
 CONTRACT_ARTIFACTS = {
     "campaign_freeze", "campaign_manifest", "attempt_status",
-    "host_attestation", "official_verdict", "attempt_terminal",
+    "host_attestation", "launch_readiness", "official_verdict",
+    "attempt_terminal",
     "host_custody", "official_luna_result", "luna_stage_terminal",
     "independent_rederivation",
 }
@@ -94,11 +95,15 @@ CAMPAIGN_ANDON_FIELDS = {
 ATTEMPT_STATUS_FIELDS = {
     "schema", "campaign", "freeze_sha256", "contract_sha256", "mission",
     "state", "execution_mode", "created_at", "host_attestation_binding",
+    "launch_readiness_binding",
 }
 HOST_ATTESTATION_BINDING_FIELDS = {
     "path", "sha256", "config", "host", "model_resolved_required",
 }
 HOST_ATTESTATION_FIELDS = {"id", "shell_dialect", "executables"}
+LAUNCH_READINESS_BINDING_FIELDS = {
+    "path", "sha256", "schema", "execution_mode", "disposition",
+}
 ATTEMPT_TERMINAL_FIELDS = {
     "schema", "campaign", "mission_index", "execution_mode",
     "overall_status", "resolved_model", "host_run_root",
@@ -110,7 +115,8 @@ COMPLETED_ATTEMPT_SEAL_FIELDS = {
     "execution_mode", "overall_status", "resolved_model", "host_run_root",
     "official_overall_status", "official_verdict_sha256", "stop_reason",
     "error_type", "completed_at", "attempt_name", "attempt_status_sha256",
-    "host_attestation_sha256", "host_custody_manifest_sha256",
+    "host_attestation_sha256", "launch_readiness_sha256",
+    "host_custody_manifest_sha256",
 }
 OFFICIAL_LUNA_RESULT_FIELDS = {
     "schema", "campaign", "freeze_sha256", "contract_sha256",
@@ -157,6 +163,7 @@ REDERIVER_IMPORT_BOUNDARY = [
     "eval.lib.scoring", "eval.adapters", "eval.campaign_lifecycle",
     "eval.b3v4_campaign", "eval.b3v4_rederive", "eval.b3v4_contract",
     "eval.evaluated_surfaces", "eval.provisional_integration",
+    "eval.campaign_freeze_preflight",
 ]
 CAPTURE_FILES = (
     "host-read-profile.json", "host-read-preimages.json",
@@ -227,7 +234,7 @@ def _exact_json_equal(left, right):
     return True
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
-CONTRACT_SHA256 = "5b84c8a05daa2050538a1e11596227e06fec07add852eb318ede3cd3b36a0a08"
+CONTRACT_SHA256 = "15ce14d59bb33163e7e84490915403011c5b430489e0c82e9adb7fc4bd2792e3"
 OFFICIAL_STATES = frozenset({"PASS", "FAIL", "INVALID", "ERROR"})
 CONTINUE_STATES = frozenset({"PASS"})
 STOP_STATES = frozenset({"FAIL", "INVALID", "ERROR"})
@@ -1441,7 +1448,57 @@ def _validate_attempt_status(status, mission, freeze_sha, contract_sha, config):
         "config": mission["config"], "host": config["host"],
         "model_resolved_required": config["model_resolved_required"],
     }), "host attestation mission identity invalid")
+    readiness = _exact_fields(
+        status["launch_readiness_binding"],
+        LAUNCH_READINESS_BINDING_FIELDS,
+        "attempt status launch readiness binding")
+    expected_disposition = (
+        "READY_FOR_LUNA_EXECUTION"
+        if status["execution_mode"] == "production"
+        else "TEST_ONLY_NON_QUALIFYING")
+    _expect(
+        readiness["path"] == "launch-readiness.json" and
+        readiness["schema"] ==
+        "implementaudit-candidate-matrix-luna-live-launch-readiness-v1" and
+        readiness["execution_mode"] == status["execution_mode"] and
+        readiness["disposition"] == expected_disposition and
+        type(readiness["sha256"]) is str and
+        re.fullmatch(r"[0-9a-f]{64}", readiness["sha256"]) is not None,
+        "launch readiness mission identity invalid")
     return status
+
+
+def _load_launch_readiness(attempt, status, packet):
+    binding = status["launch_readiness_binding"]
+    path = _contained(attempt, binding["path"], "launch readiness")
+    report, raw = _read_json(path, "launch readiness")
+    fields = {
+        "schema", "campaign", "freeze_sha256", "contract_sha256",
+        "execution_mode", "disposition", "ready", "mission_authorized",
+        "test_mock_authorized", "created_at", "model_scope",
+        "host_attestation_binding", "native_executable_binding",
+        "launcher_binding", "checkout_bindings", "runtime_root_binding",
+        "authorization_binding", "cross_host_validation", "producer",
+    }
+    report = _exact_fields(report, fields, "launch readiness")
+    production = status["execution_mode"] == "production"
+    _expect(
+        _sha(raw) == binding["sha256"] and
+        report["schema"] == binding["schema"] and
+        report["campaign"] == "candidate-matrix" and
+        report["contract_sha256"] == packet["artifact_contract"]["sha256"] and
+        report["execution_mode"] == status["execution_mode"] and
+        report["disposition"] == binding["disposition"] and
+        report["ready"] is production and
+        report["mission_authorized"] is production and
+        report["test_mock_authorized"] is (not production) and
+        report["model_scope"] == {
+            "model": "gpt-5.6-luna", "reasoning_effort": "max",
+            "auth_mode": "chatgpt-subscription",
+            "metered_api_spend": "FORBIDDEN",
+        },
+        "retained launch readiness identity invalid")
+    return report, raw
 
 
 def _load_host_attestation(attempt, status, config):
@@ -1509,7 +1566,8 @@ def _validate_attempt_terminal(terminal, mission):
 
 
 def _validate_completed_attempt_seal(attempt, status, status_raw, terminal,
-                                     attestation_raw, packet, freeze_sha):
+                                     attestation_raw, readiness_raw,
+                                     packet, freeze_sha):
     seal = _exact_fields(
         terminal["completed_attempt_seal"], COMPLETED_ATTEMPT_SEAL_FIELDS,
         "completed attempt seal")
@@ -1532,6 +1590,7 @@ def _validate_completed_attempt_seal(attempt, status, status_raw, terminal,
         "attempt_name": attempt.name,
         "attempt_status_sha256": _sha(status_raw),
         "host_attestation_sha256": _sha(attestation_raw),
+        "launch_readiness_sha256": _sha(readiness_raw),
         "host_custody_manifest_sha256": _sha(
             _custodied_directory_manifest(
                 attempt / "host-custody", "completed host custody")),
@@ -3415,6 +3474,8 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha,
             status, mission, freeze_sha,
             packet["artifact_contract"]["sha256"], config)
         _, attestation_raw = _load_host_attestation(attempt, status, config)
+        _, readiness_raw = _load_launch_readiness(
+            attempt, status, packet)
         terminal = _validate_attempt_terminal(terminal, mission)
         execution_mode = status["execution_mode"]
         _expect(
@@ -3442,7 +3503,7 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha,
                 "attempt host run root identity mismatch")
         _validate_completed_attempt_seal(
             attempt, status, status_raw, terminal, attestation_raw,
-            packet, freeze_sha)
+            readiness_raw, packet, freeze_sha)
         parent, _ = _read_json(host_root / "terminal.json", "host terminal")
         parent = _exact_fields(parent, HOST_TERMINAL_FIELDS, "host terminal")
         _expect(parent["schema"] == "implementaudit-run-terminal-v1" and
@@ -3633,7 +3694,8 @@ def rederive_campaign(packet_path, campaign_root, surface_root=None):
                 stopped_attempt.is_dir() and
                 {path.name for path in stopped_attempt.iterdir()} <= {
                     "attempt-status.json", "attempt-terminal.json",
-                    "host-attestation.json", "official-verdict.json",
+                    "host-attestation.json", "launch-readiness.json",
+                    "official-verdict.json",
                     "host-custody"},
                 "campaign ANDON attempt custody invalid")
             property_declarations = {}
@@ -3676,7 +3738,8 @@ def rederive_campaign(packet_path, campaign_root, surface_root=None):
     for index, name in enumerate(expected_order[:completed_count]):
         attempt = campaign_root / name
         allowed_attempt = {"attempt-status.json", "attempt-terminal.json",
-                           "host-attestation.json", "official-verdict.json",
+                           "host-attestation.json", "launch-readiness.json",
+                           "official-verdict.json",
                            "host-custody"}
         _expect({path.name for path in attempt.iterdir()} <= allowed_attempt,
                 "attempt contains unexpected custody entry")

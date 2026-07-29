@@ -15,6 +15,7 @@ from test_candidate_matrix_rederive import (
     build_campaign, load_module as load_rederive_module)
 import candidate_matrix_contract as matrix_contract
 import evaluated_surfaces as surfaces
+from test_campaign_freeze_preflight import write_test_live_ready
 
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -194,6 +195,8 @@ def make_driver(module, root, mission_executor=executor):
         execution_mode="test",
         live_validator=lambda packet, repo: packet,
         identity_validator=lambda packet, **paths: None,
+        launch_readiness=write_test_live_ready(
+            "candidate-matrix", packet, root / "live-ready"),
     )
     driver.test_surface_root = surface_root
     return driver

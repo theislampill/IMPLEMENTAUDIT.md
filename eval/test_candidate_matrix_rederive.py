@@ -15,6 +15,7 @@ import tempfile
 
 from test_candidate_matrix_freeze import valid_packet
 import evaluated_surfaces as surfaces
+from test_campaign_freeze_preflight import write_test_live_ready
 
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -264,6 +265,12 @@ def build_campaign(root, *, execution_mode="production", surface_root=None,
         "executables": {"cat": "posix:cat"},
     }
     attestation_bytes = encoded(attestation)
+    readiness_path = write_test_live_ready(
+        "candidate-matrix", packet,
+        root.parent / (root.name + "-live-ready"),
+        execution_mode=execution_mode)
+    readiness_bytes = readiness_path.read_bytes()
+    readiness = json.loads(readiness_bytes)
     model = packet["configuration"]["model_resolved_required"]
     for mission in packet["cells"]:
         name = f"attempt-{mission['index']:03d}-L-{mission['fixture']}"
@@ -274,6 +281,7 @@ def build_campaign(root, *, execution_mode="production", surface_root=None,
         host_root = attempt / "host-custody" / name
         bundle = host_root / "bundle"
         write(attempt / "host-attestation.json", attestation_bytes)
+        write(attempt / "launch-readiness.json", readiness_bytes)
         status = {
             "schema":
                 "implementaudit-candidate-matrix-luna-attempt-status-v1",
@@ -287,6 +295,13 @@ def build_campaign(root, *, execution_mode="production", surface_root=None,
                 "sha256": sha(attestation_bytes),
                 "config": "L", "host": packet["configuration"]["host"],
                 "model_resolved_required": model,
+            },
+            "launch_readiness_binding": {
+                "path": "launch-readiness.json",
+                "sha256": sha(readiness_bytes),
+                "schema": readiness["schema"],
+                "execution_mode": readiness["execution_mode"],
+                "disposition": readiness["disposition"],
             },
         }
         write(attempt / "attempt-status.json", status)
@@ -636,6 +651,7 @@ def rebind_attempt_seal(attempt):
     status_raw = (attempt / "attempt-status.json").read_bytes()
     status = json.loads(status_raw)
     attestation_raw = (attempt / "host-attestation.json").read_bytes()
+    readiness_raw = (attempt / "launch-readiness.json").read_bytes()
     terminal_path = attempt / "attempt-terminal.json"
     terminal = json.loads(terminal_path.read_text(encoding="utf-8"))
     terminal["completed_attempt_seal"] = {
@@ -657,6 +673,7 @@ def rebind_attempt_seal(attempt):
         "attempt_name": attempt.name,
         "attempt_status_sha256": sha(status_raw),
         "host_attestation_sha256": sha(attestation_raw),
+        "launch_readiness_sha256": sha(readiness_raw),
         "host_custody_manifest_sha256":
             sha(custody_manifest_bytes(attempt / "host-custody")),
     }
