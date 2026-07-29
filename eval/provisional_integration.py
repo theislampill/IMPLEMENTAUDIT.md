@@ -877,7 +877,8 @@ def _validate_gate_terminal(name, value, qualified_input_sha256,
     if name == "deterministic":
         deterministic_fields = {"failed_checks", "checks"}
         if evidence_mode == "PRODUCTION":
-            deterministic_fields.add("bash_executable")
+            deterministic_fields |= {
+                "bash_executable", "status", "attempt"}
         _exact(value, common | deterministic_fields, name)
         _string_list(value["failed_checks"], "deterministic failed checks")
         if (type(value["checks"]) is not list or
@@ -888,7 +889,7 @@ def _validate_gate_terminal(name, value, qualified_input_sha256,
             if evidence_mode == "PRODUCTION":
                 _exact(row, {
                     "name", "argv", "exit_code", "started_at",
-                    "completed_at", "pid", "stdout_path",
+                    "completed_at", "duration_seconds", "pid", "stdout_path",
                     "stdout_sha256", "stderr_path", "stderr_sha256",
                 }, "deterministic production check row")
                 expected_argv = DETERMINISTIC_COMMANDS[row["name"]]
@@ -904,6 +905,8 @@ def _validate_gate_terminal(name, value, qualified_input_sha256,
                 if (type(row["pid"]) is not int or row["pid"] <= 0 or
                         type(row["started_at"]) is not str or
                         type(row["completed_at"]) is not str or
+                        type(row["duration_seconds"]) not in (int, float) or
+                        row["duration_seconds"] < 0 or
                         row["exit_code"] != 0):
                     raise ValueError(
                         "deterministic production execution row invalid")
@@ -920,6 +923,9 @@ def _validate_gate_terminal(name, value, qualified_input_sha256,
                     raise ValueError("deterministic check row invalid")
         if evidence_mode == "PRODUCTION":
             _validate_production_bash_binding(value["bash_executable"])
+            if value["status"] != "PASS" or value["attempt"] != 1:
+                raise ValueError(
+                    "deterministic production attempt status invalid")
         passed = value["exit_code"] == 0 and value["failed_checks"] == []
     elif name == "package":
         package_fields = {
@@ -927,16 +933,41 @@ def _validate_gate_terminal(name, value, qualified_input_sha256,
         if evidence_mode == "PRODUCTION":
             package_fields |= {
                 "argv", "started_at", "completed_at", "pid",
+                "duration_seconds", "status", "attempt", "child",
                 "bash_executable", "package_reproducibility"}
         _exact(value, common | package_fields, name)
         if evidence_mode == "PRODUCTION":
             _validate_production_bash_binding(value["bash_executable"])
             _validate_package_asset_binding(
                 value["package_reproducibility"], artifact_hashes)
+            child = value["child"]
+            _exact(child, {
+                "argv", "pid", "started_at", "completed_at",
+                "duration_seconds", "exit_code",
+                "stdout_path", "stdout_sha256",
+                "stderr_path", "stderr_sha256",
+            }, "package production child")
             if (value["argv"][0] !=
                     value["bash_executable"]["canonical_path"] or
                     value["argv"][1:] != ["scripts/verify-package.sh"] or
-                    type(value["pid"]) is not int or value["pid"] <= 0):
+                    type(value["pid"]) is not int or value["pid"] <= 0 or
+                    type(value["duration_seconds"]) not in (int, float) or
+                    value["duration_seconds"] < 0 or
+                    value["status"] != "PASS" or value["attempt"] != 1 or
+                    child["argv"] != value["argv"] or
+                    child["pid"] != value["pid"] or
+                    child["started_at"] != value["started_at"] or
+                    child["completed_at"] != value["completed_at"] or
+                    child["duration_seconds"] != value["duration_seconds"] or
+                    child["exit_code"] != value["exit_code"] or
+                    child["stdout_path"] !=
+                    "package-command.stdout.log" or
+                    child["stderr_path"] !=
+                    "package-command.stderr.log" or
+                    child["stdout_sha256"] != artifact_hashes[
+                        "package-command.stdout.log"] or
+                    child["stderr_sha256"] != artifact_hashes[
+                        "package-command.stderr.log"]):
                 raise ValueError("package production execution invalid")
         _digest(value["package_manifest_sha256"], "package manifest")
         passed = (value["exit_code"] == 0 and
@@ -1109,10 +1140,16 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
         "model_or_metered_api_authorized",
     }
     if not allow_test_evidence and name in ("deterministic", "package"):
-        start_fields.add("bash_executable")
+        start_fields |= {
+            "bash_executable", "attempt", "closed_stdin", "argv",
+            "evidence_root_identity"}
     _exact(start, start_fields, f"{name} producer start")
     expected_start = {
-        "schema": "implementaudit-gate-producer-start-v1",
+        "schema": (
+            "implementaudit-gate-producer-start-v2"
+            if not allow_test_evidence and
+            name in ("deterministic", "package")
+            else "implementaudit-gate-producer-start-v1"),
         "gate": name,
         "evidence_mode": (
             "TEST_ONLY" if allow_test_evidence else "PRODUCTION"),
@@ -1133,6 +1170,35 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
             raise ValueError(f"{name} producer invocation count type invalid")
         if start[key] != expected:
             raise ValueError(f"{name} producer {key} identity invalid")
+    if not allow_test_evidence and name in ("deterministic", "package"):
+        _exact(start["evidence_root_identity"], {
+            "canonical_path", "device", "inode", "mode",
+        }, f"{name} evidence root identity")
+        observed_root = os.lstat(gate_root)
+        if (start["attempt"] != 1 or start["closed_stdin"] is not True or
+                start["evidence_root_identity"] != {
+                    "canonical_path": str(gate_root),
+                    "device": observed_root.st_dev,
+                    "inode": observed_root.st_ino,
+                    "mode": observed_root.st_mode,
+                }):
+            raise ValueError(
+                f"{name} producer transaction identity invalid")
+        if name == "package":
+            expected_argv = [
+                start["bash_executable"]["canonical_path"],
+                "scripts/verify-package.sh",
+            ]
+        else:
+            expected_argv = []
+            for check in DETERMINISTIC_CHECKS:
+                argv = list(DETERMINISTIC_COMMANDS[check])
+                if argv[0] == "bash":
+                    argv[0] = \
+                        start["bash_executable"]["canonical_path"]
+                expected_argv.append(argv)
+        if start["argv"] != expected_argv:
+            raise ValueError(f"{name} producer argv identity invalid")
     _validate_qualification_identity(
         name, start["qualification_identity"],
         start["qualified_input_sha256"], target_sha, target_tree,
@@ -1274,9 +1340,15 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
     else:
         report_fields = set(common)
         if not allow_test_evidence and name in ("deterministic", "package"):
-            report_fields.add("bash_executable")
+            report_fields |= {
+                "bash_executable", "status", "reason_code", "error_type"}
         _exact(report, report_fields, f"{name} producer report")
-    if (report["schema"] != "implementaudit-gate-producer-report-v1" or
+    expected_report_schema = (
+        "implementaudit-gate-producer-report-v2"
+        if not allow_test_evidence and
+        name in ("deterministic", "package")
+        else "implementaudit-gate-producer-report-v1")
+    if (report["schema"] != expected_report_schema or
             report["gate"] != name or
             report["qualified_input_sha256"] !=
             gate_qualified_input_sha256 or
@@ -1300,6 +1372,13 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
              name in ("deterministic", "package") and
              report["bash_executable"] != terminal["bash_executable"])):
         raise ValueError(f"{name} report identity or byte binding invalid")
+    if (not allow_test_evidence and
+            name in ("deterministic", "package") and
+            (report["status"] != "PASS" or
+             report["reason_code"] is not None or
+             report["error_type"] is not None)):
+        raise ValueError(
+            f"{name} production report status invalid")
 
     stdout = retained[stdout_name].decode("utf-8", errors="strict")
     if retained[stderr_name] != b"":
@@ -1414,6 +1493,257 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
         "terminal_sha256":
             hashlib.sha256(retained[terminal_name]).hexdigest(),
     }, evidence_sha256
+
+
+def _validate_failed_gate_evidence(name, gate_root, *,
+                                   allow_test_evidence=False):
+    """Independently validate one closed, non-PASS child-gate attempt."""
+    if name not in ("deterministic", "package"):
+        raise ValueError("failed child gate unsupported")
+    gate_root = _strict_directory(
+        gate_root, "failed integration gate root")
+    manifest_name = f"{name}-evidence-manifest.json"
+    manifest, _manifest_raw = _read_root_json(
+        gate_root, manifest_name, "failed gate evidence manifest")
+    _exact(manifest, {"schema", "gate", "files"},
+           "failed gate evidence manifest")
+    if (manifest["schema"] !=
+            "implementaudit-gate-evidence-manifest-v1" or
+            manifest["gate"] != name or
+            type(manifest["files"]) is not list or
+            any(type(row) is not dict or
+                set(row) != {"path", "byte_length", "sha256"}
+                for row in manifest["files"])):
+        raise ValueError("failed gate evidence manifest invalid")
+    order = [row["path"] for row in manifest["files"]]
+    terminal_name = GATE_FILENAMES[name]
+    try:
+        terminal_index = order.index(terminal_name)
+    except ValueError as exc:
+        raise ValueError("failed gate terminal omitted") from exc
+    if (not order or order[0] != f"{name}-start.json" or
+            order[terminal_index:] != [
+                terminal_name,
+                f"{name}-report.json",
+                f"{name}.stdout.log",
+                f"{name}.stderr.log",
+            ]):
+        raise ValueError("failed gate evidence order invalid")
+    command_names = order[1:terminal_index]
+    if (not command_names or len(command_names) % 2 != 0 or
+            any(not item.endswith((".stdout.log", ".stderr.log"))
+                for item in command_names)):
+        raise ValueError("failed gate child-log coverage invalid")
+    observed = {path.name for path in gate_root.iterdir()}
+    if observed != {manifest_name, *order}:
+        raise ValueError("failed gate evidence coverage invalid")
+    retained = {}
+    rows = []
+    for filename in order:
+        raw, row = _file_row(
+            gate_root / filename, gate_root,
+            f"failed gate retained {filename}")
+        retained[filename] = raw
+        rows.append(row)
+    if manifest["files"] != rows:
+        raise ValueError("failed gate evidence manifest invalid")
+    start = lifecycle.decode_strict_json_bytes(
+        retained[f"{name}-start.json"], "failed gate start",
+        require_object=True)
+    _exact(start, {
+        "schema", "gate", "evidence_mode",
+        "producer_source_path", "producer_source_sha256",
+        "qualified_input_sha256", "target_sha", "target_tree",
+        "qualification_scope", "qualification_identity",
+        "command", "producer_role", "invocation_count", "attempt",
+        "closed_stdin", "argv", "bash_executable",
+        "evidence_root_identity", "network_authorized",
+        "credentials_authorized",
+        "model_or_metered_api_authorized",
+    }, "failed gate start")
+    root_stat = os.lstat(gate_root)
+    if (start["schema"] != "implementaudit-gate-producer-start-v2" or
+            start["gate"] != name or start["evidence_mode"] !=
+            "PRODUCTION" or start["attempt"] != 1 or
+            start["invocation_count"] != 1 or
+            start["closed_stdin"] is not True or
+            start["evidence_root_identity"] != {
+                "canonical_path": str(gate_root),
+                "device": root_stat.st_dev,
+                "inode": root_stat.st_ino,
+                "mode": root_stat.st_mode,
+            }):
+        raise ValueError("failed gate start identity invalid")
+    if not allow_test_evidence:
+        _validate_production_bash_binding(start["bash_executable"])
+    terminal = lifecycle.decode_strict_json_bytes(
+        retained[GATE_FILENAMES[name]], "failed gate terminal",
+        require_object=True)
+    _exact(terminal, {
+        "schema", "gate", "status", "reason_code", "error_type",
+        "reason", "attempt", "qualified_input_sha256",
+        "target_sha", "target_tree", "qualification_scope",
+        "qualification_identity", "bash_executable", "child",
+        "checks", "partial_artifact_inventory",
+    }, "failed gate terminal")
+    if (terminal["schema"] !=
+            "implementaudit-production-gate-failure-terminal-v1" or
+            terminal["gate"] != name or
+            terminal["status"] not in {"FAIL", "INVALID", "ERROR"} or
+            terminal["attempt"] != 1 or
+            terminal["qualified_input_sha256"] !=
+            start["qualified_input_sha256"] or
+            terminal["target_sha"] != start["target_sha"] or
+            terminal["target_tree"] != start["target_tree"] or
+            terminal["qualification_scope"] !=
+            start["qualification_scope"] or
+            terminal["qualification_identity"] !=
+            start["qualification_identity"] or
+            terminal["bash_executable"] != start["bash_executable"] or
+            type(terminal["reason_code"]) is not str or
+            not terminal["reason_code"] or
+            type(terminal["error_type"]) is not str or
+            not terminal["error_type"] or
+            type(terminal["reason"]) is not str or
+            not terminal["reason"] or
+            type(terminal["checks"]) is not list or
+            type(terminal["partial_artifact_inventory"]) is not list):
+        raise ValueError("failed gate terminal identity invalid")
+    child = terminal["child"]
+    if child is not None:
+        child_fields = {
+            "argv", "pid", "started_at", "completed_at",
+            "duration_seconds", "exit_code", "stdout_path",
+            "stdout_sha256", "stderr_path", "stderr_sha256",
+        }
+        if name == "deterministic":
+            child_fields.add("name")
+        _exact(child, child_fields, "failed gate child")
+        if (type(child["pid"]) is not int or child["pid"] <= 0 or
+                type(child["duration_seconds"]) not in (int, float) or
+                child["duration_seconds"] < 0 or
+                child["stdout_path"] not in command_names or
+                child["stderr_path"] not in command_names or
+                child["stdout_sha256"] != hashlib.sha256(
+                    retained[child["stdout_path"]]).hexdigest() or
+                child["stderr_sha256"] != hashlib.sha256(
+                    retained[child["stderr_path"]]).hexdigest()):
+            raise ValueError("failed gate child evidence invalid")
+    if name == "deterministic":
+        for row in terminal["checks"]:
+            _exact(row, {
+                "name", "argv", "pid", "started_at", "completed_at",
+                "duration_seconds", "exit_code", "stdout_path",
+                "stdout_sha256", "stderr_path", "stderr_sha256",
+            }, "failed deterministic check")
+            if (row["name"] not in DETERMINISTIC_CHECKS or
+                    row["stdout_path"] not in command_names or
+                    row["stderr_path"] not in command_names or
+                    row["stdout_sha256"] != hashlib.sha256(
+                        retained[row["stdout_path"]]).hexdigest() or
+                    row["stderr_sha256"] != hashlib.sha256(
+                        retained[row["stderr_path"]]).hexdigest()):
+                raise ValueError(
+                    "failed deterministic check evidence invalid")
+    if name == "package":
+        inventory = terminal["partial_artifact_inventory"]
+        labels = ["A", "B", "A_MANIFEST", "B_MANIFEST"]
+        if (len(inventory) != 4 or
+                [row.get("label") if type(row) is dict else None
+                 for row in inventory] != labels):
+            raise ValueError("failed package inventory coverage invalid")
+        export_root = gate_root.parent / \
+            f".{gate_root.name}-package-export"
+        paths = [
+            export_root / "asset-a.skill",
+            export_root / "asset-b.skill",
+            export_root / "asset-a-entry-manifest.json",
+            export_root / "asset-b-entry-manifest.json",
+        ]
+        for row, label, path in zip(inventory, labels, paths):
+            _exact(row, {
+                "label", "path", "state", "byte_length", "sha256",
+                "file_identity", "error_type",
+            }, "failed package inventory row")
+            if row["path"] != str(path):
+                raise ValueError("failed package inventory path invalid")
+            if row["state"] == "MISSING":
+                if (path.exists() or path.is_symlink() or
+                        any(row[key] is not None for key in (
+                            "byte_length", "sha256", "file_identity",
+                            "error_type"))):
+                    raise ValueError(
+                        "failed package missing inventory invalid")
+            elif row["state"] == "REGULAR":
+                raw = lifecycle.read_custodied_bytes(
+                    path, f"failed package asset {label}",
+                    root=path.parent)
+                observed_stat = os.lstat(path)
+                if (row["byte_length"] != len(raw) or
+                        row["sha256"] !=
+                        hashlib.sha256(raw).hexdigest() or
+                        row["file_identity"] != {
+                            "device": observed_stat.st_dev,
+                            "inode": observed_stat.st_ino,
+                            "mode": observed_stat.st_mode,
+                            "size": observed_stat.st_size,
+                            "mtime_ns": observed_stat.st_mtime_ns,
+                            "link_count": observed_stat.st_nlink,
+                        } or row["error_type"] is not None):
+                    raise ValueError(
+                        "failed package regular inventory invalid")
+            elif row["state"] != "INVALID":
+                raise ValueError("failed package inventory state invalid")
+    report = lifecycle.decode_strict_json_bytes(
+        retained[f"{name}-report.json"], "failed gate report",
+        require_object=True)
+    _exact(report, {
+        "schema", "gate", "status", "reason_code", "error_type",
+        "qualified_input_sha256", "target_sha", "target_tree",
+        "qualification_scope", "qualification_identity",
+        "producer_source_path", "producer_source_sha256",
+        "stdout_sha256", "stderr_sha256", "terminal_sha256",
+        "bash_executable",
+    }, "failed gate report")
+    if (report["schema"] !=
+            "implementaudit-gate-producer-report-v2" or
+            report["gate"] != name or
+            report["status"] != terminal["status"] or
+            report["reason_code"] != terminal["reason_code"] or
+            report["error_type"] != terminal["error_type"] or
+            report["qualified_input_sha256"] !=
+            start["qualified_input_sha256"] or
+            report["target_sha"] != start["target_sha"] or
+            report["target_tree"] != start["target_tree"] or
+            report["qualification_scope"] !=
+            start["qualification_scope"] or
+            report["qualification_identity"] !=
+            start["qualification_identity"] or
+            report["producer_source_path"] !=
+            start["producer_source_path"] or
+            report["producer_source_sha256"] !=
+            start["producer_source_sha256"] or
+            report["bash_executable"] !=
+            start["bash_executable"] or
+            report["stdout_sha256"] != hashlib.sha256(
+                retained[f"{name}.stdout.log"]).hexdigest() or
+            report["stderr_sha256"] != hashlib.sha256(
+                retained[f"{name}.stderr.log"]).hexdigest() or
+            report["terminal_sha256"] != hashlib.sha256(
+                retained[GATE_FILENAMES[name]]).hexdigest()):
+        raise ValueError("failed gate report binding invalid")
+    marker = (
+        f"IMPLEMENTAUDIT_GATE_{terminal['status']} gate={name} "
+        f"reason={terminal['reason_code']} attempt=1\n").encode()
+    if (retained[f"{name}.stdout.log"] != marker or
+            retained[f"{name}.stderr.log"] != b""):
+        raise ValueError("failed gate status log invalid")
+    return {
+        "name": name,
+        "semantic_status": terminal["status"],
+        "reason_code": terminal["reason_code"],
+        "attempt": 1,
+    }
 
 
 def _validate_gates(gate_root, qualified_input_sha256, target_sha,

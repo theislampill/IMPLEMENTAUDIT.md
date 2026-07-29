@@ -15,6 +15,7 @@ import shutil
 import stat
 import subprocess
 import sys
+import time
 import zipfile
 from datetime import datetime, timezone
 
@@ -34,6 +35,224 @@ TOOLING_SOURCE_PATHS = (
 QUALIFICATION_SCOPES = ("TOOLING_EXACT_SHA", "FROZEN_CAMPAIGNS")
 
 
+class _ObservedGateFailure(ValueError):
+    def __init__(self, status, reason_code, error_type, detail, *,
+                 child=None, checks=None, partial_inventory=None):
+        super().__init__(f"{reason_code}: {detail}")
+        self.status = status
+        self.reason_code = reason_code
+        self.error_type = error_type
+        self.detail = detail
+        self.child = child
+        self.checks = [] if checks is None else checks
+        self.partial_inventory = (
+            [] if partial_inventory is None else partial_inventory)
+
+
+class _EvidencePublicationError(ValueError):
+    pass
+
+
+def _path_identity(observed):
+    return {
+        "device": observed.st_dev,
+        "inode": observed.st_ino,
+        "mode": observed.st_mode,
+        "size": observed.st_size,
+        "mtime_ns": observed.st_mtime_ns,
+        "link_count": observed.st_nlink,
+    }
+
+
+def _claim_evidence_root(path):
+    root = pathlib.Path(path).absolute()
+    root.parent.mkdir(parents=True, exist_ok=True)
+    lifecycle._owner_root(root.parent, "qualification evidence parent")
+    try:
+        root.mkdir()
+    except FileExistsError:
+        pass
+    canonical = lifecycle._owner_root(
+        root, "qualification evidence root")
+    if canonical != root:
+        raise ValueError(
+            "qualification evidence root link or reparse alias forbidden")
+    observed = os.lstat(root)
+    return root, {
+        "canonical_path": str(canonical),
+        "device": observed.st_dev,
+        "inode": observed.st_ino,
+        "mode": observed.st_mode,
+    }
+
+
+class _GateEvidenceTransaction:
+    def __init__(self, root, name, root_identity):
+        self.root = root
+        self.name = name
+        self.root_identity = root_identity
+        self.rows = {}
+        self.observed_child = None
+        self.observed_checks = []
+        self.partial_inventory = []
+
+    def _assert_root(self):
+        canonical = lifecycle._owner_root(
+            self.root, "qualification evidence root")
+        observed = os.lstat(canonical)
+        current = {
+            "canonical_path": str(canonical),
+            "device": observed.st_dev,
+            "inode": observed.st_ino,
+            "mode": observed.st_mode,
+        }
+        if current != self.root_identity:
+            raise ValueError(
+                "qualification evidence root identity changed")
+
+    def write(self, filename, raw):
+        if (type(filename) is not str or not filename or
+                pathlib.PurePath(filename).name != filename):
+            raise ValueError("qualification evidence filename invalid")
+        if filename in self.rows:
+            raise ValueError(
+                f"create-once artifact already exists: {filename}")
+        self._assert_root()
+        _write_new(self.root / filename, raw)
+        self._assert_root()
+        row = {
+            "path": filename, "byte_length": len(raw),
+            "sha256": hashlib.sha256(raw).hexdigest(),
+        }
+        self.rows[filename] = row
+        return row
+
+    def ordered_rows(self, filenames):
+        if set(filenames) != set(self.rows):
+            raise ValueError(
+                "qualification evidence publication coverage invalid")
+        return [self.rows[name] for name in filenames]
+
+    def failure_journal(self, stage, exc, *, child_consumed):
+        observed_files = []
+        try:
+            entries = sorted(self.root.iterdir(), key=lambda path: path.name)
+        except OSError:
+            entries = []
+        for path in entries:
+            row = {
+                "path": path.name,
+                "state": "INVALID",
+                "byte_length": None,
+                "sha256": None,
+                "file_identity": None,
+                "error_type": None,
+            }
+            try:
+                observed = os.lstat(path)
+                row["file_identity"] = _path_identity(observed)
+                raw = lifecycle.read_custodied_bytes(
+                    path, f"failed publication residue {path.name}",
+                    root=self.root)
+            except Exception as residue_error:
+                row["error_type"] = type(residue_error).__name__
+            else:
+                row.update({
+                    "state": "REGULAR",
+                    "byte_length": len(raw),
+                    "sha256": hashlib.sha256(raw).hexdigest(),
+                })
+            observed_files.append(row)
+        value = {
+            "schema": "implementaudit-gate-publication-failure-v1",
+            "gate": self.name,
+            "attempt": 1,
+            "status": "ERROR",
+            "stage": stage,
+            "error_type": type(exc).__name__,
+            "reason": str(exc),
+            "child_consumed": child_consumed,
+            "published_files": list(self.rows),
+            "observed_files": observed_files,
+            "evidence_root_identity": self.root_identity,
+        }
+        try:
+            self.write(
+                f"{self.name}-failure-journal.json", _encoded(value))
+        except Exception:
+            pass
+
+
+def _child_record(argv, process, started_at, completed_at,
+                  duration_seconds, stdout, stderr, stdout_path, stderr_path):
+    return {
+        "argv": list(argv),
+        "pid": process.pid,
+        "started_at": started_at,
+        "completed_at": completed_at,
+        "duration_seconds": duration_seconds,
+        "exit_code": process.returncode,
+        "stdout_path": stdout_path,
+        "stdout_sha256": hashlib.sha256(stdout).hexdigest(),
+        "stderr_path": stderr_path,
+        "stderr_sha256": hashlib.sha256(stderr).hexdigest(),
+    }
+
+
+def _missing_export_row(label, path):
+    return {
+        "label": label,
+        "path": str(pathlib.Path(path).absolute()),
+        "state": "MISSING",
+        "byte_length": None,
+        "sha256": None,
+        "file_identity": None,
+        "error_type": None,
+    }
+
+
+def _export_inventory(asset_a, asset_b):
+    rows = []
+    asset_a = pathlib.Path(asset_a).absolute()
+    asset_b = pathlib.Path(asset_b).absolute()
+    for label, path in (
+            ("A", asset_a),
+            ("B", asset_b),
+            ("A_MANIFEST", asset_a.parent /
+             "asset-a-entry-manifest.json"),
+            ("B_MANIFEST", asset_b.parent /
+             "asset-b-entry-manifest.json")):
+        path = pathlib.Path(path).absolute()
+        try:
+            observed = os.lstat(path)
+        except FileNotFoundError:
+            rows.append(_missing_export_row(label, path))
+            continue
+        row = {
+            "label": label,
+            "path": str(path),
+            "state": "INVALID",
+            "byte_length": None,
+            "sha256": None,
+            "file_identity": _path_identity(observed),
+            "error_type": None,
+        }
+        try:
+            raw = lifecycle.read_custodied_bytes(
+                path, f"package reproducibility asset {label}",
+                root=path.parent)
+        except Exception as exc:
+            row["error_type"] = type(exc).__name__
+        else:
+            row.update({
+                "state": "REGULAR",
+                "byte_length": len(raw),
+                "sha256": hashlib.sha256(raw).hexdigest(),
+            })
+        rows.append(row)
+    return rows
+
+
 def _encoded(value):
     return lifecycle.canonical_json_bytes(value)
 
@@ -41,9 +260,13 @@ def _encoded(value):
 def _write_new(path, raw):
     path = pathlib.Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    descriptor = os.open(
-        path, os.O_WRONLY | os.O_CREAT | os.O_EXCL,
-        stat.S_IRUSR | stat.S_IWUSR)
+    try:
+        descriptor = os.open(
+            path, os.O_WRONLY | os.O_CREAT | os.O_EXCL,
+            stat.S_IRUSR | stat.S_IWUSR)
+    except FileExistsError as exc:
+        raise ValueError(
+            f"create-once artifact already exists: {path.name}") from exc
     with os.fdopen(descriptor, "wb") as stream:
         stream.write(raw)
         stream.flush()
@@ -444,7 +667,8 @@ def _resolved_argv(argv, *, bash_binding=None):
     return result
 
 
-def _production_deterministic(repo_root, qualified, bash_binding):
+def _production_deterministic(repo_root, qualified, bash_binding,
+                              transaction):
     checks = []
     artifacts = {}
     for index, name in enumerate(integration.DETERMINISTIC_CHECKS):
@@ -452,44 +676,85 @@ def _production_deterministic(repo_root, qualified, bash_binding):
             integration.DETERMINISTIC_COMMANDS[name],
             bash_binding=bash_binding)
         started = _utc_now()
-        process = subprocess.Popen(
-            argv, cwd=repo_root, stdin=subprocess.DEVNULL,
-            stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False)
-        stdout, stderr = process.communicate()
+        monotonic_started = time.monotonic()
+        try:
+            process = subprocess.Popen(
+                argv, cwd=repo_root, stdin=subprocess.DEVNULL,
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False)
+        except Exception as exc:
+            raise _ObservedGateFailure(
+                "ERROR", "CHILD_SPAWN_ERROR", type(exc).__name__, str(exc),
+                checks=checks) from exc
+        try:
+            stdout, stderr = process.communicate()
+        except Exception as exc:
+            stdout_name = \
+                f"deterministic-{index:02d}-{name}.stdout.log"
+            stderr_name = \
+                f"deterministic-{index:02d}-{name}.stderr.log"
+            raise _ObservedGateFailure(
+                "ERROR", "CHILD_COMMUNICATION_ERROR",
+                type(exc).__name__, str(exc),
+                child={
+                    "argv": argv, "pid": process.pid,
+                    "started_at": started,
+                    "completed_at": _utc_now(),
+                    "duration_seconds":
+                        max(0.0, time.monotonic() -
+                            monotonic_started),
+                    "exit_code": process.returncode,
+                    "stdout_path": stdout_name,
+                    "stdout_sha256":
+                        hashlib.sha256(b"").hexdigest(),
+                    "stderr_path": stderr_name,
+                    "stderr_sha256":
+                        hashlib.sha256(b"").hexdigest(),
+                },
+                checks=checks) from exc
         completed = _utc_now()
+        duration = max(0.0, time.monotonic() - monotonic_started)
         stdout_name = f"deterministic-{index:02d}-{name}.stdout.log"
         stderr_name = f"deterministic-{index:02d}-{name}.stderr.log"
-        artifacts[stdout_name] = stdout
-        artifacts[stderr_name] = stderr
-        checks.append({
-            "name": name, "argv": argv, "exit_code": process.returncode,
-            "started_at": started, "completed_at": completed,
-            "pid": process.pid, "stdout_path": stdout_name,
-            "stdout_sha256": hashlib.sha256(stdout).hexdigest(),
-            "stderr_path": stderr_name,
-            "stderr_sha256": hashlib.sha256(stderr).hexdigest(),
-        })
+        try:
+            transaction.write(stdout_name, stdout)
+            transaction.write(stderr_name, stderr)
+        except Exception as exc:
+            transaction.failure_journal(
+                "RAW_LOG_PUBLICATION", exc, child_consumed=True)
+            raise _EvidencePublicationError(
+                "deterministic raw-log publication failed") from exc
+        row = {
+            "name": name,
+            **_child_record(
+                argv, process, started, completed, duration,
+                stdout, stderr, stdout_name, stderr_name),
+        }
+        checks.append(row)
+        transaction.observed_child = row
+        transaction.observed_checks = list(checks)
         if process.returncode != 0:
-            break
+            raise _ObservedGateFailure(
+                "FAIL", "CHILD_NONZERO_EXIT", "ChildExitError",
+                f"deterministic check {name} exited "
+                f"{process.returncode}",
+                child=row, checks=checks)
     terminal = {
         "schema": "implementaudit-deterministic-terminal-v2",
         "gate": "deterministic",
         "qualified_input_sha256": qualified,
-        "exit_code": 0 if len(checks) == len(
-            integration.DETERMINISTIC_CHECKS) else 1,
-        "failed_checks": [
-            row["name"] for row in checks if row["exit_code"] != 0],
+        "exit_code": 0,
+        "failed_checks": [],
         "bash_executable": bash_binding,
+        "status": "PASS",
+        "attempt": 1,
         "checks": checks,
     }
-    if (len(checks) != len(integration.DETERMINISTIC_CHECKS) or
-            terminal["failed_checks"]):
-        raise ValueError("production deterministic qualification failed")
     return terminal, artifacts
 
 
 def _production_package(repo_root, evidence_root, qualified,
-                        target_sha, target_tree, bash_binding):
+                        target_sha, target_tree, bash_binding,
+                        transaction):
     bash = _resolved_argv(["bash"], bash_binding=bash_binding)[0]
     argv = [bash, "scripts/verify-package.sh"]
     export_root = evidence_root.parent / \
@@ -497,11 +762,21 @@ def _production_package(repo_root, evidence_root, qualified,
     try:
         export_root.mkdir()
     except FileExistsError as exc:
-        raise ValueError(
+        raise _ObservedGateFailure(
+            "INVALID", "PACKAGE_EXPORT_ROOT_EXISTS",
+            type(exc).__name__,
             "package reproducibility export root already exists") from exc
-    asset_a, asset_b = _package_export_contract(
-        repo_root, export_root / "asset-a.skill",
-        export_root / "asset-b.skill")
+    try:
+        asset_a, asset_b = _package_export_contract(
+            repo_root, export_root / "asset-a.skill",
+            export_root / "asset-b.skill")
+    except Exception as exc:
+        raise _ObservedGateFailure(
+            "INVALID", "PACKAGE_EXPORT_CONTRACT_INVALID",
+            type(exc).__name__, str(exc),
+            partial_inventory=_export_inventory(
+                export_root / "asset-a.skill",
+                export_root / "asset-b.skill")) from exc
     environment = os.environ.copy()
     environment.update({
         "REPRO_SOURCE_REF": target_sha,
@@ -509,32 +784,153 @@ def _production_package(repo_root, evidence_root, qualified,
         "REPRO_RETAINED_ASSET_B": str(asset_b),
     })
     started = _utc_now()
-    process = subprocess.Popen(
-        argv, cwd=repo_root, stdin=subprocess.DEVNULL,
-        stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False,
-        env=environment)
-    stdout, stderr = process.communicate()
+    monotonic_started = time.monotonic()
+    try:
+        process = subprocess.Popen(
+            argv, cwd=repo_root, stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False,
+            env=environment)
+    except Exception as exc:
+        raise _ObservedGateFailure(
+            "ERROR", "CHILD_SPAWN_ERROR", type(exc).__name__, str(exc),
+            partial_inventory=_export_inventory(asset_a, asset_b)) from exc
+    try:
+        stdout, stderr = process.communicate()
+    except Exception as exc:
+        raise _ObservedGateFailure(
+            "ERROR", "CHILD_COMMUNICATION_ERROR",
+            type(exc).__name__, str(exc),
+            child={
+                "argv": argv, "pid": process.pid,
+                "started_at": started, "completed_at": _utc_now(),
+                "duration_seconds":
+                    max(0.0, time.monotonic() - monotonic_started),
+                "exit_code": process.returncode,
+                "stdout_path": "package-command.stdout.log",
+                "stdout_sha256": hashlib.sha256(b"").hexdigest(),
+                "stderr_path": "package-command.stderr.log",
+                "stderr_sha256": hashlib.sha256(b"").hexdigest(),
+            },
+            partial_inventory=_export_inventory(asset_a, asset_b)) from exc
     completed = _utc_now()
+    duration = max(0.0, time.monotonic() - monotonic_started)
+    child = _child_record(
+        argv, process, started, completed, duration, stdout, stderr,
+        "package-command.stdout.log", "package-command.stderr.log")
+    transaction.observed_child = child
+    try:
+        transaction.write("package-command.stdout.log", stdout)
+        transaction.write("package-command.stderr.log", stderr)
+    except Exception as exc:
+        transaction.failure_journal(
+            "RAW_LOG_PUBLICATION", exc, child_consumed=True)
+        raise _EvidencePublicationError(
+            "package raw-log publication failed") from exc
+    inventory = _export_inventory(asset_a, asset_b)
+    transaction.partial_inventory = inventory
     if process.returncode != 0:
-        raise ValueError("production full package gate failed")
-    archive_a, archive_b = _read_exported_package_pair(asset_a, asset_b)
-    manifest_a = _manifest_for_archive(
-        repo_root, target_sha, target_tree, archive_a)
-    manifest_b = _manifest_for_archive(
-        repo_root, target_sha, target_tree, archive_b)
+        raise _ObservedGateFailure(
+            "FAIL", "CHILD_NONZERO_EXIT", "ChildExitError",
+            f"package child exited {process.returncode}",
+            child=child, partial_inventory=inventory)
+    states = [row["state"] for row in inventory[:2]]
+    if states.count("MISSING") == 2:
+        raise _ObservedGateFailure(
+            "INVALID", "PACKAGE_EXPORT_PAIR_MISSING",
+            "PackagePostcheckError",
+            "package child produced neither export",
+            child=child, partial_inventory=inventory)
+    if states.count("MISSING") == 1:
+        raise _ObservedGateFailure(
+            "INVALID", "PACKAGE_EXPORT_PAIR_INCOMPLETE",
+            "PackagePostcheckError",
+            "package child produced only one export",
+            child=child, partial_inventory=inventory)
+    if any(state != "REGULAR" for state in states):
+        first_identity = inventory[0]["file_identity"]
+        second_identity = inventory[1]["file_identity"]
+        reason = (
+            "PACKAGE_EXPORT_ALIAS"
+            if first_identity is not None and
+            second_identity is not None and
+            (first_identity["device"], first_identity["inode"]) ==
+            (second_identity["device"], second_identity["inode"])
+            else "PACKAGE_EXPORT_CUSTODY_INVALID")
+        raise _ObservedGateFailure(
+            "INVALID", reason, "PackagePostcheckError",
+            "package export custody invalid",
+            child=child, partial_inventory=inventory)
+    if inventory[0]["sha256"] != inventory[1]["sha256"]:
+        raise _ObservedGateFailure(
+            "INVALID", "PACKAGE_EXPORT_DRIFT",
+            "PackagePostcheckError",
+            "package reproducibility assets differ",
+            child=child, partial_inventory=inventory)
+    try:
+        archive_a, archive_b = _read_exported_package_pair(asset_a, asset_b)
+    except Exception as exc:
+        reason = (
+            "PACKAGE_EXPORT_ALIAS"
+            if "alias" in str(exc).lower()
+            else "PACKAGE_EXPORT_CUSTODY_INVALID")
+        raise _ObservedGateFailure(
+            "INVALID", reason, type(exc).__name__, str(exc),
+            child=child, partial_inventory=inventory) from exc
+    try:
+        manifest_a = _manifest_for_archive(
+            repo_root, target_sha, target_tree, archive_a)
+        manifest_b = _manifest_for_archive(
+            repo_root, target_sha, target_tree, archive_b)
+    except Exception as exc:
+        transaction.partial_inventory = _export_inventory(
+            asset_a, asset_b)
+        raise _ObservedGateFailure(
+            "INVALID", "PACKAGE_ARCHIVE_INVALID",
+            type(exc).__name__, str(exc),
+            child=child, partial_inventory=inventory) from exc
     if manifest_a != manifest_b:
-        raise ValueError(
-            "package reproducibility entry manifests differ")
+        raise _ObservedGateFailure(
+            "INVALID", "PACKAGE_MANIFEST_DRIFT",
+            "PackagePostcheckError",
+            "package reproducibility entry manifests differ",
+            child=child, partial_inventory=inventory)
+    try:
+        decoded_manifest = lifecycle.decode_strict_json_bytes(
+            manifest_a, "package export entry manifest",
+            require_object=True)
+    except Exception as exc:
+        raise _ObservedGateFailure(
+            "INVALID", "PACKAGE_MANIFEST_INVALID",
+            type(exc).__name__, str(exc),
+            child=child, partial_inventory=inventory) from exc
+    if (decoded_manifest.get("schema") !=
+            integration.PACKAGE_MANIFEST_SCHEMA or
+            decoded_manifest.get("source_sha") != target_sha or
+            decoded_manifest.get("source_tree") != target_tree):
+        raise _ObservedGateFailure(
+            "INVALID", "PACKAGE_SOURCE_BINDING_INVALID",
+            "PackagePostcheckError",
+            "package entry manifest source identity invalid",
+            child=child, partial_inventory=inventory)
     manifest_a_stage = export_root / "asset-a-entry-manifest.json"
     manifest_b_stage = export_root / "asset-b-entry-manifest.json"
-    _write_new(manifest_a_stage, manifest_a)
-    _write_new(manifest_b_stage, manifest_b)
-    integration.validate_package_archive(
-        asset_a, manifest_a_stage, target_sha, target_tree,
-        repo_root=repo_root)
-    integration.validate_package_archive(
-        asset_b, manifest_b_stage, target_sha, target_tree,
-        repo_root=repo_root)
+    try:
+        _write_new(manifest_a_stage, manifest_a)
+        _write_new(manifest_b_stage, manifest_b)
+        integration.validate_package_archive(
+            asset_a, manifest_a_stage, target_sha, target_tree,
+            repo_root=repo_root)
+        integration.validate_package_archive(
+            asset_b, manifest_b_stage, target_sha, target_tree,
+            repo_root=repo_root)
+    except Exception as exc:
+        transaction.partial_inventory = _export_inventory(
+            asset_a, asset_b)
+        raise _ObservedGateFailure(
+            "INVALID", "PACKAGE_SOURCE_BINDING_INVALID",
+            type(exc).__name__, str(exc),
+            child=child,
+            partial_inventory=transaction.partial_inventory) from exc
     archive = archive_a
     manifest = manifest_a
     asset_sha = hashlib.sha256(archive).hexdigest()
@@ -572,12 +968,160 @@ def _production_package(repo_root, evidence_root, qualified,
         "gate": "package", "qualified_input_sha256": qualified,
         "exit_code": process.returncode, "verification_passed": True,
         "argv": argv, "started_at": started, "completed_at": completed,
-        "pid": process.pid,
+        "duration_seconds": duration, "pid": process.pid,
+        "status": "PASS", "attempt": 1, "child": child,
         "package_manifest_sha256": hashlib.sha256(manifest).hexdigest(),
         "package_reproducibility": package_reproducibility,
         "bash_executable": bash_binding,
     }
     return terminal, artifacts, stdout, stderr
+
+
+def _production_start(name, qualification_scope, qualification_identity,
+                      qualified_input_sha256, target_sha, target_tree,
+                      bash_binding, evidence_root_identity):
+    if name == "deterministic":
+        argv = [
+            _resolved_argv(
+                integration.DETERMINISTIC_COMMANDS[check],
+                bash_binding=bash_binding)
+            for check in integration.DETERMINISTIC_CHECKS
+        ]
+    elif name == "package":
+        argv = [
+            _resolved_argv(["bash"], bash_binding=bash_binding)[0],
+            "scripts/verify-package.sh",
+        ]
+    else:
+        argv = []
+    return {
+        "schema": "implementaudit-gate-producer-start-v2",
+        "gate": name,
+        "evidence_mode": "PRODUCTION",
+        "producer_source_path": "eval/qualification_evidence_producer.py",
+        "producer_source_sha256":
+            hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
+        "qualified_input_sha256": qualified_input_sha256,
+        "target_sha": target_sha,
+        "target_tree": target_tree,
+        "qualification_scope": qualification_scope,
+        "qualification_identity": qualification_identity,
+        "command": integration.GATE_COMMANDS[name],
+        "producer_role": integration.GATE_PRODUCER_ROLES[name],
+        "invocation_count": 1,
+        "attempt": 1,
+        "closed_stdin": True,
+        "argv": argv,
+        "bash_executable": bash_binding,
+        "evidence_root_identity": evidence_root_identity,
+        "network_authorized": False,
+        "credentials_authorized": False,
+        "model_or_metered_api_authorized": False,
+    }
+
+
+def _failure_terminal(name, start, failure):
+    return {
+        "schema": "implementaudit-production-gate-failure-terminal-v1",
+        "gate": name,
+        "status": failure.status,
+        "reason_code": failure.reason_code,
+        "error_type": failure.error_type,
+        "reason": failure.detail,
+        "attempt": 1,
+        "qualified_input_sha256": start["qualified_input_sha256"],
+        "target_sha": start["target_sha"],
+        "target_tree": start["target_tree"],
+        "qualification_scope": start["qualification_scope"],
+        "qualification_identity": start["qualification_identity"],
+        "bash_executable": start["bash_executable"],
+        "child": failure.child,
+        "checks": failure.checks,
+        "partial_artifact_inventory": failure.partial_inventory,
+    }
+
+
+def _gate_report(name, start, terminal_raw, stdout, stderr, *,
+                 status, reason_code=None, error_type=None):
+    value = {
+        "schema": "implementaudit-gate-producer-report-v2",
+        "gate": name,
+        "status": status,
+        "reason_code": reason_code,
+        "error_type": error_type,
+        "qualified_input_sha256": start["qualified_input_sha256"],
+        "target_sha": start["target_sha"],
+        "target_tree": start["target_tree"],
+        "qualification_scope": start["qualification_scope"],
+        "qualification_identity": start["qualification_identity"],
+        "producer_source_path": start["producer_source_path"],
+        "producer_source_sha256": start["producer_source_sha256"],
+        "stdout_sha256": hashlib.sha256(stdout).hexdigest(),
+        "stderr_sha256": hashlib.sha256(stderr).hexdigest(),
+        "terminal_sha256": hashlib.sha256(terminal_raw).hexdigest(),
+    }
+    if "bash_executable" in start:
+        value["bash_executable"] = start["bash_executable"]
+    return value
+
+
+def _publish_observed_failure(transaction, start, failure):
+    name = transaction.name
+    command_names = []
+    for check in failure.checks:
+        for key in ("stdout_path", "stderr_path"):
+            if check[key] not in command_names:
+                command_names.append(check[key])
+    if failure.child is not None:
+        for key in ("stdout_path", "stderr_path"):
+            if failure.child[key] not in command_names:
+                command_names.append(failure.child[key])
+    if not command_names:
+        command_names = [
+            f"{name}-command.stdout.log",
+            f"{name}-command.stderr.log",
+        ]
+    try:
+        for command_name in command_names:
+            if command_name not in transaction.rows:
+                transaction.write(command_name, b"")
+        terminal_raw = _encoded(_failure_terminal(name, start, failure))
+        stdout = (
+            f"IMPLEMENTAUDIT_GATE_{failure.status} gate={name} "
+            f"reason={failure.reason_code} attempt=1\n").encode()
+        stderr = b""
+        report_raw = _encoded(_gate_report(
+            name, start, terminal_raw, stdout, stderr,
+            status=failure.status, reason_code=failure.reason_code,
+            error_type=failure.error_type))
+        terminal_name = integration.GATE_FILENAMES[name]
+        report_name = f"{name}-report.json"
+        stdout_name = f"{name}.stdout.log"
+        stderr_name = f"{name}.stderr.log"
+        transaction.write(terminal_name, terminal_raw)
+        transaction.write(report_name, report_raw)
+        transaction.write(stdout_name, stdout)
+        transaction.write(stderr_name, stderr)
+        order = [
+            f"{name}-start.json",
+            *command_names,
+            terminal_name, report_name, stdout_name, stderr_name,
+        ]
+        manifest = {
+            "schema": "implementaudit-gate-evidence-manifest-v1",
+            "gate": name,
+            "files": transaction.ordered_rows(order),
+        }
+        transaction.write(
+            f"{name}-evidence-manifest.json", _encoded(manifest))
+    except Exception as exc:
+        transaction.failure_journal(
+            "FAILURE_EVIDENCE_PUBLICATION", exc,
+            child_consumed=failure.child is not None)
+        raise ValueError(
+            f"{name} failure evidence publication failed") from exc
+    raise ValueError(
+        f"{failure.reason_code}: {failure.detail}") from failure
 
 
 def run_gate(name, *, repo_root, evidence_root, target_sha, target_tree,
@@ -595,7 +1139,13 @@ def run_gate(name, *, repo_root, evidence_root, target_sha, target_tree,
             qualified_input_sha256=qualified_input_sha256,
             surfaces_sha256=surfaces_sha256)
     evidence_root = pathlib.Path(evidence_root).absolute()
-    if evidence_root.exists():
+    production_child = (
+        not test_only and name in ("deterministic", "package"))
+    transaction = None
+    start = None
+    if production_child:
+        evidence_root, root_identity = _claim_evidence_root(evidence_root)
+    elif evidence_root.exists():
         if not evidence_root.is_dir():
             raise ValueError("qualification evidence root is not a directory")
     else:
@@ -610,16 +1160,49 @@ def run_gate(name, *, repo_root, evidence_root, target_sha, target_tree,
     bash_binding = None
     if not test_only and name in ("deterministic", "package"):
         bash_binding = _production_bash_binding()
+    if production_child:
+        start = _production_start(
+            name, qualification_scope, qualification_identity,
+            qualified_input_sha256, target_sha, target_tree,
+            bash_binding, root_identity)
+        transaction = _GateEvidenceTransaction(
+            evidence_root, name, root_identity)
+        transaction.write(f"{name}-start.json", _encoded(start))
     if not test_only and name == "deterministic":
-        terminal, artifacts = _production_deterministic(
-            repo_root, qualified_input_sha256, bash_binding)
+        try:
+            terminal, artifacts = _production_deterministic(
+                repo_root, qualified_input_sha256, bash_binding,
+                transaction)
+        except _EvidencePublicationError:
+            raise
+        except _ObservedGateFailure as failure:
+            _publish_observed_failure(transaction, start, failure)
+        except Exception as exc:
+            _publish_observed_failure(
+                transaction, start, _ObservedGateFailure(
+                    "ERROR", "UNEXPECTED_PRODUCTION_ERROR",
+                    type(exc).__name__, str(exc),
+                    child=transaction.observed_child,
+                    checks=transaction.observed_checks,
+                    partial_inventory=transaction.partial_inventory))
     elif not test_only and name == "package":
-        terminal, artifacts, production_stdout, production_stderr = \
-            _production_package(
-                repo_root, evidence_root, qualified_input_sha256,
-                target_sha, target_tree, bash_binding)
-        artifacts["package-command.stdout.log"] = production_stdout
-        artifacts["package-command.stderr.log"] = production_stderr
+        try:
+            terminal, artifacts, production_stdout, production_stderr = \
+                _production_package(
+                    repo_root, evidence_root, qualified_input_sha256,
+                    target_sha, target_tree, bash_binding, transaction)
+        except _EvidencePublicationError:
+            raise
+        except _ObservedGateFailure as failure:
+            _publish_observed_failure(transaction, start, failure)
+        except Exception as exc:
+            _publish_observed_failure(
+                transaction, start, _ObservedGateFailure(
+                    "ERROR", "UNEXPECTED_PRODUCTION_ERROR",
+                    type(exc).__name__, str(exc),
+                    child=transaction.observed_child,
+                    checks=transaction.observed_checks,
+                    partial_inventory=transaction.partial_inventory))
         package_raw = artifacts["package-retained.skill"]
     elif not test_only and name == "ci":
         if not isinstance(external_ci, bytes):
@@ -794,41 +1377,48 @@ def run_gate(name, *, repo_root, evidence_root, target_sha, target_tree,
             hashlib.sha256(package_raw).hexdigest())
     stdout = ("\n".join(stdout_lines) + "\n").encode()
     stderr = b""
-    start = {
-        "schema": "implementaudit-gate-producer-start-v1",
-        "gate": name,
-        "evidence_mode": "TEST_ONLY" if test_only else "PRODUCTION",
-        "producer_source_path": "eval/qualification_evidence_producer.py",
-        "producer_source_sha256":
-            hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
-        "qualified_input_sha256": qualified_input_sha256,
-        "target_sha": target_sha, "target_tree": target_tree,
-        "qualification_scope": qualification_scope,
-        "qualification_identity": qualification_identity,
-        "command": integration.GATE_COMMANDS[name],
-        "producer_role": integration.GATE_PRODUCER_ROLES[name],
-        "invocation_count": 1, "network_authorized": False,
-        "credentials_authorized": False,
-        "model_or_metered_api_authorized": False,
-    }
-    if bash_binding is not None:
-        start["bash_executable"] = bash_binding
-    report = {
-        "schema": "implementaudit-gate-producer-report-v1",
-        "gate": name,
-        "qualified_input_sha256": qualified_input_sha256,
-        "target_sha": target_sha, "target_tree": target_tree,
-        "qualification_scope": qualification_scope,
-        "qualification_identity": qualification_identity,
-        "producer_source_path": "eval/qualification_evidence_producer.py",
-        "producer_source_sha256":
-            hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
-        "stdout_sha256": hashlib.sha256(stdout).hexdigest(),
-        "stderr_sha256": hashlib.sha256(stderr).hexdigest(),
-        "terminal_sha256": hashlib.sha256(terminal_raw).hexdigest(),
-    }
-    if bash_binding is not None:
-        report["bash_executable"] = bash_binding
+    if start is None:
+        start = {
+            "schema": "implementaudit-gate-producer-start-v1",
+            "gate": name,
+            "evidence_mode": "TEST_ONLY" if test_only else "PRODUCTION",
+            "producer_source_path":
+                "eval/qualification_evidence_producer.py",
+            "producer_source_sha256":
+                hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
+            "qualified_input_sha256": qualified_input_sha256,
+            "target_sha": target_sha, "target_tree": target_tree,
+            "qualification_scope": qualification_scope,
+            "qualification_identity": qualification_identity,
+            "command": integration.GATE_COMMANDS[name],
+            "producer_role": integration.GATE_PRODUCER_ROLES[name],
+            "invocation_count": 1, "network_authorized": False,
+            "credentials_authorized": False,
+            "model_or_metered_api_authorized": False,
+        }
+        if bash_binding is not None:
+            start["bash_executable"] = bash_binding
+    if production_child:
+        report = _gate_report(
+            name, start, terminal_raw, stdout, stderr, status="PASS")
+    else:
+        report = {
+            "schema": "implementaudit-gate-producer-report-v1",
+            "gate": name,
+            "qualified_input_sha256": qualified_input_sha256,
+            "target_sha": target_sha, "target_tree": target_tree,
+            "qualification_scope": qualification_scope,
+            "qualification_identity": qualification_identity,
+            "producer_source_path":
+                "eval/qualification_evidence_producer.py",
+            "producer_source_sha256":
+                hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
+            "stdout_sha256": hashlib.sha256(stdout).hexdigest(),
+            "stderr_sha256": hashlib.sha256(stderr).hexdigest(),
+            "terminal_sha256": hashlib.sha256(terminal_raw).hexdigest(),
+        }
+        if bash_binding is not None:
+            report["bash_executable"] = bash_binding
     if name == "independent-review":
         report.update({
             "reviewer_identity": review["reviewer_identity"],
@@ -840,12 +1430,54 @@ def run_gate(name, *, repo_root, evidence_root, target_sha, target_tree,
                 artifacts["independent-review-structured.json"]).hexdigest(),
         })
     retained = {
-        f"{name}-start.json": _encoded(start),
         integration.GATE_FILENAMES[name]: terminal_raw,
         f"{name}-report.json": _encoded(report),
         f"{name}.stdout.log": stdout,
         f"{name}.stderr.log": stderr,
         **artifacts,
+    }
+    if production_child:
+        try:
+            for filename, raw in retained.items():
+                if filename not in transaction.rows:
+                    transaction.write(filename, raw)
+            artifact_order = []
+            if name == "deterministic":
+                for row in terminal["checks"]:
+                    artifact_order.extend([
+                        row["stdout_path"], row["stderr_path"]])
+            elif name == "package":
+                artifact_order = [
+                    "package-command.stdout.log",
+                    "package-command.stderr.log",
+                    *artifacts,
+                ]
+            order = [
+                f"{name}-start.json",
+                integration.GATE_FILENAMES[name],
+                f"{name}-report.json",
+                f"{name}.stdout.log",
+                f"{name}.stderr.log",
+                *artifact_order,
+            ]
+            manifest = {
+                "schema": "implementaudit-gate-evidence-manifest-v1",
+                "gate": name,
+                "files": transaction.ordered_rows(order),
+            }
+            manifest_raw = _encoded(manifest)
+            transaction.write(
+                f"{name}-evidence-manifest.json", manifest_raw)
+            return hashlib.sha256(manifest_raw).hexdigest()
+        except Exception as exc:
+            transaction.failure_journal(
+                "SUCCESS_EVIDENCE_PUBLICATION", exc,
+                child_consumed=True)
+            raise _EvidencePublicationError(
+                f"{name} success evidence publication failed") from exc
+    retained = {
+        f"{name}-start.json": _encoded(start),
+        **retained,
     }
     rows = []
     for filename, raw in retained.items():

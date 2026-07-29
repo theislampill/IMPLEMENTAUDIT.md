@@ -18,6 +18,525 @@ HERE = pathlib.Path(__file__).resolve().parent
 REPO = HERE.parent
 
 
+def _mock_bash_binding():
+    empty = hashlib.sha256(b"").hexdigest()
+    return {
+        "path": r"C:\Program Files\Git\bin\bash.exe",
+        "canonical_path": r"C:\Program Files\Git\bin\bash.exe",
+        "sha256": "f" * 64,
+        "byte_length": 1,
+        "file_identity": {
+            "device": 1, "inode": 2, "mode": 32768,
+            "size": 1, "mtime_ns": 3,
+        },
+        "version_argv": [
+            r"C:\Program Files\Git\bin\bash.exe", "--version"],
+        "version_exit_code": 0,
+        "version_stdout": "mock bash\n",
+        "version_stdout_sha256":
+            hashlib.sha256(b"mock bash\n").hexdigest(),
+        "version_stderr": "",
+        "version_stderr_sha256": empty,
+    }
+
+
+def _assert_closed_failure_root(root, reason, *, expected_inventory):
+    expected = {
+        "package-start.json",
+        "package-command.stdout.log",
+        "package-command.stderr.log",
+        "package-terminal.json",
+        "package-report.json",
+        "package.stdout.log",
+        "package.stderr.log",
+        "package-evidence-manifest.json",
+    }
+    assert {path.name for path in root.iterdir()} == expected
+    start = json.loads(
+        (root / "package-start.json").read_text(encoding="utf-8"))
+    assert start["attempt"] == 1
+    assert start["closed_stdin"] is True
+    assert start["argv"][1:] == ["scripts/verify-package.sh"]
+    terminal = json.loads(
+        (root / "package-terminal.json").read_text(encoding="utf-8"))
+    assert terminal["status"] in {"FAIL", "INVALID", "ERROR"}
+    assert terminal["reason_code"] == reason
+    assert terminal["attempt"] == 1
+    assert terminal["child"]["pid"] > 0
+    assert terminal["child"]["duration_seconds"] >= 0
+    assert terminal["partial_artifact_inventory"] == expected_inventory
+    report = json.loads(
+        (root / "package-report.json").read_text(encoding="utf-8"))
+    assert report["status"] == terminal["status"]
+    assert report["reason_code"] == reason
+    assert report["terminal_sha256"] == hashlib.sha256(
+        (root / "package-terminal.json").read_bytes()).hexdigest()
+    manifest = json.loads(
+        (root / "package-evidence-manifest.json").read_text(
+            encoding="utf-8"))
+    observed = []
+    for name in (
+            "package-start.json",
+            "package-command.stdout.log",
+            "package-command.stderr.log",
+            "package-terminal.json",
+            "package-report.json",
+            "package.stdout.log",
+            "package.stderr.log"):
+        raw = (root / name).read_bytes()
+        observed.append({
+            "path": name, "byte_length": len(raw),
+            "sha256": hashlib.sha256(raw).hexdigest(),
+        })
+    assert manifest["files"] == observed
+    independently = integration._validate_failed_gate_evidence(
+        "package", root, allow_test_evidence=True)
+    assert independently == {
+        "name": "package",
+        "semantic_status": terminal["status"],
+        "reason_code": reason,
+        "attempt": 1,
+    }
+
+
+def _rebind_failed_root(root):
+    terminal_path = root / "package-terminal.json"
+    report_path = root / "package-report.json"
+    manifest_path = root / "package-evidence-manifest.json"
+    terminal_raw = terminal_path.read_bytes()
+    report = json.loads(report_path.read_text(encoding="utf-8"))
+    report["terminal_sha256"] = hashlib.sha256(
+        terminal_raw).hexdigest()
+    report_path.write_bytes(producer._encoded(report))
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    for row in manifest["files"]:
+        payload = (root / row["path"]).read_bytes()
+        row["byte_length"] = len(payload)
+        row["sha256"] = hashlib.sha256(payload).hexdigest()
+    manifest_path.write_bytes(producer._encoded(manifest))
+
+
+def _assert_production_failure_transactions(
+        base, checkout, sha, tree, archive):
+    original_popen = producer.subprocess.Popen
+    original_binding = producer._production_bash_binding
+    original_manifest = producer._manifest_for_archive
+    original_validate = integration.validate_package_archive
+    original_write_new = producer._write_new
+    calls = []
+    behavior = {}
+
+    class FakeProcess:
+        def __init__(self, argv, **kwargs):
+            calls.append(list(argv))
+            self.pid = 70000 + len(calls)
+            self.returncode = behavior["exit_code"]
+            self.environment = kwargs["env"]
+
+        def communicate(self):
+            action = behavior.get("action")
+            if action is not None:
+                action(self.environment)
+            if behavior.get("communicate_error"):
+                raise OSError("mock communicate failure")
+            return b"mock child stdout\n", b"mock child stderr\n"
+
+    def popen(argv, **kwargs):
+        if len(argv) >= 2 and argv[1] == "scripts/verify-package.sh":
+            return FakeProcess(argv, **kwargs)
+        return original_popen(argv, **kwargs)
+
+    def invoke(label, *, exit_code=0, action=None, reason,
+               manifest=None, validate=None, communicate_error=False):
+        root = base / f"production-{label}"
+        behavior.clear()
+        behavior.update(
+            exit_code=exit_code, action=action,
+            communicate_error=communicate_error)
+        if manifest is not None:
+            producer._manifest_for_archive = manifest
+        else:
+            producer._manifest_for_archive = original_manifest
+        if validate is not None:
+            integration.validate_package_archive = validate
+        else:
+            integration.validate_package_archive = original_validate
+        before = len(calls)
+        expect_error(
+            reason,
+            lambda: producer.run_gate(
+                "package", repo_root=checkout, evidence_root=root,
+                target_sha=sha, target_tree=tree,
+                qualification_scope="TOOLING_EXACT_SHA",
+                prior_evidence_sha256="c" * 64))
+        assert len(calls) == before + 1
+        return root
+
+    def write_pair(environment, left=archive, right=archive):
+        pathlib.Path(
+            environment["REPRO_RETAINED_ASSET_A"]).write_bytes(left)
+        pathlib.Path(
+            environment["REPRO_RETAINED_ASSET_B"]).write_bytes(right)
+
+    def write_a(environment):
+        pathlib.Path(
+            environment["REPRO_RETAINED_ASSET_A"]).write_bytes(archive)
+
+    def write_b(environment):
+        pathlib.Path(
+            environment["REPRO_RETAINED_ASSET_B"]).write_bytes(archive)
+
+    producer.subprocess.Popen = popen
+    producer._production_bash_binding = _mock_bash_binding
+    try:
+        root = invoke(
+            "exit23", exit_code=23, reason="CHILD_NONZERO_EXIT")
+        _assert_closed_failure_root(
+            root, "CHILD_NONZERO_EXIT", expected_inventory=[
+                producer._missing_export_row(
+                    "A", root.parent /
+                    f".{root.name}-package-export" / "asset-a.skill"),
+                producer._missing_export_row(
+                    "B", root.parent /
+                    f".{root.name}-package-export" / "asset-b.skill"),
+                producer._missing_export_row(
+                    "A_MANIFEST", root.parent /
+                    f".{root.name}-package-export" /
+                    "asset-a-entry-manifest.json"),
+                producer._missing_export_row(
+                    "B_MANIFEST", root.parent /
+                    f".{root.name}-package-export" /
+                    "asset-b-entry-manifest.json"),
+            ])
+        before = len(calls)
+        expect_error(
+            "already",
+            lambda: producer.run_gate(
+                "package", repo_root=checkout, evidence_root=root,
+                target_sha=sha, target_tree=tree,
+                qualification_scope="TOOLING_EXACT_SHA",
+                prior_evidence_sha256="c" * 64))
+        assert len(calls) == before
+
+        root = invoke(
+            "only-a", action=write_a,
+            reason="PACKAGE_EXPORT_PAIR_INCOMPLETE")
+        export_a = root.parent / \
+            f".{root.name}-package-export" / "asset-a.skill"
+        retained_a = export_a.read_bytes()
+        terminal = json.loads(
+            (root / "package-terminal.json").read_text(encoding="utf-8"))
+        _assert_closed_failure_root(
+            root, "PACKAGE_EXPORT_PAIR_INCOMPLETE",
+            expected_inventory=terminal["partial_artifact_inventory"])
+        assert terminal["partial_artifact_inventory"][0]["sha256"] == \
+            hashlib.sha256(archive).hexdigest()
+        assert terminal["partial_artifact_inventory"][1]["state"] == \
+            "MISSING"
+        assert export_a.read_bytes() == retained_a == archive
+        export_a.write_bytes(retained_a + b"tamper")
+        expect_error(
+            "inventory",
+            lambda: integration._validate_failed_gate_evidence(
+                "package", root, allow_test_evidence=True))
+
+        root = invoke(
+            "only-b", action=write_b,
+            reason="PACKAGE_EXPORT_PAIR_INCOMPLETE")
+        terminal = json.loads(
+            (root / "package-terminal.json").read_text(encoding="utf-8"))
+        _assert_closed_failure_root(
+            root, "PACKAGE_EXPORT_PAIR_INCOMPLETE",
+            expected_inventory=terminal["partial_artifact_inventory"])
+        terminal["partial_artifact_inventory"].pop()
+        (root / "package-terminal.json").write_bytes(
+            producer._encoded(terminal))
+        _rebind_failed_root(root)
+        expect_error(
+            "inventory coverage",
+            lambda: integration._validate_failed_gate_evidence(
+                "package", root, allow_test_evidence=True))
+
+        root = invoke(
+            "drift", action=lambda env: write_pair(
+                env, archive, archive + b"x"),
+            reason="PACKAGE_EXPORT_DRIFT")
+        terminal = json.loads(
+            (root / "package-terminal.json").read_text(encoding="utf-8"))
+        _assert_closed_failure_root(
+            root, "PACKAGE_EXPORT_DRIFT",
+            expected_inventory=terminal["partial_artifact_inventory"])
+
+        root = invoke(
+            "invalid-archive",
+            action=lambda env: write_pair(env, b"not zip", b"not zip"),
+            reason="PACKAGE_ARCHIVE_INVALID")
+        terminal = json.loads(
+            (root / "package-terminal.json").read_text(encoding="utf-8"))
+        _assert_closed_failure_root(
+            root, "PACKAGE_ARCHIVE_INVALID",
+            expected_inventory=terminal["partial_artifact_inventory"])
+
+        def write_alias(environment):
+            first = pathlib.Path(
+                environment["REPRO_RETAINED_ASSET_A"])
+            second = pathlib.Path(
+                environment["REPRO_RETAINED_ASSET_B"])
+            first.write_bytes(archive)
+            os.link(first, second)
+        try:
+            root = invoke(
+                "alias", action=write_alias,
+                reason="PACKAGE_EXPORT_ALIAS")
+        except OSError:
+            root = None
+        if root is not None:
+            terminal = json.loads(
+                (root / "package-terminal.json").read_text(
+                    encoding="utf-8"))
+            _assert_closed_failure_root(
+                root, "PACKAGE_EXPORT_ALIAS",
+                expected_inventory=
+                    terminal["partial_artifact_inventory"])
+
+        manifest_calls = 0
+        def divergent_manifest(repo_root, target_sha, target_tree, raw):
+            nonlocal manifest_calls
+            manifest_calls += 1
+            result = original_manifest(
+                repo_root, target_sha, target_tree, raw)
+            return result if manifest_calls == 1 else result + b" "
+        root = invoke(
+            "manifest-drift", action=write_pair,
+            reason="PACKAGE_MANIFEST_DRIFT",
+            manifest=divergent_manifest)
+        terminal = json.loads(
+            (root / "package-terminal.json").read_text(encoding="utf-8"))
+        _assert_closed_failure_root(
+            root, "PACKAGE_MANIFEST_DRIFT",
+            expected_inventory=terminal["partial_artifact_inventory"])
+
+        root = invoke(
+            "manifest-invalid", action=write_pair,
+            reason="PACKAGE_MANIFEST_INVALID",
+            manifest=lambda *_args: b"{")
+        terminal = json.loads(
+            (root / "package-terminal.json").read_text(encoding="utf-8"))
+        _assert_closed_failure_root(
+            root, "PACKAGE_MANIFEST_INVALID",
+            expected_inventory=terminal["partial_artifact_inventory"])
+
+        def invalid_source(*_args, **_kwargs):
+            raise ValueError("mock source mismatch")
+        root = invoke(
+            "source-invalid", action=write_pair,
+            reason="PACKAGE_SOURCE_BINDING_INVALID",
+            validate=invalid_source)
+        terminal = json.loads(
+            (root / "package-terminal.json").read_text(encoding="utf-8"))
+        _assert_closed_failure_root(
+            root, "PACKAGE_SOURCE_BINDING_INVALID",
+            expected_inventory=terminal["partial_artifact_inventory"])
+
+        root = invoke(
+            "communicate-error", action=write_pair,
+            reason="CHILD_COMMUNICATION_ERROR",
+            communicate_error=True)
+        terminal = json.loads(
+            (root / "package-terminal.json").read_text(encoding="utf-8"))
+        _assert_closed_failure_root(
+            root, "CHILD_COMMUNICATION_ERROR",
+            expected_inventory=terminal["partial_artifact_inventory"])
+
+        start_root = base / "production-start-write-fault"
+        before = len(calls)
+        def fail_start(path, payload):
+            if pathlib.Path(path).name == "package-start.json":
+                raise OSError("mock start write fault")
+            return original_write_new(path, payload)
+        producer._write_new = fail_start
+        expect_error(
+            "start write fault",
+            lambda: producer.run_gate(
+                "package", repo_root=checkout,
+                evidence_root=start_root,
+                target_sha=sha, target_tree=tree,
+                qualification_scope="TOOLING_EXACT_SHA",
+                prior_evidence_sha256="c" * 64))
+        assert len(calls) == before
+        producer._write_new = original_write_new
+
+        for label, failed_name in (
+                ("raw-log-write-fault",
+                 "package-command.stdout.log"),
+                ("terminal-write-fault", "package-terminal.json")):
+            root = base / f"production-{label}"
+            behavior.clear()
+            behavior.update(
+                exit_code=0, action=write_pair,
+                communicate_error=False)
+            before = len(calls)
+            def fail_selected(path, payload, *,
+                              failed_name=failed_name):
+                if pathlib.Path(path).name == failed_name:
+                    raise OSError(f"mock {failed_name} write fault")
+                return original_write_new(path, payload)
+            producer._write_new = fail_selected
+            expect_error(
+                "publication",
+                lambda root=root: producer.run_gate(
+                    "package", repo_root=checkout,
+                    evidence_root=root,
+                    target_sha=sha, target_tree=tree,
+                    qualification_scope="TOOLING_EXACT_SHA",
+                    prior_evidence_sha256="c" * 64))
+            assert len(calls) == before + 1
+            journal = json.loads(
+                (root / "package-failure-journal.json").read_text(
+                    encoding="utf-8"))
+            assert journal["status"] == "ERROR"
+            assert journal["attempt"] == 1
+            assert journal["child_consumed"] is True
+            assert any(
+                row["path"] == "package-start.json" and
+                row["state"] == "REGULAR" and
+                row["sha256"] == hashlib.sha256(
+                    (root / "package-start.json").read_bytes()).hexdigest()
+                for row in journal["observed_files"])
+            assert journal["stage"] in {
+                "RAW_LOG_PUBLICATION",
+                "SUCCESS_EVIDENCE_PUBLICATION",
+            }
+            producer._write_new = original_write_new
+
+        success_root = base / "production-success"
+        behavior.clear()
+        behavior.update(
+            exit_code=0, action=write_pair,
+            communicate_error=False)
+        before = len(calls)
+        manifest_sha = producer.run_gate(
+            "package", repo_root=checkout,
+            evidence_root=success_root,
+            target_sha=sha, target_tree=tree,
+            qualification_scope="TOOLING_EXACT_SHA",
+            prior_evidence_sha256="c" * 64)
+        assert len(calls) == before + 1
+        success_terminal = json.loads(
+            (success_root / "package-terminal.json").read_text(
+                encoding="utf-8"))
+        assert success_terminal["status"] == "PASS"
+        assert success_terminal["attempt"] == 1
+        assert success_terminal["child"]["exit_code"] == 0
+        success_manifest = json.loads(
+            (success_root / "package-evidence-manifest.json").read_text(
+                encoding="utf-8"))
+        assert manifest_sha == hashlib.sha256(
+            producer._encoded(success_manifest)).hexdigest()
+        assert {row["path"] for row in success_manifest["files"]} == {
+            "package-start.json",
+            "package-terminal.json",
+            "package-report.json",
+            "package.stdout.log",
+            "package.stderr.log",
+            "package-command.stdout.log",
+            "package-command.stderr.log",
+            "package-retained.skill",
+            "package-entry-manifest.json",
+            "package-repro-a.skill",
+            "package-repro-b.skill",
+            "package-repro-a-entry-manifest.json",
+            "package-repro-b-entry-manifest.json",
+        }
+        before = len(calls)
+        expect_error(
+            "already",
+            lambda: producer.run_gate(
+                "package", repo_root=checkout,
+                evidence_root=success_root,
+                target_sha=sha, target_tree=tree,
+                qualification_scope="TOOLING_EXACT_SHA",
+                prior_evidence_sha256="c" * 64))
+        assert len(calls) == before
+    finally:
+        producer._write_new = original_write_new
+        producer.subprocess.Popen = original_popen
+        producer._production_bash_binding = original_binding
+        producer._manifest_for_archive = original_manifest
+        integration.validate_package_archive = original_validate
+
+
+def _assert_deterministic_failure_transaction(
+        base, checkout, sha, tree):
+    original_popen = producer.subprocess.Popen
+    original_binding = producer._production_bash_binding
+    calls = []
+
+    class FakeProcess:
+        def __init__(self, argv, **_kwargs):
+            calls.append(list(argv))
+            self.pid = 81000 + len(calls)
+            self.returncode = 23
+
+        def communicate(self):
+            return b"focused failure\n", b""
+
+    def popen(argv, **kwargs):
+        if argv[0] == "git":
+            return original_popen(argv, **kwargs)
+        return FakeProcess(argv, **kwargs)
+
+    root = base / "production-deterministic-exit23"
+    producer.subprocess.Popen = popen
+    producer._production_bash_binding = _mock_bash_binding
+    try:
+        expect_error(
+            "CHILD_NONZERO_EXIT",
+            lambda: producer.run_gate(
+                "deterministic", repo_root=checkout,
+                evidence_root=root, target_sha=sha, target_tree=tree,
+                qualification_scope="FROZEN_CAMPAIGNS",
+                qualified_input_sha256="a" * 64,
+                surfaces_sha256="b" * 64,
+                prior_evidence_sha256="c" * 64))
+        assert len(calls) == 1
+        terminal = json.loads(
+            (root / "deterministic-terminal.json").read_text(
+                encoding="utf-8"))
+        assert terminal["status"] == "FAIL"
+        assert terminal["reason_code"] == "CHILD_NONZERO_EXIT"
+        assert terminal["checks"][0] == terminal["child"]
+        assert {
+            path.name for path in root.iterdir()
+        } == {
+            "deterministic-start.json",
+            "deterministic-00-compile.stdout.log",
+            "deterministic-00-compile.stderr.log",
+            "deterministic-terminal.json",
+            "deterministic-report.json",
+            "deterministic.stdout.log",
+            "deterministic.stderr.log",
+            "deterministic-evidence-manifest.json",
+        }
+        assert integration._validate_failed_gate_evidence(
+            "deterministic", root,
+            allow_test_evidence=True)["semantic_status"] == "FAIL"
+        before = len(calls)
+        expect_error(
+            "already",
+            lambda: producer.run_gate(
+                "deterministic", repo_root=checkout,
+                evidence_root=root, target_sha=sha, target_tree=tree,
+                qualification_scope="FROZEN_CAMPAIGNS",
+                qualified_input_sha256="a" * 64,
+                surfaces_sha256="b" * 64,
+                prior_evidence_sha256="c" * 64))
+        assert len(calls) == before
+    finally:
+        producer.subprocess.Popen = original_popen
+        producer._production_bash_binding = original_binding
+
+
 def expect_error(fragment, action):
     try:
         action()
@@ -181,6 +700,10 @@ def main():
         decoded = json.loads(manifest_raw)
         assert decoded["builder_source_path"] == \
             "scripts/build-release-asset.sh"
+        _assert_production_failure_transactions(
+            base, checkout, sha, tree, archive_raw)
+        _assert_deterministic_failure_transaction(
+            base, checkout, sha, tree)
 
         test_evidence = base / "test-only-evidence"
         producer.run_gate(

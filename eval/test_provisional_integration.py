@@ -148,6 +148,8 @@ def _assert_production_bash_binding_boundary():
         "qualification_scope": "FROZEN_CAMPAIGNS",
         "qualification_identity": frozen_identity,
         "bash_executable": binding,
+        "status": "PASS",
+        "attempt": 1,
         "checks": [],
     }
     for index, name in enumerate(integration.DETERMINISTIC_CHECKS):
@@ -160,6 +162,7 @@ def _assert_production_bash_binding_boundary():
             "exit_code": 0,
             "started_at": "2026-07-29T00:00:00Z",
             "completed_at": "2026-07-29T00:00:01Z",
+            "duration_seconds": 1.0,
             "pid": index + 1,
             "stdout_path":
                 f"deterministic-{index:02d}-{name}.stdout.log",
@@ -179,6 +182,8 @@ def _assert_production_bash_binding_boundary():
         "package-repro-b.skill": "c" * 64,
         "package-repro-a-entry-manifest.json": "d" * 64,
         "package-repro-b-entry-manifest.json": "d" * 64,
+        "package-command.stdout.log": "e" * 64,
+        "package-command.stderr.log": "f" * 64,
     }
     tooling_identity = {
         "qualification_scope": "TOOLING_EXACT_SHA",
@@ -210,11 +215,28 @@ def _assert_production_bash_binding_boundary():
             binding["canonical_path"], "scripts/verify-package.sh"],
         "started_at": "2026-07-29T00:00:00Z",
         "completed_at": "2026-07-29T00:00:01Z",
+        "duration_seconds": 1.0,
         "pid": 1,
+        "status": "PASS",
+        "attempt": 1,
         "qualification_scope": "TOOLING_EXACT_SHA",
         "qualification_identity": tooling_identity,
         "package_reproducibility": package_reproducibility,
         "bash_executable": binding,
+    }
+    package["child"] = {
+        "argv": package["argv"],
+        "pid": package["pid"],
+        "started_at": package["started_at"],
+        "completed_at": package["completed_at"],
+        "duration_seconds": package["duration_seconds"],
+        "exit_code": package["exit_code"],
+        "stdout_path": "package-command.stdout.log",
+        "stdout_sha256": package_hashes[
+            "package-command.stdout.log"],
+        "stderr_path": "package-command.stderr.log",
+        "stderr_sha256": package_hashes[
+            "package-command.stderr.log"],
     }
     integration._validate_gate_terminal(
         "package", package, "a" * 64,
