@@ -244,7 +244,7 @@ def _recover_communicate_error(
         stderr_path, communication_error, transaction):
     error = {
         "error_type": type(communication_error).__name__,
-        "reason": str(communication_error),
+        "message": str(communication_error),
         "observed_at": _utc_now(),
     }
     errors = []
@@ -714,7 +714,8 @@ def _terminal(name, qualified, repo_root, target_sha, target_tree,
 
 
 def _utc_now():
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    return datetime.now(timezone.utc).isoformat(
+        timespec="microseconds").replace("+00:00", "Z")
 
 
 def _bash_file_identity(observed):
@@ -1159,7 +1160,7 @@ def _production_start(name, qualification_scope, qualification_identity,
     }
 
 
-def _failure_terminal(name, start, failure):
+def _failure_terminal(name, start, failure, completed_at):
     return {
         "schema": "implementaudit-production-gate-failure-terminal-v1",
         "gate": name,
@@ -1167,6 +1168,7 @@ def _failure_terminal(name, start, failure):
         "reason_code": failure.reason_code,
         "error_type": failure.error_type,
         "reason": failure.detail,
+        "completed_at": completed_at,
         "attempt": 1,
         "qualified_input_sha256": start["qualified_input_sha256"],
         "target_sha": start["target_sha"],
@@ -1181,7 +1183,8 @@ def _failure_terminal(name, start, failure):
 
 
 def _gate_report(name, start, terminal_raw, stdout, stderr, *,
-                 status, reason_code=None, error_type=None):
+                 status, reason_code=None, error_type=None, reason=None,
+                 completed_at=None):
     value = {
         "schema": "implementaudit-gate-producer-report-v2",
         "gate": name,
@@ -1201,6 +1204,9 @@ def _gate_report(name, start, terminal_raw, stdout, stderr, *,
     }
     if "bash_executable" in start:
         value["bash_executable"] = start["bash_executable"]
+    if completed_at is not None:
+        value["reason"] = reason
+        value["completed_at"] = completed_at
     return value
 
 
@@ -1224,7 +1230,9 @@ def _publish_observed_failure(transaction, start, failure):
         for command_name in command_names:
             if command_name not in transaction.rows:
                 transaction.write(command_name, b"")
-        terminal_raw = _encoded(_failure_terminal(name, start, failure))
+        terminal_completed_at = _utc_now()
+        terminal_raw = _encoded(_failure_terminal(
+            name, start, failure, terminal_completed_at))
         stdout = (
             f"IMPLEMENTAUDIT_GATE_{failure.status} gate={name} "
             f"reason={failure.reason_code} attempt=1\n").encode()
@@ -1232,7 +1240,8 @@ def _publish_observed_failure(transaction, start, failure):
         report_raw = _encoded(_gate_report(
             name, start, terminal_raw, stdout, stderr,
             status=failure.status, reason_code=failure.reason_code,
-            error_type=failure.error_type))
+            error_type=failure.error_type, reason=failure.detail,
+            completed_at=_utc_now()))
         terminal_name = integration.GATE_FILENAMES[name]
         report_name = f"{name}-report.json"
         stdout_name = f"{name}.stdout.log"

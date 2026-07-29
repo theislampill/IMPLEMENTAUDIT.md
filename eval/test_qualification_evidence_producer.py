@@ -87,6 +87,8 @@ def _assert_closed_failure_root(
     assert terminal["status"] in {"FAIL", "INVALID", "ERROR"}
     assert terminal["reason_code"] == reason
     assert terminal["attempt"] == 1
+    assert terminal["completed_at"] >= \
+        terminal["child"]["completed_at"]
     assert terminal["child"]["pid"] > 0
     assert terminal["child"]["duration_seconds"] >= 0
     assert terminal["partial_artifact_inventory"] == expected_inventory
@@ -94,6 +96,8 @@ def _assert_closed_failure_root(
         (root / "package-report.json").read_text(encoding="utf-8"))
     assert report["status"] == terminal["status"]
     assert report["reason_code"] == reason
+    assert report["reason"] == terminal["reason"]
+    assert report["completed_at"] >= terminal["completed_at"]
     assert report["terminal_sha256"] == hashlib.sha256(
         (root / "package-terminal.json").read_bytes()).hexdigest()
     manifest = json.loads(
@@ -231,6 +235,113 @@ def _assert_failed_identity_rebinding_rejected(root, checkout):
         "package", root, **expected)["semantic_status"] == "ERROR"
 
 
+def _assert_failed_lifecycle_mutations_rejected(
+        root, checkout, expected_status):
+    names = [
+        "package-start.json", "package-terminal.json",
+        "package-report.json", "package-evidence-manifest.json",
+    ]
+    originals = {name: (root / name).read_bytes() for name in names}
+    start = json.loads(originals["package-start.json"])
+    expected = _failed_expected(start, checkout)
+    def restore():
+        for name, raw in originals.items():
+            (root / name).write_bytes(raw)
+
+    def rejected(index, mutator):
+        restore()
+        terminal = json.loads(originals["package-terminal.json"])
+        report = json.loads(originals["package-report.json"])
+        mutator(terminal, report)
+        (root / "package-terminal.json").write_bytes(
+            producer._encoded(terminal))
+        (root / "package-report.json").write_bytes(
+            producer._encoded(report))
+        _rebind_failed_root(root)
+        try:
+            integration._validate_failed_gate_evidence(
+                "package", root, **expected)
+        except ValueError:
+            return
+        raise AssertionError(
+            f"mutated lifecycle evidence was accepted at {index}")
+
+    def child_time(value):
+        return lambda terminal, _report: terminal["child"].update(
+            started_at=value, completed_at=value, duration_seconds=0.0)
+
+    original_terminal = json.loads(originals["package-terminal.json"])
+    mutations = [
+        child_time("9999-01-01T00:00:00.000000Z"),
+        child_time("0001-01-01T00:00:00.000000Z"),
+        child_time("2026-01-01T00:00:00Z"),
+        lambda terminal, _report: terminal["child"].update(
+            started_at="2026-01-01T00:00:01.000000Z",
+            completed_at="2026-01-01T00:00:00.000000Z"),
+        lambda terminal, _report: terminal["child"].update(
+            duration_seconds=999999.0),
+        lambda terminal, _report: terminal.update(
+            completed_at="2000-01-01T00:00:00.000000Z"),
+        lambda _terminal, report: report.update(
+            completed_at="2000-01-01T00:00:00.000000Z"),
+        lambda terminal, report: (
+            terminal.update(reason="forged reason"),
+            report.update(reason="forged reason")),
+        lambda terminal, report: (
+            terminal.update(error_type="ForgedError"),
+            report.update(error_type="ForgedError")),
+        lambda terminal, report: (
+            terminal.update(
+                status=("FAIL" if original_terminal["status"] == "ERROR"
+                        else "ERROR")),
+            report.update(
+                status=("FAIL" if original_terminal["status"] == "ERROR"
+                        else "ERROR"))),
+        lambda terminal, _report: terminal["child"].update(
+            exit_code=None, child_completed=False),
+    ]
+    if original_terminal["reason_code"] == "CHILD_COMMUNICATION_ERROR":
+        mutations.extend([
+            lambda terminal, _report: terminal["child"][
+                "communication_error"].update(error_type=""),
+            lambda terminal, _report: terminal["child"][
+                "communication_error"].update(message=""),
+            lambda terminal, _report: terminal["child"][
+                "communication_error"].update(error_type=7),
+            lambda terminal, _report: terminal["child"][
+                "communication_error"].update(
+                    observed_at="2000-01-01T00:00:00.000000Z"),
+            lambda terminal, _report: terminal["child"].update(
+                termination_started_at=
+                    "2000-01-01T00:00:00.000000Z"),
+            lambda terminal, _report: terminal["child"].update(
+                termination_completed_at=
+                    "2026-01-01T00:00:00.000000Z"),
+            lambda terminal, _report: terminal["child"].update(
+                termination_action="NONE"),
+            lambda terminal, _report: terminal["child"].update(
+                termination_action="FORGED"),
+        ])
+    else:
+        mutations.extend([
+            lambda terminal, _report: terminal["child"].update(
+                termination_action="TERMINATE_WAIT"),
+            lambda terminal, _report: terminal["child"].update(
+                communication_error={
+                    "error_type": "OSError",
+                    "message": "forged",
+                    "observed_at": terminal["child"]["started_at"],
+                }),
+        ])
+    try:
+        for index, mutator in enumerate(mutations):
+            rejected(index, mutator)
+    finally:
+        restore()
+    assert integration._validate_failed_gate_evidence(
+        "package", root, **expected)["semantic_status"] == expected_status
+
+
 def _assert_production_failure_transactions(
         base, checkout, sha, tree, archive):
     original_popen = producer.subprocess.Popen
@@ -340,6 +451,8 @@ def _assert_production_failure_transactions(
                     f".{root.name}-package-export" /
                     "asset-b-entry-manifest.json"),
             ], repo_root=checkout)
+        _assert_failed_lifecycle_mutations_rejected(
+            root, checkout, "FAIL")
         before = len(calls)
         expect_error(
             "already",
@@ -490,6 +603,8 @@ def _assert_production_failure_transactions(
         assert terminal["child"]["exit_code"] == -15
         assert terminal["child"]["termination_action"] == "TERMINATE_WAIT"
         _assert_failed_identity_rebinding_rejected(root, checkout)
+        _assert_failed_lifecycle_mutations_rejected(
+            root, checkout, "ERROR")
 
         start_root = base / "production-start-write-fault"
         before = len(calls)
@@ -774,6 +889,11 @@ def _assert_real_sleeper_communication_recovery(
         assert journal["status"] == "OPEN"
         assert journal["reason_code"] == "CHILD_STILL_LIVE"
         assert journal["disposition"] == "MONITORING_REQUIRED"
+        assert journal["child"]["child_completed"] is False
+        assert journal["child"]["exit_code"] is None
+        assert "completed_at" not in journal["child"]
+        assert journal["communication_error"]["message"] == \
+            "controlled communicate failure"
     finally:
         producer.subprocess.Popen = original_popen
         producer._production_bash_binding = original_binding

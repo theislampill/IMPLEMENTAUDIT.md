@@ -6,10 +6,12 @@ import hashlib
 import json
 import os
 import pathlib
+import re
 import sys
 import stat
 import subprocess
 import zipfile
+from datetime import datetime, timezone
 
 import b3v4_campaign
 import b3v4_contract
@@ -94,6 +96,9 @@ DETERMINISTIC_COMMANDS = {
     "registry-diff": ["git", "diff", "--check"],
 }
 CI_JOBS = ("package",)
+_CANONICAL_UTC = re.compile(
+    r"^(?P<year>[0-9]{4})-[0-9]{2}-[0-9]{2}T"
+    r"[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{6}Z$")
 
 PACKAGE_MANIFEST_SCHEMA = "implementaudit-package-entry-manifest-v3"
 PACKAGE_REQUIRED_PATHS = (
@@ -1497,6 +1502,76 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
     }, evidence_sha256
 
 
+def _parse_closed_utc(value, label):
+    if type(value) is not str or _CANONICAL_UTC.fullmatch(value) is None:
+        raise ValueError(f"{label} timestamp is not canonical UTC")
+    year = int(value[:4])
+    if year < 2000 or year > 2100:
+        raise ValueError(f"{label} timestamp year is outside contract")
+    try:
+        parsed = datetime.strptime(
+            value, "%Y-%m-%dT%H:%M:%S.%fZ").replace(
+                tzinfo=timezone.utc)
+    except ValueError as exc:
+        raise ValueError(f"{label} timestamp invalid") from exc
+    if parsed.isoformat(timespec="microseconds").replace(
+            "+00:00", "Z") != value:
+        raise ValueError(f"{label} timestamp is not canonical UTC")
+    return parsed
+
+
+def _validate_closed_child_lifecycle(
+        child, terminal, *, label, allow_communication):
+    started = _parse_closed_utc(child["started_at"], f"{label} started")
+    completed = _parse_closed_utc(
+        child["completed_at"], f"{label} completed")
+    if started > completed:
+        raise ValueError(f"{label} timestamp order invalid")
+    wall_duration = (completed - started).total_seconds()
+    if (type(child["duration_seconds"]) not in (int, float) or
+            child["duration_seconds"] < 0 or
+            abs(child["duration_seconds"] - wall_duration) > 1.0):
+        raise ValueError(f"{label} duration invalid")
+    if child["child_completed"] is not True or \
+            type(child["exit_code"]) is not int:
+        raise ValueError(f"{label} completion evidence invalid")
+    communication = child["communication_error"]
+    if communication is None:
+        if (child["termination_action"] != "NONE" or
+                child["termination_started_at"] is not None or
+                child["termination_completed_at"] is not None):
+            raise ValueError(f"{label} ordinary lifecycle invalid")
+        return completed
+    if not allow_communication:
+        raise ValueError(f"{label} communication lifecycle invalid")
+    _exact(communication, {
+        "error_type", "message", "observed_at",
+    }, f"{label} communication error")
+    if (type(communication["error_type"]) is not str or
+            not communication["error_type"] or
+            type(communication["message"]) is not str or
+            not communication["message"]):
+        raise ValueError(f"{label} communication error invalid")
+    observed = _parse_closed_utc(
+        communication["observed_at"], f"{label} communication observed")
+    termination_started = _parse_closed_utc(
+        child["termination_started_at"], f"{label} termination started")
+    termination_completed = _parse_closed_utc(
+        child["termination_completed_at"],
+        f"{label} termination completed")
+    if not (started <= observed <= termination_started <=
+            termination_completed == completed):
+        raise ValueError(f"{label} recovery timestamp order invalid")
+    if (child["termination_action"] not in {
+            "ALREADY_EXITED", "TERMINATE_WAIT", "KILL_WAIT"} or
+            terminal["status"] != "ERROR" or
+            terminal["reason_code"] != "CHILD_COMMUNICATION_ERROR" or
+            terminal["error_type"] != communication["error_type"] or
+            terminal["reason"] != communication["message"]):
+        raise ValueError(f"{label} communication reason matrix invalid")
+    return completed
+
+
 def _validate_failed_gate_evidence(
         name, gate_root, *, expected_target_sha, expected_target_tree,
         expected_qualification_scope, expected_qualified_input_sha256,
@@ -1633,7 +1708,7 @@ def _validate_failed_gate_evidence(
         require_object=True)
     _exact(terminal, {
         "schema", "gate", "status", "reason_code", "error_type",
-        "reason", "attempt", "qualified_input_sha256",
+        "reason", "completed_at", "attempt", "qualified_input_sha256",
         "target_sha", "target_tree", "qualification_scope",
         "qualification_identity", "bash_executable", "child",
         "checks", "partial_artifact_inventory",
@@ -1661,6 +1736,27 @@ def _validate_failed_gate_evidence(
             type(terminal["checks"]) is not list or
             type(terminal["partial_artifact_inventory"]) is not list):
         raise ValueError("failed gate terminal identity invalid")
+    terminal_completed = _parse_closed_utc(
+        terminal["completed_at"], "failed gate terminal completed")
+    if terminal["reason_code"] == "CHILD_NONZERO_EXIT":
+        if (terminal["status"] != "FAIL" or
+                terminal["error_type"] != "ChildExitError"):
+            raise ValueError("failed gate nonzero reason matrix invalid")
+    elif terminal["reason_code"] == "CHILD_COMMUNICATION_ERROR":
+        if terminal["status"] != "ERROR":
+            raise ValueError(
+                "failed gate communication reason matrix invalid")
+    elif terminal["reason_code"] == "CHILD_SPAWN_ERROR":
+        if terminal["status"] != "ERROR":
+            raise ValueError("failed gate spawn reason matrix invalid")
+    elif terminal["reason_code"].startswith("PACKAGE_"):
+        if terminal["status"] != "INVALID":
+            raise ValueError("failed gate package reason matrix invalid")
+    elif terminal["reason_code"] == "UNEXPECTED_PRODUCTION_ERROR":
+        if terminal["status"] != "ERROR":
+            raise ValueError("failed gate unexpected reason matrix invalid")
+    else:
+        raise ValueError("failed gate reason code invalid")
     child = terminal["child"]
     if child is not None:
         child_fields = {
@@ -1694,22 +1790,33 @@ def _validate_failed_gate_evidence(
                 child["stderr_sha256"] != hashlib.sha256(
                     retained[child["stderr_path"]]).hexdigest()):
             raise ValueError("failed gate child evidence invalid")
-        communication_error = child["communication_error"]
-        if communication_error is None:
-            if (child["termination_action"] != "NONE" or
-                    child["termination_started_at"] is not None or
-                    child["termination_completed_at"] is not None):
+        child_completed = _validate_closed_child_lifecycle(
+            child, terminal, label="failed gate child",
+            allow_communication=True)
+        if (terminal["reason_code"] == "CHILD_COMMUNICATION_ERROR" and
+                child["communication_error"] is None):
+            raise ValueError(
+                "failed gate communication child lifecycle invalid")
+        if terminal_completed < child_completed:
+            raise ValueError(
+                "failed gate terminal completed before child")
+        if terminal["reason_code"] == "CHILD_NONZERO_EXIT":
+            expected_reason = (
+                f"package child exited {child['exit_code']}"
+                if name == "package" else
+                f"deterministic check {child['name']} exited "
+                f"{child['exit_code']}")
+            if child["exit_code"] == 0 or \
+                    terminal["reason"] != expected_reason:
                 raise ValueError(
-                    "failed gate child termination evidence invalid")
-        else:
-            _exact(communication_error, {
-                "error_type", "reason", "observed_at",
-            }, "failed gate child communication error")
-            if (child["termination_action"] == "NONE" or
-                    type(child["termination_started_at"]) is not str or
-                    type(child["termination_completed_at"]) is not str):
-                raise ValueError(
-                    "failed gate child recovery evidence invalid")
+                    "failed gate nonzero reason invalid")
+        elif (terminal["reason_code"].startswith("PACKAGE_") and
+                child["exit_code"] != 0):
+            raise ValueError(
+                "failed gate package postcheck child exit invalid")
+    elif terminal["reason_code"] in {
+            "CHILD_COMMUNICATION_ERROR", "CHILD_NONZERO_EXIT"}:
+        raise ValueError("failed gate child reason requires child")
     if name == "deterministic":
         for row in terminal["checks"]:
             _exact(row, {
@@ -1738,6 +1845,12 @@ def _validate_failed_gate_evidence(
                         retained[row["stderr_path"]]).hexdigest()):
                 raise ValueError(
                     "failed deterministic check evidence invalid")
+            row_completed = _validate_closed_child_lifecycle(
+                row, terminal, label="failed deterministic check",
+                allow_communication=False)
+            if terminal_completed < row_completed:
+                raise ValueError(
+                    "failed deterministic terminal order invalid")
     if name == "package":
         inventory = terminal["partial_artifact_inventory"]
         labels = ["A", "B", "A_MANIFEST", "B_MANIFEST"]
@@ -1796,7 +1909,7 @@ def _validate_failed_gate_evidence(
         "qualification_scope", "qualification_identity",
         "producer_source_path", "producer_source_sha256",
         "stdout_sha256", "stderr_sha256", "terminal_sha256",
-        "bash_executable",
+        "bash_executable", "reason", "completed_at",
     }, "failed gate report")
     if (report["schema"] !=
             "implementaudit-gate-producer-report-v2" or
@@ -1804,6 +1917,7 @@ def _validate_failed_gate_evidence(
             report["status"] != terminal["status"] or
             report["reason_code"] != terminal["reason_code"] or
             report["error_type"] != terminal["error_type"] or
+            report["reason"] != terminal["reason"] or
             report["qualified_input_sha256"] !=
             start["qualified_input_sha256"] or
             report["target_sha"] != start["target_sha"] or
@@ -1825,6 +1939,10 @@ def _validate_failed_gate_evidence(
             report["terminal_sha256"] != hashlib.sha256(
                 retained[GATE_FILENAMES[name]]).hexdigest()):
         raise ValueError("failed gate report binding invalid")
+    report_completed = _parse_closed_utc(
+        report["completed_at"], "failed gate report completed")
+    if report_completed < terminal_completed:
+        raise ValueError("failed gate report completed before terminal")
     marker = (
         f"IMPLEMENTAUDIT_GATE_{terminal['status']} gate={name} "
         f"reason={terminal['reason_code']} attempt=1\n").encode()
