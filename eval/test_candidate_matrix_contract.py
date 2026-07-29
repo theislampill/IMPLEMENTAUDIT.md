@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import importlib.util
 import json
 import pathlib
+import shutil
+import tempfile
 
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -13,6 +16,7 @@ MODULE = HERE / "candidate_matrix_contract.py"
 DECLARATION = HERE / "candidate_matrix_contract.json"
 FIXTURES = ["B0", "B1", "B2", "E1", "E2a", "E2b", "E3", "E4",
             "E5", "E6", "E7", "E8", "E9", "E10"]
+LUNA_MODEL = "gpt-5.6-luna"
 
 
 def fixture_properties(fixture_id):
@@ -45,7 +49,7 @@ def valid_official_luna_result():
             "native_session_sha256": "3" * 64,
             "official_overall_status": "PASS",
             "independent_overall_status": "PASS",
-            "model_resolved": "gpt-5.6-sol",
+            "model_resolved": LUNA_MODEL,
             "official_verdict_sha256": "4" * 64,
         })
     return {
@@ -58,7 +62,7 @@ def valid_official_luna_result():
         "cell_count": 14, "cells": cells,
         "luna_identity": {
             "config": "L", "host": "codex-cli",
-            "model_resolved_required": "gpt-5.6-sol",
+            "model_resolved_required": LUNA_MODEL,
             "host_attestation_id": "luna-production",
             "host_attestation_sha256": "7" * 64,
         },
@@ -76,6 +80,35 @@ def valid_official_luna_result():
             "release_authorized": False, "tag_authorized": False,
             "publication_authorized": False,
         },
+    }
+
+
+def accepted_result_context():
+    return {
+        "campaign": "candidate-matrix-sol-luna-r1",
+        "artifact_contract": {"sha256": "6" * 64},
+        "configuration": {
+            "id": "L", "host": "codex-cli",
+            "model_requested": LUNA_MODEL,
+            "model_resolved_required": LUNA_MODEL,
+            "host_attestation": {
+                "id": "luna-production", "sha256": "7" * 64},
+        },
+        "fixtures": [
+            {
+                "id": fixture_id,
+                "path": f"eval/fixtures/{fixture_id}/fixture.json",
+                "sha256": hashlib.sha256(
+                    (HERE / "fixtures" / fixture_id /
+                     "fixture.json").read_bytes()).hexdigest(),
+                "complete_manifest_sha256": "a" * 64,
+            }
+            for fixture_id in FIXTURES
+        ],
+        "cells": [
+            {"index": index, "config": "L", "fixture": fixture_id}
+            for index, fixture_id in enumerate(FIXTURES)
+        ],
     }
 
 
@@ -132,7 +165,40 @@ def main():
         reject(lambda changed=changed: module.validate_declaration(changed))
 
     accepted_result = valid_official_luna_result()
-    module.validate_artifact("official_luna_result", accepted_result)
+    result_context = accepted_result_context()
+    validate_result = lambda value: module.validate_artifact(
+        "official_luna_result", value, packet=result_context,
+        packet_sha256=accepted_result["freeze_sha256"])
+    validate_result(accepted_result)
+    reject(lambda: module.validate_artifact(
+        "official_luna_result", accepted_result, packet=result_context,
+        packet_sha256="b" * 64))
+    for field, value in (
+            ("path", "eval/fixtures/E1/fixture.json"),
+            ("sha256", "b" * 64),
+            ("id", "E1")):
+        changed_context = copy.deepcopy(result_context)
+        changed_context["fixtures"][0][field] = value
+        reject(lambda changed_context=changed_context:
+               module.validate_artifact(
+                   "official_luna_result", accepted_result,
+                   packet=changed_context,
+                   packet_sha256=accepted_result["freeze_sha256"]))
+    for field, value in (("index", 1), ("config", "O"), ("fixture", "E1")):
+        changed_context = copy.deepcopy(result_context)
+        changed_context["cells"][0][field] = value
+        reject(lambda changed_context=changed_context:
+               module.validate_artifact(
+                   "official_luna_result", accepted_result,
+                   packet=changed_context,
+                   packet_sha256=accepted_result["freeze_sha256"]))
+    changed_contract = copy.deepcopy(accepted_result)
+    changed_contract["contract_sha256"] = "b" * 64
+    reject(lambda: validate_result(changed_contract))
+    for field, value in (("index", 1), ("config", "O"), ("fixture", "E1")):
+        changed_row = copy.deepcopy(accepted_result)
+        changed_row["cells"][0][field] = value
+        reject(lambda changed_row=changed_row: validate_result(changed_row))
     b0_properties = accepted_result["cells"][0]["properties"]
     assert b0_properties["agents_update_decision"] == {
         "state": "FAIL", "pass": False}
@@ -142,15 +208,78 @@ def main():
     required_fail = copy.deepcopy(accepted_result)
     required_fail["cells"][0]["properties"]["phase_start"] = {
         "state": "FAIL", "pass": False}
-    reject(lambda: module.validate_artifact(
-        "official_luna_result", required_fail))
+    reject(lambda: validate_result(required_fail))
     missing = copy.deepcopy(accepted_result)
     del missing["cells"][0]["properties"]["phase_start"]
-    reject(lambda: module.validate_artifact("official_luna_result", missing))
+    reject(lambda: validate_result(missing))
     extra = copy.deepcopy(accepted_result)
     extra["cells"][0]["properties"]["invented_property"] = {
         "state": "PASS", "pass": True}
-    reject(lambda: module.validate_artifact("official_luna_result", extra))
+    reject(lambda: validate_result(extra))
+    false_accepts = []
+    with tempfile.TemporaryDirectory(
+            prefix="matrix-fixture-replacement-") as tmp:
+        replacement_root = pathlib.Path(tmp)
+        replacement_eval = replacement_root / "eval"
+        shutil.copytree(HERE / "fixtures", replacement_eval / "fixtures")
+        b0_path = replacement_eval / "fixtures" / "B0" / "fixture.json"
+        replacement = json.loads(b0_path.read_text(encoding="utf-8"))
+        next(
+            prop for prop in replacement["properties"]
+            if prop["name"] == "phase_start")["required"] = False
+        b0_path.write_text(
+            json.dumps(replacement, indent=1) + "\n", encoding="utf-8")
+        replacement_result = copy.deepcopy(accepted_result)
+        replacement_result["cells"][0]["properties"]["phase_start"] = {
+            "state": "FAIL", "pass": False}
+        original_here = module.HERE
+        module.HERE = replacement_eval
+        try:
+            try:
+                module.validate_artifact(
+                    "official_luna_result", replacement_result,
+                    packet=result_context,
+                    packet_sha256=accepted_result["freeze_sha256"])
+            except (OSError, TypeError, ValueError):
+                pass
+            else:
+                false_accepts.append("ambient-fixture-requiredness-drift")
+        finally:
+            module.HERE = original_here
+    for label, model in (
+            ("Sol", "gpt-5.6-sol"),
+            ("Terra", "gpt-5.6-terra"),
+            ("arbitrary", "not-luna")):
+        changed = copy.deepcopy(accepted_result)
+        for cell in changed["cells"]:
+            cell["model_resolved"] = model
+        changed["luna_identity"]["model_resolved_required"] = model
+        try:
+            validate_result(changed)
+        except (OSError, TypeError, ValueError):
+            pass
+        else:
+            false_accepts.append(label)
+    single_row = copy.deepcopy(accepted_result)
+    single_row["cells"][6]["model_resolved"] = "gpt-5.6-sol"
+    try:
+        validate_result(single_row)
+    except (OSError, TypeError, ValueError):
+        pass
+    else:
+        false_accepts.append("single-row-model-mismatch")
+    stage_mismatch = copy.deepcopy(accepted_result)
+    stage_mismatch["luna_identity"][
+        "model_resolved_required"] = "gpt-5.6-sol"
+    try:
+        validate_result(stage_mismatch)
+    except (OSError, TypeError, ValueError):
+        pass
+    else:
+        false_accepts.append("stage-row-model-mismatch")
+    assert not false_accepts, (
+        "official accepted-result identity false accepts: " +
+        ", ".join(false_accepts))
 
     assert module._exact_json_equal({"x": [0.0]}, {"x": [0.0]})
     assert not module._exact_json_equal(False, 0)

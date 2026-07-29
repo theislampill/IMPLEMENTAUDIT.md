@@ -1140,7 +1140,9 @@ class CampaignDriver:
             independent, packet, packet_sha256, summaries)
         result = self._official_luna_result(
             packet, packet_sha256, summaries, independent_raw)
-        contract.validate_artifact("official_luna_result", result)
+        contract.validate_artifact(
+            "official_luna_result", result, packet=packet,
+            packet_sha256=packet_sha256)
         _write_new_json(result_path, result)
         official_raw = contract.read_custodied_bytes(
             result_path, "official Luna result", root=self.campaign_root)

@@ -50,6 +50,7 @@ FINAL_CLAIM_FIELDS = {
     "final_28_of_28", "cross_model_qualified", "release_authorized",
     "tag_authorized", "publication_authorized",
 }
+LUNA_MODEL = "gpt-5.6-luna"
 
 
 def decode_json_bytes(data, owner, *, require_object=False):
@@ -178,12 +179,33 @@ def _declaration():
     return load_json_file(DECLARATION_PATH, "candidate matrix artifact contract")
 
 
-def _fixture_property_declaration(fixture_id):
+def _fixture_property_declaration(fixture_id, fixture_identity):
     if fixture_id not in FIXTURE_ORDER:
         raise ValueError("official Luna result fixture identity invalid")
-    fixture = load_json_file(
-        HERE / "fixtures" / fixture_id / "fixture.json",
-        f"{fixture_id} fixture property declaration", root=HERE)
+    fixture_identity = _exact(
+        fixture_identity,
+        {"id", "path", "sha256", "complete_manifest_sha256"},
+        f"{fixture_id} packet fixture identity")
+    expected_path = f"eval/fixtures/{fixture_id}/fixture.json"
+    if (fixture_identity["id"] != fixture_id or
+            fixture_identity["path"] != expected_path):
+        raise ValueError(
+            f"{fixture_id} packet fixture identity invalid")
+    _digest(
+        fixture_identity["sha256"],
+        f"{fixture_id} packet fixture sha256")
+    _digest(
+        fixture_identity["complete_manifest_sha256"],
+        f"{fixture_id} packet fixture complete manifest sha256")
+    raw = read_custodied_bytes(
+        HERE.parent.joinpath(*expected_path.split("/")),
+        f"{fixture_id} fixture property declaration", root=HERE.parent)
+    if hashlib.sha256(raw).hexdigest() != fixture_identity["sha256"]:
+        raise ValueError(
+            f"{fixture_id} fixture property declaration hash drift")
+    fixture = decode_json_bytes(
+        raw, f"{fixture_id} fixture property declaration",
+        require_object=True)
     if (fixture.get("id") != fixture_id or
             type(fixture.get("properties")) is not list or
             not fixture["properties"]):
@@ -205,6 +227,46 @@ def _fixture_property_declaration(fixture_id):
             raise ValueError(f"{owner} declaration invalid")
         declaration[name] = prop["required"]
     return declaration
+
+
+def _official_result_packet_context(value, packet, packet_sha256):
+    if type(packet) is not dict:
+        raise ValueError("official Luna result packet context missing")
+    _digest(packet_sha256, "official Luna result packet sha256")
+    artifact_contract = packet.get("artifact_contract")
+    configuration = packet.get("configuration")
+    fixtures = packet.get("fixtures")
+    cells = packet.get("cells")
+    if (packet.get("campaign") != "candidate-matrix-sol-luna-r1" or
+            value["campaign"] != packet["campaign"] or
+            value["freeze_sha256"] != packet_sha256 or
+            type(artifact_contract) is not dict or
+            type(artifact_contract.get("sha256")) is not str or
+            value["contract_sha256"] != artifact_contract["sha256"] or
+            type(configuration) is not dict or
+            configuration.get("id") != "L" or
+            configuration.get("model_requested") != LUNA_MODEL or
+            configuration.get("model_resolved_required") != LUNA_MODEL or
+            type(configuration.get("host")) is not str or
+            not configuration["host"] or
+            type(configuration.get("host_attestation")) is not dict or
+            type(fixtures) is not list or len(fixtures) != len(FIXTURE_ORDER) or
+            type(cells) is not list or not exact_json_equal(cells, list(PLAN))):
+        raise ValueError("official Luna result packet context invalid")
+    _digest(
+        artifact_contract["sha256"],
+        "official Luna result packet contract sha256")
+    by_id = {}
+    for index, (fixture, expected_id) in enumerate(
+            zip(fixtures, FIXTURE_ORDER)):
+        if type(fixture) is not dict or fixture.get("id") != expected_id:
+            raise ValueError(
+                f"official Luna result packet fixture {index} invalid")
+        if expected_id in by_id:
+            raise ValueError(
+                "official Luna result packet fixture identities duplicate")
+        by_id[expected_id] = fixture
+    return configuration, by_id
 
 
 def contract_sha256():
@@ -403,7 +465,7 @@ def validate_freeze_envelope(packet):
     return packet
 
 
-def validate_artifact(name, value):
+def validate_artifact(name, value, *, packet=None, packet_sha256=None):
     declaration = _declaration()
     fields = declaration["lifecycle_schemas"].get(name)
     if fields is None:
@@ -506,6 +568,8 @@ def validate_artifact(name, value):
             raise ValueError(
                 "non-scored attempt terminal cannot claim a completion seal")
     if name == "official_luna_result":
+        configuration, fixture_identities = _official_result_packet_context(
+            value, packet, packet_sha256)
         if (value["disposition"] != "INCOMPLETE_PENDING_OPUS" or
                 value["luna_stage_accepted"] is not True or
                 value["accepted"] is not False or
@@ -546,7 +610,7 @@ def validate_artifact(name, value):
                 raise ValueError(
                     f"official Luna result cell {index} properties invalid")
             property_declaration = _fixture_property_declaration(
-                expected["fixture"])
+                expected["fixture"], fixture_identities[expected["fixture"]])
             if set(properties) != set(property_declaration):
                 raise ValueError(
                     f"official Luna result cell {index} property set invalid")
@@ -584,6 +648,9 @@ def validate_artifact(name, value):
             _string(
                 cell["model_resolved"],
                 f"official Luna result cell {index} model")
+            if cell["model_resolved"] != LUNA_MODEL:
+                raise ValueError(
+                    f"official Luna result cell {index} model invalid")
             _digest(
                 cell["official_verdict_sha256"],
                 f"official Luna result cell {index} verdict sha256")
@@ -599,6 +666,18 @@ def validate_artifact(name, value):
         _digest(
             identity["host_attestation_sha256"],
             "official Luna result Luna identity attestation sha256")
+        expected_identity = {
+            "config": "L",
+            "host": configuration["host"],
+            "model_resolved_required": LUNA_MODEL,
+            "host_attestation_id":
+                configuration["host_attestation"].get("id"),
+            "host_attestation_sha256":
+                configuration["host_attestation"].get("sha256"),
+        }
+        if not exact_json_equal(identity, expected_identity):
+            raise ValueError(
+                "official Luna result Luna identity disagrees with packet")
         independent = _exact(
             value["independent_rederivation"],
             INDEPENDENT_REDERIVATION_FIELDS,

@@ -23,6 +23,7 @@ FORBIDDEN = {
     "b3v4_rederive", "b3v4_contract", "hosts", "runner", "adapters",
     "lib.scoring", "eval.lib.scoring",
 }
+LUNA_MODEL = "gpt-5.6-luna"
 CAPTURE_FILES = (
     "host-read-profile.json", "host-read-preimages.json",
     "host-read-fixture.raw", "host-read-replay-spec.json",
@@ -914,10 +915,10 @@ def assert_independent_pass_property_boundary(module):
             "native_session_sha256": "3" * 64,
             "official_overall_status": "PASS",
             "independent_overall_status": "PASS",
-            "model_resolved": "gpt-5.6-sol",
+            "model_resolved": LUNA_MODEL,
             "official_verdict_sha256": "4" * 64,
         })
-    module._validate_stage_pass_rows(rows, declarations)
+    module._validate_stage_pass_rows(rows, declarations, LUNA_MODEL)
     assert rows[0]["properties"]["agents_update_decision"] == {
         "state": "FAIL", "pass": False}
     assert rows[8]["properties"]["current_answer_correctness"] == {
@@ -936,12 +937,47 @@ def assert_independent_pass_property_boundary(module):
     mutations.append(extra)
     for changed in mutations:
         try:
-            module._validate_stage_pass_rows(changed, declarations)
+            module._validate_stage_pass_rows(
+                changed, declarations, LUNA_MODEL)
         except module.EvidenceInvalid:
             pass
         else:
             raise AssertionError(
                 "independent PASS property boundary accepted invalid rows")
+    false_accepts = []
+    for label, model in (
+            ("Sol", "gpt-5.6-sol"),
+            ("Terra", "gpt-5.6-terra"),
+            ("arbitrary", "not-luna")):
+        changed = json.loads(json.dumps(rows))
+        for row in changed:
+            row["model_resolved"] = model
+        try:
+            module._validate_stage_pass_rows(
+                changed, declarations, LUNA_MODEL)
+        except module.EvidenceInvalid:
+            pass
+        else:
+            false_accepts.append(label)
+    single_row = json.loads(json.dumps(rows))
+    single_row[6]["model_resolved"] = "gpt-5.6-sol"
+    try:
+        module._validate_stage_pass_rows(
+            single_row, declarations, LUNA_MODEL)
+    except module.EvidenceInvalid:
+        pass
+    else:
+        false_accepts.append("single-row-model-mismatch")
+    try:
+        module._validate_stage_pass_rows(
+            rows, declarations, "gpt-5.6-sol")
+    except module.EvidenceInvalid:
+        pass
+    else:
+        false_accepts.append("stage-row-model-mismatch")
+    assert not false_accepts, (
+        "independent accepted-result model false accepts: " +
+        ", ".join(false_accepts))
 
 
 def load_module():

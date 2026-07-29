@@ -99,6 +99,7 @@ INDEPENDENT_PASS_ROW_FIELDS = {
     "model_resolved", "official_verdict_sha256",
 }
 MAX_JSON_DEPTH = 512
+LUNA_MODEL = "gpt-5.6-luna"
 ACCEPTANCE_RULE = (
     "all fourteen canonical Luna candidate fixture cells terminal and PASS; "
     "independent rederivation agrees; zero INVALID, ERROR, or substitution; "
@@ -3028,11 +3029,13 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha,
         return _invalid_row(mission, "INVALID", exc)
 
 
-def _validate_stage_pass_rows(rows, property_declarations):
+def _validate_stage_pass_rows(rows, property_declarations, expected_model):
     _expect(type(rows) is list and len(rows) == len(PLAN) and
             type(property_declarations) is dict and
             set(property_declarations) == set(range(len(PLAN))),
             "independent PASS property declarations incomplete")
+    _expect(expected_model == LUNA_MODEL,
+            "independent PASS stage model identity invalid")
     for index, (row, expected) in enumerate(zip(rows, PLAN)):
         _exact_fields(
             row, INDEPENDENT_PASS_ROW_FIELDS,
@@ -3045,6 +3048,7 @@ def _validate_stage_pass_rows(rows, property_declarations):
                 row["overall_status"] == "PASS" and
                 row["official_overall_status"] == "PASS" and
                 row["independent_overall_status"] == "PASS" and
+                row["model_resolved"] == expected_model and
                 row["reason"] is None and
                 type(row["properties"]) is dict and
                 bool(row["properties"]),
@@ -3150,7 +3154,9 @@ def rederive_campaign(packet_path, campaign_root):
     stage_accepted = status == "PASS" and \
         completed_count == len(packet["cells"])
     if stage_accepted:
-        _validate_stage_pass_rows(rows, property_declarations)
+        _validate_stage_pass_rows(
+            rows, property_declarations,
+            packet["configuration"]["model_resolved_required"])
     disposition = ("INCOMPLETE_PENDING_OPUS" if stage_accepted else
                    "INCOMPLETE" if status == "INCOMPLETE" else
                    "ANDON_STOPPED")
