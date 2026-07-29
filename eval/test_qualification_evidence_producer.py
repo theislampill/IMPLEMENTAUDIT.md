@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import copy
 import hashlib
+import os
 import pathlib
 import subprocess
 import tempfile
@@ -27,6 +28,26 @@ def expect_error(fragment, action):
 
 
 def main():
+    if os.name == "nt":
+        expected = pathlib.Path(
+            r"C:\Program Files\Git\bin\bash.exe").resolve(strict=True)
+        original_which = producer.shutil.which
+        producer.shutil.which = lambda _name: \
+            r"C:\Windows\System32\bash.exe"
+        try:
+            resolved = producer._resolved_argv(["bash"])
+        finally:
+            producer.shutil.which = original_which
+        assert pathlib.Path(resolved[0]) == expected, resolved
+        binding = producer._production_bash_binding()
+        assert binding["canonical_path"] == str(expected)
+        assert binding["path"] == str(expected)
+        assert binding["version_argv"] == [str(expected), "--version"]
+        assert binding["version_exit_code"] == 0
+        assert binding["sha256"] == hashlib.sha256(
+            expected.read_bytes()).hexdigest()
+        assert binding["byte_length"] == expected.stat().st_size
+
     with tempfile.TemporaryDirectory(
             prefix="qualification-producer-") as tmp:
         base = pathlib.Path(tmp)

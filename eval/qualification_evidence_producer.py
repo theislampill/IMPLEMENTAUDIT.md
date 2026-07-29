@@ -206,26 +206,99 @@ def _utc_now():
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
-def _resolved_argv(argv):
+def _bash_file_identity(observed):
+    return {
+        "device": observed.st_dev,
+        "inode": observed.st_ino,
+        "mode": observed.st_mode,
+        "size": observed.st_size,
+        "mtime_ns": observed.st_mtime_ns,
+    }
+
+
+def _production_bash_path():
+    if os.name == "nt":
+        candidate = pathlib.Path(r"C:\Program Files\Git\bin\bash.exe")
+    else:
+        located = shutil.which("bash")
+        if not located:
+            raise ValueError("production Bash unavailable")
+        try:
+            candidate = pathlib.Path(located).resolve(strict=True)
+        except OSError as exc:
+            raise ValueError(
+                "production Bash canonical executable unavailable") from exc
+    if not candidate.is_absolute():
+        raise ValueError("production Bash executable must be absolute")
+    return candidate
+
+
+def _production_bash_binding():
+    path = _production_bash_path().absolute()
+    if os.name == "nt" and os.path.normcase(os.path.normpath(str(path))) != \
+            os.path.normcase(os.path.normpath(
+                r"C:\Program Files\Git\bin\bash.exe")):
+        raise ValueError("production Git Bash path invalid")
+    try:
+        canonical = path.resolve(strict=True)
+        if canonical != path:
+            raise ValueError(
+                "production Bash link or reparse alias forbidden")
+        before = os.lstat(path)
+        raw = lifecycle.read_custodied_bytes(
+            path, "production Bash executable")
+        completed = subprocess.run(
+            [str(canonical), "--version"], stdin=subprocess.DEVNULL,
+            capture_output=True, check=False, shell=False)
+        after = os.lstat(path)
+    except ValueError:
+        raise
+    except OSError as exc:
+        raise ValueError("production Bash executable unavailable") from exc
+    before_identity = _bash_file_identity(before)
+    if (before_identity != _bash_file_identity(after) or
+            before.st_size != len(raw)):
+        raise ValueError(
+            "production Bash identity changed during custody read")
+    if completed.returncode != 0:
+        raise ValueError("production Bash version command failed")
+    try:
+        version_stdout = completed.stdout.decode("utf-8", errors="strict")
+        version_stderr = completed.stderr.decode("utf-8", errors="strict")
+    except UnicodeDecodeError as exc:
+        raise ValueError("production Bash version output is not UTF-8") from exc
+    return {
+        "path": str(path),
+        "canonical_path": str(canonical),
+        "sha256": hashlib.sha256(raw).hexdigest(),
+        "byte_length": len(raw),
+        "file_identity": before_identity,
+        "version_argv": [str(canonical), "--version"],
+        "version_exit_code": completed.returncode,
+        "version_stdout": version_stdout,
+        "version_stdout_sha256":
+            hashlib.sha256(completed.stdout).hexdigest(),
+        "version_stderr": version_stderr,
+        "version_stderr_sha256":
+            hashlib.sha256(completed.stderr).hexdigest(),
+    }
+
+
+def _resolved_argv(argv, *, bash_binding=None):
     result = list(argv)
     if result[0] == "bash":
-        executable = shutil.which("bash")
-        if not executable:
-            git_bash = pathlib.Path(
-                os.environ.get("ProgramFiles", r"C:\Program Files")) / \
-                "Git" / "bin" / "bash.exe"
-            if not git_bash.is_file():
-                raise ValueError("production Git Bash unavailable")
-            executable = str(git_bash)
-        result[0] = executable
+        binding = bash_binding or _production_bash_binding()
+        result[0] = binding["canonical_path"]
     return result
 
 
-def _production_deterministic(repo_root, qualified):
+def _production_deterministic(repo_root, qualified, bash_binding):
     checks = []
     artifacts = {}
     for index, name in enumerate(integration.DETERMINISTIC_CHECKS):
-        argv = _resolved_argv(integration.DETERMINISTIC_COMMANDS[name])
+        argv = _resolved_argv(
+            integration.DETERMINISTIC_COMMANDS[name],
+            bash_binding=bash_binding)
         started = _utc_now()
         process = subprocess.Popen(
             argv, cwd=repo_root, stdin=subprocess.DEVNULL,
@@ -254,6 +327,7 @@ def _production_deterministic(repo_root, qualified):
             integration.DETERMINISTIC_CHECKS) else 1,
         "failed_checks": [
             row["name"] for row in checks if row["exit_code"] != 0],
+        "bash_executable": bash_binding,
         "checks": checks,
     }
     if (len(checks) != len(integration.DETERMINISTIC_CHECKS) or
@@ -262,8 +336,9 @@ def _production_deterministic(repo_root, qualified):
     return terminal, artifacts
 
 
-def _production_package(repo_root, qualified, target_sha, target_tree):
-    bash = _resolved_argv(["bash"])[0]
+def _production_package(repo_root, qualified, target_sha, target_tree,
+                        bash_binding):
+    bash = _resolved_argv(["bash"], bash_binding=bash_binding)[0]
     argv = [bash, "scripts/verify-package.sh"]
     started = _utc_now()
     process = subprocess.Popen(
@@ -285,6 +360,7 @@ def _production_package(repo_root, qualified, target_sha, target_tree):
         "argv": argv, "started_at": started, "completed_at": completed,
         "pid": process.pid,
         "package_manifest_sha256": hashlib.sha256(manifest).hexdigest(),
+        "bash_executable": bash_binding,
     }
     return terminal, artifacts, stdout, stderr
 
@@ -310,13 +386,17 @@ def run_gate(name, *, repo_root, evidence_root, target_sha, target_tree,
             repo_root, target_sha, target_tree)
     artifacts = {}
     production_stdout = production_stderr = None
+    bash_binding = None
+    if not test_only and name in ("deterministic", "package"):
+        bash_binding = _production_bash_binding()
     if not test_only and name == "deterministic":
         terminal, artifacts = _production_deterministic(
-            repo_root, qualified_input_sha256)
+            repo_root, qualified_input_sha256, bash_binding)
     elif not test_only and name == "package":
         terminal, artifacts, production_stdout, production_stderr = \
             _production_package(
-                repo_root, qualified_input_sha256, target_sha, target_tree)
+                repo_root, qualified_input_sha256, target_sha, target_tree,
+                bash_binding)
         artifacts["package-command.stdout.log"] = production_stdout
         artifacts["package-command.stderr.log"] = production_stderr
         package_raw = artifacts["package-retained.skill"]
@@ -498,6 +578,8 @@ def run_gate(name, *, repo_root, evidence_root, target_sha, target_tree,
         "credentials_authorized": False,
         "model_or_metered_api_authorized": False,
     }
+    if bash_binding is not None:
+        start["bash_executable"] = bash_binding
     report = {
         "schema": "implementaudit-gate-producer-report-v1",
         "gate": name,
@@ -510,6 +592,8 @@ def run_gate(name, *, repo_root, evidence_root, target_sha, target_tree,
         "stderr_sha256": hashlib.sha256(stderr).hexdigest(),
         "terminal_sha256": hashlib.sha256(terminal_raw).hexdigest(),
     }
+    if bash_binding is not None:
+        report["bash_executable"] = bash_binding
     if name == "independent-review":
         report.update({
             "reviewer_identity": review["reviewer_identity"],

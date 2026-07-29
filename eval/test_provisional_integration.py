@@ -130,6 +130,82 @@ def expect_error(fragment, action):
         raise AssertionError(f"expected failure containing {fragment!r}")
 
 
+def _assert_production_bash_binding_boundary():
+    binding = evidence_producer._production_bash_binding()
+    deterministic = {
+        "schema": "implementaudit-deterministic-terminal-v2",
+        "gate": "deterministic",
+        "qualified_input_sha256": "a" * 64,
+        "exit_code": 0,
+        "failed_checks": [],
+        "bash_executable": binding,
+        "checks": [],
+    }
+    for index, name in enumerate(integration.DETERMINISTIC_CHECKS):
+        expected = list(integration.DETERMINISTIC_COMMANDS[name])
+        if expected[0] == "bash":
+            expected[0] = binding["canonical_path"]
+        deterministic["checks"].append({
+            "name": name,
+            "argv": expected,
+            "exit_code": 0,
+            "started_at": "2026-07-29T00:00:00Z",
+            "completed_at": "2026-07-29T00:00:01Z",
+            "pid": index + 1,
+            "stdout_path":
+                f"deterministic-{index:02d}-{name}.stdout.log",
+            "stdout_sha256": hashlib.sha256(b"").hexdigest(),
+            "stderr_path":
+                f"deterministic-{index:02d}-{name}.stderr.log",
+            "stderr_sha256": hashlib.sha256(b"").hexdigest(),
+        })
+    integration._validate_gate_terminal(
+        "deterministic", deterministic, "a" * 64, {},
+        evidence_mode="PRODUCTION")
+
+    package = {
+        "schema": "implementaudit-package-terminal-v2",
+        "gate": "package",
+        "qualified_input_sha256": "a" * 64,
+        "exit_code": 0,
+        "verification_passed": True,
+        "package_manifest_sha256": "b" * 64,
+        "argv": [
+            binding["canonical_path"], "scripts/verify-package.sh"],
+        "started_at": "2026-07-29T00:00:00Z",
+        "completed_at": "2026-07-29T00:00:01Z",
+        "pid": 1,
+        "bash_executable": binding,
+    }
+    integration._validate_gate_terminal(
+        "package", package, "a" * 64,
+        {"package-entry-manifest.json": "b" * 64},
+        evidence_mode="PRODUCTION")
+
+    mutations = (
+        ("wrong path", lambda row: row.update(
+            path=r"C:\Windows\System32\bash.exe")),
+        ("wrong hash", lambda row: row.update(sha256="0" * 64)),
+        ("wrong identity", lambda row: row["file_identity"].update(
+            inode=row["file_identity"]["inode"] + 1)),
+        ("wrong version", lambda row: row.update(
+            version_stdout=row["version_stdout"] + "forged\n")),
+        ("WSL basename", lambda row: row.update(
+            path="bash.exe", canonical_path="bash.exe",
+            version_argv=["bash.exe", "--version"])),
+    )
+    for label, mutate in mutations:
+        changed = copy.deepcopy(package)
+        mutate(changed["bash_executable"])
+        expect_error(
+            "bash",
+            lambda changed=changed: integration._validate_gate_terminal(
+                "package", changed, "a" * 64,
+                {"package-entry-manifest.json": "b" * 64},
+                evidence_mode="PRODUCTION"))
+    print("PROVISIONAL-PRODUCTION-BASH-BINDING=PASS")
+
+
 def _finalize_b3(base, external_surface_paths=None):
     campaign_root = base / "b3-campaign"
     surface_root = base / "b3-surfaces"
@@ -744,6 +820,7 @@ def main():
     # Round-3 governing RED: positive gate evidence comes only from the
     # controller-owned producer API, never direct test-authored terminals.
     assert callable(evidence_producer.run_gate)
+    _assert_production_bash_binding_boundary()
 
     # Governing round-2 RED: package authority must parse a real canonical
     # archive and derive its exact entry manifest, not merely compare digests.

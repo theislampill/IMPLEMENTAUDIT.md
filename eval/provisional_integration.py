@@ -334,6 +334,102 @@ def _digest(value, owner):
         raise ValueError(f"{owner} SHA-256 invalid")
 
 
+def _bash_identity(observed):
+    return {
+        "device": observed.st_dev,
+        "inode": observed.st_ino,
+        "mode": observed.st_mode,
+        "size": observed.st_size,
+        "mtime_ns": observed.st_mtime_ns,
+    }
+
+
+def _observe_production_bash(path):
+    if type(path) is not str or not pathlib.Path(path).is_absolute():
+        raise ValueError("production bash executable path invalid")
+    lexical = pathlib.Path(path).absolute()
+    if os.name == "nt" and os.path.normcase(os.path.normpath(str(lexical))) != \
+            os.path.normcase(os.path.normpath(
+                r"C:\Program Files\Git\bin\bash.exe")):
+        raise ValueError(
+            "production bash must be the explicit Git-for-Windows executable")
+    try:
+        canonical = lexical.resolve(strict=True)
+        if canonical != lexical:
+            raise ValueError(
+                "production bash link or reparse alias forbidden")
+        before = os.lstat(lexical)
+        raw = lifecycle.read_custodied_bytes(
+            lexical, "production bash executable")
+        completed = subprocess.run(
+            [str(canonical), "--version"], stdin=subprocess.DEVNULL,
+            capture_output=True, check=False, shell=False)
+        after = os.lstat(lexical)
+    except ValueError:
+        raise
+    except OSError as exc:
+        raise ValueError("production bash executable unavailable") from exc
+    identity = _bash_identity(before)
+    if identity != _bash_identity(after) or before.st_size != len(raw):
+        raise ValueError(
+            "production bash identity changed during custody read")
+    if completed.returncode != 0:
+        raise ValueError("production bash version command failed")
+    try:
+        stdout = completed.stdout.decode("utf-8", errors="strict")
+        stderr = completed.stderr.decode("utf-8", errors="strict")
+    except UnicodeDecodeError as exc:
+        raise ValueError("production bash version output is not UTF-8") from exc
+    return {
+        "path": str(lexical),
+        "canonical_path": str(canonical),
+        "sha256": hashlib.sha256(raw).hexdigest(),
+        "byte_length": len(raw),
+        "file_identity": identity,
+        "version_argv": [str(canonical), "--version"],
+        "version_exit_code": completed.returncode,
+        "version_stdout": stdout,
+        "version_stdout_sha256":
+            hashlib.sha256(completed.stdout).hexdigest(),
+        "version_stderr": stderr,
+        "version_stderr_sha256":
+            hashlib.sha256(completed.stderr).hexdigest(),
+    }
+
+
+def _validate_production_bash_binding(value):
+    _exact(value, {
+        "path", "canonical_path", "sha256", "byte_length",
+        "file_identity", "version_argv", "version_exit_code",
+        "version_stdout", "version_stdout_sha256",
+        "version_stderr", "version_stderr_sha256",
+    }, "production bash executable")
+    _exact(value["file_identity"], {
+        "device", "inode", "mode", "size", "mtime_ns",
+    }, "production bash file identity")
+    _digest(value["sha256"], "production bash executable")
+    _digest(value["version_stdout_sha256"], "production bash version stdout")
+    _digest(value["version_stderr_sha256"], "production bash version stderr")
+    if (type(value["byte_length"]) is not int or
+            value["byte_length"] < 1 or
+            any(type(value["file_identity"][key]) is not int
+                for key in value["file_identity"]) or
+            type(value["version_argv"]) is not list or
+            value["version_argv"] !=
+            [value["canonical_path"], "--version"] or
+            type(value["version_exit_code"]) is not int or
+            value["version_exit_code"] != 0 or
+            type(value["version_stdout"]) is not str or
+            not value["version_stdout"] or
+            type(value["version_stderr"]) is not str):
+        raise ValueError("production bash executable binding invalid")
+    observed = _observe_production_bash(value["path"])
+    if observed != value:
+        raise ValueError(
+            "production bash executable does not match local bytes and version")
+    return observed
+
+
 def _reparse_point(path_stat):
     return bool(getattr(path_stat, "st_file_attributes", 0) &
                 getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400))
@@ -652,7 +748,10 @@ def _validate_gate_terminal(name, value, qualified_input_sha256,
                             artifact_hashes, evidence_mode="TEST_ONLY"):
     common = {"schema", "gate", "qualified_input_sha256", "exit_code"}
     if name == "deterministic":
-        _exact(value, common | {"failed_checks", "checks"}, name)
+        deterministic_fields = {"failed_checks", "checks"}
+        if evidence_mode == "PRODUCTION":
+            deterministic_fields.add("bash_executable")
+        _exact(value, common | deterministic_fields, name)
         _string_list(value["failed_checks"], "deterministic failed checks")
         if (type(value["checks"]) is not list or
                 [row.get("name") if type(row) is dict else None
@@ -667,8 +766,8 @@ def _validate_gate_terminal(name, value, qualified_input_sha256,
                 }, "deterministic production check row")
                 expected_argv = DETERMINISTIC_COMMANDS[row["name"]]
                 if expected_argv[0] == "bash":
-                    if (pathlib.Path(row["argv"][0]).name.lower()
-                            not in ("bash", "bash.exe") or
+                    if (row["argv"][0] !=
+                            value["bash_executable"]["canonical_path"] or
                             row["argv"][1:] != expected_argv[1:]):
                         raise ValueError(
                             "deterministic production argv invalid")
@@ -692,17 +791,21 @@ def _validate_gate_terminal(name, value, qualified_input_sha256,
                         row["marker"] !=
                         f"FOCUSED_CHECK_PASS name={row['name']}"):
                     raise ValueError("deterministic check row invalid")
+        if evidence_mode == "PRODUCTION":
+            _validate_production_bash_binding(value["bash_executable"])
         passed = value["exit_code"] == 0 and value["failed_checks"] == []
     elif name == "package":
         package_fields = {
             "verification_passed", "package_manifest_sha256"}
         if evidence_mode == "PRODUCTION":
             package_fields |= {
-                "argv", "started_at", "completed_at", "pid"}
+                "argv", "started_at", "completed_at", "pid",
+                "bash_executable"}
         _exact(value, common | package_fields, name)
         if evidence_mode == "PRODUCTION":
-            if (pathlib.Path(value["argv"][0]).name.lower()
-                    not in ("bash", "bash.exe") or
+            _validate_production_bash_binding(value["bash_executable"])
+            if (value["argv"][0] !=
+                    value["bash_executable"]["canonical_path"] or
                     value["argv"][1:] != ["scripts/verify-package.sh"] or
                     type(value["pid"]) is not int or value["pid"] <= 0):
                 raise ValueError("package production execution invalid")
@@ -860,7 +963,7 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
 
     start = lifecycle.decode_strict_json_bytes(
         retained[start_name], f"{name} producer start", require_object=True)
-    _exact(start, {
+    start_fields = {
         "schema", "gate", "evidence_mode",
         "producer_source_path", "producer_source_sha256",
         "qualified_input_sha256", "target_sha",
@@ -868,7 +971,10 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
         "evaluated_surfaces_sha256", "invocation_count",
         "network_authorized", "credentials_authorized",
         "model_or_metered_api_authorized",
-    }, f"{name} producer start")
+    }
+    if not allow_test_evidence and name in ("deterministic", "package"):
+        start_fields.add("bash_executable")
+    _exact(start, start_fields, f"{name} producer start")
     expected_start = {
         "schema": "implementaudit-gate-producer-start-v1",
         "gate": name,
@@ -917,6 +1023,10 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
     _validate_gate_terminal(
         name, terminal, qualified_input_sha256, artifact_hashes,
         start["evidence_mode"])
+    if (not allow_test_evidence and name in ("deterministic", "package") and
+            start["bash_executable"] != terminal["bash_executable"]):
+        raise ValueError(
+            f"{name} producer start bash executable binding invalid")
     if name == "deterministic" and not allow_test_evidence:
         for row in terminal["checks"]:
             if (row["stdout_sha256"] !=
@@ -995,7 +1105,10 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
                 artifact_hashes["independent-review-structured.json"]):
             raise ValueError("independent-review identity/evidence invalid")
     else:
-        _exact(report, common, f"{name} producer report")
+        report_fields = set(common)
+        if not allow_test_evidence and name in ("deterministic", "package"):
+            report_fields.add("bash_executable")
+        _exact(report, report_fields, f"{name} producer report")
     if (report["schema"] != "implementaudit-gate-producer-report-v1" or
             report["gate"] != name or
             report["qualified_input_sha256"] != qualified_input_sha256 or
@@ -1010,7 +1123,10 @@ def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
             report["stderr_sha256"] !=
             hashlib.sha256(retained[stderr_name]).hexdigest() or
             report["terminal_sha256"] !=
-            hashlib.sha256(retained[terminal_name]).hexdigest()):
+            hashlib.sha256(retained[terminal_name]).hexdigest() or
+            (not allow_test_evidence and
+             name in ("deterministic", "package") and
+             report["bash_executable"] != terminal["bash_executable"])):
         raise ValueError(f"{name} report identity or byte binding invalid")
 
     stdout = retained[stdout_name].decode("utf-8", errors="strict")
