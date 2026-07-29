@@ -380,6 +380,99 @@ def assert_post_executor_terminal_step_failures(module):
             assert calls == [0]
 
 
+def assert_terminal_publication_failures(module):
+    original = module._write_new_json
+    terminal_name = "attempt-terminal.json"
+    marker_name = "campaign-andon.json"
+    for label in (
+            "one-time-pre-create", "valid-then-raise",
+            "partial-then-raise", "persistent-failure",
+            "conflicting-preexisting"):
+        with tempfile.TemporaryDirectory(
+                prefix=f"candidate-matrix-terminal-publication-{label}-") as tmp:
+            calls = []
+            injected = {"count": 0}
+
+            def counted_executor(context):
+                calls.append(context.mission["index"])
+                return executor(context)
+
+            def publication_control(path, value):
+                path = pathlib.Path(path)
+                if path.name != terminal_name:
+                    return original(path, value)
+                injected["count"] += 1
+                if label == "one-time-pre-create" and injected["count"] == 1:
+                    raise OSError("injected pre-create terminal failure")
+                if label == "valid-then-raise" and injected["count"] == 1:
+                    original(path, value)
+                    raise OSError("injected post-create terminal failure")
+                if label == "partial-then-raise" and injected["count"] == 1:
+                    with open(path, "xb") as stream:
+                        stream.write(b"{")
+                    raise OSError("injected partial terminal failure")
+                if label == "persistent-failure":
+                    raise OSError("injected persistent terminal failure")
+                if label == "conflicting-preexisting" and injected["count"] == 1:
+                    with open(path, "xb") as stream:
+                        stream.write(b"{}\n")
+                    raise FileExistsError("injected conflicting terminal")
+                return original(path, value)
+
+            driver = make_driver(module, tmp, counted_executor)
+            module._write_new_json = publication_control
+            try:
+                result = driver.run_next()
+            finally:
+                module._write_new_json = original
+            attempt = next(driver.campaign_root.glob("attempt-*"))
+            terminal_path = attempt / terminal_name
+            marker_path = driver.campaign_root / marker_name
+            assert calls == [0]
+            assert len(list(attempt.glob(terminal_name))) <= 1
+            if label == "valid-then-raise":
+                assert result["overall_status"] == "PASS", result
+                assert terminal_path.is_file()
+                assert not marker_path.exists()
+                independent = load_rederive_module().rederive_campaign(
+                    driver.campaign_root / "campaign-freeze.json",
+                    driver.campaign_root)
+                assert independent["luna_stage_accepted"] is False, independent
+                continue
+            if label == "one-time-pre-create":
+                assert result["overall_status"] in ("INVALID", "ERROR"), result
+                assert result["completed_attempt_seal"] is None
+                assert result["stop_reason"] == \
+                    "attempt-terminal-publication-failure"
+                assert terminal_path.is_file()
+                assert not marker_path.exists()
+            else:
+                assert result["schema"] == \
+                    "implementaudit-candidate-matrix-campaign-andon-v1", result
+                assert result["stop_reason"] == \
+                    "attempt-terminal-publication-failure"
+                assert marker_path.is_file()
+            independent = load_rederive_module().rederive_campaign(
+                driver.campaign_root / "campaign-freeze.json",
+                driver.campaign_root)
+            assert independent["disposition"] == "ANDON_STOPPED", independent
+            assert independent["luna_stage_accepted"] is False, independent
+            expect_error("stopped", driver.run_next)
+            assert calls == [0]
+            try:
+                driver.finalize_luna_stage()
+            except (OSError, TypeError, ValueError):
+                pass
+            else:
+                raise AssertionError(
+                    "terminal publication failure finalized a Luna stage")
+            assert not (
+                driver.campaign_root /
+                "candidate-matrix-luna-result.json").exists()
+            assert not (
+                driver.campaign_root / "luna-stage-terminal.json").exists()
+
+
 def main():
     module = load_module()
     assert module._exact_json_equal(False, False)
@@ -475,6 +568,7 @@ def main():
     assert_production_shaped_rederive_finalize(module)
     assert_post_executor_custody_failure_terminal(module)
     assert_post_executor_terminal_step_failures(module)
+    assert_terminal_publication_failures(module)
     print("candidate matrix campaign: PASS")
 
 

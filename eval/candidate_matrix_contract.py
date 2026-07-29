@@ -13,7 +13,7 @@ import campaign_lifecycle as lifecycle
 
 HERE = pathlib.Path(__file__).resolve().parent
 DECLARATION_PATH = HERE / "candidate_matrix_contract.json"
-DECLARATION_SHA256 = "6617ffd429dd613d244b9b8538c36626729452efa867b6897be88be912a18199"
+DECLARATION_SHA256 = "5b84c8a05daa2050538a1e11596227e06fec07add852eb318ede3cd3b36a0a08"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 FREEZE_FIELDS = {
@@ -489,6 +489,8 @@ def validate_artifact(name, value, *, packet_path=None, packet_root=None):
     expected = {
         "campaign_manifest":
             "implementaudit-candidate-matrix-luna-campaign-custody-v1",
+        "campaign_andon":
+            "implementaudit-candidate-matrix-campaign-andon-v1",
         "attempt_status":
             "implementaudit-candidate-matrix-luna-attempt-status-v1",
         "attempt_terminal":
@@ -498,7 +500,9 @@ def validate_artifact(name, value, *, packet_path=None, packet_root=None):
     }[name]
     if schema != expected:
         raise ValueError(f"{name} schema invalid")
-    if name in ("campaign_manifest", "attempt_status", "official_luna_result"):
+    if name in (
+            "campaign_manifest", "campaign_andon", "attempt_status",
+            "official_luna_result"):
         if value["campaign"] != "candidate-matrix-sol-luna-r1":
             raise ValueError(f"{name} campaign invalid")
         for key in ("freeze_sha256", "contract_sha256"):
@@ -506,6 +510,35 @@ def validate_artifact(name, value, *, packet_path=None, packet_root=None):
     if name == "campaign_manifest":
         if value["execution_stage"] != "LUNA":
             raise ValueError("campaign manifest execution stage invalid")
+    if name == "campaign_andon":
+        if (type(value["mission_index"]) is not int or
+                not 0 <= value["mission_index"] < 14):
+            raise ValueError("campaign ANDON mission index invalid")
+        expected_attempt = (
+            f"attempt-{value['mission_index']:03d}-L-")
+        if (type(value["attempt_name"]) is not str or
+                not value["attempt_name"].startswith(expected_attempt) or
+                value["execution_mode"] not in ("production", "test") or
+                value["terminal_path"] !=
+                f"{value['attempt_name']}/attempt-terminal.json" or
+                value["stop_reason"] !=
+                "attempt-terminal-publication-failure"):
+            raise ValueError("campaign ANDON identity invalid")
+        leaf = _exact(
+            value["terminal_leaf"], {"state", "byte_length", "sha256"},
+            "campaign ANDON terminal leaf")
+        if leaf["state"] not in ("absent", "nonconforming", "unreadable"):
+            raise ValueError("campaign ANDON terminal leaf state invalid")
+        if leaf["state"] == "nonconforming":
+            if (type(leaf["byte_length"]) is not int or
+                    leaf["byte_length"] < 0):
+                raise ValueError(
+                    "campaign ANDON terminal leaf length invalid")
+            _digest(leaf["sha256"], "campaign ANDON terminal leaf sha256")
+        elif (leaf["byte_length"] is not None or
+              leaf["sha256"] is not None):
+            raise ValueError("campaign ANDON terminal leaf binding invalid")
+        _string(value["error_type"], "campaign ANDON error type")
     if name == "attempt_status":
         validate_mission(value["mission"])
         if value["state"] != "PREPARED_BEFORE_HOST_SPAWN":

@@ -168,6 +168,38 @@ def _write_new_json(path, value):
     contract.write_new_json(path, value)
 
 
+CAMPAIGN_ANDON_NAME = "campaign-andon.json"
+
+
+def _terminal_leaf_observation(path, campaign_root):
+    path = pathlib.Path(path)
+    if not os.path.lexists(path):
+        return {"state": "absent", "byte_length": None, "sha256": None}
+    try:
+        raw = contract.read_custodied_bytes(
+            path, "attempt terminal publication", root=campaign_root)
+    except (OSError, ValueError, json.JSONDecodeError):
+        return {"state": "unreadable", "byte_length": None, "sha256": None}
+    return {
+        "state": "nonconforming", "byte_length": len(raw),
+        "sha256": _sha256_bytes(raw),
+    }
+
+
+def _exact_published_terminal(path, expected, campaign_root):
+    try:
+        raw = contract.read_custodied_bytes(
+            path, "attempt terminal publication", root=campaign_root)
+        if raw != contract.canonical_json_bytes(expected):
+            return False
+        observed = contract.decode_json_bytes(
+            raw, "attempt terminal publication", require_object=True)
+        contract.validate_artifact("attempt_terminal", observed)
+        return _exact_json_equal(observed, expected)
+    except (OSError, TypeError, ValueError, json.JSONDecodeError):
+        return False
+
+
 def _read_object(path, owner, *, root=None):
     return contract.load_json_file(path, owner, root=root)
 
@@ -598,8 +630,10 @@ class CampaignDriver:
                 f"{mission['fixture']}")
 
     def _next_mission(self, packet):
+        self._raise_if_campaign_andon(packet)
         allowed_root = {
             "campaign-freeze.json", "campaign-manifest.json",
+            CAMPAIGN_ANDON_NAME,
             "candidate-matrix-luna-independent-rederivation.json",
             "candidate-matrix-luna-result.json", "luna-stage-terminal.json"}
         allowed_root.update(self._attempt_name(m) for m in packet["cells"])
@@ -768,6 +802,93 @@ class CampaignDriver:
         self._ensure_campaign(raw, observed_sha, packet)
         self._validate_identities(packet)
 
+    def _raise_if_campaign_andon(self, packet):
+        path = self.campaign_root / CAMPAIGN_ANDON_NAME
+        if not os.path.lexists(path):
+            return
+        marker = _read_object(
+            path, "campaign ANDON", root=self.campaign_root)
+        contract.validate_artifact("campaign_andon", marker)
+        mission = packet["cells"][marker["mission_index"]]
+        expected_attempt = self._attempt_name(mission)
+        terminal_path = self.campaign_root / marker["terminal_path"]
+        if (marker["campaign"] != packet["campaign"] or
+                marker["freeze_sha256"] != _sha256_file(
+                    self.campaign_root / "campaign-freeze.json",
+                    root=self.campaign_root, owner="frozen packet") or
+                marker["contract_sha256"] !=
+                packet["artifact_contract"]["sha256"] or
+                marker["attempt_name"] != expected_attempt or
+                marker["execution_mode"] != self.execution_mode or
+                not _exact_json_equal(
+                    marker["terminal_leaf"],
+                    _terminal_leaf_observation(
+                        terminal_path, self.campaign_root))):
+            raise ValueError("campaign ANDON binding drift")
+        raise ValueError("campaign stopped by terminal publication failure")
+
+    def _publication_failure_terminal(self, mission, exc):
+        return {
+            "schema":
+                "implementaudit-candidate-matrix-luna-attempt-terminal-v1",
+            "campaign": "candidate-matrix-sol-luna-r1",
+            "mission_index": mission["index"],
+            "execution_mode": self.execution_mode,
+            "overall_status": "ERROR",
+            "resolved_model": None, "host_run_root": None,
+            "official_overall_status": None,
+            "official_verdict_sha256": None,
+            "stop_reason": "attempt-terminal-publication-failure",
+            "error_type": type(exc).__name__,
+            "completed_at": _utc_now(),
+            "completed_attempt_seal": None,
+        }
+
+    def _publish_attempt_terminal(self, attempt_root, terminal, mission,
+                                  packet_sha256, packet):
+        path = attempt_root / "attempt-terminal.json"
+        try:
+            _write_new_json(path, terminal)
+            return terminal
+        except Exception as first_exc:
+            if _exact_published_terminal(path, terminal, self.campaign_root):
+                return terminal
+            fallback = self._publication_failure_terminal(
+                mission, first_exc)
+            contract.validate_artifact("attempt_terminal", fallback)
+            if not os.path.lexists(path):
+                try:
+                    _write_new_json(path, fallback)
+                except Exception:
+                    if _exact_published_terminal(
+                            path, fallback, self.campaign_root):
+                        return fallback
+                else:
+                    if _exact_published_terminal(
+                            path, fallback, self.campaign_root):
+                        return fallback
+            marker = {
+                "schema":
+                    "implementaudit-candidate-matrix-campaign-andon-v1",
+                "campaign": packet["campaign"],
+                "freeze_sha256": packet_sha256,
+                "contract_sha256": packet["artifact_contract"]["sha256"],
+                "mission_index": mission["index"],
+                "attempt_name": attempt_root.name,
+                "execution_mode": self.execution_mode,
+                "terminal_path":
+                    f"{attempt_root.name}/attempt-terminal.json",
+                "terminal_leaf":
+                    _terminal_leaf_observation(path, self.campaign_root),
+                "stop_reason": "attempt-terminal-publication-failure",
+                "error_type": type(first_exc).__name__,
+                "created_at": _utc_now(),
+            }
+            contract.validate_artifact("campaign_andon", marker)
+            _write_new_json(
+                self.campaign_root / CAMPAIGN_ANDON_NAME, marker)
+            return marker
+
     def run_next(self):
         packet, raw, packet_sha256 = self._load_packet()
         self._ensure_campaign(raw, packet_sha256, packet)
@@ -889,8 +1010,8 @@ class CampaignDriver:
                 terminal["overall_status"] = "INVALID"
                 terminal["stop_reason"] = "frozen-input-drift"
             contract.validate_artifact("attempt_terminal", terminal)
-        _write_new_json(attempt_root / "attempt-terminal.json", terminal)
-        return terminal
+        return self._publish_attempt_terminal(
+            attempt_root, terminal, mission, packet_sha256, packet)
 
     @staticmethod
     def _stage_root_policy(packet_raw, packet_sha256, manifest_identity,
@@ -1148,6 +1269,7 @@ class CampaignDriver:
         packet, packet_raw, packet_sha256 = self._load_packet()
         self._ensure_campaign(packet_raw, packet_sha256, packet)
         self._validate_identities(packet)
+        self._raise_if_campaign_andon(packet)
         independent_path = self.campaign_root / packet["luna_stage"][
             "independent_result_name"]
         independent_raw = None
@@ -1194,6 +1316,7 @@ class CampaignDriver:
         packet, packet_raw, packet_sha256 = self._load_packet()
         self._ensure_campaign(packet_raw, packet_sha256, packet)
         self._validate_identities(packet)
+        self._raise_if_campaign_andon(packet)
         independent_path = self.campaign_root / packet["luna_stage"][
             "independent_result_name"]
         result_path = self.campaign_root / packet["luna_stage"][

@@ -60,6 +60,11 @@ CAMPAIGN_MANIFEST_FIELDS = {
     "schema", "campaign", "freeze_sha256", "contract_sha256", "created_at",
     "execution_stage",
 }
+CAMPAIGN_ANDON_FIELDS = {
+    "schema", "campaign", "freeze_sha256", "contract_sha256",
+    "mission_index", "attempt_name", "execution_mode", "terminal_path",
+    "terminal_leaf", "stop_reason", "error_type", "created_at",
+}
 ATTEMPT_STATUS_FIELDS = {
     "schema", "campaign", "freeze_sha256", "contract_sha256", "mission",
     "state", "execution_mode", "created_at", "host_attestation_binding",
@@ -195,7 +200,7 @@ def _exact_json_equal(left, right):
     return True
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
-CONTRACT_SHA256 = "6617ffd429dd613d244b9b8538c36626729452efa867b6897be88be912a18199"
+CONTRACT_SHA256 = "5b84c8a05daa2050538a1e11596227e06fec07add852eb318ede3cd3b36a0a08"
 OFFICIAL_STATES = frozenset({"PASS", "FAIL", "INVALID", "ERROR"})
 CONTINUE_STATES = frozenset({"PASS"})
 STOP_STATES = frozenset({"FAIL", "INVALID", "ERROR"})
@@ -622,10 +627,14 @@ def _validate_contract_declaration(declaration):
                 f"artifact contract descriptor {name} invalid")
     lifecycle = _exact_fields(
         declaration["lifecycle_schemas"],
-        {"campaign_manifest", "attempt_status", "attempt_terminal",
-         "official_luna_result"},
+        {"campaign_manifest", "campaign_andon", "attempt_status",
+         "attempt_terminal", "official_luna_result"},
         "artifact contract lifecycle schemas")
-    _expect(set(lifecycle["campaign_manifest"]) == CAMPAIGN_MANIFEST_FIELDS and
+    _expect(set(lifecycle) == {
+                "campaign_manifest", "campaign_andon", "attempt_status",
+                "attempt_terminal", "official_luna_result"} and
+            set(lifecycle["campaign_manifest"]) == CAMPAIGN_MANIFEST_FIELDS and
+            set(lifecycle["campaign_andon"]) == CAMPAIGN_ANDON_FIELDS and
             set(lifecycle["attempt_status"]) == ATTEMPT_STATUS_FIELDS and
             set(lifecycle["attempt_terminal"]) == ATTEMPT_TERMINAL_FIELDS and
             set(lifecycle["official_luna_result"]) ==
@@ -2734,6 +2743,78 @@ def _stopped_row(mission, status, reason, execution_mode):
             "independent_overall_status": status}
 
 
+def _terminal_leaf_observation(path):
+    path = pathlib.Path(path)
+    if not os.path.lexists(path):
+        return {"state": "absent", "byte_length": None, "sha256": None}
+    try:
+        raw = _read_bytes(path)
+    except (EvidenceInvalid, OSError, ValueError):
+        return {"state": "unreadable", "byte_length": None, "sha256": None}
+    return {
+        "state": "nonconforming", "byte_length": len(raw),
+        "sha256": _sha(raw),
+    }
+
+
+def _validate_campaign_andon(marker, packet, campaign_root, freeze_sha):
+    marker = _exact_fields(
+        marker, CAMPAIGN_ANDON_FIELDS, "campaign ANDON")
+    _expect(
+        marker["schema"] ==
+        "implementaudit-candidate-matrix-campaign-andon-v1" and
+        marker["campaign"] == packet["campaign"] and
+        marker["freeze_sha256"] == freeze_sha and
+        marker["contract_sha256"] ==
+        packet["artifact_contract"]["sha256"] and
+        type(marker["mission_index"]) is int and
+        0 <= marker["mission_index"] < len(packet["cells"]) and
+        marker["execution_mode"] in ("production", "test") and
+        marker["stop_reason"] ==
+        "attempt-terminal-publication-failure" and
+        type(marker["error_type"]) is str and bool(marker["error_type"]) and
+        type(marker["created_at"]) is str and bool(marker["created_at"]),
+        "campaign ANDON identity invalid")
+    mission = packet["cells"][marker["mission_index"]]
+    attempt_name = _attempt_name(mission)
+    _expect(
+        marker["attempt_name"] == attempt_name and
+        marker["terminal_path"] ==
+        f"{attempt_name}/attempt-terminal.json",
+        "campaign ANDON attempt identity invalid")
+    leaf = _exact_fields(
+        marker["terminal_leaf"], {"state", "byte_length", "sha256"},
+        "campaign ANDON terminal leaf")
+    _expect(
+        leaf["state"] in ("absent", "nonconforming", "unreadable"),
+        "campaign ANDON terminal leaf state invalid")
+    if leaf["state"] == "nonconforming":
+        _expect(
+            type(leaf["byte_length"]) is int and
+            leaf["byte_length"] >= 0 and
+            type(leaf["sha256"]) is str and HEX64.fullmatch(leaf["sha256"]),
+            "campaign ANDON terminal leaf binding invalid")
+    else:
+        _expect(
+            leaf["byte_length"] is None and leaf["sha256"] is None,
+            "campaign ANDON terminal leaf null binding invalid")
+    _expect(
+        _exact_json_equal(
+            leaf, _terminal_leaf_observation(
+                campaign_root / marker["terminal_path"])),
+        "campaign ANDON terminal leaf drift")
+    status, _ = _read_json(
+        campaign_root / attempt_name / "attempt-status.json",
+        "campaign ANDON attempt status")
+    status = _validate_attempt_status(
+        status, mission, freeze_sha,
+        packet["artifact_contract"]["sha256"], packet["configuration"])
+    _expect(
+        status["execution_mode"] == marker["execution_mode"],
+        "campaign ANDON execution mode drift")
+    return marker, mission
+
+
 def _bundle_content_hash(bundle):
     digest = hashlib.sha256()
     for name in ("manifest.json", "fixture.json", "prompt.txt",
@@ -3131,6 +3212,67 @@ def rederive_campaign(packet_path, campaign_root):
             "campaign custody invalid")
     expected_order = [_attempt_name(mission) for mission in packet["cells"]]
     expected_names = set(expected_order)
+    andon_path = campaign_root / "campaign-andon.json"
+    if os.path.lexists(andon_path):
+        marker_value, _ = _read_json(andon_path, "campaign ANDON")
+        marker, stopped_mission = _validate_campaign_andon(
+            marker_value, packet, campaign_root, freeze_sha)
+        allowed_andon_root = expected_names | {
+            "campaign-freeze.json", "campaign-manifest.json",
+            "campaign-andon.json"}
+        unexpected_root = {
+            path.name for path in campaign_root.iterdir()} - allowed_andon_root
+        _expect(
+            not unexpected_root,
+            "campaign ANDON contains unexpected custody entry")
+        _expect(
+            not list(campaign_root.glob("attempt-*.claiming")),
+            "campaign ANDON contains nonterminal claim")
+        actual_names = {
+            path.name for path in campaign_root.glob("attempt-*")
+            if not path.name.endswith(".claiming")}
+        stopped_index = marker["mission_index"]
+        _expect(
+            actual_names == set(expected_order[:stopped_index + 1]),
+            "campaign ANDON attempt prefix invalid")
+        stopped_attempt = campaign_root / marker["attempt_name"]
+        _expect(
+            stopped_attempt.is_dir() and
+            {path.name for path in stopped_attempt.iterdir()} <= {
+                "attempt-status.json", "attempt-terminal.json",
+                "host-attestation.json", "official-verdict.json",
+                "host-custody"},
+            "campaign ANDON attempt custody invalid")
+        property_declarations = {}
+        rows = [
+            _rederive_attempt(
+                packet, campaign_root, mission, freeze_sha,
+                property_declarations)
+            for mission in packet["cells"][:stopped_index]
+        ]
+        rows.append(_stopped_row(
+            stopped_mission, "ERROR", marker["stop_reason"],
+            marker["execution_mode"]))
+        observed_modes = {row.get("execution_mode") for row in rows}
+        exact_mode = next(iter(observed_modes)) \
+            if len(observed_modes) == 1 and \
+            observed_modes <= {"production", "test"} else None
+        return {
+            "schema":
+                "implementaudit-candidate-matrix-luna-independent-rederivation-v1",
+            "campaign": "candidate-matrix-sol-luna-r1",
+            "freeze_sha256": freeze_sha,
+            "contract_sha256": packet["artifact_contract"]["sha256"],
+            "execution_mode": exact_mode,
+            "luna_stage_status": "ERROR",
+            "disposition": "ANDON_STOPPED",
+            "luna_stage_accepted": False,
+            "accepted": False,
+            "cell_count": len(rows),
+            "cells": rows,
+            "claims": dict(FINAL_CLAIMS),
+            "reason": marker["stop_reason"],
+        }
     allowed_root = expected_names | {"campaign-freeze.json",
                                      "campaign-manifest.json"}
     unexpected_root = {path.name for path in campaign_root.iterdir()} - allowed_root
