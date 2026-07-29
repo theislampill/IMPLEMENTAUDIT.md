@@ -99,6 +99,65 @@ CI_JOBS = ("package",)
 _CANONICAL_UTC = re.compile(
     r"^(?P<year>[0-9]{4})-[0-9]{2}-[0-9]{2}T"
     r"[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{6}Z$")
+_PACKAGE_FAILURE_TABLE = {
+    "PACKAGE_EXPORT_ROOT_EXISTS": (
+        "INVALID", "PackagePreflightError",
+        "package reproducibility export root already exists",
+        "EXPORT_ROOT_CLAIM", "FORBIDDEN", (0,), "ROOT"),
+    "PACKAGE_EXPORT_CONTRACT_INVALID": (
+        "INVALID", "PackagePreflightError",
+        "package export contract invalid",
+        "EXPORT_CONTRACT", "FORBIDDEN", (0,), "LEAVES"),
+    "CHILD_SPAWN_ERROR": (
+        "ERROR", "ChildSpawnError", "package child spawn failed",
+        "CHILD_SPAWN", "FORBIDDEN", (0,), "NONE"),
+    "CHILD_COMMUNICATION_ERROR": (
+        "ERROR", None, None, "CHILD_COMMUNICATION", "REQUIRED",
+        (0, 1, 2, 3, 4), "NONE"),
+    "CHILD_NONZERO_EXIT": (
+        "FAIL", "ChildExitError", None, "CHILD_EXIT", "REQUIRED",
+        (0, 1, 2, 3, 4), "NONE"),
+    "PACKAGE_EXPORT_PAIR_MISSING": (
+        "INVALID", "PackagePostcheckError",
+        "package child produced neither export",
+        "EXPORT_POSTCHECK", "REQUIRED", (0,), "NONE"),
+    "PACKAGE_EXPORT_PAIR_INCOMPLETE": (
+        "INVALID", "PackagePostcheckError",
+        "package child produced only one export",
+        "EXPORT_POSTCHECK", "REQUIRED", (1,), "NONE"),
+    "PACKAGE_EXPORT_ALIAS": (
+        "INVALID", "PackagePostcheckError",
+        "package export custody invalid",
+        "EXPORT_POSTCHECK", "REQUIRED", (2,), "NONE"),
+    "PACKAGE_EXPORT_CUSTODY_INVALID": (
+        "INVALID", "PackagePostcheckError",
+        "package export custody invalid",
+        "EXPORT_POSTCHECK", "REQUIRED", (2,), "NONE"),
+    "PACKAGE_EXPORT_DRIFT": (
+        "INVALID", "PackagePostcheckError",
+        "package reproducibility assets differ",
+        "EXPORT_POSTCHECK", "REQUIRED", (2,), "NONE"),
+    "PACKAGE_ARCHIVE_INVALID": (
+        "INVALID", "PackagePostcheckError", "package archive invalid",
+        "MANIFEST_POSTCHECK", "REQUIRED", (2,), "NONE"),
+    "PACKAGE_MANIFEST_DRIFT": (
+        "INVALID", "PackagePostcheckError",
+        "package reproducibility entry manifests differ",
+        "MANIFEST_POSTCHECK", "REQUIRED", (2,), "NONE"),
+    "PACKAGE_MANIFEST_INVALID": (
+        "INVALID", "PackagePostcheckError",
+        "package entry manifest invalid",
+        "MANIFEST_POSTCHECK", "REQUIRED", (2,), "NONE"),
+    "PACKAGE_SOURCE_BINDING_INVALID": (
+        "INVALID", "PackagePostcheckError",
+        "package source binding invalid",
+        "MANIFEST_POSTCHECK", "REQUIRED", (2, 4), "NONE"),
+}
+_PACKAGE_PUBLICATION_FAILURE_TABLE = {
+    "RAW_LOG_PUBLICATION": True,
+    "FAILURE_EVIDENCE_PUBLICATION": None,
+    "SUCCESS_EVIDENCE_PUBLICATION": True,
+}
 
 PACKAGE_MANIFEST_SCHEMA = "implementaudit-package-entry-manifest-v3"
 PACKAGE_REQUIRED_PATHS = (
@@ -1520,6 +1579,42 @@ def _parse_closed_utc(value, label):
     return parsed
 
 
+def _independent_conflict_snapshot(label, path):
+    path = pathlib.Path(path).absolute()
+    observed = os.lstat(path)
+    entries = []
+    is_reparse = bool(
+        getattr(observed, "st_file_attributes", 0) & 0x400)
+    if (stat.S_ISDIR(observed.st_mode) and
+            not stat.S_ISLNK(observed.st_mode) and not is_reparse):
+        for entry in sorted(path.iterdir(), key=lambda item: item.name):
+            if len(entries) == 64:
+                raise ValueError("package conflict entry bound exceeded")
+            entries.append({
+                "name": entry.name,
+                "file_identity": {
+                    "device": os.lstat(entry).st_dev,
+                    "inode": os.lstat(entry).st_ino,
+                    "mode": os.lstat(entry).st_mode,
+                    "size": os.lstat(entry).st_size,
+                    "mtime_ns": os.lstat(entry).st_mtime_ns,
+                    "link_count": os.lstat(entry).st_nlink,
+                },
+            })
+    return {
+        "label": label,
+        "lexical_path": str(path),
+        "canonical_path": os.path.normcase(os.path.abspath(path)),
+        "file_identity": {
+            "device": observed.st_dev, "inode": observed.st_ino,
+            "mode": observed.st_mode, "size": observed.st_size,
+            "mtime_ns": observed.st_mtime_ns,
+            "link_count": observed.st_nlink,
+        },
+        "entries": entries,
+    }
+
+
 def _validate_closed_child_lifecycle(
         child, terminal, *, label, allow_communication):
     started = _parse_closed_utc(child["started_at"], f"{label} started")
@@ -1711,7 +1806,7 @@ def _validate_failed_gate_evidence(
         "reason", "completed_at", "attempt", "qualified_input_sha256",
         "target_sha", "target_tree", "qualification_scope",
         "qualification_identity", "bash_executable", "child",
-        "checks", "partial_artifact_inventory",
+        "checks", "partial_artifact_inventory", "stage", "conflicts",
     }, "failed gate terminal")
     if (terminal["schema"] !=
             "implementaudit-production-gate-failure-terminal-v1" or
@@ -1738,25 +1833,61 @@ def _validate_failed_gate_evidence(
         raise ValueError("failed gate terminal identity invalid")
     terminal_completed = _parse_closed_utc(
         terminal["completed_at"], "failed gate terminal completed")
-    if terminal["reason_code"] == "CHILD_NONZERO_EXIT":
-        if (terminal["status"] != "FAIL" or
-                terminal["error_type"] != "ChildExitError"):
-            raise ValueError("failed gate nonzero reason matrix invalid")
-    elif terminal["reason_code"] == "CHILD_COMMUNICATION_ERROR":
-        if terminal["status"] != "ERROR":
-            raise ValueError(
-                "failed gate communication reason matrix invalid")
-    elif terminal["reason_code"] == "CHILD_SPAWN_ERROR":
-        if terminal["status"] != "ERROR":
-            raise ValueError("failed gate spawn reason matrix invalid")
-    elif terminal["reason_code"].startswith("PACKAGE_"):
-        if terminal["status"] != "INVALID":
-            raise ValueError("failed gate package reason matrix invalid")
-    elif terminal["reason_code"] == "UNEXPECTED_PRODUCTION_ERROR":
-        if terminal["status"] != "ERROR":
-            raise ValueError("failed gate unexpected reason matrix invalid")
+    if name == "package":
+        try:
+            package_spec = _PACKAGE_FAILURE_TABLE[
+                terminal["reason_code"]]
+        except KeyError as exc:
+            raise ValueError("failed package reason is not closed") from exc
+        (expected_status, expected_error, expected_reason,
+         expected_stage, child_mode, inventory_counts,
+         conflict_mode) = package_spec
+        if (terminal["status"] != expected_status or
+                (expected_error is not None and
+                 terminal["error_type"] != expected_error) or
+                (expected_reason is not None and
+                 terminal["reason"] != expected_reason) or
+                terminal["stage"] != expected_stage or
+                (child_mode == "REQUIRED" and
+                 terminal["child"] is None) or
+                (child_mode == "FORBIDDEN" and
+                 terminal["child"] is not None) or
+                len(terminal["partial_artifact_inventory"]) not in
+                inventory_counts or
+                type(terminal["conflicts"]) is not list or
+                (conflict_mode == "NONE" and terminal["conflicts"]) or
+                (conflict_mode == "ROOT" and
+                 [row.get("label") if type(row) is dict else None
+                  for row in terminal["conflicts"]] != ["EXPORT_ROOT"]) or
+                (conflict_mode == "LEAVES" and any(
+                    type(row) is not dict or
+                    row.get("label") not in {"A", "B"}
+                    for row in terminal["conflicts"])) or
+                (conflict_mode == "LEAVES" and
+                 not terminal["conflicts"])):
+            raise ValueError("failed package reason matrix invalid")
     else:
-        raise ValueError("failed gate reason code invalid")
+        if terminal["stage"] != "DETERMINISTIC_CHILD" or \
+                terminal["conflicts"] != []:
+            raise ValueError("failed deterministic stage invalid")
+        if terminal["reason_code"] == "CHILD_NONZERO_EXIT":
+            if (terminal["status"] != "FAIL" or
+                    terminal["error_type"] != "ChildExitError"):
+                raise ValueError(
+                    "failed gate nonzero reason matrix invalid")
+        elif terminal["reason_code"] == "CHILD_COMMUNICATION_ERROR":
+            if terminal["status"] != "ERROR":
+                raise ValueError(
+                    "failed gate communication reason matrix invalid")
+        elif terminal["reason_code"] == "CHILD_SPAWN_ERROR":
+            if terminal["status"] != "ERROR":
+                raise ValueError("failed gate spawn reason matrix invalid")
+        elif terminal["reason_code"] == "UNEXPECTED_PRODUCTION_ERROR":
+            if terminal["status"] != "ERROR":
+                raise ValueError(
+                    "failed gate unexpected reason matrix invalid")
+        else:
+            raise ValueError("failed gate reason code invalid")
     child = terminal["child"]
     if child is not None:
         child_fields = {
@@ -1810,7 +1941,8 @@ def _validate_failed_gate_evidence(
                     terminal["reason"] != expected_reason:
                 raise ValueError(
                     "failed gate nonzero reason invalid")
-        elif (terminal["reason_code"].startswith("PACKAGE_") and
+        elif (name == "package" and terminal["stage"] in {
+                "EXPORT_POSTCHECK", "MANIFEST_POSTCHECK"} and
                 child["exit_code"] != 0):
             raise ValueError(
                 "failed gate package postcheck child exit invalid")
@@ -1854,9 +1986,12 @@ def _validate_failed_gate_evidence(
     if name == "package":
         inventory = terminal["partial_artifact_inventory"]
         labels = ["A", "B", "A_MANIFEST", "B_MANIFEST"]
-        if (len(inventory) != 4 or
-                [row.get("label") if type(row) is dict else None
-                 for row in inventory] != labels):
+        observed_labels = [
+            row.get("label") if type(row) is dict else None
+            for row in inventory]
+        if (len(set(observed_labels)) != len(observed_labels) or
+                observed_labels != [
+                    label for label in labels if label in observed_labels]):
             raise ValueError("failed package inventory coverage invalid")
         export_root = gate_root.parent / \
             f".{gate_root.name}-package-export"
@@ -1866,21 +2001,54 @@ def _validate_failed_gate_evidence(
             export_root / "asset-a-entry-manifest.json",
             export_root / "asset-b-entry-manifest.json",
         ]
-        for row, label, path in zip(inventory, labels, paths):
+        path_by_label = dict(zip(labels, paths))
+        expected_inventory = []
+        inventory_paths = (
+            [] if terminal["stage"] in {
+                "EXPORT_ROOT_CLAIM", "EXPORT_CONTRACT", "CHILD_SPAWN"}
+            else list(zip(labels, paths)))
+        for label, path in inventory_paths:
+            if not (path.exists() or path.is_symlink()):
+                continue
+            observed_stat = os.lstat(path)
+            row = {
+                "label": label, "path": str(path),
+                "state": "INVALID", "byte_length": None,
+                "sha256": None,
+                "file_identity": {
+                    "device": observed_stat.st_dev,
+                    "inode": observed_stat.st_ino,
+                    "mode": observed_stat.st_mode,
+                    "size": observed_stat.st_size,
+                    "mtime_ns": observed_stat.st_mtime_ns,
+                    "link_count": observed_stat.st_nlink,
+                },
+                "error_type": None,
+            }
+            try:
+                raw = lifecycle.read_custodied_bytes(
+                    path, f"failed package asset {label}",
+                    root=path.parent)
+            except Exception as exc:
+                row["error_type"] = type(exc).__name__
+            else:
+                row.update({
+                    "state": "REGULAR", "byte_length": len(raw),
+                    "sha256": hashlib.sha256(raw).hexdigest(),
+                })
+            expected_inventory.append(row)
+        if inventory != expected_inventory:
+            raise ValueError("failed package inventory bytes invalid")
+        for row in inventory:
+            label = row["label"]
+            path = path_by_label[label]
             _exact(row, {
                 "label", "path", "state", "byte_length", "sha256",
                 "file_identity", "error_type",
             }, "failed package inventory row")
             if row["path"] != str(path):
                 raise ValueError("failed package inventory path invalid")
-            if row["state"] == "MISSING":
-                if (path.exists() or path.is_symlink() or
-                        any(row[key] is not None for key in (
-                            "byte_length", "sha256", "file_identity",
-                            "error_type"))):
-                    raise ValueError(
-                        "failed package missing inventory invalid")
-            elif row["state"] == "REGULAR":
+            if row["state"] == "REGULAR":
                 raw = lifecycle.read_custodied_bytes(
                     path, f"failed package asset {label}",
                     root=path.parent)
@@ -1900,6 +2068,25 @@ def _validate_failed_gate_evidence(
                         "failed package regular inventory invalid")
             elif row["state"] != "INVALID":
                 raise ValueError("failed package inventory state invalid")
+        conflict_paths = {
+            "EXPORT_ROOT": export_root,
+            "A": paths[0],
+            "B": paths[1],
+        }
+        expected_conflicts = []
+        for conflict in terminal["conflicts"]:
+            _exact(conflict, {
+                "label", "lexical_path", "canonical_path",
+                "file_identity", "entries",
+            }, "failed package conflict")
+            label = conflict["label"]
+            if label not in conflict_paths:
+                raise ValueError("failed package conflict label invalid")
+            expected_conflicts.append(
+                _independent_conflict_snapshot(
+                    label, conflict_paths[label]))
+        if terminal["conflicts"] != expected_conflicts:
+            raise ValueError("failed package conflict identity invalid")
     report = lifecycle.decode_strict_json_bytes(
         retained[f"{name}-report.json"], "failed gate report",
         require_object=True)

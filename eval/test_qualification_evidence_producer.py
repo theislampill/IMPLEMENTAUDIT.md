@@ -299,6 +299,7 @@ def _assert_failed_lifecycle_mutations_rejected(
                         else "ERROR"))),
         lambda terminal, _report: terminal["child"].update(
             exit_code=None, child_completed=False),
+        lambda terminal, _report: terminal.update(child=None),
     ]
     if original_terminal["reason_code"] == "CHILD_COMMUNICATION_ERROR":
         mutations.extend([
@@ -342,11 +343,57 @@ def _assert_failed_lifecycle_mutations_rejected(
         "package", root, **expected)["semantic_status"] == expected_status
 
 
+def _assert_forged_package_reason_rejected(root, checkout):
+    names = [
+        "package-terminal.json", "package-report.json",
+        "package.stdout.log", "package-evidence-manifest.json",
+    ]
+    originals = {name: (root / name).read_bytes() for name in names}
+    start = json.loads(
+        (root / "package-start.json").read_text(encoding="utf-8"))
+    expected = _failed_expected(start, checkout)
+    terminal = json.loads(originals["package-terminal.json"])
+    report = json.loads(originals["package-report.json"])
+    terminal.update({
+        "status": "INVALID",
+        "reason_code": "PACKAGE_FORGED_REASON",
+        "error_type": "PackagePostcheckError",
+        "reason": "forged package reason",
+    })
+    report.update({
+        "status": terminal["status"],
+        "reason_code": terminal["reason_code"],
+        "error_type": terminal["error_type"],
+        "reason": terminal["reason"],
+    })
+    marker = (
+        b"IMPLEMENTAUDIT_GATE_INVALID gate=package "
+        b"reason=PACKAGE_FORGED_REASON attempt=1\n")
+    report["stdout_sha256"] = hashlib.sha256(marker).hexdigest()
+    try:
+        (root / "package-terminal.json").write_bytes(
+            producer._encoded(terminal))
+        (root / "package-report.json").write_bytes(
+            producer._encoded(report))
+        (root / "package.stdout.log").write_bytes(marker)
+        _rebind_failed_root(root)
+        expect_error(
+            "not closed",
+            lambda: integration._validate_failed_gate_evidence(
+                "package", root, **expected))
+    finally:
+        for name, raw in originals.items():
+            (root / name).write_bytes(raw)
+
+
 def _assert_production_failure_transactions(
         base, checkout, sha, tree, archive):
     original_popen = producer.subprocess.Popen
     original_binding = producer._production_bash_binding
     original_manifest = producer._manifest_for_archive
+    original_contract = producer._package_export_contract
+    original_reader = producer._read_exported_package_pair
+    original_production_package = producer._production_package
     original_validate = integration.validate_package_archive
     original_write_new = producer._write_new
     calls = []
@@ -386,16 +433,21 @@ def _assert_production_failure_transactions(
 
     def popen(argv, **kwargs):
         if len(argv) >= 2 and argv[1] == "scripts/verify-package.sh":
+            if behavior.get("spawn_error"):
+                calls.append(list(argv))
+                raise OSError("controlled spawn failure")
             return FakeProcess(argv, **kwargs)
         return original_popen(argv, **kwargs)
 
     def invoke(label, *, exit_code=0, action=None, reason,
-               manifest=None, validate=None, communicate_error=False):
+               manifest=None, validate=None, communicate_error=False,
+               spawn_error=False):
         root = base / f"production-{label}"
         behavior.clear()
         behavior.update(
             exit_code=exit_code, action=action,
-            communicate_error=communicate_error)
+            communicate_error=communicate_error,
+            spawn_error=spawn_error)
         if manifest is not None:
             producer._manifest_for_archive = manifest
         else:
@@ -432,25 +484,57 @@ def _assert_production_failure_transactions(
     producer.subprocess.Popen = popen
     producer._production_bash_binding = _mock_bash_binding
     try:
+        conflict_root = base / "production-export-root-exists"
+        conflict_export = conflict_root.parent / \
+            f".{conflict_root.name}-package-export"
+        conflict_export.mkdir()
+        before = len(calls)
+        expect_error(
+            "PACKAGE_EXPORT_ROOT_EXISTS",
+            lambda: producer.run_gate(
+                "package", repo_root=checkout,
+                evidence_root=conflict_root,
+                target_sha=sha, target_tree=tree,
+                qualification_scope="TOOLING_EXACT_SHA",
+                prior_evidence_sha256="c" * 64))
+        assert len(calls) == before
+        assert _validate_failed_test(
+            "package", conflict_root,
+            checkout)["reason_code"] == "PACKAGE_EXPORT_ROOT_EXISTS"
+        conflict_leaf = conflict_export / "late-residue"
+        conflict_leaf.write_bytes(b"tamper")
+        expect_error(
+            "conflict identity",
+            lambda: _validate_failed_test(
+                "package", conflict_root, checkout))
+        conflict_leaf.unlink()
+
+        contract_root = base / "production-export-contract-invalid"
+        before = len(calls)
+        def fail_contract(_repo_root, asset_a, _asset_b):
+            pathlib.Path(asset_a).write_bytes(b"pre-spawn conflict")
+            raise ValueError("controlled contract conflict")
+        producer._package_export_contract = fail_contract
+        expect_error(
+            "PACKAGE_EXPORT_CONTRACT_INVALID",
+            lambda: producer.run_gate(
+                "package", repo_root=checkout,
+                evidence_root=contract_root,
+                target_sha=sha, target_tree=tree,
+                qualification_scope="TOOLING_EXACT_SHA",
+                prior_evidence_sha256="c" * 64))
+        producer._package_export_contract = original_contract
+        assert len(calls) == before
+        assert _validate_failed_test(
+            "package", contract_root,
+            checkout)["reason_code"] == \
+            "PACKAGE_EXPORT_CONTRACT_INVALID"
+
         root = invoke(
             "exit23", exit_code=23, reason="CHILD_NONZERO_EXIT")
         _assert_closed_failure_root(
-            root, "CHILD_NONZERO_EXIT", expected_inventory=[
-                producer._missing_export_row(
-                    "A", root.parent /
-                    f".{root.name}-package-export" / "asset-a.skill"),
-                producer._missing_export_row(
-                    "B", root.parent /
-                    f".{root.name}-package-export" / "asset-b.skill"),
-                producer._missing_export_row(
-                    "A_MANIFEST", root.parent /
-                    f".{root.name}-package-export" /
-                    "asset-a-entry-manifest.json"),
-                producer._missing_export_row(
-                    "B_MANIFEST", root.parent /
-                    f".{root.name}-package-export" /
-                    "asset-b-entry-manifest.json"),
-            ], repo_root=checkout)
+            root, "CHILD_NONZERO_EXIT", expected_inventory=[],
+            repo_root=checkout)
         _assert_failed_lifecycle_mutations_rejected(
             root, checkout, "FAIL")
         before = len(calls)
@@ -462,6 +546,47 @@ def _assert_production_failure_transactions(
                 qualification_scope="TOOLING_EXACT_SHA",
                 prior_evidence_sha256="c" * 64))
         assert len(calls) == before
+
+        manual_root = base / "production-manual-reconciliation"
+        producer._production_package = \
+            lambda *_args, **_kwargs: (_ for _ in ()).throw(
+                RuntimeError("controlled unexpected package error"))
+        expect_error(
+            "manual reconciliation",
+            lambda: producer.run_gate(
+                "package", repo_root=checkout,
+                evidence_root=manual_root,
+                target_sha=sha, target_tree=tree,
+                qualification_scope="TOOLING_EXACT_SHA",
+                prior_evidence_sha256="c" * 64))
+        producer._production_package = original_production_package
+        journal = json.loads(
+            (manual_root /
+             "package-manual-reconciliation-journal.json").read_text(
+                 encoding="utf-8"))
+        assert journal["status"] == "NONTERMINAL"
+        assert journal["disposition"] == \
+            "MANUAL_RECONCILIATION_REQUIRED"
+        assert not any((manual_root / name).exists() for name in (
+            "package-terminal.json", "package-report.json",
+            "package-evidence-manifest.json"))
+
+        root = invoke(
+            "spawn-error", reason="CHILD_SPAWN_ERROR",
+            spawn_error=True)
+        terminal = json.loads(
+            (root / "package-terminal.json").read_text(encoding="utf-8"))
+        assert terminal["child"] is None
+        assert terminal["stage"] == "CHILD_SPAWN"
+        assert _validate_failed_test(
+            "package", root,
+            checkout)["reason_code"] == "CHILD_SPAWN_ERROR"
+
+        root = invoke(
+            "pair-missing", reason="PACKAGE_EXPORT_PAIR_MISSING")
+        _assert_closed_failure_root(
+            root, "PACKAGE_EXPORT_PAIR_MISSING",
+            expected_inventory=[], repo_root=checkout)
 
         root = invoke(
             "only-a", action=write_a,
@@ -477,8 +602,8 @@ def _assert_production_failure_transactions(
             repo_root=checkout)
         assert terminal["partial_artifact_inventory"][0]["sha256"] == \
             hashlib.sha256(archive).hexdigest()
-        assert terminal["partial_artifact_inventory"][1]["state"] == \
-            "MISSING"
+        assert [row["label"] for row in
+                terminal["partial_artifact_inventory"]] == ["A"]
         assert export_a.read_bytes() == retained_a == archive
         export_a.write_bytes(retained_a + b"tamper")
         expect_error(
@@ -499,7 +624,7 @@ def _assert_production_failure_transactions(
             producer._encoded(terminal))
         _rebind_failed_root(root)
         expect_error(
-            "inventory coverage",
+            "reason matrix",
             lambda: _validate_failed_test("package", root, checkout))
 
         root = invoke(
@@ -512,6 +637,7 @@ def _assert_production_failure_transactions(
             root, "PACKAGE_EXPORT_DRIFT",
             expected_inventory=terminal["partial_artifact_inventory"],
             repo_root=checkout)
+        _assert_forged_package_reason_rejected(root, checkout)
 
         root = invoke(
             "invalid-archive",
@@ -546,6 +672,21 @@ def _assert_production_failure_transactions(
                 expected_inventory=
                     terminal["partial_artifact_inventory"],
                 repo_root=checkout)
+
+        producer._read_exported_package_pair = \
+            lambda *_args: (_ for _ in ()).throw(
+                ValueError("controlled custody failure"))
+        root = invoke(
+            "custody-invalid", action=write_pair,
+            reason="PACKAGE_EXPORT_CUSTODY_INVALID")
+        producer._read_exported_package_pair = original_reader
+        producer._production_package = original_production_package
+        terminal = json.loads(
+            (root / "package-terminal.json").read_text(encoding="utf-8"))
+        _assert_closed_failure_root(
+            root, "PACKAGE_EXPORT_CUSTODY_INVALID",
+            expected_inventory=terminal["partial_artifact_inventory"],
+            repo_root=checkout)
 
         manifest_calls = 0
         def divergent_manifest(repo_root, target_sha, target_tree, raw):
@@ -720,6 +861,8 @@ def _assert_production_failure_transactions(
         producer._write_new = original_write_new
         producer.subprocess.Popen = original_popen
         producer._production_bash_binding = original_binding
+        producer._package_export_contract = original_contract
+        producer._read_exported_package_pair = original_reader
         producer._manifest_for_archive = original_manifest
         integration.validate_package_archive = original_validate
 
@@ -913,7 +1056,74 @@ def expect_error(fragment, action):
         raise AssertionError(f"expected error containing {fragment!r}")
 
 
+def _assert_package_failure_table_units():
+    for reason_code, spec in producer.PACKAGE_FAILURE_TABLE.items():
+        (status, error_type, reason, stage, child_mode,
+         inventory_counts, conflict_mode) = spec
+        child = None
+        selected_error = error_type
+        selected_reason = reason
+        if child_mode == "REQUIRED":
+            child = {
+                "exit_code": 23 if reason_code ==
+                "CHILD_NONZERO_EXIT" else 0,
+                "communication_error": None,
+            }
+        if reason_code == "CHILD_NONZERO_EXIT":
+            selected_reason = "package child exited 23"
+        if reason_code == "CHILD_COMMUNICATION_ERROR":
+            selected_error = "OSError"
+            selected_reason = "controlled communication error"
+            child["communication_error"] = {
+                "error_type": selected_error,
+                "message": selected_reason,
+            }
+        conflicts = []
+        if conflict_mode == "ROOT":
+            conflicts = [{"label": "EXPORT_ROOT"}]
+        elif conflict_mode == "LEAVES":
+            conflicts = [{"label": "A"}]
+        failure = producer._ObservedGateFailure(
+            status, reason_code, selected_error, selected_reason,
+            child=child,
+            partial_inventory=[
+                {} for _ in range(min(inventory_counts))],
+            conflicts=conflicts)
+        assert producer._package_failure_contract(failure) == stage
+        failure.status = "FAIL" if status != "FAIL" else "ERROR"
+        expect_error(
+            "closed table",
+            lambda failure=failure:
+                producer._package_failure_contract(failure))
+
+
 def main():
+    expected_package_reasons = {
+        "PACKAGE_EXPORT_ROOT_EXISTS",
+        "PACKAGE_EXPORT_CONTRACT_INVALID",
+        "CHILD_SPAWN_ERROR",
+        "CHILD_COMMUNICATION_ERROR",
+        "CHILD_NONZERO_EXIT",
+        "PACKAGE_EXPORT_PAIR_MISSING",
+        "PACKAGE_EXPORT_PAIR_INCOMPLETE",
+        "PACKAGE_EXPORT_ALIAS",
+        "PACKAGE_EXPORT_CUSTODY_INVALID",
+        "PACKAGE_EXPORT_DRIFT",
+        "PACKAGE_ARCHIVE_INVALID",
+        "PACKAGE_MANIFEST_DRIFT",
+        "PACKAGE_MANIFEST_INVALID",
+        "PACKAGE_SOURCE_BINDING_INVALID",
+    }
+    assert set(producer.PACKAGE_FAILURE_TABLE) == expected_package_reasons
+    assert set(integration._PACKAGE_FAILURE_TABLE) == \
+        expected_package_reasons
+    assert producer.PACKAGE_FAILURE_TABLE is not \
+        integration._PACKAGE_FAILURE_TABLE
+    assert producer.PACKAGE_FAILURE_TABLE == \
+        integration._PACKAGE_FAILURE_TABLE
+    assert producer.PACKAGE_PUBLICATION_FAILURE_TABLE == \
+        integration._PACKAGE_PUBLICATION_FAILURE_TABLE
+    _assert_package_failure_table_units()
     if os.name == "nt":
         expected = pathlib.Path(
             r"C:\Program Files\Git\bin\bash.exe").resolve(strict=True)

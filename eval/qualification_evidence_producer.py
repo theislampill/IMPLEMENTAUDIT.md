@@ -34,11 +34,71 @@ TOOLING_SOURCE_PATHS = (
     "tests/reproducible-release-asset.test.sh",
 )
 QUALIFICATION_SCOPES = ("TOOLING_EXACT_SHA", "FROZEN_CAMPAIGNS")
+PACKAGE_FAILURE_TABLE = {
+    "PACKAGE_EXPORT_ROOT_EXISTS": (
+        "INVALID", "PackagePreflightError",
+        "package reproducibility export root already exists",
+        "EXPORT_ROOT_CLAIM", "FORBIDDEN", (0,), "ROOT"),
+    "PACKAGE_EXPORT_CONTRACT_INVALID": (
+        "INVALID", "PackagePreflightError",
+        "package export contract invalid",
+        "EXPORT_CONTRACT", "FORBIDDEN", (0,), "LEAVES"),
+    "CHILD_SPAWN_ERROR": (
+        "ERROR", "ChildSpawnError", "package child spawn failed",
+        "CHILD_SPAWN", "FORBIDDEN", (0,), "NONE"),
+    "CHILD_COMMUNICATION_ERROR": (
+        "ERROR", None, None, "CHILD_COMMUNICATION", "REQUIRED",
+        (0, 1, 2, 3, 4), "NONE"),
+    "CHILD_NONZERO_EXIT": (
+        "FAIL", "ChildExitError", None, "CHILD_EXIT", "REQUIRED",
+        (0, 1, 2, 3, 4), "NONE"),
+    "PACKAGE_EXPORT_PAIR_MISSING": (
+        "INVALID", "PackagePostcheckError",
+        "package child produced neither export",
+        "EXPORT_POSTCHECK", "REQUIRED", (0,), "NONE"),
+    "PACKAGE_EXPORT_PAIR_INCOMPLETE": (
+        "INVALID", "PackagePostcheckError",
+        "package child produced only one export",
+        "EXPORT_POSTCHECK", "REQUIRED", (1,), "NONE"),
+    "PACKAGE_EXPORT_ALIAS": (
+        "INVALID", "PackagePostcheckError",
+        "package export custody invalid",
+        "EXPORT_POSTCHECK", "REQUIRED", (2,), "NONE"),
+    "PACKAGE_EXPORT_CUSTODY_INVALID": (
+        "INVALID", "PackagePostcheckError",
+        "package export custody invalid",
+        "EXPORT_POSTCHECK", "REQUIRED", (2,), "NONE"),
+    "PACKAGE_EXPORT_DRIFT": (
+        "INVALID", "PackagePostcheckError",
+        "package reproducibility assets differ",
+        "EXPORT_POSTCHECK", "REQUIRED", (2,), "NONE"),
+    "PACKAGE_ARCHIVE_INVALID": (
+        "INVALID", "PackagePostcheckError", "package archive invalid",
+        "MANIFEST_POSTCHECK", "REQUIRED", (2,), "NONE"),
+    "PACKAGE_MANIFEST_DRIFT": (
+        "INVALID", "PackagePostcheckError",
+        "package reproducibility entry manifests differ",
+        "MANIFEST_POSTCHECK", "REQUIRED", (2,), "NONE"),
+    "PACKAGE_MANIFEST_INVALID": (
+        "INVALID", "PackagePostcheckError",
+        "package entry manifest invalid",
+        "MANIFEST_POSTCHECK", "REQUIRED", (2,), "NONE"),
+    "PACKAGE_SOURCE_BINDING_INVALID": (
+        "INVALID", "PackagePostcheckError",
+        "package source binding invalid",
+        "MANIFEST_POSTCHECK", "REQUIRED", (2, 4), "NONE"),
+}
+PACKAGE_PUBLICATION_FAILURE_TABLE = {
+    "RAW_LOG_PUBLICATION": True,
+    "FAILURE_EVIDENCE_PUBLICATION": None,
+    "SUCCESS_EVIDENCE_PUBLICATION": True,
+}
 
 
 class _ObservedGateFailure(ValueError):
     def __init__(self, status, reason_code, error_type, detail, *,
-                 child=None, checks=None, partial_inventory=None):
+                 child=None, checks=None, partial_inventory=None,
+                 conflicts=None):
         super().__init__(f"{reason_code}: {detail}")
         self.status = status
         self.reason_code = reason_code
@@ -48,6 +108,7 @@ class _ObservedGateFailure(ValueError):
         self.checks = [] if checks is None else checks
         self.partial_inventory = (
             [] if partial_inventory is None else partial_inventory)
+        self.conflicts = [] if conflicts is None else conflicts
 
 
 class _EvidencePublicationError(ValueError):
@@ -135,6 +196,17 @@ class _GateEvidenceTransaction:
         return [self.rows[name] for name in filenames]
 
     def failure_journal(self, stage, exc, *, child_consumed):
+        if self.name == "package":
+            try:
+                expected_child = PACKAGE_PUBLICATION_FAILURE_TABLE[stage]
+            except KeyError as table_error:
+                raise ValueError(
+                    "package publication failure stage is not closed") \
+                    from table_error
+            if (expected_child is not None and
+                    child_consumed is not expected_child):
+                raise ValueError(
+                    "package publication child state invalid")
         observed_files = []
         try:
             entries = sorted(self.root.iterdir(), key=lambda path: path.name)
@@ -169,6 +241,7 @@ class _GateEvidenceTransaction:
             "gate": self.name,
             "attempt": 1,
             "status": "ERROR",
+            "disposition": "MANUAL_RECONCILIATION_REQUIRED",
             "stage": stage,
             "error_type": type(exc).__name__,
             "reason": str(exc),
@@ -200,6 +273,27 @@ class _GateEvidenceTransaction:
         try:
             self.write(
                 f"{self.name}-open-child-journal.json", _encoded(value))
+        except Exception:
+            pass
+
+    def manual_reconciliation_journal(self, exc):
+        value = {
+            "schema": "implementaudit-package-manual-reconciliation-v1",
+            "gate": self.name,
+            "attempt": 1,
+            "status": "NONTERMINAL",
+            "reason_code": "UNEXPECTED_PRODUCTION_ERROR",
+            "disposition": "MANUAL_RECONCILIATION_REQUIRED",
+            "error_type": type(exc).__name__,
+            "message": str(exc),
+            "child": self.observed_child,
+            "partial_artifact_inventory": self.partial_inventory,
+            "evidence_root_identity": self.root_identity,
+        }
+        try:
+            self.write(
+                f"{self.name}-manual-reconciliation-journal.json",
+                _encoded(value))
         except Exception:
             pass
 
@@ -387,6 +481,38 @@ def _export_inventory(asset_a, asset_b):
             })
         rows.append(row)
     return rows
+
+
+def _observed_export_inventory(asset_a, asset_b):
+    return [
+        row for row in _export_inventory(asset_a, asset_b)
+        if row["state"] != "MISSING"
+    ]
+
+
+def _conflict_snapshot(label, path):
+    path = pathlib.Path(path).absolute()
+    observed = os.lstat(path)
+    entries = []
+    is_reparse = bool(
+        getattr(observed, "st_file_attributes", 0) & 0x400)
+    if (stat.S_ISDIR(observed.st_mode) and
+            not stat.S_ISLNK(observed.st_mode) and not is_reparse):
+        for entry in sorted(path.iterdir(), key=lambda item: item.name):
+            if len(entries) == 64:
+                raise ValueError("package conflict entry bound exceeded")
+            entry_stat = os.lstat(entry)
+            entries.append({
+                "name": entry.name,
+                "file_identity": _path_identity(entry_stat),
+            })
+    return {
+        "label": label,
+        "lexical_path": str(path),
+        "canonical_path": os.path.normcase(os.path.abspath(path)),
+        "file_identity": _path_identity(observed),
+        "entries": entries,
+    }
 
 
 def _encoded(value):
@@ -901,19 +1027,25 @@ def _production_package(repo_root, evidence_root, qualified,
     except FileExistsError as exc:
         raise _ObservedGateFailure(
             "INVALID", "PACKAGE_EXPORT_ROOT_EXISTS",
-            type(exc).__name__,
-            "package reproducibility export root already exists") from exc
+            "PackagePreflightError",
+            "package reproducibility export root already exists",
+            conflicts=[
+                _conflict_snapshot("EXPORT_ROOT", export_root)]) from exc
     try:
         asset_a, asset_b = _package_export_contract(
             repo_root, export_root / "asset-a.skill",
             export_root / "asset-b.skill")
     except Exception as exc:
+        conflicts = []
+        for label, path in (
+                ("A", export_root / "asset-a.skill"),
+                ("B", export_root / "asset-b.skill")):
+            if path.exists() or path.is_symlink():
+                conflicts.append(_conflict_snapshot(label, path))
         raise _ObservedGateFailure(
             "INVALID", "PACKAGE_EXPORT_CONTRACT_INVALID",
-            type(exc).__name__, str(exc),
-            partial_inventory=_export_inventory(
-                export_root / "asset-a.skill",
-                export_root / "asset-b.skill")) from exc
+            "PackagePreflightError", "package export contract invalid",
+            conflicts=conflicts) from exc
     environment = os.environ.copy()
     environment.update({
         "REPRO_SOURCE_REF": target_sha,
@@ -929,8 +1061,10 @@ def _production_package(repo_root, evidence_root, qualified,
             env=environment)
     except Exception as exc:
         raise _ObservedGateFailure(
-            "ERROR", "CHILD_SPAWN_ERROR", type(exc).__name__, str(exc),
-            partial_inventory=_export_inventory(asset_a, asset_b)) from exc
+            "ERROR", "CHILD_SPAWN_ERROR", "ChildSpawnError",
+            "package child spawn failed",
+            partial_inventory=_observed_export_inventory(
+                asset_a, asset_b)) from exc
     try:
         stdout, stderr = process.communicate()
     except Exception as exc:
@@ -951,7 +1085,8 @@ def _production_package(repo_root, evidence_root, qualified,
             "ERROR", "CHILD_COMMUNICATION_ERROR",
             type(exc).__name__, str(exc),
             child=child,
-            partial_inventory=_export_inventory(asset_a, asset_b)) from exc
+            partial_inventory=_observed_export_inventory(
+                asset_a, asset_b)) from exc
     completed = _utc_now()
     duration = max(0.0, time.monotonic() - monotonic_started)
     child = _child_record(
@@ -966,29 +1101,30 @@ def _production_package(repo_root, evidence_root, qualified,
             "RAW_LOG_PUBLICATION", exc, child_consumed=True)
         raise _EvidencePublicationError(
             "package raw-log publication failed") from exc
-    inventory = _export_inventory(asset_a, asset_b)
+    inventory = _observed_export_inventory(asset_a, asset_b)
     transaction.partial_inventory = inventory
     if process.returncode != 0:
         raise _ObservedGateFailure(
             "FAIL", "CHILD_NONZERO_EXIT", "ChildExitError",
             f"package child exited {process.returncode}",
             child=child, partial_inventory=inventory)
-    states = [row["state"] for row in inventory[:2]]
-    if states.count("MISSING") == 2:
+    asset_rows = [
+        row for row in inventory if row["label"] in {"A", "B"}]
+    if len(asset_rows) == 0:
         raise _ObservedGateFailure(
             "INVALID", "PACKAGE_EXPORT_PAIR_MISSING",
             "PackagePostcheckError",
             "package child produced neither export",
             child=child, partial_inventory=inventory)
-    if states.count("MISSING") == 1:
+    if len(asset_rows) == 1:
         raise _ObservedGateFailure(
             "INVALID", "PACKAGE_EXPORT_PAIR_INCOMPLETE",
             "PackagePostcheckError",
             "package child produced only one export",
             child=child, partial_inventory=inventory)
-    if any(state != "REGULAR" for state in states):
-        first_identity = inventory[0]["file_identity"]
-        second_identity = inventory[1]["file_identity"]
+    if any(row["state"] != "REGULAR" for row in asset_rows):
+        first_identity = asset_rows[0]["file_identity"]
+        second_identity = asset_rows[1]["file_identity"]
         reason = (
             "PACKAGE_EXPORT_ALIAS"
             if first_identity is not None and
@@ -1000,7 +1136,7 @@ def _production_package(repo_root, evidence_root, qualified,
             "INVALID", reason, "PackagePostcheckError",
             "package export custody invalid",
             child=child, partial_inventory=inventory)
-    if inventory[0]["sha256"] != inventory[1]["sha256"]:
+    if asset_rows[0]["sha256"] != asset_rows[1]["sha256"]:
         raise _ObservedGateFailure(
             "INVALID", "PACKAGE_EXPORT_DRIFT",
             "PackagePostcheckError",
@@ -1014,7 +1150,8 @@ def _production_package(repo_root, evidence_root, qualified,
             if "alias" in str(exc).lower()
             else "PACKAGE_EXPORT_CUSTODY_INVALID")
         raise _ObservedGateFailure(
-            "INVALID", reason, type(exc).__name__, str(exc),
+            "INVALID", reason, "PackagePostcheckError",
+            "package export custody invalid",
             child=child, partial_inventory=inventory) from exc
     try:
         manifest_a = _manifest_for_archive(
@@ -1026,7 +1163,7 @@ def _production_package(repo_root, evidence_root, qualified,
             asset_a, asset_b)
         raise _ObservedGateFailure(
             "INVALID", "PACKAGE_ARCHIVE_INVALID",
-            type(exc).__name__, str(exc),
+            "PackagePostcheckError", "package archive invalid",
             child=child, partial_inventory=inventory) from exc
     if manifest_a != manifest_b:
         raise _ObservedGateFailure(
@@ -1041,7 +1178,7 @@ def _production_package(repo_root, evidence_root, qualified,
     except Exception as exc:
         raise _ObservedGateFailure(
             "INVALID", "PACKAGE_MANIFEST_INVALID",
-            type(exc).__name__, str(exc),
+            "PackagePostcheckError", "package entry manifest invalid",
             child=child, partial_inventory=inventory) from exc
     if (decoded_manifest.get("schema") !=
             integration.PACKAGE_MANIFEST_SCHEMA or
@@ -1050,7 +1187,7 @@ def _production_package(repo_root, evidence_root, qualified,
         raise _ObservedGateFailure(
             "INVALID", "PACKAGE_SOURCE_BINDING_INVALID",
             "PackagePostcheckError",
-            "package entry manifest source identity invalid",
+            "package source binding invalid",
             child=child, partial_inventory=inventory)
     manifest_a_stage = export_root / "asset-a-entry-manifest.json"
     manifest_b_stage = export_root / "asset-b-entry-manifest.json"
@@ -1064,11 +1201,11 @@ def _production_package(repo_root, evidence_root, qualified,
             asset_b, manifest_b_stage, target_sha, target_tree,
             repo_root=repo_root)
     except Exception as exc:
-        transaction.partial_inventory = _export_inventory(
+        transaction.partial_inventory = _observed_export_inventory(
             asset_a, asset_b)
         raise _ObservedGateFailure(
             "INVALID", "PACKAGE_SOURCE_BINDING_INVALID",
-            type(exc).__name__, str(exc),
+            "PackagePostcheckError", "package source binding invalid",
             child=child,
             partial_inventory=transaction.partial_inventory) from exc
     archive = archive_a
@@ -1160,7 +1297,46 @@ def _production_start(name, qualification_scope, qualification_identity,
     }
 
 
+def _package_failure_contract(failure):
+    try:
+        spec = PACKAGE_FAILURE_TABLE[failure.reason_code]
+    except KeyError as exc:
+        raise ValueError("package failure reason is not closed") from exc
+    (status, error_type, reason, stage, child_mode, inventory_counts,
+     conflict_mode) = spec
+    if (failure.status != status or
+            (error_type is not None and
+             failure.error_type != error_type) or
+            (reason is not None and failure.detail != reason) or
+            (child_mode == "REQUIRED" and failure.child is None) or
+            (child_mode == "FORBIDDEN" and failure.child is not None) or
+            len(failure.partial_inventory) not in inventory_counts or
+            (conflict_mode == "NONE" and failure.conflicts) or
+            (conflict_mode == "ROOT" and
+             [row.get("label") for row in failure.conflicts] !=
+             ["EXPORT_ROOT"]) or
+            (conflict_mode == "LEAVES" and
+             (not failure.conflicts or
+              any(row.get("label") not in {"A", "B"}
+                  for row in failure.conflicts)))):
+        raise ValueError("package failure does not match closed table")
+    if failure.reason_code == "CHILD_COMMUNICATION_ERROR":
+        error = failure.child["communication_error"]
+        if (failure.error_type != error["error_type"] or
+                failure.detail != error["message"]):
+            raise ValueError(
+                "package communication failure does not match child")
+    elif failure.reason_code == "CHILD_NONZERO_EXIT":
+        if failure.detail != \
+                f"package child exited {failure.child['exit_code']}":
+            raise ValueError("package child exit reason invalid")
+    return stage
+
+
 def _failure_terminal(name, start, failure, completed_at):
+    stage = (
+        _package_failure_contract(failure)
+        if name == "package" else "DETERMINISTIC_CHILD")
     return {
         "schema": "implementaudit-production-gate-failure-terminal-v1",
         "gate": name,
@@ -1169,6 +1345,7 @@ def _failure_terminal(name, start, failure, completed_at):
         "error_type": failure.error_type,
         "reason": failure.detail,
         "completed_at": completed_at,
+        "stage": stage,
         "attempt": 1,
         "qualified_input_sha256": start["qualified_input_sha256"],
         "target_sha": start["target_sha"],
@@ -1179,6 +1356,7 @@ def _failure_terminal(name, start, failure, completed_at):
         "child": failure.child,
         "checks": failure.checks,
         "partial_artifact_inventory": failure.partial_inventory,
+        "conflicts": failure.conflicts,
     }
 
 
@@ -1344,13 +1522,10 @@ def run_gate(name, *, repo_root, evidence_root, target_sha, target_tree,
         except _ObservedGateFailure as failure:
             _publish_observed_failure(transaction, start, failure)
         except Exception as exc:
-            _publish_observed_failure(
-                transaction, start, _ObservedGateFailure(
-                    "ERROR", "UNEXPECTED_PRODUCTION_ERROR",
-                    type(exc).__name__, str(exc),
-                    child=transaction.observed_child,
-                    checks=transaction.observed_checks,
-                    partial_inventory=transaction.partial_inventory))
+            transaction.manual_reconciliation_journal(exc)
+            raise _EvidencePublicationError(
+                "unexpected package production error requires manual "
+                "reconciliation") from exc
         package_raw = artifacts["package-retained.skill"]
     elif not test_only and name == "ci":
         if not isinstance(external_ci, bytes):
