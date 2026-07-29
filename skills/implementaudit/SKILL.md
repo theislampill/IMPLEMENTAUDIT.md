@@ -320,6 +320,9 @@ second `/goal` inside an existing `/goal` run.
    `inferred-context-gap` — never a fabricated compaction — FIRST reread
    the live run-root STATE.md and ROADMAP.md from disk: a compacted or
    reconstructed summary is an observation of history, and live state wins.
+   Each bound live durable-state file must be read in its own completed host
+   action before the first mutation. Evidence-bearing read actions must not use
+   ';', '&&', pipelines, multi-stage shell composition, or batching.
    Record the boundary provenance as a STATE epoch row, classify each
    remembered steer by lifecycle, and refuse to re-execute a satisfied
    one-shot (e.g. an already-resolved ANDON), citing its terminal evidence:

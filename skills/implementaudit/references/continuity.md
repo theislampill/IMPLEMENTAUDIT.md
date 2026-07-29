@@ -38,7 +38,9 @@ After any continuity boundary, and before the next repository mutation:
    recovery.
 2. Reread current `ROADMAP.md`, `STATE.md`, process/command state (including
    `background/<chain-id>` chains), and the relevant terminal evidence from
-   disk.
+   disk. Each bound live durable-state file must be read in its own completed
+   host action before the first mutation. Evidence-bearing read actions must
+   not use ';', '&&', pipelines, multi-stage shell composition, or batching.
 3. Classify continuity-critical instructions by lifecycle kind and target
    (see the applicability record below).
 4. Compare the reconstructed context against durable live state. Where they

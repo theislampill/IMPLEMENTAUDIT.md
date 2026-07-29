@@ -331,7 +331,10 @@ no repository mutation happens until reconciliation runs:
    (ambiguous/multiple roots => audited handoff; no root => truthful
    intake, no fabricated recovery);
 2. reread current ROADMAP.md, STATE.md, process/command state, and the
-   relevant terminal evidence from disk;
+   relevant terminal evidence from disk. Each bound live durable-state file
+   must be read in its own completed host action before the first mutation.
+   Evidence-bearing read actions must not use ';', '&&', pipelines,
+   multi-stage shell composition, or batching;
 3. classify continuity-critical instructions by lifecycle kind
    (`one-shot-action` / `standing-constraint` / `standing-authorization` /
    `persistent-objective` / `query-or-information-request`) and status

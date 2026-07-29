@@ -4056,7 +4056,7 @@ def main():
                   (verdict47ax or {}).get("status") == "INVALID"
                   and "undeclared json host-check input" in (
                       (verdict47ax or {}).get("reason") or ""))
-            check("H48 generated-host-read-contract-112",
+            check("H48 generated-host-read-contract-114",
                   test_host_read_contract.main([]) == 0)
         except (framework.AdapterError, OSError, ValueError):
             check("H47 formal-v2-custody-integration", False)

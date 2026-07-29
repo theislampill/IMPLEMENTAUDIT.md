@@ -31,6 +31,9 @@ else
 fi
 
 fail() { printf 'continuity-contract.test: %s\n' "$*" >&2; exit 1; }
+contains_normalized() {
+  tr '\n' ' ' < "$1" | tr -s '[:space:]' ' ' | grep -Fqi "$2"
+}
 
 # 1. Contract surfaces exist and carry the load-bearing vocabulary.
 [ -f "$ref" ] || fail "missing $ref"
@@ -63,6 +66,12 @@ done
 grep -qi "live state wins" "$skill" || fail "SKILL.md runtime loop missing live-state-wins rule"
 grep -qi "Target already satisfied at" "$skill" || fail "SKILL.md runtime loop missing refusal sentence"
 grep -qi "epoch row" "$skill" || fail "SKILL.md runtime loop missing epoch-row recording"
+for surface in "$skill" "$ref" "$proto"; do
+  contains_normalized "$surface" "own completed host action" ||
+    fail "$surface missing separately attributable durable-state read rule"
+  contains_normalized "$surface" "must not use ';', '&&', pipelines, multi-stage shell composition, or batching" ||
+    fail "$surface missing no-composition evidence rule"
+done
 
 # 2. Template-built root (empty epoch tables) passes; a stripped legacy
 # root (no epoch section at all) also passes — old roots stay resumable.

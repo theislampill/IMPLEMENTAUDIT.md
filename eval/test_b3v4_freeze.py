@@ -246,6 +246,22 @@ def append_duplicate_member(raw, name, value):
 def main():
     module = load_validator()
     packet = valid_packet()
+    fixture = json.loads(
+        (HERE / "fixtures" / "B3-v3" / "fixture.json").read_text(
+            encoding="utf-8"))
+    observable_read_rule = (
+        "each bound live durable-state file must be read in its own "
+        "completed host action before the first mutation")
+    no_composition_rule = (
+        "evidence-bearing read actions must not use ';', '&&', pipelines, "
+        "multi-stage shell composition, or batching")
+    for field in ("semantic_contract", "mission"):
+        text = fixture[field].lower()
+        assert observable_read_rule in text, (
+            f"B3-v3 {field} omits the separately attributable host-action "
+            "requirement")
+        assert no_composition_rule in text, (
+            f"B3-v3 {field} omits the no-composition evidence rule")
     module.validate_structure(packet)
     missing_surface = copy.deepcopy(packet)
     missing_surface["evaluated_surfaces"]["entries"].pop()
