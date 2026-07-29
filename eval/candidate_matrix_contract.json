@@ -1,0 +1,57 @@
+{
+  "schema": "implementaudit-candidate-matrix-artifact-contract-v1",
+  "contract_id": "implementaudit-candidate-matrix-artifact-contract-v1",
+  "campaign": "candidate-matrix-sol-luna-r1",
+  "encoding": {
+    "charset": "UTF-8",
+    "duplicate_keys": "REJECT_RECURSIVELY",
+    "non_finite_numbers": "REJECT",
+    "object_keys": "EXACT",
+    "scalar_types": "EXACT_NO_COERCION",
+    "paths": "CANONICAL_ROLE_CONTAINED_NO_LINK_ALIAS",
+    "writes": "CREATE_ONCE"
+  },
+  "execution": {
+    "configuration": "L",
+    "fixture_order": [
+      "B0",
+      "B1",
+      "B2",
+      "E1",
+      "E2a",
+      "E2b",
+      "E3",
+      "E4",
+      "E5",
+      "E6",
+      "E7",
+      "E8",
+      "E9",
+      "E10"
+    ],
+    "mission_count": 14,
+    "silent_retry": "FORBIDDEN",
+    "preserve_every_attempt": true,
+    "success_disposition": "INCOMPLETE_PENDING_OPUS",
+    "luna_stage_accepted": true,
+    "final_acceptance": false
+  },
+  "artifacts": {
+    "campaign_freeze": {"producer":"packet-author","readers":["official-driver","independent-rederiver"],"role":"frozen input","format":"JSON","schema":"implementaudit-candidate-matrix-luna-freeze-v1","create_once":true},
+    "campaign_manifest": {"producer":"official-driver","readers":["official-driver","independent-rederiver"],"role":"campaign custody","format":"JSON","schema":"implementaudit-candidate-matrix-luna-campaign-custody-v1","create_once":true},
+    "attempt_status": {"producer":"official-driver","readers":["official-driver","independent-rederiver"],"role":"pre-spawn claim","format":"JSON","schema":"implementaudit-candidate-matrix-luna-attempt-status-v1","create_once":true},
+    "host_attestation": {"producer":"approved-host-preflight","readers":["official-driver","independent-rederiver"],"role":"host identity","format":"JSON","schema":"external-host-attestation","create_once":true},
+    "official_verdict": {"producer":"official-evaluator","readers":["official-driver","independent-rederiver"],"role":"official evaluation","format":"JSON","schema":"implementaudit-eval-verdict-v3","create_once":true},
+    "attempt_terminal": {"producer":"official-driver","readers":["official-driver","independent-rederiver"],"role":"attempt terminal","format":"JSON","schema":"implementaudit-candidate-matrix-luna-attempt-terminal-v1","create_once":true},
+    "host_custody": {"producer":"formal-host-stack","readers":["official-driver","independent-rederiver"],"role":"recursive retained host evidence","format":"BYTES","schema":"implementaudit-custodied-directory-manifest-v1","create_once":true},
+    "official_luna_result": {"producer":"official-driver","readers":["official-driver","independent-review"],"role":"official Luna-only matrix result","format":"JSON","schema":"implementaudit-candidate-matrix-luna-result-v1","create_once":true},
+    "luna_stage_terminal": {"producer":"official-driver","readers":["official-driver","independent-review"],"role":"mandatory Luna pause","format":"JSON","schema":"implementaudit-staged-campaign-terminal-v1","create_once":true},
+    "independent_rederivation": {"producer":"independent-rederiver","readers":["official-driver","independent-review"],"role":"independent Luna-only matrix result","format":"JSON","schema":"implementaudit-candidate-matrix-luna-independent-rederivation-v1","create_once":true}
+  },
+  "lifecycle_schemas": {
+    "campaign_manifest": ["schema","campaign","freeze_sha256","contract_sha256","created_at","execution_stage"],
+    "attempt_status": ["schema","campaign","freeze_sha256","contract_sha256","mission","execution_mode","state","created_at","host_attestation_binding"],
+    "attempt_terminal": ["schema","campaign","mission_index","execution_mode","overall_status","resolved_model","host_run_root","official_overall_status","official_verdict_sha256","stop_reason","error_type","completed_at","completed_attempt_seal"],
+    "official_luna_result": ["schema","campaign","freeze_sha256","contract_sha256","disposition","luna_stage_accepted","accepted","cell_count","cells","luna_identity","independent_rederivation","claims"]
+  }
+}
