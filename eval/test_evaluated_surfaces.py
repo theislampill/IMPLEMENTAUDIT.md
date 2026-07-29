@@ -186,6 +186,19 @@ def _semantic_owner_negative_matrix():
                         lambda p=malformed, m=independent:
                         m._validate_freeze_contract(p))
 
+        with tempfile.TemporaryDirectory(
+                prefix="virtual-projection-shadow-") as tmp:
+            shadow_root = pathlib.Path(tmp)
+            (shadow_root / "evaluated-surface-projections").mkdir()
+            expect_error(
+                "shadow or residue",
+                lambda p=packet, c=campaign, r=shadow_root:
+                surfaces.validate_packet_surfaces(p, c, root=r))
+            expect_independent_invalid(
+                independent,
+                lambda p=packet, m=independent, r=shadow_root:
+                m._validate_freeze_contract(p, r))
+
 
 def _projection_publication_red():
     packet = b3_freeze_test.valid_packet()
@@ -207,7 +220,7 @@ def _projection_publication_red():
             else:
                 try:
                     expect_error(
-                        "link or reparse",
+                        "shadow or residue",
                         lambda: surfaces.build_manifest_from_packet(
                             copy.deepcopy(packet), surfaces.B3_CAMPAIGN,
                             root=root))
@@ -224,7 +237,7 @@ def _projection_publication_red():
         else:
             try:
                 expect_error(
-                    "link or reparse",
+                    "shadow or residue",
                     lambda: surfaces.build_manifest_from_packet(
                         copy.deepcopy(packet), surfaces.B3_CAMPAIGN, root=root))
                 assert not tuple(outside.iterdir()), (
@@ -241,7 +254,7 @@ def _projection_publication_red():
         source.write_bytes(raw)
         os.link(source, leaf)
         expect_error(
-            "hardlink",
+            "shadow or residue",
             lambda: surfaces.build_manifest_from_packet(
                 copy.deepcopy(packet), surfaces.B3_CAMPAIGN, root=root))
         assert source.read_bytes() == raw
@@ -252,7 +265,7 @@ def _projection_publication_red():
 
         leaf.write_bytes(raw)
         expect_error(
-            "create-once",
+            "shadow or residue",
             lambda: surfaces.build_manifest_from_packet(
                 copy.deepcopy(packet), surfaces.B3_CAMPAIGN, root=root))
         assert leaf.read_bytes() == raw
@@ -260,41 +273,16 @@ def _projection_publication_red():
         leaf.unlink()
         print("PROJECTION_LEAF_PREEXISTING=PASS")
 
-        # Deterministically replace the validated parent immediately before
-        # the first leaf open. The before-write identity check must disconfirm
-        # the parent and leave the replacement target empty.
-        if os.name == "nt":
-            original_identity = surfaces._stable_directory_identity
-            parent_checks = 0
+        # Even an empty physical parent is a shadow of the virtual namespace.
+        expect_error(
+            "shadow or residue",
+            lambda: surfaces.build_manifest_from_packet(
+                copy.deepcopy(packet), surfaces.B3_CAMPAIGN, root=root))
+        projection.rmdir()
+        print("PROJECTION_EMPTY_PARENT_SHADOW=PASS")
 
-            def swap_before_open(path, owner):
-                nonlocal parent_checks
-                if pathlib.Path(path).absolute() == projection.absolute():
-                    parent_checks += 1
-                    if parent_checks == 2:
-                        os.rmdir(projection)
-                        made = subprocess.run(
-                            ["cmd", "/c", "mklink", "/J", str(projection),
-                             str(outside)], capture_output=True, text=True)
-                        assert made.returncode == 0, made.stderr
-                return original_identity(path, owner)
-
-            surfaces._stable_directory_identity = swap_before_open
-            try:
-                expect_error(
-                    "link or reparse",
-                    lambda: surfaces.build_manifest_from_packet(
-                        copy.deepcopy(packet), surfaces.B3_CAMPAIGN, root=root))
-                assert not tuple(outside.iterdir())
-            finally:
-                surfaces._stable_directory_identity = original_identity
-                if projection.exists():
-                    os.rmdir(projection)
-            projection.mkdir()
-            print("PROJECTION_PARENT_SWAP=PASS")
-
-        # A later retained-input rejection rolls back every projection created
-        # by this invocation, including the newly-created parent.
+        # A later retained-input rejection cannot leave projection residue
+        # because the virtual entries have no filesystem publication step.
         rollback_root = base / "rollback-root"
         rollback_root.mkdir()
         expect_error(
@@ -304,6 +292,48 @@ def _projection_publication_red():
                 root=rollback_root))
         assert not (rollback_root / "evaluated-surface-projections").exists()
         print("PROJECTION_REJECTION_NO_RESIDUE=PASS")
+
+
+def _projection_open_window_red():
+    packet = b3_freeze_test.valid_packet()
+    with tempfile.TemporaryDirectory(
+            prefix="evaluated-projection-open-window-") as tmp:
+        base = pathlib.Path(tmp)
+        root = base / "root"
+        outside = base / "outside"
+        root.mkdir()
+        outside.mkdir()
+        projection = root / "evaluated-surface-projections"
+        original_open = surfaces.os.open
+        swapped = False
+
+        def swap_inside_open(path, flags, *args, **kwargs):
+            nonlocal swapped
+            candidate = pathlib.Path(path)
+            if candidate.parent == projection:
+                swapped = True
+                os.rmdir(projection)
+                made = subprocess.run(
+                    ["cmd", "/c", "mklink", "/J", str(projection),
+                     str(outside)], capture_output=True, text=True)
+                assert made.returncode == 0, made.stderr
+            return original_open(path, flags, *args, **kwargs)
+
+        surfaces.os.open = swap_inside_open
+        try:
+            expect_error(
+                "cannot be read",
+                lambda: surfaces.build_manifest_from_packet(
+                    copy.deepcopy(packet), surfaces.B3_CAMPAIGN, root=root))
+            assert not swapped, (
+                "virtual projection invoked a pathname open callback")
+            assert not tuple(outside.iterdir()), (
+                "swap inside pathname open wrote outside residue")
+        finally:
+            surfaces.os.open = original_open
+            if projection.exists():
+                os.rmdir(projection)
+        print("PROJECTION_OPEN_WINDOW_ZERO_WRITE=PASS")
 
 
 def main():
@@ -332,6 +362,8 @@ def main():
     _semantic_owner_negative_matrix()
     print("EVALUATED_SURFACE_SEMANTIC_OWNER_MATRIX=PASS")
     _projection_publication_red()
+    if os.name == "nt":
+        _projection_open_window_red()
 
     with tempfile.TemporaryDirectory() as tmp:
         root = pathlib.Path(tmp).resolve()

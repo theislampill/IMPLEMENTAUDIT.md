@@ -71,6 +71,11 @@ EVALUATED_SURFACE_EXTERNAL_ROLES = {
     "host-attestation", "launcher", "native-executable",
     "checkout-runtime-topology",
 }
+EVALUATED_SURFACE_VIRTUAL_ROLES = {
+    "acceptance-rules", "authorization-acknowledgement",
+    "evidence-contract", "fixture-inventory",
+    "model-reasoning-host-identity", "seed-order-repetition-rules",
+}
 CONTRACT_ARTIFACTS = {
     "campaign_freeze", "campaign_manifest", "attempt_status",
     "host_attestation", "official_verdict", "attempt_terminal",
@@ -945,6 +950,11 @@ def _validate_evaluated_surfaces(value, surface_root=None):
     roles = []
     paths = []
     identity_owners = {}
+    if (surface_root is not None and os.path.lexists(
+            pathlib.Path(surface_root).absolute() /
+            "evaluated-surface-projections")):
+        raise EvidenceInvalid(
+            "evaluated surface virtual projection shadow or residue forbidden")
     for index, row in enumerate(value["entries"]):
         allowed = {"role", "path", "byte_length", "sha256"}
         if type(row) is dict and (
@@ -974,7 +984,11 @@ def _validate_evaluated_surfaces(value, surface_root=None):
             _git_id(row["git_tree"], f"evaluated surface {role}.git_tree")
         roles.append(role)
         paths.append(row["path"])
-        if surface_root is not None:
+        virtual = (
+            role in EVALUATED_SURFACE_VIRTUAL_ROLES and
+            row["path"] ==
+            f"evaluated-surface-projections/{role}.json")
+        if surface_root is not None and not virtual:
             surface_path = _surface_path(surface_root, row["path"], role)
             length, digest, identities = _read_surface(
                 surface_path, f"evaluated surface {role}", surface_root,
@@ -3645,7 +3659,8 @@ def rederive_campaign(packet_path, campaign_root, surface_root=None):
         allowed_root.update(
             pathlib.PurePosixPath(row["path"]).parts[0]
             for row in packet["evaluated_surfaces"]["entries"]
-            if not pathlib.Path(row["path"]).is_absolute())
+            if (not pathlib.Path(row["path"]).is_absolute() and
+                row["role"] not in EVALUATED_SURFACE_VIRTUAL_ROLES))
     if os.path.lexists(andon_path):
         allowed_root.add("campaign-andon.json")
     unexpected_root = {path.name for path in campaign_root.iterdir()} - allowed_root

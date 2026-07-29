@@ -360,23 +360,41 @@ def build_manifest_from_packet(packet, campaign, *, root):
     """Author the manifest from the closed semantic owner map and custody."""
     roles = validate_packet_owners(packet, campaign)["roles"]
     sources = []
-    projections = []
     for role in required_roles(campaign):
         path, _digest, git, raw = _packet_file_identity(
             packet, campaign, role, roles[role])
-        if raw is not None:
-            target = _source_path(root, path, campaign, role)
-            projections.append((role, target, raw))
-        sources.append({"role": role, "path": path, **git})
-    cleanup = _publish_projections(projections, root=root)
-    try:
-        manifest = build_manifest(campaign, sources, root=root)
-        packet["evaluated_surfaces"] = manifest
-        validate_packet_surfaces(packet, campaign, root=root)
-        return manifest
-    except Exception:
-        cleanup()
-        raise
+        if raw is None:
+            sources.append({"role": role, "path": path, **git})
+    manifest = build_manifest_with_packet_projections(
+        packet, campaign, sources, root=root)
+    packet["evaluated_surfaces"] = manifest
+    validate_packet_surfaces(packet, campaign, root=root)
+    return manifest
+
+
+def build_manifest_with_packet_projections(
+        packet, campaign, sources, *, root):
+    """Custody-build physical entries and rederive packet-owned virtual ones."""
+    roles = validate_packet_owners(packet, campaign)["roles"]
+    virtual_entries = []
+    for role in INLINE_ROLES:
+        path, digest, git, raw = _packet_file_identity(
+            packet, campaign, role, roles[role])
+        if git or raw is None or path != projection_path(role):
+            raise ValueError(
+                f"evaluated surface virtual projection invalid: {role}")
+        virtual_entries.append({
+            "role": role, "path": path, "byte_length": len(raw),
+            "sha256": digest,
+        })
+    _reject_projection_shadow(root)
+    entries = _physical_entries(campaign, sources, root=root)
+    entries.extend(virtual_entries)
+    entries.sort(key=lambda row: row["role"])
+    manifest = validate_manifest(
+        {"schema": SCHEMA, "campaign": campaign, "entries": entries},
+        campaign)
+    return manifest
 
 
 def required_roles(campaign):
@@ -399,150 +417,11 @@ def _walk_no_alias(path, owner):
             raise ValueError(f"{owner} link or reparse alias forbidden")
 
 
-def _stable_directory_identity(path, owner):
-    path = pathlib.Path(path).absolute()
-    try:
-        resolved = path.resolve(strict=True)
-        if resolved != path:
-            raise ValueError(f"{owner} link or reparse alias forbidden")
-        _walk_no_alias(path, owner)
-        observed = os.lstat(path)
-        if stat.S_ISLNK(observed.st_mode) or _reparse_point(observed):
-            raise ValueError(f"{owner} link or reparse alias forbidden")
-        if not stat.S_ISDIR(observed.st_mode):
-            raise ValueError(f"{owner} must be a retained directory")
-        return observed.st_dev, observed.st_ino
-    except ValueError:
-        raise
-    except OSError as exc:
+def _reject_projection_shadow(root):
+    shadow = pathlib.Path(root).absolute() / "evaluated-surface-projections"
+    if os.path.lexists(shadow):
         raise ValueError(
-            f"{owner} cannot be used as a retained directory") from exc
-
-
-def _publish_projections(projections, *, root):
-    """Create packet projections once under a custody-anchored directory."""
-    root = pathlib.Path(root).absolute()
-    root_identity = _stable_directory_identity(
-        root, "evaluated surface root")
-    parent = root / "evaluated-surface-projections"
-    parent_created = False
-    if os.path.lexists(parent):
-        parent_identity = _stable_directory_identity(
-            parent, "evaluated surface projection parent")
-    else:
-        if _stable_directory_identity(
-                root, "evaluated surface root") != root_identity:
-            raise ValueError("evaluated surface root identity changed")
-        try:
-            os.mkdir(parent)
-        except OSError as exc:
-            raise ValueError(
-                "evaluated surface projection parent creation failed") from exc
-        parent_created = True
-        try:
-            parent_identity = _stable_directory_identity(
-                parent, "evaluated surface projection parent")
-            if _stable_directory_identity(
-                    root, "evaluated surface root") != root_identity:
-                raise ValueError("evaluated surface root identity changed")
-        except Exception:
-            try:
-                os.rmdir(parent)
-            except OSError:
-                pass
-            raise
-
-    for role, target, _raw in projections:
-        if target.parent != parent:
-            raise ValueError(
-                f"evaluated surface projection parent invalid: {role}")
-        if os.path.lexists(target):
-            observed = os.lstat(target)
-            if stat.S_ISLNK(observed.st_mode) or _reparse_point(observed):
-                reason = "link or reparse alias forbidden"
-            elif stat.S_ISREG(observed.st_mode) and observed.st_nlink != 1:
-                reason = "hardlink identity forbidden"
-            else:
-                reason = "create-once leaf already exists"
-            if parent_created:
-                try:
-                    os.rmdir(parent)
-                except OSError:
-                    pass
-            raise ValueError(f"evaluated surface projection {role} {reason}")
-
-    created = []
-
-    def cleanup():
-        try:
-            stable = (
-                _stable_directory_identity(
-                    root, "evaluated surface root") == root_identity and
-                _stable_directory_identity(
-                    parent, "evaluated surface projection parent") ==
-                parent_identity)
-        except ValueError:
-            return
-        if not stable:
-            return
-        for target, identity in reversed(created):
-            try:
-                observed = os.lstat(target)
-                if ((observed.st_dev, observed.st_ino) == identity and
-                        stat.S_ISREG(observed.st_mode)):
-                    os.unlink(target)
-            except OSError:
-                pass
-        if parent_created:
-            try:
-                os.rmdir(parent)
-            except OSError:
-                pass
-
-    try:
-        for role, target, raw in projections:
-            if (_stable_directory_identity(
-                    root, "evaluated surface root") != root_identity or
-                    _stable_directory_identity(
-                        parent, "evaluated surface projection parent") !=
-                    parent_identity):
-                raise ValueError(
-                    "evaluated surface projection parent identity changed")
-            flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
-            flags |= getattr(os, "O_BINARY", 0)
-            flags |= getattr(os, "O_NOFOLLOW", 0)
-            descriptor = os.open(target, flags, 0o600)
-            try:
-                opened = os.fstat(descriptor)
-                if not stat.S_ISREG(opened.st_mode) or opened.st_nlink != 1:
-                    raise ValueError(
-                        f"evaluated surface projection {role} identity invalid")
-                created.append(
-                    (target, (opened.st_dev, opened.st_ino)))
-                with os.fdopen(descriptor, "wb") as stream:
-                    descriptor = None
-                    stream.write(raw)
-                    stream.flush()
-                    os.fsync(stream.fileno())
-                    after = os.fstat(stream.fileno())
-                if ((after.st_dev, after.st_ino) != created[-1][1] or
-                        after.st_nlink != 1 or after.st_size != len(raw)):
-                    raise ValueError(
-                        f"evaluated surface projection {role} identity changed")
-            finally:
-                if descriptor is not None:
-                    os.close(descriptor)
-        if (_stable_directory_identity(
-                root, "evaluated surface root") != root_identity or
-                _stable_directory_identity(
-                    parent, "evaluated surface projection parent") !=
-                parent_identity):
-            raise ValueError(
-                "evaluated surface projection parent identity changed")
-    except Exception:
-        cleanup()
-        raise
-    return cleanup
+            "evaluated surface virtual projection shadow or residue forbidden")
 
 
 def _stable_file_identity(path, owner):
@@ -702,7 +581,7 @@ def validate_manifest(manifest, campaign):
     return manifest
 
 
-def build_manifest(campaign, sources, *, root):
+def _physical_entries(campaign, sources, *, root):
     if type(sources) is not list:
         raise TypeError("evaluated surface sources must be an exact list")
     entries = []
@@ -737,16 +616,32 @@ def build_manifest(campaign, sources, *, root):
                 entry[key] = source[key]
         _validate_git(entry, campaign, role)
         entries.append(entry)
+    return entries
+
+
+def build_manifest(campaign, sources, *, root):
+    entries = _physical_entries(campaign, sources, root=root)
     entries.sort(key=lambda row: row["role"])
     manifest = {"schema": SCHEMA, "campaign": campaign, "entries": entries}
     return validate_manifest(manifest, campaign)
 
 
+def _virtual_projection_entry(entry):
+    return (
+        entry["role"] in INLINE_ROLES and
+        entry["path"] == projection_path(entry["role"]))
+
+
 def revalidate_manifest(manifest, *, root):
     campaign = manifest.get("campaign") if type(manifest) is dict else None
     validate_manifest(manifest, campaign)
+    if any(_virtual_projection_entry(entry)
+           for entry in manifest["entries"]):
+        _reject_projection_shadow(root)
     identity_owners = {}
     for entry in manifest["entries"]:
+        if _virtual_projection_entry(entry):
+            continue
         length, digest, identities = _stable_file_identity(
             _source_path(root, entry["path"], campaign, entry["role"]),
             f"evaluated surface {entry['role']}")
@@ -765,10 +660,15 @@ def revalidate_manifest(manifest, *, root):
 def custody_identity_map(manifest, *, root):
     campaign = manifest.get("campaign") if type(manifest) is dict else None
     validate_manifest(manifest, campaign)
+    if any(_virtual_projection_entry(entry)
+           for entry in manifest["entries"]):
+        _reject_projection_shadow(root)
     observed = {}
     identity_owners = {}
     for entry in manifest["entries"]:
         role = entry["role"]
+        if _virtual_projection_entry(entry):
+            continue
         length, digest, identities = _stable_file_identity(
             _source_path(root, entry["path"], campaign, role),
             f"evaluated surface {role}")

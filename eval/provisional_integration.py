@@ -142,6 +142,9 @@ def _validate_certificate_external_disjoint(identity, roots):
             f"{campaign_key} certificate custody packet")
         surface_root = pathlib.Path(roots[surface_key]).absolute()
         for row in packet["evaluated_surfaces"]["entries"]:
+            if (row["role"] in surfaces.INLINE_ROLES and
+                    row["path"] == surfaces.projection_path(row["role"])):
+                continue
             stored = pathlib.Path(row["path"])
             paths.append(stored if stored.is_absolute()
                          else surface_root / pathlib.PurePosixPath(row["path"]))
@@ -282,7 +285,7 @@ def _validate_stage(campaign_root, surface_root, campaign):
         "stage_snapshot_sha256": terminal["stage_snapshot_sha256"],
         "accepted_count": target,
         "execution_mode": "production",
-    }, manifest
+    }, manifest, packet
 
 
 def _gate_identity(b3, matrix, manifests):
@@ -397,7 +400,7 @@ def _validate_gates(gate_root, qualified_input_sha256):
     return gates
 
 
-def _after_manifest(before, after_root, external_paths):
+def _after_manifest(before, after_root, external_paths, packet=None):
     if type(external_paths) is not dict:
         raise ValueError("post-integration external locators must be an object")
     expected_external_roles = {
@@ -412,8 +415,13 @@ def _after_manifest(before, after_root, external_paths):
         if row["role"] in expected_external_roles
     }
     sources = []
+    has_virtual = False
     for row in before["entries"]:
         role = row["role"]
+        if (role in surfaces.INLINE_ROLES and
+                row["path"] == surfaces.projection_path(role)):
+            has_virtual = True
+            continue
         path = external_paths.get(role, row["path"])
         if role in expected_external_roles:
             if (type(path) is not str or not pathlib.Path(path).is_absolute() or
@@ -426,8 +434,13 @@ def _after_manifest(before, after_root, external_paths):
                     f"post-integration external locator reuses prior path: "
                     f"{role}")
         sources.append({"role": role, "path": path})
-    return surfaces.build_manifest(
-        before["campaign"], sources, root=after_root)
+    if has_virtual:
+        if packet is None:
+            raise ValueError(
+                "post-integration virtual projections require frozen packet")
+        return surfaces.build_manifest_with_packet_projections(
+            packet, before["campaign"], sources, root=after_root)
+    return surfaces.build_manifest(before["campaign"], sources, root=after_root)
 
 
 def _compare_after_bytes(before, after, campaign):
@@ -454,9 +467,9 @@ def validate_inputs(*, b3_campaign_root, matrix_campaign_root,
         _strict_directory_identity(
             matrix_surface_root,
             f"{surfaces.MATRIX_CAMPAIGN} frozen pre surface root")
-    b3, b3_before = _validate_stage(
+    b3, b3_before, b3_packet = _validate_stage(
         b3_campaign_root, b3_surface_root, surfaces.B3_CAMPAIGN)
-    matrix, matrix_before = _validate_stage(
+    matrix, matrix_before, matrix_packet = _validate_stage(
         matrix_campaign_root, matrix_surface_root,
         surfaces.MATRIX_CAMPAIGN)
     manifests = {
@@ -490,14 +503,15 @@ def validate_inputs(*, b3_campaign_root, matrix_campaign_root,
     qualified_input_sha256 = _gate_identity(b3, matrix, manifests)
     gates = _validate_gates(gate_root, qualified_input_sha256)
     comparisons = {}
-    for campaign, before, after_root, external_paths, pre_root, post_root in (
-            (surfaces.B3_CAMPAIGN, b3_before, b3_after_surface_root,
+    for campaign, packet, before, after_root, external_paths, pre_root, post_root in (
+            (surfaces.B3_CAMPAIGN, b3_packet, b3_before, b3_after_surface_root,
              b3_after_external_paths, b3_pre_root_identity,
              b3_post_root_identity),
-            (surfaces.MATRIX_CAMPAIGN, matrix_before,
+            (surfaces.MATRIX_CAMPAIGN, matrix_packet, matrix_before,
              matrix_after_surface_root, matrix_after_external_paths,
              matrix_pre_root_identity, matrix_post_root_identity)):
-        after = _after_manifest(before, after_root, external_paths or {})
+        after = _after_manifest(
+            before, after_root, external_paths or {}, packet)
         post_file_identities = surfaces.custody_identity_map(
             after, root=after_root)
         _require_post_files_distinct_from_pre(

@@ -507,9 +507,8 @@ def main():
             "implementation_identity"]["sha256"] = "0" * 64
         expect_live_invalid(
             module, drifted_rederiver, repo, "owner/manifest mismatch")
-        for path in projection_root.iterdir():
-            path.unlink()
-        projection_root.rmdir()
+        assert not projection_root.exists(), (
+            "virtual packet projections left filesystem residue")
 
     encoded = json.dumps(packet, sort_keys=True, separators=(",", ":"))
     assert "FROZEN_BEFORE_FIRST_MISSION" in encoded

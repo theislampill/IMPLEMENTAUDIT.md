@@ -398,9 +398,11 @@ def _exercise_root_identity_case(base, label):
         roots["b3_after_surface_root"] = junction
         expected = "link or reparse alias"
     elif label in ("member-hardlink", "two-member-hardlinks"):
-        roles = ["acceptance-rules"]
+        # Packet projections are virtual identities and have no physical leaf
+        # to hardlink. Exercise the retained-file invariant on physical roles.
+        roles = ["adapter"]
         if label == "two-member-hardlinks":
-            roles.append("adapter")
+            roles.append("scorer")
         for role in roles:
             relative = _relative_surface_path(
                 roots["b3_campaign_root"], role)
@@ -525,7 +527,8 @@ def _assert_output_custody_matrix(base):
             pathlib.Path(roots[campaign_key]) / "campaign-freeze.json"
         ).read_text(encoding="utf-8"))
         for row in packet["evaluated_surfaces"]["entries"]:
-            if pathlib.Path(row["path"]).is_absolute():
+            if (pathlib.Path(row["path"]).is_absolute() and
+                    row["role"] not in surfaces.INLINE_ROLES):
                 parent = pathlib.Path(row["path"]).parent
                 _root, identity = integration._validate_certificate_root(
                     parent, roots)
@@ -535,6 +538,47 @@ def _assert_output_custody_matrix(base):
                     integration._validate_certificate_external_disjoint(
                         identity, roots))
     print("CERTIFICATE_OUTPUT_CUSTODY_MATRIX=PASS")
+
+
+def _assert_virtual_projection_integration_boundary(base):
+    roots = _roots(base)
+    packet = json.loads((
+        roots["b3_campaign_root"] / "campaign-freeze.json"
+    ).read_text(encoding="utf-8"))
+    before = copy.deepcopy(packet["evaluated_surfaces"])
+    acceptance = next(
+        row for row in before["entries"]
+        if row["role"] == "acceptance-rules")
+    acceptance["sha256"] = "0" * 64
+    after = integration._after_manifest(
+        before, roots["b3_after_surface_root"], {}, packet)
+    canonical = next(
+        row for row in after["entries"]
+        if row["role"] == "acceptance-rules")
+    assert canonical["sha256"] != acceptance["sha256"], (
+        "post manifest trusted a caller-supplied virtual digest")
+
+    forged = copy.deepcopy(packet["evaluated_surfaces"])
+    adapter = next(
+        row for row in forged["entries"] if row["role"] == "adapter")
+    adapter["path"] = surfaces.projection_path("acceptance-rules")
+    expect_error(
+        "cannot be read",
+        lambda: integration._after_manifest(
+            forged, roots["b3_after_surface_root"], {}, packet))
+
+    shadow = (roots["b3_after_surface_root"] /
+              "evaluated-surface-projections")
+    shadow.mkdir()
+    try:
+        expect_error(
+            "shadow or residue",
+            lambda: integration._after_manifest(
+                packet["evaluated_surfaces"],
+                roots["b3_after_surface_root"], {}, packet))
+    finally:
+        shadow.rmdir()
+    print("PROVISIONAL-VIRTUAL-PROJECTION-BOUNDARY=PASS")
 
 
 def main():
@@ -559,6 +603,11 @@ def main():
     with tempfile.TemporaryDirectory(
             prefix="task4-certificate-custody-matrix-") as tmp:
         _assert_output_custody_matrix(pathlib.Path(tmp).resolve())
+
+    with tempfile.TemporaryDirectory(
+            prefix="task4-virtual-projection-integration-") as tmp:
+        _assert_virtual_projection_integration_boundary(
+            pathlib.Path(tmp).resolve())
 
     # Certificate output is a new custody domain. It may not be placed inside
     # either retained campaign (nor, by extension, any other qualified input

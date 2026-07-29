@@ -1608,14 +1608,30 @@ def main():
         packet = valid_packet()
         manifest = copy.deepcopy(packet["evaluated_surfaces"])
         for index, row in enumerate(manifest["entries"]):
+            if row["role"] in module.EVALUATED_SURFACE_VIRTUAL_ROLES:
+                continue
             path = surface_root / row["path"]
             payload = f"surface-{index}\n".encode()
             write(path, payload)
             row["byte_length"] = len(payload)
             row["sha256"] = sha(payload)
         module._validate_evaluated_surfaces(manifest, surface_root)
+        shadow = surface_root / "evaluated-surface-projections"
+        shadow.mkdir()
+        try:
+            try:
+                module._validate_evaluated_surfaces(manifest, surface_root)
+            except module.EvidenceInvalid as exc:
+                assert "shadow or residue" in str(exc), str(exc)
+            else:
+                raise AssertionError(
+                    "independent B3 accepted a physical virtual shadow")
+        finally:
+            shadow.rmdir()
         drifted = copy.deepcopy(manifest)
-        drifted["entries"][0]["sha256"] = "0" * 64
+        next(row for row in drifted["entries"]
+             if row["role"] not in
+             module.EVALUATED_SURFACE_VIRTUAL_ROLES)["sha256"] = "0" * 64
         try:
             module._validate_evaluated_surfaces(drifted, surface_root)
         except (TypeError, module.EvidenceInvalid) as exc:
