@@ -103,55 +103,59 @@ _PACKAGE_FAILURE_TABLE = {
     "PACKAGE_EXPORT_ROOT_EXISTS": (
         "INVALID", "PackagePreflightError",
         "package reproducibility export root already exists",
-        "EXPORT_ROOT_CLAIM", "FORBIDDEN", (0,), "ROOT"),
+        "EXPORT_ROOT_CLAIM", "FORBIDDEN", ((),), "ROOT"),
     "PACKAGE_EXPORT_CONTRACT_INVALID": (
         "INVALID", "PackagePreflightError",
         "package export contract invalid",
-        "EXPORT_CONTRACT", "FORBIDDEN", (0,), "LEAVES"),
+        "EXPORT_CONTRACT", "FORBIDDEN", ((),), "LEAVES"),
     "CHILD_SPAWN_ERROR": (
         "ERROR", "ChildSpawnError", "package child spawn failed",
-        "CHILD_SPAWN", "FORBIDDEN", (0,), "NONE"),
+        "CHILD_SPAWN", "FORBIDDEN", ((),), "NONE"),
     "CHILD_COMMUNICATION_ERROR": (
         "ERROR", None, None, "CHILD_COMMUNICATION", "REQUIRED",
-        (0, 1, 2, 3, 4), "NONE"),
+        ((), ("A",), ("B",), ("A", "B")), "NONE"),
     "CHILD_NONZERO_EXIT": (
         "FAIL", "ChildExitError", None, "CHILD_EXIT", "REQUIRED",
-        (0, 1, 2, 3, 4), "NONE"),
+        ((), ("A",), ("B",), ("A", "B")), "NONE"),
     "PACKAGE_EXPORT_PAIR_MISSING": (
         "INVALID", "PackagePostcheckError",
         "package child produced neither export",
-        "EXPORT_POSTCHECK", "REQUIRED", (0,), "NONE"),
+        "EXPORT_POSTCHECK", "REQUIRED", ((),), "NONE"),
     "PACKAGE_EXPORT_PAIR_INCOMPLETE": (
         "INVALID", "PackagePostcheckError",
         "package child produced only one export",
-        "EXPORT_POSTCHECK", "REQUIRED", (1,), "NONE"),
+        "EXPORT_POSTCHECK", "REQUIRED", (("A",), ("B",)), "NONE"),
     "PACKAGE_EXPORT_ALIAS": (
         "INVALID", "PackagePostcheckError",
         "package export custody invalid",
-        "EXPORT_POSTCHECK", "REQUIRED", (2,), "NONE"),
+        "EXPORT_POSTCHECK", "REQUIRED", (("A", "B"),), "NONE"),
     "PACKAGE_EXPORT_CUSTODY_INVALID": (
         "INVALID", "PackagePostcheckError",
         "package export custody invalid",
-        "EXPORT_POSTCHECK", "REQUIRED", (2,), "NONE"),
+        "EXPORT_POSTCHECK", "REQUIRED", (("A", "B"),), "NONE"),
     "PACKAGE_EXPORT_DRIFT": (
         "INVALID", "PackagePostcheckError",
         "package reproducibility assets differ",
-        "EXPORT_POSTCHECK", "REQUIRED", (2,), "NONE"),
+        "EXPORT_POSTCHECK", "REQUIRED", (("A", "B"),), "NONE"),
     "PACKAGE_ARCHIVE_INVALID": (
         "INVALID", "PackagePostcheckError", "package archive invalid",
-        "MANIFEST_POSTCHECK", "REQUIRED", (2,), "NONE"),
+        "MANIFEST_POSTCHECK", "REQUIRED", (("A", "B"),), "NONE"),
     "PACKAGE_MANIFEST_DRIFT": (
         "INVALID", "PackagePostcheckError",
         "package reproducibility entry manifests differ",
-        "MANIFEST_POSTCHECK", "REQUIRED", (2,), "NONE"),
+        "MANIFEST_POSTCHECK", "REQUIRED", (("A", "B"),), "NONE"),
     "PACKAGE_MANIFEST_INVALID": (
         "INVALID", "PackagePostcheckError",
         "package entry manifest invalid",
-        "MANIFEST_POSTCHECK", "REQUIRED", (2,), "NONE"),
+        "MANIFEST_POSTCHECK", "REQUIRED", (("A", "B"),), "NONE"),
     "PACKAGE_SOURCE_BINDING_INVALID": (
         "INVALID", "PackagePostcheckError",
         "package source binding invalid",
-        "MANIFEST_POSTCHECK", "REQUIRED", (2, 4), "NONE"),
+        "MANIFEST_POSTCHECK", "REQUIRED",
+        (("A", "B"),
+         ("A", "B", "A_MANIFEST"),
+         ("A", "B", "A_MANIFEST", "B_MANIFEST")),
+        "NONE"),
 }
 _PACKAGE_PUBLICATION_FAILURE_TABLE = {
     "RAW_LOG_PUBLICATION": True,
@@ -1840,8 +1844,11 @@ def _validate_failed_gate_evidence(
         except KeyError as exc:
             raise ValueError("failed package reason is not closed") from exc
         (expected_status, expected_error, expected_reason,
-         expected_stage, child_mode, inventory_counts,
+         expected_stage, child_mode, inventory_label_tuples,
          conflict_mode) = package_spec
+        inventory_labels = tuple(
+            row.get("label") if type(row) is dict else None
+            for row in terminal["partial_artifact_inventory"])
         if (terminal["status"] != expected_status or
                 (expected_error is not None and
                  terminal["error_type"] != expected_error) or
@@ -1852,8 +1859,7 @@ def _validate_failed_gate_evidence(
                  terminal["child"] is None) or
                 (child_mode == "FORBIDDEN" and
                  terminal["child"] is not None) or
-                len(terminal["partial_artifact_inventory"]) not in
-                inventory_counts or
+                inventory_labels not in inventory_label_tuples or
                 type(terminal["conflicts"]) is not list or
                 (conflict_mode == "NONE" and terminal["conflicts"]) or
                 (conflict_mode == "ROOT" and

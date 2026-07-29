@@ -334,6 +334,22 @@ def _assert_failed_lifecycle_mutations_rejected(
                     "observed_at": terminal["child"]["started_at"],
                 }),
         ])
+    if (original_terminal["reason_code"] ==
+            "PACKAGE_SOURCE_BINDING_INVALID" and
+            len(original_terminal["partial_artifact_inventory"]) == 3):
+        mutations.extend([
+            lambda terminal, _report:
+                terminal["partial_artifact_inventory"].__setitem__(
+                    slice(0, 2),
+                    list(reversed(
+                        terminal["partial_artifact_inventory"][:2]))),
+            lambda terminal, _report:
+                terminal["partial_artifact_inventory"][1].update(
+                    label="A"),
+            lambda terminal, _report:
+                terminal["partial_artifact_inventory"][2].update(
+                    label="B_MANIFEST"),
+        ])
     try:
         for index, mutator in enumerate(mutations):
             rejected(index, mutator)
@@ -717,6 +733,60 @@ def _assert_production_failure_transactions(
             expected_inventory=terminal["partial_artifact_inventory"],
             repo_root=checkout)
 
+        def manifest_write_fault(label, filename):
+            def fail_selected_manifest(path, raw):
+                if path.name == filename:
+                    raise OSError(
+                        f"controlled {label} manifest write failure")
+                return original_write_new(path, raw)
+            producer._write_new = fail_selected_manifest
+            try:
+                root = invoke(
+                    f"{label}-manifest-write-fault", action=write_pair,
+                    reason="PACKAGE_SOURCE_BINDING_INVALID")
+                terminal = json.loads(
+                    (root / "package-terminal.json").read_text(
+                        encoding="utf-8"))
+                _assert_closed_failure_root(
+                    root, "PACKAGE_SOURCE_BINDING_INVALID",
+                    expected_inventory=
+                        terminal["partial_artifact_inventory"],
+                    repo_root=checkout)
+                return root, terminal
+            finally:
+                producer._write_new = original_write_new
+
+        root, terminal = manifest_write_fault(
+            "first", "asset-a-entry-manifest.json")
+        assert [row["label"] for row in
+                terminal["partial_artifact_inventory"]] == ["A", "B"]
+
+        root, terminal = manifest_write_fault(
+            "second", "asset-b-entry-manifest.json")
+        assert [row["label"] for row in
+                terminal["partial_artifact_inventory"]] == [
+                    "A", "B", "A_MANIFEST"]
+        _assert_failed_lifecycle_mutations_rejected(
+            root, checkout, "INVALID")
+
+        def invalid_bound_manifest(repo_root, target_sha, target_tree, raw):
+            decoded = json.loads(original_manifest(
+                repo_root, target_sha, target_tree, raw))
+            decoded["source_sha"] = "0" * 40
+            return producer._encoded(decoded)
+        root = invoke(
+            "source-prepublication-invalid", action=write_pair,
+            reason="PACKAGE_SOURCE_BINDING_INVALID",
+            manifest=invalid_bound_manifest)
+        terminal = json.loads(
+            (root / "package-terminal.json").read_text(encoding="utf-8"))
+        _assert_closed_failure_root(
+            root, "PACKAGE_SOURCE_BINDING_INVALID",
+            expected_inventory=terminal["partial_artifact_inventory"],
+            repo_root=checkout)
+        assert [row["label"] for row in
+                terminal["partial_artifact_inventory"]] == ["A", "B"]
+
         def invalid_source(*_args, **_kwargs):
             raise ValueError("mock source mismatch")
         root = invoke(
@@ -729,6 +799,9 @@ def _assert_production_failure_transactions(
             root, "PACKAGE_SOURCE_BINDING_INVALID",
             expected_inventory=terminal["partial_artifact_inventory"],
             repo_root=checkout)
+        assert [row["label"] for row in
+                terminal["partial_artifact_inventory"]] == [
+                    "A", "B", "A_MANIFEST", "B_MANIFEST"]
 
         root = invoke(
             "communicate-error", action=write_pair,
@@ -1059,7 +1132,7 @@ def expect_error(fragment, action):
 def _assert_package_failure_table_units():
     for reason_code, spec in producer.PACKAGE_FAILURE_TABLE.items():
         (status, error_type, reason, stage, child_mode,
-         inventory_counts, conflict_mode) = spec
+         inventory_label_tuples, conflict_mode) = spec
         child = None
         selected_error = error_type
         selected_reason = reason
@@ -1083,14 +1156,28 @@ def _assert_package_failure_table_units():
             conflicts = [{"label": "EXPORT_ROOT"}]
         elif conflict_mode == "LEAVES":
             conflicts = [{"label": "A"}]
+        for inventory_labels in inventory_label_tuples:
+            failure = producer._ObservedGateFailure(
+                status, reason_code, selected_error, selected_reason,
+                child=copy.deepcopy(child),
+                partial_inventory=[
+                    {"label": label} for label in inventory_labels],
+                conflicts=copy.deepcopy(conflicts))
+            assert producer._package_failure_contract(failure) == stage
         failure = producer._ObservedGateFailure(
             status, reason_code, selected_error, selected_reason,
-            child=child,
+            child=copy.deepcopy(child),
             partial_inventory=[
-                {} for _ in range(min(inventory_counts))],
-            conflicts=conflicts)
-        assert producer._package_failure_contract(failure) == stage
+                {"label": label}
+                for label in inventory_label_tuples[0]],
+            conflicts=copy.deepcopy(conflicts))
         failure.status = "FAIL" if status != "FAIL" else "ERROR"
+        expect_error(
+            "closed table",
+            lambda failure=failure:
+                producer._package_failure_contract(failure))
+        failure.status = status
+        failure.partial_inventory = [{"label": "PACKAGE_FORGED_REASON"}]
         expect_error(
             "closed table",
             lambda failure=failure:
