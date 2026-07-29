@@ -62,7 +62,8 @@ def _finalize_b3(base, external_surface_paths=None):
         control_checkout=surface_root, runtime_root=base / "b3-runtime",
         execution_mode="production")
     driver.live_validator = lambda packet, root: \
-        surfaces.revalidate_manifest(packet["evaluated_surfaces"], root=root)
+        surfaces.validate_packet_surfaces(
+            packet, surfaces.B3_CAMPAIGN, root=root)
     driver.identity_validator = lambda _packet, **_paths: None
     official = driver.finalize_luna_stage()
     assert official["luna_stage_accepted"] is True
@@ -90,7 +91,8 @@ def _finalize_matrix(base, external_surface_paths=None):
         campaign_root=campaign_root, candidate_checkout=surface_root,
         runtime_root=base / "matrix-runtime", execution_mode="production")
     driver.live_validator = lambda packet, root: \
-        surfaces.revalidate_manifest(packet["evaluated_surfaces"], root=root)
+        surfaces.validate_packet_surfaces(
+            packet, surfaces.MATRIX_CAMPAIGN, root=root)
     driver.identity_validator = lambda _packet, **_paths: None
     official = driver.finalize_luna_stage()
     assert official["luna_stage_accepted"] is True
@@ -142,15 +144,26 @@ def _gates(root, qualified):
     return root
 
 
+def _certificate_root(base, label):
+    root = pathlib.Path(base) / f"certificate-{label}"
+    root.mkdir(parents=True)
+    return root
+
+
 def _roots(base, *, with_external=False):
     if with_external:
         b3_pre_external = {
-            role: base / "b3-pre-external" / f"{role}.bin"
-            for role in ("host-attestation", "product-candidate")
+            "host-attestation":
+                base / "b3-pre-external" / "luna-host-attestation.json",
+            "product-candidate":
+                base / "b3-pre-external" / "candidate" / "SKILL.md",
         }
         matrix_pre_external = {
-            role: base / "matrix-pre-external" / f"{role}.bin"
-            for role in ("host-attestation", "product-candidate")
+            "host-attestation":
+                base / "matrix-pre-external" /
+                "luna-host-attestation.json",
+            "product-candidate":
+                base / "matrix-pre-external" / "candidate" / "SKILL.md",
         }
     else:
         b3_pre_external = {}
@@ -185,7 +198,9 @@ def _roots(base, *, with_external=False):
                 ("b3", b3_pre_external, b3_after_external),
                 ("matrix", matrix_pre_external, matrix_after_external)):
             for role, source in before.items():
-                target = base / f"{campaign}-after-external" / f"{role}.bin"
+                name = ("luna-host-attestation.json"
+                        if role == "host-attestation" else "candidate/SKILL.md")
+                target = base / f"{campaign}-after-external" / name
                 write(target, pathlib.Path(source).read_bytes())
                 after[role] = target.as_posix()
         roots["b3_after_external_paths"] = b3_after_external
@@ -400,7 +415,11 @@ def _exercise_root_identity_case(base, label):
             roles.append("host-attestation")
         for role in roles:
             roots["b3_after_external_paths"][role] = (
-                base / "b3-pre-external" / f"{role}.bin").as_posix()
+                roots["b3_surface_root"].parent /
+                "b3-pre-external" /
+                ("luna-host-attestation.json"
+                 if role == "host-attestation" else "candidate/SKILL.md")
+            ).as_posix()
         expected = None
     else:
         raise AssertionError(f"unsupported root identity case {label}")
@@ -408,10 +427,114 @@ def _exercise_root_identity_case(base, label):
         expect_error(
             expected,
             lambda: integration.write_certificate(
-                base / f"{label}.json", **roots))
+                _certificate_root(base, label), **roots))
     finally:
         if junction is not None and junction.exists():
             os.rmdir(junction)
+
+
+def _assert_output_custody_matrix(base):
+    qualified = base / "qualified"
+    qualified.mkdir()
+    roots = _roots(qualified, with_external=True)
+    root_keys = (
+        "b3_campaign_root", "matrix_campaign_root",
+        "b3_surface_root", "matrix_surface_root",
+        "b3_after_surface_root", "matrix_after_surface_root", "gate_root",
+    )
+    # Equal and descendant roots cover campaign/packet, pre/post, every member
+    # file under those roots, and all five gate evidence files.
+    for key in root_keys:
+        expect_error(
+            "certificate",
+            lambda key=key: integration._validate_certificate_root(
+                roots[key], roots))
+        child = pathlib.Path(roots[key]) / "certificate-output"
+        child.mkdir()
+        expect_error(
+            "certificate",
+            lambda child=child: integration._validate_certificate_root(
+                child, roots))
+    # A common ancestor is equally unsafe because certificate creation would
+    # mutate the qualified custody namespace.
+    expect_error(
+        "certificate",
+        lambda: integration._validate_certificate_root(qualified, roots))
+
+    b3_root = pathlib.Path(roots["b3_campaign_root"])
+    dot_alias = str(b3_root.parent) + os.sep + "." + os.sep + b3_root.name
+    expect_error(
+        "certificate",
+        lambda: integration._validate_certificate_root(dot_alias, roots))
+    alias_component = b3_root.parent / "certificate-alias-component"
+    alias_component.mkdir()
+    dotdot_alias = str(alias_component) + os.sep + ".." + os.sep + \
+        b3_root.name
+    expect_error(
+        None,
+        lambda: integration._validate_certificate_root(dotdot_alias, roots))
+    if os.name == "nt":
+        expect_error(
+            "certificate",
+            lambda: integration._validate_certificate_root(
+                str(b3_root).swapcase(), roots))
+        junction = qualified / "certificate-root-junction"
+        made = subprocess.run(
+            ["cmd", "/c", "mklink", "/J", str(junction), str(b3_root)],
+            capture_output=True, text=True)
+        if made.returncode:
+            print("CERTIFICATE_ROOT_JUNCTION=SKIP:mklink")
+        else:
+            try:
+                expect_error(
+                    "link or reparse",
+                    lambda: integration._validate_certificate_root(
+                        junction, roots))
+            finally:
+                os.rmdir(junction)
+            print("CERTIFICATE_ROOT_JUNCTION=PASS")
+
+    preexisting = _certificate_root(base, "preexisting-leaf")
+    write(preexisting / integration.CERTIFICATE_FILENAME, b"occupied\n")
+    expect_error(
+        "create-once",
+        lambda: integration._validate_certificate_root(preexisting, roots))
+
+    hardlinked = _certificate_root(base, "hardlinked-leaf")
+    gate_file = pathlib.Path(roots["gate_root"]) / \
+        integration.GATE_FILENAMES["deterministic"]
+    os.link(gate_file, hardlinked / integration.CERTIFICATE_FILENAME)
+    expect_error(
+        "create-once",
+        lambda: integration._validate_certificate_root(hardlinked, roots))
+
+    # External before/after locators are outside the root set and therefore
+    # receive a second explicit ancestor/equality check.
+    for key in ("b3_after_external_paths", "matrix_after_external_paths"):
+        for path in roots[key].values():
+            parent = pathlib.Path(path).parent
+            _root, identity = integration._validate_certificate_root(
+                parent, roots)
+            expect_error(
+                "retained input file",
+                lambda identity=identity:
+                integration._validate_certificate_external_disjoint(
+                    identity, roots))
+    for campaign_key in ("b3_campaign_root", "matrix_campaign_root"):
+        packet = json.loads((
+            pathlib.Path(roots[campaign_key]) / "campaign-freeze.json"
+        ).read_text(encoding="utf-8"))
+        for row in packet["evaluated_surfaces"]["entries"]:
+            if pathlib.Path(row["path"]).is_absolute():
+                parent = pathlib.Path(row["path"]).parent
+                _root, identity = integration._validate_certificate_root(
+                    parent, roots)
+                expect_error(
+                    "retained input file",
+                    lambda identity=identity:
+                    integration._validate_certificate_external_disjoint(
+                        identity, roots))
+    print("CERTIFICATE_OUTPUT_CUSTODY_MATRIX=PASS")
 
 
 def main():
@@ -433,6 +556,22 @@ def main():
                 prefix=f"task4-root-{label}-") as tmp:
             _exercise_root_identity_case(pathlib.Path(tmp).resolve(), label)
 
+    with tempfile.TemporaryDirectory(
+            prefix="task4-certificate-custody-matrix-") as tmp:
+        _assert_output_custody_matrix(pathlib.Path(tmp).resolve())
+
+    # Certificate output is a new custody domain. It may not be placed inside
+    # either retained campaign (nor, by extension, any other qualified input
+    # domain).
+    with tempfile.TemporaryDirectory(
+            prefix="task4-output-custody-red-") as tmp:
+        base = pathlib.Path(tmp).resolve()
+        roots = _roots(base)
+        expect_error(
+            "certificate",
+            lambda: integration.write_certificate(
+                roots["b3_campaign_root"], **roots))
+
     # The accepted path uses real production-shaped retained roots: six B3
     # attempts and fourteen matrix attempts, both official and independently
     # rederived, plus their real lifecycle stage terminals.
@@ -440,8 +579,9 @@ def main():
             prefix="task4-production-roots-") as tmp:
         base = pathlib.Path(tmp).resolve()
         roots = _roots(base)
-        output = base / "integration-certificate.json"
+        output = _certificate_root(base, "accepted")
         certificate = integration.write_certificate(output, **roots)
+        assert (output / integration.CERTIFICATE_FILENAME).is_file()
         assert certificate["disposition"] == \
             "LUNA_6_OF_6_AND_14_OF_14_GREEN_MERGED_TO_MAIN"
         assert certificate["b3_luna"]["accepted_count"] == 6
@@ -463,7 +603,7 @@ def main():
         base = pathlib.Path(tmp).resolve()
         roots = _roots(base, with_external=True)
         certificate = integration.write_certificate(
-            base / "external-integration-certificate.json", **roots)
+            _certificate_root(base, "external"), **roots)
         assert certificate["b3_luna"]["accepted_count"] == 6
         assert certificate["matrix_luna"]["accepted_count"] == 14
         assert all(
@@ -481,7 +621,7 @@ def main():
         expect_error(
             "byte drift",
             lambda: integration.write_certificate(
-                base / "replaced.json", **roots))
+                _certificate_root(base, "replaced"), **roots))
 
     # R2: result and stage summaries are reconstructed from the attempts.
     # Mutually rebinding fabricated row digests cannot replace campaign roots.
@@ -498,7 +638,7 @@ def main():
         expect_error(
             None,
             lambda: integration.write_certificate(
-                base / "fabricated.json", **roots))
+                _certificate_root(base, "fabricated"), **roots))
 
     # R3 and the neighboring closed terminal states: PASS is derived from each
     # gate's typed terminal bytes, never from caller status metadata.
@@ -518,7 +658,7 @@ def main():
             expect_error(
                 None,
                 lambda: integration.write_certificate(
-                    base / f"{label}.json", **roots))
+                    _certificate_root(base, label), **roots))
 
     print("PROVISIONAL-INTEGRATION-PASS")
 

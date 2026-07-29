@@ -49,7 +49,7 @@ FREEZE_FIELDS = {
     "seed", "cells", "luna_stage", "evidence_profiles",
     "result_composition", "attempt_policy", "acceptance_rule",
     "invalid_error_rule", "stop_conditions", "independent_rederiver",
-    "evaluated_surfaces",
+    "evaluated_surface_owners", "evaluated_surfaces",
 }
 EVALUATED_SURFACE_ROLES = tuple(sorted((
     "acceptance-rules", "adapter", "artifact-contract",
@@ -998,6 +998,184 @@ def _validate_evaluated_surfaces(value, surface_root=None):
     return value
 
 
+def _validate_surface_owners(packet):
+    """Independent semantic join; deliberately does not import official code."""
+    envelope = _exact_fields(
+        packet["evaluated_surface_owners"],
+        {"schema", "campaign", "roles"}, "evaluated surface owners")
+    _expect(
+        envelope["schema"] == "implementaudit-evaluated-surface-owners-v1"
+        and envelope["campaign"] == "candidate-matrix-sol-luna-r1",
+        "evaluated surface owners identity invalid")
+    owners = envelope["roles"]
+    _expect(type(owners) is dict and
+            set(owners) == set(EVALUATED_SURFACE_ROLES),
+            "evaluated surface owner role coverage invalid")
+    manifest = {
+        row["role"]: row for row in packet["evaluated_surfaces"]["entries"]}
+    inline = {
+        "acceptance-rules": {
+            "acceptance_rule": packet["acceptance_rule"],
+            "invalid_error_rule": packet["invalid_error_rule"],
+            "result_composition": packet["result_composition"],
+            "stop_conditions": packet["stop_conditions"],
+        },
+        "authorization-acknowledgement": packet["authorization"],
+        "evidence-contract": {
+            "attempt_policy": packet["attempt_policy"],
+            "bundle_artifact": packet["artifacts"]["bundle"],
+            "evidence_profiles": packet["evidence_profiles"],
+            "luna_stage": packet["luna_stage"],
+        },
+        "fixture-inventory": packet["fixtures"],
+        "model-reasoning-host-identity": packet["configuration"],
+        "seed-order-repetition-rules": {
+            "cells": packet["cells"], "seed": packet["seed"],
+        },
+    }
+    fixed = {
+        "adapter": "eval/adapters.py",
+        "host-read-contract": "eval/lib/hostread.py",
+        "lifecycle-contract": "eval/campaign_lifecycle.py",
+        "official-driver": "eval/candidate_matrix_campaign.py",
+        "prompt-construction-rules": "eval/hosts.py",
+        "verdict-contract": "eval/lib/verdict.py",
+    }
+    fixtures = {row["id"]: row for row in packet["fixtures"]}
+    for role in EVALUATED_SURFACE_ROLES:
+        owner = owners[role]
+        git = {}
+        raw = None
+        if role in inline:
+            owner = _exact_fields(owner, {"kind"},
+                                  f"evaluated surface owner {role}")
+            _expect(owner["kind"] == f"packet-projection-{role}",
+                    f"evaluated surface owner {role} kind invalid")
+            path = f"evaluated-surface-projections/{role}.json"
+            raw = (json.dumps({
+                "campaign": "candidate-matrix-sol-luna-r1",
+                "projection": inline[role], "role": role,
+                "schema":
+                    "implementaudit-evaluated-surface-projection-v1",
+            }, sort_keys=True, separators=(",", ":")) + "\n").encode()
+            digest = _sha(raw)
+        elif role == "artifact-contract":
+            owner = _exact_fields(owner, {"kind"},
+                                  f"evaluated surface owner {role}")
+            _expect(owner["kind"] == "packet-artifact-contract",
+                    f"evaluated surface owner {role} kind invalid")
+            path = packet["artifact_contract"]["path"]
+            digest = packet["artifact_contract"]["sha256"]
+        elif role in ("scorer", "evaluator", "host-runner"):
+            artifact = {"host-runner": "runner"}.get(role, role)
+            owner = _exact_fields(
+                owner, {"kind", "artifact", "git_commit", "git_tree"},
+                f"evaluated surface owner {role}")
+            _expect(
+                owner["kind"] == f"packet-artifact-{role}" and
+                owner["artifact"] == artifact,
+                f"evaluated surface owner {role} kind invalid")
+            path = packet["artifacts"][artifact]["path"]
+            digest = packet["artifacts"][artifact]["sha256"]
+            git = {"git_commit": owner["git_commit"],
+                   "git_tree": owner["git_tree"]}
+        elif role.startswith("fixture-"):
+            fixture_id = role[len("fixture-"):]
+            owner = _exact_fields(
+                owner, {"kind", "fixture_id"},
+                f"evaluated surface owner {role}")
+            _expect(owner == {"kind": "packet-fixture",
+                              "fixture_id": fixture_id} and
+                    fixture_id in fixtures,
+                    f"evaluated surface owner {role} fixture invalid")
+            path = fixtures[fixture_id]["path"]
+            digest = fixtures[fixture_id]["sha256"]
+        elif role == "independent-rederiver":
+            owner = _exact_fields(
+                owner, {"kind", "git_commit", "git_tree"},
+                f"evaluated surface owner {role}")
+            _expect(owner["kind"] == "packet-independent-rederiver",
+                    f"evaluated surface owner {role} kind invalid")
+            identity = packet["independent_rederiver"][
+                "implementation_identity"]
+            path, digest = identity["path"], identity["sha256"]
+            git = {"git_commit": owner["git_commit"],
+                   "git_tree": owner["git_tree"]}
+        elif role == "native-executable":
+            owner = _exact_fields(owner, {"kind"},
+                                  f"evaluated surface owner {role}")
+            _expect(owner["kind"] == "packet-native-executable",
+                    f"evaluated surface owner {role} kind invalid")
+            identity = packet["configuration"]["executable"]
+            path, digest = identity["path"], identity["sha256"]
+        elif role == "product-candidate":
+            owner = _exact_fields(
+                owner, {"kind", "packet_owner", "path"},
+                f"evaluated surface owner {role}")
+            _expect(owner["kind"] == "packet-product-candidate" and
+                    owner["packet_owner"] == "candidate",
+                    f"evaluated surface owner {role} kind invalid")
+            path = owner["path"]
+            pure = pathlib.PurePosixPath(path.replace("\\", "/"))
+            _expect(pure.name.lower() == "skill.md" and
+                    pure.parent.name.lower() == "candidate",
+                    f"evaluated surface owner {role} path policy invalid")
+            digest = packet["candidate"]["payload_sha256"]
+            git = {"git_commit": packet["candidate"]["commit"],
+                   "git_tree": packet["candidate"]["tree"]}
+        elif role == "host-attestation":
+            owner = _exact_fields(
+                owner, {"kind", "path"},
+                f"evaluated surface owner {role}")
+            name = pathlib.PurePosixPath(
+                owner["path"].replace("\\", "/")).name.lower()
+            _expect(owner["kind"] == "packet-host-attestation" and
+                    name.endswith(".json") and "attestation" in name,
+                    f"evaluated surface owner {role} path policy invalid")
+            path = owner["path"]
+            digest = packet["configuration"]["host_attestation"]["sha256"]
+        elif role in fixed:
+            fields = {"kind", "sha256"}
+            if role in EVALUATED_SURFACE_GIT_ROLES:
+                fields |= {"git_commit", "git_tree"}
+            owner = _exact_fields(
+                owner, fields, f"evaluated surface owner {role}")
+            _expect(owner["kind"] == f"frozen-{role}",
+                    f"evaluated surface owner {role} kind invalid")
+            path, digest = fixed[role], owner["sha256"]
+            if role in EVALUATED_SURFACE_GIT_ROLES:
+                git = {"git_commit": owner["git_commit"],
+                       "git_tree": owner["git_tree"]}
+        else:
+            owner = _exact_fields(
+                owner, {"kind", "path", "sha256"},
+                f"evaluated surface owner {role}")
+            _expect(owner["kind"] == f"frozen-{role}",
+                    f"evaluated surface owner {role} kind invalid")
+            path, digest = owner["path"], owner["sha256"]
+            name = pathlib.PurePosixPath(path.replace("\\", "/")).name.lower()
+            policy = (
+                role == "checkout-runtime-topology" and
+                name == "checkout-runtime-topology.json" or
+                role == "launcher" and name in
+                ("codex", "codex.exe", "luna-launcher",
+                 "luna-launcher.exe") or
+                role == "prompt-template" and name in
+                ("prompt-template.md", "prompt-template.txt", "readme.md"))
+            _expect(policy,
+                    f"evaluated surface owner {role} path policy invalid")
+        row = manifest[role]
+        _expect(row["path"] == path and row["sha256"] == digest,
+                f"evaluated surface owner/manifest mismatch: {role}")
+        observed_git = {key: row[key] for key in ("git_commit", "git_tree")
+                        if key in row}
+        _expect(observed_git == git,
+                f"evaluated surface owner/Git mismatch: {role}")
+        if raw is not None:
+            _expect(row["byte_length"] == len(raw),
+                    f"evaluated surface projection length mismatch: {role}")
+
+
 def _validate_freeze_contract(packet, surface_root=None):
     """Independently validate every matrix qualification-critical semantic."""
     packet = _exact_fields(packet, FREEZE_FIELDS, "freeze packet")
@@ -1188,6 +1366,7 @@ def _validate_freeze_contract(packet, surface_root=None):
     _expect(rederiver["input"] == "retained raw evidence only" and
             rederiver["output"] == "independent Luna matrix result",
             "independent rederiver I/O boundary drift")
+    _validate_surface_owners(packet)
     return packet
 
 def _safe_rel(value, owner):

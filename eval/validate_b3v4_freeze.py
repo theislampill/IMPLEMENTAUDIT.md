@@ -59,7 +59,7 @@ REQUIRED = {
     "repetitions_per_arm", "missions", "luna_stage", "evidence_profiles",
     "result_composition", "attempt_policy", "acceptance_rule",
     "invalid_error_rule", "stop_conditions", "independent_rederiver",
-    "evaluated_surfaces",
+    "evaluated_surface_owners", "evaluated_surfaces",
 }
 
 
@@ -122,9 +122,6 @@ def validate_structure(packet):
         raise ValueError("campaign must be b3v4-sol-luna-r2")
     if packet["state"] != "FROZEN_BEFORE_FIRST_MISSION":
         raise ValueError("state must freeze the packet before the first mission")
-    surfaces.validate_manifest(
-        packet["evaluated_surfaces"], surfaces.B3_CAMPAIGN)
-
     foundation = _mapping(packet["foundation"], "foundation")
     _required(foundation, {"commit", "tree"}, "foundation")
     _git_id(foundation["commit"], "foundation.commit")
@@ -293,6 +290,7 @@ def validate_structure(packet):
         raise ValueError("independent_rederiver.input drift")
     if rederiver["output"] != REDERIVER_OUTPUT:
         raise ValueError("independent_rederiver.output drift")
+    surfaces.validate_packet_surfaces(packet, surfaces.B3_CAMPAIGN)
     return packet
 
 
@@ -323,7 +321,8 @@ def _git(repo, *args):
 def validate_live(packet, repo_root):
     validate_structure(packet)
     repo_root = pathlib.Path(repo_root).resolve()
-    surfaces.revalidate_manifest(packet["evaluated_surfaces"], root=repo_root)
+    surfaces.validate_packet_surfaces(
+        packet, surfaces.B3_CAMPAIGN, root=repo_root)
     contract_identity = packet["artifact_contract"]
     contract_path = contract.resolve_contained(repo_root, contract_identity["path"])
     if _sha256(contract_path) != contract_identity["sha256"]:

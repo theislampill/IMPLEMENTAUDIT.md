@@ -15,6 +15,7 @@ import tempfile
 
 from test_b3v4_freeze import valid_packet
 import b3v4_contract as official_contract
+import evaluated_surfaces as surfaces
 import runner as official_runner
 
 
@@ -164,19 +165,47 @@ def build_campaign(root, fixture_override=None, *, surface_root=None,
         sha(REDERIVER.read_bytes())
     packet["fixture"]["fixture_sha256"] = sha(fixture_bytes)
     external_surface_paths = external_surface_paths or {}
-    for row in packet["evaluated_surfaces"]["entries"]:
-        if row["role"] in external_surface_paths:
-            row["path"] = pathlib.Path(
-                external_surface_paths[row["role"]]).resolve().as_posix()
-    if surface_root != root:
-        write(
-            surface_root / "eval" / "fixtures" / packet["fixture"]["id"] /
-            "fixture.json", fixture_bytes)
-    for index, row in enumerate(packet["evaluated_surfaces"]["entries"]):
-        payload = f"{packet['campaign']}:{row['role']}:{index}\n".encode()
-        write(surface_root / row["path"], payload)
-        row["byte_length"] = len(payload)
-        row["sha256"] = sha(payload)
+    owners = packet["evaluated_surface_owners"]["roles"]
+    for role, path in external_surface_paths.items():
+        owners[role]["path"] = pathlib.Path(path).resolve().as_posix()
+    attestation_bytes = encoded({
+        "id": "b3v4-L-host", "shell_dialect": "posix",
+        "executables": {"cat": "posix:cat"},
+    })
+    for index, role in enumerate(surfaces.required_roles(
+            surfaces.B3_CAMPAIGN)):
+        if role in surfaces.INLINE_ROLES:
+            continue
+        if role == "artifact-contract":
+            payload = (HERE / "b3v4_contract.json").read_bytes()
+        elif role == "fixture-B3-v3":
+            payload = fixture_bytes
+        elif role == "independent-rederiver":
+            payload = REDERIVER.read_bytes()
+        elif role == "host-attestation":
+            payload = attestation_bytes
+            packet["configurations"]["L"]["host_attestation"]["sha256"] = \
+                sha(payload)
+        else:
+            payload = f"{packet['campaign']}:{role}:{index}\n".encode()
+        if role in ("scorer", "evaluator", "host-runner"):
+            artifact = {"host-runner": "runner"}.get(role, role)
+            packet["artifacts"][artifact]["sha256"] = sha(payload)
+        elif role == "native-executable":
+            packet["configurations"]["L"]["executable"]["path"] = \
+                owners[role].get(
+                    "path", "surface/native-executable.bin")
+            packet["configurations"]["L"]["executable"]["sha256"] = sha(payload)
+        elif role in ("product-candidate", "product-control"):
+            packet[role[len("product-"):]]["payload_sha256"] = sha(payload)
+        elif owners[role]["kind"].startswith("frozen-"):
+            owners[role]["sha256"] = sha(payload)
+        path, _digest, _git, _raw = surfaces._packet_file_identity(
+            packet, surfaces.B3_CAMPAIGN, role, owners[role])
+        write(pathlib.Path(path) if pathlib.Path(path).is_absolute()
+              else surface_root / path, payload)
+    packet["evaluated_surfaces"] = surfaces.build_manifest_from_packet(
+        packet, surfaces.B3_CAMPAIGN, root=surface_root)
     packet_bytes = json.dumps(packet, sort_keys=True).encode()
     freeze_sha = sha(packet_bytes)
     write(root / "campaign-freeze.json", packet_bytes)
@@ -1611,6 +1640,10 @@ def main():
     surface_packet = valid_packet()
     surface_packet["independent_rederiver"]["implementation_identity"][
         "sha256"] = hashlib.sha256(REDERIVER.read_bytes()).hexdigest()
+    next(row for row in surface_packet["evaluated_surfaces"]["entries"]
+         if row["role"] == "independent-rederiver")["sha256"] = \
+        surface_packet["independent_rederiver"]["implementation_identity"][
+            "sha256"]
     module._validate_freeze_contract(surface_packet)
     for mutation in ("missing", "duplicate"):
         changed = copy.deepcopy(surface_packet)
@@ -1626,6 +1659,37 @@ def main():
         else:
             raise AssertionError(
                 f"independent rederiver accepted {mutation} surface role")
+    owner_mutations = []
+    changed = copy.deepcopy(surface_packet)
+    changed["evaluated_surface_owners"]["roles"].pop("scorer")
+    owner_mutations.append(changed)
+    changed = copy.deepcopy(surface_packet)
+    changed["evaluated_surface_owners"]["roles"]["extra"] = {
+        "kind": "frozen-extra", "sha256": "a" * 64}
+    owner_mutations.append(changed)
+    changed = copy.deepcopy(surface_packet)
+    changed["evaluated_surface_owners"]["roles"]["scorer"]["kind"] = \
+        "packet-artifact-evaluator"
+    owner_mutations.append(changed)
+    changed = copy.deepcopy(surface_packet)
+    roles = changed["evaluated_surface_owners"]["roles"]
+    roles["scorer"], roles["evaluator"] = roles["evaluator"], roles["scorer"]
+    owner_mutations.append(changed)
+    changed = copy.deepcopy(surface_packet)
+    owner = changed["evaluated_surface_owners"]["roles"]["prompt-template"]
+    owner.update({"path": "surface/arbitrary.bin", "sha256": "d" * 64})
+    row = next(row for row in changed["evaluated_surfaces"]["entries"]
+               if row["role"] == "prompt-template")
+    row.update({"path": owner["path"], "sha256": owner["sha256"]})
+    owner_mutations.append(changed)
+    for changed in owner_mutations:
+        try:
+            module._validate_freeze_contract(changed)
+        except module.EvidenceInvalid:
+            pass
+        else:
+            raise AssertionError(
+                "independent B3 rederiver accepted semantic owner drift")
     assert_host_root_junction_rejected(module)
     assert_independent_output_custody(module)
     assert_deep_cli_failure_normalized(module)

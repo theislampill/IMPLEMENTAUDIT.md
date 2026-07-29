@@ -18,6 +18,7 @@ import evaluated_surfaces as surfaces
 
 
 SCHEMA = "implementaudit-luna-qualified-integration-certificate-v3"
+CERTIFICATE_FILENAME = "luna-qualified-integration-certificate.json"
 DISPOSITION = "LUNA_6_OF_6_AND_14_OF_14_GREEN_MERGED_TO_MAIN"
 REQUIRED_GATES = (
     "deterministic", "package", "ci", "reproducibility",
@@ -90,6 +91,73 @@ def _identity_tokens(identity):
     }
 
 
+def _path_overlap(left, right):
+    left = os.path.normcase(os.path.normpath(str(left)))
+    right = os.path.normcase(os.path.normpath(str(right)))
+    try:
+        common = os.path.commonpath([left, right])
+    except ValueError:
+        return False
+    return common in (left, right)
+
+
+def _validate_certificate_root(certificate_root, roots):
+    root, identity = _strict_directory_identity(
+        certificate_root, "integration certificate root")
+    input_roots = {
+        name: _strict_directory_identity(path, name)[1]
+        for name, path in roots.items()
+        if name in {
+            "b3_campaign_root", "matrix_campaign_root",
+            "b3_surface_root", "matrix_surface_root",
+            "b3_after_surface_root", "matrix_after_surface_root",
+            "gate_root",
+        }
+    }
+    for owner, prior in input_roots.items():
+        if (_identity_tokens(identity) & _identity_tokens(prior) or
+                _path_overlap(identity["canonical"],
+                              prior["canonical"])):
+            raise ValueError(
+                f"integration certificate root aliases or overlaps {owner}")
+    leaf = root / CERTIFICATE_FILENAME
+    if leaf.exists():
+        raise ValueError("create-once integration certificate exists")
+    return root, identity
+
+
+def _validate_certificate_external_disjoint(identity, roots):
+    paths = []
+    for key in ("b3_after_external_paths", "matrix_after_external_paths"):
+        mapping = roots.get(key) or {}
+        if type(mapping) is not dict:
+            raise ValueError(f"{key} must be an object")
+        paths.extend(mapping.values())
+    for campaign_key, surface_key in (
+            ("b3_campaign_root", "b3_surface_root"),
+            ("matrix_campaign_root", "matrix_surface_root")):
+        campaign_root = pathlib.Path(roots[campaign_key]).absolute()
+        packet, _raw = _read_root_json(
+            campaign_root, "campaign-freeze.json",
+            f"{campaign_key} certificate custody packet")
+        surface_root = pathlib.Path(roots[surface_key]).absolute()
+        for row in packet["evaluated_surfaces"]["entries"]:
+            stored = pathlib.Path(row["path"])
+            paths.append(stored if stored.is_absolute()
+                         else surface_root / pathlib.PurePosixPath(row["path"]))
+    for path in paths:
+        lexical = pathlib.Path(path).absolute()
+        try:
+            canonical = lexical.resolve(strict=True)
+        except OSError as exc:
+            raise ValueError(
+                "integration certificate external locator unavailable") from exc
+        if (_path_overlap(identity["lexical"], lexical) or
+                _path_overlap(identity["canonical"], canonical)):
+            raise ValueError(
+                "integration certificate root overlaps retained input file")
+
+
 def _require_distinct_post_roots(pre_roots, post_roots):
     prior = []
     for campaign, identity in pre_roots.items():
@@ -143,7 +211,7 @@ def _packet_and_manifest(campaign_root, surface_root, campaign):
     else:
         candidate_matrix_contract.validate_freeze_envelope(packet)
     manifest = packet["evaluated_surfaces"]
-    surfaces.revalidate_manifest(manifest, root=surface_root)
+    surfaces.validate_packet_surfaces(packet, campaign, root=surface_root)
     return packet, raw, manifest
 
 
@@ -457,10 +525,20 @@ def validate_inputs(*, b3_campaign_root, matrix_campaign_root,
     return b3, matrix, gates, comparisons, qualified_input_sha256
 
 
-def write_certificate(path, **roots):
-    path = pathlib.Path(path).absolute()
+def write_certificate(certificate_root, **roots):
+    certificate_root, certificate_identity = _validate_certificate_root(
+        certificate_root, roots)
     b3, matrix, gates, comparisons, qualified_input_sha256 = \
         validate_inputs(**roots)
+    certificate_root, observed_certificate_identity = \
+        _strict_directory_identity(
+            certificate_root, "integration certificate root")
+    if (_identity_tokens(observed_certificate_identity) !=
+            _identity_tokens(certificate_identity)):
+        raise ValueError(
+            "integration certificate root identity changed during validation")
+    certificate_identity = observed_certificate_identity
+    _validate_certificate_external_disjoint(certificate_identity, roots)
     certificate = {
         "schema": SCHEMA,
         "disposition": DISPOSITION,
@@ -474,6 +552,7 @@ def write_certificate(path, **roots):
         "publication_authorized": False,
         "final_cross_model_qualified": False,
     }
+    path = certificate_root / CERTIFICATE_FILENAME
     try:
         lifecycle.write_new_json(path, certificate)
     except FileExistsError as exc:

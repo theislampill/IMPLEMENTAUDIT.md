@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import os
 import pathlib
 import re
@@ -10,6 +11,8 @@ import stat
 
 
 SCHEMA = "implementaudit-evaluated-surfaces-v1"
+OWNER_SCHEMA = "implementaudit-evaluated-surface-owners-v1"
+PROJECTION_SCHEMA = "implementaudit-evaluated-surface-projection-v1"
 B3_CAMPAIGN = "b3v4-sol-luna-r2"
 MATRIX_CAMPAIGN = "candidate-matrix-sol-luna-r1"
 CAMPAIGNS = (B3_CAMPAIGN, MATRIX_CAMPAIGN)
@@ -76,6 +79,299 @@ EXTERNAL_ROLES = {
         "checkout-runtime-topology",
     }),
 }
+
+INLINE_ROLES = frozenset({
+    "acceptance-rules", "authorization-acknowledgement",
+    "evidence-contract", "fixture-inventory",
+    "model-reasoning-host-identity", "seed-order-repetition-rules",
+})
+FIXED_FILE_PATHS = {
+    "adapter": "eval/adapters.py",
+    "artifact-contract": None,
+    "evaluator": None,
+    "host-read-contract": "eval/lib/hostread.py",
+    "host-runner": None,
+    "independent-rederiver": None,
+    "lifecycle-contract": "eval/campaign_lifecycle.py",
+    "official-driver": None,
+    "prompt-construction-rules": "eval/hosts.py",
+    "scorer": None,
+    "verdict-contract": "eval/lib/verdict.py",
+}
+EXPLICIT_PATH_ROLES = frozenset({
+    "checkout-runtime-topology", "host-attestation", "launcher",
+    "product-candidate", "product-control", "prompt-template",
+})
+
+
+def canonical_json_bytes(value):
+    return (json.dumps(
+        value, ensure_ascii=False, allow_nan=False, sort_keys=True,
+        separators=(",", ":")) + "\n").encode("utf-8")
+
+
+def projection_path(role):
+    if role not in INLINE_ROLES:
+        raise ValueError(f"evaluated surface {role} is not packet-projected")
+    return f"evaluated-surface-projections/{role}.json"
+
+
+def _projection_value(packet, campaign, role):
+    if role == "acceptance-rules":
+        value = {
+            "acceptance_rule": packet["acceptance_rule"],
+            "invalid_error_rule": packet["invalid_error_rule"],
+            "result_composition": packet["result_composition"],
+            "stop_conditions": packet["stop_conditions"],
+        }
+    elif role == "authorization-acknowledgement":
+        value = packet["authorization"]
+    elif role == "evidence-contract":
+        value = {
+            "attempt_policy": packet["attempt_policy"],
+            "bundle_artifact": packet["artifacts"]["bundle"],
+            "evidence_profiles": packet["evidence_profiles"],
+            "luna_stage": packet["luna_stage"],
+        }
+    elif role == "fixture-inventory":
+        value = packet["fixture"] if campaign == B3_CAMPAIGN \
+            else packet["fixtures"]
+    elif role == "model-reasoning-host-identity":
+        value = packet["configurations"]["L"] if campaign == B3_CAMPAIGN \
+            else packet["configuration"]
+    elif role == "seed-order-repetition-rules":
+        value = {
+            "missions": packet["missions"],
+            "repetitions_per_arm": packet["repetitions_per_arm"],
+            "seed": packet["seed"],
+        } if campaign == B3_CAMPAIGN else {
+            "cells": packet["cells"], "seed": packet["seed"],
+        }
+    else:
+        raise ValueError(f"evaluated surface projection role invalid: {role}")
+    return {
+        "campaign": campaign, "projection": value, "role": role,
+        "schema": PROJECTION_SCHEMA,
+    }
+
+
+def projection_bytes(packet, campaign, role):
+    return canonical_json_bytes(_projection_value(packet, campaign, role))
+
+
+def _owner_kind(role):
+    return f"frozen-{role}"
+
+
+def _validate_owned_path_policy(path, role):
+    name = pathlib.PurePosixPath(path.replace("\\", "/")).name.lower()
+    if role in ("product-candidate", "product-control"):
+        expected_owner = role[len("product-"):]
+        valid = (
+            name == "skill.md" and
+            pathlib.PurePosixPath(path.replace("\\", "/")).parent.name.lower()
+            == expected_owner)
+    elif role == "host-attestation":
+        valid = name.endswith(".json") and "attestation" in name
+    elif role == "checkout-runtime-topology":
+        valid = name == "checkout-runtime-topology.json"
+    elif role == "launcher":
+        valid = name in ("codex", "codex.exe", "luna-launcher",
+                         "luna-launcher.exe")
+    elif role == "prompt-template":
+        valid = name in ("prompt-template.md", "prompt-template.txt",
+                         "readme.md")
+    else:
+        valid = True
+    if not valid:
+        raise ValueError(
+            f"evaluated surface owner {role} path policy invalid")
+
+
+def _exact_owner(owner, fields, role):
+    if type(owner) is not dict or set(owner) != set(fields):
+        raise ValueError(f"evaluated surface owner {role} fields invalid")
+    return owner
+
+
+def _owned_git(owner, role):
+    git = {
+        "git_commit": owner["git_commit"],
+        "git_tree": owner["git_tree"],
+    }
+    if (not GIT_ID.fullmatch(git["git_commit"]) or
+            not GIT_ID.fullmatch(git["git_tree"])):
+        raise ValueError(f"evaluated surface owner {role} Git identity invalid")
+    return git
+
+
+def _packet_file_identity(packet, campaign, role, owner):
+    """Derive one role's authoritative path/hash/Git identity from its owner."""
+    git = {}
+    if role in INLINE_ROLES:
+        _exact_owner(owner, {"kind"}, role)
+        if owner["kind"] != f"packet-projection-{role}":
+            raise ValueError(f"evaluated surface owner {role} kind invalid")
+        raw = projection_bytes(packet, campaign, role)
+        return projection_path(role), hashlib.sha256(raw).hexdigest(), git, raw
+    if role == "artifact-contract":
+        _exact_owner(owner, {"kind"}, role)
+        if owner["kind"] != "packet-artifact-contract":
+            raise ValueError(f"evaluated surface owner {role} kind invalid")
+        row = packet["artifact_contract"]
+        return row["path"], row["sha256"], git, None
+    if role in ("scorer", "evaluator", "host-runner"):
+        artifact = {"host-runner": "runner"}.get(role, role)
+        _exact_owner(
+            owner, {"kind", "artifact", "git_commit", "git_tree"}, role)
+        if (owner["kind"] != f"packet-artifact-{role}" or
+                owner["artifact"] != artifact):
+            raise ValueError(f"evaluated surface owner {role} kind invalid")
+        row = packet["artifacts"][artifact]
+        return row["path"], row["sha256"], _owned_git(owner, role), None
+    if role.startswith("fixture-"):
+        fixture_id = role[len("fixture-"):]
+        _exact_owner(owner, {"kind", "fixture_id"}, role)
+        if (owner["kind"] != "packet-fixture" or
+                owner["fixture_id"] != fixture_id):
+            raise ValueError(f"evaluated surface owner {role} kind invalid")
+        if campaign == B3_CAMPAIGN:
+            if fixture_id != packet["fixture"]["id"]:
+                raise ValueError(f"evaluated surface owner {role} fixture invalid")
+            row = packet["fixture"]
+            path = f"eval/fixtures/{fixture_id}/fixture.json"
+            digest = row["fixture_sha256"]
+        else:
+            matches = [row for row in packet["fixtures"]
+                       if row["id"] == fixture_id]
+            if len(matches) != 1:
+                raise ValueError(f"evaluated surface owner {role} fixture invalid")
+            path, digest = matches[0]["path"], matches[0]["sha256"]
+        return path, digest, git, None
+    if role == "independent-rederiver":
+        _exact_owner(owner, {"kind", "git_commit", "git_tree"}, role)
+        if owner["kind"] != "packet-independent-rederiver":
+            raise ValueError(f"evaluated surface owner {role} kind invalid")
+        row = packet["independent_rederiver"]["implementation_identity"]
+        return row["path"], row["sha256"], _owned_git(owner, role), None
+    if role == "native-executable":
+        _exact_owner(owner, {"kind"}, role)
+        if owner["kind"] != "packet-native-executable":
+            raise ValueError(f"evaluated surface owner {role} kind invalid")
+        row = packet["configurations"]["L"]["executable"] \
+            if campaign == B3_CAMPAIGN else packet["configuration"]["executable"]
+        return row["path"], row["sha256"], git, None
+    if role in ("product-candidate", "product-control"):
+        packet_owner = role[len("product-"):]
+        if campaign == MATRIX_CAMPAIGN and packet_owner != "candidate":
+            raise ValueError(f"evaluated surface owner {role} campaign invalid")
+        _exact_owner(owner, {"kind", "packet_owner", "path"}, role)
+        if (owner["kind"] != f"packet-{role}" or
+                owner["packet_owner"] != packet_owner):
+            raise ValueError(f"evaluated surface owner {role} kind invalid")
+        row = packet[packet_owner]
+        git = {"git_commit": row["commit"], "git_tree": row["tree"]}
+        _validate_owned_path_policy(owner["path"], role)
+        return owner["path"], row["payload_sha256"], git, None
+    if role == "host-attestation":
+        _exact_owner(owner, {"kind", "path"}, role)
+        if owner["kind"] != "packet-host-attestation":
+            raise ValueError(f"evaluated surface owner {role} kind invalid")
+        row = packet["configurations"]["L"]["host_attestation"] \
+            if campaign == B3_CAMPAIGN else \
+            packet["configuration"]["host_attestation"]
+        _validate_owned_path_policy(owner["path"], role)
+        return owner["path"], row["sha256"], git, None
+    if role in FIXED_FILE_PATHS:
+        expected_path = FIXED_FILE_PATHS[role]
+        if role == "official-driver":
+            expected_path = "eval/b3v4_campaign.py" if \
+                campaign == B3_CAMPAIGN else "eval/candidate_matrix_campaign.py"
+        fields = {"kind", "sha256"}
+        if role in GIT_IDENTITY_ROLES[campaign]:
+            fields |= {"git_commit", "git_tree"}
+        _exact_owner(owner, fields, role)
+        if owner["kind"] != _owner_kind(role):
+            raise ValueError(f"evaluated surface owner {role} kind invalid")
+        if role in GIT_IDENTITY_ROLES[campaign]:
+            git = _owned_git(owner, role)
+        return expected_path, owner["sha256"], git, None
+    if role in EXPLICIT_PATH_ROLES:
+        _exact_owner(owner, {"kind", "path", "sha256"}, role)
+        if owner["kind"] != _owner_kind(role):
+            raise ValueError(f"evaluated surface owner {role} kind invalid")
+        _validate_owned_path_policy(owner["path"], role)
+        return owner["path"], owner["sha256"], git, None
+    raise ValueError(f"evaluated surface owner role unsupported: {role}")
+
+
+def validate_packet_owners(packet, campaign):
+    owners = packet.get("evaluated_surface_owners") \
+        if type(packet) is dict else None
+    if type(owners) is not dict or set(owners) != {"schema", "campaign", "roles"}:
+        raise ValueError("evaluated surface owners fields invalid")
+    if owners["schema"] != OWNER_SCHEMA or owners["campaign"] != campaign:
+        raise ValueError("evaluated surface owners campaign/schema mismatch")
+    roles = owners["roles"]
+    if type(roles) is not dict or set(roles) != set(required_roles(campaign)):
+        raise ValueError("evaluated surface owner role coverage invalid")
+    for role in required_roles(campaign):
+        path, digest, _git, _raw = _packet_file_identity(
+            packet, campaign, role, roles[role])
+        _normalize_path(path, campaign, role)
+        if type(digest) is not str or not SHA256.fullmatch(digest):
+            raise ValueError(f"evaluated surface owner {role} SHA-256 invalid")
+    return owners
+
+
+def validate_packet_surfaces(packet, campaign, *, root=None):
+    owners = validate_packet_owners(packet, campaign)["roles"]
+    manifest = validate_manifest(packet["evaluated_surfaces"], campaign)
+    by_role = {row["role"]: row for row in manifest["entries"]}
+    for role in required_roles(campaign):
+        path, digest, git, raw = _packet_file_identity(
+            packet, campaign, role, owners[role])
+        entry = by_role[role]
+        if entry["path"] != path or entry["sha256"] != digest:
+            raise ValueError(
+                f"evaluated surface owner/manifest mismatch: {role}")
+        observed_git = {
+            key: entry[key] for key in ("git_commit", "git_tree")
+            if key in entry
+        }
+        if observed_git != git:
+            raise ValueError(
+                f"evaluated surface owner/Git mismatch: {role}")
+        if raw is not None and entry["byte_length"] != len(raw):
+            raise ValueError(
+                f"evaluated surface projection length mismatch: {role}")
+    if root is not None:
+        revalidate_manifest(manifest, root=root)
+    return manifest
+
+
+def build_manifest_from_packet(packet, campaign, *, root):
+    """Author the manifest from the closed semantic owner map and custody."""
+    roles = validate_packet_owners(packet, campaign)["roles"]
+    sources = []
+    for role in required_roles(campaign):
+        path, _digest, git, raw = _packet_file_identity(
+            packet, campaign, role, roles[role])
+        if raw is not None:
+            target = _source_path(root, path, campaign, role)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            if target.exists():
+                if target.read_bytes() != raw:
+                    raise ValueError(
+                        f"evaluated surface projection already differs: {role}")
+            else:
+                with open(target, "xb") as stream:
+                    stream.write(raw)
+        sources.append({"role": role, "path": path, **git})
+    manifest = build_manifest(campaign, sources, root=root)
+    packet["evaluated_surfaces"] = manifest
+    validate_packet_surfaces(packet, campaign, root=root)
+    return manifest
 
 
 def required_roles(campaign):

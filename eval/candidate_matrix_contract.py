@@ -22,7 +22,8 @@ FREEZE_FIELDS = {
     "authorization", "seed", "cells",
     "luna_stage", "evidence_profiles", "result_composition", "attempt_policy",
     "acceptance_rule", "invalid_error_rule", "stop_conditions",
-    "independent_rederiver", "evaluated_surfaces",
+    "independent_rederiver", "evaluated_surface_owners",
+    "evaluated_surfaces",
 }
 FIXTURE_ORDER = (
     "B0", "B1", "B2", "E1", "E2a", "E2b", "E3", "E4",

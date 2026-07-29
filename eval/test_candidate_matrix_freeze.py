@@ -27,6 +27,79 @@ def load_module():
     return module
 
 
+def attach_surface_contract(packet):
+    sha = "a" * 64
+    commit = packet["foundation"]["commit"]
+    tree = packet["foundation"]["tree"]
+    roles = {}
+    for role in surfaces.required_roles(surfaces.MATRIX_CAMPAIGN):
+        if role in surfaces.INLINE_ROLES:
+            owner = {"kind": f"packet-projection-{role}"}
+        elif role == "artifact-contract":
+            owner = {"kind": "packet-artifact-contract"}
+        elif role in ("scorer", "evaluator", "host-runner"):
+            artifact = {"host-runner": "runner"}.get(role, role)
+            owner = {
+                "kind": f"packet-artifact-{role}", "artifact": artifact,
+                "git_commit": commit, "git_tree": tree,
+            }
+        elif role.startswith("fixture-"):
+            owner = {"kind": "packet-fixture",
+                     "fixture_id": role[len("fixture-"):]}
+        elif role == "independent-rederiver":
+            owner = {
+                "kind": "packet-independent-rederiver",
+                "git_commit": commit, "git_tree": tree,
+            }
+        elif role == "native-executable":
+            owner = {"kind": "packet-native-executable"}
+        elif role == "product-candidate":
+            owner = {
+                "kind": "packet-product-candidate",
+                "packet_owner": "candidate",
+                "path": "surface/candidate/SKILL.md",
+            }
+        elif role == "host-attestation":
+            owner = {"kind": "packet-host-attestation",
+                     "path": "surface/host-attestation.json"}
+        elif role in surfaces.FIXED_FILE_PATHS:
+            owner = {"kind": f"frozen-{role}", "sha256": sha}
+            if role in surfaces.GIT_IDENTITY_ROLES[
+                    surfaces.MATRIX_CAMPAIGN]:
+                owner.update({"git_commit": commit, "git_tree": tree})
+        else:
+            path = {
+                "checkout-runtime-topology":
+                    "surface/checkout-runtime-topology.json",
+                "launcher": "surface/luna-launcher",
+                "prompt-template": "surface/prompt-template.md",
+            }.get(role, f"surface/{role}.bin")
+            owner = {
+                "kind": f"frozen-{role}",
+                "path": path, "sha256": sha,
+            }
+        roles[role] = owner
+    packet["evaluated_surface_owners"] = {
+        "schema": surfaces.OWNER_SCHEMA,
+        "campaign": surfaces.MATRIX_CAMPAIGN,
+        "roles": roles,
+    }
+    entries = []
+    for role in surfaces.required_roles(surfaces.MATRIX_CAMPAIGN):
+        path, digest, git, raw = surfaces._packet_file_identity(
+            packet, surfaces.MATRIX_CAMPAIGN, role, roles[role])
+        entries.append({
+            "role": role, "path": path,
+            "byte_length": len(raw) if raw is not None else 1,
+            "sha256": digest, **git,
+        })
+    packet["evaluated_surfaces"] = {
+        "schema": surfaces.SCHEMA, "campaign": surfaces.MATRIX_CAMPAIGN,
+        "entries": entries,
+    }
+    return packet
+
+
 def valid_packet():
     sha = "a" * 64
     commit = "b" * 40
@@ -44,20 +117,7 @@ def valid_packet():
             "sha256": sha,
             "complete_manifest_sha256": sha,
         })
-    evaluated = {
-        "schema": surfaces.SCHEMA, "campaign": surfaces.MATRIX_CAMPAIGN,
-        "entries": [],
-    }
-    for index, role in enumerate(surfaces.required_roles(
-            surfaces.MATRIX_CAMPAIGN)):
-        row = {
-            "role": role, "path": f"surface/{index:02d}.bin",
-            "byte_length": 1, "sha256": sha,
-        }
-        if role in surfaces.GIT_IDENTITY_ROLES[surfaces.MATRIX_CAMPAIGN]:
-            row.update({"git_commit": commit, "git_tree": tree})
-        evaluated["entries"].append(row)
-    return {
+    packet = {
         "schema": "implementaudit-candidate-matrix-luna-freeze-v1",
         "campaign": "candidate-matrix-sol-luna-r1",
         "state": "FROZEN_BEFORE_FIRST_CELL",
@@ -82,7 +142,8 @@ def valid_packet():
             "model_resolved_required": "gpt-5.6-luna",
             "reasoning_effort": "max",
             "auth_mode": "chatgpt-subscription",
-            "executable": {"path": "/bin/codex", "version": "1.2.3",
+            "executable": {"path": "surface/native-executable.bin",
+                           "version": "1.2.3",
                            "sha256": sha},
             "host_attestation": {"id": "matrix-L-host",
                                  "sha256": attestation_sha},
@@ -150,8 +211,10 @@ def valid_packet():
             "input": "retained raw evidence only",
             "output": "independent Luna matrix result",
         },
-        "evaluated_surfaces": evaluated,
+        "evaluated_surface_owners": {},
+        "evaluated_surfaces": {},
     }
+    return attach_surface_contract(packet)
 
 
 def reject(module, packet):
@@ -289,6 +352,17 @@ def main():
             capture_output=True, text=True, timeout=30)
         assert proc.returncode == 1
         assert "INVALID" in proc.stderr
+        duplicate_owner = raw.replace(
+            '"roles":{',
+            '"roles":{"scorer":' + json.dumps(
+                packet["evaluated_surface_owners"]["roles"]["scorer"],
+                sort_keys=True, separators=(",", ":")) + ",", 1)
+        path.write_text(duplicate_owner, encoding="utf-8")
+        proc = subprocess.run(
+            ["python", str(MODULE), str(path)],
+            capture_output=True, text=True, timeout=30)
+        assert proc.returncode == 1
+        assert "duplicate JSON key" in proc.stderr
     print("candidate matrix freeze: PASS")
 
 

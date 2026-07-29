@@ -12,7 +12,7 @@ import shutil
 import subprocess
 import tempfile
 
-from test_b3v4_freeze import valid_packet
+from test_b3v4_freeze import attach_surface_contract, valid_packet
 
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -32,6 +32,7 @@ def write_packet(root):
     packet = valid_packet()
     packet["fixture"]["fixture_sha256"] = hashlib.sha256(
         (HERE / "fixtures" / "B3-v3" / "fixture.json").read_bytes()).hexdigest()
+    attach_surface_contract(packet)
     path.write_text(json.dumps(packet, sort_keys=True), encoding="utf-8")
     return path
 

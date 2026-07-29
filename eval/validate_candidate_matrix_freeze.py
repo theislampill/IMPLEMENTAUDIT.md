@@ -85,8 +85,6 @@ def _imports(path):
 
 def validate_structure(packet):
     contract.validate_freeze_envelope(packet)
-    surfaces.validate_manifest(
-        packet["evaluated_surfaces"], surfaces.MATRIX_CAMPAIGN)
     if not contract.exact_json_equal(packet["attempt_policy"], {
             "silent_retry": "FORBIDDEN", "preserve_every_attempt": True,
             "maximum_attempts": 14}):
@@ -116,13 +114,15 @@ def validate_structure(packet):
         raise ValueError("independent rederiver import boundary drift")
     if [row["fixture"] for row in packet["cells"]] != list(FIXTURE_ORDER):
         raise ValueError("canonical fourteen-cell order drift")
+    surfaces.validate_packet_surfaces(packet, surfaces.MATRIX_CAMPAIGN)
     return packet
 
 
 def validate_live(packet, repo_root):
     validate_structure(packet)
     repo_root = pathlib.Path(repo_root).resolve(strict=True)
-    surfaces.revalidate_manifest(packet["evaluated_surfaces"], root=repo_root)
+    surfaces.validate_packet_surfaces(
+        packet, surfaces.MATRIX_CAMPAIGN, root=repo_root)
     if _git(repo_root, "rev-parse", "HEAD") != packet["foundation"]["commit"]:
         raise ValueError("foundation commit drift")
     if _git(repo_root, "rev-parse", "HEAD^{tree}") != \

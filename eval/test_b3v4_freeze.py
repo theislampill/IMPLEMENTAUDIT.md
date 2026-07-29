@@ -25,6 +25,78 @@ def load_validator():
     return module
 
 
+def attach_surface_contract(packet):
+    sha = "a" * 64
+    commit = packet["foundation"]["commit"]
+    tree = packet["foundation"]["tree"]
+    roles = {}
+    for role in surfaces.required_roles(surfaces.B3_CAMPAIGN):
+        if role in surfaces.INLINE_ROLES:
+            owner = {"kind": f"packet-projection-{role}"}
+        elif role == "artifact-contract":
+            owner = {"kind": "packet-artifact-contract"}
+        elif role in ("scorer", "evaluator", "host-runner"):
+            artifact = {"host-runner": "runner"}.get(role, role)
+            owner = {
+                "kind": f"packet-artifact-{role}", "artifact": artifact,
+                "git_commit": commit, "git_tree": tree,
+            }
+        elif role.startswith("fixture-"):
+            owner = {"kind": "packet-fixture",
+                     "fixture_id": role[len("fixture-"):]}
+        elif role == "independent-rederiver":
+            owner = {
+                "kind": "packet-independent-rederiver",
+                "git_commit": commit, "git_tree": tree,
+            }
+        elif role == "native-executable":
+            owner = {"kind": "packet-native-executable"}
+        elif role in ("product-candidate", "product-control"):
+            packet_owner = role[len("product-"):]
+            owner = {
+                "kind": f"packet-{role}", "packet_owner": packet_owner,
+                "path": f"surface/{packet_owner}/SKILL.md",
+            }
+        elif role == "host-attestation":
+            owner = {"kind": "packet-host-attestation",
+                     "path": "surface/host-attestation.json"}
+        elif role in surfaces.FIXED_FILE_PATHS:
+            owner = {"kind": f"frozen-{role}", "sha256": sha}
+            if role in surfaces.GIT_IDENTITY_ROLES[surfaces.B3_CAMPAIGN]:
+                owner.update({"git_commit": commit, "git_tree": tree})
+        else:
+            path = {
+                "checkout-runtime-topology":
+                    "surface/checkout-runtime-topology.json",
+                "launcher": "surface/luna-launcher",
+                "prompt-template": "surface/prompt-template.md",
+            }.get(role, f"surface/{role}.bin")
+            owner = {
+                "kind": f"frozen-{role}",
+                "path": path, "sha256": sha,
+            }
+        roles[role] = owner
+    packet["evaluated_surface_owners"] = {
+        "schema": surfaces.OWNER_SCHEMA,
+        "campaign": surfaces.B3_CAMPAIGN,
+        "roles": roles,
+    }
+    entries = []
+    for role in surfaces.required_roles(surfaces.B3_CAMPAIGN):
+        path, digest, git, raw = surfaces._packet_file_identity(
+            packet, surfaces.B3_CAMPAIGN, role, roles[role])
+        entries.append({
+            "role": role, "path": path,
+            "byte_length": len(raw) if raw is not None else 1,
+            "sha256": digest, **git,
+        })
+    packet["evaluated_surfaces"] = {
+        "schema": surfaces.SCHEMA, "campaign": surfaces.B3_CAMPAIGN,
+        "entries": entries,
+    }
+    return packet
+
+
 def valid_packet():
     sha = "a" * 64
     commit = "b" * 40
@@ -46,20 +118,7 @@ def valid_packet():
             ("L", "control", 3), ("L", "candidate", 3),
         ])
     ]
-    evaluated = {
-        "schema": surfaces.SCHEMA, "campaign": surfaces.B3_CAMPAIGN,
-        "entries": [],
-    }
-    for index, role in enumerate(surfaces.required_roles(
-            surfaces.B3_CAMPAIGN)):
-        row = {
-            "role": role, "path": f"surface/{index:02d}.bin",
-            "byte_length": 1, "sha256": sha,
-        }
-        if role in surfaces.GIT_IDENTITY_ROLES[surfaces.B3_CAMPAIGN]:
-            row.update({"git_commit": commit, "git_tree": tree})
-        evaluated["entries"].append(row)
-    return {
+    packet = {
         "schema": "implementaudit-b3v4-luna-campaign-freeze-v2",
         "campaign": "b3v4-sol-luna-r2",
         "state": "FROZEN_BEFORE_FIRST_MISSION",
@@ -86,7 +145,8 @@ def valid_packet():
                   "model_resolved_required": "gpt-5.6-luna",
                   "reasoning_effort": "max",
                   "auth_mode": "chatgpt-subscription",
-                  "executable": {"path": "/bin/codex", "version": "1.2.3",
+                  "executable": {"path": "surface/native-executable.bin",
+                                 "version": "1.2.3",
                                  "sha256": sha},
                   "host_attestation": {"id": host_attestations["L"]["id"],
                                        "sha256": host_attestation_hashes["L"]}},
@@ -152,8 +212,10 @@ def valid_packet():
             "input": "retained raw evidence only",
             "output": "independent Luna stage result",
         },
-        "evaluated_surfaces": evaluated,
+        "evaluated_surface_owners": {},
+        "evaluated_surfaces": {},
     }
+    return attach_surface_contract(packet)
 
 
 def expect_invalid(module, packet, fragment):
@@ -347,26 +409,68 @@ def main():
         rederiver = repo / "eval" / "b3v4_rederive.py"
         live["independent_rederiver"]["implementation_identity"][
             "sha256"] = module._sha256(rederiver)
-        tracked = subprocess.check_output(
-            ["git", "-C", str(repo), "ls-files"], text=True).splitlines()
-        retained = [
-            path for path in tracked
-            if (repo / pathlib.PurePosixPath(path)).is_file() and
-            os.stat(repo / pathlib.PurePosixPath(path)).st_nlink == 1
-        ]
-        roles = surfaces.required_roles(surfaces.B3_CAMPAIGN)
-        assert len(retained) >= len(roles)
-        surface_sources = []
-        for role, path in zip(roles, retained):
-            row = {"role": role, "path": path}
-            if role in surfaces.GIT_IDENTITY_ROLES[surfaces.B3_CAMPAIGN]:
-                row.update({
-                    "git_commit": live["foundation"]["commit"],
-                    "git_tree": live["foundation"]["tree"],
-                })
-            surface_sources.append(row)
-        live["evaluated_surfaces"] = surfaces.build_manifest(
-            surfaces.B3_CAMPAIGN, surface_sources, root=repo)
+        attach_surface_contract(live)
+        owners = live["evaluated_surface_owners"]["roles"]
+        for role in surfaces.FIXED_FILE_PATHS:
+            path = surfaces.FIXED_FILE_PATHS[role]
+            if role == "artifact-contract":
+                continue
+            if role == "official-driver":
+                path = "eval/b3v4_campaign.py"
+            if path is not None:
+                owners[role]["sha256"] = module._sha256(repo / path)
+                if role in surfaces.GIT_IDENTITY_ROLES[
+                        surfaces.B3_CAMPAIGN]:
+                    owners[role]["git_commit"] = live["foundation"]["commit"]
+                    owners[role]["git_tree"] = live["foundation"]["tree"]
+        for role, artifact in (
+                ("scorer", "scorer"), ("evaluator", "evaluator"),
+                ("host-runner", "runner")):
+            owners[role]["git_commit"] = live["foundation"]["commit"]
+            owners[role]["git_tree"] = live["foundation"]["tree"]
+        owners["independent-rederiver"]["git_commit"] = \
+            live["foundation"]["commit"]
+        owners["independent-rederiver"]["git_tree"] = \
+            live["foundation"]["tree"]
+        external_files = {}
+        external_names = {
+            "checkout-runtime-topology": "checkout-runtime-topology.json",
+            "host-attestation": "luna-host-attestation.json",
+            "launcher": "luna-launcher",
+            "native-executable": "native-codex.bin",
+            "product-candidate": "candidate/SKILL.md",
+            "product-control": "control/SKILL.md",
+        }
+        for role in (
+                "checkout-runtime-topology", "host-attestation", "launcher",
+                "native-executable", "product-candidate", "product-control",
+                ):
+            path = pathlib.Path(tmp) / external_names[role]
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(f"{role}\n".encode())
+            external_files[role] = path
+        owners["host-attestation"]["path"] = \
+            external_files["host-attestation"].as_posix()
+        live["configurations"]["L"]["host_attestation"]["sha256"] = \
+            module._sha256(external_files["host-attestation"])
+        live["configurations"]["L"]["executable"]["path"] = \
+            external_files["native-executable"].as_posix()
+        live["configurations"]["L"]["executable"]["sha256"] = \
+            module._sha256(external_files["native-executable"])
+        for role in ("checkout-runtime-topology", "launcher"):
+            owners[role]["path"] = external_files[role].as_posix()
+            owners[role]["sha256"] = module._sha256(external_files[role])
+        owners["prompt-template"]["path"] = "README.md"
+        owners["prompt-template"]["sha256"] = module._sha256(repo / "README.md")
+        for role, packet_owner in (
+                ("product-candidate", "candidate"),
+                ("product-control", "control")):
+            owners[role]["path"] = external_files[role].as_posix()
+            live[packet_owner]["payload_sha256"] = module._sha256(
+                external_files[role])
+        projection_root = repo / "evaluated-surface-projections"
+        live["evaluated_surfaces"] = surfaces.build_manifest_from_packet(
+            live, surfaces.B3_CAMPAIGN, root=repo)
         module.validate_structure(live)
         module.validate_live(live, repo)
 
@@ -388,19 +492,24 @@ def main():
                 junction_live["authorization"]["acknowledgement_path"] = str(alias)
                 junction_live["authorization"]["acknowledgement_sha256"] = \
                     hashlib.sha256(junction_approval.read_bytes()).hexdigest()
-                expect_live_invalid(module, junction_live, repo, "link")
+                expect_live_invalid(
+                    module, junction_live, repo, "owner/manifest mismatch")
                 os.rmdir(approval_junction)
                 print("LIVE_APPROVAL_PARENT_JUNCTION=PASS")
 
         tree_as_commit = copy.deepcopy(live)
         tree_as_commit["foundation"]["commit"] = live["foundation"]["tree"]
-        expect_live_invalid(module, tree_as_commit, repo, "not a commit object")
+        expect_live_invalid(
+            module, tree_as_commit, repo, "not a commit object")
 
         drifted_rederiver = copy.deepcopy(live)
         drifted_rederiver["independent_rederiver"][
             "implementation_identity"]["sha256"] = "0" * 64
-        expect_live_invalid(module, drifted_rederiver, repo,
-                            "rederiver implementation hash mismatch")
+        expect_live_invalid(
+            module, drifted_rederiver, repo, "owner/manifest mismatch")
+        for path in projection_root.iterdir():
+            path.unlink()
+        projection_root.rmdir()
 
     encoded = json.dumps(packet, sort_keys=True, separators=(",", ":"))
     assert "FROZEN_BEFORE_FIRST_MISSION" in encoded
@@ -425,6 +534,18 @@ def main():
         assert nested_rejected.returncode == 2, nested_rejected
         assert "duplicate JSON key" in nested_rejected.stderr, \
             nested_rejected.stderr
+        duplicate_owner = encoded.replace(
+            '"roles":{',
+            '"roles":{"scorer":' + json.dumps(
+                packet["evaluated_surface_owners"]["roles"]["scorer"],
+                sort_keys=True, separators=(",", ":")) + ",", 1)
+        intent.write_text(duplicate_owner, encoding="utf-8")
+        owner_rejected = subprocess.run(
+            ["python", str(VALIDATOR), str(intent), "--schema-only"],
+            capture_output=True, text=True)
+        assert owner_rejected.returncode == 2, owner_rejected
+        assert "duplicate JSON key" in owner_rejected.stderr, \
+            owner_rejected.stderr
     print("test_b3v4_freeze: ok")
 
 

@@ -14,6 +14,7 @@ import shutil
 import tempfile
 
 from test_candidate_matrix_freeze import valid_packet
+import evaluated_surfaces as surfaces
 
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -199,10 +200,9 @@ def build_campaign(root, *, execution_mode="production", surface_root=None,
     packet["independent_rederiver"]["implementation_identity"]["sha256"] = \
         sha(MODULE.read_bytes())
     external_surface_paths = external_surface_paths or {}
-    for row in packet["evaluated_surfaces"]["entries"]:
-        if row["role"] in external_surface_paths:
-            row["path"] = pathlib.Path(
-                external_surface_paths[row["role"]]).resolve().as_posix()
+    owners = packet["evaluated_surface_owners"]["roles"]
+    for role, path in external_surface_paths.items():
+        owners[role]["path"] = pathlib.Path(path).resolve().as_posix()
     fixture_values = {}
     fixture_bytes = {}
     for row in packet["fixtures"]:
@@ -212,11 +212,42 @@ def build_campaign(root, *, execution_mode="production", surface_root=None,
             write(surface_root / row["path"], raw)
         fixture_bytes[row["id"]] = raw
         fixture_values[row["id"]] = json.loads(raw)
-    for index, row in enumerate(packet["evaluated_surfaces"]["entries"]):
-        payload = f"{packet['campaign']}:{row['role']}:{index}\n".encode()
-        write(surface_root / row["path"], payload)
-        row["byte_length"] = len(payload)
-        row["sha256"] = sha(payload)
+    attestation_bytes = encoded({
+        "id": "matrix-L-host", "shell_dialect": "posix",
+        "executables": {"cat": "posix:cat"},
+    })
+    for index, role in enumerate(surfaces.required_roles(
+            surfaces.MATRIX_CAMPAIGN)):
+        if role in surfaces.INLINE_ROLES:
+            continue
+        if role == "artifact-contract":
+            payload = (HERE / "candidate_matrix_contract.json").read_bytes()
+        elif role.startswith("fixture-"):
+            payload = fixture_bytes[role[len("fixture-"):]]
+        elif role == "independent-rederiver":
+            payload = MODULE.read_bytes()
+        elif role == "host-attestation":
+            payload = attestation_bytes
+            packet["configuration"]["host_attestation"]["sha256"] = sha(payload)
+        else:
+            payload = f"{packet['campaign']}:{role}:{index}\n".encode()
+        if role in ("scorer", "evaluator", "host-runner"):
+            artifact = {"host-runner": "runner"}.get(role, role)
+            packet["artifacts"][artifact]["sha256"] = sha(payload)
+        elif role == "native-executable":
+            packet["configuration"]["executable"]["path"] = \
+                "surface/native-executable.bin"
+            packet["configuration"]["executable"]["sha256"] = sha(payload)
+        elif role == "product-candidate":
+            packet["candidate"]["payload_sha256"] = sha(payload)
+        elif owners[role]["kind"].startswith("frozen-"):
+            owners[role]["sha256"] = sha(payload)
+        path, _digest, _git, _raw = surfaces._packet_file_identity(
+            packet, surfaces.MATRIX_CAMPAIGN, role, owners[role])
+        write(pathlib.Path(path) if pathlib.Path(path).is_absolute()
+              else surface_root / path, payload)
+    packet["evaluated_surfaces"] = surfaces.build_manifest_from_packet(
+        packet, surfaces.MATRIX_CAMPAIGN, root=surface_root)
     packet_bytes = json.dumps(packet, sort_keys=True).encode()
     freeze_sha = sha(packet_bytes)
     write(root / "campaign-freeze.json", packet_bytes)
@@ -1101,6 +1132,9 @@ def main():
     packet = valid_packet()
     packet["independent_rederiver"]["implementation_identity"]["sha256"] = \
         hashlib.sha256(MODULE.read_bytes()).hexdigest()
+    next(row for row in packet["evaluated_surfaces"]["entries"]
+         if row["role"] == "independent-rederiver")["sha256"] = \
+        packet["independent_rederiver"]["implementation_identity"]["sha256"]
     module._validate_freeze_contract(packet)
     for mutation in ("missing", "duplicate"):
         changed = copy.deepcopy(packet)
@@ -1116,6 +1150,37 @@ def main():
         else:
             raise AssertionError(
                 f"independent rederiver accepted {mutation} surface role")
+    owner_mutations = []
+    changed = copy.deepcopy(packet)
+    changed["evaluated_surface_owners"]["roles"].pop("scorer")
+    owner_mutations.append(changed)
+    changed = copy.deepcopy(packet)
+    changed["evaluated_surface_owners"]["roles"]["extra"] = {
+        "kind": "frozen-extra", "sha256": "a" * 64}
+    owner_mutations.append(changed)
+    changed = copy.deepcopy(packet)
+    changed["evaluated_surface_owners"]["roles"]["scorer"]["kind"] = \
+        "packet-artifact-evaluator"
+    owner_mutations.append(changed)
+    changed = copy.deepcopy(packet)
+    roles = changed["evaluated_surface_owners"]["roles"]
+    roles["scorer"], roles["evaluator"] = roles["evaluator"], roles["scorer"]
+    owner_mutations.append(changed)
+    changed = copy.deepcopy(packet)
+    owner = changed["evaluated_surface_owners"]["roles"]["prompt-template"]
+    owner.update({"path": "surface/arbitrary.bin", "sha256": "d" * 64})
+    row = next(row for row in changed["evaluated_surfaces"]["entries"]
+               if row["role"] == "prompt-template")
+    row.update({"path": owner["path"], "sha256": owner["sha256"]})
+    owner_mutations.append(changed)
+    for changed in owner_mutations:
+        try:
+            module._validate_freeze_contract(changed)
+        except module.EvidenceInvalid:
+            pass
+        else:
+            raise AssertionError(
+                "independent matrix rederiver accepted semantic owner drift")
     for alias in (14.0, True):
         changed = json.loads(json.dumps(packet))
         changed["attempt_policy"]["maximum_attempts"] = alias

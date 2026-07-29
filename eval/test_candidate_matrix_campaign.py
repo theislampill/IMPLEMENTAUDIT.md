@@ -14,6 +14,7 @@ from test_candidate_matrix_freeze import valid_packet
 from test_candidate_matrix_rederive import (
     build_campaign, load_module as load_rederive_module)
 import candidate_matrix_contract as matrix_contract
+import evaluated_surfaces as surfaces
 
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -131,13 +132,50 @@ def make_driver(module, root, mission_executor=executor):
         fixture_path = HERE.parent / row["path"]
         row["sha256"] = hashlib.sha256(fixture_path.read_bytes()).hexdigest()
     surface_root = root / "evaluated-surfaces"
-    for index, row in enumerate(packet["evaluated_surfaces"]["entries"]):
-        payload = f"{packet['campaign']}:{row['role']}:{index}\n".encode()
-        path = surface_root / row["path"]
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_bytes(payload)
-        row["byte_length"] = len(payload)
-        row["sha256"] = hashlib.sha256(payload).hexdigest()
+    owners = packet["evaluated_surface_owners"]["roles"]
+    attestation_bytes = encoded({
+        "id": "matrix-L-host", "shell_dialect": "posix",
+        "executables": {"cat": "posix:cat"},
+    })
+    for index, role in enumerate(surfaces.required_roles(
+            surfaces.MATRIX_CAMPAIGN)):
+        if role in surfaces.INLINE_ROLES:
+            continue
+        if role == "artifact-contract":
+            payload = (HERE / "candidate_matrix_contract.json").read_bytes()
+        elif role.startswith("fixture-"):
+            fixture = next(
+                row for row in packet["fixtures"]
+                if row["id"] == role[len("fixture-"):])
+            payload = (HERE.parent / fixture["path"]).read_bytes()
+        elif role == "independent-rederiver":
+            payload = rederiver_path.read_bytes()
+        elif role == "host-attestation":
+            payload = attestation_bytes
+            packet["configuration"]["host_attestation"]["sha256"] = \
+                hashlib.sha256(payload).hexdigest()
+        else:
+            payload = f"{packet['campaign']}:{role}:{index}\n".encode()
+        digest = hashlib.sha256(payload).hexdigest()
+        if role in ("scorer", "evaluator", "host-runner"):
+            artifact = {"host-runner": "runner"}.get(role, role)
+            packet["artifacts"][artifact]["sha256"] = digest
+        elif role == "native-executable":
+            packet["configuration"]["executable"]["path"] = \
+                "surface/native-executable.bin"
+            packet["configuration"]["executable"]["sha256"] = digest
+        elif role == "product-candidate":
+            packet["candidate"]["payload_sha256"] = digest
+        elif owners[role]["kind"].startswith("frozen-"):
+            owners[role]["sha256"] = digest
+        path, _digest, _git, _raw = surfaces._packet_file_identity(
+            packet, surfaces.MATRIX_CAMPAIGN, role, owners[role])
+        target = pathlib.Path(path) if pathlib.Path(path).is_absolute() \
+            else surface_root / path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(payload)
+    packet["evaluated_surfaces"] = surfaces.build_manifest_from_packet(
+        packet, surfaces.MATRIX_CAMPAIGN, root=surface_root)
     packet_path = root / "intent.json"
     packet_path.write_bytes(encoded(packet))
     attestation = root / "L-host-attestation.json"

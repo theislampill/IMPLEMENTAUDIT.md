@@ -14,6 +14,8 @@ import subprocess
 import tempfile
 
 import evaluated_surfaces as surfaces
+import test_b3v4_freeze as b3_freeze_test
+import test_candidate_matrix_freeze as matrix_freeze_test
 import test_b3v4_campaign as b3_campaign_test
 import test_candidate_matrix_campaign as matrix_campaign_test
 
@@ -39,6 +41,95 @@ def _files(root, campaign):
     return rows
 
 
+def _entry(packet, role):
+    return next(
+        row for row in packet["evaluated_surfaces"]["entries"]
+        if row["role"] == role)
+
+
+def _semantic_owner_negative_matrix():
+    validators = (
+        (b3_freeze_test.valid_packet(),
+         b3_freeze_test.load_validator(), surfaces.B3_CAMPAIGN),
+        (matrix_freeze_test.valid_packet(),
+         matrix_freeze_test.load_module(), surfaces.MATRIX_CAMPAIGN),
+    )
+    for packet, validator, campaign in validators:
+        validator.validate_structure(packet)
+        roles = packet["evaluated_surface_owners"]["roles"]
+
+        missing = copy.deepcopy(packet)
+        missing["evaluated_surface_owners"]["roles"].pop(
+            next(iter(roles)))
+        expect_error("coverage", lambda p=missing:
+                     validator.validate_structure(p))
+
+        extra = copy.deepcopy(packet)
+        extra["evaluated_surface_owners"]["roles"]["not-a-role"] = {
+            "kind": "frozen-not-a-role", "sha256": "a" * 64}
+        expect_error("coverage", lambda p=extra:
+                     validator.validate_structure(p))
+
+        wrong_kind = copy.deepcopy(packet)
+        wrong_kind["evaluated_surface_owners"]["roles"]["scorer"]["kind"] = \
+            "packet-artifact-evaluator"
+        expect_error("kind", lambda p=wrong_kind:
+                     validator.validate_structure(p))
+
+        swapped = copy.deepcopy(packet)
+        owner_roles = swapped["evaluated_surface_owners"]["roles"]
+        owner_roles["scorer"], owner_roles["evaluator"] = \
+            owner_roles["evaluator"], owner_roles["scorer"]
+        expect_error("kind", lambda p=swapped:
+                     validator.validate_structure(p))
+
+        # Owner and manifest cannot be mutually rebound to an arbitrary file.
+        rebound = copy.deepcopy(packet)
+        owner = rebound["evaluated_surface_owners"]["roles"][
+            "prompt-template"]
+        owner["path"] = "surface/arbitrary.bin"
+        owner["sha256"] = "d" * 64
+        row = _entry(rebound, "prompt-template")
+        row["path"] = owner["path"]
+        row["sha256"] = owner["sha256"]
+        expect_error("path policy", lambda p=rebound:
+                     validator.validate_structure(p))
+
+        # A correct digest cannot be reassigned to the opposite semantic
+        # product owner, even when the manifest is rebound with it.
+        if campaign == surfaces.B3_CAMPAIGN:
+            wrong_owner = copy.deepcopy(packet)
+            candidate = wrong_owner["evaluated_surface_owners"]["roles"][
+                "product-candidate"]
+            candidate["path"] = "surface/control/SKILL.md"
+            _entry(wrong_owner, "product-candidate")["path"] = \
+                candidate["path"]
+            expect_error("path policy", lambda p=wrong_owner:
+                         validator.validate_structure(p))
+
+        # Canonical packet projections are not caller-authored blobs. Extra,
+        # reordered, or coercively changed bytes cannot be legalized by
+        # rebinding the manifest digest.
+        projected = copy.deepcopy(packet)
+        raw = surfaces.projection_bytes(
+            projected, campaign, "acceptance-rules")
+        noncanonical = b'{ "extra":true, "projection":' + raw + b"}\n"
+        row = _entry(projected, "acceptance-rules")
+        row["byte_length"] = len(noncanonical)
+        row["sha256"] = hashlib.sha256(noncanonical).hexdigest()
+        expect_error("owner/manifest", lambda p=projected:
+                     validator.validate_structure(p))
+
+        substituted = copy.deepcopy(packet)
+        other = matrix_freeze_test.valid_packet() \
+            if campaign == surfaces.B3_CAMPAIGN else \
+            b3_freeze_test.valid_packet()
+        substituted["evaluated_surface_owners"] = copy.deepcopy(
+            other["evaluated_surface_owners"])
+        expect_error("campaign", lambda p=substituted:
+                     validator.validate_structure(p))
+
+
 def main():
     evaluated_surface_forbidden = {
         "adapters", "hosts", "runner", "b3v4_campaign", "b3v4_rederive",
@@ -62,6 +153,8 @@ def main():
              "eval.lib.scoring"})
         assert not imports & forbidden, (name, imports & forbidden)
     print("EVALUATED_SURFACE_STATIC_BOUNDARY=PASS")
+    _semantic_owner_negative_matrix()
+    print("EVALUATED_SURFACE_SEMANTIC_OWNER_MATRIX=PASS")
 
     with tempfile.TemporaryDirectory() as tmp:
         root = pathlib.Path(tmp).resolve()
@@ -255,6 +348,7 @@ def main():
                         b3_campaign_test.sealed_probe_outcome)
                     if helper is b3_campaign_test else
                     helper.make_driver(driver_module, driver_tmp))
+                driver_module.freeze.validate_structure = lambda packet: packet
                 calls = []
                 driver._validate_surfaces = lambda packet: calls.append(
                     packet["campaign"])

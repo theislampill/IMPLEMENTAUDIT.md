@@ -812,8 +812,8 @@ class CampaignDriver:
 
     def _validate_surfaces(self, packet):
         if self.execution_mode == "production":
-            surfaces.revalidate_manifest(
-                packet["evaluated_surfaces"], root=self.repo_root)
+            surfaces.validate_packet_surfaces(
+                packet, surfaces.MATRIX_CAMPAIGN, root=self.repo_root)
 
     def _verify_frozen_binding(self, expected_sha):
         packet, raw, observed_sha = self._load_packet()
@@ -1459,8 +1459,9 @@ def validate_retained_luna_stage(packet_path, campaign_root, surface_root):
     driver.repo_root = pathlib.Path(surface_root).resolve()
     driver.campaign_root = pathlib.Path(campaign_root).absolute()
     driver.execution_mode = "production"
-    driver.live_validator = lambda packet, root: surfaces.revalidate_manifest(
-        packet["evaluated_surfaces"], root=root)
+    driver.live_validator = lambda packet, root: \
+        surfaces.validate_packet_surfaces(
+            packet, surfaces.MATRIX_CAMPAIGN, root=root)
     return driver._validate_luna_stage(validate_runtime_identities=False)
 
 
