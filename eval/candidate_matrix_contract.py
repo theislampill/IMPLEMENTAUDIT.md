@@ -229,10 +229,20 @@ def _fixture_property_declaration(fixture_id, fixture_identity):
     return declaration
 
 
-def _official_result_packet_context(value, packet, packet_sha256):
-    if type(packet) is not dict:
-        raise ValueError("official Luna result packet context missing")
-    _digest(packet_sha256, "official Luna result packet sha256")
+def _official_result_packet_context(value, packet_path, packet_root):
+    if packet_path is None or packet_root is None:
+        raise ValueError("official Luna result retained packet path missing")
+    root = pathlib.Path(packet_root).absolute()
+    path = pathlib.Path(packet_path).absolute()
+    if path != root / "campaign-freeze.json":
+        raise ValueError("official Luna result retained packet path invalid")
+    raw = read_custodied_bytes(
+        path, "official Luna result retained freeze packet", root=root)
+    packet_sha256 = hashlib.sha256(raw).hexdigest()
+    packet = decode_json_bytes(
+        raw, "official Luna result retained freeze packet",
+        require_object=True)
+    validate_freeze_envelope(packet)
     artifact_contract = packet.get("artifact_contract")
     configuration = packet.get("configuration")
     fixtures = packet.get("fixtures")
@@ -465,7 +475,7 @@ def validate_freeze_envelope(packet):
     return packet
 
 
-def validate_artifact(name, value, *, packet=None, packet_sha256=None):
+def validate_artifact(name, value, *, packet_path=None, packet_root=None):
     declaration = _declaration()
     fields = declaration["lifecycle_schemas"].get(name)
     if fields is None:
@@ -569,7 +579,7 @@ def validate_artifact(name, value, *, packet=None, packet_sha256=None):
                 "non-scored attempt terminal cannot claim a completion seal")
     if name == "official_luna_result":
         configuration, fixture_identities = _official_result_packet_context(
-            value, packet, packet_sha256)
+            value, packet_path, packet_root)
         if (value["disposition"] != "INCOMPLETE_PENDING_OPUS" or
                 value["luna_stage_accepted"] is not True or
                 value["accepted"] is not False or

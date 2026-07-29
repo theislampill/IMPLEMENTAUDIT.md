@@ -14,6 +14,7 @@ import tempfile
 HERE = pathlib.Path(__file__).resolve().parent
 MODULE = HERE / "candidate_matrix_contract.py"
 DECLARATION = HERE / "candidate_matrix_contract.json"
+FREEZE_TEST = HERE / "test_candidate_matrix_freeze.py"
 FIXTURES = ["B0", "B1", "B2", "E1", "E2a", "E2b", "E3", "E4",
             "E5", "E6", "E7", "E8", "E9", "E10"]
 LUNA_MODEL = "gpt-5.6-luna"
@@ -29,7 +30,7 @@ def fixture_properties(fixture_id):
     }
 
 
-def valid_official_luna_result():
+def valid_official_luna_result(packet, packet_sha256):
     cells = []
     for index, fixture_id in enumerate(FIXTURES):
         declaration = fixture_properties(fixture_id)
@@ -55,16 +56,20 @@ def valid_official_luna_result():
     return {
         "schema": "implementaudit-candidate-matrix-luna-result-v1",
         "campaign": "candidate-matrix-sol-luna-r1",
-        "freeze_sha256": "5" * 64,
-        "contract_sha256": "6" * 64,
+        "freeze_sha256": packet_sha256,
+        "contract_sha256": packet["artifact_contract"]["sha256"],
         "disposition": "INCOMPLETE_PENDING_OPUS",
         "luna_stage_accepted": True, "accepted": False,
         "cell_count": 14, "cells": cells,
         "luna_identity": {
-            "config": "L", "host": "codex-cli",
-            "model_resolved_required": LUNA_MODEL,
-            "host_attestation_id": "luna-production",
-            "host_attestation_sha256": "7" * 64,
+            "config": packet["configuration"]["id"],
+            "host": packet["configuration"]["host"],
+            "model_resolved_required":
+                packet["configuration"]["model_resolved_required"],
+            "host_attestation_id":
+                packet["configuration"]["host_attestation"]["id"],
+            "host_attestation_sha256":
+                packet["configuration"]["host_attestation"]["sha256"],
         },
         "independent_rederivation": {
             "path": "candidate-matrix-luna-independent-rederivation.json",
@@ -83,33 +88,18 @@ def valid_official_luna_result():
     }
 
 
-def accepted_result_context():
-    return {
-        "campaign": "candidate-matrix-sol-luna-r1",
-        "artifact_contract": {"sha256": "6" * 64},
-        "configuration": {
-            "id": "L", "host": "codex-cli",
-            "model_requested": LUNA_MODEL,
-            "model_resolved_required": LUNA_MODEL,
-            "host_attestation": {
-                "id": "luna-production", "sha256": "7" * 64},
-        },
-        "fixtures": [
-            {
-                "id": fixture_id,
-                "path": f"eval/fixtures/{fixture_id}/fixture.json",
-                "sha256": hashlib.sha256(
-                    (HERE / "fixtures" / fixture_id /
-                     "fixture.json").read_bytes()).hexdigest(),
-                "complete_manifest_sha256": "a" * 64,
-            }
-            for fixture_id in FIXTURES
-        ],
-        "cells": [
-            {"index": index, "config": "L", "fixture": fixture_id}
-            for index, fixture_id in enumerate(FIXTURES)
-        ],
-    }
+def valid_freeze_packet():
+    spec = importlib.util.spec_from_file_location(
+        "candidate_matrix_freeze_test_helper", FREEZE_TEST)
+    helper = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(helper)
+    packet = helper.valid_packet()
+    for fixture in packet["fixtures"]:
+        fixture["sha256"] = hashlib.sha256(
+            (HERE / "fixtures" / fixture["id"] /
+             "fixture.json").read_bytes()).hexdigest()
+    return packet
 
 
 def load_module():
@@ -164,34 +154,106 @@ def main():
         changed["execution"][field] = value
         reject(lambda changed=changed: module.validate_declaration(changed))
 
-    accepted_result = valid_official_luna_result()
-    result_context = accepted_result_context()
+    packet = valid_freeze_packet()
+    packet_raw = module.canonical_json_bytes(packet)
+    packet_sha256 = hashlib.sha256(packet_raw).hexdigest()
+    accepted_result = valid_official_luna_result(packet, packet_sha256)
+    packet_tmp = tempfile.TemporaryDirectory(prefix="matrix-packet-root-")
+    packet_root = pathlib.Path(packet_tmp.name) / "accepted"
+    packet_root.mkdir()
+    packet_path = packet_root / "campaign-freeze.json"
+    packet_path.write_bytes(packet_raw)
+    packet_root_false_accepts = []
+    partial_packet = {"campaign": packet["campaign"]}
+    for label, result_value, context_value, asserted_sha in (
+            ("partial-packet", accepted_result, partial_packet,
+             packet_sha256),
+            ("arbitrary-packet-sha",
+             {**accepted_result, "freeze_sha256": "b" * 64},
+             partial_packet, "b" * 64),
+            ("non-current-contract",
+             {**accepted_result, "contract_sha256": "b" * 64},
+             {**partial_packet,
+              "artifact_contract": {"sha256": "b" * 64}},
+             packet_sha256)):
+        try:
+            module.validate_artifact(
+                "official_luna_result", result_value,
+                packet=context_value, packet_sha256=asserted_sha)
+        except (OSError, TypeError, ValueError):
+            pass
+        else:
+            packet_root_false_accepts.append(label)
+    assert not packet_root_false_accepts, (
+        "official result accepted caller-forged packet root: " +
+        ", ".join(packet_root_false_accepts))
     validate_result = lambda value: module.validate_artifact(
-        "official_luna_result", value, packet=result_context,
-        packet_sha256=accepted_result["freeze_sha256"])
+        "official_luna_result", value, packet_path=packet_path,
+        packet_root=packet_root)
     validate_result(accepted_result)
     reject(lambda: module.validate_artifact(
-        "official_luna_result", accepted_result, packet=result_context,
-        packet_sha256="b" * 64))
+        "official_luna_result", accepted_result,
+        packet_path=packet_root / "not-the-freeze.json",
+        packet_root=packet_root))
+
+    def reject_packet_raw(label, raw, result=accepted_result):
+        root = pathlib.Path(packet_tmp.name) / label
+        root.mkdir()
+        path = root / "campaign-freeze.json"
+        path.write_bytes(raw)
+        reject(lambda: module.validate_artifact(
+            "official_luna_result", result,
+            packet_path=path, packet_root=root))
+
+    reject_packet_raw(
+        "partial-json",
+        module.canonical_json_bytes({"campaign": packet["campaign"]}))
+    duplicate_packet_raw = (
+        packet_raw[:-2] +
+        b',"campaign":"candidate-matrix-sol-luna-r1"}\n')
+    reject_packet_raw("duplicate-json-key", duplicate_packet_raw)
+    coerced_packet = copy.deepcopy(packet)
+    coerced_packet["seed"] = 20260718.0
+    reject_packet_raw(
+        "type-coercion", module.canonical_json_bytes(coerced_packet))
+    for label, field, value in (
+            ("wrong-contract-path", "path", "eval/other-contract.json"),
+            ("wrong-contract-schema", "schema", "other-contract-v1"),
+            ("wrong-contract-hash", "sha256", "b" * 64)):
+        changed_packet = copy.deepcopy(packet)
+        changed_packet["artifact_contract"][field] = value
+        reject_packet_raw(
+            label, module.canonical_json_bytes(changed_packet))
+    arbitrary_sha_result = copy.deepcopy(accepted_result)
+    arbitrary_sha_result["freeze_sha256"] = "b" * 64
+    reject(lambda: validate_result(arbitrary_sha_result))
     for field, value in (
             ("path", "eval/fixtures/E1/fixture.json"),
             ("sha256", "b" * 64),
             ("id", "E1")):
-        changed_context = copy.deepcopy(result_context)
-        changed_context["fixtures"][0][field] = value
-        reject(lambda changed_context=changed_context:
-               module.validate_artifact(
-                   "official_luna_result", accepted_result,
-                   packet=changed_context,
-                   packet_sha256=accepted_result["freeze_sha256"]))
+        changed_packet = copy.deepcopy(packet)
+        changed_packet["fixtures"][0][field] = value
+        reject_packet_raw(
+            f"fixture-{field}", module.canonical_json_bytes(changed_packet))
     for field, value in (("index", 1), ("config", "O"), ("fixture", "E1")):
-        changed_context = copy.deepcopy(result_context)
-        changed_context["cells"][0][field] = value
-        reject(lambda changed_context=changed_context:
-               module.validate_artifact(
-                   "official_luna_result", accepted_result,
-                   packet=changed_context,
-                   packet_sha256=accepted_result["freeze_sha256"]))
+        changed_packet = copy.deepcopy(packet)
+        changed_packet["cells"][0][field] = value
+        reject_packet_raw(
+            f"cell-{field}", module.canonical_json_bytes(changed_packet))
+    replacement_root = pathlib.Path(packet_tmp.name) / "packet-replacement"
+    replacement_root.mkdir()
+    replacement_path = replacement_root / "campaign-freeze.json"
+    replacement_path.write_bytes(packet_raw)
+    module.validate_artifact(
+        "official_luna_result", accepted_result,
+        packet_path=replacement_path, packet_root=replacement_root)
+    replacement_packet = copy.deepcopy(packet)
+    replacement_packet["candidate"]["commit"] = "d" * 40
+    replacement_path.write_bytes(
+        module.canonical_json_bytes(replacement_packet))
+    reject(lambda: module.validate_artifact(
+        "official_luna_result", accepted_result,
+        packet_path=replacement_path, packet_root=replacement_root))
     changed_contract = copy.deepcopy(accepted_result)
     changed_contract["contract_sha256"] = "b" * 64
     reject(lambda: validate_result(changed_contract))
@@ -238,8 +300,7 @@ def main():
             try:
                 module.validate_artifact(
                     "official_luna_result", replacement_result,
-                    packet=result_context,
-                    packet_sha256=accepted_result["freeze_sha256"])
+                    packet_path=packet_path, packet_root=packet_root)
             except (OSError, TypeError, ValueError):
                 pass
             else:
@@ -280,6 +341,7 @@ def main():
     assert not false_accepts, (
         "official accepted-result identity false accepts: " +
         ", ".join(false_accepts))
+    packet_tmp.cleanup()
 
     assert module._exact_json_equal({"x": [0.0]}, {"x": [0.0]})
     assert not module._exact_json_equal(False, 0)

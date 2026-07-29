@@ -1141,8 +1141,9 @@ class CampaignDriver:
         result = self._official_luna_result(
             packet, packet_sha256, summaries, independent_raw)
         contract.validate_artifact(
-            "official_luna_result", result, packet=packet,
-            packet_sha256=packet_sha256)
+            "official_luna_result", result,
+            packet_path=self.campaign_root / "campaign-freeze.json",
+            packet_root=self.campaign_root)
         _write_new_json(result_path, result)
         official_raw = contract.read_custodied_bytes(
             result_path, "official Luna result", root=self.campaign_root)
@@ -1176,6 +1177,10 @@ class CampaignDriver:
             independent_raw, "independent Luna result", require_object=True)
         official = contract.decode_json_bytes(
             official_raw, "official Luna result", require_object=True)
+        contract.validate_artifact(
+            "official_luna_result", official,
+            packet_path=self.campaign_root / "campaign-freeze.json",
+            packet_root=self.campaign_root)
         rows = contract.lifecycle.validate_terminal_prefix(
             self.campaign_root, descriptor["missions"],
             stop_states=descriptor["stop_states"],
