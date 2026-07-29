@@ -213,8 +213,8 @@ def _assert_production_bash_binding_boundary():
         "package_manifest_sha256": "b" * 64,
         "argv": [
             binding["canonical_path"], "scripts/verify-package.sh"],
-        "started_at": "2026-07-29T00:00:00Z",
-        "completed_at": "2026-07-29T00:00:01Z",
+        "started_at": "2026-07-29T00:00:00.000000Z",
+        "completed_at": "2026-07-29T00:00:01.000000Z",
         "duration_seconds": 1.0,
         "pid": 1,
         "status": "PASS",
@@ -237,6 +237,11 @@ def _assert_production_bash_binding_boundary():
         "stderr_path": "package-command.stderr.log",
         "stderr_sha256": package_hashes[
             "package-command.stderr.log"],
+        "child_completed": True,
+        "communication_error": None,
+        "termination_action": "NONE",
+        "termination_started_at": None,
+        "termination_completed_at": None,
     }
     integration._validate_gate_terminal(
         "package", package, "a" * 64,

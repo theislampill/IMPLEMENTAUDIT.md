@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import os
 import pathlib
 import shutil
@@ -48,6 +49,23 @@ PACKAGE_SUCCESS_EVIDENCE_ORDER = (
     "package-repro-a-entry-manifest.json",
     "package-repro-b.skill",
     "package-repro-b-entry-manifest.json",
+)
+PACKAGE_SUCCESS_CHILD_FIELDS = (
+    "argv",
+    "pid",
+    "started_at",
+    "completed_at",
+    "duration_seconds",
+    "exit_code",
+    "stdout_path",
+    "stdout_sha256",
+    "stderr_path",
+    "stderr_sha256",
+    "child_completed",
+    "communication_error",
+    "termination_action",
+    "termination_started_at",
+    "termination_completed_at",
 )
 PACKAGE_FAILURE_TABLE = {
     "PACKAGE_EXPORT_ROOT_EXISTS": (
@@ -336,6 +354,51 @@ def _child_record(argv, process, started_at, completed_at,
         "termination_started_at": None,
         "termination_completed_at": None,
     }
+
+
+def _parse_package_success_child_utc(value, label):
+    if type(value) is not str:
+        raise ValueError(f"package success child {label} invalid")
+    try:
+        parsed = datetime.strptime(
+            value, "%Y-%m-%dT%H:%M:%S.%fZ").replace(
+                tzinfo=timezone.utc)
+    except ValueError as exc:
+        raise ValueError(
+            f"package success child {label} invalid") from exc
+    if parsed.strftime("%Y-%m-%dT%H:%M:%S.%fZ") != value:
+        raise ValueError(f"package success child {label} invalid")
+    return parsed
+
+
+def _validate_package_success_child(child, argv, stdout, stderr):
+    if (type(child) is not dict or
+            set(child) != set(PACKAGE_SUCCESS_CHILD_FIELDS)):
+        raise ValueError("package success child schema invalid")
+    started = _parse_package_success_child_utc(
+        child["started_at"], "started")
+    completed = _parse_package_success_child_utc(
+        child["completed_at"], "completed")
+    duration = child["duration_seconds"]
+    if (started > completed or
+            type(duration) not in (int, float) or
+            not math.isfinite(duration) or duration < 0 or
+            abs(duration - (completed - started).total_seconds()) > 1.0 or
+            child["argv"] != list(argv) or
+            type(child["pid"]) is not int or child["pid"] <= 0 or
+            type(child["exit_code"]) is not int or
+            child["exit_code"] != 0 or
+            child["stdout_path"] != "package-command.stdout.log" or
+            child["stdout_sha256"] != hashlib.sha256(stdout).hexdigest() or
+            child["stderr_path"] != "package-command.stderr.log" or
+            child["stderr_sha256"] != hashlib.sha256(stderr).hexdigest() or
+            child["child_completed"] is not True or
+            child["communication_error"] is not None or
+            child["termination_action"] != "NONE" or
+            child["termination_started_at"] is not None or
+            child["termination_completed_at"] is not None):
+        raise ValueError("package success child lifecycle invalid")
+    return child
 
 
 def _read_completed_pipe(stream):
@@ -1251,6 +1314,7 @@ def _production_package(repo_root, evidence_root, qualified,
             },
         ],
     }
+    _validate_package_success_child(child, argv, stdout, stderr)
     artifacts = {
         "package-retained.skill": archive,
         "package-entry-manifest.json": manifest,

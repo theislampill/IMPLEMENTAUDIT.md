@@ -411,6 +411,8 @@ def _assert_production_failure_transactions(
     original_reader = producer._read_exported_package_pair
     original_production_package = producer._production_package
     original_validate = integration.validate_package_archive
+    original_validate_binding = \
+        integration._validate_production_bash_binding
     original_write_new = producer._write_new
     calls = []
     behavior = {}
@@ -926,6 +928,10 @@ def _assert_production_failure_transactions(
             expected_success_order
         assert producer.PACKAGE_SUCCESS_EVIDENCE_ORDER is not \
             integration._PACKAGE_SUCCESS_EVIDENCE_ORDER
+        assert producer.PACKAGE_SUCCESS_CHILD_FIELDS == \
+            integration._PACKAGE_SUCCESS_CHILD_FIELDS
+        assert producer.PACKAGE_SUCCESS_CHILD_FIELDS is not \
+            integration._PACKAGE_SUCCESS_CHILD_FIELDS
         assert tuple(row["path"] for row in
                      success_manifest["files"]) == expected_success_order
         observed_success_rows = [
@@ -937,6 +943,98 @@ def _assert_production_failure_transactions(
         assert integration._validate_gate_evidence_manifest(
             "package", success_manifest,
             observed_success_rows) == success_manifest
+        success_hashes = {
+            row["path"]: row["sha256"]
+            for row in observed_success_rows
+        }
+        success_command_stdout = (
+            success_root / "package-command.stdout.log").read_bytes()
+        success_command_stderr = (
+            success_root / "package-command.stderr.log").read_bytes()
+        assert producer._validate_package_success_child(
+            success_terminal["child"], success_terminal["argv"],
+            success_command_stdout,
+            success_command_stderr) == success_terminal["child"]
+        integration._validate_production_bash_binding = \
+            lambda _value: None
+        integration._validate_gate_terminal(
+            "package", success_terminal,
+            success_terminal["qualified_input_sha256"],
+            success_hashes, evidence_mode="PRODUCTION")
+
+        child_lifecycle_fields = (
+            "child_completed",
+            "communication_error",
+            "termination_action",
+            "termination_started_at",
+            "termination_completed_at",
+        )
+        terminal_mutations = []
+        for field in child_lifecycle_fields:
+            terminal_mutations.append(
+                lambda value, field=field:
+                    value["child"].pop(field))
+        terminal_mutations.extend([
+            lambda value: value["child"].update(extra_field=None),
+            lambda value: value["child"].update(child_completed=1),
+            lambda value: value["child"].update(communication_error=[]),
+            lambda value: value["child"].update(termination_action=0),
+            lambda value: value["child"].update(termination_started_at=0),
+            lambda value: value["child"].update(termination_completed_at=0),
+            lambda value: value["child"].update(child_completed=False),
+            lambda value: value["child"].update(communication_error={}),
+            lambda value: value["child"].update(
+                termination_action="TERMINATE_WAIT"),
+            lambda value: value["child"].update(
+                termination_started_at=value["child"]["started_at"]),
+            lambda value: value["child"].update(
+                termination_completed_at=value["child"]["completed_at"]),
+            lambda value: (
+                value.update(started_at="2026-01-01T00:00:00Z"),
+                value["child"].update(
+                    started_at="2026-01-01T00:00:00Z")),
+            lambda value: (
+                value.update(
+                    started_at="2026-01-01T00:00:01.000000Z",
+                    completed_at="2026-01-01T00:00:00.000000Z"),
+                value["child"].update(
+                    started_at="2026-01-01T00:00:01.000000Z",
+                    completed_at="2026-01-01T00:00:00.000000Z")),
+            lambda value: (
+                value.update(duration_seconds=float("nan")),
+                value["child"].update(duration_seconds=float("nan"))),
+            lambda value: (
+                value.update(duration_seconds=999999.0),
+                value["child"].update(duration_seconds=999999.0)),
+            lambda value: (
+                value.update(exit_code=True),
+                value["child"].update(exit_code=True)),
+            lambda value: (
+                value.update(argv=[value["argv"][0], "untrusted.sh"]),
+                value["child"].update(
+                    argv=[value["argv"][0], "untrusted.sh"])),
+            lambda value: value["child"].update(
+                stdout_sha256="0" * 64),
+            lambda value: value["child"].update(
+                stderr_sha256="0" * 64),
+        ])
+        for mutate in terminal_mutations:
+            changed = copy.deepcopy(success_terminal)
+            mutate(changed)
+            expect_error(
+                "",
+                lambda changed=changed:
+                    producer._validate_package_success_child(
+                        changed["child"], success_terminal["argv"],
+                        success_command_stdout,
+                        success_command_stderr))
+            expect_error(
+                "",
+                lambda changed=changed:
+                    integration._validate_gate_terminal(
+                        "package", changed,
+                        changed["qualified_input_sha256"],
+                        success_hashes, evidence_mode="PRODUCTION"))
 
         original_success_manifest = producer._encoded(success_manifest)
         mutation_rows = (
@@ -988,6 +1086,8 @@ def _assert_production_failure_transactions(
         producer._read_exported_package_pair = original_reader
         producer._manifest_for_archive = original_manifest
         integration.validate_package_archive = original_validate
+        integration._validate_production_bash_binding = \
+            original_validate_binding
 
 
 def _assert_deterministic_failure_transaction(

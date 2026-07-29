@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import os
 import pathlib
 import re
@@ -113,6 +114,23 @@ _PACKAGE_SUCCESS_EVIDENCE_ORDER = (
     "package-repro-a-entry-manifest.json",
     "package-repro-b.skill",
     "package-repro-b-entry-manifest.json",
+)
+_PACKAGE_SUCCESS_CHILD_FIELDS = (
+    "argv",
+    "pid",
+    "started_at",
+    "completed_at",
+    "duration_seconds",
+    "exit_code",
+    "stdout_path",
+    "stdout_sha256",
+    "stderr_path",
+    "stderr_sha256",
+    "child_completed",
+    "communication_error",
+    "termination_action",
+    "termination_started_at",
+    "termination_completed_at",
 )
 _PACKAGE_FAILURE_TABLE = {
     "PACKAGE_EXPORT_ROOT_EXISTS": (
@@ -1026,12 +1044,12 @@ def _validate_gate_terminal(name, value, qualified_input_sha256,
             _validate_package_asset_binding(
                 value["package_reproducibility"], artifact_hashes)
             child = value["child"]
-            _exact(child, {
-                "argv", "pid", "started_at", "completed_at",
-                "duration_seconds", "exit_code",
-                "stdout_path", "stdout_sha256",
-                "stderr_path", "stderr_sha256",
-            }, "package production child")
+            _exact(
+                child, set(_PACKAGE_SUCCESS_CHILD_FIELDS),
+                "package production child")
+            _validate_closed_child_lifecycle(
+                child, value, label="package production child",
+                allow_communication=False)
             if (value["argv"][0] !=
                     value["bash_executable"]["canonical_path"] or
                     value["argv"][1:] != ["scripts/verify-package.sh"] or
@@ -1045,6 +1063,7 @@ def _validate_gate_terminal(name, value, qualified_input_sha256,
                     child["completed_at"] != value["completed_at"] or
                     child["duration_seconds"] != value["duration_seconds"] or
                     child["exit_code"] != value["exit_code"] or
+                    child["exit_code"] != 0 or
                     child["stdout_path"] !=
                     "package-command.stdout.log" or
                     child["stderr_path"] !=
@@ -1651,6 +1670,7 @@ def _validate_closed_child_lifecycle(
         raise ValueError(f"{label} timestamp order invalid")
     wall_duration = (completed - started).total_seconds()
     if (type(child["duration_seconds"]) not in (int, float) or
+            not math.isfinite(child["duration_seconds"]) or
             child["duration_seconds"] < 0 or
             abs(child["duration_seconds"] - wall_duration) > 1.0):
         raise ValueError(f"{label} duration invalid")
