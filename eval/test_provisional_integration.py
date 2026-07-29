@@ -100,8 +100,7 @@ def _finalize_matrix(base, external_surface_paths=None):
     return campaign_root, surface_root
 
 
-def _gate_values(qualified):
-    artifact = "a" * 64
+def _gate_values(qualified, package_manifest_hash, artifact_hash):
     return {
         "deterministic": {
             "schema": "implementaudit-deterministic-terminal-v1",
@@ -113,7 +112,7 @@ def _gate_values(qualified):
             "schema": "implementaudit-package-terminal-v1",
             "gate": "package", "qualified_input_sha256": qualified,
             "exit_code": 0, "verification_passed": True,
-            "package_manifest_sha256": artifact,
+            "package_manifest_sha256": package_manifest_hash,
         },
         "ci": {
             "schema": "implementaudit-ci-terminal-v1",
@@ -125,8 +124,8 @@ def _gate_values(qualified):
             "gate": "reproducibility",
             "qualified_input_sha256": qualified,
             "exit_code": 0, "comparison_equal": True,
-            "first_artifact_sha256": artifact,
-            "second_artifact_sha256": artifact,
+            "first_artifact_sha256": artifact_hash,
+            "second_artifact_sha256": artifact_hash,
         },
         "independent-review": {
             "schema": "implementaudit-independent-review-terminal-v1",
@@ -137,11 +136,116 @@ def _gate_values(qualified):
     }
 
 
-def _gates(root, qualified):
+def _gates(root, qualified, target_sha, target_tree, surfaces_sha256):
     root.mkdir()
-    for name, value in _gate_values(qualified).items():
-        write(root / integration.GATE_FILENAMES[name], value)
+    artifact_bytes = b"retained reproducible package bytes\n"
+    artifact_hash = hashlib.sha256(artifact_bytes).hexdigest()
+    package_manifest_bytes = encoded({
+        "entries": [{"path": "SKILL.md", "sha256": "b" * 64}],
+    })
+    package_manifest_hash = hashlib.sha256(
+        package_manifest_bytes).hexdigest()
+    values = _gate_values(
+        qualified, package_manifest_hash, artifact_hash)
+    prior = hashlib.sha256(b"").hexdigest()
+    for name, value in values.items():
+        artifacts = {}
+        if name == "package":
+            artifacts["package-retained.skill"] = artifact_bytes
+            artifacts["package-entry-manifest.json"] = \
+                package_manifest_bytes
+        elif name == "reproducibility":
+            artifacts["repro-first.skill"] = artifact_bytes
+            artifacts["repro-second.skill"] = artifact_bytes
+        elif name == "independent-review":
+            artifacts["independent-review.md"] = (
+                b"# Complete-boundary review\n\nVERDICT: PASS\n")
+        stdout_lines = [
+            f"IMPLEMENTAUDIT_GATE_PASS gate={name} input={qualified} "
+            f"sha={target_sha} tree={target_tree}",
+        ]
+        if name == "package":
+            stdout_lines.extend([
+                "verify-package: ok",
+                f"REPRODUCIBLE_ASSET_RETAINED sha256={artifact_hash}",
+            ])
+        elif name == "reproducibility":
+            stdout_lines.append(
+                f"REPRODUCIBILITY_EQUAL sha256={artifact_hash}")
+        stdout = ("\n".join(stdout_lines) + "\n").encode()
+        stderr = b""
+        start = {
+            "schema": "implementaudit-gate-producer-start-v1",
+            "gate": name,
+            "qualified_input_sha256": qualified,
+            "target_sha": target_sha,
+            "target_tree": target_tree,
+            "command": integration.GATE_COMMANDS[name],
+            "producer_role": integration.GATE_PRODUCER_ROLES[name],
+            "evaluated_surfaces_sha256": surfaces_sha256,
+            "invocation_count": 1,
+            "network_authorized": False,
+            "credentials_authorized": False,
+            "model_or_metered_api_authorized": False,
+        }
+        terminal_raw = encoded(value)
+        report = {
+            "schema": "implementaudit-gate-producer-report-v1",
+            "gate": name,
+            "qualified_input_sha256": qualified,
+            "target_sha": target_sha,
+            "target_tree": target_tree,
+            "stdout_sha256": hashlib.sha256(stdout).hexdigest(),
+            "stderr_sha256": hashlib.sha256(stderr).hexdigest(),
+            "terminal_sha256": hashlib.sha256(terminal_raw).hexdigest(),
+        }
+        if name == "independent-review":
+            report.update({
+                "reviewer_identity": "fresh-reviewer-1",
+                "reviewer_role": "independent-read-only-reviewer",
+                "reviewed_evidence_sha256": prior,
+                "review_artifact_sha256": hashlib.sha256(
+                    artifacts["independent-review.md"]).hexdigest(),
+            })
+        retained = {
+            f"{name}-start.json": encoded(start),
+            integration.GATE_FILENAMES[name]: terminal_raw,
+            f"{name}-report.json": encoded(report),
+            f"{name}.stdout.log": stdout,
+            f"{name}.stderr.log": stderr,
+            **artifacts,
+        }
+        rows = []
+        for filename, raw in retained.items():
+            write(root / filename, raw)
+            rows.append({
+                "path": filename,
+                "byte_length": len(raw),
+                "sha256": hashlib.sha256(raw).hexdigest(),
+            })
+        manifest = {
+            "schema": "implementaudit-gate-evidence-manifest-v1",
+            "gate": name,
+            "files": rows,
+        }
+        manifest_raw = encoded(manifest)
+        write(root / f"{name}-evidence-manifest.json", manifest_raw)
+        prior = integration._canonical_sha({
+            "prior": prior, "name": name,
+            "evidence_manifest_sha256":
+                hashlib.sha256(manifest_raw).hexdigest(),
+        })
     return root
+
+
+def _rebind_gate_manifest(root, name):
+    path = root / f"{name}-evidence-manifest.json"
+    manifest = json.loads(path.read_text(encoding="utf-8"))
+    for row in manifest["files"]:
+        raw = (root / row["path"]).read_bytes()
+        row["byte_length"] = len(raw)
+        row["sha256"] = hashlib.sha256(raw).hexdigest()
+    write(path, manifest)
 
 
 def _certificate_root(base, label):
@@ -181,7 +285,21 @@ def _roots(base, *, with_external=False):
         matrix_campaign_root=matrix_campaign_root,
         b3_surface_root=b3_surface_root,
         matrix_surface_root=matrix_surface_root)
-    gate_root = _gates(base / "gates", qualified)
+    b3_packet = json.loads(
+        (b3_campaign_root / "campaign-freeze.json").read_text(
+            encoding="utf-8"))
+    b3_manifest = b3_packet["evaluated_surfaces"]
+    matrix_packet = json.loads(
+        (matrix_campaign_root / "campaign-freeze.json").read_text(
+            encoding="utf-8"))
+    surfaces_sha256 = integration._canonical_sha({
+        surfaces.B3_CAMPAIGN: b3_manifest,
+        surfaces.MATRIX_CAMPAIGN: matrix_packet["evaluated_surfaces"],
+    })
+    gate_root = _gates(
+        base / "gates", qualified,
+        b3_packet["foundation"]["commit"], b3_packet["foundation"]["tree"],
+        surfaces_sha256)
     roots = {
         "b3_campaign_root": b3_campaign_root,
         "matrix_campaign_root": matrix_campaign_root,
@@ -644,6 +762,11 @@ def main():
         expect_error(
             "create-once",
             lambda: integration.write_certificate(output, **roots))
+        write(roots["gate_root"] / "self-authored-extra.json", {})
+        expect_error(
+            "coverage",
+            lambda: integration.write_certificate(
+                _certificate_root(base, "extra-gate-evidence"), **roots))
 
     # External roles also use fresh post-integration locator files rather than
     # the packet's frozen absolute locations.
@@ -704,6 +827,37 @@ def main():
                 integration.GATE_FILENAMES["deterministic"]
             value = json.loads(path.read_text(encoding="utf-8"))
             write(path, mutate(copy.deepcopy(value)))
+            expect_error(
+                None,
+                lambda: integration.write_certificate(
+                    _certificate_root(base, label), **roots))
+
+    # Governing complete-boundary RED: internally coherent caller-authored
+    # summaries are not retained producer evidence.
+    for label, gate_name, mutate in (
+            ("zero-package-manifest", "package", lambda value: {
+                **value, "package_manifest_sha256": "0" * 64}),
+            ("one-filled-reproducibility", "reproducibility", lambda value: {
+                **value,
+                "first_artifact_sha256": "1" * 64,
+                "second_artifact_sha256": "1" * 64,
+            }),
+            ("identity-free-review", "independent-review", lambda value: value)):
+        with tempfile.TemporaryDirectory(
+                prefix=f"task5-gate-authority-{label}-") as tmp:
+            base = pathlib.Path(tmp).resolve()
+            roots = _roots(base)
+            path = roots["gate_root"] / integration.GATE_FILENAMES[gate_name]
+            value = json.loads(path.read_text(encoding="utf-8"))
+            write(path, mutate(copy.deepcopy(value)))
+            if label == "identity-free-review":
+                report_path = (
+                    roots["gate_root"] /
+                    "independent-review-report.json")
+                report = json.loads(report_path.read_text(encoding="utf-8"))
+                del report["reviewer_identity"]
+                write(report_path, report)
+            _rebind_gate_manifest(roots["gate_root"], gate_name)
             expect_error(
                 None,
                 lambda: integration.write_certificate(

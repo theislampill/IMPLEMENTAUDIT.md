@@ -345,3 +345,32 @@ python eval/runner.py --dry-run    # emits prompts/commands + scores synthetics
 
 Baseline against the immutable `v0.3.1.0` tag is a documented procedure, run
 only after owner approval; it is not triggered by any command here.
+
+## Luna-only freeze and historical preparation tools
+
+`campaign_freeze_preflight.py` consumes the two retained 2026-07-22 preflight
+inventories read-only and emits a create-once, campaign-specific B3-v4 or
+candidate-matrix report. It accepts only Luna (`gpt-5.6-luna`, effort `max`,
+ChatGPT subscription, metered spend forbidden), never serializes an
+authentication path or credential contents, and remains `NOT_READY` while the
+retained host-attestation, checkout, runtime, authorization, executable, or
+authentication-custody blockers remain open. A `NOT_READY` report is not a
+freeze packet, launch authorization, or model mission.
+
+`historical_readjudicate.py adjudicate-one` ingests one externally prepared,
+hash-bound corrected layered decision for a canonical raw historical `bundle`;
+it does not import or invoke a scorer, model, host, adapter, or network path.
+It rehashes the inventory-listed source bytes and writes one create-once record
+outside all historical run roots. `historical_readjudicate.py aggregate`
+requires exactly 56 compatible records (28 candidate and 28 control across the
+same 28 fixture/configuration cells) and preserves the historical candidate
+`11/28` and control `10/28` beside the corrected counts.
+
+The provisional integration certificate consumes retained producer evidence
+for focused, package, CI, reproducibility, and independent-review gates.
+Terminal PASS labels are non-authoritative: exact command/producer role,
+candidate SHA/tree, evaluated-surface identity, raw log hashes and markers,
+retained package bytes, two independently rehashed reproducibility artifacts,
+and the separately retained review identity/report are validated before PASS
+composition. Reviewer independence is a governance attestation, not a
+cryptographic property of local files.

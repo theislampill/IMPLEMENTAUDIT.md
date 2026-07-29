@@ -27,6 +27,20 @@ REQUIRED_GATES = (
 GATE_FILENAMES = {
     name: f"{name}-terminal.json" for name in REQUIRED_GATES
 }
+GATE_COMMANDS = {
+    "deterministic": "combined-focused-exact-sha",
+    "package": "scripts/verify-package.sh",
+    "ci": ".github/workflows/validate.yml",
+    "reproducibility": "tests/reproducible-release-asset.test.sh",
+    "independent-review": "fresh-read-only-complete-boundary-review",
+}
+GATE_PRODUCER_ROLES = {
+    "deterministic": "qualification-runner",
+    "package": "package-runner",
+    "ci": "ci-runner",
+    "reproducibility": "reproducibility-runner",
+    "independent-review": "independent-read-only-reviewer",
+}
 
 
 def _exact(value, fields, owner):
@@ -330,7 +344,33 @@ def _string_list(value, owner):
         raise ValueError(f"{owner} must be an exact string list")
 
 
-def _validate_gate_terminal(name, value, qualified_input_sha256):
+def _file_row(path, root, owner):
+    raw = lifecycle.read_custodied_bytes(path, owner, root=root)
+    observed = os.lstat(path)
+    if observed.st_nlink != 1:
+        raise ValueError(f"{owner} hardlink forbidden")
+    return raw, {
+        "path": pathlib.Path(path).relative_to(root).as_posix(),
+        "byte_length": len(raw),
+        "sha256": hashlib.sha256(raw).hexdigest(),
+    }
+
+
+def _gate_target(packet, owner):
+    foundation = packet.get("foundation")
+    if type(foundation) is not dict:
+        raise ValueError(f"{owner} foundation identity missing")
+    commit = foundation.get("commit")
+    tree = foundation.get("tree")
+    for value, label in ((commit, "commit"), (tree, "tree")):
+        if (type(value) is not str or len(value) != 40 or
+                any(char not in "0123456789abcdef" for char in value)):
+            raise ValueError(f"{owner} foundation {label} invalid")
+    return commit, tree
+
+
+def _validate_gate_terminal(name, value, qualified_input_sha256,
+                            artifact_hashes):
     common = {"schema", "gate", "qualified_input_sha256", "exit_code"}
     if name == "deterministic":
         _exact(value, common | {"failed_checks"}, name)
@@ -342,7 +382,9 @@ def _validate_gate_terminal(name, value, qualified_input_sha256):
                 "verification_passed", "package_manifest_sha256"}, name)
         _digest(value["package_manifest_sha256"], "package manifest")
         passed = (value["exit_code"] == 0 and
-                  value["verification_passed"] is True)
+                  value["verification_passed"] is True and
+                  value["package_manifest_sha256"] ==
+                  artifact_hashes["package-entry-manifest.json"])
     elif name == "ci":
         _exact(value, common | {"failed_jobs"}, name)
         _string_list(value["failed_jobs"], "CI failed jobs")
@@ -358,7 +400,9 @@ def _validate_gate_terminal(name, value, qualified_input_sha256):
             value["exit_code"] == 0 and
             value["comparison_equal"] is True and
             value["first_artifact_sha256"] ==
-            value["second_artifact_sha256"])
+            value["second_artifact_sha256"] ==
+            artifact_hashes["repro-first.skill"] ==
+            artifact_hashes["repro-second.skill"])
     elif name == "independent-review":
         _exact(value, {
             "schema", "gate", "reviewed_qualified_input_sha256",
@@ -381,21 +425,200 @@ def _validate_gate_terminal(name, value, qualified_input_sha256):
         raise ValueError(f"{name} terminal does not derive semantic PASS")
 
 
-def _validate_gates(gate_root, qualified_input_sha256):
+def _validate_gate_evidence(name, gate_root, qualified_input_sha256,
+                            target_sha, target_tree, surfaces_sha256,
+                            prior_evidence_sha256):
+    start_name = f"{name}-start.json"
+    report_name = f"{name}-report.json"
+    stdout_name = f"{name}.stdout.log"
+    stderr_name = f"{name}.stderr.log"
+    manifest_name = f"{name}-evidence-manifest.json"
+    terminal_name = GATE_FILENAMES[name]
+    artifact_names = []
+    if name == "package":
+        artifact_names = [
+            "package-retained.skill", "package-entry-manifest.json"]
+    elif name == "reproducibility":
+        artifact_names = ["repro-first.skill", "repro-second.skill"]
+    elif name == "independent-review":
+        artifact_names = ["independent-review.md"]
+
+    retained = {}
+    rows = []
+    for filename in (
+            start_name, terminal_name, report_name, stdout_name, stderr_name,
+            *artifact_names):
+        raw, row = _file_row(
+            gate_root / filename, gate_root,
+            f"integration gate {name} retained {filename}")
+        retained[filename] = raw
+        rows.append(row)
+
+    manifest, manifest_raw = _read_root_json(
+        gate_root, manifest_name, f"integration gate {name} manifest")
+    _exact(manifest, {"schema", "gate", "files"}, f"{name} manifest")
+    if (manifest["schema"] != "implementaudit-gate-evidence-manifest-v1" or
+            manifest["gate"] != name or
+            type(manifest["files"]) is not list or
+            manifest["files"] != rows):
+        raise ValueError(f"{name} evidence manifest does not match bytes")
+
+    start = lifecycle.decode_strict_json_bytes(
+        retained[start_name], f"{name} producer start", require_object=True)
+    _exact(start, {
+        "schema", "gate", "qualified_input_sha256", "target_sha",
+        "target_tree", "command", "producer_role",
+        "evaluated_surfaces_sha256", "invocation_count",
+        "network_authorized", "credentials_authorized",
+        "model_or_metered_api_authorized",
+    }, f"{name} producer start")
+    expected_start = {
+        "schema": "implementaudit-gate-producer-start-v1",
+        "gate": name,
+        "qualified_input_sha256": qualified_input_sha256,
+        "target_sha": target_sha,
+        "target_tree": target_tree,
+        "command": GATE_COMMANDS[name],
+        "producer_role": GATE_PRODUCER_ROLES[name],
+        "evaluated_surfaces_sha256": surfaces_sha256,
+        "invocation_count": 1,
+        "network_authorized": False,
+        "credentials_authorized": False,
+        "model_or_metered_api_authorized": False,
+    }
+    for key, expected in expected_start.items():
+        if (key == "invocation_count" and
+                type(start[key]) is not int):
+            raise ValueError(f"{name} producer invocation count type invalid")
+        if start[key] != expected:
+            raise ValueError(f"{name} producer {key} identity invalid")
+
+    terminal = lifecycle.decode_strict_json_bytes(
+        retained[terminal_name], f"{name} terminal", require_object=True)
+    artifact_hashes = {
+        filename: hashlib.sha256(retained[filename]).hexdigest()
+        for filename in artifact_names
+    }
+    _validate_gate_terminal(
+        name, terminal, qualified_input_sha256, artifact_hashes)
+
+    report = lifecycle.decode_strict_json_bytes(
+        retained[report_name], f"{name} producer report",
+        require_object=True)
+    common = {
+        "schema", "gate", "qualified_input_sha256", "target_sha",
+        "target_tree", "stdout_sha256", "stderr_sha256",
+        "terminal_sha256",
+    }
+    if name == "independent-review":
+        _exact(report, common | {
+            "reviewer_identity", "reviewer_role",
+            "reviewed_evidence_sha256", "review_artifact_sha256",
+        }, f"{name} producer report")
+        if (type(report["reviewer_identity"]) is not str or
+                not report["reviewer_identity"] or
+                report["reviewer_role"] !=
+                GATE_PRODUCER_ROLES["independent-review"] or
+                report["reviewed_evidence_sha256"] !=
+                prior_evidence_sha256 or
+                report["review_artifact_sha256"] !=
+                artifact_hashes["independent-review.md"]):
+            raise ValueError("independent-review identity/evidence invalid")
+    else:
+        _exact(report, common, f"{name} producer report")
+    if (report["schema"] != "implementaudit-gate-producer-report-v1" or
+            report["gate"] != name or
+            report["qualified_input_sha256"] != qualified_input_sha256 or
+            report["target_sha"] != target_sha or
+            report["target_tree"] != target_tree or
+            report["stdout_sha256"] !=
+            hashlib.sha256(retained[stdout_name]).hexdigest() or
+            report["stderr_sha256"] !=
+            hashlib.sha256(retained[stderr_name]).hexdigest() or
+            report["terminal_sha256"] !=
+            hashlib.sha256(retained[terminal_name]).hexdigest()):
+        raise ValueError(f"{name} report identity or byte binding invalid")
+
+    stdout = retained[stdout_name].decode("utf-8", errors="strict")
+    if retained[stderr_name] != b"":
+        raise ValueError(f"{name} retained stderr is not empty")
+    marker = (
+        f"IMPLEMENTAUDIT_GATE_PASS gate={name} "
+        f"input={qualified_input_sha256} sha={target_sha} tree={target_tree}")
+    if stdout.splitlines().count(marker) != 1:
+        raise ValueError(f"{name} raw PASS marker invalid")
+    if name == "package":
+        asset_hash = artifact_hashes["package-retained.skill"]
+        required = (
+            "verify-package: ok",
+            f"REPRODUCIBLE_ASSET_RETAINED sha256={asset_hash}",
+        )
+        if any(stdout.splitlines().count(item) != 1 for item in required):
+            raise ValueError("package raw evidence markers invalid")
+    if name == "reproducibility":
+        asset_hash = artifact_hashes["repro-first.skill"]
+        required = f"REPRODUCIBILITY_EQUAL sha256={asset_hash}"
+        if stdout.splitlines().count(required) != 1:
+            raise ValueError("reproducibility raw evidence marker invalid")
+    if name == "independent-review":
+        review = retained["independent-review.md"].decode(
+            "utf-8", errors="strict")
+        if "VERDICT: PASS" not in review:
+            raise ValueError("independent-review retained verdict missing")
+
+    evidence_sha256 = hashlib.sha256(manifest_raw).hexdigest()
+    return {
+        "name": name,
+        "semantic_status": "PASS",
+        "producer_role": start["producer_role"],
+        "command": start["command"],
+        "evidence_manifest_path": manifest_name,
+        "evidence_manifest_sha256": evidence_sha256,
+        "terminal_path": terminal_name,
+        "terminal_sha256":
+            hashlib.sha256(retained[terminal_name]).hexdigest(),
+    }, evidence_sha256
+
+
+def _validate_gates(gate_root, qualified_input_sha256, target_sha,
+                    target_tree, surfaces_sha256):
     gate_root = _strict_directory(gate_root, "integration gate root")
-    gates = []
+    expected_files = set()
     for name in REQUIRED_GATES:
-        filename = GATE_FILENAMES[name]
-        value, raw = _read_root_json(
-            gate_root, filename, f"integration gate {name}")
-        _validate_gate_terminal(name, value, qualified_input_sha256)
-        gates.append({
-            "name": name,
-            "semantic_status": "PASS",
-            "path": filename,
-            "byte_length": len(raw),
-            "sha256": hashlib.sha256(raw).hexdigest(),
-            "schema": value["schema"],
+        expected_files.update({
+            f"{name}-start.json",
+            GATE_FILENAMES[name],
+            f"{name}-report.json",
+            f"{name}.stdout.log",
+            f"{name}.stderr.log",
+            f"{name}-evidence-manifest.json",
+        })
+    expected_files.update({
+        "package-retained.skill", "package-entry-manifest.json",
+        "repro-first.skill",
+        "repro-second.skill",
+        "independent-review.md",
+    })
+    try:
+        observed_files = {
+            path.name for path in gate_root.iterdir()
+            if path.is_file()
+        }
+        observed_entries = {path.name for path in gate_root.iterdir()}
+    except OSError as exc:
+        raise ValueError("integration gate evidence root unreadable") from exc
+    if observed_files != expected_files or observed_entries != expected_files:
+        raise ValueError("integration gate evidence file coverage invalid")
+    gates = []
+    prior = hashlib.sha256(b"").hexdigest()
+    for name in REQUIRED_GATES:
+        row, evidence_sha256 = _validate_gate_evidence(
+            name, gate_root, qualified_input_sha256, target_sha,
+            target_tree, surfaces_sha256, prior)
+        gates.append(row)
+        prior = _canonical_sha({
+            "prior": prior, "name": name,
+            "evidence_manifest_sha256": evidence_sha256,
         })
     return gates
 
@@ -501,7 +724,17 @@ def validate_inputs(*, b3_campaign_root, matrix_campaign_root,
     _require_distinct_post_roots(
         pre_root_identities, post_root_identities)
     qualified_input_sha256 = _gate_identity(b3, matrix, manifests)
-    gates = _validate_gates(gate_root, qualified_input_sha256)
+    b3_target = _gate_target(b3_packet, surfaces.B3_CAMPAIGN)
+    matrix_target = _gate_target(matrix_packet, surfaces.MATRIX_CAMPAIGN)
+    if b3_target != matrix_target:
+        raise ValueError("campaign qualification target SHA/tree mismatch")
+    surfaces_sha256 = _canonical_sha({
+        surfaces.B3_CAMPAIGN: b3_before,
+        surfaces.MATRIX_CAMPAIGN: matrix_before,
+    })
+    gates = _validate_gates(
+        gate_root, qualified_input_sha256, b3_target[0], b3_target[1],
+        surfaces_sha256)
     comparisons = {}
     for campaign, packet, before, after_root, external_paths, pre_root, post_root in (
             (surfaces.B3_CAMPAIGN, b3_packet, b3_before, b3_after_surface_root,

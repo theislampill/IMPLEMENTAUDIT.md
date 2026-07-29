@@ -186,6 +186,10 @@ require_file scripts/build-docs-portal.py
 require_file scripts/check-docs-portal.py
 require_file tests/docs-portal.test.sh
 require_file tests/eval-harness.test.sh
+require_file eval/campaign_freeze_preflight.py
+require_file eval/test_campaign_freeze_preflight.py
+require_file eval/historical_readjudicate.py
+require_file eval/test_historical_readjudicate.py
 require_file tests/payload-path-hygiene.test.sh
 require_file fixtures/casual-build/accepted-intent.md
 require_file fixtures/casual-build/rejected-intent.md

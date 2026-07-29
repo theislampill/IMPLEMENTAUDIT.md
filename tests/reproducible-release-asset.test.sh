@@ -90,5 +90,72 @@ hash_b="$("$python_cmd" -c 'import hashlib,sys; print(hashlib.sha256(open(sys.ar
   exit 1
 }
 
+if [ -n "${REPRO_RETAINED_ASSET:-}" ]; then
+  "$python_cmd" - "$repo_root" "$asset_a" "$REPRO_RETAINED_ASSET" "$hash_a" <<'PY'
+import hashlib
+import os
+import pathlib
+import shutil
+import stat
+import sys
+
+repo = pathlib.Path(sys.argv[1]).resolve(strict=True)
+source = pathlib.Path(sys.argv[2]).resolve(strict=True)
+target = pathlib.Path(sys.argv[3])
+expected = sys.argv[4]
+if not target.is_absolute():
+    raise SystemExit("retained asset path must be absolute")
+requested_parent = target.parent.absolute()
+parent = requested_parent.resolve(strict=True)
+if os.path.normcase(os.path.normpath(requested_parent)) != \
+        os.path.normcase(os.path.normpath(parent)):
+    raise SystemExit("retained asset parent link or reparse alias forbidden")
+candidate = parent / target.name
+try:
+    candidate.relative_to(repo)
+except ValueError:
+    pass
+else:
+    raise SystemExit("retained asset path must be outside the product worktree")
+if candidate.exists() or candidate.is_symlink():
+    raise SystemExit("retained asset destination already exists")
+parent_stat = os.lstat(parent)
+if (not stat.S_ISDIR(parent_stat.st_mode) or
+        stat.S_ISLNK(parent_stat.st_mode) or
+        bool(getattr(parent_stat, "st_file_attributes", 0) &
+             getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400))):
+    raise SystemExit("retained asset parent must be a real directory")
+flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
+if hasattr(os, "O_NOFOLLOW"):
+    flags |= os.O_NOFOLLOW
+descriptor = os.open(candidate, flags, 0o600)
+try:
+    with os.fdopen(descriptor, "wb", closefd=False) as output:
+        with source.open("rb") as input_file:
+            shutil.copyfileobj(input_file, output)
+        output.flush()
+        os.fsync(output.fileno())
+finally:
+    os.close(descriptor)
+observed = os.lstat(candidate)
+parent_after = os.lstat(parent)
+if ((parent_stat.st_dev, parent_stat.st_ino, parent_stat.st_mode) !=
+        (parent_after.st_dev, parent_after.st_ino, parent_after.st_mode)):
+    candidate.unlink(missing_ok=True)
+    raise SystemExit("retained asset parent identity changed")
+if (not stat.S_ISREG(observed.st_mode) or observed.st_nlink != 1 or
+        stat.S_ISLNK(observed.st_mode) or
+        bool(getattr(observed, "st_file_attributes", 0) &
+             getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400))):
+    candidate.unlink(missing_ok=True)
+    raise SystemExit("retained asset custody invalid")
+actual = hashlib.sha256(candidate.read_bytes()).hexdigest()
+if actual != expected:
+    candidate.unlink(missing_ok=True)
+    raise SystemExit("retained asset rehash mismatch")
+print(f"REPRODUCIBLE_ASSET_RETAINED path={candidate} sha256={actual}")
+PY
+fi
+
 printf 'reproducible-release-asset.test: ok commit=%s sha256=%s\n' \
   "$source_commit" "$hash_a"
