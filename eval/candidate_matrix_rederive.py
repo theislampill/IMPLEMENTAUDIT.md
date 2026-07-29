@@ -2920,7 +2920,8 @@ def _official_disagreement_row(mission, properties, independent_properties,
     }
 
 
-def _rederive_attempt(packet, campaign_root, mission, freeze_sha):
+def _rederive_attempt(packet, campaign_root, mission, freeze_sha,
+                      property_declarations):
     name = _attempt_name(mission)
     attempt = campaign_root / name
     try:
@@ -2967,6 +2968,10 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha):
         (manifest, fixture, artifacts, _before, after, changed, preimages,
          _trace, raw_actions, host_checks, texts) = \
             _load_bundle(host_root / "bundle", packet, mission, parent)
+        property_declarations[mission["index"]] = {
+            prop["name"]: prop["required"]
+            for prop in fixture["properties"]
+        }
         official, official_adjudication, official_properties = \
             _load_official_verdict(
                 attempt, terminal, expected_model, fixture, manifest,
@@ -3023,6 +3028,55 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha):
         return _invalid_row(mission, "INVALID", exc)
 
 
+def _validate_stage_pass_rows(rows, property_declarations):
+    _expect(type(rows) is list and len(rows) == len(PLAN) and
+            type(property_declarations) is dict and
+            set(property_declarations) == set(range(len(PLAN))),
+            "independent PASS property declarations incomplete")
+    for index, (row, expected) in enumerate(zip(rows, PLAN)):
+        _exact_fields(
+            row, INDEPENDENT_PASS_ROW_FIELDS,
+            f"independent PASS cell row {index}")
+        _expect(type(row["index"]) is int and row["index"] == index and
+                row["config"] == expected["config"] and
+                row["fixture"] == expected["fixture"] and
+                row["product_status"] == "PASS" and
+                row["host_status"] == "PASS" and
+                row["overall_status"] == "PASS" and
+                row["official_overall_status"] == "PASS" and
+                row["independent_overall_status"] == "PASS" and
+                row["reason"] is None and
+                type(row["properties"]) is dict and
+                bool(row["properties"]),
+                f"independent PASS cell row {index} invalid")
+        declaration = property_declarations[index]
+        _expect(type(declaration) is dict and declaration and
+                all(type(name) is str and bool(name) and
+                    type(required) is bool
+                    for name, required in declaration.items()) and
+                set(row["properties"]) == set(declaration),
+                f"independent PASS cell row {index} property set invalid")
+        for name, required in declaration.items():
+            property_row = _exact_fields(
+                row["properties"][name], {"state", "pass"},
+                f"independent PASS cell row {index} property")
+            consistent = (
+                (property_row["state"] == "PASS" and
+                 property_row["pass"] is True) or
+                (property_row["state"] == "FAIL" and
+                 property_row["pass"] is False) or
+                (property_row["state"] == "INCOMPLETE" and
+                 property_row["pass"] is None))
+            _expect(consistent and
+                    (not required or
+                     (property_row["state"] == "PASS" and
+                      property_row["pass"] is True)),
+                    f"independent PASS cell row {index} property invalid")
+        for key in ("bundle_manifest_sha256", "raw_stdout_sha256",
+                    "native_session_sha256", "official_verdict_sha256"):
+            _digest(row[key], f"independent PASS cell row {index} {key}")
+
+
 def rederive_campaign(packet_path, campaign_root):
     # Path-component custody is stable only for one create-once read pass.
     # A later invocation must not inherit trust after a directory replacement.
@@ -3071,8 +3125,12 @@ def rederive_campaign(packet_path, campaign_root):
         _expect((attempt / "attempt-status.json").is_file() and
                 (attempt / "attempt-terminal.json").is_file(),
                 "attempt lifecycle is nonterminal")
-    rows = [_rederive_attempt(packet, campaign_root, mission, freeze_sha)
-            for mission in packet["cells"][:completed_count]]
+    property_declarations = {}
+    rows = [
+        _rederive_attempt(
+            packet, campaign_root, mission, freeze_sha,
+            property_declarations)
+        for mission in packet["cells"][:completed_count]]
     first_stop = next((index for index, row in enumerate(rows)
                        if row["overall_status"] in STOP_STATES), None)
     attempts_after_stop = (first_stop is not None and
@@ -3092,40 +3150,7 @@ def rederive_campaign(packet_path, campaign_root):
     stage_accepted = status == "PASS" and \
         completed_count == len(packet["cells"])
     if stage_accepted:
-        for index, row in enumerate(rows):
-            _exact_fields(
-                row, INDEPENDENT_PASS_ROW_FIELDS,
-                f"independent PASS cell row {index}")
-            _expect(type(row["index"]) is int and row["index"] == index and
-                    row["product_status"] == "PASS" and
-                    row["host_status"] == "PASS" and
-                    row["overall_status"] == "PASS" and
-                    row["official_overall_status"] == "PASS" and
-                    row["independent_overall_status"] == "PASS" and
-                    row["reason"] is None and
-                    type(row["properties"]) is dict and
-                    bool(row["properties"]),
-                    f"independent PASS cell row {index} invalid")
-            for name, property_row in row["properties"].items():
-                _expect(type(name) is str and bool(name),
-                        f"independent PASS cell row {index} property invalid")
-                property_row = _exact_fields(
-                    property_row, {"state", "pass"},
-                    f"independent PASS cell row {index} property")
-                _expect(
-                    (property_row["state"] == "PASS" and
-                     property_row["pass"] is True) or
-                    (property_row["state"] == "FAIL" and
-                     property_row["pass"] is False) or
-                    (property_row["state"] == "INCOMPLETE" and
-                     property_row["pass"] is None),
-                        f"independent PASS cell row {index} property invalid")
-            for key in ("bundle_manifest_sha256", "raw_stdout_sha256",
-                        "native_session_sha256",
-                        "official_verdict_sha256"):
-                _digest(
-                    row[key],
-                    f"independent PASS cell row {index} {key}")
+        _validate_stage_pass_rows(rows, property_declarations)
     disposition = ("INCOMPLETE_PENDING_OPUS" if stage_accepted else
                    "INCOMPLETE" if status == "INCOMPLETE" else
                    "ANDON_STOPPED")

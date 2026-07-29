@@ -178,6 +178,35 @@ def _declaration():
     return load_json_file(DECLARATION_PATH, "candidate matrix artifact contract")
 
 
+def _fixture_property_declaration(fixture_id):
+    if fixture_id not in FIXTURE_ORDER:
+        raise ValueError("official Luna result fixture identity invalid")
+    fixture = load_json_file(
+        HERE / "fixtures" / fixture_id / "fixture.json",
+        f"{fixture_id} fixture property declaration", root=HERE)
+    if (fixture.get("id") != fixture_id or
+            type(fixture.get("properties")) is not list or
+            not fixture["properties"]):
+        raise ValueError(
+            f"{fixture_id} fixture property declaration invalid")
+    declaration = {}
+    for index, prop in enumerate(fixture["properties"]):
+        owner = f"{fixture_id} fixture property {index}"
+        if (type(prop) is not dict or
+                not {"name", "required", "rule"} <= set(prop) or
+                set(prop) - {"name", "required", "rule", "describes"}):
+            raise ValueError(f"{owner} declaration invalid")
+        name = prop["name"]
+        if (type(name) is not str or not name or name in declaration or
+                type(prop["required"]) is not bool or
+                type(prop["rule"]) is not dict or not prop["rule"] or
+                ("describes" in prop and
+                 type(prop["describes"]) is not str)):
+            raise ValueError(f"{owner} declaration invalid")
+        declaration[name] = prop["required"]
+    return declaration
+
+
 def contract_sha256():
     observed = hashlib.sha256(read_custodied_bytes(
         DECLARATION_PATH, "candidate matrix artifact contract")).hexdigest()
@@ -516,10 +545,16 @@ def validate_artifact(name, value):
             if type(properties) is not dict or not properties:
                 raise ValueError(
                     f"official Luna result cell {index} properties invalid")
-            for property_name, property_row in properties.items():
+            property_declaration = _fixture_property_declaration(
+                expected["fixture"])
+            if set(properties) != set(property_declaration):
+                raise ValueError(
+                    f"official Luna result cell {index} property set invalid")
+            for property_name, required in property_declaration.items():
                 _string(
                     property_name,
                     f"official Luna result cell {index} property name")
+                property_row = properties[property_name]
                 property_row = _exact(
                     property_row, {"state", "pass"},
                     f"official Luna result cell {index} property")
@@ -532,6 +567,12 @@ def validate_artifact(name, value):
                          property_row["pass"] is None)):
                     raise ValueError(
                         f"official Luna result cell {index} property invalid")
+                if required and not (
+                        property_row["state"] == "PASS" and
+                        property_row["pass"] is True):
+                    raise ValueError(
+                        f"official Luna result cell {index} required "
+                        f"property {property_name} is not PASS")
             if cell["reason"] is not None:
                 raise ValueError(
                     f"official Luna result cell {index} reason invalid")

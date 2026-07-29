@@ -886,6 +886,64 @@ def assert_host_check_producer_contract(module):
                 f"{artifact!r}")
 
 
+def assert_independent_pass_property_boundary(module):
+    declarations = {}
+    rows = []
+    for index, fixture_id in enumerate(module.FIXTURE_ORDER):
+        fixture = json.loads(
+            (HERE / "fixtures" / fixture_id / "fixture.json").read_text(
+                encoding="utf-8"))
+        declaration = {
+            prop["name"]: prop["required"]
+            for prop in fixture["properties"]
+        }
+        declarations[index] = declaration
+        properties = {
+            name: {"state": "PASS", "pass": True}
+            for name in declaration
+        }
+        for name, required in declaration.items():
+            if not required and fixture_id in ("B0", "E5"):
+                properties[name] = {"state": "FAIL", "pass": False}
+        rows.append({
+            "index": index, "config": "L", "fixture": fixture_id,
+            "product_status": "PASS", "host_status": "PASS",
+            "overall_status": "PASS", "properties": properties,
+            "reason": None, "bundle_manifest_sha256": "1" * 64,
+            "raw_stdout_sha256": "2" * 64,
+            "native_session_sha256": "3" * 64,
+            "official_overall_status": "PASS",
+            "independent_overall_status": "PASS",
+            "model_resolved": "gpt-5.6-sol",
+            "official_verdict_sha256": "4" * 64,
+        })
+    module._validate_stage_pass_rows(rows, declarations)
+    assert rows[0]["properties"]["agents_update_decision"] == {
+        "state": "FAIL", "pass": False}
+    assert rows[8]["properties"]["current_answer_correctness"] == {
+        "state": "FAIL", "pass": False}
+    mutations = []
+    required_fail = json.loads(json.dumps(rows))
+    required_fail[0]["properties"]["phase_start"] = {
+        "state": "FAIL", "pass": False}
+    mutations.append(required_fail)
+    missing = json.loads(json.dumps(rows))
+    del missing[0]["properties"]["phase_start"]
+    mutations.append(missing)
+    extra = json.loads(json.dumps(rows))
+    extra[0]["properties"]["invented_property"] = {
+        "state": "PASS", "pass": True}
+    mutations.append(extra)
+    for changed in mutations:
+        try:
+            module._validate_stage_pass_rows(changed, declarations)
+        except module.EvidenceInvalid:
+            pass
+        else:
+            raise AssertionError(
+                "independent PASS property boundary accepted invalid rows")
+
+
 def load_module():
     spec = importlib.util.spec_from_file_location("candidate_matrix_rederive", MODULE)
     module = importlib.util.module_from_spec(spec)
@@ -905,6 +963,7 @@ def main():
     assert not (imports & FORBIDDEN), imports & FORBIDDEN
     module = load_module()
     assert_host_check_producer_contract(module)
+    assert_independent_pass_property_boundary(module)
     assert_production_campaign_and_mutation_matrix(module)
     assert module.FIXTURE_ORDER == (
         "B0", "B1", "B2", "E1", "E2a", "E2b", "E3", "E4",

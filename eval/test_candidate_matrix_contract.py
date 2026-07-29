@@ -15,6 +15,70 @@ FIXTURES = ["B0", "B1", "B2", "E1", "E2a", "E2b", "E3", "E4",
             "E5", "E6", "E7", "E8", "E9", "E10"]
 
 
+def fixture_properties(fixture_id):
+    fixture = json.loads(
+        (HERE / "fixtures" / fixture_id / "fixture.json").read_text(
+            encoding="utf-8"))
+    return {
+        prop["name"]: prop["required"]
+        for prop in fixture["properties"]
+    }
+
+
+def valid_official_luna_result():
+    cells = []
+    for index, fixture_id in enumerate(FIXTURES):
+        declaration = fixture_properties(fixture_id)
+        properties = {
+            name: {"state": "PASS", "pass": True}
+            for name in declaration
+        }
+        for name, required in declaration.items():
+            if not required and fixture_id in ("B0", "E5"):
+                properties[name] = {"state": "FAIL", "pass": False}
+        cells.append({
+            "index": index, "config": "L", "fixture": fixture_id,
+            "product_status": "PASS", "host_status": "PASS",
+            "overall_status": "PASS", "properties": properties,
+            "reason": None, "bundle_manifest_sha256": "1" * 64,
+            "raw_stdout_sha256": "2" * 64,
+            "native_session_sha256": "3" * 64,
+            "official_overall_status": "PASS",
+            "independent_overall_status": "PASS",
+            "model_resolved": "gpt-5.6-sol",
+            "official_verdict_sha256": "4" * 64,
+        })
+    return {
+        "schema": "implementaudit-candidate-matrix-luna-result-v1",
+        "campaign": "candidate-matrix-sol-luna-r1",
+        "freeze_sha256": "5" * 64,
+        "contract_sha256": "6" * 64,
+        "disposition": "INCOMPLETE_PENDING_OPUS",
+        "luna_stage_accepted": True, "accepted": False,
+        "cell_count": 14, "cells": cells,
+        "luna_identity": {
+            "config": "L", "host": "codex-cli",
+            "model_resolved_required": "gpt-5.6-sol",
+            "host_attestation_id": "luna-production",
+            "host_attestation_sha256": "7" * 64,
+        },
+        "independent_rederivation": {
+            "path": "candidate-matrix-luna-independent-rederivation.json",
+            "sha256": "8" * 64,
+            "schema":
+                "implementaudit-candidate-matrix-luna-independent-rederivation-v1",
+            "contract_id":
+                "implementaudit-candidate-matrix-luna-rederiver-v1",
+            "implementation_sha256": "9" * 64,
+        },
+        "claims": {
+            "final_28_of_28": False, "cross_model_qualified": False,
+            "release_authorized": False, "tag_authorized": False,
+            "publication_authorized": False,
+        },
+    }
+
+
 def load_module():
     spec = importlib.util.spec_from_file_location("candidate_matrix_contract", MODULE)
     module = importlib.util.module_from_spec(spec)
@@ -66,6 +130,27 @@ def main():
         changed = copy.deepcopy(declaration)
         changed["execution"][field] = value
         reject(lambda changed=changed: module.validate_declaration(changed))
+
+    accepted_result = valid_official_luna_result()
+    module.validate_artifact("official_luna_result", accepted_result)
+    b0_properties = accepted_result["cells"][0]["properties"]
+    assert b0_properties["agents_update_decision"] == {
+        "state": "FAIL", "pass": False}
+    e5_properties = accepted_result["cells"][8]["properties"]
+    assert e5_properties["current_answer_correctness"] == {
+        "state": "FAIL", "pass": False}
+    required_fail = copy.deepcopy(accepted_result)
+    required_fail["cells"][0]["properties"]["phase_start"] = {
+        "state": "FAIL", "pass": False}
+    reject(lambda: module.validate_artifact(
+        "official_luna_result", required_fail))
+    missing = copy.deepcopy(accepted_result)
+    del missing["cells"][0]["properties"]["phase_start"]
+    reject(lambda: module.validate_artifact("official_luna_result", missing))
+    extra = copy.deepcopy(accepted_result)
+    extra["cells"][0]["properties"]["invented_property"] = {
+        "state": "PASS", "pass": True}
+    reject(lambda: module.validate_artifact("official_luna_result", extra))
 
     assert module._exact_json_equal({"x": [0.0]}, {"x": [0.0]})
     assert not module._exact_json_equal(False, 0)
