@@ -10,6 +10,8 @@ import pathlib
 import tempfile
 
 from test_candidate_matrix_freeze import valid_packet
+from test_candidate_matrix_rederive import (
+    build_campaign, load_module as load_rederive_module)
 import candidate_matrix_contract as matrix_contract
 
 
@@ -186,6 +188,40 @@ def expect_error(fragment, fn):
         raise AssertionError(f"expected rejection containing {fragment!r}")
 
 
+def assert_real_rederive_finalize(module):
+    with tempfile.TemporaryDirectory(
+            prefix="candidate-matrix-real-finalize-") as tmp:
+        campaign_root = pathlib.Path(tmp) / "campaign"
+        build_campaign(campaign_root, execution_mode="test")
+        rederiver = load_rederive_module()
+        independent = rederiver.rederive_campaign(
+            campaign_root / "campaign-freeze.json", campaign_root)
+        assert independent["luna_stage_status"] == "PASS", independent
+        output = (
+            campaign_root /
+            "candidate-matrix-luna-independent-rederivation.json")
+        rederiver.write_rederivation(
+            output, independent, root=campaign_root)
+        driver = module.CampaignDriver(
+            packet_path=campaign_root / "campaign-freeze.json",
+            repo_root=HERE.parent, campaign_root=campaign_root,
+            candidate_checkout=pathlib.Path(tmp) / "candidate",
+            runtime_root=pathlib.Path(tmp) / "runtime",
+            attestation=None, mission_executor=lambda _context: None,
+            execution_mode="test",
+            live_validator=lambda packet, repo: packet,
+            identity_validator=lambda packet, **paths: None,
+        )
+        official = driver.finalize_luna_stage()
+        assert official["cells"] == independent["cells"]
+        assert official["disposition"] == "INCOMPLETE_PENDING_OPUS"
+        assert official["luna_stage_accepted"] is True
+        assert official["accepted"] is False
+        assert official["cell_count"] == 14
+        assert driver.validate_luna_stage() == official
+        expect_error("create-once", driver.finalize_luna_stage)
+
+
 def main():
     module = load_module()
     assert module._exact_json_equal(False, False)
@@ -211,15 +247,6 @@ def main():
         assert all((path / "attempt-terminal.json").is_file() for path in attempts)
         packet, freeze_sha, summaries = complete_summaries(driver)
         assert [row["fixture"] for row in summaries] == FIXTURES
-        write_independent_result(driver, summaries)
-        official = driver.finalize_luna_stage()
-        assert official["disposition"] == "INCOMPLETE_PENDING_OPUS"
-        assert official["luna_stage_accepted"] is True
-        assert official["accepted"] is False
-        assert official["cell_count"] == 14
-        assert official["claims"] == FINAL_CLAIMS
-        assert driver.validate_luna_stage() == official
-        expect_error("create-once", driver.finalize_luna_stage)
 
     with tempfile.TemporaryDirectory() as tmp:
         calls = []
@@ -274,6 +301,7 @@ def main():
         else:
             expect_error("unexpected", driver.run_next)
             alias.unlink()
+    assert_real_rederive_finalize(module)
     print("candidate matrix campaign: PASS")
 
 

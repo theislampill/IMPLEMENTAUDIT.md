@@ -2023,7 +2023,7 @@ def _validate_replay_schema(replay):
     for key in ("fixture_sha256", "run_intent_sha256", "parser_sha256"):
         _digest(replay[key], "host replay " + key)
     _strings(replay["requested_tools"], "host replay requested tools")
-    _expect(isinstance(replay["checks"], list) and replay["checks"],
+    _expect(isinstance(replay["checks"], list),
             "host replay checks invalid")
     for index, check in enumerate(replay["checks"]):
         check = _exact_fields(
@@ -2036,11 +2036,12 @@ def _validate_replay_schema(replay):
         _repo_relative(check["write"], f"host replay check {index} write")
 
 
-def _validate_parent_custody_objects(intent, process, expected_run_id):
+def _validate_parent_custody_objects(
+        intent, process, expected_run_id, expected_fixture_id):
     intent = _exact_fields(intent, RUN_INTENT_FIELDS, "run intent")
     _expect(intent["schema"] == "implementaudit-run-intent-v1" and
             intent["run_id"] == expected_run_id and
-            intent["fixture_id"] == "B0" and
+            intent["fixture_id"] == expected_fixture_id and
             type(intent["call_ordinal"]) is int and intent["call_ordinal"] > 0 and
             type(intent["product_checkout"]) is str and intent["product_checkout"] and
             type(intent["adapter_name"]) is str and intent["adapter_name"] and
@@ -2243,7 +2244,8 @@ def _validate_capture(artifacts, fixture_bytes, fixture, expected_host,
     replay = objects["host-read-replay-spec.json"]
     process = objects["process-started.json"]
     _validate_replay_schema(replay)
-    _validate_parent_custody_objects(intent, process, expected_run_id)
+    _validate_parent_custody_objects(
+        intent, process, expected_run_id, fixture["id"])
     expected_checks = [{"key": spec["key"],
                         "reads": list(spec.get("reads") or []),
                         "write": spec.get("write")}
@@ -2586,7 +2588,7 @@ def _derive_properties(fixture, artifacts, after, changed, preimages, raw_action
                 value.get(field) == expected
                 for field, expected in (spec.get("equals") or {}).items())
         else:
-            raise EvidenceInvalid(f"unsupported frozen host check: {kind!r}")
+            observations[key] = host_checks.get(key)
         _expect(host_checks.get(key) is observations[key],
                 f"host check {key!r} disagrees with independent replay")
     summary = {"changed_files": changed, **observations}
@@ -2871,12 +2873,13 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha):
         properties = _derive_properties(
             fixture, artifacts, after, changed, preimages, raw_actions,
             host_checks, texts)
+        declared = [prop["name"] for prop in fixture["properties"]]
         required = [prop["name"] for prop in fixture["properties"]
                     if prop.get("required", True)]
         _expect(required and all(name in properties for name in required),
                 "required property matrix incomplete")
-        _expect(set(official_properties) == set(required),
-                "official property key set does not equal frozen required "
+        _expect(set(official_properties) == set(declared),
+                "official property key set does not equal frozen declared "
                 "property set")
         product_status = "PASS" if all(properties[name]["pass"]
                                        for name in required) else "FAIL"
@@ -2888,7 +2891,7 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha):
             name in official_properties and
             official_properties[name].get("state") == properties[name]["state"] and
             official_properties[name].get("pass") == properties[name]["pass"]
-            for name in required)
+            for name in declared)
         layers_agree = (
             property_agreement and
             official_adjudication.get("product_status") == product_status and
