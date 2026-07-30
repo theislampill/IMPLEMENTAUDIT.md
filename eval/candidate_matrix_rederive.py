@@ -2432,6 +2432,9 @@ def _validate_native_session(stdout, session, expected_host, binding,
                 for action in actions) and
             isinstance(process, dict),
             "native session context malformed")
+    action_ids = [action["id"] for action in actions]
+    _expect(len(action_ids) == len(set(action_ids)),
+            "native session action identity duplicated")
     repo_policy = _codex_native_repo_policy(profile)
     _expect(repo_policy is not None,
             "native session profile repository invalid")

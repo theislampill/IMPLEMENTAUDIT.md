@@ -2582,9 +2582,13 @@ def corroborate_session(raw_stdout, raw_session, host, binding, trace,
                      _valid_claude_binding(binding))
     if (not binding_valid or not isinstance(trace, dict) or
             not isinstance(trace.get("actions"), list) or
-            any(not isinstance(action, dict)
+            any(not isinstance(action, dict) or
+                type(action.get("id")) is not str or not action["id"]
                 for action in trace["actions"]) or
             not isinstance(process_started, dict)):
+        return "INVALID"
+    action_ids = [action["id"] for action in trace["actions"]]
+    if len(action_ids) != len(set(action_ids)):
         return "INVALID"
     try:
         stdout_bytes = _raw_capture_bytes(raw_stdout)
@@ -2655,12 +2659,11 @@ def corroborate_session(raw_stdout, raw_session, host, binding, trace,
         scalars.update(_scalar_strings(obj))
     if not binding or any(value not in scalars for value in binding.values()):
         return "INVALID"
-    action_ids = [action.get("id") for action in trace["actions"]
-                  if isinstance(action.get("id"), str) and
-                  action.get("state") in ("COMPLETED", "INVALID",
-                                          "INCOMPLETE")]
-    if action_ids and any(action_id not in scalars
-                          for action_id in action_ids):
+    terminal_action_ids = [
+        action["id"] for action in trace["actions"]
+        if action.get("state") in ("COMPLETED", "INVALID", "INCOMPLETE")]
+    if terminal_action_ids and any(
+            action_id not in scalars for action_id in terminal_action_ids):
         return "INVALID"
     return "VALID"
 

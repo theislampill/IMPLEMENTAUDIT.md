@@ -85,27 +85,29 @@ def _raw(rows):
 
 
 def _official_status(rows, process=_DEFAULT, profile=_DEFAULT,
-                     binding=_DEFAULT):
+                     binding=_DEFAULT, actions=_DEFAULT):
     process = PROCESS if process is _DEFAULT else process
     profile = PROFILE if profile is _DEFAULT else profile
     binding = BINDING if binding is _DEFAULT else binding
+    actions = [] if actions is _DEFAULT else actions
     try:
         return hostread.corroborate_session(
-            RAW_STDOUT, _raw(rows), "codex", binding, TRACE,
+            RAW_STDOUT, _raw(rows), "codex", binding, {"actions": actions},
             profile=profile, process_started=process)
     except Exception as exc:
         return f"CRASH({type(exc).__name__})"
 
 
 def _independent_status(module, rows, process=_DEFAULT, profile=_DEFAULT,
-                        binding=_DEFAULT):
+                        binding=_DEFAULT, actions=_DEFAULT):
     process = PROCESS if process is _DEFAULT else process
     profile = PROFILE if profile is _DEFAULT else profile
     binding = BINDING if binding is _DEFAULT else binding
+    actions = [] if actions is _DEFAULT else actions
     try:
         module._validate_native_session(
             RAW_STDOUT.encode("utf-8"), _raw(rows).encode("utf-8"),
-            "codex", binding, STDOUT_BINDING, [], profile, process)
+            "codex", binding, STDOUT_BINDING, actions, profile, process)
     except module.EvidenceInvalid:
         return "INVALID"
     except Exception as exc:
@@ -113,13 +115,15 @@ def _independent_status(module, rows, process=_DEFAULT, profile=_DEFAULT,
     return "VALID"
 
 
-def _statuses(rows, process=_DEFAULT, profile=_DEFAULT, binding=_DEFAULT):
+def _statuses(rows, process=_DEFAULT, profile=_DEFAULT, binding=_DEFAULT,
+              actions=_DEFAULT):
     return (
-        _official_status(rows, process, profile, binding),
+        _official_status(rows, process, profile, binding, actions),
         _independent_status(
-            b3v4_rederive, rows, process, profile, binding),
+            b3v4_rederive, rows, process, profile, binding, actions),
         _independent_status(
-            candidate_matrix_rederive, rows, process, profile, binding),
+            candidate_matrix_rederive, rows, process, profile, binding,
+            actions),
     )
 
 
@@ -652,15 +656,46 @@ def main():
     else:
         print("  [OK] full-profile-duplicate-case-sensitive: "
               f"{duplicate_status}")
+    action_cases = [
+        ("actions-empty", [], "VALID"),
+        ("actions-empty-object", [{}], "INVALID"),
+        ("actions-null-id", [{"id": None}], "INVALID"),
+        ("actions-empty-id", [{"id": ""}], "INVALID"),
+        ("actions-int-id", [{"id": 1}], "INVALID"),
+        ("actions-valid-id", [{"id": "a"}], "VALID"),
+        ("actions-whitespace-id", [{"id": " "}], "VALID"),
+        ("actions-null-container", None, "INVALID"),
+        ("actions-object-container", {"id": "a"}, "INVALID"),
+        ("actions-string-container", "a", "INVALID"),
+        ("actions-int-container", 1, "INVALID"),
+        ("actions-null-row", [None], "INVALID"),
+        ("actions-string-row", ["a"], "INVALID"),
+        ("actions-list-row", [[]], "INVALID"),
+        ("actions-duplicate-id", [{"id": "a"}, {"id": "a"}], "INVALID"),
+        ("actions-distinct-id", [{"id": "a"}, {"id": "b"}], "VALID"),
+        ("actions-owned-extra-fields",
+         [{"id": "a", "state": "COMPLETED"}], "VALID"),
+    ]
+    for name, actions, expected in action_cases:
+        observed = _statuses(
+            _base_rows(), copy.deepcopy(PROCESS), copy.deepcopy(PROFILE),
+            copy.deepcopy(BINDING), copy.deepcopy(actions))
+        if observed != (expected,) * 3:
+            failure = (
+                f"{name}: expected {(expected,) * 3!r}, got {observed!r}")
+            failures.append(failure)
+            print(f"  [RED] {failure}")
+        else:
+            print(f"  [OK] {name}: {observed}")
     if failures:
         total = (len(cases) + len(identity_cases) +
                  len(profile_scalar_cases) + len(scalar_context_cases) +
-                 2 + len(profile_cases))
+                 2 + len(profile_cases) + len(action_cases))
         print(f"NATIVE-SESSION-PARITY-RED: {len(failures)}/{total}")
         return 1
     total = (len(cases) + len(identity_cases) +
              len(profile_scalar_cases) + len(scalar_context_cases) +
-             2 + len(profile_cases))
+             2 + len(profile_cases) + len(action_cases))
     print(f"NATIVE-SESSION-PARITY-GREEN: {total}/{total}")
     return 0
 
