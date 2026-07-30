@@ -2659,11 +2659,7 @@ def corroborate_session(raw_stdout, raw_session, host, binding, trace,
         scalars.update(_scalar_strings(obj))
     if not binding or any(value not in scalars for value in binding.values()):
         return "INVALID"
-    terminal_action_ids = [
-        action["id"] for action in trace["actions"]
-        if action.get("state") in ("COMPLETED", "INVALID", "INCOMPLETE")]
-    if terminal_action_ids and any(
-            action_id not in scalars for action_id in terminal_action_ids):
+    if any(action["id"] not in scalars for action in trace["actions"]):
         return "INVALID"
     return "VALID"
 

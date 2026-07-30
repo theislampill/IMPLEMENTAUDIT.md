@@ -38,6 +38,9 @@ RAW_STDOUT = "\n".join((
     json.dumps({"type": "turn.started"}),
     json.dumps({"type": "turn.completed"}),
 )) + "\n"
+CLAUDE_SESSION = "claude-session"
+CLAUDE_BINDING = {"session_id": CLAUDE_SESSION}
+CLAUDE_RAW_STDOUT = "{}\n"
 PROFILE = {
     "repo": {
         "lexical_root": ROOT,
@@ -125,6 +128,44 @@ def _statuses(rows, process=_DEFAULT, profile=_DEFAULT, binding=_DEFAULT,
             candidate_matrix_rederive, rows, process, profile, binding,
             actions),
     )
+
+
+def _claude_rows(action_ids):
+    return [{
+        "type": "system",
+        "subtype": "transcript",
+        "session_id": CLAUDE_SESSION,
+        "action_ids": action_ids,
+    }]
+
+
+def _claude_statuses(actions, action_ids):
+    rows = _claude_rows(action_ids)
+    raw = _raw(rows)
+    try:
+        official = hostread.corroborate_session(
+            CLAUDE_RAW_STDOUT, raw, "claude",
+            copy.deepcopy(CLAUDE_BINDING),
+            {"actions": copy.deepcopy(actions)}, profile=copy.deepcopy(PROFILE),
+            process_started=copy.deepcopy(PROCESS))
+    except Exception as exc:
+        official = f"CRASH({type(exc).__name__})"
+    independent = []
+    for module in (b3v4_rederive, candidate_matrix_rederive):
+        try:
+            module._validate_native_session(
+                CLAUDE_RAW_STDOUT.encode("utf-8"), raw.encode("utf-8"),
+                "claude",
+                copy.deepcopy(CLAUDE_BINDING),
+                copy.deepcopy(CLAUDE_BINDING), copy.deepcopy(actions),
+                copy.deepcopy(PROFILE), copy.deepcopy(PROCESS))
+        except module.EvidenceInvalid:
+            independent.append("INVALID")
+        except Exception as exc:
+            independent.append(f"CRASH({type(exc).__name__})")
+        else:
+            independent.append("VALID")
+    return (official, *independent)
 
 
 def _case(name, expected, mutate):
@@ -687,15 +728,77 @@ def main():
             print(f"  [RED] {failure}")
         else:
             print(f"  [OK] {name}: {observed}")
+    claude_action_cases = []
+    state_cases = [
+        ("missing", _DEFAULT),
+        ("null", None),
+        ("empty", ""),
+        ("pending", "PENDING"),
+        ("running", "RUNNING"),
+        ("completed", "COMPLETED"),
+        ("invalid", "INVALID"),
+        ("incomplete", "INCOMPLETE"),
+        ("unknown", "UNKNOWN"),
+        ("wrong-type-bool", True),
+        ("wrong-type-int", 1),
+        ("wrong-type-list", []),
+        ("wrong-type-object", {}),
+    ]
+    for state_name, state in state_cases:
+        action = {"id": "a"}
+        if state is not _DEFAULT:
+            action["state"] = state
+        claude_action_cases.append((
+            f"claude-{state_name}-mismatched-id",
+            [action], [], "INVALID"))
+    # This direct boundary owns exact action identity, not lifecycle-state
+    # admission. The matching table therefore records the existing three-path
+    # behavior explicitly even for state values rejected elsewhere; it does not
+    # grant those traces end-to-end acceptance.
+    for state_name, state in state_cases:
+        action = {"id": "a"}
+        if state is not _DEFAULT:
+            action["state"] = state
+        claude_action_cases.append((
+            f"claude-{state_name}-matching-id",
+            [action], ["a"], "VALID"))
+    claude_action_cases.extend([
+        ("claude-duplicate-id",
+         [{"id": "a", "state": "PENDING"},
+          {"id": "a", "state": "COMPLETED"}],
+         ["a"], "INVALID"),
+        ("claude-distinct-ids",
+         [{"id": "a", "state": "PENDING"},
+          {"id": "b", "state": "COMPLETED"}],
+         ["a", "b"], "VALID"),
+        ("claude-mixed-terminal-nonterminal-mismatch",
+         [{"id": "a", "state": "PENDING"},
+          {"id": "b", "state": "COMPLETED"}],
+         ["b"], "INVALID"),
+    ])
+    for case_number, (name, actions, action_ids, expected) in enumerate(
+            claude_action_cases, 1):
+        case_id = f"CLAUDE-ACTION-{case_number:03d}"
+        observed = _claude_statuses(actions, action_ids)
+        if observed != (expected,) * 3:
+            failure = (
+                f"{case_id} {name}: expected {(expected,) * 3!r}, "
+                f"got {observed!r}")
+            failures.append(failure)
+            print(f"  [RED] {failure}")
+        else:
+            print(f"  [OK] {case_id} {name}: {observed}")
     if failures:
         total = (len(cases) + len(identity_cases) +
                  len(profile_scalar_cases) + len(scalar_context_cases) +
-                 2 + len(profile_cases) + len(action_cases))
+                 2 + len(profile_cases) + len(action_cases) +
+                 len(claude_action_cases))
         print(f"NATIVE-SESSION-PARITY-RED: {len(failures)}/{total}")
         return 1
     total = (len(cases) + len(identity_cases) +
              len(profile_scalar_cases) + len(scalar_context_cases) +
-             2 + len(profile_cases) + len(action_cases))
+             2 + len(profile_cases) + len(action_cases) +
+             len(claude_action_cases))
     print(f"NATIVE-SESSION-PARITY-GREEN: {total}/{total}")
     return 0
 
