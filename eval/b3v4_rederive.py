@@ -1936,7 +1936,15 @@ def _target_relationship(observed, target, preimages):
     case_sensitive = (preimages.get("repo") or {}).get(
         "case_sensitive") is not False
     compared_path = path if case_sensitive else path.lower()
+    compared_root = str(pathlib.PurePosixPath(
+        root.replace("\\", "/")))
+    if not case_sensitive:
+        compared_root = compared_root.lower()
     compared_expected = expected if case_sensitive else expected.lower()
+    root_prefix = compared_root.rstrip("/") + "/"
+    if compared_path != compared_root and not compared_path.startswith(
+            root_prefix):
+        return "invalid"
     if compared_path == compared_expected:
         return "direct"
     prefix = compared_path.rstrip("/") + "/"
@@ -2490,9 +2498,14 @@ def _validate_codex_stdout_rows(rows):
                             type(change["kind"]) is str and change["kind"],
                             f"{owner} file-change {index} invalid")
             elif item_type == "todo_list":
-                _exact_fields(
-                    item, {"id", "type", "status", "items"},
+                _closed_fields(
+                    item, {"id", "type", "items"}, {"status"},
                     owner + " todo item")
+                allowed_status = (
+                    (None, "completed") if event_type == "item.completed"
+                    else (None, "in_progress"))
+                _expect(item.get("status") in allowed_status,
+                        owner + " todo status invalid")
                 _expect(isinstance(item["items"], list),
                         owner + " todo list invalid")
                 for index, entry in enumerate(item["items"]):

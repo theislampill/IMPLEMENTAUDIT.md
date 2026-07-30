@@ -836,6 +836,9 @@ def assert_codex_current_lifecycle_parity(module):
             "items": [{"text": "inspect", "completed": True}]}},
         copy.deepcopy(rows[4]),
     ]
+    statusless_todo_rows = copy.deepcopy(todo_rows)
+    statusless_todo_rows[2]["item"].pop("status")
+    statusless_todo_rows[3]["item"].pop("status")
     message_rows = [
         copy.deepcopy(rows[0]), copy.deepcopy(rows[1]),
         {"type": "item.completed", "item": {
@@ -856,6 +859,7 @@ def assert_codex_current_lifecycle_parity(module):
     for label, valid_rows in (
             ("file change", file_rows),
             ("todo", todo_rows),
+            ("statusless todo", statusless_todo_rows),
             ("agent message", message_rows),
             ("interleaved commands", two_command_rows)):
         valid = classify(raw_text(valid_rows))
@@ -963,6 +967,14 @@ def assert_codex_current_lifecycle_parity(module):
     todo_status_mismatch = copy.deepcopy(todo_rows)
     todo_status_mismatch[3]["item"]["status"] = "failed"
     adversarial["todo completion status mismatch"] = todo_status_mismatch
+    todo_start_status_mismatch = copy.deepcopy(todo_rows)
+    todo_start_status_mismatch[2]["item"]["status"] = "completed"
+    adversarial["todo start status mismatch"] = todo_start_status_mismatch
+    todo_extra_field = copy.deepcopy(statusless_todo_rows)
+    todo_extra_field[2]["item"]["unexpected"] = "value"
+    todo_wrong_shape = copy.deepcopy(statusless_todo_rows)
+    todo_wrong_shape[2]["item"]["items"][0]["completed"] = "yes"
+    adversarial["statusless todo wrong item shape"] = todo_wrong_shape
 
     turn_before_completion = copy.deepcopy(rows)
     turn_before_completion[3], turn_before_completion[4] = (
@@ -1043,6 +1055,9 @@ def assert_codex_current_lifecycle_parity(module):
         observed = classify(raw_text(invalid_rows))
         assert observed[:2] == ("INVALID", "INVALID"), (
             label, observed)
+    independent_extra = classify(raw_text(todo_extra_field))
+    assert independent_extra[1] == "INVALID" and \
+        "exact key set invalid" in independent_extra[3], independent_extra
 
     explicit_item_identity = classify(raw_text(explicit_item_identity_rows))
     assert explicit_item_identity[:2] == ("PASS", "PASS"), (
@@ -1146,6 +1161,53 @@ def assert_host_detail_and_finding_regressions(module):
         for target in reads
         for action_id in ("discovery-0", "discovery-1")]
     assert row["host_findings"] == expected_findings, row
+
+    outside_ancestor = {
+        "id": "outside-ancestor", "state": "COMPLETED",
+        "effect": "command",
+        "command": "/bin/bash -lc \"rg --files -g 'STATE.md' /runtime\"",
+        "output": "", "exit_code": 1,
+        "invocation_ordinal": 1, "completion_ordinal": 2,
+    }
+    nested_preimages = copy.deepcopy(preimages)
+    nested_preimages["repo"]["lexical_root"] = "/runtime/fixture-repo"
+    for target in reads:
+        nested_preimages["targets"][target]["canonical_path"] = (
+            "/runtime/fixture-repo/" + target)
+    in_repo_ancestor = dict(
+        outside_ancestor, id="in-repo-ancestor",
+        command=(
+            "/bin/bash -lc \"rg --files -g 'STATE.md' "
+            "/runtime/fixture-repo/state\""))
+    exact_target = dict(
+        outside_ancestor, id="exact-target",
+        command="/bin/bash -lc \"cat /runtime/fixture-repo/state/STATE.md\"",
+        output="STATE\n", exit_code=0)
+    for target in reads:
+        official_outside = official_hostread.classify_shell(
+            {
+                "command": outside_ancestor["command"],
+                "output": outside_ancestor["output"],
+                "exit_code": outside_ancestor["exit_code"],
+            },
+            target, nested_preimages, profile=profile, formal=False)
+        independent_outside = module._command_read_classification(
+            outside_ancestor, target, nested_preimages, profile)
+        assert official_outside == {
+            "classification": "fail-closed", "process_access": False
+        }, (target, official_outside)
+        assert independent_outside == official_outside, (
+            target, official_outside, independent_outside)
+    assert module._command_read_classification(
+        in_repo_ancestor, reads[0], nested_preimages,
+        profile)["process_access"] is True
+    assert module._command_read_classification(
+        exact_target, reads[0], nested_preimages, profile) == {
+            "classification": "content-read", "process_access": True}
+    assert module._target_relationship(
+        "/runtime/fixture-repo/state/../state", reads[0],
+        nested_preimages) == "invalid"
+
     finding_mutations = {
         "wrong-type": dict(row, host_findings={}),
         "wrong-order": dict(row, host_findings=list(reversed(expected_findings))),
