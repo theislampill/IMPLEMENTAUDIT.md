@@ -207,6 +207,32 @@ def _valid_codex_lifecycle_shape(event):
     return True
 
 
+def _valid_codex_item_event_shape(event):
+    event_type = event.get("type")
+    if event_type not in ("item.started", "item.updated", "item.completed"):
+        return False
+    keys = set(event)
+    if (not {"type", "item"} <= keys or
+            not keys <= {
+                "type", "item", "status", "thread_id", "turn_id"}):
+        return False
+    if not isinstance(event["item"], dict):
+        return False
+    if any(
+            type(event[field]) is not str or not event[field]
+            for field in ("thread_id", "turn_id") if field in event):
+        return False
+    if "status" in event:
+        allowed_status = (
+            {"in_progress"} if event_type in
+            ("item.started", "item.updated")
+            else {"completed", "failed", "error"})
+        if (type(event["status"]) is not str or
+                event["status"] not in allowed_status):
+            return False
+    return True
+
+
 def _path_identity_text(value):
     text = str(value or "").replace("\\", "/")
     if text == "/" or re.fullmatch(r"[A-Za-z]:/", text):
@@ -901,6 +927,19 @@ def normalize_codex(raw_stdout, profile=None, binding=None, formal=True):
             continue
         if event_type not in ("item.started", "item.updated",
                               "item.completed"):
+            machine.invalid_action(
+                ordinal, "unsupported Codex event type")
+            continue
+        if not _valid_codex_item_event_shape(event):
+            machine.invalid_action(
+                ordinal, "invalid Codex item event root shape")
+            continue
+        if (event.get("thread_id", active_thread) != active_thread or
+                ("turn_id" in event and
+                 (not active_turn_explicit or
+                  event["turn_id"] != active_turn))):
+            machine.invalid_action(
+                ordinal, "Codex item event identity mismatch")
             continue
         if active_turn is None:
             machine.invalid_action(ordinal, "action outside bound turn")
@@ -934,6 +973,7 @@ def normalize_codex(raw_stdout, profile=None, binding=None, formal=True):
                 continue
         if event_type == "item.completed" and item_type == "agent_message":
             if (item.get("status") not in (None, "completed") or
+                    event.get("status") in ("failed", "error") or
                     not isinstance(item.get("text"), str)):
                 machine.invalid_action(ordinal, "invalid terminal message",
                                        action_id)
@@ -1018,7 +1058,8 @@ def normalize_codex(raw_stdout, profile=None, binding=None, formal=True):
             else:
                 machine.complete(action_id, ordinal, payload=payload)
         else:
-            if item_status not in (None, "completed"):
+            if (item_status not in (None, "completed") or
+                    outer_status in ("failed", "error")):
                 machine.complete(action_id, ordinal, state="INVALID",
                                  reason="invalid todo completion")
             else:
@@ -2292,6 +2333,7 @@ def derive_codex_binding(raw_stdout):
     threads = []
     turns = []
     completions = []
+    items = []
     for ordinal, line in enumerate(str(raw_stdout or "").splitlines(), 1):
         try:
             event = _strict_object(line)
@@ -2312,6 +2354,15 @@ def derive_codex_binding(raw_stdout):
             completions.append((
                 ordinal, event.get("thread_id"), event.get("turn_id"),
                 "turn_id" in event))
+        elif event_type in ("item.started", "item.updated", "item.completed"):
+            if (not _valid_codex_item_event_shape(event) or
+                    event.get("status") in ("failed", "error")):
+                return None
+            items.append((
+                ordinal, event.get("thread_id"), event.get("turn_id"),
+                "turn_id" in event))
+        else:
+            return None
     if len(threads) != 1 or len(turns) != 1 or len(completions) != 1:
         return None
     thread_ordinal, thread_id = threads[0]
@@ -2323,6 +2374,13 @@ def derive_codex_binding(raw_stdout):
             completion_thread not in (None, thread_id) or
             turn_explicit != completion_explicit or
             (turn_explicit and completion_turn != turn_id)):
+        return None
+    if any(
+            not turn_ordinal < ordinal < completion_ordinal or
+            item_thread not in (None, thread_id) or
+            (item_turn_explicit and
+             (not turn_explicit or item_turn != turn_id))
+            for ordinal, item_thread, item_turn, item_turn_explicit in items):
         return None
     result = {"thread_id": thread_id, "stdout_turn_ordinal": 1}
     if turn_explicit:

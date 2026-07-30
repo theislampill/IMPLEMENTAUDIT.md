@@ -774,6 +774,15 @@ def assert_codex_current_lifecycle_parity(module):
         "stdout_turn_ordinal": 1,
         "turn_id": "turn-a",
     }, explicit
+    explicit_item_identity_rows = copy.deepcopy(explicit_rows)
+    for event in explicit_item_identity_rows[2:4]:
+        event.update({"thread_id": "thread-a", "turn_id": "turn-a"})
+
+    rooted_status_rows = copy.deepcopy(rows)
+    rooted_status_rows[2]["status"] = "in_progress"
+    rooted_status_rows[3]["status"] = "completed"
+    rooted_status = classify(raw_text(rooted_status_rows))
+    assert rooted_status[:2] == ("PASS", "PASS"), rooted_status
 
     retained_rows = copy.deepcopy(rows)
     retained_rows[2]["item"].update({
@@ -851,16 +860,84 @@ def assert_codex_current_lifecycle_parity(module):
     negative_usage = copy.deepcopy(retained_rows)
     negative_usage[-1]["usage"]["output_tokens"] = -1
     adversarial["negative terminal usage"] = negative_usage
+
+    unknown_before = copy.deepcopy(rows)
+    unknown_before.insert(0, {"type": "unrecognized.before"})
+    adversarial["unknown event before thread"] = unknown_before
+    unknown_inside = copy.deepcopy(rows)
+    unknown_inside.insert(2, {"type": "unrecognized.lifecycle"})
+    adversarial["unknown event inside turn"] = unknown_inside
+    unknown_after = copy.deepcopy(rows)
+    unknown_after.append({"type": "unrecognized.after"})
+    adversarial["unknown event after terminal"] = unknown_after
+    error_event = copy.deepcopy(rows)
+    error_event.insert(2, {"type": "error", "message": "failed"})
+    adversarial["unsupported error event"] = error_event
+    terminal_event = copy.deepcopy(rows)
+    terminal_event.append({"type": "terminal", "status": "completed"})
+    adversarial["unsupported terminal event"] = terminal_event
+
+    extra_started = copy.deepcopy(rows)
+    extra_started[2]["unexpected"] = "value"
+    adversarial["extra item-start root field"] = extra_started
+    extra_completed = copy.deepcopy(rows)
+    extra_completed[3]["unexpected"] = "value"
+    adversarial["extra item-complete root field"] = extra_completed
+    missing_started_item = copy.deepcopy(rows)
+    missing_started_item[2].pop("item")
+    adversarial["missing item-start payload"] = missing_started_item
+    missing_completed_item = copy.deepcopy(rows)
+    missing_completed_item[3].pop("item")
+    adversarial["missing item-complete payload"] = missing_completed_item
+
+    cross_thread_started = copy.deepcopy(rows)
+    cross_thread_started[2]["thread_id"] = "foreign-thread"
+    adversarial["cross-thread item start"] = cross_thread_started
+    cross_thread_completed = copy.deepcopy(rows)
+    cross_thread_completed[3]["thread_id"] = "foreign-thread"
+    adversarial["cross-thread item completion"] = cross_thread_completed
+    implicit_turn_started = copy.deepcopy(rows)
+    implicit_turn_started[2]["turn_id"] = "invented-turn"
+    adversarial["invented item-start turn"] = implicit_turn_started
+    implicit_turn_completed = copy.deepcopy(rows)
+    implicit_turn_completed[3]["turn_id"] = "invented-turn"
+    adversarial["invented item-complete turn"] = implicit_turn_completed
+    wrong_explicit_item_turn = copy.deepcopy(explicit_item_identity_rows)
+    wrong_explicit_item_turn[3]["turn_id"] = "turn-b"
+    adversarial["wrong explicit item turn"] = wrong_explicit_item_turn
+
+    for label, index, value in (
+            ("boolean item-start status", 2, True),
+            ("null item-start status", 2, None),
+            ("empty item-start status", 2, ""),
+            ("completed item-start status", 2, "completed"),
+            ("numeric item-complete status", 3, 1),
+            ("in-progress item-complete status", 3, "in_progress"),
+            ("failed item-complete root status", 3, "failed"),
+            ("error item-complete root status", 3, "error")):
+        malformed = copy.deepcopy(rows)
+        malformed[index]["status"] = value
+        adversarial[label] = malformed
     for label, invalid_rows in adversarial.items():
         observed = classify(raw_text(invalid_rows))
         assert observed[:2] == ("INVALID", "INVALID"), (
             label, observed)
+
+    explicit_item_identity = classify(raw_text(explicit_item_identity_rows))
+    assert explicit_item_identity[:2] == ("PASS", "PASS"), (
+        explicit_item_identity)
 
     duplicate_key_raw = current_raw.replace(
         '{"type":"turn.started"}',
         '{"type":"turn.started","type":"turn.started"}', 1)
     duplicate_key = classify(duplicate_key_raw)
     assert duplicate_key[:2] == ("INVALID", "INVALID"), duplicate_key
+
+    duplicate_item_key_raw = current_raw.replace(
+        '{"item":{', '{"item":{},"item":{', 1)
+    duplicate_item_key = classify(duplicate_item_key_raw)
+    assert duplicate_item_key[:2] == ("INVALID", "INVALID"), (
+        duplicate_item_key)
 
     nested = "null"
     for _ in range(module.MAX_JSON_DEPTH + 1):

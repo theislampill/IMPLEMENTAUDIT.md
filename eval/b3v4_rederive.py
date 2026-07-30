@@ -1986,7 +1986,23 @@ def _validate_codex_stdout_rows(rows):
                     type(usage[field]) is int and usage[field] >= 0
                     for field in usage_fields), owner + " usage invalid")
         elif event_type in ("item.started", "item.updated", "item.completed"):
-            _closed_fields(event, {"type", "item"}, {"status"}, owner)
+            _closed_fields(
+                event, {"type", "item"},
+                {"status", "thread_id", "turn_id"}, owner)
+            for field in ("thread_id", "turn_id"):
+                if field in event:
+                    _expect(
+                        type(event[field]) is str and event[field],
+                        f"{owner} {field} invalid")
+            if "status" in event:
+                allowed_status = (
+                    {"in_progress"} if event_type in
+                    ("item.started", "item.updated")
+                    else {"completed", "failed", "error"})
+                _expect(
+                    type(event["status"]) is str and
+                    event["status"] in allowed_status,
+                    owner + " root status invalid")
             item = _mapping(event["item"], owner + " item")
             item_type = item.get("type")
             if item_type == "command_execution":
@@ -2162,6 +2178,15 @@ def _parse_codex_actions(raw):
             continue
         _expect(thread_id is not None and turn_id is not None,
                 "Codex raw action outside bound turn")
+        _expect(
+            event.get("thread_id", thread_id) == thread_id and
+            ("turn_id" not in event or
+             (bound_turn_id is not None and
+              event["turn_id"] == bound_turn_id)),
+            "Codex raw item event identity mismatch")
+        _expect(
+            event.get("status") not in ("failed", "error"),
+            "Codex raw item event root failure")
         item = event.get("item")
         _expect(isinstance(item, dict), "Codex raw item malformed")
         action_id = item.get("id")
