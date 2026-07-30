@@ -1192,6 +1192,55 @@ def assert_host_detail_and_finding_regressions(module):
                for changed in detail_mutations.values()), detail_mutations
 
 
+def assert_ampersand_shell_grammar(module):
+    rejected = (
+        "cat state/STATE.md & true",
+        "& cat state/STATE.md",
+        "cat state/STATE.md &",
+        "cat state/STATE.md&true",
+        "cat state/STATE.md & & true",
+        "cat state/STATE.md && true",
+        "cat state/STATE.md &&& true",
+        "cat state/STATE.md # & background",
+        "cat state/STATE.md\n& true",
+        "cat $'state/STATE&copy.md'",
+        "cat 'state/STATE&copy.md",
+        "cat state/STATE.md \\",
+    )
+    for command in rejected:
+        assert module._finite_shell_tokens(command) is None, command
+
+    accepted = (
+        r"cat state/STATE.md \&",
+        "cat 'state/STATE&copy.md'",
+        'cat "state/STATE&copy.md"',
+        "cat state/STATE＆copy.md",
+        "cat state/STATE﹠copy.md",
+    )
+    for command in accepted:
+        assert module._finite_shell_tokens(command), command
+
+    codex = {
+        "outer_wrapper": {
+            "argv_prefix": ["/bin/bash", "-lc"],
+            "max_unwrap_layers": 1}}
+    unsafe_outer = (
+        "/bin/bash -lc \"cat state/STATE.md & true\"")
+    quoted_outer = (
+        "/bin/bash -lc \"cat 'state/STATE&copy.md'\"")
+    assert module._finite_shell_tokens(
+        module._unwrap_profiled_command(unsafe_outer, codex)) is None
+    assert module._finite_shell_tokens(
+        module._unwrap_profiled_command(quoted_outer, codex))
+    assert module._unwrap_profiled_command(
+        unsafe_outer, {"native_tools": {"requested": ["Read"]}}) is None
+    assert module._unwrap_profiled_command(
+        unsafe_outer, {
+            "outer_wrapper": {
+                "argv_prefix": ["powershell", "-Command"],
+                "max_unwrap_layers": 1}}) is None
+
+
 def rebind_capture(bundle):
     artifacts = bundle / "artifacts"
     terminal_path = artifacts / "host-read-terminal.json"
@@ -2306,6 +2355,7 @@ def main():
     assert_independent_import_boundary()
     module = load_module()
     assert_host_detail_and_finding_regressions(module)
+    assert_ampersand_shell_grammar(module)
     assert_profile_policy_pipeline(module)
     assert_codex_current_lifecycle_parity(module)
     assert_trusted_spawn_guard_receipt_closed(module)

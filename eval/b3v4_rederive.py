@@ -1945,10 +1945,46 @@ def _target_relationship(observed, target, preimages):
     return "unrelated"
 
 
+def _unquoted_ampersand_free(command):
+    """Reject shell background/control ampersands without losing quote origin."""
+    if not isinstance(command, str):
+        return False
+    state = "plain"
+    index = 0
+    while index < len(command):
+        character = command[index]
+        if state == "plain":
+            if character == "\\":
+                if index + 1 >= len(command):
+                    return False
+                index += 2
+                continue
+            if character == "'":
+                state = "single"
+            elif character == '"':
+                state = "double"
+            elif character == "&":
+                return False
+        elif state == "single":
+            if character == "'":
+                state = "plain"
+        else:
+            if character == "\\":
+                if index + 1 >= len(command):
+                    return False
+                index += 2
+                continue
+            if character == '"':
+                state = "plain"
+        index += 1
+    return state == "plain"
+
+
 def _finite_shell_tokens(command):
     if not isinstance(command, str) or not command or "\x00" in command or \
             "\n" in command or "\r" in command or "$" in command or \
-            "#" in command or "`" in command or any(
+            "#" in command or "`" in command or \
+            not _unquoted_ampersand_free(command) or any(
                 text in command for text in
                 (";", "&&", "||", "|", "(", ")", "{", "}")):
         return None
