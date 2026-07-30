@@ -801,7 +801,64 @@ def assert_codex_current_lifecycle_parity(module):
         malformed["item"].update(updates)
         return [rows[0], rows[1], malformed, *rows[3:]]
 
+    file_rows = [
+        copy.deepcopy(rows[0]), copy.deepcopy(rows[1]),
+        {"type": "item.started", "item": {
+            "id": "file-1", "type": "file_change",
+            "status": "in_progress",
+            "changes": [{"path": "capsule.json", "kind": "add"}]}},
+        {"type": "item.completed", "item": {
+            "id": "file-1", "type": "file_change",
+            "status": "completed",
+            "changes": [{"path": "capsule.json", "kind": "add"}]}},
+        copy.deepcopy(rows[4]),
+    ]
+    todo_rows = [
+        copy.deepcopy(rows[0]), copy.deepcopy(rows[1]),
+        {"type": "item.started", "item": {
+            "id": "todo-1", "type": "todo_list",
+            "status": "in_progress",
+            "items": [{"text": "inspect", "completed": False}]}},
+        {"type": "item.completed", "item": {
+            "id": "todo-1", "type": "todo_list",
+            "status": "completed",
+            "items": [{"text": "inspect", "completed": True}]}},
+        copy.deepcopy(rows[4]),
+    ]
+    message_rows = [
+        copy.deepcopy(rows[0]), copy.deepcopy(rows[1]),
+        {"type": "item.completed", "item": {
+            "id": "message-1", "type": "agent_message",
+            "status": "completed", "text": "done"}},
+        copy.deepcopy(rows[4]),
+    ]
+    two_command_rows = [
+        copy.deepcopy(rows[0]), copy.deepcopy(rows[1]),
+        copy.deepcopy(rows[2]),
+        {"type": "item.started", "item": {
+            **copy.deepcopy(rows[2]["item"]), "id": "cmd-2"}},
+        copy.deepcopy(rows[3]),
+        {"type": "item.completed", "item": {
+            **copy.deepcopy(rows[3]["item"]), "id": "cmd-2"}},
+        copy.deepcopy(rows[4]),
+    ]
+    for label, valid_rows in (
+            ("file change", file_rows),
+            ("todo", todo_rows),
+            ("agent message", message_rows),
+            ("interleaved commands", two_command_rows)):
+        valid = classify(raw_text(valid_rows))
+        assert valid[:2] == ("PASS", "PASS"), (label, valid)
+
     adversarial = {
+        "missing command completion":
+            [rows[0], rows[1], rows[2], rows[4]],
+        "orphan command completion":
+            [rows[0], rows[1], rows[3], rows[4]],
+        "duplicate command completion":
+            rows[:4] + [copy.deepcopy(rows[3])] + rows[4:],
+        "duplicate command start":
+            rows[:3] + [copy.deepcopy(rows[2])] + rows[3:],
         "explicit start missing terminal id": minimal_codex_rows(
             {"type": "turn.started", "turn_id": "turn-a"},
             {"type": "turn.completed"}),
@@ -851,6 +908,59 @@ def assert_codex_current_lifecycle_parity(module):
         "premature command start exit":
             command_start_rows(aggregated_output="", exit_code=0),
     }
+    mismatched_id = copy.deepcopy(rows)
+    mismatched_id[3]["item"]["id"] = "cmd-foreign"
+    adversarial["command completion id mismatch"] = mismatched_id
+    mismatched_kind = copy.deepcopy(rows)
+    mismatched_kind[3]["item"] = copy.deepcopy(file_rows[3]["item"])
+    mismatched_kind[3]["item"]["id"] = "cmd-1"
+    adversarial["command completion kind mismatch"] = mismatched_kind
+    mismatched_status = copy.deepcopy(rows)
+    mismatched_status[3]["item"]["status"] = "in_progress"
+    adversarial["command completion status mismatch"] = mismatched_status
+    mismatched_exit = copy.deepcopy(rows)
+    mismatched_exit[3]["item"]["exit_code"] = 1
+    adversarial["command exit-status contradiction"] = mismatched_exit
+    failed_zero = copy.deepcopy(rows)
+    failed_zero[3]["item"]["status"] = "failed"
+    adversarial["command failed-zero contradiction"] = failed_zero
+    malformed_output = copy.deepcopy(rows)
+    malformed_output[3]["item"]["aggregated_output"] = ["not", "text"]
+    adversarial["command output coercion"] = malformed_output
+
+    adversarial["missing file completion"] = (
+        file_rows[:3] + file_rows[4:])
+    adversarial["orphan file completion"] = (
+        file_rows[:2] + file_rows[3:])
+    file_path_mismatch = copy.deepcopy(file_rows)
+    file_path_mismatch[3]["item"]["changes"][0]["path"] = "other.json"
+    adversarial["file completion path mismatch"] = file_path_mismatch
+    file_status_mismatch = copy.deepcopy(file_rows)
+    file_status_mismatch[3]["item"]["status"] = "failed"
+    adversarial["file completion status mismatch"] = file_status_mismatch
+
+    agent_start = copy.deepcopy(message_rows)
+    agent_start[2]["type"] = "item.started"
+    agent_start[2]["item"]["status"] = "in_progress"
+    adversarial["agent message cannot start"] = agent_start
+    duplicate_message = copy.deepcopy(message_rows)
+    duplicate_message.insert(3, copy.deepcopy(message_rows[2]))
+    adversarial["duplicate agent terminal"] = duplicate_message
+
+    adversarial["missing todo completion"] = (
+        todo_rows[:3] + todo_rows[4:])
+    todo_status_mismatch = copy.deepcopy(todo_rows)
+    todo_status_mismatch[3]["item"]["status"] = "failed"
+    adversarial["todo completion status mismatch"] = todo_status_mismatch
+
+    turn_before_completion = copy.deepcopy(rows)
+    turn_before_completion[3], turn_before_completion[4] = (
+        turn_before_completion[4], turn_before_completion[3])
+    adversarial["turn completes before command"] = turn_before_completion
+    completion_before_start = copy.deepcopy(rows)
+    completion_before_start[2], completion_before_start[3] = (
+        completion_before_start[3], completion_before_start[2])
+    adversarial["command completion before start"] = completion_before_start
     malformed_usage = copy.deepcopy(retained_rows)
     malformed_usage[-1]["usage"]["input_tokens"] = True
     adversarial["boolean terminal usage"] = malformed_usage

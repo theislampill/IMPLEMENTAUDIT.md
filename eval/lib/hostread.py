@@ -790,7 +790,14 @@ class _ActionMachine:
                              "invocation_ordinal": None,
                              "completion_ordinal": ordinal})
 
-    def finish(self):
+    def finish(self, pending_invalid=False):
+        if pending_invalid and self.pending:
+            self.invalid = True
+            self.findings.append({
+                "code": "incomplete-host-action",
+                "classification": "fail-closed",
+                "action_ids": sorted(self.pending),
+            })
         for action in list(self.pending.values()):
             action["state"] = "INCOMPLETE"
             action["classification"] = action.get("classification") or \
@@ -1067,7 +1074,7 @@ def normalize_codex(raw_stdout, profile=None, binding=None, formal=True):
     if active_thread is None or turns != 1 or active_turn is not None:
         machine.invalid_action(
             last_ordinal + 1, "incomplete or ambiguous Codex lifecycle")
-    result = machine.finish()
+    result = machine.finish(pending_invalid=True)
     result["requested_tools"] = []
     result["observed_tools"] = []
     return result
