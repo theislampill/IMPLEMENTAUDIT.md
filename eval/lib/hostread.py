@@ -28,6 +28,10 @@ PRESPAWN_SCHEMA = "implementaudit-host-read-pre-spawn-v1"
 TERMINAL_SCHEMA = "implementaudit-host-read-terminal-v1"
 MANIFEST_SCHEMA = "implementaudit-host-read-manifest-v1"
 REPLAY_SCHEMA = "implementaudit-host-read-replay-spec-v1"
+# Retained native Codex sessions initialize within nine seconds of the
+# process-start receipt. Their coarsest producer timestamps are whole seconds,
+# so one precision unit closes the mechanically observed startup envelope.
+CODEX_SESSION_START_WINDOW_SECONDS = 10
 
 SUPPORTED_READERS = ("cat", "grep", "head", "rg", "sed", "tail")
 SUPPORTED_CLAUDE = frozenset(
@@ -2450,6 +2454,35 @@ def augment_codex_binding(binding, raw_session):
     return binding
 
 
+def _codex_startup_timestamps_valid(objects, meta_record, turn_record,
+                                    process_started):
+    """Bind native startup records by file order and one process-time window."""
+    try:
+        meta_index = objects.index(meta_record)
+        turn_index = objects.index(turn_record)
+    except ValueError:
+        return False
+    if meta_index >= turn_index:
+        return False
+    meta = _mapping(meta_record.get("payload"))
+    stamps = (
+        _parse_utc((process_started or {}).get("started_at")),
+        _parse_utc(meta_record.get("timestamp")),
+        _parse_utc(meta.get("timestamp")),
+        _parse_utc(turn_record.get("timestamp")),
+    )
+    if any(value is None or value.utcoffset() is None for value in stamps):
+        return False
+    process_time, meta_time, meta_payload_time, turn_time = stamps
+    from datetime import timedelta
+    window_end = process_time + timedelta(
+        seconds=CODEX_SESSION_START_WINDOW_SECONDS)
+    return (
+        process_time <= meta_payload_time <= meta_time <= window_end and
+        process_time <= turn_time <= window_end
+    )
+
+
 def corroborate_session(raw_stdout, raw_session, host, binding, trace,
                         profile=None, process_started=None):
     """Corroborate lineage/action identity from the distinct native stream."""
@@ -2514,7 +2547,8 @@ def corroborate_session(raw_stdout, raw_session, host, binding, trace,
         turn_time = _parse_utc(turns[0].get("timestamp"))
         process_time = _parse_utc((process_started or {}).get("started_at"))
         if (not meta_time or not turn_time or not process_time or
-                meta_time < process_time or turn_time < meta_time):
+                not _codex_startup_timestamps_valid(
+                    objects, metas[0], turns[0], process_started)):
             return "INVALID"
         return "VALID"
     elif not types.intersection({"system", "assistant", "user", "result"}):

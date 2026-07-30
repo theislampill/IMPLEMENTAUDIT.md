@@ -69,6 +69,40 @@ def _adjudicate(hostread, normalized, value):
     return {**normalized, **result}
 
 
+def _corroborate_codex_session(hostread, value):
+    session = value["session"]
+    rows = {
+        "meta": {
+            "timestamp": session["meta_top"],
+            "type": "session_meta",
+            "payload": {
+                "session_id": session["thread_id"],
+                "id": session["thread_id"],
+                "timestamp": session["meta_payload"],
+                "cwd": session["cwd"],
+            },
+        },
+        "turn": {
+            "timestamp": session["turn_top"],
+            "type": "turn_context",
+            "payload": {
+                "turn_id": session["turn_id"],
+                "cwd": session["cwd"],
+            },
+        },
+    }
+    raw_session = "\n".join(
+        json.dumps(rows[name], sort_keys=True, separators=(",", ":"))
+        for name in session["order"]) + "\n"
+    trace = hostread.normalize_codex(
+        value["raw_stdout"], profile=value.get("profile"),
+        binding=value["binding"], formal=value.get("formal", False))
+    return {"status": hostread.corroborate_session(
+        value["raw_stdout"], raw_session, "codex", value["binding"], trace,
+        profile=value.get("profile"),
+        process_started=value["process_started"])}
+
+
 def _seal_inputs(hostread, root):
     profile = {
         "schema": "implementaudit-host-read-profile-v2",
@@ -121,6 +155,8 @@ def execute(operation, raw_input, hostread, data_root):
         return _normalize(hostread, "claude", value)
     if operation == "normalize-host":
         return _normalize(hostread, value["host"], value)
+    if operation == "corroborate-codex-session":
+        return _corroborate_codex_session(hostread, value)
     if operation == "normalize-classify-codex":
         return _classify_trace(hostread, _normalize(hostread, "codex", value),
                                value)

@@ -3625,6 +3625,111 @@ def main():
                 profile=retained_profile47,
                 process_started={"started_at":
                                  "2026-07-19T00:53:04.000Z"})
+            # V18 production counterexample, reduced to metadata only. Codex
+            # writes session_meta first, but the turn_context wall-clock stamp
+            # may precede the later session_meta emission stamp. The session
+            # remains bound by exact thread, native turn, cwd, process window,
+            # and file-event order.
+            def timestamp_session47(meta_top, meta_payload, turn_top,
+                                    order=("meta", "turn"),
+                                    thread_id=retained_thread47,
+                                    turn_id="019f77dc-c4a6-75b3-ab18-130c2efdb677",
+                                    cwd="/fixture/repo"):
+                rows = {
+                    "meta": {
+                        "timestamp": meta_top,
+                        "type": "session_meta",
+                        "payload": {
+                            "session_id": thread_id,
+                            "id": thread_id,
+                            "timestamp": meta_payload,
+                            "cwd": cwd,
+                        },
+                    },
+                    "turn": {
+                        "timestamp": turn_top,
+                        "type": "turn_context",
+                        "payload": {
+                            "turn_id": turn_id,
+                            "cwd": cwd,
+                        },
+                    },
+                }
+                return ("\n".join(json.dumps(rows[name])
+                                  for name in order) + "\n").encode("utf-8")
+
+            def timestamp_status47(session, started_at):
+                return hosts.hostread.corroborate_session(
+                    retained_stdout47, session, "codex",
+                    retained_binding47, retained_trace47,
+                    profile=retained_profile47,
+                    process_started={"started_at": started_at})
+
+            v18_timestamp_session47 = timestamp_session47(
+                "2026-07-30T05:26:11.065Z",
+                "2026-07-30T05:26:10.990Z",
+                "2026-07-30T05:26:10.568Z")
+            check("H47ba current-codex-session-timestamp-inversion-valid",
+                  timestamp_status47(
+                      v18_timestamp_session47,
+                      "2026-07-30T05:26:10.000Z") == "VALID")
+            check("H47bb derived-ten-second-startup-boundary-valid",
+                  timestamp_status47(timestamp_session47(
+                      "2026-07-30T05:26:20.000Z",
+                      "2026-07-30T05:26:19.999Z",
+                      "2026-07-30T05:26:10.001Z"),
+                      "2026-07-30T05:26:10.000Z") == "VALID")
+            timestamp_rejections47 = (
+                timestamp_status47(timestamp_session47(
+                    "2026-07-30T05:26:11.065Z",
+                    "2026-07-30T05:26:10.990Z",
+                    "2026-07-30T05:26:10.568Z",
+                    order=("turn", "meta")),
+                    "2026-07-30T05:26:10.000Z"),
+                timestamp_status47(timestamp_session47(
+                    "2026-07-30T05:26:20.001Z",
+                    "2026-07-30T05:26:19.999Z",
+                    "2026-07-30T05:26:10.568Z"),
+                    "2026-07-30T05:26:10.000Z"),
+                timestamp_status47(timestamp_session47(
+                    "2026-07-30T05:26:11.065Z",
+                    "2026-07-30T05:26:20.001Z",
+                    "2026-07-30T05:26:10.568Z"),
+                    "2026-07-30T05:26:10.000Z"),
+                timestamp_status47(timestamp_session47(
+                    "2026-07-30T05:26:11.065Z",
+                    "2026-07-30T05:26:10.990Z",
+                    "2026-07-30T05:26:09.999Z"),
+                    "2026-07-30T05:26:10.000Z"),
+                timestamp_status47(timestamp_session47(
+                    "2026-07-30T05:26:11.065Z",
+                    "2026-07-30T05:26:10.990Z",
+                    "2026-07-30T05:26:10.568Z",
+                    order=("meta", "meta", "turn")),
+                    "2026-07-30T05:26:10.000Z"),
+                timestamp_status47(timestamp_session47(
+                    "2026-07-30T05:26:11.065Z",
+                    "2026-07-30T05:26:10.990Z",
+                    "2026-07-30T05:26:10.568Z",
+                    thread_id="earlier-attempt"),
+                    "2026-07-30T05:26:10.000Z"),
+                timestamp_status47(timestamp_session47(
+                    "2026-07-30T05:26:11.065Z",
+                    "2026-07-30T05:26:10.990Z",
+                    "2026-07-30T05:26:10.568Z",
+                    turn_id="wrong-turn"),
+                    "2026-07-30T05:26:10.000Z"),
+                timestamp_status47(timestamp_session47(
+                    "2026-07-30T05:26:11.065Z",
+                    "2026-07-30T05:26:10.990Z",
+                    "2026-07-30T05:26:10.568Z",
+                    cwd="/wrong/repo"),
+                    "2026-07-30T05:26:10.000Z"),
+                timestamp_status47(v18_timestamp_session47,
+                                   "2026-07-30T05:26:11.066Z"),
+            )
+            check("H47bc timestamp-envelope-and-lineage-rejections",
+                  timestamp_rejections47 == ("INVALID",) * 9)
             malformed_native_payload_crashed47 = False
             malformed_native_augment_results47 = []
             malformed_native_session_statuses47 = []
@@ -4116,7 +4221,7 @@ def main():
                   (verdict47ax or {}).get("status") == "INVALID"
                   and "undeclared json host-check input" in (
                       (verdict47ax or {}).get("reason") or ""))
-            check("H48 generated-host-read-contract-115",
+            check("H48 generated-host-read-contract-120",
                   test_host_read_contract.main([]) == 0)
         except (framework.AdapterError, OSError, ValueError):
             check("H47 formal-v2-custody-integration", False)
