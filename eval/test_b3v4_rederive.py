@@ -839,6 +839,25 @@ def assert_codex_current_lifecycle_parity(module):
     statusless_todo_rows = copy.deepcopy(todo_rows)
     statusless_todo_rows[2]["item"].pop("status")
     statusless_todo_rows[3]["item"].pop("status")
+    todo_update_rows = [
+        copy.deepcopy(rows[0]), copy.deepcopy(rows[1]),
+        {"type": "item.started", "item": {
+            "id": "todo-update-1", "type": "todo_list",
+            "status": "in_progress",
+            "items": [{"text": "inspect", "completed": False}]}},
+        {"type": "item.updated", "item": {
+            "id": "todo-update-1", "type": "todo_list",
+            "status": "in_progress",
+            "items": [{"text": "inspect", "completed": False}]}},
+        {"type": "item.completed", "item": {
+            "id": "todo-update-1", "type": "todo_list",
+            "status": "completed",
+            "items": [{"text": "inspect", "completed": True}]}},
+        copy.deepcopy(rows[4]),
+    ]
+    statusless_todo_update_rows = copy.deepcopy(todo_update_rows)
+    for index in (2, 3, 4):
+        statusless_todo_update_rows[index]["item"].pop("status")
     message_rows = [
         copy.deepcopy(rows[0]), copy.deepcopy(rows[1]),
         {"type": "item.completed", "item": {
@@ -860,10 +879,46 @@ def assert_codex_current_lifecycle_parity(module):
             ("file change", file_rows),
             ("todo", todo_rows),
             ("statusless todo", statusless_todo_rows),
+            ("todo update", todo_update_rows),
+            ("statusless todo update", statusless_todo_update_rows),
             ("agent message", message_rows),
             ("interleaved commands", two_command_rows)):
         valid = classify(raw_text(valid_rows))
         assert valid[:2] == ("PASS", "PASS"), (label, valid)
+
+    for event_type, valid_status in (
+            ("item.started", "in_progress"),
+            ("item.updated", "in_progress"),
+            ("item.completed", "completed")):
+        direct = {
+            "type": event_type,
+            "item": {
+                "id": "todo-direct-1",
+                "type": "todo_list",
+                "items": [{"text": "inspect", "completed": False}],
+            },
+        }
+        module._validate_codex_stdout_rows([(1, direct)])
+        direct["item"]["status"] = valid_status
+        module._validate_codex_stdout_rows([(1, direct)])
+        direct["item"]["status"] = None
+        try:
+            module._validate_codex_stdout_rows([(1, direct)])
+        except module.EvidenceInvalid as exc:
+            assert "todo status invalid" in str(exc), (event_type, exc)
+        else:
+            raise AssertionError(
+                f"{event_type} explicit null todo status accepted")
+
+    for index, event_type in (
+            (2, "item.started"),
+            (3, "item.updated"),
+            (4, "item.completed")):
+        explicit_null = copy.deepcopy(statusless_todo_update_rows)
+        explicit_null[index]["item"]["status"] = None
+        observed = classify(raw_text(explicit_null))
+        assert observed[1] == "INVALID" and \
+            "todo status invalid" in observed[3], (event_type, observed)
 
     adversarial = {
         "missing command completion":
