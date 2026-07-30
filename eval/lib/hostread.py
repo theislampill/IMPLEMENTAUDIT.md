@@ -28,10 +28,57 @@ PRESPAWN_SCHEMA = "implementaudit-host-read-pre-spawn-v1"
 TERMINAL_SCHEMA = "implementaudit-host-read-terminal-v1"
 MANIFEST_SCHEMA = "implementaudit-host-read-manifest-v1"
 REPLAY_SCHEMA = "implementaudit-host-read-replay-spec-v1"
-# Retained native Codex sessions initialize within nine seconds of the
-# process-start receipt. Their coarsest producer timestamps are whole seconds,
-# so one precision unit closes the mechanically observed startup envelope.
+# Twelve hash-deduplicated retained native sessions have a maximum observed
+# turn offset of 9.242 seconds from the whole-second process-start receipt.
+# The declared whole-second ceiling is therefore ceil(9.242) == 10 seconds.
 CODEX_SESSION_START_WINDOW_SECONDS = 10
+CODEX_NATIVE_PAYLOAD_FIELDS = {
+    "session_meta": (
+        frozenset(("id", "session_id", "cwd")),
+        frozenset((
+            "originator", "cli_version", "source", "thread_source",
+            "model_provider", "git", "base_instructions",
+            "developer_instructions", "dynamic_tools", "reasoning_effort",
+            "history_mode", "context_window", "timestamp",
+        )),
+    ),
+    "turn_context": (
+        frozenset(("turn_id", "cwd")),
+        frozenset((
+            "workspace_roots", "current_date", "timezone", "approval_policy",
+            "approvals_reviewer", "sandbox_policy", "permission_profile",
+            "file_system_sandbox_policy", "model", "comp_hash",
+            "personality", "collaboration_mode", "multi_agent_version",
+            "realtime_active", "effort", "summary", "service_tier",
+        )),
+    ),
+    "response_item": (
+        frozenset(),
+        frozenset((
+            "type", "action_ids", "role", "content", "id", "status", "name",
+            "arguments", "call_id", "summary", "message", "phase", "text",
+            "images", "encrypted_content", "input", "output",
+            "internal_chat_message_metadata_passthrough",
+        )),
+    ),
+    "event_msg": (
+        frozenset(),
+        frozenset((
+            "type", "action_ids", "role", "content", "id", "status", "name",
+            "arguments", "call_id", "summary", "message", "phase", "text",
+            "images", "encrypted_content", "changes",
+            "collaboration_mode_kind", "completed_at", "duration_ms", "info",
+            "last_agent_message", "local_images", "memory_citation",
+            "model_context_window", "rate_limits", "started_at", "stderr",
+            "stdout", "success", "text_elements", "time_to_first_token_ms",
+            "turn_id",
+        )),
+    ),
+    "world_state": (
+        frozenset(("state", "full")),
+        frozenset(),
+    ),
+}
 
 SUPPORTED_READERS = ("cat", "grep", "head", "rg", "sed", "tail")
 SUPPORTED_CLAUDE = frozenset(
@@ -2483,6 +2530,25 @@ def _codex_startup_timestamps_valid(objects, meta_record, turn_record,
     )
 
 
+def _codex_native_rows_valid(objects):
+    """Apply the closed native row contract observed in retained sessions."""
+    for record in objects:
+        if set(record) != {"type", "timestamp", "payload"}:
+            return False
+        row_type = record.get("type")
+        contract = CODEX_NATIVE_PAYLOAD_FIELDS.get(row_type)
+        payload = record.get("payload")
+        if contract is None or not isinstance(payload, dict):
+            return False
+        required, optional = contract
+        if not required <= set(payload) <= required | optional:
+            return False
+        parsed = _parse_utc(record.get("timestamp"))
+        if parsed is None or parsed.utcoffset() is None:
+            return False
+    return True
+
+
 def corroborate_session(raw_stdout, raw_session, host, binding, trace,
                         profile=None, process_started=None):
     """Corroborate lineage/action identity from the distinct native stream."""
@@ -2518,8 +2584,7 @@ def corroborate_session(raw_stdout, raw_session, host, binding, trace,
         return "INVALID"
     types = {obj.get("type") for obj in objects}
     if host == "codex":
-        if not types.intersection({"session_meta", "turn_context",
-                                   "event_msg", "response_item"}):
+        if not _codex_native_rows_valid(objects):
             return "INVALID"
         metas = [obj for obj in objects if obj.get("type") == "session_meta"]
         turns = [obj for obj in objects if obj.get("type") == "turn_context"]
@@ -2531,6 +2596,9 @@ def corroborate_session(raw_stdout, raw_session, host, binding, trace,
             return "INVALID"
         repo = _mapping(_mapping(profile).get("repo"))
         case_sensitive = repo.get("case_sensitive", True)
+        process_cwd = process_started.get("cwd")
+        requested_model = process_started.get("requested_model")
+        observed_model = turn.get("model")
         if type(case_sensitive) is not bool:
             return "INVALID"
         if (meta.get("id") != binding.get("thread_id") or
@@ -2540,7 +2608,14 @@ def corroborate_session(raw_stdout, raw_session, host, binding, trace,
                 not _same_path(turn.get("cwd"), repo.get("lexical_root"),
                                case_sensitive=case_sensitive) or
                 not _same_path(meta.get("cwd"), repo.get("lexical_root"),
-                               case_sensitive=case_sensitive)):
+                               case_sensitive=case_sensitive) or
+                (process_cwd is not None and
+                 not _same_path(process_cwd, repo.get("lexical_root"),
+                                case_sensitive=case_sensitive)) or
+                ((requested_model is not None or observed_model is not None)
+                 and (type(requested_model) is not str or
+                      type(observed_model) is not str or
+                      observed_model != requested_model))):
             return "INVALID"
         meta_time = _parse_utc(metas[0].get("timestamp") or
                                meta.get("timestamp"))

@@ -469,9 +469,11 @@ def build_campaign(root, fixture_override=None, *, surface_root=None,
         if host == "codex":
             raw_session = b"".join(encoded(event) for event in [
                 {"type": "session_meta", "timestamp": "2030-01-01T00:00:00Z",
-                 "payload": {"id": name, "session_id": name, "cwd": "/repo"}},
+                 "payload": {"id": name, "session_id": name, "cwd": "/repo",
+                             "timestamp": "2030-01-01T00:00:00Z"}},
                 {"type": "turn_context", "timestamp": "2030-01-01T00:00:00Z",
-                 "payload": {"turn_id": "native-turn", "cwd": "/repo"}},
+                 "payload": {"turn_id": "native-turn", "cwd": "/repo",
+                             "model": intent["model_requested"]}},
                 {"type": "response_item", "timestamp": "2030-01-01T00:00:00Z",
                  "payload": {
                     "action_ids": [action["id"] for action in actions]}}])

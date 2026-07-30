@@ -441,12 +441,14 @@ def build_campaign(root, *, execution_mode="production", surface_root=None,
                 "timestamp": "2030-01-01T00:00:00Z",
                 "payload": {
                     "id": name, "session_id": name, "cwd": repo_root,
+                    "timestamp": "2030-01-01T00:00:00Z",
                 },
             },
             {
                 "type": "turn_context",
                 "timestamp": "2030-01-01T00:00:00Z",
-                "payload": {"turn_id": "native-turn", "cwd": repo_root},
+                "payload": {"turn_id": "native-turn", "cwd": repo_root,
+                            "model": intent["model_requested"]},
             },
             {
                 "type": "response_item",

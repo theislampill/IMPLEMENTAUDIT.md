@@ -19,6 +19,7 @@ import re
 import shlex
 import stat
 import sys
+from datetime import datetime, timedelta
 
 
 _LOADED_REDERIVER_PATH = pathlib.Path(__file__).absolute()
@@ -134,6 +135,45 @@ INDEPENDENT_PASS_ROW_FIELDS = {
     "model_resolved", "official_verdict_sha256",
 }
 MAX_JSON_DEPTH = 512
+# Independent copy: ceil(9.242s), the maximum across twelve hash-deduplicated
+# retained native session/process pairs, defines the whole-second ceiling.
+CODEX_SESSION_START_WINDOW_SECONDS = 10
+CODEX_NATIVE_PAYLOAD_FIELDS = {
+    "session_meta": (
+        {"id", "session_id", "cwd"},
+        {"originator", "cli_version", "source", "thread_source",
+         "model_provider", "git", "base_instructions",
+         "developer_instructions", "dynamic_tools", "reasoning_effort",
+         "history_mode", "context_window", "timestamp"},
+    ),
+    "turn_context": (
+        {"turn_id", "cwd"},
+        {"workspace_roots", "current_date", "timezone", "approval_policy",
+         "approvals_reviewer", "sandbox_policy", "permission_profile",
+         "file_system_sandbox_policy", "model", "comp_hash", "personality",
+         "collaboration_mode", "multi_agent_version", "realtime_active",
+         "effort", "summary", "service_tier"},
+    ),
+    "response_item": (
+        set(),
+        {"type", "action_ids", "role", "content", "id", "status", "name",
+         "arguments", "call_id", "summary", "message", "phase", "text",
+         "images", "encrypted_content", "input", "output",
+         "internal_chat_message_metadata_passthrough"},
+    ),
+    "event_msg": (
+        set(),
+        {"type", "action_ids", "role", "content", "id", "status", "name",
+         "arguments", "call_id", "summary", "message", "phase", "text",
+         "images", "encrypted_content", "changes",
+         "collaboration_mode_kind", "completed_at", "duration_ms", "info",
+         "last_agent_message", "local_images", "memory_citation",
+         "model_context_window", "rate_limits", "started_at", "stderr",
+         "stdout", "success", "text_elements", "time_to_first_token_ms",
+         "turn_id"},
+    ),
+    "world_state": ({"state", "full"}, set()),
+}
 ACCEPTANCE_RULE = (
     "all six Luna missions terminal and PASS; independent Luna rederivation "
     "agrees with every "
@@ -2462,6 +2502,16 @@ def _validate_profile_and_post(profile, post, expected_host):
                 "formal-v2 Claude post-probe drift")
 
 
+def _parse_codex_session_time(value):
+    if type(value) is not str:
+        return None
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    return parsed if parsed.utcoffset() is not None else None
+
+
 def _validate_native_session(stdout, session, expected_host, binding,
                              stdout_binding, actions, profile, process):
     _expect(session and session != stdout, "native session evidence substituted")
@@ -2474,27 +2524,12 @@ def _validate_native_session(stdout, session, expected_host, binding,
             owner = f"Codex native session line {ordinal}"
             _exact_fields(row, {"type", "timestamp", "payload"}, owner)
             payload = _mapping(row["payload"], owner + " payload")
-            if row["type"] == "session_meta":
-                _closed_fields(
-                    payload, {"id", "session_id", "cwd"},
-                    {"originator", "cli_version", "source", "model_provider",
-                     "git", "base_instructions", "developer_instructions",
-                     "dynamic_tools", "reasoning_effort", "timestamp"},
-                    owner + " payload")
-            elif row["type"] == "turn_context":
-                _closed_fields(
-                    payload, {"turn_id", "cwd"},
-                    {"current_date", "timezone", "approval_policy",
-                     "sandbox_policy", "model", "effort", "summary",
-                     "service_tier"}, owner + " payload")
-            elif row["type"] in ("response_item", "event_msg"):
-                _expect(set(payload) <= {
-                    "action_ids", "type", "role", "content", "id", "status",
-                    "name", "arguments", "call_id", "summary", "message",
-                    "phase", "text", "images", "encrypted_content"},
-                    owner + " payload has unknown field")
-            else:
-                raise EvidenceInvalid(owner + " unsupported row type")
+            contract = CODEX_NATIVE_PAYLOAD_FIELDS.get(row["type"])
+            _expect(contract is not None, owner + " unsupported row type")
+            _closed_fields(payload, contract[0], contract[1],
+                           owner + " payload")
+            _expect(_parse_codex_session_time(row["timestamp"]) is not None,
+                    owner + " timestamp invalid")
         allowed = {"thread_id", "stdout_turn_ordinal", "turn_id",
                    "native_turn_id"}
         _expect(set(binding) <= allowed and
@@ -2505,23 +2540,38 @@ def _validate_native_session(stdout, session, expected_host, binding,
                 all(binding.get(key) == value
                     for key, value in stdout_binding.items()),
                 "Codex terminal lineage binding invalid")
-        metas = [row for row in rows if row.get("type") == "session_meta"]
-        turns = [row for row in rows if row.get("type") == "turn_context"]
+        metas = [(index, row) for index, row in enumerate(rows)
+                 if row.get("type") == "session_meta"]
+        turns = [(index, row) for index, row in enumerate(rows)
+                 if row.get("type") == "turn_context"]
         _expect(len(metas) == 1 and len(turns) == 1 and
-                isinstance(metas[0].get("payload"), dict) and
-                isinstance(turns[0].get("payload"), dict),
+                isinstance(metas[0][1].get("payload"), dict) and
+                isinstance(turns[0][1].get("payload"), dict),
                 "Codex native session state invalid")
-        meta, turn = metas[0]["payload"], turns[0]["payload"]
+        meta_index, meta_record = metas[0]
+        turn_index, turn_record = turns[0]
+        meta, turn = meta_record["payload"], turn_record["payload"]
         root = profile["repo"]["lexical_root"]
+        process_time = _parse_codex_session_time(process.get("started_at"))
+        meta_payload_time = _parse_codex_session_time(meta.get("timestamp"))
+        meta_time = _parse_codex_session_time(meta_record.get("timestamp"))
+        turn_time = _parse_codex_session_time(turn_record.get("timestamp"))
+        window_end = (process_time + timedelta(
+            seconds=CODEX_SESSION_START_WINDOW_SECONDS)
+            if process_time is not None else None)
         _expect(meta.get("id") == binding["thread_id"] and
                 meta.get("session_id") == binding["thread_id"] and
                 meta.get("cwd") == root and turn.get("cwd") == root and
                 turn.get("turn_id") == binding["native_turn_id"] and
-                type(process.get("started_at")) is str and
-                type(metas[0].get("timestamp")) is str and
-                type(turns[0].get("timestamp")) is str and
-                process["started_at"] <= metas[0]["timestamp"] <=
-                turns[0]["timestamp"],
+                process.get("cwd") == root and
+                type(process.get("requested_model")) is str and
+                turn.get("model") == process["requested_model"] and
+                meta_index < turn_index and
+                process_time is not None and
+                meta_payload_time is not None and meta_time is not None and
+                turn_time is not None and
+                process_time <= meta_payload_time <= meta_time <= window_end and
+                process_time <= turn_time <= window_end,
                 "Codex native session identity mismatch")
     else:
         _validate_claude_rows(indexed_rows, "Claude native session")
