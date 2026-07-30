@@ -287,6 +287,76 @@ def _duplicate_profile_statuses(profile):
     return tuple(statuses)
 
 
+def _shell_grammar_statuses(command):
+    return (
+        hostread._finite_shell_tokens(command),
+        b3v4_rederive._finite_shell_tokens(command),
+        candidate_matrix_rederive._command_tokens(command),
+    )
+
+
+def _wrapped_shell_grammar_statuses(command):
+    profile, _post = _formal_codex_profile()
+    b3_profile = {"outer_wrapper": copy.deepcopy(profile["outer_wrapper"])}
+    official = hostread._unwrap_profiled_command(
+        command, profile, formal=False)
+    b3 = b3v4_rederive._unwrap_profiled_command(command, b3_profile)
+    return (
+        hostread._finite_shell_tokens(official),
+        b3v4_rederive._finite_shell_tokens(b3),
+        candidate_matrix_rederive._command_tokens(command),
+    )
+
+
+def _shell_grammar_failures():
+    failures = []
+    cases = (
+        ("background-spaced", "cat state/STATE.md & true", False),
+        ("background-leading", "& cat state/STATE.md", False),
+        ("background-trailing", "cat state/STATE.md &", False),
+        ("background-attached", "cat state/STATE.md&true", False),
+        ("ambiguous-triple", "cat state/STATE.md &&& true", False),
+        ("comment", "cat state/STATE.md # & background", False),
+        ("newline", "cat state/STATE.md\n& true", False),
+        ("unclosed-single-quote", "cat 'state/STATE&copy.md", False),
+        ("trailing-escape", "cat state/STATE.md \\", False),
+        ("escaped-literal", r"cat state/STATE.md \&", True),
+        ("single-quoted-literal", "cat 'state/STATE&copy.md'", True),
+        ("double-quoted-literal", 'cat "state/STATE&copy.md"', True),
+        ("fullwidth-lookalike", "cat state/STATE＆copy.md", True),
+        ("small-lookalike", "cat state/STATE﹠copy.md", True),
+    )
+    for name, command, accepted in cases:
+        observed = _shell_grammar_statuses(command)
+        valid = tuple(tokens is not None for tokens in observed)
+        expected = (accepted,) * 3
+        if valid != expected:
+            failures.append(
+                f"SHELL-GRAMMAR {name}: expected {expected!r}, got {valid!r}")
+        elif accepted and not (observed[0] == observed[1] == observed[2]):
+            failures.append(
+                f"SHELL-GRAMMAR {name}: token drift {observed!r}")
+    wrappers = (
+        ("wrapped-background",
+         '/bin/bash -lc "cat state/STATE.md & true"', False),
+        ("wrapped-single-quoted-literal",
+         '/bin/bash -lc "cat \'state/STATE&copy.md\'"', True),
+        ("wrapped-escaped-literal",
+         '/bin/bash -lc "cat state/STATE.md \\\\&"', True),
+    )
+    for name, command, accepted in wrappers:
+        observed = _wrapped_shell_grammar_statuses(command)
+        valid = tuple(tokens is not None for tokens in observed)
+        expected = (accepted,) * 3
+        if valid != expected:
+            failures.append(
+                f"SHELL-GRAMMAR {name}: expected {expected!r}, got {valid!r}")
+        elif accepted and not (observed[0] == observed[1] == observed[2]):
+            failures.append(
+                f"SHELL-GRAMMAR {name}: token drift {observed!r}")
+    return failures, len(cases) + len(wrappers)
+
+
 def main():
     official_contract = {
         key: (set(value[0]), set(value[1]))
@@ -309,6 +379,9 @@ def main():
         candidate_matrix_rederive.CODEX_NATIVE_REPO_FIELDS
     ):
         raise AssertionError("three-path native-session contract drift")
+    failures, shell_grammar_count = _shell_grammar_failures()
+    for failure in failures:
+        print(f"  [RED] {failure}")
     cases = [
         ("V18-identical-inversion", "VALID", _noop),
         ("exact-process-start", "VALID",
@@ -399,7 +472,6 @@ def main():
          lambda _rows, process: process.update(
              requested_model="gpt-5.6-terra")),
     ]
-    failures = []
     for name, expected, mutate in cases:
         try:
             _case(name, expected, mutate)
@@ -789,13 +861,13 @@ def main():
         else:
             print(f"  [OK] {case_id} {name}: {observed}")
     if failures:
-        total = (len(cases) + len(identity_cases) +
+        total = (shell_grammar_count + len(cases) + len(identity_cases) +
                  len(profile_scalar_cases) + len(scalar_context_cases) +
                  2 + len(profile_cases) + len(action_cases) +
                  len(claude_action_cases))
         print(f"NATIVE-SESSION-PARITY-RED: {len(failures)}/{total}")
         return 1
-    total = (len(cases) + len(identity_cases) +
+    total = (shell_grammar_count + len(cases) + len(identity_cases) +
              len(profile_scalar_cases) + len(scalar_context_cases) +
              2 + len(profile_cases) + len(action_cases) +
              len(claude_action_cases))

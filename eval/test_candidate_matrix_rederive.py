@@ -992,6 +992,54 @@ def assert_host_check_producer_contract(module):
                 f"{artifact!r}")
 
 
+def assert_background_read_rejected_through_matrix_path(module):
+    content = b"retained candidate preimage\n"
+    preimages = {
+        "repo": {
+            "lexical_root": "/candidate",
+            "real_root": "/candidate",
+            "case_sensitive": True,
+        },
+        "targets": {
+            "README.md": {
+                "canonical_path": "/candidate/README.md",
+                "relative_path": "README.md",
+                "content_base64": base64.b64encode(content).decode(),
+                "sha256": sha(content),
+                "size": len(content),
+                "mode": 0o100644,
+                "symlink_free": True,
+            },
+        },
+    }
+    spec = {
+        "key": "read-before-write",
+        "kind": "path_access_order",
+        "reads": ["README.md"],
+        "write": "result.json",
+    }
+    for command in (
+            "cat README.md & true",
+            '/bin/bash -lc "cat README.md & true"'):
+        read = _trace_action(
+            "read-preimage", 3, command, content.decode())
+        write_action = {
+            "id": "write-result",
+            "state": "COMPLETED",
+            "effect": "write",
+            "path": "result.json",
+            "invocation_ordinal": 5,
+            "completion_ordinal": 6,
+        }
+        assert module._action_is_read(
+            read, "README.md", content, preimages) is False, command
+        row = module._matrix_row(
+            spec, [read, write_action], preimages)
+        assert row["property_status"] == "INCOMPLETE", (command, row)
+        assert row["reads"]["README.md"]["classification"] == "fail-closed", (
+            command, row)
+
+
 def assert_independent_pass_property_boundary(module):
     declarations = {}
     rows = []
@@ -1200,6 +1248,7 @@ def main():
                 "independent matrix internal role accepted an external path")
 
     assert_host_check_producer_contract(module)
+    assert_background_read_rejected_through_matrix_path(module)
     assert_independent_pass_property_boundary(module)
     assert_production_campaign_and_mutation_matrix(module)
     assert module.FIXTURE_ORDER == (
