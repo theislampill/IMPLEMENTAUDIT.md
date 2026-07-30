@@ -736,66 +736,140 @@ def minimal_codex_rows(turn_started=None, turn_completed=None):
 
 
 def assert_codex_current_lifecycle_parity(module):
+    def raw_text(rows):
+        return "".join(
+            json.dumps(row, sort_keys=True, separators=(",", ":")) + "\n"
+            for row in rows)
+
+    def classify(raw):
+        binding = official_hostread.derive_codex_binding(raw)
+        official = official_hostread.normalize_codex(
+            raw, formal=False, binding=binding)
+        try:
+            actions, independent_binding = module._parse_codex_actions(
+                raw.encode("utf-8"))
+        except module.EvidenceInvalid as exc:
+            return official["host_status"], "INVALID", binding, str(exc)
+        return official["host_status"], "PASS", independent_binding, actions
+
     rows = minimal_codex_rows()
-    raw_text = "".join(
-        json.dumps(row, sort_keys=True, separators=(",", ":")) + "\n"
-        for row in rows)
-    binding = official_hostread.derive_codex_binding(raw_text)
-    assert binding == {
+    current_raw = raw_text(rows)
+    current = classify(current_raw)
+    assert current[:2] == ("PASS", "PASS"), current
+    assert current[2] == {
         "thread_id": "thread-a",
         "stdout_turn_ordinal": 1,
-    }, binding
-    official = official_hostread.normalize_codex(
-        raw_text, formal=False, binding=binding)
-    assert official["host_status"] == "PASS", official
+    }, current
+    assert len(current[3]) == 1 and current[3][0]["id"] == "cmd-1", current
 
-    actions, independent_binding = module._parse_codex_actions(
-        raw_text.encode("utf-8"))
-    assert independent_binding == binding, independent_binding
-    assert len(actions) == 1 and actions[0]["id"] == "cmd-1", actions
+    explicit_rows = minimal_codex_rows(
+        {"type": "turn.started", "thread_id": "thread-a",
+         "turn_id": "turn-a"},
+        {"type": "turn.completed", "thread_id": "thread-a",
+         "turn_id": "turn-a"})
+    explicit = classify(raw_text(explicit_rows))
+    assert explicit[:2] == ("PASS", "PASS"), explicit
+    assert explicit[2] == {
+        "thread_id": "thread-a",
+        "stdout_turn_ordinal": 1,
+        "turn_id": "turn-a",
+    }, explicit
+
+    retained_rows = copy.deepcopy(rows)
+    retained_rows[2]["item"].update({
+        "aggregated_output": "", "exit_code": None})
+    retained_rows[-1]["usage"] = {
+        "input_tokens": 100,
+        "cached_input_tokens": 50,
+        "output_tokens": 20,
+        "reasoning_output_tokens": 10,
+    }
+    retained = classify(raw_text(retained_rows))
+    assert retained[:2] == ("PASS", "PASS"), retained
+
+    def command_start_rows(**updates):
+        malformed = copy.deepcopy(rows[2])
+        malformed["item"].update(updates)
+        return [rows[0], rows[1], malformed, *rows[3:]]
 
     adversarial = {
+        "explicit start missing terminal id": minimal_codex_rows(
+            {"type": "turn.started", "turn_id": "turn-a"},
+            {"type": "turn.completed"}),
+        "implicit start invented terminal id": minimal_codex_rows(
+            turn_completed={
+                "type": "turn.completed", "turn_id": "turn-a"}),
+        "wrong completion thread": minimal_codex_rows(
+            turn_completed={
+                "type": "turn.completed", "thread_id": "thread-b"}),
+        "extra start field": minimal_codex_rows(
+            {"type": "turn.started", "unexpected": "value"}),
+        "empty terminal turn": minimal_codex_rows(
+            turn_completed={"type": "turn.completed", "turn_id": ""}),
         "zero active thread": rows[1:],
         "multiple active threads":
             rows[:1] + [dict(rows[0])] + rows[1:],
+        "turn before thread":
+            rows[1:2] + rows[:1] + rows[2:],
         "action before turn":
             rows[:1] + rows[2:3] + rows[1:2] + rows[3:],
         "duplicate turn start":
             rows[:2] + [{"type": "turn.started"}] + rows[2:],
         "wrong start thread": minimal_codex_rows(
             {"type": "turn.started", "thread_id": "thread-b"}),
-        "wrong completion thread": minimal_codex_rows(
-            turn_completed={
-                "type": "turn.completed", "thread_id": "thread-b"}),
         "mismatched explicit turn": minimal_codex_rows(
             {"type": "turn.started", "thread_id": "thread-a",
              "turn_id": "turn-a"},
             {"type": "turn.completed", "thread_id": "thread-a",
              "turn_id": "turn-b"}),
-        "invented terminal turn": minimal_codex_rows(
-            turn_completed={"type": "turn.completed", "turn_id": "turn-a"}),
         "missing terminal": rows[:-1],
         "duplicate terminal": rows + [{"type": "turn.completed"}],
         "action after terminal":
             rows + [copy.deepcopy(rows[2])],
-        "extra lifecycle field": minimal_codex_rows(
-            {"type": "turn.started", "unexpected": "value"}),
         "non-string start thread": minimal_codex_rows(
             {"type": "turn.started", "thread_id": 1}),
         "non-string start turn": minimal_codex_rows(
             {"type": "turn.started", "turn_id": True}),
         "non-string completion turn": minimal_codex_rows(
             turn_completed={"type": "turn.completed", "turn_id": 1}),
+        "null completion thread": minimal_codex_rows(
+            turn_completed={"type": "turn.completed", "thread_id": None}),
+        "partial command start metadata":
+            command_start_rows(aggregated_output=""),
+        "nonempty command start output":
+            command_start_rows(
+                aggregated_output="invented", exit_code=None),
+        "premature command start exit":
+            command_start_rows(aggregated_output="", exit_code=0),
     }
+    malformed_usage = copy.deepcopy(retained_rows)
+    malformed_usage[-1]["usage"]["input_tokens"] = True
+    adversarial["boolean terminal usage"] = malformed_usage
+    extra_usage = copy.deepcopy(retained_rows)
+    extra_usage[-1]["usage"]["unexpected"] = 1
+    adversarial["extra terminal usage"] = extra_usage
+    negative_usage = copy.deepcopy(retained_rows)
+    negative_usage[-1]["usage"]["output_tokens"] = -1
+    adversarial["negative terminal usage"] = negative_usage
     for label, invalid_rows in adversarial.items():
-        invalid_raw = b"".join(encoded(row) for row in invalid_rows)
-        try:
-            module._parse_codex_actions(invalid_raw)
-        except module.EvidenceInvalid:
-            pass
-        else:
-            raise AssertionError(
-                f"independent parser accepted {label} lifecycle")
+        observed = classify(raw_text(invalid_rows))
+        assert observed[:2] == ("INVALID", "INVALID"), (
+            label, observed)
+
+    duplicate_key_raw = current_raw.replace(
+        '{"type":"turn.started"}',
+        '{"type":"turn.started","type":"turn.started"}', 1)
+    duplicate_key = classify(duplicate_key_raw)
+    assert duplicate_key[:2] == ("INVALID", "INVALID"), duplicate_key
+
+    nested = "null"
+    for _ in range(module.MAX_JSON_DEPTH + 1):
+        nested = "[" + nested + "]"
+    depth_raw = current_raw.replace(
+        '{"type":"turn.started"}',
+        '{"type":"turn.started","unexpected":' + nested + "}", 1)
+    depth = classify(depth_raw)
+    assert depth[:2] == ("INVALID", "INVALID"), depth
 
 
 def assert_independent_import_boundary():

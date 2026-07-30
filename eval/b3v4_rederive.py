@@ -1960,19 +1960,31 @@ def _raw_json_lines(data, owner):
 
 
 def _validate_codex_stdout_rows(rows):
+    usage_fields = {
+        "input_tokens", "cached_input_tokens", "output_tokens",
+        "reasoning_output_tokens"}
     for ordinal, event in rows:
         owner = f"Codex raw stdout line {ordinal}"
         event_type = event.get("type")
         if event_type == "thread.started":
             _exact_fields(event, {"type", "thread_id"}, owner)
         elif event_type in ("turn.started", "turn.completed"):
+            optional = {"thread_id", "turn_id"}
+            if event_type == "turn.completed":
+                optional.add("usage")
             _closed_fields(
-                event, {"type"}, {"thread_id", "turn_id"}, owner)
+                event, {"type"}, optional, owner)
             for field in ("thread_id", "turn_id"):
                 if field in event:
                     _expect(
                         type(event[field]) is str and event[field],
                         f"{owner} {field} invalid")
+            if "usage" in event:
+                usage = _exact_fields(
+                    event["usage"], usage_fields, owner + " usage")
+                _expect(all(
+                    type(usage[field]) is int and usage[field] >= 0
+                    for field in usage_fields), owner + " usage invalid")
         elif event_type in ("item.started", "item.updated", "item.completed"):
             _closed_fields(event, {"type", "item"}, {"status"}, owner)
             item = _mapping(event["item"], owner + " item")
@@ -1981,7 +1993,19 @@ def _validate_codex_stdout_rows(rows):
                 required = {"id", "type", "status", "command"}
                 if event_type == "item.completed":
                     required |= {"aggregated_output", "exit_code"}
-                _exact_fields(item, required, owner + " command item")
+                if event_type == "item.started":
+                    _closed_fields(
+                        item, required, {"aggregated_output", "exit_code"},
+                        owner + " command item")
+                    metadata = {"aggregated_output", "exit_code"} & set(item)
+                    _expect(
+                        not metadata or
+                        (metadata == {"aggregated_output", "exit_code"} and
+                         item["aggregated_output"] == "" and
+                         item["exit_code"] is None),
+                        owner + " command start metadata invalid")
+                else:
+                    _exact_fields(item, required, owner + " command item")
             elif item_type == "file_change":
                 _exact_fields(
                     item, {"id", "type", "status", "changes"},

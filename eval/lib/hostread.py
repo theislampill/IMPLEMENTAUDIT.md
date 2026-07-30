@@ -11,6 +11,7 @@ from __future__ import annotations
 import base64
 import hashlib
 import json
+import math
 import os
 import re
 import shlex
@@ -32,6 +33,7 @@ SUPPORTED_READERS = ("cat", "grep", "head", "rg", "sed", "tail")
 SUPPORTED_CLAUDE = frozenset(
     ("Read", "Write", "Edit", "Bash", "Grep", "Glob", "Skill",
      "Task", "Workflow"))
+MAX_JSON_DEPTH = 512
 
 
 _PROFILE_CAPABILITY = object()
@@ -143,10 +145,66 @@ def _strict_object(line):
                 raise ValueError(f"duplicate JSON key {key!r}")
             result[key] = value
         return result
-    value = json.loads(line, object_pairs_hook=unique)
+    def nonfinite(value):
+        raise ValueError(f"non-finite JSON number {value}")
+
+    try:
+        value = json.loads(
+            line, object_pairs_hook=unique, parse_constant=nonfinite)
+    except (RecursionError, MemoryError) as exc:
+        raise ValueError("host event exceeds JSON resource limits") from exc
     if not isinstance(value, dict):
         raise ValueError("host event is not a JSON object")
+    pending = [(value, 0)]
+    while pending:
+        current, depth = pending.pop()
+        if isinstance(current, dict):
+            if depth >= MAX_JSON_DEPTH:
+                raise ValueError("host event exceeds JSON depth limit")
+            pending.extend((child, depth + 1)
+                           for child in current.values())
+        elif isinstance(current, list):
+            if depth >= MAX_JSON_DEPTH:
+                raise ValueError("host event exceeds JSON depth limit")
+            pending.extend((child, depth + 1) for child in current)
+        elif current is None or type(current) in (str, bool, int):
+            continue
+        elif type(current) is float and math.isfinite(current):
+            continue
+        else:
+            raise ValueError("host event contains invalid JSON scalar")
     return value
+
+
+def _valid_codex_lifecycle_shape(event):
+    event_type = event.get("type")
+    if event_type == "thread.started":
+        return (
+            set(event) == {"type", "thread_id"} and
+            type(event["thread_id"]) is str and bool(event["thread_id"]))
+    if event_type in ("turn.started", "turn.completed"):
+        optional = {"thread_id", "turn_id"}
+        if event_type == "turn.completed":
+            optional.add("usage")
+        if (not {"type"} <= set(event) or
+                not set(event) <= {"type"} | optional):
+            return False
+        identities_valid = all(
+            type(event[field]) is str and bool(event[field])
+            for field in ("thread_id", "turn_id") if field in event)
+        if not identities_valid:
+            return False
+        if "usage" in event:
+            usage = event["usage"]
+            fields = {
+                "input_tokens", "cached_input_tokens", "output_tokens",
+                "reasoning_output_tokens"}
+            return (
+                type(usage) is dict and set(usage) == fields and
+                all(type(usage[field]) is int and usage[field] >= 0
+                    for field in fields))
+        return True
+    return True
 
 
 def _path_identity_text(value):
@@ -786,14 +844,23 @@ def normalize_codex(raw_stdout, profile=None, binding=None, formal=True):
         binding = {}
     active_thread = None
     active_turn = None
+    active_turn_explicit = False
     turns = 0
+    last_ordinal = 0
     for ordinal, line in enumerate(str(raw_stdout or "").splitlines(), 1):
+        last_ordinal = ordinal
         try:
             event = _strict_object(line)
         except (ValueError, json.JSONDecodeError, TypeError) as exc:
             machine.invalid_action(ordinal, str(exc))
             continue
         event_type = event.get("type")
+        if (event_type in ("thread.started", "turn.started",
+                           "turn.completed") and
+                not _valid_codex_lifecycle_shape(event)):
+            machine.invalid_action(
+                ordinal, "invalid Codex lifecycle event shape")
+            continue
         if event_type == "thread.started":
             thread = event.get("thread_id")
             if (not isinstance(thread, str) or active_thread is not None or
@@ -807,7 +874,8 @@ def normalize_codex(raw_stdout, profile=None, binding=None, formal=True):
             turns += 1
             turn = event.get("turn_id")
             thread = event.get("thread_id", active_thread)
-            if (active_turn is not None or turns != 1 or
+            if (active_thread is None or active_turn is not None or
+                    turns != 1 or thread != active_thread or
                     (binding.get("thread_id") and
                      thread != binding["thread_id"]) or
                     (binding.get("turn_id") and
@@ -815,13 +883,21 @@ def normalize_codex(raw_stdout, profile=None, binding=None, formal=True):
                 machine.invalid_action(ordinal, "turn binding mismatch")
             else:
                 active_turn = turn or binding.get("turn_id") or "<unique-turn>"
+                active_turn_explicit = "turn_id" in event
             continue
         if event_type == "turn.completed":
-            turn = event.get("turn_id", active_turn)
-            if active_turn is None or (binding.get("turn_id") and
-                                       turn != binding["turn_id"]):
+            turn_explicit = "turn_id" in event
+            turn = event.get("turn_id")
+            thread = event.get("thread_id", active_thread)
+            if (active_turn is None or thread != active_thread or
+                    turn_explicit != active_turn_explicit or
+                    (turn_explicit and turn != active_turn) or
+                    (binding.get("turn_id") and
+                     turn != binding["turn_id"])):
                 machine.invalid_action(ordinal, "turn completion mismatch")
-            active_turn = None
+            else:
+                active_turn = None
+                active_turn_explicit = False
             continue
         if event_type not in ("item.started", "item.updated",
                               "item.completed"):
@@ -835,6 +911,27 @@ def normalize_codex(raw_stdout, profile=None, binding=None, formal=True):
             continue
         action_id = item.get("id")
         item_type = item.get("type")
+        if item_type == "command_execution":
+            base = {"id", "type", "status", "command"}
+            keys = set(item)
+            if event_type == "item.started":
+                metadata = {"aggregated_output", "exit_code"} & keys
+                valid_command_shape = (
+                    base <= keys and keys <= base | {
+                        "aggregated_output", "exit_code"} and
+                    (not metadata or
+                     (metadata == {"aggregated_output", "exit_code"} and
+                      item["aggregated_output"] == "" and
+                      item["exit_code"] is None)))
+            elif event_type == "item.completed":
+                valid_command_shape = keys == base | {
+                    "aggregated_output", "exit_code"}
+            else:
+                valid_command_shape = keys == base
+            if not valid_command_shape:
+                machine.invalid_action(
+                    ordinal, "invalid Codex command item shape", action_id)
+                continue
         if event_type == "item.completed" and item_type == "agent_message":
             if (item.get("status") not in (None, "completed") or
                     not isinstance(item.get("text"), str)):
@@ -926,6 +1023,9 @@ def normalize_codex(raw_stdout, profile=None, binding=None, formal=True):
                                  reason="invalid todo completion")
             else:
                 machine.complete(action_id, ordinal)
+    if active_thread is None or turns != 1 or active_turn is not None:
+        machine.invalid_action(
+            last_ordinal + 1, "incomplete or ambiguous Codex lifecycle")
     result = machine.finish()
     result["requested_tools"] = []
     result["observed_tools"] = []
@@ -2191,25 +2291,42 @@ def seal_capture(root, profile, preimages, raw_stdout, raw_session, trace,
 def derive_codex_binding(raw_stdout):
     threads = []
     turns = []
-    for line in str(raw_stdout or "").splitlines():
+    completions = []
+    for ordinal, line in enumerate(str(raw_stdout or "").splitlines(), 1):
         try:
             event = _strict_object(line)
         except (ValueError, TypeError, json.JSONDecodeError):
-            continue
-        if event.get("type") == "thread.started" and isinstance(
-                event.get("thread_id"), str):
-            threads.append(event["thread_id"])
-        if event.get("type") == "turn.started":
-            turn_id = event.get("turn_id")
-            if turn_id is not None and not isinstance(turn_id, str):
-                return None
-            turns.append((event.get("thread_id"), turn_id))
-    if len(threads) != 1 or len(turns) != 1 or \
-            turns[0][0] not in (None, threads[0]):
+            return None
+        event_type = event.get("type")
+        if (event_type in ("thread.started", "turn.started",
+                           "turn.completed") and
+                not _valid_codex_lifecycle_shape(event)):
+            return None
+        if event_type == "thread.started":
+            threads.append((ordinal, event["thread_id"]))
+        elif event_type == "turn.started":
+            turns.append((
+                ordinal, event.get("thread_id"), event.get("turn_id"),
+                "turn_id" in event))
+        elif event_type == "turn.completed":
+            completions.append((
+                ordinal, event.get("thread_id"), event.get("turn_id"),
+                "turn_id" in event))
+    if len(threads) != 1 or len(turns) != 1 or len(completions) != 1:
         return None
-    result = {"thread_id": threads[0], "stdout_turn_ordinal": 1}
-    if turns[0][1] is not None:
-        result["turn_id"] = turns[0][1]
+    thread_ordinal, thread_id = threads[0]
+    turn_ordinal, turn_thread, turn_id, turn_explicit = turns[0]
+    completion_ordinal, completion_thread, completion_turn, \
+        completion_explicit = completions[0]
+    if (not thread_ordinal < turn_ordinal < completion_ordinal or
+            turn_thread not in (None, thread_id) or
+            completion_thread not in (None, thread_id) or
+            turn_explicit != completion_explicit or
+            (turn_explicit and completion_turn != turn_id)):
+        return None
+    result = {"thread_id": thread_id, "stdout_turn_ordinal": 1}
+    if turn_explicit:
+        result["turn_id"] = turn_id
     return result
 
 
