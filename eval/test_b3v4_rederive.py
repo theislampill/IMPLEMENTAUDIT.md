@@ -21,6 +21,7 @@ from test_campaign_freeze_preflight import (
 import b3v4_contract as official_contract
 import evaluated_surfaces as surfaces
 import runner as official_runner
+from lib import hostread as official_hostread
 
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -704,6 +705,97 @@ def load_module(source=REDERIVER, name="b3v4rederive"):
     assert spec.loader is not None
     spec.loader.exec_module(module)
     return module
+
+
+def minimal_codex_rows(turn_started=None, turn_completed=None):
+    return [
+        {"type": "thread.started", "thread_id": "thread-a"},
+        turn_started or {"type": "turn.started"},
+        {
+            "type": "item.started",
+            "item": {
+                "id": "cmd-1",
+                "type": "command_execution",
+                "status": "in_progress",
+                "command": "true",
+            },
+        },
+        {
+            "type": "item.completed",
+            "item": {
+                "id": "cmd-1",
+                "type": "command_execution",
+                "status": "completed",
+                "command": "true",
+                "aggregated_output": "",
+                "exit_code": 0,
+            },
+        },
+        turn_completed or {"type": "turn.completed"},
+    ]
+
+
+def assert_codex_current_lifecycle_parity(module):
+    rows = minimal_codex_rows()
+    raw_text = "".join(
+        json.dumps(row, sort_keys=True, separators=(",", ":")) + "\n"
+        for row in rows)
+    binding = official_hostread.derive_codex_binding(raw_text)
+    assert binding == {
+        "thread_id": "thread-a",
+        "stdout_turn_ordinal": 1,
+    }, binding
+    official = official_hostread.normalize_codex(
+        raw_text, formal=False, binding=binding)
+    assert official["host_status"] == "PASS", official
+
+    actions, independent_binding = module._parse_codex_actions(
+        raw_text.encode("utf-8"))
+    assert independent_binding == binding, independent_binding
+    assert len(actions) == 1 and actions[0]["id"] == "cmd-1", actions
+
+    adversarial = {
+        "zero active thread": rows[1:],
+        "multiple active threads":
+            rows[:1] + [dict(rows[0])] + rows[1:],
+        "action before turn":
+            rows[:1] + rows[2:3] + rows[1:2] + rows[3:],
+        "duplicate turn start":
+            rows[:2] + [{"type": "turn.started"}] + rows[2:],
+        "wrong start thread": minimal_codex_rows(
+            {"type": "turn.started", "thread_id": "thread-b"}),
+        "wrong completion thread": minimal_codex_rows(
+            turn_completed={
+                "type": "turn.completed", "thread_id": "thread-b"}),
+        "mismatched explicit turn": minimal_codex_rows(
+            {"type": "turn.started", "thread_id": "thread-a",
+             "turn_id": "turn-a"},
+            {"type": "turn.completed", "thread_id": "thread-a",
+             "turn_id": "turn-b"}),
+        "invented terminal turn": minimal_codex_rows(
+            turn_completed={"type": "turn.completed", "turn_id": "turn-a"}),
+        "missing terminal": rows[:-1],
+        "duplicate terminal": rows + [{"type": "turn.completed"}],
+        "action after terminal":
+            rows + [copy.deepcopy(rows[2])],
+        "extra lifecycle field": minimal_codex_rows(
+            {"type": "turn.started", "unexpected": "value"}),
+        "non-string start thread": minimal_codex_rows(
+            {"type": "turn.started", "thread_id": 1}),
+        "non-string start turn": minimal_codex_rows(
+            {"type": "turn.started", "turn_id": True}),
+        "non-string completion turn": minimal_codex_rows(
+            turn_completed={"type": "turn.completed", "turn_id": 1}),
+    }
+    for label, invalid_rows in adversarial.items():
+        invalid_raw = b"".join(encoded(row) for row in invalid_rows)
+        try:
+            module._parse_codex_actions(invalid_raw)
+        except module.EvidenceInvalid:
+            pass
+        else:
+            raise AssertionError(
+                f"independent parser accepted {label} lifecycle")
 
 
 def assert_independent_import_boundary():
@@ -1798,6 +1890,7 @@ def assert_host_root_junction_rejected(module):
 def main():
     assert_independent_import_boundary()
     module = load_module()
+    assert_codex_current_lifecycle_parity(module)
     assert_trusted_spawn_guard_receipt_closed(module)
     assert_inherited_campaign_handle_contract(module)
     with tempfile.TemporaryDirectory(

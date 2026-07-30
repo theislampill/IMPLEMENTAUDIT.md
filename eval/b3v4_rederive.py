@@ -1966,7 +1966,13 @@ def _validate_codex_stdout_rows(rows):
         if event_type == "thread.started":
             _exact_fields(event, {"type", "thread_id"}, owner)
         elif event_type in ("turn.started", "turn.completed"):
-            _exact_fields(event, {"type", "thread_id", "turn_id"}, owner)
+            _closed_fields(
+                event, {"type"}, {"thread_id", "turn_id"}, owner)
+            for field in ("thread_id", "turn_id"):
+                if field in event:
+                    _expect(
+                        type(event[field]) is str and event[field],
+                        f"{owner} {field} invalid")
         elif event_type in ("item.started", "item.updated", "item.completed"):
             _closed_fields(event, {"type", "item"}, {"status"}, owner)
             item = _mapping(event["item"], owner + " item")
@@ -2118,9 +2124,13 @@ def _parse_codex_actions(raw):
             bound_turn_id = observed
             continue
         if event_type == "turn.completed":
-            _expect(turn_id is not None and
+            completion_turn = event.get("turn_id")
+            _expect(
+                    turn_id is not None and
                     event.get("thread_id", thread_id) == thread_id and
-                    event.get("turn_id", turn_id) == turn_id,
+                    ((bound_turn_id is None and "turn_id" not in event) or
+                     (bound_turn_id is not None and
+                      completion_turn == bound_turn_id)),
                     "Codex raw turn completion invalid")
             turn_id = None
             continue
