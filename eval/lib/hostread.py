@@ -32,6 +32,11 @@ REPLAY_SCHEMA = "implementaudit-host-read-replay-spec-v1"
 # turn offset of 9.242 seconds from the whole-second process-start receipt.
 # The declared whole-second ceiling is therefore ceil(9.242) == 10 seconds.
 CODEX_SESSION_START_WINDOW_SECONDS = 10
+# Formal process custody always binds these nonempty identities. Native-session
+# corroboration therefore requires both sources instead of inferring optional
+# mode from whichever fields happen to be present.
+CODEX_REQUIRED_PROCESS_IDENTITY_FIELDS = frozenset(("cwd", "requested_model"))
+CODEX_REQUIRED_TURN_IDENTITY_FIELDS = frozenset(("cwd", "model", "turn_id"))
 CODEX_NATIVE_PAYLOAD_FIELDS = {
     "session_meta": (
         frozenset(("id", "session_id", "cwd")),
@@ -2609,13 +2614,12 @@ def corroborate_session(raw_stdout, raw_session, host, binding, trace,
                                case_sensitive=case_sensitive) or
                 not _same_path(meta.get("cwd"), repo.get("lexical_root"),
                                case_sensitive=case_sensitive) or
-                (process_cwd is not None and
-                 not _same_path(process_cwd, repo.get("lexical_root"),
-                                case_sensitive=case_sensitive)) or
-                ((requested_model is not None or observed_model is not None)
-                 and (type(requested_model) is not str or
-                      type(observed_model) is not str or
-                      observed_model != requested_model))):
+                type(process_cwd) is not str or not process_cwd or
+                not _same_path(process_cwd, repo.get("lexical_root"),
+                               case_sensitive=case_sensitive) or
+                type(requested_model) is not str or not requested_model or
+                type(observed_model) is not str or not observed_model or
+                observed_model != requested_model):
             return "INVALID"
         meta_time = _parse_utc(metas[0].get("timestamp") or
                                meta.get("timestamp"))

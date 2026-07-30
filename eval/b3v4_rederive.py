@@ -138,6 +138,8 @@ MAX_JSON_DEPTH = 512
 # Independent copy: ceil(9.242s), the maximum across twelve hash-deduplicated
 # retained native session/process pairs, defines the whole-second ceiling.
 CODEX_SESSION_START_WINDOW_SECONDS = 10
+CODEX_REQUIRED_PROCESS_IDENTITY_FIELDS = {"cwd", "requested_model"}
+CODEX_REQUIRED_TURN_IDENTITY_FIELDS = {"cwd", "model", "turn_id"}
 CODEX_NATIVE_PAYLOAD_FIELDS = {
     "session_meta": (
         {"id", "session_id", "cwd"},
@@ -2512,6 +2514,26 @@ def _parse_codex_session_time(value):
     return parsed if parsed.utcoffset() is not None else None
 
 
+def _codex_path_identity_text(value):
+    if type(value) is not str:
+        return ""
+    text = value.replace("\\", "/")
+    if text == "/" or re.fullmatch(r"[A-Za-z]:/", text):
+        return text
+    return text.rstrip("/")
+
+
+def _codex_same_path(first, second, case_sensitive):
+    first = _codex_path_identity_text(first)
+    second = _codex_path_identity_text(second)
+    if (re.match(r"^[A-Za-z]:(?:$|[^/])", first) or
+            re.match(r"^[A-Za-z]:(?:$|[^/])", second)):
+        return False
+    if not case_sensitive:
+        first, second = first.lower(), second.lower()
+    return bool(first and second and first == second)
+
+
 def _validate_native_session(stdout, session, expected_host, binding,
                              stdout_binding, actions, profile, process):
     _expect(session and session != stdout, "native session evidence substituted")
@@ -2556,15 +2578,22 @@ def _validate_native_session(stdout, session, expected_host, binding,
         meta_payload_time = _parse_codex_session_time(meta.get("timestamp"))
         meta_time = _parse_codex_session_time(meta_record.get("timestamp"))
         turn_time = _parse_codex_session_time(turn_record.get("timestamp"))
+        case_sensitive = profile["repo"]["case_sensitive"]
         window_end = (process_time + timedelta(
             seconds=CODEX_SESSION_START_WINDOW_SECONDS)
             if process_time is not None else None)
         _expect(meta.get("id") == binding["thread_id"] and
                 meta.get("session_id") == binding["thread_id"] and
-                meta.get("cwd") == root and turn.get("cwd") == root and
+                _codex_same_path(
+                    meta.get("cwd"), root, case_sensitive) and
+                _codex_same_path(
+                    turn.get("cwd"), root, case_sensitive) and
                 turn.get("turn_id") == binding["native_turn_id"] and
-                process.get("cwd") == root and
+                _codex_same_path(
+                    process.get("cwd"), root, case_sensitive) and
                 type(process.get("requested_model")) is str and
+                bool(process["requested_model"]) and
+                type(turn.get("model")) is str and bool(turn["model"]) and
                 turn.get("model") == process["requested_model"] and
                 meta_index < turn_index and
                 process_time is not None and

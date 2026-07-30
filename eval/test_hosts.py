@@ -3624,7 +3624,9 @@ def main():
                 retained_binding47, retained_trace47,
                 profile=retained_profile47,
                 process_started={"started_at":
-                                 "2026-07-19T00:53:04.000Z"})
+                                 "2026-07-19T00:53:04.000Z",
+                                 "cwd": "/fixture/repo",
+                                 "requested_model": "gpt-5.6-luna"})
             # V18 production counterexample, reduced to metadata only. Codex
             # writes session_meta first, but the turn_context wall-clock stamp
             # may precede the later session_meta emission stamp. The session
@@ -3652,6 +3654,7 @@ def main():
                         "payload": {
                             "turn_id": turn_id,
                             "cwd": cwd,
+                            "model": "gpt-5.6-luna",
                         },
                     },
                 }
@@ -3663,7 +3666,11 @@ def main():
                     retained_stdout47, session, "codex",
                     retained_binding47, retained_trace47,
                     profile=retained_profile47,
-                    process_started={"started_at": started_at})
+                    process_started={
+                        "started_at": started_at,
+                        "cwd": "/fixture/repo",
+                        "requested_model": "gpt-5.6-luna",
+                    })
 
             v18_timestamp_session47 = timestamp_session47(
                 "2026-07-30T05:26:11.065Z",
@@ -3837,7 +3844,9 @@ def main():
                     "codex", retained_binding47, retained_trace47,
                     profile=insensitive_lineage_profile47,
                     process_started={"started_at":
-                                     "2026-07-19T00:53:04.000Z"})
+                                     "2026-07-19T00:53:04.000Z",
+                                     "cwd": "/fixture/repo",
+                                     "requested_model": "gpt-5.6-luna"})
             check("H47t case-insensitive-codex-session-root-correlation",
                   insensitive_lineage_status47 == "VALID")
             malformed_session_binding_crashed47 = False
@@ -4221,7 +4230,7 @@ def main():
                   (verdict47ax or {}).get("status") == "INVALID"
                   and "undeclared json host-check input" in (
                       (verdict47ax or {}).get("reason") or ""))
-            check("H48 generated-host-read-contract-120",
+            check("H48 generated-host-read-contract-130",
                   test_host_read_contract.main([]) == 0)
         except (framework.AdapterError, OSError, ValueError):
             check("H47 formal-v2-custody-integration", False)

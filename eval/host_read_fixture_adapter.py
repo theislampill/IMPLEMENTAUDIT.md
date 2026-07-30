@@ -71,35 +71,41 @@ def _adjudicate(hostread, normalized, value):
 
 def _corroborate_codex_session(hostread, value):
     session = value["session"]
+    profile = copy.deepcopy(value.get("profile") or {})
+    profile["repo"].update(value.get("profile_repo") or {})
+    meta_payload = {
+        "session_id": session["thread_id"],
+        "id": session["thread_id"],
+        "timestamp": session["meta_payload"],
+        "cwd": session["cwd"],
+    }
+    turn_payload = {
+        "turn_id": session["turn_id"],
+        "cwd": session["cwd"],
+    }
+    if "model" in session:
+        turn_payload["model"] = session["model"]
     rows = {
         "meta": {
             "timestamp": session["meta_top"],
             "type": "session_meta",
-            "payload": {
-                "session_id": session["thread_id"],
-                "id": session["thread_id"],
-                "timestamp": session["meta_payload"],
-                "cwd": session["cwd"],
-            },
+            "payload": meta_payload,
         },
         "turn": {
             "timestamp": session["turn_top"],
             "type": "turn_context",
-            "payload": {
-                "turn_id": session["turn_id"],
-                "cwd": session["cwd"],
-            },
+            "payload": turn_payload,
         },
     }
     raw_session = "\n".join(
         json.dumps(rows[name], sort_keys=True, separators=(",", ":"))
         for name in session["order"]) + "\n"
     trace = hostread.normalize_codex(
-        value["raw_stdout"], profile=value.get("profile"),
+        value["raw_stdout"], profile=profile,
         binding=value["binding"], formal=value.get("formal", False))
     return {"status": hostread.corroborate_session(
         value["raw_stdout"], raw_session, "codex", value["binding"], trace,
-        profile=value.get("profile"),
+        profile=profile,
         process_started=value["process_started"])}
 
 
