@@ -37,6 +37,8 @@ CODEX_SESSION_START_WINDOW_SECONDS = 10
 # mode from whichever fields happen to be present.
 CODEX_REQUIRED_PROCESS_IDENTITY_FIELDS = frozenset(("cwd", "requested_model"))
 CODEX_REQUIRED_TURN_IDENTITY_FIELDS = frozenset(("cwd", "model", "turn_id"))
+CODEX_NATIVE_REPO_FIELDS = frozenset(
+    ("lexical_root", "real_root", "case_sensitive"))
 CODEX_NATIVE_PAYLOAD_FIELDS = {
     "session_meta": (
         frozenset(("id", "session_id", "cwd")),
@@ -324,6 +326,22 @@ def _same_path(first, second, case_sensitive=True):
     return bool(first and second and first == second)
 
 
+def _codex_native_repo_policy(profile):
+    """Return the closed native repo policy or None for any schema drift."""
+    if not isinstance(profile, dict):
+        return None
+    repo = profile.get("repo")
+    if (not isinstance(repo, dict) or
+            set(repo) != CODEX_NATIVE_REPO_FIELDS or
+            type(repo.get("lexical_root")) is not str or
+            not repo["lexical_root"] or
+            type(repo.get("real_root")) is not str or
+            not repo["real_root"] or
+            type(repo.get("case_sensitive")) is not bool):
+        return None
+    return repo
+
+
 def _mapping(value):
     """Return mapping-shaped input or an empty mapping for fail-closed use."""
     return value if isinstance(value, dict) else {}
@@ -405,11 +423,8 @@ def validate_profile(profile, post_probe=None, formal=True,
     if not formal and authority not in ("mechanically-minted",
                                         "test-fixture-only"):
         return _profile_result(False, "profile authority")
-    repo = profile.get("repo")
-    if (host == "claude" and isinstance(repo, dict) and
-            isinstance(repo.get("lexical_root"), str) and
-            isinstance(repo.get("real_root"), str) and
-            type(repo.get("case_sensitive")) is bool):
+    repo = _codex_native_repo_policy(profile)
+    if host == "claude" and repo is not None:
         native_tools = profile.get("native_tools")
         if (not isinstance(native_tools, dict) or
                 not _valid_tool_list(native_tools.get("requested")) or
@@ -429,10 +444,7 @@ def validate_profile(profile, post_probe=None, formal=True,
     wrapper = profile.get("outer_wrapper")
     environment = profile.get("environment")
     executables = profile.get("executables")
-    if (not isinstance(repo, dict) or
-            not isinstance(repo.get("lexical_root"), str) or
-            not isinstance(repo.get("real_root"), str) or
-            type(repo.get("case_sensitive")) is not bool or
+    if (repo is None or
             not isinstance(shell, dict) or
             not isinstance(shell.get("logical_path"), str) or
             not isinstance(shell.get("realpath"), str) or
@@ -2541,6 +2553,8 @@ def _codex_native_rows_valid(objects):
         if set(record) != {"type", "timestamp", "payload"}:
             return False
         row_type = record.get("type")
+        if type(row_type) is not str:
+            return False
         contract = CODEX_NATIVE_PAYLOAD_FIELDS.get(row_type)
         payload = record.get("payload")
         if contract is None or not isinstance(payload, dict):
@@ -2587,7 +2601,6 @@ def corroborate_session(raw_stdout, raw_session, host, binding, trace,
         return "INVALID"
     if not objects:
         return "INVALID"
-    types = {obj.get("type") for obj in objects}
     if host == "codex":
         if not _codex_native_rows_valid(objects):
             return "INVALID"
@@ -2599,8 +2612,10 @@ def corroborate_session(raw_stdout, raw_session, host, binding, trace,
         turn = turns[0].get("payload")
         if not isinstance(meta, dict) or not isinstance(turn, dict):
             return "INVALID"
-        repo = _mapping(_mapping(profile).get("repo"))
-        case_sensitive = repo.get("case_sensitive", True)
+        repo = _codex_native_repo_policy(profile)
+        if repo is None:
+            return "INVALID"
+        case_sensitive = repo["case_sensitive"]
         process_cwd = process_started.get("cwd")
         requested_model = process_started.get("requested_model")
         observed_model = turn.get("model")
@@ -2630,7 +2645,10 @@ def corroborate_session(raw_stdout, raw_session, host, binding, trace,
                     objects, metas[0], turns[0], process_started)):
             return "INVALID"
         return "VALID"
-    elif not types.intersection({"system", "assistant", "user", "result"}):
+    types = [obj.get("type") for obj in objects]
+    if (any(type(value) is not str for value in types) or
+            not set(types).intersection(
+                {"system", "assistant", "user", "result"})):
         return "INVALID"
     scalars = set()
     for obj in objects:

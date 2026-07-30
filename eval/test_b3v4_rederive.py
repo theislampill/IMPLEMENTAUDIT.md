@@ -2150,9 +2150,53 @@ def assert_host_root_junction_rejected(module):
         print("REDERIVER_HOST_ROOT_JUNCTION=PASS")
 
 
+def assert_profile_policy_pipeline(module):
+    with tempfile.TemporaryDirectory(
+            prefix="b3v4-profile-policy-pipeline-") as tmp:
+        baseline = pathlib.Path(tmp) / "baseline"
+        build_campaign(baseline)
+        for label in ("missing-bool", "integer-bool", "duplicate-bool"):
+            root = pathlib.Path(tmp) / label
+            shutil.copytree(baseline, root)
+            rebase_campaign_paths(root)
+            first = root / "attempt-000-L-candidate-r1"
+            bundle = first / "host-custody" / first.name / "bundle"
+            profile_path = bundle / "artifacts" / "host-read-profile.json"
+            profile = json.loads(profile_path.read_text(encoding="utf-8"))
+            if label == "missing-bool":
+                profile["repo"].pop("case_sensitive")
+                write(profile_path, profile)
+            elif label == "integer-bool":
+                profile["repo"]["case_sensitive"] = 1
+                write(profile_path, profile)
+            else:
+                raw = profile_path.read_bytes()
+                needle = b'"case_sensitive":true'
+                assert raw.count(needle) == 1
+                profile_path.write_bytes(raw.replace(
+                    needle,
+                    b'"case_sensitive":false,"case_sensitive":true'))
+            pre_spawn_path = (
+                bundle / "artifacts" / "host-read-pre-spawn.json")
+            pre_spawn = json.loads(pre_spawn_path.read_text(encoding="utf-8"))
+            pre_spawn["profile_sha256"] = sha(profile_path.read_bytes())
+            write(pre_spawn_path, pre_spawn)
+            process_path = bundle / "artifacts" / "process-started.json"
+            process = json.loads(process_path.read_text(encoding="utf-8"))
+            process["host_read_pre_spawn_sha256"] = sha(
+                pre_spawn_path.read_bytes())
+            write(process_path, process)
+            rebind_capture(bundle)
+            rebind_attempt_seal(first)
+            result = module.rederive_campaign(
+                root / "campaign-freeze.json", root)
+            assert result["luna_stage_status"] == "INVALID", (label, result)
+
+
 def main():
     assert_independent_import_boundary()
     module = load_module()
+    assert_profile_policy_pipeline(module)
     assert_codex_current_lifecycle_parity(module)
     assert_trusted_spawn_guard_receipt_closed(module)
     assert_inherited_campaign_handle_contract(module)

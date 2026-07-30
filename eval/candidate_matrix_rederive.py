@@ -144,6 +144,7 @@ MAX_JSON_DEPTH = 512
 CODEX_SESSION_START_WINDOW_SECONDS = 10
 CODEX_REQUIRED_PROCESS_IDENTITY_FIELDS = {"cwd", "requested_model"}
 CODEX_REQUIRED_TURN_IDENTITY_FIELDS = {"cwd", "model", "turn_id"}
+CODEX_NATIVE_REPO_FIELDS = {"lexical_root", "real_root", "case_sensitive"}
 CODEX_NATIVE_PAYLOAD_FIELDS = {
     "session_meta": (
         {"id", "session_id", "cwd"},
@@ -2308,18 +2309,19 @@ def _scalar_strings(value):
 
 
 def _validate_profile_and_post(profile, post, expected_host):
+    profile = _mapping(profile, "formal-v2 host profile")
     common = {"schema", "authority", "host", "repo", "probe_sha256"}
     _expect(profile.get("schema") == "implementaudit-host-read-profile-v2" and
             profile.get("authority") == "mechanically-minted" and
             profile.get("host") == expected_host and
             bool(HEX64.fullmatch(str(profile.get("probe_sha256", "")))),
             "formal-v2 host profile invalid")
-    repo = profile.get("repo")
-    _expect(isinstance(repo, dict) and
-            set(repo) == {"lexical_root", "real_root", "case_sensitive"} and
-            type(repo["lexical_root"]) is str and bool(repo["lexical_root"]) and
-            type(repo["real_root"]) is str and bool(repo["real_root"]) and
-            type(repo["case_sensitive"]) is bool,
+    repo = _mapping(profile.get("repo"), "formal-v2 profile repository")
+    _expect(set(repo) == {"lexical_root", "real_root", "case_sensitive"} and
+            type(repo.get("lexical_root")) is str and
+            bool(repo["lexical_root"]) and
+            type(repo.get("real_root")) is str and bool(repo["real_root"]) and
+            type(repo.get("case_sensitive")) is bool,
             "formal-v2 profile repository invalid")
     if expected_host == "codex":
         _expect(set(profile) == common | {
@@ -2402,8 +2404,37 @@ def _codex_same_path(first, second, case_sensitive):
     return bool(first and second and first == second)
 
 
+def _codex_native_repo_policy(profile):
+    if not isinstance(profile, dict):
+        return None
+    repo = profile.get("repo")
+    if (not isinstance(repo, dict) or
+            set(repo) != CODEX_NATIVE_REPO_FIELDS or
+            type(repo.get("lexical_root")) is not str or
+            not repo["lexical_root"] or
+            type(repo.get("real_root")) is not str or
+            not repo["real_root"] or
+            type(repo.get("case_sensitive")) is not bool):
+        return None
+    return repo
+
+
 def _validate_native_session(stdout, session, expected_host, binding,
                              stdout_binding, actions, profile, process):
+    _expect(expected_host in {"codex", "claude"},
+            "native session host invalid")
+    _expect(type(stdout) is bytes and type(session) is bytes,
+            "native session capture type invalid")
+    _expect(isinstance(stdout_binding, dict) and
+            isinstance(actions, list) and
+            all(isinstance(action, dict) and
+                type(action.get("id")) is str and action["id"]
+                for action in actions) and
+            isinstance(process, dict),
+            "native session context malformed")
+    repo_policy = _codex_native_repo_policy(profile)
+    _expect(repo_policy is not None,
+            "native session profile repository invalid")
     _expect(session and session != stdout, "native session evidence substituted")
     rows = [value for _, value in _raw_json_lines(
         session, expected_host.title() + " native session")]
@@ -2414,6 +2445,8 @@ def _validate_native_session(stdout, session, expected_host, binding,
             owner = f"Codex native session line {ordinal}"
             _exact_fields(row, {"type", "timestamp", "payload"}, owner)
             payload = _mapping(row["payload"], owner + " payload")
+            _expect(type(row["type"]) is str,
+                    owner + " row type invalid")
             contract = CODEX_NATIVE_PAYLOAD_FIELDS.get(row["type"])
             _expect(contract is not None, owner + " unsupported row type")
             _closed_fields(payload, contract[0], contract[1],
@@ -2424,7 +2457,9 @@ def _validate_native_session(stdout, session, expected_host, binding,
                    "native_turn_id"}
         _expect(set(binding) <= allowed and
                 {"thread_id", "stdout_turn_ordinal", "native_turn_id"} <=
-                set(binding) and binding["stdout_turn_ordinal"] == 1 and
+                set(binding) and
+                type(binding["stdout_turn_ordinal"]) is int and
+                binding["stdout_turn_ordinal"] == 1 and
                 all(type(binding[key]) is str and bool(binding[key])
                     for key in set(binding) - {"stdout_turn_ordinal"}) and
                 all(binding.get(key) == value
@@ -2441,12 +2476,12 @@ def _validate_native_session(stdout, session, expected_host, binding,
         meta_index, meta_record = metas[0]
         turn_index, turn_record = turns[0]
         meta, turn = meta_record["payload"], turn_record["payload"]
-        root = profile["repo"]["lexical_root"]
+        root = repo_policy["lexical_root"]
         process_time = _parse_codex_session_time(process.get("started_at"))
         meta_payload_time = _parse_codex_session_time(meta.get("timestamp"))
         meta_time = _parse_codex_session_time(meta_record.get("timestamp"))
         turn_time = _parse_codex_session_time(turn_record.get("timestamp"))
-        case_sensitive = profile["repo"]["case_sensitive"]
+        case_sensitive = repo_policy["case_sensitive"]
         window_end = (process_time + timedelta(
             seconds=CODEX_SESSION_START_WINDOW_SECONDS)
             if process_time is not None else None)

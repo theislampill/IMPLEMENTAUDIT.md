@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 import os
 import sys
@@ -50,6 +51,7 @@ PROCESS = {
     "cwd": ROOT,
     "requested_model": MODEL,
 }
+_DEFAULT = object()
 
 
 def _base_rows():
@@ -82,26 +84,36 @@ def _raw(rows):
         for row in rows) + "\n"
 
 
-def _official_status(rows, process=None, profile=None, binding=None):
-    return hostread.corroborate_session(
-        RAW_STDOUT, _raw(rows), "codex", binding or BINDING, TRACE,
-        profile=profile or PROFILE, process_started=process or PROCESS)
+def _official_status(rows, process=_DEFAULT, profile=_DEFAULT,
+                     binding=_DEFAULT):
+    process = PROCESS if process is _DEFAULT else process
+    profile = PROFILE if profile is _DEFAULT else profile
+    binding = BINDING if binding is _DEFAULT else binding
+    try:
+        return hostread.corroborate_session(
+            RAW_STDOUT, _raw(rows), "codex", binding, TRACE,
+            profile=profile, process_started=process)
+    except Exception as exc:
+        return f"CRASH({type(exc).__name__})"
 
 
-def _independent_status(module, rows, process=None, profile=None,
-                        binding=None):
-    effective_binding = binding or BINDING
+def _independent_status(module, rows, process=_DEFAULT, profile=_DEFAULT,
+                        binding=_DEFAULT):
+    process = PROCESS if process is _DEFAULT else process
+    profile = PROFILE if profile is _DEFAULT else profile
+    binding = BINDING if binding is _DEFAULT else binding
     try:
         module._validate_native_session(
             RAW_STDOUT.encode("utf-8"), _raw(rows).encode("utf-8"),
-            "codex", effective_binding, STDOUT_BINDING, [], profile or PROFILE,
-            process or PROCESS)
+            "codex", binding, STDOUT_BINDING, [], profile, process)
     except module.EvidenceInvalid:
         return "INVALID"
+    except Exception as exc:
+        return f"CRASH({type(exc).__name__})"
     return "VALID"
 
 
-def _statuses(rows, process=None, profile=None, binding=None):
+def _statuses(rows, process=_DEFAULT, profile=_DEFAULT, binding=_DEFAULT):
     return (
         _official_status(rows, process, profile, binding),
         _independent_status(
@@ -146,6 +158,90 @@ def _set_all_paths(rows, process, profile, value, root=None):
     rows[1]["payload"]["cwd"] = value
 
 
+def _formal_codex_profile():
+    shell = {
+        "logical_path": "/bin/bash",
+        "realpath": "/usr/bin/bash",
+        "sha256": "a" * 64,
+        "stat": "dev=1;ino=1;mode=100755;size=1",
+    }
+    environment = {
+        "PATH": "/usr/bin", "LANG": "C.UTF-8", "LC_ALL": "C.UTF-8",
+        "BASH_ENV": None, "ENV": None, "SHELL": "/bin/bash",
+    }
+    executables = {
+        name: {
+            "kind": "file", "path": f"/usr/bin/{name}",
+            "sha256": f"{index + 1:x}" * 64,
+            "stat": f"dev=1;ino={index + 2};mode=100755;size=1",
+        }
+        for index, name in enumerate(sorted(hostread.SUPPORTED_READERS))
+    }
+    post = {
+        "environment": environment, "shell": shell,
+        "executables": executables,
+    }
+    probe = json.dumps(
+        post, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    profile = {
+        "schema": "implementaudit-host-read-profile-v2",
+        "authority": "mechanically-minted",
+        "host": "codex",
+        "repo": copy.deepcopy(PROFILE["repo"]),
+        "shell": shell,
+        "outer_wrapper": {
+            "argv_prefix": ["/bin/bash", "-lc"],
+            "max_unwrap_layers": 1,
+        },
+        "environment": environment,
+        "executables": executables,
+        "probe_sha256": hashlib.sha256(probe).hexdigest(),
+    }
+    return profile, post
+
+
+def _profile_validator_statuses(profile, post):
+    official = hostread.validate_profile(
+        profile, post_probe=post, formal=False, expected_host="codex")
+    statuses = [official["host_status"]]
+    for module in (b3v4_rederive, candidate_matrix_rederive):
+        try:
+            module._validate_profile_and_post(profile, post, "codex")
+        except module.EvidenceInvalid:
+            statuses.append("INVALID")
+        except Exception as exc:
+            statuses.append(f"CRASH({type(exc).__name__})")
+        else:
+            statuses.append("VALID")
+    return tuple(statuses)
+
+
+def _duplicate_profile_statuses(profile):
+    raw = json.dumps(
+        profile, sort_keys=True, separators=(",", ":"))
+    raw = raw.replace(
+        '"case_sensitive":true',
+        '"case_sensitive":false,"case_sensitive":true')
+    statuses = []
+    try:
+        hostread._strict_object(raw)
+    except (TypeError, ValueError, json.JSONDecodeError):
+        statuses.append("INVALID")
+    else:
+        statuses.append("VALID")
+    for module in (b3v4_rederive, candidate_matrix_rederive):
+        try:
+            module._decode_json(
+                raw, "profile", "profile malformed", True)
+        except module.EvidenceInvalid:
+            statuses.append("INVALID")
+        except Exception as exc:
+            statuses.append(f"CRASH({type(exc).__name__})")
+        else:
+            statuses.append("VALID")
+    return tuple(statuses)
+
+
 def main():
     official_contract = {
         key: (set(value[0]), set(value[1]))
@@ -162,7 +258,10 @@ def main():
         candidate_matrix_rederive.CODEX_REQUIRED_PROCESS_IDENTITY_FIELDS and
         set(hostread.CODEX_REQUIRED_TURN_IDENTITY_FIELDS) ==
         b3v4_rederive.CODEX_REQUIRED_TURN_IDENTITY_FIELDS ==
-        candidate_matrix_rederive.CODEX_REQUIRED_TURN_IDENTITY_FIELDS
+        candidate_matrix_rederive.CODEX_REQUIRED_TURN_IDENTITY_FIELDS and
+        set(hostread.CODEX_NATIVE_REPO_FIELDS) ==
+        b3v4_rederive.CODEX_NATIVE_REPO_FIELDS ==
+        candidate_matrix_rederive.CODEX_NATIVE_REPO_FIELDS
     ):
         raise AssertionError("three-path native-session contract drift")
     cases = [
@@ -198,6 +297,18 @@ def main():
              "type": "unsupported_native_row",
              "payload": {},
          })),
+        ("row-type-null", "INVALID",
+         lambda rows, _process: rows[0].update(type=None)),
+        ("row-type-bool", "INVALID",
+         lambda rows, _process: rows[0].update(type=True)),
+        ("row-type-int", "INVALID",
+         lambda rows, _process: rows[0].update(type=1)),
+        ("row-type-float", "INVALID",
+         lambda rows, _process: rows[0].update(type=1.0)),
+        ("row-type-list", "INVALID",
+         lambda rows, _process: rows[0].update(type=[])),
+        ("row-type-object", "INVALID",
+         lambda rows, _process: rows[0].update(type={})),
         ("turn-over-ceiling", "INVALID",
          lambda rows, _process: rows[1].update(
              timestamp="2026-07-30T05:26:20.001Z")),
@@ -347,6 +458,12 @@ def main():
          lambda _r, _p, _f, b: b.update(stdout_turn_ordinal=0)),
         ("binding-ordinal-string", "INVALID",
          lambda _r, _p, _f, b: b.update(stdout_turn_ordinal="1")),
+        ("binding-ordinal-bool-true", "INVALID",
+         lambda _r, _p, _f, b: b.update(stdout_turn_ordinal=True)),
+        ("binding-ordinal-bool-false", "INVALID",
+         lambda _r, _p, _f, b: b.update(stdout_turn_ordinal=False)),
+        ("binding-ordinal-float", "INVALID",
+         lambda _r, _p, _f, b: b.update(stdout_turn_ordinal=1.0)),
         ("path-case-sensitive-conflict", "INVALID",
          lambda r, p, _f, _b: (
              p.update(cwd="/FIXTURE/REPO"),
@@ -407,17 +524,143 @@ def main():
              r[0]["payload"].update(cwd="/fixture/e\u0301"),
              r[1]["payload"].update(cwd="/fixture/e\u0301"))),
     ]
+    profile_scalar_cases = [
+        ("profile-null", None),
+        ("profile-bool-false", False),
+        ("profile-bool-true", True),
+        ("profile-int-zero", 0),
+        ("profile-int-one", 1),
+        ("profile-float", 1.0),
+        ("profile-string", "profile"),
+        ("profile-list", []),
+    ]
+    profile_cases = [
+        ("profile-empty-object", {}),
+        ("repo-missing", {}),
+        ("repo-null", {"repo": None}),
+        ("repo-bool", {"repo": True}),
+        ("repo-int", {"repo": 1}),
+        ("repo-float", {"repo": 1.0}),
+        ("repo-string", {"repo": "repo"}),
+        ("repo-list", {"repo": []}),
+        ("repo-extra-field", {"repo": {
+            "lexical_root": ROOT, "real_root": ROOT,
+            "case_sensitive": True, "extra": "forbidden"}}),
+    ]
+    field_bad_values = [
+        ("missing", _DEFAULT),
+        ("null", None),
+        ("bool", True),
+        ("int", 1),
+        ("float", 1.0),
+        ("empty-string", ""),
+        ("list", []),
+        ("object", {}),
+    ]
+    for field in ("lexical_root", "real_root"):
+        for suffix, value in field_bad_values:
+            repo = copy.deepcopy(PROFILE["repo"])
+            if value is _DEFAULT:
+                repo.pop(field)
+            else:
+                repo[field] = value
+            profile_cases.append((f"repo-{field}-{suffix}", {"repo": repo}))
+    for suffix, value in [
+            ("missing", _DEFAULT), ("null", None), ("int-zero", 0),
+            ("int-one", 1), ("int-negative", -1), ("float-zero", 0.0),
+            ("float-one", 1.0), ("empty-string", ""),
+            ("false-string", "false"), ("true-string", "true"),
+            ("list", []), ("object", {})]:
+        repo = copy.deepcopy(PROFILE["repo"])
+        if value is _DEFAULT:
+            repo.pop("case_sensitive")
+        else:
+            repo["case_sensitive"] = value
+        profile_cases.append((
+            f"repo-case-sensitive-{suffix}", {"repo": repo}))
+    for name, profile in profile_cases:
+        identity_cases.append((
+            name, "INVALID",
+            lambda _r, _p, f, _b, value=profile: (
+                f.clear(), f.update(copy.deepcopy(value)))))
     for name, expected, mutate in identity_cases:
         try:
             _identity_case(name, expected, mutate)
         except AssertionError as exc:
             failures.append(str(exc))
             print(f"  [RED] {exc}")
+    for name, profile in profile_scalar_cases:
+        observed = _statuses(
+            _base_rows(), copy.deepcopy(PROCESS), profile,
+            copy.deepcopy(BINDING))
+        if observed != ("INVALID",) * 3:
+            failure = (
+                f"{name}: expected {('INVALID',) * 3!r}, got {observed!r}")
+            failures.append(failure)
+            print(f"  [RED] {failure}")
+        else:
+            print(f"  [OK] {name}: {observed}")
+    scalar_context_cases = []
+    for label, value in profile_scalar_cases:
+        scalar_context_cases.extend((
+            (f"process-context-{label}", value, PROFILE, BINDING),
+            (f"binding-context-{label}", PROCESS, PROFILE, value),
+        ))
+    for name, process, profile, binding in scalar_context_cases:
+        observed = _statuses(
+            _base_rows(), process, profile, binding)
+        if observed != ("INVALID",) * 3:
+            failure = (
+                f"{name}: expected {('INVALID',) * 3!r}, got {observed!r}")
+            failures.append(failure)
+            print(f"  [RED] {failure}")
+        else:
+            print(f"  [OK] {name}: {observed}")
+    valid_full_profile, valid_post = _formal_codex_profile()
+    full_status = _profile_validator_statuses(
+        valid_full_profile, valid_post)
+    if full_status != ("PASS", "VALID", "VALID"):
+        failure = (
+            "full-profile-valid: expected ('PASS', 'VALID', 'VALID'), "
+            f"got {full_status!r}")
+        failures.append(failure)
+        print(f"  [RED] {failure}")
+    else:
+        print(f"  [OK] full-profile-valid: {full_status}")
+    for name, profile in profile_cases:
+        full_profile = copy.deepcopy(valid_full_profile)
+        if isinstance(profile, dict) and "repo" in profile:
+            full_profile["repo"] = copy.deepcopy(profile["repo"])
+        else:
+            full_profile.pop("repo", None)
+        observed = _profile_validator_statuses(full_profile, valid_post)
+        if observed != ("INVALID",) * 3:
+            failure = (
+                f"full-{name}: expected {('INVALID',) * 3!r}, "
+                f"got {observed!r}")
+            failures.append(failure)
+            print(f"  [RED] {failure}")
+        else:
+            print(f"  [OK] full-{name}: {observed}")
+    duplicate_status = _duplicate_profile_statuses(valid_full_profile)
+    if duplicate_status != ("INVALID",) * 3:
+        failure = (
+            "full-profile-duplicate-case-sensitive: expected "
+            f"{('INVALID',) * 3!r}, got {duplicate_status!r}")
+        failures.append(failure)
+        print(f"  [RED] {failure}")
+    else:
+        print("  [OK] full-profile-duplicate-case-sensitive: "
+              f"{duplicate_status}")
     if failures:
-        total = len(cases) + len(identity_cases)
+        total = (len(cases) + len(identity_cases) +
+                 len(profile_scalar_cases) + len(scalar_context_cases) +
+                 2 + len(profile_cases))
         print(f"NATIVE-SESSION-PARITY-RED: {len(failures)}/{total}")
         return 1
-    total = len(cases) + len(identity_cases)
+    total = (len(cases) + len(identity_cases) +
+             len(profile_scalar_cases) + len(scalar_context_cases) +
+             2 + len(profile_cases))
     print(f"NATIVE-SESSION-PARITY-GREEN: {total}/{total}")
     return 0
 
