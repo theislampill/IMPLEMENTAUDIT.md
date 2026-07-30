@@ -13,6 +13,7 @@ import sys
 import campaign_lifecycle as lifecycle
 import evaluated_surfaces as surfaces
 import adapters
+import b3v4_contract as b3_contract
 import validate_b3v4_freeze as b3_freeze
 import validate_candidate_matrix_freeze as matrix_freeze
 
@@ -314,6 +315,76 @@ def _path_matches_surface(path, row, root, owner):
     return raw
 
 
+def _b3_attempt_name(mission):
+    return (
+        f"attempt-{mission['index']:03d}-{mission['config']}-"
+        f"{mission['arm']}-r{mission['rep']}")
+
+
+def _validate_b3_initialized_runtime_prefix(packet, runtime, campaign_root):
+    """Bind retained runtime names to the validated terminal PASS prefix."""
+    missions = packet.get("missions")
+    if type(missions) is not list or len(missions) != 6:
+        raise ValueError("live READY B3 mission plan invalid")
+    freeze_sha = hashlib.sha256(
+        lifecycle.canonical_json_bytes(packet)).hexdigest()
+    completed = []
+    allowed_attempts = set()
+    prefix_open = True
+    for mission in missions:
+        name = _b3_attempt_name(mission)
+        attempt = campaign_root / name
+        if not attempt.exists():
+            prefix_open = False
+            continue
+        if not prefix_open:
+            raise ValueError("live READY completed attempt prefix has a gap")
+        _absolute_directory(
+            str(attempt), f"live READY completed attempt {name}")
+        allowed_attempts.add(name)
+        status = b3_contract.load_json_file(
+            attempt / "attempt-status.json",
+            f"live READY attempt status {name}", root=campaign_root)
+        if (status.get("campaign") != packet.get("campaign") or
+                status.get("freeze_sha256") != freeze_sha or
+                status.get("mission") != mission or
+                status.get("state") != "PREPARED_BEFORE_HOST_SPAWN"):
+            raise ValueError(
+                "live READY completed attempt status identity invalid")
+        terminal_path = attempt / "attempt-terminal.json"
+        if not terminal_path.exists():
+            prefix_open = False
+            continue
+        terminal = b3_contract.load_json_file(
+            terminal_path, f"live READY attempt terminal {name}",
+            root=campaign_root)
+        config = packet["configurations"][mission["config"]]
+        if (terminal.get("campaign") != packet.get("campaign") or
+                terminal.get("mission_index") != mission["index"] or
+                terminal.get("overall_status") != "PASS" or
+                terminal.get("resolved_model") !=
+                config["model_resolved_required"] or
+                terminal.get("stop_reason") is not None or
+                type(terminal.get("completed_attempt_seal")) is not dict):
+            raise ValueError(
+                "live READY completed attempt terminal invalid")
+        completed.append(name)
+
+    actual_attempts = {
+        path.name for path in campaign_root.iterdir()
+        if path.name.startswith("attempt-")
+    }
+    if actual_attempts != allowed_attempts:
+        raise ValueError("live READY completed attempt prefix invalid")
+    runtime_entries = {path.name for path in runtime.iterdir()}
+    if runtime_entries != set(completed):
+        raise ValueError("live READY runtime prefix invalid")
+    for name in completed:
+        _absolute_directory(
+            str(runtime / name), f"live READY completed runtime {name}")
+    return completed
+
+
 def _derive_production_live_ready(
         campaign, packet, context, *, campaign_initialized=False,
         campaign_root_identity=None):
@@ -356,8 +427,6 @@ def _derive_production_live_ready(
     runtime = _absolute_directory(
         context["runtime_root"], "live READY runtime root")
     campaign_root = pathlib.Path(context["campaign_root"]).absolute()
-    if any(runtime.iterdir()):
-        raise ValueError("live READY runtime root is not initially empty")
     for row in checkouts.values():
         checkout = pathlib.Path(row["path"]).resolve()
         if runtime == checkout or runtime in checkout.parents or \
@@ -376,6 +445,11 @@ def _derive_production_live_ready(
             initialized=campaign_initialized,
             root_identity=campaign_root_identity)
         campaign_root = pathlib.Path(campaign_binding["path"])
+    if campaign == "b3v4" and campaign_initialized:
+        _validate_b3_initialized_runtime_prefix(
+            packet, runtime, campaign_root)
+    elif any(runtime.iterdir()):
+        raise ValueError("live READY runtime root is not initially empty")
 
     launcher = _regular_path(
         context["launcher_path"], "live READY launcher", read_bytes=True)

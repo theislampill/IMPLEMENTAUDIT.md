@@ -602,6 +602,143 @@ def exercise_production_driver_timing(base, timing, mutation):
         assert attempts == []
 
 
+def exercise_initialized_b3_runtime_prefix_contract():
+    """Production readiness must accept only the completed runtime prefix."""
+    with tempfile.TemporaryDirectory(
+            prefix="b3v4-initialized-runtime-prefix-") as tmp:
+        base = pathlib.Path(tmp).absolute()
+        packet, context = production_fixture(base)
+        packet_path = base / "campaign-freeze.json"
+        context_path = base / "launch-context.json"
+        readiness_path = base / "production-ready.json"
+        write(packet_path, packet)
+        write(context_path, context)
+        preflight.author_production_live_ready(
+            "b3v4", packet, context, readiness_path)
+
+        campaign = pathlib.Path(context["campaign_root"])
+        campaign.mkdir()
+        root_identity = preflight._directory_identity(
+            campaign, "test initialized campaign")
+        mission = packet["missions"][0]
+        attempt_name = (
+            f"attempt-{mission['index']:03d}-{mission['config']}-"
+            f"{mission['arm']}-r{mission['rep']}")
+        attempt = campaign / attempt_name
+        attempt.mkdir()
+        freeze_sha = hashlib.sha256(
+            preflight.lifecycle.canonical_json_bytes(packet)).hexdigest()
+        status = {
+            "campaign": packet["campaign"],
+            "freeze_sha256": freeze_sha,
+            "mission": mission,
+            "state": "PREPARED_BEFORE_HOST_SPAWN",
+            "launch_readiness_binding": {
+                "path": "launch-readiness.json",
+                "sha256": hashlib.sha256(
+                    readiness_path.read_bytes()).hexdigest(),
+                "schema": preflight.LIVE_READY_SCHEMAS["b3v4"],
+                "execution_mode": "production",
+                "disposition": "READY_FOR_LUNA_EXECUTION",
+            },
+        }
+        terminal = {
+            "campaign": packet["campaign"],
+            "mission_index": mission["index"],
+            "overall_status": "PASS",
+            "resolved_model":
+                packet["configurations"]["L"]["model_resolved_required"],
+            "stop_reason": None,
+            "completed_attempt_seal": {},
+        }
+        write(attempt / "attempt-status.json", status)
+        write(attempt / "attempt-terminal.json", terminal)
+        shutil.copyfile(
+            readiness_path, attempt / "launch-readiness.json")
+        runtime = pathlib.Path(context["runtime_root"])
+        completed_runtime = runtime / attempt_name
+        completed_runtime.mkdir()
+
+        driver = b3v4_campaign.CampaignDriver(
+            packet_path=packet_path, repo_root=context["repo_root"],
+            campaign_root=context["campaign_root"],
+            candidate_checkout=context["candidate_checkout"],
+            control_checkout=context["control_checkout"],
+            runtime_root=context["runtime_root"],
+            attestations={"L": context["host_attestation_path"]},
+            execution_mode="production",
+            codex_auth_source=context["codex_auth_source_path"],
+            launch_readiness=readiness_path,
+            launch_context=context_path)
+        driver._campaign_root_identity = root_identity
+        report, _ = driver._verify_launch_readiness(
+            attempt, status, packet)
+        assert report["mission_authorized"] is True
+
+        second = packet["missions"][1]
+        second_name = (
+            f"attempt-{second['index']:03d}-{second['config']}-"
+            f"{second['arm']}-r{second['rep']}")
+        prepared = campaign / second_name
+        prepared.mkdir()
+        write(prepared / "attempt-status.json", {
+            **status, "mission": second})
+        preflight.validate_live_ready(
+            "b3v4", packet, readiness_path,
+            execution_mode="production", live_context=context,
+            campaign_initialized=True,
+            campaign_root_identity=root_identity)
+        shutil.rmtree(prepared)
+
+        extra = runtime / "unexpected-runtime"
+        extra.mkdir()
+        expect_error(
+            "runtime prefix",
+            lambda: preflight.validate_live_ready(
+                "b3v4", packet, readiness_path,
+                execution_mode="production", live_context=context,
+                campaign_initialized=True,
+                campaign_root_identity=root_identity))
+        extra.rmdir()
+
+        gap = runtime / second_name
+        completed_runtime.rename(gap)
+        expect_error(
+            "runtime prefix",
+            lambda: preflight.validate_live_ready(
+                "b3v4", packet, readiness_path,
+                execution_mode="production", live_context=context,
+                campaign_initialized=True,
+                campaign_root_identity=root_identity))
+        gap.rename(completed_runtime)
+
+        terminal["overall_status"] = "FAIL"
+        write(attempt / "attempt-terminal.json", terminal)
+        expect_error(
+            "completed attempt",
+            lambda: preflight.validate_live_ready(
+                "b3v4", packet, readiness_path,
+                execution_mode="production", live_context=context,
+                campaign_initialized=True,
+                campaign_root_identity=root_identity))
+        terminal["overall_status"] = "PASS"
+        write(attempt / "attempt-terminal.json", terminal)
+
+        moved = base / "moved-runtime"
+        completed_runtime.rename(moved)
+        if os.name == "posix":
+            completed_runtime.symlink_to(moved, target_is_directory=True)
+            expect_error(
+                "link",
+                lambda: preflight.validate_live_ready(
+                    "b3v4", packet, readiness_path,
+                    execution_mode="production", live_context=context,
+                    campaign_initialized=True,
+                    campaign_root_identity=root_identity))
+            completed_runtime.unlink()
+        moved.rename(completed_runtime)
+
+
 def fixtures(base):
     freeze = {
         "schema": "implementaudit-b3v4-freeze-input-preflight-v1",
@@ -744,6 +881,7 @@ def main():
                 live_context=context))
 
     if os.name == "posix":
+        exercise_initialized_b3_runtime_prefix_contract()
         for timing in ("before-root", "before-claim", "before-executor"):
             for mutation in (
                     "checkout-dirty", "checkout-head-tree", "runtime",
