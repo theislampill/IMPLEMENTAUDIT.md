@@ -571,8 +571,17 @@ def build_campaign(root, fixture_override=None, *, surface_root=None,
                     "GUARD_PASSED_IMMEDIATELY_BEFORE_OS_SPAWN",
             },
         })
-        files["host-checks.json"] = encoded({spec["key"]: True
-                                              for spec in fixture["host_checks"]["specs"]})
+        host_checks = {
+            spec["key"]: True for spec in fixture["host_checks"]["specs"]}
+        host_checks["_detail"] = {
+            "live_state_read_before_capsule_write": json.dumps({
+                key: matrix_row[key] for key in (
+                    "property_status", "host_status", "overall_status",
+                    "ordered", "write_completed", "live_preimage",
+                    "ordering_source")
+            }, sort_keys=True, separators=(",", ":"))
+        }
+        files["host-checks.json"] = encoded(host_checks)
         files["host-check-inputs/" + capsule_path] = capsule_bytes
         files["host-stderr.raw"] = b""
         files["raw-host-events.jsonl"] = raw_session
@@ -1081,6 +1090,106 @@ def assert_independent_import_boundary():
         "eval.provisional_integration", "provisional_integration",
     }
     assert not forbidden.intersection(imports), imports
+
+
+def assert_host_detail_and_finding_regressions(module):
+    reads = ["state/STATE.md", "state/ROADMAP.md"]
+    contents = {"state/STATE.md": b"STATE\n",
+                "state/ROADMAP.md": b"ROADMAP\n"}
+    profile = {
+        "outer_wrapper": {
+            "argv_prefix": ["/bin/bash", "-lc"], "max_unwrap_layers": 1},
+        "executables": {
+            name: {"path": "/usr/bin/" + name}
+            for name in ("cat", "grep", "head", "rg", "sed", "tail")},
+    }
+    preimages = {
+        "repo": {"lexical_root": "/repo", "case_sensitive": True},
+        "targets": {
+            target: {
+                "canonical_path": "/repo/" + target,
+                "content_base64":
+                    __import__("base64").b64encode(content).decode(),
+                "sha256": sha(content),
+            } for target, content in contents.items()},
+    }
+    actions = []
+    for index, command in enumerate((
+            "/bin/bash -lc \"rg --files -g 'STATE.md' "
+            "-g 'ROADMAP.md' .\"",
+            "/bin/bash -lc \"rg --files --hidden -g 'STATE.md' "
+            "-g 'ROADMAP.md' .\"")):
+        actions.append({
+            "id": f"discovery-{index}", "state": "COMPLETED",
+            "effect": "command", "command": command,
+            "output": "\n".join(reads) + "\n", "exit_code": 0,
+            "invocation_ordinal": index * 2 + 3,
+            "completion_ordinal": index * 2 + 4})
+    for index, target in enumerate(reads):
+        actions.append({
+            "id": f"read-{index}", "state": "COMPLETED",
+            "effect": "command",
+            "command": "/bin/bash -lc " + json.dumps("cat " + target),
+            "output": contents[target].decode(), "exit_code": 0,
+            "invocation_ordinal": index * 2 + 7,
+            "completion_ordinal": index * 2 + 8})
+    actions.append({
+        "id": "write", "state": "COMPLETED", "effect": "write",
+        "paths": ["capsule.json"], "invocation_ordinal": 11,
+        "completion_ordinal": 12})
+    spec = {"key": "ordered", "kind": "path_access_order",
+            "reads": reads, "write": "capsule.json"}
+    row = module._matrix_row(spec, actions, preimages, profile)
+    expected_findings = [
+        {"code": "fail-closed-command", "target": target,
+         "action_id": action_id}
+        for target in reads
+        for action_id in ("discovery-0", "discovery-1")]
+    assert row["host_findings"] == expected_findings, row
+    finding_mutations = {
+        "wrong-type": dict(row, host_findings={}),
+        "wrong-order": dict(row, host_findings=list(reversed(expected_findings))),
+        "wrong-count": dict(row, host_findings=expected_findings[:-1]),
+        "wrong-action": dict(
+            row, host_findings=[
+                dict(expected_findings[0], action_id="substituted-action"),
+                *expected_findings[1:]]),
+        "wrong-evidence": dict(
+            row, host_findings=[
+                dict(expected_findings[0], evidence="unretained"),
+                *expected_findings[1:]]),
+        "empty-vs-nonempty": dict(row, host_findings=[]),
+    }
+    assert all(not module._exact_json_equal(row, changed)
+               for changed in finding_mutations.values()), finding_mutations
+
+    matrix = {"specs": {"ordered": row}}
+    artifacts = {
+        "host-check-inputs/capsule.json":
+            encoded({"identity": "bound"})}
+    specs = [
+        {"key": "identity", "kind": "json_fields_equal",
+         "path": "capsule.json", "equals": {"identity": "bound"}},
+        spec,
+    ]
+    aggregate = module._expected_host_checks(specs, artifacts, matrix)
+    detail_mutations = {
+        "missing-detail": {
+            key: value for key, value in aggregate.items()
+            if key != "_detail"},
+        "extra-detail": copy.deepcopy(aggregate),
+        "malformed-detail": copy.deepcopy(aggregate),
+        "detail-rebind": copy.deepcopy(aggregate),
+    }
+    detail_mutations["extra-detail"]["_detail"]["identity"] = "unexpected"
+    detail_mutations["malformed-detail"]["_detail"]["ordered"] = "{"
+    rebound = json.loads(detail_mutations[
+        "detail-rebind"]["_detail"]["ordered"])
+    rebound["ordered"] = False
+    detail_mutations["detail-rebind"]["_detail"]["ordered"] = json.dumps(
+        rebound, sort_keys=True, separators=(",", ":"))
+    assert all(not module._exact_json_equal(aggregate, changed)
+               for changed in detail_mutations.values()), detail_mutations
 
 
 def rebind_capture(bundle):
@@ -2196,6 +2305,7 @@ def assert_profile_policy_pipeline(module):
 def main():
     assert_independent_import_boundary()
     module = load_module()
+    assert_host_detail_and_finding_regressions(module)
     assert_profile_policy_pipeline(module)
     assert_codex_current_lifecycle_parity(module)
     assert_trusted_spawn_guard_receipt_closed(module)
@@ -2843,6 +2953,12 @@ def main():
         checks_path = artifacts / "host-checks.json"
         checks = json.loads(checks_path.read_text(encoding="utf-8"))
         checks["live_state_read_before_capsule_write"] = False
+        checks["_detail"]["live_state_read_before_capsule_write"] = json.dumps(
+            {key: matrix_row[key] for key in (
+                "property_status", "host_status", "overall_status",
+                "ordered", "write_completed", "live_preimage",
+                "ordering_source")},
+            sort_keys=True, separators=(",", ":"))
         write(checks_path, checks)
         rebind_capture(bundle)
         verdict_path = first / "official-verdict.json"

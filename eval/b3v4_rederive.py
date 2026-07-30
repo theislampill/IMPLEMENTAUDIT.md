@@ -1916,6 +1916,381 @@ def _command_tokens(command):
     return tokens
 
 
+def _target_relationship(observed, target, preimages):
+    if not isinstance(observed, str) or "\x00" in observed or any(
+            part == ".." for part in observed.replace("\\", "/").split("/")):
+        return "invalid"
+    target_entry = (preimages.get("targets") or {}).get(target)
+    root = (preimages.get("repo") or {}).get("lexical_root")
+    if not isinstance(target_entry, dict) or not isinstance(root, str):
+        return "invalid"
+
+    def absolute(value):
+        value = value.replace("\\", "/")
+        if value.startswith("/") or re.match(r"^[A-Za-z]:/", value):
+            return str(pathlib.PurePosixPath(value))
+        return str(pathlib.PurePosixPath(root, value))
+
+    path = absolute(observed)
+    expected = str(target_entry.get("canonical_path", "")).replace("\\", "/")
+    case_sensitive = (preimages.get("repo") or {}).get(
+        "case_sensitive") is not False
+    compared_path = path if case_sensitive else path.lower()
+    compared_expected = expected if case_sensitive else expected.lower()
+    if compared_path == compared_expected:
+        return "direct"
+    prefix = compared_path.rstrip("/") + "/"
+    if compared_expected.startswith(prefix):
+        return "scope"
+    return "unrelated"
+
+
+def _finite_shell_tokens(command):
+    if not isinstance(command, str) or not command or "\x00" in command or \
+            "\n" in command or "\r" in command or "$" in command or \
+            "#" in command or "`" in command or any(
+                text in command for text in
+                (";", "&&", "||", "|", "(", ")", "{", "}")):
+        return None
+    try:
+        lexer = shlex.shlex(command, posix=True, punctuation_chars="<>")
+        lexer.whitespace_split = True
+        lexer.commenters = ""
+        return list(lexer)
+    except (ValueError, TypeError):
+        return None
+
+
+def _unwrap_profiled_command(command, profile):
+    if not isinstance(profile, dict):
+        return None
+    wrapper = profile.get("outer_wrapper")
+    if not isinstance(wrapper, dict) or \
+            wrapper.get("max_unwrap_layers") != 1:
+        return None
+    prefix = wrapper.get("argv_prefix")
+    if not isinstance(prefix, list) or not all(
+            isinstance(value, str) and value for value in prefix):
+        return None
+    try:
+        tokens = shlex.split(command, posix=True)
+    except (ValueError, TypeError):
+        return None
+    return tokens[-1] if len(tokens) == len(prefix) + 1 and \
+        tokens[:-1] == prefix else None
+
+
+def _split_redirections(tokens):
+    argv, stdin_paths, output_paths = [], [], []
+    index = 0
+    while index < len(tokens):
+        token = tokens[index]
+        if token in ("<", ">", ">>"):
+            if index + 1 >= len(tokens):
+                return None
+            path = tokens[index + 1]
+            if not path or path in ("<", ">", ">>") or re.fullmatch(
+                    r"\d+", argv[-1] if argv else ""):
+                return None
+            (stdin_paths if token == "<" else output_paths).append(path)
+            index += 2
+            continue
+        if token.startswith(("<&", ">&")) or re.match(r"^\d+[<>]", token):
+            return None
+        argv.append(token)
+        index += 1
+    return {"argv": argv, "stdin_paths": stdin_paths,
+            "output_paths": output_paths}
+
+
+def _reader_identity(argv0, profile):
+    if not argv0 or not isinstance(profile, dict):
+        return None
+    executables = profile.get("executables")
+    if not isinstance(executables, dict):
+        return None
+    for name, identity in executables.items():
+        if isinstance(identity, dict) and (
+                argv0 == name or argv0 == identity.get("path")):
+            return name
+    return None
+
+
+def _paths_access(paths, target, preimages):
+    relationships = [_target_relationship(path, target, preimages)
+                     for path in paths]
+    return ("direct" in relationships, "scope" in relationships,
+            "invalid" in relationships)
+
+
+def _cat_plan(args, stdin_paths):
+    paths, end_options = [], False
+    for arg in args:
+        if not end_options and arg == "--":
+            end_options = True
+        elif not end_options and arg.startswith("-"):
+            return None
+        else:
+            paths.append(arg)
+    if stdin_paths:
+        if paths:
+            return None
+        paths = [stdin_paths[-1]]
+    return ({"paths": paths, "config_paths": [], "zero": False,
+             "terminal": False, "unsafe": False} if paths else None)
+
+
+def _sed_plan(args, stdin_paths):
+    paths, configs, programs = [], [], []
+    index, end_options = 0, False
+    while index < len(args):
+        arg = args[index]
+        if not end_options and arg == "--":
+            end_options = True
+            index += 1
+        elif not end_options and arg == "-n":
+            index += 1
+        elif not end_options and arg in ("-e", "--expression", "-f", "--file"):
+            if index + 1 >= len(args):
+                return None
+            (programs if arg in ("-e", "--expression") else configs).append(
+                args[index + 1])
+            index += 2
+        elif not end_options and (
+                arg.startswith("--expression=") or
+                (arg.startswith("-e") and len(arg) > 2)):
+            programs.append(arg.split("=", 1)[1] if "=" in arg else arg[2:])
+            index += 1
+        elif not end_options and arg.startswith("--file="):
+            configs.append(arg.split("=", 1)[1])
+            index += 1
+        elif not end_options and (
+                arg == "-i" or arg.startswith("-i") or
+                arg.startswith("--in-place")):
+            return {"paths": paths, "config_paths": configs, "zero": False,
+                    "terminal": False, "unsafe": True}
+        elif not end_options and arg.startswith("-"):
+            return None
+        else:
+            (programs if not programs and not configs else paths).append(arg)
+            index += 1
+    if stdin_paths:
+        if paths:
+            return None
+        paths = [stdin_paths[-1]]
+    if not programs and not configs:
+        return None
+    return {"paths": paths, "config_paths": configs, "zero": False,
+            "terminal": False, "unsafe": False}
+
+
+def _head_tail_plan(args, stdin_paths):
+    paths, zero, index, end_options = [], False, 0, False
+    while index < len(args):
+        arg = args[index]
+        if not end_options and arg == "--":
+            end_options = True
+            index += 1
+            continue
+        value = None
+        if not end_options and arg in ("-n", "-c", "--lines", "--bytes"):
+            if index + 1 >= len(args):
+                return None
+            value, index = args[index + 1], index + 2
+        elif not end_options and re.fullmatch(r"-[nc]\d+", arg):
+            value, index = arg[2:], index + 1
+        elif not end_options and (
+                arg.startswith("--lines=") or arg.startswith("--bytes=")):
+            value, index = arg.split("=", 1)[1], index + 1
+        elif not end_options and arg.startswith("-"):
+            return None
+        else:
+            paths.append(arg)
+            index += 1
+        if value is not None:
+            if not re.fullmatch(r"\d+", value):
+                return None
+            zero = zero or int(value) == 0
+    if stdin_paths:
+        if paths:
+            return None
+        paths = [stdin_paths[-1]]
+    return ({"paths": paths, "config_paths": [], "zero": zero,
+             "terminal": False, "unsafe": False} if paths else None)
+
+
+def _grep_plan(reader, args, stdin_paths):
+    paths, configs, patterns = [], [], []
+    zero, unsafe, terminal, index, end_options = False, False, False, 0, False
+    while index < len(args):
+        arg = args[index]
+        if not end_options and arg == "--":
+            end_options = True
+            index += 1
+        elif not end_options and (
+                (reader == "rg" and arg in ("-h", "-V")) or
+                (reader == "grep" and arg == "-V")):
+            terminal = True
+            index += 1
+        elif not end_options and arg in ("-e", "--regexp", "-f", "--file"):
+            if index + 1 >= len(args):
+                return None
+            (patterns if arg in ("-e", "--regexp") else configs).append(
+                args[index + 1])
+            index += 2
+        elif not end_options and arg.startswith("--regexp="):
+            patterns.append(arg.split("=", 1)[1])
+            index += 1
+        elif not end_options and arg.startswith("--file="):
+            configs.append(arg.split("=", 1)[1])
+            index += 1
+        elif not end_options and arg in ("-m", "--max-count"):
+            if index + 1 >= len(args) or not re.fullmatch(
+                    r"\d+", args[index + 1]):
+                return None
+            zero = zero or int(args[index + 1]) == 0
+            index += 2
+        elif not end_options and (
+                re.fullmatch(r"-m\d+", arg) or
+                arg.startswith("--max-count=")):
+            value = arg[2:] if arg.startswith("-m") else arg.split("=", 1)[1]
+            if not re.fullmatch(r"\d+", value):
+                return None
+            zero = zero or int(value) == 0
+            index += 1
+        elif not end_options and (
+                arg in ("-R", "-r", "-h", "-l") or
+                arg.startswith(("--replace", "--ignore-file",
+                                "--exclude-from", "--no-filename",
+                                "--files-with-matches", "--files", "--glob"))):
+            unsafe = True
+            if "=" in arg and arg.startswith(
+                    ("--replace=", "--ignore-file=", "--exclude-from=",
+                     "--glob=")):
+                configs.append(arg.split("=", 1)[1])
+                index += 1
+            elif arg in ("-r", "--replace", "--ignore-file",
+                          "--exclude-from", "--glob") and index + 1 < len(args):
+                configs.append(args[index + 1])
+                index += 2
+            else:
+                index += 1
+        elif not end_options and arg.startswith("-"):
+            return None
+        else:
+            (patterns if not patterns else paths).append(arg)
+            index += 1
+    if stdin_paths:
+        if paths:
+            return None
+        paths = [stdin_paths[-1]]
+    if not terminal and not patterns:
+        return None
+    return {"paths": paths, "config_paths": configs, "zero": zero,
+            "terminal": terminal, "unsafe": unsafe}
+
+
+def _command_read_classification(action, target, preimages, profile):
+    result = {"classification": "fail-closed", "process_access": False}
+    if action.get("state") != "COMPLETED" or \
+            action.get("effect") != "command" or \
+            not isinstance(action.get("command"), str) or \
+            not isinstance(action.get("output"), str) or \
+            type(action.get("exit_code")) is not int:
+        return result
+    command = _unwrap_profiled_command(action["command"], profile)
+    tokens = _finite_shell_tokens(command) if command is not None else None
+    split = _split_redirections(tokens) if tokens else None
+    if split is None or not split["argv"]:
+        return result
+    reader = _reader_identity(split["argv"][0], profile)
+    if reader is None:
+        return result
+    planners = {"cat": _cat_plan, "sed": _sed_plan,
+                "head": _head_tail_plan, "tail": _head_tail_plan}
+    plan = (planners[reader](split["argv"][1:], split["stdin_paths"])
+            if reader in planners else
+            _grep_plan(reader, split["argv"][1:], split["stdin_paths"]))
+    if plan is None:
+        access = any(_target_relationship(token, target, preimages) in
+                     ("direct", "scope") for token in split["argv"][1:])
+        return {"classification": "fail-closed", "process_access": access}
+    direct, scope, invalid = _paths_access(plan["paths"], target, preimages)
+    config_direct, config_scope, config_invalid = _paths_access(
+        plan["config_paths"], target, preimages)
+    access = direct or scope or config_direct or config_scope
+    if split["output_paths"] or plan["unsafe"] or invalid or config_invalid or \
+            scope or config_direct or config_scope:
+        return {"classification": "fail-closed", "process_access": access}
+    if not direct:
+        content = _preimage(preimages, target)
+        if action["output"].encode("utf-8") == content:
+            return {"classification": "fail-closed", "process_access": False}
+        return {"classification": "not-content-read", "process_access": False}
+    if plan["terminal"] or plan["zero"]:
+        return {"classification": "not-content-read", "process_access": True}
+    if action["exit_code"] != 0:
+        return {"classification": "fail-closed", "process_access": True}
+    content = _preimage(preimages, target)
+    if action["output"].encode("utf-8") == content:
+        return {"classification": "content-read", "process_access": True}
+    return {"classification": "fail-closed", "process_access": True}
+
+
+def _action_read_classification(action, target, preimages, profile):
+    if action.get("state") != "COMPLETED":
+        return {"classification": "fail-closed", "process_access": False}
+    if action.get("effect") == "command":
+        return _command_read_classification(
+            action, target, preimages, profile)
+    if action.get("effect") == "read":
+        relationship = _target_relationship(
+            action.get("path"), target, preimages)
+        delivered = (action.get("structured_content")
+                     if action.get("read_transport") in
+                     ("full-line-renderer", "full-exact")
+                     else action.get("output"))
+        if relationship == "direct" and not any(
+                key in (action.get("inputs") or {})
+                for key in ("offset", "limit")) and \
+                isinstance(delivered, str) and \
+                delivered.encode("utf-8") == _preimage(preimages, target):
+            return {"classification": "content-read", "process_access": True}
+        if relationship == "unrelated":
+            return {"classification": "not-content-read",
+                    "process_access": False}
+        return {"classification": "fail-closed",
+                "process_access": relationship in ("direct", "scope")}
+    if action.get("effect") == "search":
+        relationship = _target_relationship(
+            action.get("path"), target, preimages)
+        if relationship == "direct" and \
+                (action.get("inputs") or {}).get("output_mode") == "content" and \
+                str(action.get("output") or "").encode("utf-8") == \
+                _preimage(preimages, target):
+            return {"classification": "content-read", "process_access": True}
+        if relationship == "unrelated":
+            return {"classification": "not-content-read",
+                    "process_access": False}
+        return {"classification": "fail-closed",
+                "process_access": relationship in ("direct", "scope")}
+    if action.get("effect") == "safe-other":
+        return {"classification": "not-content-read", "process_access": False}
+    return {"classification": "fail-closed", "process_access": False}
+
+
+def _shell_write_access(action, target, preimages, profile):
+    if action.get("state") != "COMPLETED" or \
+            action.get("effect") != "command":
+        return False
+    command = _unwrap_profiled_command(action.get("command"), profile)
+    tokens = _finite_shell_tokens(command) if command is not None else None
+    split = _split_redirections(tokens) if tokens else None
+    return bool(split is not None and len(split["output_paths"]) == 1 and
+                _path_equivalent(
+                    split["output_paths"][0], target, preimages))
+
+
 def _action_is_read(action, target, content, preimages):
     if action.get("state") != "COMPLETED" or \
             type(action.get("completion_ordinal")) is not int:
@@ -2842,49 +3217,110 @@ def _validate_trace_action_rows(trace):
                 owner + " core fields invalid")
 
 
-def _matrix_row(spec, actions, preimages):
+def _matrix_row(spec, actions, preimages, profile):
     reads = spec["reads"]
     write = spec["write"]
     completions = {}
+    host_findings = []
     for target in reads:
-        content = _preimage(preimages, target)
-        matches = [action["completion_ordinal"] for action in actions
-                   if _action_is_read(action, target, content, preimages)]
-        completions[target] = min(matches) if matches else None
-    writes = [action for action in actions
-              if action.get("state") == "COMPLETED" and
+        candidates = []
+        for action in actions:
+            classified = _action_read_classification(
+                action, target, preimages, profile)
+            if classified["classification"] == "content-read":
+                candidates.append(action.get("completion_ordinal"))
+            elif action.get("effect") == "command" and \
+                    classified["classification"] == "fail-closed" and \
+                    (classified["process_access"] or
+                     target in str(action.get("command") or "")):
+                host_findings.append({
+                    "code": "fail-closed-command", "target": target,
+                    "action_id": action.get("id")})
+        valid = [value for value in candidates if type(value) is int]
+        completions[target] = min(valid) if valid else None
+    native_writes = [action for action in actions
+              if
               any(_path_equivalent(path, write, preimages)
                   for path in _write_paths(action))]
-    _expect(len(writes) == 1 and len(_write_paths(writes[0])) == 1,
-            "formal-v2 repeated or ambiguous write")
-    write_invocation = writes[0]["invocation_ordinal"]
-    ordered = all(type(value) is int and value < write_invocation
-                  for value in completions.values())
+    completed_native = [action for action in native_writes
+                        if action.get("state") == "COMPLETED" and
+                        type(action.get("invocation_ordinal")) is int and
+                        type(action.get("completion_ordinal")) is int]
+    write_action = min(
+        completed_native, key=lambda action: action["invocation_ordinal"],
+        default=None)
+    write_invocation = (write_action["invocation_ordinal"]
+                        if write_action is not None else None)
+    write_completed = write_action is not None
+    ordered = write_completed and all(
+        type(value) is int and value < write_invocation
+        for value in completions.values())
     live_preimage = True
     for target, completion in completions.items():
         for action in actions:
             invocation = action.get("invocation_ordinal")
-            if (type(invocation) is int and type(completion) is int and
-                    invocation < completion and any(
-                        _path_equivalent(path, target, preimages)
-                        for path in _write_paths(action))):
+            if type(invocation) is not int or (
+                    type(completion) is int and invocation >= completion):
+                continue
+            if any(_path_equivalent(path, target, preimages)
+                   for path in _write_paths(action)) or \
+                    _shell_write_access(
+                        action, target, preimages, profile):
                 live_preimage = False
     passed = all(value is not None for value in completions.values()) and \
-        ordered and live_preimage
+        write_completed and ordered and live_preimage
     return {
         "schema": "implementaudit-host-read-matrix-v1",
         "property_status": "PASS" if passed else "INCOMPLETE",
         "host_status": "PASS", "overall_status": (
             "PASS" if passed else "INCOMPLETE"), "ordered": ordered,
-        "ordering_source": "persisted-ordinal", "write_completed": True,
+        "ordering_source": "persisted-ordinal",
+        "write_completed": write_completed,
         "write_invocation_ordinal": write_invocation,
         "borrowed_completion": False, "live_preimage": live_preimage,
         "reads": {target: {
             "classification": ("content-read" if completions[target] is not None
                                else "fail-closed"),
             "completion_ordinal": completions[target]} for target in reads},
-        "host_findings": [], "shell_write_observations": 0,
+        "host_findings": host_findings,
+        "shell_write_observations": sum(
+            _shell_write_access(action, write, preimages, profile)
+            for action in actions),
     }
+
+
+def _expected_host_checks(specs, artifacts, matrix):
+    results, detail = {}, {}
+    for spec in specs:
+        key, kind = spec["key"], spec["kind"]
+        if kind == "path_access_order":
+            row = matrix["specs"][key]
+            results[key] = row["property_status"] == "PASS"
+            detail[key] = json.dumps({
+                name: row[name] for name in (
+                    "property_status", "host_status", "overall_status",
+                    "ordered", "write_completed", "live_preimage",
+                    "ordering_source")
+            }, sort_keys=True, separators=(",", ":"))
+        elif kind == "json_fields_equal":
+            rel = _safe_rel(spec["path"], "JSON host-check")
+            value = _decode_json(
+                artifacts["host-check-inputs/" + rel],
+                f"JSON host-check input: {rel}",
+                f"JSON host-check input malformed: {rel}")
+            if not isinstance(value, dict):
+                results[key] = False
+                detail[key] = "JSON root is not an object"
+            else:
+                mismatches = [
+                    field for field, expected in spec["equals"].items()
+                    if value.get(field) != expected]
+                results[key] = not mismatches
+                if mismatches:
+                    detail[key] = "mismatched fields: " + ",".join(mismatches)
+        else:
+            raise EvidenceInvalid(f"unsupported frozen host check: {kind!r}")
+    return {**results, "_detail": detail}
 
 
 def _validate_capture(
@@ -3025,10 +3461,12 @@ def _validate_capture(
             "formal-v2 terminal tool inventory disagreement")
     matrix = objects["host-read-matrix.json"]
     expected_specs = {}
+    profile = objects["host-read-profile.json"]
     for spec in (fixture.get("host_checks") or {}).get("specs", []):
         if spec.get("kind") == "path_access_order":
             expected_specs[spec["key"]] = _matrix_row(
-                spec, raw_actions, objects["host-read-preimages.json"])
+                spec, raw_actions, objects["host-read-preimages.json"],
+                profile)
     expected_matrix = {
         "schema": "implementaudit-host-read-matrix-v1",
         "raw_transforms": {
@@ -3039,13 +3477,11 @@ def _validate_capture(
     _expect(_exact_json_equal(matrix, expected_matrix),
             "formal-v2 matrix does not independently regenerate")
     host_checks = objects["host-checks.json"]
-    expected_check_keys = {
-        spec["key"] for spec in (fixture.get("host_checks") or {}).get(
-            "specs", [])}
-    _expect(isinstance(host_checks, dict) and
-            set(host_checks) == expected_check_keys and
-            all(type(value) is bool for value in host_checks.values()),
-            "formal-v2 host check aggregate malformed")
+    expected_host_checks = _expected_host_checks(
+        (fixture.get("host_checks") or {}).get("specs", []),
+        artifacts, expected_matrix)
+    _expect(_exact_json_equal(host_checks, expected_host_checks),
+            "formal-v2 host check aggregate does not independently regenerate")
     return (objects["host-read-preimages.json"], trace, raw_actions,
             host_checks)
 
