@@ -454,6 +454,49 @@ def assert_completed_attempt_seal_reds(module):
         ", ".join(accepted))
 
 
+def assert_completed_prefix_revalidated_before_executor(module):
+    """A retained-prefix mutation after selection must forbid the next call."""
+    with tempfile.TemporaryDirectory(
+            prefix="b3v4-prefix-prespawn-mutation-") as tmp:
+        calls = []
+
+        def counted(context):
+            calls.append(context.mission["index"])
+            return sealed_probe_outcome(context)
+
+        first = make_driver(module, tmp, counted)
+        terminal = first.run_next()
+        assert terminal["overall_status"] == "PASS", terminal
+
+        fresh = fresh_test_driver(module, first, counted)
+        original_load = fresh._load_launch_readiness
+        initialized_checks = 0
+        mutated = False
+
+        def mutate_before_second_initialized_readiness(*args, **kwargs):
+            nonlocal initialized_checks, mutated
+            if kwargs.get("campaign_initialized") is True:
+                initialized_checks += 1
+                if initialized_checks == 2:
+                    packet, _, _ = fresh._load_packet()
+                    prior = (
+                        fresh.campaign_root /
+                        fresh._attempt_name(packet["missions"][0]) /
+                        "attempt-terminal.json")
+                    retained = json.loads(prior.read_text(encoding="utf-8"))
+                    retained["completed_attempt_seal"] = {}
+                    prior.write_text(
+                        json.dumps(retained), encoding="utf-8")
+                    mutated = True
+            return original_load(*args, **kwargs)
+
+        fresh._load_launch_readiness = \
+            mutate_before_second_initialized_readiness
+        expect_error("completed attempt seal", fresh.run_next)
+        assert mutated is True
+        assert calls == [0], calls
+
+
 def assert_campaign_manifest_join_reds(module):
     accepted = []
     with tempfile.TemporaryDirectory(prefix="b3v4-manifest-next-") as tmp:
@@ -1023,10 +1066,14 @@ def assert_production_trusted_spawn_guard_contract(module):
             root = pathlib.Path(tmp)
             packet = valid_packet()
             mission = packet["missions"][0]
-            attempt = root / "attempt"
+            campaign = root / "campaign"
+            campaign.mkdir()
+            attempt = campaign / (
+                "attempt-000-L-candidate-r1")
             attempt.mkdir()
             identity = {"device": 11, "inode": 22, "mode": 0o40700}
             driver = object.__new__(module.CampaignDriver)
+            driver.campaign_root = campaign
             driver.runtime_root = root / "runtime"
             driver.codex_auth_source = None
             driver._verify_continuous_custody = lambda: identity
@@ -1059,9 +1106,13 @@ def assert_production_trusted_spawn_guard_contract(module):
             root = pathlib.Path(tmp)
             packet = valid_packet()
             mission = packet["missions"][0]
-            attempt = root / "attempt"
+            campaign = root / "campaign"
+            campaign.mkdir()
+            attempt = campaign / (
+                "attempt-000-L-candidate-r1")
             attempt.mkdir()
             driver = object.__new__(module.CampaignDriver)
+            driver.campaign_root = campaign
             driver.runtime_root = root / "runtime"
             driver.codex_auth_source = None
             driver._verify_continuous_custody = lambda: (
@@ -1094,6 +1145,7 @@ def main():
     assert_campaign_root_initialization_contract(module)
     assert_exact_independent_result_comparison(module)
     assert_runtime_executable_parent_junction_rejected(module)
+    assert_completed_prefix_revalidated_before_executor(module)
     assert_completed_attempt_seal_reds(module)
     assert_campaign_manifest_join_reds(module)
     assert_exact_host_run_root_reds(module)

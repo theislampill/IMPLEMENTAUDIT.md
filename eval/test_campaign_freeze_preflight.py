@@ -624,71 +624,28 @@ def exercise_initialized_b3_runtime_prefix_contract():
         attempt_name = (
             f"attempt-{mission['index']:03d}-{mission['config']}-"
             f"{mission['arm']}-r{mission['rep']}")
-        attempt = campaign / attempt_name
-        attempt.mkdir()
-        freeze_sha = hashlib.sha256(
-            preflight.lifecycle.canonical_json_bytes(packet)).hexdigest()
-        status = {
-            "campaign": packet["campaign"],
-            "freeze_sha256": freeze_sha,
-            "mission": mission,
-            "state": "PREPARED_BEFORE_HOST_SPAWN",
-            "launch_readiness_binding": {
-                "path": "launch-readiness.json",
-                "sha256": hashlib.sha256(
-                    readiness_path.read_bytes()).hexdigest(),
-                "schema": preflight.LIVE_READY_SCHEMAS["b3v4"],
-                "execution_mode": "production",
-                "disposition": "READY_FOR_LUNA_EXECUTION",
-            },
-        }
-        terminal = {
-            "campaign": packet["campaign"],
-            "mission_index": mission["index"],
-            "overall_status": "PASS",
-            "resolved_model":
-                packet["configurations"]["L"]["model_resolved_required"],
-            "stop_reason": None,
-            "completed_attempt_seal": {},
-        }
-        write(attempt / "attempt-status.json", status)
-        write(attempt / "attempt-terminal.json", terminal)
-        shutil.copyfile(
-            readiness_path, attempt / "launch-readiness.json")
         runtime = pathlib.Path(context["runtime_root"])
         completed_runtime = runtime / attempt_name
         completed_runtime.mkdir()
-
-        driver = b3v4_campaign.CampaignDriver(
-            packet_path=packet_path, repo_root=context["repo_root"],
-            campaign_root=context["campaign_root"],
-            candidate_checkout=context["candidate_checkout"],
-            control_checkout=context["control_checkout"],
-            runtime_root=context["runtime_root"],
-            attestations={"L": context["host_attestation_path"]},
-            execution_mode="production",
-            codex_auth_source=context["codex_auth_source_path"],
-            launch_readiness=readiness_path,
-            launch_context=context_path)
-        driver._campaign_root_identity = root_identity
-        report, _ = driver._verify_launch_readiness(
-            attempt, status, packet)
-        assert report["mission_authorized"] is True
 
         second = packet["missions"][1]
         second_name = (
             f"attempt-{second['index']:03d}-{second['config']}-"
             f"{second['arm']}-r{second['rep']}")
-        prepared = campaign / second_name
-        prepared.mkdir()
-        write(prepared / "attempt-status.json", {
-            **status, "mission": second})
-        preflight.validate_live_ready(
+        report, _ = preflight.validate_live_ready(
             "b3v4", packet, readiness_path,
             execution_mode="production", live_context=context,
             campaign_initialized=True,
-            campaign_root_identity=root_identity)
-        shutil.rmtree(prepared)
+            campaign_root_identity=root_identity,
+            completed_prefix=[attempt_name])
+        assert report["mission_authorized"] is True
+        expect_error(
+            "authoritative completed prefix",
+            lambda: preflight.validate_live_ready(
+                "b3v4", packet, readiness_path,
+                execution_mode="production", live_context=context,
+                campaign_initialized=True,
+                campaign_root_identity=root_identity))
 
         extra = runtime / "unexpected-runtime"
         extra.mkdir()
@@ -698,7 +655,8 @@ def exercise_initialized_b3_runtime_prefix_contract():
                 "b3v4", packet, readiness_path,
                 execution_mode="production", live_context=context,
                 campaign_initialized=True,
-                campaign_root_identity=root_identity))
+                campaign_root_identity=root_identity,
+                completed_prefix=[attempt_name]))
         extra.rmdir()
 
         gap = runtime / second_name
@@ -709,20 +667,18 @@ def exercise_initialized_b3_runtime_prefix_contract():
                 "b3v4", packet, readiness_path,
                 execution_mode="production", live_context=context,
                 campaign_initialized=True,
-                campaign_root_identity=root_identity))
+                campaign_root_identity=root_identity,
+                completed_prefix=[attempt_name]))
         gap.rename(completed_runtime)
 
-        terminal["overall_status"] = "FAIL"
-        write(attempt / "attempt-terminal.json", terminal)
         expect_error(
-            "completed attempt",
+            "authoritative completed prefix",
             lambda: preflight.validate_live_ready(
                 "b3v4", packet, readiness_path,
                 execution_mode="production", live_context=context,
                 campaign_initialized=True,
-                campaign_root_identity=root_identity))
-        terminal["overall_status"] = "PASS"
-        write(attempt / "attempt-terminal.json", terminal)
+                campaign_root_identity=root_identity,
+                completed_prefix=[second_name]))
 
         moved = base / "moved-runtime"
         completed_runtime.rename(moved)
@@ -734,7 +690,8 @@ def exercise_initialized_b3_runtime_prefix_contract():
                     "b3v4", packet, readiness_path,
                     execution_mode="production", live_context=context,
                     campaign_initialized=True,
-                    campaign_root_identity=root_identity))
+                    campaign_root_identity=root_identity,
+                    completed_prefix=[attempt_name]))
             completed_runtime.unlink()
         moved.rename(completed_runtime)
 
