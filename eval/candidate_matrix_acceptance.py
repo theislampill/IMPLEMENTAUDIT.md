@@ -38,15 +38,39 @@ _NEGATED_RECORD = re.compile(
     r"verified|produced|written))\b",
     re.IGNORECASE,
 )
-_RECORD_DISCLAIMER = re.compile(
-    r"(?im)^\s*(?:the\s+)?(?:preceding|above|these|those)\s+"
-    r"(?:machine-readable\s+)?records?\s+(?:are|were)\s+.{0,100}"
-    r"\b(?:hypothetical|claimed[-\s]+only|unverified|not\s+verified)\b"
+_RECORD_REFERENCE = re.compile(
+    r"\b(?:(?:preceding|above|these|those)\s+"
+    r"(?:machine-readable\s+)?records?|"
+    r"(?:machine-readable\s+)?records?\s+above)\b",
+    re.IGNORECASE,
 )
 
 
 def _record_context_disclaimed(text):
-    return bool(_RECORD_DISCLAIMER.search(text))
+    for line in text.splitlines():
+        if not _RECORD_REFERENCE.search(line):
+            continue
+        folded = line.casefold()
+        hypothetical = bool(re.search(
+            r"\b(?:are|were|is|as)\s+(?:merely\s+|only\s+)?"
+            r"hypothetical\b",
+            folded))
+        hypothetical_denied = bool(re.search(
+            r"\bnot\s+(?:(?:be\s+)?treated\s+as\s+)?hypothetical\b",
+            folded))
+        claimed_only = bool(re.search(
+            r"\bclaimed[-\s]+only\b", folded))
+        claimed_denied = bool(re.search(
+            r"\bnot\s+claimed[-\s]+only\b", folded))
+        unverified = bool(re.search(
+            r"\bunverified\b|\bnot\s+verified\b", folded))
+        unverified_denied = bool(re.search(
+            r"\bnot\s+unverified\b", folded))
+        if ((hypothetical and not hypothetical_denied) or
+                (claimed_only and not claimed_denied) or
+                (unverified and not unverified_denied)):
+            return True
+    return False
 
 
 def _lines(text, marker):

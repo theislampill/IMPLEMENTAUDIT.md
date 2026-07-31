@@ -56,6 +56,13 @@ CONTEXT_DENIAL_SUFFIXES = (
     "The preceding machine-readable records are hypothetical.",
     "The preceding machine-readable records are claimed-only and were "
     "not verified.",
+    "The preceding machine-readable records should be treated as "
+    "hypothetical.",
+    "The machine-readable records above are unverified.",
+)
+CONTEXT_AFFIRMING_SUFFIXES = (
+    "The preceding machine-readable records are not hypothetical; they "
+    "are verified.",
 )
 
 
@@ -305,6 +312,13 @@ def test_matrix_acceptance() -> None:
         check(
             f"{fixture_id} fenced quote rejected",
             observed is not None and observed[0] is False)
+        for suffix in CONTEXT_AFFIRMING_SUFFIXES:
+            observed = acceptance.evaluate_property(
+                load_fixture(fixture_id), prop,
+                {"assistant": f"{positive}\n{suffix}"})
+            check(
+                f"{fixture_id} affirmative context preserved",
+                observed is not None and observed[0] is True)
     e3_mission = load_fixture("E3")["mission"]
     check(
         "E3 prompt names supported candidate mechanisms",
@@ -447,6 +461,13 @@ def test_independent_acceptance() -> None:
         check(
             f"independent {fixture_id} fenced quote rejected",
             observed is not None and observed[0] is False)
+        for suffix in CONTEXT_AFFIRMING_SUFFIXES:
+            observed = function(
+                load_fixture(fixture_id), property_name,
+                {"assistant": f"{positive}\n{suffix}"}, None)
+            check(
+                f"independent {fixture_id} affirmative context preserved",
+                observed is not None and observed[0] is True)
 
 
 def test_official_runner_integration() -> None:
@@ -574,6 +595,19 @@ def test_official_runner_integration() -> None:
                     f"{fixture_id} official runner context rejected {index}",
                     status == "FAIL" and
                     verdict["properties"][property_name]["state"] == "FAIL")
+            for index, suffix in enumerate(CONTEXT_AFFIRMING_SUFFIXES):
+                _manifest, bundle = adapters.ReplayAdapter().build(
+                    fixture_id,
+                    [{"role": "assistant",
+                      "content": f"{positive}\n{suffix}"}],
+                    f"matrix-proposition-{fixture_id}-affirming-{index}",
+                    str(custody))
+                status, verdict = runner.score_bundle(
+                    bundle, property_override=acceptance.apply_overrides)
+                check(
+                    f"{fixture_id} official runner affirming accepted {index}",
+                    status == "PASS" and
+                    verdict["properties"][property_name]["state"] == "PASS")
 
 
 def test_materialized_fixtures() -> None:

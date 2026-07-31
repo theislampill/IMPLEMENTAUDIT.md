@@ -3333,10 +3333,36 @@ def _matrix_acceptance(fixture, property_name, texts, artifact_obj):
         r"claimed[-\s]+only|not\s+(?:emitted|created|preserved|recorded|"
         r"verified|produced|written))\b",
         re.IGNORECASE)
-    record_disclaimer = re.compile(
-        r"(?im)^\s*(?:the\s+)?(?:preceding|above|these|those)\s+"
-        r"(?:machine-readable\s+)?records?\s+(?:are|were)\s+.{0,100}"
-        r"\b(?:hypothetical|claimed[-\s]+only|unverified|not\s+verified)\b")
+    record_reference = re.compile(
+        r"\b(?:(?:preceding|above|these|those)\s+"
+        r"(?:machine-readable\s+)?records?|"
+        r"(?:machine-readable\s+)?records?\s+above)\b",
+        re.IGNORECASE)
+
+    def record_context_disclaimed():
+        for line in text.splitlines():
+            if not record_reference.search(line):
+                continue
+            value = line.casefold()
+            hypothetical = bool(re.search(
+                r"\b(?:are|were|is|as)\s+(?:merely\s+|only\s+)?"
+                r"hypothetical\b", value))
+            hypothetical_denied = bool(re.search(
+                r"\bnot\s+(?:(?:be\s+)?treated\s+as\s+)?"
+                r"hypothetical\b", value))
+            claimed_only = bool(re.search(
+                r"\bclaimed[-\s]+only\b", value))
+            claimed_denied = bool(re.search(
+                r"\bnot\s+claimed[-\s]+only\b", value))
+            unverified = bool(re.search(
+                r"\bunverified\b|\bnot\s+verified\b", value))
+            unverified_denied = bool(re.search(
+                r"\bnot\s+unverified\b", value))
+            if ((hypothetical and not hypothetical_denied) or
+                    (claimed_only and not claimed_denied) or
+                    (unverified and not unverified_denied)):
+                return True
+        return False
 
     def lines(marker):
         escaped = re.escape(marker)
@@ -3386,7 +3412,7 @@ def _matrix_acceptance(fixture, property_name, texts, artifact_obj):
             "lesson-lift-record", "lesson-lift-activation",
             "owner-judgment-preserved",
         })
-    if record_proposition and record_disclaimer.search(text):
+    if record_proposition and record_context_disclaimed():
         return False, f"matrix-proposition:{proposition}"
     if proposition == "resume-phase":
         normalized = re.sub(r"[^a-z0-9]+", " ", folded)
