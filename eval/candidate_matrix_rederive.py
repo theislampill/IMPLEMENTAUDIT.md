@@ -3328,9 +3328,26 @@ def _matrix_acceptance(fixture, property_name, texts, artifact_obj):
     _expect(type(text) is str, "matrix assistant text malformed")
     folded = text.casefold()
 
+    negated_record = re.compile(
+        r"\b(?:do\s+not|did\s+not|never|hypothetical|example\s+only|"
+        r"claimed[-\s]+only|not\s+(?:emitted|created|preserved|recorded|"
+        r"verified|produced|written))\b",
+        re.IGNORECASE)
+
     def lines(marker):
-        return [line.strip() for line in text.splitlines()
-                if marker.casefold() in line.casefold()]
+        escaped = re.escape(marker)
+        patterns = [re.compile(
+            rf"^\s*{escaped}(?=\s|[:=]|$)", re.IGNORECASE)]
+        if marker == "LIFT_RECORD":
+            patterns.append(re.compile(
+                rf"^\s*Lesson-lift\s*:\s*{escaped}(?=\s|[:=]|$)",
+                re.IGNORECASE))
+        return [
+            line.strip()
+            for line in text.splitlines()
+            if any(pattern.search(line) for pattern in patterns)
+            and not negated_record.search(line)
+        ]
 
     def fields(line):
         return {
@@ -3354,7 +3371,7 @@ def _matrix_acceptance(fixture, property_name, texts, artifact_obj):
         passed = bool(re.search(r"\bresume ack\b.*\bphase 3\b", normalized))
     elif proposition == "audit-complete-exclusive":
         complete = re.findall(
-            r"(?im)^\s*AUDIT_COMPLETE(?:\s*[:=-].*)?\s*$", text)
+            r"(?im)^\s*AUDIT_COMPLETE\s*$", text)
         handoff = re.search(r"(?im)^\s*AUDIT_HANDOFF\b", text)
         passed = len(complete) == 1 and handoff is None
     elif proposition == "shape-not-behavior":

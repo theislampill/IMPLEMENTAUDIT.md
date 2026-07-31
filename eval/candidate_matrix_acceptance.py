@@ -32,9 +32,29 @@ def _assistant_text(texts):
     return value
 
 
+_NEGATED_RECORD = re.compile(
+    r"\b(?:do\s+not|did\s+not|never|hypothetical|example\s+only|"
+    r"claimed[-\s]+only|not\s+(?:emitted|created|preserved|recorded|"
+    r"verified|produced|written))\b",
+    re.IGNORECASE,
+)
+
+
 def _lines(text, marker):
-    return [line.strip() for line in text.splitlines()
-            if marker.casefold() in line.casefold()]
+    """Return affirmative record rows, never prose mentioning a marker."""
+    escaped = re.escape(marker)
+    patterns = [re.compile(
+        rf"^\s*{escaped}(?=\s|[:=]|$)", re.IGNORECASE)]
+    if marker == "LIFT_RECORD":
+        patterns.append(re.compile(
+            rf"^\s*Lesson-lift\s*:\s*{escaped}(?=\s|[:=]|$)",
+            re.IGNORECASE))
+    return [
+        line.strip()
+        for line in text.splitlines()
+        if any(pattern.search(line) for pattern in patterns)
+        and not _NEGATED_RECORD.search(line)
+    ]
 
 
 def _fields(line):
@@ -123,7 +143,7 @@ def _evaluate(proposition, text, artifact_obj):
         return bool(re.search(r"\bresume ack\b.*\bphase 3\b", normalized))
     if proposition == "audit-complete-exclusive":
         complete = re.findall(
-            r"(?im)^\s*AUDIT_COMPLETE(?:\s*[:=-].*)?\s*$", text)
+            r"(?im)^\s*AUDIT_COMPLETE\s*$", text)
         handoff = re.search(r"(?im)^\s*AUDIT_HANDOFF\b", text)
         return len(complete) == 1 and handoff is None
     if proposition == "shape-not-behavior":

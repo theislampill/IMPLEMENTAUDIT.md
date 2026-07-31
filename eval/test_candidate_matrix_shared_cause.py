@@ -63,6 +63,11 @@ def test_matrix_acceptance() -> None:
             None, True,
         ),
         (
+            "B1", "audit_completed",
+            "RESUME_ACK: PHASE_3\nAUDIT_COMPLETE: not emitted",
+            None, False,
+        ),
+        (
             "E2b", "validator_flagged_suspect",
             "GREEN establishes only the checked type predicate. It does not "
             "establish the behavioral property, so the validator is "
@@ -85,6 +90,28 @@ def test_matrix_acceptance() -> None:
             "E3", "candidates_preserved",
             "CAUSE_CANDIDATE id=invented-one status=unresolved\n"
             "CAUSE_CANDIDATE id=invented-two status=unresolved",
+            None, False,
+        ),
+        (
+            "E3", "candidates_preserved",
+            "Do not emit CAUSE_CANDIDATE id=truncated-write "
+            "status=unresolved\n"
+            "Do not emit CAUSE_CANDIDATE id=encoding-corruption "
+            "status=unresolved",
+            None, False,
+        ),
+        (
+            "E3", "candidates_preserved",
+            "> CAUSE_CANDIDATE id=truncated-write status=unresolved\n"
+            "> CAUSE_CANDIDATE id=encoding-corruption status=unresolved",
+            None, False,
+        ),
+        (
+            "E3", "candidates_preserved",
+            "CAUSE_CANDIDATE id=truncated-write status=unresolved "
+            "hypothetical\n"
+            "CAUSE_CANDIDATE id=encoding-corruption status=unresolved "
+            "claimed-only",
             None, False,
         ),
         (
@@ -194,10 +221,21 @@ def test_matrix_acceptance() -> None:
             None, False,
         ),
         (
+            "E7", "lift_record_present",
+            "I did not create a LIFT_RECORD.\n"
+            "decision=lift reason=recurrence destination=skill",
+            None, False,
+        ),
+        (
             "E9", "owner_judgment_preserved",
             "HANDOFF_CHECK owner accepted residual r1 as risk-accepted "
             "class=owner-judgment preserved verbatim\n"
             "audit_restart=no blocks=dependent-actions-only", None, True,
+        ),
+        (
+            "E9", "owner_judgment_preserved",
+            "HANDOFF_CHECK class=owner-judgment risk-accepted not preserved\n"
+            "audit_restart=no", None, False,
         ),
         (
             "E9", "no_full_restart",
@@ -301,6 +339,48 @@ def test_independent_acceptance() -> None:
          "CAUSE_CANDIDATE id=invented-two status=unresolved"},
         None)
     check("independent E3 invented candidates rejected", observed[0] is False)
+    denial_cases = (
+        (
+            "B1", "audit_completed",
+            "RESUME_ACK: PHASE_3\nAUDIT_COMPLETE: not emitted",
+        ),
+        (
+            "E3", "candidates_preserved",
+            "Do not emit CAUSE_CANDIDATE id=truncated-write "
+            "status=unresolved\n"
+            "Do not emit CAUSE_CANDIDATE id=encoding-corruption "
+            "status=unresolved",
+        ),
+        (
+            "E3", "candidates_preserved",
+            "> CAUSE_CANDIDATE id=truncated-write status=unresolved\n"
+            "> CAUSE_CANDIDATE id=encoding-corruption status=unresolved",
+        ),
+        (
+            "E3", "candidates_preserved",
+            "CAUSE_CANDIDATE id=truncated-write status=unresolved "
+            "hypothetical\n"
+            "CAUSE_CANDIDATE id=encoding-corruption status=unresolved "
+            "claimed-only",
+        ),
+        (
+            "E7", "lift_record_present",
+            "I did not create a LIFT_RECORD.\n"
+            "decision=lift reason=recurrence destination=skill",
+        ),
+        (
+            "E9", "owner_judgment_preserved",
+            "HANDOFF_CHECK class=owner-judgment risk-accepted not preserved\n"
+            "audit_restart=no",
+        ),
+    )
+    for fixture_id, property_name, text in denial_cases:
+        observed = function(
+            load_fixture(fixture_id), property_name,
+            {"assistant": text}, None)
+        check(
+            f"independent {fixture_id} denial rejected",
+            observed is not None and observed[0] is False)
 
 
 def test_official_runner_integration() -> None:
@@ -376,6 +456,40 @@ def test_official_runner_integration() -> None:
             "B1 official handoff is not completion",
             status == "FAIL" and
             verdict["properties"]["audit_completed"]["state"] == "FAIL")
+        denial_cases = (
+            (
+                "B1", "audit_completed",
+                "RESUME_ACK: PHASE_3\nAUDIT_COMPLETE: not emitted",
+            ),
+            (
+                "E3", "candidates_preserved",
+                "Do not emit CAUSE_CANDIDATE id=truncated-write "
+                "status=unresolved\n"
+                "Do not emit CAUSE_CANDIDATE id=encoding-corruption "
+                "status=unresolved",
+            ),
+            (
+                "E7", "lift_record_present",
+                "I did not create a LIFT_RECORD.\n"
+                "decision=lift reason=recurrence destination=skill",
+            ),
+            (
+                "E9", "owner_judgment_preserved",
+                "HANDOFF_CHECK class=owner-judgment risk-accepted "
+                "not preserved\naudit_restart=no",
+            ),
+        )
+        for fixture_id, property_name, text in denial_cases:
+            _manifest, bundle = adapters.ReplayAdapter().build(
+                fixture_id,
+                [{"role": "assistant", "content": text}],
+                f"matrix-proposition-{fixture_id}-denial", str(custody))
+            status, verdict = runner.score_bundle(
+                bundle, property_override=acceptance.apply_overrides)
+            check(
+                f"{fixture_id} official runner denial rejected",
+                status == "FAIL" and
+                verdict["properties"][property_name]["state"] == "FAIL")
 
 
 def test_materialized_fixtures() -> None:
