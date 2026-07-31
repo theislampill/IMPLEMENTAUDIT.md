@@ -53,7 +53,10 @@ REQUIRED_ROLES = {
         _COMMON_ROLES + ("product-candidate", "product-control",
                          "fixture-B3-v3"))),
     MATRIX_CAMPAIGN: tuple(sorted(
-        _COMMON_ROLES + ("product-candidate",) +
+        _COMMON_ROLES + (
+            "matrix-acceptance", "matrix-fixture-setup",
+            "matrix-host-policy", "product-candidate",
+        ) +
         tuple(f"fixture-{name}" for name in _MATRIX_FIXTURES))),
 }
 GIT_IDENTITY_ROLES = {
@@ -65,6 +68,7 @@ GIT_IDENTITY_ROLES = {
     MATRIX_CAMPAIGN: frozenset({
         "product-candidate", "official-driver", "host-runner", "scorer",
         "evaluator", "adapter", "independent-rederiver",
+        "matrix-acceptance", "matrix-fixture-setup", "matrix-host-policy",
     }),
 }
 EXTERNAL_ROLES = {
@@ -93,6 +97,9 @@ FIXED_FILE_PATHS = {
     "host-runner": None,
     "independent-rederiver": None,
     "lifecycle-contract": "eval/campaign_lifecycle.py",
+    "matrix-acceptance": "eval/candidate_matrix_acceptance.py",
+    "matrix-fixture-setup": "eval/candidate_matrix_fixture_setup.py",
+    "matrix-host-policy": "eval/candidate_matrix_host.py",
     "official-driver": None,
     "prompt-construction-rules": "eval/hosts.py",
     "scorer": None,

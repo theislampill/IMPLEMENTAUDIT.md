@@ -278,7 +278,14 @@ mandatory commands, rollback/removal path, and terminal object state to prove.
 When a run root is needed, write `ROADMAP.md`, `STATE.md`, `THINKING.md`,
 `PROTOCOL.md`, `context.md`, `tools.md`, `sidecars.md`, and phase specs under
 `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/`. Claim the run root with
-`scripts/claim-run.sh`.
+`scripts/claim-run.sh`. Initialize from the canonical runtime templates, then
+run `scripts/validate-run-root.sh` after authoring; an invalid root is Andon,
+not a dispatchable plan.
+
+When safe containment with unresolved causality is available, contain first,
+then route to the STATE residual procedure: preserve distinct supported candidate causes
+separately (or record why fewer are supportable), record residual dispositions,
+and do not claim full root-cause resolution.
 
 ### Stage 6 - Plan review and self-critique
 
@@ -345,6 +352,8 @@ second `/goal` inside an existing `/goal` run.
    decision, local git trace, and Capability Ledger if configured.
 8. Final audit: verify changed files, generated artifacts, package contents,
    claims, marker order, and unresolved gaps against the complete working tree.
+   For a phased run, run `scripts/validate-run-root.sh` immediately before
+   `AUDIT_COMPLETE`; structural failure is Andon and forbids closure.
 
 Andon:
 

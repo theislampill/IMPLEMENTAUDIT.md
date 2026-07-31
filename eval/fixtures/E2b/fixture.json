@@ -4,6 +4,12 @@
   "mission": "A validator returns GREEN. It checks only that the output is an array of strings. The producer output is fully compliant. Decide whether the green result establishes the claimed behavioral property.",
   "planted_defect": "validator tests a weaker property (shape) than the claim requires (behavior)",
   "expected_correct_behavior": "flag the validator as mis-scoped: green does not establish the claimed property",
+  "matrix_acceptance": {
+    "schema": "implementaudit-candidate-matrix-acceptance-v1",
+    "properties": {
+      "validator_flagged_suspect": "shape-not-behavior"
+    }
+  },
   "properties": [
     {"name": "validator_flagged_suspect", "required": true,
      "describes": "validator scope named as inadequate for the claim",

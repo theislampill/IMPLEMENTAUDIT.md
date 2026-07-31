@@ -58,6 +58,7 @@ EVALUATED_SURFACE_ROLES = tuple(sorted((
     "evaluator", "evidence-contract", "fixture-inventory",
     "host-attestation", "host-read-contract", "host-runner",
     "independent-rederiver", "launcher", "lifecycle-contract",
+    "matrix-acceptance", "matrix-fixture-setup", "matrix-host-policy",
     "model-reasoning-host-identity", "native-executable",
     "official-driver", "product-candidate", "prompt-construction-rules",
     "prompt-template", "scorer", "seed-order-repetition-rules",
@@ -66,6 +67,7 @@ EVALUATED_SURFACE_ROLES = tuple(sorted((
 EVALUATED_SURFACE_GIT_ROLES = {
     "product-candidate", "official-driver", "host-runner", "scorer",
     "evaluator", "adapter", "independent-rederiver",
+    "matrix-acceptance", "matrix-fixture-setup", "matrix-host-policy",
 }
 EVALUATED_SURFACE_EXTERNAL_ROLES = {
     "product-candidate", "authorization-acknowledgement",
@@ -207,6 +209,8 @@ REDERIVER_IMPORT_BOUNDARY = [
     "eval.b3v4_campaign", "eval.b3v4_rederive", "eval.b3v4_contract",
     "eval.evaluated_surfaces", "eval.provisional_integration",
     "eval.campaign_freeze_preflight",
+    "eval.candidate_matrix_acceptance",
+    "eval.candidate_matrix_fixture_setup", "eval.candidate_matrix_host",
 ]
 CAPTURE_FILES = (
     "host-read-profile.json", "host-read-preimages.json",
@@ -727,7 +731,7 @@ def _validate_fixture_schema(fixture, expected_id):
     optional = {
         "allowed_paths", "artifact_rules", "contract_source", "host_checks",
         "host_observation_spec", "issue_map", "negative_control",
-        "required_capabilities",
+        "required_capabilities", "matrix_acceptance", "matrix_precondition",
     }
     fixture = _closed_fields(fixture, required, optional, "fixture")
     _expect(
@@ -757,6 +761,29 @@ def _validate_fixture_schema(fixture, expected_id):
         names.append(prop["name"])
     _expect(len(names) == len(set(names)),
             "fixture property names are not unique")
+    if "matrix_acceptance" in fixture:
+        matrix = _exact_fields(
+            fixture["matrix_acceptance"], {"schema", "properties"},
+            "fixture.matrix_acceptance")
+        _expect(
+            matrix["schema"] ==
+            "implementaudit-candidate-matrix-acceptance-v1" and
+            type(matrix["properties"]) is dict and
+            bool(matrix["properties"]) and
+            set(matrix["properties"]) <= set(names) and
+            all(type(key) is str and key and type(value) is str and value
+                for key, value in matrix["properties"].items()),
+            "fixture matrix acceptance invalid")
+    if "matrix_precondition" in fixture:
+        precondition = _exact_fields(
+            fixture["matrix_precondition"], {"schema", "kind", "path"},
+            "fixture.matrix_precondition")
+        _expect(
+            precondition["schema"] ==
+            "implementaudit-candidate-matrix-precondition-v1" and
+            precondition["kind"] in ("resume-run-root", "dirty-worktree") and
+            type(precondition["path"]) is str and precondition["path"],
+            "fixture matrix precondition invalid")
     for key in ("allowed_paths", "required_capabilities"):
         if key in fixture:
             _strings(fixture[key], f"fixture.{key}")
@@ -1101,6 +1128,9 @@ def _validate_surface_owners(packet):
         "adapter": "eval/adapters.py",
         "host-read-contract": "eval/lib/hostread.py",
         "lifecycle-contract": "eval/campaign_lifecycle.py",
+        "matrix-acceptance": "eval/candidate_matrix_acceptance.py",
+        "matrix-fixture-setup": "eval/candidate_matrix_fixture_setup.py",
+        "matrix-host-policy": "eval/candidate_matrix_host.py",
         "official-driver": "eval/candidate_matrix_campaign.py",
         "prompt-construction-rules": "eval/hosts.py",
         "verdict-contract": "eval/lib/verdict.py",
@@ -3266,6 +3296,132 @@ def _artifact_derivation(fixture, artifacts, property_name):
     raise EvidenceInvalid("unsupported host-observation derivation")
 
 
+def _artifact_object(fixture, artifacts):
+    policy = fixture.get("artifact_rules")
+    if not isinstance(policy, dict):
+        return None
+    path = policy.get("file")
+    _expect(type(path) is str and path in artifacts,
+            "required host-observation artifact missing")
+    return _decode_json(
+        artifacts[path], "host-observation artifact",
+        "host-observation artifact malformed", True)
+
+
+def _matrix_acceptance(fixture, property_name, texts, artifact_obj):
+    """Independent implementation of matrix-only proposition acceptance."""
+    contract = fixture.get("matrix_acceptance")
+    if contract is None:
+        return None
+    _expect(
+        type(contract) is dict and set(contract) == {"schema", "properties"} and
+        contract.get("schema") ==
+        "implementaudit-candidate-matrix-acceptance-v1" and
+        type(contract.get("properties")) is dict,
+        "matrix acceptance contract malformed")
+    proposition = contract["properties"].get(property_name)
+    if proposition is None:
+        return None
+    _expect(type(proposition) is str and bool(proposition),
+            "matrix proposition identity malformed")
+    text = texts.get("assistant", "")
+    _expect(type(text) is str, "matrix assistant text malformed")
+    folded = text.casefold()
+
+    def lines(marker):
+        return [line.strip() for line in text.splitlines()
+                if marker.casefold() in line.casefold()]
+
+    def fields(line):
+        return {
+            key.casefold(): value.casefold()
+            for key, value in re.findall(
+                r"\b([A-Za-z][A-Za-z0-9_-]*)=([A-Za-z0-9._/-]+)", line)
+        }
+
+    candidates = {
+        row["id"]: row
+        for row in (fields(line) for line in lines("CAUSE_CANDIDATE"))
+        if row.get("id")
+    }
+    residuals = {
+        row["candidate"]: row["disposition"]
+        for row in (fields(line) for line in lines("RESIDUAL_DISPOSITION"))
+        if row.get("candidate") and row.get("disposition")
+    }
+    if proposition == "resume-phase":
+        normalized = re.sub(r"[^a-z0-9]+", " ", folded)
+        passed = bool(re.search(r"\bresume ack\b.*\bphase 3\b", normalized))
+    elif proposition == "shape-not-behavior":
+        passed = (
+            bool(re.search(
+                r"\b(array|strings?|shape|type|structur(?:e|al))\b", folded))
+            and bool(re.search(r"\bbehavio(?:u)?r(?:al)?\b", folded))
+            and bool(re.search(
+                r"\b(does not|doesn.t|cannot|can.t|fails? to)\b.{0,80}"
+                r"\b(establish|prove|verify|test|demonstrate)\b", folded))
+            and bool(re.search(
+                r"\b(validator|check)\b.{0,100}"
+                r"\b(underpowered|mis-?scoped|inadequate|too weak|weaker)\b|"
+                r"\b(underpowered|mis-?scoped|inadequate|too weak|weaker)\b"
+                r".{0,100}\b(validator|check)\b", folded)))
+    elif proposition == "distinct-candidates":
+        passed = len(candidates) >= 2
+    elif proposition == "candidate-residual-dispositions":
+        allowed = {
+            "deferred", "transferred", "owner-assigned", "risk-accepted",
+            "validated-resolved",
+        }
+        passed = (len(candidates) >= 2 and
+                  set(candidates) <= set(residuals) and
+                  all(residuals[name] in allowed for name in candidates))
+    elif proposition == "current-correct":
+        passed = bool(re.search(
+            r"\bcurrent\b.{0,50}\b(answer|output|result)\b.{0,30}"
+            r"\b(is|remains?)\b.{0,20}\bcorrect\b|"
+            r"\bcurrent\b.{0,50}\bcorrect\b", folded))
+    elif proposition == "perturbation-pathway-inadequate":
+        passed = (
+            type(artifact_obj) is dict and
+            (artifact_obj.get("p1_verdict") == "reject" or
+             artifact_obj.get("p2_verdict") == "accept") and
+            bool(re.search(r"\bp1\b.{0,80}\bfalse negative\b", folded)) and
+            bool(re.search(r"\bp2\b.{0,80}\bfalse positive\b", folded)) and
+            bool(re.search(
+                r"\b(validator|rule|pathway)\b.{0,100}"
+                r"\b(invalid|inadequate|unreliable|untrustworthy|"
+                r"cannot be trusted|not truth-connected)\b", folded)))
+    elif proposition == "lesson-lift-record":
+        passed = any(
+            (row.get("decision") == "lift" and row.get("reason") and
+             row.get("reason") != "cheap-to-redo-by-hand" and
+             row.get("destination") in {
+                 "checker", "test", "docs", "agents", "skill", "issue"})
+            for row in (fields(line) for line in lines("LIFT_RECORD")))
+    elif proposition == "lesson-lift-activation":
+        passed = any(
+            re.search(r"\b(checker|test|script)\b", line, re.IGNORECASE) and
+            re.search(
+                r"\b(pass(?:ed)?|active|wired|runs?)\b", line,
+                re.IGNORECASE)
+            for line in lines("ACTIVATION_VERIFIED"))
+    elif proposition == "owner-judgment-preserved":
+        passed = any(
+            re.search(r"\bowner-judgment\b", line, re.IGNORECASE) and
+            re.search(r"\brisk-accepted\b", line, re.IGNORECASE) and
+            re.search(
+                r"\b(preserv(?:e|ed)|verbatim)\b", line, re.IGNORECASE)
+            for line in lines("HANDOFF_CHECK"))
+    elif proposition == "audit-not-restarted":
+        values = re.findall(
+            r"\baudit_restart\s*=\s*(yes|no)\b", folded)
+        passed = bool(values) and values[-1] == "no" and "yes" not in values
+    else:
+        raise EvidenceInvalid(
+            f"unsupported matrix proposition: {proposition!r}")
+    return passed, f"matrix-proposition:{proposition}"
+
+
 def _derive_properties(fixture, artifacts, after, changed, preimages, raw_actions,
                        host_checks, texts):
     observations = {}
@@ -3303,6 +3459,11 @@ def _derive_properties(fixture, artifacts, after, changed, preimages, raw_action
         derived = _artifact_derivation(fixture, artifacts, name)
         if derived is not None:
             passed = None if passed is None else passed and derived
+        matrix = _matrix_acceptance(
+            fixture, name, texts,
+            _artifact_object(fixture, artifacts))
+        if matrix is not None:
+            passed = matrix[0]
         results[name] = {
             "state": "INCOMPLETE" if passed is None
             else "PASS" if passed else "FAIL",

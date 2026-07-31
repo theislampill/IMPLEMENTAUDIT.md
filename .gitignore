@@ -4,6 +4,10 @@
 # it is not live run state and must ship with the fixture (issue #35).
 !eval/fixtures/B3/seed/.IMPLEMENTAUDIT/
 !eval/fixtures/B3/seed/.IMPLEMENTAUDIT/**
+# B1 is the primary-matrix resume fixture and carries its durable phase-3
+# boundary as versioned test data, never as live repository state.
+!eval/fixtures/B1/seed/.IMPLEMENTAUDIT/
+!eval/fixtures/B1/seed/.IMPLEMENTAUDIT/**
 
 # Optional local Graphify / ActiveGraph artifacts
 graphify-out/

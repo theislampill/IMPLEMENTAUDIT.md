@@ -30,4 +30,22 @@ perl -0pi -e 's/Stage 6\.5 - Pre-flight smoke/Stage 6.5 - missing/' "$tmp/skills
   fi
 )
 
+cp -R skills "$tmp/skills-routing"
+cp -R fixtures "$tmp/fixtures-routing"
+cp scripts/check-planner-stages.sh "$tmp/check-planner-stages-routing.sh"
+perl -0pi -e 's/distinct supported candidate causes/distinct hidden candidate causes/' \
+  "$tmp/skills-routing/implementaudit/SKILL.md"
+(
+  cd "$tmp"
+  rm -rf skills fixtures
+  mv skills-routing skills
+  mv fixtures-routing fixtures
+  mkdir -p scripts
+  mv check-planner-stages-routing.sh scripts/check-planner-stages.sh
+  if bash scripts/check-planner-stages.sh >/dev/null 2>&1; then
+    printf 'planner-stages.test: expected missing uncertainty route to fail\n' >&2
+    exit 1
+  fi
+)
+
 printf 'planner-stages.test: ok\n'

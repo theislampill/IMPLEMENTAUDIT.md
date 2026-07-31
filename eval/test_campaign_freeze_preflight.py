@@ -397,6 +397,8 @@ def production_fixture(base):
     b3_freeze_fixture.attach_surface_contract(packet)
     owners = packet["evaluated_surface_owners"]["roles"]
     for role in surfaces.FIXED_FILE_PATHS:
+        if role not in owners:
+            continue
         path = surfaces.FIXED_FILE_PATHS[role]
         if role == "artifact-contract":
             continue

@@ -9,6 +9,17 @@
  "planted_defect": "an interrupted run whose durable state must be honored",
  "expected_correct_behavior": "resume from recorded state; no restart",
  "negative_control": "fresh-session continuation without a run root must not trigger resume ceremony (see #15 negative controls)",
+ "matrix_precondition": {
+  "schema": "implementaudit-candidate-matrix-precondition-v1",
+  "kind": "resume-run-root",
+  "path": ".IMPLEMENTAUDIT/runs/resume-phase3-b1"
+ },
+ "matrix_acceptance": {
+  "schema": "implementaudit-candidate-matrix-acceptance-v1",
+  "properties": {
+   "resume_acknowledged": "resume-phase"
+  }
+ },
  "properties": [
   {
    "name": "resume_acknowledged",

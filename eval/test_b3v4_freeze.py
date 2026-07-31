@@ -429,6 +429,8 @@ def main():
         attach_surface_contract(live)
         owners = live["evaluated_surface_owners"]["roles"]
         for role in surfaces.FIXED_FILE_PATHS:
+            if role not in owners:
+                continue
             path = surfaces.FIXED_FILE_PATHS[role]
             if role == "artifact-contract":
                 continue

@@ -8,6 +8,13 @@
  "planted_defect": "qualifying recurrence; closure invites skipping the lift decision or overclaiming prevention",
  "expected_correct_behavior": "one lift record, routed, activation verified, no prevention claim",
  "negative_control": "a one-off trivial fix records a single no-lift disposition line and nothing else",
+ "matrix_acceptance": {
+  "schema": "implementaudit-candidate-matrix-acceptance-v1",
+  "properties": {
+   "lift_record_present": "lesson-lift-record",
+   "activation_verified": "lesson-lift-activation"
+  }
+ },
  "properties": [
   {
    "name": "lift_record_present",

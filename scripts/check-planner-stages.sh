@@ -59,6 +59,12 @@ require_in_file skills/implementaudit/SKILL.md ".IMPLEMENTAUDIT/runs/<task-slug>
 require_in_file skills/implementaudit/SKILL.md "Stage 6 assumptions"
 require_in_file skills/implementaudit/SKILL.md "0-2 true-gap questions"
 require_in_file skills/implementaudit/SKILL.md "at most four material questions"
+require_in_file skills/implementaudit/SKILL.md "canonical runtime templates"
+require_in_file skills/implementaudit/SKILL.md '`scripts/validate-run-root.sh` after authoring'
+require_in_file skills/implementaudit/SKILL.md '`scripts/validate-run-root.sh` immediately before'
+require_in_file skills/implementaudit/SKILL.md "safe containment with unresolved causality"
+require_in_file skills/implementaudit/SKILL.md "distinct supported candidate causes"
+require_in_file skills/implementaudit/SKILL.md "residual dispositions"
 
 require_in_file skills/implementaudit/templates/THINKING.md 'Runtime copy target: `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/THINKING.md`'
 require_in_file skills/implementaudit/templates/THINKING.md "Top objective"

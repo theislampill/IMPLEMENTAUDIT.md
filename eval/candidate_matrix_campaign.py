@@ -15,10 +15,11 @@ import sys
 from datetime import datetime, timezone
 
 import adapters
-import hosts
 import runner
 import validate_candidate_matrix_freeze as freeze
+import candidate_matrix_acceptance
 import candidate_matrix_contract as contract
+import candidate_matrix_host
 import campaign_freeze_preflight as launch_preflight
 import evaluated_surfaces as surfaces
 
@@ -1519,7 +1520,7 @@ class CampaignDriver:
         home.mkdir()
         if self.codex_auth_source:
             shutil.copy2(self.codex_auth_source, home / "auth.json")
-        adapter = hosts.CodexAdapter(
+        adapter = candidate_matrix_host.MatrixCodexAdapter(
             requested_model=config["model_requested"],
             reasoning_effort=config["reasoning_effort"],
             codex_binary=executable, codex_home=str(home), **common)
@@ -1537,7 +1538,9 @@ class CampaignDriver:
                     "INVALID" if result.kind == "invalid" else "ERROR",
                     "resolved_model": result.resolved_model,
                     "host_run_root": str(host_root)}
-        status, verdict = runner.score_bundle(result.detail, repo_dir=None)
+        status, verdict = runner.score_bundle(
+            result.detail, repo_dir=None,
+            property_override=candidate_matrix_acceptance.apply_overrides)
         return {"overall_status": status,
                 "resolved_model": result.resolved_model,
                 "host_run_root": str(host_root),

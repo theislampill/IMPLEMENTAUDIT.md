@@ -129,7 +129,7 @@ def _write_layered_verdict(run_root, manifest, fixture, scored,
     return status, v
 
 
-def score_bundle(run_root, repo_dir=None):
+def score_bundle(run_root, repo_dir=None, property_override=None):
     """Score one run bundle; returns (status, verdict_dict). Never raises."""
     manifest = {}
     fixture = None
@@ -432,6 +432,10 @@ def score_bundle(run_root, repo_dir=None):
 
         scored = scoring.score_events(fixture, events, summary,
                                       artifact_obj=artifact_obj)
+        if property_override is not None:
+            scored = property_override(
+                fixture, scoring.role_texts_from_events(events), scored,
+                artifact_obj=artifact_obj)
         if manifest.get("model_requested") is not None and \
                 manifest.get("model_requested") != manifest.get(
                     "model_resolved"):

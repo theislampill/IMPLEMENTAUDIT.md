@@ -29,6 +29,8 @@ FORBIDDEN = {
     "lib.scoring", "eval.lib.scoring",
     "evaluated_surfaces", "eval.evaluated_surfaces",
     "provisional_integration", "eval.provisional_integration",
+    "candidate_matrix_acceptance", "candidate_matrix_fixture_setup",
+    "candidate_matrix_host",
 }
 LUNA_MODEL = "gpt-5.6-luna"
 CAPTURE_FILES = (
@@ -113,10 +115,10 @@ def synthetic_official_pass(fixture, model, manifest, bundle_sha256):
     properties = {
         prop["name"]: {
             "state": (
-                "FAIL" if fixture["id"] in ("B0", "E5") and
+                "FAIL" if fixture["id"] == "B0" and
                 prop["required"] is False else "PASS"),
             "pass": not (
-                fixture["id"] in ("B0", "E5") and
+                fixture["id"] == "B0" and
                 prop["required"] is False),
             "evidence": "synthetic production-shaped retained evidence",
             "describes": prop.get("describes", ""),
@@ -822,8 +824,7 @@ def assert_production_campaign_and_mutation_matrix(module):
             row["execution_mode"] == "production"
             for row in result["cells"])
         for fixture_id, optional_name in (
-                ("B0", "agents_update_decision"),
-                ("E5", "current_answer_correctness")):
+                ("B0", "agents_update_decision"),):
             row = next(
                 item for item in result["cells"]
                 if item["fixture"] == fixture_id)
@@ -1057,7 +1058,7 @@ def assert_independent_pass_property_boundary(module):
             for name in declaration
         }
         for name, required in declaration.items():
-            if not required and fixture_id in ("B0", "E5"):
+            if not required and fixture_id == "B0":
                 properties[name] = {"state": "FAIL", "pass": False}
         rows.append({
             "index": index, "config": "L", "fixture": fixture_id,
@@ -1076,7 +1077,7 @@ def assert_independent_pass_property_boundary(module):
     assert rows[0]["properties"]["agents_update_decision"] == {
         "state": "FAIL", "pass": False}
     assert rows[8]["properties"]["current_answer_correctness"] == {
-        "state": "FAIL", "pass": False}
+        "state": "PASS", "pass": True}
     mutations = []
     required_fail = json.loads(json.dumps(rows))
     required_fail[0]["properties"]["phase_start"] = {

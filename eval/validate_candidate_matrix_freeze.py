@@ -36,6 +36,8 @@ FORBIDDEN_IMPORTS = {
     "b3v4_rederive", "b3v4_contract", "hosts", "runner", "adapters",
     "lib.scoring", "eval.lib.scoring",
     "evaluated_surfaces", "provisional_integration",
+    "candidate_matrix_acceptance", "candidate_matrix_fixture_setup",
+    "candidate_matrix_host",
 }
 EXPECTED_MUST_NOT_IMPORT = [
     "eval.candidate_matrix_campaign", "eval.hosts", "eval.runner",
@@ -43,6 +45,8 @@ EXPECTED_MUST_NOT_IMPORT = [
     "eval.b3v4_campaign", "eval.b3v4_rederive", "eval.b3v4_contract",
     "eval.evaluated_surfaces", "eval.provisional_integration",
     "eval.campaign_freeze_preflight",
+    "eval.candidate_matrix_acceptance",
+    "eval.candidate_matrix_fixture_setup", "eval.candidate_matrix_host",
 ]
 
 
