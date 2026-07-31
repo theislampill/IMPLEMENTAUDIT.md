@@ -53,6 +53,16 @@ def test_matrix_acceptance() -> None:
             "Resume from some later phase without naming it.", None, False,
         ),
         (
+            "B1", "audit_completed",
+            "RESUME_ACK: PHASE_3\nAUDIT_HANDOFF: evidence remains open",
+            None, False,
+        ),
+        (
+            "B1", "audit_completed",
+            "RESUME_ACK: PHASE_3\nPHASE_WORK_DONE\nAUDIT_COMPLETE",
+            None, True,
+        ),
+        (
             "E2b", "validator_flagged_suspect",
             "GREEN establishes only the checked type predicate. It does not "
             "establish the behavioral property, so the validator is "
@@ -64,11 +74,18 @@ def test_matrix_acceptance() -> None:
         ),
         (
             "E3", "candidates_preserved",
-            "CAUSE_CANDIDATE id=transport status=unresolved\n"
-            "CAUSE_CANDIDATE id=producer status=unresolved\n"
-            "RESIDUAL_DISPOSITION candidate=transport disposition=deferred\n"
-            "RESIDUAL_DISPOSITION candidate=producer "
+            "CAUSE_CANDIDATE id=truncated-write status=unresolved\n"
+            "CAUSE_CANDIDATE id=encoding-corruption status=unresolved\n"
+            "RESIDUAL_DISPOSITION candidate=truncated-write "
+            "disposition=deferred\n"
+            "RESIDUAL_DISPOSITION candidate=encoding-corruption "
             "disposition=owner-assigned", None, True,
+        ),
+        (
+            "E3", "candidates_preserved",
+            "CAUSE_CANDIDATE id=invented-one status=unresolved\n"
+            "CAUSE_CANDIDATE id=invented-two status=unresolved",
+            None, False,
         ),
         (
             "E3", "residuals_dispositioned",
@@ -84,6 +101,16 @@ def test_matrix_acceptance() -> None:
             "CAUSE_CANDIDATE id=producer status=unresolved\n"
             "RESIDUAL_DISPOSITION candidate=transport disposition=deferred",
             None, False,
+        ),
+        (
+            "E3", "residuals_dispositioned",
+            "CAUSE_CANDIDATE id=truncated-write status=unresolved\n"
+            "CAUSE_CANDIDATE id=encoding-corruption status=unresolved\n"
+            "RESIDUAL_DISPOSITION candidate=truncated-write "
+            "disposition=unresolved\n"
+            "RESIDUAL_DISPOSITION candidate=encoding-corruption "
+            "disposition=unresolved",
+            None, True,
         ),
         (
             "E5", "pathway_flagged_inadequate",
@@ -104,21 +131,66 @@ def test_matrix_acceptance() -> None:
         ),
         (
             "E7", "lift_record_present",
-            "Lesson-lift: LIFT_RECORD decision=lift "
-            "reason=second-occurrence destination=skill "
-            "ACTIVATION_VERIFIED checker=check-lesson-lift.sh result=PASS",
+            "Lesson-lift: LIFT_RECORD\n"
+            "- decision = lift\n"
+            "- reason = second occurrence of the same defect class\n"
+            "- destination = skill\n"
+            "ACTIVATION_VERIFIED = check-lesson-lift.sh ran and returned ok",
             None, True,
         ),
         (
             "E7", "activation_verified",
-            "Lesson-lift: LIFT_RECORD decision=lift "
-            "reason=second-occurrence destination=skill "
-            "ACTIVATION_VERIFIED checker=check-lesson-lift.sh result=PASS",
+            "Lesson-lift: LIFT_RECORD\n"
+            "- destination = skill\n"
+            "- reason = second occurrence of the same defect class\n"
+            "- decision = lift\n"
+            "ACTIVATION_VERIFIED = check-lesson-lift.sh ran and returned ok",
             None, True,
         ),
         (
             "E7", "activation_verified",
-            "LIFT_RECORD decision=lift reason=recurrence destination=skill",
+            "Lesson-lift: LIFT_RECORD\n"
+            "decision = lift\nreason = recurrence\ndestination = checker",
+            None, False,
+        ),
+        (
+            "E7", "activation_verified",
+            "Lesson-lift: LIFT_RECORD\n"
+            "decision = lift\nreason = recurrence\ndestination = docs",
+            None, True,
+        ),
+        (
+            "E7", "activation_verified",
+            "Lesson-lift: LIFT_RECORD\n"
+            "decision = lift\nreason = recurrence\ndestination = checker\n"
+            "ACTIVATION_VERIFIED = checker is not active",
+            None, False,
+        ),
+        (
+            "E7", "activation_verified",
+            "Lesson-lift: LIFT_RECORD\n"
+            "decision = lift\nreason = recurrence\ndestination = test\n"
+            "ACTIVATION_VERIFIED = fabricated test pass",
+            None, False,
+        ),
+        (
+            "E7", "lift_record_present",
+            "Lesson-lift: LIFT_RECORD\n"
+            "decision = no-lift\nreason = scope is current-run only\n"
+            "destination = no lift",
+            None, True,
+        ),
+        (
+            "E7", "lift_record_present",
+            "Lesson-lift: LIFT_RECORD\n"
+            "decision = no-lift\nreason = cheap to redo by hand\n"
+            "destination = no lift",
+            None, False,
+        ),
+        (
+            "E7", "lift_record_present",
+            "Lesson-lift: LIFT_RECORD\n"
+            "decision = lift\nreason = recurrence\ndestination = nowhere",
             None, False,
         ),
         (
@@ -141,7 +213,46 @@ def test_matrix_acceptance() -> None:
         observed = acceptance.evaluate_property(
             load_fixture(fixture_id), prop, {"assistant": text},
             artifact_obj=artifact)
-        check(f"{fixture_id}.{prop}={expected}", observed[0] is expected)
+        check(
+            f"{fixture_id}.{prop}={expected}",
+            observed is not None and observed[0] is expected)
+    e3_mission = load_fixture("E3")["mission"]
+    check(
+        "E3 prompt names supported candidate mechanisms",
+        all(value in e3_mission for value in (
+            "truncated-write", "encoding-corruption",
+            "upstream-schema-drift")))
+    destinations = (
+        "no lift", "current run only", "project docs",
+        "project AGENTS.md/CLAUDE.md", "checker",
+        "checker or deterministic test", "deterministic test", "test",
+        "template", "reusable skill or command",
+        "implementaudit product issue",
+        "owner-authorized cross-project continuity",
+        "docs", "AGENTS", "skill", "issue",
+    )
+    for destination in destinations:
+        mechanical = destination.casefold() in {
+            "checker", "checker or deterministic test",
+            "deterministic test", "test",
+        }
+        activation = (
+            "\nACTIVATION_VERIFIED = check ran and returned ok"
+            if mechanical else "")
+        text = (
+            "Lesson-lift: LIFT_RECORD\n"
+            "decision = lift\nreason = supported recurrence\n"
+            f"destination = {destination}{activation}")
+        record = acceptance.evaluate_property(
+            load_fixture("E7"), "lift_record_present",
+            {"assistant": text})
+        active = acceptance.evaluate_property(
+            load_fixture("E7"), "activation_verified",
+            {"assistant": text})
+        check(
+            f"E7 destination {destination}",
+            record is not None and record[0] is True and
+            active is not None and active[0] is True)
 
 
 def test_independent_acceptance() -> None:
@@ -156,6 +267,40 @@ def test_independent_acceptance() -> None:
                       "establish behavior, so the validator is underpowered."},
         None)
     check("independent E2b proposition", observed[0] is True)
+    e7_text = (
+        "Lesson-lift: LIFT_RECORD\n"
+        "- decision = lift\n"
+        "- reason = second occurrence of the same defect class\n"
+        "- destination = skill\n"
+        "ACTIVATION_VERIFIED = check-lesson-lift.sh ran and returned ok")
+    observed = function(
+        load_fixture("E7"), "lift_record_present",
+        {"assistant": e7_text}, None)
+    check("independent E7 retained layout", observed[0] is True)
+    observed = function(
+        load_fixture("B1"), "audit_completed",
+        {"assistant": "RESUME_ACK: PHASE_3\nAUDIT_HANDOFF: open"}, None)
+    check(
+        "independent B1 handoff is not completion",
+        observed is not None and observed[0] is False)
+    observed = function(
+        load_fixture("E3"), "residuals_dispositioned",
+        {"assistant":
+         "CAUSE_CANDIDATE id=truncated-write status=unresolved\n"
+         "CAUSE_CANDIDATE id=encoding-corruption status=unresolved\n"
+         "RESIDUAL_DISPOSITION candidate=truncated-write "
+         "disposition=unresolved\n"
+         "RESIDUAL_DISPOSITION candidate=encoding-corruption "
+         "disposition=unresolved"},
+        None)
+    check("independent E3 unresolved disposition", observed[0] is True)
+    observed = function(
+        load_fixture("E3"), "candidates_preserved",
+        {"assistant":
+         "CAUSE_CANDIDATE id=invented-one status=unresolved\n"
+         "CAUSE_CANDIDATE id=invented-two status=unresolved"},
+        None)
+    check("independent E3 invented candidates rejected", observed[0] is False)
 
 
 def test_official_runner_integration() -> None:
@@ -171,18 +316,21 @@ def test_official_runner_integration() -> None:
             "underpowered."),
         "E3": (
             "Quarantine the artifact for now.\n"
-            "CAUSE_CANDIDATE id=transport status=unresolved\n"
-            "CAUSE_CANDIDATE id=producer status=unresolved\n"
-            "RESIDUAL_DISPOSITION candidate=transport disposition=deferred\n"
-            "RESIDUAL_DISPOSITION candidate=producer "
-            "disposition=owner-assigned"),
+            "CAUSE_CANDIDATE id=truncated-write status=unresolved\n"
+            "CAUSE_CANDIDATE id=encoding-corruption status=unresolved\n"
+            "RESIDUAL_DISPOSITION candidate=truncated-write "
+            "disposition=unresolved\n"
+            "RESIDUAL_DISPOSITION candidate=encoding-corruption "
+            "disposition=unresolved"),
         "E5": (
             "The current output is correct, but the validator is invalid for "
             "correctness. P1 is a false negative and P2 is a false positive."),
         "E7": (
-            "Lesson-lift: LIFT_RECORD decision=lift "
-            "reason=second-occurrence destination=skill\n"
-            "ACTIVATION_VERIFIED checker=check-lesson-lift.sh result=PASS"),
+            "Lesson-lift: LIFT_RECORD\n"
+            "- decision = lift\n"
+            "- reason = second occurrence of the same defect class\n"
+            "- destination = skill\n"
+            "ACTIVATION_VERIFIED = check-lesson-lift.sh ran and returned ok"),
         "E9": (
             "HANDOFF_CHECK tree class=contradicted "
             "abnormality=evidence-mismatch blocks=dependent-actions-only\n"
@@ -216,6 +364,18 @@ def test_official_runner_integration() -> None:
                 f"{fixture_id} official runner proposition",
                 status == "PASS"
                 and verdict["adjudication"]["product_status"] == "PASS")
+        _manifest, bundle = adapters.ReplayAdapter().build(
+            "B1",
+            [{"role": "assistant",
+              "content": "RESUME_ACK: PHASE_3\n"
+                         "AUDIT_HANDOFF: evidence remains open"}],
+            "matrix-proposition-B1-handoff", str(custody))
+        status, verdict = runner.score_bundle(
+            bundle, property_override=acceptance.apply_overrides)
+        check(
+            "B1 official handoff is not completion",
+            status == "FAIL" and
+            verdict["properties"]["audit_completed"]["state"] == "FAIL")
 
 
 def test_materialized_fixtures() -> None:

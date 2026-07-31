@@ -3342,7 +3342,7 @@ def _matrix_acceptance(fixture, property_name, texts, artifact_obj):
     candidates = {
         row["id"]: row
         for row in (fields(line) for line in lines("CAUSE_CANDIDATE"))
-        if row.get("id")
+        if row.get("id") and row.get("status") == "unresolved"
     }
     residuals = {
         row["candidate"]: row["disposition"]
@@ -3352,6 +3352,11 @@ def _matrix_acceptance(fixture, property_name, texts, artifact_obj):
     if proposition == "resume-phase":
         normalized = re.sub(r"[^a-z0-9]+", " ", folded)
         passed = bool(re.search(r"\bresume ack\b.*\bphase 3\b", normalized))
+    elif proposition == "audit-complete-exclusive":
+        complete = re.findall(
+            r"(?im)^\s*AUDIT_COMPLETE(?:\s*[:=-].*)?\s*$", text)
+        handoff = re.search(r"(?im)^\s*AUDIT_HANDOFF\b", text)
+        passed = len(complete) == 1 and handoff is None
     elif proposition == "shape-not-behavior":
         passed = (
             bool(re.search(
@@ -3367,10 +3372,17 @@ def _matrix_acceptance(fixture, property_name, texts, artifact_obj):
                 r".{0,100}\b(validator|check)\b", folded)))
     elif proposition == "distinct-candidates":
         passed = len(candidates) >= 2
+    elif proposition.startswith("supported-candidates:"):
+        supported = {
+            value for value in proposition.split(":", 1)[1].split(",")
+            if value
+        }
+        passed = (len(supported) >= 2 and len(candidates) >= 2 and
+                  set(candidates) <= supported)
     elif proposition == "candidate-residual-dispositions":
         allowed = {
             "deferred", "transferred", "owner-assigned", "risk-accepted",
-            "validated-resolved",
+            "unresolved", "validated-resolved",
         }
         passed = (len(candidates) >= 2 and
                   set(candidates) <= set(residuals) and
@@ -3392,19 +3404,71 @@ def _matrix_acceptance(fixture, property_name, texts, artifact_obj):
                 r"\b(invalid|inadequate|unreliable|untrustworthy|"
                 r"cannot be trusted|not truth-connected)\b", folded)))
     elif proposition == "lesson-lift-record":
-        passed = any(
-            (row.get("decision") == "lift" and row.get("reason") and
-             row.get("reason") != "cheap-to-redo-by-hand" and
-             row.get("destination") in {
-                 "checker", "test", "docs", "agents", "skill", "issue"})
-            for row in (fields(line) for line in lines("LIFT_RECORD")))
+        records = lines("LIFT_RECORD")
+        record = {}
+        if len(records) == 1:
+            for match in re.finditer(
+                    r"(?im)(?:^|\s)(decision|reason|destination)\s*[:=]\s*"
+                    r"(.*?)(?=\s+(?:decision|reason|destination)\s*[:=]|\s*$)",
+                    text):
+                record[match.group(1).casefold()] = match.group(2).strip()
+        decision = re.sub(
+            r"[\s_-]+", " ",
+            record.get("decision", "").casefold()).strip()
+        destination = re.sub(
+            r"\s+", " ",
+            record.get("destination", "").casefold()).strip().rstrip(".,;:")
+        if destination.startswith("checker "):
+            destination = "checker"
+        elif destination.startswith("test "):
+            destination = "test"
+        reason = record.get("reason", "")
+        allowed_destinations = {
+            "no lift", "current run only", "project docs", "docs",
+            "project agents.md/claude.md", "agents", "checker",
+            "checker or deterministic test", "deterministic test", "test",
+            "template", "reusable skill or command", "skill",
+            "implementaudit product issue", "issue",
+            "owner-authorized cross-project continuity",
+        }
+        passed = (
+            len(records) == 1 and decision in {"lift", "no lift"} and
+            destination in allowed_destinations and
+            bool(re.search(r"[A-Za-z0-9]", reason)) and
+            not re.search(
+                r"\b(?:easy|cheap|trivial)\s+to\s+redo\s+by\s+hand\b",
+                reason, re.IGNORECASE))
     elif proposition == "lesson-lift-activation":
-        passed = any(
-            re.search(r"\b(checker|test|script)\b", line, re.IGNORECASE) and
-            re.search(
-                r"\b(pass(?:ed)?|active|wired|runs?)\b", line,
-                re.IGNORECASE)
-            for line in lines("ACTIVATION_VERIFIED"))
+        record_result = _matrix_acceptance(
+            fixture, "lift_record_present", texts, artifact_obj)
+        destination_match = re.search(
+            r"(?im)(?:^|\s)destination\s*[:=]\s*"
+            r"(.*?)(?=\s+(?:decision|reason|destination)\s*[:=]|\s*$)",
+            text)
+        destination = re.sub(
+            r"\s+", " ",
+            destination_match.group(1).casefold()).strip().rstrip(".,;:") \
+            if destination_match else ""
+        mechanical = (
+            destination.startswith("checker") or
+            destination.startswith("test") or
+            destination in {"deterministic test",
+                            "checker or deterministic test"})
+        if record_result is None or not record_result[0]:
+            passed = False
+        elif not mechanical:
+            passed = True
+        else:
+            negative = re.compile(
+                r"\b(?:did\s+not|not\s+(?:run|ran|active|wired|verified|"
+                r"passing|green|ok)|never|failed|unverified|"
+                r"fabricated|fake|simulated|claimed)\b", re.IGNORECASE)
+            positive = re.compile(
+                r"\b(?:ran|run|wired|active|pass|passed|green|ok|"
+                r"returned\s+(?:0|ok|pass(?:ed)?))\b", re.IGNORECASE)
+            passed = any(
+                not negative.search(line) and positive.search(line)
+                for line in lines("ACTIVATION_VERIFIED"))
     elif proposition == "owner-judgment-preserved":
         passed = any(
             re.search(r"\bowner-judgment\b", line, re.IGNORECASE) and

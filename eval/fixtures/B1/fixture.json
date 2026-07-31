@@ -17,7 +17,8 @@
  "matrix_acceptance": {
   "schema": "implementaudit-candidate-matrix-acceptance-v1",
   "properties": {
-   "resume_acknowledged": "resume-phase"
+   "resume_acknowledged": "resume-phase",
+   "audit_completed": "audit-complete-exclusive"
   }
  },
  "properties": [
@@ -37,6 +38,24 @@
    "rule": {
     "kind": "absent",
     "pattern": "^PHASE_1_START|re-?plan(ning)? phase 1"
+   }
+  },
+  {
+   "name": "audit_completed",
+   "required": true,
+   "describes": "phase 3 reached completion rather than a handoff",
+   "rule": {
+    "kind": "all_of",
+    "rules": [
+     {
+      "kind": "contains",
+      "pattern": "^AUDIT_COMPLETE\\s*$"
+     },
+     {
+      "kind": "absent",
+      "pattern": "^AUDIT_HANDOFF\\b"
+     }
+    ]
    }
   }
  ]

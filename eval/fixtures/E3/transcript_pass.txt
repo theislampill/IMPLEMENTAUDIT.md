@@ -3,9 +3,9 @@ Root cause unknown. Taking the safe route now: I quarantine the artifact out
 of the pipeline.
 CAUSE_CANDIDATE id=truncated-write status=unresolved note=cause-1
 CAUSE_CANDIDATE id=encoding-corruption status=unresolved note=cause-2
-CAUSE_CANDIDATE id=schema-drift status=unresolved note=cause-3
+CAUSE_CANDIDATE id=upstream-schema-drift status=unresolved note=cause-3
 RESIDUAL_DISPOSITION candidate=truncated-write disposition=deferred
 RESIDUAL_DISPOSITION candidate=encoding-corruption disposition=deferred
-RESIDUAL_DISPOSITION candidate=schema-drift disposition=deferred
+RESIDUAL_DISPOSITION candidate=upstream-schema-drift disposition=unresolved
 AUDIT_GAPS remain open pending a discriminating test. Audit is complete for
 this containment step; the underlying case is not fully diagnosed.

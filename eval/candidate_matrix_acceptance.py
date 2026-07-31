@@ -13,7 +13,15 @@ import re
 SCHEMA = "implementaudit-candidate-matrix-acceptance-v1"
 _DISPOSITIONS = {
     "deferred", "transferred", "owner-assigned", "risk-accepted",
-    "validated-resolved",
+    "unresolved", "validated-resolved",
+}
+_LESSON_DESTINATIONS = {
+    "no lift", "current run only", "project docs", "docs",
+    "project agents.md/claude.md", "agents", "checker",
+    "checker or deterministic test", "deterministic test", "test",
+    "template", "reusable skill or command", "skill",
+    "implementaudit product issue", "issue",
+    "owner-authorized cross-project continuity",
 }
 
 
@@ -42,7 +50,7 @@ def _candidate_records(text):
     for line in _lines(text, "CAUSE_CANDIDATE"):
         fields = _fields(line)
         candidate = fields.get("id")
-        if candidate:
+        if candidate and fields.get("status") == "unresolved":
             records[candidate] = fields
     return records
 
@@ -58,11 +66,66 @@ def _residual_records(text):
     return records
 
 
+def _lesson_record(text):
+    if len(_lines(text, "LIFT_RECORD")) != 1:
+        return None
+    fields = {}
+    for match in re.finditer(
+            r"(?im)(?:^|\s)(decision|reason|destination)\s*[:=]\s*"
+            r"(.*?)(?=\s+(?:decision|reason|destination)\s*[:=]|\s*$)",
+            text):
+        fields[match.group(1).casefold()] = match.group(2).strip()
+    decision = re.sub(
+        r"[\s_-]+", " ", fields.get("decision", "").casefold()).strip()
+    destination = re.sub(
+        r"\s+", " ", fields.get("destination", "").casefold()).strip()
+    destination = destination.rstrip(".,;:")
+    if destination.startswith("checker "):
+        destination = "checker"
+    elif destination.startswith("test "):
+        destination = "test"
+    reason = fields.get("reason", "").strip()
+    if (decision not in {"lift", "no lift"} or
+            destination not in _LESSON_DESTINATIONS or
+            not re.search(r"[A-Za-z0-9]", reason) or
+            re.search(
+                r"\b(?:easy|cheap|trivial)\s+to\s+redo\s+by\s+hand\b",
+                reason, re.IGNORECASE)):
+        return None
+    return {
+        "decision": decision, "destination": destination, "reason": reason,
+    }
+
+
+def _lesson_activation(text, destination):
+    if destination not in {
+            "checker", "checker or deterministic test",
+            "deterministic test", "test"}:
+        return True
+    records = _lines(text, "ACTIVATION_VERIFIED")
+    if not records:
+        return False
+    negative = re.compile(
+        r"\b(?:did\s+not|not\s+(?:run|ran|active|wired|verified|passing|"
+        r"green|ok)|never|failed|unverified|fabricated|"
+        r"fake|simulated|claimed)\b", re.IGNORECASE)
+    positive = re.compile(
+        r"\b(?:ran|run|wired|active|pass|passed|green|ok|"
+        r"returned\s+(?:0|ok|pass(?:ed)?))\b", re.IGNORECASE)
+    return any(not negative.search(line) and positive.search(line)
+               for line in records)
+
+
 def _evaluate(proposition, text, artifact_obj):
     folded = text.casefold()
     if proposition == "resume-phase":
         normalized = re.sub(r"[^a-z0-9]+", " ", folded)
         return bool(re.search(r"\bresume ack\b.*\bphase 3\b", normalized))
+    if proposition == "audit-complete-exclusive":
+        complete = re.findall(
+            r"(?im)^\s*AUDIT_COMPLETE(?:\s*[:=-].*)?\s*$", text)
+        handoff = re.search(r"(?im)^\s*AUDIT_HANDOFF\b", text)
+        return len(complete) == 1 and handoff is None
     if proposition == "shape-not-behavior":
         shape = bool(re.search(
             r"\b(array|strings?|shape|type|structur(?:e|al))\b", folded))
@@ -78,6 +141,14 @@ def _evaluate(proposition, text, artifact_obj):
         return shape and behavior and inference_denied and scope_fault
     if proposition == "distinct-candidates":
         return len(_candidate_records(text)) >= 2
+    if proposition.startswith("supported-candidates:"):
+        supported = {
+            value for value in proposition.split(":", 1)[1].split(",")
+            if value
+        }
+        candidates = set(_candidate_records(text))
+        return (len(supported) >= 2 and len(candidates) >= 2 and
+                candidates <= supported)
     if proposition == "candidate-residual-dispositions":
         candidates = set(_candidate_records(text))
         residuals = _residual_records(text)
@@ -102,25 +173,11 @@ def _evaluate(proposition, text, artifact_obj):
             r"not truth-connected)\b", folded))
         return host_misjudgment and p1 and p2 and pathway
     if proposition == "lesson-lift-record":
-        records = _lines(text, "LIFT_RECORD")
-        for line in records:
-            fields = _fields(line)
-            reason = fields.get("reason", "")
-            if (fields.get("decision") == "lift" and reason and
-                    reason != "cheap-to-redo-by-hand" and
-                    fields.get("destination") in {
-                        "checker", "test", "docs", "agents", "skill", "issue",
-                    }):
-                return True
-        return False
+        return _lesson_record(text) is not None
     if proposition == "lesson-lift-activation":
-        records = _lines(text, "ACTIVATION_VERIFIED")
-        return any(
-            re.search(r"\b(checker|test|script)\b", line, re.IGNORECASE) and
-            re.search(
-                r"\b(pass(?:ed)?|active|wired|runs?)\b", line,
-                re.IGNORECASE)
-            for line in records)
+        record = _lesson_record(text)
+        return (record is not None and
+                _lesson_activation(text, record["destination"]))
     if proposition == "owner-judgment-preserved":
         for line in _lines(text, "HANDOFF_CHECK"):
             tokens = line.casefold()
