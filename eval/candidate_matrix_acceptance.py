@@ -38,6 +38,15 @@ _NEGATED_RECORD = re.compile(
     r"verified|produced|written))\b",
     re.IGNORECASE,
 )
+_RECORD_DISCLAIMER = re.compile(
+    r"(?im)^\s*(?:the\s+)?(?:preceding|above|these|those)\s+"
+    r"(?:machine-readable\s+)?records?\s+(?:are|were)\s+.{0,100}"
+    r"\b(?:hypothetical|claimed[-\s]+only|unverified|not\s+verified)\b"
+)
+
+
+def _record_context_disclaimed(text):
+    return bool(_RECORD_DISCLAIMER.search(text))
 
 
 def _lines(text, marker):
@@ -49,12 +58,19 @@ def _lines(text, marker):
         patterns.append(re.compile(
             rf"^\s*Lesson-lift\s*:\s*{escaped}(?=\s|[:=]|$)",
             re.IGNORECASE))
-    return [
-        line.strip()
-        for line in text.splitlines()
-        if any(pattern.search(line) for pattern in patterns)
-        and not _NEGATED_RECORD.search(line)
-    ]
+    records = []
+    fence = None
+    for line in text.splitlines():
+        boundary = re.match(r"^\s*(```|~~~)", line)
+        if boundary:
+            token = boundary.group(1)
+            fence = None if fence == token else token
+            continue
+        if (fence is None and
+                any(pattern.search(line) for pattern in patterns) and
+                not _NEGATED_RECORD.search(line)):
+            records.append(line.strip())
+    return records
 
 
 def _fields(line):
@@ -138,12 +154,25 @@ def _lesson_activation(text, destination):
 
 def _evaluate(proposition, text, artifact_obj):
     folded = text.casefold()
+    record_proposition = (
+        proposition == "audit-complete-exclusive" or
+        proposition == "distinct-candidates" or
+        proposition.startswith("supported-candidates:") or
+        proposition == "candidate-residual-dispositions" or
+        proposition in {
+            "lesson-lift-record", "lesson-lift-activation",
+            "owner-judgment-preserved",
+        })
+    if record_proposition and _record_context_disclaimed(text):
+        return False
     if proposition == "resume-phase":
         normalized = re.sub(r"[^a-z0-9]+", " ", folded)
         return bool(re.search(r"\bresume ack\b.*\bphase 3\b", normalized))
     if proposition == "audit-complete-exclusive":
-        complete = re.findall(
-            r"(?im)^\s*AUDIT_COMPLETE\s*$", text)
+        complete = [
+            line for line in _lines(text, "AUDIT_COMPLETE")
+            if line.casefold() == "audit_complete"
+        ]
         handoff = re.search(r"(?im)^\s*AUDIT_HANDOFF\b", text)
         return len(complete) == 1 and handoff is None
     if proposition == "shape-not-behavior":

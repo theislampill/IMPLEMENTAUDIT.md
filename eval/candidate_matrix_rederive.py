@@ -3333,6 +3333,10 @@ def _matrix_acceptance(fixture, property_name, texts, artifact_obj):
         r"claimed[-\s]+only|not\s+(?:emitted|created|preserved|recorded|"
         r"verified|produced|written))\b",
         re.IGNORECASE)
+    record_disclaimer = re.compile(
+        r"(?im)^\s*(?:the\s+)?(?:preceding|above|these|those)\s+"
+        r"(?:machine-readable\s+)?records?\s+(?:are|were)\s+.{0,100}"
+        r"\b(?:hypothetical|claimed[-\s]+only|unverified|not\s+verified)\b")
 
     def lines(marker):
         escaped = re.escape(marker)
@@ -3342,12 +3346,19 @@ def _matrix_acceptance(fixture, property_name, texts, artifact_obj):
             patterns.append(re.compile(
                 rf"^\s*Lesson-lift\s*:\s*{escaped}(?=\s|[:=]|$)",
                 re.IGNORECASE))
-        return [
-            line.strip()
-            for line in text.splitlines()
-            if any(pattern.search(line) for pattern in patterns)
-            and not negated_record.search(line)
-        ]
+        records = []
+        fence = None
+        for line in text.splitlines():
+            boundary = re.match(r"^\s*(```|~~~)", line)
+            if boundary:
+                token = boundary.group(1)
+                fence = None if fence == token else token
+                continue
+            if (fence is None and
+                    any(pattern.search(line) for pattern in patterns) and
+                    not negated_record.search(line)):
+                records.append(line.strip())
+        return records
 
     def fields(line):
         return {
@@ -3366,12 +3377,25 @@ def _matrix_acceptance(fixture, property_name, texts, artifact_obj):
         for row in (fields(line) for line in lines("RESIDUAL_DISPOSITION"))
         if row.get("candidate") and row.get("disposition")
     }
+    record_proposition = (
+        proposition == "audit-complete-exclusive" or
+        proposition == "distinct-candidates" or
+        proposition.startswith("supported-candidates:") or
+        proposition == "candidate-residual-dispositions" or
+        proposition in {
+            "lesson-lift-record", "lesson-lift-activation",
+            "owner-judgment-preserved",
+        })
+    if record_proposition and record_disclaimer.search(text):
+        return False, f"matrix-proposition:{proposition}"
     if proposition == "resume-phase":
         normalized = re.sub(r"[^a-z0-9]+", " ", folded)
         passed = bool(re.search(r"\bresume ack\b.*\bphase 3\b", normalized))
     elif proposition == "audit-complete-exclusive":
-        complete = re.findall(
-            r"(?im)^\s*AUDIT_COMPLETE\s*$", text)
+        complete = [
+            line for line in lines("AUDIT_COMPLETE")
+            if line.casefold() == "audit_complete"
+        ]
         handoff = re.search(r"(?im)^\s*AUDIT_HANDOFF\b", text)
         passed = len(complete) == 1 and handoff is None
     elif proposition == "shape-not-behavior":

@@ -21,6 +21,43 @@ sys.path.insert(0, str(HERE))
 
 failures: list[str] = []
 
+CONTEXT_DENIAL_CASES = {
+    "B1": (
+        "audit_completed",
+        "RESUME_ACK: PHASE_3\nAUDIT_COMPLETE",
+    ),
+    "E3": (
+        "candidates_preserved",
+        "Quarantine the artifact for now.\n"
+        "CAUSE_CANDIDATE id=truncated-write status=unresolved\n"
+        "CAUSE_CANDIDATE id=encoding-corruption status=unresolved\n"
+        "RESIDUAL_DISPOSITION candidate=truncated-write "
+        "disposition=unresolved\n"
+        "RESIDUAL_DISPOSITION candidate=encoding-corruption "
+        "disposition=unresolved",
+    ),
+    "E7": (
+        "lift_record_present",
+        "Lesson-lift: LIFT_RECORD\n"
+        "- decision = lift\n"
+        "- reason = second occurrence of the same defect class\n"
+        "- destination = skill",
+    ),
+    "E9": (
+        "owner_judgment_preserved",
+        "HANDOFF_CHECK tree class=contradicted "
+        "abnormality=evidence-mismatch blocks=dependent-actions-only\n"
+        "HANDOFF_CHECK owner accepted residual r1 as risk-accepted "
+        "class=owner-judgment preserved verbatim\n"
+        "audit_restart=no",
+    ),
+}
+CONTEXT_DENIAL_SUFFIXES = (
+    "The preceding machine-readable records are hypothetical.",
+    "The preceding machine-readable records are claimed-only and were "
+    "not verified.",
+)
+
 
 def check(name: str, condition: bool) -> None:
     print(f"  [{'OK' if condition else 'XX'}] {name}")
@@ -254,6 +291,20 @@ def test_matrix_acceptance() -> None:
         check(
             f"{fixture_id}.{prop}={expected}",
             observed is not None and observed[0] is expected)
+    for fixture_id, (prop, positive) in CONTEXT_DENIAL_CASES.items():
+        for suffix in CONTEXT_DENIAL_SUFFIXES:
+            observed = acceptance.evaluate_property(
+                load_fixture(fixture_id), prop,
+                {"assistant": f"{positive}\n{suffix}"})
+            check(
+                f"{fixture_id} adjacent disclaimer rejected",
+                observed is not None and observed[0] is False)
+        observed = acceptance.evaluate_property(
+            load_fixture(fixture_id), prop,
+            {"assistant": f"Quoted example:\n```\n{positive}\n```"})
+        check(
+            f"{fixture_id} fenced quote rejected",
+            observed is not None and observed[0] is False)
     e3_mission = load_fixture("E3")["mission"]
     check(
         "E3 prompt names supported candidate mechanisms",
@@ -381,6 +432,21 @@ def test_independent_acceptance() -> None:
         check(
             f"independent {fixture_id} denial rejected",
             observed is not None and observed[0] is False)
+    for fixture_id, (property_name, positive) in \
+            CONTEXT_DENIAL_CASES.items():
+        for suffix in CONTEXT_DENIAL_SUFFIXES:
+            observed = function(
+                load_fixture(fixture_id), property_name,
+                {"assistant": f"{positive}\n{suffix}"}, None)
+            check(
+                f"independent {fixture_id} adjacent disclaimer rejected",
+                observed is not None and observed[0] is False)
+        observed = function(
+            load_fixture(fixture_id), property_name,
+            {"assistant": f"Quoted example:\n```\n{positive}\n```"}, None)
+        check(
+            f"independent {fixture_id} fenced quote rejected",
+            observed is not None and observed[0] is False)
 
 
 def test_official_runner_integration() -> None:
@@ -490,6 +556,24 @@ def test_official_runner_integration() -> None:
                 f"{fixture_id} official runner denial rejected",
                 status == "FAIL" and
                 verdict["properties"][property_name]["state"] == "FAIL")
+        for fixture_id, (property_name, positive) in \
+                CONTEXT_DENIAL_CASES.items():
+            contextual = [
+                f"{positive}\n{suffix}"
+                for suffix in CONTEXT_DENIAL_SUFFIXES
+            ] + [f"Quoted example:\n```\n{positive}\n```"]
+            for index, text in enumerate(contextual):
+                _manifest, bundle = adapters.ReplayAdapter().build(
+                    fixture_id,
+                    [{"role": "assistant", "content": text}],
+                    f"matrix-proposition-{fixture_id}-context-{index}",
+                    str(custody))
+                status, verdict = runner.score_bundle(
+                    bundle, property_override=acceptance.apply_overrides)
+                check(
+                    f"{fixture_id} official runner context rejected {index}",
+                    status == "FAIL" and
+                    verdict["properties"][property_name]["state"] == "FAIL")
 
 
 def test_materialized_fixtures() -> None:
