@@ -2021,38 +2021,61 @@ def _raw_json_lines(data, owner):
 
 
 def _validate_codex_stdout_rows(rows):
+    usage_fields = {
+        "input_tokens", "cached_input_tokens", "output_tokens",
+        "reasoning_output_tokens"}
     for ordinal, event in rows:
         owner = f"Codex raw stdout line {ordinal}"
         event_type = event.get("type")
         if event_type == "thread.started":
             _exact_fields(event, {"type", "thread_id"}, owner)
-        elif event_type in ("turn.started", "turn.completed"):
-            optional = {"thread_id", "turn_id"}
-            if event_type == "turn.completed":
-                optional.add("usage")
-            _closed_fields(event, {"type"}, optional, owner)
+        elif event_type == "turn.started":
+            _expect(set(event) in (
+                {"type"}, {"type", "thread_id", "turn_id"}),
+                owner + " turn identity shape invalid")
             _expect(all(
                 type(event[field]) is str and bool(event[field])
                 for field in ("thread_id", "turn_id") if field in event),
                 owner + " turn identity invalid")
-            if "usage" in event:
-                usage = _exact_fields(
-                    event["usage"], {
-                        "input_tokens", "cached_input_tokens",
-                        "output_tokens", "reasoning_output_tokens"},
-                    owner + " usage")
-                _expect(all(type(value) is int and value >= 0
-                            for value in usage.values()),
-                        owner + " usage invalid")
+        elif event_type == "turn.completed":
+            _expect(set(event) in (
+                {"type", "usage"},
+                {"type", "thread_id", "turn_id", "usage"}),
+                owner + " turn identity shape invalid")
+            _expect(all(
+                type(event[field]) is str and bool(event[field])
+                for field in ("thread_id", "turn_id") if field in event),
+                owner + " turn identity invalid")
+            usage = _exact_fields(
+                event["usage"], usage_fields, owner + " usage")
+            _expect(all(type(value) is int and value >= 0
+                        for value in usage.values()),
+                    owner + " usage invalid")
         elif event_type in ("item.started", "item.updated", "item.completed"):
-            _closed_fields(event, {"type", "item"}, {"status"}, owner)
+            _exact_fields(event, {"type", "item"}, owner)
             item = _mapping(event["item"], owner + " item")
             item_type = item.get("type")
             if item_type == "command_execution":
-                required = {"id", "type", "status", "command"}
-                if event_type == "item.completed":
-                    required |= {"aggregated_output", "exit_code"}
+                _expect(event_type != "item.updated",
+                        owner + " unsupported command update")
+                required = {
+                    "id", "type", "status", "command",
+                    "aggregated_output", "exit_code"}
                 _exact_fields(item, required, owner + " command item")
+                _expect(type(item["command"]) is str,
+                        owner + " command invalid")
+                if event_type == "item.started":
+                    _expect(item["status"] == "in_progress" and
+                            item["aggregated_output"] == "" and
+                            item["exit_code"] is None,
+                            owner + " command start metadata invalid")
+                else:
+                    _expect(type(item["exit_code"]) is int and
+                            type(item["aggregated_output"]) is str and
+                            item["status"] == (
+                                "completed" if item["exit_code"] == 0
+                                else "failed"),
+                            owner + " command completion invalid")
             elif item_type == "file_change":
                 _exact_fields(
                     item, {"id", "type", "status", "changes"},
@@ -2195,9 +2218,13 @@ def _parse_codex_actions(raw):
             bound_turn_id = observed
             continue
         if event_type == "turn.completed":
-            _expect(turn_id is not None and
+            completion_turn = event.get("turn_id")
+            _expect(
+                    turn_id is not None and
                     event.get("thread_id", thread_id) == thread_id and
-                    event.get("turn_id", turn_id) == turn_id,
+                    ((bound_turn_id is None and "turn_id" not in event) or
+                     (bound_turn_id is not None and
+                      completion_turn == bound_turn_id)),
                     "Codex raw turn completion invalid")
             turn_id = None
             continue

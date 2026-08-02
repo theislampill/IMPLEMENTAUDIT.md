@@ -596,7 +596,11 @@ def test_universal_capture_producer_consumer_sentinel() -> None:
                      "id": "message-1", "type": "agent_message",
                      "status": "completed", "text": "sentinel"}},
                 {"type": "turn.completed", "thread_id": thread_id,
-                 "turn_id": stdout_turn}))
+                 "turn_id": stdout_turn,
+                 "usage": {
+                     "input_tokens": 1, "cached_input_tokens": 0,
+                     "output_tokens": 1,
+                     "reasoning_output_tokens": 0}}))
             session_rows = (
                 {"type": "session_meta", "timestamp": now, "payload": {
                     "id": thread_id, "session_id": thread_id, "cwd": repo,

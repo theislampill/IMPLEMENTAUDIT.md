@@ -416,7 +416,8 @@ def build_campaign(root, *, execution_mode="production", surface_root=None,
              "turn_id": "stdout-turn"},
             {"type": "item.started", "item": {
                 "id": "read-preimage", "type": "command_execution",
-                "status": "in_progress", "command": command}},
+                "status": "in_progress", "command": command,
+                "aggregated_output": "", "exit_code": None}},
             {"type": "item.completed", "item": {
                 "id": "read-preimage", "type": "command_execution",
                 "status": "completed", "command": command,
@@ -436,6 +437,9 @@ def build_campaign(root, *, execution_mode="production", surface_root=None,
         raw_events.append({
             "type": "turn.completed", "thread_id": name,
             "turn_id": "stdout-turn",
+            "usage": {
+                "input_tokens": 1, "cached_input_tokens": 0,
+                "output_tokens": 1, "reasoning_output_tokens": 0},
         })
         raw_stdout = b"".join(encoded(event) for event in raw_events)
         raw_session = b"".join(encoded(event) for event in [
@@ -1204,16 +1208,17 @@ def assert_real_codex_turn_shapes(module):
     rows = [
         {"type": "thread.started", "thread_id": "retained-thread"},
         {"type": "turn.started"},
+        {"type": "item.completed", "item": {
+            "id": "message-1", "type": "agent_message",
+            "text": "Inspect the retained evidence first."}},
         {"type": "item.started", "item": {
             "id": "command-1", "type": "command_execution",
-            "status": "in_progress", "command": "git status --short"}},
+            "status": "in_progress", "command": "git status --short",
+            "aggregated_output": "", "exit_code": None}},
         {"type": "item.completed", "item": {
             "id": "command-1", "type": "command_execution",
             "status": "completed", "command": "git status --short",
             "aggregated_output": "", "exit_code": 0}},
-        {"type": "item.completed", "item": {
-            "id": "message-1", "type": "agent_message",
-            "text": "Do not promote stale evidence."}},
         {"type": "turn.completed", "usage": usage},
     ]
 
@@ -1224,7 +1229,29 @@ def assert_real_codex_turn_shapes(module):
     assert binding == {
         "thread_id": "retained-thread", "stdout_turn_ordinal": 1}
     assert [row["state"] for row in actions] == [
-        "COMPLETED", "TERMINAL_SAFE_MESSAGE"]
+        "TERMINAL_SAFE_MESSAGE", "COMPLETED"]
+
+    retained_shapes = {
+        "B0": copy.deepcopy(rows),
+        "B1": copy.deepcopy(rows),
+        "B2": copy.deepcopy(rows),
+        "E1": copy.deepcopy(rows),
+    }
+    retained_shapes["B0"].insert(-1, {
+        "type": "item.started", "item": {
+            "id": "file-1", "type": "file_change",
+            "status": "in_progress", "changes": [
+                {"path": "STATE.md", "kind": "update"}]}})
+    retained_shapes["B0"].insert(-1, {
+        "type": "item.completed", "item": {
+            "id": "file-1", "type": "file_change",
+            "status": "completed", "changes": [
+                {"path": "STATE.md", "kind": "update"}]}})
+    for fixture, candidate in retained_shapes.items():
+        parsed, retained_binding = module._parse_codex_actions(raw(candidate))
+        assert retained_binding == {
+            "thread_id": "retained-thread", "stdout_turn_ordinal": 1}, fixture
+        assert parsed, fixture
 
     explicit = copy.deepcopy(rows)
     explicit[1].update(
@@ -1239,10 +1266,33 @@ def assert_real_codex_turn_shapes(module):
         {"type": "turn.started"},
         {"type": "turn.completed", "usage": copy.deepcopy(usage)},
     ]
-    invalid["thread-drift"] = copy.deepcopy(rows)
+    invalid["thread-drift"] = copy.deepcopy(explicit)
     invalid["thread-drift"][1]["thread_id"] = "other-thread"
+    invalid["completion-thread-drift"] = copy.deepcopy(explicit)
+    invalid["completion-thread-drift"][-1]["thread_id"] = "other-thread"
     invalid["conflicting-turn-id"] = copy.deepcopy(explicit)
     invalid["conflicting-turn-id"][-1]["turn_id"] = "turn-2"
+    invalid["completion-without-usage"] = copy.deepcopy(rows)
+    invalid["completion-without-usage"][-1].pop("usage")
+    invalid["minimal-start-sentinel-completion"] = copy.deepcopy(rows)
+    invalid["minimal-start-sentinel-completion"][-1]["turn_id"] = \
+        "<unique-turn>"
+    invalid["minimal-start-explicit-completion"] = copy.deepcopy(rows)
+    invalid["minimal-start-explicit-completion"][-1].update({
+        "thread_id": "retained-thread", "turn_id": "turn-1"})
+    invalid["explicit-start-identityless-completion"] = \
+        copy.deepcopy(explicit)
+    invalid["explicit-start-identityless-completion"][-1] = {
+        "type": "turn.completed", "usage": copy.deepcopy(usage)}
+    invalid["partial-explicit-start"] = copy.deepcopy(rows)
+    invalid["partial-explicit-start"][1]["thread_id"] = "retained-thread"
+    invalid["partial-turn-only-start"] = copy.deepcopy(rows)
+    invalid["partial-turn-only-start"][1]["turn_id"] = "turn-1"
+    invalid["partial-explicit-completion"] = copy.deepcopy(rows)
+    invalid["partial-explicit-completion"][-1]["thread_id"] = \
+        "retained-thread"
+    invalid["partial-turn-only-completion"] = copy.deepcopy(rows)
+    invalid["partial-turn-only-completion"][-1]["turn_id"] = "turn-1"
     invalid["missing-completion"] = copy.deepcopy(rows[:-1])
     invalid["duplicate-completion"] = copy.deepcopy(rows) + [
         copy.deepcopy(rows[-1])]
@@ -1255,6 +1305,14 @@ def assert_real_codex_turn_shapes(module):
     invalid["unknown-field"][1]["unexpected"] = True
     invalid["invalid-usage"] = copy.deepcopy(rows)
     invalid["invalid-usage"][-1]["usage"]["input_tokens"] = -1
+    invalid["command-start-missing-output"] = copy.deepcopy(rows)
+    invalid["command-start-missing-output"][3]["item"].pop(
+        "aggregated_output")
+    invalid["command-start-nonempty-output"] = copy.deepcopy(rows)
+    invalid["command-start-nonempty-output"][3]["item"][
+        "aggregated_output"] = "premature"
+    invalid["command-start-nonnull-exit"] = copy.deepcopy(rows)
+    invalid["command-start-nonnull-exit"][3]["item"]["exit_code"] = 0
     for label, candidate in invalid.items():
         try:
             module._parse_codex_actions(raw(candidate))
