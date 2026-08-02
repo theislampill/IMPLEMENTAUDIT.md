@@ -2021,6 +2021,59 @@ def _raw_json_lines(data, owner):
     return rows
 
 
+def _validate_codex_collaboration_item(item, event_type, owner):
+    fields = {
+        "id", "type", "tool", "sender_thread_id", "receiver_thread_ids",
+        "prompt", "status", "agents_states",
+    }
+    _exact_fields(item, fields, owner)
+    _expect(event_type in ("item.started", "item.completed"),
+            owner + " collaboration event invalid")
+    _expect(item["type"] == "collab_tool_call" and
+            type(item["id"]) is str and bool(item["id"]) and
+            type(item["sender_thread_id"]) is str and
+            bool(item["sender_thread_id"]) and
+            isinstance(item["receiver_thread_ids"], list) and
+            isinstance(item["agents_states"], dict),
+            owner + " collaboration identity invalid")
+    receivers = item["receiver_thread_ids"]
+    _expect(all(type(receiver) is str and bool(receiver)
+                for receiver in receivers) and
+            len(receivers) == len(set(receivers)) and
+            item["sender_thread_id"] not in receivers,
+            owner + " collaboration receivers invalid")
+    tool = item["tool"]
+    _expect(tool in ("spawn_agent", "wait"),
+            owner + " collaboration tool invalid")
+    if event_type == "item.started":
+        _expect(item["status"] == "in_progress" and
+                not item["agents_states"],
+                owner + " collaboration start metadata invalid")
+        _expect((tool == "spawn_agent" and not receivers and
+                 type(item["prompt"]) is str and bool(item["prompt"])) or
+                (tool == "wait" and len(receivers) == 1 and
+                 item["prompt"] is None),
+                owner + " collaboration start shape invalid")
+        return
+    _expect(item["status"] == "completed" and len(receivers) == 1,
+            owner + " collaboration completion metadata invalid")
+    child = receivers[0]
+    _expect(set(item["agents_states"]) == {child},
+            owner + " collaboration child mismatch")
+    state = _exact_fields(
+        item["agents_states"][child], {"message", "status"},
+        owner + " collaboration child state")
+    if tool == "spawn_agent":
+        _expect(type(item["prompt"]) is str and bool(item["prompt"]) and
+                state["message"] is None and state["status"] == "pending_init",
+                owner + " spawn completion invalid")
+    else:
+        _expect(item["prompt"] is None and
+                type(state["message"]) is str and bool(state["message"]) and
+                state["status"] == "completed",
+                owner + " wait completion invalid")
+
+
 def _validate_codex_stdout_rows(rows):
     usage_fields = {
         "input_tokens", "cached_input_tokens", "output_tokens",
@@ -2107,6 +2160,10 @@ def _validate_codex_stdout_rows(rows):
                     _expect(type(entry["text"]) is str and
                             type(entry["completed"]) is bool,
                             f"{owner} todo row {index} invalid")
+            elif item_type == "collab_tool_call":
+                _exact_fields(event, {"type", "item"}, owner)
+                _validate_codex_collaboration_item(
+                    item, event_type, owner + " collaboration item")
             elif event_type == "item.completed" and item_type == "agent_message":
                 _closed_fields(item, {"id", "type", "text"}, {"status"},
                                owner + " agent message")
@@ -2196,6 +2253,7 @@ def _parse_codex_actions(raw):
     pending = {}
     actions = []
     reserved = set()
+    collaboration_children = {}
     thread_id = None
     turn_id = None
     bound_turn_id = None
@@ -2241,6 +2299,59 @@ def _parse_codex_actions(raw):
         _expect(isinstance(item, dict), "Codex raw item malformed")
         action_id = item.get("id")
         item_type = item.get("type")
+        if item_type == "collab_tool_call":
+            _expect(item["sender_thread_id"] == thread_id,
+                    "Codex raw collaboration sender mismatch")
+            tool = item["tool"]
+            sender = item["sender_thread_id"]
+            prompt = item["prompt"]
+            receivers = item["receiver_thread_ids"]
+            if event_type == "item.started":
+                _expect(action_id not in reserved,
+                        "Codex raw collaboration action id reused")
+                child = receivers[0] if tool == "wait" else None
+                if tool == "wait":
+                    _expect(collaboration_children.get(child) == "spawned",
+                            "Codex raw orphan or duplicate collaboration wait")
+                reserved.add(action_id)
+                action = {
+                    "id": action_id, "state": "PENDING",
+                    "effect": "safe-other",
+                    "classification": "not-content-read",
+                    "action_type": "collab_tool_call", "tool": tool,
+                    "sender_thread_id": sender, "prompt": prompt,
+                    "receiver_thread_ids": list(receivers),
+                    "invocation_ordinal": ordinal,
+                    "completion_ordinal": None,
+                }
+                pending[action_id] = action
+                actions.append(action)
+                if tool == "wait":
+                    collaboration_children[child] = "wait_pending"
+                continue
+            action = pending.pop(action_id, None)
+            _expect(action is not None and
+                    action["action_type"] == "collab_tool_call" and
+                    action["tool"] == tool and
+                    action["sender_thread_id"] == sender and
+                    action["prompt"] == prompt,
+                    "Codex raw collaboration start/completion conflict")
+            child = receivers[0]
+            if tool == "spawn_agent":
+                _expect(action["receiver_thread_ids"] == [] and
+                        child not in collaboration_children,
+                        "Codex raw invalid collaboration spawn transition")
+                collaboration_children[child] = "spawned"
+            else:
+                _expect(action["receiver_thread_ids"] == [child] and
+                        collaboration_children.get(child) == "wait_pending",
+                        "Codex raw invalid collaboration wait transition")
+                collaboration_children[child] = "completed"
+            action.update({
+                "state": "COMPLETED", "receiver_thread_ids": list(receivers),
+                "completion_ordinal": ordinal,
+            })
+            continue
         if event_type == "item.completed" and item_type == "agent_message":
             _expect(isinstance(action_id, str) and action_id and
                     action_id not in reserved and
@@ -2329,7 +2440,10 @@ def _parse_codex_actions(raw):
             _expect(item.get("status") in (None, "completed"),
                     "Codex raw todo completion invalid")
             action.update({"state": "COMPLETED", "completion_ordinal": ordinal})
-    _expect(not pending and actions and thread_id is not None and
+    _expect(not pending and
+            all(state == "completed"
+                for state in collaboration_children.values()) and
+            actions and thread_id is not None and
             turn_count == 1 and turn_id is None,
             "Codex raw action stream incomplete")
     binding = {"thread_id": thread_id, "stdout_turn_ordinal": 1}

@@ -905,6 +905,52 @@ def _codex_payload(item):
     return None
 
 
+def _valid_codex_collaboration_item(item, event_type):
+    fields = {
+        "id", "type", "tool", "sender_thread_id", "receiver_thread_ids",
+        "prompt", "status", "agents_states",
+    }
+    if (set(item) != fields or event_type not in
+            ("item.started", "item.completed") or
+            item.get("type") != "collab_tool_call" or
+            not isinstance(item.get("id"), str) or not item["id"] or
+            not isinstance(item.get("sender_thread_id"), str) or
+            not item["sender_thread_id"] or
+            not isinstance(item.get("receiver_thread_ids"), list) or
+            not isinstance(item.get("agents_states"), dict)):
+        return False
+    receivers = item["receiver_thread_ids"]
+    if (not all(isinstance(receiver, str) and receiver
+                for receiver in receivers) or
+            len(receivers) != len(set(receivers)) or
+            item["sender_thread_id"] in receivers):
+        return False
+    tool = item.get("tool")
+    if tool not in ("spawn_agent", "wait"):
+        return False
+    if event_type == "item.started":
+        if item.get("status") != "in_progress" or item["agents_states"]:
+            return False
+        return ((tool == "spawn_agent" and not receivers and
+                 isinstance(item.get("prompt"), str) and bool(item["prompt"])) or
+                (tool == "wait" and len(receivers) == 1 and
+                 item.get("prompt") is None))
+    if item.get("status") != "completed" or len(receivers) != 1:
+        return False
+    child = receivers[0]
+    if set(item["agents_states"]) != {child}:
+        return False
+    state = item["agents_states"].get(child)
+    if not isinstance(state, dict) or set(state) != {"message", "status"}:
+        return False
+    if tool == "spawn_agent":
+        return (isinstance(item.get("prompt"), str) and bool(item["prompt"]) and
+                state["message"] is None and state["status"] == "pending_init")
+    return (item.get("prompt") is None and
+            isinstance(state["message"], str) and bool(state["message"]) and
+            state["status"] == "completed")
+
+
 def _valid_todo_items(items):
     return (isinstance(items, list) and all(
         isinstance(item, dict) and set(item) == {"text", "completed"} and
@@ -933,6 +979,7 @@ def _wrapper_layers(command, profile, formal):
 
 def normalize_codex(raw_stdout, profile=None, binding=None, formal=True):
     machine = _ActionMachine()
+    collaboration_children = {}
     if formal and validate_profile(
             profile, formal=True,
             expected_host="codex")["host_status"] != "PASS":
@@ -1025,6 +1072,67 @@ def normalize_codex(raw_stdout, profile=None, binding=None, formal=True):
             continue
         action_id = item.get("id")
         item_type = item.get("type")
+        if item_type == "collab_tool_call":
+            if (set(event) != {"type", "item"} or
+                    not _valid_codex_collaboration_item(item, event_type) or
+                    item.get("sender_thread_id") != active_thread):
+                machine.invalid_action(
+                    ordinal, "invalid Codex collaboration item", action_id,
+                    effect="safe-other")
+                continue
+            tool = item["tool"]
+            sender = item["sender_thread_id"]
+            prompt = item["prompt"]
+            receivers = item["receiver_thread_ids"]
+            payload = (tool, sender, prompt)
+            if event_type == "item.started":
+                child = receivers[0] if tool == "wait" else None
+                if (tool == "wait" and
+                        collaboration_children.get(child) != "spawned"):
+                    machine.invalid_action(
+                        ordinal, "orphan or duplicate collaboration wait",
+                        action_id, effect="safe-other")
+                    continue
+                action = machine.start(
+                    action_id, ordinal, "safe-other", payload,
+                    classification="not-content-read",
+                    action_type="collab_tool_call", tool=tool,
+                    sender_thread_id=sender, prompt=prompt,
+                    receiver_thread_ids=list(receivers))
+                if tool == "wait" and action.get("state") == "PENDING":
+                    collaboration_children[child] = "wait_pending"
+                continue
+            action = machine.pending.get(action_id)
+            if (action is None or
+                    action.get("action_type") != "collab_tool_call" or
+                    action.get("tool") != tool or
+                    action.get("sender_thread_id") != sender or
+                    action.get("prompt") != prompt):
+                machine.complete(
+                    action_id, ordinal, state="INVALID",
+                    reason="collaboration start/completion conflict")
+                continue
+            child = receivers[0]
+            if tool == "spawn_agent":
+                valid_transition = (
+                    action.get("receiver_thread_ids") == [] and
+                    child not in collaboration_children)
+            else:
+                valid_transition = (
+                    action.get("receiver_thread_ids") == [child] and
+                    collaboration_children.get(child) == "wait_pending")
+            if not valid_transition:
+                machine.complete(
+                    action_id, ordinal, state="INVALID",
+                    reason="invalid collaboration state transition")
+                continue
+            completed = machine.complete(
+                action_id, ordinal, payload=payload,
+                receiver_thread_ids=list(receivers))
+            if completed.get("state") == "COMPLETED":
+                collaboration_children[child] = (
+                    "spawned" if tool == "spawn_agent" else "completed")
+            continue
         if item_type == "command_execution":
             base = {"id", "type", "status", "command"}
             keys = set(item)
@@ -1142,6 +1250,10 @@ def normalize_codex(raw_stdout, profile=None, binding=None, formal=True):
     if active_thread is None or turns != 1 or active_turn is not None:
         machine.invalid_action(
             last_ordinal + 1, "incomplete or ambiguous Codex lifecycle")
+    if any(state != "completed" for state in collaboration_children.values()):
+        machine.invalid_action(
+            last_ordinal + 1, "incomplete collaboration lifecycle",
+            effect="safe-other")
     result = machine.finish(pending_invalid=True)
     result["requested_tools"] = []
     result["observed_tools"] = []
