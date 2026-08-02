@@ -239,7 +239,7 @@ def eval_rule(rule, transcript, summary):
         return (bool(m), m.group(0)[:80] if m else "")
     if kind == "absent":
         m = _search(rule["pattern"], text)
-        return (m is None, "" if m is None else m.group(0)[:80])
+        return (m is None, "matches=0" if m is None else m.group(0)[:80])
     if kind == "order":
         a = _search(rule["first"], text)
         b = _search(rule["then"], text)

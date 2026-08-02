@@ -2027,7 +2027,23 @@ def _validate_codex_stdout_rows(rows):
         if event_type == "thread.started":
             _exact_fields(event, {"type", "thread_id"}, owner)
         elif event_type in ("turn.started", "turn.completed"):
-            _exact_fields(event, {"type", "thread_id", "turn_id"}, owner)
+            optional = {"thread_id", "turn_id"}
+            if event_type == "turn.completed":
+                optional.add("usage")
+            _closed_fields(event, {"type"}, optional, owner)
+            _expect(all(
+                type(event[field]) is str and bool(event[field])
+                for field in ("thread_id", "turn_id") if field in event),
+                owner + " turn identity invalid")
+            if "usage" in event:
+                usage = _exact_fields(
+                    event["usage"], {
+                        "input_tokens", "cached_input_tokens",
+                        "output_tokens", "reasoning_output_tokens"},
+                    owner + " usage")
+                _expect(all(type(value) is int and value >= 0
+                            for value in usage.values()),
+                        owner + " usage invalid")
         elif event_type in ("item.started", "item.updated", "item.completed"):
             _closed_fields(event, {"type", "item"}, {"status"}, owner)
             item = _mapping(event["item"], owner + " item")

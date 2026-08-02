@@ -1196,6 +1196,74 @@ def assert_profile_policy_pipeline(module):
             assert result["luna_stage_status"] == "INVALID", (label, result)
 
 
+def assert_real_codex_turn_shapes(module):
+    usage = {
+        "input_tokens": 210236, "cached_input_tokens": 189696,
+        "output_tokens": 6048, "reasoning_output_tokens": 3716,
+    }
+    rows = [
+        {"type": "thread.started", "thread_id": "retained-thread"},
+        {"type": "turn.started"},
+        {"type": "item.started", "item": {
+            "id": "command-1", "type": "command_execution",
+            "status": "in_progress", "command": "git status --short"}},
+        {"type": "item.completed", "item": {
+            "id": "command-1", "type": "command_execution",
+            "status": "completed", "command": "git status --short",
+            "aggregated_output": "", "exit_code": 0}},
+        {"type": "item.completed", "item": {
+            "id": "message-1", "type": "agent_message",
+            "text": "Do not promote stale evidence."}},
+        {"type": "turn.completed", "usage": usage},
+    ]
+
+    def raw(candidate):
+        return b"".join(encoded(row) for row in candidate)
+
+    actions, binding = module._parse_codex_actions(raw(rows))
+    assert binding == {
+        "thread_id": "retained-thread", "stdout_turn_ordinal": 1}
+    assert [row["state"] for row in actions] == [
+        "COMPLETED", "TERMINAL_SAFE_MESSAGE"]
+
+    explicit = copy.deepcopy(rows)
+    explicit[1].update(
+        {"thread_id": "retained-thread", "turn_id": "turn-1"})
+    explicit[-1].update(
+        {"thread_id": "retained-thread", "turn_id": "turn-1"})
+    _actions, explicit_binding = module._parse_codex_actions(raw(explicit))
+    assert explicit_binding["turn_id"] == "turn-1"
+
+    invalid = {}
+    invalid["multiple-turns"] = copy.deepcopy(rows) + [
+        {"type": "turn.started"},
+        {"type": "turn.completed", "usage": copy.deepcopy(usage)},
+    ]
+    invalid["thread-drift"] = copy.deepcopy(rows)
+    invalid["thread-drift"][1]["thread_id"] = "other-thread"
+    invalid["conflicting-turn-id"] = copy.deepcopy(explicit)
+    invalid["conflicting-turn-id"][-1]["turn_id"] = "turn-2"
+    invalid["missing-completion"] = copy.deepcopy(rows[:-1])
+    invalid["duplicate-completion"] = copy.deepcopy(rows) + [
+        copy.deepcopy(rows[-1])]
+    invalid["action-outside-turn"] = copy.deepcopy(rows)
+    invalid["action-outside-turn"][1], \
+        invalid["action-outside-turn"][2] = \
+        invalid["action-outside-turn"][2], \
+        invalid["action-outside-turn"][1]
+    invalid["unknown-field"] = copy.deepcopy(rows)
+    invalid["unknown-field"][1]["unexpected"] = True
+    invalid["invalid-usage"] = copy.deepcopy(rows)
+    invalid["invalid-usage"][-1]["usage"]["input_tokens"] = -1
+    for label, candidate in invalid.items():
+        try:
+            module._parse_codex_actions(raw(candidate))
+        except module.EvidenceInvalid:
+            pass
+        else:
+            raise AssertionError(f"Codex raw stdout accepted {label}")
+
+
 def main():
     tree = ast.parse(MODULE.read_text(encoding="utf-8"))
     imports = set()
@@ -1206,6 +1274,7 @@ def main():
             imports.add(node.module)
     assert not (imports & FORBIDDEN), imports & FORBIDDEN
     module = load_module()
+    assert_real_codex_turn_shapes(module)
     assert_profile_policy_pipeline(module)
     # Governing RED R5 applies independently to the matrix implementation.
     with tempfile.TemporaryDirectory(

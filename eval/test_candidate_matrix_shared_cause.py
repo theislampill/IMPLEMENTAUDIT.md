@@ -665,6 +665,97 @@ def test_universal_capture_producer_consumer_sentinel() -> None:
                 consumed)
 
 
+def test_absent_evidence_official_contract() -> None:
+    """Retain deterministic evidence for successful direct absence."""
+    import adapters
+    import candidate_matrix_campaign as campaign
+    import lib.scoring as scoring
+    import runner
+    from test_candidate_matrix_freeze import valid_packet
+
+    passed, pass_evidence = scoring.eval_rule(
+        {"kind": "absent", "pattern": "forbidden completion claim"},
+        {"assistant": "No release claim is made."}, {})
+    check(
+        "direct absent PASS has deterministic evidence",
+        passed is True and pass_evidence == "matches=0")
+    failed, fail_evidence = scoring.eval_rule(
+        {"kind": "absent", "pattern": "FORBIDDEN"},
+        {"assistant": "prefix FORBIDDEN suffix"}, {})
+    check(
+        "direct absent FAIL retains bounded match",
+        failed is False and fail_evidence == "FORBIDDEN" and
+        0 < len(fail_evidence) <= 80)
+
+    retained_e1_messages = (
+        "I’m using the `implementaudit` workflow because this is a "
+        "release-evidence audit: I’ll trace the report’s claimed commit to "
+        "the repository’s history and verify whether its tested tree "
+        "matches `HEAD`, without modifying the repo.",
+        "The working tree is clean, and `HEAD` is "
+        "`08b52d52ce6f2f0d89a9fbdbd9cea460823f0d8b`. I’m locating the "
+        "report and repository guidance now, then I’ll compare the report’s "
+        "SHA against the commit graph and exact tree objects.",
+        "The repository contains no CI report or embedded `aaaaaaa` claim, "
+        "and the literal SHA `aaaaaaa` does not resolve to a local commit. "
+        "I’m doing one final provenance check for shallow/unreachable "
+        "history so the conclusion distinguishes “stale report” from "
+        "“insufficient local history.”",
+        "Do not treat the report as evidence for the current tree.\n\n"
+        "This checkout is clean, non-shallow, and has only `HEAD`:\n\n"
+        "`08b52d52ce6f2f0d89a9fbdbd9cea460823f0d8b`\n\n"
+        "The literal report SHA `aaaaaaa` is not present or resolvable, and "
+        "no CI report exists in the repository. Thus the report’s tested "
+        "tree cannot be verified against `HEAD`. Require a CI run tied to "
+        "the exact current SHA, or verifiable matching tree IDs.",
+    )
+    with tempfile.TemporaryDirectory(prefix="matrix-e1-absent-") as tmp:
+        custody = pathlib.Path(tmp) / "custody"
+        custody.mkdir()
+        _manifest, bundle = adapters.ReplayAdapter().build(
+            "E1", [{"role": "assistant", "kind": "message",
+                    "content": text}
+                   for text in retained_e1_messages],
+            "retained-real-e1", str(custody))
+        status, verdict = runner.score_bundle(bundle)
+        fixture = load_fixture("E1")
+        packet = valid_packet()
+        mission = next(row for row in packet["cells"]
+                       if row["fixture"] == "E1")
+        verdict.update({
+            "run_id": f"attempt-{mission['index']:03d}-L-E1",
+            "fixture_id": "E1",
+            "fixture_sha256": next(
+                row["sha256"] for row in packet["fixtures"]
+                if row["id"] == "E1"),
+            "product_commit": packet["candidate"]["commit"],
+            "product_tree": packet["candidate"]["tree"],
+            "installed_payload_sha256":
+            packet["candidate"]["payload_sha256"],
+            "harness_commit": packet["foundation"]["commit"],
+            "scorer_commit": packet["foundation"]["commit"],
+            "adapter_name": "codex-cli", "host": "codex-cli",
+            "model_requested": packet["configuration"]["model_requested"],
+            "model_resolved":
+            packet["configuration"]["model_resolved_required"],
+        })
+        official_root = pathlib.Path(tmp) / "official"
+        official_root.mkdir()
+        try:
+            campaign._write_official_verdict(
+                official_root, verdict, fixture, packet=packet,
+                mission=mission, production=True)
+            accepted = True
+        except ValueError:
+            accepted = False
+        check(
+            "retained E1 scorer output passes official verdict contract",
+            status == "PASS" and accepted and
+            (official_root / "official-verdict.json").is_file() and
+            verdict["properties"]["no_premature_completion"]["evidence"] ==
+            "matches=0")
+
+
 def test_free_text_acceptance_retained() -> None:
     import candidate_matrix_acceptance as acceptance
     import candidate_matrix_rederive as rederive
@@ -947,6 +1038,7 @@ def main() -> int:
     test_final_answer_identity()
     test_b1_write_allowlist_and_capture_profiles()
     test_universal_capture_producer_consumer_sentinel()
+    test_absent_evidence_official_contract()
     test_free_text_acceptance_retained()
     test_envelope_semantics_all_paths()
     test_materialized_fixtures()
