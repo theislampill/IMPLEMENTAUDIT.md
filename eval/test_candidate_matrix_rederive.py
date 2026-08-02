@@ -200,7 +200,7 @@ def _trace_action(action_id, ordinal, command, output):
 
 def build_campaign(root, *, execution_mode="production", surface_root=None,
                    external_surface_paths=None, foundation=None,
-                   transcript_overrides=None):
+                   transcript_overrides=None, event_overrides=None):
     root = pathlib.Path(root)
     surface_root = root if surface_root is None else pathlib.Path(surface_root)
     packet = valid_packet()
@@ -569,12 +569,20 @@ def build_campaign(root, *, execution_mode="production", surface_root=None,
             transcript = "\n".join(
                 line for line in transcript.splitlines()
                 if not line.startswith("AGENTS_UPDATE_DECISION"))
-        retained_event = encoded({
+        event_rows = (
+            event_overrides.get(fixture_id)
+            if event_overrides and fixture_id in event_overrides else
+            [{"role": "assistant",
+              "kind": ("marker" if fixture_id in
+                       {"B1", "E3", "E7", "E9"} else "message"),
+              "content": transcript}])
+        retained_event = b"".join(encoded({
             "schema": "implementaudit-eval-event-v1", "run_id": name,
-            "fixture_id": fixture_id, "seq": 1, "role": "assistant",
-            "kind": "message", "content": transcript,
+            "fixture_id": fixture_id, "seq": index,
+            "role": row["role"], "kind": row.get("kind", "message"),
+            "content": row["content"],
             "recorded_at": "2030-01-01T00:00:01Z",
-        })
+        }) for index, row in enumerate(event_rows, 1))
         prompt = ("MISSION:\n" + fixture["mission"]).encode()
         comparison = {
             "schema": "implementaudit-repo-comparison-v1",

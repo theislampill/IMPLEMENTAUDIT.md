@@ -3185,10 +3185,10 @@ def _role_texts(events):
 
 
 def _exact_assistant_texts(events):
-    """Independently retain one host-assigned assistant event exactly."""
+    """Independently retain one host-designated final event exactly."""
     responses = []
     for _ordinal, event in _raw_json_lines(events, "bundle events"):
-        if (event.get("kind") not in ("message", "marker") or
+        if (event.get("kind") != "marker" or
                 event.get("role") != "assistant"):
             continue
         content = event.get("content")

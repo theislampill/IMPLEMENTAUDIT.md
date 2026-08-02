@@ -6,6 +6,7 @@ local Python sentinel process and never reads quarantined raw bytes.
 """
 from __future__ import annotations
 
+import datetime
 import importlib
 import json
 import os
@@ -20,6 +21,10 @@ ROOT = HERE.parent
 sys.path.insert(0, str(HERE))
 
 failures: list[str] = []
+FIXTURE_ORDER = (
+    "B0", "B1", "B2", "E1", "E2a", "E2b", "E3", "E4",
+    "E5", "E6", "E7", "E8", "E9", "E10",
+)
 
 CONTEXT_DENIAL_CASES = {
     "B1": (
@@ -207,7 +212,8 @@ def test_structured_envelope_contract() -> None:
 
             _manifest, bundle = adapters.ReplayAdapter().build(
                 fixture_id,
-                [{"role": "assistant", "content": envelope}],
+                [{"role": "assistant", "kind": "marker",
+                  "content": envelope}],
                 f"matrix-envelope-red-{fixture_id}", str(custody))
             status, verdict = runner.score_bundle(
                 bundle, property_override=acceptance.apply_overrides)
@@ -255,7 +261,8 @@ def test_structured_envelope_contract() -> None:
                             function, fixture_id, property_name, text) is False)
                 _manifest, bundle = adapters.ReplayAdapter().build(
                     fixture_id,
-                    [{"role": "assistant", "content": text}],
+                    [{"role": "assistant", "kind": "marker",
+                      "content": text}],
                     f"matrix-envelope-red-{fixture_id}-{case_name}",
                     str(custody))
                 status, verdict = runner.score_bundle(
@@ -284,7 +291,8 @@ def test_structured_envelope_contract() -> None:
                                 text) is False)
                     _manifest, bundle = adapters.ReplayAdapter().build(
                         fixture_id,
-                        [{"role": "assistant", "content": text}],
+                        [{"role": "assistant", "kind": "marker",
+                          "content": text}],
                         f"matrix-envelope-context-{fixture_id}-"
                         f"{sentence_index}-{variant_index}", str(custody))
                     status, verdict = runner.score_bundle(
@@ -328,7 +336,8 @@ def test_raw_response_boundary() -> None:
                             mutated) is False)
                 _manifest, bundle = adapters.ReplayAdapter().build(
                     fixture_id,
-                    [{"role": "assistant", "content": mutated}],
+                    [{"role": "assistant", "kind": "marker",
+                      "content": mutated}],
                     f"matrix-exact-raw-{fixture_id}-{mutation_name}",
                     str(custody))
                 status, verdict = runner.score_bundle(
@@ -362,6 +371,298 @@ def test_raw_response_boundary() -> None:
                     f"{fixture_id} {mutation_name} complete independent",
                     row["properties"][property_name]["state"] == "FAIL" and
                     row["independent_overall_status"] == "FAIL")
+
+
+def test_final_answer_identity() -> None:
+    """Score one host-designated final response, retaining progress."""
+    import adapters
+    import candidate_matrix_acceptance as acceptance
+    import candidate_matrix_host as matrix_host
+    import runner
+    from test_candidate_matrix_rederive import build_campaign, load_module
+
+    fixture_id = "B1"
+    property_name = ENVELOPE_TARGET_PROPERTIES[fixture_id]
+    envelope = ENVELOPE_POSITIVES[fixture_id]
+    progress = "Validated phases 1-2; closing phase 3 now."
+    with tempfile.TemporaryDirectory(
+            prefix="matrix-final-answer-identity-") as tmp:
+        custody = pathlib.Path(tmp) / "custody"
+        custody.mkdir()
+
+        def score(name, events):
+            _manifest, bundle = adapters.ReplayAdapter().build(
+                fixture_id, events, name, str(custody))
+            return runner.score_bundle(
+                bundle, property_override=acceptance.apply_overrides)
+
+        status, verdict = score("progress-final", [
+            {"role": "assistant", "kind": "message",
+             "content": progress},
+            {"role": "assistant", "kind": "marker",
+             "content": envelope},
+        ])
+        check(
+            "B1 progress plus exact final official",
+            status == "PASS" and
+            verdict["properties"][property_name]["state"] == "PASS")
+        for name, events in (
+                ("missing-final", [
+                    {"role": "assistant", "kind": "message",
+                     "content": envelope}]),
+                ("multiple-final", [
+                    {"role": "assistant", "kind": "marker",
+                     "content": envelope},
+                    {"role": "assistant", "kind": "marker",
+                     "content": envelope}]),
+                ("malformed-final", [
+                    {"role": "assistant", "kind": "message",
+                     "content": progress},
+                    {"role": "assistant", "kind": "marker",
+                     "content": envelope + "\nextra"}])):
+            status, verdict = score(name, events)
+            check(
+                f"B1 {name} official rejected",
+                status == "FAIL" and
+                verdict["properties"][property_name]["state"] == "FAIL")
+
+        raw_rows = [
+            {"type": "agent_message", "phase": "commentary",
+             "message": progress},
+            {"type": "agent_message", "phase": "final_answer",
+             "message": envelope},
+            {"type": "task_complete", "last_agent_message": envelope},
+        ]
+        adapter = matrix_host.MatrixCodexAdapter(
+            formal=False, codex_home=str(pathlib.Path(tmp) / "home"))
+        parsed = adapter.parse_events(
+            "\n".join(json.dumps(row) for row in raw_rows))
+        check(
+            "matrix host preserves one final identity",
+            [row.get("kind", "message") for row in parsed] ==
+            ["message", "marker"] and
+            [row["content"] for row in parsed] == [progress, envelope])
+        ambiguous = adapter.parse_events("\n".join(json.dumps(row) for row in (
+            raw_rows[:2] + [raw_rows[1], raw_rows[2]])))
+        check(
+            "matrix host rejects multiple final identities",
+            all(row.get("kind", "message") != "marker"
+                for row in ambiguous))
+        unbound = adapter.parse_events("\n".join(
+            json.dumps(row) for row in raw_rows[:2]))
+        check(
+            "matrix host rejects unbound final identity",
+            all(row.get("kind", "message") != "marker" for row in unbound))
+
+        campaign_root = pathlib.Path(tmp) / "campaign"
+        build_campaign(campaign_root, event_overrides={fixture_id: [
+            {"role": "assistant", "kind": "message",
+             "content": progress},
+            {"role": "assistant", "kind": "marker",
+             "content": envelope},
+        ]})
+        result = load_module().rederive_campaign(
+            campaign_root / "campaign-freeze.json",
+            campaign_root, campaign_root)
+        rows = {row["fixture"]: row for row in result["cells"]}
+        check(
+            "B1 progress plus exact final independent",
+            rows[fixture_id]["properties"][property_name]["state"] ==
+            "PASS")
+        required = {
+            "host-read-profile.json", "host-read-preimages.json",
+            "host-read-fixture.raw", "host-read-replay-spec.json",
+            "host-read-pre-spawn.json", "host-stdout.raw",
+            "host-session.raw", "host-tool-trace.json",
+            "host-read-matrix.json", "host-read-post-probe.json",
+            "host-read-terminal.json", "host-read-manifest.json",
+        }
+        for cell in ("B0", "B1"):
+            attempt = campaign_root / (
+                f"attempt-{FIXTURE_ORDER.index(cell):03d}-L-{cell}")
+            artifacts = attempt / "host-custody" / attempt.name / \
+                "bundle" / "artifacts"
+            check(
+                f"{cell} formal-v2 native-session capture complete",
+                required <= {
+                    path.relative_to(artifacts).as_posix()
+                    for path in artifacts.rglob("*") if path.is_file()})
+
+
+def test_b1_write_allowlist_and_capture_profiles() -> None:
+    """Bind B1 closure writes and universal matrix evidence capture."""
+    import candidate_matrix_host as matrix_host
+    import reposnapshot
+
+    run_root = ".IMPLEMENTAUDIT/runs/resume-phase3-b1"
+    expected = {
+        f"{run_root}/ROADMAP.md", f"{run_root}/STATE.md",
+        f"{run_root}/phases/phase-3.md",
+    }
+    fixture = load_fixture("B1")
+    allowed = fixture.get("allowed_paths")
+    check("B1 exact closure allowlist", set(allowed or []) == expected)
+    check(
+        "B1 exact closure writes authorized",
+        reposnapshot.unauthorized_paths(sorted(expected), allowed or []) == [])
+    check(
+        "B1 phase-1 write remains unauthorized",
+        reposnapshot.unauthorized_paths(
+            sorted(expected | {f"{run_root}/phases/phase-1.md"}),
+            allowed or []) == [f"{run_root}/phases/phase-1.md"])
+    for fixture_id in FIXTURE_ORDER:
+        check(
+            f"{fixture_id} universal formal-v2 producer profile",
+            matrix_host.MatrixCodexAdapter.universal_formal_capture ==
+            "formal-v2-native-session")
+
+
+def test_universal_capture_producer_consumer_sentinel() -> None:
+    """Run B0/B1 through the real no-spawn producer and independent reader."""
+    import adapters
+    import candidate_matrix_host as matrix_host
+    import candidate_matrix_rederive as rederive
+    import hosts
+
+    for fixture_id in ("B0", "B1"):
+        with tempfile.TemporaryDirectory(
+                prefix=f"matrix-capture-{fixture_id}-") as tmp:
+            root = pathlib.Path(tmp)
+            work = root / "work"
+            work.mkdir()
+            repo = adapters.seed_fixture_repo(fixture_id, str(work))
+            custody = root / "custody"
+            custody.mkdir()
+            run_id = f"attempt-{FIXTURE_ORDER.index(fixture_id):03d}-L-" \
+                f"{fixture_id}"
+            run_root = custody / run_id
+            run_root.mkdir()
+            home = root / "codex-home"
+            home.mkdir()
+            fixture_bytes = pathlib.Path(
+                HERE, "fixtures", fixture_id, "fixture.json").read_bytes()
+            fixture = json.loads(fixture_bytes)
+            now = datetime.datetime.now(
+                datetime.timezone.utc).replace(microsecond=0).isoformat(
+                ).replace("+00:00", "Z")
+            intent = {
+                "schema": "implementaudit-run-intent-v1",
+                "run_id": run_id, "fixture_id": fixture_id,
+                "call_ordinal": FIXTURE_ORDER.index(fixture_id) + 1,
+                "fixture_sha256":
+                hosts.bundlelib._sha256_bytes(fixture_bytes),
+                "product_checkout": str(ROOT),
+                "adapter_name": "codex-cli", "adapter_sha256": "a" * 64,
+                "harness_commit": "b" * 40,
+                "model_requested": "gpt-5.6-luna",
+                "reasoning_effort_requested": "max",
+                "policy_requested": {},
+                "required_capabilities":
+                fixture.get("required_capabilities", []),
+                "temp_home": str(home), "started_at": now}
+            intent_bytes = json.dumps(
+                intent, indent=1, sort_keys=True).encode()
+            (run_root / "run-intent.json").write_bytes(intent_bytes)
+            adapter = matrix_host.MatrixCodexAdapter(
+                codex_home=str(home), product_checkout=str(ROOT), formal=True)
+            adapter._matrix_custody_root = str(custody)
+            adapter._matrix_run_id = run_id
+            adapter._custody_hashes = {
+                "run-intent.json":
+                hosts.bundlelib._sha256_bytes(intent_bytes)}
+            adapter._not_before = now
+            adapter._prepare_universal_capture(repo, fixture_id)
+            process = {
+                "schema": "implementaudit-process-started-v2",
+                "run_id": run_id, "cwd": repo, "started_at": now,
+                "argv_sha256": "c" * 64,
+                "requested_model": "gpt-5.6-luna",
+                "temp_home": str(home), "lane_id": "L",
+                "host_os": "windows", "host_boot_id": "sentinel-boot",
+                "pid": 1, "process_creation_time": 1.0,
+                "host_read_pre_spawn_sha256":
+                hosts.hostread._file_sha256(
+                    run_root / "host-read-pre-spawn.json")}
+            (run_root / "process-started.json").write_text(
+                json.dumps(process, indent=1, sort_keys=True),
+                encoding="utf-8")
+            thread_id = f"sentinel-{fixture_id}"
+            stdout_turn = "stdout-turn"
+            stdout = "".join(json.dumps(row) + "\n" for row in (
+                {"type": "thread.started", "thread_id": thread_id},
+                {"type": "turn.started", "thread_id": thread_id,
+                 "turn_id": stdout_turn},
+                {"type": "item.completed", "item": {
+                     "id": "message-1", "type": "agent_message",
+                     "status": "completed", "text": "sentinel"}},
+                {"type": "turn.completed", "thread_id": thread_id,
+                 "turn_id": stdout_turn}))
+            session_rows = (
+                {"type": "session_meta", "timestamp": now, "payload": {
+                    "id": thread_id, "session_id": thread_id, "cwd": repo,
+                    "timestamp": now}},
+                {"type": "turn_context", "timestamp": now, "payload": {
+                    "turn_id": "native-turn", "cwd": repo,
+                    "model": "gpt-5.6-luna"}},
+                {"type": "event_msg", "timestamp": now, "payload": {
+                    "type": "agent_message", "phase": "final_answer",
+                    "message": "sentinel"}},
+                {"type": "event_msg", "timestamp": now, "payload": {
+                    "type": "task_complete",
+                    "last_agent_message": "sentinel"}},
+            )
+            session = "".join(
+                json.dumps(row, sort_keys=True, separators=(",", ":")) +
+                "\n" for row in session_rows).encode()
+            session_dir = home / "sessions" / "sentinel"
+            session_dir.mkdir(parents=True)
+            (session_dir / "rollout.jsonl").write_bytes(session)
+            outcome = hosts._Outcome(stdout, "", 0)
+            retained_events = adapter.reconcile_events(
+                adapter.parse_events(stdout), repo, outcome)
+            check(
+                f"{fixture_id} native session final identity",
+                [row.get("kind") for row in retained_events] == ["marker"])
+            finalized = adapter._attempt_finalize_formal_host_read(
+                fixture, repo, outcome, str(run_root), "ok")
+            check(
+                f"{fixture_id} actual adapter universal capture",
+                finalized and matrix_host.validate_universal_capture(
+                    run_root, fixture_bytes, run_id))
+
+            artifacts = {
+                name: (run_root / name).read_bytes()
+                for name in (hosts.hostread._CAPTURE_FILES +
+                             ("host-read-manifest.json", "run-intent.json",
+                              "process-started.json"))}
+            artifacts.update({
+                "host-stderr.raw": b"",
+                "raw-host-events.jsonl": session,
+                "derived-transform.json": json.dumps({
+                    "schema": "implementaudit-derived-view-v1",
+                    "transform": "codex-cli-host-event-extraction-v2",
+                    "source": "codex-session-jsonl",
+                    "source_raw_sha256":
+                    hosts.bundlelib._sha256_bytes(session),
+                    "rules": "host-assigned assistant messages only",
+                }, sort_keys=True, separators=(",", ":")).encode() + b"\n",
+            })
+            host_checks = adapter._run_host_checks(fixture, repo)
+            if host_checks is not None:
+                artifacts[(fixture.get("host_checks") or {}).get(
+                    "artifact", "host-checks.json")] = json.dumps(
+                        host_checks, sort_keys=True,
+                        separators=(",", ":")).encode() + b"\n"
+            try:
+                rederive._validate_capture(
+                    artifacts, fixture_bytes, fixture, "codex", "ok", run_id)
+                consumed = True
+            except rederive.EvidenceInvalid as exc:
+                print(f"    independent sentinel detail: {exc}")
+                consumed = False
+            check(
+                f"{fixture_id} independent consumes actual capture",
+                consumed)
 
 
 def test_free_text_acceptance_retained() -> None:
@@ -429,7 +730,8 @@ def test_envelope_semantics_all_paths() -> None:
                 _direct_result(
                     function, fixture_id, property_name, text) is expected)
         _manifest, bundle = adapters.ReplayAdapter().build(
-            fixture_id, [{"role": "assistant", "content": text}],
+            fixture_id, [{"role": "assistant", "kind": "marker",
+                          "content": text}],
             f"matrix-envelope-semantic-{name}", str(custody))
         status, verdict = runner.score_bundle(
             bundle, property_override=acceptance.apply_overrides)
@@ -642,6 +944,9 @@ def test_e10_composed_quarantine() -> None:
 def main() -> int:
     test_structured_envelope_contract()
     test_raw_response_boundary()
+    test_final_answer_identity()
+    test_b1_write_allowlist_and_capture_profiles()
+    test_universal_capture_producer_consumer_sentinel()
     test_free_text_acceptance_retained()
     test_envelope_semantics_all_paths()
     test_materialized_fixtures()

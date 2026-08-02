@@ -1602,6 +1602,15 @@ class CampaignDriver:
                     "INVALID" if result.kind == "invalid" else "ERROR",
                     "resolved_model": result.resolved_model,
                     "host_run_root": str(host_root)}
+        fixture_bytes = pathlib.Path(
+            self.repo_root, "eval", "fixtures", mission["fixture"],
+            "fixture.json").read_bytes()
+        if not candidate_matrix_host.validate_universal_capture(
+                pathlib.Path(result.detail) / "artifacts", fixture_bytes,
+                run_id):
+            return {"overall_status": "INVALID",
+                    "resolved_model": result.resolved_model,
+                    "host_run_root": str(host_root)}
         status, verdict = runner.score_bundle(
             result.detail, repo_dir=None,
             property_override=candidate_matrix_acceptance.apply_overrides)

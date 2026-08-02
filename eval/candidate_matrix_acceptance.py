@@ -47,13 +47,13 @@ def _assistant_text(texts):
 
 
 def _exact_assistant_text(events):
-    """Return one host-assigned assistant response without transformation."""
+    """Return one host-designated final response without transformation."""
     if not isinstance(events, list):
         return ""
     responses = []
     for event in events:
         if (not isinstance(event, dict) or
-                event.get("kind") not in ("message", "marker") or
+                event.get("kind") != "marker" or
                 event.get("role") != "assistant"):
             continue
         content = event.get("content")
