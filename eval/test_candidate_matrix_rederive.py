@@ -199,7 +199,8 @@ def _trace_action(action_id, ordinal, command, output):
 
 
 def build_campaign(root, *, execution_mode="production", surface_root=None,
-                   external_surface_paths=None, foundation=None):
+                   external_surface_paths=None, foundation=None,
+                   transcript_overrides=None):
     root = pathlib.Path(root)
     surface_root = root if surface_root is None else pathlib.Path(surface_root)
     packet = valid_packet()
@@ -562,6 +563,8 @@ def build_campaign(root, *, execution_mode="production", surface_root=None,
         transcript = (
             HERE / "fixtures" / fixture_id /
             "transcript_pass.txt").read_text(encoding="utf-8")
+        if transcript_overrides and fixture_id in transcript_overrides:
+            transcript = transcript_overrides[fixture_id]
         if fixture_id == "B0":
             transcript = "\n".join(
                 line for line in transcript.splitlines()

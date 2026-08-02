@@ -3136,7 +3136,8 @@ def _load_bundle(bundle, packet, mission, parent_terminal):
             _exact_json_equal(comparison["committed_files"], []),
             "repo comparison contradicts independent snapshot delta")
     return (manifest, fixture, artifacts, before, after, changed, preimages,
-            trace, raw_actions, host_checks, _role_texts(events))
+            trace, raw_actions, host_checks, _role_texts(events),
+            _exact_assistant_texts(events))
 
 
 def _attempt_name(mission):
@@ -3181,6 +3182,20 @@ def _role_texts(events):
         texts.setdefault(event["role"], []).append(
             _clean_event_content(event["content"]))
     return {role: "\n".join(parts) for role, parts in texts.items()}
+
+
+def _exact_assistant_texts(events):
+    """Independently retain one host-assigned assistant event exactly."""
+    responses = []
+    for _ordinal, event in _raw_json_lines(events, "bundle events"):
+        if (event.get("kind") not in ("message", "marker") or
+                event.get("role") != "assistant"):
+            continue
+        content = event.get("content")
+        if type(content) is not str:
+            return {"assistant": ""}
+        responses.append(content)
+    return {"assistant": responses[0] if len(responses) == 1 else ""}
 
 
 def _marker_hits(lines, name, payload):
@@ -3579,7 +3594,7 @@ def _matrix_acceptance(fixture, property_name, texts, artifact_obj):
 
 
 def _derive_properties(fixture, artifacts, after, changed, preimages, raw_actions,
-                       host_checks, texts):
+                       host_checks, texts, exact_assistant_texts):
     observations = {}
     for spec in (fixture.get("host_checks") or {}).get("specs", []):
         key = spec.get("key")
@@ -3615,8 +3630,14 @@ def _derive_properties(fixture, artifacts, after, changed, preimages, raw_action
         derived = _artifact_derivation(fixture, artifacts, name)
         if derived is not None:
             passed = None if passed is None else passed and derived
+        matrix_contract = fixture.get("matrix_acceptance") or {}
+        matrix_texts = (
+            exact_assistant_texts
+            if matrix_contract.get("schema") ==
+            "implementaudit-candidate-matrix-acceptance-v2"
+            else texts)
         matrix = _matrix_acceptance(
-            fixture, name, texts,
+            fixture, name, matrix_texts,
             _artifact_object(fixture, artifacts))
         if matrix is not None:
             passed = matrix[0]
@@ -3998,7 +4019,7 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha,
                 isinstance(parent["policy_resolved"], dict),
                 "host terminal is non-authoritative")
         (manifest, fixture, artifacts, _before, after, changed, preimages,
-         _trace, raw_actions, host_checks, texts) = \
+         _trace, raw_actions, host_checks, texts, exact_assistant_texts) = \
             _load_bundle(host_root / "bundle", packet, mission, parent)
         property_declarations[mission["index"]] = {
             prop["name"]: prop["required"]
@@ -4010,7 +4031,7 @@ def _rederive_attempt(packet, campaign_root, mission, freeze_sha,
                 host_root / "bundle", packet, mission)
         properties = _derive_properties(
             fixture, artifacts, after, changed, preimages, raw_actions,
-            host_checks, texts)
+            host_checks, texts, exact_assistant_texts)
         declared = [prop["name"] for prop in fixture["properties"]]
         required = [prop["name"] for prop in fixture["properties"]
                     if prop.get("required", True)]

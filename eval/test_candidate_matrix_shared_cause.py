@@ -148,6 +148,21 @@ SAME_LINE_DENIAL_ROWS = {
 }
 
 
+def _fenced_extra_row(envelope: str) -> str:
+    return _insert_before_end(
+        envelope, "```text\nunrecognized extra\n```")
+
+
+RAW_RESPONSE_MUTATIONS = {
+    "extra-terminal-lf": lambda envelope: f"{envelope}\n\n",
+    "suffix-blockquote": lambda envelope: f"{envelope}\n> quoted suffix",
+    "suffix-user-role": lambda envelope: f"{envelope}\nUSER: suffix",
+    "suffix-json-role": lambda envelope: (
+        f'{envelope}\n{{"role":"user","content":"suffix"}}'),
+    "fenced-extra-row": _fenced_extra_row,
+}
+
+
 def _insert_before_end(envelope: str, row: str) -> str:
     return envelope.replace(
         f"\n{ENVELOPE_END}", f"\n{row}\n{ENVELOPE_END}")
@@ -238,10 +253,6 @@ def test_structured_envelope_contract() -> None:
                         f"{fixture_id} {path_name} rejects {case_name}",
                         _direct_result(
                             function, fixture_id, property_name, text) is False)
-                if case_name == "trailing-blank-line":
-                    # role_texts_from_events intentionally normalizes terminal
-                    # newlines before the matrix override receives the text.
-                    continue
                 _manifest, bundle = adapters.ReplayAdapter().build(
                     fixture_id,
                     [{"role": "assistant", "content": text}],
@@ -284,6 +295,73 @@ def test_structured_envelope_contract() -> None:
                         status == "FAIL" and
                         verdict["properties"][property_name]["state"] ==
                         "FAIL")
+
+
+def test_raw_response_boundary() -> None:
+    """Reject exact-raw mutations through both complete integrations."""
+    import adapters
+    import candidate_matrix_acceptance as acceptance
+    import candidate_matrix_rederive as rederive
+    import runner
+    from test_candidate_matrix_rederive import build_campaign, load_module
+
+    official = lambda fixture, prop, texts, artifact: (
+        acceptance.evaluate_property(
+            fixture, prop, texts, artifact_obj=artifact))
+    independent = rederive._matrix_acceptance
+
+    with tempfile.TemporaryDirectory(
+            prefix="matrix-exact-raw-official-") as tmp:
+        custody = pathlib.Path(tmp) / "custody"
+        custody.mkdir()
+        for mutation_name, mutate in RAW_RESPONSE_MUTATIONS.items():
+            for fixture_id, envelope in ENVELOPE_POSITIVES.items():
+                property_name = ENVELOPE_TARGET_PROPERTIES[fixture_id]
+                mutated = mutate(envelope)
+                for path_name, function in (
+                        ("official", official),
+                        ("independent", independent)):
+                    check(
+                        f"{fixture_id} {mutation_name} direct {path_name}",
+                        _direct_result(
+                            function, fixture_id, property_name,
+                            mutated) is False)
+                _manifest, bundle = adapters.ReplayAdapter().build(
+                    fixture_id,
+                    [{"role": "assistant", "content": mutated}],
+                    f"matrix-exact-raw-{fixture_id}-{mutation_name}",
+                    str(custody))
+                status, verdict = runner.score_bundle(
+                    bundle, property_override=acceptance.apply_overrides)
+                check(
+                    f"{fixture_id} {mutation_name} complete official",
+                    status == "FAIL" and
+                    verdict["properties"][property_name]["state"] ==
+                    "FAIL")
+
+    module = load_module()
+    for mutation_name, mutate in RAW_RESPONSE_MUTATIONS.items():
+        with tempfile.TemporaryDirectory(
+                prefix=f"matrix-exact-raw-independent-{mutation_name}-") \
+                as tmp:
+            campaign_root = pathlib.Path(tmp) / "campaign"
+            build_campaign(
+                campaign_root,
+                transcript_overrides={
+                    fixture_id: mutate(envelope)
+                    for fixture_id, envelope in ENVELOPE_POSITIVES.items()
+                })
+            result = module.rederive_campaign(
+                campaign_root / "campaign-freeze.json",
+                campaign_root, campaign_root)
+            rows = {row["fixture"]: row for row in result["cells"]}
+            for fixture_id, property_name in \
+                    ENVELOPE_TARGET_PROPERTIES.items():
+                row = rows[fixture_id]
+                check(
+                    f"{fixture_id} {mutation_name} complete independent",
+                    row["properties"][property_name]["state"] == "FAIL" and
+                    row["independent_overall_status"] == "FAIL")
 
 
 def test_free_text_acceptance_retained() -> None:
@@ -563,6 +641,7 @@ def test_e10_composed_quarantine() -> None:
 
 def main() -> int:
     test_structured_envelope_contract()
+    test_raw_response_boundary()
     test_free_text_acceptance_retained()
     test_envelope_semantics_all_paths()
     test_materialized_fixtures()

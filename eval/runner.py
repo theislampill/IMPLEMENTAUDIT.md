@@ -435,7 +435,7 @@ def score_bundle(run_root, repo_dir=None, property_override=None):
         if property_override is not None:
             scored = property_override(
                 fixture, scoring.role_texts_from_events(events), scored,
-                artifact_obj=artifact_obj)
+                artifact_obj=artifact_obj, events=events)
         if manifest.get("model_requested") is not None and \
                 manifest.get("model_requested") != manifest.get(
                     "model_resolved"):

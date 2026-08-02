@@ -46,6 +46,23 @@ def _assistant_text(texts):
     return value
 
 
+def _exact_assistant_text(events):
+    """Return one host-assigned assistant response without transformation."""
+    if not isinstance(events, list):
+        return ""
+    responses = []
+    for event in events:
+        if (not isinstance(event, dict) or
+                event.get("kind") not in ("message", "marker") or
+                event.get("role") != "assistant"):
+            continue
+        content = event.get("content")
+        if not isinstance(content, str):
+            return ""
+        responses.append(content)
+    return responses[0] if len(responses) == 1 else ""
+
+
 def _exact_lines(text):
     if "\r" in text:
         return None
@@ -313,11 +330,16 @@ def evaluate_property(fixture, property_name, texts, artifact_obj=None):
     return passed, evidence
 
 
-def apply_overrides(fixture, texts, scored, artifact_obj=None):
+def apply_overrides(fixture, texts, scored, artifact_obj=None, events=None):
     output = dict(scored)
+    contract = fixture.get("matrix_acceptance") or {}
+    acceptance_texts = texts
+    if contract.get("schema") == ENVELOPE_SCHEMA:
+        acceptance_texts = {"assistant": _exact_assistant_text(events)}
     for prop in fixture["properties"]:
         result = evaluate_property(
-            fixture, prop["name"], texts, artifact_obj=artifact_obj)
+            fixture, prop["name"], acceptance_texts,
+            artifact_obj=artifact_obj)
         if result is None:
             continue
         passed, evidence = result
