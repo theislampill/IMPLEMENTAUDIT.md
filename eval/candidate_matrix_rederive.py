@@ -144,6 +144,7 @@ MAX_JSON_DEPTH = 512
 # Independent copy: ceil(9.242s), the maximum across twelve hash-deduplicated
 # retained native session/process pairs, defines the whole-second ceiling.
 CODEX_SESSION_START_WINDOW_SECONDS = 10
+CODEX_ANONYMOUS_TURN_SENTINEL = "<unique-turn>"
 CODEX_REQUIRED_PROCESS_IDENTITY_FIELDS = {"cwd", "requested_model"}
 CODEX_REQUIRED_TURN_IDENTITY_FIELDS = {"cwd", "model", "turn_id"}
 CODEX_NATIVE_REPO_FIELDS = {"lexical_root", "real_root", "case_sensitive"}
@@ -2037,6 +2038,8 @@ def _validate_codex_stdout_rows(rows):
                 type(event[field]) is str and bool(event[field])
                 for field in ("thread_id", "turn_id") if field in event),
                 owner + " turn identity invalid")
+            _expect(event.get("turn_id") != CODEX_ANONYMOUS_TURN_SENTINEL,
+                    owner + " turn identity reserved")
         elif event_type == "turn.completed":
             _expect(set(event) in (
                 {"type", "usage"},
@@ -2046,6 +2049,8 @@ def _validate_codex_stdout_rows(rows):
                 type(event[field]) is str and bool(event[field])
                 for field in ("thread_id", "turn_id") if field in event),
                 owner + " turn identity invalid")
+            _expect(event.get("turn_id") != CODEX_ANONYMOUS_TURN_SENTINEL,
+                    owner + " turn identity reserved")
             usage = _exact_fields(
                 event["usage"], usage_fields, owner + " usage")
             _expect(all(type(value) is int and value >= 0
@@ -2214,7 +2219,7 @@ def _parse_codex_actions(raw):
                     (observed is None or
                      (isinstance(observed, str) and observed)),
                     "Codex raw turn binding invalid")
-            turn_id = observed or "<unique-turn>"
+            turn_id = observed or CODEX_ANONYMOUS_TURN_SENTINEL
             bound_turn_id = observed
             continue
         if event_type == "turn.completed":

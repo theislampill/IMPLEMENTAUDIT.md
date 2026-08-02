@@ -1277,6 +1277,11 @@ def assert_real_codex_turn_shapes(module):
     invalid["minimal-start-sentinel-completion"] = copy.deepcopy(rows)
     invalid["minimal-start-sentinel-completion"][-1]["turn_id"] = \
         "<unique-turn>"
+    invalid["symmetric-explicit-sentinel"] = copy.deepcopy(explicit)
+    invalid["symmetric-explicit-sentinel"][1]["turn_id"] = \
+        "<unique-turn>"
+    invalid["symmetric-explicit-sentinel"][-1]["turn_id"] = \
+        "<unique-turn>"
     invalid["minimal-start-explicit-completion"] = copy.deepcopy(rows)
     invalid["minimal-start-explicit-completion"][-1].update({
         "thread_id": "retained-thread", "turn_id": "turn-1"})
