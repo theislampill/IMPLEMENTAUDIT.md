@@ -603,10 +603,120 @@ def assert_malformed_marker_never_qualifies():
         assert independent["luna_stage_accepted"] is False, independent
 
 
+def assert_two_cell_runtime_prefix_resume(module):
+    """A completed B0 runtime must authorize B1, not look nonempty."""
+    with tempfile.TemporaryDirectory(
+            prefix="candidate-matrix-two-cell-runtime-prefix-") as tmp:
+        calls = []
+
+        def retained_runtime_executor(context):
+            calls.append(context.mission["index"])
+            runtime_attempt = context.runtime_root / context.attempt_root.name
+            runtime_attempt.mkdir(parents=True, exist_ok=False)
+            return executor(context)
+
+        driver = make_driver(module, tmp, retained_runtime_executor)
+        original = module.launch_preflight.validate_live_ready
+
+        def production_runtime_semantics(*args, **kwargs):
+            report, raw = original(*args, **kwargs)
+            if args[0] != "candidate-matrix":
+                return report, raw
+            entries = ({path.name for path in driver.runtime_root.iterdir()}
+                       if driver.runtime_root.exists() else set())
+            initialized = kwargs.get("campaign_initialized") is True
+            completed = kwargs.get("completed_prefix")
+            if kwargs.get("retained_only") is True and completed is None:
+                return report, raw
+            if initialized:
+                expected = [
+                    driver._attempt_name(cell)
+                    for cell in args[1]["cells"]]
+                if (type(completed) is not list or
+                        completed != expected[:len(completed)]):
+                    raise ValueError(
+                        "live READY authoritative completed prefix invalid")
+                if entries != set(completed):
+                    raise ValueError("live READY runtime prefix invalid")
+            elif entries:
+                raise ValueError(
+                    "live READY runtime root is not initially empty")
+            return report, raw
+
+        module.launch_preflight.validate_live_ready = \
+            production_runtime_semantics
+        try:
+            first = driver.run_next()
+            second = driver.run_next()
+        finally:
+            module.launch_preflight.validate_live_ready = original
+        assert first["overall_status"] == "PASS", first
+        assert second["overall_status"] == "PASS", second
+        assert second["mission_index"] == 1, second
+        assert calls == [0, 1], calls
+
+
+def assert_matrix_runtime_prefix_contract(module):
+    """The matrix live boundary accepts only the exact completed prefix."""
+    packet = valid_packet()
+    with tempfile.TemporaryDirectory(
+            prefix="candidate-matrix-runtime-prefix-contract-") as tmp:
+        base = pathlib.Path(tmp).absolute()
+        runtime = base / "runtime"
+        runtime.mkdir()
+        first = module.CampaignDriver._attempt_name(packet["cells"][0])
+        second = module.CampaignDriver._attempt_name(packet["cells"][1])
+        first_path = runtime / first
+        first_path.mkdir()
+        validate_prefix = (
+            module.launch_preflight.
+            _validate_matrix_initialized_runtime_prefix)
+
+        validate_prefix(packet, runtime, [first])
+        expect_error(
+            "authoritative completed prefix",
+            lambda: validate_prefix(packet, runtime, [second, first]))
+
+        extra = runtime / "unexpected-runtime"
+        extra.mkdir()
+        expect_error(
+            "runtime prefix",
+            lambda: validate_prefix(packet, runtime, [first]))
+        extra.rmdir()
+
+        future = runtime / second
+        first_path.rename(future)
+        expect_error(
+            "runtime prefix",
+            lambda: validate_prefix(packet, runtime, [first]))
+        future.rename(first_path)
+
+        first_path.rmdir()
+        first_path.write_bytes(b"not a directory\n")
+        expect_error(
+            "directory",
+            lambda: validate_prefix(packet, runtime, [first]))
+        first_path.unlink()
+
+        alias_target = base / "alias-target"
+        alias_target.mkdir()
+        try:
+            first_path.symlink_to(alias_target, target_is_directory=True)
+        except OSError:
+            pass
+        else:
+            expect_error(
+                "link",
+                lambda: validate_prefix(packet, runtime, [first]))
+            first_path.unlink()
+
+
 def main():
     module = load_module()
     assert module._exact_json_equal(False, False)
     assert not module._exact_json_equal(False, 0)
+    assert_two_cell_runtime_prefix_resume(module)
+    assert_matrix_runtime_prefix_contract(module)
     with tempfile.TemporaryDirectory() as tmp:
         root = pathlib.Path(tmp)
         driver = make_driver(module, root)

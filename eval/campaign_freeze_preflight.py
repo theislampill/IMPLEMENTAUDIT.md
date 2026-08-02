@@ -320,6 +320,34 @@ def _b3_attempt_name(mission):
         f"{mission['arm']}-r{mission['rep']}")
 
 
+def _matrix_attempt_name(cell):
+    return (f"attempt-{cell['index']:03d}-{cell['config']}-"
+            f"{cell['fixture']}")
+
+
+def _validate_matrix_initialized_runtime_prefix(
+        packet, runtime, completed_prefix):
+    """Bind matrix runtime names to the authoritative completed cells."""
+    cells = packet.get("cells")
+    if type(cells) is not list or len(cells) != 14:
+        raise ValueError("live READY matrix cell plan invalid")
+    if type(completed_prefix) is not list or any(
+            type(name) is not str for name in completed_prefix):
+        raise ValueError(
+            "live READY authoritative completed prefix is required")
+    expected = [_matrix_attempt_name(cell) for cell in cells]
+    if completed_prefix != expected[:len(completed_prefix)]:
+        raise ValueError("live READY authoritative completed prefix invalid")
+    runtime_entries = [path.name for path in runtime.iterdir()]
+    if (len(runtime_entries) != len(completed_prefix) or
+            set(runtime_entries) != set(completed_prefix)):
+        raise ValueError("live READY runtime prefix invalid")
+    for name in completed_prefix:
+        _absolute_directory(
+            str(runtime / name), f"live READY completed runtime {name}")
+    return completed_prefix
+
+
 def _validate_b3_initialized_runtime_prefix(
         packet, runtime, completed_prefix):
     """Bind runtime names to the driver's authoritative completed prefix."""
@@ -404,6 +432,9 @@ def _derive_production_live_ready(
         campaign_root = pathlib.Path(campaign_binding["path"])
     if campaign == "b3v4" and campaign_initialized:
         _validate_b3_initialized_runtime_prefix(
+            packet, runtime, completed_prefix)
+    elif campaign == "candidate-matrix" and campaign_initialized:
+        _validate_matrix_initialized_runtime_prefix(
             packet, runtime, completed_prefix)
     elif any(runtime.iterdir()):
         raise ValueError("live READY runtime root is not initially empty")

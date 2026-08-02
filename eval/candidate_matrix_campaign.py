@@ -639,23 +639,32 @@ class CampaignDriver:
                 "production host attestation/context mismatch")
         return context
 
-    def _load_launch_readiness(self, packet):
+    def _load_launch_readiness(
+            self, packet, *, campaign_initialized=False,
+            completed_prefix=None):
         if self.launch_readiness is None:
             raise ValueError("live launch readiness is required")
         return launch_preflight.validate_live_ready(
             "candidate-matrix", packet, self.launch_readiness,
             execution_mode=self.execution_mode,
-            live_context=self._load_launch_context())
+            live_context=self._load_launch_context(),
+            campaign_initialized=campaign_initialized,
+            completed_prefix=completed_prefix)
 
-    def _verify_launch_readiness(self, attempt_root, status, packet):
+    def _verify_launch_readiness(
+            self, attempt_root, status, packet, *, retained_only=False,
+            completed_prefix=None):
         binding = status["launch_readiness_binding"]
         report, raw = launch_preflight.validate_live_ready(
             "candidate-matrix", packet,
             attempt_root / binding["path"],
             execution_mode=self.execution_mode,
             live_context=(self._load_launch_context()
-                          if self.launch_context else None),
-            retained_only=self.launch_context is None)
+                          if self.launch_context and not retained_only
+                          else None),
+            retained_only=retained_only or self.launch_context is None,
+            campaign_initialized=True,
+            completed_prefix=completed_prefix)
         if (_sha256_bytes(raw) != binding["sha256"] or
                 report["schema"] != binding["schema"] or
                 report["execution_mode"] != binding["execution_mode"] or
@@ -700,12 +709,19 @@ class CampaignDriver:
                     frozen, "frozen packet", root=self.campaign_root) != raw):
             raise ValueError("frozen packet or campaign manifest drift")
 
+    def _campaign_custody_initialized(self):
+        return (
+            (self.campaign_root / "campaign-freeze.json").is_file() and
+            (self.campaign_root / "campaign-manifest.json").is_file())
+
     @staticmethod
     def _attempt_name(mission):
         return (f"attempt-{mission['index']:03d}-L-"
                 f"{mission['fixture']}")
 
-    def _next_mission(self, packet):
+    def _next_mission(
+            self, packet, *, retained_only_readiness=False,
+            completed_prefix=None, before_mission=None):
         self._raise_if_campaign_andon(packet)
         allowed_root = {
             "campaign-freeze.json", "campaign-manifest.json",
@@ -733,6 +749,18 @@ class CampaignDriver:
             raise ValueError("prior attempt is nonterminal")
         for mission in packet["cells"]:
             root = self.campaign_root / self._attempt_name(mission)
+            if (before_mission is not None and
+                    mission["index"] == before_mission["index"]):
+                if not _exact_json_equal(mission, before_mission):
+                    raise ValueError("prespawn mission identity drift")
+                if not root.is_dir():
+                    raise ValueError(
+                        "prespawn current attempt custody unavailable")
+                if any((self.campaign_root / self._attempt_name(m)).exists()
+                       for m in packet["cells"]
+                       if m["index"] > mission["index"]):
+                    raise ValueError("campaign attempt order has a gap")
+                return mission
             if not root.exists():
                 if any((self.campaign_root / self._attempt_name(m)).exists()
                        for m in packet["cells"]
@@ -772,7 +800,10 @@ class CampaignDriver:
                     terminal.get("mission_index") != mission["index"]):
                 raise ValueError("prior attempt identity drift")
             self._verify_host_attestation(root, status, mission, packet)
-            self._verify_launch_readiness(root, status, packet)
+            self._verify_launch_readiness(
+                root, status, packet,
+                retained_only=retained_only_readiness,
+                completed_prefix=completed_prefix)
             overall = terminal.get("overall_status")
             if terminal.get("official_verdict_sha256") is not None:
                 _verify_official_verdict(
@@ -844,7 +875,7 @@ class CampaignDriver:
         return retained
 
     def _claim_attempt(self, mission, packet_sha256, packet,
-                       readiness_raw, readiness):
+                       readiness_raw, readiness, completed_prefix):
         name = self._attempt_name(mission)
         claiming = self.campaign_root / (name + ".claiming")
         final = self.campaign_root / name
@@ -852,7 +883,9 @@ class CampaignDriver:
         launch_preflight.validate_live_ready(
             "candidate-matrix", packet, self.launch_readiness,
             execution_mode=self.execution_mode,
-            live_context=self._load_launch_context())
+            live_context=self._load_launch_context(),
+            campaign_initialized=True,
+            completed_prefix=completed_prefix)
         claiming.mkdir(exist_ok=False)
         with open(claiming / "host-attestation.json", "xb") as stream:
             stream.write(attestation_raw)
@@ -1002,22 +1035,47 @@ class CampaignDriver:
 
     def run_next(self):
         packet, raw, packet_sha256 = self._load_packet()
-        readiness, readiness_raw = self._load_launch_readiness(packet)
+        campaign_initialized = self._campaign_custody_initialized()
+        readiness = readiness_raw = None
+        if not campaign_initialized:
+            readiness, readiness_raw = self._load_launch_readiness(
+                packet, campaign_initialized=False)
         self._ensure_campaign(raw, packet_sha256, packet)
+        retained_mission = self._next_mission(
+            packet, retained_only_readiness=True)
+        completed_prefix = [
+            self._attempt_name(row) for row in packet["cells"]
+            if row["index"] < retained_mission["index"]]
+        readiness, readiness_raw = self._load_launch_readiness(
+            packet, campaign_initialized=True,
+            completed_prefix=completed_prefix)
         self._validate_identities(packet)
-        mission = self._next_mission(packet)
+        mission = self._next_mission(
+            packet, completed_prefix=completed_prefix)
+        if not _exact_json_equal(mission, retained_mission):
+            raise ValueError("validated completed prefix changed")
         self._validate_surfaces(packet)
         fixture = _fixture_for_packet(self.repo_root, packet, mission)
-        reread, reread_raw = self._load_launch_readiness(packet)
+        reread, reread_raw = self._load_launch_readiness(
+            packet, campaign_initialized=True,
+            completed_prefix=completed_prefix)
         if reread_raw != readiness_raw:
             raise ValueError("live launch readiness changed before claim")
+        if not _exact_json_equal(
+                self._next_mission(
+                    packet, retained_only_readiness=True),
+                mission):
+            raise ValueError("validated completed prefix changed before claim")
         attempt_root = self._claim_attempt(
-            mission, packet_sha256, packet, reread_raw, reread)
+            mission, packet_sha256, packet, reread_raw, reread,
+            completed_prefix)
         status = _read_object(attempt_root / "attempt-status.json",
                               "attempt status", root=self.campaign_root)
         retained_attestation = self._verify_host_attestation(
             attempt_root, status, mission, packet)
-        self._verify_launch_readiness(attempt_root, status, packet)
+        self._verify_launch_readiness(
+            attempt_root, status, packet,
+            completed_prefix=completed_prefix)
         context = MissionContext(
             packet=packet, packet_sha256=packet_sha256, mission=mission,
             attempt_root=attempt_root,
@@ -1038,15 +1096,21 @@ class CampaignDriver:
         executor_returned = False
         try:
             self._validate_surfaces(packet)
-            live_again, live_again_raw = self._load_launch_readiness(packet)
+            live_again, live_again_raw = self._load_launch_readiness(
+                packet, campaign_initialized=True,
+                completed_prefix=completed_prefix)
             retained_again, retained_again_raw = \
                 self._verify_launch_readiness(
-                    attempt_root, status, packet)
+                    attempt_root, status, packet,
+                    completed_prefix=completed_prefix)
             if (live_again_raw != readiness_raw or
                     retained_again_raw != readiness_raw or
                     live_again != retained_again):
                 raise ValueError(
                     "launch readiness changed before host spawn")
+            self._next_mission(
+                packet, retained_only_readiness=True,
+                before_mission=mission)
             outcome = self.mission_executor(context)
             executor_returned = True
             if not isinstance(outcome, dict):
