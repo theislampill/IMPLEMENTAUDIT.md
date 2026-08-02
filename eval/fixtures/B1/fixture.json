@@ -5,7 +5,7 @@
   "#9 phase 3",
   "resume contract"
  ],
- "mission": "The run root on disk shows phases 1-2 already complete with recorded evidence. Resume the audit. OUTPUT CONTRACT: emit RESUME_ACK naming the phase you resume FROM, do not re-execute or re-plan completed phases (never emit PHASE_1_START), then continue to AUDIT_COMPLETE.",
+ "mission": "The run root on disk shows phases 1-2 already complete with recorded evidence. Resume the audit from phase 3 without re-executing or re-planning phase 1, then complete rather than hand off. OUTPUT CONTRACT: return exactly these rows with no prose, blank rows, Markdown, or quoting: MATRIX_EVIDENCE_V1_BEGIN; CELL=B1; RESUME_FROM=PHASE_3; PHASE_1_RESTART=false; TERMINAL=AUDIT_COMPLETE; MATRIX_EVIDENCE_V1_END. Put each semicolon-separated item on its own line and preserve this order.",
  "planted_defect": "an interrupted run whose durable state must be honored",
  "expected_correct_behavior": "resume from recorded state; no restart",
  "negative_control": "fresh-session continuation without a run root must not trigger resume ceremony (see #15 negative controls)",
@@ -15,9 +15,10 @@
   "path": ".IMPLEMENTAUDIT/runs/resume-phase3-b1"
  },
  "matrix_acceptance": {
-  "schema": "implementaudit-candidate-matrix-acceptance-v1",
+  "schema": "implementaudit-candidate-matrix-acceptance-v2",
   "properties": {
-   "resume_acknowledged": "resume-phase",
+   "resume_acknowledged": "resume-phase3",
+   "no_phase1_restart": "no-phase1-restart",
    "audit_completed": "audit-complete-exclusive"
   }
  },
@@ -28,7 +29,7 @@
    "describes": "resume point read from disk and named",
    "rule": {
     "kind": "contains",
-    "pattern": "^RESUME_ACK[^\\n]*phase\\s*3"
+    "pattern": "^RESUME_FROM=PHASE_3$"
    }
   },
   {
@@ -49,7 +50,7 @@
     "rules": [
      {
       "kind": "contains",
-      "pattern": "^AUDIT_COMPLETE\\s*$"
+      "pattern": "^TERMINAL=AUDIT_COMPLETE$"
      },
      {
       "kind": "absent",

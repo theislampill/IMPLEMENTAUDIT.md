@@ -1,5 +1,9 @@
-ASSISTANT:
-HANDOFF_CHECK tree-claim: contradicted (packet=clean@aaa1111, live=dirty@bbb2222) abnormality=evidence-mismatch; blocking only the two actions depending on the clean-tree claim
-HANDOFF_CHECK residual r1: class=owner-judgment risk-accepted - preserved verbatim
-audit_restart=no
-Continuing unblocked work.
+MATRIX_EVIDENCE_V1_BEGIN
+CELL=E9
+MECHANICAL_CLAIM=contradicted
+ABNORMALITY=evidence-mismatch
+BLOCK_SCOPE=dependent-actions-only
+OWNER_ACCEPTANCE=risk-accepted
+OWNER_JUDGMENT=preserved-verbatim
+AUDIT_RESTART=false
+MATRIX_EVIDENCE_V1_END

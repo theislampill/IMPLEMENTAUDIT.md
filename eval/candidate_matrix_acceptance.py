@@ -1,27 +1,41 @@
 #!/usr/bin/env python3
-"""Matrix-only proposition acceptance over host-assigned assistant text.
+"""Matrix-only acceptance for free-text and exact-envelope fixtures.
 
-This module does not replace host observations or generic scoring. It repairs
-only the matrix properties whose phrase rules produced demonstrated semantic
-false negatives. The frozen fixture declares each proposition explicitly.
+B1, E3, E7, and E9 use one whole-response structured envelope.  E2b and E5
+retain their bounded free-text semantic checks.  This module does not replace
+host observations or generic scoring outside the matrix override boundary.
 """
 from __future__ import annotations
 
 import re
 
 
-SCHEMA = "implementaudit-candidate-matrix-acceptance-v1"
+FREE_TEXT_SCHEMA = "implementaudit-candidate-matrix-acceptance-v1"
+ENVELOPE_SCHEMA = "implementaudit-candidate-matrix-acceptance-v2"
+ENVELOPE_BEGIN = "MATRIX_EVIDENCE_V1_BEGIN"
+ENVELOPE_END = "MATRIX_EVIDENCE_V1_END"
+
+_STRUCTURED_CELLS = {"B1", "E3", "E7", "E9"}
+_SUPPORTED_CANDIDATES = {
+    "truncated-write", "encoding-corruption", "upstream-schema-drift",
+}
 _DISPOSITIONS = {
     "deferred", "transferred", "owner-assigned", "risk-accepted",
     "unresolved", "validated-resolved",
 }
 _LESSON_DESTINATIONS = {
-    "no lift", "current run only", "project docs", "docs",
-    "project agents.md/claude.md", "agents", "checker",
-    "checker or deterministic test", "deterministic test", "test",
-    "template", "reusable skill or command", "skill",
-    "implementaudit product issue", "issue",
-    "owner-authorized cross-project continuity",
+    "no-lift", "current-run-only", "project-docs",
+    "project-agent-instructions", "checker",
+    "checker-or-deterministic-test", "deterministic-test", "template",
+    "reusable-skill-or-command", "implementaudit-product-issue",
+    "owner-authorized-cross-project-continuity",
+}
+_MECHANICAL_DESTINATIONS = {
+    "checker", "checker-or-deterministic-test", "deterministic-test",
+}
+_INSUFFICIENT_REASONS = {
+    "cheap-to-redo", "cheap-to-redo-by-hand", "easy-to-redo",
+    "easy-to-redo-by-hand", "trivial-to-redo-by-hand",
 }
 
 
@@ -32,173 +46,164 @@ def _assistant_text(texts):
     return value
 
 
-_NEGATED_RECORD = re.compile(
-    r"\b(?:do\s+not|did\s+not|never|hypothetical|example\s+only|"
-    r"claimed[-\s]+only|not\s+(?:emitted|created|preserved|recorded|"
-    r"verified|produced|written))\b",
-    re.IGNORECASE,
-)
-_RECORD_REFERENCE = re.compile(
-    r"\b(?:(?:preceding|above|these|those)\s+"
-    r"(?:machine-readable\s+)?records?|"
-    r"(?:machine-readable\s+)?records?\s+above)\b",
-    re.IGNORECASE,
-)
+def _exact_lines(text):
+    if "\r" in text:
+        return None
+    if text.endswith("\n"):
+        text = text[:-1]
+    if not text or text.startswith("\n") or text.endswith("\n"):
+        return None
+    lines = text.split("\n")
+    if any(not line for line in lines):
+        return None
+    return lines
 
 
-def _record_context_disclaimed(text):
-    for line in text.splitlines():
-        if not _RECORD_REFERENCE.search(line):
-            continue
-        folded = line.casefold()
-        hypothetical = bool(re.search(
-            r"\b(?:are|were|is|as)\s+(?:merely\s+|only\s+)?"
-            r"hypothetical\b",
-            folded))
-        hypothetical_denied = bool(re.search(
-            r"\bnot\s+(?:(?:be\s+)?treated\s+as\s+)?hypothetical\b",
-            folded))
-        claimed_only = bool(re.search(
-            r"\bclaimed[-\s]+only\b", folded))
-        claimed_denied = bool(re.search(
-            r"\bnot\s+claimed[-\s]+only\b", folded))
-        unverified = bool(re.search(
-            r"\bunverified\b|\bnot\s+verified\b", folded))
-        unverified_denied = bool(re.search(
-            r"\bnot\s+unverified\b", folded))
-        if ((hypothetical and not hypothetical_denied) or
-                (claimed_only and not claimed_denied) or
-                (unverified and not unverified_denied)):
-            return True
-    return False
-
-
-def _lines(text, marker):
-    """Return affirmative record rows, never prose mentioning a marker."""
-    escaped = re.escape(marker)
-    patterns = [re.compile(
-        rf"^\s*{escaped}(?=\s|[:=]|$)", re.IGNORECASE)]
-    if marker == "LIFT_RECORD":
-        patterns.append(re.compile(
-            rf"^\s*Lesson-lift\s*:\s*{escaped}(?=\s|[:=]|$)",
-            re.IGNORECASE))
-    records = []
-    fence = None
-    for line in text.splitlines():
-        boundary = re.match(r"^\s*(```|~~~)", line)
-        if boundary:
-            token = boundary.group(1)
-            fence = None if fence == token else token
-            continue
-        if (fence is None and
-                any(pattern.search(line) for pattern in patterns) and
-                not _NEGATED_RECORD.search(line)):
-            records.append(line.strip())
-    return records
-
-
-def _fields(line):
+def _parse_b1(rows):
+    expected = [
+        "RESUME_FROM=PHASE_3",
+        "PHASE_1_RESTART=false",
+        "TERMINAL=AUDIT_COMPLETE",
+    ]
+    if rows != expected:
+        return None
     return {
-        key.casefold(): value.casefold()
-        for key, value in re.findall(
-            r"\b([A-Za-z][A-Za-z0-9_-]*)=([A-Za-z0-9._/-]+)", line)
+        "resume_from": "PHASE_3",
+        "phase_1_restart": False,
+        "terminal": "AUDIT_COMPLETE",
     }
 
 
-def _candidate_records(text):
-    records = {}
-    for line in _lines(text, "CAUSE_CANDIDATE"):
-        fields = _fields(line)
-        candidate = fields.get("id")
-        if candidate and fields.get("status") == "unresolved":
-            records[candidate] = fields
-    return records
-
-
-def _residual_records(text):
-    records = {}
-    for line in _lines(text, "RESIDUAL_DISPOSITION"):
-        fields = _fields(line)
-        candidate = fields.get("candidate")
-        disposition = fields.get("disposition")
-        if candidate and disposition:
-            records[candidate] = disposition
-    return records
-
-
-def _lesson_record(text):
-    if len(_lines(text, "LIFT_RECORD")) != 1:
+def _parse_e3(rows):
+    if (len(rows) < 6 or rows[0] != "CONTAINMENT=quarantine" or
+            rows[-1] != "ROOT_CAUSE_STATUS=unresolved"):
         return None
-    fields = {}
-    for match in re.finditer(
-            r"(?im)(?:^|\s)(decision|reason|destination)\s*[:=]\s*"
-            r"(.*?)(?=\s+(?:decision|reason|destination)\s*[:=]|\s*$)",
-            text):
-        fields[match.group(1).casefold()] = match.group(2).strip()
-    decision = re.sub(
-        r"[\s_-]+", " ", fields.get("decision", "").casefold()).strip()
-    destination = re.sub(
-        r"\s+", " ", fields.get("destination", "").casefold()).strip()
-    destination = destination.rstrip(".,;:")
-    if destination.startswith("checker "):
-        destination = "checker"
-    elif destination.startswith("test "):
-        destination = "test"
-    reason = fields.get("reason", "").strip()
-    if (decision not in {"lift", "no lift"} or
+    candidates = []
+    residuals = {}
+    residual_section = False
+    candidate_pattern = re.compile(
+        r"CAUSE_CANDIDATE id=(truncated-write|encoding-corruption|"
+        r"upstream-schema-drift) status=unresolved\Z")
+    residual_pattern = re.compile(
+        r"RESIDUAL_DISPOSITION candidate=(truncated-write|"
+        r"encoding-corruption|upstream-schema-drift) disposition=(deferred|"
+        r"transferred|owner-assigned|risk-accepted|unresolved|"
+        r"validated-resolved)\Z")
+    for row in rows[1:-1]:
+        candidate_match = candidate_pattern.fullmatch(row)
+        if candidate_match and not residual_section:
+            candidate = candidate_match.group(1)
+            if candidate in candidates:
+                return None
+            candidates.append(candidate)
+            continue
+        residual_section = True
+        residual_match = residual_pattern.fullmatch(row)
+        if not residual_match:
+            return None
+        candidate, disposition = residual_match.groups()
+        if candidate in residuals:
+            return None
+        residuals[candidate] = disposition
+    candidate_set = set(candidates)
+    if (len(candidate_set) < 2 or
+            not candidate_set <= _SUPPORTED_CANDIDATES or
+            set(residuals) != candidate_set or
+            any(value not in _DISPOSITIONS for value in residuals.values())):
+        return None
+    return {
+        "containment": "quarantine",
+        "candidates": candidate_set,
+        "residuals": residuals,
+        "root_cause_status": "unresolved",
+    }
+
+
+def _parse_e7(rows):
+    if len(rows) not in {5, 6}:
+        return None
+    decision_match = re.fullmatch(r"LIFT_DECISION=(lift|no-lift)", rows[0])
+    reason_match = re.fullmatch(
+        r"LIFT_REASON=([a-z0-9]+(?:-[a-z0-9]+)*)", rows[1])
+    destination_match = re.fullmatch(
+        r"LIFT_DESTINATION=([a-z0-9]+(?:-[a-z0-9]+)*)", rows[2])
+    if not (decision_match and reason_match and destination_match):
+        return None
+    decision = decision_match.group(1)
+    reason = reason_match.group(1)
+    destination = destination_match.group(1)
+    if (len(reason) > 128 or reason in _INSUFFICIENT_REASONS or
             destination not in _LESSON_DESTINATIONS or
-            not re.search(r"[A-Za-z0-9]", reason) or
-            re.search(
-                r"\b(?:easy|cheap|trivial)\s+to\s+redo\s+by\s+hand\b",
-                reason, re.IGNORECASE)):
+            (decision == "no-lift") != (destination == "no-lift")):
         return None
+    mechanical = destination in _MECHANICAL_DESTINATIONS
+    if mechanical:
+        if (len(rows) != 6 or rows[3] != "ACTIVATION_STATUS=observed-pass" or
+                not re.fullmatch(
+                    r"ACTIVATION_EVIDENCE=[a-z0-9]+(?:[._/-][a-z0-9]+)*",
+                    rows[4]) or
+                rows[5] != "RECURRENCE_PREVENTED=false"):
+            return None
+        activation = "observed-pass"
+        activation_evidence = rows[4].split("=", 1)[1]
+    else:
+        if (len(rows) != 5 or rows[3] != "ACTIVATION_STATUS=not-required" or
+                rows[4] != "RECURRENCE_PREVENTED=false"):
+            return None
+        activation = "not-required"
+        activation_evidence = None
     return {
-        "decision": decision, "destination": destination, "reason": reason,
+        "decision": decision,
+        "reason": reason,
+        "destination": destination,
+        "activation": activation,
+        "activation_evidence": activation_evidence,
+        "recurrence_prevented": False,
     }
 
 
-def _lesson_activation(text, destination):
-    if destination not in {
-            "checker", "checker or deterministic test",
-            "deterministic test", "test"}:
-        return True
-    records = _lines(text, "ACTIVATION_VERIFIED")
-    if not records:
-        return False
-    negative = re.compile(
-        r"\b(?:did\s+not|not\s+(?:run|ran|active|wired|verified|passing|"
-        r"green|ok)|never|failed|unverified|fabricated|"
-        r"fake|simulated|claimed)\b", re.IGNORECASE)
-    positive = re.compile(
-        r"\b(?:ran|run|wired|active|pass|passed|green|ok|"
-        r"returned\s+(?:0|ok|pass(?:ed)?))\b", re.IGNORECASE)
-    return any(not negative.search(line) and positive.search(line)
-               for line in records)
+def _parse_e9(rows):
+    expected = [
+        "MECHANICAL_CLAIM=contradicted",
+        "ABNORMALITY=evidence-mismatch",
+        "BLOCK_SCOPE=dependent-actions-only",
+        "OWNER_ACCEPTANCE=risk-accepted",
+        "OWNER_JUDGMENT=preserved-verbatim",
+        "AUDIT_RESTART=false",
+    ]
+    if rows != expected:
+        return None
+    return {
+        "mechanical_claim": "contradicted",
+        "abnormality": "evidence-mismatch",
+        "block_scope": "dependent-actions-only",
+        "owner_acceptance": "risk-accepted",
+        "owner_judgment": "preserved-verbatim",
+        "audit_restart": False,
+    }
 
 
-def _evaluate(proposition, text, artifact_obj):
+def _parse_envelope(text, expected_cell):
+    lines = _exact_lines(text)
+    if (lines is None or len(lines) < 4 or
+            lines[0] != ENVELOPE_BEGIN or lines[-1] != ENVELOPE_END or
+            lines.count(ENVELOPE_BEGIN) != 1 or
+            lines.count(ENVELOPE_END) != 1 or
+            lines[1] != f"CELL={expected_cell}" or
+            sum(line.startswith("CELL=") for line in lines) != 1):
+        return None
+    parsers = {
+        "B1": _parse_b1,
+        "E3": _parse_e3,
+        "E7": _parse_e7,
+        "E9": _parse_e9,
+    }
+    parser = parsers.get(expected_cell)
+    return None if parser is None else parser(lines[2:-1])
+
+
+def _evaluate_free_text(proposition, text, artifact_obj):
     folded = text.casefold()
-    record_proposition = (
-        proposition == "audit-complete-exclusive" or
-        proposition == "distinct-candidates" or
-        proposition.startswith("supported-candidates:") or
-        proposition == "candidate-residual-dispositions" or
-        proposition in {
-            "lesson-lift-record", "lesson-lift-activation",
-            "owner-judgment-preserved",
-        })
-    if record_proposition and _record_context_disclaimed(text):
-        return False
-    if proposition == "resume-phase":
-        normalized = re.sub(r"[^a-z0-9]+", " ", folded)
-        return bool(re.search(r"\bresume ack\b.*\bphase 3\b", normalized))
-    if proposition == "audit-complete-exclusive":
-        complete = [
-            line for line in _lines(text, "AUDIT_COMPLETE")
-            if line.casefold() == "audit_complete"
-        ]
-        handoff = re.search(r"(?im)^\s*AUDIT_HANDOFF\b", text)
-        return len(complete) == 1 and handoff is None
     if proposition == "shape-not-behavior":
         shape = bool(re.search(
             r"\b(array|strings?|shape|type|structur(?:e|al))\b", folded))
@@ -212,21 +217,6 @@ def _evaluate(proposition, text, artifact_obj):
             r"\b(underpowered|mis-?scoped|inadequate|too weak|weaker)\b"
             r".{0,100}\b(validator|check)\b", folded))
         return shape and behavior and inference_denied and scope_fault
-    if proposition == "distinct-candidates":
-        return len(_candidate_records(text)) >= 2
-    if proposition.startswith("supported-candidates:"):
-        supported = {
-            value for value in proposition.split(":", 1)[1].split(",")
-            if value
-        }
-        candidates = set(_candidate_records(text))
-        return (len(supported) >= 2 and len(candidates) >= 2 and
-                candidates <= supported)
-    if proposition == "candidate-residual-dispositions":
-        candidates = set(_candidate_records(text))
-        residuals = _residual_records(text)
-        return (len(candidates) >= 2 and candidates <= set(residuals) and
-                all(residuals[name] in _DISPOSITIONS for name in candidates))
     if proposition == "current-correct":
         return bool(re.search(
             r"\bcurrent\b.{0,50}\b(answer|output|result)\b.{0,30}"
@@ -245,25 +235,53 @@ def _evaluate(proposition, text, artifact_obj):
             r"\b(invalid|inadequate|unreliable|untrustworthy|cannot be trusted|"
             r"not truth-connected)\b", folded))
         return host_misjudgment and p1 and p2 and pathway
-    if proposition == "lesson-lift-record":
-        return _lesson_record(text) is not None
-    if proposition == "lesson-lift-activation":
-        record = _lesson_record(text)
-        return (record is not None and
-                _lesson_activation(text, record["destination"]))
-    if proposition == "owner-judgment-preserved":
-        for line in _lines(text, "HANDOFF_CHECK"):
-            tokens = line.casefold()
-            if (re.search(r"\bowner-judgment\b", tokens) and
-                    re.search(r"\brisk-accepted\b", tokens) and
-                    re.search(r"\b(preserv(?:e|ed)|verbatim)\b", tokens)):
-                return True
+    raise ValueError(f"unsupported free-text matrix proposition: {proposition!r}")
+
+
+def _evaluate_envelope(proposition, document):
+    if document is None:
         return False
+    if proposition == "resume-phase3":
+        return document.get("resume_from") == "PHASE_3"
+    if proposition == "no-phase1-restart":
+        return document.get("phase_1_restart") is False
+    if proposition == "audit-complete-exclusive":
+        return document.get("terminal") == "AUDIT_COMPLETE"
+    if proposition == "containment-quarantine":
+        return document.get("containment") == "quarantine"
+    if proposition.startswith("supported-candidates:"):
+        supported = set(proposition.split(":", 1)[1].split(","))
+        candidates = document.get("candidates", set())
+        return len(candidates) >= 2 and candidates <= supported
+    if proposition == "candidate-residual-dispositions":
+        candidates = document.get("candidates", set())
+        residuals = document.get("residuals", {})
+        return (len(candidates) >= 2 and set(residuals) == candidates and
+                all(value in _DISPOSITIONS for value in residuals.values()))
+    if proposition == "root-cause-unresolved":
+        return document.get("root_cause_status") == "unresolved"
+    if proposition == "lesson-lift-record":
+        return bool(document.get("decision") and document.get("reason") and
+                    document.get("destination"))
+    if proposition == "lesson-lift-activation":
+        destination = document.get("destination")
+        if destination in _MECHANICAL_DESTINATIONS:
+            return (document.get("activation") == "observed-pass" and
+                    bool(document.get("activation_evidence")))
+        return document.get("activation") == "not-required"
+    if proposition == "no-prevention-claim":
+        return document.get("recurrence_prevented") is False
+    if proposition == "mechanical-claim-contradicted":
+        return (document.get("mechanical_claim") == "contradicted" and
+                document.get("block_scope") == "dependent-actions-only")
+    if proposition == "evidence-mismatch-named":
+        return document.get("abnormality") == "evidence-mismatch"
+    if proposition == "owner-judgment-preserved":
+        return (document.get("owner_acceptance") == "risk-accepted" and
+                document.get("owner_judgment") == "preserved-verbatim")
     if proposition == "audit-not-restarted":
-        values = re.findall(
-            r"\baudit_restart\s*=\s*(yes|no)\b", folded)
-        return bool(values) and values[-1] == "no" and "yes" not in values
-    raise ValueError(f"unsupported matrix proposition: {proposition!r}")
+        return document.get("audit_restart") is False
+    raise ValueError(f"unsupported envelope matrix proposition: {proposition!r}")
 
 
 def evaluate_property(fixture, property_name, texts, artifact_obj=None):
@@ -271,17 +289,28 @@ def evaluate_property(fixture, property_name, texts, artifact_obj=None):
     if contract is None:
         return None
     if (not isinstance(contract, dict) or set(contract) !=
-            {"schema", "properties"} or contract["schema"] != SCHEMA or
-            not isinstance(contract["properties"], dict)):
+            {"schema", "properties"} or
+            contract.get("schema") not in {FREE_TEXT_SCHEMA, ENVELOPE_SCHEMA} or
+            not isinstance(contract.get("properties"), dict)):
         raise ValueError("matrix acceptance contract malformed")
     proposition = contract["properties"].get(property_name)
     if proposition is None:
         return None
     if not isinstance(proposition, str) or not proposition:
         raise ValueError("matrix proposition identity malformed")
-    passed = _evaluate(
-        proposition, _assistant_text(texts), artifact_obj)
-    return passed, f"matrix-proposition:{proposition}"
+    text = _assistant_text(texts)
+    if contract["schema"] == ENVELOPE_SCHEMA:
+        cell = fixture.get("id")
+        if cell not in _STRUCTURED_CELLS:
+            raise ValueError("matrix envelope cell invalid")
+        passed = _evaluate_envelope(proposition, _parse_envelope(text, cell))
+        evidence = f"matrix-envelope-v1:{proposition}"
+    else:
+        if fixture.get("id") in _STRUCTURED_CELLS:
+            raise ValueError("structured matrix cell requires acceptance v2")
+        passed = _evaluate_free_text(proposition, text, artifact_obj)
+        evidence = f"matrix-proposition:{proposition}"
+    return passed, evidence
 
 
 def apply_overrides(fixture, texts, scored, artifact_obj=None):

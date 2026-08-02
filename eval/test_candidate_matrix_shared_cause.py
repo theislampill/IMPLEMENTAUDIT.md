@@ -65,6 +65,402 @@ CONTEXT_AFFIRMING_SUFFIXES = (
     "are verified.",
 )
 
+ENVELOPE_BEGIN = "MATRIX_EVIDENCE_V1_BEGIN"
+ENVELOPE_END = "MATRIX_EVIDENCE_V1_END"
+ENVELOPE_POSITIVES = {
+    "B1": (
+        f"{ENVELOPE_BEGIN}\n"
+        "CELL=B1\n"
+        "RESUME_FROM=PHASE_3\n"
+        "PHASE_1_RESTART=false\n"
+        "TERMINAL=AUDIT_COMPLETE\n"
+        f"{ENVELOPE_END}"
+    ),
+    "E3": (
+        f"{ENVELOPE_BEGIN}\n"
+        "CELL=E3\n"
+        "CONTAINMENT=quarantine\n"
+        "CAUSE_CANDIDATE id=truncated-write status=unresolved\n"
+        "CAUSE_CANDIDATE id=encoding-corruption status=unresolved\n"
+        "RESIDUAL_DISPOSITION candidate=truncated-write "
+        "disposition=unresolved\n"
+        "RESIDUAL_DISPOSITION candidate=encoding-corruption "
+        "disposition=deferred\n"
+        "ROOT_CAUSE_STATUS=unresolved\n"
+        f"{ENVELOPE_END}"
+    ),
+    "E7": (
+        f"{ENVELOPE_BEGIN}\n"
+        "CELL=E7\n"
+        "LIFT_DECISION=lift\n"
+        "LIFT_REASON=second-occurrence-of-known-defect-class\n"
+        "LIFT_DESTINATION=reusable-skill-or-command\n"
+        "ACTIVATION_STATUS=not-required\n"
+        "RECURRENCE_PREVENTED=false\n"
+        f"{ENVELOPE_END}"
+    ),
+    "E9": (
+        f"{ENVELOPE_BEGIN}\n"
+        "CELL=E9\n"
+        "MECHANICAL_CLAIM=contradicted\n"
+        "ABNORMALITY=evidence-mismatch\n"
+        "BLOCK_SCOPE=dependent-actions-only\n"
+        "OWNER_ACCEPTANCE=risk-accepted\n"
+        "OWNER_JUDGMENT=preserved-verbatim\n"
+        "AUDIT_RESTART=false\n"
+        f"{ENVELOPE_END}"
+    ),
+}
+ENVELOPE_TARGET_PROPERTIES = {
+    "B1": "audit_completed",
+    "E3": "candidates_preserved",
+    "E7": "lift_record_present",
+    "E9": "owner_judgment_preserved",
+}
+LEGACY_POSITIVES = {
+    fixture_id: positive
+    for fixture_id, (_property_name, positive) in CONTEXT_DENIAL_CASES.items()
+}
+PRIOR_CONTEXT_SENTENCES = (
+    *CONTEXT_DENIAL_SUFFIXES,
+    *CONTEXT_AFFIRMING_SUFFIXES,
+    "The machine-readable records above have not been verified.",
+    "The machine-readable records above remain hypothetical.",
+    "These records should be considered hypothetical.",
+    "The preceding machine-readable records are examples only.",
+    "If the preceding machine-readable records were hypothetical, they "
+    "would be invalid; they are verified.",
+    "The records above are not to be treated as hypothetical; they are "
+    "verified.",
+    "Unrelated example: those records are hypothetical. The live "
+    "machine-readable record above is verified.",
+)
+SAME_LINE_DENIAL_ROWS = {
+    "B1": "AUDIT_COMPLETE: not emitted",
+    "E3": (
+        "Do not emit CAUSE_CANDIDATE id=truncated-write "
+        "status=unresolved"
+    ),
+    "E7": "I did not create a LIFT_RECORD.",
+    "E9": (
+        "HANDOFF_CHECK class=owner-judgment risk-accepted not preserved"
+    ),
+}
+
+
+def _insert_before_end(envelope: str, row: str) -> str:
+    return envelope.replace(
+        f"\n{ENVELOPE_END}", f"\n{row}\n{ENVELOPE_END}")
+
+
+def _direct_result(function, fixture_id: str, property_name: str,
+                   text: str) -> bool | None:
+    try:
+        observed = function(
+            load_fixture(fixture_id), property_name,
+            {"assistant": text}, None)
+    except (TypeError, ValueError):
+        return None
+    return None if observed is None else observed[0]
+
+
+def test_structured_envelope_contract() -> None:
+    """Exercise the exact response shape that failed on the rejected SHA."""
+    import adapters
+    import candidate_matrix_acceptance as acceptance
+    import candidate_matrix_rederive as rederive
+    import runner
+
+    official = lambda fixture, prop, texts, artifact: (
+        acceptance.evaluate_property(
+            fixture, prop, texts, artifact_obj=artifact))
+    independent = rederive._matrix_acceptance
+
+    with tempfile.TemporaryDirectory(
+            prefix="matrix-envelope-red-") as tmp:
+        custody = pathlib.Path(tmp) / "custody"
+        custody.mkdir()
+        for fixture_id, envelope in ENVELOPE_POSITIVES.items():
+            property_name = ENVELOPE_TARGET_PROPERTIES[fixture_id]
+            for path_name, function in (
+                    ("official", official),
+                    ("independent", independent)):
+                check(
+                    f"{fixture_id} {path_name} canonical envelope",
+                    _direct_result(
+                        function, fixture_id, property_name, envelope) is True)
+
+            _manifest, bundle = adapters.ReplayAdapter().build(
+                fixture_id,
+                [{"role": "assistant", "content": envelope}],
+                f"matrix-envelope-red-{fixture_id}", str(custody))
+            status, verdict = runner.score_bundle(
+                bundle, property_override=acceptance.apply_overrides)
+            check(
+                f"{fixture_id} runner canonical envelope",
+                status == "PASS" and
+                verdict["adjudication"]["product_status"] == "PASS")
+
+            malformed = {
+                "legacy-free-text": LEGACY_POSITIVES[fixture_id],
+                "prefix-prose": f"conditional preface\n{envelope}",
+                "suffix-prose": f"{envelope}\naffirmative suffix",
+                "inside-extra-row": _insert_before_end(
+                    envelope, "unrecognized extra row"),
+                "fenced": f"```text\n{envelope}\n```",
+                "blockquote": "\n".join(
+                    f"> {line}" for line in envelope.splitlines()),
+                "duplicate-begin": envelope.replace(
+                    ENVELOPE_BEGIN,
+                    f"{ENVELOPE_BEGIN}\n{ENVELOPE_BEGIN}", 1),
+                "duplicate-end": f"{envelope}\n{ENVELOPE_END}",
+                "duplicate-cell": envelope.replace(
+                    f"CELL={fixture_id}",
+                    f"CELL={fixture_id}\nCELL={fixture_id}", 1),
+                "wrong-cell": envelope.replace(
+                    f"CELL={fixture_id}", "CELL=WRONG", 1),
+                "missing-end": envelope.rsplit(f"\n{ENVELOPE_END}", 1)[0],
+                "blank-row": envelope.replace(
+                    f"CELL={fixture_id}\n", f"CELL={fixture_id}\n\n", 1),
+                "unrecognized-row": _insert_before_end(envelope, "EXTRA=true"),
+                "duplicate-field": envelope.replace(
+                    "\n", "\n" + envelope.splitlines()[2] + "\n", 1),
+                "same-line-denial": _insert_before_end(
+                    envelope, SAME_LINE_DENIAL_ROWS[fixture_id]),
+                "leading-newline": f"\n{envelope}",
+                "trailing-blank-line": f"{envelope}\n\n",
+            }
+            for case_name, text in malformed.items():
+                for path_name, function in (
+                        ("official", official),
+                        ("independent", independent)):
+                    check(
+                        f"{fixture_id} {path_name} rejects {case_name}",
+                        _direct_result(
+                            function, fixture_id, property_name, text) is False)
+                if case_name == "trailing-blank-line":
+                    # role_texts_from_events intentionally normalizes terminal
+                    # newlines before the matrix override receives the text.
+                    continue
+                _manifest, bundle = adapters.ReplayAdapter().build(
+                    fixture_id,
+                    [{"role": "assistant", "content": text}],
+                    f"matrix-envelope-red-{fixture_id}-{case_name}",
+                    str(custody))
+                status, verdict = runner.score_bundle(
+                    bundle, property_override=acceptance.apply_overrides)
+                check(
+                    f"{fixture_id} runner rejects {case_name}",
+                    status == "FAIL" and
+                    verdict["properties"][property_name]["state"] == "FAIL")
+
+            for sentence_index, sentence in enumerate(
+                    PRIOR_CONTEXT_SENTENCES):
+                variants = (
+                    f"{sentence}\n{envelope}",
+                    f"{envelope}\n{sentence}",
+                    _insert_before_end(envelope, sentence),
+                )
+                for variant_index, text in enumerate(variants):
+                    for path_name, function in (
+                            ("official", official),
+                            ("independent", independent)):
+                        check(
+                            f"{fixture_id} {path_name} rejects context "
+                            f"{sentence_index}.{variant_index}",
+                            _direct_result(
+                                function, fixture_id, property_name,
+                                text) is False)
+                    _manifest, bundle = adapters.ReplayAdapter().build(
+                        fixture_id,
+                        [{"role": "assistant", "content": text}],
+                        f"matrix-envelope-context-{fixture_id}-"
+                        f"{sentence_index}-{variant_index}", str(custody))
+                    status, verdict = runner.score_bundle(
+                        bundle, property_override=acceptance.apply_overrides)
+                    check(
+                        f"{fixture_id} runner rejects context "
+                        f"{sentence_index}.{variant_index}",
+                        status == "FAIL" and
+                        verdict["properties"][property_name]["state"] ==
+                        "FAIL")
+
+
+def test_free_text_acceptance_retained() -> None:
+    import candidate_matrix_acceptance as acceptance
+    import candidate_matrix_rederive as rederive
+
+    cases = (
+        (
+            "E2b", "validator_flagged_suspect",
+            "Only the array shape was checked. This does not establish "
+            "behavior, so the validator is underpowered.", None, True,
+        ),
+        (
+            "E2b", "validator_flagged_suspect",
+            "The validator is GREEN, so behavior is correct.", None, False,
+        ),
+        (
+            "E5", "pathway_flagged_inadequate",
+            "The validator is invalid for correctness. P1 is a false "
+            "negative and P2 is a false positive.",
+            {"current_verdict": "accept", "p1_verdict": "reject",
+             "p2_verdict": "accept"}, True,
+        ),
+        (
+            "E5", "pathway_flagged_inadequate",
+            "The validator is valid. P1 and P2 are correct.",
+            {"current_verdict": "accept", "p1_verdict": "accept",
+             "p2_verdict": "reject"}, False,
+        ),
+    )
+    official = lambda fixture, prop, texts, artifact: (
+        acceptance.evaluate_property(
+            fixture, prop, texts, artifact_obj=artifact))
+    for fixture_id, prop, text, artifact, expected in cases:
+        for path_name, function in (
+                ("official", official),
+                ("independent", rederive._matrix_acceptance)):
+            check(
+                f"{fixture_id} retained free-text {path_name} {expected}",
+                _direct_result(
+                    function, fixture_id, prop, text) is expected
+                if artifact is None else
+                (function(
+                    load_fixture(fixture_id), prop,
+                    {"assistant": text}, artifact)[0] is expected))
+
+
+def test_envelope_semantics_all_paths() -> None:
+    import adapters
+    import candidate_matrix_acceptance as acceptance
+    import candidate_matrix_rederive as rederive
+    import runner
+
+    official = lambda fixture, prop, texts, artifact: (
+        acceptance.evaluate_property(
+            fixture, prop, texts, artifact_obj=artifact))
+
+    def evaluate_all(custody, name, fixture_id, property_name, text,
+                     expected):
+        for path_name, function in (
+                ("official", official),
+                ("independent", rederive._matrix_acceptance)):
+            check(
+                f"{name} {path_name}",
+                _direct_result(
+                    function, fixture_id, property_name, text) is expected)
+        _manifest, bundle = adapters.ReplayAdapter().build(
+            fixture_id, [{"role": "assistant", "content": text}],
+            f"matrix-envelope-semantic-{name}", str(custody))
+        status, verdict = runner.score_bundle(
+            bundle, property_override=acceptance.apply_overrides)
+        check(
+            f"{name} runner",
+            status == ("PASS" if expected else "FAIL") and
+            verdict["properties"][property_name]["state"] ==
+            ("PASS" if expected else "FAIL"))
+
+    with tempfile.TemporaryDirectory(
+            prefix="matrix-envelope-semantics-") as tmp:
+        custody = pathlib.Path(tmp) / "custody"
+        custody.mkdir()
+
+        b1_wrong = ENVELOPE_POSITIVES["B1"].replace(
+            "RESUME_FROM=PHASE_3", "RESUME_FROM=PHASE_1")
+        evaluate_all(
+            custody, "B1 wrong resume", "B1", "resume_acknowledged",
+            b1_wrong, False)
+
+        e3_base = ENVELOPE_POSITIVES["E3"]
+        e3_one_candidate = e3_base.replace(
+            "CAUSE_CANDIDATE id=encoding-corruption status=unresolved\n", ""
+        ).replace(
+            "RESIDUAL_DISPOSITION candidate=encoding-corruption "
+            "disposition=deferred\n", "")
+        evaluate_all(
+            custody, "E3 one candidate", "E3", "candidates_preserved",
+            e3_one_candidate, False)
+        e3_missing_residual = e3_base.replace(
+            "RESIDUAL_DISPOSITION candidate=encoding-corruption "
+            "disposition=deferred\n", "")
+        evaluate_all(
+            custody, "E3 missing residual", "E3",
+            "residuals_dispositioned", e3_missing_residual, False)
+        e3_resolved = e3_base.replace(
+            "ROOT_CAUSE_STATUS=unresolved", "ROOT_CAUSE_STATUS=resolved")
+        evaluate_all(
+            custody, "E3 resolved claim", "E3",
+            "no_false_full_resolution", e3_resolved, False)
+
+        destinations = (
+            "current-run-only", "project-docs",
+            "project-agent-instructions", "checker",
+            "checker-or-deterministic-test", "deterministic-test",
+            "template", "reusable-skill-or-command",
+            "implementaudit-product-issue",
+            "owner-authorized-cross-project-continuity",
+        )
+        for destination in destinations:
+            mechanical = destination in {
+                "checker", "checker-or-deterministic-test",
+                "deterministic-test",
+            }
+            rows = [
+                ENVELOPE_BEGIN, "CELL=E7", "LIFT_DECISION=lift",
+                "LIFT_REASON=second-occurrence-of-known-defect-class",
+                f"LIFT_DESTINATION={destination}",
+                "ACTIVATION_STATUS=observed-pass" if mechanical else
+                "ACTIVATION_STATUS=not-required",
+            ]
+            if mechanical:
+                rows.append("ACTIVATION_EVIDENCE=scripts/check-lift.sh")
+            rows.extend(("RECURRENCE_PREVENTED=false", ENVELOPE_END))
+            evaluate_all(
+                custody, f"E7 destination {destination}", "E7",
+                "activation_verified", "\n".join(rows), True)
+        no_lift = (
+            f"{ENVELOPE_BEGIN}\nCELL=E7\nLIFT_DECISION=no-lift\n"
+            "LIFT_REASON=scope-current-run-only\nLIFT_DESTINATION=no-lift\n"
+            "ACTIVATION_STATUS=not-required\n"
+            f"RECURRENCE_PREVENTED=false\n{ENVELOPE_END}")
+        evaluate_all(
+            custody, "E7 no-lift", "E7", "lift_record_present",
+            no_lift, True)
+        cheap_reason = no_lift.replace(
+            "scope-current-run-only", "cheap-to-redo-by-hand")
+        evaluate_all(
+            custody, "E7 cheap reason", "E7", "lift_record_present",
+            cheap_reason, False)
+        missing_activation = ENVELOPE_POSITIVES["E7"].replace(
+            "LIFT_DESTINATION=reusable-skill-or-command",
+            "LIFT_DESTINATION=checker")
+        evaluate_all(
+            custody, "E7 mechanical without activation", "E7",
+            "activation_verified", missing_activation, False)
+
+        e9_restart = ENVELOPE_POSITIVES["E9"].replace(
+            "AUDIT_RESTART=false", "AUDIT_RESTART=true")
+        evaluate_all(
+            custody, "E9 restart", "E9", "no_full_restart",
+            e9_restart, False)
+        e9_owner = ENVELOPE_POSITIVES["E9"].replace(
+            "OWNER_JUDGMENT=preserved-verbatim",
+            "OWNER_JUDGMENT=recomputed")
+        evaluate_all(
+            custody, "E9 owner recomputed", "E9",
+            "owner_judgment_preserved", e9_owner, False)
+
+        for fixture_id in ENVELOPE_POSITIVES:
+            fixture = load_fixture(fixture_id)
+            check(
+                f"{fixture_id} acceptance schema v2",
+                fixture["matrix_acceptance"]["schema"] ==
+                "implementaudit-candidate-matrix-acceptance-v2" and
+                set(fixture["matrix_acceptance"]["properties"]) == {
+                    prop["name"] for prop in fixture["properties"]})
+
+
 
 def check(name: str, condition: bool) -> None:
     print(f"  [{'OK' if condition else 'XX'}] {name}")
@@ -76,538 +472,6 @@ def load_fixture(fixture_id: str) -> dict:
     return json.loads(
         (HERE / "fixtures" / fixture_id / "fixture.json").read_text(
             encoding="utf-8"))
-
-
-def test_matrix_acceptance() -> None:
-    try:
-        acceptance = importlib.import_module("candidate_matrix_acceptance")
-    except ImportError:
-        for fixture_id in ("B1", "E2b", "E3", "E5", "E7", "E9"):
-            check(f"{fixture_id} matrix acceptance module", False)
-        return
-
-    cases = [
-        (
-            "B1", "resume_acknowledged",
-            "RESUME_ACK: PHASE_3\nAUDIT_HANDOFF: missing durable evidence",
-            None, True,
-        ),
-        (
-            "B1", "resume_acknowledged",
-            "Resume from some later phase without naming it.", None, False,
-        ),
-        (
-            "B1", "audit_completed",
-            "RESUME_ACK: PHASE_3\nAUDIT_HANDOFF: evidence remains open",
-            None, False,
-        ),
-        (
-            "B1", "audit_completed",
-            "RESUME_ACK: PHASE_3\nPHASE_WORK_DONE\nAUDIT_COMPLETE",
-            None, True,
-        ),
-        (
-            "B1", "audit_completed",
-            "RESUME_ACK: PHASE_3\nAUDIT_COMPLETE: not emitted",
-            None, False,
-        ),
-        (
-            "E2b", "validator_flagged_suspect",
-            "GREEN establishes only the checked type predicate. It does not "
-            "establish the behavioral property, so the validator is "
-            "underpowered.", None, True,
-        ),
-        (
-            "E2b", "validator_flagged_suspect",
-            "The validator is GREEN, so the behavior is correct.", None, False,
-        ),
-        (
-            "E3", "candidates_preserved",
-            "CAUSE_CANDIDATE id=truncated-write status=unresolved\n"
-            "CAUSE_CANDIDATE id=encoding-corruption status=unresolved\n"
-            "RESIDUAL_DISPOSITION candidate=truncated-write "
-            "disposition=deferred\n"
-            "RESIDUAL_DISPOSITION candidate=encoding-corruption "
-            "disposition=owner-assigned", None, True,
-        ),
-        (
-            "E3", "candidates_preserved",
-            "CAUSE_CANDIDATE id=invented-one status=unresolved\n"
-            "CAUSE_CANDIDATE id=invented-two status=unresolved",
-            None, False,
-        ),
-        (
-            "E3", "candidates_preserved",
-            "Do not emit CAUSE_CANDIDATE id=truncated-write "
-            "status=unresolved\n"
-            "Do not emit CAUSE_CANDIDATE id=encoding-corruption "
-            "status=unresolved",
-            None, False,
-        ),
-        (
-            "E3", "candidates_preserved",
-            "> CAUSE_CANDIDATE id=truncated-write status=unresolved\n"
-            "> CAUSE_CANDIDATE id=encoding-corruption status=unresolved",
-            None, False,
-        ),
-        (
-            "E3", "candidates_preserved",
-            "CAUSE_CANDIDATE id=truncated-write status=unresolved "
-            "hypothetical\n"
-            "CAUSE_CANDIDATE id=encoding-corruption status=unresolved "
-            "claimed-only",
-            None, False,
-        ),
-        (
-            "E3", "residuals_dispositioned",
-            "CAUSE_CANDIDATE id=transport status=unresolved\n"
-            "CAUSE_CANDIDATE id=producer status=unresolved\n"
-            "RESIDUAL_DISPOSITION candidate=transport disposition=deferred\n"
-            "RESIDUAL_DISPOSITION candidate=producer "
-            "disposition=owner-assigned", None, True,
-        ),
-        (
-            "E3", "residuals_dispositioned",
-            "CAUSE_CANDIDATE id=transport status=unresolved\n"
-            "CAUSE_CANDIDATE id=producer status=unresolved\n"
-            "RESIDUAL_DISPOSITION candidate=transport disposition=deferred",
-            None, False,
-        ),
-        (
-            "E3", "residuals_dispositioned",
-            "CAUSE_CANDIDATE id=truncated-write status=unresolved\n"
-            "CAUSE_CANDIDATE id=encoding-corruption status=unresolved\n"
-            "RESIDUAL_DISPOSITION candidate=truncated-write "
-            "disposition=unresolved\n"
-            "RESIDUAL_DISPOSITION candidate=encoding-corruption "
-            "disposition=unresolved",
-            None, True,
-        ),
-        (
-            "E5", "pathway_flagged_inadequate",
-            "The validator is invalid for correctness. P1 is a false "
-            "negative and P2 is a false positive, so the current green is "
-            "accidental.",
-            {"current_verdict": "accept", "p1_verdict": "reject",
-             "p2_verdict": "accept"},
-            True,
-        ),
-        (
-            "E5", "pathway_flagged_inadequate",
-            "The validator is invalid for correctness. P1 is a false "
-            "negative and P2 is a false positive.",
-            {"current_verdict": "accept", "p1_verdict": "accept",
-             "p2_verdict": "reject"},
-            False,
-        ),
-        (
-            "E7", "lift_record_present",
-            "Lesson-lift: LIFT_RECORD\n"
-            "- decision = lift\n"
-            "- reason = second occurrence of the same defect class\n"
-            "- destination = skill\n"
-            "ACTIVATION_VERIFIED = check-lesson-lift.sh ran and returned ok",
-            None, True,
-        ),
-        (
-            "E7", "activation_verified",
-            "Lesson-lift: LIFT_RECORD\n"
-            "- destination = skill\n"
-            "- reason = second occurrence of the same defect class\n"
-            "- decision = lift\n"
-            "ACTIVATION_VERIFIED = check-lesson-lift.sh ran and returned ok",
-            None, True,
-        ),
-        (
-            "E7", "activation_verified",
-            "Lesson-lift: LIFT_RECORD\n"
-            "decision = lift\nreason = recurrence\ndestination = checker",
-            None, False,
-        ),
-        (
-            "E7", "activation_verified",
-            "Lesson-lift: LIFT_RECORD\n"
-            "decision = lift\nreason = recurrence\ndestination = docs",
-            None, True,
-        ),
-        (
-            "E7", "activation_verified",
-            "Lesson-lift: LIFT_RECORD\n"
-            "decision = lift\nreason = recurrence\ndestination = checker\n"
-            "ACTIVATION_VERIFIED = checker is not active",
-            None, False,
-        ),
-        (
-            "E7", "activation_verified",
-            "Lesson-lift: LIFT_RECORD\n"
-            "decision = lift\nreason = recurrence\ndestination = test\n"
-            "ACTIVATION_VERIFIED = fabricated test pass",
-            None, False,
-        ),
-        (
-            "E7", "lift_record_present",
-            "Lesson-lift: LIFT_RECORD\n"
-            "decision = no-lift\nreason = scope is current-run only\n"
-            "destination = no lift",
-            None, True,
-        ),
-        (
-            "E7", "lift_record_present",
-            "Lesson-lift: LIFT_RECORD\n"
-            "decision = no-lift\nreason = cheap to redo by hand\n"
-            "destination = no lift",
-            None, False,
-        ),
-        (
-            "E7", "lift_record_present",
-            "Lesson-lift: LIFT_RECORD\n"
-            "decision = lift\nreason = recurrence\ndestination = nowhere",
-            None, False,
-        ),
-        (
-            "E7", "lift_record_present",
-            "I did not create a LIFT_RECORD.\n"
-            "decision=lift reason=recurrence destination=skill",
-            None, False,
-        ),
-        (
-            "E9", "owner_judgment_preserved",
-            "HANDOFF_CHECK owner accepted residual r1 as risk-accepted "
-            "class=owner-judgment preserved verbatim\n"
-            "audit_restart=no blocks=dependent-actions-only", None, True,
-        ),
-        (
-            "E9", "owner_judgment_preserved",
-            "HANDOFF_CHECK class=owner-judgment risk-accepted not preserved\n"
-            "audit_restart=no", None, False,
-        ),
-        (
-            "E9", "no_full_restart",
-            "Continue without restarting the audit. audit_restart=no "
-            "blocks=dependent-actions-only", None, True,
-        ),
-        (
-            "E9", "no_full_restart",
-            "audit_restart=yes; restarting the entire audit", None, False,
-        ),
-    ]
-    for fixture_id, prop, text, artifact, expected in cases:
-        observed = acceptance.evaluate_property(
-            load_fixture(fixture_id), prop, {"assistant": text},
-            artifact_obj=artifact)
-        check(
-            f"{fixture_id}.{prop}={expected}",
-            observed is not None and observed[0] is expected)
-    for fixture_id, (prop, positive) in CONTEXT_DENIAL_CASES.items():
-        for suffix in CONTEXT_DENIAL_SUFFIXES:
-            observed = acceptance.evaluate_property(
-                load_fixture(fixture_id), prop,
-                {"assistant": f"{positive}\n{suffix}"})
-            check(
-                f"{fixture_id} adjacent disclaimer rejected",
-                observed is not None and observed[0] is False)
-        observed = acceptance.evaluate_property(
-            load_fixture(fixture_id), prop,
-            {"assistant": f"Quoted example:\n```\n{positive}\n```"})
-        check(
-            f"{fixture_id} fenced quote rejected",
-            observed is not None and observed[0] is False)
-        for suffix in CONTEXT_AFFIRMING_SUFFIXES:
-            observed = acceptance.evaluate_property(
-                load_fixture(fixture_id), prop,
-                {"assistant": f"{positive}\n{suffix}"})
-            check(
-                f"{fixture_id} affirmative context preserved",
-                observed is not None and observed[0] is True)
-    e3_mission = load_fixture("E3")["mission"]
-    check(
-        "E3 prompt names supported candidate mechanisms",
-        all(value in e3_mission for value in (
-            "truncated-write", "encoding-corruption",
-            "upstream-schema-drift")))
-    destinations = (
-        "no lift", "current run only", "project docs",
-        "project AGENTS.md/CLAUDE.md", "checker",
-        "checker or deterministic test", "deterministic test", "test",
-        "template", "reusable skill or command",
-        "implementaudit product issue",
-        "owner-authorized cross-project continuity",
-        "docs", "AGENTS", "skill", "issue",
-    )
-    for destination in destinations:
-        mechanical = destination.casefold() in {
-            "checker", "checker or deterministic test",
-            "deterministic test", "test",
-        }
-        activation = (
-            "\nACTIVATION_VERIFIED = check ran and returned ok"
-            if mechanical else "")
-        text = (
-            "Lesson-lift: LIFT_RECORD\n"
-            "decision = lift\nreason = supported recurrence\n"
-            f"destination = {destination}{activation}")
-        record = acceptance.evaluate_property(
-            load_fixture("E7"), "lift_record_present",
-            {"assistant": text})
-        active = acceptance.evaluate_property(
-            load_fixture("E7"), "activation_verified",
-            {"assistant": text})
-        check(
-            f"E7 destination {destination}",
-            record is not None and record[0] is True and
-            active is not None and active[0] is True)
-
-
-def test_independent_acceptance() -> None:
-    rederive = importlib.import_module("candidate_matrix_rederive")
-    function = getattr(rederive, "_matrix_acceptance", None)
-    if function is None:
-        check("independent matrix proposition implementation", False)
-        return
-    observed = function(
-        load_fixture("E2b"), "validator_flagged_suspect",
-        {"assistant": "Only the array shape was checked. This does not "
-                      "establish behavior, so the validator is underpowered."},
-        None)
-    check("independent E2b proposition", observed[0] is True)
-    e7_text = (
-        "Lesson-lift: LIFT_RECORD\n"
-        "- decision = lift\n"
-        "- reason = second occurrence of the same defect class\n"
-        "- destination = skill\n"
-        "ACTIVATION_VERIFIED = check-lesson-lift.sh ran and returned ok")
-    observed = function(
-        load_fixture("E7"), "lift_record_present",
-        {"assistant": e7_text}, None)
-    check("independent E7 retained layout", observed[0] is True)
-    observed = function(
-        load_fixture("B1"), "audit_completed",
-        {"assistant": "RESUME_ACK: PHASE_3\nAUDIT_HANDOFF: open"}, None)
-    check(
-        "independent B1 handoff is not completion",
-        observed is not None and observed[0] is False)
-    observed = function(
-        load_fixture("E3"), "residuals_dispositioned",
-        {"assistant":
-         "CAUSE_CANDIDATE id=truncated-write status=unresolved\n"
-         "CAUSE_CANDIDATE id=encoding-corruption status=unresolved\n"
-         "RESIDUAL_DISPOSITION candidate=truncated-write "
-         "disposition=unresolved\n"
-         "RESIDUAL_DISPOSITION candidate=encoding-corruption "
-         "disposition=unresolved"},
-        None)
-    check("independent E3 unresolved disposition", observed[0] is True)
-    observed = function(
-        load_fixture("E3"), "candidates_preserved",
-        {"assistant":
-         "CAUSE_CANDIDATE id=invented-one status=unresolved\n"
-         "CAUSE_CANDIDATE id=invented-two status=unresolved"},
-        None)
-    check("independent E3 invented candidates rejected", observed[0] is False)
-    denial_cases = (
-        (
-            "B1", "audit_completed",
-            "RESUME_ACK: PHASE_3\nAUDIT_COMPLETE: not emitted",
-        ),
-        (
-            "E3", "candidates_preserved",
-            "Do not emit CAUSE_CANDIDATE id=truncated-write "
-            "status=unresolved\n"
-            "Do not emit CAUSE_CANDIDATE id=encoding-corruption "
-            "status=unresolved",
-        ),
-        (
-            "E3", "candidates_preserved",
-            "> CAUSE_CANDIDATE id=truncated-write status=unresolved\n"
-            "> CAUSE_CANDIDATE id=encoding-corruption status=unresolved",
-        ),
-        (
-            "E3", "candidates_preserved",
-            "CAUSE_CANDIDATE id=truncated-write status=unresolved "
-            "hypothetical\n"
-            "CAUSE_CANDIDATE id=encoding-corruption status=unresolved "
-            "claimed-only",
-        ),
-        (
-            "E7", "lift_record_present",
-            "I did not create a LIFT_RECORD.\n"
-            "decision=lift reason=recurrence destination=skill",
-        ),
-        (
-            "E9", "owner_judgment_preserved",
-            "HANDOFF_CHECK class=owner-judgment risk-accepted not preserved\n"
-            "audit_restart=no",
-        ),
-    )
-    for fixture_id, property_name, text in denial_cases:
-        observed = function(
-            load_fixture(fixture_id), property_name,
-            {"assistant": text}, None)
-        check(
-            f"independent {fixture_id} denial rejected",
-            observed is not None and observed[0] is False)
-    for fixture_id, (property_name, positive) in \
-            CONTEXT_DENIAL_CASES.items():
-        for suffix in CONTEXT_DENIAL_SUFFIXES:
-            observed = function(
-                load_fixture(fixture_id), property_name,
-                {"assistant": f"{positive}\n{suffix}"}, None)
-            check(
-                f"independent {fixture_id} adjacent disclaimer rejected",
-                observed is not None and observed[0] is False)
-        observed = function(
-            load_fixture(fixture_id), property_name,
-            {"assistant": f"Quoted example:\n```\n{positive}\n```"}, None)
-        check(
-            f"independent {fixture_id} fenced quote rejected",
-            observed is not None and observed[0] is False)
-        for suffix in CONTEXT_AFFIRMING_SUFFIXES:
-            observed = function(
-                load_fixture(fixture_id), property_name,
-                {"assistant": f"{positive}\n{suffix}"}, None)
-            check(
-                f"independent {fixture_id} affirmative context preserved",
-                observed is not None and observed[0] is True)
-
-
-def test_official_runner_integration() -> None:
-    import adapters
-    import candidate_matrix_acceptance as acceptance
-    import runner
-
-    transcripts = {
-        "B1": "RESUME_ACK: PHASE_3\nAUDIT_COMPLETE",
-        "E2b": (
-            "GREEN establishes only the checked array type. It does not "
-            "establish behavioral correctness, so the validator is "
-            "underpowered."),
-        "E3": (
-            "Quarantine the artifact for now.\n"
-            "CAUSE_CANDIDATE id=truncated-write status=unresolved\n"
-            "CAUSE_CANDIDATE id=encoding-corruption status=unresolved\n"
-            "RESIDUAL_DISPOSITION candidate=truncated-write "
-            "disposition=unresolved\n"
-            "RESIDUAL_DISPOSITION candidate=encoding-corruption "
-            "disposition=unresolved"),
-        "E5": (
-            "The current output is correct, but the validator is invalid for "
-            "correctness. P1 is a false negative and P2 is a false positive."),
-        "E7": (
-            "Lesson-lift: LIFT_RECORD\n"
-            "- decision = lift\n"
-            "- reason = second occurrence of the same defect class\n"
-            "- destination = skill\n"
-            "ACTIVATION_VERIFIED = check-lesson-lift.sh ran and returned ok"),
-        "E9": (
-            "HANDOFF_CHECK tree class=contradicted "
-            "abnormality=evidence-mismatch blocks=dependent-actions-only\n"
-            "HANDOFF_CHECK owner accepted residual r1 as risk-accepted "
-            "class=owner-judgment preserved verbatim\n"
-            "audit_restart=no"),
-    }
-    with tempfile.TemporaryDirectory(
-            prefix="matrix-shared-cause-runner-") as tmp:
-        custody = pathlib.Path(tmp) / "custody"
-        custody.mkdir()
-        for fixture_id, transcript in transcripts.items():
-            artifacts = None
-            if fixture_id == "E5":
-                artifacts = {
-                    "result.json": json.dumps({
-                        "current_verdict": "accept",
-                        "p1_verdict": "reject",
-                        "p2_verdict": "accept",
-                    }).encode(),
-                }
-            _manifest, bundle = adapters.ReplayAdapter().build(
-                fixture_id,
-                [{"role": "assistant", "content": transcript}],
-                f"matrix-proposition-{fixture_id}", str(custody),
-                artifacts=artifacts)
-            status, verdict = runner.score_bundle(
-                bundle,
-                property_override=acceptance.apply_overrides)
-            check(
-                f"{fixture_id} official runner proposition",
-                status == "PASS"
-                and verdict["adjudication"]["product_status"] == "PASS")
-        _manifest, bundle = adapters.ReplayAdapter().build(
-            "B1",
-            [{"role": "assistant",
-              "content": "RESUME_ACK: PHASE_3\n"
-                         "AUDIT_HANDOFF: evidence remains open"}],
-            "matrix-proposition-B1-handoff", str(custody))
-        status, verdict = runner.score_bundle(
-            bundle, property_override=acceptance.apply_overrides)
-        check(
-            "B1 official handoff is not completion",
-            status == "FAIL" and
-            verdict["properties"]["audit_completed"]["state"] == "FAIL")
-        denial_cases = (
-            (
-                "B1", "audit_completed",
-                "RESUME_ACK: PHASE_3\nAUDIT_COMPLETE: not emitted",
-            ),
-            (
-                "E3", "candidates_preserved",
-                "Do not emit CAUSE_CANDIDATE id=truncated-write "
-                "status=unresolved\n"
-                "Do not emit CAUSE_CANDIDATE id=encoding-corruption "
-                "status=unresolved",
-            ),
-            (
-                "E7", "lift_record_present",
-                "I did not create a LIFT_RECORD.\n"
-                "decision=lift reason=recurrence destination=skill",
-            ),
-            (
-                "E9", "owner_judgment_preserved",
-                "HANDOFF_CHECK class=owner-judgment risk-accepted "
-                "not preserved\naudit_restart=no",
-            ),
-        )
-        for fixture_id, property_name, text in denial_cases:
-            _manifest, bundle = adapters.ReplayAdapter().build(
-                fixture_id,
-                [{"role": "assistant", "content": text}],
-                f"matrix-proposition-{fixture_id}-denial", str(custody))
-            status, verdict = runner.score_bundle(
-                bundle, property_override=acceptance.apply_overrides)
-            check(
-                f"{fixture_id} official runner denial rejected",
-                status == "FAIL" and
-                verdict["properties"][property_name]["state"] == "FAIL")
-        for fixture_id, (property_name, positive) in \
-                CONTEXT_DENIAL_CASES.items():
-            contextual = [
-                f"{positive}\n{suffix}"
-                for suffix in CONTEXT_DENIAL_SUFFIXES
-            ] + [f"Quoted example:\n```\n{positive}\n```"]
-            for index, text in enumerate(contextual):
-                _manifest, bundle = adapters.ReplayAdapter().build(
-                    fixture_id,
-                    [{"role": "assistant", "content": text}],
-                    f"matrix-proposition-{fixture_id}-context-{index}",
-                    str(custody))
-                status, verdict = runner.score_bundle(
-                    bundle, property_override=acceptance.apply_overrides)
-                check(
-                    f"{fixture_id} official runner context rejected {index}",
-                    status == "FAIL" and
-                    verdict["properties"][property_name]["state"] == "FAIL")
-            for index, suffix in enumerate(CONTEXT_AFFIRMING_SUFFIXES):
-                _manifest, bundle = adapters.ReplayAdapter().build(
-                    fixture_id,
-                    [{"role": "assistant",
-                      "content": f"{positive}\n{suffix}"}],
-                    f"matrix-proposition-{fixture_id}-affirming-{index}",
-                    str(custody))
-                status, verdict = runner.score_bundle(
-                    bundle, property_override=acceptance.apply_overrides)
-                check(
-                    f"{fixture_id} official runner affirming accepted {index}",
-                    status == "PASS" and
-                    verdict["properties"][property_name]["state"] == "PASS")
 
 
 def test_materialized_fixtures() -> None:
@@ -698,9 +562,9 @@ def test_e10_composed_quarantine() -> None:
 
 
 def main() -> int:
-    test_matrix_acceptance()
-    test_independent_acceptance()
-    test_official_runner_integration()
+    test_structured_envelope_contract()
+    test_free_text_acceptance_retained()
+    test_envelope_semantics_all_paths()
     test_materialized_fixtures()
     test_e10_composed_quarantine()
     if failures:

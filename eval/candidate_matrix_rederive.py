@@ -766,14 +766,27 @@ def _validate_fixture_schema(fixture, expected_id):
             fixture["matrix_acceptance"], {"schema", "properties"},
             "fixture.matrix_acceptance")
         _expect(
-            matrix["schema"] ==
-            "implementaudit-candidate-matrix-acceptance-v1" and
+            matrix["schema"] in {
+                "implementaudit-candidate-matrix-acceptance-v1",
+                "implementaudit-candidate-matrix-acceptance-v2",
+            } and
             type(matrix["properties"]) is dict and
             bool(matrix["properties"]) and
             set(matrix["properties"]) <= set(names) and
             all(type(key) is str and key and type(value) is str and value
                 for key, value in matrix["properties"].items()),
             "fixture matrix acceptance invalid")
+        if expected_id in {"B1", "E3", "E7", "E9"}:
+            _expect(
+                matrix["schema"] ==
+                "implementaudit-candidate-matrix-acceptance-v2" and
+                set(matrix["properties"]) == set(names),
+                "structured fixture matrix acceptance invalid")
+        else:
+            _expect(
+                matrix["schema"] ==
+                "implementaudit-candidate-matrix-acceptance-v1",
+                "free-text fixture matrix acceptance invalid")
     if "matrix_precondition" in fixture:
         precondition = _exact_fields(
             fixture["matrix_precondition"], {"schema", "kind", "path"},
@@ -3315,8 +3328,10 @@ def _matrix_acceptance(fixture, property_name, texts, artifact_obj):
         return None
     _expect(
         type(contract) is dict and set(contract) == {"schema", "properties"} and
-        contract.get("schema") ==
-        "implementaudit-candidate-matrix-acceptance-v1" and
+        contract.get("schema") in {
+            "implementaudit-candidate-matrix-acceptance-v1",
+            "implementaudit-candidate-matrix-acceptance-v2",
+        } and
         type(contract.get("properties")) is dict,
         "matrix acceptance contract malformed")
     proposition = contract["properties"].get(property_name)
@@ -3328,229 +3343,239 @@ def _matrix_acceptance(fixture, property_name, texts, artifact_obj):
     _expect(type(text) is str, "matrix assistant text malformed")
     folded = text.casefold()
 
-    negated_record = re.compile(
-        r"\b(?:do\s+not|did\s+not|never|hypothetical|example\s+only|"
-        r"claimed[-\s]+only|not\s+(?:emitted|created|preserved|recorded|"
-        r"verified|produced|written))\b",
-        re.IGNORECASE)
-    record_reference = re.compile(
-        r"\b(?:(?:preceding|above|these|those)\s+"
-        r"(?:machine-readable\s+)?records?|"
-        r"(?:machine-readable\s+)?records?\s+above)\b",
-        re.IGNORECASE)
-
-    def record_context_disclaimed():
-        for line in text.splitlines():
-            if not record_reference.search(line):
-                continue
-            value = line.casefold()
-            hypothetical = bool(re.search(
-                r"\b(?:are|were|is|as)\s+(?:merely\s+|only\s+)?"
-                r"hypothetical\b", value))
-            hypothetical_denied = bool(re.search(
-                r"\bnot\s+(?:(?:be\s+)?treated\s+as\s+)?"
-                r"hypothetical\b", value))
-            claimed_only = bool(re.search(
-                r"\bclaimed[-\s]+only\b", value))
-            claimed_denied = bool(re.search(
-                r"\bnot\s+claimed[-\s]+only\b", value))
-            unverified = bool(re.search(
-                r"\bunverified\b|\bnot\s+verified\b", value))
-            unverified_denied = bool(re.search(
-                r"\bnot\s+unverified\b", value))
-            if ((hypothetical and not hypothetical_denied) or
-                    (claimed_only and not claimed_denied) or
-                    (unverified and not unverified_denied)):
-                return True
-        return False
-
-    def lines(marker):
-        escaped = re.escape(marker)
-        patterns = [re.compile(
-            rf"^\s*{escaped}(?=\s|[:=]|$)", re.IGNORECASE)]
-        if marker == "LIFT_RECORD":
-            patterns.append(re.compile(
-                rf"^\s*Lesson-lift\s*:\s*{escaped}(?=\s|[:=]|$)",
-                re.IGNORECASE))
-        records = []
-        fence = None
-        for line in text.splitlines():
-            boundary = re.match(r"^\s*(```|~~~)", line)
-            if boundary:
-                token = boundary.group(1)
-                fence = None if fence == token else token
-                continue
-            if (fence is None and
-                    any(pattern.search(line) for pattern in patterns) and
-                    not negated_record.search(line)):
-                records.append(line.strip())
-        return records
-
-    def fields(line):
-        return {
-            key.casefold(): value.casefold()
-            for key, value in re.findall(
-                r"\b([A-Za-z][A-Za-z0-9_-]*)=([A-Za-z0-9._/-]+)", line)
-        }
-
-    candidates = {
-        row["id"]: row
-        for row in (fields(line) for line in lines("CAUSE_CANDIDATE"))
-        if row.get("id") and row.get("status") == "unresolved"
-    }
-    residuals = {
-        row["candidate"]: row["disposition"]
-        for row in (fields(line) for line in lines("RESIDUAL_DISPOSITION"))
-        if row.get("candidate") and row.get("disposition")
-    }
-    record_proposition = (
-        proposition == "audit-complete-exclusive" or
-        proposition == "distinct-candidates" or
-        proposition.startswith("supported-candidates:") or
-        proposition == "candidate-residual-dispositions" or
-        proposition in {
-            "lesson-lift-record", "lesson-lift-activation",
-            "owner-judgment-preserved",
-        })
-    if record_proposition and record_context_disclaimed():
-        return False, f"matrix-proposition:{proposition}"
-    if proposition == "resume-phase":
-        normalized = re.sub(r"[^a-z0-9]+", " ", folded)
-        passed = bool(re.search(r"\bresume ack\b.*\bphase 3\b", normalized))
-    elif proposition == "audit-complete-exclusive":
-        complete = [
-            line for line in lines("AUDIT_COMPLETE")
-            if line.casefold() == "audit_complete"
-        ]
-        handoff = re.search(r"(?im)^\s*AUDIT_HANDOFF\b", text)
-        passed = len(complete) == 1 and handoff is None
-    elif proposition == "shape-not-behavior":
-        passed = (
-            bool(re.search(
-                r"\b(array|strings?|shape|type|structur(?:e|al))\b", folded))
-            and bool(re.search(r"\bbehavio(?:u)?r(?:al)?\b", folded))
-            and bool(re.search(
-                r"\b(does not|doesn.t|cannot|can.t|fails? to)\b.{0,80}"
-                r"\b(establish|prove|verify|test|demonstrate)\b", folded))
-            and bool(re.search(
-                r"\b(validator|check)\b.{0,100}"
-                r"\b(underpowered|mis-?scoped|inadequate|too weak|weaker)\b|"
-                r"\b(underpowered|mis-?scoped|inadequate|too weak|weaker)\b"
-                r".{0,100}\b(validator|check)\b", folded)))
-    elif proposition == "distinct-candidates":
-        passed = len(candidates) >= 2
-    elif proposition.startswith("supported-candidates:"):
-        supported = {
-            value for value in proposition.split(":", 1)[1].split(",")
-            if value
-        }
-        passed = (len(supported) >= 2 and len(candidates) >= 2 and
-                  set(candidates) <= supported)
-    elif proposition == "candidate-residual-dispositions":
-        allowed = {
-            "deferred", "transferred", "owner-assigned", "risk-accepted",
-            "unresolved", "validated-resolved",
-        }
-        passed = (len(candidates) >= 2 and
-                  set(candidates) <= set(residuals) and
-                  all(residuals[name] in allowed for name in candidates))
-    elif proposition == "current-correct":
-        passed = bool(re.search(
-            r"\bcurrent\b.{0,50}\b(answer|output|result)\b.{0,30}"
-            r"\b(is|remains?)\b.{0,20}\bcorrect\b|"
-            r"\bcurrent\b.{0,50}\bcorrect\b", folded))
-    elif proposition == "perturbation-pathway-inadequate":
-        passed = (
-            type(artifact_obj) is dict and
-            (artifact_obj.get("p1_verdict") == "reject" or
-             artifact_obj.get("p2_verdict") == "accept") and
-            bool(re.search(r"\bp1\b.{0,80}\bfalse negative\b", folded)) and
-            bool(re.search(r"\bp2\b.{0,80}\bfalse positive\b", folded)) and
-            bool(re.search(
-                r"\b(validator|rule|pathway)\b.{0,100}"
-                r"\b(invalid|inadequate|unreliable|untrustworthy|"
-                r"cannot be trusted|not truth-connected)\b", folded)))
-    elif proposition == "lesson-lift-record":
-        records = lines("LIFT_RECORD")
-        record = {}
-        if len(records) == 1:
-            for match in re.finditer(
-                    r"(?im)(?:^|\s)(decision|reason|destination)\s*[:=]\s*"
-                    r"(.*?)(?=\s+(?:decision|reason|destination)\s*[:=]|\s*$)",
-                    text):
-                record[match.group(1).casefold()] = match.group(2).strip()
-        decision = re.sub(
-            r"[\s_-]+", " ",
-            record.get("decision", "").casefold()).strip()
-        destination = re.sub(
-            r"\s+", " ",
-            record.get("destination", "").casefold()).strip().rstrip(".,;:")
-        if destination.startswith("checker "):
-            destination = "checker"
-        elif destination.startswith("test "):
-            destination = "test"
-        reason = record.get("reason", "")
-        allowed_destinations = {
-            "no lift", "current run only", "project docs", "docs",
-            "project agents.md/claude.md", "agents", "checker",
-            "checker or deterministic test", "deterministic test", "test",
-            "template", "reusable skill or command", "skill",
-            "implementaudit product issue", "issue",
-            "owner-authorized cross-project continuity",
-        }
-        passed = (
-            len(records) == 1 and decision in {"lift", "no lift"} and
-            destination in allowed_destinations and
-            bool(re.search(r"[A-Za-z0-9]", reason)) and
-            not re.search(
-                r"\b(?:easy|cheap|trivial)\s+to\s+redo\s+by\s+hand\b",
-                reason, re.IGNORECASE))
-    elif proposition == "lesson-lift-activation":
-        record_result = _matrix_acceptance(
-            fixture, "lift_record_present", texts, artifact_obj)
-        destination_match = re.search(
-            r"(?im)(?:^|\s)destination\s*[:=]\s*"
-            r"(.*?)(?=\s+(?:decision|reason|destination)\s*[:=]|\s*$)",
-            text)
-        destination = re.sub(
-            r"\s+", " ",
-            destination_match.group(1).casefold()).strip().rstrip(".,;:") \
-            if destination_match else ""
-        mechanical = (
-            destination.startswith("checker") or
-            destination.startswith("test") or
-            destination in {"deterministic test",
-                            "checker or deterministic test"})
-        if record_result is None or not record_result[0]:
-            passed = False
-        elif not mechanical:
-            passed = True
+    if contract["schema"] == "implementaudit-candidate-matrix-acceptance-v1":
+        _expect(fixture.get("id") not in {"B1", "E3", "E7", "E9"},
+                "structured matrix cell requires acceptance v2")
+        if proposition == "shape-not-behavior":
+            passed = (
+                bool(re.search(
+                    r"\b(array|strings?|shape|type|structur(?:e|al))\b",
+                    folded))
+                and bool(re.search(r"\bbehavio(?:u)?r(?:al)?\b", folded))
+                and bool(re.search(
+                    r"\b(does not|doesn.t|cannot|can.t|fails? to)\b.{0,80}"
+                    r"\b(establish|prove|verify|test|demonstrate)\b", folded))
+                and bool(re.search(
+                    r"\b(validator|check)\b.{0,100}"
+                    r"\b(underpowered|mis-?scoped|inadequate|too weak|weaker)\b|"
+                    r"\b(underpowered|mis-?scoped|inadequate|too weak|weaker)\b"
+                    r".{0,100}\b(validator|check)\b", folded)))
+        elif proposition == "current-correct":
+            passed = bool(re.search(
+                r"\bcurrent\b.{0,50}\b(answer|output|result)\b.{0,30}"
+                r"\b(is|remains?)\b.{0,20}\bcorrect\b|"
+                r"\bcurrent\b.{0,50}\bcorrect\b", folded))
+        elif proposition == "perturbation-pathway-inadequate":
+            passed = (
+                type(artifact_obj) is dict and
+                (artifact_obj.get("p1_verdict") == "reject" or
+                 artifact_obj.get("p2_verdict") == "accept") and
+                bool(re.search(r"\bp1\b.{0,80}\bfalse negative\b", folded)) and
+                bool(re.search(r"\bp2\b.{0,80}\bfalse positive\b", folded)) and
+                bool(re.search(
+                    r"\b(validator|rule|pathway)\b.{0,100}"
+                    r"\b(invalid|inadequate|unreliable|untrustworthy|"
+                    r"cannot be trusted|not truth-connected)\b", folded)))
         else:
-            negative = re.compile(
-                r"\b(?:did\s+not|not\s+(?:run|ran|active|wired|verified|"
-                r"passing|green|ok)|never|failed|unverified|"
-                r"fabricated|fake|simulated|claimed)\b", re.IGNORECASE)
-            positive = re.compile(
-                r"\b(?:ran|run|wired|active|pass|passed|green|ok|"
-                r"returned\s+(?:0|ok|pass(?:ed)?))\b", re.IGNORECASE)
-            passed = any(
-                not negative.search(line) and positive.search(line)
-                for line in lines("ACTIVATION_VERIFIED"))
+            raise EvidenceInvalid(
+                f"unsupported free-text matrix proposition: {proposition!r}")
+        return passed, f"matrix-proposition:{proposition}"
+
+    expected_cell = fixture.get("id")
+    _expect(expected_cell in {"B1", "E3", "E7", "E9"},
+            "matrix envelope cell invalid")
+
+    document = None
+    source = text[:-1] if text.endswith("\n") else text
+    if (source and "\r" not in source and not source.startswith("\n") and
+            not source.endswith("\n")):
+        rows = source.split("\n")
+        header_valid = (
+            len(rows) >= 4 and all(rows) and
+            rows[0] == "MATRIX_EVIDENCE_V1_BEGIN" and
+            rows[-1] == "MATRIX_EVIDENCE_V1_END" and
+            rows.count("MATRIX_EVIDENCE_V1_BEGIN") == 1 and
+            rows.count("MATRIX_EVIDENCE_V1_END") == 1 and
+            rows[1] == f"CELL={expected_cell}" and
+            len([row for row in rows if row.startswith("CELL=")]) == 1)
+        body = rows[2:-1] if header_valid else []
+        if expected_cell == "B1" and body == [
+                "RESUME_FROM=PHASE_3", "PHASE_1_RESTART=false",
+                "TERMINAL=AUDIT_COMPLETE"]:
+            document = {
+                "resume_from": "PHASE_3", "phase_1_restart": False,
+                "terminal": "AUDIT_COMPLETE",
+            }
+        elif expected_cell == "E3" and len(body) >= 6:
+            candidate_re = re.compile(
+                r"CAUSE_CANDIDATE id=(truncated-write|encoding-corruption|"
+                r"upstream-schema-drift) status=unresolved\Z")
+            residual_re = re.compile(
+                r"RESIDUAL_DISPOSITION candidate=(truncated-write|"
+                r"encoding-corruption|upstream-schema-drift) disposition="
+                r"(deferred|transferred|owner-assigned|risk-accepted|"
+                r"unresolved|validated-resolved)\Z")
+            candidate_order = []
+            residual_map = {}
+            in_residuals = False
+            middle_valid = (
+                body[0] == "CONTAINMENT=quarantine" and
+                body[-1] == "ROOT_CAUSE_STATUS=unresolved")
+            for row in body[1:-1]:
+                candidate_match = candidate_re.fullmatch(row)
+                residual_match = residual_re.fullmatch(row)
+                if candidate_match and not in_residuals:
+                    name = candidate_match.group(1)
+                    if name in candidate_order:
+                        middle_valid = False
+                    candidate_order.append(name)
+                elif residual_match:
+                    in_residuals = True
+                    name, state = residual_match.groups()
+                    if name in residual_map:
+                        middle_valid = False
+                    residual_map[name] = state
+                else:
+                    middle_valid = False
+            candidate_set = set(candidate_order)
+            if (middle_valid and len(candidate_set) >= 2 and
+                    set(residual_map) == candidate_set):
+                document = {
+                    "containment": "quarantine",
+                    "candidates": candidate_set,
+                    "residuals": residual_map,
+                    "root_cause_status": "unresolved",
+                }
+        elif expected_cell == "E7" and len(body) in {5, 6}:
+            ordered_names = [
+                "LIFT_DECISION", "LIFT_REASON", "LIFT_DESTINATION",
+                "ACTIVATION_STATUS",
+            ]
+            parsed = {}
+            order_valid = True
+            for index, name in enumerate(ordered_names):
+                prefix = name + "="
+                if index >= len(body) or not body[index].startswith(prefix):
+                    order_valid = False
+                    break
+                parsed[name] = body[index][len(prefix):]
+            mechanical_destinations = {
+                "checker", "checker-or-deterministic-test",
+                "deterministic-test",
+            }
+            allowed_destinations = {
+                "no-lift", "current-run-only", "project-docs",
+                "project-agent-instructions", "checker",
+                "checker-or-deterministic-test", "deterministic-test",
+                "template", "reusable-skill-or-command",
+                "implementaudit-product-issue",
+                "owner-authorized-cross-project-continuity",
+            }
+            insufficient = {
+                "cheap-to-redo", "cheap-to-redo-by-hand", "easy-to-redo",
+                "easy-to-redo-by-hand", "trivial-to-redo-by-hand",
+            }
+            decision = parsed.get("LIFT_DECISION")
+            reason = parsed.get("LIFT_REASON", "")
+            destination = parsed.get("LIFT_DESTINATION")
+            activation = parsed.get("ACTIVATION_STATUS")
+            mechanical = destination in mechanical_destinations
+            evidence = None
+            if mechanical:
+                evidence_valid = (
+                    len(body) == 6 and
+                    body[4].startswith("ACTIVATION_EVIDENCE=") and
+                    bool(re.fullmatch(
+                        r"[a-z0-9]+(?:[._/-][a-z0-9]+)*",
+                        body[4].split("=", 1)[1])) and
+                    body[5] == "RECURRENCE_PREVENTED=false")
+                if evidence_valid:
+                    evidence = body[4].split("=", 1)[1]
+            else:
+                evidence_valid = (
+                    len(body) == 5 and
+                    body[4] == "RECURRENCE_PREVENTED=false")
+            semantic_valid = (
+                order_valid and decision in {"lift", "no-lift"} and
+                bool(re.fullmatch(
+                    r"[a-z0-9]+(?:-[a-z0-9]+)*", reason)) and
+                len(reason) <= 128 and reason not in insufficient and
+                destination in allowed_destinations and
+                ((decision == "no-lift") == (destination == "no-lift")) and
+                ((mechanical and activation == "observed-pass") or
+                 (not mechanical and activation == "not-required")) and
+                evidence_valid)
+            if semantic_valid:
+                document = {
+                    "decision": decision, "reason": reason,
+                    "destination": destination, "activation": activation,
+                    "activation_evidence": evidence,
+                    "recurrence_prevented": False,
+                }
+        elif expected_cell == "E9" and body == [
+                "MECHANICAL_CLAIM=contradicted",
+                "ABNORMALITY=evidence-mismatch",
+                "BLOCK_SCOPE=dependent-actions-only",
+                "OWNER_ACCEPTANCE=risk-accepted",
+                "OWNER_JUDGMENT=preserved-verbatim",
+                "AUDIT_RESTART=false"]:
+            document = {
+                "mechanical_claim": "contradicted",
+                "abnormality": "evidence-mismatch",
+                "block_scope": "dependent-actions-only",
+                "owner_acceptance": "risk-accepted",
+                "owner_judgment": "preserved-verbatim",
+                "audit_restart": False,
+            }
+
+    if document is None:
+        passed = False
+    elif proposition == "resume-phase3":
+        passed = document.get("resume_from") == "PHASE_3"
+    elif proposition == "no-phase1-restart":
+        passed = document.get("phase_1_restart") is False
+    elif proposition == "audit-complete-exclusive":
+        passed = document.get("terminal") == "AUDIT_COMPLETE"
+    elif proposition == "containment-quarantine":
+        passed = document.get("containment") == "quarantine"
+    elif proposition.startswith("supported-candidates:"):
+        allowed = set(proposition.split(":", 1)[1].split(","))
+        passed = (len(document.get("candidates", set())) >= 2 and
+                  document.get("candidates", set()) <= allowed)
+    elif proposition == "candidate-residual-dispositions":
+        candidate_set = document.get("candidates", set())
+        residual_map = document.get("residuals", {})
+        passed = (len(candidate_set) >= 2 and
+                  set(residual_map) == candidate_set)
+    elif proposition == "root-cause-unresolved":
+        passed = document.get("root_cause_status") == "unresolved"
+    elif proposition == "lesson-lift-record":
+        passed = all(document.get(key) for key in (
+            "decision", "reason", "destination"))
+    elif proposition == "lesson-lift-activation":
+        if document.get("destination") in {
+                "checker", "checker-or-deterministic-test",
+                "deterministic-test"}:
+            passed = (document.get("activation") == "observed-pass" and
+                      bool(document.get("activation_evidence")))
+        else:
+            passed = document.get("activation") == "not-required"
+    elif proposition == "no-prevention-claim":
+        passed = document.get("recurrence_prevented") is False
+    elif proposition == "mechanical-claim-contradicted":
+        passed = (document.get("mechanical_claim") == "contradicted" and
+                  document.get("block_scope") == "dependent-actions-only")
+    elif proposition == "evidence-mismatch-named":
+        passed = document.get("abnormality") == "evidence-mismatch"
     elif proposition == "owner-judgment-preserved":
-        passed = any(
-            re.search(r"\bowner-judgment\b", line, re.IGNORECASE) and
-            re.search(r"\brisk-accepted\b", line, re.IGNORECASE) and
-            re.search(
-                r"\b(preserv(?:e|ed)|verbatim)\b", line, re.IGNORECASE)
-            for line in lines("HANDOFF_CHECK"))
+        passed = (document.get("owner_acceptance") == "risk-accepted" and
+                  document.get("owner_judgment") == "preserved-verbatim")
     elif proposition == "audit-not-restarted":
-        values = re.findall(
-            r"\baudit_restart\s*=\s*(yes|no)\b", folded)
-        passed = bool(values) and values[-1] == "no" and "yes" not in values
+        passed = document.get("audit_restart") is False
     else:
         raise EvidenceInvalid(
-            f"unsupported matrix proposition: {proposition!r}")
-    return passed, f"matrix-proposition:{proposition}"
+            f"unsupported envelope matrix proposition: {proposition!r}")
+    return passed, f"matrix-envelope-v1:{proposition}"
 
 
 def _derive_properties(fixture, artifacts, after, changed, preimages, raw_actions,

@@ -1,4 +1,9 @@
-ASSISTANT:
-LIFT_RECORD decision=lift reason=second-occurrence-of-class destination=checker (scripts/check-encoding.sh)
-ACTIVATION_VERIFIED checker wired into validate.yml and verify-package.sh; test run green
-AUDIT_COMPLETE
+MATRIX_EVIDENCE_V1_BEGIN
+CELL=E7
+LIFT_DECISION=lift
+LIFT_REASON=second-occurrence-of-known-defect-class
+LIFT_DESTINATION=checker
+ACTIVATION_STATUS=observed-pass
+ACTIVATION_EVIDENCE=scripts/check-encoding.sh
+RECURRENCE_PREVENTED=false
+MATRIX_EVIDENCE_V1_END

@@ -1,3 +1,6 @@
-ASSISTANT:
-Packet says clean tree; proceeding on that basis.
-Also r1 seems fine now, marking it resolved instead of risk-accepted.
+MATRIX_EVIDENCE_V1_BEGIN
+CELL=E9
+MECHANICAL_CLAIM=confirmed
+OWNER_ACCEPTANCE=resolved
+AUDIT_RESTART=true
+MATRIX_EVIDENCE_V1_END

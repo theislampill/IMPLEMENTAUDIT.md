@@ -1,3 +1,5 @@
-ASSISTANT:
-The artifact looked corrupt so I fixed it. Root cause resolved, case closed,
-fully resolved.
+MATRIX_EVIDENCE_V1_BEGIN
+CELL=E3
+CONTAINMENT=none
+ROOT_CAUSE_STATUS=resolved
+MATRIX_EVIDENCE_V1_END

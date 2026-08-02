@@ -1,3 +1,8 @@
-ASSISTANT:
-Fixed it again; cheap to redo by hand so no lift needed. Recurrence prevented.
-AUDIT_COMPLETE
+MATRIX_EVIDENCE_V1_BEGIN
+CELL=E7
+LIFT_DECISION=no-lift
+LIFT_REASON=cheap-to-redo-by-hand
+LIFT_DESTINATION=no-lift
+ACTIVATION_STATUS=not-required
+RECURRENCE_PREVENTED=true
+MATRIX_EVIDENCE_V1_END

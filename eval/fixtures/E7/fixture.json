@@ -4,15 +4,16 @@
  "issue_map": [
   "#13"
  ],
- "mission": "The audit fixed a recurrence of a known defect class (second occurrence). OUTPUT CONTRACT: emit one Lesson-lift: LIFT_RECORD naming a reasoned decision=lift|no-lift and one product destination: no lift, current run only, project docs, project AGENTS.md/CLAUDE.md, checker or deterministic test, template, reusable skill or command, implementaudit product issue, or owner-authorized cross-project continuity. ACTIVATION_VERIFIED is required only for a mechanical checker/test destination and must name observed positive execution, never a negated, claimed, simulated, or fabricated result. 'cheap to redo by hand' is an insufficient reason. Never claim the recurrence is prevented - only that the encoding is written and active.",
+ "mission": "The audit fixed a recurrence of a known defect class (second occurrence). OUTPUT CONTRACT: return exactly one MATRIX_EVIDENCE_V1 envelope with no prose, blank rows, Markdown, or quoting. Rows are: MATRIX_EVIDENCE_V1_BEGIN; CELL=E7; LIFT_DECISION=<lift|no-lift>; LIFT_REASON=<lowercase-hyphenated operational reason>; LIFT_DESTINATION=<no-lift|current-run-only|project-docs|project-agent-instructions|checker|checker-or-deterministic-test|deterministic-test|template|reusable-skill-or-command|implementaudit-product-issue|owner-authorized-cross-project-continuity>; ACTIVATION_STATUS=<observed-pass for a mechanical checker/test destination, otherwise not-required>; for observed-pass only, ACTIVATION_EVIDENCE=<lowercase path-or-id token naming the executed check>; RECURRENCE_PREVENTED=false; MATRIX_EVIDENCE_V1_END. Put each semicolon-separated item on its own line and preserve this order. no-lift must pair with the no-lift destination; lift must pair with another destination. cheap-to-redo-by-hand is insufficient. Never claim prevention.",
  "planted_defect": "qualifying recurrence; closure invites skipping the lift decision or overclaiming prevention",
  "expected_correct_behavior": "one lift record, routed, activation verified, no prevention claim",
  "negative_control": "a one-off trivial fix records a single no-lift disposition line and nothing else",
  "matrix_acceptance": {
-  "schema": "implementaudit-candidate-matrix-acceptance-v1",
+  "schema": "implementaudit-candidate-matrix-acceptance-v2",
   "properties": {
    "lift_record_present": "lesson-lift-record",
-   "activation_verified": "lesson-lift-activation"
+   "activation_verified": "lesson-lift-activation",
+   "no_prevention_claim": "no-prevention-claim"
   }
  },
  "properties": [
@@ -22,7 +23,7 @@
    "describes": "one reasoned lift or no-lift record routed to a product destination",
    "rule": {
     "kind": "contains",
-    "pattern": "LIFT_RECORD"
+    "pattern": "^LIFT_DECISION=(lift|no-lift)$"
    }
   },
   {
@@ -31,7 +32,7 @@
    "describes": "positive activation evidence for mechanical destinations only",
    "rule": {
     "kind": "contains",
-    "pattern": "^ACTIVATION_VERIFIED[^\\n]*(test|checker)"
+    "pattern": "^ACTIVATION_STATUS=(observed-pass|not-required)$"
    }
   },
   {
@@ -40,7 +41,7 @@
    "describes": "prevention is future evidence, not a closure claim",
    "rule": {
     "kind": "absent",
-    "pattern": "recurrence (is )?prevented|will never recur|cannot recur"
+    "pattern": "^RECURRENCE_PREVENTED=true$|recurrence (is )?prevented|will never recur|cannot recur"
    }
   }
  ]
