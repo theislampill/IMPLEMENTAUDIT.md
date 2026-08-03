@@ -3122,12 +3122,12 @@ def _codex_native_exec_has_collaboration(value):
                 return
         scopes[-1][folded] = bool(collaboration)
 
-    def alias_state(name):
+    def binding_state(name):
         folded = name.casefold()
         for scope in reversed(scopes):
             if folded in scope:
                 return scope[folded]
-        return False
+        return None
 
     def assignment_operator(index):
         if index >= len(tokens) or tokens[index] != ("punct", "="):
@@ -3213,7 +3213,14 @@ def _codex_native_exec_has_collaboration(value):
             tokens[opening - 1][1].casefold() == "function") or (
             opening >= 2 and tokens[opening - 2][0] == "id" and
             tokens[opening - 2][1].casefold() == "function")
-        if not arrow and not function:
+        catch = (opening >= 1 and tokens[opening - 1][0] == "id" and
+                 tokens[opening - 1][1].casefold() == "catch")
+        if catch:
+            if (close == opening + 2 and
+                    tokens[opening + 1][0] == "id"):
+                return [tokens[opening + 1][1]]
+            return None
+        if not arrow and not function and not catch:
             return None
         parameters = []
         cursor = opening + 1
@@ -3223,8 +3230,88 @@ def _codex_native_exec_has_collaboration(value):
             cursor += 1
         return parameters
 
+    def expression_arrow_scopes():
+        starts = {}
+        for equals in range(len(tokens) - 1):
+            if tokens[equals:equals + 2] != [
+                    ("punct", "="), ("punct", ">")]:
+                continue
+            before = equals - 1
+            parameters = None
+            if before >= 0 and tokens[before][0] == "id":
+                parameters = [tokens[before][1]]
+            elif before >= 0 and tokens[before] == ("punct", ")"):
+                depth = 1
+                opening = before - 1
+                while opening >= 0:
+                    if tokens[opening] == ("punct", ")"):
+                        depth += 1
+                    elif tokens[opening] == ("punct", "("):
+                        depth -= 1
+                        if depth == 0:
+                            break
+                    opening -= 1
+                if opening >= 0:
+                    parameters = []
+                    expect_identifier = True
+                    for cursor in range(opening + 1, before):
+                        token = tokens[cursor]
+                        if expect_identifier and token[0] == "id":
+                            parameters.append(token[1])
+                            expect_identifier = False
+                        elif (not expect_identifier and
+                              token == ("punct", ",")):
+                            expect_identifier = True
+                        else:
+                            parameters = None
+                            break
+                    if expect_identifier and parameters:
+                        parameters = None
+            body = equals + 2
+            if (parameters is None or body >= len(tokens) or
+                    tokens[body] == ("punct", "{")):
+                continue
+            delimiters = []
+            cursor = body
+            valid = True
+            pairs = {"(": ")", "[": "]", "{": "}"}
+            while cursor < len(tokens):
+                token = tokens[cursor]
+                if token[0] == "punct" and token[1] in pairs:
+                    delimiters.append(pairs[token[1]])
+                elif token[0] == "punct" and token[1] in ")]}":
+                    if delimiters and delimiters[-1] == token[1]:
+                        delimiters.pop()
+                    elif not delimiters:
+                        break
+                    else:
+                        valid = False
+                        break
+                elif (not delimiters and token in {
+                        ("punct", ";"), ("punct", ",")}):
+                    break
+                cursor += 1
+            if delimiters:
+                valid = False
+            if valid:
+                starts.setdefault(body, []).append((cursor, parameters))
+        return starts
+
+    arrow_starts = expression_arrow_scopes()
+    arrow_ends = []
+
     index = 0
     while index < len(tokens):
+        while arrow_ends and arrow_ends[-1] == index:
+            scopes.pop()
+            function_scopes.pop()
+            arrow_ends.pop()
+        for end, parameters in arrow_starts.get(index, []):
+            scopes.append({})
+            function_scopes.append(True)
+            arrow_ends.append(end)
+            for parameter in parameters:
+                bind(parameter, False)
         token = tokens[index]
         if token == ("punct", "{"):
             parameters = function_parameters(index)
@@ -3293,11 +3380,13 @@ def _codex_native_exec_has_collaboration(value):
                     ("punct", "."), ("punct", "]")}):
                 direct_state = path_state([name])
                 called = direct_invocation(index)
-                if direct_state and called:
+                binding = binding_state(name)
+                if called and binding is not None:
+                    if binding:
+                        return True
+                elif direct_state and called:
                     return True
-                if direct_state == "unknown":
-                    return True
-                if alias_state(name) and called:
+                if direct_state == "unknown" and binding is not False:
                     return True
         index += 1
     return False

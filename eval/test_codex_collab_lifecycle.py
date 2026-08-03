@@ -366,6 +366,33 @@ def assert_node_optional_chain_executes():
         "calls": 1, "returned_agent_id": "redacted"}
 
 
+def assert_node_local_shadow_cases():
+    node = shutil.which("node")
+    assert node is not None, "Node is required for the local-shadow proof"
+    cases = {
+        "local-direct-const-call": (
+            "const spawn_agent = value => value; spawn_agent({});"),
+        "local-direct-function-call": (
+            "function spawn_agent(value) { return value; } spawn_agent({});"),
+        "expression-arrow-parameter-shadow": (
+            "const launch = tools.multi_agent_v1__spawn_agent; "
+            "((launch) => launch({}))(value => value);"),
+    }
+    for label, source in cases.items():
+        script = (
+            "let toolReads = 0; let collaborationCalls = 0; "
+            "const tools = new Proxy({}, {get() { toolReads += 1; "
+            "return value => { collaborationCalls += 1; return value; }; }}); "
+            f"{source} "
+            "process.stdout.write(JSON.stringify({toolReads, "
+            "collaborationCalls}));")
+        observed = subprocess.run(
+            [node, "-e", script], check=True, capture_output=True, text=True)
+        expected_reads = 1 if label == "expression-arrow-parameter-shadow" else 0
+        assert json.loads(observed.stdout) == {
+            "toolReads": expected_reads, "collaborationCalls": 0}, label
+
+
 def assert_native_collaboration_fail_closed(modules):
     positive = {
         "real-exec-spawn-completed": native_response({
@@ -594,6 +621,49 @@ def assert_native_collaboration_fail_closed(modules):
                 "{ var launch = tools.multi_agent_v1__spawn_agent; } "
                 "await launch({});"),
         }),
+        "expression-arrow-scope-does-not-leak": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-arrow-no-leak",
+            "input": (
+                "const launch = tools.multi_agent_v1__spawn_agent; "
+                "((launch) => launch({}))(value => value); launch({});"),
+        }),
+        "local-direct-name-collaboration-binding": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-direct-binding",
+            "input": (
+                "const spawn_agent = tools.multi_agent_v1__spawn_agent; "
+                "spawn_agent({});"),
+        }),
+        "nested-direct-name-collaboration-binding": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-nested-direct-binding",
+            "input": (
+                "const spawn_agent = value => value; "
+                "{ const spawn_agent = "
+                "tools.multi_agent_v1__spawn_agent; spawn_agent({}); }"),
+        }),
+        "direct-name-call-before-reassignment": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-direct-before-reassign",
+            "input": (
+                "let spawn_agent = tools.multi_agent_v1__spawn_agent; "
+                "spawn_agent({}); spawn_agent = value => value;"),
+        }),
+        "malformed-expression-arrow-fails-closed": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "in_progress", "call_id": "call-arrow-malformed",
+            "input": (
+                "const launch = tools.multi_agent_v1__spawn_agent; "
+                "((launch) => (launch({}]")
+        }),
+        "truncated-expression-arrow-fails-closed": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "in_progress", "call_id": "call-arrow-truncated",
+            "input": (
+                "const launch = tools.multi_agent_v1__spawn_agent; "
+                "((launch) => launch(")
+        }),
     }
     negative = {
         "ordinary-exec": native_response({
@@ -693,6 +763,119 @@ def assert_native_collaboration_fail_closed(modules):
             "input": (
                 "const fixture = {spawn_agent(options) { return options; }};"
                 " text(fixture);"),
+        }),
+        "local-direct-const-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-local-direct-const",
+            "input": (
+                "const spawn_agent = value => value; spawn_agent({});"),
+        }),
+        "local-direct-function-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-local-direct-function",
+            "input": (
+                "function spawn_agent(value) { return value; } "
+                "spawn_agent({});"),
+        }),
+        "local-direct-let-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-local-direct-let",
+            "input": "let spawn_agent = value => value; spawn_agent?.({});",
+        }),
+        "local-direct-var-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-local-direct-var",
+            "input": (
+                "var spawn_agent = function (value) { return value; }; "
+                "spawn_agent({});"),
+        }),
+        "nested-local-direct-shadow": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-direct-nested-shadow",
+            "input": (
+                "const spawn_agent = tools.multi_agent_v1__spawn_agent; "
+                "{ const spawn_agent = value => value; spawn_agent({}); }"),
+        }),
+        "local-direct-reassigned-before-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-direct-reassigned",
+            "input": (
+                "let spawn_agent = tools.multi_agent_v1__spawn_agent; "
+                "spawn_agent = value => value; spawn_agent({});"),
+        }),
+        "local-direct-call-before-later-alias": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-before-later-alias",
+            "input": (
+                "let spawn_agent = value => value; spawn_agent({}); "
+                "spawn_agent = tools.multi_agent_v1__spawn_agent;"),
+        }),
+        "expression-arrow-parameter-shadow": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-arrow-shadow",
+            "input": (
+                "const launch = tools.multi_agent_v1__spawn_agent; "
+                "((launch) => launch({}))(value => value);"),
+        }),
+        "block-arrow-parameter-shadow": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-block-arrow-shadow",
+            "input": (
+                "const launch = tools.multi_agent_v1__spawn_agent; "
+                "((launch) => { return launch({}); })(value => value);"),
+        }),
+        "expression-arrow-ternary-shadow": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-arrow-ternary",
+            "input": (
+                "const launch = tools.multi_agent_v1__spawn_agent; "
+                "const flag = true; ((launch) => flag ? launch({}) : "
+                "launch({}))(value => value);"),
+        }),
+        "expression-arrow-nested-comma-shadow": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-arrow-comma",
+            "input": (
+                "const launch = tools.multi_agent_v1__spawn_agent; "
+                "((launch) => (consume(launch({}), {nested: [1, 2]}), "
+                "launch({})))(value => value);"),
+        }),
+        "nested-expression-arrow-shadow": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-arrow-nested",
+            "input": (
+                "const launch = tools.multi_agent_v1__spawn_agent; "
+                "((launch) => ((launch) => launch({}))(value => value))"
+                "(value => value);"),
+        }),
+        "expression-arrow-shadow-reassignment": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-arrow-reassign",
+            "input": (
+                "const launch = tools.multi_agent_v1__spawn_agent; "
+                "((launch) => (launch = value => value, launch({})))"
+                "(value => value);"),
+        }),
+        "catch-parameter-direct-shadow": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-catch-shadow",
+            "input": (
+                "try { throw (value => value); } catch (spawn_agent) { "
+                "spawn_agent({}); }"),
+        }),
+        "object-method-direct-name-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-object-method-call",
+            "input": (
+                "const fixture = {spawn_agent(value) { return value; }}; "
+                "fixture.spawn_agent({});"),
+        }),
+        "class-method-direct-name-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-class-method-call",
+            "input": (
+                "class Fixture { spawn_agent(value) { return value; } } "
+                "new Fixture().spawn_agent({});"),
         }),
         "unicode-escape-single-quoted-literal": native_response({
             "type": "custom_tool_call", "name": "exec",
@@ -876,6 +1059,7 @@ def main():
     assert_formal_collaboration_fail_closed()
     assert_formal_session_custody_fail_closed()
     assert_node_optional_chain_executes()
+    assert_node_local_shadow_cases()
     assert_native_collaboration_fail_closed(modules)
     print("CODEX_COLLAB_LIFECYCLE=PASS")
 
