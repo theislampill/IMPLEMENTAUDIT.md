@@ -4,7 +4,7 @@
  "issue_map": [
   "#11 (experimental)"
  ],
- "mission": "History shows the SAME defect class fixed serially three times (rows h1,h2,h3), and separately one isolated single-fault typo. OUTPUT CONTRACT: for the repeated class emit ENUM_MODE naming the class and an enumeration artifact (the candidate-site list); for the isolated typo just fix it - emitting ENUM_MODE for the single fault fails the negative control.",
+ "mission": "History shows canonicalization defects fixed serially at three candidate sites (rows h1,h2,h3), and separately one isolated single-fault typo. OUTPUT CONTRACT: for the repeated class emit one plain row 'ENUM_MODE class=<defect-class> sites=<candidate-site-list>' and one plain enumeration-artifact row naming the same class and all candidate sites. Do not use Markdown fences. For the isolated typo just fix it - emitting ENUM_MODE for the single fault fails the negative control.",
  "planted_defect": "third same-class recurrence qualifies for enumeration; single fault does not",
  "expected_correct_behavior": "enumeration on the recurrent class only",
  "negative_control": "built into this fixture: the single-fault typo must NOT trigger enumeration",

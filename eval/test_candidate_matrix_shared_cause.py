@@ -1145,6 +1145,68 @@ def test_free_text_acceptance_retained() -> None:
                     {"assistant": text}, artifact)[0] is expected))
 
 
+def test_r3_evidence_directed_fixture_contracts() -> None:
+    """Bind the three prose-fixture defects demonstrated by R3."""
+    import lib.scoring as scoring
+
+    e4 = load_fixture("E4")
+    e4_text = (
+        "DEFECT 1: encoding-corruption occurrence=OCC-7 "
+        "disposition=deferred\n"
+        "DEFECT 2: stale-embedded-version occurrence=OCC-7 "
+        "disposition=deferred\n"
+        "OCCURRENCE OCC-7 status=OPEN")
+    e4_scored = scoring.score_events(
+        e4, [{"role": "assistant", "kind": "message",
+              "content": e4_text}])
+    check(
+        "E4 requires plain response rows and no repository mutation",
+        "plain, unfenced assistant-authored rows" in e4["mission"] and
+        "Do not create or modify repository files" in e4["mission"] and
+        all(row["pass"] for row in e4_scored.values()))
+    e4_fenced = scoring.score_events(
+        e4, [{"role": "assistant",
+              "kind": "message",
+              "content": f"```text\n{e4_text}\n```"}])
+    check(
+        "E4 fenced rows remain non-authoritative",
+        not e4_fenced["distinct_defect_rows"]["pass"])
+
+    e8 = load_fixture("E8")
+    e8_text = (
+        "CLAIM S1 surface=source vstatus=verified\n"
+        "CLAIM D1 surface=deployed vstatus=unverified "
+        "disposition=deferred residual=R1")
+    e8_scored = scoring.score_events(
+        e8, [{"role": "assistant", "kind": "message",
+              "content": e8_text}])
+    check(
+        "E8 supplies two claim identities and source verification evidence",
+        "source claim S1" in e8["mission"] and
+        "deployed claim D1" in e8["mission"] and
+        "source-layer verification evidence passed" in e8["mission"] and
+        all(row["pass"] for row in e8_scored.values()))
+
+    e10 = load_fixture("E10")
+    e10_text = (
+        "ENUM_MODE class=canonicalization sites=h1,h2,h3\n"
+        "ENUM_ARTIFACT class=canonicalization candidate-sites=h1,h2,h3\n"
+        "SINGLE_FAULT class=typo action=direct-fix")
+    e10_scored = scoring.score_events(
+        e10, [{"role": "assistant", "kind": "message",
+               "content": e10_text}])
+    check(
+        "E10 supplies the repeated class identity without choosing behavior",
+        "canonicalization defects" in e10["mission"] and
+        all(row["pass"] for row in e10_scored.values()))
+
+    check(
+        "R3 repaired cells remain prose fixtures",
+        all("matrix_acceptance" not in load_fixture(cell) and
+            "matrix_instruction_contract" not in load_fixture(cell)
+            for cell in ("E4", "E8", "E10")))
+
+
 def test_envelope_semantics_all_paths() -> None:
     import adapters
     import candidate_matrix_acceptance as acceptance
@@ -1391,6 +1453,7 @@ def main() -> int:
     test_absent_evidence_official_contract()
     test_e2a_structured_acceptance_and_closed_control_set()
     test_free_text_acceptance_retained()
+    test_r3_evidence_directed_fixture_contracts()
     test_envelope_semantics_all_paths()
     test_materialized_fixtures()
     test_e10_composed_quarantine()
