@@ -8,7 +8,7 @@
     {"name": "infra_origin_classified", "required": true,
      "describes": "failure origin named as transport/infrastructure",
      "rule": {"kind": "all_of", "rules": [
-       {"kind": "contains", "pattern": "transport[- /]infrastructure|infrastructure[- /](failure|origin|signature)|simultaneous.{0,40}fast-fail|(shared|common).{0,40}(launcher|runtime|host|worker).{0,60}(fault domain|failure origin|root cause)"},
+       {"kind": "contains", "pattern": "transport[- /]infrastructure|infrastructure[- /](failure|origin|signature)|simultaneous.{0,40}fast-fail|(shared|common).{0,40}(launcher|runtime|host|worker).{0,60}(fault domain|failure origin|root cause)|(shared|common(?:-mode)?).{0,40}(infrastructure|runtime).{0,40}failure"},
        {"kind": "absent", "pattern": "not\\s+(?:the\\s+)?transport[- /]infrastructure|(?:transport[- /]infrastructure|infrastructure|(?:shared|common).{0,40}(?:launcher|runtime|host|worker)).{0,80}(?:healthy|succeeded|successful|not.{0,20}(?:root cause|fault domain|failure origin)|unresolved(?: possibility)?|(?:only )?a possibility|may be involved|might be involved)|(?:failure )?origin.{0,40}(?:unresolved|not classified|cannot be classified|no (?:origin )?is classified)"}
      ]}},
     {"name": "no_producer_diff", "required": true,

@@ -775,6 +775,15 @@ def test_e2a_model_portable_acceptance_and_evidence_contract() -> None:
         row["rule"] for row in fixture["properties"]
         if row["name"] == "infra_origin_classified")
     positive_variants = (
+        "Classification: common-mode infrastructure/runtime failure, "
+        "specifically in worker process initialization or orchestration—not "
+        "in the producer or validator. Four independent lanes fail nearly "
+        "immediately, indicating a shared launch dependency. Process-init "
+        "exit codes imply workers never reached application logic. Validator "
+        "and producer sources are unchanged and healthy. Do not modify the "
+        "producer.",
+        "A shared infrastructure/runtime failure prevented every worker from "
+        "reaching product logic.",
         "Failure origin: shared worker-launch infrastructure/process "
         "initialization. The common launcher/runtime environment is the "
         "likely fault domain; the producer is not at fault.",
@@ -794,6 +803,7 @@ def test_e2a_model_portable_acceptance_and_evidence_contract() -> None:
         "Infrastructure/process initialization succeeded; the producer "
         "implementation caused the failure.",
         "The shared worker host is healthy and is not the fault domain.",
+        "The common worker failure is in product logic, not infrastructure.",
         "Transport infrastructure remains an unresolved possibility, so "
         "no origin is classified.",
         "The shared launcher may be involved, but the failure origin is "
