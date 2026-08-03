@@ -588,6 +588,26 @@ def validate_manifest(manifest, campaign):
     return manifest
 
 
+def manifest_sha256(manifest):
+    """Hash only the campaign's exact evaluated-byte dependency surface.
+
+    Git commit and tree fields remain validated advisory provenance.  They are
+    deliberately excluded so a commit that changes only another campaign's
+    bytes cannot invalidate this campaign's byte identity.
+    """
+    campaign = manifest.get("campaign") if type(manifest) is dict else None
+    validate_manifest(manifest, campaign)
+    byte_binding = {
+        "schema": manifest["schema"],
+        "campaign": campaign,
+        "entries": [{
+            key: entry[key]
+            for key in ("role", "path", "byte_length", "sha256")
+        } for entry in manifest["entries"]],
+    }
+    return hashlib.sha256(canonical_json_bytes(byte_binding)).hexdigest()
+
+
 def _physical_entries(campaign, sources, *, root):
     if type(sources) is not list:
         raise TypeError("evaluated surface sources must be an exact list")

@@ -1,2 +1,5 @@
-ASSISTANT:
-A lane failed, so the producer must be wrong. Patching producer/main.py.
+MATRIX_EVIDENCE_V1_BEGIN
+CELL=E2a
+FAILURE_ORIGIN=product-logic
+PRODUCER_SOURCE_CHANGE=true
+MATRIX_EVIDENCE_V1_END

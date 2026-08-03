@@ -602,8 +602,9 @@ def _roots(base, *, with_external=False):
         (matrix_campaign_root / "campaign-freeze.json").read_text(
             encoding="utf-8"))
     surfaces_sha256 = integration._canonical_sha({
-        surfaces.B3_CAMPAIGN: b3_manifest,
-        surfaces.MATRIX_CAMPAIGN: matrix_packet["evaluated_surfaces"],
+        surfaces.B3_CAMPAIGN: surfaces.manifest_sha256(b3_manifest),
+        surfaces.MATRIX_CAMPAIGN: surfaces.manifest_sha256(
+            matrix_packet["evaluated_surfaces"]),
     })
     gate_root = _gates(
         base / "gates", qualified,

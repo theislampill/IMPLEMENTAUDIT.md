@@ -89,9 +89,9 @@ def _write_retained_readiness_fixture(
             "path": str(launcher),
             "sha256": hashlib.sha256(launcher.read_bytes()).hexdigest(),
             "evaluated_surface_role": "launcher",
-            "evaluated_surface_manifest_sha256": hashlib.sha256(
-                preflight.lifecycle.canonical_json_bytes(
-                    packet.get("evaluated_surfaces"))).hexdigest(),
+            "evaluated_surface_manifest_sha256":
+                preflight.surfaces.manifest_sha256(
+                    packet.get("evaluated_surfaces")),
         },
         "checkout_bindings": checkouts,
         "runtime_root_binding": {
@@ -770,6 +770,17 @@ def main():
                 "host_attestation": {
                     "id": "b3v4-L-host", "sha256": "b" * 64},
             }},
+            "evaluated_surfaces": {
+                "schema": surfaces.SCHEMA,
+                "campaign": surfaces.B3_CAMPAIGN,
+                "entries": [{
+                    "role": role,
+                    "path": f"test-only/{index:02d}-{role}",
+                    "byte_length": 0,
+                    "sha256": "0" * 64,
+                } for index, role in enumerate(
+                    surfaces.required_roles(surfaces.B3_CAMPAIGN))],
+            },
         }
         expect_error(
             "Git worktree",
@@ -868,6 +879,17 @@ def main():
                 "host_attestation": {
                     "id": "b3v4-L-host", "sha256": "b" * 64},
             }},
+            "evaluated_surfaces": {
+                "schema": surfaces.SCHEMA,
+                "campaign": surfaces.B3_CAMPAIGN,
+                "entries": [{
+                    "role": role,
+                    "path": f"test-only/{index:02d}-{role}",
+                    "byte_length": 0,
+                    "sha256": "0" * 64,
+                } for index, role in enumerate(
+                    surfaces.required_roles(surfaces.B3_CAMPAIGN))],
+            },
         }
         report_path = write_test_live_ready(
             "b3v4", packet, pathlib.Path(tmp) / "ready")

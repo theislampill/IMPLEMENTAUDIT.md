@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Matrix-only acceptance for free-text and exact-envelope fixtures.
 
-B1, E3, E7, and E9 use one whole-response structured envelope.  E2b and E5
-retain their bounded free-text semantic checks.  This module does not replace
-host observations or generic scoring outside the matrix override boundary.
+B1, E2a, E3, E7, and E9 use one whole-response structured envelope.  E2b and
+E5 retain their bounded free-text semantic checks.  This module does not
+replace host observations or generic scoring outside the matrix override
+boundary.
 """
 from __future__ import annotations
 
@@ -15,7 +16,7 @@ ENVELOPE_SCHEMA = "implementaudit-candidate-matrix-acceptance-v2"
 ENVELOPE_BEGIN = "MATRIX_EVIDENCE_V1_BEGIN"
 ENVELOPE_END = "MATRIX_EVIDENCE_V1_END"
 
-_STRUCTURED_CELLS = {"B1", "E3", "E7", "E9"}
+_STRUCTURED_CELLS = {"B1", "E2a", "E3", "E7", "E9"}
 _SUPPORTED_CANDIDATES = {
     "truncated-write", "encoding-corruption", "upstream-schema-drift",
 }
@@ -136,6 +137,19 @@ def _parse_e3(rows):
     }
 
 
+def _parse_e2a(rows):
+    expected = [
+        "FAILURE_ORIGIN=transport-infrastructure",
+        "PRODUCER_SOURCE_CHANGE=false",
+    ]
+    if rows != expected:
+        return None
+    return {
+        "failure_origin": "transport-infrastructure",
+        "producer_source_change": False,
+    }
+
+
 def _parse_e7(rows):
     if len(rows) not in {5, 6}:
         return None
@@ -211,6 +225,7 @@ def _parse_envelope(text, expected_cell):
         return None
     parsers = {
         "B1": _parse_b1,
+        "E2a": _parse_e2a,
         "E3": _parse_e3,
         "E7": _parse_e7,
         "E9": _parse_e9,
@@ -277,6 +292,10 @@ def _evaluate_envelope(proposition, document):
                 all(value in _DISPOSITIONS for value in residuals.values()))
     if proposition == "root-cause-unresolved":
         return document.get("root_cause_status") == "unresolved"
+    if proposition == "transport-infrastructure-origin":
+        return document.get("failure_origin") == "transport-infrastructure"
+    if proposition == "producer-source-unchanged":
+        return document.get("producer_source_change") is False
     if proposition == "lesson-lift-record":
         return bool(document.get("decision") and document.get("reason") and
                     document.get("destination"))

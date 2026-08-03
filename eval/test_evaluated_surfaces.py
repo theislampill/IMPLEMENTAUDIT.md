@@ -437,6 +437,39 @@ def main():
                          surfaces.revalidate_manifest(manifest, root=root))
             retained.write_bytes(original)
 
+        # Campaign binding is byte-scoped: changing only Matrix E2a must not
+        # invalidate B3, while the Matrix manifest must change. Advisory Git
+        # history also cannot change the campaign byte identity.
+        b3_root = root / "b3-campaign-surfaces"
+        matrix_root = root / "matrix-campaign-surfaces"
+        b3_root.mkdir()
+        matrix_root.mkdir()
+        b3_sources = _files(b3_root, surfaces.B3_CAMPAIGN)
+        matrix_sources = _files(matrix_root, surfaces.MATRIX_CAMPAIGN)
+        b3_before = surfaces.build_manifest(
+            surfaces.B3_CAMPAIGN, b3_sources, root=b3_root)
+        matrix_before = surfaces.build_manifest(
+            surfaces.MATRIX_CAMPAIGN, matrix_sources, root=matrix_root)
+        b3_hash_before = surfaces.manifest_sha256(b3_before)
+        matrix_hash_before = surfaces.manifest_sha256(matrix_before)
+        e2a_source = next(
+            row for row in matrix_sources if row["role"] == "fixture-E2a")
+        (matrix_root / e2a_source["path"]).write_bytes(
+            b"structurally changed E2a fixture\n")
+        b3_after = surfaces.build_manifest(
+            surfaces.B3_CAMPAIGN, b3_sources, root=b3_root)
+        matrix_after = surfaces.build_manifest(
+            surfaces.MATRIX_CAMPAIGN, matrix_sources, root=matrix_root)
+        assert surfaces.manifest_sha256(b3_after) == b3_hash_before
+        assert surfaces.manifest_sha256(matrix_after) != matrix_hash_before
+        history_only = copy.deepcopy(b3_after)
+        for row in history_only["entries"]:
+            if "git_commit" in row:
+                row["git_commit"] = "c" * 40
+                row["git_tree"] = "d" * 40
+        assert surfaces.manifest_sha256(history_only) == b3_hash_before
+        print("CAMPAIGN_SCOPED_E2A_INVALIDATION=PASS")
+
         b3 = surfaces.build_manifest(
             surfaces.B3_CAMPAIGN, _files(root, surfaces.B3_CAMPAIGN),
             root=root)

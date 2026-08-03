@@ -578,7 +578,7 @@ def build_campaign(root, *, execution_mode="production", surface_root=None,
             if event_overrides and fixture_id in event_overrides else
             [{"role": "assistant",
               "kind": ("marker" if fixture_id in
-                       {"B1", "E3", "E7", "E9"} else "message"),
+                       {"B1", "E2a", "E3", "E7", "E9"} else "message"),
               "content": transcript}])
         retained_event = b"".join(encoded({
             "schema": "implementaudit-eval-event-v1", "run_id": name,

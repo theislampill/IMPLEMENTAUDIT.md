@@ -507,9 +507,7 @@ def _derive_production_live_ready(
         raise ValueError(
             "live READY controller argv is not source-path bound")
     controller_sha = _canonical_argv_sha(controller_argv)
-    manifest_sha = hashlib.sha256(
-        lifecycle.canonical_json_bytes(
-            packet["evaluated_surfaces"])).hexdigest()
+    manifest_sha = surfaces.manifest_sha256(packet["evaluated_surfaces"])
     report = {
         "schema": LIVE_READY_SCHEMAS[campaign],
         "campaign": campaign,
@@ -666,9 +664,8 @@ def validate_live_ready(campaign, packet, report_path,
         native["path"], "live READY native executable", read_bytes=True)
     launcher_path = _regular_path(
         launcher["path"], "live READY launcher", read_bytes=True)
-    expected_manifest_sha = hashlib.sha256(
-        lifecycle.canonical_json_bytes(
-            packet.get("evaluated_surfaces"))).hexdigest()
+    expected_manifest_sha = surfaces.manifest_sha256(
+        packet.get("evaluated_surfaces"))
     if (launcher["evaluated_surface_role"] != "launcher" or
             launcher["evaluated_surface_manifest_sha256"] !=
             expected_manifest_sha):

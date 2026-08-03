@@ -790,9 +790,9 @@ def _gate_identity(b3, matrix, manifests):
         "b3_freeze_sha256": b3["freeze_sha256"],
         "matrix_freeze_sha256": matrix["freeze_sha256"],
         "b3_evaluated_surfaces_sha256":
-            _canonical_sha(manifests[surfaces.B3_CAMPAIGN]),
+            surfaces.manifest_sha256(manifests[surfaces.B3_CAMPAIGN]),
         "matrix_evaluated_surfaces_sha256":
-            _canonical_sha(manifests[surfaces.MATRIX_CAMPAIGN]),
+            surfaces.manifest_sha256(manifests[surfaces.MATRIX_CAMPAIGN]),
     })
 
 
@@ -2362,8 +2362,8 @@ def validate_inputs(*, b3_campaign_root, matrix_campaign_root,
     if b3_target != matrix_target:
         raise ValueError("campaign qualification target SHA/tree mismatch")
     surfaces_sha256 = _canonical_sha({
-        surfaces.B3_CAMPAIGN: b3_before,
-        surfaces.MATRIX_CAMPAIGN: matrix_before,
+        surfaces.B3_CAMPAIGN: surfaces.manifest_sha256(b3_before),
+        surfaces.MATRIX_CAMPAIGN: surfaces.manifest_sha256(matrix_before),
     })
     gates = _validate_gates(
         gate_root, qualified_input_sha256, b3_target[0], b3_target[1],
@@ -2399,8 +2399,8 @@ def validate_inputs(*, b3_campaign_root, matrix_campaign_root,
                 "device": post_root["physical"][0],
                 "inode": post_root["physical"][1],
             },
-            "before_manifest_sha256": _canonical_sha(before),
-            "after_manifest_sha256": _canonical_sha(after),
+            "before_manifest_sha256": surfaces.manifest_sha256(before),
+            "after_manifest_sha256": surfaces.manifest_sha256(after),
         }
     return b3, matrix, gates, comparisons, qualified_input_sha256
 

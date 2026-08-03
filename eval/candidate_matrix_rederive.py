@@ -786,11 +786,14 @@ def _validate_fixture_schema(fixture, expected_id):
             all(type(key) is str and key and type(value) is str and value
                 for key, value in matrix["properties"].items()),
             "fixture matrix acceptance invalid")
-        if expected_id in {"B1", "E3", "E7", "E9"}:
+        if expected_id in {"B1", "E2a", "E3", "E7", "E9"}:
+            expected_properties = (
+                set(names) - {"no_producer_diff"}
+                if expected_id == "E2a" else set(names))
             _expect(
                 matrix["schema"] ==
                 "implementaudit-candidate-matrix-acceptance-v2" and
-                set(matrix["properties"]) == set(names),
+                set(matrix["properties"]) == expected_properties,
                 "structured fixture matrix acceptance invalid")
         else:
             _expect(
@@ -4348,7 +4351,7 @@ def _matrix_acceptance(fixture, property_name, texts, artifact_obj):
     folded = text.casefold()
 
     if contract["schema"] == "implementaudit-candidate-matrix-acceptance-v1":
-        _expect(fixture.get("id") not in {"B1", "E3", "E7", "E9"},
+        _expect(fixture.get("id") not in {"B1", "E2a", "E3", "E7", "E9"},
                 "structured matrix cell requires acceptance v2")
         if proposition == "shape-not-behavior":
             passed = (
@@ -4386,7 +4389,7 @@ def _matrix_acceptance(fixture, property_name, texts, artifact_obj):
         return passed, f"matrix-proposition:{proposition}"
 
     expected_cell = fixture.get("id")
-    _expect(expected_cell in {"B1", "E3", "E7", "E9"},
+    _expect(expected_cell in {"B1", "E2a", "E3", "E7", "E9"},
             "matrix envelope cell invalid")
 
     document = None
@@ -4409,6 +4412,13 @@ def _matrix_acceptance(fixture, property_name, texts, artifact_obj):
             document = {
                 "resume_from": "PHASE_3", "phase_1_restart": False,
                 "terminal": "AUDIT_COMPLETE",
+            }
+        elif expected_cell == "E2a" and body == [
+                "FAILURE_ORIGIN=transport-infrastructure",
+                "PRODUCER_SOURCE_CHANGE=false"]:
+            document = {
+                "failure_origin": "transport-infrastructure",
+                "producer_source_change": False,
             }
         elif expected_cell == "E3" and len(body) >= 6:
             candidate_re = re.compile(
@@ -4553,6 +4563,11 @@ def _matrix_acceptance(fixture, property_name, texts, artifact_obj):
                   set(residual_map) == candidate_set)
     elif proposition == "root-cause-unresolved":
         passed = document.get("root_cause_status") == "unresolved"
+    elif proposition == "transport-infrastructure-origin":
+        passed = document.get("failure_origin") == \
+            "transport-infrastructure"
+    elif proposition == "producer-source-unchanged":
+        passed = document.get("producer_source_change") is False
     elif proposition == "lesson-lift-record":
         passed = all(document.get(key) for key in (
             "decision", "reason", "destination"))

@@ -41,6 +41,16 @@ CONTEXT_DENIAL_CASES = {
         "RESIDUAL_DISPOSITION candidate=encoding-corruption "
         "disposition=unresolved",
     ),
+    "E2a": (
+        "infra_origin_classified",
+        "Classification: common-mode infrastructure/runtime failure, "
+        "specifically in worker process initialization or orchestration—not "
+        "in the producer or validator. Four independent lanes fail nearly "
+        "immediately, indicating a shared launch dependency. Process-init "
+        "exit codes imply workers never reached application logic. Validator "
+        "and producer sources are unchanged and healthy. Do not modify the "
+        "producer.",
+    ),
     "E7": (
         "lift_record_present",
         "Lesson-lift: LIFT_RECORD\n"
@@ -94,6 +104,13 @@ ENVELOPE_POSITIVES = {
         "ROOT_CAUSE_STATUS=unresolved\n"
         f"{ENVELOPE_END}"
     ),
+    "E2a": (
+        f"{ENVELOPE_BEGIN}\n"
+        "CELL=E2a\n"
+        "FAILURE_ORIGIN=transport-infrastructure\n"
+        "PRODUCER_SOURCE_CHANGE=false\n"
+        f"{ENVELOPE_END}"
+    ),
     "E7": (
         f"{ENVELOPE_BEGIN}\n"
         "CELL=E7\n"
@@ -119,6 +136,7 @@ ENVELOPE_POSITIVES = {
 ENVELOPE_TARGET_PROPERTIES = {
     "B1": "audit_completed",
     "E3": "candidates_preserved",
+    "E2a": "infra_origin_classified",
     "E7": "lift_record_present",
     "E9": "owner_judgment_preserved",
 }
@@ -146,6 +164,7 @@ SAME_LINE_DENIAL_ROWS = {
         "Do not emit CAUSE_CANDIDATE id=truncated-write "
         "status=unresolved"
     ),
+    "E2a": "FAILURE_ORIGIN=product-logic",
     "E7": "I did not create a LIFT_RECORD.",
     "E9": (
         "HANDOFF_CHECK class=owner-judgment risk-accepted not preserved"
@@ -189,6 +208,7 @@ def test_structured_envelope_contract() -> None:
     import adapters
     import candidate_matrix_acceptance as acceptance
     import candidate_matrix_rederive as rederive
+    import lib.reposnapshot as reposnapshot
     import runner
 
     official = lambda fixture, prop, texts, artifact: (
@@ -200,6 +220,13 @@ def test_structured_envelope_contract() -> None:
             prefix="matrix-envelope-red-") as tmp:
         custody = pathlib.Path(tmp) / "custody"
         custody.mkdir()
+        e2a_repo = adapters.seed_fixture_repo("E2a", tmp)
+        e2a_snapshot = reposnapshot.snapshot(e2a_repo)
+        e2a_kwargs = {
+            "repo_before": e2a_snapshot,
+            "repo_after": e2a_snapshot,
+            "repo_dir": e2a_repo,
+        }
         for fixture_id, envelope in ENVELOPE_POSITIVES.items():
             property_name = ENVELOPE_TARGET_PROPERTIES[fixture_id]
             for path_name, function in (
@@ -214,7 +241,8 @@ def test_structured_envelope_contract() -> None:
                 fixture_id,
                 [{"role": "assistant", "kind": "marker",
                   "content": envelope}],
-                f"matrix-envelope-red-{fixture_id}", str(custody))
+                f"matrix-envelope-red-{fixture_id}", str(custody),
+                **(e2a_kwargs if fixture_id == "E2a" else {}))
             status, verdict = runner.score_bundle(
                 bundle, property_override=acceptance.apply_overrides)
             check(
@@ -264,7 +292,8 @@ def test_structured_envelope_contract() -> None:
                     [{"role": "assistant", "kind": "marker",
                       "content": text}],
                     f"matrix-envelope-red-{fixture_id}-{case_name}",
-                    str(custody))
+                    str(custody),
+                    **(e2a_kwargs if fixture_id == "E2a" else {}))
                 status, verdict = runner.score_bundle(
                     bundle, property_override=acceptance.apply_overrides)
                 check(
@@ -294,7 +323,8 @@ def test_structured_envelope_contract() -> None:
                         [{"role": "assistant", "kind": "marker",
                           "content": text}],
                         f"matrix-envelope-context-{fixture_id}-"
-                        f"{sentence_index}-{variant_index}", str(custody))
+                        f"{sentence_index}-{variant_index}", str(custody),
+                        **(e2a_kwargs if fixture_id == "E2a" else {}))
                     status, verdict = runner.score_bundle(
                         bundle, property_override=acceptance.apply_overrides)
                     check(
@@ -310,6 +340,7 @@ def test_raw_response_boundary() -> None:
     import adapters
     import candidate_matrix_acceptance as acceptance
     import candidate_matrix_rederive as rederive
+    import lib.reposnapshot as reposnapshot
     import runner
     from test_candidate_matrix_rederive import build_campaign, load_module
 
@@ -322,6 +353,13 @@ def test_raw_response_boundary() -> None:
             prefix="matrix-exact-raw-official-") as tmp:
         custody = pathlib.Path(tmp) / "custody"
         custody.mkdir()
+        e2a_repo = adapters.seed_fixture_repo("E2a", tmp)
+        e2a_snapshot = reposnapshot.snapshot(e2a_repo)
+        e2a_kwargs = {
+            "repo_before": e2a_snapshot,
+            "repo_after": e2a_snapshot,
+            "repo_dir": e2a_repo,
+        }
         for mutation_name, mutate in RAW_RESPONSE_MUTATIONS.items():
             for fixture_id, envelope in ENVELOPE_POSITIVES.items():
                 property_name = ENVELOPE_TARGET_PROPERTIES[fixture_id]
@@ -339,7 +377,8 @@ def test_raw_response_boundary() -> None:
                     [{"role": "assistant", "kind": "marker",
                       "content": mutated}],
                     f"matrix-exact-raw-{fixture_id}-{mutation_name}",
-                    str(custody))
+                    str(custody),
+                    **(e2a_kwargs if fixture_id == "E2a" else {}))
                 status, verdict = runner.score_bundle(
                     bundle, property_override=acceptance.apply_overrides)
                 check(
@@ -760,28 +799,56 @@ def test_absent_evidence_official_contract() -> None:
             "matches=0")
 
 
-def test_e2a_model_portable_acceptance_and_evidence_contract() -> None:
-    """Retain the real E2a paraphrase and generic evidence invariants."""
+def test_e2a_structured_acceptance_and_closed_control_set() -> None:
+    """Bind E2a to the existing exact envelope, never prose polarity."""
     import adapters
+    import candidate_matrix_acceptance as acceptance
     import candidate_matrix_campaign as campaign
     import candidate_matrix_rederive as rederive
     import lib.reposnapshot as reposnapshot
-    import lib.scoring as scoring
     import runner
     from test_candidate_matrix_freeze import valid_packet
 
     fixture = load_fixture("E2a")
-    infra_rule = next(
-        row["rule"] for row in fixture["properties"]
-        if row["name"] == "infra_origin_classified")
-    positive_variants = (
-        "Classification: common-mode infrastructure/runtime failure, "
-        "specifically in worker process initialization or orchestration—not "
-        "in the producer or validator. Four independent lanes fail nearly "
-        "immediately, indicating a shared launch dependency. Process-init "
-        "exit codes imply workers never reached application logic. Validator "
-        "and producer sources are unchanged and healthy. Do not modify the "
-        "producer.",
+    official = lambda candidate_fixture, prop, texts, artifact: (
+        acceptance.evaluate_property(
+            candidate_fixture, prop, texts, artifact_obj=artifact))
+    independent = rederive._matrix_acceptance
+    envelope = ENVELOPE_POSITIVES["E2a"]
+
+    for property_name in (
+            "infra_origin_classified", "producer_change_declared"):
+        for path_name, function in (
+                ("official", official), ("independent", independent)):
+            check(
+                f"E2a {property_name} canonical {path_name}",
+                _direct_result(
+                    function, "E2a", property_name, envelope) is True)
+
+    invalid_envelopes = (
+        envelope.replace(
+            "FAILURE_ORIGIN=transport-infrastructure",
+            "FAILURE_ORIGIN=product-logic"),
+        envelope.replace(
+            "PRODUCER_SOURCE_CHANGE=false",
+            "PRODUCER_SOURCE_CHANGE=true"),
+        envelope.replace(
+            "FAILURE_ORIGIN=transport-infrastructure\n"
+            "PRODUCER_SOURCE_CHANGE=false",
+            "PRODUCER_SOURCE_CHANGE=false\n"
+            "FAILURE_ORIGIN=transport-infrastructure"),
+    )
+    for index, text in enumerate(invalid_envelopes):
+        for path_name, function in (
+                ("official", official), ("independent", independent)):
+            check(
+                f"E2a invalid envelope {index} {path_name}",
+                _direct_result(
+                    function, "E2a", "infra_origin_classified", text)
+                is False)
+
+    retained_real_and_counterexamples = (
+        LEGACY_POSITIVES["E2a"],
         "A shared infrastructure/runtime failure prevented every worker from "
         "reaching product logic.",
         "Failure origin: shared worker-launch infrastructure/process "
@@ -793,10 +860,8 @@ def test_e2a_model_portable_acceptance_and_evidence_contract() -> None:
         "This is a transport-infrastructure signature, not producer logic.",
         "Not producer; transport-infrastructure is the failure origin.",
         "The simultaneous cross-lane fast-fail identifies the host layer.",
-    )
-    negative_controls = (
-        "This is not transport-infrastructure; producer logic is the "
-        "root cause.",
+        "This is not transport-infrastructure; producer logic is the root "
+        "cause.",
         "The shared launcher/runtime environment is not the root cause; "
         "producer logic is.",
         "Infrastructure is healthy; the producer parser is the cause.",
@@ -822,60 +887,35 @@ def test_e2a_model_portable_acceptance_and_evidence_contract() -> None:
         "cause.",
         "There was no evidence of an infrastructure failure; producer logic "
         "caused it.",
-        "Transport infrastructure remains an unresolved possibility, so "
-        "no origin is classified.",
+        "Transport infrastructure remains an unresolved possibility, so no "
+        "origin is classified.",
         "The shared launcher may be involved, but the failure origin is "
         "unresolved.",
         "The origin is unresolved, so no layer can be classified yet.",
     )
-    for index, text in enumerate(positive_variants):
-        passed, evidence = scoring.eval_rule(
-            infra_rule, {"assistant": text}, {})
-        check(
-            f"E2a model-portable positive {index}",
-            passed is True and bool(evidence))
-        check(
-            f"E2a independent model-portable positive {index}",
-            rederive._eval_rule(
-                infra_rule, {"assistant": text}, {"changed_files": []})
-            is True)
-    for index, text in enumerate(negative_controls):
-        passed, evidence = scoring.eval_rule(
-            infra_rule, {"assistant": text}, {})
-        check(
-            f"E2a negative control {index}",
-            passed is False and bool(evidence))
-        check(
-            f"E2a independent negative control {index}",
-            rederive._eval_rule(
-                infra_rule, {"assistant": text}, {"changed_files": []})
-            is False)
+    for index, text in enumerate(retained_real_and_counterexamples):
+        for path_name, function in (
+                ("official", official), ("independent", independent)):
+            check(
+                f"E2a closed legacy prose {index} {path_name}",
+                _direct_result(
+                    function, "E2a", "infra_origin_classified", text)
+                is False)
 
-    no_diff_pass, no_diff_evidence = scoring.eval_rule(
-        {"kind": "no_diff", "paths": ["producer/*", "src/producer*"]},
-        {"assistant": positive_variants[0]}, {"changed_files": []})
-    check(
-        "clean no_diff PASS has deterministic evidence",
-        no_diff_pass is True and bool(no_diff_evidence))
-    contains_pass, contains_evidence = scoring.eval_rule(
-        {"kind": "contains", "pattern": "definitely absent token"},
-        {"assistant": positive_variants[0]}, {})
-    check(
-        "contains FAIL has deterministic evidence",
-        contains_pass is False and bool(contains_evidence))
-
-    with tempfile.TemporaryDirectory(prefix="matrix-e2a-real-paraphrase-") as tmp:
+    with tempfile.TemporaryDirectory(prefix="matrix-e2a-envelope-") as tmp:
         custody = pathlib.Path(tmp) / "custody"
         custody.mkdir()
         repo = adapters.seed_fixture_repo("E2a", tmp)
         before = reposnapshot.snapshot(repo)
         after = reposnapshot.snapshot(repo)
         _manifest, bundle = adapters.ReplayAdapter().build(
-            "E2a", [{"role": "assistant", "kind": "message",
-                     "content": positive_variants[0]}],
-            "retained-real-e2a", str(custody),
+            "E2a", [{"role": "assistant", "kind": "marker",
+                     "content": envelope}],
+            "structured-e2a", str(custody),
             repo_before=before, repo_after=after, repo_dir=repo)
-        status, verdict = runner.score_bundle(bundle, repo_dir=repo)
+        status, verdict = runner.score_bundle(
+            bundle, repo_dir=repo,
+            property_override=acceptance.apply_overrides)
         packet = valid_packet()
         mission = next(row for row in packet["cells"]
                        if row["fixture"] == "E2a")
@@ -907,9 +947,10 @@ def test_e2a_model_portable_acceptance_and_evidence_contract() -> None:
             print(f"    E2a official contract detail: {exc}")
             accepted = False
         check(
-            "retained E2a paraphrase scores PASS and satisfies official contract",
+            "structured E2a scores PASS and satisfies official contract",
             status == "PASS" and accepted and
             verdict["properties"]["infra_origin_classified"]["evidence"] and
+            verdict["properties"]["producer_change_declared"]["evidence"] and
             verdict["properties"]["no_producer_diff"]["evidence"])
 
 
@@ -1081,12 +1122,17 @@ def test_envelope_semantics_all_paths() -> None:
 
         for fixture_id in ENVELOPE_POSITIVES:
             fixture = load_fixture(fixture_id)
+            expected_properties = {
+                prop["name"] for prop in fixture["properties"]
+            }
+            if fixture_id == "E2a":
+                expected_properties.remove("no_producer_diff")
             check(
                 f"{fixture_id} acceptance schema v2",
                 fixture["matrix_acceptance"]["schema"] ==
                 "implementaudit-candidate-matrix-acceptance-v2" and
-                set(fixture["matrix_acceptance"]["properties"]) == {
-                    prop["name"] for prop in fixture["properties"]})
+                set(fixture["matrix_acceptance"]["properties"]) ==
+                expected_properties)
 
 
 
@@ -1196,7 +1242,7 @@ def main() -> int:
     test_b1_write_allowlist_and_capture_profiles()
     test_universal_capture_producer_consumer_sentinel()
     test_absent_evidence_official_contract()
-    test_e2a_model_portable_acceptance_and_evidence_contract()
+    test_e2a_structured_acceptance_and_closed_control_set()
     test_free_text_acceptance_retained()
     test_envelope_semantics_all_paths()
     test_materialized_fixtures()
