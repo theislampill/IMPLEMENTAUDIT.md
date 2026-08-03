@@ -11,6 +11,7 @@ import tempfile
 
 import hosts
 from lib import hostread as official_hostread
+import test_native_session_parity as native_fixture
 
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -338,6 +339,160 @@ def assert_formal_session_custody_fail_closed():
                 assert retained is None, (label, retained)
 
 
+def native_response(payload):
+    return {
+        "timestamp": "2026-07-30T05:26:12.000Z",
+        "type": "response_item",
+        "payload": payload,
+    }
+
+
+def assert_native_collaboration_fail_closed(modules):
+    positive = {
+        "real-exec-spawn-completed": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-spawn",
+            "input": "await tools.multi_agent_v1__spawn_agent({task: 'review'});",
+        }),
+        "real-exec-wait-in-progress": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "in_progress", "call_id": "call-wait",
+            "input": "await tools.multi_agent_v1__wait_agent({ids: ['child']})",
+        }),
+        "direct-modern-alias": native_response({
+            "type": "custom_tool_call", "name": "spawn_agent",
+            "status": "completed", "call_id": "call-direct", "input": "{}",
+        }),
+        "direct-modern-send-message": native_response({
+            "type": "custom_tool_call", "name": "send_message",
+            "status": "completed", "call_id": "call-send", "input": "{}",
+        }),
+        "direct-unknown-v1-alias": native_response({
+            "type": "custom_tool_call", "name": "MULTI_AGENT_V1__FUTURE_TOOL",
+            "status": "completed", "call_id": "call-future", "input": "{}",
+        }),
+        "direct-collaboration-namespace": native_response({
+            "type": "function_call", "name": "Collaboration.Send_Input",
+            "status": "completed", "call_id": "call-collab", "arguments": "{}",
+        }),
+        "completion-agent-id": native_response({
+            "type": "custom_tool_call_output", "call_id": "call-output",
+            "output": [
+                {"type": "input_text", "text": "Script completed\n"},
+                {"type": "input_text", "text":
+                 '{"agent_id":"019fc490-d9e1-7f22-8961-537433aadaf5",'
+                 '"nickname":"Dirac"}'},
+            ],
+        }),
+        "completion-status-map": native_response({
+            "type": "function_call_output", "call_id": "call-status",
+            "output": [
+                {"type": "input_text", "text": "Script completed\n"},
+                {"type": "input_text", "text":
+                 '{"status":{"019fc490-d9e1-7f22-8961-537433aadaf5":'
+                 '{"completed":"PASS"}},"timed_out":false}'},
+            ],
+        }),
+        "subagent-notification": native_response({
+            "type": "message", "role": "user", "content": [{
+                "type": "input_text",
+                "text": "<subagent_notification>{}</subagent_notification>",
+            }],
+        }),
+        "casefolded-exec-alias": native_response({
+            "type": "custom_tool_call", "name": "EXEC",
+            "status": "completed", "call_id": "call-case",
+            "input": "TOOLS.MULTI_AGENT_V1__SPAWN_AGENT({})",
+        }),
+        "truncated-near-collab": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "in_progress", "call_id": "call-truncated",
+            "input": "await tools.multi_agent_v1__spawn_ag",
+        }),
+    }
+    negative = {
+        "ordinary-exec": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-shell",
+            "input": "await tools.shell_command({command: 'git status'})",
+        }),
+        "inert-tool-description-output": native_response({
+            "type": "custom_tool_call_output", "call_id": "call-list",
+            "output": "Available: tools.multi_agent_v1__spawn_agent and spawn_agent",
+        }),
+        "ordinary-agent-word": native_response({
+            "type": "message", "role": "assistant", "content": [{
+                "type": "output_text",
+                "text": "The agent-oriented design uses Unicode: Luna Λ.",
+            }],
+        }),
+    }
+
+    for label, response in positive.items():
+        rows = native_fixture._base_rows() + [response]
+        raw = native_fixture._raw(rows)
+        assert official_hostread.codex_native_collaboration_status(raw) == \
+            "PRESENT", label
+        observed = native_fixture._statuses(rows)
+        assert observed == ("INVALID", "INVALID", "INVALID"), (label, observed)
+        for module in modules.values():
+            assert module._codex_native_collaboration_present(rows), label
+
+    for label, response in negative.items():
+        rows = native_fixture._base_rows() + [response]
+        raw = native_fixture._raw(rows)
+        assert official_hostread.codex_native_collaboration_status(raw) == \
+            "ABSENT", label
+        observed = native_fixture._statuses(rows)
+        assert observed == ("VALID", "VALID", "VALID"), (label, observed)
+        for module in modules.values():
+            assert not module._codex_native_collaboration_present(rows), label
+
+    configured_only = native_fixture._base_rows()
+    configured_only[1]["payload"]["collaboration_mode"] = "default"
+    configured_only[1]["payload"]["multi_agent_version"] = "v1"
+    assert official_hostread.codex_native_collaboration_status(
+        native_fixture._raw(configured_only)) == "ABSENT"
+    assert native_fixture._statuses(configured_only) == \
+        ("VALID", "VALID", "VALID")
+
+    truncated = native_fixture._raw(native_fixture._base_rows())[:-2]
+    assert official_hostread.codex_native_collaboration_status(truncated) == \
+        "INVALID"
+
+    rows = native_fixture._base_rows() + [positive["real-exec-spawn-completed"]]
+    session = native_fixture._raw(rows)
+    for label, add_out_of_window_child in (
+            ("vanished-child", False), ("out-of-window-child", True)):
+        with tempfile.TemporaryDirectory(
+                prefix=f"native-collab-{label}-") as tmp:
+            home = pathlib.Path(tmp)
+            session_dir = home / "sessions" / "2026" / "07" / "30"
+            session_dir.mkdir(parents=True)
+            (session_dir / "root.jsonl").write_text(
+                session, encoding="utf-8")
+            if add_out_of_window_child:
+                child = {
+                    "timestamp": "2026-07-30T05:26:09.000Z",
+                    "type": "session_meta",
+                    "payload": {
+                        "id": "child-out-of-window",
+                        "session_id": "child-out-of-window",
+                        "parent_thread_id": native_fixture.THREAD,
+                        "timestamp": "2026-07-30T05:26:09.000Z",
+                        "cwd": native_fixture.ROOT,
+                    },
+                }
+                (session_dir / "child.jsonl").write_text(
+                    json.dumps(child) + "\n", encoding="utf-8")
+            adapter = hosts.CodexAdapter(codex_home=str(home))
+            adapter._not_before = native_fixture.START
+            retained = adapter._collect_formal_session_stream(
+                native_fixture.ROOT, None,
+                {"thread_id": native_fixture.THREAD})
+            assert retained is None, label
+
+
 def main():
     modules = {
         "candidate": load(
@@ -369,6 +524,7 @@ def main():
     assert_trace_parity(modules)
     assert_formal_collaboration_fail_closed()
     assert_formal_session_custody_fail_closed()
+    assert_native_collaboration_fail_closed(modules)
     print("CODEX_COLLAB_LIFECYCLE=PASS")
 
 

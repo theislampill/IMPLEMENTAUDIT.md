@@ -1043,7 +1043,10 @@ class _BaseAdapter:
             # transient writes outside custody, so formal evidence must stop.
             if context.get("subagent_sessions"):
                 return None
-            return open(path, "rb").read()
+            retained = open(path, "rb").read()
+            if hostread.codex_native_collaboration_status(retained) != "ABSENT":
+                return None
+            return retained
         session_id = (binding or {}).get("session_id")
         if not session_id or not self.config_dir:
             return None

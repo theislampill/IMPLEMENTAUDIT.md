@@ -86,6 +86,18 @@ CODEX_NATIVE_PAYLOAD_FIELDS = {
         frozenset(),
     ),
 }
+CODEX_COLLAB_NATIVE_TOOL_NAMES = frozenset((
+    "spawn_agent", "wait_agent", "send_input", "close_agent",
+    "send_message", "resume_agent", "followup_task", "interrupt_agent",
+    "list_agents",
+))
+CODEX_COLLAB_NATIVE_EXEC_PATTERN = re.compile(
+    r"\btools\s*\.\s*(?:" +
+    "|".join(re.escape(name) for name in sorted(
+        CODEX_COLLAB_NATIVE_TOOL_NAMES)) + r")\s*\(", re.IGNORECASE)
+CODEX_COLLAB_NATIVE_CHILD_ID_PATTERN = re.compile(
+    r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+    re.IGNORECASE)
 
 SUPPORTED_READERS = ("cat", "grep", "head", "rg", "sed", "tail")
 SUPPORTED_CLAUDE = frozenset(
@@ -2721,6 +2733,126 @@ def _codex_native_rows_valid(objects):
     return True
 
 
+def _codex_native_collaboration_name(name):
+    if type(name) is not str:
+        return False
+    folded = name.casefold()
+    return (
+        folded in CODEX_COLLAB_NATIVE_TOOL_NAMES or
+        folded.startswith("multi_agent_v1__") or
+        folded.startswith("collaboration.") or
+        folded.startswith("collaboration__")
+    )
+
+
+def _codex_native_exec_has_collaboration(value):
+    if type(value) is not str:
+        return False
+    folded = value.casefold()
+    return (
+        "tools.multi_agent_v1__" in folded or
+        "tools.collaboration." in folded or
+        "tools.collaboration__" in folded or
+        bool(CODEX_COLLAB_NATIVE_EXEC_PATTERN.search(value))
+    )
+
+
+def _codex_native_output_objects(value):
+    texts = []
+    if type(value) is str:
+        texts.append(value)
+    elif isinstance(value, list):
+        for item in value:
+            if (isinstance(item, dict) and
+                    item.get("type") in ("input_text", "output_text") and
+                    type(item.get("text")) is str):
+                texts.append(item["text"])
+    for text in texts:
+        candidate = text.strip()
+        if (not candidate.startswith("{") or
+                not candidate.endswith("}") or
+                len(candidate.encode("utf-8")) > 1024 * 1024):
+            continue
+        try:
+            yield _strict_object(candidate)
+        except (ValueError, TypeError, json.JSONDecodeError):
+            continue
+
+
+def _codex_native_output_has_collaboration(value):
+    for candidate in _codex_native_output_objects(value):
+        keys = set(candidate)
+        if (type(candidate.get("agent_id")) is str and
+                candidate["agent_id"] and
+                keys <= {"agent_id", "nickname"}):
+            return True
+        statuses = candidate.get("status")
+        if (isinstance(statuses, dict) and
+                keys <= {"status", "timed_out"} and
+                any(type(child) is str and
+                    CODEX_COLLAB_NATIVE_CHILD_ID_PATTERN.fullmatch(child)
+                    for child in statuses)):
+            return True
+    return False
+
+
+def _codex_native_message_has_collaboration(payload):
+    if payload.get("role") != "user" or not isinstance(
+            payload.get("content"), list):
+        return False
+    return any(
+        isinstance(item, dict) and
+        item.get("type") in ("input_text", "output_text") and
+        type(item.get("text")) is str and
+        "<subagent_notification>" in item["text"].casefold()
+        for item in payload["content"])
+
+
+def _codex_native_collaboration_present(objects):
+    """Detect executed collaboration from structural native action records."""
+    for record in objects:
+        if record.get("type") != "response_item":
+            continue
+        payload = record.get("payload")
+        if not isinstance(payload, dict):
+            continue
+        kind = payload.get("type")
+        folded_kind = kind.casefold() if type(kind) is str else ""
+        if folded_kind in ("custom_tool_call", "function_call"):
+            name = payload.get("name")
+            if _codex_native_collaboration_name(name):
+                return True
+            if (type(name) is str and name.casefold() in ("exec", "functions.exec")
+                    and (_codex_native_exec_has_collaboration(
+                        payload.get("input")) or
+                         _codex_native_exec_has_collaboration(
+                             payload.get("arguments")))):
+                return True
+        elif folded_kind in (
+                "custom_tool_call_output", "function_call_output"):
+            if _codex_native_output_has_collaboration(payload.get("output")):
+                return True
+        elif folded_kind == "message":
+            if _codex_native_message_has_collaboration(payload):
+                return True
+    return False
+
+
+def codex_native_collaboration_status(raw_session):
+    """Return PRESENT, ABSENT, or INVALID for a closed Codex native stream."""
+    try:
+        session_bytes = _raw_capture_bytes(raw_session)
+        text = session_bytes.decode("utf-8")
+        objects = [_strict_object(line) for line in text.splitlines()
+                   if line.strip()]
+    except (UnicodeError, ValueError, TypeError, json.JSONDecodeError):
+        return "INVALID"
+    if not objects or not _codex_native_rows_valid(objects):
+        return "INVALID"
+    return ("PRESENT" if _codex_native_collaboration_present(objects)
+            else "ABSENT")
+
+
 def corroborate_session(raw_stdout, raw_session, host, binding, trace,
                         profile=None, process_started=None):
     """Corroborate lineage/action identity from the distinct native stream."""
@@ -2760,6 +2892,8 @@ def corroborate_session(raw_stdout, raw_session, host, binding, trace,
         return "INVALID"
     if host == "codex":
         if not _codex_native_rows_valid(objects):
+            return "INVALID"
+        if _codex_native_collaboration_present(objects):
             return "INVALID"
         metas = [obj for obj in objects if obj.get("type") == "session_meta"]
         turns = [obj for obj in objects if obj.get("type") == "turn_context"]

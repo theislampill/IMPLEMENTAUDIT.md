@@ -184,6 +184,18 @@ CODEX_NATIVE_PAYLOAD_FIELDS = {
     ),
     "world_state": ({"state", "full"}, set()),
 }
+CODEX_COLLAB_NATIVE_TOOL_NAMES = frozenset((
+    "spawn_agent", "wait_agent", "send_input", "close_agent",
+    "send_message", "resume_agent", "followup_task", "interrupt_agent",
+    "list_agents",
+))
+CODEX_COLLAB_NATIVE_EXEC_PATTERN = re.compile(
+    r"\btools\s*\.\s*(?:" +
+    "|".join(re.escape(name) for name in sorted(
+        CODEX_COLLAB_NATIVE_TOOL_NAMES)) + r")\s*\(", re.IGNORECASE)
+CODEX_COLLAB_NATIVE_CHILD_ID_PATTERN = re.compile(
+    r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+    re.IGNORECASE)
 LUNA_MODEL = "gpt-5.6-luna"
 ACCEPTANCE_RULE = (
     "all fourteen canonical Luna candidate fixture cells terminal and PASS; "
@@ -2673,6 +2685,121 @@ def _codex_native_repo_policy(profile):
     return repo
 
 
+def _codex_native_collaboration_name(name):
+    if type(name) is not str:
+        return False
+    folded = name.casefold()
+    return (
+        folded in CODEX_COLLAB_NATIVE_TOOL_NAMES or
+        folded.startswith("multi_agent_v1__") or
+        folded.startswith("collaboration.") or
+        folded.startswith("collaboration__")
+    )
+
+
+def _codex_native_exec_has_collaboration(value):
+    if type(value) is not str:
+        return False
+    folded = value.casefold()
+    return (
+        "tools.multi_agent_v1__" in folded or
+        "tools.collaboration." in folded or
+        "tools.collaboration__" in folded or
+        bool(CODEX_COLLAB_NATIVE_EXEC_PATTERN.search(value))
+    )
+
+
+def _codex_native_output_objects(value):
+    texts = []
+    if type(value) is str:
+        texts.append(value)
+    elif isinstance(value, list):
+        for item in value:
+            if (isinstance(item, dict) and
+                    item.get("type") in ("input_text", "output_text") and
+                    type(item.get("text")) is str):
+                texts.append(item["text"])
+    for text in texts:
+        candidate = text.strip()
+        if (not candidate.startswith("{") or
+                not candidate.endswith("}") or
+                len(candidate.encode("utf-8")) > 1024 * 1024):
+            continue
+
+        def unique(pairs):
+            result = {}
+            for key, item in pairs:
+                if key in result:
+                    raise ValueError("duplicate completion key")
+                result[key] = item
+            return result
+
+        try:
+            observed = json.loads(candidate, object_pairs_hook=unique)
+        except (ValueError, json.JSONDecodeError, RecursionError, MemoryError):
+            continue
+        if isinstance(observed, dict):
+            yield observed
+
+
+def _codex_native_output_has_collaboration(value):
+    for candidate in _codex_native_output_objects(value):
+        keys = set(candidate)
+        if (type(candidate.get("agent_id")) is str and
+                candidate["agent_id"] and
+                keys <= {"agent_id", "nickname"}):
+            return True
+        statuses = candidate.get("status")
+        if (isinstance(statuses, dict) and
+                keys <= {"status", "timed_out"} and
+                any(type(child) is str and
+                    CODEX_COLLAB_NATIVE_CHILD_ID_PATTERN.fullmatch(child)
+                    for child in statuses)):
+            return True
+    return False
+
+
+def _codex_native_message_has_collaboration(payload):
+    if payload.get("role") != "user" or not isinstance(
+            payload.get("content"), list):
+        return False
+    return any(
+        isinstance(item, dict) and
+        item.get("type") in ("input_text", "output_text") and
+        type(item.get("text")) is str and
+        "<subagent_notification>" in item["text"].casefold()
+        for item in payload["content"])
+
+
+def _codex_native_collaboration_present(rows):
+    for row in rows:
+        if row.get("type") != "response_item":
+            continue
+        payload = row.get("payload")
+        if not isinstance(payload, dict):
+            continue
+        kind = payload.get("type")
+        folded_kind = kind.casefold() if type(kind) is str else ""
+        if folded_kind in ("custom_tool_call", "function_call"):
+            name = payload.get("name")
+            if _codex_native_collaboration_name(name):
+                return True
+            if (type(name) is str and name.casefold() in ("exec", "functions.exec")
+                    and (_codex_native_exec_has_collaboration(
+                        payload.get("input")) or
+                         _codex_native_exec_has_collaboration(
+                             payload.get("arguments")))):
+                return True
+        elif folded_kind in (
+                "custom_tool_call_output", "function_call_output"):
+            if _codex_native_output_has_collaboration(payload.get("output")):
+                return True
+        elif folded_kind == "message":
+            if _codex_native_message_has_collaboration(payload):
+                return True
+    return False
+
+
 def _validate_native_session(stdout, session, expected_host, binding,
                              stdout_binding, actions, profile, process):
     _expect(expected_host in {"codex", "claude"},
@@ -2710,6 +2837,8 @@ def _validate_native_session(stdout, session, expected_host, binding,
                            owner + " payload")
             _expect(_parse_codex_session_time(row["timestamp"]) is not None,
                     owner + " timestamp invalid")
+        _expect(not _codex_native_collaboration_present(rows),
+                "Codex native session contains unbound collaboration evidence")
         allowed = {"thread_id", "stdout_turn_ordinal", "turn_id",
                    "native_turn_id"}
         _expect(set(binding) <= allowed and
