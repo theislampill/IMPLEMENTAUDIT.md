@@ -3474,7 +3474,31 @@ def _codex_native_exec_has_collaboration(value):
                 break
         return True, parts, path_state(parts), cursor, incomplete
 
-    scopes = [{}]
+    def hoisted_function_bindings():
+        bindings = {None: []}
+        active_scopes = [None]
+        declaration_boundaries = {
+            ("punct", "{"), ("punct", "}"), ("punct", ";")}
+        for cursor, token in enumerate(tokens):
+            if token == ("punct", "{"):
+                active_scopes.append(cursor)
+                continue
+            if token == ("punct", "}"):
+                if len(active_scopes) > 1:
+                    active_scopes.pop()
+                continue
+            if (token[0] == "id" and token[1].casefold() == "function" and
+                    cursor + 1 < len(tokens) and
+                    tokens[cursor + 1][0] == "id" and
+                    (cursor == 0 or
+                     tokens[cursor - 1] in declaration_boundaries)):
+                bindings.setdefault(active_scopes[-1], []).append(
+                    tokens[cursor + 1][1])
+        return bindings
+
+    hoisted_functions = hoisted_function_bindings()
+    scopes = [{name.casefold(): False
+               for name in hoisted_functions.get(None, ())}]
     function_scopes = [True]
 
     def bind(name, collaboration, declaration="let"):
@@ -3687,7 +3711,8 @@ def _codex_native_exec_has_collaboration(value):
         token = tokens[index]
         if token == ("punct", "{"):
             parameters = function_parameters(index)
-            scopes.append({})
+            scopes.append({name.casefold(): False
+                           for name in hoisted_functions.get(index, ())})
             function_scopes.append(parameters is not None)
             for parameter in parameters or []:
                 bind(parameter, False)

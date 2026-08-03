@@ -374,6 +374,8 @@ def assert_node_local_shadow_cases():
             "const spawn_agent = value => value; spawn_agent({});"),
         "local-direct-function-call": (
             "function spawn_agent(value) { return value; } spawn_agent({});"),
+        "hoisted-local-direct-function-call": (
+            "spawn_agent({}); function spawn_agent(value) { return value; }"),
         "expression-arrow-parameter-shadow": (
             "const launch = tools.multi_agent_v1__spawn_agent; "
             "((launch) => launch({}))(value => value);"),
@@ -776,6 +778,13 @@ def assert_native_collaboration_fail_closed(modules):
             "input": (
                 "function spawn_agent(value) { return value; } "
                 "spawn_agent({});"),
+        }),
+        "hoisted-local-direct-function-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-hoisted-function",
+            "input": (
+                "spawn_agent({}); function spawn_agent(value) { "
+                "return value; }"),
         }),
         "local-direct-let-call": native_response({
             "type": "custom_tool_call", "name": "exec",
