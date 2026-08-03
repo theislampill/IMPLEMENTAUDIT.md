@@ -401,6 +401,11 @@ Final markers:
 contract phrase: AUDIT_COMPLETE before IMPLEMENTAUDIT_RUN_COMPLETE. Never print
 completion markers when a handoff marker remains active.
 
+Emit each final audit marker exactly once per run.
+Do not replay a completion marker in a later summary or final response. If a
+marker was already emitted at its transition, describe the result without
+printing that marker again.
+
 Bounded continuity:
 
 - Emit `CONTINUITY_DECISION` when deciding whether to persist stable learning.

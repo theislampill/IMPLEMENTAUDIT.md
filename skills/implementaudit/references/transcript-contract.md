@@ -258,6 +258,10 @@ IMPLEMENTAUDIT_RUN_COMPLETE
 
 Rules:
 
+- Emit each final audit marker exactly once per run.
+  Do not replay a completion marker in a later summary or final response. Once
+  emitted at its transition, later prose may describe the state but must not
+  print that marker again.
 - `AUDIT_START` carries `Skill version:` — the plugin manifest version of the
   payload that produced the run (`unknown` when unresolvable, never guessed) —
   so any transcript can be attributed to its contract version.
