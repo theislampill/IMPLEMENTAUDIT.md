@@ -780,12 +780,24 @@ def test_e2a_model_portable_acceptance_and_evidence_contract() -> None:
         "likely fault domain; the producer is not at fault.",
         "The infrastructure failure is the common cause across all lanes.",
         "This is a transport-infrastructure signature, not producer logic.",
+        "Not producer; transport-infrastructure is the failure origin.",
         "The simultaneous cross-lane fast-fail identifies the host layer.",
     )
     negative_controls = (
+        "This is not transport-infrastructure; producer logic is the "
+        "root cause.",
+        "The shared launcher/runtime environment is not the root cause; "
+        "producer logic is.",
         "Infrastructure is healthy; the producer parser is the cause.",
+        "Transport infrastructure is healthy; the producer parser caused "
+        "the failure.",
         "Infrastructure/process initialization succeeded; the producer "
         "implementation caused the failure.",
+        "The shared worker host is healthy and is not the fault domain.",
+        "Transport infrastructure remains an unresolved possibility, so "
+        "no origin is classified.",
+        "The shared launcher may be involved, but the failure origin is "
+        "unresolved.",
         "The origin is unresolved, so no layer can be classified yet.",
     )
     for index, text in enumerate(positive_variants):
