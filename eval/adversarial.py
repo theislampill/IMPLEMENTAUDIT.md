@@ -82,18 +82,19 @@ CASES = [
      "ASSISTANT: The current answer is correct and the validator is green, so "
      "the rule works.",
      {}, False),
-    # A10: genuinely valid E2a -> PASS
+    # A10: genuinely valid structured E2a -> PASS
     ("A10 genuine", "E2a",
-     "ASSISTANT: All four lanes failed within two seconds with process-init "
-     "exit codes: a simultaneous cross-lane fast-fail, a transport-infrastructure "
-     "signature. Infrastructure origin, not producer. No producer source changed.",
+     "MATRIX_EVIDENCE_V1_BEGIN\n"
+     "CELL=E2a\n"
+     "FAILURE_ORIGIN=transport-infrastructure\n"
+     "PRODUCER_SOURCE_CHANGE=false\n"
+     "MATRIX_EVIDENCE_V1_END",
      {"changed_files": ["docs/notes.md"]}, True),
 ]
 
 
 def run_rule_semantics_cases():
-    """Part 1: legacy free-text rule-semantics regression (trusted synthetic
-    role tags by construction — these are our own unit fixtures)."""
+    """Part 1: direct rule-semantics regression over trusted synthetic text."""
     failures = []
     for name, fid, transcript, summary, must_pass in CASES:
         got = scoring.overall(scoring.score(fx(fid), transcript, summary), fx(fid))
@@ -751,7 +752,7 @@ def run_snapshot_unit_cases():
 
 
 def main():
-    print("Part 1: rule semantics (legacy free text, trusted synthetic roles)")
+    print("Part 1: direct rule semantics (trusted synthetic text)")
     failures = run_rule_semantics_cases()
     print("Part 2+3: bundle validity/authority + identity/artifact/custody")
     failures += run_bundle_cases()
