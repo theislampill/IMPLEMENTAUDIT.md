@@ -788,6 +788,8 @@ def test_e2a_model_portable_acceptance_and_evidence_contract() -> None:
         "initialization. The common launcher/runtime environment is the "
         "likely fault domain; the producer is not at fault.",
         "The infrastructure failure is the common cause across all lanes.",
+        "Infrastructure failure caused the fast-fail; producer logic is not "
+        "the cause.",
         "This is a transport-infrastructure signature, not producer logic.",
         "Not producer; transport-infrastructure is the failure origin.",
         "The simultaneous cross-lane fast-fail identifies the host layer.",
@@ -815,6 +817,11 @@ def test_e2a_model_portable_acceptance_and_evidence_contract() -> None:
         "caused it.",
         "The product failed without an infrastructure failure.",
         "An infrastructure failure did not occur; product logic caused it.",
+        "The cause is product logic rather than an infrastructure failure.",
+        "An infrastructure failure was ruled out; producer logic is the "
+        "cause.",
+        "There was no evidence of an infrastructure failure; producer logic "
+        "caused it.",
         "Transport infrastructure remains an unresolved possibility, so "
         "no origin is classified.",
         "The shared launcher may be involved, but the failure origin is "
