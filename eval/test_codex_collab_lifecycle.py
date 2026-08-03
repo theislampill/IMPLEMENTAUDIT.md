@@ -3,10 +3,13 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import importlib.util
 import json
 import pathlib
+import tempfile
 
+import hosts
 from lib import hostread as official_hostread
 
 
@@ -81,6 +84,40 @@ def official_trace(rows=None):
     return raw, trace
 
 
+def formal_codex_profile():
+    shell = {
+        "logical_path": "/bin/bash", "realpath": "/usr/bin/bash",
+        "sha256": "a" * 64, "stat": "dev=1;ino=1;mode=100755;size=1",
+    }
+    environment = {
+        "PATH": "/usr/bin", "LANG": "C.UTF-8", "LC_ALL": "C.UTF-8",
+        "BASH_ENV": None, "ENV": None, "SHELL": "/bin/bash",
+    }
+    executables = {
+        name: {
+            "kind": "file", "path": f"/usr/bin/{name}",
+            "sha256": f"{index + 1:x}" * 64,
+            "stat": f"dev=1;ino={index + 2};mode=100755;size=1",
+        }
+        for index, name in enumerate(sorted(official_hostread.SUPPORTED_READERS))
+    }
+    probe = {"environment": environment, "shell": shell,
+             "executables": executables}
+    profile = {
+        "schema": "implementaudit-host-read-profile-v2",
+        "authority": "mechanically-minted", "host": "codex",
+        "repo": {"lexical_root": "/fixture/repo",
+                 "real_root": "/fixture/repo", "case_sensitive": True},
+        "shell": shell,
+        "outer_wrapper": {"argv_prefix": ["/bin/bash", "-lc"],
+                          "max_unwrap_layers": 1},
+        "environment": environment, "executables": executables,
+        "probe_sha256": hashlib.sha256(
+            official_hostread._canonical_bytes(probe)).hexdigest(),
+    }
+    return official_hostread._admit_persisted_profile(profile)
+
+
 def invalid_cases():
     cases = {}
 
@@ -138,7 +175,14 @@ def assert_trace_parity(modules):
         actions, _binding = module._parse_codex_actions(raw.encode("utf-8"))
         for accepted in (trace, persisted_trace):
             module._validate_trace_action_rows(accepted)
-            module._validate_trace_agreement(accepted, actions, [], "codex")
+            try:
+                module._validate_trace_agreement(
+                    accepted, actions, [], "codex")
+            except module.EvidenceInvalid as exc:
+                assert "unbound collaboration descendant evidence" in str(exc)
+            else:
+                raise AssertionError(
+                    f"{name} accepted unbound collaboration evidence")
 
         def rejected(candidate, agreement=False):
             try:
@@ -220,6 +264,80 @@ def assert_trace_parity(modules):
             rejected(altered, agreement=True)
 
 
+def assert_formal_collaboration_fail_closed():
+    raw, _trace = official_trace()
+    binding = official_hostread.derive_codex_binding(raw)
+    formal = official_hostread.normalize_codex(
+        raw, profile=formal_codex_profile(), binding=binding, formal=True)
+    assert formal["host_status"] == "INVALID", formal
+    assert any(
+        finding.get("reason") == "unbound collaboration descendant evidence"
+        for finding in formal["host_findings"]), formal
+
+
+def assert_formal_session_custody_fail_closed():
+    timestamp = "2026-08-03T00:00:00Z"
+    parent_id = "thread-parent-redacted"
+
+    def session(identity, cwd, parent=None, extra=None):
+        payload = {"id": identity, "session_id": identity,
+                   "cwd": str(cwd), "timestamp": timestamp}
+        if parent is not None:
+            payload["parent_thread_id"] = parent
+        rows = [{"type": "session_meta", "timestamp": timestamp,
+                 "payload": payload}]
+        rows.extend(extra or [])
+        return "".join(json.dumps(row) + "\n" for row in rows)
+
+    cases = {
+        "direct-child": [("child", parent_id, [])],
+        "recursive-fanout": [
+            ("child", parent_id, []), ("grandchild", "child", [])],
+        "extra-root": [("other-root", None, [])],
+        "orphan": [("child", "missing-parent", [])],
+        "cycle": [("child", "grandchild", []),
+                  ("grandchild", "child", [])],
+        "duplicate-child": [("child", parent_id, []),
+                            ("child", parent_id, [])],
+        "identity-policy-drift": [("child", parent_id, [{
+            "type": "turn_context", "timestamp": timestamp,
+            "payload": {"model": "different-model", "effort": "low",
+                        "approval_policy": "on-request",
+                        "sandbox_policy": {"type": "danger-full-access"}}}])],
+        "incomplete-hidden-write": [("child", parent_id, [{
+            "type": "response_item", "timestamp": timestamp,
+            "payload": {"type": "custom_tool_call", "name": "exec",
+                        "status": "in_progress", "call_id": "hidden-write",
+                        "input": {"command": "write then restore"}}}])],
+    }
+    with tempfile.TemporaryDirectory(
+            prefix="formal-collab-custody-") as tmp:
+        root = pathlib.Path(tmp)
+        for label, descendants in cases.items():
+            home = root / label / "codex-home"
+            repo = root / label / "repo"
+            sessions = home / "sessions" / "2026" / "08" / "03"
+            repo.mkdir(parents=True)
+            sessions.mkdir(parents=True)
+            (sessions / "root.jsonl").write_text(
+                session(parent_id, repo), encoding="utf-8")
+            for index, (identity, parent, extra) in enumerate(descendants):
+                (sessions / f"child-{index}.jsonl").write_text(
+                    session(identity, repo, parent, extra), encoding="utf-8")
+            if label in {"orphan", "extra-root"}:
+                expected_error = True
+            else:
+                expected_error = False
+            adapter = hosts.CodexAdapter(codex_home=str(home))
+            try:
+                retained = adapter._collect_formal_session_stream(
+                    str(repo), None, {"thread_id": parent_id})
+            except hosts.framework.AdapterError:
+                assert expected_error or label in {"cycle"}
+            else:
+                assert retained is None, (label, retained)
+
+
 def main():
     modules = {
         "candidate": load(
@@ -249,6 +367,8 @@ def main():
             else:
                 raise AssertionError(f"{name} accepted malformed {label}")
     assert_trace_parity(modules)
+    assert_formal_collaboration_fail_closed()
+    assert_formal_session_custody_fail_closed()
     print("CODEX_COLLAB_LIFECYCLE=PASS")
 
 

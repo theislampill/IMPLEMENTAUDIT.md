@@ -1038,6 +1038,11 @@ class _BaseAdapter:
             if (not path or context.get("session_id") !=
                     (binding or {}).get("thread_id")):
                 return None
+            # The v1 capture contract seals one native session only. Any
+            # discovered descendant would leave its actions, policy, and
+            # transient writes outside custody, so formal evidence must stop.
+            if context.get("subagent_sessions"):
+                return None
             return open(path, "rb").read()
         session_id = (binding or {}).get("session_id")
         if not session_id or not self.config_dir:

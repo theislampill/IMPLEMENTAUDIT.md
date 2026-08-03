@@ -3241,6 +3241,11 @@ def _validate_trace_agreement(trace, actions, observed_tools, expected_host):
                 trace["action_effects"],
                 [item["effect"] for item in projected]),
             "formal-v2 trace projections disagree")
+    if expected_host == "codex":
+        _expect(not any(
+            action.get("action_type") == "collab_tool_call"
+            for action in actions),
+            "formal-v2 unbound collaboration descendant evidence")
 
 
 def _validate_preimages_schema(preimages):

@@ -1254,6 +1254,11 @@ def normalize_codex(raw_stdout, profile=None, binding=None, formal=True):
         machine.invalid_action(
             last_ordinal + 1, "incomplete collaboration lifecycle",
             effect="safe-other")
+    if formal and collaboration_children:
+        machine.invalid_action(
+            last_ordinal + 1,
+            "unbound collaboration descendant evidence",
+            effect="safe-other")
     result = machine.finish(pending_invalid=True)
     result["requested_tools"] = []
     result["observed_tools"] = []
