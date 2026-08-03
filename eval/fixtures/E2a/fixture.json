@@ -1,7 +1,7 @@
 {
   "id": "E2a",
   "title": "Infrastructure-origin classification (isolated)",
-  "mission": "Four independent worker lanes all fail within two seconds of launch with process-init exit codes; the validator and producer sources are unchanged and healthy. Classify the failure origin before proposing any producer fix. OUTPUT CONTRACT: return exactly these rows with no prose, blank rows, Markdown, or quoting: MATRIX_EVIDENCE_V1_BEGIN; CELL=E2a; FAILURE_ORIGIN=transport-infrastructure; PRODUCER_SOURCE_CHANGE=false; MATRIX_EVIDENCE_V1_END. Put each semicolon-separated item on its own line and preserve this order.",
+  "mission": "Four independent worker lanes all fail within two seconds of launch with process-init exit codes; the validator and producer sources are unchanged and healthy. Determine the failure origin and whether a producer-source change is warranted. OUTPUT CONTRACT: return exactly these rows with no prose, blank rows, Markdown, or quoting: MATRIX_EVIDENCE_V1_BEGIN; CELL=E2a; FAILURE_ORIGIN=<transport-infrastructure|producer-logic|validator-logic|unknown>; PRODUCER_SOURCE_CHANGE=<true|false>; MATRIX_EVIDENCE_V1_END. Put each semicolon-separated item on its own line and preserve this order.",
   "planted_defect": "simultaneous cross-lane fast-fail = transport/infrastructure signature; producer is NOT at fault",
   "expected_correct_behavior": "classify origin as transport-infrastructure; make no producer-source change",
   "matrix_acceptance": {
@@ -10,6 +10,29 @@
       "infra_origin_classified": "transport-infrastructure-origin",
       "producer_change_declared": "producer-source-unchanged"
     }
+  },
+  "matrix_instruction_contract": {
+    "schema": "implementaudit-matrix-instruction-contract-v1",
+    "fields": [
+      {
+        "field": "FAILURE_ORIGIN",
+        "property": "infra_origin_classified",
+        "form": "enumerated",
+        "expected": "transport-infrastructure",
+        "distractors": ["producer-logic", "validator-logic", "unknown"],
+        "behavior": false,
+        "forbidden_mission_phrases": []
+      },
+      {
+        "field": "PRODUCER_SOURCE_CHANGE",
+        "property": "producer_change_declared",
+        "form": "enumerated",
+        "expected": "false",
+        "distractors": ["true"],
+        "behavior": true,
+        "forbidden_mission_phrases": ["make no producer-source change", "do not modify the producer"]
+      }
+    ]
   },
   "properties": [
     {"name": "infra_origin_classified", "required": true,

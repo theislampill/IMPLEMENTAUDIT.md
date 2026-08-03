@@ -742,6 +742,7 @@ def _validate_fixture_schema(fixture, expected_id):
         "allowed_paths", "artifact_rules", "contract_source", "host_checks",
         "host_observation_spec", "issue_map", "negative_control",
         "required_capabilities", "matrix_acceptance", "matrix_precondition",
+        "matrix_instruction_contract",
     }
     fixture = _closed_fields(fixture, required, optional, "fixture")
     _expect(
@@ -810,6 +811,60 @@ def _validate_fixture_schema(fixture, expected_id):
             precondition["kind"] in ("resume-run-root", "dirty-worktree") and
             type(precondition["path"]) is str and precondition["path"],
             "fixture matrix precondition invalid")
+    if "matrix_instruction_contract" in fixture:
+        instruction = _exact_fields(
+            fixture["matrix_instruction_contract"], {"schema", "fields"},
+            "fixture.matrix_instruction_contract")
+        _expect(
+            instruction["schema"] ==
+            "implementaudit-matrix-instruction-contract-v1",
+            "fixture matrix instruction contract invalid")
+        fields = instruction["fields"]
+        _expect(type(fields) is list and bool(fields),
+                "fixture matrix instruction fields invalid")
+        names = []
+        for index, row in enumerate(fields):
+            owner = f"fixture matrix instruction field {index}"
+            row = _mapping(row, owner)
+            common = {
+                "field", "property", "form", "behavior",
+                "forbidden_mission_phrases",
+            }
+            form = row.get("form")
+            _expect(form in {"opaque", "enumerated"},
+                    owner + " form invalid")
+            expected = common | (
+                {"placeholder"} if form == "opaque" else
+                {"expected", "distractors"})
+            _expect(set(row) == expected, owner + " exact key set invalid")
+            for key in ("field", "property"):
+                _expect(type(row[key]) is str and bool(row[key]),
+                        owner + f" {key} invalid")
+            if form == "opaque":
+                _expect(
+                    type(row["placeholder"]) is str and
+                    bool(row["placeholder"]) and "|" not in row["placeholder"],
+                    owner + " placeholder invalid")
+            else:
+                _expect(type(row["expected"]) is str and bool(row["expected"]),
+                        owner + " expected invalid")
+                _strings(row["distractors"], owner + " distractors")
+                _expect(
+                    bool(row["distractors"]) and
+                    len(row["distractors"]) ==
+                    len(set(row["distractors"])) and
+                    row["expected"] not in row["distractors"],
+                    owner + " distractors invalid")
+            _expect(type(row["behavior"]) is bool,
+                    owner + " behavior invalid")
+            _strings(row["forbidden_mission_phrases"],
+                     owner + " forbidden mission phrases")
+            _expect(
+                bool(row["forbidden_mission_phrases"]) == row["behavior"],
+                owner + " behavior phrases invalid")
+            names.append(row["field"])
+        _expect(len(names) == len(set(names)),
+                "fixture matrix instruction fields duplicate")
     for key in ("allowed_paths", "required_capabilities"):
         if key in fixture:
             _strings(fixture[key], f"fixture.{key}")

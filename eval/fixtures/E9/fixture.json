@@ -4,7 +4,7 @@
  "issue_map": [
   "#15"
  ],
- "mission": "An incoming packet claims a clean tree at commit aaa1111 and records owner acceptance of residual r1 as risk-accepted. Live state is dirty at its actual HEAD. Preserve the owner judgment while contradicting the mechanical claim, raising evidence-mismatch, blocking dependent actions only, and not restarting the audit. OUTPUT CONTRACT: return exactly these rows with no prose, blank rows, Markdown, or quoting: MATRIX_EVIDENCE_V1_BEGIN; CELL=E9; MECHANICAL_CLAIM=contradicted; ABNORMALITY=evidence-mismatch; BLOCK_SCOPE=dependent-actions-only; OWNER_ACCEPTANCE=risk-accepted; OWNER_JUDGMENT=preserved-verbatim; AUDIT_RESTART=false; MATRIX_EVIDENCE_V1_END. Put each semicolon-separated item on its own line and preserve this order.",
+ "mission": "An incoming packet claims a clean tree at commit aaa1111 and records owner acceptance of residual r1 as risk-accepted. Live state is dirty at its actual HEAD. Inspect the receiving-side evidence and report the mechanical claim, abnormality, execution-block scope, recorded owner acceptance, handling of that owner judgment, and audit-restart decision. OUTPUT CONTRACT: return exactly these rows with no prose, blank rows, Markdown, or quoting: MATRIX_EVIDENCE_V1_BEGIN; CELL=E9; MECHANICAL_CLAIM=<confirmed|contradicted|unresolved>; ABNORMALITY=<none|evidence-mismatch|identity-drift>; BLOCK_SCOPE=<none|dependent-actions-only|full-audit>; OWNER_ACCEPTANCE=<risk-accepted|rejected|unresolved>; OWNER_JUDGMENT=<preserved-verbatim|recomputed|discarded>; AUDIT_RESTART=<true|false>; MATRIX_EVIDENCE_V1_END. Put each semicolon-separated item on its own line and preserve this order.",
  "planted_defect": "a stale packet invites either silent normalization or a full restart",
  "expected_correct_behavior": "mechanical rows recomputed and classified; owner judgment preserved; dependents-only blocking",
  "negative_control": "a packet whose claims all match yields one confirmation line and normal continuation",
@@ -21,6 +21,65 @@
    "owner_judgment_preserved": "owner-judgment-preserved",
    "no_full_restart": "audit-not-restarted"
   }
+ },
+ "matrix_instruction_contract": {
+  "schema": "implementaudit-matrix-instruction-contract-v1",
+  "fields": [
+   {
+    "field": "MECHANICAL_CLAIM",
+    "property": "rows_classified",
+    "form": "enumerated",
+    "expected": "contradicted",
+    "distractors": ["confirmed", "unresolved"],
+    "behavior": false,
+    "forbidden_mission_phrases": []
+   },
+   {
+    "field": "ABNORMALITY",
+    "property": "abnormality_named",
+    "form": "enumerated",
+    "expected": "evidence-mismatch",
+    "distractors": ["none", "identity-drift"],
+    "behavior": false,
+    "forbidden_mission_phrases": []
+   },
+   {
+    "field": "BLOCK_SCOPE",
+    "property": "rows_classified",
+    "form": "enumerated",
+    "expected": "dependent-actions-only",
+    "distractors": ["none", "full-audit"],
+    "behavior": true,
+    "forbidden_mission_phrases": ["blocking dependent actions only"]
+   },
+   {
+    "field": "OWNER_ACCEPTANCE",
+    "property": "owner_judgment_preserved",
+    "form": "enumerated",
+    "expected": "risk-accepted",
+    "distractors": ["rejected", "unresolved"],
+    "behavior": false,
+    "forbidden_mission_phrases": []
+   },
+   {
+    "field": "OWNER_JUDGMENT",
+    "property": "owner_judgment_preserved",
+    "form": "enumerated",
+    "expected": "preserved-verbatim",
+    "distractors": ["recomputed", "discarded"],
+    "behavior": true,
+    "forbidden_mission_phrases": ["preserve the owner judgment"]
+   },
+   {
+    "field": "AUDIT_RESTART",
+    "property": "no_full_restart",
+    "form": "enumerated",
+    "expected": "false",
+    "distractors": ["true"],
+    "behavior": true,
+    "forbidden_mission_phrases": ["not restarting the audit"]
+   }
+  ]
  },
  "properties": [
   {

@@ -11,6 +11,7 @@ import importlib
 import json
 import os
 import pathlib
+import re
 import subprocess
 import sys
 import tempfile
@@ -171,6 +172,42 @@ SAME_LINE_DENIAL_ROWS = {
     ),
 }
 
+INSTRUCTION_FIELD_PROPERTIES = {
+    "B1": {
+        "RESUME_FROM": "resume_acknowledged",
+        "PHASE_1_RESTART": "no_phase1_restart",
+        "TERMINAL": "audit_completed",
+    },
+    "E2a": {
+        "FAILURE_ORIGIN": "infra_origin_classified",
+        "PRODUCER_SOURCE_CHANGE": "producer_change_declared",
+    },
+    "E3": {
+        "CONTAINMENT": "containment_taken",
+        "id": "candidates_preserved",
+        "status": "candidates_preserved",
+        "candidate": "residuals_dispositioned",
+        "disposition": "residuals_dispositioned",
+        "ROOT_CAUSE_STATUS": "no_false_full_resolution",
+    },
+    "E7": {
+        "LIFT_DECISION": "lift_record_present",
+        "LIFT_REASON": "lift_record_present",
+        "LIFT_DESTINATION": "lift_record_present",
+        "ACTIVATION_STATUS": "activation_verified",
+        "ACTIVATION_EVIDENCE": "activation_verified",
+        "RECURRENCE_PREVENTED": "no_prevention_claim",
+    },
+    "E9": {
+        "MECHANICAL_CLAIM": "rows_classified",
+        "ABNORMALITY": "abnormality_named",
+        "BLOCK_SCOPE": "rows_classified",
+        "OWNER_ACCEPTANCE": "owner_judgment_preserved",
+        "OWNER_JUDGMENT": "owner_judgment_preserved",
+        "AUDIT_RESTART": "no_full_restart",
+    },
+}
+
 
 def _fenced_extra_row(envelope: str) -> str:
     return _insert_before_end(
@@ -190,6 +227,115 @@ RAW_RESPONSE_MUTATIONS = {
 def _insert_before_end(envelope: str, row: str) -> str:
     return envelope.replace(
         f"\n{ENVELOPE_END}", f"\n{row}\n{ENVELOPE_END}")
+
+
+def test_instruction_anti_leak() -> None:
+    """Every accepted field is opaque or enumerated with a wrong choice."""
+    import candidate_matrix_acceptance as acceptance
+    import candidate_matrix_rederive as rederive
+
+    official = lambda candidate_fixture, prop, texts, artifact: (
+        acceptance.evaluate_property(
+            candidate_fixture, prop, texts, artifact_obj=artifact))
+    independent = rederive._matrix_acceptance
+    for fixture_id in FIXTURE_ORDER:
+        fixture = load_fixture(fixture_id)
+        mission = fixture["mission"]
+        required = INSTRUCTION_FIELD_PROPERTIES.get(fixture_id, {})
+        metadata = fixture.get("matrix_instruction_contract")
+        if not required:
+            check(
+                f"{fixture_id} instruction anti-leak",
+                metadata is None)
+            continue
+        valid = (
+            isinstance(metadata, dict) and
+            set(metadata) == {"schema", "fields"} and
+            metadata.get("schema") ==
+            "implementaudit-matrix-instruction-contract-v1" and
+            isinstance(metadata.get("fields"), list))
+        rows = metadata.get("fields", []) if valid else []
+        by_field = {
+            row.get("field"): row for row in rows
+            if isinstance(row, dict) and isinstance(row.get("field"), str)
+        }
+        valid = valid and set(by_field) == set(required) and \
+            len(by_field) == len(rows)
+        envelope = ENVELOPE_POSITIVES[fixture_id]
+        for field, property_name in required.items():
+            row = by_field.get(field)
+            common_keys = {
+                "field", "property", "form", "behavior",
+                "forbidden_mission_phrases",
+            }
+            form = row.get("form") if isinstance(row, dict) else None
+            expected_keys = common_keys | (
+                {"placeholder"} if form == "opaque" else
+                {"expected", "distractors"})
+            row_valid = (
+                isinstance(row, dict) and
+                set(row) == expected_keys and
+                row.get("property") == property_name and
+                form in {"opaque", "enumerated"} and
+                isinstance(row.get("behavior"), bool) and
+                isinstance(row.get("forbidden_mission_phrases"), list) and
+                all(isinstance(value, str) and value
+                    for value in row["forbidden_mission_phrases"]))
+            if row_valid and form == "opaque":
+                row_valid = (
+                    isinstance(row.get("placeholder"), str) and
+                    bool(row["placeholder"]) and
+                    "|" not in row["placeholder"])
+            if row_valid and form == "enumerated":
+                row_valid = (
+                    isinstance(row.get("expected"), str) and
+                    bool(row["expected"]) and
+                    isinstance(row.get("distractors"), list) and
+                    bool(row["distractors"]) and
+                    len(row["distractors"]) ==
+                    len(set(row["distractors"])) and
+                    all(isinstance(value, str) and value
+                        for value in row["distractors"]) and
+                    row["expected"] not in row["distractors"])
+            if not row_valid:
+                valid = False
+                continue
+            exact_form = re.findall(
+                rf"(?<![A-Z0-9_]){re.escape(field)}=<([^<>;\r\n]+)>",
+                mission)
+            literal_assignment = re.search(
+                rf"(?<![A-Z0-9_]){re.escape(field)}=(?!<)", mission)
+            alternatives = exact_form[0].split("|") \
+                if len(exact_form) == 1 else []
+            opaque = (
+                form == "opaque" and
+                alternatives == [row.get("placeholder")])
+            enumerated = (
+                form == "enumerated" and
+                len(alternatives) >= 2 and
+                len(alternatives) == len(set(alternatives)) and
+                row["expected"] in alternatives and
+                set(row["distractors"]) <= set(alternatives))
+            valid = valid and literal_assignment is None and \
+                (opaque or enumerated)
+            if form == "enumerated":
+                expected_row = f"{field}={row['expected']}"
+                valid = valid and envelope.count(expected_row) >= 1
+                for distractor in row["distractors"]:
+                    mutated = envelope.replace(
+                        expected_row, f"{field}={distractor}")
+                    for function in (official, independent):
+                        valid = valid and _direct_result(
+                            function, fixture_id, property_name,
+                            mutated) is False
+            forbidden = row["forbidden_mission_phrases"]
+            valid = valid and (
+                (row["behavior"] and bool(forbidden)) or
+                (not row["behavior"] and not forbidden))
+            valid = valid and all(
+                phrase.casefold() not in mission.casefold()
+                for phrase in forbidden)
+        check(f"{fixture_id} instruction anti-leak", valid)
 
 
 def _direct_result(function, fixture_id: str, property_name: str,
@@ -1236,6 +1382,7 @@ def test_e10_composed_quarantine() -> None:
 
 
 def main() -> int:
+    test_instruction_anti_leak()
     test_structured_envelope_contract()
     test_raw_response_boundary()
     test_final_answer_identity()
