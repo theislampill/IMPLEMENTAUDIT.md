@@ -372,6 +372,7 @@ TRACE_ACTION_ALLOWED = {
     "command", "path", "paths", "inputs", "output", "exit_code",
     "metadata", "read_transport", "structured_content", "wrapper_layers",
     "protocol_wrapper_valid", "updates", "descendant_complete", "reason",
+    "tool", "sender_thread_id", "prompt", "receiver_thread_ids",
 }
 SUPPORTED_READERS = {"cat", "grep", "head", "rg", "sed", "tail"}
 SIMPLE_HOST_CHECK_KINDS = {
@@ -2805,7 +2806,9 @@ def _validate_trace_agreement(trace, actions, observed_tools, expected_host):
                     "completion_ordinal"):
             _expect(_exact_json_equal(item.get(key), action.get(key)),
                     "formal-v2 raw/trace action disagreement")
-        for key in ("action_type", "command", "path", "paths"):
+        for key in (
+                "action_type", "command", "path", "paths", "tool",
+                "sender_thread_id", "prompt", "receiver_thread_ids"):
             if key in action:
                 _expect(_exact_json_equal(item.get(key), action[key]),
                         "formal-v2 raw/trace payload disagreement")
@@ -2915,6 +2918,8 @@ def _validate_parent_custody_objects(
 
 
 def _validate_trace_action_rows(trace):
+    collaboration_fields = {
+        "tool", "sender_thread_id", "prompt", "receiver_thread_ids"}
     for index, action in enumerate(trace["actions"]):
         owner = f"host trace action {index}"
         action = _mapping(action, owner)
@@ -2939,6 +2944,34 @@ def _validate_trace_action_rows(trace):
                  type(action["invocation_ordinal"]) is int) and
                 action["invocation_invented"] is False,
                 owner + " core fields invalid")
+        if action.get("action_type") == "collab_tool_call":
+            _expect(keys == required | collaboration_fields,
+                    owner + " collaboration fields invalid")
+            tool = action["tool"]
+            sender = action["sender_thread_id"]
+            prompt = action["prompt"]
+            receivers = action["receiver_thread_ids"]
+            payload = action["payload"]
+            _expect(action["state"] == "COMPLETED" and
+                    action["effect"] == "safe-other" and
+                    action["classification"] == "not-content-read" and
+                    type(action["invocation_ordinal"]) is int and
+                    action["completion_ordinal"] > action["invocation_ordinal"] and
+                    tool in ("spawn_agent", "wait") and
+                    type(sender) is str and bool(sender) and
+                    isinstance(receivers, list) and len(receivers) == 1 and
+                    type(receivers[0]) is str and bool(receivers[0]) and
+                    receivers[0] != sender and
+                    type(payload) in (list, tuple) and len(payload) == 3 and
+                    payload[0] == tool and payload[1] == sender and
+                    payload[2] == prompt and
+                    ((tool == "spawn_agent" and
+                      type(prompt) is str and bool(prompt)) or
+                     (tool == "wait" and prompt is None)),
+                    owner + " collaboration semantics invalid")
+        else:
+            _expect(not (keys & collaboration_fields),
+                    owner + " has collaboration-only field")
 
 
 def _matrix_row(spec, actions, preimages):

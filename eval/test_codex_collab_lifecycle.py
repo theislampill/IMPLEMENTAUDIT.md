@@ -72,6 +72,15 @@ def independent_parse(module, rows):
     return actions
 
 
+def official_trace(rows=None):
+    raw = encoded(rows or collaboration_rows())
+    binding = official_hostread.derive_codex_binding(raw)
+    trace = official_hostread.normalize_codex(
+        raw, formal=False, binding=binding)
+    assert trace["host_status"] == "PASS", trace["host_findings"]
+    return raw, trace
+
+
 def invalid_cases():
     cases = {}
 
@@ -122,13 +131,105 @@ def invalid_cases():
     return cases
 
 
+def assert_trace_parity(modules):
+    raw, trace = official_trace()
+    persisted_trace = json.loads(json.dumps(trace))
+    for name, module in modules.items():
+        actions, _binding = module._parse_codex_actions(raw.encode("utf-8"))
+        for accepted in (trace, persisted_trace):
+            module._validate_trace_action_rows(accepted)
+            module._validate_trace_agreement(accepted, actions, [], "codex")
+
+        def rejected(candidate, agreement=False):
+            try:
+                module._validate_trace_action_rows(candidate)
+                if agreement:
+                    module._validate_trace_agreement(
+                        candidate, actions, [], "codex")
+            except module.EvidenceInvalid:
+                return
+            raise AssertionError(f"{name} accepted malformed official trace")
+
+        collaboration = [
+            index for index, action in enumerate(trace["actions"])
+            if action.get("action_type") == "collab_tool_call"]
+        assert len(collaboration) == 2
+        spawn_index, wait_index = collaboration
+
+        for field in (
+                "tool", "sender_thread_id", "prompt", "receiver_thread_ids"):
+            malformed = copy.deepcopy(trace)
+            malformed["actions"][spawn_index].pop(field)
+            rejected(malformed)
+
+        malformed = copy.deepcopy(trace)
+        malformed["actions"][spawn_index]["unknown"] = True
+        rejected(malformed)
+        malformed = copy.deepcopy(trace)
+        malformed["actions"][spawn_index]["command"] = "true"
+        rejected(malformed)
+        malformed = copy.deepcopy(trace)
+        malformed["actions"][spawn_index]["effect"] = "read"
+        malformed["action_effects"][spawn_index] = "read"
+        rejected(malformed)
+        malformed = copy.deepcopy(trace)
+        malformed["actions"][spawn_index]["classification"] = "content-read"
+        rejected(malformed)
+        malformed = copy.deepcopy(trace)
+        malformed["actions"][spawn_index]["tool"] = "send_message"
+        rejected(malformed)
+        malformed = copy.deepcopy(trace)
+        malformed["actions"][spawn_index]["payload"] = (
+            "spawn_agent", "different-sender", "different-prompt")
+        rejected(malformed)
+        malformed = copy.deepcopy(trace)
+        malformed["actions"][wait_index]["prompt"] = "wait now"
+        rejected(malformed)
+        malformed = copy.deepcopy(trace)
+        malformed["actions"][wait_index]["receiver_thread_ids"] = []
+        rejected(malformed)
+        malformed = copy.deepcopy(trace)
+        malformed["actions"][spawn_index]["completion_ordinal"] = \
+            malformed["actions"][spawn_index]["invocation_ordinal"]
+        rejected(malformed)
+
+        message_index = next(
+            index for index, action in enumerate(trace["actions"])
+            if action.get("state") == "TERMINAL_SAFE_MESSAGE")
+        malformed = copy.deepcopy(trace)
+        malformed["actions"][message_index].update({
+            "tool": "wait", "sender_thread_id": "smuggled",
+            "prompt": None, "receiver_thread_ids": ["smuggled-child"],
+        })
+        rejected(malformed)
+
+        for field, value in (
+                ("tool", "wait"),
+                ("sender_thread_id", "different-sender"),
+                ("prompt", "different prompt"),
+                ("receiver_thread_ids", ["different-child"])):
+            altered = copy.deepcopy(trace)
+            action = altered["actions"][spawn_index]
+            action[field] = value
+            action["payload"] = (
+                action["tool"], action["sender_thread_id"], action["prompt"])
+            if field == "tool":
+                action["prompt"] = None
+                action["payload"] = (
+                    action["tool"], action["sender_thread_id"], None)
+            rejected(altered, agreement=True)
+
+
 def main():
+    modules = {
+        "candidate": load(
+            "candidate_matrix_rederive", "candidate_matrix_rederive.py"),
+        "b3v4": load("b3v4_rederive", "b3v4_rederive.py"),
+    }
     consumers = {
         "official": official_parse,
-        "candidate": lambda rows: independent_parse(
-            load("candidate_matrix_rederive", "candidate_matrix_rederive.py"), rows),
-        "b3v4": lambda rows: independent_parse(
-            load("b3v4_rederive", "b3v4_rederive.py"), rows),
+        "candidate": lambda rows: independent_parse(modules["candidate"], rows),
+        "b3v4": lambda rows: independent_parse(modules["b3v4"], rows),
     }
     for name, parse in consumers.items():
         actions = parse(collaboration_rows())
@@ -147,6 +248,7 @@ def main():
                 pass
             else:
                 raise AssertionError(f"{name} accepted malformed {label}")
+    assert_trace_parity(modules)
     print("CODEX_COLLAB_LIFECYCLE=PASS")
 
 
