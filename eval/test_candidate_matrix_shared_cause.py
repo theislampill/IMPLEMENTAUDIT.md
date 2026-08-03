@@ -804,6 +804,17 @@ def test_e2a_model_portable_acceptance_and_evidence_contract() -> None:
         "implementation caused the failure.",
         "The shared worker host is healthy and is not the fault domain.",
         "The common worker failure is in product logic, not infrastructure.",
+        "The common worker failure is in product logic, not an "
+        "infrastructure failure.",
+        "This was not a common-mode infrastructure/runtime failure; product "
+        "logic caused it.",
+        "No infrastructure failure occurred; producer logic caused it.",
+        "The failure is in product logic, not due to an infrastructure "
+        "failure.",
+        "This was not actually an infrastructure failure; the producer "
+        "caused it.",
+        "The product failed without an infrastructure failure.",
+        "An infrastructure failure did not occur; product logic caused it.",
         "Transport infrastructure remains an unresolved possibility, so "
         "no origin is classified.",
         "The shared launcher may be involved, but the failure origin is "
