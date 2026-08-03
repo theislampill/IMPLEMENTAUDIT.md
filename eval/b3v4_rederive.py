@@ -182,10 +182,6 @@ CODEX_COLLAB_NATIVE_TOOL_NAMES = frozenset((
     "send_message", "resume_agent", "followup_task", "interrupt_agent",
     "list_agents",
 ))
-CODEX_COLLAB_NATIVE_EXEC_PATTERN = re.compile(
-    r"\btools\s*\.\s*(?:" +
-    "|".join(re.escape(name) for name in sorted(
-        CODEX_COLLAB_NATIVE_TOOL_NAMES)) + r")\s*\(", re.IGNORECASE)
 CODEX_COLLAB_NATIVE_CHILD_ID_PATTERN = re.compile(
     r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
     re.IGNORECASE)
@@ -3120,13 +3116,279 @@ def _codex_native_collaboration_name(name):
 def _codex_native_exec_has_collaboration(value):
     if type(value) is not str:
         return False
-    folded = value.casefold()
-    return (
-        "tools.multi_agent_v1__" in folded or
-        "tools.collaboration." in folded or
-        "tools.collaboration__" in folded or
-        bool(CODEX_COLLAB_NATIVE_EXEC_PATTERN.search(value))
-    )
+
+    def marker(text):
+        folded = text.casefold()
+        return ("multi_agent_v1__" in folded or
+                "collaboration." in folded or
+                "collaboration__" in folded or
+                any(name in folded for name in CODEX_COLLAB_NATIVE_TOOL_NAMES))
+
+    def escape(index):
+        if index + 1 >= len(value):
+            return "", len(value), False
+        char = value[index + 1]
+        simple = {"n": "\n", "r": "\r", "t": "\t", "b": "\b",
+                  "f": "\f", "v": "\v", "0": "\0"}
+        if char in simple:
+            return simple[char], index + 2, True
+        if char in "\r\n":
+            end = index + 2
+            if char == "\r" and end < len(value) and value[end] == "\n":
+                end += 1
+            return "", end, True
+        if char == "x":
+            digits = value[index + 2:index + 4]
+            if len(digits) == 2 and all(c in "0123456789abcdefABCDEF"
+                                        for c in digits):
+                return chr(int(digits, 16)), index + 4, True
+            return "", len(value), False
+        if char == "u":
+            if index + 2 < len(value) and value[index + 2] == "{":
+                close = value.find("}", index + 3)
+                digits = value[index + 3:close] if close >= 0 else ""
+                if (digits and len(digits) <= 6 and
+                        all(c in "0123456789abcdefABCDEF" for c in digits)):
+                    point = int(digits, 16)
+                    if point <= 0x10ffff:
+                        return chr(point), close + 1, True
+                return "", len(value), False
+            digits = value[index + 2:index + 6]
+            if len(digits) == 4 and all(c in "0123456789abcdefABCDEF"
+                                        for c in digits):
+                return chr(int(digits, 16)), index + 6, True
+            return "", len(value), False
+        return char, index + 2, True
+
+    def quoted(index, quote):
+        decoded = []
+        cursor = index + 1
+        while cursor < len(value):
+            char = value[cursor]
+            if char == quote:
+                return "".join(decoded), cursor + 1, False
+            if char == "\\":
+                part, cursor, valid = escape(cursor)
+                if not valid:
+                    return "", cursor, marker(value[index:])
+                decoded.append(part)
+                continue
+            if char in "\r\n":
+                return "", cursor, marker(value[index:cursor])
+            decoded.append(char)
+            cursor += 1
+        return "", cursor, marker(value[index:])
+
+    def regex_allowed(tokens):
+        if not tokens:
+            return True
+        kind, token = tokens[-1]
+        if kind == "id" and token.casefold() in {
+                "return", "throw", "case", "delete", "void", "typeof",
+                "instanceof", "in", "of", "yield", "await"}:
+            return True
+        return kind == "punct" and token in {
+            "(", "[", "{", ",", ";", "=", ":", "!", "?", "+", "-",
+            "*", "%", "&", "|", "^", "~", "<", ">"}
+
+    def scan(start=0, stop_brace=False):
+        tokens = []
+        cursor = start
+        brace_depth = 0
+        ambiguous = False
+        while cursor < len(value):
+            char = value[cursor]
+            if char.isspace():
+                cursor += 1
+                continue
+            if stop_brace and char == "}" and brace_depth == 0:
+                return tokens, cursor + 1, ambiguous, True
+            if char in "'\"":
+                decoded, cursor, bad = quoted(cursor, char)
+                tokens.append(("str", decoded))
+                ambiguous = ambiguous or bad
+                continue
+            if char == "`":
+                template_start = cursor
+                cursor += 1
+                literal = []
+                expressions = False
+                closed = False
+                while cursor < len(value):
+                    char = value[cursor]
+                    if char == "\\":
+                        part, cursor, valid = escape(cursor)
+                        if not valid:
+                            ambiguous = ambiguous or marker(
+                                value[template_start:])
+                            cursor = len(value)
+                            break
+                        literal.append(part)
+                    elif char == "`":
+                        cursor += 1
+                        closed = True
+                        break
+                    elif char == "$" and cursor + 1 < len(value) and \
+                            value[cursor + 1] == "{":
+                        expressions = True
+                        tokens.append(("barrier", ""))
+                        nested, cursor, bad, nested_closed = scan(
+                            cursor + 2, True)
+                        tokens.extend(nested)
+                        tokens.append(("barrier", ""))
+                        ambiguous = ambiguous or bad
+                        if not nested_closed:
+                            ambiguous = ambiguous or marker(
+                                value[template_start:])
+                            break
+                    else:
+                        literal.append(char)
+                        cursor += 1
+                if not closed:
+                    ambiguous = ambiguous or marker(value[template_start:])
+                elif not expressions:
+                    tokens.append(("str", "".join(literal)))
+                continue
+            if value.startswith("//", cursor):
+                end = value.find("\n", cursor + 2)
+                cursor = len(value) if end < 0 else end + 1
+                continue
+            if value.startswith("/*", cursor):
+                end = value.find("*/", cursor + 2)
+                if end < 0:
+                    ambiguous = ambiguous or marker(value[cursor:])
+                    cursor = len(value)
+                else:
+                    cursor = end + 2
+                continue
+            if char == "/" and regex_allowed(tokens):
+                regex_start = cursor
+                cursor += 1
+                escaped = False
+                in_class = False
+                closed = False
+                while cursor < len(value):
+                    current = value[cursor]
+                    if escaped:
+                        escaped = False
+                    elif current == "\\":
+                        escaped = True
+                    elif current == "[":
+                        in_class = True
+                    elif current == "]" and in_class:
+                        in_class = False
+                    elif current == "/" and not in_class:
+                        cursor += 1
+                        while cursor < len(value) and value[cursor].isalpha():
+                            cursor += 1
+                        closed = True
+                        break
+                    elif current in "\r\n":
+                        break
+                    cursor += 1
+                if not closed:
+                    ambiguous = ambiguous or marker(value[regex_start:cursor])
+                tokens.append(("barrier", ""))
+                continue
+            if char.isalpha() or char in "_$":
+                end = cursor + 1
+                while end < len(value) and (
+                        value[end].isalnum() or value[end] in "_$"):
+                    end += 1
+                tokens.append(("id", value[cursor:end]))
+                cursor = end
+                continue
+            if stop_brace and char == "{":
+                brace_depth += 1
+            elif stop_brace and char == "}":
+                brace_depth -= 1
+            tokens.append(("punct", char))
+            cursor += 1
+        return tokens, cursor, ambiguous, not stop_brace
+
+    tokens, _cursor, ambiguous, _closed = scan()
+    if ambiguous:
+        return True
+
+    def static_bracket(index):
+        if index >= len(tokens) or tokens[index] != ("punct", "["):
+            return None, index, False
+        cursor = index + 1
+        if cursor >= len(tokens) or tokens[cursor][0] != "str":
+            return None, index, False
+        result = tokens[cursor][1]
+        cursor += 1
+        while (cursor + 1 < len(tokens) and
+               tokens[cursor] == ("punct", "+") and
+               tokens[cursor + 1][0] == "str"):
+            result += tokens[cursor + 1][1]
+            cursor += 2
+        if cursor >= len(tokens):
+            return result, cursor, True
+        if tokens[cursor] != ("punct", "]"):
+            return None, index, False
+        return result, cursor + 1, False
+
+    def path_state(parts):
+        if not parts:
+            return None
+        first = parts[0].casefold()
+        if first in CODEX_COLLAB_NATIVE_TOOL_NAMES:
+            return "known"
+        for prefix in ("multi_agent_v1__", "collaboration__"):
+            if first.startswith(prefix):
+                return ("known" if first[len(prefix):] in
+                        CODEX_COLLAB_NATIVE_TOOL_NAMES else "unknown")
+        if first == "collaboration":
+            if len(parts) == 1:
+                return "namespace"
+            return ("known" if parts[1].casefold() in
+                    CODEX_COLLAB_NATIVE_TOOL_NAMES else "unknown")
+        return None
+
+    for index, token in enumerate(tokens):
+        if token == ("id", "tools") or (
+                token[0] == "id" and token[1].casefold() == "tools"):
+            cursor = index + 1
+            parts = []
+            incomplete = False
+            while cursor < len(tokens):
+                if tokens[cursor] == ("punct", "."):
+                    if cursor + 1 >= len(tokens) or \
+                            tokens[cursor + 1][0] != "id":
+                        incomplete = True
+                        break
+                    parts.append(tokens[cursor + 1][1])
+                    cursor += 2
+                    continue
+                part, following, truncated = static_bracket(cursor)
+                if part is None:
+                    break
+                parts.append(part)
+                cursor = following
+                incomplete = incomplete or truncated
+                if truncated:
+                    break
+            state = path_state(parts)
+            called = cursor < len(tokens) and tokens[cursor] == ("punct", "(")
+            if state and called:
+                return True
+            if state == "unknown" or (state and incomplete):
+                return True
+        if token[0] != "id":
+            continue
+        name = token[1].casefold()
+        if (index and tokens[index - 1] in {
+                ("punct", "."), ("punct", "]")}):
+            continue
+        state = path_state([name])
+        called = index + 1 < len(tokens) and \
+            tokens[index + 1] == ("punct", "(")
+        if state and called:
+            return True
+        if state == "unknown":
+            return True
+    return False
 
 
 def _codex_native_output_objects(value):

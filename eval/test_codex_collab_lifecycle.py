@@ -409,6 +409,61 @@ def assert_native_collaboration_fail_closed(modules):
             "status": "in_progress", "call_id": "call-truncated",
             "input": "await tools.multi_agent_v1__spawn_ag",
         }),
+        "whitespace-comment-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-whitespace",
+            "input": (
+                "await TOOLS /* dispatch */ . "
+                "MULTI_AGENT_V1__SPAWN_AGENT /* args */ ({})"),
+        }),
+        "collaboration-namespace-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-namespace",
+            "input": "await tools.collaboration.send_message({})",
+        }),
+        "collaboration-flat-namespace-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-flat-namespace",
+            "input": "await tools.collaboration__send_message({})",
+        }),
+        "direct-modern-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-modern",
+            "input": "await spawn_agent({})",
+        }),
+        "template-expression-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-template-expression",
+            "input": (
+                "const result = `prefix ${await "
+                "tools.multi_agent_v1__spawn_agent({})} suffix`;"),
+        }),
+        "static-bracket-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-bracket",
+            "input": "await tools['multi_agent_v1__spawn_agent']({})",
+        }),
+        "escaped-static-bracket-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-bracket-escape",
+            "input": r"await tools['multi_agent_v1__spawn_\x61gent']({})",
+        }),
+        "concatenated-static-bracket-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-bracket-concat",
+            "input": (
+                "await tools['multi_agent_v1__' + 'spawn_agent']({})"),
+        }),
+        "nested-static-bracket-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-bracket-nested",
+            "input": "await tools['collaboration']['send_message']({})",
+        }),
+        "truncated-known-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "in_progress", "call_id": "call-truncated-call",
+            "input": "await tools.multi_agent_v1__spawn_agent(",
+        }),
     }
     negative = {
         "ordinary-exec": native_response({
@@ -426,17 +481,78 @@ def assert_native_collaboration_fail_closed(modules):
                 "text": "The agent-oriented design uses Unicode: Luna Λ.",
             }],
         }),
+        "exact-reviewer-source-search": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-reviewer-red",
+            "input": (
+                "const r = await tools.shell_command({command: "
+                "\"rg -n 'tools.multi_agent_v1__spawn_agent' eval\"}); "
+                "text(r);"),
+        }),
+        "single-quoted-literal": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-single-literal",
+            "input": "const value = 'tools.multi_agent_v1__spawn_agent({})';",
+        }),
+        "double-quoted-escaped-literal": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-double-literal",
+            "input": (
+                'const value = "quoted \\\"tools.multi_agent_v1__spawn_agent'
+                '({})\\\" text";'),
+        }),
+        "template-raw-literal": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-template-raw",
+            "input": (
+                "const value = `docs: tools.multi_agent_v1__spawn_agent({})`;"),
+        }),
+        "line-comment": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-line-comment",
+            "input": (
+                "// tools.multi_agent_v1__spawn_agent({})\n"
+                "await tools.shell_command({command: 'git status'});"),
+        }),
+        "block-comment": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-block-comment",
+            "input": (
+                "/* tools.collaboration.send_message({}) */ "
+                "await tools.shell_command({command: 'git status'});"),
+        }),
+        "regex-literal": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-regex",
+            "input": (
+                r"const pattern = /tools\.multi_agent_v1__spawn_agent\(/gi; "
+                "text(pattern);"),
+        }),
+        "regexp-string": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-regexp-string",
+            "input": (
+                "const pattern = new RegExp("
+                "'tools\\.multi_agent_v1__spawn_agent');"),
+        }),
+        "object-string-value": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-object-value",
+            "input": (
+                "const fixture = {source: "
+                "'tools.multi_agent_v1__spawn_agent({})'}; text(fixture);"),
+        }),
+        "known-property-reference-only": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-property-reference",
+            "input": "const reference = tools.multi_agent_v1__spawn_agent;",
+        }),
+        "known-bracket-reference-only": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-bracket-reference",
+            "input": "const reference = tools['multi_agent_v1__spawn_agent'];",
+        }),
     }
-
-    for label, response in positive.items():
-        rows = native_fixture._base_rows() + [response]
-        raw = native_fixture._raw(rows)
-        assert official_hostread.codex_native_collaboration_status(raw) == \
-            "PRESENT", label
-        observed = native_fixture._statuses(rows)
-        assert observed == ("INVALID", "INVALID", "INVALID"), (label, observed)
-        for module in modules.values():
-            assert module._codex_native_collaboration_present(rows), label
 
     for label, response in negative.items():
         rows = native_fixture._base_rows() + [response]
@@ -447,6 +563,16 @@ def assert_native_collaboration_fail_closed(modules):
         assert observed == ("VALID", "VALID", "VALID"), (label, observed)
         for module in modules.values():
             assert not module._codex_native_collaboration_present(rows), label
+
+    for label, response in positive.items():
+        rows = native_fixture._base_rows() + [response]
+        raw = native_fixture._raw(rows)
+        assert official_hostread.codex_native_collaboration_status(raw) == \
+            "PRESENT", label
+        observed = native_fixture._statuses(rows)
+        assert observed == ("INVALID", "INVALID", "INVALID"), (label, observed)
+        for module in modules.values():
+            assert module._codex_native_collaboration_present(rows), label
 
     configured_only = native_fixture._base_rows()
     configured_only[1]["payload"]["collaboration_mode"] = "default"
