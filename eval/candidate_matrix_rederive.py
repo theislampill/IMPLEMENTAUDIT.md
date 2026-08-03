@@ -2740,6 +2740,35 @@ def _codex_native_exec_has_collaboration(value):
             return "", len(value), False
         return char, index + 2, True
 
+    def identifier_start(char):
+        return char in "_$" or char.isidentifier()
+
+    def identifier_part(char):
+        return (char in "_$\u200c\u200d" or
+                ("a" + char).isidentifier())
+
+    def identifier_escape(index):
+        if not value.startswith("\\u", index):
+            return "", index + 1, False
+        cursor = index + 2
+        if cursor < len(value) and value[cursor] == "{":
+            close = value.find("}", cursor + 1)
+            if close < 0:
+                return "", cursor + 1, False
+            digits = value[cursor + 1:close]
+            if (not digits or len(digits) > 6 or
+                    not all(c in "0123456789abcdefABCDEF" for c in digits)):
+                return "", close + 1, False
+            point = int(digits, 16)
+            if point > 0x10ffff:
+                return "", close + 1, False
+            return chr(point), close + 1, True
+        digits = value[cursor:cursor + 4]
+        if (len(digits) != 4 or
+                not all(c in "0123456789abcdefABCDEF" for c in digits)):
+            return "", min(len(value), cursor + max(1, len(digits))), False
+        return chr(int(digits, 16)), cursor + 4, True
+
     def quoted(index, quote):
         decoded = []
         cursor = index + 1
@@ -2870,13 +2899,32 @@ def _codex_native_exec_has_collaboration(value):
                     ambiguous = ambiguous or marker(value[regex_start:cursor])
                 tokens.append(("barrier", ""))
                 continue
-            if char.isalpha() or char in "_$":
-                end = cursor + 1
-                while end < len(value) and (
-                        value[end].isalnum() or value[end] in "_$"):
-                    end += 1
-                tokens.append(("id", value[cursor:end]))
-                cursor = end
+            if identifier_start(char) or value.startswith("\\u", cursor):
+                decoded = []
+                malformed = False
+                first = True
+                while cursor < len(value):
+                    current = value[cursor]
+                    if current == "\\":
+                        part, following, valid = identifier_escape(cursor)
+                        allowed = (identifier_start(part) if first else
+                                   identifier_part(part)) if valid else False
+                        if not valid or not allowed:
+                            malformed = True
+                            cursor = max(cursor + 1, following)
+                            break
+                    else:
+                        allowed = (identifier_start(current) if first else
+                                   identifier_part(current))
+                        if not allowed:
+                            break
+                        part = current
+                        following = cursor + 1
+                    decoded.append(part)
+                    cursor = following
+                    first = False
+                tokens.append(("bad_id" if malformed else "id",
+                               "".join(decoded)))
                 continue
             if stop_brace and char == "{":
                 brace_depth += 1
@@ -2931,6 +2979,10 @@ def _codex_native_exec_has_collaboration(value):
                 tokens[index - 1][1].casefold() == "function"):
             return False
         cursor = index + 1
+        if (cursor + 2 < len(tokens) and
+                tokens[cursor:cursor + 3] == [
+                    ("punct", "?"), ("punct", "."), ("punct", "(")]):
+            cursor += 2
         if cursor >= len(tokens) or tokens[cursor] != ("punct", "("):
             return False
         depth = 0
@@ -2946,47 +2998,260 @@ def _codex_native_exec_has_collaboration(value):
             cursor += 1
         return True
 
-    for index, token in enumerate(tokens):
-        if token == ("id", "tools") or (
-                token[0] == "id" and token[1].casefold() == "tools"):
-            cursor = index + 1
-            parts = []
-            incomplete = False
-            while cursor < len(tokens):
-                if tokens[cursor] == ("punct", "."):
-                    if cursor + 1 >= len(tokens) or \
-                            tokens[cursor + 1][0] != "id":
+    def optional_operator(index, following):
+        return (index + 2 < len(tokens) and
+                tokens[index] == ("punct", "?") and
+                tokens[index + 1] == ("punct", ".") and
+                tokens[index + 2] == ("punct", following))
+
+    def call_at(index):
+        return (index < len(tokens) and
+                (tokens[index] == ("punct", "(") or
+                 optional_operator(index, "(")))
+
+    def tools_path(index):
+        if (index >= len(tokens) or tokens[index][0] != "id" or
+                tokens[index][1].casefold() != "tools"):
+            return False, [], None, index, False
+        cursor = index + 1
+        parts = []
+        incomplete = False
+        while cursor < len(tokens):
+            optional = (cursor + 1 < len(tokens) and
+                        tokens[cursor:cursor + 2] == [
+                            ("punct", "?"), ("punct", ".")])
+            if tokens[cursor] == ("punct", ".") or optional:
+                following = cursor + (2 if optional else 1)
+                if (following < len(tokens) and
+                        tokens[following] == ("punct", "[")):
+                    part, following, truncated = static_bracket(following)
+                    if part is None:
                         incomplete = True
                         break
-                    parts.append(tokens[cursor + 1][1])
-                    cursor += 2
+                    parts.append(part)
+                    cursor = following
+                    incomplete = incomplete or truncated
+                    if truncated:
+                        break
                     continue
-                part, following, truncated = static_bracket(cursor)
-                if part is None:
+                if (following >= len(tokens) or
+                        tokens[following][0] not in {"id", "bad_id"}):
+                    incomplete = True
                     break
-                parts.append(part)
-                cursor = following
-                incomplete = incomplete or truncated
-                if truncated:
+                parts.append(tokens[following][1])
+                incomplete = incomplete or tokens[following][0] == "bad_id"
+                cursor = following + 1
+                if incomplete:
                     break
-            state = path_state(parts)
-            called = cursor < len(tokens) and tokens[cursor] == ("punct", "(")
-            if state and called:
+                continue
+            part, following, truncated = static_bracket(cursor)
+            if part is None:
+                break
+            parts.append(part)
+            cursor = following
+            incomplete = incomplete or truncated
+            if truncated:
+                break
+        return True, parts, path_state(parts), cursor, incomplete
+
+    scopes = [{}]
+    function_scopes = [True]
+
+    def bind(name, collaboration, declaration="let"):
+        target = len(scopes) - 1
+        if declaration == "var":
+            for candidate in range(len(scopes) - 1, -1, -1):
+                if function_scopes[candidate]:
+                    target = candidate
+                    break
+        scopes[target][name.casefold()] = bool(collaboration)
+
+    def assign(name, collaboration):
+        folded = name.casefold()
+        for scope in reversed(scopes):
+            if folded in scope:
+                scope[folded] = bool(collaboration)
+                return
+        scopes[-1][folded] = bool(collaboration)
+
+    def alias_state(name):
+        folded = name.casefold()
+        for scope in reversed(scopes):
+            if folded in scope:
+                return scope[folded]
+        return False
+
+    def assignment_operator(index):
+        if index >= len(tokens) or tokens[index] != ("punct", "="):
+            return False
+        before = tokens[index - 1] if index else None
+        after = tokens[index + 1] if index + 1 < len(tokens) else None
+        return (before != ("punct", "=") and
+                after not in {("punct", "="), ("punct", ">")})
+
+    def source_state(index):
+        found, _parts, state, _cursor, incomplete = tools_path(index)
+        if not found:
+            return False, False
+        if state == "unknown" or (state and incomplete):
+            return False, True
+        return state == "known", False
+
+    def destructuring(index):
+        opening = index + 1
+        if (opening >= len(tokens) or
+                tokens[opening] != ("punct", "{")):
+            return None
+        cursor = opening + 1
+        entries = []
+        while cursor < len(tokens) and tokens[cursor] != ("punct", "}"):
+            if tokens[cursor] == ("punct", ","):
+                cursor += 1
+                continue
+            if tokens[cursor][0] != "id":
+                return None
+            key = tokens[cursor][1]
+            alias = key
+            cursor += 1
+            if cursor < len(tokens) and tokens[cursor] == ("punct", ":"):
+                cursor += 1
+                if cursor >= len(tokens) or tokens[cursor][0] != "id":
+                    return None
+                alias = tokens[cursor][1]
+                cursor += 1
+            entries.append((key, alias))
+            if (cursor < len(tokens) and
+                    tokens[cursor] not in {
+                        ("punct", ","), ("punct", "}")}):
+                return None
+        if cursor >= len(tokens):
+            return None
+        closing = cursor
+        equals = closing + 1
+        if not assignment_operator(equals):
+            return entries, None, False
+        found, parts, state, _end, incomplete = tools_path(equals + 1)
+        if not found:
+            return entries, None, False
+        if state == "unknown" or (state and incomplete):
+            return entries, None, True
+        return entries, parts, False
+
+    def function_parameters(brace):
+        arrow = False
+        close = brace - 1
+        if (brace >= 3 and tokens[brace - 2:brace] == [
+                ("punct", "="), ("punct", ">")]):
+            arrow = True
+            close = brace - 3
+            if close >= 0 and tokens[close][0] == "id":
+                return [tokens[close][1]]
+        if close < 0 or tokens[close] != ("punct", ")"):
+            return None
+        depth = 1
+        opening = close - 1
+        while opening >= 0:
+            if tokens[opening] == ("punct", ")"):
+                depth += 1
+            elif tokens[opening] == ("punct", "("):
+                depth -= 1
+                if depth == 0:
+                    break
+            opening -= 1
+        if opening < 0:
+            return None
+        function = (
+            opening >= 1 and tokens[opening - 1][0] == "id" and
+            tokens[opening - 1][1].casefold() == "function") or (
+            opening >= 2 and tokens[opening - 2][0] == "id" and
+            tokens[opening - 2][1].casefold() == "function")
+        if not arrow and not function:
+            return None
+        parameters = []
+        cursor = opening + 1
+        while cursor < close:
+            if tokens[cursor][0] == "id":
+                parameters.append(tokens[cursor][1])
+            cursor += 1
+        return parameters
+
+    index = 0
+    while index < len(tokens):
+        token = tokens[index]
+        if token == ("punct", "{"):
+            parameters = function_parameters(index)
+            scopes.append({})
+            function_scopes.append(parameters is not None)
+            for parameter in parameters or []:
+                bind(parameter, False)
+            index += 1
+            continue
+        if token == ("punct", "}"):
+            if len(scopes) > 1:
+                scopes.pop()
+                function_scopes.pop()
+            index += 1
+            continue
+        if (token[0] == "id" and
+                token[1].casefold() in {"function", "class"} and
+                index + 1 < len(tokens) and tokens[index + 1][0] == "id"):
+            bind(tokens[index + 1][1], False)
+        if token[0] == "id" and token[1].casefold() in {
+                "const", "let", "var"}:
+            observed = destructuring(index)
+            if observed is not None:
+                entries, base_parts, uncertain = observed
+                if uncertain:
+                    return True
+                for key, alias in entries:
+                    state = (path_state(base_parts + [key])
+                             if base_parts is not None else None)
+                    if state == "unknown":
+                        return True
+                    bind(alias, state == "known", token[1].casefold())
+            elif index + 1 < len(tokens) and tokens[index + 1][0] == "id":
+                name = tokens[index + 1][1]
+                collaboration = False
+                uncertain = False
+                if assignment_operator(index + 2):
+                    collaboration, uncertain = source_state(index + 3)
+                if uncertain:
+                    return True
+                bind(name, collaboration, token[1].casefold())
+        if (token[0] == "id" and index + 1 < len(tokens) and
+                assignment_operator(index + 1) and
+                not (index and tokens[index - 1] in {
+                    ("punct", "."), ("punct", "]")})):
+            collaboration, uncertain = source_state(index + 2)
+            if uncertain:
+                return True
+            assign(token[1], collaboration)
+        found, _parts, state, cursor, incomplete = tools_path(index)
+        if found:
+            if state and call_at(cursor):
                 return True
             if state == "unknown" or (state and incomplete):
                 return True
-        if token[0] != "id":
+        if token[0] == "bad_id":
+            if (path_state([token[1]]) is not None or
+                    any(item[0] == "id" and path_state([item[1]]) is not None
+                        for item in tokens[index + 1:index + 5])):
+                return True
+            index += 1
             continue
-        name = token[1].casefold()
-        if (index and tokens[index - 1] in {
-                ("punct", "."), ("punct", "]")}):
-            continue
-        state = path_state([name])
-        called = direct_invocation(index)
-        if state and called:
-            return True
-        if state == "unknown":
-            return True
+        if token[0] == "id":
+            name = token[1].casefold()
+            if not (index and tokens[index - 1] in {
+                    ("punct", "."), ("punct", "]")}):
+                direct_state = path_state([name])
+                called = direct_invocation(index)
+                if direct_state and called:
+                    return True
+                if direct_state == "unknown":
+                    return True
+                if alias_state(name) and called:
+                    return True
+        index += 1
     return False
 
 

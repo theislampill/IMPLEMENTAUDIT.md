@@ -7,6 +7,8 @@ import hashlib
 import importlib.util
 import json
 import pathlib
+import shutil
+import subprocess
 import tempfile
 
 import hosts
@@ -347,6 +349,23 @@ def native_response(payload):
     }
 
 
+def assert_node_optional_chain_executes():
+    node = shutil.which("node")
+    assert node is not None, "Node is required for the optional-chain proof"
+    source = (
+        "const calls = []; "
+        "const tools = {multi_agent_v1__spawn_agent: value => {"
+        "calls.push(value); return {agent_id: 'redacted'};}}; "
+        "const r = tools?.multi_agent_v1__spawn_agent?.({task: 'review'}); "
+        "process.stdout.write(JSON.stringify({calls: calls.length, "
+        "returned_agent_id: r.agent_id}));"
+    )
+    observed = subprocess.run(
+        [node, "-e", source], check=True, capture_output=True, text=True)
+    assert json.loads(observed.stdout) == {
+        "calls": 1, "returned_agent_id": "redacted"}
+
+
 def assert_native_collaboration_fail_closed(modules):
     positive = {
         "real-exec-spawn-completed": native_response({
@@ -464,6 +483,117 @@ def assert_native_collaboration_fail_closed(modules):
             "status": "in_progress", "call_id": "call-truncated-call",
             "input": "await tools.multi_agent_v1__spawn_agent(",
         }),
+        "exact-reviewer-optional-chain-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-optional-reviewer",
+            "input": (
+                "const r = await tools?.multi_agent_v1__spawn_agent?.("
+                "{task: \"review\"}); text(\"done\");"),
+        }),
+        "mixed-optional-ordinary-hops": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-optional-mixed",
+            "input": (
+                "await tools ?. collaboration . send_message ?. ({})"),
+        }),
+        "optional-static-bracket-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-optional-bracket",
+            "input": (
+                "await tools?.['multi_agent_v1__spawn_agent']?.({})"),
+        }),
+        "unicode-four-hex-identifiers": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-unicode-four",
+            "input": (
+                r"await t\u006fols.multi_agent_v1__sp\u0061wn_agent({})"),
+        }),
+        "unicode-codepoint-identifiers": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-unicode-codepoint",
+            "input": (
+                r"await \u{74}ools.collaborati\u{6f}n.send_message({})"),
+        }),
+        "unicode-direct-alias-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-unicode-alias",
+            "input": r"await sp\u0061wn_agent({})",
+        }),
+        "malformed-unicode-near-collaboration": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "in_progress", "call_id": "call-unicode-malformed",
+            "input": r"await tools.multi_agent_v1__spawn_ag\u00",
+        }),
+        "const-dot-alias-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-const-alias",
+            "input": (
+                "const launch = tools.multi_agent_v1__spawn_agent; "
+                "await launch({});"),
+        }),
+        "let-optional-alias-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-let-alias",
+            "input": (
+                "let launch = tools?.multi_agent_v1__spawn_agent; "
+                "await launch?.({});"),
+        }),
+        "var-bracket-alias-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-var-alias",
+            "input": (
+                "var launch = tools['multi_agent_v1__spawn_agent']; "
+                "await launch({});"),
+        }),
+        "assignment-then-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-assignment-alias",
+            "input": (
+                "let launch; launch = tools.multi_agent_v1__spawn_agent; "
+                "await launch({});"),
+        }),
+        "renamed-destructuring-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-destructure-renamed",
+            "input": (
+                "const {multi_agent_v1__spawn_agent: launch} = tools; "
+                "await launch({});"),
+        }),
+        "shorthand-destructuring-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-destructure-short",
+            "input": (
+                "const {multi_agent_v1__spawn_agent} = tools; "
+                "await multi_agent_v1__spawn_agent({});"),
+        }),
+        "namespace-destructuring-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-destructure-namespace",
+            "input": (
+                "const {send_message: send} = tools.collaboration; "
+                "await send({});"),
+        }),
+        "alias-call-before-reassignment": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-before-reassign",
+            "input": (
+                "let launch = tools.multi_agent_v1__spawn_agent; launch({}); "
+                "launch = value => value;"),
+        }),
+        "outer-alias-after-block-shadow": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-after-shadow",
+            "input": (
+                "const launch = tools.multi_agent_v1__spawn_agent; "
+                "{ const launch = value => value; launch({}); } launch({});"),
+        }),
+        "block-var-alias-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-block-var",
+            "input": (
+                "{ var launch = tools.multi_agent_v1__spawn_agent; } "
+                "await launch({});"),
+        }),
     }
     negative = {
         "ordinary-exec": native_response({
@@ -564,6 +694,89 @@ def assert_native_collaboration_fail_closed(modules):
                 "const fixture = {spawn_agent(options) { return options; }};"
                 " text(fixture);"),
         }),
+        "unicode-escape-single-quoted-literal": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-unicode-string",
+            "input": r"const text = 't\u006fols.multi_agent_v1__spawn_agent';",
+        }),
+        "unicode-escape-line-comment": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-unicode-comment",
+            "input": (
+                r"// t\u006fols.multi_agent_v1__spawn_agent({})" "\n"
+                "await tools.shell_command({command: 'git status'});"),
+        }),
+        "unicode-escape-template-raw": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-unicode-template",
+            "input": r"const text = `t\u006fols.multi_agent_v1__spawn_agent`;",
+        }),
+        "unicode-escape-regex": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-unicode-regex",
+            "input": r"const pattern = /t\u006fols\.multi_agent_v1__/;",
+        }),
+        "true-unicode-confusable": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-confusable",
+            "input": "await tоols.multi_agent_v1__spawn_agent({})",
+        }),
+        "alias-reference-without-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-alias-reference",
+            "input": (
+                "const launch = tools.multi_agent_v1__spawn_agent; "
+                "text(typeof launch);"),
+        }),
+        "alias-reassigned-before-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-alias-reassigned",
+            "input": (
+                "let launch = tools.multi_agent_v1__spawn_agent; "
+                "launch = value => value; launch({});"),
+        }),
+        "block-shadowed-alias-call": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-alias-shadowed",
+            "input": (
+                "const launch = tools.multi_agent_v1__spawn_agent; "
+                "{ const launch = value => value; launch({}); }"),
+        }),
+        "modern-alias-class-method": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-class-method",
+            "input": (
+                "class Fixture { spawn_agent(options) { return options; } }"),
+        }),
+        "function-parameter-shadowed-alias": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-param-shadow",
+            "input": (
+                "const launch = tools.multi_agent_v1__spawn_agent; "
+                "function local(launch) { launch({}); } "
+                "local(value => value);"),
+        }),
+        "block-function-shadowed-alias": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-function-shadow",
+            "input": (
+                "const launch = tools.multi_agent_v1__spawn_agent; "
+                "{ function launch(value) { return value; } launch({}); }"),
+        }),
+        "block-class-shadowed-alias": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-class-shadow",
+            "input": (
+                "const launch = tools.multi_agent_v1__spawn_agent; "
+                "{ class launch {} new launch(); }"),
+        }),
+        "dynamic-computed-property-residual": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-dynamic-residual",
+            "input": (
+                "const key = 'multi_agent_v1__spawn_agent'; "
+                "await tools[key]({});"),
+        }),
     }
 
     for label, response in negative.items():
@@ -662,6 +875,7 @@ def main():
     assert_trace_parity(modules)
     assert_formal_collaboration_fail_closed()
     assert_formal_session_custody_fail_closed()
+    assert_node_optional_chain_executes()
     assert_native_collaboration_fail_closed(modules)
     print("CODEX_COLLAB_LIFECYCLE=PASS")
 
