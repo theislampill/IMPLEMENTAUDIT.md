@@ -760,6 +760,119 @@ def test_absent_evidence_official_contract() -> None:
             "matches=0")
 
 
+def test_e2a_model_portable_acceptance_and_evidence_contract() -> None:
+    """Retain the real E2a paraphrase and generic evidence invariants."""
+    import adapters
+    import candidate_matrix_campaign as campaign
+    import candidate_matrix_rederive as rederive
+    import lib.reposnapshot as reposnapshot
+    import lib.scoring as scoring
+    import runner
+    from test_candidate_matrix_freeze import valid_packet
+
+    fixture = load_fixture("E2a")
+    infra_rule = next(
+        row["rule"] for row in fixture["properties"]
+        if row["name"] == "infra_origin_classified")
+    positive_variants = (
+        "Failure origin: shared worker-launch infrastructure/process "
+        "initialization. The common launcher/runtime environment is the "
+        "likely fault domain; the producer is not at fault.",
+        "The infrastructure failure is the common cause across all lanes.",
+        "This is a transport-infrastructure signature, not producer logic.",
+        "The simultaneous cross-lane fast-fail identifies the host layer.",
+    )
+    negative_controls = (
+        "Infrastructure is healthy; the producer parser is the cause.",
+        "Infrastructure/process initialization succeeded; the producer "
+        "implementation caused the failure.",
+        "The origin is unresolved, so no layer can be classified yet.",
+    )
+    for index, text in enumerate(positive_variants):
+        passed, evidence = scoring.eval_rule(
+            infra_rule, {"assistant": text}, {})
+        check(
+            f"E2a model-portable positive {index}",
+            passed is True and bool(evidence))
+        check(
+            f"E2a independent model-portable positive {index}",
+            rederive._eval_rule(
+                infra_rule, {"assistant": text}, {"changed_files": []})
+            is True)
+    for index, text in enumerate(negative_controls):
+        passed, evidence = scoring.eval_rule(
+            infra_rule, {"assistant": text}, {})
+        check(
+            f"E2a negative control {index}",
+            passed is False and bool(evidence))
+        check(
+            f"E2a independent negative control {index}",
+            rederive._eval_rule(
+                infra_rule, {"assistant": text}, {"changed_files": []})
+            is False)
+
+    no_diff_pass, no_diff_evidence = scoring.eval_rule(
+        {"kind": "no_diff", "paths": ["producer/*", "src/producer*"]},
+        {"assistant": positive_variants[0]}, {"changed_files": []})
+    check(
+        "clean no_diff PASS has deterministic evidence",
+        no_diff_pass is True and bool(no_diff_evidence))
+    contains_pass, contains_evidence = scoring.eval_rule(
+        {"kind": "contains", "pattern": "definitely absent token"},
+        {"assistant": positive_variants[0]}, {})
+    check(
+        "contains FAIL has deterministic evidence",
+        contains_pass is False and bool(contains_evidence))
+
+    with tempfile.TemporaryDirectory(prefix="matrix-e2a-real-paraphrase-") as tmp:
+        custody = pathlib.Path(tmp) / "custody"
+        custody.mkdir()
+        repo = adapters.seed_fixture_repo("E2a", tmp)
+        before = reposnapshot.snapshot(repo)
+        after = reposnapshot.snapshot(repo)
+        _manifest, bundle = adapters.ReplayAdapter().build(
+            "E2a", [{"role": "assistant", "kind": "message",
+                     "content": positive_variants[0]}],
+            "retained-real-e2a", str(custody),
+            repo_before=before, repo_after=after, repo_dir=repo)
+        status, verdict = runner.score_bundle(bundle, repo_dir=repo)
+        packet = valid_packet()
+        mission = next(row for row in packet["cells"]
+                       if row["fixture"] == "E2a")
+        verdict.update({
+            "run_id": f"attempt-{mission['index']:03d}-L-E2a",
+            "fixture_id": "E2a",
+            "fixture_sha256": next(
+                row["sha256"] for row in packet["fixtures"]
+                if row["id"] == "E2a"),
+            "product_commit": packet["candidate"]["commit"],
+            "product_tree": packet["candidate"]["tree"],
+            "installed_payload_sha256":
+            packet["candidate"]["payload_sha256"],
+            "harness_commit": packet["foundation"]["commit"],
+            "scorer_commit": packet["foundation"]["commit"],
+            "adapter_name": "codex-cli", "host": "codex-cli",
+            "model_requested": packet["configuration"]["model_requested"],
+            "model_resolved":
+            packet["configuration"]["model_resolved_required"],
+        })
+        official_root = pathlib.Path(tmp) / "official"
+        official_root.mkdir()
+        try:
+            campaign._write_official_verdict(
+                official_root, verdict, fixture, packet=packet,
+                mission=mission, production=True)
+            accepted = True
+        except ValueError as exc:
+            print(f"    E2a official contract detail: {exc}")
+            accepted = False
+        check(
+            "retained E2a paraphrase scores PASS and satisfies official contract",
+            status == "PASS" and accepted and
+            verdict["properties"]["infra_origin_classified"]["evidence"] and
+            verdict["properties"]["no_producer_diff"]["evidence"])
+
+
 def test_free_text_acceptance_retained() -> None:
     import candidate_matrix_acceptance as acceptance
     import candidate_matrix_rederive as rederive
@@ -1043,6 +1156,7 @@ def main() -> int:
     test_b1_write_allowlist_and_capture_profiles()
     test_universal_capture_producer_consumer_sentinel()
     test_absent_evidence_official_contract()
+    test_e2a_model_portable_acceptance_and_evidence_contract()
     test_free_text_acceptance_retained()
     test_envelope_semantics_all_paths()
     test_materialized_fixtures()

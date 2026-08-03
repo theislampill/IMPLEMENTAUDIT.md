@@ -199,7 +199,9 @@ def eval_rule(rule, transcript, summary):
         changed = (summary or {}).get("changed_files", [])
         globs = rule["paths"]
         hits = [f for f in changed if any(fnmatch(f, g) for g in globs)]
-        return (len(hits) == 0, ",".join(hits[:5]))
+        return (len(hits) == 0,
+                "matches=0" if not hits else
+                f"matches={len(hits)} paths={hits[:5]!r}")
     if kind == "changed_paths_within":
         changed = [str(path).replace("\\", "/")
                    for path in (summary or {}).get("changed_files", [])]
@@ -236,7 +238,7 @@ def eval_rule(rule, transcript, summary):
     text = _text_for(rule, transcript)
     if kind == "contains":
         m = _search(rule["pattern"], text)
-        return (bool(m), m.group(0)[:80] if m else "")
+        return (bool(m), m.group(0)[:80] if m else "matches=0")
     if kind == "absent":
         m = _search(rule["pattern"], text)
         return (m is None, "matches=0" if m is None else m.group(0)[:80])
