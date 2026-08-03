@@ -552,6 +552,18 @@ def assert_native_collaboration_fail_closed(modules):
             "status": "completed", "call_id": "call-bracket-reference",
             "input": "const reference = tools['multi_agent_v1__spawn_agent'];",
         }),
+        "modern-alias-function-declaration": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-function-declaration",
+            "input": "function spawn_agent(options) { return options; }",
+        }),
+        "modern-alias-object-method": native_response({
+            "type": "custom_tool_call", "name": "exec",
+            "status": "completed", "call_id": "call-object-method",
+            "input": (
+                "const fixture = {spawn_agent(options) { return options; }};"
+                " text(fixture);"),
+        }),
     }
 
     for label, response in negative.items():

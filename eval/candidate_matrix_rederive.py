@@ -2926,6 +2926,26 @@ def _codex_native_exec_has_collaboration(value):
                     CODEX_COLLAB_NATIVE_TOOL_NAMES else "unknown")
         return None
 
+    def direct_invocation(index):
+        if (index and tokens[index - 1][0] == "id" and
+                tokens[index - 1][1].casefold() == "function"):
+            return False
+        cursor = index + 1
+        if cursor >= len(tokens) or tokens[cursor] != ("punct", "("):
+            return False
+        depth = 0
+        while cursor < len(tokens):
+            if tokens[cursor] == ("punct", "("):
+                depth += 1
+            elif tokens[cursor] == ("punct", ")"):
+                depth -= 1
+                if depth == 0:
+                    cursor += 1
+                    return (cursor >= len(tokens) or
+                            tokens[cursor] != ("punct", "{"))
+            cursor += 1
+        return True
+
     for index, token in enumerate(tokens):
         if token == ("id", "tools") or (
                 token[0] == "id" and token[1].casefold() == "tools"):
@@ -2962,8 +2982,7 @@ def _codex_native_exec_has_collaboration(value):
                 ("punct", "."), ("punct", "]")}):
             continue
         state = path_state([name])
-        called = index + 1 < len(tokens) and \
-            tokens[index + 1] == ("punct", "(")
+        called = direct_invocation(index)
         if state and called:
             return True
         if state == "unknown":
