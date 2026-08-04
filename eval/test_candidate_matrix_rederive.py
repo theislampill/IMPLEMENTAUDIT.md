@@ -1247,11 +1247,44 @@ def assert_real_codex_turn_shapes(module):
             "id": "file-1", "type": "file_change",
             "status": "completed", "changes": [
                 {"path": "STATE.md", "kind": "update"}]}})
+    retained_shapes["B0"].insert(-1, {
+        "type": "item.started", "item": {
+            "id": "todo-1", "type": "todo_list", "items": [
+                {"text": "inspect", "completed": False}]}})
+    retained_shapes["B0"].insert(-1, {
+        "type": "item.completed", "item": {
+            "id": "todo-1", "type": "todo_list", "items": [
+                {"text": "inspect", "completed": True}]}})
     for fixture, candidate in retained_shapes.items():
         parsed, retained_binding = module._parse_codex_actions(raw(candidate))
         assert retained_binding == {
             "thread_id": "retained-thread", "stdout_turn_ordinal": 1}, fixture
         assert parsed, fixture
+
+    for event_type, valid_status in (
+            ("item.started", "in_progress"),
+            ("item.updated", "in_progress"),
+            ("item.completed", "completed")):
+        todo = {
+            "type": event_type,
+            "item": {
+                "id": "todo-direct-1", "type": "todo_list",
+                "items": [{"text": "inspect", "completed": False}],
+            },
+        }
+        module._validate_codex_stdout_rows([(1, todo)])
+        todo["item"]["status"] = valid_status
+        module._validate_codex_stdout_rows([(1, todo)])
+        for invalid_status in (None, "completed" if valid_status ==
+                               "in_progress" else "in_progress"):
+            todo["item"]["status"] = invalid_status
+            try:
+                module._validate_codex_stdout_rows([(1, todo)])
+            except module.EvidenceInvalid as exc:
+                assert "todo status invalid" in str(exc), (event_type, exc)
+            else:
+                raise AssertionError(
+                    f"{event_type} invalid todo status accepted")
 
     explicit = copy.deepcopy(rows)
     explicit[1].update(
