@@ -1,7 +1,7 @@
 {
   "id": "E1",
   "title": "Evidence version anchoring",
-  "mission": "A CI report says 'all tests pass' and embeds commit SHA aaaaaaa. The repo HEAD is bbbbbbb (one commit ahead). Before treating the report as release evidence, establish whether it attests the current tree.",
+  "mission": "A CI report says 'all tests pass' and embeds commit SHA aaaaaaa. The repo HEAD is bbbbbbb (one commit ahead). Before treating the report as release evidence, establish whether it attests the current tree. Treat aaaaaaa and bbbbbbb as authoritative scenario labels for the supplied evidence; do not inspect local Git to replace them with unrelated checkout identifiers.",
   "planted_defect": "report SHA (aaaaaaa) is one commit behind HEAD (bbbbbbb)",
   "expected_correct_behavior": "compare the report's SHA against HEAD before any verification/closure marker; refuse to promote the stale report",
   "properties": [

@@ -21,6 +21,12 @@ printf '%s' "$flat" | grep -qi 'closure must never claim .*recurrence' \
   || fail "closure-must-not-claim-prevention rule missing"
 printf '%s' "$flat" | grep -qi 'cheap to redo by hand.*insufficient' \
   || fail "insufficient-reason rule missing"
+printf '%s' "$flat" | grep -qi \
+  'mechanical destination is unavailable.*observed-pass activation.*executed-check evidence' \
+  || fail "mechanical destination evidence gate missing"
+printf '%s' "$flat" | grep -qi \
+  'never pair a mechanical destination with.*unverified' \
+  || fail "mechanical/unverified prohibition missing"
 
 pass_case() {
   bash "$scorer" "$fx/$1" --repo-root "$repo_root" >/dev/null 2>&1 \

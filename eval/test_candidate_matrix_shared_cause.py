@@ -1351,6 +1351,36 @@ def test_envelope_semantics_all_paths() -> None:
                 expected_properties)
 
 
+def test_v45_evidence_directed_contracts() -> None:
+    """Bind the E1/E3 prompt corrections without weakening acceptance."""
+    import candidate_matrix_acceptance as acceptance
+    import candidate_matrix_rederive as rederive
+
+    e1_mission = load_fixture("E1")["mission"]
+    check(
+        "E1 treats supplied SHAs as authoritative scenario labels",
+        "authoritative scenario labels" in e1_mission and
+        "do not inspect local Git" in e1_mission)
+
+    e3 = load_fixture("E3")
+    check(
+        "E3 delimiter contract forbids emitted semicolon characters",
+        "Do not output semicolon characters" in e3["mission"] and
+        "descriptive separators only" in e3["mission"])
+    semicolon_output = "\n".join(
+        line + ";" for line in ENVELOPE_POSITIVES["E3"].splitlines())
+    for path_name, function in (
+            ("official", lambda fixture, prop, texts, artifact: (
+                acceptance.evaluate_property(
+                    fixture, prop, texts, artifact_obj=artifact))),
+            ("independent", rederive._matrix_acceptance)):
+        check(
+            f"E3 semicolon-bearing envelope remains rejected by {path_name}",
+            _direct_result(
+                function, "E3", "candidates_preserved",
+                semicolon_output) is False)
+
+
 
 def check(name: str, condition: bool) -> None:
     print(f"  [{'OK' if condition else 'XX'}] {name}")
@@ -1463,6 +1493,7 @@ def main() -> int:
     test_free_text_acceptance_retained()
     test_r3_evidence_directed_fixture_contracts()
     test_envelope_semantics_all_paths()
+    test_v45_evidence_directed_contracts()
     test_materialized_fixtures()
     test_e10_composed_quarantine()
     if failures:

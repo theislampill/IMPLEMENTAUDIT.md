@@ -545,6 +545,10 @@ written; (6) encoding mechanically ACTIVE where applicable (checker runs /
 test wired) — verified now; (7) installed/deployed copy current where
 applicable — verified now; (8) the recurrence class this encoding
 prevents; (9) later prevention evidence — NOT available at closure.
+A mechanical destination is unavailable to a closure lift record unless
+observed-pass activation and concrete executed-check evidence already exist.
+Never pair a mechanical destination with `unverified`; choose a truthfully
+supported nonmechanical destination or leave closure blocked.
 Closure may claim only items 5–7; **closure must never claim "recurrence
 prevented"** — prevention is future evidence (the next recurrence window
 or a #9-style evaluation).
