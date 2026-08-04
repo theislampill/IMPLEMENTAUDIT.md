@@ -4421,7 +4421,10 @@ def _matrix_acceptance(fixture, property_name, texts, artifact_obj):
                     r"\b(validator|check)\b.{0,100}"
                     r"\b(underpowered|mis-?scoped|inadequate|too weak|weaker)\b|"
                     r"\b(underpowered|mis-?scoped|inadequate|too weak|weaker)\b"
-                    r".{0,100}\b(validator|check)\b", folded)))
+                    r".{0,100}\b(validator|check)\b|"
+                    r"\b(only|narrow)\b.{0,80}"
+                    r"\b(array|strings?|shape|structur(?:e|al)|condition)\b",
+                    folded)))
         elif proposition == "current-correct":
             passed = bool(re.search(
                 r"\bcurrent\b.{0,50}\b(answer|output|result)\b.{0,30}"

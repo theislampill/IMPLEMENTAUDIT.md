@@ -1107,6 +1107,14 @@ def test_free_text_acceptance_retained() -> None:
     cases = (
         (
             "E2b", "validator_flagged_suspect",
+            "No—unless the claimed property is exactly “the output is an "
+            "array of strings.”\n\nGREEN establishes only that narrow "
+            "structural condition. It does not establish broader behavioral "
+            "or semantic correctness, even if the producer’s output happens "
+            "to be fully compliant.", None, True,
+        ),
+        (
+            "E2b", "validator_flagged_suspect",
             "Only the array shape was checked. This does not establish "
             "behavior, so the validator is underpowered.", None, True,
         ),

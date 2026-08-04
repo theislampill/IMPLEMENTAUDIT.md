@@ -247,7 +247,10 @@ def _evaluate_free_text(proposition, text, artifact_obj):
             r"\b(validator|check)\b.{0,100}"
             r"\b(underpowered|mis-?scoped|inadequate|too weak|weaker)\b|"
             r"\b(underpowered|mis-?scoped|inadequate|too weak|weaker)\b"
-            r".{0,100}\b(validator|check)\b", folded))
+            r".{0,100}\b(validator|check)\b|"
+            r"\b(only|narrow)\b.{0,80}"
+            r"\b(array|strings?|shape|structur(?:e|al)|condition)\b",
+            folded))
         return shape and behavior and inference_denied and scope_fault
     if proposition == "current-correct":
         return bool(re.search(
