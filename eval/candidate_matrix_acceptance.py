@@ -259,8 +259,9 @@ def _evaluate_free_text(proposition, text, artifact_obj):
             r"\bcurrent\b.{0,50}\bcorrect\b|"
             r"\bcurrent\b.{0,50}\btrue positive\b", folded))
         split_current_green = (
-            bool(re.search(r"\bcurrent\b.{0,80}\bgreen\b", folded)) and
             bool(re.search(
+                r"\bcurrent\b.{0,80}\bgreen\b"
+                r"(?:(?!\bp[12]\b)[\s\S]){0,500}"
                 r"\b(the|this|observed)\b.{0,20}\b(output|answer|result)\b"
                 r".{0,20}\b(is|remains?)\b.{0,20}\bcorrect\b", folded)))
         return direct or split_current_green
@@ -275,7 +276,7 @@ def _evaluate_free_text(proposition, text, artifact_obj):
         pathway = bool(re.search(
             r"\b(validator|rule|pathway)\b.{0,100}"
             r"\b(invalid|inadequate|unreliable|untrustworthy|defective|"
-            r"broken|unsound|not sound|not complete|cannot be trusted|"
+            r"broken|unsound|not reliable|not sound|not complete|cannot be trusted|"
             r"not truth-connected|"
             r"neither sound nor complete)\b", folded))
         return host_misjudgment and p1 and p2 and pathway

@@ -4441,8 +4441,8 @@ def _matrix_acceptance(fixture, property_name, texts, artifact_obj):
                 r"\bcurrent\b.{0,50}\btrue positive\b", folded))
             split_current_green = (
                 bool(re.search(
-                    r"\bcurrent\b.{0,80}\bgreen\b", folded)) and
-                bool(re.search(
+                    r"\bcurrent\b.{0,80}\bgreen\b"
+                    r"(?:(?!\bp[12]\b)[\s\S]){0,500}"
                     r"\b(the|this|observed)\b.{0,20}"
                     r"\b(output|answer|result)\b.{0,20}"
                     r"\b(is|remains?)\b.{0,20}\bcorrect\b", folded)))
@@ -4459,7 +4459,7 @@ def _matrix_acceptance(fixture, property_name, texts, artifact_obj):
                 bool(re.search(
                     r"\b(validator|rule|pathway)\b.{0,100}"
                     r"\b(invalid|inadequate|unreliable|untrustworthy|"
-                    r"defective|broken|unsound|not sound|not complete|"
+                    r"defective|broken|unsound|not reliable|not sound|not complete|"
                     r"cannot be trusted|"
                     r"not truth-connected|neither sound nor complete)\b",
                     folded)))

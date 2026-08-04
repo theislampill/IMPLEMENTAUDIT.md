@@ -1402,10 +1402,18 @@ def test_v47_e5_semantic_acceptance_parity() -> None:
         "accepts correct outputs nor rejects incorrect ones.")
     owner_smoke_text = (
         "The current GREEN\n"
+        "The token-based check happened to accept this case, but that does "
+        "not establish a trustworthy correctness pathway.\n"
         "the output is correct\n"
         "P1: false negatives\n"
         "P2: false positives\n"
         "the validator is invalid")
+    v51_text = (
+        "The validator is not reliable:\n\n"
+        "- P1 (CORRECT without `MAGIC`) → incorrectly fails: false negative.\n"
+        "- P2 (INCORRECT with `MAGIC`) → incorrectly passes: false positive.\n\n"
+        "It is checking for a token rather than correctness, so the green "
+        "result is accidental.")
     artifact = {
         "current_verdict": "accept", "p1_verdict": "reject",
         "p2_verdict": "accept",
@@ -1418,6 +1426,7 @@ def test_v47_e5_semantic_acceptance_parity() -> None:
     for path_name, function in paths:
         for version, text in (
                 ("V47", v47_text), ("V45", v45_text),
+                ("V51", v51_text),
                 ("owner-provided nonqualifying smoke excerpt",
                  owner_smoke_text)):
             check(
@@ -1435,6 +1444,12 @@ def test_v47_e5_semantic_acceptance_parity() -> None:
             function(
                 load_fixture("E5"), "current_answer_correctness",
                 {"assistant": owner_smoke_text}, artifact)[0] is True)
+        check(
+            f"E5 current-GREEN does not borrow P1 correctness in {path_name}",
+            function(
+                load_fixture("E5"), "current_answer_correctness",
+                {"assistant": "The current GREEN is accidental.\n"
+                 "P1 output is correct."}, artifact)[0] is False)
         for label, text, observed in (
                 ("missing P2", "The validator is defective. "
                  "P1 is a false negative.", artifact),
