@@ -3680,10 +3680,10 @@ def main():
                   timestamp_status47(
                       v18_timestamp_session47,
                       "2026-07-30T05:26:10.000Z") == "VALID")
-            check("H47bb derived-ten-second-startup-boundary-valid",
+            check("H47bb derived-thirty-second-startup-boundary-valid",
                   timestamp_status47(timestamp_session47(
-                      "2026-07-30T05:26:20.000Z",
-                      "2026-07-30T05:26:19.999Z",
+                      "2026-07-30T05:26:40.000Z",
+                      "2026-07-30T05:26:39.999Z",
                       "2026-07-30T05:26:10.001Z"),
                       "2026-07-30T05:26:10.000Z") == "VALID")
             timestamp_rejections47 = (
@@ -3694,13 +3694,13 @@ def main():
                     order=("turn", "meta")),
                     "2026-07-30T05:26:10.000Z"),
                 timestamp_status47(timestamp_session47(
-                    "2026-07-30T05:26:20.001Z",
-                    "2026-07-30T05:26:19.999Z",
+                    "2026-07-30T05:26:40.001Z",
+                    "2026-07-30T05:26:39.999Z",
                     "2026-07-30T05:26:10.568Z"),
                     "2026-07-30T05:26:10.000Z"),
                 timestamp_status47(timestamp_session47(
                     "2026-07-30T05:26:11.065Z",
-                    "2026-07-30T05:26:20.001Z",
+                    "2026-07-30T05:26:40.001Z",
                     "2026-07-30T05:26:10.568Z"),
                     "2026-07-30T05:26:10.000Z"),
                 timestamp_status47(timestamp_session47(

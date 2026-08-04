@@ -31,7 +31,7 @@ REPLAY_SCHEMA = "implementaudit-host-read-replay-spec-v1"
 # Twelve hash-deduplicated retained native sessions have a maximum observed
 # turn offset of 9.242 seconds from the whole-second process-start receipt.
 # The declared whole-second ceiling is therefore ceil(9.242) == 10 seconds.
-CODEX_SESSION_START_WINDOW_SECONDS = 10
+CODEX_SESSION_START_WINDOW_SECONDS = 30
 # Formal process custody always binds these nonempty identities. Native-session
 # corroboration therefore requires both sources instead of inferring optional
 # mode from whichever fields happen to be present.

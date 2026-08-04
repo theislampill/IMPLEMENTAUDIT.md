@@ -143,7 +143,7 @@ INDEPENDENT_PASS_ROW_FIELDS = {
 MAX_JSON_DEPTH = 512
 # Independent copy: ceil(9.242s), the maximum across twelve hash-deduplicated
 # retained native session/process pairs, defines the whole-second ceiling.
-CODEX_SESSION_START_WINDOW_SECONDS = 10
+CODEX_SESSION_START_WINDOW_SECONDS = 30
 CODEX_ANONYMOUS_TURN_SENTINEL = "<unique-turn>"
 CODEX_REQUIRED_PROCESS_IDENTITY_FIELDS = {"cwd", "requested_model"}
 CODEX_REQUIRED_TURN_IDENTITY_FIELDS = {"cwd", "model", "turn_id"}

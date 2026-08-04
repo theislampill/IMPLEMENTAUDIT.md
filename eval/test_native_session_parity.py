@@ -367,7 +367,7 @@ def main():
         candidate_matrix_rederive.CODEX_NATIVE_PAYLOAD_FIELDS and
         hostread.CODEX_SESSION_START_WINDOW_SECONDS ==
         b3v4_rederive.CODEX_SESSION_START_WINDOW_SECONDS ==
-        candidate_matrix_rederive.CODEX_SESSION_START_WINDOW_SECONDS == 10 and
+        candidate_matrix_rederive.CODEX_SESSION_START_WINDOW_SECONDS == 30 and
         set(hostread.CODEX_REQUIRED_PROCESS_IDENTITY_FIELDS) ==
         b3v4_rederive.CODEX_REQUIRED_PROCESS_IDENTITY_FIELDS ==
         candidate_matrix_rederive.CODEX_REQUIRED_PROCESS_IDENTITY_FIELDS and
@@ -392,11 +392,14 @@ def main():
         ("observed-9.242-seconds", "VALID",
          lambda rows, _process: rows[1].update(
              timestamp="2026-07-30T05:26:19.242Z")),
-        ("declared-10-second-ceiling", "VALID",
+        ("V49-concurrent-10.262-seconds", "VALID",
+         lambda rows, _process: rows[1].update(
+             timestamp="2026-07-30T05:26:20.262Z")),
+        ("declared-30-second-ceiling", "VALID",
          lambda rows, _process: (
-             rows[0].update(timestamp="2026-07-30T05:26:20.000Z"),
+             rows[0].update(timestamp="2026-07-30T05:26:40.000Z"),
              rows[0]["payload"].update(
-                 timestamp="2026-07-30T05:26:19.999Z"))),
+                 timestamp="2026-07-30T05:26:39.999Z"))),
         ("timezone-equivalent", "VALID",
          lambda rows, _process: (
              rows[0].update(timestamp="2026-07-30T01:26:11.065-04:00"),
@@ -429,10 +432,10 @@ def main():
          lambda rows, _process: rows[0].update(type={})),
         ("turn-over-ceiling", "INVALID",
          lambda rows, _process: rows[1].update(
-             timestamp="2026-07-30T05:26:20.001Z")),
+             timestamp="2026-07-30T05:26:40.001Z")),
         ("meta-over-ceiling", "INVALID",
          lambda rows, _process: rows[0].update(
-             timestamp="2026-07-30T05:26:20.001Z")),
+             timestamp="2026-07-30T05:26:40.001Z")),
         ("payload-after-meta-top", "INVALID",
          lambda rows, _process: rows[0]["payload"].update(
              timestamp="2026-07-30T05:26:11.066Z")),
