@@ -4426,21 +4426,35 @@ def _matrix_acceptance(fixture, property_name, texts, artifact_obj):
                     r"\b(array|strings?|shape|structur(?:e|al)|condition)\b",
                     folded)))
         elif proposition == "current-correct":
-            passed = bool(re.search(
+            direct = bool(re.search(
                 r"\bcurrent\b.{0,50}\b(answer|output|result)\b.{0,30}"
                 r"\b(is|remains?)\b.{0,20}\bcorrect\b|"
-                r"\bcurrent\b.{0,50}\bcorrect\b", folded))
+                r"\bcurrent\b.{0,50}\bcorrect\b|"
+                r"\bcurrent\b.{0,50}\btrue positive\b", folded))
+            split_current_green = (
+                bool(re.search(
+                    r"\bcurrent\b.{0,80}\bgreen\b", folded)) and
+                bool(re.search(
+                    r"\b(the|this|observed)\b.{0,20}"
+                    r"\b(output|answer|result)\b.{0,20}"
+                    r"\b(is|remains?)\b.{0,20}\bcorrect\b", folded)))
+            passed = direct or split_current_green
         elif proposition == "perturbation-pathway-inadequate":
             passed = (
                 type(artifact_obj) is dict and
                 (artifact_obj.get("p1_verdict") == "reject" or
                  artifact_obj.get("p2_verdict") == "accept") and
-                bool(re.search(r"\bp1\b.{0,80}\bfalse negative\b", folded)) and
-                bool(re.search(r"\bp2\b.{0,80}\bfalse positive\b", folded)) and
+                bool(re.search(
+                    r"\bp1\b.{0,80}\bfalse negatives?\b", folded)) and
+                bool(re.search(
+                    r"\bp2\b.{0,80}\bfalse positives?\b", folded)) and
                 bool(re.search(
                     r"\b(validator|rule|pathway)\b.{0,100}"
                     r"\b(invalid|inadequate|unreliable|untrustworthy|"
-                    r"cannot be trusted|not truth-connected)\b", folded)))
+                    r"defective|broken|unsound|not sound|not complete|"
+                    r"cannot be trusted|"
+                    r"not truth-connected|neither sound nor complete)\b",
+                    folded)))
         else:
             raise EvidenceInvalid(
                 f"unsupported free-text matrix proposition: {proposition!r}")

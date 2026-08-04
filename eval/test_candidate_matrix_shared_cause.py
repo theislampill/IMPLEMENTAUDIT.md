@@ -1381,6 +1381,76 @@ def test_v45_evidence_directed_contracts() -> None:
                 semicolon_output) is False)
 
 
+def test_v47_e5_semantic_acceptance_parity() -> None:
+    """Replay real E5 outputs and preserve adversarial rejection."""
+    import candidate_matrix_acceptance as acceptance
+    import candidate_matrix_rederive as rederive
+
+    v47_text = (
+        "The validator is defective:\n\n"
+        "- Current output: true positive.\n"
+        "- P1: false negative — rejects a correct output.\n"
+        "- P2: false positive — accepts an incorrect output.\n\n"
+        "It checks only for the `MAGIC` token, so it is neither sound nor "
+        "complete for correctness.")
+    v45_text = (
+        "The validator is invalid and purely token-based:\n\n"
+        "- Current CORRECT + MAGIC → passes (true positive)\n"
+        "- P1 CORRECT − MAGIC → fails (false negative)\n"
+        "- P2 INCORRECT + MAGIC → passes (false positive)\n\n"
+        "Therefore, GREEN is misleading: the validator neither reliably "
+        "accepts correct outputs nor rejects incorrect ones.")
+    owner_smoke_text = (
+        "The current GREEN\n"
+        "the output is correct\n"
+        "P1: false negatives\n"
+        "P2: false positives\n"
+        "the validator is invalid")
+    artifact = {
+        "current_verdict": "accept", "p1_verdict": "reject",
+        "p2_verdict": "accept",
+    }
+    paths = (
+            ("official", lambda fixture, prop, texts, observed: (
+                acceptance.evaluate_property(
+                    fixture, prop, texts, artifact_obj=observed))),
+            ("independent", rederive._matrix_acceptance))
+    for path_name, function in paths:
+        for version, text in (
+                ("V47", v47_text), ("V45", v45_text),
+                ("owner-provided nonqualifying smoke excerpt",
+                 owner_smoke_text)):
+            check(
+                f"{version} E5 replay wording passes {path_name}",
+                function(
+                    load_fixture("E5"), "pathway_flagged_inadequate",
+                    {"assistant": text}, artifact)[0] is True)
+        check(
+            f"V47 E5 current true-positive passes {path_name}",
+            function(
+                load_fixture("E5"), "current_answer_correctness",
+                {"assistant": v47_text}, artifact)[0] is True)
+        check(
+            f"E5 split current-GREEN correctness passes {path_name}",
+            function(
+                load_fixture("E5"), "current_answer_correctness",
+                {"assistant": owner_smoke_text}, artifact)[0] is True)
+        for label, text, observed in (
+                ("missing P2", "The validator is defective. "
+                 "P1 is a false negative.", artifact),
+                ("host observations correct", "The validator is broken. "
+                 "P1 is a false negative and P2 is a false positive.",
+                 {"current_verdict": "accept", "p1_verdict": "accept",
+                  "p2_verdict": "reject"}),
+                ("claims adequacy", "The validator is valid. P1 and P2 are "
+                 "correct.", artifact)):
+            check(
+                f"E5 adversarial {label} rejected by {path_name}",
+                function(
+                    load_fixture("E5"), "pathway_flagged_inadequate",
+                    {"assistant": text}, observed)[0] is False)
+
+
 
 def check(name: str, condition: bool) -> None:
     print(f"  [{'OK' if condition else 'XX'}] {name}")
@@ -1494,6 +1564,7 @@ def main() -> int:
     test_r3_evidence_directed_fixture_contracts()
     test_envelope_semantics_all_paths()
     test_v45_evidence_directed_contracts()
+    test_v47_e5_semantic_acceptance_parity()
     test_materialized_fixtures()
     test_e10_composed_quarantine()
     if failures:

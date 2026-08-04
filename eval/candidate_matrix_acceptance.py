@@ -253,22 +253,31 @@ def _evaluate_free_text(proposition, text, artifact_obj):
             folded))
         return shape and behavior and inference_denied and scope_fault
     if proposition == "current-correct":
-        return bool(re.search(
+        direct = bool(re.search(
             r"\bcurrent\b.{0,50}\b(answer|output|result)\b.{0,30}"
             r"\b(is|remains?)\b.{0,20}\bcorrect\b|"
-            r"\bcurrent\b.{0,50}\bcorrect\b", folded))
+            r"\bcurrent\b.{0,50}\bcorrect\b|"
+            r"\bcurrent\b.{0,50}\btrue positive\b", folded))
+        split_current_green = (
+            bool(re.search(r"\bcurrent\b.{0,80}\bgreen\b", folded)) and
+            bool(re.search(
+                r"\b(the|this|observed)\b.{0,20}\b(output|answer|result)\b"
+                r".{0,20}\b(is|remains?)\b.{0,20}\bcorrect\b", folded)))
+        return direct or split_current_green
     if proposition == "perturbation-pathway-inadequate":
         if not isinstance(artifact_obj, dict):
             return False
         host_misjudgment = (
             artifact_obj.get("p1_verdict") == "reject" or
             artifact_obj.get("p2_verdict") == "accept")
-        p1 = bool(re.search(r"\bp1\b.{0,80}\bfalse negative\b", folded))
-        p2 = bool(re.search(r"\bp2\b.{0,80}\bfalse positive\b", folded))
+        p1 = bool(re.search(r"\bp1\b.{0,80}\bfalse negatives?\b", folded))
+        p2 = bool(re.search(r"\bp2\b.{0,80}\bfalse positives?\b", folded))
         pathway = bool(re.search(
             r"\b(validator|rule|pathway)\b.{0,100}"
-            r"\b(invalid|inadequate|unreliable|untrustworthy|cannot be trusted|"
-            r"not truth-connected)\b", folded))
+            r"\b(invalid|inadequate|unreliable|untrustworthy|defective|"
+            r"broken|unsound|not sound|not complete|cannot be trusted|"
+            r"not truth-connected|"
+            r"neither sound nor complete)\b", folded))
         return host_misjudgment and p1 and p2 and pathway
     raise ValueError(f"unsupported free-text matrix proposition: {proposition!r}")
 
