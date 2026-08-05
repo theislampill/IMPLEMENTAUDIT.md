@@ -887,6 +887,28 @@ This source checkout may contain post-release repairs after that tag; installing
 from a checkout or local asset uses local source, not a public release claim.
 Re-verify this paragraph at every release gate.
 
+### Quick install via the skills CLI
+
+The repo layout is compatible with the open [skills CLI](https://skills.sh)
+(verified 2026-08-05: discovery finds the one skill `implementaudit`; both
+agent targets install the full payload — `SKILL.md` + `references/` +
+`scripts/` + `templates/` — plus a `skills-lock.json`):
+
+```bash
+npx --yes skills add theislampill/IMPLEMENTAUDIT.md                              # interactive
+npx --yes skills add theislampill/IMPLEMENTAUDIT.md --skill '*' --agent claude-code --copy -y
+npx --yes skills add theislampill/IMPLEMENTAUDIT.md --skill '*' --agent codex --copy -y
+```
+
+Installs are project-level by default (`./.claude/skills/` for claude-code,
+`./.agents/skills/` for codex); add `-g` for a user-level install. Note the
+evidence boundary above still applies: the CLI installs from the repo's
+current `main` (source checkout semantics — post-release repairs included),
+not from a verified release asset; the release-asset path with checksum
+verification remains the sections below. The directory page
+`https://skills.sh/theislampill/IMPLEMENTAUDIT.md` is populated by the
+ecosystem's install-telemetry index, not by this repo.
+
 What each install source carries:
 
 | Source | Failure contract | Helper resolution | Run-root / custody tooling |
