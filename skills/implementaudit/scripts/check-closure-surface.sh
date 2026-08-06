@@ -6,6 +6,20 @@ fail() { printf 'check-closure-surface: %s\n' "$*" >&2; exit 1; }
 
 file="${1:-}"
 [ -f "$file" ] || fail "record file not found: ${file:-<none>}"
+shift
+impact_set=""
+closure_evidence=""
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --impact-set)
+      [ "$#" -ge 2 ] || fail "--impact-set requires a file"
+      impact_set="$2"; shift 2 ;;
+    --closure-evidence)
+      [ "$#" -ge 2 ] || fail "--closure-evidence requires a file"
+      closure_evidence="$2"; shift 2 ;;
+    *) fail "unknown argument: $1" ;;
+  esac
+done
 
 rank() {
   case "$1" in
@@ -127,5 +141,16 @@ fi
 if grep -E 'Get-Process([[:space:]]|$)' "$file" |
    grep -Evq 'Get-Process[[:space:]]+-Id([[:space:]]|$)'; then
   fail "kill authority uses broad Get-Process enumeration without -Id"
+fi
+if [ -n "$impact_set" ]; then
+  checker="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/check-respec-impact-set.sh"
+  bash "$checker" "$impact_set" >/dev/null \
+    || fail "impact set is not terminal"
+fi
+if [ -n "$closure_evidence" ]; then
+  [ -f "$closure_evidence" ] || fail "closure evidence not found: $closure_evidence"
+  if grep -Eqi '(^|[|:[:space:]])(Pending\.|remains pending|IN PROGRESS|TBD)([|[:space:]]|$)' "$closure_evidence"; then
+    fail "closure evidence retains a pending or in-progress marker: $closure_evidence"
+  fi
 fi
 printf 'check-closure-surface: ok (%d claim row(s))\n' "$rows"

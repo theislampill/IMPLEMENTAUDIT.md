@@ -1,0 +1,9 @@
+ASSISTANT:
+I wrote the impact set before propagation, retained the separate direct-search
+and assembled-path search outputs, and dispositioned the discovered objects
+without treating enumeration as mutation authority. For the replacement I
+derived the carried-forward list from the validator that guarded the old file.
+
+ENUMERATION_ROUTE: LITERAL_PLUS_STEM_DIRNAME
+REPLACEMENT_ROUTE: VALIDATOR_DERIVED_INVARIANTS
+DISPOSITION_TOKEN: OWNER_ASSIGNED

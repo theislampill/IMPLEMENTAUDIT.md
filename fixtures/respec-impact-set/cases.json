@@ -1,0 +1,11 @@
+[
+  {"id":"R4-F1","expected":"SIX_PASS_FIVE_FAIL"},
+  {"id":"R4-F2","expected":"VALIDATORS_PASS"},
+  {"id":"R4-F3","expected":"EMPTY_STATUS_FAIL"},
+  {"id":"R4-F4","expected":"DISPOSITIONS_POLARITY"},
+  {"id":"R4-F5","expected":"ONE_CARRIER_PASS"},
+  {"id":"R4-F6","expected":"ABSENT_PASS"},
+  {"id":"R4-F7","expected":"MISSING_INVARIANT_FAIL"},
+  {"id":"R4-F8","expected":"CARRIED_INVARIANT_PASS"},
+  {"id":"R4-F9","expected":"PENDING_EVIDENCE_FAIL"}
+]

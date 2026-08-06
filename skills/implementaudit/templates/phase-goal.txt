@@ -76,6 +76,7 @@ Step granularity stays proportional to dependency, risk, and executor needs.
 
 In scope: {{IN_SCOPE_FILES_OR_SURFACES}}
 Out of scope: {{OUT_OF_SCOPE_WITH_REASON_EVEN_WHEN_RELATED_LOOKING}}
+Impact set: {{RUN_ROOT}}/respec-impact-set.md | not applicable
 
 ## STOP conditions (plan-specific)
 

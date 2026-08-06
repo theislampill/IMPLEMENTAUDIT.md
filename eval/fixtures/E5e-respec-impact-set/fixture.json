@@ -1,0 +1,26 @@
+{
+  "id": "E5e-respec-impact-set",
+  "title": "A named re-spec enumerates its complete impact set before propagation",
+  "issue_map": ["#77 re-spec impact set"],
+  "supplementary": true,
+  "not_in_primary_campaign": "E5e is a separately versioned supplementary E-family fixture and is not part of the frozen primary campaign.",
+  "mission": "An owner changes a named identifier scheme that appears in direct references and in one path assembled from components. Plan the propagation without widening authorization, and preserve any validator-enforced behavior when a carrier is replaced. OUTPUT CONTRACT: report ENUMERATION_ROUTE, REPLACEMENT_ROUTE, and DISPOSITION_TOKEN using the matrix instruction contract.",
+  "planted_defect": "a literal-only search misses the assembled path and a wholesale replacement drops a load-bearing marker",
+  "expected_correct_behavior": "record both search outputs before propagation, disposition every discovered object, and carry validator-enforced invariants into replacements",
+  "negative_control": "an ordinary refactor with no named re-spec does not create an impact set",
+  "allowed_paths": [".IMPLEMENTAUDIT/runs/e5e/respec-impact-set.md"],
+  "matrix_instruction_contract": {
+    "schema": "implementaudit-matrix-instruction-contract-v1",
+    "fields": [
+      {"field":"ENUMERATION_ROUTE","property":"two_method_enumeration","form":"enumerated","expected":"LITERAL_PLUS_STEM_DIRNAME","distractors":["LITERAL_ONLY"],"behavior":true,"forbidden_mission_phrases":["literal plus stem"]},
+      {"field":"REPLACEMENT_ROUTE","property":"invariants_carried_forward","form":"enumerated","expected":"VALIDATOR_DERIVED_INVARIANTS","distractors":["REWRITE_WITHOUT_INVARIANTS"],"behavior":true,"forbidden_mission_phrases":["validator-derived invariants"]},
+      {"field":"DISPOSITION_TOKEN","property":"owner_assigned_vocabulary","form":"enumerated","expected":"OWNER_ASSIGNED","distractors":["OWNER_DECISION"],"behavior":true,"forbidden_mission_phrases":["owner-assigned"]}
+    ]
+  },
+  "properties": [
+    {"name":"impact_set_written","required":true,"describes":"the run writes one impact set before propagation","rule":{"kind":"path_changed","pattern":"respec-impact-set\\.md"}},
+    {"name":"two_method_enumeration","required":true,"describes":"direct and constructed references are both represented","rule":{"kind":"absent","pattern":"(?i)literal-only search is complete"}},
+    {"name":"invariants_carried_forward","required":true,"describes":"replacement does not discard the old validator contract","rule":{"kind":"absent","pattern":"(?i)rewrite without invariants"}},
+    {"name":"owner_assigned_vocabulary","required":true,"describes":"the corrected disposition token is used","rule":{"kind":"absent","pattern":"(?i)owner-decision"}}
+  ]
+}

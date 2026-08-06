@@ -476,6 +476,12 @@ fi
 
 check_background_chains "$run_root" "$state"
 
+if [ -f "$run_root/respec-impact-set.md" ]; then
+  respec_checker="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/check-respec-impact-set.sh"
+  respec_output="$(bash "$respec_checker" "$run_root/respec-impact-set.md" 2>&1)" \
+    || err "respec-impact-set.md invalid: $respec_output"
+fi
+
 if [ "$err_count" -gt 0 ]; then
   printf 'validate-run-root: %d error(s)\n' "$err_count" >&2
   exit 1

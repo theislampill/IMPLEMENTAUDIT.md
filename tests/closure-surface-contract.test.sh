@@ -83,4 +83,14 @@ printf '%s\n%s\n' \
 bash "$scorer" "$tmp/kill-owned.md" >/dev/null 2>&1 \
   || fail "PID-targeted kill closure record must pass this grep-level gate"
 
+# #77 R4-F9: pending markers are rejected only on an explicitly supplied
+# closure-evidence file; no #78 ledger/plan/steer inference is introduced.
+printf 'Status: IN PROGRESS\n' > "$tmp/pending-evidence.md"
+if bash "$scorer" "$tmp/two.md" --closure-evidence "$tmp/pending-evidence.md" >/dev/null 2>&1; then
+  fail "explicit pending closure evidence accepted"
+fi
+printf 'Status: COMPLETE\n' > "$tmp/complete-evidence.md"
+bash "$scorer" "$tmp/two.md" --closure-evidence "$tmp/complete-evidence.md" >/dev/null 2>&1 \
+  || fail "explicit complete closure evidence rejected"
+
 printf 'closure-surface-contract: ok (contract + quota and kill-authority controls + 3 adversarial)\n'

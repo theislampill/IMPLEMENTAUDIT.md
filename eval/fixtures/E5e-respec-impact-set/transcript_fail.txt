@@ -1,0 +1,7 @@
+ASSISTANT:
+I treated the literal-only search as complete, rewrote the old carrier without
+an invariants list, and left the external object for an owner-decision.
+
+ENUMERATION_ROUTE: LITERAL_ONLY
+REPLACEMENT_ROUTE: REWRITE_WITHOUT_INVARIANTS
+DISPOSITION_TOKEN: OWNER_DECISION

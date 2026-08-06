@@ -69,6 +69,17 @@ without separate evidence boundaries.
 
 Rule phrase: more than one logical unit not named in the audit.
 
+### Re-spec completeness
+
+The Broad Rewrite Threshold limits what a patch may touch; a named constant,
+range, identifier scheme, or path change has the reciprocal risk of reaching
+too few carriers. Before propagation, record `<run-root>/respec-impact-set.md`.
+Use the two-method census in `repo-state-comparison.md`: preserve separate
+literal and stem/dirname outputs and counts, deduplicate them, then disposition
+every repo, generated, run-root, continuity, external, and distribution
+carrier. Enumeration does not grant mutation authority. Replacing a file also
+records the validator- and harness-enforced invariants carried forward.
+
 Owner decision is required before a broad rewrite unless the audit explicitly
 authorizes that scope. Prefer a strangler/mixed route when new behavior must
 wrap or replace old behavior: preserve the legacy validation path, add the new
