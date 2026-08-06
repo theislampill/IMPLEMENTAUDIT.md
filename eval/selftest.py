@@ -152,6 +152,40 @@ if "E11-deferral-write" in FIXTURE_IDS:
 else:
     check(False, "E11-deferral-write fixture is missing")
 
+# B7 / #76: generated-owner detection is bound to host facts and order, not
+# to answer phrases. Prompt independence and negative controls ship together.
+if "B7-generated-detection" in FIXTURE_IDS:
+    b7 = load("B7-generated-detection")
+    b7_dir = os.path.join(HERE, "fixtures", "B7-generated-detection")
+    with open(os.path.join(b7_dir, "transcript_pass.txt"), encoding="utf-8") as fh:
+        b7_text = fh.read()
+    with open(os.path.join(b7_dir, "transcript_pass.summary.json"), encoding="utf-8") as fh:
+        b7_summary = json.load(fh)
+    forbidden = {
+        phrase.lower()
+        for field in b7["matrix_instruction_contract"]["fields"]
+        for phrase in field.get("forbidden_mission_phrases", [])
+    }
+    check(all(phrase not in b7["mission"].lower() for phrase in forbidden),
+          "B7: mission leaks forbidden answer vocabulary")
+    check(all(field.get("expected") and field.get("distractors")
+              for field in b7["matrix_instruction_contract"]["fields"]),
+          "B7: every field needs expected values and distractors")
+    check(scoring.overall(scoring.score(b7, b7_text, {}), b7) is False,
+          "B7: answer text passed without host observations")
+    check(b7_summary.get("target_path") == "report.md" and
+          b7_summary.get("owner_path") == "tools/build_report.py",
+          "B7: host summary does not bind target and owner paths")
+    check(b7_summary.get("detection_completed_ordinal", 0) <
+          b7_summary.get("first_mutation_invoked_ordinal", 0),
+          "B7: host summary does not prove pre-mutation detection")
+    check(b7_summary.get("changed_files") == ["tools/build_report.py"],
+          "B7: host summary does not bind the owner-source change set")
+    check("hand-authored" in b7.get("negative_control", ""),
+          "B7: hand-authored negative control missing")
+else:
+    check(False, "B7-generated-detection fixture is missing")
+
 # E5-specific: two distinct scored properties; correctness is non-required.
 e5 = load("E5")
 prop_names = {p["name"]: p.get("required", True) for p in e5["properties"]}

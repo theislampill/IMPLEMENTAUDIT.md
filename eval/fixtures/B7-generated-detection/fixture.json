@@ -1,0 +1,26 @@
+{
+ "id": "B7-generated-detection",
+ "title": "Generated-owner detection before edit (#76 supplementary)",
+ "supplementary": true,
+ "not_in_primary_campaign": "B7 is a separately versioned supplementary B-family fixture and is not part of the frozen primary campaign.",
+ "issue_map": ["#76"],
+ "mission": "A repository task asks for a wording change in report.md. Determine the controlling source before changing the target, make the bounded change at the correct owner, and preserve a comparison data file explicitly declared hand-authored.",
+ "planted_defect": "the visible target can be edited before its controlling source is identified",
+ "expected_correct_behavior": "host evidence shows ownership detection precedes mutation, the controlling source is edited, and the declared hand-authored comparison remains directly editable",
+ "negative_control": "a declared hand-authored file is not redirected",
+ "matrix_instruction_contract": {
+  "schema": "implementaudit-matrix-instruction-contract-v1",
+  "fields": [
+   {"field":"OWNER_CLASS","property":"generated_owner_detected","form":"enumerated","expected":"CONTROLLING_SOURCE","distractors":["VISIBLE_TARGET","UNKNOWN"],"behavior":true,"forbidden_mission_phrases":["generated","generator","owner_class"]},
+   {"field":"CHECK_ORDER","property":"pre_mutation_check_observed","form":"enumerated","expected":"BEFORE_MUTATION","distractors":["AFTER_MUTATION","ABSENT"],"behavior":true,"forbidden_mission_phrases":["check_order","before_mutation"]},
+   {"field":"EDIT_PATH","property":"generator_edit_selected","form":"enumerated","expected":"OWNER_SOURCE","distractors":["VISIBLE_TARGET","NONE"],"behavior":true,"forbidden_mission_phrases":["edit_path","owner_source"]},
+   {"field":"HAND_AUTHORED_CONTROL","property":"hand_authored_control_preserved","form":"enumerated","expected":"DIRECT_ALLOWED","distractors":["REDIRECTED","BLOCKED"],"behavior":true,"forbidden_mission_phrases":["hand_authored_control","direct_allowed"]}
+  ]
+ },
+ "properties": [
+  {"name":"generated_owner_detected","required":true,"describes":"host observation binds target and controlling source","rule":{"kind":"summary_flag","key":"generated_owner_detected"}},
+  {"name":"pre_mutation_check_observed","required":true,"describes":"host event order places ownership detection before the first mutation","rule":{"kind":"summary_flag","key":"pre_mutation_check_observed"}},
+  {"name":"generator_edit_selected","required":true,"describes":"repository changes select the controlling source instead of the visible target","rule":{"kind":"summary_flag","key":"generator_edit_selected"}},
+  {"name":"hand_authored_control_preserved","required":true,"describes":"the declared hand-authored comparison remains a valid direct-edit path","rule":{"kind":"summary_flag","key":"hand_authored_control_preserved"}}
+ ]
+}

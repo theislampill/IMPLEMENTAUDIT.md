@@ -120,10 +120,127 @@ cmd_added_lines() {
   fi
 }
 
+cmd_ignored_artifact() {
+  local surface="$1" artifact="$2" digest_record="$3" authority_baseline="$4"
+  case "$surface" in
+    source)
+      printf 'ignored-artifact: not-applicable for source surface\n'
+      return 0
+      ;;
+    package|release) : ;;
+    *) printf 'repo-state: ignored-artifact surface must be source, package, or release\n' >&2; return 2;;
+  esac
+  case "$artifact" in
+    /*|[A-Za-z]:*|../*|*/../*)
+      printf 'repo-state: ignored artifact must be repository-relative: %s\n' "$artifact" >&2
+      return 1
+      ;;
+  esac
+  case "$digest_record" in
+    ''|/*|[A-Za-z]:*|../*|*/../*|./*|*/./*|*//*|*:*)
+      printf 'repo-state: published digest record must be repository-relative: %s\n' "$digest_record" >&2
+      return 1
+      ;;
+  esac
+  printf '%s' "$authority_baseline" | grep -qE '^[0-9a-f]{40}$' || {
+    printf 'repo-state: authority baseline must be a full 40-hex commit SHA\n' >&2
+    return 1
+  }
+  in_git_repo && baseline_ok "$authority_baseline" || {
+    printf 'repo-state: authority baseline is not a local commit: %s\n' "$authority_baseline" >&2
+    return 1
+  }
+  git merge-base --is-ancestor "$authority_baseline" HEAD 2>/dev/null || {
+    printf 'repo-state: authority baseline is not an ancestor of HEAD: %s\n' "$authority_baseline" >&2
+    return 1
+  }
+  [ -f "$artifact" ] && [ ! -L "$artifact" ] || {
+    printf 'repo-state: ignored artifact must be a regular non-symlink file: %s\n' "$artifact" >&2
+    return 1
+  }
+  [ -f "$digest_record" ] && [ ! -L "$digest_record" ] || {
+    printf 'repo-state: published digest record must be a regular non-symlink file: %s\n' "$digest_record" >&2
+    return 1
+  }
+  if in_git_repo && ! git check-ignore -q -- "$artifact"; then
+    printf 'repo-state: %s is not ignored; use normal deliverable evidence\n' "$artifact" >&2
+    return 1
+  fi
+  if git ls-files --error-unmatch -- "$artifact" >/dev/null 2>&1; then
+    printf 'repo-state: ignored artifact must be untracked: %s\n' "$artifact" >&2
+    return 1
+  fi
+  git cat-file -e "${authority_baseline}:${digest_record}" 2>/dev/null || {
+    printf 'repo-state: published digest record is not tracked at authority baseline %s: %s\n' \
+      "$authority_baseline" "$digest_record" >&2
+    return 1
+  }
+  git ls-files --error-unmatch -- "$digest_record" >/dev/null 2>&1 || {
+    printf 'repo-state: published digest record is not tracked now: %s\n' "$digest_record" >&2
+    return 1
+  }
+  git diff --quiet "$authority_baseline" -- "$digest_record" 2>/dev/null || {
+    printf 'repo-state: published digest record differs from authority baseline: %s\n' "$digest_record" >&2
+    return 1
+  }
+  cmp -s -- "$digest_record" <(git cat-file blob "${authority_baseline}:${digest_record}") || {
+    printf 'repo-state: published digest record bytes are not authority-baseline bytes: %s\n' "$digest_record" >&2
+    return 1
+  }
+  if command -v python >/dev/null 2>&1; then py_cmd=(python)
+  elif command -v python3 >/dev/null 2>&1; then py_cmd=(python3)
+  elif command -v py >/dev/null 2>&1; then py_cmd=(py -3)
+  else printf 'repo-state: python is required for ignored-artifact\n' >&2; return 2
+  fi
+  "${py_cmd[@]}" - "$artifact" "$digest_record" "$surface" "$authority_baseline" <<'PY'
+import hashlib
+import pathlib
+import re
+import sys
+
+artifact = pathlib.Path(sys.argv[1])
+record = pathlib.Path(sys.argv[2])
+surface = sys.argv[3]
+authority_baseline = sys.argv[4]
+key = artifact.as_posix()
+matches = []
+seen_paths = set()
+for number, line in enumerate(record.read_text(encoding="utf-8").splitlines(), 1):
+    if not line:
+        continue
+    match = re.fullmatch(r"([0-9a-f]{64})  (.+)", line)
+    if not match:
+        print(f"repo-state: malformed published digest row {number}", file=sys.stderr)
+        raise SystemExit(1)
+    normalized = match.group(2).replace("\\", "/")
+    if normalized in seen_paths:
+        print(f"repo-state: duplicate published digest path {normalized}", file=sys.stderr)
+        raise SystemExit(1)
+    seen_paths.add(normalized)
+    if normalized == key:
+        matches.append(match.group(1))
+if len(matches) != 1:
+    print(f"repo-state: published digest record requires exactly one row for {key}", file=sys.stderr)
+    raise SystemExit(1)
+observed = hashlib.sha256(artifact.read_bytes()).hexdigest()
+if observed != matches[0]:
+    print(f"repo-state: stale ignored {surface} artifact {key}: observed={observed} published={matches[0]}", file=sys.stderr)
+    raise SystemExit(1)
+print(f"ignored-artifact: current | surface={surface} | path={key} | sha256={observed} | authority-baseline={authority_baseline}")
+PY
+}
+
 subcommand="${1:-}"
 shift 2>/dev/null || true
 
 case "$subcommand" in
+  ignored-artifact)
+    [ "$#" -eq 4 ] || {
+      printf 'usage: repo-state.sh ignored-artifact <source|package|release> <artifact> <published-digest-record> <authority-baseline>\n' >&2
+      exit 2
+    }
+    cmd_ignored_artifact "$1" "$2" "$3" "$4"
+    ;;
   deliverable)
     [ "$#" -ge 2 ] || {
       printf 'usage: repo-state.sh deliverable <baseline> <path>\n' >&2
@@ -152,6 +269,7 @@ repo-state.sh - evaluate complete working-tree state vs a baseline commit.
   repo-state.sh deliverable   <baseline> <path>
   repo-state.sh changed-files <baseline>
   repo-state.sh added-lines   <baseline>
+  repo-state.sh ignored-artifact <source|package|release> <artifact> <published-digest-record> <authority-baseline>
 
 Use a single baseline revision. Do not use a two-dot commit range for final
 audit or cleanliness checks, because ranges miss staged, unstaged, and

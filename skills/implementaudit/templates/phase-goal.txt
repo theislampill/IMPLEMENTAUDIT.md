@@ -69,6 +69,11 @@ precision is material — states the change precisely, and carries its own
 verify command with expected success shape. Order steps so the tree stays
 healthy between steps when possible. Vague step language fails validation.
 Step granularity stays proportional to dependency, risk, and executor needs.
+An edit step may append `landed: occurrences:<n>:<literal>|anchor:<literal>|hunk:<line>:<literal>`;
+when present, execute the exact edit command through `--mutation-window`, which
+captures the target before the command and verifies its false-before/true-after
+transition before returning; invalid grammar and a pre-existing post-condition
+are rejected before the command is launched.
 
 - Step 1: {{STEP_1_TITLE}} — target: {{EXACT_FILE_AND_SYMBOL_1}}; change: {{PRECISE_CHANGE_1}}; verify: {{STEP_1_COMMAND}}; expected: {{STEP_1_EXPECTED}}
 - Step 2: {{STEP_2_TITLE}} — target: {{EXACT_FILE_AND_SYMBOL_2}}; change: {{PRECISE_CHANGE_2}}; verify: {{STEP_2_COMMAND}}; expected: {{STEP_2_EXPECTED}}

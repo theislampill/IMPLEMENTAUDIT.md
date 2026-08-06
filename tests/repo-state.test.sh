@@ -113,4 +113,49 @@ mkdir -p "$tmp/runroot-repo"
   fi
 )
 
+# #76 R3-F10: ignored stale output is package/release evidence only. The same
+# bytes remain outside this additional gate for a source-only success surface.
+mkdir -p "$tmp/artifact-repo/dist"
+(
+  cd "$tmp/artifact-repo"
+  git init -q
+  printf 'dist/\n' > .gitignore
+  printf 'source\n' > source.txt
+  printf 'current payload\n' > dist/pkg.skill
+  current_sha="$(sha256sum dist/pkg.skill | awk '{print $1}')"
+  printf '%s  dist/pkg.skill\n' "$current_sha" > published-digests.txt
+  git add .gitignore source.txt published-digests.txt
+  git -c user.email=t@example.invalid -c user.name=t commit -qm init
+  authority_baseline="$(git rev-parse HEAD)"
+  bash "$tmp/repo with spaces/skills/implementaudit/scripts/repo-state.sh" \
+    ignored-artifact package dist/pkg.skill published-digests.txt "$authority_baseline" >/dev/null || {
+      printf 'repo-state.test: current ignored package artifact rejected\n' >&2
+      exit 1
+    }
+  printf 'stale payload\n' > dist/pkg.skill
+  if bash "$tmp/repo with spaces/skills/implementaudit/scripts/repo-state.sh" \
+      ignored-artifact package dist/pkg.skill published-digests.txt "$authority_baseline" >/dev/null 2>&1; then
+    printf 'repo-state.test: stale ignored package artifact accepted\n' >&2
+    exit 1
+  fi
+  bash "$tmp/repo with spaces/skills/implementaudit/scripts/repo-state.sh" \
+    ignored-artifact source dist/pkg.skill published-digests.txt "$authority_baseline" >/dev/null || {
+      printf 'repo-state.test: source-only control was subjected to package currency\n' >&2
+      exit 1
+    }
+  stale_sha="$(sha256sum dist/pkg.skill | awk '{print $1}')"
+  printf '%s  dist/pkg.skill\n' "$stale_sha" > ad-hoc.txt
+  if bash "$tmp/repo with spaces/skills/implementaudit/scripts/repo-state.sh" \
+      ignored-artifact release dist/pkg.skill ad-hoc.txt "$authority_baseline" >/dev/null 2>&1; then
+    printf 'repo-state.test: ad-hoc untracked release digest accepted as authority\n' >&2
+    exit 1
+  fi
+  printf '%s  dist/pkg.skill\n' "$stale_sha" > published-digests.txt
+  if bash "$tmp/repo with spaces/skills/implementaudit/scripts/repo-state.sh" \
+      ignored-artifact release dist/pkg.skill published-digests.txt "$authority_baseline" >/dev/null 2>&1; then
+    printf 'repo-state.test: modified tracked release digest accepted as baseline authority\n' >&2
+    exit 1
+  fi
+)
+
 printf 'repo-state.test: ok\n'

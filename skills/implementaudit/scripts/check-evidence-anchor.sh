@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Evidence-version anchoring consumer check (#4). Read-only.
+# Evidence-version anchoring and bounded mutation-window check (#4).
 #
 #   check-evidence-anchor.sh --row "<evidence cell text>"
 #       exit 0 when every `@<hex>` anchor token is a full 40-hex SHA
@@ -23,6 +23,125 @@ fail() { printf 'check-evidence-anchor: %s\n' "$*" >&2; exit 1; }
 
 mode="${1:-}"
 case "$mode" in
+  --capture-mutation-before|--mutation-landed)
+    fail "retired receipt mode; use --mutation-window so capture, command, and verification share one process"
+    ;;
+esac
+case "$mode" in
+  --mutation-window)
+    landed_path="${2:-}"
+    [ "${3:-}" = "--expect" ] \
+      || fail "usage: --mutation-window <path> --expect <spec> -- <command> [args...]"
+    expectation="${4:-}"
+    [ "${5:-}" = "--" ] && [ "$#" -ge 6 ] \
+      || fail "usage: --mutation-window <path> --expect <spec> -- <command> [args...]"
+    shift 5
+    [ -f "$landed_path" ] && [ ! -L "$landed_path" ] \
+      || fail "mutation target must be a regular non-symlink file: $landed_path"
+    if command -v python >/dev/null 2>&1; then py_cmd=(python)
+    elif command -v python3 >/dev/null 2>&1; then py_cmd=(python3)
+    elif command -v py >/dev/null 2>&1; then py_cmd=(py -3)
+    else fail "python, python3, or py -3 is required for --mutation-window"
+    fi
+    "${py_cmd[@]}" - "$landed_path" "$expectation" "$@" <<'PY'
+import hashlib
+import pathlib
+import re
+import subprocess
+import sys
+
+def fail(message):
+    print(f"check-evidence-anchor: {message}", file=sys.stderr)
+    raise SystemExit(1)
+
+def git(*args):
+    result = subprocess.run(["git", *args], capture_output=True, check=False)
+    if result.returncode != 0:
+        fail(f"git {' '.join(args)} failed")
+    return result.stdout
+
+path_arg = pathlib.Path(sys.argv[1])
+spec = sys.argv[2]
+command = sys.argv[3:]
+root = pathlib.Path(git("rev-parse", "--show-toplevel").decode().strip()).resolve()
+head = git("rev-parse", "HEAD").decode().strip()
+path = path_arg.resolve(strict=True)
+try:
+    relative = path.relative_to(root).as_posix()
+except ValueError:
+    fail("mutation target must resolve inside the current repository")
+before_bytes = path.read_bytes()
+try:
+    before = before_bytes.decode("utf-8")
+except UnicodeError:
+    fail("mutation landed checks require UTF-8 text files")
+before_sha = hashlib.sha256(before_bytes).hexdigest()
+if spec.startswith("occurrences:"):
+    parts = spec.split(":", 2)
+    if len(parts) != 3 or not re.fullmatch(r"[0-9]+", parts[1]) or not parts[2]:
+        fail("occurrences expects occurrences:<nonnegative-int>:<literal>")
+    kind = "occurrences"
+    expected = int(parts[1])
+    literal = parts[2]
+    prior = before.count(literal)
+    if prior == expected:
+        fail(f"mutation expectation was already true before the command: occurrences={prior}")
+elif spec.startswith("anchor:"):
+    kind = "anchor"
+    literal = spec.split(":", 1)[1]
+    if not literal:
+        fail("anchor expects anchor:<literal>")
+    if literal in before:
+        fail("mutation expectation was already true before the command: anchor present")
+elif spec.startswith("hunk:"):
+    parts = spec.split(":", 2)
+    if len(parts) != 3 or not re.fullmatch(r"[1-9][0-9]*", parts[1]) or not parts[2]:
+        fail("hunk expects hunk:<one-based-line>:<literal>")
+    kind = "hunk"
+    number = int(parts[1])
+    literal = parts[2]
+    before_lines = before.splitlines()
+    if number <= len(before_lines) and literal in before_lines[number - 1]:
+        fail(f"mutation expectation was already true before the command: hunk line={number}")
+else:
+    fail("unknown mutation expectation (expected occurrences, anchor, or hunk)")
+
+result = subprocess.run(command, check=False)
+if result.returncode != 0:
+    fail(f"mutation command exited {result.returncode}")
+if not path.is_file() or path.is_symlink():
+    fail("mutation command did not leave a regular non-symlink target")
+after_bytes = path.read_bytes()
+try:
+    text = after_bytes.decode("utf-8")
+except UnicodeError:
+    fail("mutation landed checks require UTF-8 text files")
+after_sha = hashlib.sha256(after_bytes).hexdigest()
+if before_sha == after_sha:
+    fail("mutation not landed: before and after bytes are identical")
+
+if kind == "occurrences":
+    observed = text.count(literal)
+    if observed != expected:
+        fail(f"mutation not landed: occurrences observed={observed} expected={expected}")
+    detail = f"occurrences-before={prior} occurrences-after={observed}"
+elif kind == "anchor":
+    if literal not in text:
+        fail("mutation not landed: anchor absent")
+    detail = "anchor=absent-to-present"
+else:
+    lines = text.splitlines()
+    if number > len(lines) or literal not in lines[number - 1]:
+        observed = "missing-line" if number > len(lines) else repr(lines[number - 1])
+        fail(f"mutation not landed: hunk line={number} observed={observed}")
+    detail = f"hunk-line={number}"
+
+print(
+    f"check-evidence-anchor: mutation landed target={relative} head={head} "
+    f"command-exit=0 {detail} before-sha256={before_sha} after-sha256={after_sha}"
+)
+PY
+    ;;
   --row)
     row="${2:-}"
     bad="$(printf '%s' "$row" | grep -oE '@[0-9a-f]{7,}' \
@@ -231,6 +350,6 @@ else:
 PY
     ;;
   *)
-    fail "usage: --row \"<text>\" | --artifact <file> --tree <sha> | --window <launch-intent-file> --now <sha>"
+    fail "usage: --row \"<text>\" | --artifact <file> --tree <sha> | --window <launch-intent-file> --now <sha> | --mutation-window <path> --expect <spec> -- <command> [args...]"
     ;;
 esac

@@ -67,6 +67,7 @@ require_file skills/implementaudit/references/plan-lifecycle.md
 require_file skills/implementaudit/references/terminology-integration.md
 require_file skills/implementaudit/references/convergence-mode.md
 require_file skills/implementaudit/scripts/check-evidence-anchor.sh
+require_file skills/implementaudit/scripts/check-duplication-parity.sh
 require_file skills/implementaudit/scripts/check-respec-impact-set.sh
 require_file skills/implementaudit/scripts/check-lesson-lift.sh
 require_file skills/implementaudit/scripts/check-handoff-packet.sh
@@ -75,6 +76,7 @@ require_file skills/implementaudit/scripts/check-authorization-binding.sh
 require_file skills/implementaudit/scripts/claim-run.sh
 require_file skills/implementaudit/scripts/detect-env.sh
 require_file skills/implementaudit/scripts/detect-stack.sh
+require_file skills/implementaudit/scripts/map-pin-chain.sh
 require_file skills/implementaudit/scripts/repo-state.sh
 require_file skills/implementaudit/scripts/summarize-repo.sh
 require_file skills/implementaudit/scripts/validate-audit-spec.sh
