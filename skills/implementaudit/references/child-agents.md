@@ -82,6 +82,11 @@ per-lane contract when it does not. Host concurrency limits may change
 scheduling; they never silently erase a warranted lane. A coverage table
 documents executed lanes; it never substitutes for them.
 
+Only host concurrency limits may serialize declared-independent lanes. Batch to
+that limit and rollback margin: one class-appropriate review/batch, not one
+programme/lane. `irreversible-external` and `unknown` keep full ceremony and
+external-state gates per unit.
+
 Specialist lanes cover:
 
 - deep category fanout for correctness, security, performance, tests,

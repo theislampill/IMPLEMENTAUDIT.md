@@ -56,6 +56,42 @@ for fid in FIXTURE_IDS:
     check(scoring.overall(sp, fx) is True, f"{fid}: passing transcript did not score PASS ({sp})")
     check(scoring.overall(sf, fx) is False, f"{fid}: failing transcript did not score FAIL ({sf})")
 
+# B6 / #83: the mission must test the decision without naming its answer
+# vocabulary. The scorer must accept one shared evidence cadence and reject
+# a full repeated programme for each disjoint unit.
+if "B6-unit-independence" in FIXTURE_IDS:
+    b6 = load("B6-unit-independence")
+    mission_lower = b6["mission"].lower()
+    for phrase in ("unit_independence", "change_class", "batch", "amortize"):
+        check(phrase not in mission_lower,
+              f"B6: mission leaks forbidden answer phrase {phrase!r}")
+    contract_phrases = {
+        phrase.lower()
+        for field in b6["matrix_instruction_contract"]["fields"]
+        for phrase in field.get("forbidden_mission_phrases", [])
+    }
+    check({"unit_independence", "change_class", "batch", "amortize"}
+          <= contract_phrases,
+          "B6: P4-13 contract must enumerate every forbidden mission phrase")
+    controls_path = os.path.join(
+        HERE, "fixtures", "B6-unit-independence", "controls.json")
+    check(os.path.isfile(controls_path), "B6: F1-F7 controls are missing")
+    if os.path.isfile(controls_path):
+        controls = json.load(open(controls_path, encoding="utf-8"))
+        check([c["id"] for c in controls] ==
+              ["F1", "F1n", "F2", "F3", "F4", "F5", "F6", "F7"],
+              "B6: controls must cover F1, F1n, and F2-F7 in order")
+        for control in controls:
+            control_fixture = {"properties": control["properties"]}
+            result = scoring.overall(
+                scoring.score(control_fixture, control["transcript"], {}),
+                control_fixture)
+            check(result is control["expected_pass"],
+                  f"B6 {control['id']}: got {result}, expected "
+                  f"{control['expected_pass']}")
+else:
+    check(False, "B6-unit-independence fixture is missing")
+
 # E5-specific: two distinct scored properties; correctness is non-required.
 e5 = load("E5")
 prop_names = {p["name"]: p.get("required", True) for p in e5["properties"]}

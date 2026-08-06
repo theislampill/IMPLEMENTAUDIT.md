@@ -129,6 +129,32 @@ risk deepens the action set automatically; request size alone never does.
 An absent or hand-wavy action-selection record is a plan-quality defect, not a
 style preference.
 
+## Unit independence and change class
+
+At three or more enumerated work units, record:
+
+```text
+unit_independence: independent | ordered(<reason>)
+change_class: <approved class>
+```
+
+Independent means no unit needs another's uncommitted output; ordered names the
+dependency. Batch independent units to host concurrency and rollback margin,
+then run the class-earned ceremony once per batch. Fewer than three units use
+ordinary planning. Scaling never waives review, rollback, or external gates.
+
+| `change_class` | Ceremony floor |
+|---|---|
+| `reversible-local` | Smoke A/B + Stage 6; no repetition-only cold review. |
+| `reversible-local-multi` | Smoke A/B + phase validation; one review/batch. |
+| `reversible-deployed` | Local floor + rollback proof + one cold review/batch. |
+| `irreversible-local` | P4-3 characterization + rollback proof/unit. |
+| `irreversible-external` | Full ceremony/review/external gates + rollback or rehearsal/unit; no amortization. |
+| `unknown` | Treat as `irreversible-external` until evidence narrows it. |
+
+The most consequential action sets the class; external mutation forbids a local
+class. On change, stop, reclassify, and re-plan.
+
 Regardless of planning depth, execution continues phase-by-phase until terminal
 audit closure (`AUDIT_COMPLETE`) or an explicit audited handoff
 (`AUDIT_HANDOFF`). Blocked work ends in handoff, not fake completion.

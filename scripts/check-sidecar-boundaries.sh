@@ -80,6 +80,7 @@ grep -R "ActiveGraph custody is not correctness proof" -n skills/implementaudit/
   fail "ActiveGraph custody-only boundary is missing"
 grep -R "Markdown fallback" -n skills README.md AGENTS.md >/dev/null ||
   fail "Markdown fallback boundary is missing"
+require_literal skills/implementaudit/SKILL.md "Graphify output is orientation evidence, not proof. ActiveGraph custody is not correctness proof. Sidecars are optional unless a repo says otherwise; their presence authorizes no install, indexing, setup, config, export, or sidecar mutation." "compressed spine sidecar boundary"
 grep -R "no install, indexing, setup, config, export" -in skills README.md AGENTS.md >/dev/null ||
   fail "sidecar authorization boundary is missing"
 grep -R "Graphify status" -n skills/implementaudit/templates/THINKING.md skills/implementaudit/templates/STATE.md >/dev/null ||

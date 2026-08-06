@@ -35,6 +35,8 @@ validate-phase: a filled phase spec requires —
             ## Scope boundaries with Out of scope:, and plan-specific
             ## STOP conditions; specs without ordered steps pass as legacy
             with a warning
+  unit sizing (#83): new specs with 3+ `- Unit N:` items carry
+            `unit_independence` and approved `change_class`; legacy specs warn
   sidecar status: literal `Markdown fallback:` field (any value)
 Canonical filled examples (source repo only): fixtures/run-root-example/phases/phase-1.md (brownfield)
 and (source repo only) fixtures/phase-design/dmadv-greenfield-phase.md (greenfield);
@@ -119,6 +121,68 @@ PLACEHOLDER_TERMS='{{|tbd|todo|n/a|placeholder|criterion 1|criterion 2|work bull
 
 if [ "${#py_cmd[@]}" -gt 0 ]; then
   python_errors=0
+
+  "${py_cmd[@]}" - "$phase_file" <<'PY' || python_errors=$((python_errors + 1))
+import re, sys
+from pathlib import Path
+
+text = Path(sys.argv[1]).read_text(encoding="utf-8", errors="replace")
+
+def die(message):
+    sys.stderr.write("validate-phase: " + message + "\n")
+    raise SystemExit(1)
+
+def field(name):
+    found = re.findall(rf"(?mi)^{re.escape(name)}:\s*(\S.*)$", text)
+    if len(found) > 1:
+        die(f"duplicate field: {name}")
+    return found[0].strip() if found else None
+
+def section(name):
+    found = re.search(
+        rf"(?ms)^##\s+{name}\b(.*?)(?=^##\s+|^---\s*$|\Z)", text)
+    return found.group(1) if found else ""
+
+independence = field("unit_independence")
+change_class = field("change_class")
+new_format = bool(re.search(r"(?mi)^##\s+Implementation steps", text))
+
+unit_count = len(re.findall(
+    r"(?mi)^\s*-\s+Unit\s+\d+\s*:", section("Work")))
+
+if bool(independence) != bool(change_class):
+    die("unit_independence and change_class must be declared together")
+
+if unit_count >= 3 and not independence:
+    if new_format:
+        die("3+ declared units require unit_independence and change_class")
+    sys.stderr.write(
+        "validate-phase: WARNING legacy spec — 3+ unit declarations lack "
+        "unit_independence and change_class; newly authored specs require both\n")
+    raise SystemExit(0)
+
+if not independence:
+    raise SystemExit(0)
+
+if not (independence == "independent"
+        or re.fullmatch(r"ordered\([^()\r\n]+\)", independence)):
+    die("unit_independence must be independent or ordered(<reason>)")
+
+approved = set("reversible-local reversible-local-multi reversible-deployed "
+               "irreversible-local irreversible-external unknown".split())
+if change_class not in approved:
+    die("invalid change_class")
+
+external_command = re.compile(
+    r"(?i)\b(publish|release|deploy|docker\s+push|kubectl\s+apply|terraform\s+apply)\b")
+if change_class in {"reversible-local", "reversible-local-multi"} \
+        and external_command.search(section("Mandatory commands")):
+    die("reversible-local cannot authorize external mutation commands")
+
+if change_class in {"irreversible-external", "unknown"} and re.search(
+        r"(?i)\b(per\s+batch|one\s+review\s+per\s+batch|amortiz\w*)\b", text):
+    die("irreversible-external keeps full ceremony per unit")
+PY
 
   # Check: acceptance criteria section has at least 1 non-placeholder item
   "${py_cmd[@]}" - "$phase_file" <<'PY' || python_errors=$((python_errors + 1))
