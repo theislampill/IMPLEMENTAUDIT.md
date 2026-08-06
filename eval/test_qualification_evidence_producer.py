@@ -1510,8 +1510,19 @@ def main():
         manifest.write_bytes(manifest_raw)
         rows = integration.validate_package_archive(
             archive, manifest, sha, tree, repo_root=checkout)
-        assert len(rows) == 44
         decoded = json.loads(manifest_raw)
+        tracked_skill_paths = producer._git(
+            checkout, "ls-tree", "-r", "--name-only", sha,
+            "skills/implementaudit", text=True).splitlines()
+        expected_archive_paths = {
+            path.removeprefix("skills/implementaudit/")
+            for path in tracked_skill_paths
+        } | {
+            ".claude-plugin/plugin.json",
+            ".claude-plugin/marketplace.json",
+        }
+        assert {row["path"] for row in rows} == expected_archive_paths
+        assert rows == decoded["entries"]
         assert decoded["builder_source_path"] == \
             "scripts/build-release-asset.sh"
         _assert_production_failure_transactions(
