@@ -115,7 +115,10 @@ release-critical eval custody hardening (#20), context-epoch continuity
 (#35), the native audit-action remediation set (#47–#53), the sixteen
 genuine-Fable review corrections, and the model-in-the-loop evaluation
 program (#9: 84-mission immutable baseline, B3 supplementary waves, and the
-candidate/control comparison campaign).
+candidate/control comparison campaign). The owner-authorized corrected
+same-version re-release published on 2026-08-04 at tag target `0adb10d`; it
+supersedes the withdrawn 2026-07-18 asset. The digest pair and qualification
+boundaries are recorded in the changelog and archived correction report.
 
 The current bootloader architecture keeps weak-executor safeguards in
 progressive references/templates: final reports, optional Graphify-assisted
@@ -882,7 +885,8 @@ asset-to-Codex-install path into a temporary Codex home. It does not claim passi
 
 **Release/contract alignment:** the current release-gate verified live public
 release is `v0.3.2.0` (verified against the live GitHub release at the
-v0.3.2.0 readback gate, 2026-07-18).
+corrected v0.3.2.0 readback gate, 2026-08-05; corrected publication
+`2026-08-04T18:48:56Z`, tag target `0adb10d`).
 This source checkout may contain post-release repairs after that tag; installing
 from a checkout or local asset uses local source, not a public release claim.
 Re-verify this paragraph at every release gate.
