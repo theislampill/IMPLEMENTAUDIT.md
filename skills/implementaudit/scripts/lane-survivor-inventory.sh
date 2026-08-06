@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 # Print-only interruption inventory for declared lane outputs.
-# Deliberately unwired from closure gates: automatic retry can replay satisfied
-# one-shots or bypass current authorization, so this script classifies and
-# recommends a re-dispatch set but never acts on it.
 set -euo pipefail
 
 usage() {

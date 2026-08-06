@@ -31,6 +31,10 @@ fail_case verified-no-evidence-FAIL.md
 pass_case uninspectable-unverified-PASS.md
 pass_case source-only-PASS.md
 pass_case installed-verified-PASS.md
+fail_case quota-reported-reset-only-FAIL.md
+fail_case quota-advisory-blocked-FAIL.md
+pass_case quota-advisory-resume-PASS.md
+pass_case quota-genuine-blocked-PASS.md
 
 # --- Fable review of PR #31: adversarial regressions -----------------------
 tmp="$(mktemp -d)"; trap 'rm -rf "$tmp"' EXIT
@@ -62,4 +66,21 @@ printf '%s\n%s\n' \
 bash "$scorer" "$tmp/two.md" >/dev/null 2>&1 \
   || fail "two distinct claims at different surfaces must pass"
 
-printf 'closure-surface-contract: ok (contract + 2 fail + 3 pass fixtures + 3 adversarial)\n'
+# Kill authority is identity-ledger only. Broad image-name termination fails;
+# a PID-targeted closure record remains within this checker's scope and the
+# run-root validator performs the process-started.json identity match.
+printf '%s\n%s\n' \
+  'claim: kill | surface: source | property: structural | status: verified | evidence-surface: source' \
+  "kill-command: Get-CimInstance Win32_Process -Filter \"Name='claude.exe'\" | Stop-Process" \
+  > "$tmp/kill-broad.md"
+if bash "$scorer" "$tmp/kill-broad.md" >/dev/null 2>&1; then
+  fail "image-name kill authority accepted"
+fi
+printf '%s\n%s\n' \
+  'claim: kill | surface: source | property: structural | status: verified | evidence-surface: source' \
+  'kill: pid=123 | host_boot_id=boot-1 | process_creation_time=2026-08-06T01:02:03Z | authority=process-started.json' \
+  > "$tmp/kill-owned.md"
+bash "$scorer" "$tmp/kill-owned.md" >/dev/null 2>&1 \
+  || fail "PID-targeted kill closure record must pass this grep-level gate"
+
+printf 'closure-surface-contract: ok (contract + quota and kill-authority controls + 3 adversarial)\n'
