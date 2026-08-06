@@ -441,6 +441,7 @@
         "skills/implementaudit/scripts/validate-phase.sh",
         "skills/implementaudit/scripts/validate-run-root.sh",
         "skills/implementaudit/scripts/custody-append.sh",
+        "skills/implementaudit/scripts/lane-survivor-inventory.sh",
         "scripts/verify-package.sh",
         "skills/implementaudit/templates/STATE.md",
         "skills/implementaudit/templates/PROTOCOL.md"

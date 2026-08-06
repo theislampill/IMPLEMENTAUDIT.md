@@ -1,0 +1,15 @@
+{
+  "envelope": {
+    "subtype": "success",
+    "is_error": false,
+    "terminal_reason": "completed",
+    "num_turns": 4,
+    "output_tokens": 128
+  },
+  "model_metadata": {
+    "requested_model": "claude-sonnet-5",
+    "actual_model": "claude-sonnet-5",
+    "exit_code": 0
+  },
+  "expected_classification": "FINAL"
+}

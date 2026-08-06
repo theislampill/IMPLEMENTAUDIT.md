@@ -78,6 +78,7 @@ require_file skills/implementaudit/scripts/repo-state.sh
 require_file skills/implementaudit/scripts/summarize-repo.sh
 require_file skills/implementaudit/scripts/validate-audit-spec.sh
 require_file skills/implementaudit/scripts/validate-phase.sh
+require_file skills/implementaudit/scripts/lane-survivor-inventory.sh
 require_file skills/implementaudit/templates/ROADMAP.md
 require_file skills/implementaudit/templates/STATE.md
 require_file skills/implementaudit/templates/THINKING.md
@@ -216,6 +217,7 @@ require_file fixtures/sidecar-contract/footprint-default.md
 require_file fixtures/sidecar-contract/external-validity.md
 require_file tests/andon-class-contract.test.sh
 require_file tests/continuity-contract.test.sh
+require_file tests/interruption-durability.test.sh
 require_file tests/lesson-lift-contract.test.sh
 require_file tests/handoff-packet-contract.test.sh
 require_file tests/closure-surface-contract.test.sh
@@ -567,6 +569,7 @@ bash scripts/check-added-lines-clean.sh HEAD
 bash tests/lean-discipline.test.sh
 bash tests/andon-class-contract.test.sh
 bash tests/continuity-contract.test.sh
+bash tests/interruption-durability.test.sh
 bash tests/lesson-lift-contract.test.sh
 bash tests/handoff-packet-contract.test.sh
 bash tests/closure-surface-contract.test.sh

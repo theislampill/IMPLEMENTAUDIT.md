@@ -77,6 +77,7 @@ required = {
     "scripts/validate-phase.sh",
     "scripts/validate-run-root.sh",
     "scripts/custody-append.sh",
+    "scripts/lane-survivor-inventory.sh",
     "templates/ROADMAP.md",
     "templates/STATE.md",
     "templates/THINKING.md",
@@ -169,10 +170,10 @@ with zipfile.ZipFile(asset) as zf:
     # v0.3.2.0 review-set integration plus the action-selection contract grew
     # the deflated asset to ~121 KB — growth verified intentional and deflated.
     # Raised to 140_000 for #35 (context-epoch continuity): the new packaged
-    # references/continuity.md plus PROTOCOL/STATE contract text grew the
-    # deflated asset to ~131 KB — growth verified intentional and deflated.
+    # Shipped continuity and interruption-durability contracts grew the
+    # deflated asset to ~141 KB; growth is intentional and remains deflated.
     asset_bytes = asset.stat().st_size
-    MAX_ASSET_BYTES = 140_000
+    MAX_ASSET_BYTES = 142_000
     if asset_bytes > MAX_ASSET_BYTES:
         raise SystemExit(
             f"asset size {asset_bytes:,} bytes exceeds the {MAX_ASSET_BYTES:,}-byte "

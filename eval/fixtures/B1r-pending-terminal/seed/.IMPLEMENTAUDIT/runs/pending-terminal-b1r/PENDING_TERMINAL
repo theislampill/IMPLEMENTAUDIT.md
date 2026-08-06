@@ -1,0 +1,1 @@
+command="bash scripts/finalize.sh --run-root .IMPLEMENTAUDIT/runs/pending-terminal-b1r" preconditions="STATE.md status=READY; checksum manifest matches"

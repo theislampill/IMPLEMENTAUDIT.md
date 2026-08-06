@@ -35,6 +35,7 @@ for file in \
   scripts/validate-phase.sh \
   scripts/validate-run-root.sh \
   scripts/custody-append.sh \
+  scripts/lane-survivor-inventory.sh \
   templates/ROADMAP.md \
   templates/STATE.md \
   templates/THINKING.md \
