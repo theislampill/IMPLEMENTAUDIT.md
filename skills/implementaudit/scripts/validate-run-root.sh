@@ -9,6 +9,7 @@
 # contract.
 #
 # Usage: validate-run-root.sh [--micro] <run-root>
+#        validate-run-root.sh --ledger <markdown-ledger>
 # Exit 0: conformant. Exit 1: violations listed on stderr. Exit 2: usage.
 
 set -uo pipefail
@@ -19,20 +20,101 @@ err() {
   err_count=$((err_count + 1))
 }
 
+# Count distinct Occ ids per Class in a new-format Andon table. The existing
+# Countermeasure cell carries owner/source=<path>; normalize separators before
+# comparing the last two distinct repair occurrences for a class. Keep this
+# normalization shape aligned with #80's separate host-note signature counter;
+# the substrates and scripts remain intentionally distinct.
+check_recurrence_decision() {
+  local ledger="$1" findings invalid_lines missing_classes
+  findings="$(awk -F'|' '
+    function trim(v) { gsub(/^[ \t]+|[ \t]+$/, "", v); return v }
+    function owner_source(v) {
+      if (v !~ /owner\/source[ \t]*=/) return ""
+      sub(/^.*owner\/source[ \t]*=[ \t]*/, "", v)
+      sub(/[ \t;,)]+.*$/, "", v)
+      gsub(/\\/, "/", v)
+      while (v ~ /^\.\//) sub(/^\.\//, "", v)
+      return v
+    }
+    /^Mechanism-replacement decision:/ {
+      if ($0 ~ /^Mechanism-replacement decision:[ \t]*(replace-mechanism|continue|escalate-to-convergence-mode)[ \t]*\([^()]*[[:alnum:]][^()]*\)[ \t]*$/) {
+        valid_decision[NR]=1
+      } else {
+        print "invalid\t" NR
+      }
+    }
+    /^[ \t]*AUDIT_COMPLETE[ \t]*$/ {
+      if (audit_complete_line == 0) audit_complete_line=NR
+    }
+    /^## Andon log/ { in_andon=1; new_format=0; next }
+    in_andon && /^## / { in_andon=0; new_format=0 }
+    in_andon && tolower($0) ~ /\|[ \t]*occ[ \t]*\|[ \t]*phase[ \t]*\|[ \t]*class[ \t]*\|/ {
+      new_format=1; next
+    }
+    in_andon && new_format && /^\|[[:space:]]*[0-9]+[[:space:]]*\|/ {
+      occ=trim($3); cls=trim($5)
+      if (occ == "" || cls == "") next
+      key=cls SUBSEP occ
+      if (!(key in seen)) {
+        seen[key]=1
+        count[cls]++
+        previous_owner[cls]=last_owner[cls]
+        last_owner[cls]=owner_source($7)
+        last_line[cls]=NR
+      }
+    }
+    END {
+      for (cls in count) {
+        if (count[cls] < 3 || last_owner[cls] == "" || previous_owner[cls] != last_owner[cls]) continue
+        found=0
+        for (line in valid_decision) {
+          if ((line + 0) > last_line[cls] &&
+              (audit_complete_line == 0 || (line + 0) < audit_complete_line)) found=1
+        }
+        if (!found) print "missing\t" cls
+      }
+    }' "$ledger")"
+
+  invalid_lines="$(printf '%s\n' "$findings" | awk -F'\t' '$1 == "invalid" { print $2 }' | tr '\n' ' ')"
+  if [ -n "$invalid_lines" ]; then
+    err "invalid Mechanism-replacement decision: line(s) $invalid_lines (allowed: replace-mechanism (<what>) / continue (<justification>) / escalate-to-convergence-mode (<shared invariant>))"
+  fi
+  missing_classes="$(printf '%s\n' "$findings" | awk -F'\t' '$1 == "missing" { print $2 }' | tr '\n' ' ')"
+  if [ -n "$missing_classes" ]; then
+    err "Andon class(es) $missing_classes reached 3 distinct linked occurrences with the last 2 repairs on one owner/source; add a following Mechanism-replacement decision:"
+  fi
+}
+
 mode=full
 if [ "${1:-}" = "--micro" ]; then
   mode=micro
+  shift
+elif [ "${1:-}" = "--ledger" ]; then
+  mode=ledger
   shift
 fi
 run_root="${1:-}"
 if [ -z "$run_root" ]; then
   if [ "$mode" = micro ]; then
     printf 'usage: validate-run-root.sh --micro <run-root>\n' >&2
+  elif [ "$mode" = ledger ]; then
+    printf 'usage: validate-run-root.sh --ledger <markdown-ledger>\n' >&2
   else
     printf 'usage: validate-run-root.sh <run-root>\n' >&2
   fi
   exit 2
 fi
+[ "$mode" != ledger ] || {
+  [ -f "$run_root" ] || { printf 'validate-run-root: not a file: %s\n' "$run_root" >&2; exit 2; }
+  check_recurrence_decision "$run_root"
+  if [ "$err_count" -gt 0 ]; then
+    printf 'validate-run-root: %d error(s)\n' "$err_count" >&2
+    exit 1
+  fi
+  printf 'validate-run-root: ok\n'
+  exit 0
+}
 [ -d "$run_root" ] || { printf 'validate-run-root: not a directory: %s\n' "$run_root" >&2; exit 2; }
 
 claim="$run_root/.claimed"
@@ -123,6 +205,7 @@ if [ -f "$state" ]; then
   elif ! grep -qi '| Class | Abnormality | Countermeasure | Rerun evidence | Outcome |' "$state"; then
     err "STATE.md Andon log table is missing the contract columns (# | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome; legacy shape without Occ also accepted)"
   fi
+  check_recurrence_decision "$state"
 
   if [ "$mode" = micro ]; then
     terminal_line="$(awk 'NF { last=$0 } END { print last }' "$state")"

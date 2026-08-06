@@ -671,6 +671,16 @@ Steps:
    route rule repairs through poka-yoke and AGENTS_UPDATE_DECISION.
    Rejecting governing-rule suspicion REQUIRES a recorded reason; a bare
    "no" fails the contract.
+   Deterministic firing condition: when the `## Andon log` contains at least
+   three distinct linked `Occ` ids sharing one `Class`, and the last two repair
+   rows for that class name the same normalized owner/source file in their
+   Countermeasure cells as `owner/source=<path>`, record a following
+   `Mechanism-replacement decision:` before `AUDIT_COMPLETE`. Values are
+   `replace-mechanism (<what is being replaced>)`,
+   `continue (<justification>)`, or
+   `escalate-to-convergence-mode (<shared invariant>)`. This is the existing
+   second-order judgment with a mechanical firing condition. It caps nothing
+   and forbids no further repair.
 3. Choose and record one path: split the phase, reframe the criterion,
    rollback, request an owner decision, or write a bounded fix-spec
    `<run-root>/phases/phase-N.fix.md`:

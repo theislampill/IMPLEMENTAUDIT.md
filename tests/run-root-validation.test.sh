@@ -285,4 +285,63 @@ if bash "$helper" --micro "$fixture_root/terminal-marker-transcript-only/root" >
   exit 1
 fi
 
+# 8. Mechanical second-order recurrence trigger (#91).
+if recurrence_output="$(bash "$helper" --micro "$fixture_root/recurrence-3-same-class-same-file/root" 2>&1)"; then
+  printf 'run-root-validation.test: recurring class on one owner/source must require a decision\n' >&2
+  exit 1
+fi
+printf '%s\n' "$recurrence_output" | grep -Fq 'Mechanism-replacement decision:' || {
+  printf 'run-root-validation.test: recurrence failure did not name the required decision\n' >&2
+  exit 1
+}
+
+for decision_fixture in \
+  recurrence-3-with-replace-decision \
+  recurrence-3-with-continue-decision \
+  recurrence-3-with-convergence-escalation; do
+  bash "$helper" --micro "$fixture_root/$decision_fixture/root" >/dev/null || {
+    printf 'run-root-validation.test: %s expected PASS\n' "$decision_fixture" >&2
+    exit 1
+  }
+done
+
+bash "$helper" --micro "$fixture_root/recurrence-3-different-files/root" >/dev/null || {
+  printf 'run-root-validation.test: different-files control expected PASS\n' >&2
+  exit 1
+}
+bash "$helper" --micro "$fixture_root/recurrence-3-different-classes/root" >/dev/null || {
+  printf 'run-root-validation.test: different-classes control expected PASS\n' >&2
+  exit 1
+}
+
+# The convergence-mode single-fault control is reused, not duplicated.
+bash "$helper" --ledger fixtures/convergence-mode/single-fault-control.md >/dev/null || {
+  printf 'run-root-validation.test: shared single-fault control expected PASS\n' >&2
+  exit 1
+}
+bash "$helper" --ledger "$fixture_root/legacy-andon-shape/ledger.md" >/dev/null || {
+  printf 'run-root-validation.test: legacy Andon ledger expected PASS\n' >&2
+  exit 1
+}
+bash "$helper" --ledger "$fixture_root/direct-ledger-substrate/below-threshold.md" >/dev/null || {
+  printf 'run-root-validation.test: direct ledger below threshold expected PASS\n' >&2
+  exit 1
+}
+bash "$helper" --ledger "$fixture_root/direct-ledger-substrate/duplicate-occ-below-threshold.md" >/dev/null || {
+  printf 'run-root-validation.test: duplicate Occ rows must count once\n' >&2
+  exit 1
+}
+if bash "$helper" --ledger "$fixture_root/direct-ledger-substrate/trigger-no-decision.md" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: direct ledger trigger without decision must fail\n' >&2
+  exit 1
+fi
+if bash "$helper" --ledger "$fixture_root/direct-ledger-substrate/invalid-empty-continue.md" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: continue without justification must fail\n' >&2
+  exit 1
+fi
+if bash "$helper" --ledger "$fixture_root/direct-ledger-substrate/decision-after-audit-complete.md" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: decision after AUDIT_COMPLETE must fail\n' >&2
+  exit 1
+fi
+
 printf 'run-root-validation.test: ok\n'

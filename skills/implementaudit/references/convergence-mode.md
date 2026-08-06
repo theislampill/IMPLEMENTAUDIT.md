@@ -19,6 +19,10 @@ Consider this mode when EITHER holds:
 If only a single fault is in play (no shared under-specified space), DO NOT
 use this mode: an enumeration artifact there is over-process.
 
+A `Mechanism-replacement decision: escalate-to-convergence-mode (<shared
+invariant>)` record is a documented producer of real-world trigger evidence.
+It records the escalation judgment; it does not adopt this experimental mode.
+
 ## The mode
 
 When the trigger fires, escalate from the serial repair loop (narrow repair
@@ -57,4 +61,6 @@ machinery.
 Both adoption-gate fixtures live in the source repo only (under the
 project's fixtures tree), not in the installed payload. The gate is a
 model-in-the-loop evaluation (#9 harness); it has not yet been run, so this
-mode remains optional and non-core.
+mode remains optional and non-core. The gate may consume dated, class-labelled,
+owner/source-attributed mechanism-decision records as real-world trigger
+evidence, while the shared single-fault fixture remains the negative control.
