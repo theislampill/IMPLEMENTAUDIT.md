@@ -173,14 +173,16 @@ with zipfile.ZipFile(asset) as zf:
     # references/continuity.md plus PROTOCOL/STATE contract text grew the
     # deflated asset to ~131 KB — growth verified intentional and deflated.
     asset_bytes = asset.stat().st_size
-    # N02 integration ANDON calibration: prior ceiling 145_000; full W1
-    # forecast size 144_730; admitted N02 forecast size 151_898; new ceiling
-    # 152_000; remaining N02 forecast headroom 102.
+    # Train-wide ANDON calibration: retain the admitted 144_730-byte W1 and
+    # 151_898-byte N02 probes; the deduplicated #75 -> #77 -> #84 cumulative
+    # tip is 161_007 bytes. The smallest whole-1,000-byte ceiling strictly
+    # above it is 162_000, leaving 993 bytes of measured headroom.
     # Reason: admitted milestone payload, not acceptance weakening.
-    MAX_ASSET_BYTES = 152_000
+    MAX_ASSET_BYTES = 162_000
     FULL_W1_FORECAST_BYTES = 144_730
     N02_EVIDENCE_CENSUS_FORECAST_BYTES = 151_898
-    FIRST_REJECTED_BYTES = 152_001
+    ISSUE_75_77_84_TRAIN_FORECAST_BYTES = 161_007
+    FIRST_REJECTED_BYTES = 162_001
 
     def enforce_asset_budget(candidate_bytes):
         if candidate_bytes <= MAX_ASSET_BYTES:
@@ -196,6 +198,7 @@ with zipfile.ZipFile(asset) as zf:
     # the first byte above the calibrated ceiling must remain rejected.
     enforce_asset_budget(FULL_W1_FORECAST_BYTES)
     enforce_asset_budget(N02_EVIDENCE_CENSUS_FORECAST_BYTES)
+    enforce_asset_budget(ISSUE_75_77_84_TRAIN_FORECAST_BYTES)
     try:
         enforce_asset_budget(FIRST_REJECTED_BYTES)
     except SystemExit:
