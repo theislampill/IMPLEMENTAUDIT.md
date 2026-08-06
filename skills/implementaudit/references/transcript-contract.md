@@ -164,7 +164,9 @@ has no row limit.
 These markers and classes apply to any governed run, phased or not. When no
 run root exists (direct in-session governance), the Markdown findings ledger
 serves as the Andon log substrate: record the abnormality class on the ledger
-row and cite prior same-class rows on escalation.
+row and cite prior same-class rows on escalation. The source-repo checker
+applies the recurrence rule to that substrate with
+`validate-run-root.sh --ledger <markdown-ledger>`.
 
 - **ANDON_PROBE**: emitted on the first abnormality of any class above. It
   must record: the abnormality and its class; the failing criterion, command,
@@ -190,7 +192,13 @@ row and cite prior same-class rows on escalation.
   rerun evidence. On success, the phase resumes from
   IMPLEMENTAUDIT_PHASE_VERIFY. Escalation may repeat with new evidence;
   repeating it without new evidence or progress routes to the ANDON_HANDOFF
-  conditions.
+  conditions. When three distinct linked occurrences share one class and the
+  last two repairs name the same `owner/source=<path>` in their Countermeasure
+  cells, append a `Mechanism-replacement decision:` after the last triggering
+  row and before closure. The accepted decisions are `replace-mechanism
+  (<what>)`, `continue (<justification>)`, and
+  `escalate-to-convergence-mode (<shared invariant>)`; none stops another
+  bounded repair.
 
 - **ANDON_HANDOFF**: emitted only when closure is blocked by an owner
   decision, unsafe scope, missing authorization, an external dependency,

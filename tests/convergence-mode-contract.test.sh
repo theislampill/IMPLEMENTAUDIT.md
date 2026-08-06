@@ -25,6 +25,10 @@ printf '%s' "$flat" | grep -qi 'exactly one outer qualification' || fail "single
 printf '%s' "$flat" | grep -qi 'Adoption gate' || fail "adoption gate missing"
 printf '%s' "$flat" | grep -qi 'single-fault fixture .* must NOT trigger\|must NOT trigger' \
   || fail "negative-control (must-not-trigger) missing"
+printf '%s' "$flat" | grep -qi 'escalate-to-convergence-mode' \
+  || fail "mechanism-replacement evidence producer missing"
+printf '%s' "$flat" | grep -qi 'real-world trigger evidence' \
+  || fail "adoption-gate evidence linkage missing"
 
 # Progressive disclosure: the reference must NOT be inlined into the
 # bootloader path. SKILL.md may POINT to it, but not carry its body — guard
