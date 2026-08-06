@@ -196,9 +196,12 @@ require_file tests/payload-path-hygiene.test.sh
 require_file fixtures/casual-build/accepted-intent.md
 require_file fixtures/casual-build/rejected-intent.md
 require_file fixtures/phase-design/polish-harden.md
+require_file fixtures/acceptance-instrument-discipline/cases.json
+require_file fixtures/acceptance-instrument-discipline/F7-vacuous-invariant.md
 require_file .github/workflows/pages.yml
 require_file skills/implementaudit/references/lean-operating-discipline.md
 require_file scripts/check-lean-discipline.sh
+require_file scripts/check-acceptance-instrument-discipline.sh
 require_file tests/lean-discipline.test.sh
 require_file fixtures/lean/brownfield-dmaic-release-repair.md
 require_file fixtures/lean/brownfield-dmaic-stale-docs.md
@@ -240,6 +243,7 @@ require_file tests/added-lines-clean.test.sh
 require_file tests/claim-run.test.sh
 require_file tests/continuity.test.sh
 require_file tests/phase-validation.test.sh
+require_file tests/acceptance-instrument-discipline.test.sh
 require_file tests/sidecars.test.sh
 require_file tests/capability-ledger.test.sh
 require_file tests/audit-object-routing.test.sh
@@ -591,6 +595,7 @@ bash tests/added-lines-clean.test.sh
 bash tests/claim-run.test.sh
 bash tests/continuity.test.sh
 bash tests/phase-validation.test.sh
+bash tests/acceptance-instrument-discipline.test.sh
 bash tests/sidecars.test.sh
 bash tests/capability-ledger.test.sh
 bash tests/audit-object-routing.test.sh

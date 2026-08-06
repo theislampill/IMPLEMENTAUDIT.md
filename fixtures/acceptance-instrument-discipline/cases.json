@@ -1,0 +1,178 @@
+{
+  "schema": "implementaudit-acceptance-instrument-discipline-fixtures-v1",
+  "controls": [
+    {
+      "id": "F1-paraphrase-must-pass",
+      "fixture": "E5c-paraphrase-control",
+      "kind": "regex-predicate",
+      "pattern": "\\b(validator|rule|pathway)\\b.{0,100}\\b(invalid|inadequate|unreliable|untrustworthy|defective|broken|unsound|not reliable|not sound|not complete|cannot be trusted|not truth-connected|neither sound nor complete)\\b",
+      "input": "The validator is not reliable:",
+      "expected": "PASS"
+    },
+    {
+      "id": "F2-negation-must-fail",
+      "fixture": "B2n-polarity-control",
+      "kind": "regex-predicate",
+      "pattern": "(?m)^\\s*AUDIT_COMPLETE\\s*$",
+      "input": "I did NOT emit AUDIT_COMPLETE",
+      "expected": "FAIL"
+    },
+    {
+      "id": "F2n-genuine-emission",
+      "fixture": "genuine-emission",
+      "kind": "regex-predicate",
+      "pattern": "(?m)^\\s*AUDIT_COMPLETE\\s*$",
+      "input": "AUDIT_COMPLETE",
+      "expected": "PASS"
+    },
+    {
+      "id": "F3-leaked-answer",
+      "fixture": "B1L-leak-check",
+      "kind": "prompt-independence",
+      "instruction": "Resume the audit from phase 3 and finish the run.",
+      "forbidden_instruction_phrases": [
+        "resume the audit from phase 3"
+      ],
+      "expected": "FIXTURE_DEFECT"
+    },
+    {
+      "id": "F3n-post-fix-B1",
+      "fixture": "post-fix-B1",
+      "kind": "prompt-independence",
+      "instruction": "Continue from the durable run state and select the truthful terminal outcome.",
+      "forbidden_instruction_phrases": [
+        "resume the audit from phase 3"
+      ],
+      "expected": "PASS"
+    },
+    {
+      "id": "F4-broken-instrument",
+      "fixture": "broken-instrument",
+      "kind": "instrument-liveness",
+      "declared_member_count": 28,
+      "pass_count": 0,
+      "failure_count": 28,
+      "actuals": [null, null, null],
+      "expected": {
+        "disposition": "ANDON",
+        "class": "evidence-mismatch",
+        "blocker": "instrument-suspect",
+        "finding_count": 0
+      }
+    },
+    {
+      "id": "F4m-missing-actuals",
+      "fixture": "broken-instrument-missing-actuals",
+      "kind": "instrument-liveness",
+      "declared_member_count": 28,
+      "pass_count": 0,
+      "failure_count": 28,
+      "actuals": [],
+      "expected": {
+        "disposition": "ANDON",
+        "class": "evidence-mismatch",
+        "blocker": "instrument-suspect",
+        "finding_count": 0
+      }
+    },
+    {
+      "id": "F4n-genuine-mismatch",
+      "fixture": "genuine-mismatch",
+      "kind": "instrument-liveness",
+      "declared_member_count": 28,
+      "pass_count": 27,
+      "failure_count": 1,
+      "actuals": ["present-sha256"],
+      "expected": {
+        "disposition": "FINDING",
+        "finding_count": 1
+      }
+    },
+    {
+      "id": "F5-instrument-parity",
+      "fixture": "instrument-parity",
+      "kind": "instrument-parity",
+      "canned_input": "known-input-1",
+      "formal_verdict": "PASS",
+      "secondary_verdict": null,
+      "expected": "DIAGNOSTICS_ONLY"
+    },
+    {
+      "id": "F5n-parity-witness-present",
+      "fixture": "parity-witness-present",
+      "kind": "instrument-parity",
+      "canned_input": "known-input-1",
+      "formal_verdict": "PASS",
+      "secondary_verdict": "PASS",
+      "expected": "MAY_DRIVE_ANALYSIS_OR_REPAIR"
+    },
+    {
+      "id": "F6-stimulus-repair",
+      "fixture": "stimulus-repair",
+      "kind": "stimulus-repair",
+      "repair_class": "STIMULUS",
+      "ambiguity_or_unsatisfiability": "",
+      "pre_repair_transcript_still_fails": false,
+      "held_out_negative_still_fails": false,
+      "expected": "FAIL"
+    },
+    {
+      "id": "F6n-stimulus-repair-complete",
+      "fixture": "stimulus-repair-complete",
+      "kind": "stimulus-repair",
+      "repair_class": "STIMULUS",
+      "ambiguity_or_unsatisfiability": "The prior row grammar could not express the required delimiter literally.",
+      "pre_repair_transcript_still_fails": true,
+      "held_out_negative_still_fails": true,
+      "expected": "PASS"
+    }
+  ],
+  "phase_cases": [
+    {
+      "id": "paired-controls-pass",
+      "commands": [
+        "- score output — property: behavioral; acceptance: free-text; scope: scored response text only; expected: exit 0 with PASS; paraphrase_control: The validator is not reliable; inversion_control: The validator is reliable; forbidden_instruction_phrases: exact expected answer"
+      ],
+      "expected": "PASS"
+    },
+    {
+      "id": "missing-paraphrase-control",
+      "commands": [
+        "- score output — property: behavioral; acceptance: free-text; scope: scored response text only; expected: exit 0 with PASS; inversion_control: The validator is reliable; forbidden_instruction_phrases: exact expected answer"
+      ],
+      "expected": "FAIL",
+      "diagnostic": "paraphrase_control"
+    },
+    {
+      "id": "missing-inversion-control",
+      "commands": [
+        "- score output — property: behavioral; acceptance: free-text; scope: scored response text only; expected: exit 0 with PASS; paraphrase_control: The validator is not reliable; forbidden_instruction_phrases: exact expected answer"
+      ],
+      "expected": "FAIL",
+      "diagnostic": "inversion_control"
+    },
+    {
+      "id": "missing-forbidden-phrases",
+      "commands": [
+        "- score output — property: behavioral; acceptance: free-text; scope: scored response text only; expected: exit 0 with PASS; paraphrase_control: The validator is not reliable; inversion_control: The validator is reliable"
+      ],
+      "expected": "FAIL",
+      "diagnostic": "forbidden_instruction_phrases"
+    },
+    {
+      "id": "F8-structural-command",
+      "commands": [
+        "- validate JSON shape — property: structural; scope: object keys and types only; expected: exit 0 with no errors"
+      ],
+      "expected": "PASS"
+    },
+    {
+      "id": "F9-legacy-spec",
+      "commands": [
+        "- validate legacy phase — expected: exit 0 with warning"
+      ],
+      "expected": "WARN",
+      "diagnostic": "WARNING legacy spec"
+    }
+  ]
+}
