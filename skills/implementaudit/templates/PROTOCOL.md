@@ -184,8 +184,8 @@ contract carry no anchor and stay valid as historical evidence.
 
 **Step 11 — Print IMPLEMENTAUDIT_PHASE_VERIFY.**
 Include: per-criterion verdicts, mandatory-command outputs, cleanliness
-readback, sidecar status (Graphify used/skipped/avoided; ActiveGraph
-used/skipped/avoided; Markdown fallback yes/no), remaining risk, trust-prior
+readback, sidecar status (Graphify first-contact/anti-triggered/stale/skipped;
+ActiveGraph fork-diff/mirror/skipped; Markdown fallback yes/no), remaining risk, trust-prior
 count, re-verified count.
 
 **Step 12 — Evaluate AGENTS_UPDATE_DECISION.**
@@ -207,7 +207,7 @@ CONTINUITY_DECISION options (select exactly one):
 - `repo-local AGENTS.md rule` — a durable anti-repeat rule; already handled in Step 12; do not duplicate here.
 - `run-local applied-context note` — a run-specific learning worth recording in `<run-root>/applied-context.md`; include target, reason, evidence, boundary, and authorization.
 - `optional personal/project note` — a personal or project-level memory note if the host supports it; include target, reason, evidence, boundary, and authorization; absent-safe.
-- `optional ActiveGraph event` — an additional custody event for cross-run continuity when ActiveGraph is configured and authorized.
+- `optional ActiveGraph mirror event` — a non-authoritative copy of a run-root continuity event when ActiveGraph mirror writing is separately authorized.
 
 Never write secrets, raw logs, private diagnostics, transient dirty state, or
 unsupported claims. Continuity writeback from any source never overrides live
@@ -449,33 +449,35 @@ and ordinary Gemba; they must not block the run.
 **Graphify Lean leverage rules (when present and authorized):**
 - Graphify query results cannot close acceptance criteria without live-file
   Gemba confirmation. Use Graphify to identify candidates; use live files to prove.
-- Lean 5S steps (Seiri/Seiton/Seiso) may use Graphify terrain to classify artifact
-  classes, map owner/source by degree, and flag stale/isolated node candidates —
-  each confirmed against live files before action.
-- DMAIC Measure/Analyze and DMADV Analyze/Design may use Graphify terrain to
-  identify defect surface, dependency paths, and design alternatives —
-  each confirmed against live files before patching or designing.
-- Record each Graphify query in `<run-root>/sidecars.md`: query purpose, nodes/links,
-  result summary, freshness, evidence boundary, live-file follow-up.
+- Record the applicability decision first. All triggers must hold: unfamiliar
+  repo, majority-code, terrain-shaped question, and no one-search answer.
+- Reference-shaped questions are anti-triggers. Use `rg`, `git grep`,
+  `git ls-tree`, native Git, or direct live-file reads for data-file consumers,
+  constants/literals, embedded languages, prose censuses, and topology.
+- Before the first query, run `validate-run-root.sh --graph-freshness
+  <graph.json> <repo-root>`; it compares `built_at_commit` with
+  `git rev-parse HEAD`. A mismatch fires `stale-sidecar` and forbids terrain use.
+- Use Graphify only for first-contact Seiri/Seiton orientation. Record the
+  terrain-shaped query, result summary, executed SHA comparison, evidence
+  boundary, and live-file follow-up in `<run-root>/sidecars.md`.
+- Default to `--code-only --no-cluster` and `--out` outside the target repo.
+  Any model pass requires privacy/spend disclosure and an owner-named backend;
+  auto-detection is refused and Ollama is unauthorized.
 - Graphify absence is not a blocker. Fall back to live-file Gemba and repo-state.sh.
 
-**ActiveGraph store convention and recovery:**
-- Canonical store location: `<run-root>/custody.db` (SQLite store) or
-  `<run-root>/custody-trace.jsonl` (append-only fallback). One store per run
-  root; never a tracked path.
-- Cross-run continuity preload discovers prior custody read-only by scanning
-  `.IMPLEMENTAUDIT/runs/*/custody.db` and `*/custody-trace.jsonl`; prior
-  events orient the run and never override live files or Smoke evidence.
-- Recovery/backfill follows the custody-mode labeling rules: live events
-  carry the run's live custody mode; transcript- or ledger-derived backfill
-  events must carry `custody_mode: historical_backfill` plus `source`,
-  `backfilled_at`, `original_event_time`, and `evidence_boundary`, so live
-  and reconstructed custody stay unambiguous at the event level.
+**ActiveGraph checkpoint assistance and optional mirror:**
+- The run root remains the sole authority for lifecycle facts. ActiveGraph's
+  evidenced use is authorized `fork` / `diff` resume-from-checkpoint.
+- A `<run-root>/custody.db` or `<run-root>/custody-trace.jsonl` store may be a
+  separately authorized non-authoritative mirror; it is never a tracked path.
+- `replay` does not reconstruct the tested custody use case from custom event
+  names. Historical backfill, when separately authorized, stays labeled with
+  `source`, `backfilled_at`, `original_event_time`, and `evidence_boundary`.
 
-**ActiveGraph Lean custody rules (when authorized):**
-- Record Lean gate passages as custody events using the event table in
-  `references/lean-operating-discipline.md`. Event names are
-  IMPLEMENTAUDIT-defined custom events unless proven upstream built-ins.
+**ActiveGraph mirror rules (when authorized):**
+- Mirroring Lean gate passages is optional. Compatibility event names in
+  `references/lean-operating-discipline.md` are IMPLEMENTAUDIT-defined custom
+  events, not a required or complete catalogue and not proven upstream built-ins.
 - ActiveGraph custody cannot close correctness criteria without independent
   Smoke B / final audit evidence. Custody proves a gate was passed, not that
   the output is correct.
@@ -493,8 +495,9 @@ private diagnostics, transient dirty state, or unsupported claims.
 
 Capability Ledger entries, when ActiveGraph is configured and authorized, are
 derived only from recorded gate passages, Smoke A/B, Andons, authorization
-decisions, ledger closures, and final audit evidence. Do not claim broad
-competence from one run.
+decisions, ledger closures, and final audit evidence in the authoritative run
+root. An optional mirror supplies no independent correctness claim.
+Do not claim broad competence from one run.
 
 ## Jidoka stop-the-line chain
 
@@ -578,8 +581,8 @@ ANDON_ESCALATE
 ANDON_HANDOFF
 ```
 
-When ActiveGraph custody is configured and authorized for the run, mirror
-each Andon event into the store as it happens — `andon.probe.recorded`,
+When ActiveGraph mirror writing is separately authorized for the run, it may
+mirror each Andon event into the store as it happens — `andon.probe.recorded`,
 `andon.escalated`, `andon.handoff.recorded` — carrying the Andon log row
 fields including the abnormality `class` (see the custody events table in
 `references/lean-operating-discipline.md`). Use the packaged helper so
@@ -592,11 +595,9 @@ bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit}"/scripts/custody-append
 
 The helper is absent-safe: when ActiveGraph is unavailable it exits 0 with a
 fallback note. Pass the causing event's id as the optional sixth argument so
-escalations chain to their probes (`andon.escalated` caused by the
-`andon.probe.recorded` it cites) and replay reconstructs causality, not just
-sequence. Custody preserves the escalation chain across sessions; it is
-chain-of-custody evidence, never correctness proof, and its absence blocks
-nothing.
+the mirror keeps the same explicit linkage as the authoritative Andon log.
+`replay` does not reconstruct this custom-event custody use case. The mirror is
+never correctness proof or lifecycle authority, and its absence blocks nothing.
 
 ### ANDON_PROBE
 

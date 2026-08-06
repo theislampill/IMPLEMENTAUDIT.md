@@ -41,6 +41,13 @@ with zipfile.ZipFile(pack) as zf:
         "tests/safeguard-restoration.test.sh",
         "tests/agents-bootstrap-budget.test.sh",
         "fixtures/safeguards/negative-missing-final-report.md",
+        "fixtures/sidecar-contract/stale-graph/graph.json",
+        "fixtures/sidecar-contract/fresh-graph/graph.json",
+        "fixtures/sidecar-contract/auto-backend-refusal.md",
+        "fixtures/sidecar-contract/anti-trigger-routing.md",
+        "fixtures/sidecar-contract/terrain-trigger-routing.md",
+        "fixtures/sidecar-contract/footprint-default.md",
+        "fixtures/sidecar-contract/external-validity.md",
         "docs/audits/RETENTION.md",
     }
     missing = sorted(required - names)
@@ -54,6 +61,16 @@ with zipfile.ZipFile(pack) as zf:
     for exact in forbidden_exact:
         if exact in {Path(name).name for name in names}:
             raise SystemExit(f"forbidden source evidence file included: {exact}")
+    allowed_graph_fixtures = {
+        "fixtures/sidecar-contract/stale-graph/graph.json",
+        "fixtures/sidecar-contract/fresh-graph/graph.json",
+    }
+    unexpected_graphs = sorted(
+        name for name in names
+        if Path(name).name == "graph.json" and name not in allowed_graph_fixtures
+    )
+    if unexpected_graphs:
+        raise SystemExit("unexpected graph.json in source evidence pack: " + ", ".join(unexpected_graphs))
     forbidden_raw_local = [
         "codex-exec-transcript",
         "raw-local-diagnostic",

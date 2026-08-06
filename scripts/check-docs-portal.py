@@ -832,9 +832,14 @@ def validate_page_shell(out_dir: Path, site: dict, ordered: list[dict], pages_by
             article_region = first_region(html_text, "article", tag="article")
             if 'class="priority-table"' not in article_region or 'class="priority-num"' not in article_region:
                 fail(f"{rel}: preload priority table must keep priority-table and priority-num colgroup classes")
-            for token in ("graphify-out/graph.json", "source", "target", "stale"):
+            for token in (
+                "built_at_commit",
+                "git rev-parse HEAD",
+                "stale-sidecar",
+                "non-authoritative",
+            ):
                 if token not in article_region:
-                    fail(f"{rel}: sidecar continuity should document graph schema and staleness")
+                    fail(f"{rel}: sidecar continuity should document executable freshness and authority")
         if page["id"] == "error-handling":
             article_region = first_region(html_text, "article", tag="article")
             for option in ("Resume", "Revise spec", "Skip phase", "Stop"):

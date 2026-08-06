@@ -8,6 +8,9 @@
 # never judges run content, only that the substrate is shaped like the
 # contract.
 #
+# Usage:
+#   validate-run-root.sh <run-root>
+#   validate-run-root.sh --graph-freshness <graph.json> <repo-root>
 # Usage: validate-run-root.sh [--micro] <run-root>
 #        validate-run-root.sh --ledger <markdown-ledger>
 # Exit 0: conformant. Exit 1: violations listed on stderr. Exit 2: usage.
@@ -19,6 +22,72 @@ err() {
   printf 'validate-run-root: ERROR: %s\n' "$*" >&2
   err_count=$((err_count + 1))
 }
+
+if [ "${1:-}" = "--graph-freshness" ]; then
+  if [ "$#" -ne 3 ]; then
+    printf 'usage: validate-run-root.sh --graph-freshness <graph.json> <repo-root>\n' >&2
+    exit 2
+  fi
+
+  graph_path="$2"
+  repo_path="$3"
+  [ -f "$graph_path" ] || {
+    printf 'validate-run-root: graph freshness input is not a file: %s\n' "$graph_path" >&2
+    exit 2
+  }
+
+  py_cmd=()
+  if command -v python >/dev/null 2>&1; then
+    py_cmd=(python)
+  elif command -v python3 >/dev/null 2>&1; then
+    py_cmd=(python3)
+  elif command -v py >/dev/null 2>&1; then
+    py_cmd=(py -3)
+  else
+    printf 'validate-run-root: python, python3, or py -3 is required for graph freshness\n' >&2
+    exit 2
+  fi
+
+  built_at_commit="$("${py_cmd[@]}" - "$graph_path" <<'PY'
+import json
+import sys
+
+path = sys.argv[1]
+try:
+    with open(path, encoding="utf-8") as handle:
+        payload = json.load(handle)
+except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+    sys.stderr.write(f"validate-run-root: invalid graph freshness input: {exc}\n")
+    raise SystemExit(1)
+
+value = payload.get("built_at_commit")
+if not isinstance(value, str) or not value:
+    sys.stderr.write("validate-run-root: graph.json has no string built_at_commit\n")
+    raise SystemExit(1)
+sys.stdout.write(value + "\n")
+PY
+)"
+  parse_status=$?
+  [ "$parse_status" -eq 0 ] || exit 1
+
+  if ! printf '%s\n' "$built_at_commit" | grep -Eq '^[0-9a-fA-F]{40}$'; then
+    printf 'validate-run-root: graph.json built_at_commit must be one full 40-hex commit SHA\n' >&2
+    exit 1
+  fi
+
+  live_head="$(git -C "$repo_path" rev-parse HEAD 2>/dev/null)" || {
+    printf 'validate-run-root: cannot resolve git rev-parse HEAD for %s\n' "$repo_path" >&2
+    exit 2
+  }
+
+  if [ "$(printf '%s' "$built_at_commit" | tr '[:upper:]' '[:lower:]')" != \
+       "$(printf '%s' "$live_head" | tr '[:upper:]' '[:lower:]')" ]; then
+    printf 'validate-run-root: stale-sidecar: built_at_commit %s != git rev-parse HEAD %s\n' \
+      "$built_at_commit" "$live_head" >&2
+    exit 1
+  fi
+  exit 0
+fi
 
 # Count distinct Occ ids per Class in a new-format Andon table. The existing
 # Countermeasure cell carries owner/source=<path>; normalize separators before

@@ -93,7 +93,7 @@ printf 'parallel_source_editing=requires_separate_git_worktrees\n'
 
 printf '\nsidecar-boundaries:\n'
 printf 'graphify=optional_orientation_not_proof\n'
-printf 'activegraph=optional_custody_not_correctness_proof\n'
+printf 'activegraph=optional_checkpoint_or_non_authoritative_mirror_not_correctness_proof\n'
 printf 'markdown_fallback=first_class\n'
 
 printf '\npossible-generated-artifacts:\n'

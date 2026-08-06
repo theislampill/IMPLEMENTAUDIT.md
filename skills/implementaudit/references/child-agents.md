@@ -87,8 +87,8 @@ Specialist lanes cover:
 - deep category fanout for correctness, security, performance, tests,
   architecture, dependencies, DX, docs, and direction when broad scope warrants
   independent review evidence
-- Graphify terrain review
-- ActiveGraph custody verification
+- qualified Graphify first-contact terrain review
+- ActiveGraph fork/diff or non-authoritative-mirror verification
 - docs audit
 - release/provenance review
 - generated-artifact checking

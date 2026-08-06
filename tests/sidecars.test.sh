@@ -18,6 +18,26 @@ check_pass() {
   fi
 }
 
+check_contains() {
+  local label="$1"
+  local path="$2"
+  local literal="$3"
+  grep -Fq -- "$literal" "$path" \
+    && check_pass "$label" 0 \
+    || check_pass "$label" 1
+}
+
+check_not_contains() {
+  local label="$1"
+  local path="$2"
+  local literal="$3"
+  if grep -Fq -- "$literal" "$path"; then
+    check_pass "$label" 1
+  else
+    check_pass "$label" 0
+  fi
+}
+
 # ---------------------------------------------------------------------------
 # Boundary check: check-sidecar-boundaries.sh must pass on the live repo
 # ---------------------------------------------------------------------------
@@ -31,29 +51,53 @@ check_pass "check-sidecar-boundaries passes on live repo" 0
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
-cp -R skills README.md AGENTS.md scripts tests "$tmp/"
+cp -R skills README.md AGENTS.md CONTRIBUTING.md docs scripts tests "$tmp/"
 mkdir -p "$tmp/scripts"
 cp scripts/check-sidecar-boundaries.sh "$tmp/scripts/check-sidecar-boundaries.sh"
 
 perl -0pi -e 's/Graphify output is orientation evidence, not proof/Graphify output proves correctness/g' \
   "$tmp/skills/implementaudit/SKILL.md"
-if (cd "$tmp" && bash scripts/check-sidecar-boundaries.sh >/dev/null 2>&1); then
-  printf 'sidecars.test: expected Graphify overclaim to fail check-sidecar-boundaries\n' >&2
-  check_pass "Graphify overclaim rejected by boundary check" 1
-else
+set +e
+mutation_output="$(cd "$tmp" && bash scripts/check-sidecar-boundaries.sh 2>&1)"
+mutation_status=$?
+set -e
+if [ "$mutation_status" -ne 0 ] && printf '%s' "$mutation_output" | grep -Fq "Graphify orientation-only boundary is missing"; then
   check_pass "Graphify overclaim rejected by boundary check" 0
+else
+  printf 'sidecars.test: Graphify mutation output: %s\n' "$mutation_output" >&2
+  check_pass "Graphify overclaim rejected by boundary check" 1
 fi
 
 tmp_promote="$(mktemp -d)"
 trap 'rm -rf "$tmp" "$tmp_promote"' EXIT
-cp -R skills README.md AGENTS.md docs scripts tests "$tmp_promote/"
+cp -R skills README.md AGENTS.md CONTRIBUTING.md docs scripts tests "$tmp_promote/"
 printf '\nNeither sidecar is canonical proof unless the repo promotes it.\n' >> \
   "$tmp_promote/skills/implementaudit/references/routing.md"
-if (cd "$tmp_promote" && bash scripts/check-sidecar-boundaries.sh >/dev/null 2>&1); then
-  printf 'sidecars.test: expected sidecar proof-promotion wording to fail\n' >&2
-  check_pass "sidecar proof-promotion wording rejected" 1
-else
+set +e
+promote_output="$(cd "$tmp_promote" && bash scripts/check-sidecar-boundaries.sh 2>&1)"
+promote_status=$?
+set -e
+if [ "$promote_status" -ne 0 ] && printf '%s' "$promote_output" | grep -Fq "sidecar proof-promotion wording is present"; then
   check_pass "sidecar proof-promotion wording rejected" 0
+else
+  printf 'sidecars.test: proof-promotion mutation output: %s\n' "$promote_output" >&2
+  check_pass "sidecar proof-promotion wording rejected" 1
+fi
+
+tmp_contract="$(mktemp -d)"
+trap 'rm -rf "$tmp" "$tmp_promote" "$tmp_contract"' EXIT
+cp -R skills README.md AGENTS.md CONTRIBUTING.md docs scripts tests "$tmp_contract/"
+perl -0pi -e 's/owner-named backend/auto-selected backend/g' \
+  "$tmp_contract/skills/implementaudit/references/sidecars.md"
+set +e
+backend_output="$(cd "$tmp_contract" && bash scripts/check-sidecar-boundaries.sh 2>&1)"
+backend_status=$?
+set -e
+if [ "$backend_status" -ne 0 ] && printf '%s' "$backend_output" | grep -Fq "owner-named-backend rule is missing"; then
+  check_pass "owner-named-backend mutation rejected" 0
+else
+  printf 'sidecars.test: backend mutation output: %s\n' "$backend_output" >&2
+  check_pass "owner-named-backend mutation rejected" 1
 fi
 
 # ---------------------------------------------------------------------------
@@ -179,6 +223,124 @@ grep -Fq "Graphify output is orientation evidence, not proof" skills/implementau
 grep -Fq "ActiveGraph custody is not correctness proof" skills/implementaudit/SKILL.md \
   && check_pass "scenario7: ActiveGraph boundary phrase in live SKILL.md" 0 \
   || check_pass "scenario7: ActiveGraph boundary phrase in live SKILL.md" 1
+
+# ---------------------------------------------------------------------------
+# Scenario 8: executable graph freshness comparison
+# ---------------------------------------------------------------------------
+freshness_helper="skills/implementaudit/scripts/validate-run-root.sh"
+stale_graph="fixtures/sidecar-contract/stale-graph/graph.json"
+
+set +e
+stale_output="$(bash "$freshness_helper" --graph-freshness "$stale_graph" . 2>&1)"
+stale_status=$?
+set -e
+if [ "$stale_status" -ne 0 ] && printf '%s' "$stale_output" | grep -Fq "stale-sidecar"; then
+  check_pass "scenario8: stale built_at_commit fires stale-sidecar" 0
+else
+  printf 'sidecars.test: stale freshness output: %s\n' "$stale_output" >&2
+  check_pass "scenario8: stale built_at_commit fires stale-sidecar" 1
+fi
+
+fresh_graph="$tmp/fresh-graph.json"
+current_head="$(git rev-parse HEAD)"
+sed "s/__CURRENT_HEAD__/$current_head/" \
+  fixtures/sidecar-contract/fresh-graph/graph.json > "$fresh_graph"
+set +e
+fresh_output="$(bash "$freshness_helper" --graph-freshness "$fresh_graph" . 2>&1)"
+fresh_status=$?
+set -e
+if [ "$fresh_status" -eq 0 ] && [ -z "$fresh_output" ]; then
+  check_pass "scenario8: matching built_at_commit passes silently" 0
+else
+  printf 'sidecars.test: fresh freshness output: %s\n' "$fresh_output" >&2
+  check_pass "scenario8: matching built_at_commit passes silently" 1
+fi
+
+# ---------------------------------------------------------------------------
+# Scenario 9: narrowed carrier contract is present on every owning surface
+# ---------------------------------------------------------------------------
+sidecar_ref="skills/implementaudit/references/sidecars.md"
+lean_ref="skills/implementaudit/references/lean-operating-discipline.md"
+routing_ref="skills/implementaudit/references/routing.md"
+sidecar_template="skills/implementaudit/templates/sidecars.md"
+protocol_template="skills/implementaudit/templates/PROTOCOL.md"
+thinking_template="skills/implementaudit/templates/THINKING.md"
+
+check_contains "scenario9: observable terrain trigger recorded" "$sidecar_ref" "terrain-shaped"
+check_contains "scenario9: anti-trigger routes reference questions to grep" "$routing_ref" "reference-shaped"
+check_contains "scenario9: built_at_commit comparison documented" "$sidecar_ref" "built_at_commit"
+check_contains "scenario9: freshness command recorded in run artifact" "$sidecar_template" "git rev-parse HEAD"
+check_not_contains "scenario9: hand-filled Freshness column retired" "$sidecar_template" "| Freshness |"
+check_contains "scenario9: privacy and spend disclosure present" "$sidecar_ref" "## Privacy and spend"
+check_contains "scenario9: filename heuristic limitation disclosed" "$sidecar_ref" "filename heuristic"
+check_contains "scenario9: unmeasurable spend disclosed" "$sidecar_ref" "unmeasurable"
+check_contains "scenario9: owner-named backend required" "$sidecar_ref" "owner-named backend"
+check_contains "scenario9: Ollama explicitly unauthorized" "$sidecar_ref" "Ollama is explicitly unauthorized"
+check_contains "scenario9: dated Codex-not-Ollama precedent cited" "$sidecar_ref" "owner said Codex, not Ollama"
+check_contains "scenario9: dogfood-only scope qualified as tested" "$lean_ref" "dogfood-only"
+check_contains "scenario9: third-party broadening gate recorded" "$sidecar_ref" "unfamiliar third-party repo"
+check_contains "scenario9: Graphify known limitations recorded" "$lean_ref" "module-level constants"
+check_contains "scenario9: ActiveGraph mirror is non-authoritative" "$lean_ref" "non-authoritative mirror"
+check_contains "scenario9: run root remains authority" "$protocol_template" "run root remains the sole authority"
+check_contains "scenario9: fork/diff checkpoint use survives" "$sidecar_template" "fork / diff"
+check_contains "scenario9: THINKING carries narrowed trigger decision" "$thinking_template" "Graphify trigger decision"
+check_contains "scenario9: missed-use goal retired" "$sidecar_ref" "missed-use-detection goal is retired"
+check_contains "scenario9: auditor portal carries non-authoritative mirror" \
+  docs/portal/pages/for-auditors-and-maintainers.html "optional non-authoritative mirror"
+check_contains "scenario9: state portal carries executable freshness" \
+  docs/portal/pages/state-and-artifacts.html "Graphify trigger/freshness evidence"
+check_contains "scenario9: package portal carries checkpoint/mirror state" \
+  docs/portal/pages/package-contents.html "ActiveGraph checkpoint/mirror state"
+check_contains "scenario9: completion portal rejects lifecycle proof" \
+  docs/portal/pages/completion-semantics.html "ActiveGraph correctness or lifecycle proof"
+check_contains "scenario9: terminology portal uses narrowed sidecar handle" \
+  docs/portal/pages/terminology.html "optional terrain/checkpoint context"
+check_contains "scenario9: audit gate portal keeps mirror non-authoritative" \
+  docs/portal/pages/audit-gate-model.html "checkpoint assistance or an optional mirror"
+check_contains "scenario9: evidence portal carries qualified orientation" \
+  docs/portal/pages/evidence-boundaries.html "qualified first-contact orientation"
+check_contains "scenario9: reference index carries checkpoint/mirror boundary" \
+  docs/portal/pages/reference-index.html "ActiveGraph checkpoint/mirror boundaries"
+check_contains "scenario9: routing portal carries anti-trigger decision" \
+  docs/portal/pages/routing.html "Which anti-trigger, stale signal"
+check_contains "scenario9: overview portal carries checkpoint/mirror boundary" \
+  docs/portal/pages/what-it-is.html "fork/diff checkpoints or mirror run-root events"
+
+# Static fixtures lock the refusal and broadening decisions without running a
+# model, installing Graphify, or relying on a live backend.
+check_contains "scenario9: auto-detected Ollama fixture refuses dispatch" \
+  fixtures/sidecar-contract/auto-backend-refusal.md "OLLAMA_HOST | set | none | refused"
+check_contains "scenario9: Gemini auto-detection fixture refuses dispatch" \
+  fixtures/sidecar-contract/auto-backend-refusal.md "GEMINI_API_KEY | set | none | refused"
+set +e
+anti_trigger_output="$(bash scripts/check-sidecar-boundaries.sh --evaluate-fixture \
+  fixtures/sidecar-contract/anti-trigger-routing.md 2>&1)"
+anti_trigger_status=$?
+set -e
+if [ "$anti_trigger_status" -ne 0 ] && printf '%s' "$anti_trigger_output" | grep -Fq "terrain-shaped trigger is missing"; then
+  check_pass "scenario9: data-file consumer proposal is rejected" 0
+else
+  printf 'sidecars.test: anti-trigger fixture output: %s\n' "$anti_trigger_output" >&2
+  check_pass "scenario9: data-file consumer proposal is rejected" 1
+fi
+
+check_pass "scenario9: terrain-shaped proposal survives narrowing" \
+  "$(bash scripts/check-sidecar-boundaries.sh --evaluate-fixture \
+    fixtures/sidecar-contract/terrain-trigger-routing.md >/dev/null 2>&1; printf '%s' "$?")"
+
+set +e
+footprint_output="$(bash scripts/check-sidecar-boundaries.sh --evaluate-fixture \
+  fixtures/sidecar-contract/footprint-default.md 2>&1)"
+footprint_status=$?
+set -e
+if [ "$footprint_status" -ne 0 ] && printf '%s' "$footprint_output" | grep -Fq "outside-repo output rule is missing"; then
+  check_pass "scenario9: in-repo footprint proposal is rejected" 0
+else
+  printf 'sidecars.test: footprint fixture output: %s\n' "$footprint_output" >&2
+  check_pass "scenario9: in-repo footprint proposal is rejected" 1
+fi
+check_contains "scenario9: external-validity fixture blocks broadening" \
+  fixtures/sidecar-contract/external-validity.md "precondition for broadening"
 
 # ---------------------------------------------------------------------------
 # Summary

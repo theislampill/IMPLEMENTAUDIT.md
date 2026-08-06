@@ -207,6 +207,13 @@ require_file fixtures/lean/mixed-dmaic-dmadv-package-boundary.md
 require_file fixtures/lean/sidecar-graphify-absent-markdown-fallback.md
 require_file fixtures/lean/sidecar-graphify-dmaic-analyze.md
 require_file fixtures/lean/sidecar-activegraph-dmaic-custody.md
+require_file fixtures/sidecar-contract/stale-graph/graph.json
+require_file fixtures/sidecar-contract/fresh-graph/graph.json
+require_file fixtures/sidecar-contract/auto-backend-refusal.md
+require_file fixtures/sidecar-contract/anti-trigger-routing.md
+require_file fixtures/sidecar-contract/terrain-trigger-routing.md
+require_file fixtures/sidecar-contract/footprint-default.md
+require_file fixtures/sidecar-contract/external-validity.md
 require_file tests/andon-class-contract.test.sh
 require_file tests/continuity-contract.test.sh
 require_file tests/lesson-lift-contract.test.sh

@@ -1,12 +1,13 @@
-# Fixture: ActiveGraph present — Lean/DMAIC custody events emitted and read back
+# Fixture: ActiveGraph present — fork/diff checkpoint plus optional mirror
 
 Route: DMAIC (brownfield — ActiveGraph custody scenario)
 
 ## Scenario
 
-ActiveGraph is configured and authorized. A temporary custody store is created in
-.IMPLEMENTAUDIT/ (gitignored). Lean/DMAIC custody events are emitted, read back,
-and used to derive one narrow Capability Ledger entry.
+ActiveGraph is configured and authorized. `fork` / `diff` model one
+resume-from-checkpoint. A temporary `.IMPLEMENTAUDIT/` custody store may mirror
+events after separate authorization, but STATE.md and the run root remain the
+sole lifecycle authority.
 
 ## Custody run
 
@@ -14,7 +15,7 @@ Run ID: v0270-sidecar-smoke
 Custody store: .IMPLEMENTAUDIT/runs/v0270-sidecar-smoke/custody-trace.jsonl (gitignored)
 Custody mode: live_release_gate
 
-Events emitted (IMPLEMENTAUDIT-defined custom events):
+Events mirrored (IMPLEMENTAUDIT-defined custom events; optional compatibility record):
 - implementaudit.run.opened
 - audit.input.normalized
 - gemba.graphify.queried
@@ -34,11 +35,13 @@ Events emitted (IMPLEMENTAUDIT-defined custom events):
 - audit.verify.recorded
 - implementaudit.run.finalized
 
-## Readback
+## Checkpoint and readback
 
-Events readable from custody-trace.jsonl: yes (18 events confirmed)
+Fork/diff checkpoint: parent-only terminal events are excluded from the fork.
+Events readable from custody-trace.jsonl: yes (18 mirror events confirmed).
+`replay` is not a reconstruction mechanism for these custom custody events.
 
-## Capability Ledger entry (derived from readback — narrow)
+## Capability Ledger entry (derived from authoritative run-root gates — narrow)
 
 - repo: theIslampill/IMPLEMENTAUDIT.md
 - run_id: v0270-sidecar-smoke
@@ -64,8 +67,8 @@ Events readable from custody-trace.jsonl: yes (18 events confirmed)
 ## PHASE_VERIFY stub
 
 IMPLEMENTAUDIT_PHASE_VERIFY
-- [pass] ActiveGraph custody used: yes — 18 events written to gitignored run root
-- [pass] Events read back: yes — all 18 events confirmed in readback
+- [pass] ActiveGraph checkpoint used: yes — fork/diff only
+- [pass] Optional mirror read back: yes — 18 events, no authority claim
 - [pass] Capability Ledger entry narrow: yes — repo/run/owner/route/principles/checks/status/risk only
 - [pass] Custody store outside tracked source: yes — .IMPLEMENTAUDIT/ gitignored
 - [pass] No custody outputs in .skill package: yes — verify-package.sh and build-release-asset.sh confirm

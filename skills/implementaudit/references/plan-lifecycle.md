@@ -116,8 +116,9 @@ When the target is a branch, pull request, patch, or local dirty diff:
 
 The source repo helper is `scripts/repo-state.sh`.
 Installed payloads use `scripts/repo-state.sh` resolved from the skill
-directory. Graphify may orient dependency paths, but live files and git state
-remain the evidence source.
+directory. Graphify may orient first contact to broad code components only when
+the narrowed triggers hold. Dependency paths and every reference-shaped
+question use live files, deterministic search, and Git state as evidence.
 
 ## Branch / Diff Behavioral Contract
 

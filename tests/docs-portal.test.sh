@@ -48,6 +48,7 @@ bad_card_glass="$tmp/bad-card-glass"
 bad_card_shimmer="$tmp/bad-card-shimmer"
 bad_top_tabs="$tmp/bad-top-tabs"
 bad_sidebar_tree="$tmp/bad-sidebar-tree"
+bad_sidecar_freshness="$tmp/bad-sidecar-freshness"
 
 if command -v python >/dev/null 2>&1; then
   py_cmd=(python)
@@ -383,6 +384,23 @@ if "${py_cmd[@]}" scripts/check-docs-portal.py "$bad_marker_taxonomy" >/dev/null
   fail_check "check-docs-portal.py accepted marker taxonomy without AUDIT_WARNING and IMPLEMENTAUDIT_PAUSE"
 else
   ok "check-docs-portal.py rejects marker taxonomy missing AUDIT_WARNING and IMPLEMENTAUDIT_PAUSE"
+fi
+
+cp -R "$out" "$bad_sidecar_freshness"
+"${py_cmd[@]}" - "$bad_sidecar_freshness/reference/continuity-and-sidecars/index.html" <<'PY'
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+text = path.read_text(encoding="utf-8")
+text = text.replace("built_at_commit", "recorded freshness", 1)
+text = text.replace("stale-sidecar", "stale terrain", 1)
+path.write_text(text, encoding="utf-8")
+PY
+if "${py_cmd[@]}" scripts/check-docs-portal.py "$bad_sidecar_freshness" >/dev/null 2>&1; then
+  fail_check "check-docs-portal.py accepted hand-judged sidecar freshness"
+else
+  ok "check-docs-portal.py rejects hand-judged sidecar freshness"
 fi
 
 cp -R "$out" "$bad_slash_boundary"

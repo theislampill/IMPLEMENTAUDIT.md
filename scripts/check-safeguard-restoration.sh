@@ -120,7 +120,8 @@ sidecar_text = read(sidecars_ref)
 require(sidecars_ref, sidecar_text, [
     "Graphify is orientation only",
     "Live files remain proof",
-    "stale output triggers Andon or fallback",
+    "built_at_commit",
+    "stale-sidecar",
     "Graphify absence does not block consumer runs",
     "IMPLEMENTAUDIT self-maintenance may use Graphify",
     "no sidecar output enters the release package",

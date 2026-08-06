@@ -97,10 +97,13 @@ for needle in [
     require(routing, needle, "brownfield inspection field", routing_path)
 
 for needle in [
-    "graphify may aid brownfield terrain inspection",
-    "absent, stale, or unauthorized graphify falls back",
-    "activegraph may preserve sidecar custody",
-    "absent activegraph falls back to markdown ledgers",
+    "graphify may aid first-contact terrain inspection",
+    "reference-shaped question is an anti-trigger",
+    "mismatch fires `stale-sidecar`",
+    "absent, stale, unauthorized, or inapplicable graphify falls back",
+    "activegraph may assist authorized `fork` / `diff`",
+    "optional non-authoritative mirrors",
+    "absent activegraph falls back to markdown",
     "neither sidecar replaces repo-local owners",
 ]:
     require(routing, needle, "sidecar boundary", routing_path)

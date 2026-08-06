@@ -56,7 +56,7 @@ require skills/implementaudit/templates/PROTOCOL.md "CONTINUITY_DECISION"
 require skills/implementaudit/templates/PROTOCOL.md "IMPLEMENTAUDIT_CONTINUITY_SAVED"
 require skills/implementaudit/templates/PROTOCOL.md "run-local applied-context note"
 require skills/implementaudit/templates/PROTOCOL.md "optional personal/project note"
-require skills/implementaudit/templates/PROTOCOL.md "optional ActiveGraph event"
+require skills/implementaudit/templates/PROTOCOL.md "optional ActiveGraph mirror event"
 require skills/implementaudit/templates/THINKING.md "Applied context"
 require AGENTS.md "bounded continuity"
 

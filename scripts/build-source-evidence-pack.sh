@@ -67,6 +67,10 @@ blocked_names = {
     "graph.json",
     "quickstart_demo_run.db",
 }
+allowed_graph_fixtures = {
+    Path("fixtures/sidecar-contract/stale-graph/graph.json"),
+    Path("fixtures/sidecar-contract/fresh-graph/graph.json"),
+}
 blocked_suffixes = (".db", ".sqlite", ".sqlite3", ".log", ".tmp", ".pyc")
 
 run_validation = """# Source Evidence Pack Validation
@@ -98,7 +102,7 @@ def blocked(rel: Path) -> bool:
     text = rel.as_posix()
     if any(part in blocked_parts for part in rel.parts):
         return True
-    if rel.name in blocked_names:
+    if rel.name in blocked_names and rel not in allowed_graph_fixtures:
         return True
     if text.startswith(".env"):
         return True
@@ -141,6 +145,13 @@ for required in [
     "tests/safeguard-restoration.test.sh",
     "tests/agents-bootstrap-budget.test.sh",
     "fixtures/safeguards/negative-missing-final-report.md",
+    "fixtures/sidecar-contract/stale-graph/graph.json",
+    "fixtures/sidecar-contract/fresh-graph/graph.json",
+    "fixtures/sidecar-contract/auto-backend-refusal.md",
+    "fixtures/sidecar-contract/anti-trigger-routing.md",
+    "fixtures/sidecar-contract/terrain-trigger-routing.md",
+    "fixtures/sidecar-contract/footprint-default.md",
+    "fixtures/sidecar-contract/external-validity.md",
     "docs/audits/RETENTION.md",
     "RUN-VALIDATION.md",
 ]:
