@@ -15,6 +15,44 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 (nothing yet)
 
+## [v0.3.2.0 corrected re-release] - 2026-08-04
+
+The owner-authorized same-version correction replaced the withdrawn
+2026-07-18 publication after its B3 qualification claim was found
+unreconstructible. The release object was deleted and recreated, and the tag
+was transparently replaced once as part of that correction.
+
+### Changed
+
+- Tag target: `dfa55020cd883e1c9b1b65f7e96921b383b72820` →
+  `0adb10d79a192b576c4378f483d02bbcad161495`.
+- Release ID: `356138470` → `365082973`.
+- `IMPLEMENTAUDIT.skill`: superseded
+  `a04165198a208ecc231d769783400c4610c58dbd0ca338682be481d7515319f4`
+  (131,329 bytes) → superseding
+  `884ab409842b863b003e9d405972f33ba71d194f77572738002a42e73d1b6b14`
+  (132,117 bytes).
+- `CHECKSUMS.txt`: superseded
+  `67f3bc93c815cecc6b35a0c69bf95a6c2b502981b6a1725ec62e08e18a33e98d`
+  → superseding
+  `b25b81ce0755c51c81888e33038ef5c410772f56a319f291f153fc4ebb71214e`.
+- The corrected payload includes commit `21e12b3`, which added the always-read
+  runtime rule that final audit markers are emitted exactly once per run.
+
+### Evidence boundaries
+
+- Candidate qualification recorded Luna 14/14 matrix plus 6/6 B3-v4 and Opus
+  14/14 matrix plus 6/6 B3-v4 at exact commit `0adb10d`.
+- The amended unchanged-repeat and untouched holdout/perturbation legs have no
+  findable completion record and were owner-waived at republication. They are
+  not claimed as executed.
+- Exact-tag GitHub Actions run `30933683268` failed during Ubuntu fixture
+  cleanup. Retained release evidence separately records passing Windows Git
+  Bash package verification, byte-identical builds, public readback, and a
+  disposable Codex-home install.
+- This entry is the one retroactive application of the superseded →
+  superseding digest-pair rule tracked by issue #89.
+
 ## [v0.3.2.0] - 2026-07-18
 
 Evidence-integrity and failure-origin hardening program (#10) release:
