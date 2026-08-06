@@ -108,6 +108,17 @@ separate gate. Newly authored rows also declare `coverage: full|partial` and a
 capture file. Mandatory commands require `coverage: full`; partial evidence is
 diagnostic only and records both `range:` and `omission:`.
 
+New external-state rows use the canonical prefixes `external-kind`,
+`external-mutation-record`, `artifact-identity`, `collision-receipt`, and
+`external-evidence`; legacy rows without these prefixes remain valid. A
+verified external mutation records its runner, target kind and ID, distinct
+mutation/read-back commands, zero exits, separate evidence IDs, and a bare
+contained JSON witness whose recomputed `readback-sha256` and top-level
+`readback-field` prove `expected-value = observed-value = parsed value`.
+Out-of-repo evidence records `bytes`, `mtime`, `liveness`, `still-producing`,
+`use`, `closure-bytes`, and `closure-mtime`. Same-name distinct-hash artifacts
+record the complete set in one `collision-receipt`.
+
 - {{COMMAND_1}} > {{RUN_ROOT}}/evidence/{{COMMAND_1_LOG}} 2>&1 — property: {{structural|behavioral|provenance}}; scope: {{WHAT_THIS_CHECK_ACTUALLY_TESTS}}; coverage: full; capture: {{RUN_ROOT}}/evidence/{{COMMAND_1_LOG}}; expected: {{EXPECTED_SUCCESS_SHAPE_1}}
 - {{COMMAND_2}} > {{RUN_ROOT}}/evidence/{{COMMAND_2_LOG}} 2>&1 — property: {{structural|behavioral|provenance}}; scope: {{WHAT_THIS_CHECK_ACTUALLY_TESTS}}; coverage: full; capture: {{RUN_ROOT}}/evidence/{{COMMAND_2_LOG}}; expected: {{EXPECTED_SUCCESS_SHAPE_2}}
 - {{TEXTUAL_BEHAVIORAL_COMMAND}} > {{RUN_ROOT}}/evidence/{{TEXTUAL_COMMAND_LOG}} 2>&1 — property: behavioral; acceptance: free-text; scope: {{WHAT_TEXT_THIS_PREDICATE_SCORES}}; coverage: full; capture: {{RUN_ROOT}}/evidence/{{TEXTUAL_COMMAND_LOG}}; expected: {{EXPECTED_SUCCESS_SHAPE}}; paraphrase_control: {{MUST_PASS}}; inversion_control: {{MUST_FAIL}}; forbidden_instruction_phrases: {{FORBIDDEN_PHRASES}}

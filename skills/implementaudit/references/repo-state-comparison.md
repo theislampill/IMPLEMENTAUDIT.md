@@ -82,8 +82,55 @@ property proves discrimination or coverage.
 
 ### External identity (#88)
 
-External identity remains separately owned by #88. This heading is a stable
-downstream anchor only; it adds no external-identity rule.
+New records use one external-state vocabulary. Legacy rows that do not opt in
+to these prefixes remain valid; `external-mutation: true` explicitly opts a
+row into the same mutation validation.
+
+A verified `api`, `user-visible`, or `publication` claim declares
+`external-kind: observation|mutation`. A mutation claim also names exactly one
+`external-mutation-record: <id>` in the same record. The mutation record is the
+machine carrier. Adjacent Python, Bash, or PowerShell code is illustrative and
+cannot supply an omitted record field or zero exit.
+
+```text
+external-mutation-record: <id> | runner: python|bash|powershell | target-kind: issue|pr|milestone|label|release|release-asset | target-id: <token> | mutation-command: <target-bound mutating command> | mutation-exit: 0 | mutation-evidence: <id> | readback-command: <distinct target-bound read-only command> | readback-exit: 0 | readback-file: <bare-relative-basename.json> | readback-sha256: <64-lowercase-hex> | readback-field: <top-level-field> | expected-value: <scalar> | observed-value: <same-scalar> | readback-evidence: <different-id>
+```
+
+The mutator's output is not read-back evidence. Resolve the JSON basename
+inside the record file's canonical directory, reject separators, traversal,
+absolute paths, symlinks, and non-regular files, recompute its SHA-256, parse
+the named top-level field structurally, and require parsed, observed, and
+expected values to agree. The mutation and read-back commands name the same
+target kind and ID; the read-back contains no mutating verb. Both recorded
+exits are zero, and the two evidence IDs differ.
+
+Human-readable artifact names carry content identity in the same record:
+
+```text
+artifact-identity: <case-sensitive-trimmed-name> | sha256: <64-lowercase-hex>
+collision-receipt: <same-name> | hashes: <complete-comma-separated-hash-set> | reason: <nonempty>
+```
+
+Repeated identical hashes are valid. Distinct hashes under the same trimmed,
+case-sensitive name require exactly one collision receipt whose hash set equals
+the complete observed set. Names are not case-folded or path-canonicalized.
+
+Out-of-repo evidence records its original stat, liveness, intended use, and
+closure re-stat in one line:
+
+```text
+external-evidence: <id> | bytes: <nonnegative-integer> | mtime: <RFC3339-UTC-whole-second> | liveness: snapshot|terminal | still-producing: true|false | use: orientation|terminal | closure-bytes: <integer|none> | closure-mtime: <timestamp|none>
+```
+
+Orientation does not require closure re-stat. Terminal use requires closure
+bytes and mtime equal to the original pair. A still-producing snapshot cannot
+support terminal use even when the two stat pairs happen to match.
+
+The fenced block under `## Suggested Commit Message When No Commit Authorized`
+is also a claim carrier. A digit or verdict token in that block has exactly one
+`Evidence anchor: claim:<Claim-ID>` inside the block. That ID resolves to a
+verified claim row in the same record with a checkable evidence surface; an
+anchor elsewhere in the document does not satisfy the relationship.
 
 ## Proving a file is dead
 

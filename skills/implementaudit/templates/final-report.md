@@ -68,6 +68,22 @@ labelled samples; an honest M-of-N claim remains partial corpus coverage.
 | Claim | Scope | Proof level | Evidence basis | Freshness | Upgrade condition |
 |---|---|---|---|---|---|
 
+For each new verified `api`, `user-visible`, or `publication` claim, add
+`external-kind: observation|mutation`. A mutation claim links
+`external-mutation-record: <id>` to one target-bound record with
+`runner`, `target-kind`, `target-id`, `mutation-command`, `mutation-exit: 0`,
+`mutation-evidence`, distinct `readback-command`, `readback-exit: 0`, bare JSON
+`readback-file`, recomputed `readback-sha256`, one top-level `readback-field`,
+equal scalar `expected-value` and `observed-value`, and a distinct
+`readback-evidence`. The read-back, not the mutator's output, establishes the
+external state.
+
+When artifact names or out-of-repo inputs support a claim, include the same
+record vocabulary used by the protocol: `artifact-identity` plus an exact
+`collision-receipt` for a same-name distinct-hash set, and `external-evidence`
+with `bytes`, `mtime`, `liveness`, `still-producing`, `use`, `closure-bytes`,
+and `closure-mtime`. Legacy rows without these new prefixes remain valid.
+
 ## Remaining Caveats
 
 List deferrals, owner decisions, unverified lanes, and future invalidation
@@ -92,6 +108,8 @@ Countermeasure:
 
 Evidence:
 - <checks>
+
+Evidence anchor: claim:<Claim-ID>
 
 Boundaries:
 - No commit, push, tag, release, publication, issue creation, license choice,

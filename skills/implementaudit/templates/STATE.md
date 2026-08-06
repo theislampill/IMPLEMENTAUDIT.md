@@ -75,6 +75,21 @@ Evidence cells for newly recorded rows include the anchor
 rows without anchors remain valid). An artifact anchored to a different
 state is never substituted for current-state evidence.
 
+New external-state rows use the canonical prefixes `external-kind`,
+`external-mutation-record`, `artifact-identity`, `collision-receipt`, and
+`external-evidence`; legacy rows that do not opt in remain valid. Keep content
+identity in the same ledger row as its human-readable name:
+
+```text
+artifact-identity: <case-sensitive-trimmed-name> | sha256: <64-lowercase-hex>
+collision-receipt: <same-name> | hashes: <complete-comma-separated-hash-set> | reason: <nonempty>
+external-evidence: <id> | bytes: <nonnegative-integer> | mtime: <RFC3339-UTC-whole-second> | liveness: snapshot|terminal | still-producing: true|false | use: orientation|terminal | closure-bytes: <integer|none> | closure-mtime: <timestamp|none>
+```
+
+Same-name distinct-hash artifacts require one exact collision receipt.
+Terminal external evidence requires a matching closure re-stat; a
+still-producing snapshot supports orientation only.
+
 ## Andon log
 
 One row per ANDON_PROBE, ANDON_ESCALATE, or ANDON_HANDOFF event. `Class` is
