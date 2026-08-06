@@ -42,9 +42,12 @@ fail_case qualifying-no-record-FAIL.md
 fail_case checker-active-mismatch-FAIL.md
 fail_case easy-redo-noreason-FAIL.md
 fail_case prevented-claim-FAIL.md
+fail_case remediation-unenforced-FAIL.md
+fail_case checker-active-no-red-FAIL.md
 pass_case reasoned-nolift-PASS.md
 pass_case oneoff-typo-PASS.md
 pass_case checker-active-ok-PASS.md
+pass_case adopted-unenforced-not-cited-PASS.md
 
 # --- Fable review of PR #29: adversarial regressions -----------------------
 tmp="$(mktemp -d)"
@@ -96,4 +99,4 @@ adv_pass "one-off disposition mentioning recurrence" \
 No-lift: one-off typo; no recurrence expected.
 AUDIT_COMPLETE'
 
-printf 'lesson-lift-contract: ok (contract + 4 fail + 3 pass fixtures + 5 adversarial)\n'
+printf 'lesson-lift-contract: ok (contract + enforcement-state controls + 5 adversarial)\n'

@@ -125,6 +125,10 @@ Inspect scripts, developer commands, Windows/Bash portability, error messages,
 validation registry drift, docs portal generation, and package smoke paths.
 Favor deterministic helper/checker behavior over unguarded prose.
 
+External output-schema, event-grammar, or timing-envelope drift is
+`transport-infrastructure`, not a checker defect; record host build and pinned
+schema.
+
 - Setup friction: README setup steps that are wrong/incomplete, missing
   environment examples, unclear package-manager choice, or tool errors that
   hide the next action.

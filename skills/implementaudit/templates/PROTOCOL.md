@@ -371,8 +371,10 @@ with a durable status contract, never awaited inline:
 
 1. Before launch, write `<run-root>/background/<chain-id>/launch-intent.md`
    (command, owner/source, expected completion marker, abort containment
-   plan). Launch detached; append one line per observed state change to
-   `<chain-id>/chain-status.txt`; the command's last act is creating
+   plan, `poll_budget`, `terminal_signal`, `expected_duration`,
+   `transport_timeout`, `launch_mode`, and optional `report_cadence`). Append
+   state changes and supervision records to `<chain-id>/chain-status.txt`;
+   the command's last act is creating
    `<chain-id>/chain.done` (the completion marker).
 2. State model — exactly one terminal token per chain, recorded in
    `chain-status.txt`: `running`, `succeeded` (exit recorded + `chain.done`
@@ -401,6 +403,26 @@ with a durable status contract, never awaited inline:
    secret-scanned and RETAINED before any destructive cleanup runs.
    Credential purging is satisfied by scan-then-retain-then-purge
    ordering, never by deleting the only failure evidence.
+7. Reserved for #75's verification-window-freeze contract.
+8. Wait contract. `poll_budget` caps `probe: <n> | command: <command> |
+   result: <state>` records; `terminal_signal` names the done/exit artifact to
+   await. Overrun records `Class: hung-command | Blocker: supervision-overrun
+   (poll_budget N exceeded)` before further supervision.
+9. Report cadence. `report_cadence: per-item | on-failure-and-terminal |
+   terminal-only` defaults to `on-failure-and-terminal`; `per-item` requires a
+   recorded `report_cadence_justification` naming the dependent decision.
+   Unchanged state is not a report.
+10. Transport-ceiling comparison. Record `expected_duration`,
+    `transport_timeout`, and `launch_mode: inline | detached` before launch;
+    reject inline when expected duration meets or exceeds the ceiling.
+11. Kill authority. Abort only a matching `pid`, `host_boot_id`, and
+    `process_creation_time` in this chain's `process-started.json`, whose row
+    also has `lane_id` and `host_os`. Names/images/patterns, `pkill -f`,
+    `taskkill /IM`, and broad process enumeration confer no authority;
+    unresolved identity retains item 4's `contaminated` disposition.
+12. Checkpoint before block. Append `checkpoint: <run-root-relative-path>`
+    before `wait: blocking | signal=<terminal_signal>`. #82 may formalize that
+    same write as `PENDING_TERMINAL`; this clause defines only its timing.
 
 ## Nemawashi — owner-decision gate
 
@@ -625,6 +647,9 @@ Steps:
    (`open (rerun pending)` until the rerun lands). Rerun evidence, when it
    lands, records its Anchor (full 40-hex commit SHA at capture) like any
    other evidence row.
+   `supervision-overrun` and `resource-exhausted` are `Blocker:` discriminators,
+   never `Class:` tokens; use `hung-command` and `transport-infrastructure`,
+   respectively.
 3. Inspect the owner/source file directly (Gemba). Do not infer from summaries.
 4. Apply the smallest safe countermeasure that follows from the probe,
    targeting only the failing criterion. A fix may not be attempted merely
