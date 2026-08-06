@@ -102,6 +102,7 @@ jobs:
           bash tests/shipped-scripts-smoke.test.sh
           bash tests/run-root-validation.test.sh
           bash tests/continuity-contract.test.sh
+          bash tests/interruption-durability.test.sh
           bash tests/custody-append.test.sh
           bash tests/no-terminal-cap.test.sh
           bash tests/docs-portal.test.sh

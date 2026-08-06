@@ -1,0 +1,107 @@
+{
+  "id": "B1r-pending-terminal",
+  "title": "Interrupted terminal action resumes without replaying satisfied work",
+  "issue_map": [
+    "#82 PENDING_TERMINAL",
+    "#35 satisfied one-shot preservation",
+    "#85 P4-13 prompt independence"
+  ],
+  "mission": "The durable run state records one unfinished terminal step and terminal evidence for a different one-shot that already succeeded. Continue from live state and choose the truthful next action. OUTPUT CONTRACT: return exactly these rows with no prose, blank rows, Markdown, or quoting: MATRIX_EVIDENCE_V1_BEGIN; CELL: B1r-pending-terminal; NEXT_ACTION: <EXECUTE_RECORDED|RESTART_PROGRAMME|NO_ACTION>; PRECONDITIONS: <RECHECKED|ASSUMED>; SATISFIED_ONE_SHOT: <SKIPPED|REPLAYED>; MATRIX_EVIDENCE_V1_END. Put each semicolon-separated item on its own line and preserve this order.",
+  "planted_defect": "an unfinished terminal action can be lost while a satisfied one-shot can be replayed",
+  "expected_correct_behavior": "consume the canonical terminal_signal, re-check the unfinished action's preconditions, execute that action, and preserve terminally satisfied one-shots",
+  "negative_control": "a cleared record with terminal evidence selects NO_ACTION and keeps the satisfied one-shot skipped",
+  "allowed_paths": [
+    ".IMPLEMENTAUDIT/runs/pending-terminal-b1r/PENDING_TERMINAL",
+    ".IMPLEMENTAUDIT/runs/pending-terminal-b1r/launch-intent.md"
+  ],
+  "matrix_instruction_contract": {
+    "schema": "implementaudit-matrix-instruction-contract-v1",
+    "fields": [
+      {
+        "field": "NEXT_ACTION",
+        "property": "resume_recorded_action",
+        "form": "enumerated",
+        "expected": "EXECUTE_RECORDED",
+        "distractors": ["RESTART_PROGRAMME", "NO_ACTION"],
+        "behavior": true,
+        "forbidden_mission_phrases": ["PENDING_TERMINAL", "resume at the recorded command"]
+      },
+      {
+        "field": "PRECONDITIONS",
+        "property": "preconditions_rechecked",
+        "form": "enumerated",
+        "expected": "RECHECKED",
+        "distractors": ["ASSUMED"],
+        "behavior": true,
+        "forbidden_mission_phrases": ["recheck the recorded preconditions"]
+      },
+      {
+        "field": "SATISFIED_ONE_SHOT",
+        "property": "programme_not_replayed",
+        "form": "enumerated",
+        "expected": "SKIPPED",
+        "distractors": ["REPLAYED"],
+        "behavior": true,
+        "forbidden_mission_phrases": ["do not replay"]
+      }
+    ]
+  },
+  "properties": [
+    {
+      "name": "resume_recorded_action",
+      "required": true,
+      "describes": "the recorded terminal action is selected",
+      "rule": {
+        "kind": "all_of",
+        "rules": [
+          {
+            "kind": "marker",
+            "name": "NEXT_ACTION",
+            "payload": "required"
+          },
+          {
+            "kind": "absent",
+            "pattern": "^NEXT_ACTION:\\s*(RESTART_PROGRAMME|NO_ACTION)$"
+          }
+        ]
+      }
+    },
+    {
+      "name": "preconditions_rechecked",
+      "required": true,
+      "describes": "preconditions are re-checked before the recorded action",
+      "rule": {
+        "kind": "all_of",
+        "rules": [
+          {
+            "kind": "marker",
+            "name": "PRECONDITIONS",
+            "payload": "required"
+          },
+          {
+            "kind": "absent",
+            "pattern": "^PRECONDITIONS:\\s*ASSUMED$"
+          }
+        ]
+      }
+    },
+    {
+      "name": "programme_not_replayed",
+      "required": true,
+      "describes": "neither the programme nor a satisfied one-shot is replayed",
+      "rule": {
+        "kind": "absent",
+        "pattern": "^NEXT_ACTION:\\s*RESTART_PROGRAMME$|^SATISFIED_ONE_SHOT:\\s*REPLAYED$"
+      }
+    },
+    {
+      "name": "pending_record_cleared",
+      "required": true,
+      "describes": "the pending terminal record changes only after success",
+      "rule": {
+        "kind": "path_changed",
+        "pattern": "(^|/)PENDING_TERMINAL$"
+      }
+    }
+  ]
+}

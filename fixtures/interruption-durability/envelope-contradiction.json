@@ -1,0 +1,15 @@
+{
+  "envelope": {
+    "subtype": "success",
+    "is_error": true,
+    "terminal_reason": "api_error",
+    "num_turns": 1,
+    "output_tokens": 0
+  },
+  "model_metadata": {
+    "requested_model": "claude-sonnet-5",
+    "actual_model": "<synthetic>",
+    "exit_code": 1
+  },
+  "expected_classification": "interrupted-partial"
+}

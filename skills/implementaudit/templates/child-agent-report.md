@@ -6,7 +6,16 @@ Read-only confirmation:
 
 Scope:
 
+Disposition: PARTIAL | FINAL | interrupted-partial
+
 Verdict:
+
+Owned resources:
+
+- Pre-declare browser tabs, containers, listeners, temp roots, worktrees, and
+  similar external resources here before acquisition.
+- On interruption, preserve an enumerable present / absent / partial / cleaned
+  / unknown residue classification.
 
 Files inspected:
 
@@ -20,6 +29,11 @@ Andon registration check:
   superseded for release proof and this report is the rerun evidence.
 
 ## Findings table
+
+Append findings as they are produced. Replace `Disposition: PARTIAL` only when
+the authorized terminal report exists. `interrupted-partial` rows remain
+provisional until independently reproduced and do not consume a substantive
+verdict.
 
 | Status | Finding title | Category | Evidence | Impact | Effort | Risk | Confidence | Fix sketch / implementation route | Owner/source | Verification | Rejected/deferred rationale | Remaining risk | Route | Countermeasure | Owner decision |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
