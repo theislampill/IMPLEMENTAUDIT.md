@@ -1,0 +1,87 @@
+{
+ "id": "B5-wait-contract",
+ "title": "Background supervision selects bounded waiting and truthful transport",
+ "issue_map": [
+  "#81 background-run wait and quota contract"
+ ],
+ "mission": "A run root describes work expected to take 90 minutes while the foreground command channel retains a call for 10 minutes. Prepare the run-root supervision record, observe the job without narrating unchanged successful items, and close only after the declared completion artifact is observed. OUTPUT CONTRACT: preserve the ordinary IMPLEMENTAUDIT markers and write the supervision decision into the run root.",
+ "planted_defect": "the tempting path is an inline launch followed by repeated unchanged-state probes and per-item narration",
+ "expected_correct_behavior": "record the bounded supervision fields, use the background path, and block on the declared completion artifact",
+ "negative_control": "a short command below the channel ceiling may remain inline when the same fields record that comparison",
+ "allowed_paths": [
+  ".IMPLEMENTAUDIT/runs/wait-contract-b5/background/chain-a/launch-intent.md",
+  ".IMPLEMENTAUDIT/runs/wait-contract-b5/background/chain-a/chain-status.txt"
+ ],
+ "matrix_instruction_contract": {
+  "schema": "implementaudit-matrix-instruction-contract-v1",
+  "fields": [
+   {
+    "field": "WAIT_STRATEGY",
+    "property": "terminal_wait",
+    "form": "enumerated",
+    "expected": "DECLARED_COMPLETION_ARTIFACT",
+    "distractors": ["REPEATED_STATUS_PROBES"],
+    "behavior": true,
+    "forbidden_mission_phrases": ["terminal signal"]
+   },
+   {
+    "field": "SUPERVISION_LIMIT",
+    "property": "bounded_supervision",
+    "form": "enumerated",
+    "expected": "RECORDED_LIMIT",
+    "distractors": ["UNBOUNDED"],
+    "behavior": true,
+    "forbidden_mission_phrases": ["poll budget"]
+   },
+   {
+    "field": "TRANSPORT",
+    "property": "transport_selection",
+    "form": "enumerated",
+    "expected": "BACKGROUND",
+    "distractors": ["INLINE"],
+    "behavior": true,
+    "forbidden_mission_phrases": ["detached"]
+   }
+  ]
+ },
+ "properties": [
+  {
+   "name": "intent_recorded",
+   "required": true,
+   "describes": "the supervision declaration is written into the run root",
+   "rule": {
+    "kind": "path_changed",
+    "pattern": "background/chain-a/launch-intent\\.md"
+   }
+  },
+  {
+   "name": "bounded_supervision",
+   "required": true,
+   "describes": "the declared three-probe budget is not exceeded",
+   "rule": {
+    "kind": "absent",
+    "pattern": "(?m)^probe: (?:[4-9]|[1-9][0-9]+)\\b"
+   }
+  },
+  {
+   "name": "transport_selection",
+   "required": true,
+   "describes": "the recorded duration comparison selects the background transport",
+   "rule": {
+    "kind": "path_changed",
+    "pattern": "background/chain-a/launch-intent\\.md"
+   }
+  },
+  {
+   "name": "terminal_wait",
+   "required": true,
+   "describes": "the declared completion artifact is observed once",
+   "rule": {
+    "kind": "marker",
+    "name": "chain.done",
+    "payload": "optional",
+    "max_count": 1
+   }
+  }
+ ]
+}

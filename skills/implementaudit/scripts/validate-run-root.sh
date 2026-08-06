@@ -1,19 +1,4 @@
 #!/usr/bin/env bash
-# validate-run-root.sh — structural conformance check for a live run root.
-#
-# Phase specs are validated at authoring time (validate-phase.sh); this helper
-# validates the run root's live state, which matters most at resume: a
-# PAUSED/INTERRUPTED run re-reads STATE.md from disk, and corrupted state
-# propagates silently without a machine check. Structure-only by design — it
-# never judges run content, only that the substrate is shaped like the
-# contract.
-#
-# Usage:
-#   validate-run-root.sh <run-root>
-#   validate-run-root.sh --graph-freshness <graph.json> <repo-root>
-# Usage: validate-run-root.sh [--micro] <run-root>
-#        validate-run-root.sh --ledger <markdown-ledger>
-# Exit 0: conformant. Exit 1: violations listed on stderr. Exit 2: usage.
 
 set -uo pipefail
 
@@ -22,6 +7,7 @@ err() {
   printf 'validate-run-root: ERROR: %s\n' "$*" >&2
   err_count=$((err_count + 1))
 }
+warn() { printf 'validate-run-root: WARNING: %s\n' "$*" >&2; }
 
 if [ "${1:-}" = "--graph-freshness" ]; then
   if [ "$#" -ne 3 ]; then
@@ -89,11 +75,6 @@ PY
   exit 0
 fi
 
-# Count distinct Occ ids per Class in a new-format Andon table. The existing
-# Countermeasure cell carries owner/source=<path>; normalize separators before
-# comparing the last two distinct repair occurrences for a class. Keep this
-# normalization shape aligned with #80's separate host-note signature counter;
-# the substrates and scripts remain intentionally distinct.
 check_recurrence_decision() {
   local ledger="$1" findings invalid_lines missing_classes
   findings="$(awk -F'|' '
@@ -155,6 +136,71 @@ check_recurrence_decision() {
   fi
 }
 
+intent_value() { sed -n "s/^$2:[[:space:]]*//p" "$1" | head -n1; }
+duration_seconds() {
+  [[ "$1" =~ ^([0-9]+)([smhd]?)$ ]] || return
+  case "${BASH_REMATCH[2]}" in '') m=1;; s) m=1;; m) m=60;; h) m=3600;; d) m=86400;; esac
+  printf '%s\n' "$((BASH_REMATCH[1] * m))"
+}
+process_identity_matches() {
+  local py
+  if command -v python >/dev/null 2>&1; then py=(python)
+  elif command -v python3 >/dev/null 2>&1; then py=(python3)
+  elif command -v py >/dev/null 2>&1; then py=(py -3)
+  else return 2; fi
+  "${py[@]}" - "$@" <<'PY'
+import json,sys
+p,l,i,b,c=sys.argv[1:]
+try:
+ x=json.load(open(p,encoding="utf-8"))
+except (OSError,UnicodeError,json.JSONDecodeError): raise SystemExit(1)
+if isinstance(x,dict): x=[x]
+keys={"lane_id","host_os","host_boot_id","pid","process_creation_time"}
+ok=any(isinstance(r,dict) and keys<=r.keys() and r["lane_id"]==l and isinstance(r["host_os"],str) and r["host_os"] and str(r["pid"])==i and r["host_boot_id"]==b and r["process_creation_time"]==c for r in x)
+raise SystemExit(not ok)
+PY
+}
+check_background_chains() {
+  local root="$1" state="$2" chain id intent status budget signal expected timeout mode cadence why es ts polls line pid boot created rc
+  [ -d "$root/background" ] || return
+  for chain in "$root"/background/*; do
+    [ -d "$chain" ] || continue; id="$(basename "$chain")"
+    intent="$chain/launch-intent.md"; status="$chain/chain-status.txt"
+    [ -f "$intent" ] || { err "background/$id missing launch-intent.md"; continue; }
+    if ! grep -Eq '^(poll_budget|terminal_signal|expected_duration|transport_timeout|launch_mode|report_cadence):' "$intent"; then
+      warn "background/$id legacy launch intent; #81 checks skipped"; continue
+    fi
+    budget="$(intent_value "$intent" poll_budget)"; signal="$(intent_value "$intent" terminal_signal)"
+    expected="$(intent_value "$intent" expected_duration)"; timeout="$(intent_value "$intent" transport_timeout)"
+    mode="$(intent_value "$intent" launch_mode)"; cadence="$(intent_value "$intent" report_cadence)"
+    why="$(intent_value "$intent" report_cadence_justification)"; [ -n "$cadence" ] || cadence=on-failure-and-terminal
+    [[ "$budget" =~ ^[1-9][0-9]*$ ]] || err "background/$id invalid poll_budget"
+    [[ "$signal" =~ ^[^[:space:]]+$ ]] || err "background/$id invalid terminal_signal"
+    case "$mode" in inline|detached);; *) err "background/$id invalid launch_mode";; esac
+    case "$cadence" in per-item|on-failure-and-terminal|terminal-only);; *) err "background/$id invalid report_cadence";; esac
+    [ "$cadence" != per-item ] || [[ "$why" =~ [[:alnum:]] ]] || err "background/$id per-item cadence lacks justification"
+    es="$(duration_seconds "$expected" 2>/dev/null || :)"; ts="$(duration_seconds "$timeout" 2>/dev/null || :)"
+    [ -n "$es" ] || err "background/$id invalid expected_duration"; [ -n "$ts" ] || err "background/$id invalid transport_timeout"
+    if [ -n "$es" ] && [ -n "$ts" ] && [ "$mode" = inline ] && [ "$es" -ge "$ts" ]; then err "background/$id inline launch meets/exceeds ceiling"; fi
+    [ -f "$status" ] || continue
+    polls="$(grep -c '^probe:' "$status" 2>/dev/null || :)"
+    if [[ "$budget" =~ ^[1-9][0-9]*$ ]] && [ "$polls" -gt "$budget" ] &&
+       { [ ! -f "$state" ] || ! awk -v n="$budget" 'index(tolower($0),"hung-command")&&index(tolower($0),"supervision-overrun")&&index(tolower($0),"poll_budget " n " exceeded"){f=1} END{exit !f}' "$state"; }; then
+      err "background/$id poll_budget exceeded without matching hung-command Andon"
+    fi
+    if [ "$cadence" = on-failure-and-terminal ] && grep -E '^report: item=.*outcome=' "$status" | grep -Evq 'outcome=failure([ |]|$)'; then err "background/$id default cadence narrated success"
+    elif [ "$cadence" = terminal-only ] && grep -q '^report: item=' "$status"; then err "background/$id terminal-only narrated item"; fi
+    awk '/^checkpoint:/{c=NR}/^wait: blocking/{if(!c||c>=NR)b=1}END{exit b}' "$status" || err "background/$id wait lacks checkpoint"
+    grep -R -E -q "Name[[:space:]]*=[[:space:]]*['\"][^'\"]*\\.exe|pkill[[:space:]]+-f|taskkill([.]exe)?[[:space:]].*/IM|Get-CimInstance[[:space:]]+Win32_Process" "$chain" 2>/dev/null && err "background/$id broad kill authority"
+    if grep -R -E 'Get-Process([[:space:]]|$)' "$chain" 2>/dev/null | grep -Evq 'Get-Process[[:space:]]+-Id([[:space:]]|$)'; then err "background/$id broad Get-Process"; fi
+    while IFS= read -r line; do
+      pid="$(sed -n 's/.*pid=\([0-9][0-9]*\).*/\1/p' <<<"$line")"; boot="$(sed -n 's/.*host_boot_id=\([^ |]*\).*/\1/p' <<<"$line")"; created="$(sed -n 's/.*process_creation_time=\([^ |]*\).*/\1/p' <<<"$line")"
+      if [ -z "$pid" ] || [ -z "$boot" ] || [ -z "$created" ] || [ ! -f "$chain/process-started.json" ]; then err "background/$id kill lacks process-started.json identity"; continue; fi
+      if process_identity_matches "$chain/process-started.json" "$id" "$pid" "$boot" "$created"; then :; else rc=$?; [ "$rc" -eq 2 ] && err "background/$id python required for kill ledger" || err "background/$id kill identity not ledger-owned"; fi
+    done < <(grep '^kill:' "$status" 2>/dev/null || :)
+  done
+}
+
 mode=full
 if [ "${1:-}" = "--micro" ]; then
   mode=micro
@@ -212,8 +258,6 @@ fi
 if [ "$mode" = micro ]; then
   [ -f "$run_root/STATE.md" ] || err "missing required artifact: STATE.md"
 else
-  # Required artifacts for a dispatched run root. Absent .claimed preserves
-  # the v0.3.2 legacy behavior exactly.
   for f in STATE.md PROTOCOL.md; do
     [ -f "$run_root/$f" ] || err "missing required artifact: $f"
   done
@@ -225,7 +269,6 @@ fi
 state="$run_root/STATE.md"
 if [ -f "$state" ]; then
   if [ "$mode" = full ]; then
-    # Status must be one of the exact contract tokens.
     status_line="$(grep -E '^\| Status \|' "$state" | head -1 || true)"
     if [ -z "$status_line" ]; then
       err "STATE.md has no '| Status |' row in the Current phase table"
@@ -238,15 +281,9 @@ if [ -f "$state" ]; then
     fi
   fi
 
-  # Andon log substrate must exist with the contract columns. Two valid
-  # generations (#5): the current shape carries an `Occ` occurrence-linkage
-  # column; the legacy shape (no Occ) remains VALID — it was the correct
-  # contract of its time and legacy run roots resume unchanged.
   if ! grep -qi '^## Andon log' "$state"; then
     err "STATE.md is missing the '## Andon log' section"
   elif grep -qi '| Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |' "$state"; then
-    # New-format table: every data row needs a non-empty Occ id so plural
-    # defect rows born from one occurrence stay linked.
     missing_occ="$(awk -F'|' '
       /^## Andon log/ { in_andon=1; next }
       in_andon && /^## / { in_andon=0 }
@@ -257,9 +294,6 @@ if [ -f "$state" ]; then
     if [ -n "$missing_occ" ]; then
       err "STATE.md Andon log new-format rows missing an Occ occurrence id: row(s) $(printf '%s' "$missing_occ" | tr '\n' ' ')"
     fi
-    # One class per row is LOAD-BEARING for the Occ design: a
-    # comma/space-separated multi-class cell would smuggle plural defects
-    # into one row instead of linking rows (Fable review of PR #26).
     multi_class="$(awk -F'|' '
       /^## Andon log/ { in_andon=1; next }
       in_andon && /^## / { in_andon=0 }
@@ -300,10 +334,6 @@ if [ -f "$state" ]; then
 fi
 
 
-# A .claimed root is new-format. It cannot validate while an older sibling is
-# undispositioned. SUPERSEDED_BY: is a root header; the distinct
-# SUPERSEDED_BY_CONCURRENT_MUTATION token is a residual-table value, not a
-# value of that header.
 if [ -f "$claim" ]; then
   run_base="$(dirname "$run_root")"
   for sibling in "$run_base"/*; do
@@ -318,10 +348,6 @@ if [ -f "$claim" ]; then
   done
 fi
 
-# Occurrence resolution + residual dispositions (#6): new-format roots
-# (section present) need a valid occurrence-resolution token and a valid
-# disposition per residual row; legacy roots without the section stay
-# valid. Dispositions are owner/policy-assigned; this checks tokens only.
 if [ -f "$state" ] && grep -qi '^## Occurrence resolution and residuals' "$state"; then
   occ_res="$(awk '/^## Occurrence resolution and residuals/{f=1;next} f&&/^Occurrence resolution:/{sub(/^Occurrence resolution:[ \t]*/,"");print;exit}' "$state")"
   case "$occ_res" in
@@ -340,11 +366,6 @@ if [ -f "$state" ] && grep -qi '^## Occurrence resolution and residuals' "$state
   if [ -n "$bad_disp" ]; then
     err "STATE.md residual row(s) with invalid disposition: $(printf '%s' "$bad_disp" | tr '\n' ' ') (allowed: unresolved / deferred / transferred / owner-assigned / risk-accepted / validated-resolved)"
   fi
-  # `transferred` names the receiving owner; `risk-accepted` cites the
-  # policy — the contract says so in the same breath as the tokens, and a
-  # transfer nobody receives (or an authority-less risk acceptance) is the
-  # packet-of-record for a residual that silently evaporates (Fable review
-  # of PR #27). Route-required rows need a non-empty, non-"-" ref cell.
   no_ref="$(awk -F'|' '
     /^## Occurrence resolution and residuals/ { f=1; next }
     f && /^## / { f=0 }
@@ -361,11 +382,6 @@ if [ -f "$state" ] && grep -qi '^## Occurrence resolution and residuals' "$state
   fi
 fi
 
-# Context epochs + instruction applicability (#35): new-format roots
-# (section present) need a valid boundary-provenance token per epoch row
-# and valid kind/status tokens per instruction row; legacy roots without
-# the section stay valid. Structure/tokens only — reconciliation substance
-# is judged by the run, not this helper.
 if [ -f "$state" ] && grep -qi '^## Context epochs and instruction applicability' "$state"; then
   bad_prov="$(awk -F'|' '
     /^## Context epochs and instruction applicability/ { f=1; next }
@@ -392,10 +408,6 @@ if [ -f "$state" ] && grep -qi '^## Context epochs and instruction applicability
   if [ -n "$bad_instr" ]; then
     err "STATE.md instruction row(s) with invalid kind/status token: $(printf '%s' "$bad_instr" | tr '\n' ' ') (kind: one-shot-action / standing-constraint / standing-authorization / persistent-objective / query-or-information-request; status: active / satisfied / superseded / revoked / expired / ambiguous)"
   fi
-  # A terminal status is a claim about the world; without status evidence
-  # it is exactly the bare assertion that lets a reconstructed summary
-  # replay a "satisfied" one-shot. Terminal rows need a non-empty,
-  # non-"-" Status evidence cell (#35).
   no_ev="$(awk -F'|' '
     /^## Context epochs and instruction applicability/ { f=1; next }
     f && /^## / { f=0 }
@@ -411,10 +423,6 @@ if [ -f "$state" ] && grep -qi '^## Context epochs and instruction applicability
   fi
 fi
 
-# Evidence-version anchoring (#4): an ANCHORED evidence token must carry
-# the FULL 40-hex commit SHA — a short-sha anchor is a stale-evidence
-# hazard and fails. Tokens are `@<hex>` with 7+ hex chars (git-sha-like);
-# legacy rows without anchors remain valid.
 if [ -f "$state" ]; then
   short_anchors="$(grep -oE '@[0-9a-f]{7,}' "$state" 2>/dev/null \
     | grep -vE '^@[0-9a-f]{40}$' || true)"
@@ -423,12 +431,13 @@ if [ -f "$state" ]; then
   fi
 fi
 
-# Every phase listed in ROADMAP.md must have a phase spec file.
 if [ -f "$run_root/ROADMAP.md" ] && [ -d "$run_root/phases" ]; then
   while IFS= read -r n; do
     [ -f "$run_root/phases/phase-$n.md" ] || err "ROADMAP names phase $n but phases/phase-$n.md is missing"
   done < <(grep -oE '^\| *[0-9]+ *\|' "$run_root/ROADMAP.md" 2>/dev/null | grep -oE '[0-9]+' | sort -un)
 fi
+
+check_background_chains "$run_root" "$state"
 
 if [ "$err_count" -gt 0 ]; then
   printf 'validate-run-root: %d error(s)\n' "$err_count" >&2

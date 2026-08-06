@@ -1,0 +1,2 @@
+claim: quota-row | surface: source | property: structural | status: verified | evidence-surface: source
+resource-exhausted: q1 | class: transport-infrastructure | blocker: resource-exhausted | reported_reset: 2026-08-08T21:14:00Z ADVISORY | backoff_probe_at: 2026-08-06T02:30:00Z | next_probe_at: 2026-08-06T02:30:00Z | capacity_probe: succeeded | probe_evidence: check-capacity exit=0 | terminal: resumed

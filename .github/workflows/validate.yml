@@ -72,6 +72,7 @@ jobs:
           bash tests/claim-run.test.sh
           bash tests/continuity.test.sh
           bash tests/phase-validation.test.sh
+          bash tests/acceptance-instrument-discipline.test.sh
           bash tests/sidecars.test.sh
           bash tests/capability-ledger.test.sh
           bash tests/audit-object-routing.test.sh
@@ -101,6 +102,7 @@ jobs:
           bash tests/shipped-scripts-smoke.test.sh
           bash tests/run-root-validation.test.sh
           bash tests/continuity-contract.test.sh
+          bash tests/interruption-durability.test.sh
           bash tests/custody-append.test.sh
           bash tests/no-terminal-cap.test.sh
           bash tests/docs-portal.test.sh

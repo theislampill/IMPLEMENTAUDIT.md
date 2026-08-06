@@ -77,6 +77,7 @@ required = {
     "scripts/validate-phase.sh",
     "scripts/validate-run-root.sh",
     "scripts/custody-append.sh",
+    "scripts/lane-survivor-inventory.sh",
     "templates/ROADMAP.md",
     "templates/STATE.md",
     "templates/THINKING.md",
@@ -172,14 +173,33 @@ with zipfile.ZipFile(asset) as zf:
     # references/continuity.md plus PROTOCOL/STATE contract text grew the
     # deflated asset to ~131 KB — growth verified intentional and deflated.
     asset_bytes = asset.stat().st_size
-    MAX_ASSET_BYTES = 140_000
-    if asset_bytes > MAX_ASSET_BYTES:
+    # W1 integration ANDON calibration: baseline ceiling 140_000; full W1
+    # forecast size 144_730; new ceiling 145_000; remaining headroom 270.
+    # Reason: admitted milestone payload, not acceptance weakening.
+    MAX_ASSET_BYTES = 145_000
+    FULL_W1_FORECAST_BYTES = 144_730
+
+    def enforce_asset_budget(candidate_bytes):
+        if candidate_bytes <= MAX_ASSET_BYTES:
+            return
         raise SystemExit(
-            f"asset size {asset_bytes:,} bytes exceeds the {MAX_ASSET_BYTES:,}-byte "
+            f"asset size {candidate_bytes:,} bytes exceeds the {MAX_ASSET_BYTES:,}-byte "
             "threshold. Verify ZIP_DEFLATED compression is applied (the check above), "
             "then update MAX_ASSET_BYTES in tests/release-asset.test.sh if the payload "
             "growth is intentional."
         )
+
+    # The complete, deduplicated W1 forecast must be admitted, while the first
+    # byte above the calibrated ceiling must remain rejected.
+    enforce_asset_budget(FULL_W1_FORECAST_BYTES)
+    try:
+        enforce_asset_budget(MAX_ASSET_BYTES + 1)
+    except SystemExit:
+        pass
+    else:
+        raise SystemExit("asset above MAX_ASSET_BYTES was accepted")
+
+    enforce_asset_budget(asset_bytes)
 
     with tempfile.TemporaryDirectory() as temp_dir:
         zf.extractall(temp_dir)

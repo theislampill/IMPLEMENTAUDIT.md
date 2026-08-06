@@ -1510,7 +1510,7 @@ def main():
         manifest.write_bytes(manifest_raw)
         rows = integration.validate_package_archive(
             archive, manifest, sha, tree, repo_root=checkout)
-        assert len(rows) == 43
+        assert len(rows) == 44
         decoded = json.loads(manifest_raw)
         assert decoded["builder_source_path"] == \
             "scripts/build-release-asset.sh"

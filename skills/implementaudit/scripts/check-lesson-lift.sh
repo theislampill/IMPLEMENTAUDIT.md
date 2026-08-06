@@ -1,27 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Lesson-lift routing-record scorer (#13). Read-only. Scores ONE closure
-# transcript/record file for the lesson-lift contract.
-#
-#   check-lesson-lift.sh <record-file> [--repo-root <dir>]
-#
-# Rules enforced:
-#  - A record carrying a qualifying trigger MUST contain a `Lesson-lift:`
-#    routing record (qualifying closure without one FAILS).
-#  - A no-lift decision whose reason is "easy/cheap to redo by hand" FAILS;
-#    a reasoned no-lift (any other substantive reason) PASSES.
-#  - A destination of `checker or deterministic test` claiming the encoding
-#    is active MUST name a target file that EXISTS and is NON-EMPTY — a
-#    missing/empty target is a claimed-vs-active mismatch and FAILS.
-#    (Whether a pre-existing target actually CHANGED is not checked here:
-#    the scorer sees one closure record, not the baseline tree. Change
-#    verification is the closure author's PROTOCOL duty, item 6.)
-#  - A closure claiming "recurrence prevented" FAILS (only encoding-written,
-#    mechanically-active, and installed-current are closure-time claims).
-#  - A one-off correction with no qualifying trigger and a single `No-lift:`
-#    disposition line PASSES (negative control).
-
 fail() { printf 'check-lesson-lift: %s\n' "$*" >&2; exit 1; }
 
 file="${1:-}"
@@ -81,15 +60,26 @@ if printf '%s' "$flat" | grep -qiE 'Lesson-lift:.*decision: *no-lift'; then
   fi
 fi
 
-# 3. checker/test destination claimed active => target must be non-empty.
+# 3. checker/test destination claimed active => target must be non-empty and
+# exercised red once. Until then the encoding is ADOPTED_UNENFORCED and cannot
+# be cited as a countermeasure.
 if printf '%s' "$flat" | grep -qiE 'destination: *(checker or deterministic test|checker|deterministic test)'; then
+  cited=0
+  printf '%s' "$flat" | grep -qiE 'cited as countermeasure: *yes' && cited=1
+  if printf '%s' "$flat" | grep -qiE 'enforcement state: *ADOPTED_UNENFORCED|mechanically active: *no'; then
+    [ "$cited" -eq 0 ] || fail "ADOPTED_UNENFORCED remediation cited as a countermeasure"
+  fi
   if printf '%s' "$flat" | grep -qiE 'mechanically active: *yes|active: *yes'; then
+    printf '%s' "$flat" | grep -qiE 'enforcement state: *ACTIVE' \
+      || fail "checker destination claims active without enforcement state ACTIVE"
     target="$(printf '%s' "$content" | { grep -ioE 'target: *[^ ;,]+' || true; } | head -n1 | sed 's/[Tt]arget: *//')"
     [ -n "$target" ] || fail "checker destination claims active but names no target file"
     tpath="$repo_root/$target"
     if [ ! -s "$tpath" ]; then
       fail "claimed-vs-active mismatch: destination is a checker/test claimed active, but target '$target' is missing/empty"
     fi
+    printf '%s' "$flat" | grep -qiE 'red exercise: *[^;]+exit[ =:]+[1-9][0-9]*' \
+      || fail "checker destination claims ACTIVE without a recorded red exercise (violating check must exit nonzero)"
   fi
 fi
 

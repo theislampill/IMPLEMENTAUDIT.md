@@ -1,24 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Closure-claim success-surface scorer (#14). Read-only. Scores a closure
-# record whose claims are indexed to the surface that establishes them.
-#
-#   check-closure-surface.sh <record-file>
-#
-# Record lines of the form:
-#   claim: <id> | surface: <surface> | property: <structural|behavioral|provenance> | status: <verified|failed|unverified|not-applicable> | evidence-surface: <surface> | [residual: <ref>]
-#
-# Rules:
-#  - A `verified` claim MUST carry evidence from its OWN required surface;
-#    evidence-surface at a LOWER layer than the claimed surface => layer
-#    promotion => FAIL (e.g. deployed-service claim verified by source).
-#  - A required surface that cannot be inspected must be `unverified` /
-#    deferred (a residual ref), never `verified` — a `verified` claim with
-#    no evidence-surface FAILS.
-#  - Surfaces are ordered source < generated-artifact < package <
-#    installed-payload < running-local-service < deployed-service < api <
-#    user-visible < publication.
 
 fail() { printf 'check-closure-surface: %s\n' "$*" >&2; exit 1; }
 
@@ -34,11 +16,9 @@ rank() {
   esac
 }
 
-# Exact-key field extraction over pipe-separated `key: value` segments, so
-# `surface` never accidentally matches `evidence-surface`.
 field() {
   printf '%s\n' "$1" | tr '|' '\n' | while IFS= read -r seg; do
-    k="$(printf '%s' "$seg" | sed -n 's/^[[:space:]]*\([a-z-]*\):.*/\1/p')"
+    k="$(printf '%s' "$seg" | sed -n 's/^[[:space:]]*\([a-z_-]*\):.*/\1/p')"
     if [ "$k" = "$2" ]; then
       printf '%s' "$seg" | sed "s/^[[:space:]]*$2:[[:space:]]*//; s/[[:space:]]*$//"
       return
@@ -49,10 +29,44 @@ field() {
 rows=0
 seen_ids=""
 while IFS= read -r line; do
-  # A near-miss row (e.g. `Claim:` capitalized) must never be silently
-  # skipped: a bad claim could hide from every rule just by casing its
-  # key (Fable review of PR #31 — a capitalized layer-promotion row
-  # passed invisibly).
+  case "$line" in resource-exhausted:*)
+    qid="$(field "$line" resource-exhausted)"
+    qclass="$(field "$line" class)"
+    blocker="$(field "$line" blocker)"
+    reported="$(field "$line" reported_reset)"
+    backoff="$(field "$line" backoff_probe_at)"
+    next_probe="$(field "$line" next_probe_at)"
+    capacity="$(field "$line" capacity_probe)"
+    probe_evidence="$(field "$line" probe_evidence)"
+    terminal="$(field "$line" terminal)"
+    [ -n "$qid" ] || fail "resource-exhausted row has no identity"
+    [ "$qclass" = transport-infrastructure ] \
+      || fail "resource-exhausted $qid: class must be transport-infrastructure"
+    [ "$blocker" = resource-exhausted ] \
+      || fail "resource-exhausted $qid: blocker must be resource-exhausted"
+    printf '%s' "$reported" | grep -Eq '^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z ADVISORY$' \
+      || fail "resource-exhausted $qid: reported_reset must be canonical UTC and labelled ADVISORY"
+    reported_ts="${reported%% *}"
+    printf '%s' "$backoff" | grep -Eq '^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$' \
+      || fail "resource-exhausted $qid: invalid backoff_probe_at"
+    expected_next="$reported_ts"
+    if [[ "$backoff" < "$expected_next" ]]; then expected_next="$backoff"; fi
+    [ "$next_probe" = "$expected_next" ] \
+      || fail "resource-exhausted $qid: next_probe_at must equal min(reported_reset, backoff_probe_at)"
+    case "$capacity" in succeeded|failed) : ;;
+      *) fail "resource-exhausted $qid: blocked/resume decision requires a completed cheap capacity probe";;
+    esac
+    [ -n "$probe_evidence" ] && [ "$probe_evidence" != none ] \
+      || fail "resource-exhausted $qid: capacity probe has no checkable evidence"
+    case "$capacity:$terminal" in
+      succeeded:resumed|failed:blocked) : ;;
+      succeeded:blocked) fail "resource-exhausted $qid: successful probe must resume before an advisory reset";;
+      failed:resumed) fail "resource-exhausted $qid: failed probe cannot justify resumption";;
+      *) fail "resource-exhausted $qid: invalid terminal '$terminal'";;
+    esac
+    continue
+    ;;
+  esac
   if printf '%s' "$line" | grep -qiE '^[[:space:]]*claim:'; then
     case "$line" in claim:*) : ;; *)
       fail "malformed claim row (key must be exactly lowercase 'claim:'): ${line%%|*}";;
@@ -61,8 +75,6 @@ while IFS= read -r line; do
   case "$line" in claim:*) : ;; *) continue;; esac
   rows=$((rows + 1))
   cid="$(field "$line" claim)"
-  # Claim identity is unique per table: two rows sharing an ID with
-  # different surfaces make the claim ambiguous (Fable review of PR #31).
   case " $seen_ids " in *" $cid "*)
     fail "duplicate Claim-ID '$cid' — each closure claim has one row";;
   esac
@@ -87,4 +99,11 @@ while IFS= read -r line; do
 done < "$file"
 
 [ "$rows" -gt 0 ] || fail "no closure claim rows found"
+if grep -E -q "Name[[:space:]]*=[[:space:]]*['\"][^'\"]*\\.exe|pkill[[:space:]]+-f|taskkill([.]exe)?[[:space:]].*/IM|Get-CimInstance[[:space:]]+Win32_Process" "$file"; then
+  fail "kill authority uses executable name, image, pattern, or broad host-process enumeration instead of process-started.json identity"
+fi
+if grep -E 'Get-Process([[:space:]]|$)' "$file" |
+   grep -Evq 'Get-Process[[:space:]]+-Id([[:space:]]|$)'; then
+  fail "kill authority uses broad Get-Process enumeration without -Id"
+fi
 printf 'check-closure-surface: ok (%d claim row(s))\n' "$rows"

@@ -106,6 +106,14 @@ set. Every capsule field rederives from live source owners at write time;
 a capsule inherited from an earlier epoch is itself reconstructed context
 and re-verifies against live state before use.
 
+Before a declared terminal action, append one `PENDING_TERMINAL` line to the
+run root naming the exact command and preconditions. Clear it only after success.
+On re-entry, resume at that recorded action only after re-checking its preconditions
+against live state. This is the durable half of the one-shot
+invariant: never lose an unsatisfied one, and never redo a satisfied one-shot
+whose pending record was successfully cleared and whose terminal evidence
+remains valid.
+
 ## Single-writer epoch claim
 
 Two concurrent resume attempts must not both mutate: at most one writer

@@ -1,0 +1,4 @@
+ASSISTANT:
+I kept the work inline and exceeded the supervision limit.
+probe: 4 | command: check-chain | result: running
+The foreground channel ended before a completion artifact was observed.

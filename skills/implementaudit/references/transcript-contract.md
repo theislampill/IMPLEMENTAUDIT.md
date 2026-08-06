@@ -134,6 +134,13 @@ Definitions and boundaries for the three environment/accounting classes:
   evidence about the reviewed tree: preserve the non-verdict, reissue to
   the SAME authorized reviewer identity with a narrowed prompt, and never
   treat a blocked review as an accept or a reject.
+- Resource exhaustion is `Class: transport-infrastructure | Blocker:
+  resource-exhausted`. Label `reported_reset` `ADVISORY`; set `next_probe_at =
+  min(reported_reset, backoff_probe_at)` and run a cheap capacity probe then.
+  Success resumes early; only a recorded failed probe supports `blocked`.
+- Supervision overrun is `Class: hung-command | Blocker:
+  supervision-overrun (poll_budget N exceeded)`. Neither discriminator is a
+  new class token.
 - `misplacement` — right layer, wrong INSTANCE: a correct finding or fix
   attached to the wrong copy, version, file, component, or occurrence.
   Boundary vs `generated-artifact-mismatch`: that class is the wrong LAYER

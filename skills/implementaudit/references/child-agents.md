@@ -102,6 +102,12 @@ Specialist lanes cover:
 Each loop needs a bounded question, owner/source, evidence boundary, and explicit
 statement that it does not authorize mutation or closure by itself.
 
+Before acquiring browser tabs, containers, listeners, temp roots, worktrees,
+or similar external resources, each lane records the owned resource identity
+and cleanup boundary in the run root. If the lane is interrupted, the residue
+must remain enumerable and be classified as present, absent, partial, cleaned,
+or unknown. An undeclared resource is not silently inferred from process state.
+
 ## Coverage-lane records
 
 Every warranted specialist lane is recorded in the audit object (the
@@ -112,9 +118,31 @@ transcript row), with:
 - the bounded question the lane answers;
 - evidence boundary;
 - the per-lane prompt contract used;
-- status: executed / serialized / skipped with reason;
+- status: executed / serialized / skipped with reason / interrupted-partial;
 - evidence returned, normalized into the ledger;
 - residual risk when the lane was not executed.
+
+`interrupted-partial` is not PASS and is not NO_GO. It does not consume the substantive verdict.
+Findings and evidence rows from that lane remain provisional until independently reproduced
+by an authorized lane.
+
+Create each lane report before dispatch with `Disposition: PARTIAL`, then
+append findings incrementally as they are produced. Replace that disposition
+only when the authorized terminal report exists. A success-shaped envelope
+does not override contradictory content or metadata: a synthetic-model,
+zero-token, one-turn, or `is_error` contradiction hidden behind a success
+subtype is `interrupted-partial`. The lane's expected-output inventory may
+consume the canonical `terminal_signal` defined by the wait contract; this
+reference does not redefine it.
+
+Legacy reports without a `Disposition:` field remain `FINAL` with a warning;
+the new header does not retroactively invalidate completed evidence.
+
+`"${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit}"/scripts/lane-survivor-inventory.sh`
+may classify the declared outputs after an interruption and print a re-dispatch set containing
+absent and partial outputs. It is deliberately advisory and unwired from
+closure gates because automatic retry can replay satisfied one-shots or bypass
+current authorization. The script prints; it does not act.
 
 Skipped or serialized lanes are explicit, never silent. The final audit
 must not imply full coverage while a warranted lane is unexecuted; the

@@ -1,0 +1,7 @@
+ASSISTANT:
+The run-root supervision record selects the background path because the
+recorded expected duration exceeds the foreground channel ceiling. I waited
+without narrating unchanged successful items and observed the declared
+completion artifact once.
+
+chain.done

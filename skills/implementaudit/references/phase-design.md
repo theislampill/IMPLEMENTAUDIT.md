@@ -222,6 +222,34 @@ operational specificity. The read-only handoff lane
 requirement where their contexts overlap. `validate-phase.sh` enforces the
 mechanical parts; cold review owns materiality judgments.
 
+**Rule P4-12 — Paired controls on free-text acceptance.**
+Any acceptance criterion that matches free text ships with two named controls
+recorded beside it: one legitimate paraphrase that must PASS, and one
+polarity-inverted restatement that must FAIL. Both are evaluated by the
+predicate under test. A predicate that fails either control is defective at
+authoring time and is replaced, not widened.
+
+**Rule P4-13 — Prompt independence.**
+Scored evidence must not be derivable from the instruction that requested it.
+Declare `forbidden_instruction_phrases` alongside the scored property; a scored
+answer string appearing verbatim in the stimulus is a fixture defect, not a
+passing result. This generalizes the candidate Matrix
+`matrix_instruction_contract.forbidden_mission_phrases` control.
+
+**Rule P4-14 — Instrument parity.**
+A verdict produced by any path other than the one that will adjudicate the
+terminal claim requires a parity witness: one canned input, both paths, and an
+identical verdict, recorded before any verdict from the secondary path may be
+cited in a causal report or drive a repair. Without the witness the secondary
+path is diagnostics only.
+
+**Rule P4-15 — Instrument liveness.**
+Any command that can emit a negative verdict includes a positive control that
+fails loudly if the instrument is broken, such as hashing a known-good member
+first and asserting a non-null actual value. A verdict of "all N failed" with
+missing or null actuals is an Andon row — class `evidence-mismatch`,
+`Blocker: instrument-suspect` — not a finding.
+
 ---
 
 ## Phase shape examples
