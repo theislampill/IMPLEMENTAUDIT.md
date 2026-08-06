@@ -1,0 +1,361 @@
+{
+  "schema": "implementaudit-census-discipline-fixtures-v1",
+  "controls": [
+    {
+      "id": "R6-F1",
+      "kind": "enumeration-authority",
+      "claim_mode": "census",
+      "population_size": 4,
+      "examined_count": 4,
+      "enumerated_members": ["a", "b", "c", "d", "e", "f"],
+      "expected": "FAIL"
+    },
+    {
+      "id": "R6-F1n",
+      "kind": "enumeration-authority",
+      "claim_mode": "census",
+      "population_size": 6,
+      "examined_count": 6,
+      "enumerated_members": ["a", "b", "c", "d", "e", "f"],
+      "expected": "PASS"
+    },
+    {
+      "id": "R6-F5",
+      "kind": "distinct-hash-census",
+      "claims_distinct": true,
+      "rows": [
+        {"id": "entry-01", "sha256": "same-parent-hash"},
+        {"id": "entry-02", "sha256": "same-parent-hash"},
+        {"id": "entry-03", "sha256": "same-parent-hash"},
+        {"id": "entry-04", "sha256": "same-parent-hash"},
+        {"id": "entry-05", "sha256": "same-parent-hash"},
+        {"id": "entry-06", "sha256": "same-parent-hash"},
+        {"id": "entry-07", "sha256": "same-parent-hash"},
+        {"id": "entry-08", "sha256": "same-parent-hash"},
+        {"id": "entry-09", "sha256": "same-parent-hash"},
+        {"id": "entry-10", "sha256": "same-parent-hash"},
+        {"id": "entry-11", "sha256": "same-parent-hash"},
+        {"id": "entry-12", "sha256": "same-parent-hash"},
+        {"id": "entry-13", "sha256": "same-parent-hash"},
+        {"id": "entry-14", "sha256": "same-parent-hash"},
+        {"id": "entry-15", "sha256": "same-parent-hash"},
+        {"id": "entry-16", "sha256": "same-parent-hash"},
+        {"id": "entry-17", "sha256": "same-parent-hash"},
+        {"id": "entry-18", "sha256": "same-parent-hash"},
+        {"id": "entry-19", "sha256": "same-parent-hash"},
+        {"id": "entry-20", "sha256": "same-parent-hash"},
+        {"id": "entry-21", "sha256": "same-parent-hash"},
+        {"id": "entry-22", "sha256": "same-parent-hash"},
+        {"id": "entry-23", "sha256": "same-parent-hash"},
+        {"id": "entry-24", "sha256": "same-parent-hash"},
+        {"id": "entry-25", "sha256": "same-parent-hash"},
+        {"id": "entry-26", "sha256": "same-parent-hash"},
+        {"id": "entry-27", "sha256": "same-parent-hash"},
+        {"id": "entry-28", "sha256": "same-parent-hash"}
+      ],
+      "discrimination_witness": null,
+      "collision_receipts": [],
+      "expected": "FAIL"
+    },
+    {
+      "id": "R6-F5c",
+      "kind": "distinct-hash-census",
+      "claims_distinct": true,
+      "rows": [
+        {"id": "entry-01", "sha256": "shared-content-hash"},
+        {"id": "entry-02", "sha256": "shared-content-hash"},
+        {"id": "entry-03", "sha256": "unique-content-hash"}
+      ],
+      "discrimination_witness": {
+        "known_distinct_items": ["entry-01", "entry-03"],
+        "observed_hashes": ["shared-content-hash", "unique-content-hash"]
+      },
+      "collision_receipts": [
+        {
+          "sha256": "shared-content-hash",
+          "members": ["entry-01", "entry-02"],
+          "reason": "known byte-identical source bodies; distinctness is by source identity"
+        }
+      ],
+      "expected": "PASS"
+    },
+    {
+      "id": "R6-F6",
+      "kind": "distinct-hash-census",
+      "claims_distinct": true,
+      "rows": [
+        {"id": "entry-01", "sha256": "hash-01"},
+        {"id": "entry-02", "sha256": "hash-02"},
+        {"id": "entry-03", "sha256": "hash-03"},
+        {"id": "entry-04", "sha256": "hash-04"},
+        {"id": "entry-05", "sha256": "hash-05"},
+        {"id": "entry-06", "sha256": "hash-06"},
+        {"id": "entry-07", "sha256": "hash-07"},
+        {"id": "entry-08", "sha256": "hash-08"},
+        {"id": "entry-09", "sha256": "hash-09"},
+        {"id": "entry-10", "sha256": "hash-10"},
+        {"id": "entry-11", "sha256": "hash-11"},
+        {"id": "entry-12", "sha256": "hash-12"},
+        {"id": "entry-13", "sha256": "hash-13"},
+        {"id": "entry-14", "sha256": "hash-14"},
+        {"id": "entry-15", "sha256": "hash-15"},
+        {"id": "entry-16", "sha256": "hash-16"},
+        {"id": "entry-17", "sha256": "hash-17"},
+        {"id": "entry-18", "sha256": "hash-18"},
+        {"id": "entry-19", "sha256": "hash-19"},
+        {"id": "entry-20", "sha256": "hash-20"},
+        {"id": "entry-21", "sha256": "hash-21"},
+        {"id": "entry-22", "sha256": "hash-22"},
+        {"id": "entry-23", "sha256": "hash-23"},
+        {"id": "entry-24", "sha256": "hash-24"},
+        {"id": "entry-25", "sha256": "hash-25"},
+        {"id": "entry-26", "sha256": "hash-26"},
+        {"id": "entry-27", "sha256": "hash-27"},
+        {"id": "entry-28", "sha256": "hash-28"}
+      ],
+      "discrimination_witness": {
+        "known_distinct_items": ["entry-01", "entry-28"],
+        "observed_hashes": ["hash-01", "hash-28"]
+      },
+      "collision_receipts": [],
+      "expected": "PASS"
+    },
+    {
+      "id": "R6-F9",
+      "kind": "dead-file-proof",
+      "proposed_disposition": "ARCHIVE",
+      "literal_basename": {"ran": true, "hits": []},
+      "stem_dirname": {"ran": false, "hits": []},
+      "suite_exists": true,
+      "red_first_move_run": {"ran": false, "consumer_failed": false},
+      "expected": "FAIL"
+    },
+    {
+      "id": "R6-F10",
+      "kind": "dead-file-proof",
+      "proposed_disposition": "RETAIN",
+      "literal_basename": {"ran": true, "hits": []},
+      "stem_dirname": {
+        "ran": true,
+        "hits": ["os.path.join(PREP_DIR, 'manifest.json')"]
+      },
+      "suite_exists": true,
+      "red_first_move_run": {"ran": true, "consumer_failed": true},
+      "expected": "PASS"
+    },
+    {
+      "id": "R6-F11",
+      "kind": "dismissed-observation",
+      "in_rubric_anomaly": "a companion title begins mid-column",
+      "global_verdict": "PASS",
+      "dismissed_observation": null,
+      "expected": "FAIL"
+    },
+    {
+      "id": "R6-F11n",
+      "kind": "dismissed-observation",
+      "in_rubric_anomaly": "a companion title begins mid-column",
+      "global_verdict": "PASS",
+      "dismissed_observation": {
+        "what": "a companion title begins mid-column",
+        "why": "the owner-approved layout intentionally continues the column",
+        "falsifier": "an owner requirement or renderer rule requires a new page"
+      },
+      "expected": "PASS"
+    }
+  ],
+  "phase_cases": [
+    {
+      "id": "missing-census-group",
+      "evidence": [
+        "- claim: all six rows are valid; evidence: checker exit 0"
+      ],
+      "expected": "FAIL",
+      "diagnostic": "census claim requires"
+    },
+    {
+      "id": "R6-F2",
+      "evidence": [
+        "- claim: complete row validation; evidence: checker exit 0; coverage: full; capture: evidence/lessons.log; population_definition: tracked lesson rows; population_size: 205; examined_count: 45; enumeration_source: git ls-files -- 'lessons/*.json'"
+      ],
+      "expected": "FAIL",
+      "diagnostic": "examined_count < population_size"
+    },
+    {
+      "id": "R6-F3",
+      "evidence": [
+        "- claim: 45 of 205 rows examined and 160 remain unexamined; evidence: checker exit 0"
+      ],
+      "expected": "PASS"
+    },
+    {
+      "id": "R6-F4",
+      "evidence": [
+        "- claim: every tracked lesson row is valid; evidence: checker exit 0; coverage: full; capture: evidence/lessons.log; population_definition: tracked lesson rows; population_size: 205; examined_count: 205; enumeration_source: I looked at the directory"
+      ],
+      "expected": "FAIL",
+      "diagnostic": "mechanical command or explicit list"
+    },
+    {
+      "id": "R6-F7",
+      "evidence": [
+        "- claim: spot-checked 5 of 140 reports; evidence: sampled report IDs and results"
+      ],
+      "expected": "PASS"
+    },
+    {
+      "id": "R6-F8",
+      "evidence": [
+        "- route handler returns the wrong status for an unauthorized request"
+      ],
+      "expected": "PASS"
+    },
+    {
+      "id": "slash-census-pass",
+      "evidence": [
+        "- claim: 6/6 tracked rows are valid; evidence: checker exit 0; coverage: full; capture: evidence/rows.log; population_definition: tracked rows; population_size: 6; examined_count: 6; enumeration_source: explicit-list(row-a, row-b, row-c, row-d, row-e, row-f)"
+      ],
+      "expected": "PASS"
+    },
+    {
+      "id": "census-without-capture-coverage",
+      "evidence": [
+        "- claim: all six rows are valid; evidence: checker exit 0; population_definition: tracked rows; population_size: 6; examined_count: 6; enumeration_source: explicit-list(row-a, row-b, row-c, row-d, row-e, row-f)"
+      ],
+      "expected": "FAIL",
+      "diagnostic": "census claim requires `coverage: full` and a concrete `capture:`"
+    },
+    {
+      "id": "partial-capture-cannot-prove-census",
+      "evidence": [
+        "- claim: all 205 rows are valid; evidence: checker output excerpt; coverage: partial; capture: evidence/rows.log; range: lines 190-205; omission: lines 1-189; population_definition: tracked rows; population_size: 205; examined_count: 205; enumeration_source: git ls-files -- 'rows/*.json'"
+      ],
+      "expected": "FAIL",
+      "diagnostic": "census claim requires `coverage: full`"
+    },
+    {
+      "id": "truncated-capture-cannot-prove-census",
+      "evidence": [
+        "- claim: 205/205 tracked rows are valid; evidence: Warning: truncated output (original token count: 10024); coverage: full; capture: evidence/rows.log; population_definition: tracked rows; population_size: 205; examined_count: 205; enumeration_source: git ls-files -- 'rows/*.json'"
+      ],
+      "expected": "FAIL",
+      "diagnostic": "truncation marker contradicts `coverage: full`"
+    },
+    {
+      "id": "complete-capture-partial-corpus",
+      "evidence": [
+        "- claim: sampled 45 of 205 tracked rows; evidence: checker exit 0; coverage: full; capture: evidence/sample.log; population_definition: tracked rows; population_size: 205; examined_count: 45; enumeration_source: git ls-files -- 'rows/*.json'"
+      ],
+      "expected": "PASS"
+    },
+    {
+      "id": "malformed-census-near-miss",
+      "evidence": [
+        "- claim : all six rows are valid; evidence: checker exit 0; coverage: full; capture: evidence/rows.log; population_definition: tracked rows; population_size: 6; examined_count: 6; enumeration_source: explicit-list(row-a, row-b, row-c, row-d, row-e, row-f)"
+      ],
+      "expected": "FAIL",
+      "diagnostic": "malformed evidence field"
+    },
+    {
+      "id": "partial-census-field-group",
+      "evidence": [
+        "- claim: sampled tracked rows; evidence: checker exit 0; coverage: full; capture: evidence/rows.log; population_size: 6"
+      ],
+      "expected": "FAIL",
+      "diagnostic": "census field group is incomplete"
+    },
+    {
+      "id": "backticked-prose-enumerator",
+      "evidence": [
+        "- claim: every tracked row is valid; evidence: checker exit 0; coverage: full; capture: evidence/rows.log; population_definition: tracked rows; population_size: 6; examined_count: 6; enumeration_source: `I looked at the directory`"
+      ],
+      "expected": "FAIL",
+      "diagnostic": "mechanical command or explicit list"
+    },
+    {
+      "id": "backticked-mechanical-enumerator",
+      "evidence": [
+        "- claim: every tracked row is valid; evidence: checker exit 0; coverage: full; capture: evidence/rows.log; population_definition: tracked rows; population_size: 6; examined_count: 6; enumeration_source: `git ls-files -- 'rows/*.json'`"
+      ],
+      "expected": "PASS"
+    },
+    {
+      "id": "command-wrapped-prose-enumerator",
+      "evidence": [
+        "- claim: every tracked row is valid; evidence: checker exit 0; coverage: full; capture: evidence/rows.log; population_definition: tracked rows; population_size: 6; examined_count: 6; enumeration_source: command(I looked at the directory)"
+      ],
+      "expected": "FAIL",
+      "diagnostic": "mechanical command or explicit list"
+    },
+    {
+      "id": "command-wrapped-mechanical-enumerator",
+      "evidence": [
+        "- claim: every tracked row is valid; evidence: checker exit 0; coverage: full; capture: evidence/rows.log; population_definition: tracked rows; population_size: 6; examined_count: 6; enumeration_source: command(git ls-files -- 'rows/*.json')"
+      ],
+      "expected": "PASS"
+    },
+    {
+      "id": "truncated-command-enumerator",
+      "evidence": [
+        "- claim: every tracked row is valid; evidence: checker exit 0; coverage: full; capture: evidence/rows.log; population_definition: tracked rows; population_size: 6; examined_count: 6; enumeration_source: command(git ls-files -- rows | head -1)"
+      ],
+      "expected": "FAIL",
+      "diagnostic": "census enumeration_source cannot truncate"
+    },
+    {
+      "id": "explicit-list-count-mismatch",
+      "evidence": [
+        "- claim: all four declared rows are valid; evidence: checker exit 0; coverage: full; capture: evidence/rows.log; population_definition: tracked rows; population_size: 4; examined_count: 4; enumeration_source: explicit-list(row-a, row-b, row-c, row-d, row-e, row-f)"
+      ],
+      "expected": "FAIL",
+      "diagnostic": "enumerated member count"
+    },
+    {
+      "id": "fd-native-limit",
+      "evidence": [
+        "- claim: every tracked row is valid; evidence: checker exit 0; coverage: full; capture: evidence/rows.log; population_definition: tracked rows; population_size: 6; examined_count: 6; enumeration_source: command(fd --type f --max-results 1)"
+      ],
+      "expected": "FAIL",
+      "diagnostic": "native result limit"
+    },
+    {
+      "id": "find-native-quit",
+      "evidence": [
+        "- claim: every tracked row is valid; evidence: checker exit 0; coverage: full; capture: evidence/rows.log; population_definition: tracked rows; population_size: 6; examined_count: 6; enumeration_source: command(find rows -type f -quit)"
+      ],
+      "expected": "FAIL",
+      "diagnostic": "native result limit"
+    },
+    {
+      "id": "gh-default-limit",
+      "evidence": [
+        "- claim: every open issue is classified; evidence: checker exit 0; coverage: full; capture: evidence/issues.log; population_definition: open issues; population_size: 40; examined_count: 40; enumeration_source: command(gh issue list --state open)"
+      ],
+      "expected": "FAIL",
+      "diagnostic": "gh list census requires"
+    },
+    {
+      "id": "gh-low-limit",
+      "evidence": [
+        "- claim: every open issue is classified; evidence: checker exit 0; coverage: full; capture: evidence/issues.log; population_definition: open issues; population_size: 40; examined_count: 40; enumeration_source: command(gh issue list --state open --limit 40)"
+      ],
+      "expected": "FAIL",
+      "diagnostic": "strictly greater than population_size"
+    },
+    {
+      "id": "gh-sufficient-limit",
+      "evidence": [
+        "- claim: every open issue is classified; evidence: checker exit 0; coverage: full; capture: evidence/issues.log; population_definition: open issues; population_size: 40; examined_count: 40; enumeration_source: command(gh issue list --state open --limit 41)"
+      ],
+      "expected": "PASS"
+    },
+    {
+      "id": "wrapped-census-row",
+      "evidence": [
+        "- claim: verification result\n  all six rows are valid; evidence: checker exit 0; coverage: full; capture: evidence/rows.log; population_definition: tracked rows; population_size: 4; examined_count: 4; enumeration_source: explicit-list(row-a, row-b, row-c, row-d, row-e, row-f)"
+      ],
+      "expected": "FAIL",
+      "diagnostic": "enumerated member count"
+    }
+  ]
+}

@@ -5,6 +5,12 @@ printf 'implementaudit.detect-env\n'
 printf 'pwd=%s\n' "$(pwd)"
 printf 'os=%s\n' "$(uname -s 2>/dev/null || printf unknown)"
 printf 'shell=%s\n' "${SHELL:-unknown}"
+host_signature="${OS:-}:$(uname -s 2>/dev/null || printf unknown):${SHELL:-}"
+case "$host_signature" in
+  *Windows_NT*|*MINGW*|*MSYS*|*CYGWIN*|*pwsh*|*powershell*|*cmd.exe*)
+    printf '%s\n' 'warn=stream_reencoding_host: capture native output whole; record {command, exit_code, started, finished}; CLIXML=diagnostics-only'
+    ;;
+esac
 printf 'side_effects=none\n'
 
 if command -v git >/dev/null 2>&1; then

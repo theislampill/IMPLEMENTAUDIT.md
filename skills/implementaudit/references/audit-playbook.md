@@ -196,6 +196,11 @@ investigate, spike, defer, or owner decision rather than pretending to be ready
 fixes. Rejected / duplicate / by-design / false-positive rows remain visible
 when they explain why a lead was not carried forward.
 
+A `dismissed-observation` is distinct from those finding dispositions: it
+records an in-scope observation that never became a candidate finding. Preserve
+what was observed, why it is judged intended, and what evidence would falsify
+that judgment. A global PASS does not erase this row.
+
 The repair-class enumeration is closed. A `STIMULUS` repair changes the prompt,
 input, or fixture input rather than the product/skill or acceptance instrument.
 It must state what was ambiguous or unsatisfiable in the prior stimulus, show

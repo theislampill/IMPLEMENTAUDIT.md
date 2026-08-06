@@ -99,6 +99,31 @@ Custody boundaries:
 - An ActiveGraph mirror may reflect gate passages but is not lifecycle authority or correctness proof. Capability Ledger entries remain narrow.
 - All claims are bounded by local repo checks, smoke evidence, and IMPLEMENTAUDIT runtime behavior.
 
+## Verdict capture fidelity
+
+A mandatory verification command captures its complete stdout and stderr in a
+run-root evidence file before any excerpt is read. Transcript tails and heads
+are excerpts from that completed capture, never a capture policy and never a
+live pipe from the producer. Orientation-only tails remain valid when they are
+not registered as verification evidence.
+
+The producer process exit status is verdict authority. Do not infer success
+from output text or from the exit status of `tail`, `head`, `Tee-Object`, or any
+other downstream stage. Prefer no pipeline. If a pipeline is unavoidable, use
+`set -o pipefail` or record the producer's `${PIPESTATUS[0]}` before any chained
+gate. Never chain `&&` from an unqualified pipeline status.
+
+On hosts that may re-encode native streams, record `command`, `exit_code`,
+`started`, and `finished` in a structured file. PowerShell CLIXML and text
+captured through `Tee-Object` are diagnostics only; they do not replace the
+producer exit status or the structured record.
+
+Declare `coverage: full|partial` on newly authored evidence rows. Mandatory
+commands require `coverage: full`, a named capture file, and complete output.
+`coverage: partial` records both the observed `range:` and the `omission:`. A
+transport truncation marker forces `coverage: partial`; partial evidence cannot
+establish completeness, absence, or terminal success.
+
 ## 5 Whys Loop-Exit Protocol
 
 5 Whys is proportional, not infinite. Stop the loop when the root cause is

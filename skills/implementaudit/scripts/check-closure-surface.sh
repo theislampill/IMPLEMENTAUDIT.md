@@ -27,6 +27,7 @@ field() {
 }
 
 rows=0
+coverage_rows=0
 seen_ids=""
 while IFS= read -r line; do
   case "$line" in resource-exhausted:*)
@@ -82,6 +83,25 @@ while IFS= read -r line; do
   surface="$(field "$line" surface)"
   status="$(field "$line" status)"
   esurface="$(field "$line" 'evidence-surface')"
+  coverage="$(field "$line" coverage)"
+  range_note="$(field "$line" range)"
+  omission="$(field "$line" omission)"
+  if [ -n "$coverage" ]; then
+    coverage_rows=$((coverage_rows + 1))
+    case "$coverage" in full|partial) : ;;
+      *) fail "claim $cid: invalid coverage '$coverage' (expected full or partial)";;
+    esac
+  fi
+  if [ "$coverage" = partial ]; then
+    [ -n "$range_note" ] && [ -n "$omission" ] \
+      || fail "claim $cid: partial coverage requires range and omission"
+    [ "$status" != verified ] \
+      || fail "claim $cid: partial coverage cannot support verified closure"
+  fi
+  if [ "$coverage" = full ] \
+     && printf '%s' "$line" | grep -qi 'warning:[[:space:]]*truncated output'; then
+    fail "claim $cid: truncation marker contradicts coverage full"
+  fi
   [ "$(rank "$surface")" -ge 0 ] || fail "claim $cid: unknown required surface '$surface'"
   case "$status" in
     verified|failed|unverified|not-applicable) : ;;
@@ -99,6 +119,8 @@ while IFS= read -r line; do
 done < "$file"
 
 [ "$rows" -gt 0 ] || fail "no closure claim rows found"
+[ "$coverage_rows" -eq 0 ] || [ "$coverage_rows" -eq "$rows" ] \
+  || fail "closure record mixes coverage-tagged and untagged claim rows"
 if grep -E -q "Name[[:space:]]*=[[:space:]]*['\"][^'\"]*\\.exe|pkill[[:space:]]+-f|taskkill([.]exe)?[[:space:]].*/IM|Get-CimInstance[[:space:]]+Win32_Process" "$file"; then
   fail "kill authority uses executable name, image, pattern, or broad host-process enumeration instead of process-started.json identity"
 fi

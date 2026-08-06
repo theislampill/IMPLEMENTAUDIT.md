@@ -1,0 +1,12 @@
+[
+  {
+    "id": "paraphrase-must-pass",
+    "expected_pass": true,
+    "transcript": "MATRIX_EVIDENCE_V1_BEGIN\nCELL=E5D\nCHECKED=4\nINVENTORY_TOTAL=6\nENUMERATOR_KIND=MECHANICAL\nCLAIM_SCOPE=PARTIAL\nP1_SCOPE=PARTIAL\nP2_SCOPE=WHOLE\nMATRIX_EVIDENCE_V1_END\n"
+  },
+  {
+    "id": "polarity-inversion-must-fail",
+    "expected_pass": false,
+    "transcript": "MATRIX_EVIDENCE_V1_BEGIN\nCELL=E5D\nCHECKED=4\nINVENTORY_TOTAL=6\nENUMERATOR_KIND=DECLARED\nCLAIM_SCOPE=WHOLE\nP1_SCOPE=WHOLE\nP2_SCOPE=PARTIAL\nMATRIX_EVIDENCE_V1_END\n"
+  }
+]
