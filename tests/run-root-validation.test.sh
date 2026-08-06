@@ -485,4 +485,26 @@ bash "$helper" "$window_root" >/dev/null || {
   exit 1
 }
 
+# 11. An optional re-spec impact set is routed through the shared validator.
+cp -r "$tmp/good/." "$tmp/respec-invalid/"
+printf '%s\n' \
+  'IMPLEMENTAUDIT_RESPEC_IMPACT_SET' \
+  'Change: old -> new' \
+  'Declared by: fixture' \
+  'Population size: 1' \
+  'Enumeration method: literal + stem/dirname' \
+  'Literal carriers: file.md' \
+  'Literal count: 1' \
+  'Stem/dirname additional carriers: none' \
+  'Stem/dirname additional count: 0' \
+  'Replacement: no' \
+  '| # | Carrier | Kind | Status | Evidence |' \
+  '|---|---|---|---|---|' \
+  '| 1 | file.md | doc |  | diff:x |' \
+  > "$tmp/respec-invalid/respec-impact-set.md"
+if bash "$helper" "$tmp/respec-invalid" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: invalid re-spec impact set must fail\n' >&2
+  exit 1
+fi
+
 printf 'run-root-validation.test: ok\n'
