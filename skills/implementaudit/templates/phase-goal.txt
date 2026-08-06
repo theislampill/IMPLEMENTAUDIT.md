@@ -116,12 +116,13 @@ separate gate.
 
 ## Graphify / ActiveGraph / Markdown fallback status
 
-Graphify: present-and-fresh / present-and-stale / absent / skipped / unauthorized
-Graphify terrain used: yes — <query purpose and result summary> / no
+Graphify: present-and-fresh (executed SHA match) / stale-sidecar / absent / skipped / unauthorized / anti-triggered
+Graphify trigger and terrain use: all triggers + <terrain-shaped query/result> / anti-trigger + <ordinary method> / no
+Graphify freshness evidence: <built_at_commit> vs <git rev-parse HEAD>, command + exit
 Graphify live-file confirmation: required before any mutation or criterion closure
 ActiveGraph: configured-and-authorized / configured-not-authorized / absent / skipped
-ActiveGraph custody used: yes — <events emitted> / no
-ActiveGraph evidence boundary: custody of gate passage only, not correctness proof
+ActiveGraph checkpoint/mirror used: fork / diff / optional non-authoritative mirror / no
+ActiveGraph evidence boundary: run root remains lifecycle authority; not correctness proof
 Sidecar outputs in tracked source: no (must remain no)
 Sidecar outputs in .skill package: no (must remain no)
 Markdown fallback: yes / no
@@ -154,7 +155,7 @@ Cleanliness (bash {{RUN_ROOT}}/repo-state.sh added-lines {{BASELINE_REF}}):
 - Session debug-markers added (todo/fixme/xxx): N
 - Dead imports added: N
 
-Sidecar: Graphify used/skipped/avoided; ActiveGraph used/skipped/avoided; Markdown fallback yes/no
+Sidecar: Graphify first-contact/anti-triggered/stale/skipped; ActiveGraph fork-diff/mirror/skipped; Markdown fallback yes/no
 Audit category coverage: covered / deferred / out of scope / unverified with reason
 Reconciliation: DONE / BLOCKED / IN PROGRESS / TODO / STALE / DRIFTED / FIXED INDEPENDENTLY / not applicable
 Authorization boundary: no hidden commit, push, merge, release, publication, provenance, install, index, export, or issue creation

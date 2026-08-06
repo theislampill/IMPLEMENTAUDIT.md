@@ -1,8 +1,9 @@
 # Sidecar fixture: Graphify present and fresh — orientation evidence only
 
-When Graphify output is present and fresh (indexed recently, not stale), it
-may be used as orientation evidence: a read-only map to identify owner/source
-candidates. It is NOT proof of correctness or behavioral claims.
+When Graphify output is present, its `built_at_commit` exactly matches the live
+`git rev-parse HEAD`, every applicability trigger holds, and the question is
+terrain-shaped, it may be used as first-contact orientation evidence. It is NOT
+proof of correctness or behavioral claims.
 
 ## Expected sidecar block in phase VERIFY section
 
@@ -25,7 +26,8 @@ as its sole evidence basis:
 
 ## Rule confirmed by this fixture
 
-- Graphify present and fresh → allowed as orientation evidence.
+- Matching SHAs → allowed as orientation evidence for the terrain-shaped query.
+- A data-file, constant, embedded-language, prose, or Git-topology question uses ordinary tools.
 - Owner/source must be confirmed by live file read (Gemba).
 - Graphify does not provide proof; live verification is required for any claim.
 - Evidence type in Smoke Before Claim must be "orientation evidence" not "live runtime".

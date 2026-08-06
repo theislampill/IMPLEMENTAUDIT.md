@@ -35,8 +35,9 @@ or WSL.
   `ANDON_PROBE` → `ANDON_ESCALATE` → `ANDON_HANDOFF`, driven by same-class
   recurrence with new evidence; handoff fires only on a genuine blocking
   condition. There is no try or round cap anywhere.
-- Sidecars are two-tier: Graphify/ActiveGraph are optional for every consumer
-  repo, canonical for maintenance rounds on this repo (see `AGENTS.md`).
+- Sidecars are optional everywhere. Their qualification is dogfood-only and
+  narrow: Graphify first-contact terrain when every trigger holds; ActiveGraph
+  authorized fork/diff or an optional non-authoritative mirror (see `AGENTS.md`).
 - Native route integration is behavioral, not command identity: repo-audit and
   planning requests use the default category matrix, deep/security pressure,
   DMADV-routed direction analysis, self-contained run-root plans, branch/diff

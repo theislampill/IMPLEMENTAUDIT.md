@@ -145,18 +145,31 @@ corrupt native owner/source.
 
 ## Sidecar Boundary
 
-Graphify may aid brownfield terrain inspection before owner/source selection.
-Absent, stale, or unauthorized Graphify falls back to ordinary Gemba and live
-file inspection.
+Graphify may aid first-contact terrain inspection only when the repo is
+unfamiliar, majority-code, the question is terrain-shaped, and one deterministic
+search cannot answer it. A reference-shaped question is an anti-trigger:
+data-file consumers, constants/literals, embedded languages, prose censuses,
+definition/consumer lookup, and Git topology route to `rg`, `git grep`,
+`git ls-tree`, direct reads, or native Git. Before any query, the packaged
+freshness check compares `graph.json` `built_at_commit` with
+`git rev-parse HEAD`; mismatch fires `stale-sidecar`. Absent, stale, unauthorized, or inapplicable Graphify falls back to ordinary Gemba.
 
-ActiveGraph may preserve sidecar custody for evidence events when authorized.
-Absent ActiveGraph falls back to Markdown ledgers and final reports.
+ActiveGraph may assist authorized `fork` / `diff` resume-from-checkpoint. Event
+stores are optional non-authoritative mirrors; the run root remains the sole
+authority for lifecycle facts. Absent ActiveGraph falls back to Markdown
+ledgers and final reports.
 
 Neither sidecar replaces repo-local owners, checkers, fixtures, smoke output,
-audit ledgers, or live-file inspection. A repo may make Graphify/ActiveGraph
-canonical maintenance sidecars for orientation and custody, but they are still
-not correctness proof and never replace live files, checkers, fixtures, smokes,
-or final audit.
+audit ledgers, or live-file inspection. A repo may require these maintenance
+sidecars when explicitly configured, but Graphify remains orientation and an
+ActiveGraph store remains a non-authoritative mirror. Neither is correctness
+proof or a replacement for live files, checkers, fixtures, smokes, or final
+audit.
+
+This narrowing is dogfood-only and qualified as tested on two repos, one
+Windows host, pinned 2026-08-05 versions. Broadening requires the recorded
+read-only trial on an unfamiliar third-party repo; it is not a shipping gate for
+the narrowed contract.
 
 Ownership split: this routing reference owns intake/status and the
 canonical-vs-sidecar boundary. `lean-operating-discipline.md` owns

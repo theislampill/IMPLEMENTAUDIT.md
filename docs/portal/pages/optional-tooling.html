@@ -1,17 +1,18 @@
 <div class="page-eyebrow">Evidence</div>
       <h1>Optional tooling</h1>
-      <p class="lead">Optional orientation and custody tools: useful for maintainers, never required for normal runs.</p>
-      <div class="hero-card"><h2>You do not need these tools for a normal run.</h2><p>Markdown work records, ledgers, final reports, and run folders when phased are the durable fallback.<br>Graphify and ActiveGraph help maintainers inspect terrain and event custody when they are present and authorized.<br>They do not replace real files, before/after checks, or the final audit ledger.</p></div>
+      <p class="lead">Narrow optional tools: first-contact terrain and checkpoint assistance, never required for normal runs.</p>
+      <div class="hero-card"><h2>You do not need these tools for a normal run.</h2><p>Markdown work records, ledgers, final reports, and run folders when phased are the durable path.<br>Graphify is limited to qualified first-contact terrain; ActiveGraph is limited to authorized fork/diff checkpoint assistance and an optional mirror.<br>They do not replace real files, the run root, before/after checks, or the final audit ledger.</p></div>
 
       <h2 id="graphify">Graphify</h2>
-      <p><a href="https://github.com/safishamsi/graphify">Graphify</a> can help orient around repo terrain before mutation by showing structure and relationships.<br>In this repo, generated terrain may live under <code>graphify-out/</code> or a graph JSON file, but it remains support evidence unless the run explicitly authorizes and records its use.</p>
-      <p>Repo convention: terrain lives at <code>graphify-out/graph.json</code>; nodes have <code>id</code> and <code>label</code>; links have <code>source</code> and <code>target</code>.<br>If tracked files are newer than the terrain, treat it as stale and let live files win.</p>
+      <p><a href="https://github.com/safishamsi/graphify">Graphify</a> is a candidate only for an unfamiliar, majority-code repo and a terrain-shaped question that one deterministic search cannot answer.<br>Data-file consumers, constants/literals, embedded languages, prose censuses, definition/consumer lookup, and Git topology route to ordinary tools.</p>
+      <p>Before any query, the packaged freshness command compares <code>graph.json</code> <code>built_at_commit</code> with <code>git rev-parse HEAD</code>; mismatch fires <code>stale-sidecar</code> and makes the terrain unusable.<br>Default to <code>--code-only --no-cluster</code> with <code>--out</code> outside the target repo.</p>
+      <p>Semantic or clustering passes require an owner-named backend plus privacy and out-of-band spend disclosure. Filtering is a filename heuristic, spend may be unmeasurable, auto-detection is refused, and Ollama is explicitly unauthorized.</p>
 
       <h2 id="activegraph">ActiveGraph</h2>
-      <p><a href="https://github.com/yoheinakajima/activegraph">ActiveGraph</a> can preserve custody events and Capability Ledger-style traces when available.<br>Event stores help explain how a run moved through gates, but broad capability claims still need to be derived from recorded gates and evidence.</p>
+      <p><a href="https://github.com/yoheinakajima/activegraph">ActiveGraph</a> may provide authorized <code>fork</code> / <code>diff</code> resume-from-checkpoint assistance.<br>An event store is an optional non-authoritative mirror; the run root remains the sole lifecycle authority, and <code>replay</code> does not reconstruct the tested custom-event custody use case.</p>
 
       <h2 id="activegraph-precision">ActiveGraph precision</h2>
-      <p>ActiveGraph is optional custody infrastructure, not correctness proof.</p>
+      <p>ActiveGraph is optional checkpoint assistance or a non-authoritative mirror, not lifecycle authority or correctness proof.</p>
       <ul>
         <li>Do not turn one small run into a broad capability or resume-style claim.</li>
         <li>Custom event names such as <code>repo.patch.applied</code> describe this repo's evidence model; they are not upstream proof by themselves.</li>
@@ -29,12 +30,12 @@
       </ul>
 
       <h2 id="self-maintenance-sidecars">Self-maintenance sidecars</h2>
-      <p>For IMPLEMENTAUDIT maintaining itself, Graphify and ActiveGraph are canonical and expected dogfood sidecar inputs when present and authorized.<br>For consuming repos, they remain optional.<br>Live files, <code>AGENTS.md</code>, run-folder state, before/after evidence (Smoke A/B), and final audit closure still outrank sidecars.</p>
+      <p>The qualification is dogfood-only, as tested on two repos, one Windows host, and pinned 2026-08-05 versions.<br>For consuming repos, the tools remain optional and the claims do not broaden without an unfamiliar-third-party-repo trial.<br>Live files, <code>AGENTS.md</code>, run-folder state, before/after evidence (Smoke A/B), and final audit closure outrank sidecars.</p>
 
       <h2 id="sidecar-conventions">Sidecar conventions</h2>
       <div class="artifact-card-grid">
-        <section class="artifact-card"><h3>Graphify terrain</h3><dl><dt>Concrete convention</dt><dd><code>graphify-out/graph.json</code>; nodes use <code>id</code> + <code>label</code>, links use <code>source</code> + <code>target</code>; excluded from package and tracked source.</dd><dt>Proof boundary</dt><dd>Orientation only; stale when tracked files are newer; not proof of correctness.</dd></dl></section>
-        <section class="artifact-card"><h3>ActiveGraph custody</h3><dl><dt>Concrete convention</dt><dd>One <code>&lt;run-root&gt;/custody.db</code> or <code>&lt;run-root&gt;/custody-trace.jsonl</code> store per run folder when configured and authorized.</dd><dt>Proof boundary</dt><dd>Event custody only; not proof a change is correct.</dd></dl></section>
+        <section class="artifact-card"><h3>Graphify terrain</h3><dl><dt>Concrete convention</dt><dd>Authorized <code>graph.json</code> outside the target repo; record <code>built_at_commit</code>, live HEAD, and the executed comparison.</dd><dt>Proof boundary</dt><dd>First-contact orientation only; SHA mismatch makes it unusable; not proof of correctness.</dd></dl></section>
+        <section class="artifact-card"><h3>ActiveGraph checkpoint</h3><dl><dt>Concrete convention</dt><dd>Authorized <code>fork</code> / <code>diff</code>; an optional <code>&lt;run-root&gt;/custody.db</code> or trace may mirror events.</dd><dt>Proof boundary</dt><dd>Checkpoint assistance or non-authoritative mirror only; the run root remains authoritative.</dd></dl></section>
         <section class="artifact-card"><h3>Andon custody events</h3><dl><dt>Concrete convention</dt><dd><code>andon.probe.recorded</code>, <code>andon.escalated</code>, and <code>andon.handoff.recorded</code> can mirror failure handling.</dd><dt>Proof boundary</dt><dd>Preserves failure chain; does not replace the Markdown Andon log.</dd></dl></section>
         <section class="artifact-card"><h3>Run-level sidecar status</h3><dl><dt>Concrete convention</dt><dd><code>sidecars.md</code> records availability, authorization, output summaries, and fallback.</dd><dt>Proof boundary</dt><dd>Status evidence; does not authorize setup, export, or indexing.</dd></dl></section>
       </div>
@@ -82,4 +83,4 @@
       <p>If Graphify or ActiveGraph is missing, stale, or unauthorized, continue with live file inspection and Markdown ledgers.<br>Missing optional tooling is not a blocker for ordinary consuming repos, and dogfood sidecars still do not prove correctness by themselves.</p>
 
       <h2 id="when-optional-tools-help">When optional tools help</h2>
-      <p>Terrain maps help owner/source discovery.<br>Custody events help trace proof events.<br>Neither replaces before/after checks, final audit, or source evidence.</p>
+      <p>Qualified terrain may orient first contact.<br>An authorized mirror may copy already-recorded run-root events.<br>Neither replaces deterministic owner/source checks, before/after evidence, final audit, or source evidence.</p>

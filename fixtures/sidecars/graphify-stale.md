@@ -1,8 +1,9 @@
 # Sidecar fixture: Graphify stale — record stale, require live confirmation
 
-When Graphify output is present but stale (indexed before recent commits or
-config changes), it must be recorded as stale/avoided. Live-file confirmation
-is required before any owner/source claim is made.
+When `graph.json` `built_at_commit` differs from `git rev-parse HEAD`, the
+packaged freshness command exits nonzero with `stale-sidecar`. The terrain is
+unusable and must be recorded as stale/avoided. Ordinary live-file Gemba is the
+only path for owner/source claims.
 
 ## Expected sidecar block in phase VERIFY section
 
@@ -21,13 +22,13 @@ And must include evidence that owner/source was confirmed by live file read:
 
 ## Forbidden when Graphify is stale
 
-- Using Graphify stale output as orientation evidence without noting it is stale.
+- Using stale Graphify output as orientation evidence for any purpose.
 - Claiming owner/source was confirmed without a live Gemba read.
 - Omitting the stale status from the sidecar block.
 
 ## Rule confirmed by this fixture
 
-- Graphify stale → record stale/avoided in sidecar block.
+- Graphify stale → executable SHA mismatch, `stale-sidecar`, record avoided.
 - All owner/source must be confirmed by live file reads (Gemba).
 - "Graphify: present-and-stale" recorded in the ## Graphify / ActiveGraph section.
 - Evidence type for any claim must be "live file read" not "Graphify orientation".

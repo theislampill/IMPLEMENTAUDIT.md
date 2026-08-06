@@ -3,14 +3,14 @@ flowchart TD
   Route["Route before mutation<br/>greenfield / brownfield / mixed<br/>brownfield recon is read-only"]:::audit
   OwnerDecision(["OWNER DECISION<br/>unsafe request or AGENTS/policy conflict"]):::blocker
 
-  Graphify["Graphify optional terrain<br/>orientation only, not proof"]:::optional
+  Graphify["Graphify qualified first-contact terrain<br/>freshness checked; not proof"]:::optional
   Gemba["Live-file Gemba<br/>confirm owner/source before mutation"]:::source
   SmokeA["Smoke A<br/>baseline before change"]:::checker
   Patch["Patch owner/source<br/>bounded P0 -> P1 -> P2"]:::source
   Generated["Refresh generated artifacts<br/>from source/generator"]:::generated
   SmokeB["Smoke B + complete<br/>working-tree-vs-baseline check"]:::checker
 
-  ActiveGraph["ActiveGraph optional custody<br/>after evidence exists<br/>not correctness proof"]:::optional
+  ActiveGraph["ActiveGraph fork/diff checkpoint<br/>optional non-authoritative mirror"]:::optional
   Ledger["Capability Ledger or<br/>Markdown final report fallback"]:::audit
 
   Andon["Andon / handoff loop<br/>abnormality -> 5 Whys -> Hansei<br/>countermeasure -> rerun"]:::blocker
@@ -43,7 +43,7 @@ flowchart TD
   AuditFix --> Final
   Graphify -. optional query before touching scene .-> Gemba
   Gemba --> SmokeA --> Patch --> Generated --> SmokeB
-  SmokeB -. custody sidecar .-> ActiveGraph --> Ledger
+  SmokeB -. optional mirror after evidence .-> ActiveGraph --> Ledger
   SmokeB --> Final
   SmokeA -->|unclear baseline| Andon
   SmokeB -->|regression / failed gate| Andon

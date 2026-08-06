@@ -33,87 +33,60 @@ below maps to a concrete runtime behavior or gate.
 
 ## Graphify terrain leverage
 
-Graphify is optional terrain/orientation. When available and authorized, use it in Lean steps as described
-below. Graphify is orientation only; live files remain proof. Graphify output must be confirmed against live files before any mutation or closure claim. Graphify
-absence does not block consumer runs; fall back to live-file Gemba and repo-state.sh for all artifact classification.
-Stale output triggers Andon or fallback: record the stale-output risk, avoid
-proof claims from the stale graph, and inspect the live owner/source before
-acting. IMPLEMENTAUDIT self-maintenance may use Graphify only when authorized,
-and no sidecar output enters the release package.
+Graphify is optional first-contact reconnaissance. All triggers must hold: the
+repo is unfamiliar to this run, majority-code by file count, the question is
+terrain-shaped, and one `rg`, `git grep`, or `git ls-tree` query cannot answer
+it. Graphify is orientation only, not proof; live-file confirmation remains
+mandatory. Absence, a failed trigger, or an anti-trigger falls back to ordinary
+Gemba and `repo-state.sh` without blocking the run.
 
-Terrain ownership: extraction is agent-performed (e.g., via the Graphify
-skill), writing `graphify-out/graph.json` — `nodes[]` need `id` and `label`
-(optional `type`); `links[]` need `source`/`target`; the `graphify` CLI then
-serves `path` / `explain` / `diagnose` queries over that file. Extraction
-output is gitignored, never packaged, and goes stale the moment tracked files
-change after it; re-extraction requires the same authorization as indexing.
+Before a query, execute `validate-run-root.sh --graph-freshness <graph.json>
+<repo-root>`. It compares `built_at_commit` with `git rev-parse HEAD`; mismatch
+fires `stale-sidecar` and makes the terrain unusable. Extraction/re-extraction
+remains separately authorized, uses `--code-only --no-cluster` by default, and
+places `--out` outside the target repo.
 
-| Lean step | Graphify terrain use | Live-file confirmation required |
+| Lean step | Narrowed terrain use | Live-file confirmation required |
 |---|---|---|
-| Seiri / Sort | Query node and link counts by artifact class (skills/, scripts/, tests/, fixtures/, docs/). Classify necessary vs unnecessary artifact surfaces. Identify possible debris or scope-creep candidates. | Confirm each candidate class against git ls-files and verify-package.sh require_file list before acting. |
-| Seiton / Set in order | Query out-degree by file to identify highest-coupling owner/source candidates. Map package boundary (skills/ ships; scripts/, tests/, docs/ repo-only). Find unresolved or ambiguous graph relations. | Confirm top candidates by reading file content and cross-referencing verify-package.sh. Record INFERRED nodes as `unverified`. |
-| Seiso / Shine | Query for isolated low-degree nodes (possible stale/dead surfaces), Graphify-untracked file types (e.g., .txt not parsed), and unexpected files in skills/ payload. | Confirm each stale/dead candidate by reading the live file. Do not delete or defer on Graphify result alone. |
-| Muda / Mura / Muri | Use Graphify to surface redundant nodes, uneven degree clusters (phase imbalance), and high-degree overburdened owners. Log candidates in THINKING.md §Muda/Mura/Muri register. | Confirm each entry against live files and check output before adding to the register. |
-| DMAIC — Measure / Analyze | Use Graphify to identify defect surface (owner files, dependency paths, generated outputs, likely regression files) and design alternatives for the Improve step. | Confirm every Graphify-derived owner/source and dependency candidate against live files and Smoke A before patching. |
-| DMADV — Analyze / Design | Use Graphify to compare package/integration boundaries, dependency paths, test/checker placement, and anchor points for new artifacts. | Confirm package boundary placement against verify-package.sh and build-release-asset.sh before designing the new artifact. |
+| Seiri / Sort | On first contact, orient to broad code artifact classes and possible component boundaries. | Confirm every class with `git ls-files`, `git ls-tree`, or direct reads before recording it. |
+| Seiton / Set in order | On first contact, locate the neighborhood of an already named code component and candidate owners. | Read the candidate owner/source and confirm links with deterministic searches before action. |
 
-Query results recorded in `<run-root>/sidecars.md`:
-- Query purpose
-- Nodes / links at time of query
-- Result summary (top candidates)
-- Freshness (cached vs. fresh extraction)
-- Evidence boundary: orientation only, not proof
-- Live-file follow-up: what was confirmed and how
+Seiso, Muda/Mura/Muri, DMAIC Measure/Analyze, and DMADV Analyze/Design do not
+gain a Graphify capability claim. Use their ordinary live-file, checker, and
+Git instruments. The known limitations as tested are citable anti-triggers:
 
-Graphify terrain limitation note: `.txt` files (e.g., `templates/phase-goal.txt`) are not parsed as
-code nodes. Always cross-reference the Graphify artifact list against `verify-package.sh require_file` for
-complete package payload coverage.
+- data-file consumers are not represented reliably;
+- module-level constants and duplicated literals are not represented;
+- embedded-language code (such as heredoc Python) is not extracted;
+- prose/reference censuses and Git topology are outside the code graph.
+
+This qualification is dogfood-only, as tested on two repos, one Windows host,
+Python 3.11.9, graphifyy 0.9.33, ActiveGraph 1.10.0, on 2026-08-05. It is not a
+universal tool claim. A read-only unfamiliar-third-party-repo trial is the
+broadening gate.
 
 ## ActiveGraph custody events
 
-ActiveGraph is optional custody/event evidence. When available and authorized, record these events for
-Lean-governed runs. All event names below are IMPLEMENTAUDIT-defined custom events unless explicitly proven
-upstream ActiveGraph built-ins. Events must be derived from real gate passages, checks, Andons, and final
-audit evidence — not invented after the fact.
+ActiveGraph's evidenced use is authorized `fork` / `diff`
+resume-from-checkpoint. The run root remains the sole authority for lifecycle
+facts. A custody store and its IMPLEMENTAUDIT-defined custom events may be an
+optional non-authoritative mirror; they are not required event work and cannot
+repair a run root that was not maintained. `replay` does not reconstruct the
+tested custody use case from custom event names.
 
-| Event | When to emit | Payload (minimum) |
-|---|---|---|
-| `implementaudit.run.opened` | At run start, when ActiveGraph is authorized | `run`, `milestone`, `host`, `purpose` |
-| `gemba.graphify.queried` | When Graphify terrain is queried for this run | `graph_nodes`, `graph_links`, `queries_run`, `evidence: orientation only` |
-| `lean.5s.sort.recorded` | After Seiri classification at phase boundary | `artifact classes classified`, `live_file_confirmation`, `muda_flagged` |
-| `lean.5s.set_in_order.recorded` | After Seiton owner/source mapping | `top candidates by degree`, `seiton_gap if any`, `confirmed` |
-| `lean.5s.shine.recorded` | After Seiso cleanliness check | `gitignored dirs confirmed`, `sidecar_debris_in_tracked_source: false` |
-| `lean.standard_work.updated` | When Kaizen standardizes a countermeasure into templates/checkers | `artifact`, `change`, `evidence` |
-| `lean.sustain_check.verified` | When a sustain check (test/checker/CI gate) passes | `check`, `result` |
-| `dmaic.define.recorded` | At DMAIC Define step | `defect`, `owner_source`, `scope`, `acceptance_target` |
-| `dmaic.measure.recorded` | At DMAIC Measure step | `smoke_a`, `gap`, `evidence_type` |
-| `dmaic.analyze.recorded` | At DMAIC Analyze step | `root_cause`, `muda_class`, `regression_risk` |
-| `dmaic.improve.recorded` | At DMAIC Improve step | `countermeasure`, `owner_source_patched` |
-| `dmaic.control.recorded` | At DMAIC Control step | `sustain` (test/AGENTS.md/CI gate) |
-| `dmadv.define.recorded` | At DMADV Define step | `new_capability`, `users`, `constraints`, `owner_source` |
-| `dmadv.measure.recorded` | At DMADV Measure step | `ctq_acceptance`, `baseline_absence`, `risk` |
-| `dmadv.analyze.recorded` | At DMADV Analyze step | `design_alternatives`, `selected`, `rollback` |
-| `dmadv.design.recorded` | At DMADV Design step | `phase_specs`, `templates`, `fixtures`, `validation` |
-| `dmadv.verify.recorded` | At DMADV Verify step | `smoke_b`, `package_check`, `owner_acceptance` |
-| `jidoka.stop.recorded` | When Jidoka stop-the-line is triggered | `trigger_type`, `failing_check`, `owner_source` |
-| `andon.probe.recorded` | At ANDON_PROBE | the Andon log row: `class` (official abnormality class), `abnormality`, `owner_source`, `countermeasure`, `rerun_evidence_required` |
-| `andon.escalated` | At ANDON_ESCALATE | `cites` (prior same-class row ids), `new_evidence` and/or `changed_approach`, `path` (split / reframe / rollback / owner decision / fix-spec) |
-| `andon.handoff.recorded` | At ANDON_HANDOFF | `blocking_condition` (from the handoff trigger list — never a try count), `remaining_blocker`, `next_owner_action` |
-| `hansei.recorded` | After Hansei reflection | `gap`, `cause`, `countermeasure`, `follow_up` |
-| `kaizen.countermeasure.standardized` | When countermeasure folded into template/checker/AGENTS | `artifact`, `rule_added` |
-| `nemawashi.owner_decision.recorded` | At Nemawashi gate | `assumption`, `decision`, `boundary` |
-| `muda_mura_muri.register.updated` | When THINKING.md register updated | `muda`, `mura`, `muri` |
-| `poka_yoke.check.recorded` | After poka-yoke checker runs | `checker`, `requirements_verified`, `result` |
-| `obeya.run_state.updated` | When STATE.md or ROADMAP.md updated at phase boundary | `phase`, `status` |
-| `smoke.baseline.recorded` | At Smoke A | `checks`, `evidence_type` |
-| `audit.verify.recorded` | At AUDIT_VERIFY | `graphify_terrain_used`, `activegraph_custody_used`, `sidecar_in_tracked_source` |
-| `implementaudit.run.finalized` | At AUDIT_COMPLETE | `verdict`, `graphify_live`, `activegraph_live` |
+The former catalogue is retained only as a compact compatibility sample for
+existing stores: `implementaudit.run.opened`, `gemba.graphify.queried`,
+`dmaic.define.recorded`, `poka_yoke.check.recorded`, and
+`implementaudit.run.finalized`. The packaged helper also recognizes
+`andon.probe.recorded`, `andon.escalated`, and `andon.handoff.recorded` for an
+authorized optional mirror. Do not infer completeness, required emission, or
+upstream schema support from these names.
 
 Custody boundaries:
-- ActiveGraph custody stores are written to `.IMPLEMENTAUDIT/` (gitignored) or an authorized temp path outside tracked source.
+- ActiveGraph custody stores are optional mirrors written only after separate authorization.
 - Custody stores, event logs, graph exports, and `.db` files are never committed, pushed, or included in the `.skill` package.
 - ActiveGraph absence is not a blocker. Markdown ledger and final report remain first-class fallback.
-- Capability Ledger entries derived from ActiveGraph readback must be narrow: repo, run id, owner/source, quality route, Lean principles applied, Graphify terrain used (yes/no), ActiveGraph event ids, checks run, final status, remaining risk. No broad competence claims.
+- Capability Ledger entries, if configured, remain narrow derivatives of recorded run-root gate evidence; no broad competence claims.
 
 ## Evidence boundaries
 
@@ -123,7 +96,7 @@ Custody boundaries:
 - 5S applies to run-root hygiene, package payloads, and generated artifact cleanliness, not physical workplaces.
 - Obeya maps to visual diagrams and ROADMAP.md, not a physical coordination room.
 - Graphify terrain is orientation evidence, not proof. All Graphify-derived candidates require live-file confirmation.
-- ActiveGraph custody is evidence of gate passages, not correctness proof. Capability Ledger entries remain narrow.
+- An ActiveGraph mirror may reflect gate passages but is not lifecycle authority or correctness proof. Capability Ledger entries remain narrow.
 - All claims are bounded by local repo checks, smoke evidence, and IMPLEMENTAUDIT runtime behavior.
 
 ## 5 Whys Loop-Exit Protocol

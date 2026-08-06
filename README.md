@@ -162,8 +162,8 @@ Current optional-tooling architecture:
 ```mermaid
 flowchart LR
   I["ImplementAudit<br/>officer / method / standard"]
-  G["Graphify<br/>optional terrain / repo map<br/>graphify-out/graph.json, agent-extracted<br/>orientation, not proof"]
-  A["ActiveGraph<br/>optional custody / event evidence<br/>one store per run root: custody.db<br/>absent-safe custody-append.sh<br/>not correctness proof"]
+  G["Graphify<br/>qualified first-contact terrain<br/>outside-repo graph.json + SHA check<br/>orientation, not proof"]
+  A["ActiveGraph<br/>fork/diff checkpoint assistance<br/>optional non-authoritative mirror<br/>run root remains authority"]
   C["Capability Ledger<br/>derived work history"]
   M["Markdown fallback<br/>always valid when optional tools are absent"]
   L["Live files<br/>source of truth"]
@@ -178,16 +178,14 @@ flowchart LR
 
 <!-- END: implementaudit-diagram:tooling-architecture -->
 
-Two-tier policy: the sidecars are **optional everywhere** for users running
-the skill on their own repos — absence blocks nothing, `/implementaudit`
-remains fully usable with neither tool installed, and Markdown fallback is
-first-class — but **canonical for maintaining IMPLEMENTAUDIT itself**:
-dogfood and update rounds on this repo are expected to use Graphify terrain
-for orientation and ActiveGraph custody for gate-passage history (owner
-decision, recorded in `AGENTS.md`). Consumers never inherit the maintenance
-obligation. When present, Graphify improves orientation before mutation and
-ActiveGraph preserves custody after evidence is produced; neither replaces
-the gates, and neither output is proof.
+Two-tier policy: the sidecars are **optional everywhere** — absence blocks
+nothing, `/implementaudit` remains fully usable with neither tool installed,
+and Markdown fallback is first-class. This repo is the dogfood evidence base,
+not a universal capability claim. Graphify is narrowed to first-contact terrain
+orientation when every trigger holds; ActiveGraph is narrowed to authorized
+`fork` / `diff` checkpoint assistance and an optional non-authoritative mirror.
+Consumers inherit no maintenance obligation. Neither sidecar replaces the run
+root, live-file gates, or proof.
 
 ## Quick Vocabulary, Not Authority
 
@@ -222,7 +220,7 @@ instead of replacing them.
 - Gemba / Genchi Genbutsu: inspect the real repo artifact, output, or path; do
   not rely on memory or summaries when the live surface exists.
 - Graphify: optional terrain/orientation aid; not canonical proof.
-- ActiveGraph: optional custody/sidecar evidence substrate; not canonical proof.
+- ActiveGraph: optional fork/diff checkpoint aid or non-authoritative mirror; not canonical proof.
 - Provenance/checksum manifest: bounded artifact integrity evidence. A checksum
   manifest is not a signature, SBOM, attestation, marketplace verification, or
   install proof.
@@ -441,11 +439,13 @@ Brownfield work must inspect existing owner/source, contracts, tests, smokes,
 checkers, generated artifacts, optional sidecars, regression surface, and
 rollback path before mutation.
 
-Graphify may orient brownfield terrain when available and fresh, but live files
-remain source of truth. ActiveGraph may preserve custody when configured, but
-Markdown ledgers and final reports remain valid fallback. Neither optional
-sidecar replaces repo-local owners, fixtures, checkers, smoke output, or audit
-ledgers.
+Graphify may orient first-contact terrain only for an unfamiliar, majority-code
+repo and a terrain-shaped question that deterministic search cannot answer.
+Reference-shaped questions use `rg`, `git grep`, `git ls-tree`, direct reads, or
+native Git. ActiveGraph may assist authorized `fork` / `diff` checkpoint work;
+event stores are optional mirrors. Markdown ledgers and final reports remain
+valid fallback. Neither optional sidecar replaces repo-local owners, fixtures,
+checkers, smoke output, the run root, or audit ledgers.
 
 ## Operating method
 
@@ -492,14 +492,14 @@ flowchart TD
   Route["Route before mutation<br/>greenfield / brownfield / mixed<br/>brownfield recon is read-only"]:::audit
   OwnerDecision(["OWNER DECISION<br/>unsafe request or AGENTS/policy conflict"]):::blocker
 
-  Graphify["Graphify optional terrain<br/>orientation only, not proof"]:::optional
+  Graphify["Graphify qualified first-contact terrain<br/>freshness checked; not proof"]:::optional
   Gemba["Live-file Gemba<br/>confirm owner/source before mutation"]:::source
   SmokeA["Smoke A<br/>baseline before change"]:::checker
   Patch["Patch owner/source<br/>bounded P0 -> P1 -> P2"]:::source
   Generated["Refresh generated artifacts<br/>from source/generator"]:::generated
   SmokeB["Smoke B + complete<br/>working-tree-vs-baseline check"]:::checker
 
-  ActiveGraph["ActiveGraph optional custody<br/>after evidence exists<br/>not correctness proof"]:::optional
+  ActiveGraph["ActiveGraph fork/diff checkpoint<br/>optional non-authoritative mirror"]:::optional
   Ledger["Capability Ledger or<br/>Markdown final report fallback"]:::audit
 
   Andon["Andon / handoff loop<br/>abnormality -> 5 Whys -> Hansei<br/>countermeasure -> rerun"]:::blocker
@@ -532,7 +532,7 @@ flowchart TD
   AuditFix --> Final
   Graphify -. optional query before touching scene .-> Gemba
   Gemba --> SmokeA --> Patch --> Generated --> SmokeB
-  SmokeB -. custody sidecar .-> ActiveGraph --> Ledger
+  SmokeB -. optional mirror after evidence .-> ActiveGraph --> Ledger
   SmokeB --> Final
   SmokeA -->|unclear baseline| Andon
   SmokeB -->|regression / failed gate| Andon
@@ -758,43 +758,49 @@ activegraph quickstart
 These commands are documentation only in this repo state. Running them requires
 explicit authorization. Installation does not authorize indexing, event-store
 setup, export, commit, push, tag, release, publication, or provenance.
+`graphify install` is not recommended until the isolated fake-home registration
+test described by issue #101 passes across its platform targets.
 
 ### Graphify-assisted Gemba
 
-Graphify is the optional catalog / terrain map. When available and fresh, or
-when indexing/querying is explicitly authorized, `/implementaudit` can query it
-before touching the scene.
+Graphify is an optional first-contact terrain map. Use it only when the repo is
+unfamiliar to the run, majority-code, the question is terrain-shaped, and one
+`rg`, `git grep`, or `git ls-tree` query cannot answer it. It may orient to broad
+components or the neighborhood of an already named component.
 
-Graphify can help identify:
-
-- owner/source candidates
-- dependency paths
-- generated-artifact hints
-- impact surfaces
-- smoke/test candidates
-- scope-creep signals
-- stale assumptions
-- source/generated output relationships
+Data-file consumers, module-level constants or literals, embedded languages,
+prose completeness, definition/consumer lookup, and Git topology are
+anti-triggers; use deterministic search, direct reads, or native Git instead.
 
 Graphify output is orientation evidence, not proof. It does not prove
 correctness, decide closure, authorize mutation, replace live-file inspection,
 override repo instructions, or weaken `AGENTS.md`.
 
-Graphify terrain tagged `INFERRED` or `AMBIGUOUS` requires live-file
-confirmation before implementation, closure, or proof claims. Live files win
-over graph output. If Graphify is absent or stale, `/implementaudit` falls back
-to ordinary Gemba.
+Before any query, the packaged freshness command compares `graph.json`
+`built_at_commit` with `git rev-parse HEAD`. A mismatch fires
+`stale-sidecar` and makes the terrain unusable. Live files win over graph
+output. If Graphify is absent, stale, unauthorized, or inapplicable,
+`/implementaudit` falls back to ordinary Gemba.
 
-### ActiveGraph-backed Capability Ledger
+The documented no-model default is `--code-only --no-cluster`, with `--out`
+outside the target repo. Semantic/clustering passes disclose that filtering is
+a filename heuristic, spend can be unmeasurable, and content may leave the
+machine or consume host-model quota. They require an owner-named backend;
+auto-detection is refused, and Ollama is explicitly unauthorized. These claims
+are dogfood-only, as tested on two repos, one Windows host, pinned 2026-08-05
+versions. An unfamiliar-third-party-repo trial gates any broadening.
 
-ActiveGraph is the optional evidence locker / custody substrate. When
-configured, ActiveGraph-backed `/implementaudit` runs may derive Capability
-Ledger entries as the natural custody-backed output of the run.
+### ActiveGraph checkpoint assistance and optional mirror
+
+ActiveGraph's evidenced use is authorized `fork` / `diff`
+resume-from-checkpoint. An event store may remain a separately authorized
+non-authoritative mirror, but the run root is the sole authority for lifecycle
+facts. `replay` does not reconstruct the tested custom-event custody use case.
 
 The Capability Ledger / Officer CV is ImplementAudit-derived. It is not an
-upstream ActiveGraph built-in feature. ActiveGraph provides the event custody
-substrate; ImplementAudit derives capability entries from recorded gate passages
-and evidence.
+upstream ActiveGraph built-in feature. ImplementAudit derives capability
+entries from recorded run-root gate passages and evidence; a mirror supplies no
+independent correctness or lifecycle claim.
 
 Entries may include:
 
@@ -804,7 +810,7 @@ Entries may include:
 - owner/source
 - countermeasure
 - Graphify terrain context, if available
-- ActiveGraph custody events, if available
+- ActiveGraph mirror event ids, if separately authorized and available
 - authorization gates respected
 - Smoke A and Smoke B
 - regression / Andon / Hansei trail, if any
@@ -815,13 +821,12 @@ When ActiveGraph is absent, the ordinary Markdown ledger and final report remain
 first-class fallback. The run is not blocked merely because ActiveGraph is
 unavailable.
 
-When custody is configured and authorized, the conventions are concrete:
-one store per run root (`<run-root>/custody.db`, or `custody-trace.jsonl` as
-an append-only fallback), written with the packaged absent-safe
-`custody-append.sh` helper; Andon escalation mirrors into the store as
+When mirror writing is separately authorized, the conventions are concrete:
+one optional store per run root (`<run-root>/custody.db`, or
+`custody-trace.jsonl` as an append-only fallback), written with the packaged
+absent-safe `custody-append.sh` helper; Andon escalation may mirror as
 `andon.probe.recorded` / `andon.escalated` / `andon.handoff.recorded` events
-carrying the abnormality class; later runs preload prior per-run stores
-read-only for cross-run continuity; and reconstructed history must be labeled
+carrying the abnormality class; and reconstructed history must be labeled
 `custody_mode: historical_backfill` with source, backfill time, original
 event time, and evidence boundary, so live and backfilled custody never blur.
 Run-level sidecar status lives in `<run-root>/sidecars.md`, instantiated from
@@ -1230,7 +1235,7 @@ Preserve the distinction between:
 - unsupported or uncertain behavior
 
 Detailed evidence belongs in commit bodies, orchestrator/audit ledgers,
-ActiveGraph custody events when configured, or final reports. Durable
+optional ActiveGraph mirror events when separately authorized, or final reports. Durable
 anti-repeat rules may belong in repo-local `AGENTS.md` when they would prevent
 future agents from repeating the same mistake.
 

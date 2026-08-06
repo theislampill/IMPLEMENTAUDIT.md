@@ -224,6 +224,9 @@ host proof replaces it. The focused smoke is `tests/release-asset-install-claude
   diagnostics.
 - Graphify output is orientation evidence, not proof. ActiveGraph custody is not
   correctness proof. Missing sidecars do not block consumer runs.
+- The detailed sidecar contract narrows Graphify to qualified first-contact
+  terrain and ActiveGraph to authorized fork/diff or a non-authoritative mirror;
+  the run root and live files remain authoritative.
 - Use bounded continuity only when it is stable, non-obvious, future-useful,
   and repo-specific; keep transient logs, private diagnostics, and unsupported
   claims out of AGENTS.md and memory.

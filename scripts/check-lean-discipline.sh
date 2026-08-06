@@ -115,13 +115,16 @@ for needle in [
 ]:
     require(sidecars, needle, "sidecars template contract", sidecars_path)
 
-# 3c. Andon custody events must exist in the lean reference event table
+# 3c. Helper-compatible Andon names may survive only inside the narrowed
+# optional-mirror contract; the run root remains authoritative.
 for needle in [
     "andon.probe.recorded",
     "andon.escalated",
     "andon.handoff.recorded",
+    "fork` / `diff",
+    "non-authoritative mirror",
 ]:
-    require(lean, needle, "Andon custody events", lean_ref)
+    require(lean, needle, "ActiveGraph checkpoint/mirror compatibility", lean_ref)
 
 # 3c2. Lean terms must keep concrete runtime force.
 jidoka_row = table_row(lean, "jidoka")

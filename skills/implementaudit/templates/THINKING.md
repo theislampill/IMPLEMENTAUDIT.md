@@ -208,30 +208,37 @@ Direct-edit policy, if any:
 
 ## Optional sidecars
 
-Graphify status: absent / present / stale / avoided / used as orientation only
+Graphify status: absent / present / stale-sidecar / avoided / used as orientation only
 
-Graphify terrain plan (when present):
-- Seiri query: classify artifact classes (skills/ vs repo-only vs sidecar debris)
-- Seiton query: identify top owner/source candidates by out-degree; map package boundary
-- Seiso query: flag isolated/low-degree nodes as stale/dead candidates for live-file confirmation
-- Muda/Mura/Muri: surface redundant/uneven/overburdened surfaces for THINKING.md register
-- DMAIC Measure/Analyze: defect surface, owner candidates, dependency paths, regression files
-- DMADV Analyze/Design: package/boundary alternatives, test/checker placement candidates
-- All Graphify results: confirmed against live files before action; record in sidecars.md
+Graphify trigger decision (all must hold): unfamiliar repo / majority-code /
+terrain-shaped question / not answerable by one `rg`, `git grep`, or `git ls-tree`:
 
-ActiveGraph status: absent / present / configured / avoided / used as custody only
+Graphify anti-trigger matched, if any: data-file consumer / module-level
+constant or literal / embedded language / prose census / definition-consumer
+lookup / Git topology / none
 
-ActiveGraph custody plan (when authorized):
-- Events to emit (IMPLEMENTAUDIT-defined): implementaudit.run.opened, gemba.graphify.queried,
-  lean.5s.sort/set_in_order/shine.recorded, lean.standard_work.updated, dmaic/dmadv step events,
-  jidoka.stop.recorded, andon.probe.recorded / andon.escalated / andon.handoff.recorded (classed,
-  chained via caused-by), hansei.recorded, kaizen.countermeasure.standardized,
-  nemawashi.owner_decision.recorded, muda_mura_muri.register.updated, poka_yoke.check.recorded,
-  obeya.run_state.updated, smoke.baseline.recorded, audit.verify.recorded, implementaudit.run.finalized
-- Custody store: `<run-root>/custody.db` (or `custody-trace.jsonl` fallback); written via the
-  packaged absent-safe custody-append helper; prior run-root stores preload read-only
-- Capability Ledger: narrow entry derived from readback — repo, run id, owner/source, quality route,
-  Lean principles applied, Graphify terrain used, event ids, checks run, final status, remaining risk
+Graphify terrain plan (when applicable):
+- First-contact Seiri/Seiton question:
+- Output path outside target repo:
+- `built_at_commit`:
+- `git rev-parse HEAD`:
+- Executed comparison exit/decision (mismatch = `stale-sidecar`, terrain unusable):
+- Live-file follow-up required before action:
+
+Graphify privacy/spend decision:
+- Mode: `--code-only --no-cluster` / proposed model pass
+- Owner-named backend (auto-detection refused; Ollama unauthorized):
+- Filename-heuristic-only content limitation disclosed:
+- Out-of-band spend bound (unmeasurable backend cannot claim zero cost):
+
+ActiveGraph status: absent / present / configured / avoided / used for fork-diff checkpoint assistance
+
+ActiveGraph checkpoint/mirror plan (when authorized):
+- Checkpoint operation: fork / diff / none
+- Authoritative run-root checkpoint and evidence:
+- Optional non-authoritative mirror: none / separately authorized store or trace
+- Replay limitation acknowledged (custom custody events do not reconstruct the run):
+- Capability Ledger: narrow derivative of authoritative run-root gate evidence only
 - No broad competence claims from one run
 
 Canonical-vs-sidecar boundary:
@@ -240,7 +247,7 @@ Sidecars artifact: `<run-root>/sidecars.md`
 
 Graphify live-file follow-up required:
 
-ActiveGraph event/custody authorization:
+ActiveGraph fork/diff or mirror authorization:
 
 Markdown fallback:
 

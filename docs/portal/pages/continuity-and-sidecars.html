@@ -13,7 +13,7 @@
         <li>Then read the run folder.</li>
         <li>Then read notes.</li>
         <li>Then read optional Graphify terrain.</li>
-        <li>Then read optional ActiveGraph custody.</li>
+        <li>Then read optional ActiveGraph checkpoint or mirror context.</li>
       </ol>
       <p>If these disagree, the run must record the conflict instead of silently choosing the convenient source.</p>
       <table class="priority-table">
@@ -23,8 +23,8 @@
           <tr><td>1</td><td>Live repo files and applicable <code>AGENTS.md</code></td><td>Authoritative. Never overridden by memory, sidecars, or prior run notes.</td></tr>
           <tr><td>2</td><td>Run-root applied context: <code>applied-context.md</code>, <code>applied-memories.md</code>, <code>STATE.md</code>, and active phase files</td><td>Prior state for this task; must be checked against live files.</td></tr>
           <tr><td>3</td><td>Optional personal or project notes</td><td>Human-curated guidance; used only when available and authorized.</td></tr>
-          <tr><td>4</td><td>Graphify terrain</td><td>Orientation evidence about repo structure and link density. Canonical dogfood input for this repo when present and authorized; optional for consuming repos. Not proof; absence is not a failure.</td></tr>
-          <tr><td>5</td><td>ActiveGraph custody events</td><td>Gate-passage custody evidence. Canonical dogfood input for this repo when present and authorized; optional for consuming repos. Not correctness proof; absence is not a failure.</td></tr>
+          <tr><td>4</td><td>Graphify terrain</td><td>Qualified first-contact orientation only after the executable commit-SHA freshness check. Dogfood-only evidence base; not proof; absence is not a failure.</td></tr>
+          <tr><td>5</td><td>ActiveGraph checkpoint or mirror</td><td>Authorized fork/diff checkpoint assistance or an optional non-authoritative event mirror. The run root remains authoritative; absence is not a failure.</td></tr>
         </tbody>
       </table>
 
@@ -36,14 +36,14 @@
         <colgroup><col class="stage-purpose"><col><col></colgroup>
         <thead><tr><th>Optional source</th><th>Use</th><th>Boundary</th></tr></thead>
         <tbody>
-          <tr><td>Graphify terrain</td><td>Orient the maintainer to repo structure and possible owner/source relationships. Convention: <code>graphify-out/graph.json</code>, nodes with <code>id</code> + <code>label</code>, links with <code>source</code> + <code>target</code>.</td><td>Orientation only; stale when tracked files are newer; live files win on conflict.</td></tr>
-          <tr><td>ActiveGraph custody</td><td>Preserve gate-passage or historical-backfill events when configured and authorized.</td><td>Custody evidence only; not correctness proof or authorization to mutate.</td></tr>
+          <tr><td>Graphify terrain</td><td>Orient first contact to broad components only when every trigger holds.</td><td>Compare <code>built_at_commit</code> with <code>git rev-parse HEAD</code>; mismatch means unusable <code>stale-sidecar</code>. Live files win.</td></tr>
+          <tr><td>ActiveGraph checkpoint or mirror</td><td>Use authorized fork/diff or optionally mirror already-recorded run-root events.</td><td>Not lifecycle authority, correctness proof, or authorization to mutate.</td></tr>
           <tr><td>Optional tooling page</td><td>Setup, conventions, and historical-backfill labels.</td><td><a href="../optional-tooling/">Read the boundary before relying on sidecars.</a></td></tr>
         </tbody>
       </table>
 
       <h2 id="intra-inter-run">Intra-run vs inter-run continuity</h2>
-      <p>Intra-run continuity resumes the current run cursor and active phase.<br>Inter-run continuity carries durable lessons across runs, usually through <code>AGENTS.md</code> or explicitly authorized sidecars.</p>
+      <p>Intra-run continuity resumes the current run cursor and active phase from the run root.<br>Inter-run continuity carries durable lessons through <code>AGENTS.md</code> or another authorized record; an ActiveGraph mirror remains secondary.</p>
 
       <h2 id="writeback-options">Continuity writeback options</h2>
       <p>Per-phase writeback is explicit.<br><code>CONTINUITY_DECISION</code> records one of five bounded options:</p>
@@ -52,7 +52,7 @@
         <li>Repo-local <code>AGENTS.md</code> rule.</li>
         <li>Run-local applied context.</li>
         <li>Optional personal/project note.</li>
-        <li>Optional ActiveGraph event.</li>
+        <li>Optional ActiveGraph mirror event, after separate authorization.</li>
       </ul>
       <p><code>IMPLEMENTAUDIT_CONTINUITY_SAVED</code> appears only after a real writeback and must name the writeback boundary.</p>
 

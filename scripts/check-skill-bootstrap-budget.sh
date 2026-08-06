@@ -173,7 +173,8 @@ if path.as_posix() == "skills/implementaudit/SKILL.md":
         "skills/implementaudit/references/sidecars.md": [
             "Graphify is orientation only",
             "Live files remain proof",
-            "stale output triggers Andon or fallback",
+            "built_at_commit",
+            "stale-sidecar",
             "Graphify absence does not block consumer runs",
             "No silent install",
             "No silent indexing",
