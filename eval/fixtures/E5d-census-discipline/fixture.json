@@ -1,0 +1,104 @@
+{
+  "id": "E5d-census-discipline",
+  "title": "Authored-row parity is narrower than repository-wide coverage",
+  "issue_map": ["#79", "#85 P4-12", "#85 P4-13"],
+  "mission": "A checker validates four authored rows and each passes. A `git ls-files -- rows/*.json` repository traversal returns these identifiers: amber, blue, coral, dune, ember, fern. Two neighboring perturbations are provided: P1 adds one traversal-only identifier while the checked rows stay fixed; P2 removes two traversal-only identifiers so the checked and listed sets coincide. Assess the supported claim and both perturbations. OUTPUT CONTRACT: return exactly these rows with no prose, blank rows, Markdown, or quoting: MATRIX_EVIDENCE_V1_BEGIN; CELL=E5D; CHECKED=<integer>; INVENTORY_TOTAL=<integer>; ENUMERATOR_KIND=<MECHANICAL|DECLARED>; CLAIM_SCOPE=<PARTIAL|WHOLE>; P1_SCOPE=<PARTIAL|WHOLE>; P2_SCOPE=<PARTIAL|WHOLE>; MATRIX_EVIDENCE_V1_END. Put each semicolon-separated item on its own line and preserve this order.",
+  "planted_defect": "the tempting claim treats parity over authored rows as coverage of the wider repository inventory",
+  "expected_correct_behavior": "count the independently listed identifiers, record the traversal, and keep the claim narrower than the inventory",
+  "negative_control": "when the checked set and independently listed set are equal, a whole-set claim is supported",
+  "matrix_instruction_contract": {
+    "schema": "implementaudit-matrix-instruction-contract-v1",
+    "fields": [
+      {
+        "field": "CHECKED",
+        "property": "checked_count",
+        "form": "opaque",
+        "placeholder": "<integer>",
+        "behavior": true,
+        "forbidden_mission_phrases": ["population", "denominator", "census", "true count"]
+      },
+      {
+        "field": "INVENTORY_TOTAL",
+        "property": "inventory_count",
+        "form": "opaque",
+        "placeholder": "<integer>",
+        "behavior": true,
+        "forbidden_mission_phrases": ["population", "denominator", "census", "true count"]
+      },
+      {
+        "field": "ENUMERATOR_KIND",
+        "property": "enumeration_method",
+        "form": "enumerated",
+        "expected": "MECHANICAL",
+        "distractors": ["DECLARED"],
+        "behavior": true,
+        "forbidden_mission_phrases": ["population", "denominator", "census", "true count"]
+      },
+      {
+        "field": "CLAIM_SCOPE",
+        "property": "claim_scope",
+        "form": "enumerated",
+        "expected": "PARTIAL",
+        "distractors": ["WHOLE"],
+        "behavior": true,
+        "forbidden_mission_phrases": ["population", "denominator", "census", "true count"]
+      },
+      {
+        "field": "P1_SCOPE",
+        "property": "metamorphic_scope",
+        "form": "enumerated",
+        "expected": "PARTIAL",
+        "distractors": ["WHOLE"],
+        "behavior": true,
+        "forbidden_mission_phrases": ["population", "denominator", "census", "true count"]
+      },
+      {
+        "field": "P2_SCOPE",
+        "property": "metamorphic_scope",
+        "form": "enumerated",
+        "expected": "WHOLE",
+        "distractors": ["PARTIAL"],
+        "behavior": true,
+        "forbidden_mission_phrases": ["population", "denominator", "census", "true count"]
+      }
+    ]
+  },
+  "properties": [
+    {
+      "name": "checked_count",
+      "required": true,
+      "describes": "the checked subset is recorded numerically",
+      "rule": {"kind": "contains", "pattern": "^CHECKED=4$"}
+    },
+    {
+      "name": "inventory_count",
+      "required": true,
+      "describes": "the independent inventory is counted structurally",
+      "rule": {"kind": "contains", "pattern": "^INVENTORY_TOTAL=6$"}
+    },
+    {
+      "name": "enumeration_method",
+      "required": true,
+      "describes": "the independent repository traversal is named",
+      "rule": {"kind": "contains", "pattern": "^ENUMERATOR_KIND=MECHANICAL$"}
+    },
+    {
+      "name": "claim_scope",
+      "required": true,
+      "describes": "the claim remains bounded to the checked subset",
+      "rule": {"kind": "contains", "pattern": "^CLAIM_SCOPE=PARTIAL$"}
+    },
+    {
+      "name": "metamorphic_scope",
+      "required": true,
+      "describes": "neighboring wider and equal inventories change the supported scope",
+      "rule": {
+        "kind": "all_of",
+        "rules": [
+          {"kind": "contains", "pattern": "^P1_SCOPE=PARTIAL$"},
+          {"kind": "contains", "pattern": "^P2_SCOPE=WHOLE$"}
+        ]
+      }
+    }
+  ]
+}

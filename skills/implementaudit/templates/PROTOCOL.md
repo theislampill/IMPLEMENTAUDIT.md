@@ -135,10 +135,15 @@ owner/source, not the nearest symptom. Follow generator-first policy for
 generated artifacts. Log scope creep as new findings rather than absorbing it.
 
 **Step 7 — Run mandatory commands.**
-For each command in `## Mandatory commands`, run it and surface the last ~10
-lines of output plus the exit code. Record each result as pass or fail.
-A failed, timed-out, hung, or substituted command is not pass evidence; record
-an Andon before using any rerun or substitute.
+For each command in `## Mandatory commands`, capture complete stdout and stderr
+to its declared run-root evidence file. After the producer exits, read an
+excerpt of about 10 lines from that file and record the producer exit status.
+A tail or head of a live pipeline is not a capture. A failed, timed-out, hung,
+substituted, partially captured, or pipeline-laundered command is not pass
+evidence; record an Andon before using any rerun or substitute. Prefer no pipe;
+if one is unavoidable, use `set -o pipefail` or preserve `${PIPESTATUS[0]}`.
+On stream-reencoding hosts, also write `{command, exit_code, started, finished}`
+to a structured file and treat PowerShell CLIXML as diagnostics only.
 
 **Step 8 — Evaluate acceptance criteria.**
 For each item in `## Acceptance criteria`, record `[pass]` or `[fail]` with
@@ -781,8 +786,9 @@ For each phase in ROADMAP.md, verify that `<run-root>/STATE.md` shows status
 
 ### Mandatory command re-run
 
-Re-run the deduplicated mandatory command set. Surface last ~10 lines + exit
-code for each. Record each as: re-verified (ran fresh this round) or
+Re-run the deduplicated mandatory command set. Capture each command whole, then
+surface an excerpt of about 10 lines plus its producer exit code. Record each as:
+re-verified (ran fresh this round) or
 trust-prior (accepted from prior-phase evidence without re-running).
 
 If any command fails, hangs, times out, or is replaced by a rerun or substitute,

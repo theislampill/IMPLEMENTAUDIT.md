@@ -58,6 +58,13 @@ blocks: they classify commands, proof levels classify claims. Do not use
 verdict-class wording (PROVEN / SURPASSED) below PL6 without stating what
 the claim is not.
 
+A claim using all, every, complete, no remaining, none remaining, N of N, or
+N/N carries `coverage: full`, a concrete `capture`, and the census group
+`population_definition`, `population_size`, `examined_count`, plus a mechanical
+or explicit-list `enumeration_source`. Partial or truncated capture cannot
+establish the denominator. Omit the census group for ordinary claims and
+labelled samples; an honest M-of-N claim remains partial corpus coverage.
+
 | Claim | Scope | Proof level | Evidence basis | Freshness | Upgrade condition |
 |---|---|---|---|---|---|
 

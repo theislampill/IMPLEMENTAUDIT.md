@@ -73,6 +73,8 @@ jobs:
           bash tests/continuity.test.sh
           bash tests/phase-validation.test.sh
           bash tests/acceptance-instrument-discipline.test.sh
+          bash tests/lossless-evidence-capture.test.sh
+          bash tests/census-discipline.test.sh
           bash tests/sidecars.test.sh
           bash tests/capability-ledger.test.sh
           bash tests/audit-object-routing.test.sh

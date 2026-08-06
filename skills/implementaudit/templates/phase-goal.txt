@@ -93,7 +93,7 @@ assumption of this phase.
 - {{CRITERION_1}}
 - {{CRITERION_2}}
 
-## Mandatory commands (run each; include expected success shape, surface last ~10 lines + exit code in transcript)
+## Mandatory commands (run each; capture whole output to the run root, then surface an excerpt + producer exit code)
 
 Each command declares the evidence property it exercises —
 `property: structural` (shape/presence/config), `property: behavioral`
@@ -102,16 +102,27 @@ Each command declares the evidence property it exercises —
 plain-language scope, and explicit non-claims where confusion is
 plausible. The final audit may not claim a property class no command
 exercised. Authorization is NOT an evidence property; it stays a
-separate gate.
+separate gate. Newly authored rows also declare `coverage: full|partial` and a
+capture file. Mandatory commands require `coverage: full`; partial evidence is
+diagnostic only and records both `range:` and `omission:`.
 
-- {{COMMAND_1}} — property: {{structural|behavioral|provenance}}; scope: {{WHAT_THIS_CHECK_ACTUALLY_TESTS}}; expected: {{EXPECTED_SUCCESS_SHAPE_1}}
-- {{COMMAND_2}} — property: {{structural|behavioral|provenance}}; scope: {{WHAT_THIS_CHECK_ACTUALLY_TESTS}}; expected: {{EXPECTED_SUCCESS_SHAPE_2}}
-- {{TEXTUAL_BEHAVIORAL_COMMAND}} — property: behavioral; acceptance: free-text; scope: {{WHAT_TEXT_THIS_PREDICATE_SCORES}}; expected: {{EXPECTED_SUCCESS_SHAPE}}; paraphrase_control: {{MUST_PASS}}; inversion_control: {{MUST_FAIL}}; forbidden_instruction_phrases: {{FORBIDDEN_PHRASES}}
+- {{COMMAND_1}} > {{RUN_ROOT}}/evidence/{{COMMAND_1_LOG}} 2>&1 — property: {{structural|behavioral|provenance}}; scope: {{WHAT_THIS_CHECK_ACTUALLY_TESTS}}; coverage: full; capture: {{RUN_ROOT}}/evidence/{{COMMAND_1_LOG}}; expected: {{EXPECTED_SUCCESS_SHAPE_1}}
+- {{COMMAND_2}} > {{RUN_ROOT}}/evidence/{{COMMAND_2_LOG}} 2>&1 — property: {{structural|behavioral|provenance}}; scope: {{WHAT_THIS_CHECK_ACTUALLY_TESTS}}; coverage: full; capture: {{RUN_ROOT}}/evidence/{{COMMAND_2_LOG}}; expected: {{EXPECTED_SUCCESS_SHAPE_2}}
+- {{TEXTUAL_BEHAVIORAL_COMMAND}} > {{RUN_ROOT}}/evidence/{{TEXTUAL_COMMAND_LOG}} 2>&1 — property: behavioral; acceptance: free-text; scope: {{WHAT_TEXT_THIS_PREDICATE_SCORES}}; coverage: full; capture: {{RUN_ROOT}}/evidence/{{TEXTUAL_COMMAND_LOG}}; expected: {{EXPECTED_SUCCESS_SHAPE}}; paraphrase_control: {{MUST_PASS}}; inversion_control: {{MUST_FAIL}}; forbidden_instruction_phrases: {{FORBIDDEN_PHRASES}}
 
 ## Evidence required in transcript
 
 - {{EVIDENCE_1}}
 - {{EVIDENCE_2}}
+- claim: {{CENSUS_CLAIM_WHEN_WARRANTED}}; evidence: {{CLAIM_EVIDENCE}}; coverage: full; capture: {{RUN_ROOT}}/evidence/{{CLAIM_LOG}}; population_definition: {{WHAT_SET_THE_CLAIM_RANGES_OVER}}; population_size: {{N}}; examined_count: {{N}}; enumeration_source: {{MECHANICAL_COMMAND_OR_EXPLICIT_LIST}}
+
+The census group is required only on `claim:` evidence rows that say all,
+every, complete, no remaining, none remaining, N of N, or N/N. Such rows also
+require `coverage: full` and a concrete capture. `coverage: partial` records
+both `range:` and `omission:` and cannot establish a complete denominator.
+Labelled samples and honest M-of-N statements remain legal; even with a full
+capture and census fields, M < N stays partial corpus coverage. Ordinary
+findings and evidence rows do not carry the census group.
 
 ## Rollback / defer path
 
@@ -151,7 +162,7 @@ Phase {{N}} acceptance criteria:
 - [pass|fail] {{CRITERION_2}}: <evidence>
 
 Mandatory commands:
-- {{COMMAND_1}} exit 0: <last 10 lines or summary>
+- {{COMMAND_1}} producer exit 0; coverage: full; capture: <run-root evidence path>; excerpt: <about 10 lines or summary read from capture>
 
 Cleanliness (bash {{RUN_ROOT}}/repo-state.sh added-lines {{BASELINE_REF}}):
 - Debug prints added: N
