@@ -212,4 +212,136 @@ res_case res_nopolicy "partially-resolved" \
 res_case res_axes "unresolved" \
 "| open cause | yes | deferred | owner backlog | ledger |" pass
 
+# 7. Run-root self-enforcement and micro-run mode (#90).
+fixture_root="fixtures/run-root"
+
+# 7a. A declared micro root passes only under --micro.
+bash "$helper" --micro "$fixture_root/micro-conformant/root" >/dev/null || {
+  printf 'run-root-validation.test: micro-conformant expected PASS under --micro\n' >&2
+  exit 1
+}
+if bash "$helper" "$fixture_root/micro-conformant/root" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: micro-conformant must fail full validation\n' >&2
+  exit 1
+fi
+if bash "$helper" --micro "$fixture_root/micro-no-sentinel/root" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: micro root without .claimed must fail\n' >&2
+  exit 1
+fi
+
+# 7b. A micro root cannot carry phased-dispatch artifacts.
+if bash "$helper" --micro "$fixture_root/micro-with-phase-specs/root" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: micro root with phase specs must fail\n' >&2
+  exit 1
+fi
+if bash "$helper" --micro "$fixture_root/micro-with-roadmap-phase-table/root" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: micro root with ROADMAP phase table must fail\n' >&2
+  exit 1
+fi
+if bash "$helper" --micro "$fixture_root/micro-with-stage62-disposition/root" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: micro root with Stage 6.2 disposition must fail\n' >&2
+  exit 1
+fi
+
+# 7c. A sentinel-vs-artifact mismatch is diagnosed as drift.
+if drift_output="$(bash "$helper" "$fixture_root/claimed-then-drifted/root" 2>&1)"; then
+  printf 'run-root-validation.test: claimed-then-drifted must fail\n' >&2
+  exit 1
+fi
+printf '%s\n' "$drift_output" | grep -qi 'drift' || {
+  printf 'run-root-validation.test: drift failure did not name drift\n' >&2
+  exit 1
+}
+
+# 7d. Legacy roots without .claimed preserve v0.3.2 behavior.
+bash "$helper" "$fixture_root/no-sentinel-legacy/root" >/dev/null || {
+  printf 'run-root-validation.test: no-sentinel legacy root must stay valid\n' >&2
+  exit 1
+}
+
+# 7e. Newly claimed roots refuse undeclared sibling concurrency.
+if sibling_output="$(bash "$helper" --micro "$fixture_root/sibling-unmarked/root" 2>&1)"; then
+  printf 'run-root-validation.test: undispositioned sibling must fail\n' >&2
+  exit 1
+fi
+printf '%s\n' "$sibling_output" | grep -Fq 'old-root' || {
+  printf 'run-root-validation.test: sibling failure did not list old-root\n' >&2
+  exit 1
+}
+
+# 7f. Superseded and explicitly parallel siblings are valid controls.
+bash "$helper" --micro "$fixture_root/sibling-dispositioned/root" >/dev/null || {
+  printf 'run-root-validation.test: dispositioned sibling expected PASS\n' >&2
+  exit 1
+}
+bash "$helper" --micro "$fixture_root/sibling-declared-parallel/root" >/dev/null || {
+  printf 'run-root-validation.test: declared-parallel sibling expected PASS\n' >&2
+  exit 1
+}
+
+# 7g. Transcript-only closure is not on-disk terminal evidence.
+if bash "$helper" --micro "$fixture_root/terminal-marker-transcript-only/root" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: micro root without terminal marker must fail\n' >&2
+  exit 1
+fi
+
+# 8. Mechanical second-order recurrence trigger (#91).
+if recurrence_output="$(bash "$helper" --micro "$fixture_root/recurrence-3-same-class-same-file/root" 2>&1)"; then
+  printf 'run-root-validation.test: recurring class on one owner/source must require a decision\n' >&2
+  exit 1
+fi
+printf '%s\n' "$recurrence_output" | grep -Fq 'Mechanism-replacement decision:' || {
+  printf 'run-root-validation.test: recurrence failure did not name the required decision\n' >&2
+  exit 1
+}
+
+for decision_fixture in \
+  recurrence-3-with-replace-decision \
+  recurrence-3-with-continue-decision \
+  recurrence-3-with-convergence-escalation; do
+  bash "$helper" --micro "$fixture_root/$decision_fixture/root" >/dev/null || {
+    printf 'run-root-validation.test: %s expected PASS\n' "$decision_fixture" >&2
+    exit 1
+  }
+done
+
+bash "$helper" --micro "$fixture_root/recurrence-3-different-files/root" >/dev/null || {
+  printf 'run-root-validation.test: different-files control expected PASS\n' >&2
+  exit 1
+}
+bash "$helper" --micro "$fixture_root/recurrence-3-different-classes/root" >/dev/null || {
+  printf 'run-root-validation.test: different-classes control expected PASS\n' >&2
+  exit 1
+}
+
+# The convergence-mode single-fault control is reused, not duplicated.
+bash "$helper" --ledger fixtures/convergence-mode/single-fault-control.md >/dev/null || {
+  printf 'run-root-validation.test: shared single-fault control expected PASS\n' >&2
+  exit 1
+}
+bash "$helper" --ledger "$fixture_root/legacy-andon-shape/ledger.md" >/dev/null || {
+  printf 'run-root-validation.test: legacy Andon ledger expected PASS\n' >&2
+  exit 1
+}
+bash "$helper" --ledger "$fixture_root/direct-ledger-substrate/below-threshold.md" >/dev/null || {
+  printf 'run-root-validation.test: direct ledger below threshold expected PASS\n' >&2
+  exit 1
+}
+bash "$helper" --ledger "$fixture_root/direct-ledger-substrate/duplicate-occ-below-threshold.md" >/dev/null || {
+  printf 'run-root-validation.test: duplicate Occ rows must count once\n' >&2
+  exit 1
+}
+if bash "$helper" --ledger "$fixture_root/direct-ledger-substrate/trigger-no-decision.md" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: direct ledger trigger without decision must fail\n' >&2
+  exit 1
+fi
+if bash "$helper" --ledger "$fixture_root/direct-ledger-substrate/invalid-empty-continue.md" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: continue without justification must fail\n' >&2
+  exit 1
+fi
+if bash "$helper" --ledger "$fixture_root/direct-ledger-substrate/decision-after-audit-complete.md" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: decision after AUDIT_COMPLETE must fail\n' >&2
+  exit 1
+fi
+
 printf 'run-root-validation.test: ok\n'

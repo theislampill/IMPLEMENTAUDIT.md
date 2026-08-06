@@ -27,6 +27,12 @@ printf '%s' "$flat" | grep -qi 'Rejecting governing-rule suspicion REQUIRES a re
   || fail "reasoned-rejection rule missing"
 printf '%s' "$flat" | grep -qi 'governing-rule suspicion' \
   || fail "Hansei governing-rule-suspicion field missing"
+printf '%s' "$flat" | grep -qi 'Mechanism-replacement decision:' \
+  || fail "mechanism-replacement decision field missing"
+printf '%s' "$flat" | grep -qi 'replace-mechanism.*continue.*escalate-to-convergence-mode' \
+  || fail "mechanism-replacement decision vocabulary missing"
+printf '%s' "$flat" | grep -qi 'caps nothing.*forbids no further repair' \
+  || fail "non-cap boundary missing"
 
 # --- five scored transcript fixtures (the judgment token per situation) ----
 dir="fixtures/andon-escalation"

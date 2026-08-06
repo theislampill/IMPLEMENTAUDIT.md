@@ -11,6 +11,8 @@
 # Usage:
 #   validate-run-root.sh <run-root>
 #   validate-run-root.sh --graph-freshness <graph.json> <repo-root>
+# Usage: validate-run-root.sh [--micro] <run-root>
+#        validate-run-root.sh --ledger <markdown-ledger>
 # Exit 0: conformant. Exit 1: violations listed on stderr. Exit 2: usage.
 
 set -uo pipefail
@@ -87,33 +89,153 @@ PY
   exit 0
 fi
 
+# Count distinct Occ ids per Class in a new-format Andon table. The existing
+# Countermeasure cell carries owner/source=<path>; normalize separators before
+# comparing the last two distinct repair occurrences for a class. Keep this
+# normalization shape aligned with #80's separate host-note signature counter;
+# the substrates and scripts remain intentionally distinct.
+check_recurrence_decision() {
+  local ledger="$1" findings invalid_lines missing_classes
+  findings="$(awk -F'|' '
+    function trim(v) { gsub(/^[ \t]+|[ \t]+$/, "", v); return v }
+    function owner_source(v) {
+      if (v !~ /owner\/source[ \t]*=/) return ""
+      sub(/^.*owner\/source[ \t]*=[ \t]*/, "", v)
+      sub(/[ \t;,)]+.*$/, "", v)
+      gsub(/\\/, "/", v)
+      while (v ~ /^\.\//) sub(/^\.\//, "", v)
+      return v
+    }
+    /^Mechanism-replacement decision:/ {
+      if ($0 ~ /^Mechanism-replacement decision:[ \t]*(replace-mechanism|continue|escalate-to-convergence-mode)[ \t]*\([^()]*[[:alnum:]][^()]*\)[ \t]*$/) {
+        valid_decision[NR]=1
+      } else {
+        print "invalid\t" NR
+      }
+    }
+    /^[ \t]*AUDIT_COMPLETE[ \t]*$/ {
+      if (audit_complete_line == 0) audit_complete_line=NR
+    }
+    /^## Andon log/ { in_andon=1; new_format=0; next }
+    in_andon && /^## / { in_andon=0; new_format=0 }
+    in_andon && tolower($0) ~ /\|[ \t]*occ[ \t]*\|[ \t]*phase[ \t]*\|[ \t]*class[ \t]*\|/ {
+      new_format=1; next
+    }
+    in_andon && new_format && /^\|[[:space:]]*[0-9]+[[:space:]]*\|/ {
+      occ=trim($3); cls=trim($5)
+      if (occ == "" || cls == "") next
+      key=cls SUBSEP occ
+      if (!(key in seen)) {
+        seen[key]=1
+        count[cls]++
+        previous_owner[cls]=last_owner[cls]
+        last_owner[cls]=owner_source($7)
+        last_line[cls]=NR
+      }
+    }
+    END {
+      for (cls in count) {
+        if (count[cls] < 3 || last_owner[cls] == "" || previous_owner[cls] != last_owner[cls]) continue
+        found=0
+        for (line in valid_decision) {
+          if ((line + 0) > last_line[cls] &&
+              (audit_complete_line == 0 || (line + 0) < audit_complete_line)) found=1
+        }
+        if (!found) print "missing\t" cls
+      }
+    }' "$ledger")"
+
+  invalid_lines="$(printf '%s\n' "$findings" | awk -F'\t' '$1 == "invalid" { print $2 }' | tr '\n' ' ')"
+  if [ -n "$invalid_lines" ]; then
+    err "invalid Mechanism-replacement decision: line(s) $invalid_lines (allowed: replace-mechanism (<what>) / continue (<justification>) / escalate-to-convergence-mode (<shared invariant>))"
+  fi
+  missing_classes="$(printf '%s\n' "$findings" | awk -F'\t' '$1 == "missing" { print $2 }' | tr '\n' ' ')"
+  if [ -n "$missing_classes" ]; then
+    err "Andon class(es) $missing_classes reached 3 distinct linked occurrences with the last 2 repairs on one owner/source; add a following Mechanism-replacement decision:"
+  fi
+}
+
+mode=full
+if [ "${1:-}" = "--micro" ]; then
+  mode=micro
+  shift
+elif [ "${1:-}" = "--ledger" ]; then
+  mode=ledger
+  shift
+fi
 run_root="${1:-}"
 if [ -z "$run_root" ]; then
-  printf 'usage: validate-run-root.sh <run-root>\n' >&2
+  if [ "$mode" = micro ]; then
+    printf 'usage: validate-run-root.sh --micro <run-root>\n' >&2
+  elif [ "$mode" = ledger ]; then
+    printf 'usage: validate-run-root.sh --ledger <markdown-ledger>\n' >&2
+  else
+    printf 'usage: validate-run-root.sh <run-root>\n' >&2
+  fi
   exit 2
 fi
+[ "$mode" != ledger ] || {
+  [ -f "$run_root" ] || { printf 'validate-run-root: not a file: %s\n' "$run_root" >&2; exit 2; }
+  check_recurrence_decision "$run_root"
+  if [ "$err_count" -gt 0 ]; then
+    printf 'validate-run-root: %d error(s)\n' "$err_count" >&2
+    exit 1
+  fi
+  printf 'validate-run-root: ok\n'
+  exit 0
+}
 [ -d "$run_root" ] || { printf 'validate-run-root: not a directory: %s\n' "$run_root" >&2; exit 2; }
 
-# Required artifacts for a dispatched run root.
-for f in STATE.md PROTOCOL.md; do
-  [ -f "$run_root/$f" ] || err "missing required artifact: $f"
-done
-for f in ROADMAP.md THINKING.md sidecars.md tools.md context.md; do
-  [ -f "$run_root/$f" ] || err "missing planning artifact: $f (required for dispatched phase runs)"
-done
+claim="$run_root/.claimed"
+claim_mode=""
+if [ "$mode" = micro ] && [ ! -f "$claim" ]; then
+  err "micro root is missing .claimed metadata"
+fi
+if [ -f "$claim" ]; then
+  claim_mode="$(awk -F= '$1 == "mode" { print substr($0, index($0, "=") + 1); exit }' "$claim")"
+  case "$claim_mode" in
+    full|micro) : ;;
+    *) err ".claimed has invalid mode '$claim_mode' (expected full or micro)" ;;
+  esac
+  if [ "$claim_mode" = micro ] && [ "$mode" != micro ]; then
+    err ".claimed records mode=micro; validate this declared narrowing with --micro"
+  elif [ "$claim_mode" = full ] && [ "$mode" = micro ]; then
+    err ".claimed records mode=full; --micro cannot narrow a full claim"
+  fi
+
+  claimed_templates="$(awk -F= '$1 == "templates" { print substr($0, index($0, "=") + 1); exit }' "$claim")"
+  for f in $claimed_templates; do
+    [ -f "$run_root/$f" ] || err "claimed $f is missing — sentinel/artifact drift"
+  done
+fi
+
+if [ "$mode" = micro ]; then
+  [ -f "$run_root/STATE.md" ] || err "missing required artifact: STATE.md"
+else
+  # Required artifacts for a dispatched run root. Absent .claimed preserves
+  # the v0.3.2 legacy behavior exactly.
+  for f in STATE.md PROTOCOL.md; do
+    [ -f "$run_root/$f" ] || err "missing required artifact: $f"
+  done
+  for f in ROADMAP.md THINKING.md sidecars.md tools.md context.md; do
+    [ -f "$run_root/$f" ] || err "missing planning artifact: $f (required for dispatched phase runs)"
+  done
+fi
 
 state="$run_root/STATE.md"
 if [ -f "$state" ]; then
-  # Status must be one of the exact contract tokens.
-  status_line="$(grep -E '^\| Status \|' "$state" | head -1 || true)"
-  if [ -z "$status_line" ]; then
-    err "STATE.md has no '| Status |' row in the Current phase table"
-  else
-    status_value="$(printf '%s' "$status_line" | awk -F'|' '{gsub(/^[ \t]+|[ \t]+$/, "", $3); print $3}')"
-    case "$status_value" in
-      open|READY_TO_DISPATCH|IN_PHASE|PAUSED|BLOCKED|INTERRUPTED|DONE) : ;;
-      *) err "STATE.md Status '$status_value' is not a contract token (open / READY_TO_DISPATCH / IN_PHASE / PAUSED / BLOCKED / INTERRUPTED / DONE)" ;;
-    esac
+  if [ "$mode" = full ]; then
+    # Status must be one of the exact contract tokens.
+    status_line="$(grep -E '^\| Status \|' "$state" | head -1 || true)"
+    if [ -z "$status_line" ]; then
+      err "STATE.md has no '| Status |' row in the Current phase table"
+    else
+      status_value="$(printf '%s' "$status_line" | awk -F'|' '{gsub(/^[ \t]+|[ \t]+$/, "", $3); print $3}')"
+      case "$status_value" in
+        open|READY_TO_DISPATCH|IN_PHASE|PAUSED|BLOCKED|INTERRUPTED|DONE) : ;;
+        *) err "STATE.md Status '$status_value' is not a contract token (open / READY_TO_DISPATCH / IN_PHASE / PAUSED / BLOCKED / INTERRUPTED / DONE)" ;;
+      esac
+    fi
   fi
 
   # Andon log substrate must exist with the contract columns. Two valid
@@ -152,6 +274,48 @@ if [ -f "$state" ]; then
   elif ! grep -qi '| Class | Abnormality | Countermeasure | Rerun evidence | Outcome |' "$state"; then
     err "STATE.md Andon log table is missing the contract columns (# | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome; legacy shape without Occ also accepted)"
   fi
+  check_recurrence_decision "$state"
+
+  if [ "$mode" = micro ]; then
+    terminal_line="$(awk 'NF { last=$0 } END { print last }' "$state")"
+    case "$terminal_line" in
+      AUDIT_COMPLETE|AUDIT_HANDOFF|ANDON_HANDOFF) : ;;
+      IMPLEMENTAUDIT_RUN_COMPLETE)
+        grep -qx 'AUDIT_COMPLETE' "$state" || err "STATE.md ends with IMPLEMENTAUDIT_RUN_COMPLETE but has no preceding AUDIT_COMPLETE"
+        ;;
+      *) err "micro STATE.md final nonblank line is not a terminal marker (AUDIT_COMPLETE / IMPLEMENTAUDIT_RUN_COMPLETE / AUDIT_HANDOFF / ANDON_HANDOFF)" ;;
+    esac
+
+    if find "$run_root/phases" -type f -name 'phase-*.md' -print -quit 2>/dev/null | grep -q .; then
+      err "micro root contains phase specs; phased dispatch requires a full run root"
+    fi
+    if [ -f "$run_root/ROADMAP.md" ] && grep -Eq '^\|[[:space:]]*[0-9]+[[:space:]]*\|' "$run_root/ROADMAP.md"; then
+      err "micro root contains a ROADMAP phase table; phased dispatch requires a full run root"
+    fi
+    if grep -R -E -q '^(Stage 6\.2|Independent cold-review disposition|Review disposition):' "$run_root" \
+      --exclude='.claimed' 2>/dev/null; then
+      err "micro root contains a Stage 6.2 disposition; executor-facing review requires a full run root"
+    fi
+  fi
+fi
+
+
+# A .claimed root is new-format. It cannot validate while an older sibling is
+# undispositioned. SUPERSEDED_BY: is a root header; the distinct
+# SUPERSEDED_BY_CONCURRENT_MUTATION token is a residual-table value, not a
+# value of that header.
+if [ -f "$claim" ]; then
+  run_base="$(dirname "$run_root")"
+  for sibling in "$run_base"/*; do
+    [ -d "$sibling" ] || continue
+    [ "$sibling" = "$run_root" ] && continue
+    sibling_state="$sibling/STATE.md"
+    if [ ! -f "$sibling_state" ] || ! grep -Eq \
+      '^(AUDIT_COMPLETE|IMPLEMENTAUDIT_RUN_COMPLETE|AUDIT_HANDOFF|ANDON_HANDOFF|COMPLETE|HANDOFF|SUPERSEDED_BY:[[:space:]].+|PARALLEL:[[:space:]].+)$' \
+      "$sibling_state"; then
+      err "newly claimed root has undispositioned sibling: $(basename "$sibling")"
+    fi
+  done
 fi
 
 # Occurrence resolution + residual dispositions (#6): new-format roots
