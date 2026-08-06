@@ -212,4 +212,77 @@ res_case res_nopolicy "partially-resolved" \
 res_case res_axes "unresolved" \
 "| open cause | yes | deferred | owner backlog | ledger |" pass
 
+# 7. Run-root self-enforcement and micro-run mode (#90).
+fixture_root="fixtures/run-root"
+
+# 7a. A declared micro root passes only under --micro.
+bash "$helper" --micro "$fixture_root/micro-conformant/root" >/dev/null || {
+  printf 'run-root-validation.test: micro-conformant expected PASS under --micro\n' >&2
+  exit 1
+}
+if bash "$helper" "$fixture_root/micro-conformant/root" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: micro-conformant must fail full validation\n' >&2
+  exit 1
+fi
+if bash "$helper" --micro "$fixture_root/micro-no-sentinel/root" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: micro root without .claimed must fail\n' >&2
+  exit 1
+fi
+
+# 7b. A micro root cannot carry phased-dispatch artifacts.
+if bash "$helper" --micro "$fixture_root/micro-with-phase-specs/root" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: micro root with phase specs must fail\n' >&2
+  exit 1
+fi
+if bash "$helper" --micro "$fixture_root/micro-with-roadmap-phase-table/root" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: micro root with ROADMAP phase table must fail\n' >&2
+  exit 1
+fi
+if bash "$helper" --micro "$fixture_root/micro-with-stage62-disposition/root" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: micro root with Stage 6.2 disposition must fail\n' >&2
+  exit 1
+fi
+
+# 7c. A sentinel-vs-artifact mismatch is diagnosed as drift.
+if drift_output="$(bash "$helper" "$fixture_root/claimed-then-drifted/root" 2>&1)"; then
+  printf 'run-root-validation.test: claimed-then-drifted must fail\n' >&2
+  exit 1
+fi
+printf '%s\n' "$drift_output" | grep -qi 'drift' || {
+  printf 'run-root-validation.test: drift failure did not name drift\n' >&2
+  exit 1
+}
+
+# 7d. Legacy roots without .claimed preserve v0.3.2 behavior.
+bash "$helper" "$fixture_root/no-sentinel-legacy/root" >/dev/null || {
+  printf 'run-root-validation.test: no-sentinel legacy root must stay valid\n' >&2
+  exit 1
+}
+
+# 7e. Newly claimed roots refuse undeclared sibling concurrency.
+if sibling_output="$(bash "$helper" --micro "$fixture_root/sibling-unmarked/root" 2>&1)"; then
+  printf 'run-root-validation.test: undispositioned sibling must fail\n' >&2
+  exit 1
+fi
+printf '%s\n' "$sibling_output" | grep -Fq 'old-root' || {
+  printf 'run-root-validation.test: sibling failure did not list old-root\n' >&2
+  exit 1
+}
+
+# 7f. Superseded and explicitly parallel siblings are valid controls.
+bash "$helper" --micro "$fixture_root/sibling-dispositioned/root" >/dev/null || {
+  printf 'run-root-validation.test: dispositioned sibling expected PASS\n' >&2
+  exit 1
+}
+bash "$helper" --micro "$fixture_root/sibling-declared-parallel/root" >/dev/null || {
+  printf 'run-root-validation.test: declared-parallel sibling expected PASS\n' >&2
+  exit 1
+}
+
+# 7g. Transcript-only closure is not on-disk terminal evidence.
+if bash "$helper" --micro "$fixture_root/terminal-marker-transcript-only/root" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: micro root without terminal marker must fail\n' >&2
+  exit 1
+fi
+
 printf 'run-root-validation.test: ok\n'

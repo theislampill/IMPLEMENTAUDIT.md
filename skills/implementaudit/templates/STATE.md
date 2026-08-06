@@ -169,3 +169,7 @@ Commit authorized: no
 Push authorized: no
 
 Tag/release/publication/provenance authorized: no
+
+## Run terminal disposition
+
+Append the emitted terminal marker as the final nonblank line of this file.
