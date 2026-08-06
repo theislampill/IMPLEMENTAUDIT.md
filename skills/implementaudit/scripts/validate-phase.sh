@@ -240,6 +240,51 @@ if not tagged:
         "validate-phase: WARNING legacy spec — mandatory commands carry no "
         "`property:` evidence tags (structural / behavioral / provenance); "
         "newly authored specs must tag every command\n")
+
+ACCEPTANCE = re.compile(r"acceptance:\s*(free-text|non-textual)\b",
+                        re.I)
+BAD_ACCEPTANCE = re.compile(
+    r"acceptance:\s*(?!(?:free-text|non-textual)\b)\S+", re.I)
+behavioral = [i for i in tagged
+              if TAG.search(i).group(1).casefold() == "behavioral"]
+bad_acceptance = [i for i in behavioral if BAD_ACCEPTANCE.search(i)]
+if bad_acceptance:
+    sys.stderr.write(
+        "validate-phase: bad `acceptance:`: "
+        + "; ".join(bad_acceptance[:3]) + "\n")
+    raise SystemExit(1)
+declared_acceptance = [i for i in behavioral if ACCEPTANCE.search(i)]
+if declared_acceptance and len(declared_acceptance) != len(behavioral):
+    missing = [i for i in behavioral if not ACCEPTANCE.search(i)]
+    sys.stderr.write(
+        "validate-phase: missing `acceptance:`: "
+        + "; ".join(missing[:3]) + "\n")
+    raise SystemExit(1)
+if behavioral and not declared_acceptance:
+    sys.stderr.write(
+        "validate-phase: WARNING legacy acceptance bank\n")
+
+free_text = [i for i in declared_acceptance
+             if ACCEPTANCE.search(i).group(1).casefold() == "free-text"]
+required_control_fields = (
+    "paraphrase_control",
+    "inversion_control",
+    "forbidden_instruction_phrases",
+)
+for field in required_control_fields:
+    missing = []
+    for item in free_text:
+        match = re.search(
+            rf"(?:^|;\s*){field}:\s*([^;]*)", item, re.I)
+        value = match.group(1).strip() if match else ""
+        if not value or value.startswith("{{") or value.casefold() in {
+                "tbd", "todo", "n/a", "placeholder"}:
+            missing.append(item)
+    if missing:
+        sys.stderr.write(
+            f"validate-phase: missing `{field}:`: "
+            + "; ".join(missing[:3]) + "\n")
+        raise SystemExit(1)
 PY
   [ "$python_errors" -eq 0 ] || err "## Mandatory commands needs non-placeholder list items with expected success shape"
   python_errors=0

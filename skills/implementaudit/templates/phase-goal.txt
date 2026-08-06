@@ -104,6 +104,7 @@ separate gate.
 
 - {{COMMAND_1}} — property: {{structural|behavioral|provenance}}; scope: {{WHAT_THIS_CHECK_ACTUALLY_TESTS}}; expected: {{EXPECTED_SUCCESS_SHAPE_1}}
 - {{COMMAND_2}} — property: {{structural|behavioral|provenance}}; scope: {{WHAT_THIS_CHECK_ACTUALLY_TESTS}}; expected: {{EXPECTED_SUCCESS_SHAPE_2}}
+- {{TEXTUAL_BEHAVIORAL_COMMAND}} — property: behavioral; acceptance: free-text; scope: {{WHAT_TEXT_THIS_PREDICATE_SCORES}}; expected: {{EXPECTED_SUCCESS_SHAPE}}; paraphrase_control: {{MUST_PASS}}; inversion_control: {{MUST_FAIL}}; forbidden_instruction_phrases: {{FORBIDDEN_PHRASES}}
 
 ## Evidence required in transcript
 

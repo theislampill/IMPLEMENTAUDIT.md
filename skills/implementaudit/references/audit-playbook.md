@@ -182,6 +182,7 @@ published into the audit object with these fields:
 - Risk
 - Confidence
 - Fix sketch / implementation route
+- Repair class: product-or-skill defect / instrument/acceptance defect / STIMULUS defect / transport-infrastructure / environment
 - Owner/source
 - Acceptance criteria
 - Verification
@@ -194,6 +195,12 @@ Do not invent evidence to satisfy the template. LOW-confidence items route to
 investigate, spike, defer, or owner decision rather than pretending to be ready
 fixes. Rejected / duplicate / by-design / false-positive rows remain visible
 when they explain why a lead was not carried forward.
+
+The repair-class enumeration is closed. A `STIMULUS` repair changes the prompt,
+input, or fixture input rather than the product/skill or acceptance instrument.
+It must state what was ambiguous or unsatisfiable in the prior stimulus, show
+that the pre-repair transcript still fails, and show that a held-out negative
+still fails.
 
 ## Prioritization
 
@@ -208,3 +215,8 @@ Before publishing a finding into the audit object, vet for evidence, duplicate
 coverage, owner/source, confidence, route, and false-positive risk. Mark
 rejected / duplicate / by-design / false-positive items explicitly instead of
 silently dropping them, and preserve remaining risk when evidence is incomplete.
+
+Flag an invariant whose predicate is entailed by the code path that sets it. A
+setter that writes every field the predicate checks makes the gate record its
+own claim instead of testing it. This is a review judgment, not a mechanical
+dataflow claim.
