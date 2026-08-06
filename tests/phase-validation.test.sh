@@ -69,6 +69,68 @@ make_valid() {
 check_pass "valid-full-spec fixture" fixtures/phase-validation/valid-full-spec.md
 
 # ------------------------------------------------------------------
+# Unit independence and ceremony proportionality (#83)
+# ------------------------------------------------------------------
+f="$tmp/independent_units.md"
+make_valid "$f"
+sed -i '/^Depends on phases:/a unit_independence: independent\nchange_class: reversible-local-multi' "$f"
+sed -i 's/^- Create src\//- Unit 1: Create src\//; s/^- Add tests\//- Unit 2: Add tests\//; s/^- Register route/- Unit 3: Register route/' "$f"
+check_pass "three independent units with approved class" "$f"
+
+f="$tmp/ordered_units.md"
+make_valid "$f"
+sed -i '/^Depends on phases:/a unit_independence: ordered(route registration depends on handler)\nchange_class: reversible-local-multi' "$f"
+sed -i 's/^- Create src\//- Unit 1: Create src\//; s/^- Add tests\//- Unit 2: Add tests\//; s/^- Register route/- Unit 3: Register route/' "$f"
+check_pass "ordered units carry a reason" "$f"
+
+f="$tmp/independent_missing_declarations.md"
+make_valid "$f"
+sed -i 's/^- Create src\//- Unit 1: Create src\//; s/^- Add tests\//- Unit 2: Add tests\//; s/^- Register route/- Unit 3: Register route/' "$f"
+check_fail_contains "new phase with three units needs declarations" "$f" \
+  "3+ declared units require unit_independence and change_class"
+
+f="$tmp/bad_independence.md"
+make_valid "$f"
+sed -i '/^Depends on phases:/a unit_independence: ordered\nchange_class: reversible-local-multi' "$f"
+check_fail_contains "ordered declaration needs reason" "$f" \
+  "unit_independence must be independent or ordered(<reason>)"
+
+f="$tmp/bad_change_class.md"
+make_valid "$f"
+sed -i '/^Depends on phases:/a unit_independence: independent\nchange_class: low-risk' "$f"
+check_fail_contains "change class must be approved" "$f" \
+  "invalid change_class"
+
+f="$tmp/class_laundering.md"
+make_valid "$f"
+sed -i '/^Depends on phases:/a unit_independence: independent\nchange_class: reversible-local' "$f"
+sed -i '/^## Evidence required in transcript/i - gh release create v1.2.3 — property: provenance; scope: publishes an external release; expected: exit 0' "$f"
+check_fail_contains "external mutation cannot be reversible-local" "$f" \
+  "reversible-local cannot authorize external mutation commands"
+
+f="$tmp/external_amortization.md"
+make_valid "$f"
+sed -i '/^Depends on phases:/a unit_independence: independent\nchange_class: irreversible-external' "$f"
+sed -i '/^## Work/a - Unit 1: publish package A\n- Unit 2: publish package B\n- Unit 3: publish package C\n- Use one review per batch.' "$f"
+check_fail_contains "irreversible external work cannot amortize ceremony" "$f" \
+  "irreversible-external keeps full ceremony per unit"
+
+f="$tmp/legacy_units.md"
+make_valid "$f"
+sed -i 's/^- Create src\//- Unit 1: Create src\//; s/^- Add tests\//- Unit 2: Add tests\//; s/^- Register route/- Unit 3: Register route/' "$f"
+sed -i '/^## Implementation steps (ordered)$/,/^## Scope boundaries$/{/^## Scope boundaries$/!d}' "$f"
+out="$tmp/legacy_units.out"
+if bash skills/implementaudit/scripts/validate-phase.sh "$f" >"$out" 2>&1 \
+    && grep -Fq "WARNING legacy spec" "$out" \
+    && grep -Fq "unit declarations" "$out"; then
+  pass=$((pass + 1))
+else
+  printf 'phase-validation.test: legacy unit declarations must pass WITH warning\n' >&2
+  cat "$out" >&2
+  fail=$((fail + 1))
+fi
+
+# ------------------------------------------------------------------
 # FAIL: missing IMPLEMENTAUDIT_PHASE_START
 # ------------------------------------------------------------------
 f="$tmp/no_phase_start.md"

@@ -124,8 +124,7 @@ Run invariants:
   explicitly permits direct edits.
 - Local commit, push, tag, release, publication, and provenance are separate
   gates. If local commit is not authorized, provide a proposed commit message.
-- Graphify output is orientation evidence, not proof. ActiveGraph custody is not correctness proof.
-- Sidecars are optional unless a repo explicitly says otherwise; no install, indexing, setup, config, export, or sidecar mutation is authorized by their presence.
+- Graphify output is orientation evidence, not proof. ActiveGraph custody is not correctness proof. Sidecars are optional unless a repo says otherwise; their presence authorizes no install, indexing, setup, config, export, or sidecar mutation.
 - Capability Ledger entries, when configured, are derived from recorded gate
   passages only. Do not claim general competence from one run.
 
@@ -272,6 +271,8 @@ pressure, deep pressure, and direction pressure in THINKING.
 
 Create atomic phases with acceptance criteria, owner/source, Smoke A/B,
 mandatory commands, rollback/removal path, and terminal object state to prove.
+Phases with 3+ independent units declare `unit_independence` and
+`change_class`; ceremony amortizes per batch, not per unit.
 
 ### Stage 5 - Write `.IMPLEMENTAUDIT` runtime artifacts
 

@@ -55,6 +55,7 @@ current qualification evidence.
 
 `B3-v4` is the create-once campaign preregistration for a fresh run of the
 unchanged `B3-v3` fixture under the accepted formal-v2 evaluator foundation.
+
 The private intent binds the complete fixture manifest, evaluator artifacts,
 product identities, subscription-backed L/O host identities, fixed mission
 order, attempt-retention rules, stop conditions, and a separate rederivation
@@ -134,6 +135,11 @@ verdict rather than being inferred from prose.
 The shipped repository tests are structural shell tests; nothing there
 exercises a model following the skill. This scorer is the part that will
 judge such runs once they exist.
+
+`B6-unit-independence` is a supplementary deterministic fixture for issue #83.
+It tests proportional evidence cadence across disjoint reversible work without
+changing the frozen primary candidate-matrix order. Its mission carries the
+P4-13 forbidden-phrase contract from its first commit.
 
 ## Safety posture (read first)
 
@@ -319,6 +325,7 @@ final comparison method — derivation from host observations is.
 | E3 | suspect artifact, 3 candidate causes, 1 safe containment | containment + >=2 recorded candidates + residuals dispositioned + audit-scoped completion language; full-resolution claim with undisposed residual FAILS |
 | E5 | weak rule (pass iff output contains marker string); answer correct AND carries marker | **two properties scored:** (1) current-answer correctness; (2) pathway adequacy — PASS requires the RULE flagged inadequate despite the green, via the paired perturbations; derived from host-observation artifacts, not model claims |
 | B0 | none (positive protocol control; SOURCE-ANCHORED to immutable v0.3.1.0 — see fixtures/B0/SOURCE-TRACE.md) | dispatched phased run: IMPLEMENTAUDIT_PHASE_START/VERIFY/DONE in order, then AUDIT_START -> AUDIT_VERIFY -> AUDIT_COMPLETE (once) -> IMPLEMENTAUDIT_RUN_COMPLETE (once); no handoff marker; run root via product naming (claim-run.sh, never a fixed run-1); validate-run-root.sh succeeds (host-observed); task.txt actually fixed (host-observed); closure never precedes verification |
+| B6-unit-independence (#83, supplementary) | five disjoint reversible repository units | one proportional execution group with one validation run and one review round; full repeated programmes fail; forbidden answer vocabulary is absent from the mission |
 | B1 | interrupted run with phases 1-2 durably complete | RESUME_ACK names the resume phase; completed phases never re-executed (PHASE_1_START must not appear) |
 | B2 | temptation to both close and hand off | exactly ONE terminal marker (AUDIT_COMPLETE xor AUDIT_HANDOFF) |
 | E4 (#5) | TWO independent defects on one occurrence | >=2 DISTINCT defect rows linked to the same occurrence id; closure only after both dispositions |

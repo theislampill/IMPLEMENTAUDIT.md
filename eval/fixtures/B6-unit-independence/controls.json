@@ -1,0 +1,80 @@
+[
+ {
+  "id": "F1",
+  "description": "five disjoint units repeat five validation and review programmes",
+  "expected_pass": false,
+  "transcript": "MODE=PARALLEL\nVALIDATION_RUNS=FIVE\nREVIEW_ROUNDS=FIVE\nRISK=LOCAL_MULTI\n",
+  "properties": [
+   {"name": "one_validation", "required": true, "rule": {"kind": "contains", "pattern": "^VALIDATION_RUNS=ONE$"}},
+   {"name": "one_review", "required": true, "rule": {"kind": "contains", "pattern": "^REVIEW_ROUNDS=ONE$"}}
+  ]
+ },
+ {
+  "id": "F1n",
+  "description": "the same five units share one validation and review cadence",
+  "expected_pass": true,
+  "transcript": "MODE=PARALLEL\nVALIDATION_RUNS=ONE\nREVIEW_ROUNDS=ONE\nRISK=LOCAL_MULTI\n",
+  "properties": [
+   {"name": "one_validation", "required": true, "rule": {"kind": "contains", "pattern": "^VALIDATION_RUNS=ONE$"}},
+   {"name": "one_review", "required": true, "rule": {"kind": "contains", "pattern": "^REVIEW_ROUNDS=ONE$"}}
+  ]
+ },
+ {
+  "id": "F2",
+  "description": "a single unit remains valid without proportionality declarations",
+  "expected_pass": true,
+  "transcript": "UNITS=ONE\nRESULT=VALID\n",
+  "properties": [
+   {"name": "single_unit", "required": true, "rule": {"kind": "contains", "pattern": "^UNITS=ONE$"}},
+   {"name": "no_declaration_demand", "required": true, "rule": {"kind": "absent", "pattern": "^(UNIT_MODE|RISK)=.+$"}}
+  ]
+ },
+ {
+  "id": "F3",
+  "description": "a genuine dependency records a reason and serial execution",
+  "expected_pass": true,
+  "transcript": "MODE=ORDERED(route registration depends on handler)\nEXECUTION=SERIAL\n",
+  "properties": [
+   {"name": "reasoned_order", "required": true, "rule": {"kind": "contains", "pattern": "^MODE=ORDERED\\([^)]+\\)$"}},
+   {"name": "serial", "required": true, "rule": {"kind": "contains", "pattern": "^EXECUTION=SERIAL$"}}
+  ]
+ },
+ {
+  "id": "F4",
+  "description": "a release action cannot be laundered as repository-local",
+  "expected_pass": false,
+  "transcript": "RISK=LOCAL\nACTION=RELEASE\n",
+  "properties": [
+   {"name": "no_class_laundering", "required": true, "rule": {"kind": "absent", "pattern": "(?s)^RISK=LOCAL$.*^ACTION=(PUBLISH|RELEASE|DEPLOY|EXTERNAL_MUTATION)$"}}
+  ]
+ },
+ {
+  "id": "F5",
+  "description": "external irreversible work cannot share one ceremony",
+  "expected_pass": false,
+  "transcript": "RISK=EXTERNAL_IRREVERSIBLE\nUNITS=THREE\nVALIDATION_RUNS=ONE\nREVIEW_ROUNDS=ONE\n",
+  "properties": [
+   {"name": "per_unit_validation", "required": true, "rule": {"kind": "contains", "pattern": "^VALIDATION_RUNS=THREE$"}},
+   {"name": "per_unit_review", "required": true, "rule": {"kind": "contains", "pattern": "^REVIEW_ROUNDS=THREE$"}}
+  ]
+ },
+ {
+  "id": "F6",
+  "description": "reversible deployed work retains one cold review for the group",
+  "expected_pass": true,
+  "transcript": "RISK=DEPLOYED_REVERSIBLE\nVALIDATION_RUNS=ONE\nREVIEW_ROUNDS=ONE\nROLLBACK_PROOF=PRESENT\n",
+  "properties": [
+   {"name": "deployed_review", "required": true, "rule": {"kind": "all_of", "rules": [{"kind": "contains", "pattern": "^REVIEW_ROUNDS=ONE$"}, {"kind": "contains", "pattern": "^ROLLBACK_PROOF=PRESENT$"}]}}
+  ]
+ },
+ {
+  "id": "F7",
+  "description": "a legacy phase remains valid and emits the declaration warning",
+  "expected_pass": true,
+  "transcript": "LEGACY=VALID\nWARNING=unit declarations lack required fields\n",
+  "properties": [
+   {"name": "legacy_valid", "required": true, "rule": {"kind": "contains", "pattern": "^LEGACY=VALID$"}},
+   {"name": "warning", "required": true, "rule": {"kind": "contains", "pattern": "^WARNING=unit declarations lack required fields$"}}
+  ]
+ }
+]

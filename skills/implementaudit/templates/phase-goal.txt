@@ -29,6 +29,8 @@ Mandatory commands: {{COMMANDS_CSV}}
 Acceptance criteria: {{CRIT_COUNT}}
 Evidence required: {{EVIDENCE_CSV}}
 Depends on phases: {{DEPS}}
+unit_independence: independent | ordered({{REASON}})
+change_class: {{APPROVED_CHANGE_CLASS}}
 Quality route: DMAIC / DMADV / PDCA / 5S / mixed / not applicable
 Audit categories: correctness / security / performance / tests / architecture / dependencies / DX / docs / direction / scoped / not applicable
 Finding row contract: title + category + evidence + impact + effort + risk + confidence + fix sketch / implementation route + owner/source + verification + deferred/rejected rationale + remaining risk + route
@@ -56,8 +58,8 @@ Issue publication: deferred / not applicable
 
 ## Work
 
-- {{WORK_BULLET_1}}
-- {{WORK_BULLET_2}}
+- Unit 1: {{WORK_BULLET_1}}
+- Unit 2: {{WORK_BULLET_2}}
 
 ## Implementation steps (ordered)
 

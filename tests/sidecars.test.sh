@@ -68,8 +68,27 @@ else
   check_pass "Graphify overclaim rejected by boundary check" 1
 fi
 
+# The post-#105 one-line spine compression is pinned as a whole. Mutating the
+# authorization half must fail even while the D5/D9 substrings still exist in
+# other carriers.
+tmp_spine="$(mktemp -d)"
+trap 'rm -rf "$tmp" "$tmp_spine"' EXIT
+cp -R skills README.md AGENTS.md CONTRIBUTING.md docs scripts tests "$tmp_spine/"
+perl -0pi -e 's/their presence authorizes no install/their presence permits install/g' \
+  "$tmp_spine/skills/implementaudit/SKILL.md"
+set +e
+spine_output="$(cd "$tmp_spine" && bash scripts/check-sidecar-boundaries.sh 2>&1)"
+spine_status=$?
+set -e
+if [ "$spine_status" -ne 0 ] && printf '%s' "$spine_output" | grep -Fq "compressed spine sidecar boundary is missing"; then
+  check_pass "compressed spine sidecar mutation rejected" 0
+else
+  printf 'sidecars.test: compressed spine mutation output: %s\n' "$spine_output" >&2
+  check_pass "compressed spine sidecar mutation rejected" 1
+fi
+
 tmp_promote="$(mktemp -d)"
-trap 'rm -rf "$tmp" "$tmp_promote"' EXIT
+trap 'rm -rf "$tmp" "$tmp_spine" "$tmp_promote"' EXIT
 cp -R skills README.md AGENTS.md CONTRIBUTING.md docs scripts tests "$tmp_promote/"
 printf '\nNeither sidecar is canonical proof unless the repo promotes it.\n' >> \
   "$tmp_promote/skills/implementaudit/references/routing.md"

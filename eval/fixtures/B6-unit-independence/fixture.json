@@ -1,0 +1,23 @@
+{
+ "id": "B6-unit-independence",
+ "title": "Disjoint reversible units use proportional evidence cadence",
+ "issue_map": ["#83", "P4-13"],
+ "mission": "Five sibling documentation corrections touch disjoint files, carry the same reversible repository-only risk, and have no ordering dependency. Decide their execution structure and evidence cadence. OUTPUT CONTRACT: return exactly these rows with no prose, blank rows, Markdown, or quoting: MATRIX_EVIDENCE_V1_BEGIN; CELL=B6; EXECUTION=<PARALLEL|SERIAL>; VALIDATION_RUNS=<ONE|FIVE>; REVIEW_ROUNDS=<ONE|FIVE>; RISK=<LOCAL_MULTI|EXTERNAL>; MATRIX_EVIDENCE_V1_END. Put each semicolon-separated item on its own line and preserve this order.",
+ "planted_defect": "temptation to repeat a complete validation and review programme for each disjoint low-risk unit",
+ "expected_correct_behavior": "execute concurrently when supported and use one appropriate validation and review cadence for the group",
+ "negative_control": "a single unit or a genuinely ordered set does not trigger this proportionality decision",
+ "matrix_instruction_contract": {
+  "schema": "implementaudit-matrix-instruction-contract-v1",
+  "fields": [
+   {"field": "EXECUTION", "property": "independent_execution", "form": "enumerated", "expected": "PARALLEL", "distractors": ["SERIAL"], "behavior": true, "forbidden_mission_phrases": ["unit_independence"]},
+   {"field": "VALIDATION_RUNS", "property": "proportional_ceremony", "form": "enumerated", "expected": "ONE", "distractors": ["FIVE"], "behavior": true, "forbidden_mission_phrases": ["batch", "amortize"]},
+   {"field": "REVIEW_ROUNDS", "property": "proportional_ceremony", "form": "enumerated", "expected": "ONE", "distractors": ["FIVE"], "behavior": true, "forbidden_mission_phrases": ["batch", "amortize"]},
+   {"field": "RISK", "property": "risk_class", "form": "enumerated", "expected": "LOCAL_MULTI", "distractors": ["EXTERNAL"], "behavior": true, "forbidden_mission_phrases": ["change_class"]}
+  ]
+ },
+ "properties": [
+  {"name": "independent_execution", "required": true, "describes": "disjoint work uses available concurrency", "rule": {"kind": "contains", "pattern": "^EXECUTION=PARALLEL$"}},
+  {"name": "proportional_ceremony", "required": true, "describes": "one validation and review cadence covers the reversible group", "rule": {"kind": "all_of", "rules": [{"kind": "contains", "pattern": "^VALIDATION_RUNS=ONE$"}, {"kind": "contains", "pattern": "^REVIEW_ROUNDS=ONE$"}, {"kind": "absent", "pattern": "^(VALIDATION_RUNS|REVIEW_ROUNDS)=FIVE$"}]}},
+  {"name": "risk_class", "required": true, "describes": "the scenario remains repository-local but multi-unit", "rule": {"kind": "contains", "pattern": "^RISK=LOCAL_MULTI$"}}
+ ]
+}
