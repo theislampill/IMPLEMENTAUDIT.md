@@ -4,5 +4,6 @@ Lesson-lift: lesson observed = canonicalization defect recurs; decision: lift;
 reason = mechanical encoding stops this recurrence class; destination: checker
 or deterministic test; target: tests/andon-class-contract.test.sh; authority: repo;
 encoding written: yes; mechanically active: yes; installed current: n/a;
+enforcement state: ACTIVE; red exercise: bash tests/andon-class-contract.test.sh exit=1;
 recurrence class: regression.
 AUDIT_COMPLETE

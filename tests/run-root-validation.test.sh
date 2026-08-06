@@ -344,4 +344,106 @@ if bash "$helper" --ledger "$fixture_root/direct-ledger-substrate/decision-after
   exit 1
 fi
 
+# 9. Background-supervision contract (#81). New declarations are enforced;
+# roots with old launch-intent records remain valid with a warning.
+bg_case() {  # name, intent, status, process-json, expectation(pass|fail)
+  local name="$1" intent="$2" chain_status="$3" process_json="$4" expect="$5"
+  mkdir -p "$tmp/$name/background/chain-a"
+  cp -r "$tmp/good/." "$tmp/$name/"
+  printf '%s\n' "$intent" > "$tmp/$name/background/chain-a/launch-intent.md"
+  printf '%s\n' "$chain_status" > "$tmp/$name/background/chain-a/chain-status.txt"
+  if [ -n "$process_json" ]; then
+    printf '%s\n' "$process_json" > "$tmp/$name/background/chain-a/process-started.json"
+  fi
+  if [ "$expect" = pass ]; then
+    bash "$helper" "$tmp/$name" >/dev/null || {
+      printf 'run-root-validation.test: %s expected PASS\n' "$name" >&2
+      exit 1
+    }
+  else
+    if bash "$helper" "$tmp/$name" >/dev/null 2>&1; then
+      printf 'run-root-validation.test: %s expected FAIL\n' "$name" >&2
+      exit 1
+    fi
+  fi
+}
+
+new_intent='command: run-long-job
+owner/source: tests/background-chain-contract.test.sh
+expected_completion_marker: chain.done
+abort_containment_plan: process-started.json identity ledger
+poll_budget: 3
+terminal_signal: chain.done
+expected_duration: 90m
+transport_timeout: 10m
+launch_mode: detached'
+
+bg_case poll-budget-red "$new_intent" 'probe: 1 | command: check-chain | result: running
+probe: 2 | command: check-chain | result: running
+probe: 3 | command: check-chain | result: running
+probe: 4 | command: check-chain | result: running
+probe: 5 | command: check-chain | result: running
+probe: 6 | command: check-chain | result: running
+probe: 7 | command: check-chain | result: running
+probe: 8 | command: check-chain | result: running
+probe: 9 | command: check-chain | result: running
+probe: 10 | command: check-chain | result: running' '' fail
+
+bg_case poll-budget-green "$new_intent" 'probe: 1 | command: check-chain | result: running
+probe: 2 | command: check-chain | result: running
+probe: 3 | command: check-chain | result: running
+report: terminal | outcome=succeeded' '' pass
+
+inline_intent="$(printf '%s\n' "$new_intent" | sed 's/launch_mode: detached/launch_mode: inline/')"
+bg_case transport-ceiling-inline "$inline_intent" 'running' '' fail
+bg_case transport-ceiling-detached "$new_intent" 'running' '' pass
+
+bg_case kill-authority-image-name "$new_intent" \
+  "kill-command: Get-CimInstance Win32_Process -Filter \"Name='claude.exe'\" | Stop-Process" '' fail
+
+owned_process='{"lane_id":"chain-a","host_os":"windows","host_boot_id":"boot-1","pid":123,"process_creation_time":"2026-08-06T01:02:03Z"}'
+bg_case kill-authority-owned "$new_intent" \
+  'kill: pid=123 | host_boot_id=boot-1 | process_creation_time=2026-08-06T01:02:03Z' \
+  "$owned_process" pass
+
+bg_case cadence-default-red "$new_intent" 'report: item=item-1 | outcome=success
+report: item=item-2 | outcome=success
+report: item=item-3 | outcome=success
+report: item=item-4 | outcome=success
+report: item=item-5 | outcome=success
+report: item=item-6 | outcome=success
+report: item=item-7 | outcome=success
+report: item=item-8 | outcome=success
+report: item=item-9 | outcome=success
+report: item=item-10 | outcome=success
+report: item=item-11 | outcome=success
+report: item=item-12 | outcome=success
+report: item=item-13 | outcome=success
+report: item=item-14 | outcome=success
+report: terminal | outcome=succeeded' '' fail
+
+per_item_intent="$new_intent
+report_cadence: per-item
+report_cadence_justification: each item changes the next dispatch decision"
+bg_case cadence-justified "$per_item_intent" 'report: item=item-1 | outcome=success
+report: item=item-2 | outcome=success
+report: terminal | outcome=succeeded' '' pass
+
+bg_case checkpoint-before-block-red "$new_intent" 'wait: blocking | signal=chain.done' '' fail
+bg_case checkpoint-before-block-green "$new_intent" 'checkpoint: STATE.md
+wait: blocking | signal=chain.done' '' pass
+
+mkdir -p "$tmp/background-legacy/background/chain-a"
+cp -r "$tmp/good/." "$tmp/background-legacy/"
+printf 'command: old-run\n' > "$tmp/background-legacy/background/chain-a/launch-intent.md"
+printf 'running\n' > "$tmp/background-legacy/background/chain-a/chain-status.txt"
+legacy_output="$(bash "$helper" "$tmp/background-legacy" 2>&1)" || {
+  printf 'run-root-validation.test: legacy background root must stay valid\n' >&2
+  exit 1
+}
+printf '%s\n' "$legacy_output" | grep -qi 'legacy' || {
+  printf 'run-root-validation.test: legacy background root must warn\n' >&2
+  exit 1
+}
+
 printf 'run-root-validation.test: ok\n'

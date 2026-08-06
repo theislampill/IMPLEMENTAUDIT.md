@@ -17,9 +17,22 @@ grep -q '^### Long-running and background commands' "$proto" \
   || fail "PROTOCOL section missing"
 for tok in running succeeded failed aborted terminal-state-unverified \
     contaminated infrastructure-failed chain-status.txt chain.done \
-    launch-intent.md transport-infrastructure; do
+    launch-intent.md transport-infrastructure poll_budget terminal_signal \
+    report_cadence expected_duration transport_timeout launch_mode \
+    process-started.json resource-exhausted supervision-overrun; do
   grep -q -- "$tok" "$proto" || fail "PROTOCOL missing token: $tok"
 done
+for item in \
+    '8. Wait contract' \
+    '9. Report cadence' \
+    '10. Transport-ceiling comparison' \
+    '11. Kill authority' \
+    '12. Checkpoint before block'; do
+  grep -q -- "$item" "$proto" || fail "PROTOCOL missing reserved ordinal: $item"
+done
+if grep -q '7\. Wait contract' "$proto"; then
+  fail "#81 consumed item 7 reserved for #75"
+fi
 # suspicion-not-proof amendment: producer countermeasures barred until
 # origin classification
 flat="$(tr '\n' ' ' < "$proto")"
@@ -125,4 +138,31 @@ grep -q '0xC0000142' "$tmp/pre/retained-stderr.txt" \
 [ "$(classify "$tmp/pre")" = terminal-state-unverified ] \
   || fail "pre-admission failure lacks a recorded terminal state"
 
-printf 'background-chain-contract: ok (section + vocabulary + 8 fixtures incl. retention ordering)\n'
+# B5 is an additive, non-frozen B-family fixture. It must carry P4-13's
+# instruction-independence contract from its first commit without changing the
+# immutable B0-B2 primary campaign.
+python - <<'PY'
+import json
+from pathlib import Path
+
+path = Path("eval/fixtures/B5-wait-contract/fixture.json")
+fixture = json.loads(path.read_text(encoding="utf-8"))
+assert fixture["id"] == "B5-wait-contract"
+contract = fixture["matrix_instruction_contract"]
+assert contract["schema"] == "implementaudit-matrix-instruction-contract-v1"
+mission = fixture["mission"].casefold()
+phrases = []
+for field in contract["fields"]:
+    assert field["behavior"] is True
+    assert field["forbidden_mission_phrases"]
+    phrases.extend(field["forbidden_mission_phrases"])
+assert all(phrase.casefold() not in mission for phrase in phrases)
+assert {field["property"] for field in contract["fields"]} <= {
+    prop["name"] for prop in fixture["properties"]
+}
+assert {prop["rule"]["kind"] for prop in fixture["properties"]} == {
+    "absent", "marker", "path_changed"
+}
+PY
+
+printf 'background-chain-contract: ok (section + vocabulary + 8 fixtures incl. retention ordering + B5 P4-13)\n'
