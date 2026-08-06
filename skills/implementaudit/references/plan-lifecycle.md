@@ -293,6 +293,26 @@ Reconciliation must handle every closing-the-loop state explicitly:
 
 ## Run-Root Plan Index Adaptation
 
+### Micro-run mode
+
+Use `claim-run.sh --micro` only for a single-defect repair with no phase
+decomposition, child-agent dispatch, executor handoff, or Stage 6.2 artifact.
+The reduced root contains `.claimed` plus an append-only `STATE.md`: the Andon
+log row or rows, followed by the emitted terminal marker as the final nonblank
+line. It does not carry ROADMAP, THINKING, PROTOCOL, sidecars, tools, context,
+or phase specs. Validate this declared narrowing with
+`validate-run-root.sh --micro <run-root>`; the same root must fail full
+validation.
+
+`claim-run.sh` records the mode and promised template set in `.claimed`.
+Missing promised artifacts are sentinel/artifact drift, not an unauthored
+legacy root. Roots without `.claimed` retain the legacy full-validation
+contract. A new claim lists sibling roots that lack an on-disk completion,
+handoff, supersession, or explicit `PARALLEL: <reason>` line, and validation
+rejects the new root until each sibling is dispositioned. `SUPERSEDED_BY:` is
+the run-root header; `SUPERSEDED_BY_CONCURRENT_MUTATION` is a separate residual
+disposition value and must not be parsed as that header.
+
 The legacy root `plans/README.md` backlog/index shape is behaviorally adapted
 into the namespaced run root instead of copied as a root planning surface.
 `ROADMAP.md` carries execution order, dependencies, plan rows, rejected rows,

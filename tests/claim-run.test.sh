@@ -32,6 +32,19 @@ second="$(bash "$helper" "Audit release asset boundary" 2>/dev/null)"
   exit 1
 }
 
+grep -qx 'mode=full' "$first/.claimed" || {
+  printf 'claim-run.test: full claim sentinel missing mode=full\n' >&2
+  exit 1
+}
+grep -qx 'templates=STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md' "$first/.claimed" || {
+  printf 'claim-run.test: full claim sentinel missing canonical template set\n' >&2
+  exit 1
+}
+grep -Eq '^claimed_at_utc=[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$' "$first/.claimed" || {
+  printf 'claim-run.test: full claim sentinel missing UTC timestamp\n' >&2
+  exit 1
+}
+
 case "$first" in
   .IMPLEMENTAUDIT/runs/audit-release-asset-boundary-*) ;;
   *)
@@ -53,6 +66,25 @@ case "$(basename "$custom")" in
     exit 1
     ;;
 esac
+
+micro_base="$tmp/micro base"
+micro="$(IMPLEMENTAUDIT_BASE="$micro_base" bash "$helper" --micro 'Tiny repair' 2>/dev/null)"
+grep -qx 'mode=micro' "$micro/.claimed" || {
+  printf 'claim-run.test: micro claim sentinel missing mode=micro\n' >&2
+  exit 1
+}
+grep -qx 'templates=STATE.md' "$micro/.claimed" || {
+  printf 'claim-run.test: micro claim sentinel names the wrong template set\n' >&2
+  exit 1
+}
+
+mkdir -p "$micro_base/unmarked-sibling"
+printf '# state without disposition\n' > "$micro_base/unmarked-sibling/STATE.md"
+warning="$(IMPLEMENTAUDIT_BASE="$micro_base" bash "$helper" --micro 'Sibling warning' 2>&1 >/dev/null)"
+printf '%s\n' "$warning" | grep -Fq 'unmarked-sibling' || {
+  printf 'claim-run.test: claim did not list undispositioned sibling root\n' >&2
+  exit 1
+}
 
 parallel_dir="$tmp/parallel"
 mkdir -p "$parallel_dir"
