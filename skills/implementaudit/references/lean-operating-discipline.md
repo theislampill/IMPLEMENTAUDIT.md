@@ -98,6 +98,8 @@ Custody boundaries:
 - Graphify terrain is orientation evidence, not proof. All Graphify-derived candidates require live-file confirmation.
 - An ActiveGraph mirror may reflect gate passages but is not lifecycle authority or correctness proof. Capability Ledger entries remain narrow.
 - All claims are bounded by local repo checks, smoke evidence, and IMPLEMENTAUDIT runtime behavior.
+- A step described as read-only is evidence of non-mutation only when the
+  post-state was compared; a command label or intent does not prove its effect.
 
 ## Verdict capture fidelity
 

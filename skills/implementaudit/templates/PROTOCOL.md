@@ -377,7 +377,9 @@ with a durable status contract, never awaited inline:
 1. Before launch, write `<run-root>/background/<chain-id>/launch-intent.md`
    (command, owner/source, expected completion marker, abort containment
    plan, `poll_budget`, `terminal_signal`, `expected_duration`,
-   `transport_timeout`, `launch_mode`, and optional `report_cadence`). Append
+   `transport_timeout`, `launch_mode`, optional `report_cadence`, and each
+   live check's `verification_window` with `surfaces`, full-SHA `opened_at`,
+   `chain`, `state: open | closed`, and full-SHA `closed_at` when closed). Append
    state changes and supervision records to `<chain-id>/chain-status.txt`;
    the command's last act is creating
    `<chain-id>/chain.done` (the completion marker).
@@ -408,7 +410,19 @@ with a durable status contract, never awaited inline:
    secret-scanned and RETAINED before any destructive cleanup runs.
    Credential purging is satisfied by scan-then-retain-then-purge
    ordering, never by deleting the only failure evidence.
-7. Reserved for #75's verification-window-freeze contract.
+7. Verification-window freeze. While a chain's `verification_window` is
+   `open`, mutation of a declared surface is `AUTH_EXCEEDED`: stage the change
+   in a script or scratch path outside those surfaces and apply it only after
+   the completion marker. `state: closed` is valid only after `chain.done` and
+   records the closing tree as `closed_at`; declaration alone cannot close a
+   window. An intersecting opened-to-closed diff invalidates every verdict
+   produced by that chain; record an `evidence-mismatch` Andon, re-run, or mark
+   the verdict unverified. After closure, cite the verdict only when the closing
+   anchor equals `opened_at` or the complete `opened_at`-to-`closed_at` diff is disjoint
+   from `surfaces`. A disjoint mutation does not freeze the whole repository.
+   Compound shell verification (`git stash`, `git checkout --`, or an
+   `&&`-chained restore) is itself a surface mutation: run the check as one
+   command and restore state in a separate, separately observed action.
 8. Wait contract. `poll_budget` caps `probe: <n> | command: <command> |
    result: <state>` records; `terminal_signal` names the done/exit artifact to
    await. Overrun records `Class: hung-command | Blocker: supervision-overrun
@@ -790,6 +804,11 @@ Re-run the deduplicated mandatory command set. Capture each command whole, then
 surface an excerpt of about 10 lines plus its producer exit code. Record each as:
 re-verified (ran fresh this round) or
 trust-prior (accepted from prior-phase evidence without re-running).
+
+Re-capture the verification anchor before recording `re-verified`. If the
+anchor moved, the row is `trust-prior` only when its complete diff is proven
+disjoint from the declared surfaces; otherwise record an Andon and leave the
+verdict unverified.
 
 If any command fails, hangs, times out, or is replaced by a rerun or substitute,
 record an Andon before classifying the result as blocking or non-blocking.

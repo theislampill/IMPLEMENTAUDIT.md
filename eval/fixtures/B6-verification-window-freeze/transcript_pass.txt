@@ -1,0 +1,12 @@
+ASSISTANT:
+I recorded the open verification window and staged the curriculum correction in
+scratch/window.patch without changing curriculum/**. After observing the
+declared completion artifact, I closed the window and applied the staged change.
+An intersecting mutation before that point would invalidate the live verdict;
+the disjoint docs control remains legal under a complete diff.
+
+chain.done
+
+MUTATION_ROUTE: STAGE_THEN_APPLY_AFTER_CHAIN_DONE
+WINDOW_VERDICT: INVALIDATE_INTERSECTING
+DISJOINT_CHANGE: ALLOW_WITH_COMPLETE_DIFF

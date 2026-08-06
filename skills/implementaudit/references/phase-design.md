@@ -49,7 +49,9 @@ executable specs.
   rollback safety require.
 - Namespaced planning artifacts prevent run artifact clobbering. They do not
   make simultaneous source edits safe; use separate git worktrees for true
-  parallel implementation.
+  parallel implementation, nor do they make source edits safe while a
+  verification is reading the same tree; see the verification-window rule in
+  `templates/PROTOCOL.md`.
 
 ## Owner/source discipline
 
