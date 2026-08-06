@@ -26,6 +26,7 @@ Auditing operation: {{WHAT_ydqyq-audit-action_THIS_PHASE_PERFORMS}}
 Terminal object state to prove: {{WHAT_MUST_BE_TRUE_WHEN_DONE}}
 Thinking ref: <run-root>/THINKING.md
 Mandatory commands: {{COMMANDS_CSV}}
+Scarce resource budget: {{N <resource> | none}}
 Acceptance criteria: {{CRIT_COUNT}}
 Evidence required: {{EVIDENCE_CSV}}
 Depends on phases: {{DEPS}}

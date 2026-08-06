@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "argv": [
+    "scripts/run-model.sh",
+    "--input",
+    "fixture.txt"
+  ],
+  "env_keys_present": [
+    "API_TOKEN",
+    "MODEL"
+  ],
+  "terminal_artifact_path": "evidence/rehearsal-terminal.json",
+  "stub_identity": "deterministic-producer-stub-v1"
+}

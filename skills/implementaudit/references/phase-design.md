@@ -235,6 +235,18 @@ operational specificity. The read-only handoff lane
 requirement where their contexts overlap. `validate-phase.sh` enforces the
 mechanical parts; cold review owns materiality judgments.
 
+**Rule P4-11 — Scarce-resource launch rehearsal (#84).**
+Before a scarce or irreversible resource is spent, rehearse the exact
+production wrapper, argv, sorted environment-key names, transport, and terminal
+artifact path with the producer stubbed and zero metered calls. Bind the result
+to a strict terminal receipt and canonical command hash; environment values are
+never captured. A failed rehearsal authorizes no launch. Interposed stubs make
+the result `PASS_WITH_SCOPE_GAP` and every extra component is named in
+`Residual risk:`. A passing run through a second apparatus is flagged for cold
+review with residual-risk rationale rather than mechanically promoted. After a
+failure, only manual repair and re-run may establish a new passing receipt; the
+governed action must not automatically retry.
+
 **Rule P4-12 — Paired controls on free-text acceptance.**
 Any acceptance criterion that matches free text ships with two named controls
 recorded beside it: one legitimate paraphrase that must PASS, and one

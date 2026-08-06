@@ -25,6 +25,167 @@ drift() {
   exit 1
 }
 
+# Scarce-resource preflight rehearsal (#84). This mode is deliberately
+# separate from the legacy authorization-record comparison below: it validates
+# inert artifacts and never launches the recorded argv or reads environment
+# values.
+if [ "${1:-}" = "--phase" ]; then
+  phase=""; rehearsal=""; launch=""
+  while [ "$#" -gt 0 ]; do
+    case "$1" in
+      --phase) [ "$#" -ge 2 ] || fail "--phase requires a file"; phase="$2"; shift 2;;
+      --rehearsal) [ "$#" -ge 2 ] || fail "--rehearsal requires a file"; rehearsal="$2"; shift 2;;
+      --launch) [ "$#" -ge 2 ] || fail "--launch requires a file"; launch="$2"; shift 2;;
+      *) fail "unknown rehearsal arg $1";;
+    esac
+  done
+  [ -f "$phase" ] || fail "phase file not found: $phase"
+  python - "$phase" "$rehearsal" "$launch" <<'PY'
+import datetime
+import hashlib
+import json
+import pathlib
+import re
+import sys
+
+def fail(message):
+    print(f"check-authorization-binding: rehearsal rejected ({message})", file=sys.stderr)
+    raise SystemExit(1)
+
+phase_path, rehearsal_path, launch_path = sys.argv[1:]
+phase_text = pathlib.Path(phase_path).read_text(encoding="utf-8")
+budget_lines = re.findall(r"(?mi)^Scarce resource budget:[ \t]*(.*?)[ \t]*$", phase_text)
+if len(budget_lines) != 1:
+    fail("phase must contain exactly one Scarce resource budget field")
+budget = budget_lines[0]
+if budget == "none":
+    if rehearsal_path or launch_path:
+        fail("a none budget accepts no rehearsal or launch artifact")
+    print("check-authorization-binding: ok — scarce resource budget is none")
+    raise SystemExit(0)
+if not re.fullmatch(r"[1-9][0-9]* [^\s]+", budget):
+    fail("budget must be 'none' or 'N <resource>' with positive N")
+if not rehearsal_path or not launch_path:
+    fail("non-none budget requires --rehearsal and --launch")
+
+def load_object(path, label):
+    def reject_duplicate_members(pairs):
+        value = {}
+        for key, item in pairs:
+            if key in value:
+                raise ValueError(f"duplicate object member {key!r}")
+            value[key] = item
+        return value
+    try:
+        value = json.loads(
+            pathlib.Path(path).read_text(encoding="utf-8"),
+            object_pairs_hook=reject_duplicate_members,
+        )
+    except (OSError, UnicodeError, ValueError) as exc:
+        fail(f"invalid {label} JSON: {exc}")
+    if type(value) is not dict:
+        fail(f"{label} must be one JSON object")
+    return value
+
+receipt = load_object(rehearsal_path, "REHEARSAL_TERMINAL")
+launch = load_object(launch_path, "launch record")
+receipt_keys = {
+    "rehearsed_command_hash", "stub_identity", "stubbed_components",
+    "env_keys_present", "terminal_artifact_path", "exit_code",
+    "disposition", "timestamp",
+}
+launch_keys = {
+    "argv", "env_keys_present", "terminal_artifact_path",
+    "launch_records", "metered_calls",
+}
+if set(receipt) != receipt_keys:
+    fail(f"REHEARSAL_TERMINAL fields must be exactly {sorted(receipt_keys)}")
+if set(launch) != launch_keys:
+    fail(f"launch record fields must be exactly {sorted(launch_keys)}")
+
+def nonempty_string(value, label):
+    if type(value) is not str or not value:
+        fail(f"{label} must be a nonempty string")
+
+def string_array(value, label, *, nonempty=True):
+    if type(value) is not list or (nonempty and not value):
+        fail(f"{label} must be a nonempty string array")
+    if any(type(item) is not str or not item for item in value):
+        fail(f"{label} contains an invalid string")
+
+def env_keys(value, label):
+    string_array(value, label)
+    if value != sorted(value) or len(value) != len(set(value)):
+        fail(f"{label} must be sorted and unique")
+    if any(not re.fullmatch(r"[A-Z_][A-Z0-9_]*", item) for item in value):
+        fail(f"{label} may contain environment key names only")
+
+nonempty_string(receipt["rehearsed_command_hash"], "rehearsed_command_hash")
+if not re.fullmatch(r"[0-9a-f]{64}", receipt["rehearsed_command_hash"]):
+    fail("rehearsed_command_hash must be lowercase SHA-256")
+nonempty_string(receipt["stub_identity"], "stub_identity")
+string_array(receipt["stubbed_components"], "stubbed_components")
+if len(receipt["stubbed_components"]) != len(set(receipt["stubbed_components"])):
+    fail("stubbed_components must be unique")
+env_keys(receipt["env_keys_present"], "receipt env_keys_present")
+nonempty_string(receipt["terminal_artifact_path"], "receipt terminal_artifact_path")
+if type(receipt["exit_code"]) is not int:
+    fail("exit_code must be an integer")
+if receipt["disposition"] not in {"PASS", "PASS_WITH_SCOPE_GAP", "FAIL"}:
+    fail("invalid disposition")
+nonempty_string(receipt["timestamp"], "timestamp")
+if not re.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z", receipt["timestamp"]):
+    fail("timestamp must be UTC ISO-8601 ending Z")
+try:
+    datetime.datetime.fromisoformat(receipt["timestamp"].replace("Z", "+00:00"))
+except ValueError:
+    fail("timestamp is not a real UTC instant")
+
+string_array(launch["argv"], "argv")
+nonempty_string(launch["argv"][0], "production wrapper argv[0]")
+env_keys(launch["env_keys_present"], "launch env_keys_present")
+nonempty_string(launch["terminal_artifact_path"], "launch terminal_artifact_path")
+for key in ("launch_records", "metered_calls"):
+    if type(launch[key]) is not int or launch[key] < 0:
+        fail(f"{key} must be a nonnegative integer")
+if launch["metered_calls"] != 0:
+    fail("a rehearsal must consume zero metered calls")
+
+if receipt["env_keys_present"] != launch["env_keys_present"]:
+    fail("receipt and launch environment-key sets differ")
+if receipt["terminal_artifact_path"] != launch["terminal_artifact_path"]:
+    fail("receipt and launch terminal artifact paths differ")
+preimage = json.dumps(
+    {"argv": launch["argv"], "env_keys_present": sorted(launch["env_keys_present"])},
+    ensure_ascii=False,
+    separators=(",", ":"),
+).encode("utf-8")
+actual_hash = hashlib.sha256(preimage).hexdigest()
+if receipt["rehearsed_command_hash"] != actual_hash:
+    fail("rehearsed command hash does not match exact argv/environment-key identity")
+if receipt["exit_code"] != 0 or receipt["disposition"] == "FAIL":
+    fail("nonzero or FAIL rehearsal never authorizes launch")
+
+components = receipt["stubbed_components"]
+if "producer" not in components:
+    fail("producer must be stubbed")
+extras = [item for item in components if item != "producer"]
+if not extras:
+    if receipt["disposition"] != "PASS" or components != ["producer"]:
+        fail("PASS requires exactly the producer stub")
+else:
+    if receipt["disposition"] != "PASS_WITH_SCOPE_GAP":
+        fail("interposed stubs require PASS_WITH_SCOPE_GAP")
+    residuals = re.findall(r"(?mi)^Residual risk:[ \t]*(.*?)[ \t]*$", phase_text)
+    missing = [item for item in extras if not any(item in line for line in residuals)]
+    if missing:
+        fail(f"Residual risk must name every interposed stub: {missing}")
+
+print("check-authorization-binding: ok — rehearsal identity and terminal receipt are bound")
+PY
+  exit $?
+fi
+
 auth=""; inv=""
 while [ "$#" -gt 0 ]; do
   case "$1" in
