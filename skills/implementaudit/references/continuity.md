@@ -87,6 +87,14 @@ status; status evidence; supersedes/superseded-by links; scope end or
 expiry when applicable. Preconditions and the terminal predicate live in
 the status-evidence cell (what would prove this satisfied/expired).
 
+Apply the same lifecycle to run-authored steer and advisory outputs. Successive
+rounds amend one continuity document with an explicit `supersedes:` header
+instead of accumulating competing authorities. Copy precision-critical owner
+vocabulary verbatim into that document at receipt time, before a compaction or
+handoff can erase it. More than two steer/advisory artifacts with no declared
+precedence is a checker warning, not an automatic failure, because authority
+may legitimately remain external.
+
 ## Repeated current owner message
 
 An identical NEW owner message is a fresh authority event, not automatically

@@ -681,6 +681,18 @@ Steps:
    `supervision-overrun` and `resource-exhausted` are `Blocker:` discriminators,
    never `Class:` tokens; use `hung-command` and `transport-infrastructure`,
    respectively.
+   Every prospective blocker row carries `blocked_scope:` (the exact lane or
+   capability) and `unblocked_work:` (what can still proceed). If
+   `unblocked_work: none`, add a nonempty `justification:`. A claim that a
+   capability is absent or a resource exhausted also carries
+   `negative-capability: true`, comma-separated `probe_methods:` naming at
+   least two structurally different probes, `probe_evidence:` with one
+   semicolon-separated `method::method-class=>evidence` entry for each method,
+   and a nonempty `falsification_attempted:`. Method identity is compared
+   case-insensitively; method classes and evidence values must also be
+   distinct. Repeating or merely renaming one probe does not increase the
+   evidence class. Re-audit on a change signal or declared interval and
+   record recurrence in one occurrence row, never as a fixed three-turn ritual.
 3. Inspect the owner/source file directly (Gemba). Do not infer from summaries.
 4. Apply the smallest safe countermeasure that follows from the probe,
    targeting only the failing criterion. A fix may not be attempted merely
@@ -886,6 +898,23 @@ Three representations, never merged:
    `risk-accepted` / `validated-resolved`. Dispositions are assigned by
    owner or policy, never automated.
 
+Write a decision to leave work for later, another executor, or another scope
+at the moment it is made by appending one canonical row to
+`<run-root>/deferrals.jsonl`:
+
+```json
+{"ts":"<RFC3339 UTC>","phase":"<n>","what":"<item>","why":"<reason>","owner":"<this-run|executor|owner|other>","unblock":"<condition or policy ref>","disposition":"<pending|#6 value>"}
+```
+
+Append only; do not reconstruct the ledger at closure. The phase-end report
+prints it verbatim. `pending` is the decision-time transitional value;
+`pending` and `unresolved` block closure. Owner or policy assigns every
+terminal disposition. A runtime `blocked-non-verdict` blocker also carries a
+nonempty `next_probe_or_abandon:` so the honest non-verdict schedules or
+abandons work explicitly instead of becoming a dead end. Existing
+interruption-survivor and `PENDING_TERMINAL` records remain separate and
+unchanged.
+
 **Route-sufficient rule:** when a hazard is established and an admissible
 safe route exists (quarantine, rollback, disable, contain), take it BEFORE
 root-cause resolution completes. Record the occurrence as
@@ -895,6 +924,18 @@ open thread. Safe containment before full diagnosis is partial-by-design —
 not a failure, not closure.
 
 ### AUDIT_COMPLETE and IMPLEMENTAUDIT_RUN_COMPLETE
+
+Before final closure, invoke the shipped checker with every applicable plan
+and steer input. The canonical command shape is:
+
+```text
+bash <skill-dir>/scripts/check-closure-surface.sh <closure-record> --superseded-plan <each-replaced-plan> --steer-dir <run-root> --plan-cycle-record <each-cycle-accounted-plan>
+```
+
+Repeat `--superseded-plan` and `--plan-cycle-record` once per applicable file.
+Omit either repeated option only when the run has no such plan. Always supply
+`--steer-dir <run-root>` for a run-root-backed final audit. Recording these
+inputs in STATE without passing them to the command is incomplete evidence.
 
 Print `AUDIT_COMPLETE` only when:
 - Every phase in ROADMAP.md has `IMPLEMENTAUDIT_PHASE_DONE` with status done or

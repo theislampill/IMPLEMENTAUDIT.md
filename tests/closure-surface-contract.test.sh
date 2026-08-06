@@ -480,4 +480,142 @@ printf 'Status: COMPLETE\n' > "$tmp/complete-evidence.md"
 bash "$scorer" "$tmp/two.md" --closure-evidence "$tmp/complete-evidence.md" >/dev/null 2>&1 \
   || fail "explicit complete closure evidence rejected"
 
-printf 'closure-surface-contract: ok (contract + quota, kill-authority, and #88 external-state controls)\n'
+# #78 R5-F2/F3/F6: a sibling decision ledger is absent-tolerant, but any
+# pending or unresolved decision must block closure. A terminal disposition
+# remains owner/policy assigned and carries its authority in the row.
+printf '%s\n' \
+  '{"ts":"2026-08-06T20:00:00Z","phase":"3","what":"item-a","why":"outside current scope","owner":"owner","unblock":"policy: owner-policy-17","disposition":"pending"}' \
+  > "$tmp/deferrals.jsonl"
+if bash "$scorer" "$tmp/two.md" >/dev/null 2>&1; then
+  fail "pending deferral accepted"
+fi
+printf '%s\n' \
+  '{"ts":"2026-08-06T20:00:00Z","phase":"3","what":"item-a","why":"outside current scope","owner":"owner","unblock":"policy: owner-policy-17","disposition":"risk-accepted"}' \
+  > "$tmp/deferrals.jsonl"
+bash "$scorer" "$tmp/two.md" >/dev/null 2>&1 \
+  || fail "owner/policy-assigned terminal deferral rejected"
+printf '%s\n' \
+  '{"ts":"2026-08-06T20:00:00Z","phase":"three","what":"item-a","why":"outside current scope","owner":"owner","unblock":"policy: owner-policy-17","disposition":"risk-accepted"}' \
+  > "$tmp/deferrals.jsonl"
+if bash "$scorer" "$tmp/two.md" >/dev/null 2>&1; then
+  fail "nonnumeric deferral phase accepted"
+fi
+printf '%s\n' \
+  '{"ts":"2026-08-06T20:00:00Z","phase":"3","what":"item-a","why":"outside current scope","owner":"owner","unblock":"later","disposition":"risk-accepted"}' \
+  > "$tmp/deferrals.jsonl"
+if bash "$scorer" "$tmp/two.md" >/dev/null 2>&1; then
+  fail "risk-accepted deferral without policy reference accepted"
+fi
+rm "$tmp/deferrals.jsonl"
+bash "$scorer" "$tmp/two.md" >/dev/null 2>&1 \
+  || fail "absent zero-deferral ledger must pass without ceremony"
+
+# #78 R5-F8/F9/F10 plus runtime non-verdict carry-forward. Generic blocker
+# rows are prospective; legacy closure records without them remain valid.
+printf '%s\n%s\n' \
+  'claim: blocker | surface: source | property: structural | status: verified | evidence-surface: source' \
+  'blocker: b1 | blocked_scope: luna-cli-quota' \
+  > "$tmp/blocker-missing-work.md"
+if bash "$scorer" "$tmp/blocker-missing-work.md" >/dev/null 2>&1; then
+  fail "blocker without unblocked_work accepted"
+fi
+printf '%s\n%s\n' \
+  'claim: blocker | surface: source | property: structural | status: verified | evidence-surface: source' \
+  'blocker: b1 | blocked_scope: luna-cli-quota | unblocked_work: none' \
+  > "$tmp/blocker-none-unjustified.md"
+if bash "$scorer" "$tmp/blocker-none-unjustified.md" >/dev/null 2>&1; then
+  fail "unblocked_work none without justification accepted"
+fi
+printf '%s\n%s\n' \
+  'claim: blocker | surface: source | property: structural | status: verified | evidence-surface: source' \
+  'blocker: b1 | blocked_scope: lane-1 | unblocked_work: docs | unblocked_work: none | justification: misleading duplicate' \
+  > "$tmp/blocker-duplicate-field.md"
+if bash "$scorer" "$tmp/blocker-duplicate-field.md" >/dev/null 2>&1; then
+  fail "duplicate blocker field accepted"
+fi
+printf '%s\n%s\n' \
+  'claim: blocker | surface: source | property: structural | status: verified | evidence-surface: source' \
+  'Blocker: b1 | blocked_scope: all | unblocked_work: none | justification: case spoof' \
+  > "$tmp/blocker-case-spoof.md"
+if bash "$scorer" "$tmp/blocker-case-spoof.md" >/dev/null 2>&1; then
+  fail "case-insensitive blocker near-miss accepted"
+fi
+printf '%s\n%s\n' \
+  'claim: blocker | surface: source | property: structural | status: verified | evidence-surface: source' \
+  'blocker: b1 | blocked_scope: luna-cli-quota | unblocked_work: docs | negative-capability: true | probe_methods: Get-Command,Get-Command,Get-Command | falsification_attempted: none' \
+  > "$tmp/blocker-repeated-probe.md"
+if bash "$scorer" "$tmp/blocker-repeated-probe.md" >/dev/null 2>&1; then
+  fail "repeated negative-capability probe accepted"
+fi
+printf '%s\n%s\n' \
+  'claim: blocker | surface: source | property: structural | status: verified | evidence-surface: source' \
+  'blocker: b1 | blocked_scope: luna-cli-quota | unblocked_work: docs | negative-capability: true | probe_methods: Get-Command,get-command | probe_evidence: Get-Command::command-discovery=>Get-Command luna exit=1;get-command::command-discovery=>get-command luna exit=1 | falsification_attempted: searched installed plugin manifests' \
+  > "$tmp/blocker-casefold-probe.md"
+if bash "$scorer" "$tmp/blocker-casefold-probe.md" >/dev/null 2>&1; then
+  fail "case-only duplicate negative-capability methods accepted"
+fi
+printf '%s\n%s\n' \
+  'claim: blocker | surface: source | property: structural | status: verified | evidence-surface: source' \
+  'blocker: b1 | blocked_scope: luna-cli-quota | unblocked_work: docs | negative-capability: true | probe_methods: Get-Command,plugin-manifest | falsification_attempted: searched installed plugin manifests' \
+  > "$tmp/blocker-unbound-probe.md"
+if bash "$scorer" "$tmp/blocker-unbound-probe.md" >/dev/null 2>&1; then
+  fail "negative-capability methods without structured evidence accepted"
+fi
+printf '%s\n%s\n' \
+  'claim: blocker | surface: source | property: structural | status: verified | evidence-surface: source' \
+  'blocker: b1 | blocked_scope: luna-cli-quota | unblocked_work: docs | negative-capability: true | probe_methods: Get-Command,plugin-manifest | probe_evidence: Get-Command::command-discovery=>Get-Command luna exit=1;plugin-manifest::manifest-enumeration=>installed plugin manifest count=0 | falsification_attempted: searched installed plugin manifests | terminal: blocked-non-verdict | next_probe_or_abandon: retry after capacity signal' \
+  > "$tmp/blocker-good.md"
+bash "$scorer" "$tmp/blocker-good.md" >/dev/null 2>&1 \
+  || fail "distinct evidenced negative-capability blocker rejected"
+printf '%s\n%s\n' \
+  'claim: blocker | surface: source | property: structural | status: verified | evidence-surface: source' \
+  'blocker: b1 | blocked_scope: lane-1 | unblocked_work: lane-2 | terminal: blocked-non-verdict' \
+  > "$tmp/nonverdict-missing-next.md"
+if bash "$scorer" "$tmp/nonverdict-missing-next.md" >/dev/null 2>&1; then
+  fail "blocked non-verdict without next_probe_or_abandon accepted"
+fi
+
+# #78 R5-F5/F7/F11: an explicitly declared superseded plan needs a header and
+# reconciliation on every unchecked item; undeclared steer precedence warns.
+printf '%s\n' '# Plan A' '- [ ] unfinished task' > "$tmp/plan-a.md"
+if bash "$scorer" "$tmp/two.md" --superseded-plan "$tmp/plan-a.md" >/dev/null 2>&1; then
+  fail "superseded plan without header accepted"
+fi
+printf '%s\n' 'SUPERSEDED_BY: plan-b.md — authority narrowed' '# Plan A' \
+  '- [ ] unfinished task | RECONCILIATION: TODO' > "$tmp/plan-a.md"
+bash "$scorer" "$tmp/two.md" --superseded-plan "$tmp/plan-a.md" >/dev/null 2>&1 \
+  || fail "properly reconciled superseded plan rejected"
+mkdir "$tmp/steers"
+for n in 1 2 3; do printf '# round %s\n' "$n" > "$tmp/steers/ROUND-$n-STEER.md"; done
+if ! bash "$scorer" "$tmp/two.md" --steer-dir "$tmp/steers" >"$tmp/steer.out" 2>"$tmp/steer.err"; then
+  fail "undeclared steer precedence must warn, not fail"
+fi
+grep -Fq 'warning: 3 steer/advisory artifacts lack declared precedence' "$tmp/steer.err" \
+  || fail "undeclared steer precedence warning missing"
+
+# #78 R5-F7: no implicit cycle cap exists. A plan with no bound may consume
+# nine cycles, while exceeding a declared bound requires an explicit owner
+# decision before the plan can support closure.
+printf '%s\n%s\n' 'CYCLE_BOUND: none' 'CYCLES_CONSUMED: 9' > "$tmp/no-bound-plan.md"
+bash "$scorer" "$tmp/two.md" --plan-cycle-record "$tmp/no-bound-plan.md" >/dev/null 2>&1 \
+  || fail "no-bound plan rejected after nine cycles"
+printf '%s\n%s\n' 'CYCLE_BOUND: 3' 'CYCLES_CONSUMED: 4' > "$tmp/overrun-plan.md"
+if bash "$scorer" "$tmp/two.md" --plan-cycle-record "$tmp/overrun-plan.md" >/dev/null 2>&1; then
+  fail "declared cycle-bound overrun accepted without owner decision"
+fi
+printf '%s\n%s\n%s\n' 'CYCLE_BOUND: 3' 'CYCLES_CONSUMED: 4' \
+  'BOUND_OVERRUN: OWNER_DECISION' > "$tmp/overrun-plan.md"
+bash "$scorer" "$tmp/two.md" --plan-cycle-record "$tmp/overrun-plan.md" >/dev/null 2>&1 \
+  || fail "owner-decided cycle-bound overrun rejected"
+
+grep -Fq -- '--superseded-plan <each-replaced-plan>' \
+  "$repo_root/skills/implementaudit/templates/PROTOCOL.md" \
+  || fail "shipped final-audit invocation omits superseded-plan inputs"
+grep -Fq -- '--steer-dir <run-root>' \
+  "$repo_root/skills/implementaudit/templates/PROTOCOL.md" \
+  || fail "shipped final-audit invocation omits steer-dir input"
+grep -Fq -- '--plan-cycle-record <each-cycle-accounted-plan>' \
+  "$repo_root/skills/implementaudit/templates/PROTOCOL.md" \
+  || fail "shipped final-audit invocation omits plan cycle inputs"
+
+printf 'closure-surface-contract: ok (contract + quota, kill-authority, #88 external-state, and #78 deferral controls)\n'

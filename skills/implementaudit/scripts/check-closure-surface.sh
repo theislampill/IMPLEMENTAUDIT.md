@@ -9,6 +9,9 @@ file="${1:-}"
 shift
 impact_set=""
 closure_evidence=""
+superseded_plans=()
+steer_dir=""
+plan_cycle_records=()
 while [ "$#" -gt 0 ]; do
   case "$1" in
     --impact-set)
@@ -17,9 +20,28 @@ while [ "$#" -gt 0 ]; do
     --closure-evidence)
       [ "$#" -ge 2 ] || fail "--closure-evidence requires a file"
       closure_evidence="$2"; shift 2 ;;
+    --superseded-plan)
+      [ "$#" -ge 2 ] || fail "--superseded-plan requires a file"
+      superseded_plans+=("$2"); shift 2 ;;
+    --steer-dir)
+      [ "$#" -ge 2 ] || fail "--steer-dir requires a directory"
+      steer_dir="$2"; shift 2 ;;
+    --plan-cycle-record)
+      [ "$#" -ge 2 ] || fail "--plan-cycle-record requires a file"
+      plan_cycle_records+=("$2"); shift 2 ;;
     *) fail "unknown argument: $1" ;;
   esac
 done
+
+py_cmd=()
+ensure_python() {
+  [ "${#py_cmd[@]}" -eq 0 ] || return 0
+  if command -v python >/dev/null 2>&1; then py_cmd=(python)
+  elif command -v python3 >/dev/null 2>&1; then py_cmd=(python3)
+  elif command -v py >/dev/null 2>&1; then py_cmd=(py -3)
+  else fail "python, python3, or py -3 is required for structured closure validation"
+  fi
+}
 
 rank() {
   case "$1" in
@@ -38,6 +60,10 @@ field() {
       return
     fi
   done
+}
+
+field_count() {
+  printf '%s\n' "$1" | tr '|' '\n' | sed -n "s/^[[:space:]]*$2:[[:space:]].*/x/p" | wc -l | tr -d '[:space:]'
 }
 
 rows=0
@@ -132,6 +158,148 @@ while IFS= read -r line; do
   fi
 done < "$file"
 
+# #78 blocker rows are prospective and coexist with legacy claim-only records.
+# Scope and still-runnable work are always explicit. A negative-capability
+# assertion needs two case-normalized method identities, distinct method
+# classes, and evidence bound to every method. Repeating or merely renaming a
+# probe never manufactures confidence.
+while IFS= read -r line; do
+  if printf '%s' "$line" | grep -qiE '^[[:space:]]*blocker:'; then
+    case "$line" in blocker:*) : ;; *)
+      fail "malformed blocker row (key must be exactly lowercase 'blocker:'): ${line%%|*}";;
+    esac
+  fi
+  case "$line" in blocker:*) : ;; *) continue;; esac
+  bid="$(field "$line" blocker)"
+  [ "$(field_count "$line" blocker)" = 1 ] && [ -n "$bid" ] \
+    || fail "blocker row requires exactly one identity"
+  for key in justification negative-capability probe_methods probe_evidence falsification_attempted terminal next_probe_or_abandon; do
+    [ "$(field_count "$line" "$key")" -le 1 ] \
+      || fail "blocker $bid: duplicate $key"
+  done
+  for key in blocked_scope unblocked_work; do
+    [ "$(field_count "$line" "$key")" = 1 ] \
+      || fail "blocker $bid: requires exactly one $key"
+    [ -n "$(field "$line" "$key")" ] \
+      || fail "blocker $bid: $key must be nonempty"
+  done
+  unblocked="$(field "$line" unblocked_work)"
+  if [ "$unblocked" = none ]; then
+    justification="$(field "$line" justification)"
+    [ "$(field_count "$line" justification)" = 1 ] \
+      && [ -n "$justification" ] && [ "$justification" != none ] \
+      || fail "blocker $bid: unblocked_work none requires justification"
+  fi
+  negative="$(field "$line" negative-capability)"
+  if [ -n "$negative" ] && [ "$negative" != true ] && [ "$negative" != false ]; then
+    fail "blocker $bid: negative-capability must be true or false"
+  fi
+  if [ "$negative" = true ]; then
+    methods="$(field "$line" probe_methods)"
+    [ "$(field_count "$line" probe_methods)" = 1 ] && [ -n "$methods" ] \
+      || fail "blocker $bid: negative capability requires probe_methods"
+    probe_evidence="$(field "$line" probe_evidence)"
+    [ "$(field_count "$line" probe_evidence)" = 1 ] && [ -n "$probe_evidence" ] \
+      || fail "blocker $bid: negative capability requires probe_evidence"
+    ensure_python
+    probe_error=""
+    if ! probe_error="$("${py_cmd[@]}" - "$methods" "$probe_evidence" <<'PY'
+import re
+import sys
+
+methods = [part.strip() for part in sys.argv[1].split(",")]
+if len(methods) < 2 or any(not part for part in methods):
+    raise SystemExit("requires at least two nonempty probe methods")
+normalized_methods = [part.casefold() for part in methods]
+if len(set(normalized_methods)) != len(normalized_methods):
+    raise SystemExit("probe methods must be distinct after case normalization")
+
+entries = [part.strip() for part in sys.argv[2].split(";")]
+if len(entries) != len(methods) or any(not part for part in entries):
+    raise SystemExit("probe evidence must bind exactly one entry to every method")
+classes = []
+evidence_values = []
+for index, entry in enumerate(entries):
+    match = re.fullmatch(r"([^:;=]+)::([a-z0-9][a-z0-9-]*)=>(.+)", entry)
+    if not match:
+        raise SystemExit("probe evidence entries require method::method-class=>evidence")
+    method, method_class, evidence = (part.strip() for part in match.groups())
+    if method.casefold() != normalized_methods[index]:
+        raise SystemExit("probe evidence method does not match probe_methods order")
+    if not evidence or evidence.casefold() == "none":
+        raise SystemExit("probe evidence must be nonempty and checkable")
+    classes.append(method_class.casefold())
+    evidence_values.append(evidence.casefold())
+if len(set(classes)) != len(classes):
+    raise SystemExit("probe method classes must be structurally distinct")
+if len(set(evidence_values)) != len(evidence_values):
+    raise SystemExit("probe evidence values must be distinct")
+PY
+)"; then
+      [ -n "$probe_error" ] || probe_error="probe evidence validation failed"
+      fail "blocker $bid: $probe_error"
+    fi
+    falsification="$(field "$line" falsification_attempted)"
+    [ "$(field_count "$line" falsification_attempted)" = 1 ] \
+      && [ -n "$falsification" ] && [ "$falsification" != none ] \
+      || fail "blocker $bid: negative capability requires falsification_attempted"
+  fi
+  if [ "$(field "$line" terminal)" = blocked-non-verdict ]; then
+    next_action="$(field "$line" next_probe_or_abandon)"
+    [ "$(field_count "$line" next_probe_or_abandon)" = 1 ] \
+      && [ -n "$next_action" ] && [ "$next_action" != none ] \
+      || fail "blocker $bid: blocked-non-verdict requires next_probe_or_abandon"
+  fi
+done < "$file"
+
+# #78 plan-cycle accounting is explicit only when a plan declares it. `none`
+# carries no implicit cap. A numeric overrun needs a recorded OWNER_DECISION.
+if [ "${#plan_cycle_records[@]}" -gt 0 ]; then
+  ensure_python
+  for cycle_file in "${plan_cycle_records[@]}"; do
+    [ -f "$cycle_file" ] || fail "plan cycle record not found: $cycle_file"
+    cycle_error=""
+    if ! cycle_error="$("${py_cmd[@]}" - "$cycle_file" <<'PY'
+import pathlib
+import re
+import sys
+
+path = pathlib.Path(sys.argv[1])
+lines = path.read_text(encoding="utf-8").splitlines()
+
+def values(key):
+    near = [line for line in lines if re.match(rf"^\s*{re.escape(key)}\s*:", line, re.I)]
+    exact = [line.split(":", 1)[1].strip() for line in lines
+             if line.startswith(key + ":")]
+    if len(near) != len(exact):
+        raise SystemExit(f"{key} must use exact uppercase grammar")
+    if len(exact) != 1:
+        raise SystemExit(f"{key} must appear exactly once")
+    return exact[0]
+
+bound = values("CYCLE_BOUND")
+consumed_text = values("CYCLES_CONSUMED")
+if not re.fullmatch(r"[0-9]+", consumed_text):
+    raise SystemExit("CYCLES_CONSUMED must be a nonnegative integer")
+consumed = int(consumed_text)
+if bound == "none":
+    pass
+elif re.fullmatch(r"[0-9]+", bound):
+    if consumed > int(bound):
+        decisions = [line.split(":", 1)[1].strip() for line in lines
+                     if line.startswith("BOUND_OVERRUN:")]
+        if decisions != ["OWNER_DECISION"]:
+            raise SystemExit("declared cycle-bound overrun requires BOUND_OVERRUN: OWNER_DECISION")
+else:
+    raise SystemExit("CYCLE_BOUND must be none or a nonnegative integer")
+PY
+)"; then
+      [ -n "$cycle_error" ] || cycle_error="plan cycle validation failed"
+      fail "$cycle_file: $cycle_error"
+    fi
+  done
+fi
+
 [ "$rows" -gt 0 ] || fail "no closure claim rows found"
 [ "$coverage_rows" -eq 0 ] || [ "$coverage_rows" -eq "$rows" ] \
   || fail "closure record mixes coverage-tagged and untagged claim rows"
@@ -144,12 +312,7 @@ if grep -Eqi '^[[:space:]]*(external-mutation-record|artifact-identity|collision
   schema_required=1
 fi
 if [ "$schema_required" -eq 1 ]; then
-  py_cmd=()
-  if command -v python >/dev/null 2>&1; then py_cmd=(python)
-  elif command -v python3 >/dev/null 2>&1; then py_cmd=(python3)
-  elif command -v py >/dev/null 2>&1; then py_cmd=(py -3)
-  else fail "python, python3, or py -3 is required for external-state schema validation"
-  fi
+  ensure_python
   schema_error=""
   if ! schema_error="$("${py_cmd[@]}" - "$file" <<'PY'
 import ast
@@ -699,6 +862,85 @@ PY
     fail "$schema_error"
   fi
 fi
+
+# #78 decision-time ledger. Absence means no decision was declared. When the
+# sibling ledger exists, validate each append-only JSONL row strictly and
+# refuse terminal closure while a row remains pending or unresolved.
+deferrals_file="$(dirname "$file")/deferrals.jsonl"
+if [ -e "$deferrals_file" ]; then
+  [ -f "$deferrals_file" ] && [ ! -L "$deferrals_file" ] \
+    || fail "deferrals ledger must be a regular non-symlink file: $deferrals_file"
+  ensure_python
+  deferral_error=""
+  if ! deferral_error="$("${py_cmd[@]}" - "$deferrals_file" <<'PY'
+import datetime as dt
+import json
+import sys
+
+path = sys.argv[1]
+keys = ["ts", "phase", "what", "why", "owner", "unblock", "disposition"]
+allowed = {
+    "pending", "unresolved", "deferred", "transferred", "owner-assigned",
+    "risk-accepted", "validated-resolved",
+}
+owners = {"this-run", "executor", "owner", "other"}
+
+
+def die(message):
+    print(message)
+    raise SystemExit(1)
+
+
+def unique_object(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            die(f"duplicate key '{key}'")
+        result[key] = value
+    return result
+
+
+with open(path, "r", encoding="utf-8") as handle:
+    for line_number, raw in enumerate(handle, 1):
+        if not raw.strip():
+            continue
+        try:
+            row = json.loads(
+                raw,
+                object_pairs_hook=unique_object,
+                parse_constant=lambda value: die(f"non-standard constant '{value}'"),
+            )
+        except (UnicodeError, json.JSONDecodeError) as error:
+            die(f"row {line_number}: invalid UTF-8 JSON: {error}")
+        if not isinstance(row, dict):
+            die(f"row {line_number}: expected one JSON object")
+        if list(row) != keys:
+            die(f"row {line_number}: keys must use the canonical order")
+        if not all(isinstance(row[key], str) and row[key].strip() for key in keys):
+            die(f"row {line_number}: every field must be a nonempty string")
+        if not row["phase"].isdigit():
+            die(f"row {line_number}: phase must be a nonnegative integer string")
+        try:
+            dt.datetime.strptime(row["ts"], "%Y-%m-%dT%H:%M:%SZ")
+        except ValueError:
+            die(f"row {line_number}: ts must be RFC3339 UTC whole seconds")
+        if row["owner"] not in owners:
+            die(f"row {line_number}: invalid owner '{row['owner']}'")
+        disposition = row["disposition"]
+        if disposition not in allowed:
+            die(f"row {line_number}: invalid disposition '{disposition}'")
+        if disposition == "risk-accepted" and not row["unblock"].startswith("policy:"):
+            die(f"row {line_number}: risk-accepted requires a policy: reference")
+        if disposition == "transferred" and row["owner"] == "this-run":
+            die(f"row {line_number}: transferred disposition must name a receiving owner")
+        if disposition in {"pending", "unresolved"}:
+            die(f"row {line_number}: nonterminal disposition '{disposition}' blocks closure")
+PY
+)"; then
+    [ -n "$deferral_error" ] || deferral_error="deferrals ledger validation failed without a diagnostic"
+    fail "deferrals.jsonl: $deferral_error"
+  fi
+fi
 if grep -E -q "Name[[:space:]]*=[[:space:]]*['\"][^'\"]*\\.exe|pkill[[:space:]]+-f|taskkill([.]exe)?[[:space:]].*/IM|Get-CimInstance[[:space:]]+Win32_Process" "$file"; then
   fail "kill authority uses executable name, image, pattern, or broad host-process enumeration instead of process-started.json identity"
 fi
@@ -715,6 +957,30 @@ if [ -n "$closure_evidence" ]; then
   [ -f "$closure_evidence" ] || fail "closure evidence not found: $closure_evidence"
   if grep -Eqi '(^|[|:[:space:]])(Pending\.|remains pending|IN PROGRESS|TBD)([|[:space:]]|$)' "$closure_evidence"; then
     fail "closure evidence retains a pending or in-progress marker: $closure_evidence"
+  fi
+fi
+
+for plan in "${superseded_plans[@]}"; do
+  [ -f "$plan" ] || fail "superseded plan not found: $plan"
+  grep -Eq '^SUPERSEDED_BY: [^[:space:]].* — .+' "$plan" \
+    || fail "superseded plan lacks SUPERSEDED_BY path and reason: $plan"
+  bad_unchecked="$(grep -nE '^[[:space:]]*-[[:space:]]+\[[[:space:]]\]' "$plan" \
+    | grep -Ev '\|[[:space:]]*RECONCILIATION:[[:space:]]*(STALE|TODO|BLOCKED)[[:space:]]*$' \
+    | head -n 1 || true)"
+  [ -z "$bad_unchecked" ] \
+    || fail "superseded plan has unchecked item without reconciliation: $bad_unchecked"
+done
+
+if [ -n "$steer_dir" ]; then
+  [ -d "$steer_dir" ] || fail "steer directory not found: $steer_dir"
+  undeclared=0
+  while IFS= read -r -d '' steer; do
+    if ! grep -Eqi '^supersedes:[[:space:]]+[^[:space:]]' "$steer"; then
+      undeclared=$((undeclared + 1))
+    fi
+  done < <(find "$steer_dir" -maxdepth 1 -type f \( -iname '*steer*.md' -o -iname '*advisory*.md' \) -print0)
+  if [ "$undeclared" -gt 2 ]; then
+    printf 'check-closure-surface: warning: %d steer/advisory artifacts lack declared precedence\n' "$undeclared" >&2
   fi
 fi
 printf 'check-closure-surface: ok (%d claim row(s))\n' "$rows"

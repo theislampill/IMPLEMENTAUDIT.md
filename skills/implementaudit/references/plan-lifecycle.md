@@ -292,6 +292,29 @@ Reconciliation must handle every closing-the-loop state explicitly:
 - `FIXED INDEPENDENTLY`: cite live evidence and classify provenance as
   pre-existing, not current-run proof.
 
+## Plan Retirement
+
+Before committing a successor plan, write
+`SUPERSEDED_BY: <path> — <reason>` into the replaced plan. Every unchecked
+item in that plan ends with `| RECONCILIATION: STALE|TODO|BLOCKED`, using one
+of those existing statuses to say whether the successor invalidated, carried,
+or blocked the work. The header is distinct from the
+`SUPERSEDED_BY_CONCURRENT_MUTATION` residual disposition and must never be
+parsed as that value.
+
+When a plan declares its own cycle bound, record each consumed cycle. Exceeding
+a self-declared bound is an Andon and OWNER DECISION before continuation. This
+does not create a bound for a plan that declares none, does not impose a
+numeric revision cap, and does not alter §No Arbitrary Revision Cap.
+
+The mechanical cycle receipt uses exactly one `CYCLE_BOUND: none|<nonnegative
+integer>` row and one `CYCLES_CONSUMED: <nonnegative integer>` row. When
+consumption exceeds a numeric bound, the same file also carries exactly
+`BOUND_OVERRUN: OWNER_DECISION`. Final audit passes every applicable receipt as
+`--plan-cycle-record <file>` to `check-closure-surface.sh`. A no-bound receipt
+with nine or more consumed cycles remains valid; the checker does not invent a
+cap.
+
 ## Run-Root Plan Index Adaptation
 
 ### Micro-run mode
