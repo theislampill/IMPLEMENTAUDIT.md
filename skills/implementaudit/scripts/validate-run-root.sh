@@ -160,6 +160,31 @@ ok=any(isinstance(r,dict) and keys<=r.keys() and r["lane_id"]==l and isinstance(
 raise SystemExit(not ok)
 PY
 }
+intent_has_open_window() {
+  awk '
+    /^[^[:space:]]/ { in_window = ($0 ~ /^verification_window:/); next }
+    in_window && /^[[:space:]]*state:[[:space:]]*open[[:space:]]*$/ { found = 1 }
+    END { exit !found }
+  ' "$1"
+}
+intent_has_closed_window() {
+  grep -Eq '^[[:space:]]*state:[[:space:]]*closed[[:space:]]*$' "$1"
+}
+intent_has_invalid_closed_anchor() {
+  awk '
+    /^[^[:space:]]/ { in_window = ($0 ~ /^verification_window:/); next }
+    in_window && /^[[:space:]]*-[[:space:]]*surfaces:/ { closed_at = ""; next }
+    in_window && /^[[:space:]]*closed_at:/ {
+      closed_at = $0
+      sub(/^[[:space:]]*closed_at:[[:space:]]*/, "", closed_at)
+      next
+    }
+    in_window && /^[[:space:]]*state:[[:space:]]*closed[[:space:]]*$/ {
+      if (length(closed_at) != 40 || closed_at !~ /^[0-9a-f]+$/) bad = 1
+    }
+    END { exit !bad }
+  ' "$1"
+}
 check_background_chains() {
   local root="$1" state="$2" chain id intent status budget signal expected timeout mode cadence why es ts polls line pid boot created rc
   [ -d "$root/background" ] || return
@@ -167,6 +192,18 @@ check_background_chains() {
     [ -d "$chain" ] || continue; id="$(basename "$chain")"
     intent="$chain/launch-intent.md"; status="$chain/chain-status.txt"
     [ -f "$intent" ] || { err "background/$id missing launch-intent.md"; continue; }
+    if intent_has_closed_window "$intent"; then
+      [ -f "$chain/chain.done" ] \
+        || err "background/$id closed verification window lacks chain.done"
+      if intent_has_invalid_closed_anchor "$intent"; then
+        err "background/$id closed verification window lacks a full-SHA closed_at"
+      fi
+    fi
+    if [ -f "$state" ] &&
+       grep -Eq '^\|[[:space:]]*Status[[:space:]]*\|[[:space:]]*DONE[[:space:]]*\|' "$state" &&
+       intent_has_open_window "$intent"; then
+      err "background/$id verification window remains open at run-root closure"
+    fi
     if ! grep -Eq '^(poll_budget|terminal_signal|expected_duration|transport_timeout|launch_mode|report_cadence):' "$intent"; then
       warn "background/$id legacy launch intent; #81 checks skipped"; continue
     fi

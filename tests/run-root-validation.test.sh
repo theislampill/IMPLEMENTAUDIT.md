@@ -446,4 +446,43 @@ printf '%s\n' "$legacy_output" | grep -qi 'legacy' || {
   exit 1
 }
 
+# 10. Verification-window closure contract (#75). A terminal run root cannot
+# retain an open window; the identical declaration passes once closed.
+window_root="$tmp/verification-window-open"
+mkdir -p "$window_root/background/chain-a"
+cp -r "$tmp/good/." "$window_root/"
+"${py_cmd[@]}" - "$window_root/STATE.md" <<'PY'
+import sys
+from pathlib import Path
+p = Path(sys.argv[1])
+p.write_text(
+    p.read_text(encoding="utf-8").replace("| Status | open |", "| Status | DONE |", 1),
+    encoding="utf-8",
+)
+PY
+printf '%s\n' "$new_intent" \
+  'verification_window:' \
+  '  - surfaces: [curriculum/**]' \
+  '    opened_at: 0123456789abcdef0123456789abcdef01234567' \
+  '    chain: chain-a' \
+  '    state: open' \
+  > "$window_root/background/chain-a/launch-intent.md"
+printf 'running\n' > "$window_root/background/chain-a/chain-status.txt"
+if bash "$helper" "$window_root" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: terminal root with open verification window must fail\n' >&2
+  exit 1
+fi
+
+sed -i 's/state: open/state: closed/' "$window_root/background/chain-a/launch-intent.md"
+if bash "$helper" "$window_root" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: closed declaration without receipt must fail\n' >&2
+  exit 1
+fi
+sed -i '/state: closed/i\    closed_at: 0123456789abcdef0123456789abcdef01234567' "$window_root/background/chain-a/launch-intent.md"
+touch "$window_root/background/chain-a/chain.done"
+bash "$helper" "$window_root" >/dev/null || {
+  printf 'run-root-validation.test: terminal root with closed verification window must pass\n' >&2
+  exit 1
+}
+
 printf 'run-root-validation.test: ok\n'

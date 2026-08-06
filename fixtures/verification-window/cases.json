@@ -1,0 +1,9 @@
+[
+  {"id":"R2-F1","window":"open","surface":"curriculum/**","change":"curriculum/x.json","expected":"FAIL"},
+  {"id":"R2-F2","window":"open-then-closed","surface":"curriculum/**","change":"scratch/window.patch then curriculum/x.json","expected":"PASS"},
+  {"id":"R2-F3","window":"open","surface":"curriculum/**","change":"intersecting anchor move","expected":"FAIL_WITH_IDENTITIES"},
+  {"id":"R2-F4","window":"closed","surface":"curriculum/**","change":"curriculum/x.json","expected":"PASS"},
+  {"id":"R2-F5","window":"open","surface":"curriculum/**","change":"docs/readme.md","expected":"PASS_DISJOINT"},
+  {"id":"R2-F6","window":"open","surface":"curriculum/**","change":"compound stash-check-restore timeout","expected":"FAIL_HIDDEN_STASH"},
+  {"id":"R2-F7","window":"open","surface":"curriculum/**","change":"terminal run-root closure","expected":"FAIL_CLOSURE"}
+]

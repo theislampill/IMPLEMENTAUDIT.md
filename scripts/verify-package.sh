@@ -200,10 +200,15 @@ require_file fixtures/phase-design/polish-harden.md
 require_file fixtures/acceptance-instrument-discipline/cases.json
 require_file fixtures/acceptance-instrument-discipline/F7-vacuous-invariant.md
 require_file fixtures/census-discipline/cases.json
+require_file fixtures/verification-window/cases.json
 require_file eval/fixtures/E5d-census-discipline/fixture.json
 require_file eval/fixtures/E5d-census-discipline/controls.json
 require_file eval/fixtures/E5d-census-discipline/transcript_pass.txt
 require_file eval/fixtures/E5d-census-discipline/transcript_fail.txt
+require_file eval/fixtures/B6-verification-window-freeze/fixture.json
+require_file eval/fixtures/B6-verification-window-freeze/transcript_pass.txt
+require_file eval/fixtures/B6-verification-window-freeze/transcript_pass.summary.json
+require_file eval/fixtures/B6-verification-window-freeze/transcript_fail.txt
 require_file .github/workflows/pages.yml
 require_file skills/implementaudit/references/lean-operating-discipline.md
 require_file scripts/check-lean-discipline.sh
@@ -235,6 +240,7 @@ require_file tests/convergence-mode-contract.test.sh
 require_file tests/andon-escalation-judgment.test.sh
 require_file tests/background-chain-contract.test.sh
 require_file tests/evidence-anchoring.test.sh
+require_file tests/verification-window-contract.test.sh
 require_file tests/marker-order.test.sh
 require_file tests/planner-stages.test.sh
 require_file tests/release-asset.test.sh
@@ -590,6 +596,7 @@ bash tests/convergence-mode-contract.test.sh
 bash tests/andon-escalation-judgment.test.sh
 bash tests/background-chain-contract.test.sh
 bash tests/evidence-anchoring.test.sh
+bash tests/verification-window-contract.test.sh
 bash tests/marker-order.test.sh
 bash tests/planner-stages.test.sh
 bash tests/release-asset.test.sh
