@@ -70,6 +70,57 @@ context. Like every child agent, the cold reviewer is non-authoritative:
 the disposition gates readiness, while mutation and closure stay with the
 main governed run.
 
+A new cold-review disposition records `cold-review: disposition: <token> |
+attestation: <run-root-relative-report> | base_sha: <40-hex> | head_sha:
+<40-hex>` in `STATE.md`. The cited report uses the `Reviewer attestation`
+header from `templates/child-agent-report.md`,
+including reviewer identity, #87's canonical `requested_model` / `actual_model`
+pair, authoring-context reuse, other-reviewer visibility, and full base/head
+SHAs. The report has exactly `Report state: FINAL`, ends with one exact gate
+token matching STATE, and binds its model pair to STATE's canonical
+`model-identity:` row. PASS requires equal requested/actual identity with bound
+claims. Its SHAs match STATE, resolve as distinct commits, and place base before
+head. A disposition without that proof does not discharge Stage 6.2.
+`authoring_context_reuse: yes` labels useful self-critique evidence; it does not
+satisfy the independent gate. Legacy roots with no prospective `cold-review:`
+row remain valid.
+
+When a reviewer returns no verdict, record `predecessor_failure_origin` from
+the existing Andon classes and whether the cause is content-deterministic or
+transient. `REVIEWER_RUNTIME_NON_VERDICT` does not consume the substantive
+verdict: its provisional findings remain provisional and travel into the
+successor packet. After a content-deterministic packet refusal, do not reissue
+an unaltered packet; record a `transport-infrastructure` Andon occurrence plus
+the packet attempt, contained scope file, verified digest, and material
+`packet_alteration`. The occurrence resolves only from STATE's canonical
+`## Andon log`, never from an arbitrary matching table. Each packet exposes one
+exact `review-packet-scope:` row;
+the checker accepts only inspectable scope narrowing, technique rewording, or
+an inline-to-reference evidence transition, not whitespace, metadata, or an
+unrelated-section digest change. The first successor also binds the refused
+predecessor packet's contained file/digest, so deterministic attempt 1 must be
+materially different; later attempts compare to the preceding successor. A
+transient channel failure may
+retry the materially identical packet. Independence attests context separation,
+not reviewer infallibility: when a reviewer corrects a defective probe and then
+finishes the review, the attestation remains valid.
+
+The repo-side checker consumes the report's exact `successor-review:` row for
+each attempt. Runtime non-verdicts also use the exact `lane-status: status:
+REVIEWER_RUNTIME_NON_VERDICT | ... | predecessor_occurrence: <oN> |
+provisional_findings: <safe-file.md#heading refs> |
+substantive_verdict_consumed: no` row. The cited occurrence must resolve to the
+transport Andon, and every finding reference resolves to a contained unique
+heading whose first nonblank child is `finding-record: id: <heading> | status:
+provisional`. The same-occurrence successor carries the exact references before
+replacement.
+
+Whenever either exact row exists in a live run root, the shipped
+`validate-run-root.sh` invokes the repository checker from the validator's own
+source tree with `--run-root`; it never substitutes a same-named checker from
+the run-root checkout. Absence or failure is fail-closed. Calling the mode only
+from tests does not discharge the live gate.
+
 ## Specialist loops
 
 Specialist fanout is a warranted `ydqyq-audit-action`, not an optional
@@ -118,7 +169,8 @@ transcript row), with:
 - the bounded question the lane answers;
 - evidence boundary;
 - the per-lane prompt contract used;
-- status: executed / serialized / skipped with reason / interrupted-partial;
+- status: executed / serialized / skipped with reason / interrupted-partial /
+  non-verdict (`REVIEWER_RUNTIME_NON_VERDICT` with origin class);
 - evidence returned, normalized into the ledger;
 - residual risk when the lane was not executed.
 
@@ -126,7 +178,7 @@ transcript row), with:
 Findings and evidence rows from that lane remain provisional until independently reproduced
 by an authorized lane.
 
-Create each lane report before dispatch with `Disposition: PARTIAL`, then
+Create each lane report before dispatch with `Report state: PARTIAL`, then
 append findings incrementally as they are produced. Replace that disposition
 only when the authorized terminal report exists. A success-shaped envelope
 does not override contradictory content or metadata: a synthetic-model,
@@ -135,7 +187,7 @@ subtype is `interrupted-partial`. The lane's expected-output inventory may
 consume the canonical `terminal_signal` defined by the wait contract; this
 reference does not redefine it.
 
-Legacy reports without a `Disposition:` field remain `FINAL` with a warning;
+Legacy reports without a `Report state:` field remain `FINAL` with a warning;
 the new header does not retroactively invalidate completed evidence.
 
 `"${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit}"/scripts/lane-survivor-inventory.sh`

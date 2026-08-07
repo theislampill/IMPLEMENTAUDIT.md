@@ -553,4 +553,249 @@ if bash "$helper" "$tmp/respec-invalid" >/dev/null 2>&1; then
   exit 1
 fi
 
+# 12. #86 cold-review attestation is prospective: legacy roots above remain
+# valid. A declared disposition binds a contained report's exact terminal
+# result and canonical #87 identity fields to two real, ordered Git commits.
+review_repo="$tmp/review-repo"
+git init -q "$review_repo"
+git -C "$review_repo" config user.name implementaudit-test
+git -C "$review_repo" config user.email implementaudit-test@example.invalid
+printf 'base\n' > "$review_repo/base.txt"
+git -C "$review_repo" add base.txt
+git -C "$review_repo" commit -q -m base
+review_base="$(git -C "$review_repo" rev-parse HEAD)"
+printf 'head\n' > "$review_repo/head.txt"
+git -C "$review_repo" add head.txt
+git -C "$review_repo" commit -q -m head
+review_head="$(git -C "$review_repo" rev-parse HEAD)"
+review_attested="$review_repo/.IMPLEMENTAUDIT/review-attested"
+mkdir -p "$review_attested/reviews"
+cp -r "$tmp/good/." "$review_attested/"
+cat >> "$review_attested/STATE.md" <<EOF
+model-identity: requested_model: GPT-5 | actual_model: GPT-5 | evidence: self-report | claims: bound
+cold-review: disposition: PASS | attestation: reviews/cold.md | base_sha: $review_base | head_sha: $review_head
+EOF
+cat > "$review_attested/reviews/cold.md" <<EOF
+Report state: FINAL
+Verdict: PASS
+Reviewer attestation:
+- reviewer_identity: task-cold-1
+- requested_model: GPT-5
+- actual_model: GPT-5
+- authoring_context_reuse: no
+- other_reviewer_output_seen: no
+- base_sha: $review_base
+- head_sha: $review_head
+
+PASS
+EOF
+bash "$helper" "$review_attested" >/dev/null || {
+  printf 'run-root-validation.test: valid #86 cold-review attestation rejected\n' >&2
+  exit 1
+}
+
+expect_cold_review_fail() {
+  local root="$1" expected="$2" label="$3" output
+  output="$(bash "$helper" "$root" 2>&1)" && {
+    printf '%s\n' "$output" >&2
+    printf 'run-root-validation.test: %s unexpectedly passed\n' "$label" >&2
+    exit 1
+  }
+  grep -Fq "$expected" <<<"$output" || {
+    printf '%s\n' "$output" >&2
+    printf 'run-root-validation.test: %s failed for the wrong reason\n' "$label" >&2
+    exit 1
+  }
+}
+
+review_case() {
+  local name="$1" destination
+  destination="$review_repo/.IMPLEMENTAUDIT/$name"
+  mkdir -p "$destination"
+  cp -r "$review_attested/." "$destination/"
+  printf '%s\n' "$destination"
+}
+
+review_self="$(review_case review-self)"
+sed -i 's/authoring_context_reuse: no/authoring_context_reuse: yes/' \
+  "$review_self/reviews/cold.md"
+expect_cold_review_fail "$review_self" \
+  "authoring-context reuse labels self-critique" \
+  "authoring-context self-review"
+
+review_dangling="$(review_case review-dangling)"
+sed -i 's#reviews/cold.md#reviews/missing.md#' "$review_dangling/STATE.md"
+expect_cold_review_fail "$review_dangling" \
+  "cold-review attestation must resolve to a regular non-symlink file" \
+  "dangling cold-review attestation"
+
+# Reviewer finding F1: STATE and report must agree on one exact final token.
+review_contradictory="$(review_case review-contradictory)"
+sed -i 's/Verdict: PASS/Verdict: BLOCKED/' "$review_contradictory/reviews/cold.md"
+expect_cold_review_fail "$review_contradictory" \
+  "cold-review artifact contains a contradictory disposition" \
+  "contradictory report verdict"
+
+review_final_alias="$(review_case review-final-alias)"
+sed -i 's/Verdict: PASS/Disposition: FINAL/' "$review_final_alias/reviews/cold.md"
+expect_cold_review_fail "$review_final_alias" \
+  "cold-review artifact contains a contradictory disposition" \
+  "non-gate FINAL disposition"
+
+review_state_partial="$(review_case review-state-partial)"
+sed -i 's/Report state: FINAL/Report state: PARTIAL/' \
+  "$review_state_partial/reviews/cold.md"
+expect_cold_review_fail "$review_state_partial" \
+  "cold-review artifact requires exactly one Report state: FINAL" \
+  "explicit PARTIAL report state"
+
+review_state_interrupted="$(review_case review-state-interrupted)"
+sed -i 's/Report state: FINAL/Report state: interrupted-partial/' \
+  "$review_state_interrupted/reviews/cold.md"
+expect_cold_review_fail "$review_state_interrupted" \
+  "cold-review artifact requires exactly one Report state: FINAL" \
+  "explicit interrupted report state"
+
+review_state_missing="$(review_case review-state-missing)"
+sed -i '/Report state: FINAL/d' "$review_state_missing/reviews/cold.md"
+expect_cold_review_fail "$review_state_missing" \
+  "cold-review artifact requires exactly one Report state: FINAL" \
+  "missing report state"
+
+review_partial="$(review_case review-partial)"
+sed -i '$s/PASS/PARTIAL/' "$review_partial/reviews/cold.md"
+expect_cold_review_fail "$review_partial" \
+  "cold-review artifact requires one exact final disposition matching STATE" \
+  "partial report disposition"
+
+review_interrupted="$(review_case review-interrupted)"
+sed -i '$s/PASS/interrupted-partial/' "$review_interrupted/reviews/cold.md"
+expect_cold_review_fail "$review_interrupted" \
+  "cold-review artifact requires one exact final disposition matching STATE" \
+  "interrupted-partial report disposition"
+
+review_missing_result="$(review_case review-missing-result)"
+sed -i '$d' "$review_missing_result/reviews/cold.md"
+expect_cold_review_fail "$review_missing_result" \
+  "cold-review artifact requires one exact final disposition matching STATE" \
+  "missing terminal report disposition"
+
+# Reviewer finding F2: lexical 40-hex is insufficient. The STATE declaration,
+# report attestation, Git object type, and base-before-head ancestry all bind.
+review_bogus="$(review_case review-bogus)"
+bogus_base=ffffffffffffffffffffffffffffffffffffffff
+sed -i "s/$review_base/$bogus_base/g" "$review_bogus/STATE.md" "$review_bogus/reviews/cold.md"
+expect_cold_review_fail "$review_bogus" \
+  "cold-review base_sha does not resolve to a commit" \
+  "nonexistent review base"
+
+review_wrong_base="$(review_case review-wrong-base)"
+sed -i "s/- base_sha: $review_base/- base_sha: $review_head/" \
+  "$review_wrong_base/reviews/cold.md"
+expect_cold_review_fail "$review_wrong_base" \
+  "cold-review attestation base/head must match the STATE review identity" \
+  "wrong attested base"
+
+review_wrong_head="$(review_case review-wrong-head)"
+sed -i "s/- head_sha: $review_head/- head_sha: $review_base/" \
+  "$review_wrong_head/reviews/cold.md"
+expect_cold_review_fail "$review_wrong_head" \
+  "cold-review attestation base/head must match the STATE review identity" \
+  "wrong attested head"
+
+review_model_substitution="$(review_case review-model-substitution)"
+sed -i 's/model-identity: requested_model: GPT-5 | actual_model: GPT-5 | evidence: self-report | claims: bound/model-identity: requested_model: GPT-5 | actual_model: other-model | evidence: host-event:e1 | claims: IDENTITY_UNBOUND/' \
+  "$review_model_substitution/STATE.md"
+"${py_cmd[@]}" - "$review_model_substitution/STATE.md" <<'PY'
+import sys
+from pathlib import Path
+path = Path(sys.argv[1])
+text = path.read_text(encoding="utf-8")
+marker = "|---|---|---|---|---|---|---|---|"
+row = "| 1 | o1 | 6 | transport-infrastructure | model substitution | preserve unbound claims | host-event:e1 | resolved |"
+path.write_text(text.replace(marker, marker + "\n" + row, 1), encoding="utf-8")
+PY
+sed -i 's/- actual_model: GPT-5/- actual_model: other-model/' \
+  "$review_model_substitution/reviews/cold.md"
+expect_cold_review_fail "$review_model_substitution" \
+  "cold-review PASS requires bound requested_model and actual_model identity" \
+  "unbound substituted-model PASS"
+
+review_reversed="$(review_case review-reversed)"
+"${py_cmd[@]}" - "$review_reversed/STATE.md" "$review_reversed/reviews/cold.md" "$review_base" "$review_head" <<'PY'
+import sys
+from pathlib import Path
+for name in sys.argv[1:3]:
+    path = Path(name)
+    text = path.read_text(encoding="utf-8")
+    text = text.replace(sys.argv[3], "REVIEW_BASE_PLACEHOLDER")
+    text = text.replace(sys.argv[4], sys.argv[3])
+    text = text.replace("REVIEW_BASE_PLACEHOLDER", sys.argv[4])
+    path.write_text(text, encoding="utf-8")
+PY
+expect_cold_review_fail "$review_reversed" \
+  "cold-review base_sha must be an ancestor of head_sha" \
+  "reversed review ancestry"
+
+review_equal="$(review_case review-equal)"
+sed -i "s/$review_head/$review_base/g" \
+  "$review_equal/STATE.md" "$review_equal/reviews/cold.md"
+expect_cold_review_fail "$review_equal" \
+  "cold-review base_sha must strictly precede head_sha" \
+  "equal review anchors"
+
+empty_tree="$(git -C "$review_repo" mktree </dev/null)"
+unrelated_sha="$(printf 'unrelated\n' | git -C "$review_repo" commit-tree "$empty_tree")"
+review_unrelated="$(review_case review-unrelated)"
+sed -i "s/$review_base/$unrelated_sha/g" \
+  "$review_unrelated/STATE.md" "$review_unrelated/reviews/cold.md"
+expect_cold_review_fail "$review_unrelated" \
+  "cold-review base_sha must be an ancestor of head_sha" \
+  "unrelated review anchors"
+
+# The shipped run-root validator must invoke the repo-side live parser from its
+# own source tree when successor/non-verdict rows exist; a callable test-only
+# mode or a same-named script in the run-root checkout is insufficient.
+
+live_deterministic="$(review_case live-deterministic)"
+"${py_cmd[@]}" - "$live_deterministic/STATE.md" <<'PY'
+import sys
+from pathlib import Path
+path = Path(sys.argv[1])
+text = path.read_text(encoding="utf-8")
+marker = "|---|---|---|---|---|---|---|---|"
+row = "| 1 | o1 | 6 | transport-infrastructure | deterministic refusal | alter packet | evidence/failure.md | open |"
+path.write_text(text.replace(marker, marker + "\n" + row, 1), encoding="utf-8")
+PY
+cat > "$live_deterministic/packet.md" <<'EOF'
+review-packet-scope: scope: phase-spec | technique: cold-read | evidence_mode: inline
+EOF
+live_packet_hash="$(sha256sum "$live_deterministic/packet.md" | awk '{print $1}')"
+cat >> "$live_deterministic/STATE.md" <<EOF
+successor-review: attempt: 1 | predecessor_failure_origin: transport-infrastructure | failure_determinism: content-deterministic | origin_detail: provider-policy | predecessor_occurrence: o1 | predecessor_packet_scope_file: packet.md | predecessor_packet_scope_sha256: $live_packet_hash | packet_scope_file: packet.md | packet_scope_sha256: $live_packet_hash | packet_alteration: none | andon_class: transport-infrastructure | provisional_findings_carried: none
+EOF
+expect_cold_review_fail "$live_deterministic" \
+  "live successor/non-verdict contract failed" \
+  "live unaltered deterministic successor"
+
+live_dropped_findings="$(review_case live-dropped-findings)"
+"${py_cmd[@]}" - "$live_dropped_findings/STATE.md" <<'PY'
+import sys
+from pathlib import Path
+path = Path(sys.argv[1])
+text = path.read_text(encoding="utf-8")
+marker = "|---|---|---|---|---|---|---|---|"
+row = "| 1 | o1 | 6 | transport-infrastructure | reviewer interruption | replace reviewer | evidence/failure.md | open |"
+path.write_text(text.replace(marker, marker + "\n" + row, 1), encoding="utf-8")
+PY
+cp fixtures/cold-review/independent-review-confirms-handoff.md \
+  "$live_dropped_findings/"
+cp fixtures/cold-review/issue-86-runtime-non-verdict-replacement.md \
+  "$live_dropped_findings/"
+sed -i 's|provisional_findings_carried: issue-86-runtime-non-verdict-replacement.md#finding-a|provisional_findings_carried: none|' \
+  "$live_dropped_findings/issue-86-runtime-non-verdict-replacement.md"
+expect_cold_review_fail "$live_dropped_findings" \
+  "live successor/non-verdict contract failed" \
+  "live dropped provisional findings"
+
 printf 'run-root-validation.test: ok\n'
