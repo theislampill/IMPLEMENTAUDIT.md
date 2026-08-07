@@ -163,8 +163,8 @@ tests second-occurrence tool-error handling, reuse of the existing transport
 class, machine-local persistence, the portable-rule route, distinct-signature
 non-triggering, and documented refusal. Prompt-independent expected values,
 distractors, forbidden mission phrases, and negative controls ship together.
-The local-memory property also requires a host-observed
-`.IMPLEMENTAUDIT/host-notes.md` path change, so identical answer text without
+The local-memory property also requires a host-observed change to the
+repository-family `.IMPLEMENTAUDIT/host-notes.md` path, so identical answer text without
 the filesystem effect fails. It never enters the frozen primary matrix and no
 model is called by repository validation.
 

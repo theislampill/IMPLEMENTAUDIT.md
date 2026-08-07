@@ -185,10 +185,11 @@ When the same normalized host or tool error reaches a second distinct linked
 occurrence, keep the official `transport-infrastructure` class and add the
 `Blocker: environment-quirk (...)` discriminator. Record either a
 `Workaround:` or a reasoned `Not memoized:` disposition in the existing Andon
-row. A workaround produces exactly one append-only machine-local row in the
-repo-level `.IMPLEMENTAUDIT/host-notes.md`; a documented refusal produces no
-row. A first occurrence and two distinct signatures create no memoization
-obligation.
+row. A workaround produces exactly one append-only machine-local row in
+`.IMPLEMENTAUDIT/host-notes.md` at the repository-family root (the parent of
+Git's common directory), shared by linked sibling worktrees; a documented
+refusal produces no row. A first occurrence and two distinct signatures create
+no memoization obligation.
 
 At phase start and after a continuity boundary, consult host notes before
 repeating a workaround. Keep host facts on that machine-local surface. If a

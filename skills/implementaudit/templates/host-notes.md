@@ -1,6 +1,9 @@
 # IMPLEMENTAUDIT Host Notes
 
-Machine-local, append-only observations live here. Do not copy host-specific facts into the portable skill payload or replace a prior row in place.
+Machine-local, append-only observations live here. The owner is the
+repository-family root (the parent of Git's common directory), so linked
+sibling worktrees share one file. Do not copy host-specific facts into the
+portable skill payload or replace a prior row in place.
 
 One data row per normalized signature:
 

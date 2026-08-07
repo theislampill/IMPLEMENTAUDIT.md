@@ -121,16 +121,25 @@ quirk_pass "first occurrence" quirk-first-occurrence-PASS.md
 quirk_pass "distinct signatures" quirk-two-distinct-classes-PASS.md
 quirk_pass "duplicate occurrence id" quirk-duplicate-occurrence-PASS.md
 quirk_pass "documented refusal" quirk-documented-refusal-PASS.md
+quirk_pass "outside Andon log" quirk-outside-andon-PASS.md
 quirk_fail "wrong class" quirk-wrong-class-FAIL.md \
   "environment-quirk discriminator must use Class transport-infrastructure"
+quirk_fail "missing discriminator" quirk-missing-discriminator-FAIL.md \
+  "second distinct occurrence must use Blocker: environment-quirk"
 quirk_fail "third unrecorded" quirk-third-unrecorded-FAIL.md \
   "reached 2 distinct occurrences without Workaround: or Not memoized:"
+quirk_fail "empty refusal" quirk-empty-refusal-FAIL.md \
+  "Not memoized: requires a nonempty reason"
+quirk_fail "empty workaround" quirk-empty-workaround-FAIL.md \
+  "Workaround: requires nonempty text"
 
 printf '%s\n' \
   '# IMPLEMENTAUDIT Host Notes' \
   '2026-08-07T02:00:00Z | parsererror empty pipe element is not allowed | use a temporary script file | first-seen-run: test' \
   > "$quirk_root/.IMPLEMENTAUDIT/host-notes.md"
 quirk_pass "second occurrence" quirk-second-occurrence-PASS.md
+quirk_pass "path containing spaces" quirk-path-spaces-PASS.md
+quirk_pass "drive forward-slash path" quirk-drive-forward-slash-PASS.md
 
 printf '%s\n' \
   '# IMPLEMENTAUDIT Host Notes' \
@@ -158,17 +167,35 @@ fi
 detect_repo="$tmp/detect-repo"
 mkdir -p "$detect_repo/.IMPLEMENTAUDIT"
 git -C "$detect_repo" init -q
-detect_git_root="$(git -C "$detect_repo" rev-parse --show-toplevel)"
+detect_common_dir="$(git -C "$detect_repo" rev-parse --path-format=absolute --git-common-dir)"
+detect_shared_root="$(cd "$(dirname "$detect_common_dir")" && pwd -P)"
 printf '%s\n' \
   '# IMPLEMENTAUDIT Host Notes' \
   '2026-08-07T02:00:00Z | first signature | first workaround | first-seen-run: a' \
   '2026-08-07T02:01:00Z | second signature | second workaround | first-seen-run: b' \
   > "$detect_repo/.IMPLEMENTAUDIT/host-notes.md"
 detect_out="$(cd "$detect_repo" && bash "$repo_root/skills/implementaudit/scripts/detect-env.sh")"
-printf '%s\n' "$detect_out" | grep -Fq "host_notes_path=$detect_git_root/.IMPLEMENTAUDIT/host-notes.md" \
+printf '%s\n' "$detect_out" | grep -Fq "host_notes_path=$detect_shared_root/.IMPLEMENTAUDIT/host-notes.md" \
   || fail "detect-env did not reveal the repo-level host-notes path"
 printf '%s\n' "$detect_out" | grep -Fq 'host_notes_count=2' \
   || fail "detect-env did not count host-note rows"
+
+# The host-note owner is shared across linked worktrees through Git's common
+# directory, not derived from each worktree's distinct top-level path.
+printf '%s\n' \
+  '2026-08-07T02:02:00Z | parsererror empty pipe element is not allowed | use a temporary script file | first-seen-run: c' \
+  >> "$detect_repo/.IMPLEMENTAUDIT/host-notes.md"
+printf '%s\n' init > "$detect_repo/README.md"
+git -C "$detect_repo" add README.md
+git -C "$detect_repo" -c user.name=test -c user.email=test@example.invalid commit -qm init
+detect_sibling="$tmp/detect-sibling"
+git -C "$detect_repo" worktree add -q -b sibling "$detect_sibling"
+sibling_out="$(cd "$detect_sibling" && bash "$repo_root/skills/implementaudit/scripts/detect-env.sh")"
+printf '%s\n' "$sibling_out" | grep -Fq "host_notes_path=$detect_shared_root/.IMPLEMENTAUDIT/host-notes.md" \
+  || fail "detect-env did not share the host-notes path across sibling worktrees"
+if ! shared_check_out="$(bash "$scorer" "$fx/quirk-second-occurrence-PASS.md" --repo-root "$detect_sibling" 2>&1)"; then
+  fail "checker did not resolve the shared host-note owner from a sibling worktree: $shared_check_out"
+fi
 
 # F5: preserve the one #101 Graphify limitation and admit no new host trivia.
 payload="skills/implementaudit"

@@ -18,7 +18,16 @@ if command -v git >/dev/null 2>&1; then
   if git rev-parse --show-toplevel >/dev/null 2>&1; then
     git_root="$(git rev-parse --show-toplevel)"
     printf 'git_root=%s\n' "$git_root"
-    host_notes_path="$git_root/.IMPLEMENTAUDIT/host-notes.md"
+    git_common_dir="$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null || true)"
+    if [ -z "$git_common_dir" ]; then
+      git_common_dir="$(git rev-parse --git-common-dir)"
+      case "$git_common_dir" in
+        /*|[A-Za-z]:/*|[A-Za-z]:\\*) ;;
+        *) git_common_dir="$(cd "$git_root" && cd "$(dirname "$git_common_dir")" && printf '%s/%s' "$(pwd -P)" "$(basename "$git_common_dir")")" ;;
+      esac
+    fi
+    shared_repo_root="$(cd "$(dirname "$git_common_dir")" && pwd -P)"
+    host_notes_path="$shared_repo_root/.IMPLEMENTAUDIT/host-notes.md"
     host_notes_count=0
     if [ -f "$host_notes_path" ]; then
       host_notes_count="$(awk -F'|' '

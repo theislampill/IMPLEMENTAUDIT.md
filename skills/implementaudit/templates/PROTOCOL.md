@@ -711,8 +711,9 @@ Steps:
    is optional on an ordinary row, but the second distinct linked occurrence
    of the same normalized environment-error signature requires either a
    `Workaround:` or a reasoned `Not memoized:` disposition. A workaround also
-   produces exactly one machine-local `.IMPLEMENTAUDIT/host-notes.md` row;
-   a reasoned refusal produces none.
+   produces exactly one machine-local `.IMPLEMENTAUDIT/host-notes.md` row at
+   the repository-family root derived from Git's common directory, shared by
+   linked sibling worktrees; a reasoned refusal produces none.
    `supervision-overrun` and `resource-exhausted` are `Blocker:` discriminators,
    never `Class:` tokens; use `hung-command` and `transport-infrastructure`,
    respectively.

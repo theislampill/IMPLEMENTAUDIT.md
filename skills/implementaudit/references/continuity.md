@@ -36,7 +36,7 @@ After any continuity boundary, and before the next repository mutation:
    Ambiguous or multiple candidate run roots route to an audited handoff —
    never guess. No run root at all means truthful intake, not fabricated
    recovery.
-2. Reread current `ROADMAP.md`, `STATE.md`, the repo-level
+2. Reread current `ROADMAP.md`, `STATE.md`, the repository-family
    `.IMPLEMENTAUDIT/host-notes.md` when present, process/command state
    (including `background/<chain-id>` chains), and the relevant terminal
    evidence from disk. Each bound live durable-state file must be read in its
@@ -56,10 +56,11 @@ After any continuity boundary, and before the next repository mutation:
    state, irreconcilable instruction set), hand off with the evidence rather
    than speculate.
 
-At every phase start, read the repo-level `.IMPLEMENTAUDIT/host-notes.md` when
-present before choosing a workaround. It is machine-local continuity evidence,
-not portable payload authority; portable rules still use the normal
-`AGENTS_UPDATE_DECISION` governance route.
+At every phase start, read `.IMPLEMENTAUDIT/host-notes.md` from the
+repository-family root (the parent of Git's common directory) when present
+before choosing a workaround. This makes one machine-local continuity surface
+visible to linked sibling worktrees. It is not portable payload authority;
+portable rules still use the normal `AGENTS_UPDATE_DECISION` governance route.
 
 Record execution identity with the sibling-harness vocabulary:
 
