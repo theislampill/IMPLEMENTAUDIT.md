@@ -218,7 +218,7 @@ Before a release gate can claim a forward release or a same-version
 republication, run:
 
 ```text
-scripts/verify-package.sh --release-identity <forward|republish> <previous-version> <release-commit>
+scripts/verify-package.sh --release-identity <forward|republish> <previous-version> <release-commit>  # source repo only
 ```
 
 `forward` requires the two canonical version owners to agree and differ from
