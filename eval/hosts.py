@@ -568,9 +568,14 @@ class _BaseAdapter:
                     att_commit = subprocess.run(
                         ["git", "-C", self.product_checkout, "rev-parse",
                          "HEAD"], capture_output=True, text=True,
-                        timeout=30).stdout.strip() or None
-                except Exception:
-                    att_commit = None
+                        timeout=30, check=True).stdout.strip()
+                    if not re.fullmatch(r"[0-9a-f]{40}", att_commit):
+                        raise ValueError("git rev-parse returned no full commit")
+                except Exception as exc:
+                    raise framework.AdapterError(
+                        "product checkout git identity unattestable "
+                        f"({type(exc).__name__}) — INVALID before spawn") \
+                        from exc
                 att_bytes = json.dumps(
                     {"schema": "implementaudit-product-attestation-v1",
                      "run_id": run_id, "path": self.product_checkout,

@@ -1025,6 +1025,16 @@ def main():
         os.makedirs(os.path.join(canon39, "skills", "implementaudit"))
         open(os.path.join(canon39, "skills", "implementaudit", "SKILL.md"),
              "w").write("payload body" + chr(10))
+        subprocess.run(["git", "init", "-q", canon39], check=True)
+        for k, v in (("user.email", "t@t"), ("user.name", "t")):
+            subprocess.run(["git", "-C", canon39, "config", k, v],
+                           check=True)
+        subprocess.run(["git", "-C", canon39, "add", "."], check=True)
+        subprocess.run(["git", "-C", canon39, "commit", "-q", "-m", "c1"],
+                       check=True)
+        head39 = subprocess.run(["git", "-C", canon39, "rev-parse", "HEAD"],
+                                capture_output=True, text=True,
+                                check=True).stdout.strip()
         prev_ident39 = framework.product_identity
         framework.product_identity = (
             lambda checkout, expected_tag="v0.3.1.0": {
@@ -1043,7 +1053,8 @@ def main():
         check("H39 formal-prespawn-attestation",
               r39.kind == "ok"
               and att.get("payload_sha256")
-              == framework.payload_hash(canon39))
+              == framework.payload_hash(canon39)
+              and att.get("git_commit") == head39)
         a39b = make_adapter(tmp, "ok-codex",
                             checkout=os.path.join(tmp, "empty39"),
                             home=os.path.join(tmp, "codex-home-h39b"))
@@ -1053,8 +1064,21 @@ def main():
         check("H39b unattestable-checkout-INVALID",
               r39b.kind == "invalid"
               and "unattestable" in str(r39b.detail)
+               and not os.path.isfile(os.path.join(
+                   tmp, "custody", "r-h39b", "process-started.json")))
+        nongit39 = os.path.join(tmp, "nongit39")
+        os.makedirs(os.path.join(nongit39, "skills", "implementaudit"))
+        open(os.path.join(nongit39, "skills", "implementaudit", "SKILL.md"),
+             "w").write("payload body" + chr(10))
+        a39c = make_adapter(tmp, "ok-codex", checkout=nongit39,
+                            home=os.path.join(tmp, "codex-home-h39c"))
+        a39c.formal = True
+        r39c = run(a39c, tmp, "r-h39c")
+        check("H39c missing-git-identity-INVALID",
+              r39c.kind == "invalid"
+              and "git identity" in str(r39c.detail)
               and not os.path.isfile(os.path.join(
-                  tmp, "custody", "r-h39b", "process-started.json")))
+                  tmp, "custody", "r-h39c", "process-started.json")))
 
         # 40. a process-started.json rewritten with NON-UTF-8 garbage
         # (jail-less Config-O tamper + hard-killed wrapper) must still be
@@ -4073,6 +4097,13 @@ def main():
             open(os.path.join(canon47at, "skills", "implementaudit",
                               "SKILL.md"), "w", encoding="utf-8").write(
                                   "test payload\n")
+            subprocess.run(["git", "init", "-q", canon47at], check=True)
+            for k, v in (("user.email", "t@t"), ("user.name", "t")):
+                subprocess.run(["git", "-C", canon47at, "config", k, v],
+                               check=True)
+            subprocess.run(["git", "-C", canon47at, "add", "."], check=True)
+            subprocess.run(["git", "-C", canon47at, "commit", "-q", "-m",
+                            "c1"], check=True)
             adapter47at = make_adapter(
                 tmp, "b3-host-invalid-claude", kind="claude",
                 checkout=canon47at,
