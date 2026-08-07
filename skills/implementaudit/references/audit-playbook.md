@@ -216,17 +216,19 @@ bounded corpus directly and needs no fan-out ceremony or compendium.
 
 **A retrospective is a governed run.** An audit whose object is process history,
 including an audit of prior audits, is not exempt from the controls it assesses.
-It requires a micro-run root, Andon log, and deferral ledger, plus a durable
-evidence compendium before synthesis.
+It requires a governed run root, Andon log, and deferral ledger, plus a durable
+evidence compendium before synthesis. A micro root is allowed only while its
+eligibility contract holds. A Stage 6.2 review artifact requires a full root;
+do not combine that artifact with a micro claim.
 A fresh-context cold review before publication or action is also mandatory.
 Every residual receives one disposition: closed,
 deferred with owner and revisit trigger, rejected with rationale, or blocked.
 A could-not-verify requires explicit adjudication rather than disappearing from
-the result. A read-only plan plus a micro-run root is valid; governance does not
-create a source-mutation requirement.
+the result. A read-only plan plus an eligible micro root is valid; governance
+does not create a source-mutation requirement.
 
-**Termination.** A retrospective of a retrospective remains part of the same
-governed run, with no additional meta-tier.
+**Termination.** A retrospective of a retrospective is just another governed
+run under this same section.
 Each wave sequence names its stopping condition. It stops when every in-scope
 residual has a recorded disposition or an explicit owner decision is the
 remaining gate.

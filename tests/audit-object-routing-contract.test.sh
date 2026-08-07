@@ -154,4 +154,71 @@ for mutation in population absent-surface replay-count citation truncated-read c
   expect_process_history_fail "$mutation" "$copy"
 done
 
+# 7. Retrospective governance reuses the real run-root, closure, and cold-review
+# validators. These cases distinguish affordable micro custody from review work
+# that must use a full root.
+retro="fixtures/audit-object-routing/retrospective"
+for case_name in unadjudicated-deferral retired-with-reason uncited-could-not-verify read-only-plans-lane meta-tier-claim; do
+  [ -d "$retro/$case_name/root" ] || {
+    printf 'audit-object-routing-contract.test: missing retrospective fixture: %s\n' "$case_name" >&2
+    exit 1
+  }
+done
+[ -f "$retro/no-run-root/deliverable.md" ] || {
+  printf 'audit-object-routing-contract.test: missing no-run-root retrospective fixture\n' >&2
+  exit 1
+}
+if bash skills/implementaudit/scripts/validate-run-root.sh --micro \
+  "$retro/no-run-root/root" >/dev/null 2>&1; then
+  printf 'audit-object-routing-contract.test: retrospective without run root unexpectedly passed\n' >&2
+  exit 1
+fi
+
+bash skills/implementaudit/scripts/validate-run-root.sh --micro \
+  "$retro/unadjudicated-deferral/root" >/dev/null
+if bash skills/implementaudit/scripts/check-closure-surface.sh \
+  "$retro/unadjudicated-deferral/root/STATE.md" >/dev/null 2>&1; then
+  printf 'audit-object-routing-contract.test: unadjudicated retrospective deferral unexpectedly passed\n' >&2
+  exit 1
+fi
+
+bash skills/implementaudit/scripts/validate-run-root.sh --micro \
+  "$retro/retired-with-reason/root" >/dev/null
+bash skills/implementaudit/scripts/check-closure-surface.sh \
+  "$retro/retired-with-reason/root/STATE.md" >/dev/null
+
+if bash skills/implementaudit/scripts/check-closure-surface.sh \
+  "$retro/uncited-could-not-verify/root/STATE.md" >/dev/null 2>&1; then
+  printf 'audit-object-routing-contract.test: unadjudicated could-not-verify unexpectedly passed\n' >&2
+  exit 1
+fi
+
+if bash scripts/check-cold-review-contract.sh --fixture \
+  "$retro/self-reviewed-deliverable.md" >/dev/null 2>&1; then
+  printf 'audit-object-routing-contract.test: same-context retrospective review unexpectedly passed\n' >&2
+  exit 1
+fi
+
+bash skills/implementaudit/scripts/validate-run-root.sh --micro \
+  fixtures/run-root/micro-conformant/root >/dev/null
+if bash skills/implementaudit/scripts/validate-run-root.sh --micro \
+  fixtures/run-root/micro-with-stage62-disposition/root >/dev/null 2>&1; then
+  printf 'audit-object-routing-contract.test: micro retrospective carried Stage 6.2 review\n' >&2
+  exit 1
+fi
+bash skills/implementaudit/scripts/validate-run-root.sh \
+  fixtures/run-root/no-sentinel-legacy/root >/dev/null
+bash skills/implementaudit/scripts/validate-run-root.sh --micro \
+  "$retro/read-only-plans-lane/root" >/dev/null
+[ -f "$retro/read-only-plans-lane/root/plans/retrospective.md" ] || {
+  printf 'audit-object-routing-contract.test: read-only retrospective plan is missing\n' >&2
+  exit 1
+}
+
+if bash skills/implementaudit/scripts/validate-run-root.sh --micro \
+  "$retro/meta-tier-claim/root" >/dev/null 2>&1; then
+  printf 'audit-object-routing-contract.test: reduced-obligation meta-tier claim unexpectedly passed\n' >&2
+  exit 1
+fi
+
 printf 'audit-object-routing-contract.test: ok\n'
