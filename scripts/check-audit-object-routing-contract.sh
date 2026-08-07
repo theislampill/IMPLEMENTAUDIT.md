@@ -59,7 +59,8 @@ for fixture in \
   fixtures/audit-object-routing/finding-format-contract.md \
   fixtures/audit-object-routing/repo-content-as-data.md \
   fixtures/audit-object-routing/intent-doc-recon.md \
-  fixtures/audit-object-routing/read-only-audit-object-closure.md
+  fixtures/audit-object-routing/read-only-audit-object-closure.md \
+  fixtures/audit-object-routing/process-history-audit.md
 do
   require_file "$fixture"
   require_text "$fixture" "Expected route:"
@@ -217,6 +218,20 @@ do
 done
 
 for text in \
+  "## Transcript-Corpus And Process-History Audits" \
+  "Verified-surface census before reading" \
+  "Derive the window from internal evidence" \
+  "no-truncation sectioned reads" \
+  "Counting caveats are declared with every count" \
+  "No claim without a citation" \
+  "Reconcile before proposing" \
+  "Durable evidence before synthesis" \
+  "Fan-out result ownership"
+do
+  require_text "$playbook_ref" "$text"
+done
+
+for text in \
   "## Branch / Diff Behavioral Contract" \
   "default branch" \
   "zero commits ahead" \
@@ -272,6 +287,17 @@ for text in \
   "DMADV direction/design" \
   "separated from defects" \
   "spike / phase / defer / reject"
+do
+  require_text "$routing_ref" "$text"
+done
+
+for text in \
+  "Process-history (transcript-corpus) audit-governed work" \
+  "audited surface is a corpus" \
+  "declared window" \
+  "Route as brownfield (DMAIC)" \
+  "Mutating the audited corpus is out of scope by construction" \
+  "A run that also repairs a repo is mixed-mode"
 do
   require_text "$routing_ref" "$text"
 done

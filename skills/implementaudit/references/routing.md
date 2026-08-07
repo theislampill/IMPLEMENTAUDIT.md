@@ -31,6 +31,17 @@ brownfield, or mixed work. Empty, unsafe, non-repo, and impossible inputs still
 fail the input gate. Natural-language entry does not bypass Smoke A/B, final
 audit, or authorization gates.
 
+**Process-history (transcript-corpus) audit-governed work** occurs when the
+audited surface is a corpus of session stores, transcripts, rollout files,
+thread exports, or repo history inspected as process evidence rather than a
+repo tree inspected as code. The `tdqyq-audit-object` is the corpus and its
+declared window. The deliverable is a set of cited findings and, when
+authorized, amendments to the governing contracts. Route as brownfield (DMAIC)
+because the corpus is existing evidence with existing owners. Load
+`audit-playbook.md` section Transcript-Corpus And Process-History Audits before
+the surface census. Mutating the audited corpus is out of scope by construction.
+A run that also repairs a repo is mixed-mode.
+
 Default to brownfield when an existing repo is present. Do not use "new file" as
 an excuse to skip existing repo contracts.
 
