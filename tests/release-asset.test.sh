@@ -324,20 +324,69 @@ with zipfile.ZipFile(asset) as zf:
     # references/continuity.md plus PROTOCOL/STATE contract text grew the
     # deflated asset to ~131 KB — growth verified intentional and deflated.
     asset_bytes = asset.stat().st_size
-    # Train-wide ANDON calibration: retain each historical admitted probe. N04
-    # remains recorded at 202_593 bytes under its historical 203_000-byte
-    # calibration. The reviewed, dedup-adjudicated N05 final stack is 206_159
-    # bytes; its owner-authorized whole-1,000-byte ceiling is 207_000 (841 bytes
-    # of measured headroom). Reason: admitted milestone payload, not acceptance
-    # weakening or future-batch/release headroom.
-    MAX_ASSET_BYTES = 207_000
+    # Owner policy authority: issue #136 plus the attached N06 packet
+    # (2026-08-07) bind the 230,000-byte outer bound. Calibrations at or below
+    # that bound require either the owner or a dedicated calibration lane;
+    # implementation lanes may not self-raise the hard ceiling.
+    OWNER_OUTER_BOUND_BYTES = 230_000
+    MIN_HEADROOM_BYTES = 2_000
+    CALIBRATION_QUANTUM_BYTES = 1_000
+    CURRENT_CALIBRATION_AUTHORITY = "owner"
+    ALLOWED_CALIBRATION_AUTHORITIES = {
+        "owner", "dedicated-calibration-lane",
+    }
+
+    # N06 baseline is 206,584 bytes. 209,000 is the smallest whole-1,000-byte
+    # ceiling that preserves at least 2,000 bytes of measured headroom.
+    MAX_ASSET_BYTES = 209_000
+    N06_BASELINE_ASSET_BYTES = 206_584
     FULL_W1_FORECAST_BYTES = 144_730
     N02_EVIDENCE_CENSUS_FORECAST_BYTES = 151_898
     ISSUE_75_77_84_TRAIN_FORECAST_BYTES = 161_007
     N04_IDENTITY_INTEGRITY_FORECAST_BYTES = 202_593
     N05_CALIBRATION_MAIN_ASSET_BYTES = 202_679
     N05_FINAL_MEASURED_FORECAST_BYTES = 206_159
-    FIRST_REJECTED_BYTES = 207_001
+    FIRST_REJECTED_BYTES = 209_001
+
+    def enforce_asset_budget_policy(max_bytes, measured_bytes, authority):
+        if max_bytes > OWNER_OUTER_BOUND_BYTES:
+            raise SystemExit(
+                f"hard ceiling {max_bytes:,} bytes exceeds owner outer bound "
+                f"{OWNER_OUTER_BOUND_BYTES:,} bytes"
+            )
+        if max_bytes % CALIBRATION_QUANTUM_BYTES:
+            raise SystemExit(
+                f"hard ceiling must use {CALIBRATION_QUANTUM_BYTES:,}-byte quantum"
+            )
+        headroom_bytes = max_bytes - measured_bytes
+        if headroom_bytes < MIN_HEADROOM_BYTES:
+            raise SystemExit(
+                f"minimum headroom {MIN_HEADROOM_BYTES:,} bytes not met: "
+                f"{headroom_bytes:,} bytes"
+            )
+        if authority not in ALLOWED_CALIBRATION_AUTHORITIES:
+            raise SystemExit(
+                f"calibration authority rejected: {authority!r}"
+            )
+
+    def expect_policy_rejection(fragment, values):
+        try:
+            enforce_asset_budget_policy(*values)
+        except SystemExit as exc:
+            assert fragment in str(exc), exc
+        else:
+            raise SystemExit(f"budget policy accepted {fragment}")
+
+    for fragment, values in (
+        ("outer bound", (231_000, N06_BASELINE_ASSET_BYTES, "owner")),
+        ("minimum headroom", (208_000, N06_BASELINE_ASSET_BYTES, "owner")),
+        ("calibration authority", (
+            MAX_ASSET_BYTES, N06_BASELINE_ASSET_BYTES, "implementation-lane")),
+    ):
+        expect_policy_rejection(fragment, values)
+    for authority in ALLOWED_CALIBRATION_AUTHORITIES:
+        enforce_asset_budget_policy(
+            MAX_ASSET_BYTES, N06_BASELINE_ASSET_BYTES, authority)
 
     def enforce_asset_budget(candidate_bytes):
         if candidate_bytes <= MAX_ASSET_BYTES:
@@ -351,7 +400,8 @@ with zipfile.ZipFile(asset) as zf:
 
     # Historical probes, the N05 calibration main asset, the measured final N05
     # stack, and the ceiling itself must be admitted. The first byte above the
-    # calibrated ceiling must remain rejected.
+    # calibrated ceiling must remain rejected. The actual artifact must satisfy
+    # both the durable policy and the unchanged hard-ceiling enforcement.
     enforce_asset_budget(FULL_W1_FORECAST_BYTES)
     enforce_asset_budget(N02_EVIDENCE_CENSUS_FORECAST_BYTES)
     enforce_asset_budget(ISSUE_75_77_84_TRAIN_FORECAST_BYTES)
@@ -366,7 +416,16 @@ with zipfile.ZipFile(asset) as zf:
     else:
         raise SystemExit("asset above MAX_ASSET_BYTES was accepted")
 
+    enforce_asset_budget_policy(
+        MAX_ASSET_BYTES, asset_bytes, CURRENT_CALIBRATION_AUTHORITY
+    )
     enforce_asset_budget(asset_bytes)
+    print(
+        "RELEASE_ASSET_BUDGET_POLICY=PASS "
+        f"outer={OWNER_OUTER_BOUND_BYTES} ceiling={MAX_ASSET_BYTES} "
+        f"minimum_headroom={MIN_HEADROOM_BYTES} measured={asset_bytes} "
+        f"headroom={MAX_ASSET_BYTES - asset_bytes}"
+    )
 
     with tempfile.TemporaryDirectory() as temp_dir:
         zf.extractall(temp_dir)
