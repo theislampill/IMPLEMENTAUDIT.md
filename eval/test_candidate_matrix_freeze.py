@@ -329,7 +329,10 @@ def main():
                         "fixture tree junction/reparse alias accepted")
             finally:
                 if junction.exists():
-                    os.rmdir(junction)
+                    if os.name == "nt":
+                        os.rmdir(junction)
+                    else:
+                        junction.unlink()
             print("CANDIDATE_MATRIX_FIXTURE_JUNCTION=PASS")
         else:
             print("CANDIDATE_MATRIX_FIXTURE_JUNCTION=SKIP:unsupported")
