@@ -21,18 +21,18 @@ promoted to formal baseline evidence; a forensic import stays labeled.
 """
 from __future__ import annotations
 
+import ctypes
 import json
 import os
 import sys
 
 
 def _pid_alive(pid):
-    """Best-effort liveness for a numeric pid; False on any doubt."""
+    """Known-unavailable liveness is False; instrument defects propagate."""
     if not isinstance(pid, int) or pid <= 0:
         return False
     try:
         if os.name == "nt":
-            import ctypes
             k32 = ctypes.windll.kernel32
             SYNCHRONIZE = 0x00100000
             h = k32.OpenProcess(SYNCHRONIZE, False, pid)
@@ -44,9 +44,7 @@ def _pid_alive(pid):
             return rc == 0x102
         os.kill(pid, 0)
         return True
-    except OSError:
-        return False
-    except Exception:
+    except (OSError, AttributeError, ctypes.ArgumentError):
         return False
 
 
@@ -68,12 +66,11 @@ def host_boot_id():
         except OSError:
             return None
     try:
-        import ctypes
         import time as _t
         ticks = int(ctypes.windll.kernel32.GetTickCount64())
         boot_ms = int(_t.time() * 1000) - ticks
         return "winboot-" + str(int(round(boot_ms / 60000.0)))
-    except Exception:
+    except (OSError, AttributeError, ctypes.ArgumentError):
         return None
 
 
@@ -101,10 +98,9 @@ def process_creation_time(pid):
             if btime is None:
                 return None
             return round(btime + start_jiffies / float(hz), 2)
-        except Exception:
+        except (OSError, ValueError, IndexError):
             return None
     try:
-        import ctypes
         from ctypes import wintypes
         k32 = ctypes.windll.kernel32
         PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
@@ -120,7 +116,7 @@ def process_creation_time(pid):
             return round(ft / 1e7 - 11644473600.0, 2)
         finally:
             k32.CloseHandle(h)
-    except Exception:
+    except (OSError, AttributeError, ctypes.ArgumentError):
         return None
 
 
