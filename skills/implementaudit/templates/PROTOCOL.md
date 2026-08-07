@@ -187,6 +187,18 @@ current one — re-gather instead (stale-evidence substitution is an
 ANDON_PROBE, class `evidence-mismatch`). Legacy rows recorded before this
 contract carry no anchor and stay valid as historical evidence.
 
+New out-of-repo evidence uses the canonical `external-evidence` record. Record
+`bytes`, RFC3339 UTC whole-second `mtime`, `liveness: snapshot|terminal`,
+`still-producing: true|false`, `use: orientation|terminal`, and
+`closure-bytes` / `closure-mtime`. Orientation use needs no closure re-stat.
+Terminal use requires the closure pair to equal the original pair, and a
+still-producing snapshot cannot support terminal closure.
+
+Artifact labels are not content identity. Record `artifact-identity` with its
+SHA-256 in the same row. If one case-sensitive trimmed name has distinct
+hashes, add exactly one `collision-receipt` naming the complete observed hash
+set and a nonempty reason.
+
 **Step 11 — Print IMPLEMENTAUDIT_PHASE_VERIFY.**
 Include: per-criterion verdicts, mandatory-command outputs, cleanliness
 readback, sidecar status (Graphify first-contact/anti-triggered/stale/skipped;
@@ -924,6 +936,20 @@ closure claim beyond source, record one row per claim:
 - Source-only / docs-only / library-only work records a single
   source-surface row and adds no further steps. This is a closure gate
   (successive inspection), not defect prevention.
+- New verified API, user-visible, or publication rows declare
+  `external-kind: observation|mutation`. A mutation links one
+  `external-mutation-record` whose Python, Bash, or PowerShell runner records
+  the same target kind and ID in a mutating command and a distinct read-only
+  command, `mutation-exit: 0`, `readback-exit: 0`, separate evidence IDs, a
+  bare contained non-symlink regular JSON `readback-file`, its recomputed
+  `readback-sha256`, one top-level `readback-field`, and equal scalar
+  `expected-value` / `observed-value` / parsed value. The mutator's output is
+  not read-back evidence. Legacy rows without the new prefixes remain valid.
+- The fenced block under `## Suggested Commit Message When No Commit Authorized`
+  is a claim carrier. A digit or verdict token (`pass`, `fail`, `fixed`,
+  `verified`, `closed`, `refuted`, or `machine-checked`) in that block requires
+  exactly one in-block `Evidence anchor: claim:<Claim-ID>` resolving to a
+  verified claim row with a checkable evidence surface.
 
 ### AUDIT_HANDOFF
 
