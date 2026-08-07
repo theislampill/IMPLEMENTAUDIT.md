@@ -367,6 +367,11 @@ if [ -f "$state" ]; then
       --exclude='.claimed' 2>/dev/null; then
       err "micro root contains a Stage 6.2 disposition; executor-facing review requires a full run root"
     fi
+    extra_micro_files="$(find "$run_root" -type f \
+      ! -name '.claimed' ! -name 'STATE.md' ! -name 'deferrals.jsonl' -print 2>/dev/null || true)"
+    if [ -n "$extra_micro_files" ]; then
+      err "micro root contains undeclared extra payload: $(printf '%s' "$extra_micro_files" | tr '\n' ' ')"
+    fi
     if grep -Eqi '(second-order|higher-order) retrospective.*(reduced|waived|fewer) obligations' "$state"; then
       err "retrospective meta-tier cannot reduce governed-run obligations"
     fi

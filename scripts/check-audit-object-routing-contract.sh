@@ -340,8 +340,10 @@ for text in \
   "Fan-out result ownership" \
   "A retrospective is a governed run" \
   "requires a governed run root, Andon log, and deferral ledger" \
+  "When fan-out contributes evidence" \
   "eligibility contract holds" \
-  "Stage 6.2 review artifact requires a full root" \
+  "A Stage 6.2 review" \
+  "artifact requires a full root" \
   "evidence compendium before synthesis" \
   "fresh-context cold review before publication or action" \
   "Every residual receives one disposition" \
@@ -354,6 +356,7 @@ do
   require_text "$playbook_ref" "$text"
 done
 reject_text "$playbook_ref" "requires a micro-run root, Andon log, and deferral ledger"
+reject_text "$playbook_ref" "plus a durable evidence compendium before synthesis"
 
 for text in \
   "## Branch / Diff Behavioral Contract" \
