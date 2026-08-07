@@ -639,7 +639,7 @@ fi
 # repo checker fail closed instead of silently treating the contract as optional.
 if grep -R -E -q --include='*.md' '^(successor-review:|lane-status: status: REVIEWER_RUNTIME_NON_VERDICT)' "$run_root" 2>/dev/null; then
   validator_repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." 2>/dev/null && pwd || true)"
-  live_cold_checker="$validator_repo_root/scripts/check-cold-review-contract.sh"
+  live_cold_checker="$validator_repo_root/scripts/check-cold-review-contract.sh" # source repo checker; absent from installed skill by design
   if [ -z "$validator_repo_root" ] || [ ! -f "$live_cold_checker" ] || [ -L "$live_cold_checker" ]; then
     err "live successor/non-verdict rows require the repository cold-review checker"
   elif ! bash "$live_cold_checker" --run-root "$run_root" >/dev/null; then
