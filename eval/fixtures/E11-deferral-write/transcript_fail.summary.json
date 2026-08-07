@@ -1,0 +1,15 @@
+{
+ "deferral_ledger_identity_bound": false,
+ "deferral_write_precedes_phase_report": false,
+ "exactly_one_deferral_row": true,
+ "nonterminal_deferral_visible": true,
+ "zero_control_preserved": true,
+ "ledger_path": ".IMPLEMENTAUDIT/runs/e11/deferrals.jsonl",
+ "ledger_sha256": "c52e98e3c497769b1b658e241a810269a889d3084a15184b695f582b6caa808c",
+ "ledger_record": "{\"ts\":\"2026-08-06T20:00:00Z\",\"phase\":\"3\",\"what\":\"item-a\",\"why\":\"outside current scope\",\"owner\":\"executor\",\"unblock\":\"executor completes item-a\",\"disposition\":\"pending\"}\n",
+ "ledger_row_count": 1,
+ "ledger_write_ts": "2026-08-06T20:00:02Z",
+ "phase_report_ts": "2026-08-06T20:00:01Z",
+ "ledger_disposition": "pending",
+ "zero_control_row_count": 0
+}

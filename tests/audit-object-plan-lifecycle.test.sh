@@ -24,11 +24,19 @@ for text in \
   "Review-Plan Semantics" \
   "Execute / Dispatch / Review" \
   "Reconciliation Semantics" \
+  "Plan Retirement" \
+  "SUPERSEDED_BY: <path> — <reason>" \
+  "a self-declared bound is an Andon" \
   "No Arbitrary Revision Cap" \
   "Issue Publication Deferred"
 do
   require "$reference" "$text"
 done
+
+grep -Fq 'RECONCILIATION: STALE|TODO|BLOCKED' "$reference" \
+  || { printf 'audit-object-plan-lifecycle.test: plan retirement reconciliation grammar missing\n' >&2; exit 1; }
+grep -Fq 'does not create a bound' "$reference" \
+  || { printf 'audit-object-plan-lifecycle.test: no-bound negative control missing\n' >&2; exit 1; }
 
 for text in \
   "cold reader" \

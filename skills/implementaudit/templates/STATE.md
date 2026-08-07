@@ -125,6 +125,22 @@ One row per residual. Disposition values: `unresolved` / `deferred` /
 requires every consequential residual to carry a non-`unresolved`
 disposition, and completion language claims audit-completion only.
 
+Decision-time deferrals are appended immediately to sibling
+`deferrals.jsonl` using the canonical PROTOCOL order. Print that file verbatim
+at phase end. Its rows point into this table, which remains the single closure
+surface; a `pending` or `unresolved` row blocks closure, and only owner or
+policy authority assigns a terminal disposition.
+
+Final closure checker inputs:
+
+- Superseded plans: none
+- Cycle-accounted plans: none
+- Steer directory: `<run-root>`
+
+Replace `none` with every applicable path and pass the same paths through the
+canonical PROTOCOL final-audit invocation. This table is an inventory, not a
+substitute for executing the checker with those arguments.
+
 | Residual | Consequential | Disposition | Owner / policy ref | Evidence |
 |---|---|---|---|---|
 

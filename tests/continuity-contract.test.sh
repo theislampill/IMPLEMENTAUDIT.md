@@ -54,6 +54,11 @@ grep -qi "uninterrupted turn crosses no boundary" "$proto" || fail "PROTOCOL mis
 grep -qi "never a fabricated compaction" "$state_t" || fail "STATE template missing honest-provenance rule"
 grep -qi "Context epochs and instruction applicability" "$state_t" || fail "STATE template missing epoch section"
 grep -qi "NO new marker" "$tc" || fail "transcript contract missing no-new-marker rule"
+contains_normalized "$ref" "run-authored steer and advisory outputs" ||
+  fail "reference missing run-authored steer/advisory lifecycle"
+contains_normalized "$ref" "precision-critical owner vocabulary" ||
+  fail "reference missing immediate vocabulary preservation rule"
+grep -Fqi 'supersedes:' "$ref" || fail "reference missing steer precedence header"
 grep -q "references/continuity.md" skills/implementaudit/SKILL.md || fail "SKILL.md load map missing continuity reference"
 # The bootloader itself must carry the load-bearing runtime instruction —
 # the B3 post-change r1 wave proved reference-only placement does not

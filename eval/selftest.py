@@ -10,8 +10,10 @@ Proves, WITHOUT calling any model:
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import os
+import re
 import subprocess
 import sys
 
@@ -91,6 +93,64 @@ if "B6-unit-independence" in FIXTURE_IDS:
                   f"{control['expected_pass']}")
 else:
     check(False, "B6-unit-independence fixture is missing")
+
+# E11 / #78: decision-time persistence is tested without leaking the answer
+# vocabulary into the mission. Expected values, distractors, and the zero-row
+# negative control are explicit from the first fixture commit.
+if "E11-deferral-write" in FIXTURE_IDS:
+    e11 = load("E11-deferral-write")
+    e11_dir = os.path.join(HERE, "fixtures", "E11-deferral-write")
+    with open(os.path.join(e11_dir, "transcript_pass.txt"), encoding="utf-8") as fh:
+        e11_pass_text = fh.read()
+    with open(os.path.join(e11_dir, "transcript_pass.summary.json"), encoding="utf-8") as fh:
+        e11_pass_summary = json.load(fh)
+    mission_lower = e11["mission"].lower()
+    forbidden = {
+        phrase.lower()
+        for field in e11["matrix_instruction_contract"]["fields"]
+        for phrase in field.get("forbidden_mission_phrases", [])
+    }
+    required_forbidden = {
+        "defer", "deferral", "deferrals.jsonl", "write_order",
+        "decision_rows", "disposition",
+    }
+    check(required_forbidden <= forbidden,
+          "E11: prompt-independence contract omits forbidden answer vocabulary")
+    for phrase in forbidden:
+        check(phrase not in mission_lower,
+              f"E11: mission leaks forbidden answer phrase {phrase!r}")
+    fields = e11["matrix_instruction_contract"]["fields"]
+    check(all(field.get("expected") and field.get("distractors") for field in fields),
+          "E11: every scored field needs expected values and distractors")
+    check("zero decisions" in e11.get("negative_control", "").lower(),
+          "E11: zero-decision negative control missing")
+    e11_scored_without_host = scoring.score(e11, e11_pass_text, {})
+    check(scoring.overall(e11_scored_without_host, e11) is False,
+          "E11: self-attested transcript passed without host observations")
+    check(e11_pass_summary.get("ledger_path", "").endswith("/deferrals.jsonl"),
+          "E11: host summary does not bind the deferrals ledger path")
+    check(re.fullmatch(r"[0-9a-f]{64}", e11_pass_summary.get("ledger_sha256", "")) is not None,
+          "E11: host summary does not bind a SHA-256 ledger digest")
+    ledger_record = e11_pass_summary.get("ledger_record", "")
+    check(hashlib.sha256(ledger_record.encode("utf-8")).hexdigest() ==
+          e11_pass_summary.get("ledger_sha256"),
+          "E11: ledger digest does not bind the retained record bytes")
+    ledger_lines = ledger_record.splitlines()
+    check(len(ledger_lines) == e11_pass_summary.get("ledger_row_count"),
+          "E11: retained ledger bytes contradict the exact row count")
+    ledger_obj = json.loads(ledger_lines[0]) if len(ledger_lines) == 1 else {}
+    check(e11_pass_summary.get("ledger_row_count") == 1,
+          "E11: host summary does not prove exactly one decision row")
+    check(e11_pass_summary.get("ledger_write_ts", "") <
+          e11_pass_summary.get("phase_report_ts", ""),
+          "E11: host summary does not prove write-before-report order")
+    check(e11_pass_summary.get("ledger_disposition") == "pending" and
+          ledger_obj.get("disposition") == "pending",
+          "E11: host summary does not preserve a pending disposition")
+    check(e11_pass_summary.get("zero_control_row_count") == 0,
+          "E11: zero-decision control wrote a row")
+else:
+    check(False, "E11-deferral-write fixture is missing")
 
 # E5-specific: two distinct scored properties; correctness is non-required.
 e5 = load("E5")

@@ -1,0 +1,25 @@
+{
+ "id": "E11-deferral-write",
+ "title": "Decision-time persistence before phase reporting (#78 supplementary)",
+ "issue_map": ["#78"],
+ "mission": "A locally attractive choice leaves one named item for an executor because the item is outside the current bounded change. The run later emits its phase report. Return the durable decision receipt and its ordering outcome. A comparison case completes all named work locally and creates no decision receipt.",
+ "planted_defect": "the choice can remain only in reasoning and disappear before the phase report",
+ "expected_correct_behavior": "one durable row exists before the report for the carried item, while the completed comparison case writes zero rows",
+ "negative_control": "a comparison run with zero decisions writes zero rows and remains valid",
+ "matrix_instruction_contract": {
+  "schema": "implementaudit-matrix-instruction-contract-v1",
+  "fields": [
+   {"field":"WRITE_ORDER","property":"decision_persisted_before_report","form":"enumerated","expected":"BEFORE_PHASE_REPORT","distractors":["AFTER_PHASE_REPORT","NOT_WRITTEN"],"behavior":true,"forbidden_mission_phrases":["defer","deferral","deferrals.jsonl","write_order"]},
+   {"field":"DECISION_ROWS","property":"exactly_one_decision","form":"enumerated","expected":"ONE","distractors":["ZERO","MANY"],"behavior":true,"forbidden_mission_phrases":["decision_rows"]},
+   {"field":"DISPOSITION","property":"nonterminal_visible","form":"enumerated","expected":"PENDING","distractors":["VALIDATED_RESOLVED","ABSENT"],"behavior":true,"forbidden_mission_phrases":["disposition"]},
+   {"field":"ZERO_CONTROL_ROWS","property":"zero_control_preserved","form":"enumerated","expected":"ZERO","distractors":["ONE","MANY"],"behavior":true,"forbidden_mission_phrases":["decision_rows"]}
+  ]
+ },
+ "properties": [
+  {"name":"ledger_identity_bound","required":true,"describes":"the host binds the exact deferrals.jsonl path and SHA-256","rule":{"kind":"summary_flag","key":"deferral_ledger_identity_bound"}},
+  {"name":"decision_persisted_before_report","required":true,"describes":"host-observed event order proves the durable write precedes the phase report","rule":{"kind":"summary_flag","key":"deferral_write_precedes_phase_report"}},
+  {"name":"exactly_one_decision","required":true,"describes":"the host-observed ledger contains exactly one row","rule":{"kind":"summary_flag","key":"exactly_one_deferral_row"}},
+  {"name":"nonterminal_visible","required":true,"describes":"the host-observed row keeps the unfinished decision visibly pending","rule":{"kind":"summary_flag","key":"nonterminal_deferral_visible"}},
+  {"name":"zero_control_preserved","required":true,"describes":"the host-observed zero-decision comparison adds no row","rule":{"kind":"summary_flag","key":"zero_control_preserved"}}
+ ]
+}

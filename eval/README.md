@@ -141,6 +141,16 @@ It tests proportional evidence cadence across disjoint reversible work without
 changing the frozen primary candidate-matrix order. Its mission carries the
 P4-13 forbidden-phrase contract from its first commit.
 
+`E11-deferral-write` is a supplementary deterministic fixture for issue #78.
+It tests whether a carried decision is persisted before phase reporting while
+a zero-decision comparison adds no row. The mission omits the answer vocabulary;
+expected values, distractors, forbidden mission phrases, and synthetic pass/fail
+controls ship together. Its required properties are host-summary flags bound to
+the ledger path and SHA-256, exact row count, pending disposition, zero-control
+row count, and write-before-phase-report timestamps. Matching transcript text
+without those observations fails. It never enters the frozen primary matrix
+and this repository performs no model call while validating it.
+
 ## Safety posture (read first)
 
 - **This harness does not call any model by default and cannot call one
