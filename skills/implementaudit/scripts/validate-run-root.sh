@@ -367,8 +367,9 @@ if [ -f "$state" ]; then
       --exclude='.claimed' 2>/dev/null; then
       err "micro root contains a Stage 6.2 disposition; executor-facing review requires a full run root"
     fi
-    extra_micro_files="$(find "$run_root" -type f \
-      ! -name '.claimed' ! -name 'STATE.md' ! -name 'deferrals.jsonl' -print 2>/dev/null || true)"
+    extra_micro_files="$(cd "$run_root" && find . -type f \
+      ! -path './.claimed' ! -path './STATE.md' ! -path './deferrals.jsonl' \
+      -print 2>/dev/null || true)"
     if [ -n "$extra_micro_files" ]; then
       err "micro root contains undeclared extra payload: $(printf '%s' "$extra_micro_files" | tr '\n' ' ')"
     fi
