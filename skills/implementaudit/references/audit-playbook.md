@@ -27,7 +27,8 @@ leads, and mark low-confidence leads as `LOW confidence`.
   counters, unhandled status branches, and resource cleanup gaps.
 - **Error-handling honesty:** every catch, fallback, or default-on-failure path
   names one of three outcomes. It sanitizes an untrusted or unknown input at a
-  declared trust boundary and raises a specific error; it terminalizes honestly
+  owner/source-declared trust boundary and raises a specific error; it
+  terminalizes honestly
   with a loud, attributable, non-zero, evidence-bearing failure state; or it is
   removed. A normal-looking fallback is a defect: a default, empty collection,
   ambiguous `None`, swallowed exception, unchecked return code, or success
