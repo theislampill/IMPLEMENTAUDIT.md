@@ -706,6 +706,13 @@ Steps:
    (`open (rerun pending)` until the rerun lands). Rerun evidence, when it
    lands, records its Anchor (full 40-hex commit SHA at capture) like any
    other evidence row.
+   `environment-quirk` is a `Blocker:` discriminator under the existing
+   `transport-infrastructure` class, never a new class or column. `Workaround:`
+   is optional on an ordinary row, but the second distinct linked occurrence
+   of the same normalized environment-error signature requires either a
+   `Workaround:` or a reasoned `Not memoized:` disposition. A workaround also
+   produces exactly one machine-local `.IMPLEMENTAUDIT/host-notes.md` row;
+   a reasoned refusal produces none.
    `supervision-overrun` and `resource-exhausted` are `Blocker:` discriminators,
    never `Class:` tokens; use `hung-command` and `transport-infrastructure`,
    respectively.

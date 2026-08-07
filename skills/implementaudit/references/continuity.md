@@ -36,10 +36,11 @@ After any continuity boundary, and before the next repository mutation:
    Ambiguous or multiple candidate run roots route to an audited handoff —
    never guess. No run root at all means truthful intake, not fabricated
    recovery.
-2. Reread current `ROADMAP.md`, `STATE.md`, process/command state (including
-   `background/<chain-id>` chains), and the relevant terminal evidence from
-   disk. Each bound live durable-state file must be read in its own completed
-   host action before the first mutation. Evidence-bearing read actions must
+2. Reread current `ROADMAP.md`, `STATE.md`, the repo-level
+   `.IMPLEMENTAUDIT/host-notes.md` when present, process/command state
+   (including `background/<chain-id>` chains), and the relevant terminal
+   evidence from disk. Each bound live durable-state file must be read in its
+   own completed host action before the first mutation. Evidence-bearing read actions must
    not use ';', '&&', pipelines, multi-stage shell composition, or batching.
 3. Classify continuity-critical instructions by lifecycle kind and target
    (see the applicability record below).
@@ -54,6 +55,11 @@ After any continuity boundary, and before the next repository mutation:
 7. When continuity cannot be established (identity mismatch, corrupted
    state, irreconcilable instruction set), hand off with the evidence rather
    than speculate.
+
+At every phase start, read the repo-level `.IMPLEMENTAUDIT/host-notes.md` when
+present before choosing a workaround. It is machine-local continuity evidence,
+not portable payload authority; portable rules still use the normal
+`AGENTS_UPDATE_DECISION` governance route.
 
 Record execution identity with the sibling-harness vocabulary:
 

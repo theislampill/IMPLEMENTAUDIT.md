@@ -64,6 +64,7 @@ for file in \
   templates/final-report.md \
   templates/read-only-plan.md \
   templates/PROTOCOL.md \
+  templates/host-notes.md \
   templates/sidecars.md \
   templates/tools.md \
   templates/context.md

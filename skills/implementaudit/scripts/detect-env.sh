@@ -16,7 +16,19 @@ printf 'side_effects=none\n'
 if command -v git >/dev/null 2>&1; then
   printf 'git=%s\n' "$(git --version)"
   if git rev-parse --show-toplevel >/dev/null 2>&1; then
-    printf 'git_root=%s\n' "$(git rev-parse --show-toplevel)"
+    git_root="$(git rev-parse --show-toplevel)"
+    printf 'git_root=%s\n' "$git_root"
+    host_notes_path="$git_root/.IMPLEMENTAUDIT/host-notes.md"
+    host_notes_count=0
+    if [ -f "$host_notes_path" ]; then
+      host_notes_count="$(awk -F'|' '
+        /^[[:space:]]*#/ || /^[[:space:]]*$/ { next }
+        NF >= 4 { count++ }
+        END { print count + 0 }
+      ' "$host_notes_path")"
+    fi
+    printf 'host_notes_path=%s\n' "$host_notes_path"
+    printf 'host_notes_count=%s\n' "$host_notes_count"
     # Evidence-version anchor (#4): name the exact state evidence will be
     # gathered at, and surface LOCAL tracking-ref divergence. Read-only —
     # no fetch; a local tracking ref never implies remote freshness.

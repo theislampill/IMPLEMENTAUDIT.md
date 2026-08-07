@@ -186,6 +186,38 @@ if "B7-generated-detection" in FIXTURE_IDS:
 else:
     check(False, "B7-generated-detection fixture is missing")
 
+# B4 / #80: prompt-independent tool-error recurrence is bound to the observed
+# machine-local path change. Correct answer text without that change must fail.
+if "B4-quirk-memo" in FIXTURE_IDS:
+    b4 = load("B4-quirk-memo")
+    b4_dir = os.path.join(HERE, "fixtures", "B4-quirk-memo")
+    with open(os.path.join(b4_dir, "transcript_pass.txt"), encoding="utf-8") as fh:
+        b4_text = fh.read()
+    with open(os.path.join(b4_dir, "transcript_pass.summary.json"), encoding="utf-8") as fh:
+        b4_summary = json.load(fh)
+    forbidden = {
+        phrase.lower()
+        for field in b4["matrix_instruction_contract"]["fields"]
+        for phrase in field.get("forbidden_mission_phrases", [])
+    }
+    check({"host-notes", "quirk", "andon"} <= forbidden,
+          "B4: prompt-independence contract omits forbidden answer vocabulary")
+    check(all(phrase not in b4["mission"].lower() for phrase in forbidden),
+          "B4: mission leaks forbidden answer vocabulary")
+    check(all(field.get("expected") and field.get("distractors")
+              for field in b4["matrix_instruction_contract"]["fields"]),
+          "B4: every field needs expected values and distractors")
+    check(scoring.overall(scoring.score(b4, b4_text, {}), b4) is False,
+          "B4: answer text passed without host-observed path change")
+    check(scoring.overall(scoring.score(b4, b4_text, b4_summary), b4) is True,
+          "B4: answer plus exact host-note path change did not pass")
+    negative = b4.get("negative_control", "").lower()
+    check("distinct" in negative and "refusal" in negative and
+          "host-observed" in negative,
+          "B4: distinct/refusal/host-observation negative controls are incomplete")
+else:
+    check(False, "B4-quirk-memo fixture is missing")
+
 # E5-specific: two distinct scored properties; correctness is non-required.
 e5 = load("E5")
 prop_names = {p["name"]: p.get("required", True) for p in e5["properties"]}

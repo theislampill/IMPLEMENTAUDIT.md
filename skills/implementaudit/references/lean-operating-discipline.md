@@ -178,3 +178,19 @@ Revision Cap` in `plan-lifecycle.md` and the try-cap prohibition in
 `SKILL.md`). Verification invented to occupy a wait, a quota window, or a
 blocked interval retires no risk by construction and is Muda — log it in the
 `THINKING.md` Muda/Mura/Muri register rather than running it.
+
+## Environment-quirk memoization
+
+When the same normalized host or tool error reaches a second distinct linked
+occurrence, keep the official `transport-infrastructure` class and add the
+`Blocker: environment-quirk (...)` discriminator. Record either a
+`Workaround:` or a reasoned `Not memoized:` disposition in the existing Andon
+row. A workaround produces exactly one append-only machine-local row in the
+repo-level `.IMPLEMENTAUDIT/host-notes.md`; a documented refusal produces no
+row. A first occurrence and two distinct signatures create no memoization
+obligation.
+
+At phase start and after a continuity boundary, consult host notes before
+repeating a workaround. Keep host facts on that machine-local surface. If a
+lesson is portable, route it through the existing `AGENTS_UPDATE_DECISION`
+governance decision; do not copy host-specific trivia into the skill payload.

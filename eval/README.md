@@ -158,6 +158,16 @@ through host-summary facts. Identical answer text with a late check and a
 visible-target edit fails. It never enters the frozen primary matrix and no
 model is called by repository validation.
 
+`B4-quirk-memo` is a supplementary deterministic fixture for issue #80. It
+tests second-occurrence tool-error handling, reuse of the existing transport
+class, machine-local persistence, the portable-rule route, distinct-signature
+non-triggering, and documented refusal. Prompt-independent expected values,
+distractors, forbidden mission phrases, and negative controls ship together.
+The local-memory property also requires a host-observed
+`.IMPLEMENTAUDIT/host-notes.md` path change, so identical answer text without
+the filesystem effect fails. It never enters the frozen primary matrix and no
+model is called by repository validation.
+
 ## Safety posture (read first)
 
 - **This harness does not call any model by default and cannot call one

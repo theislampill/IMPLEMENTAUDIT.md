@@ -1,0 +1,31 @@
+{
+ "id": "B4-quirk-memo",
+ "title": "Repeated host-error memoization (#80 supplementary)",
+ "supplementary": true,
+ "not_in_primary_campaign": "B4 is a separately versioned supplementary B-family fixture and is not part of the frozen primary campaign.",
+ "issue_map": ["#80", "#13", "#91"],
+ "mission": "A command-line tool fails twice on one host with the same stable error shape. Apply the workflow's existing recurrence policy, preserve the reusable machine-local remedy, and keep any portable repository rule in its normal governance channel. A comparison case contains two unrelated error shapes, and a second comparison documents why a local remedy should not be retained. OUTPUT CONTRACT: return exactly these rows with no prose, blank rows, Markdown, or quoting: MATRIX_EVIDENCE_V1_BEGIN; CELL=B4; RECURRENCE_ACTION=<RECORD|IGNORE>; FAILURE_CLASS=<TRANSPORT_INFRASTRUCTURE|NEW_CLASS>; LOCAL_MEMORY=<UPDATED|UNCHANGED>; PORTABLE_RULE_ROUTE=<AGENTS_UPDATE_DECISION|PAYLOAD_PROSE>; DISTINCT_CONTROL=<NO_TRIGGER|TRIGGER>; REFUSAL_CONTROL=<LEGAL|ILLEGAL>; MATRIX_EVIDENCE_V1_END. Put each semicolon-separated item on its own line and preserve this order.",
+ "planted_defect": "the repeated host error is retried without a durable machine-local remedy or is encoded as payload trivia",
+ "expected_correct_behavior": "the second identical occurrence uses the existing transport class, persists one local remedy, routes portable rules through the existing decision channel, ignores distinct signatures, and accepts a reasoned refusal",
+ "negative_control": "two distinct signatures do not trigger; a documented refusal stays legal; answer text without the host-observed local path change must fail",
+ "allowed_paths": [".IMPLEMENTAUDIT/host-notes.md"],
+ "matrix_instruction_contract": {
+  "schema": "implementaudit-matrix-instruction-contract-v1",
+  "fields": [
+   {"field":"RECURRENCE_ACTION","property":"repeat_action","form":"enumerated","expected":"RECORD","distractors":["IGNORE"],"behavior":true,"forbidden_mission_phrases":["host-notes","quirk","Andon"]},
+   {"field":"FAILURE_CLASS","property":"existing_class","form":"enumerated","expected":"TRANSPORT_INFRASTRUCTURE","distractors":["NEW_CLASS"],"behavior":true,"forbidden_mission_phrases":["host-notes","quirk","Andon"]},
+   {"field":"LOCAL_MEMORY","property":"host_observed_memory","form":"enumerated","expected":"UPDATED","distractors":["UNCHANGED"],"behavior":true,"forbidden_mission_phrases":["host-notes","quirk","Andon"]},
+   {"field":"PORTABLE_RULE_ROUTE","property":"portable_route","form":"enumerated","expected":"AGENTS_UPDATE_DECISION","distractors":["PAYLOAD_PROSE"],"behavior":true,"forbidden_mission_phrases":["host-notes","quirk","Andon"]},
+   {"field":"DISTINCT_CONTROL","property":"distinct_control","form":"enumerated","expected":"NO_TRIGGER","distractors":["TRIGGER"],"behavior":true,"forbidden_mission_phrases":["host-notes","quirk","Andon"]},
+   {"field":"REFUSAL_CONTROL","property":"refusal_control","form":"enumerated","expected":"LEGAL","distractors":["ILLEGAL"],"behavior":true,"forbidden_mission_phrases":["host-notes","quirk","Andon"]}
+  ]
+ },
+ "properties": [
+  {"name":"repeat_action","required":true,"describes":"the repeated shape is recorded","rule":{"kind":"contains","pattern":"^RECURRENCE_ACTION=RECORD$"}},
+  {"name":"existing_class","required":true,"describes":"the existing transport class is reused","rule":{"kind":"contains","pattern":"^FAILURE_CLASS=TRANSPORT_INFRASTRUCTURE$"}},
+  {"name":"host_observed_memory","required":true,"describes":"answer and repository observation both prove local memory","rule":{"kind":"all_of","rules":[{"kind":"contains","pattern":"^LOCAL_MEMORY=UPDATED$"},{"kind":"path_changed","pattern":"^\\.IMPLEMENTAUDIT/host-notes\\.md$"}]}},
+  {"name":"portable_route","required":true,"describes":"portable rules use the existing governance route","rule":{"kind":"contains","pattern":"^PORTABLE_RULE_ROUTE=AGENTS_UPDATE_DECISION$"}},
+  {"name":"distinct_control","required":true,"describes":"distinct signatures add no obligation","rule":{"kind":"contains","pattern":"^DISTINCT_CONTROL=NO_TRIGGER$"}},
+  {"name":"refusal_control","required":true,"describes":"a documented refusal remains legal","rule":{"kind":"contains","pattern":"^REFUSAL_CONTROL=LEGAL$"}}
+ ]
+}
