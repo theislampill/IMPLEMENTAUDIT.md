@@ -244,7 +244,7 @@ bash skills/implementaudit/scripts/validate-run-root.sh \
   fixtures/run-root/no-sentinel-legacy/root >/dev/null
 bash skills/implementaudit/scripts/validate-run-root.sh --micro \
   "$retro/read-only-plans-lane/runs/retrospective/root" >/dev/null
-[ -f "$retro/read-only-plans-lane/plans/retrospective.md" ] || {
+[ -f "$retro/read-only-plans-lane/read-only-output/retrospective.md" ] || {
   printf 'audit-object-routing-contract.test: read-only retrospective plan is missing\n' >&2
   exit 1
 }
