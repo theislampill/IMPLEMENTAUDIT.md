@@ -85,10 +85,11 @@ for path in files:
             turn_id = event[mission["dedupe_key"]]
         except (KeyError, TypeError, ValueError, json.JSONDecodeError) as exc:
             fail(f"{path.name}:{line_number} malformed: {exc}")
-        events.append((stamp, event))
-        unique_events.setdefault(turn_id, event)
-    if events and start <= max(stamp for stamp, _ in events) < end:
+        events.append((stamp, turn_id, event))
+    if events and start <= max(stamp for stamp, _, _ in events) < end:
         in_window.append(path.name)
+        for _, turn_id, event in events:
+            unique_events.setdefault(turn_id, event)
 
 if result["population_size"] != len(in_window):
     fail(f"population mismatch: recorded {result['population_size']}, computed {len(in_window)}")
@@ -339,8 +340,10 @@ for text in \
   "Fan-out result ownership" \
   "A retrospective is a governed run" \
   "requires a governed run root, Andon log, and deferral ledger" \
+  "When fan-out contributes evidence" \
   "eligibility contract holds" \
-  "Stage 6.2 review artifact requires a full root" \
+  "A Stage 6.2 review" \
+  "artifact requires a full root" \
   "evidence compendium before synthesis" \
   "fresh-context cold review before publication or action" \
   "Every residual receives one disposition" \
@@ -353,6 +356,7 @@ do
   require_text "$playbook_ref" "$text"
 done
 reject_text "$playbook_ref" "requires a micro-run root, Andon log, and deferral ledger"
+reject_text "$playbook_ref" "plus a durable evidence compendium before synthesis"
 
 for text in \
   "Error-handling honesty" \
