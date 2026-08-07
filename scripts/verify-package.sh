@@ -111,6 +111,7 @@ require_file skills/implementaudit/templates/child-agent-report.md
 require_file skills/implementaudit/templates/final-report.md
 require_file skills/implementaudit/templates/read-only-plan.md
 require_file skills/implementaudit/templates/PROTOCOL.md
+require_file skills/implementaudit/templates/host-notes.md
 require_file skills/implementaudit/templates/respec-impact-set.md
 require_file fixtures/simple-audit/AUDIT.md
 require_file fixtures/simple-audit/EXPECTED-LEDGER.md
@@ -235,6 +236,11 @@ require_file eval/fixtures/B6-verification-window-freeze/fixture.json
 require_file eval/fixtures/B6-verification-window-freeze/transcript_pass.txt
 require_file eval/fixtures/B6-verification-window-freeze/transcript_pass.summary.json
 require_file eval/fixtures/B6-verification-window-freeze/transcript_fail.txt
+require_file eval/fixtures/B4-quirk-memo/fixture.json
+require_file eval/fixtures/B4-quirk-memo/transcript_pass.txt
+require_file eval/fixtures/B4-quirk-memo/transcript_pass.summary.json
+require_file eval/fixtures/B4-quirk-memo/transcript_fail.txt
+require_file eval/fixtures/B4-quirk-memo/transcript_fail.summary.json
 require_file eval/fixtures/E5e-respec-impact-set/fixture.json
 require_file eval/fixtures/E5e-respec-impact-set/transcript_pass.txt
 require_file eval/fixtures/E5e-respec-impact-set/transcript_pass.summary.json

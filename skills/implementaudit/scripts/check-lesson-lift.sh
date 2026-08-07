@@ -8,6 +8,12 @@ file="${1:-}"
 repo_root="."
 if [ "${2:-}" = "--repo-root" ]; then repo_root="${3:-.}"; fi
 
+quirk_threshold="${IMPLEMENTAUDIT_QUIRK_THRESHOLD:-2}"
+case "$quirk_threshold" in
+  0|2) ;;
+  *) fail "IMPLEMENTAUDIT_QUIRK_THRESHOLD must be 0 or 2" ;;
+esac
+
 content="$(cat "$file")"
 flat="$(printf '%s' "$content" | tr '\n' ' ')"
 
@@ -58,6 +64,143 @@ if printf '%s' "$flat" | grep -qiE 'Lesson-lift:.*decision: *no-lift'; then
   if ! printf '%s' "$reason_val" | grep -q '[[:alnum:]]'; then
     fail "no-lift decision with an empty reason — rejecting a lift requires a recorded reason"
   fi
+fi
+
+# Repeated host/tool failures reuse the existing transport-infrastructure
+# class. At the governed second distinct occurrence, record one machine-local
+# workaround or explicitly decline memoization. Duplicate rows for one Occ id
+# count once, matching the run-root recurrence walker's occurrence semantics.
+if [ "$quirk_threshold" -eq 2 ]; then
+  normalize_quirk_signature() {
+    printf '%s\n' "$1" \
+      | tr '[:upper:]' '[:lower:]' \
+      | sed -E \
+          -e "s@[[:space:]]+at[[:space:]]+['\"]?[a-z]:[\\\\/].*([[:space:]]+(line|column|col)[[:space:]]*[:=#]?[[:space:]]*[0-9]+)?['\"]?[[:space:]]*\$@ @g" \
+          -e "s@[[:space:]]+at[[:space:]]+['\"]?/.*([[:space:]]+(line|column|col)[[:space:]]*[:=#]?[[:space:]]*[0-9]+)?['\"]?[[:space:]]*\$@ @g" \
+          -e 's@([[:space:]]+at[[:space:]]+)?[a-z]:\\[^ )|,;]+@ @g' \
+          -e 's@([[:space:]]+at[[:space:]]+)?/([^ /|,;]+/)*[^ )|,;]+@ @g' \
+          -e 's/[0-9]{4}-[0-9]{2}-[0-9]{2}[t ][0-9]{2}:[0-9]{2}:[0-9]{2}([.,][0-9]+)?(z|[+-][0-9]{2}:[0-9]{2})?/ /g' \
+          -e 's/\b(pid|process)[[:space:]]*[:=#]?[[:space:]]*[0-9]+\b/ /g' \
+          -e 's/\b(line|column|col)[[:space:]]*[:=#]?[[:space:]]*[0-9]+\b/ /g' \
+          -e 's/:[0-9]+(:[0-9]+)?\b/ /g' \
+          -e 's/\b[0-9a-f]{6,}\b/ /g' \
+          -e "s/'//g" \
+          -e "s/[^a-z0-9]+/ /g" \
+      | awk '{
+          for (i = 1; i <= NF; i++) {
+            if ($i ~ /(error|exception)$/) {
+              last = i + 6; if (last > NF) last = NF
+              out = $i
+              for (j = i + 1; j <= last; j++) out = out " " $j
+              print out
+              exit
+            }
+          }
+        }'
+  }
+
+  declare -A quirk_occurrences=()
+  declare -A quirk_counts=()
+  declare -A quirk_repeat_key=()
+  declare -A quirk_transport=()
+  declare -A quirk_discriminator=()
+  declare -A quirk_workaround=()
+  declare -A quirk_refusal=()
+
+  while IFS='|' read -r _ row_num occ phase class abnormality countermeasure rerun outcome _rest; do
+    trim() { local value="$1"; value="${value#"${value%%[![:space:]]*}"}"; value="${value%"${value##*[![:space:]]}"}"; printf '%s' "$value"; }
+    occ="$(trim "$occ")"
+    class="$(trim "$class")"
+    abnormality="$(trim "$abnormality")"
+    countermeasure="$(trim "$countermeasure")"
+    has_discriminator=0
+    printf '%s' "$abnormality" | grep -qiE 'Blocker:[[:space:]]*environment-quirk[[:space:]]*\(' \
+      && has_discriminator=1
+    if [ "$has_discriminator" -eq 1 ] && [ "$class" != "transport-infrastructure" ]; then
+      fail "environment-quirk discriminator must use Class transport-infrastructure"
+    fi
+    if [ "$has_discriminator" -eq 1 ]; then
+      raw_signature="${abnormality#*(}"
+      raw_signature="${raw_signature%)*}"
+    elif [ "$class" = "transport-infrastructure" ]; then
+      raw_signature="$abnormality"
+    else
+      continue
+    fi
+    signature="$(normalize_quirk_signature "$raw_signature")"
+    [ -n "$signature" ] || continue
+    occurrence_key="$signature|$occ"
+    if [ -z "${quirk_occurrences[$occurrence_key]+x}" ]; then
+      quirk_occurrences[$occurrence_key]=1
+      quirk_counts[$signature]="$(( ${quirk_counts[$signature]:-0} + 1 ))"
+      if [ "${quirk_counts[$signature]}" -eq "$quirk_threshold" ]; then
+        quirk_repeat_key[$signature]="$occurrence_key"
+      fi
+    fi
+    [ "$class" = "transport-infrastructure" ] && quirk_transport[$occurrence_key]=1
+    [ "$has_discriminator" -eq 1 ] && quirk_discriminator[$occurrence_key]=1
+    if printf '%s' "$countermeasure" | grep -q 'Workaround:'; then
+      disposition="$(printf '%s' "$countermeasure" | sed -E 's/.*Workaround:[[:space:]]*//; s/[[:space:]]*;.*$//')"
+      printf '%s' "$disposition" | grep -q '[[:alnum:]]' \
+        || fail "Workaround: requires nonempty text"
+      quirk_workaround[$occurrence_key]=1
+    fi
+    if printf '%s' "$countermeasure" | grep -q 'Not memoized:'; then
+      disposition="$(printf '%s' "$countermeasure" | sed -E 's/.*Not memoized:[[:space:]]*//; s/[[:space:]]*;.*$//')"
+      printf '%s' "$disposition" | grep -q '[[:alnum:]]' \
+        || fail "Not memoized: requires a nonempty reason"
+      quirk_refusal[$occurrence_key]=1
+    fi
+  done < <(awk '
+    /^## Andon log[[:space:]]*$/ { in_andon = 1; next }
+    /^## / && in_andon { exit }
+    in_andon && /^\|/ { print }
+  ' "$file")
+
+  for signature in "${!quirk_counts[@]}"; do
+    [ "${quirk_counts[$signature]}" -ge "$quirk_threshold" ] || continue
+    repeat_key="${quirk_repeat_key[$signature]}"
+    [ -n "${quirk_transport[$repeat_key]+x}" ] \
+      || fail "second distinct occurrence must use Class transport-infrastructure"
+    [ -n "${quirk_discriminator[$repeat_key]+x}" ] \
+      || fail "second distinct occurrence must use Blocker: environment-quirk"
+    if [ -z "${quirk_workaround[$repeat_key]+x}" ] && [ -z "${quirk_refusal[$repeat_key]+x}" ]; then
+      fail "environment-quirk signature '$signature' reached 2 distinct occurrences without Workaround: or Not memoized:"
+    fi
+    if [ -n "${quirk_workaround[$repeat_key]+x}" ] && [ -z "${quirk_refusal[$repeat_key]+x}" ]; then
+      host_notes="$repo_root/.IMPLEMENTAUDIT/host-notes.md"
+      if git -C "$repo_root" rev-parse --git-common-dir >/dev/null 2>&1; then
+        common_dir="$(git -C "$repo_root" rev-parse --path-format=absolute --git-common-dir 2>/dev/null || true)"
+        if [ -z "$common_dir" ]; then
+          common_dir="$(git -C "$repo_root" rev-parse --git-common-dir)"
+          case "$common_dir" in
+            /*|[A-Za-z]:/*|[A-Za-z]:\\*) ;;
+            *) common_dir="$(cd "$repo_root" && cd "$(dirname "$common_dir")" && printf '%s/%s' "$(pwd -P)" "$(basename "$common_dir")")" ;;
+          esac
+        fi
+        shared_root="$(cd "$(dirname "$common_dir")" && pwd -P)"
+        host_notes="$shared_root/.IMPLEMENTAUDIT/host-notes.md"
+      fi
+      note_count=0
+      if [ -f "$host_notes" ]; then
+        note_count="$(awk -F'|' -v wanted="$signature" '
+          /^[[:space:]]*#/ || /^[[:space:]]*$/ { next }
+          NF == 4 {
+            timestamp = $1; value = tolower($2); workaround = $3; first_seen = $4
+            gsub(/^[[:space:]]+|[[:space:]]+$/, "", timestamp)
+            gsub(/^[[:space:]]+|[[:space:]]+$/, "", value)
+            gsub(/^[[:space:]]+|[[:space:]]+$/, "", workaround)
+            gsub(/^[[:space:]]+|[[:space:]]+$/, "", first_seen)
+            if (timestamp != "" && value == wanted && workaround != "" &&
+                first_seen ~ /^first-seen-run:[[:space:]]*[^[:space:]]/) count++
+          }
+          END { print count + 0 }
+        ' "$host_notes")"
+      fi
+      [ "$note_count" -eq 1 ] \
+        || fail "environment-quirk signature '$signature' must have exactly one host-note row (found $note_count)"
+    fi
+  done
 fi
 
 # 3. checker/test destination claimed active => target must be non-empty and

@@ -235,6 +235,7 @@ required = {
     "templates/final-report.md",
     "templates/read-only-plan.md",
     "templates/PROTOCOL.md",
+    "templates/host-notes.md",
     "templates/respec-impact-set.md",
     "templates/sidecars.md",
     "templates/tools.md",
