@@ -8,6 +8,152 @@ tmp_parent="$(mktemp -d)"
 stray_file="skills/implementaudit/zz-package-parity-stray-test.txt"
 trap 'rm -rf "$tmp_parent"; rm -f "$stray_file"' EXIT
 
+if [ "${1:-}" = "--identity-only" ]; then
+  fail() { printf 'release-asset.test: %s\n' "$*" >&2; exit 1; }
+  grep -Fq -- '--check-release-identity' scripts/build-release-asset.sh \
+    || fail 'release-identity checker mode is missing'
+  grep -Fq -- '--check-stale-artifact' scripts/build-release-asset.sh \
+    || fail 'stale-artifact checker mode is missing'
+  a_digest='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+  b_digest='bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+
+  make_fixture() {
+    local root="$1" version="$2"
+    mkdir -p "$root/.claude-plugin" "$root/skills/implementaudit"
+    printf '{"version":"%s"}\n' "$version" > "$root/.claude-plugin/plugin.json"
+    printf '%s\n' '---' 'metadata:' "  version: \"$version\"" '---' > "$root/skills/implementaudit/SKILL.md"
+    printf '# Changelog\n\n## [v0.3.2.0] - 2026-07-18\n' > "$root/CHANGELOG.md"
+    printf 'original payload\n' > "$root/payload.txt"
+    printf 'original package\n' > "$root/IMPLEMENTAUDIT.skill"
+    git -C "$root" init -q
+    git -C "$root" config user.email t@example.invalid
+    git -C "$root" config user.name t
+    git -C "$root" add .
+    git -C "$root" -c user.email=t@example.invalid -c user.name=t commit -qm initial
+  }
+
+  no_record="$tmp_parent/republish-no-record"
+  make_fixture "$no_record" 0.3.2
+  printf 'changed payload\n' > "$no_record/payload.txt"
+  printf 'changed package\n' > "$no_record/IMPLEMENTAUDIT.skill"
+  git -C "$no_record" add payload.txt IMPLEMENTAUDIT.skill
+  git -C "$no_record" -c user.email=t@example.invalid -c user.name=t commit -qm republish
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      republish 0.3.2 HEAD "$no_record" >/dev/null 2>&1; then
+    fail 'same-version republication without a digest pair was accepted'
+  fi
+
+  fabricated="$tmp_parent/republish-fabricated-pair"
+  make_fixture "$fabricated" 0.3.2
+  printf 'changed payload\n' > "$fabricated/payload.txt"
+  printf 'real package bytes\n' > "$fabricated/IMPLEMENTAUDIT.skill"
+  printf '\n## [v0.3.2.0 corrected re-release] - 2026-08-04\n- `IMPLEMENTAUDIT.skill`: superseded `%s` (1 byte) -> superseding `%s` (888 bytes).\n' \
+    "$a_digest" "$b_digest" >> "$fabricated/CHANGELOG.md"
+  git -C "$fabricated" add .
+  git -C "$fabricated" commit -qm republish
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      republish 0.3.2 HEAD "$fabricated" >/dev/null 2>&1; then
+    fail 'fabricated package digest and byte count were accepted'
+  fi
+
+  preexisting="$tmp_parent/republish-preexisting-pair"
+  make_fixture "$preexisting" 0.3.2
+  printf '\n- `IMPLEMENTAUDIT.skill`: superseded `%s` (1 byte) -> superseding `%s` (2 bytes).\n' \
+    "$a_digest" "$b_digest" >> "$preexisting/CHANGELOG.md"
+  git -C "$preexisting" add CHANGELOG.md
+  git -C "$preexisting" -c user.email=t@example.invalid -c user.name=t commit -qm record
+  printf 'changed payload\n' > "$preexisting/payload.txt"
+  git -C "$preexisting" add payload.txt
+  git -C "$preexisting" -c user.email=t@example.invalid -c user.name=t commit -qm republish
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      republish 0.3.2 HEAD "$preexisting" >/dev/null 2>&1; then
+    fail 'digest pair from an earlier commit was accepted for republication'
+  fi
+
+  with_pair="$tmp_parent/republish-with-pair"
+  make_fixture "$with_pair" 0.3.2
+  printf 'changed payload\n' > "$with_pair/payload.txt"
+  printf 'changed package\n' > "$with_pair/IMPLEMENTAUDIT.skill"
+  candidate_digest="$(sha256sum "$with_pair/IMPLEMENTAUDIT.skill" | awk '{print $1}')"
+  candidate_bytes="$(wc -c < "$with_pair/IMPLEMENTAUDIT.skill" | tr -d '[:space:]')"
+  printf '\n## [v0.3.2.0 corrected re-release] - 2026-08-04\n- `IMPLEMENTAUDIT.skill`: superseded `%s` (1 byte) -> superseding `%s` (%s bytes).\n' \
+    "$a_digest" "$candidate_digest" "$candidate_bytes" >> "$with_pair/CHANGELOG.md"
+  git -C "$with_pair" add payload.txt IMPLEMENTAUDIT.skill CHANGELOG.md
+  git -C "$with_pair" -c user.email=t@example.invalid -c user.name=t commit -qm republish
+  bash scripts/build-release-asset.sh --check-release-identity \
+    republish 0.3.2 HEAD "$with_pair" >/dev/null \
+    || fail 'same-version republication with a same-commit digest pair was rejected'
+
+  cross_artifact="$tmp_parent/republish-cross-artifact"
+  make_fixture "$cross_artifact" 0.3.2
+  printf 'changed package\n' > "$cross_artifact/IMPLEMENTAUDIT.skill"
+  cross_digest="$(sha256sum "$cross_artifact/IMPLEMENTAUDIT.skill" | awk '{print $1}')"
+  cross_bytes="$(wc -c < "$cross_artifact/IMPLEMENTAUDIT.skill" | tr -d '[:space:]')"
+  printf '\n## [v0.3.2.0 corrected re-release] - 2026-08-04\n- `CHECKSUMS.txt`: IMPLEMENTAUDIT.skill superseded `%s` (1 byte) -> superseding `%s` (%s bytes).\n' \
+    "$a_digest" "$cross_digest" "$cross_bytes" >> "$cross_artifact/CHANGELOG.md"
+  git -C "$cross_artifact" add .
+  git -C "$cross_artifact" commit -qm republish
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      republish 0.3.2 HEAD "$cross_artifact" >/dev/null 2>&1; then
+    fail 'digest pair for another artifact was accepted as IMPLEMENTAUDIT.skill identity'
+  fi
+
+  same_tree="$(git -C "$with_pair" write-tree)"
+  orphan="$(printf 'unrelated same-tree record\n' | git -C "$with_pair" commit-tree "$same_tree")"
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      republish 0.3.2 "$orphan" "$with_pair" >/dev/null 2>&1; then
+    fail 'unrelated same-tree commit was accepted as release authority'
+  fi
+
+  forward="$tmp_parent/normal-version-bump"
+  make_fixture "$forward" 0.3.2
+  printf '{"version":"0.3.3"}\n' > "$forward/.claude-plugin/plugin.json"
+  sed -i 's/version: "0.3.2"/version: "0.3.3"/' "$forward/skills/implementaudit/SKILL.md"
+  printf 'changed payload\n' > "$forward/payload.txt"
+  git -C "$forward" add .
+  git -C "$forward" -c user.email=t@example.invalid -c user.name=t commit -qm forward
+  bash scripts/build-release-asset.sh --check-release-identity \
+    forward 0.3.2 HEAD "$forward" >/dev/null \
+    || fail 'normal forward version bump gained a digest-pair obligation'
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      forward 0.2.0 HEAD "$forward" >/dev/null 2>&1; then
+    fail 'caller-supplied non-current previous version bypassed CHANGELOG authority'
+  fi
+
+  real_record_commit="$(git log -1 --format=%H -S 'This entry is the one retroactive application' -- CHANGELOG.md)"
+  [ -n "$real_record_commit" ] || fail 'real #96 retroactive digest-pair commit not found'
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      retroactive 0.3.2 "$real_record_commit" "$repo_root" >/dev/null 2>&1; then
+    fail 'historical retroactive record remained available for prospective qualification'
+  fi
+  bash scripts/build-release-asset.sh --check-historical-release-record "$repo_root" >/dev/null \
+    || fail 'separate nonqualifying historical #96 record check was rejected'
+  if grep -Fq 'retroactive' scripts/verify-package.sh; then
+    fail 'package verifier still exposes retroactive mode as prospective qualification'
+  fi
+
+  stale_root="$tmp_parent/stale-artifact"
+  mkdir -p "$stale_root/dist"
+  printf 'withdrawn bytes\n' > "$stale_root/dist/pkg.skill"
+  stale_digest="$(sha256sum "$stale_root/dist/pkg.skill" | awk '{print $1}')"
+  printf '# Changelog\n- asset: superseded `%s` -> superseding `%s`.\n' \
+    "$stale_digest" "$b_digest" > "$stale_root/CHANGELOG.md"
+  if bash scripts/build-release-asset.sh --check-stale-artifact \
+      package "$stale_root/dist/pkg.skill" "$stale_root/CHANGELOG.md" >/dev/null 2>&1; then
+    fail 'withdrawn ignored package artifact was accepted'
+  fi
+  bash scripts/build-release-asset.sh --check-stale-artifact \
+    source "$stale_root/dist/pkg.skill" "$stale_root/CHANGELOG.md" >/dev/null \
+    || fail 'source-only run was subjected to package/release stale-artifact policy'
+  printf 'current bytes\n' > "$stale_root/dist/pkg.skill"
+  bash scripts/build-release-asset.sh --check-stale-artifact \
+    package "$stale_root/dist/pkg.skill" "$stale_root/CHANGELOG.md" >/dev/null \
+    || fail 'non-superseded package artifact was rejected'
+
+  printf 'release-asset.test: identity-only ok\n'
+  exit 0
+fi
+
 # Package parity: a stray file under skills/implementaudit/ must fail the build, because it
 # would otherwise ship without a deliberate manifest update.
 printf 'stray payload parity probe\n' > "$stray_file"

@@ -211,6 +211,52 @@ surface `source` is a negative control and adds no package-only obligation.
 Countermeasure non-target effects remain owned by #92; cross-reference them
 rather than duplicating that rule.
 
+## Package and publication identity (#89)
+
+A plain package build proves local bytes only; it is not publication proof.
+Before a release gate can claim a forward release or a same-version
+republication, run:
+
+```text
+scripts/verify-package.sh --release-identity <forward|republish> <previous-version> <release-commit>  # source repo only
+```
+
+`forward` requires the two canonical version owners to agree and differ from
+the previous published version. `republish` requires them to retain that
+version; both modes require the declared commit to be an ancestor of current
+`HEAD` and its tree to equal current `HEAD` tree, allowing metadata-only merge
+identity without permitting unrelated same-tree authority or byte drift.
+The previous version is derived from the ordered published-version headings in
+`CHANGELOG.md`, not trusted from the caller. `republish` also requires that
+commit's own `CHANGELOG.md` additions to contain distinct lowercase SHA-256 and
+byte-count values for `IMPLEMENTAUDIT.skill` labeled `superseded` and
+`superseding`. The superseding digest and byte count must equal the
+deterministically built candidate asset. A pair from another commit, another
+artifact, or fabricated bytes cannot discharge the gate.
+
+The completed #96 v0.3.2.0 correction remains inspectable with
+`scripts/build-release-asset.sh --check-historical-release-record`, but that
+command is a pinned, nonqualifying history check. It cannot qualify a current
+or prospective release and `retroactive` is not a release-identity mode.
+
+`build-release-asset.sh --check` also inspects an existing ignored
+`dist/IMPLEMENTAUDIT.skill`: if its digest is labeled `superseded` in
+`CHANGELOG.md`, package proof fails until the artifact is removed, renamed, or
+rebuilt. Source-only runs retain the #76 negative-control boundary and do not
+gain this package/release obligation.
+
+A publication closure claim carries both its evidence digest and a contained,
+hash-bound current-digest receipt:
+
+```text
+claim: <id> | surface: publication | status: verified|unverified | evidence-surface: publication | evidence-digest: <sha256>
+publication-identity: <id> | live-digest-file: <bare-file.sha256> | live-file-sha256: <sha256> | live-digest: <sha256> | disposition: verified|SUPERSEDED
+```
+
+Equal evidence/current digests use `verified`. Drift cannot remain verified;
+retain it as `status: unverified` with disposition `SUPERSEDED`, reusing #87's
+vocabulary rather than inventing another terminal state.
+
 ## Proving a file is dead
 
 Before archival or deletion, search by two independent methods:

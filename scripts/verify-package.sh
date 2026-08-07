@@ -9,6 +9,21 @@ fail() {
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
+release_identity_args=()
+release_identity_tmp=""
+trap 'if [ -n "${release_identity_tmp:-}" ]; then rm -rf "$release_identity_tmp"; fi' EXIT
+if [ "${1:-}" = "--release-identity" ]; then
+  [ "$#" -eq 4 ] \
+    || fail "--release-identity requires <forward|republish> <previous-version> <release-commit>"
+  case "$2" in
+    forward|republish) : ;;
+    *) fail "--release-identity mode must be forward or republish" ;;
+  esac
+  release_identity_args=("$2" "$3" "$4")
+  shift 4
+fi
+[ "$#" -eq 0 ] || fail "unknown argument: $1"
+
 require_file() {
   [ -f "$1" ] || fail "missing required file: $1"
 }
@@ -26,6 +41,12 @@ require_file .gitignore
 require_file .claude-plugin/plugin.json
 require_file .claude-plugin/marketplace.json
 require_file scripts/build-release-asset.sh
+if [ "${#release_identity_args[@]}" -gt 0 ]; then
+  release_identity_tmp="$(mktemp -d)"
+  bash scripts/build-release-asset.sh "$release_identity_tmp"
+  bash scripts/build-release-asset.sh --check-release-identity \
+    "${release_identity_args[@]}" "$repo_root" "$release_identity_tmp/IMPLEMENTAUDIT.skill"
+fi
 require_file scripts/check-public-claim-boundaries.sh
 require_file scripts/check-added-lines-clean.sh
 require_file scripts/check-audit-retention.sh
