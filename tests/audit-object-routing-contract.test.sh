@@ -118,4 +118,107 @@ grep -q "missing in fixtures/audit-object-routing/category-matrix.md: performanc
   exit 1
 }
 
+# 6. The process-history contract must validate a real enumerated corpus, not
+# merely find descriptive prose in a fixture.
+bash scripts/check-audit-object-routing-contract.sh \
+  --validate-process-history-fixture \
+  fixtures/audit-object-routing/process-history-run >/dev/null || {
+  printf 'audit-object-routing-contract.test: process-history behavioral fixture expected PASS\n' >&2
+  exit 1
+}
+
+process_fixture="fixtures/audit-object-routing/process-history-run"
+expect_process_history_fail() {
+  local label="$1"
+  local copy="$2"
+  if bash scripts/check-audit-object-routing-contract.sh \
+    --validate-process-history-fixture "$copy" >/dev/null 2>&1; then
+    printf 'audit-object-routing-contract.test: %s mutation unexpectedly passed\n' "$label" >&2
+    exit 1
+  fi
+}
+
+for mutation in population absent-surface replay-count citation truncated-read carrier-drift single-session compendium-order; do
+  copy="$tmp/process-$mutation"
+  cp -R "$process_fixture" "$copy"
+  case "$mutation" in
+    population) sed -i 's/"population_size": 8/"population_size": 9/' "$copy/result.json" ;;
+    absent-surface) sed -i 's/"could_not_verify": \["RC-artifacts"\]/"could_not_verify": []/' "$copy/result.json" ;;
+    replay-count) sed -i 's/"recurring_shape_count": 3/"recurring_shape_count": 5/' "$copy/result.json" ;;
+    citation) sed -i 's/"text": "SYNTHETIC_FAILURE"/"text": "MISSING_WITNESS"/' "$copy/result.json" ;;
+    truncated-read) sed -i '0,/"start": 1/s//"start": 2/' "$copy/result.json" ;;
+    carrier-drift) sed -i 's/"draft": "R20"/"draft": "R21"/' "$copy/result.json" ;;
+    single-session) sed -i 's/"fan_out": false/"fan_out": true/' "$copy/result.json" ;;
+    compendium-order) sed -i 's/"compendium_complete_at": "2026-08-02T01:00:00Z"/"compendium_complete_at": "2026-08-02T03:00:00Z"/' "$copy/result.json" ;;
+  esac
+  expect_process_history_fail "$mutation" "$copy"
+done
+
+# 7. Retrospective governance reuses the real run-root, closure, and cold-review
+# validators. These cases distinguish affordable micro custody from review work
+# that must use a full root.
+retro="fixtures/audit-object-routing/retrospective"
+for case_name in unadjudicated-deferral retired-with-reason uncited-could-not-verify read-only-plans-lane meta-tier-claim; do
+  [ -d "$retro/$case_name/root" ] || {
+    printf 'audit-object-routing-contract.test: missing retrospective fixture: %s\n' "$case_name" >&2
+    exit 1
+  }
+done
+[ -f "$retro/no-run-root/deliverable.md" ] || {
+  printf 'audit-object-routing-contract.test: missing no-run-root retrospective fixture\n' >&2
+  exit 1
+}
+if bash skills/implementaudit/scripts/validate-run-root.sh --micro \
+  "$retro/no-run-root/root" >/dev/null 2>&1; then
+  printf 'audit-object-routing-contract.test: retrospective without run root unexpectedly passed\n' >&2
+  exit 1
+fi
+
+bash skills/implementaudit/scripts/validate-run-root.sh --micro \
+  "$retro/unadjudicated-deferral/root" >/dev/null
+if bash skills/implementaudit/scripts/check-closure-surface.sh \
+  "$retro/unadjudicated-deferral/root/STATE.md" >/dev/null 2>&1; then
+  printf 'audit-object-routing-contract.test: unadjudicated retrospective deferral unexpectedly passed\n' >&2
+  exit 1
+fi
+
+bash skills/implementaudit/scripts/validate-run-root.sh --micro \
+  "$retro/retired-with-reason/root" >/dev/null
+bash skills/implementaudit/scripts/check-closure-surface.sh \
+  "$retro/retired-with-reason/root/STATE.md" >/dev/null
+
+if bash skills/implementaudit/scripts/check-closure-surface.sh \
+  "$retro/uncited-could-not-verify/root/STATE.md" >/dev/null 2>&1; then
+  printf 'audit-object-routing-contract.test: unadjudicated could-not-verify unexpectedly passed\n' >&2
+  exit 1
+fi
+
+if bash scripts/check-cold-review-contract.sh --fixture \
+  "$retro/self-reviewed-deliverable.md" >/dev/null 2>&1; then
+  printf 'audit-object-routing-contract.test: same-context retrospective review unexpectedly passed\n' >&2
+  exit 1
+fi
+
+bash skills/implementaudit/scripts/validate-run-root.sh --micro \
+  fixtures/run-root/micro-conformant/root >/dev/null
+if bash skills/implementaudit/scripts/validate-run-root.sh --micro \
+  fixtures/run-root/micro-with-stage62-disposition/root >/dev/null 2>&1; then
+  printf 'audit-object-routing-contract.test: micro retrospective carried Stage 6.2 review\n' >&2
+  exit 1
+fi
+bash skills/implementaudit/scripts/validate-run-root.sh \
+  fixtures/run-root/no-sentinel-legacy/root >/dev/null
+bash skills/implementaudit/scripts/validate-run-root.sh --micro \
+  "$retro/read-only-plans-lane/root" >/dev/null
+[ -f "$retro/read-only-plans-lane/root/plans/retrospective.md" ] || {
+  printf 'audit-object-routing-contract.test: read-only retrospective plan is missing\n' >&2
+  exit 1
+}
+
+if bash skills/implementaudit/scripts/validate-run-root.sh --micro \
+  "$retro/meta-tier-claim/root" >/dev/null 2>&1; then
+  printf 'audit-object-routing-contract.test: reduced-obligation meta-tier claim unexpectedly passed\n' >&2
+  exit 1
+fi
+
 printf 'audit-object-routing-contract.test: ok\n'
