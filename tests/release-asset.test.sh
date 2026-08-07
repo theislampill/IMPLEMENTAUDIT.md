@@ -324,17 +324,20 @@ with zipfile.ZipFile(asset) as zf:
     # references/continuity.md plus PROTOCOL/STATE contract text grew the
     # deflated asset to ~131 KB — growth verified intentional and deflated.
     asset_bytes = asset.stat().st_size
-    # Train-wide ANDON calibration: retain each historical admitted probe. The
-    # reviewed, dedup-adjudicated N04 identity/integrity train is 202_593 bytes;
-    # its owner-authorized whole-1,000-byte ceiling is 203_000 (407 bytes of
-    # measured headroom). Reason: admitted milestone payload, not acceptance
+    # Train-wide ANDON calibration: retain each historical admitted probe. N04
+    # remains recorded at 202_593 bytes under its historical 203_000-byte
+    # calibration. The reviewed, dedup-adjudicated N05 final stack is 206_159
+    # bytes; its owner-authorized whole-1,000-byte ceiling is 207_000 (841 bytes
+    # of measured headroom). Reason: admitted milestone payload, not acceptance
     # weakening or future-batch/release headroom.
-    MAX_ASSET_BYTES = 203_000
+    MAX_ASSET_BYTES = 207_000
     FULL_W1_FORECAST_BYTES = 144_730
     N02_EVIDENCE_CENSUS_FORECAST_BYTES = 151_898
     ISSUE_75_77_84_TRAIN_FORECAST_BYTES = 161_007
     N04_IDENTITY_INTEGRITY_FORECAST_BYTES = 202_593
-    FIRST_REJECTED_BYTES = 203_001
+    N05_CALIBRATION_MAIN_ASSET_BYTES = 202_679
+    N05_FINAL_MEASURED_FORECAST_BYTES = 206_159
+    FIRST_REJECTED_BYTES = 207_001
 
     def enforce_asset_budget(candidate_bytes):
         if candidate_bytes <= MAX_ASSET_BYTES:
@@ -346,12 +349,15 @@ with zipfile.ZipFile(asset) as zf:
             "growth is intentional."
         )
 
-    # The complete, deduplicated W1 and N02 forecasts must be admitted, while
-    # the first byte above the calibrated ceiling must remain rejected.
+    # Historical probes, the N05 calibration main asset, the measured final N05
+    # stack, and the ceiling itself must be admitted. The first byte above the
+    # calibrated ceiling must remain rejected.
     enforce_asset_budget(FULL_W1_FORECAST_BYTES)
     enforce_asset_budget(N02_EVIDENCE_CENSUS_FORECAST_BYTES)
     enforce_asset_budget(ISSUE_75_77_84_TRAIN_FORECAST_BYTES)
     enforce_asset_budget(N04_IDENTITY_INTEGRITY_FORECAST_BYTES)
+    enforce_asset_budget(N05_CALIBRATION_MAIN_ASSET_BYTES)
+    enforce_asset_budget(N05_FINAL_MEASURED_FORECAST_BYTES)
     enforce_asset_budget(MAX_ASSET_BYTES)
     try:
         enforce_asset_budget(FIRST_REJECTED_BYTES)
