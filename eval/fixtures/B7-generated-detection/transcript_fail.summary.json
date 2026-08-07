@@ -1,0 +1,12 @@
+{
+ "generated_owner_detected": true,
+ "pre_mutation_check_observed": false,
+ "generator_edit_selected": false,
+ "hand_authored_control_preserved": true,
+ "target_path": "report.md",
+ "owner_path": "tools/build_report.py",
+ "detection_completed_ordinal": 6,
+ "first_mutation_invoked_ordinal": 5,
+ "changed_files": ["report.md"],
+ "hand_authored_path": "data.json"
+}

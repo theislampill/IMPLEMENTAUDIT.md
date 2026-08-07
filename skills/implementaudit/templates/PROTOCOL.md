@@ -132,7 +132,13 @@ Remaining risk. Do not upgrade static evidence to live proof.
 **Step 6 — Execute the work.**
 Implement or verify as described in the `## Work` section. Patch the
 owner/source, not the nearest symptom. Follow generator-first policy for
-generated artifacts. Log scope creep as new findings rather than absorbing it.
+generated artifacts. Before each edit, state its `occurrences`, `anchor`, or
+`hunk` post-condition and run the exact mutation command through
+`--mutation-window`. Its one process captures the target, executes the command
+as an argument vector, and verifies the landed false-before/true-after
+transition before returning. It validates grammar and the false-before
+precondition before command launch; command success or a pre-existing condition
+is not landing evidence. Log scope creep as new findings rather than absorbing it.
 
 **Step 7 — Run mandatory commands.**
 For each command in `## Mandatory commands`, capture complete stdout and stderr

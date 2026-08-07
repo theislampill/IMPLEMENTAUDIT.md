@@ -120,8 +120,7 @@ Run invariants:
 - No issue creation, license choice, marketplace claim, real-home install, or
   provenance claim without explicit authorization and evidence.
 - Smoke A happens before mutation; Smoke B happens after implementation.
-- Generated artifacts follow generator-first policy unless repo policy
-  explicitly permits direct edits.
+- Verify mutations in post-state; tool success is not proof. Generated artifacts stay generator-first.
 - Local commit, push, tag, release, publication, and provenance are separate
   gates. If local commit is not authorized, provide a proposed commit message.
 - Graphify output is orientation evidence, not proof. ActiveGraph custody is not correctness proof. Sidecars are optional unless a repo says otherwise; their presence authorizes no install, indexing, setup, config, export, or sidecar mutation.

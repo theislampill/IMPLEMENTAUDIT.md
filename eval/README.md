@@ -151,6 +151,13 @@ row count, and write-before-phase-report timestamps. Matching transcript text
 without those observations fails. It never enters the frozen primary matrix
 and this repository performs no model call while validating it.
 
+`B7-generated-detection` is a supplementary deterministic fixture for issue
+#76. It binds the target/owner paths, ownership-check completion before the
+first mutation, the changed-file choice, and the declared hand-authored control
+through host-summary facts. Identical answer text with a late check and a
+visible-target edit fails. It never enters the frozen primary matrix and no
+model is called by repository validation.
+
 ## Safety posture (read first)
 
 - **This harness does not call any model by default and cannot call one

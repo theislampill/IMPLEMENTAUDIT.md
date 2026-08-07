@@ -102,4 +102,161 @@ out4="$(bash "$vrr" "$seed" 2>&1 || true)"
 printf '%s' "$out4" | grep -q 'anchor' \
   || fail "short-sha anchor NOT flagged by validator"
 
+# #76 R3-F1/F2: capture, intended command, and landed verification share one
+# process, so no stale, forged, substituted, or reusable receipt exists.
+mkdir "$tmp/mutation-repo"
+(
+  cd "$tmp/mutation-repo"
+  git init -q
+  git config user.email test@example.invalid
+  git config user.name 'ImplementAudit Test'
+  printf 'ANCHOR\n' > occurrences.txt
+  printf 'before\n' > anchor.txt
+  printf 'one\nOLD\n' > hunk.txt
+  printf 'ALREADY\nALREADY\n' > noop.txt
+  printf 'BASE\n' > dirty-noop.txt
+  printf 'BASE\n' > invalid-spec.txt
+  git add .
+  git commit -qm baseline
+  if bash "$cea" --mutation-window occurrences.txt --expect 'occurrences:4:ANCHOR' \
+      -- python -c 'pass' >/dev/null 2>&1; then
+    fail "missing landed occurrences accepted"
+  fi
+  bash "$cea" --mutation-window occurrences.txt --expect 'occurrences:4:ANCHOR' -- \
+    python -c 'from pathlib import Path; Path("occurrences.txt").write_text("ANCHOR\nANCHOR\nANCHOR\nANCHOR\n", encoding="utf-8")' \
+    >/dev/null \
+    || fail "exact landed occurrence transition rejected"
+  bash "$cea" --mutation-window anchor.txt --expect 'anchor:ANCHOR' -- \
+    python -c 'from pathlib import Path; Path("anchor.txt").write_text("before\nANCHOR\n", encoding="utf-8")' \
+    >/dev/null || fail "landed anchor transition rejected"
+  if bash "$cea" --mutation-window hunk.txt --expect 'hunk:2:MISSING' -- \
+      python -c 'from pathlib import Path; Path("hunk.txt").write_text("one\nWRONG\n", encoding="utf-8")' \
+      >/dev/null 2>&1; then
+    fail "missing landed hunk accepted"
+  fi
+  printf 'one\nOLD\n' > hunk.txt
+  bash "$cea" --mutation-window hunk.txt --expect 'hunk:2:NEW' -- \
+    python -c 'from pathlib import Path; Path("hunk.txt").write_text("one\nNEW\n", encoding="utf-8")' \
+    >/dev/null || fail "landed hunk transition rejected"
+  for expectation in 'occurrences:2:ALREADY' 'anchor:ALREADY' 'hunk:1:ALREADY'; do
+    if bash "$cea" --mutation-window noop.txt --expect "$expectation" -- \
+        python -c 'from pathlib import Path; Path("noop.txt").write_text("COMMAND-RAN\n", encoding="utf-8")' \
+        >/dev/null 2>&1; then
+      fail "pre-existing no-op mutation expectation accepted: $expectation"
+    fi
+    [ "$(cat noop.txt)" = $'ALREADY\nALREADY' ] \
+      || fail "pre-existing expectation executed mutation command: $expectation"
+  done
+  if bash "$cea" --mutation-window invalid-spec.txt --expect 'invalid-spec' -- \
+      python -c 'from pathlib import Path; Path("invalid-spec.txt").write_text("MUTATED\n", encoding="utf-8")' \
+      >/dev/null 2>&1; then
+    fail "malformed mutation expectation accepted"
+  fi
+  grep -Fxq 'BASE' invalid-spec.txt \
+    || fail "malformed mutation expectation executed mutation command"
+  printf 'BASE\nALREADY\n' > dirty-noop.txt
+  if bash "$cea" --mutation-window dirty-noop.txt --expect 'anchor:ALREADY' -- \
+      python -c 'pass' >/dev/null 2>&1; then
+    fail "pre-existing dirty expected state accepted after intended no-op"
+  fi
+  if bash "$cea" --mutation-window dirty-noop.txt --expect 'anchor:NEW' -- \
+      python -c 'raise SystemExit(7)' >/dev/null 2>&1; then
+    fail "nonzero mutation command accepted"
+  fi
+  if bash "$cea" --capture-mutation-before dirty-noop.txt >/dev/null 2>&1; then
+    fail "retired capture receipt mode remained available"
+  fi
+  if bash "$cea" --mutation-landed dirty-noop.txt --before-receipt missing.json \
+      --expect 'anchor:ALREADY' >/dev/null 2>&1; then
+    fail "retired receipt verification mode remained available"
+  fi
+)
+
+# #76 R3-F6/F7/F8: declared duplicates include the immediately adjacent
+# comment block, so equal values with stale explanatory prose are still red.
+dup="$repo_root/skills/implementaudit/scripts/check-duplication-parity.sh"
+mkdir -p "$tmp/dup"
+for n in a b c; do
+  printf '# window is ceil(9.242) == 10\nWINDOW_SECONDS = 10\n' > "$tmp/dup/$n.py"
+done
+printf 'window: a.py::WINDOW_SECONDS, b.py::WINDOW_SECONDS, c.py::WINDOW_SECONDS\n' \
+  > "$tmp/dup/manifest.txt"
+(cd "$tmp/dup" && bash "$dup" manifest.txt >/dev/null) \
+  || fail "matching declared duplication set rejected"
+printf '# window is ceil(9.242) == 30\nWINDOW_SECONDS = 30\n' > "$tmp/dup/a.py"
+if (cd "$tmp/dup" && bash "$dup" manifest.txt >/dev/null 2>&1); then
+  fail "divergent duplicate value accepted"
+fi
+for n in a b c; do printf '# window is ceil(9.242) == 30\nWINDOW_SECONDS = 30\n' > "$tmp/dup/$n.py"; done
+printf '# window is ceil(9.242) == 10\nWINDOW_SECONDS = 30\n' > "$tmp/dup/c.py"
+if (cd "$tmp/dup" && bash "$dup" manifest.txt >/dev/null 2>&1); then
+  fail "divergent adjacent duplicate prose accepted"
+fi
+printf 'escape: ../outside.py::WINDOW_SECONDS, a.py::WINDOW_SECONDS\n' \
+  > "$tmp/dup/escape-manifest.txt"
+if (cd "$tmp/dup" && bash "$dup" escape-manifest.txt >/dev/null 2>&1); then
+  fail "duplication manifest traversal member accepted"
+fi
+printf 'alias: a.py::WINDOW_SECONDS, a.py:: WINDOW_SECONDS\n' \
+  > "$tmp/dup/alias-manifest.txt"
+if (cd "$tmp/dup" && bash "$dup" alias-manifest.txt >/dev/null 2>&1); then
+  fail "same physical duplicate accepted twice through an anchor alias"
+fi
+printf 'separator: a.py::WINDOW_SECONDS, ./a.py::WINDOW_SECONDS\n' \
+  > "$tmp/dup/separator-manifest.txt"
+if (cd "$tmp/dup" && bash "$dup" separator-manifest.txt >/dev/null 2>&1); then
+  fail "same physical duplicate accepted twice through a separator alias"
+fi
+if [ -f "$tmp/dup/A.py" ]; then
+  printf 'case: a.py::WINDOW_SECONDS, A.py::WINDOW_SECONDS\n' \
+    > "$tmp/dup/case-manifest.txt"
+  if (cd "$tmp/dup" && bash "$dup" case-manifest.txt >/dev/null 2>&1); then
+    fail "same physical duplicate accepted twice through a case alias"
+  fi
+fi
+mkdir -p "$tmp/symlink-repo/real"
+printf '# same rationale\nVALUE = 1\n' > "$tmp/symlink-repo/real/a.py"
+printf '# same rationale\nVALUE = 1\n' > "$tmp/symlink-repo/b.py"
+linked=0
+if ln -s real "$tmp/symlink-repo/alias" 2>/dev/null \
+    && [ -L "$tmp/symlink-repo/alias" ]; then
+  linked=1
+elif command -v cmd.exe >/dev/null 2>&1 && command -v cygpath >/dev/null 2>&1; then
+  rm -rf "$tmp/symlink-repo/alias"
+  if cmd.exe //c mklink //J "$(cygpath -w "$tmp/symlink-repo/alias")" \
+      "$(cygpath -w "$tmp/symlink-repo/real")" >/dev/null 2>&1; then
+    linked=1
+  fi
+fi
+if [ "$linked" -eq 1 ]; then
+  printf 'symlink: alias/a.py::VALUE, b.py::VALUE\n' > "$tmp/symlink-repo/manifest.txt"
+  if (cd "$tmp/symlink-repo" && bash "$dup" manifest.txt >/dev/null 2>&1); then
+    fail "symlink-parent duplicate member accepted"
+  fi
+fi
+
+# #76 R3-F9: map the four-hop pin chain before mutation; the independent
+# harness remains the authority that turns an unreplayed target edit red.
+mapper="$repo_root/skills/implementaudit/scripts/map-pin-chain.sh"
+mkdir -p "$tmp/pins/src" "$tmp/pins/tools" "$tmp/pins/tests"
+printf 'original\n' > "$tmp/pins/src/source.txt"
+source_sha="$(sha256sum "$tmp/pins/src/source.txt" | awk '{print $1}')"
+printf 'source=src/source.txt sha256=%s\n' "$source_sha" > "$tmp/pins/tools/builder.py"
+printf 'manifest tools/builder.py sha256\n' > "$tmp/pins/artifact.manifest"
+printf 'manifest artifact.manifest byte-identical\n' > "$tmp/pins/release.manifest"
+printf '%s\n' '#!/usr/bin/env bash' \
+  "target=src/source'.txt'; printf '%s  %s\\n' '$source_sha' \"\$target\" | sha256sum --check -" \
+  '# release.manifest --check' > "$tmp/pins/tests/check.sh"
+pin_out="$(cd "$tmp/pins" && bash "$mapper" src/source.txt --expect-hops 4)" \
+  || fail "four-hop pin chain was not mapped"
+[ "$(printf '%s\n' "$pin_out" | grep -c '^hop:')" = 4 ] \
+  || fail "pin mapper did not emit exactly four hops"
+if (cd "$tmp/pins" && bash "$mapper" ../outside --expect-hops 0 >/dev/null 2>&1); then
+  fail "pin mapper accepted traversal target"
+fi
+printf 'changed\n' > "$tmp/pins/src/source.txt"
+if (cd "$tmp/pins" && bash tests/check.sh >/dev/null 2>&1); then
+  fail "unreplayed pin chain harness stayed green"
+fi
+
 printf 'evidence-anchoring: ok\n'
