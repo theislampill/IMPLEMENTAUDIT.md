@@ -1,5 +1,7 @@
 # Fixture: Independent cold review confirms an executor-ready phase spec
 
+review-packet-scope: scope: phase-spec,owner-authority | technique: cold-read | evidence_mode: inline
+
 Input shape:
 
 ```text

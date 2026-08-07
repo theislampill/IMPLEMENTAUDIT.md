@@ -163,7 +163,8 @@ Boundary fixtures (expected classification + rationale):
 | Patch written into a generated bundle instead of its source owner | `generated-artifact-mismatch` | wrong layer of a generator relationship |
 | Run declared "fully resolved" while two ledger rows are risk-accepted and one is transferred | `false-closure` | closure accounting collapsed non-resolved states |
 | A claim cites a passing test that does not cover the claimed behavior | `evidence-mismatch` | one claim, unsupporting evidence |
-| Authorized reviewer returns no verdict (platform filter blocked the review) | `transport-infrastructure` | review-channel failure; preserve non-verdict, reissue to same reviewer identity |
+| Authorized reviewer returns no verdict (transient channel failure: rate limit, 5xx, or interruption) | `transport-infrastructure` | review-channel failure; preserve non-verdict and reissue to the same reviewer identity |
+| Authorized reviewer returns no verdict (content-deterministic refusal: provider policy or schema rejection caused by packet text) | `transport-infrastructure` | review-channel failure; preserve non-verdict, record the origin, and do not reissue an unaltered packet — alter scope or wording first |
 
 Same-class recurrence — not a try count — is what drives escalation. The log
 has no row limit.

@@ -466,6 +466,187 @@ if [ -f "$state" ] && grep -qi '^[[:space:]]*model-identity:' "$state"; then
   done < <(grep -E '^model-identity:' "$state" || true)
 fi
 
+# #86 cold-review provenance is prospective. Legacy roots without a row stay
+# valid. Once declared, every disposition resolves a contained attestation;
+# an authoring-context report is retained as self-critique but cannot satisfy
+# the independent cold-review gate.
+if [ -f "$state" ] && grep -qi '^[[:space:]]*cold-review[[:space:]]*:' "$state"; then
+  cold_py=()
+  if command -v python >/dev/null 2>&1; then cold_py=(python)
+  elif command -v python3 >/dev/null 2>&1; then cold_py=(python3)
+  elif command -v py >/dev/null 2>&1; then cold_py=(py -3)
+  else
+    err "python, python3, or py -3 is required for cold-review attestation validation"
+  fi
+  if [ "${#cold_py[@]}" -gt 0 ]; then
+    cold_error=""
+    if ! cold_error="$("${cold_py[@]}" - "$run_root" "$state" <<'PY'
+import pathlib
+import re
+import subprocess
+import sys
+
+root = pathlib.Path(sys.argv[1]).resolve()
+state = pathlib.Path(sys.argv[2])
+lines = state.read_text(encoding="utf-8").splitlines()
+
+
+def die(message):
+    print(message)
+    raise SystemExit(1)
+
+
+near = [line for line in lines if re.match(r"^\s*cold-review\s*:", line, re.I)]
+exact = [line for line in lines if line.startswith("cold-review:")]
+if len(near) != len(exact):
+    die("STATE.md cold-review rows must use exact lowercase column-zero grammar")
+
+row_re = re.compile(
+    r"^cold-review: disposition: (PASS|GAP-REVISE|BLOCKED|OWNER DECISION) "
+    r"\| attestation: ([A-Za-z0-9._/-]+) "
+    r"\| base_sha: ([0-9a-f]{40}) \| head_sha: ([0-9a-f]{40})$"
+)
+keys = (
+    "reviewer_identity", "requested_model", "actual_model",
+    "authoring_context_reuse", "other_reviewer_output_seen",
+    "base_sha", "head_sha",
+)
+
+for line in exact:
+    match = row_re.fullmatch(line)
+    if not match:
+        die("STATE.md cold-review row must use exact disposition and attestation grammar")
+    disposition = match.group(1)
+    rel = match.group(2)
+    declared_base = match.group(3)
+    declared_head = match.group(4)
+    pure = pathlib.PurePosixPath(rel)
+    if pure.is_absolute() or ".." in pure.parts or "." in pure.parts or ":" in rel or "\\" in rel:
+        die("cold-review attestation path must be safe and run-root-relative")
+    artifact_path = root / pathlib.Path(*pure.parts)
+    artifact = artifact_path.resolve()
+    try:
+        artifact.relative_to(root)
+    except ValueError:
+        die("cold-review attestation escapes the run root")
+    if not artifact_path.is_file() or artifact_path.is_symlink():
+        die("cold-review attestation must resolve to a regular non-symlink file")
+    report = artifact.read_text(encoding="utf-8").splitlines()
+    if report.count("Reviewer attestation:") != 1:
+        die("cold-review artifact requires exactly one Reviewer attestation header")
+    header_index = report.index("Reviewer attestation:")
+    block = report[header_index + 1:header_index + 1 + len(keys)]
+    if len(block) != len(keys):
+        die("cold-review artifact has an incomplete Reviewer attestation block")
+    values = {}
+    for index, key in enumerate(keys):
+        key_near = [item for item in report if re.match(rf"^\s*-\s*{re.escape(key)}\s*:", item, re.I)]
+        key_exact = [item for item in report if item.startswith(f"- {key}:")]
+        if len(key_near) != 1 or len(key_exact) != 1:
+            die(f"cold-review attestation requires exactly one exact {key} field")
+        if block[index] != key_exact[0]:
+            die("cold-review attestation fields must form one exact ordered header block")
+        value = block[index].split(":", 1)[1].strip()
+        if not value:
+            die(f"cold-review attestation {key} is empty")
+        values[key] = value
+    if values["authoring_context_reuse"] not in {"yes", "no"}:
+        die("cold-review authoring_context_reuse must be yes or no")
+    if values["other_reviewer_output_seen"] not in {"yes", "no"}:
+        die("cold-review other_reviewer_output_seen must be yes or no")
+    if values["authoring_context_reuse"] == "yes":
+        die("authoring-context reuse labels self-critique and cannot discharge cold review")
+    for key in ("base_sha", "head_sha"):
+        if not re.fullmatch(r"[0-9a-f]{40}", values[key]):
+            die(f"cold-review {key} must be full lowercase 40-hex")
+    if values["base_sha"] != declared_base or values["head_sha"] != declared_head:
+        die("cold-review attestation base/head must match the STATE review identity")
+
+    report_state_near = [item for item in report if re.match(r"^\s*Report state\s*:", item, re.I)]
+    report_state_exact = [item for item in report if item == "Report state: FINAL"]
+    if len(report_state_near) != 1 or len(report_state_exact) != 1:
+        die("cold-review artifact requires exactly one Report state: FINAL")
+
+    identity_re = re.compile(
+        r"^model-identity: requested_model: ([^|\s][^|]*) \| "
+        r"actual_model: ([^|\s][^|]*) \| evidence: "
+        r"(?:self-report|host-event:[^|\s][^|]*) \| "
+        r"claims: (bound|IDENTITY_UNBOUND)$"
+    )
+    identities = []
+    for state_line in lines:
+        identity_match = identity_re.fullmatch(state_line)
+        if identity_match:
+            identities.append(tuple(item.strip() for item in identity_match.groups()))
+    matching_identity = [
+        item for item in identities
+        if item[0] == values["requested_model"] and item[1] == values["actual_model"]
+    ]
+    if len(matching_identity) != 1:
+        die("cold-review attestation model pair must match one canonical STATE model-identity row")
+    expected_claims = "bound" if values["requested_model"] == values["actual_model"] else "IDENTITY_UNBOUND"
+    if matching_identity[0][2] != expected_claims:
+        die("cold-review attestation model pair conflicts with STATE identity claims")
+    if disposition == "PASS" and expected_claims != "bound":
+        die("cold-review PASS requires bound requested_model and actual_model identity")
+
+    allowed = {"PASS", "GAP-REVISE", "BLOCKED", "OWNER DECISION"}
+    nonempty = [item for item in report if item.strip()]
+    terminal = [item for item in report if item in allowed]
+    if len(terminal) != 1 or not nonempty or nonempty[-1] != disposition:
+        die("cold-review artifact requires one exact final disposition matching STATE")
+    for prefix in ("Verdict:", "Disposition:", "cold-review-disposition:"):
+        near_rows = [item for item in report if re.match(rf"^\s*{re.escape(prefix[:-1])}\s*:", item, re.I)]
+        exact_rows = [item for item in report if item.startswith(prefix)]
+        if len(near_rows) != len(exact_rows):
+            die(f"cold-review artifact {prefix[:-1]} rows require exact grammar")
+        for item in exact_rows:
+            value = item.split(":", 1)[1].strip()
+            if value not in allowed or value != disposition:
+                die("cold-review artifact contains a contradictory disposition")
+
+    def git(*args):
+        return subprocess.run(
+            ["git", "-C", str(root), *args],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            check=False,
+        )
+
+    repo = git("rev-parse", "--show-toplevel")
+    if repo.returncode != 0:
+        die("cold-review identity requires a containing Git repository")
+    for key, sha in (("base_sha", declared_base), ("head_sha", declared_head)):
+        resolved = git("cat-file", "-t", sha)
+        if resolved.returncode != 0 or resolved.stdout.strip() != "commit":
+            die(f"cold-review {key} does not resolve to a commit")
+    if declared_base == declared_head:
+        die("cold-review base_sha must strictly precede head_sha")
+    ancestry = git("merge-base", "--is-ancestor", declared_base, declared_head)
+    if ancestry.returncode != 0:
+        die("cold-review base_sha must be an ancestor of head_sha")
+PY
+)"; then
+      [ -n "$cold_error" ] || cold_error="cold-review attestation validation failed"
+      err "$cold_error"
+    fi
+  fi
+fi
+
+# The repository-side #86 successor/non-verdict parser is mandatory whenever a
+# live run root carries those prospective rows. Installed consumers without the
+# repo checker fail closed instead of silently treating the contract as optional.
+if grep -R -E -q --include='*.md' '^(successor-review:|lane-status: status: REVIEWER_RUNTIME_NON_VERDICT)' "$run_root" 2>/dev/null; then
+  validator_repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." 2>/dev/null && pwd || true)"
+  live_cold_checker="$validator_repo_root/scripts/check-cold-review-contract.sh" # source repo checker; absent from installed skill by design
+  if [ -z "$validator_repo_root" ] || [ ! -f "$live_cold_checker" ] || [ -L "$live_cold_checker" ]; then
+    err "live successor/non-verdict rows require the repository cold-review checker"
+  elif ! bash "$live_cold_checker" --run-root "$run_root" >/dev/null; then
+    err "live successor/non-verdict contract failed"
+  fi
+fi
+
 if [ -f "$state" ] && grep -qi '^## Context epochs and instruction applicability' "$state"; then
   bad_prov="$(awk -F'|' '
     /^## Context epochs and instruction applicability/ { f=1; next }

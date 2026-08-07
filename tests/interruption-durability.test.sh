@@ -35,13 +35,13 @@ for text in PENDING_TERMINAL "exact command and preconditions" \
 done
 for text in interrupted-partial "not PASS" "not NO_GO" \
   "does not consume the substantive verdict" \
-  "provisional until independently reproduced" "Disposition: PARTIAL" \
+  "provisional until independently reproduced" "Report state: PARTIAL" \
   "synthetic-model" "zero-token" "one-turn" "is_error" \
   "before acquiring" "browser tabs" "containers" "listeners" \
   "temp roots" "worktrees"; do
   require "$child_ref" "$text"
 done
-require "$report_template" "Disposition: PARTIAL | FINAL | interrupted-partial"
+require "$report_template" "Report state: PARTIAL | FINAL | interrupted-partial"
 require "$report_template" "Owned resources:"
 
 # Real script behavior: present, absent, and shape-invalid outputs are distinct;

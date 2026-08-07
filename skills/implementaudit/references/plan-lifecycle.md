@@ -173,6 +173,15 @@ without a recorded disposition. A cold review performed by the authoring
 action without separation does not satisfy the gate. The gate binds to
 executor-facing artifacts and materially risky phase plans, not to every
 trivial direct-governance edit, and it never requires a "review" keyword.
+For prospective records, the disposition cites the run-root-relative reviewer
+report whose attestation binds reviewer identity, `requested_model`,
+`actual_model`, authoring-context reuse, other-reviewer visibility, and full
+base/head SHAs. STATE repeats the reviewed base/head; both resolve as distinct
+commits with base preceding head. The report is exactly `Report state: FINAL`,
+ends with one matching terminal gate token, and binds the requested/actual model
+pair to STATE identity; substituted unbound identity cannot issue PASS. A
+missing, partial, contradictory, or self-review attestation leaves the
+independent gate open; legacy records without the prospective row remain valid.
 
 ## Execute / Dispatch / Review
 

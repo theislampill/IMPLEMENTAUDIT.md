@@ -1,5 +1,7 @@
 # Fixture: Roadmap execution index is a derivative projection
 
+review-packet-scope: scope: phase-spec | technique: cold-read | evidence_mode: reference
+
 Scenario:
 
 A phased run maintains its run-root `ROADMAP.md` phases table — execution
