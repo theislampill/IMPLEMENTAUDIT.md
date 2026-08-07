@@ -242,10 +242,12 @@ artifact path with the producer stubbed and zero metered calls. Bind the result
 to a strict terminal receipt and canonical command hash; environment values are
 never captured. A failed rehearsal authorizes no launch. Interposed stubs make
 the result `PASS_WITH_SCOPE_GAP` and every extra component is named in
-`Residual risk:`. A passing run through a second apparatus is flagged for cold
-review with residual-risk rationale rather than mechanically promoted. After a
-failure, only manual repair and re-run may establish a new passing receipt; the
-governed action must not automatically retry.
+`Residual risk:`. Post-pass escalation is governed by `Countermeasure Scope And
+Verification Proportionality` in `lean-operating-discipline.md`;
+`PASS_WITH_SCOPE_GAP` is an input to that judgment, not automatic promotion
+into a second apparatus. After a failure, only manual repair and re-run may
+establish a new passing receipt; the governed action must not automatically
+retry.
 
 **Rule P4-12 — Paired controls on free-text acceptance.**
 Any acceptance criterion that matches free text ships with two named controls

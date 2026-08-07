@@ -10,8 +10,8 @@ below maps to a concrete runtime behavior or gate.
 |---|---|---|---|
 | Gemba / Genchi Genbutsu | Inspect live files/artifacts/outputs before any claim. Gemba is a non-skippable execution-spine gate. Do not diagnose from summaries when the live artifact exists. | `SKILL.md` §Gemba | `check-planner-stages.sh` |
 | A3 thinking | Maps to the `tdqyq-audit-object`: problem, current condition, target condition, root cause (5 Whys), countermeasure, acceptance criteria, owner/source, evidence, follow-up, sustainment. Must be concise and evidence-bearing, not a private reasoning dump. | `SKILL.md` §Canonical audit terminology | `check-planner-stages.sh` |
-| Kaizen | Standardize countermeasures when durable: fold into templates, AGENTS.md anti-repeat rules, checkers, or CI gates. CONTINUITY_DECISION at every phase boundary decides whether to standardize. | `AGENTS.md`, `templates/phase-goal.txt` | `check-planner-stages.sh` |
-| Hansei | Required structured reflection after: false pass, regression, abnormal release-gate command, substituted command, stale generated artifact, or owner intervention. Record: gap, cause, countermeasure, follow-up evidence. | `SKILL.md` §Hansei | `check-planner-stages.sh` |
+| Kaizen | Standardize countermeasures when durable: fold into templates, AGENTS.md anti-repeat rules, checkers, or CI gates. CONTINUITY_DECISION at every phase boundary decides whether to standardize. A countermeasure declares its `scope` (targets / non_targets_checked / no_harm) before it is applied — see Countermeasure Scope And Verification Proportionality. | `AGENTS.md`, `templates/phase-goal.txt` | `check-planner-stages.sh` |
+| Hansei | Required structured reflection after: false pass, regression, abnormal release-gate command, substituted command, stale generated artifact, or owner intervention. Record: gap, cause, countermeasure, follow-up evidence; the countermeasure field carries its declared `scope`. | `SKILL.md` §Hansei | `check-planner-stages.sh` |
 | Jidoka | Stop-the-line when evidence fails. Trigger: any proof failure, regression, hidden rerun, substituted command, package-boundary violation, or release-asset mismatch. Chain: Andon → ANDON_PROBE → Hansei → 5 Whys (when warranted) → owner/source countermeasure → Kaizen standardization decision → re-run evidence → close/block/defer/handoff. No arbitrary try or round cap; ANDON_HANDOFF only on a genuine blocking condition. | `templates/PROTOCOL.md` §Jidoka stop-the-line | `check-planner-stages.sh` |
 | Andon | Visible abnormality signal. Print Andon block with: status, blocker, failing check, owner/source, next concrete action. Do not hide failure. Do not mark "mostly done." | `SKILL.md` §Andon | `check-planner-stages.sh` |
 | Nemawashi | Surface consequential assumptions before dispatch. Tie to Stage 6 plan review: release/package/AGENTS.md/sidecar-status changes require explicit owner-aware review before Stage 7 handoff. | `SKILL.md` §Nemawashi, `templates/PROTOCOL.md` | Stage 6 Self-critique |
@@ -140,3 +140,41 @@ Escalate to Andon or handoff when blocked. Do not create arbitrary try caps,
 retry counts, fixed-count ladders, audit-round ceilings, or fixed iteration limits.
 The exit condition is evidence: actionable root cause, unavailable information,
 scope expansion, owner decision, or no bounded countermeasure remaining.
+
+## Countermeasure Scope And Verification Proportionality
+
+**Countermeasure scope.** Every countermeasure recorded in a Hansei entry, a
+Jidoka chain, or a Kaizen standardization decision declares its scope before
+it is applied:
+
+```text
+scope:
+  targets: <the surfaces the countermeasure is aimed at>
+  non_targets_checked: <the surfaces it also reaches, and how they were checked>
+  no_harm: <one line: why the non-targets are unaffected, or what changed for them>
+```
+
+When the countermeasure is text injected into a shared channel — a prompt, a
+mission preamble, a template every unit renders, a global config — the
+non-target set is *everything else in that channel*, and `no_harm` must say
+how that was established. A global scope is permitted; an undeclared one is
+not. If the information needed to partition targets from non-targets already
+exists in the run, cite it; do not re-derive it and do not skip it.
+
+A countermeasure that regresses a declared non-target is a `regression` Andon
+against the countermeasure itself, not a new defect in the non-target.
+
+**Verification proportionality.** A verification step proposed *after* a prior
+verification of the same object already passed must state the specific
+residual risk it retires and the cost of that risk if left unretired. If the
+verification costs more than the risk, close instead and record the residual.
+A declared scope gap in a passing verification (`PASS_WITH_SCOPE_GAP` and
+equivalents) is an input to this judgment, not an automatic trigger to build a
+larger verification apparatus.
+
+This rule is judgment-shaped and deliberately not mechanical. It is not a cap:
+it imposes no round, attempt, or audit-count ceiling (see `No Arbitrary
+Revision Cap` in `plan-lifecycle.md` and the try-cap prohibition in
+`SKILL.md`). Verification invented to occupy a wait, a quota window, or a
+blocked interval retires no risk by construction and is Muda — log it in the
+`THINKING.md` Muda/Mura/Muri register rather than running it.
