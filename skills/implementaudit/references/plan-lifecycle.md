@@ -371,9 +371,10 @@ publication gate.
 ## Issue Publication Deferred
 
 `--issues`-style publication remains deferred unless explicitly authorized. The
-runtime may produce issue-ready rows inside the audit object, but it must not
-create GitHub issues, publish to a tracker, or imply that issue creation
-happened. Issue creation requires explicit authorization, destination, title
+runtime may produce issue-ready rows inside the audit object,
+but it must not create GitHub issues, publish to a tracker, or imply that
+issue creation happened. Issue creation is
+a future publication gate requiring explicit authorization, destination, title
 policy, body policy, duplicate check, and readback evidence.
 
 ## Issue Publication (Authorized)
