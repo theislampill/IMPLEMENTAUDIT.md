@@ -82,6 +82,53 @@ printf 'Anchor: %s\nfixes regression from @%s\n' "$full" "$other" \
 bash "$cea" --artifact "$tmp/mixed.md" --tree "$full" >/dev/null \
   || fail "artifact with a valid header anchor plus a full-SHA body reference was refused"
 
+# #87: an optional bounded-surface manifest preserves an artifact across only
+# disjoint commit changes. Without the manifest, exact whole-tree identity is
+# unchanged; an intersecting or unsafe declaration stays red.
+mkdir "$tmp/surface-repo"
+(
+  cd "$tmp/surface-repo"
+  git init -q
+  git config user.email test@example.invalid
+  git config user.name 'ImplementAudit Test'
+  mkdir -p relevant unrelated
+  printf 'A\n' > relevant/a.txt
+  printf 'A\n' > unrelated/a.txt
+  git add . && git commit -qm anchor
+  anchor="$(git rev-parse HEAD)"
+  printf 'relevant/**\n' > surfaces.txt
+  surfaces_sha="$(sha256sum surfaces.txt | awk '{print $1}')"
+  printf 'Anchor: %s\nBound-Surfaces-SHA256: %s\n' "$anchor" "$surfaces_sha" > verdict.md
+  printf '../outside\n' > unsafe-surfaces.txt
+  unsafe_sha="$(sha256sum unsafe-surfaces.txt | awk '{print $1}')"
+  printf 'Anchor: %s\nBound-Surfaces-SHA256: %s\n' "$anchor" "$unsafe_sha" > unsafe-verdict.md
+  if bash "$cea" --artifact unsafe-verdict.md --tree "$anchor" --bound-surfaces unsafe-surfaces.txt >/dev/null 2>&1; then
+    fail "unsafe bounded-surface declaration accepted at an equal anchor"
+  fi
+  printf 'B\n' > unrelated/a.txt
+  git add unrelated/a.txt && git commit -qm unrelated
+  current="$(git rev-parse HEAD)"
+  bash "$cea" --artifact verdict.md --tree "$current" --bound-surfaces surfaces.txt >/dev/null \
+    || fail "disjoint bounded-surface change invalidated artifact"
+  printf 'other/**\n' > surfaces.txt
+  if bash "$cea" --artifact verdict.md --tree "$current" --bound-surfaces surfaces.txt >/dev/null 2>&1; then
+    fail "substituted bound-surfaces manifest accepted without artifact binding"
+  fi
+  printf 'relevant/**\n' > surfaces.txt
+  if bash "$cea" --artifact verdict.md --tree "$current" >/dev/null 2>&1; then
+    fail "missing bound-surfaces manifest weakened exact whole-tree refusal"
+  fi
+  printf 'B\n' > relevant/a.txt
+  git add relevant/a.txt && git commit -qm relevant
+  current="$(git rev-parse HEAD)"
+  if bash "$cea" --artifact verdict.md --tree "$current" --bound-surfaces surfaces.txt >/dev/null 2>&1; then
+    fail "intersecting bounded-surface change accepted"
+  fi
+  if bash "$cea" --artifact verdict.md --tree "$current" --bound-surfaces unsafe-surfaces.txt >/dev/null 2>&1; then
+    fail "unsafe bounded-surface declaration accepted"
+  fi
+)
+
 # --- run-root validation: short-sha anchor in STATE.md fails ----------------
 seed="$tmp/run-root"
 mkdir -p "$seed/phases"

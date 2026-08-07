@@ -193,6 +193,14 @@ current one — re-gather instead (stale-evidence substitution is an
 ANDON_PROBE, class `evidence-mismatch`). Legacy rows recorded before this
 contract carry no anchor and stay valid as historical evidence.
 
+An evidence-scope declaration may supply a nonempty `bound_surfaces` manifest
+of repo-relative paths/globs to `check-evidence-anchor.sh --artifact ... --tree
+... --bound-surfaces <manifest>`. Anchor-to-current changes disjoint from that
+set do not invalidate the artifact; an intersection does. The artifact binds
+the manifest bytes with exactly one `Bound-Surfaces-SHA256: <digest>` line, so
+the caller cannot substitute a narrower set. Without the manifest, exact
+whole-tree equality remains mandatory.
+
 New out-of-repo evidence uses the canonical `external-evidence` record. Record
 `bytes`, RFC3339 UTC whole-second `mtime`, `liveness: snapshot|terminal`,
 `still-producing: true|false`, `use: orientation|terminal`, and
@@ -372,6 +380,20 @@ no repository mutation happens until reconciliation runs:
 6. restore the current next authorized action from STATE.md and continue
    from it — never restart the run because context was reconstructed;
 7. when continuity cannot be established, hand off rather than speculate.
+
+At phase start and after each continuity boundary, record one canonical
+execution-identity row in STATE.md:
+
+```text
+model-identity: requested_model: <model> | actual_model: <model> | evidence: self-report|host-event:<id> | claims: bound|IDENTITY_UNBOUND
+```
+
+These names also govern reviewer identity in #86. A requested/actual mismatch
+is an Andon of class `transport-infrastructure`; claims produced after the
+substitution point remain `IDENTITY_UNBOUND` until re-produced or re-verified
+under the requested identity. Prefer a machine host-event when available;
+otherwise label the pair `self-report`. The transport Andon evidence cell
+equals that exact evidence value; an unrelated transport event cannot bind it.
 
 Record the boundary as a new epoch row in STATE.md `## Context epochs and
 instruction applicability` (create-once: at most one writer claims a new
@@ -958,6 +980,15 @@ Print `AUDIT_COMPLETE` only when:
   it (see the closure-claims table below), and closes only with evidence
   from that surface — evidence from a lower layer is never promoted into a
   higher-surface claim
+- The start and VERIFY anchors are recaptured. Drift carries exactly one
+  hash-bound evidence row per claim: either `reanchor-finding: ... |
+  disposition: reanchored` or a consequential `residual: ... | disposition:
+  SUPERSEDED_BY_CONCURRENT_MUTATION`; it never closes as `unchanged`.
+- Terminal qualification records `equivalent_config_attempts: N_total/N_passing`.
+  More than one equivalent-configuration draw without an adequate predeclared
+  `stochasticity_budget: N` is `PROVISIONAL`. A numeric budget names its start
+  SHA and a tracked declaration file; the exact budget line must already exist
+  in that file at `AUDIT_START_ANCHOR`. An ordinary `1/1` is `QUALIFIED`.
 
 Then print `IMPLEMENTAUDIT_RUN_COMPLETE`.
 

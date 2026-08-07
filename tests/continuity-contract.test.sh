@@ -59,6 +59,11 @@ contains_normalized "$ref" "run-authored steer and advisory outputs" ||
 contains_normalized "$ref" "precision-critical owner vocabulary" ||
   fail "reference missing immediate vocabulary preservation rule"
 grep -Fqi 'supersedes:' "$ref" || fail "reference missing steer precedence header"
+for surface in "$ref" "$proto" "$state_t"; do
+  grep -q 'requested_model' "$surface" || fail "$surface missing canonical requested_model field"
+  grep -q 'actual_model' "$surface" || fail "$surface missing canonical actual_model field"
+  grep -q 'IDENTITY_UNBOUND' "$surface" || fail "$surface missing identity-unbound consequence"
+done
 grep -q "references/continuity.md" skills/implementaudit/SKILL.md || fail "SKILL.md load map missing continuity reference"
 # The bootloader itself must carry the load-bearing runtime instruction —
 # the B3 post-change r1 wave proved reference-only placement does not

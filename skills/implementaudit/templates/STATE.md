@@ -121,7 +121,9 @@ rows — not a failure, not closure.)
 
 One row per residual. Disposition values: `unresolved` / `deferred` /
 `transferred` (name the receiving owner) / `owner-assigned` /
-`risk-accepted` (cite the policy) / `validated-resolved`. AUDIT_COMPLETE
+`risk-accepted` (cite the policy) / `validated-resolved` /
+`SUPERSEDED_BY_CONCURRENT_MUTATION` (closure re-anchor proves the finding's
+target changed). AUDIT_COMPLETE
 requires every consequential residual to carry a non-`unresolved`
 disposition, and completion language claims audit-completion only.
 
@@ -143,6 +145,21 @@ substitute for executing the checker with those arguments.
 
 | Residual | Consequential | Disposition | Owner / policy ref | Evidence |
 |---|---|---|---|---|
+
+## Execution identity
+
+Legacy roots may omit this row. New phases record the canonical sibling-harness
+names; `executing_model_resolved` and reviewer requested/resolved prose map to
+these names and are not additional fields:
+
+```text
+schema: model-identity: requested_model: <model> | actual_model: <model> | evidence: self-report|host-event:<id> | claims: bound|IDENTITY_UNBOUND
+```
+
+A mismatch requires `claims: IDENTITY_UNBOUND` and an Andon row whose class is
+`transport-infrastructure`; that row's evidence cell equals the identity row's
+`self-report` or `host-event:<id>` value. Re-produce or re-verify those claims
+under the requested identity before marking them bound.
 
 ## Context epochs and instruction applicability
 

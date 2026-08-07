@@ -55,6 +55,19 @@ After any continuity boundary, and before the next repository mutation:
    state, irreconcilable instruction set), hand off with the evidence rather
    than speculate.
 
+Record execution identity with the sibling-harness vocabulary:
+
+```text
+model-identity: requested_model: <model> | actual_model: <model> | evidence: self-report|host-event:<id> | claims: bound|IDENTITY_UNBOUND
+```
+
+This is also the canonical requested/resolved mapping consumed by independent
+review. When `requested_model` differs from `actual_model`, raise an Andon of
+class `transport-infrastructure` and mark post-substitution claims
+`IDENTITY_UNBOUND` until they are re-produced or re-verified under the requested
+identity. Use a machine-readable host event when one exists; otherwise the row
+is explicitly a self-report.
+
 The reconciliation is recorded by the new epoch row (provenance, repository
 identity at establishment, reconciled: yes). No new transcript marker
 exists for this: the epoch row plus the existing pause/resume markers are
@@ -113,6 +126,11 @@ authorized action, and the active (not satisfied/superseded) instruction
 set. Every capsule field rederives from live source owners at write time;
 a capsule inherited from an earlier epoch is itself reconstructed context
 and re-verifies against live state before use.
+
+At closure, re-capture the anchor set recorded at start. A moved anchor requires
+checkable re-anchor evidence or the per-finding disposition
+`SUPERSEDED_BY_CONCURRENT_MUTATION`; a producing run never delegates this
+reconciliation to its receiver.
 
 Before a declared terminal action, append one `PENDING_TERMINAL` line to the
 run root naming the exact command and preconditions. Clear it only after success.
