@@ -23,6 +23,7 @@ import candidate_matrix_rederive
 import evaluated_surfaces as surfaces
 import provisional_integration as integration
 import qualification_evidence_producer as evidence_producer
+import reconcile
 import test_b3v4_rederive as b3_fixture
 import test_candidate_matrix_rederive as matrix_fixture
 
@@ -68,6 +69,70 @@ def _producer_repo():
         atexit.register(
             shutil.rmtree, _PRODUCER_REPO, ignore_errors=True)
     return _PRODUCER_REPO
+
+
+def _assert_process_identity_failure_identity():
+    class ExpectedUnavailable(OSError):
+        pass
+
+    class UnexpectedInstrumentationFailure(RuntimeError):
+        pass
+
+    original_os = reconcile.os
+    had_open = hasattr(reconcile, "open")
+    original_open = getattr(reconcile, "open", None)
+
+    class PosixOS:
+        name = "posix"
+
+        @staticmethod
+        def kill(_pid, _signal):
+            raise ExpectedUnavailable("process absent")
+
+        @staticmethod
+        def sysconf(_name):
+            return 100
+
+    try:
+        reconcile.os = PosixOS()
+        assert reconcile._pid_alive(999999) is False
+
+        PosixOS.kill = staticmethod(
+            lambda _pid, _signal: (_ for _ in ()).throw(
+                UnexpectedInstrumentationFailure("liveness instrument")))
+        try:
+            reconcile._pid_alive(999999)
+        except UnexpectedInstrumentationFailure:
+            pass
+        else:
+            raise AssertionError("liveness instrumentation failure was hidden")
+
+        reconcile.open = lambda *_args, **_kwargs: (_ for _ in ()).throw(
+            ExpectedUnavailable("identity absent"))
+        assert reconcile.host_boot_id() is None
+        assert reconcile.process_creation_time(999999) is None
+
+        reconcile.open = lambda *_args, **_kwargs: (_ for _ in ()).throw(
+            UnexpectedInstrumentationFailure("identity instrument"))
+        for label, action in (
+                ("boot identity", reconcile.host_boot_id),
+                ("process creation time",
+                 lambda: reconcile.process_creation_time(999999))):
+            try:
+                action()
+            except UnexpectedInstrumentationFailure:
+                pass
+            else:
+                raise AssertionError(f"{label} instrumentation failure hidden")
+    finally:
+        reconcile.os = original_os
+        if had_open:
+            reconcile.open = original_open
+        elif hasattr(reconcile, "open"):
+            delattr(reconcile, "open")
+
+    assert reconcile.process_creation_time(-1) is None
+    assert reconcile.process_creation_time(os.getpid()) is not None
 
 
 def _package_bytes(source_sha, source_tree):
@@ -1011,6 +1076,7 @@ def _assert_virtual_projection_integration_boundary(base):
 
 
 def main():
+    _assert_process_identity_failure_identity()
     # Round-3 governing RED: positive gate evidence comes only from the
     # controller-owned producer API, never direct test-authored terminals.
     assert callable(evidence_producer.run_gate)

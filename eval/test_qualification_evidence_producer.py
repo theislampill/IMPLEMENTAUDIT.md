@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import copy
 import hashlib
+import io
 import os
 import pathlib
 import subprocess
@@ -1279,6 +1280,62 @@ def expect_error(fragment, action):
         raise AssertionError(f"expected error containing {fragment!r}")
 
 
+def _assert_hidden_error_visibility(base):
+    class DeniedWrite(RuntimeError):
+        pass
+
+    def denied_write(_filename, _raw):
+        raise DeniedWrite("controlled journal denial")
+
+    transaction = producer._GateEvidenceTransaction(
+        base, "package", {"test": "identity"})
+    transaction.write = denied_write
+
+    def assert_journal_marker(expected_path, action):
+        try:
+            action()
+        except Exception as exc:
+            marker = getattr(exc, "marker", None)
+            assert marker == {
+                "marker": "journal-write-failed",
+                "path": expected_path,
+                "error_type": "DeniedWrite",
+            }, marker
+            assert isinstance(exc.__cause__, DeniedWrite)
+        else:
+            raise AssertionError(
+                f"expected journal-write-failed for {expected_path}")
+
+    assert_journal_marker(
+        "package-failure-journal.json",
+        lambda: transaction.failure_journal(
+            "FAILURE_EVIDENCE_PUBLICATION", RuntimeError("primary"),
+            child_consumed=False))
+    assert_journal_marker(
+        "package-open-child-journal.json",
+        lambda: transaction.open_child_journal(
+            {"pid": 1}, {"error_type": "OSError"}, []))
+    assert_journal_marker(
+        "package-manual-reconciliation-journal.json",
+        lambda: transaction.manual_reconciliation_journal(
+            RuntimeError("primary")))
+
+    class Unreadable:
+        def read(self):
+            raise DeniedWrite("controlled pipe denial")
+
+    try:
+        producer._read_completed_pipe(Unreadable())
+    except Exception as exc:
+        assert "completed pipe read failed" in str(exc)
+        assert isinstance(exc.__cause__, DeniedWrite)
+    else:
+        raise AssertionError("unreadable completed pipe reported as empty")
+
+    assert producer._read_completed_pipe(None) == b""
+    assert producer._read_completed_pipe(io.BytesIO(b"")) == b""
+
+
 def _assert_package_failure_table_units():
     for reason_code, spec in producer.PACKAGE_FAILURE_TABLE.items():
         (status, error_type, reason, stage, child_mode,
@@ -1335,6 +1392,9 @@ def _assert_package_failure_table_units():
 
 
 def main():
+    with tempfile.TemporaryDirectory(prefix="hidden-error-visibility-") as tmp:
+        _assert_hidden_error_visibility(pathlib.Path(tmp))
+
     expected_package_reasons = {
         "PACKAGE_EXPORT_ROOT_EXISTS",
         "PACKAGE_EXPORT_CONTRACT_INVALID",

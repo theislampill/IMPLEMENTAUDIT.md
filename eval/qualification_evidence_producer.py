@@ -152,6 +152,17 @@ class _EvidencePublicationError(ValueError):
     pass
 
 
+class _JournalWriteError(_EvidencePublicationError):
+    def __init__(self, path, exc):
+        self.marker = {
+            "marker": "journal-write-failed",
+            "path": path,
+            "error_type": type(exc).__name__,
+        }
+        super().__init__(
+            f"journal-write-failed: {path} ({type(exc).__name__})")
+
+
 def _path_identity(observed):
     return {
         "device": observed.st_dev,
@@ -287,11 +298,11 @@ class _GateEvidenceTransaction:
             "observed_files": observed_files,
             "evidence_root_identity": self.root_identity,
         }
+        filename = f"{self.name}-failure-journal.json"
         try:
-            self.write(
-                f"{self.name}-failure-journal.json", _encoded(value))
-        except Exception:
-            pass
+            self.write(filename, _encoded(value))
+        except Exception as exc:
+            raise _JournalWriteError(filename, exc) from exc
 
     def open_child_journal(self, child, communication_error,
                            termination_errors):
@@ -307,11 +318,11 @@ class _GateEvidenceTransaction:
             "termination_errors": termination_errors,
             "evidence_root_identity": self.root_identity,
         }
+        filename = f"{self.name}-open-child-journal.json"
         try:
-            self.write(
-                f"{self.name}-open-child-journal.json", _encoded(value))
-        except Exception:
-            pass
+            self.write(filename, _encoded(value))
+        except Exception as exc:
+            raise _JournalWriteError(filename, exc) from exc
 
     def manual_reconciliation_journal(self, exc):
         value = {
@@ -327,12 +338,11 @@ class _GateEvidenceTransaction:
             "partial_artifact_inventory": self.partial_inventory,
             "evidence_root_identity": self.root_identity,
         }
+        filename = f"{self.name}-manual-reconciliation-journal.json"
         try:
-            self.write(
-                f"{self.name}-manual-reconciliation-journal.json",
-                _encoded(value))
-        except Exception:
-            pass
+            self.write(filename, _encoded(value))
+        except Exception as journal_exc:
+            raise _JournalWriteError(filename, journal_exc) from journal_exc
 
 
 def _child_record(argv, process, started_at, completed_at,
@@ -406,8 +416,9 @@ def _read_completed_pipe(stream):
         return b""
     try:
         value = stream.read()
-    except Exception:
-        return b""
+    except Exception as exc:
+        raise _EvidencePublicationError(
+            f"completed pipe read failed: {type(exc).__name__}") from exc
     if value is None:
         return b""
     if isinstance(value, str):

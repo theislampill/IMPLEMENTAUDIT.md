@@ -919,8 +919,11 @@ class _BaseAdapter:
                     only=("host-stdout.raw", "host-stderr.raw",
                       "run-intent.json", "process-started.json",
                       "product-attestation.json"))
-            except Exception:
-                pass
+            except Exception as exc:
+                result.kind = "invalid"
+                result.detail = (
+                    "credential quarantine failed: "
+                    f"{type(exc).__name__}")
             term = {"schema": "implementaudit-run-terminal-v1",
                     "run_id": run_id, "spawned": spawned,
                     "kind": result.kind,

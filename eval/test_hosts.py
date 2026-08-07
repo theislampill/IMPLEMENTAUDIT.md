@@ -734,6 +734,31 @@ def main():
               and "Bearer abcdefghij" not in r.detail
               and not leaked_still)
 
+        # 26c. a quarantine instrument failure cannot disappear inside the
+        # finally path and leave a normal-looking successful terminal.
+        a26c = make_adapter(
+            tmp, "ok-codex", home=os.path.join(tmp, "codex-home-h26c"))
+        original_quarantine26c = a26c._quarantine_if_leak
+        raw_quarantine_calls26c = []
+
+        def _fail_final_quarantine26c(root, quarantine_name, only=None):
+            if quarantine_name == "quarantine-raw":
+                raw_quarantine_calls26c.append(quarantine_name)
+                if len(raw_quarantine_calls26c) == 2:
+                    raise RuntimeError("controlled quarantine failure")
+            return original_quarantine26c(
+                root, quarantine_name, only=only)
+
+        a26c._quarantine_if_leak = _fail_final_quarantine26c
+        r26c = run(a26c, tmp, "r-h26c")
+        terminal26c = json.load(open(os.path.join(
+            tmp, "custody", "r-h26c", "terminal.json"), encoding="utf-8"))
+        check("H26c quarantine-failure-terminalizes",
+              r26c.kind == "invalid"
+              and "credential quarantine failed" in r26c.detail
+              and terminal26c.get("kind") == "invalid"
+              and "RuntimeError" in terminal26c.get("detail", ""))
+
         # 27. same-second session binding: fractional session timestamps in
         # the SAME second as not_before must match (parsed comparison, never
         # lexicographic — the smoke-L-b0-r1 INVALID class)
