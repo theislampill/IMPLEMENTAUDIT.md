@@ -221,6 +221,20 @@ if bash skills/implementaudit/scripts/validate-run-root.sh --micro \
   printf 'audit-object-routing-contract.test: micro root accepted undeclared extra payload\n' >&2
   exit 1
 fi
+for allowed_name in .claimed STATE.md deferrals.jsonl; do
+  nested_micro="$tmp/micro-nested-$allowed_name/root"
+  mkdir -p "$nested_micro/extra"
+  cp fixtures/run-root/micro-conformant/root/.claimed \
+    fixtures/run-root/micro-conformant/root/STATE.md "$nested_micro/"
+  printf 'nested basename must not inherit root allowance\n' \
+    > "$nested_micro/extra/$allowed_name"
+  if bash skills/implementaudit/scripts/validate-run-root.sh --micro \
+    "$nested_micro" >/dev/null 2>&1; then
+    printf 'audit-object-routing-contract.test: nested %s bypassed micro payload boundary\n' \
+      "$allowed_name" >&2
+    exit 1
+  fi
+done
 if bash skills/implementaudit/scripts/validate-run-root.sh --micro \
   fixtures/run-root/micro-with-stage62-disposition/root >/dev/null 2>&1; then
   printf 'audit-object-routing-contract.test: micro retrospective carried Stage 6.2 review\n' >&2
