@@ -308,6 +308,30 @@ do
 done
 
 for text in \
+  "## Issue Publication (Authorized)" \
+  "following five steps are the publication gate" \
+  "enumerated, not sampled" \
+  "open and closed items" \
+  "standard census fields" \
+  "Citation resolvability and claim-surface discipline" \
+  "resolves to a durable artifact" \
+  "Issue bodies, PR descriptions, comments, and release notes are claim surfaces" \
+  "Independent cold review of the draft set" \
+  "PASS / GAP-REVISE / BLOCKED / OWNER DECISION" \
+  "same-context pass is self-critique" \
+  "Recorded owner sign-off" \
+  "destination, the exact draft set, and the moment it was given" \
+  "Authorization for one set never generalizes" \
+  "Post-filing read-back" \
+  "mutating command's own output is never the evidence" \
+  "evidence-mismatch" \
+  "does not claim publication" \
+  "no publication intent incurs none of these obligations"
+do
+  require_text "$plan_ref" "$text"
+done
+
+for text in \
   "what next?" \
   "features" \
   "roadmap" \

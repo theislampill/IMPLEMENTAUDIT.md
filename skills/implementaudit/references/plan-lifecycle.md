@@ -376,6 +376,48 @@ publish to a tracker, or imply that issue creation happened. Issue creation is
 a future publication gate requiring explicit authorization, destination, title
 policy, body policy, duplicate check, and readback evidence.
 
+## Issue Publication (Authorized)
+
+Once publication is explicitly authorized under the run invariants, the
+following five steps are the publication gate. Publication with no authorized
+destination remains governed by Issue Publication Deferred.
+
+**(i) Overlap census against tracker state, enumerated, not sampled.** Read the
+destination tracker's open and closed items and the live backlog before the
+draft set is finalized. Withdraw a draft that restates a closed item's core
+invariant, or re-scope it as an enforcement finding naming that item. Record
+the standard census fields: population definition, population size, examined
+count, and enumeration source. A sampled overlap check cannot discharge this
+step.
+
+**(ii) Citation resolvability and claim-surface discipline.** Every evidence
+pointer in a draft resolves to a durable artifact: a committed path, run root,
+or evidence compendium, not conversation context or a snapshot of a
+still-producing source. Every numeric or verdict claim resolves to an anchored
+evidence row or is softened before publication.
+Issue bodies, PR descriptions, comments, and release notes are claim surfaces.
+
+**(iii) Independent cold review of the draft set.** Stage 6.2 applies to
+publication artifacts. A reviewer with no authoring context reviews the drafts
+before filing, and PASS / GAP-REVISE / BLOCKED / OWNER DECISION is recorded in
+the audit object. A same-context pass is self-critique and does not discharge
+this step.
+
+**(iv) Recorded owner sign-off.** The authorization names the
+destination, the exact draft set, and the moment it was given. Record it in the
+run root before any object is created.
+Authorization for one set never generalizes to a later one.
+Items routed to another owner or repository are surfaced in the sign-off packet,
+not filed at the authorized destination.
+
+**(v) Post-filing read-back.** Read each created object separately from the
+destination and record its returned identity and state.
+A mutating command's own output is never the evidence that the mutation landed.
+A read-back that disagrees with intended state is Andon `evidence-mismatch`,
+and the run does not claim publication.
+
+A run with no publication intent incurs none of these obligations.
+
 ## No Arbitrary Revision Cap
 
 Plan review, execution review, reconciliation, and audit-fix loops continue until terminal closure or audited handoff.
