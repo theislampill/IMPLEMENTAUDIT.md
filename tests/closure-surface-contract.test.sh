@@ -13,6 +13,62 @@ scorer="skills/implementaudit/scripts/check-closure-surface.sh"
 fx="fixtures/closure-surface"
 fail() { printf 'closure-surface-contract: %s\n' "$*" >&2; exit 1; }
 
+publication_identity_controls() {
+  local work="$1" evidence_digest live_digest stable_file_hash drift_file_hash
+  evidence_digest='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+  live_digest='bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+  printf '%s\n' "$evidence_digest" > "$work/publication-stable.sha256"
+  stable_file_hash="$(sha256sum "$work/publication-stable.sha256" | awk '{print $1}')"
+  cat > "$work/publication-stable.md" <<EOF
+claim: pub-stable | surface: publication | status: verified | evidence-surface: publication | evidence-digest: $evidence_digest
+publication-identity: pub-stable | live-digest-file: publication-stable.sha256 | live-file-sha256: $stable_file_hash | live-digest: $evidence_digest | disposition: verified
+EOF
+  bash "$scorer" "$work/publication-stable.md" >/dev/null \
+    || fail 'stable publication digest identity was rejected'
+
+  printf '%s\n' "$live_digest" > "$work/publication-drift.sha256"
+  drift_file_hash="$(sha256sum "$work/publication-drift.sha256" | awk '{print $1}')"
+  cat > "$work/publication-drift-verified.md" <<EOF
+claim: pub-drift | surface: publication | status: verified | evidence-surface: publication | evidence-digest: $evidence_digest
+publication-identity: pub-drift | live-digest-file: publication-drift.sha256 | live-file-sha256: $drift_file_hash | live-digest: $live_digest | disposition: verified
+EOF
+  if bash "$scorer" "$work/publication-drift-verified.md" >/dev/null 2>&1; then
+    fail 'publication digest drift remained verified instead of SUPERSEDED'
+  fi
+
+  grep -v '^publication-identity:' "$work/publication-stable.md" \
+    > "$work/publication-missing-identity.md"
+  if bash "$scorer" "$work/publication-missing-identity.md" >/dev/null 2>&1; then
+    fail 'verified publication claim without a current-digest identity row was accepted'
+  fi
+
+  sed -e 's/status: verified/status: unverified/' \
+      -e 's/disposition: verified/disposition: SUPERSEDED/' \
+      "$work/publication-drift-verified.md" > "$work/publication-drift-superseded.md"
+  bash "$scorer" "$work/publication-drift-superseded.md" >/dev/null \
+    || fail 'publication digest drift with explicit SUPERSEDED disposition was rejected'
+
+  sed "s/live-file-sha256: $drift_file_hash/live-file-sha256: $evidence_digest/" \
+    "$work/publication-drift-superseded.md" > "$work/publication-drift-unbound.md"
+  if bash "$scorer" "$work/publication-drift-unbound.md" >/dev/null 2>&1; then
+    fail 'caller-supplied live digest was accepted without binding the live digest file'
+  fi
+
+  sed "s/live-digest: $live_digest/live-digest: $evidence_digest/" \
+    "$work/publication-drift-superseded.md" > "$work/publication-live-field-mismatch.md"
+  if bash "$scorer" "$work/publication-live-field-mismatch.md" >/dev/null 2>&1; then
+    fail 'live digest field was accepted when it contradicted the bound file'
+  fi
+}
+
+if [ "${1:-}" = "--publication-identity-only" ]; then
+  focused_tmp="$(mktemp -d)"
+  trap 'rm -rf "$focused_tmp"' EXIT
+  publication_identity_controls "$focused_tmp"
+  printf 'closure-surface-contract: publication-identity-only ok\n'
+  exit 0
+fi
+
 flat="$(tr '\n' ' ' < "$proto" | tr -s ' ')"
 printf '%s' "$flat" | grep -qi 'Closure-claims table' \
   || fail "PROTOCOL missing closure-claims table"
@@ -720,5 +776,8 @@ printf '%s\nAUDIT_START_ANCHOR: %s\nAUDIT_VERIFY_ANCHOR: %s\n%s\n%s\n%s\n%s\n' "
 if bash "$scorer" "$tmp/zero-pass-qualified.md" >/dev/null 2>&1; then
   fail "zero-pass terminal accepted as QUALIFIED"
 fi
+
+# #89 R16: publication verification is digest identity, not label identity.
+publication_identity_controls "$tmp"
 
 printf 'closure-surface-contract: ok (contract + quota, kill-authority, #88 external-state, and #78 deferral controls)\n'

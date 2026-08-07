@@ -22,7 +22,256 @@ fi
 asset_name="IMPLEMENTAUDIT.skill"
 cleanup_dir=""
 
+check_release_identity() {
+  local mode="${1:-}" previous_version="${2:-}" release_commit="${3:-}" check_root="${4:-$repo_root}"
+  local candidate_asset="${5:-$check_root/$asset_name}"
+  [ -n "$mode" ] && [ -n "$previous_version" ] && [ -n "$release_commit" ] \
+    || fail "--check-release-identity requires <forward|republish> <previous-version> <release-commit> [repo-root] [candidate-asset]"
+  "${py_cmd[@]}" - "$mode" "$previous_version" "$release_commit" "$check_root" "$candidate_asset" <<'PY'
+import hashlib
+import json
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+mode, previous_version, release_commit, root_arg, candidate_arg = sys.argv[1:]
+root = Path(root_arg).resolve()
+if mode not in {"forward", "republish"}:
+    raise SystemExit("prospective release identity mode must be forward or republish")
+
+plugin_path = root / ".claude-plugin" / "plugin.json"
+skill_path = root / "skills" / "implementaudit" / "SKILL.md"
+changelog_path = root / "CHANGELOG.md"
+for path in (plugin_path, skill_path, changelog_path):
+    if not path.is_file():
+        raise SystemExit(f"release identity owner is missing: {path}")
+
+plugin_version = str(json.loads(plugin_path.read_text(encoding="utf-8")).get("version", "")).strip()
+skill_text = skill_path.read_text(encoding="utf-8")
+match = re.search(r'(?m)^\s+version:\s*["\']?([^"\'\n]+)["\']?\s*$', skill_text)
+if not match:
+    raise SystemExit("SKILL.md metadata.version is missing")
+skill_version = match.group(1).strip()
+if not plugin_version or plugin_version != skill_version:
+    raise SystemExit(
+        f"release identity version owners disagree: plugin={plugin_version!r} skill={skill_version!r}"
+    )
+if not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+", plugin_version):
+    raise SystemExit("release identity version must use three numeric components")
+
+
+def normalized_heading(value: str) -> str:
+    parts = value.split(".")
+    if len(parts) == 4 and parts[-1] == "0":
+        parts = parts[:-1]
+    return ".".join(parts)
+
+
+headings = [
+    normalized_heading(value)
+    for value in re.findall(
+        r"(?m)^## \[v?([0-9]+\.[0-9]+\.[0-9]+(?:\.[0-9]+)?)(?: [^\]]+)?\]",
+        changelog_path.read_text(encoding="utf-8"),
+    )
+]
+distinct_headings = list(dict.fromkeys(headings))
+if not distinct_headings:
+    raise SystemExit("CHANGELOG.md has no published version heading")
+if mode == "forward":
+    candidates = [value for value in distinct_headings if value != plugin_version]
+    authoritative_previous = candidates[0] if candidates else ""
+else:
+    authoritative_previous = distinct_headings[0]
+if previous_version != authoritative_previous:
+    raise SystemExit(
+        f"declared previous version {previous_version!r} != CHANGELOG authority {authoritative_previous!r}"
+    )
+
+resolved = subprocess.run(
+    ["git", "-C", str(root), "rev-parse", "--verify", f"{release_commit}^{{commit}}"],
+    text=True,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+)
+if resolved.returncode != 0:
+    raise SystemExit("release identity commit does not resolve")
+commit_sha = resolved.stdout.strip()
+commit_tree = subprocess.run(
+    ["git", "-C", str(root), "rev-parse", f"{commit_sha}^{{tree}}"],
+    check=True,
+    text=True,
+    stdout=subprocess.PIPE,
+).stdout.strip()
+head_tree = subprocess.run(
+    ["git", "-C", str(root), "rev-parse", "HEAD^{tree}"],
+    check=True,
+    text=True,
+    stdout=subprocess.PIPE,
+).stdout.strip()
+ancestor = subprocess.run(
+    ["git", "-C", str(root), "merge-base", "--is-ancestor", commit_sha, "HEAD"],
+    stdout=subprocess.DEVNULL,
+    stderr=subprocess.DEVNULL,
+)
+if ancestor.returncode != 0:
+    raise SystemExit("release identity commit must be an ancestor of current HEAD")
+if commit_tree != head_tree:
+    raise SystemExit("release identity commit tree must equal current HEAD tree")
+
+if mode == "forward":
+    if plugin_version == previous_version:
+        raise SystemExit("forward release must change the prior published version")
+    print(f"build-release-asset: release identity forward {previous_version} -> {plugin_version} at {commit_sha}")
+    raise SystemExit(0)
+
+if plugin_version != previous_version:
+    raise SystemExit("same-version republication must retain the prior published version")
+
+candidate_path = Path(candidate_arg)
+if not candidate_path.is_absolute():
+    candidate_path = root / candidate_path
+if candidate_path.name != "IMPLEMENTAUDIT.skill":
+    raise SystemExit("same-version republication candidate must be named IMPLEMENTAUDIT.skill")
+if candidate_path.is_symlink() or not candidate_path.is_file():
+    raise SystemExit("same-version republication candidate must be a regular non-symlink file")
+candidate_digest = hashlib.sha256(candidate_path.read_bytes()).hexdigest()
+candidate_bytes = candidate_path.stat().st_size
+
+shown = subprocess.run(
+    ["git", "-C", str(root), "show", "--format=", "--unified=0", commit_sha, "--", "CHANGELOG.md"],
+    encoding="utf-8",
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+)
+if shown.returncode != 0:
+    raise SystemExit("release identity CHANGELOG commit cannot be inspected")
+added = "\n".join(
+    line[1:]
+    for line in shown.stdout.splitlines()
+    if line.startswith("+") and not line.startswith("+++")
+)
+pairs = re.findall(
+    r"(?ims)^[ \t]*-\s+`IMPLEMENTAUDIT\.skill`:\s+superseded\s+"
+    r"`?([0-9a-f]{64})`?\s*\(([0-9][0-9,]*)\s+bytes?\)\s*(?:→|->)\s*"
+    r"superseding\s+`?([0-9a-f]{64})`?\s*\(([0-9][0-9,]*)\s+bytes?\)\s*\.?\s*$",
+    added,
+)
+if len(pairs) != 1:
+    raise SystemExit("same-version republication commit must add exactly one IMPLEMENTAUDIT.skill digest-and-byte pair")
+superseded_digest, _, superseding_digest, superseding_bytes_text = pairs[0]
+if superseded_digest == superseding_digest:
+    raise SystemExit("same-version republication digest pair must name distinct payloads")
+superseding_bytes = int(superseding_bytes_text.replace(",", ""))
+if superseding_digest != candidate_digest or superseding_bytes != candidate_bytes:
+    raise SystemExit(
+        "same-version republication record does not match the built IMPLEMENTAUDIT.skill digest and byte count"
+    )
+print(f"build-release-asset: release identity {mode} {plugin_version} at {commit_sha}")
+PY
+}
+
+check_historical_release_record() {
+  local check_root="${1:-$repo_root}"
+  "${py_cmd[@]}" - "$check_root" <<'PY'
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1]).resolve()
+changelog = root / "CHANGELOG.md"
+if not changelog.is_file():
+    raise SystemExit(f"historical release record owner is missing: {changelog}")
+
+marker = "This entry is the one retroactive application"
+text = changelog.read_text(encoding="utf-8")
+if text.count(marker) != 1:
+    raise SystemExit("historical #96 marker must occur exactly once")
+marker_commit = subprocess.run(
+    ["git", "-C", str(root), "log", "-1", "--format=%H", "-S", marker, "--", "CHANGELOG.md"],
+    check=True,
+    text=True,
+    stdout=subprocess.PIPE,
+).stdout.strip()
+expected_commit = "4df5c0067d97fa20e86c98df5569a5314b6ec66c"
+if marker_commit != expected_commit:
+    raise SystemExit("historical #96 marker does not resolve to its pinned commit")
+shown = subprocess.run(
+    ["git", "-C", str(root), "show", f"{marker_commit}:CHANGELOG.md"],
+    check=True,
+    encoding="utf-8",
+    stdout=subprocess.PIPE,
+).stdout
+pair = re.search(
+    r"(?ims)^[ \t]*-\s+`IMPLEMENTAUDIT\.skill`:\s+superseded\s+"
+    r"`?([0-9a-f]{64})`?\s*\(([0-9][0-9,]*)\s+bytes?\)\s*(?:→|->)\s*"
+    r"superseding\s+`?([0-9a-f]{64})`?\s*\(([0-9][0-9,]*)\s+bytes?\)",
+    shown,
+)
+expected = (
+    "a04165198a208ecc231d769783400c4610c58dbd0ca338682be481d7515319f4",
+    "131,329",
+    "884ab409842b863b003e9d405972f33ba71d194f77572738002a42e73d1b6b14",
+    "132,117",
+)
+if pair is None or pair.groups() != expected:
+    raise SystemExit("historical #96 IMPLEMENTAUDIT.skill identity record does not match its pinned evidence")
+print(f"build-release-asset: nonqualifying historical #96 record ok at {marker_commit}")
+PY
+}
+
+check_stale_artifact() {
+  local surface="${1:-}" artifact="${2:-}" changelog="${3:-}"
+  [ -n "$surface" ] && [ -n "$artifact" ] && [ -n "$changelog" ] \
+    || fail "--check-stale-artifact requires <source|package|release> <artifact> <changelog>"
+  case "$surface" in
+    source) printf 'build-release-asset: source surface adds no stale package-artifact obligation\n'; return 0 ;;
+    package|release) : ;;
+    *) fail "stale artifact surface must be source, package, or release" ;;
+  esac
+  [ -e "$artifact" ] || return 0
+  [ -f "$artifact" ] && [ ! -L "$artifact" ] || fail "stale artifact target must be a regular non-symlink file"
+  [ -f "$changelog" ] && [ ! -L "$changelog" ] || fail "stale artifact CHANGELOG must be a regular non-symlink file"
+  "${py_cmd[@]}" - "$artifact" "$changelog" <<'PY'
+import hashlib
+import re
+import sys
+from pathlib import Path
+
+artifact = Path(sys.argv[1])
+changelog = Path(sys.argv[2])
+digest = hashlib.sha256(artifact.read_bytes()).hexdigest()
+text = changelog.read_text(encoding="utf-8")
+superseded = set(re.findall(r"(?is)\bsuperseded\b\s+`?([0-9a-f]{64})`?", text))
+if digest in superseded:
+    raise SystemExit(
+        f"ignored build artifact matches withdrawn/superseded publication digest {digest}; remove, rename, or rebuild it"
+    )
+print(f"build-release-asset: ignored build artifact is not superseded ({digest})")
+PY
+}
+
+case "${1:-}" in
+  --check-release-identity)
+    shift
+    check_release_identity "$@"
+    exit $?
+    ;;
+  --check-historical-release-record)
+    shift
+    check_historical_release_record "$@"
+    exit $?
+    ;;
+  --check-stale-artifact)
+    shift
+    check_stale_artifact "$@"
+    exit $?
+    ;;
+esac
+
 if [ "${1:-}" = "--check" ]; then
+  check_stale_artifact package "$repo_root/dist/$asset_name" "$repo_root/CHANGELOG.md"
   out_dir="$(mktemp -d)"
   cleanup_dir="$out_dir"
 else

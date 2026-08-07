@@ -158,6 +158,115 @@ while IFS= read -r line; do
   fi
 done < "$file"
 
+# #89 publication identity is prospective and deterministic. A publication
+# claim is never kept verified merely because its label still resolves: the
+# evidence digest must equal a hash-bound current-digest receipt. Drift is
+# retained explicitly as SUPERSEDED.
+if grep -Eq '^claim:.*\|[[:space:]]*surface:[[:space:]]*publication([[:space:]]*\||$)|^publication-identity:' "$file"; then
+  ensure_python
+  publication_error=""
+  if ! publication_error="$("${py_cmd[@]}" - "$file" <<'PY'
+import hashlib
+import re
+import sys
+from pathlib import Path
+
+record = Path(sys.argv[1]).resolve()
+base = record.parent
+sha_re = re.compile(r"[0-9a-f]{64}")
+
+
+def die(message: str) -> None:
+    print(message)
+    raise SystemExit(1)
+
+
+def fields(line: str, first_key: str) -> dict[str, str]:
+    parts = [part.strip() for part in line.split("|")]
+    values: dict[str, str] = {}
+    for index, part in enumerate(parts):
+        if ":" not in part:
+            die(f"publication identity malformed field: {part!r}")
+        key, value = part.split(":", 1)
+        key = key.strip()
+        value = value.strip()
+        if index == 0 and key != first_key:
+            die(f"publication identity row must begin with {first_key}:")
+        if key in values:
+            die(f"publication identity duplicate field: {key}")
+        values[key] = value
+    return values
+
+
+claims: dict[str, dict[str, str]] = {}
+identities: dict[str, dict[str, str]] = {}
+for raw in record.read_text(encoding="utf-8").splitlines():
+    if raw.startswith("claim:"):
+        values = fields(raw, "claim")
+        if values.get("surface") == "publication":
+            claim_id = values.get("claim", "")
+            if not claim_id or claim_id in claims:
+                die("publication claim id is missing or duplicated")
+            claims[claim_id] = values
+    elif raw.startswith("publication-identity:"):
+        values = fields(raw, "publication-identity")
+        claim_id = values.get("publication-identity", "")
+        if not claim_id or claim_id in identities:
+            die("publication identity claim id is missing or duplicated")
+        identities[claim_id] = values
+
+if set(claims) != set(identities):
+    missing = sorted(set(claims) - set(identities))
+    dangling = sorted(set(identities) - set(claims))
+    die(f"publication identity rows must match publication claims; missing={missing} dangling={dangling}")
+
+required_identity = {
+    "publication-identity",
+    "live-digest-file",
+    "live-file-sha256",
+    "live-digest",
+    "disposition",
+}
+for claim_id, claim in claims.items():
+    identity = identities[claim_id]
+    if set(identity) != required_identity:
+        die(f"claim {claim_id}: publication identity fields must be exactly {sorted(required_identity)}")
+    evidence_digest = claim.get("evidence-digest", "")
+    if not sha_re.fullmatch(evidence_digest):
+        die(f"claim {claim_id}: publication evidence-digest must be lowercase SHA-256")
+    live_digest = identity["live-digest"]
+    file_digest = identity["live-file-sha256"]
+    if not sha_re.fullmatch(live_digest) or not sha_re.fullmatch(file_digest):
+        die(f"claim {claim_id}: live digest fields must be lowercase SHA-256")
+    name = identity["live-digest-file"]
+    if not name or Path(name).name != name or "/" in name or "\\" in name:
+        die(f"claim {claim_id}: live-digest-file must be a contained bare filename")
+    live_file = base / name
+    if not live_file.is_file() or live_file.is_symlink():
+        die(f"claim {claim_id}: live digest file is missing or not a regular contained file")
+    data = live_file.read_bytes()
+    if hashlib.sha256(data).hexdigest() != file_digest:
+        die(f"claim {claim_id}: live digest file SHA-256 mismatch")
+    try:
+        observed = data.decode("ascii").strip()
+    except UnicodeDecodeError:
+        die(f"claim {claim_id}: live digest file must contain ASCII SHA-256")
+    if not sha_re.fullmatch(observed) or observed != live_digest:
+        die(f"claim {claim_id}: live digest field does not match the bound file")
+    disposition = identity["disposition"]
+    status = claim.get("status", "")
+    if evidence_digest == live_digest:
+        if disposition != "verified":
+            die(f"claim {claim_id}: stable publication digest must use disposition verified")
+    else:
+        if status == "verified" or disposition != "SUPERSEDED":
+            die(f"claim {claim_id}: publication digest drift is SUPERSEDED and cannot remain verified")
+PY
+  )"; then
+    fail "$publication_error"
+  fi
+fi
+
 # #87 closure identity fields are prospective. Once any field is present, the
 # complete exact grammar is mandatory. Start/verify drift cannot close as
 # unchanged, and repeated equivalent draws require a declared sampling budget.
