@@ -25,12 +25,27 @@ leads, and mark low-confidence leads as `LOW confidence`.
   hiding a required value, and missing empty-state handling.
 - Boundary defects: off-by-one, timezone/locale assumptions, overflow-prone
   counters, unhandled status branches, and resource cleanup gaps.
-- Error handling: empty catch blocks, swallowed exceptions, critical-path
-  logging without recovery, and UI/API flows with no error state.
+- **Error-handling honesty:** every catch, fallback, or default-on-failure path
+  names one of three outcomes. It sanitizes an untrusted or unknown input at a
+  owner/source-declared trust boundary and raises a specific error; it
+  terminalizes honestly
+  with a loud, attributable, non-zero, evidence-bearing failure state; or it is
+  removed. A normal-looking fallback is a defect: a default, empty collection,
+  ambiguous `None`, swallowed exception, unchecked return code, or success
+  envelope on a non-run; empty catch blocks are one instance. A comment does
+  not convert the fallback. This pressure never asks for removal of a
+  fail-closed catch: a catch that converts an
+  exception into a declared INVALID/ERROR terminal is the target shape.
 - Concurrency: check-then-act races, missing transactions around multi-write
   operations, and retry paths that are not idempotent.
-- Type escape hatches: clustered `any`, casts, ignored compiler diagnostics, or
-  validation gaps where the type system was overruled.
+- **Type strength:** Type escape hatches matter across languages. Where a
+  stronger representation exists, ask whether the weaker one was chosen or
+  defaulted into. Escape hatches include
+  `any`, `interface{}`, `Object`, untyped `dict`/`Map`, stringly typed enums,
+  unchecked casts, suppressions, relaxed strictness, and external payloads with
+  no shape assertion. The finding is the escape, not absent annotations. A
+  module or language that is untyped by design is a disposition, recorded with
+  its reason and a revisit trigger, not a defect.
 
 ## Security / Privacy
 
@@ -97,12 +112,17 @@ the audit object authorizes a larger phase. Record scope-creep candidates as
 deferred or owner-decision items.
 
 - Duplication: the same logic reimplemented in multiple places, especially
-  divergent copies that have drifted.
+  divergent copies that have drifted. Where duplication is deliberate, the
+  finding is absence of a declared duplication set with machine-checked parity,
+  including the prose that justifies a duplicated value.
 - Layering violations: UI importing data-layer internals, circular
-  dependencies, or utility modules with high fan-in and no clear owner.
+  dependencies, or utility modules with high fan-in and no clear owner. A
+  circular-dependency or fan-in claim cites the instrument that produced the
+  graph and that instrument's qualification.
 - Dead code and stale flags: unused modules, fully rolled-out feature flags,
   commented-out code with no rationale, and manifest dependencies no longer
-  imported.
+  imported. An unreferenced claim states its population and enumeration source
+  and uses the two-method reference census before any archival or deletion.
 - God objects/modules and inconsistent patterns: unusually large files,
   double-digit parameters, deep conditionals, and several competing approaches
   to the same repo concern.
@@ -291,3 +311,24 @@ Flag an invariant whose predicate is entailed by the code path that sets it. A
 setter that writes every field the predicate checks makes the gate record its
 own claim instead of testing it. This is a review judgment, not a mechanical
 dataflow claim.
+
+## Hygiene instruments
+
+Prefer deterministic dead-export, unused-dependency, import-graph, cycle, and
+clone tools when they can enumerate a population more reliably than a person.
+They enter the run as census instruments, not as authorities:
+
+- Output is a lead from the moment it is produced. It becomes evidence or gates
+  an action only after a discrimination witness
+  (`repo-state-comparison.md §Census instruments`) and an
+  instrument-liveness positive control (`phase-design.md Rule P4-15`).
+  An unqualified no-findings report is not evidence of
+  absence.
+- Record instrument identity: name, exact version, invocation, and config file.
+  A different version is a different instrument.
+- The population is what the instrument was pointed at, not presumptively the
+  repository. State the roots, excludes, and entry points.
+- An instrument classification is never the sole basis for deletion; the
+  two-method reference census still applies
+  (`repo-state-comparison.md §Proving a file is dead`). Optional graph tools
+  remain bounded by `sidecars.md`; they are navigation, not canonical proof.

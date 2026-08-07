@@ -57,7 +57,7 @@ matrix and record omitted categories as `deferred`, `out of scope`, or
 | Security / privacy | Secrets, authz/authn, injection, unsafe file/network boundaries, data exposure, dependency risk | No-secret evidence, bounded static/runtime check, explicit remaining risk |
 | Performance / scale | Hot paths, unnecessary work, expensive loops, data growth, resource leaks | Reproducible measurement when available, or labeled static evidence |
 | Tests / validation | Missing regression checks, weak fixtures, CI drift, checker coverage | New or verified test/checker/fixture and CI or package wiring |
-| Architecture / tech debt | Coupling, ownership ambiguity, generated-artifact drift, brittle contracts | Owner/source decision, refactor deferred or bounded patch |
+| Architecture / tech debt | Coupling, ownership ambiguity, generated-artifact drift, brittle contracts, hygiene classes | Owner/source decision, refactor deferred or bounded patch |
 | Dependencies / migrations | Outdated packages, version skew, install path drift, migration risk | Current source readback, migration/defer plan, no hidden install |
 | DX / tooling | Poor runbooks, brittle scripts, Windows/Bash host gaps, unclear errors | Helper/checker/doc update with smoke evidence |
 | Docs / handoff | Stale README/portal/changelog, missing phase evidence, unclear boundaries | Source-owned doc update or generated-doc refresh |

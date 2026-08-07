@@ -359,6 +359,34 @@ reject_text "$playbook_ref" "requires a micro-run root, Andon log, and deferral 
 reject_text "$playbook_ref" "plus a durable evidence compendium before synthesis"
 
 for text in \
+  "Error-handling honesty" \
+  "sanitizes an untrusted or unknown input" \
+  "terminalizes honestly" \
+  "declared INVALID/ERROR terminal is the target shape" \
+  "Type strength" \
+  "untyped \`dict\`/\`Map\`" \
+  "untyped by design is a disposition" \
+  "declared duplication set with machine-checked parity" \
+  "circular-dependency or fan-in claim cites the instrument" \
+  "two-method reference census before any archival or deletion" \
+  "## Hygiene instruments" \
+  "census instruments, not as authorities" \
+  "discrimination witness" \
+  "instrument-liveness positive control" \
+  "\`repo-state-comparison.md §Census instruments\`" \
+  "\`repo-state-comparison.md §Proving a file is dead\`" \
+  "\`phase-design.md Rule P4-15\`" \
+  "sidecars.md" \
+  "name, exact version, invocation, and config file" \
+  "State the roots, excludes, and entry points" \
+  "never the sole basis for deletion"
+do
+  require_text "$playbook_ref" "$text"
+done
+
+require_text "$category_ref" "hygiene classes"
+
+for text in \
   "## Branch / Diff Behavioral Contract" \
   "default branch" \
   "zero commits ahead" \
