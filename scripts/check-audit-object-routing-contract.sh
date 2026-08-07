@@ -433,7 +433,7 @@ for text in \
   "standard census fields" \
   "Citation resolvability and claim-surface discipline" \
   "resolves to a durable artifact" \
-  "Issue bodies, PR descriptions, comments, and release notes are claim surfaces" \
+  "Issue titles and bodies, PR descriptions, comments, and release notes are claim surfaces" \
   "Independent cold review of the draft set" \
   "PASS / GAP-REVISE / BLOCKED / OWNER DECISION" \
   "same-context pass is self-critique" \
@@ -448,6 +448,8 @@ for text in \
 do
   require_text "$plan_ref" "$text"
 done
+reject_text "$plan_ref" "PASS-DEFERRED for v0.3.0.0"
+reject_text "$plan_ref" "deferred for v0.3.0.0"
 
 for text in \
   "what next?" \

@@ -364,16 +364,16 @@ Planning statuses map into IMPLEMENTAUDIT states as follows:
 - `BLOCKED` records owner/source and next action;
 - `REJECTED` maps to rejected/deferred rationale and remaining risk.
 
-Issue-publication rows are PASS-DEFERRED for v0.3.0.0: they may be issue-ready
-inside the audit object, but no issue is created without a future publication
-gate.
+Issue-publication rows are PASS-DEFERRED by default: they may be issue-ready
+inside the audit object, but no issue is created without an authorized
+publication gate.
 
 ## Issue Publication Deferred
 
-`--issues`-style publication is deferred for v0.3.0.0. The runtime may produce
-issue-ready rows inside the audit object, but it must not create GitHub issues,
-publish to a tracker, or imply that issue creation happened. Issue creation is
-a future publication gate requiring explicit authorization, destination, title
+`--issues`-style publication remains deferred unless explicitly authorized. The
+runtime may produce issue-ready rows inside the audit object, but it must not
+create GitHub issues, publish to a tracker, or imply that issue creation
+happened. Issue creation requires explicit authorization, destination, title
 policy, body policy, duplicate check, and readback evidence.
 
 ## Issue Publication (Authorized)
@@ -395,7 +395,7 @@ pointer in a draft resolves to a durable artifact: a committed path, run root,
 or evidence compendium, not conversation context or a snapshot of a
 still-producing source. Every numeric or verdict claim resolves to an anchored
 evidence row or is softened before publication.
-Issue bodies, PR descriptions, comments, and release notes are claim surfaces.
+Issue titles and bodies, PR descriptions, comments, and release notes are claim surfaces.
 
 **(iii) Independent cold review of the draft set.** Stage 6.2 applies to
 publication artifacts. A reviewer with no authoring context reviews the drafts
