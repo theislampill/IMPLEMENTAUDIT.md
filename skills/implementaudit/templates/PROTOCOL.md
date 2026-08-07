@@ -929,7 +929,7 @@ Before final closure, invoke the shipped checker with every applicable plan
 and steer input. The canonical command shape is:
 
 ```text
-bash <skill-dir>/scripts/check-closure-surface.sh <closure-record> --superseded-plan <each-replaced-plan> --steer-dir <run-root> --plan-cycle-record <each-cycle-accounted-plan>
+bash <skill-dir>/scripts/check-closure-surface.sh <closure-record> --superseded-plan <each-replaced-plan> --steer-dir <run-root> --plan-cycle-record <each-cycle-accounted-plan>  # installed skill; source repo uses the same shipped helper
 ```
 
 Repeat `--superseded-plan` and `--plan-cycle-record` once per applicable file.
