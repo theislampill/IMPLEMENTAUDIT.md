@@ -283,6 +283,7 @@ require_file tests/release-asset-install-claude.test.sh
 require_file tests/install-copy-smoke.test.sh
 require_file tests/routing.test.sh
 require_file tests/repo-state.test.sh
+require_file tests/commit-message-contract.test.sh
 require_file tests/audit-spec.test.sh
 require_file tests/audit-retention.test.sh
 require_file tests/agents-bootstrap-budget.test.sh
@@ -641,6 +642,7 @@ bash tests/release-asset-install-claude.test.sh
 bash tests/install-copy-smoke.test.sh
 bash tests/routing.test.sh
 bash tests/repo-state.test.sh
+bash tests/commit-message-contract.test.sh
 bash tests/audit-spec.test.sh
 bash tests/audit-retention.test.sh
 bash tests/agents-bootstrap-budget.test.sh

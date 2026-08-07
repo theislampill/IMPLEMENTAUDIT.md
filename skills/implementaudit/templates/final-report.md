@@ -123,6 +123,8 @@ or performed.
 ```text
 <subject>
 
+Class: B | M
+
 Finding:
 - <finding>
 
@@ -133,6 +135,8 @@ Evidence:
 - <checks>
 
 Evidence anchor: claim:<Claim-ID>
+
+Linkage: #<issue> | ledger-row:<id> | Andon:<id> | not-applicable
 
 Boundaries:
 - No commit, push, tag, release, publication, issue creation, license choice,

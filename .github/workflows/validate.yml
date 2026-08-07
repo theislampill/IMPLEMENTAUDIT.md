@@ -68,6 +68,7 @@ jobs:
           bash tests/install-copy-smoke.test.sh
           bash tests/routing.test.sh
           bash tests/repo-state.test.sh
+          bash tests/commit-message-contract.test.sh
           bash tests/audit-spec.test.sh
           bash tests/audit-retention.test.sh
           bash tests/agents-bootstrap-budget.test.sh
