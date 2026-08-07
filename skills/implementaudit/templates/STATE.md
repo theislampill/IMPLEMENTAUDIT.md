@@ -183,6 +183,15 @@ normally becomes `satisfied`; standing constraints/authorizations survive
 until revoked/superseded/expired or their declared scope ends. Reference
 is a source event id / content hash — never raw conversation text.
 
+At intake, preserve each owner grant verbatim in `authorization-record.md`
+with `source`, `issued_at`, `grant_quote`, `scope`, `lifecycle`, `action`,
+`binds`, and any bound parameter values. Add its active
+`standing-authorization` row below:
+Reference names the source and Status evidence names the record path. Derive
+Local git trace `yes` values only from these active source-bound rows. Before a
+handoff asks for permission, reread the rows and record; a packet grant plus
+empty/default-deny rows is an intake defect and must be reconciled locally.
+
 | Instr | Reference | Kind | Authority | Subject | Issued epoch | Status | Status evidence | Supersedes/by | Scope end |
 |---|---|---|---|---|---|---|---|---|---|
 
