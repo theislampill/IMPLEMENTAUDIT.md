@@ -214,6 +214,27 @@ provisional until the owning parent cites it, and an interim non-result is not a
 finding. Scale this obligation to the work: a single-reader audit reads its
 bounded corpus directly and needs no fan-out ceremony or compendium.
 
+**A retrospective is a governed run.** An audit whose object is process history,
+including an audit of prior audits, is not exempt from the controls it assesses.
+It requires a governed run root, Andon log, and deferral ledger, plus a durable
+record of the evidence used. When fan-out contributes evidence, the compendium
+rule above requires a durable evidence compendium before synthesis; a bounded
+single-reader run keeps its direct citations and does not invent one. A micro
+root is allowed only while its eligibility contract holds. A Stage 6.2 review
+artifact requires a full root; do not combine that artifact with a micro claim.
+A fresh-context cold review before publication or action is also mandatory.
+Every residual receives one disposition: closed,
+deferred with owner and revisit trigger, rejected with rationale, or blocked.
+A could-not-verify requires explicit adjudication rather than disappearing from
+the result. A read-only plan plus an eligible micro root is valid; governance
+does not create a source-mutation requirement.
+
+**Termination.** A retrospective of a retrospective is just another governed
+run under this same section.
+Each wave sequence names its stopping condition. It stops when every in-scope
+residual has a recorded disposition or an explicit owner decision is the
+remaining gate.
+
 ## Finding Row Contract
 
 Every finding, rejected item, deferred issue-ready row, and subagent finding is

@@ -146,6 +146,12 @@ require_text() {
   grep -Fq "$text" "$file" || fail "missing in $file: $text"
 }
 
+reject_text() {
+  local file="$1"
+  local text="$2"
+  ! grep -Fq "$text" "$file" || fail "forbidden in $file: $text"
+}
+
 require_file skills/implementaudit/references/audit-category-matrix.md
 require_file skills/implementaudit/references/audit-playbook.md
 require_file skills/implementaudit/references/plan-lifecycle.md
@@ -331,10 +337,26 @@ for text in \
   "No claim without a citation" \
   "Reconcile before proposing" \
   "Durable evidence before synthesis" \
-  "Fan-out result ownership"
+  "Fan-out result ownership" \
+  "A retrospective is a governed run" \
+  "requires a governed run root, Andon log, and deferral ledger" \
+  "When fan-out contributes evidence" \
+  "eligibility contract holds" \
+  "A Stage 6.2 review" \
+  "artifact requires a full root" \
+  "evidence compendium before synthesis" \
+  "fresh-context cold review before publication or action" \
+  "Every residual receives one disposition" \
+  "could-not-verify requires explicit adjudication" \
+  "A read-only plan plus an eligible micro root is valid" \
+  "A retrospective of a retrospective is just another governed" \
+  "run under this same section" \
+  "names its stopping condition"
 do
   require_text "$playbook_ref" "$text"
 done
+reject_text "$playbook_ref" "requires a micro-run root, Andon log, and deferral ledger"
+reject_text "$playbook_ref" "plus a durable evidence compendium before synthesis"
 
 for text in \
   "## Branch / Diff Behavioral Contract" \
