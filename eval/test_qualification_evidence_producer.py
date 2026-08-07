@@ -1179,6 +1179,7 @@ def _assert_real_sleeper_communication_recovery(
             self.pid = self.process.pid
             self.stdout = self.process.stdout
             self.stderr = self.process.stderr
+            self.kill_called = False
             wrappers.append(self)
 
         @property
@@ -1192,15 +1193,16 @@ def _assert_real_sleeper_communication_recovery(
             return self.process.poll()
 
         def terminate(self):
-            if mode["value"] != "open":
+            if mode["value"] == "terminate":
                 self.process.terminate()
 
         def kill(self):
             if mode["value"] != "open":
+                self.kill_called = True
                 self.process.kill()
 
         def wait(self, timeout=None):
-            if mode["value"] == "kill" and self.process.poll() is None:
+            if mode["value"] == "kill" and not self.kill_called:
                 raise subprocess.TimeoutExpired("sleeper", timeout)
             if mode["value"] == "open":
                 raise subprocess.TimeoutExpired("sleeper", timeout)
