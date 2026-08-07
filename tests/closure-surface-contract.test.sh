@@ -9,6 +9,7 @@ repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
 proto="skills/implementaudit/templates/PROTOCOL.md"
+state_template="skills/implementaudit/templates/STATE.md"
 scorer="skills/implementaudit/scripts/check-closure-surface.sh"
 fx="fixtures/closure-surface"
 fail() { printf 'closure-surface-contract: %s\n' "$*" >&2; exit 1; }
@@ -70,6 +71,7 @@ if [ "${1:-}" = "--publication-identity-only" ]; then
 fi
 
 flat="$(tr '\n' ' ' < "$proto" | tr -s ' ')"
+state_flat="$(tr '\n' ' ' < "$state_template" | tr -s ' ')"
 printf '%s' "$flat" | grep -qi 'Closure-claims table' \
   || fail "PROTOCOL missing closure-claims table"
 printf '%s' "$flat" | grep -qi 'never promoted into a higher-surface claim' \
@@ -78,6 +80,25 @@ printf '%s' "$flat" | grep -qi 'NEVER trigger an unauthorized network or deploym
   || fail "unauthorized-inspection prohibition missing"
 printf '%s' "$flat" | grep -qi 'closure gate .*not defect prevention' \
   || fail "honest-framing (closure gate not prevention) missing"
+
+# Cross-run residual routing (#140). First occurrence remains cheap; a second
+# independent ledger occurrence needs a durable tracker or owner refusal.
+printf '%s' "$flat" | grep -qi 'second independent run' \
+  || fail "PROTOCOL missing cross-run residual routing rule"
+printf '%s' "$state_flat" | grep -qi 'durable tracker' \
+  || fail "STATE missing cross-run residual owner guidance"
+bash "$scorer" --residual-routing "$fx/residual-first.md" >/dev/null 2>&1 \
+  || fail "first residual occurrence must remain legal without tracker ceremony"
+if bash "$scorer" --residual-routing "$fx/residual-repeat-a.md" \
+    "$fx/residual-repeat-b.md" >/dev/null 2>&1; then
+  fail "repeated repo residual without durable owner was accepted"
+fi
+bash "$scorer" --residual-routing "$fx/residual-repeat-a.md" \
+  "$fx/residual-routed-b.md" >/dev/null 2>&1 \
+  || fail "repeated residual with issue tracker was rejected"
+bash "$scorer" --residual-routing "$fx/residual-repeat-a.md" \
+  "$fx/residual-refused-b.md" >/dev/null 2>&1 \
+  || fail "repeated residual with explicit owner refusal was rejected"
 
 # The owner surfaces carry one vocabulary; the fixtures below then exercise
 # that vocabulary through the checker instead of treating prose presence as

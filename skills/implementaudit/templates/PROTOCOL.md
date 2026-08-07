@@ -969,6 +969,11 @@ causes (or a stated reason fewer exist), and one named residual row per
 open thread. Safe containment before full diagnosis is partial-by-design —
 not a failure, not closure.
 
+When the same stable repo-defect residual identity appears in a second
+independent run ledger or PR disclosure, its Owner/policy ref must cite an
+existing/new durable tracker or `owner-refusal:<source>`. The first occurrence
+keeps the ordinary residual contract; this adds no disposition value.
+
 ### AUDIT_COMPLETE and IMPLEMENTAUDIT_RUN_COMPLETE
 
 Before final closure, invoke the shipped checker with every applicable plan

@@ -4,6 +4,43 @@ set -euo pipefail
 
 fail() { printf 'check-closure-surface: %s\n' "$*" >&2; exit 1; }
 
+py_cmd=()
+ensure_python() {
+  [ "${#py_cmd[@]}" -eq 0 ] || return 0
+  if command -v python >/dev/null 2>&1; then py_cmd=(python)
+  elif command -v python3 >/dev/null 2>&1; then py_cmd=(python3)
+  elif command -v py >/dev/null 2>&1; then py_cmd=(py -3)
+  else fail "python, python3, or py -3 is required for structured closure validation"
+  fi
+}
+
+if [ "${1:-}" = --residual-routing ]; then
+  shift; [ "$#" -gt 0 ] || fail "--residual-routing requires one or more STATE ledgers"
+  ensure_python
+  "${py_cmd[@]}" - "$@" <<'PY'
+import pathlib, re, sys
+allowed = {"unresolved", "deferred", "transferred", "owner-assigned", "risk-accepted", "validated-resolved", "SUPERSEDED_BY_CONCURRENT_MUTATION"}
+seen = {}
+for name in sys.argv[1:]:
+    path = pathlib.Path(name)
+    if not path.is_file():
+        raise SystemExit(f"check-closure-surface: residual ledger not found: {name}")
+    run = str(path.resolve())
+    for line in path.read_text(encoding="utf-8").splitlines():
+        cells = [cell.strip() for cell in line.split("|")[1:-1]]
+        if len(cells) == 5 and cells[1] == "yes" and cells[2] in allowed:
+            seen.setdefault(cells[0], []).append((run, cells[3]))
+for identity, rows in seen.items():
+    if len({run for run, _ in rows}) < 2:
+        continue
+    refs = [ref for _, ref in rows]
+    if not any(re.search(r"(?:issue )?#\d+|/issues/\d+|tracker:[^ ]", ref, re.I) or re.fullmatch(r"owner-refusal:.+", ref, re.I) for ref in refs):
+        raise SystemExit(f"check-closure-surface: repeated residual '{identity}' has no durable tracker or owner refusal")
+print("check-closure-surface: residual routing ok")
+PY
+  exit $?
+fi
+
 file="${1:-}"
 [ -f "$file" ] || fail "record file not found: ${file:-<none>}"
 shift
@@ -32,16 +69,6 @@ while [ "$#" -gt 0 ]; do
     *) fail "unknown argument: $1" ;;
   esac
 done
-
-py_cmd=()
-ensure_python() {
-  [ "${#py_cmd[@]}" -eq 0 ] || return 0
-  if command -v python >/dev/null 2>&1; then py_cmd=(python)
-  elif command -v python3 >/dev/null 2>&1; then py_cmd=(python3)
-  elif command -v py >/dev/null 2>&1; then py_cmd=(py -3)
-  else fail "python, python3, or py -3 is required for structured closure validation"
-  fi
-}
 
 rank() {
   case "$1" in
