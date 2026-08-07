@@ -15,6 +15,7 @@ fail() {
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 scan_root="$repo_root"
+process_history_fixture=""
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
@@ -23,11 +24,115 @@ while [ "$#" -gt 0 ]; do
       scan_root="$2"
       shift 2
       ;;
+    --validate-process-history-fixture)
+      [ "$#" -ge 2 ] || fail "--validate-process-history-fixture requires a directory argument"
+      process_history_fixture="$2"
+      shift 2
+      ;;
     *)
       fail "unknown argument: $1"
       ;;
   esac
 done
+
+if [ -n "$process_history_fixture" ]; then
+  if command -v python3 >/dev/null 2>&1; then
+    py_cmd=(python3)
+  elif command -v python >/dev/null 2>&1; then
+    py_cmd=(python)
+  elif command -v py >/dev/null 2>&1; then
+    py_cmd=(py -3)
+  else
+    fail "python, python3, or py -3 is required for process-history fixture validation"
+  fi
+  "${py_cmd[@]}" - "$process_history_fixture" <<'PY'
+import datetime as dt
+import json
+from pathlib import Path
+import sys
+
+root = Path(sys.argv[1])
+
+
+def fail(message):
+    raise SystemExit(f"process-history fixture: {message}")
+
+
+def load(path):
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        fail(f"cannot read {path}: {exc}")
+
+
+mission = load(root / "mission.json")
+result = load(root / "result.json")
+corpus = root / "corpus"
+files = sorted(corpus.glob("*.jsonl"))
+if len(files) != 12:
+    fail(f"expected 12 corpus files, got {len(files)}")
+
+start = dt.datetime.fromisoformat(mission["window_start"].replace("Z", "+00:00"))
+end = dt.datetime.fromisoformat(mission["window_end"].replace("Z", "+00:00"))
+in_window = []
+unique_events = {}
+for path in files:
+    events = []
+    for line_number, raw in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+        try:
+            event = json.loads(raw)
+            stamp = dt.datetime.fromisoformat(event["timestamp"].replace("Z", "+00:00"))
+            turn_id = event[mission["dedupe_key"]]
+        except (KeyError, TypeError, ValueError, json.JSONDecodeError) as exc:
+            fail(f"{path.name}:{line_number} malformed: {exc}")
+        events.append((stamp, turn_id, event))
+    if events and start <= max(stamp for stamp, _, _ in events) < end:
+        in_window.append(path.name)
+        for _, turn_id, event in events:
+            unique_events.setdefault(turn_id, event)
+
+if result["population_size"] != len(in_window):
+    fail(f"population mismatch: recorded {result['population_size']}, computed {len(in_window)}")
+if result["population_size"] != mission["expected_population"]:
+    fail("population does not match mission expectation")
+
+missing = [name for name in mission["named_surfaces"] if not (root / name).exists()]
+if sorted(result["could_not_verify"]) != sorted(missing):
+    fail(f"missing-surface census mismatch: recorded {result['could_not_verify']}, computed {missing}")
+if result["dedupe_key"] != mission["dedupe_key"]:
+    fail("dedupe key mismatch")
+signature = mission["recurring_signature"]
+computed_occurrences = sum(event.get("signature") == signature for event in unique_events.values())
+if result["recurring_shape_count"] != computed_occurrences:
+    fail(f"recurrence mismatch: recorded {result['recurring_shape_count']}, computed {computed_occurrences}")
+
+for citation in result["citations"]:
+    path = root / citation["path"]
+    try:
+        line = path.read_text(encoding="utf-8").splitlines()[citation["line"] - 1]
+    except (OSError, IndexError) as exc:
+        fail(f"citation does not resolve: {citation}: {exc}")
+    if citation["text"] not in line:
+        fail(f"citation witness not found: {citation}")
+
+for read in result["reads"]:
+    if read["claim"] == "coverage" and (read["start"] != 1 or read["end"] != read["total_lines"]):
+        fail(f"truncated read cannot support coverage claim: {read['path']}")
+
+if len(set(result["carrier_titles"].values())) != 1:
+    fail("carrier drift: finding titles differ")
+if result["single_session"]["fan_out"] or result["single_session"]["compendium"]:
+    fail("single-session control accumulated fan-out ceremony")
+for relative in result["compendium_files"]:
+    if not (root / relative).is_file():
+        fail(f"missing compendium artifact: {relative}")
+if result["compendium_complete_at"] >= result["synthesis_at"]:
+    fail("compendium was not complete before synthesis")
+
+print("check-audit-object-routing-contract: process-history fixture ok")
+PY
+  exit 0
+fi
 
 cd "$scan_root"
 
@@ -59,7 +164,8 @@ for fixture in \
   fixtures/audit-object-routing/finding-format-contract.md \
   fixtures/audit-object-routing/repo-content-as-data.md \
   fixtures/audit-object-routing/intent-doc-recon.md \
-  fixtures/audit-object-routing/read-only-audit-object-closure.md
+  fixtures/audit-object-routing/read-only-audit-object-closure.md \
+  fixtures/audit-object-routing/process-history-audit.md
 do
   require_file "$fixture"
   require_text "$fixture" "Expected route:"
@@ -217,6 +323,20 @@ do
 done
 
 for text in \
+  "## Transcript-Corpus And Process-History Audits" \
+  "Verified-surface census before reading" \
+  "Derive the window from internal evidence" \
+  "no-truncation sectioned reads" \
+  "Counting caveats are declared with every count" \
+  "No claim without a citation" \
+  "Reconcile before proposing" \
+  "Durable evidence before synthesis" \
+  "Fan-out result ownership"
+do
+  require_text "$playbook_ref" "$text"
+done
+
+for text in \
   "## Branch / Diff Behavioral Contract" \
   "default branch" \
   "zero commits ahead" \
@@ -272,6 +392,17 @@ for text in \
   "DMADV direction/design" \
   "separated from defects" \
   "spike / phase / defer / reject"
+do
+  require_text "$routing_ref" "$text"
+done
+
+for text in \
+  "Process-history (transcript-corpus) audit-governed work" \
+  "audited surface is a corpus" \
+  "declared window" \
+  "Route as brownfield (DMAIC)" \
+  "Mutating the audited corpus is out of scope by construction" \
+  "A run that also repairs a repo is mixed-mode"
 do
   require_text "$routing_ref" "$text"
 done

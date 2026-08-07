@@ -118,4 +118,50 @@ grep -q "missing in fixtures/audit-object-routing/category-matrix.md: performanc
   exit 1
 }
 
+# 6. The process-history contract must validate a real enumerated corpus, not
+# merely find descriptive prose in a fixture.
+bash scripts/check-audit-object-routing-contract.sh \
+  --validate-process-history-fixture \
+  fixtures/audit-object-routing/process-history-run >/dev/null || {
+  printf 'audit-object-routing-contract.test: process-history behavioral fixture expected PASS\n' >&2
+  exit 1
+}
+
+process_fixture="fixtures/audit-object-routing/process-history-run"
+expect_process_history_fail() {
+  local label="$1"
+  local copy="$2"
+  if bash scripts/check-audit-object-routing-contract.sh \
+    --validate-process-history-fixture "$copy" >/dev/null 2>&1; then
+    printf 'audit-object-routing-contract.test: %s mutation unexpectedly passed\n' "$label" >&2
+    exit 1
+  fi
+}
+
+for mutation in population absent-surface replay-count citation truncated-read carrier-drift single-session compendium-order; do
+  copy="$tmp/process-$mutation"
+  cp -R "$process_fixture" "$copy"
+  case "$mutation" in
+    population) sed -i 's/"population_size": 8/"population_size": 9/' "$copy/result.json" ;;
+    absent-surface) sed -i 's/"could_not_verify": \["RC-artifacts"\]/"could_not_verify": []/' "$copy/result.json" ;;
+    replay-count) sed -i 's/"recurring_shape_count": 3/"recurring_shape_count": 5/' "$copy/result.json" ;;
+    citation) sed -i 's/"text": "SYNTHETIC_FAILURE"/"text": "MISSING_WITNESS"/' "$copy/result.json" ;;
+    truncated-read) sed -i '0,/"start": 1/s//"start": 2/' "$copy/result.json" ;;
+    carrier-drift) sed -i 's/"draft": "R20"/"draft": "R21"/' "$copy/result.json" ;;
+    single-session) sed -i 's/"fan_out": false/"fan_out": true/' "$copy/result.json" ;;
+    compendium-order) sed -i 's/"compendium_complete_at": "2026-08-02T01:00:00Z"/"compendium_complete_at": "2026-08-02T03:00:00Z"/' "$copy/result.json" ;;
+  esac
+  expect_process_history_fail "$mutation" "$copy"
+done
+
+prewindow_copy="$tmp/process-prewindow-signature"
+cp -R "$process_fixture" "$prewindow_copy"
+sed -i 's/"message":"pre-window"/"signature":"SYNTHETIC_FAILURE"/' \
+  "$prewindow_copy/corpus/old-1.jsonl"
+bash scripts/check-audit-object-routing-contract.sh \
+  --validate-process-history-fixture "$prewindow_copy" >/dev/null || {
+  printf 'audit-object-routing-contract.test: pre-window recurrence polluted the declared window\n' >&2
+  exit 1
+}
+
 printf 'audit-object-routing-contract.test: ok\n'
