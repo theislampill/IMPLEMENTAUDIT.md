@@ -398,10 +398,10 @@ if [ -f "$state" ] && grep -qi '^## Occurrence resolution and residuals' "$state
       d=$4; gsub(/^[ \t]+|[ \t]+$/, "", d)
       r=$2; gsub(/^[ \t]+|[ \t]+$/, "", r)
       if (r == "Residual" || r ~ /^-+$/ || r == "") next
-      if (d !~ /^(unresolved|deferred|transferred|owner-assigned|risk-accepted|validated-resolved)$/) print r
+      if (d !~ /^(unresolved|deferred|transferred|owner-assigned|risk-accepted|validated-resolved|SUPERSEDED_BY_CONCURRENT_MUTATION)$/) print r
     }' "$state")"
   if [ -n "$bad_disp" ]; then
-    err "STATE.md residual row(s) with invalid disposition: $(printf '%s' "$bad_disp" | tr '\n' ' ') (allowed: unresolved / deferred / transferred / owner-assigned / risk-accepted / validated-resolved)"
+    err "STATE.md residual row(s) with invalid disposition: $(printf '%s' "$bad_disp" | tr '\n' ' ') (allowed: unresolved / deferred / transferred / owner-assigned / risk-accepted / validated-resolved / SUPERSEDED_BY_CONCURRENT_MUTATION)"
   fi
   no_ref="$(awk -F'|' '
     /^## Occurrence resolution and residuals/ { f=1; next }
@@ -417,6 +417,53 @@ if [ -f "$state" ] && grep -qi '^## Occurrence resolution and residuals' "$state
   if [ -n "$no_ref" ]; then
     err "STATE.md residual row(s) with transferred/risk-accepted but no owner/policy ref: $(printf '%s' "$no_ref" | tr '\n' ' ') (transferred names the receiving owner; risk-accepted cites the policy)"
   fi
+fi
+
+# #87 execution identity is prospective. Legacy roots without a row remain
+# valid. New rows use the sibling-harness vocabulary exactly once; a requested
+# versus actual mismatch is transport, never an independent/bound executor.
+if [ -f "$state" ] && grep -qi '^[[:space:]]*model-identity:' "$state"; then
+  identity_total="$(grep -Eic '^[[:space:]]*model-identity:' "$state")"
+  identity_valid="$(grep -Ec '^model-identity: requested_model: [^|[:space:]][^|]* \| actual_model: [^|[:space:]][^|]* \| evidence: (self-report|host-event:[^|[:space:]][^|]*) \| claims: (bound|IDENTITY_UNBOUND)$' "$state" || true)"
+  [ "$identity_total" -eq "$identity_valid" ] \
+    || err "STATE.md model-identity row must use exact requested_model / actual_model / evidence / claims grammar"
+  has_transport="$(awk -F'|' '
+    /^## Andon log/ { f=1; next }
+    f && /^## / { f=0 }
+    f && /^\|/ {
+      c=$5; gsub(/^[ \t]+|[ \t]+$/, "", c)
+      if (c == "transport-infrastructure") found=1
+    }
+    END { print found ? "yes" : "no" }
+  ' "$state")"
+  while IFS= read -r identity_line; do
+    [ -n "$identity_line" ] || continue
+    requested="$(printf '%s\n' "$identity_line" | sed -E 's/^model-identity: requested_model: ([^|]+) \|.*/\1/; s/[[:space:]]+$//')"
+    actual="$(printf '%s\n' "$identity_line" | sed -E 's/.*\| actual_model: ([^|]+) \|.*/\1/; s/[[:space:]]+$//')"
+    identity_evidence="$(printf '%s\n' "$identity_line" | sed -E 's/.*\| evidence: ([^|]+) \|.*/\1/; s/[[:space:]]+$//')"
+    claims="$(printf '%s\n' "$identity_line" | sed -E 's/.*\| claims: ([^|]+)$/\1/; s/[[:space:]]+$//')"
+    if [ "$requested" = "$actual" ]; then
+      [ "$claims" = bound ] \
+        || err "STATE.md equal requested_model/actual_model must keep claims bound"
+    else
+      [ "$claims" = IDENTITY_UNBOUND ] \
+        || err "STATE.md model substitution must mark claims IDENTITY_UNBOUND"
+      [ "$has_transport" = yes ] \
+        || err "STATE.md model substitution requires a transport-infrastructure Andon row"
+      event_bound="$(awk -F'|' -v token="$identity_evidence" '
+        /^## Andon log/ { f=1; next }
+        f && /^## / { f=0 }
+        f && /^\|/ {
+          c=$5; gsub(/^[ \t]+|[ \t]+$/, "", c)
+          e=$8; gsub(/^[ \t]+|[ \t]+$/, "", e)
+          if (c == "transport-infrastructure" && e == token) found=1
+        }
+        END { print found ? "yes" : "no" }
+      ' "$state")"
+      [ "$event_bound" = yes ] \
+        || err "STATE.md model substitution evidence must bind the transport-infrastructure Andon evidence cell"
+    fi
+  done < <(grep -E '^model-identity:' "$state" || true)
 fi
 
 if [ -f "$state" ] && grep -qi '^## Context epochs and instruction applicability' "$state"; then

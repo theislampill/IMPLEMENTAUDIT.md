@@ -618,4 +618,121 @@ grep -Fq -- '--plan-cycle-record <each-cycle-accounted-plan>' \
   "$repo_root/skills/implementaudit/templates/PROTOCOL.md" \
   || fail "shipped final-audit invocation omits plan cycle inputs"
 
+# #87: closure re-captures its start/verify anchors. Drift needs a hash-bound,
+# per-finding re-anchor or consequential supersession record. A stochasticity
+# budget counts only when its declaration is tracked at the start anchor.
+base_claim='claim: identity | surface: source | property: structural | status: verified | evidence-surface: source'
+reanchor_repo="$tmp/reanchor-repo"
+mkdir "$reanchor_repo"
+git -C "$reanchor_repo" init -q
+git -C "$reanchor_repo" config user.email test@example.invalid
+git -C "$reanchor_repo" config user.name 'Closure Contract Test'
+printf 'start\n' > "$reanchor_repo/anchor.txt"
+git -C "$reanchor_repo" add anchor.txt
+git -C "$reanchor_repo" commit -qm 'start anchor'
+start_sha="$(git -C "$reanchor_repo" rev-parse HEAD)"
+printf 'verify\n' > "$reanchor_repo/anchor.txt"
+git -C "$reanchor_repo" add anchor.txt
+git -C "$reanchor_repo" commit -qm 'verification anchor'
+verify_sha="$(git -C "$reanchor_repo" rev-parse HEAD)"
+reanchor_check() {
+  (cd "$reanchor_repo" && bash "$repo_root/$scorer" "$@")
+}
+printf '%s\nAUDIT_START_ANCHOR: %s\nAUDIT_VERIFY_ANCHOR: %s\n%s\n%s\n%s\n%s\n' "$base_claim" \
+  "$start_sha" "$verify_sha" \
+  'REANCHOR_DISPOSITION: unchanged' 'REANCHOR_EVIDENCE: none' \
+  'equivalent_config_attempts: 1/1' 'terminal_qualification: QUALIFIED' \
+  > "$tmp/reanchor-unreconciled.md"
+if reanchor_check "$tmp/reanchor-unreconciled.md" >/dev/null 2>&1; then
+  fail "moved closure anchor accepted without re-anchor or supersession"
+fi
+zero_hash='0000000000000000000000000000000000000000000000000000000000000000'
+sed -e 's/REANCHOR_DISPOSITION: unchanged/REANCHOR_DISPOSITION: per-finding/' \
+    -e 's/REANCHOR_EVIDENCE: none/REANCHOR_EVIDENCE: structured-rows/' \
+    "$tmp/reanchor-unreconciled.md" > "$tmp/reanchor-dangling.md"
+printf 'residual: identity | consequential: yes | disposition: SUPERSEDED_BY_CONCURRENT_MUTATION | evidence-file: missing.md | evidence-sha256: %s\n' \
+  "$zero_hash" >> "$tmp/reanchor-dangling.md"
+if reanchor_check "$tmp/reanchor-dangling.md" >/dev/null 2>&1; then
+  fail "dangling global supersession evidence accepted"
+fi
+
+cat > "$tmp/finding-r7.md" <<EOF
+Anchor: $verify_sha
+Finding: identity
+Disposition: SUPERSEDED_BY_CONCURRENT_MUTATION
+EOF
+finding_hash="$(sha256sum "$tmp/finding-r7.md" | awk '{print $1}')"
+sed -e 's/REANCHOR_DISPOSITION: unchanged/REANCHOR_DISPOSITION: per-finding/' \
+    -e 's/REANCHOR_EVIDENCE: none/REANCHOR_EVIDENCE: structured-rows/' \
+    "$tmp/reanchor-unreconciled.md" > "$tmp/reanchor-superseded.md"
+printf 'residual: identity | consequential: yes | disposition: SUPERSEDED_BY_CONCURRENT_MUTATION | evidence-file: finding-r7.md | evidence-sha256: %s\n' \
+  "$finding_hash" >> "$tmp/reanchor-superseded.md"
+reanchor_check "$tmp/reanchor-superseded.md" >/dev/null 2>&1 \
+  || fail "hash-bound per-finding concurrent-mutation supersession rejected"
+sed '/^residual: identity /d' "$tmp/reanchor-superseded.md" > "$tmp/reanchor-missing-finding.md"
+if reanchor_check "$tmp/reanchor-missing-finding.md" >/dev/null 2>&1; then
+  fail "moved closure anchor accepted without one structured row per claim"
+fi
+sed -e 's/equivalent_config_attempts: 1\/1/equivalent_config_attempts: 3\/1/' \
+    "$tmp/reanchor-superseded.md" > "$tmp/repeated-qualified.md"
+if reanchor_check "$tmp/repeated-qualified.md" >/dev/null 2>&1; then
+  fail "3/1 equivalent draws without budget accepted as QUALIFIED"
+fi
+sed 's/terminal_qualification: QUALIFIED/terminal_qualification: PROVISIONAL/' \
+  "$tmp/repeated-qualified.md" > "$tmp/repeated-provisional.md"
+reanchor_check "$tmp/repeated-provisional.md" >/dev/null 2>&1 \
+  || fail "truthful 3/1 PROVISIONAL terminal rejected"
+printf 'stochasticity_budget: 3\nstochasticity_budget_anchor: %s\nstochasticity_budget_path: posthoc-budget.md\n' \
+  "$start_sha" >> "$tmp/repeated-qualified.md"
+if reanchor_check "$tmp/repeated-qualified.md" >/dev/null 2>&1; then
+  fail "post-hoc stochasticity budget accepted as predeclared"
+fi
+
+mkdir "$tmp/budget-repo"
+(
+  cd "$tmp/budget-repo"
+  git init -q
+  git config user.email test@example.invalid
+  git config user.name 'Closure Contract Test'
+  printf 'stochasticity_budget: 3\n' > budget.md
+  git add budget.md
+  git commit -qm 'declare budget'
+  budget_start="$(git rev-parse HEAD)"
+  printf 'verify\n' > marker.txt
+  git add marker.txt
+  git commit -qm 'verification anchor'
+  budget_verify="$(git rev-parse HEAD)"
+  cat > finding-r7.md <<EOF
+Anchor: $budget_verify
+Finding: identity
+Disposition: reanchored
+EOF
+  budget_evidence_hash="$(sha256sum finding-r7.md | awk '{print $1}')"
+  printf '%s\nAUDIT_START_ANCHOR: %s\nAUDIT_VERIFY_ANCHOR: %s\n%s\n%s\n' \
+    "$base_claim" "$budget_start" "$budget_verify" \
+    'REANCHOR_DISPOSITION: per-finding' 'REANCHOR_EVIDENCE: structured-rows' \
+    > closure.md
+  printf 'reanchor-finding: identity | disposition: reanchored | evidence-file: finding-r7.md | evidence-sha256: %s\n' \
+    "$budget_evidence_hash" >> closure.md
+  printf '%s\n%s\n%s\n%s\n%s\n' \
+    'equivalent_config_attempts: 3/1' 'terminal_qualification: QUALIFIED' \
+    'stochasticity_budget: 3' "stochasticity_budget_anchor: $budget_start" \
+    'stochasticity_budget_path: budget.md' >> closure.md
+  bash "$repo_root/$scorer" closure.md >/dev/null 2>&1
+) || fail "start-anchor-tracked stochasticity budget rejected"
+sed -e "s/AUDIT_VERIFY_ANCHOR: $verify_sha/AUDIT_VERIFY_ANCHOR: invalid/" \
+    -e 's/equivalent_config_attempts: 3\/1/equivalent_config_attempts: 1\/0/' \
+    "$tmp/reanchor-superseded.md" > "$tmp/invalid-second-anchor.md"
+if reanchor_check "$tmp/invalid-second-anchor.md" >/dev/null 2>&1; then
+  fail "invalid VERIFY anchor accepted because START anchor matched first"
+fi
+printf '%s\nAUDIT_START_ANCHOR: %s\nAUDIT_VERIFY_ANCHOR: %s\n%s\n%s\n%s\n%s\n' "$base_claim" \
+  "$start_sha" "$start_sha" \
+  'REANCHOR_DISPOSITION: unchanged' 'REANCHOR_EVIDENCE: none' \
+  'equivalent_config_attempts: 1/0' 'terminal_qualification: QUALIFIED' \
+  > "$tmp/zero-pass-qualified.md"
+if reanchor_check "$tmp/zero-pass-qualified.md" >/dev/null 2>&1; then
+  fail "zero-pass terminal accepted as QUALIFIED"
+fi
+
 printf 'closure-surface-contract: ok (contract + quota, kill-authority, #88 external-state, and #78 deferral controls)\n'

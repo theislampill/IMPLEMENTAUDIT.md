@@ -212,6 +212,52 @@ res_case res_nopolicy "partially-resolved" \
 res_case res_axes "unresolved" \
 "| open cause | yes | deferred | owner backlog | ledger |" pass
 
+# #87: concurrent mutation is one owner-authorized residual disposition. An
+# unknown near-miss stays red.
+res_case res_concurrent "partially-resolved" \
+"| finding moved under review | yes | SUPERSEDED_BY_CONCURRENT_MUTATION | phase re-anchor | closure receipt |" pass
+res_case res_concurrent_bad "partially-resolved" \
+"| finding moved under review | yes | SUPERSEDED_BY_OTHER_MUTATION | phase re-anchor | closure receipt |" fail
+
+# #87 canonical identity row. Legacy roots need no row. A requested/actual
+# mismatch requires both transport Andon evidence and unbound claims.
+identity_case() { # name, row, add-andon, expectation
+  local name="$1" row="$2" add_andon="$3" expect="$4"
+  mkdir -p "$tmp/$name"
+  cp -r "$tmp/good/." "$tmp/$name/"
+  printf '%s\n' "$row" >> "$tmp/$name/STATE.md"
+  if [ "$add_andon" != no ]; then
+    ANDON_EVENT="$add_andon" "${py_cmd[@]}" - "$tmp/$name/STATE.md" <<'PY'
+import os, sys
+from pathlib import Path
+p = Path(sys.argv[1])
+s = p.read_text(encoding="utf-8")
+s = s.replace("|---|---|---|---|---|---|---|---|",
+              "|---|---|---|---|---|---|---|---|\n"
+              "| 87 | o87 | 1 | transport-infrastructure | model substitution | bind claims | host-event:" + os.environ["ANDON_EVENT"] + " | resolved |", 1)
+p.write_text(s, encoding="utf-8")
+PY
+  fi
+  if [ "$expect" = pass ]; then
+    bash "$helper" "$tmp/$name" >/dev/null \
+      || { printf 'run-root-validation.test: %s expected PASS\n' "$name" >&2; exit 1; }
+  elif bash "$helper" "$tmp/$name" >/dev/null 2>&1; then
+    printf 'run-root-validation.test: %s expected FAIL\n' "$name" >&2; exit 1
+  fi
+}
+identity_case identity_equal \
+  'model-identity: requested_model: fable | actual_model: fable | evidence: self-report | claims: bound' no pass
+identity_case identity_unbound_missing_andon \
+  'model-identity: requested_model: fable | actual_model: opus | evidence: host-event:e1 | claims: IDENTITY_UNBOUND' no fail
+identity_case identity_unbound \
+  'model-identity: requested_model: fable | actual_model: opus | evidence: host-event:e1 | claims: IDENTITY_UNBOUND' e1 pass
+identity_case identity_unbound_wrong_event \
+  'model-identity: requested_model: fable | actual_model: opus | evidence: host-event:missing-e1 | claims: IDENTITY_UNBOUND' e1 fail
+identity_case identity_mismatch_bound \
+  'model-identity: requested_model: fable | actual_model: opus | evidence: host-event:e1 | claims: bound' e1 fail
+identity_case identity_malformed \
+  'model-identity: requested: fable | actual: fable | evidence: self-report | claims: bound' no fail
+
 # 7. Run-root self-enforcement and micro-run mode (#90).
 fixture_root="fixtures/run-root"
 

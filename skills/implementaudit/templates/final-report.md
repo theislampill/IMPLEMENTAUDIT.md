@@ -84,6 +84,29 @@ record vocabulary used by the protocol: `artifact-identity` plus an exact
 with `bytes`, `mtime`, `liveness`, `still-producing`, `use`, `closure-bytes`,
 and `closure-mtime`. Legacy rows without these new prefixes remain valid.
 
+For a terminal qualification, record the closure-time identity block:
+
+```text
+AUDIT_START_ANCHOR: <full-40-hex-sha>
+AUDIT_VERIFY_ANCHOR: <full-40-hex-sha>
+REANCHOR_DISPOSITION: unchanged|per-finding
+REANCHOR_EVIDENCE: none|structured-rows
+reanchor-finding: <claim-id> | disposition: reanchored | evidence-file: <relative-file> | evidence-sha256: <64-lowercase-hex>
+residual: <claim-id> | consequential: yes | disposition: SUPERSEDED_BY_CONCURRENT_MUTATION | evidence-file: <relative-file> | evidence-sha256: <64-lowercase-hex>
+equivalent_config_attempts: <N_total>/<N_passing>
+stochasticity_budget: <positive-integer>|none
+stochasticity_budget_anchor: <full-start-sha>
+stochasticity_budget_path: <tracked-repo-relative-declaration-file>
+terminal_qualification: QUALIFIED|PROVISIONAL
+```
+
+Anchor drift requires exactly one hash-bound evidence row for every claim:
+either re-anchored or a consequential concurrent-mutation residual. A numeric
+stochasticity budget is predeclared only when its exact declaration exists in
+the named tracked file at `AUDIT_START_ANCHOR`. More than one
+equivalent-configuration draw without that proof is `PROVISIONAL`; an ordinary
+`1/1` terminal is `QUALIFIED`.
+
 ## Remaining Caveats
 
 List deferrals, owner decisions, unverified lanes, and future invalidation

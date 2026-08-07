@@ -158,6 +158,196 @@ while IFS= read -r line; do
   fi
 done < "$file"
 
+# #87 closure identity fields are prospective. Once any field is present, the
+# complete exact grammar is mandatory. Start/verify drift cannot close as
+# unchanged, and repeated equivalent draws require a declared sampling budget.
+if grep -Eqi '^[[:space:]]*(AUDIT_START_ANCHOR|AUDIT_VERIFY_ANCHOR|REANCHOR_DISPOSITION|REANCHOR_EVIDENCE|equivalent_config_attempts|stochasticity_budget|stochasticity_budget_anchor|stochasticity_budget_path|terminal_qualification):' "$file"; then
+  exact_value() {
+    local key="$1" required="${2:-yes}" near exact
+    near="$(grep -Eic "^[[:space:]]*${key}[[:space:]]*:" "$file" || true)"
+    exact="$(grep -Ec "^${key}: " "$file" || true)"
+    [ "$near" -eq "$exact" ] || fail "$key must use exact case and column-zero grammar"
+    [ "$exact" -le 1 ] || fail "$key must appear at most once"
+    if [ "$required" = yes ]; then
+      [ "$exact" -eq 1 ] || fail "$key must appear exactly once"
+    fi
+    if [ "$exact" -eq 1 ]; then sed -n "s/^${key}: //p" "$file"; fi
+  }
+
+  start_anchor="$(exact_value AUDIT_START_ANCHOR)"
+  verify_anchor="$(exact_value AUDIT_VERIFY_ANCHOR)"
+  disposition="$(exact_value REANCHOR_DISPOSITION)"
+  reanchor_evidence="$(exact_value REANCHOR_EVIDENCE)"
+  printf '%s' "$start_anchor" | grep -Eq '^[0-9a-f]{40}$' \
+    || fail "AUDIT_START_ANCHOR must be a full lowercase 40-hex SHA"
+  printf '%s' "$verify_anchor" | grep -Eq '^[0-9a-f]{40}$' \
+    || fail "AUDIT_VERIFY_ANCHOR must be a full lowercase 40-hex SHA"
+  current_head="$(git rev-parse HEAD 2>/dev/null || true)"
+  [ "$verify_anchor" = "$current_head" ] \
+    || fail "AUDIT_VERIFY_ANCHOR must equal current HEAD"
+  git cat-file -e "${start_anchor}^{commit}" 2>/dev/null \
+    || fail "AUDIT_START_ANCHOR must resolve to a local commit"
+  if [ "$start_anchor" = "$verify_anchor" ]; then
+    [ "$disposition" = unchanged ] \
+      || fail "equal closure anchors require REANCHOR_DISPOSITION: unchanged"
+    [ "$reanchor_evidence" = none ] \
+      || fail "unchanged closure anchors require REANCHOR_EVIDENCE: none"
+    if grep -Eqi '^[[:space:]]*reanchor-finding:' "$file" \
+      || grep -Eqi '^[[:space:]]*residual:.*\|[[:space:]]*disposition:[[:space:]]*SUPERSEDED_BY_CONCURRENT_MUTATION([[:space:]]*\||[[:space:]]*$)' "$file"; then
+      fail "unchanged closure anchors cannot carry reanchor-finding or concurrent-mutation residual rows"
+    fi
+  else
+    [ "$disposition" = per-finding ] \
+      || fail "moved closure anchor requires REANCHOR_DISPOSITION: per-finding"
+    [ "$reanchor_evidence" = structured-rows ] \
+      || fail "moved closure anchor requires REANCHOR_EVIDENCE: structured-rows"
+    ensure_python
+    reanchor_error=""
+    if ! reanchor_error="$("${py_cmd[@]}" - "$file" "$verify_anchor" <<'PY'
+import hashlib
+import os
+import pathlib
+import re
+import sys
+
+record = pathlib.Path(sys.argv[1]).resolve()
+verify = sys.argv[2]
+lines = record.read_text(encoding="utf-8").splitlines()
+
+def die(message):
+    print(message)
+    raise SystemExit(1)
+
+def segments(line, prefix, required):
+    parts = [part.strip() for part in line.split("|")]
+    identity = parts[0][len(prefix):].strip()
+    if not identity:
+        die(f"{prefix[:-1]} row has no identity")
+    values = {}
+    for part in parts[1:]:
+        if ":" not in part:
+            die(f"{prefix[:-1]} {identity}: malformed field")
+        key, value = (item.strip() for item in part.split(":", 1))
+        if key in values or key not in required:
+            die(f"{prefix[:-1]} {identity}: duplicate or unknown field {key}")
+        values[key] = value
+    if set(values) != set(required) or any(not values[key] for key in required):
+        die(f"{prefix[:-1]} {identity}: requires exactly {', '.join(required)}")
+    return identity, values
+
+claim_ids = []
+for line in lines:
+    if line.startswith("claim:"):
+        identity = line.split("|", 1)[0][len("claim:"):].strip()
+        claim_ids.append(identity)
+
+near_rows = [line for line in lines if re.match(r"^\s*(reanchor-finding|residual)\s*:", line, re.I)]
+exact_rows = [line for line in lines if line.startswith("reanchor-finding:") or line.startswith("residual:")]
+if len(near_rows) != len(exact_rows):
+    die("reanchor finding/residual rows must use exact lowercase column-zero grammar")
+
+found = {}
+for line in exact_rows:
+    if line.startswith("reanchor-finding:"):
+        identity, values = segments(
+            line, "reanchor-finding:", ("disposition", "evidence-file", "evidence-sha256")
+        )
+        if values["disposition"] != "reanchored":
+            die(f"reanchor-finding {identity}: disposition must be reanchored")
+    else:
+        if "| disposition: SUPERSEDED_BY_CONCURRENT_MUTATION" not in line:
+            continue
+        identity, values = segments(
+            line, "residual:", ("consequential", "disposition", "evidence-file", "evidence-sha256")
+        )
+        if values["consequential"] != "yes" or values["disposition"] != "SUPERSEDED_BY_CONCURRENT_MUTATION":
+            die(f"residual {identity}: requires consequential yes and SUPERSEDED_BY_CONCURRENT_MUTATION")
+    if identity in found:
+        die(f"finding {identity}: duplicate re-anchor disposition")
+    found[identity] = values
+
+if set(found) != set(claim_ids) or len(found) != len(claim_ids):
+    die("moved closure requires exactly one structured re-anchor or consequential residual row per claim")
+
+base = record.parent.resolve()
+for identity, values in found.items():
+    rel = values["evidence-file"]
+    pure = pathlib.PurePosixPath(rel.replace("\\", "/"))
+    if pure.is_absolute() or ".." in pure.parts or re.match(r"^[A-Za-z]:", rel):
+        die(f"finding {identity}: unsafe evidence-file")
+    evidence = (base / pathlib.Path(*pure.parts)).resolve()
+    try:
+        evidence.relative_to(base)
+    except ValueError:
+        die(f"finding {identity}: evidence-file escapes the record directory")
+    if not evidence.is_file() or evidence.is_symlink():
+        die(f"finding {identity}: evidence-file must resolve to a regular non-symlink file")
+    data = evidence.read_bytes()
+    digest = hashlib.sha256(data).hexdigest()
+    if not re.fullmatch(r"[0-9a-f]{64}", values["evidence-sha256"]) or digest != values["evidence-sha256"]:
+        die(f"finding {identity}: evidence SHA-256 mismatch")
+    text = data.decode("utf-8").splitlines()
+    required_lines = {
+        f"Anchor: {verify}",
+        f"Finding: {identity}",
+        f"Disposition: {values['disposition']}",
+    }
+    if not required_lines.issubset(set(text)):
+        die(f"finding {identity}: evidence artifact is not bound to finding, disposition, and VERIFY anchor")
+PY
+)"; then
+      [ -n "$reanchor_error" ] || reanchor_error="structured re-anchor validation failed"
+      fail "$reanchor_error"
+    fi
+  fi
+
+  attempts="$(exact_value equivalent_config_attempts)"
+  terminal_qualification="$(exact_value terminal_qualification)"
+  budget="$(exact_value stochasticity_budget no)"
+  budget_anchor="$(exact_value stochasticity_budget_anchor no)"
+  budget_path="$(exact_value stochasticity_budget_path no)"
+  printf '%s' "$attempts" | grep -Eq '^[1-9][0-9]*/(0|[1-9][0-9]*)$' \
+    || fail "equivalent_config_attempts must be N_total/N_passing"
+  total="${attempts%%/*}"
+  passing="${attempts##*/}"
+  [ "$passing" -le "$total" ] \
+    || fail "equivalent_config_attempts passing count exceeds total"
+  case "$terminal_qualification" in QUALIFIED|PROVISIONAL) : ;;
+    *) fail "terminal_qualification must be QUALIFIED or PROVISIONAL" ;;
+  esac
+  budget_count=""
+  if [ -n "$budget" ] && [ "$budget" != none ]; then
+    printf '%s' "$budget" | grep -Eq '^[1-9][0-9]*$' \
+      || fail "stochasticity_budget must be none or a positive integer"
+    budget_count="$budget"
+    [ "$budget_anchor" = "$start_anchor" ] \
+      || fail "stochasticity_budget must be predeclared at AUDIT_START_ANCHOR"
+    [ -n "$budget_path" ] || fail "numeric stochasticity_budget requires stochasticity_budget_path"
+    case "$budget_path" in
+      /*|*\\*|*:*|*/|.|..|./*|../*|*/./*|*/../*)
+        fail "stochasticity_budget_path must be a safe repo-relative path"
+        ;;
+    esac
+    [ "$(git cat-file -t "$start_anchor:$budget_path" 2>/dev/null || true)" = blob ] \
+      || fail "stochasticity_budget_path must identify a tracked file at AUDIT_START_ANCHOR"
+    budget_declaration="$(git show "$start_anchor:$budget_path" 2>/dev/null || true)"
+    [ "$(printf '%s\n' "$budget_declaration" | grep -Ec "^stochasticity_budget: $budget$")" -eq 1 ] \
+      || fail "stochasticity budget is not present in its tracked start-anchor declaration"
+  elif [ -n "$budget_anchor" ] || [ -n "$budget_path" ]; then
+    fail "stochasticity_budget_anchor/path require a numeric stochasticity_budget"
+  fi
+  if [ "$terminal_qualification" = QUALIFIED ] && [ "$passing" -eq 0 ]; then
+    fail "a zero-pass equivalent configuration cannot be QUALIFIED"
+  fi
+  if [ "$total" -eq 1 ] && [ "$passing" -eq 1 ]; then
+    [ "$terminal_qualification" = QUALIFIED ] \
+      || fail "single 1/1 attempt is QUALIFIED, not PROVISIONAL"
+  elif [ "$total" -gt 1 ] && { [ -z "$budget_count" ] || [ "$total" -gt "$budget_count" ]; }; then
+    [ "$terminal_qualification" = PROVISIONAL ] \
+      || fail "repeated equivalent attempts without an adequate predeclared budget must be PROVISIONAL"
+  fi
+fi
+
 # #78 blocker rows are prospective and coexist with legacy claim-only records.
 # Scope and still-runnable work are always explicit. A negative-capability
 # assertion needs two case-normalized method identities, distinct method

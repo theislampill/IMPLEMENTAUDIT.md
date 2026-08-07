@@ -12,6 +12,9 @@ set -euo pipefail
 #       `Anchor: <full-sha>` line (or `@<full-sha>` token). Exit 1 when
 #       the artifact is unanchored or anchored to a DIFFERENT state —
 #       a stale artifact is never accepted as current-state evidence.
+#       Optional `--bound-surfaces <manifest>` keeps the artifact valid when
+#       every anchor-to-current changed path is disjoint from the nonempty,
+#       repo-relative path/glob manifest. Without it, exact equality remains.
 #
 #   check-evidence-anchor.sh --window <launch-intent-file> --now <sha>
 #       an open verification window refuses an anchor-to-current-tree diff
@@ -153,6 +156,14 @@ PY
     artifact="${2:-}"
     [ "${3:-}" = "--tree" ] || fail "usage: --artifact <file> --tree <sha>"
     tree="${4:-}"
+    bound_surfaces=""
+    if [ "$#" -gt 4 ]; then
+      [ "$#" -eq 6 ] && [ "${5:-}" = "--bound-surfaces" ] \
+        || fail "usage: --artifact <file> --tree <sha> [--bound-surfaces <manifest>]"
+      bound_surfaces="${6:-}"
+      [ -f "$bound_surfaces" ] && [ ! -L "$bound_surfaces" ] \
+        || fail "bound-surfaces manifest must be a regular non-symlink file: $bound_surfaces"
+    fi
     printf '%s' "$tree" | grep -qE '^[0-9a-f]{40}$' \
       || fail "--tree must be a full 40-hex SHA"
     [ -f "$artifact" ] || fail "artifact not found: $artifact"
@@ -168,6 +179,80 @@ PY
       | grep -oE '[0-9a-f]{40}' | head -n 1 || true)"
     [ -n "$anchor" ] || fail \
       "artifact $artifact names no full-SHA anchor — unanchored artifacts are not current-state evidence"
+    if [ -n "$bound_surfaces" ]; then
+      bound_digest_lines="$(grep -Ec '^Bound-Surfaces-SHA256: [0-9a-f]{64}$' "$artifact" || true)"
+      [ "$bound_digest_lines" -eq 1 ] \
+        || fail "artifact must bind exactly one Bound-Surfaces-SHA256 when --bound-surfaces is used"
+      declared_bound_digest="$(sed -n 's/^Bound-Surfaces-SHA256: //p' "$artifact")"
+      actual_bound_digest="$(sha256sum "$bound_surfaces" | awk '{print $1}')"
+      [ "$declared_bound_digest" = "$actual_bound_digest" ] \
+        || fail "bound-surfaces manifest digest does not match the artifact declaration"
+      if command -v python >/dev/null 2>&1; then py_cmd=(python)
+      elif command -v python3 >/dev/null 2>&1; then py_cmd=(python3)
+      elif command -v py >/dev/null 2>&1; then py_cmd=(py -3)
+      else fail "python, python3, or py -3 is required for --bound-surfaces"
+      fi
+      "${py_cmd[@]}" - "$anchor" "$tree" "$bound_surfaces" <<'PY'
+import fnmatch
+import pathlib
+import re
+import subprocess
+import sys
+
+def fail(message):
+    print(f"check-evidence-anchor: {message}", file=sys.stderr)
+    raise SystemExit(1)
+
+anchor, current, manifest_arg = sys.argv[1:]
+head = subprocess.run(
+    ["git", "rev-parse", "HEAD"], text=True, capture_output=True, check=False
+)
+if head.returncode != 0 or head.stdout.strip() != current:
+    fail("--tree must equal current HEAD when --bound-surfaces is used")
+for name, value in (("artifact anchor", anchor), ("offered tree", current)):
+    check = subprocess.run(
+        ["git", "cat-file", "-e", f"{value}^{{commit}}"],
+        capture_output=True,
+        check=False,
+    )
+    if check.returncode != 0:
+        fail(f"{name} is not a local commit")
+
+manifest = pathlib.Path(manifest_arg)
+patterns = []
+for raw in manifest.read_text(encoding="utf-8").splitlines():
+    pattern = raw.strip()
+    if not pattern or pattern.startswith("#"):
+        continue
+    pure = pathlib.PurePosixPath(pattern.replace("\\", "/"))
+    if (pure.is_absolute() or ".." in pure.parts or pattern.startswith("/")
+            or re.match(r"^[A-Za-z]:", pattern)):
+        fail(f"unsafe bound surface: {pattern}")
+    patterns.append(pure.as_posix())
+if not patterns:
+    fail("bound-surfaces manifest contains no path or glob")
+
+diff = subprocess.run(
+    ["git", "diff", "--name-only", "-z", anchor, current],
+    capture_output=True,
+    check=False,
+)
+if diff.returncode != 0:
+    fail("anchor-to-current changed-path enumeration failed")
+changed = [part.decode("utf-8") for part in diff.stdout.split(b"\0") if part]
+intersections = sorted(
+    path for path in changed
+    if any(fnmatch.fnmatchcase(path, pattern) for pattern in patterns)
+)
+if intersections:
+    fail("REFUSED: anchor-to-current diff intersects bound surfaces: " + ", ".join(intersections))
+print(
+    "check-evidence-anchor: artifact retained; anchor-to-current diff disjoint "
+    f"changed={len(changed)} bound-surfaces={len(patterns)}"
+)
+PY
+      exit 0
+    fi
     if [ "$anchor" != "$tree" ]; then
       fail "REFUSED: artifact is anchored to $anchor but offered for $tree — re-gather evidence on the current state"
     fi
