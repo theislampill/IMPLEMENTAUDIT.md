@@ -284,10 +284,43 @@ opaque checkpoint.
 
 Rule phrase: one commit per coherent owner/source repair.
 
-Commit bodies should include finding, owner/source, countermeasure, evidence,
-boundaries, and Andon/Hansei when relevant. Do not commit when validation is
-red, when unrelated dirty work would be swept in, when the patch is only local
-RC artifact generation, when the owner authorized build but not commit, or when
-the change is a deferred owner decision.
+Class B messages require a body. A message is Class B when its conventional
+type is `feat`, `fix`, `perf`, or `revert`; its subject carries `!`; its body
+carries `BREAKING CHANGE`; its subject has no parseable conventional type; or
+the authoritative run ledger links it to a finding, Andon, gate, or decision.
+For the last case, invoke the checker with `--ledger-linked`; do not infer
+decisions from verbs in message prose. Ledger linkage cannot demote a message.
+
+Otherwise the message is Class M and its body is optional. This includes
+honestly typed regeneration, formatting, typo, pure-move, dependency/lockfile,
+and comment-only work. Mislabeling behavior as mechanical is a false claim
+owned by the closure truthfulness check, not a second semantic classifier here.
+
+A Class B body names what changed, why, an evidence anchor, and finding/issue
+linkage when the commit affects a finding or gate. The closed anchor grammar is
+an abbreviated or full commit SHA, `path:line`, a check or command name with its
+exit status, a fixture or test path, or a landed post-condition token such as
+`occurrences: N`, `anchor: <value>`, or `hunk: <spec>`. A bare tally such as
+`18/18` is not an anchor. Existing evidence-anchor rules independently govern
+whether a present token is adequate for the claim.
+
+Use the read-only structure checker before committing or proposing Class B
+text:
+
+```bash
+bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit}"/scripts/repo-state.sh \
+  commit-message <message-file> [--ledger-linked]
+```
+
+The checker derives the declared class and enforces body, anchor, and, when
+requested, linkage presence. It does not scan history or score what/why prose.
+Concrete-object quality and first-use expansion of codenames or internal labels
+remain reviewer judgments; each message must stand alone for a fresh reader.
+
+Commit bodies should also retain owner/source, countermeasure, boundaries, and
+Andon/Hansei when relevant. Do not commit when validation is red, when
+unrelated dirty work would be swept in, when the patch is only local RC artifact
+generation, when the owner authorized build but not commit, or when the change
+is a deferred owner decision.
 
 Rule phrase: when validation is red.

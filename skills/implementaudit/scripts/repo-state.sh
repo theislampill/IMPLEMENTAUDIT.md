@@ -230,10 +230,130 @@ print(f"ignored-artifact: current | surface={surface} | path={key} | sha256={obs
 PY
 }
 
+cmd_commit_message() {
+  local message_file="$1" ledger_linked="$2"
+  [ -f "$message_file" ] && [ ! -L "$message_file" ] || {
+    printf 'repo-state: commit-message input must be a regular non-symlink file: %s\n' "$message_file" >&2
+    return 1
+  }
+  local py_cmd
+  if command -v python >/dev/null 2>&1; then py_cmd=(python)
+  elif command -v python3 >/dev/null 2>&1; then py_cmd=(python3)
+  elif command -v py >/dev/null 2>&1; then py_cmd=(py -3)
+  else printf 'repo-state: python is required for commit-message\n' >&2; return 2
+  fi
+  "${py_cmd[@]}" - "$message_file" "$ledger_linked" <<'PY'
+import re
+import sys
+from pathlib import Path
+
+message = Path(sys.argv[1]).read_text(encoding="utf-8")
+ledger_linked = sys.argv[2] == "yes"
+lines = message.splitlines()
+subject = lines[0].strip() if lines else ""
+body = "\n".join(lines[1:]).strip()
+
+conventional = re.fullmatch(
+    r"(?P<type>[a-z][a-z0-9-]*)(?:\([^)\r\n]+\))?(?P<bang>!)?:\s+\S.*",
+    subject,
+)
+class_b = (
+    ledger_linked
+    or conventional is None
+    or conventional.group("type") in {"feat", "fix", "perf", "revert"}
+    or conventional.group("bang") == "!"
+    or re.search(r"(?m)^BREAKING CHANGE:\s+\S", body) is not None
+)
+
+if class_b and not body:
+    print("repo-state: commit-message Class B requires a non-empty body", file=sys.stderr)
+    raise SystemExit(1)
+
+sha_tokens = re.findall(r"(?<![0-9a-f])[0-9a-f]{7,40}(?![0-9a-f])", body)
+has_sha = any(
+    len(token) == 40
+    or (any(ch.isdigit() for ch in token) and any(ch in "abcdef" for ch in token))
+    for token in sha_tokens
+)
+has_path_line = re.search(
+    r"(?<![A-Za-z0-9_./:-])(?:[A-Za-z0-9_.-]+/)*[A-Za-z0-9_.-]+\.[A-Za-z0-9_.-]+:[1-9][0-9]*\b",
+    body,
+) is not None
+has_test_path = re.search(
+    r"(?<![A-Za-z0-9_./:-])(?:fixtures|tests)/(?:[A-Za-z0-9_.-]+/)*[A-Za-z0-9_-]+\.[A-Za-z0-9_.-]+",
+    body,
+) is not None
+has_command_exit = re.search(
+    r"(?im)\b(?:[A-Za-z0-9_.-]+\.(?:sh|test)|[A-Za-z0-9_.-]*check[A-Za-z0-9_.-]*)\b[^\n]*\bexit(?:\s+|:\s*)[0-9]+\b",
+    body,
+) is not None
+has_occurrences = re.search(
+    r"(?im)\boccurrences:\s*[1-9][0-9]*(?=\s|$|[),.;])",
+    body,
+) is not None
+sentinels = {"tbd", "todo", "none", "n/a", "na", "not-applicable", "unknown", "pending"}
+landed_values = re.findall(
+    r"(?im)\b(?:anchor|hunk):\s*([^\s<]+)(?=\s|$)",
+    body,
+)
+has_landed = any(value.lower().rstrip(".,;") not in sentinels for value in landed_values)
+has_anchor = has_sha or has_path_line or has_test_path or has_command_exit or has_occurrences or has_landed
+if class_b and not has_anchor:
+    print("repo-state: commit-message Class B requires an evidence anchor", file=sys.stderr)
+    raise SystemExit(1)
+
+has_issue = re.search(r"(?<![A-Za-z0-9])#[1-9][0-9]*\b", body) is not None
+direct_row_values = re.findall(
+    r"(?im)^\s*(?:finding|ledger-row|andon-row|andon):\s*([A-Za-z0-9][A-Za-z0-9._-]*)",
+    body,
+)
+linkage_row_values = re.findall(
+    r"(?im)^\s*linkage:\s*(?:ledger-row|andon):\s*([A-Za-z0-9][A-Za-z0-9._-]*)",
+    body,
+)
+row_values = direct_row_values + linkage_row_values
+has_row = any(
+    value.lower() not in sentinels
+    and (any(ch.isdigit() for ch in value) or "-" in value)
+    for value in row_values
+)
+if ledger_linked and not (has_issue or has_row):
+    print(
+        "repo-state: commit-message --ledger-linked requires finding, issue, ledger-row, or Andon linkage",
+        file=sys.stderr,
+    )
+    raise SystemExit(1)
+
+print(
+    "commit-message: class={} | body={} | anchor={} | ledger-linked={}".format(
+        "B" if class_b else "M",
+        "present" if body else "absent",
+        "present" if has_anchor else "not-required",
+        "yes" if ledger_linked else "no",
+    )
+)
+PY
+}
+
 subcommand="${1:-}"
 shift 2>/dev/null || true
 
 case "$subcommand" in
+  commit-message)
+    [ "$#" -ge 1 ] && [ "$#" -le 2 ] || {
+      printf 'usage: repo-state.sh commit-message <message-file> [--ledger-linked]\n' >&2
+      exit 2
+    }
+    ledger_linked=no
+    if [ "$#" -eq 2 ]; then
+      [ "$2" = "--ledger-linked" ] || {
+        printf 'usage: repo-state.sh commit-message <message-file> [--ledger-linked]\n' >&2
+        exit 2
+      }
+      ledger_linked=yes
+    fi
+    cmd_commit_message "$1" "$ledger_linked"
+    ;;
   ignored-artifact)
     [ "$#" -eq 4 ] || {
       printf 'usage: repo-state.sh ignored-artifact <source|package|release> <artifact> <published-digest-record> <authority-baseline>\n' >&2
@@ -269,6 +389,7 @@ repo-state.sh - evaluate complete working-tree state vs a baseline commit.
   repo-state.sh deliverable   <baseline> <path>
   repo-state.sh changed-files <baseline>
   repo-state.sh added-lines   <baseline>
+  repo-state.sh commit-message <message-file> [--ledger-linked]
   repo-state.sh ignored-artifact <source|package|release> <artifact> <published-digest-record> <authority-baseline>
 
 Use a single baseline revision. Do not use a two-dot commit range for final
