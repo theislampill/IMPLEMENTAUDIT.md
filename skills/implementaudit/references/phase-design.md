@@ -245,7 +245,8 @@ the result `PASS_WITH_SCOPE_GAP` and every extra component is named in
 `Residual risk:`. Post-pass escalation is governed by `Countermeasure Scope And
 Verification Proportionality` in `lean-operating-discipline.md`;
 `PASS_WITH_SCOPE_GAP` is an input to that judgment, not automatic promotion
-into a second apparatus. After a failure, only manual repair and re-run may
+into a second apparatus; any such promotion remains a cold review judgment.
+After a failure, only manual repair and re-run may
 establish a new passing receipt; the governed action must not automatically
 retry.
 
