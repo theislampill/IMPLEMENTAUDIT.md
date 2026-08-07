@@ -154,6 +154,16 @@ for mutation in population absent-surface replay-count citation truncated-read c
   expect_process_history_fail "$mutation" "$copy"
 done
 
+prewindow_copy="$tmp/process-prewindow-signature"
+cp -R "$process_fixture" "$prewindow_copy"
+sed -i 's/"message":"pre-window"/"signature":"SYNTHETIC_FAILURE"/' \
+  "$prewindow_copy/corpus/old-1.jsonl"
+bash scripts/check-audit-object-routing-contract.sh \
+  --validate-process-history-fixture "$prewindow_copy" >/dev/null || {
+  printf 'audit-object-routing-contract.test: pre-window recurrence polluted the declared window\n' >&2
+  exit 1
+}
+
 # 7. Retrospective governance reuses the real run-root, closure, and cold-review
 # validators. These cases distinguish affordable micro custody from review work
 # that must use a full root.
@@ -220,5 +230,4 @@ if bash skills/implementaudit/scripts/validate-run-root.sh --micro \
   printf 'audit-object-routing-contract.test: reduced-obligation meta-tier claim unexpectedly passed\n' >&2
   exit 1
 fi
-
 printf 'audit-object-routing-contract.test: ok\n'

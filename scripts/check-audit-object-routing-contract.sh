@@ -85,10 +85,11 @@ for path in files:
             turn_id = event[mission["dedupe_key"]]
         except (KeyError, TypeError, ValueError, json.JSONDecodeError) as exc:
             fail(f"{path.name}:{line_number} malformed: {exc}")
-        events.append((stamp, event))
-        unique_events.setdefault(turn_id, event)
-    if events and start <= max(stamp for stamp, _ in events) < end:
+        events.append((stamp, turn_id, event))
+    if events and start <= max(stamp for stamp, _, _ in events) < end:
         in_window.append(path.name)
+        for _, turn_id, event in events:
+            unique_events.setdefault(turn_id, event)
 
 if result["population_size"] != len(in_window):
     fail(f"population mismatch: recorded {result['population_size']}, computed {len(in_window)}")
