@@ -316,8 +316,9 @@ clone tools when they can enumerate a population more reliably than a person.
 They enter the run as census instruments, not as authorities:
 
 - Output is a lead from the moment it is produced. It becomes evidence or gates
-  an action only after a discrimination witness and an
-  instrument-liveness positive control.
+  an action only after a discrimination witness
+  (`repo-state-comparison.md §Census instruments`) and an
+  instrument-liveness positive control (`phase-design.md Rule P4-15`).
   An unqualified no-findings report is not evidence of
   absence.
 - Record instrument identity: name, exact version, invocation, and config file.
@@ -325,4 +326,6 @@ They enter the run as census instruments, not as authorities:
 - The population is what the instrument was pointed at, not presumptively the
   repository. State the roots, excludes, and entry points.
 - An instrument classification is never the sole basis for deletion; the
-  two-method reference census still applies.
+  two-method reference census still applies
+  (`repo-state-comparison.md §Proving a file is dead`). Optional graph tools
+  remain bounded by `sidecars.md`; they are navigation, not canonical proof.

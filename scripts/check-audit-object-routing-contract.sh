@@ -369,6 +369,10 @@ for text in \
   "census instruments, not as authorities" \
   "discrimination witness" \
   "instrument-liveness positive control" \
+  "\`repo-state-comparison.md §Census instruments\`" \
+  "\`repo-state-comparison.md §Proving a file is dead\`" \
+  "\`phase-design.md Rule P4-15\`" \
+  "sidecars.md" \
   "name, exact version, invocation, and config file" \
   "State the roots, excludes, and entry points" \
   "never the sole basis for deletion"
