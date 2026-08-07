@@ -367,6 +367,9 @@ if [ -f "$state" ]; then
       --exclude='.claimed' 2>/dev/null; then
       err "micro root contains a Stage 6.2 disposition; executor-facing review requires a full run root"
     fi
+    if grep -Eqi '(second-order|higher-order) retrospective.*(reduced|waived|fewer) obligations' "$state"; then
+      err "retrospective meta-tier cannot reduce governed-run obligations"
+    fi
   fi
 fi
 
