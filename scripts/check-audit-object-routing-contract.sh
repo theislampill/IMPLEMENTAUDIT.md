@@ -226,7 +226,16 @@ for text in \
   "No claim without a citation" \
   "Reconcile before proposing" \
   "Durable evidence before synthesis" \
-  "Fan-out result ownership"
+  "Fan-out result ownership" \
+  "A retrospective is a governed run" \
+  "requires a micro-run root, Andon log, and deferral ledger" \
+  "evidence compendium before synthesis" \
+  "fresh-context cold review before publication or action" \
+  "Every residual receives one disposition" \
+  "could-not-verify requires explicit adjudication" \
+  "A read-only plan plus a micro-run root is valid" \
+  "no additional meta-tier" \
+  "names its stopping condition"
 do
   require_text "$playbook_ref" "$text"
 done
