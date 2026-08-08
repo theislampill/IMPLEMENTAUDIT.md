@@ -417,6 +417,14 @@ A mutating command's own output is never the evidence that the mutation landed.
 A read-back that disagrees with intended state is Andon `evidence-mismatch`,
 and the run does not claim publication.
 
+When the governed flow reserves tracked-issue closure for post-merge evidence,
+PR bodies use non-closing tracked-issue references such as `Implements #N`.
+Do not use `Closes #N`, `Fixes #N`, `Resolves #N`, or their auto-closing
+equivalents: publish the evidence comment first, then close the issue explicitly
+and read back both surfaces. If an issue has already auto-closed, post the
+evidence comment retroactively and record the closure race instead of silently
+dropping the accounting evidence.
+
 A run with no publication intent incurs none of these obligations.
 
 ## No Arbitrary Revision Cap

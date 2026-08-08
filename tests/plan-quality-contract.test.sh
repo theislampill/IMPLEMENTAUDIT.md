@@ -14,6 +14,29 @@ bash scripts/check-plan-quality-contract.sh \
   --read-only-status-file fixtures/read-only-plans/read-only-audit-ledger.status \
   --allow-path docs/audits/
 
+for keyword in Closes Fixes Resolves; do
+  body="$tmp/pr-body-$keyword.md"
+  printf '## Summary\n\n%s #141\n' "$keyword" > "$body"
+  if bash scripts/check-plan-quality-contract.sh \
+      --pr-body-file "$body" >/tmp/plan-quality-auto-close.out 2>&1; then
+    printf 'plan-quality-contract.test: %s tracked-issue reference unexpectedly passed\n' "$keyword" >&2
+    exit 1
+  fi
+  grep -F 'auto-closing tracked-issue reference is forbidden' \
+    /tmp/plan-quality-auto-close.out >/dev/null || {
+      printf 'plan-quality-contract.test: expected auto-close diagnostic for %s\n' "$keyword" >&2
+      cat /tmp/plan-quality-auto-close.out >&2
+      exit 1
+    }
+done
+
+printf '## Summary\n\nImplements #141\n' > "$tmp/pr-body-implements.md"
+bash scripts/check-plan-quality-contract.sh \
+  --pr-body-file "$tmp/pr-body-implements.md" >/dev/null 2>&1 || {
+    printf 'plan-quality-contract.test: non-closing Implements reference was rejected\n' >&2
+    exit 1
+  }
+
 cat >"$tmp/invalid-vibes.md" <<'BAD'
 # Plan with weak criteria
 

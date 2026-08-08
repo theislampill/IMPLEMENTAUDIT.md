@@ -12,6 +12,7 @@ cd "$repo_root"
 files=()
 status_files=()
 child_prompt_files=()
+pr_body_files=()
 allowed_paths=("plans/" ".IMPLEMENTAUDIT/")
 while [ "$#" -gt 0 ]; do
   case "$1" in
@@ -28,6 +29,11 @@ while [ "$#" -gt 0 ]; do
     --child-prompt-file)
       [ "$#" -ge 2 ] || fail "--child-prompt-file requires a path"
       child_prompt_files+=("$2")
+      shift 2
+      ;;
+    --pr-body-file)
+      [ "$#" -ge 2 ] || fail "--pr-body-file requires a path"
+      pr_body_files+=("$2")
       shift 2
       ;;
     --allow-path)
@@ -62,7 +68,8 @@ fi
   "${#files[@]}" "${files[@]}" \
   "--" "${#status_files[@]}" "${status_files[@]}" \
   "--" "${allowed_paths[@]}" \
-  "--child-prompts" "${#child_prompt_files[@]}" "${child_prompt_files[@]}" <<'PY'
+  "--child-prompts" "${#child_prompt_files[@]}" "${child_prompt_files[@]}" \
+  "--pr-bodies" "${#pr_body_files[@]}" "${pr_body_files[@]}" <<'PY'
 import re
 import sys
 from pathlib import Path
@@ -84,6 +91,7 @@ if args[offset] != "--":
 offset += 1
 remaining = args[offset:]
 child_prompt_paths: list[Path] = []
+pr_body_paths: list[Path] = []
 allowed_raw: list[str] = []
 idx = 0
 while idx < len(remaining):
@@ -92,6 +100,12 @@ while idx < len(remaining):
         count = int(remaining[idx])
         idx += 1
         child_prompt_paths = [Path(p) for p in remaining[idx : idx + count]]
+        idx += count
+    elif remaining[idx] == "--pr-bodies":
+        idx += 1
+        count = int(remaining[idx])
+        idx += 1
+        pr_body_paths = [Path(p) for p in remaining[idx : idx + count]]
         idx += count
     else:
         allowed_raw.append(remaining[idx])
@@ -108,6 +122,9 @@ for path in status_paths:
 for path in child_prompt_paths:
     if not path.is_file():
         raise SystemExit(f"missing child prompt file: {path}")
+for path in pr_body_paths:
+    if not path.is_file():
+        raise SystemExit(f"missing PR body file: {path}")
 
 forbidden = [
     "as discussed",
@@ -164,6 +181,17 @@ def check_planning_security_text(text: str, path: Path) -> None:
     for injected in ["ignore previous instructions", "print .env"]:
         if injected in lower and ("prompt injection" not in lower or "finding" not in lower):
             fail(path, f"untrusted repo instruction not classified as finding: {injected}")
+
+
+closing_reference = re.compile(
+    r"\b(?:close(?:s|d)?|fix(?:es|ed)?|resolve(?:s|d)?)"
+    r"\s*:?\s+(?:(?:[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)?#[0-9]+)\b",
+    re.IGNORECASE,
+)
+for path in pr_body_paths:
+    match = closing_reference.search(path.read_text(encoding="utf-8"))
+    if match:
+        fail(path, f"auto-closing tracked-issue reference is forbidden: {match.group(0)}")
 
 
 def non_placeholder_bullets(text: str, heading: str) -> list[str]:
@@ -268,6 +296,8 @@ for token in [
     ".IMPLEMENTAUDIT/",
     "docs/audits/",
     "templates/read-only-plan.md",
+    "PR bodies use non-closing tracked-issue references such as `Implements #N`",
+    "evidence comment first, then close the issue explicitly",
 ]:
     if token not in plan_ref:
         raise SystemExit(f"skills/implementaudit/references/plan-lifecycle.md: missing read-only plans token: {token}")
