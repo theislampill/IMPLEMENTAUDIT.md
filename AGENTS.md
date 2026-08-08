@@ -125,7 +125,9 @@ bash scripts/check-audit-retention.sh
 bash tests/audit-retention.test.sh
 ```
 
-Run docs portal separately because it invokes package validation internally:
+The docs portal test is registered in both canonical validation surfaces. Run
+it directly only as a focused check for docs-portal changes; package validation
+already invokes it, so a second broad invocation is redundant:
 
 ```bash
 bash tests/docs-portal.test.sh

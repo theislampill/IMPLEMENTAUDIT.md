@@ -49,6 +49,46 @@ for topology in independent stacked-cumulative justified:release-train; do
     }
 done
 
+cp fixtures/read-only-plans/valid-handoff-plan.md "$tmp/multi-issue-single-topology.md"
+printf '\ncampaign-issues: #141, #142\nintegration-topology: single-issue\n' \
+  >> "$tmp/multi-issue-single-topology.md"
+if bash scripts/check-plan-quality-contract.sh \
+    --campaign-plan-file "$tmp/multi-issue-single-topology.md" \
+    >/tmp/plan-quality-topology.out 2>&1; then
+  printf 'plan-quality-contract.test: multi-issue campaign accepted single-issue topology\n' >&2
+  exit 1
+fi
+
+cp fixtures/read-only-plans/valid-handoff-plan.md "$tmp/malformed-campaign-duplicate.md"
+printf '\ncampaign-issues: #141, #142\nintegration-topology: stacked-cumulative\ncampaign-issues: malformed\n' \
+  >> "$tmp/malformed-campaign-duplicate.md"
+if bash scripts/check-plan-quality-contract.sh \
+    --campaign-plan-file "$tmp/malformed-campaign-duplicate.md" \
+    >/tmp/plan-quality-topology.out 2>&1; then
+  printf 'plan-quality-contract.test: malformed duplicate campaign row was ignored\n' >&2
+  exit 1
+fi
+
+cp fixtures/read-only-plans/valid-handoff-plan.md "$tmp/empty-topology-duplicate.md"
+printf '\ncampaign-issues: #141, #142\nintegration-topology: stacked-cumulative\nintegration-topology:\n' \
+  >> "$tmp/empty-topology-duplicate.md"
+if bash scripts/check-plan-quality-contract.sh \
+    --campaign-plan-file "$tmp/empty-topology-duplicate.md" \
+    >/tmp/plan-quality-topology.out 2>&1; then
+  printf 'plan-quality-contract.test: empty duplicate topology row was ignored\n' >&2
+  exit 1
+fi
+
+cp fixtures/read-only-plans/valid-handoff-plan.md "$tmp/split-campaign-declaration.md"
+printf '\ncampaign-issues\n: #141, #142\nintegration-topology: stacked-cumulative\n' \
+  >> "$tmp/split-campaign-declaration.md"
+if bash scripts/check-plan-quality-contract.sh \
+    --campaign-plan-file "$tmp/split-campaign-declaration.md" \
+    >/tmp/plan-quality-topology.out 2>&1; then
+  printf 'plan-quality-contract.test: split campaign declaration was accepted\n' >&2
+  exit 1
+fi
+
 for keyword in Closes Fixes Resolves; do
   body="$tmp/pr-body-$keyword.md"
   printf '## Summary\n\n%s #141\n' "$keyword" > "$body"

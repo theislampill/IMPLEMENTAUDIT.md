@@ -211,23 +211,22 @@ for path in pr_body_paths:
         fail(path, f"auto-closing tracked-issue reference is forbidden: {match.group(0)}")
 
 
-campaign_issues = re.compile(
-    r"^campaign-issues:\s*(#[0-9]+(?:\s*,\s*#[0-9]+)*)\s*$",
-    re.IGNORECASE | re.MULTILINE,
-)
-integration_topology = re.compile(
-    r"^integration-topology:\s*(\S(?:.*\S)?)\s*$",
-    re.IGNORECASE | re.MULTILINE,
-)
+def declaration_values(text: str, key: str) -> list[str]:
+    pattern = re.compile(rf"^{re.escape(key)}[ \t]*:(.*)$", re.IGNORECASE | re.MULTILINE)
+    return [match.group(1).strip() for match in pattern.finditer(text)]
+
+
 for path in campaign_plan_paths:
     text = path.read_text(encoding="utf-8")
-    issue_rows = campaign_issues.findall(text)
+    issue_rows = declaration_values(text, "campaign-issues")
     if len(issue_rows) != 1:
         fail(path, "campaign plan requires exactly one campaign-issues row")
+    if not re.fullmatch(r"#[0-9]+(?:\s*,\s*#[0-9]+)*", issue_rows[0]):
+        fail(path, "campaign-issues must be a comma-separated issue-reference list")
     issues = [item.strip() for item in issue_rows[0].split(",")]
     if len(set(issues)) != len(issues):
         fail(path, "campaign-issues contains a duplicate issue")
-    topology_rows = integration_topology.findall(text)
+    topology_rows = declaration_values(text, "integration-topology")
     if len(topology_rows) > 1:
         fail(path, "campaign plan has duplicate integration-topology rows")
     if len(issues) == 1 and not topology_rows:
@@ -236,9 +235,11 @@ for path in campaign_plan_paths:
         fail(path, "multi-issue campaign requires integration-topology")
     topology = topology_rows[0].strip()
     normalized = topology.lower()
-    if normalized in {"single-issue", "independent", "stacked-cumulative"}:
+    if len(issues) == 1 and normalized == "single-issue":
         continue
-    if normalized.startswith("justified:") and topology.split(":", 1)[1].strip():
+    if len(issues) > 1 and normalized in {"independent", "stacked-cumulative"}:
+        continue
+    if len(issues) > 1 and normalized.startswith("justified:") and topology.split(":", 1)[1].strip():
         continue
     fail(path, "integration-topology must be independent, stacked-cumulative, or justified:<reason>")
 
