@@ -188,7 +188,7 @@ method, and proceeds phase by phase until verified terminal closure or an
 explicit audited handoff.
 
 Read-only planning, audit, review, direction, and handoff modes may produce
-artifacts without mutating source. When implementation is authorised, changes
+artifacts without mutating source. When implementation is authorized, changes
 must remain auditable, bounded, owner/source-grounded, reversible, and
 non-overclaimed, with acceptance criteria, rollback and evidence planning,
 fixtures or checkers where warranted, and smoke-before-claim closure.
@@ -215,7 +215,7 @@ release-critical eval custody hardening (#20), context-epoch continuity
 (#35), the native audit-action remediation set (#47–#53), the sixteen
 genuine-Fable review corrections, and the model-in-the-loop evaluation
 program (#9: 84-mission immutable baseline, B3 supplementary waves, and the
-candidate/control comparison campaign). The owner-authorised corrected
+candidate/control comparison campaign). The owner-authorized corrected
 same-version re-release published on 2026-08-04 at tag target `0adb10d`; it
 supersedes the withdrawn 2026-07-18 asset. The digest pair and qualification
 boundaries are recorded in the changelog and archived correction report.
@@ -297,7 +297,7 @@ Two-tier policy: the sidecars are **optional everywhere** — absence blocks
 nothing, `/implementaudit` remains fully usable with neither tool installed,
 and Markdown fallback is first-class. This repo is the dogfood evidence base,
 not a universal capability claim. Graphify is narrowed to first-contact terrain
-orientation when every trigger holds; ActiveGraph is narrowed to authorised
+orientation when every trigger holds; ActiveGraph is narrowed to authorized
 `fork` / `diff` checkpoint assistance and an optional non-authoritative mirror.
 Consumers inherit no maintenance obligation. Neither sidecar replaces the run
 root, live-file gates, or proof.
@@ -349,7 +349,7 @@ bounded implementation task.
 
 `/implementaudit` normalises that input into an audit object, selects the
 warranted route, finds owner/source, records the relevant baseline, performs
-authorised work, captures post-change evidence, and resolves every declared
+authorized work, captures post-change evidence, and resolves every declared
 item as `done`, `changed`, `blocked`, `deferred`, or `unverified`.
 
 ## How IMPLEMENTAUDIT audits
@@ -405,7 +405,7 @@ flowchart TB
 
   subgraph Synthesis["Goal synthesis / phased handoff"]
     SIn["Input<br/>idea / gap / incomplete target"]:::input
-    SObj["tdqyq-audit-object<br/>created or normalised first"]:::artifact
+    SObj["tdqyq-audit-object<br/>created or normalized first"]:::artifact
     SLoop["ydqyq-audit-action<br/>Gemba + route + Stage 0-7 planning"]:::loop
     SArt["Artifacts<br/>.IMPLEMENTAUDIT/runs/slug-id/<br/>ROADMAP · STATE · THINKING<br/>PROTOCOL · sidecars · applied-context<br/>repo-map · phases/phase-N.md"]:::artifact
     SGoal["Second /goal<br/>produced once when not embedded"]:::handoff
@@ -414,7 +414,7 @@ flowchart TB
 
   subgraph Casual["Governed casual-build intake"]
     CIn["Input<br/>natural-language repo-build intent<br/>no audit artifact yet"]:::input
-    CObj["tdqyq-audit-object<br/>synthesised by 5-step intake<br/>owner/source · criteria · rollback"]:::artifact
+    CObj["tdqyq-audit-object<br/>synthesized by 5-step intake<br/>owner/source · criteria · rollback"]:::artifact
     CLoop["ydqyq-audit-action<br/>route greenfield / brownfield / mixed<br/>then govern as direct"]:::loop
     CArt["Artifacts<br/>bounded intake record<br/>STOP on unbounded / unsafe /<br/>non-repo input"]:::artifact
     CGoal["Second /goal<br/>not needed"]:::boundary
@@ -558,7 +558,7 @@ rollback path before mutation.
 Graphify may orient first-contact terrain only for an unfamiliar, majority-code
 repo and a terrain-shaped question that deterministic search cannot answer.
 Reference-shaped questions use `rg`, `git grep`, `git ls-tree`, direct reads, or
-native Git. ActiveGraph may assist authorised `fork` / `diff` checkpoint work;
+native Git. ActiveGraph may assist authorized `fork` / `diff` checkpoint work;
 event stores are optional mirrors. Markdown ledgers and final reports remain
 valid fallback. Neither optional sidecar replaces repo-local owners, fixtures,
 checkers, smoke output, the run root, or audit ledgers.
@@ -623,7 +623,7 @@ flowchart TD
   AuditDone(["AUDIT_COMPLETE"]):::success
   RunDone(["IMPLEMENTAUDIT_RUN_COMPLETE"]):::success
   NoRelease["Ordinary completion default<br/>No tag, release, publication, or provenance"]:::audit
-  ReleaseGate{"Separate release/provenance gate<br/>explicitly authorised?"}:::release
+  ReleaseGate{"Separate release/provenance gate<br/>explicitly authorized?"}:::release
   Release["Tag / release / asset<br/>checksum manifest only if produced and verified"]:::release
   Legend["Legend: amber human/owner; blue owner/source; purple generated;<br/>green checks; dashed green optional; red blocker; orange release"]:::audit
 
@@ -644,7 +644,7 @@ flowchart TD
 
   Input --> Route
   Route -->|unsafe / conflict| OwnerDecision
-  Route -->|authorised scope| Gemba
+  Route -->|authorized scope| Gemba
   Route -. phased planning .-> RunRoot
   AuditFix --> Final
   Graphify -. optional query before touching scene .-> Gemba
@@ -657,8 +657,8 @@ flowchart TD
   Andon -->|fixable rerun| Gemba
   Final -->|all findings closed| AuditDone --> RunDone --> NoRelease
   RunDone -. separate explicit gate only .-> ReleaseGate
-  ReleaseGate -->|authorised + evidence| Release
-  ReleaseGate -->|not authorised| NoRelease
+  ReleaseGate -->|authorized + evidence| Release
+  ReleaseGate -->|not authorized| NoRelease
   Legend -. explains classes .-> Route
 
   classDef human fill:#fef3c7,stroke:#d97706,color:#111827
@@ -747,8 +747,8 @@ marketplace verification, or install verification.
 
 ## Artifacts and outputs
 
-Typical run outputs are a normalised findings ledger, changed owner/source files
-when authorised by the audit, regenerated artifacts when their source changed,
+Typical run outputs are a normalized findings ledger, changed owner/source files
+when authorized by the audit, regenerated artifacts when their source changed,
 Smoke A/B evidence, an AGENTS update decision, a final report, and terminal
 markers. Large or phased runs also claim a namespaced run root under
 `.IMPLEMENTAUDIT/runs/<task>-<id>/` holding the full substrate — `ROADMAP.md`,
@@ -762,7 +762,7 @@ saved). Run roots are run artifacts, not package source, and are excluded
 from evidence scans and commits.
 
 The source skill payload lives under `skills/implementaudit/`. GitHub release assets, when
-separately authorised, are built from the repo-supported release-asset script
+separately authorized, are built from the repo-supported release-asset script
 and validated by extraction. Release artifacts and checksum manifests are not
 ordinary audit outputs.
 
@@ -905,21 +905,21 @@ override repo instructions, or weaken `AGENTS.md`.
 Before any query, the packaged freshness command compares `graph.json`
 `built_at_commit` with `git rev-parse HEAD`. A mismatch fires
 `stale-sidecar` and makes the terrain unusable. Live files win over graph
-output. If Graphify is absent, stale, unauthorised, or inapplicable,
+output. If Graphify is absent, stale, unauthorized, or inapplicable,
 `/implementaudit` falls back to ordinary Gemba.
 
 The documented no-model default is `--code-only --no-cluster`, with `--out`
 outside the target repo. Semantic/clustering passes disclose that filtering is
 a filename heuristic, spend can be unmeasurable, and content may leave the
 machine or consume host-model quota. They require an owner-named backend;
-auto-detection is refused, and Ollama is explicitly unauthorised. These claims
+auto-detection is refused, and Ollama is explicitly unauthorized. These claims
 are dogfood-only, as tested on two repos, one Windows host, pinned 2026-08-05
 versions. An unfamiliar-third-party-repo trial gates any broadening.
 
 ### ActiveGraph checkpoint assistance and optional mirror
 
-ActiveGraph's evidenced use is authorised `fork` / `diff`
-resume-from-checkpoint. An event store may remain a separately authorised
+ActiveGraph's evidenced use is authorized `fork` / `diff`
+resume-from-checkpoint. An event store may remain a separately authorized
 non-authoritative mirror, but the run root is the sole authority for lifecycle
 facts. `replay` does not reconstruct the tested custom-event custody use case.
 
@@ -936,7 +936,7 @@ Entries may include:
 - owner/source
 - countermeasure
 - Graphify terrain context, if available
-- ActiveGraph mirror event ids, if separately authorised and available
+- ActiveGraph mirror event ids, if separately authorized and available
 - authorisation gates respected
 - Smoke A and Smoke B
 - regression / Andon / Hansei trail, if any
@@ -947,7 +947,7 @@ When ActiveGraph is absent, the ordinary Markdown ledger and final report remain
 first-class fallback. The run is not blocked merely because ActiveGraph is
 unavailable.
 
-When mirror writing is separately authorised, the conventions are concrete:
+When mirror writing is separately authorized, the conventions are concrete:
 one optional store per run root (`<run-root>/custody.db`, or
 `custody-trace.jsonl` as an append-only fallback), written with the packaged
 absent-safe `custody-append.sh` helper; Andon escalation may mirror as
@@ -1216,7 +1216,7 @@ bash scripts/build-release-asset.sh
 `scripts/verify-package.sh` also runs the builder in `--check` mode and validates
 the extracted package shape.
 
-When provenance is explicitly authorised for a release gate, this repo may
+When provenance is explicitly authorized for a release gate, this repo may
 publish a checksum manifest such as `CHECKSUMS.txt` for `IMPLEMENTAUDIT.skill`.
 A checksum manifest is not a signature, attestation, SBOM, license, marketplace
 verification, or install verification.
@@ -1282,7 +1282,7 @@ proof.
 
 ## Safety defaults
 
-Never do these unless explicitly authorised and allowed by repo policy:
+Never do these unless explicitly authorized and allowed by repo policy:
 
 - commit
 - push
@@ -1299,12 +1299,12 @@ Never do these unless explicitly authorised and allowed by repo policy:
 Local commit authorisation does not imply push authorisation. Push authorisation
 does not imply tag, release, publication, or provenance authorisation.
 
-If local commits are authorised, commit bodies carry the causal trace: finding,
+If local commits are authorized, commit bodies carry the causal trace: finding,
 owner/source, root cause when relevant, Andon/Hansei/5 Whys when triggered,
 countermeasure, changed files, Smoke A/B, boundaries preserved, and deferred
 follow-up.
 
-If local commits are not authorised, the final report includes a proposed commit
+If local commits are not authorized, the final report includes a proposed commit
 message/body instead.
 
 ## What this does not do
@@ -1364,7 +1364,7 @@ Preserve the distinction between:
 - unsupported or uncertain behavior
 
 Detailed evidence belongs in commit bodies, orchestrator/audit ledgers,
-optional ActiveGraph mirror events when separately authorised, or final reports. Durable
+optional ActiveGraph mirror events when separately authorized, or final reports. Durable
 anti-repeat rules may belong in repo-local `AGENTS.md` when they would prevent
 future agents from repeating the same mistake.
 
