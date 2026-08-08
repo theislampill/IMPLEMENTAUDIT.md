@@ -42,6 +42,165 @@ grep -oE '^\| *[0-9]+ *\|' "$tmp/good/ROADMAP.md" | grep -oE '[0-9]+' | sort -un
 done
 bash "$helper" "$tmp/good"
 
+# 1b. #139 full-mode evidence resolution. Only a phase explicitly marked done
+# resolves current mandatory-command capture grammar; open phases remain cheap.
+write_capture_phase() {
+  local path="$1" status="$2" capture="$3"
+  cat > "$path" <<EOF
+IMPLEMENTAUDIT_PHASE_START
+## Mandatory commands
+- true > $capture 2>&1 — property: structural; scope: fixture; coverage: full; capture: $capture; expected: exit 0
+IMPLEMENTAUDIT_PHASE_VERIFY
+IMPLEMENTAUDIT_PHASE_DONE
+Status: $status
+EOF
+}
+
+mkdir -p "$tmp/done-capture-missing"
+cp -r "$tmp/good/." "$tmp/done-capture-missing/"
+write_capture_phase "$tmp/done-capture-missing/phases/phase-1.md" done \
+  '<run-root>/evidence/mandatory.log'
+if bash "$helper" "$tmp/done-capture-missing" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: DONE phase with missing capture must fail\n' >&2
+  exit 1
+fi
+
+mkdir -p "$tmp/legacy-roadmap-done-missing"
+cp -r "$tmp/done-capture-missing/." "$tmp/legacy-roadmap-done-missing/"
+sed -i '/^Status: done$/d' "$tmp/legacy-roadmap-done-missing/phases/phase-1.md"
+sed -i 's/| 1 |  |  | - |  |  |  | open |/| 1 | legacy | owner | - | smoke | smoke | n\/a | focused PASS |/' \
+  "$tmp/legacy-roadmap-done-missing/ROADMAP.md"
+sed -i '1i| 1 | unrelated numbered row | open |' \
+  "$tmp/legacy-roadmap-done-missing/ROADMAP.md"
+if bash "$helper" "$tmp/legacy-roadmap-done-missing" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: legacy ROADMAP-terminal phase with missing capture must fail\n' >&2
+  exit 1
+fi
+
+mkdir -p "$tmp/roadmap-complete-semicolon"
+cp -r "$tmp/legacy-roadmap-done-missing/." "$tmp/roadmap-complete-semicolon/"
+sed -i 's/focused PASS/complete; finalized/' \
+  "$tmp/roadmap-complete-semicolon/ROADMAP.md"
+if bash "$helper" "$tmp/roadmap-complete-semicolon" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: ROADMAP complete-semicolon phase with missing capture must fail\n' >&2
+  exit 1
+fi
+
+mkdir -p "$tmp/historical-local-status"
+cp -r "$tmp/legacy-roadmap-done-missing/." "$tmp/historical-local-status/"
+printf 'Status: FINDINGS_CLOSED_PASS\n' \
+  >> "$tmp/historical-local-status/phases/phase-1.md"
+if bash "$helper" "$tmp/historical-local-status" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: unknown historical status must fall back to terminal ROADMAP\n' >&2
+  exit 1
+fi
+
+mkdir -p "$tmp/explicit-nonterminal-status"
+cp -r "$tmp/historical-local-status/." "$tmp/explicit-nonterminal-status/"
+sed -i 's/Status: FINDINGS_CLOSED_PASS/Status: open/' \
+  "$tmp/explicit-nonterminal-status/phases/phase-1.md"
+bash "$helper" "$tmp/explicit-nonterminal-status" >/dev/null || {
+  printf 'run-root-validation.test: explicit nonterminal status must suppress ROADMAP fallback\n' >&2
+  exit 1
+}
+
+mkdir -p "$tmp/done-capture-blank/evidence"
+cp -r "$tmp/good/." "$tmp/done-capture-blank/"
+write_capture_phase "$tmp/done-capture-blank/phases/phase-1.md" done \
+  '<run-root>/evidence/mandatory.log'
+: > "$tmp/done-capture-blank/evidence/mandatory.log"
+if bash "$helper" "$tmp/done-capture-blank" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: DONE phase with blank capture must fail\n' >&2
+  exit 1
+fi
+
+mkdir -p "$tmp/done-capture-whitespace/evidence"
+cp -r "$tmp/good/." "$tmp/done-capture-whitespace/"
+write_capture_phase "$tmp/done-capture-whitespace/phases/phase-1.md" done \
+  '<run-root>/evidence/mandatory.log'
+printf ' \n\t\n' > "$tmp/done-capture-whitespace/evidence/mandatory.log"
+if bash "$helper" "$tmp/done-capture-whitespace" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: DONE phase with whitespace-only capture must fail\n' >&2
+  exit 1
+fi
+
+mkdir -p "$tmp/done-capture-present/evidence"
+cp -r "$tmp/good/." "$tmp/done-capture-present/"
+write_capture_phase "$tmp/done-capture-present/phases/phase-1.md" done \
+  '<run-root>/evidence/mandatory.log'
+printf 'producer exit 0\n' > "$tmp/done-capture-present/evidence/mandatory.log"
+bash "$helper" "$tmp/done-capture-present" >/dev/null || {
+  printf 'run-root-validation.test: DONE phase with nonblank capture must pass\n' >&2
+  exit 1
+}
+
+mkdir -p "$tmp/repo-relative/.IMPLEMENTAUDIT/runs/example/evidence"
+cp -r "$tmp/good/." "$tmp/repo-relative/.IMPLEMENTAUDIT/runs/example/"
+write_capture_phase "$tmp/repo-relative/.IMPLEMENTAUDIT/runs/example/phases/phase-1.md" \
+  'PASS - focused gates' \
+  '../repo-relative/.IMPLEMENTAUDIT/runs/example/evidence/mandatory.log'
+printf 'producer exit 0\n' \
+  > "$tmp/repo-relative/.IMPLEMENTAUDIT/runs/example/evidence/mandatory.log"
+bash "$helper" "$tmp/repo-relative/.IMPLEMENTAUDIT/runs/example" >/dev/null || {
+  printf 'run-root-validation.test: repo-relative capture from absolute run root must pass\n' >&2
+  exit 1
+}
+rm "$tmp/repo-relative/.IMPLEMENTAUDIT/runs/example/evidence/mandatory.log"
+if bash "$helper" "$tmp/repo-relative/.IMPLEMENTAUDIT/runs/example" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: descriptive PASS status with missing capture must fail\n' >&2
+  exit 1
+fi
+
+mkdir -p "$tmp/unresolved-variable"
+cp -r "$tmp/good/." "$tmp/unresolved-variable/"
+write_capture_phase "$tmp/unresolved-variable/phases/phase-1.md" done \
+  '$EVIDENCE_ROOT/legacy.log'
+bash "$helper" "$tmp/unresolved-variable" >/dev/null || {
+  printf 'run-root-validation.test: unresolved legacy capture variable must remain compatible\n' >&2
+  exit 1
+}
+
+mkdir -p "$tmp/open-capture-missing"
+cp -r "$tmp/good/." "$tmp/open-capture-missing/"
+write_capture_phase "$tmp/open-capture-missing/phases/phase-1.md" open \
+  '<run-root>/evidence/mandatory.log'
+bash "$helper" "$tmp/open-capture-missing" >/dev/null || {
+  printf 'run-root-validation.test: open phase capture must not resolve early\n' >&2
+  exit 1
+}
+
+mkdir -p "$tmp/blank-planning-artifact"
+cp -r "$tmp/good/." "$tmp/blank-planning-artifact/"
+: > "$tmp/blank-planning-artifact/tools.md"
+if bash "$helper" "$tmp/blank-planning-artifact" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: blank required planning artifact must fail\n' >&2
+  exit 1
+fi
+
+mkdir -p "$tmp/whitespace-planning-artifact"
+cp -r "$tmp/good/." "$tmp/whitespace-planning-artifact/"
+printf ' \n\t\n' > "$tmp/whitespace-planning-artifact/tools.md"
+if bash "$helper" "$tmp/whitespace-planning-artifact" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: whitespace-only planning artifact must fail\n' >&2
+  exit 1
+fi
+
+mkdir -p "$tmp/template-only-done"
+cp -r "$tmp/good/." "$tmp/template-only-done/"
+sed -i 's/| Status | open |/| Status | DONE |/' \
+  "$tmp/template-only-done/STATE.md"
+sed -i 's#| `<run-root>/tools.md` | open |#| `<run-root>/tools.md` | complete |#' \
+  "$tmp/template-only-done/STATE.md"
+for f in ROADMAP.md THINKING.md sidecars.md context.md; do
+  printf '\nfixture populated\n' >> "$tmp/template-only-done/$f"
+done
+template_output="$(bash "$helper" "$tmp/template-only-done" 2>&1 || true)"
+if ! grep -Fq 'planning artifact remains an unfilled template at DONE: tools.md' \
+  <<<"$template_output"; then
+  printf 'run-root-validation.test: DONE root must reject an unfilled tools template\n' >&2
+  exit 1
+fi
+
 # 2. An invented Status token must fail.
 mkdir -p "$tmp/badstatus"
 cp -r "$tmp/good/." "$tmp/badstatus/"
