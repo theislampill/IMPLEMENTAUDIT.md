@@ -186,14 +186,32 @@ PY
   exit $?
 fi
 
-auth=""; inv=""
+auth=""; inv=""; state=""
 while [ "$#" -gt 0 ]; do
   case "$1" in
     --auth) auth="$2"; shift 2;;
     --invocation) inv="$2"; shift 2;;
+    --state) state="$2"; shift 2;;
     *) fail "unknown arg $1";;
   esac
 done
+[ -z "$state" ] || [ -f "$state" ] || fail "STATE file not found: $state"
+
+# Durable intake mode (#137). An ungranted STATE stays cheap default-deny.
+# A claimed authorization supplies the full record -> STATE -> invocation
+# chain; partial carriers fail closed.
+if [ -n "$state" ] && [ -z "$auth$inv" ]; then
+  if grep -qiE '^.+ authorized:[[:space:]]*yes[[:space:]]*$' "$state" \
+    || { grep -E '\|[[:space:]]*standing-authorization[[:space:]]*\|' "$state" \
+      | grep -Eq '\|[[:space:]]*active[[:space:]]*\|'; }; then
+    fail "missing grant source for authorized STATE action"
+  fi
+  printf 'check-authorization-binding: ok — durable STATE is default deny\n'
+  exit 0
+fi
+if [ -n "$state" ] && { [ -z "$auth" ] || [ -z "$inv" ]; }; then
+  fail "durable intake requires --auth and --invocation"
+fi
 [ -f "$auth" ] || fail "auth file not found: $auth"
 [ -f "$inv" ] || fail "invocation file not found: $inv"
 
@@ -214,6 +232,53 @@ binds="$(val "$auth" binds)"
 for k in $(printf '%s' "$binds" | tr ',' ' '); do
   dup_check "$k"
 done
+
+if [ -n "$state" ]; then
+  for k in source issued_at grant_quote scope lifecycle action; do
+    dup_check "$k"
+    [ -n "$(val "$auth" "$k")" ] \
+      || fail "missing grant source metadata: $k"
+  done
+  source_ref="$(val "$auth" source)"
+  lifecycle="$(val "$auth" lifecycle)"
+  action="$(val "$auth" action)"
+  [ "$lifecycle" = standing-authorization ] \
+    || fail "authorization lifecycle must be standing-authorization"
+  printf '%s\n' "$(val "$auth" issued_at)" | grep -Eq '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' \
+    || fail "authorization issued_at must be YYYY-MM-DD"
+
+  state_rows="$(awk -F '|' -v ref="$source_ref" -v kind="$lifecycle" \
+    -v action="$action" -v evidence="$auth" '
+    function trim(s) { gsub(/^[[:space:]]+|[[:space:]]+$/, "", s); return s }
+    NF >= 11 && trim($3) == ref && trim($4) == kind && trim($5) == "owner" \
+      && trim($6) == action && trim($8) == "active" \
+      && trim($9) == evidence { print }
+  ' "$state")"
+  [ "$(printf '%s\n' "$state_rows" | sed '/^$/d' | wc -l | tr -d ' ')" = 1 ] \
+    || { printf 'check-authorization-binding: AUTHORIZATION INCONSISTENT (STATE lacks one active source-bound authorization row)\n' >&2; exit 1; }
+
+  state_flag() {
+    local label="$1" line
+    line="$({ grep -iE "^$label authorized:" "$state" || true; })"
+    [ "$(printf '%s\n' "$line" | sed '/^$/d' | wc -l | tr -d ' ')" = 1 ] \
+      || { printf 'check-authorization-binding: AUTHORIZATION INCONSISTENT (STATE field %s authorized is missing or duplicated)\n' "$label" >&2; exit 1; }
+    printf '%s' "$line" | sed 's/^[^:]*:[[:space:]]*//' | tr '[:upper:]' '[:lower:]' | sed 's/[[:space:]]*$//'
+  }
+  check_state_action() {
+    local label="$1" token="$2" actual expected=no
+    case "$action" in *"$token"*) expected=yes;; esac
+    actual="$(state_flag "$label")"
+    [ "$actual" = "$expected" ] \
+      || { printf 'check-authorization-binding: AUTHORIZATION INCONSISTENT (%s authorized: %s, source action: %s)\n' "$label" "$actual" "$action" >&2; exit 1; }
+  }
+  check_state_action Commit commit
+  check_state_action Push push
+  actual_release="$(state_flag 'Tag/release/publication/provenance')"
+  expected_release=no
+  case "$action" in *tag*|*release*|*publish*|*publication*|*provenance*) expected_release=yes;; esac
+  [ "$actual_release" = "$expected_release" ] \
+    || { printf 'check-authorization-binding: AUTHORIZATION INCONSISTENT (release/publication authorized: %s, source action: %s)\n' "$actual_release" "$action" >&2; exit 1; }
+fi
 
 in_range() {  # value, spec
   local v="$1" spec="$2"

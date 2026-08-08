@@ -515,6 +515,16 @@ parameters exist to bind (a docs-only commit authorization needs none).
 Existing authorizations remain valid for work already running; new
 authorizations carry the enumeration when applicable.
 
+**Authorization intake.** Materialize every owner grant at intake, before
+planning a consequential action: preserve its verbatim grant quote, scope,
+issue date, source event/hash, lifecycle, action, and bound parameters in
+`authorization-record.md`; then add an active `standing-authorization` STATE
+row whose Reference is that source and whose Status evidence names the record.
+Set Local git trace fields to `yes` only when that chain supports them. At a
+handoff or continuity boundary, inspect the durable authorization rows before
+requesting permission. A source grant that conflicts with empty/default-deny
+STATE rows is an intake defect, not a new owner decision.
+
 ## Sidecars and continuity
 
 Version-skew rule: if Stage 0 recorded dogfood version skew (the installed

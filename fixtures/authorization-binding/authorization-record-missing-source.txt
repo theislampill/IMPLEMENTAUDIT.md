@@ -1,0 +1,8 @@
+issued_at: 2026-08-07
+grant_quote: Commit and push only the bounded eval change.
+scope: eval-only
+lifecycle: standing-authorization
+action: commit-and-push
+binds: diff_scope,timeout_s
+diff_scope: eval-only
+timeout_s: 1..1800
