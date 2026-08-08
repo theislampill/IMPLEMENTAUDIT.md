@@ -42,6 +42,7 @@ Each action requires separate explicit authorisation.
 
 - [Quick start](#quick-start)
 - [Runtime at a glance](#runtime-at-a-glance)
+- [Why IMPLEMENTAUDIT is stronger than a bare `/goal`](#why-implementaudit-is-stronger-than-a-bare-goal)
 - [What it is](#what-it-is)
 - [Quick vocabulary, not authority](#quick-vocabulary-not-authority)
 - [How an audit input drives a run](#how-an-audit-input-drives-a-run)
@@ -138,6 +139,41 @@ the run advances through resumable phases;
 each phase executes and verifies a bounded unit; 
 Andon can stop and correct any other loop; 
 and the final audit-fix loop alone can establish terminal closure.
+
+## Why IMPLEMENTAUDIT is stronger than a bare `/goal`
+
+A bare `/goal` carries an intended end state. 
+
+For simple work, or when a highly capable model is 
+already surrounded by a strong execution harness, that may be enough. 
+
+The goal itself, however, does not guarantee repository Gemba, 
+owner/source discovery, bounded scope, durable state, rollback and evidence planning, 
+failure-origin diagnosis, independent review, or proof of terminal closure.
+
+IMPLEMENTAUDIT can run inside `/goal`; it supplies that engineering harness. 
+
+It normalises the request into a bounded audit object, routes greenfield and
+brownfield work through the warranted DMADV or DMAIC method, persists resumable
+phase state, and governs five nested loops from planning through audit-fix.
+
+Those loops are corrective, not blind retries. 
+
+Contradictory evidence triggers Andon; 
+Hansei and proportional 5 Whys identify what failed; 
+the smallest owner/source countermeasure is applied; 
+and Smoke A/B, readback, review, and final audit then re-establish—or refuse—closure. 
+Repeated same-class failure must eventually cause the governing mechanism to be questioned 
+rather than merely consuming another attempt.
+
+A stronger model still helps. 
+
+IMPLEMENTAUDIT's advantage is that these disciplines are externalised, durable, and auditable 
+instead of being left for the model to remember or reinvent. 
+
+For non-trivial repository work,
+`/goal using /implementaudit ...` is therefore more reliable than a bare `/goal`: 
+`/goal` carries the destination; IMPLEMENTAUDIT governs and proves the route.
 
 ## What it is
 
