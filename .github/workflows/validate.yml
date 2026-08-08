@@ -122,3 +122,4 @@ jobs:
           bash tests/docs-portal.test.sh
           bash tests/eval-harness.test.sh
           bash tests/payload-path-hygiene.test.sh
+          bash tests/helper-reachability.test.sh

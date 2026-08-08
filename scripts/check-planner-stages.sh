@@ -76,7 +76,7 @@ require_in_file skills/implementaudit/SKILL.md "Stage 6 assumptions"
 require_in_file skills/implementaudit/SKILL.md "0-2 true-gap questions"
 require_in_file skills/implementaudit/SKILL.md "at most four material questions"
 require_in_file skills/implementaudit/SKILL.md "canonical runtime templates"
-require_in_file skills/implementaudit/SKILL.md '`scripts/validate-run-root.sh` after authoring'
+require_in_file skills/implementaudit/SKILL.md '`scripts/validate-run-root.sh <root>` after authoring'
 require_in_file skills/implementaudit/SKILL.md '`scripts/validate-run-root.sh` immediately before'
 require_in_file skills/implementaudit/SKILL.md "safe containment with unresolved causality"
 require_in_file skills/implementaudit/SKILL.md "distinct supported candidate causes"

@@ -985,8 +985,10 @@ sed -e 's/REANCHOR_DISPOSITION: unchanged/REANCHOR_DISPOSITION: per-finding/' \
     "$tmp/reanchor-unreconciled.md" > "$tmp/reanchor-superseded.md"
 printf 'residual: identity | consequential: yes | disposition: SUPERSEDED_BY_CONCURRENT_MUTATION | evidence-file: finding-r7.md | evidence-sha256: %s\n' \
   "$finding_hash" >> "$tmp/reanchor-superseded.md"
-reanchor_check "$tmp/reanchor-superseded.md" >/dev/null 2>&1 \
-  || fail "hash-bound per-finding concurrent-mutation supersession rejected"
+reanchor_output=""
+if ! reanchor_output="$(reanchor_check "$tmp/reanchor-superseded.md" 2>&1)"; then
+  fail "hash-bound per-finding concurrent-mutation supersession rejected: ${reanchor_output:-no scorer diagnostic}"
+fi
 sed '/^residual: identity /d' "$tmp/reanchor-superseded.md" > "$tmp/reanchor-missing-finding.md"
 if reanchor_check "$tmp/reanchor-missing-finding.md" >/dev/null 2>&1; then
   fail "moved closure anchor accepted without one structured row per claim"

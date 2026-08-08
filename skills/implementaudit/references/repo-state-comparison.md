@@ -28,7 +28,7 @@ owner/source.
 
 ## Helper
 
-Use the native helper instead of hand-typing the git incantation:
+Smoke/final: use the read-only helper:
 
 ```bash
 bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit}"/scripts/repo-state.sh deliverable <baseline> <path>
@@ -224,6 +224,39 @@ Path and anchor aliases cannot count one physical file twice; symlink parents
 are refused. This preserves both `WINDOW_SECONDS = 30` and the prose that
 justifies it. The manifest admits intended duplication; it does not excuse
 divergence.
+
+When `.IMPLEMENTAUDIT/duplication-sets.txt` exists, dispatch
+`check-duplication-parity.sh <manifest>`; divergence blocks its phase. No set means no
+whole-repo sweep.
+
+## Helper dispatch (#157)
+
+Gate derives source repo `scripts/*.sh`; presence/tests/self-use/wildcards are
+not dispatch. `H|C|T|O|K|A|N`: helper/class/trigger/owner/caller/args/no-event.
+`A/R/O/S/I`: automatic/required/optional/standalone/internal. `P/R/C/S/V`:
+PROTOCOL/this/child-agents/SKILL/validate-run-root. R runs
+`bash <skill-dir>/scripts/<H> <A>` and blocks T; A/I need K; O/S never gate.
+One audit object; no event, no sweep. Phased Stage 0 runs `detect-env.sh`; run
+`validate-audit-spec.sh <spec>` for a spec and `detect-stack.sh` only for standalone diagnosis.
+
+helper-route: check-authorization-binding.sh|R|auth|P|-|--auth <a> --invocation <i> --state <s>|no-param
+helper-route: check-closure-surface.sh|R|final|P|-|<closure-record> --superseded-plan <each-replaced-plan> --steer-dir <run-root> --plan-cycle-record <each-cycle-accounted-plan>|inputs
+helper-route: check-duplication-parity.sh|R|duplication-set|R|-|<manifest>|no-set
+helper-route: check-evidence-anchor.sh|R|scope|P|-|--artifact ... --tree ...|disjoint
+helper-route: check-handoff-packet.sh|R|handoff-packet|P|-|<p> --repo-root <r>|same-session
+helper-route: check-lesson-lift.sh|R|final-record|P|-|<c> --repo-root <r>|closure
+helper-route: check-respec-impact-set.sh|A|impact-set|V|V|impact-set|no-impact
+helper-route: claim-run.sh|R|run-root|S|-|<task>|initialize
+helper-route: custody-append.sh|O|authorised-mirror|P|-|<store> <run> <event> <type> <json>|absent
+helper-route: detect-env.sh|R|Stage-0|R|-|none|phased
+helper-route: detect-stack.sh|S|stack-diagnosis|R|-|none|not-auto
+helper-route: lane-survivor-inventory.sh|O|interrupted-lane|C|-|<root> --expect <path>|unrelated
+helper-route: map-pin-chain.sh|R|artefact-edit|R|-|<path> [--expect-hops N]|no-completeness
+helper-route: repo-state.sh|R|Smoke/final|R|-|changed-files <baseline>|read-only
+helper-route: summarize-repo.sh|S|repo/owner-diagnosis|R|-|[--generated-owner <path>]|targeted-default
+helper-route: validate-audit-spec.sh|R|audit-spec|R|-|<spec>|no-spec
+helper-route: validate-phase.sh|R|phase|P|-|<phase>|exit-code
+helper-route: validate-run-root.sh|R|run-root|S|-|<root>|invalid
 
 ## Pin-chain map (#76)
 

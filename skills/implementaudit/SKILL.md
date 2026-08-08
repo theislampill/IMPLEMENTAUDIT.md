@@ -186,9 +186,8 @@ Load references only when the current gate needs them:
 - `references/continuity.md`: context-epoch continuity — post-boundary
   reconciliation before mutation, instruction lifecycle/applicability,
   satisfied one-shot replay refusal, capsule binding, single-writer epochs.
-- `references/repo-state-comparison.md`: complete working-tree
-  comparison, baseline refs, final audit deliverable checks, and local commit
-  granularity.
+- `references/repo-state-comparison.md`: state/baseline/final checks and
+  shipped-helper dispatch.
 - `references/sidecars.md`: optional Graphify/ActiveGraph Gemba, first-run
   tooling onboarding, and no silent install/index/export boundaries.
 - `references/lean-operating-discipline.md`: PDCA, Gemba, Kaizen,
@@ -277,10 +276,9 @@ Phases with 3+ independent units declare `unit_independence` and
 
 When a run root is needed, write `ROADMAP.md`, `STATE.md`, `THINKING.md`,
 `PROTOCOL.md`, `context.md`, `tools.md`, `sidecars.md`, and phase specs under
-`.IMPLEMENTAUDIT/runs/<task-slug>-<id>/`. Claim the run root with
-`scripts/claim-run.sh`. Initialize from the canonical runtime templates, then
-run `scripts/validate-run-root.sh` after authoring; an invalid root is Andon,
-not a dispatchable plan.
+`.IMPLEMENTAUDIT/runs/<task-slug>-<id>/`. Claim it with
+`scripts/claim-run.sh <task>`, initialize from canonical runtime templates, then run
+`scripts/validate-run-root.sh <root>` after authoring; an invalid root is Andon, not dispatchable.
 
 When safe containment with unresolved causality is available, contain first,
 then route to the STATE residual procedure: preserve distinct supported candidate causes
