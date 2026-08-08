@@ -10,14 +10,12 @@ trap 'rm -rf "$tmp"' EXIT
 # 1. The live repo must pass.
 bash scripts/check-validation-registry.sh
 
-# 2. A test on disk missing from both registries must fail. The synthetic
-# tree models the exemption contract: docs-portal.test.sh exists and is wired
-# into CI only (exempt from verify-package), like the live repo.
+# 2. A test on disk missing from both registries must fail.
 mkdir -p "$tmp/drift/tests" "$tmp/drift/scripts" "$tmp/drift/.github/workflows"
 printf '#!/usr/bin/env bash\ntrue\n' > "$tmp/drift/tests/covered.test.sh"
 printf '#!/usr/bin/env bash\ntrue\n' > "$tmp/drift/tests/orphan.test.sh"
 printf '#!/usr/bin/env bash\ntrue\n' > "$tmp/drift/tests/docs-portal.test.sh"
-printf 'bash tests/covered.test.sh\n' > "$tmp/drift/scripts/verify-package.sh"
+printf 'bash tests/covered.test.sh\nbash tests/docs-portal.test.sh\n' > "$tmp/drift/scripts/verify-package.sh"
 printf 'run: bash tests/covered.test.sh\nrun: bash tests/docs-portal.test.sh\n' > "$tmp/drift/.github/workflows/validate.yml"
 
 if bash scripts/check-validation-registry.sh --repo-root "$tmp/drift" >/dev/null 2>&1; then
@@ -30,7 +28,7 @@ mkdir -p "$tmp/require-only/tests" "$tmp/require-only/scripts" "$tmp/require-onl
 printf '#!/usr/bin/env bash\ntrue\n' > "$tmp/require-only/tests/covered.test.sh"
 printf '#!/usr/bin/env bash\ntrue\n' > "$tmp/require-only/tests/orphan.test.sh"
 printf '#!/usr/bin/env bash\ntrue\n' > "$tmp/require-only/tests/docs-portal.test.sh"
-printf 'bash tests/covered.test.sh\nrequire_file tests/orphan.test.sh\n' > "$tmp/require-only/scripts/verify-package.sh"
+printf 'bash tests/covered.test.sh\nbash tests/docs-portal.test.sh\nrequire_file tests/orphan.test.sh\n' > "$tmp/require-only/scripts/verify-package.sh"
 printf 'run: bash tests/covered.test.sh\nrun: bash tests/orphan.test.sh\nrun: bash tests/docs-portal.test.sh\n' > "$tmp/require-only/.github/workflows/validate.yml"
 
 if bash scripts/check-validation-registry.sh --repo-root "$tmp/require-only" >/dev/null 2>&1; then
@@ -39,18 +37,19 @@ if bash scripts/check-validation-registry.sh --repo-root "$tmp/require-only" >/d
 fi
 
 # 4. Full parity in a synthetic tree must pass.
-printf 'bash tests/covered.test.sh\nbash tests/orphan.test.sh\n' > "$tmp/drift/scripts/verify-package.sh"
+printf 'bash tests/covered.test.sh\nbash tests/orphan.test.sh\nbash tests/docs-portal.test.sh\n' > "$tmp/drift/scripts/verify-package.sh"
 printf 'run: bash tests/covered.test.sh\nrun: bash tests/orphan.test.sh\nrun: bash tests/docs-portal.test.sh\n' > "$tmp/drift/.github/workflows/validate.yml"
 bash scripts/check-validation-registry.sh --repo-root "$tmp/drift"
 
-# 5. A stale exemption (exempted test absent from disk) must fail.
-mkdir -p "$tmp/stale/tests" "$tmp/stale/scripts" "$tmp/stale/.github/workflows"
-printf '#!/usr/bin/env bash\ntrue\n' > "$tmp/stale/tests/covered.test.sh"
-printf 'bash tests/covered.test.sh\n' > "$tmp/stale/scripts/verify-package.sh"
-printf 'run: bash tests/covered.test.sh\n' > "$tmp/stale/.github/workflows/validate.yml"
+# 5. CI-only coverage must not exempt a test from package-registry parity.
+mkdir -p "$tmp/ci-only/tests" "$tmp/ci-only/scripts" "$tmp/ci-only/.github/workflows"
+printf '#!/usr/bin/env bash\ntrue\n' > "$tmp/ci-only/tests/covered.test.sh"
+printf '#!/usr/bin/env bash\ntrue\n' > "$tmp/ci-only/tests/docs-portal.test.sh"
+printf 'bash tests/covered.test.sh\n' > "$tmp/ci-only/scripts/verify-package.sh"
+printf 'run: bash tests/covered.test.sh\nrun: bash tests/docs-portal.test.sh\n' > "$tmp/ci-only/.github/workflows/validate.yml"
 
-if bash scripts/check-validation-registry.sh --repo-root "$tmp/stale" >/dev/null 2>&1; then
-  printf 'validation-registry.test: expected stale exemption to fail\n' >&2
+if bash scripts/check-validation-registry.sh --repo-root "$tmp/ci-only" >/dev/null 2>&1; then
+  printf 'validation-registry.test: expected CI-only test to fail package parity\n' >&2
   exit 1
 fi
 
