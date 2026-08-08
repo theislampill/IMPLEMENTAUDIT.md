@@ -114,6 +114,13 @@ When the target is a branch, pull request, patch, or local dirty diff:
 6. Preserve unrelated pre-existing issues in the scope-creep register unless
    they are required to close an in-scope item.
 
+Before implementation, a campaign plan identifies its issue population with
+`campaign-issues: #<N>[, #<N>...]`. A single-issue campaign needs no topology
+row. A multi-issue campaign also declares
+`integration-topology: independent|stacked-cumulative|justified:<reason>` so
+branch/commit construction and later integration are checked against the same
+decision instead of reconstructed from a dirty worktree.
+
 The source repo helper is `scripts/repo-state.sh`.
 Installed payloads use `scripts/repo-state.sh` resolved from the skill
 directory. Graphify may orient first contact to broad code components only when
