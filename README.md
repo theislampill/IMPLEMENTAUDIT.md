@@ -58,7 +58,7 @@ Each action requires separate explicit authorization.
 ## Quick start
 
 1. Install the skill (see [Install notes](#install-notes) for your host).
-   This source checkout documents the `v0.3.2.0` local contract. The current
+   This source checkout documents the `v0.3.3.0` local contract. The current
    release-gate verified live public release is `v0.3.2.0`; source changes after
    that release are not a release by themselves.
 2. In a repo you want governed, invoke it with a bounded target:
@@ -119,6 +119,15 @@ candidate/control comparison campaign). The owner-authorized corrected
 same-version re-release published on 2026-08-04 at tag target `0adb10d`; it
 supersedes the withdrawn 2026-07-18 asset. The digest pair and qualification
 boundaries are recorded in the changelog and archived correction report.
+
+For `v0.3.3.0`, the source candidate carries the core retrospective and
+release-hardening contracts, including the canonical `6 → 6.i → 6.ii → 7`
+planner lifecycle, source-bound authorization, durable residual routing,
+evidence-resolution checks, acceptance/readback discipline, and calibrated
+package-budget enforcement. It carries forward the v0.3.2.0 evidence-integrity
+and failure-origin contracts. Optional dashboard work is not part of this
+release, and `/dashboard/` remains excluded from `IMPLEMENTAUDIT.skill`. A
+source candidate is not a tag, GitHub release, or publication claim.
 
 The current bootloader architecture keeps weak-executor safeguards in
 progressive references/templates: final reports, optional Graphify-assisted
@@ -692,7 +701,7 @@ publication, or provenance has been verified.
 
 ## Version and release notes
 
-Current project milestone: `v0.3.2.0`. Plugin manifest version: `0.3.2`.
+Current project milestone: `v0.3.3.0`. Plugin manifest version: `0.3.3`.
 No local schema evidence proved four-component plugin manifest versions are
 accepted, so the manifest uses host-conservative package metadata while the
 project milestone is recorded in docs and changelog. This is not a tag, release,
@@ -924,8 +933,8 @@ What each install source carries:
 
 | Source | Failure contract | Helper resolution | Run-root / custody tooling |
 |---|---|---|---|
-| Source checkout / local asset at manifest `0.3.2` | `v0.3.2.0` evidence-integrity program: behavioral contracts #1–#7/#11–#15, custody-hardened eval chain, context-epoch continuity (#35), action remediation #47–#53, review corrections, plus post-release source repairs, if any | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper; read-only plans, secret hygiene, stale-proof, repo-hygiene, and payload-self-contained fixtures/checkers |
-| Current release-gate verified live public release `v0.3.2.0` | the `v0.3.2.0` contract above (this release) | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper; local installed-package dogfood ledger |
+| Source checkout / local asset at manifest `0.3.3` | carries forward the `v0.3.2.0` evidence-integrity program and adds the `v0.3.3.0` core contract: retrospective governance, canonical 6 → 6.i → 6.ii → 7, source-bound authorization, durable residual/evidence/readback controls, N06 repair hardening, plus any later source-only repairs | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper; read-only plans, secret hygiene, stale-proof, repo-hygiene, and payload-self-contained fixtures/checkers |
+| Current release-gate verified live public release `v0.3.2.0` | the `v0.3.2.0` evidence-integrity and failure-origin contract described above | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper; local installed-package dogfood ledger |
 | Prior public release `v0.2.9.0` | ANDON_PROBE / ANDON_ESCALATE / ANDON_HANDOFF, classed Andon log, no try caps | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper |
 | Older public release `v0.2.8.0` | pre-Andon (older recovery semantics) | bare paths (pre-skill-dir) | none |
 
@@ -959,7 +968,7 @@ bash scripts/install-codex-from-release.sh \
   --asset dist/IMPLEMENTAUDIT.skill \
   --checksum dist/CHECKSUMS.txt \
   --codex-home "$HOME/.codex" \
-  --version 0.3.2
+  --version 0.3.3
 ```
 
 For the current release-gate verified live public release, point the installer
@@ -1000,11 +1009,11 @@ bash scripts/install-claude-from-release.sh \
   --claude-skills-dir "<claude-session-path>/skills/implementaudit"
 ```
 
-From the current live public `v0.3.0.0` release:
+From the current release-gate verified live public `v0.3.2.0` release:
 
 ```bash
 bash scripts/install-claude-from-release.sh \
-  --url https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/download/v0.3.0.0/IMPLEMENTAUDIT.skill \
+  --url https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/download/v0.3.2.0/IMPLEMENTAUDIT.skill \
   --claude-skills-dir "<claude-session-path>/skills/implementaudit"
 ```
 

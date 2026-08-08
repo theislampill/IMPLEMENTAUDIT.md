@@ -108,6 +108,14 @@ Standing gate owners: `check-action-selection-contract.sh`,
   publish, readback, active-install update, and post-release smoke
   evidence (written at the release gate).
 
+## v0.3.3.0 release evidence (current ledger)
+
+- `docs/audits/archive/v0.3.3.0-release-report.md` - exact candidate package
+  identity, nonblocking R28/#117 and out-of-scope #144 boundaries, and the
+  pending-to-read-back integration, publication, Pages, and tracker fields.
+  Until those fields are completed from live readback, it is prerelease
+  accounting rather than a publication claim.
+
 ## Boundary
 
 The index points to current proof owners only. Detailed historical narratives,
