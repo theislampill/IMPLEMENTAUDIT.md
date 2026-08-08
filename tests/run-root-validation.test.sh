@@ -444,9 +444,18 @@ if bash "$helper" --micro "$fixture_root/micro-with-roadmap-phase-table/root" >/
   exit 1
 fi
 if bash "$helper" --micro "$fixture_root/micro-with-stage62-disposition/root" >/dev/null 2>&1; then
-  printf 'run-root-validation.test: micro root with Stage 6.2 disposition must fail\n' >&2
+  printf 'run-root-validation.test: micro root with cold-review disposition must fail\n' >&2
   exit 1
 fi
+for stage_label in 'Stage 6.i' 'Stage 6.2'; do
+  stage_root="$tmp/micro-${stage_label// /-}"
+  cp -R "$fixture_root/micro-conformant/root" "$stage_root"
+  sed -i "/^AUDIT_COMPLETE$/i $stage_label: PASS" "$stage_root/STATE.md"
+  if bash "$helper" --micro "$stage_root" >/dev/null 2>&1; then
+    printf 'run-root-validation.test: micro root accepted %s disposition\n' "$stage_label" >&2
+    exit 1
+  fi
+done
 
 # 7c. A sentinel-vs-artifact mismatch is diagnosed as drift.
 if drift_output="$(bash "$helper" "$fixture_root/claimed-then-drifted/root" 2>&1)"; then

@@ -315,7 +315,7 @@ Show the owner a concrete review menu before Stage 7: Start now; Adjust
 assumption; Tweak a phase; Restructure phases; Abort / handoff. Do not print the
 ready-to-paste handoff until Start now is explicitly selected.
 
-## Stage 6.5 pre-flight
+## Stage 6.ii pre-flight
 
 Deduplicate mandatory commands across phase specs and run the safe baseline set
 once before Stage 7 handoff or phase-plan mutation. Print `PREFLIGHT_GREEN` or

@@ -410,7 +410,7 @@ fi
 # --- SKILL.md stage map carries the gate ---
 skill="skills/implementaudit/SKILL.md"
 for text in \
-  "Stage 6.2 - Independent cold review" \
+  "Stage 6.i - Independent cold review" \
   "does not reuse the authoring context" \
   "separate child agent where the host supports subagents" \
   "bounded" \
@@ -425,11 +425,13 @@ done
 
 # Stage 6 self-critique must remain intact (preserved, not replaced).
 require "$skill" "Stage 6 - Plan review and self-critique"
-require "$skill" "Stage 6.5 - Pre-flight smoke"
+require "$skill" "Stage 6.ii - Pre-flight smoke"
 
 # --- planning-depth stage list includes the new stage ---
 require "skills/implementaudit/references/planning-depth.md" \
-  "Stage 6.2 - Independent cold review"
+  "Stage 6.i - Independent cold review"
+require "skills/implementaudit/references/planning-depth.md" \
+  'Historical `6.2` and `6.5`'
 
 # --- plan-lifecycle owns the disposition and independence contract ---
 plan_ref="skills/implementaudit/references/plan-lifecycle.md"

@@ -36,7 +36,7 @@ AUDIT_COMPLETE       -> terminal verified closure of the object
 ## Planner markers
 
 Planner markers appear before a user starts a generated `/goal` handoff.
-They are emitted by Stage 6 and Stage 6.5 of the native IMPLEMENTAUDIT planner.
+They are emitted by Stage 6 and Stage 6.ii of the native IMPLEMENTAUDIT planner.
 
 ```text
 Self-critique:

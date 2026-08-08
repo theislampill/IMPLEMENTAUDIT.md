@@ -237,7 +237,7 @@ for allowed_name in .claimed STATE.md deferrals.jsonl; do
 done
 if bash skills/implementaudit/scripts/validate-run-root.sh --micro \
   fixtures/run-root/micro-with-stage62-disposition/root >/dev/null 2>&1; then
-  printf 'audit-object-routing-contract.test: micro retrospective carried Stage 6.2 review\n' >&2
+  printf 'audit-object-routing-contract.test: micro retrospective carried Stage 6.i review\n' >&2
   exit 1
 fi
 bash skills/implementaudit/scripts/validate-run-root.sh \

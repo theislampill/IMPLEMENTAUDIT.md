@@ -816,6 +816,24 @@ def validate_page_shell(out_dir: Path, site: dict, ordered: list[dict], pages_by
             article_region = first_region(html_text, "article", tag="article")
             if 'class="stage-table"' not in article_region or 'class="stage-num"' not in article_region:
                 fail(f"{rel}: stage table must keep stage-table and stage-num colgroup classes")
+            stage_tokens = (
+                'data-label="Stage">6</td>',
+                'data-label="Stage">6.i</td>',
+                'data-label="Stage">6.ii</td>',
+                'data-label="Stage">7</td>',
+            )
+            stage_positions = [article_region.find(token) for token in stage_tokens]
+            if any(position < 0 for position in stage_positions) or stage_positions != sorted(stage_positions):
+                fail(f"{rel}: current stage order must be 6 -> 6.i -> 6.ii -> 7")
+            for token in (
+                "Independent cold review",
+                "fresh-context reviewer",
+                "GAP-REVISE",
+                "PREFLIGHT_GREEN",
+                "PREFLIGHT_RED",
+            ):
+                if token not in article_region:
+                    fail(f"{rel}: stage synthesis semantics missing {token}")
             for option in ("Start now", "Adjust assumption", "Tweak a phase", "Restructure phases", "Abort"):
                 if option not in article_region:
                     fail(f"{rel}: stage synthesis owner-choice menu missing {option}")

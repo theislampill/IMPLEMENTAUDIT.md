@@ -150,7 +150,7 @@ contract and recorded as coverage-lane records in the audit object. A
 coverage table documents executed lanes; it never substitutes for them, and
 a warranted lane is never silently dropped.
 
-Executor-facing artifacts also pass an independent cold review (Stage 6.2)
+Executor-facing artifacts also pass an independent cold review (Stage 6.i)
 before preflight, dispatch, or handoff: a fresh-context reviewer — a
 separate child agent where the host supports subagents, otherwise a bounded
 serial fresh-context pass — records PASS / GAP-REVISE / BLOCKED /
@@ -357,7 +357,8 @@ Stage 3 - Deep think / risk and dependency analysis
 Stage 4 - Phase decomposition
 Stage 5 - Write .IMPLEMENTAUDIT/runs/<task-slug>-<id> runtime artifacts
 Stage 6 - Plan review and self-critique
-Stage 6.5 - Pre-flight smoke
+Stage 6.i - Independent cold review
+Stage 6.ii - Pre-flight smoke
 Stage 7 - One ready-to-paste /goal handoff when not already embedded
 ```
 
@@ -517,13 +518,14 @@ flowchart TD
   subgraph PhasedRun["Phased planned run — goal synthesis path"]
     RunRoot["Run-root claim<br/>claim-run.sh<br/>.IMPLEMENTAUDIT/runs/slug-id/"]:::source
     Stage6["Stage 6<br/>plan review + self-critique<br/>revision menu"]:::audit
-    Stage65["Stage 6.5 preflight smoke<br/>PREFLIGHT_GREEN / PREFLIGHT_RED"]:::checker
+    Stage6i["Stage 6.i independent cold review<br/>PASS / GAP-REVISE / BLOCKED / OWNER DECISION"]:::audit
+    Stage6ii["Stage 6.ii preflight smoke<br/>PREFLIGHT_GREEN / PREFLIGHT_RED"]:::checker
     Stage7["Stage 7 handoff<br/>one-paste /implementaudit<br/>omitted if embedded"]:::audit
     PhaseSpec["validate-phase.sh<br/>each phase spec<br/>exit 0 required"]:::checker
     PhaseLoop["16-step phase loop<br/>Smoke A -> execute -> cmds<br/>criteria -> cleanliness -> Smoke B"]:::source
     Recovery["Andon escalation, no try cap<br/>ANDON_PROBE -> ANDON_ESCALATE<br/>-> ANDON_HANDOFF only when blocked"]:::blocker
     AuditFix["Final audit + audit-fix rounds<br/>loop until closed or audited handoff<br/>AUDIT_GAPS -> fix -> re-round"]:::audit
-    RunRoot --> Stage6 --> Stage65 --> Stage7 --> PhaseSpec --> PhaseLoop
+    RunRoot --> Stage6 --> Stage6i --> Stage6ii --> Stage7 --> PhaseSpec --> PhaseLoop
     PhaseLoop -->|criterion fails| Recovery
     PhaseLoop -->|all phases done| AuditFix
   end

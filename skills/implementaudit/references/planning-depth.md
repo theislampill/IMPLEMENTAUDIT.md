@@ -172,10 +172,14 @@ Stage 3 - Deep think / risk and dependency analysis
 Stage 4 - Phase decomposition
 Stage 5 - Write .IMPLEMENTAUDIT/runs/<task-slug>-<id> runtime artifacts
 Stage 6 - Plan review and self-critique
-Stage 6.2 - Independent cold review
-Stage 6.5 - Pre-flight smoke
+Stage 6.i - Independent cold review
+Stage 6.ii - Pre-flight smoke
 Stage 7 - One ready-to-paste /goal handoff when not already embedded
 ```
+
+New first-party artifacts use `6.i` and `6.ii`. Historical `6.2` and `6.5`
+normalize as aliases for those same two substages; they do not create extra
+stages or change order or semantics.
 
 The stages are native IMPLEMENTAUDIT behavior. They do not import another
 package's identity, artifact paths, or completion markers. The execution spine

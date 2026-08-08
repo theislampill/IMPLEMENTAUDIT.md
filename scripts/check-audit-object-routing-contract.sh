@@ -342,7 +342,7 @@ for text in \
   "requires a governed run root, Andon log, and deferral ledger" \
   "When fan-out contributes evidence" \
   "eligibility contract holds" \
-  "A Stage 6.2 review" \
+  "A Stage 6.i review" \
   "artifact requires a full root" \
   "evidence compendium before synthesis" \
   "fresh-context cold review before publication or action" \

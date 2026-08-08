@@ -19,6 +19,18 @@ require_file() {
   [ -f "$1" ] || fail "missing required file: $1"
 }
 
+require_ordered() {
+  local file="$1"
+  shift
+  local last=0 line text
+  for text in "$@"; do
+    line="$(grep -nF "$text" "$file" | head -n 1 | cut -d: -f1)"
+    [ -n "$line" ] || fail "missing in $file: $text"
+    [ "$line" -gt "$last" ] || fail "out-of-order in $file: $text"
+    last="$line"
+  done
+}
+
 require_file skills/implementaudit/SKILL.md
 require_file skills/implementaudit/templates/THINKING.md
 require_file skills/implementaudit/templates/ROADMAP.md
@@ -32,6 +44,9 @@ require_file skills/implementaudit/references/phase-design.md
 require_file skills/implementaudit/references/transcript-contract.md
 require_file skills/implementaudit/references/audit-category-matrix.md
 require_file skills/implementaudit/references/plan-lifecycle.md
+require_file README.md
+require_file docs/diagrams/execution-spine.mmd
+require_file docs/portal/pages/planning-and-phases.html
 
 require_in_file skills/implementaudit/SKILL.md "## 2b. Planner stages for goal synthesis and phased audit closure"
 require_in_file skills/implementaudit/SKILL.md "Stage 0 - Context/tool/repo-state detection"
@@ -41,7 +56,8 @@ require_in_file skills/implementaudit/SKILL.md "Stage 3 - Deep think / risk and 
 require_in_file skills/implementaudit/SKILL.md "Stage 4 - Phase decomposition"
 require_in_file skills/implementaudit/SKILL.md 'Stage 5 - Write `.IMPLEMENTAUDIT` runtime artifacts'
 require_in_file skills/implementaudit/SKILL.md "Stage 6 - Plan review and self-critique"
-require_in_file skills/implementaudit/SKILL.md "Stage 6.5 - Pre-flight smoke"
+require_in_file skills/implementaudit/SKILL.md "Stage 6.i - Independent cold review"
+require_in_file skills/implementaudit/SKILL.md "Stage 6.ii - Pre-flight smoke"
 require_in_file skills/implementaudit/SKILL.md 'Stage 7 - One ready-to-paste `/goal` handoff when not already embedded'
 require_in_file skills/implementaudit/SKILL.md ".IMPLEMENTAUDIT/THINKING.md"
 require_in_file skills/implementaudit/SKILL.md 'do not print a second `/goal`'
@@ -65,6 +81,36 @@ require_in_file skills/implementaudit/SKILL.md '`scripts/validate-run-root.sh` i
 require_in_file skills/implementaudit/SKILL.md "safe containment with unresolved causality"
 require_in_file skills/implementaudit/SKILL.md "distinct supported candidate causes"
 require_in_file skills/implementaudit/SKILL.md "residual dispositions"
+require_in_file skills/implementaudit/references/planning-depth.md 'Historical `6.2` and `6.5`'
+require_in_file skills/implementaudit/references/planning-depth.md "normalize as aliases for those same two substages"
+
+require_ordered skills/implementaudit/SKILL.md \
+  "Stage 6 - Plan review and self-critique" \
+  "Stage 6.i - Independent cold review" \
+  "Stage 6.ii - Pre-flight smoke" \
+  'Stage 7 - One ready-to-paste `/goal` handoff when not already embedded'
+require_ordered skills/implementaudit/references/planning-depth.md \
+  "Stage 6 - Plan review and self-critique" \
+  "Stage 6.i - Independent cold review" \
+  "Stage 6.ii - Pre-flight smoke" \
+  "Stage 7 - One ready-to-paste /goal handoff when not already embedded"
+require_ordered README.md \
+  "Stage 6 - Plan review and self-critique" \
+  "Stage 6.i - Independent cold review" \
+  "Stage 6.ii - Pre-flight smoke" \
+  "Stage 7 - One ready-to-paste /goal handoff when not already embedded"
+require_ordered docs/diagrams/execution-spine.mmd \
+  'Stage6["Stage 6<br/>plan review + self-critique' \
+  'Stage6i["Stage 6.i independent cold review' \
+  'Stage6ii["Stage 6.ii preflight smoke' \
+  'Stage7["Stage 7 handoff'
+require_in_file docs/diagrams/execution-spine.mmd \
+  "RunRoot --> Stage6 --> Stage6i --> Stage6ii --> Stage7"
+require_ordered docs/portal/pages/planning-and-phases.html \
+  '<tr><td>6</td><td>Plan review + self-critique' \
+  '<tr><td>6.i</td><td>Independent cold review' \
+  '<tr><td>6.ii</td><td>Pre-flight smoke check' \
+  '<tr><td>7</td><td>Print one ready-to-paste handoff'
 
 require_in_file skills/implementaudit/templates/THINKING.md 'Runtime copy target: `.IMPLEMENTAUDIT/runs/<task-slug>-<id>/THINKING.md`'
 require_in_file skills/implementaudit/templates/THINKING.md "Top objective"

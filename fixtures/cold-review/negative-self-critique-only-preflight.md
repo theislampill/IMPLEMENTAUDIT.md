@@ -6,7 +6,7 @@ counter-example, not a model to imitate.
 Defective behavior:
 
 A run produces an executor-facing handoff plan, performs a thorough Stage 6
-self-critique ("Self-critique: clean"), and proceeds directly to Stage 6.5
+self-critique ("Self-critique: clean"), and proceeds directly to Stage 6.ii
 preflight and dispatch. No independent cold review ran; no disposition was
 recorded. The plan carried a hidden-context assumption the author mentally
 filled — the executor failed on it downstream.
@@ -19,7 +19,7 @@ Why this must fail:
   (PASS / GAP-REVISE / BLOCKED / OWNER DECISION) recorded in the audit
   object before preflight, dispatch, or handoff of an executor-ready
   artifact;
-- "Self-critique: clean" is a Stage 6 record, not a Stage 6.2 disposition.
+- "Self-critique: clean" is a Stage 6 record, not a Stage 6.i disposition.
 
 Expected disposition when reviewed: FAIL — handoff readiness claimed on
 self-critique alone violates the independent cold-review gate in

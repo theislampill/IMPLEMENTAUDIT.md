@@ -293,10 +293,10 @@ Review assumptions, phase atomicity, weakest dependency, and falsifiability.
 Print `Self-critique:` with clean or 1-3 findings after fixing phase specs.
 Record Stage 6 assumptions.
 
-### Stage 6.2 - Independent cold review
+### Stage 6.i - Independent cold review
 
 When the run produced a handoff or executor-ready phase artifact, dispatch
-an independent cold review before Stage 6.5 preflight or any dispatch: a
+an independent cold review before Stage 6.ii preflight or any dispatch: a
 fresh-context reviewer that does not reuse the authoring context — a
 separate child agent where the host supports subagents, otherwise a bounded
 serial fresh-context pass. The reviewer reads the artifact as a cold reader
@@ -307,7 +307,7 @@ No "review" keyword is required; trivial direct-governance edits with no
 executor-facing artifact do not trigger the gate. Self-critique is
 preserved, not replaced.
 
-### Stage 6.5 - Pre-flight smoke
+### Stage 6.ii - Pre-flight smoke
 
 Run deduplicated mandatory commands once before dispatch. Print
 `PREFLIGHT_GREEN` or `PREFLIGHT_RED`; unrelated or unclear broken baselines need
