@@ -15,6 +15,35 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 (nothing yet)
 
+## [v0.3.3.0 release candidate] - 2026-08-08
+
+This source candidate establishes the v0.3.3.0 package identity for final
+prerelease qualification. It is not a tag, GitHub release, publication, or
+provenance record.
+
+### Changed
+
+- Canonical planner lifecycle is `6 → 6.i → 6.ii → 7`; historical `6.2`
+  and `6.5` spellings remain readable aliases.
+- Core v0.3.3 retrospective contracts and the N06 repair set are integrated,
+  including source-bound authorization, durable residual routing, evidence
+  resolution, acceptance-record validation, automatic-effect readback, and
+  calibrated package-budget authority.
+- The package keeps the 230,000-byte owner outer bound, the 218,000-byte
+  calibrated ceiling, and at least 2,000 bytes of required headroom.
+- Optional `/dashboard/` content remains a separately packaged projection and
+  is excluded from `IMPLEMENTAUDIT.skill`.
+
+### Qualification boundary
+
+- The exact candidate package passed installed-runtime dogfood, ordinary-run
+  non-regression, the complete deterministic verifier, and package verification.
+  Public release still requires the fresh-context final review, exact-head
+  hosted qualification, and independent tag/release/artifact/checksum readback.
+- R28/#117 is owner-paused, open, optional, and nonblocking for v0.3.3.0. Its
+  completion, qualification, closure, or later pause receipt is not a release
+  prerequisite, and `/dashboard/` remains excluded from the package.
+
 ## [v0.3.2.0 corrected re-release] - 2026-08-04
 
 The owner-authorized same-version correction replaced the withdrawn

@@ -1,15 +1,15 @@
 {
   "release": {
-    "milestone": "v0.3.2.0",
-    "manifest_version": "0.3.2",
+    "milestone": "v0.3.3.0",
+    "manifest_version": "0.3.3",
     "url": "",
     "audit_ledger_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/INDEX.md",
-    "status": "source checkout only; no tag; no release; no publication; no provenance. v0.3.2.0 release program evidence complete; publication is a separate release-gate action recorded in the release ledger",
+    "status": "source checkout only; no tag; no release; no publication; no provenance. v0.3.3.0 core release-candidate identity is under final prerelease qualification; publication remains a separate release-gate action",
     "last_release_gate_verified_public_release": {
-      "milestone": "v0.3.0.0",
-      "manifest_version": "0.3.0",
-      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/tag/v0.3.0.0",
-      "audit_ledger_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/archive/v0.3.0.0-local-package-dogfood-audit.md"
+      "milestone": "v0.3.2.0",
+      "manifest_version": "0.3.2",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/tag/v0.3.2.0",
+      "audit_ledger_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/archive/v0.3.2.0-correction-and-republish-report.md"
     },
     "checksum_boundary": "release-body SHA-256 digest supports artifact-integrity readback and may support a separately authorized provenance gate"
   },
