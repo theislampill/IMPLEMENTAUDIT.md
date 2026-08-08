@@ -515,6 +515,29 @@ parameters exist to bind (a docs-only commit authorization needs none).
 Existing authorizations remain valid for work already running; new
 authorizations carry the enumeration when applicable.
 
+**Automatic-effect closure.** Before an authorized push or merge, inspect the
+configured workflow triggers against the exact event and target ref. Record
+the mechanically matched workflows, their direct statically knowable effects,
+and the pushed-SHA post-state readbacks in the mutation plan:
+
+```text
+automatic-effect-preflight: event: push | ref: <branch> | workflows: <sorted-paths|none> | effects: <sorted-direct-effects|none> | post-state-readback: <sorted-readbacks|trigger-read-only> | excluded-outcomes: <truthful-list|none>
+```
+
+Every matched workflow contributes `workflow-run:<path>` and therefore
+`workflow-runs@pushed-sha`; a statically identified Pages deployment also
+contributes `deployment:github-pages` and `deployments@pushed-sha`. A trigger
+read that finds no matching workflow records `none`/`trigger-read-only` and
+adds no further ceremony. Do not put a configured effect in excluded outcomes.
+The preflight accepts only its documented structural YAML subset, normalizes
+quoted mapping keys, and fails closed on malformed/unsupported triggers,
+aliased/tagged/block branch-filter scalars, or workflow symlinks; it never
+infers effects from comments or arbitrary run text.
+Enumeration does not widen mutation authority or require a second approval for
+effects already entailed by the authorized trigger; it makes the authorization,
+claims, and readback set agree. An effect outside the existing grant still
+routes through the ordinary authority-drift gate.
+
 **Authorization intake.** Materialize every owner grant at intake, before
 planning a consequential action: preserve its verbatim grant quote, scope,
 issue date, source event/hash, lifecycle, action, and bound parameters in
