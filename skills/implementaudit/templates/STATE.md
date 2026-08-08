@@ -133,6 +133,10 @@ at phase end. Its rows point into this table, which remains the single closure
 surface; a `pending` or `unresolved` row blocks closure, and only owner or
 policy authority assigns a terminal disposition.
 
+Cross-run routing: a stable repo-defect residual identity first seen here adds
+no ceremony. On its second independent run/PR occurrence, Owner/policy ref
+must name a durable tracker or `owner-refusal:<source>`.
+
 Final closure checker inputs:
 
 - Superseded plans: none
