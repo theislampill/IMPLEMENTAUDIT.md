@@ -15,11 +15,13 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 (nothing yet)
 
-## [v0.3.3.0 release candidate] - 2026-08-08
+## [v0.3.3.0] - 2026-08-08
 
-This source candidate establishes the v0.3.3.0 package identity for final
-prerelease qualification. It is not a tag, GitHub release, publication, or
-provenance record.
+This release establishes the v0.3.3.0 package identity. Tag, GitHub release,
+assets, checksum, hosted validation, Pages deployment, and public installation
+routes were independently read back. These checks establish publication and
+artifact integrity, not signature, attestation, marketplace, or provenance
+claims.
 
 ### Changed
 
@@ -34,12 +36,13 @@ provenance record.
 - Optional `/dashboard/` content remains a separately packaged projection and
   is excluded from `IMPLEMENTAUDIT.skill`.
 
-### Qualification boundary
+### Qualification and publication boundary
 
 - The exact candidate package passed installed-runtime dogfood, ordinary-run
   non-regression, the complete deterministic verifier, and package verification.
-  Public release still requires the fresh-context final review, exact-head
-  hosted qualification, and independent tag/release/artifact/checksum readback.
+  Exact-head hosted qualification, tag/release/artifact/checksum readback, and
+  post-publication Pages readback also completed; the release ledger records
+  the exact identities and remaining tracker-accounting boundary.
 - R28/#117 is owner-paused, open, optional, and nonblocking for v0.3.3.0. Its
   completion, qualification, closure, or later pause receipt is not a release
   prerequisite, and `/dashboard/` remains excluded from the package.
