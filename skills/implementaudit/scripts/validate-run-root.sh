@@ -464,9 +464,9 @@ if [ -f "$state" ]; then
     if [ -f "$run_root/ROADMAP.md" ] && grep -Eq '^\|[[:space:]]*[0-9]+[[:space:]]*\|' "$run_root/ROADMAP.md"; then
       err "micro root contains a ROADMAP phase table; phased dispatch requires a full run root"
     fi
-    if grep -R -E -q '^(Stage 6\.2|Independent cold-review disposition|Review disposition):' "$run_root" \
+    if grep -R -E -q '^(Stage 6\.i|Stage 6\.2|Independent cold-review disposition|Review disposition):' "$run_root" \
       --exclude='.claimed' 2>/dev/null; then
-      err "micro root contains a Stage 6.2 disposition; executor-facing review requires a full run root"
+      err "micro root contains a Stage 6.i (legacy 6.2) disposition; executor-facing review requires a full run root"
     fi
     extra_micro_files="$(cd "$run_root" && find . -type f \
       ! -path './.claimed' ! -path './STATE.md' ! -path './deferrals.jsonl' \

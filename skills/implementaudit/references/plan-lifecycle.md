@@ -114,6 +114,13 @@ When the target is a branch, pull request, patch, or local dirty diff:
 6. Preserve unrelated pre-existing issues in the scope-creep register unless
    they are required to close an in-scope item.
 
+Before implementation, a campaign plan identifies its issue population with
+`campaign-issues: #<N>[, #<N>...]`. A single-issue campaign needs no topology
+row. A multi-issue campaign also declares
+`integration-topology: independent|stacked-cumulative|justified:<reason>` so
+branch/commit construction and later integration are checked against the same
+decision instead of reconstructed from a dirty worktree.
+
 The source repo helper is `scripts/repo-state.sh`.
 Installed payloads use `scripts/repo-state.sh` resolved from the skill
 directory. Graphify may orient first contact to broad code components only when
@@ -329,7 +336,7 @@ cap.
 ### Micro-run mode
 
 Use `claim-run.sh --micro` only for a single-defect repair with no phase
-decomposition, child-agent dispatch, executor handoff, or Stage 6.2 artifact.
+decomposition, child-agent dispatch, executor handoff, or Stage 6.i artifact.
 The reduced root contains `.claimed` plus an append-only `STATE.md`: the Andon
 log row or rows, followed by the emitted terminal marker as the final nonblank
 line. It does not carry ROADMAP, THINKING, PROTOCOL, sidecars, tools, context,
@@ -398,7 +405,7 @@ still-producing source. Every numeric or verdict claim resolves to an anchored
 evidence row or is softened before publication.
 Issue titles and bodies, PR descriptions, comments, and release notes are claim surfaces.
 
-**(iii) Independent cold review of the draft set.** Stage 6.2 applies to
+**(iii) Independent cold review of the draft set.** Stage 6.i applies to
 publication artifacts. A reviewer with no authoring context reviews the drafts
 before filing, and PASS / GAP-REVISE / BLOCKED / OWNER DECISION is recorded in
 the audit object. A same-context pass is self-critique and does not discharge

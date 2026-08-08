@@ -49,6 +49,7 @@ bad_card_shimmer="$tmp/bad-card-shimmer"
 bad_top_tabs="$tmp/bad-top-tabs"
 bad_sidebar_tree="$tmp/bad-sidebar-tree"
 bad_sidecar_freshness="$tmp/bad-sidecar-freshness"
+bad_stage_sequence="$tmp/bad-stage-sequence"
 
 if command -v python >/dev/null 2>&1; then
   py_cmd=(python)
@@ -384,6 +385,23 @@ if "${py_cmd[@]}" scripts/check-docs-portal.py "$bad_marker_taxonomy" >/dev/null
   fail_check "check-docs-portal.py accepted marker taxonomy without AUDIT_WARNING and IMPLEMENTAUDIT_PAUSE"
 else
   ok "check-docs-portal.py rejects marker taxonomy missing AUDIT_WARNING and IMPLEMENTAUDIT_PAUSE"
+fi
+
+cp -R "$out" "$bad_stage_sequence"
+"${py_cmd[@]}" - "$bad_stage_sequence/reference/planning-and-phases/index.html" <<'PY'
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+text = path.read_text(encoding="utf-8")
+old = 'data-label="Stage">6.i</td>'
+assert old in text
+path.write_text(text.replace(old, 'data-label="Stage">6.x</td>', 1), encoding="utf-8")
+PY
+if "${py_cmd[@]}" scripts/check-docs-portal.py "$bad_stage_sequence" >/dev/null 2>&1; then
+  fail_check "checker accepted portal with missing Stage 6.i enumeration"
+else
+  ok "checker rejects portal with missing Stage 6.i enumeration"
 fi
 
 cp -R "$out" "$bad_sidecar_freshness"

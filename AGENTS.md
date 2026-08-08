@@ -125,7 +125,9 @@ bash scripts/check-audit-retention.sh
 bash tests/audit-retention.test.sh
 ```
 
-Run docs portal separately because it invokes package validation internally:
+The docs portal test is registered in both canonical validation surfaces. Run
+it directly only as a focused check for docs-portal changes; package validation
+already invokes it, so a second broad invocation is redundant:
 
 ```bash
 bash tests/docs-portal.test.sh
@@ -209,7 +211,7 @@ host proof replaces it. The focused smoke is `tests/release-asset-install-claude
   (also enforced on child prompts by `check-plan-quality-contract.sh`), and
   no silent lane drops.
 - `scripts/check-cold-review-contract.sh` guards the independent cold-review
-  gate (Stage 6.2): structural reviewer independence, the
+  gate (Stage 6.i): structural reviewer independence, the
   PASS/GAP-REVISE/BLOCKED/OWNER-DECISION disposition before
   preflight/dispatch/handoff, and the derivative-only roadmap projection.
 - `scripts/check-public-claim-boundaries.sh` also enforces proof-level

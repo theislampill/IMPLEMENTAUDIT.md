@@ -80,7 +80,7 @@ SHAs. The report has exactly `Report state: FINAL`, ends with one exact gate
 token matching STATE, and binds its model pair to STATE's canonical
 `model-identity:` row. PASS requires equal requested/actual identity with bound
 claims. Its SHAs match STATE, resolve as distinct commits, and place base before
-head. A disposition without that proof does not discharge Stage 6.2.
+head. A disposition without that proof does not discharge Stage 6.i.
 `authoring_context_reuse: yes` labels useful self-critique evidence; it does not
 satisfy the independent gate. Legacy roots with no prospective `cold-review:`
 row remain valid.

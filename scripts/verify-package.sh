@@ -535,7 +535,7 @@ grep -R "child-agent reports are review evidence only" -in skills README.md AGEN
 grep -R "AUDIT_HANDOFF.*conditional\|AUDIT_HANDOFF.*handoff path" -in skills AGENTS.md >/dev/null || fail "AUDIT_HANDOFF conditional boundary is missing"
 grep -R "AGENTS_UPDATE_DECISION" -n skills/implementaudit/templates/phase-goal.txt skills/implementaudit/templates/STATE.md >/dev/null || fail "AGENTS_UPDATE_DECISION template coverage is missing"
 grep -R "Stage 0 - Context/tool/repo-state detection" -n skills/implementaudit/SKILL.md >/dev/null || fail "native Stage 0 planner contract is missing from skills/implementaudit/SKILL.md"
-grep -R "Stage 6.5 - Pre-flight smoke" -n skills/implementaudit/SKILL.md >/dev/null || fail "native Stage 6.5 planner contract is missing from skills/implementaudit/SKILL.md"
+grep -R "Stage 6.ii - Pre-flight smoke" -n skills/implementaudit/SKILL.md >/dev/null || fail "native Stage 6.ii planner contract is missing from skills/implementaudit/SKILL.md"
 grep -R "<run-root>/THINKING.md" -n skills/implementaudit/templates/THINKING.md skills/implementaudit/templates/PROTOCOL.md skills/implementaudit/templates/phase-goal.txt >/dev/null || fail "THINKING runtime artifact coverage is missing"
 grep -R "install-codex-from-release.sh" -n README.md AGENTS.md scripts tests >/dev/null || fail "release-asset Codex install path is not documented/validated"
 grep -R "install-claude-from-release.sh" -n README.md AGENTS.md scripts tests >/dev/null || fail "release-asset Claude install path is not documented/validated"

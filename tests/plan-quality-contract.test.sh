@@ -14,6 +14,81 @@ bash scripts/check-plan-quality-contract.sh \
   --read-only-status-file fixtures/read-only-plans/read-only-audit-ledger.status \
   --allow-path docs/audits/
 
+cp fixtures/read-only-plans/valid-handoff-plan.md "$tmp/single-issue-campaign.md"
+printf '\ncampaign-issues: #142\n' >> "$tmp/single-issue-campaign.md"
+bash scripts/check-plan-quality-contract.sh \
+  --campaign-plan-file "$tmp/single-issue-campaign.md" >/dev/null 2>&1 || {
+    printf 'plan-quality-contract.test: single-issue campaign gained topology ceremony\n' >&2
+    exit 1
+  }
+
+cp fixtures/read-only-plans/valid-handoff-plan.md "$tmp/multi-issue-missing-topology.md"
+printf '\ncampaign-issues: #141, #142\n' >> "$tmp/multi-issue-missing-topology.md"
+if bash scripts/check-plan-quality-contract.sh \
+    --campaign-plan-file "$tmp/multi-issue-missing-topology.md" \
+    >/tmp/plan-quality-topology.out 2>&1; then
+  printf 'plan-quality-contract.test: multi-issue plan without topology unexpectedly passed\n' >&2
+  exit 1
+fi
+grep -F 'multi-issue campaign requires integration-topology' \
+  /tmp/plan-quality-topology.out >/dev/null || {
+    printf 'plan-quality-contract.test: expected missing-topology diagnostic\n' >&2
+    cat /tmp/plan-quality-topology.out >&2
+    exit 1
+  }
+
+for topology in independent stacked-cumulative justified:release-train; do
+  plan="$tmp/multi-issue-${topology//:/-}.md"
+  cp fixtures/read-only-plans/valid-handoff-plan.md "$plan"
+  printf '\ncampaign-issues: #141, #142\nintegration-topology: %s\n' \
+    "$topology" >> "$plan"
+  bash scripts/check-plan-quality-contract.sh \
+    --campaign-plan-file "$plan" >/dev/null 2>&1 || {
+      printf 'plan-quality-contract.test: valid %s topology was rejected\n' "$topology" >&2
+      exit 1
+    }
+done
+
+cp fixtures/read-only-plans/valid-handoff-plan.md "$tmp/multi-issue-single-topology.md"
+printf '\ncampaign-issues: #141, #142\nintegration-topology: single-issue\n' \
+  >> "$tmp/multi-issue-single-topology.md"
+if bash scripts/check-plan-quality-contract.sh \
+    --campaign-plan-file "$tmp/multi-issue-single-topology.md" \
+    >/tmp/plan-quality-topology.out 2>&1; then
+  printf 'plan-quality-contract.test: multi-issue campaign accepted single-issue topology\n' >&2
+  exit 1
+fi
+
+cp fixtures/read-only-plans/valid-handoff-plan.md "$tmp/malformed-campaign-duplicate.md"
+printf '\ncampaign-issues: #141, #142\nintegration-topology: stacked-cumulative\ncampaign-issues: malformed\n' \
+  >> "$tmp/malformed-campaign-duplicate.md"
+if bash scripts/check-plan-quality-contract.sh \
+    --campaign-plan-file "$tmp/malformed-campaign-duplicate.md" \
+    >/tmp/plan-quality-topology.out 2>&1; then
+  printf 'plan-quality-contract.test: malformed duplicate campaign row was ignored\n' >&2
+  exit 1
+fi
+
+cp fixtures/read-only-plans/valid-handoff-plan.md "$tmp/empty-topology-duplicate.md"
+printf '\ncampaign-issues: #141, #142\nintegration-topology: stacked-cumulative\nintegration-topology:\n' \
+  >> "$tmp/empty-topology-duplicate.md"
+if bash scripts/check-plan-quality-contract.sh \
+    --campaign-plan-file "$tmp/empty-topology-duplicate.md" \
+    >/tmp/plan-quality-topology.out 2>&1; then
+  printf 'plan-quality-contract.test: empty duplicate topology row was ignored\n' >&2
+  exit 1
+fi
+
+cp fixtures/read-only-plans/valid-handoff-plan.md "$tmp/split-campaign-declaration.md"
+printf '\ncampaign-issues\n: #141, #142\nintegration-topology: stacked-cumulative\n' \
+  >> "$tmp/split-campaign-declaration.md"
+if bash scripts/check-plan-quality-contract.sh \
+    --campaign-plan-file "$tmp/split-campaign-declaration.md" \
+    >/tmp/plan-quality-topology.out 2>&1; then
+  printf 'plan-quality-contract.test: split campaign declaration was accepted\n' >&2
+  exit 1
+fi
+
 for keyword in Closes Fixes Resolves; do
   body="$tmp/pr-body-$keyword.md"
   printf '## Summary\n\n%s #141\n' "$keyword" > "$body"

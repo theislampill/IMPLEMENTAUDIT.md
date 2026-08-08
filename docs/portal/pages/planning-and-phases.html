@@ -62,7 +62,8 @@
           <tr><td>4</td><td>Phase decomposition: draft the roadmap and phase checklist.</td><td><code>ROADMAP.md</code>, phase spec</td></tr>
           <tr><td>5</td><td>Write run-root artifacts: check scope, rollback, sidecars, and generated-artifact ownership.</td><td><code>STATE.md</code>, <code>PROTOCOL.md</code>, constraints and rollback notes</td></tr>
           <tr><td>6</td><td>Plan review + self-critique: check atomicity and falsifiable criteria, then surface owner-choice handoff options.</td><td><code>Self-critique:</code> and owner choice</td></tr>
-          <tr><td>6.5</td><td>Pre-flight smoke check: run deduplicated mandatory checks before dispatch.</td><td><code>PREFLIGHT_GREEN</code> or <code>PREFLIGHT_RED</code></td></tr>
+          <tr><td>6.i</td><td>Independent cold review: a fresh-context reviewer evaluates executor-facing artifacts.</td><td><code>PASS</code>, <code>GAP-REVISE</code>, <code>BLOCKED</code>, or <code>OWNER DECISION</code></td></tr>
+          <tr><td>6.ii</td><td>Pre-flight smoke check: run deduplicated mandatory checks before dispatch.</td><td><code>PREFLIGHT_GREEN</code> or <code>PREFLIGHT_RED</code></td></tr>
           <tr><td>7</td><td>Print one ready-to-paste handoff only when dispatch is safe; it does not automatically dispatch, and the user must paste a <code>/goal</code> line for it to run.</td><td>ready-to-paste goal or audited handoff</td></tr>
         </tbody>
       </table>

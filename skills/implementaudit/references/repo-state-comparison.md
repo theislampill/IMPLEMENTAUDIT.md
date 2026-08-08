@@ -39,6 +39,28 @@ bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit}"/scripts/repo-state.sh 
 The helper is read-only. It does not mutate files, repo config, or the git
 index. Paths with spaces must be quoted by the caller.
 
+## Stacked integration merge safety
+
+For each link in a cumulative or otherwise dependent PR stack, preserve one
+five-link receipt before advancing:
+
+1. **Successor retarget.** After its predecessor lands, retarget the successor
+   to the declared next base and read back the PR base.
+2. **Unchanged head.** Read back the successor head SHA and require the exact
+   pre-retarget head; a rewritten head invalidates earlier qualification.
+3. **Main ancestry.** Require authoritative main to contain the predecessor's
+   landed commit/tree before treating it as the successor base.
+4. **Logical patch identity.** Compare the successor's issue-owned patch before
+   and after retarget (stable patch ID or byte-identical logical diff) and stop
+   on mismatch.
+5. **Resulting-tree equality or exact-tree requalification.** Compare the
+   synthetic/landed resulting tree with the qualified expected tree. If tree
+   equality is unavailable, qualify that exact resulting tree before the next
+   merge instead of carrying forward metadata-only checks.
+
+A retarget command, merge command, or green check alone proves none of the
+other links. Record all five, or stop the stack at the first missing receipt.
+
 ## Audit use
 
 - `deliverable`: proves whether a path is present, missing, untracked, changed,

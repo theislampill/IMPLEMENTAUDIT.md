@@ -240,7 +240,7 @@ It requires a governed run root, Andon log, and deferral ledger, plus a durable
 record of the evidence used. When fan-out contributes evidence, the compendium
 rule above requires a durable evidence compendium before synthesis; a bounded
 single-reader run keeps its direct citations and does not invent one. A micro
-root is allowed only while its eligibility contract holds. A Stage 6.2 review
+root is allowed only while its eligibility contract holds. A Stage 6.i review
 artifact requires a full root; do not combine that artifact with a micro claim.
 A fresh-context cold review before publication or action is also mandatory.
 Every residual receives one disposition: closed,

@@ -13,6 +13,7 @@ files=()
 status_files=()
 child_prompt_files=()
 pr_body_files=()
+campaign_plan_files=()
 allowed_paths=("plans/" ".IMPLEMENTAUDIT/")
 while [ "$#" -gt 0 ]; do
   case "$1" in
@@ -34,6 +35,11 @@ while [ "$#" -gt 0 ]; do
     --pr-body-file)
       [ "$#" -ge 2 ] || fail "--pr-body-file requires a path"
       pr_body_files+=("$2")
+      shift 2
+      ;;
+    --campaign-plan-file)
+      [ "$#" -ge 2 ] || fail "--campaign-plan-file requires a path"
+      campaign_plan_files+=("$2")
       shift 2
       ;;
     --allow-path)
@@ -69,7 +75,8 @@ fi
   "--" "${#status_files[@]}" "${status_files[@]}" \
   "--" "${allowed_paths[@]}" \
   "--child-prompts" "${#child_prompt_files[@]}" "${child_prompt_files[@]}" \
-  "--pr-bodies" "${#pr_body_files[@]}" "${pr_body_files[@]}" <<'PY'
+  "--pr-bodies" "${#pr_body_files[@]}" "${pr_body_files[@]}" \
+  "--campaign-plans" "${#campaign_plan_files[@]}" "${campaign_plan_files[@]}" <<'PY'
 import re
 import sys
 from pathlib import Path
@@ -92,6 +99,7 @@ offset += 1
 remaining = args[offset:]
 child_prompt_paths: list[Path] = []
 pr_body_paths: list[Path] = []
+campaign_plan_paths: list[Path] = []
 allowed_raw: list[str] = []
 idx = 0
 while idx < len(remaining):
@@ -106,6 +114,12 @@ while idx < len(remaining):
         count = int(remaining[idx])
         idx += 1
         pr_body_paths = [Path(p) for p in remaining[idx : idx + count]]
+        idx += count
+    elif remaining[idx] == "--campaign-plans":
+        idx += 1
+        count = int(remaining[idx])
+        idx += 1
+        campaign_plan_paths = [Path(p) for p in remaining[idx : idx + count]]
         idx += count
     else:
         allowed_raw.append(remaining[idx])
@@ -125,6 +139,9 @@ for path in child_prompt_paths:
 for path in pr_body_paths:
     if not path.is_file():
         raise SystemExit(f"missing PR body file: {path}")
+for path in campaign_plan_paths:
+    if not path.is_file():
+        raise SystemExit(f"missing campaign plan file: {path}")
 
 forbidden = [
     "as discussed",
@@ -192,6 +209,39 @@ for path in pr_body_paths:
     match = closing_reference.search(path.read_text(encoding="utf-8"))
     if match:
         fail(path, f"auto-closing tracked-issue reference is forbidden: {match.group(0)}")
+
+
+def declaration_values(text: str, key: str) -> list[str]:
+    pattern = re.compile(rf"^{re.escape(key)}[ \t]*:(.*)$", re.IGNORECASE | re.MULTILINE)
+    return [match.group(1).strip() for match in pattern.finditer(text)]
+
+
+for path in campaign_plan_paths:
+    text = path.read_text(encoding="utf-8")
+    issue_rows = declaration_values(text, "campaign-issues")
+    if len(issue_rows) != 1:
+        fail(path, "campaign plan requires exactly one campaign-issues row")
+    if not re.fullmatch(r"#[0-9]+(?:\s*,\s*#[0-9]+)*", issue_rows[0]):
+        fail(path, "campaign-issues must be a comma-separated issue-reference list")
+    issues = [item.strip() for item in issue_rows[0].split(",")]
+    if len(set(issues)) != len(issues):
+        fail(path, "campaign-issues contains a duplicate issue")
+    topology_rows = declaration_values(text, "integration-topology")
+    if len(topology_rows) > 1:
+        fail(path, "campaign plan has duplicate integration-topology rows")
+    if len(issues) == 1 and not topology_rows:
+        continue
+    if len(issues) > 1 and not topology_rows:
+        fail(path, "multi-issue campaign requires integration-topology")
+    topology = topology_rows[0].strip()
+    normalized = topology.lower()
+    if len(issues) == 1 and normalized == "single-issue":
+        continue
+    if len(issues) > 1 and normalized in {"independent", "stacked-cumulative"}:
+        continue
+    if len(issues) > 1 and normalized.startswith("justified:") and topology.split(":", 1)[1].strip():
+        continue
+    fail(path, "integration-topology must be independent, stacked-cumulative, or justified:<reason>")
 
 
 def non_placeholder_bullets(text: str, heading: str) -> list[str]:
@@ -298,11 +348,23 @@ for token in [
     "templates/read-only-plan.md",
     "PR bodies use non-closing tracked-issue references such as `Implements #N`",
     "evidence comment first, then close the issue explicitly",
+    "campaign-issues: #<N>[, #<N>...]",
+    "integration-topology: independent|stacked-cumulative|justified:<reason>",
 ]:
     if token not in plan_ref:
         raise SystemExit(f"skills/implementaudit/references/plan-lifecycle.md: missing read-only plans token: {token}")
 for token in planning_security_tokens:
     require_ci(plan_ref, Path("skills/implementaudit/references/plan-lifecycle.md"), token)
+
+state_ref = Path("skills/implementaudit/references/repo-state-comparison.md").read_text(encoding="utf-8")
+for token in [
+    "successor retarget",
+    "unchanged head",
+    "main ancestry",
+    "logical patch identity",
+    "resulting-tree equality or exact-tree requalification",
+]:
+    require_ci(state_ref, Path("skills/implementaudit/references/repo-state-comparison.md"), token)
 
 read_only_template = Path("skills/implementaudit/templates/read-only-plan.md").read_text(encoding="utf-8")
 for token in [

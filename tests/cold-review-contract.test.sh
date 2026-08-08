@@ -69,7 +69,7 @@ cp fixtures/cold-review/issue-86-altered-packet-respawn.md \
   "$successor_root/packet-b.md"
 bash scripts/check-cold-review-contract.sh --run-root "$successor_root" \
   >/dev/null 2>&1 || fail "#86 run-root mode rejected recorded packet alteration"
-sed -i 's/2f4c3d54a95c60e8ad90dbf84ce5cb009258a10eaeaf4c0aad9d228791962138/0f4c3d54a95c60e8ad90dbf84ce5cb009258a10eaeaf4c0aad9d228791962138/' \
+sed -i 's/16fd2e6bb71f202464d18fd05f4c19974e2a27f9444f1cb5e5046edb19e970ac/06fd2e6bb71f202464d18fd05f4c19974e2a27f9444f1cb5e5046edb19e970ac/' \
   "$successor_root/packet-b.md"
 if bash scripts/check-cold-review-contract.sh --run-root "$successor_root" \
   >/dev/null 2>&1; then
@@ -247,12 +247,12 @@ reset_sandbox
 bash scripts/check-cold-review-contract.sh --repo-root "$tmp_root" \
   >/dev/null 2>&1 || fail "checker fails on the untouched sandbox copy"
 
-# 3. Stage 6.2 removed from the stage map -> must fail.
+# 3. Stage 6.i removed from the stage map -> must fail.
 reset_sandbox
-sed 's/^### Stage 6.2 - Independent cold review$/### Stage 6.2 - Removed/' \
+sed 's/^### Stage 6.i - Independent cold review$/### Stage 6.i - Removed/' \
   "$tmp_root/skills/implementaudit/SKILL.md" >"$tmp_root/skill.tmp"
 mv "$tmp_root/skill.tmp" "$tmp_root/skills/implementaudit/SKILL.md"
-expect_fail "SKILL.md without Stage 6.2"
+expect_fail "SKILL.md without Stage 6.i"
 
 # 4. Readiness gate clause removed from plan-lifecycle -> must fail.
 reset_sandbox
