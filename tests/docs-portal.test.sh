@@ -358,7 +358,7 @@ from pathlib import Path
 path = Path(sys.argv[1])
 text = path.read_text(encoding="utf-8")
 text = text.replace(
-    "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/INDEX.md",
+    "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/archive/v0.3.3.0-release-report.md",
     "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/archive/v0.2.9.0-andon-escalation-jidoka-repair.md",
 )
 path.write_text(text, encoding="utf-8")

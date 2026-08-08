@@ -110,11 +110,12 @@ Standing gate owners: `check-action-selection-contract.sh`,
 
 ## v0.3.3.0 release evidence (current ledger)
 
-- `docs/audits/archive/v0.3.3.0-release-report.md` - exact candidate package
-  identity, nonblocking R28/#117 and out-of-scope #144 boundaries, and the
-  pending-to-read-back integration, publication, Pages, and tracker fields.
-  Until those fields are completed from live readback, it is prerelease
-  accounting rather than a publication claim.
+- `docs/audits/archive/v0.3.3.0-release-report.md` - exact package identity,
+  nonblocking R28/#117 and out-of-scope #144 boundaries, release integration,
+  tag/assets/checksum readback, hosted validation, Pages deployment, and the
+  remaining live tracker-accounting field. It is the current published-release
+  ledger; publication fields are evidence-bound to the identities recorded
+  there rather than inferred from source text.
 
 ## Boundary
 
