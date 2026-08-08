@@ -808,7 +808,7 @@ publication, or provenance has been verified.
 
 ## Version and release notes
 
-Current public release: `v0.3.3.0`. Plugin/runtime version: `0.3.3`.
+Current project milestone: `v0.3.3.0`. Current public release: `v0.3.3.0`. Plugin/runtime version: `0.3.3`.
 
 The host-facing manifest uses the three-component runtime version because local
 schema evidence does not establish support for a four-component plugin version.
