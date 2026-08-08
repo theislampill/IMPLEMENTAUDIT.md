@@ -8,6 +8,7 @@ err() {
   err_count=$((err_count + 1))
 }
 warn() { printf 'validate-run-root: WARNING: %s\n' "$*" >&2; }
+has_non_whitespace() { LC_ALL=C grep -q '[^[:space:]]' "$1" 2>/dev/null; }
 
 if [ "${1:-}" = "--graph-freshness" ]; then
   if [ "$#" -ne 3 ]; then
@@ -238,6 +239,84 @@ check_background_chains() {
   done
 }
 
+is_terminal_phase_status() {
+  case "$1" in
+    done|done\ *|verified|verified\ *|pass|pass\ *|'focused pass'|'focused pass '*|complete|complete\ *|complete\;*|completed|completed\ *|closed|closed\ *) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+is_nonterminal_phase_status() {
+  case "$1" in
+    open|ready|ready_to_dispatch|in_phase|in\ progress|in\ progress\ *|in_progress|in_progress\ *|paused|blocked|interrupted|pending|dispatchable|finding_closure_pending|audit_handoff|handoff) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+check_done_phase_captures() {
+  local phase="$1" status phase_n capture target repo_prefix
+  status="$(awk '
+    /^IMPLEMENTAUDIT_PHASE_DONE[[:space:]]*$/ { done=1; next }
+    done && /^Status:[[:space:]]*/ {
+      sub(/^Status:[[:space:]]*/, ""); print tolower($0); exit
+    }
+  ' "$phase")"
+  if is_terminal_phase_status "$status"; then
+    :
+  elif is_nonterminal_phase_status "$status"; then
+    return 0
+  elif [ -f "$run_root/ROADMAP.md" ]; then
+    phase_n="$(basename "$phase" | sed -n 's/^phase-\([0-9][0-9]*\)\.md$/\1/p')"
+    status="$(awk -F'|' -v n="$phase_n" '
+      function trim(v) { gsub(/^[ \t]+|[ \t]+$/, "", v); return v }
+      /^\|/ {
+        if (!phase_table) {
+          first=tolower(trim($2)); second=tolower(trim($3)); status_col=0
+          if (first == "phase" || (first == "#" && second == "phase")) {
+            for (i=2; i<NF; i++) if (tolower(trim($i)) == "status") status_col=i
+            if (status_col) phase_table=1
+          }
+          next
+        }
+        if (trim($2) == n) { print tolower(trim($status_col)); exit }
+        next
+      }
+      phase_table && NF && $0 !~ /^[ \t]*$/ { phase_table=0 }
+    ' "$run_root/ROADMAP.md")"
+    is_terminal_phase_status "$status" || return 0
+  else
+    return 0
+  fi
+  repo_prefix=""
+  case "$run_root" in
+    */.IMPLEMENTAUDIT/*) repo_prefix="${run_root%%/.IMPLEMENTAUDIT/*}" ;;
+    .IMPLEMENTAUDIT/*) repo_prefix="." ;;
+  esac
+  while IFS= read -r capture; do
+    capture="${capture#\`}"; capture="${capture%\`}"
+    case "$capture" in
+      '<run-root>') target="$run_root" ;;
+      '<run-root>/'*) target="$run_root/${capture#<run-root>/}" ;;
+      /*|[A-Za-z]:*) target="$capture" ;;
+      "$run_root"/*) target="$capture" ;;
+      *.IMPLEMENTAUDIT/*)
+        capture=".IMPLEMENTAUDIT/${capture#*.IMPLEMENTAUDIT/}"
+        target="${repo_prefix:+$repo_prefix/}$capture"
+        ;;
+      evidence/*) target="$run_root/$capture" ;;
+      ./evidence/*) target="$run_root/${capture#./}" ;;
+      *) continue ;;
+    esac
+    if [ ! -f "$target" ]; then
+      err "DONE phase $(basename "$phase") declared capture is missing: $capture"
+    elif ! has_non_whitespace "$target"; then
+      err "DONE phase $(basename "$phase") declared capture is blank: $capture"
+    fi
+  done < <(sed -n '/^## Mandatory commands/,/^## / {
+    s/.*;[[:space:]]*capture:[[:space:]]*\([^;]*\);.*/\1/p
+  }' "$phase")
+}
+
 mode=full
 if [ "${1:-}" = "--micro" ]; then
   mode=micro
@@ -295,12 +374,34 @@ fi
 if [ "$mode" = micro ]; then
   [ -f "$run_root/STATE.md" ] || err "missing required artifact: STATE.md"
 else
+  root_done=no
+  if grep -Eq '^\|[[:space:]]*Status[[:space:]]*\|[[:space:]]*DONE[[:space:]]*\|' \
+    "$run_root/STATE.md" 2>/dev/null; then
+    root_done=yes
+  fi
+  template_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/../templates" && pwd)"
   for f in STATE.md PROTOCOL.md; do
-    [ -f "$run_root/$f" ] || err "missing required artifact: $f"
+    if [ ! -f "$run_root/$f" ]; then err "missing required artifact: $f"
+    elif ! has_non_whitespace "$run_root/$f"; then err "required artifact is blank: $f"; fi
   done
   for f in ROADMAP.md THINKING.md sidecars.md tools.md context.md; do
-    [ -f "$run_root/$f" ] || err "missing planning artifact: $f (required for dispatched phase runs)"
+    artifact_status="$(awk -F'|' -v artifact="<run-root>/$f" '
+      function trim(v) { gsub(/^[ \t`]+|[ \t`]+$/, "", v); return v }
+      trim($2) == artifact { print tolower(trim($3)); exit }
+    ' "$run_root/STATE.md" 2>/dev/null)"
+    if [ ! -f "$run_root/$f" ]; then err "missing planning artifact: $f (required for dispatched phase runs)"
+    elif ! has_non_whitespace "$run_root/$f"; then err "planning artifact is blank: $f"; fi
+    if [ "$root_done" = yes ] && [ "$artifact_status" = complete ] &&
+       [ -f "$run_root/$f" ] &&
+       cmp -s "$run_root/$f" "$template_dir/$f"; then
+      err "planning artifact remains an unfilled template at DONE: $f"
+    fi
   done
+fi
+
+if [ "$mode" = full ] && [ -d "$run_root/phases" ]; then
+  while IFS= read -r phase; do check_done_phase_captures "$phase"; done \
+    < <(find "$run_root/phases" -type f -name 'phase-*.md' -print | sort)
 fi
 
 state="$run_root/STATE.md"
