@@ -104,6 +104,26 @@ expected values to agree. The mutation and read-back commands name the same
 target kind and ID; the read-back contains no mutating verb. Both recorded
 exits are zero, and the two evidence IDs differ.
 
+Before an authorized push or merge, bind its configured automatic effects to
+the same plan/readback boundary. Run the closure checker with
+`--automatic-effects <repo-root> <event> <ref> <mutation-plan>` and record:
+
+```text
+automatic-effect-preflight: event: push | ref: <branch> | workflows: <sorted-paths|none> | effects: <sorted-direct-effects|none> | post-state-readback: <sorted-readbacks|trigger-read-only> | excluded-outcomes: <truthful-list|none>
+```
+
+The checker reads `.github/workflows/*` before mutation. A matching workflow
+requires `workflow-runs@pushed-sha`; a directly identifiable Pages deployment
+also requires `deployments@pushed-sha`. The post-state probe is performed only
+when already authorized. No match stops after the trigger read. A configured
+effect cannot be called excluded or impossible, and the mutator's output never
+substitutes for the pushed-SHA readback. Listing an effect already entailed by
+the authorized trigger is coverage, not a second grant of authority. Quoted
+keys are normalized inside the strict structural subset; malformed or
+unsupported triggers, aliased/tagged/block branch-filter scalars, arbitrary
+text masquerading as `steps[*].uses`, and symlinked/escaping workflow paths
+fail closed.
+
 Human-readable artifact names carry content identity in the same record:
 
 ```text

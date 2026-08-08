@@ -72,6 +72,7 @@ fi
 
 flat="$(tr '\n' ' ' < "$proto" | tr -s ' ')"
 state_flat="$(tr '\n' ' ' < "$state_template" | tr -s ' ')"
+repo_state_flat="$(tr '\n' ' ' < skills/implementaudit/references/repo-state-comparison.md | tr -s ' ')"
 printf '%s' "$flat" | grep -qi 'Closure-claims table' \
   || fail "PROTOCOL missing closure-claims table"
 printf '%s' "$flat" | grep -qi 'never promoted into a higher-surface claim' \
@@ -99,6 +100,246 @@ bash "$scorer" --residual-routing "$fx/residual-repeat-a.md" \
 bash "$scorer" --residual-routing "$fx/residual-repeat-a.md" \
   "$fx/residual-refused-b.md" >/dev/null 2>&1 \
   || fail "repeated residual with explicit owner refusal was rejected"
+
+# #138 automatic-effect closure. A push with no matching workflow pays only
+# the trigger read; a matching Pages workflow binds direct effects and
+# pushed-SHA readbacks before a no-deployment claim can survive.
+effect_fx="fixtures/effect-closure"
+bash "$scorer" --automatic-effects "$effect_fx/no-match" push main \
+  "$effect_fx/no-match/plan.md" >/dev/null 2>&1 \
+  || fail "push with no matching workflow gained extra ceremony"
+if effect_error="$(bash "$scorer" --automatic-effects "$effect_fx/pages" \
+    push main "$effect_fx/pages/plan-missing.md" 2>&1)"; then
+  fail "push-triggered Pages effect without enumeration/readback was accepted"
+fi
+printf '%s\n' "$effect_error" | grep -Fq \
+  'automatic-effect-preflight record missing for matching workflow effects' \
+  || fail "missing Pages effect failed on the wrong predicate"
+bash "$scorer" --automatic-effects "$effect_fx/pages" push main \
+  "$effect_fx/pages/plan-covered.md" >/dev/null 2>&1 \
+  || fail "enumerated Pages workflow/deployment effects were rejected"
+effect_tmp="$(mktemp -d)"
+sed 's/deployments@pushed-sha,//' "$effect_fx/pages/plan-covered.md" \
+  > "$effect_tmp/readback-missing.md"
+if effect_error="$(bash "$scorer" --automatic-effects "$effect_fx/pages" \
+    push main "$effect_tmp/readback-missing.md" 2>&1)"; then
+  fail "Pages effect without deployment readback was accepted"
+fi
+printf '%s\n' "$effect_error" | grep -Fq \
+  'automatic-effect-preflight readback mismatch' \
+  || fail "missing deployment readback failed on the wrong predicate"
+sed 's/excluded-outcomes: none/excluded-outcomes: no deployment/' \
+  "$effect_fx/pages/plan-covered.md" > "$effect_tmp/deployment-excluded.md"
+if effect_error="$(bash "$scorer" --automatic-effects "$effect_fx/pages" \
+    push main "$effect_tmp/deployment-excluded.md" 2>&1)"; then
+  fail "configured Pages effect was accepted as an excluded outcome"
+fi
+printf '%s\n' "$effect_error" | grep -Fq \
+  'automatic-effect-preflight excludes a configured deployment effect' \
+  || fail "configured deployment exclusion failed on the wrong predicate"
+
+mkdir -p "$effect_tmp/quoted/.github/workflows"
+cat > "$effect_tmp/quoted/.github/workflows/quoted.yml" <<'EOF'
+"on":
+  "push":
+    "branches": [main]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo check
+EOF
+printf '%s\n' \
+  'automatic-effect-preflight: event: push | ref: main | workflows: .github/workflows/quoted.yml | effects: workflow-run:.github/workflows/quoted.yml | post-state-readback: workflow-runs@pushed-sha | excluded-outcomes: none' \
+  > "$effect_tmp/quoted/plan.md"
+bash "$scorer" --automatic-effects "$effect_tmp/quoted" push main \
+  "$effect_tmp/quoted/plan.md" >/dev/null 2>&1 \
+  || fail "quoted push/branches keys were not parsed structurally"
+
+for scalar_case in alias tag folded; do
+  mkdir -p "$effect_tmp/branch-$scalar_case/.github/workflows"
+  cp "$effect_fx/no-match/plan.md" "$effect_tmp/branch-$scalar_case/plan.md"
+done
+cat > "$effect_tmp/branch-alias/.github/workflows/alias.yml" <<'EOF'
+x-target: &target main
+on:
+  push:
+    branches: [*target]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+EOF
+cat > "$effect_tmp/branch-tag/.github/workflows/tag.yml" <<'EOF'
+on:
+  push:
+    branches:
+      - !!str main
+jobs:
+  check:
+    runs-on: ubuntu-latest
+EOF
+cat > "$effect_tmp/branch-folded/.github/workflows/folded.yml" <<'EOF'
+on:
+  push:
+    branches:
+      - >
+        main
+jobs:
+  check:
+    runs-on: ubuntu-latest
+EOF
+for scalar_case in alias tag folded; do
+  if effect_error="$(bash "$scorer" --automatic-effects \
+      "$effect_tmp/branch-$scalar_case" push main \
+      "$effect_tmp/branch-$scalar_case/plan.md" 2>&1)"; then
+    fail "unsupported $scalar_case branch-filter scalar was treated as no matching workflow"
+  fi
+  printf '%s\n' "$effect_error" | grep -Fq \
+    'unsupported aliased/tagged/block branch-filter scalar' \
+    || fail "unsupported $scalar_case branch-filter scalar failed on the wrong predicate"
+done
+
+mkdir -p "$effect_tmp/malformed/.github/workflows"
+cat > "$effect_tmp/malformed/.github/workflows/malformed.yml" <<'EOF'
+on:
+  push
+jobs:
+  check:
+    runs-on: ubuntu-latest
+EOF
+cp "$effect_fx/no-match/plan.md" "$effect_tmp/malformed/plan.md"
+if bash "$scorer" --automatic-effects "$effect_tmp/malformed" push main \
+    "$effect_tmp/malformed/plan.md" >/dev/null 2>&1; then
+  fail "malformed push trigger was treated as no matching workflow"
+fi
+
+mkdir -p "$effect_tmp/nested/.github/workflows"
+cat > "$effect_tmp/nested/.github/workflows/nested.yml" <<'EOF'
+on:
+  workflow_call:
+    inputs:
+      push:
+        type: string
+jobs:
+  check:
+    runs-on: ubuntu-latest
+EOF
+cp "$effect_fx/no-match/plan.md" "$effect_tmp/nested/plan.md"
+bash "$scorer" --automatic-effects "$effect_tmp/nested" push main \
+  "$effect_tmp/nested/plan.md" >/dev/null 2>&1 \
+  || fail "nested workflow_call input was mistaken for top-level push"
+
+mkdir -p "$effect_tmp/tags/.github/workflows"
+cat > "$effect_tmp/tags/.github/workflows/tags.yml" <<'EOF'
+on:
+  push:
+    tags:
+      - 'v*'
+jobs:
+  check:
+    runs-on: ubuntu-latest
+EOF
+cp "$effect_fx/no-match/plan.md" "$effect_tmp/tags/plan.md"
+bash "$scorer" --automatic-effects "$effect_tmp/tags" push main \
+  "$effect_tmp/tags/plan.md" >/dev/null 2>&1 \
+  || fail "tag-only workflow was mistaken for a branch push match"
+
+mkdir -p "$effect_tmp/quoted-uses/.github/workflows"
+cat > "$effect_tmp/quoted-uses/.github/workflows/pages.yml" <<'EOF'
+on: push
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - "uses": "actions/deploy-pages@v4"
+EOF
+printf '%s\n' \
+  'automatic-effect-preflight: event: push | ref: main | workflows: .github/workflows/pages.yml | effects: deployment:github-pages,workflow-run:.github/workflows/pages.yml | post-state-readback: deployments@pushed-sha,workflow-runs@pushed-sha | excluded-outcomes: none' \
+  > "$effect_tmp/quoted-uses/plan.md"
+bash "$scorer" --automatic-effects "$effect_tmp/quoted-uses" push main \
+  "$effect_tmp/quoted-uses/plan.md" >/dev/null 2>&1 \
+  || fail "quoted structural uses key missed Pages deployment"
+
+mkdir -p "$effect_tmp/run-text/.github/workflows"
+cat > "$effect_tmp/run-text/.github/workflows/run-text.yml" <<'EOF'
+on: push
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo "uses: actions/deploy-pages@v4"'
+EOF
+printf '%s\n' \
+  'automatic-effect-preflight: event: push | ref: main | workflows: .github/workflows/run-text.yml | effects: workflow-run:.github/workflows/run-text.yml | post-state-readback: workflow-runs@pushed-sha | excluded-outcomes: none' \
+  > "$effect_tmp/run-text/plan.md"
+bash "$scorer" --automatic-effects "$effect_tmp/run-text" push main \
+  "$effect_tmp/run-text/plan.md" >/dev/null 2>&1 \
+  || fail "run text was mistaken for structural deploy-pages uses"
+
+mkdir -p "$effect_tmp/alias-uses/.github/workflows"
+cat > "$effect_tmp/alias-uses/.github/workflows/alias.yml" <<'EOF'
+on: push
+x-deploy: &deploy actions/deploy-pages@v4
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: *deploy
+EOF
+printf '%s\n' \
+  'automatic-effect-preflight: event: push | ref: main | workflows: .github/workflows/alias.yml | effects: workflow-run:.github/workflows/alias.yml | post-state-readback: workflow-runs@pushed-sha | excluded-outcomes: none' \
+  > "$effect_tmp/alias-uses/plan.md"
+if effect_error="$(bash "$scorer" --automatic-effects "$effect_tmp/alias-uses" \
+    push main "$effect_tmp/alias-uses/plan.md" 2>&1)"; then
+  fail "aliased deploy-pages uses bypassed deployment/readback closure"
+fi
+printf '%s\n' "$effect_error" | grep -Fq \
+  'unsupported aliased/tagged/block uses scalar' \
+  || fail "aliased uses failed on the wrong predicate"
+
+sed 's/excluded-outcomes: none/excluded-outcomes: no workflow run/' \
+  "$effect_fx/pages/plan-covered.md" > "$effect_tmp/workflow-run-excluded.md"
+if bash "$scorer" --automatic-effects "$effect_fx/pages" push main \
+    "$effect_tmp/workflow-run-excluded.md" >/dev/null 2>&1; then
+  fail "configured workflow run was accepted as an excluded outcome"
+fi
+sed 's/excluded-outcomes: none/excluded-outcomes:/' \
+  "$effect_fx/pages/plan-covered.md" > "$effect_tmp/excluded-empty.md"
+if bash "$scorer" --automatic-effects "$effect_fx/pages" push main \
+    "$effect_tmp/excluded-empty.md" >/dev/null 2>&1; then
+  fail "empty excluded-outcomes value was accepted"
+fi
+
+mkdir -p "$effect_tmp/dangling/.github/workflows"
+cp "$effect_fx/no-match/plan.md" "$effect_tmp/dangling/plan.md"
+if ln -s "$effect_tmp/missing-workflow.yml" \
+    "$effect_tmp/dangling/.github/workflows/dangling.yml" 2>/dev/null; then
+  if bash "$scorer" --automatic-effects "$effect_tmp/dangling" push main \
+      "$effect_tmp/dangling/plan.md" >/dev/null 2>&1; then
+    fail "dangling workflow symlink was silently skipped"
+  fi
+fi
+
+mkdir -p "$effect_tmp/symlink-root/.github" "$effect_tmp/outside-workflows"
+cp "$effect_fx/pages/.github/workflows/pages.yml" \
+  "$effect_tmp/outside-workflows/pages.yml"
+cp "$effect_fx/no-match/plan.md" "$effect_tmp/symlink-root/plan.md"
+if ln -s "$effect_tmp/outside-workflows" \
+    "$effect_tmp/symlink-root/.github/workflows" 2>/dev/null; then
+  if bash "$scorer" --automatic-effects "$effect_tmp/symlink-root" push main \
+      "$effect_tmp/symlink-root/plan.md" >/dev/null 2>&1; then
+    fail "symlinked workflows directory escaped the repository"
+  fi
+fi
+rm -rf "$effect_tmp"
+printf '%s' "$flat" | grep -Fq 'automatic-effect-preflight:' \
+  || fail "PROTOCOL missing automatic-effect mutation-plan carrier"
+printf '%s' "$flat" | grep -Fq 'adds no further ceremony' \
+  || fail "PROTOCOL missing no-workflow cheap path"
+printf '%s' "$repo_state_flat" | grep -Fq 'workflow-runs@pushed-sha' \
+  || fail "repo-state owner missing workflow-run readback"
+printf '%s' "$repo_state_flat" | grep -Fq 'coverage, not a second grant of authority' \
+  || fail "repo-state owner incorrectly requires second authorization"
 
 # The owner surfaces carry one vocabulary; the fixtures below then exercise
 # that vocabulary through the checker instead of treating prose presence as
@@ -815,4 +1056,4 @@ fi
 # #89 R16: publication verification is digest identity, not label identity.
 publication_identity_controls "$tmp"
 
-printf 'closure-surface-contract: ok (contract + quota, kill-authority, #88 external-state, and #78 deferral controls)\n'
+printf 'closure-surface-contract: ok (contract + quota, kill-authority, #88 external-state, #78 deferral, and #138 automatic-effect controls)\n'
