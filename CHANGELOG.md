@@ -42,7 +42,8 @@ claims.
   non-regression, the complete deterministic verifier, and package verification.
   Exact-head hosted qualification, tag/release/artifact/checksum readback, and
   post-publication Pages readback also completed; the release ledger records
-  the exact identities and remaining tracker-accounting boundary.
+  the exact identities and completed tracker accounting. The repo-generic
+  README/docs dogfood false pass remains open as nonblocking follow-up #155.
 - R28/#117 is owner-paused, open, optional, and nonblocking for v0.3.3.0. Its
   completion, qualification, closure, or later pause receipt is not a release
   prerequisite, and `/dashboard/` remains excluded from the package.
