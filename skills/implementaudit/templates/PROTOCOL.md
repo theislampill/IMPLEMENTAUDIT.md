@@ -114,7 +114,7 @@ block is present. If the file is missing or the marker is absent, stop and
 report Andon with the missing artifact path.
 
 **Step 3 — Validate phase spec.**
-Run `bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit}"/scripts/validate-phase.sh <run-root>/phases/phase-N.md`.
+Run `bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit}"/scripts/validate-phase.sh <phase>`.
 Exit code must be 0. If not, stop and report the validation error before
 proceeding. Do not execute a phase against an invalid spec.
 
@@ -193,10 +193,9 @@ current one — re-gather instead (stale-evidence substitution is an
 ANDON_PROBE, class `evidence-mismatch`). Legacy rows recorded before this
 contract carry no anchor and stay valid as historical evidence.
 
-An evidence-scope declaration may supply a nonempty `bound_surfaces` manifest
-of repo-relative paths/globs to `check-evidence-anchor.sh --artifact ... --tree
-... --bound-surfaces <manifest>`. Anchor-to-current changes disjoint from that
-set do not invalidate the artifact; an intersection does. The artifact binds
+An evidence scope may supply `--bound-surfaces <manifest>` to
+`check-evidence-anchor.sh --artifact ... --tree ...`. Disjoint anchor-to-current
+changes do not invalidate the artifact; an intersection does. The artifact binds
 the manifest bytes with exactly one `Bound-Surfaces-SHA256: <digest>` line, so
 the caller cannot substitute a narrower set. Without the manifest, exact
 whole-tree equality remains mandatory.
@@ -313,9 +312,9 @@ When resuming after interruption:
 
 ### Receiving-side handoff inspection
 
-When resuming from a HANDOFF PACKET produced by another run/session (not a
-same-session pause), the receiver verifies the packet against live state
-BEFORE accepting any work-in-process. This gate is not a full re-audit.
+For a non-same-session HANDOFF PACKET, run
+`check-handoff-packet.sh <p> --repo-root <r>` against live state before
+acceptance; not a full re-audit.
 
 Packet identity (required before any claim comparison): packet ID; packet
 version; packet content hash; claimed subject identity (repository +
@@ -512,8 +511,9 @@ and request an owner decision. Source-code or tool defaults are NEVER
 implicitly adopted for a governed parameter. Ordinary small authorizations
 stay one line — a parameter table is required only when consequential
 parameters exist to bind (a docs-only commit authorization needs none).
-Existing authorizations remain valid for work already running; new
-authorizations carry the enumeration when applicable.
+At this auth boundary run `check-authorization-binding.sh --auth <a>
+--invocation <i> --state <s>`. Running authorisations remain valid; new ones
+carry the enumeration when applicable.
 
 **Automatic-effect closure.** Before an authorized push or merge, inspect the
 configured workflow triggers against the exact event and target ref. Record
@@ -999,8 +999,8 @@ keeps the ordinary residual contract; this adds no disposition value.
 
 ### AUDIT_COMPLETE and IMPLEMENTAUDIT_RUN_COMPLETE
 
-Before final closure, invoke the shipped checker with every applicable plan
-and steer input. The canonical command shape is:
+For the final record run `check-lesson-lift.sh <c> --repo-root <r>`, then the
+shipped closure checker with all applicable inputs:
 
 ```text
 bash <skill-dir>/scripts/check-closure-surface.sh <closure-record> --superseded-plan <each-replaced-plan> --steer-dir <run-root> --plan-cycle-record <each-cycle-accounted-plan>  # installed skill; source repo only uses the same shipped helper

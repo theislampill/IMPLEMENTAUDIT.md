@@ -220,6 +220,8 @@ require_file eval/test_qualification_evidence_producer.py
 require_file eval/historical_readjudicate.py
 require_file eval/test_historical_readjudicate.py
 require_file tests/payload-path-hygiene.test.sh
+require_file scripts/check-helper-reachability.sh
+require_file tests/helper-reachability.test.sh
 require_file fixtures/casual-build/accepted-intent.md
 require_file fixtures/casual-build/rejected-intent.md
 require_file fixtures/phase-design/polish-harden.md
@@ -685,6 +687,7 @@ bash tests/claim-boundary-proof-levels.test.sh
 bash tests/no-terminal-cap.test.sh
 bash tests/eval-harness.test.sh
 bash tests/payload-path-hygiene.test.sh
+bash tests/helper-reachability.test.sh
 bash tests/summarize-repo.test.sh
 bash tests/shipped-scripts-smoke.test.sh
 bash tests/run-root-validation.test.sh
