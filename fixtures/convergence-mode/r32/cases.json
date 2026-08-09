@@ -15,6 +15,7 @@
       "record": {
         "owner": "scripts/check-helper-reachability.sh",
         "invariant": "packaged-helper-same-run-dispatch",
+        "mechanism": "helper-caller-evidence-false-pass",
         "included": ["F1", "F2"],
         "excluded": ["D1"],
         "dimensions": ["caller-command-shape", "operand-position"],
@@ -42,6 +43,7 @@
       "record": {
         "owner": "skills/implementaudit/scripts/validate-run-root.sh",
         "invariant": "scope-population-freshness",
+        "mechanism": "population-census-divergence",
         "included": ["F3", "F4"],
         "excluded": ["unrelated-relation-omission"],
         "dimensions": ["tracking-state", "ignore-pattern", "path-depth"],
@@ -131,7 +133,7 @@
         {"id": "H2", "owner": "src/parser.py", "invariant": "reject-duplicate-keys", "mechanism": "last-write-wins", "state_dimension": "nesting-depth", "state_class": "nested", "mutation_relation": "adjacent-class", "independently_verified": true}
       ],
       "record": {
-        "owner": "src/parser.py", "invariant": "reject-duplicate-keys", "included": ["H1", "H2"], "excluded": ["unrelated-type-coercion"],
+        "owner": "src/parser.py", "invariant": "reject-duplicate-keys", "mechanism": "last-write-wins", "included": ["H1", "H2"], "excluded": ["unrelated-type-coercion"],
         "dimensions": ["nesting-depth"], "classes": ["top-level", "nested"], "malformed_states": ["duplicate"], "boundary_states": ["one key", "two same keys"], "adjacent_states": ["nested duplicate"],
         "mutation_operators": ["adjacent-class"], "red_witnesses": ["H1", "H2"],
         "held_out": [{"id": "H3", "mutation": "adjacent-class", "result": "fail"}],
@@ -150,7 +152,7 @@
         {"id": "M2", "owner": "src/matcher.py", "invariant": "path-boundary", "mechanism": "substring-match", "state_dimension": "basename", "state_class": "suffix", "mutation_relation": "boundary-shift", "independently_verified": true}
       ],
       "record": {
-        "owner": "src/matcher.py", "invariant": "path-boundary", "included": ["M1", "M2"], "excluded": ["exact-match"],
+        "owner": "src/matcher.py", "invariant": "path-boundary", "mechanism": "substring-match", "included": ["M1", "M2"], "excluded": ["exact-match"],
         "dimensions": ["basename"], "classes": ["prefix", "suffix", "exact"], "malformed_states": ["empty"], "boundary_states": ["slash before basename"], "adjacent_states": ["prefix", "suffix"],
         "mutation_operators": ["boundary-shift"], "red_witnesses": ["M1", "M2"],
         "outer_qualification": "pass", "review_yield": [{"expected_yield": "none", "residual_risk": "", "decision": "stop"}]
@@ -168,7 +170,7 @@
         {"id": "R2", "owner": "src/router.py", "invariant": "route-by-kind", "mechanism": "fallthrough", "state_dimension": "kind", "state_class": "empty", "mutation_relation": "adjacent-class", "independently_verified": true}
       ],
       "record": {
-        "owner": "src/router.py", "invariant": "route-by-kind", "included": ["R1", "R2"], "excluded": ["known-kind"],
+        "owner": "src/router.py", "invariant": "route-by-kind", "mechanism": "fallthrough", "included": ["R1", "R2"], "excluded": ["known-kind"],
         "dimensions": ["kind"], "classes": ["known", "unknown", "empty"], "malformed_states": ["empty"], "boundary_states": ["first unknown"], "adjacent_states": ["unknown", "empty"],
         "mutation_operators": ["adjacent-class"], "red_witnesses": ["R1", "R2"],
         "held_out": [{"id": "R3", "mutation": "adjacent-class", "result": "pass"}],
@@ -185,7 +187,7 @@
         {"id": "Y2", "owner": "src/normalise.py", "invariant": "stable-path-normalisation", "mechanism": "separator-only-repair", "state_dimension": "trailing-separator", "state_class": "doubled", "mutation_relation": "adjacent-class", "independently_verified": true}
       ],
       "record": {
-        "owner": "src/normalise.py", "invariant": "stable-path-normalisation", "included": ["Y1", "Y2"], "excluded": ["case-folding-distractor"],
+        "owner": "src/normalise.py", "invariant": "stable-path-normalisation", "mechanism": "separator-only-repair", "included": ["Y1", "Y2"], "excluded": ["case-folding-distractor"],
         "dimensions": ["separator", "trailing-separator"], "classes": ["slash", "backslash", "mixed", "bare", "trailing", "doubled"], "malformed_states": ["doubled trailing separator"], "boundary_states": ["root", "one trailing separator"], "adjacent_states": ["mixed separator", "doubled separator"],
         "mutation_operators": ["adjacent-class", "boundary-shift", "polarity-flip"], "red_witnesses": ["Y1", "Y2"],
         "held_out": [{"id": "Y3", "mutation": "adjacent-class", "result": "pass"}, {"id": "Y4", "mutation": "boundary-shift", "result": "pass"}],
@@ -194,6 +196,35 @@
           {"expected_yield": "new-class", "residual_risk": "case-folding interaction was outside the original model", "decision": "run"},
           {"expected_yield": "style", "residual_risk": "", "decision": "stop"}
         ]
+      }
+    },
+    {
+      "id": "R32-C13-duplicate-report-does-not-trigger",
+      "expected_route": "duplicate",
+      "work": {"trivial": false, "local": false, "reversible": true},
+      "model_call": false,
+      "failures": [
+        {"id": "DUP1", "label": "same report", "owner": "src/check.py", "invariant": "reject-empty", "mechanism": "missing-guard", "state_dimension": "presence", "state_class": "empty", "mutation_relation": "delete-required-field", "independently_verified": true},
+        {"id": "DUP2", "label": "same report repeated", "owner": "src/check.py", "invariant": "reject-empty", "mechanism": "missing-guard", "state_dimension": "presence", "state_class": "empty", "mutation_relation": "delete-required-field", "independently_verified": true}
+      ]
+    },
+    {
+      "id": "R32-C14-record-owner-substitution-rejected",
+      "expected_route": "convergence",
+      "expected_record_verdict": "reject",
+      "expected_record_error": "record owner differs from the failure family",
+      "work": {"trivial": false, "local": false, "reversible": true},
+      "model_call": false,
+      "failures": [
+        {"id": "OWN1", "owner": "src/owner.py", "invariant": "preserve-owner", "mechanism": "owner-substitution", "state_dimension": "owner", "state_class": "original", "mutation_relation": "adjacent-class", "independently_verified": true},
+        {"id": "OWN2", "owner": "src/owner.py", "invariant": "preserve-owner", "mechanism": "owner-substitution", "state_dimension": "owner", "state_class": "renamed", "mutation_relation": "rename-label", "independently_verified": true}
+      ],
+      "record": {
+        "owner": "src/different.py", "invariant": "preserve-owner", "mechanism": "owner-substitution", "included": ["OWN1", "OWN2"], "excluded": ["unrelated-owner"],
+        "dimensions": ["owner"], "classes": ["original", "renamed"], "malformed_states": ["missing owner"], "boundary_states": ["one owner"], "adjacent_states": ["renamed owner"],
+        "mutation_operators": ["rename-label"], "red_witnesses": ["OWN1", "OWN2"],
+        "held_out": [{"id": "OWN3", "mutation": "rename-label", "result": "pass"}],
+        "outer_qualification": "pass", "review_yield": [{"expected_yield": "none", "residual_risk": "", "decision": "stop"}]
       }
     }
   ]

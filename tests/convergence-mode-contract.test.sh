@@ -203,6 +203,13 @@ def classify(case):
         return "unresolved-family"
     if case.get("family_disputed"):
         return "unresolved-family"
+    signature_fields = (
+        "owner", "invariant", "mechanism", "state_dimension", "state_class",
+        "mutation_relation",
+    )
+    signatures = [tuple(row[field] for field in signature_fields) for row in verified]
+    if len(signatures) != len(set(signatures)):
+        return "duplicate"
     keys = ("owner", "invariant", "mechanism")
     if any(len({row[field] for row in verified}) != 1 for field in keys):
         return "unrelated"
@@ -224,7 +231,7 @@ def validate_record(case, route):
     if not isinstance(record, dict):
         die(f"{case['id']} convergence route lacks a record")
     for field in (
-        "owner", "invariant", "included", "excluded", "dimensions", "classes",
+        "owner", "invariant", "mechanism", "included", "excluded", "dimensions", "classes",
         "malformed_states", "boundary_states", "adjacent_states", "mutation_operators",
         "red_witnesses", "held_out", "outer_qualification", "review_yield",
     ):
@@ -240,6 +247,8 @@ def validate_record(case, route):
     for field in ("owner", "invariant", "mechanism"):
         if len({row[field] for row in verified}) != 1:
             die(f"{case['id']} overbroad record joins distinct {field} values")
+        if record[field] != verified[0][field]:
+            die(f"{case['id']} record {field} differs from the failure family")
     if any(cell.get("result") != "pass" for cell in record["held_out"]):
         die(f"{case['id']} held-out mutation still fails")
     if record["outer_qualification"] != "pass":
@@ -273,6 +282,8 @@ required_case_ids = {
     "R32-C10-record-without-held-out-discriminator",
     "R32-C11-unpriced-repeat-after-pass",
     "R32-C12-priced-review-and-evidence-stop",
+    "R32-C13-duplicate-report-does-not-trigger",
+    "R32-C14-record-owner-substitution-rejected",
 }
 if set(ids) != required_case_ids:
     die("R32 deterministic case population is incomplete or substituted")
@@ -303,7 +314,7 @@ for case in rows:
             die(f"{case['id']} invalid record was accepted")
         record_verdicts["accept"] += 1
 
-required_routes = {"convergence", "unrelated", "unresolved-family", "cheap-path"}
+required_routes = {"convergence", "unrelated", "unresolved-family", "duplicate", "cheap-path"}
 if not required_routes.issubset(routes):
     die(f"case bank lacks routes: {sorted(required_routes - set(routes))}")
 if not {"accept", "reject"}.issubset(record_verdicts):
