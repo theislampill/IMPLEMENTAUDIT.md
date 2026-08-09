@@ -1,213 +1,138 @@
 {
-  "schema_version": 1,
-  "cases": [
-    {
-      "id": "ordinary-non-package-work",
-      "package_pressure": false,
-      "change": {"shipped_content": false, "owner_location": false, "consumer_route": false, "non_semantic_proof": "none"},
-      "package": {"extracted_members_equal": true, "fits_policy_after": true, "unresolved_fit_conflict": false},
-      "behaviours": [],
-      "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true},
-      "progressive_split": {"applies": false, "owner_shipped": false, "same_run_dispatch": false, "public_projection_required": false, "public_projection_preserved": false},
-      "expected": {"triggered": false, "disposition": "NOT_TRIGGERED", "reason_code": "ordinary-non-package-work"}
-    },
-    {
-      "id": "archive-algorithm-extracted-equal",
-      "package_pressure": true,
-      "change": {"shipped_content": false, "owner_location": false, "consumer_route": false, "non_semantic_proof": "extracted-equal"},
-      "package": {"extracted_members_equal": true, "fits_policy_after": true, "unresolved_fit_conflict": false},
-      "behaviours": [],
-      "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true},
-      "progressive_split": {"applies": false, "owner_shipped": false, "same_run_dispatch": false, "public_projection_required": false, "public_projection_preserved": false},
-      "expected": {"triggered": false, "disposition": "PASS_MECHANICAL", "reason_code": "extracted-members-equal"}
-    },
-    {
-      "id": "harmless-whitespace-deduplication",
-      "package_pressure": true,
-      "change": {"shipped_content": true, "owner_location": false, "consumer_route": false, "non_semantic_proof": "whitespace-dedup"},
-      "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false},
-      "behaviours": [
-        {"predicate_id": "owner-backed-boundary", "owner": "references/package-owner.md", "owner_shipped": true, "after_satisfied": true, "literal": {"class": "semantic", "changed": true, "reauthorised": false}, "consumers": [{"kind": "runtime", "required": true, "reachable": true, "held_out_passes": true}]}
-      ],
-      "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true},
-      "progressive_split": {"applies": false, "owner_shipped": false, "same_run_dispatch": false, "public_projection_required": false, "public_projection_preserved": false},
-      "expected": {"triggered": true, "disposition": "PASS_EQUIVALENT", "reason_code": "predicates-and-consumers-preserved"}
-    },
-    {
-      "id": "equivalent-semantic-refactor",
-      "package_pressure": true,
-      "change": {"shipped_content": true, "owner_location": false, "consumer_route": false, "non_semantic_proof": "none"},
-      "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false},
-      "behaviours": [
-        {"predicate_id": "post-state-evidence", "owner": "references/lean-operating-discipline.md", "owner_shipped": true, "after_satisfied": true, "literal": {"class": "semantic", "changed": true, "reauthorised": false}, "consumers": [{"kind": "checker", "required": true, "reachable": true, "held_out_passes": true}, {"kind": "installed", "required": true, "reachable": true, "held_out_passes": true}]}
-      ],
-      "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true},
-      "progressive_split": {"applies": false, "owner_shipped": false, "same_run_dispatch": false, "public_projection_required": false, "public_projection_preserved": false},
-      "expected": {"triggered": true, "disposition": "PASS_EQUIVALENT", "reason_code": "predicates-and-consumers-preserved"}
-    },
-    {
-      "id": "under-budget-semantic-deletion",
-      "package_pressure": true,
-      "change": {"shipped_content": true, "owner_location": false, "consumer_route": false, "non_semantic_proof": "none"},
-      "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false},
-      "behaviours": [
-        {"predicate_id": "capability-ledger-narrowness", "owner": "references/lean-operating-discipline.md", "owner_shipped": true, "after_satisfied": false, "literal": {"class": "semantic", "changed": true, "reauthorised": false}, "consumers": [{"kind": "checker", "required": true, "reachable": true, "held_out_passes": false}]}
-      ],
-      "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": false},
-      "progressive_split": {"applies": false, "owner_shipped": false, "same_run_dispatch": false, "public_projection_required": false, "public_projection_preserved": false},
-      "expected": {"triggered": true, "disposition": "FAIL", "reason_code": "governed-predicate-lost"}
-    },
-    {
-      "id": "moved-to-unshipped-owner",
-      "package_pressure": true,
-      "change": {"shipped_content": true, "owner_location": true, "consumer_route": true, "non_semantic_proof": "none"},
-      "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false},
-      "behaviours": [
-        {"predicate_id": "progressive-package-boundary", "owner": "references/deferred-owner.md", "owner_shipped": false, "after_satisfied": true, "literal": {"class": "semantic", "changed": false, "reauthorised": false}, "consumers": [{"kind": "runtime", "required": true, "reachable": false, "held_out_passes": false}]}
-      ],
-      "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true},
-      "progressive_split": {"applies": true, "owner_shipped": false, "same_run_dispatch": false, "public_projection_required": false, "public_projection_preserved": false},
-      "expected": {"triggered": true, "disposition": "FAIL", "reason_code": "required-owner-unshipped"}
-    },
-    {
-      "id": "moved-to-unreachable-owner",
-      "package_pressure": true,
-      "change": {"shipped_content": true, "owner_location": true, "consumer_route": true, "non_semantic_proof": "none"},
-      "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false},
-      "behaviours": [
-        {"predicate_id": "progressive-load-route", "owner": "references/shipped-owner.md", "owner_shipped": true, "after_satisfied": true, "literal": {"class": "semantic", "changed": false, "reauthorised": false}, "consumers": [{"kind": "runtime", "required": true, "reachable": false, "held_out_passes": false}]}
-      ],
-      "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true},
-      "progressive_split": {"applies": true, "owner_shipped": true, "same_run_dispatch": false, "public_projection_required": false, "public_projection_preserved": false},
-      "expected": {"triggered": true, "disposition": "FAIL", "reason_code": "required-consumer-unreachable"}
-    },
-    {
-      "id": "retained-literal-broken-consumer",
-      "package_pressure": true,
-      "change": {"shipped_content": true, "owner_location": false, "consumer_route": true, "non_semantic_proof": "none"},
-      "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false},
-      "behaviours": [
-        {"predicate_id": "helper-dispatch", "owner": "references/repo-state-comparison.md", "owner_shipped": true, "after_satisfied": true, "literal": {"class": "exact", "changed": false, "reauthorised": false}, "consumers": [{"kind": "same-run-dispatch", "required": true, "reachable": false, "held_out_passes": false}]}
-      ],
-      "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": false},
-      "progressive_split": {"applies": false, "owner_shipped": false, "same_run_dispatch": false, "public_projection_required": false, "public_projection_preserved": false},
-      "expected": {"triggered": true, "disposition": "FAIL", "reason_code": "required-consumer-unreachable"}
-    },
-    {
-      "id": "safe-progressive-split",
-      "package_pressure": true,
-      "change": {"shipped_content": true, "owner_location": true, "consumer_route": true, "non_semantic_proof": "none"},
-      "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false},
-      "behaviours": [
-        {"predicate_id": "on-trigger-semantic-owner", "owner": "references/semantic-preservation.md", "owner_shipped": true, "after_satisfied": true, "literal": {"class": "semantic", "changed": true, "reauthorised": false}, "consumers": [{"kind": "runtime", "required": true, "reachable": true, "held_out_passes": true}, {"kind": "public", "required": true, "reachable": true, "held_out_passes": true}]}
-      ],
-      "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true},
-      "progressive_split": {"applies": true, "owner_shipped": true, "same_run_dispatch": true, "public_projection_required": true, "public_projection_preserved": true},
-      "expected": {"triggered": true, "disposition": "PASS_PROGRESSIVE_SPLIT", "reason_code": "progressive-consumer-chain-preserved"}
-    },
-    {
-      "id": "checker-weakened-after-failure",
-      "package_pressure": true,
-      "change": {"shipped_content": false, "owner_location": false, "consumer_route": false, "non_semantic_proof": "none"},
-      "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false},
-      "behaviours": [
-        {"predicate_id": "package-semantic-boundary", "owner": "references/package-owner.md", "owner_shipped": true, "after_satisfied": false, "literal": {"class": "semantic", "changed": false, "reauthorised": false}, "consumers": [{"kind": "checker", "required": true, "reachable": true, "held_out_passes": false}]}
-      ],
-      "evaluator": {"changed_after_failure": true, "independent_justification": false, "underlying_property_passes": false},
-      "progressive_split": {"applies": false, "owner_shipped": false, "same_run_dispatch": false, "public_projection_required": false, "public_projection_preserved": false},
-      "expected": {"triggered": true, "disposition": "FAIL", "reason_code": "evaluator-change-unjustified"}
-    },
-    {
-      "id": "checker-repair-does-not-fix-held-out-property",
-      "package_pressure": true,
-      "change": {"shipped_content": true, "owner_location": false, "consumer_route": false, "non_semantic_proof": "none"},
-      "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false},
-      "behaviours": [
-        {"predicate_id": "held-out-runtime-boundary", "owner": "references/package-owner.md", "owner_shipped": true, "after_satisfied": true, "literal": {"class": "semantic", "changed": true, "reauthorised": false}, "consumers": [{"kind": "known-checker", "required": true, "reachable": true, "held_out_passes": true}, {"kind": "held-out-runtime", "required": true, "reachable": true, "held_out_passes": false}]}
-      ],
-      "evaluator": {"changed_after_failure": true, "independent_justification": true, "underlying_property_passes": false},
-      "progressive_split": {"applies": false, "owner_shipped": false, "same_run_dispatch": false, "public_projection_required": false, "public_projection_preserved": false},
-      "expected": {"triggered": true, "disposition": "FAIL", "reason_code": "underlying-property-still-fails"}
-    },
-    {
-      "id": "exact-literal-owner-changed",
-      "package_pressure": true,
-      "change": {"shipped_content": true, "owner_location": false, "consumer_route": false, "non_semantic_proof": "none"},
-      "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false},
-      "behaviours": [
-        {"predicate_id": "canonical-event-token", "owner": "schemas/event.json", "owner_shipped": true, "after_satisfied": true, "literal": {"class": "exact", "changed": true, "reauthorised": false}, "consumers": [{"kind": "parser", "required": true, "reachable": true, "held_out_passes": true}]}
-      ],
-      "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true},
-      "progressive_split": {"applies": false, "owner_shipped": false, "same_run_dispatch": false, "public_projection_required": false, "public_projection_preserved": false},
-      "expected": {"triggered": true, "disposition": "FAIL", "reason_code": "exact-literal-owner-changed"}
-    },
-    {
-      "id": "novel-consumer-probe-fails",
-      "package_pressure": true,
-      "change": {"shipped_content": true, "owner_location": false, "consumer_route": false, "non_semantic_proof": "none"},
-      "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false},
-      "behaviours": [
-        {"predicate_id": "installed-and-generated-parity", "owner": "references/package-owner.md", "owner_shipped": true, "after_satisfied": true, "literal": {"class": "semantic", "changed": true, "reauthorised": false}, "consumers": [{"kind": "known-checker", "required": true, "reachable": true, "held_out_passes": true}, {"kind": "novel-generated-consumer", "required": true, "reachable": true, "held_out_passes": false}]}
-      ],
-      "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true},
-      "progressive_split": {"applies": false, "owner_shipped": false, "same_run_dispatch": false, "public_projection_required": false, "public_projection_preserved": false},
-      "expected": {"triggered": true, "disposition": "FAIL", "reason_code": "held-out-consumer-fails"}
-    },
-    {
-      "id": "irreducible-headroom-conflict",
-      "package_pressure": true,
-      "change": {"shipped_content": true, "owner_location": false, "consumer_route": false, "non_semantic_proof": "none"},
-      "package": {"extracted_members_equal": false, "fits_policy_after": false, "unresolved_fit_conflict": true},
-      "behaviours": [
-        {"predicate_id": "complete-required-semantics", "owner": "references/package-owner.md", "owner_shipped": true, "after_satisfied": true, "literal": {"class": "semantic", "changed": false, "reauthorised": false}, "consumers": [{"kind": "runtime", "required": true, "reachable": true, "held_out_passes": true}]}
-      ],
-      "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true},
-      "progressive_split": {"applies": false, "owner_shipped": false, "same_run_dispatch": false, "public_projection_required": false, "public_projection_preserved": false},
-      "expected": {"triggered": true, "disposition": "OWNER_DECISION", "reason_code": "irreducible-package-conflict"}
-    },
-    {
-      "id": "irreducible-conflict-with-progressive-shape",
-      "package_pressure": true,
-      "change": {"shipped_content": true, "owner_location": true, "consumer_route": true, "non_semantic_proof": "none"},
-      "package": {"extracted_members_equal": false, "fits_policy_after": false, "unresolved_fit_conflict": true},
-      "behaviours": [
-        {"predicate_id": "complete-progressive-semantics", "owner": "references/package-owner.md", "owner_shipped": true, "after_satisfied": true, "literal": {"class": "semantic", "changed": true, "reauthorised": false}, "consumers": [{"kind": "runtime", "required": true, "reachable": true, "held_out_passes": true}]}
-      ],
-      "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true},
-      "progressive_split": {"applies": true, "owner_shipped": true, "same_run_dispatch": true, "public_projection_required": false, "public_projection_preserved": false},
-      "expected": {"triggered": true, "disposition": "OWNER_DECISION", "reason_code": "irreducible-package-conflict"}
-    },
-    {
-      "id": "irreducible-conflict-with-extracted-equality",
-      "package_pressure": true,
-      "change": {"shipped_content": false, "owner_location": false, "consumer_route": false, "non_semantic_proof": "extracted-equal"},
-      "package": {"extracted_members_equal": true, "fits_policy_after": false, "unresolved_fit_conflict": true},
-      "behaviours": [],
-      "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true},
-      "progressive_split": {"applies": false, "owner_shipped": false, "same_run_dispatch": false, "public_projection_required": false, "public_projection_preserved": false},
-      "expected": {"triggered": true, "disposition": "OWNER_DECISION", "reason_code": "irreducible-package-conflict"}
-    },
-    {
-      "id": "semantic-change-with-empty-census",
-      "package_pressure": true,
-      "change": {"shipped_content": true, "owner_location": false, "consumer_route": false, "non_semantic_proof": "none"},
-      "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false},
-      "behaviours": [],
-      "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true},
-      "progressive_split": {"applies": false, "owner_shipped": false, "same_run_dispatch": false, "public_projection_required": false, "public_projection_preserved": false},
-      "expected": {"triggered": true, "disposition": "FAIL", "reason_code": "protected-behaviour-census-missing"}
-    },
-    {
-      "id": "semantic-change-with-no-required-consumer",
-      "package_pressure": true,
-      "change": {"shipped_content": true, "owner_location": false, "consumer_route": false, "non_semantic_proof": "none"},
-      "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false},
-      "behaviours": [
-        {"predicate_id": "orphaned-semantic-predicate", "owner": "references/package-owner.md", "owner_shipped": true, "after_satisfied": true, "literal": {"class": "semantic", "changed": true, "reauthorised": false}, "consumers": [{"kind": "advisory-note", "required": false, "reachable": true, "held_out_passes": true}]}
-      ],
-      "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true},
-      "progressive_split": {"applies": false, "owner_shipped": false, "same_run_dispatch": false, "public_projection_required": false, "public_projection_preserved": false},
-      "expected": {"triggered": true, "disposition": "FAIL", "reason_code": "required-consumer-census-missing"}
+  "schema_version": 2,
+  "package_evidence": {
+    "builder_path": "scripts/build-release-asset.sh",
+    "builder_sha256": "72870fe420fe895a5f35e1b92b73b6dfb11d679c945749f86b1d928d18ecc878",
+    "repo_only_instrumentation": [
+      "fixtures/semantic-preservation/cases.json",
+      "fixtures/semantic-preservation/evaluate.py",
+      "fixtures/semantic-preservation/test-cases.sh"
+    ]
+  },
+  "exact_literal_evidence": {
+    "canonical-event-token": {
+      "value": "IMPLEMENTAUDIT_RUN_COMPLETE",
+      "owner": {
+        "path": "skills/implementaudit/SKILL.md",
+        "revision": "WORKTREE",
+        "sha256": "292b4a0d074f7f9e37cf8f1ccfa3f275ba64d64ee5dee780f41065c017d91e2d",
+        "anchor": "IMPLEMENTAUDIT_RUN_COMPLETE"
+      },
+      "consumer": {
+        "path": "scripts/check-marker-order.sh",
+        "revision": "WORKTREE",
+        "sha256": "9764979aa3e1324e217828684e45ef67f40f14427537502a62ce3d66b6872b31",
+        "anchor": "IMPLEMENTAUDIT_RUN_COMPLETE"
+      }
     }
+  },
+  "evidence_profiles": {
+    "lean-current": {
+      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "1e91fa3df34a22a22181092d6e31c67bf012e3be39253219da94340f0b8450ef", "anchor": "Package semantic preservation"},
+      "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "1e91fa3df34a22a22181092d6e31c67bf012e3be39253219da94340f0b8450ef", "anchor": "Package semantic preservation"},
+      "consumers": [
+        {"kind": "runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "292b4a0d074f7f9e37cf8f1ccfa3f275ba64d64ee5dee780f41065c017d91e2d", "route_anchor": "references/lean-operating-discipline.md", "held_out": {"path": "scripts/check-lean-discipline.sh", "revision": "WORKTREE", "sha256": "869bb31cb92fb237570c059a9e2f46133cb8cedd1a35f7ecd22ced0f48e490ae", "anchor": "Package semantic preservation"}}
+      ]
+    },
+    "lean-historical-equivalent": {
+      "before": {"path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "292b4a0d074f7f9e37cf8f1ccfa3f275ba64d64ee5dee780f41065c017d91e2d", "anchor": "references/lean-operating-discipline.md"},
+      "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "1e91fa3df34a22a22181092d6e31c67bf012e3be39253219da94340f0b8450ef", "anchor": "Package semantic preservation"},
+      "consumers": [
+        {"kind": "runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "292b4a0d074f7f9e37cf8f1ccfa3f275ba64d64ee5dee780f41065c017d91e2d", "route_anchor": "references/lean-operating-discipline.md"}
+      ]
+    },
+    "lean-lost": {
+      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "1e91fa3df34a22a22181092d6e31c67bf012e3be39253219da94340f0b8450ef", "anchor": "Package semantic preservation"},
+      "after": {"path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "292b4a0d074f7f9e37cf8f1ccfa3f275ba64d64ee5dee780f41065c017d91e2d", "anchor": "Package semantic preservation"},
+      "consumers": [
+        {"kind": "checker", "required": true, "path": "scripts/check-lean-discipline.sh", "revision": "WORKTREE", "sha256": "869bb31cb92fb237570c059a9e2f46133cb8cedd1a35f7ecd22ced0f48e490ae", "route_anchor": "Package semantic preservation", "held_out": {"path": "scripts/check-lean-discipline.sh", "revision": "WORKTREE", "sha256": "869bb31cb92fb237570c059a9e2f46133cb8cedd1a35f7ecd22ced0f48e490ae", "anchor": "Package semantic preservation"}}
+      ]
+    },
+    "unshipped-owner": {
+      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "1e91fa3df34a22a22181092d6e31c67bf012e3be39253219da94340f0b8450ef", "anchor": "Package semantic preservation"},
+      "after": {"path": "CONTRIBUTING.md", "revision": "WORKTREE", "sha256": "4a600bba975bbd4f5e568be8871ed908deb0032bda51d1ee5c69af702fdc9dfe", "anchor": "# Contributing"},
+      "consumers": [
+        {"kind": "runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "292b4a0d074f7f9e37cf8f1ccfa3f275ba64d64ee5dee780f41065c017d91e2d", "route_anchor": "references/lean-operating-discipline.md"}
+      ]
+    },
+    "nonexistent-owner": {
+      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "1e91fa3df34a22a22181092d6e31c67bf012e3be39253219da94340f0b8450ef", "anchor": "Package semantic preservation"},
+      "after": {"path": "references/definitely-not-shipped.md", "revision": "WORKTREE", "sha256": null, "anchor": null},
+      "consumers": [
+        {"kind": "runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "292b4a0d074f7f9e37cf8f1ccfa3f275ba64d64ee5dee780f41065c017d91e2d", "route_anchor": "references/lean-operating-discipline.md"}
+      ]
+    },
+    "broken-consumer": {
+      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "1e91fa3df34a22a22181092d6e31c67bf012e3be39253219da94340f0b8450ef", "anchor": "Package semantic preservation"},
+      "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "1e91fa3df34a22a22181092d6e31c67bf012e3be39253219da94340f0b8450ef", "anchor": "Package semantic preservation"},
+      "consumers": [
+        {"kind": "runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "292b4a0d074f7f9e37cf8f1ccfa3f275ba64d64ee5dee780f41065c017d91e2d", "route_anchor": "references/definitely-not-shipped.md"}
+      ]
+    },
+    "invented-consumer": {
+      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "1e91fa3df34a22a22181092d6e31c67bf012e3be39253219da94340f0b8450ef", "anchor": "Package semantic preservation"},
+      "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "1e91fa3df34a22a22181092d6e31c67bf012e3be39253219da94340f0b8450ef", "anchor": "Package semantic preservation"},
+      "consumers": [
+        {"kind": "runtime", "required": true, "path": "scripts/invented-consumer.sh", "revision": "WORKTREE", "sha256": null, "route_anchor": null}
+      ]
+    },
+    "safe-progressive": {
+      "before": {"path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "292b4a0d074f7f9e37cf8f1ccfa3f275ba64d64ee5dee780f41065c017d91e2d", "anchor": "references/lean-operating-discipline.md"},
+      "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "1e91fa3df34a22a22181092d6e31c67bf012e3be39253219da94340f0b8450ef", "anchor": "Package semantic preservation"},
+      "consumers": [
+        {"kind": "runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "292b4a0d074f7f9e37cf8f1ccfa3f275ba64d64ee5dee780f41065c017d91e2d", "route_anchor": "references/lean-operating-discipline.md"}
+      ]
+    },
+    "exact-marker-changed": {
+      "before": {"path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "292b4a0d074f7f9e37cf8f1ccfa3f275ba64d64ee5dee780f41065c017d91e2d", "anchor": "IMPLEMENTAUDIT_RUN_COMPLETE"},
+      "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "1e91fa3df34a22a22181092d6e31c67bf012e3be39253219da94340f0b8450ef", "anchor": "Package semantic preservation"},
+      "consumers": [
+        {"kind": "parser", "required": true, "path": "scripts/check-marker-order.sh", "revision": "WORKTREE", "sha256": "9764979aa3e1324e217828684e45ef67f40f14427537502a62ce3d66b6872b31", "route_anchor": "IMPLEMENTAUDIT_RUN_COMPLETE"}
+      ]
+    },
+    "exact-marker-broken-consumer": {
+      "before": {"path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "292b4a0d074f7f9e37cf8f1ccfa3f275ba64d64ee5dee780f41065c017d91e2d", "anchor": "IMPLEMENTAUDIT_RUN_COMPLETE"},
+      "after": {"path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "292b4a0d074f7f9e37cf8f1ccfa3f275ba64d64ee5dee780f41065c017d91e2d", "anchor": "IMPLEMENTAUDIT_RUN_COMPLETE"},
+      "consumers": [
+        {"kind": "parser", "required": true, "path": "scripts/check-marker-order.sh", "revision": "WORKTREE", "sha256": "9764979aa3e1324e217828684e45ef67f40f14427537502a62ce3d66b6872b31", "route_anchor": "DEFINITELY_NOT_A_MARKER"}
+      ]
+    },
+    "held-out-fails": {
+      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "1e91fa3df34a22a22181092d6e31c67bf012e3be39253219da94340f0b8450ef", "anchor": "Package semantic preservation"},
+      "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "1e91fa3df34a22a22181092d6e31c67bf012e3be39253219da94340f0b8450ef", "anchor": "Package semantic preservation"},
+      "consumers": [
+        {"kind": "held-out-runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "292b4a0d074f7f9e37cf8f1ccfa3f275ba64d64ee5dee780f41065c017d91e2d", "route_anchor": "references/lean-operating-discipline.md", "held_out": {"path": "scripts/check-lean-discipline.sh", "revision": "WORKTREE", "sha256": "869bb31cb92fb237570c059a9e2f46133cb8cedd1a35f7ecd22ced0f48e490ae", "anchor": "DEFINITELY_NOT_A_HELD_OUT_ASSERTION"}}
+      ]
+    },
+    "optional-only": {
+      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "1e91fa3df34a22a22181092d6e31c67bf012e3be39253219da94340f0b8450ef", "anchor": "Package semantic preservation"},
+      "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "1e91fa3df34a22a22181092d6e31c67bf012e3be39253219da94340f0b8450ef", "anchor": "Package semantic preservation"},
+      "consumers": [
+        {"kind": "advisory-note", "required": false, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "292b4a0d074f7f9e37cf8f1ccfa3f275ba64d64ee5dee780f41065c017d91e2d", "route_anchor": "references/lean-operating-discipline.md"}
+      ]
+    }
+  },
+  "cases": [
+    {"id": "ordinary-non-package-work", "package_pressure": false, "change": {"shipped_content": false, "owner_location": false, "consumer_route": false, "non_semantic_proof": "none"}, "package": {"extracted_members_equal": true, "fits_policy_after": true, "unresolved_fit_conflict": false}, "behaviours": [], "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true}, "progressive_split": {"applies": false}, "expected": {"triggered": false, "disposition": "NOT_TRIGGERED", "reason_code": "ordinary-non-package-work"}},
+    {"id": "archive-algorithm-extracted-equal", "package_pressure": true, "change": {"shipped_content": false, "owner_location": false, "consumer_route": false, "non_semantic_proof": "extracted-equal"}, "package": {"extracted_members_equal": true, "fits_policy_after": true, "unresolved_fit_conflict": false}, "behaviours": [], "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true}, "progressive_split": {"applies": false}, "expected": {"triggered": false, "disposition": "PASS_MECHANICAL", "reason_code": "extracted-members-equal"}},
+    {"id": "harmless-whitespace-deduplication", "package_pressure": true, "change": {"shipped_content": true, "owner_location": false, "consumer_route": false, "non_semantic_proof": "whitespace-dedup"}, "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false}, "behaviours": [{"predicate_id": "owner-backed-boundary", "evidence_id": "lean-current", "literal": {"claimed_class": "semantic", "changed": true, "reauthorisation_evidence_id": null}}], "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true}, "progressive_split": {"applies": false}, "expected": {"triggered": true, "disposition": "PASS_EQUIVALENT", "reason_code": "predicates-and-consumers-preserved"}},
+    {"id": "equivalent-semantic-refactor", "package_pressure": true, "change": {"shipped_content": true, "owner_location": false, "consumer_route": false, "non_semantic_proof": "none"}, "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false}, "behaviours": [{"predicate_id": "post-state-evidence", "evidence_id": "lean-historical-equivalent", "literal": {"claimed_class": "semantic", "changed": true, "reauthorisation_evidence_id": null}}], "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true}, "progressive_split": {"applies": false}, "expected": {"triggered": true, "disposition": "PASS_EQUIVALENT", "reason_code": "predicates-and-consumers-preserved"}},
+    {"id": "under-budget-semantic-deletion", "package_pressure": true, "change": {"shipped_content": true, "owner_location": false, "consumer_route": false, "non_semantic_proof": "none"}, "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false}, "behaviours": [{"predicate_id": "package-semantic-boundary", "evidence_id": "lean-lost", "literal": {"claimed_class": "semantic", "changed": true, "reauthorisation_evidence_id": null}}], "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": false}, "progressive_split": {"applies": false}, "expected": {"triggered": true, "disposition": "FAIL", "reason_code": "governed-predicate-lost"}},
+    {"id": "moved-to-unshipped-owner", "package_pressure": true, "change": {"shipped_content": true, "owner_location": true, "consumer_route": true, "non_semantic_proof": "none"}, "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false}, "behaviours": [{"predicate_id": "progressive-package-boundary", "evidence_id": "unshipped-owner", "literal": {"claimed_class": "semantic", "changed": false, "reauthorisation_evidence_id": null}}], "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true}, "progressive_split": {"applies": true}, "expected": {"triggered": true, "disposition": "FAIL", "reason_code": "required-owner-unshipped"}},
+    {"id": "nonexistent-progressive-owner", "package_pressure": true, "change": {"shipped_content": true, "owner_location": true, "consumer_route": true, "non_semantic_proof": "none"}, "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false}, "behaviours": [{"predicate_id": "nonexistent-progressive-boundary", "evidence_id": "nonexistent-owner", "literal": {"claimed_class": "semantic", "changed": false, "reauthorisation_evidence_id": null}}], "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true}, "progressive_split": {"applies": true}, "expected": {"triggered": true, "disposition": "FAIL", "reason_code": "required-owner-unshipped"}},
+    {"id": "moved-to-unreachable-owner", "package_pressure": true, "change": {"shipped_content": true, "owner_location": true, "consumer_route": true, "non_semantic_proof": "none"}, "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false}, "behaviours": [{"predicate_id": "progressive-load-route", "evidence_id": "broken-consumer", "literal": {"claimed_class": "semantic", "changed": false, "reauthorisation_evidence_id": null}}], "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true}, "progressive_split": {"applies": true}, "expected": {"triggered": true, "disposition": "FAIL", "reason_code": "required-consumer-unreachable"}},
+    {"id": "invented-consumer", "package_pressure": true, "change": {"shipped_content": true, "owner_location": true, "consumer_route": true, "non_semantic_proof": "none"}, "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false}, "behaviours": [{"predicate_id": "invented-consumer-route", "evidence_id": "invented-consumer", "literal": {"claimed_class": "semantic", "changed": false, "reauthorisation_evidence_id": null}}], "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true}, "progressive_split": {"applies": true}, "expected": {"triggered": true, "disposition": "FAIL", "reason_code": "required-consumer-unreachable"}},
+    {"id": "retained-literal-broken-consumer", "package_pressure": true, "change": {"shipped_content": true, "owner_location": false, "consumer_route": true, "non_semantic_proof": "none"}, "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false}, "behaviours": [{"predicate_id": "canonical-event-token", "evidence_id": "exact-marker-broken-consumer", "literal": {"claimed_class": "exact", "changed": false, "reauthorisation_evidence_id": null}}], "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": false}, "progressive_split": {"applies": false}, "expected": {"triggered": true, "disposition": "FAIL", "reason_code": "required-consumer-unreachable"}},
+    {"id": "safe-progressive-split", "package_pressure": true, "change": {"shipped_content": true, "owner_location": true, "consumer_route": true, "non_semantic_proof": "none"}, "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false}, "behaviours": [{"predicate_id": "on-trigger-semantic-owner", "evidence_id": "safe-progressive", "literal": {"claimed_class": "semantic", "changed": true, "reauthorisation_evidence_id": null}}], "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true}, "progressive_split": {"applies": true}, "expected": {"triggered": true, "disposition": "PASS_PROGRESSIVE_SPLIT", "reason_code": "progressive-consumer-chain-preserved"}},
+    {"id": "checker-weakened-after-failure", "package_pressure": true, "change": {"shipped_content": false, "owner_location": false, "consumer_route": false, "non_semantic_proof": "none"}, "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false}, "behaviours": [{"predicate_id": "package-semantic-boundary", "evidence_id": "lean-lost", "literal": {"claimed_class": "semantic", "changed": false, "reauthorisation_evidence_id": null}}], "evaluator": {"changed_after_failure": true, "independent_justification": false, "underlying_property_passes": false}, "progressive_split": {"applies": false}, "expected": {"triggered": true, "disposition": "FAIL", "reason_code": "evaluator-change-unjustified"}},
+    {"id": "checker-repair-does-not-fix-held-out-property", "package_pressure": true, "change": {"shipped_content": true, "owner_location": false, "consumer_route": false, "non_semantic_proof": "none"}, "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false}, "behaviours": [{"predicate_id": "held-out-runtime-boundary", "evidence_id": "held-out-fails", "literal": {"claimed_class": "semantic", "changed": true, "reauthorisation_evidence_id": null}}], "evaluator": {"changed_after_failure": true, "independent_justification": true, "underlying_property_passes": false}, "progressive_split": {"applies": false}, "expected": {"triggered": true, "disposition": "FAIL", "reason_code": "underlying-property-still-fails"}},
+    {"id": "exact-literal-owner-changed", "package_pressure": true, "change": {"shipped_content": true, "owner_location": false, "consumer_route": false, "non_semantic_proof": "none"}, "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false}, "behaviours": [{"predicate_id": "canonical-event-token", "evidence_id": "exact-marker-changed", "literal": {"claimed_class": "exact", "changed": true, "reauthorisation_evidence_id": null}}], "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true}, "progressive_split": {"applies": false}, "expected": {"triggered": true, "disposition": "FAIL", "reason_code": "exact-literal-owner-changed"}},
+    {"id": "exact-owner-relabelled-semantic", "package_pressure": true, "change": {"shipped_content": true, "owner_location": false, "consumer_route": false, "non_semantic_proof": "none"}, "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false}, "behaviours": [{"predicate_id": "canonical-event-token", "evidence_id": "exact-marker-changed", "literal": {"claimed_class": "semantic", "changed": true, "reauthorisation_evidence_id": null}}], "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true}, "progressive_split": {"applies": false}, "expected": {"triggered": true, "disposition": "FAIL", "reason_code": "exact-literal-owner-changed"}},
+    {"id": "novel-consumer-probe-fails", "package_pressure": true, "change": {"shipped_content": true, "owner_location": false, "consumer_route": false, "non_semantic_proof": "none"}, "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false}, "behaviours": [{"predicate_id": "installed-and-generated-parity", "evidence_id": "held-out-fails", "literal": {"claimed_class": "semantic", "changed": true, "reauthorisation_evidence_id": null}}], "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true}, "progressive_split": {"applies": false}, "expected": {"triggered": true, "disposition": "FAIL", "reason_code": "held-out-consumer-fails"}},
+    {"id": "irreducible-headroom-conflict", "package_pressure": true, "change": {"shipped_content": true, "owner_location": false, "consumer_route": false, "non_semantic_proof": "none"}, "package": {"extracted_members_equal": false, "fits_policy_after": false, "unresolved_fit_conflict": true}, "behaviours": [{"predicate_id": "complete-required-semantics", "evidence_id": "lean-current", "literal": {"claimed_class": "semantic", "changed": false, "reauthorisation_evidence_id": null}}], "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true}, "progressive_split": {"applies": false}, "expected": {"triggered": true, "disposition": "OWNER_DECISION", "reason_code": "irreducible-package-conflict"}},
+    {"id": "irreducible-conflict-with-progressive-shape", "package_pressure": true, "change": {"shipped_content": true, "owner_location": true, "consumer_route": true, "non_semantic_proof": "none"}, "package": {"extracted_members_equal": false, "fits_policy_after": false, "unresolved_fit_conflict": true}, "behaviours": [{"predicate_id": "complete-progressive-semantics", "evidence_id": "safe-progressive", "literal": {"claimed_class": "semantic", "changed": true, "reauthorisation_evidence_id": null}}], "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true}, "progressive_split": {"applies": true}, "expected": {"triggered": true, "disposition": "OWNER_DECISION", "reason_code": "irreducible-package-conflict"}},
+    {"id": "irreducible-conflict-with-extracted-equality", "package_pressure": true, "change": {"shipped_content": false, "owner_location": false, "consumer_route": false, "non_semantic_proof": "extracted-equal"}, "package": {"extracted_members_equal": true, "fits_policy_after": false, "unresolved_fit_conflict": true}, "behaviours": [], "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true}, "progressive_split": {"applies": false}, "expected": {"triggered": true, "disposition": "OWNER_DECISION", "reason_code": "irreducible-package-conflict"}},
+    {"id": "semantic-change-with-empty-census", "package_pressure": true, "change": {"shipped_content": true, "owner_location": false, "consumer_route": false, "non_semantic_proof": "none"}, "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false}, "behaviours": [], "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true}, "progressive_split": {"applies": false}, "expected": {"triggered": true, "disposition": "FAIL", "reason_code": "protected-behaviour-census-missing"}},
+    {"id": "semantic-change-with-no-required-consumer", "package_pressure": true, "change": {"shipped_content": true, "owner_location": false, "consumer_route": false, "non_semantic_proof": "none"}, "package": {"extracted_members_equal": false, "fits_policy_after": true, "unresolved_fit_conflict": false}, "behaviours": [{"predicate_id": "orphaned-semantic-predicate", "evidence_id": "optional-only", "literal": {"claimed_class": "semantic", "changed": true, "reauthorisation_evidence_id": null}}], "evaluator": {"changed_after_failure": false, "independent_justification": false, "underlying_property_passes": true}, "progressive_split": {"applies": false}, "expected": {"triggered": true, "disposition": "FAIL", "reason_code": "required-consumer-census-missing"}}
   ]
 }
