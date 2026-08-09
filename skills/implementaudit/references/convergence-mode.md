@@ -2,9 +2,8 @@
 
 STATUS: qualified optional progressive reference. Repository-generic design and
 IMPLEMENTAUDIT self-dogfood are established; external effectiveness remains
-unproved. Load this reference only on the trigger below. It is not part of the
-ordinary bootloader path and creates no record, model call, or review lane when
-the trigger is absent.
+unproved. It is not part of the ordinary bootloader path. Load only on the
+trigger below; otherwise create no record, model call, or review lane.
 
 ## When it applies (trigger)
 
@@ -41,17 +40,14 @@ the evidence, progressively load `child-agents.md` and use its R34-owned
 **exploratory hypothesis discrimination** variant before synthesis.
 
 Share authoritative common facts, scope, security constraints, and evidence
-boundaries. Keep the first bounded returns conclusion-neutral: require a
+boundaries, but keep first returns conclusion-neutral. Require a
 decision-changing discriminator, counterexample, or concrete mechanism, then
-synthesise and cross-pollinate. Differently worded seeded outputs and nominal
-lane counts are not independent evidence. Fresh-context serial passes are valid
-when concurrency is unavailable.
-
-Do not activate that variant when owner and state evidence already classify the
-family, only one material mechanism remains, the work follows the cheap path,
-or the task is adversarial coverage of a known candidate. If another pass has
-no new discriminator, changed evidence, or new plausible mechanism, stop and
-preserve `unresolved-family`.
+synthesise and cross-pollinate. Seeded paraphrases and lane counts are not
+independent evidence; fresh-context serial passes qualify when concurrency is
+unavailable. Do not activate when evidence already classifies the family, only
+one material mechanism remains, the cheap path applies, or a known candidate is
+under adversarial review. If another pass offers no new discriminator, changed
+evidence, or plausible mechanism, stop and preserve `unresolved-family`.
 
 ## Evidence axes remain distinct
 
@@ -67,11 +63,10 @@ preserve `unresolved-family`.
   and independent justification for a changed measurement surface under Rule
   P4-16 in `phase-design.md`.
 
-Reuse the existing evidence and closure surfaces to bind these axes to exact
-source, package, runtime, and producer exits. Do not add an orthogonality
-receipt, worksheet, schema, checker, or marker. One exact incident may support
-several axes when its identity and scope really do; receipt existence alone is
-not proof.
+Bind all applicable axes to exact source, package, runtime, and producer exits
+on existing evidence and closure surfaces. Add no orthogonality receipt,
+worksheet, schema, checker, or marker. One exact incident may support several
+axes when its identity and scope match; receipt existence alone is not proof.
 
 ## The convergence mode
 
@@ -91,33 +86,28 @@ When the classifier returns convergence:
    after the coherent repair, then obtain the independently required final
    review. Do not requalify after every state patch.
 
-The convergence record reuses the existing audit object. Its state model names
-the owner, invariant and failure mechanism, then supplies referential binding
-among the included failure IDs, excluded distractor IDs, dimensions,
-equivalence classes, bounded mutation operators and state IDs. Every valid,
-malformed, boundary and adjacent state has an ID, bound dimension and class,
+The existing audit object's convergence record names the owner, invariant and
+mechanism, with referential binding among included failures, excluded
+distractors, dimensions, classes, mutations, and states. Every valid,
+malformed, boundary, and adjacent state has an ID, bound dimension/class,
 non-empty state payload, and expected invariant outcome. Distractor objects
-resolve every excluded population entry and state why their owner, invariant
-or mechanism is outside the family; an excluded object that is actually in the
-family is incoherent, not a useful negative control.
+resolve every exclusion and its out-of-family owner, invariant, or mechanism;
+an in-family exclusion is incoherent.
 
 Every included failure must match the record family and bind a known dimension,
 class, and mutation. The independently verified subset alone forms the trigger;
 an unverified included member remains structurally accountable but cannot help
 establish the second-rejection threshold.
 
-Each held-out ID resolves one payload-bearing state, a bound mutation operator,
-and both the expected invariant and discriminator outcome. A deterministic
-payload evaluator derives the expected and current-model-observed invariant and
-family-discriminator outcomes from that state and the bound record; declarations
-must agree with those derived outcomes. Derive PASS from that agreement; never
-trust aligned declarations or a self-declared `result: pass`. RED witnesses
-resolve included population IDs,
-and the record also retains outer qualification, review yield, residual risk,
-and the stop or reclassification decision. Filling these fields is not a PASS:
-a dangling ID, unknown dimension/class/mutation, failing held-out mutation,
-overbroad family, substituted owner, or green form with an unrepaired property
-is rejection evidence.
+Each held-out ID resolves a payload-bearing state, bound mutation, expected
+invariant and discriminator outcome. A deterministic payload evaluator derives
+expected and current-model invariant/family-discriminator outcomes from the
+state and record; declarations must agree. Derive PASS only from that agreement;
+never trust aligned declarations or self-declared PASS. RED witnesses resolve included failures, while the record
+retains outer qualification, review yield, residual risk, and stop or
+reclassification. Dangling references, unknown dimensions/classes/mutations,
+failing held-outs, overbroad families, substituted owners, and unrepaired green
+forms reject.
 
 Renaming, paraphrasing, punctuation changes, and moving the same counterexample
 do not create a new family when the owner invariant and mutation relation are
@@ -127,19 +117,14 @@ model.
 
 ## Evaluator integrity
 
-Pre-candidate RED-first fixture authoring stays on the ordinary path. Once a
-candidate fails, changing its classifier, expected route, fixture population,
-checker, prompt, threshold, or other evaluator for the same claim activates
-R35 Rule P4-16. Preserve the original failing witness and evaluator identity;
-classify product, evaluator, coupled, or unresolved change; and use the
-old/new candidate-by-evaluator matrix or an authoritative independent
-instrument where required. A changed evaluator becoming green cannot establish
-the repaired property by itself.
-
-Mechanical owner, invariant, mechanism, dimension, and mutation evidence is
-preferred. If material ambiguity remains after bounded deterministic work, a
-prompt-independent model cell may provide review evidence under the existing
-R35 controls, but it is never repository truth and cannot replace live-owner
+Pre-candidate RED-first fixture authoring stays ordinary. After failure, changing
+the classifier, expected route, fixture population, checker, prompt, threshold,
+or evaluator for the same claim activates R35 Rule P4-16. Preserve the original
+failing witness and evaluator identity; classify product, evaluator, coupled, or
+unresolved change; and use the old/new candidate-by-evaluator matrix or an
+authoritative independent instrument as required. New green alone proves
+nothing. Prefer mechanical evidence. A prompt-independent model cell may review
+residual ambiguity under R35, but never replaces repository truth or live-owner
 verification.
 
 ## Exit and marginal review yield
@@ -158,17 +143,12 @@ reopen the loop; a round count never substitutes for evidence.
 
 ## Qualification evidence and limits
 
-The R32 qualification recovered an exact 48-finding denominator across R30,
-#144, and R31: 45 included findings and three reasoned exclusions, with zero
-duplicates or unresolved ambiguities in that population. Fourteen deterministic
-state cases cover convergence, duplicate, unrelated, unresolved-family, and
-cheap-path routes; relabelled, overbroad, owner-substitution, missing-held-out,
-failing-held-out, and unpriced-repeat controls reject. The original
-three-dimension positive fixture and single-fault negative control remain
-source-side qualification evidence.
-
-Those results qualify a narrow progressive adoption in IMPLEMENTAUDIT. They do
-not prove the second-rejection hypothesis optimal in every repository, fully
-automate family judgement, or establish benefit across other agents, hosts,
-repositories, or skill ecosystems. R29 owns the public disposition of that
-boundary.
+R32 recovered 48 findings across R30, #144, and R31: 45 included, three reasoned
+exclusions, zero duplicates or ambiguities. Fourteen deterministic cases cover
+convergence, duplicate, unrelated, unresolved-family, and cheap-path routes;
+relabelled, overbroad, owner-substitution, missing-held-out, failing-held-out,
+and unpriced-repeat controls reject. The three-dimension positive and
+single-fault negative remain evidence. This qualifies narrow progressive
+IMPLEMENTAUDIT adoption, not an optimal trigger in every repository, automated
+family judgement, or benefit across other agents, hosts, repositories, or skill
+ecosystems. R29 owns that public boundary.
