@@ -22,19 +22,19 @@
     {
       "id": "R34-C04-risky-smoke-retained",
       "kind": "admission",
-      "observations": {"required_gate": true, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate": true, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
       "expected": "RETAIN"
     },
     {
       "id": "R34-C05-habit-only-control",
       "kind": "admission",
-      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": false, "authoritative_owner": false, "consumer": false, "consequence": false, "discriminator": false, "expected_evidence": false, "marginal_cost_recorded": false, "exit_condition": false, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": false, "authoritative_owner": false, "consumer": false, "authoritative_consumer": false, "consequence": false, "discriminator": false, "expected_evidence": false, "marginal_cost_recorded": false, "exit_condition": false, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
       "expected": "REJECT"
     },
     {
       "id": "R34-C06-optional-by-whim",
       "kind": "admission",
-      "observations": {"required_gate": true, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": true, "expected_risk_material": false},
+      "observations": {"required_gate": true, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": true, "expected_risk_material": false},
       "expected": "RETAIN"
     },
     {
@@ -82,25 +82,25 @@
     {
       "id": "R34-C14-demonstrated-defect-control",
       "kind": "admission",
-      "observations": {"required_gate": true, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate": true, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
       "expected": "RETAIN"
     },
     {
       "id": "R34-C15-rare-catastrophic-risk",
       "kind": "admission",
-      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": true},
-      "expected": "RETAIN_OR_OWNER_DECISION"
+      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": true},
+      "expected": "RETAIN"
     },
     {
       "id": "R34-C16-exact-evidence-reuse",
       "kind": "repeat",
-      "observations": {"prior_exact_pass": true, "relevant_state_unchanged": true, "scope_identical": true, "consumer_identical": true, "new_residual": false, "new_mutation_family": false},
+      "observations": {"prior_exact_pass": true, "exact_bytes_unchanged": true, "other_relevant_state_unchanged": true, "scope_identical": true, "consumer_identical": true, "authoritative_consumer_identical": true, "new_residual": false, "new_mutation_family": false},
       "expected": "REUSE"
     },
     {
       "id": "R34-C17-changed-state-rerun",
       "kind": "repeat",
-      "observations": {"prior_exact_pass": true, "relevant_state_unchanged": false, "scope_identical": true, "consumer_identical": true, "new_residual": true, "new_mutation_family": false},
+      "observations": {"prior_exact_pass": true, "exact_bytes_unchanged": true, "other_relevant_state_unchanged": false, "scope_identical": true, "consumer_identical": true, "authoritative_consumer_identical": true, "new_residual": true, "new_mutation_family": false},
       "expected": "RUN"
     },
     {
@@ -172,61 +172,61 @@
     {
       "id": "R34-C29-complete-admission",
       "kind": "admission",
-      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
       "expected": "ADMIT"
     },
     {
       "id": "R34-C30-missing-authoritative-owner",
       "kind": "admission",
-      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": false, "consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": false, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
       "expected": "DEFER"
     },
     {
       "id": "R34-C31-missing-consumer",
       "kind": "admission",
-      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": false, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": false, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
       "expected": "DEFER"
     },
     {
       "id": "R34-C32-missing-consequence",
       "kind": "admission",
-      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "consequence": false, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": false, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
       "expected": "DEFER"
     },
     {
       "id": "R34-C33-missing-discriminator",
       "kind": "admission",
-      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "consequence": true, "discriminator": false, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": false, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
       "expected": "DEFER"
     },
     {
       "id": "R34-C34-missing-expected-evidence",
       "kind": "admission",
-      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "consequence": true, "discriminator": true, "expected_evidence": false, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": false, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
       "expected": "DEFER"
     },
     {
       "id": "R34-C35-missing-marginal-cost",
       "kind": "admission",
-      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": false, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": false, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
       "expected": "DEFER"
     },
     {
       "id": "R34-C36-missing-exit-condition",
       "kind": "admission",
-      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": false, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": false, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
       "expected": "DEFER"
     },
     {
       "id": "R34-C37-changed-scope-rerun",
       "kind": "repeat",
-      "observations": {"prior_exact_pass": true, "relevant_state_unchanged": true, "scope_identical": false, "consumer_identical": true, "new_residual": false, "new_mutation_family": false},
+      "observations": {"prior_exact_pass": true, "exact_bytes_unchanged": true, "other_relevant_state_unchanged": true, "scope_identical": false, "consumer_identical": true, "authoritative_consumer_identical": true, "new_residual": false, "new_mutation_family": false},
       "expected": "RUN"
     },
     {
       "id": "R34-C38-changed-consumer-rerun",
       "kind": "repeat",
-      "observations": {"prior_exact_pass": true, "relevant_state_unchanged": true, "scope_identical": true, "consumer_identical": false, "new_residual": false, "new_mutation_family": false},
+      "observations": {"prior_exact_pass": true, "exact_bytes_unchanged": true, "other_relevant_state_unchanged": true, "scope_identical": true, "consumer_identical": false, "authoritative_consumer_identical": true, "new_residual": false, "new_mutation_family": false},
       "expected": "RUN"
     },
     {
@@ -255,14 +255,14 @@
     },
     {
       "id": "R34-C43-explicit-defer",
-      "kind": "lifecycle",
-      "observations": {"requested": "defer", "live_consumer": false, "protected_consequence": false, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": false, "marginal_cost_reduced": false, "record_complete": false},
+      "kind": "escalation",
+      "observations": {"requested": "defer", "mutation_incomplete": true, "controlling_gate_intact": true, "supported_alternatives": 0, "alternatives_indistinguishable": false, "expected_risk_material": false, "permanent_cost_material": false, "mechanically_resolvable": true},
       "expected": "DEFER"
     },
     {
       "id": "R34-C44-unresolved-tradeoff",
-      "kind": "lifecycle",
-      "observations": {"requested": "unresolved", "live_consumer": true, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": false, "marginal_cost_reduced": false, "record_complete": false},
+      "kind": "escalation",
+      "observations": {"requested": "unresolved", "mutation_incomplete": false, "controlling_gate_intact": true, "supported_alternatives": 2, "alternatives_indistinguishable": true, "expected_risk_material": false, "permanent_cost_material": false, "mechanically_resolvable": false},
       "expected": "UNRESOLVED"
     },
     {
@@ -273,8 +273,8 @@
     },
     {
       "id": "R34-C46-owner-decision",
-      "kind": "lifecycle",
-      "observations": {"requested": "owner_decision", "live_consumer": true, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": false, "marginal_cost_reduced": false, "record_complete": true},
+      "kind": "escalation",
+      "observations": {"requested": "owner_decision", "mutation_incomplete": false, "controlling_gate_intact": true, "supported_alternatives": 0, "alternatives_indistinguishable": false, "expected_risk_material": true, "permanent_cost_material": true, "mechanically_resolvable": false},
       "expected": "OWNER_DECISION"
     },
     {
@@ -288,6 +288,78 @@
       "kind": "lifecycle",
       "observations": {"requested": "cheapen", "live_consumer": true, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": false, "marginal_cost_reduced": true, "record_complete": true},
       "expected": "DEFER"
+    },
+    {
+      "id": "R34-C49-defer-with-complete-mutation",
+      "kind": "escalation",
+      "observations": {"requested": "defer", "mutation_incomplete": false, "controlling_gate_intact": true, "supported_alternatives": 0, "alternatives_indistinguishable": false, "expected_risk_material": false, "permanent_cost_material": false, "mechanically_resolvable": true},
+      "expected": "FAIL"
+    },
+    {
+      "id": "R34-C50-defer-without-controlling-gate",
+      "kind": "escalation",
+      "observations": {"requested": "defer", "mutation_incomplete": true, "controlling_gate_intact": false, "supported_alternatives": 0, "alternatives_indistinguishable": false, "expected_risk_material": false, "permanent_cost_material": false, "mechanically_resolvable": true},
+      "expected": "FAIL"
+    },
+    {
+      "id": "R34-C51-unresolved-single-alternative",
+      "kind": "escalation",
+      "observations": {"requested": "unresolved", "mutation_incomplete": false, "controlling_gate_intact": true, "supported_alternatives": 1, "alternatives_indistinguishable": true, "expected_risk_material": false, "permanent_cost_material": false, "mechanically_resolvable": false},
+      "expected": "FAIL"
+    },
+    {
+      "id": "R34-C52-unresolved-distinguishable-alternatives",
+      "kind": "escalation",
+      "observations": {"requested": "unresolved", "mutation_incomplete": false, "controlling_gate_intact": true, "supported_alternatives": 2, "alternatives_indistinguishable": false, "expected_risk_material": false, "permanent_cost_material": false, "mechanically_resolvable": true},
+      "expected": "FAIL"
+    },
+    {
+      "id": "R34-C53-owner-decision-mechanically-resolvable",
+      "kind": "escalation",
+      "observations": {"requested": "owner_decision", "mutation_incomplete": false, "controlling_gate_intact": true, "supported_alternatives": 0, "alternatives_indistinguishable": false, "expected_risk_material": true, "permanent_cost_material": true, "mechanically_resolvable": true},
+      "expected": "FAIL"
+    },
+    {
+      "id": "R34-C54-owner-decision-without-risk-tradeoff",
+      "kind": "escalation",
+      "observations": {"requested": "owner_decision", "mutation_incomplete": false, "controlling_gate_intact": true, "supported_alternatives": 0, "alternatives_indistinguishable": false, "expected_risk_material": false, "permanent_cost_material": true, "mechanically_resolvable": false},
+      "expected": "FAIL"
+    },
+    {
+      "id": "R34-C55-held-out-defer-adjacent",
+      "kind": "escalation",
+      "observations": {"requested": "defer", "mutation_incomplete": true, "controlling_gate_intact": true, "supported_alternatives": 1, "alternatives_indistinguishable": false, "expected_risk_material": false, "permanent_cost_material": false, "mechanically_resolvable": true},
+      "expected": "DEFER"
+    },
+    {
+      "id": "R34-C56-held-out-unresolved-adjacent",
+      "kind": "escalation",
+      "observations": {"requested": "unresolved", "mutation_incomplete": false, "controlling_gate_intact": true, "supported_alternatives": 3, "alternatives_indistinguishable": true, "expected_risk_material": false, "permanent_cost_material": false, "mechanically_resolvable": false},
+      "expected": "UNRESOLVED"
+    },
+    {
+      "id": "R34-C57-held-out-owner-decision-adjacent",
+      "kind": "escalation",
+      "observations": {"requested": "owner_decision", "mutation_incomplete": true, "controlling_gate_intact": true, "supported_alternatives": 2, "alternatives_indistinguishable": true, "expected_risk_material": true, "permanent_cost_material": true, "mechanically_resolvable": false},
+      "expected": "OWNER_DECISION"
+    },
+    {
+      "id": "R34-C58-non-authoritative-consumer",
+      "kind": "admission",
+      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": false, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "expected": "DEFER"
+    },
+    {
+      "id": "R34-C59-changed-authoritative-consumer-rerun",
+      "kind": "repeat",
+      "observations": {"prior_exact_pass": true, "exact_bytes_unchanged": true, "other_relevant_state_unchanged": true, "scope_identical": true, "consumer_identical": true, "authoritative_consumer_identical": false, "new_residual": false, "new_mutation_family": false},
+      "expected": "RUN"
+    },
+    {
+      "id": "R34-C60-changed-bytes-rerun",
+      "kind": "repeat",
+      "observations": {"prior_exact_pass": true, "exact_bytes_unchanged": false, "other_relevant_state_unchanged": true, "scope_identical": true, "consumer_identical": true, "authoritative_consumer_identical": true, "new_residual": false, "new_mutation_family": false},
+      "expected": "RUN"
     }
   ]
 }

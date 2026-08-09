@@ -165,11 +165,12 @@ Use these lifecycle dispositions:
 - **Retire** only after the failure mode, consumer, and consequence end and
   rollback evidence exposes no hidden dependency.
 - **Reclassify** when risk, scope, authority, or external consequence changes.
-- **Defer** an incomplete lifecycle mutation and leave the controlling gate intact.
-- Use **Unresolved** when evidence cannot distinguish supported alternatives;
-  it is not deliberate deferral with a known next action.
-- Use **owner decision** when expected risk and permanent cost cannot be resolved
-  mechanically; low observed frequency does not defeat a defensible high-consequence control.
+Disposition labels never self-authorise:
+
+- **Defer** only an incomplete mutation while its controlling gate remains intact.
+- Use **Unresolved** only when mechanical evidence cannot distinguish at least
+  two supported alternatives; it is not deliberate deferral.
+- Use **owner decision** only for a non-mechanical expected-risk and permanent-cost trade-off. Low frequency does not defeat a defensible high-consequence control.
 
 Human-readable handoffs, authorisations, work orders, and review or release
 receipts can be essential. Ask who consumes one, which decision or recovery
@@ -178,7 +179,8 @@ owns it, and when it can retire. Machine consumption alone establishes no value;
 a duplicate status artefact without a distinct consumer is a merge or retirement candidate.
 
 Repeat after PASS only for a named residual or new mutation family. Reuse bounded
-evidence only when the relevant bytes, state, consumer, and evidence scope are
+evidence only when exact bytes, other relevant state, consumer identity,
+authoritative consumer, and evidence scope are
 unchanged; changed scope or consumer requires a fresh run. Keep the producer,
 scope, and residual visible. Identical command text cannot make changed-state
 evidence reusable.

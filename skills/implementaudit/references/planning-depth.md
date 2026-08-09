@@ -134,7 +134,7 @@ style preference.
 Preserve the gate or engineering obligation where warranted, while omitting
 candidate work inside it that has no discriminating payoff for the current
 state. When proposing, repeating, or standardising process work, reuse the
-action-selection or Muda/Mura/Muri record. No retain, admit, or owner-decision disposition is complete unless it names the live driver; authoritative owner and authoritative consumer; protected consequence; cheapest sufficient discriminator; expected evidence and material marginal cost; activation and non-trigger path; and stopping, retirement, or reclassification condition. Incomplete evidence defers the lifecycle mutation and leaves the controlling gate intact.
+action-selection or Muda/Mura/Muri record. No retain, admit, or owner-decision disposition is complete unless it names the live driver; authoritative owner; consumer existence and authoritative consumer; protected consequence; cheapest sufficient discriminator; expected evidence and material marginal cost; activation and non-trigger path; and stopping, retirement, or reclassification condition. Incomplete evidence defers the lifecycle mutation and leaves the controlling gate intact.
 
 Activate for a proposed permanent gate or artefact; repeated unchanged
 evidence, planning, or reporting; unclear artefact consumption; unexplained

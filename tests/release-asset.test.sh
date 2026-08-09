@@ -336,12 +336,12 @@ with zipfile.ZipFile(asset) as zf:
         "owner", "dedicated-calibration-lane",
     }
 
-    # The exact composed R31+R34 candidate is 221,894 bytes. Owner authority
+    # The exact composed R31+R34 repaired candidate is 221,968 bytes. Owner authority
     # for the v0.3.3.3 train sets the ceiling to the smallest whole-1,000-byte
     # value that preserves at least 2,000 bytes of measured headroom. The
     # outer 230,000-byte bound remains unchanged, and capacity is not a target.
     MAX_ASSET_BYTES = 224_000
-    CURRENT_CALIBRATION_ASSET_BYTES = 221_894
+    CURRENT_CALIBRATION_ASSET_BYTES = 221_968
     N06_BASELINE_ASSET_BYTES = 206_584
     N06_FINAL_P7_ASSET_BYTES = 215_126
     FULL_W1_FORECAST_BYTES = 144_730

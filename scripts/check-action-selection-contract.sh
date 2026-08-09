@@ -65,6 +65,7 @@ for text in \
   "## Engineering-value admission and control lifecycle" \
   "Preserve the gate or engineering obligation where warranted" \
   "authoritative consumer" \
+  "consumer existence and authoritative consumer" \
   "cheapest sufficient discriminator" \
   "No retain, admit, or owner-decision disposition" \
   "stopping, retirement, or reclassification condition" \
@@ -86,9 +87,11 @@ for text in \
   "Reclassify" \
   "Defer" \
   "Unresolved" \
+  "Disposition labels never self-authorise" \
+  "expected-risk and permanent-cost trade-off" \
+  "exact bytes, other relevant state" \
   "changed scope or consumer requires a fresh run" \
   "no shared owner or shared write remains parallel-safe" \
-  "relevant bytes, state, consumer, and evidence scope" \
   "one shared owner does not serialise disjoint cells" \
   "mandatory control ledger" \
   "large worksheet"
@@ -141,6 +144,18 @@ required_ids = {
         (44, "unresolved-tradeoff"), (45, "disjoint-cells-no-shared-cell"),
         (46, "owner-decision"), (47, "valid-retain"),
         (48, "invalid-cheapen"),
+        (49, "defer-with-complete-mutation"),
+        (50, "defer-without-controlling-gate"),
+        (51, "unresolved-single-alternative"),
+        (52, "unresolved-distinguishable-alternatives"),
+        (53, "owner-decision-mechanically-resolvable"),
+        (54, "owner-decision-without-risk-tradeoff"),
+        (55, "held-out-defer-adjacent"),
+        (56, "held-out-unresolved-adjacent"),
+        (57, "held-out-owner-decision-adjacent"),
+        (58, "non-authoritative-consumer"),
+        (59, "changed-authoritative-consumer-rerun"),
+        (60, "changed-bytes-rerun"),
     )
 }
 ids = [case.get("id") for case in cases if isinstance(case, dict)]
@@ -165,11 +180,12 @@ def decide(case):
             return "NO_R34_ARTEFACT"
         return "DEEP_RETROSPECTIVE" if o["process_heavy_or_disputed"] else "MINIMAL_TRIGGERED_RECORD"
     if kind == "admission":
-        fields = "required_gate equivalent_protection live_driver authoritative_owner consumer consequence discriminator expected_evidence marginal_cost_recorded exit_condition proxy_only optional_by_whim expected_risk_material"
+        fields = "required_gate equivalent_protection live_driver authoritative_owner consumer authoritative_consumer consequence discriminator expected_evidence marginal_cost_recorded exit_condition proxy_only optional_by_whim expected_risk_material"
         exact(o, fields)
         booleans(o, fields)
         complete = all((
-            o["authoritative_owner"], o["consumer"], o["consequence"],
+            o["authoritative_owner"], o["consumer"],
+            o["authoritative_consumer"], o["consequence"],
             o["discriminator"], o["expected_evidence"],
             o["marginal_cost_recorded"], o["exit_condition"],
         ))
@@ -180,7 +196,7 @@ def decide(case):
         if not complete:
             return "DEFER"
         if o["expected_risk_material"]:
-            return "RETAIN_OR_OWNER_DECISION"
+            return "RETAIN"
         return "ADMIT"
     if kind == "anti_gaming":
         exact(o, "proxy large_mandatory_worksheet form_only")
@@ -197,14 +213,18 @@ def decide(case):
             return "MERGE_OR_RETIRE"
         return "RETAIN" if o["live_consumer"] and o["recovery_or_authority_consequence"] else "RETIRE_OR_DEFER"
     if kind == "repeat":
-        exact(o, "prior_exact_pass relevant_state_unchanged scope_identical consumer_identical new_residual new_mutation_family")
-        booleans(o, "prior_exact_pass relevant_state_unchanged scope_identical consumer_identical new_residual new_mutation_family")
+        fields = "prior_exact_pass exact_bytes_unchanged other_relevant_state_unchanged scope_identical consumer_identical authoritative_consumer_identical new_residual new_mutation_family"
+        exact(o, fields)
+        booleans(o, fields)
         if (o["new_residual"] or o["new_mutation_family"]
-                or not o["relevant_state_unchanged"]
+                or not o["exact_bytes_unchanged"]
+                or not o["other_relevant_state_unchanged"]
                 or not o["scope_identical"]
-                or not o["consumer_identical"]):
+                or not o["consumer_identical"]
+                or not o["authoritative_consumer_identical"]):
             return "RUN"
-        if all((o["prior_exact_pass"], o["scope_identical"], o["consumer_identical"])):
+        if all((o["prior_exact_pass"], o["scope_identical"],
+                o["consumer_identical"], o["authoritative_consumer_identical"])):
             return "REUSE"
         return "STOP"
     if kind == "review":
@@ -225,19 +245,35 @@ def decide(case):
         if not o["shared_cell"] and o["disjoint_cells"] and o["closed_write_boundaries"]:
             return "PARALLEL_SAFE"
         return "SERIALISE_SHARED"
+    if kind == "escalation":
+        fields = "requested mutation_incomplete controlling_gate_intact supported_alternatives alternatives_indistinguishable expected_risk_material permanent_cost_material mechanically_resolvable"
+        exact(o, fields)
+        booleans(o, "mutation_incomplete controlling_gate_intact alternatives_indistinguishable expected_risk_material permanent_cost_material mechanically_resolvable")
+        if type(o["supported_alternatives"]) is not int or o["supported_alternatives"] < 0:
+            raise ValueError("supported alternatives")
+        if o["requested"] == "defer":
+            valid = o["mutation_incomplete"] and o["controlling_gate_intact"]
+            return "DEFER" if valid else "FAIL"
+        if o["requested"] == "unresolved":
+            valid = (o["controlling_gate_intact"]
+                     and o["supported_alternatives"] >= 2
+                     and o["alternatives_indistinguishable"]
+                     and not o["mechanically_resolvable"])
+            return "UNRESOLVED" if valid else "FAIL"
+        if o["requested"] == "owner_decision":
+            valid = (o["controlling_gate_intact"]
+                     and o["expected_risk_material"]
+                     and o["permanent_cost_material"]
+                     and not o["mechanically_resolvable"])
+            return "OWNER_DECISION" if valid else "FAIL"
+        raise ValueError("requested escalation disposition")
     if kind == "lifecycle":
         exact(o, "requested live_consumer protected_consequence failure_mode_live rollback_proved duplicate_authority activation_conditional risk_or_authority_changed equivalent_protection_proved marginal_cost_reduced record_complete")
         booleans(o, "live_consumer protected_consequence failure_mode_live rollback_proved duplicate_authority activation_conditional risk_or_authority_changed equivalent_protection_proved marginal_cost_reduced record_complete")
-        if o["requested"] not in {"retain", "cheapen", "merge", "conditionalise", "retire", "reclassify", "defer", "unresolved", "owner_decision"}:
+        if o["requested"] not in {"retain", "cheapen", "merge", "conditionalise", "retire", "reclassify"}:
             raise ValueError("requested lifecycle disposition")
-        if o["requested"] == "defer":
-            return "DEFER"
-        if o["requested"] == "unresolved":
-            return "UNRESOLVED"
         if not o["record_complete"]:
             return "DEFER"
-        if o["requested"] == "owner_decision":
-            return "OWNER_DECISION"
         if o["risk_or_authority_changed"]:
             return "RECLASSIFY"
         if o["requested"] == "reclassify":
