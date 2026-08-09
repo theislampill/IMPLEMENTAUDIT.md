@@ -183,6 +183,31 @@ if ! bash "$T/scripts/check-lean-discipline.sh" >/dev/null 2>&1; then ok
 else fail_case "FAIL: should fail when Standard Work lacks stable repo-specific rule/template"; fi
 rm -rf "$T"
 
+# ── R33: semantic-preservation owner and deterministic controls ─────────────
+if bash fixtures/semantic-preservation/test-cases.sh >/dev/null 2>&1; then
+  ok
+else
+  fail_case "FAIL: semantic-preservation fixture bank should pass"
+fi
+
+if grep -Fq '## Package semantic preservation' \
+  skills/implementaudit/references/lean-operating-discipline.md; then
+  ok
+else
+  fail_case "FAIL: packaged Lean reference should own semantic preservation"
+fi
+
+T=$(make_temp)
+$PY -c "
+import pathlib, re, sys
+p=pathlib.Path(sys.argv[1])
+t=re.sub(r'(?ms)^## Package semantic preservation\n.*?(?=^## |\Z)', '', p.read_text())
+p.write_text(t)
+" "$T/skills/implementaudit/references/lean-operating-discipline.md"
+if ! bash "$T/scripts/check-lean-discipline.sh" >/dev/null 2>&1; then ok
+else fail_case "FAIL: should fail when package semantic-preservation owner is absent"; fi
+rm -rf "$T"
+
 # ── Summary ───────────────────────────────────────────────────────────────────
 total=$((pass + fail))
 if [ "$fail" -eq 0 ]; then
