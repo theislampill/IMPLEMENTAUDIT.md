@@ -208,50 +208,27 @@ Direct-edit policy, if any:
 
 ## Optional sidecars
 
-Graphify status: absent / present / stale-sidecar / avoided / used as orientation only
+Graphify status: absent / anti-triggered / scoped-fresh / `stale-sidecar` /
+legacy-fresh / orientation only
 
-Graphify trigger decision (all must hold): unfamiliar repo / majority-code /
-terrain-shaped question / not answerable by one `rg`, `git grep`, or `git ls-tree`:
+Graphify trigger decision: unfamiliar + majority-code + terrain-shaped + no
+one-search answer / anti-trigger and deterministic instrument:
 
-Graphify anti-trigger matched, if any: data-file consumer / module-level
-constant or literal / embedded language / prose census / definition-consumer
-lookup / Git topology / none
+Graphify plan: version; outside-repo catalogue/graph; scope/population;
+`--graph-scope` output; parent reason; failure class: stale-graph /
+wrong-or-overbroad-scope / cross-scope / extractor-relation-omission /
+semantic-LLM-not-retained; live proof. Legacy:
+`built_at_commit` vs `git rev-parse HEAD`.
 
-Graphify terrain plan (when applicable):
-- First-contact Seiri/Seiton question:
-- Output path outside target repo:
-- `built_at_commit`:
-- `git rev-parse HEAD`:
-- Executed comparison exit/decision (mismatch = `stale-sidecar`, terrain unusable):
-- Live-file follow-up required before action:
+Graphify privacy/spend: `llm: false` / separately proposed model cell; exact
+corpus; owner-named backend/model; filename heuristic; usage/cost boundary.
 
-Graphify privacy/spend decision:
-- Mode: `--code-only --no-cluster` / proposed model pass
-- Owner-named backend (auto-detection refused; Ollama unauthorized):
-- Filename-heuristic-only content limitation disclosed:
-- Out-of-band spend bound (unmeasurable backend cannot claim zero cost):
+ActiveGraph status: absent / fork / diff / optional non-authoritative mirror. Run root
+remains authority; replay does not reconstruct the run. Any Capability Ledger
+is a narrow gate-evidence derivative; no broad competence claim.
 
-ActiveGraph status: absent / present / configured / avoided / used for fork-diff checkpoint assistance
-
-ActiveGraph checkpoint/mirror plan (when authorized):
-- Checkpoint operation: fork / diff / none
-- Authoritative run-root checkpoint and evidence:
-- Optional non-authoritative mirror: none / separately authorized store or trace
-- Replay limitation acknowledged (custom custody events do not reconstruct the run):
-- Capability Ledger: narrow derivative of authoritative run-root gate evidence only
-- No broad competence claims from one run
-
-Canonical-vs-sidecar boundary:
-
-Sidecars artifact: `<run-root>/sidecars.md`
-
-Graphify live-file follow-up required:
-
-ActiveGraph fork/diff or mirror authorization:
-
+Sidecars artifact: `<run-root>/sidecars.md`; canonical/live-file boundary and
 Markdown fallback:
-
-Capability Ledger entry strategy:
 
 ## Lean quality route
 

@@ -851,6 +851,8 @@ def validate_page_shell(out_dir: Path, site: dict, ordered: list[dict], pages_by
             if 'class="priority-table"' not in article_region or 'class="priority-num"' not in article_region:
                 fail(f"{rel}: preload priority table must keep priority-table and priority-num colgroup classes")
             for token in (
+                "--graph-scope",
+                "llm: false",
                 "built_at_commit",
                 "git rev-parse HEAD",
                 "stale-sidecar",
@@ -858,6 +860,11 @@ def validate_page_shell(out_dir: Path, site: dict, ordered: list[dict], pages_by
             ):
                 if token not in article_region:
                     fail(f"{rel}: sidecar continuity should document executable freshness and authority")
+        if page["id"] == "optional-tooling":
+            article_region = first_region(html_text, "article", tag="article")
+            for token in ("--graph-scope", "smallest scope", "canonical scan root", "Graphify-manifest", "source_file", "unsupported-config", "does not qualify semantic/Luna behaviour", "absent from the graph"):
+                if token not in article_region:
+                    fail(f"{rel}: optional tooling should document scoped Graphify and semantic boundaries")
         if page["id"] == "error-handling":
             article_region = first_region(html_text, "article", tag="article")
             for option in ("Resume", "Revise spec", "Skip phase", "Stop"):

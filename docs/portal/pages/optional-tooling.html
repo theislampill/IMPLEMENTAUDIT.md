@@ -1,43 +1,44 @@
 <div class="page-eyebrow">Evidence</div>
       <h1>Optional tooling</h1>
       <p class="lead">Narrow optional tools: first-contact terrain and checkpoint assistance, never required for normal runs.</p>
-      <div class="hero-card"><h2>You do not need these tools for a normal run.</h2><p>Markdown work records, ledgers, final reports, and run folders when phased are the durable path.<br>Graphify is limited to qualified first-contact terrain; ActiveGraph is limited to authorized fork/diff checkpoint assistance and an optional mirror.<br>They do not replace real files, the run root, before/after checks, or the final audit ledger.</p></div>
+      <div class="hero-card"><h2>You do not need these tools for a normal run.</h2><p>Markdown work records, ledgers, final reports, and run folders when phased are the durable path.<br>Graphify is limited to qualified first-contact terrain; ActiveGraph is limited to authorised fork/diff checkpoint assistance and an optional mirror.<br>They do not replace real files, the run root, before/after checks, or the final audit ledger.</p></div>
 
       <h2 id="graphify">Graphify</h2>
       <p><a href="https://github.com/safishamsi/graphify">Graphify</a> is a candidate only for an unfamiliar, majority-code repo and a terrain-shaped question that one deterministic search cannot answer.<br>Data-file consumers, constants/literals, embedded languages, prose censuses, definition/consumer lookup, and Git topology route to ordinary tools.</p>
-      <p>Before any query, the packaged freshness command compares <code>graph.json</code> <code>built_at_commit</code> with <code>git rev-parse HEAD</code>; mismatch fires <code>stale-sidecar</code> and makes the terrain unusable.<br>Default to <code>--code-only --no-cluster</code> with <code>--out</code> outside the target repo.</p>
-      <p>Semantic or clustering passes require an owner-named backend plus privacy and out-of-band spend disclosure. Filtering is a filename heuristic, spend may be unmeasurable, auto-detection is refused, and Ollama is explicitly unauthorized.</p>
+      <p>An outside-repo catalogue records canonical scan root, Graphify-manifest population, exact file/config hashes from repo root through that root, matching root-prefixed graph <code>source_file</code> population, ancestor build provenance, graph digest, and a proper covering parent.<br><code>--graph-scope</code> selects/checks the smallest scope covering the paths; symlinks and info/global Git excludes cannot conceal new files. <code>.graphifyignore</code> takes precedence over fallback <code>.gitignore</code>; divergent positive double-star patterns and active nested ignore/include rules fail closed to live files as <code>unsupported-config</code>. <code>--graph-parent</code> broadens one declared step for miss, ambiguity, or cross-scope need; <code>relation-omission</code> first revalidates the child, then exits to deterministic live-file census without broadening/model dispatch. Drift or corrupt data fire <code>stale-sidecar</code>. Legacy graphs may compare <code>built_at_commit</code> with <code>git rev-parse HEAD</code>.</p>
+      <p>The qualified scoped route is structural <code>llm: false</code>. Graphify 0.8.37 has no <code>--code-only</code> flag, and its incremental <code>--no-cluster</code> route was rejected after dropping unchanged terrain. A relation absent from the graph routes to deterministic live-file census, not repeated broadening or model inference.</p>
+      <p>The scoped feature does not qualify semantic/Luna behaviour. Any later model pass requires positive/control cells, an owner-named backend/model, exact corpus, privacy, usage, and out-of-band spend disclosure. Filtering is a filename heuristic, spend may be unmeasurable, auto-detection is refused, and Ollama is explicitly unauthorized.</p>
 
       <h2 id="activegraph">ActiveGraph</h2>
-      <p><a href="https://github.com/yoheinakajima/activegraph">ActiveGraph</a> may provide authorized <code>fork</code> / <code>diff</code> resume-from-checkpoint assistance.<br>An event store is an optional non-authoritative mirror; the run root remains the sole lifecycle authority, and <code>replay</code> does not reconstruct the tested custom-event custody use case.</p>
+      <p><a href="https://github.com/yoheinakajima/activegraph">ActiveGraph</a> may provide authorised <code>fork</code> / <code>diff</code> resume-from-checkpoint assistance.<br>An event store is an optional non-authoritative mirror; the run root remains the sole lifecycle authority, and <code>replay</code> does not reconstruct the tested custom-event custody use case.</p>
 
       <h2 id="activegraph-precision">ActiveGraph precision</h2>
       <p>ActiveGraph is optional checkpoint assistance or a non-authoritative mirror, not lifecycle authority or correctness proof.</p>
       <ul>
         <li>Do not turn one small run into a broad capability or resume-style claim.</li>
         <li>Custom event names such as <code>repo.patch.applied</code> describe this repo's evidence model; they are not upstream proof by themselves.</li>
-        <li><code>activegraph.toml</code> is a configuration clue, not authorization to write events.</li>
+        <li><code>activegraph.toml</code> is a configuration clue, not authorisation to write events.</li>
         <li>Live custody and historical backfill must be labeled differently.</li>
       </ul>
 
-      <h2 id="authorization-gates">Authorization gates</h2>
-      <p>Tool install, indexing, event-store setup, and export are separate owner-authorized actions.</p>
+      <h2 id="authorisation-gates">Authorisation gates</h2>
+      <p>Tool install, indexing, event-store setup, and export are separate owner-authorised actions.</p>
       <ul>
-        <li>Do not install Graphify without authorization.</li>
-        <li>Do not index a repo without authorization.</li>
-        <li>Do not configure ActiveGraph without authorization.</li>
-        <li>Do not export sidecar data without authorization.</li>
+        <li>Do not install Graphify without authorisation.</li>
+        <li>Do not index a repo without authorisation.</li>
+        <li>Do not configure ActiveGraph without authorisation.</li>
+        <li>Do not export sidecar data without authorisation.</li>
       </ul>
 
       <h2 id="self-maintenance-sidecars">Self-maintenance sidecars</h2>
-      <p>The qualification is dogfood-only, as tested on two repos, one Windows host, and pinned 2026-08-05 versions.<br>For consuming repos, the tools remain optional and the claims do not broaden without an unfamiliar-third-party-repo trial.<br>Live files, <code>AGENTS.md</code>, run-folder state, before/after evidence (Smoke A/B), and final audit closure outrank sidecars.</p>
+      <p>The scoped qualification is dogfood-only: one Windows host, Python 3.11, graphifyy 0.8.37, and the 2026-08-09 candidate measurements.<br>A 14-file release/package scope answered a question the whole-code graph missed; neither represented a variable-mediated checker invocation. No semantic/Luna route was configured or called. Consuming repos remain optional and broader claims still require an unfamiliar-third-party-repo trial.<br>Live files, <code>AGENTS.md</code>, run-folder state, Smoke A/B, and final audit closure outrank sidecars.</p>
 
       <h2 id="sidecar-conventions">Sidecar conventions</h2>
       <div class="artifact-card-grid">
-        <section class="artifact-card"><h3>Graphify terrain</h3><dl><dt>Concrete convention</dt><dd>Authorized <code>graph.json</code> outside the target repo; record <code>built_at_commit</code>, live HEAD, and the executed comparison.</dd><dt>Proof boundary</dt><dd>First-contact orientation only; SHA mismatch makes it unusable; not proof of correctness.</dd></dl></section>
+        <section class="artifact-card"><h3>Graphify terrain</h3><dl><dt>Concrete convention</dt><dd>Outside-repo catalogue and graphs; record selected scope, exact population/fingerprint, ancestor build provenance, digest, and any declared-parent reason.</dd><dt>Proof boundary</dt><dd>First-contact orientation only; stale scope or an absent relation routes to deterministic live files.</dd></dl></section>
         <section class="artifact-card"><h3>ActiveGraph checkpoint</h3><dl><dt>Concrete convention</dt><dd>Authorized <code>fork</code> / <code>diff</code>; an optional <code>&lt;run-root&gt;/custody.db</code> or trace may mirror events.</dd><dt>Proof boundary</dt><dd>Checkpoint assistance or non-authoritative mirror only; the run root remains authoritative.</dd></dl></section>
         <section class="artifact-card"><h3>Andon custody events</h3><dl><dt>Concrete convention</dt><dd><code>andon.probe.recorded</code>, <code>andon.escalated</code>, and <code>andon.handoff.recorded</code> can mirror failure handling.</dd><dt>Proof boundary</dt><dd>Preserves failure chain; does not replace the Markdown Andon log.</dd></dl></section>
-        <section class="artifact-card"><h3>Run-level sidecar status</h3><dl><dt>Concrete convention</dt><dd><code>sidecars.md</code> records availability, authorization, output summaries, and fallback.</dd><dt>Proof boundary</dt><dd>Status evidence; does not authorize setup, export, or indexing.</dd></dl></section>
+        <section class="artifact-card"><h3>Run-level sidecar status</h3><dl><dt>Concrete convention</dt><dd><code>sidecars.md</code> records availability, authorisation, output summaries, and fallback.</dd><dt>Proof boundary</dt><dd>Status evidence; does not authorise setup, export, or indexing.</dd></dl></section>
       </div>
 
       <h2 id="historical-backfill">Historical backfill</h2>
@@ -54,12 +55,12 @@
       <h2 id="capability-ledger">Capability Ledger (narrow evidence record)</h2>
       <p>A Capability Ledger is a narrow record of what this run evidenced.</p>
       <ul>
-        <li>It can be backed by Markdown or authorized ActiveGraph events.</li>
-        <li>When ActiveGraph is configured and authorized, entries can be event-backed.</li>
+        <li>It can be backed by Markdown or authorised ActiveGraph events.</li>
+        <li>When ActiveGraph is configured and authorised, entries can be event-backed.</li>
         <li>The Markdown ledger remains first-class when ActiveGraph is absent, stale, or out of scope.</li>
         <li>No ledger entry should turn a small fix into a general competence claim or infer success from chat memory.</li>
       </ul>
-      <p>When ActiveGraph is configured and authorized, a narrow Capability Ledger entry may include:</p>
+      <p>When ActiveGraph is configured and authorised, a narrow Capability Ledger entry may include:</p>
       <ul>
         <li>repo</li>
         <li>run id</li>
@@ -80,7 +81,7 @@
       <p><code>README.md</code> optional tooling, <code>skills/implementaudit/templates/sidecars.md</code>, and <code>skills/implementaudit/references/lean-operating-discipline.md</code>.</p>
 
       <h2 id="absent-safe-rule">Absent-safe rule</h2>
-      <p>If Graphify or ActiveGraph is missing, stale, or unauthorized, continue with live file inspection and Markdown ledgers.<br>Missing optional tooling is not a blocker for ordinary consuming repos, and dogfood sidecars still do not prove correctness by themselves.</p>
+      <p>If Graphify or ActiveGraph is missing, stale, or unauthorised, continue with live file inspection and Markdown ledgers.<br>Missing optional tooling is not a blocker for ordinary consuming repos, and dogfood sidecars still do not prove correctness by themselves.</p>
 
       <h2 id="when-optional-tools-help">When optional tools help</h2>
-      <p>Qualified terrain may orient first contact.<br>An authorized mirror may copy already-recorded run-root events.<br>Neither replaces deterministic owner/source checks, before/after evidence, final audit, or source evidence.</p>
+      <p>Qualified terrain may orient first contact.<br>An authorised mirror may copy already-recorded run-root events.<br>Neither replaces deterministic owner/source checks, before/after evidence, final audit, or source evidence.</p>

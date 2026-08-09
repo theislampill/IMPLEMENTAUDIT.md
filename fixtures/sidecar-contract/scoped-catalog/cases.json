@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "cases": [
+    {"id": "unchanged", "expect": "runtime"},
+    {"id": "unrelated-change", "expect": "runtime"},
+    {"id": "indexed-change", "expect": "stale-sidecar: changed"},
+    {"id": "indexed-delete", "expect": "stale-sidecar: deleted"},
+    {"id": "new-in-scope", "expect": "stale-sidecar: new"},
+    {"id": "config-drift", "expect": "stale-sidecar: config-drift"},
+    {"id": "scan-root-config-drift", "expect": "stale-sidecar: config-drift"},
+    {"id": "unsupported-nested-config", "expect": "stale-sidecar: unsupported-config"},
+    {"id": "corrupt-catalog", "expect": "invalid graph catalogue"},
+    {"id": "corrupt-graph", "expect": "stale-sidecar: graph-digest"},
+    {"id": "foreign-graph-population", "expect": "stale-sidecar: graph-population"},
+    {"id": "non-ascii-canonicalisation", "expect": "ascii-pass-alternate-fail"},
+    {"id": "wrong-or-overbroad-scope", "expect": "deterministic live-file census"},
+    {"id": "semantic-llm-failure", "expect": "not-retained"},
+    {"id": "cross-scope", "expect": "root"},
+    {"id": "stale-parent-fresh-child", "expect": "child-pass-parent-fail"},
+    {"id": "stale-child-relation-omission", "expect": "stale-sidecar before relation fallback"},
+    {"id": "missing-invocation-relation", "expect": "extractor/relation-model omission", "fallback": "deterministic live-file census", "broaden": false, "llm": false}
+  ]
+}

@@ -10,6 +10,304 @@ err() {
 warn() { printf 'validate-run-root: WARNING: %s\n' "$*" >&2; }
 has_non_whitespace() { LC_ALL=C grep -q '[^[:space:]]' "$1" 2>/dev/null; }
 
+graph_python=()
+case "${1:-}" in
+  --graph-freshness|--graph-scope|--graph-parent)
+    if command -v python >/dev/null 2>&1; then
+      graph_python=(python)
+    elif command -v python3 >/dev/null 2>&1; then
+      graph_python=(python3)
+    elif command -v py >/dev/null 2>&1; then
+      graph_python=(py -3)
+    else
+      printf 'validate-run-root: python, python3, or py -3 is required for graph checks\n' >&2
+      exit 2
+    fi
+    ;;
+esac
+
+if [ "${1:-}" = "--graph-scope" ] || [ "${1:-}" = "--graph-parent" ]; then
+  graph_mode="$1"
+  if { [ "$graph_mode" = "--graph-scope" ] && [ "$#" -lt 4 ]; } || \
+     { [ "$graph_mode" = "--graph-parent" ] && [ "$#" -ne 5 ]; }; then
+    printf 'usage: validate-run-root.sh %s <catalog.json> <repo-root> %s\n' \
+      "$graph_mode" "$([ "$graph_mode" = "--graph-scope" ] && printf '<path> [path...]' || printf '<scope> <miss|ambiguity|cross-scope|relation-omission>')" >&2
+    exit 2
+  fi
+  shift
+  "${graph_python[@]}" - "$graph_mode" "$@" <<'PY'
+import fnmatch, hashlib, json, os, re, subprocess, sys
+from pathlib import Path, PurePosixPath
+
+mode, catalog_arg, repo_arg, *args = sys.argv[1:]
+repo = Path(repo_arg).resolve()
+
+def stop(message, status=1):
+    print(f"validate-run-root: {message}", file=sys.stderr)
+    raise SystemExit(status)
+
+def sha(path):
+    try:
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+    except OSError as exc:
+        stop(f"cannot hash {path}: {exc}", 2)
+
+def covers(row, path):
+    root = row["root"]
+    return ((root == "." or path.startswith(root + "/")) and
+            any(fnmatch.fnmatchcase(path, p) for p in row["include"]) and
+            not any(fnmatch.fnmatchcase(path, p) for p in row["exclude"]))
+
+def inside(path, root):
+    return path == root or root in path.parents
+
+def sidecar(value, kind, base=None):
+    path = Path(value)
+    path = path if path.is_absolute() or base is None else base / path
+    path, resolved = Path(os.path.abspath(path)), path.resolve()
+    if path.is_symlink() or inside(path, repo) or inside(resolved, repo):
+        stop(f"invalid graph catalogue: {kind} path is inside repo or is a symlink: {path}")
+    return resolved
+
+def unsafe(path):
+    return path.is_symlink() or not inside(path.resolve(), repo)
+
+def git_paths(*args):
+    return set(subprocess.check_output(["git", "-C", str(repo), "ls-files", *args]).decode("utf-8").split("\0"))
+
+def unique(pairs):
+    value = dict(pairs)
+    if len(value) != len(pairs):
+        raise ValueError("duplicate JSON member")
+    return value
+
+def exact(value, names):
+    return isinstance(value, dict) and set(value) == set(names.split())
+
+config_names = (".graphifyignore", ".gitignore", ".graphifyinclude")
+
+def scope_root(value):
+    if (not isinstance(value, str) or "\\" in value or str(PurePosixPath(value)) != value or
+            value != "." and (value.startswith("/") or ".." in PurePosixPath(value).parts)):
+        raise ValueError("scope root")
+    path = repo if value == "." else repo / value
+    if (not path.is_dir() or not inside(path.resolve(), repo) or
+            any(part.is_symlink() for part in (path, *path.parents) if inside(part, repo))):
+        raise ValueError("scope root")
+    return path
+
+def config_keys(root):
+    rel = root.relative_to(repo)
+    dirs = [repo.joinpath(*rel.parts[:i]) for i in range(len(rel.parts) + 1)]
+    return sorted((d / name).relative_to(repo).as_posix() for d in dirs for name in config_names)
+
+catalog_path = sidecar(catalog_arg, "catalogue")
+
+try:
+    payload = json.loads(catalog_path.read_text(encoding="utf-8"), object_pairs_hook=unique)
+except (OSError, UnicodeError, ValueError) as exc:
+    stop(f"invalid graph catalogue: {exc}")
+
+hex40, hex64 = re.compile(r"^[0-9a-fA-F]{40}$"), re.compile(r"^[0-9a-fA-F]{64}$")
+try:
+    if not exact(payload, "schema scopes"):
+        raise ValueError("catalogue members")
+    rows = payload["scopes"]
+    if type(payload.get("schema")) is not int or payload["schema"] != 1 or not isinstance(rows, list) or not rows:
+        raise ValueError("schema/scopes")
+    scopes = {}
+    for row in rows:
+        if not exact(row, "name parent root include exclude file_count files config graph graph_sha256 build"):
+            raise ValueError("scope members")
+        name = row["name"]
+        if not isinstance(name, str) or not re.fullmatch(r"[A-Za-z0-9._-]+", name) or name in scopes:
+            raise ValueError("scope name")
+        include, exclude, files = row["include"], row["exclude"], row["files"]
+        build, config, root = row["build"], row["config"], scope_root(row["root"])
+        if not exact(build, "commit tool version mode llm rules_sha256 scope_sha256"):
+            raise ValueError(f"scope {name} build members")
+        if (not isinstance(include, list) or not include or
+                not isinstance(exclude, list) or
+                not all(isinstance(p, str) for p in include + exclude)):
+            raise ValueError(f"scope {name}")
+        rules_sha = hashlib.sha256(json.dumps([sorted(include), sorted(exclude)], separators=(",", ":")).encode()).hexdigest()
+        patterns = include + exclude
+        if (include != sorted(set(include)) or exclude != sorted(set(exclude)) or
+                not all(p and not p.startswith("/") and ".." not in PurePosixPath(p).parts for p in patterns) or
+                not isinstance(files, dict) or row["file_count"] != len(files) or
+                type(row["file_count"]) is not int or row["file_count"] < 0 or
+                not all(isinstance(p, str) and hex64.fullmatch(v or "") for p, v in files.items()) or
+                list(files) != sorted(files) or
+                not all(covers(row, p) for p in files) or
+                not isinstance(config, dict) or list(config) != config_keys(root) or
+                not all(v is None or (isinstance(v, str) and hex64.fullmatch(v)) for v in config.values()) or
+                not isinstance(row["graph"], str) or not hex64.fullmatch(row["graph_sha256"] or "") or
+                row.get("parent") is not None and not isinstance(row.get("parent"), str) or
+                not hex40.fullmatch(build.get("commit", "")) or
+                not all(isinstance(build.get(k), str) and build[k] for k in ("tool", "version", "mode")) or
+                build.get("rules_sha256") != rules_sha or
+                build.get("llm") is not False):
+            raise ValueError(f"scope {name}")
+        contract_build = dict(build)
+        del contract_build["scope_sha256"]
+        contract = {
+            "name": name,
+            "parent": row.get("parent"),
+            "root": row["root"],
+            "include": include,
+            "exclude": exclude,
+            "file_count": row["file_count"],
+            "files": files,
+            "config": config,
+            "build": contract_build,
+        }
+        scope_sha = hashlib.sha256(json.dumps(
+            contract, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+        if build.get("scope_sha256") != scope_sha:
+            raise ValueError(f"scope {name}")
+        scopes[name] = row
+    for name, row in scopes.items():
+        parent = row.get("parent")
+        if parent is not None:
+            parent_row = scopes.get(parent)
+            if (parent_row is None or not inside(scope_root(row["root"]), scope_root(parent_row["root"])) or
+                    not set(row["files"]) < set(parent_row["files"]) or
+                    not all(covers(parent_row, path) for path in row["files"])):
+                raise ValueError(f"parent {name}")
+        seen = {name}
+        while parent is not None:
+            if parent in seen:
+                raise ValueError(f"parent cycle {name}")
+            seen.add(parent)
+            parent = scopes[parent].get("parent")
+    for commit in {row["build"]["commit"] for row in rows}:
+        if subprocess.call(["git", "-C", str(repo), "merge-base", "--is-ancestor", commit, "HEAD"],
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL):
+            raise ValueError(f"build commit {commit}")
+except (AttributeError, KeyError, TypeError, ValueError) as exc:
+    stop(f"invalid graph catalogue: {exc}")
+
+def normalise(value):
+    value = str(value).replace("\\", "/").removeprefix("./")
+    if (not value or Path(value).is_absolute() or re.match(r"^[A-Za-z]:/", value) or
+            ".." in PurePosixPath(value).parts or value == ".git" or value.startswith(".git/")):
+        stop(f"invalid query path: {value}", 2)
+    return value
+
+relation_omission = False
+if mode == "--graph-scope":
+    paths = [normalise(p) for p in args]
+    candidates = [r for r in rows if all(covers(r, p) for p in paths)]
+    if not candidates:
+        stop("graph-route: wrong/overbroad-scope fallback=deterministic-live-file-census broaden=false llm=false")
+    selected = min(candidates, key=lambda r: (r["file_count"], r["name"]))
+    reason = "smallest-cover"
+else:
+    current, reason = args
+    if current not in scopes:
+        stop(f"unknown graph scope: {current}")
+    if reason == "relation-omission":
+        relation_omission, selected = True, scopes[current]
+    elif reason not in {"miss", "ambiguity", "cross-scope"}:
+        stop(f"invalid broadening reason: {reason}", 2)
+    else:
+        if scopes[current].get("parent") is None:
+            stop(f"scope has no declared parent: {current}")
+        selected = scopes[scopes[current]["parent"]]
+        reason = f"parent:{reason}"
+
+check_rows = ([selected] if relation_omission else [scopes[current], selected]) if mode == "--graph-parent" else [selected]
+for selected in check_rows:
+    graph = sidecar(selected["graph"], "graph", catalog_path.parent)
+    if not graph.is_file():
+        stop(f"stale-sidecar: missing graph {selected['name']}")
+    try:
+        graph_bytes = graph.read_bytes()
+    except OSError as exc:
+        stop(f"cannot read graph {graph}: {exc}", 2)
+    if hashlib.sha256(graph_bytes).hexdigest().lower() != selected["graph_sha256"].lower():
+        stop(f"stale-sidecar: graph-digest {selected['name']}")
+    try:
+        graph_payload = json.loads(graph_bytes, object_pairs_hook=unique)
+    except (UnicodeError, ValueError):
+        stop(f"stale-sidecar: invalid graph {selected['name']}")
+    if (not isinstance(graph_payload, dict) or
+            not isinstance(graph_payload.get("nodes"), list) or
+            not isinstance(graph_payload.get("links", graph_payload.get("edges")), list) or
+            not isinstance(graph_payload.get("graph"), dict)):
+        stop(f"stale-sidecar: invalid graph {selected['name']}")
+    if graph_payload["graph"].get("implementaudit_scope_sha256") != selected["build"]["scope_sha256"]:
+        stop(f"stale-sidecar: graph-scope-binding {selected['name']}")
+    sources = []
+    for node in graph_payload["nodes"]:
+        source = node.get("source_file") if isinstance(node, dict) else None
+        if (not isinstance(source, str) or "\\" in source or
+                str(PurePosixPath(source)) != source or source.startswith("/") or
+                ".." in PurePosixPath(source).parts):
+            stop(f"stale-sidecar: graph-population {selected['name']}")
+        sources.append(source if selected["root"] == "." else f"{selected['root']}/{source}")
+    if set(sources) != set(selected["files"]):
+        stop(f"stale-sidecar: graph-population {selected['name']}")
+
+    for rel, expected_digest in selected["config"].items():
+        path = repo / rel
+        if unsafe(path):
+            stop(f"stale-sidecar: unsafe-path {rel}")
+        if path.exists() and not path.is_file():
+            stop(f"stale-sidecar: config-drift {rel}")
+        actual = sha(path) if path.is_file() else None
+        if actual != expected_digest:
+            stop(f"stale-sidecar: config-drift {rel}")
+
+    root = scope_root(selected["root"])
+    for rel in config_keys(root):
+        path = repo / rel
+        active = path.is_file() and any(line.strip() and not line.lstrip().startswith("#") for line in path.read_text(encoding="utf-8", errors="ignore").splitlines())
+        if active and (path.name == ".graphifyinclude" or path.parent != repo):
+            stop(f"stale-sidecar: unsupported-config {rel}")
+    ignore = ".graphifyignore" if selected["config"][".graphifyignore"] else ".gitignore"
+    if selected["config"][ignore] and any("**" in rule and not rule.lstrip().startswith(("#", "!")) for rule in (repo / ignore).read_text(encoding="utf-8", errors="ignore").splitlines()):
+        stop(f"stale-sidecar: unsupported-ignore-pattern {ignore}")
+
+    try:
+        exclude = [f"--exclude-from={repo / ignore}"] if selected["config"][ignore] else []
+        output = git_paths("--cached", "--others", "-z", *exclude)
+        if exclude:
+            output -= git_paths("--cached", "-i", "-z", *exclude)
+    except (OSError, subprocess.CalledProcessError, UnicodeError) as exc:
+        stop(f"cannot census graph scope: {exc}", 2)
+    covered = [p for p in output if p and covers(selected, p)]
+    for rel in covered:
+        path = repo / rel
+        if unsafe(path):
+            stop(f"stale-sidecar: unsafe-path {rel}")
+    current = sorted(p for p in covered if (repo / p).is_file())
+    expected = selected["files"]
+    new = sorted(set(current) - set(expected))
+    deleted = sorted(set(expected) - set(current))
+    if new:
+        stop(f"stale-sidecar: new {new[0]}")
+    if deleted:
+        stop(f"stale-sidecar: deleted {deleted[0]}")
+    if mode == "--graph-scope" and any(p not in expected for p in paths):
+        stop("graph-route: wrong/overbroad-scope query-path-not-indexed fallback=deterministic-live-file-census broaden=false llm=false")
+    for rel in current:
+        if sha(repo / rel).lower() != expected[rel].lower():
+            stop(f"stale-sidecar: changed {rel}")
+
+if relation_omission:
+    print("graph-route: extractor/relation-model omission fallback=deterministic-live-file-census broaden=false llm=false")
+    raise SystemExit(0)
+build = selected["build"]
+print(
+    f"graph-scope: {selected['name']} graph={graph} files={selected['file_count']} "
+    f"reason={reason} build={build['commit']} tool={build['tool']}@{build['version']} "
+    f"mode={build['mode']} llm=false"
+)
+PY
+  exit $?
+fi
+
 if [ "${1:-}" = "--graph-freshness" ]; then
   if [ "$#" -ne 3 ]; then
     printf 'usage: validate-run-root.sh --graph-freshness <graph.json> <repo-root>\n' >&2
@@ -23,19 +321,7 @@ if [ "${1:-}" = "--graph-freshness" ]; then
     exit 2
   }
 
-  py_cmd=()
-  if command -v python >/dev/null 2>&1; then
-    py_cmd=(python)
-  elif command -v python3 >/dev/null 2>&1; then
-    py_cmd=(python3)
-  elif command -v py >/dev/null 2>&1; then
-    py_cmd=(py -3)
-  else
-    printf 'validate-run-root: python, python3, or py -3 is required for graph freshness\n' >&2
-    exit 2
-  fi
-
-  built_at_commit="$("${py_cmd[@]}" - "$graph_path" <<'PY'
+  built_at_commit="$("${graph_python[@]}" - "$graph_path" <<'PY'
 import json
 import sys
 

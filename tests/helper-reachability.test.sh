@@ -74,11 +74,33 @@ PY
 }
 
 positive_output="$(bash "$checker" --repo-root "$repo_root")"
-grep -Fq 'HELPER_REACHABILITY=PASS population=18 examined=18 enumeration=build-release-asset.required_archive' \
+grep -Fq 'HELPER_REACHABILITY=PASS population=18 examined=18 modes=3/3 enumeration=build-release-asset.required_archive' \
   <<<"$positive_output" || {
     printf 'helper-reachability.test: live positive census did not prove 18/18\n%s\n' "$positive_output" >&2
     exit 1
   }
+
+missing_mode="$(make_candidate missing-mode)"
+sed -i '/^helper-mode: validate-run-root.sh|--graph-parent|/d' \
+  "$missing_mode/skills/implementaudit/references/repo-state-comparison.md"
+expect_fail R30-M1 \
+  'missing mode applicability rows: validate-run-root.sh --graph-parent' \
+  "$missing_mode"
+
+unimplemented_mode="$(make_candidate unimplemented-mode)"
+printf '%s\n' \
+  'helper-mode: validate-run-root.sh|--graph-invented|<catalog>|invented' \
+  >>"$unimplemented_mode/skills/implementaudit/references/repo-state-comparison.md"
+expect_fail R30-M2 \
+  'mode applicability not implemented: validate-run-root.sh --graph-invented' \
+  "$unimplemented_mode"
+
+missing_mode_dispatch="$(make_candidate missing-mode-dispatch)"
+sed -i 's/--graph-scope <catalog> <repo> <path> \[path\.\.\.\]/--graph-scope is available/' \
+  "$missing_mode_dispatch/skills/implementaudit/references/repo-state-comparison.md"
+expect_fail R30-M3 \
+  'mode arguments absent: validate-run-root.sh --graph-scope' \
+  "$missing_mode_dispatch"
 grep -Fq 'One audit object; no event, no sweep.' \
   "$repo_root/skills/implementaudit/references/repo-state-comparison.md" || {
     printf 'helper-reachability.test: same-object/no-event contract is missing\n' >&2
@@ -310,4 +332,4 @@ printf '%s\n' \
   >>"$extra_row/skills/implementaudit/references/repo-state-comparison.md"
 expect_fail R30-F11 'applicability rows not in package: ghost-helper.sh' "$extra_row"
 
-printf 'helper-reachability.test: ok (derived 18/18 + R30-F1-F5/F8/F11/F20 controls)\n'
+printf 'helper-reachability.test: ok (derived 18/18 + modes 3/3 + R30-F1-F5/F8/F11/F20/M1-M3 controls)\n'

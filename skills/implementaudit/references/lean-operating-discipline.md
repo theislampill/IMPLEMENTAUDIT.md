@@ -33,73 +33,35 @@ below maps to a concrete runtime behavior or gate.
 
 ## Graphify terrain leverage
 
-Graphify is optional first-contact reconnaissance. All triggers must hold: the
-repo is unfamiliar to this run, majority-code by file count, the question is
-terrain-shaped, and one `rg`, `git grep`, or `git ls-tree` query cannot answer
-it. Graphify is orientation only, not proof; live-file confirmation remains
-mandatory. Absence, a failed trigger, or an anti-trigger falls back to ordinary
-Gemba and `repo-state.sh` without blocking the run.
+Trigger: unfamiliar majority-code terrain with no targeted answer;
+orientation only, not proof; live-file confirmation is mandatory. `sidecars.md` owns
+authorised extraction, freshness, `llm: false`, fallback.
 
-Before a query, execute `validate-run-root.sh --graph-freshness <graph.json>
-<repo-root>`. It compares `built_at_commit` with `git rev-parse HEAD`; mismatch
-fires `stale-sidecar` and makes the terrain unusable. Extraction/re-extraction
-remains separately authorized, uses `--code-only --no-cluster` by default, and
-places `--out` outside the target repo.
-
-| Lean step | Narrowed terrain use | Live-file confirmation required |
-|---|---|---|
-| Seiri / Sort | On first contact, orient to broad code artifact classes and possible component boundaries. | Confirm every class with `git ls-files`, `git ls-tree`, or direct reads before recording it. |
-| Seiton / Set in order | On first contact, locate the neighborhood of an already named code component and candidate owners. | Read the candidate owner/source and confirm links with deterministic searches before action. |
-
-Seiso, Muda/Mura/Muri, DMAIC Measure/Analyze, and DMADV Analyze/Design do not
-gain a Graphify capability claim. Use their ordinary live-file, checker, and
-Git instruments. The known limitations as tested are citable anti-triggers:
-
-- data-file consumers are not represented reliably;
-- module-level constants and duplicated literals are not represented;
+Seiri/Seiton orient code/owners; Seiso/DMAIC/DMADV gain no proof.
+Anti-triggers: data consumers, module-level constants/literals, prose census,
+Git topology:
 - embedded-language code (such as heredoc Python) is not extracted;
-- prose/reference censuses and Git topology are outside the code graph.
 
-This qualification is dogfood-only, as tested on two repos, one Windows host,
-Python 3.11.9, graphifyy 0.9.33, ActiveGraph 1.10.0, on 2026-08-05. It is not a
-universal tool claim. A read-only unfamiliar-third-party-repo trial is the
-broadening gate.
+dogfood-only: Windows, graphifyy 0.8.37 (2026-08-09); 14-file scope beat root;
+both missed a variable-bound call. Semantic/Luna/partitions unproved.
 
 ## ActiveGraph custody events
 
-ActiveGraph's evidenced use is authorized `fork` / `diff`
-resume-from-checkpoint. The run root remains the sole authority for lifecycle
-facts. A custody store and its IMPLEMENTAUDIT-defined custom events may be an
-optional non-authoritative mirror; they are not required event work and cannot
-repair a run root that was not maintained. `replay` does not reconstruct the
-tested custody use case from custom event names.
-
-The former catalogue is retained only as a compact compatibility sample for
-existing stores: `implementaudit.run.opened`, `gemba.graphify.queried`,
-`dmaic.define.recorded`, `poka_yoke.check.recorded`, and
-`implementaudit.run.finalized`. The packaged helper also recognizes
-`andon.probe.recorded`, `andon.escalated`, and `andon.handoff.recorded` for an
-authorized optional mirror. Do not infer completeness, required emission, or
-upstream schema support from these names.
-
-Custody boundaries:
-- ActiveGraph custody stores are optional mirrors written only after separate authorization.
-- Custody stores, event logs, graph exports, and `.db` files are never committed, pushed, or included in the `.skill` package.
-- ActiveGraph absence is not a blocker. Markdown ledger and final report remain first-class fallback.
-- Capability Ledger entries, if configured, remain narrow derivatives of recorded run-root gate evidence; no broad competence claims.
+Authorised `fork` / `diff` or a non-authoritative mirror; run-root authority;
+`replay` cannot reconstruct. IMPLEMENTAUDIT-defined custom events (non-required):
+`implementaudit.run.opened`, `gemba.graphify.queried`,
+`dmaic.define.recorded`, `poka_yoke.check.recorded`,
+`implementaudit.run.finalized`, `andon.probe.recorded`, `andon.escalated`,
+`andon.handoff.recorded`. Custody stores/graphs/`custody.db`: separate authority;
+never committed/packaged; no Markdown repair; narrow claims.
 
 ## Evidence boundaries
 
-- No Lean/TPS certification is claimed.
-- No sigma level, DPMO, or statistical process control values are claimed.
-- DMAIC/DMADV are routing and evidence-shaping patterns for audit-governed repo work, not Six Sigma certification claims.
-- 5S applies to run-root hygiene, package payloads, and generated artifact cleanliness, not physical workplaces.
-- Obeya maps to visual diagrams and ROADMAP.md, not a physical coordination room.
-- Graphify terrain is orientation evidence, not proof. All Graphify-derived candidates require live-file confirmation.
-- An ActiveGraph mirror may reflect gate passages but is not lifecycle authority or correctness proof. Capability Ledger entries remain narrow.
-- All claims are bounded by local repo checks, smoke evidence, and IMPLEMENTAUDIT runtime behavior.
-- A step described as read-only is evidence of non-mutation only when the
-  post-state was compared; a command label or intent does not prove its effect.
+- No Lean/TPS/Six Sigma certification, sigma/DPMO/SPC or physical 5S/Obeya
+  claim; DMAIC/DMADV shape evidence only.
+- Graphify needs live files; ActiveGraph is no lifecycle/correctness proof.
+- Capability Ledger entries remain narrow.
+- Non-mutation is proved only when post-state was compared.
 
 ## Verdict capture fidelity
 

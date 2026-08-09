@@ -568,15 +568,16 @@ and ordinary Gemba; they must not block the run.
 - Reference-shaped questions are anti-triggers. Use `rg`, `git grep`,
   `git ls-tree`, native Git, or direct live-file reads for data-file consumers,
   constants/literals, embedded languages, prose censuses, and topology.
-- Before the first query, run `validate-run-root.sh --graph-freshness
-  <graph.json> <repo-root>`; it compares `built_at_commit` with
-  `git rev-parse HEAD`. A mismatch fires `stale-sidecar` and forbids terrain use.
-- Use Graphify only for first-contact Seiri/Seiton orientation. Record the
-  terrain-shaped query, result summary, executed SHA comparison, evidence
-  boundary, and live-file follow-up in `<run-root>/sidecars.md`.
-- Default to `--code-only --no-cluster` and `--out` outside the target repo.
-  Any model pass requires privacy/spend disclosure and an owner-named backend;
-  auto-detection is refused and Ollama is unauthorized.
+- For a catalogue, run `validate-run-root.sh --graph-scope <catalog> <repo>
+  <path> [path...]`; record the smallest fresh scope, exact fingerprint, query,
+  failure class, and live-file follow-up. Broaden one declared parent only for
+  `miss`, `ambiguity`, or `cross-scope`. Relation-model omissions use exact
+  fallback, not repeated broadening or model invention.
+- Legacy single graphs may use `--graph-freshness`; `built_at_commit` must equal
+  `git rev-parse HEAD`. Any nonzero `stale-sidecar` forbids terrain use.
+- Keep outputs outside the repo. The scoped contract is `llm: false`; any later
+  model pass needs a positive/control cell, privacy/spend disclosure, and an
+  owner-named backend. Auto-detection and Ollama remain unauthorised.
 - Graphify absence is not a blocker. Fall back to live-file Gemba and repo-state.sh.
 
 **ActiveGraph checkpoint assistance and optional mirror:**

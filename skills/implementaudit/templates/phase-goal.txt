@@ -148,9 +148,10 @@ findings and evidence rows do not carry the census group.
 
 ## Graphify / ActiveGraph / Markdown fallback status
 
-Graphify: present-and-fresh (executed SHA match) / stale-sidecar / absent / skipped / unauthorized / anti-triggered
+Graphify: scoped-fresh / legacy-fresh (executed SHA match) / stale-sidecar / absent / skipped / unauthorized / anti-triggered
 Graphify trigger and terrain use: all triggers + <terrain-shaped query/result> / anti-trigger + <ordinary method> / no
-Graphify freshness evidence: <built_at_commit> vs <git rev-parse HEAD>, command + exit
+Graphify freshness evidence: <catalog/scope/fingerprint/command + exit> / legacy <built_at_commit> vs <git rev-parse HEAD>
+Graphify broadening/failure class: none / one declared parent + reason / deterministic fallback for relation omission
 Graphify live-file confirmation: required before any mutation or criterion closure
 ActiveGraph: configured-and-authorized / configured-not-authorized / absent / skipped
 ActiveGraph checkpoint/mirror used: fork / diff / optional non-authoritative mirror / no
