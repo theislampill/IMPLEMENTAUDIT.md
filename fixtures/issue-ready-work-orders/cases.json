@@ -71,6 +71,9 @@
     {"id":"R31-C40-release-structured-dispositions","expected":"PASS","public_effect":"release","r29":"applied","r29_dispositions":{"readme":"current","public_docs":"historical","current_release":"prepublication","generated_owner":"scripts/generate-public-docs.sh","install_route":"release archive installer","state_transition":"prepublication to published readback","owner_source":"public projection owner census"}},
     {"id":"R31-C41-not-applicable-structured-evidence","expected":"PASS","public_effect":"none","r29":"not-applicable","r29_evidence":{"owner_source":"internal-only owner census","reason":"no public projection changes"}},
     {"id":"R31-C42-release-missing-projection-disposition","expected":"FAIL","public_effect":"release","r29":"applied","r29_dispositions":{"readme":"missing","public_docs":"current","current_release":"prepublication","generated_owner":"scripts/generate-public-docs.sh","install_route":"release archive installer","state_transition":"prepublication to published readback","owner_source":"public projection owner census"}},
-    {"id":"R31-C43-no-publication-nested-object","expected":"FAIL","publication_intent":false,"work_order_route_loaded":false,"extra_audit_object":false,"nested_goal":true}
+    {"id":"R31-C43-no-publication-nested-object","expected":"FAIL","publication_intent":false,"work_order_route_loaded":false,"extra_audit_object":false,"nested_goal":true},
+    {"id":"R31-C44-multi-file-single-owner-material","expected":"FAIL","finding":{"files":["runtime/guard.md","tests/route.test.sh"],"owners":["runtime"],"phases":1},"draft":{"concise":true,"fields":["evidence","fix","verification","rollback"]}},
+    {"id":"R31-C45-multiline-auto-close","expected":"FAIL","pr_link":"Implements #158\n\nCloses #141"},
+    {"id":"R31-C46-qualified-past-tense-auto-close","expected":"FAIL","pr_link":"Implementation detail: fixed theislampill/IMPLEMENTAUDIT.md#141"}
   ]
 }

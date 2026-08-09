@@ -56,8 +56,8 @@ if len(set(ids)) != len(ids):
     raise SystemExit("fixture ids must be unique")
 
 controls = payload.get("review_controls")
-if not isinstance(controls, list) or len(controls) != 43:
-    raise SystemExit("review_controls must contain the 43 convergence mutations")
+if not isinstance(controls, list) or len(controls) != 46:
+    raise SystemExit("review_controls must contain the 46 convergence mutations")
 all_cases = cases + controls
 
 material_fields = {
@@ -77,6 +77,8 @@ pair_actions = {
 
 def is_material(finding):
     return any((
+        isinstance(finding.get("files"), list)
+        and len({item.strip() for item in finding["files"] if isinstance(item, str) and item.strip()}) > 1,
         len(set(finding.get("owners", []))) > 1,
         finding.get("phases", 1) > 1,
         bool(set(finding.get("effects", [])) & material_effects),
@@ -209,7 +211,12 @@ def verdict(case):
     if case.get("public_effect") == "none":
         if case.get("r29") != "not-applicable" or not structured_r29_non_applicability(case.get("r29_evidence")):
             return "FAIL"
-    if re.match(r"(?i)^\s*(closes|fixes|resolves)\s+#\d+", case.get("pr_link", "")):
+    if re.search(
+        r"(?i)\b(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s*:?\s+"
+        r"(?:(?:[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)?#\d+|"
+        r"https://github\.com/[^/\s]+/[^/\s]+/issues/\d+)\b",
+        case.get("pr_link", ""),
+    ):
         return "FAIL"
     if case.get("mutation_authority") == "issue-text":
         return "FAIL"
@@ -341,7 +348,7 @@ for case in all_cases:
     if observed != case.get("expected"):
         raise SystemExit(f"{case['id']}: expected {case.get('expected')}, observed {observed}")
 
-print("fixture-census: ok (26/26 + 43/43 convergence controls)")
+print(f"fixture-census: ok ({len(cases)}/{len(cases)} + {len(controls)}/{len(controls)} convergence controls)")
 PY
 
 "${py_cmd[@]}" - "$model_input" "$model_expectations" <<'PY'
