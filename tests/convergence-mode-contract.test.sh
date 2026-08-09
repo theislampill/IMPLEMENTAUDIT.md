@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Governed state-space convergence mode (#11), EXPERIMENTAL/optional:
-# structural checks only — the reference exists, is NOT inlined into the
-# bootloader path, declares trigger/mode/exit/adoption-gate, and the two
-# adoption-gate fixtures are well-formed (positive 3-dim + negative
-# single-fault control). The model-in-the-loop adoption gate itself is a
-# #9 evaluation and is NOT run here.
+# Governed state-space convergence mode (#11, #160), qualified/optional:
+# the progressive reference owns the full triggered method while SKILL.md
+# retains only its truthful load route. Repo-only fixtures qualify the
+# structural, cheap-path, independence, and evaluator boundaries.
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
@@ -29,17 +27,45 @@ fi
 
 [ -f "$ref" ] || fail "optional reference $ref missing"
 flat="$(tr '\n' ' ' < "$ref" | tr -s ' ')"
-printf '%s' "$flat" | grep -qi 'EXPERIMENTAL' || fail "reference must be marked experimental"
+printf '%s' "$flat" | grep -qi 'qualified.*optional.*progressive' \
+  || fail "reference must declare the qualified optional progressive disposition"
 printf '%s' "$flat" | grep -qi 'When it applies (trigger)' || fail "trigger section missing"
+printf '%s' "$flat" | grep -qi 'second independently verified rejection' \
+  || fail "second independently verified rejection hypothesis missing"
+for branch in duplicate unrelated unresolved-family cheap-path; do
+  printf '%s' "$flat" | grep -Fqi "$branch" \
+    || fail "family classifier branch missing: $branch"
+done
 printf '%s' "$flat" | grep -qi 'Enumeration artifact' || fail "enumeration artifact step missing"
 printf '%s' "$flat" | grep -qi 'exactly one outer qualification' || fail "single-outer-qualification missing"
-printf '%s' "$flat" | grep -qi 'Adoption gate' || fail "adoption gate missing"
 printf '%s' "$flat" | grep -qi 'single-fault fixture .* must NOT trigger\|must NOT trigger' \
   || fail "negative-control (must-not-trigger) missing"
 printf '%s' "$flat" | grep -qi 'escalate-to-convergence-mode' \
   || fail "mechanism-replacement evidence producer missing"
-printf '%s' "$flat" | grep -qi 'real-world trigger evidence' \
-  || fail "adoption-gate evidence linkage missing"
+printf '%s' "$flat" | grep -qi 'materially ambiguous' \
+  || fail "material family ambiguity trigger missing"
+printf '%s' "$flat" | grep -qi 'exploratory hypothesis discrimination' \
+  || fail "R34 informational-independence delegation missing"
+printf '%s' "$flat" | grep -qi 'authoritative common facts' \
+  || fail "R34 common-facts boundary missing"
+printf '%s' "$flat" | grep -qi 'conclusion-neutral' \
+  || fail "R34 conclusion-neutral first-pass boundary missing"
+printf '%s' "$flat" | grep -qi 'Smoke A.*Smoke B' \
+  || fail "temporal Smoke A/B axis missing"
+printf '%s' "$flat" | grep -qi 'original failing witness' \
+  || fail "R35 original-witness boundary missing"
+printf '%s' "$flat" | grep -qi 'evaluator identity' \
+  || fail "R35 evaluator-identity boundary missing"
+printf '%s' "$flat" | grep -Fqi 'P4-16' \
+  || fail "R35 post-failure evaluator route missing"
+printf '%s' "$flat" | grep -qi 'external.*unproved\|unproved.*external' \
+  || fail "external-validity limit missing"
+
+skill_route="$(grep -F 'references/convergence-mode.md' "$skill" || true)"
+printf '%s' "$skill_route" | grep -qi 'qualified.*optional' \
+  || fail "SKILL load route does not reflect qualified optional status"
+printf '%s' "$skill_route" | grep -qi 'EXPERIMENTAL' && \
+  fail "SKILL load route still labels the qualified reference experimental"
 
 # Progressive disclosure: the reference must NOT be inlined into the
 # bootloader path. SKILL.md may POINT to it, but not carry its body — guard
@@ -57,7 +83,7 @@ grep -q '^expected_trigger: no' "$fx/single-fault-control.md" \
   || fail "negative control must declare expected_trigger: no"
 
 # R32 independent qualification bank. The fixtures are repo-only evidence;
-# final activation and shared runtime wording remain integration-owned.
+# the shipped reference and load route carry the final narrow activation.
 incident_bank="$r32/incident-population.json"
 case_bank="$r32/cases.json"
 [ -f "$incident_bank" ] || fail "R32 incident population missing: $incident_bank"
@@ -328,4 +354,4 @@ print(
 )
 PY
 
-printf 'convergence-mode-contract: ok (optional reference + original gate + R32 deterministic bank; final activation deferred)\n'
+printf 'convergence-mode-contract: ok (qualified optional reference + R32 deterministic bank)\n'
