@@ -166,6 +166,7 @@ required_ids = {
         (67, "retain-equivalent-without-lower-cost"),
         (68, "retain-lower-cost-without-equivalence"),
         (69, "unqualified-changed-bytes"),
+        (70, "process-heavy-derives-activation"),
     )
 }
 ids = [case.get("id") for case in cases if isinstance(case, dict)]
@@ -186,7 +187,8 @@ def decide(case):
     if kind == "depth":
         exact(o, "activation process_heavy_or_disputed")
         booleans(o, "activation process_heavy_or_disputed")
-        if not o["activation"]:
+        derived_activation = o["activation"] or o["process_heavy_or_disputed"]
+        if not derived_activation:
             return "NO_R34_ARTEFACT"
         return "DEEP_RETROSPECTIVE" if o["process_heavy_or_disputed"] else "MINIMAL_TRIGGERED_RECORD"
     if kind == "admission":

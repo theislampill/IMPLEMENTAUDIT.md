@@ -414,6 +414,12 @@
       "kind": "repeat",
       "observations": {"prior_exact_pass": false, "exact_bytes_unchanged": false, "other_relevant_state_unchanged": true, "scope_identical": true, "consumer_identical": true, "authoritative_consumer_identical": true, "new_residual": false, "new_mutation_family": false},
       "expected": "RUN"
+    },
+    {
+      "id": "R34-C70-process-heavy-derives-activation",
+      "kind": "depth",
+      "observations": {"activation": false, "process_heavy_or_disputed": true},
+      "expected": "DEEP_RETROSPECTIVE"
     }
   ]
 }

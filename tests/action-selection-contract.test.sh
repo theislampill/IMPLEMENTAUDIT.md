@@ -139,4 +139,22 @@ path.write_text(json.dumps(payload), encoding="utf-8")
 PY
 expect_fail "truthy string substituted for an observed boolean"
 
+# 10. Process-heavy evidence derives activation even when the caller's flag is false.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C01-tiny-cheap-path")
+case["observations"]["process_heavy_or_disputed"] = True
+case["expected"] = "DEEP_RETROSPECTIVE"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+bash scripts/check-action-selection-contract.sh --repo-root "$tmp_root" \
+  >/dev/null 2>&1 || fail "held-out process-heavy activation derivation failed"
+
 printf 'action-selection-contract.test: ok\n'
