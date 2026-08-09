@@ -266,7 +266,8 @@ def inspect_profiles(
             )
             route_proves_owner = consumer["route_anchor"] in relation_anchors
             held_out_passes = route["exists"] and route["anchor_present"]
-            if "held_out" in consumer:
+            held_out_present = "held_out" in consumer
+            if held_out_present:
                 held_out = inspect_reference(
                     consumer["held_out"], f"{consumer_label}.held_out", repo
                 )
@@ -280,6 +281,7 @@ def inspect_profiles(
                         and route["anchor_present"]
                         and route_proves_owner
                     ),
+                    "held_out_present": held_out_present,
                     "held_out_passes": held_out_passes,
                 }
             )
@@ -471,6 +473,16 @@ def classify(case: dict[str, Any]) -> dict[str, Any]:
         raise FixtureError(f"case {case['id']} has package pressure but no semantic activation or cheap-path proof")
     if split["applies"]:
         # Shipment and dispatch are derived from each profile, never asserted by the case.
+        if any(
+            consumer["required"] and not consumer["held_out_present"]
+            for behaviour in case["behaviours"]
+            for consumer in behaviour["consumers"]
+        ):
+            return {
+                "triggered": True,
+                "disposition": "FAIL",
+                "reason_code": "held-out-consumer-missing",
+            }
         return {"triggered": True, "disposition": "PASS_PROGRESSIVE_SPLIT", "reason_code": "progressive-consumer-chain-preserved"}
     return {"triggered": True, "disposition": "PASS_EQUIVALENT", "reason_code": "predicates-and-consumers-preserved"}
 

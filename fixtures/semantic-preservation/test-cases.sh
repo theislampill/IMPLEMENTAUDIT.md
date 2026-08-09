@@ -49,3 +49,19 @@ attack_output="$(PYTHONDONTWRITEBYTECODE=1 "${python_cmd[@]}" "$evaluator" --cas
 grep -Fqx \
   'safe-progressive-split: triggered=true disposition=FAIL reason=required-consumer-unreachable' \
   <<<"$attack_output" || fail "unrelated existing consumer anchor must not prove owner reachability"
+
+cp "$cases" "$attack_dir/progressive-without-held-out.json"
+"${python_cmd[@]}" - "$attack_dir/progressive-without-held-out.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+del payload["evidence_profiles"]["safe-progressive"]["consumers"][0]["held_out"]
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+attack_output="$(PYTHONDONTWRITEBYTECODE=1 "${python_cmd[@]}" "$evaluator" --cases "$attack_dir/progressive-without-held-out.json")"
+grep -Fqx \
+  'safe-progressive-split: triggered=true disposition=FAIL reason=held-out-consumer-missing' \
+  <<<"$attack_output" || fail "progressive PASS must have an inspectable held-out consumer probe"
