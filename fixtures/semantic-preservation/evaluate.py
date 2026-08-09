@@ -46,8 +46,12 @@ def validate_case(case: Any, index: int) -> dict[str, Any]:
         raise FixtureError(f"{label}.change.non_semantic_proof is unsupported")
 
     package = require_mapping(row.get("package"), f"{label}.package")
-    for key in ("extracted_members_equal", "unresolved_fit_conflict"):
+    for key in ("extracted_members_equal", "fits_policy_after", "unresolved_fit_conflict"):
         require_bool(package, key, f"{label}.package")
+    if package["fits_policy_after"] == package["unresolved_fit_conflict"]:
+        raise FixtureError(
+            f"{label}.package must distinguish a fitting candidate from an unresolved fit conflict"
+        )
 
     evaluator = require_mapping(row.get("evaluator"), f"{label}.evaluator")
     for key in (
@@ -102,7 +106,9 @@ def validate_case(case: Any, index: int) -> dict[str, Any]:
     return row
 
 
-def behaviour_failure(case: dict[str, Any]) -> tuple[str, str] | None:
+def behaviour_failure(
+    case: dict[str, Any], require_consumer_census: bool
+) -> tuple[str, str] | None:
     for behaviour in case["behaviours"]:
         if not behaviour["owner_shipped"]:
             return "FAIL", "required-owner-unshipped"
@@ -113,6 +119,11 @@ def behaviour_failure(case: dict[str, Any]) -> tuple[str, str] | None:
 
         if not behaviour["after_satisfied"]:
             return "FAIL", "governed-predicate-lost"
+
+        if require_consumer_census and not any(
+            consumer["required"] for consumer in behaviour["consumers"]
+        ):
+            return "FAIL", "required-consumer-census-missing"
 
         for consumer in behaviour["consumers"]:
             if not consumer["required"]:
@@ -137,6 +148,15 @@ def classify(case: dict[str, Any]) -> dict[str, Any]:
             "reason_code": "ordinary-non-package-work",
         }
 
+    triggered = any(
+        (
+            change["shipped_content"],
+            change["owner_location"],
+            change["consumer_route"],
+            evaluator["changed_after_failure"],
+        )
+    )
+
     if evaluator["changed_after_failure"]:
         if not evaluator["independent_justification"]:
             return {
@@ -151,7 +171,14 @@ def classify(case: dict[str, Any]) -> dict[str, Any]:
                 "reason_code": "underlying-property-still-fails",
             }
 
-    failure = behaviour_failure(case)
+    if triggered and not case["behaviours"]:
+        return {
+            "triggered": True,
+            "disposition": "FAIL",
+            "reason_code": "protected-behaviour-census-missing",
+        }
+
+    failure = behaviour_failure(case, require_consumer_census=triggered)
     if failure:
         disposition, reason_code = failure
         return {"triggered": True, "disposition": disposition, "reason_code": reason_code}
@@ -163,10 +190,14 @@ def classify(case: dict[str, Any]) -> dict[str, Any]:
             "reason_code": "underlying-property-still-fails",
         }
 
-    if (
-        change["non_semantic_proof"] == "extracted-equal"
-        and not evaluator["changed_after_failure"]
-    ):
+    if package["unresolved_fit_conflict"]:
+        return {
+            "triggered": True,
+            "disposition": "OWNER_DECISION",
+            "reason_code": "irreducible-package-conflict",
+        }
+
+    if change["non_semantic_proof"] == "extracted-equal" and not triggered:
         if not package["extracted_members_equal"]:
             raise FixtureError(
                 f"case {case['id']} claims extracted equality but package evidence disagrees"
@@ -177,28 +208,6 @@ def classify(case: dict[str, Any]) -> dict[str, Any]:
             "reason_code": "extracted-members-equal",
         }
 
-    if (
-        change["non_semantic_proof"] == "whitespace-dedup"
-        and not evaluator["changed_after_failure"]
-    ):
-        if change["owner_location"] or change["consumer_route"]:
-            raise FixtureError(
-                f"case {case['id']} cannot use the whitespace cheap path after an owner or consumer move"
-            )
-        return {
-            "triggered": False,
-            "disposition": "PASS_MECHANICAL",
-            "reason_code": "proved-non-semantic-change",
-        }
-
-    triggered = any(
-        (
-            change["shipped_content"],
-            change["owner_location"],
-            change["consumer_route"],
-            evaluator["changed_after_failure"],
-        )
-    )
     if not triggered:
         raise FixtureError(
             f"case {case['id']} has package pressure but no semantic activation or cheap-path proof"
@@ -227,13 +236,6 @@ def classify(case: dict[str, Any]) -> dict[str, Any]:
             "triggered": True,
             "disposition": "PASS_PROGRESSIVE_SPLIT",
             "reason_code": "progressive-consumer-chain-preserved",
-        }
-
-    if package["unresolved_fit_conflict"]:
-        return {
-            "triggered": True,
-            "disposition": "OWNER_DECISION",
-            "reason_code": "irreducible-package-conflict",
         }
 
     return {
