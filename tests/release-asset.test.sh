@@ -352,19 +352,6 @@ with zipfile.ZipFile(asset) as zf:
     N05_FINAL_MEASURED_FORECAST_BYTES = 206_159
     FIRST_REJECTED_BYTES = 227_001
 
-    expected_calibration = (
-        (CURRENT_CALIBRATION_ASSET_BYTES + MIN_HEADROOM_BYTES
-         + CALIBRATION_QUANTUM_BYTES - 1)
-        // CALIBRATION_QUANTUM_BYTES
-        * CALIBRATION_QUANTUM_BYTES
-    )
-    if MAX_ASSET_BYTES != expected_calibration:
-        raise SystemExit(
-            "hard ceiling is not the smallest calibrated quantum for the "
-            f"evidence candidate: expected {expected_calibration:,}, "
-            f"got {MAX_ASSET_BYTES:,}"
-        )
-
     def enforce_asset_budget_policy(max_bytes, measured_bytes, authority):
         if max_bytes > OWNER_OUTER_BOUND_BYTES:
             raise SystemExit(
@@ -386,6 +373,28 @@ with zipfile.ZipFile(asset) as zf:
                 f"calibration authority rejected: {authority!r}"
             )
 
+    def enforce_calibrated_asset_policy(
+            max_bytes, configured_measured_bytes, actual_bytes, authority):
+        if configured_measured_bytes != actual_bytes:
+            raise SystemExit(
+                "configured measurement does not match actual asset bytes: "
+                f"configured {configured_measured_bytes:,}, "
+                f"actual {actual_bytes:,}"
+            )
+        expected_calibration = (
+            (actual_bytes + MIN_HEADROOM_BYTES
+             + CALIBRATION_QUANTUM_BYTES - 1)
+            // CALIBRATION_QUANTUM_BYTES
+            * CALIBRATION_QUANTUM_BYTES
+        )
+        if max_bytes != expected_calibration:
+            raise SystemExit(
+                "hard ceiling is not the smallest calibrated quantum for the "
+                f"actual asset: expected {expected_calibration:,}, "
+                f"got {max_bytes:,}"
+            )
+        enforce_asset_budget_policy(max_bytes, actual_bytes, authority)
+
     def expect_policy_rejection(fragment, values):
         try:
             enforce_asset_budget_policy(*values)
@@ -401,6 +410,27 @@ with zipfile.ZipFile(asset) as zf:
             MAX_ASSET_BYTES, N06_BASELINE_ASSET_BYTES, "implementation-lane")),
     ):
         expect_policy_rejection(fragment, values)
+
+    def expect_calibration_proxy_rejection(fragment, values):
+        try:
+            enforce_calibrated_asset_policy(*values)
+        except SystemExit as exc:
+            assert fragment in str(exc), exc
+        else:
+            raise SystemExit(f"calibration proxy accepted {fragment}")
+
+    for fragment, values in (
+        ("configured measurement", (
+            MAX_ASSET_BYTES, CURRENT_CALIBRATION_ASSET_BYTES, 224_000,
+            "owner")),
+        ("configured measurement", (
+            MAX_ASSET_BYTES, 224_000, asset_bytes, "owner")),
+        ("configured measurement", (
+            230_000, 227_500, asset_bytes, "owner")),
+        ("smallest calibrated quantum", (
+            228_000, asset_bytes, asset_bytes, "owner")),
+    ):
+        expect_calibration_proxy_rejection(fragment, values)
     for authority in ALLOWED_CALIBRATION_AUTHORITIES:
         enforce_asset_budget_policy(
             MAX_ASSET_BYTES, N06_BASELINE_ASSET_BYTES, authority)
@@ -434,8 +464,9 @@ with zipfile.ZipFile(asset) as zf:
     else:
         raise SystemExit("asset above MAX_ASSET_BYTES was accepted")
 
-    enforce_asset_budget_policy(
-        MAX_ASSET_BYTES, asset_bytes, CURRENT_CALIBRATION_AUTHORITY
+    enforce_calibrated_asset_policy(
+        MAX_ASSET_BYTES, CURRENT_CALIBRATION_ASSET_BYTES, asset_bytes,
+        CURRENT_CALIBRATION_AUTHORITY
     )
     enforce_asset_budget(asset_bytes)
     print(
