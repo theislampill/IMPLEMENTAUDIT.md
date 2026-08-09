@@ -13,7 +13,23 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ## [Unreleased]
 
-(nothing yet)
+### Changed
+
+- Optional Graphify terrain can use an outside-repository scope catalogue to
+  select and validate the smallest graph covering named paths. Scope-local
+  canonical scan roots, Graphify-manifest file/content/config rules,
+  exact graph-source population, graph-bound scope fingerprints, ancestor build provenance,
+  graph digests, and proper covering parents replace whole-HEAD staleness.
+- Graphify's root `.graphifyignore` preference and `.gitignore` fallback apply
+  to tracked and untracked files. Divergent positive double-star patterns,
+  active nested ignores, and active include rules fail closed to live files
+  instead of approximating extractor semantics.
+- The qualified catalogue route is mechanical `llm: false`. It does not claim
+  semantic/Luna qualification, let info/global Git ignores conceal scope files,
+  repair extractor omissions through inference,
+  adopt permanent graph partitions, or package Graphify outputs. Graphify
+  0.8.37's incremental `--no-cluster` route is explicitly excluded after the
+  #144 dogfood control dropped unchanged terrain.
 
 ## [v0.3.3.0] - 2026-08-08
 

@@ -902,24 +902,38 @@ Graphify output is orientation evidence, not proof. It does not prove
 correctness, decide closure, authorise mutation, replace live-file inspection,
 override repo instructions, or weaken `AGENTS.md`.
 
-Before any query, the packaged freshness command compares `graph.json`
-`built_at_commit` with `git rev-parse HEAD`. A mismatch fires
-`stale-sidecar` and makes the terrain unusable. Live files win over graph
-output. If Graphify is absent, stale, unauthorized, or inapplicable,
-`/implementaudit` falls back to ordinary Gemba.
+For scoped terrain, an outside-repo catalogue records each graph's canonical scan
+root, Graphify-manifest population, content/config hashes from repo root through
+that root, exact root-prefixed graph `source_file` population, graph-bound
+scope-contract fingerprint, ancestor build provenance, proper
+covering parent, and digest. The catalogue itself and graphs stay outside the repo.
+The packaged `--graph-scope` command selects the smallest graph covering the
+named paths and checks only that scope, so an unrelated change does not stale
+it. Changed, deleted, or new in-scope files, extractor-config drift, or graph/catalogue
+damage fire `stale-sidecar`; unsafe symlinks and info/global Git excludes cannot conceal a
+scope file. Positive double-star ignore patterns whose Git/Graphify semantics
+diverge fail closed to live files; active nested ignore/include rules currently
+return `unsupported-config`. `--graph-parent` broadens one proper covering step for a recorded
+miss, ambiguity, or cross-scope need after revalidating the live child and parent. `relation-omission` revalidates the child, then exits to
+deterministic live-file census without broadening/model dispatch. Legacy graphs with
+`built_at_commit` retain the whole-HEAD freshness command.
 
-The documented no-model default is `--code-only --no-cluster`, with `--out`
-outside the target repo. Semantic/clustering passes disclose that filtering is
-a filename heuristic, spend can be unmeasurable, and content may leave the
-machine or consume host-model quota. They require an owner-named backend;
-auto-detection is refused, and Ollama is explicitly unauthorized. These claims
-are dogfood-only, as tested on two repos, one Windows host, pinned 2026-08-05
-versions. An unfamiliar-third-party-repo trial gates any broadening.
+The qualified no-model route uses an explicit code-only corpus and
+`llm: false`; Graphify 0.8.37 has no `--code-only` flag, and its incremental
+`--no-cluster` path was rejected after dropping unchanged terrain. A relation
+absent from the graph is an extractor/relation-model omission: use exact live
+search rather than repeated broadening or model inference. The scoped feature
+does not qualify semantic/Luna behaviour; no Luna route was configured or
+called. Any later model pass must record its corpus, positive/control cells,
+owner-named backend/model, usage, privacy, and spend. A filename heuristic is
+not secret scanning, numeric zero may mean unmeasurable spend, auto-detection
+is refused, and Ollama is explicitly unauthorized. Broader claims still need
+an unfamiliar-third-party-repo trial.
 
 ### ActiveGraph checkpoint assistance and optional mirror
 
-ActiveGraph's evidenced use is authorized `fork` / `diff`
-resume-from-checkpoint. An event store may remain a separately authorized
+ActiveGraph's evidenced use is authorised `fork` / `diff`
+resume-from-checkpoint. An event store may remain a separately authorised
 non-authoritative mirror, but the run root is the sole authority for lifecycle
 facts. `replay` does not reconstruct the tested custom-event custody use case.
 
@@ -936,7 +950,7 @@ Entries may include:
 - owner/source
 - countermeasure
 - Graphify terrain context, if available
-- ActiveGraph mirror event ids, if separately authorized and available
+- ActiveGraph mirror event ids, if separately authorised and available
 - authorisation gates respected
 - Smoke A and Smoke B
 - regression / Andon / Hansei trail, if any
@@ -947,12 +961,12 @@ When ActiveGraph is absent, the ordinary Markdown ledger and final report remain
 first-class fallback. The run is not blocked merely because ActiveGraph is
 unavailable.
 
-When mirror writing is separately authorized, the conventions are concrete:
+When mirror writing is separately authorised, the conventions are concrete:
 one optional store per run root (`<run-root>/custody.db`, or
 `custody-trace.jsonl` as an append-only fallback), written with the packaged
 absent-safe `custody-append.sh` helper; Andon escalation may mirror as
 `andon.probe.recorded` / `andon.escalated` / `andon.handoff.recorded` events
-carrying the abnormality class; and reconstructed history must be labeled
+carrying the abnormality class; and reconstructed history must be labelled
 `custody_mode: historical_backfill` with source, backfill time, original
 event time, and evidence boundary, so live and backfilled custody never blur.
 Run-level sidecar status lives in `<run-root>/sidecars.md`, instantiated from
@@ -962,7 +976,7 @@ the packaged template.
 
 Interop boundaries are explicit:
 
-- Graphify-supported behavior must be distinguished from ImplementAudit
+- Graphify-supported behaviour must be distinguished from ImplementAudit
   heuristics.
 - Graphify summaries and graph output are not proof.
 - ActiveGraph custody is not correctness proof.

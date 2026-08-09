@@ -232,12 +232,22 @@ whole-repo sweep.
 ## Helper dispatch (#157)
 
 Gate derives source repo `scripts/*.sh`; presence/tests/self-use/wildcards are
-not dispatch. `H|C|T|O|K|A|N`: helper/class/trigger/owner/caller/args/no-event.
-`A/R/O/S/I`: automatic/required/optional/standalone/internal. `P/R/C/S/V`:
-PROTOCOL/this/child-agents/SKILL/validate-run-root. R runs
-`bash <skill-dir>/scripts/<H> <A>` and blocks T; A/I need K; O/S never gate.
+not dispatch. Fields `H|C|T|O|K|A|N` mean helper/class/trigger/owner/caller/
+args/no-event. Classes `A/R/O/S/I`: automatic/required/optional/standalone/
+internal; owners `P/R/C/S/V`: PROTOCOL/this/child-agents/SKILL/validator.
+R runs `bash <skill-dir>/scripts/<H> <A>` and blocks T; A/I need K; O/S never gate.
 One audit object; no event, no sweep. Phased Stage 0 runs `detect-env.sh`; run
 `validate-audit-spec.sh <spec>` for a spec and `detect-stack.sh` only for standalone diagnosis.
+
+Graphify modes: `bash <skill-dir>/scripts/validate-run-root.sh --graph-freshness
+<graph.json> <repo-root>` blocks stale; `bash <skill-dir>/scripts/validate-run-root.sh
+--graph-scope <catalog> <repo> <path> [path...]` selects smallest fresh; `bash
+<skill-dir>/scripts/validate-run-root.sh --graph-parent <catalog> <repo> <scope>
+<reason>` revalidates then broadens/falls back.
+
+helper-mode: validate-run-root.sh|--graph-freshness|<graph.json> <repo-root>|stale
+helper-mode: validate-run-root.sh|--graph-scope|<catalog> <repo> <path> [path...]|smallest
+helper-mode: validate-run-root.sh|--graph-parent|<catalog> <repo> <scope> <reason>|fallback
 
 helper-route: check-authorization-binding.sh|R|auth|P|-|--auth <a> --invocation <i> --state <s>|no-param
 helper-route: check-closure-surface.sh|R|final|P|-|<closure-record> --superseded-plan <each-replaced-plan> --steer-dir <run-root> --plan-cycle-record <each-cycle-accounted-plan>|inputs
