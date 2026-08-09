@@ -318,6 +318,34 @@ discriminate, and no material coupled residual remains. Absorb the evidence into
 the ordinary finding/closure surfaces and retire the temporary row; do not
 create a permanent evaluator registry or worksheet.
 
+The same evidence row has a second activation surface,
+`CANDIDATE_CONTROLLED_VALIDATION_POLICY`. It activates when the candidate delta
+semantically intersects validation-shaping authority used to judge that
+candidate. A changed path, test file, support file, or name match is not itself
+an activation signal. Product-only work and non-judgement support changes keep
+the ordinary cheap path.
+
+Classify the intersecting delta as `PRODUCT_ONLY`, `POLICY_STRENGTHENING`,
+`AUTHORISED_POLICY_CHANGE`, `CANDIDATE_CONTROLLED_POLICY_WEAKENING`,
+`NEW_POLICY_NO_BASELINE_EQUIVALENT`, or `COUPLED_OR_UNRESOLVED` without replacing
+the original product/evaluator classification. Candidate-carried deletion,
+skip guidance, configuration, narrowing, bypass, registry removal, or owner
+unreachability cannot authenticate its own green result. A strengthening may
+supplement acceptance only while the independently required baseline remains.
+An authorised repair retains the original witness, authoritative contract, and
+held-out positive, negative, boundary, and adjacent discrimination. A genuinely
+new policy without a baseline equivalent additionally requires explicit
+external owner authority and independent property discrimination.
+
+If a governing validation owner moves, normal discovery must still reach it.
+Otherwise FAIL unless an authoritative migration proves the new route and an
+equivalent or stronger governed property; R30 remains the complete reachability
+owner. Record candidate and parent identities, the semantic owner delta,
+independent property, classification, baseline/candidate behaviour, migration,
+residual coupling, and rollback in the existing R35 row. Do not create a
+universal policy ledger, test-path trigger, model call, helper, marker, or
+parallel lifecycle.
+
 ---
 
 ## Phase shape examples

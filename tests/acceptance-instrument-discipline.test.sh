@@ -422,6 +422,51 @@ else
   cat "$structural_record_out" >&2
 fi
 
+policy_mutants="$tmp/r35-policy-mutants"
+mkdir -p "$policy_mutants"
+"${py_cmd[@]}" - "$fixture" "$policy_mutants" <<'PY'
+import copy
+import json
+import sys
+from pathlib import Path
+
+source, target_dir = Path(sys.argv[1]), Path(sys.argv[2])
+fixture = json.loads(source.read_text(encoding="utf-8"))
+mutations = {
+    "path-only-trigger": ("R35-CP7-support-file-path-only", {"expected": {"activation": "CANDIDATE_CONTROLLED_VALIDATION_POLICY", "classification": "CANDIDATE_CONTROLLED_POLICY_WEAKENING", "route": "REJECT_SELF_AUTHENTICATED_GREEN", "disposition": "FAIL"}}),
+    "strengthening-replaces-baseline": ("R35-CP4-policy-strengthening", {"baseline_equivalent": False}),
+    "repair-drops-adjacent": ("R35-CP5-legitimate-policy-repair", {"held_out_passed": ["positive", "negative", "boundary"]}),
+    "new-policy-self-authorised": ("R35-CP6-new-policy-no-baseline", {"external_owner_authority": False}),
+    "migration-loses-property": ("R35-CP8-authoritative-migration", {"property_equivalent_or_stronger": False}),
+}
+for name, (case_id, updates) in mutations.items():
+    payload = copy.deepcopy(fixture)
+    case = next(row for row in payload["policy_cases"] if row["id"] == case_id)
+    case.update(updates)
+    (target_dir / f"{name}.json").write_text(
+        json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+PY
+
+while IFS='|' read -r mutant_name case_id; do
+  mutant_out="$tmp/r35-policy-$mutant_name.out"
+  if bash scripts/check-acceptance-instrument-discipline.sh \
+      "$policy_mutants/$mutant_name.json" >"$mutant_out" 2>&1; then
+    record_fail "R35 policy mutant $mutant_name was accepted"
+  elif grep -Fq "$case_id" "$mutant_out"; then
+    record_pass
+  else
+    record_fail "R35 policy mutant $mutant_name failed without identifying $case_id"
+    cat "$mutant_out" >&2
+  fi
+done < <("${py_cmd[@]}" - "$fixture" <<'PY'
+print("path-only-trigger|R35-CP7-support-file-path-only")
+print("strengthening-replaces-baseline|R35-CP4-policy-strengthening")
+print("repair-drops-adjacent|R35-CP5-legitimate-policy-repair")
+print("new-policy-self-authorised|R35-CP6-new-policy-no-baseline")
+print("migration-loses-property|R35-CP8-authoritative-migration")
+PY
+)
+
 answer_authority_fixture="$tmp/r35-answer-correction-without-authority.json"
 "${py_cmd[@]}" - "$fixture" "$answer_authority_fixture" <<'PY'
 import json

@@ -62,6 +62,17 @@ RECORD_KEYS = {
     "stop_condition",
 }
 PARITY_KEYS = {"input", "primary_verdict", "secondary_verdict"}
+POLICY_KEYS = {
+    "id", "candidate_changed", "path_match", "semantic_owner_intersection",
+    "validation_authority_used", "policy_delta", "baseline_equivalent",
+    "external_owner_authority", "authoritative_contract",
+    "original_witness_retained", "held_out_passed", "discovery_reachable",
+    "migration_authority", "property_equivalent_or_stronger", "expected",
+}
+POLICY_DELTAS = {
+    "unchanged", "strengthening", "repair", "new-policy", "weakening",
+    "migration", "coupled",
+}
 PROMPT_KEYS = {
     "before_prompt", "after_prompt", "expected_answer_before",
     "expected_answer_after", "forbidden_mission_phrases", "distractors",
@@ -308,6 +319,86 @@ def classify_mutation(case, mutation_record, parity_witness):
         "TRIGGERED", "UNRESOLVED", "INDEPENDENT_ADJUDICATION", "UNRESOLVED")
 
 
+def validate_policy_case(case, index):
+    require_exact(case, POLICY_KEYS, f"policy case {index}")
+    if type(case["id"]) is not str or not case["id"]:
+        raise ValueError(f"policy case {index} identity invalid")
+    for key in (
+            "candidate_changed", "path_match", "semantic_owner_intersection",
+            "validation_authority_used", "baseline_equivalent",
+            "external_owner_authority", "authoritative_contract",
+            "original_witness_retained", "discovery_reachable",
+            "migration_authority", "property_equivalent_or_stronger"):
+        if type(case[key]) is not bool:
+            raise ValueError(f"{case['id']}: {key} must be boolean")
+    if case["policy_delta"] not in POLICY_DELTAS:
+        raise ValueError(f"{case['id']}: policy delta invalid")
+    held_out = case["held_out_passed"]
+    if (type(held_out) is not list or len(held_out) != len(set(held_out)) or
+            not set(held_out) <= HELD_OUT_SET):
+        raise ValueError(f"{case['id']}: held-out controls invalid")
+    require_exact(
+        case["expected"],
+        {"activation", "classification", "route", "disposition"},
+        f"{case['id']} expected result")
+
+
+def classify_policy(case):
+    activated = (
+        case["candidate_changed"] and case["semantic_owner_intersection"] and
+        case["validation_authority_used"])
+    if not activated or case["policy_delta"] == "unchanged":
+        return result(
+            "NO_R35_ACTIVATION", "PRODUCT_ONLY", "ORDINARY_PATH", "PASS")
+
+    held_out = set(case["held_out_passed"]) == HELD_OUT_SET
+    independent = (
+        case["external_owner_authority"] and case["authoritative_contract"] and
+        case["original_witness_retained"] and held_out and
+        case["property_equivalent_or_stronger"])
+
+    if case["policy_delta"] == "weakening":
+        return result(
+            "CANDIDATE_CONTROLLED_VALIDATION_POLICY",
+            "CANDIDATE_CONTROLLED_POLICY_WEAKENING",
+            "REJECT_SELF_AUTHENTICATED_GREEN", "FAIL")
+
+    if case["policy_delta"] == "migration" or not case["discovery_reachable"]:
+        if case["migration_authority"] and independent:
+            return result(
+                "CANDIDATE_CONTROLLED_VALIDATION_POLICY",
+                "AUTHORISED_POLICY_CHANGE", "AUTHORITATIVE_OWNER_MIGRATION",
+                "PASS")
+        return result(
+            "CANDIDATE_CONTROLLED_VALIDATION_POLICY",
+            "CANDIDATE_CONTROLLED_POLICY_WEAKENING", "OWNER_UNREACHABLE",
+            "FAIL")
+
+    if case["policy_delta"] == "strengthening":
+        if case["baseline_equivalent"] and case["property_equivalent_or_stronger"]:
+            return result(
+                "CANDIDATE_CONTROLLED_VALIDATION_POLICY",
+                "POLICY_STRENGTHENING", "BASELINE_RETAINED",
+                "PASS_SUPPLEMENTARY_ONLY")
+
+    if case["policy_delta"] == "repair" and independent:
+        return result(
+            "CANDIDATE_CONTROLLED_VALIDATION_POLICY",
+            "AUTHORISED_POLICY_CHANGE", "INDEPENDENT_PROPERTY_ADJUDICATION",
+            "PASS")
+
+    if (case["policy_delta"] == "new-policy" and
+            not case["baseline_equivalent"] and independent):
+        return result(
+            "CANDIDATE_CONTROLLED_VALIDATION_POLICY",
+            "NEW_POLICY_NO_BASELINE_EQUIVALENT",
+            "EXTERNAL_OWNER_AND_PROPERTY_DISCRIMINATION", "PASS")
+
+    return result(
+        "CANDIDATE_CONTROLLED_VALIDATION_POLICY", "COUPLED_OR_UNRESOLVED",
+        "ISOLATE_OR_ADJUDICATE", "UNRESOLVED")
+
+
 def classify(case):
     kind = case.get("kind")
     if kind == "regex-predicate":
@@ -369,7 +460,7 @@ fixture = json.loads(
 require_exact(
     fixture,
     {"schema", "controls", "instrument_parity", "mutation_cases",
-     "mutation_records", "phase_cases"},
+     "mutation_records", "phase_cases", "policy_cases"},
     "fixture bank")
 if fixture["schema"] != "implementaudit-acceptance-instrument-discipline-fixtures-v2":
     raise ValueError("fixture bank schema invalid")
@@ -379,6 +470,8 @@ if type(fixture["phase_cases"]) is not list or not fixture["phase_cases"]:
     raise ValueError("fixture phase_cases must be a non-empty list")
 if type(fixture["mutation_cases"]) is not list or not fixture["mutation_cases"]:
     raise ValueError("fixture mutation_cases must be a non-empty list")
+if type(fixture["policy_cases"]) is not list or not fixture["policy_cases"]:
+    raise ValueError("fixture policy_cases must be a non-empty list")
 mutation_records = fixture["mutation_records"]
 if type(mutation_records) is not dict:
     raise ValueError("fixture mutation_records must be an object")
@@ -481,6 +574,30 @@ if set(mutation_records) - set(mutation_ids):
 if set(instrument_parity) - set(mutation_ids):
     raise ValueError("parity witness identity has no case")
 
+policy_ids = []
+for index, case in enumerate(fixture["policy_cases"]):
+    validate_policy_case(case, index)
+    policy_ids.append(case["id"])
+    actual = classify_policy(case)
+    if actual != case["expected"]:
+        failures.append(
+            f"{case['id']}: expected {case['expected']!r}, got {actual!r}")
+
+required_policy_ids = {
+    "R35-CP1-deleted-assertion-registry",
+    "R35-CP2-candidate-skip-guidance",
+    "R35-CP3-product-only-cheap-path",
+    "R35-CP4-policy-strengthening",
+    "R35-CP5-legitimate-policy-repair",
+    "R35-CP6-new-policy-no-baseline",
+    "R35-CP7-support-file-path-only",
+    "R35-CP8-undiscoverable-owner",
+    "R35-CP8-authoritative-migration",
+    "R35-CP-coupled-unresolved",
+}
+if len(policy_ids) != len(set(policy_ids)) or set(policy_ids) != required_policy_ids:
+    raise ValueError("policy control identity set invalid")
+
 required_mutation_ids = {
     "R35-unrelated-test-no-trigger",
     "R35-pre-candidate-red-first-no-trigger",
@@ -520,5 +637,6 @@ if failures:
 
 sys.stdout.write(
     "check-acceptance-instrument-discipline: ok "
-    f"({len(ids)} instrument + {len(mutation_ids)} mutation controls)\n")
+    f"({len(ids)} instrument + {len(mutation_ids)} mutation + "
+    f"{len(policy_ids)} policy controls)\n")
 PY
