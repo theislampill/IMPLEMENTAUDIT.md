@@ -81,8 +81,8 @@ When the classifier returns convergence:
    states of the shared space without repairing yet.
 2. **Enumeration artifact** — in the existing audit object, record included
    counterexamples, excluded distractors, state dimensions, equivalence
-   classes, malformed and boundary states, and bounded mutation operators;
-   omission-review what the enumeration may have missed.
+   classes, explicit valid states, malformed and boundary states, and bounded
+   mutation operators; omission-review what the enumeration may have missed.
 3. **Generated RED fixtures** — make each enumerated state fail before repair
    and retain adjacent and held-out discriminators.
 4. **One coherent repair** — repair the shared owner/source invariant rather
@@ -91,13 +91,25 @@ When the classifier returns convergence:
    after the coherent repair, then obtain the independently required final
    review. Do not requalify after every state patch.
 
-The convergence record reuses the existing audit object and carries the owner,
-invariant, failure mechanism, included and excluded cases, dimensions, classes,
-malformed/boundary/adjacent states, mutation operators, RED witnesses, held-out
-results, outer qualification, review yield, residual risk, and stop or
-reclassification decision. Filling these fields is not a PASS: a failing
-held-out mutation, overbroad family, substituted owner, or green form with an
-unrepaired property is rejection evidence.
+The convergence record reuses the existing audit object. Its state model names
+the owner, invariant and failure mechanism, then supplies referential binding
+among the included failure IDs, excluded distractor IDs, dimensions,
+equivalence classes, bounded mutation operators and state IDs. Every valid,
+malformed, boundary and adjacent state has an ID, bound dimension and class,
+non-empty state payload, and expected invariant outcome. Distractor objects
+resolve every excluded population entry and state why their owner, invariant
+or mechanism is outside the family; an excluded object that is actually in the
+family is incoherent, not a useful negative control.
+
+Each held-out ID resolves one payload-bearing state, a bound mutation operator,
+and both the expected invariant and discriminator outcome. Record the observed
+outcomes separately and derive PASS from their agreement; never trust a
+self-declared `result: pass`. RED witnesses resolve included population IDs,
+and the record also retains outer qualification, review yield, residual risk,
+and the stop or reclassification decision. Filling these fields is not a PASS:
+a dangling ID, unknown dimension/class/mutation, failing held-out mutation,
+overbroad family, substituted owner, or green form with an unrepaired property
+is rejection evidence.
 
 Renaming, paraphrasing, punctuation changes, and moving the same counterexample
 do not create a new family when the owner invariant and mutation relation are

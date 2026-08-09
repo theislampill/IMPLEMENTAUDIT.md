@@ -38,6 +38,16 @@ for branch in duplicate unrelated unresolved-family cheap-path; do
 done
 printf '%s' "$flat" | grep -qi 'Enumeration artifact' || fail "enumeration artifact step missing"
 printf '%s' "$flat" | grep -qi 'exactly one outer qualification' || fail "single-outer-qualification missing"
+printf '%s' "$flat" | grep -qi 'valid states' \
+  || fail "explicit valid-state representation missing"
+printf '%s' "$flat" | grep -qi 'state payload' \
+  || fail "state-payload requirement missing"
+printf '%s' "$flat" | grep -qi 'expected invariant.*discriminator outcome' \
+  || fail "held-out expected-outcome binding missing"
+printf '%s' "$flat" | grep -qi 'distractor objects' \
+  || fail "resolvable distractor-object requirement missing"
+printf '%s' "$flat" | grep -qi 'referential binding' \
+  || fail "state-model referential-binding requirement missing"
 printf '%s' "$flat" | grep -qi 'single-fault fixture .* must NOT trigger\|must NOT trigger' \
   || fail "negative-control (must-not-trigger) missing"
 printf '%s' "$flat" | grep -qi 'escalate-to-convergence-mode' \
@@ -93,6 +103,7 @@ case_bank="$r32/cases.json"
 import json
 import re
 import sys
+import copy
 from collections import Counter
 from pathlib import Path
 
@@ -120,6 +131,12 @@ def load(path):
 
 incidents = load(sys.argv[1])
 cases = load(sys.argv[2])
+
+if cases.get("schema") != "implementaudit-r32-deterministic-cases-v2":
+    die("R32 case bank schema does not identify the reconstructible state model")
+evidence_boundary = cases.get("evidence_boundary", "")
+if "qualified optional" not in evidence_boundary or "external effectiveness unproved" not in evidence_boundary:
+    die("R32 case bank evidence boundary is stale or overclaims external validity")
 
 # A denominator is an enumerated population, never a declared number alone.
 receipts = incidents.get("receipts")
@@ -258,25 +275,156 @@ def validate_record(case, route):
         die(f"{case['id']} convergence route lacks a record")
     for field in (
         "owner", "invariant", "mechanism", "included", "excluded", "dimensions", "classes",
+        "valid_states", "distractors", "held_out_ids",
         "malformed_states", "boundary_states", "adjacent_states", "mutation_operators",
         "red_witnesses", "held_out", "outer_qualification", "review_yield",
     ):
         value = record.get(field)
         if value in (None, "", [], {}):
             die(f"{case['id']} convergence record lacks {field}")
-    if any(op not in allowed_mutations for op in record["mutation_operators"]):
-        die(f"{case['id']} uses an unbounded mutation operator")
+    dimensions = record["dimensions"]
+    if (not all(isinstance(value, str) and value for value in dimensions)
+            or len(dimensions) != len(set(dimensions))):
+        die(f"{case['id']} dimensions must be unique nonempty ids")
+    classes = record["classes"]
+    if not all(isinstance(value, dict) for value in classes):
+        die(f"{case['id']} classes must bind ids to dimensions")
+    class_ids = [value.get("id") for value in classes]
+    if (any(not isinstance(value, str) or not value for value in class_ids)
+            or len(class_ids) != len(set(class_ids))):
+        die(f"{case['id']} class ids must be unique and nonempty")
+    class_dimensions = {value["id"]: value.get("dimension") for value in classes}
+    for class_id, dimension in class_dimensions.items():
+        if dimension not in dimensions:
+            die(f"{case['id']} class {class_id} references unknown dimension")
+
+    mutations = record["mutation_operators"]
+    if not all(isinstance(value, dict) for value in mutations):
+        die(f"{case['id']} mutation operators must be bound objects")
+    mutation_ids = [value.get("id") for value in mutations]
+    mutation_keys = [(value.get("id"), value.get("dimension")) for value in mutations]
+    if (any(value not in allowed_mutations for value in mutation_ids)
+            or len(mutation_keys) != len(set(mutation_keys))):
+        die(f"{case['id']} uses an unbounded or duplicate mutation binding")
+    for mutation in mutations:
+        dimension = mutation.get("dimension")
+        if dimension not in dimensions:
+            die(f"{case['id']} mutation {mutation.get('id')} references unknown dimension")
+        for endpoint in ("from_class", "to_class"):
+            class_id = mutation.get(endpoint)
+            if class_id not in class_dimensions:
+                die(f"{case['id']} mutation {mutation.get('id')} references unknown class")
+            if class_dimensions[class_id] != dimension:
+                die(f"{case['id']} mutation {mutation.get('id')} crosses an unbound dimension")
+
     members = record["included"]
-    if any(member not in [row["id"] for row in case["failures"]] for member in members):
-        die(f"{case['id']} includes an unknown failure")
+    failure_ids = [row["id"] for row in case["failures"]]
+    if set(members) != set(failure_ids) or len(members) != len(set(members)):
+        die(f"{case['id']} included ids do not resolve to the failure population")
+    if set(record["red_witnesses"]) != set(members):
+        die(f"{case['id']} RED witnesses do not resolve to the included population")
+    if set(record["included"]) & set(record["excluded"]):
+        die(f"{case['id']} included and excluded populations overlap")
     verified = [row for row in case["failures"] if row.get("independently_verified")]
     for field in ("owner", "invariant", "mechanism"):
         if len({row[field] for row in verified}) != 1:
             die(f"{case['id']} overbroad record joins distinct {field} values")
         if record[field] != verified[0][field]:
             die(f"{case['id']} record {field} differs from the failure family")
-    if any(cell.get("result") != "pass" for cell in record["held_out"]):
-        die(f"{case['id']} held-out mutation still fails")
+    for failure in verified:
+        dimension = failure["state_dimension"]
+        class_id = failure["state_class"]
+        if dimension not in dimensions:
+            die(f"{case['id']} failure {failure['id']} references unknown dimension")
+        if class_id not in class_dimensions or class_dimensions[class_id] != dimension:
+            die(f"{case['id']} failure {failure['id']} references unknown class")
+        mutation_key = (failure["mutation_relation"], dimension)
+        if mutation_key not in mutation_keys:
+            die(f"{case['id']} failure {failure['id']} references unknown mutation")
+        bound_mutation = next(value for value in mutations
+                              if (value["id"], value["dimension"]) == mutation_key)
+        if class_id not in {bound_mutation["from_class"], bound_mutation["to_class"]}:
+            die(f"{case['id']} failure {failure['id']} class is not bound to its mutation")
+
+    state_ids = set()
+    for state_kind in ("valid_states", "malformed_states", "boundary_states", "adjacent_states"):
+        states = record[state_kind]
+        if not isinstance(states, list) or not states:
+            die(f"{case['id']} lacks {state_kind}")
+        for state in states:
+            if not isinstance(state, dict):
+                die(f"{case['id']} {state_kind} must contain state objects")
+            state_id = state.get("id")
+            if not isinstance(state_id, str) or not state_id or state_id in state_ids:
+                die(f"{case['id']} has a duplicate or empty state id")
+            state_ids.add(state_id)
+            dimension = state.get("dimension")
+            class_id = state.get("class")
+            if dimension not in dimensions:
+                die(f"{case['id']} state {state_id} references unknown dimension")
+            if class_id not in class_dimensions or class_dimensions[class_id] != dimension:
+                die(f"{case['id']} state {state_id} references unknown class")
+            if not isinstance(state.get("payload"), dict) or not state["payload"]:
+                die(f"{case['id']} state {state_id} lacks payload")
+            if state.get("expected_invariant") not in {"pass", "fail"}:
+                die(f"{case['id']} state {state_id} lacks expected invariant outcome")
+            if state_kind == "valid_states" and state["expected_invariant"] != "pass":
+                die(f"{case['id']} valid state {state_id} does not satisfy the invariant")
+            if state_kind == "malformed_states" and state["expected_invariant"] != "fail":
+                die(f"{case['id']} malformed state {state_id} does not violate the invariant")
+
+    distractors = record["distractors"]
+    if not isinstance(distractors, list) or not distractors:
+        die(f"{case['id']} lacks distractor objects")
+    distractor_ids = [row.get("id") for row in distractors]
+    if set(record["excluded"]) != set(distractor_ids) or len(distractor_ids) != len(set(distractor_ids)):
+        die(f"{case['id']} excluded ids do not resolve to distractor objects")
+    if set(distractor_ids) & set(failure_ids):
+        die(f"{case['id']} distractor ids overlap the included failure population")
+    for distractor in distractors:
+        for field in ("id", "owner", "invariant", "mechanism", "state_dimension", "state_class", "mutation_relation", "exclusion_reason"):
+            if not isinstance(distractor.get(field), str) or not distractor[field]:
+                die(f"{case['id']} distractor lacks {field}")
+        if not isinstance(distractor.get("payload"), dict) or not distractor["payload"]:
+            die(f"{case['id']} distractor {distractor['id']} lacks payload")
+        if all(distractor[field] == record[field] for field in ("owner", "invariant", "mechanism")):
+            die(f"{case['id']} distractor belongs to the included failure family")
+
+    held_out = record["held_out"]
+    held_out_ids = [cell.get("id") for cell in held_out]
+    if set(record["held_out_ids"]) != set(held_out_ids) or len(held_out_ids) != len(set(held_out_ids)):
+        die(f"{case['id']} held_out_ids do not resolve to held-out states")
+    if set(held_out_ids) & (set(failure_ids) | set(distractor_ids) | state_ids):
+        die(f"{case['id']} held-out ids overlap another state population")
+    for cell in held_out:
+        if not isinstance(cell.get("state"), dict) or not cell["state"]:
+            die(f"{case['id']} held-out state lacks payload")
+        dimension = cell.get("dimension")
+        class_id = cell.get("class")
+        mutation = cell.get("mutation")
+        if dimension not in dimensions:
+            die(f"{case['id']} held-out {cell.get('id')} references unknown dimension")
+        if class_id not in class_dimensions or class_dimensions[class_id] != dimension:
+            die(f"{case['id']} held-out {cell.get('id')} references unknown class")
+        mutation_key = (mutation, dimension)
+        if mutation_key not in mutation_keys:
+            die(f"{case['id']} held-out {cell.get('id')} references unknown mutation")
+        bound_mutation = next(value for value in mutations
+                              if (value["id"], value["dimension"]) == mutation_key)
+        if class_id != bound_mutation["to_class"]:
+            die(f"{case['id']} held-out {cell.get('id')} is not the mutation target class")
+        if cell.get("expected_invariant") not in {"pass", "fail"} or cell.get("observed_invariant") not in {"pass", "fail"}:
+            die(f"{case['id']} held-out {cell.get('id')} lacks invariant outcomes")
+        if cell.get("expected_discriminator") not in {"same-family", "not-family"} or cell.get("observed_discriminator") not in {"same-family", "not-family"}:
+            die(f"{case['id']} held-out {cell.get('id')} lacks discriminator outcomes")
+        derived_result = "pass" if (
+            cell["expected_invariant"] == cell["observed_invariant"]
+            and cell["expected_discriminator"] == cell["observed_discriminator"]
+        ) else "fail"
+        if cell.get("result") != derived_result:
+            die(f"{case['id']} held-out {cell.get('id')} result is not derived from outcomes")
+        if derived_result != "pass":
+            die(f"{case['id']} held-out mutation still fails")
     if record["outer_qualification"] != "pass":
         die(f"{case['id']} outer qualification is not pass")
     for item in record["review_yield"]:
@@ -346,11 +494,59 @@ if not required_routes.issubset(routes):
 if not {"accept", "reject"}.issubset(record_verdicts):
     die("case bank must contain accepted and rejected record controls")
 
+negative_rows = cases.get("state_model_negatives")
+required_negative_ids = {
+    "R32-N01-missing-valid-states",
+    "R32-N02-self-declared-held-out-pass",
+    "R32-N03-unknown-dimension",
+    "R32-N04-unknown-class",
+    "R32-N05-unknown-mutation",
+    "R32-N06-dangling-held-out",
+    "R32-N07-dangling-excluded-distractor",
+    "R32-N08-incoherent-family-distractor",
+}
+if not isinstance(negative_rows, list) or {row.get("id") for row in negative_rows} != required_negative_ids:
+    die("R32 adversarial state-model population is incomplete or substituted")
+base_case = next(row for row in rows if row["id"] == "R32-C01-second-same-family")
+for negative in negative_rows:
+    probe = copy.deepcopy(base_case)
+    probe["id"] = negative["id"]
+    record = probe["record"]
+    operation = negative.get("operation")
+    if operation == "drop-valid-states":
+        record.pop("valid_states", None)
+    elif operation == "drop-held-out-payload":
+        record["held_out"][0].pop("state", None)
+    elif operation == "unknown-dimension":
+        record["valid_states"][0]["dimension"] = "unknown-dimension"
+    elif operation == "unknown-class":
+        record["valid_states"][0]["class"] = "unknown-class"
+    elif operation == "unknown-mutation":
+        record["held_out"][0]["mutation"] = "unknown-mutation"
+    elif operation == "dangling-held-out":
+        record["held_out_ids"].append("missing-held-out")
+    elif operation == "dangling-excluded":
+        record["excluded"].append("missing-distractor")
+    elif operation == "family-distractor":
+        for field in ("owner", "invariant", "mechanism"):
+            record["distractors"][0][field] = record[field]
+    else:
+        die(f"{negative['id']} has unknown mutation operation")
+    try:
+        validate_record(probe, "convergence")
+    except SystemExit as exc:
+        expected_error = negative.get("expected_error")
+        if not expected_error or expected_error not in str(exc):
+            die(f"{negative['id']} rejected for the wrong reason: {exc}")
+    else:
+        die(f"{negative['id']} adversarial state model was accepted")
+
 print(
     "r32 deterministic bank: ok "
     f"({len(claims)} findings; {observed['included']} included; "
     f"{observed['excluded']} excluded; {observed['duplicate']} duplicate; "
-    f"{observed['ambiguous']} ambiguous; {len(rows)} state cases)"
+    f"{observed['ambiguous']} ambiguous; {len(rows)} state cases; "
+    f"{len(negative_rows)} adversarial state-model cases)"
 )
 PY
 
