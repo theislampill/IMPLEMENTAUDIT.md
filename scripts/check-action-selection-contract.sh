@@ -66,6 +66,7 @@ for text in \
   "Preserve the gate or engineering obligation where warranted" \
   "authoritative consumer" \
   "cheapest sufficient discriminator" \
+  "No retain, admit, or owner-decision disposition" \
   "stopping, retirement, or reclassification condition" \
   "No activation factor means no R34 diagnostic or artefact"
 do
@@ -78,10 +79,15 @@ for text in \
   "optional-by-whim" \
   "expected-risk" \
   "Retain" \
+  "Cheapen" \
   "Merge" \
   "conditional" \
   "Retire" \
   "Reclassify" \
+  "Defer" \
+  "Unresolved" \
+  "changed scope or consumer requires a fresh run" \
+  "no shared owner or shared write remains parallel-safe" \
   "relevant bytes, state, consumer, and evidence scope" \
   "one shared owner does not serialise disjoint cells" \
   "mandatory control ledger" \
@@ -125,6 +131,16 @@ required_ids = {
         (25, "reclassify-changed-risk"), (26, "live-consumer-retirement"),
         (27, "mandatory-large-worksheet"), (28, "filled-record-no-consequence"),
         (29, "complete-admission"),
+        (30, "missing-authoritative-owner"), (31, "missing-consumer"),
+        (32, "missing-consequence"), (33, "missing-discriminator"),
+        (34, "missing-expected-evidence"), (35, "missing-marginal-cost"),
+        (36, "missing-exit-condition"), (37, "changed-scope-rerun"),
+        (38, "changed-consumer-rerun"), (39, "invalid-retain"),
+        (40, "invalid-merge"), (41, "invalid-conditionalise"),
+        (42, "cheapen-equivalent-control"), (43, "explicit-defer"),
+        (44, "unresolved-tradeoff"), (45, "disjoint-cells-no-shared-cell"),
+        (46, "owner-decision"), (47, "valid-retain"),
+        (48, "invalid-cheapen"),
     )
 }
 ids = [case.get("id") for case in cases if isinstance(case, dict)]
@@ -149,16 +165,22 @@ def decide(case):
             return "NO_R34_ARTEFACT"
         return "DEEP_RETROSPECTIVE" if o["process_heavy_or_disputed"] else "MINIMAL_TRIGGERED_RECORD"
     if kind == "admission":
-        exact(o, "required_gate equivalent_protection live_driver consumer consequence discriminator exit_condition proxy_only optional_by_whim expected_risk_material")
-        booleans(o, "required_gate equivalent_protection live_driver consumer consequence discriminator exit_condition proxy_only optional_by_whim expected_risk_material")
+        fields = "required_gate equivalent_protection live_driver authoritative_owner consumer consequence discriminator expected_evidence marginal_cost_recorded exit_condition proxy_only optional_by_whim expected_risk_material"
+        exact(o, fields)
+        booleans(o, fields)
+        complete = all((
+            o["authoritative_owner"], o["consumer"], o["consequence"],
+            o["discriminator"], o["expected_evidence"],
+            o["marginal_cost_recorded"], o["exit_condition"],
+        ))
         if o["required_gate"] and not o["equivalent_protection"]:
-            return "RETAIN"
+            return "RETAIN" if complete else "DEFER"
+        if o["proxy_only"] or o["optional_by_whim"] or not o["live_driver"]:
+            return "REJECT"
+        if not complete:
+            return "DEFER"
         if o["expected_risk_material"]:
             return "RETAIN_OR_OWNER_DECISION"
-        if o["proxy_only"] or o["optional_by_whim"] or not all((o["live_driver"], o["consumer"], o["consequence"])):
-            return "REJECT"
-        if not o["discriminator"] or not o["exit_condition"]:
-            return "DEFER_OR_OWNER_DECISION"
         return "ADMIT"
     if kind == "anti_gaming":
         exact(o, "proxy large_mandatory_worksheet form_only")
@@ -177,7 +199,10 @@ def decide(case):
     if kind == "repeat":
         exact(o, "prior_exact_pass relevant_state_unchanged scope_identical consumer_identical new_residual new_mutation_family")
         booleans(o, "prior_exact_pass relevant_state_unchanged scope_identical consumer_identical new_residual new_mutation_family")
-        if o["new_residual"] or o["new_mutation_family"] or not o["relevant_state_unchanged"]:
+        if (o["new_residual"] or o["new_mutation_family"]
+                or not o["relevant_state_unchanged"]
+                or not o["scope_identical"]
+                or not o["consumer_identical"]):
             return "RUN"
         if all((o["prior_exact_pass"], o["scope_identical"], o["consumer_identical"])):
             return "REUSE"
@@ -191,27 +216,48 @@ def decide(case):
         booleans(o, "shared_owner shared_cell closed_write_boundaries reconciliation_point parallel_shared_cell")
         if type(o["disjoint_cells"]) is not int or o["disjoint_cells"] < 0:
             raise ValueError("disjoint_cells")
+        if o["shared_cell"] and not o["shared_owner"]:
+            return "FAIL"
         if o["parallel_shared_cell"] or o["shared_cell"] and not o["closed_write_boundaries"]:
             return "FAIL"
         if o["shared_owner"] and o["shared_cell"] and o["disjoint_cells"] and o["reconciliation_point"]:
             return "PARALLEL_DISJOINT_SERIALISE_SHARED"
+        if not o["shared_cell"] and o["disjoint_cells"] and o["closed_write_boundaries"]:
+            return "PARALLEL_SAFE"
         return "SERIALISE_SHARED"
     if kind == "lifecycle":
-        exact(o, "requested live_consumer failure_mode_live rollback_proved duplicate_authority activation_conditional risk_or_authority_changed")
-        booleans(o, "live_consumer failure_mode_live rollback_proved duplicate_authority activation_conditional risk_or_authority_changed")
-        if o["requested"] not in {"retain", "merge", "conditionalise", "retire"}:
+        exact(o, "requested live_consumer protected_consequence failure_mode_live rollback_proved duplicate_authority activation_conditional risk_or_authority_changed equivalent_protection_proved marginal_cost_reduced record_complete")
+        booleans(o, "live_consumer protected_consequence failure_mode_live rollback_proved duplicate_authority activation_conditional risk_or_authority_changed equivalent_protection_proved marginal_cost_reduced record_complete")
+        if o["requested"] not in {"retain", "cheapen", "merge", "conditionalise", "retire", "reclassify", "defer", "unresolved", "owner_decision"}:
             raise ValueError("requested lifecycle disposition")
+        if o["requested"] == "defer":
+            return "DEFER"
+        if o["requested"] == "unresolved":
+            return "UNRESOLVED"
+        if not o["record_complete"]:
+            return "DEFER"
+        if o["requested"] == "owner_decision":
+            return "OWNER_DECISION"
         if o["risk_or_authority_changed"]:
             return "RECLASSIFY"
-        if o["requested"] == "retire" and o["live_consumer"]:
-            return "FAIL"
-        if o["duplicate_authority"]:
-            return "MERGE"
-        if o["activation_conditional"]:
-            return "CONDITIONAL"
-        if o["requested"] == "retire" and not o["failure_mode_live"] and o["rollback_proved"]:
-            return "RETIRE"
-        return "RETAIN"
+        if o["requested"] == "reclassify":
+            return "DEFER"
+        if o["requested"] == "retain":
+            return "RETAIN" if o["live_consumer"] and o["protected_consequence"] and o["failure_mode_live"] else "DEFER"
+        if o["requested"] == "merge":
+            valid = all((o["live_consumer"], o["protected_consequence"], o["duplicate_authority"], o["equivalent_protection_proved"]))
+            return "MERGE" if valid else "DEFER"
+        if o["requested"] == "conditionalise":
+            valid = all((o["live_consumer"], o["protected_consequence"], o["failure_mode_live"], o["activation_conditional"], o["equivalent_protection_proved"]))
+            return "CONDITIONAL" if valid else "DEFER"
+        if o["requested"] == "cheapen":
+            valid = all((o["live_consumer"], o["protected_consequence"], o["equivalent_protection_proved"], o["marginal_cost_reduced"]))
+            return "CHEAPEN" if valid else "DEFER"
+        if o["requested"] == "retire":
+            if o["live_consumer"] or o["protected_consequence"]:
+                return "FAIL"
+            return "RETIRE" if not o["failure_mode_live"] and o["rollback_proved"] else "DEFER"
+        raise ValueError("unhandled lifecycle disposition")
     raise ValueError("unknown case kind")
 
 failures = []

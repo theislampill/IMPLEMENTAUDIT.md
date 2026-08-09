@@ -157,38 +157,36 @@ control protects its claimed property.
 
 Use these lifecycle dispositions:
 
-- **Retain** a control while its consumer and protected consequence remain live
-  and no cheaper equivalent protection has been proved. A demonstrated
-  defect-catching gate remains warranted on this basis.
-- **Merge** duplicated controls when one authoritative surface preserves every
-  consumer and evidence need.
-- Make a control **conditional** when its value depends on a trigger absent from
-  ordinary work.
-- **Retire** only when its failure mode, consumer, or consequence no longer
-  exists and rollback evidence exposes no hidden dependency.
-- **Reclassify** instead of retiring when risk, scope, authority, or external
-  consequence changes.
-- Use **owner decision** when expected-risk value and permanent cost cannot be
-  resolved mechanically. Low observed frequency does not defeat a defensible
-  rare, high-consequence control.
+- **Retain** while the consumer and consequence remain live and no cheaper
+  equivalent is proved. A demonstrated defect-catching gate qualifies.
+- **Cheapen** only with proved equivalent protection and lower marginal cost.
+- **Merge** only when one authority preserves every consumer and evidence need.
+- Make **conditional** only what depends on a trigger absent from ordinary work.
+- **Retire** only after the failure mode, consumer, and consequence end and
+  rollback evidence exposes no hidden dependency.
+- **Reclassify** when risk, scope, authority, or external consequence changes.
+- **Defer** an incomplete lifecycle mutation and leave the controlling gate intact.
+- Use **Unresolved** when evidence cannot distinguish supported alternatives;
+  it is not deliberate deferral with a known next action.
+- Use **owner decision** when expected risk and permanent cost cannot be resolved
+  mechanically; low observed frequency does not defeat a defensible high-consequence control.
 
-Human-readable handoffs, authorisations, work orders, review receipts, and
-release records can be essential. Ask who consumes an artefact, which decision
-or recovery action changes, what becomes unsafe or unknowable without it,
-whether another authority already owns the same information, and when it can be
-retired. Machine consumption alone establishes no value, and a duplicate status
-artefact with no distinct consumer is a merge or retirement candidate.
+Human-readable handoffs, authorisations, work orders, and review or release
+receipts can be essential. Ask who consumes one, which decision or recovery
+changes, what becomes unsafe or unknowable without it, whether another authority
+owns it, and when it can retire. Machine consumption alone establishes no value;
+a duplicate status artefact without a distinct consumer is a merge or retirement candidate.
 
-Repeat a verifier or reviewer after an earlier PASS only for a named residual
-risk or new mutation family. Reuse bounded evidence only when the relevant bytes, state, consumer, and evidence scope are unchanged. The producer result,
-scope, and residual remain visible. A prior PASS is not reusable across changed
-state merely because its command text is unchanged.
+Repeat after PASS only for a named residual or new mutation family. Reuse bounded
+evidence only when the relevant bytes, state, consumer, and evidence scope are
+unchanged; changed scope or consumer requires a fresh run. Keep the producer,
+scope, and residual visible. Identical command text cannot make changed-state
+evidence reusable.
 
-Parallelism follows write and acceptance cells: one shared owner does not serialise disjoint cells.
-Serialise the conflicting shared cell, preserve closed
-write boundaries, and name the reconciliation point. Throughput never permits
-concurrent mutation of the same owner or an unqualified shared acceptance
-surface.
+Parallelism follows write and acceptance cells: one shared owner does not serialise disjoint cells; no shared owner or shared write remains parallel-safe.
+Serialise only the conflicting cell, keep closed write boundaries, and name the
+reconciliation point. Throughput never permits concurrent mutation of the same
+owner or an unqualified shared acceptance surface.
 
 Process volume is not value evidence. Commit, file, line, command, reviewer,
 artefact, report, token, and elapsed-time counts establish neither engineering

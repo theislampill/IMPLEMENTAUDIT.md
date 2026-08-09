@@ -22,19 +22,19 @@
     {
       "id": "R34-C04-risky-smoke-retained",
       "kind": "admission",
-      "observations": {"required_gate": true, "equivalent_protection": false, "live_driver": true, "consumer": true, "consequence": true, "discriminator": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate": true, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
       "expected": "RETAIN"
     },
     {
       "id": "R34-C05-habit-only-control",
       "kind": "admission",
-      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": false, "consumer": false, "consequence": false, "discriminator": false, "exit_condition": false, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": false, "authoritative_owner": false, "consumer": false, "consequence": false, "discriminator": false, "expected_evidence": false, "marginal_cost_recorded": false, "exit_condition": false, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
       "expected": "REJECT"
     },
     {
       "id": "R34-C06-optional-by-whim",
       "kind": "admission",
-      "observations": {"required_gate": true, "equivalent_protection": false, "live_driver": true, "consumer": true, "consequence": true, "discriminator": false, "exit_condition": false, "proxy_only": false, "optional_by_whim": true, "expected_risk_material": false},
+      "observations": {"required_gate": true, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": true, "expected_risk_material": false},
       "expected": "RETAIN"
     },
     {
@@ -82,13 +82,13 @@
     {
       "id": "R34-C14-demonstrated-defect-control",
       "kind": "admission",
-      "observations": {"required_gate": true, "equivalent_protection": false, "live_driver": true, "consumer": true, "consequence": true, "discriminator": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate": true, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
       "expected": "RETAIN"
     },
     {
       "id": "R34-C15-rare-catastrophic-risk",
       "kind": "admission",
-      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "consumer": true, "consequence": true, "discriminator": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": true},
+      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": true},
       "expected": "RETAIN_OR_OWNER_DECISION"
     },
     {
@@ -130,31 +130,31 @@
     {
       "id": "R34-C22-duplicate-controls-merge",
       "kind": "lifecycle",
-      "observations": {"requested": "merge", "live_consumer": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": true, "activation_conditional": false, "risk_or_authority_changed": false},
+      "observations": {"requested": "merge", "live_consumer": true, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": true, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": true, "marginal_cost_reduced": true, "record_complete": true},
       "expected": "MERGE"
     },
     {
       "id": "R34-C23-trigger-dependent-control",
       "kind": "lifecycle",
-      "observations": {"requested": "conditionalise", "live_consumer": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": true, "risk_or_authority_changed": false},
+      "observations": {"requested": "conditionalise", "live_consumer": true, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": true, "risk_or_authority_changed": false, "equivalent_protection_proved": true, "marginal_cost_reduced": true, "record_complete": true},
       "expected": "CONDITIONAL"
     },
     {
       "id": "R34-C24-retire-obsolete-control",
       "kind": "lifecycle",
-      "observations": {"requested": "retire", "live_consumer": false, "failure_mode_live": false, "rollback_proved": true, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false},
+      "observations": {"requested": "retire", "live_consumer": false, "protected_consequence": false, "failure_mode_live": false, "rollback_proved": true, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": false, "marginal_cost_reduced": false, "record_complete": true},
       "expected": "RETIRE"
     },
     {
       "id": "R34-C25-reclassify-changed-risk",
       "kind": "lifecycle",
-      "observations": {"requested": "retire", "live_consumer": false, "failure_mode_live": false, "rollback_proved": true, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": true},
+      "observations": {"requested": "retire", "live_consumer": false, "protected_consequence": false, "failure_mode_live": false, "rollback_proved": true, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": true, "equivalent_protection_proved": false, "marginal_cost_reduced": false, "record_complete": true},
       "expected": "RECLASSIFY"
     },
     {
       "id": "R34-C26-live-consumer-retirement",
       "kind": "lifecycle",
-      "observations": {"requested": "retire", "live_consumer": true, "failure_mode_live": false, "rollback_proved": true, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false},
+      "observations": {"requested": "retire", "live_consumer": true, "protected_consequence": true, "failure_mode_live": false, "rollback_proved": true, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": false, "marginal_cost_reduced": false, "record_complete": true},
       "expected": "FAIL"
     },
     {
@@ -172,8 +172,122 @@
     {
       "id": "R34-C29-complete-admission",
       "kind": "admission",
-      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "consumer": true, "consequence": true, "discriminator": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
       "expected": "ADMIT"
+    },
+    {
+      "id": "R34-C30-missing-authoritative-owner",
+      "kind": "admission",
+      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": false, "consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "expected": "DEFER"
+    },
+    {
+      "id": "R34-C31-missing-consumer",
+      "kind": "admission",
+      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": false, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "expected": "DEFER"
+    },
+    {
+      "id": "R34-C32-missing-consequence",
+      "kind": "admission",
+      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "consequence": false, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "expected": "DEFER"
+    },
+    {
+      "id": "R34-C33-missing-discriminator",
+      "kind": "admission",
+      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "consequence": true, "discriminator": false, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "expected": "DEFER"
+    },
+    {
+      "id": "R34-C34-missing-expected-evidence",
+      "kind": "admission",
+      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "consequence": true, "discriminator": true, "expected_evidence": false, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "expected": "DEFER"
+    },
+    {
+      "id": "R34-C35-missing-marginal-cost",
+      "kind": "admission",
+      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": false, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "expected": "DEFER"
+    },
+    {
+      "id": "R34-C36-missing-exit-condition",
+      "kind": "admission",
+      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": false, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "expected": "DEFER"
+    },
+    {
+      "id": "R34-C37-changed-scope-rerun",
+      "kind": "repeat",
+      "observations": {"prior_exact_pass": true, "relevant_state_unchanged": true, "scope_identical": false, "consumer_identical": true, "new_residual": false, "new_mutation_family": false},
+      "expected": "RUN"
+    },
+    {
+      "id": "R34-C38-changed-consumer-rerun",
+      "kind": "repeat",
+      "observations": {"prior_exact_pass": true, "relevant_state_unchanged": true, "scope_identical": true, "consumer_identical": false, "new_residual": false, "new_mutation_family": false},
+      "expected": "RUN"
+    },
+    {
+      "id": "R34-C39-invalid-retain",
+      "kind": "lifecycle",
+      "observations": {"requested": "retain", "live_consumer": false, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": false, "marginal_cost_reduced": false, "record_complete": true},
+      "expected": "DEFER"
+    },
+    {
+      "id": "R34-C40-invalid-merge",
+      "kind": "lifecycle",
+      "observations": {"requested": "merge", "live_consumer": true, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": true, "marginal_cost_reduced": true, "record_complete": true},
+      "expected": "DEFER"
+    },
+    {
+      "id": "R34-C41-invalid-conditionalise",
+      "kind": "lifecycle",
+      "observations": {"requested": "conditionalise", "live_consumer": true, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": true, "marginal_cost_reduced": true, "record_complete": true},
+      "expected": "DEFER"
+    },
+    {
+      "id": "R34-C42-cheapen-equivalent-control",
+      "kind": "lifecycle",
+      "observations": {"requested": "cheapen", "live_consumer": true, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": true, "marginal_cost_reduced": true, "record_complete": true},
+      "expected": "CHEAPEN"
+    },
+    {
+      "id": "R34-C43-explicit-defer",
+      "kind": "lifecycle",
+      "observations": {"requested": "defer", "live_consumer": false, "protected_consequence": false, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": false, "marginal_cost_reduced": false, "record_complete": false},
+      "expected": "DEFER"
+    },
+    {
+      "id": "R34-C44-unresolved-tradeoff",
+      "kind": "lifecycle",
+      "observations": {"requested": "unresolved", "live_consumer": true, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": false, "marginal_cost_reduced": false, "record_complete": false},
+      "expected": "UNRESOLVED"
+    },
+    {
+      "id": "R34-C45-disjoint-cells-no-shared-cell",
+      "kind": "topology",
+      "observations": {"shared_owner": false, "shared_cell": false, "disjoint_cells": 3, "closed_write_boundaries": true, "reconciliation_point": true, "parallel_shared_cell": false},
+      "expected": "PARALLEL_SAFE"
+    },
+    {
+      "id": "R34-C46-owner-decision",
+      "kind": "lifecycle",
+      "observations": {"requested": "owner_decision", "live_consumer": true, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": false, "marginal_cost_reduced": false, "record_complete": true},
+      "expected": "OWNER_DECISION"
+    },
+    {
+      "id": "R34-C47-valid-retain",
+      "kind": "lifecycle",
+      "observations": {"requested": "retain", "live_consumer": true, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": false, "marginal_cost_reduced": false, "record_complete": true},
+      "expected": "RETAIN"
+    },
+    {
+      "id": "R34-C48-invalid-cheapen",
+      "kind": "lifecycle",
+      "observations": {"requested": "cheapen", "live_consumer": true, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": false, "marginal_cost_reduced": true, "record_complete": true},
+      "expected": "DEFER"
     }
   ]
 }
