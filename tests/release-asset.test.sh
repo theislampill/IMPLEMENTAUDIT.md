@@ -336,13 +336,12 @@ with zipfile.ZipFile(asset) as zf:
         "owner", "dedicated-calibration-lane",
     }
 
-    # The exact composed R31+R34 informational-independence candidate is
-    # 222,901 bytes. Owner authority for the v0.3.3.3 train sets the ceiling
-    # to the smallest whole-1,000-byte value that preserves at least 2,000
-    # bytes of measured headroom. The outer 230,000-byte bound remains
-    # unchanged, and capacity is not a target.
-    MAX_ASSET_BYTES = 225_000
-    CURRENT_CALIBRATION_ASSET_BYTES = 222_901
+    # The exact composed R31+R34+R35 candidate is 224,835 bytes. Owner authority
+    # for the v0.3.3.3 train sets the ceiling to the smallest whole-1,000-byte
+    # value that preserves at least 2,000 bytes of measured headroom. The outer
+    # 230,000-byte bound remains unchanged, and capacity is not a target.
+    MAX_ASSET_BYTES = 227_000
+    CURRENT_CALIBRATION_ASSET_BYTES = 224_835
     N06_BASELINE_ASSET_BYTES = 206_584
     N06_FINAL_P7_ASSET_BYTES = 215_126
     FULL_W1_FORECAST_BYTES = 144_730
@@ -351,7 +350,7 @@ with zipfile.ZipFile(asset) as zf:
     N04_IDENTITY_INTEGRITY_FORECAST_BYTES = 202_593
     N05_CALIBRATION_MAIN_ASSET_BYTES = 202_679
     N05_FINAL_MEASURED_FORECAST_BYTES = 206_159
-    FIRST_REJECTED_BYTES = 225_001
+    FIRST_REJECTED_BYTES = 227_001
 
     expected_calibration = (
         (CURRENT_CALIBRATION_ASSET_BYTES + MIN_HEADROOM_BYTES
