@@ -201,6 +201,8 @@ Load references only when the current gate needs them:
   And Diff Scoping, Review-Plan Semantics, Execute / Dispatch / Review,
   Reconciliation Semantics, read-only `plans/` output lane, and Issue
   Publication Deferred.
+- `references/issue-ready-work-orders.md`: material issue synthesis and
+  multi-draft reconciliation before authorised publication.
 - `references/child-agents.md`: bounded read-only review loops,
   non-authority boundaries, and the binding specialist-fanout coverage
   contract with serialized fallback.

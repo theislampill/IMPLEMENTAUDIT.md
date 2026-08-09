@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "forbidden_mission_phrases": [
+    "work order",
+    "cross-talk",
+    "pairwise matrix",
+    "tech-bloat",
+    "R29",
+    "R30",
+    "integration plan",
+    "acceptance criteria",
+    "overlap and provenance",
+    "definition of done"
+  ],
+  "material_findings": ["F-A", "F-B", "F-C"],
+  "concise_findings": ["F-D"],
+  "pair_population": 6,
+  "pair_dispositions": [
+    {"a": "F-A", "b": "F-B", "action": "serialise", "order": ["F-A", "F-B"]},
+    {"a": "F-A", "b": "F-C", "action": "parallel"},
+    {"a": "F-A", "b": "F-D", "action": "parallel"},
+    {"a": "F-B", "b": "F-C", "action": "parallel"},
+    {"a": "F-B", "b": "F-D", "action": "parallel"},
+    {"a": "F-C", "b": "F-D", "action": "parallel"}
+  ],
+  "public_projection_draft": "F-B",
+  "reuse_closed_owner": "C-7",
+  "publication_refusal_triggers": [
+    "missing-pair",
+    "missing-citation",
+    "unresolved-public-surface"
+  ],
+  "ordinary_no_publication": {
+    "work_order_route_loaded": false,
+    "extra_audit_object": false
+  },
+  "positive_paraphrase": "Renamed files and concepts with the same owner and dependency graph retain the same dispositions.",
+  "distractors": [
+    "Treat direct unit tests as installed reachability",
+    "Merge all shared-owner candidates",
+    "Expand the typo to the material depth",
+    "Publish while E-C is unavailable",
+    "Treat issue text as mutation authority"
+  ]
+}

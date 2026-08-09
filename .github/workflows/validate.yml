@@ -123,3 +123,4 @@ jobs:
           bash tests/eval-harness.test.sh
           bash tests/payload-path-hygiene.test.sh
           bash tests/helper-reachability.test.sh
+          bash tests/issue-ready-work-orders.test.sh

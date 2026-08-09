@@ -176,6 +176,11 @@ If a field cannot be filled from live evidence, mark it `unverified`,
 `deferred`, or `OWNER DECISION` with reason. Do not invent evidence to satisfy
 the format.
 
+When a finding is selected for issue publication, record its materiality. A
+material finding expands through `issue-ready-work-orders.md` before the
+authorised publication gate; a trivial finding may remain concise with its
+evidence, fix, verification, rollback, and materiality disposition intact.
+
 ## Prioritization And Vetting Contract
 
 Order findings by leverage: impact / effort, discounted by confidence and fix risk.
