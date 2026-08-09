@@ -95,7 +95,30 @@ printf '\nAlso include recon facts here.\n' \
   >>"$tmp_root/fixtures/child-agents/negative-child-prompt-missing-fanout-contract.md"
 expect_fail "token leak into the fanout-free negative prompt"
 
-# 8. Command-mode advertisement in a fanout fixture -> must fail.
+# 8. Exploratory discrimination loses its anti-anchoring clause -> must fail.
+reset_sandbox
+grep -v "root-favoured conclusion" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md" \
+  >"$tmp_root/child-agents.tmp"
+mv "$tmp_root/child-agents.tmp" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md"
+expect_fail "exploratory discrimination without conclusion withholding"
+
+# 9. False-diversity fixture disappears -> must fail.
+reset_sandbox
+rm "$tmp_root/fixtures/child-agents/exploratory-discrimination-cases.md"
+expect_fail "missing exploratory-discrimination fixture bank"
+
+# 10. Changed evidence can no longer reopen a saturated question -> must fail.
+reset_sandbox
+sed 's/Expected disposition: ALLOW/Expected disposition: REJECT/' \
+  "$tmp_root/fixtures/child-agents/exploratory-discrimination-cases.md" \
+  >"$tmp_root/discrimination.tmp"
+mv "$tmp_root/discrimination.tmp" \
+  "$tmp_root/fixtures/child-agents/exploratory-discrimination-cases.md"
+expect_fail "changed-evidence reopening was rejected"
+
+# 11. Command-mode advertisement in a fanout fixture -> must fail.
 reset_sandbox
 printf '\nAdvertised mode: /implementaudit deep\n' \
   >>"$tmp_root/fixtures/child-agents/broad-scope-four-lanes.md"

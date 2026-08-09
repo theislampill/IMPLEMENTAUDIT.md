@@ -52,6 +52,28 @@ do
   require "$child_ref" "$text"
 done
 
+# --- narrow exploratory-discrimination variant (#163, R34) ---
+for text in \
+  "all five conditions hold" \
+  "material unresolved causal or design uncertainty" \
+  "more than one mechanism or hypothesis is genuinely plausible" \
+  "multiple exploratory passes or lanes are warranted" \
+  "common orchestrator anchoring could falsely appear as independent support" \
+  "no authoritative deterministic discriminator already settles the question" \
+  "root-favoured conclusion" \
+  "materially different" \
+  "mechanisms, not by different phrasings" \
+  "decision-changing discriminator," \
+  "counterexample, or concrete causal mechanism" \
+  "Semantically duplicated seeded" \
+  "outputs are not independent corroboration" \
+  "Fresh-context serial passes remain valid" \
+  "changed evidence, state, or a new plausible" \
+  "mechanism, stop repeating the pass"
+do
+  require "$child_ref" "$text"
+done
+
 # --- audit-category-matrix.md: fanout is required where coverage demands ---
 matrix_ref="skills/implementaudit/references/audit-category-matrix.md"
 for text in \
@@ -111,6 +133,28 @@ for text in \
   "Silently dropping a warranted lane"
 do
   require "$serial" "$text"
+done
+
+discrimination="fixtures/child-agents/exploratory-discrimination-cases.md"
+for text in \
+  "FD-01 — seeded conclusion creates false diversity" \
+  "Expected disposition: REJECT" \
+  "Semantically duplicated seeded outputs are not" \
+  "independent corroboration" \
+  "FD-02 — conclusion-neutral mechanism discrimination" \
+  "Expected disposition: PASS" \
+  "decision-changing discriminator, counterexample, or concrete causal" \
+  "FD-03 — defined candidate needs adversarial coverage" \
+  "Share the candidate, current reconnaissance, and" \
+  "known risks" \
+  "FD-04 — unchanged blocked family is saturated" \
+  "Expected disposition: REJECT another pass" \
+  "FD-05 — changed evidence permits reopening" \
+  "Expected disposition: ALLOW" \
+  "FD-06 — deterministic cheap path" \
+  "PASS without exploratory machinery"
+do
+  require "$discrimination" "$text"
 done
 
 # --- negative fixtures declare their failing disposition ---

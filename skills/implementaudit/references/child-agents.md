@@ -133,6 +133,47 @@ per-lane contract when it does not. Host concurrency limits may change
 scheduling; they never silently erase a warranted lane. A coverage table
 documents executed lanes; it never substitutes for them.
 
+### Exploratory hypothesis discrimination
+
+Do not confuse several reports with several independent lines of support.
+Ordinary adversarial or coverage review shares the defined candidate, current
+reconnaissance, and known failure modes so reviewers can challenge the same
+thing from disjoint coverage areas. Withholding those inputs would weaken that
+review.
+
+Use the narrower exploratory-discrimination variant only when all five conditions hold:
+
+1. a material unresolved causal or design uncertainty remains;
+2. more than one mechanism or hypothesis is genuinely plausible;
+3. multiple exploratory passes or lanes are warranted;
+4. common orchestrator anchoring could falsely appear as independent support;
+5. no authoritative deterministic discriminator already settles the question.
+
+For that first bounded pass, share authoritative common facts, scope and
+boundaries, the planning-security rules, and the evidence boundary, but
+withhold the root-favoured conclusion. Key lanes by materially different
+mechanisms, not by different phrasings of the same proposed answer. Before
+synthesis, each lane must return a decision-changing discriminator,
+counterexample, or concrete causal mechanism. Semantically duplicated seeded
+outputs are not independent corroboration.
+
+Concurrency is optional. Fresh-context serial passes remain valid when the
+host cannot run independent lanes concurrently. If the same blocked family has
+no new discriminator and no changed evidence, state, or a new plausible
+mechanism, stop repeating the pass and preserve the unresolved result. A
+material change to one of those inputs may justify a bounded reopening; it
+does not retroactively turn the earlier reports into independent evidence.
+
+Stay on the cheaper ordinary path for bounded or trivial/reversible work, one
+obvious causal route, deterministic owner-selected answers, ordinary
+adversarial review of an already-defined candidate, or fanout used only to
+cover disjoint known categories. This variant remains subject to the
+engineering-value admission rule: it needs a live decision consequence and
+must stop, merge, or retire when its marginal discriminator no longer earns
+its cost. It introduces no fixed agent count, round quota, extra phase, or
+mandatory worksheet, and it does not weaken the existing reconnaissance,
+security, evidence-boundary, or child-agent non-authority requirements.
+
 Only host concurrency limits may serialize declared-independent lanes. Batch to
 that limit and rollback margin: one class-appropriate review/batch, not one
 programme/lane. `irreversible-external` and `unknown` keep full ceremony and
