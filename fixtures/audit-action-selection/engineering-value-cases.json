@@ -360,6 +360,60 @@
       "kind": "repeat",
       "observations": {"prior_exact_pass": true, "exact_bytes_unchanged": false, "other_relevant_state_unchanged": true, "scope_identical": true, "consumer_identical": true, "authoritative_consumer_identical": true, "new_residual": false, "new_mutation_family": false},
       "expected": "RUN"
+    },
+    {
+      "id": "R34-C61-required-gate-without-live-driver",
+      "kind": "admission",
+      "observations": {"required_gate": true, "equivalent_protection": false, "live_driver": false, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "expected": "DEFER"
+    },
+    {
+      "id": "R34-C62-retain-with-cheaper-equivalent",
+      "kind": "lifecycle",
+      "observations": {"requested": "retain", "live_consumer": true, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": true, "marginal_cost_reduced": true, "record_complete": true},
+      "expected": "CHEAPEN"
+    },
+    {
+      "id": "R34-C63-reuse-without-prior-exact-pass",
+      "kind": "repeat",
+      "observations": {"prior_exact_pass": false, "exact_bytes_unchanged": true, "other_relevant_state_unchanged": true, "scope_identical": true, "consumer_identical": true, "authoritative_consumer_identical": true, "new_residual": false, "new_mutation_family": false},
+      "expected": "RUN"
+    },
+    {
+      "id": "R34-C64-required-gate-missing-authoritative-consumer",
+      "kind": "admission",
+      "observations": {"required_gate": true, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": false, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "expected": "DEFER"
+    },
+    {
+      "id": "R34-C65-nonrequired-without-live-driver",
+      "kind": "admission",
+      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": false, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "expected": "REJECT"
+    },
+    {
+      "id": "R34-C66-required-complete-live-driver",
+      "kind": "admission",
+      "observations": {"required_gate": true, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "expected": "RETAIN"
+    },
+    {
+      "id": "R34-C67-retain-equivalent-without-lower-cost",
+      "kind": "lifecycle",
+      "observations": {"requested": "retain", "live_consumer": true, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": true, "marginal_cost_reduced": false, "record_complete": true},
+      "expected": "RETAIN"
+    },
+    {
+      "id": "R34-C68-retain-lower-cost-without-equivalence",
+      "kind": "lifecycle",
+      "observations": {"requested": "retain", "live_consumer": true, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": false, "marginal_cost_reduced": true, "record_complete": true},
+      "expected": "RETAIN"
+    },
+    {
+      "id": "R34-C69-unqualified-changed-bytes",
+      "kind": "repeat",
+      "observations": {"prior_exact_pass": false, "exact_bytes_unchanged": false, "other_relevant_state_unchanged": true, "scope_identical": true, "consumer_identical": true, "authoritative_consumer_identical": true, "new_residual": false, "new_mutation_family": false},
+      "expected": "RUN"
     }
   ]
 }

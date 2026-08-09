@@ -90,6 +90,7 @@ for text in \
   "Disposition labels never self-authorise" \
   "expected-risk and permanent-cost trade-off" \
   "exact bytes, other relevant state" \
+  "Without a prior exact PASS, run qualification" \
   "changed scope or consumer requires a fresh run" \
   "no shared owner or shared write remains parallel-safe" \
   "one shared owner does not serialise disjoint cells" \
@@ -156,6 +157,15 @@ required_ids = {
         (58, "non-authoritative-consumer"),
         (59, "changed-authoritative-consumer-rerun"),
         (60, "changed-bytes-rerun"),
+        (61, "required-gate-without-live-driver"),
+        (62, "retain-with-cheaper-equivalent"),
+        (63, "reuse-without-prior-exact-pass"),
+        (64, "required-gate-missing-authoritative-consumer"),
+        (65, "nonrequired-without-live-driver"),
+        (66, "required-complete-live-driver"),
+        (67, "retain-equivalent-without-lower-cost"),
+        (68, "retain-lower-cost-without-equivalence"),
+        (69, "unqualified-changed-bytes"),
     )
 }
 ids = [case.get("id") for case in cases if isinstance(case, dict)]
@@ -190,7 +200,7 @@ def decide(case):
             o["marginal_cost_recorded"], o["exit_condition"],
         ))
         if o["required_gate"] and not o["equivalent_protection"]:
-            return "RETAIN" if complete else "DEFER"
+            return "RETAIN" if o["live_driver"] and complete else "DEFER"
         if o["proxy_only"] or o["optional_by_whim"] or not o["live_driver"]:
             return "REJECT"
         if not complete:
@@ -216,6 +226,8 @@ def decide(case):
         fields = "prior_exact_pass exact_bytes_unchanged other_relevant_state_unchanged scope_identical consumer_identical authoritative_consumer_identical new_residual new_mutation_family"
         exact(o, fields)
         booleans(o, fields)
+        if not o["prior_exact_pass"]:
+            return "RUN"
         if (o["new_residual"] or o["new_mutation_family"]
                 or not o["exact_bytes_unchanged"]
                 or not o["other_relevant_state_unchanged"]
@@ -279,7 +291,12 @@ def decide(case):
         if o["requested"] == "reclassify":
             return "DEFER"
         if o["requested"] == "retain":
-            return "RETAIN" if o["live_consumer"] and o["protected_consequence"] and o["failure_mode_live"] else "DEFER"
+            valid = o["live_consumer"] and o["protected_consequence"] and o["failure_mode_live"]
+            if not valid:
+                return "DEFER"
+            if o["equivalent_protection_proved"] and o["marginal_cost_reduced"]:
+                return "CHEAPEN"
+            return "RETAIN"
         if o["requested"] == "merge":
             valid = all((o["live_consumer"], o["protected_consequence"], o["duplicate_authority"], o["equivalent_protection_proved"]))
             return "MERGE" if valid else "DEFER"

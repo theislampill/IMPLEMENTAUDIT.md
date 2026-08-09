@@ -178,12 +178,11 @@ changes, what becomes unsafe or unknowable without it, whether another authority
 owns it, and when it can retire. Machine consumption alone establishes no value;
 a duplicate status artefact without a distinct consumer is a merge or retirement candidate.
 
-Repeat after PASS only for a named residual or new mutation family. Reuse bounded
-evidence only when exact bytes, other relevant state, consumer identity,
-authoritative consumer, and evidence scope are
-unchanged; changed scope or consumer requires a fresh run. Keep the producer,
-scope, and residual visible. Identical command text cannot make changed-state
-evidence reusable.
+Without a prior exact PASS, run qualification. After PASS, repeat only for a new
+residual or mutation family. Reuse only when exact bytes, other relevant state,
+consumer identity, authoritative consumer, and evidence scope are unchanged;
+changed scope or consumer requires a fresh run. Keep producer, scope, and
+residual visible; command identity cannot make changed-state evidence reusable.
 
 Parallelism follows write and acceptance cells: one shared owner does not serialise disjoint cells; no shared owner or shared write remains parallel-safe.
 Serialise only the conflicting cell, keep closed write boundaries, and name the
