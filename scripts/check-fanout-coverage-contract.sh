@@ -29,6 +29,34 @@ require() {
   grep -Fqi -e "$text" "$file" || fail "missing in $file: $text"
 }
 
+require_section() {
+  local file="$1" start="$2" stop="$3" text="$4"
+  [ -f "$file" ] || fail "missing file: $file"
+  awk -v start="$start" -v stop="$stop" -v text="$text" '
+    $0 == start {
+      starts += 1
+      start_line = NR
+      inside = 1
+      next
+    }
+    stop != "" && $0 == stop {
+      stops += 1
+      stop_line = NR
+      inside = 0
+      next
+    }
+    inside { section = section " " $0 }
+    END {
+      gsub(/[[:space:]][[:space:]]*/, " ", section)
+      valid_boundary = stop == "" || (stops == 1 && stop_line > start_line)
+      if (starts != 1 || !valid_boundary || index(tolower(section), tolower(text)) == 0) {
+        exit 1
+      }
+    }
+  ' "$file" \
+    || fail "missing in $file section $start: $text"
+}
+
 # --- child-agents.md owns the binding lane contract ---
 child_ref="skills/implementaudit/references/child-agents.md"
 for text in \
@@ -69,9 +97,12 @@ for text in \
   "outputs are not independent corroboration" \
   "Fresh-context serial passes remain valid" \
   "changed evidence, state, or a new plausible" \
-  "mechanism, stop repeating the pass"
+  "mechanism, stop repeating the pass" \
+  "Before synthesis, each lane must return"
 do
-  require "$child_ref" "$text"
+  require_section "$child_ref" \
+    "### Exploratory hypothesis discrimination" \
+    "## Coverage-lane records" "$text"
 done
 
 # --- audit-category-matrix.md: fanout is required where coverage demands ---
@@ -136,26 +167,37 @@ do
 done
 
 discrimination="fixtures/child-agents/exploratory-discrimination-cases.md"
-for text in \
-  "FD-01 — seeded conclusion creates false diversity" \
-  "Expected disposition: REJECT" \
-  "Semantically duplicated seeded outputs are not" \
-  "independent corroboration" \
-  "FD-02 — conclusion-neutral mechanism discrimination" \
-  "Expected disposition: PASS" \
-  "decision-changing discriminator, counterexample, or concrete causal" \
-  "FD-03 — defined candidate needs adversarial coverage" \
-  "Share the candidate, current reconnaissance, and" \
-  "known risks" \
-  "FD-04 — unchanged blocked family is saturated" \
-  "Expected disposition: REJECT another pass" \
-  "FD-05 — changed evidence permits reopening" \
-  "Expected disposition: ALLOW" \
-  "FD-06 — deterministic cheap path" \
-  "PASS without exploratory machinery"
-do
-  require "$discrimination" "$text"
-done
+require_section "$discrimination" \
+  "## FD-01 — seeded conclusion creates false diversity" \
+  "## FD-02 — conclusion-neutral mechanism discrimination" \
+  "Expected disposition: REJECT."
+require_section "$discrimination" \
+  "## FD-01 — seeded conclusion creates false diversity" \
+  "## FD-02 — conclusion-neutral mechanism discrimination" \
+  "Semantically duplicated seeded outputs are not independent corroboration."
+require_section "$discrimination" \
+  "## FD-02 — conclusion-neutral mechanism discrimination" \
+  "## FD-03 — defined candidate needs adversarial coverage" \
+  "Expected disposition: PASS."
+require_section "$discrimination" \
+  "## FD-02 — conclusion-neutral mechanism discrimination" \
+  "## FD-03 — defined candidate needs adversarial coverage" \
+  "decision-changing discriminator, counterexample, or concrete causal mechanism"
+require_section "$discrimination" \
+  "## FD-03 — defined candidate needs adversarial coverage" \
+  "## FD-04 — unchanged blocked family is saturated" \
+  "Expected disposition: PASS. Share the candidate, current reconnaissance, and known risks"
+require_section "$discrimination" \
+  "## FD-04 — unchanged blocked family is saturated" \
+  "## FD-05 — changed evidence permits reopening" \
+  "Expected disposition: REJECT another pass."
+require_section "$discrimination" \
+  "## FD-05 — changed evidence permits reopening" \
+  "## FD-06 — deterministic cheap path" \
+  "Expected disposition: ALLOW"
+require_section "$discrimination" \
+  "## FD-06 — deterministic cheap path" "" \
+  "Expected disposition: PASS without exploratory machinery."
 
 # --- negative fixtures declare their failing disposition ---
 for negative in \

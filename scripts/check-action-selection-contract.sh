@@ -331,7 +331,7 @@ for case in cases:
         failures.append(f"{case.get('id', '<unknown>')}: invalid fixture: {exc}")
 if failures:
     raise SystemExit("\n".join(failures))
-print(f"engineering-value controls: {len(cases)}/{len(cases)}")
+sys.stdout.write(f"engineering-value controls: {len(cases)}/{len(cases)}\n")
 PY
 
 # --- bootloader: Stage 1 derives and records the action set ---
