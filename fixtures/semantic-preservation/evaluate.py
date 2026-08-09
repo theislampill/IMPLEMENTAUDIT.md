@@ -288,6 +288,7 @@ def inspect_profiles(
         resolved[evidence_id] = {
             "owner_shipped": after["exists"] and archive_path is not None,
             "after_satisfied": after["exists"] and after["anchor_present"],
+            "progressive_applies": before["path"] != after["path"],
             "consumers": consumers,
         }
     return resolved
@@ -395,6 +396,7 @@ def validate_case(
                 "predicate_id": predicate_id,
                 "owner_shipped": profiles[evidence_id]["owner_shipped"],
                 "after_satisfied": profiles[evidence_id]["after_satisfied"],
+                "progressive_applies": profiles[evidence_id]["progressive_applies"],
                 "literal": {
                     "class": "exact" if predicate_id in exact_ids else "semantic",
                     "changed": changed,
@@ -412,6 +414,12 @@ def validate_case(
 
     resolved = dict(row)
     resolved["behaviours"] = resolved_behaviours
+    resolved["progressive_split"] = {
+        "claimed_applies": split["applies"],
+        "derived_applies": any(
+            behaviour["progressive_applies"] for behaviour in resolved_behaviours
+        ),
+    }
     return resolved
 
 
@@ -471,8 +479,8 @@ def classify(case: dict[str, Any]) -> dict[str, Any]:
         return {"triggered": False, "disposition": "PASS_MECHANICAL", "reason_code": "extracted-members-equal"}
     if not triggered:
         raise FixtureError(f"case {case['id']} has package pressure but no semantic activation or cheap-path proof")
-    if split["applies"]:
-        # Shipment and dispatch are derived from each profile, never asserted by the case.
+    if split["derived_applies"]:
+        # Owner movement, shipment and dispatch are derived, never asserted by the case.
         if any(
             consumer["required"] and not consumer["held_out_present"]
             for behaviour in case["behaviours"]

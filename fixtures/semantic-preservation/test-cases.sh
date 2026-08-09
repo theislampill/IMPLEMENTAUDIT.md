@@ -59,6 +59,17 @@ import sys
 path = pathlib.Path(sys.argv[1])
 payload = json.loads(path.read_text(encoding="utf-8"))
 del payload["evidence_profiles"]["safe-progressive"]["consumers"][0]["held_out"]
+for case in payload["cases"]:
+    if case["id"] == "safe-progressive-split":
+        case["progressive_split"]["applies"] = False
+        case["expected"] = {
+            "triggered": True,
+            "disposition": "PASS_EQUIVALENT",
+            "reason_code": "predicates-and-consumers-preserved",
+        }
+        break
+else:
+    raise SystemExit("safe-progressive-split case missing")
 path.write_text(json.dumps(payload), encoding="utf-8")
 PY
 attack_output="$(PYTHONDONTWRITEBYTECODE=1 "${python_cmd[@]}" "$evaluator" --cases "$attack_dir/progressive-without-held-out.json")"
