@@ -278,6 +278,46 @@ first and asserting a non-null actual value. A verdict of "all N failed" with
 missing or null actuals is an Andon row — class `evidence-mismatch`,
 `Blocker: instrument-suspect` — not a finding.
 
+**Rule P4-16: Post-failure evaluator mutation (#164).**
+This rule activates only when candidate `C` fails evaluator `E` and `E`, or a
+relevant judgement surface for the same claim, is then changed. A product repair
+with `E` unchanged, an unrelated test change, and pre-candidate red-first test
+authoring stay on the ordinary path and create no R35 record.
+
+When the trigger fires, reuse the existing finding and repair-class row. Keep
+the original failing witness visible and classify the object of repair as
+`PRODUCT_DEFECT`, `EVALUATOR_DEFECT`, `COUPLED_CHANGE`, or `UNRESOLVED`. Record
+the property owner and consumer, the product/evaluator/stimulus/population or
+contract changes, independent contract evidence, proof level, population
+before and after, held-out positive/negative/boundary/adjacent discrimination,
+residual risk, rollback, and the stop or reclassification condition. A changed
+evaluator needs an old/new candidate by old/new evaluator matrix, or an
+authoritative independent instrument. If coupled effects cannot be isolated,
+the disposition remains `UNRESOLVED` or routes to owner decision.
+
+An evaluator repair may PASS only when authoritative property evidence shows
+why the old evaluator was wrong, the old witness is retained, the repaired
+instrument rejects a known-bad candidate where feasible, and held-out controls
+discriminate. An owner-authorised changed contract also records its effective
+boundary, migration and population effects; it does not rewrite the historical
+failure. A representation change is safe only when property equivalence and
+held-out discrimination remain intact. `STIMULUS` repair, prompt changes, mocks,
+and secondary instruments retain the prompt-independence, parity, liveness and
+proof-level rules above. A post-failure prompt change keeps the before/after
+missions, expected answers, forbidden mission phrases, distractors and held-out
+prompts distinct; neither the expected answer nor a distractor may be exposed in
+the scored mission.
+
+An unchanged defective candidate becoming green because an assertion, golden,
+expected answer, tolerance, denominator, population, bypass, skip list, mock or
+prompt was eased is not proof. Preserving a literal while losing the property is
+also a failure. Completing the mutation row grants no PASS, and a failing
+held-out negative overrides form completeness. Stop when the owner is known,
+the repair object is classified, the original and held-out controls
+discriminate, and no material coupled residual remains. Absorb the evidence into
+the ordinary finding/closure surfaces and retire the temporary row; do not
+create a permanent evaluator registry or worksheet.
+
 ---
 
 ## Phase shape examples
