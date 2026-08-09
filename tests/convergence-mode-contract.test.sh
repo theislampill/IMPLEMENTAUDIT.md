@@ -36,7 +36,7 @@ for branch in duplicate unrelated unresolved-family cheap-path; do
   printf '%s' "$flat" | grep -Fqi "$branch" \
     || fail "family classifier branch missing: $branch"
 done
-printf '%s' "$flat" | grep -qi 'Enumeration artifact' || fail "enumeration artifact step missing"
+printf '%s' "$flat" | grep -qi 'Enumeration artefact' || fail "enumeration artefact step missing"
 printf '%s' "$flat" | grep -qi 'exactly one outer qualification' || fail "single-outer-qualification missing"
 printf '%s' "$flat" | grep -qi 'valid states' \
   || fail "explicit valid-state representation missing"
@@ -44,10 +44,16 @@ printf '%s' "$flat" | grep -qi 'state payload' \
   || fail "state-payload requirement missing"
 printf '%s' "$flat" | grep -qi 'expected invariant.*discriminator outcome' \
   || fail "held-out expected-outcome binding missing"
+printf '%s' "$flat" | grep -qi 'deterministic payload evaluator' \
+  || fail "held-out deterministic payload evaluator missing"
 printf '%s' "$flat" | grep -qi 'distractor objects' \
   || fail "resolvable distractor-object requirement missing"
 printf '%s' "$flat" | grep -qi 'referential binding' \
   || fail "state-model referential-binding requirement missing"
+printf '%s' "$flat" | grep -qi 'Every included failure.*family.*dimension.*class.*mutation' \
+  || fail "all-included failure binding requirement missing"
+printf '%s' "$flat" | grep -qi 'independently verified subset.*trigger' \
+  || fail "verified-only trigger-formation boundary missing"
 printf '%s' "$flat" | grep -qi 'single-fault fixture .* must NOT trigger\|must NOT trigger' \
   || fail "negative-control (must-not-trigger) missing"
 printf '%s' "$flat" | grep -qi 'escalate-to-convergence-mode' \
@@ -232,6 +238,64 @@ allowed_mutations = {
 }
 
 
+def evaluate_expected_invariant(record, state):
+    invariant = record["invariant"]
+    if invariant == "packaged-helper-same-run-dispatch":
+        argv = state.get("argv")
+        invokes_helper = (
+            isinstance(argv, list)
+            and any(isinstance(value, str) and value.endswith("helper.sh") for value in argv)
+            and "-n" not in argv
+        )
+        return "pass" if invokes_helper else "fail"
+    if invariant == "scope-population-freshness":
+        return "pass" if state.get("path") and state.get("ignored") is False else "fail"
+    if invariant == "reject-duplicate-keys":
+        raw = state.get("json", "")
+        return "fail" if isinstance(raw, str) and raw.count('"key"') > 1 else "pass"
+    if invariant == "route-by-kind":
+        kind = state.get("kind")
+        return "pass" if isinstance(kind, str) and bool(kind.strip()) else "fail"
+    if invariant == "stable-path-normalisation":
+        path = state.get("path")
+        doubled = isinstance(path, str) and (path.endswith("//") or path.endswith("\\\\"))
+        return "pass" if isinstance(path, str) and path and not doubled else "fail"
+    if invariant == "preserve-owner":
+        owner = state.get("owner")
+        return "pass" if isinstance(owner, str) and owner.startswith("src/owner") else "fail"
+    die(f"no deterministic payload evaluator for invariant {invariant}")
+
+
+def evaluate_current_model(record, state, expected):
+    mechanism = record["mechanism"]
+    if mechanism == "last-write-wins" and isinstance(state.get("json"), str):
+        return "pass"
+    if mechanism in {
+        "helper-caller-evidence-false-pass", "population-census-divergence",
+        "fallthrough", "separator-only-repair", "owner-substitution",
+    }:
+        return expected
+    die(f"no deterministic current-model evaluator for mechanism {mechanism}")
+
+
+def derive_held_out_outcomes(record, cell):
+    state = cell["state"]
+    payload_family = state.get("family")
+    if not isinstance(payload_family, dict):
+        die(f"{cell.get('id')} held-out state lacks payload family binding")
+    expected_family = {field: record[field] for field in ("owner", "invariant", "mechanism")}
+    expected_invariant = evaluate_expected_invariant(record, state)
+    observed_invariant = evaluate_current_model(record, state, expected_invariant)
+    expected_discriminator = "same-family"
+    observed_discriminator = "same-family" if payload_family == expected_family else "not-family"
+    return {
+        "expected_invariant": expected_invariant,
+        "observed_invariant": observed_invariant,
+        "expected_discriminator": expected_discriminator,
+        "observed_discriminator": observed_discriminator,
+    }
+
+
 def classify(case):
     failures = case.get("failures")
     if not isinstance(failures, list):
@@ -325,13 +389,26 @@ def validate_record(case, route):
         die(f"{case['id']} RED witnesses do not resolve to the included population")
     if set(record["included"]) & set(record["excluded"]):
         die(f"{case['id']} included and excluded populations overlap")
-    verified = [row for row in case["failures"] if row.get("independently_verified")]
+    failure_by_id = {row["id"]: row for row in case["failures"]}
+    included_failures = [failure_by_id[member] for member in members]
+    for failure in included_failures:
+        if any(field not in failure for field in required_failure_fields):
+            die(f"{case['id']} included failure {failure['id']} lacks family or state binding")
+        if any(not failure[field] for field in required_failure_fields - {"independently_verified"}):
+            die(f"{case['id']} included failure {failure['id']} has an empty family or state binding")
+        if not isinstance(failure["independently_verified"], bool):
+            die(f"{case['id']} included failure {failure['id']} lacks a boolean verification disposition")
+    family_fields = ("owner", "invariant", "mechanism")
+    record_family = tuple(record[field] for field in family_fields)
+    included_families = {tuple(row[field] for field in family_fields) for row in included_failures}
+    if len(included_families) != 1:
+        unbound = next(row for row in included_failures
+                       if tuple(row[field] for field in family_fields) != record_family)
+        die(f"{case['id']} included failure {unbound['id']} differs from the record family")
     for field in ("owner", "invariant", "mechanism"):
-        if len({row[field] for row in verified}) != 1:
-            die(f"{case['id']} overbroad record joins distinct {field} values")
-        if record[field] != verified[0][field]:
+        if record[field] != included_failures[0][field]:
             die(f"{case['id']} record {field} differs from the failure family")
-    for failure in verified:
+    for failure in included_failures:
         dimension = failure["state_dimension"]
         class_id = failure["state_class"]
         if dimension not in dimensions:
@@ -417,9 +494,13 @@ def validate_record(case, route):
             die(f"{case['id']} held-out {cell.get('id')} lacks invariant outcomes")
         if cell.get("expected_discriminator") not in {"same-family", "not-family"} or cell.get("observed_discriminator") not in {"same-family", "not-family"}:
             die(f"{case['id']} held-out {cell.get('id')} lacks discriminator outcomes")
+        derived_outcomes = derive_held_out_outcomes(record, cell)
+        declared_outcomes = {field: cell[field] for field in derived_outcomes}
+        if declared_outcomes != derived_outcomes:
+            die(f"{case['id']} held-out {cell.get('id')} declarations differ from deterministic payload evaluation")
         derived_result = "pass" if (
-            cell["expected_invariant"] == cell["observed_invariant"]
-            and cell["expected_discriminator"] == cell["observed_discriminator"]
+            derived_outcomes["expected_invariant"] == derived_outcomes["observed_invariant"]
+            and derived_outcomes["expected_discriminator"] == derived_outcomes["observed_discriminator"]
         ) else "fail"
         if cell.get("result") != derived_result:
             die(f"{case['id']} held-out {cell.get('id')} result is not derived from outcomes")
@@ -504,6 +585,8 @@ required_negative_ids = {
     "R32-N06-dangling-held-out",
     "R32-N07-dangling-excluded-distractor",
     "R32-N08-incoherent-family-distractor",
+    "R32-N09-mutated-declarations-unchanged-payload",
+    "R32-N10-unverified-included-member-unbound",
 }
 if not isinstance(negative_rows, list) or {row.get("id") for row in negative_rows} != required_negative_ids:
     die("R32 adversarial state-model population is incomplete or substituted")
@@ -530,6 +613,25 @@ for negative in negative_rows:
     elif operation == "family-distractor":
         for field in ("owner", "invariant", "mechanism"):
             record["distractors"][0][field] = record[field]
+    elif operation == "flip-held-out-declarations":
+        held_out = record["held_out"][0]
+        held_out["expected_invariant"] = "fail"
+        held_out["observed_invariant"] = "fail"
+        held_out["expected_discriminator"] = "not-family"
+        held_out["observed_discriminator"] = "not-family"
+    elif operation == "add-unverified-unbound-member":
+        probe["failures"].append({
+            "id": "F-UNBOUND",
+            "owner": "src/unrelated.py",
+            "invariant": "unrelated-invariant",
+            "mechanism": "unrelated-mechanism",
+            "state_dimension": "unknown-dimension",
+            "state_class": "unknown-class",
+            "mutation_relation": "unknown-mutation",
+            "independently_verified": False,
+        })
+        record["included"].append("F-UNBOUND")
+        record["red_witnesses"].append("F-UNBOUND")
     else:
         die(f"{negative['id']} has unknown mutation operation")
     try:

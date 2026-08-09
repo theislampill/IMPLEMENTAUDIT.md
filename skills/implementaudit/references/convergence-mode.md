@@ -79,7 +79,7 @@ When the classifier returns convergence:
 
 1. **Bounded read-only discovery** — enumerate the reachable neighbouring
    states of the shared space without repairing yet.
-2. **Enumeration artifact** — in the existing audit object, record included
+2. **Enumeration artefact** — in the existing audit object, record included
    counterexamples, excluded distractors, state dimensions, equivalence
    classes, explicit valid states, malformed and boundary states, and bounded
    mutation operators; omission-review what the enumeration may have missed.
@@ -101,10 +101,18 @@ resolve every excluded population entry and state why their owner, invariant
 or mechanism is outside the family; an excluded object that is actually in the
 family is incoherent, not a useful negative control.
 
+Every included failure must match the record family and bind a known dimension,
+class, and mutation. The independently verified subset alone forms the trigger;
+an unverified included member remains structurally accountable but cannot help
+establish the second-rejection threshold.
+
 Each held-out ID resolves one payload-bearing state, a bound mutation operator,
-and both the expected invariant and discriminator outcome. Record the observed
-outcomes separately and derive PASS from their agreement; never trust a
-self-declared `result: pass`. RED witnesses resolve included population IDs,
+and both the expected invariant and discriminator outcome. A deterministic
+payload evaluator derives the expected and current-model-observed invariant and
+family-discriminator outcomes from that state and the bound record; declarations
+must agree with those derived outcomes. Derive PASS from that agreement; never
+trust aligned declarations or a self-declared `result: pass`. RED witnesses
+resolve included population IDs,
 and the record also retains outer qualification, review yield, residual risk,
 and the stop or reclassification decision. Filling these fields is not a PASS:
 a dangling ID, unknown dimension/class/mutation, failing held-out mutation,

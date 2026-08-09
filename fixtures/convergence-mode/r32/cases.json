@@ -49,7 +49,7 @@
         ],
         "held_out_ids": ["H1"],
         "held_out": [
-          {"id": "H1", "dimension": "operand-position", "class": "separated-operand", "mutation": "boundary-shift", "state": {"argv": ["bash", "-lc", "./helper.sh"]}, "expected_invariant": "pass", "observed_invariant": "pass", "expected_discriminator": "same-family", "observed_discriminator": "same-family", "result": "pass"}
+          {"id": "H1", "dimension": "operand-position", "class": "separated-operand", "mutation": "boundary-shift", "state": {"argv": ["bash", "-lc", "./helper.sh"], "family": {"owner": "scripts/check-helper-reachability.sh", "invariant": "packaged-helper-same-run-dispatch", "mechanism": "helper-caller-evidence-false-pass"}}, "expected_invariant": "pass", "observed_invariant": "pass", "expected_discriminator": "same-family", "observed_discriminator": "same-family", "result": "pass"}
         ],
         "outer_qualification": "pass",
         "review_yield": [{"expected_yield": "duplicate", "residual_risk": "", "decision": "stop"}]
@@ -103,7 +103,7 @@
         ],
         "held_out_ids": ["H2"],
         "held_out": [
-          {"id": "H2", "dimension": "ignore-semantics", "class": "root-double-star", "mutation": "move-path", "state": {"path": "nested/STATE.md", "tracked": false, "ignored": false}, "expected_invariant": "pass", "observed_invariant": "pass", "expected_discriminator": "same-family", "observed_discriminator": "same-family", "result": "pass"}
+          {"id": "H2", "dimension": "ignore-semantics", "class": "root-double-star", "mutation": "move-path", "state": {"path": "nested/STATE.md", "tracked": false, "ignored": false, "family": {"owner": "skills/implementaudit/scripts/validate-run-root.sh", "invariant": "scope-population-freshness", "mechanism": "population-census-divergence"}}, "expected_invariant": "pass", "observed_invariant": "pass", "expected_discriminator": "same-family", "observed_discriminator": "same-family", "result": "pass"}
         ],
         "outer_qualification": "pass",
         "review_yield": [{"expected_yield": "none", "residual_risk": "", "decision": "stop"}]
@@ -211,7 +211,7 @@
         ],
         "held_out_ids": ["H3"],
         "held_out": [
-          {"id": "H3", "dimension": "nesting-depth", "class": "nested", "mutation": "adjacent-class", "state": {"json": "{\"a\":{\"key\":1,\"key\":2}}"}, "expected_invariant": "fail", "observed_invariant": "pass", "expected_discriminator": "same-family", "observed_discriminator": "same-family", "result": "fail"}
+          {"id": "H3", "dimension": "nesting-depth", "class": "nested", "mutation": "adjacent-class", "state": {"json": "{\"a\":{\"key\":1,\"key\":2}}", "family": {"owner": "src/parser.py", "invariant": "reject-duplicate-keys", "mechanism": "last-write-wins"}}, "expected_invariant": "fail", "observed_invariant": "pass", "expected_discriminator": "same-family", "observed_discriminator": "same-family", "result": "fail"}
         ],
         "outer_qualification": "pass", "review_yield": [{"expected_yield": "known-class", "residual_risk": "nested duplicate remains", "decision": "run"}]
       }
@@ -298,7 +298,7 @@
         ],
         "held_out_ids": ["R3"],
         "held_out": [
-          {"id": "R3", "dimension": "kind", "class": "empty", "mutation": "adjacent-class", "state": {"kind": "\t"}, "expected_invariant": "fail", "observed_invariant": "fail", "expected_discriminator": "same-family", "observed_discriminator": "same-family", "result": "pass"}
+          {"id": "R3", "dimension": "kind", "class": "empty", "mutation": "adjacent-class", "state": {"kind": "\t", "family": {"owner": "src/router.py", "invariant": "route-by-kind", "mechanism": "fallthrough"}}, "expected_invariant": "fail", "observed_invariant": "fail", "expected_discriminator": "same-family", "observed_discriminator": "same-family", "result": "pass"}
         ],
         "outer_qualification": "pass", "review_yield": [{"expected_yield": "duplicate", "residual_risk": "", "decision": "run"}]
       }
@@ -347,8 +347,8 @@
         ],
         "held_out_ids": ["Y3", "Y4"],
         "held_out": [
-          {"id": "Y3", "dimension": "separator", "class": "backslash", "mutation": "adjacent-class", "state": {"path": "src\\file.py"}, "expected_invariant": "pass", "observed_invariant": "pass", "expected_discriminator": "same-family", "observed_discriminator": "same-family", "result": "pass"},
-          {"id": "Y4", "dimension": "trailing-separator", "class": "trailing", "mutation": "boundary-shift", "state": {"path": "src/nested/"}, "expected_invariant": "pass", "observed_invariant": "pass", "expected_discriminator": "same-family", "observed_discriminator": "same-family", "result": "pass"}
+          {"id": "Y3", "dimension": "separator", "class": "backslash", "mutation": "adjacent-class", "state": {"path": "src\\file.py", "family": {"owner": "src/normalise.py", "invariant": "stable-path-normalisation", "mechanism": "separator-only-repair"}}, "expected_invariant": "pass", "observed_invariant": "pass", "expected_discriminator": "same-family", "observed_discriminator": "same-family", "result": "pass"},
+          {"id": "Y4", "dimension": "trailing-separator", "class": "trailing", "mutation": "boundary-shift", "state": {"path": "src/nested/", "family": {"owner": "src/normalise.py", "invariant": "stable-path-normalisation", "mechanism": "separator-only-repair"}}, "expected_invariant": "pass", "observed_invariant": "pass", "expected_discriminator": "same-family", "observed_discriminator": "same-family", "result": "pass"}
         ],
         "outer_qualification": "pass",
         "review_yield": [
@@ -408,7 +408,7 @@
         ],
         "held_out_ids": ["OWN3"],
         "held_out": [
-          {"id": "OWN3", "dimension": "owner", "class": "renamed", "mutation": "rename-label", "state": {"owner": "src/owner-v2.py"}, "expected_invariant": "pass", "observed_invariant": "pass", "expected_discriminator": "same-family", "observed_discriminator": "same-family", "result": "pass"}
+          {"id": "OWN3", "dimension": "owner", "class": "renamed", "mutation": "rename-label", "state": {"owner": "src/owner-v2.py", "family": {"owner": "src/different.py", "invariant": "preserve-owner", "mechanism": "owner-substitution"}}, "expected_invariant": "pass", "observed_invariant": "pass", "expected_discriminator": "same-family", "observed_discriminator": "same-family", "result": "pass"}
         ],
         "outer_qualification": "pass", "review_yield": [{"expected_yield": "none", "residual_risk": "", "decision": "stop"}]
       }
@@ -422,6 +422,8 @@
     {"id": "R32-N05-unknown-mutation", "operation": "unknown-mutation", "expected_error": "references unknown mutation"},
     {"id": "R32-N06-dangling-held-out", "operation": "dangling-held-out", "expected_error": "held_out_ids do not resolve"},
     {"id": "R32-N07-dangling-excluded-distractor", "operation": "dangling-excluded", "expected_error": "excluded ids do not resolve"},
-    {"id": "R32-N08-incoherent-family-distractor", "operation": "family-distractor", "expected_error": "distractor belongs to the included failure family"}
+    {"id": "R32-N08-incoherent-family-distractor", "operation": "family-distractor", "expected_error": "distractor belongs to the included failure family"},
+    {"id": "R32-N09-mutated-declarations-unchanged-payload", "operation": "flip-held-out-declarations", "expected_error": "declarations differ from deterministic payload evaluation"},
+    {"id": "R32-N10-unverified-included-member-unbound", "operation": "add-unverified-unbound-member", "expected_error": "included failure F-UNBOUND differs from the record family"}
   ]
 }
