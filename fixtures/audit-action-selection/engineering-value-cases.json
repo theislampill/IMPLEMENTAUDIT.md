@@ -1,0 +1,179 @@
+{
+  "schema": 1,
+  "cases": [
+    {
+      "id": "R34-C01-tiny-cheap-path",
+      "kind": "depth",
+      "observations": {"activation": false, "process_heavy_or_disputed": false},
+      "expected": "NO_R34_ARTEFACT"
+    },
+    {
+      "id": "R34-C02-triggered-minimal-record",
+      "kind": "depth",
+      "observations": {"activation": true, "process_heavy_or_disputed": false},
+      "expected": "MINIMAL_TRIGGERED_RECORD"
+    },
+    {
+      "id": "R34-C03-deep-retrospective-bounded",
+      "kind": "depth",
+      "observations": {"activation": true, "process_heavy_or_disputed": true},
+      "expected": "DEEP_RETROSPECTIVE"
+    },
+    {
+      "id": "R34-C04-risky-smoke-retained",
+      "kind": "admission",
+      "observations": {"required_gate": true, "equivalent_protection": false, "live_driver": true, "consumer": true, "consequence": true, "discriminator": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "expected": "RETAIN"
+    },
+    {
+      "id": "R34-C05-habit-only-control",
+      "kind": "admission",
+      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": false, "consumer": false, "consequence": false, "discriminator": false, "exit_condition": false, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "expected": "REJECT"
+    },
+    {
+      "id": "R34-C06-optional-by-whim",
+      "kind": "admission",
+      "observations": {"required_gate": true, "equivalent_protection": false, "live_driver": true, "consumer": true, "consequence": true, "discriminator": false, "exit_condition": false, "proxy_only": false, "optional_by_whim": true, "expected_risk_material": false},
+      "expected": "RETAIN"
+    },
+    {
+      "id": "R34-C07-commit-count-proxy",
+      "kind": "anti_gaming",
+      "observations": {"proxy": "commit_count", "large_mandatory_worksheet": false, "form_only": false},
+      "expected": "FAIL"
+    },
+    {
+      "id": "R34-C08-artefact-count-proxy",
+      "kind": "anti_gaming",
+      "observations": {"proxy": "artefact_count", "large_mandatory_worksheet": false, "form_only": false},
+      "expected": "FAIL"
+    },
+    {
+      "id": "R34-C09-report-count-proxy",
+      "kind": "anti_gaming",
+      "observations": {"proxy": "report_count", "large_mandatory_worksheet": false, "form_only": false},
+      "expected": "FAIL"
+    },
+    {
+      "id": "R34-C10-reviewer-count-proxy",
+      "kind": "anti_gaming",
+      "observations": {"proxy": "reviewer_count", "large_mandatory_worksheet": false, "form_only": false},
+      "expected": "FAIL"
+    },
+    {
+      "id": "R34-C11-command-count-proxy",
+      "kind": "anti_gaming",
+      "observations": {"proxy": "command_count", "large_mandatory_worksheet": false, "form_only": false},
+      "expected": "FAIL"
+    },
+    {
+      "id": "R34-C12-recovery-handoff",
+      "kind": "artefact",
+      "observations": {"live_consumer": true, "recovery_or_authority_consequence": true, "duplicate_authority": false},
+      "expected": "RETAIN"
+    },
+    {
+      "id": "R34-C13-duplicate-status-artefact",
+      "kind": "artefact",
+      "observations": {"live_consumer": false, "recovery_or_authority_consequence": false, "duplicate_authority": true},
+      "expected": "MERGE_OR_RETIRE"
+    },
+    {
+      "id": "R34-C14-demonstrated-defect-control",
+      "kind": "admission",
+      "observations": {"required_gate": true, "equivalent_protection": false, "live_driver": true, "consumer": true, "consequence": true, "discriminator": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "expected": "RETAIN"
+    },
+    {
+      "id": "R34-C15-rare-catastrophic-risk",
+      "kind": "admission",
+      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "consumer": true, "consequence": true, "discriminator": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": true},
+      "expected": "RETAIN_OR_OWNER_DECISION"
+    },
+    {
+      "id": "R34-C16-exact-evidence-reuse",
+      "kind": "repeat",
+      "observations": {"prior_exact_pass": true, "relevant_state_unchanged": true, "scope_identical": true, "consumer_identical": true, "new_residual": false, "new_mutation_family": false},
+      "expected": "REUSE"
+    },
+    {
+      "id": "R34-C17-changed-state-rerun",
+      "kind": "repeat",
+      "observations": {"prior_exact_pass": true, "relevant_state_unchanged": false, "scope_identical": true, "consumer_identical": true, "new_residual": true, "new_mutation_family": false},
+      "expected": "RUN"
+    },
+    {
+      "id": "R34-C18-repeat-review-no-residual",
+      "kind": "review",
+      "observations": {"new_residual": false, "new_mutation_family": false},
+      "expected": "STOP"
+    },
+    {
+      "id": "R34-C19-review-new-mutation-family",
+      "kind": "review",
+      "observations": {"new_residual": false, "new_mutation_family": true},
+      "expected": "RUN"
+    },
+    {
+      "id": "R34-C20-shared-and-disjoint-topology",
+      "kind": "topology",
+      "observations": {"shared_owner": true, "shared_cell": true, "disjoint_cells": 3, "closed_write_boundaries": true, "reconciliation_point": true, "parallel_shared_cell": false},
+      "expected": "PARALLEL_DISJOINT_SERIALISE_SHARED"
+    },
+    {
+      "id": "R34-C21-shared-cell-conflict",
+      "kind": "topology",
+      "observations": {"shared_owner": true, "shared_cell": true, "disjoint_cells": 2, "closed_write_boundaries": false, "reconciliation_point": false, "parallel_shared_cell": true},
+      "expected": "FAIL"
+    },
+    {
+      "id": "R34-C22-duplicate-controls-merge",
+      "kind": "lifecycle",
+      "observations": {"requested": "merge", "live_consumer": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": true, "activation_conditional": false, "risk_or_authority_changed": false},
+      "expected": "MERGE"
+    },
+    {
+      "id": "R34-C23-trigger-dependent-control",
+      "kind": "lifecycle",
+      "observations": {"requested": "conditionalise", "live_consumer": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": true, "risk_or_authority_changed": false},
+      "expected": "CONDITIONAL"
+    },
+    {
+      "id": "R34-C24-retire-obsolete-control",
+      "kind": "lifecycle",
+      "observations": {"requested": "retire", "live_consumer": false, "failure_mode_live": false, "rollback_proved": true, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false},
+      "expected": "RETIRE"
+    },
+    {
+      "id": "R34-C25-reclassify-changed-risk",
+      "kind": "lifecycle",
+      "observations": {"requested": "retire", "live_consumer": false, "failure_mode_live": false, "rollback_proved": true, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": true},
+      "expected": "RECLASSIFY"
+    },
+    {
+      "id": "R34-C26-live-consumer-retirement",
+      "kind": "lifecycle",
+      "observations": {"requested": "retire", "live_consumer": true, "failure_mode_live": false, "rollback_proved": true, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false},
+      "expected": "FAIL"
+    },
+    {
+      "id": "R34-C27-mandatory-large-worksheet",
+      "kind": "anti_gaming",
+      "observations": {"proxy": "none", "large_mandatory_worksheet": true, "form_only": false},
+      "expected": "FAIL"
+    },
+    {
+      "id": "R34-C28-filled-record-no-consequence",
+      "kind": "anti_gaming",
+      "observations": {"proxy": "none", "large_mandatory_worksheet": false, "form_only": true},
+      "expected": "FAIL"
+    },
+    {
+      "id": "R34-C29-complete-admission",
+      "kind": "admission",
+      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "consumer": true, "consequence": true, "discriminator": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "expected": "ADMIT"
+    }
+  ]
+}

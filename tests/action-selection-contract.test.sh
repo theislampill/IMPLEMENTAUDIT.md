@@ -13,6 +13,16 @@ fail() {
   exit 1
 }
 
+if command -v python >/dev/null 2>&1; then
+  py_cmd=(python)
+elif command -v python3 >/dev/null 2>&1; then
+  py_cmd=(python3)
+elif command -v py >/dev/null 2>&1; then
+  py_cmd=(py -3)
+else
+  fail "python, python3, or py -3 is required"
+fi
+
 # 1. Positive: live repo passes.
 bash scripts/check-action-selection-contract.sh \
   || fail "checker fails on the live repo"
@@ -32,10 +42,14 @@ reset_sandbox() {
   cp skills/implementaudit/SKILL.md "$tmp_root/skills/implementaudit/"
   cp skills/implementaudit/references/planning-depth.md \
     "$tmp_root/skills/implementaudit/references/"
+  cp skills/implementaudit/references/lean-operating-discipline.md \
+    "$tmp_root/skills/implementaudit/references/"
   cp skills/implementaudit/templates/THINKING.md \
     skills/implementaudit/templates/ROADMAP.md \
     "$tmp_root/skills/implementaudit/templates/"
   cp fixtures/audit-action-selection/*.md \
+    "$tmp_root/fixtures/audit-action-selection/"
+  cp fixtures/audit-action-selection/*.json \
     "$tmp_root/fixtures/audit-action-selection/"
   cp fixtures/native-integration/single-plan-native-route.md \
     "$tmp_root/fixtures/native-integration/"
@@ -84,5 +98,45 @@ reset_sandbox
 printf '\nAdvertised mode: /implementaudit deep\n' \
   >>"$tmp_root/fixtures/audit-action-selection/ordinary-task-deepens.md"
 expect_fail "command-mode advertisement in an action-selection fixture"
+
+# 7. The engineering-value owner clause disappears -> must fail.
+reset_sandbox
+sed '/^## Engineering-value admission and control lifecycle$/,/^## Unit independence and change class$/{
+  /^## Unit independence and change class$/!d
+}' "$tmp_root/skills/implementaudit/references/planning-depth.md" \
+  >"$tmp_root/planning-depth.tmp"
+mv "$tmp_root/planning-depth.tmp" \
+  "$tmp_root/skills/implementaudit/references/planning-depth.md"
+expect_fail "missing engineering-value admission owner"
+
+# 8. A changed expected answer cannot make an invalid control green.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+payload["cases"][0]["expected"] = "ADMIT"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "changed expected answer for the tiny cheap path"
+
+# 9. Truthy strings cannot impersonate observed boolean state.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+payload["cases"][1]["observations"]["activation"] = "yes"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "truthy string substituted for an observed boolean"
 
 printf 'action-selection-contract.test: ok\n'

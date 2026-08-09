@@ -141,6 +141,73 @@ Revision Cap` in `plan-lifecycle.md` and the try-cap prohibition in
 blocked interval retires no risk by construction and is Muda — log it in the
 `THINKING.md` Muda/Mura/Muri register rather than running it.
 
+## Engineering-value admission, retention, and retirement
+
+The action-selection invariant applies to process controls as they are admitted
+and throughout their lifecycle. A triggered decision reuses the existing audit
+object, action-selection record, Muda/Mura/Muri register, countermeasure record,
+or Plan Closure surface. It records only the candidate work; live risk,
+uncertainty, boundary, coordination, evidence, or recurrence burden; owner and
+authoritative consumer; decision, action, authority, recovery, or knowledge
+state protected; cheapest sufficient discriminator and cheaper alternatives;
+expected evidence and residual; material time, tool, package, bootstrap,
+privacy, spend, and coordination cost; activation and non-trigger path; exit;
+and disposition. The record supports a decision. It does not prove that the
+control protects its claimed property.
+
+Use these lifecycle dispositions:
+
+- **Retain** a control while its consumer and protected consequence remain live
+  and no cheaper equivalent protection has been proved. A demonstrated
+  defect-catching gate remains warranted on this basis.
+- **Merge** duplicated controls when one authoritative surface preserves every
+  consumer and evidence need.
+- Make a control **conditional** when its value depends on a trigger absent from
+  ordinary work.
+- **Retire** only when its failure mode, consumer, or consequence no longer
+  exists and rollback evidence exposes no hidden dependency.
+- **Reclassify** instead of retiring when risk, scope, authority, or external
+  consequence changes.
+- Use **owner decision** when expected-risk value and permanent cost cannot be
+  resolved mechanically. Low observed frequency does not defeat a defensible
+  rare, high-consequence control.
+
+Human-readable handoffs, authorisations, work orders, review receipts, and
+release records can be essential. Ask who consumes an artefact, which decision
+or recovery action changes, what becomes unsafe or unknowable without it,
+whether another authority already owns the same information, and when it can be
+retired. Machine consumption alone establishes no value, and a duplicate status
+artefact with no distinct consumer is a merge or retirement candidate.
+
+Repeat a verifier or reviewer after an earlier PASS only for a named residual
+risk or new mutation family. Reuse bounded evidence only when the relevant bytes, state, consumer, and evidence scope are unchanged. The producer result,
+scope, and residual remain visible. A prior PASS is not reusable across changed
+state merely because its command text is unchanged.
+
+Parallelism follows write and acceptance cells: one shared owner does not serialise disjoint cells.
+Serialise the conflicting shared cell, preserve closed
+write boundaries, and name the reconciliation point. Throughput never permits
+concurrent mutation of the same owner or an unqualified shared acceptance
+surface.
+
+Process volume is not value evidence. Commit, file, line, command, reviewer,
+artefact, report, token, and elapsed-time counts establish neither engineering
+value nor ceremony by themselves. A named consumer without a protected
+consequence, a filled admission form without the protected property, relabelling
+mandatory work as optional-by-whim, or splitting one control without lowering
+actual activation and maintenance cost also fails. Do not add a mandatory control ledger,
+fixed meta-work ratio, numerical ceremony threshold, new marker family,
+per-command justification, or large worksheet to ordinary runs.
+
+Progressive cost is bounded. The compact invariant stays with native action
+selection. The admission decision activates only on supported factors. An
+artefact-consumer census or repeat-review retrospective is reserved for
+process-heavy, self-modifying, or disputed work. When no factor fires, create no
+R34 record and make no model call. Prefer mechanical paths, hashes, invocation
+traces, consumer links, and exact state comparisons; model judgement is review
+evidence only when those cannot discriminate the expected-risk or human-value
+question.
+
 ## Environment-quirk memoization
 
 When the same normalized host or tool error reaches a second distinct linked
