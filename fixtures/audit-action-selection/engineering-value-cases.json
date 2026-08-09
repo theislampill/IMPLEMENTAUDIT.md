@@ -420,6 +420,12 @@
       "kind": "depth",
       "observations": {"activation": false, "process_heavy_or_disputed": true},
       "expected": "DEEP_RETROSPECTIVE"
+    },
+    {
+      "id": "R34-C71-parallel-safe-without-reconciliation",
+      "kind": "topology",
+      "observations": {"shared_owner": false, "shared_cell": false, "disjoint_cells": 3, "closed_write_boundaries": true, "reconciliation_point": false, "parallel_shared_cell": false},
+      "expected": "SERIALISE_SHARED"
     }
   ]
 }

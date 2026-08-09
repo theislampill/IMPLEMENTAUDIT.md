@@ -167,6 +167,7 @@ required_ids = {
         (68, "retain-lower-cost-without-equivalence"),
         (69, "unqualified-changed-bytes"),
         (70, "process-heavy-derives-activation"),
+        (71, "parallel-safe-without-reconciliation"),
     )
 }
 ids = [case.get("id") for case in cases if isinstance(case, dict)]
@@ -256,7 +257,8 @@ def decide(case):
             return "FAIL"
         if o["shared_owner"] and o["shared_cell"] and o["disjoint_cells"] and o["reconciliation_point"]:
             return "PARALLEL_DISJOINT_SERIALISE_SHARED"
-        if not o["shared_cell"] and o["disjoint_cells"] and o["closed_write_boundaries"]:
+        if (not o["shared_cell"] and o["disjoint_cells"]
+                and o["closed_write_boundaries"] and o["reconciliation_point"]):
             return "PARALLEL_SAFE"
         return "SERIALISE_SHARED"
     if kind == "escalation":
