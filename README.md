@@ -15,6 +15,16 @@ implementation plans into bounded, verified repository changes. It plans deeply
 and executes verified repo work phase-by-phase until terminal auditable closure 
 or an explicit audited handoff.
 
+It is reusable meta-engineering packaged as `IMPLEMENTAUDIT.skill`: sustained
+engineering discipline for planning, designing, implementing, improving,
+reviewing, recovering, integrating, and closing repository work—not only a
+one-off code audit. A skill or agent-tooling repository can itself be the audit
+object, so the method can improve skills-about-skills through the same
+owner/source, evidence, and closure gates. This repository dogfoods that
+self-application; it does not establish effectiveness across every agent, host,
+repository, or external ecosystem. Here, `.skill` is the release-asset name and
+import layout, not a claimed universal host standard.
+
 It can plan, design, implement, improve, 
 review, recover, integrate, and close repo work. 
 Greenfield and replacement work can route through DMADV; 
@@ -24,6 +34,11 @@ Across those routes, nested planner, run, phase, Andon,
 and audit-fix loops inspect the live repository, identify owner/source, 
 make the smallest warranted change, learn from failures, 
 and re-verify until terminal closure or an explicit audited handoff.
+
+The method scales its ceremony to consequence. Small reversible work can stay
+compact; deeper planning, durable run state, independent review, package checks,
+or external readback activate only when scope, risk, dependencies, or the claimed
+evidence surface warrant them. Process volume alone is not engineering value.
 
 It is not an ungated autonomous build loop, release bot, package publisher, or
 provenance system. Blocked work ends in an explicit audited handoff, not fake
@@ -1065,6 +1080,23 @@ What each install source carries:
 | Prior public release `v0.3.2.0` | The v0.3.2.0 evidence-integrity and failure-origin contract | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper; local installed-package dogfood ledger |
 | Prior public release `v0.2.9.0` | `ANDON_PROBE` / `ANDON_ESCALATE` / `ANDON_HANDOFF`, classed Andon log, no arbitrary try caps | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper |
 | Older public release `v0.2.8.0` | Pre-Andon recovery semantics | bare paths, before skill-directory resolution | none |
+
+### Source-checkout capabilities after `v0.3.3.0`
+
+The current source checkout contains later contract work that is not claimed as
+part of the published `v0.3.3.0` asset. The detailed owners remain the
+references below; this table is the public route, not a duplicate specification.
+
+| Capability | Public disposition | Owner/source and boundary |
+|---|---|---|
+| Shipped-helper reachability | `discoverably-delegated` | `skills/implementaudit/SKILL.md` and package checks require a shipped helper to be instruction-reachable, same-run dispatchable, packaged, and negatively tested; adding a helper does not prove host execution. |
+| Scoped Graphify terrain | `discoverably-delegated` | `skills/implementaudit/references/sidecars.md` defines the optional scope catalogue and fail-closed live-file fallback; Graphify remains orientation, not a ledger or correctness proof. |
+| Executor-ready issue work orders | `discoverably-delegated` | `skills/implementaudit/references/issue-ready-work-orders.md` expands material findings, reconciles multi-draft sets, and preserves separate authorisation and readback gates; it does not publish issues. |
+| Engineering-value and control lifecycle | `discoverably-delegated` | `skills/implementaudit/references/lean-operating-discipline.md` admits controls through a named consumer and protected consequence, then retains, cheapens, merges, conditions, retires, or reclassifies them on evidence. |
+| Governed state-space convergence | `discoverably-delegated` | `skills/implementaudit/references/convergence-mode.md` is qualified, optional, and progressive after a second independently verified same-family rejection; ordinary and cheap-path work skips it. External effectiveness remains unproved. |
+| Evaluator-integrity protection | `discoverably-delegated` | `skills/implementaudit/references/phase-design.md` Rule P4-16 preserves the original failing witness and challenges post-failure checker, fixture, threshold, golden, prompt, or expected-answer changes; a new green alone is insufficient. |
+| Package semantic preservation | `discoverably-delegated` | `skills/implementaudit/references/lean-operating-discipline.md` requires owner-backed predicates and runtime, checker, installed, generated, and public consumers to survive footprint work; a smaller archive alone is not closure. |
+| Public capability projection | `present-correct` | `skills/implementaudit/references/audit-playbook.md` derives material public topics from owners, dispositions README/docs/current-state coverage, and challenges omissions as well as overclaims. It activates only for public- or release-facing effects. |
 
 ### Install / update for Codex
 

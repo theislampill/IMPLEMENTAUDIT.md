@@ -15,6 +15,16 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Changed
 
+- Added a bounded public-capability projection contract for public- or
+  release-facing work. It derives a material topic population from authoritative
+  owners, records README/docs/current-state dispositions, challenges omissions
+  as well as overclaims, preserves generated and exact-literal ownership, and
+  creates no record for an ordinary private source-only change.
+- Public source-checkout guidance now routes readers to the post-v0.3.3.0
+  helper-reachability, scoped-Graphify, issue-work-order, engineering-value,
+  convergence, evaluator-integrity, and package-semantic-preservation owners.
+  These are source-checkout statements, not claims about the published
+  `v0.3.3.0` asset or a later release.
 - Optional Graphify terrain can use an outside-repository scope catalogue to
   select and validate the smallest graph covering named paths. Scope-local
   canonical scan roots, Graphify-manifest file/content/config rules,

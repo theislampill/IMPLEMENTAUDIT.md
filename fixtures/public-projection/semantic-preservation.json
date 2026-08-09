@@ -1,0 +1,54 @@
+{
+  "schema": "implementaudit-public-projection-semantic-preservation-v1",
+  "bindings": [
+    {
+      "id": "proof-level-claim-rows",
+      "projection_owner": "skills/implementaudit/templates/final-report.md",
+      "projection_tokens": ["Claim Rows (proof-level discipline)", "| Claim | Scope | Proof level | Evidence basis | Freshness | Upgrade condition |", "structural", "provenance"],
+      "canonical_owners": [
+        {"path": "docs/audits/RETENTION.md", "tokens": ["Proof-Level Taxonomy (PL1-PL7)", "explicit proof level", "commands; proof levels classify CLAIMS"]},
+        {"path": "skills/implementaudit/references/audit-playbook.md", "tokens": ["population_definition", "population_size", "examined_count", "enumeration_source"]}
+      ],
+      "consumer": {"path": "tests/claim-boundary-proof-levels.test.sh", "tokens": ["Final-report template carries claim rows", "Claim Rows (proof-level discipline)"]}
+    },
+    {
+      "id": "external-mutation-readback",
+      "projection_owner": "skills/implementaudit/templates/final-report.md",
+      "projection_tokens": ["external-kind", "external-mutation-record", "readback-sha256", "readback-field", "expected-value", "observed-value"],
+      "canonical_owners": [
+        {"path": "skills/implementaudit/references/repo-state-comparison.md", "tokens": ["runner: python|bash|powershell", "target-kind:", "mutation-command:", "mutation-exit: 0", "mutation-evidence:", "readback-command:", "readback-exit: 0", "readback-file:", "readback-evidence:"]},
+        {"path": "skills/implementaudit/templates/PROTOCOL.md", "tokens": ["external-kind: observation|mutation", "external-mutation-record", "readback-sha256", "readback-field"]}
+      ],
+      "consumer": {"path": "tests/closure-surface-contract.test.sh", "tokens": ["schema_owners", "malformed external-mutation-record", "duplicate external-mutation-record"]}
+    },
+    {
+      "id": "external-artifact-liveness",
+      "projection_owner": "skills/implementaudit/templates/final-report.md",
+      "projection_tokens": ["artifact-identity", "collision-receipt", "external-evidence", "closure-bytes", "closure-mtime"],
+      "canonical_owners": [
+        {"path": "skills/implementaudit/references/repo-state-comparison.md", "tokens": ["sha256: <64-lowercase-hex>", "hashes: <complete-comma-separated-hash-set>", "bytes: <nonnegative-integer>", "liveness: snapshot|terminal", "still-producing: true|false", "closure-bytes:", "closure-mtime:"]},
+        {"path": "skills/implementaudit/templates/PROTOCOL.md", "tokens": ["external-evidence", "closure-bytes", "closure-mtime", "artifact-identity", "collision-receipt"]}
+      ],
+      "consumer": {"path": "tests/closure-surface-contract.test.sh", "tokens": ["external-evidence", "closure-mtime", "collision-receipt"]}
+    },
+    {
+      "id": "terminal-qualification",
+      "projection_owner": "skills/implementaudit/templates/final-report.md",
+      "projection_tokens": ["AUDIT_START_ANCHOR", "AUDIT_VERIFY_ANCHOR", "REANCHOR_DISPOSITION", "REANCHOR_EVIDENCE", "equivalent_config_attempts", "stochasticity_budget", "terminal_qualification"],
+      "canonical_owners": [
+        {"path": "skills/implementaudit/templates/PROTOCOL.md", "tokens": ["hash-bound evidence row per claim", "reanchor-finding:", "SUPERSEDED_BY_CONCURRENT_MUTATION", "equivalent_config_attempts: N_total/N_passing", "AUDIT_START_ANCHOR", "ordinary `1/1` is `QUALIFIED`"]}
+      ],
+      "consumer": {"path": "skills/implementaudit/scripts/check-closure-surface.sh", "tokens": ["AUDIT_START_ANCHOR must be a full lowercase 40-hex SHA", "equivalent_config_attempts must be N_total/N_passing", "stochasticity_budget must be predeclared"]}
+    },
+    {
+      "id": "proposed-message-anchor",
+      "projection_owner": "skills/implementaudit/templates/final-report.md",
+      "projection_tokens": ["Suggested Commit Message When No Commit Authorized", "Evidence anchor: claim:<Claim-ID>", "No commit, push, tag, release, publication"],
+      "canonical_owners": [
+        {"path": "skills/implementaudit/references/repo-state-comparison.md", "tokens": ["Evidence anchor: claim:<Claim-ID>", "resolves to a"]},
+        {"path": "skills/implementaudit/templates/PROTOCOL.md", "tokens": ["Evidence anchor: claim:<Claim-ID>", "The fenced block under `## Suggested Commit Message When No Commit Authorized`"]}
+      ],
+      "consumer": {"path": "tests/closure-surface-contract.test.sh", "tokens": ["Suggested Commit Message When No Commit Authorized", "Evidence anchor: claim:<Claim-ID>"]}
+    }
+  ]
+}

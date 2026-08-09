@@ -4,7 +4,13 @@
 
       <h2 id="evidence-trail">Repository changes with an evidence trail</h2>
       <p>IMPLEMENTAUDIT helps Claude Code or Codex make repository changes that leave evidence behind.<br>It makes the agent plan, inspect real files, run before/after checks, stop on failures, and close with an audit.<br>Formal name: implementation with audit gates (audit-governed implementation).</p>
+      <p>It is reusable meta-engineering packaged as <code>IMPLEMENTAUDIT.skill</code>: a method for sustained planning, design, implementation, improvement, review, recovery, integration, and closure, not only a one-off code audit.<br>A skill or agent-tooling repository can itself be the audit object, so the same owner/source and evidence gates can govern skills-about-skills.</p>
+      <p>This repository demonstrates that self-application here; it does not prove effectiveness across every agent, host, repository, or external ecosystem.<br>In this project, <code>.skill</code> names the release asset and import layout, not a universal host standard.</p>
       <p>The key move is simple: the conversation carries only a short instruction, while the real contract lives in a durable work record on disk.<br>For phased or larger work, that record is organized inside a run folder.</p>
+
+      <h2 id="proportional-discipline">Proportional discipline</h2>
+      <p>Small reversible work can stay compact.<br>Deeper planning, durable run state, independent review, package checks, or external readback activate only when scope, risk, dependencies, or the claimed evidence surface warrant them.</p>
+      <p>Process volume is not engineering value.<br>The method asks which consumer and consequence a control protects, and keeps, cheapens, merges, conditions, retires, or reclassifies the control on evidence.</p>
 
       <h2 id="contract-on-disk">The contract lives on disk</h2>
       <div class="result-grid">
@@ -36,6 +42,18 @@
           </ul>
         </div>
       </div>
+
+      <h2 id="source-checkout-capabilities">Current source-checkout capabilities</h2>
+      <p>The current source checkout contains contract work added after the published <code>v0.3.3.0</code> asset.<br>This source status does not claim a later release, installed-host behaviour, or publication.</p>
+      <div class="result-grid">
+        <div><b>Issue-ready work orders</b><span>Material findings can become cold-executor-ready work orders with multi-draft reconciliation while issue publication remains a separate gate.</span></div>
+        <div><b>Engineering-value controls</b><span>Controls need a named consumer and protected consequence, with evidence-based retain, cheapen, merge, conditional, retirement, or reclassification decisions.</span></div>
+        <div><b>Optional convergence</b><span>A progressive state-space route can activate after a second independently verified same-family rejection; ordinary, unrelated, unresolved-family, and cheap-path work do not enter it.</span></div>
+        <div><b>Evaluator integrity</b><span>Changing a checker, fixture, threshold, golden, prompt, or expected answer after failure preserves the original witness and needs independent property evidence.</span></div>
+        <div><b>Package semantics</b><span>Footprint repairs preserve owner-backed behaviour and required runtime, checker, installed, generated, and public consumers; smaller bytes alone do not close a package failure.</span></div>
+        <div><b>Public projection</b><span>Public- or release-facing work enumerates material owner-sourced topics, dispositions README/docs coverage, and challenges omission as well as overclaim.</span></div>
+      </div>
+      <p>Shipped-helper reachability and scoped Graphify terrain retain their existing package and optional-tool boundaries.<br>See the maintainer route for the projection review contract and the package page for consumer preservation.</p>
 
       <h2 id="what-it-does-not-authorize">What it does not authorize</h2>
       <p>IMPLEMENTAUDIT can plan, inspect, edit, check, stop, and audit within the authorized request.<br>It does not grant extra authority.</p>

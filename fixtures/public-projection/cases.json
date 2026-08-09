@@ -1,0 +1,222 @@
+{
+  "schema": "implementaudit-public-projection-fixtures-v1",
+  "controls": [
+    {
+      "id": "R29-F1",
+      "kind": "topic-projection",
+      "topic": "iterative design",
+      "owner_source": "references/design.md",
+      "material": true,
+      "readme_disposition": "missing",
+      "docs_disposition": "missing",
+      "expected": "FAIL"
+    },
+    {
+      "id": "R29-F2",
+      "kind": "route-projection",
+      "route": "release-asset installation",
+      "supported": true,
+      "readme_disposition": "present-correct",
+      "docs_disposition": "missing",
+      "expected": "FAIL"
+    },
+    {
+      "id": "R29-F3",
+      "kind": "reference-integrity",
+      "topic": "review recovery",
+      "reference": "references/recovery.md",
+      "exists": false,
+      "discoverable": false,
+      "expected": "FAIL"
+    },
+    {
+      "id": "R29-F4",
+      "kind": "current-state-parity",
+      "current_release": "release-2",
+      "current_runtime": "runtime-2",
+      "readme_release": "release-2",
+      "readme_runtime": "runtime-2",
+      "docs_release": "release-1",
+      "docs_runtime": "runtime-1",
+      "expected": "FAIL"
+    },
+    {
+      "id": "R29-F5",
+      "kind": "semantic-currency",
+      "publication_state": "postpublication",
+      "source_state": "release-2",
+      "generated_state": "release-2",
+      "live_state": "release-2",
+      "changelog_state": "prepublication",
+      "release_ledger_state": "prepublication",
+      "portal_metadata_state": "prepublication",
+      "expected": "FAIL"
+    },
+    {
+      "id": "R29-F6",
+      "kind": "publication-transition",
+      "publication_state": "postpublication",
+      "public_wording_state": "prepublication-current",
+      "expected": "FAIL"
+    },
+    {
+      "id": "R29-F7",
+      "kind": "delegation",
+      "readme_disposition": "discoverably-delegated",
+      "reference": "public/design-guide.html",
+      "exists": true,
+      "maintained": true,
+      "discoverable": true,
+      "expected": "PASS"
+    },
+    {
+      "id": "R29-F8",
+      "kind": "internal-disposition",
+      "user_facing": false,
+      "readme_disposition": "not-user-facing",
+      "docs_disposition": "not-user-facing",
+      "owner_source": "src/internal/cache.py",
+      "reason": "private cache invalidation detail",
+      "expected": "PASS"
+    },
+    {
+      "id": "R29-F9",
+      "kind": "historical-context",
+      "current_release": "release-2",
+      "historical_release": "release-1",
+      "historical_context": "dated compatibility note",
+      "compatibility_alias": "legacy-phase-name",
+      "current_state_is_distinct": true,
+      "expected": "PASS"
+    },
+    {
+      "id": "R29-F10",
+      "kind": "language-owner-boundary",
+      "public_copy": "The analyser preserves authorised behaviour.",
+      "public_copy_locale": "en-GB",
+      "generator_output_preserved": true,
+      "canonical_literals_preserved": true,
+      "expected": "PASS"
+    },
+    {
+      "id": "R29-F10n",
+      "kind": "owner-first-mutation",
+      "mutation_target": "generated-diagram-block",
+      "owner_source_updated": false,
+      "regenerated": false,
+      "canonical_literal_preserved": false,
+      "expected": "FAIL"
+    },
+    {
+      "id": "R29-F11",
+      "kind": "existing-gate-composition",
+      "claim": "unsupported host refresh claim",
+      "existing_claim_boundary_result": "FAIL",
+      "projection_result": "PASS",
+      "expected": "FAIL"
+    },
+    {
+      "id": "R29-F12",
+      "kind": "optional-exclusion",
+      "capability": "operations dashboard",
+      "optional": true,
+      "excluded": true,
+      "unsupported_public_claim": false,
+      "expected": "PASS"
+    },
+    {
+      "id": "R29-F13",
+      "kind": "projection-census",
+      "population_definition": "material public topics",
+      "population_size": 12,
+      "examined_count": 11,
+      "enumeration_source": "owner manifest",
+      "enumerated_members": [
+        "topic-01", "topic-02", "topic-03", "topic-04", "topic-05", "topic-06",
+        "topic-07", "topic-08", "topic-09", "topic-10", "topic-11", "topic-12"
+      ],
+      "dispositioned_members": [
+        "topic-01", "topic-02", "topic-03", "topic-04", "topic-05", "topic-06",
+        "topic-07", "topic-08", "topic-09", "topic-10", "topic-11"
+      ],
+      "expected": "FAIL"
+    },
+    {
+      "id": "R29-F14",
+      "kind": "projection-discrimination",
+      "topics": [
+        {"topic": "planning", "owner_source": "references/planning.md", "evidence": "public-guide.html#shared"},
+        {"topic": "review", "owner_source": "references/review.md", "evidence": "public-guide.html#shared"}
+      ],
+      "known_distinct_topics": ["planning", "review"],
+      "distinct_evidence_witness": false,
+      "expected": "FAIL"
+    },
+    {
+      "id": "R29-F15",
+      "kind": "activation-boundary",
+      "change_class": "private-source-only",
+      "public_or_release_effect": false,
+      "projection_record_present": false,
+      "expected": "PASS"
+    },
+    {
+      "id": "R29-F16",
+      "kind": "partial-coverage",
+      "population_size": 32,
+      "examined_count": 5,
+      "coverage_claim": "partial",
+      "release_docs_close_claim": false,
+      "expected": "PASS"
+    },
+    {
+      "id": "R29-F17",
+      "kind": "generated-owner",
+      "owner_source_exists": true,
+      "owner_source_updated": false,
+      "generated_output_updated": true,
+      "regenerated_from_owner": false,
+      "landed_postcondition_checked": false,
+      "expected": "FAIL"
+    },
+    {
+      "id": "R29-F18",
+      "kind": "factual-parity",
+      "readme_wording": "Plan, implement, and review the change.",
+      "docs_wording": "The workflow covers planning, implementation, and review.",
+      "readme_facts": ["planning", "implementation", "review"],
+      "docs_facts": ["planning", "implementation", "review"],
+      "expected": "PASS"
+    }
+  ],
+  "held_out_mutations": [
+    {
+      "id": "R29-H1-material-type",
+      "target_id": "R29-F1",
+      "field": "material",
+      "replacement": "yes",
+      "expected": "ERROR"
+    },
+    {
+      "id": "R29-H2-supported-type",
+      "target_id": "R29-F2",
+      "field": "supported",
+      "replacement": 1,
+      "expected": "ERROR"
+    },
+    {
+      "id": "R29-H3-unknown-mutation-target",
+      "target_id": "R29-F10n",
+      "field": "mutation_target",
+      "replacement": "unknown-output-class",
+      "expected": "ERROR"
+    },
+    {
+      "id": "R29-H4-unknown-disposition",
+      "target_id": "R29-F7",
+      "field": "readme_disposition",
+      "replacement": "delegated-somewhere",
+      "expected": "ERROR"
+    }
+  ]
+}

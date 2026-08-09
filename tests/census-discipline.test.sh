@@ -9,6 +9,8 @@ tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
 fixture="fixtures/census-discipline/cases.json"
+public_projection_fixture="fixtures/public-projection/cases.json"
+semantic_fixture="fixtures/public-projection/semantic-preservation.json"
 base="fixtures/phase-validation/valid-full-spec.md"
 eval_fixture="eval/fixtures/E5d-census-discipline"
 checker="scripts/check-census-discipline.sh"
@@ -39,6 +41,71 @@ if [ -f "$checker" ] && bash "$checker" "$fixture"; then
   record_pass
 else
   record_fail "deterministic checker is missing or rejected R6-F1..R6-F11"
+fi
+
+if [ -f "$public_projection_fixture" ] &&
+   bash "$checker" "$public_projection_fixture"; then
+  record_pass
+else
+  record_fail "reused census checker rejected R29-F1..R29-F18"
+fi
+
+# Package-pressure compaction once weakened the omission assertion to generic
+# overclaim/omission wording. R33/R35 review rejected that evaluator mutation;
+# keep the material owner-sourced omission predicate exact here.
+if grep -Fq "### Public capability projection" \
+     skills/implementaudit/references/audit-playbook.md &&
+   grep -Fq '| Topic | Owner/source | README disposition | Docs disposition | Current-state transition | Evidence |' \
+     skills/implementaudit/references/audit-playbook.md &&
+   grep -Fq '`prepublication-current`' skills/implementaudit/references/audit-playbook.md &&
+   grep -Fq '`postpublication-current`' skills/implementaudit/references/audit-playbook.md &&
+   grep -Fq '`stale`' skills/implementaudit/references/audit-playbook.md &&
+   grep -Fq 'material owner-sourced capabilities omitted' \
+     skills/implementaudit/SKILL.md &&
+   grep -Fq 'Public projection challenge: overclaim / omission / not applicable with owner evidence' \
+     fixtures/child-agents/read-only-contract-auditor.md &&
+   grep -Fq '## Public Capability Projection (when activated)' \
+     skills/implementaudit/templates/final-report.md; then
+  record_pass
+else
+  record_fail "public-projection runtime, reviewer, or report owner is incomplete"
+fi
+
+if "${py_cmd[@]}" - "$semantic_fixture" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+bank = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+if set(bank) != {"schema", "bindings"} or bank["schema"] != \
+        "implementaudit-public-projection-semantic-preservation-v1":
+    raise SystemExit("semantic-preservation schema invalid")
+bindings = bank["bindings"]
+if not bindings or len({row["id"] for row in bindings}) != len(bindings):
+    raise SystemExit("semantic-preservation bindings invalid")
+
+def contains_all(path, tokens, override=None):
+    text = override if override is not None else Path(path).read_text(encoding="utf-8")
+    return all(token in text for token in tokens)
+
+for row in bindings:
+    if not contains_all(row["projection_owner"], row["projection_tokens"]):
+        raise SystemExit(f"{row['id']}: projection owner lost a predicate")
+    for owner in row["canonical_owners"]:
+        if not contains_all(owner["path"], owner["tokens"]):
+            raise SystemExit(f"{row['id']}: canonical owner lost a predicate")
+        original = Path(owner["path"]).read_text(encoding="utf-8")
+        held_out = original.replace(owner["tokens"][0], "")
+        if contains_all(owner["path"], owner["tokens"], held_out):
+            raise SystemExit(f"{row['id']}: held-out owner mutation false-passed")
+    consumer = row["consumer"]
+    if not contains_all(consumer["path"], consumer["tokens"]):
+        raise SystemExit(f"{row['id']}: reachable consumer binding missing")
+PY
+then
+  record_pass
+else
+  record_fail "package semantic-preservation owner/consumer binding failed"
 fi
 
 case_ids="$("${py_cmd[@]}" - "$fixture" <<'PY'
