@@ -346,6 +346,18 @@ residual coupling, and rollback in the existing R35 row. Do not create a
 universal policy ledger, test-path trigger, model call, helper, marker, or
 parallel lifecycle.
 
+Those fields are evidence, not candidate assertions. Use full candidate and
+accepted-parent identities; intersect exact changed validation owners with the
+owners actually invoked for acceptance; locate the independent owner and
+contract with an effective boundary and an authority identity distinct from the
+candidate; retain the original witness identity in the evidence population;
+and record baseline and candidate verdicts for positive, negative, boundary,
+and adjacent controls. Derive activation, authority, witness retention, and
+equivalent-or-stronger behaviour from that structure. A bare `unchanged`,
+intersection, authority, contract, witness, or equivalence Boolean cannot
+suppress or satisfy Surface B. Preserve discovery and migration evidence,
+residual/coupled state, and the rollback or reclassification boundary.
+
 ---
 
 ## Phase shape examples

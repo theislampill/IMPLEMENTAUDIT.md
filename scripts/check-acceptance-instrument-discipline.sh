@@ -73,6 +73,21 @@ POLICY_DELTAS = {
     "unchanged", "strengthening", "repair", "new-policy", "weakening",
     "migration", "coupled",
 }
+POLICY_EVIDENCE_KEYS = {
+    "candidate_identity", "parent_identity", "owner_delta", "authority",
+    "witness", "evidence_population", "behaviour", "discovery",
+    "residual_state", "rollback_boundary",
+}
+OWNER_DELTA_KEYS = {"changed_owners", "acceptance_owners", "operation"}
+AUTHORITY_KEYS = {
+    "source_identity", "owner_locator", "contract_locator",
+    "effective_boundary",
+}
+BEHAVIOUR_KEYS = {"positive", "negative", "boundary", "adjacent"}
+EXPECTED_BEHAVIOUR = {
+    "positive": "PASS", "negative": "FAIL", "boundary": "FAIL",
+    "adjacent": "FAIL",
+}
 PROMPT_KEYS = {
     "before_prompt", "after_prompt", "expected_answer_before",
     "expected_answer_after", "forbidden_mission_phrases", "distractors",
@@ -343,28 +358,47 @@ def validate_policy_case(case, index):
         f"{case['id']} expected result")
 
 
-def classify_policy(case):
+def classify_policy(case, evidence):
+    owner_delta = evidence["owner_delta"]
+    owner_intersection = (
+        set(owner_delta["changed_owners"]) &
+        set(owner_delta["acceptance_owners"]))
     activated = (
-        case["candidate_changed"] and case["semantic_owner_intersection"] and
-        case["validation_authority_used"])
-    if not activated or case["policy_delta"] == "unchanged":
+        evidence["candidate_identity"] != evidence["parent_identity"] and
+        bool(owner_intersection))
+    if not activated:
         return result(
             "NO_R35_ACTIVATION", "PRODUCT_ONLY", "ORDINARY_PATH", "PASS")
 
-    held_out = set(case["held_out_passed"]) == HELD_OUT_SET
-    independent = (
-        case["external_owner_authority"] and case["authoritative_contract"] and
-        case["original_witness_retained"] and held_out and
-        case["property_equivalent_or_stronger"])
+    authority = evidence["authority"]
+    authority_valid = (
+        authority is not None and
+        authority["source_identity"] != evidence["candidate_identity"])
+    witness = evidence["witness"]
+    witness_retained = (
+        witness is not None and
+        witness["identity"] in evidence["evidence_population"])
+    behaviour = evidence["behaviour"]
+    baseline = behaviour["baseline"]
+    candidate = behaviour["candidate"]
+    baseline_sound = baseline == EXPECTED_BEHAVIOUR
+    candidate_sound = candidate == EXPECTED_BEHAVIOUR
+    candidate_weaker = baseline_sound and not candidate_sound
+    discovery = evidence["discovery"]
+    discovery_reachable = bool(discovery["candidate_route"].strip())
+    migration_authorised = (
+        authority_valid and
+        discovery["migration_authority_identity"] == authority["source_identity"])
+    operation = owner_delta["operation"]
 
-    if case["policy_delta"] == "weakening":
+    if candidate_weaker or operation == "weakening":
         return result(
             "CANDIDATE_CONTROLLED_VALIDATION_POLICY",
             "CANDIDATE_CONTROLLED_POLICY_WEAKENING",
             "REJECT_SELF_AUTHENTICATED_GREEN", "FAIL")
 
-    if case["policy_delta"] == "migration" or not case["discovery_reachable"]:
-        if case["migration_authority"] and independent:
+    if operation == "move" or not discovery_reachable:
+        if migration_authorised and witness_retained and candidate_sound:
             return result(
                 "CANDIDATE_CONTROLLED_VALIDATION_POLICY",
                 "AUTHORISED_POLICY_CHANGE", "AUTHORITATIVE_OWNER_MIGRATION",
@@ -374,21 +408,22 @@ def classify_policy(case):
             "CANDIDATE_CONTROLLED_POLICY_WEAKENING", "OWNER_UNREACHABLE",
             "FAIL")
 
-    if case["policy_delta"] == "strengthening":
-        if case["baseline_equivalent"] and case["property_equivalent_or_stronger"]:
+    if operation == "additive":
+        if baseline_sound and candidate_sound:
             return result(
                 "CANDIDATE_CONTROLLED_VALIDATION_POLICY",
                 "POLICY_STRENGTHENING", "BASELINE_RETAINED",
                 "PASS_SUPPLEMENTARY_ONLY")
 
-    if case["policy_delta"] == "repair" and independent:
+    if (operation == "repair" and authority_valid and witness_retained and
+            candidate_sound):
         return result(
             "CANDIDATE_CONTROLLED_VALIDATION_POLICY",
             "AUTHORISED_POLICY_CHANGE", "INDEPENDENT_PROPERTY_ADJUDICATION",
             "PASS")
 
-    if (case["policy_delta"] == "new-policy" and
-            not case["baseline_equivalent"] and independent):
+    if (operation == "new" and baseline is None and authority_valid and
+            witness_retained and candidate_sound):
         return result(
             "CANDIDATE_CONTROLLED_VALIDATION_POLICY",
             "NEW_POLICY_NO_BASELINE_EQUIVALENT",
@@ -460,7 +495,7 @@ fixture = json.loads(
 require_exact(
     fixture,
     {"schema", "controls", "instrument_parity", "mutation_cases",
-     "mutation_records", "phase_cases", "policy_cases"},
+     "mutation_records", "phase_cases", "policy_cases", "policy_evidence"},
     "fixture bank")
 if fixture["schema"] != "implementaudit-acceptance-instrument-discipline-fixtures-v2":
     raise ValueError("fixture bank schema invalid")
@@ -472,6 +507,9 @@ if type(fixture["mutation_cases"]) is not list or not fixture["mutation_cases"]:
     raise ValueError("fixture mutation_cases must be a non-empty list")
 if type(fixture["policy_cases"]) is not list or not fixture["policy_cases"]:
     raise ValueError("fixture policy_cases must be a non-empty list")
+policy_evidence = fixture["policy_evidence"]
+if type(policy_evidence) is not dict:
+    raise ValueError("fixture policy_evidence must be an object")
 mutation_records = fixture["mutation_records"]
 if type(mutation_records) is not dict:
     raise ValueError("fixture mutation_records must be an object")
@@ -578,7 +616,58 @@ policy_ids = []
 for index, case in enumerate(fixture["policy_cases"]):
     validate_policy_case(case, index)
     policy_ids.append(case["id"])
-    actual = classify_policy(case)
+    evidence = policy_evidence.get(case["id"])
+    if evidence is None:
+        raise ValueError(f"{case['id']}: policy evidence missing")
+    require_exact(evidence, POLICY_EVIDENCE_KEYS, f"{case['id']} policy evidence")
+    for key in ("candidate_identity", "parent_identity"):
+        if not re.fullmatch(r"[0-9a-f]{40}", evidence[key]):
+            raise ValueError(f"{case['id']}: {key} invalid")
+    require_exact(evidence["owner_delta"], OWNER_DELTA_KEYS, f"{case['id']} owner delta")
+    for key in ("changed_owners", "acceptance_owners"):
+        values = evidence["owner_delta"][key]
+        if (type(values) is not list or
+                any(type(value) is not str or not value.strip() for value in values) or
+                len(values) != len(set(values))):
+            raise ValueError(f"{case['id']}: owner delta {key} invalid")
+    if evidence["owner_delta"]["operation"] not in {
+            "none", "additive", "repair", "new", "weakening", "move", "coupled"}:
+        raise ValueError(f"{case['id']}: owner delta operation invalid")
+    authority = evidence["authority"]
+    if authority is not None:
+        require_exact(authority, AUTHORITY_KEYS, f"{case['id']} authority")
+        if (not re.fullmatch(r"[0-9a-f]{40}", authority["source_identity"]) or
+                any(not authority[key].strip() for key in AUTHORITY_KEYS - {"source_identity"})):
+            raise ValueError(f"{case['id']}: authority incomplete")
+    witness = evidence["witness"]
+    if witness is not None:
+        require_exact(witness, {"identity"}, f"{case['id']} witness")
+        if not re.fullmatch(r"[0-9a-f]{40}", witness["identity"]):
+            raise ValueError(f"{case['id']}: witness identity invalid")
+    population = evidence["evidence_population"]
+    if (type(population) is not list or
+            any(not re.fullmatch(r"[0-9a-f]{40}", value) for value in population)):
+        raise ValueError(f"{case['id']}: evidence population invalid")
+    behaviour = require_exact(
+        evidence["behaviour"], {"baseline", "candidate"},
+        f"{case['id']} policy behaviour")
+    for owner in ("baseline", "candidate"):
+        values = behaviour[owner]
+        if values is None and owner == "baseline":
+            continue
+        require_exact(values, BEHAVIOUR_KEYS, f"{case['id']} {owner} behaviour")
+        if any(value not in {"PASS", "FAIL"} for value in values.values()):
+            raise ValueError(f"{case['id']}: {owner} behaviour invalid")
+    discovery = require_exact(
+        evidence["discovery"],
+        {"baseline_route", "candidate_route", "migration_authority_identity"},
+        f"{case['id']} discovery")
+    if any(type(value) is not str for value in discovery.values()):
+        raise ValueError(f"{case['id']}: discovery invalid")
+    if any(type(evidence[key]) is not str or not evidence[key].strip()
+           for key in ("residual_state", "rollback_boundary")):
+        raise ValueError(f"{case['id']}: residual or rollback missing")
+    actual = classify_policy(case, evidence)
     if actual != case["expected"]:
         failures.append(
             f"{case['id']}: expected {case['expected']!r}, got {actual!r}")
@@ -597,6 +686,8 @@ required_policy_ids = {
 }
 if len(policy_ids) != len(set(policy_ids)) or set(policy_ids) != required_policy_ids:
     raise ValueError("policy control identity set invalid")
+if set(policy_evidence) != required_policy_ids:
+    raise ValueError("policy evidence identity set invalid")
 
 required_mutation_ids = {
     "R35-unrelated-test-no-trigger",

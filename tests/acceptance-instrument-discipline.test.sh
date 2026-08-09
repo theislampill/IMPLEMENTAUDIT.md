@@ -438,16 +438,43 @@ mutations = {
     "repair-drops-adjacent": ("R35-CP5-legitimate-policy-repair", {"held_out_passed": ["positive", "negative", "boundary"]}),
     "new-policy-self-authorised": ("R35-CP6-new-policy-no-baseline", {"external_owner_authority": False}),
     "migration-loses-property": ("R35-CP8-authoritative-migration", {"property_equivalent_or_stronger": False}),
+    "self-attested-authority": ("R35-CP5-legitimate-policy-repair", {"external_owner_authority": True, "authoritative_contract": True}),
+    "missing-authority-identity": ("R35-CP5-legitimate-policy-repair", {}),
+    "missing-effective-boundary": ("R35-CP5-legitimate-policy-repair", {}),
+    "missing-owner-delta": ("R35-CP5-legitimate-policy-repair", {}),
+    "missing-witness": ("R35-CP5-legitimate-policy-repair", {"original_witness_retained": True}),
+    "fake-equivalence": ("R35-CP2-candidate-skip-guidance", {"property_equivalent_or_stronger": True, "expected": {"activation": "CANDIDATE_CONTROLLED_VALIDATION_POLICY", "classification": "AUTHORISED_POLICY_CHANGE", "route": "INDEPENDENT_PROPERTY_ADJUDICATION", "disposition": "PASS"}}),
 }
 for name, (case_id, updates) in mutations.items():
     payload = copy.deepcopy(fixture)
     case = next(row for row in payload["policy_cases"] if row["id"] == case_id)
     case.update(updates)
+    evidence = payload["policy_evidence"][case_id]
+    if name == "strengthening-replaces-baseline":
+        evidence["behaviour"]["baseline"] = None
+    elif name == "repair-drops-adjacent":
+        evidence["behaviour"]["candidate"]["adjacent"] = "PASS"
+    elif name == "new-policy-self-authorised":
+        evidence["authority"]["source_identity"] = evidence["candidate_identity"]
+    elif name == "migration-loses-property":
+        evidence["behaviour"]["candidate"]["boundary"] = "PASS"
+    elif name == "self-attested-authority":
+        evidence["authority"] = None
+    elif name == "missing-authority-identity":
+        evidence["authority"]["source_identity"] = ""
+    elif name == "missing-effective-boundary":
+        evidence["authority"]["effective_boundary"] = ""
+    elif name == "missing-owner-delta":
+        evidence["owner_delta"]["changed_owners"] = []
+    elif name == "missing-witness":
+        evidence["witness"] = None
     (target_dir / f"{name}.json").write_text(
         json.dumps(payload, indent=2) + "\n", encoding="utf-8")
 PY
 
 while IFS='|' read -r mutant_name case_id; do
+  mutant_name="${mutant_name%$'\r'}"
+  case_id="${case_id%$'\r'}"
   mutant_out="$tmp/r35-policy-$mutant_name.out"
   if bash scripts/check-acceptance-instrument-discipline.sh \
       "$policy_mutants/$mutant_name.json" >"$mutant_out" 2>&1; then
@@ -464,8 +491,32 @@ print("strengthening-replaces-baseline|R35-CP4-policy-strengthening")
 print("repair-drops-adjacent|R35-CP5-legitimate-policy-repair")
 print("new-policy-self-authorised|R35-CP6-new-policy-no-baseline")
 print("migration-loses-property|R35-CP8-authoritative-migration")
+print("self-attested-authority|R35-CP5-legitimate-policy-repair")
+print("missing-authority-identity|R35-CP5-legitimate-policy-repair")
+print("missing-effective-boundary|R35-CP5-legitimate-policy-repair")
+print("missing-owner-delta|R35-CP5-legitimate-policy-repair")
+print("missing-witness|R35-CP5-legitimate-policy-repair")
+print("fake-equivalence|R35-CP2-candidate-skip-guidance")
 PY
 )
+
+cp8_unchanged_fixture="$tmp/r35-cp8-unchanged-bypass.json"
+"${py_cmd[@]}" - "$fixture" "$cp8_unchanged_fixture" <<'PY'
+import json
+import sys
+from pathlib import Path
+source, target = map(Path, sys.argv[1:])
+fixture = json.loads(source.read_text(encoding="utf-8"))
+case = next(row for row in fixture["policy_cases"] if row["id"] == "R35-CP8-undiscoverable-owner")
+case["policy_delta"] = "unchanged"
+target.write_text(json.dumps(fixture, indent=2) + "\n", encoding="utf-8")
+PY
+if bash scripts/check-acceptance-instrument-discipline.sh "$cp8_unchanged_fixture" >"$tmp/cp8-unchanged.out" 2>&1; then
+  record_pass
+else
+  record_fail "CP8 undiscoverable owner bypassed Surface B through an unchanged label"
+  cat "$tmp/cp8-unchanged.out" >&2
+fi
 
 answer_authority_fixture="$tmp/r35-answer-correction-without-authority.json"
 "${py_cmd[@]}" - "$fixture" "$answer_authority_fixture" <<'PY'
