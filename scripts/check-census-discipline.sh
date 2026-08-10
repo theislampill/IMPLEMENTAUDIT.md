@@ -203,6 +203,10 @@ PUBLIC_STRING_LISTS = {
     "enumerated_members", "dispositioned_members", "known_distinct_topics",
     "readme_facts", "docs_facts",
 }
+PUBLIC_REQUIRED_STRINGS = set("""
+    current_release current_runtime readme_release readme_runtime docs_release
+    docs_runtime historical_release source_state generated_state live_state
+""".split())
 
 
 def public_case(case, keys):
@@ -211,10 +215,12 @@ def public_case(case, keys):
         expected_type = PUBLIC_FIELD_TYPES.get(field)
         if expected_type is not None and type(case[field]) is not expected_type:
             raise ValueError(f"{field} must be {expected_type.__name__}")
+        if field in PUBLIC_REQUIRED_STRINGS and not case[field].strip():
+            raise ValueError(f"{field} must be non-empty")
         if field in PUBLIC_STRING_LISTS and (
                 type(case[field]) is not list or
-                any(type(value) is not str for value in case[field])):
-            raise ValueError(f"{field} must be a list of strings")
+                any(not nonempty_string(value) for value in case[field])):
+            raise ValueError(f"{field} must be a list of non-empty strings")
 
 
 def allowed(value, values, owner):
@@ -466,7 +472,7 @@ elif schema == "implementaudit-public-projection-fixtures-v1":
         "R29-F1", "R29-F2", "R29-F3", "R29-F4", "R29-F5", "R29-F6",
         "R29-F7", "R29-F8", "R29-F9", "R29-F10", "R29-F10n",
         "R29-F11", "R29-F12", "R29-F13", "R29-F14", "R29-F15",
-        "R29-F15a", "R29-F15b", "R29-F15c", "R29-F15d", "R29-F16",
+        "R29-F15a", "R29-F15b", "R29-F15c", "R29-F15d", "R29-F15e", "R29-F16",
         "R29-F17",
         "R29-F18",
     }
@@ -495,36 +501,69 @@ if schema == "implementaudit-public-projection-fixtures-v1":
     if type(mutations) is not list or not mutations:
         raise ValueError("held_out_mutations must be a non-empty list")
     mutation_ids = [row.get("id") for row in mutations]
-    if len(mutation_ids) != len(set(mutation_ids)):
-        raise ValueError("held-out mutation identities must be unique")
+    required_mutation_ids = {
+        "R29-H1-material-type", "R29-H2-supported-type",
+        "R29-H3-unknown-mutation-target", "R29-H4-unknown-disposition",
+        "R29-H5-null-release-identities", "R29-H6-null-source-states",
+        "R29-H7-non-string-historical-identities",
+        "R29-H8-boolean-census-counts-and-integer-members",
+        "R29-H9-integer-fact-lists",
+    }
+    if set(mutation_ids) != required_mutation_ids or len(mutation_ids) != len(set(mutation_ids)):
+        raise ValueError("held-out mutation identity set invalid")
     by_id = {case["id"]: case for case in bank["controls"]}
+    activation_fields = (
+        "material_public_or_release_effect",
+        "readme_or_public_docs_declared_success_carrier",
+        "intended_current_complete_or_release_final_claim")
+    anti_triggers = dict(zip(
+        activation_fields, ("R29-F15e", "R29-F15b", "R29-F15c")))
+    for omitted, control_id in anti_triggers.items():
+        case = by_id[control_id]
+        if (case["kind"] != "activation-boundary" or
+                case[omitted] is not False or
+                any(case[field] is not True for field in activation_fields
+                    if field != omitted) or
+                case["projection_record_present"] is not False or
+                case["expected"] != "PASS"):
+            raise ValueError(f"{control_id} activation anti-trigger invalid")
+        if case["projection_record_present"] is all(
+                case[field] is True for field in activation_fields
+                if field != omitted):
+            raise ValueError(f"activation mutation removing {omitted} survives")
     for row in mutations:
         single_keys = {"id", "target_id", "field", "replacement", "expected"}
         multi_keys = {"id", "target_id", "changes", "expected"}
+        variant_keys = {*multi_keys, "variants"}
         if (type(row) is not dict or
-                (set(row) != single_keys and set(row) != multi_keys)):
+                set(row) not in (single_keys, multi_keys, variant_keys)):
             raise ValueError(f"{row.get('id')} held-out mutation keys invalid")
         if row["target_id"] not in by_id or row["expected"] != "ERROR":
             raise ValueError(f"{row['id']} held-out mutation contract invalid")
-        mutated = copy.deepcopy(by_id[row["target_id"]])
-        changes = (
+        changes = [
             {row["field"]: row["replacement"]}
-            if set(row) == single_keys else row["changes"])
-        if type(changes) is not dict or not changes:
-            raise ValueError(f"{row['id']} mutation changes invalid")
-        for field, replacement in changes.items():
-            if field not in mutated:
-                raise ValueError(f"{row['id']} mutation field missing")
-            mutated[field] = replacement
-        try:
-            classifier(mutated)
-        except ValueError:
-            actual = "ERROR"
-        else:
-            actual = "CLASSIFIED"
-        if actual != row["expected"]:
-            failures.append(
-                f"{row['id']}: expected {row['expected']!r}, got {actual!r}")
+            if set(row) == single_keys else row["changes"]]
+        if "variants" in row:
+            if type(row["variants"]) is not list or not row["variants"]:
+                raise ValueError(f"{row['id']} mutation variants invalid")
+            changes += row["variants"]
+        for index, change_set in enumerate(changes):
+            mutated = copy.deepcopy(by_id[row["target_id"]])
+            if type(change_set) is not dict or not change_set:
+                raise ValueError(f"{row['id']} mutation changes invalid")
+            for field, replacement in change_set.items():
+                if field not in mutated:
+                    raise ValueError(f"{row['id']} mutation field missing")
+                mutated[field] = replacement
+            try:
+                classifier(mutated)
+            except ValueError:
+                actual = "ERROR"
+            else:
+                actual = "CLASSIFIED"
+            if actual != row["expected"]:
+                failures.append(
+                    f"{row['id']}[{index}]: expected {row['expected']!r}, got {actual!r}")
     if failures:
         sys.stderr.write("\n".join(failures) + "\n")
         raise SystemExit(1)

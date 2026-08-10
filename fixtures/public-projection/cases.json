@@ -203,6 +203,16 @@
       "expected": "FAIL"
     },
     {
+      "id": "R29-F15e",
+      "kind": "activation-boundary",
+      "change_class": "public-metadata-only",
+      "material_public_or_release_effect": false,
+      "readme_or_public_docs_declared_success_carrier": true,
+      "intended_current_complete_or_release_final_claim": true,
+      "projection_record_present": false,
+      "expected": "PASS"
+    },
+    {
       "id": "R29-F16",
       "kind": "partial-coverage",
       "population_size": 32,
@@ -271,6 +281,24 @@
         "docs_release": null,
         "docs_runtime": null
       },
+      "variants": [
+        {
+          "current_release": "",
+          "current_runtime": "",
+          "readme_release": "",
+          "readme_runtime": "",
+          "docs_release": "",
+          "docs_runtime": ""
+        },
+        {
+          "current_release": " ",
+          "current_runtime": "\t",
+          "readme_release": " ",
+          "readme_runtime": "\t",
+          "docs_release": " ",
+          "docs_runtime": "\t"
+        }
+      ],
       "expected": "ERROR"
     },
     {
@@ -284,6 +312,24 @@
         "release_ledger_state": "postpublication-current",
         "portal_metadata_state": "postpublication-current"
       },
+      "variants": [
+        {
+          "source_state": "",
+          "generated_state": "",
+          "live_state": "",
+          "changelog_state": "postpublication-current",
+          "release_ledger_state": "postpublication-current",
+          "portal_metadata_state": "postpublication-current"
+        },
+        {
+          "source_state": " ",
+          "generated_state": " ",
+          "live_state": " ",
+          "changelog_state": "postpublication-current",
+          "release_ledger_state": "postpublication-current",
+          "portal_metadata_state": "postpublication-current"
+        }
+      ],
       "expected": "ERROR"
     },
     {
@@ -293,6 +339,16 @@
         "current_release": 2,
         "historical_release": 1
       },
+      "variants": [
+        {
+          "current_release": "",
+          "historical_release": " "
+        },
+        {
+          "current_release": " ",
+          "historical_release": "\t"
+        }
+      ],
       "expected": "ERROR"
     },
     {
@@ -304,6 +360,20 @@
         "enumerated_members": [1],
         "dispositioned_members": [1]
       },
+      "variants": [
+        {
+          "population_size": 1,
+          "examined_count": 1,
+          "enumerated_members": [""],
+          "dispositioned_members": [""]
+        },
+        {
+          "population_size": 1,
+          "examined_count": 1,
+          "enumerated_members": [" "],
+          "dispositioned_members": [" "]
+        }
+      ],
       "expected": "ERROR"
     },
     {
@@ -313,6 +383,16 @@
         "readme_facts": [1, 2],
         "docs_facts": [1, 2]
       },
+      "variants": [
+        {
+          "readme_facts": [""],
+          "docs_facts": [""]
+        },
+        {
+          "readme_facts": ["\t"],
+          "docs_facts": ["\t"]
+        }
+      ],
       "expected": "ERROR"
     }
   ]

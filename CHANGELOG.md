@@ -23,6 +23,11 @@ schema evidence proved four-component plugin manifest versions are accepted.
 - Cold-review repair rejects malformed projection types through one shared
   structural guard. A distinct prompt-independent R29 model cell and disposable
   installed-dogfood input are repository-only and remain unexecuted.
+- A second R29 cold-review repair rejects empty and whitespace-only public
+  identities, states, census members, and fact strings; pins all nine held-out
+  mutation identities; isolates every activation conjunct; and binds the exact
+  model field, property, and forbidden-phrase surface. No model or installed
+  dogfood execution was performed.
 - Public source-checkout guidance now routes readers to the post-v0.3.3.0
   helper-reachability, scoped-Graphify, issue-work-order, engineering-value,
   convergence, evaluator-integrity, and package-semantic-preservation owners.
