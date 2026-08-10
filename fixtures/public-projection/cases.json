@@ -156,9 +156,51 @@
       "id": "R29-F15",
       "kind": "activation-boundary",
       "change_class": "private-source-only",
-      "public_or_release_effect": false,
+      "material_public_or_release_effect": false,
+      "readme_or_public_docs_declared_success_carrier": false,
+      "intended_current_complete_or_release_final_claim": false,
       "projection_record_present": false,
       "expected": "PASS"
+    },
+    {
+      "id": "R29-F15a",
+      "kind": "activation-boundary",
+      "change_class": "release-documentation",
+      "material_public_or_release_effect": true,
+      "readme_or_public_docs_declared_success_carrier": true,
+      "intended_current_complete_or_release_final_claim": true,
+      "projection_record_present": true,
+      "expected": "PASS"
+    },
+    {
+      "id": "R29-F15b",
+      "kind": "activation-boundary",
+      "change_class": "public-support-file",
+      "material_public_or_release_effect": true,
+      "readme_or_public_docs_declared_success_carrier": false,
+      "intended_current_complete_or_release_final_claim": true,
+      "projection_record_present": false,
+      "expected": "PASS"
+    },
+    {
+      "id": "R29-F15c",
+      "kind": "activation-boundary",
+      "change_class": "public-draft",
+      "material_public_or_release_effect": true,
+      "readme_or_public_docs_declared_success_carrier": true,
+      "intended_current_complete_or_release_final_claim": false,
+      "projection_record_present": false,
+      "expected": "PASS"
+    },
+    {
+      "id": "R29-F15d",
+      "kind": "activation-boundary",
+      "change_class": "release-documentation",
+      "material_public_or_release_effect": true,
+      "readme_or_public_docs_declared_success_carrier": true,
+      "intended_current_complete_or_release_final_claim": true,
+      "projection_record_present": false,
+      "expected": "FAIL"
     },
     {
       "id": "R29-F16",
@@ -216,6 +258,61 @@
       "target_id": "R29-F7",
       "field": "readme_disposition",
       "replacement": "delegated-somewhere",
+      "expected": "ERROR"
+    },
+    {
+      "id": "R29-H5-null-release-identities",
+      "target_id": "R29-F4",
+      "changes": {
+        "current_release": null,
+        "current_runtime": null,
+        "readme_release": null,
+        "readme_runtime": null,
+        "docs_release": null,
+        "docs_runtime": null
+      },
+      "expected": "ERROR"
+    },
+    {
+      "id": "R29-H6-null-source-states",
+      "target_id": "R29-F5",
+      "changes": {
+        "source_state": null,
+        "generated_state": null,
+        "live_state": null,
+        "changelog_state": "postpublication-current",
+        "release_ledger_state": "postpublication-current",
+        "portal_metadata_state": "postpublication-current"
+      },
+      "expected": "ERROR"
+    },
+    {
+      "id": "R29-H7-non-string-historical-identities",
+      "target_id": "R29-F9",
+      "changes": {
+        "current_release": 2,
+        "historical_release": 1
+      },
+      "expected": "ERROR"
+    },
+    {
+      "id": "R29-H8-boolean-census-counts-and-integer-members",
+      "target_id": "R29-F13",
+      "changes": {
+        "population_size": true,
+        "examined_count": true,
+        "enumerated_members": [1],
+        "dispositioned_members": [1]
+      },
+      "expected": "ERROR"
+    },
+    {
+      "id": "R29-H9-integer-fact-lists",
+      "target_id": "R29-F18",
+      "changes": {
+        "readme_facts": [1, 2],
+        "docs_facts": [1, 2]
+      },
       "expected": "ERROR"
     }
   ]

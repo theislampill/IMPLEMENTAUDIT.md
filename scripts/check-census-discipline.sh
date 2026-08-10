@@ -173,15 +173,48 @@ PUBLIC_DISPOSITIONS = {
     "missing",
 }
 
+PUBLIC_FIELD_TYPES = {
+    **dict.fromkeys("""
+        id kind expected topic owner_source readme_disposition docs_disposition
+        route reference current_release current_runtime readme_release
+        readme_runtime docs_release docs_runtime publication_state source_state
+        generated_state live_state changelog_state release_ledger_state
+        portal_metadata_state public_wording_state historical_release
+        historical_context compatibility_alias public_copy public_copy_locale
+        mutation_target claim existing_claim_boundary_result projection_result
+        capability population_definition enumeration_source change_class
+        coverage_claim readme_wording docs_wording
+    """.split(), str),
+    **dict.fromkeys("""
+        material supported exists discoverable maintained user_facing
+        current_state_is_distinct generator_output_preserved
+        canonical_literals_preserved owner_source_updated regenerated
+        canonical_literal_preserved optional excluded unsupported_public_claim
+        distinct_evidence_witness material_public_or_release_effect
+        readme_or_public_docs_declared_success_carrier
+        intended_current_complete_or_release_final_claim
+        projection_record_present release_docs_close_claim owner_source_exists
+        generated_output_updated regenerated_from_owner
+        landed_postcondition_checked
+    """.split(), bool),
+    **dict.fromkeys("population_size examined_count".split(), int),
+}
+PUBLIC_STRING_LISTS = {
+    "enumerated_members", "dispositioned_members", "known_distinct_topics",
+    "readme_facts", "docs_facts",
+}
+
 
 def public_case(case, keys):
     require_exact(case, {"id", "kind", "expected", *keys}, case.get("id"))
-
-
-def exact_bool(value, owner):
-    if type(value) is not bool:
-        raise ValueError(f"{owner} must be boolean")
-    return value
+    for field in {"id", "kind", "expected", *keys}:
+        expected_type = PUBLIC_FIELD_TYPES.get(field)
+        if expected_type is not None and type(case[field]) is not expected_type:
+            raise ValueError(f"{field} must be {expected_type.__name__}")
+        if field in PUBLIC_STRING_LISTS and (
+                type(case[field]) is not list or
+                any(type(value) is not str for value in case[field])):
+            raise ValueError(f"{field} must be a list of strings")
 
 
 def allowed(value, values, owner):
@@ -196,7 +229,6 @@ def classify_public_projection(case):
         public_case(case, {
             "topic", "owner_source", "material", "readme_disposition",
             "docs_disposition"})
-        exact_bool(case["material"], "material")
         dispositions = {case["readme_disposition"], case["docs_disposition"]}
         complete = (
             nonempty_string(case["topic"]) and
@@ -206,7 +238,6 @@ def classify_public_projection(case):
     elif kind == "route-projection":
         public_case(case, {
             "route", "supported", "readme_disposition", "docs_disposition"})
-        exact_bool(case["supported"], "supported")
         dispositions = {case["readme_disposition"], case["docs_disposition"]}
         complete = (
             nonempty_string(case["route"]) and
@@ -214,8 +245,6 @@ def classify_public_projection(case):
             (case["supported"] is False or "missing" not in dispositions))
     elif kind == "reference-integrity":
         public_case(case, {"topic", "reference", "exists", "discoverable"})
-        exact_bool(case["exists"], "exists")
-        exact_bool(case["discoverable"], "discoverable")
         complete = (
             nonempty_string(case["topic"]) and
             nonempty_string(case["reference"]) and
@@ -265,8 +294,6 @@ def classify_public_projection(case):
             "discoverable"})
         allowed(case["readme_disposition"], PUBLIC_DISPOSITIONS,
                 "readme_disposition")
-        for field in ("exists", "maintained", "discoverable"):
-            exact_bool(case[field], field)
         complete = (
             case["readme_disposition"] == "discoverably-delegated" and
             nonempty_string(case["reference"]) and
@@ -276,7 +303,6 @@ def classify_public_projection(case):
         public_case(case, {
             "user_facing", "readme_disposition", "docs_disposition",
             "owner_source", "reason"})
-        exact_bool(case["user_facing"], "user_facing")
         allowed(case["readme_disposition"], PUBLIC_DISPOSITIONS,
                 "readme_disposition")
         allowed(case["docs_disposition"], PUBLIC_DISPOSITIONS,
@@ -291,8 +317,6 @@ def classify_public_projection(case):
         public_case(case, {
             "current_release", "historical_release", "historical_context",
             "compatibility_alias", "current_state_is_distinct"})
-        exact_bool(case["current_state_is_distinct"],
-                   "current_state_is_distinct")
         complete = (
             case["current_release"] != case["historical_release"] and
             nonempty_string(case["historical_context"]) and
@@ -302,10 +326,6 @@ def classify_public_projection(case):
         public_case(case, {
             "public_copy", "public_copy_locale", "generator_output_preserved",
             "canonical_literals_preserved"})
-        exact_bool(case["generator_output_preserved"],
-                   "generator_output_preserved")
-        exact_bool(case["canonical_literals_preserved"],
-                   "canonical_literals_preserved")
         complete = (
             nonempty_string(case["public_copy"]) and
             case["public_copy_locale"] == "en-GB" and
@@ -318,9 +338,6 @@ def classify_public_projection(case):
         allowed(case["mutation_target"], {
             "generated-diagram-block", "canonical-literal",
             "ordinary-owner-source"}, "mutation_target")
-        for field in ("owner_source_updated", "regenerated",
-                      "canonical_literal_preserved"):
-            exact_bool(case[field], field)
         controlled = case["mutation_target"] != "ordinary-owner-source"
         complete = (
             not controlled or
@@ -337,8 +354,6 @@ def classify_public_projection(case):
     elif kind == "optional-exclusion":
         public_case(case, {
             "capability", "optional", "excluded", "unsupported_public_claim"})
-        for field in ("optional", "excluded", "unsupported_public_claim"):
-            exact_bool(case[field], field)
         complete = (
             nonempty_string(case["capability"]) and
             case["optional"] is True and case["excluded"] is True and
@@ -362,8 +377,6 @@ def classify_public_projection(case):
     elif kind == "projection-discrimination":
         public_case(case, {
             "topics", "known_distinct_topics", "distinct_evidence_witness"})
-        exact_bool(case["distinct_evidence_witness"],
-                   "distinct_evidence_witness")
         topics = case["topics"]
         rows_valid = (
             type(topics) is list and len(topics) >= 2 and
@@ -382,24 +395,21 @@ def classify_public_projection(case):
             not collapsed or case["distinct_evidence_witness"] is True)
     elif kind == "activation-boundary":
         public_case(case, {
-            "change_class", "public_or_release_effect",
+            "change_class", "material_public_or_release_effect",
+            "readme_or_public_docs_declared_success_carrier",
+            "intended_current_complete_or_release_final_claim",
             "projection_record_present"})
-        exact_bool(case["public_or_release_effect"],
-                   "public_or_release_effect")
-        exact_bool(case["projection_record_present"],
-                   "projection_record_present")
+        activated = all(case[field] is True for field in (
+            "material_public_or_release_effect",
+            "readme_or_public_docs_declared_success_carrier",
+            "intended_current_complete_or_release_final_claim"))
         complete = (
             nonempty_string(case["change_class"]) and
-            ((case["public_or_release_effect"] is True and
-              case["projection_record_present"] is True) or
-             (case["public_or_release_effect"] is False and
-              case["projection_record_present"] is False)))
+            case["projection_record_present"] is activated)
     elif kind == "partial-coverage":
         public_case(case, {
             "population_size", "examined_count", "coverage_claim",
             "release_docs_close_claim"})
-        exact_bool(case["release_docs_close_claim"],
-                   "release_docs_close_claim")
         allowed(case["coverage_claim"], {"partial", "full"},
                 "coverage_claim")
         complete = (
@@ -413,11 +423,6 @@ def classify_public_projection(case):
             "owner_source_exists", "owner_source_updated",
             "generated_output_updated", "regenerated_from_owner",
             "landed_postcondition_checked"})
-        for field in (
-                "owner_source_exists", "owner_source_updated",
-                "generated_output_updated", "regenerated_from_owner",
-                "landed_postcondition_checked"):
-            exact_bool(case[field], field)
         complete = (
             case["owner_source_exists"] is True and
             case["owner_source_updated"] is True and
@@ -461,7 +466,9 @@ elif schema == "implementaudit-public-projection-fixtures-v1":
         "R29-F1", "R29-F2", "R29-F3", "R29-F4", "R29-F5", "R29-F6",
         "R29-F7", "R29-F8", "R29-F9", "R29-F10", "R29-F10n",
         "R29-F11", "R29-F12", "R29-F13", "R29-F14", "R29-F15",
-        "R29-F16", "R29-F17", "R29-F18",
+        "R29-F15a", "R29-F15b", "R29-F15c", "R29-F15d", "R29-F16",
+        "R29-F17",
+        "R29-F18",
     }
     classifier = classify_public_projection
 else:
@@ -492,15 +499,23 @@ if schema == "implementaudit-public-projection-fixtures-v1":
         raise ValueError("held-out mutation identities must be unique")
     by_id = {case["id"]: case for case in bank["controls"]}
     for row in mutations:
-        require_exact(
-            row, {"id", "target_id", "field", "replacement", "expected"},
-            row.get("id"))
+        single_keys = {"id", "target_id", "field", "replacement", "expected"}
+        multi_keys = {"id", "target_id", "changes", "expected"}
+        if (type(row) is not dict or
+                (set(row) != single_keys and set(row) != multi_keys)):
+            raise ValueError(f"{row.get('id')} held-out mutation keys invalid")
         if row["target_id"] not in by_id or row["expected"] != "ERROR":
             raise ValueError(f"{row['id']} held-out mutation contract invalid")
         mutated = copy.deepcopy(by_id[row["target_id"]])
-        if row["field"] not in mutated:
-            raise ValueError(f"{row['id']} mutation field missing")
-        mutated[row["field"]] = row["replacement"]
+        changes = (
+            {row["field"]: row["replacement"]}
+            if set(row) == single_keys else row["changes"])
+        if type(changes) is not dict or not changes:
+            raise ValueError(f"{row['id']} mutation changes invalid")
+        for field, replacement in changes.items():
+            if field not in mutated:
+                raise ValueError(f"{row['id']} mutation field missing")
+            mutated[field] = replacement
         try:
             classifier(mutated)
         except ValueError:

@@ -172,11 +172,12 @@ commands, STOP conditions, acceptance criteria, rollback, and remaining risk.
 
 ### Public capability projection
 
-For material README/docs, install, package, generated, release, or publication
-effects, derive owner topics across runtime/version; release/changelog;
+Activate only when all three hold: a material public/release effect; README or
+public docs are declared success carriers; an intended current, complete, or
+release-final claim. Otherwise omit the projection record;
+private source-only work stays cheap. Derive owner topics across runtime/version; release/changelog;
 invocation-to-closure; install/host/package; optional/excluded; current/history;
-authorisation/publication/evidence/provenance. Private source-only work creates
-no record. Use the audit object, not a new registry. Reuse
+authorisation/publication/evidence/provenance. Use the audit object, not a new registry. Reuse
 `repo-state-comparison.md` (`population_definition`, `population_size`,
 `examined_count`, `enumeration_source`) plus discrimination witness; partial
 samples cannot close.

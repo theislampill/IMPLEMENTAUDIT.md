@@ -298,9 +298,9 @@ Before Stage 6.ii or dispatch, every handoff/executor artifact gets independent
 fresh-context cold review: a separate child agent where supported, otherwise a
 bounded serial pass. As cold reader/weak executor under
 `references/plan-lifecycle.md`, it records PASS / GAP-REVISE / BLOCKED / OWNER
-DECISION; no later gate proceeds without that disposition. Public/release work
-also applies `references/audit-playbook.md` §Public capability projection and
-challenges unsupported claims and material owner-sourced capabilities omitted
+DECISION; no later gate proceeds without that disposition. When activated per
+`references/audit-playbook.md` §Public capability projection, challenge
+unsupported claims and material owner-sourced capabilities omitted
 from every public route. No keyword triggers this; trivial work without an
 executor artifact skips it. Self-critique remains separate.
 

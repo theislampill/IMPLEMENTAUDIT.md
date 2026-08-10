@@ -13,6 +13,8 @@ public_projection_fixture="fixtures/public-projection/cases.json"
 semantic_fixture="fixtures/public-projection/semantic-preservation.json"
 base="fixtures/phase-validation/valid-full-spec.md"
 eval_fixture="eval/fixtures/E5d-census-discipline"
+r29_eval_fixture="eval/fixtures/R29-public-projection"
+r29_dogfood_input="fixtures/public-projection/installed-dogfood-input.json"
 checker="scripts/check-census-discipline.sh"
 pass=0
 fail=0
@@ -211,6 +213,91 @@ then
   record_pass
 else
   record_fail "supplementary E5 metamorphic fixture contract failed"
+fi
+
+if "${py_cmd[@]}" - "$r29_eval_fixture" "$r29_dogfood_input" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+fixture_dir, dogfood_path = map(Path, sys.argv[1:])
+sys.path.insert(0, str(Path("eval/lib").resolve()))
+import scoring
+
+fixture = json.loads((fixture_dir / "fixture.json").read_text(encoding="utf-8"))
+controls = json.loads((fixture_dir / "controls.json").read_text(encoding="utf-8"))
+dogfood = json.loads(dogfood_path.read_text(encoding="utf-8"))
+if fixture.get("id") != "R29-public-projection":
+    raise SystemExit("R29 model-cell identity invalid")
+mission = fixture.get("mission", "").casefold()
+fields = fixture.get("matrix_instruction_contract", {}).get("fields", [])
+properties = fixture.get("properties", [])
+property_ids = {
+    "owner_topic_derivation", "historical_preservation", "omission_detection",
+    "owner_source_correction", "postpublication_refusal",
+    "concise_delegation",
+}
+if len(fields) != 6 or {row.get("property") for row in fields} != property_ids:
+    raise SystemExit("R29 model cell must expose the six live scored properties")
+if len(properties) != 6 or {row.get("name") for row in properties} != property_ids:
+    raise SystemExit("R29 model-cell scorer property set invalid")
+for field in fields:
+    expected = field.get("expected")
+    distractors = field.get("distractors")
+    forbidden = field.get("forbidden_mission_phrases")
+    if (not isinstance(expected, str) or not expected or
+            not isinstance(distractors, list) or not distractors or
+            any(not isinstance(value, str) or not value for value in distractors) or
+            len(distractors) != len(set(distractors)) or expected in distractors or
+            not isinstance(forbidden, list) or not forbidden):
+        raise SystemExit(f"{field.get('field')}: expected/distractor contract invalid")
+    for phrase in forbidden:
+        if phrase.casefold() in mission:
+            raise SystemExit(f"R29 model-cell mission leaks forbidden phrase: {phrase}")
+for prop in properties:
+    rule = prop.get("rule", {})
+    patterns = [rule.get("pattern", "")]
+    patterns += [child.get("pattern", "") for child in rule.get("rules", [])]
+    if any("|" in pattern for pattern in patterns):
+        raise SystemExit("R29 model-cell scorer uses a synonym list")
+
+if controls.get("schema") != "implementaudit-r29-model-controls-v1":
+    raise SystemExit("R29 model-cell controls schema invalid")
+cases = controls.get("cases", [])
+if [row.get("id") for row in cases] != [
+        "positive-paraphrase", "negative-internal-only", "polarity-denial"]:
+    raise SystemExit("R29 model-cell controls must be positive/negative/polarity paired")
+for row in cases:
+    local_fixture = dict(fixture)
+    local_fixture["properties"] = row.get("properties", properties)
+    actual = scoring.overall(
+        scoring.score(local_fixture, row.get("transcript", ""), {}),
+        local_fixture)
+    if actual is not row.get("expected_pass"):
+        raise SystemExit(f"{row.get('id')}: synthetic control scored {actual}")
+
+if dogfood.get("schema") != "implementaudit-r29-installed-dogfood-input-v1":
+    raise SystemExit("R29 installed-dogfood input schema invalid")
+if dogfood.get("execution_state") != "NOT_RUN":
+    raise SystemExit("R29 installed dogfood must remain unexecuted in this repair")
+if dogfood.get("model_fixture") != "eval/fixtures/R29-public-projection/fixture.json":
+    raise SystemExit("R29 dogfood input does not bind the distinct model fixture")
+if set(dogfood.get("expected_properties", [])) != property_ids:
+    raise SystemExit("R29 dogfood input lost a live scored property")
+boundary = dogfood.get("execution_boundary", {})
+if boundary != {
+        "disposable_codex_home_required": True,
+        "exact_package_digest_required_at_execution": True,
+        "model_execution_authorised": False,
+        "installed_dogfood_authorised": False,
+        "publication_authorised": False,
+}:
+    raise SystemExit("R29 dogfood execution boundary invalid")
+PY
+then
+  record_pass
+else
+  record_fail "R29 prompt-independent model/install-dogfood input contract failed"
 fi
 
 selftest_out="$tmp/eval-selftest.out"

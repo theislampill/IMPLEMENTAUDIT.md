@@ -1,0 +1,50 @@
+{
+  "schema": "implementaudit-r29-model-controls-v1",
+  "cases": [
+    {
+      "id": "positive-paraphrase",
+      "expected_pass": true,
+      "seed_repository": {
+        "engine/contract.md": "Supported user-facing behaviours: guided rollback; session rebuild.",
+        "delivery/routes.json": "{\"supported\":[\"registry\",\"portable zip route\"]}",
+        "README.md": "The engine supports guided rollback. Details: guide/start.md.",
+        "guide/start.md": "Guided rollback is documented.",
+        "guide/rendered.txt": "Guided rollback is documented."
+      },
+      "transcript": "ITEMS=session-rebuild,portable-zip-route\nHISTORY=PRESERVE\nGAPS=session-rebuild,portable-zip-route\nEDIT=OWNER_SOURCE\nSTATE=REFUSE\nDETAIL=LEGAL\n",
+      "properties": [
+        {"name": "owner_topic_derivation", "required": true, "rule": {"kind": "contains", "pattern": "^ITEMS=session-rebuild,portable-zip-route$"}},
+        {"name": "historical_preservation", "required": true, "rule": {"kind": "contains", "pattern": "^HISTORY=PRESERVE$"}},
+        {"name": "omission_detection", "required": true, "rule": {"kind": "contains", "pattern": "^GAPS=session-rebuild,portable-zip-route$"}},
+        {"name": "owner_source_correction", "required": true, "rule": {"kind": "contains", "pattern": "^EDIT=OWNER_SOURCE$"}},
+        {"name": "postpublication_refusal", "required": true, "rule": {"kind": "contains", "pattern": "^STATE=REFUSE$"}},
+        {"name": "concise_delegation", "required": true, "rule": {"kind": "contains", "pattern": "^DETAIL=LEGAL$"}}
+      ]
+    },
+    {
+      "id": "negative-internal-only",
+      "expected_pass": true,
+      "seed_repository": {
+        "internal/cache.md": "Internal-only cache compaction is not user-facing.",
+        "release/state.json": "{\"phase\":\"postpublication-current\",\"readback\":true}",
+        "README.md": "The supported public behaviours are complete. Details: docs/public.md.",
+        "docs/public.md": "The supported public behaviours are complete.",
+        "docs/generated.txt": "The supported public behaviours are complete."
+      },
+      "transcript": "ITEMS=none\nHISTORY=PRESERVE\nGAPS=none\nEDIT=NONE\nSTATE=CLOSE\nDETAIL=LEGAL\n",
+      "properties": [
+        {"name": "owner_topic_derivation", "required": true, "rule": {"kind": "contains", "pattern": "^ITEMS=none$"}},
+        {"name": "historical_preservation", "required": true, "rule": {"kind": "contains", "pattern": "^HISTORY=PRESERVE$"}},
+        {"name": "omission_detection", "required": true, "rule": {"kind": "contains", "pattern": "^GAPS=none$"}},
+        {"name": "owner_source_correction", "required": true, "rule": {"kind": "contains", "pattern": "^EDIT=NONE$"}},
+        {"name": "postpublication_refusal", "required": true, "rule": {"kind": "contains", "pattern": "^STATE=CLOSE$"}},
+        {"name": "concise_delegation", "required": true, "rule": {"kind": "contains", "pattern": "^DETAIL=LEGAL$"}}
+      ]
+    },
+    {
+      "id": "polarity-denial",
+      "expected_pass": false,
+      "transcript": "I did not verify public topic coverage. The phrases recovery-replay and offline-archive-install appear in this denial, but no structured evidence rows were produced."
+    }
+  ]
+}

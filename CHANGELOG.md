@@ -15,11 +15,14 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Changed
 
-- Added a bounded public-capability projection contract for public- or
-  release-facing work. It derives a material topic population from authoritative
-  owners, records README/docs/current-state dispositions, challenges omissions
-  as well as overclaims, preserves generated and exact-literal ownership, and
-  creates no record for an ordinary private source-only change.
+- Added a bounded public-capability projection contract when a material
+  public/release effect, a declared README or public-doc success carrier, and an
+  intended current, complete, or release-final claim all hold. It derives owner
+  topics, records README/docs/current-state dispositions, challenges omissions
+  and overclaims, and preserves generated and exact-literal ownership.
+- Cold-review repair rejects malformed projection types through one shared
+  structural guard. A distinct prompt-independent R29 model cell and disposable
+  installed-dogfood input are repository-only and remain unexecuted.
 - Public source-checkout guidance now routes readers to the post-v0.3.3.0
   helper-reachability, scoped-Graphify, issue-work-order, engineering-value,
   convergence, evaluator-integrity, and package-semantic-preservation owners.

@@ -1096,7 +1096,7 @@ references below; this table is the public route, not a duplicate specification.
 | Governed state-space convergence | `discoverably-delegated` | `skills/implementaudit/references/convergence-mode.md` is qualified, optional, and progressive after a second independently verified same-family rejection; ordinary and cheap-path work skips it. External effectiveness remains unproved. |
 | Evaluator-integrity protection | `discoverably-delegated` | `skills/implementaudit/references/phase-design.md` Rule P4-16 preserves the original failing witness and challenges post-failure checker, fixture, threshold, golden, prompt, or expected-answer changes; a new green alone is insufficient. |
 | Package semantic preservation | `discoverably-delegated` | `skills/implementaudit/references/lean-operating-discipline.md` requires owner-backed predicates and runtime, checker, installed, generated, and public consumers to survive footprint work; a smaller archive alone is not closure. |
-| Public capability projection | `present-correct` | `skills/implementaudit/references/audit-playbook.md` derives material public topics from owners, dispositions README/docs/current-state coverage, and challenges omissions as well as overclaims. It activates only for public- or release-facing effects. |
+| Public capability projection | `present-correct` | `skills/implementaudit/references/audit-playbook.md` derives material public topics from owners, dispositions README/docs/current-state coverage, and challenges omissions as well as overclaims. It activates only when a material public/release effect, a declared README or public-doc success carrier, and an intended current, complete, or release-final claim all hold. |
 
 ### Install / update for Codex
 
