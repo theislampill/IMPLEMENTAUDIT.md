@@ -33,6 +33,9 @@ schema evidence proved four-component plugin manifest versions are accepted.
   binding seed, repository identity, polarity, verdict, semantic role, and
   transcript. The internal-only negative control remains the cheap path. No
   model or installed dogfood execution was performed.
+- The R29 tuple validators now require exact Boolean `true` for every primary
+  and control scoring property, rejecting JSON integer `1` rather than relying
+  on Python Boolean/integer equality.
 - Public source-checkout guidance now routes readers to the post-v0.3.3.0
   helper-reachability, scoped-Graphify, issue-work-order, engineering-value,
   convergence, evaluator-integrity, and package-semantic-preservation owners.

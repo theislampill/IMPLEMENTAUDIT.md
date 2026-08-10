@@ -276,7 +276,7 @@ def validate_model_contract(candidate):
             prop.get("rule", {}).get("kind"), prop.get("rule", {}).get("pattern"),
             field.get("expected"), frozenset(field.get("distractors", [])),
             frozenset(field.get("forbidden_mission_phrases", [])))
-        if (actual != required or
+        if (actual != required or prop.get("required") is not True or
                 set(prop.get("rule", {})) != {"kind", "pattern"} or
                 len(field.get("distractors", [])) != len(distractors) or
                 len(field.get("forbidden_mission_phrases", [])) != len(forbidden)):
@@ -314,6 +314,9 @@ for index, required in enumerate(required_tuples):
     mutated = copy.deepcopy(fixture)
     mutated["properties"][index]["required"] = False
     require_rejection(mutated, f"optional {label} property")
+    mutated = copy.deepcopy(fixture)
+    mutated["properties"][index]["required"] = 1
+    require_rejection(mutated, f"integer-true {label} property")
     mutated = copy.deepcopy(fixture)
     mutated["properties"][index]["rule"] = {"kind": "contains", "pattern": ".*"}
     require_rejection(mutated, f"permissive {label} rule")
@@ -416,7 +419,8 @@ def validate_control(row):
     expected = [
         (required[1], True, {"kind": "contains", "pattern": pattern})
         for required, pattern in zip(required_tuples, contract["patterns"])]
-    if actual != expected:
+    if (actual != expected or
+            any(prop.get("required") is not True for prop in property_rows)):
         raise SystemExit(f"{control_id}: property tuple binding invalid")
 
 
@@ -449,6 +453,13 @@ for row in cases:
 for index, row in enumerate(cases):
     control_id = row["id"]
     next_row = cases[(index + 1) % len(cases)]
+    for property_index, required in enumerate(required_tuples):
+        mutated = copy.deepcopy(row)
+        if mutated["properties"] == {"fixture_reference": "properties"}:
+            mutated["properties"] = copy.deepcopy(properties)
+        mutated["properties"][property_index]["required"] = 1
+        require_control_rejection(
+            mutated, f"{control_id} integer-true {required[0]} scoring property")
     for field in ("repository_identity", "polarity", "semantic_role"):
         mutated = copy.deepcopy(row)
         mutated[field] += "-renamed"
