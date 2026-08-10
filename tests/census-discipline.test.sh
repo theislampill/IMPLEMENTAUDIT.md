@@ -228,22 +228,34 @@ import scoring
 fixture = json.loads((fixture_dir / "fixture.json").read_text(encoding="utf-8"))
 controls = json.loads((fixture_dir / "controls.json").read_text(encoding="utf-8"))
 dogfood = json.loads(dogfood_path.read_text(encoding="utf-8"))
-required_surface = {
-    "ITEMS": ("owner_topic_derivation", {
-        "projection", "population", "denominator", "recovery replay",
-        "offline archive install"}),
-    "HISTORY": ("historical_preservation", {
-        "preserve the historical statement", "historical-intentional"}),
-    "GAPS": ("omission_detection", {
-        "missing capability", "missing installation route", "recovery replay",
-        "offline archive install"}),
-    "EDIT": ("owner_source_correction", {"owner source", "generated output"}),
-    "STATE": ("postpublication_refusal", {
-        "postpublication readback", "refuse closure"}),
-    "DETAIL": ("concise_delegation", {
-        "concise delegation", "discoverably delegated"}),
-}
-property_ids = {value[0] for value in required_surface.values()}
+required_tuples = [
+    ("ITEMS", "owner_topic_derivation", True, "contains",
+     "^ITEMS=recovery-replay,offline-archive-install$",
+     "recovery-replay,offline-archive-install",
+     frozenset({"audit-sequencing", "none"}),
+     frozenset({"projection", "population", "denominator",
+                "recovery replay", "offline archive install"})),
+    ("HISTORY", "historical_preservation", True, "contains",
+     "^HISTORY=PRESERVE$", "PRESERVE", frozenset({"REWRITE", "DELETE"}),
+     frozenset({"preserve the historical statement", "historical-intentional"})),
+    ("GAPS", "omission_detection", True, "contains",
+     "^GAPS=recovery-replay,offline-archive-install$",
+     "recovery-replay,offline-archive-install",
+     frozenset({"none", "cache-compaction"}),
+     frozenset({"missing capability", "missing installation route",
+                "recovery replay", "offline archive install"})),
+    ("EDIT", "owner_source_correction", True, "contains",
+     "^EDIT=OWNER_SOURCE$", "OWNER_SOURCE",
+     frozenset({"GENERATED_OUTPUT", "NONE"}),
+     frozenset({"owner source", "generated output"})),
+    ("STATE", "postpublication_refusal", True, "contains",
+     "^STATE=REFUSE$", "REFUSE", frozenset({"CLOSE"}),
+     frozenset({"postpublication readback", "refuse closure"})),
+    ("DETAIL", "concise_delegation", True, "contains",
+     "^DETAIL=LEGAL$", "LEGAL", frozenset({"DUPLICATE"}),
+     frozenset({"concise delegation", "discoverably delegated"})),
+]
+property_ids = {row[1] for row in required_tuples}
 
 
 def validate_model_contract(candidate):
@@ -252,26 +264,23 @@ def validate_model_contract(candidate):
     mission = candidate.get("mission", "").casefold()
     fields = candidate.get("matrix_instruction_contract", {}).get("fields", [])
     properties = candidate.get("properties", [])
-    if [row.get("field") for row in fields] != list(required_surface):
+    if [row.get("field") for row in fields] != [row[0] for row in required_tuples]:
         raise SystemExit("R29 model-cell field identity set invalid")
-    if len(properties) != 6 or {row.get("name") for row in properties} != property_ids:
+    if [row.get("name") for row in properties] != [row[1] for row in required_tuples]:
         raise SystemExit("R29 model-cell scorer property set invalid")
-    for field in fields:
-        label = field.get("field")
-        expected_property, required_phrases = required_surface[label]
-        expected = field.get("expected")
-        distractors = field.get("distractors")
-        forbidden = field.get("forbidden_mission_phrases")
-        if field.get("property") != expected_property:
-            raise SystemExit(f"{label}: scored property binding invalid")
-        if (not isinstance(expected, str) or not expected or
-                not isinstance(distractors, list) or not distractors or
-                any(not isinstance(value, str) or not value for value in distractors) or
-                len(distractors) != len(set(distractors)) or expected in distractors or
-                not isinstance(forbidden, list) or
-                len(forbidden) != len(set(forbidden)) or
-                set(forbidden) != required_phrases):
-            raise SystemExit(f"{label}: expected/distractor/forbidden contract invalid")
+    for field, prop, required in zip(fields, properties, required_tuples):
+        label = required[0]
+        distractors, forbidden = required[6:]
+        actual = (
+            field.get("field"), field.get("property"), prop.get("required"),
+            prop.get("rule", {}).get("kind"), prop.get("rule", {}).get("pattern"),
+            field.get("expected"), frozenset(field.get("distractors", [])),
+            frozenset(field.get("forbidden_mission_phrases", [])))
+        if (actual != required or
+                set(prop.get("rule", {})) != {"kind", "pattern"} or
+                len(field.get("distractors", [])) != len(distractors) or
+                len(field.get("forbidden_mission_phrases", [])) != len(forbidden)):
+            raise SystemExit(f"{label}: exact acceptance tuple invalid")
         for phrase in forbidden:
             if phrase.casefold() in mission:
                 raise SystemExit(f"R29 model-cell mission leaks forbidden phrase: {phrase}")
@@ -284,50 +293,178 @@ def validate_model_contract(candidate):
 
 
 validate_model_contract(fixture)
-for index, label in enumerate(required_surface):
+
+
+def require_rejection(candidate, mutation):
+    try:
+        validate_model_contract(candidate)
+    except SystemExit:
+        return
+    raise SystemExit(f"R29 model-cell accepted {mutation}")
+
+
+for index, required in enumerate(required_tuples):
+    label = required[0]
     mutated = copy.deepcopy(fixture)
     mutated["matrix_instruction_contract"]["fields"][index]["field"] += "_RENAMED"
-    try:
-        validate_model_contract(mutated)
-    except SystemExit:
-        pass
-    else:
-        raise SystemExit(f"R29 model-cell accepted renamed field {label}")
-    for phrase in required_surface[label][1]:
+    require_rejection(mutated, f"renamed field {label}")
+    mutated = copy.deepcopy(fixture)
+    del mutated["properties"][index]
+    require_rejection(mutated, f"removal of {label} property")
+    mutated = copy.deepcopy(fixture)
+    mutated["properties"][index]["required"] = False
+    require_rejection(mutated, f"optional {label} property")
+    mutated = copy.deepcopy(fixture)
+    mutated["properties"][index]["rule"] = {"kind": "contains", "pattern": ".*"}
+    require_rejection(mutated, f"permissive {label} rule")
+    mutated = copy.deepcopy(fixture)
+    mutated["matrix_instruction_contract"]["fields"][index]["expected"] += "-renamed"
+    require_rejection(mutated, f"replaced {label} expected value")
+    mutated = copy.deepcopy(fixture)
+    mutated["matrix_instruction_contract"]["fields"][index]["distractors"].pop()
+    require_rejection(mutated, f"removed {label} distractor")
+    mutated = copy.deepcopy(fixture)
+    mutated["matrix_instruction_contract"]["fields"][index]["distractors"][0] += "-renamed"
+    require_rejection(mutated, f"replaced {label} distractor")
+    for phrase in required[7]:
         mutated = copy.deepcopy(fixture)
         forbidden = mutated["matrix_instruction_contract"]["fields"][index][
             "forbidden_mission_phrases"]
         forbidden.remove(phrase)
-        try:
-            validate_model_contract(mutated)
-        except SystemExit:
-            pass
-        else:
-            raise SystemExit(f"R29 model-cell accepted removal of {label} phrase {phrase}")
+        require_rejection(mutated, f"removal of {label} phrase {phrase}")
         forbidden.append(f"{phrase} renamed")
-        try:
-            validate_model_contract(mutated)
-        except SystemExit:
-            pass
-        else:
-            raise SystemExit(f"R29 model-cell accepted replacement of {label} phrase {phrase}")
+        require_rejection(mutated, f"replacement of {label} phrase {phrase}")
 
 properties = fixture["properties"]
 
-if controls.get("schema") != "implementaudit-r29-model-controls-v1":
+base_seed = {
+    "runtime/public-method.md": "Supported user-facing behaviours: audit sequencing; recovery replay.",
+    "install/routes.json": "{\"supported\":[\"package manager\",\"offline archive install\"]}",
+    "release/state.json": "{\"phase\":\"prepublication\",\"required_next\":\"published-route readback\"}",
+    "README.md": "The tool sequences an audit. Details: docs/public-guide.md.",
+    "docs/public-guide.md": "The public guide explains audit sequencing. Historical: release-1 retains alias old-runner for host 6.2.",
+    "docs/generated.txt": "The public guide explains audit sequencing. Historical: release-1 retains alias old-runner for host 6.2.",
+    "docs/generated-owner.json": "{\"source\":\"docs/public-guide.md\",\"output\":\"docs/generated.txt\"}",
+    "internal/cache.md": "Internal-only cache compaction is not user-facing.",
+}
+if fixture.get("seed_repository") != base_seed:
+    raise SystemExit("R29 model-cell base seed binding invalid")
+
+control_contracts = {
+    "positive-paraphrase": {
+        "repository_identity": "R29-positive-paraphrase-seed",
+        "polarity": "positive", "expected_pass": True,
+        "semantic_role": "owner-derived-omission-pass",
+        "seed_repository": {
+            "engine/contract.md": "Supported user-facing behaviours: guided rollback; session rebuild.",
+            "delivery/routes.json": "{\"supported\":[\"registry\",\"portable zip route\"]}",
+            "README.md": "The engine supports guided rollback. Details: guide/start.md.",
+            "guide/start.md": "Guided rollback is documented.",
+            "guide/rendered.txt": "Guided rollback is documented.",
+        },
+        "transcript": "ITEMS=session-rebuild,portable-zip-route\nHISTORY=PRESERVE\nGAPS=session-rebuild,portable-zip-route\nEDIT=OWNER_SOURCE\nSTATE=REFUSE\nDETAIL=LEGAL\n",
+        "patterns": [
+            "^ITEMS=session-rebuild,portable-zip-route$", "^HISTORY=PRESERVE$",
+            "^GAPS=session-rebuild,portable-zip-route$", "^EDIT=OWNER_SOURCE$",
+            "^STATE=REFUSE$", "^DETAIL=LEGAL$"],
+    },
+    "negative-internal-only": {
+        "repository_identity": "R29-negative-internal-only-seed",
+        "polarity": "negative", "expected_pass": True,
+        "semantic_role": "internal-only-cheap-path-pass",
+        "seed_repository": {
+            "internal/cache.md": "Internal-only cache compaction is not user-facing.",
+            "release/state.json": "{\"phase\":\"postpublication-current\",\"readback\":true}",
+            "README.md": "The supported public behaviours are complete. Details: docs/public.md.",
+            "docs/public.md": "The supported public behaviours are complete.",
+            "docs/generated.txt": "The supported public behaviours are complete.",
+        },
+        "transcript": "ITEMS=none\nHISTORY=PRESERVE\nGAPS=none\nEDIT=NONE\nSTATE=CLOSE\nDETAIL=LEGAL\n",
+        "patterns": ["^ITEMS=none$", "^HISTORY=PRESERVE$", "^GAPS=none$",
+                     "^EDIT=NONE$", "^STATE=CLOSE$", "^DETAIL=LEGAL$"],
+    },
+    "polarity-denial": {
+        "repository_identity": "R29-public-projection-seed",
+        "polarity": "polarity-denial", "expected_pass": False,
+        "semantic_role": "unstructured-denial-fail",
+        "seed_repository": {"fixture_reference": "seed_repository"},
+        "transcript": "I did not verify public topic coverage. The phrases recovery-replay and offline-archive-install appear in this denial, but no structured evidence rows were produced.",
+        "patterns": [row[4] for row in required_tuples],
+    },
+}
+
+
+def validate_control(row):
+    control_id = row.get("id")
+    if control_id not in control_contracts:
+        raise SystemExit("R29 model-cell control identity invalid")
+    contract = control_contracts[control_id]
+    if set(row) != {
+            "id", "repository_identity", "polarity", "expected_pass",
+            "semantic_role", "seed_repository", "transcript", "properties"}:
+        raise SystemExit(f"{control_id}: control keys invalid")
+    for field in ("repository_identity", "polarity", "expected_pass", "semantic_role",
+                  "seed_repository", "transcript"):
+        if row[field] != contract[field]:
+            raise SystemExit(f"{control_id}: {field} binding invalid")
+    property_rows = (
+        properties if row["properties"] == {"fixture_reference": "properties"}
+        else row["properties"])
+    actual = [
+        (prop.get("name"), prop.get("required"), prop.get("rule"))
+        for prop in property_rows]
+    expected = [
+        (required[1], True, {"kind": "contains", "pattern": pattern})
+        for required, pattern in zip(required_tuples, contract["patterns"])]
+    if actual != expected:
+        raise SystemExit(f"{control_id}: property tuple binding invalid")
+
+
+def require_control_rejection(candidate, mutation):
+    try:
+        validate_control(candidate)
+    except SystemExit:
+        return
+    raise SystemExit(f"R29 model-cell accepted {mutation}")
+
+
+if set(controls) != {"schema", "cases"} or controls.get("schema") != "implementaudit-r29-model-controls-v2":
     raise SystemExit("R29 model-cell controls schema invalid")
 cases = controls.get("cases", [])
 if [row.get("id") for row in cases] != [
         "positive-paraphrase", "negative-internal-only", "polarity-denial"]:
     raise SystemExit("R29 model-cell controls must be positive/negative/polarity paired")
 for row in cases:
+    validate_control(row)
     local_fixture = dict(fixture)
-    local_fixture["properties"] = row.get("properties", properties)
+    local_fixture["properties"] = (
+        properties if row["properties"] == {"fixture_reference": "properties"}
+        else row["properties"])
     actual = scoring.overall(
-        scoring.score(local_fixture, row.get("transcript", ""), {}),
+        scoring.score(local_fixture, row["transcript"], {}),
         local_fixture)
-    if actual is not row.get("expected_pass"):
-        raise SystemExit(f"{row.get('id')}: synthetic control scored {actual}")
+    if actual is not row["expected_pass"]:
+        raise SystemExit(f"{row['id']}: synthetic control scored {actual}")
+
+for index, row in enumerate(cases):
+    control_id = row["id"]
+    next_row = cases[(index + 1) % len(cases)]
+    for field in ("repository_identity", "polarity", "semantic_role"):
+        mutated = copy.deepcopy(row)
+        mutated[field] += "-renamed"
+        require_control_rejection(mutated, f"{control_id} replacement of {field}")
+    mutated = copy.deepcopy(row)
+    mutated["expected_pass"] = not mutated["expected_pass"]
+    require_control_rejection(mutated, f"{control_id} expected-verdict inversion")
+    mutated = copy.deepcopy(row)
+    mutated["seed_repository"] = next_row["seed_repository"]
+    require_control_rejection(mutated, f"{control_id} seed substitution")
+    mutated = copy.deepcopy(row)
+    del mutated["seed_repository"]
+    require_control_rejection(mutated, f"{control_id} seed removal")
+    mutated = copy.deepcopy(row)
+    mutated["transcript"] = next_row["transcript"]
+    require_control_rejection(mutated, f"{control_id} transcript substitution")
 
 if dogfood.get("schema") != "implementaudit-r29-installed-dogfood-input-v1":
     raise SystemExit("R29 installed-dogfood input schema invalid")

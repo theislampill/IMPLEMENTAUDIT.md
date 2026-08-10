@@ -1,9 +1,12 @@
 {
-  "schema": "implementaudit-r29-model-controls-v1",
+  "schema": "implementaudit-r29-model-controls-v2",
   "cases": [
     {
       "id": "positive-paraphrase",
+      "repository_identity": "R29-positive-paraphrase-seed",
+      "polarity": "positive",
       "expected_pass": true,
+      "semantic_role": "owner-derived-omission-pass",
       "seed_repository": {
         "engine/contract.md": "Supported user-facing behaviours: guided rollback; session rebuild.",
         "delivery/routes.json": "{\"supported\":[\"registry\",\"portable zip route\"]}",
@@ -23,7 +26,10 @@
     },
     {
       "id": "negative-internal-only",
+      "repository_identity": "R29-negative-internal-only-seed",
+      "polarity": "negative",
       "expected_pass": true,
+      "semantic_role": "internal-only-cheap-path-pass",
       "seed_repository": {
         "internal/cache.md": "Internal-only cache compaction is not user-facing.",
         "release/state.json": "{\"phase\":\"postpublication-current\",\"readback\":true}",
@@ -43,8 +49,13 @@
     },
     {
       "id": "polarity-denial",
+      "repository_identity": "R29-public-projection-seed",
+      "polarity": "polarity-denial",
       "expected_pass": false,
-      "transcript": "I did not verify public topic coverage. The phrases recovery-replay and offline-archive-install appear in this denial, but no structured evidence rows were produced."
+      "semantic_role": "unstructured-denial-fail",
+      "seed_repository": {"fixture_reference": "seed_repository"},
+      "transcript": "I did not verify public topic coverage. The phrases recovery-replay and offline-archive-install appear in this denial, but no structured evidence rows were produced.",
+      "properties": {"fixture_reference": "properties"}
     }
   ]
 }
