@@ -465,6 +465,96 @@ if bash "$reachability" --repo-root "$class_base_exit" >/dev/null 2>&1; then
   failures+=("class-base-exit-counts-as-transport")
 fi
 
+class_body_exit="$tmp/class-body-exit"
+mkdir -p "$class_body_exit/scripts"
+cp -R skills "$class_body_exit/skills"
+cp scripts/build-release-asset.sh "$class_body_exit/scripts/build-release-asset.sh"
+sed -i '/^mediator_thread\.start()$/i class Deferred:\n    sys.exit(0)' \
+  "$class_body_exit/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$class_body_exit" >/dev/null 2>&1; then
+  failures+=("class-suite-exit-counts-as-transport")
+fi
+
+eager_list="$tmp/eager-list"
+mkdir -p "$eager_list/scripts"
+cp -R skills "$eager_list/skills"
+cp scripts/build-release-asset.sh "$eager_list/scripts/build-release-asset.sh"
+sed -i '/^mediator_thread\.start()$/i [sys.exit(0) for _ in [0]]' \
+  "$eager_list/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$eager_list" >/dev/null 2>&1; then
+  failures+=("eager-listcomp-element-exit-counts-as-transport")
+fi
+
+eager_set="$tmp/eager-set"
+mkdir -p "$eager_set/scripts"
+cp -R skills "$eager_set/skills"
+cp scripts/build-release-asset.sh "$eager_set/scripts/build-release-asset.sh"
+sed -i '/^mediator_thread\.start()$/i {sys.exit(0) for _ in [0]}' \
+  "$eager_set/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$eager_set" >/dev/null 2>&1; then
+  failures+=("eager-setcomp-element-exit-counts-as-transport")
+fi
+
+eager_dict_key="$tmp/eager-dict-key"
+mkdir -p "$eager_dict_key/scripts"
+cp -R skills "$eager_dict_key/skills"
+cp scripts/build-release-asset.sh "$eager_dict_key/scripts/build-release-asset.sh"
+sed -i '/^mediator_thread\.start()$/i {sys.exit(0): 0 for _ in [0]}' \
+  "$eager_dict_key/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$eager_dict_key" >/dev/null 2>&1; then
+  failures+=("eager-dictcomp-key-exit-counts-as-transport")
+fi
+
+eager_dict_value="$tmp/eager-dict-value"
+mkdir -p "$eager_dict_value/scripts"
+cp -R skills "$eager_dict_value/skills"
+cp scripts/build-release-asset.sh "$eager_dict_value/scripts/build-release-asset.sh"
+sed -i '/^mediator_thread\.start()$/i {0: sys.exit(0) for _ in [0]}' \
+  "$eager_dict_value/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$eager_dict_value" >/dev/null 2>&1; then
+  failures+=("eager-dictcomp-value-exit-counts-as-transport")
+fi
+
+eager_decorator="$tmp/eager-decorator"
+mkdir -p "$eager_decorator/scripts"
+cp -R skills "$eager_decorator/skills"
+cp scripts/build-release-asset.sh "$eager_decorator/scripts/build-release-asset.sh"
+sed -i '/^mediator_thread\.start()$/i @(lambda fn: sys.exit(0))\ndef Deferred(): pass' \
+  "$eager_decorator/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$eager_decorator" >/dev/null 2>&1; then
+  failures+=("decorator-application-exit-counts-as-transport")
+fi
+
+deleted_stub="$tmp/deleted-stub"
+mkdir -p "$deleted_stub/scripts"
+cp -R skills "$deleted_stub/skills"
+cp scripts/build-release-asset.sh "$deleted_stub/scripts/build-release-asset.sh"
+sed -i '/^mediator_thread = threading\.Thread/i del run_bounded_stub' \
+  "$deleted_stub/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$deleted_stub" >/dev/null 2>&1; then
+  failures+=("deleted-stub-definition-counts-as-live-producer")
+fi
+
+deleted_thread="$tmp/deleted-thread"
+mkdir -p "$deleted_thread/scripts"
+cp -R skills "$deleted_thread/skills"
+cp scripts/build-release-asset.sh "$deleted_thread/scripts/build-release-asset.sh"
+sed -i '/^mediator_thread\.start()$/i del mediator_thread' \
+  "$deleted_thread/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$deleted_thread" >/dev/null 2>&1; then
+  failures+=("deleted-thread-binding-counts-as-live-transport")
+fi
+
+empty_list="$tmp/empty-list"
+mkdir -p "$empty_list/scripts"
+cp -R skills "$empty_list/skills"
+cp scripts/build-release-asset.sh "$empty_list/scripts/build-release-asset.sh"
+sed -i '/^mediator_thread\.start()$/i [sys.exit(0) for _ in []]' \
+  "$empty_list/skills/implementaudit/scripts/check-authorization-binding.sh"
+if ! bash "$reachability" --repo-root "$empty_list" >/dev/null 2>&1; then
+  failures+=("empty-listcomp-body-rejects-live-route")
+fi
+
 overwritten_stub="$tmp/overwritten-stub"
 mkdir -p "$overwritten_stub/scripts"
 cp -R skills "$overwritten_stub/skills"

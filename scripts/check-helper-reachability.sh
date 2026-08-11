@@ -354,6 +354,8 @@ def terminates_route(node):
 
 def expression_terminates(node):
     """Return whether evaluating this expression must execute an explicit exit."""
+    if isinstance(node, ast.Call) and isinstance(node.func, ast.Lambda):
+        return expression_terminates(node.func.body)
     if isinstance(node, ast.Lambda):
         return False
     if isinstance(node, ast.GeneratorExp):
@@ -392,12 +394,27 @@ def expression_terminates(node):
             left = right
         return False
     if isinstance(node, (ast.ListComp, ast.SetComp, ast.DictComp)):
-        return bool(node.generators) and expression_terminates(node.generators[0].iter)
+        if not node.generators:
+            return False
+        generator = node.generators[0]
+        if expression_terminates(generator.iter):
+            return True
+        if (len(node.generators) != 1 or generator.ifs
+                or constant_truth(generator.iter) is not True):
+            return False
+        projections = ([node.elt] if not isinstance(node, ast.DictComp)
+                       else [node.key, node.value])
+        return any(expression_terminates(item) for item in projections)
     return any(
         expression_terminates(child)
         for child in ast.iter_child_nodes(node)
         if isinstance(child, ast.expr)
     )
+
+def decorator_terminates(node):
+    """A decorator lambda is created, then immediately applied to the class/function."""
+    return (expression_terminates(node.body) if isinstance(node, ast.Lambda)
+            else expression_terminates(node))
 
 def definition_expressions(node):
     if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
@@ -408,13 +425,13 @@ def definition_expressions(node):
               if argument is not None and argument.annotation is not None),
         ]
         return [
-            *node.decorator_list, *node.args.defaults,
+            *node.args.defaults,
             *(item for item in node.args.kw_defaults if item is not None),
             *annotations,
             *([node.returns] if node.returns is not None else []),
         ]
     if isinstance(node, ast.ClassDef):
-        return [*node.decorator_list, *node.bases, *(item.value for item in node.keywords)]
+        return [*node.bases, *(item.value for item in node.keywords)]
     return []
 
 def normal_path_nodes(statements):
@@ -423,8 +440,13 @@ def normal_path_nodes(statements):
     for node in statements:
         result.append(node)
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
-            if any(expression_terminates(item) for item in definition_expressions(node)):
+            if (any(decorator_terminates(item) for item in node.decorator_list)
+                    or any(expression_terminates(item) for item in definition_expressions(node))):
                 return result, True
+            if isinstance(node, ast.ClassDef):
+                _, terminated = normal_path_nodes(node.body)
+                if terminated:
+                    return result, True
             continue
         if terminates_route(node):
             return result, True
@@ -502,6 +524,8 @@ def binds_name(node, name):
         return any(target_binds(target, name) for target in node.targets)
     if isinstance(node, (ast.AnnAssign, ast.AugAssign, ast.For, ast.AsyncFor)):
         return target_binds(node.target, name)
+    if isinstance(node, ast.Delete):
+        return any(target_binds(target, name) for target in node.targets)
     if isinstance(node, (ast.With, ast.AsyncWith)):
         return any(item.optional_vars is not None and target_binds(item.optional_vars, name)
                    for item in node.items)
