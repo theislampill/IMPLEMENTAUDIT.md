@@ -81,11 +81,30 @@ if [ "${1:-}" = "--identity-only" ]; then
     git -C "$root" -c user.email=t@example.invalid -c user.name=t commit -qm same-tag-correction
   }
 
+  make_same_tag_merge_fixture() {
+    local root="$1"
+    make_same_tag_correction_fixture "$root"
+    local correction_commit base_commit
+    correction_commit="$(git -C "$root" rev-parse HEAD)"
+    base_commit="$(git -C "$root" rev-parse HEAD^)"
+    git -C "$root" switch -q -c main-side "$base_commit"
+    printf 'main-side merge marker\n' > "$root/main-side.txt"
+    git -C "$root" add main-side.txt
+    git -C "$root" commit -qm main-side
+    git -C "$root" merge -q --no-ff -m merge-correction "$correction_commit"
+  }
+
   same_tag_correction="$tmp_parent/same-tag-correction"
   make_same_tag_correction_fixture "$same_tag_correction"
   bash scripts/build-release-asset.sh --check-release-identity \
     same-tag-correction v0.3.3.3 HEAD "$same_tag_correction" >/dev/null \
     || fail 'valid v0.3.3.3 same-tag correction was rejected'
+
+  same_tag_merge="$tmp_parent/same-tag-merge"
+  make_same_tag_merge_fixture "$same_tag_merge"
+  bash scripts/build-release-asset.sh --check-release-identity \
+    same-tag-correction v0.3.3.3 HEAD "$same_tag_merge" >/dev/null \
+    || fail 'valid same-tag correction merged through a pull request was rejected'
 
   if bash scripts/build-release-asset.sh --check-release-identity \
       same-tag-correction v0.3.3.2 HEAD "$same_tag_correction" >/dev/null 2>&1; then

@@ -231,7 +231,7 @@ if mode == "same-tag-correction":
 
 if mode == "family-forward":
     shown = subprocess.run(
-        ["git", "-C", str(root), "show", "--format=", "--unified=0", commit_sha, "--", "CHANGELOG.md"],
+        ["git", "-C", str(root), "show", "--first-parent", "--format=", "--unified=0", commit_sha, "--", "CHANGELOG.md"],
         encoding="utf-8",
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -278,7 +278,7 @@ candidate_digest = hashlib.sha256(candidate_path.read_bytes()).hexdigest()
 candidate_bytes = candidate_path.stat().st_size
 
 shown = subprocess.run(
-    ["git", "-C", str(root), "show", "--format=", "--unified=0", commit_sha, "--", "CHANGELOG.md"],
+    ["git", "-C", str(root), "show", "--first-parent", "--format=", "--unified=0", commit_sha, "--", "CHANGELOG.md"],
     encoding="utf-8",
     stdout=subprocess.PIPE,
     stderr=subprocess.PIPE,
