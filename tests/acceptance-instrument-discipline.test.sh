@@ -39,6 +39,187 @@ else
   record_fail "deterministic control checker rejected the fixture bank"
 fi
 
+identity_proxy_fixture="$tmp/r35-nonresolving-identity-proxy.json"
+"${py_cmd[@]}" - "$fixture" "$identity_proxy_fixture" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+source, target = map(Path, sys.argv[1:])
+fixture = json.loads(source.read_text(encoding="utf-8"))
+case_id = "R35-CP5-legitimate-policy-repair"
+evidence = fixture["policy_evidence"][case_id]
+fixture["policy_evidence_context"]["repository_evidence"][case_id] = {
+    "classification": "repository-evidence",
+    "identity_relationship": {
+        "candidate_parent": "direct-parent",
+        "authority_parent": "tree-object-at-owner-locator",
+    },
+    "population": {
+        "source_identity": "5555555555555555555555555555555555555555",
+        "total_count": 1,
+        "examined_count": 1,
+    },
+}
+identities = [
+    evidence["candidate_identity"],
+    evidence["parent_identity"],
+    evidence["authority"]["source_identity"],
+    *evidence["evidence_population"],
+]
+if len(identities) != len(set(identities)):
+    raise SystemExit("identity-proxy witness must use distinct identities")
+target.write_text(json.dumps(fixture, indent=2) + "\n", encoding="utf-8")
+PY
+identity_proxy_out="$tmp/r35-nonresolving-identity-proxy.out"
+if bash scripts/check-acceptance-instrument-discipline.sh \
+    "$identity_proxy_fixture" --repository "$repo_root" \
+    >"$identity_proxy_out" 2>&1; then
+  record_fail "distinct non-resolving candidate, parent, authority and population identities were accepted"
+elif grep -Fq "R35-CP5-legitimate-policy-repair" "$identity_proxy_out"; then
+  record_pass
+else
+  record_fail "R35 identity-proxy negative failed without identifying the rejected cell"
+  cat "$identity_proxy_out" >&2
+fi
+
+identity_repo="$tmp/r35-identity-repository"
+wrong_identity_repo="$tmp/r35-wrong-identity-repository"
+git init -q "$identity_repo"
+git -C "$identity_repo" config user.name "R35 Test"
+git -C "$identity_repo" config user.email "r35@example.invalid"
+mkdir -p "$identity_repo/contracts"
+printf 'independent evaluator authority\n' >"$identity_repo/contracts/evaluator"
+git -C "$identity_repo" add contracts/evaluator
+git -C "$identity_repo" commit -q -m authority
+authority_identity="$(git -C "$identity_repo" rev-parse HEAD:contracts/evaluator)"
+git -C "$identity_repo" commit -q --allow-empty -m parent
+parent_identity="$(git -C "$identity_repo" rev-parse HEAD)"
+witness_identity="$(printf 'retained witness\n' | git -C "$identity_repo" hash-object -w --stdin)"
+adjacent_identity="$(printf 'adjacent witness\n' | git -C "$identity_repo" hash-object -w --stdin)"
+population_source_identity="$({
+  printf '%s\n' "$witness_identity"
+  printf '%s\n' "$adjacent_identity"
+} | git -C "$identity_repo" hash-object -w --stdin)"
+git -C "$identity_repo" commit -q --allow-empty -m candidate
+candidate_identity="$(git -C "$identity_repo" rev-parse HEAD)"
+git init -q "$wrong_identity_repo"
+
+if [ "$(git -C "$identity_repo" rev-parse "$candidate_identity^")" = "$parent_identity" ] &&
+   [ "$(git -C "$identity_repo" rev-parse \
+     "$parent_identity:contracts/evaluator")" = "$authority_identity" ] &&
+   [ "$(git -C "$identity_repo" cat-file -p "$population_source_identity")" = \
+     "$witness_identity
+$adjacent_identity" ]; then
+  record_pass
+else
+  record_fail "independent Git controls did not establish R35 identity and population relationships"
+fi
+
+repository_fixture="$tmp/r35-repository-evidence.json"
+"${py_cmd[@]}" - "$fixture" "$repository_fixture" \
+    "$candidate_identity" "$parent_identity" "$authority_identity" \
+    "$witness_identity" "$adjacent_identity" "$population_source_identity" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+(source, target, candidate, parent, authority, witness, adjacent,
+ population_source) = sys.argv[1:]
+fixture = json.loads(Path(source).read_text(encoding="utf-8"))
+case_id = "R35-CP5-legitimate-policy-repair"
+evidence = fixture["policy_evidence"][case_id]
+evidence["candidate_identity"] = candidate
+evidence["parent_identity"] = parent
+evidence["authority"]["source_identity"] = authority
+evidence["witness"]["identity"] = witness
+evidence["evidence_population"] = [witness, adjacent]
+fixture["policy_evidence_context"]["repository_evidence"][case_id] = {
+    "classification": "repository-evidence",
+    "identity_relationship": {
+        "candidate_parent": "direct-parent",
+        "authority_parent": "tree-object-at-owner-locator",
+    },
+    "population": {
+        "source_identity": population_source,
+        "total_count": 2,
+        "examined_count": 2,
+    },
+}
+Path(target).write_text(json.dumps(fixture, indent=2) + "\n", encoding="utf-8")
+PY
+
+repository_fixture_out="$tmp/r35-repository-evidence.out"
+if bash scripts/check-acceptance-instrument-discipline.sh \
+    "$repository_fixture" --repository "$identity_repo" \
+    >"$repository_fixture_out" 2>&1; then
+  record_pass
+else
+  record_fail "valid repository-bound R35 evidence was rejected"
+  cat "$repository_fixture_out" >&2
+fi
+
+repository_mutants="$tmp/r35-repository-mutants"
+mkdir -p "$repository_mutants"
+"${py_cmd[@]}" - "$repository_fixture" "$repository_mutants" <<'PY'
+import copy
+import json
+import sys
+from pathlib import Path
+
+source, target_dir = Path(sys.argv[1]), Path(sys.argv[2])
+fixture = json.loads(source.read_text(encoding="utf-8"))
+case_id = "R35-CP5-legitimate-policy-repair"
+for name in ("authority-candidate-equal", "authority-parent-substitution",
+             "candidate-parent-equal", "missing-population",
+             "partial-population"):
+    payload = copy.deepcopy(fixture)
+    evidence = payload["policy_evidence"][case_id]
+    population = payload["policy_evidence_context"]["repository_evidence"][case_id]["population"]
+    if name == "authority-candidate-equal":
+        evidence["authority"]["source_identity"] = evidence["candidate_identity"]
+    elif name == "authority-parent-substitution":
+        evidence["authority"]["source_identity"] = evidence["parent_identity"]
+    elif name == "candidate-parent-equal":
+        evidence["candidate_identity"] = evidence["parent_identity"]
+    elif name == "missing-population":
+        evidence["evidence_population"] = []
+        population["total_count"] = 0
+        population["examined_count"] = 0
+    elif name == "partial-population":
+        evidence["evidence_population"] = evidence["evidence_population"][:1]
+        population["examined_count"] = 1
+    (target_dir / f"{name}.json").write_text(
+        json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+PY
+
+for mutant_name in authority-candidate-equal authority-parent-substitution \
+    candidate-parent-equal missing-population partial-population; do
+  mutant_out="$tmp/r35-repository-$mutant_name.out"
+  if bash scripts/check-acceptance-instrument-discipline.sh \
+      "$repository_mutants/$mutant_name.json" --repository "$identity_repo" \
+      >"$mutant_out" 2>&1; then
+    record_fail "R35 repository mutant $mutant_name was accepted"
+  elif grep -Fq "R35-CP5-legitimate-policy-repair" "$mutant_out"; then
+    record_pass
+  else
+    record_fail "R35 repository mutant $mutant_name failed without identifying the rejected cell"
+    cat "$mutant_out" >&2
+  fi
+done
+
+wrong_repository_out="$tmp/r35-wrong-repository.out"
+if bash scripts/check-acceptance-instrument-discipline.sh \
+    "$repository_fixture" --repository "$wrong_identity_repo" \
+    >"$wrong_repository_out" 2>&1; then
+  record_fail "R35 repository evidence was accepted from the wrong object store"
+elif grep -Fq "R35-CP5-legitimate-policy-repair" "$wrong_repository_out"; then
+  record_pass
+else
+  record_fail "R35 wrong-repository negative failed without identifying the rejected cell"
+  cat "$wrong_repository_out" >&2
+fi
+
 state_matrix_out="$tmp/r35-state-matrix.out"
 if "${py_cmd[@]}" - "$fixture" >"$state_matrix_out" <<'PY'
 import itertools

@@ -1,5 +1,6 @@
 {
   "schema": "implementaudit-acceptance-instrument-discipline-fixtures-v2",
+  "policy_evidence_context": {"default_classification": "contract-fixture", "repository_evidence": {}},
   "mutation_records": {
     "R35-legitimate-evaluator-repair": {"property_owner": "authoritative contract owner", "consumer": "closure decision", "changes": ["evaluator-change"], "residual_risk": "adjacent false decisions", "rollback": "restore old evaluator", "stop_condition": "held-out controls discriminate"},
     "R35-legitimate-prompt-repair": {"property_owner": "prompt contract owner", "consumer": "model evaluation", "changes": ["evaluator-change"], "residual_risk": "prompt leakage", "rollback": "restore old prompt", "stop_condition": "prompt-blind controls discriminate"},
