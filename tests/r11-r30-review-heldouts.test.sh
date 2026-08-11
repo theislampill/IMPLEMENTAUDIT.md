@@ -189,6 +189,76 @@ if bash "$reachability" --repo-root "$dead_join" >/dev/null 2>&1; then
   failures+=("dead-join-control-flow-counts-as-transport")
 fi
 
+dead_not_start="$tmp/dead-not-start"
+mkdir -p "$dead_not_start/scripts"
+cp -R skills "$dead_not_start/skills"
+cp scripts/build-release-asset.sh "$dead_not_start/scripts/build-release-asset.sh"
+sed -i 's/^[[:space:]]*mediator_thread\.start()/if not True: mediator_thread.start()/' \
+  "$dead_not_start/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$dead_not_start" >/dev/null 2>&1; then
+  failures+=("dead-not-start-control-flow-counts-as-transport")
+fi
+
+dead_not_join="$tmp/dead-not-join"
+mkdir -p "$dead_not_join/scripts"
+cp -R skills "$dead_not_join/skills"
+cp scripts/build-release-asset.sh "$dead_not_join/scripts/build-release-asset.sh"
+sed -i 's/^[[:space:]]*mediator_thread\.join(3)/if not True: mediator_thread.join(3)/' \
+  "$dead_not_join/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$dead_not_join" >/dev/null 2>&1; then
+  failures+=("dead-not-join-control-flow-counts-as-transport")
+fi
+
+dead_launch="$tmp/dead-launch"
+mkdir -p "$dead_launch/scripts"
+cp -R skills "$dead_launch/skills"
+cp scripts/build-release-asset.sh "$dead_launch/scripts/build-release-asset.sh"
+sed -E -i '/completed = subprocess\.run\(launch/ s/^([[:space:]]*)/\1if False: /' \
+  "$dead_launch/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$dead_launch" >/dev/null 2>&1; then
+  failures+=("dead-launch-control-flow-counts-as-transport")
+fi
+
+dead_not_launch="$tmp/dead-not-launch"
+mkdir -p "$dead_not_launch/scripts"
+cp -R skills "$dead_not_launch/skills"
+cp scripts/build-release-asset.sh "$dead_not_launch/scripts/build-release-asset.sh"
+sed -E -i '/completed = subprocess\.run\(launch/ s/^([[:space:]]*)/\1if not True: /' \
+  "$dead_not_launch/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$dead_not_launch" >/dev/null 2>&1; then
+  failures+=("dead-not-launch-control-flow-counts-as-transport")
+fi
+
+dead_not_producer="$tmp/dead-not-producer"
+mkdir -p "$dead_not_producer/scripts"
+cp -R skills "$dead_not_producer/skills"
+cp scripts/build-release-asset.sh "$dead_not_producer/scripts/build-release-asset.sh"
+sed -E -i '/result = subprocess\.run\(command/ s/^([[:space:]]*)/\1if not True: /' \
+  "$dead_not_producer/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$dead_not_producer" >/dev/null 2>&1; then
+  failures+=("dead-not-producer-control-flow-counts-as-transport")
+fi
+
+conditional_start="$tmp/conditional-start"
+mkdir -p "$conditional_start/scripts"
+cp -R skills "$conditional_start/skills"
+cp scripts/build-release-asset.sh "$conditional_start/scripts/build-release-asset.sh"
+sed -E -i '/mediator_thread\.start\(\)/ s/^([[:space:]]*)/\1if os.environ.get("OPTIONAL_MEDIATOR"): /' \
+  "$conditional_start/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$conditional_start" >/dev/null 2>&1; then
+  failures+=("conditional-start-counts-as-mandatory-transport")
+fi
+
+conditional_launch="$tmp/conditional-launch"
+mkdir -p "$conditional_launch/scripts"
+cp -R skills "$conditional_launch/skills"
+cp scripts/build-release-asset.sh "$conditional_launch/scripts/build-release-asset.sh"
+sed -E -i '/completed = subprocess\.run\(launch/ s/^([[:space:]]*)/\1if os.environ.get("OPTIONAL_LAUNCH"): /' \
+  "$conditional_launch/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$conditional_launch" >/dev/null 2>&1; then
+  failures+=("conditional-launch-counts-as-mandatory-transport")
+fi
+
 if ! grep -Fqx \
   'helper-mode: check-authorization-binding.sh|--phase --rehearsal --launch|<phase> <receipt> <launch>|failed-rehearsal-blocks-launch|scripts/validate-phase.sh' \
   skills/implementaudit/references/repo-state-comparison.md; then

@@ -234,6 +234,56 @@ transport_match = re.search(
     r'''(?ms)python\s+-\s+"\$phase"\s+"\$rehearsal"\s+"\$launch"\s+<<['"]?([A-Za-z_][A-Za-z0-9_]*)['"]?\s*\n(.*?)^\1\s*$''',
     rehearsal_text,
 )
+
+def constant_truth(node):
+    """Return a statically known truth value without executing source."""
+    if isinstance(node, ast.Constant):
+        return bool(node.value)
+    if isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.Not):
+        value = constant_truth(node.operand)
+        return None if value is None else not value
+    if isinstance(node, ast.BoolOp):
+        values = [constant_truth(value) for value in node.values]
+        if isinstance(node.op, ast.And):
+            if False in values:
+                return False
+            return True if all(value is True for value in values) else None
+        if isinstance(node.op, ast.Or):
+            if True in values:
+                return True
+            return False if all(value is False for value in values) else None
+    if (isinstance(node, ast.Compare) and len(node.ops) == 1
+            and len(node.comparators) == 1
+            and isinstance(node.left, ast.Constant)
+            and isinstance(node.comparators[0], ast.Constant)):
+        left = node.left.value
+        right = node.comparators[0].value
+        if isinstance(node.ops[0], (ast.Eq, ast.Is)):
+            return left == right
+        if isinstance(node.ops[0], (ast.NotEq, ast.IsNot)):
+            return left != right
+    return None
+
+def executable_nodes(nodes):
+    """Yield mandatory-route nodes, excluding dead or conditionally optional edges."""
+    for node in nodes:
+        yield node
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda)):
+            continue
+        if isinstance(node, ast.If):
+            truth = constant_truth(node.test)
+            branches = node.orelse if truth is False else node.body if truth is True else []
+            yield from executable_nodes(branches)
+            continue
+        if isinstance(node, (ast.While, ast.For, ast.AsyncFor)):
+            if isinstance(node, ast.While):
+                truth = constant_truth(node.test)
+                branches = node.orelse if truth is False else node.body if truth is True else []
+                yield from executable_nodes(branches)
+            continue
+        for child in ast.iter_child_nodes(node):
+            yield from executable_nodes([child])
+
 def has_launch_subprocess(body):
     if not body:
         return False
@@ -241,7 +291,7 @@ def has_launch_subprocess(body):
         tree = ast.parse(body)
     except SyntaxError:
         return False
-    for node in ast.walk(tree):
+    for node in executable_nodes(tree.body):
         if not (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
                 and isinstance(node.func.value, ast.Name)
                 and node.func.value.id == "subprocess" and node.func.attr == "run"
@@ -267,28 +317,6 @@ def has_mediated_execution(body):
         return (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
                 and isinstance(node.func.value, ast.Name)
                 and node.func.value.id == base and node.func.attr == attribute)
-
-    def literal_truth(node):
-        return bool(node.value) if isinstance(node, ast.Constant) else None
-
-    def executable_nodes(nodes):
-        for node in nodes:
-            yield node
-            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda)):
-                continue
-            if isinstance(node, ast.If):
-                truth = literal_truth(node.test)
-                branches = node.orelse if truth is False else node.body if truth is True else node.body + node.orelse
-                yield from executable_nodes(branches)
-                continue
-            if isinstance(node, (ast.While, ast.For, ast.AsyncFor)):
-                if isinstance(node, ast.While) and literal_truth(node.test) is False:
-                    yield from executable_nodes(node.orelse)
-                else:
-                    yield from executable_nodes(node.body + node.orelse)
-                continue
-            for child in ast.iter_child_nodes(node):
-                yield from executable_nodes([child])
 
     live = list(executable_nodes(tree.body))
     bridge_written = any(is_call(node, "bridge_path", "write_text") for node in live)

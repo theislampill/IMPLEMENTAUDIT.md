@@ -735,10 +735,14 @@ with zipfile.ZipFile(asset) as zf:
     OWNER_OUTER_BOUND_BYTES = 230_000
     MIN_HEADROOM_BYTES = 2_000
     CALIBRATION_QUANTUM_BYTES = 1_000
-    CURRENT_CALIBRATION_AUTHORITY = "owner"
+    CURRENT_CALIBRATION_AUTHORITY = "dedicated-calibration-lane"
     ALLOWED_CALIBRATION_AUTHORITIES = {
         "owner", "dedicated-calibration-lane",
     }
+    if CURRENT_CALIBRATION_AUTHORITY != "dedicated-calibration-lane":
+        raise SystemExit(
+            "current calibration authority must name the dedicated R33 lane"
+        )
 
     # The composed R11/R30 rehearsal repair raises the canonical Zopfli
     # method-8 package to 225,318 bytes. This dedicated R33 calibration uses the
