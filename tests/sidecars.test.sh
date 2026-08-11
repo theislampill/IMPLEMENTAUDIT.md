@@ -1365,8 +1365,49 @@ done
 tokensave_fixture_source="fixtures/sidecar-contract/tokensave-claims/cases.json"
 tokensave_tmp="$(mktemp -d)"
 tokensave_public_tmp="$(mktemp -d)"
+tokensave_adapter_tmp="$(mktemp -d)"
 tokensave_checkout_root="$(git rev-parse --show-toplevel)"
 tokensave_checkout_head="$(git rev-parse HEAD)"
+tokensave_authority_adapter="$tokensave_adapter_tmp/tokensave-authority-adapter.py"
+cat >"$tokensave_authority_adapter" <<'PY'
+import json
+import os
+import sys
+import time
+
+args = sys.argv[1:]
+if len(args) != 6 or args[:3] != [
+        "freshness", "--json", "--checkout-root"] or args[4] != "--checkout-head":
+    raise SystemExit(64)
+checkout_root = args[3]
+checkout_head = args[5]
+mode = os.environ.get("TOKENSAVE_ADAPTER_MODE", "valid")
+if mode == "timeout":
+    time.sleep(5)
+if mode == "nonzero":
+    raise SystemExit(7)
+if mode == "malformed":
+    print("not-json")
+    raise SystemExit(0)
+
+database_identity = "tokensave-db://contract-fixture"
+database_fingerprint = "sha256:7fcdb5a08be7894845a44a7f2cc96095da3b3579468e2689405c7a98d555a3a4"
+readback_root = checkout_root + "-mismatch" if mode == "mismatch" else checkout_root
+print(json.dumps({
+    "schema": "implementaudit.tokensave_freshness_adapter.v1",
+    "checkout_root": checkout_root,
+    "checkout_head": checkout_head,
+    "database_identity": database_identity,
+    "database_fingerprint": database_fingerprint,
+    "command": "sync",
+    "exit_status": 0,
+    "readback_state": "current",
+    "readback_checkout_root": readback_root,
+    "readback_checkout_head": checkout_head,
+    "readback_database_identity": database_identity,
+    "readback_database_fingerprint": database_fingerprint,
+}, separators=(",", ":")))
+PY
 tokensave_fixture="$tokensave_tmp/cases-bound.json"
 "${py_cmd[@]}" - \
   "$tokensave_fixture_source" \
@@ -1387,7 +1428,8 @@ with open(target, "w", encoding="utf-8", newline="\n") as handle:
 PY
 set +e
 tokensave_output="$(bash scripts/check-sidecar-boundaries.sh \
-  --evaluate-tokensave-claims "$tokensave_fixture" 2>&1)"
+  --evaluate-tokensave-claims "$tokensave_fixture" \
+  --tokensave-freshness-adapter "$tokensave_authority_adapter" 2>&1)"
 tokensave_status=$?
 set -e
 if [ "$tokensave_status" -eq 0 ] && \
@@ -1399,7 +1441,7 @@ else
   check_pass "scenario12: complete TokenSave claim population is classified" 1
 fi
 
-trap 'rm -rf "$tmp" "$tmp_spine" "$tmp_promote" "$tmp_contract" "${scope_tmp:-}" "$activegraph_tmp" "$tokensave_tmp" "$tokensave_public_tmp"' EXIT
+trap 'rm -rf "$tmp" "$tmp_spine" "$tmp_promote" "$tmp_contract" "${scope_tmp:-}" "$activegraph_tmp" "$tokensave_tmp" "$tokensave_public_tmp" "$tokensave_adapter_tmp"' EXIT
 cp -R skills README.md AGENTS.md CONTRIBUTING.md docs scripts tests "$tokensave_public_tmp/"
 "${py_cmd[@]}" - "$tokensave_public_tmp/README.md" <<'PY'
 import pathlib, sys
@@ -1507,7 +1549,8 @@ with open(target, "w", encoding="utf-8", newline="\n") as handle:
 PY
 set +e
 tokensave_heldout="$(bash scripts/check-sidecar-boundaries.sh \
-  --evaluate-tokensave-claims "$tokensave_tmp/heldout.json" 2>&1)"
+  --evaluate-tokensave-claims "$tokensave_tmp/heldout.json" \
+  --tokensave-freshness-adapter "$tokensave_authority_adapter" 2>&1)"
 tokensave_heldout_status=$?
 set -e
 if [ "$tokensave_heldout_status" -ne 0 ] && \
@@ -1526,7 +1569,7 @@ fixture = json.load(open(source, encoding="utf-8"))
 row = copy.deepcopy(next(case for case in fixture["cases"]
                          if case["id"] == "TS-C3-current-supported-derived"))
 row["id"] = "TS-H2-current-without-freshness-witness"
-row.pop("freshness_evidence", None)
+row.pop("freshness_expectation", None)
 fixture["cases"] = [row]
 with open(target, "w", encoding="utf-8", newline="\n") as handle:
     json.dump(fixture, handle, indent=2)
@@ -1539,7 +1582,7 @@ tokensave_freshness_status=$?
 set -e
 if [ "$tokensave_freshness_status" -ne 0 ] && \
    printf '%s' "$tokensave_freshness_output" | grep -Fq \
-     "TS-H2-current-without-freshness-witness: current freshness evidence missing"; then
+     "TS-H2-current-without-freshness-witness: current freshness expectation missing"; then
   check_pass "scenario12: current TokenSave result without freshness witness is rejected" 0
 else
   printf 'sidecars.test: TokenSave missing-freshness output: %s\n' "$tokensave_freshness_output" >&2
@@ -1564,30 +1607,6 @@ import copy, json, pathlib, sys
 fixture = json.load(open(source, encoding="utf-8"))
 row = copy.deepcopy(next(case for case in fixture["cases"]
                          if case["id"] == "TS-C3-current-supported-derived"))
-row.pop("checkout_database_binding", None)
-row.pop("sync_reconnect_witness", None)
-row["freshness_evidence"] = {
-    "checkout": {
-        "root": checkout_root,
-        "head": checkout_head,
-    },
-    "database": {
-        "identity": "tokensave-db://contract-fixture",
-        "fingerprint": "sha256:7fcdb5a08be7894845a44a7f2cc96095da3b3579468e2689405c7a98d555a3a4",
-    },
-    "sync_reconnect": {
-        "command": "sync",
-        "executed": True,
-        "exit_status": 0,
-        "readback": {
-            "checkout_root": checkout_root,
-            "checkout_head": checkout_head,
-            "database_identity": "tokensave-db://contract-fixture",
-            "database_fingerprint": "sha256:7fcdb5a08be7894845a44a7f2cc96095da3b3579468e2689405c7a98d555a3a4",
-            "state": "current",
-        },
-    },
-}
 
 def write_case(target, case):
     pathlib.Path(target).write_text(
@@ -1600,50 +1619,52 @@ write_case(valid_target, valid)
 
 wrong = copy.deepcopy(row)
 wrong["id"] = "TS-H8-wrong-worktree-retained-readback"
-wrong["freshness_evidence"]["checkout"]["root"] = checkout_root + "-wrong-worktree"
+wrong["freshness_expectation"]["checkout_root"] = checkout_root + "-wrong-worktree"
 write_case(wrong_target, wrong)
 
 self_attested = copy.deepcopy(row)
 self_attested["id"] = "TS-H9-scalar-self-attestation"
-self_attested.pop("freshness_evidence")
+self_attested.pop("freshness_expectation")
 self_attested["checkout_database_binding"] = "exact"
 self_attested["sync_reconnect_witness"] = "succeeded"
 write_case(self_attested_target, self_attested)
 
 sync_not_executed = copy.deepcopy(row)
-sync_not_executed["id"] = "TS-H10-sync-not-executed"
-sync_not_executed["freshness_evidence"]["sync_reconnect"]["executed"] = False
+sync_not_executed["id"] = "TS-H10-sync-execution-failed"
+sync_not_executed["freshness_expectation"]["exit_status"] = 1
+sync_not_executed["freshness_expectation"]["readback_state"] = "stale"
 write_case(sync_target, sync_not_executed)
 
 database_mismatch = copy.deepcopy(row)
 database_mismatch["id"] = "TS-H11-database-readback-mismatch"
-database_mismatch["freshness_evidence"]["sync_reconnect"]["readback"]["database_identity"] = (
+database_mismatch["freshness_expectation"]["readback_database_identity"] = (
     "tokensave-db://other-worktree")
 write_case(database_target, database_mismatch)
 
 unknown = copy.deepcopy(row)
 unknown["id"] = "TS-H12-unknown-checkout"
-unknown["freshness_evidence"]["checkout"]["root"] = "unknown"
+unknown["freshness_expectation"]["checkout_root"] = "unknown"
 write_case(unknown_target, unknown)
 PY
 
 set +e
 tokensave_structured_output="$(bash scripts/check-sidecar-boundaries.sh \
-  --evaluate-tokensave-claims "$tokensave_tmp/structured-valid.json" 2>&1)"
+  --evaluate-tokensave-claims "$tokensave_tmp/structured-valid.json" \
+  --tokensave-freshness-adapter "$tokensave_authority_adapter" 2>&1)"
 tokensave_structured_status=$?
 set -e
 if [ "$tokensave_structured_status" -eq 0 ] && \
    printf '%s' "$tokensave_structured_output" | grep -Fqx \
      "tokensave-claim: ok (1/1)"; then
-  check_pass "scenario12: structured TokenSave freshness tuple is accepted" 0
+  check_pass "scenario12: structured TokenSave expectation matches authority execution" 0
 else
   printf 'sidecars.test: TokenSave structured freshness output: %s\n' "$tokensave_structured_output" >&2
-  check_pass "scenario12: structured TokenSave freshness tuple is accepted" 1
+  check_pass "scenario12: structured TokenSave expectation matches authority execution" 1
 fi
 
 for heldout_id in \
   TS-H8-wrong-worktree-retained-readback \
-  TS-H10-sync-not-executed \
+  TS-H10-sync-execution-failed \
   TS-H11-database-readback-mismatch \
   TS-H12-unknown-checkout; do
   case "$heldout_id" in
@@ -1654,7 +1675,8 @@ for heldout_id in \
   esac
   set +e
   boundary_output="$(bash scripts/check-sidecar-boundaries.sh \
-    --evaluate-tokensave-claims "$heldout_path" 2>&1)"
+    --evaluate-tokensave-claims "$heldout_path" \
+    --tokensave-freshness-adapter "$tokensave_authority_adapter" 2>&1)"
   boundary_status=$?
   set -e
   if [ "$boundary_status" -ne 0 ] && \
@@ -1674,11 +1696,105 @@ tokensave_self_attested_status=$?
 set -e
 if [ "$tokensave_self_attested_status" -ne 0 ] && \
    printf '%s' "$tokensave_self_attested_output" | grep -Fq \
-     "TS-H9-scalar-self-attestation: current freshness evidence missing"; then
+     "TS-H9-scalar-self-attestation: current freshness expectation missing"; then
   check_pass "scenario12: scalar TokenSave freshness self-attestation is rejected" 0
 else
   printf 'sidecars.test: TokenSave scalar freshness output: %s\n' "$tokensave_self_attested_output" >&2
   check_pass "scenario12: scalar TokenSave freshness self-attestation is rejected" 1
+fi
+
+"${py_cmd[@]}" - \
+  "$tokensave_fixture" \
+  "$tokensave_tmp/fabricated-current.json" \
+  "$tokensave_tmp/cheap-no-tokensave.json" <<'PY'
+import copy, json, pathlib, sys
+
+source, fabricated_target, cheap_target = sys.argv[1:]
+fixture = json.load(open(source, encoding="utf-8"))
+by_id = {case["id"]: case for case in fixture["cases"]}
+for target, case_id in (
+        (fabricated_target, "TS-C3-current-supported-derived"),
+        (cheap_target, "TS-C0-no-tokensave-docs")):
+    pathlib.Path(target).write_text(
+        json.dumps({"schema": fixture["schema"], "cases": [copy.deepcopy(by_id[case_id])]},
+                   indent=2) + "\n",
+        encoding="utf-8")
+PY
+
+set +e
+tokensave_fabricated_output="$(bash scripts/check-sidecar-boundaries.sh \
+  --evaluate-tokensave-claims "$tokensave_tmp/fabricated-current.json" 2>&1)"
+tokensave_fabricated_status=$?
+set -e
+if [ "$tokensave_fabricated_status" -ne 0 ] && \
+   printf '%s' "$tokensave_fabricated_output" | grep -Fq \
+     "TOKENSAVE_FRESHNESS_UNVERIFIED"; then
+  check_pass "scenario12: fabricated matching TokenSave tuple cannot establish currentness" 0
+else
+  printf 'sidecars.test: TokenSave fabricated tuple output: %s\n' "$tokensave_fabricated_output" >&2
+  check_pass "scenario12: fabricated matching TokenSave tuple cannot establish currentness" 1
+fi
+
+set +e
+tokensave_candidate_adapter_output="$(bash scripts/check-sidecar-boundaries.sh \
+  --evaluate-tokensave-claims "$tokensave_tmp/fabricated-current.json" \
+  --tokensave-freshness-adapter "$(pwd -P)/scripts/check-sidecar-boundaries.sh" 2>&1)"
+tokensave_candidate_adapter_status=$?
+set -e
+if [ "$tokensave_candidate_adapter_status" -ne 0 ] && \
+   printf '%s' "$tokensave_candidate_adapter_output" | grep -Fq \
+     "adapter must be outside the evaluated checkout"; then
+  check_pass "scenario12: candidate-local TokenSave adapter is rejected" 0
+else
+  printf 'sidecars.test: TokenSave candidate adapter output: %s\n' "$tokensave_candidate_adapter_output" >&2
+  check_pass "scenario12: candidate-local TokenSave adapter is rejected" 1
+fi
+
+for adapter_mode in timeout nonzero malformed mismatch; do
+  set +e
+  adapter_output="$(TOKENSAVE_ADAPTER_MODE="$adapter_mode" \
+    bash scripts/check-sidecar-boundaries.sh \
+      --evaluate-tokensave-claims "$tokensave_tmp/fabricated-current.json" \
+      --tokensave-freshness-adapter "$tokensave_authority_adapter" 2>&1)"
+  adapter_status=$?
+  set -e
+  if [ "$adapter_status" -ne 0 ] && \
+     printf '%s' "$adapter_output" | grep -Fq "TOKENSAVE_FRESHNESS_UNVERIFIED"; then
+    check_pass "scenario12: authority adapter $adapter_mode cannot establish currentness" 0
+  else
+    printf 'sidecars.test: TokenSave adapter %s output: %s\n' "$adapter_mode" "$adapter_output" >&2
+    check_pass "scenario12: authority adapter $adapter_mode cannot establish currentness" 1
+  fi
+done
+
+set +e
+tokensave_adapter_valid_output="$(TOKENSAVE_ADAPTER_MODE=valid \
+  bash scripts/check-sidecar-boundaries.sh \
+    --evaluate-tokensave-claims "$tokensave_tmp/fabricated-current.json" \
+    --tokensave-freshness-adapter "$tokensave_authority_adapter" 2>&1)"
+tokensave_adapter_valid_status=$?
+set -e
+if [ "$tokensave_adapter_valid_status" -eq 0 ] && \
+   printf '%s' "$tokensave_adapter_valid_output" | grep -Fqx \
+     "tokensave-claim: ok (1/1)"; then
+  check_pass "scenario12: authority-owned TokenSave adapter execution establishes bounded currentness" 0
+else
+  printf 'sidecars.test: TokenSave valid adapter output: %s\n' "$tokensave_adapter_valid_output" >&2
+  check_pass "scenario12: authority-owned TokenSave adapter execution establishes bounded currentness" 1
+fi
+
+set +e
+tokensave_cheap_no_adapter_output="$(bash scripts/check-sidecar-boundaries.sh \
+  --evaluate-tokensave-claims "$tokensave_tmp/cheap-no-tokensave.json" 2>&1)"
+tokensave_cheap_no_adapter_status=$?
+set -e
+if [ "$tokensave_cheap_no_adapter_status" -eq 0 ] && \
+   printf '%s' "$tokensave_cheap_no_adapter_output" | grep -Fqx \
+     "tokensave-claim: ok (1/1)"; then
+  check_pass "scenario12: cheap NO TOKENSAVE remains valid without an adapter" 0
+else
+  printf 'sidecars.test: TokenSave cheap no-adapter output: %s\n' "$tokensave_cheap_no_adapter_output" >&2
+  check_pass "scenario12: cheap NO TOKENSAVE remains valid without an adapter" 1
 fi
 
 "${py_cmd[@]}" - "$tokensave_fixture" "$tokensave_tmp" <<'PY'
@@ -1709,7 +1825,8 @@ for heldout_id in \
   TS-H6-conflict-hidden; do
   set +e
   boundary_output="$(bash scripts/check-sidecar-boundaries.sh \
-    --evaluate-tokensave-claims "$tokensave_tmp/$heldout_id.json" 2>&1)"
+    --evaluate-tokensave-claims "$tokensave_tmp/$heldout_id.json" \
+    --tokensave-freshness-adapter "$tokensave_authority_adapter" 2>&1)"
   boundary_status=$?
   set -e
   if [ "$boundary_status" -ne 0 ] && \

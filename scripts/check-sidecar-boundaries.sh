@@ -218,7 +218,13 @@ PY
 fi
 
 if [ "${1:-}" = "--evaluate-tokensave-claims" ]; then
-  [ "$#" -eq 2 ] || fail "usage: check-sidecar-boundaries.sh --evaluate-tokensave-claims <cases.json>"
+  if [ "$#" -eq 2 ]; then
+    tokensave_adapter=""
+  elif [ "$#" -eq 4 ] && [ "$3" = "--tokensave-freshness-adapter" ]; then
+    tokensave_adapter="$4"
+  else
+    fail "usage: check-sidecar-boundaries.sh --evaluate-tokensave-claims <cases.json> [--tokensave-freshness-adapter <absolute-operator-path>]"
+  fi
   fixture="$2"
   require_file "$fixture"
   if command -v python >/dev/null 2>&1; then
@@ -234,27 +240,27 @@ if [ "${1:-}" = "--evaluate-tokensave-claims" ]; then
     fail "TokenSave claim evaluation requires a live Git checkout"
   checkout_head="$(git rev-parse HEAD 2>/dev/null)" || \
     fail "TokenSave claim evaluation requires a readable checkout HEAD"
-  "${py_cmd[@]}" - "$fixture" "$checkout_root" "$checkout_head" <<'PY'
+  "${py_cmd[@]}" - \
+    "$fixture" "$checkout_root" "$checkout_head" "$tokensave_adapter" <<'PY'
 import json
 import os
 import re
+import subprocess
 import sys
 
-path, current_checkout_root, current_checkout_head = sys.argv[1:]
+path, current_checkout_root, current_checkout_head, adapter_path = sys.argv[1:]
 TOP_KEYS = {"schema", "cases"}
 CASE_KEYS = {
     "id", "query_shape", "index_state", "coverage", "result_state",
-    "freshness_evidence", "live_readback", "requested_use",
+    "freshness_expectation", "live_readback", "requested_use",
     "evidence_sources", "expected",
 }
 EXPECTED_KEYS = {"classification", "verdict"}
-FRESHNESS_KEYS = {"checkout", "database", "sync_reconnect"}
-CHECKOUT_KEYS = {"root", "head"}
-DATABASE_KEYS = {"identity", "fingerprint"}
-SYNC_RECONNECT_KEYS = {"command", "executed", "exit_status", "readback"}
-READBACK_KEYS = {
-    "checkout_root", "checkout_head", "database_identity",
-    "database_fingerprint", "state",
+ADAPTER_RESULT_KEYS = {
+    "schema", "checkout_root", "checkout_head", "database_identity",
+    "database_fingerprint", "command", "exit_status", "readback_state",
+    "readback_checkout_root", "readback_checkout_head",
+    "readback_database_identity", "readback_database_fingerprint",
 }
 QUERY_SHAPES = {
     "supported-code-relation", "documentation", "policy",
@@ -272,6 +278,8 @@ ANTI_TRIGGERS = {"documentation", "policy", "public-projection", "exact-file", "
 SUPPORTED_SYNC_RECONNECT_COMMANDS = {"sync", "reconnect"}
 SHA_PATTERN = re.compile(r"[0-9a-f]{40}")
 FINGERPRINT_PATTERN = re.compile(r"sha256:[0-9a-f]{64}")
+ADAPTER_SCHEMA = "implementaudit.tokensave_freshness_adapter.v1"
+ADAPTER_TIMEOUT_SECONDS = 2
 
 
 def exact_keys(value, expected, label):
@@ -290,44 +298,102 @@ def normalized_root(value):
     return os.path.normcase(os.path.realpath(value))
 
 
-def freshness_is_current(case):
-    evidence = case["freshness_evidence"]
-    if not isinstance(evidence, dict):
+def adapter_result_is_current(value):
+    if not isinstance(value, dict) or set(value) != ADAPTER_RESULT_KEYS:
         return False
-    checkout = evidence["checkout"]
-    database = evidence["database"]
-    execution = evidence["sync_reconnect"]
-    readback = execution["readback"]
-
-    checkout_root = normalized_root(checkout["root"])
-    readback_root = normalized_root(readback["checkout_root"])
+    checkout_root = normalized_root(value["checkout_root"])
+    readback_root = normalized_root(value["readback_checkout_root"])
     live_root = normalized_root(current_checkout_root)
-    checkout_head = checkout["head"]
-    readback_head = readback["checkout_head"]
-    database_identity = database["identity"]
-    database_fingerprint = database["fingerprint"]
+    checkout_head = value["checkout_head"]
+    database_identity = value["database_identity"]
+    database_fingerprint = value["database_fingerprint"]
+    valid_head = (
+        isinstance(checkout_head, str) and
+        SHA_PATTERN.fullmatch(checkout_head) is not None)
+    valid_identity = (
+        isinstance(database_identity, str) and bool(database_identity) and
+        database_identity.lower() not in {"unknown", "missing", "unverified"})
+    valid_fingerprint = (
+        isinstance(database_fingerprint, str) and
+        FINGERPRINT_PATTERN.fullmatch(database_fingerprint) is not None)
+    valid_command = (
+        isinstance(value["command"], str) and
+        value["command"] in SUPPORTED_SYNC_RECONNECT_COMMANDS)
 
     return all((
+        value["schema"] == ADAPTER_SCHEMA,
         checkout_root is not None,
         checkout_root == live_root,
         readback_root == live_root,
-        isinstance(checkout_head, str),
-        SHA_PATTERN.fullmatch(checkout_head) is not None,
+        valid_head,
         checkout_head == current_checkout_head,
-        readback_head == current_checkout_head,
-        isinstance(database_identity, str),
-        bool(database_identity),
-        database_identity.lower() not in {"unknown", "missing", "unverified"},
-        isinstance(database_fingerprint, str),
-        FINGERPRINT_PATTERN.fullmatch(database_fingerprint) is not None,
-        readback["database_identity"] == database_identity,
-        readback["database_fingerprint"] == database_fingerprint,
-        execution["command"] in SUPPORTED_SYNC_RECONNECT_COMMANDS,
-        execution["executed"] is True,
-        type(execution["exit_status"]) is int,
-        execution["exit_status"] == 0,
-        readback["state"] == "current",
+        value["readback_checkout_head"] == current_checkout_head,
+        valid_identity,
+        valid_fingerprint,
+        value["readback_database_identity"] == database_identity,
+        value["readback_database_fingerprint"] == database_fingerprint,
+        valid_command,
+        type(value["exit_status"]) is int,
+        value["exit_status"] == 0,
+        value["readback_state"] == "current",
     ))
+
+
+def run_authority_adapter():
+    if not adapter_path:
+        return None
+    if not os.path.isabs(adapter_path):
+        raise ValueError("adapter path must be absolute")
+    resolved_adapter = os.path.normcase(os.path.realpath(adapter_path))
+    resolved_checkout = os.path.normcase(os.path.realpath(current_checkout_root))
+    if not os.path.isfile(resolved_adapter):
+        raise ValueError("adapter path is not a readable file")
+    try:
+        common = os.path.commonpath((resolved_checkout, resolved_adapter))
+    except ValueError:
+        common = ""
+    if common == resolved_checkout:
+        raise ValueError("adapter must be outside the evaluated checkout")
+
+    argv = [
+        sys.executable, resolved_adapter,
+        "freshness", "--json",
+        "--checkout-root", current_checkout_root,
+        "--checkout-head", current_checkout_head,
+    ]
+    try:
+        completed = subprocess.run(
+            argv,
+            cwd=current_checkout_root,
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            timeout=ADAPTER_TIMEOUT_SECONDS,
+            check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    if completed.returncode != 0:
+        return None
+    try:
+        result_value = json.loads(completed.stdout)
+    except json.JSONDecodeError:
+        return None
+    if not adapter_result_is_current(result_value):
+        return None
+    return result_value
+
+
+actual_freshness = None
+
+
+def freshness_is_current(case):
+    expectation = case["freshness_expectation"]
+    return (
+        actual_freshness is not None and
+        isinstance(expectation, dict) and
+        expectation == actual_freshness)
 
 
 def classify(case):
@@ -375,17 +441,18 @@ try:
     with open(path, encoding="utf-8") as handle:
         fixture = json.load(handle)
     exact_keys(fixture, TOP_KEYS, "fixture")
-    if fixture["schema"] != "implementaudit.tokensave_claims.v2":
+    if fixture["schema"] != "implementaudit.tokensave_claims.v3":
         raise ValueError("fixture schema invalid")
+    actual_freshness = run_authority_adapter()
     cases = fixture["cases"]
     if not isinstance(cases, list) or not cases:
         raise ValueError("fixture cases must be a non-empty list")
     seen = set()
     for index, case in enumerate(cases):
         if isinstance(case, dict) and case.get("index_state") == "current":
-            if "freshness_evidence" not in case:
+            if "freshness_expectation" not in case:
                 case_id = case.get("id", f"case {index}")
-                raise ValueError(f"{case_id}: current freshness evidence missing")
+                raise ValueError(f"{case_id}: current freshness expectation missing")
         exact_keys(case, CASE_KEYS, f"case {index}")
         case_id = case["id"]
         if not isinstance(case_id, str) or not case_id:
@@ -395,17 +462,11 @@ try:
         seen.add(case_id)
         if case["query_shape"] not in QUERY_SHAPES or case["index_state"] not in INDEX_STATES:
             raise ValueError(f"{case_id}: query shape or index state invalid")
-        freshness = case["freshness_evidence"]
+        freshness = case["freshness_expectation"]
         if freshness is not None:
-            exact_keys(freshness, FRESHNESS_KEYS, f"{case_id} freshness evidence")
-            exact_keys(freshness["checkout"], CHECKOUT_KEYS, f"{case_id} checkout identity")
-            exact_keys(freshness["database"], DATABASE_KEYS, f"{case_id} database identity")
             exact_keys(
-                freshness["sync_reconnect"], SYNC_RECONNECT_KEYS,
-                f"{case_id} sync/reconnect execution")
-            exact_keys(
-                freshness["sync_reconnect"]["readback"], READBACK_KEYS,
-                f"{case_id} sync/reconnect readback")
+                freshness, ADAPTER_RESULT_KEYS,
+                f"{case_id} freshness expectation")
         if case["coverage"] not in COVERAGE or case["result_state"] not in RESULT_STATES:
             raise ValueError(f"{case_id}: coverage or result state invalid")
         if case["requested_use"] not in REQUESTED_USES or case["evidence_sources"] not in EVIDENCE_SOURCES:
