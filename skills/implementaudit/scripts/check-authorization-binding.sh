@@ -25,7 +25,7 @@ if [ "${1:-}" = "--phase" ]; then
   python - "$phase" "$rehearsal" "$launch" <<'PY'
 import datetime as dt,hashlib,json,os
 from pathlib import Path as P
-import re,socket,stat,subprocess,sys,tempfile,threading
+import re,signal,socket,stat,subprocess,sys,tempfile,threading
 
 def fail(message):
     print(f"check-authorization-binding: rehearsal rejected ({message})", file=sys.stderr); raise SystemExit(1)
@@ -135,6 +135,37 @@ def require_absent_terminal(stage):
 
 require_absent_terminal("before wrapper execution")
 
+# Both untrusted transport legs share one cleanup budget.  Their process trees
+# are isolated so a timeout cannot strand a wrapper or substitutable producer.
+PROCESS_TIMEOUT_SECONDS = 5
+
+def bounded_diagnostic(raw):
+    text = raw.decode("utf-8", errors="replace")[-4096:]
+    return re.sub(r"(?im)^([A-Z_]*(?:TOKEN|SECRET|PASSWORD|API_KEY)[A-Z_]*=).*?$", r"\1<redacted>", text)
+
+def terminate_process_tree(process):
+    if os.name == "nt":
+        subprocess.run(["taskkill", "/PID", str(process.pid), "/T", "/F"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+    else:
+        try: os.killpg(process.pid, signal.SIGKILL)
+        except ProcessLookupError: pass
+
+class BoundedProcessTimeout(Exception): pass
+
+def run_bounded_process(command, env, label, timeout=PROCESS_TIMEOUT_SECONDS):
+    options = {"env": env, "stdout": subprocess.PIPE, "stderr": subprocess.PIPE}
+    if os.name == "nt": options["creationflags"] = subprocess.CREATE_NEW_PROCESS_GROUP
+    else: options["start_new_session"] = True
+    process = subprocess.Popen(command, **options)
+    try:
+        _, stderr = process.communicate(timeout=timeout)
+    except subprocess.TimeoutExpired:
+        terminate_process_tree(process)
+        _, stderr = process.communicate()
+        detail = bounded_diagnostic(stderr)
+        raise BoundedProcessTimeout(f"{label} timed out after {timeout}s" + (f": {detail}" if detail else ""))
+    return process.returncode, stderr
+
 bridge_fd, bridge_raw = tempfile.mkstemp(prefix=".implementaudit-rehearsal-mediator-bridge-", dir=t.parent)
 os.close(bridge_fd)
 bridge_path = P(bridge_raw)
@@ -143,12 +174,13 @@ mediator = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 mediator.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 mediator.bind(("127.0.0.1", 0))
 mediator.listen(1)
-mediator.settimeout(2)
+mediator.settimeout(PROCESS_TIMEOUT_SECONDS + 1)
 mediator_endpoint = f"127.0.0.1:{mediator.getsockname()[1]}"
 bridge_path.write_text(f'''#!/usr/bin/env python3
 import json,socket
 h,p={mediator_endpoint!r}.rsplit(":",1)
-with socket.create_connection((h,int(p)),timeout=2) as c:
+with socket.create_connection((h,int(p)),timeout={PROCESS_TIMEOUT_SECONDS + 1}) as c:
+ c.settimeout({PROCESS_TIMEOUT_SECONDS + 1})
  c.sendall(b"IMPLEMENTAUDIT_REHEARSAL_MEDIATOR\\n");r=json.loads(c.recv(1024))
 raise SystemExit(r["exit_code"])
 ''', encoding="utf-8")
@@ -159,12 +191,13 @@ def run_bounded_stub():
     try:
         connection, _ = mediator.accept()
         with connection:
+            connection.settimeout(PROCESS_TIMEOUT_SECONDS + 1)
             if connection.recv(64) != b"IMPLEMENTAUDIT_REHEARSAL_MEDIATOR\n":
                 raise ValueError("invalid mediator request")
             command = ([sys.executable, str(s)] if s.suffix.casefold() == ".py" else [str(s)])
-            result = subprocess.run(command, env=stub_env, check=False)
-            mediated["exit_code"] = result.returncode
-            connection.sendall(json.dumps({"exit_code": result.returncode}).encode("utf-8"))
+            result, _ = run_bounded_process(command, stub_env, "producer")
+            mediated["exit_code"] = result
+            connection.sendall(json.dumps({"exit_code": result}).encode("utf-8"))
     except Exception as exc:
         mediated["error"] = str(exc)
 
@@ -180,19 +213,22 @@ run_env.update({
     "IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB": str(bridge_path),
 })
 try:
-    completed = subprocess.run(launch["argv"], env=run_env, check=False)
-except OSError as exc:
+    try:
+        completed, wrapper_stderr = run_bounded_process(launch["argv"], run_env, "wrapper", PROCESS_TIMEOUT_SECONDS + 2)
+    except BoundedProcessTimeout as exc:
+        fail(str(exc))
+    except OSError as exc:
+        fail(f"wrapper could not execute: {exc}")
+finally:
+    mediator_thread.join(PROCESS_TIMEOUT_SECONDS + 1)
     mediator.close()
     bridge_path.unlink(missing_ok=True)
-    fail(f"wrapper could not execute: {exc}")
-
-mediator_thread.join(3)
-mediator.close()
-bridge_path.unlink(missing_ok=True)
-if mediator_thread.is_alive() or "exit_code" not in mediated: fail("wrapper did not traverse mediator")
 if "error" in mediated: fail(f"mediator failed: {mediated['error']}")
+if mediator_thread.is_alive() or "exit_code" not in mediated: fail("wrapper did not traverse mediator")
 if mediated["exit_code"] != 0: fail(f"producer exited {mediated['exit_code']}")
-if completed.returncode != 0: fail(f"wrapper exited {completed.returncode}")
+if completed != 0:
+    detail = bounded_diagnostic(wrapper_stderr)
+    fail(f"wrapper exited {completed}" + (f": {detail}" if detail else ""))
 
 require_absent_terminal("when publishing the rehearsal terminal")
 try:

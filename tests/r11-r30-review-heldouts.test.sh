@@ -2,6 +2,13 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+outer_timeout_only=0
+windows_custody_only=0
+case "${1:-}" in
+  --outer-timeout-heldout) outer_timeout_only=1; shift;;
+  --windows-custody-reproducer) windows_custody_only=1; shift;;
+esac
+[ "$#" -eq 0 ] || { printf 'usage: r11-r30-review-heldouts.test.sh [--outer-timeout-heldout]\n' >&2; exit 2; }
 cd "$repo_root"
 
 checker="skills/implementaudit/scripts/check-authorization-binding.sh"
@@ -9,6 +16,49 @@ reachability="scripts/check-helper-reachability.sh"
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 failures=()
+
+if [ "$windows_custody_only" -eq 1 ]; then
+  candidate="$tmp/windows-custody-candidate"
+  mkdir -p "$candidate/tests"
+  cp tests/scarce-resource-rehearsal-contract.test.sh "$candidate/tests/"
+  sed -i '/^checker=/i sleep 60 \&\nprintf "%s\\n" "$!" > "$PWD/.windows-custody-child.pid"\nwait' \
+    "$candidate/tests/scarce-resource-rehearsal-contract.test.sh"
+  python - "$BASH" "$candidate" <<'PY'
+import os, subprocess, sys, time
+from pathlib import Path
+
+bash, candidate = sys.argv[1:]
+process = subprocess.Popen([bash, "tests/scarce-resource-rehearsal-contract.test.sh", "--r30-probe", "--repo-root", "."],
+    cwd=candidate, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+    creationflags=subprocess.CREATE_NEW_PROCESS_GROUP)
+pid_file = Path(candidate) / ".windows-custody-child.pid"
+deadline = time.monotonic() + 3
+while not pid_file.exists() and time.monotonic() < deadline:
+    time.sleep(.02)
+if not pid_file.exists():
+    process.kill(); process.communicate(); raise SystemExit("windows-custody: child PID was not recorded")
+child = int(pid_file.read_text(encoding="utf-8"))
+try:
+    process.communicate(timeout=1)
+except subprocess.TimeoutExpired:
+    subprocess.run(["taskkill", "/PID", str(process.pid), "/T", "/F"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+    try: process.kill()
+    except ProcessLookupError: pass
+    try: process.communicate(timeout=1)
+    except subprocess.TimeoutExpired:
+        if process.stdout: process.stdout.close()
+        if process.stderr: process.stderr.close()
+        try: process.wait(timeout=1)
+        except subprocess.TimeoutExpired: pass
+listed = subprocess.run(["tasklist", "/FI", f"PID eq {child}", "/FO", "CSV", "/NH"], capture_output=True, text=True, check=False)
+alive = str(child) in listed.stdout
+if alive:
+    subprocess.run(["taskkill", "/PID", str(child), "/T", "/F"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+raise SystemExit("windows-custody: launcher=%s child=%s survived=%s" % (process.pid, child, alive) if alive else 0)
+PY
+  printf 'r11-r30-review-heldouts: windows-custody reproducer unexpectedly cleaned child\n' >&2
+  exit 1
+fi
 
 python - "$tmp" <<'PY'
 import hashlib
@@ -133,6 +183,53 @@ expect_rejected() {
   local label="$1" candidate="$2"
   if bash "$reachability" --repo-root "$candidate" >/dev/null 2>&1; then failures+=("$label"); fi
 }
+expect_rejected_with_diagnostic() {
+  local label="$1" expected="$2" candidate="$3" output
+  if output="$(bash "$reachability" --repo-root "$candidate" 2>&1)"; then
+    failures+=("$label")
+  elif ! grep -Fq "$expected" <<<"$output"; then
+    failures+=("$label-diagnostic-lost")
+  fi
+}
+expect_no_pid() {
+  local label="$1" pid_file="$2"
+  python - "$pid_file" <<'PY' || failures+=("$label-child-survived")
+import os, subprocess, sys
+from pathlib import Path
+
+pid = int(Path(sys.argv[1]).read_text(encoding="utf-8"))
+if os.name == "nt":
+    result = subprocess.run(["taskkill", "/PID", str(pid), "/T", "/F"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+    raise SystemExit(1 if result.returncode == 0 else 0)
+try: os.kill(pid, 0)
+except OSError: raise SystemExit(0)
+os.kill(pid, 9)
+raise SystemExit(1)
+PY
+}
+if [ "$outer_timeout_only" -eq 1 ]; then
+  stalled_consumer="$(seed_candidate stalled-consumer)"
+  python - "$stalled_consumer/tests/scarce-resource-rehearsal-contract.test.sh" <<'PY'
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+text = path.read_text(encoding="utf-8")
+injection = 'printf "outer-timeout-diagnostic\\n" >&2\nsleep 60 &\nprintf "%s\\n" "$!" > "$PWD/.outer-timeout-child.pid"\nwait\n'
+if text.count("checker=") != 1:
+    raise SystemExit("expected one checker binding")
+path.write_text(text.replace("checker=", injection + "checker="), encoding="utf-8")
+PY
+  expect_rejected_with_diagnostic stalled-candidate-process-tree \
+    'outer-timeout-diagnostic' "$stalled_consumer"
+  expect_no_pid stalled-candidate-process-tree "$stalled_consumer/.outer-timeout-child.pid"
+  if [ "${#failures[@]}" -gt 0 ]; then
+    printf 'r11-r30-review-heldouts: GAP-REVISE reproduced: %s\n' "${failures[*]}" >&2
+    exit 1
+  fi
+  printf 'r11-r30-review-heldouts: outer-timeout heldout ok\n'
+  exit 0
+fi
 
 # R32 authority is the actual candidate F10 route.  These mutations collapse
 # the prior AST syntax corpus into execution-state controls.
@@ -171,6 +268,29 @@ expect_rejected handler-only-start "$handler_only"
 decorated="$(seed_candidate decorated-noop)"
 sed -i '/^def run_bounded_stub()/i def nullify(fn): return lambda: None\n@nullify' "$decorated/skills/implementaudit/scripts/check-authorization-binding.sh"
 expect_rejected decorated-noop-stub "$decorated"
+
+dead_consumer="$(seed_candidate dead-consumer)"
+python - "$dead_consumer/skills/implementaudit/scripts/validate-phase.sh" <<'PY'
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+text = path.read_text(encoding="utf-8")
+needle = '  IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB="$producer_stub" \\\n+'
+needle = '  IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB="$producer_stub" ' + chr(92) + '\n'
+replacement = '  cp "$rehearsal" "$(phase_field \'Rehearsal terminal artifact\')"\n  exit 0\n' + needle
+if text.count(needle) != 1:
+    raise SystemExit("expected one native rehearsal invocation")
+path.write_text(text.replace(needle, replacement), encoding="utf-8")
+PY
+expect_rejected_with_diagnostic dead-static-invocation-with-copied-terminal \
+  'R30 native phase route did not invoke the declared helper' "$dead_consumer"
+
+stalled_consumer="$(seed_candidate stalled-consumer)"
+sed -i '/^checker=/i printf "outer-timeout-diagnostic\\n" >&2\nsleep 60' \
+  "$stalled_consumer/tests/scarce-resource-rehearsal-contract.test.sh"
+expect_rejected_with_diagnostic stalled-candidate-process-tree \
+  'outer-timeout-diagnostic' "$stalled_consumer"
 
 inert="$(seed_candidate inert-deferred)"
 sed -i '/^mediator_thread\.start()$/i deferred_lambda = lambda: sys.exit(0)\ndeferred_generator = (sys.exit(0) for _ in ())\n[sys.exit(0) for _ in []]' "$inert/skills/implementaudit/scripts/check-authorization-binding.sh"

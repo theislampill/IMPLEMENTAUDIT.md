@@ -27,10 +27,44 @@ else
 fi
 
 "${py_cmd[@]}" - "$repo_root" "$BASH" "$census_only" <<'PY'
+import os
 import re
+import signal
 import subprocess
 import sys
 from pathlib import Path
+
+if os.name == "nt":
+    import ctypes
+    from ctypes import wintypes
+
+    class _BasicLimit(ctypes.Structure):
+        _fields_ = [("PerProcessUserTimeLimit", ctypes.c_longlong), ("PerJobUserTimeLimit", ctypes.c_longlong),
+                    ("LimitFlags", wintypes.DWORD), ("MinimumWorkingSetSize", ctypes.c_size_t),
+                    ("MaximumWorkingSetSize", ctypes.c_size_t), ("ActiveProcessLimit", wintypes.DWORD),
+                    ("Affinity", ctypes.c_size_t), ("PriorityClass", wintypes.DWORD), ("SchedulingClass", wintypes.DWORD)]
+    class _IoCounters(ctypes.Structure):
+        _fields_ = [(name, ctypes.c_ulonglong) for name in ("ReadOperationCount", "WriteOperationCount", "OtherOperationCount", "ReadTransferCount", "WriteTransferCount", "OtherTransferCount")]
+    class _ExtendedLimit(ctypes.Structure):
+        _fields_ = [("BasicLimitInformation", _BasicLimit), ("IoInfo", _IoCounters),
+                    ("ProcessMemoryLimit", ctypes.c_size_t), ("JobMemoryLimit", ctypes.c_size_t),
+                    ("PeakProcessMemoryUsed", ctypes.c_size_t), ("PeakJobMemoryUsed", ctypes.c_size_t)]
+    class _KillOnCloseJob:
+        def __init__(self):
+            self.kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+            self.handle = self.kernel32.CreateJobObjectW(None, None)
+            if not self.handle: raise OSError(ctypes.get_last_error(), "CreateJobObjectW")
+            limits = _ExtendedLimit()
+            limits.BasicLimitInformation.LimitFlags = 0x00002000  # KILL_ON_JOB_CLOSE
+            if not self.kernel32.SetInformationJobObject(self.handle, 9, ctypes.byref(limits), ctypes.sizeof(limits)):
+                self.close(); raise OSError(ctypes.get_last_error(), "SetInformationJobObject")
+        def assign(self, process):
+            if not self.kernel32.AssignProcessToJobObject(self.handle, wintypes.HANDLE(process._handle)):
+                self.close(); raise OSError(ctypes.get_last_error(), "AssignProcessToJobObject")
+        def close(self):
+            if self.handle:
+                self.kernel32.CloseHandle(self.handle)
+                self.handle = None
 
 root = Path(sys.argv[1]).resolve()
 bash_runner = sys.argv[2]
@@ -261,10 +295,53 @@ if not census_only:
     r30_probe = root / "tests" / "scarce-resource-rehearsal-contract.test.sh"
     if not r30_probe.is_file():
         raise SystemExit("check-helper-reachability: missing candidate-bound R30 rehearsal probe")
-    probe = subprocess.run([bash_runner, "tests/scarce-resource-rehearsal-contract.test.sh", "--r30-probe", "--repo-root", "."],
-                           cwd=root, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    probe_args = [bash_runner, "tests/scarce-resource-rehearsal-contract.test.sh", "--r30-probe", "--repo-root", "."]
+    probe_kwargs = {"cwd": root, "stdout": subprocess.PIPE, "stderr": subprocess.PIPE}
+    probe_job = None
+    if os.name == "nt":
+        probe_kwargs["creationflags"] = subprocess.CREATE_NEW_PROCESS_GROUP
+    else:
+        probe_kwargs["start_new_session"] = True
+    probe = subprocess.Popen(probe_args, **probe_kwargs)
+    if os.name == "nt":
+        probe_job = _KillOnCloseJob()
+        probe_job.assign(probe)
+    timed_out = False
+    try:
+        probe_stdout, probe_stderr = probe.communicate(timeout=12)
+    except subprocess.TimeoutExpired:
+        timed_out = True
+        if os.name == "nt":
+            probe_job.close()
+        else:
+            try:
+                os.killpg(probe.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+        if os.name != "nt":
+            try: probe.kill()
+            except ProcessLookupError: pass
+        try:
+            probe_stdout, probe_stderr = probe.communicate(timeout=2)
+        except subprocess.TimeoutExpired as residual:
+            # A killed direct child can still have a pipe-owning descendant.
+            # Do not let that descendant defeat the outer cleanup deadline.
+            probe_stdout = residual.output or b""
+            probe_stderr = residual.stderr or b""
+            if probe.stdout: probe.stdout.close()
+            if probe.stderr: probe.stderr.close()
+            try: probe.wait(timeout=2)
+            except subprocess.TimeoutExpired: pass
+    if probe_job:
+        probe_job.close()
+    diagnostic = probe_stderr.decode("utf-8", errors="replace")[-8192:]
+    diagnostic = re.sub(r"(?im)^([A-Z_]*(?:TOKEN|SECRET|PASSWORD|API_KEY)[A-Z_]*=).*?$", r"\1<redacted>", diagnostic)
+    if timed_out:
+        raise SystemExit("check-helper-reachability: candidate-bound R30 rehearsal probe timed out after 12s" +
+                         ("\n" + diagnostic if diagnostic else ""))
     if probe.returncode != 0:
-        raise SystemExit("check-helper-reachability: candidate-bound R30 rehearsal probe failed")
+        raise SystemExit("check-helper-reachability: candidate-bound R30 rehearsal probe failed" +
+                         ("\n" + diagnostic if diagnostic else ""))
 
 print(("HELPER_REACHABILITY_CENSUS=PASS " if census_only else "HELPER_REACHABILITY=PASS ") +
       f"population={len(helpers)} examined={len(rows)} "

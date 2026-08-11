@@ -58,7 +58,21 @@ import sys
 subprocess.run([sys.executable, os.environ["IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB"]], check=False)
 PY
 printf '%s\n' '#!/usr/bin/env python3' 'raise SystemExit(23)' > "$tmp/producer-stub-23.py"
-chmod +x "$tmp/production-wrapper.py" "$tmp/producer-stub.py" "$tmp/producer-stub-23.py" "$tmp/ignoring-wrapper.py"
+printf '%s\n' '#!/usr/bin/env python3' 'import time' 'time.sleep(60)' > "$tmp/producer-stub-hang.py"
+cat > "$tmp/producer-stub-child-hang.py" <<'PY'
+#!/usr/bin/env python3
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+child = subprocess.Popen([sys.executable, "-c", "import time; time.sleep(60)"])
+Path(__file__).with_suffix(".pid").write_text(str(child.pid), encoding="utf-8")
+time.sleep(60)
+PY
+printf '%s\n' '#!/usr/bin/env python3' 'import time' 'time.sleep(60)' > "$tmp/wrapper-hang.py"
+chmod +x "$tmp/production-wrapper.py" "$tmp/producer-stub.py" "$tmp/producer-stub-23.py" \
+  "$tmp/producer-stub-hang.py" "$tmp/producer-stub-child-hang.py" "$tmp/wrapper-hang.py" "$tmp/ignoring-wrapper.py"
 
 cat > "$tmp/phase-budget.md" <<'EOF'
 Scarce resource budget: 2 model-calls
@@ -233,6 +247,43 @@ write("receipt-ignored.json", ignored_receipt)
 phase("phase-ignored.md", out / "receipt-ignored.json", out / "launch-ignored.json", ignored_receipt, ignored_stub)
 PY
 
+python - "$tmp" <<'PY'
+import hashlib, json, re, sys
+from pathlib import Path
+
+out = Path(sys.argv[1])
+base_launch = json.loads((out / "launch-good.json").read_text(encoding="utf-8"))
+base_receipt = json.loads((out / "receipt-good.json").read_text(encoding="utf-8"))
+base_phase = (out / "phase-budget.md").read_text(encoding="utf-8")
+
+def command_hash(launch):
+    return hashlib.sha256(json.dumps({"argv": launch["argv"], "env_keys_present": sorted(launch["env_keys_present"])}, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest()
+
+def write_case(name, wrapper, stub):
+    launch = dict(base_launch)
+    launch["argv"] = [sys.executable, str(wrapper), "--input", "fixture.txt"]
+    launch["terminal_artifact_path"] = str(out / f"terminal-{name}.json")
+    receipt = dict(base_receipt)
+    receipt["rehearsed_command_hash"] = command_hash(launch)
+    receipt["stub_identity"] = "sha256:" + hashlib.sha256(stub.read_bytes()).hexdigest()
+    receipt["terminal_artifact_path"] = launch["terminal_artifact_path"]
+    (out / f"launch-{name}.json").write_text(json.dumps(launch), encoding="utf-8")
+    (out / f"receipt-{name}.json").write_text(json.dumps(receipt), encoding="utf-8")
+    replacements = {
+        "Rehearsal receipt": out / f"receipt-{name}.json", "Rehearsal launch": out / f"launch-{name}.json",
+        "Rehearsal producer stub": stub, "Rehearsal command hash": receipt["rehearsed_command_hash"],
+        "Rehearsal terminal artifact": receipt["terminal_artifact_path"],
+    }
+    phase = base_phase
+    for field, value in replacements.items():
+        phase = re.sub(rf"(?m)^{re.escape(field)}:.*$", lambda _: f"{field}: {value}", phase)
+    (out / f"phase-{name}.md").write_text(phase, encoding="utf-8")
+
+write_case("producer-hang", out / "production-wrapper.py", out / "producer-stub-hang.py")
+write_case("producer-child-hang", out / "production-wrapper.py", out / "producer-stub-child-hang.py")
+write_case("wrapper-hang", out / "wrapper-hang.py", out / "producer-stub.py")
+PY
+
 must_pass() {
   local label="$1"; shift
   "$@" >/dev/null 2>&1 || fail "$label must pass"
@@ -240,6 +291,32 @@ must_pass() {
 must_fail() {
   local label="$1"; shift
   if "$@" >/dev/null 2>&1; then fail "$label must fail"; fi
+}
+must_timeout_diagnostic() {
+  local label="$1" expected="$2"; shift 2
+  local log="$tmp/$label.log"
+  command -v timeout >/dev/null 2>&1 || fail "$label needs timeout"
+  if timeout 12 "$@" >"$log" 2>&1; then fail "$label must fail"; fi
+  grep -Fq "$expected" "$log" || { cat "$log" >&2; fail "$label must report $expected"; }
+}
+must_not_leave_pid() {
+  local label="$1" pid_file="$2"
+  python - "$pid_file" <<'PY' || fail "$label left a child process"
+import os, subprocess, sys
+from pathlib import Path
+
+pid = int(Path(sys.argv[1]).read_text(encoding="utf-8"))
+if os.name == "nt":
+    result = subprocess.run(["taskkill", "/PID", str(pid), "/T", "/F"],
+                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+    raise SystemExit(1 if result.returncode == 0 else 0)
+try:
+    os.kill(pid, 0)
+except OSError:
+    raise SystemExit(0)
+os.kill(pid, 9)
+raise SystemExit(1)
+PY
 }
 rehearse() {
   bash "$checker" --phase "$1" --rehearsal "$2" --launch "$3"
@@ -250,9 +327,94 @@ run_production_rehearsal() {
   "$@"
 }
 
+run_phase_with_timeout() {
+  local log_path="$1" seconds="$2"; shift 2
+  python - "$log_path" "$seconds" "$@" <<'PY'
+import os, signal, subprocess, sys
+from pathlib import Path
+
+log_path, seconds, *command = sys.argv[1:]
+creationflags = subprocess.CREATE_NEW_PROCESS_GROUP if os.name == "nt" else 0
+process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+    start_new_session=os.name != "nt", creationflags=creationflags)
+timed_out = False
+try:
+    stdout, stderr = process.communicate(timeout=float(seconds))
+except subprocess.TimeoutExpired:
+    timed_out = True
+    if os.name == "nt":
+        subprocess.run(["taskkill", "/PID", str(process.pid), "/T", "/F"],
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+    else:
+        os.killpg(process.pid, signal.SIGKILL)
+    stdout, stderr = process.communicate()
+Path(log_path).write_bytes(stdout + stderr)
+if timed_out:
+    sys.stderr.write(f"r30 probe: candidate validate-phase timed out after {seconds}s\n")
+    raise SystemExit(124)
+raise SystemExit(process.returncode)
+PY
+}
+
 r30_probe() {
-  must_pass R30-native-phase-consumer run_production_rehearsal \
-    bash skills/implementaudit/scripts/validate-phase.sh "$tmp/phase-consumer.md"
+  local probe_skills="$tmp/r30-probe-skills" real_helper="$tmp/r30-real-check-authorization-binding.sh"
+  local sentinel marker nonce log_path
+  marker="${IMPLEMENTAUDIT_TEST_R30_SENTINEL_MARKER:-$tmp/r30-sentinel-marker.json}"
+  log_path="$tmp/r30-probe-validator.log"
+  cp -R "$repo_root/skills" "$probe_skills"
+  sentinel="$probe_skills/implementaudit/scripts/check-authorization-binding.sh"
+  mv "$sentinel" "$real_helper"
+  cmp -s "$real_helper" "$repo_root/skills/implementaudit/scripts/check-authorization-binding.sh" \
+    || fail "R30 probe relocated helper differs from candidate source"
+  nonce="$(python - <<'PY'
+import secrets
+print(secrets.token_hex(32))
+PY
+)"
+  cat > "$sentinel" <<EOF
+#!/usr/bin/env bash
+set -euo pipefail
+python - "$marker" "$nonce" "\$@" <<'PY'
+import json, os, stat, sys
+from pathlib import Path
+
+marker, nonce, *argv = sys.argv[1:]
+fd = os.open(marker, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+with os.fdopen(fd, "w", encoding="utf-8") as stream:
+    json.dump({"nonce": nonce, "argv": argv}, stream, separators=(",", ":"))
+    stream.write("\\n")
+entry = Path(marker).lstat()
+if not stat.S_ISREG(entry.st_mode) or entry.st_nlink != 1:
+    raise SystemExit("invalid verifier sentinel marker")
+PY
+exec "$real_helper" "\$@"
+EOF
+  chmod 700 "$sentinel" "$real_helper"
+  if ! run_production_rehearsal run_phase_with_timeout "$log_path" 10 \
+    "$BASH" -c 'cd "$1" && exec bash validate-phase.sh "$2"' r30-probe \
+    "$probe_skills/implementaudit/scripts" "$tmp/phase-consumer.md"; then
+    cat "$log_path" >&2 || true
+    fail "R30 native phase consumer failed"
+  fi
+  python - "$marker" "$nonce" "$tmp/phase-consumer.md" "$tmp/receipt-consumer.json" "$tmp/launch-consumer.json" <<'PY' \
+    || fail "R30 native phase route did not invoke the declared helper"
+import json, os, stat, sys
+from pathlib import Path
+
+marker, nonce, phase, receipt, launch = map(Path, sys.argv[1:])
+entry = marker.lstat()
+if not stat.S_ISREG(entry.st_mode) or entry.st_nlink != 1:
+    raise SystemExit(1)
+observed = json.loads(marker.read_text(encoding="utf-8"))
+argv = observed.get("argv") if type(observed) is dict else None
+expected_paths = (phase, receipt, launch)
+identity = type(argv) is list and len(argv) == 6 and argv[::2] == ["--phase", "--rehearsal", "--launch"]
+if identity:
+    identity = all(Path(actual).resolve() == expected for actual, expected in zip(argv[1::2], expected_paths))
+if observed.get("nonce") != str(nonce) or not identity:
+    sys.stderr.write("r30 probe: verifier sentinel marker identity mismatch\n")
+    raise SystemExit(1)
+PY
   [ -f "$tmp/consumer-terminal.json" ] || fail "R30 native phase route did not bind terminal"
   python - "$tmp/launch-consumer.json" "$tmp/consumer-terminal.json" <<'PY' \
     || fail "R30 probe did not retain the zero-meter terminal receipt"
@@ -308,6 +470,24 @@ must_fail F6-stub-exit-propagation run_production_rehearsal rehearse \
   "$tmp/phase-ignored.md" "$tmp/receipt-ignored.json" "$tmp/launch-ignored.json"
 [ ! -e "$tmp/ignored-terminal.json" ] || fail "F6 nonzero stub must not receive a terminal"
 
+# The bounded transport cannot leave a hung producer or wrapper behind, and
+# must preserve its own timeout diagnostic rather than letting the outer test
+# watchdog become the only verdict.
+API_TOKEN=fixture-token MODEL=fixture-model HELDOUT_CREDENTIAL_SENTINEL=withhold-me \
+IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB="$tmp/producer-stub-hang.py" \
+must_timeout_diagnostic F6-producer-timeout 'producer timed out' \
+  bash "$checker" --phase "$tmp/phase-producer-hang.md" --rehearsal "$tmp/receipt-producer-hang.json" --launch "$tmp/launch-producer-hang.json"
+[ ! -e "$tmp/terminal-producer-hang.json" ] || fail "F6 producer timeout must not receive a terminal"
+IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB="$tmp/producer-stub-child-hang.py" \
+must_timeout_diagnostic F6-producer-child-timeout 'producer timed out' \
+  bash "$checker" --phase "$tmp/phase-producer-child-hang.md" --rehearsal "$tmp/receipt-producer-child-hang.json" --launch "$tmp/launch-producer-child-hang.json"
+must_not_leave_pid F6-producer-child-timeout "$tmp/producer-stub-child-hang.pid"
+API_TOKEN=fixture-token MODEL=fixture-model HELDOUT_CREDENTIAL_SENTINEL=withhold-me \
+IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB="$tmp/producer-stub.py" \
+must_timeout_diagnostic F6-wrapper-timeout 'wrapper timed out' \
+  bash "$checker" --phase "$tmp/phase-wrapper-hang.md" --rehearsal "$tmp/receipt-wrapper-hang.json" --launch "$tmp/launch-wrapper-hang.json"
+[ ! -e "$tmp/terminal-wrapper-hang.json" ] || fail "F6 wrapper timeout must not receive a terminal"
+
 # F7: a repaired receipt may pass on a manual re-run. The policy itself must
 # keep that repair manual and forbid automatic retries.
 unset IMPLEMENTAUDIT_TEST_SCOPE_GAP
@@ -319,6 +499,23 @@ must_pass F7 run_production_rehearsal rehearse "$tmp/phase-budget.md" "$tmp/rece
 # F10/R30: the native phase validator consumes the same audit object and
 # executes the declared checker route; this is not a direct-test/prose proxy.
 r30_probe
+
+# The verifier-owned sentinel accepts only an absent path it can create.  A
+# pre-existing hardlink or symlink must not become an alias for its marker.
+sentinel_victim="$tmp/r30-sentinel-victim"
+printf 'sentinel-victim\n' > "$sentinel_victim"
+for sentinel_alias in "$tmp/r30-sentinel-hardlink" "$tmp/r30-sentinel-symlink"; do
+  rm -f "$sentinel_alias"
+  if [ "$sentinel_alias" = "$tmp/r30-sentinel-hardlink" ]; then
+    ln "$sentinel_victim" "$sentinel_alias"
+  elif ! ln -s "$sentinel_victim" "$sentinel_alias" 2>/dev/null; then
+    continue
+  fi
+  if IMPLEMENTAUDIT_TEST_R30_SENTINEL_MARKER="$sentinel_alias" \
+    bash "$0" --r30-probe --repo-root "$repo_root" >/dev/null 2>&1; then
+    fail "F10 pre-existing sentinel alias must fail"
+  fi
+done
 
 # F8: strict schemas reject extras, value-bearing fields/key-value strings,
 # ordering/uniqueness violations, and booleans masquerading as integers.
