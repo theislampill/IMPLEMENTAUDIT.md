@@ -703,7 +703,7 @@ interrupted_move_requires_manual_custody() {
   local pre derived barrier="$tmp/move-after-destination" stdout="$tmp/move-after-destination.out" stderr="$tmp/move-after-destination.err" pid ticks=0 journal token
   pre="$(artifact move-crash-pre 4142434445)"; derived="$(instrumented_helper)" || fail 'R36 move-crash could not derive instrumented helper'
   rm -rf "$barrier"; mkdir "$barrier"
-  (set +e; IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=move-after-destination bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --operation move --target target --preimage "$pre" --destination destination >"$stdout" 2>"$stderr"; echo $? >"$barrier/exit") & pid=$!
+  IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=move-after-destination bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --operation move --target target --preimage "$pre" --destination destination >"$stdout" 2>"$stderr" & pid=$!
   while [ ! -f "$barrier/paused" ] && kill -0 "$pid" 2>/dev/null && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done
   [ -f "$barrier/paused" ] || { wait_bounded "$pid" 'R36 move-crash helper'; fail 'R36 move-crash never reached destination-published window'; }
   assert_hex R36-MOVE-CRASH-source-visible "$fixture_repo/target" 4142434445
@@ -728,7 +728,10 @@ PY
   assert_hex R36-MOVE-CRASH-recover-destination "$fixture_repo/destination" 4142434445
   [ -e "$journal" ] || fail 'R36 move-crash recover consumed journal'
   setup; pre="$(artifact move-clean-pre 4142434445)"; invoke R36-MOVE-CLEAN COMMITTED move target destination "$pre" 4142434445 --preimage "$pre" --destination destination
-  find "$run_root" -maxdepth 1 -type f -name '.r36-journal-*.json' -print -quit | grep -q . && fail 'R36 successful move retained a journal'
+  if [ -n "$(find "$run_root" -maxdepth 1 -type f -name '.r36-journal-*.json' -print -quit)" ]; then
+    fail 'R36 successful move retained a journal'
+  fi
+  return 0
 }
 
 state_family() {
