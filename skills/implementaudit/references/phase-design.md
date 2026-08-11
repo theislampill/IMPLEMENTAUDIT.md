@@ -278,6 +278,86 @@ first and asserting a non-null actual value. A verdict of "all N failed" with
 missing or null actuals is an Andon row — class `evidence-mismatch`,
 `Blocker: instrument-suspect` — not a finding.
 
+**Rule P4-16: Post-failure evaluator mutation (#164).**
+This rule activates only when candidate `C` fails evaluator `E` and `E`, or a
+relevant judgement surface for the same claim, is then changed. A product repair
+with `E` unchanged, an unrelated test change, and pre-candidate red-first test
+authoring stay on the ordinary path and create no R35 record.
+
+When the trigger fires, reuse the existing finding and repair-class row. Keep
+the original failing witness visible and classify the object of repair as
+`PRODUCT_DEFECT`, `EVALUATOR_DEFECT`, `COUPLED_CHANGE`, or `UNRESOLVED`. Record
+the property owner and consumer, the product/evaluator/stimulus/population or
+contract changes, independent contract evidence, proof level, population
+before and after, held-out positive/negative/boundary/adjacent discrimination,
+residual risk, rollback, and the stop or reclassification condition. A changed
+evaluator needs an old/new candidate by old/new evaluator matrix, or an
+authoritative independent instrument. If coupled effects cannot be isolated,
+the disposition remains `UNRESOLVED` or routes to owner decision.
+
+An evaluator repair may PASS only when authoritative property evidence shows
+why the old evaluator was wrong, the old witness is retained, the repaired
+instrument rejects a known-bad candidate where feasible, and held-out controls
+discriminate. An owner-authorised changed contract also records its effective
+boundary, migration and population effects; it does not rewrite the historical
+failure. A representation change is safe only when property equivalence and
+held-out discrimination remain intact. `STIMULUS` repair, prompt changes, mocks,
+and secondary instruments retain the prompt-independence, parity, liveness and
+proof-level rules above. A post-failure prompt change keeps the before/after
+missions, expected answers, forbidden mission phrases, distractors and held-out
+prompts distinct; neither the expected answer nor a distractor may be exposed in
+the scored mission.
+
+An unchanged defective candidate becoming green because an assertion, golden,
+expected answer, tolerance, denominator, population, bypass, skip list, mock or
+prompt was eased is not proof. Preserving a literal while losing the property is
+also a failure. Completing the mutation row grants no PASS, and a failing
+held-out negative overrides form completeness. Stop when the owner is known,
+the repair object is classified, the original and held-out controls
+discriminate, and no material coupled residual remains. Absorb the evidence into
+the ordinary finding/closure surfaces and retire the temporary row; do not
+create a permanent evaluator registry or worksheet.
+
+The same evidence row has a second activation surface,
+`CANDIDATE_CONTROLLED_VALIDATION_POLICY`. It activates when the candidate delta
+semantically intersects validation-shaping authority used to judge that
+candidate. A changed path, test file, support file, or name match is not itself
+an activation signal. Product-only work and non-judgement support changes keep
+the ordinary cheap path.
+
+Classify the intersecting delta as `PRODUCT_ONLY`, `POLICY_STRENGTHENING`,
+`AUTHORISED_POLICY_CHANGE`, `CANDIDATE_CONTROLLED_POLICY_WEAKENING`,
+`NEW_POLICY_NO_BASELINE_EQUIVALENT`, or `COUPLED_OR_UNRESOLVED` without replacing
+the original product/evaluator classification. Candidate-carried deletion,
+skip guidance, configuration, narrowing, bypass, registry removal, or owner
+unreachability cannot authenticate its own green result. A strengthening may
+supplement acceptance only while the independently required baseline remains.
+An authorised repair retains the original witness, authoritative contract, and
+held-out positive, negative, boundary, and adjacent discrimination. A genuinely
+new policy without a baseline equivalent additionally requires explicit
+external owner authority and independent property discrimination.
+
+If a governing validation owner moves, normal discovery must still reach it.
+Otherwise FAIL unless an authoritative migration proves the new route and an
+equivalent or stronger governed property; R30 remains the complete reachability
+owner. Record candidate and parent identities, the semantic owner delta,
+independent property, classification, baseline/candidate behaviour, migration,
+residual coupling, and rollback in the existing R35 row. Do not create a
+universal policy ledger, test-path trigger, model call, helper, marker, or
+parallel lifecycle.
+
+Those fields are evidence, not candidate assertions. Use full candidate and
+accepted-parent identities; intersect exact changed validation owners with the
+owners actually invoked for acceptance; locate the independent owner and
+contract with an effective boundary and an authority identity distinct from the
+candidate; retain the original witness identity in the evidence population;
+and record baseline and candidate verdicts for positive, negative, boundary,
+and adjacent controls. Derive activation, authority, witness retention, and
+equivalent-or-stronger behaviour from that structure. A bare `unchanged`,
+intersection, authority, contract, witness, or equivalence Boolean cannot
+suppress or satisfy Surface B. Preserve discovery and migration evidence,
+residual/coupled state, and the rollback or reclassification boundary.
+
 ---
 
 ## Phase shape examples
