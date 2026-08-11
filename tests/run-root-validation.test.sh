@@ -966,4 +966,30 @@ expect_cold_review_fail "$live_dropped_findings" \
   "live successor/non-verdict contract failed" \
   "live dropped provisional findings"
 
+# R36 strict claim-only custody: ordinary legacy run-root validation remains
+# compatible, while destructive callers require an exact v2 Git-bound claim.
+claim_repo="$tmp/claim-only-repo"
+mkdir -p "$claim_repo"
+git -C "$claim_repo" init -q
+git -C "$claim_repo" config user.email claim@example.invalid
+git -C "$claim_repo" config user.name claim-only-test
+claim_rel="$(cd "$claim_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" 'strict custody' 2>/dev/null)"
+claim_root="$claim_repo/$claim_rel"
+for promised in STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md; do printf 'fixture\n' > "$claim_root/$promised"; done
+bash "$helper" --claim-only "$claim_root" --repo-root "$claim_repo" >/dev/null || {
+  printf 'run-root-validation.test: valid v2 Git claim must pass strict claim-only\n' >&2; exit 1;
+}
+copied_repo="$tmp/claim-only-copied"
+mkdir -p "$copied_repo"
+git -C "$copied_repo" init -q
+cp -a "$claim_root" "$copied_repo/copied-root"
+if bash "$helper" --claim-only "$copied_repo/copied-root" --repo-root "$copied_repo" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: copied claim must fail strict custody\n' >&2; exit 1
+fi
+if ln -s "$claim_root" "$tmp/claim-only-link" 2>/dev/null; then
+  if bash "$helper" --claim-only "$tmp/claim-only-link" --repo-root "$claim_repo" >/dev/null 2>&1; then
+    printf 'run-root-validation.test: symlinked claim root must fail strict custody\n' >&2; exit 1
+  fi
+fi
+
 printf 'run-root-validation.test: ok\n'

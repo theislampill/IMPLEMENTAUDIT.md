@@ -10,6 +10,59 @@ err() {
 warn() { printf 'validate-run-root: WARNING: %s\n' "$*" >&2; }
 has_non_whitespace() { LC_ALL=C grep -q '[^[:space:]]' "$1" 2>/dev/null; }
 
+if [ "${1:-}" = "--claim-only" ]; then
+  run_arg="${2:-}"; [ "${3:-}" = "--repo-root" ] && repo_arg="${4:-}" || repo_arg=""
+  [ -n "$run_arg" ] && [ -n "$repo_arg" ] && [ "$#" -eq 4 ] || { printf 'usage: validate-run-root.sh --claim-only <run-root> --repo-root <repo-root>\n' >&2; exit 2; }
+  if command -v python >/dev/null 2>&1; then claim_py=(python)
+  elif command -v python3 >/dev/null 2>&1; then claim_py=(python3)
+  elif command -v py >/dev/null 2>&1; then claim_py=(py -3)
+  else printf 'validate-run-root: Python is required for strict claim validation\n' >&2; exit 2; fi
+  "${claim_py[@]}" - "$run_arg" "$repo_arg" <<'PY'
+import os,re,stat,subprocess,sys
+from pathlib import Path
+run_arg,repo_arg=sys.argv[1:]
+def die(s): print('validate-run-root: '+s,file=sys.stderr); raise SystemExit(1)
+def canon(p): return os.path.normcase(os.path.abspath(p))
+def unsafe(p):
+ try: st=os.lstat(p)
+ except OSError: die(f'custody path missing: {p}')
+ return stat.S_ISLNK(st.st_mode) or bool(getattr(st,'st_file_attributes',0)&0x400)
+repo=Path(os.path.abspath(repo_arg)); run=Path(os.path.abspath(run_arg))
+if unsafe(repo) or not repo.is_dir(): die('repo root is not a regular custody directory')
+try:
+ top=subprocess.check_output(['git','-C',str(repo),'rev-parse','--show-toplevel'],text=True).strip()
+ common=subprocess.check_output(['git','-C',str(repo),'rev-parse','--git-common-dir'],text=True).strip()
+except subprocess.CalledProcessError: die('repo root is not a Git worktree')
+if canon(top)!=canon(repo): die('supplied repo root is not the canonical Git worktree')
+common=common if os.path.isabs(common) else os.path.join(str(repo),common)
+try: rel=run.relative_to(repo)
+except ValueError: die('run root is outside repository')
+for p in [repo,*[repo/Path(*rel.parts[:i]) for i in range(1,len(rel.parts)+1)]]:
+ if unsafe(p): die(f'custody path is symlink/reparse: {p}')
+if not run.is_dir(): die('run root is not a directory')
+claim=run/'.claimed'
+if unsafe(claim) or not stat.S_ISREG(os.lstat(claim).st_mode): die('.claimed is not a regular custody file')
+rows=claim.read_text(encoding='utf-8').splitlines()
+if any(not x or '=' not in x for x in rows): die('.claimed has blank or malformed key')
+pairs=[x.split('=',1) for x in rows]; keys=[x[0] for x in pairs]
+want=['schema','claim_id','claimed_at_utc','mode','templates','repo_root','git_common_dir','run_base','run_root','run_name']
+if keys!=want: die('.claimed v2 keys/order do not match strict schema')
+d=dict(pairs)
+if d['schema']!='implementaudit.run-claim.v2' or not re.fullmatch(r'[0-9a-f]{32}',d['claim_id']): die('.claimed v2 schema or claim_id invalid')
+if d['mode']!='full' or d['run_base']!='.IMPLEMENTAUDIT/runs': die('.claimed mode/base is not R36 strict custody')
+if canon(d['repo_root'])!=canon(repo) or canon(d['git_common_dir'])!=canon(common): die('.claimed repository or common-dir custody drift')
+if d['run_root']!=rel.as_posix() or d['run_name']!=run.name or len(rel.parts)!=3 or rel.parts[:2]!=('.IMPLEMENTAUDIT','runs'): die('.claimed run identity drift')
+if not re.fullmatch(r'[a-z0-9][a-z0-9-]*-[A-Za-z0-9]{6}',d['run_name']): die('.claimed run name is not claim-run shaped')
+templates='STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md'
+if d['templates']!=templates: die('.claimed template promise drift')
+for name in templates.split():
+ p=run/name
+ if unsafe(p) or not stat.S_ISREG(os.lstat(p).st_mode): die(f'claimed template is not regular custody: {name}')
+print('validate-run-root: claim ok')
+PY
+  exit $?
+fi
+
 graph_python=()
 case "${1:-}" in
   --graph-freshness|--graph-scope|--graph-parent)
