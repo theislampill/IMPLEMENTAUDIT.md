@@ -13,7 +13,12 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ## [Unreleased]
 
-No changes are recorded after the final corrected `v0.3.3.3` release.
+### Changed
+
+- R33 package builds now use pinned, deterministic Zopfli method-8 DEFLATE.
+  Extracted member bytes, paths, modes, timestamps, runtime dependencies and
+  the 230,000-byte owner outer bound are unchanged; the stronger build-only
+  compressor restores headroom without deleting governed runtime semantics.
 
 ## [v0.3.3.3] - 2026-08-11
 
