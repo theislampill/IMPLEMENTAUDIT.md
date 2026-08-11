@@ -2,6 +2,9 @@ flowchart TB
   G["`Graphify
   optional scoped terrain
   orientation only`"]
+  T["`TokenSave
+  optional supported-code navigation
+  derived evidence only`"]
   I["`IMPLEMENTAUDIT
   engineering and assurance method`"]
   L["`Live repository files
@@ -18,6 +21,7 @@ flowchart TB
   not proof by itself`"]
 
   G -.->|suggests where to inspect| I
+  T -.->|maps supported code relations| I
   I -->|must verify claims against| L
   I -->|records governed execution in| R
   R -.->|may mirror when authorised| A

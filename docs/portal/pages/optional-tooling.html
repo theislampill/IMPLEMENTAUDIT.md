@@ -1,13 +1,17 @@
 <div class="page-eyebrow">Evidence</div>
       <h1>Optional tooling</h1>
-      <p class="lead">Narrow optional tools: first-contact terrain and checkpoint assistance, never required for normal runs.</p>
-      <div class="hero-card"><h2>You do not need these tools for a normal run.</h2><p>Markdown work records, ledgers, final reports, and run folders when phased are the durable path.<br>Graphify is limited to qualified first-contact terrain; ActiveGraph is limited to authorised fork/diff checkpoint assistance and an optional mirror.<br>They do not replace real files, the run root, before/after checks, or the final audit ledger.</p></div>
+      <p class="lead">Narrow optional tools: first-contact terrain, supported-code navigation, and checkpoint assistance; never required for normal runs.</p>
+      <div class="hero-card"><h2>You do not need these tools for a normal run.</h2><p>Markdown work records, ledgers, final reports, and run folders when phased are the durable path.<br>Graphify is limited to qualified first-contact terrain; TokenSave to derived supported-code navigation; ActiveGraph to authorised fork/diff checkpoint assistance and an optional mirror.<br>They do not replace real files, the run root, before/after checks, or the final audit ledger.</p></div>
 
       <h2 id="graphify">Graphify</h2>
       <p><a href="https://github.com/safishamsi/graphify">Graphify</a> is a candidate only for an unfamiliar, majority-code repo and a terrain-shaped question that one deterministic search cannot answer.<br>Data-file consumers, constants/literals, embedded languages, prose censuses, definition/consumer lookup, and Git topology route to ordinary tools.</p>
       <p>An outside-repo catalogue records canonical scan root, Graphify-manifest population, exact file/config hashes from repo root through that root, matching root-prefixed graph <code>source_file</code> population, ancestor build provenance, graph digest, and a proper covering parent.<br><code>--graph-scope</code> selects/checks the smallest scope covering the paths; symlinks and info/global Git excludes cannot conceal new files. <code>.graphifyignore</code> takes precedence over fallback <code>.gitignore</code>; divergent positive double-star patterns and active nested ignore/include rules fail closed to live files as <code>unsupported-config</code>. <code>--graph-parent</code> broadens one declared step for miss, ambiguity, or cross-scope need; <code>relation-omission</code> first revalidates the child, then exits to deterministic live-file census without broadening/model dispatch. Drift or corrupt data fire <code>stale-sidecar</code>. Legacy graphs may compare <code>built_at_commit</code> with <code>git rev-parse HEAD</code>.</p>
       <p>The qualified scoped route is structural <code>llm: false</code>. Graphify 0.8.37 has no <code>--code-only</code> flag, and its incremental <code>--no-cluster</code> route was rejected after dropping unchanged terrain. A relation absent from the graph routes to deterministic live-file census, not repeated broadening or model inference.</p>
       <p>The scoped feature does not qualify semantic/Luna behaviour. Any later model pass requires positive/control cells, an owner-named backend/model, exact corpus, privacy, usage, and out-of-band spend disclosure. Filtering is a filename heuristic, spend may be unmeasurable, auto-detection is refused, and Ollama is explicitly unauthorized.</p>
+
+      <h2 id="tokensave">TokenSave</h2>
+      <p><a href="https://github.com/aovestdipaperino/tokensave">TokenSave</a> is an optional deterministic code-navigation layer for supported symbol and dependency relations when a repeated or transitive source walk earns its cost. Its current index can provide bounded derived or partial evidence; consequential results still require live-source confirmation. Stale, unsupported, extraction-failed, conflicting or wrong-worktree results route to ordinary Gemba.</p>
+      <p>Documentation, policy, public projection, non-code artefacts, an exact supplied file and tiny reversible work are <code>NO TOKENSAVE</code> paths. Installation and indexing require separate authorisation. The repo-local database can retain complete function bodies and rendered-source cache, remains untracked, and never enters the package. Editing, test-running, session/memory tools, broad auto-approval and discovery-interception hooks are outside supported use.</p>
 
       <h2 id="activegraph">ActiveGraph</h2>
       <p><a href="https://github.com/yoheinakajima/activegraph">ActiveGraph</a> may provide authorised <code>fork</code> / <code>diff</code> resume-from-checkpoint assistance.<br>An event store is an optional non-authoritative mirror; the run root remains the sole lifecycle authority, and <code>replay</code> does not reconstruct the tested custom-event custody use case.</p>
@@ -25,6 +29,7 @@
       <p>Tool install, indexing, event-store setup, and export are separate owner-authorised actions.</p>
       <ul>
         <li>Do not install Graphify without authorisation.</li>
+        <li>Do not install or index with TokenSave without authorisation.</li>
         <li>Do not index a repo without authorisation.</li>
         <li>Do not configure ActiveGraph without authorisation.</li>
         <li>Do not export sidecar data without authorisation.</li>
@@ -36,6 +41,7 @@
       <h2 id="sidecar-conventions">Sidecar conventions</h2>
       <div class="artifact-card-grid">
         <section class="artifact-card"><h3>Graphify terrain</h3><dl><dt>Concrete convention</dt><dd>Outside-repo catalogue and graphs; record selected scope, exact population/fingerprint, ancestor build provenance, digest, and any declared-parent reason.</dd><dt>Proof boundary</dt><dd>First-contact orientation only; stale scope or an absent relation routes to deterministic live files.</dd></dl></section>
+        <section class="artifact-card"><h3>TokenSave code navigation</h3><dl><dt>Concrete convention</dt><dd>Current checkout/index, supported relation, coverage, query and live-source follow-up.</dd><dt>Proof boundary</dt><dd>Derived represented-code evidence only; no completeness, mutation authority or acceptance proof.</dd></dl></section>
         <section class="artifact-card"><h3>ActiveGraph checkpoint</h3><dl><dt>Concrete convention</dt><dd>Authorized <code>fork</code> / <code>diff</code>; an optional <code>&lt;run-root&gt;/custody.db</code> or trace may mirror events.</dd><dt>Proof boundary</dt><dd>Checkpoint assistance or non-authoritative mirror only; the run root remains authoritative.</dd></dl></section>
         <section class="artifact-card"><h3>Andon custody events</h3><dl><dt>Concrete convention</dt><dd><code>andon.probe.recorded</code>, <code>andon.escalated</code>, and <code>andon.handoff.recorded</code> can mirror failure handling.</dd><dt>Proof boundary</dt><dd>Preserves failure chain; does not replace the Markdown Andon log.</dd></dl></section>
         <section class="artifact-card"><h3>Run-level sidecar status</h3><dl><dt>Concrete convention</dt><dd><code>sidecars.md</code> records availability, authorisation, output summaries, and fallback.</dd><dt>Proof boundary</dt><dd>Status evidence; does not authorise setup, export, or indexing.</dd></dl></section>
@@ -81,7 +87,7 @@
       <p><code>README.md</code> optional tooling, <code>skills/implementaudit/templates/sidecars.md</code>, and <code>skills/implementaudit/references/lean-operating-discipline.md</code>.</p>
 
       <h2 id="absent-safe-rule">Absent-safe rule</h2>
-      <p>If Graphify or ActiveGraph is missing, stale, or unauthorised, continue with live file inspection and Markdown ledgers.<br>Missing optional tooling is not a blocker for ordinary consuming repos, and dogfood sidecars still do not prove correctness by themselves.</p>
+      <p>If Graphify, TokenSave or ActiveGraph is missing, stale, unsupported or unauthorised, continue with live file inspection and Markdown ledgers.<br>Missing optional tooling is not a blocker for ordinary consuming repos, and dogfood sidecars still do not prove correctness by themselves.</p>
 
       <h2 id="when-optional-tools-help">When optional tools help</h2>
       <p>Qualified terrain may orient first contact.<br>An authorised mirror may copy already-recorded run-root events.<br>Neither replaces deterministic owner/source checks, before/after evidence, final audit, or source evidence.</p>

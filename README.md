@@ -272,6 +272,9 @@ flowchart TB
   G["`Graphify
   optional scoped terrain
   orientation only`"]
+  T["`TokenSave
+  optional supported-code navigation
+  derived evidence only`"]
   I["`IMPLEMENTAUDIT
   engineering and assurance method`"]
   L["`Live repository files
@@ -288,6 +291,7 @@ flowchart TB
   not proof by itself`"]
 
   G -.->|suggests where to inspect| I
+  T -.->|maps supported code relations| I
   I -->|must verify claims against| L
   I -->|records governed execution in| R
   R -.->|may mirror when authorised| A
@@ -297,13 +301,14 @@ flowchart TB
 
 <!-- END: implementaudit-diagram:tooling-architecture -->
 
-Two-tier policy: the sidecars are **optional everywhere** — absence blocks
-nothing, `/implementaudit` remains fully usable with neither tool installed,
+Progressive policy: optional tools are **optional everywhere** — absence blocks
+nothing, `/implementaudit` remains fully usable with none installed,
 and Markdown fallback is first-class. This repo is the dogfood evidence base,
 not a universal capability claim. Graphify is narrowed to first-contact terrain
-orientation when every trigger holds; ActiveGraph is narrowed to authorized
+orientation when every trigger holds; TokenSave to derived supported-code
+navigation when the walk earns its cost; ActiveGraph to authorized
 `fork` / `diff` checkpoint assistance and an optional non-authoritative mirror.
-Consumers inherit no maintenance obligation. Neither sidecar replaces the run
+Consumers inherit no maintenance obligation. No optional tool replaces the run
 root, live-file gates, or proof.
 
 ## Quick Vocabulary, Not Authority
@@ -339,6 +344,7 @@ instead of replacing them.
 - Gemba / Genchi Genbutsu: inspect the real repo artifact, output, or path; do
   not rely on memory or summaries when the live surface exists.
 - Graphify: optional terrain/orientation aid; not canonical proof.
+- TokenSave: optional supported-code navigation; derived evidence only.
 - ActiveGraph: optional fork/diff checkpoint aid or non-authoritative mirror; not canonical proof.
 - Provenance/checksum manifest: bounded artifact integrity evidence. A checksum
   manifest is not a signature, SBOM, attestation, marketplace verification, or
@@ -932,17 +938,17 @@ into the ledger and inspect live files before patching or closing them.
 
 ## Optional tooling
 
-Optional tooling can improve orientation and custody, but it does not change
+Optional tooling can improve orientation, code navigation, and custody, but it does not change
 `/implementaudit` safety rules.
 
-Tool installation, Graphify indexing, ActiveGraph event-store setup,
+Tool installation, Graphify or TokenSave indexing, ActiveGraph event-store setup,
 ActiveGraph export, local commit, push, tag, release, publication, and
 provenance are separate gates. Installing a tool does not authorise any later
 action.
 
 ### First-run onboarding
 
-On first runs, `/implementaudit` may detect Graphify and ActiveGraph
+On first runs, `/implementaudit` may detect Graphify, TokenSave, and ActiveGraph
 availability. Missing tools are not errors.
 
 Default behavior:
@@ -988,6 +994,24 @@ semantic/Luna behaviour; Ollama is explicitly unauthorized. Detailed scope,
 catalogue, freshness, privacy, and backend boundaries live in
 [`references/sidecars.md`](skills/implementaudit/references/sidecars.md).
 
+### TokenSave-assisted code navigation
+
+TokenSave is an optional deterministic navigation layer for supported code
+relations when a repeated or transitive dependency walk earns its indexing and
+query cost. A current result is derived evidence about the represented code,
+not complete program truth. Consequential symbol, caller/callee, impact, context
+or test-mapping findings still require live-source confirmation; stale,
+unsupported, extraction-failed or conflicting results route to ordinary Gemba.
+
+Documentation, policy, public projection, arbitrary non-code artefacts, an exact
+file already supplied, and tiny reversible work are cheap `NO TOKENSAVE` paths.
+Installation, indexing and configuration require separate authorisation. Its
+repo-local database can retain source bodies and rendered-source cache, so it
+stays untracked and outside packages. IMPLEMENTAUDIT does not adopt TokenSave's
+editing, test-running, session/memory tools, broad auto-approval, or discovery-
+interception hooks. Detailed evidence, privacy, freshness and authority limits
+live in [`references/sidecars.md`](skills/implementaudit/references/sidecars.md).
+
 ### ActiveGraph checkpoint assistance and optional mirror
 
 ActiveGraph may assist an authorised fork/diff checkpoint or hold a separately
@@ -1005,6 +1029,8 @@ Interop boundaries are explicit:
 - Graphify-supported behaviour must be distinguished from ImplementAudit
   heuristics.
 - Graphify summaries and graph output are not proof.
+- TokenSave code relations are derived evidence, not repository completeness,
+  mutation authority, or acceptance proof.
 - ActiveGraph custody is not correctness proof.
 - ImplementAudit custom adapter events are not upstream ActiveGraph built-ins
   unless explicitly identified as such.

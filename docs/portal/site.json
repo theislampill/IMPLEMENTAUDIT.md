@@ -421,6 +421,8 @@
       "sources": [
         "README.md",
         "AGENTS.md",
+        "docs/diagrams/tooling-architecture.mmd",
+        "skills/implementaudit/references/sidecars.md",
         "skills/implementaudit/references/lean-operating-discipline.md",
         "skills/implementaudit/templates/sidecars.md",
         "skills/implementaudit/scripts/custody-append.sh"

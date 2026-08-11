@@ -591,6 +591,19 @@ and ordinary Gemba; they must not block the run.
   owner-named backend. Auto-detection and Ollama remain unauthorised.
 - Graphify absence is not a blocker. Fall back to live-file Gemba and repo-state.sh.
 
+**TokenSave code-navigation rules (when present and authorized):**
+- Activate only for a supported code-relation question whose repeated or
+  transitive walk earns indexing/query cost. Record current checkout/index,
+  coverage and query; verify consequential results in live source.
+- Classify results as derived, partial, stale, unsupported or unresolved. A
+  current database is not complete program truth; conflicts and extraction
+  limits route to Gemba.
+- Use `NO TOKENSAVE` for docs, policy, public projection, non-code artefacts,
+  an exact supplied file or tiny reversible work. Absence is not a blocker.
+- Authorise installation/index/config separately. Keep local databases untracked
+  and disclose source retention and metadata calls. Do not use TokenSave edit,
+  test, session or memory tools as IMPLEMENTAUDIT authority.
+
 **ActiveGraph checkpoint assistance and optional mirror:**
 - The run root remains the sole authority for lifecycle facts. ActiveGraph's
   evidenced use is authorized `fork` / `diff` resume-from-checkpoint.

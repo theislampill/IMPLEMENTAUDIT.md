@@ -217,6 +217,133 @@ PY
   exit 0
 fi
 
+if [ "${1:-}" = "--evaluate-tokensave-claims" ]; then
+  [ "$#" -eq 2 ] || fail "usage: check-sidecar-boundaries.sh --evaluate-tokensave-claims <cases.json>"
+  fixture="$2"
+  require_file "$fixture"
+  if command -v python >/dev/null 2>&1; then
+    py_cmd=(python)
+  elif command -v python3 >/dev/null 2>&1; then
+    py_cmd=(python3)
+  elif command -v py >/dev/null 2>&1; then
+    py_cmd=(py -3)
+  else
+    fail "python, python3, or py -3 is required for TokenSave claim fixtures"
+  fi
+  "${py_cmd[@]}" - "$fixture" <<'PY'
+import json
+import sys
+
+path = sys.argv[1]
+TOP_KEYS = {"schema", "cases"}
+CASE_KEYS = {
+    "id", "query_shape", "index_state", "coverage", "result_state",
+    "live_readback", "requested_use", "evidence_sources", "expected",
+}
+EXPECTED_KEYS = {"classification", "verdict"}
+QUERY_SHAPES = {
+    "supported-code-relation", "documentation", "policy",
+    "public-projection", "exact-file", "tiny-task", "installation",
+}
+INDEX_STATES = {"current", "stale", "missing", "branch-unknown"}
+COVERAGE = {"full-represented", "partial", "unsupported", "failed", "unknown"}
+RESULT_STATES = {"consistent", "conflicting", "none"}
+REQUESTED_USES = {
+    "navigation", "complete-proof", "mutation-authority",
+    "complete-acceptance", "independent-corroboration", "silent-setup",
+}
+EVIDENCE_SOURCES = {"none", "tokensave", "tokensave+graphify"}
+ANTI_TRIGGERS = {"documentation", "policy", "public-projection", "exact-file", "tiny-task"}
+
+
+def exact_keys(value, expected, label):
+    if not isinstance(value, dict) or set(value) != expected:
+        raise ValueError(f"{label}: keys must be exactly {sorted(expected)}")
+
+
+def result(classification, verdict):
+    return {"classification": classification, "verdict": verdict}
+
+
+def classify(case):
+    use = case["requested_use"]
+    shape = case["query_shape"]
+    if use == "silent-setup":
+        return result("SETUP_AUTHORITY_UNPROVED", "REJECT_OVERCLAIM")
+    if use == "mutation-authority":
+        return result("MUTATION_AUTHORITY_UNPROVED", "REJECT_OVERCLAIM")
+    if use == "complete-acceptance":
+        return result("ACCEPTANCE_UNPROVED", "REJECT_OVERCLAIM")
+    if use == "independent-corroboration":
+        return result("INDEPENDENCE_UNPROVED", "REJECT_OVERCLAIM")
+    if use == "complete-proof":
+        return result("PROGRAM_COMPLETENESS_UNPROVED", "REJECT_OVERCLAIM")
+    if shape in ANTI_TRIGGERS and use == "navigation":
+        return result("NO_TOKENSAVE", "PASS_CHEAP")
+    if shape != "supported-code-relation" or use != "navigation":
+        raise ValueError(f"{case['id']}: unsupported query/use combination {shape}/{use}")
+    if case["index_state"] == "missing":
+        return result("NO_TOKENSAVE", "PASS_CHEAP")
+    if case["index_state"] in {"stale", "branch-unknown"}:
+        return result("TOKENSAVE_STALE", "REJECT_OVERCLAIM")
+    if case["coverage"] in {"unsupported", "failed"}:
+        return result("TOKENSAVE_UNSUPPORTED", "REJECT_OVERCLAIM")
+    if case["result_state"] == "conflicting":
+        return result("TOKENSAVE_UNRESOLVED", "REJECT_OVERCLAIM")
+    if case["coverage"] == "unknown":
+        return result("TOKENSAVE_UNRESOLVED", "REJECT_OVERCLAIM")
+    if not case["live_readback"]:
+        return result("LIVE_SOURCE_UNVERIFIED", "REJECT_OVERCLAIM")
+    if (case["index_state"] == "current" and
+            case["result_state"] == "consistent" and
+            case["evidence_sources"] == "tokensave"):
+        if case["coverage"] == "full-represented":
+            return result("TOKENSAVE_DERIVED_FACT", "PASS_BOUNDED")
+        if case["coverage"] == "partial":
+            return result("TOKENSAVE_PARTIAL_FACT", "PASS_BOUNDED")
+    raise ValueError(f"{case['id']}: unsupported state combination")
+
+
+try:
+    with open(path, encoding="utf-8") as handle:
+        fixture = json.load(handle)
+    exact_keys(fixture, TOP_KEYS, "fixture")
+    if fixture["schema"] != "implementaudit.tokensave_claims.v1":
+        raise ValueError("fixture schema invalid")
+    cases = fixture["cases"]
+    if not isinstance(cases, list) or not cases:
+        raise ValueError("fixture cases must be a non-empty list")
+    seen = set()
+    for index, case in enumerate(cases):
+        exact_keys(case, CASE_KEYS, f"case {index}")
+        case_id = case["id"]
+        if not isinstance(case_id, str) or not case_id:
+            raise ValueError(f"case {index}: id invalid")
+        if case_id in seen:
+            raise ValueError(f"duplicate case id: {case_id}")
+        seen.add(case_id)
+        if case["query_shape"] not in QUERY_SHAPES or case["index_state"] not in INDEX_STATES:
+            raise ValueError(f"{case_id}: query shape or index state invalid")
+        if case["coverage"] not in COVERAGE or case["result_state"] not in RESULT_STATES:
+            raise ValueError(f"{case_id}: coverage or result state invalid")
+        if case["requested_use"] not in REQUESTED_USES or case["evidence_sources"] not in EVIDENCE_SOURCES:
+            raise ValueError(f"{case_id}: requested use or evidence sources invalid")
+        if type(case["live_readback"]) is not bool:
+            raise ValueError(f"{case_id}: live_readback must be boolean")
+        exact_keys(case["expected"], EXPECTED_KEYS, f"{case_id} expected")
+        actual = classify(case)
+        if actual != case["expected"]:
+            raise ValueError(
+                f"{case_id}: expected {json.dumps(case['expected'], sort_keys=True)} "
+                f"got {json.dumps(actual, sort_keys=True)}")
+except (OSError, ValueError, json.JSONDecodeError) as exc:
+    raise SystemExit(f"tokensave-claim: {exc}")
+
+print(f"tokensave-claim: ok ({len(cases)}/{len(cases)})")
+PY
+  exit 0
+fi
+
 require_file skills/implementaudit/SKILL.md
 require_file skills/implementaudit/templates/THINKING.md
 require_file skills/implementaudit/templates/PROTOCOL.md
@@ -287,6 +414,14 @@ require_literal skills/implementaudit/references/sidecars.md \
 require_literal skills/implementaudit/templates/PROTOCOL.md \
   "With no durable causal/counterfactual need," "ActiveGraph cheap-path consumer"
 require_literal skills/implementaudit/references/sidecars.md "missed-use-detection goal is retired" "missed-use retirement"
+require_literal skills/implementaudit/references/sidecars.md "TokenSave-derived" "TokenSave evidence ceiling"
+require_literal skills/implementaudit/references/sidecars.md "NO TOKENSAVE" "TokenSave cheap path"
+require_literal skills/implementaudit/references/sidecars.md "function bodies and rendered-source cache" "TokenSave local source-retention disclosure"
+require_literal skills/implementaudit/references/sidecars.md "Editing, test-running, session" "TokenSave mutation firewall"
+require_literal skills/implementaudit/templates/PROTOCOL.md "TokenSave code-navigation rules" "TokenSave runtime route"
+require_literal README.md "### TokenSave-assisted code navigation" "TokenSave README projection"
+require_literal docs/diagrams/tooling-architecture.mmd "optional supported-code navigation" "TokenSave tooling-diagram projection"
+require_literal docs/portal/pages/optional-tooling.html "id=\"tokensave\"" "TokenSave portal projection"
 require_literal skills/implementaudit/references/lean-operating-discipline.md "dogfood-only" "as-tested dogfood qualification"
 require_literal skills/implementaudit/references/lean-operating-discipline.md "module-level constants" "known Graphify limitations"
 require_literal skills/implementaudit/references/lean-operating-discipline.md "non-authoritative mirror" "ActiveGraph authority narrowing"
