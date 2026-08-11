@@ -1,66 +1,154 @@
-# Governed state-space convergence mode (EXPERIMENTAL, optional)
+# Governed state-space convergence mode (qualified, optional, progressive)
 
-STATUS: experimental, DAEE-derived hypothesis (n=1, single project,
-transcript-verified only). This is an OPTIONAL reference loaded ONLY when
-the trigger below fires. It is NOT part of the bootloader path and imposes
-zero burden on ordinary runs. Core-protocol adoption is gated on the
-adoption-gate fixtures passing a #9-style model evaluation; until then this
-mode is a documented option, not a requirement.
+STATUS: qualified optional progressive reference. Repository-generic design and
+IMPLEMENTAUDIT self-dogfood are established; external effectiveness remains
+unproved. It is not part of the ordinary bootloader path. Load only on the
+trigger below; otherwise create no record, model call, or review lane.
 
 ## When it applies (trigger)
 
-Consider this mode when EITHER holds:
+The default hypothesis begins at the **second independently verified rejection
+in the same failure family**. Before convergence activates, bounded evidence
+must establish all of these:
 
-- Two or more same-family review rejections, each surfacing ONE neighboring
-  reachable state of the same partially-specified state machine; or
-- A second-order (#7) governing-rule judgment of "under-specified reachable
-  state space" — the defects share an invariant the spec never pinned.
+- both rejections violate the same authoritative owner/source invariant and
+  failure mechanism;
+- the second report is not a `duplicate` of the first;
+- the failed states are related by a stated dimension, boundary, or mutation
+  operator;
+- the relevant product, checker, or instrument owner is identified; and
+- a local one-off repair cannot retire the shared residual more cheaply.
 
-If only a single fault is in play (no shared under-specified space), DO NOT
-use this mode: an enumeration artifact there is over-process.
+Route an exact repeat as `duplicate`. Route materially distinct owners,
+mechanisms, or safety consequences as `unrelated`. Route missing or disputed
+family evidence as `unresolved-family`. Retain the `cheap-path` for one fault,
+trivial or reversible local work, and cases where a local repair demonstrably
+retires the shared residual. The single-fault fixture must NOT trigger.
 
-A `Mechanism-replacement decision: escalate-to-convergence-mode (<shared
-invariant>)` record is a documented producer of real-world trigger evidence.
-It records the escalation judgment; it does not adopt this experimental mode.
+A second-order governing-rule judgement may open the same bounded classifier;
+it does not bypass it. A `Mechanism-replacement decision:
+escalate-to-convergence-mode (<shared invariant>)` records the transition from
+example patching to state-model repair in the existing audit object. It creates
+no new lifecycle or marker family.
 
-## The mode
+## Materially ambiguous family evidence
 
-When the trigger fires, escalate from the serial repair loop (narrow repair
-→ full expensive requalification → next finding) to bounded enumeration:
+R32 owns family classification. When it remains **materially ambiguous**
+between multiple plausible mechanisms, no authoritative deterministic
+discriminator settles it, and seeding the favoured explanation could correlate
+the evidence, progressively load `child-agents.md` and use its R34-owned
+**exploratory hypothesis discrimination** variant before synthesis.
 
-1. **Bounded read-only discovery** — enumerate the reachable neighboring
-   states of the shared space, read-only, without repairing yet.
-2. **Enumeration artifact** — record the enumerated states as a durable
-   artifact, then omission-review it (what neighbor did the enumeration
-   miss?).
-3. **Generated RED fixtures** — turn each enumerated state into a failing
-   fixture before repair.
-4. **One coherent repair** — repair the class at its shared invariant, not
-   state by state.
-5. **Exactly one outer qualification** — requalify once against the full
-   RED fixture set, not once per state.
+Share authoritative common facts, scope, security constraints, and evidence
+boundaries, but keep first returns conclusion-neutral. Require a
+decision-changing discriminator, counterexample, or concrete mechanism, then
+synthesise and cross-pollinate. Seeded paraphrases and lane counts are not
+independent evidence; fresh-context serial passes qualify when concurrency is
+unavailable. Do not activate when evidence already classifies the family, only
+one material mechanism remains, the cheap path applies, or a known candidate is
+under adversarial review. If another pass offers no new discriminator, changed
+evidence, or plausible mechanism, stop and preserve `unresolved-family`.
 
-## Exit
+## Evidence axes remain distinct
 
-Exit on acceptance (all enumerated states pass the single outer
-qualification) OR on evidence the space was misjudged (the enumeration
-found no shared invariant — revert to the ordinary serial loop and record
-why). Expressed generically: no lane counts, no matrix formats, no project
-machinery.
+- **Temporal:** preserve Smoke A, the governed intervention, and Smoke B as the
+  before/after comparison. A retrospective family model does not recreate the
+  pre-state.
+- **Structural:** R32 owns the invariant, dimensions, equivalence classes,
+  malformed and boundary states, adjacent and held-out mutations, distractor
+  exclusions, coherent repair, and outer qualification.
+- **Epistemic, only when triggered:** R34 owns the informational independence
+  and marginal value of exploratory passes.
+- **Measurement:** R35 owns the original failing witness, evaluator identity,
+  and independent justification for a changed measurement surface under Rule
+  P4-16 in `phase-design.md`.
 
-## Adoption gate (must pass before this becomes core protocol)
+Bind all applicable axes to exact source, package, runtime, and producer exits
+on existing evidence and closure surfaces. Add no orthogonality receipt,
+worksheet, schema, checker, or marker. One exact incident may support several
+axes when its identity and scope match; receipt existence alone is not proof.
 
-- Synthetic fixture: a planted 3-dimension under-specified state machine
-  where two seeded review cycles each find one neighbor. A model following
-  this reference must record the escalation decision and the enumeration
-  artifact BEFORE the third repair, and must beat the serial-loop baseline
-  on cycles-to-convergence.
-- Negative control: a single-fault fixture — the mode must NOT trigger; an
-  enumeration artifact there scores as over-process.
+## The convergence mode
 
-Both adoption-gate fixtures live in the source repo only (under the
-project's fixtures tree), not in the installed payload. The gate is a
-model-in-the-loop evaluation (#9 harness); it has not yet been run, so this
-mode remains optional and non-core. The gate may consume dated, class-labelled,
-owner/source-attributed mechanism-decision records as real-world trigger
-evidence, while the shared single-fault fixture remains the negative control.
+When the classifier returns convergence:
+
+1. **Bounded read-only discovery** — enumerate the reachable neighbouring
+   states of the shared space without repairing yet.
+2. **Enumeration artefact** — in the existing audit object, record included
+   counterexamples, excluded distractors, state dimensions, equivalence
+   classes, explicit valid states, malformed and boundary states, and bounded
+   mutation operators; omission-review what the enumeration may have missed.
+3. **Generated RED fixtures** — make each enumerated state fail before repair
+   and retain adjacent and held-out discriminators.
+4. **One coherent repair** — repair the shared owner/source invariant rather
+   than the latest visible example.
+5. **Exactly one outer qualification** — run the full RED fixture set once
+   after the coherent repair, then obtain the independently required final
+   review. Do not requalify after every state patch.
+
+The existing audit object's convergence record names the owner, invariant and
+mechanism, with referential binding among included failures, excluded
+distractors, dimensions, classes, mutations, and states. Every valid,
+malformed, boundary, and adjacent state has an ID, bound dimension/class,
+non-empty state payload, and expected invariant outcome. Distractor objects
+resolve every exclusion and its out-of-family owner, invariant, or mechanism;
+an in-family exclusion is incoherent.
+
+Every included failure must match the record family and bind a known dimension,
+class, and mutation. The independently verified subset alone forms the trigger;
+an unverified included member remains structurally accountable but cannot help
+establish the second-rejection threshold.
+
+Each held-out ID resolves a payload-bearing state, bound mutation, expected
+invariant and discriminator outcome. A deterministic payload evaluator derives
+expected and current-model invariant/family-discriminator outcomes from the
+state and record; declarations must agree. Derive PASS only from that agreement;
+never trust aligned declarations or self-declared PASS. RED witnesses resolve included failures, while the record
+retains outer qualification, review yield, residual risk, and stop or
+reclassification. Dangling references, unknown dimensions/classes/mutations,
+failing held-outs, overbroad families, substituted owners, and unrepaired green
+forms reject.
+
+Renaming, paraphrasing, punctuation changes, and moving the same counterexample
+do not create a new family when the owner invariant and mutation relation are
+unchanged. Conversely, a taxonomy that merges distinct owners or mechanisms,
+cannot bound its dimensions, or cannot name exclusions is not a convergence
+model.
+
+## Evaluator integrity
+
+Pre-candidate RED-first fixture authoring stays ordinary. After failure, changing
+the classifier, expected route, fixture population, checker, prompt, threshold,
+or evaluator for the same claim activates R35 Rule P4-16. Preserve the original
+failing witness and evaluator identity; classify product, evaluator, coupled, or
+unresolved change; and use the old/new candidate-by-evaluator matrix or an
+authoritative independent instrument as required. New green alone proves
+nothing. Prefer mechanical evidence. A prompt-independent model cell may review
+residual ambiguity under R35, but never replaces repository truth or live-owner
+verification.
+
+## Exit and marginal review yield
+
+Exit with acceptance when adjacent and held-out discriminators pass, the
+governing invariant passes the outer qualification, and no named material
+residual remains. Exit to the ordinary serial route when the bounded discovery
+finds no shared invariant. Preserve `unresolved-family` or seek owner decision
+when the family cannot be established safely.
+
+After the coherent repair, an additional review pass must name the residual
+risk and classify its expected yield as a new failure class, a new member of a
+known class, duplicate confirmation, or non-blocking style. Run it only when
+the expected discriminator earns its marginal cost. New material evidence can
+reopen the loop; a round count never substitutes for evidence.
+
+## Qualification evidence and limits
+
+R32 recovered 48 findings across R30, #144, and R31: 45 included, three reasoned
+exclusions, zero duplicates or ambiguities. Fourteen deterministic cases cover
+convergence, duplicate, unrelated, unresolved-family, and cheap-path routes;
+relabelled, overbroad, owner-substitution, missing-held-out, failing-held-out,
+and unpriced-repeat controls reject. The three-dimension positive and
+single-fault negative remain evidence. This qualifies narrow progressive
+IMPLEMENTAUDIT adoption, not an optimal trigger in every repository, automated
+family judgement, or benefit across other agents, hosts, repositories, or skill
+ecosystems. R29 owns that public boundary.

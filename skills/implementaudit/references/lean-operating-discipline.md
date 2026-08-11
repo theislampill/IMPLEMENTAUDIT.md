@@ -207,6 +207,58 @@ traces, consumer links, and exact state comparisons; model judgement is review
 evidence only when those cannot discriminate the expected-risk or human-value
 question.
 
+## Package semantic preservation
+
+A package or footprint failure is not closed by a smaller artefact alone. Use
+the existing package finding/evidence row when the repair changes shipped
+content, moves an owner or required consumer, changes package membership or an
+installed path, follows the change into generated/public material, or changes
+a checker, fixture, threshold, golden, prompt, or expected answer because the
+candidate failed. Do not create a package-only lifecycle, ledger, or marker.
+
+The R34 admission rule still governs cost. Record the smallest evidence that
+names the live driver, authoritative owner and consumer, protected consequence,
+cheapest sufficient discriminator, expected evidence, marginal cost, non-trigger
+path, and exit/retirement condition. If those fields do not support a permanent
+control, defer or omit it while leaving the package failure and existing gates
+truthful.
+
+No semantic-preservation record is needed for ordinary non-package work.
+Exact extracted-member and metadata-policy equality is sufficient for an archive or
+compression-algorithm change when no shipped owner or consumer predicate
+changes. Harmless whitespace/deduplication stays cheap when owner-backed
+predicates and required consumers are equivalent. These mechanical paths make
+no model call.
+
+For a triggered change, record exact before/after package identity, size,
+members, headroom and changed blobs; classify the change; state the behaviours
+at risk as owner-backed predicates; distinguish exact literals whose bytes are
+owned by a parser, checker, public promise, canonical event token, or
+interoperability contract; enumerate every required runtime, checker,
+installed, generated, and public consumer; and prove reachability/parity.
+Retaining a phrase while breaking its consumer is a failure. Changing a phrase
+is neither an automatic PASS nor an automatic failure when no exact-byte owner
+exists.
+
+Closure is one of: harmless compression with extracted consumers unchanged;
+equivalent refactor with predicates and consumers proved equivalent; a
+progressive split whose owner is shipped, same-run reachable, tested, and
+publicly projected where required; an authorised architecture change with
+migration and rollback; or a visible calibration/owner decision. Content in an
+unshipped or unreachable owner, a failed held-out consumer, or unresolved
+headroom conflict cannot become PASS.
+
+R35 governs every post-failure evaluator mutation. Preserve the original witness
+and complete mutation record, and require independent property evidence
+before accepting a changed checker, fixture, threshold, golden, prompt, or
+expected answer. Weakening the measurement surface, leaking the expected answer,
+or retaining a proxy while the governed property fails is not semantic closure.
+
+Rollback restores the last semantically complete owner and consumer routes and
+reruns the unchanged byte gate. If restored semantics do not fit, keep the
+package failure visible and route to architecture, evidence-derived calibration,
+or owner decision; never recover headroom by deleting governed behaviour.
+
 ## Environment-quirk memoization
 
 When the same normalized host or tool error reaches a second distinct linked

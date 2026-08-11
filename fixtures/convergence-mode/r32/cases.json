@@ -1,0 +1,429 @@
+{
+  "schema": "implementaudit-r32-deterministic-cases-v2",
+  "evidence_boundary": "Repo-generic deterministic design with qualified optional IMPLEMENTAUDIT self-dogfood; external effectiveness unproved",
+  "cases": [
+    {
+      "id": "R32-C01-second-same-family",
+      "expected_route": "convergence",
+      "work": {"trivial": false, "local": false, "reversible": true},
+      "local_repair_retires_shared_residual": false,
+      "model_call": false,
+      "failures": [
+        {"id": "F1", "label": "caller decoy accepted", "owner": "scripts/check-helper-reachability.sh", "invariant": "packaged-helper-same-run-dispatch", "mechanism": "helper-caller-evidence-false-pass", "state_dimension": "caller-command-shape", "state_class": "quoted-command-text", "mutation_relation": "adjacent-class", "independently_verified": true},
+        {"id": "F2", "label": "non-executing shell form accepted", "owner": "scripts/check-helper-reachability.sh", "invariant": "packaged-helper-same-run-dispatch", "mechanism": "helper-caller-evidence-false-pass", "state_dimension": "caller-command-shape", "state_class": "syntax-check-operand", "mutation_relation": "adjacent-class", "independently_verified": true}
+      ],
+      "record": {
+        "owner": "scripts/check-helper-reachability.sh",
+        "invariant": "packaged-helper-same-run-dispatch",
+        "mechanism": "helper-caller-evidence-false-pass",
+        "included": ["F1", "F2"],
+        "excluded": ["D1"],
+        "dimensions": ["caller-command-shape", "operand-position"],
+        "classes": [
+          {"id": "quoted-command-text", "dimension": "caller-command-shape"},
+          {"id": "syntax-check-operand", "dimension": "caller-command-shape"},
+          {"id": "executable-command", "dimension": "caller-command-shape"},
+          {"id": "immediate-operand", "dimension": "operand-position"},
+          {"id": "separated-operand", "dimension": "operand-position"}
+        ],
+        "valid_states": [
+          {"id": "C01-V1", "dimension": "caller-command-shape", "class": "executable-command", "payload": {"argv": ["bash", "scripts/check-helper-reachability.sh"]}, "expected_invariant": "pass"}
+        ],
+        "malformed_states": [
+          {"id": "C01-M1", "dimension": "caller-command-shape", "class": "quoted-command-text", "payload": {"command_text": "echo helper-name"}, "expected_invariant": "fail"}
+        ],
+        "boundary_states": [
+          {"id": "C01-B1", "dimension": "operand-position", "class": "immediate-operand", "payload": {"argv": ["bash", "helper.sh"]}, "expected_invariant": "pass"}
+        ],
+        "adjacent_states": [
+          {"id": "C01-A1", "dimension": "caller-command-shape", "class": "syntax-check-operand", "payload": {"argv": ["bash", "-n", "helper.sh"]}, "expected_invariant": "fail"}
+        ],
+        "mutation_operators": [
+          {"id": "adjacent-class", "dimension": "caller-command-shape", "from_class": "quoted-command-text", "to_class": "syntax-check-operand"},
+          {"id": "boundary-shift", "dimension": "operand-position", "from_class": "immediate-operand", "to_class": "separated-operand"},
+          {"id": "reorder-sequence", "dimension": "caller-command-shape", "from_class": "syntax-check-operand", "to_class": "executable-command"}
+        ],
+        "red_witnesses": ["F1", "F2"],
+        "distractors": [
+          {"id": "D1", "owner": "docs/helper-guide.md", "invariant": "helper-name-mentioned", "mechanism": "prose-presence", "state_dimension": "document-kind", "state_class": "guide", "mutation_relation": "move-path", "payload": {"text": "helper-name"}, "exclusion_reason": "documentation presence is not same-run executable dispatch"}
+        ],
+        "held_out_ids": ["H1"],
+        "held_out": [
+          {"id": "H1", "dimension": "operand-position", "class": "separated-operand", "mutation": "boundary-shift", "state": {"argv": ["bash", "-lc", "./helper.sh"], "family": {"owner": "scripts/check-helper-reachability.sh", "invariant": "packaged-helper-same-run-dispatch", "mechanism": "helper-caller-evidence-false-pass"}}, "expected_invariant": "pass", "observed_invariant": "pass", "expected_discriminator": "same-family", "observed_discriminator": "same-family", "result": "pass"}
+        ],
+        "outer_qualification": "pass",
+        "review_yield": [{"expected_yield": "duplicate", "residual_risk": "", "decision": "stop"}]
+      }
+    },
+    {
+      "id": "R32-C02-renamed-rephrased-same-family",
+      "expected_route": "convergence",
+      "work": {"trivial": false, "local": false, "reversible": true},
+      "local_repair_retires_shared_residual": false,
+      "model_call": false,
+      "failures": [
+        {"id": "F3", "label": "new path is invisible", "owner": "skills/implementaudit/scripts/validate-run-root.sh", "invariant": "scope-population-freshness", "mechanism": "population-census-divergence", "state_dimension": "ignore-semantics", "state_class": "tracked-ignore", "mutation_relation": "move-path", "independently_verified": true},
+        {"id": "F4", "label": "freshness says yes after the filename moved", "owner": "skills/implementaudit/scripts/validate-run-root.sh", "invariant": "scope-population-freshness", "mechanism": "population-census-divergence", "state_dimension": "ignore-semantics", "state_class": "root-double-star", "mutation_relation": "paraphrase-message", "independently_verified": true}
+      ],
+      "record": {
+        "owner": "skills/implementaudit/scripts/validate-run-root.sh",
+        "invariant": "scope-population-freshness",
+        "mechanism": "population-census-divergence",
+        "included": ["F3", "F4"],
+        "excluded": ["unrelated-relation-omission"],
+        "dimensions": ["ignore-semantics", "path-depth"],
+        "classes": [
+          {"id": "tracked-ignore", "dimension": "ignore-semantics"},
+          {"id": "root-double-star", "dimension": "ignore-semantics"},
+          {"id": "included", "dimension": "ignore-semantics"},
+          {"id": "ignored", "dimension": "ignore-semantics"},
+          {"id": "root", "dimension": "path-depth"},
+          {"id": "nested", "dimension": "path-depth"}
+        ],
+        "valid_states": [
+          {"id": "C02-V1", "dimension": "ignore-semantics", "class": "included", "payload": {"tracked": true, "ignored": false}, "expected_invariant": "pass"}
+        ],
+        "malformed_states": [
+          {"id": "C02-M1", "dimension": "ignore-semantics", "class": "ignored", "payload": {"pattern": "[unsupported"}, "expected_invariant": "fail"}
+        ],
+        "boundary_states": [
+          {"id": "C02-B1", "dimension": "path-depth", "class": "root", "payload": {"path": "STATE.md"}, "expected_invariant": "pass"}
+        ],
+        "adjacent_states": [
+          {"id": "C02-A1", "dimension": "ignore-semantics", "class": "tracked-ignore", "payload": {"tracked": true, "ignored": true}, "expected_invariant": "fail"}
+        ],
+        "mutation_operators": [
+          {"id": "move-path", "dimension": "ignore-semantics", "from_class": "tracked-ignore", "to_class": "root-double-star"},
+          {"id": "paraphrase-message", "dimension": "ignore-semantics", "from_class": "root-double-star", "to_class": "tracked-ignore"},
+          {"id": "rename-label", "dimension": "ignore-semantics", "from_class": "tracked-ignore", "to_class": "included"}
+        ],
+        "red_witnesses": ["F3", "F4"],
+        "distractors": [
+          {"id": "unrelated-relation-omission", "owner": "graph/extractor.py", "invariant": "encode-call-relations", "mechanism": "relation-model-omission", "state_dimension": "relation-kind", "state_class": "script-call", "mutation_relation": "adjacent-class", "payload": {"edge": "script-a -> script-b"}, "exclusion_reason": "relation extraction is not scope population freshness"}
+        ],
+        "held_out_ids": ["H2"],
+        "held_out": [
+          {"id": "H2", "dimension": "ignore-semantics", "class": "root-double-star", "mutation": "move-path", "state": {"path": "nested/STATE.md", "tracked": false, "ignored": false, "family": {"owner": "skills/implementaudit/scripts/validate-run-root.sh", "invariant": "scope-population-freshness", "mechanism": "population-census-divergence"}}, "expected_invariant": "pass", "observed_invariant": "pass", "expected_discriminator": "same-family", "observed_discriminator": "same-family", "result": "pass"}
+        ],
+        "outer_qualification": "pass",
+        "review_yield": [{"expected_yield": "none", "residual_risk": "", "decision": "stop"}]
+      }
+    },
+    {
+      "id": "R32-C03-unrelated-owners-and-mechanisms",
+      "expected_route": "unrelated",
+      "work": {"trivial": false, "local": false, "reversible": true},
+      "model_call": false,
+      "failures": [
+        {"id": "U1", "owner": "skills/implementaudit/scripts/validate-run-root.sh", "invariant": "scope-population-freshness", "mechanism": "population-census-divergence", "state_dimension": "ignore-semantics", "state_class": "tracked-ignore", "mutation_relation": "adjacent-class", "independently_verified": true},
+        {"id": "U2", "owner": "tests/issue-ready-work-orders.test.sh", "invariant": "non-closing-pr-linkage", "mechanism": "start-anchored-pattern", "state_dimension": "linkage-text-position", "state_class": "multiline-auto-close", "mutation_relation": "move-path", "independently_verified": true}
+      ]
+    },
+    {
+      "id": "R32-C04-unresolved-missing-mechanism",
+      "expected_route": "unresolved-family",
+      "work": {"trivial": false, "local": false, "reversible": true},
+      "model_call": false,
+      "failures": [
+        {"id": "A1", "owner": "tests/example.test.sh", "invariant": "one-owner", "mechanism": "presence-check", "state_dimension": "presence", "state_class": "missing", "mutation_relation": "delete-required-field", "independently_verified": true},
+        {"id": "A2", "owner": "tests/example.test.sh", "invariant": "one-owner", "state_dimension": "presence", "state_class": "empty", "mutation_relation": "adjacent-class", "independently_verified": true}
+      ]
+    },
+    {
+      "id": "R32-C05-overbroad-family-rejected",
+      "expected_route": "unrelated",
+      "expected_record_verdict": "reject",
+      "expected_record_error": "imposes convergence work on route unrelated",
+      "work": {"trivial": false, "local": false, "reversible": true},
+      "model_call": false,
+      "failures": [
+        {"id": "O1", "owner": "scripts/check-helper-reachability.sh", "invariant": "same-run-dispatch", "mechanism": "caller-proof", "state_dimension": "command", "state_class": "comment", "mutation_relation": "adjacent-class", "independently_verified": true},
+        {"id": "O2", "owner": "tests/release-asset.test.sh", "invariant": "package-headroom", "mechanism": "byte-ceiling", "state_dimension": "bytes", "state_class": "over-ceiling", "mutation_relation": "boundary-shift", "independently_verified": true}
+      ],
+      "record": {"proposed_family": "anything-that-failed-a-check"}
+    },
+    {
+      "id": "R32-C06-single-fault-cheap-path",
+      "expected_route": "cheap-path",
+      "work": {"trivial": false, "local": true, "reversible": true},
+      "model_call": false,
+      "failures": [
+        {"id": "S1", "owner": "src/loop.py", "invariant": "visit-final-item", "mechanism": "off-by-one", "state_dimension": "loop-bound", "state_class": "last-item-missed", "mutation_relation": "boundary-shift", "independently_verified": true}
+      ]
+    },
+    {
+      "id": "R32-C07-tiny-reversible-work-cheap-path",
+      "expected_route": "cheap-path",
+      "work": {"trivial": true, "local": true, "reversible": true},
+      "model_call": false,
+      "failures": [
+        {"id": "T1", "owner": "README.md", "invariant": "correct-spelling", "mechanism": "typo", "state_dimension": "word", "state_class": "misspelt", "mutation_relation": "rename-label", "independently_verified": true},
+        {"id": "T2", "owner": "README.md", "invariant": "correct-spelling", "mechanism": "typo", "state_dimension": "word", "state_class": "same-typo-moved", "mutation_relation": "move-path", "independently_verified": true}
+      ]
+    },
+    {
+      "id": "R32-C08-local-repair-retires-shared-residual",
+      "expected_route": "cheap-path",
+      "work": {"trivial": false, "local": true, "reversible": true},
+      "local_repair_retires_shared_residual": true,
+      "model_call": false,
+      "failures": [
+        {"id": "L1", "owner": "src/schema.py", "invariant": "reject-empty-id", "mechanism": "missing-guard", "state_dimension": "id-presence", "state_class": "missing", "mutation_relation": "delete-required-field", "independently_verified": true},
+        {"id": "L2", "owner": "src/schema.py", "invariant": "reject-empty-id", "mechanism": "missing-guard", "state_dimension": "id-presence", "state_class": "empty", "mutation_relation": "adjacent-class", "independently_verified": true}
+      ]
+    },
+    {
+      "id": "R32-C09-filled-record-failing-held-out",
+      "expected_route": "convergence",
+      "expected_record_verdict": "reject",
+      "expected_record_error": "held-out mutation still fails",
+      "work": {"trivial": false, "local": false, "reversible": true},
+      "model_call": false,
+      "failures": [
+        {"id": "H1", "owner": "src/parser.py", "invariant": "reject-duplicate-keys", "mechanism": "last-write-wins", "state_dimension": "nesting-depth", "state_class": "top-level", "mutation_relation": "adjacent-class", "independently_verified": true},
+        {"id": "H2", "owner": "src/parser.py", "invariant": "reject-duplicate-keys", "mechanism": "last-write-wins", "state_dimension": "nesting-depth", "state_class": "nested", "mutation_relation": "adjacent-class", "independently_verified": true}
+      ],
+      "record": {
+        "owner": "src/parser.py", "invariant": "reject-duplicate-keys", "mechanism": "last-write-wins", "included": ["H1", "H2"], "excluded": ["unrelated-type-coercion"],
+        "dimensions": ["nesting-depth"],
+        "classes": [
+          {"id": "top-level", "dimension": "nesting-depth"},
+          {"id": "nested", "dimension": "nesting-depth"}
+        ],
+        "valid_states": [
+          {"id": "C09-V1", "dimension": "nesting-depth", "class": "top-level", "payload": {"object": {"key": 1}}, "expected_invariant": "pass"}
+        ],
+        "malformed_states": [
+          {"id": "C09-M1", "dimension": "nesting-depth", "class": "top-level", "payload": {"json": "{\"key\":1,\"key\":2}"}, "expected_invariant": "fail"}
+        ],
+        "boundary_states": [
+          {"id": "C09-B1", "dimension": "nesting-depth", "class": "top-level", "payload": {"json": "{\"key\":1}"}, "expected_invariant": "pass"}
+        ],
+        "adjacent_states": [
+          {"id": "C09-A1", "dimension": "nesting-depth", "class": "nested", "payload": {"json": "{\"outer\":{\"key\":1,\"key\":2}}"}, "expected_invariant": "fail"}
+        ],
+        "mutation_operators": [
+          {"id": "adjacent-class", "dimension": "nesting-depth", "from_class": "top-level", "to_class": "nested"}
+        ],
+        "red_witnesses": ["H1", "H2"],
+        "distractors": [
+          {"id": "unrelated-type-coercion", "owner": "src/parser.py", "invariant": "preserve-number-types", "mechanism": "string-coercion", "state_dimension": "value-type", "state_class": "numeric-string", "mutation_relation": "polarity-flip", "payload": {"key": "1"}, "exclusion_reason": "type coercion does not exercise duplicate-key rejection"}
+        ],
+        "held_out_ids": ["H3"],
+        "held_out": [
+          {"id": "H3", "dimension": "nesting-depth", "class": "nested", "mutation": "adjacent-class", "state": {"json": "{\"a\":{\"key\":1,\"key\":2}}", "family": {"owner": "src/parser.py", "invariant": "reject-duplicate-keys", "mechanism": "last-write-wins"}}, "expected_invariant": "fail", "observed_invariant": "pass", "expected_discriminator": "same-family", "observed_discriminator": "same-family", "result": "fail"}
+        ],
+        "outer_qualification": "pass", "review_yield": [{"expected_yield": "known-class", "residual_risk": "nested duplicate remains", "decision": "run"}]
+      }
+    },
+    {
+      "id": "R32-C10-record-without-held-out-discriminator",
+      "expected_route": "convergence",
+      "expected_record_verdict": "reject",
+      "expected_record_error": "lacks held_out",
+      "work": {"trivial": false, "local": false, "reversible": true},
+      "model_call": false,
+      "failures": [
+        {"id": "M1", "owner": "src/matcher.py", "invariant": "path-boundary", "mechanism": "substring-match", "state_dimension": "basename", "state_class": "prefix", "mutation_relation": "boundary-shift", "independently_verified": true},
+        {"id": "M2", "owner": "src/matcher.py", "invariant": "path-boundary", "mechanism": "substring-match", "state_dimension": "basename", "state_class": "suffix", "mutation_relation": "boundary-shift", "independently_verified": true}
+      ],
+      "record": {
+        "owner": "src/matcher.py", "invariant": "path-boundary", "mechanism": "substring-match", "included": ["M1", "M2"], "excluded": ["exact-match"],
+        "dimensions": ["basename"],
+        "classes": [
+          {"id": "prefix", "dimension": "basename"},
+          {"id": "suffix", "dimension": "basename"},
+          {"id": "exact", "dimension": "basename"}
+        ],
+        "valid_states": [
+          {"id": "C10-V1", "dimension": "basename", "class": "exact", "payload": {"path": "src/owner.py", "query": "owner.py"}, "expected_invariant": "pass"}
+        ],
+        "malformed_states": [
+          {"id": "C10-M1", "dimension": "basename", "class": "prefix", "payload": {"path": "", "query": "owner.py"}, "expected_invariant": "fail"}
+        ],
+        "boundary_states": [
+          {"id": "C10-B1", "dimension": "basename", "class": "exact", "payload": {"path": "/owner.py", "query": "owner.py"}, "expected_invariant": "pass"}
+        ],
+        "adjacent_states": [
+          {"id": "C10-A1", "dimension": "basename", "class": "suffix", "payload": {"path": "src/not-owner.py", "query": "owner.py"}, "expected_invariant": "fail"}
+        ],
+        "mutation_operators": [
+          {"id": "boundary-shift", "dimension": "basename", "from_class": "prefix", "to_class": "suffix"}
+        ],
+        "red_witnesses": ["M1", "M2"],
+        "distractors": [
+          {"id": "exact-match", "owner": "src/matcher.py", "invariant": "normalise-separators", "mechanism": "separator-folding", "state_dimension": "separator", "state_class": "backslash", "mutation_relation": "adjacent-class", "payload": {"path": "src\\owner.py"}, "exclusion_reason": "separator normalisation is distinct from basename boundary matching"}
+        ],
+        "held_out_ids": ["M3"],
+        "outer_qualification": "pass", "review_yield": [{"expected_yield": "none", "residual_risk": "", "decision": "stop"}]
+      }
+    },
+    {
+      "id": "R32-C11-unpriced-repeat-after-pass",
+      "expected_route": "convergence",
+      "expected_record_verdict": "reject",
+      "expected_record_error": "prices an extra review without a material residual",
+      "work": {"trivial": false, "local": false, "reversible": true},
+      "model_call": false,
+      "failures": [
+        {"id": "R1", "owner": "src/router.py", "invariant": "route-by-kind", "mechanism": "fallthrough", "state_dimension": "kind", "state_class": "unknown", "mutation_relation": "adjacent-class", "independently_verified": true},
+        {"id": "R2", "owner": "src/router.py", "invariant": "route-by-kind", "mechanism": "fallthrough", "state_dimension": "kind", "state_class": "empty", "mutation_relation": "adjacent-class", "independently_verified": true}
+      ],
+      "record": {
+        "owner": "src/router.py", "invariant": "route-by-kind", "mechanism": "fallthrough", "included": ["R1", "R2"], "excluded": ["known-kind"],
+        "dimensions": ["kind"],
+        "classes": [
+          {"id": "known", "dimension": "kind"},
+          {"id": "unknown", "dimension": "kind"},
+          {"id": "empty", "dimension": "kind"}
+        ],
+        "valid_states": [
+          {"id": "C11-V1", "dimension": "kind", "class": "known", "payload": {"kind": "build"}, "expected_invariant": "pass"}
+        ],
+        "malformed_states": [
+          {"id": "C11-M1", "dimension": "kind", "class": "empty", "payload": {"kind": ""}, "expected_invariant": "fail"}
+        ],
+        "boundary_states": [
+          {"id": "C11-B1", "dimension": "kind", "class": "unknown", "payload": {"kind": "first-new-kind"}, "expected_invariant": "fail"}
+        ],
+        "adjacent_states": [
+          {"id": "C11-A1", "dimension": "kind", "class": "empty", "payload": {"kind": " "}, "expected_invariant": "fail"}
+        ],
+        "mutation_operators": [
+          {"id": "adjacent-class", "dimension": "kind", "from_class": "unknown", "to_class": "empty"}
+        ],
+        "red_witnesses": ["R1", "R2"],
+        "distractors": [
+          {"id": "known-kind", "owner": "src/router.py", "invariant": "authorise-route", "mechanism": "permission-map", "state_dimension": "authority", "state_class": "denied", "mutation_relation": "polarity-flip", "payload": {"kind": "build", "authorised": false}, "exclusion_reason": "route authorisation is distinct from kind fallthrough"}
+        ],
+        "held_out_ids": ["R3"],
+        "held_out": [
+          {"id": "R3", "dimension": "kind", "class": "empty", "mutation": "adjacent-class", "state": {"kind": "\t", "family": {"owner": "src/router.py", "invariant": "route-by-kind", "mechanism": "fallthrough"}}, "expected_invariant": "fail", "observed_invariant": "fail", "expected_discriminator": "same-family", "observed_discriminator": "same-family", "result": "pass"}
+        ],
+        "outer_qualification": "pass", "review_yield": [{"expected_yield": "duplicate", "residual_risk": "", "decision": "run"}]
+      }
+    },
+    {
+      "id": "R32-C12-priced-review-and-evidence-stop",
+      "expected_route": "convergence",
+      "work": {"trivial": false, "local": false, "reversible": true},
+      "model_call": false,
+      "failures": [
+        {"id": "Y1", "owner": "src/normalise.py", "invariant": "stable-path-normalisation", "mechanism": "separator-only-repair", "state_dimension": "separator", "state_class": "backslash", "mutation_relation": "adjacent-class", "independently_verified": true},
+        {"id": "Y2", "owner": "src/normalise.py", "invariant": "stable-path-normalisation", "mechanism": "separator-only-repair", "state_dimension": "trailing-separator", "state_class": "doubled", "mutation_relation": "adjacent-class", "independently_verified": true}
+      ],
+      "record": {
+        "owner": "src/normalise.py", "invariant": "stable-path-normalisation", "mechanism": "separator-only-repair", "included": ["Y1", "Y2"], "excluded": ["case-folding-distractor"],
+        "dimensions": ["separator", "trailing-separator"],
+        "classes": [
+          {"id": "slash", "dimension": "separator"},
+          {"id": "backslash", "dimension": "separator"},
+          {"id": "mixed", "dimension": "separator"},
+          {"id": "bare", "dimension": "trailing-separator"},
+          {"id": "trailing", "dimension": "trailing-separator"},
+          {"id": "doubled", "dimension": "trailing-separator"}
+        ],
+        "valid_states": [
+          {"id": "C12-V1", "dimension": "separator", "class": "slash", "payload": {"path": "src/file.py"}, "expected_invariant": "pass"}
+        ],
+        "malformed_states": [
+          {"id": "C12-M1", "dimension": "trailing-separator", "class": "doubled", "payload": {"path": "src//"}, "expected_invariant": "fail"}
+        ],
+        "boundary_states": [
+          {"id": "C12-B1", "dimension": "trailing-separator", "class": "trailing", "payload": {"path": "src/"}, "expected_invariant": "pass"}
+        ],
+        "adjacent_states": [
+          {"id": "C12-A1", "dimension": "separator", "class": "mixed", "payload": {"path": "src\\nested/file.py"}, "expected_invariant": "pass"}
+        ],
+        "mutation_operators": [
+          {"id": "adjacent-class", "dimension": "separator", "from_class": "slash", "to_class": "backslash"},
+          {"id": "adjacent-class", "dimension": "trailing-separator", "from_class": "trailing", "to_class": "doubled"},
+          {"id": "boundary-shift", "dimension": "trailing-separator", "from_class": "bare", "to_class": "trailing"},
+          {"id": "polarity-flip", "dimension": "separator", "from_class": "slash", "to_class": "mixed"}
+        ],
+        "red_witnesses": ["Y1", "Y2"],
+        "distractors": [
+          {"id": "case-folding-distractor", "owner": "src/normalise.py", "invariant": "preserve-case", "mechanism": "case-folding", "state_dimension": "letter-case", "state_class": "upper", "mutation_relation": "polarity-flip", "payload": {"path": "SRC/File.py"}, "exclusion_reason": "case folding is distinct from separator normalisation"}
+        ],
+        "held_out_ids": ["Y3", "Y4"],
+        "held_out": [
+          {"id": "Y3", "dimension": "separator", "class": "backslash", "mutation": "adjacent-class", "state": {"path": "src\\file.py", "family": {"owner": "src/normalise.py", "invariant": "stable-path-normalisation", "mechanism": "separator-only-repair"}}, "expected_invariant": "pass", "observed_invariant": "pass", "expected_discriminator": "same-family", "observed_discriminator": "same-family", "result": "pass"},
+          {"id": "Y4", "dimension": "trailing-separator", "class": "trailing", "mutation": "boundary-shift", "state": {"path": "src/nested/", "family": {"owner": "src/normalise.py", "invariant": "stable-path-normalisation", "mechanism": "separator-only-repair"}}, "expected_invariant": "pass", "observed_invariant": "pass", "expected_discriminator": "same-family", "observed_discriminator": "same-family", "result": "pass"}
+        ],
+        "outer_qualification": "pass",
+        "review_yield": [
+          {"expected_yield": "new-class", "residual_risk": "case-folding interaction was outside the original model", "decision": "run"},
+          {"expected_yield": "style", "residual_risk": "", "decision": "stop"}
+        ]
+      }
+    },
+    {
+      "id": "R32-C13-duplicate-report-does-not-trigger",
+      "expected_route": "duplicate",
+      "work": {"trivial": false, "local": false, "reversible": true},
+      "model_call": false,
+      "failures": [
+        {"id": "DUP1", "label": "same report", "owner": "src/check.py", "invariant": "reject-empty", "mechanism": "missing-guard", "state_dimension": "presence", "state_class": "empty", "mutation_relation": "delete-required-field", "independently_verified": true},
+        {"id": "DUP2", "label": "same report repeated", "owner": "src/check.py", "invariant": "reject-empty", "mechanism": "missing-guard", "state_dimension": "presence", "state_class": "empty", "mutation_relation": "delete-required-field", "independently_verified": true}
+      ]
+    },
+    {
+      "id": "R32-C14-record-owner-substitution-rejected",
+      "expected_route": "convergence",
+      "expected_record_verdict": "reject",
+      "expected_record_error": "record owner differs from the failure family",
+      "work": {"trivial": false, "local": false, "reversible": true},
+      "model_call": false,
+      "failures": [
+        {"id": "OWN1", "owner": "src/owner.py", "invariant": "preserve-owner", "mechanism": "owner-substitution", "state_dimension": "owner", "state_class": "original", "mutation_relation": "adjacent-class", "independently_verified": true},
+        {"id": "OWN2", "owner": "src/owner.py", "invariant": "preserve-owner", "mechanism": "owner-substitution", "state_dimension": "owner", "state_class": "renamed", "mutation_relation": "rename-label", "independently_verified": true}
+      ],
+      "record": {
+        "owner": "src/different.py", "invariant": "preserve-owner", "mechanism": "owner-substitution", "included": ["OWN1", "OWN2"], "excluded": ["unrelated-owner"],
+        "dimensions": ["owner"],
+        "classes": [
+          {"id": "original", "dimension": "owner"},
+          {"id": "renamed", "dimension": "owner"},
+          {"id": "missing", "dimension": "owner"}
+        ],
+        "valid_states": [
+          {"id": "C14-V1", "dimension": "owner", "class": "original", "payload": {"owner": "src/owner.py"}, "expected_invariant": "pass"}
+        ],
+        "malformed_states": [
+          {"id": "C14-M1", "dimension": "owner", "class": "missing", "payload": {"owner": null}, "expected_invariant": "fail"}
+        ],
+        "boundary_states": [
+          {"id": "C14-B1", "dimension": "owner", "class": "original", "payload": {"owners": ["src/owner.py"]}, "expected_invariant": "pass"}
+        ],
+        "adjacent_states": [
+          {"id": "C14-A1", "dimension": "owner", "class": "renamed", "payload": {"owner": "src/owner-renamed.py"}, "expected_invariant": "pass"}
+        ],
+        "mutation_operators": [
+          {"id": "adjacent-class", "dimension": "owner", "from_class": "original", "to_class": "renamed"},
+          {"id": "rename-label", "dimension": "owner", "from_class": "original", "to_class": "renamed"}
+        ],
+        "red_witnesses": ["OWN1", "OWN2"],
+        "distractors": [
+          {"id": "unrelated-owner", "owner": "src/permissions.py", "invariant": "authorise-owner", "mechanism": "permission-map", "state_dimension": "authority", "state_class": "denied", "mutation_relation": "polarity-flip", "payload": {"owner": "src/owner.py", "authorised": false}, "exclusion_reason": "authority is distinct from owner identity preservation"}
+        ],
+        "held_out_ids": ["OWN3"],
+        "held_out": [
+          {"id": "OWN3", "dimension": "owner", "class": "renamed", "mutation": "rename-label", "state": {"owner": "src/owner-v2.py", "family": {"owner": "src/different.py", "invariant": "preserve-owner", "mechanism": "owner-substitution"}}, "expected_invariant": "pass", "observed_invariant": "pass", "expected_discriminator": "same-family", "observed_discriminator": "same-family", "result": "pass"}
+        ],
+        "outer_qualification": "pass", "review_yield": [{"expected_yield": "none", "residual_risk": "", "decision": "stop"}]
+      }
+    }
+  ],
+  "state_model_negatives": [
+    {"id": "R32-N01-missing-valid-states", "operation": "drop-valid-states", "expected_error": "lacks valid_states"},
+    {"id": "R32-N02-self-declared-held-out-pass", "operation": "drop-held-out-payload", "expected_error": "held-out state lacks payload"},
+    {"id": "R32-N03-unknown-dimension", "operation": "unknown-dimension", "expected_error": "references unknown dimension"},
+    {"id": "R32-N04-unknown-class", "operation": "unknown-class", "expected_error": "references unknown class"},
+    {"id": "R32-N05-unknown-mutation", "operation": "unknown-mutation", "expected_error": "references unknown mutation"},
+    {"id": "R32-N06-dangling-held-out", "operation": "dangling-held-out", "expected_error": "held_out_ids do not resolve"},
+    {"id": "R32-N07-dangling-excluded-distractor", "operation": "dangling-excluded", "expected_error": "excluded ids do not resolve"},
+    {"id": "R32-N08-incoherent-family-distractor", "operation": "family-distractor", "expected_error": "distractor belongs to the included failure family"},
+    {"id": "R32-N09-mutated-declarations-unchanged-payload", "operation": "flip-held-out-declarations", "expected_error": "declarations differ from deterministic payload evaluation"},
+    {"id": "R32-N10-unverified-included-member-unbound", "operation": "add-unverified-unbound-member", "expected_error": "included failure F-UNBOUND differs from the record family"}
+  ]
+}

@@ -39,6 +39,16 @@ def require(text, needle, label, path):
         failures.append(f"{path}: missing {label}: {needle}")
 
 
+def heading_section(text, heading, path):
+    marker = f"## {heading.lower()}"
+    start = text.find(marker)
+    if start < 0:
+        failures.append(f"{path}: missing section: ## {heading}")
+        return ""
+    end = text.find("\n## ", start + len(marker))
+    return text[start:] if end < 0 else text[start:end]
+
+
 def table_row(text, term):
     needle = f"| {term.lower()} |"
     for line in text.splitlines():
@@ -315,6 +325,43 @@ for needle in [
     "narrow",
 ]:
     require(lean, needle, "ActiveGraph custody events section", lean_ref)
+
+# 13. R33 package semantic preservation stays on the existing Lean surface.
+# The structural check binds the runtime owner and the fixture bank proves the
+# behavioural dispositions; this is not a universal protected-literal list.
+semantic = heading_section(lean, "Package semantic preservation", lean_ref)
+for alternatives, label in [
+    (("existing package finding/evidence row",), "native package audit object"),
+    (("ordinary non-package work",), "ordinary-work cheap path"),
+    (("exact extracted-member",), "extracted-equality cheap path"),
+    (("owner-backed predicates",), "semantic predicate ownership"),
+    (("exact literals", "exact-byte owner"), "literal-owner distinction"),
+    (("runtime, checker", "installed, generated", "public consumer"),
+     "required consumer census"),
+    (("progressive split", "same-run reachable"), "progressive reachability"),
+    (("unshipped or unreachable owner", "unshipped or unreachable"),
+     "unreachable-owner rejection"),
+    (("calibration/owner decision", "owner decision"),
+     "irreducible conflict route"),
+    (("r34 admission", "marginal cost", "exit/retirement"),
+     "R34 cost and lifecycle rule"),
+    (("r35 governs", "original witness", "independent property evidence"),
+     "R35 evaluator-mutation rule"),
+    (("never recover headroom by deleting governed behaviour",),
+     "semantic rollback boundary"),
+]:
+    if semantic and not all(value in semantic for value in alternatives):
+        failures.append(
+            f"{lean_ref}: package semantic preservation missing {label}: "
+            + ", ".join(alternatives))
+
+for path in [
+    "fixtures/semantic-preservation/cases.json",
+    "fixtures/semantic-preservation/evaluate.py",
+    "fixtures/semantic-preservation/test-cases.sh",
+]:
+    if not (ROOT / path).is_file():
+        failures.append(f"missing required semantic-preservation fixture: {path}")
 
 if failures:
     raise SystemExit("\n".join(failures))
