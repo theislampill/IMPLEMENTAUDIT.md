@@ -11,10 +11,17 @@ helper="$repo_root/skills/implementaudit/scripts/claim-run.sh"
 
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
+if command -v python >/dev/null 2>&1; then py_cmd=(python)
+elif command -v python3 >/dev/null 2>&1; then py_cmd=(python3)
+elif command -v py >/dev/null 2>&1; then py_cmd=(py -3)
+else printf 'claim-run.test: Python is required\n' >&2; exit 1; fi
 
 work="$tmp/work with spaces"
 mkdir -p "$work"
 cd "$work"
+git init -q
+git config user.email claim-run@example.invalid
+git config user.name claim-run-test
 
 first="$(bash "$helper" "Audit release asset boundary" 2>/dev/null)"
 second="$(bash "$helper" "Audit release asset boundary" 2>/dev/null)"
@@ -42,6 +49,21 @@ grep -qx 'templates=STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tool
 }
 grep -Eq '^claimed_at_utc=[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$' "$first/.claimed" || {
   printf 'claim-run.test: full claim sentinel missing UTC timestamp\n' >&2
+  exit 1
+}
+"${py_cmd[@]}" - "$first/.claimed" "$work" "$first" <<'PY' || {
+import re,sys
+from pathlib import Path
+claim,work,first=map(Path,sys.argv[1:]); rows=claim.read_text(encoding='utf-8').splitlines()
+keys=[x.split('=',1)[0] for x in rows]
+want=['schema','claim_id','claimed_at_utc','mode','templates','repo_root','git_common_dir','run_base','run_root','run_name']
+if keys != want: raise SystemExit(f'claim key order {keys!r}')
+d=dict(x.split('=',1) for x in rows)
+if d['schema']!='implementaudit.run-claim.v2' or not re.fullmatch(r'[0-9a-f]{32}',d['claim_id']): raise SystemExit('v2 schema/id')
+if Path(d['repo_root']) != work.resolve() or not Path(d['git_common_dir']).is_dir(): raise SystemExit('git custody')
+if d['run_base']!='.IMPLEMENTAUDIT/runs' or d['run_root'] != str(first) or d['run_name'] != first.name: raise SystemExit('run identity')
+PY
+  printf 'claim-run.test: v2 claim metadata is not canonical\n' >&2
   exit 1
 }
 

@@ -40,8 +40,18 @@ run_root="$(mktemp -d "$base/${slug}-XXXXXX" 2>/dev/null)" || {
 }
 
 claimed_at_utc="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
-if ! printf 'claimed_at_utc=%s\nmode=%s\ntemplates=%s\n' \
-  "$claimed_at_utc" "$mode" "$template_set" > "$run_root/.claimed"; then
+if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  claim_repo="$(cd "$(git rev-parse --show-toplevel)" && pwd -P)" || exit 1
+  claim_common="$(git -C "$claim_repo" rev-parse --git-common-dir)" || exit 1
+  case "$claim_common" in /*) : ;; *) claim_common="$claim_repo/$claim_common";; esac
+  claim_common="$(cd "$claim_common" && pwd -P)" || exit 1
+  claim_id="$(LC_ALL=C od -An -N16 -tx1 /dev/urandom | tr -d ' \n')"
+  claim_name="$(basename "$run_root")"
+  { printf 'schema=implementaudit.run-claim.v2\nclaim_id=%s\nclaimed_at_utc=%s\nmode=%s\ntemplates=%s\n' "$claim_id" "$claimed_at_utc" "$mode" "$template_set"; printf 'repo_root=%s\ngit_common_dir=%s\nrun_base=%s\nrun_root=%s\nrun_name=%s\n' "$claim_repo" "$claim_common" "$base" "$run_root" "$claim_name"; } > "$run_root/.claimed"
+else
+  printf 'claimed_at_utc=%s\nmode=%s\ntemplates=%s\n' "$claimed_at_utc" "$mode" "$template_set" > "$run_root/.claimed"
+fi
+if [ ! -f "$run_root/.claimed" ]; then
   printf "claim-run.sh: cannot write claim sentinel '%s/.claimed'\n" "$run_root" >&2
   rmdir "$run_root" 2>/dev/null || true
   exit 1
