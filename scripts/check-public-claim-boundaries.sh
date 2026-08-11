@@ -58,6 +58,10 @@ unsupported_claims = [
 ]
 stale_current_release_claims = [
     (
+        "do not replace bytes under an already-published tag",
+        "release policy must preserve bounded owner-authorised same-identity correction",
+    ),
+    (
         "current release-gate-verified public release is `v0.3.3.0`",
         "current release claim must not pin the superseded v0.3.3.0 public release",
     ),

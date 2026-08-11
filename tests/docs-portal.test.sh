@@ -855,6 +855,34 @@ if bash scripts/check-public-claim-boundaries.sh >/dev/null 2>&1; then
 else
   ok "check-public-claim-boundaries.sh rejects the superseded v0.3.3.0 current-release claim"
 fi
+
+if "${py_cmd[@]}" - <<'PY'
+from pathlib import Path
+
+text = " ".join(Path("CONTRIBUTING.md").read_text(encoding="utf-8").split())
+raise SystemExit(0 if "An in-place correction requires explicit owner authority" in text else 1)
+PY
+then
+  ok "CONTRIBUTING.md states the bounded same-identity correction authority"
+else
+  fail_check "CONTRIBUTING.md is missing the bounded same-identity correction authority"
+fi
+
+"${py_cmd[@]}" - "$host_claim_fixture" <<'PY'
+import sys
+from pathlib import Path
+
+Path(sys.argv[1]).write_text(
+    "Do not replace bytes under an already-" + "published tag. "
+    "Correct forward under a fresh identity.\n",
+    encoding="utf-8",
+)
+PY
+if bash scripts/check-public-claim-boundaries.sh >/dev/null 2>&1; then
+  fail_check "check-public-claim-boundaries.sh accepted an absolute forward-only release policy"
+else
+  ok "check-public-claim-boundaries.sh rejects an absolute forward-only release policy"
+fi
 rm -f "$host_claim_fixture"
 
 if bash scripts/verify-docs-portal.sh >/dev/null; then
