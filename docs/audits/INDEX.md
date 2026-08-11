@@ -108,14 +108,25 @@ Standing gate owners: `check-action-selection-contract.sh`,
   publish, readback, active-install update, and post-release smoke
   evidence (written at the release gate).
 
-## v0.3.3.0 release evidence (current ledger)
+## v0.3.3.0 release evidence (previous public ledger)
 
 - `docs/audits/archive/v0.3.3.0-release-report.md` - exact package identity,
   nonblocking R28/#117 and out-of-scope #144 boundaries, release integration,
   tag/assets/checksum readback, hosted validation, Pages deployment, and
-  completed #97/milestone-2 accounting. It is the current published-release
-  ledger; the generic README/docs dogfood defect remains separately open as
-  nonblocking issue #155 in milestone 3.
+  completed #97/milestone-2 accounting. It remains the historical publication
+  ledger for the independently read-back v0.3.3.0 release.
+
+## v0.3.3.3 release evidence (current candidate ledger)
+
+- `docs/audits/archive/v0.3.3.3-release-report.md` - corrective four-component
+  candidate identity for runtime 0.3.3, the eight integrated countermeasures,
+  source-parent package identity, R31 `OWNER_ACCEPTED_PARTIAL`, bounded #144
+  deterministic adoption, R36 `POST_RELEASE_ONLY`, open #117, dashboard
+  exclusion, and the candidate-versus-post-publication evidence cells. It is
+  also the release-body source. Final exact-tree qualification, tag, GitHub
+  release, assets, checksum publication, hosted workflows, Pages,
+  public-install, and tracker readback remain pending until independently
+  observed.
 
 ## Boundary
 

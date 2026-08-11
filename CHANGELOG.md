@@ -13,49 +13,71 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ## [Unreleased]
 
+## [v0.3.3.3] - 2026-08-10
+
+This corrective milestone uses public project identity `v0.3.3.3` while the
+host-facing plugin and runtime version remains `0.3.3`. The fourth component
+advances the public release within the existing runtime family and preserves
+the complete `v0.3.3.0` history. Deterministic package evidence exists on the
+source parent; final exact-tree qualification, tag, GitHub release,
+release-asset and checksum readback, Pages deployment, public-install readback,
+and tracker reconciliation remain pending.
+
 ### Changed
 
-- Added a bounded public-capability projection contract when a material
-  public/release effect, a declared README or public-doc success carrier, and an
-  intended current, complete, or release-final claim all hold. It derives owner
-  topics, records README/docs/current-state dispositions, challenges omissions
-  and overclaims, and preserves generated and exact-literal ownership.
-- Cold-review repair rejects malformed projection types through one shared
-  structural guard. A distinct prompt-independent R29 model cell and disposable
-  installed-dogfood input are repository-only and remain unexecuted.
-- A second R29 cold-review repair rejects empty and whitespace-only public
-  identities, states, census members, and fact strings; pins all nine held-out
-  mutation identities; isolates every activation conjunct; and binds the exact
-  model field, property, and forbidden-phrase surface. No model or installed
-  dogfood execution was performed.
-- R32 convergence closes the repeated R29 acceptance-family gap with one exact
-  tuple for each of the six model properties and a versioned control contract
-  binding seed, repository identity, polarity, verdict, semantic role, and
-  transcript. The internal-only negative control remains the cheap path. No
-  model or installed dogfood execution was performed.
-- The R29 tuple validators now require exact Boolean `true` for every primary
-  and control scoring property, rejecting JSON integer `1` rather than relying
-  on Python Boolean/integer equality.
-- Public source-checkout guidance now routes readers to the post-v0.3.3.0
-  helper-reachability, scoped-Graphify, issue-work-order, engineering-value,
-  convergence, evaluator-integrity, and package-semantic-preservation owners.
-  These are source-checkout statements, not claims about the published
-  `v0.3.3.0` asset or a later release.
-- Optional Graphify terrain can use an outside-repository scope catalogue to
-  select and validate the smallest graph covering named paths. Scope-local
-  canonical scan roots, Graphify-manifest file/content/config rules,
-  exact graph-source population, graph-bound scope fingerprints, ancestor build provenance,
-  graph digests, and proper covering parents replace whole-HEAD staleness.
-- Graphify's root `.graphifyignore` preference and `.gitignore` fallback apply
-  to tracked and untracked files. Divergent positive double-star patterns,
-  active nested ignores, and active include rules fail closed to live files
-  instead of approximating extractor semantics.
-- The qualified catalogue route is mechanical `llm: false`. It does not claim
-  semantic/Luna qualification, let info/global Git ignores conceal scope files,
-  repair extractor omissions through inference,
-  adopt permanent graph partitions, or package Graphify outputs. Graphify
-  0.8.37's incremental `--no-cluster` route is explicitly excluded after the
-  #144 dogfood control dropped unchanged terrain.
+- R30 / #157 makes shipped helpers instruction-reachable, same-run
+  dispatchable, packaged, and negatively tested. It composes with every later
+  control because a helper that cannot be reached from the runtime contract is
+  not an implemented capability.
+- #144 adds a bounded outside-repository Graphify scope catalogue with exact
+  scan roots, graph-bound fingerprints, digests, covering-parent selection, and
+  fail-closed live-file fallback. The adopted route is deterministic
+  `llm: false` and remains a bounded partial adoption. It does not qualify Luna
+  or semantic behaviour, infer missing relations, create permanent graph
+  partitions, or turn Graphify into a ledger.
+- R31 / #158 turns material findings into cold-executor-ready work orders,
+  reconciles multiple drafts, and keeps issue publication and readback as
+  separate gates. The owner disposition is `OWNER_ACCEPTED_PARTIAL`: seven
+  reviewed work orders passed and one was accepted partial because it omitted
+  an explicit R29 invocation.
+- R34 / #163 requires every control to name its consumer and protected
+  consequence. When a material ambiguity leaves several mechanisms plausible,
+  it can also require informationally independent first-return hypothesis
+  lanes. That route is distinct from adversarial review of a known candidate;
+  bounded and deterministic cases remain on the cheap path.
+- R35 / #164 preserves the original failing witness after evaluator mutation
+  and separately activates when a candidate delta semantically intersects the
+  validation-shaping authority used to judge it. A candidate-controlled policy
+  cannot authenticate its own green; path-only and product-only changes remain
+  ordinary.
+- R32 / #160 adds optional progressive state-space convergence after a second
+  independently verified same-family rejection. It consumes R34 exploratory
+  discrimination only when family classification remains materially ambiguous;
+  independent rejection verification is not independent hypothesis formation.
+  Its tuples bind seed, repository identity, polarity, verdict, semantic role,
+  and transcript, and validators require Boolean `true` rather than integer `1`.
+- R33 / #161 protects package semantics during footprint work by binding
+  owner-backed predicates to runtime, checker, installed, generated, and public
+  consumers. Smaller bytes alone cannot close a package failure.
+- R29 / #155 projects material capability changes to README, portal, and
+  current-state surfaces only when the public-effect, success-carrier, and
+  current-or-release-final activation conjuncts all hold. Its held-out mutation
+  controls challenge omissions and overclaims, while model and installed
+  dogfood cells remain unexecuted.
+
+### Qualification and publication boundary
+
+- The candidate archive contains 50 members and is 227,995 bytes. Its SHA-256
+  digest is `bfe323853fcb814530c9f58e078ef09d4e930419d99005af26c9135f936e3536`,
+  leaving 2,005 bytes under the 230,000-byte owner bound. These are candidate
+  package facts, not public release readback.
+- R36 / #167 is `POST_RELEASE_ONLY` and is excluded from this candidate. R28 /
+  #117 remains open, optional, and nonblocking. `/dashboard/` remains excluded
+  from `IMPLEMENTAUDIT.skill`.
+- No marketplace, signature, attestation, SBOM, provenance, universal-host,
+  passive-update, or public-install claim is made. Tag, release, assets,
+  checksum publication, hosted workflows, Pages, public installation, and
+  tracker state require independent post-publication readback.
 
 ## [v0.3.3.0] - 2026-08-08
 
