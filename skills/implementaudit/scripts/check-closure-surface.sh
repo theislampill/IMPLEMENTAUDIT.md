@@ -575,8 +575,8 @@ if grep -Eq '^claim:.*\|[[:space:]]*surface:[[:space:]]*publication([[:space:]]*
   if ! publication_error="$("${py_cmd[@]}" - "$file" <<'PY'
 import hashlib
 import json
-import os
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -651,8 +651,10 @@ local_identity = {
 }
 hosted_fields = (
     "publication-kind", "release-id", "tag", "asset-id", "asset-name",
-    "asset-size", "asset-digest", "qualified-commit", "qualified-tree",
-    "public-readback-file", "public-readback-sha256", "disposition",
+    "asset-size", "asset-digest", "qualified-repository", "qualified-commit",
+    "qualified-tree", "qualified-package-file", "release-url", "asset-url",
+    "download-url", "public-readback-file", "public-readback-sha256",
+    "downloaded-asset-file", "disposition",
 )
 hosted_identity = {"publication-identity", *hosted_fields}
 for claim_id, claim in claims.items():
@@ -666,7 +668,9 @@ for claim_id, claim in claims.items():
 
     if publication_kind == "hosted-release-asset":
         if set(identity) != hosted_identity or identity.get("publication-kind") != publication_kind:
-            die(f"claim {claim_id}: hosted release asset requires release/tag/asset/qualification/public-readback identity")
+            if set(identity) == local_identity:
+                die(f"claim {claim_id}: hosted release asset requires release/tag/asset/qualification/public-readback identity")
+            die(f"claim {claim_id}: hosted release asset requires repository/package/download/public-URL evidence")
         if any(not re.fullmatch(r"\S+", identity[key]) for key in ("release-id", "tag", "asset-id")):
             die(f"claim {claim_id}: hosted release identity token is empty or malformed")
         asset_name = identity["asset-name"]
@@ -676,12 +680,53 @@ for claim_id, claim in claims.items():
             die(f"claim {claim_id}: hosted asset size or digest is malformed")
         if any(not re.fullmatch(r"(?:[0-9a-f]{40}|[0-9a-f]{64})", identity[key]) for key in ("qualified-commit", "qualified-tree")):
             die(f"claim {claim_id}: qualified commit or tree identity is malformed")
-        readback_name = identity["public-readback-file"]
-        if not readback_name.endswith(".json") or Path(readback_name).name != readback_name or "/" in readback_name or "\\" in readback_name:
-            die(f"claim {claim_id}: public-readback-file must be a contained bare JSON filename")
-        readback = base / readback_name
-        if not readback.is_file() or readback.is_symlink():
-            die(f"claim {claim_id}: public readback is missing or not a regular contained file")
+
+        def contained(key, label, directory=False, suffix=""):
+            name = identity[key]
+            noun = "directory" if directory else "file"
+            if not name or Path(name).name != name or "/" in name or "\\" in name or (suffix and not name.endswith(suffix)):
+                die(f"claim {claim_id}: {key} must be a contained bare {noun}")
+            path = base / name
+            if path.is_symlink() or not (path.is_dir() if directory else path.is_file()):
+                die(f"claim {claim_id}: {label} is missing or not a regular contained {noun}")
+            return path
+
+        repository = contained("qualified-repository", "qualified repository", True)
+        git_command = ["git", "--no-replace-objects", "-C", str(repository), "rev-parse"]
+        commit = identity["qualified-commit"]
+        resolved = subprocess.run(
+            [*git_command, "--verify", f"{commit}^{{commit}}"], capture_output=True, text=True
+        ).stdout.strip()
+        if resolved != commit:
+            die(f"claim {claim_id}: qualified commit '{commit}' does not resolve in qualified repository")
+        actual_tree = subprocess.run(
+            [*git_command, f"{commit}^{{tree}}"], capture_output=True, text=True
+        ).stdout.strip()
+        if identity["qualified-tree"] != actual_tree:
+            die(
+                f"claim {claim_id}: qualified tree '{identity['qualified-tree']}' "
+                f"does not match commit tree '{actual_tree}'"
+            )
+
+        package_file = contained("qualified-package-file", "qualified package")
+        downloaded_file = contained("downloaded-asset-file", "downloaded asset")
+        if package_file == downloaded_file:
+            die(f"claim {claim_id}: downloaded asset must be an independent file readback")
+        package_data = package_file.read_bytes()
+        downloaded_data = downloaded_file.read_bytes()
+        measured_size = len(package_data)
+        measured_digest = hashlib.sha256(package_data).hexdigest()
+        if int(identity["asset-size"]) != measured_size:
+            die(
+                f"claim {claim_id}: asset-size '{identity['asset-size']}' "
+                f"does not match measured size '{measured_size}'"
+            )
+        if identity["asset-digest"] != measured_digest:
+            die(f"claim {claim_id}: asset-digest does not match measured digest '{measured_digest}'")
+        if downloaded_data != package_data:
+            die(f"claim {claim_id}: downloaded asset bytes do not match qualified package")
+
+        readback = contained("public-readback-file", "public readback", suffix=".json")
         readback_data = readback.read_bytes()
         readback_sha = identity["public-readback-sha256"]
         if not sha_re.fullmatch(readback_sha) or hashlib.sha256(readback_data).hexdigest() != readback_sha:
@@ -694,24 +739,39 @@ for claim_id, claim in claims.items():
             )
         except (UnicodeDecodeError, json.JSONDecodeError, ValueError):
             die(f"claim {claim_id}: public-readback-file is not valid UTF-8 JSON")
-        pairs = (
-            ("release_id", "release-id"), ("tag", "tag"),
-            ("asset_id", "asset-id"), ("asset_name", "asset-name"),
-            ("asset_size", "asset-size"), ("asset_digest", "asset-digest"),
-            ("qualified_commit", "qualified-commit"),
-            ("qualified_tree", "qualified-tree"),
+        public_keys = (
+            "release_id", "tag", "asset_id", "asset_name", "asset_size",
+            "asset_digest", "qualified_commit", "qualified_tree", "release_url",
+            "asset_url", "download_url",
         )
-        if type(payload) is not dict or set(payload) != {key for key, unused in pairs}:
+        if type(payload) is not dict or set(payload) != set(public_keys):
             die(f"claim {claim_id}: public readback must contain the exact release/asset/qualification fields")
-        expected = {key: int(identity[value]) if key == "asset_size" else identity[value] for key, value in pairs}
         if type(payload["asset_size"]) is not int or payload["asset_size"] < 0:
             die(f"claim {claim_id}: public readback field type is invalid")
-        for public_key, identity_key in pairs:
-            if payload[public_key] != expected[public_key]:
+        for public_key in public_keys:
+            identity_key = public_key.replace("_", "-")
+            expected = int(identity[identity_key]) if public_key == "asset_size" else identity[identity_key]
+            if payload[public_key] != expected:
                 die(
                     f"claim {claim_id}: public readback {public_key} '{payload[public_key]}' "
                     f"does not match identity '{identity[identity_key]}'"
                 )
+
+        release_match = re.fullmatch(
+            rf"https://api\.github\.com/repos/([^/?#]+)/([^/?#]+)/releases/{re.escape(identity['release-id'])}",
+            identity["release-url"],
+        )
+        if not release_match:
+            die(f"claim {claim_id}: release-url does not bind repository and release-id")
+        owner, repo = release_match.groups()
+        if identity["asset-url"] != f"https://api.github.com/repos/{owner}/{repo}/releases/assets/{identity['asset-id']}":
+            die(f"claim {claim_id}: asset-url does not bind repository and asset-id")
+        expected_download_url = (
+            f"https://github.com/{owner}/{repo}/releases/download/"
+            f"{identity['tag']}/{identity['asset-name']}"
+        )
+        if identity["download-url"] != expected_download_url:
+            die(f"claim {claim_id}: download-url does not bind repository, tag, and asset-name")
         disposition = identity["disposition"]
         status = claim.get("status", "")
         if evidence_digest == identity["asset-digest"]:

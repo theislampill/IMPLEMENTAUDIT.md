@@ -354,11 +354,15 @@ row:
 
 ```text
 claim: <id> | surface: publication | publication-kind: hosted-release-asset | status: verified|unverified | evidence-surface: publication | evidence-digest: <sha256>
-publication-identity: <id> | publication-kind: hosted-release-asset | release-id: <id> | tag: <tag> | asset-id: <id> | asset-name: <bare-name> | asset-size: <bytes> | asset-digest: <sha256> | qualified-commit: <git-object> | qualified-tree: <git-object> | public-readback-file: <bare-json-file> | public-readback-sha256: <sha256> | disposition: verified|SUPERSEDED
+publication-identity: <id> | publication-kind: hosted-release-asset | release-id: <id> | tag: <tag> | asset-id: <id> | asset-name: <bare-name> | asset-size: <bytes> | asset-digest: <sha256> | qualified-repository: <bare-directory> | qualified-commit: <git-object> | qualified-tree: <git-object> | qualified-package-file: <bare-file> | release-url: <public-api-url> | asset-url: <public-api-url> | download-url: <public-download-url> | public-readback-file: <bare-json-file> | public-readback-sha256: <sha256> | downloaded-asset-file: <bare-file> | disposition: verified|SUPERSEDED
 ```
 
-The hash-bound JSON contains the same eight release, asset, commit, and tree
-values. Every value equals the row; local bytes cannot establish hosted state.
+The independently obtained, hash-bound JSON contains the same release, asset,
+commit, tree, and public URLs. The commit must resolve in the declared Git
+repository and produce the exact tree. The separately downloaded asset and
+qualified package must be regular contained files with identical measured
+bytes, size, and SHA-256. Those measurements must equal the row and JSON;
+caller-authored JSON or a local digest alone cannot establish hosted state.
 
 ## Proving a file is dead
 

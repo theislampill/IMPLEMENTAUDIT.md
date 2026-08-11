@@ -64,6 +64,8 @@ EOF
 
 external_composition_controls() {
   local work="$1" output failures=0 grant_sha wrong_grant_sha digest_file_sha public_sha
+  local qualified_commit qualified_tree asset_size asset_digest fake_commit fake_tree
+  local release_url asset_url download_url case_sha
 
   expect_composed_fail() {
     local file="$1" expected="$2" false_green="$3"
@@ -124,13 +126,42 @@ EOF
     'check-closure-surface: claim hosted-local-only: hosted release asset requires release/tag/asset/qualification/public-readback identity' \
     'hosted release asset passed on a local digest file alone'
 
+  # Current JSON-only proof must become an explicit failure, even when all of
+  # its caller-authored tokens agree.
   printf '%s\n' \
     '{"release_id":"R_test","tag":"v9.9.9","asset_id":"A_test","asset_name":"IMPLEMENTAUDIT.skill","asset_size":227999,"asset_digest":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","qualified_commit":"1111111111111111111111111111111111111111","qualified_tree":"2222222222222222222222222222222222222222"}' \
+    > "$work/imaginary-public-readback.json"
+  public_sha="$(sha256sum "$work/imaginary-public-readback.json" | awk '{print $1}')"
+  cat > "$work/imaginary-hosted.md" <<EOF
+claim: imaginary-hosted | surface: publication | publication-kind: hosted-release-asset | status: verified | evidence-surface: publication | evidence-digest: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+publication-identity: imaginary-hosted | publication-kind: hosted-release-asset | release-id: R_test | tag: v9.9.9 | asset-id: A_test | asset-name: IMPLEMENTAUDIT.skill | asset-size: 227999 | asset-digest: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa | qualified-commit: 1111111111111111111111111111111111111111 | qualified-tree: 2222222222222222222222222222222222222222 | public-readback-file: imaginary-public-readback.json | public-readback-sha256: $public_sha | disposition: verified
+EOF
+  expect_composed_fail "$work/imaginary-hosted.md" \
+    'check-closure-surface: claim imaginary-hosted: hosted release asset requires repository/package/download/public-URL evidence' \
+    'imaginary commit/tree and JSON-only hosted proof was accepted'
+
+  mkdir "$work/qualified-repository"
+  git -C "$work/qualified-repository" init -q
+  printf '%s\n' 'qualified source tree' > "$work/qualified-repository/source.txt"
+  git -C "$work/qualified-repository" add source.txt
+  git -C "$work/qualified-repository" -c user.name=Fixture \
+    -c user.email=fixture@example.invalid commit -q -m fixture
+  qualified_commit="$(git -C "$work/qualified-repository" rev-parse HEAD)"
+  qualified_tree="$(git -C "$work/qualified-repository" rev-parse 'HEAD^{tree}')"
+  printf '%s' 'real downloaded release asset bytes' > "$work/qualified-package.skill"
+  cp "$work/qualified-package.skill" "$work/downloaded-asset.skill"
+  asset_size="$(wc -c < "$work/qualified-package.skill" | tr -d ' ')"
+  asset_digest="$(sha256sum "$work/qualified-package.skill" | awk '{print $1}')"
+  release_url='https://api.github.com/repos/acme/example/releases/R_test'
+  asset_url='https://api.github.com/repos/acme/example/releases/assets/A_test'
+  download_url='https://github.com/acme/example/releases/download/v9.9.9/IMPLEMENTAUDIT.skill'
+  printf '%s\n' \
+    "{\"release_id\":\"R_test\",\"tag\":\"v9.9.9\",\"asset_id\":\"A_test\",\"asset_name\":\"IMPLEMENTAUDIT.skill\",\"asset_size\":$asset_size,\"asset_digest\":\"$asset_digest\",\"qualified_commit\":\"$qualified_commit\",\"qualified_tree\":\"$qualified_tree\",\"release_url\":\"$release_url\",\"asset_url\":\"$asset_url\",\"download_url\":\"$download_url\"}" \
     > "$work/hosted-public-readback.json"
   public_sha="$(sha256sum "$work/hosted-public-readback.json" | awk '{print $1}')"
   cat > "$work/hosted-release-PASS.md" <<EOF
-claim: hosted-release | surface: publication | publication-kind: hosted-release-asset | status: verified | evidence-surface: publication | evidence-digest: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-publication-identity: hosted-release | publication-kind: hosted-release-asset | release-id: R_test | tag: v9.9.9 | asset-id: A_test | asset-name: IMPLEMENTAUDIT.skill | asset-size: 227999 | asset-digest: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa | qualified-commit: 1111111111111111111111111111111111111111 | qualified-tree: 2222222222222222222222222222222222222222 | public-readback-file: hosted-public-readback.json | public-readback-sha256: $public_sha | disposition: verified
+claim: hosted-release | surface: publication | publication-kind: hosted-release-asset | status: verified | evidence-surface: publication | evidence-digest: $asset_digest
+publication-identity: hosted-release | publication-kind: hosted-release-asset | release-id: R_test | tag: v9.9.9 | asset-id: A_test | asset-name: IMPLEMENTAUDIT.skill | asset-size: $asset_size | asset-digest: $asset_digest | qualified-repository: qualified-repository | qualified-commit: $qualified_commit | qualified-tree: $qualified_tree | qualified-package-file: qualified-package.skill | release-url: $release_url | asset-url: $asset_url | download-url: $download_url | public-readback-file: hosted-public-readback.json | public-readback-sha256: $public_sha | downloaded-asset-file: downloaded-asset.skill | disposition: verified
 EOF
   if ! output="$(bash "$scorer" "$work/hosted-release-PASS.md" 2>&1)"; then
     printf 'closure-surface-contract: hosted release identity expected PASS; got %s\n' \
@@ -143,6 +174,69 @@ EOF
   expect_composed_fail "$work/hosted-asset-id-mismatch.md" \
     "check-closure-surface: claim hosted-release: public readback asset_id 'A_test' does not match identity 'A_other'" \
     'hosted release identity accepted a different public asset ID'
+
+  fake_commit='1111111111111111111111111111111111111111'
+  sed "s/qualified-commit: $qualified_commit/qualified-commit: $fake_commit/" \
+    "$work/hosted-release-PASS.md" > "$work/hosted-missing-commit.md"
+  expect_composed_fail "$work/hosted-missing-commit.md" \
+    "check-closure-surface: claim hosted-release: qualified commit '$fake_commit' does not resolve in qualified repository" \
+    'nonexistent qualified commit was accepted'
+
+  fake_tree='2222222222222222222222222222222222222222'
+  sed "s/qualified-tree: $qualified_tree/qualified-tree: $fake_tree/" \
+    "$work/hosted-release-PASS.md" > "$work/hosted-wrong-tree.md"
+  expect_composed_fail "$work/hosted-wrong-tree.md" \
+    "check-closure-surface: claim hosted-release: qualified tree '$fake_tree' does not match commit tree '$qualified_tree'" \
+    'wrong qualified tree was accepted'
+
+  sed 's/downloaded-asset-file: downloaded-asset.skill/downloaded-asset-file: missing.skill/' \
+    "$work/hosted-release-PASS.md" > "$work/hosted-missing-download.md"
+  expect_composed_fail "$work/hosted-missing-download.md" \
+    'check-closure-surface: claim hosted-release: downloaded asset is missing or not a regular contained file' \
+    'hosted release passed without a downloaded asset'
+
+  printf '%s' 'different downloaded bytes' > "$work/wrong-download.skill"
+  sed 's/downloaded-asset-file: downloaded-asset.skill/downloaded-asset-file: wrong-download.skill/' \
+    "$work/hosted-release-PASS.md" > "$work/hosted-wrong-bytes.md"
+  expect_composed_fail "$work/hosted-wrong-bytes.md" \
+    'check-closure-surface: claim hosted-release: downloaded asset bytes do not match qualified package' \
+    'wrong downloaded asset bytes were accepted'
+
+  sed "s/asset-size: $asset_size/asset-size: 999/" \
+    "$work/hosted-release-PASS.md" > "$work/hosted-wrong-size.md"
+  expect_composed_fail "$work/hosted-wrong-size.md" \
+    "check-closure-surface: claim hosted-release: asset-size '999' does not match measured size '$asset_size'" \
+    'wrong hosted asset size was accepted'
+
+  sed "s/asset-digest: $asset_digest/asset-digest: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/g" \
+    "$work/hosted-release-PASS.md" > "$work/hosted-wrong-digest.md"
+  expect_composed_fail "$work/hosted-wrong-digest.md" \
+    "check-closure-surface: claim hosted-release: asset-digest does not match measured digest '$asset_digest'" \
+    'wrong hosted asset digest was accepted'
+
+  sed "s|$release_url|https://example.invalid/releases/R_test|" \
+    "$work/hosted-public-readback.json" > "$work/hosted-wrong-url.json"
+  case_sha="$(sha256sum "$work/hosted-wrong-url.json" | awk '{print $1}')"
+  sed \
+    -e "s|release-url: $release_url|release-url: https://example.invalid/releases/R_test|" \
+    -e 's/public-readback-file: hosted-public-readback.json/public-readback-file: hosted-wrong-url.json/' \
+    -e "s/public-readback-sha256: $public_sha/public-readback-sha256: $case_sha/" \
+    "$work/hosted-release-PASS.md" > "$work/hosted-wrong-url.md"
+  expect_composed_fail "$work/hosted-wrong-url.md" \
+    'check-closure-surface: claim hosted-release: release-url does not bind repository and release-id' \
+    'wrong hosted release URL was accepted'
+
+  sed 's/release-id: R_test/release-id: R_other/' \
+    "$work/hosted-release-PASS.md" > "$work/hosted-release-id-mismatch.md"
+  expect_composed_fail "$work/hosted-release-id-mismatch.md" \
+    "check-closure-surface: claim hosted-release: public readback release_id 'R_test' does not match identity 'R_other'" \
+    'wrong hosted release ID was accepted'
+
+  sed 's/tag: v9.9.9/tag: v9.9.8/' \
+    "$work/hosted-release-PASS.md" > "$work/hosted-tag-mismatch.md"
+  expect_composed_fail "$work/hosted-tag-mismatch.md" \
+    "check-closure-surface: claim hosted-release: public readback tag 'v9.9.9' does not match identity 'v9.9.8'" \
+    'wrong hosted tag was accepted'
 
   [ "$failures" -eq 0 ] || fail "$failures external composition control(s) failed"
 }
