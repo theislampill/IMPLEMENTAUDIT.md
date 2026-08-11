@@ -161,8 +161,11 @@ passing local check:
 
 Each external mutation needs explicit authority. After an authorised mutation,
 read back the remote state independently; command success alone is not proof.
-Do not replace bytes under an already-published tag. Correct forward under a
-fresh identity when a later package change warrants publication.
+Published identities are immutable by default. An in-place correction requires
+explicit owner authority, append-only custody of the superseded tag, release,
+assets and body, a dedicated same-identity gate, and independent public
+readback. Without that bounded authority, correct forward under a fresh
+identity.
 
 ## Evidence and handoff
 
