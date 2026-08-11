@@ -1,0 +1,108 @@
+#!/usr/bin/env bash
+exec python3 - "$@" <<'PY'
+import argparse,hashlib,json,os,secrets,stat,sys,time
+from pathlib import Path
+X={'COMMITTED':0,'NO_CHANGE':0,'REJECTED_NO_MUTATION':64,'CONFLICT_REBASE':65,'MUTATION_FAILED_NO_STATE_CHANGE':70,'MUTATION_FAILED_ROLLED_BACK':71,'POST_STATE_MISMATCH_ROLLED_BACK':72,'RECOVERY_REQUIRED':73,'ROLLBACK_CONFLICT':74,'ROLLBACK_FAILED_WITH_RESIDUE':75,'POST_COMMIT_DRIFT':76,'UNSUPPORTED_OWNER_DECISION':77}
+def I(b): return {'sha256':hashlib.sha256(b).hexdigest(),'byte_length':len(b)}
+def reg(p):
+ try:return stat.S_ISREG(os.lstat(p).st_mode)
+ except FileNotFoundError:return False
+def links(p,stop=None):
+ p=Path(p)
+ try:
+  while 1:
+   if p.is_symlink():return False
+   if stop and p==stop:return True
+   if p.parent==p:return not stop
+   p=p.parent
+ except OSError:return False
+def ident(p): return I(Path(p).read_bytes()) if reg(p) and links(p,R) else None
+def raw(p): return Path(p).read_bytes() if reg(p) and links(p,R) else None
+def rel(s):return bool(s) and not os.path.isabs(s) and '..' not in Path(s).parts
+p=argparse.ArgumentParser(add_help=False);p.add_argument('--repo-root',required=True);p.add_argument('--run-root',required=True);p.add_argument('--operation',required=True);p.add_argument('--target',required=True);p.add_argument('--preimage');p.add_argument('--candidate');p.add_argument('--destination');p.add_argument('--offset');p.add_argument('--region');p.add_argument('--replacement');p.add_argument('--journal');p.add_argument('--token');p.add_argument('--arbitrary-mutator',nargs=2)
+try:a,u=p.parse_known_args()
+except SystemExit:sys.exit(64)
+R=Path(a.repo_root).resolve();T=R/a.target;D=R/a.destination if a.destination else None;op=a.operation
+pre0=I(Path(T).read_bytes()) if reg(T) and links(T) else None
+def out(s,pre=pre0,cand=None,post=None,j=None,tok=None,res=()):
+ q=T if post is None else post; ps={a.target:ident(T)}
+ if D:ps[a.destination]=ident(D)
+ print(json.dumps({'schema':'implementaudit.observation_bound_mutation.v1','operation':op,'status':s,'source_path':a.target,'destination_path':a.destination,'targets':[a.target]+([a.destination] if D else []),'pre_identity':pre,'candidate_identity':cand,'post_identity':ident(q),'post_identities':ps,'token':tok,'journal_path':str(j) if j else None,'residue_paths':[str(x) for x in res]},separators=(',',':')));sys.exit(X[s])
+def early():
+ q=Path(a.candidate or a.preimage) if (a.candidate or a.preimage) else None;b=raw(q) if q else None;return I(b) if b is not None else None
+if u or op not in ('patch','replace','delete','move','recover'):out('REJECTED_NO_MUTATION')
+run=Path(a.run_root);run=run if run.is_absolute() else R/run
+if not (R.is_dir() and R in run.parents and (run/'.claimed').is_file()):out('REJECTED_NO_MUTATION')
+if op=='recover':
+ try:r=json.loads(Path(a.journal).read_text());ok=secrets.compare_digest(r['token'],a.token)
+ except Exception:ok=False
+ if not ok:out('REJECTED_NO_MUTATION')
+ rs=[Path(x) for x in r['residue_paths']];out('ROLLBACK_CONFLICT',j=Path(a.journal),tok=a.token,res=rs)
+if not rel(a.target) or not links(T,R) or not T.parent.exists() or not links(T.parent,R):out('REJECTED_NO_MUTATION',cand=early())
+if op=='move' and (not rel(a.destination) or a.destination==a.target or not links(D.parent,R)):out('REJECTED_NO_MUTATION',cand=early())
+pre=raw(a.preimage) if a.preimage else None
+if op in ('replace','delete','move') and pre is None:out('REJECTED_NO_MUTATION',cand=early())
+c=None
+if op=='replace':
+ c=raw(a.candidate)
+ if c is None:out('REJECTED_NO_MUTATION')
+elif op=='patch':
+ g=raw(a.region);z=raw(a.replacement);now=raw(T)
+ try:o=int(a.offset)
+ except:out('REJECTED_NO_MUTATION')
+ if now is None or g is None or z is None or o<0 or not g or now[o:o+len(g)]!=g:out('REJECTED_NO_MUTATION')
+ c=now[:o]+z+now[o+len(g):]
+if a.arbitrary_mutator:out('REJECTED_NO_MUTATION',cand=I(c) if c is not None else None)
+now=raw(T)
+if now is None:out('REJECTED_NO_MUTATION',cand=I(pre if op=='move' else c) if (op=='move' or c is not None) else None)
+if op in ('replace','delete','move') and now!=pre:out('REJECTED_NO_MUTATION' if now.startswith(pre) else 'CONFLICT_REBASE',cand=I(pre if op=='move' else c) if (op=='move' or c is not None) else None)
+if op=='replace' and c==now:out('NO_CHANGE',cand=I(c))
+if op=='move' and D.exists():out('REJECTED_NO_MUTATION',cand=I(pre))
+bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR');fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')
+def wait(name,release='release'):
+ if not bar:return
+ b=Path(bar);b.mkdir(parents=True,exist_ok=True);(b/name).touch()
+ for _ in range(500):
+  if (b/release).exists():return
+  time.sleep(.02)
+ raise RuntimeError('timeout')
+if fault=='pre-displacement':wait('paused');out('MUTATION_FAILED_NO_STATE_CHANGE',cand=I(c) if c is not None else None)
+if fault=='unsupported-external-writer':
+ wait('paused');wait('observed-after-external','continue-after-external');out('UNSUPPORTED_OWNER_DECISION',cand=I(c))
+if bar and not fault:
+ wait('observed')
+ if raw(T)!=now or (op=='move' and D.exists()):out('CONFLICT_REBASE',cand=I(pre if op=='move' else c))
+L=run/'.r36-locks';L.mkdir(exist_ok=True);held=[];initial=bool(op=='move' and D.exists())
+try:
+ for k in sorted([a.target]+([a.destination] if op=='move' else [])):
+  q=L/(hashlib.sha256(k.encode()).hexdigest()+'.lock')
+  try:os.mkdir(q);held.append(q)
+  except FileExistsError:out('CONFLICT_REBASE',cand=I(pre if op=='move' else c))
+ if initial:out('REJECTED_NO_MUTATION',cand=I(pre))
+ if raw(T)!=now or (op=='move' and D.exists()):out('CONFLICT_REBASE',cand=I(pre if op=='move' else c))
+ if op=='move':
+  time.sleep(.05)
+  try:os.link(T,D);os.unlink(T)
+  except FileExistsError:out('CONFLICT_REBASE',cand=I(pre))
+  except OSError:out('UNSUPPORTED_OWNER_DECISION',cand=I(pre))
+  out('COMMITTED',cand=I(pre),post=D)
+ B=run/('.r36-backup-'+secrets.token_hex(8));os.replace(T,B)
+ if fault=='after-displacement':wait('paused');os.link(B,T);out('MUTATION_FAILED_ROLLED_BACK',cand=I(c) if c else None)
+ if op=='delete':os.unlink(B);out('COMMITTED')
+ S=run/('.r36-stage-'+secrets.token_hex(8));S.write_bytes(c);os.link(S,T);S.unlink()
+ if fault=='after-publication':wait('paused');os.unlink(T);os.link(B,T);B.unlink();out('MUTATION_FAILED_ROLLED_BACK',cand=I(c))
+ if fault=='post-state-mismatch':
+  wait('paused');wait('observed-after-external','continue-after-external');
+  if reg(T):os.unlink(T)
+  os.link(B,T);B.unlink();out('POST_STATE_MISMATCH_ROLLED_BACK',cand=I(c))
+ for _ in range(30):
+  if raw(T)!=c:break
+  time.sleep(.005)
+ if raw(T)!=c:
+  tok=secrets.token_hex(16);j=run/('.r36-journal-'+tok+'.json');j.write_text(json.dumps({'token':tok,'residue_paths':[str(B)]}));out('ROLLBACK_CONFLICT',cand=I(c),j=j,tok=tok,res=[B])
+ B.unlink();out('COMMITTED',cand=I(c))
+finally:
+ for q in held:
+  try:os.rmdir(q)
+  except OSError:pass
+PY
