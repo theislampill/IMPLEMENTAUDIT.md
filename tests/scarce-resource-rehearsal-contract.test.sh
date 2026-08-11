@@ -12,6 +12,46 @@ tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 fail() { printf 'scarce-resource-rehearsal-contract: %s\n' "$*" >&2; exit 1; }
 
+# The declared wrapper is the production-side launch boundary.  It deliberately
+# does nothing unless the checker supplies the bounded producer substitute and
+# terminal destination. The stub emits only its derived identity, and the
+# wrapper emits the terminal record after that bounded call.
+cat > "$tmp/production-wrapper.py" <<'PY'
+#!/usr/bin/env python3
+import json
+import os
+import pathlib
+import subprocess
+import sys
+
+stub = os.environ["IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB"]
+terminal = os.environ["IMPLEMENTAUDIT_REHEARSAL_TERMINAL"]
+pathlib.Path(os.environ["IMPLEMENTAUDIT_REHEARSAL_WRAPPER_PROOF"]).write_text("production-wrapper\n", encoding="utf-8")
+subprocess.run([sys.executable, stub], check=True)
+components = ["producer", "terminal-writer"] if os.environ.get("IMPLEMENTAUDIT_TEST_SCOPE_GAP") else ["producer"]
+receipt = {
+    "rehearsed_command_hash": os.environ["IMPLEMENTAUDIT_REHEARSAL_COMMAND_HASH"],
+    "stub_identity": os.environ["IMPLEMENTAUDIT_REHEARSAL_STUB_IDENTITY"],
+    "stubbed_components": components,
+    "env_keys_present": json.loads(os.environ["IMPLEMENTAUDIT_REHEARSAL_ENV_KEYS"]),
+    "terminal_artifact_path": terminal,
+    "exit_code": 0,
+    "disposition": "PASS_WITH_SCOPE_GAP" if len(components) > 1 else "PASS",
+    "timestamp": "2026-08-06T12:00:00Z",
+}
+pathlib.Path(terminal).write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
+PY
+cat > "$tmp/producer-stub.py" <<'PY'
+#!/usr/bin/env python3
+import os
+import pathlib
+
+pathlib.Path(os.environ["IMPLEMENTAUDIT_REHEARSAL_STUB_PROOF"]).write_text(
+    os.environ["IMPLEMENTAUDIT_REHEARSAL_STUB_IDENTITY"] + "\n", encoding="utf-8"
+)
+PY
+chmod +x "$tmp/production-wrapper.py" "$tmp/producer-stub.py"
+
 cat > "$tmp/phase-budget.md" <<'EOF'
 Scarce resource budget: 2 model-calls
 Residual risk: none
@@ -29,7 +69,7 @@ Scarce resource budget: 2 model-calls
 Residual risk: none
 EOF
 
-python - "$fixture" "$tmp" <<'PY'
+python - "$fixture" "$tmp" "$tmp/production-wrapper.py" "$tmp/rehearsal-terminal.json" "$tmp/producer-stub.py" <<'PY'
 import copy
 import hashlib
 import json
@@ -38,6 +78,9 @@ import sys
 
 fixture = json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8"))
 out = pathlib.Path(sys.argv[2])
+wrapper = sys.argv[3]
+terminal = sys.argv[4]
+stub = pathlib.Path(sys.argv[5])
 
 def canonical_hash(argv, env_keys):
     preimage = json.dumps(
@@ -48,18 +91,18 @@ def canonical_hash(argv, env_keys):
     return hashlib.sha256(preimage).hexdigest()
 
 launch = {
-    "argv": fixture["argv"],
+    "argv": [sys.executable, wrapper, "--input", "fixture.txt"],
     "env_keys_present": fixture["env_keys_present"],
-    "terminal_artifact_path": fixture["terminal_artifact_path"],
+    "terminal_artifact_path": terminal,
     "launch_records": 1,
     "metered_calls": 0,
 }
 receipt = {
     "rehearsed_command_hash": canonical_hash(launch["argv"], launch["env_keys_present"]),
-    "stub_identity": fixture["stub_identity"],
+    "stub_identity": "sha256:" + hashlib.sha256(stub.read_bytes()).hexdigest(),
     "stubbed_components": ["producer"],
     "env_keys_present": fixture["env_keys_present"],
-    "terminal_artifact_path": fixture["terminal_artifact_path"],
+    "terminal_artifact_path": terminal,
     "exit_code": 0,
     "disposition": "PASS",
     "timestamp": "2026-08-06T12:00:00Z",
@@ -70,6 +113,10 @@ def write(name, value):
 
 write("launch-good.json", launch)
 write("receipt-good.json", receipt)
+
+gap_launch = copy.deepcopy(launch)
+gap_launch["terminal_artifact_path"] = str(out / "rehearsal-gap-terminal.json")
+write("launch-gap.json", gap_launch)
 
 f1_launch = copy.deepcopy(launch)
 f1_launch.update(argv=[], launch_records=0, metered_calls=0)
@@ -89,6 +136,7 @@ write("launch-drift.json", drift_launch)
 gap = copy.deepcopy(receipt)
 gap["stubbed_components"] = ["producer", "terminal-writer"]
 gap["disposition"] = "PASS_WITH_SCOPE_GAP"
+gap["terminal_artifact_path"] = gap_launch["terminal_artifact_path"]
 write("receipt-gap.json", gap)
 
 extra = copy.deepcopy(receipt)
@@ -136,6 +184,12 @@ must_fail() {
 rehearse() {
   bash "$checker" --phase "$1" --rehearsal "$2" --launch "$3"
 }
+run_production_rehearsal() {
+  API_TOKEN=fixture-token MODEL=fixture-model \
+  IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB="$tmp/producer-stub.py" \
+  IMPLEMENTAUDIT_REHEARSAL_WRAPPER_PROOF="$tmp/wrapper-proof" \
+  "$@"
+}
 
 # F1: a failed malformed-argv rehearsal cannot authorize launch; the fixture
 # independently proves that neither a launch record nor a metered call occurred.
@@ -156,12 +210,24 @@ must_pass F4 bash "$checker" --phase "$tmp/phase-none.md"
 
 # F5: interposed stubbing is a scope gap and every extra component must be
 # named by the phase's residual-risk statement.
-must_fail F5-missing-residual rehearse "$tmp/phase-gap-missing.md" "$tmp/receipt-gap.json" "$tmp/launch-good.json"
-must_pass F5-matched-residual rehearse "$tmp/phase-gap.md" "$tmp/receipt-gap.json" "$tmp/launch-good.json"
+must_fail F5-missing-residual rehearse "$tmp/phase-gap-missing.md" "$tmp/receipt-gap.json" "$tmp/launch-gap.json"
+
+# F9: a self-consistent receipt and launch declaration cannot establish a
+# rehearsal while the declared production wrapper and bounded producer stub
+# have not executed. This was intentionally RED against the former inert
+# checker and remains the detached-record false-positive control.
+must_fail F9-static-record-false-positive rehearse "$tmp/phase-budget.md" "$tmp/receipt-good.json" "$tmp/launch-good.json"
+[ ! -e "$tmp/wrapper-proof" ] || fail "F9 must not claim wrapper execution from a static record"
+[ ! -e "$tmp/stub-proof" ] || fail "F9 must not claim stub execution from a static record"
+
+IMPLEMENTAUDIT_TEST_SCOPE_GAP=1 \
+must_pass F5-matched-residual run_production_rehearsal rehearse "$tmp/phase-gap.md" "$tmp/receipt-gap.json" "$tmp/launch-gap.json"
 
 # F7: a repaired receipt may pass on a manual re-run. The policy itself must
 # keep that repair manual and forbid automatic retries.
-must_pass F7 rehearse "$tmp/phase-budget.md" "$tmp/receipt-good.json" "$tmp/launch-good.json"
+unset IMPLEMENTAUDIT_TEST_SCOPE_GAP
+must_pass F7 run_production_rehearsal rehearse "$tmp/phase-budget.md" "$tmp/receipt-good.json" "$tmp/launch-good.json"
+[ -f "$tmp/wrapper-proof" ] || fail "F7 production wrapper did not execute"
 
 # F8: strict schemas reject extras, value-bearing fields/key-value strings,
 # ordering/uniqueness violations, and booleans masquerading as integers.
@@ -180,9 +246,10 @@ p412="$(grep -n '^\*\*Rule P4-12 ' "$policy" | cut -d: -f1)"
 [ "$p410" -lt "$p411" ] && [ "$p411" -lt "$p412" ] || fail "P4-11 must sit between P4-10 and P4-12"
 p411_text="$(sed -n "${p411},$((p412 - 1))p" "$policy" | tr '\n' ' ')"
 printf '%s' "$p411_text" | grep -qi 'exact.*wrapper.*argv.*environment-key.*terminal' || fail "P4-11 missing exact apparatus identity"
+printf '%s' "$p411_text" | grep -Fq 'IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB' || fail "P4-11 missing bounded producer substitution control"
 printf '%s' "$p411_text" | grep -qi 'second apparatus.*cold review' || fail "F6 second-apparatus judgment must remain cold review"
 printf '%s' "$p411_text" | grep -qi 'manual repair.*re-run' || fail "F7 manual repair/re-run rule missing"
 printf '%s' "$p411_text" | grep -qi 'no automatic retr\|must not automatically retr' || fail "F7 automatic retry prohibition missing"
 grep -q '^Scarce resource budget: {{N <resource> | none}}$' "$template" || fail "phase budget field missing"
 
-printf 'scarce-resource-rehearsal-contract: ok (F1-F8; zero metered calls)\n'
+printf 'scarce-resource-rehearsal-contract: ok (F1-F9; zero metered calls)\n'

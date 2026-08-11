@@ -239,7 +239,9 @@ Before a scarce or irreversible resource is spent, rehearse the exact
 production wrapper, argv, sorted environment-key names, transport, and terminal
 artifact path with the producer stubbed and zero metered calls. Bind the result
 to a strict terminal receipt and canonical command hash; environment values are
-never captured. A failed rehearsal authorizes no launch. Interposed stubs make
+never captured. During rehearsal the wrapper uses the non-secret
+`IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB` control path for the producer
+substitution. A failed rehearsal authorizes no launch. Interposed stubs make
 the result `PASS_WITH_SCOPE_GAP` and every extra component is named in
 `Residual risk:`. Post-pass escalation is governed by `Countermeasure Scope And
 Verification Proportionality` in `lean-operating-discipline.md`;

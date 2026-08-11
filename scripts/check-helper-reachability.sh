@@ -203,43 +203,61 @@ def packaged_path(raw, helper, role):
         raise SystemExit(f"check-helper-reachability: missing {role}: {helper}: {raw}")
     return path
 
-mode_helper = "validate-run-root.sh"
-mode_path = skill_root / "scripts" / mode_helper
-mode_text = mode_path.read_text(encoding="utf-8")
-implemented_modes = sorted(set(re.findall(r"--graph-[a-z0-9-]+", mode_text)))
-declared_modes = sorted(mode for helper, mode in mode_rows if helper == mode_helper)
+implemented_mode_sets = {}
+graph_helper = "validate-run-root.sh"
+graph_text = (skill_root / "scripts" / graph_helper).read_text(encoding="utf-8")
+implemented_mode_sets[graph_helper] = sorted(set(re.findall(r"--graph-[a-z0-9-]+", graph_text)))
+rehearsal_helper = "check-authorization-binding.sh"
+rehearsal_text = (skill_root / "scripts" / rehearsal_helper).read_text(encoding="utf-8")
+rehearsal_mode = "--phase --rehearsal --launch"
+if all(flag in shell_code(rehearsal_text) for flag in rehearsal_mode.split()):
+    implemented_mode_sets[rehearsal_helper] = [rehearsal_mode]
+else:
+    implemented_mode_sets[rehearsal_helper] = []
+
 for helper, mode in mode_rows:
-    if helper not in helpers or helper != mode_helper or mode not in implemented_modes:
+    if helper not in helpers or mode not in implemented_mode_sets.get(helper, []):
         raise SystemExit(
             f"check-helper-reachability: mode applicability not implemented: {helper} {mode}"
         )
-missing_modes = sorted(set(implemented_modes) - set(declared_modes))
-if missing_modes:
-    raise SystemExit(
-        "check-helper-reachability: missing mode applicability rows: "
-        + ", ".join(f"{mode_helper} {mode}" for mode in missing_modes)
-    )
-mode_dispatch = shell_code(mode_text)
+for helper, implemented_modes in implemented_mode_sets.items():
+    declared_modes = sorted(mode for row_helper, mode in mode_rows if row_helper == helper)
+    missing_modes = sorted(set(implemented_modes) - set(declared_modes))
+    if missing_modes:
+        raise SystemExit(
+            "check-helper-reachability: missing mode applicability rows: "
+            + ", ".join(f"{helper} {mode}" for mode in missing_modes)
+        )
+
 mode_owner = "\n".join(
     line for line in contract_text.splitlines()
     if not line.startswith(("helper-route: ", "helper-mode: "))
 )
-for mode in declared_modes:
-    row = mode_rows[(mode_helper, mode)]
-    if not re.search(
-        rf'(?m)(?:\$\{{1:-\}}[^\n]*{re.escape(mode)}|^\s*{re.escape(mode)}(?:\||\)))',
-        mode_dispatch,
-    ):
+for helper, mode in mode_rows:
+    row = mode_rows[(helper, mode)]
+    mode_dispatch = shell_code((skill_root / "scripts" / helper).read_text(encoding="utf-8"))
+    if not all(flag in mode_dispatch for flag in mode.split()):
         raise SystemExit(
-            f"check-helper-reachability: mode applicability not implemented: {mode_helper} {mode}"
+            f"check-helper-reachability: mode applicability not implemented: {helper} {mode}"
         )
-    if not arguments_are_anchored(f"{mode} {row['arguments']}", mode_helper, mode_owner):
+    mode_flags = mode.split()
+    mode_args = row["arguments"].split()
+    mode_command = f"{mode} {row['arguments']}"
+    if len(mode_flags) > 1:
+        if len(mode_flags) != len(mode_args):
+            raise SystemExit(
+                f"check-helper-reachability: mode argument arity mismatch: {helper} {mode}"
+            )
+        mode_command = " ".join(
+            f"{flag} {argument}" for flag, argument in zip(mode_flags, mode_args)
+        )
+    if not arguments_are_anchored(mode_command, helper, mode_owner):
         raise SystemExit(
-            f"check-helper-reachability: mode arguments absent: {mode_helper} {mode}"
+            f"check-helper-reachability: mode arguments absent: {helper} {mode}"
         )
     if not field_is_anchored(row["boundary"], mode_owner.lower()):
         raise SystemExit(
-            f"check-helper-reachability: mode boundary absent: {mode_helper} {mode}"
+            f"check-helper-reachability: mode boundary absent: {helper} {mode}"
         )
 
 for helper in helpers:
@@ -344,7 +362,7 @@ for helper in helpers:
 print(
     "HELPER_REACHABILITY=PASS "
     f"population={len(helpers)} examined={len(rows)} "
-    f"modes={len(declared_modes)}/{len(implemented_modes)} "
+    f"modes={len(mode_rows)}/{sum(len(modes) for modes in implemented_mode_sets.values())} "
     "enumeration=build-release-asset.required_archive"
 )
 PY

@@ -26,9 +26,9 @@ drift() {
 }
 
 # Scarce-resource preflight rehearsal (#84). This mode is deliberately
-# separate from the legacy authorization-record comparison below: it validates
-# inert artifacts and never launches the recorded argv or reads environment
-# values.
+# separate from the legacy authorization-record comparison below. It executes
+# the declared production wrapper once, but only after replacing its producer
+# endpoint with the bounded substitute supplied by the caller.
 if [ "${1:-}" = "--phase" ]; then
   phase=""; rehearsal=""; launch=""
   while [ "$#" -gt 0 ]; do
@@ -44,9 +44,12 @@ if [ "${1:-}" = "--phase" ]; then
 import datetime
 import hashlib
 import json
+import os
 import pathlib
 import re
+import subprocess
 import sys
+import tempfile
 
 def fail(message):
     print(f"check-authorization-binding: rehearsal rejected ({message})", file=sys.stderr)
@@ -180,6 +183,64 @@ else:
     missing = [item for item in extras if not any(item in line for line in residuals)]
     if missing:
         fail(f"Residual risk must name every interposed stub: {missing}")
+
+# A receipt/launch pair is only a declaration until the declared wrapper has
+# traversed its real transport with a substitute producer. The substitute is
+# supplied out of band so neither a secret nor a producer endpoint is captured
+# in the receipt. The wrapper receives only bounded control paths and the
+# already-derived non-secret identity fields below.
+stub_raw = os.environ.get("IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB")
+if not stub_raw:
+    fail("missing bounded producer stub environment")
+stub_path = pathlib.Path(stub_raw)
+if not stub_path.is_file() or not os.access(stub_path, os.X_OK):
+    fail("bounded producer stub must be an executable regular file")
+stub_identity = "sha256:" + hashlib.sha256(stub_path.read_bytes()).hexdigest()
+if receipt["stub_identity"] != stub_identity:
+    fail("receipt stub identity does not match bounded producer stub")
+
+for key in launch["env_keys_present"]:
+    if key not in os.environ:
+        fail(f"declared environment key is absent for rehearsal: {key}")
+
+terminal_path = pathlib.Path(launch["terminal_artifact_path"])
+if not terminal_path.parent.is_dir():
+    fail("terminal artifact parent directory does not exist")
+if terminal_path.exists() or terminal_path.is_symlink():
+    fail("terminal artifact must be absent before wrapper execution")
+
+proof_fd, proof_raw = tempfile.mkstemp(
+    prefix=".implementaudit-rehearsal-stub-",
+    dir=terminal_path.parent,
+)
+os.close(proof_fd)
+proof_path = pathlib.Path(proof_raw)
+proof_path.unlink()
+
+run_env = os.environ.copy()
+run_env.update({
+    "IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB": str(stub_path.resolve()),
+    "IMPLEMENTAUDIT_REHEARSAL_TERMINAL": launch["terminal_artifact_path"],
+    "IMPLEMENTAUDIT_REHEARSAL_STUB_PROOF": str(proof_path),
+    "IMPLEMENTAUDIT_REHEARSAL_COMMAND_HASH": actual_hash,
+    "IMPLEMENTAUDIT_REHEARSAL_STUB_IDENTITY": stub_identity,
+    "IMPLEMENTAUDIT_REHEARSAL_ENV_KEYS": json.dumps(
+        launch["env_keys_present"], separators=(",", ":")
+    ),
+})
+try:
+    completed = subprocess.run(launch["argv"], env=run_env, check=False)
+except OSError as exc:
+    fail(f"production wrapper could not execute: {exc}")
+if completed.returncode != 0:
+    fail(f"production wrapper exited {completed.returncode}")
+if not proof_path.is_file() or proof_path.read_text(encoding="utf-8") != stub_identity + "\n":
+    fail("bounded producer stub did not produce its identity proof")
+if not terminal_path.is_file() or terminal_path.is_symlink():
+    fail("production wrapper did not produce the declared terminal artifact")
+observed = load_object(str(terminal_path), "execution terminal")
+if observed != receipt:
+    fail("execution terminal does not match the supplied rehearsal receipt")
 
 print("check-authorization-binding: ok — rehearsal identity and terminal receipt are bound")
 PY
