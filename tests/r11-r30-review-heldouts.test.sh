@@ -365,6 +365,46 @@ if bash "$reachability" --repo-root "$conditional_expression_launch" >/dev/null 
   failures+=("conditional-expression-launch-counts-as-transport")
 fi
 
+assigned_exit_before_start="$tmp/assigned-exit-before-start"
+mkdir -p "$assigned_exit_before_start/scripts"
+cp -R skills "$assigned_exit_before_start/skills"
+cp scripts/build-release-asset.sh "$assigned_exit_before_start/scripts/build-release-asset.sh"
+sed -i '/^mediator_thread\.start()$/i terminated = sys.exit(0)' \
+  "$assigned_exit_before_start/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$assigned_exit_before_start" >/dev/null 2>&1; then
+  failures+=("assigned-exit-before-start-counts-as-transport")
+fi
+
+exit_test_before_start="$tmp/exit-test-before-start"
+mkdir -p "$exit_test_before_start/scripts"
+cp -R skills "$exit_test_before_start/skills"
+cp scripts/build-release-asset.sh "$exit_test_before_start/scripts/build-release-asset.sh"
+sed -i '/^mediator_thread\.start()$/i if sys.exit(0): pass' \
+  "$exit_test_before_start/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$exit_test_before_start" >/dev/null 2>&1; then
+  failures+=("terminating-if-test-before-start-counts-as-transport")
+fi
+
+empty_assert_before_start="$tmp/empty-assert-before-start"
+mkdir -p "$empty_assert_before_start/scripts"
+cp -R skills "$empty_assert_before_start/skills"
+cp scripts/build-release-asset.sh "$empty_assert_before_start/scripts/build-release-asset.sh"
+sed -i '/^mediator_thread\.start()$/i assert ()\nassert []' \
+  "$empty_assert_before_start/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$empty_assert_before_start" >/dev/null 2>&1; then
+  failures+=("empty-literal-assert-before-start-counts-as-transport")
+fi
+
+assigned_exit_before_producer="$tmp/assigned-exit-before-producer"
+mkdir -p "$assigned_exit_before_producer/scripts"
+cp -R skills "$assigned_exit_before_producer/skills"
+cp scripts/build-release-asset.sh "$assigned_exit_before_producer/scripts/build-release-asset.sh"
+sed -i '/result = subprocess\.run(command/i\            terminated = sys.exit(0)' \
+  "$assigned_exit_before_producer/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$assigned_exit_before_producer" >/dev/null 2>&1; then
+  failures+=("assigned-exit-before-producer-counts-as-live-stub")
+fi
+
 if ! grep -Fqx \
   'helper-mode: check-authorization-binding.sh|--phase --rehearsal --launch|<phase> <receipt> <launch>|failed-rehearsal-blocks-launch|scripts/validate-phase.sh' \
   skills/implementaudit/references/repo-state-comparison.md; then
