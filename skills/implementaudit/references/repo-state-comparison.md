@@ -354,15 +354,17 @@ row:
 
 ```text
 claim: <id> | surface: publication | publication-kind: hosted-release-asset | status: verified|unverified | evidence-surface: publication | evidence-digest: <sha256>
-publication-identity: <id> | publication-kind: hosted-release-asset | release-id: <id> | tag: <tag> | asset-id: <id> | asset-name: <bare-name> | asset-size: <bytes> | asset-digest: <sha256> | qualified-repository: <bare-directory> | qualified-commit: <git-object> | qualified-tree: <git-object> | qualified-package-file: <bare-file> | release-url: <public-api-url> | asset-url: <public-api-url> | download-url: <public-download-url> | public-readback-file: <bare-json-file> | public-readback-sha256: <sha256> | downloaded-asset-file: <bare-file> | disposition: verified|SUPERSEDED
+publication-identity: <id> | publication-kind: hosted-release-asset | release-id: <id> | tag: <tag> | asset-id: <id> | asset-name: <bare-name> | asset-size: <bytes> | asset-digest: <sha256> | qualified-repository: <bare-directory> | qualified-commit: <git-object> | qualified-tree: <git-object> | qualified-package-file: <bare-file> | qualification-record-file: <bare-json-file> | qualification-record-sha256: <sha256> | release-url: <public-api-url> | asset-url: <public-api-url> | download-url: <public-download-url> | public-readback-sha256: <sha256> | disposition: verified|SUPERSEDED
 ```
 
-The independently obtained, hash-bound JSON contains the same release, asset,
-commit, tree, and public URLs. The commit must resolve in the declared Git
-repository and produce the exact tree. The separately downloaded asset and
-qualified package must be regular contained files with identical measured
-bytes, size, and SHA-256. Those measurements must equal the row and JSON;
-caller-authored JSON or a local digest alone cannot establish hosted state.
+The hash-bound qualification record ties the resolved commit and exact tree to
+the qualified package name, measured size, and SHA-256. For public proof the
+checker resolves a read-only capture executable outside the evaluated record
+tree, invokes fixed arguments with no stdin and a bounded timeout, and captures
+the release JSON plus download bytes into checker memory. The captured JSON is
+strict unique-key UTF-8 and must equal the row; captured bytes must equal the
+qualified package. Pre-authored JSON, copied local bytes, or a local digest
+alone cannot establish hosted state.
 
 ## Proving a file is dead
 
