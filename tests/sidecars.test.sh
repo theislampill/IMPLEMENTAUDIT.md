@@ -1372,6 +1372,7 @@ tokensave_authority_adapter="$tokensave_adapter_tmp/tokensave-authority-adapter.
 cat >"$tokensave_authority_adapter" <<'PY'
 import json
 import os
+import subprocess
 import sys
 import time
 
@@ -1389,11 +1390,23 @@ if mode == "nonzero":
 if mode == "malformed":
     print("not-json")
     raise SystemExit(0)
+if mode == "child-hang":
+    marker = os.environ["TOKENSAVE_CHILD_SURVIVOR_MARKER"]
+    subprocess.Popen(
+        [sys.executable, "-c", (
+            "import pathlib,sys,time; "
+            "time.sleep(3); pathlib.Path(sys.argv[1]).write_text('survived', encoding='utf-8')"
+        ), marker],
+        stdin=subprocess.DEVNULL,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+    time.sleep(8)
 
 database_identity = "tokensave-db://contract-fixture"
 database_fingerprint = "sha256:7fcdb5a08be7894845a44a7f2cc96095da3b3579468e2689405c7a98d555a3a4"
 readback_root = checkout_root + "-mismatch" if mode == "mismatch" else checkout_root
-print(json.dumps({
+payload = {
     "schema": "implementaudit.tokensave_freshness_adapter.v1",
     "checkout_root": checkout_root,
     "checkout_head": checkout_head,
@@ -1406,7 +1419,15 @@ print(json.dumps({
     "readback_checkout_head": checkout_head,
     "readback_database_identity": database_identity,
     "readback_database_fingerprint": database_fingerprint,
-}, separators=(",", ":")))
+}
+encoded = json.dumps(payload, separators=(",", ":"))
+if mode == "duplicate":
+    encoded = encoded.replace(
+        '{"schema":',
+        '{"schema":"implementaudit.tokensave_freshness_adapter.forged","schema":',
+        1,
+    )
+print(encoded)
 PY
 tokensave_fixture="$tokensave_tmp/cases-bound.json"
 "${py_cmd[@]}" - \
@@ -1750,7 +1771,7 @@ else
   check_pass "scenario12: candidate-local TokenSave adapter is rejected" 1
 fi
 
-for adapter_mode in timeout nonzero malformed mismatch; do
+for adapter_mode in timeout nonzero malformed mismatch duplicate; do
   set +e
   adapter_output="$(TOKENSAVE_ADAPTER_MODE="$adapter_mode" \
     bash scripts/check-sidecar-boundaries.sh \
@@ -1766,6 +1787,29 @@ for adapter_mode in timeout nonzero malformed mismatch; do
     check_pass "scenario12: authority adapter $adapter_mode cannot establish currentness" 1
   fi
 done
+
+tokensave_child_survivor_marker="$tokensave_adapter_tmp/child-survived.txt"
+set +e
+tokensave_child_cleanup_output="$(
+  TOKENSAVE_ADAPTER_MODE=child-hang \
+  TOKENSAVE_CHILD_SURVIVOR_MARKER="$tokensave_child_survivor_marker" \
+  bash scripts/check-sidecar-boundaries.sh \
+    --evaluate-tokensave-claims "$tokensave_tmp/fabricated-current.json" \
+    --tokensave-freshness-adapter "$tokensave_authority_adapter" 2>&1
+)"
+tokensave_child_cleanup_status=$?
+set -e
+sleep 2
+if [ "$tokensave_child_cleanup_status" -ne 0 ] && \
+   printf '%s' "$tokensave_child_cleanup_output" | grep -Fq \
+     "TOKENSAVE_FRESHNESS_UNVERIFIED" && \
+   [ ! -e "$tokensave_child_survivor_marker" ]; then
+  check_pass "scenario12: timed-out TokenSave adapter leaves no spawned child survivor" 0
+else
+  printf 'sidecars.test: TokenSave child cleanup output: %s; survivor=%s\n' \
+    "$tokensave_child_cleanup_output" "$([ -e "$tokensave_child_survivor_marker" ] && printf yes || printf no)" >&2
+  check_pass "scenario12: timed-out TokenSave adapter leaves no spawned child survivor" 1
+fi
 
 set +e
 tokensave_adapter_valid_output="$(TOKENSAVE_ADAPTER_MODE=valid \

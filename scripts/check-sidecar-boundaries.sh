@@ -245,6 +245,7 @@ if [ "${1:-}" = "--evaluate-tokensave-claims" ]; then
 import json
 import os
 import re
+import signal
 import subprocess
 import sys
 
@@ -280,6 +281,8 @@ SHA_PATTERN = re.compile(r"[0-9a-f]{40}")
 FINGERPRINT_PATTERN = re.compile(r"sha256:[0-9a-f]{64}")
 ADAPTER_SCHEMA = "implementaudit.tokensave_freshness_adapter.v1"
 ADAPTER_TIMEOUT_SECONDS = 2
+PROCESS_TREE_TERM_GRACE_SECONDS = 1
+PROCESS_TREE_WAIT_SECONDS = 5
 
 
 def exact_keys(value, expected, label):
@@ -296,6 +299,15 @@ def normalized_root(value):
             "unknown", "missing", "unverified"}:
         return None
     return os.path.normcase(os.path.realpath(value))
+
+
+def reject_duplicate_keys(pairs):
+    value = {}
+    for key, member in pairs:
+        if key in value:
+            raise ValueError(f"duplicate JSON key: {key}")
+        value[key] = member
+    return value
 
 
 def adapter_result_is_current(value):
@@ -361,24 +373,67 @@ def run_authority_adapter():
         "--checkout-root", current_checkout_root,
         "--checkout-head", current_checkout_head,
     ]
+    popen_options = {
+        "cwd": current_checkout_root,
+        "stdin": subprocess.DEVNULL,
+        "stdout": subprocess.PIPE,
+        "stderr": subprocess.PIPE,
+        "text": True,
+    }
+    if os.name == "nt":
+        popen_options["creationflags"] = getattr(
+            subprocess, "CREATE_NEW_PROCESS_GROUP", 0)
+    else:
+        popen_options["start_new_session"] = True
     try:
-        completed = subprocess.run(
-            argv,
-            cwd=current_checkout_root,
-            stdin=subprocess.DEVNULL,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            timeout=ADAPTER_TIMEOUT_SECONDS,
-            check=False,
-        )
-    except (OSError, subprocess.TimeoutExpired):
+        process = subprocess.Popen(argv, **popen_options)
+    except OSError:
         return None
-    if completed.returncode != 0:
+
+    try:
+        stdout, _stderr = process.communicate(timeout=ADAPTER_TIMEOUT_SECONDS)
+    except subprocess.TimeoutExpired:
+        owned_pid = process.pid
+        if os.name == "nt":
+            system_root = os.environ.get("SystemRoot", r"C:\Windows")
+            taskkill = os.path.join(system_root, "System32", "taskkill.exe")
+            try:
+                subprocess.run(
+                    [taskkill, "/PID", str(owned_pid), "/T", "/F"],
+                    stdin=subprocess.DEVNULL,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    timeout=PROCESS_TREE_WAIT_SECONDS,
+                    check=False,
+                    creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+                )
+            except (OSError, subprocess.TimeoutExpired):
+                pass
+        else:
+            try:
+                os.killpg(owned_pid, signal.SIGTERM)
+            except ProcessLookupError:
+                pass
+            try:
+                process.wait(timeout=PROCESS_TREE_TERM_GRACE_SECONDS)
+            except subprocess.TimeoutExpired:
+                pass
+            try:
+                os.killpg(owned_pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+        try:
+            process.wait(timeout=PROCESS_TREE_WAIT_SECONDS)
+        except subprocess.TimeoutExpired:
+            process.kill()
+            process.wait(timeout=PROCESS_TREE_WAIT_SECONDS)
+        return None
+
+    if process.returncode != 0:
         return None
     try:
-        result_value = json.loads(completed.stdout)
-    except json.JSONDecodeError:
+        result_value = json.loads(stdout, object_pairs_hook=reject_duplicate_keys)
+    except (json.JSONDecodeError, ValueError):
         return None
     if not adapter_result_is_current(result_value):
         return None
