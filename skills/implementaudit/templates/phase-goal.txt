@@ -27,6 +27,12 @@ Terminal object state to prove: {{WHAT_MUST_BE_TRUE_WHEN_DONE}}
 Thinking ref: <run-root>/THINKING.md
 Mandatory commands: {{COMMANDS_CSV}}
 Scarce resource budget: {{N <resource> | none}}
+Rehearsal receipt: {{PATH | none}}
+Rehearsal launch: {{PATH | none}}
+Rehearsal producer stub: {{PATH | none}}
+Rehearsal command hash: {{SHA-256 | none}}
+Rehearsal terminal artifact: {{PATH | none}}
+Rehearsal environment keys: {{COMMA_SEPARATED_UPPERCASE_KEYS | none}}
 Acceptance criteria: {{CRIT_COUNT}}
 Evidence required: {{EVIDENCE_CSV}}
 Depends on phases: {{DEPS}}

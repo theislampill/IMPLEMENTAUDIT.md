@@ -52,6 +52,7 @@ EXPLAIN
 fi
 
 [ -f "$phase_file" ] || fail "phase file not found: $phase_file"
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 errors=0
 
@@ -932,6 +933,25 @@ fi
 if (( errors > 0 )); then
   printf 'validate-phase: %d error(s); see templates/phase-goal.txt in the skill directory for the canonical filled shape\n' "$errors" >&2
   exit 1
+fi
+
+budget="$(sed -nE 's/^Scarce resource budget:[[:space:]]*(.*[^[:space:]])?[[:space:]]*$/\1/p' "$phase_file")"
+if [ -n "$budget" ] && [ "$budget" != "none" ]; then
+  phase_field() {
+    local name="$1" values
+    values="$(sed -nE "s/^${name}:[[:space:]]*(.*[^[:space:]])?[[:space:]]*$/\\1/p" "$phase_file")"
+    [ "$(printf '%s\n' "$values" | sed '/^$/d' | wc -l)" -eq 1 ] || fail "non-none budget requires one ${name}"
+    values="$(printf '%s\n' "$values" | sed '/^$/d')"
+    [ "$values" != "none" ] || fail "non-none scarce budget requires ${name}"
+    printf '%s\n' "$values"
+  }
+  rehearsal="$(phase_field 'Rehearsal receipt')"
+  launch="$(phase_field 'Rehearsal launch')"
+  producer_stub="$(phase_field 'Rehearsal producer stub')"
+  for field in 'Rehearsal command hash' 'Rehearsal terminal artifact' 'Rehearsal environment keys'; do phase_field "$field" >/dev/null; done
+  IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB="$producer_stub" \
+    "$script_dir/check-authorization-binding.sh" --phase "$phase_file" --rehearsal "$rehearsal" --launch "$launch" ||
+    fail "rehearsal failed; repair manually and re-run"
 fi
 
 printf 'validate-phase: ok\n'

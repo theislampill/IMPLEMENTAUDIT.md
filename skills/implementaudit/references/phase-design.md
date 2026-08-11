@@ -235,19 +235,16 @@ requirement where their contexts overlap. `validate-phase.sh` enforces the
 mechanical parts; cold review owns materiality judgments.
 
 **Rule P4-11 — Scarce-resource launch rehearsal (#84).**
-Before a scarce or irreversible resource is spent, rehearse the exact
-production wrapper, argv, sorted environment-key names, transport, and terminal
-artifact path with the producer stubbed and zero metered calls. Bind the result
-to a strict terminal receipt and canonical command hash; environment values are
-never captured. A failed rehearsal authorizes no launch. Interposed stubs make
-the result `PASS_WITH_SCOPE_GAP` and every extra component is named in
-`Residual risk:`. Post-pass escalation is governed by `Countermeasure Scope And
-Verification Proportionality` in `lean-operating-discipline.md`;
-`PASS_WITH_SCOPE_GAP` is an input to that judgment, not automatic promotion
-into a second apparatus; any such promotion remains a cold review judgment.
-After a failure, only manual repair and re-run may
-establish a new passing receipt; the governed action must not automatically
-retry.
+Before a scarce or irreversible resource is spent, rehearse the exact production
+wrapper, argv, environment-key names, transport, and terminal path with the
+producer stubbed and zero metered calls; a strict receipt/hash binds them.
+Environment values are never captured or inherited.
+`IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB` gives the wrapper only a checker-owned
+mediator bridge, never producer/proof/terminal; its zero substitute exit lets
+the checker publish the terminal. Interposed stubs yield `PASS_WITH_SCOPE_GAP`
+and `Residual risk:` names each. A second apparatus remains a cold review
+judgment. Failure blocks launch: manual repair and re-run only; no automatic
+retry may consume the resource.
 
 **Rule P4-12 — Paired controls on free-text acceptance.**
 Any acceptance criterion that matches free text ships with two named controls

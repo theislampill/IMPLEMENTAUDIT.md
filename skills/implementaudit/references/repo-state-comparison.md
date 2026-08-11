@@ -245,9 +245,12 @@ Graphify modes: `bash <skill-dir>/scripts/validate-run-root.sh --graph-freshness
 <skill-dir>/scripts/validate-run-root.sh --graph-parent <catalog> <repo> <scope>
 <reason>` revalidates then broadens/falls back.
 
+When the native audit object opens a scarce-resource phase, `validate-phase.sh` consumes its receipt, launch, stub, hash, environment-key names, and terminal then invokes `check-authorization-binding.sh --phase <phase> --rehearsal <receipt> --launch <launch>`. The wrapper crosses a checker-owned mediator to the bounded producer; its zero exit precedes checker terminal publication. A failed rehearsal blocks launch; repair/re-run stays manual.
+
 helper-mode: validate-run-root.sh|--graph-freshness|<graph.json> <repo-root>|stale
 helper-mode: validate-run-root.sh|--graph-scope|<catalog> <repo> <path> [path...]|smallest
 helper-mode: validate-run-root.sh|--graph-parent|<catalog> <repo> <scope> <reason>|fallback
+helper-mode: check-authorization-binding.sh|--phase --rehearsal --launch|<phase> <receipt> <launch>|failed-rehearsal-blocks-launch|scripts/validate-phase.sh
 
 helper-route: check-authorization-binding.sh|R|auth|P|-|--auth <a> --invocation <i> --state <s>|no-param
 helper-route: check-closure-surface.sh|R|final|P|-|<closure-record> --superseded-plan <each-replaced-plan> --steer-dir <run-root> --plan-cycle-record <each-cycle-accounted-plan>|inputs

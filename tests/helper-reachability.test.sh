@@ -15,15 +15,22 @@ trap 'rm -rf -- "$tmp"' EXIT
 make_candidate() {
   local name="$1"
   local candidate="$tmp/$name"
-  mkdir -p "$candidate/scripts"
+  mkdir -p "$candidate/scripts" "$candidate/tests" \
+    "$candidate/fixtures/scarce-resource-rehearsal" \
+    "$candidate/fixtures/run-root-example/phases"
   cp -R "$repo_root/skills" "$candidate/skills"
   cp "$repo_root/scripts/build-release-asset.sh" "$candidate/scripts/build-release-asset.sh"
+  cp "$repo_root/tests/scarce-resource-rehearsal-contract.test.sh" "$candidate/tests/"
+  cp "$repo_root/fixtures/scarce-resource-rehearsal/cases.json" \
+    "$candidate/fixtures/scarce-resource-rehearsal/"
+  cp "$repo_root/fixtures/run-root-example/phases/phase-1.md" \
+    "$candidate/fixtures/run-root-example/phases/"
   printf '%s\n' "$candidate"
 }
 
 expect_fail() {
   local label="$1" pattern="$2" candidate="$3" output
-  if output="$(bash "$checker" --repo-root "$candidate" 2>&1)"; then
+  if output="$(bash "$checker" --census-only --repo-root "$candidate" 2>&1)"; then
     printf 'helper-reachability.test: %s unexpectedly passed\n' "$label" >&2
     exit 1
   fi
@@ -74,9 +81,30 @@ PY
 }
 
 positive_output="$(bash "$checker" --repo-root "$repo_root")"
-grep -Fq 'HELPER_REACHABILITY=PASS population=18 examined=18 modes=3/3 enumeration=build-release-asset.required_archive' \
+grep -Fq 'HELPER_REACHABILITY=PASS population=18 examined=18 modes=4/4 enumeration=build-release-asset.required_archive' \
   <<<"$positive_output" || {
     printf 'helper-reachability.test: live positive census did not prove 18/18\n%s\n' "$positive_output" >&2
+    exit 1
+}
+
+census_output="$(bash "$checker" --census-only --repo-root "$repo_root")"
+grep -Fq 'HELPER_REACHABILITY_CENSUS=PASS population=18 examined=18 modes=4/4 enumeration=build-release-asset.required_archive' \
+  <<<"$census_output" || {
+    printf 'helper-reachability.test: census-only result was not distinctly nonterminal\n%s\n' "$census_output" >&2
+    exit 1
+  }
+
+# R30 must count the scarce-resource rehearsal as a distinct governed mode,
+# rather than treating the authorization-record mode as its proxy.
+grep -Fqx \
+  'helper-mode: check-authorization-binding.sh|--phase --rehearsal --launch|<phase> <receipt> <launch>|failed-rehearsal-blocks-launch|scripts/validate-phase.sh' \
+  "$repo_root/skills/implementaudit/references/repo-state-comparison.md" || {
+    printf 'helper-reachability.test: R30 rehearsal mode is missing from the route population\n' >&2
+    exit 1
+  }
+grep -Fq 'native audit object opens a scarce-resource phase' \
+  "$repo_root/skills/implementaudit/references/repo-state-comparison.md" || {
+    printf 'helper-reachability.test: R30 rehearsal caller/trigger is missing\n' >&2
     exit 1
   }
 
@@ -101,6 +129,13 @@ sed -i 's/--graph-scope <catalog> <repo> <path> \[path\.\.\.\]/--graph-scope is 
 expect_fail R30-M3 \
   'mode arguments absent: validate-run-root.sh --graph-scope' \
   "$missing_mode_dispatch"
+
+missing_rehearsal_mode="$(make_candidate missing-rehearsal-mode)"
+sed -i '/^helper-mode: check-authorization-binding.sh|--phase --rehearsal --launch|/d' \
+  "$missing_rehearsal_mode/skills/implementaudit/references/repo-state-comparison.md"
+expect_fail R30-M4 \
+  'missing mode applicability rows: check-authorization-binding.sh --phase --rehearsal --launch' \
+  "$missing_rehearsal_mode"
 grep -Fq 'One audit object; no event, no sweep.' \
   "$repo_root/skills/implementaudit/references/repo-state-comparison.md" || {
     printf 'helper-reachability.test: same-object/no-event contract is missing\n' >&2
@@ -332,4 +367,4 @@ printf '%s\n' \
   >>"$extra_row/skills/implementaudit/references/repo-state-comparison.md"
 expect_fail R30-F11 'applicability rows not in package: ghost-helper.sh' "$extra_row"
 
-printf 'helper-reachability.test: ok (derived 18/18 + modes 3/3 + R30-F1-F5/F8/F11/F20/M1-M3 controls)\n'
+printf 'helper-reachability.test: ok (derived 18/18 + modes 4/4 + R30-F1-F5/F8/F11/F20/M1-M4 controls)\n'
