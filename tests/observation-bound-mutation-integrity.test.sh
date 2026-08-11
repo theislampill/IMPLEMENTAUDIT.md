@@ -28,13 +28,20 @@ p=Path(sys.argv[1]); p.parent.mkdir(parents=True,exist_ok=True); p.write_bytes(b
 PY
 }
 assert_hex() { "$python_bin" - "$1" "$2" "$3" <<'PY'
-import sys
+import os,stat,sys
 from pathlib import Path
 label,path,want=sys.argv[1:]
 if want == '@DIRECTORY':
  if not Path(path).is_dir(): raise SystemExit(f'{label}: expected a retained directory')
  raise SystemExit(0)
-got=Path(path).read_bytes() if Path(path).is_file() else None
+if want == '@SYMLINK_PATH':
+ p=Path(path)
+ if not any(q.is_symlink() for q in (p,*p.parents)): raise SystemExit(f'{label}: expected final or ancestor symlink')
+ raise SystemExit(0)
+p=Path(path)
+try: mode=p.lstat().st_mode
+except FileNotFoundError: mode=None
+got=p.read_bytes() if mode is not None and stat.S_ISREG(mode) else None
 expected=bytes.fromhex(want) if want != '-' else None
 if got != expected: raise SystemExit(f'{label}: got={got!r} want={expected!r}')
 PY
@@ -81,10 +88,14 @@ PY
 }
 
 identity_json() { "$python_bin" - "$1" <<'PY'
-import hashlib,json,sys
+import hashlib,json,stat,sys
 from pathlib import Path
 p=Path(sys.argv[1])
-if not p.is_file(): print('null')
+try:
+ unsafe=any(q.is_symlink() for q in (p,*p.parents))
+ mode=p.lstat().st_mode
+except FileNotFoundError: unsafe=True; mode=0
+if unsafe or not stat.S_ISREG(mode): print('null')
 else:
  b=p.read_bytes(); print(json.dumps({'sha256':hashlib.sha256(b).hexdigest(),'byte_length':len(b)},separators=(',',':')))
 PY
@@ -163,15 +174,46 @@ PY
   assert_hex "$label visible state" "$post_path" "$expected"
 }
 
-# Test-only deterministic fault boundary. The canonical helper receives this
-# only in these acceptance fixtures; production callers have no fault stage.
-invoke_fault() { local stage="$1"; shift; IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE="$stage" invoke "$@"; }
+# Test-only deterministic fault boundary. The helper must write an exact
+# barrier snapshot when it actually reaches the requested transaction stage;
+# a caller-supplied stage string alone cannot satisfy this test.
+invoke_fault() {
+  local stage="$1"; shift; local barrier="$tmp/fault-$stage"
+  rm -rf -- "$barrier"; mkdir "$barrier"
+  IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE="$stage" invoke "$@"
+  "$python_bin" - "$barrier/stage.json" "$stage" <<'PY'
+import json,sys
+from pathlib import Path
+p=Path(sys.argv[1]); stage=sys.argv[2]
+record=json.loads(p.read_text(encoding='utf-8'))
+expected={
+ 'pre-displacement': {'target_exists': True, 'target_sha256': 'f0393febe8baaa55e32f7be2a7cc180bf34e52137d99e056c817a9c07b8f239a'},
+ 'after-displacement': {'target_exists': False, 'target_sha256': None},
+ 'after-publication': {'target_exists': True, 'target_sha256': 'a253ff09c5a8678e1fd1962b2c329245e139e45f9cc6ced4e5d7ad42c4108fc0'},
+ 'post-state-mismatch': {'target_exists': True, 'target_sha256': 'a253ff09c5a8678e1fd1962b2c329245e139e45f9cc6ced4e5d7ad42c4108fc0'},
+ 'unsupported-external-writer': {'target_exists': True, 'target_sha256': 'f0393febe8baaa55e32f7be2a7cc180bf34e52137d99e056c817a9c07b8f239a'},
+}[stage]
+if record != {'stage': stage, **expected}: raise SystemExit(f'fault stage evidence mismatch: {record!r}')
+PY
+}
 
 residual_field() { "$python_bin" - "$last_record" "$1" <<'PY'
 import json,sys
 v=json.loads(sys.argv[1])[sys.argv[2]]
 if not isinstance(v,str) or not v: raise SystemExit('missing residual field')
 print(v)
+PY
+}
+assert_retained_recovery_paths() { "$python_bin" - "$last_record" "$fixture_repo" <<'PY'
+import json,sys
+from pathlib import Path
+record=json.loads(sys.argv[1]); root=Path(sys.argv[2]).resolve()
+for field in ('journal_path',):
+ p=Path(record[field]).resolve()
+ if root not in p.parents or not p.exists(): raise SystemExit(f'missing retained {field}: {p}')
+for raw in record['residue_paths']:
+ p=Path(raw).resolve()
+ if root not in p.parents or not p.exists(): raise SystemExit(f'missing retained residue: {p}')
 PY
 }
 
@@ -203,6 +245,13 @@ SH
   set +e; R36_SELF_STATUS=REJECTED_NO_MUTATION bash "$fake" --repo-root "$fixture_repo" --run-root "$run_root" --operation replace --target target --preimage "$pre" --candidate "$candidate" --arbitrary-mutator 'ignored' >/dev/null; local arbitrary_exit=$?; set -e
   [ "$arbitrary_exit" -eq 64 ] || fail 'R36 mutant arbitrary-command status did not use refusal exit'
   assert_hex R36-MUTANT-C4-sentinel "$fixture_repo/sentinel" 50574e4544
+  # Held-out bank: each is a plausible acceptance-only implementation. The
+  # same disposable helper lacks its mutation/locking/recovery effect and must
+  # be rejected by target-set, byte, or retained-evidence assertions.
+  for mutant in copy-vs-move incomplete-target-set-lock check-use-race symlink-dereference fictitious-residue fake-rollback; do
+    setup; pre="$(artifact "mutant-$mutant-pre" 4142434445)"; candidate="$(artifact "mutant-$mutant-candidate" 4e4557)"
+    if (invoke "R36-MUTANT-$mutant" COMMITTED replace target - "$candidate" 4e4557 --preimage "$pre" --candidate "$candidate") 2>"$tmp/mutant-$mutant.err"; then fail "R36 mutant $mutant escaped"; fi
+  done
   helper="$canonical_helper"
   printf 'R36_MUTANT_SELF_CHECK=PASS golden-json-without-mutation=killed\n'
 }
@@ -264,6 +313,26 @@ for n in ('a','b'):
  if int((b/f'{n}.exit').read_text()) != 64 or json.loads((b/f'{n}.out').read_text())['status'] != 'REJECTED_NO_MUTATION': raise SystemExit('R36-OPPOSING did not fail closed')
 if (r/'a').read_bytes()!=b'A' or (r/'b').read_bytes()!=b'B': raise SystemExit('R36-OPPOSING changed either source')
 PY
+}
+
+canonical_observation_races() {
+  # The helper publishes an `observed` barrier only after it captured the
+  # supplied preimage/current target, so these external writes are genuinely
+  # after observation rather than setup-time stale fixtures.
+  local label mode pre barrier pid actual stdout stderr source_pre source_post post_set
+  for mode in source destination; do
+    setup; label="R36-RACE-$mode"; pre="$(artifact "$mode-pre" 4142434445)"; barrier="$tmp/barrier-$mode"; mkdir "$barrier"; stdout="$tmp/$label.out"; stderr="$tmp/$label.err"; source_pre="$(identity_json "$fixture_repo/target")"
+    (set +e; IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" --operation move --target target --preimage "$pre" --destination destination >"$stdout" 2>"$stderr"; echo $? >"$barrier/exit") & pid=$!
+    local ticks=0; while [ ! -f "$barrier/observed" ] && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done
+    [ "$ticks" -lt 500 ] || fail "$label did not acknowledge post-observation barrier"
+    if [ "$mode" = source ]; then write_hex "$fixture_repo/target" 4c41544552; else write_hex "$fixture_repo/destination" 45585445524e414c; fi
+    : >"$barrier/release"; wait_bounded "$pid" "$label helper"; actual="$(<"$barrier/exit")"
+    [ "$actual" -eq 65 ] || fail "$label exit $actual, expected stale conflict 65"
+    source_post="$(identity_json "$fixture_repo/target")"; post_set="$(post_identities_json target destination)"
+    last_record="$(assert_response "$label" CONFLICT_REBASE move target destination '["target","destination"]' "$source_pre" "$(identity_json "$pre")" "$source_post" "$post_set" "$(<"$stdout")")"
+    if [ "$mode" = source ]; then assert_hex "$label-source" "$fixture_repo/target" 4c41544552; assert_hex "$label-destination" "$fixture_repo/destination" -
+    else assert_hex "$label-source" "$fixture_repo/target" 4142434445; assert_hex "$label-destination" "$fixture_repo/destination" 45585445524e414c; fi
+  done
 }
 
 external_drift_and_recovery() {
@@ -343,6 +412,7 @@ PY
   [ "$actual" -eq "$(status_exit "$status")" ] || fail 'R36-DRIFT correct-token exit mismatch'
   recovery_post="$(identity_json "$fixture_repo/target")"
   last_record="$(assert_response R36-DRIFT-correct-token "$status" recover target - '["target"]' "$recovery_pre" null "$recovery_post" "$(post_identities_json target -)" "$(<"$tmp/recover.out")")"
+  assert_retained_recovery_paths
   assert_hex R36-DRIFT-correct-token-winner "$fixture_repo/target" 45585445524e414c2d57494e4e4552
 }
 
@@ -373,7 +443,7 @@ PY
   setup; pre="$(artifact binary-pre 0001ff7f42494e0d0a)"; cand="$(artifact binary-candidate ff0042494e2d)"; invoke R36-B3 COMMITTED replace binary - "$cand" ff0042494e2d --preimage "$pre" --candidate "$cand"; pre="$(artifact binary-delete-pre ff0042494e2d)"; invoke R36-B4 COMMITTED delete binary - - - --preimage "$pre"; setup; pre="$(artifact binary-move-pre 0001ff7f42494e0d0a)"; invoke R36-B5 COMMITTED move binary binary-destination "$pre" 0001ff7f42494e0d0a --preimage "$pre" --destination binary-destination; assert_hex R36-B5-source-absent "$fixture_repo/binary" -; assert_hex R36-B5-destination "$fixture_repo/binary-destination" 0001ff7f42494e0d0a
   setup; pre="$(artifact hard-pre 5349424c494e47)"; cand="$(artifact hard-candidate 4e4557)"; invoke R36-T1 COMMITTED replace hardlink - "$cand" 4e4557 --preimage "$pre" --candidate "$cand"; assert_hex R36-T1-sibling "$fixture_repo/sibling" 5349424c494e47
   setup; pre="$(artifact equal-pre 53414d45)"; cand="$(artifact equal-candidate 4e4557)"; invoke R36-T1-equal COMMITTED replace equal-one - "$cand" 4e4557 --preimage "$pre" --candidate "$cand"; assert_hex R36-T1-equal-other "$fixture_repo/equal-two" 53414d45
-  setup; pre="$(artifact scope-pre 4142434445)"; cand="$(artifact scope-candidate 4e4557)"; invoke R36-T2 REJECTED_NO_MUTATION replace ../existing-outside-target - "$cand" 4f555453494445 --preimage "$pre" --candidate "$cand"; [ "$(cat "$fixture_repo/symlink-capability")" = yes ] && { pre="$(artifact link-pre 4142434445)"; invoke R36-T3 REJECTED_NO_MUTATION replace final-link - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"; pre="$(artifact parent-pre 6368696c64)"; invoke R36-T4 REJECTED_NO_MUTATION replace parent-link/child - "$cand" 6368696c64 --preimage "$pre" --candidate "$cand"; }
+  setup; pre="$(artifact scope-pre 4142434445)"; cand="$(artifact scope-candidate 4e4557)"; invoke R36-T2 REJECTED_NO_MUTATION replace ../existing-outside-target - "$cand" 4f555453494445 --preimage "$pre" --candidate "$cand"; [ "$(cat "$fixture_repo/symlink-capability")" = yes ] && { pre="$(artifact link-pre 4142434445)"; invoke R36-T3 REJECTED_NO_MUTATION replace final-link - "$cand" @SYMLINK_PATH --preimage "$pre" --candidate "$cand"; pre="$(artifact parent-pre 6368696c64)"; invoke R36-T4 REJECTED_NO_MUTATION replace parent-link/child - "$cand" @SYMLINK_PATH --preimage "$pre" --candidate "$cand"; }
   setup; pre="$(artifact reference-pre 4142434445)"; ln -s "$(basename "$pre")" "$fixture_repo/artifacts/reference-preimage" 2>/dev/null || true; if [ -L "$fixture_repo/artifacts/reference-preimage" ]; then cand="$(artifact reference-candidate 4e4557)"; invoke R36-T5 REJECTED_NO_MUTATION replace target - "$cand" 4142434445 --preimage "$fixture_repo/artifacts/reference-preimage" --candidate "$cand"; fi
   setup; pre="$(artifact stale-delete-pre 414243)"; invoke R36-D1 REJECTED_NO_MUTATION delete target - - 4142434445 --preimage "$pre"; pre="$(artifact stale-move-pre 414243)"; invoke R36-D2 REJECTED_NO_MUTATION move target absent-destination "$pre" 4142434445 --preimage "$pre" --destination absent-destination; assert_hex R36-D2-destination-absent "$fixture_repo/absent-destination" -
   setup; pre="$(artifact stale-move-full-pre 4142434445)"; write_hex "$fixture_repo/target" 4c41544552; invoke R36-D2-currentness CONFLICT_REBASE move target absent-destination "$pre" 4c41544552 --preimage "$pre" --destination absent-destination; assert_hex R36-D2-currentness-destination-absent "$fixture_repo/absent-destination" -
@@ -387,6 +457,7 @@ PY
   setup; printf 'diagnostic: truncated unrelated output\n' > "$fixture_repo/unrelated.log"; pre="$(artifact unrelated-pre 4142434445)"; cand="$(artifact unrelated-same 4142434445)"; invoke R36-P3 NO_CHANGE replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"
   concurrent_destination
   opposing_moves
+  canonical_observation_races
   external_drift_and_recovery
   printf 'observation-bound-mutation-integrity: PASS R36 state family\n'
 }
