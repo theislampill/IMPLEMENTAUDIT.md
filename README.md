@@ -86,10 +86,11 @@ Each action requires separate explicit authorisation.
 
 ## Quick start
 
-1. Install the current `v0.3.3.0` release using the method appropriate to your
-   host. A checkout of `main` may contain later source changes, so installing
-   from `main` is not necessarily byte-identical to installing the published
-   release asset.
+1. For the `v0.3.3.3` candidate, wait for final exact-tree qualification and
+   tag, release-asset, checksum,
+   and public-install readback before using the prospective public URL below.
+   The last independently read-back public asset is `v0.3.3.0`; a checkout of
+   `main` is not necessarily byte-identical to either release asset.
 
 2. Invoke `/implementaudit` with a bounded repository target. Common shapes
    include:
@@ -823,16 +824,21 @@ publication, or provenance has been verified.
 
 ## Version and release notes
 
-Current project milestone: `v0.3.3.0`. Current public release: `v0.3.3.0`. Plugin/runtime version: `0.3.3`.
+Current project milestone: `v0.3.3.3` release candidate. Plugin/runtime version: `0.3.3`. Public release readback: pending.
 
 The host-facing manifest uses the three-component runtime version because local
 schema evidence does not establish support for a four-component plugin version.
-The project, tag, and GitHub release identity remains `v0.3.3.0`.
+The corrective fourth component distinguishes the public project identity from
+the earlier `v0.3.3.0` release without changing the runtime family. The intended
+tag and GitHub release identity is `v0.3.3.3`; its publication is not established
+until the tag and release are created and independently read back.
 
-The published release provides the canonical `IMPLEMENTAUDIT.skill` asset and
-`CHECKSUMS.txt` integrity manifest. See `CHANGELOG.md` and the GitHub Releases
-page for the complete release notes, asset digest, qualification boundary, and
-upgrade instructions.
+The candidate ledger records deterministic package evidence from the source
+parent. Final exact-tree qualification remains pending.
+A published `IMPLEMENTAUDIT.skill`, release digest, and `CHECKSUMS.txt` must be
+read back at the release gate. See `CHANGELOG.md` and the candidate release
+report for the release notes, candidate digest, qualification boundary, and
+post-publication checks.
 
 A source checkout may contain changes made after the release tag. A checkout,
 locally built asset, and published release asset are therefore distinct install
@@ -1040,13 +1046,14 @@ To choose the right invocation shape, see the chooser table in
 Install flows are evidence-bounded. This repo can locally validate the release
 asset-to-Codex-install path into a temporary Codex home. It does not claim passive auto-update, universal host support, marketplace verification, or public GitHub release download verification unless those checks are run and recorded.
 
-**Release/contract alignment:** the current release-gate-verified public
-release is `v0.3.3.0`, with plugin/runtime version `0.3.3`.
+**Release/contract alignment:** the project candidate is `v0.3.3.3`, with
+plugin/runtime version `0.3.3`. Final exact-tree qualification, tag, release,
+public asset, Pages, public install, and tracker readback remain pending.
 
 A checkout of `main` may contain post-release source changes. Installing from a
 checkout or through a CLI that resolves current `main` uses source-checkout
 semantics; it is not automatically a byte-for-byte installation of the
-published `v0.3.3.0` release asset. Re-verify this paragraph at every release
+final-qualified or published `v0.3.3.3` release asset. Re-verify this paragraph at every release
 gate.
 
 ### Quick install via the skills CLI
@@ -1076,27 +1083,36 @@ What each install source carries:
 | Source | Contract carried | Helper resolution | Run-root / custody tooling |
 |---|---|---|---|
 | Current source checkout at manifest `0.3.3` | The v0.3.3 contract plus any later source-only changes present on the selected commit | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper; read-only planning, secret-hygiene, stale-proof, repo-hygiene, and payload-self-containment checks |
-| Current public release `v0.3.3.0` | Evidence fidelity, durable authorisation and interruption handling, canonical `6 → 6.i → 6.ii → 7`, recurrence governance, evaluator/validation hardening, and safer integration/release closure | `IMPLEMENTAUDIT_SKILL_DIR` resolution | the v0.3.3.0 packaged runtime and installed-package dogfood contract |
+| Release candidate `v0.3.3.3` | The v0.3.3.0 runtime plus the eight countermeasures listed below; final exact-tree qualification, publication, and public-install readback are pending | `IMPLEMENTAUDIT_SKILL_DIR` resolution | deterministic source-parent package evidence recorded in the v0.3.3.3 release report |
+| Previous public release `v0.3.3.0` | Evidence fidelity, durable authorisation and interruption handling, canonical `6 → 6.i → 6.ii → 7`, recurrence governance, evaluator/validation hardening, and safer integration/release closure | `IMPLEMENTAUDIT_SKILL_DIR` resolution | the v0.3.3.0 packaged runtime and installed-package dogfood contract |
 | Prior public release `v0.3.2.0` | The v0.3.2.0 evidence-integrity and failure-origin contract | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper; local installed-package dogfood ledger |
 | Prior public release `v0.2.9.0` | `ANDON_PROBE` / `ANDON_ESCALATE` / `ANDON_HANDOFF`, classed Andon log, no arbitrary try caps | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper |
 | Older public release `v0.2.8.0` | Pre-Andon recovery semantics | bare paths, before skill-directory resolution | none |
 
-### Source-checkout capabilities after `v0.3.3.0`
+### `v0.3.3.3` candidate countermeasures
 
-The current source checkout contains later contract work that is not claimed as
-part of the published `v0.3.3.0` asset. The detailed owners remain the
-references below; this table is the public route, not a duplicate specification.
+The candidate combines eight countermeasures added after `v0.3.3.0`. Their
+interaction matters: reachability makes shipped helpers usable, scoped terrain
+keeps orientation bounded, work orders make findings executable, and value,
+convergence, evaluator-integrity, semantic-preservation, and public-projection
+controls prevent a locally green result from outrunning its evidence. The table
+is a public route to the owners, not a duplicate specification or a publication
+claim.
 
 | Capability | Public disposition | Owner/source and boundary |
 |---|---|---|
-| Shipped-helper reachability | `discoverably-delegated` | `skills/implementaudit/SKILL.md` and package checks require a shipped helper to be instruction-reachable, same-run dispatchable, packaged, and negatively tested; adding a helper does not prove host execution. |
-| Scoped Graphify terrain | `discoverably-delegated` | `skills/implementaudit/references/sidecars.md` defines the optional scope catalogue and fail-closed live-file fallback; Graphify remains orientation, not a ledger or correctness proof. |
-| Executor-ready issue work orders | `discoverably-delegated` | `skills/implementaudit/references/issue-ready-work-orders.md` expands material findings, reconciles multi-draft sets, and preserves separate authorisation and readback gates; it does not publish issues. |
-| Engineering-value and control lifecycle | `discoverably-delegated` | `skills/implementaudit/references/lean-operating-discipline.md` admits controls through a named consumer and protected consequence, then retains, cheapens, merges, conditions, retires, or reclassifies them on evidence. |
-| Governed state-space convergence | `discoverably-delegated` | `skills/implementaudit/references/convergence-mode.md` is qualified, optional, and progressive after a second independently verified same-family rejection; ordinary and cheap-path work skips it. External effectiveness remains unproved. |
-| Evaluator-integrity protection | `discoverably-delegated` | `skills/implementaudit/references/phase-design.md` Rule P4-16 preserves the original failing witness and challenges post-failure checker, fixture, threshold, golden, prompt, or expected-answer changes; a new green alone is insufficient. |
-| Package semantic preservation | `discoverably-delegated` | `skills/implementaudit/references/lean-operating-discipline.md` requires owner-backed predicates and runtime, checker, installed, generated, and public consumers to survive footprint work; a smaller archive alone is not closure. |
-| Public capability projection | `present-correct` | `skills/implementaudit/references/audit-playbook.md` derives material public topics from owners, dispositions README/docs/current-state coverage, and challenges omissions as well as overclaims. It activates only when a material public/release effect, a declared README or public-doc success carrier, and an intended current, complete, or release-final claim all hold. |
+| R30 / #157 shipped-helper reachability | `discoverably-delegated` | `skills/implementaudit/SKILL.md` and package checks require a shipped helper to be instruction-reachable, same-run dispatchable, packaged, and negatively tested; adding a helper does not prove host execution. |
+| #144 scoped Graphify terrain | `bounded-partial-adoption` | `skills/implementaudit/references/sidecars.md` defines the optional outside-repository scope catalogue and fail-closed live-file fallback. The qualified route is deterministic `llm: false`; Graphify remains orientation, not a ledger. No Luna or semantic qualification is claimed. |
+| R31 / #158 executor-ready issue work orders | `OWNER_ACCEPTED_PARTIAL` | `skills/implementaudit/references/issue-ready-work-orders.md` expands material findings, reconciles multi-draft sets, and preserves separate authorisation and readback gates. Seven reviewed work orders passed and one was accepted partial because it omitted an explicit R29 invocation; the control does not publish issues. |
+| R34 / #163 engineering value and exploratory independence | `discoverably-delegated` | `skills/implementaudit/references/lean-operating-discipline.md` admits controls through a named consumer and protected consequence. When several mechanisms remain materially plausible, `skills/implementaudit/references/child-agents.md` keeps first-return hypothesis lanes informationally independent; this is distinct from adversarial review of a known candidate, and the ordinary cheap path remains the default. |
+| R35 / #164 evaluator and validation-policy integrity | `discoverably-delegated` | `skills/implementaudit/references/phase-design.md` Rule P4-16 preserves the original failing witness after evaluator mutation. Its second trigger catches a candidate delta that semantically intersects the validation-shaping authority used to judge that candidate; path-only or product-only changes stay on the cheap path, and a candidate-controlled policy cannot authenticate its own green. |
+| R32 / #160 governed state-space convergence | `discoverably-delegated` | `skills/implementaudit/references/convergence-mode.md` is qualified, optional, and progressive after a second independently verified same-family rejection. R32 consumes R34 hypothesis discrimination only when family classification remains materially ambiguous; independent rejection verification is not independent hypothesis formation. Ordinary and cheap-path work skips it. |
+| R33 / #161 package semantic preservation | `discoverably-delegated` | `skills/implementaudit/references/lean-operating-discipline.md` requires owner-backed predicates and runtime, checker, installed, generated, and public consumers to survive footprint work; a smaller archive alone is not closure. |
+| R29 / #155 public capability projection | `present-correct` | `skills/implementaudit/references/audit-playbook.md` derives material public topics from owners and challenges omissions as well as overclaims. It activates only when a material public or release effect, a declared README or public-doc success carrier, and an intended current, complete, or release-final claim all hold. |
+
+R36 / #167 is `POST_RELEASE_ONLY` and is not part of this candidate. R28 / #117
+remains open, optional, and nonblocking; `/dashboard/` remains excluded from the
+release package.
 
 ### Install / update for Codex
 
@@ -1131,21 +1147,21 @@ bash scripts/install-codex-from-release.sh \
   --version 0.3.3
 ```
 
-For the current release-gate verified live public release, point the installer
-at the explicit `v0.3.3.0` asset URL:
+After the `v0.3.3.3` release and asset have been independently read back, point
+the installer at this prospective URL:
 
 ```bash
 bash scripts/install-codex-from-release.sh \
-  --url https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/download/v0.3.3.0/IMPLEMENTAUDIT.skill \
+  --url https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/download/v0.3.3.3/IMPLEMENTAUDIT.skill \
   --codex-home "$HOME/.codex" \
   --version 0.3.3
 ```
 
-The `v0.3.3.0` release publishes `CHECKSUMS.txt` alongside
-`IMPLEMENTAUDIT.skill`. For a checksum-enforced installation, download both
-files and use the local `--asset` plus `--checksum` form shown above. A
-public-download installation is evidence only after the downloaded asset,
-checksum, installed version, and installed bytes are read back.
+Do not use that URL as evidence until the tag, release, asset, and digest are
+observed. If `CHECKSUMS.txt` is published alongside `IMPLEMENTAUDIT.skill`, use
+the local `--asset` plus `--checksum` form shown above. A public-download
+installation is evidence only after the downloaded asset, checksum, installed
+version, and installed bytes are read back.
 
 ### Install / update for Claude Desktop
 
@@ -1169,11 +1185,11 @@ bash scripts/install-claude-from-release.sh \
   --claude-skills-dir "<claude-session-path>/skills/implementaudit"
 ```
 
-From the current release-gate verified live public `v0.3.3.0` release:
+After publication and readback of the `v0.3.3.3` release asset:
 
 ```bash
 bash scripts/install-claude-from-release.sh \
-  --url https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/download/v0.3.3.0/IMPLEMENTAUDIT.skill \
+  --url https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/download/v0.3.3.3/IMPLEMENTAUDIT.skill \
   --claude-skills-dir "<claude-session-path>/skills/implementaudit"
 ```
 

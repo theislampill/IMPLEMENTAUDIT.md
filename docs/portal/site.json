@@ -1,11 +1,11 @@
 {
   "release": {
-    "milestone": "v0.3.3.0",
+    "milestone": "v0.3.3.3",
     "manifest_version": "0.3.3",
-    "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/tag/v0.3.3.0",
-    "audit_ledger_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/archive/v0.3.3.0-release-report.md",
-    "status": "v0.3.3.0 is published; its tag, release assets, checksum, hosted validation, Pages deployment, and tracker closure were independently read back. Repo-generic dogfood follow-up #155 remains open and nonblocking; these checks establish publication and artifact integrity, not signature, attestation, marketplace, or provenance claims",
-    "checksum_boundary": "release-body SHA-256 digest supports artifact-integrity readback and may support a separately authorized provenance gate"
+    "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/tag/v0.3.3.3",
+    "audit_ledger_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/archive/v0.3.3.3-release-report.md",
+    "status": "v0.3.3.3 is the corrective four-component release candidate for runtime 0.3.3. Deterministic package evidence exists on the source parent; final exact-tree qualification, tag, GitHub release, release-asset readback, Pages deployment, public-install readback, and tracker reconciliation remain pending",
+    "checksum_boundary": "the source-parent candidate SHA-256 digest supports local artifact-integrity evidence only; the final exact-tree and published release digests must be read back separately and are not a signature, attestation, SBOM, or proof of provenance"
   },
   "semantic_sources": [
     "README.md",

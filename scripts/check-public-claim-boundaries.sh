@@ -58,6 +58,10 @@ unsupported_claims = [
 ]
 stale_current_release_claims = [
     (
+        "current release-gate-verified public release is `v0.3.3.0`",
+        "current release claim must not pin the superseded v0.3.3.0 public release",
+    ),
+    (
         "release-gate verified live public release remains `v0.2.9.0`",
         "current release claim must not pin the prior public release",
     ),
