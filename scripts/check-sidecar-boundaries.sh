@@ -49,6 +49,174 @@ if [ "${1:-}" = "--evaluate-fixture" ]; then
   fail "unknown sidecar contract fixture: $fixture"
 fi
 
+if [ "${1:-}" = "--evaluate-activegraph-claims" ]; then
+  [ "$#" -eq 2 ] || fail "usage: check-sidecar-boundaries.sh --evaluate-activegraph-claims <cases.json>"
+  fixture="$2"
+  require_file "$fixture"
+  if command -v python >/dev/null 2>&1; then
+    py_cmd=(python)
+  elif command -v python3 >/dev/null 2>&1; then
+    py_cmd=(python3)
+  elif command -v py >/dev/null 2>&1; then
+    py_cmd=(py -3)
+  else
+    fail "python, python3, or py -3 is required for ActiveGraph claim fixtures"
+  fi
+  "${py_cmd[@]}" - "$fixture" <<'PY'
+import json
+import sys
+
+path = sys.argv[1]
+
+TOP_KEYS = {"schema", "cases"}
+CASE_KEYS = {
+    "id", "operation", "subject", "coverage", "lineage", "readback",
+    "independent_acceptance", "owner_authority", "host_evidence",
+    "writer_model", "prior_failure", "claim", "expected",
+}
+EXPECTED_KEYS = {"classification", "verdict"}
+OPERATIONS = {
+    "no-activegraph", "event", "replay", "fork", "diff", "trial",
+    "promote", "context-read", "authority-ceiling", "idle", "snapshot",
+    "schedule",
+}
+SUBJECTS = {
+    "none", "recorded-graph", "trace-metadata", "external-state",
+    "semantic-property", "owner-authority", "security-boundary",
+    "engineering-closure",
+}
+COVERAGE = {"none", "complete-recorded", "full", "partial", "untraced", "truncated", "unknown"}
+LINEAGE = {"none", "same-trace", "shared-prefix", "independent-source"}
+READBACK = {"none", "graph-local", "same-actor-external", "independent-external"}
+WRITERS = {"none", "single-cooperative", "multi-cooperative", "uncontrolled"}
+CLAIMS = {
+    "no-activegraph", "recorded-state", "external-effect", "lineage",
+    "independent-evidence", "structural-divergence", "semantic-correctness",
+    "structural-promotion", "authorised-adoption", "observation-completeness",
+    "declared-process-isolation", "host-security-isolation", "owner-authority",
+    "engineering-closure", "snapshot-integrity", "causal-completeness",
+    "cooperative-ordering", "distributed-correctness",
+}
+
+
+def exact_keys(value, expected, label):
+    if not isinstance(value, dict) or set(value) != expected:
+        raise ValueError(f"{label}: keys must be exactly {sorted(expected)}")
+
+
+def result(classification, verdict):
+    return {"classification": classification, "verdict": verdict}
+
+
+def classify(case):
+    operation = case["operation"]
+    claim = case["claim"]
+    coverage = case["coverage"]
+    readback = case["readback"]
+
+    if operation == "no-activegraph" and claim == "no-activegraph":
+        return result("NO_ACTIVEGRAPH", "PASS_CHEAP")
+    if operation == "replay" and claim == "recorded-state":
+        if (case["subject"] == "recorded-graph" and
+                coverage == "complete-recorded" and readback == "graph-local"):
+            return result("RECORDED_STATE_ESTABLISHED", "PASS_BOUNDED")
+    if operation in {"event", "replay"} and claim == "external-effect":
+        if readback == "independent-external" and coverage == "full":
+            return result("EXTERNAL_EFFECT_ESTABLISHED", "PASS_BOUNDED")
+        return result("EXTERNAL_WORLD_UNPROVED", "REJECT_OVERCLAIM")
+    if operation == "fork" and claim == "lineage":
+        if case["lineage"] == "shared-prefix":
+            return result("SHARED_LINEAGE_ESTABLISHED", "PASS_BOUNDED")
+    if operation == "fork" and claim == "independent-evidence":
+        if case["lineage"] == "independent-source" and case["independent_acceptance"]:
+            return result("INDEPENDENT_EVIDENCE_ESTABLISHED", "PASS_BOUNDED")
+        return result("INDEPENDENCE_UNPROVED", "REJECT_OVERCLAIM")
+    if operation == "diff" and claim == "structural-divergence":
+        if (case["subject"] == "recorded-graph" and
+                coverage == "complete-recorded" and readback == "graph-local"):
+            return result("STRUCTURAL_DIVERGENCE_ESTABLISHED", "PASS_BOUNDED")
+    if operation == "diff" and claim == "semantic-correctness":
+        if case["independent_acceptance"]:
+            return result("SEMANTIC_ACCEPTANCE_ESTABLISHED", "PASS_BOUNDED")
+        return result("SEMANTIC_CORRECTNESS_UNPROVED", "REJECT_OVERCLAIM")
+    if operation == "promote" and claim == "structural-promotion":
+        return result("STRUCTURAL_PROMOTION_ESTABLISHED", "PASS_BOUNDED")
+    if operation == "promote" and claim == "authorised-adoption":
+        if (case["independent_acceptance"] and case["owner_authority"] and
+                readback == "independent-external"):
+            return result("AUTHORISED_ADOPTION_ESTABLISHED", "PASS_BOUNDED")
+        return result("ADOPTION_AUTHORITY_UNPROVED", "REJECT_OVERCLAIM")
+    if operation == "context-read" and claim == "observation-completeness":
+        if coverage == "full":
+            return result("OBSERVATION_COVERAGE_ESTABLISHED", "PASS_BOUNDED")
+        return result("OBSERVATION_COMPLETENESS_UNPROVED", "REJECT_OVERCLAIM")
+    if operation == "trial" and claim == "declared-process-isolation":
+        return result("DECLARED_PROCESS_BOUNDARY_ESTABLISHED", "PASS_BOUNDED")
+    if operation == "trial" and claim == "host-security-isolation":
+        if case["host_evidence"]:
+            return result("HOST_SECURITY_BOUNDARY_ESTABLISHED", "PASS_BOUNDED")
+        return result("HOST_SECURITY_UNPROVED", "REJECT_OVERCLAIM")
+    if operation == "authority-ceiling" and claim == "owner-authority":
+        return result("OWNER_AUTHORITY_UNPROVED", "REJECT_OVERCLAIM")
+    if operation == "idle" and claim == "engineering-closure":
+        return result("ENGINEERING_CLOSURE_UNPROVED", "REJECT_OVERCLAIM")
+    if operation == "snapshot" and claim == "snapshot-integrity":
+        if (case["subject"] == "recorded-graph" and
+                coverage == "complete-recorded" and readback == "graph-local"):
+            return result("SNAPSHOT_INTEGRITY_ESTABLISHED", "PASS_BOUNDED")
+    if operation == "snapshot" and claim == "causal-completeness":
+        return result("CAUSAL_COMPLETENESS_UNPROVED", "REJECT_OVERCLAIM")
+    if operation == "schedule" and claim == "cooperative-ordering":
+        if case["writer_model"] == "single-cooperative":
+            return result("COOPERATIVE_ORDERING_ESTABLISHED", "PASS_BOUNDED")
+    if operation == "schedule" and claim == "distributed-correctness":
+        return result("DISTRIBUTED_CORRECTNESS_UNPROVED", "REJECT_OVERCLAIM")
+    raise ValueError(f"{case['id']}: unsupported operation/claim combination {operation}/{claim}")
+
+
+try:
+    with open(path, encoding="utf-8") as handle:
+        fixture = json.load(handle)
+    exact_keys(fixture, TOP_KEYS, "fixture")
+    if fixture["schema"] != "implementaudit.activegraph_claims.v1":
+        raise ValueError("fixture schema invalid")
+    cases = fixture["cases"]
+    if not isinstance(cases, list) or not cases:
+        raise ValueError("fixture cases must be a non-empty list")
+    seen = set()
+    for index, case in enumerate(cases):
+        exact_keys(case, CASE_KEYS, f"case {index}")
+        case_id = case["id"]
+        if not isinstance(case_id, str) or not case_id:
+            raise ValueError(f"case {index}: id invalid")
+        if case_id in seen:
+            raise ValueError(f"duplicate case id: {case_id}")
+        seen.add(case_id)
+        if case["operation"] not in OPERATIONS or case["subject"] not in SUBJECTS:
+            raise ValueError(f"{case_id}: operation or subject invalid")
+        if case["coverage"] not in COVERAGE or case["lineage"] not in LINEAGE:
+            raise ValueError(f"{case_id}: coverage or lineage invalid")
+        if case["readback"] not in READBACK or case["writer_model"] not in WRITERS:
+            raise ValueError(f"{case_id}: readback or writer model invalid")
+        if case["claim"] not in CLAIMS:
+            raise ValueError(f"{case_id}: claim invalid")
+        for key in ("independent_acceptance", "owner_authority", "host_evidence", "prior_failure"):
+            if type(case[key]) is not bool:
+                raise ValueError(f"{case_id}: {key} must be boolean")
+        exact_keys(case["expected"], EXPECTED_KEYS, f"{case_id} expected")
+        actual = classify(case)
+        if actual != case["expected"]:
+            raise ValueError(
+                f"{case_id}: expected {json.dumps(case['expected'], sort_keys=True)} "
+                f"got {json.dumps(actual, sort_keys=True)}")
+except (OSError, ValueError, json.JSONDecodeError) as exc:
+    raise SystemExit(f"activegraph-claim: {exc}")
+
+print(f"activegraph-claim: ok ({len(cases)}/{len(cases)})")
+PY
+  exit 0
+fi
+
 require_file skills/implementaudit/SKILL.md
 require_file skills/implementaudit/templates/THINKING.md
 require_file skills/implementaudit/templates/PROTOCOL.md
@@ -114,6 +282,10 @@ require_literal skills/implementaudit/references/sidecars.md "owner-named backen
 require_literal skills/implementaudit/references/sidecars.md "Ollama is explicitly unauthorized" "Ollama refusal"
 require_literal skills/implementaudit/references/sidecars.md "owner said Codex, not Ollama" "dated backend precedent"
 require_literal skills/implementaudit/references/sidecars.md "unfamiliar third-party repo" "external-validity broadening gate"
+require_literal skills/implementaudit/references/sidecars.md \
+  "independent evidence at that owner" "ActiveGraph evidence ceiling"
+require_literal skills/implementaudit/templates/PROTOCOL.md \
+  "With no durable causal/counterfactual need," "ActiveGraph cheap-path consumer"
 require_literal skills/implementaudit/references/sidecars.md "missed-use-detection goal is retired" "missed-use retirement"
 require_literal skills/implementaudit/references/lean-operating-discipline.md "dogfood-only" "as-tested dogfood qualification"
 require_literal skills/implementaudit/references/lean-operating-discipline.md "module-level constants" "known Graphify limitations"

@@ -132,6 +132,25 @@ else
   check_pass "owner-named-backend mutation rejected" 1
 fi
 
+tmp_activegraph="$(mktemp -d)"
+trap 'rm -rf "$tmp" "$tmp_spine" "$tmp_promote" "$tmp_contract" "$tmp_activegraph" "${scope_tmp:-}"' EXIT
+cp -R skills README.md AGENTS.md CONTRIBUTING.md docs scripts tests "$tmp_activegraph/"
+perl -0pi -e 's/independent evidence at that owner/local graph evidence/g' \
+  "$tmp_activegraph/skills/implementaudit/references/sidecars.md"
+set +e
+activegraph_contract_output="$(cd "$tmp_activegraph" && bash scripts/check-sidecar-boundaries.sh 2>&1)"
+activegraph_contract_status=$?
+set -e
+if [ "$activegraph_contract_status" -ne 0 ] && \
+   printf '%s' "$activegraph_contract_output" | grep -Fq \
+     "ActiveGraph evidence ceiling is missing"; then
+  check_pass "ActiveGraph evidence-ceiling mutation rejected" 0
+else
+  printf 'sidecars.test: ActiveGraph contract mutation output: %s\n' \
+    "$activegraph_contract_output" >&2
+  check_pass "ActiveGraph evidence-ceiling mutation rejected" 1
+fi
+
 # ---------------------------------------------------------------------------
 # Scenario 1: Graphify absent — ordinary Gemba passes
 # Fixture: documents expected sidecar block for absent Graphify
@@ -1218,6 +1237,115 @@ if rows != [expected]:
     raise SystemExit("missing relation control is not exact")
 PY
 check_pass "scenario10: relation-omission fixture is parsed exactly" "$?"
+
+# ---------------------------------------------------------------------------
+# Scenario 11: ActiveGraph operation evidence cannot exceed its subject,
+# coverage, lineage, readback, authority, isolation, or writer boundary.
+# ---------------------------------------------------------------------------
+activegraph_fixture="fixtures/sidecar-contract/activegraph-claims/cases.json"
+set +e
+activegraph_output="$(bash scripts/check-sidecar-boundaries.sh \
+  --evaluate-activegraph-claims "$activegraph_fixture" 2>&1)"
+activegraph_status=$?
+set -e
+if [ "$activegraph_status" -eq 0 ] && \
+   printf '%s' "$activegraph_output" | grep -Fqx \
+     "activegraph-claim: ok (26/26)"; then
+  check_pass "scenario11: complete ActiveGraph claim population is classified" 0
+else
+  printf 'sidecars.test: ActiveGraph claim output: %s\n' "$activegraph_output" >&2
+  check_pass "scenario11: complete ActiveGraph claim population is classified" 1
+fi
+
+activegraph_tmp="$(mktemp -d)"
+trap 'rm -rf "$tmp" "$tmp_spine" "$tmp_promote" "$tmp_contract" "${scope_tmp:-}" "$activegraph_tmp"' EXIT
+
+"${py_cmd[@]}" - "$activegraph_fixture" "$activegraph_tmp/heldout.json" <<'PY'
+import copy, json, sys
+source, target = sys.argv[1:]
+fixture = json.load(open(source, encoding="utf-8"))
+row = copy.deepcopy(next(case for case in fixture["cases"]
+                         if case["id"] == "AG-C4-event-with-independent-readback"))
+row["id"] = "AG-H1-event-lost-readback"
+row["readback"] = "none"
+fixture["cases"] = [row]
+with open(target, "w", encoding="utf-8", newline="\n") as handle:
+    json.dump(fixture, handle, indent=2)
+    handle.write("\n")
+PY
+set +e
+heldout_output="$(bash scripts/check-sidecar-boundaries.sh \
+  --evaluate-activegraph-claims "$activegraph_tmp/heldout.json" 2>&1)"
+heldout_status=$?
+set -e
+if [ "$heldout_status" -ne 0 ] && \
+   printf '%s' "$heldout_output" | grep -Fq \
+     "AG-H1-event-lost-readback: expected"; then
+  check_pass "scenario11: held-out lost readback cannot retain PASS" 0
+else
+  printf 'sidecars.test: ActiveGraph held-out output: %s\n' "$heldout_output" >&2
+  check_pass "scenario11: held-out lost readback cannot retain PASS" 1
+fi
+
+"${py_cmd[@]}" - "$activegraph_fixture" "$activegraph_tmp/duplicate.json" <<'PY'
+import copy, json, sys
+source, target = sys.argv[1:]
+fixture = json.load(open(source, encoding="utf-8"))
+fixture["cases"] = [fixture["cases"][0], copy.deepcopy(fixture["cases"][0])]
+with open(target, "w", encoding="utf-8", newline="\n") as handle:
+    json.dump(fixture, handle, indent=2)
+    handle.write("\n")
+PY
+set +e
+duplicate_output="$(bash scripts/check-sidecar-boundaries.sh \
+  --evaluate-activegraph-claims "$activegraph_tmp/duplicate.json" 2>&1)"
+duplicate_status=$?
+set -e
+if [ "$duplicate_status" -ne 0 ] && \
+   printf '%s' "$duplicate_output" | grep -Fq "duplicate case id"; then
+  check_pass "scenario11: duplicate ActiveGraph claim identity is rejected" 0
+else
+  printf 'sidecars.test: ActiveGraph duplicate output: %s\n' "$duplicate_output" >&2
+  check_pass "scenario11: duplicate ActiveGraph claim identity is rejected" 1
+fi
+
+"${py_cmd[@]}" - "$activegraph_fixture" "$activegraph_tmp" <<'PY'
+import copy, json, pathlib, sys
+source, target = sys.argv[1:]
+fixture = json.load(open(source, encoding="utf-8"))
+by_id = {case["id"]: case for case in fixture["cases"]}
+mutations = [
+    ("AG-H2-replay-lost-graph-readback", "AG-C1-replay-recorded-state", {"readback": "none"}),
+    ("AG-H3-fork-lost-lineage", "AG-C5-fork-shared-lineage", {"lineage": "none"}),
+    ("AG-H4-diff-wrong-subject", "AG-C7-diff-structural-divergence", {"subject": "external-state"}),
+    ("AG-H5-snapshot-partial-coverage", "AG-C22-snapshot-local-integrity", {"coverage": "partial"}),
+]
+for heldout_id, source_id, delta in mutations:
+    row = copy.deepcopy(by_id[source_id])
+    row["id"] = heldout_id
+    row.update(delta)
+    out = {"schema": fixture["schema"], "cases": [row]}
+    path = pathlib.Path(target, f"{heldout_id}.json")
+    path.write_text(json.dumps(out, indent=2) + "\n", encoding="utf-8")
+PY
+for heldout_id in \
+  AG-H2-replay-lost-graph-readback \
+  AG-H3-fork-lost-lineage \
+  AG-H4-diff-wrong-subject \
+  AG-H5-snapshot-partial-coverage; do
+  set +e
+  boundary_output="$(bash scripts/check-sidecar-boundaries.sh \
+    --evaluate-activegraph-claims "$activegraph_tmp/$heldout_id.json" 2>&1)"
+  boundary_status=$?
+  set -e
+  if [ "$boundary_status" -ne 0 ] && \
+     printf '%s' "$boundary_output" | grep -Fq "$heldout_id:"; then
+    check_pass "scenario11: $heldout_id cannot retain PASS" 0
+  else
+    printf 'sidecars.test: ActiveGraph boundary held-out output: %s\n' "$boundary_output" >&2
+    check_pass "scenario11: $heldout_id cannot retain PASS" 1
+  fi
+done
 
 # ---------------------------------------------------------------------------
 # Summary
