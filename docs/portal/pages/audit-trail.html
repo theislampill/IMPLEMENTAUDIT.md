@@ -7,7 +7,7 @@
       <p>Release evidence belongs in tracked audit ledgers, changelog entries, source files, and explicitly recorded live readbacks.<br>Generated portal metadata proves docs freshness only; it is not release, publication, or provenance evidence.</p>
 
       <h2 id="current-milestone">Current milestone</h2>
-      <p>The repository documents <code>v0.3.3.3</code> as the current corrective public release for runtime <code>0.3.3</code>.<br>Release commit <code>00591cc4257f1aea1aa9d3d4887ca4069731b074</code>, tree <code>87d12e6920f680fcfa69f65646a1c536240e9528</code>, the annotated tag, GitHub release, assets, hosted validation, Pages, 32 public routes, and a fresh temporary Codex install were independently read back. Tracker reconciliation remains a separate post-publication gate.</p>
+      <p>The repository retains <code>v0.3.3.3</code> as the intended corrective public identity for runtime <code>0.3.3</code>.<br>The first publication at commit <code>00591cc4257f1aea1aa9d3d4887ca4069731b074</code>, tree <code>87d12e6920f680fcfa69f65646a1c536240e9528</code>, was independently read back but preceded the final R29 correction. PR #173 merged that correction at <code>4624ef95542769ecd6a88402fcc585d7c5894c71</code>; final qualification and in-place replacement of the same release's tag, assets, checksum, and body remain pending.</p>
 
       <h2 id="evidence-to-recheck">Evidence to re-check</h2>
       <ul>
@@ -31,12 +31,12 @@
         <colgroup><col class="source-surface"><col><col></colgroup>
         <thead><tr><th>Surface</th><th>Current source-backed status</th><th>Boundary</th></tr></thead>
         <tbody>
-          <tr><td>Source milestone</td><td>Public release <code>v0.3.3.3</code></td><td>The corrective fourth component advances the public project identity within runtime family <code>0.3.3</code>; live tag, release, asset, hosted, Pages, and install readbacks establish the bounded publication claims.</td></tr>
+          <tr><td>Source milestone</td><td>Corrected <code>v0.3.3.3</code> candidate</td><td>The corrective fourth component remains the public project identity within runtime family <code>0.3.3</code>; the existing public bytes are superseded history until final same-tag replacement and readback.</td></tr>
           <tr><td>Manifest version</td><td><code>0.3.3</code></td><td>Derived from <code>.claude-plugin/plugin.json</code>.</td></tr>
-          <tr><td>Current release</td><td><a href="https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/tag/v0.3.3.3">GitHub release <code>v0.3.3.3</code></a></td><td>Release ID <code>368332810</code>; annotated tag object <code>89bf563c965e65e189f6bfa9ab5008f946f3081e</code> resolves to the release commit.</td></tr>
-          <tr><td>Asset</td><td><code>IMPLEMENTAUDIT.skill</code>, 227,995 bytes, 50 members</td><td>Fresh download SHA-256 <code>bfe323853fcb814530c9f58e078ef09d4e930419d99005af26c9135f936e3536</code>; zero <code>/dashboard/</code> members.</td></tr>
-          <tr><td>Checksum boundary</td><td>The published 96-byte <code>CHECKSUMS.txt</code> has SHA-256 <code>bb8c63c1f8b45354c96e5bbe04953767e85c036db6def5f8e0d98fa85da5c081</code>.</td><td>A digest is not a signature, attestation, SBOM, licence, marketplace check, host-load proof, or proof of provenance.</td></tr>
-          <tr><td>Pages / deploy</td><td>Pages run <code>31456284913</code>; deployment <code>5843992982</code>; 32 routes read back</td><td>The release-time deployment was independently observed. This post-publication source transition still needs its own merge and deployment readback.</td></tr>
+          <tr><td>Current release object</td><td><a href="https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/tag/v0.3.3.3">GitHub release <code>v0.3.3.3</code></a></td><td>Release ID <code>368332810</code>; historical tag object <code>89bf563c965e65e189f6bfa9ab5008f946f3081e</code> resolves to premature commit <code>00591cc...</code>. Final tag/source alignment remains pending.</td></tr>
+          <tr><td>Package transition</td><td>227,995-byte superseded asset &rarr; 227,989-byte corrected candidate; both 50 members</td><td>Historical SHA-256 <code>bfe323853fcb814530c9f58e078ef09d4e930419d99005af26c9135f936e3536</code>; corrected candidate SHA-256 <code>d2d7138b7e74b23e27ef3f10bfde05d94bc81d92ef7e80be1f1e22fd081494b5</code>; zero <code>/dashboard/</code> members. Public replacement remains pending.</td></tr>
+          <tr><td>Checksum boundary</td><td>The historical 96-byte <code>CHECKSUMS.txt</code> has SHA-256 <code>bb8c63c1f8b45354c96e5bbe04953767e85c036db6def5f8e0d98fa85da5c081</code>; replacement identity is not yet public.</td><td>A digest is not a signature, attestation, SBOM, licence, marketplace check, host-load proof, or proof of provenance.</td></tr>
+          <tr><td>Pages / deploy</td><td>PR #173 Pages run <code>31471582620</code>; deployment <code>5846669789</code></td><td>The repository-owner correction was merged and publicly deployed at exact commit <code>4624ef...</code>. This does not prove release-asset replacement.</td></tr>
           <tr><td>Host load</td><td>Local installs do not auto-update</td><td>A host-load claim needs host evidence from the current run.</td></tr>
           <tr><td>Marketplace / provenance</td><td>Unclaimed</td><td>Separate owner-gated proof is required.</td></tr>
         </tbody>
@@ -60,7 +60,7 @@
           <tr><td><code>docs/audits/archive/v0.3.0.0-local-package-dogfood-audit.md</code></td><td>Installed-package dogfood, release readiness, package self-sufficiency, and v0.3.0.0 release-gate evidence.</td><td>Historical release-gate ledger.</td></tr>
           <tr><td><code>docs/audits/archive/v0.3.2.0-correction-and-republish-report.md</code></td><td>Corrected same-version v0.3.2.0 publication and digest-pair readback.</td><td>Historical public-release ledger.</td></tr>
           <tr><td><code>docs/audits/archive/v0.3.3.0-release-report.md</code></td><td>v0.3.3.0 package identity, package gate, integration, publication, terminal readback, and tracker closure.</td><td>Historical published-release ledger.</td></tr>
-          <tr><td><code>docs/audits/archive/v0.3.3.3-release-report.md</code></td><td>Corrective release identity, eight countermeasures, exact package and checksum identities, bounded dispositions, qualification, and public readbacks.</td><td>Current published-release ledger; tracker reconciliation and the post-publication repository-owner transition remain pending.</td></tr>
+          <tr><td><code>docs/audits/archive/v0.3.3.3-release-report.md</code></td><td>Corrective release identity, eight countermeasures, premature publication custody, corrected candidate identity, bounded dispositions, qualification, and public readbacks.</td><td>Current same-identity correction ledger; final qualification, publication replacement, and row 14 owner disposition remain pending.</td></tr>
         </tbody>
       </table>
 

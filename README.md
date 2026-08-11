@@ -87,8 +87,10 @@ Each action requires separate explicit authorisation.
 ## Quick start
 
 1. Choose the installation route in [Install notes](#install-notes). The
-   current public release is `v0.3.3.3`; its host-facing runtime remains
-   `0.3.3`. A checkout of `main`, a locally built archive, and the published
+   intended release identity is `v0.3.3.3`; its host-facing runtime remains
+   `0.3.3`. The existing release URL still serves prematurely published bytes
+   while the corrected candidate awaits final qualification and in-place
+   replacement. A checkout of `main`, a locally built archive, and the public
    release asset are distinct until their bytes are verified.
 
 2. Invoke `/implementaudit` with a bounded repository target. Common shapes
@@ -796,22 +798,27 @@ Package metadata lives under `.claude-plugin/`:
 ```
 
 The manifest JSON is validated by `scripts/verify-package.sh`. This README
-records the bounded `v0.3.3.3` release and temporary Codex copy/install
-readbacks below. It does not claim Claude Code marketplace behaviour, passive
-update, active-user installation, universal host loading, or provenance.
+records the bounded historical `v0.3.3.3` publication and the corrected
+same-identity candidate below. It does not claim the in-place asset, checksum,
+body, or tag correction before independent public readback, nor Claude Code
+marketplace behaviour, passive update, active-user installation, universal
+host loading, or provenance.
 
 ## Version and release notes
 
-Current project milestone: public release `v0.3.3.3`; plugin/runtime version `0.3.3`.
+Current project milestone: corrected `v0.3.3.3` candidate; plugin/runtime
+version `0.3.3`.
 
 `v0.3.3.3` is a corrective and completion release of the `v0.3.3` runtime
 family. It incorporates countermeasures found during `v0.3.3.0` qualification
 and immediate dogfood, while the host-facing manifest remains `0.3.3` because
 the supported manifest schema is three-component.
 
-The published tag and assets have been independently read back. Exact commit,
-tree, package, checksum, hosted-run, deployment, and public-install evidence
-belongs in the
+The first tag and assets were independently read back, but publication occurred
+before the final R29 correction. They are preserved as superseded historical
+evidence while the corrected `v0.3.3.3` candidate awaits final qualification
+and in-place replacement. Exact old and candidate commit, tree, package,
+checksum, hosted-run, deployment, and public-install evidence belongs in the
 [`v0.3.3.3` release report](docs/audits/archive/v0.3.3.3-release-report.md);
 release chronology and user-visible changes belong in
 [`CHANGELOG.md`](CHANGELOG.md). This README describes the current product and
@@ -966,17 +973,18 @@ To choose the right invocation shape, see the chooser table in
 Install flows are evidence-bounded. This repo can locally validate the release
 asset-to-Codex-install path into a temporary Codex home. It does not claim passive auto-update, universal host support, marketplace verification, or public GitHub release download verification unless those checks are run and recorded.
 
-**Release/contract alignment:** the current public release is `v0.3.3.3`, with
-plugin/runtime version `0.3.3`. Exact-tree qualification, tag, release, public
-asset, hosted validation, Pages, and temporary Codex public-install readback
-completed; exact evidence belongs in the release report rather than this
+**Release/contract alignment:** the intended public identity remains
+`v0.3.3.3`, with plugin/runtime version `0.3.3`. The release URL currently
+serves the premature 227,995-byte asset; the corrected 227,989-byte candidate
+has not yet completed final qualification or in-place public replacement.
+Exact evidence and pending gates belong in the release report rather than this
 installation guide.
 
 A checkout of `main` may contain post-release source changes. Installing from a
 checkout or through a CLI that resolves current `main` uses source-checkout
-semantics; it is not automatically a byte-for-byte installation of the
-final-qualified or published `v0.3.3.3` release asset. Re-verify this paragraph at every release
-gate.
+semantics; it is not automatically byte-identical either to the currently
+published superseded asset or to the eventually final-qualified `v0.3.3.3`
+replacement. Re-verify this paragraph at every release gate.
 
 ### Quick install via the skills CLI
 
@@ -1002,10 +1010,10 @@ ecosystem's install-telemetry index, not by this repo.
 
 Choose the source deliberately:
 
-- the public `v0.3.3.3` release is the immutable, independently read-back
-  package described by the release report;
-- the current `main` branch may contain later source corrections and is not
-  automatically byte-identical to that asset;
+- the `v0.3.3.3` release URL currently resolves to the independently read-back
+  but superseded 227,995-byte package described by the release report;
+- the current source contains the R29 correction and is not byte-identical to
+  that premature asset;
 - a local archive is evidence only for the exact source tree from which it was
   built.
 
@@ -1016,8 +1024,8 @@ validation-policy integrity, package semantic preservation, public-projection
 discipline, and optional freshness-aware Graphify terrain. The canonical
 runtime references define those behaviours; the
 [`v0.3.3.3` release report](docs/audits/archive/v0.3.3.3-release-report.md)
-maps the shipped release to its exact acceptance evidence. `/dashboard/` is not
-part of the `.skill` package.
+maps the superseded publication and corrected candidate to their separate
+acceptance evidence. `/dashboard/` is not part of the `.skill` package.
 
 ### Install / update for Codex
 
@@ -1052,7 +1060,10 @@ bash scripts/install-codex-from-release.sh \
   --version 0.3.3
 ```
 
-The published `v0.3.3.3` asset is available at this independently read-back URL:
+The existing `v0.3.3.3` asset remains available at this URL while replacement
+is pending. Until the release report records final replacement and public
+readback, this command installs the superseded 227,995-byte package rather than
+the corrected candidate:
 
 ```bash
 bash scripts/install-codex-from-release.sh \
@@ -1062,11 +1073,12 @@ bash scripts/install-codex-from-release.sh \
 ```
 
 The release page, asset, checksum manifest, downloaded bytes, installed version,
-and installed payload were read back in a fresh temporary Codex home. That
-bounded copy/install proof does not establish passive update, universal host
-support, or host-load proof. For local verification, download `CHECKSUMS.txt`
-alongside `IMPLEMENTAUDIT.skill` and use the `--asset` plus `--checksum` form
-shown above.
+and installed payload were read back for the superseded package in a fresh
+temporary Codex home. Replacement bytes need their own public download/install
+readback. The historical receipt does not prove passive update, universal host
+support, or host-load behaviour. For local verification, download
+`CHECKSUMS.txt` alongside `IMPLEMENTAUDIT.skill` and use the `--asset` plus
+`--checksum` form shown above.
 
 ### Install / update for Claude Desktop
 
@@ -1090,7 +1102,7 @@ bash scripts/install-claude-from-release.sh \
   --claude-skills-dir "<claude-session-path>/skills/implementaudit"
 ```
 
-After publication and readback of the `v0.3.3.3` release asset:
+After in-place replacement and readback of the final `v0.3.3.3` release asset:
 
 ```bash
 bash scripts/install-claude-from-release.sh \
@@ -1172,7 +1184,8 @@ ran and bind it to the relevant source, tree, package, or public bytes.
 
 The current evidence index is [`docs/audits/INDEX.md`](docs/audits/INDEX.md),
 with retention rules in [`docs/audits/RETENTION.md`](docs/audits/RETENTION.md).
-The exact `v0.3.3.3` release qualification is in its
+The exact historical publication record, corrected candidate qualification,
+and remaining `v0.3.3.3` publication gates are in its
 [release report](docs/audits/archive/v0.3.3.3-release-report.md). Contributor
 checks, package validation, generated-doc regeneration, and release boundaries
 belong in [`CONTRIBUTING.md`](CONTRIBUTING.md).
