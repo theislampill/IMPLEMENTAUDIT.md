@@ -839,6 +839,22 @@ if bash scripts/check-public-claim-boundaries.sh >/dev/null 2>&1; then
 else
   ok "check-public-claim-boundaries.sh rejects stale current-release claims"
 fi
+
+"${py_cmd[@]}" - "$host_claim_fixture" <<'PY'
+import sys
+from pathlib import Path
+
+stale = (
+    "The current release-gate-verified public release is `v0.3.3" + ".0`, "
+    "with plugin/runtime version `0.3.3`.\n"
+)
+Path(sys.argv[1]).write_text(stale, encoding="utf-8")
+PY
+if bash scripts/check-public-claim-boundaries.sh >/dev/null 2>&1; then
+  fail_check "check-public-claim-boundaries.sh accepted the superseded v0.3.3.0 current-release claim"
+else
+  ok "check-public-claim-boundaries.sh rejects the superseded v0.3.3.0 current-release claim"
+fi
 rm -f "$host_claim_fixture"
 
 if bash scripts/verify-docs-portal.sh >/dev/null; then
