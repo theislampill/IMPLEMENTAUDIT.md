@@ -108,15 +108,18 @@ New records use one external-state vocabulary. Legacy rows that do not opt in
 to these prefixes remain valid; `external-mutation: true` explicitly opts a
 row into the same mutation validation.
 
-A verified `api`, `user-visible`, or `publication` claim declares
-`external-kind: observation|mutation`. A mutation claim also names exactly one
-`external-mutation-record: <id>` in the same record. The mutation record is the
-machine carrier. Adjacent Python, Bash, or PowerShell code is illustrative and
-cannot supply an omitted record field or zero exit.
+A verified external claim declares `external-kind: observation|mutation`. A
+mutation names one `external-mutation-record` and one
+`external-authorization-grant`; illustrative code cannot replace either row.
 
 ```text
 external-mutation-record: <id> | runner: python|bash|powershell | target-kind: issue|pr|milestone|label|release|release-asset | target-id: <token> | mutation-command: <target-bound mutating command> | mutation-exit: 0 | mutation-evidence: <id> | readback-command: <distinct target-bound read-only command> | readback-exit: 0 | readback-file: <bare-relative-basename.json> | readback-sha256: <64-lowercase-hex> | readback-field: <top-level-field> | expected-value: <scalar> | observed-value: <same-scalar> | readback-evidence: <different-id>
+external-authorization-grant: <id> | record-file: <bare-relative-authorization-record> | record-sha256: <64-lowercase-hex>
 ```
+
+The contained hash-bound grant uses the durable intake format, uniquely binds
+`target_kind,target_id`, and authorizes the structurally parsed mutation action.
+Comment or flag text is not an effective target.
 
 The mutator's output is not read-back evidence. Resolve the JSON basename
 inside the record file's canonical directory, reject separators, traversal,
@@ -333,8 +336,8 @@ or prospective release and `retroactive` is not a release-identity mode.
 rebuilt. Source-only runs retain the #76 negative-control boundary and do not
 gain this package/release obligation.
 
-A publication closure claim carries both its evidence digest and a contained,
-hash-bound current-digest receipt:
+The local cheap path retains its contained current-digest receipt;
+`publication-kind: local-digest` is optional:
 
 ```text
 claim: <id> | surface: publication | status: verified|unverified | evidence-surface: publication | evidence-digest: <sha256>
@@ -344,6 +347,18 @@ publication-identity: <id> | live-digest-file: <bare-file.sha256> | live-file-sh
 Equal evidence/current digests use `verified`. Drift cannot remain verified;
 retain it as `status: unverified` with disposition `SUPERSEDED`, reusing #87's
 vocabulary rather than inventing another terminal state.
+
+A hosted release-asset claim is a different evidence surface. It declares
+`publication-kind: hosted-release-asset` and cannot reuse the local digest-file
+row:
+
+```text
+claim: <id> | surface: publication | publication-kind: hosted-release-asset | status: verified|unverified | evidence-surface: publication | evidence-digest: <sha256>
+publication-identity: <id> | publication-kind: hosted-release-asset | release-id: <id> | tag: <tag> | asset-id: <id> | asset-name: <bare-name> | asset-size: <bytes> | asset-digest: <sha256> | qualified-commit: <git-object> | qualified-tree: <git-object> | public-readback-file: <bare-json-file> | public-readback-sha256: <sha256> | disposition: verified|SUPERSEDED
+```
+
+The hash-bound JSON contains the same eight release, asset, commit, and tree
+values. Every value equals the row; local bytes cannot establish hosted state.
 
 ## Proving a file is dead
 

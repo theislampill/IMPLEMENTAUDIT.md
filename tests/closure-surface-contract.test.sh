@@ -62,11 +62,105 @@ EOF
   fi
 }
 
+external_composition_controls() {
+  local work="$1" output failures=0 grant_sha wrong_grant_sha digest_file_sha public_sha
+
+  expect_composed_fail() {
+    local file="$1" expected="$2" false_green="$3"
+    if output="$(bash "$scorer" "$file" 2>&1)"; then
+      printf 'closure-surface-contract: %s\n' "$false_green" >&2
+      failures=$((failures + 1))
+    elif ! printf '%s\n' "$output" | grep -Fxq "$expected"; then
+      printf 'closure-surface-contract: %s wrong diagnostic; expected %s; got %s\n' \
+        "$(basename "$file")" "$expected" "${output//$'\n'/ }" >&2
+      failures=$((failures + 1))
+    fi
+  }
+
+  cp "$fx/external-close-readback-PASS.json" "$work/external-close-readback-PASS.json"
+  cp "$fx/external-close-authorization.txt" "$work/external-close-authorization.txt"
+  sed "s/mutation-command: gh issue close 207/mutation-command: gh issue close 208 --comment 'issue 207'/" \
+    "$fx/external-close-readback-PASS.md" > "$work/misleading-comment-target.md"
+  expect_composed_fail "$work/misleading-comment-target.md" \
+    "check-closure-surface: external mutation close-207: mutation-command effective target issue '208' does not match declared issue '207'" \
+    'misleading comment token satisfied the declared mutation target'
+
+  sed \
+    -e '1 s/ | external-authorization-grant: grant-close-207//' \
+    -e '/^external-authorization-grant:/d' \
+    "$fx/external-close-readback-PASS.md" > "$work/missing-authorization.md"
+  expect_composed_fail "$work/missing-authorization.md" \
+    'check-closure-surface: claim close-207: external mutation requires external-authorization-grant' \
+    'verified external mutation passed without a bound authorization grant'
+
+  grant_sha="$(sha256sum "$work/external-close-authorization.txt" | awk '{print $1}')"
+  cp "$fx/external-close-readback-PASS.md" "$work/composed-close-PASS.md"
+  if ! output="$(bash "$scorer" "$work/composed-close-PASS.md" 2>&1)"; then
+    printf 'closure-surface-contract: composed external mutation expected PASS; got %s\n' \
+      "${output//$'\n'/ }" >&2
+    failures=$((failures + 1))
+  fi
+
+  sed 's/target_id: 207/target_id: 208/' \
+    "$work/external-close-authorization.txt" > "$work/wrong-target-authorization.txt"
+  wrong_grant_sha="$(sha256sum "$work/wrong-target-authorization.txt" | awk '{print $1}')"
+  sed \
+    -e 's/grant-close-207/grant-wrong-target/g' \
+    -e 's/external-close-authorization.txt/wrong-target-authorization.txt/' \
+    -e "s/$grant_sha/$wrong_grant_sha/" \
+    "$work/composed-close-PASS.md" > "$work/wrong-grant-target.md"
+  expect_composed_fail "$work/wrong-grant-target.md" \
+    "check-closure-surface: authorization grant grant-wrong-target: target_id '208' does not bind mutation target '207'" \
+    'authorization for a different target satisfied the external mutation'
+
+  printf '%s\n' 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' \
+    > "$work/hosted-local-only.sha256"
+  digest_file_sha="$(sha256sum "$work/hosted-local-only.sha256" | awk '{print $1}')"
+  cat > "$work/hosted-local-only.md" <<EOF
+claim: hosted-local-only | surface: publication | publication-kind: hosted-release-asset | status: verified | evidence-surface: publication | evidence-digest: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+publication-identity: hosted-local-only | live-digest-file: hosted-local-only.sha256 | live-file-sha256: $digest_file_sha | live-digest: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa | disposition: verified
+EOF
+  expect_composed_fail "$work/hosted-local-only.md" \
+    'check-closure-surface: claim hosted-local-only: hosted release asset requires release/tag/asset/qualification/public-readback identity' \
+    'hosted release asset passed on a local digest file alone'
+
+  printf '%s\n' \
+    '{"release_id":"R_test","tag":"v9.9.9","asset_id":"A_test","asset_name":"IMPLEMENTAUDIT.skill","asset_size":227999,"asset_digest":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","qualified_commit":"1111111111111111111111111111111111111111","qualified_tree":"2222222222222222222222222222222222222222"}' \
+    > "$work/hosted-public-readback.json"
+  public_sha="$(sha256sum "$work/hosted-public-readback.json" | awk '{print $1}')"
+  cat > "$work/hosted-release-PASS.md" <<EOF
+claim: hosted-release | surface: publication | publication-kind: hosted-release-asset | status: verified | evidence-surface: publication | evidence-digest: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+publication-identity: hosted-release | publication-kind: hosted-release-asset | release-id: R_test | tag: v9.9.9 | asset-id: A_test | asset-name: IMPLEMENTAUDIT.skill | asset-size: 227999 | asset-digest: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa | qualified-commit: 1111111111111111111111111111111111111111 | qualified-tree: 2222222222222222222222222222222222222222 | public-readback-file: hosted-public-readback.json | public-readback-sha256: $public_sha | disposition: verified
+EOF
+  if ! output="$(bash "$scorer" "$work/hosted-release-PASS.md" 2>&1)"; then
+    printf 'closure-surface-contract: hosted release identity expected PASS; got %s\n' \
+      "${output//$'\n'/ }" >&2
+    failures=$((failures + 1))
+  fi
+
+  sed 's/asset-id: A_test/asset-id: A_other/' \
+    "$work/hosted-release-PASS.md" > "$work/hosted-asset-id-mismatch.md"
+  expect_composed_fail "$work/hosted-asset-id-mismatch.md" \
+    "check-closure-surface: claim hosted-release: public readback asset_id 'A_test' does not match identity 'A_other'" \
+    'hosted release identity accepted a different public asset ID'
+
+  [ "$failures" -eq 0 ] || fail "$failures external composition control(s) failed"
+}
+
 if [ "${1:-}" = "--publication-identity-only" ]; then
   focused_tmp="$(mktemp -d)"
   trap 'rm -rf "$focused_tmp"' EXIT
   publication_identity_controls "$focused_tmp"
   printf 'closure-surface-contract: publication-identity-only ok\n'
+  exit 0
+fi
+
+if [ "${1:-}" = "--external-composition-only" ]; then
+  focused_tmp="$(mktemp -d)"
+  trap 'rm -rf "$focused_tmp"' EXIT
+  external_composition_controls "$focused_tmp"
+  publication_identity_controls "$focused_tmp"
+  printf 'closure-surface-contract: external-composition-only ok\n'
   exit 0
 fi
 
@@ -399,6 +493,22 @@ expect_fail_diag() {
     || fail "$(basename "$file") wrong diagnostic; expected '$expected'; got '${output//$'\n'/ }'"
 }
 
+write_external_grant() {
+  local file="$1" action="$2" target_kind="$3" target_id="$4"
+  cat > "$file" <<EOF
+source: owner-message:test-$action-$target_kind-$target_id
+issued_at: 2026-08-11
+grant_quote: Authorize $action on $target_kind $target_id with independent readback.
+scope: $target_kind-$target_id
+lifecycle: standing-authorization
+action: $action
+binds: target_kind,target_id
+target_kind: $target_kind
+target_id: $target_id
+EOF
+  sha256sum "$file" | awk '{print $1}'
+}
+
 fail_case layer-promotion-FAIL.md
 fail_case verified-no-evidence-FAIL.md
 pass_case uninspectable-unverified-PASS.md
@@ -418,6 +528,7 @@ required_fixtures=(
   external-close-wrong-state-FAIL.md
   external-close-readback-PASS.json
   external-close-wrong-state-FAIL.json
+  external-close-authorization.txt
   mutation-python-no-zero-FAIL.md
   mutation-python-zero-PASS.md
   mutation-bash-unrelated-status-FAIL.md
@@ -508,6 +619,7 @@ tmp="$(mktemp -d)"; trap 'rm -rf "$tmp"' EXIT
 # zero-exit postconditions, digest identity, and path containment each have an
 # independent behavioral check without network, model, or clock input.
 cp "$fx/external-close-readback-PASS.json" "$tmp/external-close-readback-PASS.json"
+cp "$fx/external-close-authorization.txt" "$tmp/external-close-authorization.txt"
 sed 's/ | external-kind: mutation//' \
   "$fx/external-close-readback-PASS.md" > "$tmp/external-kind-missing.md"
 expect_fail_diag "$tmp/external-kind-missing.md" \
@@ -549,9 +661,11 @@ expect_pass "$tmp/legacy-api.md"
 
 printf '%s\n' '{"name":"triage"}' > "$tmp/readback-label.json"
 label_sha="$(sha256sum "$tmp/readback-label.json" | awk '{print $1}')"
-printf '%s\n%s\n' \
-  'claim: label-create | surface: api | property: behavioral | status: verified | evidence-surface: api | external-kind: mutation | external-mutation-record: label-create' \
+label_grant_sha="$(write_external_grant "$tmp/label-create-authorization.txt" create label triage)"
+printf '%s\n%s\n%s\n' \
+  'claim: label-create | surface: api | property: behavioral | status: verified | evidence-surface: api | external-kind: mutation | external-mutation-record: label-create | external-authorization-grant: grant-label-create' \
   "external-mutation-record: label-create | runner: bash | target-kind: label | target-id: triage | mutation-command: gh label create triage | mutation-exit: 0 | mutation-evidence: label-mut | readback-command: gh label list --search triage --json name --jq 'map(select(.name == \"triage\"))[0]' | readback-exit: 0 | readback-file: readback-label.json | readback-sha256: $label_sha | readback-field: name | expected-value: triage | observed-value: triage | readback-evidence: label-read" \
+  "external-authorization-grant: grant-label-create | record-file: label-create-authorization.txt | record-sha256: $label_grant_sha" \
   > "$tmp/label-target-noun.md"
 expect_pass "$tmp/label-target-noun.md"
 
@@ -564,7 +678,7 @@ expect_fail_diag "$tmp/readback-label-duplicate-search.md" \
 sed 's/mutation-command: gh issue close 207/mutation-command: gh issue close 208/' \
   "$fx/external-close-readback-PASS.md" > "$tmp/mutation-target-mismatch.md"
 expect_fail_diag "$tmp/mutation-target-mismatch.md" \
-  "check-closure-surface: external mutation close-207: mutation-command does not target issue '207'" \
+  "check-closure-surface: external mutation close-207: mutation-command effective target issue '208' does not match declared issue '207'" \
   'mutation command target mismatch was accepted'
 
 sed 's/readback-command: gh issue view 207/readback-command: gh issue view 208/' \
@@ -603,10 +717,14 @@ expect_fail_diag "$tmp/readback-issue-reopen.md" \
   'check-closure-surface: external mutation close-207: readback-command is not an approved read-only issue query' \
   'issue reopen was accepted as read-back evidence'
 
+pr_grant_sha="$(write_external_grant "$tmp/pr-merge-authorization.txt" merge pr 207)"
 sed \
   -e 's/target-kind: issue/target-kind: pr/' \
   -e 's/mutation-command: gh issue close 207/mutation-command: gh pr merge 207/' \
   -e 's/readback-command: gh issue view 207 --json state/readback-command: gh pr review 207 --approve/' \
+  -e 's/grant-close-207/grant-pr-merge/g' \
+  -e 's/external-close-authorization.txt/pr-merge-authorization.txt/' \
+  -e "s/9e4eb798de33536b66b3d84d0672838e7d18d678a23b4608f84faf8df8cc5c7f/$pr_grant_sha/" \
   "$fx/external-close-readback-PASS.md" > "$tmp/readback-pr-approve.md"
 expect_fail_diag "$tmp/readback-pr-approve.md" \
   'check-closure-surface: external mutation close-207: readback-command is not an approved read-only pr query' \
@@ -616,14 +734,19 @@ sed \
   -e 's/target-kind: issue/target-kind: pr/' \
   -e 's/mutation-command: gh issue close 207/mutation-command: gh pr merge 207/' \
   -e 's/readback-command: gh issue view 207 --json state/readback-command: gh pr view 207 --json state/' \
+  -e 's/grant-close-207/grant-pr-merge/g' \
+  -e 's/external-close-authorization.txt/pr-merge-authorization.txt/' \
+  -e "s/9e4eb798de33536b66b3d84d0672838e7d18d678a23b4608f84faf8df8cc5c7f/$pr_grant_sha/" \
   "$fx/external-close-readback-PASS.md" > "$tmp/readback-pr-view.md"
 expect_pass "$tmp/readback-pr-view.md"
 
 printf '%s\n' '{"tagName":"v1.2.3"}' > "$tmp/readback-release.json"
 release_sha="$(sha256sum "$tmp/readback-release.json" | awk '{print $1}')"
-printf '%s\n%s\n' \
-  'claim: release-view | surface: api | property: behavioral | status: verified | evidence-surface: api | external-kind: mutation | external-mutation-record: release-view' \
+release_grant_sha="$(write_external_grant "$tmp/release-edit-authorization.txt" edit release v1.2.3)"
+printf '%s\n%s\n%s\n' \
+  'claim: release-view | surface: api | property: behavioral | status: verified | evidence-surface: api | external-kind: mutation | external-mutation-record: release-view | external-authorization-grant: grant-release-edit' \
   "external-mutation-record: release-view | runner: bash | target-kind: release | target-id: v1.2.3 | mutation-command: gh release edit v1.2.3 | mutation-exit: 0 | mutation-evidence: release-mut | readback-command: gh release view v1.2.3 --json tagName | readback-exit: 0 | readback-file: readback-release.json | readback-sha256: $release_sha | readback-field: tagName | expected-value: v1.2.3 | observed-value: v1.2.3 | readback-evidence: release-read" \
+  "external-authorization-grant: grant-release-edit | record-file: release-edit-authorization.txt | record-sha256: $release_grant_sha" \
   > "$tmp/readback-release-view.md"
 expect_pass "$tmp/readback-release-view.md"
 
