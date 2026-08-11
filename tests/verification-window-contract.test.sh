@@ -662,6 +662,24 @@ grep -Fq 'declared surfaces do not match' "$tmp/f36.out" \
   || fail 'R2-F36 output missing closing surface-binding failure'
 ok
 
+# R2-F37: equivalent repo-relative spellings are normalized before receipt
+# binding and intersection. A leading ./ must not hide an ignored mutation.
+new_repo f37-normalized-relative-surface
+printf 'ignored/**\n' > "$case_repo/.gitignore"
+mkdir -p "$case_repo/ignored"
+printf 'before\n' > "$case_repo/ignored/declared.txt"
+git -C "$case_repo" add .gitignore
+git -C "$case_repo" commit -qm normalize-declared-surface
+write_intent "$case_repo" open './ignored/declared.txt'
+printf 'after\n' > "$case_repo/ignored/declared.txt"
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+if (cd "$case_repo" && bash "$checker" --window "$case_intent" --now "$case_now") >"$tmp/f37.out" 2>&1; then
+  fail 'R2-F37 leading-dot declared surface mutation must fail'
+fi
+grep -Fq 'ignored/declared.txt' "$tmp/f37.out" \
+  || fail 'R2-F37 output missing normalized intersecting path'
+ok
+
 # Legacy anchor modes remain compatible.
 bash "$checker" --row 'legacy evidence without an anchor' >/dev/null
 artifact="$tmp/artifact.md"
@@ -695,4 +713,4 @@ grep -Fq 'verification is reading the same tree' "$phase_design" || fail 'phase-
 grep -Fq 'post-state was compared' "$lean" || fail 'Lean post-state evidence boundary missing'
 ok; ok; ok; ok; ok
 
-printf 'verification-window-contract.test: ok (%d/48)\n' "$count"
+printf 'verification-window-contract.test: ok (%d/49)\n' "$count"

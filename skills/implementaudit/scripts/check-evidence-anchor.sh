@@ -301,7 +301,12 @@ def normalize_surface(surface):
     if (not normalized or pure.is_absolute() or ".." in pure.parts
             or normalized.startswith("/") or re.match(r"^[A-Za-z]:", normalized)):
         fail(f"verification window contains unsafe surface: {surface}")
-    return normalized
+    canonical = str(pure)
+    if canonical in {"", "."}:
+        fail(f"verification window contains unsafe surface: {surface}")
+    if normalized.endswith("/"):
+        canonical += "/"
+    return canonical
 
 
 def surface_matches(path, surface):

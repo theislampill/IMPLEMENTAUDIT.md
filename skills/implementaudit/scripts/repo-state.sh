@@ -177,6 +177,7 @@ import os
 import stat
 import subprocess
 import sys
+from pathlib import PurePosixPath
 
 
 def git(*args):
@@ -208,11 +209,17 @@ if not arguments:
     raise SystemExit(2)
 for surface in arguments:
     normalized = surface.replace("\\", "/")
-    path = normalized.rstrip("/")
-    if (not path or os.path.isabs(path) or ".." in path.split("/")
-            or (len(path) > 1 and path[1] == ":")):
+    pure = PurePosixPath(normalized)
+    if (not normalized or pure.is_absolute() or ".." in pure.parts
+            or normalized.startswith("/")
+            or (len(normalized) > 1 and normalized[1] == ":")):
         print(f"repo-state: unsafe declared window surface: {surface}", file=sys.stderr)
         raise SystemExit(2)
+    path = str(pure)
+    if path in {"", "."}:
+        print(f"repo-state: unsafe declared window surface: {surface}", file=sys.stderr)
+        raise SystemExit(2)
+    normalized = path + "/" if normalized.endswith("/") else path
     declared_surfaces.append(normalized)
     if normalized.endswith("/"):
         if any(char in path for char in "*?[]"):
