@@ -98,7 +98,7 @@ from pathlib import Path
 source=Path(sys.argv[1]).read_text(encoding='utf-8')
 needle='    # R36_INSTRUMENT_INSERT\n'
 if source.count(needle) != 1: raise SystemExit('R36 instrument marker count is not exactly one')
-insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'init':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n"""
+insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'init':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n    if phase == 'move-destination-published' and fault == 'move-after-destination':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
 Path(sys.argv[2]).write_text(source.replace(needle,needle+insert),encoding='utf-8')
 PY
   chmod +x "$derived" || return 1
@@ -106,7 +106,7 @@ PY
 import sys
 from pathlib import Path
 canonical,derived=map(Path,sys.argv[1:]); text=derived.read_text(encoding='utf-8')
-insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'init':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n"""
+insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'init':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n    if phase == 'move-destination-published' and fault == 'move-after-destination':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
 if text.replace(insert,'') != canonical.read_text(encoding='utf-8'): raise SystemExit('instrumented copy does not strip byte-equal')
 PY
   printf '%s\n' "$derived"
@@ -695,6 +695,42 @@ PY
   [ -e "$journal" ] && [ -e "$backup" ] || fail 'R36 true-kill recover consumed custody'
 }
 
+interrupted_move_requires_manual_custody() {
+  # This is the narrow move crash window: destination has acquired an exact
+  # hard-link before source removal.  A kill must leave explained dual names,
+  # not silently turn that window into an unjournaled copy.
+  setup
+  local pre derived barrier="$tmp/move-after-destination" stdout="$tmp/move-after-destination.out" stderr="$tmp/move-after-destination.err" pid ticks=0 journal token
+  pre="$(artifact move-crash-pre 4142434445)"; derived="$(instrumented_helper)" || fail 'R36 move-crash could not derive instrumented helper'
+  rm -rf "$barrier"; mkdir "$barrier"
+  (set +e; IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=move-after-destination bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --operation move --target target --preimage "$pre" --destination destination >"$stdout" 2>"$stderr"; echo $? >"$barrier/exit") & pid=$!
+  while [ ! -f "$barrier/paused" ] && kill -0 "$pid" 2>/dev/null && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done
+  [ -f "$barrier/paused" ] || { wait_bounded "$pid" 'R36 move-crash helper'; fail 'R36 move-crash never reached destination-published window'; }
+  assert_hex R36-MOVE-CRASH-source-visible "$fixture_repo/target" 4142434445
+  assert_hex R36-MOVE-CRASH-destination-visible "$fixture_repo/destination" 4142434445
+  journal="$(find "$run_root" -maxdepth 1 -type f -name '.r36-journal-*.json' -print -quit)"
+  [ -n "$journal" ] || fail 'R36 move-crash has no durable journal before destination publication'
+  token="$($python_bin - "$journal" "$fixture_repo" <<'PY'
+import hashlib,json,sys
+from pathlib import Path
+j,repo=map(Path,sys.argv[1:]); r=json.loads(j.read_text(encoding='utf-8'))
+want={'sha256':hashlib.sha256(b'ABCDE').hexdigest(),'byte_length':5}
+if r.get('operation') != 'move' or r.get('target') != 'target' or r.get('destination') != 'destination': raise SystemExit(f'move journal identity route incorrect: {r!r}')
+if r.get('pre_identity') != want or r.get('candidate_identity') != want: raise SystemExit(f'move journal byte identities incorrect: {r!r}')
+if r.get('recovery_disposition') != 'RECOVERY_REQUIRED': raise SystemExit(f'move custody disposition missing: {r!r}')
+print(r['token'])
+PY
+)" || fail 'R36 move-crash journal was not a truthful custody record'
+  find "$fixture_repo/.IMPLEMENTAUDIT/.r36-locks" -mindepth 1 -maxdepth 1 -type d -print -quit | grep -q . || fail 'R36 move-crash did not retain owned locks'
+  kill -9 "$pid" 2>/dev/null || true; wait "$pid" 2>/dev/null || true
+  invoke R36-MOVE-CRASH-manual-gate REJECTED_NO_MUTATION recover target destination - 4142434445 --destination destination --journal "$journal" --token "$token"
+  assert_hex R36-MOVE-CRASH-recover-source "$fixture_repo/target" 4142434445
+  assert_hex R36-MOVE-CRASH-recover-destination "$fixture_repo/destination" 4142434445
+  [ -e "$journal" ] || fail 'R36 move-crash recover consumed journal'
+  setup; pre="$(artifact move-clean-pre 4142434445)"; invoke R36-MOVE-CLEAN COMMITTED move target destination "$pre" 4142434445 --preimage "$pre" --destination destination
+  find "$run_root" -maxdepth 1 -type f -name '.r36-journal-*.json' -print -quit | grep -q . && fail 'R36 successful move retained a journal'
+}
+
 state_family() {
   local pre cand region repl
   setup; pre="$(artifact c1-pre 414243)"; cand="$(artifact c1-candidate 5a)"; invoke R36-C1 REJECTED_NO_MUTATION replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"
@@ -742,6 +778,7 @@ PY
   canonical_observation_races
   external_drift_and_recovery
   true_kill_requires_manual_custody
+  interrupted_move_requires_manual_custody
   printf 'observation-bound-mutation-integrity: PASS R36 state family\n'
 }
 

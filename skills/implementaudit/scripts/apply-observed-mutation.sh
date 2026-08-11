@@ -92,9 +92,23 @@ try:
   # Re-read immediately before the absent-only publish; a writer that changed
   # the source during lock acquisition cannot be moved under an old preimage.
   if raw(T)!=pre or D.exists():out('CONFLICT_REBASE',cand=I(pre))
-  try:os.link(T,D);os.unlink(T)
-  except FileExistsError:out('CONFLICT_REBASE',cand=I(pre))
-  except OSError:out('UNSUPPORTED_OWNER_DECISION',cand=I(pre))
+  tok=secrets.token_hex(16);J=run/('.r36-journal-'+tok+'.json')
+  # A move has a real intermediate state: destination published while the
+  # source still names the same bytes.  Record it durably before publication;
+  # after a crash this is manual-custody residue, never an implicit copy.
+  with J.open('w',encoding='utf-8') as jf:
+   json.dump({'token':tok,'operation':'move','target':a.target,'destination':a.destination,'pre_identity':I(pre),'candidate_identity':I(pre),'recovery_disposition':'RECOVERY_REQUIRED'},jf,separators=(',',':'));jf.flush();os.fsync(jf.fileno())
+  try:os.link(T,D)
+  except FileExistsError:
+   J.unlink();out('CONFLICT_REBASE',cand=I(pre))
+  except OSError:
+   J.unlink();out('UNSUPPORTED_OWNER_DECISION',cand=I(pre))
+  phase_hook('move-destination-published')
+  # Do not remove a source that changed after link publication.  The exact
+  # destination and journal remain for manual owner disposition.
+  if raw(T)!=pre or raw(D)!=pre:out('RECOVERY_REQUIRED',cand=I(pre),j=J,tok=tok,res=[D])
+  os.unlink(T)
+  J.unlink()
   out('COMMITTED',cand=I(pre),post=D)
  tok=secrets.token_hex(16);B=run/('.r36-backup-'+tok);J=run/('.r36-journal-'+tok+'.json')
  # The journal is durable before the first destructive rename.
