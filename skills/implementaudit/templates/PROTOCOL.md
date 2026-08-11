@@ -458,7 +458,18 @@ with a durable status contract, never awaited inline:
    produced by that chain; record an `evidence-mismatch` Andon, re-run, or mark
    the verdict unverified. After closure, cite the verdict only when the closing
    anchor equals `opened_at` or the complete `opened_at`-to-`closed_at` diff is disjoint
-   from `surfaces`. A disjoint mutation does not freeze the whole repository.
+   from `surfaces`. Window intersection uses complete path identities, including ignored
+   and .IMPLEMENTAUDIT/ run-root paths, when they are declared surfaces. A disjoint
+   mutation does not freeze the whole repository. At open, persist a NUL-delimited
+   `opening_identity_receipt` with its `opening_identity_sha256`; at close, persist a
+   `closing_identity_receipt` with its `closing_identity_sha256`. Each receipt binds the
+   normalized complete declared-surface population, including explicitly absent paths and directories,
+   as well as records binding each present path, type, extent, and SHA-256 digest. The checker
+   requires each receipt declaration to equal the window's declared
+   surfaces, compares those bound identity populations, and fails closed if either receipt
+   is unavailable, altered, or cannot be enumerated. Declared trailing-slash directory surfaces are explicitly included in
+   those receipts, so empty ignored or run-root directories retain identity without
+   expanding the census to unrelated directory trees.
    Compound shell verification (`git stash`, `git checkout --`, or an
    `&&`-chained restore) is itself a surface mutation: run the check as one
    command and restore state in a separate, separately observed action.

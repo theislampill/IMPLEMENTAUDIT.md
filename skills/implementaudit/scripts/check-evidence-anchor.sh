@@ -19,8 +19,8 @@ set -euo pipefail
 #   check-evidence-anchor.sh --window <launch-intent-file> --now <sha>
 #       an open verification window refuses an anchor-to-current-tree diff
 #       that intersects a declared surface. Closed windows and complete diffs
-#       proven disjoint pass. The existing repo-state.sh changed-files command
-#       remains the sole complete working-tree enumerator.
+#       proven disjoint pass. Its window-specific repo-state route includes
+#       ignored and .IMPLEMENTAUDIT/ path identities as live declared surfaces.
 
 fail() { printf 'check-evidence-anchor: %s\n' "$*" >&2; exit 1; }
 
@@ -275,10 +275,13 @@ PY
     repo_state="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/repo-state.sh"
     "${py_cmd[@]}" - "$intent" "$now" "$repo_state" "$BASH" <<'PY'
 import fnmatch
+import hashlib
+import json
+import os
 import re
 import subprocess
 import sys
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 intent_path = Path(sys.argv[1])
 now = sys.argv[2]
@@ -290,6 +293,139 @@ sha_re = re.compile(r"^[0-9a-f]{40}$")
 def fail(message):
     print(f"check-evidence-anchor: {message}", file=sys.stderr)
     raise SystemExit(1)
+
+
+def normalize_surface(surface):
+    normalized = surface.replace("\\", "/")
+    pure = PurePosixPath(normalized)
+    if (not normalized or pure.is_absolute() or ".." in pure.parts
+            or normalized.startswith("/") or re.match(r"^[A-Za-z]:", normalized)):
+        fail(f"verification window contains unsafe surface: {surface}")
+    canonical = str(pure)
+    if canonical in {"", "."}:
+        fail(f"verification window contains unsafe surface: {surface}")
+    if normalized.endswith("/"):
+        canonical += "/"
+    return canonical
+
+
+def surface_matches(path, surface):
+    return path.startswith(surface) if surface.endswith("/") else fnmatch.fnmatchcase(path, surface)
+
+
+def window_changed_paths(opened):
+    changed = subprocess.run(
+        [bash_exe, repo_state, "window-changed-files", "--null", opened],
+        capture_output=True,
+        check=False,
+    )
+    if changed.returncode != 0:
+        fail(f"complete window changed-files enumeration failed for {opened}: {changed.stderr.decode(errors='replace').strip()}")
+    try:
+        return sorted({part.decode("utf-8") for part in changed.stdout.split(b"\0") if part})
+    except UnicodeDecodeError:
+        fail(f"complete window changed-files enumeration returned a non-UTF-8 path for {opened}")
+
+
+def normalized_surface_population(surfaces, label):
+    if not surfaces or any(not isinstance(surface, str) for surface in surfaces):
+        fail(f"{label} has no valid declared surfaces")
+    normalized = [normalize_surface(surface) for surface in surfaces]
+    if len(set(normalized)) != len(normalized):
+        fail(f"{label} contains duplicate declared surfaces")
+    return sorted(normalized)
+
+
+def identity_records(payload, label, expected_surfaces):
+    records = {}
+    try:
+        raw_records = [part.decode("utf-8") for part in payload.split(b"\0") if part]
+    except UnicodeDecodeError:
+        fail(f"{label} returned a non-UTF-8 record")
+    if not raw_records:
+        fail(f"{label} contains no receipt header")
+    try:
+        header = json.loads(raw_records[0])
+    except json.JSONDecodeError:
+        fail(f"{label} contains malformed receipt header JSON")
+    if (not isinstance(header, dict)
+            or set(header) != {"schema", "surfaces"}
+            or header.get("schema") != "verification-window-identity-receipt-v1"
+            or not isinstance(header.get("surfaces"), list)):
+        fail(f"{label} has an invalid receipt header")
+    declared_population = normalized_surface_population(header["surfaces"], label)
+    expected_population = normalized_surface_population(expected_surfaces, "verification window")
+    if declared_population != expected_population:
+        fail(f"{label} declared surfaces do not match the verification window: receipt={declared_population} expected={expected_population}")
+    for raw in raw_records[1:]:
+        try:
+            record = json.loads(raw)
+        except json.JSONDecodeError:
+            fail(f"{label} contains malformed identity JSON")
+        if set(record) != {"path", "type", "extent", "sha256"}:
+            fail(f"{label} identity record has an invalid schema")
+        path = normalize_surface(record["path"])
+        if record["type"] not in {"regular", "directory", "symlink"}:
+            fail(f"{label} identity record has an unsupported type: {record['type']}")
+        if not isinstance(record["extent"], int) or record["extent"] < 0:
+            fail(f"{label} identity record has an invalid extent: {path}")
+        if not re.fullmatch(r"[0-9a-f]{64}", record["sha256"]):
+            fail(f"{label} identity record has an invalid digest: {path}")
+        if path in records:
+            fail(f"{label} contains a duplicate identity path: {path}")
+        records[path] = (record["type"], record["extent"], record["sha256"])
+    return records
+
+
+def window_identity_records(surfaces):
+    command = [bash_exe, repo_state, "window-identities", "--records", "--surfaces-env"]
+    environment = os.environ.copy()
+    environment["IMPLEMENTAUDIT_WINDOW_SURFACES_JSON"] = json.dumps(surfaces)
+    identities = subprocess.run(
+        command,
+        capture_output=True,
+        check=False,
+        env=environment,
+    )
+    if identities.returncode != 0:
+        fail(f"complete window identity enumeration failed: {identities.stderr.decode(errors='replace').strip()}")
+    try:
+        return identity_records(identities.stdout, "complete window identity enumeration", surfaces)
+    except UnicodeDecodeError:
+        fail("complete window identity enumeration returned a non-UTF-8 record")
+
+
+def receipt_records(receipt_name, expected_digest, label, surfaces):
+    receipt = Path(receipt_name)
+    if (not receipt_name or receipt.is_absolute() or ".." in receipt.parts
+            or receipt_name.startswith("/") or re.match(r"^[A-Za-z]:", receipt_name)):
+        fail(f"verification window {label} identity receipt is unsafe: {receipt_name}")
+    receipt_path = intent_path.parent / receipt
+    if not receipt_path.is_file() or receipt_path.is_symlink():
+        fail(f"verification window {label} identity receipt is not a regular file: {receipt_path}")
+    if not re.fullmatch(r"[0-9a-f]{64}", expected_digest):
+        fail(f"verification window {label} identity receipt digest is invalid")
+    payload = receipt_path.read_bytes()
+    if hashlib.sha256(payload).hexdigest() != expected_digest:
+        fail(f"verification window {label} identity receipt digest does not match")
+    try:
+        return identity_records(payload, f"verification window {label} identity receipt", surfaces)
+    except UnicodeDecodeError:
+        fail(f"verification window {label} identity receipt contains a non-UTF-8 path")
+
+
+def intersecting_paths(paths, surfaces):
+    return sorted(
+        path for path in paths
+        if any(surface_matches(path, surface) for surface in surfaces)
+    )
+
+
+def identity_delta(before, after):
+    return (set(before) - set(after)) | (set(after) - set(before)) | {
+        path for path in set(before) & set(after)
+        if before[path] != after[path]
+    }
 
 
 if not sha_re.fullmatch(now):
@@ -311,14 +447,17 @@ for raw in text.splitlines():
     match = re.match(r"^\s*-\s*surfaces:\s*\[(.*)\]\s*$", raw)
     if match:
         surfaces = [
-            item.strip().strip("'\"`")
+            normalize_surface(item.strip().strip("'\"`"))
             for item in match.group(1).split(",")
             if item.strip()
         ]
         current = {"surfaces": surfaces}
         windows.append(current)
         continue
-    match = re.match(r"^\s*(opened_at|closed_at|chain|state):\s*(.*?)\s*$", raw)
+    match = re.match(
+        r"^\s*(opened_at|closed_at|chain|state|opening_identity_receipt|opening_identity_sha256|closing_identity_receipt|closing_identity_sha256):\s*(.*?)\s*$",
+        raw,
+    )
     if match and current is not None:
         current[match.group(1)] = match.group(2).strip().strip("'\"`")
 
@@ -333,7 +472,6 @@ if head.returncode != 0:
 head_sha = head.stdout.strip()
 if head_sha != now:
     fail(f"--now {now} does not equal current HEAD {head_sha}")
-
 open_moved = []
 for index, window in enumerate(windows, 1):
     surfaces = window.get("surfaces", [])
@@ -341,7 +479,9 @@ for index, window in enumerate(windows, 1):
     closed = window.get("closed_at", "")
     state = window.get("state", "")
     chain = window.get("chain", "")
-    if not surfaces or not chain or state not in {"open", "closed"}:
+    opening_receipt = window.get("opening_identity_receipt", "")
+    opening_digest = window.get("opening_identity_sha256", "")
+    if not surfaces or not chain or state not in {"open", "closed"} or not opening_receipt or not opening_digest:
         fail(f"verification_window entry {index} is incomplete or invalid")
     if not sha_re.fullmatch(opened):
         fail(f"verification_window entry {index} opened_at must be a full 40-hex SHA")
@@ -355,6 +495,7 @@ for index, window in enumerate(windows, 1):
         fail(f"verification_window entry {index} opened_at is not a local commit: {opened}")
     if Path(intent_path).parent.name != chain:
         fail(f"verification_window entry {index} chain does not match its directory: {chain}")
+    opening_records = receipt_records(opening_receipt, opening_digest, "opening", surfaces)
     if state == "closed":
         marker = intent_path.parent / "chain.done"
         if not marker.is_file():
@@ -369,29 +510,20 @@ for index, window in enumerate(windows, 1):
         )
         if verify_closed.returncode != 0:
             fail(f"verification_window entry {index} closed_at is not a local commit: {closed}")
-        if closed == opened:
-            continue
+        closing_receipt = window.get("closing_identity_receipt", "")
+        closing_digest = window.get("closing_identity_sha256", "")
+        if not closing_receipt or not closing_digest:
+            fail(f"verification_window entry {index} is closed without a closing identity receipt")
+        recorded_closing_records = receipt_records(closing_receipt, closing_digest, "closing", surfaces)
         if closed == now:
-            changed = subprocess.run(
-                [bash_exe, repo_state, "changed-files", opened],
-                text=True,
-                capture_output=True,
-                check=False,
-            )
+            window_changed_paths(opened)
+            closing_records = window_identity_records(surfaces)
         else:
-            changed = subprocess.run(
-                ["git", "diff", "--name-only", opened, closed],
-                text=True,
-                capture_output=True,
-                check=False,
-            )
-        if changed.returncode != 0:
-            fail(f"closing diff enumeration failed for {opened}..{closed}: {changed.stderr.strip()}")
-        changed_paths = [line for line in changed.stdout.splitlines() if line]
-        intersecting = sorted(
-            path
-            for path in changed_paths
-            if any(fnmatch.fnmatchcase(path, surface) for surface in surfaces)
+            window_changed_paths(opened)
+            closing_records = recorded_closing_records
+        intersecting = intersecting_paths(
+            identity_delta(opening_records, closing_records),
+            surfaces,
         )
         if intersecting:
             fail(
@@ -400,21 +532,11 @@ for index, window in enumerate(windows, 1):
                 f"intersecting=[{', '.join(intersecting)}]"
             )
         continue
-    if now == opened:
-        continue
-    changed = subprocess.run(
-        [bash_exe, repo_state, "changed-files", opened],
-        text=True,
-        capture_output=True,
-        check=False,
-    )
-    if changed.returncode != 0:
-        fail(f"complete changed-files enumeration failed for {opened}: {changed.stderr.strip()}")
-    changed_paths = [line for line in changed.stdout.splitlines() if line]
-    intersecting = sorted(
-        path
-        for path in changed_paths
-        if any(fnmatch.fnmatchcase(path, surface) for surface in surfaces)
+    window_changed_paths(opened)
+    current_records = window_identity_records(surfaces)
+    intersecting = intersecting_paths(
+        identity_delta(opening_records, current_records),
+        surfaces,
     )
     if intersecting:
         fail(

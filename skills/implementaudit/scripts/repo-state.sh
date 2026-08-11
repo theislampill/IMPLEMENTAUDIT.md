@@ -102,6 +102,204 @@ cmd_changed_files() {
   fi
 }
 
+cmd_window_changed_files() {
+  local format="$1" baseline="$2"
+  [ "$format" = "--null" ] || {
+    printf 'usage: repo-state.sh window-changed-files --null <baseline>\n' >&2
+    return 2
+  }
+  if in_git_repo && baseline_ok "$baseline"; then
+    # Unlike changed-files, this verification-window census must retain every
+    # current path identity that can intersect a declared surface. In
+    # particular, ignored files and .IMPLEMENTAUDIT/ run-root files are live
+    # surfaces when explicitly declared by an open window.
+    git diff --name-only -z "$baseline" || return $?
+    git ls-files --others --exclude-standard -z || return $?
+    git ls-files --others --ignored --exclude-standard -z || return $?
+  fi
+}
+
+cmd_window_identities() {
+  local format="$1"
+  shift
+  case "$format" in
+    --null)
+      [ "$#" -eq 0 ] || {
+        printf 'usage: repo-state.sh window-identities --null\n' >&2
+        return 2
+      }
+      if in_git_repo; then
+        git ls-files -z || return $?
+        git ls-files --others --exclude-standard -z || return $?
+        git ls-files --others --ignored --exclude-standard -z || return $?
+      fi
+      ;;
+    --records)
+      local surfaces=()
+      while [ "$#" -gt 0 ]; do
+        case "$1" in
+          --surface)
+            [ "$#" -ge 2 ] || {
+              printf 'usage: repo-state.sh window-identities --records [--surface <directory-surface>]...\n' >&2
+              return 2
+            }
+            surfaces+=("$2")
+            shift 2
+            ;;
+          --surfaces-env)
+            [ "$#" -eq 1 ] || {
+              printf 'usage: repo-state.sh window-identities --records [--surface <directory-surface>]...\n' >&2
+              return 2
+            }
+            surfaces+=("$1")
+            shift
+            ;;
+          *)
+            printf 'usage: repo-state.sh window-identities --records [--surface <directory-surface>]...\n' >&2
+            return 2
+            ;;
+        esac
+      done
+      if command -v python >/dev/null 2>&1; then
+        local py_cmd=(python)
+      elif command -v python3 >/dev/null 2>&1; then
+        local py_cmd=(python3)
+      elif command -v py >/dev/null 2>&1; then
+        local py_cmd=(py -3)
+      else
+        printf 'repo-state: python, python3, or py -3 is required for window identity records\n' >&2
+        return 127
+      fi
+      "${py_cmd[@]}" - "${surfaces[@]}" <<'PY'
+import hashlib
+import json
+import os
+import stat
+import subprocess
+import sys
+from pathlib import PurePosixPath
+
+
+def git(*args):
+    result = subprocess.run(["git", *args], capture_output=True, check=False)
+    if result.returncode != 0:
+        sys.stderr.buffer.write(result.stderr)
+        raise SystemExit(result.returncode)
+    return result.stdout
+
+
+root = git("rev-parse", "--show-toplevel").decode("utf-8").strip()
+arguments = sys.argv[1:]
+if arguments == ["--surfaces-env"]:
+    try:
+        arguments = json.loads(os.environ["IMPLEMENTAUDIT_WINDOW_SURFACES_JSON"])
+    except (KeyError, json.JSONDecodeError):
+        print("repo-state: window identity records have invalid declared surfaces", file=sys.stderr)
+        raise SystemExit(2)
+    if not isinstance(arguments, list) or any(not isinstance(surface, str) for surface in arguments):
+        print("repo-state: window identity records have invalid declared surfaces", file=sys.stderr)
+        raise SystemExit(2)
+elif "--surfaces-env" in arguments:
+    print("repo-state: --surfaces-env cannot be combined with --surface", file=sys.stderr)
+    raise SystemExit(2)
+explicit_directories = {}
+declared_surfaces = []
+if not arguments:
+    print("repo-state: window identity receipt requires at least one declared surface", file=sys.stderr)
+    raise SystemExit(2)
+for surface in arguments:
+    normalized = surface.replace("\\", "/")
+    pure = PurePosixPath(normalized)
+    if (not normalized or pure.is_absolute() or ".." in pure.parts
+            or normalized.startswith("/")
+            or (len(normalized) > 1 and normalized[1] == ":")):
+        print(f"repo-state: unsafe declared window surface: {surface}", file=sys.stderr)
+        raise SystemExit(2)
+    path = str(pure)
+    if path in {"", "."}:
+        print(f"repo-state: unsafe declared window surface: {surface}", file=sys.stderr)
+        raise SystemExit(2)
+    normalized = path + "/" if normalized.endswith("/") else path
+    declared_surfaces.append(normalized)
+    if normalized.endswith("/"):
+        if any(char in path for char in "*?[]"):
+            print(f"repo-state: unsupported declared directory surface: {surface}", file=sys.stderr)
+            raise SystemExit(2)
+        explicit_directories[path] = normalized
+if len(set(declared_surfaces)) != len(declared_surfaces):
+    print("repo-state: declared window surfaces must be unique", file=sys.stderr)
+    raise SystemExit(2)
+candidates = set()
+for args in (
+    ("ls-files", "--full-name", "-z"),
+    ("ls-files", "--full-name", "--others", "--exclude-standard", "-z"),
+    ("ls-files", "--full-name", "--others", "--ignored", "--exclude-standard", "-z"),
+):
+    for raw in git(*args).split(b"\0"):
+        if not raw:
+            continue
+        path = raw.decode("utf-8")
+        if not path or os.path.isabs(path) or ".." in path.split("/"):
+            raise SystemExit(f"repo-state: unsafe window identity path: {path}")
+        candidates.add(path)
+candidates.update(explicit_directories)
+
+
+def digest_file(path):
+    digest = hashlib.sha256()
+    with open(path, "rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def record(path, display=None):
+    full = os.path.join(root, path)
+    if not os.path.lexists(full):
+        return None
+    shown = path if display is None else display
+    mode = os.lstat(full).st_mode
+    if stat.S_ISREG(mode):
+        return {"path": shown, "type": "regular", "extent": os.lstat(full).st_size, "sha256": digest_file(full)}
+    if stat.S_ISLNK(mode):
+        target = os.readlink(full).encode("utf-8", "surrogateescape")
+        return {"path": shown, "type": "symlink", "extent": len(target), "sha256": hashlib.sha256(target).hexdigest()}
+    if stat.S_ISDIR(mode):
+        children = []
+        for base, dirs, files in os.walk(full, followlinks=False):
+            dirs.sort()
+            files.sort()
+            for name in dirs + files:
+                child = os.path.join(base, name)
+                relative = os.path.relpath(child, full).replace(os.sep, "/")
+                child_record = record(os.path.relpath(child, root).replace(os.sep, "/"), relative)
+                if child_record is not None:
+                    children.append(child_record)
+        payload = json.dumps(children, sort_keys=True, separators=(",", ":")).encode("utf-8")
+        return {"path": shown, "type": "directory", "extent": len(children), "sha256": hashlib.sha256(payload).hexdigest()}
+    raise SystemExit(f"repo-state: unsupported window identity type: {path}")
+
+
+records = [
+    item for item in (
+        record(path, explicit_directories.get(path))
+        for path in sorted(candidates)
+    )
+    if item is not None
+]
+header = {"schema": "verification-window-identity-receipt-v1", "surfaces": sorted(declared_surfaces)}
+sys.stdout.buffer.write(json.dumps(header, sort_keys=True, separators=(",", ":")).encode("utf-8") + b"\0")
+for item in records:
+    sys.stdout.buffer.write(json.dumps(item, sort_keys=True, separators=(",", ":")).encode("utf-8") + b"\0")
+PY
+      ;;
+    *)
+      printf 'usage: repo-state.sh window-identities --null|--records [--surface <directory-surface>]...\n' >&2
+      return 2
+      ;;
+  esac
+}
+
 cmd_added_lines() {
   local baseline="$1"
   if in_git_repo && baseline_ok "$baseline"; then
@@ -375,6 +573,20 @@ case "$subcommand" in
     }
     cmd_changed_files "$1"
     ;;
+  window-changed-files)
+    [ "$#" -eq 2 ] || {
+      printf 'usage: repo-state.sh window-changed-files --null <baseline>\n' >&2
+      exit 2
+    }
+    cmd_window_changed_files "$1" "$2"
+    ;;
+  window-identities)
+    [ "$#" -ge 1 ] || {
+      printf 'usage: repo-state.sh window-identities --null|--records [--surface <directory-surface>]...\n' >&2
+      exit 2
+    }
+    cmd_window_identities "$@"
+    ;;
   added-lines)
     [ "$#" -ge 1 ] || {
       printf 'usage: repo-state.sh added-lines <baseline>\n' >&2
@@ -388,6 +600,8 @@ repo-state.sh - evaluate complete working-tree state vs a baseline commit.
 
   repo-state.sh deliverable   <baseline> <path>
   repo-state.sh changed-files <baseline>
+  repo-state.sh window-changed-files --null <baseline>
+  repo-state.sh window-identities --null|--records [--surface <directory-surface>]...
   repo-state.sh added-lines   <baseline>
   repo-state.sh commit-message <message-file> [--ledger-linked]
   repo-state.sh ignored-artifact <source|package|release> <artifact> <published-digest-record> <authority-baseline>
