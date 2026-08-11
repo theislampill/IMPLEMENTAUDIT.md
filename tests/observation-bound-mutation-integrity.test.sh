@@ -626,19 +626,23 @@ j,b,t=sys.argv[1:]; Path(j).write_text(json.dumps({'token':t,'target':'target','
 PY
   invoke R36-DRIFT-crafted-journal REJECTED_NO_MUTATION recover target - - 45585445524e414c2d57494e4e4552 --journal "$crafted_journal" --token "$crafted_token"
   assert_hex R36-DRIFT-crafted-backup-intact "$crafted_backup" 41545441434b; [ -e "$crafted_journal" ] || fail 'crafted journal was consumed'
-  # Even an internally consistent token-derived journal/backup in the claimed
-  # run root is not authority without the helper-created private authority
-  # record retained by the original transaction.
-  local internal_token='internal-token' internal_backup="$run_root/.r36-backup-internal-token" internal_journal="$run_root/.r36-journal-internal-token.json"
+  # A caller can make a byte-consistent journal, backup, token-shaped names,
+  # and even a linked would-be authority record in the claimed run.  Portable
+  # same-principal storage does not establish who created those files, so none
+  # of them may authorize automatic mutation.
+  local internal_token='internal-token' internal_backup="$run_root/.r36-backup-internal-token" internal_journal="$run_root/.r36-journal-internal-token.json" internal_authority="$run_root/.r36-authority-internal-token"
   write_hex "$internal_backup" 41545441434b
-  "$python_bin" - "$internal_journal" "$internal_backup" "$internal_token" <<'PY'
+  ln -s "$outside" "$internal_authority" 2>/dev/null || { printf 'authority-link-fallback\n' >"$internal_authority"; }
+  "$python_bin" - "$internal_journal" "$internal_backup" "$internal_token" "$internal_authority" <<'PY'
 import hashlib,json,sys
 from pathlib import Path
-j,b,t=sys.argv[1:]; raw=Path(b).read_bytes(); ident={'sha256':hashlib.sha256(raw).hexdigest(),'byte_length':len(raw)}
-Path(j).write_text(json.dumps({'token':t,'target':'target','backup':b,'pre_identity':ident,'candidate_identity':None,'authority_hash':'00'*32}),encoding='utf-8')
+j,b,t,a=sys.argv[1:]; raw=Path(b).read_bytes(); ident={'sha256':hashlib.sha256(raw).hexdigest(),'byte_length':len(raw)}
+authority=Path(a).read_bytes(); ah=hashlib.sha256(authority).hexdigest()
+Path(j).write_text(json.dumps({'token':t,'target':'target','backup':b,'pre_identity':ident,'candidate_identity':None,'authority_hash':ah}),encoding='utf-8')
 PY
   invoke R36-DRIFT-internal-forgery REJECTED_NO_MUTATION recover target - - 45585445524e414c2d57494e4e4552 --journal "$internal_journal" --token "$internal_token"
   assert_hex R36-DRIFT-internal-backup-intact "$internal_backup" 41545441434b; [ -e "$internal_journal" ] || fail 'internal forged journal was consumed'
+  [ -L "$internal_authority" ] && assert_hex R36-DRIFT-internal-linked-authority-referent "$outside" 4f555453494445
   # Even a correct token is manual/owner-gated custody on portable
   # same-principal filesystems: this helper never auto-recovers it.
   local recovery_pre recovery_post
@@ -655,6 +659,40 @@ PY
   last_record="$(assert_response R36-DRIFT-correct-token "$status" recover target - '["target"]' "$recovery_pre" null "$recovery_post" "$(post_identities_json target -)" "$(<"$tmp/recover.out")")"
   [ -e "$journal" ] || fail 'R36-DRIFT owner-gated recovery removed journal'
   assert_hex R36-DRIFT-correct-token-winner "$fixture_repo/target" 45585445524e414c2d57494e4e4552
+}
+
+true_kill_requires_manual_custody() {
+  # A SIGKILL cannot emit a terminal JSON object.  The durable, pre-existing
+  # journal is therefore the only truthful recovery-required report: it must
+  # survive with the displaced preimage and owned lock set, while the public
+  # recover CLI stays a non-mutating/manual-custody gate.
+  setup
+  local pre cand derived barrier="$tmp/true-kill" stdout="$tmp/true-kill.out" stderr="$tmp/true-kill.err" pid ticks=0 journal backup token record
+  pre="$(artifact true-kill-pre 4142434445)"; cand="$(artifact true-kill-candidate 4e4557)"
+  derived="$(instrumented_helper)" || fail 'R36 true-kill could not derive instrumented helper'
+  rm -rf "$barrier"; mkdir "$barrier"
+  (set +e; IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=after-displacement bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --operation replace --target target --preimage "$pre" --candidate "$cand" >"$stdout" 2>"$stderr"; echo $? >"$barrier/exit") & pid=$!
+  while [ ! -f "$barrier/paused" ] && kill -0 "$pid" 2>/dev/null && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done
+  [ "$ticks" -lt 500 ] || { wait_bounded "$pid" 'R36 true-kill helper'; fail 'R36 true-kill never reached durable displacement'; }
+  kill -9 "$pid" 2>/dev/null || true; wait "$pid" 2>/dev/null || true
+  [ ! -e "$fixture_repo/target" ] || fail 'R36 true-kill retained target after displacement'
+  journal="$(find "$run_root" -maxdepth 1 -type f -name '.r36-journal-*.json' -print -quit)"
+  backup="$(find "$run_root" -maxdepth 1 -type f -name '.r36-backup-*' -print -quit)"
+  [ -n "$journal" ] && [ -n "$backup" ] || fail 'R36 true-kill did not retain journal and backup'
+  assert_hex R36-TRUE-KILL-backup "$backup" 4142434445
+  record="$($python_bin - "$journal" <<'PY'
+import json,sys
+r=json.load(open(sys.argv[1],encoding='utf-8'))
+if r.get('recovery_disposition') != 'RECOVERY_REQUIRED': raise SystemExit(f'journal disposition is not recovery-required: {r!r}')
+if not isinstance(r.get('token'),str) or not r['token']: raise SystemExit('journal token missing')
+print(r['token'])
+PY
+)" || fail 'R36 true-kill journal is not a durable recovery-required record'
+  token="$record"
+  find "$fixture_repo/.IMPLEMENTAUDIT/.r36-locks" -mindepth 1 -maxdepth 1 -type d -print -quit | grep -q . || fail 'R36 true-kill did not retain lock ownership'
+  invoke R36-TRUE-KILL-manual-gate REJECTED_NO_MUTATION recover target - - - --journal "$journal" --token "$token"
+  [ ! -e "$fixture_repo/target" ] || fail 'R36 true-kill recover mutated target'
+  [ -e "$journal" ] && [ -e "$backup" ] || fail 'R36 true-kill recover consumed custody'
 }
 
 state_family() {
@@ -703,6 +741,7 @@ PY
   opposing_moves
   canonical_observation_races
   external_drift_and_recovery
+  true_kill_requires_manual_custody
   printf 'observation-bound-mutation-integrity: PASS R36 state family\n'
 }
 

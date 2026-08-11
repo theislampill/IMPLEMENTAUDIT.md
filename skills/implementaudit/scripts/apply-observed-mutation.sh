@@ -99,7 +99,7 @@ try:
  tok=secrets.token_hex(16);B=run/('.r36-backup-'+tok);J=run/('.r36-journal-'+tok+'.json')
  # The journal is durable before the first destructive rename.
  with J.open('w',encoding='utf-8') as jf:
-  json.dump({'token':tok,'target':a.target,'backup':str(B),'pre_identity':I(now),'candidate_identity':I(c) if c is not None else None},jf,separators=(',',':'));jf.flush();os.fsync(jf.fileno())
+  json.dump({'token':tok,'target':a.target,'backup':str(B),'pre_identity':I(now),'candidate_identity':I(c) if c is not None else None,'recovery_disposition':'RECOVERY_REQUIRED'},jf,separators=(',',':'));jf.flush();os.fsync(jf.fileno())
  os.replace(T,B)
  if fault=='after-displacement':wait('paused');os.link(B,T);B.unlink();J.unlink();out('MUTATION_FAILED_ROLLED_BACK',cand=I(c) if c else None)
  if op=='delete':os.unlink(B);J.unlink();out('COMMITTED')
