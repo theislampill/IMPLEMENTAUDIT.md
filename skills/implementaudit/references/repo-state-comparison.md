@@ -362,11 +362,14 @@ both the declared candidate root and evaluated record tree. Its bound SHA-256
 ties the resolved commit and exact tree to the qualified package name, measured
 size, and digest. Operator authority likewise supplies an absolute read-only
 capture executable outside the candidate root (otherwise the checker uses only
-a fixed OS curl location). Fixed HTTPS-only arguments use no stdin, a bounded
-timeout, and a temporary output file; the checker rejects captured stdout over
-1 MiB before reading it. Captured JSON is strict unique-key UTF-8 and equals the
-row; captured asset bytes equal the qualified package. Pre-authored JSON,
-copied local bytes, or a local digest alone cannot establish hosted state.
+a fixed OS curl location, derived from `SystemRoot` on Windows). Fixed
+HTTPS-only arguments use no stdin, a bounded timeout, and a temporary output
+file. Each capture owns its full process tree: a kill-on-close Job Object on
+Windows or a new process group on POSIX is terminated and waited on after
+completion or timeout. The checker rejects captured stdout over 1 MiB before
+reading it. Captured JSON is strict unique-key UTF-8 and equals the row;
+captured asset bytes equal the qualified package. Pre-authored JSON, copied
+local bytes, or a local digest alone cannot establish hosted state.
 
 ## Proving a file is dead
 

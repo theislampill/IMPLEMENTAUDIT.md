@@ -165,6 +165,7 @@ elif [[ "$url" == https://github.com/acme/example/releases/download/*/IMPLEMENTA
     good) cat "$CAPTURE_ASSET_SOURCE" ;;
     wrong) printf '%s' 'unrelated copied bytes' ;;
     oversized) cat "$CAPTURE_OVERSIZE_SOURCE" ;;
+    timeout) (sleep 37; printf '%s' survived > "$CAPTURE_SURVIVOR_MARKER") & sleep 60 ;;
     missing) exit 22 ;;
   esac
 else
@@ -195,6 +196,7 @@ exit /b %errorlevel%
 if "%CAPTURE_ASSET_MODE%"=="missing" exit /b 22
 if "%CAPTURE_ASSET_MODE%"=="wrong" (<nul set /p="unrelated copied bytes" & exit /b 0)
 if "%CAPTURE_ASSET_MODE%"=="oversized" (powershell.exe -NoLogo -NoProfile -NonInteractive -Command "$b=[IO.File]::ReadAllBytes($env:CAPTURE_OVERSIZE_SOURCE);[Console]::OpenStandardOutput().Write($b,0,$b.Length)" & exit /b 0)
+if "%CAPTURE_ASSET_MODE%"=="timeout" (start "" /b powershell.exe -NoLogo -NoProfile -NonInteractive -Command "Start-Sleep -Seconds 37;[IO.File]::WriteAllText($env:CAPTURE_SURVIVOR_MARKER,'survived')" & powershell.exe -NoLogo -NoProfile -NonInteractive -Command "Start-Sleep -Seconds 60" & exit /b 0)
 <nul set /p="qualified release asset bytes"
 exit /b 0
 EOF
@@ -208,6 +210,7 @@ EOF
   export CAPTURE_RELEASE_SOURCE="$operator_native/source/release.json"
   export CAPTURE_ASSET_SOURCE="$operator_native/source/asset.skill"
   export CAPTURE_OVERSIZE_SOURCE="$operator_native/source/oversized.skill"
+  export CAPTURE_SURVIVOR_MARKER="$operator_native/survivor.marker"
 
   printf '%s\n' \
     "{\"candidate_root\":\"$candidate_native\",\"qualified_commit\":\"$qualified_commit\",\"qualified_tree\":\"$qualified_tree\",\"package_name\":\"IMPLEMENTAUDIT.skill\",\"package_size\":$asset_size,\"package_digest\":\"$asset_digest\"}" \
@@ -304,6 +307,18 @@ EOF
     'check-closure-surface: claim hosted-release: captured public asset exceeds 1048576 bytes' \
     '1,048,577-byte public asset capture was accepted'
   unset CAPTURE_ASSET_MODE
+
+  rm -f "$operator/survivor.marker"
+  export CAPTURE_ASSET_MODE=timeout
+  expect_composed_fail "$work/hosted-release-PASS.md" \
+    'check-closure-surface: claim hosted-release: public asset capture failed' \
+    'timed-out public capture was accepted'
+  unset CAPTURE_ASSET_MODE
+  sleep 4
+  if [ -e "$operator/survivor.marker" ]; then
+    printf 'closure-surface-contract: timed-out capture left a surviving child process\n' >&2
+    failures=$((failures + 1))
+  fi
 
   sed "s/asset-size: $asset_size/asset-size: 999/" \
     "$work/hosted-release-PASS.md" > "$work/hosted-wrong-size.md"

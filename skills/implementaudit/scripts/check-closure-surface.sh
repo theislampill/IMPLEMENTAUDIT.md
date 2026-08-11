@@ -577,6 +577,7 @@ import hashlib
 import json
 import os
 import re
+import signal
 import subprocess
 import sys
 import tempfile
@@ -799,7 +800,9 @@ for claim_id, claim in claims.items():
             if not transport_arg.is_absolute():
                 die(f"claim {claim_id}: authority capture transport must be absolute")
         else:
-            defaults = ([Path(r"C:\Windows\System32\curl.exe")] if os.name == "nt"
+            system_root = Path(os.environ.get("SystemRoot", ""))
+            defaults = ([system_root / "System32" / "curl.exe"]
+                        if os.name == "nt" and system_root.is_absolute()
                         else [Path("/usr/bin/curl"), Path("/usr/local/bin/curl")])
             transport_arg = next((path for path in defaults if path.is_file()), None)
             if transport_arg is None:
@@ -816,22 +819,124 @@ for claim_id, claim in claims.items():
         if transport_arg.is_symlink() or not transport.is_file():
             die(f"claim {claim_id}: checker-controlled public capture transport is invalid")
 
+        def windows_job(process):
+            if os.name != "nt":
+                return None
+            import ctypes
+            from ctypes import wintypes
+
+            class BasicLimits(ctypes.Structure):
+                _fields_ = [
+                    ("PerProcessUserTimeLimit", ctypes.c_int64),
+                    ("PerJobUserTimeLimit", ctypes.c_int64),
+                    ("LimitFlags", wintypes.DWORD),
+                    ("MinimumWorkingSetSize", ctypes.c_size_t),
+                    ("MaximumWorkingSetSize", ctypes.c_size_t),
+                    ("ActiveProcessLimit", wintypes.DWORD),
+                    ("Affinity", ctypes.c_size_t),
+                    ("PriorityClass", wintypes.DWORD),
+                    ("SchedulingClass", wintypes.DWORD),
+                ]
+
+            class IoCounters(ctypes.Structure):
+                _fields_ = [(name, ctypes.c_uint64) for name in (
+                    "ReadOperationCount", "WriteOperationCount", "OtherOperationCount",
+                    "ReadTransferCount", "WriteTransferCount", "OtherTransferCount",
+                )]
+
+            class ExtendedLimits(ctypes.Structure):
+                _fields_ = [
+                    ("BasicLimitInformation", BasicLimits), ("IoInfo", IoCounters),
+                    ("ProcessMemoryLimit", ctypes.c_size_t),
+                    ("JobMemoryLimit", ctypes.c_size_t),
+                    ("PeakProcessMemoryUsed", ctypes.c_size_t),
+                    ("PeakJobMemoryUsed", ctypes.c_size_t),
+                ]
+
+            kernel = ctypes.WinDLL("kernel32", use_last_error=True)
+            kernel.CreateJobObjectW.restype = wintypes.HANDLE
+            job = kernel.CreateJobObjectW(None, None)
+            if not job:
+                raise OSError(ctypes.get_last_error(), "CreateJobObjectW")
+            limits = ExtendedLimits()
+            limits.BasicLimitInformation.LimitFlags = 0x2000
+            if not kernel.SetInformationJobObject(job, 9, ctypes.byref(limits), ctypes.sizeof(limits)):
+                kernel.CloseHandle(job)
+                raise OSError(ctypes.get_last_error(), "SetInformationJobObject")
+            if not kernel.AssignProcessToJobObject(job, wintypes.HANDLE(int(process._handle))):
+                kernel.CloseHandle(job)
+                raise OSError(ctypes.get_last_error(), "AssignProcessToJobObject")
+            return kernel, job
+
+        def taskkill_tree(pid):
+            system_root = Path(os.environ.get("SystemRoot", ""))
+            taskkill = system_root / "System32" / "taskkill.exe"
+            if system_root.is_absolute() and taskkill.is_file():
+                try:
+                    subprocess.run(
+                        [str(taskkill), "/PID", str(pid), "/T", "/F"],
+                        stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+                        stderr=subprocess.DEVNULL, timeout=10,
+                    )
+                except (OSError, subprocess.TimeoutExpired):
+                    pass
+
         def capture(url, label):
             with tempfile.TemporaryFile() as output:
+                flags = subprocess.CREATE_NEW_PROCESS_GROUP if os.name == "nt" else 0
                 try:
-                    result = subprocess.run(
+                    process = subprocess.Popen(
                         [str(transport), "--fail", "--silent", "--show-error", "--location",
                          "--proto", "=https", "--max-filesize", "1048576",
                          "--max-time", "30", url],
                         stdin=subprocess.DEVNULL, stdout=output,
-                        stderr=subprocess.DEVNULL, timeout=35,
+                        stderr=subprocess.DEVNULL, creationflags=flags,
+                        start_new_session=os.name != "nt",
                     )
-                except (OSError, subprocess.TimeoutExpired):
+                except OSError:
+                    die(f"claim {claim_id}: {label} capture failed")
+                try:
+                    job = windows_job(process)
+                except OSError:
+                    if os.name == "nt":
+                        taskkill_tree(process.pid)
+                    else:
+                        os.killpg(process.pid, signal.SIGKILL)
+                    process.wait()
+                    die(f"claim {claim_id}: {label} process-tree custody failed")
+                timed_out = False
+                try:
+                    process.wait(timeout=35)
+                except subprocess.TimeoutExpired:
+                    timed_out = True
+                    if os.name == "nt":
+                        taskkill_tree(process.pid)
+                    else:
+                        try:
+                            os.killpg(process.pid, signal.SIGKILL)
+                        except ProcessLookupError:
+                            pass
+                finally:
+                    if job is not None:
+                        job[0].CloseHandle(job[1])
+                    elif os.name != "nt":
+                        try:
+                            os.killpg(process.pid, signal.SIGKILL)
+                        except ProcessLookupError:
+                            pass
+                    try:
+                        process.wait(timeout=10)
+                    except subprocess.TimeoutExpired:
+                        if os.name == "nt":
+                            taskkill_tree(process.pid)
+                        process.kill()
+                        process.wait()
+                if timed_out:
                     die(f"claim {claim_id}: {label} capture failed")
                 size = output.tell()
                 if size > 1048576:
                     die(f"claim {claim_id}: captured {label} exceeds 1048576 bytes")
-                if result.returncode:
+                if process.returncode:
                     die(f"claim {claim_id}: {label} capture failed")
                 output.seek(0)
                 return output.read()
