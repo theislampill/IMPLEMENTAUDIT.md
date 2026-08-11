@@ -259,6 +259,62 @@ if bash "$reachability" --repo-root "$conditional_launch" >/dev/null 2>&1; then
   failures+=("conditional-launch-counts-as-mandatory-transport")
 fi
 
+terminated_before_start="$tmp/terminated-before-start"
+mkdir -p "$terminated_before_start/scripts"
+cp -R skills "$terminated_before_start/skills"
+cp scripts/build-release-asset.sh "$terminated_before_start/scripts/build-release-asset.sh"
+sed -i '/^mediator_thread\.start()$/i raise SystemExit(0)' \
+  "$terminated_before_start/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$terminated_before_start" >/dev/null 2>&1; then
+  failures+=("terminated-path-before-start-counts-as-transport")
+fi
+
+exited_before_start="$tmp/exited-before-start"
+mkdir -p "$exited_before_start/scripts"
+cp -R skills "$exited_before_start/skills"
+cp scripts/build-release-asset.sh "$exited_before_start/scripts/build-release-asset.sh"
+sed -i '/^mediator_thread\.start()$/i sys.exit(0)' \
+  "$exited_before_start/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$exited_before_start" >/dev/null 2>&1; then
+  failures+=("system-exit-before-start-counts-as-transport")
+fi
+
+terminated_before_launch="$tmp/terminated-before-launch"
+mkdir -p "$terminated_before_launch/scripts"
+cp -R skills "$terminated_before_launch/skills"
+cp scripts/build-release-asset.sh "$terminated_before_launch/scripts/build-release-asset.sh"
+sed -i '/completed = subprocess\.run(launch/i\    raise SystemExit(0)' \
+  "$terminated_before_launch/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$terminated_before_launch" >/dev/null 2>&1; then
+  failures+=("terminated-path-before-launch-counts-as-transport")
+fi
+
+reversed_sequence="$tmp/reversed-sequence"
+mkdir -p "$reversed_sequence/scripts"
+cp -R skills "$reversed_sequence/skills"
+cp scripts/build-release-asset.sh "$reversed_sequence/scripts/build-release-asset.sh"
+sed -i 's/^mediator_thread\.start()$/IMPLEMENTAUDIT_SWAP_START/' \
+  "$reversed_sequence/skills/implementaudit/scripts/check-authorization-binding.sh"
+sed -i 's/^mediator_thread\.join(3)$/mediator_thread.start()/' \
+  "$reversed_sequence/skills/implementaudit/scripts/check-authorization-binding.sh"
+sed -i 's/^IMPLEMENTAUDIT_SWAP_START$/mediator_thread.join(3)/' \
+  "$reversed_sequence/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$reversed_sequence" >/dev/null 2>&1; then
+  failures+=("reversed-start-join-counts-as-transport")
+fi
+
+split_error_path="$tmp/split-error-path"
+mkdir -p "$split_error_path/scripts"
+cp -R skills "$split_error_path/skills"
+cp scripts/build-release-asset.sh "$split_error_path/scripts/build-release-asset.sh"
+sed -i '/^mediator_thread\.join(3)$/d' \
+  "$split_error_path/skills/implementaudit/scripts/check-authorization-binding.sh"
+sed -i '/^except OSError as exc:$/a\    mediator_thread.join(3)' \
+  "$split_error_path/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$split_error_path" >/dev/null 2>&1; then
+  failures+=("normal-start-error-only-join-counts-as-transport")
+fi
+
 if ! grep -Fqx \
   'helper-mode: check-authorization-binding.sh|--phase --rehearsal --launch|<phase> <receipt> <launch>|failed-rehearsal-blocks-launch|scripts/validate-phase.sh' \
   skills/implementaudit/references/repo-state-comparison.md; then

@@ -264,25 +264,80 @@ def constant_truth(node):
             return left != right
     return None
 
-def executable_nodes(nodes):
-    """Yield mandatory-route nodes, excluding dead or conditionally optional edges."""
-    for node in nodes:
-        yield node
+def terminates_route(node):
+    if isinstance(node, (ast.Raise, ast.Return)):
+        return True
+    if not (isinstance(node, ast.Expr) and isinstance(node.value, ast.Call)):
+        return False
+    call = node.value.func
+    if isinstance(call, ast.Name):
+        return call.id in {"exit", "quit"}
+    return (isinstance(call, ast.Attribute) and isinstance(call.value, ast.Name)
+            and (call.value.id, call.attr) in {
+                ("sys", "exit"), ("os", "_exit"),
+            })
+
+def normal_path_nodes(statements):
+    """Return ordered nodes on the non-exception route and whether it terminates."""
+    result = []
+    for node in statements:
+        result.append(node)
+        if terminates_route(node):
+            return result, True
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda)):
             continue
         if isinstance(node, ast.If):
             truth = constant_truth(node.test)
-            branches = node.orelse if truth is False else node.body if truth is True else []
-            yield from executable_nodes(branches)
+            branch = node.orelse if truth is False else node.body if truth is True else []
+            nested, terminated = normal_path_nodes(branch)
+            result.extend(nested)
+            if terminated:
+                return result, True
             continue
-        if isinstance(node, (ast.While, ast.For, ast.AsyncFor)):
-            if isinstance(node, ast.While):
-                truth = constant_truth(node.test)
-                branches = node.orelse if truth is False else node.body if truth is True else []
-                yield from executable_nodes(branches)
+        if isinstance(node, ast.Try):
+            nested, terminated = normal_path_nodes(node.body)
+            result.extend(nested)
+            if not terminated:
+                nested, terminated = normal_path_nodes(node.orelse)
+                result.extend(nested)
+            final_nodes, final_terminated = normal_path_nodes(node.finalbody)
+            result.extend(final_nodes)
+            if terminated or final_terminated:
+                return result, True
             continue
-        for child in ast.iter_child_nodes(node):
-            yield from executable_nodes([child])
+        if isinstance(node, (ast.With, ast.AsyncWith)):
+            nested, terminated = normal_path_nodes(node.body)
+            result.extend(nested)
+            if terminated:
+                return result, True
+            continue
+        if isinstance(node, ast.While):
+            truth = constant_truth(node.test)
+            if truth is False:
+                nested, terminated = normal_path_nodes(node.orelse)
+                result.extend(nested)
+                if terminated:
+                    return result, True
+            elif truth is True:
+                nested, _ = normal_path_nodes(node.body)
+                result.extend(nested)
+                return result, True
+            continue
+        if isinstance(node, (ast.For, ast.AsyncFor)):
+            continue
+        result.extend(list(ast.walk(node))[1:])
+    return result, False
+
+def is_launch_subprocess(node):
+    if not (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+            and isinstance(node.func.value, ast.Name)
+            and node.func.value.id == "subprocess" and node.func.attr == "run"
+            and node.args and isinstance(node.args[0], ast.Subscript)
+            and isinstance(node.args[0].value, ast.Name)
+            and node.args[0].value.id == "launch"):
+        return False
+    slice_node = node.args[0].slice
+    return isinstance(slice_node, ast.Constant) and slice_node.value == "argv"
 
 def has_launch_subprocess(body):
     if not body:
@@ -291,18 +346,8 @@ def has_launch_subprocess(body):
         tree = ast.parse(body)
     except SyntaxError:
         return False
-    for node in executable_nodes(tree.body):
-        if not (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
-                and isinstance(node.func.value, ast.Name)
-                and node.func.value.id == "subprocess" and node.func.attr == "run"
-                and node.args and isinstance(node.args[0], ast.Subscript)
-                and isinstance(node.args[0].value, ast.Name)
-                and node.args[0].value.id == "launch"):
-            continue
-        slice_node = node.args[0].slice
-        if isinstance(slice_node, ast.Constant) and slice_node.value == "argv":
-            return True
-    return False
+    live, _ = normal_path_nodes(tree.body)
+    return any(is_launch_subprocess(node) for node in live)
 
 def has_mediated_execution(body):
     """Require executable bridge -> thread start/join -> stub-run edges."""
@@ -318,15 +363,25 @@ def has_mediated_execution(body):
                 and isinstance(node.func.value, ast.Name)
                 and node.func.value.id == base and node.func.attr == attribute)
 
-    live = list(executable_nodes(tree.body))
-    bridge_written = any(is_call(node, "bridge_path", "write_text") for node in live)
+    live, _ = normal_path_nodes(tree.body)
+    bridge_position = None
+    thread_position = None
+    start_position = None
+    launch_position = None
+    join_position = None
     thread_bound = False
-    thread_started = False
-    thread_joined = False
     stub_function = None
-    for node in live:
+    for position, node in enumerate(live):
         if isinstance(node, ast.FunctionDef) and node.name == "run_bounded_stub":
             stub_function = node
+        if bridge_position is None and is_call(node, "bridge_path", "write_text"):
+            bridge_position = position
+        if start_position is None and is_call(node, "mediator_thread", "start"):
+            start_position = position
+        if launch_position is None and is_launch_subprocess(node):
+            launch_position = position
+        if join_position is None and is_call(node, "mediator_thread", "join"):
+            join_position = position
         if not (isinstance(node, ast.Assign) and len(node.targets) == 1
                 and isinstance(node.targets[0], ast.Name)
                 and node.targets[0].id == "mediator_thread"):
@@ -340,21 +395,25 @@ def has_mediated_execution(body):
                            and isinstance(keyword.value, ast.Name)
                            and keyword.value.id == "run_bounded_stub"
                            for keyword in value.keywords)
-    for node in live:
-        if not (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
-                and isinstance(node.func.value, ast.Name)
-                and node.func.value.id == "mediator_thread"):
-            continue
-        thread_started = thread_started or node.func.attr == "start"
-        thread_joined = thread_joined or node.func.attr == "join"
+        if thread_bound and thread_position is None:
+            thread_position = position
+    stub_live, _ = normal_path_nodes(stub_function.body if stub_function else [])
     stub_runs = bool(stub_function) and any(
         isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
         and isinstance(node.func.value, ast.Name) and node.func.value.id == "subprocess"
         and node.func.attr == "run" and node.args
         and isinstance(node.args[0], ast.Name) and node.args[0].id == "command"
-        for node in executable_nodes(stub_function.body)
+        for node in stub_live
     )
-    return bridge_written and thread_bound and thread_started and thread_joined and stub_runs
+    positions = (
+        bridge_position, thread_position, start_position,
+        launch_position, join_position,
+    )
+    return (
+        thread_bound and stub_runs
+        and all(position is not None for position in positions)
+        and list(positions) == sorted(positions)
+    )
 
 transport_body = transport_match.group(2) if transport_match else ""
 rehearsal_transport = (
