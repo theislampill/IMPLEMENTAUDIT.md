@@ -23,7 +23,6 @@ fi
 
 "${py_cmd[@]}" - "$repo_root" <<'PY'
 import ast
-import operator
 import re
 import sys
 from pathlib import Path
@@ -237,115 +236,69 @@ transport_match = re.search(
 )
 
 UNKNOWN_CONSTANT = object()
-COMPARISON_OPERATIONS = {
-    ast.Eq: operator.eq, ast.NotEq: operator.ne,
-    ast.Is: operator.is_, ast.IsNot: operator.is_not,
-    ast.Lt: operator.lt, ast.LtE: operator.le,
-    ast.Gt: operator.gt, ast.GtE: operator.ge,
-    ast.In: lambda left, right: left in right,
-    ast.NotIn: lambda left, right: left not in right,
-}
-UNARY_OPERATIONS = {
-    ast.Not: operator.not_, ast.UAdd: operator.pos,
-    ast.USub: operator.neg, ast.Invert: operator.invert,
-}
-BINARY_OPERATIONS = {
-    ast.Add: operator.add, ast.Sub: operator.sub, ast.Mult: operator.mul,
-    ast.Div: operator.truediv, ast.FloorDiv: operator.floordiv,
-    ast.Mod: operator.mod, ast.BitAnd: operator.and_, ast.BitOr: operator.or_,
-    ast.BitXor: operator.xor, ast.LShift: operator.lshift,
-    ast.RShift: operator.rshift,
-}
+MAX_STATIC_NUMBER = 1_000_000
 
-def compare_constants(operation, left, right):
-    function = COMPARISON_OPERATIONS.get(type(operation))
-    if function is None:
-        return UNKNOWN_CONSTANT
-    try:
-        return function(left, right)
-    except (TypeError, ValueError):
-        return UNKNOWN_CONSTANT
-
-def constant_value(node):
-    """Evaluate a bounded pure-literal expression without executing source."""
+def bounded_scalar(node):
+    """Evaluate only small scalar literals; never allocate candidate containers."""
     if isinstance(node, ast.Constant):
-        return node.value
-    if isinstance(node, (ast.Tuple, ast.List, ast.Set)):
-        values = [constant_value(item) for item in node.elts]
-        if UNKNOWN_CONSTANT in values:
-            return UNKNOWN_CONSTANT
-        if isinstance(node, ast.Tuple):
-            return tuple(values)
-        if isinstance(node, ast.List):
-            return values
-        return set(values)
-    if isinstance(node, ast.Dict):
-        keys = [constant_value(item) for item in node.keys]
-        values = [constant_value(item) for item in node.values]
-        if UNKNOWN_CONSTANT in keys or UNKNOWN_CONSTANT in values:
-            return UNKNOWN_CONSTANT
-        try:
-            return dict(zip(keys, values))
-        except (TypeError, ValueError):
-            return UNKNOWN_CONSTANT
-    if (isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
-            and node.func.id in {"dict", "list", "set", "tuple"}
-            and not node.args and not node.keywords):
-        return {"dict": {}, "list": [], "set": set(), "tuple": ()}[node.func.id]
+        value = node.value
+        if isinstance(value, (str, bytes)):
+            return value if len(value) <= 256 else UNKNOWN_CONSTANT
+        if isinstance(value, (bool, int, float, complex)) or value is None:
+            return value if not isinstance(value, (int, float, complex)) or abs(value) <= MAX_STATIC_NUMBER else UNKNOWN_CONSTANT
+        return UNKNOWN_CONSTANT
     if isinstance(node, ast.UnaryOp):
-        value = constant_value(node.operand)
+        value = bounded_scalar(node.operand)
         if value is UNKNOWN_CONSTANT:
             return value
-        function = UNARY_OPERATIONS.get(type(node.op))
-        if function is None:
-            return UNKNOWN_CONSTANT
         try:
-            return function(value)
+            if isinstance(node.op, ast.Not):
+                return not value
+            if isinstance(node.op, ast.UAdd):
+                return +value
+            if isinstance(node.op, ast.USub):
+                return -value
         except (TypeError, ValueError, OverflowError):
-            return UNKNOWN_CONSTANT
+            pass
+        return UNKNOWN_CONSTANT
     if isinstance(node, ast.BinOp):
-        left = constant_value(node.left)
-        right = constant_value(node.right)
-        if UNKNOWN_CONSTANT in (left, right):
+        left, right = bounded_scalar(node.left), bounded_scalar(node.right)
+        if left is UNKNOWN_CONSTANT or right is UNKNOWN_CONSTANT:
             return UNKNOWN_CONSTANT
-        function = BINARY_OPERATIONS.get(type(node.op))
-        if function is None:
+        if not isinstance(left, (bool, int, float, complex)) or not isinstance(right, (bool, int, float, complex)):
             return UNKNOWN_CONSTANT
-        if isinstance(node.op, (ast.LShift, ast.RShift)):
-            if not isinstance(right, int) or not 0 <= right <= 64:
-                return UNKNOWN_CONSTANT
-        if isinstance(node.op, ast.Mult):
-            for value in (left, right):
-                if isinstance(value, int) and abs(value) > 10_000:
-                    return UNKNOWN_CONSTANT
         try:
-            return function(left, right)
+            if isinstance(node.op, ast.Add):
+                value = left + right
+            elif isinstance(node.op, ast.Sub):
+                value = left - right
+            elif isinstance(node.op, ast.Mult):
+                value = left * right
+            elif isinstance(node.op, ast.Div):
+                value = left / right
+            elif isinstance(node.op, ast.FloorDiv):
+                value = left // right
+            elif isinstance(node.op, ast.Mod):
+                value = left % right
+            else:
+                return UNKNOWN_CONSTANT
+            return value if abs(value) <= MAX_STATIC_NUMBER else UNKNOWN_CONSTANT
         except (TypeError, ValueError, ZeroDivisionError, OverflowError):
             return UNKNOWN_CONSTANT
-    if isinstance(node, ast.BoolOp):
-        value = UNKNOWN_CONSTANT
-        for item in node.values:
-            value = constant_value(item)
-            if value is UNKNOWN_CONSTANT:
-                return value
-            if isinstance(node.op, ast.And) and not value:
-                return value
-            if isinstance(node.op, ast.Or) and value:
-                return value
-        return value
-    if isinstance(node, ast.Compare):
-        left = constant_value(node.left)
-        if left is UNKNOWN_CONSTANT:
-            return left
-        for operation, comparator in zip(node.ops, node.comparators):
-            right = constant_value(comparator)
-            if right is UNKNOWN_CONSTANT:
-                return right
-            outcome = compare_constants(operation, left, right)
-            if outcome is UNKNOWN_CONSTANT or not outcome:
-                return outcome
-            left = right
-        return True
+    return UNKNOWN_CONSTANT
+
+def compare_scalars(operation, left, right):
+    try:
+        if isinstance(operation, ast.Eq): return left == right
+        if isinstance(operation, ast.NotEq): return left != right
+        if isinstance(operation, ast.Is): return left is right
+        if isinstance(operation, ast.IsNot): return left is not right
+        if isinstance(operation, ast.Lt): return left < right
+        if isinstance(operation, ast.LtE): return left <= right
+        if isinstance(operation, ast.Gt): return left > right
+        if isinstance(operation, ast.GtE): return left >= right
+    except (TypeError, ValueError):
+        pass
     return UNKNOWN_CONSTANT
 
 def constant_truth(node):
@@ -354,7 +307,31 @@ def constant_truth(node):
         return bool(node.elts)
     if isinstance(node, ast.Dict):
         return bool(node.keys)
-    value = constant_value(node)
+    if (isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+            and node.func.id in {"dict", "list", "set", "tuple"}
+            and not node.args and not node.keywords):
+        return False
+    if isinstance(node, ast.BoolOp):
+        values = [constant_truth(item) for item in node.values]
+        if isinstance(node.op, ast.And):
+            if False in values: return False
+            return True if all(value is True for value in values) else None
+        if True in values: return True
+        return False if all(value is False for value in values) else None
+    if isinstance(node, ast.Compare):
+        left = bounded_scalar(node.left)
+        if left is UNKNOWN_CONSTANT:
+            return None
+        for operation, comparator in zip(node.ops, node.comparators):
+            right = bounded_scalar(comparator)
+            if right is UNKNOWN_CONSTANT:
+                return None
+            outcome = compare_scalars(operation, left, right)
+            if outcome is UNKNOWN_CONSTANT or not outcome:
+                return None if outcome is UNKNOWN_CONSTANT else False
+            left = right
+        return True
+    value = bounded_scalar(node)
     return None if value is UNKNOWN_CONSTANT else bool(value)
 
 def terminating_call(node):
@@ -376,8 +353,69 @@ def terminates_route(node):
     return isinstance(node, ast.Expr) and terminating_call(node.value)
 
 def expression_terminates(node):
-    """Conservatively reject route expressions containing an explicit process exit."""
-    return any(terminating_call(item) for item in ast.walk(node))
+    """Return whether evaluating this expression must execute an explicit exit."""
+    if isinstance(node, ast.Lambda):
+        return False
+    if isinstance(node, ast.GeneratorExp):
+        return bool(node.generators) and expression_terminates(node.generators[0].iter)
+    if terminating_call(node):
+        return True
+    if isinstance(node, ast.IfExp):
+        if expression_terminates(node.test):
+            return True
+        truth = constant_truth(node.test)
+        branch = node.body if truth is True else node.orelse if truth is False else None
+        return branch is not None and expression_terminates(branch)
+    if isinstance(node, ast.BoolOp):
+        for item in node.values:
+            if expression_terminates(item):
+                return True
+            truth = constant_truth(item)
+            if isinstance(node.op, ast.And) and truth is not True:
+                break
+            if isinstance(node.op, ast.Or) and truth is not False:
+                break
+        return False
+    if isinstance(node, ast.Compare):
+        if expression_terminates(node.left):
+            return True
+        left = bounded_scalar(node.left)
+        for operation, comparator in zip(node.ops, node.comparators):
+            if expression_terminates(comparator):
+                return True
+            right = bounded_scalar(comparator)
+            if left is UNKNOWN_CONSTANT or right is UNKNOWN_CONSTANT:
+                break
+            outcome = compare_scalars(operation, left, right)
+            if outcome is not True:
+                break
+            left = right
+        return False
+    if isinstance(node, (ast.ListComp, ast.SetComp, ast.DictComp)):
+        return bool(node.generators) and expression_terminates(node.generators[0].iter)
+    return any(
+        expression_terminates(child)
+        for child in ast.iter_child_nodes(node)
+        if isinstance(child, ast.expr)
+    )
+
+def definition_expressions(node):
+    if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+        annotations = [
+            *(argument.annotation for argument in [*node.args.posonlyargs, *node.args.args, *node.args.kwonlyargs]
+              if argument.annotation is not None),
+            *(argument.annotation for argument in [node.args.vararg, node.args.kwarg]
+              if argument is not None and argument.annotation is not None),
+        ]
+        return [
+            *node.decorator_list, *node.args.defaults,
+            *(item for item in node.args.kw_defaults if item is not None),
+            *annotations,
+            *([node.returns] if node.returns is not None else []),
+        ]
+    if isinstance(node, ast.ClassDef):
+        return [*node.decorator_list, *node.bases, *(item.value for item in node.keywords)]
+    return []
 
 def normal_path_nodes(statements):
     """Return ordered statements on the normal non-exception route."""
@@ -385,6 +423,8 @@ def normal_path_nodes(statements):
     for node in statements:
         result.append(node)
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            if any(expression_terminates(item) for item in definition_expressions(node)):
+                return result, True
             continue
         if terminates_route(node):
             return result, True
@@ -448,6 +488,31 @@ def statement_call(node):
         return node.value
     return None
 
+def target_binds(target, name):
+    if isinstance(target, ast.Name):
+        return target.id == name
+    if isinstance(target, (ast.Tuple, ast.List)):
+        return any(target_binds(item, name) for item in target.elts)
+    return False
+
+def binds_name(node, name):
+    if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+        return node.name == name
+    if isinstance(node, ast.Assign):
+        return any(target_binds(target, name) for target in node.targets)
+    if isinstance(node, (ast.AnnAssign, ast.AugAssign, ast.For, ast.AsyncFor)):
+        return target_binds(node.target, name)
+    if isinstance(node, (ast.With, ast.AsyncWith)):
+        return any(item.optional_vars is not None and target_binds(item.optional_vars, name)
+                   for item in node.items)
+    if isinstance(node, (ast.Import, ast.ImportFrom)):
+        return any((alias.asname or alias.name.split(".")[0]) == name for alias in node.names)
+    return any(
+        isinstance(item, ast.NamedExpr) and target_binds(item.target, name)
+        for item in ast.walk(node)
+        if not isinstance(item, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef, ast.Lambda))
+    )
+
 def is_launch_subprocess(node):
     call = statement_call(node)
     if not (call and isinstance(node, ast.Assign)
@@ -490,24 +555,26 @@ def has_mediated_execution(body):
                 and call.func.value.id == base and call.func.attr == attribute)
 
     live, _ = normal_path_nodes(tree.body)
-    bridge_position = None
-    thread_position = None
-    start_position = None
-    launch_position = None
-    join_position = None
-    thread_bound = False
-    stub_function = None
+    bridges = []
+    thread_bindings = []
+    starts = []
+    launches = []
+    joins = []
+    current_stub_function = None
     for position, node in enumerate(live):
-        if isinstance(node, ast.FunctionDef) and node.name == "run_bounded_stub":
-            stub_function = node
-        if bridge_position is None and is_call(node, "bridge_path", "write_text"):
-            bridge_position = position
-        if start_position is None and is_call(node, "mediator_thread", "start"):
-            start_position = position
-        if launch_position is None and is_launch_subprocess(node):
-            launch_position = position
-        if join_position is None and is_call(node, "mediator_thread", "join"):
-            join_position = position
+        if binds_name(node, "run_bounded_stub"):
+            current_stub_function = (
+                node if isinstance(node, ast.FunctionDef)
+                and node.name == "run_bounded_stub" else None
+            )
+        if is_call(node, "bridge_path", "write_text"):
+            bridges.append(position)
+        if is_call(node, "mediator_thread", "start"):
+            starts.append(position)
+        if is_launch_subprocess(node):
+            launches.append(position)
+        if is_call(node, "mediator_thread", "join"):
+            joins.append(position)
         if not (isinstance(node, ast.Assign) and len(node.targets) == 1
                 and isinstance(node.targets[0], ast.Name)
                 and node.targets[0].id == "mediator_thread"):
@@ -517,12 +584,22 @@ def has_mediated_execution(body):
                 and isinstance(value.func.value, ast.Name)
                 and value.func.value.id == "threading" and value.func.attr == "Thread"):
             continue
-        thread_bound = any(keyword.arg == "target"
+        target_bound = any(keyword.arg == "target"
                            and isinstance(keyword.value, ast.Name)
                            and keyword.value.id == "run_bounded_stub"
                            for keyword in value.keywords)
-        if thread_bound and thread_position is None:
-            thread_position = position
+        if target_bound and current_stub_function is not None:
+            thread_bindings.append((position, current_stub_function))
+    if not all(len(items) == 1 for items in (bridges, thread_bindings, starts, launches, joins)):
+        return False
+    bridge_position = bridges[0]
+    thread_position, stub_function = thread_bindings[0]
+    start_position = starts[0]
+    launch_position = launches[0]
+    join_position = joins[0]
+    if any(binds_name(node, "mediator_thread")
+           for node in live[thread_position + 1:join_position]):
+        return False
     stub_live, _ = normal_path_nodes(stub_function.body if stub_function else [])
     stub_runs = bool(stub_function) and any(
         isinstance(node, ast.Assign) and len(node.targets) == 1
@@ -539,9 +616,7 @@ def has_mediated_execution(body):
         launch_position, join_position,
     )
     return (
-        thread_bound and stub_runs
-        and all(position is not None for position in positions)
-        and list(positions) == sorted(positions)
+        stub_runs and list(positions) == sorted(positions)
     )
 
 transport_body = transport_match.group(2) if transport_match else ""

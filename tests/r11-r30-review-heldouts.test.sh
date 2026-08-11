@@ -445,6 +445,46 @@ if bash "$reachability" --repo-root "$constant_assert_before_start" >/dev/null 2
   failures+=("constant-expression-assert-before-start-counts-as-transport")
 fi
 
+function_default_exit="$tmp/function-default-exit"
+mkdir -p "$function_default_exit/scripts"
+cp -R skills "$function_default_exit/skills"
+cp scripts/build-release-asset.sh "$function_default_exit/scripts/build-release-asset.sh"
+sed -i '/^mediator_thread\.start()$/i def deferred(value=sys.exit(0)): pass' \
+  "$function_default_exit/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$function_default_exit" >/dev/null 2>&1; then
+  failures+=("function-default-exit-counts-as-transport")
+fi
+
+class_base_exit="$tmp/class-base-exit"
+mkdir -p "$class_base_exit/scripts"
+cp -R skills "$class_base_exit/skills"
+cp scripts/build-release-asset.sh "$class_base_exit/scripts/build-release-asset.sh"
+sed -i '/^mediator_thread\.start()$/i class Deferred(sys.exit(0)): pass' \
+  "$class_base_exit/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$class_base_exit" >/dev/null 2>&1; then
+  failures+=("class-base-exit-counts-as-transport")
+fi
+
+overwritten_stub="$tmp/overwritten-stub"
+mkdir -p "$overwritten_stub/scripts"
+cp -R skills "$overwritten_stub/skills"
+cp scripts/build-release-asset.sh "$overwritten_stub/scripts/build-release-asset.sh"
+sed -i '/^mediator_thread = threading\.Thread/i run_bounded_stub = lambda: None' \
+  "$overwritten_stub/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$overwritten_stub" >/dev/null 2>&1; then
+  failures+=("overwritten-stub-definition-counts-as-live-producer")
+fi
+
+inert_deferred_bodies="$tmp/inert-deferred-bodies"
+mkdir -p "$inert_deferred_bodies/scripts"
+cp -R skills "$inert_deferred_bodies/skills"
+cp scripts/build-release-asset.sh "$inert_deferred_bodies/scripts/build-release-asset.sh"
+sed -i '/^mediator_thread\.start()$/i deferred_lambda = lambda: sys.exit(0)\ndeferred_generator = (sys.exit(0) for _ in ())' \
+  "$inert_deferred_bodies/skills/implementaudit/scripts/check-authorization-binding.sh"
+if ! bash "$reachability" --repo-root "$inert_deferred_bodies" >/dev/null 2>&1; then
+  failures+=("inert-lambda-or-generator-body-rejects-live-route")
+fi
+
 if ! grep -Fqx \
   'helper-mode: check-authorization-binding.sh|--phase --rehearsal --launch|<phase> <receipt> <launch>|failed-rehearsal-blocks-launch|scripts/validate-phase.sh' \
   skills/implementaudit/references/repo-state-comparison.md; then
