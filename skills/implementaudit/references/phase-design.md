@@ -140,11 +140,10 @@ audit explicitly explains why none is needed and what covers each hardening
 concern (cleanliness, error handling, fallback, identity hygiene, observability).
 Absence without documentation is a gap, not a savings.
 
-**Rule P4-2 — UI/UX visual polish evidence requirement.**
-Any phase that produces visible user-facing output (web page, CLI output,
-email template, generated diagram, badge) must include at least one visual
-evidence requirement: screenshot, browser smoke, or visual inspection recorded
-in the transcript. Passing unit tests alone are not sufficient visual proof.
+**Rule P4-2 — Rendered-consumer evidence requirement.**
+For material representation-dependent output, require rendered-consumer
+evidence and preserve governed detail; source/unit green cannot close.
+Ordinary prose stays cheap (public/release: R29 in `audit-playbook.md`).
 
 **Rule P4-3 — Brownfield safety-net before risky mutation.**
 Before any risky brownfield mutation — schema migration, public API change,

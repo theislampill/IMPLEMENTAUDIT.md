@@ -49,7 +49,7 @@ if [ -f "$public_projection_fixture" ] &&
    bash "$checker" "$public_projection_fixture"; then
   record_pass
 else
-  record_fail "reused census checker rejected R29-F1..R29-F18"
+  record_fail "reused census checker rejected R29-F1..R29-F39"
 fi
 
 # Package-pressure compaction once weakened the omission assertion to generic
@@ -62,6 +62,12 @@ if grep -Fq "### Public capability projection" \
    grep -Fq '`prepublication-current`' skills/implementaudit/references/audit-playbook.md &&
    grep -Fq '`postpublication-current`' skills/implementaudit/references/audit-playbook.md &&
    grep -Fq '`stale`' skills/implementaudit/references/audit-playbook.md &&
+   grep -Fq 'rendered-consumer' skills/implementaudit/references/audit-playbook.md &&
+   grep -Fq 'governed-detail preservation' skills/implementaudit/references/audit-playbook.md &&
+   grep -Fq 'source/generator green' skills/implementaudit/references/audit-playbook.md &&
+   grep -Fq 'Ordinary prose' skills/implementaudit/references/audit-playbook.md &&
+   grep -Fq '"kind": "rendered-consumer-boundary"' \
+     fixtures/public-projection/cases.json &&
    grep -Fq 'material owner-sourced capabilities omitted' \
      skills/implementaudit/SKILL.md &&
    grep -Fq 'audience/authority/abstraction mismatch' skills/implementaudit/SKILL.md &&
@@ -160,6 +166,14 @@ def projection_fits(readme_text, contributing_text, site_data, diagram_texts):
         "invocation-modes.mmd",
         "execution-spine.mmd",
     )
+    def github_readme_diagram_fits(source):
+        first_line = next(
+            (line.strip() for line in source.splitlines() if line.strip()), "")
+        return (
+            not any(tag in source for tag in (
+                "<br", "<span", "</span", "<div", "</div", "<p", "</p"))
+            and first_line in ("flowchart TB", "flowchart TD")
+        )
     return (
         all(token in readme_text for token in readme_routes + readme_model)
         and "OWNER_ACCEPTED_PARTIAL" not in readme_text
@@ -168,6 +182,8 @@ def projection_fits(readme_text, contributing_text, site_data, diagram_texts):
         and "Current contract essentials (v0.3.0.0 line)" not in contributing_text
         and "CONTRIBUTING.md" in site_data.get("semantic_sources", [])
         and all(name in diagram_texts for name in diagram_contract)
+        and all(github_readme_diagram_fits(diagram_texts[name])
+                for name in diagram_contract)
         and all("authoritative" in diagram_texts[name].lower()
                 or "authority" in diagram_texts[name].lower()
                 or "evidence" in diagram_texts[name].lower()
@@ -193,6 +209,21 @@ mutations = {
             value for value in site.get("semantic_sources", [])
             if value != "CONTRIBUTING.md"]},
         diagrams),
+    "github-collapsed-self-closing-breaks": (
+        readme, contributing, site,
+        {**diagrams, "invocation-modes.mmd":
+            diagrams["invocation-modes.mmd"] +
+            '\n  Broken["left<br/>right"]\n'}),
+    "github-html-wrapper-label-layout": (
+        readme, contributing, site,
+        {**diagrams, "invocation-modes.mmd":
+            diagrams["invocation-modes.mmd"] +
+            '\n  Broken["<span>left right</span>"]\n'}),
+    "github-overwide-horizontal-public-diagram": (
+        readme, contributing, site,
+        {**diagrams, "tooling-architecture.mmd":
+            diagrams["tooling-architecture.mmd"].replace(
+                "flowchart TB", "flowchart LR", 1)}),
 }
 for name, values in mutations.items():
     if projection_fits(*values):

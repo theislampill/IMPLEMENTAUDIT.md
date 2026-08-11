@@ -6,10 +6,10 @@
       "projection_owner": "skills/implementaudit/templates/final-report.md",
       "projection_tokens": ["| Topic | Audience/job | Authority and placements | Abstraction/route | Current-state transition | Evidence |"],
       "canonical_owners": [
-        {"path": "skills/implementaudit/references/audit-playbook.md", "tokens": ["current authority", "abstraction", "substantial offline README", "hidden/campaign-bound routes", "overclaim/omission gates"]},
+        {"path": "skills/implementaudit/references/audit-playbook.md", "tokens": ["current authority", "abstraction", "substantial offline README", "hidden/campaign-bound routes", "rendered-consumer", "governed-detail preservation", "source/generator green", "Ordinary prose", "overclaim/omission"]},
         {"path": "skills/implementaudit/SKILL.md", "tokens": ["material owner-sourced capabilities omitted", "audience/authority/abstraction mismatch", "duplicate current authority", "hidden/campaign-bound routes"]}
       ],
-      "consumer": {"path": "tests/census-discipline.test.sh", "tokens": ["audience/authority/abstraction mismatch", "duplicate authority", "hidden route"]}
+      "consumer": {"path": "tests/census-discipline.test.sh", "tokens": ["audience/authority/abstraction mismatch", "duplicate authority", "hidden route", "rendered-consumer-boundary", "github_readme_diagram_fits"]}
     },
     {
       "id": "proof-level-claim-rows",

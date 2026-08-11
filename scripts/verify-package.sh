@@ -82,6 +82,7 @@ require_file scripts/check-sidecar-boundaries.sh
 require_file scripts/check-terminology-integration.sh
 require_file scripts/build-source-evidence-pack.sh
 require_file scripts/generate-readme-diagrams.sh
+require_file scripts/verify-readme-diagrams-rendered.sh
 require_file scripts/install-claude-from-release.sh
 require_file scripts/install-codex-from-release.sh
 require_file scripts/write-release-checksums.sh
@@ -632,6 +633,7 @@ grep -R "Issue Publication Deferred" -n skills/implementaudit/references/plan-li
 grep -Ri 'Do not add command identities for quick, deep, security, next' -n skills/implementaudit/references/audit-category-matrix.md >/dev/null || fail "foreign command identity rejection is missing"
 
 bash scripts/generate-readme-diagrams.sh --check
+bash scripts/verify-readme-diagrams-rendered.sh
 bash scripts/check-readme-toc.sh
 bash scripts/check-audit-retention.sh
 bash scripts/check-agents-bootstrap-budget.sh

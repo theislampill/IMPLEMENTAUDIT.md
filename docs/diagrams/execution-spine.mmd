@@ -1,37 +1,71 @@
 flowchart TD
   Input(["Audit-style input / handoff / goal / gap"]):::human
-  Route["Route before mutation<br/>greenfield / brownfield / mixed<br/>brownfield recon is read-only"]:::audit
-  OwnerDecision(["OWNER DECISION<br/>unsafe request or AGENTS/policy conflict"]):::blocker
+  Route["`Route before mutation
+  greenfield / brownfield / mixed
+  brownfield recon is read-only`"]:::audit
+  OwnerDecision(["`OWNER DECISION
+  unsafe request or AGENTS/policy conflict`"]):::blocker
 
-  Graphify["Graphify qualified first-contact terrain<br/>freshness checked; not proof"]:::optional
-  Gemba["Live-file Gemba<br/>confirm owner/source before mutation"]:::source
-  SmokeA["Smoke A<br/>baseline before change"]:::checker
-  Patch["Patch owner/source<br/>bounded P0 -> P1 -> P2"]:::source
-  Generated["Refresh generated artifacts<br/>from source/generator"]:::generated
-  SmokeB["Smoke B + complete<br/>working-tree-vs-baseline check"]:::checker
+  Graphify["`Graphify qualified first-contact terrain
+  freshness checked; not proof`"]:::optional
+  Gemba["`Live-file Gemba
+  confirm owner/source before mutation`"]:::source
+  SmokeA["`Smoke A
+  baseline before change`"]:::checker
+  Patch["`Patch owner/source
+  bounded P0 -> P1 -> P2`"]:::source
+  Generated["`Refresh generated artifacts
+  from source/generator`"]:::generated
+  SmokeB["`Smoke B + complete
+  working-tree-vs-baseline check`"]:::checker
 
-  ActiveGraph["ActiveGraph fork/diff checkpoint<br/>optional non-authoritative mirror"]:::optional
-  Ledger["Capability Ledger or<br/>Markdown final report fallback"]:::audit
+  ActiveGraph["`ActiveGraph fork/diff checkpoint
+  optional non-authoritative mirror`"]:::optional
+  Ledger["`Capability Ledger or
+  Markdown final report fallback`"]:::audit
 
-  Andon["Andon / handoff loop<br/>abnormality -> 5 Whys -> Hansei<br/>countermeasure -> rerun"]:::blocker
-  Final["Final audit<br/>criteria, boundaries, evidence"]:::audit
+  Andon["`Andon / handoff loop
+  abnormality -> 5 Whys -> Hansei
+  countermeasure -> rerun`"]:::blocker
+  Final["`Final audit
+  criteria, boundaries, evidence`"]:::audit
   AuditDone(["AUDIT_COMPLETE"]):::success
   RunDone(["IMPLEMENTAUDIT_RUN_COMPLETE"]):::success
-  NoRelease["Ordinary completion default<br/>No tag, release, publication, or provenance"]:::audit
-  ReleaseGate{"Separate release/provenance gate<br/>explicitly authorized?"}:::release
-  Release["Tag / release / asset<br/>checksum manifest only if produced and verified"]:::release
-  Legend["Legend: solid arrows are governed flow; dashed arrows are conditional or optional;<br/>blue is authoritative source; purple is generated; green is evidence; red stops the line"]:::audit
+  NoRelease["`Ordinary completion default
+  No tag, release, publication, or provenance`"]:::audit
+  ReleaseGate{"`Separate release/provenance gate
+  explicitly authorized?`"}:::release
+  Release["`Tag / release / asset
+  checksum manifest only if produced and verified`"]:::release
+  Legend["`Legend: solid arrows are governed flow; dashed arrows are conditional or optional;
+  blue is authoritative source; purple is generated; green is evidence; red stops the line`"]:::audit
 
   subgraph PhasedRun["Phased planned run — goal synthesis path"]
-    RunRoot["Run-root claim<br/>claim-run.sh<br/>.IMPLEMENTAUDIT/runs/slug-id/"]:::source
-    Stage6["Stage 6<br/>plan review + self-critique<br/>revision menu"]:::audit
-    Stage6i["Stage 6.i independent cold review<br/>PASS / GAP-REVISE / BLOCKED / OWNER DECISION"]:::audit
-    Stage6ii["Stage 6.ii preflight smoke<br/>PREFLIGHT_GREEN / PREFLIGHT_RED"]:::checker
-    Stage7["Stage 7 handoff<br/>one-paste /implementaudit<br/>omitted if embedded"]:::audit
-    PhaseSpec["validate-phase.sh<br/>each phase spec<br/>exit 0 required"]:::checker
-    PhaseLoop["16-step phase loop<br/>Smoke A -> execute -> cmds<br/>criteria -> cleanliness -> Smoke B"]:::source
-    Recovery["Andon escalation, no try cap<br/>ANDON_PROBE -> ANDON_ESCALATE<br/>-> ANDON_HANDOFF only when blocked"]:::blocker
-    AuditFix["Final audit + audit-fix rounds<br/>loop until closed or audited handoff<br/>AUDIT_GAPS -> fix -> re-round"]:::audit
+    RunRoot["`Run-root claim
+    claim-run.sh
+    .IMPLEMENTAUDIT/runs/slug-id/`"]:::source
+    Stage6["`Stage 6
+    plan review + self-critique
+    revision menu`"]:::audit
+    Stage6i["`Stage 6.i independent cold review
+    PASS / GAP-REVISE / BLOCKED / OWNER DECISION`"]:::audit
+    Stage6ii["`Stage 6.ii preflight smoke
+    PREFLIGHT_GREEN / PREFLIGHT_RED`"]:::checker
+    Stage7["`Stage 7 handoff
+    one-paste /implementaudit
+    omitted if embedded`"]:::audit
+    PhaseSpec["`validate-phase.sh
+    each phase spec
+    exit 0 required`"]:::checker
+    PhaseLoop["`16-step phase loop
+    Smoke A -> execute -> cmds
+    criteria -> cleanliness -> Smoke B`"]:::source
+    Recovery["`Andon escalation, no try cap
+    ANDON_PROBE -> ANDON_ESCALATE
+    -> ANDON_HANDOFF only when blocked`"]:::blocker
+    AuditFix["`Final audit + audit-fix rounds
+    loop until closed or audited handoff
+    AUDIT_GAPS -> fix -> re-round`"]:::audit
     RunRoot --> Stage6 --> Stage6i --> Stage6ii --> Stage7 --> PhaseSpec --> PhaseLoop
     PhaseLoop -->|criterion fails| Recovery
     PhaseLoop -->|all phases done| AuditFix

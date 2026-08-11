@@ -36,8 +36,13 @@ diagrams = {
     "invocation-modes": Path("docs/diagrams/invocation-modes.mmd"),
     "execution-spine": Path("docs/diagrams/execution-spine.mmd"),
 }
+expected_flowcharts = {
+    "tooling-architecture": "flowchart TB",
+    "invocation-modes": "flowchart TB",
+    "execution-spine": "flowchart TD",
+}
 
-text = readme.read_text()
+text = readme.read_text(encoding="utf-8")
 
 for key, source in diagrams.items():
     if not source.is_file():
@@ -45,12 +50,23 @@ for key, source in diagrams.items():
 
     begin = f"<!-- BEGIN: implementaudit-diagram:{key} -->"
     end = f"<!-- END: implementaudit-diagram:{key} -->"
-    body = source.read_text().strip()
+    body = source.read_text(encoding="utf-8").strip()
     for banned in ("%%{init", "themeCSS", "htmlLabels"):
         if banned in body:
             raise SystemExit(
                 f"{source} uses Mermaid init/theme syntax that failed GitHub README rendering: {banned}"
             )
+    first_line = next((line.strip() for line in body.splitlines() if line.strip()), "")
+    for html_tag in ("<br", "<span", "</span", "<div", "</div", "<p", "</p"):
+        if html_tag in body:
+            raise SystemExit(
+                f"{source} uses HTML-dependent Mermaid label layout that can collapse on GitHub: {html_tag}"
+            )
+    if first_line != expected_flowcharts[key]:
+        raise SystemExit(
+            f"{source} must retain its qualified GitHub README layout: "
+            f"{expected_flowcharts[key]}"
+        )
     replacement = f"{begin}\n\n```mermaid\n{body}\n```\n\n{end}"
     pattern = re.compile(
         re.escape(begin) + r".*?" + re.escape(end),
@@ -61,10 +77,10 @@ for key, source in diagrams.items():
         raise SystemExit(f"expected exactly one README diagram block for {key}, found {count}")
 
 if mode == "--check":
-    if text != readme.read_text():
+    if text != readme.read_text(encoding="utf-8"):
         raise SystemExit("README.md diagrams are stale; run bash scripts/generate-readme-diagrams.sh")
     print("generate-readme-diagrams: check ok")
 else:
-    readme.write_text(text)
+    readme.write_text(text, encoding="utf-8", newline="\n")
     print("generate-readme-diagrams: updated README.md")
 PY

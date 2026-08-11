@@ -94,10 +94,10 @@ require_ordered skills/implementaudit/references/planning-depth.md \
   "Stage 6.ii - Pre-flight smoke" \
   "Stage 7 - One ready-to-paste /goal handoff when not already embedded"
 require_ordered docs/diagrams/execution-spine.mmd \
-  'Stage6["Stage 6<br/>plan review + self-critique' \
-  'Stage6i["Stage 6.i independent cold review' \
-  'Stage6ii["Stage 6.ii preflight smoke' \
-  'Stage7["Stage 7 handoff'
+  'Stage6["`Stage 6' \
+  'Stage6i["`Stage 6.i independent cold review' \
+  'Stage6ii["`Stage 6.ii preflight smoke' \
+  'Stage7["`Stage 7 handoff'
 require_in_file docs/diagrams/execution-spine.mmd \
   "RunRoot --> Stage6 --> Stage6i --> Stage6ii --> Stage7"
 require_ordered docs/portal/pages/planning-and-phases.html \

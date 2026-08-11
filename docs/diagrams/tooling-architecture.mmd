@@ -1,11 +1,21 @@
-flowchart LR
-  I["IMPLEMENTAUDIT<br/>engineering and assurance method"]
-  G["Graphify<br/>optional scoped terrain<br/>orientation only"]
-  A["ActiveGraph<br/>optional checkpoint or mirror<br/>not lifecycle authority"]
-  C["Capability Ledger<br/>derived history<br/>not proof by itself"]
-  M["Markdown evidence<br/>first-class fallback"]
-  L["Live repository files<br/>authoritative state"]
-  R["Run root and evidence<br/>authoritative run state"]
+flowchart TB
+  G["`Graphify
+  optional scoped terrain
+  orientation only`"]
+  I["`IMPLEMENTAUDIT
+  engineering and assurance method`"]
+  L["`Live repository files
+  authoritative state`"]
+  R["`Run root and evidence
+  authoritative run state`"]
+  M["`Markdown evidence
+  first-class fallback`"]
+  A["`ActiveGraph
+  optional checkpoint or mirror
+  not lifecycle authority`"]
+  C["`Capability Ledger
+  derived history
+  not proof by itself`"]
 
   G -.->|suggests where to inspect| I
   I -->|must verify claims against| L

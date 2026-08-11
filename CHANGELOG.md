@@ -92,6 +92,13 @@ download/install readback gates.
   mandatory documentation lifecycle. R29 acceptance rows 1–13 and 15–20 are
   PASS; row 14 remains `OWNER_DISPOSITION_REQUIRED` because no valid
   candidate-bound model sample exists and no retry is authorised.
+- A later rendered-consumer Andon found that source parity, generator success,
+  and valid Mermaid syntax had false-passed collapsed labels and an unreadably
+  wide public graph. R29 now requires rendered-consumer evidence and
+  governed-detail preservation together for material representation-dependent
+  claims, while ordinary prose stays cheap. The README diagrams retain their
+  pre-Andon nodes, edges, labels, groupings, and distinctions; invocation keeps
+  four governed columns and five steps per mode.
 
 ### Qualification and publication boundary
 
@@ -101,9 +108,9 @@ download/install readback gates.
   `509660798` (`IMPLEMENTAUDIT.skill`) and `509660797` (`CHECKSUMS.txt`). The
   original release body had SHA-256
   `21e7e7b379dbf9a312643186e749d4fb5bd97cdbdde3ad162e3f42f77da6751e`.
-- same-tag correction for `v0.3.3.3` `IMPLEMENTAUDIT.skill`: prematurely published `bfe323853fcb814530c9f58e078ef09d4e930419d99005af26c9135f936e3536` (227,995 bytes) → final `d2d7138b7e74b23e27ef3f10bfde05d94bc81d92ef7e80be1f1e22fd081494b5` (227,989 bytes).
+- same-tag correction for `v0.3.3.3` `IMPLEMENTAUDIT.skill`: prematurely published `bfe323853fcb814530c9f58e078ef09d4e930419d99005af26c9135f936e3536` (227,995 bytes) → final `151cb5400d248e3e41a30750ba690d8c46bbe907294ba82a0a5a627536ad563e` (227,999 bytes).
 - The corrected candidate contains 50 members, excludes `/dashboard/`, and
-  leaves 2,011 bytes under the unchanged 230,000-byte owner bound. Focused
+  leaves 2,001 bytes under the unchanged 230,000-byte owner bound. Focused
   R29/R30/R33/R35, package, source/package parity, temporary-install, and
   ordinary-run checks passed. Repo-only public-owner edits do not change those
   archive bytes. One terminal complete-verifier result on the final composed
