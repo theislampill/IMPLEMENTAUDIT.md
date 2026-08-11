@@ -230,25 +230,37 @@ if [ "${1:-}" = "--evaluate-tokensave-claims" ]; then
   else
     fail "python, python3, or py -3 is required for TokenSave claim fixtures"
   fi
-  "${py_cmd[@]}" - "$fixture" <<'PY'
+  checkout_root="$(git rev-parse --show-toplevel 2>/dev/null)" || \
+    fail "TokenSave claim evaluation requires a live Git checkout"
+  checkout_head="$(git rev-parse HEAD 2>/dev/null)" || \
+    fail "TokenSave claim evaluation requires a readable checkout HEAD"
+  "${py_cmd[@]}" - "$fixture" "$checkout_root" "$checkout_head" <<'PY'
 import json
+import os
+import re
 import sys
 
-path = sys.argv[1]
+path, current_checkout_root, current_checkout_head = sys.argv[1:]
 TOP_KEYS = {"schema", "cases"}
 CASE_KEYS = {
     "id", "query_shape", "index_state", "coverage", "result_state",
-    "checkout_database_binding", "sync_reconnect_witness", "live_readback",
-    "requested_use", "evidence_sources", "expected",
+    "freshness_evidence", "live_readback", "requested_use",
+    "evidence_sources", "expected",
 }
 EXPECTED_KEYS = {"classification", "verdict"}
+FRESHNESS_KEYS = {"checkout", "database", "sync_reconnect"}
+CHECKOUT_KEYS = {"root", "head"}
+DATABASE_KEYS = {"identity", "fingerprint"}
+SYNC_RECONNECT_KEYS = {"command", "executed", "exit_status", "readback"}
+READBACK_KEYS = {
+    "checkout_root", "checkout_head", "database_identity",
+    "database_fingerprint", "state",
+}
 QUERY_SHAPES = {
     "supported-code-relation", "documentation", "policy",
     "public-projection", "exact-file", "tiny-task", "installation",
 }
 INDEX_STATES = {"current", "stale", "missing", "branch-unknown"}
-CHECKOUT_DATABASE_BINDINGS = {"exact", "missing", "mismatch", "unknown", "not-applicable"}
-SYNC_RECONNECT_WITNESSES = {"succeeded", "failed", "not-run", "not-applicable"}
 COVERAGE = {"full-represented", "partial", "unsupported", "failed", "unknown"}
 RESULT_STATES = {"consistent", "conflicting", "none"}
 REQUESTED_USES = {
@@ -257,6 +269,9 @@ REQUESTED_USES = {
 }
 EVIDENCE_SOURCES = {"none", "tokensave", "tokensave+graphify"}
 ANTI_TRIGGERS = {"documentation", "policy", "public-projection", "exact-file", "tiny-task"}
+SUPPORTED_SYNC_RECONNECT_COMMANDS = {"sync", "reconnect"}
+SHA_PATTERN = re.compile(r"[0-9a-f]{40}")
+FINGERPRINT_PATTERN = re.compile(r"sha256:[0-9a-f]{64}")
 
 
 def exact_keys(value, expected, label):
@@ -266,6 +281,53 @@ def exact_keys(value, expected, label):
 
 def result(classification, verdict):
     return {"classification": classification, "verdict": verdict}
+
+
+def normalized_root(value):
+    if not isinstance(value, str) or not value or value.lower() in {
+            "unknown", "missing", "unverified"}:
+        return None
+    return os.path.normcase(os.path.realpath(value))
+
+
+def freshness_is_current(case):
+    evidence = case["freshness_evidence"]
+    if not isinstance(evidence, dict):
+        return False
+    checkout = evidence["checkout"]
+    database = evidence["database"]
+    execution = evidence["sync_reconnect"]
+    readback = execution["readback"]
+
+    checkout_root = normalized_root(checkout["root"])
+    readback_root = normalized_root(readback["checkout_root"])
+    live_root = normalized_root(current_checkout_root)
+    checkout_head = checkout["head"]
+    readback_head = readback["checkout_head"]
+    database_identity = database["identity"]
+    database_fingerprint = database["fingerprint"]
+
+    return all((
+        checkout_root is not None,
+        checkout_root == live_root,
+        readback_root == live_root,
+        isinstance(checkout_head, str),
+        SHA_PATTERN.fullmatch(checkout_head) is not None,
+        checkout_head == current_checkout_head,
+        readback_head == current_checkout_head,
+        isinstance(database_identity, str),
+        bool(database_identity),
+        database_identity.lower() not in {"unknown", "missing", "unverified"},
+        isinstance(database_fingerprint, str),
+        FINGERPRINT_PATTERN.fullmatch(database_fingerprint) is not None,
+        readback["database_identity"] == database_identity,
+        readback["database_fingerprint"] == database_fingerprint,
+        execution["command"] in SUPPORTED_SYNC_RECONNECT_COMMANDS,
+        execution["executed"] is True,
+        type(execution["exit_status"]) is int,
+        execution["exit_status"] == 0,
+        readback["state"] == "current",
+    ))
 
 
 def classify(case):
@@ -289,9 +351,7 @@ def classify(case):
         return result("NO_TOKENSAVE", "PASS_CHEAP")
     if case["index_state"] in {"stale", "branch-unknown"}:
         return result("TOKENSAVE_STALE", "REJECT_OVERCLAIM")
-    if (case["index_state"] == "current" and
-            (case["checkout_database_binding"] != "exact" or
-             case["sync_reconnect_witness"] != "succeeded")):
+    if case["index_state"] == "current" and not freshness_is_current(case):
         return result("TOKENSAVE_FRESHNESS_UNVERIFIED", "REJECT_OVERCLAIM")
     if case["coverage"] in {"unsupported", "failed"}:
         return result("TOKENSAVE_UNSUPPORTED", "REJECT_OVERCLAIM")
@@ -315,7 +375,7 @@ try:
     with open(path, encoding="utf-8") as handle:
         fixture = json.load(handle)
     exact_keys(fixture, TOP_KEYS, "fixture")
-    if fixture["schema"] != "implementaudit.tokensave_claims.v1":
+    if fixture["schema"] != "implementaudit.tokensave_claims.v2":
         raise ValueError("fixture schema invalid")
     cases = fixture["cases"]
     if not isinstance(cases, list) or not cases:
@@ -323,10 +383,9 @@ try:
     seen = set()
     for index, case in enumerate(cases):
         if isinstance(case, dict) and case.get("index_state") == "current":
-            freshness_keys = {"checkout_database_binding", "sync_reconnect_witness"}
-            if not freshness_keys.issubset(case):
+            if "freshness_evidence" not in case:
                 case_id = case.get("id", f"case {index}")
-                raise ValueError(f"{case_id}: current freshness witness missing")
+                raise ValueError(f"{case_id}: current freshness evidence missing")
         exact_keys(case, CASE_KEYS, f"case {index}")
         case_id = case["id"]
         if not isinstance(case_id, str) or not case_id:
@@ -336,10 +395,17 @@ try:
         seen.add(case_id)
         if case["query_shape"] not in QUERY_SHAPES or case["index_state"] not in INDEX_STATES:
             raise ValueError(f"{case_id}: query shape or index state invalid")
-        if case["checkout_database_binding"] not in CHECKOUT_DATABASE_BINDINGS:
-            raise ValueError(f"{case_id}: checkout/database binding invalid")
-        if case["sync_reconnect_witness"] not in SYNC_RECONNECT_WITNESSES:
-            raise ValueError(f"{case_id}: sync/reconnect witness invalid")
+        freshness = case["freshness_evidence"]
+        if freshness is not None:
+            exact_keys(freshness, FRESHNESS_KEYS, f"{case_id} freshness evidence")
+            exact_keys(freshness["checkout"], CHECKOUT_KEYS, f"{case_id} checkout identity")
+            exact_keys(freshness["database"], DATABASE_KEYS, f"{case_id} database identity")
+            exact_keys(
+                freshness["sync_reconnect"], SYNC_RECONNECT_KEYS,
+                f"{case_id} sync/reconnect execution")
+            exact_keys(
+                freshness["sync_reconnect"]["readback"], READBACK_KEYS,
+                f"{case_id} sync/reconnect readback")
         if case["coverage"] not in COVERAGE or case["result_state"] not in RESULT_STATES:
             raise ValueError(f"{case_id}: coverage or result state invalid")
         if case["requested_use"] not in REQUESTED_USES or case["evidence_sources"] not in EVIDENCE_SOURCES:
