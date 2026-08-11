@@ -979,6 +979,25 @@ for promised in STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md
 bash "$helper" --claim-only "$claim_root" --repo-root "$claim_repo" >/dev/null || {
   printf 'run-root-validation.test: valid v2 Git claim must pass strict claim-only\n' >&2; exit 1;
 }
+claim_saved="$tmp/claim-only.saved"
+cp "$claim_root/.claimed" "$claim_saved"
+sed -i 's/^claimed_at_utc=.*/claimed_at_utc=2026-99-99T99:99:99Z/' "$claim_root/.claimed"
+if bash "$helper" --claim-only "$claim_root" --repo-root "$claim_repo" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: impossible RFC3339 claim timestamp must fail\n' >&2; exit 1
+fi
+cp "$claim_saved" "$claim_root/.claimed"
+if bash "$helper" --claim-only "$claim_root/." --repo-root "$claim_repo" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: lexical dot run-root alias must fail\n' >&2; exit 1
+fi
+if bash "$helper" --claim-only "$claim_root" --repo-root "$claim_repo/." >/dev/null 2>&1; then
+  printf 'run-root-validation.test: lexical dot repo-root alias must fail\n' >&2; exit 1
+fi
+mkdir -p "$tmp/claim-alias-target"
+if ln -s "$tmp/claim-alias-target" "$tmp/claim-alias-component" 2>/dev/null; then
+  if bash "$helper" --claim-only "$tmp/claim-alias-component/../claim-only-repo/$claim_rel" --repo-root "$claim_repo" >/dev/null 2>&1; then
+    printf 'run-root-validation.test: symlink-component dotdot alias must fail before normalisation\n' >&2; exit 1
+  fi
+fi
 copied_repo="$tmp/claim-only-copied"
 mkdir -p "$copied_repo"
 git -C "$copied_repo" init -q

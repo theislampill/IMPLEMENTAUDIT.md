@@ -41,10 +41,12 @@ run_root="$(mktemp -d "$base/${slug}-XXXXXX" 2>/dev/null)" || {
 
 claimed_at_utc="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
 if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-  claim_repo="$(cd "$(git rev-parse --show-toplevel)" && pwd -P)" || exit 1
-  claim_common="$(git -C "$claim_repo" rev-parse --git-common-dir)" || exit 1
-  case "$claim_common" in /*) : ;; *) claim_common="$claim_repo/$claim_common";; esac
-  claim_common="$(cd "$claim_common" && pwd -P)" || exit 1
+  # Keep producer and strict consumer in Git's native absolute path domain.
+  # In Git Bash, `pwd -P` may spell the worktree as /c/... while Git and the
+  # host Python runtime use C:/...; mixing those domains makes an own-generated
+  # claim fail strict custody despite naming the same worktree.
+  claim_repo="$(git rev-parse --path-format=absolute --show-toplevel)" || exit 1
+  claim_common="$(git rev-parse --path-format=absolute --git-common-dir)" || exit 1
   claim_id="$(LC_ALL=C od -An -N16 -tx1 /dev/urandom | tr -d ' \n')"
   claim_name="$(basename "$run_root")"
   { printf 'schema=implementaudit.run-claim.v2\nclaim_id=%s\nclaimed_at_utc=%s\nmode=%s\ntemplates=%s\n' "$claim_id" "$claimed_at_utc" "$mode" "$template_set"; printf 'repo_root=%s\ngit_common_dir=%s\nrun_base=%s\nrun_root=%s\nrun_name=%s\n' "$claim_repo" "$claim_common" "$base" "$run_root" "$claim_name"; } > "$run_root/.claimed"

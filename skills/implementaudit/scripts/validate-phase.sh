@@ -33,10 +33,10 @@ if [ "${1:-}" = "--mutation-authority" ]; then
 import hashlib,json,os,re,stat,sys
 from pathlib import Path
 phase_file,phase_text,step_text,repo_text,run_text=sys.argv[1:]; phase_no=int(phase_text); step=int(step_text)
+def die(s): print('validate-phase: mutation authority '+s,file=sys.stderr); raise SystemExit(1)
 if any(part in ('.','..') for part in Path(phase_file).parts):
  die('phase path must be canonical without dot components')
 repo=Path(os.path.abspath(repo_text)); run=Path(os.path.abspath(run_text)); phase=Path(os.path.abspath(phase_file))
-def die(s): print('validate-phase: mutation authority '+s,file=sys.stderr); raise SystemExit(1)
 try: run_rel=run.relative_to(repo).as_posix()
 except ValueError: die('run root is outside supplied repository')
 if phase != run/'phases'/f'phase-{phase_no}.md': die('phase path does not equal the run-root phase path')

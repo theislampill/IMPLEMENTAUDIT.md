@@ -3,6 +3,7 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 helper="$repo_root/skills/implementaudit/scripts/claim-run.sh"
+claim_validator="$repo_root/skills/implementaudit/scripts/validate-run-root.sh"
 
 [ -f "$helper" ] || {
   printf 'claim-run.test: missing helper: %s\n' "$helper" >&2
@@ -66,6 +67,33 @@ PY
   printf 'claim-run.test: v2 claim metadata is not canonical\n' >&2
   exit 1
 }
+
+# The producer's own strict v2 claim must be consumable without path-domain
+# translation.  This is especially important under Git Bash, where `pwd -P`
+# and Git-for-Windows may otherwise report the same worktree in different
+# native path domains.
+for promised in STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md; do
+  printf 'claim-run fixture\n' > "$first/$promised"
+done
+bash "$claim_validator" --claim-only "$first" --repo-root "$work" >/dev/null || {
+  printf 'claim-run.test: generated v2 claim failed its strict consumer\n' >&2
+  exit 1
+}
+case "$(uname -s 2>/dev/null || true)" in
+  MINGW*|MSYS*|CYGWIN*)
+    "${py_cmd[@]}" - "$first/.claimed" <<'PY' || {
+import re,sys
+from pathlib import Path
+d=dict(line.split('=',1) for line in Path(sys.argv[1]).read_text(encoding='utf-8').splitlines())
+for key in ('repo_root','git_common_dir'):
+    if not re.match(r'^[A-Za-z]:[/\\]',d[key]):
+        raise SystemExit(f'{key} is not in the Windows native path domain: {d[key]!r}')
+PY
+      printf 'claim-run.test: Git Bash claim paths are not canonical native Windows paths\n' >&2
+      exit 1
+    }
+    ;;
+esac
 
 case "$first" in
   .IMPLEMENTAUDIT/runs/audit-release-asset-boundary-*) ;;

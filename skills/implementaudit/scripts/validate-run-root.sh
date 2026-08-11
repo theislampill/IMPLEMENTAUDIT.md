@@ -18,7 +18,7 @@ if [ "${1:-}" = "--claim-only" ]; then
   elif command -v py >/dev/null 2>&1; then claim_py=(py -3)
   else printf 'validate-run-root: Python is required for strict claim validation\n' >&2; exit 2; fi
   "${claim_py[@]}" - "$run_arg" "$repo_arg" <<'PY'
-import os,re,stat,subprocess,sys
+import datetime,os,re,stat,subprocess,sys
 from pathlib import Path
 run_arg,repo_arg=sys.argv[1:]
 def die(s): print('validate-run-root: '+s,file=sys.stderr); raise SystemExit(1)
@@ -27,8 +27,22 @@ def unsafe(p):
  try: st=os.lstat(p)
  except OSError: die(f'custody path missing: {p}')
  return stat.S_ISLNK(st.st_mode) or bool(getattr(st,'st_file_attributes',0)&0x400)
-repo=Path(os.path.abspath(repo_arg)); run=Path(os.path.abspath(run_arg))
-if unsafe(repo) or not repo.is_dir(): die('repo root is not a regular custody directory')
+def lexical_path(raw,base,label):
+ if '\x00' in raw: die(f'{label} contains NUL')
+ parts=re.split(r'[/\\]+',raw)
+ if any(part in ('.','..') for part in parts): die(f'{label} contains a lexical dot alias')
+ p=Path(raw)
+ if not p.is_absolute():
+  if base is None: die(f'{label} must be absolute')
+  p=base/p
+ chain=Path(p.anchor)
+ for part in p.parts[1:]:
+  chain=chain/part
+  if unsafe(chain): die(f'{label} custody path is symlink/reparse: {chain}')
+ return p
+repo=lexical_path(repo_arg,None,'repo root')
+run=lexical_path(run_arg,repo,'run root')
+if not repo.is_dir(): die('repo root is not a regular custody directory')
 try:
  top=subprocess.check_output(['git','-C',str(repo),'rev-parse','--show-toplevel'],text=True).strip()
  common=subprocess.check_output(['git','-C',str(repo),'rev-parse','--git-common-dir'],text=True).strip()
@@ -49,6 +63,10 @@ want=['schema','claim_id','claimed_at_utc','mode','templates','repo_root','git_c
 if keys!=want: die('.claimed v2 keys/order do not match strict schema')
 d=dict(pairs)
 if d['schema']!='implementaudit.run-claim.v2' or not re.fullmatch(r'[0-9a-f]{32}',d['claim_id']): die('.claimed v2 schema or claim_id invalid')
+try:
+ if not re.fullmatch(r'[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z',d['claimed_at_utc']): raise ValueError
+ datetime.datetime.strptime(d['claimed_at_utc'],'%Y-%m-%dT%H:%M:%SZ')
+except ValueError: die('.claimed claimed_at_utc is not RFC3339 UTC whole seconds')
 if d['mode']!='full' or d['run_base']!='.IMPLEMENTAUDIT/runs': die('.claimed mode/base is not R36 strict custody')
 if canon(d['repo_root'])!=canon(repo) or canon(d['git_common_dir'])!=canon(common): die('.claimed repository or common-dir custody drift')
 if d['run_root']!=rel.as_posix() or d['run_name']!=run.name or len(rel.parts)!=3 or rel.parts[:2]!=('.IMPLEMENTAUDIT','runs'): die('.claimed run identity drift')

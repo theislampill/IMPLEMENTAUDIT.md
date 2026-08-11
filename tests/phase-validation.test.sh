@@ -487,8 +487,11 @@ else
   pass=$((pass + 1))
 fi
 cp "$authority_saved" "$authority_phase"
-if bash skills/implementaudit/scripts/validate-phase.sh --mutation-authority "$authority_run/phases/../phases/phase-2.md" --phase 2 --step 1 --repo-root "$repo_root" --run-root "$authority_run" >/dev/null 2>&1; then
+authority_alias_err="$tmp/authority-alias.err"
+if bash skills/implementaudit/scripts/validate-phase.sh --mutation-authority "$authority_run/phases/../phases/phase-2.md" --phase 2 --step 1 --repo-root "$repo_root" --run-root "$authority_run" >/dev/null 2>"$authority_alias_err"; then
   printf 'phase-validation.test: aliased phase path must fail\n' >&2; fail=$((fail + 1))
+elif ! grep -Fq 'phase path must be canonical without dot components' "$authority_alias_err" || grep -Fq 'Traceback' "$authority_alias_err"; then
+  printf 'phase-validation.test: aliased phase path must fail with a clean diagnostic\n' >&2; fail=$((fail + 1))
 else pass=$((pass + 1)); fi
 sed -i 's|"source":"src/routes/settings.ts"|"source":"src/routes/settings.ts","source":"src/routes/settings.ts"|' "$authority_phase"
 if bash skills/implementaudit/scripts/validate-phase.sh --mutation-authority "$authority_phase" --phase 2 --step 1 --repo-root "$repo_root" --run-root "$authority_run" >/dev/null 2>&1; then
