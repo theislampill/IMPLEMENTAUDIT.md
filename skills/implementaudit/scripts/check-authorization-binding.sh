@@ -46,11 +46,12 @@ import hashlib
 import json
 import os
 import pathlib
-import secrets
 import re
+import socket
 import subprocess
 import sys
 import tempfile
+import threading
 
 def fail(message):
     print(f"check-authorization-binding: rehearsal rejected ({message})", file=sys.stderr)
@@ -239,14 +240,53 @@ if not terminal_path.parent.is_dir():
 if terminal_path.exists() or terminal_path.is_symlink():
     fail("terminal artifact must be absent before wrapper execution")
 
-event_fd, event_raw = tempfile.mkstemp(
-    prefix=".implementaudit-rehearsal-stub-event-",
+bridge_fd, bridge_raw = tempfile.mkstemp(
+    prefix=".implementaudit-rehearsal-mediator-bridge-",
     dir=terminal_path.parent,
 )
-os.close(event_fd)
-event_path = pathlib.Path(event_raw)
-event_path.unlink()
-event_nonce = secrets.token_hex(32)
+os.close(bridge_fd)
+bridge_path = pathlib.Path(bridge_raw)
+
+mediator = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+mediator.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+mediator.bind(("127.0.0.1", 0))
+mediator.listen(1)
+mediator.settimeout(2)
+mediator_endpoint = f"127.0.0.1:{mediator.getsockname()[1]}"
+bridge_path.write_text(f"""#!/usr/bin/env python3
+import json
+import socket
+import sys
+
+host, port = {mediator_endpoint!r}.rsplit(\":\", 1)
+with socket.create_connection((host, int(port)), timeout=2) as connection:
+    connection.sendall(b\"IMPLEMENTAUDIT_REHEARSAL_MEDIATOR\\n\")
+    reply = json.loads(connection.recv(1024).decode(\"utf-8\"))
+raise SystemExit(reply[\"exit_code\"])
+""", encoding="utf-8")
+bridge_path.chmod(0o700)
+mediated = {}
+
+def run_bounded_stub():
+    try:
+        connection, _ = mediator.accept()
+        with connection:
+            if connection.recv(64) != b"IMPLEMENTAUDIT_REHEARSAL_MEDIATOR\n":
+                raise ValueError("invalid producer-mediator request")
+            command = ([sys.executable, str(stub_path)]
+                       if stub_path.suffix.casefold() == ".py" else [str(stub_path)])
+            result = subprocess.run(command, env=stub_env, check=False)
+            mediated["exit_code"] = result.returncode
+            connection.sendall(json.dumps({"exit_code": result.returncode}).encode("utf-8"))
+    except Exception as exc:
+        mediated["error"] = str(exc)
+
+# The producer path seen by the candidate wrapper is this bridge, never the
+# bounded producer nor a writable proof capability.  Only a bridge request can
+# cause this checker-owned mediator to run the actual substitute and retain its
+# exit status.
+mediator_thread = threading.Thread(target=run_bounded_stub, daemon=True)
+mediator_thread.start()
 
 # The wrapper receives only process essentials, declared key *names* with
 # empty values, and the bounded rehearsal controls.  In particular it never
@@ -259,36 +299,40 @@ safe_parent_keys = {
 run_env = {key: os.environ[key] for key in safe_parent_keys if key in os.environ}
 for key in launch["env_keys_present"]:
     run_env[key] = ""
+stub_env = dict(run_env)
 run_env.update({
-    "IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB": str(stub_path.resolve()),
-    "IMPLEMENTAUDIT_REHEARSAL_STUB_EVENT": str(event_path),
-    "IMPLEMENTAUDIT_REHEARSAL_STUB_NONCE": event_nonce,
+    "IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB": str(bridge_path),
 })
 try:
     completed = subprocess.run(launch["argv"], env=run_env, check=False)
 except OSError as exc:
+    mediator.close()
+    bridge_path.unlink(missing_ok=True)
     fail(f"production wrapper could not execute: {exc}")
+
+mediator_thread.join(3)
+mediator.close()
+bridge_path.unlink(missing_ok=True)
+if mediator_thread.is_alive():
+    fail("production wrapper did not traverse the checker-owned producer mediator")
+if "error" in mediated:
+    fail(f"bounded producer mediator failed: {mediated['error']}")
+if "exit_code" not in mediated:
+    fail("production wrapper did not traverse the checker-owned producer mediator")
+if mediated["exit_code"] != 0:
+    fail(f"bounded producer stub exited {mediated['exit_code']}")
 if completed.returncode != 0:
     fail(f"production wrapper exited {completed.returncode}")
-if not event_path.is_file() or event_path.is_symlink():
-    fail("bounded producer stub did not produce an execution event")
-event = load_object(str(event_path), "bounded producer execution event")
-if set(event) != {"stub_identity", "nonce", "exit_code"}:
-    fail("bounded producer execution event fields are invalid")
-if event["stub_identity"] != stub_identity or event["nonce"] != event_nonce:
-    fail("bounded producer execution event identity does not match")
-if type(event["exit_code"]) is not int or event["exit_code"] != 0:
-    fail("bounded producer stub exited nonzero")
 
 # The checker, not the wrapper, is the only terminal author.  The terminal is
-# written only after the independently observed zero-meter stub event binds to
-# the declared wrapper/launch identity above.
+# written only after the checker-owned mediator has observed the zero-meter
+# producer exit during the wrapper traversal above.
 terminal_path.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
 observed = load_object(str(terminal_path), "execution terminal")
 if observed != receipt:
     fail("execution terminal does not match the supplied rehearsal receipt")
 
-print("check-authorization-binding: ok — wrapper transport, stub event, and terminal receipt are bound")
+print("check-authorization-binding: ok — wrapper transport, mediated stub, and terminal receipt are bound")
 PY
   exit $?
 fi

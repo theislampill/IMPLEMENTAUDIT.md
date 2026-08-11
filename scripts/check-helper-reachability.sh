@@ -22,6 +22,7 @@ else
 fi
 
 "${py_cmd[@]}" - "$repo_root" <<'PY'
+import ast
 import re
 import sys
 from pathlib import Path
@@ -163,6 +164,19 @@ def shell_code(content):
         cleaned.append("".join(kept))
     return "\n".join(cleaned)
 
+def shell_parser_code(content):
+    """Return shell syntax without heredoc bodies (which are data, not arms)."""
+    kept = []
+    lines = iter(content.splitlines())
+    for line in lines:
+        kept.append(line)
+        tags = re.findall(r"<<-?\s*['\"]?([A-Za-z_][A-Za-z0-9_]*)['\"]?", line)
+        for tag in tags:
+            for body_line in lines:
+                if body_line.strip() == tag:
+                    break
+    return "\n".join(kept)
+
 def caller_invokes(helper, content):
     content = shell_code(content)
     def command_uses(target, path_prefix=False):
@@ -213,14 +227,39 @@ implemented_mode_sets[graph_helper] = sorted(set(re.findall(r"--graph-[a-z0-9-]+
 rehearsal_helper = "check-authorization-binding.sh"
 rehearsal_text = (skill_root / "scripts" / rehearsal_helper).read_text(encoding="utf-8")
 rehearsal_mode = "--phase --rehearsal --launch"
-rehearsal_code = shell_code(rehearsal_text)
+rehearsal_code = shell_code(shell_parser_code(rehearsal_text))
 rehearsal_arms = all(re.search(rf"(?m)^\s*{re.escape(flag)}\)", rehearsal_code)
                      for flag in rehearsal_mode.split())
-rehearsal_transport = all((
-    re.search(r'python\s+-\s+"\$phase"\s+"\$rehearsal"\s+"\$launch"\s+<<', rehearsal_code),
-    'subprocess.run(launch["argv"]' in rehearsal_text,
-    'IMPLEMENTAUDIT_REHEARSAL_STUB_EVENT' in rehearsal_text,
-))
+transport_match = re.search(
+    r'''(?ms)python\s+-\s+"\$phase"\s+"\$rehearsal"\s+"\$launch"\s+<<['"]?([A-Za-z_][A-Za-z0-9_]*)['"]?\s*\n(.*?)^\1\s*$''',
+    rehearsal_text,
+)
+def has_launch_subprocess(body):
+    if not body:
+        return False
+    try:
+        tree = ast.parse(body)
+    except SyntaxError:
+        return False
+    for node in ast.walk(tree):
+        if not (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+                and isinstance(node.func.value, ast.Name)
+                and node.func.value.id == "subprocess" and node.func.attr == "run"
+                and node.args and isinstance(node.args[0], ast.Subscript)
+                and isinstance(node.args[0].value, ast.Name)
+                and node.args[0].value.id == "launch"):
+            continue
+        slice_node = node.args[0].slice
+        if isinstance(slice_node, ast.Constant) and slice_node.value == "argv":
+            return True
+    return False
+
+transport_body = transport_match.group(2) if transport_match else ""
+rehearsal_transport = (
+    has_launch_subprocess(transport_body)
+    and "mediator_thread" in transport_body
+    and "bridge_path.write_text" in transport_body
+)
 if rehearsal_arms and rehearsal_transport:
     implemented_mode_sets[rehearsal_helper] = [rehearsal_mode]
 else:

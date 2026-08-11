@@ -244,8 +244,9 @@ empty declared-key placeholders, and bounded rehearsal controls. During
 rehearsal the wrapper uses the non-secret
 `IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB` control path for the producer
 substitution, emits no proof or terminal, and propagates the transport result;
-the checker requires the substitute's independently observed zero-exit event
-before it authors the bound terminal. A failed rehearsal authorizes no launch. Interposed stubs make
+the wrapper receives a checker-owned mediator bridge rather than the bounded
+producer or a writable proof capability. The mediator invokes the substitute
+and retains its zero exit before the checker authors the bound terminal. A failed rehearsal authorizes no launch. Interposed stubs make
 the result `PASS_WITH_SCOPE_GAP` and every extra component is named in
 `Residual risk:`. Post-pass escalation is governed by `Countermeasure Scope And
 Verification Proportionality` in `lean-operating-discipline.md`;

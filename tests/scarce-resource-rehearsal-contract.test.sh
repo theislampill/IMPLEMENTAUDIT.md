@@ -31,23 +31,7 @@ raise SystemExit(subprocess.run([sys.executable, stub], check=False).returncode)
 PY
 cat > "$tmp/producer-stub.py" <<'PY'
 #!/usr/bin/env python3
-import hashlib
-import json
-import os
-import pathlib
-import sys
-
-identity = "sha256:" + hashlib.sha256(pathlib.Path(__file__).read_bytes()).hexdigest()
-exit_code = int(os.environ.get("IMPLEMENTAUDIT_TEST_STUB_EXIT", "0"))
-pathlib.Path(os.environ["IMPLEMENTAUDIT_REHEARSAL_STUB_EVENT"]).write_text(
-    json.dumps({
-        "stub_identity": identity,
-        "nonce": os.environ["IMPLEMENTAUDIT_REHEARSAL_STUB_NONCE"],
-        "exit_code": exit_code,
-    }) + "\n",
-    encoding="utf-8",
-)
-raise SystemExit(exit_code)
+raise SystemExit(0)
 PY
 cat > "$tmp/ignoring-wrapper.py" <<'PY'
 #!/usr/bin/env python3
@@ -59,8 +43,7 @@ import sys
 # merely because it returns zero itself.
 subprocess.run([sys.executable, os.environ["IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB"]], check=False)
 PY
-sed 's/exit_code = int(os.environ.get("IMPLEMENTAUDIT_TEST_STUB_EXIT", "0"))/exit_code = 23/' \
-  "$tmp/producer-stub.py" > "$tmp/producer-stub-23.py"
+printf '%s\n' '#!/usr/bin/env python3' 'raise SystemExit(23)' > "$tmp/producer-stub-23.py"
 chmod +x "$tmp/production-wrapper.py" "$tmp/producer-stub.py" "$tmp/producer-stub-23.py" "$tmp/ignoring-wrapper.py"
 
 cat > "$tmp/phase-budget.md" <<'EOF'

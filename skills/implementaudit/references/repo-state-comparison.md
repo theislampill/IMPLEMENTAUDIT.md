@@ -245,7 +245,7 @@ Graphify modes: `bash <skill-dir>/scripts/validate-run-root.sh --graph-freshness
 <skill-dir>/scripts/validate-run-root.sh --graph-parent <catalog> <repo> <scope>
 <reason>` revalidates then broadens/falls back.
 
-When the native audit object opens a scarce-resource phase in the source repo, `validate-phase.sh` consumes its declared rehearsal receipt, launch, producer stub, command hash, environment-key names, and terminal path, then invokes the source repo only checker `check-authorization-binding.sh --phase <phase> --rehearsal <receipt> --launch <launch>` at the rehearsal boundary. The declared production wrapper executes once through the bounded producer substitute; its independently observed stub event must exit zero before the checker authors the bound terminal. A failed rehearsal blocks launch and requires manual repair and re-run.
+When the native audit object opens a scarce-resource phase in the source repo, `validate-phase.sh` consumes its declared rehearsal receipt, launch, producer stub, command hash, environment-key names, and terminal path, then invokes the source repo only checker `check-authorization-binding.sh --phase <phase> --rehearsal <receipt> --launch <launch>` at the rehearsal boundary. The declared production wrapper traverses a checker-owned mediator bridge; that mediator invokes the bounded producer substitute and retains its zero exit before the checker authors the bound terminal. A failed rehearsal blocks launch and requires manual repair and re-run.
 
 helper-mode: validate-run-root.sh|--graph-freshness|<graph.json> <repo-root>|stale
 helper-mode: validate-run-root.sh|--graph-scope|<catalog> <repo> <path> [path...]|smallest
