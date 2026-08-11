@@ -116,17 +116,16 @@ Standing gate owners: `check-action-selection-contract.sh`,
   completed #97/milestone-2 accounting. It remains the historical publication
   ledger for the independently read-back v0.3.3.0 release.
 
-## v0.3.3.3 release evidence (current candidate ledger)
+## v0.3.3.3 release evidence (current published-release ledger)
 
 - `docs/audits/archive/v0.3.3.3-release-report.md` - corrective four-component
-  candidate identity for runtime 0.3.3, the eight integrated countermeasures,
-  source-parent package identity, R31 `OWNER_ACCEPTED_PARTIAL`, bounded #144
-  deterministic adoption, R36 `POST_RELEASE_ONLY`, open #117, dashboard
-  exclusion, and the candidate-versus-post-publication evidence cells. It is
-  also the release-body source. Final exact-tree qualification, tag, GitHub
-  release, assets, checksum publication, hosted workflows, Pages,
-  public-install, and tracker readback remain pending until independently
-  observed.
+  public identity for runtime 0.3.3, the eight integrated countermeasures,
+  exact release commit/tree and package/checksum identities, R31
+  `OWNER_ACCEPTED_PARTIAL`, bounded #144 deterministic adoption, open and
+  unshipped R36/#167, open #117, dashboard exclusion, hosted validation, Pages,
+  32-route readback, and temporary Codex public-install parity. Tracker
+  reconciliation and this post-publication repository-owner transition remain
+  pending until independently observed.
 
 ## Boundary
 

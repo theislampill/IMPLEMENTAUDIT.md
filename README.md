@@ -82,15 +82,14 @@ Each action requires separate explicit authorisation.
 - [Validation and release evidence](#validation-and-release-evidence)
 - [Safety defaults](#safety-defaults)
 - [What this does not do](#what-this-does-not-do)
-- [Development / maintenance notes](#development--maintenance-notes)
+- [Contributing and deeper documentation](#contributing-and-deeper-documentation)
 
 ## Quick start
 
-1. For the `v0.3.3.3` candidate, wait for final exact-tree qualification and
-   tag, release-asset, checksum,
-   and public-install readback before using the prospective public URL below.
-   The last independently read-back public asset is `v0.3.3.0`; a checkout of
-   `main` is not necessarily byte-identical to either release asset.
+1. Choose the installation route in [Install notes](#install-notes). The
+   current public release is `v0.3.3.3`; its host-facing runtime remains
+   `0.3.3`. A checkout of `main`, a locally built archive, and the published
+   release asset are distinct until their bytes are verified.
 
 2. Invoke `/implementaudit` with a bounded repository target. Common shapes
    include:
@@ -213,40 +212,17 @@ The system does not treat effort, generated deliverables, or a successful tool
 invocation as proof that the intended outcome was reached. It is not a generic
 autonomous build runner, release bot, package publisher, or provenance system.
 
-For `v0.3.0.0`, native category/workflow routing means audit-object behavior is
-available inside this audit lifecycle: default category pressure, deep/security pressure,
-DMADV-routed direction analysis, self-contained handoff plans, branch/diff
-scoping, plan review, execute/review dispatch semantics, and reconciliation.
-It does not copy external command identity, make root `plans/` canonical, create
-issues, or weaken commit/push/tag/release/publication/provenance gates.
+The current runtime combines repository Gemba, risk-proportional planning,
+resumable phase state, baseline/post-change comparison, independent review,
+failure-family convergence, evaluator integrity, package semantic preservation,
+and public-projection checks. These are engineering controls, not a promise that
+every task needs every control: the method selects and records only the work
+justified by the live risk and evidence gap.
 
-For `v0.3.1.0`, the release adds generic capability gates: read-only
-plan-quality checks, installed-payload self-containment checks, audit-retention
-checks, dogfood bootstrap checks, source-evidence pack checks, and a
-deterministic mini audit-loop fixture.
-
-For `v0.3.2.0`, the release closes the evidence-integrity and failure-origin
-hardening program (#10): thirteen behavioral contracts (#1–#7, #11–#15),
-release-critical eval custody hardening (#20), context-epoch continuity
-(#35), the native audit-action remediation set (#47–#53), the sixteen
-genuine-Fable review corrections, and the model-in-the-loop evaluation
-program (#9: 84-mission immutable baseline, B3 supplementary waves, and the
-candidate/control comparison campaign). The owner-authorized corrected
-same-version re-release published on 2026-08-04 at tag target `0adb10d`; it
-supersedes the withdrawn 2026-07-18 asset. The digest pair and qualification
-boundaries are recorded in the changelog and archived correction report.
-
-For `v0.3.3.0`, the release hardens evidence fidelity, mutation readback,
-authorisation and interruption durability, independent review, 
-recurrence handling, evaluator behavior, hosted validation, multi-issue integration, 
-and release closure.
-
-The canonical final planner lifecycle is `6 → 6.i → 6.ii → 7`, 
-with legacy `6.2 → 6.i` and `6.5 → 6.ii` aliases retained for compatibility. 
-The release carries forward the v0.3.2.0 evidence-integrity and failure-origin contracts.
-
-The proposed local dashboard is not part of v0.3.3.0, and no `/dashboard/`
-content is bundled into `IMPLEMENTAUDIT.skill`.
+Release chronology and exact campaign accounting belong in
+[`CHANGELOG.md`](CHANGELOG.md) and the
+[`v0.3.3.3` release report](docs/audits/archive/v0.3.3.3-release-report.md).
+The optional dashboard remains outside the shipped `.skill` package.
 
 The current bootloader architecture keeps weak-executor safeguards in
 progressive references/templates: final reports, optional Graphify-assisted
@@ -292,19 +268,20 @@ Current optional-tooling architecture:
 
 ```mermaid
 flowchart LR
-  I["ImplementAudit<br/>officer / method / standard"]
-  G["Graphify<br/>qualified first-contact terrain<br/>outside-repo graph.json + SHA check<br/>orientation, not proof"]
-  A["ActiveGraph<br/>fork/diff checkpoint assistance<br/>optional non-authoritative mirror<br/>run root remains authority"]
-  C["Capability Ledger<br/>derived work history"]
-  M["Markdown fallback<br/>always valid when optional tools are absent"]
-  L["Live files<br/>source of truth"]
+  I["IMPLEMENTAUDIT<br/>engineering and assurance method"]
+  G["Graphify<br/>optional scoped terrain<br/>orientation only"]
+  A["ActiveGraph<br/>optional checkpoint or mirror<br/>not lifecycle authority"]
+  C["Capability Ledger<br/>derived history<br/>not proof by itself"]
+  M["Markdown evidence<br/>first-class fallback"]
+  L["Live repository files<br/>authoritative state"]
+  R["Run root and evidence<br/>authoritative run state"]
 
-  G -->|where to look| I
-  I -->|must confirm in| L
-  I -->|gate passages, smokes, Andons, closures| A
-  A -->|what happened, not proof by itself| C
-  I -->|competence standard| C
-  I -->|when tools are absent| M
+  G -.->|suggests where to inspect| I
+  I -->|must verify claims against| L
+  I -->|records governed execution in| R
+  R -.->|may mirror when authorised| A
+  R -->|supports derived entries| C
+  I -->|uses when sidecars are absent| M
 ```
 
 <!-- END: implementaudit-diagram:tooling-architecture -->
@@ -406,7 +383,7 @@ flowchart TB
     DObj["tdqyq-audit-object<br/>user supplies or implies it"]:::artifact
     DLoop["ydqyq-audit-action<br/>inspect -> classify -> patch -> verify"]:::loop
     DArt["Artifacts<br/>findings ledger<br/>source patches<br/>Smoke A/B evidence"]:::artifact
-    DGoal["Second /goal<br/>not needed"]:::boundary
+    DGoal["Continue directly<br/>no second /goal"]:::boundary
     DIn --> DObj --> DLoop --> DArt --> DGoal
   end
 
@@ -415,7 +392,7 @@ flowchart TB
     EObj["tdqyq-audit-object<br/>owned by outer /goal"]:::artifact
     ELoop["ydqyq-audit-action<br/>govern inside supplied target"]:::loop
     EArt["Artifacts<br/>active goal evidence<br/>ledger updates<br/>repo-local checks"]:::artifact
-    EGoal["Second /goal<br/>forbidden"]:::blocker
+    EGoal["Continue inside outer goal<br/>a second /goal is not emitted"]:::boundary
     EIn --> EObj --> ELoop --> EArt --> EGoal
   end
 
@@ -424,7 +401,7 @@ flowchart TB
     SObj["tdqyq-audit-object<br/>created or normalized first"]:::artifact
     SLoop["ydqyq-audit-action<br/>Gemba + route + Stage 0-7 planning"]:::loop
     SArt["Artifacts<br/>.IMPLEMENTAUDIT/runs/slug-id/<br/>ROADMAP · STATE · THINKING<br/>PROTOCOL · sidecars · applied-context<br/>repo-map · phases/phase-N.md"]:::artifact
-    SGoal["Second /goal<br/>produced once when not embedded"]:::handoff
+    SGoal["One /goal handoff<br/>only when not embedded"]:::handoff
     SIn --> SObj --> SLoop --> SArt --> SGoal
   end
 
@@ -433,7 +410,7 @@ flowchart TB
     CObj["tdqyq-audit-object<br/>synthesized by 5-step intake<br/>owner/source · criteria · rollback"]:::artifact
     CLoop["ydqyq-audit-action<br/>route greenfield / brownfield / mixed<br/>then govern as direct"]:::loop
     CArt["Artifacts<br/>bounded intake record<br/>STOP on unbounded / unsafe /<br/>non-repo input"]:::artifact
-    CGoal["Second /goal<br/>not needed"]:::boundary
+    CGoal["Continue directly<br/>no second /goal"]:::boundary
     CIn --> CObj --> CLoop --> CArt --> CGoal
   end
 
@@ -641,7 +618,7 @@ flowchart TD
   NoRelease["Ordinary completion default<br/>No tag, release, publication, or provenance"]:::audit
   ReleaseGate{"Separate release/provenance gate<br/>explicitly authorized?"}:::release
   Release["Tag / release / asset<br/>checksum manifest only if produced and verified"]:::release
-  Legend["Legend: amber human/owner; blue owner/source; purple generated;<br/>green checks; dashed green optional; red blocker; orange release"]:::audit
+  Legend["Legend: solid arrows are governed flow; dashed arrows are conditional or optional;<br/>blue is authoritative source; purple is generated; green is evidence; red stops the line"]:::audit
 
   subgraph PhasedRun["Phased planned run — goal synthesis path"]
     RunRoot["Run-root claim<br/>claim-run.sh<br/>.IMPLEMENTAUDIT/runs/slug-id/"]:::source
@@ -663,9 +640,11 @@ flowchart TD
   Route -->|authorized scope| Gemba
   Route -. phased planning .-> RunRoot
   AuditFix --> Final
-  Graphify -. optional query before touching scene .-> Gemba
+  Graphify -. optional orientation; never proof .-> Gemba
   Gemba --> SmokeA --> Patch --> Generated --> SmokeB
-  SmokeB -. optional mirror after evidence .-> ActiveGraph --> Ledger
+  SmokeB -. optional mirror after evidence .-> ActiveGraph
+  SmokeB --> Ledger
+  ActiveGraph -. non-authoritative input .-> Ledger
   SmokeB --> Final
   SmokeA -->|unclear baseline| Andon
   SmokeB -->|regression / failed gate| Andon
@@ -785,9 +764,7 @@ ordinary audit outputs.
 The `.skill` release archive contains only the runtime skill payload
 (`SKILL.md`, `references/`, `scripts/`, `templates/`) and plugin metadata
 (`.claude-plugin/`). Repo docs, tests, fixtures, release tooling, audit
-ledgers, run roots, and sidecar stores are excluded from the archive. As of
-v0.2.6.0 all archive entries are ZIP_DEFLATED; compression is validated by
-`tests/release-asset.test.sh` as an asset-integrity hardening measure.
+ledgers, run roots, and sidecar stores are excluded from the archive.
 
 ## Skill internals / repository layout
 
@@ -818,27 +795,27 @@ Package metadata lives under `.claude-plugin/`:
 .claude-plugin/marketplace.json
 ```
 
-The manifest JSON is validated by `scripts/verify-package.sh`. This README does
-not claim that Claude Code marketplace behavior, Codex installation, release,
-publication, or provenance has been verified.
+The manifest JSON is validated by `scripts/verify-package.sh`. This README
+records the bounded `v0.3.3.3` release and temporary Codex copy/install
+readbacks below. It does not claim Claude Code marketplace behaviour, passive
+update, active-user installation, universal host loading, or provenance.
 
 ## Version and release notes
 
-Current project milestone: `v0.3.3.3` release candidate. Plugin/runtime version: `0.3.3`. Public release readback: pending.
+Current project milestone: public release `v0.3.3.3`; plugin/runtime version `0.3.3`.
 
-The host-facing manifest uses the three-component runtime version because local
-schema evidence does not establish support for a four-component plugin version.
-The corrective fourth component distinguishes the public project identity from
-the earlier `v0.3.3.0` release without changing the runtime family. The intended
-tag and GitHub release identity is `v0.3.3.3`; its publication is not established
-until the tag and release are created and independently read back.
+`v0.3.3.3` is a corrective and completion release of the `v0.3.3` runtime
+family. It incorporates countermeasures found during `v0.3.3.0` qualification
+and immediate dogfood, while the host-facing manifest remains `0.3.3` because
+the supported manifest schema is three-component.
 
-The candidate ledger records deterministic package evidence from the source
-parent. Final exact-tree qualification remains pending.
-A published `IMPLEMENTAUDIT.skill`, release digest, and `CHECKSUMS.txt` must be
-read back at the release gate. See `CHANGELOG.md` and the candidate release
-report for the release notes, candidate digest, qualification boundary, and
-post-publication checks.
+The published tag and assets have been independently read back. Exact commit,
+tree, package, checksum, hosted-run, deployment, and public-install evidence
+belongs in the
+[`v0.3.3.3` release report](docs/audits/archive/v0.3.3.3-release-report.md);
+release chronology and user-visible changes belong in
+[`CHANGELOG.md`](CHANGELOG.md). This README describes the current product and
+installation routes rather than duplicating either evidence record.
 
 A source checkout may contain changes made after the release tag. A checkout,
 locally built asset, and published release asset are therefore distinct install
@@ -905,93 +882,36 @@ activegraph quickstart
 These commands are documentation only in this repo state. Running them requires
 explicit authorisation. Installation does not authorise indexing, event-store
 setup, export, commit, push, tag, release, publication, or provenance.
-`graphify install` is not recommended until the isolated fake-home registration
-test described by issue #101 passes across its platform targets.
+`graphify install` is not recommended until its isolated fake-home registration
+check passes across the intended platform targets.
 
 ### Graphify-assisted Gemba
 
-Graphify is an optional first-contact terrain map. Use it only when the repo is
-unfamiliar to the run, majority-code, the question is terrain-shaped, and one
-`rg`, `git grep`, or `git ls-tree` query cannot answer it. It may orient to broad
-components or the neighborhood of an already named component.
+Graphify is an optional first-contact terrain map for an unfamiliar,
+majority-code repository when a terrain question is not answered cheaply by
+direct search. Its scope catalogue can select the smallest graph covering the
+named paths, check freshness only for that scope, and broaden to a recorded
+parent only for a named cross-scope need. Scope or freshness failure is distinct
+from an extractor/relation-model omission: when the graph does not represent the
+needed relation, return to deterministic live-file search rather than asking a
+model to invent it.
 
-Data-file consumers, module-level constants or literals, embedded languages,
-prose completeness, definition/consumer lookup, and Git topology are
-anti-triggers; use deterministic search, direct reads, or native Git instead.
-
-Graphify output is orientation evidence, not proof. It does not prove
-correctness, decide closure, authorise mutation, replace live-file inspection,
-override repo instructions, or weaken `AGENTS.md`.
-
-For scoped terrain, an outside-repo catalogue records each graph's canonical scan
-root, Graphify-manifest population, content/config hashes from repo root through
-that root, exact root-prefixed graph `source_file` population, graph-bound
-scope-contract fingerprint, ancestor build provenance, proper
-covering parent, and digest. The catalogue itself and graphs stay outside the repo.
-The packaged `--graph-scope` command selects the smallest graph covering the
-named paths and checks only that scope, so an unrelated change does not stale
-it. Changed, deleted, or new in-scope files, extractor-config drift, or graph/catalogue
-damage fire `stale-sidecar`; unsafe symlinks and info/global Git excludes cannot conceal a
-scope file. Positive double-star ignore patterns whose Git/Graphify semantics
-diverge fail closed to live files; active nested ignore/include rules currently
-return `unsupported-config`. `--graph-parent` broadens one proper covering step for a recorded
-miss, ambiguity, or cross-scope need after revalidating the live child and parent. `relation-omission` revalidates the child, then exits to
-deterministic live-file census without broadening/model dispatch. Legacy graphs with
-`built_at_commit` retain the whole-HEAD freshness command.
-
-The qualified no-model route uses an explicit code-only corpus and
-`llm: false`; Graphify 0.8.37 has no `--code-only` flag, and its incremental
-`--no-cluster` path was rejected after dropping unchanged terrain. A relation
-absent from the graph is an extractor/relation-model omission: use exact live
-search rather than repeated broadening or model inference. The scoped feature
-does not qualify semantic/Luna behaviour; no Luna route was configured or
-called. Any later model pass must record its corpus, positive/control cells,
-owner-named backend/model, usage, privacy, and spend. A filename heuristic is
-not secret scanning, numeric zero may mean unmeasurable spend, auto-detection
-is refused, and Ollama is explicitly unauthorized. Broader claims still need
-an unfamiliar-third-party-repo trial.
+Graphify output is orientation evidence, not proof. It cannot decide closure,
+authorise mutation, replace live-file inspection, or override repo
+instructions. The qualified route is deterministic and does not qualify
+semantic/Luna behaviour; Ollama is explicitly unauthorized. Detailed scope,
+catalogue, freshness, privacy, and backend boundaries live in
+[`references/sidecars.md`](skills/implementaudit/references/sidecars.md).
 
 ### ActiveGraph checkpoint assistance and optional mirror
 
-ActiveGraph's evidenced use is authorised `fork` / `diff`
-resume-from-checkpoint. An event store may remain a separately authorised
-non-authoritative mirror, but the run root is the sole authority for lifecycle
-facts. `replay` does not reconstruct the tested custom-event custody use case.
-
-The Capability Ledger / Officer CV is ImplementAudit-derived. It is not an
-upstream ActiveGraph built-in feature. ImplementAudit derives capability
-entries from recorded run-root gate passages and evidence; a mirror supplies no
-independent correctness or lifecycle claim.
-
-Entries may include:
-
-- run id
-- repo identity
-- finding class
-- owner/source
-- countermeasure
-- Graphify terrain context, if available
-- ActiveGraph mirror event ids, if separately authorised and available
-- authorisation gates respected
-- Smoke A and Smoke B
-- regression / Andon / Hansei trail, if any
-- final status
-- remaining risk
-
-When ActiveGraph is absent, the ordinary Markdown ledger and final report remain
-first-class fallback. The run is not blocked merely because ActiveGraph is
-unavailable.
-
-When mirror writing is separately authorised, the conventions are concrete:
-one optional store per run root (`<run-root>/custody.db`, or
-`custody-trace.jsonl` as an append-only fallback), written with the packaged
-absent-safe `custody-append.sh` helper; Andon escalation may mirror as
-`andon.probe.recorded` / `andon.escalated` / `andon.handoff.recorded` events
-carrying the abnormality class; and reconstructed history must be labelled
-`custody_mode: historical_backfill` with source, backfill time, original
-event time, and evidence boundary, so live and backfilled custody never blur.
-Run-level sidecar status lives in `<run-root>/sidecars.md`, instantiated from
-the packaged template.
+ActiveGraph may assist an authorised fork/diff checkpoint or hold a separately
+authorised non-authoritative mirror. The run root and live files remain the
+authority; ActiveGraph custody is not correctness proof. Capability Ledger
+entries are derived from recorded gate passages, not from the existence of a
+mirror. When ActiveGraph is absent, Markdown state and final reports are the
+first-class fallback. The detailed event, backfill, and custody rules live in
+[`references/sidecars.md`](skills/implementaudit/references/sidecars.md).
 
 ## Evidence boundaries
 
@@ -1046,9 +966,11 @@ To choose the right invocation shape, see the chooser table in
 Install flows are evidence-bounded. This repo can locally validate the release
 asset-to-Codex-install path into a temporary Codex home. It does not claim passive auto-update, universal host support, marketplace verification, or public GitHub release download verification unless those checks are run and recorded.
 
-**Release/contract alignment:** the project candidate is `v0.3.3.3`, with
-plugin/runtime version `0.3.3`. Final exact-tree qualification, tag, release,
-public asset, Pages, public install, and tracker readback remain pending.
+**Release/contract alignment:** the current public release is `v0.3.3.3`, with
+plugin/runtime version `0.3.3`. Exact-tree qualification, tag, release, public
+asset, hosted validation, Pages, and temporary Codex public-install readback
+completed; exact evidence belongs in the release report rather than this
+installation guide.
 
 A checkout of `main` may contain post-release source changes. Installing from a
 checkout or through a CLI that resolves current `main` uses source-checkout
@@ -1078,41 +1000,24 @@ verification remains the sections below. The directory page
 `https://skills.sh/theislampill/IMPLEMENTAUDIT.md` is populated by the
 ecosystem's install-telemetry index, not by this repo.
 
-What each install source carries:
+Choose the source deliberately:
 
-| Source | Contract carried | Helper resolution | Run-root / custody tooling |
-|---|---|---|---|
-| Current source checkout at manifest `0.3.3` | The v0.3.3 contract plus any later source-only changes present on the selected commit | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper; read-only planning, secret-hygiene, stale-proof, repo-hygiene, and payload-self-containment checks |
-| Release candidate `v0.3.3.3` | The v0.3.3.0 runtime plus the eight countermeasures listed below; final exact-tree qualification, publication, and public-install readback are pending | `IMPLEMENTAUDIT_SKILL_DIR` resolution | deterministic source-parent package evidence recorded in the v0.3.3.3 release report |
-| Previous public release `v0.3.3.0` | Evidence fidelity, durable authorisation and interruption handling, canonical `6 → 6.i → 6.ii → 7`, recurrence governance, evaluator/validation hardening, and safer integration/release closure | `IMPLEMENTAUDIT_SKILL_DIR` resolution | the v0.3.3.0 packaged runtime and installed-package dogfood contract |
-| Prior public release `v0.3.2.0` | The v0.3.2.0 evidence-integrity and failure-origin contract | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper; local installed-package dogfood ledger |
-| Prior public release `v0.2.9.0` | `ANDON_PROBE` / `ANDON_ESCALATE` / `ANDON_HANDOFF`, classed Andon log, no arbitrary try caps | `IMPLEMENTAUDIT_SKILL_DIR` resolution | run-root validator; sidecars/tools/context templates; absent-safe custody helper |
-| Older public release `v0.2.8.0` | Pre-Andon recovery semantics | bare paths, before skill-directory resolution | none |
+- the public `v0.3.3.3` release is the immutable, independently read-back
+  package described by the release report;
+- the current `main` branch may contain later source corrections and is not
+  automatically byte-identical to that asset;
+- a local archive is evidence only for the exact source tree from which it was
+  built.
 
-### `v0.3.3.3` candidate countermeasures
-
-The candidate combines eight countermeasures added after `v0.3.3.0`. Their
-interaction matters: reachability makes shipped helpers usable, scoped terrain
-keeps orientation bounded, work orders make findings executable, and value,
-convergence, evaluator-integrity, semantic-preservation, and public-projection
-controls prevent a locally green result from outrunning its evidence. The table
-is a public route to the owners, not a duplicate specification or a publication
-claim.
-
-| Capability | Public disposition | Owner/source and boundary |
-|---|---|---|
-| R30 / #157 shipped-helper reachability | `discoverably-delegated` | `skills/implementaudit/SKILL.md` and package checks require a shipped helper to be instruction-reachable, same-run dispatchable, packaged, and negatively tested; adding a helper does not prove host execution. |
-| #144 scoped Graphify terrain | `bounded-partial-adoption` | `skills/implementaudit/references/sidecars.md` defines the optional outside-repository scope catalogue and fail-closed live-file fallback. The qualified route is deterministic `llm: false`; Graphify remains orientation, not a ledger. No Luna or semantic qualification is claimed. |
-| R31 / #158 executor-ready issue work orders | `OWNER_ACCEPTED_PARTIAL` | `skills/implementaudit/references/issue-ready-work-orders.md` expands material findings, reconciles multi-draft sets, and preserves separate authorisation and readback gates. Seven reviewed work orders passed and one was accepted partial because it omitted an explicit R29 invocation; the control does not publish issues. |
-| R34 / #163 engineering value and exploratory independence | `discoverably-delegated` | `skills/implementaudit/references/lean-operating-discipline.md` admits controls through a named consumer and protected consequence. When several mechanisms remain materially plausible, `skills/implementaudit/references/child-agents.md` keeps first-return hypothesis lanes informationally independent; this is distinct from adversarial review of a known candidate, and the ordinary cheap path remains the default. |
-| R35 / #164 evaluator and validation-policy integrity | `discoverably-delegated` | `skills/implementaudit/references/phase-design.md` Rule P4-16 preserves the original failing witness after evaluator mutation. Its second trigger catches a candidate delta that semantically intersects the validation-shaping authority used to judge that candidate; path-only or product-only changes stay on the cheap path, and a candidate-controlled policy cannot authenticate its own green. |
-| R32 / #160 governed state-space convergence | `discoverably-delegated` | `skills/implementaudit/references/convergence-mode.md` is qualified, optional, and progressive after a second independently verified same-family rejection. R32 consumes R34 hypothesis discrimination only when family classification remains materially ambiguous; independent rejection verification is not independent hypothesis formation. Ordinary and cheap-path work skips it. |
-| R33 / #161 package semantic preservation | `discoverably-delegated` | `skills/implementaudit/references/lean-operating-discipline.md` requires owner-backed predicates and runtime, checker, installed, generated, and public consumers to survive footprint work; a smaller archive alone is not closure. |
-| R29 / #155 public capability projection | `present-correct` | `skills/implementaudit/references/audit-playbook.md` derives material public topics from owners and challenges omissions as well as overclaims. It activates only when a material public or release effect, a declared README or public-doc success carrier, and an intended current, complete, or release-final claim all hold. |
-
-R36 / #167 is `POST_RELEASE_ONLY` and is not part of this candidate. R28 / #117
-remains open, optional, and nonblocking; `/dashboard/` remains excluded from the
-release package.
+The current product surface includes shipped-helper reachability, executor-ready
+work orders, bounded state-space convergence, engineering-value and
+informational-independence controls, evaluator and candidate-controlled
+validation-policy integrity, package semantic preservation, public-projection
+discipline, and optional freshness-aware Graphify terrain. The canonical
+runtime references define those behaviours; the
+[`v0.3.3.3` release report](docs/audits/archive/v0.3.3.3-release-report.md)
+maps the shipped release to its exact acceptance evidence. `/dashboard/` is not
+part of the `.skill` package.
 
 ### Install / update for Codex
 
@@ -1147,8 +1052,7 @@ bash scripts/install-codex-from-release.sh \
   --version 0.3.3
 ```
 
-After the `v0.3.3.3` release and asset have been independently read back, point
-the installer at this prospective URL:
+The published `v0.3.3.3` asset is available at this independently read-back URL:
 
 ```bash
 bash scripts/install-codex-from-release.sh \
@@ -1157,11 +1061,12 @@ bash scripts/install-codex-from-release.sh \
   --version 0.3.3
 ```
 
-Do not use that URL as evidence until the tag, release, asset, and digest are
-observed. If `CHECKSUMS.txt` is published alongside `IMPLEMENTAUDIT.skill`, use
-the local `--asset` plus `--checksum` form shown above. A public-download
-installation is evidence only after the downloaded asset, checksum, installed
-version, and installed bytes are read back.
+The release page, asset, checksum manifest, downloaded bytes, installed version,
+and installed payload were read back in a fresh temporary Codex home. That
+bounded copy/install proof does not establish passive update, universal host
+support, or host-load proof. For local verification, download `CHECKSUMS.txt`
+alongside `IMPLEMENTAUDIT.skill` and use the `--asset` plus `--checksum` form
+shown above.
 
 ### Install / update for Claude Desktop
 
@@ -1221,35 +1126,16 @@ After a release, reinstall or update the skill in the host you use. Do not
 assume a local copied skill has updated just because the GitHub repo has a new
 release.
 
-For Codex manual installs, there is no marketplace auto-update path documented
-in this repo. Repeat the documented copy step or release-asset install step
-after each release:
-
-```bash
-mkdir -p ~/.codex/skills/implementaudit
-cp -R skills/implementaudit/* ~/.codex/skills/implementaudit/
-```
-
-PowerShell:
-
-```powershell
-New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills\implementaudit" | Out-Null
-Copy-Item -Recurse -Force .\skills\implementaudit\* "$env:USERPROFILE\.codex\skills\implementaudit\"
-```
-
-Claude Desktop users: locate the session skill directory (see Install notes above)
-and re-run `scripts/install-claude-from-release.sh` with the new asset. Restart
-Claude Desktop after the script completes.
-
-Claude Code/plugin users should use the host's documented plugin update or
-reload flow when available. This repo does not claim that plugin update,
-marketplace refresh, install, release, publication, or provenance behavior has
-been verified.
+There is no marketplace auto-update path documented for a manually copied Codex
+skill; repeat the chosen copy or release-asset install route. Claude Desktop
+users should repeat its release-asset install and restart the application.
+Claude Code/plugin users should follow the host's current plugin update or
+reload instructions. Return to [Install notes](#install-notes) for the commands
+and evidence boundaries.
 
 ## Release asset notes
 
-For package release gates, including `v0.2.5.0`, the GitHub release asset name is
-`IMPLEMENTAUDIT.skill`.
+The GitHub release asset name is `IMPLEMENTAUDIT.skill`.
 
 No local evidence proves `.skill` is a universal host-standard archive format.
 In this repo, `IMPLEMENTAUDIT.skill` is the GitHub release artifact name. It is
@@ -1265,82 +1151,31 @@ templates/
 ```
 
 The release asset intentionally excludes repo-maintenance material such as
-README generation sources, audit ledgers, release-candidate notes, fixtures,
-tests, CI config, Git metadata, and root validation scripts. Those remain
-repo-side evidence and maintenance surfaces, not installed runtime payload.
+README sources, audit ledgers, fixtures, tests, CI configuration, Git metadata,
+run roots, Graphify outputs, ActiveGraph stores, and root validation scripts.
+Those remain repository-side evidence or maintenance surfaces, not installed
+runtime payload.
 
-Build and validate it locally with:
-
-```bash
-bash scripts/build-release-asset.sh
-```
-
-`scripts/verify-package.sh` also runs the builder in `--check` mode and validates
-the extracted package shape.
-
-When provenance is explicitly authorized for a release gate, this repo may
-publish a checksum manifest such as `CHECKSUMS.txt` for `IMPLEMENTAUDIT.skill`.
-A checksum manifest is not a signature, attestation, SBOM, license, marketplace
-verification, or install verification.
-
-The artifact must not include `.IMPLEMENTAUDIT/` run artifacts, local smoke
-debris, Graphify outputs, ActiveGraph stores, secrets, git metadata, or
-untracked diagnostics. Attaching `IMPLEMENTAUDIT.skill` to GitHub Releases is a
-separate release-gate action. Ordinary audits, local commits, and push-only
-gates do not authorise upload, release, publication, marketplace verification,
-or provenance claims.
+A published `CHECKSUMS.txt` proves only the integrity of the named asset bytes;
+it is not a signature, attestation, SBOM, licence, marketplace verification,
+install proof, or provenance claim. Building, uploading, or replacing an asset
+is a separate authorised release operation. Maintainer build and publication
+commands belong in [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Validation and release evidence
 
-Repo-native validation includes README diagram freshness, ToC anchor checks,
-host-claim and claim-boundary checks, root behavior-file absence, package
-contract validation, routing fixtures, marker-order checks, repo-state checks,
-audit-spec checks, Safeguard restoration checks, source-evidence pack
-smoke, release-asset extraction checks, release-asset Codex install smoke,
-stale-checksum failure smoke, and checksum-manifest checks.
+Validation is layered. A source check, deterministic fixture, generated-doc
+check, package extraction, temporary-home install, live host run, hosted CI
+result, public deployment, and fresh download establish different properties;
+none silently substitutes for another. Claims must name the layer that actually
+ran and bind it to the relevant source, tree, package, or public bytes.
 
-Run the package validator before local commit or release-gate claims:
-
-```bash
-bash scripts/verify-package.sh
-```
-
-When release assets are mentioned, validate the release asset locally:
-
-```bash
-bash scripts/build-release-asset.sh
-bash scripts/write-release-checksums.sh dist/IMPLEMENTAUDIT.skill dist/CHECKSUMS.txt
-bash scripts/write-release-checksums.sh --check
-bash tests/release-asset-install.test.sh
-```
-
-For external source-harness audit, build the local source evidence pack:
-
-```bash
-bash scripts/build-source-evidence-pack.sh dist/IMPLEMENTAUDIT-v0.3.1.0-SOURCE-EVIDENCE.zip
-bash tests/source-evidence-pack.test.sh
-```
-
-The source evidence pack is source repo evidence only. It is not shipped in the
-runtime `.skill` payload and is not a release, publication, marketplace,
-license, install, or provenance claim.
-
-Audit evidence retention is governed by `docs/audits/RETENTION.md`. Current
-proof ownership is summarised in `docs/audits/INDEX.md`; optional historical
-ledgers may live in `docs/audits/archive/` when retained, but current validation
-and source evidence do not require that directory. Validate the boundary with:
-
-```bash
-bash scripts/check-audit-retention.sh
-bash tests/audit-retention.test.sh
-```
-
-For release gates since `v0.2.5.0`, the intended skill release artifact is
-`IMPLEMENTAUDIT.skill`. Local release-asset validation may also write and check
-`CHECKSUMS.txt`; when a checksum manifest is published, it is bounded
-artifact-integrity evidence only. A checksum or release-body digest is not a
-signature, attestation, SBOM, marketplace verification, license claim, or install
-proof.
+The current evidence index is [`docs/audits/INDEX.md`](docs/audits/INDEX.md),
+with retention rules in [`docs/audits/RETENTION.md`](docs/audits/RETENTION.md).
+The exact `v0.3.3.3` release qualification is in its
+[release report](docs/audits/archive/v0.3.3.3-release-report.md). Contributor
+checks, package validation, generated-doc regeneration, and release boundaries
+belong in [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Safety defaults
 
@@ -1386,54 +1221,17 @@ message/body instead.
 - resolve audit-vs-`AGENTS.md` conflicts by agent judgment
 - use `AGENTS.md` as a raw evidence dump
 
-## Development / maintenance notes
+## Contributing and deeper documentation
 
-`AGENTS.md` is the authoritative repository contract. `skills/implementaudit/SKILL.md` is the
-canonical source skill behavior entry. Release archives flatten that directory
-to `SKILL.md` at archive root only as a build artifact.
+[`CONTRIBUTING.md`](CONTRIBUTING.md) is the maintainer and contributor entry
+point: it explains instruction precedence, canonical and generated owners,
+platform requirements, focused and package validation, contribution boundaries,
+and release-authority gates. The source skill contract remains
+[`skills/implementaudit/SKILL.md`](skills/implementaudit/SKILL.md), with deeper
+runtime detail under its [`references/`](skills/implementaudit/references/).
 
-README Mermaid diagrams are generated from `docs/diagrams/*.mmd`; do not edit
-diagram blocks by hand. Refresh or check them with:
-
-```bash
-bash scripts/generate-readme-diagrams.sh
-bash scripts/generate-readme-diagrams.sh --check
-```
-
-Validation scripts are POSIX shell scripts. On Windows, run them from Git Bash
-or WSL. The repo pins `*.sh` files to LF line endings for shell portability.
-
-Before committing package changes, run:
-
-```bash
-git diff --check
-python -m json.tool .claude-plugin/plugin.json
-python -m json.tool .claude-plugin/marketplace.json
-bash scripts/verify-package.sh
-```
-
-Also run:
-
-```bash
-bash skills/implementaudit/scripts/validate-phase.sh skills/implementaudit/templates/phase-goal.txt
-```
-
-Preserve the distinction between:
-
-- upstream-supported behavior
-- ImplementAudit custom extension
-- repo-local heuristic
-- unsupported or uncertain behavior
-
-Detailed evidence belongs in commit bodies, orchestrator/audit ledgers,
-optional ActiveGraph mirror events when separately authorized, or final reports. Durable
-anti-repeat rules may belong in repo-local `AGENTS.md` when they would prevent
-future agents from repeating the same mistake.
-
-Native harness discipline now includes helpers/checkers for environment and
-repo-contract discovery, brownfield repo summaries, complete baseline-vs-working
-tree evidence, structural audit-spec validation, transcript marker order,
-routing fixtures, release-asset checks, and added-line cleanliness/overclaim
-scans. Complete repo-state checks compare the baseline to the working tree so
-staged, unstaged, deleted, and untracked work cannot disappear from final audit
-evidence.
+For current public documentation, use the repository
+[`docs portal`](https://theislampill.github.io/IMPLEMENTAUDIT.md/). For release
+chronology use [`CHANGELOG.md`](CHANGELOG.md); for exact qualification and
+publication evidence use the [audit index](docs/audits/INDEX.md) and named
+release reports.

@@ -1,16 +1,19 @@
 <div class="page-eyebrow">Audience</div>
 <h1>For auditors and maintainers</h1>
-<p class="lead">Use this path when reviewing whether a run, docs claim, package boundary, or release note is truthful to evidence.</p>
+<p class="lead">Use this path to find the current contributor contract and to review whether a run, public claim, package boundary, or release record is truthful to evidence.</p>
+
+<h2 id="contributor-contract">Contributor contract</h2>
+<p><a href="https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/CONTRIBUTING.md"><code>CONTRIBUTING.md</code></a> is the current owner for repository workflow: instruction precedence, canonical and generated owners, supported shell paths, validation order, helper reachability, package boundaries, evidence destinations, and separately authorised Git/GitHub mutations.</p>
+<p>Use this portal page as a route and review aid, not as a second copy of that contract. Runtime behaviour remains owned by the packaged skill sources, release chronology by <code>CHANGELOG.md</code>, and exact publication evidence by the applicable release report.</p>
 
 <h2 id="review-order">Review order</h2>
 <ol>
-  <li>Read the request and bound work record; for phased work, inspect the run folder, <code>STATE.md</code>, roadmap, phase specs, and failure rows.</li>
-  <li>Check <code>STATE.md</code>, roadmap, phase specs, and failure rows.</li>
+  <li>Read the request, governing <code>AGENTS.md</code> files, <code>CONTRIBUTING.md</code>, and the bound work record; for phased work, inspect the run folder, <code>STATE.md</code>, roadmap, phase specs, and failure rows.</li>
   <li>Compare before/after evidence and repo-state output.</li>
   <li>Verify marker order: <code>AUDIT_COMPLETE</code> before <code>IMPLEMENTAUDIT_RUN_COMPLETE</code>.</li>
   <li>At release gates, verify <code>scripts/check-public-claim-boundaries.sh</code> ran with forbidden identity terms supplied at runtime and recorded PASS/FAIL without writing those terms into tracked files.</li>
   <li>Reject overclaims about install proof, host load, publication, provenance, sidecar proof, or package contents.</li>
-  <li>For public- or release-facing work, challenge material owner-sourced capabilities omitted from every public route as well as unsupported claims.</li>
+  <li>For public- or release-facing work, challenge unsupported claims, omitted material capabilities, stale routes, competing authorities, and content placed for the wrong audience or abstraction level.</li>
 </ol>
 
 <h2 id="public-capability-projection">Public capability projection</h2>
@@ -36,4 +39,4 @@
 <p>Claude plugin cache refresh depends on a version-field change.<br>Shipped code changes need a version bump before claiming update behavior; that warning is not a release or install claim.</p>
 
 <h2 id="source-surfaces">Source surfaces</h2>
-<p>Use <code>AGENTS.md</code>, <code>README.md</code>, <code>skills/implementaudit/references/audit-playbook.md</code>, <code>docs/audits/</code>, <code>scripts/verify-package.sh</code>, and the docs portal tests for maintainer-level review.</p>
+<p>Use <code>AGENTS.md</code> for the concise repository bootloader, <code>CONTRIBUTING.md</code> for the current contributor contract, <code>README.md</code> for new-user orientation, <code>skills/implementaudit/references/audit-playbook.md</code> for the packaged public-projection method, <code>docs/audits/</code> for evidence custody, and the validation owners for executable checks.</p>

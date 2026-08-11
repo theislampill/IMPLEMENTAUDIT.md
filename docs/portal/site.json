@@ -4,12 +4,13 @@
     "manifest_version": "0.3.3",
     "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/tag/v0.3.3.3",
     "audit_ledger_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/archive/v0.3.3.3-release-report.md",
-    "status": "v0.3.3.3 is the corrective four-component release candidate for runtime 0.3.3. Deterministic package evidence exists on the source parent; final exact-tree qualification, tag, GitHub release, release-asset readback, Pages deployment, public-install readback, and tracker reconciliation remain pending",
-    "checksum_boundary": "the source-parent candidate SHA-256 digest supports local artifact-integrity evidence only; the final exact-tree and published release digests must be read back separately and are not a signature, attestation, SBOM, or proof of provenance"
+    "status": "v0.3.3.3 is the current corrective four-component public release for runtime 0.3.3. Release commit 00591cc4257f1aea1aa9d3d4887ca4069731b074, the annotated tag, GitHub release, assets, hosted validation, Pages deployment, 32 public routes, and a fresh temporary Codex install were independently read back; tracker reconciliation remains a separate post-publication gate",
+    "checksum_boundary": "the published 227995-byte IMPLEMENTAUDIT.skill has SHA-256 bfe323853fcb814530c9f58e078ef09d4e930419d99005af26c9135f936e3536, and the 96-byte CHECKSUMS.txt has SHA-256 bb8c63c1f8b45354c96e5bbe04953767e85c036db6def5f8e0d98fa85da5c081; these are artifact-integrity evidence, not a signature, attestation, SBOM, or proof of provenance"
   },
   "semantic_sources": [
     "README.md",
     "AGENTS.md",
+    "CONTRIBUTING.md",
     "skills/implementaudit/SKILL.md",
     "skills/implementaudit/templates/PROTOCOL.md",
     "skills/implementaudit/templates/STATE.md",
@@ -212,6 +213,7 @@
       "source": "for-auditors-and-maintainers.html",
       "sources": [
         "AGENTS.md",
+        "CONTRIBUTING.md",
         "README.md",
         "docs/audits/INDEX.md",
         "scripts/verify-package.sh",
@@ -377,6 +379,7 @@
       "source": "repo-layout.html",
       "sources": [
         "AGENTS.md",
+        "CONTRIBUTING.md",
         "README.md",
         ".claude-plugin/plugin.json",
         "scripts/build-release-asset.sh",

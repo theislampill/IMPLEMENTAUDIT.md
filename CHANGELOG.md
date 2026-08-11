@@ -13,15 +13,33 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ## [Unreleased]
 
+### Changed
+
+- R29 public projection now distinguishes completeness from audience, consumer,
+  abstraction, authority, discoverability, and duplicate-owner fitness. The
+  README remains a substantial offline-capable newcomer guide; contributor
+  workflow moves to `CONTRIBUTING.md`, chronology stays in this changelog, and
+  exact qualification stays in the release report.
+- The public-information-architecture repair retains the original false-pass
+  witness and adds negative, positive, cheap-path, adjacent, and held-out
+  controls. It does not impose a README template, word count, section quota, or
+  mandatory documentation ceremony.
+- The published `v0.3.3.3` tag and assets remain immutable. This source
+  correction changes packaged R29 owner bytes and therefore belongs to a later
+  corrective package identity; it is not retroactively present in the
+  227,995-byte `v0.3.3.3` archive.
+
 ## [v0.3.3.3] - 2026-08-10
 
 This corrective milestone uses public project identity `v0.3.3.3` while the
 host-facing plugin and runtime version remains `0.3.3`. The fourth component
 advances the public release within the existing runtime family and preserves
-the complete `v0.3.3.0` history. Deterministic package evidence exists on the
-source parent; final exact-tree qualification, tag, GitHub release,
-release-asset and checksum readback, Pages deployment, public-install readback,
-and tracker reconciliation remain pending.
+the complete `v0.3.3.0` history. Release commit
+`00591cc4257f1aea1aa9d3d4887ca4069731b074`, tree
+`87d12e6920f680fcfa69f65646a1c536240e9528`, the annotated tag, GitHub release,
+assets, hosted validation, Pages deployment, and a fresh temporary Codex
+public-install route were independently read back. Tracker reconciliation and
+the post-publication repository-owner transition remain separate gates.
 
 ### Changed
 
@@ -62,22 +80,31 @@ and tracker reconciliation remain pending.
 - R29 / #155 projects material capability changes to README, portal, and
   current-state surfaces only when the public-effect, success-carrier, and
   current-or-release-final activation conjuncts all hold. Its held-out mutation
-  controls challenge omissions and overclaims, while model and installed
-  dogfood cells remain unexecuted.
+  controls challenge omissions and overclaims. The prompt-independent model
+  cell remains unexecuted; installed-runtime dogfood on the exact release
+  candidate exercised the public-projection route without converting that
+  model boundary into a PASS.
 
 ### Qualification and publication boundary
 
-- The candidate archive contains 50 members and is 227,995 bytes. Its SHA-256
+- The published archive contains 50 members and is 227,995 bytes. Its SHA-256
   digest is `bfe323853fcb814530c9f58e078ef09d4e930419d99005af26c9135f936e3536`,
-  leaving 2,005 bytes under the 230,000-byte owner bound. These are candidate
-  package facts, not public release readback.
-- R36 / #167 is `POST_RELEASE_ONLY` and is excluded from this candidate. R28 /
+  leaving 2,005 bytes under the 230,000-byte owner bound. The published
+  `CHECKSUMS.txt` is 96 bytes with SHA-256
+  `bb8c63c1f8b45354c96e5bbe04953767e85c036db6def5f8e0d98fa85da5c081`;
+  fresh downloads matched both published assets.
+- The annotated tag object is
+  `89bf563c965e65e189f6bfa9ab5008f946f3081e`; GitHub release ID `368332810`
+  is public. Hosted validation run `31456284912`, Pages run `31456284913`,
+  deployment `5843992982`, and 32 public routes were read back.
+- R36 / #167 remains open and was not shipped or qualified in this release. R28 /
   #117 remains open, optional, and nonblocking. `/dashboard/` remains excluded
   from `IMPLEMENTAUDIT.skill`.
-- No marketplace, signature, attestation, SBOM, provenance, universal-host,
-  passive-update, or public-install claim is made. Tag, release, assets,
-  checksum publication, hosted workflows, Pages, public installation, and
-  tracker state require independent post-publication readback.
+- A fresh public download installed into a temporary Codex home with 48/48
+  non-plugin payload parity, and the installed `detect-env` route exited zero.
+  This is bounded copy/install evidence, not marketplace, signature,
+  attestation, SBOM, provenance, universal-host, passive-update, or host-load
+  proof. Tracker reconciliation remains pending.
 
 ## [v0.3.3.0] - 2026-08-08
 

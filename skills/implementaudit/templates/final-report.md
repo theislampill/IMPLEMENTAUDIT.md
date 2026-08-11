@@ -56,10 +56,10 @@ explicit-list `enumeration_source`; partial capture cannot set the denominator.
 
 ## Public Capability Projection (when activated)
 
-When `references/audit-playbook.md` §Public capability projection activates,
-reuse its census/discrimination contract and fill this table:
+When activated, reuse `references/audit-playbook.md` §Public capability
+projection:
 
-| Topic | Owner/source | README disposition | Docs disposition | Current-state transition | Evidence |
+| Topic | Audience/job | Authority and placements | Abstraction/route | Current-state transition | Evidence |
 |---|---|---|---|---|---|
 
 Private source-only changes need no row.

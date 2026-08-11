@@ -33,8 +33,8 @@ if not match:
 
 toc_body = match.group("body")
 links = re.findall(r"^\s*-\s+\[[^\]]+\]\(#([^)]+)\)\s*$", toc_body, re.M)
-if len(links) < 8:
-    raise SystemExit("README ToC is too sparse for newcomer navigation")
+if not links:
+    raise SystemExit("README ToC has no newcomer navigation links")
 
 def slugify(heading: str) -> str:
     slug = heading.strip().lower()
@@ -59,27 +59,9 @@ missing = [anchor for anchor in links if anchor not in anchors]
 if missing:
     raise SystemExit("README ToC has unresolved anchors: " + ", ".join(missing))
 
-required = {
-    "runtime-at-a-glance",
-    "what-it-is",
-    "quick-vocabulary-not-authority",
-    "how-an-audit-input-drives-a-run",
-    "greenfield--brownfield-routing",
-    "execution-gates",
-    "loopability-andon-and-handoff-states",
-    "install-notes",
-    "upgrade--reinstall",
-    "artifacts-and-outputs",
-    "skill-internals--repository-layout",
-    "validation-and-release-evidence",
-    "version-and-release-notes",
-}
-missing_required = sorted(required.difference(links))
-if missing_required:
-    raise SystemExit("README ToC missing required anchors: " + ", ".join(missing_required))
-
 # Two-way parity: every level-2 section (except Contents itself) must appear
-# in the ToC. One-way checking let the ToC drift to 19 of 26 sections.
+# in the ToC. Audience/topic fitness is governed by the R29 projection bank;
+# this navigation check must not freeze a historical README architecture.
 h2_slugs = []
 for heading in re.findall(r"^## (.+)$", text, re.M):
     if heading.strip() == "Contents":

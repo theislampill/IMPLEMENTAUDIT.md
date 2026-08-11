@@ -59,7 +59,7 @@ Findings table:
   Rejected/deferred rationale, Remaining risk, Route, Countermeasure, Owner decision
 Required patches:
 Required fixtures / canaries:
-Public projection challenge: overclaim / omission / not applicable with owner evidence
+Public projection challenge: overclaim / omission / audience-owner-abstraction mismatch / duplicate authority / hidden route / not applicable with owner evidence
 What closes:
 What remains:
 Next smallest safe action:

@@ -44,7 +44,6 @@ require_file skills/implementaudit/references/phase-design.md
 require_file skills/implementaudit/references/transcript-contract.md
 require_file skills/implementaudit/references/audit-category-matrix.md
 require_file skills/implementaudit/references/plan-lifecycle.md
-require_file README.md
 require_file docs/diagrams/execution-spine.mmd
 require_file docs/portal/pages/planning-and-phases.html
 
@@ -90,11 +89,6 @@ require_ordered skills/implementaudit/SKILL.md \
   "Stage 6.ii - Pre-flight smoke" \
   'Stage 7 - One ready-to-paste `/goal` handoff when not already embedded'
 require_ordered skills/implementaudit/references/planning-depth.md \
-  "Stage 6 - Plan review and self-critique" \
-  "Stage 6.i - Independent cold review" \
-  "Stage 6.ii - Pre-flight smoke" \
-  "Stage 7 - One ready-to-paste /goal handoff when not already embedded"
-require_ordered README.md \
   "Stage 6 - Plan review and self-critique" \
   "Stage 6.i - Independent cold review" \
   "Stage 6.ii - Pre-flight smoke" \
