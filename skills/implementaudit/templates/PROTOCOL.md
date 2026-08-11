@@ -462,10 +462,12 @@ with a durable status contract, never awaited inline:
    and .IMPLEMENTAUDIT/ run-root paths, when they are declared surfaces. A disjoint
    mutation does not freeze the whole repository. At open, persist a NUL-delimited
    `opening_identity_receipt` with its `opening_identity_sha256`; at close, persist a
-   `closing_identity_receipt` with its `closing_identity_sha256`. Each record binds a
-   path, type, extent, and SHA-256 digest. The checker compares those bound identity
-   populations and fails closed if either receipt is unavailable, altered, or cannot be
-   enumerated. Declared trailing-slash directory surfaces are explicitly included in
+   `closing_identity_receipt` with its `closing_identity_sha256`. Each receipt binds the
+   normalized complete declared-surface population, including explicitly absent paths and directories,
+   as well as records binding each present path, type, extent, and SHA-256 digest. The checker
+   requires each receipt declaration to equal the window's declared
+   surfaces, compares those bound identity populations, and fails closed if either receipt
+   is unavailable, altered, or cannot be enumerated. Declared trailing-slash directory surfaces are explicitly included in
    those receipts, so empty ignored or run-root directories retain identity without
    expanding the census to unrelated directory trees.
    Compound shell verification (`git stash`, `git checkout --`, or an

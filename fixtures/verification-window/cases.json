@@ -31,5 +31,8 @@
   {"id":"R2-F30","window":"open","surface":"ignored/empty/","change":"delete empty ignored directory","expected":"FAIL_DELETED_EMPTY_IGNORED_DIRECTORY"},
   {"id":"R2-F31","window":"closed-equal","surface":".IMPLEMENTAUDIT/runs/window/live/empty/","change":"unchanged empty run-root directory","expected":"PASS_EMPTY_RUN_ROOT_DIRECTORY"},
   {"id":"R2-F32","window":"closed-equal","surface":".IMPLEMENTAUDIT/runs/window/live/empty/","change":"create empty run-root directory","expected":"FAIL_CREATED_EMPTY_RUN_ROOT_DIRECTORY"},
-  {"id":"R2-F33","window":"open","surface":".IMPLEMENTAUDIT/runs/window/live/empty/","change":"delete empty run-root directory","expected":"FAIL_DELETED_EMPTY_RUN_ROOT_DIRECTORY"}
+  {"id":"R2-F33","window":"open","surface":".IMPLEMENTAUDIT/runs/window/live/empty/","change":"delete empty run-root directory","expected":"FAIL_DELETED_EMPTY_RUN_ROOT_DIRECTORY"},
+  {"id":"R2-F34","window":"receipt","surface":"none","change":"empty declared-surface population","expected":"FAIL_SURFACE_POPULATION_REQUIRED"},
+  {"id":"R2-F35","window":"open","surface":"ignored/empty/","change":"omit opening receipt declaration","expected":"FAIL_OPENING_SURFACE_BINDING"},
+  {"id":"R2-F36","window":"closed-equal","surface":".IMPLEMENTAUDIT/runs/window/live/empty/","change":"omit closing receipt declaration","expected":"FAIL_CLOSING_SURFACE_BINDING"}
 ]

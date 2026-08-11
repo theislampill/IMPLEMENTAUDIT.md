@@ -277,6 +277,7 @@ PY
 import fnmatch
 import hashlib
 import json
+import os
 import re
 import subprocess
 import sys
@@ -321,13 +322,37 @@ def window_changed_paths(opened):
         fail(f"complete window changed-files enumeration returned a non-UTF-8 path for {opened}")
 
 
-def identity_records(payload, label):
+def normalized_surface_population(surfaces, label):
+    if not surfaces or any(not isinstance(surface, str) for surface in surfaces):
+        fail(f"{label} has no valid declared surfaces")
+    normalized = [normalize_surface(surface) for surface in surfaces]
+    if len(set(normalized)) != len(normalized):
+        fail(f"{label} contains duplicate declared surfaces")
+    return sorted(normalized)
+
+
+def identity_records(payload, label, expected_surfaces):
     records = {}
     try:
         raw_records = [part.decode("utf-8") for part in payload.split(b"\0") if part]
     except UnicodeDecodeError:
         fail(f"{label} returned a non-UTF-8 record")
-    for raw in raw_records:
+    if not raw_records:
+        fail(f"{label} contains no receipt header")
+    try:
+        header = json.loads(raw_records[0])
+    except json.JSONDecodeError:
+        fail(f"{label} contains malformed receipt header JSON")
+    if (not isinstance(header, dict)
+            or set(header) != {"schema", "surfaces"}
+            or header.get("schema") != "verification-window-identity-receipt-v1"
+            or not isinstance(header.get("surfaces"), list)):
+        fail(f"{label} has an invalid receipt header")
+    declared_population = normalized_surface_population(header["surfaces"], label)
+    expected_population = normalized_surface_population(expected_surfaces, "verification window")
+    if declared_population != expected_population:
+        fail(f"{label} declared surfaces do not match the verification window: receipt={declared_population} expected={expected_population}")
+    for raw in raw_records[1:]:
         try:
             record = json.loads(raw)
         except json.JSONDecodeError:
@@ -348,22 +373,24 @@ def identity_records(payload, label):
 
 
 def window_identity_records(surfaces):
+    command = [bash_exe, repo_state, "window-identities", "--records", "--surfaces-env"]
+    environment = os.environ.copy()
+    environment["IMPLEMENTAUDIT_WINDOW_SURFACES_JSON"] = json.dumps(surfaces)
     identities = subprocess.run(
-        [bash_exe, repo_state, "window-identities", "--records", *(
-            value for surface in surfaces for value in ("--surface", surface)
-        )],
+        command,
         capture_output=True,
         check=False,
+        env=environment,
     )
     if identities.returncode != 0:
         fail(f"complete window identity enumeration failed: {identities.stderr.decode(errors='replace').strip()}")
     try:
-        return identity_records(identities.stdout, "complete window identity enumeration")
+        return identity_records(identities.stdout, "complete window identity enumeration", surfaces)
     except UnicodeDecodeError:
         fail("complete window identity enumeration returned a non-UTF-8 record")
 
 
-def receipt_records(receipt_name, expected_digest, label):
+def receipt_records(receipt_name, expected_digest, label, surfaces):
     receipt = Path(receipt_name)
     if (not receipt_name or receipt.is_absolute() or ".." in receipt.parts
             or receipt_name.startswith("/") or re.match(r"^[A-Za-z]:", receipt_name)):
@@ -377,7 +404,7 @@ def receipt_records(receipt_name, expected_digest, label):
     if hashlib.sha256(payload).hexdigest() != expected_digest:
         fail(f"verification window {label} identity receipt digest does not match")
     try:
-        return identity_records(payload, f"verification window {label} identity receipt")
+        return identity_records(payload, f"verification window {label} identity receipt", surfaces)
     except UnicodeDecodeError:
         fail(f"verification window {label} identity receipt contains a non-UTF-8 path")
 
@@ -463,7 +490,7 @@ for index, window in enumerate(windows, 1):
         fail(f"verification_window entry {index} opened_at is not a local commit: {opened}")
     if Path(intent_path).parent.name != chain:
         fail(f"verification_window entry {index} chain does not match its directory: {chain}")
-    opening_records = receipt_records(opening_receipt, opening_digest, "opening")
+    opening_records = receipt_records(opening_receipt, opening_digest, "opening", surfaces)
     if state == "closed":
         marker = intent_path.parent / "chain.done"
         if not marker.is_file():
@@ -482,7 +509,7 @@ for index, window in enumerate(windows, 1):
         closing_digest = window.get("closing_identity_sha256", "")
         if not closing_receipt or not closing_digest:
             fail(f"verification_window entry {index} is closed without a closing identity receipt")
-        recorded_closing_records = receipt_records(closing_receipt, closing_digest, "closing")
+        recorded_closing_records = receipt_records(closing_receipt, closing_digest, "closing", surfaces)
         if closed == now:
             window_changed_paths(opened)
             closing_records = window_identity_records(surfaces)

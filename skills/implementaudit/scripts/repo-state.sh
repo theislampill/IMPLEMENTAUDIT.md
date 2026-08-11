@@ -137,12 +137,28 @@ cmd_window_identities() {
     --records)
       local surfaces=()
       while [ "$#" -gt 0 ]; do
-        [ "$1" = "--surface" ] && [ "$#" -ge 2 ] || {
-          printf 'usage: repo-state.sh window-identities --records [--surface <directory-surface>]...\n' >&2
-          return 2
-        }
-        surfaces+=("$2")
-        shift 2
+        case "$1" in
+          --surface)
+            [ "$#" -ge 2 ] || {
+              printf 'usage: repo-state.sh window-identities --records [--surface <directory-surface>]...\n' >&2
+              return 2
+            }
+            surfaces+=("$2")
+            shift 2
+            ;;
+          --surfaces-env)
+            [ "$#" -eq 1 ] || {
+              printf 'usage: repo-state.sh window-identities --records [--surface <directory-surface>]...\n' >&2
+              return 2
+            }
+            surfaces+=("$1")
+            shift
+            ;;
+          *)
+            printf 'usage: repo-state.sh window-identities --records [--surface <directory-surface>]...\n' >&2
+            return 2
+            ;;
+        esac
       done
       if command -v python >/dev/null 2>&1; then
         local py_cmd=(python)
@@ -172,16 +188,40 @@ def git(*args):
 
 
 root = git("rev-parse", "--show-toplevel").decode("utf-8").strip()
+arguments = sys.argv[1:]
+if arguments == ["--surfaces-env"]:
+    try:
+        arguments = json.loads(os.environ["IMPLEMENTAUDIT_WINDOW_SURFACES_JSON"])
+    except (KeyError, json.JSONDecodeError):
+        print("repo-state: window identity records have invalid declared surfaces", file=sys.stderr)
+        raise SystemExit(2)
+    if not isinstance(arguments, list) or any(not isinstance(surface, str) for surface in arguments):
+        print("repo-state: window identity records have invalid declared surfaces", file=sys.stderr)
+        raise SystemExit(2)
+elif "--surfaces-env" in arguments:
+    print("repo-state: --surfaces-env cannot be combined with --surface", file=sys.stderr)
+    raise SystemExit(2)
 explicit_directories = {}
-for surface in sys.argv[1:]:
+declared_surfaces = []
+if not arguments:
+    print("repo-state: window identity receipt requires at least one declared surface", file=sys.stderr)
+    raise SystemExit(2)
+for surface in arguments:
     normalized = surface.replace("\\", "/")
-    if not normalized.endswith("/"):
-        continue
     path = normalized.rstrip("/")
     if (not path or os.path.isabs(path) or ".." in path.split("/")
-            or any(char in path for char in "*?[]")):
-        raise SystemExit(f"repo-state: unsafe explicit window directory surface: {surface}")
-    explicit_directories[path] = normalized
+            or (len(path) > 1 and path[1] == ":")):
+        print(f"repo-state: unsafe declared window surface: {surface}", file=sys.stderr)
+        raise SystemExit(2)
+    declared_surfaces.append(normalized)
+    if normalized.endswith("/"):
+        if any(char in path for char in "*?[]"):
+            print(f"repo-state: unsupported declared directory surface: {surface}", file=sys.stderr)
+            raise SystemExit(2)
+        explicit_directories[path] = normalized
+if len(set(declared_surfaces)) != len(declared_surfaces):
+    print("repo-state: declared window surfaces must be unique", file=sys.stderr)
+    raise SystemExit(2)
 candidates = set()
 for args in (
     ("ls-files", "--full-name", "-z"),
@@ -240,12 +280,10 @@ records = [
     )
     if item is not None
 ]
-payload = b"\0".join(
-    json.dumps(item, sort_keys=True, separators=(",", ":")).encode("utf-8")
-    for item in records
-)
-if payload:
-    sys.stdout.buffer.write(payload + b"\0")
+header = {"schema": "verification-window-identity-receipt-v1", "surfaces": sorted(declared_surfaces)}
+sys.stdout.buffer.write(json.dumps(header, sort_keys=True, separators=(",", ":")).encode("utf-8") + b"\0")
+for item in records:
+    sys.stdout.buffer.write(json.dumps(item, sort_keys=True, separators=(",", ":")).encode("utf-8") + b"\0")
 PY
       ;;
     *)

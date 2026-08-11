@@ -30,7 +30,7 @@ fail() { printf 'verification-window-contract.test: %s\n' "$*" >&2; exit 1; }
 import json, sys
 rows = json.load(open(sys.argv[1], encoding="utf-8"))
 ids = [row.get("id") for row in rows]
-expected = [f"R2-F{i}" for i in range(1, 34)]
+expected = [f"R2-F{i}" for i in range(1, 37)]
 if ids != expected:
     raise SystemExit(f"verification-window cases must be exactly {expected}, got {ids}")
 PY
@@ -612,6 +612,56 @@ if (cd "$case_repo" && bash "$checker" --window "$case_intent" --now "$case_now"
 fi
 ok
 
+# R2-F34: receipt creation requires the declared surface population, rather
+# than allowing an unbound record set with zero --surface inputs.
+new_repo f34-empty-surface-population
+if (cd "$case_repo" && bash "$repo_state" window-identities --records) >"$tmp/f34.out" 2>&1; then
+  fail 'R2-F34 window identity receipt without declared surfaces must fail'
+fi
+grep -Fq 'requires at least one declared surface' "$tmp/f34.out" \
+  || fail 'R2-F34 output missing declared-surface requirement'
+ok
+
+# R2-F35: a digest-rebound opening receipt that omits an existing empty ignored
+# directory declaration cannot buy an open-window pass.
+new_repo f35-omitted-opening-empty-ignored-directory
+printf 'ignored/**\n' > "$case_repo/.gitignore"
+git -C "$case_repo" add .gitignore
+git -C "$case_repo" commit -qm ignore-empty-directory
+mkdir -p "$case_repo/ignored/empty"
+case_opened="$(git -C "$case_repo" rev-parse HEAD)"
+write_intent "$case_repo" open 'ignored/empty/'
+opening_receipt="$case_repo/.IMPLEMENTAUDIT/runs/window/background/chain-a/opening-identities.nul"
+(cd "$case_repo" && bash "$repo_state" window-identities --records --surface 'docs/' > "$opening_receipt")
+opening_digest="$(sha256sum "$opening_receipt" | awk '{print $1}')"
+sed -i "s/^    opening_identity_sha256: .*/    opening_identity_sha256: $opening_digest/" "$case_intent"
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+if (cd "$case_repo" && bash "$checker" --window "$case_intent" --now "$case_now") >"$tmp/f35.out" 2>&1; then
+  fail 'R2-F35 omitted opening empty ignored declaration must fail'
+fi
+grep -Fq 'declared surfaces do not match' "$tmp/f35.out" \
+  || fail 'R2-F35 output missing opening surface-binding failure'
+ok
+
+# R2-F36: the same declaration-binding check applies to the closing receipt of
+# an unchanged empty run-root directory.
+new_repo f36-omitted-closing-empty-run-root-directory
+mkdir -p "$case_repo/.IMPLEMENTAUDIT/runs/window/live/empty"
+write_intent "$case_repo" open '.IMPLEMENTAUDIT/runs/window/live/empty/'
+touch "$case_repo/.IMPLEMENTAUDIT/runs/window/background/chain-a/chain.done"
+write_intent "$case_repo" closed '.IMPLEMENTAUDIT/runs/window/live/empty/'
+closing_receipt="$case_repo/.IMPLEMENTAUDIT/runs/window/background/chain-a/closing-identities.nul"
+(cd "$case_repo" && bash "$repo_state" window-identities --records --surface 'docs/' > "$closing_receipt")
+closing_digest="$(sha256sum "$closing_receipt" | awk '{print $1}')"
+sed -i "s/^    closing_identity_sha256: .*/    closing_identity_sha256: $closing_digest/" "$case_intent"
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+if (cd "$case_repo" && bash "$checker" --window "$case_intent" --now "$case_now") >"$tmp/f36.out" 2>&1; then
+  fail 'R2-F36 omitted closing empty run-root declaration must fail'
+fi
+grep -Fq 'declared surfaces do not match' "$tmp/f36.out" \
+  || fail 'R2-F36 output missing closing surface-binding failure'
+ok
+
 # Legacy anchor modes remain compatible.
 bash "$checker" --row 'legacy evidence without an anchor' >/dev/null
 artifact="$tmp/artifact.md"
@@ -627,6 +677,8 @@ grep -Fq 'Window intersection uses complete path identities, including ignored' 
   || fail 'verification-window complete identity route missing'
 grep -Fq 'and .IMPLEMENTAUDIT/ run-root paths, when they are declared surfaces' "$protocol" \
   || fail 'verification-window complete identity route missing'
+grep -Fq 'normalized complete declared-surface population, including explicitly absent paths and directories' "$protocol" \
+  || fail 'verification-window receipt surface binding contract missing'
 ok
 grep -Fq 'opening_identity_receipt' "$protocol" \
   || fail 'verification-window opening identity receipt contract missing'
@@ -643,4 +695,4 @@ grep -Fq 'verification is reading the same tree' "$phase_design" || fail 'phase-
 grep -Fq 'post-state was compared' "$lean" || fail 'Lean post-state evidence boundary missing'
 ok; ok; ok; ok; ok
 
-printf 'verification-window-contract.test: ok (%d/45)\n' "$count"
+printf 'verification-window-contract.test: ok (%d/48)\n' "$count"
