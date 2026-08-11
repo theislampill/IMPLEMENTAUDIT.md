@@ -228,6 +228,28 @@ if mode == "same-tag-correction":
         raise SystemExit("same-tag correction release commit must equal current HEAD")
 
 if mode == "family-forward":
+    shown = subprocess.run(
+        ["git", "-C", str(root), "show", "--format=", "--unified=0", commit_sha, "--", "CHANGELOG.md"],
+        encoding="utf-8",
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    if shown.returncode != 0:
+        raise SystemExit("release identity CHANGELOG commit cannot be inspected")
+    added = "\n".join(
+        line[1:]
+        for line in shown.stdout.splitlines()
+        if line.startswith("+") and not line.startswith("+++")
+    )
+    same_tag_receipt = re.compile(
+        r"(?im)^[ \t]*-\s+same-tag\s+correction\s+for\s+`v0\.3\.3\.3`\s+"
+        r"`IMPLEMENTAUDIT\.skill`\s*:"
+    )
+    if same_tag_receipt.search(added):
+        raise SystemExit(
+            "family-forward cannot qualify a commit-added v0.3.3.3 same-tag "
+            "correction receipt; use same-tag-correction"
+        )
     print(
         f"build-release-asset: release identity family-forward "
         f"{previous_identity} -> {candidate_identity} (runtime {plugin_version}) at {commit_sha}"

@@ -59,7 +59,7 @@ if [ "${1:-}" = "--identity-only" ]; then
     local ledger_name="${5:-${site_milestone}-release-report.md}"
     local pair_count="${6:-1}"
     local old_digest='bfe323853fcb814530c9f58e078ef09d4e930419d99005af26c9135f936e3536'
-    make_fixture "$root" "$runtime_version" "$public_tag"
+    make_fixture "$root" "$runtime_version" v0.3.3.0
     mkdir -p "$root/docs/portal"
     printf '{"release":{"milestone":"%s","audit_ledger_url":"https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/archive/%s"}}\n' \
       "$site_milestone" "$ledger_name" > "$root/docs/portal/site.json"
@@ -67,10 +67,16 @@ if [ "${1:-}" = "--identity-only" ]; then
     local candidate_digest candidate_bytes
     candidate_digest="$(sha256sum "$root/IMPLEMENTAUDIT.skill" | awk '{print $1}')"
     candidate_bytes="$(wc -c < "$root/IMPLEMENTAUDIT.skill" | tr -d '[:space:]')"
-    for _ in $(seq 1 "$pair_count"); do
-      printf '\n- same-tag correction for `%s` `IMPLEMENTAUDIT.skill`: prematurely published `%s` (227,995 bytes) -> final `%s` (%s bytes).\n' \
-        "$public_tag" "$old_digest" "$candidate_digest" "$candidate_bytes" >> "$root/CHANGELOG.md"
-    done
+    {
+      printf '# Changelog\n\n## [%s] - 2026-08-11\n' "$public_tag"
+      for _ in $(seq 1 "$pair_count"); do
+        printf '\n- same-tag correction for `%s` `IMPLEMENTAUDIT.skill`: prematurely published `%s` (227,995 bytes) -> final `%s` (%s bytes).\n' \
+          "$public_tag" "$old_digest" "$candidate_digest" "$candidate_bytes"
+      done
+      printf '\n'
+      tail -n +3 "$root/CHANGELOG.md"
+    } > "$root/CHANGELOG.md.next"
+    mv "$root/CHANGELOG.md.next" "$root/CHANGELOG.md"
     git -C "$root" add .
     git -C "$root" -c user.email=t@example.invalid -c user.name=t commit -qm same-tag-correction
   }
@@ -213,8 +219,8 @@ if [ "${1:-}" = "--identity-only" ]; then
     fail 'ordinary republish substituted for same-tag correction'
   fi
   if bash scripts/build-release-asset.sh --check-release-identity \
-      family-forward v0.3.3.3 v0.3.3.3 HEAD "$same_tag_correction" >/dev/null 2>&1; then
-    fail 'family-forward substituted for same-tag correction'
+      family-forward v0.3.3.0 v0.3.3.3 HEAD "$same_tag_correction" >/dev/null 2>&1; then
+    fail 'real-shape family-forward substituted for same-tag correction without enforcing its asset pair'
   fi
   verify_same_tag_output="$(bash scripts/verify-package.sh \
     --release-identity same-tag-correction 2>&1 || true)"
