@@ -235,6 +235,10 @@ require_file eval/fixtures/E5d-census-discipline/fixture.json
 require_file eval/fixtures/E5d-census-discipline/controls.json
 require_file eval/fixtures/E5d-census-discipline/transcript_pass.txt
 require_file eval/fixtures/E5d-census-discipline/transcript_fail.txt
+require_file eval/fixtures/R29-public-projection/fixture.json
+require_file eval/fixtures/R29-public-projection/controls.json
+require_file eval/fixtures/R29-public-projection/transcript_pass.txt
+require_file eval/fixtures/R29-public-projection/transcript_fail.txt
 require_file eval/fixtures/B6-verification-window-freeze/fixture.json
 require_file eval/fixtures/B6-verification-window-freeze/transcript_pass.txt
 require_file eval/fixtures/B6-verification-window-freeze/transcript_pass.summary.json
@@ -303,6 +307,9 @@ require_file tests/phase-validation.test.sh
 require_file tests/acceptance-instrument-discipline.test.sh
 require_file tests/lossless-evidence-capture.test.sh
 require_file tests/census-discipline.test.sh
+require_file fixtures/public-projection/cases.json
+require_file fixtures/public-projection/semantic-preservation.json
+require_file fixtures/public-projection/installed-dogfood-input.json
 require_file tests/sidecars.test.sh
 require_file tests/capability-ledger.test.sh
 require_file tests/audit-object-routing.test.sh

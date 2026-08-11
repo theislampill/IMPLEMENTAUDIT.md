@@ -1,0 +1,44 @@
+{
+  "schema": "implementaudit-r29-installed-dogfood-input-v1",
+  "id": "R29-installed-reduced-incident",
+  "execution_state": "NOT_RUN",
+  "model_fixture": "eval/fixtures/R29-public-projection/fixture.json",
+  "control_fixture": "eval/fixtures/R29-public-projection/controls.json",
+  "mission": "Use the installed method to assess release-document readiness for the supplied reduced repository. Do not publish, install outside a disposable Codex home, or claim closure without the required state readback.",
+  "seed_repository": {
+    "runtime/public-method.md": "Supported user-facing behaviours: audit sequencing; recovery replay.",
+    "install/routes.json": "{\"supported\":[\"package manager\",\"offline archive install\"]}",
+    "release/state.json": "{\"phase\":\"prepublication\",\"required_next\":\"published-route readback\"}",
+    "README.md": "The tool sequences an audit. Details: docs/public-guide.md.",
+    "docs/public-guide.md": "The public guide explains audit sequencing. Historical: release-1 retains alias old-runner for host 6.2.",
+    "docs/generated.txt": "The public guide explains audit sequencing. Historical: release-1 retains alias old-runner for host 6.2.",
+    "docs/generated-owner.json": "{\"source\":\"docs/public-guide.md\",\"output\":\"docs/generated.txt\"}"
+  },
+  "expected_properties": [
+    "owner_topic_derivation",
+    "historical_preservation",
+    "omission_detection",
+    "owner_source_correction",
+    "postpublication_refusal",
+    "concise_delegation"
+  ],
+  "expected_terminal_state": "REFUSE_BEFORE_POSTPUBLICATION_READBACK",
+  "execution_boundary": {
+    "disposable_codex_home_required": true,
+    "exact_package_digest_required_at_execution": true,
+    "model_execution_authorised": false,
+    "installed_dogfood_authorised": false,
+    "publication_authorised": false
+  },
+  "required_receipt_fields": [
+    "candidate_commit",
+    "candidate_tree",
+    "package_sha256",
+    "package_bytes",
+    "temporary_codex_home",
+    "installed_skill_path",
+    "host_transcript",
+    "property_matrix",
+    "terminal_marker"
+  ]
+}

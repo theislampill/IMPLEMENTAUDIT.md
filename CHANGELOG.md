@@ -15,6 +15,32 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Changed
 
+- Added a bounded public-capability projection contract when a material
+  public/release effect, a declared README or public-doc success carrier, and an
+  intended current, complete, or release-final claim all hold. It derives owner
+  topics, records README/docs/current-state dispositions, challenges omissions
+  and overclaims, and preserves generated and exact-literal ownership.
+- Cold-review repair rejects malformed projection types through one shared
+  structural guard. A distinct prompt-independent R29 model cell and disposable
+  installed-dogfood input are repository-only and remain unexecuted.
+- A second R29 cold-review repair rejects empty and whitespace-only public
+  identities, states, census members, and fact strings; pins all nine held-out
+  mutation identities; isolates every activation conjunct; and binds the exact
+  model field, property, and forbidden-phrase surface. No model or installed
+  dogfood execution was performed.
+- R32 convergence closes the repeated R29 acceptance-family gap with one exact
+  tuple for each of the six model properties and a versioned control contract
+  binding seed, repository identity, polarity, verdict, semantic role, and
+  transcript. The internal-only negative control remains the cheap path. No
+  model or installed dogfood execution was performed.
+- The R29 tuple validators now require exact Boolean `true` for every primary
+  and control scoring property, rejecting JSON integer `1` rather than relying
+  on Python Boolean/integer equality.
+- Public source-checkout guidance now routes readers to the post-v0.3.3.0
+  helper-reachability, scoped-Graphify, issue-work-order, engineering-value,
+  convergence, evaluator-integrity, and package-semantic-preservation owners.
+  These are source-checkout statements, not claims about the published
+  `v0.3.3.0` asset or a later release.
 - Optional Graphify terrain can use an outside-repository scope catalogue to
   select and validate the smallest graph covering named paths. Scope-local
   canonical scan roots, Graphify-manifest file/content/config rules,

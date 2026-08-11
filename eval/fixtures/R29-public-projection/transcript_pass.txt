@@ -1,0 +1,6 @@
+ITEMS=recovery-replay,offline-archive-install
+HISTORY=PRESERVE
+GAPS=recovery-replay,offline-archive-install
+EDIT=OWNER_SOURCE
+STATE=REFUSE
+DETAIL=LEGAL

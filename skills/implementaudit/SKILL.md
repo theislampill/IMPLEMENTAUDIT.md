@@ -294,17 +294,16 @@ Record Stage 6 assumptions.
 
 ### Stage 6.i - Independent cold review
 
-When the run produced a handoff or executor-ready phase artifact, dispatch
-an independent cold review before Stage 6.ii preflight or any dispatch: a
-fresh-context reviewer that does not reuse the authoring context — a
-separate child agent where the host supports subagents, otherwise a bounded
-serial fresh-context pass. The reviewer reads the artifact as a cold reader
-and weak executor per `references/plan-lifecycle.md` and records an overall
-disposition — PASS / GAP-REVISE / BLOCKED / OWNER DECISION — in the audit
-object. No handoff, preflight, or dispatch proceeds without a disposition.
-No "review" keyword is required; trivial direct-governance edits with no
-executor-facing artifact do not trigger the gate. Self-critique is
-preserved, not replaced.
+Each handoff/executor artifact gets independent review that
+does not reuse the authoring context: a
+separate child agent where the host supports subagents,
+else a bounded serial fresh-context pass. As cold reader/weak executor, it records
+PASS / GAP-REVISE / BLOCKED / OWNER DECISION.
+No handoff, preflight, or dispatch proceeds without a disposition.
+For public projection under `references/audit-playbook.md`, challenge
+unsupported claims and material owner-sourced capabilities omitted
+from every public route. Keywords do not trigger review; trivial work without an
+executor artifact skips it. Self-critique is preserved, not replaced.
 
 ### Stage 6.ii - Pre-flight smoke
 

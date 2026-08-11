@@ -170,6 +170,30 @@ commands, STOP conditions, acceptance criteria, rollback, and remaining risk.
   can reconstruct for actively contested areas.
 - Prefer docs findings only when absence or staleness has concrete cost.
 
+### Public capability projection
+
+Activate only when all three hold: a material public/release effect; README or
+public docs are declared success carriers; an intended current, complete, or
+release-final claim. Otherwise omit the projection record;
+private source-only work stays cheap. Derive owner topics across runtime/version; release/changelog;
+invocation-to-closure; install/host/package; optional/excluded; current/history;
+authorisation/publication/evidence/provenance. Use the audit object, not a new registry. Reuse
+`repo-state-comparison.md` (`population_definition`, `population_size`,
+`examined_count`, `enumeration_source`) plus discrimination witness; partial
+samples cannot close.
+
+| Topic | Owner/source | README disposition | Docs disposition | Current-state transition | Evidence |
+|---|---|---|---|---|---|
+
+Exact dispositions: `present-correct`, `discoverably-delegated`,
+`historical-intentional`, `not-user-facing`, `missing`; transitions:
+`not-applicable`, `prepublication-current`, `postpublication-current`, `stale`.
+Delegated/non-identical prose may pass; internal/history rows need context.
+Unenumerated, missing/stale, broken, discordant, or unresolved rows cannot close.
+Change owners then regenerate; byte parity is not semantic currency. Use British
+English but preserve generated/exact literals. Existing gates still govern;
+contract audit and Stage 6.i challenge overclaim and omission.
+
 ## Direction / Design
 
 Inspect "what next?", features, roadmap, replacement, and greenfield inputs as

@@ -10,7 +10,14 @@
   <li>Verify marker order: <code>AUDIT_COMPLETE</code> before <code>IMPLEMENTAUDIT_RUN_COMPLETE</code>.</li>
   <li>At release gates, verify <code>scripts/check-public-claim-boundaries.sh</code> ran with forbidden identity terms supplied at runtime and recorded PASS/FAIL without writing those terms into tracked files.</li>
   <li>Reject overclaims about install proof, host load, publication, provenance, sidecar proof, or package contents.</li>
+  <li>For public- or release-facing work, challenge material owner-sourced capabilities omitted from every public route as well as unsupported claims.</li>
 </ol>
+
+<h2 id="public-capability-projection">Public capability projection</h2>
+<p>Activate only when all three hold: a material public/release effect; README or public docs are declared success carriers; and the run intends a current, complete, or release-final claim.<br>Otherwise create no projection record. Derive the topic population from authoritative owners; do not search only for familiar stale strings.</p>
+<p>Record <code>population_definition</code>, <code>population_size</code>, <code>examined_count</code>, and <code>enumeration_source</code>, plus a discrimination witness when distinct owners could collapse to one copied pointer.<br>For each topic record owner/source, README disposition, docs disposition, current-state transition, and evidence.</p>
+<p>Allowed dispositions are <code>present-correct</code>, <code>discoverably-delegated</code>, <code>historical-intentional</code>, <code>not-user-facing</code>, and <code>missing</code>.<br>Allowed transitions are <code>not-applicable</code>, <code>prepublication-current</code>, <code>postpublication-current</code>, and <code>stale</code>.</p>
+<p>A concise maintained delegation is valid and factual parity does not require duplicated wording.<br>A partial sample stays partial; generated output is repaired through its owner; postpublication state needs fresh semantic readback; and an existing claim-boundary failure still fails.</p>
 
 <h2 id="maintenance-surfaces">Maintenance surfaces</h2>
 <div class="result-grid">
@@ -29,4 +36,4 @@
 <p>Claude plugin cache refresh depends on a version-field change.<br>Shipped code changes need a version bump before claiming update behavior; that warning is not a release or install claim.</p>
 
 <h2 id="source-surfaces">Source surfaces</h2>
-<p>Use <code>AGENTS.md</code>, <code>README.md</code>, <code>docs/audits/</code>, <code>scripts/verify-package.sh</code>, and the docs portal tests for maintainer-level review.</p>
+<p>Use <code>AGENTS.md</code>, <code>README.md</code>, <code>skills/implementaudit/references/audit-playbook.md</code>, <code>docs/audits/</code>, <code>scripts/verify-package.sh</code>, and the docs portal tests for maintainer-level review.</p>
