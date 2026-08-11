@@ -15,15 +15,22 @@ trap 'rm -rf -- "$tmp"' EXIT
 make_candidate() {
   local name="$1"
   local candidate="$tmp/$name"
-  mkdir -p "$candidate/scripts"
+  mkdir -p "$candidate/scripts" "$candidate/tests" \
+    "$candidate/fixtures/scarce-resource-rehearsal" \
+    "$candidate/fixtures/run-root-example/phases"
   cp -R "$repo_root/skills" "$candidate/skills"
   cp "$repo_root/scripts/build-release-asset.sh" "$candidate/scripts/build-release-asset.sh"
+  cp "$repo_root/tests/scarce-resource-rehearsal-contract.test.sh" "$candidate/tests/"
+  cp "$repo_root/fixtures/scarce-resource-rehearsal/cases.json" \
+    "$candidate/fixtures/scarce-resource-rehearsal/"
+  cp "$repo_root/fixtures/run-root-example/phases/phase-1.md" \
+    "$candidate/fixtures/run-root-example/phases/"
   printf '%s\n' "$candidate"
 }
 
 expect_fail() {
   local label="$1" pattern="$2" candidate="$3" output
-  if output="$(bash "$checker" --repo-root "$candidate" 2>&1)"; then
+  if output="$(bash "$checker" --census-only --repo-root "$candidate" 2>&1)"; then
     printf 'helper-reachability.test: %s unexpectedly passed\n' "$label" >&2
     exit 1
   fi
@@ -77,6 +84,13 @@ positive_output="$(bash "$checker" --repo-root "$repo_root")"
 grep -Fq 'HELPER_REACHABILITY=PASS population=18 examined=18 modes=4/4 enumeration=build-release-asset.required_archive' \
   <<<"$positive_output" || {
     printf 'helper-reachability.test: live positive census did not prove 18/18\n%s\n' "$positive_output" >&2
+    exit 1
+}
+
+census_output="$(bash "$checker" --census-only --repo-root "$repo_root")"
+grep -Fq 'HELPER_REACHABILITY_CENSUS=PASS population=18 examined=18 modes=4/4 enumeration=build-release-asset.required_archive' \
+  <<<"$census_output" || {
+    printf 'helper-reachability.test: census-only result was not distinctly nonterminal\n%s\n' "$census_output" >&2
     exit 1
   }
 

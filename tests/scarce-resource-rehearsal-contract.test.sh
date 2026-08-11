@@ -2,6 +2,20 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+probe_only=0
+if [ "${1:-}" = "--r30-probe" ]; then
+  probe_only=1
+  shift
+  [ "${1:-}" = "--repo-root" ] && [ "$#" -eq 2 ] || {
+    printf 'usage: scarce-resource-rehearsal-contract.test.sh --r30-probe --repo-root <dir>\n' >&2
+    exit 2
+  }
+  repo_root="$(cd "$2" && pwd)"
+  shift 2
+elif [ "$#" -ne 0 ]; then
+  printf 'usage: scarce-resource-rehearsal-contract.test.sh [--r30-probe --repo-root <dir>]\n' >&2
+  exit 2
+fi
 cd "$repo_root"
 
 checker="skills/implementaudit/scripts/check-authorization-binding.sh"
@@ -236,6 +250,25 @@ run_production_rehearsal() {
   "$@"
 }
 
+r30_probe() {
+  must_pass R30-native-phase-consumer run_production_rehearsal \
+    bash skills/implementaudit/scripts/validate-phase.sh "$tmp/phase-consumer.md"
+  [ -f "$tmp/consumer-terminal.json" ] || fail "R30 native phase route did not bind terminal"
+  python - "$tmp/launch-consumer.json" "$tmp/consumer-terminal.json" <<'PY' \
+    || fail "R30 probe did not retain the zero-meter terminal receipt"
+import json, pathlib, sys
+launch = json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8"))
+terminal = json.loads(pathlib.Path(sys.argv[2]).read_text(encoding="utf-8"))
+raise SystemExit(0 if launch["metered_calls"] == 0 and terminal["exit_code"] == 0 else 1)
+PY
+}
+
+if [ "$probe_only" -eq 1 ]; then
+  r30_probe
+  printf 'scarce-resource-rehearsal-contract: r30-probe ok (F10; zero metered calls)\n'
+  exit 0
+fi
+
 # F1: a failed malformed-argv rehearsal cannot authorize launch; the fixture
 # independently proves that neither a launch record nor a metered call occurred.
 must_fail F1 rehearse "$tmp/phase-budget.md" "$tmp/receipt-f1-fail.json" "$tmp/launch-f1-zero.json"
@@ -285,9 +318,7 @@ must_pass F7 run_production_rehearsal rehearse "$tmp/phase-budget.md" "$tmp/rece
 
 # F10/R30: the native phase validator consumes the same audit object and
 # executes the declared checker route; this is not a direct-test/prose proxy.
-must_pass F10-native-phase-consumer run_production_rehearsal \
-  bash skills/implementaudit/scripts/validate-phase.sh "$tmp/phase-consumer.md"
-[ -f "$tmp/consumer-terminal.json" ] || fail "F10 native phase route did not bind terminal"
+r30_probe
 
 # F8: strict schemas reject extras, value-bearing fields/key-value strings,
 # ordering/uniqueness violations, and booleans masquerading as integers.
