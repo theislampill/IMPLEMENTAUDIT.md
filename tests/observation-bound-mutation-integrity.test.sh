@@ -149,7 +149,7 @@ if source.count(script_dir_line) != 1: raise SystemExit('R36 sibling-script loca
 source=source.replace(script_dir_line,derived_dir_line)
 needle='    # R36_INSTRUMENT_INSERT\n'
 if source.count(needle) != 1: raise SystemExit('R36 instrument marker count is not exactly one')
-insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'init':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n    if phase == 'move-destination-published' and fault == 'move-after-destination':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
+insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'init':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n        if fault == 'io-after-displacement':\n            original_open=Path.open\n            def fail_stage_open(self,*args,**kwargs):\n                if self.name == 'stage.bin' and args and 'x' in args[0]: raise OSError(28,'injected ENOSPC')\n                return original_open(self,*args,**kwargs)\n            Path.open=fail_stage_open\n    if phase == 'move-destination-published' and fault == 'move-after-destination':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
 Path(sys.argv[2]).write_text(source.replace(needle,needle+insert),encoding='utf-8')
 PY
   chmod +x "$derived" || return 1
@@ -159,7 +159,7 @@ from pathlib import Path
 canonical,derived=map(Path,sys.argv[1:]); text=derived.read_text(encoding='utf-8')
 script_dir_line='script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"'
 derived_dir_line='script_dir='+repr(str(canonical.parent))
-insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'init':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n    if phase == 'move-destination-published' and fault == 'move-after-destination':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
+insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'init':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n        if fault == 'io-after-displacement':\n            original_open=Path.open\n            def fail_stage_open(self,*args,**kwargs):\n                if self.name == 'stage.bin' and args and 'x' in args[0]: raise OSError(28,'injected ENOSPC')\n                return original_open(self,*args,**kwargs)\n            Path.open=fail_stage_open\n    if phase == 'move-destination-published' and fault == 'move-after-destination':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
 if text.replace(insert,'').replace(derived_dir_line,script_dir_line) != canonical.read_text(encoding='utf-8'): raise SystemExit('instrumented copy does not strip byte-equal')
 PY
   printf '%s\n' "$derived"
@@ -213,9 +213,10 @@ else:
 print(json.dumps({'token':r['token'],'journal_path':r['journal_path'],'residue_paths':r['residue_paths']}))
 PY
 }
-assert_response_v2() { "$python_bin" - "$@" <<'PY'
+assert_response_v2() { "$python_bin" - "$@" "$fixture_repo" <<'PY'
 import hashlib,json,re,sys
-label,status,operation,source,dest,pre,candidate,post,post_identities,phase,step,out=sys.argv[1:]
+from pathlib import Path,PurePosixPath
+label,status,operation,source,dest,pre,candidate,post,post_identities,phase,step,out,fixture_root=sys.argv[1:]
 lines=[x for x in out.splitlines() if x.strip()]
 if len(lines)!=1: raise SystemExit(f'{label}: expected one stdout JSON object, got {len(lines)}')
 r=json.loads(lines[0]); required={'schema','transaction_id','claim_id','phase','step','authority_binding_sha256','operation','status','reason_code','source_path','destination_path','pre_identities','candidate_identities','post_identities','planned_effect_set','planned_effect_set_sha256','actual_effect_set','residue'}
@@ -252,10 +253,12 @@ for row in planned:
 digest=hashlib.sha256(json.dumps(planned,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()
 if r['planned_effect_set_sha256']!=digest: raise SystemExit(f'{label}: planned-effect digest mismatch')
 actual_by={}
+actual_rows={}
 for index,row in enumerate(r['actual_effect_set'],1):
  if set(row)!= {'sequence','scope','path','effect','before','after','outcome'}: raise SystemExit(f'{label}: malformed actual effect')
  if row['sequence']!=index or row['outcome'] not in {'applied','not-applied'}: raise SystemExit(f'{label}: noncanonical actual-effect sequence/outcome')
  if row['effect'] not in allowed.get((row['scope'],row['path']),set()): raise SystemExit(f'{label}: actual effect escaped planned set: {row!r}')
+ actual_rows.setdefault((row['scope'],row['path']),[]).append(row)
  if row['outcome']=='applied': actual_by.setdefault((row['scope'],row['path']),[]).append(row['effect'])
 if status in {'COMMITTED','MUTATION_FAILED_ROLLED_BACK','POST_STATE_MISMATCH_ROLLED_BACK','RECOVERY_REQUIRED','ROLLBACK_CONFLICT','ROLLBACK_FAILED_WITH_RESIDUE','POST_COMMIT_DRIFT'}:
  if not isinstance(r['transaction_id'],str) or not r['transaction_id']: raise SystemExit(f'{label}: effectful result lacks transaction id')
@@ -275,6 +278,21 @@ else:
    elif 'stage' in path_roles and 'create' in effects: required='unlink'
    elif 'result' in path_roles: required='fsync'
    if required is not None and required not in effects: raise SystemExit(f'{label}: clean result omitted {required} for {key}')
+if r['transaction_id'] is not None and planned:
+ result_paths=[key[1] for key,value in roles.items() if 'result' in value]
+ if len(result_paths)!=1: raise SystemExit(f'{label}: missing unique result owner')
+ result_file=Path(fixture_root)/PurePosixPath(result_paths[0])
+ if not result_file.is_file() or json.loads(result_file.read_text(encoding='utf-8'))!=r: raise SystemExit(f'{label}: durable result.json missing or differs from stdout')
+ for key,rows in actual_rows.items():
+  for row in rows:
+   if row['outcome']!='applied' or row['effect'] not in {'create','mkdir','link','replace','unlink','rmdir'}: continue
+   parent=('repo',str(PurePosixPath(row['path']).parent))
+   later=[x for x in actual_rows.get(parent,[]) if x['outcome']=='applied' and x['effect']=='fsync' and x['sequence']>row['sequence']]
+   if not later: raise SystemExit(f'{label}: mutation lacks later parent-directory fsync: {row!r}')
+ journal_rows=[row for key,value in roles.items() if 'journal' in value for row in actual_rows.get(key,[]) if row['effect']=='replace' and row['outcome']=='applied']
+ if journal_rows and not all(isinstance(row['after'],dict) and row['after'].get('kind')=='regular' for row in journal_rows): raise SystemExit(f'{label}: journal effect was recorded before durable replacement')
+ result_rows=[row for key,value in roles.items() if 'result' in value for row in actual_rows.get(key,[]) if row['effect']=='create' and row['outcome']=='applied']
+ if len(result_rows)!=1 or not isinstance(result_rows[0]['after'],dict) or result_rows[0]['after'].get('kind')!='regular': raise SystemExit(f'{label}: result effect was recorded before file creation')
 print(json.dumps({'transaction_id':r['transaction_id'],'planned_effect_set':planned,'residue':r['residue']}))
 PY
 }
@@ -336,6 +354,7 @@ PY
   else bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" --operation "$op" --target "$target" "$@" >"$stdout" 2>"$stderr"; actual=$?; fi
   set -e
   [ "$actual" -eq "$expected_exit" ] || fail "$label: exit=$actual expected=$expected_exit stderr=$(<"$stderr")"
+  [ -s "$stdout" ] || fail "$label: helper emitted no JSON stderr=$(<"$stderr")"
   post="$(identity_json "$post_path")"; post_identities="$(post_identities_json "$target" "$dest")"
   if [ "$helper_api" = v2 ]; then last_record="$(assert_response_v2 "$label" "$status" "$op" "$target" "$dest" "$pre" "$candidate_id" "$post" "$post_identities" "$prepared_phase" "$prepared_step" "$(<"$stdout")")"
   else last_record="$(assert_response_v1 "$label" "$status" "$op" "$target" "$dest" "$targets" "$pre" "$candidate_id" "$post" "$post_identities" "$(<"$stdout")")"; fi
@@ -897,6 +916,73 @@ PY
   return 0
 }
 
+causal_review_heldouts() {
+  local pre cand derived stdout stderr actual phase barrier pid a b ticks region repl tx
+
+  # A real write syscall failure after displacement must restore the exact
+  # preimage and emit a terminal result rather than escaping through traceback.
+  setup; pre="$(artifact io-pre 4142434445)"; cand="$(artifact io-candidate 4e4557)"; derived="$(instrumented_helper)"
+  prepare_authority replace target -; phase="$prepared_phase"; stdout="$tmp/io.out"; stderr="$tmp/io.err"
+  set +e; IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=io-after-displacement bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$phase" --step 1 --preimage "$pre" --candidate "$cand" >"$stdout" 2>"$stderr"; actual=$?; set -e
+  [ "$actual" -eq 71 ] || fail "R36-IO exit=$actual expected=71 stderr=$(<"$stderr")"
+  assert_hex R36-IO-restored "$fixture_repo/target" 4142434445
+  tx="$($python_bin - "$stdout" <<'PY'
+import json,sys
+r=json.load(open(sys.argv[1],encoding='utf-8'))
+if r['status']!='MUTATION_FAILED_ROLLED_BACK' or r['reason_code']!='IO_FAILURE': raise SystemExit(r)
+print(r['transaction_id'])
+PY
+)" || fail 'R36-IO lacked terminal rollback JSON'
+  [ -f "$run_root/mutation-transactions/$tx/result.json" ] || fail 'R36-IO lacked durable result.json'
+
+  # Internal transaction and lock custody paths may be absent or ordinary
+  # directories only; symlink/reparse redirection fails before mutation.
+  setup; mkdir "$tmp/tx-outside"; rm -rf "$run_root/mutation-transactions"; "$python_bin" - "$tmp/tx-outside" "$run_root/mutation-transactions" <<'PY' 2>/dev/null && {
+import os,sys
+os.symlink(sys.argv[1],sys.argv[2],target_is_directory=True)
+PY
+    pre="$(artifact tx-link-pre 4142434445)"; cand="$(artifact tx-link-candidate 4e4557)"; prepare_authority replace target -; set +e; stdout="$(bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$prepared_phase" --step 1 --preimage "$pre" --candidate "$cand")"; actual=$?; set -e
+    [ "$actual" -eq 64 ] || fail 'R36 internal transaction symlink was not rejected'; assert_hex R36-tx-link-target "$fixture_repo/target" 4142434445; [ -z "$(find "$tmp/tx-outside" -mindepth 1 -print -quit)" ] || fail 'R36 transaction symlink escaped custody'
+  }
+  setup; mkdir "$tmp/lock-outside"; "$python_bin" - "$tmp/lock-outside" "$fixture_repo/.IMPLEMENTAUDIT/.r36-locks" <<'PY' 2>/dev/null && {
+import os,sys
+os.symlink(sys.argv[1],sys.argv[2],target_is_directory=True)
+PY
+    pre="$(artifact lock-link-pre 4142434445)"; cand="$(artifact lock-link-candidate 4e4557)"; prepare_authority replace target -; set +e; stdout="$(bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$prepared_phase" --step 1 --preimage "$pre" --candidate "$cand")"; actual=$?; set -e
+    [ "$actual" -eq 64 ] || fail 'R36 internal lock symlink was not rejected'; assert_hex R36-lock-link-target "$fixture_repo/target" 4142434445; [ -z "$(find "$tmp/lock-outside" -mindepth 1 -print -quit)" ] || fail 'R36 lock symlink escaped custody'
+  }
+
+  # Patch authority is bound to the full observed representation, not merely
+  # equal bytes: an inode replacement after observation must conflict.
+  setup; derived="$(instrumented_helper)"; region="$(artifact heldout-region 4243)"; repl="$(artifact heldout-repl 5859)"; prepare_authority patch target -; phase="$prepared_phase"; barrier="$tmp/patch-race"; mkdir "$barrier"; stdout="$tmp/patch-race.out"; stderr="$tmp/patch-race.err"
+  (set +e; IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$phase" --step 1 --offset 1 --region "$region" --replacement "$repl" >"$stdout" 2>"$stderr"; echo $? >"$barrier/exit") & pid=$!
+  ticks=0; while [ ! -f "$barrier/observed" ] && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done; [ "$ticks" -lt 500 ] || fail 'R36 patch heldout did not reach observation barrier'
+  local before_inode after_inode; before_inode="$(stat -c %i "$fixture_repo/target")"; write_hex "$fixture_repo/target.replacement" 4142434445; mv "$fixture_repo/target.replacement" "$fixture_repo/target"; after_inode="$(stat -c %i "$fixture_repo/target")"; [ "$before_inode" != "$after_inode" ] || fail 'R36 patch heldout did not change inode'; : >"$barrier/release"; wait_bounded "$pid" 'R36 patch heldout'; [ "$(<"$barrier/exit")" -eq 65 ] || fail "R36 patch same-byte representation drift did not conflict: $(<"$stderr")"; assert_hex R36-patch-heldout "$fixture_repo/target" 4142434445
+
+  setup; derived="$(instrumented_helper)"; pre="$(artifact link-count-pre 4142434445)"; cand="$(artifact link-count-candidate 4e4557)"; prepare_authority replace target -; phase="$prepared_phase"; barrier="$tmp/link-count-race"; mkdir "$barrier"; stdout="$tmp/link-count.out"; stderr="$tmp/link-count.err"
+  (set +e; IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$phase" --step 1 --preimage "$pre" --candidate "$cand" >"$stdout" 2>"$stderr"; echo $? >"$barrier/exit") & pid=$!
+  ticks=0; while [ ! -f "$barrier/observed" ] && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done; [ "$ticks" -lt 500 ] || fail 'R36 link-count heldout did not reach observation barrier'; ln "$fixture_repo/target" "$fixture_repo/topology-sibling"; [ "$(stat -c %h "$fixture_repo/target")" -gt 1 ] || fail 'R36 link-count heldout did not change nlink'; : >"$barrier/release"; wait_bounded "$pid" 'R36 link-count heldout'; [ "$(<"$barrier/exit")" -eq 65 ] || fail 'R36 same-byte link-count drift did not conflict'; assert_hex R36-link-count-heldout "$fixture_repo/target" 4142434445
+
+  # One phase/step is one deterministic transaction. Two peers receive JSON;
+  # exactly one may commit and the other reports the replay/in-progress conflict.
+  setup; derived="$(instrumented_helper)"; pre="$(artifact same-authority-pre 4142434445)"; cand="$(artifact same-authority-candidate 4e4557)"; prepare_authority replace target -; phase="$prepared_phase"; barrier="$tmp/same-authority"; mkdir "$barrier"
+  for a in a b; do (set +e; IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$phase" --step 1 --preimage "$pre" --candidate "$cand" >"$barrier/$a.out" 2>"$barrier/$a.err"; echo $? >"$barrier/$a.exit") & [ "$a" = a ] && pid=$! || b=$!; done
+  ticks=0; while [ "$(find "$barrier" -name observed | wc -l)" -lt 1 ] && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done; : >"$barrier/release"; wait_bounded "$pid" 'R36 same-authority a'; wait_bounded "$b" 'R36 same-authority b'
+  "$python_bin" - "$barrier" <<'PY' || fail 'R36 same-authority did not produce one commit and one JSON conflict'
+import json,sys
+from pathlib import Path
+b=Path(sys.argv[1]); rows=[]
+for n in ('a','b'):
+ rows.append((int((b/f'{n}.exit').read_text()),json.loads((b/f'{n}.out').read_text())['status']))
+if sorted(rows)!=[(0,'COMMITTED'),(65,'CONFLICT_REBASE')]: raise SystemExit(rows)
+PY
+
+  # Lexical aliases do not become acceptable merely because abspath resolves
+  # them to the claimed repository.
+  setup; pre="$(artifact alias-pre 4142434445)"; cand="$(artifact alias-candidate 4e4557)"; prepare_authority replace target -; set +e; stdout="$(bash "$helper" --repo-root "$fixture_repo/." --run-root "$run_root" --phase "$prepared_phase" --step 1 --preimage "$pre" --candidate "$cand" 2>/dev/null)"; actual=$?; set -e
+  [ "$actual" -eq 64 ] && [ -z "$stdout" ] || fail 'R36 lexical repository alias was normalised before strict claim validation'
+}
+
 state_family() {
   local pre cand region repl
   setup; pre="$(artifact c1-pre 414243)"; cand="$(artifact c1-candidate 5a)"; invoke R36-C1 REJECTED_NO_MUTATION replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"
@@ -945,12 +1031,14 @@ PY
   external_drift_and_recovery
   true_kill_requires_manual_custody
   interrupted_move_requires_manual_custody
+  causal_review_heldouts
   printf 'observation-bound-mutation-integrity: PASS R36 state family\n'
 }
 
 case "${1:-}" in
   --fixture-self-check) fixture_self_check; exit 0;;
   --mutant-self-check) fixture_self_check; mutant_self_check; exit 0;;
+  --review-heldouts) fixture_self_check; bash -n "$canonical_helper"; causal_review_heldouts; printf 'R36_REVIEW_HELDOUTS=PASS\n'; exit 0;;
 esac
 fixture_self_check
 if [ -n "${R36_HELPER:-}" ] && [ "$R36_HELPER" != "$canonical_helper" ]; then fail "refusing non-canonical helper path: $R36_HELPER"; fi
