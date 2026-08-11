@@ -214,6 +214,12 @@ if [ "${1:-}" = "--identity-only" ]; then
     fail 'same-tag correction accepted a non-HEAD release commit/tree'
   fi
 
+  # Enumerate every accepted prospective mode against the correction fixture:
+  # same-tag-correction passes above; every ordinary mode must reject it.
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      forward 0.3.3.3 HEAD "$same_tag_correction" >/dev/null 2>&1; then
+    fail 'forward accepted a four-component public tag as a prior runtime version and substituted for same-tag correction'
+  fi
   if bash scripts/build-release-asset.sh --check-release-identity \
       republish 0.3.3 HEAD "$same_tag_correction" >/dev/null 2>&1; then
     fail 'ordinary republish substituted for same-tag correction'

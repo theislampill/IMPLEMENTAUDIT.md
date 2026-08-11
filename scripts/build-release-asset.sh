@@ -157,6 +157,8 @@ elif mode == "same-tag-correction":
         raise SystemExit("same-tag correction is bounded to runtime 0.3.3")
     authoritative_previous = ""
 elif mode == "forward":
+    if not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+", previous_identity):
+        raise SystemExit("forward previous version must use three numeric components")
     candidates = [value for value in distinct_headings if value != plugin_version]
     authoritative_previous = candidates[0] if candidates else ""
 else:
