@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Deterministically exercise the issue #85 acceptance/instrument control bank.
+# Deterministically exercise the issues #85 and #164 acceptance/instrument controls.
 set -euo pipefail
 
 fixture="${1:-fixtures/acceptance-instrument-discipline/cases.json}"
@@ -8,6 +8,13 @@ fixture="${1:-fixtures/acceptance-instrument-discipline/cases.json}"
     "$fixture" >&2
   exit 2
 }
+repository=""
+if [ "${2:-}" = "--repository" ] && [ -n "${3:-}" ] && [ "$#" -eq 3 ]; then
+  repository="$3"
+elif [ "$#" -gt 1 ]; then
+  printf 'usage: %s [fixture] [--repository PATH]\n' "$0" >&2
+  exit 2
+fi
 
 if command -v python >/dev/null 2>&1; then
   py_cmd=(python)
@@ -20,9 +27,10 @@ else
   exit 2
 fi
 
-"${py_cmd[@]}" - "$fixture" <<'PY'
+"${py_cmd[@]}" - "$fixture" "$repository" <<'PY'
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -83,6 +91,10 @@ AUTHORITY_KEYS = {
     "source_identity", "owner_locator", "contract_locator",
     "effective_boundary",
 }
+IDENTITY_RELATIONSHIP_KEYS = {"candidate_parent", "authority_parent"}
+POPULATION_KEYS = {
+    "source_identity", "total_count", "examined_count",
+}
 BEHAVIOUR_KEYS = {"positive", "negative", "boundary", "adjacent"}
 EXPECTED_BEHAVIOUR = {
     "positive": "PASS", "negative": "FAIL", "boundary": "FAIL",
@@ -100,6 +112,94 @@ SURFACES = {
 }
 EVENTS = {"candidate-fail", "product-change", "contract-change", "evaluator-change"}
 VERDICTS = {"NOT_RUN", "PASS", "FAIL"}
+
+
+def git_result(repository, *arguments):
+    return subprocess.run(
+        ["git", "-C", repository, *arguments], check=False,
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+
+
+def require_git_object(repository, identity, owner, object_type=None):
+    suffix = "^{commit}" if object_type == "commit" else ""
+    resolved = git_result(repository, "cat-file", "-e", identity + suffix)
+    if resolved.returncode != 0:
+        raise ValueError(f"{owner}: identity does not resolve in evaluation repository")
+    if object_type == "blob":
+        actual = git_result(repository, "cat-file", "-t", identity)
+        if actual.returncode != 0 or actual.stdout.strip() != "blob":
+            raise ValueError(f"{owner}: population source is not a blob")
+
+
+def validate_repository_evidence(evidence, metadata, case_id, repository):
+    if not repository:
+        raise ValueError(f"{case_id}: evaluation repository required")
+    repository_probe = git_result(repository, "rev-parse", "--absolute-git-dir")
+    if repository_probe.returncode != 0:
+        raise ValueError(f"{case_id}: evaluation repository invalid")
+
+    candidate = evidence["candidate_identity"]
+    parent = evidence["parent_identity"]
+    authority = evidence["authority"]
+    witness = evidence["witness"]
+    relationship = require_exact(
+        metadata["identity_relationship"], IDENTITY_RELATIONSHIP_KEYS,
+        f"{case_id} identity relationship")
+    if relationship != {
+            "candidate_parent": "direct-parent",
+            "authority_parent": "tree-object-at-owner-locator"}:
+        raise ValueError(f"{case_id}: identity relationship unsupported")
+    if candidate == parent:
+        raise ValueError(f"{case_id}: candidate equals parent")
+    if authority is None:
+        raise ValueError(f"{case_id}: repository evidence authority missing")
+    authority_identity = authority["source_identity"]
+    if authority_identity in {candidate, parent}:
+        raise ValueError(f"{case_id}: authority is candidate or parent substitution")
+    if witness is None:
+        raise ValueError(f"{case_id}: retained witness missing")
+
+    for label, identity in (("candidate", candidate), ("parent", parent)):
+        require_git_object(repository, identity, f"{case_id} {label}", "commit")
+    require_git_object(repository, authority_identity, f"{case_id} authority")
+
+    parents = git_result(repository, "rev-list", "--parents", "-n", "1", candidate)
+    if parents.returncode != 0 or parent not in parents.stdout.split()[1:]:
+        raise ValueError(f"{case_id}: declared candidate parent relationship invalid")
+    independent = git_result(
+        repository, "rev-parse",
+        f"{parent}:{authority['owner_locator']}")
+    if (independent.returncode != 0 or
+            independent.stdout.strip() != authority_identity):
+        raise ValueError(f"{case_id}: declared authority relationship invalid")
+
+    population = require_exact(
+        metadata["population"], POPULATION_KEYS,
+        f"{case_id} evidence population")
+    source_identity = population["source_identity"]
+    if not re.fullmatch(r"[0-9a-f]{40}", source_identity):
+        raise ValueError(f"{case_id}: population source identity invalid")
+    require_git_object(
+        repository, source_identity, f"{case_id} population source", "blob")
+    source = git_result(repository, "cat-file", "-p", source_identity)
+    if source.returncode != 0:
+        raise ValueError(f"{case_id}: population source unreadable")
+    enumerated = [line.strip() for line in source.stdout.splitlines() if line.strip()]
+    if (not enumerated or len(enumerated) != len(set(enumerated)) or
+            any(not re.fullmatch(r"[0-9a-f]{40}", value)
+                for value in enumerated)):
+        raise ValueError(f"{case_id}: population source enumeration invalid")
+    identities = evidence["evidence_population"]
+    if (type(population["total_count"]) is not int or
+            type(population["examined_count"]) is not int or
+            type(identities) is not list or identities != enumerated or
+            population["total_count"] != len(enumerated) or
+            population["examined_count"] != len(enumerated)):
+        raise ValueError(f"{case_id}: population coverage incomplete")
+    for identity in identities:
+        require_git_object(repository, identity, f"{case_id} population member")
+    if witness["identity"] not in identities:
+        raise ValueError(f"{case_id}: retained witness absent from population")
 
 
 def result(activation, classification, route, disposition):
@@ -490,12 +590,14 @@ def classify(case):
 
 
 path = Path(sys.argv[1])
+repository = sys.argv[2]
 fixture = json.loads(
     path.read_text(encoding="utf-8"), object_pairs_hook=reject_duplicate_keys)
 require_exact(
     fixture,
     {"schema", "controls", "instrument_parity", "mutation_cases",
-     "mutation_records", "phase_cases", "policy_cases", "policy_evidence"},
+     "mutation_records", "phase_cases", "policy_cases", "policy_evidence",
+     "policy_evidence_context"},
     "fixture bank")
 if fixture["schema"] != "implementaudit-acceptance-instrument-discipline-fixtures-v2":
     raise ValueError("fixture bank schema invalid")
@@ -510,6 +612,15 @@ if type(fixture["policy_cases"]) is not list or not fixture["policy_cases"]:
 policy_evidence = fixture["policy_evidence"]
 if type(policy_evidence) is not dict:
     raise ValueError("fixture policy_evidence must be an object")
+policy_evidence_context = require_exact(
+    fixture["policy_evidence_context"],
+    {"default_classification", "repository_evidence"},
+    "policy evidence context")
+if policy_evidence_context["default_classification"] != "contract-fixture":
+    raise ValueError("policy evidence default must be explicit contract-fixture")
+repository_evidence = policy_evidence_context["repository_evidence"]
+if type(repository_evidence) is not dict:
+    raise ValueError("repository evidence context must be an object")
 mutation_records = fixture["mutation_records"]
 if type(mutation_records) is not dict:
     raise ValueError("fixture mutation_records must be an object")
@@ -646,8 +757,18 @@ for index, case in enumerate(fixture["policy_cases"]):
             raise ValueError(f"{case['id']}: witness identity invalid")
     population = evidence["evidence_population"]
     if (type(population) is not list or
-            any(not re.fullmatch(r"[0-9a-f]{40}", value) for value in population)):
+            any(not re.fullmatch(r"[0-9a-f]{40}", value)
+                for value in population)):
         raise ValueError(f"{case['id']}: evidence population invalid")
+    if case["id"] in repository_evidence:
+        metadata = require_exact(
+            repository_evidence[case["id"]],
+            {"classification", "identity_relationship", "population"},
+            f"{case['id']} repository evidence context")
+        if metadata["classification"] != "repository-evidence":
+            raise ValueError(f"{case['id']}: repository classification invalid")
+        validate_repository_evidence(
+            evidence, metadata, case["id"], repository)
     behaviour = require_exact(
         evidence["behaviour"], {"baseline", "candidate"},
         f"{case['id']} policy behaviour")
@@ -688,6 +809,8 @@ if len(policy_ids) != len(set(policy_ids)) or set(policy_ids) != required_policy
     raise ValueError("policy control identity set invalid")
 if set(policy_evidence) != required_policy_ids:
     raise ValueError("policy evidence identity set invalid")
+if set(repository_evidence) - required_policy_ids:
+    raise ValueError("repository evidence context identity has no policy case")
 
 required_mutation_ids = {
     "R35-unrelated-test-no-trigger",
