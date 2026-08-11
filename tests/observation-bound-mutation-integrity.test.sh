@@ -626,6 +626,19 @@ j,b,t=sys.argv[1:]; Path(j).write_text(json.dumps({'token':t,'target':'target','
 PY
   invoke R36-DRIFT-crafted-journal REJECTED_NO_MUTATION recover target - - 45585445524e414c2d57494e4e4552 --journal "$crafted_journal" --token "$crafted_token"
   assert_hex R36-DRIFT-crafted-backup-intact "$crafted_backup" 41545441434b; [ -e "$crafted_journal" ] || fail 'crafted journal was consumed'
+  # Even an internally consistent token-derived journal/backup in the claimed
+  # run root is not authority without the helper-created private authority
+  # record retained by the original transaction.
+  local internal_token='internal-token' internal_backup="$run_root/.r36-backup-internal-token" internal_journal="$run_root/.r36-journal-internal-token.json"
+  write_hex "$internal_backup" 41545441434b
+  "$python_bin" - "$internal_journal" "$internal_backup" "$internal_token" <<'PY'
+import hashlib,json,sys
+from pathlib import Path
+j,b,t=sys.argv[1:]; raw=Path(b).read_bytes(); ident={'sha256':hashlib.sha256(raw).hexdigest(),'byte_length':len(raw)}
+Path(j).write_text(json.dumps({'token':t,'target':'target','backup':b,'pre_identity':ident,'candidate_identity':None,'authority_hash':'00'*32}),encoding='utf-8')
+PY
+  invoke R36-DRIFT-internal-forgery REJECTED_NO_MUTATION recover target - - 45585445524e414c2d57494e4e4552 --journal "$internal_journal" --token "$internal_token"
+  assert_hex R36-DRIFT-internal-backup-intact "$internal_backup" 41545441434b; [ -e "$internal_journal" ] || fail 'internal forged journal was consumed'
   # Correct token is exercised against the recreated winner; it must retain a
   # residual conflict rather than overwrite the external winner.
   local recovery_pre recovery_post
