@@ -4,7 +4,15 @@ Use Graphify only for unfamiliar, majority-code, terrain-shaped work lacking a
 one-search answer; otherwise search/read/Git. Graphify is orientation only.
 Live files remain proof. Graphify absence does not block consumer runs.
 IMPLEMENTAUDIT self-maintenance may use Graphify; no sidecar output enters the release package.
-First run: detect optional tools; document install or usage commands; install or configure tools only after explicit authorization; index/export/write sidecar outputs only after separate explicit authorization. No silent install. No silent indexing. Outputs stay outside repo.
+First run: detect only optional tools with a shipped detection route; TokenSave
+remains explicit/on-demand. Document install or usage commands; install or
+configure tools only after explicit authorization; index/export/write
+sidecar outputs only after separate explicit authorization. No silent install.
+No silent indexing. Storage is representation-specific: Graphify catalogues stay
+outside the repo. TokenSave's separately authorised repo-local database is the
+representation-specific exception; keep it untracked, non-packaged and
+retention/cleanup-disclosed. ActiveGraph custody stays in the governed run root
+or an authorised temporary path.
 
 A strict outside-repo `schema: 1` catalogue binds graph/digest, parent, canonical
 scan root, rules/files/config, build and `llm: false`. `--graph-scope <catalog>
@@ -45,9 +53,12 @@ unfamiliar third-party repo gates broadening. The missed-use-detection goal is r
 
 TokenSave is optional code navigation, not another terrain or custody authority.
 Use it only when a supported code-relation question makes a repeated or
-transitive source walk worthwhile. Bind the query to a current index/check-out,
-classify its result as `TokenSave-derived`, partial, stale, unsupported or
-unresolved, then confirm consequential findings in live source. Database
+transitive source walk worthwhile. A `current` classification requires an exact
+checkout/database binding and a successful sync/reconnect witness for that same
+binding. Missing, failed, stale, wrong-worktree, branch-unknown or unverifiable
+binding routes to live Gemba. Classify the result as `TokenSave-derived`,
+partial, stale, unsupported or unresolved, then confirm consequential findings
+in live source. Database
 freshness proves only the represented population: unsupported languages,
 extraction failures, dynamic dispatch, generated code and external dependencies
 remain outside it. Same-name/cross-language conflicts fall back to Gemba.

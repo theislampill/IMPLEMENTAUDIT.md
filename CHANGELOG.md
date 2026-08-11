@@ -20,7 +20,8 @@ schema evidence proved four-component plugin manifest versions are accepted.
   the 230,000-byte owner outer bound are unchanged; the stronger build-only
   compressor restores headroom without deleting governed runtime semantics.
 - #101 narrowly adopts TokenSave as optional derived code navigation for
-  supported, current-index relations with live-source confirmation. It keeps
+  supported relations with exact checkout/database and successful
+  sync/reconnect freshness witnesses plus live-source confirmation. It keeps
   installation/indexing explicit, preserves cheap Gemba/Graphify paths, and
   excludes edit/test/session authority and broad discovery interception.
 

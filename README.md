@@ -948,12 +948,13 @@ action.
 
 ### First-run onboarding
 
-On first runs, `/implementaudit` may detect Graphify, TokenSave, and ActiveGraph
-availability. Missing tools are not errors.
+On first runs, `/implementaudit` may detect Graphify and ActiveGraph availability.
+TokenSave is explicit, on-demand optional tooling; it is not automatically
+detected or routed. Missing tools are not errors.
 
 Default behavior:
 
-- detect and record availability
+- detect and record availability only through shipped detector routes
 - continue safely without optional tooling when absent
 - print install/configure commands as documentation when useful
 - install or configure tools only with explicit authorisation such as
@@ -998,7 +999,10 @@ catalogue, freshness, privacy, and backend boundaries live in
 
 TokenSave is an optional deterministic navigation layer for supported code
 relations when a repeated or transitive dependency walk earns its indexing and
-query cost. A current result is derived evidence about the represented code,
+query cost. A current result requires an exact checkout/database binding plus a
+successful supported sync/reconnect witness; otherwise it is stale or unresolved
+and routes to ordinary Gemba. A witnessed current result is derived evidence
+about the represented code,
 not complete program truth. Consequential symbol, caller/callee, impact, context
 or test-mapping findings still require live-source confirmation; stale,
 unsupported, extraction-failed or conflicting results route to ordinary Gemba.
@@ -1006,8 +1010,10 @@ unsupported, extraction-failed or conflicting results route to ordinary Gemba.
 Documentation, policy, public projection, arbitrary non-code artefacts, an exact
 file already supplied, and tiny reversible work are cheap `NO TOKENSAVE` paths.
 Installation, indexing and configuration require separate authorisation. Its
-repo-local database can retain source bodies and rendered-source cache, so it
-stays untracked and outside packages. IMPLEMENTAUDIT does not adopt TokenSave's
+repo-local database is a representation-specific storage exception that can
+retain source bodies and rendered-source cache, so it requires explicit
+retention/cleanup disclosure and stays untracked and outside packages.
+IMPLEMENTAUDIT does not adopt TokenSave's
 editing, test-running, session/memory tools, broad auto-approval, or discovery-
 interception hooks. Detailed evidence, privacy, freshness and authority limits
 live in [`references/sidecars.md`](skills/implementaudit/references/sidecars.md).

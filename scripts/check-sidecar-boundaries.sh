@@ -238,7 +238,8 @@ path = sys.argv[1]
 TOP_KEYS = {"schema", "cases"}
 CASE_KEYS = {
     "id", "query_shape", "index_state", "coverage", "result_state",
-    "live_readback", "requested_use", "evidence_sources", "expected",
+    "checkout_database_binding", "sync_reconnect_witness", "live_readback",
+    "requested_use", "evidence_sources", "expected",
 }
 EXPECTED_KEYS = {"classification", "verdict"}
 QUERY_SHAPES = {
@@ -246,6 +247,8 @@ QUERY_SHAPES = {
     "public-projection", "exact-file", "tiny-task", "installation",
 }
 INDEX_STATES = {"current", "stale", "missing", "branch-unknown"}
+CHECKOUT_DATABASE_BINDINGS = {"exact", "missing", "mismatch", "unknown", "not-applicable"}
+SYNC_RECONNECT_WITNESSES = {"succeeded", "failed", "not-run", "not-applicable"}
 COVERAGE = {"full-represented", "partial", "unsupported", "failed", "unknown"}
 RESULT_STATES = {"consistent", "conflicting", "none"}
 REQUESTED_USES = {
@@ -286,6 +289,10 @@ def classify(case):
         return result("NO_TOKENSAVE", "PASS_CHEAP")
     if case["index_state"] in {"stale", "branch-unknown"}:
         return result("TOKENSAVE_STALE", "REJECT_OVERCLAIM")
+    if (case["index_state"] == "current" and
+            (case["checkout_database_binding"] != "exact" or
+             case["sync_reconnect_witness"] != "succeeded")):
+        return result("TOKENSAVE_FRESHNESS_UNVERIFIED", "REJECT_OVERCLAIM")
     if case["coverage"] in {"unsupported", "failed"}:
         return result("TOKENSAVE_UNSUPPORTED", "REJECT_OVERCLAIM")
     if case["result_state"] == "conflicting":
@@ -315,6 +322,11 @@ try:
         raise ValueError("fixture cases must be a non-empty list")
     seen = set()
     for index, case in enumerate(cases):
+        if isinstance(case, dict) and case.get("index_state") == "current":
+            freshness_keys = {"checkout_database_binding", "sync_reconnect_witness"}
+            if not freshness_keys.issubset(case):
+                case_id = case.get("id", f"case {index}")
+                raise ValueError(f"{case_id}: current freshness witness missing")
         exact_keys(case, CASE_KEYS, f"case {index}")
         case_id = case["id"]
         if not isinstance(case_id, str) or not case_id:
@@ -324,6 +336,10 @@ try:
         seen.add(case_id)
         if case["query_shape"] not in QUERY_SHAPES or case["index_state"] not in INDEX_STATES:
             raise ValueError(f"{case_id}: query shape or index state invalid")
+        if case["checkout_database_binding"] not in CHECKOUT_DATABASE_BINDINGS:
+            raise ValueError(f"{case_id}: checkout/database binding invalid")
+        if case["sync_reconnect_witness"] not in SYNC_RECONNECT_WITNESSES:
+            raise ValueError(f"{case_id}: sync/reconnect witness invalid")
         if case["coverage"] not in COVERAGE or case["result_state"] not in RESULT_STATES:
             raise ValueError(f"{case_id}: coverage or result state invalid")
         if case["requested_use"] not in REQUESTED_USES or case["evidence_sources"] not in EVIDENCE_SOURCES:
@@ -354,6 +370,7 @@ require_file skills/implementaudit/references/lean-operating-discipline.md
 require_file skills/implementaudit/references/routing.md
 require_file skills/implementaudit/scripts/validate-run-root.sh
 require_file CONTRIBUTING.md
+require_file docs/portal/site.json
 require_file docs/portal/pages/optional-tooling.html
 require_file docs/portal/pages/continuity-and-sidecars.html
 require_file docs/portal/pages/for-auditors-and-maintainers.html
@@ -417,11 +434,54 @@ require_literal skills/implementaudit/references/sidecars.md "missed-use-detecti
 require_literal skills/implementaudit/references/sidecars.md "TokenSave-derived" "TokenSave evidence ceiling"
 require_literal skills/implementaudit/references/sidecars.md "NO TOKENSAVE" "TokenSave cheap path"
 require_literal skills/implementaudit/references/sidecars.md "function bodies and rendered-source cache" "TokenSave local source-retention disclosure"
+require_literal skills/implementaudit/references/sidecars.md \
+  "representation-specific exception" \
+  "TokenSave storage exception"
+require_literal skills/implementaudit/references/sidecars.md \
+  "successful sync/reconnect witness" "TokenSave executable freshness witness"
+require_literal skills/implementaudit/references/sidecars.md \
+  "remains explicit/on-demand" "TokenSave explicit runtime route"
 require_literal skills/implementaudit/references/sidecars.md "Editing, test-running, session" "TokenSave mutation firewall"
 require_literal skills/implementaudit/templates/PROTOCOL.md "TokenSave code-navigation rules" "TokenSave runtime route"
+require_literal skills/implementaudit/templates/PROTOCOL.md \
+  "checkout/database" "TokenSave protocol freshness binding"
 require_literal README.md "### TokenSave-assisted code navigation" "TokenSave README projection"
+require_literal README.md "TokenSave is explicit, on-demand optional tooling" "TokenSave explicit public route"
+forbid_literal README.md "may detect Graphify, TokenSave, and ActiveGraph" "TokenSave automatic detection"
 require_literal docs/diagrams/tooling-architecture.mmd "optional supported-code navigation" "TokenSave tooling-diagram projection"
 require_literal docs/portal/pages/optional-tooling.html "id=\"tokensave\"" "TokenSave portal projection"
+require_literal docs/portal/pages/optional-tooling.html "explicit, on-demand" "TokenSave explicit portal route"
+require_literal docs/portal/pages/optional-tooling.html \
+  "skills/implementaudit/references/sidecars.md" "TokenSave portal sidecar owner source"
+require_literal docs/portal/pages/optional-tooling.html \
+  "skills/implementaudit/templates/PROTOCOL.md" "TokenSave portal protocol owner source"
+if command -v python >/dev/null 2>&1; then
+  portal_py_cmd=(python)
+elif command -v python3 >/dev/null 2>&1; then
+  portal_py_cmd=(python3)
+elif command -v py >/dev/null 2>&1; then
+  portal_py_cmd=(py -3)
+else
+  fail "python, python3, or py -3 is required for portal source validation"
+fi
+"${portal_py_cmd[@]}" - docs/portal/site.json <<'PY'
+import json
+import sys
+
+path = sys.argv[1]
+try:
+    with open(path, encoding="utf-8") as handle:
+        site = json.load(handle)
+    sources = set(site["pages"]["optional-tooling"]["sources"])
+except (OSError, KeyError, TypeError, json.JSONDecodeError) as exc:
+    raise SystemExit(f"check-sidecar-boundaries: TokenSave portal source population is unreadable: {exc}")
+required = {
+    "skills/implementaudit/references/sidecars.md",
+    "skills/implementaudit/templates/PROTOCOL.md",
+}
+if not required.issubset(sources):
+    raise SystemExit("check-sidecar-boundaries: TokenSave portal source population is missing packaged owners")
+PY
 require_literal skills/implementaudit/references/lean-operating-discipline.md "dogfood-only" "as-tested dogfood qualification"
 require_literal skills/implementaudit/references/lean-operating-discipline.md "module-level constants" "known Graphify limitations"
 require_literal skills/implementaudit/references/lean-operating-discipline.md "non-authoritative mirror" "ActiveGraph authority narrowing"

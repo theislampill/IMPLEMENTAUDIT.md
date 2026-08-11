@@ -593,16 +593,20 @@ and ordinary Gemba; they must not block the run.
 
 **TokenSave code-navigation rules (when present and authorized):**
 - Activate only for a supported code-relation question whose repeated or
-  transitive walk earns indexing/query cost. Record current checkout/index,
-  coverage and query; verify consequential results in live source.
+  transitive walk earns indexing/query cost. Record the exact checkout/database
+  binding, the successful supported sync/reconnect witness, coverage and query;
+  verify consequential results in live source. Without both binding and witness,
+  classify currentness as stale or unresolved and use Gemba.
 - Classify results as derived, partial, stale, unsupported or unresolved. A
   current database is not complete program truth; conflicts and extraction
   limits route to Gemba.
 - Use `NO TOKENSAVE` for docs, policy, public projection, non-code artefacts,
   an exact supplied file or tiny reversible work. Absence is not a blocker.
-- Authorise installation/index/config separately. Keep local databases untracked
-  and disclose source retention and metadata calls. Do not use TokenSave edit,
-  test, session or memory tools as IMPLEMENTAUDIT authority.
+- Authorise installation/index/config separately. A separately authorised
+  TokenSave repo-local database is the bounded exception to Graphify's
+  outside-repo storage rule; keep it untracked and non-packaged, and disclose
+  source retention, metadata calls, retention and cleanup. Do not use TokenSave
+  edit, test, session or memory tools as IMPLEMENTAUDIT authority.
 
 **ActiveGraph checkpoint assistance and optional mirror:**
 - The run root remains the sole authority for lifecycle facts. ActiveGraph's
