@@ -30,7 +30,7 @@ fail() { printf 'verification-window-contract.test: %s\n' "$*" >&2; exit 1; }
 import json, sys
 rows = json.load(open(sys.argv[1], encoding="utf-8"))
 ids = [row.get("id") for row in rows]
-expected = [f"R2-F{i}" for i in range(1, 22)]
+expected = [f"R2-F{i}" for i in range(1, 28)]
 if ids != expected:
     raise SystemExit(f"verification-window cases must be exactly {expected}, got {ids}")
 PY
@@ -59,11 +59,11 @@ write_intent() {
   fi
   mkdir -p "$repo/.IMPLEMENTAUDIT/runs/window/background/chain-a"
   if [ ! -f "$opening_receipt" ]; then
-    (cd "$repo" && bash "$repo_state" window-identities --null > "$opening_receipt") \
+    (cd "$repo" && bash "$repo_state" window-identities --records > "$opening_receipt") \
       || fail 'unable to record opening identity receipt'
   fi
   if [ "$state" = closed ]; then
-    (cd "$repo" && bash "$repo_state" window-identities --null > "$closing_receipt") \
+    (cd "$repo" && bash "$repo_state" window-identities --records > "$closing_receipt") \
       || fail 'unable to record closing identity receipt'
   fi
   local opening_digest
@@ -430,6 +430,110 @@ grep -Fq 'closing identity receipt digest does not match' "$tmp/f21.out" \
   || fail 'R2-F21 output missing closing receipt integrity failure'
 ok
 
+# R2-F22: an ignored identity that existed at opening and remains byte-for-byte
+# unchanged through an equal-SHA close is not a mutation.
+new_repo f22-equal-unchanged-ignored
+printf 'ignored/**\n' > "$case_repo/.gitignore"
+git -C "$case_repo" add .gitignore
+git -C "$case_repo" commit -qm ignore-unchanged
+mkdir -p "$case_repo/ignored"
+printf 'unchanged\n' > "$case_repo/ignored/declared.txt"
+case_opened="$(git -C "$case_repo" rev-parse HEAD)"
+write_intent "$case_repo" open 'ignored/declared.txt'
+touch "$case_repo/.IMPLEMENTAUDIT/runs/window/background/chain-a/chain.done"
+write_intent "$case_repo" closed 'ignored/declared.txt'
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+(cd "$case_repo" && bash "$checker" --window "$case_intent" --now "$case_now") >"$tmp/f22.out" 2>&1 \
+  || fail 'R2-F22 unchanged ignored identity at equal-SHA close must pass'
+ok
+
+# R2-F23/R2-F24: pre-existing ignored content must stale both equal-SHA and
+# historical closing windows when its bytes change during the window.
+new_repo f23-equal-mutated-ignored
+printf 'ignored/**\n' > "$case_repo/.gitignore"
+git -C "$case_repo" add .gitignore
+git -C "$case_repo" commit -qm ignore-mutated-equal
+mkdir -p "$case_repo/ignored"
+printf 'before\n' > "$case_repo/ignored/declared.txt"
+case_opened="$(git -C "$case_repo" rev-parse HEAD)"
+write_intent "$case_repo" open 'ignored/declared.txt'
+printf 'after\n' > "$case_repo/ignored/declared.txt"
+touch "$case_repo/.IMPLEMENTAUDIT/runs/window/background/chain-a/chain.done"
+write_intent "$case_repo" closed 'ignored/declared.txt'
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+if (cd "$case_repo" && bash "$checker" --window "$case_intent" --now "$case_now") >"$tmp/f23.out" 2>&1; then
+  fail 'R2-F23 in-place ignored mutation at equal-SHA close must fail'
+fi
+ok
+
+new_repo f24-historical-mutated-ignored
+printf 'ignored/**\n' > "$case_repo/.gitignore"
+git -C "$case_repo" add .gitignore
+git -C "$case_repo" commit -qm ignore-mutated-historical
+mkdir -p "$case_repo/ignored"
+printf 'before\n' > "$case_repo/ignored/declared.txt"
+case_opened="$(git -C "$case_repo" rev-parse HEAD)"
+write_intent "$case_repo" open 'ignored/declared.txt'
+printf 'after\n' > "$case_repo/ignored/declared.txt"
+printf 'closing anchor\n' > "$case_repo/docs/readme.md"
+git -C "$case_repo" add docs/readme.md
+git -C "$case_repo" commit -qm historical-close
+touch "$case_repo/.IMPLEMENTAUDIT/runs/window/background/chain-a/chain.done"
+write_intent "$case_repo" closed 'ignored/declared.txt'
+printf 'later ordinary work\n' > "$case_repo/scratch/later.txt"
+git -C "$case_repo" add scratch/later.txt
+git -C "$case_repo" commit -qm post-close
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+if (cd "$case_repo" && bash "$checker" --window "$case_intent" --now "$case_now") >"$tmp/f24.out" 2>&1; then
+  fail 'R2-F24 in-place ignored mutation at historical close must fail'
+fi
+ok
+
+# R2-F25/R2-F26/R2-F27 repeat the unchanged and in-place controls for a
+# declared run-root identity.
+new_repo f25-equal-unchanged-run-root
+mkdir -p "$case_repo/.IMPLEMENTAUDIT/runs/window/live"
+printf 'unchanged\n' > "$case_repo/.IMPLEMENTAUDIT/runs/window/live/declared.txt"
+write_intent "$case_repo" open '.IMPLEMENTAUDIT/runs/window/live/declared.txt'
+touch "$case_repo/.IMPLEMENTAUDIT/runs/window/background/chain-a/chain.done"
+write_intent "$case_repo" closed '.IMPLEMENTAUDIT/runs/window/live/declared.txt'
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+(cd "$case_repo" && bash "$checker" --window "$case_intent" --now "$case_now") >"$tmp/f25.out" 2>&1 \
+  || fail 'R2-F25 unchanged run-root identity at equal-SHA close must pass'
+ok
+
+new_repo f26-equal-mutated-run-root
+mkdir -p "$case_repo/.IMPLEMENTAUDIT/runs/window/live"
+printf 'before\n' > "$case_repo/.IMPLEMENTAUDIT/runs/window/live/declared.txt"
+write_intent "$case_repo" open '.IMPLEMENTAUDIT/runs/window/live/declared.txt'
+printf 'after\n' > "$case_repo/.IMPLEMENTAUDIT/runs/window/live/declared.txt"
+touch "$case_repo/.IMPLEMENTAUDIT/runs/window/background/chain-a/chain.done"
+write_intent "$case_repo" closed '.IMPLEMENTAUDIT/runs/window/live/declared.txt'
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+if (cd "$case_repo" && bash "$checker" --window "$case_intent" --now "$case_now") >"$tmp/f26.out" 2>&1; then
+  fail 'R2-F26 in-place run-root mutation at equal-SHA close must fail'
+fi
+ok
+
+new_repo f27-historical-mutated-run-root
+mkdir -p "$case_repo/.IMPLEMENTAUDIT/runs/window/live"
+printf 'before\n' > "$case_repo/.IMPLEMENTAUDIT/runs/window/live/declared.txt"
+write_intent "$case_repo" open '.IMPLEMENTAUDIT/runs/window/live/declared.txt'
+printf 'after\n' > "$case_repo/.IMPLEMENTAUDIT/runs/window/live/declared.txt"
+printf 'closing anchor\n' > "$case_repo/docs/readme.md"
+git -C "$case_repo" add docs/readme.md
+git -C "$case_repo" commit -qm historical-close
+touch "$case_repo/.IMPLEMENTAUDIT/runs/window/background/chain-a/chain.done"
+write_intent "$case_repo" closed '.IMPLEMENTAUDIT/runs/window/live/declared.txt'
+printf 'later ordinary work\n' > "$case_repo/scratch/later.txt"
+git -C "$case_repo" add scratch/later.txt
+git -C "$case_repo" commit -qm post-close
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+if (cd "$case_repo" && bash "$checker" --window "$case_intent" --now "$case_now") >"$tmp/f27.out" 2>&1; then
+  fail 'R2-F27 in-place run-root mutation at historical close must fail'
+fi
+ok
+
 # Legacy anchor modes remain compatible.
 bash "$checker" --row 'legacy evidence without an anchor' >/dev/null
 artifact="$tmp/artifact.md"
@@ -451,8 +555,11 @@ grep -Fq 'opening_identity_receipt' "$protocol" \
 grep -Fq 'closing_identity_receipt' "$protocol" \
   || fail 'verification-window closing identity receipt contract missing'
 ok
+grep -Fq 'path, type, extent, and SHA-256 digest' "$protocol" \
+  || fail 'verification-window content identity receipt contract missing'
+ok
 grep -Fq 'verification is reading the same tree' "$phase_design" || fail 'phase-design verification boundary missing'
 grep -Fq 'post-state was compared' "$lean" || fail 'Lean post-state evidence boundary missing'
 ok; ok; ok; ok; ok
 
-printf 'verification-window-contract.test: ok (%d/31)\n' "$count"
+printf 'verification-window-contract.test: ok (%d/38)\n' "$count"

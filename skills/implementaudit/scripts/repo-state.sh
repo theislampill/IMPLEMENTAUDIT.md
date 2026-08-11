@@ -121,18 +121,107 @@ cmd_window_changed_files() {
 
 cmd_window_identities() {
   local format="$1"
-  [ "$format" = "--null" ] || {
-    printf 'usage: repo-state.sh window-identities --null\n' >&2
-    return 2
-  }
-  if in_git_repo; then
-    # This is the opening/closing receipt population for verification windows.
-    # Do not inherit changed-files exclusions: explicitly declared ignored and
-    # run-root paths are live window identities.
-    git ls-files -z || return $?
-    git ls-files --others --exclude-standard -z || return $?
-    git ls-files --others --ignored --exclude-standard -z || return $?
-  fi
+  case "$format" in
+    --null)
+      if in_git_repo; then
+        git ls-files -z || return $?
+        git ls-files --others --exclude-standard -z || return $?
+        git ls-files --others --ignored --exclude-standard -z || return $?
+      fi
+      ;;
+    --records)
+      if command -v python >/dev/null 2>&1; then
+        local py_cmd=(python)
+      elif command -v python3 >/dev/null 2>&1; then
+        local py_cmd=(python3)
+      elif command -v py >/dev/null 2>&1; then
+        local py_cmd=(py -3)
+      else
+        printf 'repo-state: python, python3, or py -3 is required for window identity records\n' >&2
+        return 127
+      fi
+      "${py_cmd[@]}" - <<'PY'
+import hashlib
+import json
+import os
+import stat
+import subprocess
+import sys
+
+
+def git(*args):
+    result = subprocess.run(["git", *args], capture_output=True, check=False)
+    if result.returncode != 0:
+        sys.stderr.buffer.write(result.stderr)
+        raise SystemExit(result.returncode)
+    return result.stdout
+
+
+root = git("rev-parse", "--show-toplevel").decode("utf-8").strip()
+candidates = set()
+for args in (
+    ("ls-files", "--full-name", "-z"),
+    ("ls-files", "--full-name", "--others", "--exclude-standard", "-z"),
+    ("ls-files", "--full-name", "--others", "--ignored", "--exclude-standard", "-z"),
+):
+    for raw in git(*args).split(b"\0"):
+        if not raw:
+            continue
+        path = raw.decode("utf-8")
+        if not path or os.path.isabs(path) or ".." in path.split("/"):
+            raise SystemExit(f"repo-state: unsafe window identity path: {path}")
+        candidates.add(path)
+
+
+def digest_file(path):
+    digest = hashlib.sha256()
+    with open(path, "rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def record(path, display=None):
+    full = os.path.join(root, path)
+    if not os.path.lexists(full):
+        return None
+    shown = path if display is None else display
+    mode = os.lstat(full).st_mode
+    if stat.S_ISREG(mode):
+        return {"path": shown, "type": "regular", "extent": os.lstat(full).st_size, "sha256": digest_file(full)}
+    if stat.S_ISLNK(mode):
+        target = os.readlink(full).encode("utf-8", "surrogateescape")
+        return {"path": shown, "type": "symlink", "extent": len(target), "sha256": hashlib.sha256(target).hexdigest()}
+    if stat.S_ISDIR(mode):
+        children = []
+        for base, dirs, files in os.walk(full, followlinks=False):
+            dirs.sort()
+            files.sort()
+            for name in dirs + files:
+                child = os.path.join(base, name)
+                relative = os.path.relpath(child, full).replace(os.sep, "/")
+                child_record = record(os.path.relpath(child, root).replace(os.sep, "/"), relative)
+                if child_record is not None:
+                    children.append(child_record)
+        payload = json.dumps(children, sort_keys=True, separators=(",", ":")).encode("utf-8")
+        return {"path": shown, "type": "directory", "extent": len(children), "sha256": hashlib.sha256(payload).hexdigest()}
+    raise SystemExit(f"repo-state: unsupported window identity type: {path}")
+
+
+records = [item for item in (record(path) for path in sorted(candidates)) if item is not None]
+payload = b"\0".join(
+    json.dumps(item, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    for item in records
+)
+if payload:
+    sys.stdout.buffer.write(payload + b"\0")
+PY
+      ;;
+    *)
+      printf 'usage: repo-state.sh window-identities --null|--records\n' >&2
+      return 2
+      ;;
+  esac
 }
 
 cmd_added_lines() {
@@ -417,7 +506,7 @@ case "$subcommand" in
     ;;
   window-identities)
     [ "$#" -eq 1 ] || {
-      printf 'usage: repo-state.sh window-identities --null\n' >&2
+      printf 'usage: repo-state.sh window-identities --null|--records\n' >&2
       exit 2
     }
     cmd_window_identities "$1"
@@ -436,7 +525,7 @@ repo-state.sh - evaluate complete working-tree state vs a baseline commit.
   repo-state.sh deliverable   <baseline> <path>
   repo-state.sh changed-files <baseline>
   repo-state.sh window-changed-files --null <baseline>
-  repo-state.sh window-identities --null
+  repo-state.sh window-identities --null|--records
   repo-state.sh added-lines   <baseline>
   repo-state.sh commit-message <message-file> [--ledger-linked]
   repo-state.sh ignored-artifact <source|package|release> <artifact> <published-digest-record> <authority-baseline>

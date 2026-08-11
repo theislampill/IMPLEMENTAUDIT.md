@@ -462,9 +462,10 @@ with a durable status contract, never awaited inline:
    and .IMPLEMENTAUDIT/ run-root paths, when they are declared surfaces. A disjoint
    mutation does not freeze the whole repository. At open, persist a NUL-delimited
    `opening_identity_receipt` with its `opening_identity_sha256`; at close, persist a
-   `closing_identity_receipt` with its `closing_identity_sha256`. The checker compares
-   those bound identity populations and fails closed if either receipt is unavailable,
-   altered, or cannot be enumerated.
+   `closing_identity_receipt` with its `closing_identity_sha256`. Each record binds a
+   path, type, extent, and SHA-256 digest. The checker compares those bound identity
+   populations and fails closed if either receipt is unavailable, altered, or cannot be
+   enumerated.
    Compound shell verification (`git stash`, `git checkout --`, or an
    `&&`-chained restore) is itself a surface mutation: run the check as one
    command and restore state in a separate, separately observed action.
