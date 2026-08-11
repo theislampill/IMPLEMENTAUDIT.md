@@ -806,8 +806,7 @@ host loading, or provenance.
 
 ## Version and release notes
 
-Current project milestone: corrected `v0.3.3.3` candidate; plugin/runtime
-version `0.3.3`.
+Current project milestone: corrected `v0.3.3.3` candidate; plugin/runtime version `0.3.3`.
 
 `v0.3.3.3` is a corrective and completion release of the `v0.3.3` runtime
 family. It incorporates countermeasures found during `v0.3.3.0` qualification
