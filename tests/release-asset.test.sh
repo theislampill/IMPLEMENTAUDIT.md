@@ -740,13 +740,13 @@ with zipfile.ZipFile(asset) as zf:
         "owner", "dedicated-calibration-lane",
     }
 
-    # The extracted payload is byte-identical to the 227,999-byte final R29
-    # package; canonical Zopfli method-8 DEFLATE yields 220,699 bytes. This
-    # dedicated R33 calibration lane uses the smallest whole-1,000-byte value
-    # preserving at least 2,000 bytes of measured headroom. The 230,000-byte
-    # outer bound remains unchanged, and capacity is not a target.
-    MAX_ASSET_BYTES = 223_000
-    CURRENT_CALIBRATION_ASSET_BYTES = 220_699
+    # The R02 verification-window repair raises the canonical Zopfli method-8
+    # package to 224,063 bytes. This dedicated R33 calibration uses the
+    # smallest whole-1,000-byte value preserving at least 2,000 bytes of
+    # measured headroom. The 230,000-byte outer bound remains unchanged, and
+    # capacity is not a target.
+    MAX_ASSET_BYTES = 227_000
+    CURRENT_CALIBRATION_ASSET_BYTES = 224_063
     N06_BASELINE_ASSET_BYTES = 206_584
     N06_FINAL_P7_ASSET_BYTES = 215_126
     FULL_W1_FORECAST_BYTES = 144_730
