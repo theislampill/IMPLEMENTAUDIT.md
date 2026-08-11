@@ -267,6 +267,8 @@ def constant_truth(node):
 def terminates_route(node):
     if isinstance(node, (ast.Raise, ast.Return)):
         return True
+    if isinstance(node, ast.Assert) and constant_truth(node.test) is False:
+        return True
     if not (isinstance(node, ast.Expr) and isinstance(node.value, ast.Call)):
         return False
     call = node.value.func
@@ -277,6 +279,37 @@ def terminates_route(node):
                 ("sys", "exit"), ("os", "_exit"),
             })
 
+def mandatory_expression_nodes(node):
+    """Return expression nodes that the normal route must evaluate."""
+    result = [node]
+    if isinstance(node, ast.Lambda):
+        return result
+    if isinstance(node, ast.IfExp):
+        result.extend(mandatory_expression_nodes(node.test))
+        truth = constant_truth(node.test)
+        branch = node.body if truth is True else node.orelse if truth is False else None
+        if branch is not None:
+            result.extend(mandatory_expression_nodes(branch))
+        return result
+    if isinstance(node, ast.BoolOp):
+        for value in node.values:
+            result.extend(mandatory_expression_nodes(value))
+            truth = constant_truth(value)
+            if isinstance(node.op, ast.And) and truth is not True:
+                break
+            if isinstance(node.op, ast.Or) and truth is not False:
+                break
+        return result
+    if isinstance(node, (ast.GeneratorExp, ast.ListComp, ast.SetComp, ast.DictComp)):
+        for generator in node.generators:
+            result.extend(mandatory_expression_nodes(generator.iter))
+            break
+        return result
+    for child in ast.iter_child_nodes(node):
+        if isinstance(child, ast.expr):
+            result.extend(mandatory_expression_nodes(child))
+    return result
+
 def normal_path_nodes(statements):
     """Return ordered nodes on the non-exception route and whether it terminates."""
     result = []
@@ -284,7 +317,7 @@ def normal_path_nodes(statements):
         result.append(node)
         if terminates_route(node):
             return result, True
-        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda)):
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
             continue
         if isinstance(node, ast.If):
             truth = constant_truth(node.test)
@@ -325,7 +358,9 @@ def normal_path_nodes(statements):
             continue
         if isinstance(node, (ast.For, ast.AsyncFor)):
             continue
-        result.extend(list(ast.walk(node))[1:])
+        for child in ast.iter_child_nodes(node):
+            if isinstance(child, ast.expr):
+                result.extend(mandatory_expression_nodes(child))
     return result, False
 
 def is_launch_subprocess(node):

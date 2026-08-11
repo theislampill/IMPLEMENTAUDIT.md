@@ -315,6 +315,56 @@ if bash "$reachability" --repo-root "$split_error_path" >/dev/null 2>&1; then
   failures+=("normal-start-error-only-join-counts-as-transport")
 fi
 
+conditional_expression_start="$tmp/conditional-expression-start"
+mkdir -p "$conditional_expression_start/scripts"
+cp -R skills "$conditional_expression_start/skills"
+cp scripts/build-release-asset.sh "$conditional_expression_start/scripts/build-release-asset.sh"
+sed -i 's/^mediator_thread\.start()$/mediator_thread.start() if OPTIONAL else None/' \
+  "$conditional_expression_start/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$conditional_expression_start" >/dev/null 2>&1; then
+  failures+=("conditional-expression-start-counts-as-transport")
+fi
+
+short_circuit_start="$tmp/short-circuit-start"
+mkdir -p "$short_circuit_start/scripts"
+cp -R skills "$short_circuit_start/skills"
+cp scripts/build-release-asset.sh "$short_circuit_start/scripts/build-release-asset.sh"
+sed -i 's/^mediator_thread\.start()$/OPTIONAL and mediator_thread.start()/' \
+  "$short_circuit_start/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$short_circuit_start" >/dev/null 2>&1; then
+  failures+=("short-circuit-start-counts-as-transport")
+fi
+
+inert_class_start="$tmp/inert-class-start"
+mkdir -p "$inert_class_start/scripts"
+cp -R skills "$inert_class_start/skills"
+cp scripts/build-release-asset.sh "$inert_class_start/scripts/build-release-asset.sh"
+sed -i '/^mediator_thread\.start()$/c\class DeferredStart:\n    def run(self):\n        mediator_thread.start()' \
+  "$inert_class_start/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$inert_class_start" >/dev/null 2>&1; then
+  failures+=("uninstantiated-class-method-counts-as-transport")
+fi
+
+asserted_before_start="$tmp/asserted-before-start"
+mkdir -p "$asserted_before_start/scripts"
+cp -R skills "$asserted_before_start/skills"
+cp scripts/build-release-asset.sh "$asserted_before_start/scripts/build-release-asset.sh"
+sed -i '/^mediator_thread\.start()$/i assert False' \
+  "$asserted_before_start/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$asserted_before_start" >/dev/null 2>&1; then
+  failures+=("assert-false-before-start-counts-as-transport")
+fi
+
+conditional_expression_launch="$tmp/conditional-expression-launch"
+mkdir -p "$conditional_expression_launch/scripts"
+cp -R skills "$conditional_expression_launch/skills"
+cp scripts/build-release-asset.sh "$conditional_expression_launch/scripts/build-release-asset.sh"
+sed -i 's/completed = subprocess\.run(launch\["argv"\], env=run_env, check=False)/completed = subprocess.run(launch["argv"], env=run_env, check=False) if OPTIONAL else None/' \
+  "$conditional_expression_launch/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$conditional_expression_launch" >/dev/null 2>&1; then
+  failures+=("conditional-expression-launch-counts-as-transport")
+fi
+
 if ! grep -Fqx \
   'helper-mode: check-authorization-binding.sh|--phase --rehearsal --launch|<phase> <receipt> <launch>|failed-rehearsal-blocks-launch|scripts/validate-phase.sh' \
   skills/implementaudit/references/repo-state-comparison.md; then
