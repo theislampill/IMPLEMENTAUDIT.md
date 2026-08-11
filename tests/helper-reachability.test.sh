@@ -83,7 +83,7 @@ grep -Fq 'HELPER_REACHABILITY=PASS population=18 examined=18 modes=4/4 enumerati
 # R30 must count the scarce-resource rehearsal as a distinct governed mode,
 # rather than treating the authorization-record mode as its proxy.
 grep -Fqx \
-  'helper-mode: check-authorization-binding.sh|--phase --rehearsal --launch|<phase> <receipt> <launch>|failed-rehearsal-blocks-launch' \
+  'helper-mode: check-authorization-binding.sh|--phase --rehearsal --launch|<phase> <receipt> <launch>|failed-rehearsal-blocks-launch|scripts/validate-phase.sh' \
   "$repo_root/skills/implementaudit/references/repo-state-comparison.md" || {
     printf 'helper-reachability.test: R30 rehearsal mode is missing from the route population\n' >&2
     exit 1

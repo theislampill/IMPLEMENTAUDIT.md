@@ -54,7 +54,7 @@ mode_rows = {}
 for line_number, line in enumerate(contract_text.splitlines(), 1):
     if line.startswith("helper-mode: "):
         parts = [part.strip() for part in line.split("|")]
-        if len(parts) != 4:
+        if len(parts) not in {4, 5}:
             raise SystemExit(
                 f"check-helper-reachability: malformed helper mode at line {line_number}"
             )
@@ -62,7 +62,10 @@ for line_number, line in enumerate(contract_text.splitlines(), 1):
         key = (helper, parts[1])
         if key in mode_rows:
             raise SystemExit(f"check-helper-reachability: duplicate mode applicability row: {' '.join(key)}")
-        mode_rows[key] = {"arguments": parts[2], "boundary": parts[3]}
+        mode_rows[key] = {
+            "arguments": parts[2], "boundary": parts[3],
+            "caller": parts[4] if len(parts) == 5 else "-",
+        }
         continue
     if not line.startswith("helper-route: "):
         continue
@@ -165,7 +168,7 @@ def caller_invokes(helper, content):
     def command_uses(target, path_prefix=False):
         prefix = r'''(?:[^\s"']*/)?''' if path_prefix else ""
         operand = rf'''["']?{prefix}{target}["']?(?=\s|$)'''
-        direct = rf"(?m)^\s*(?:(?:if|while|until|!)\s+)?(?:bash|source|exec)\s+{operand}"
+        direct = rf"(?m)^\s*(?:[A-Za-z_][A-Za-z0-9_]*=(?:[^\s]+|\"[^\"]*\"|'[^']*')\s+)*(?:(?:if|while|until|!)\s+)?(?:bash|source|exec)?\s*{operand}"
         substitution = rf'''(?mx)^\s*[a-z_][a-z0-9_]*\s*=\s*["']?\$\(\s*(?:bash|source|exec)\s+{operand}'''
         return bool(re.search(direct, content, re.I) or
                     re.search(substitution, content, re.I))
@@ -210,7 +213,15 @@ implemented_mode_sets[graph_helper] = sorted(set(re.findall(r"--graph-[a-z0-9-]+
 rehearsal_helper = "check-authorization-binding.sh"
 rehearsal_text = (skill_root / "scripts" / rehearsal_helper).read_text(encoding="utf-8")
 rehearsal_mode = "--phase --rehearsal --launch"
-if all(flag in shell_code(rehearsal_text) for flag in rehearsal_mode.split()):
+rehearsal_code = shell_code(rehearsal_text)
+rehearsal_arms = all(re.search(rf"(?m)^\s*{re.escape(flag)}\)", rehearsal_code)
+                     for flag in rehearsal_mode.split())
+rehearsal_transport = all((
+    re.search(r'python\s+-\s+"\$phase"\s+"\$rehearsal"\s+"\$launch"\s+<<', rehearsal_code),
+    'subprocess.run(launch["argv"]' in rehearsal_text,
+    'IMPLEMENTAUDIT_REHEARSAL_STUB_EVENT' in rehearsal_text,
+))
+if rehearsal_arms and rehearsal_transport:
     implemented_mode_sets[rehearsal_helper] = [rehearsal_mode]
 else:
     implemented_mode_sets[rehearsal_helper] = []
@@ -235,11 +246,6 @@ mode_owner = "\n".join(
 )
 for helper, mode in mode_rows:
     row = mode_rows[(helper, mode)]
-    mode_dispatch = shell_code((skill_root / "scripts" / helper).read_text(encoding="utf-8"))
-    if not all(flag in mode_dispatch for flag in mode.split()):
-        raise SystemExit(
-            f"check-helper-reachability: mode applicability not implemented: {helper} {mode}"
-        )
     mode_flags = mode.split()
     mode_args = row["arguments"].split()
     mode_command = f"{mode} {row['arguments']}"
@@ -259,6 +265,19 @@ for helper, mode in mode_rows:
         raise SystemExit(
             f"check-helper-reachability: mode boundary absent: {helper} {mode}"
         )
+    mode_caller = row["caller"]
+    if mode_caller != "-":
+        caller_path = packaged_path(mode_caller, helper, "mode caller")
+        caller_content = shell_code(caller_path.read_text(encoding="utf-8"))
+        if not caller_invokes(helper, caller_content):
+            raise SystemExit(
+                f"check-helper-reachability: mode caller does not invoke {helper}: {mode_caller}"
+            )
+        mode_flags = r"\s+" + r"\s+".join(re.escape(flag) + r"\s+[^\s]+" for flag in mode.split())
+        if not re.search(re.escape(helper) + r'["\']?' + mode_flags, caller_content):
+            raise SystemExit(
+                f"check-helper-reachability: mode caller does not invoke exact mode: {helper} {mode}"
+            )
 
 for helper in helpers:
     row = rows[helper]

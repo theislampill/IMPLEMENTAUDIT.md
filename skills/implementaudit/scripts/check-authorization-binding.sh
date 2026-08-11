@@ -46,6 +46,7 @@ import hashlib
 import json
 import os
 import pathlib
+import secrets
 import re
 import subprocess
 import sys
@@ -57,6 +58,16 @@ def fail(message):
 
 phase_path, rehearsal_path, launch_path = sys.argv[1:]
 phase_text = pathlib.Path(phase_path).read_text(encoding="utf-8")
+
+def phase_value(name):
+    values = re.findall(rf"(?mi)^{re.escape(name)}:[ \\t]*(.*?)[ \\t]*$", phase_text)
+    if len(values) != 1:
+        fail(f"phase must contain exactly one {name} field")
+    value = values[0]
+    if not value or value.casefold() == "none":
+        fail(f"non-none budget requires {name}")
+    return value
+
 budget_lines = re.findall(r"(?mi)^Scarce resource budget:[ \t]*(.*?)[ \t]*$", phase_text)
 if len(budget_lines) != 1:
     fail("phase must contain exactly one Scarce resource budget field")
@@ -70,6 +81,21 @@ if not re.fullmatch(r"[1-9][0-9]* [^\s]+", budget):
     fail("budget must be 'none' or 'N <resource>' with positive N")
 if not rehearsal_path or not launch_path:
     fail("non-none budget requires --rehearsal and --launch")
+
+# The phase is the native audit object.  Bind the caller-supplied records to
+# its declared wrapper identity before a process can be started, so a
+# self-consistent replacement receipt/launch pair cannot silently move the
+# audit boundary.
+phase_rehearsal = phase_value("Rehearsal receipt")
+phase_launch = phase_value("Rehearsal launch")
+phase_stub = phase_value("Rehearsal producer stub")
+phase_command_hash = phase_value("Rehearsal command hash")
+phase_terminal = phase_value("Rehearsal terminal artifact")
+phase_env_keys = phase_value("Rehearsal environment keys")
+if pathlib.Path(rehearsal_path).resolve() != pathlib.Path(phase_rehearsal).resolve():
+    fail("rehearsal path does not match the phase audit object")
+if pathlib.Path(launch_path).resolve() != pathlib.Path(phase_launch).resolve():
+    fail("launch path does not match the phase audit object")
 
 def load_object(path, label):
     def reject_duplicate_members(pairs):
@@ -166,6 +192,12 @@ preimage = json.dumps(
 actual_hash = hashlib.sha256(preimage).hexdigest()
 if receipt["rehearsed_command_hash"] != actual_hash:
     fail("rehearsed command hash does not match exact argv/environment-key identity")
+if phase_command_hash != actual_hash:
+    fail("rehearsed command hash does not match the phase audit object")
+if pathlib.Path(phase_terminal).resolve() != pathlib.Path(launch["terminal_artifact_path"]).resolve():
+    fail("terminal artifact path does not match the phase audit object")
+if phase_env_keys != ",".join(launch["env_keys_present"]):
+    fail("environment-key identity does not match the phase audit object")
 if receipt["exit_code"] != 0 or receipt["disposition"] == "FAIL":
     fail("nonzero or FAIL rehearsal never authorizes launch")
 
@@ -193,15 +225,13 @@ stub_raw = os.environ.get("IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB")
 if not stub_raw:
     fail("missing bounded producer stub environment")
 stub_path = pathlib.Path(stub_raw)
+if stub_path.resolve() != pathlib.Path(phase_stub).resolve():
+    fail("bounded producer stub does not match the phase audit object")
 if not stub_path.is_file() or not os.access(stub_path, os.X_OK):
     fail("bounded producer stub must be an executable regular file")
 stub_identity = "sha256:" + hashlib.sha256(stub_path.read_bytes()).hexdigest()
 if receipt["stub_identity"] != stub_identity:
     fail("receipt stub identity does not match bounded producer stub")
-
-for key in launch["env_keys_present"]:
-    if key not in os.environ:
-        fail(f"declared environment key is absent for rehearsal: {key}")
 
 terminal_path = pathlib.Path(launch["terminal_artifact_path"])
 if not terminal_path.parent.is_dir():
@@ -209,24 +239,30 @@ if not terminal_path.parent.is_dir():
 if terminal_path.exists() or terminal_path.is_symlink():
     fail("terminal artifact must be absent before wrapper execution")
 
-proof_fd, proof_raw = tempfile.mkstemp(
-    prefix=".implementaudit-rehearsal-stub-",
+event_fd, event_raw = tempfile.mkstemp(
+    prefix=".implementaudit-rehearsal-stub-event-",
     dir=terminal_path.parent,
 )
-os.close(proof_fd)
-proof_path = pathlib.Path(proof_raw)
-proof_path.unlink()
+os.close(event_fd)
+event_path = pathlib.Path(event_raw)
+event_path.unlink()
+event_nonce = secrets.token_hex(32)
 
-run_env = os.environ.copy()
+# The wrapper receives only process essentials, declared key *names* with
+# empty values, and the bounded rehearsal controls.  In particular it never
+# inherits caller credentials or an artifact path with which it could author
+# a terminal record.
+safe_parent_keys = {
+    "COMSPEC", "PATH", "PATHEXT", "SYSTEMROOT", "SystemDrive", "SystemRoot",
+    "TEMP", "TMP", "WINDIR",
+}
+run_env = {key: os.environ[key] for key in safe_parent_keys if key in os.environ}
+for key in launch["env_keys_present"]:
+    run_env[key] = ""
 run_env.update({
     "IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB": str(stub_path.resolve()),
-    "IMPLEMENTAUDIT_REHEARSAL_TERMINAL": launch["terminal_artifact_path"],
-    "IMPLEMENTAUDIT_REHEARSAL_STUB_PROOF": str(proof_path),
-    "IMPLEMENTAUDIT_REHEARSAL_COMMAND_HASH": actual_hash,
-    "IMPLEMENTAUDIT_REHEARSAL_STUB_IDENTITY": stub_identity,
-    "IMPLEMENTAUDIT_REHEARSAL_ENV_KEYS": json.dumps(
-        launch["env_keys_present"], separators=(",", ":")
-    ),
+    "IMPLEMENTAUDIT_REHEARSAL_STUB_EVENT": str(event_path),
+    "IMPLEMENTAUDIT_REHEARSAL_STUB_NONCE": event_nonce,
 })
 try:
     completed = subprocess.run(launch["argv"], env=run_env, check=False)
@@ -234,15 +270,25 @@ except OSError as exc:
     fail(f"production wrapper could not execute: {exc}")
 if completed.returncode != 0:
     fail(f"production wrapper exited {completed.returncode}")
-if not proof_path.is_file() or proof_path.read_text(encoding="utf-8") != stub_identity + "\n":
-    fail("bounded producer stub did not produce its identity proof")
-if not terminal_path.is_file() or terminal_path.is_symlink():
-    fail("production wrapper did not produce the declared terminal artifact")
+if not event_path.is_file() or event_path.is_symlink():
+    fail("bounded producer stub did not produce an execution event")
+event = load_object(str(event_path), "bounded producer execution event")
+if set(event) != {"stub_identity", "nonce", "exit_code"}:
+    fail("bounded producer execution event fields are invalid")
+if event["stub_identity"] != stub_identity or event["nonce"] != event_nonce:
+    fail("bounded producer execution event identity does not match")
+if type(event["exit_code"]) is not int or event["exit_code"] != 0:
+    fail("bounded producer stub exited nonzero")
+
+# The checker, not the wrapper, is the only terminal author.  The terminal is
+# written only after the independently observed zero-meter stub event binds to
+# the declared wrapper/launch identity above.
+terminal_path.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
 observed = load_object(str(terminal_path), "execution terminal")
 if observed != receipt:
     fail("execution terminal does not match the supplied rehearsal receipt")
 
-print("check-authorization-binding: ok — rehearsal identity and terminal receipt are bound")
+print("check-authorization-binding: ok — wrapper transport, stub event, and terminal receipt are bound")
 PY
   exit $?
 fi

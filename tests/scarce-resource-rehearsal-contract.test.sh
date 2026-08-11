@@ -12,45 +12,56 @@ tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 fail() { printf 'scarce-resource-rehearsal-contract: %s\n' "$*" >&2; exit 1; }
 
-# The declared wrapper is the production-side launch boundary.  It deliberately
-# does nothing unless the checker supplies the bounded producer substitute and
-# terminal destination. The stub emits only its derived identity, and the
-# wrapper emits the terminal record after that bounded call.
+# The declared wrapper is the production-side launch boundary.  It receives no
+# terminal or receipt controls: it propagates the bounded producer result, and
+# the producer alone emits its execution event.  The checker is the terminal
+# author after observing that event.
 cat > "$tmp/production-wrapper.py" <<'PY'
 #!/usr/bin/env python3
-import json
 import os
-import pathlib
 import subprocess
 import sys
 
 stub = os.environ["IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB"]
-terminal = os.environ["IMPLEMENTAUDIT_REHEARSAL_TERMINAL"]
-pathlib.Path(os.environ["IMPLEMENTAUDIT_REHEARSAL_WRAPPER_PROOF"]).write_text("production-wrapper\n", encoding="utf-8")
-subprocess.run([sys.executable, stub], check=True)
-components = ["producer", "terminal-writer"] if os.environ.get("IMPLEMENTAUDIT_TEST_SCOPE_GAP") else ["producer"]
-receipt = {
-    "rehearsed_command_hash": os.environ["IMPLEMENTAUDIT_REHEARSAL_COMMAND_HASH"],
-    "stub_identity": os.environ["IMPLEMENTAUDIT_REHEARSAL_STUB_IDENTITY"],
-    "stubbed_components": components,
-    "env_keys_present": json.loads(os.environ["IMPLEMENTAUDIT_REHEARSAL_ENV_KEYS"]),
-    "terminal_artifact_path": terminal,
-    "exit_code": 0,
-    "disposition": "PASS_WITH_SCOPE_GAP" if len(components) > 1 else "PASS",
-    "timestamp": "2026-08-06T12:00:00Z",
-}
-pathlib.Path(terminal).write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
+if os.environ.get("HELDOUT_CREDENTIAL_SENTINEL"):
+    raise SystemExit("caller credential sentinel leaked into wrapper")
+if os.environ.get("API_TOKEN") != "" or os.environ.get("MODEL") != "":
+    raise SystemExit("declared environment keys must be empty rehearsal placeholders")
+raise SystemExit(subprocess.run([sys.executable, stub], check=False).returncode)
 PY
 cat > "$tmp/producer-stub.py" <<'PY'
 #!/usr/bin/env python3
+import hashlib
+import json
 import os
 import pathlib
+import sys
 
-pathlib.Path(os.environ["IMPLEMENTAUDIT_REHEARSAL_STUB_PROOF"]).write_text(
-    os.environ["IMPLEMENTAUDIT_REHEARSAL_STUB_IDENTITY"] + "\n", encoding="utf-8"
+identity = "sha256:" + hashlib.sha256(pathlib.Path(__file__).read_bytes()).hexdigest()
+exit_code = int(os.environ.get("IMPLEMENTAUDIT_TEST_STUB_EXIT", "0"))
+pathlib.Path(os.environ["IMPLEMENTAUDIT_REHEARSAL_STUB_EVENT"]).write_text(
+    json.dumps({
+        "stub_identity": identity,
+        "nonce": os.environ["IMPLEMENTAUDIT_REHEARSAL_STUB_NONCE"],
+        "exit_code": exit_code,
+    }) + "\n",
+    encoding="utf-8",
 )
+raise SystemExit(exit_code)
 PY
-chmod +x "$tmp/production-wrapper.py" "$tmp/producer-stub.py"
+cat > "$tmp/ignoring-wrapper.py" <<'PY'
+#!/usr/bin/env python3
+import os
+import subprocess
+import sys
+
+# Deliberately wrong: a wrapper that ignores the producer exit must not pass
+# merely because it returns zero itself.
+subprocess.run([sys.executable, os.environ["IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB"]], check=False)
+PY
+sed 's/exit_code = int(os.environ.get("IMPLEMENTAUDIT_TEST_STUB_EXIT", "0"))/exit_code = 23/' \
+  "$tmp/producer-stub.py" > "$tmp/producer-stub-23.py"
+chmod +x "$tmp/production-wrapper.py" "$tmp/producer-stub.py" "$tmp/producer-stub-23.py" "$tmp/ignoring-wrapper.py"
 
 cat > "$tmp/phase-budget.md" <<'EOF'
 Scarce resource budget: 2 model-calls
@@ -171,6 +182,58 @@ launch_text = json.dumps(launch, indent=2) + "\n"
     launch_text.replace('"argv": [', '"argv": [],\n  "argv": [', 1),
     encoding="utf-8",
 )
+
+def phase(name, receipt_path, launch_path, receipt, stub_path=stub):
+    (out / name).write_text(
+        "Scarce resource budget: 2 model-calls\n"
+        "Residual risk: terminal-writer is interposed during rehearsal\n"
+        f"Rehearsal receipt: {receipt_path}\n"
+        f"Rehearsal launch: {launch_path}\n"
+        f"Rehearsal producer stub: {stub_path}\n"
+        f"Rehearsal command hash: {receipt['rehearsed_command_hash']}\n"
+        f"Rehearsal terminal artifact: {receipt['terminal_artifact_path']}\n"
+        f"Rehearsal environment keys: {','.join(receipt['env_keys_present'])}\n",
+        encoding="utf-8",
+    )
+
+phase("phase-budget.md", out / "receipt-good.json", out / "launch-good.json", receipt)
+phase("phase-gap.md", out / "receipt-gap.json", out / "launch-gap.json", gap)
+phase("phase-gap-missing.md", out / "receipt-gap.json", out / "launch-gap.json", gap)
+
+consumer_launch = copy.deepcopy(launch)
+consumer_launch["terminal_artifact_path"] = str(out / "consumer-terminal.json")
+consumer_receipt = copy.deepcopy(receipt)
+consumer_receipt["terminal_artifact_path"] = consumer_launch["terminal_artifact_path"]
+write("launch-consumer.json", consumer_launch)
+write("receipt-consumer.json", consumer_receipt)
+consumer_phase = pathlib.Path("fixtures/run-root-example/phases/phase-1.md").read_text(encoding="utf-8")
+consumer_fields = (
+    "Scarce resource budget: 2 model-calls\n"
+    f"Rehearsal receipt: {out / 'receipt-consumer.json'}\n"
+    f"Rehearsal launch: {out / 'launch-consumer.json'}\n"
+    f"Rehearsal producer stub: {stub}\n"
+    f"Rehearsal command hash: {consumer_receipt['rehearsed_command_hash']}\n"
+    f"Rehearsal terminal artifact: {consumer_receipt['terminal_artifact_path']}\n"
+    f"Rehearsal environment keys: {','.join(consumer_receipt['env_keys_present'])}\n"
+)
+(out / "phase-consumer.md").write_text(
+    consumer_phase.replace("Depends on phases: none\n", "Depends on phases: none\n" + consumer_fields),
+    encoding="utf-8",
+)
+
+ignored_launch = copy.deepcopy(launch)
+ignored_launch["argv"] = [sys.executable, str(out / "ignoring-wrapper.py"), "--input", "fixture.txt"]
+ignored_launch["terminal_artifact_path"] = str(out / "ignored-terminal.json")
+ignored_receipt = copy.deepcopy(receipt)
+ignored_receipt["rehearsed_command_hash"] = canonical_hash(
+    ignored_launch["argv"], ignored_launch["env_keys_present"]
+)
+ignored_receipt["terminal_artifact_path"] = ignored_launch["terminal_artifact_path"]
+ignored_stub = out / "producer-stub-23.py"
+ignored_receipt["stub_identity"] = "sha256:" + hashlib.sha256(ignored_stub.read_bytes()).hexdigest()
+write("launch-ignored.json", ignored_launch)
+write("receipt-ignored.json", ignored_receipt)
+phase("phase-ignored.md", out / "receipt-ignored.json", out / "launch-ignored.json", ignored_receipt, ignored_stub)
 PY
 
 must_pass() {
@@ -185,9 +248,8 @@ rehearse() {
   bash "$checker" --phase "$1" --rehearsal "$2" --launch "$3"
 }
 run_production_rehearsal() {
-  API_TOKEN=fixture-token MODEL=fixture-model \
-  IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB="$tmp/producer-stub.py" \
-  IMPLEMENTAUDIT_REHEARSAL_WRAPPER_PROOF="$tmp/wrapper-proof" \
+  API_TOKEN=fixture-token MODEL=fixture-model HELDOUT_CREDENTIAL_SENTINEL=withhold-me \
+  IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB="${IMPLEMENTAUDIT_TEST_PRODUCER_STUB:-$tmp/producer-stub.py}" \
   "$@"
 }
 
@@ -223,11 +285,26 @@ must_fail F9-static-record-false-positive rehearse "$tmp/phase-budget.md" "$tmp/
 IMPLEMENTAUDIT_TEST_SCOPE_GAP=1 \
 must_pass F5-matched-residual run_production_rehearsal rehearse "$tmp/phase-gap.md" "$tmp/receipt-gap.json" "$tmp/launch-gap.json"
 
+# A malicious wrapper can mask the transport exit, but it cannot mask the
+# separate stub event: a zero wrapper exit plus producer exit 23 still blocks.
+IMPLEMENTAUDIT_TEST_PRODUCER_STUB="$tmp/producer-stub-23.py" \
+must_fail F6-stub-exit-propagation run_production_rehearsal rehearse \
+  "$tmp/phase-ignored.md" "$tmp/receipt-ignored.json" "$tmp/launch-ignored.json"
+[ ! -e "$tmp/ignored-terminal.json" ] || fail "F6 nonzero stub must not receive a terminal"
+
 # F7: a repaired receipt may pass on a manual re-run. The policy itself must
 # keep that repair manual and forbid automatic retries.
 unset IMPLEMENTAUDIT_TEST_SCOPE_GAP
 must_pass F7 run_production_rehearsal rehearse "$tmp/phase-budget.md" "$tmp/receipt-good.json" "$tmp/launch-good.json"
-[ -f "$tmp/wrapper-proof" ] || fail "F7 production wrapper did not execute"
+[ -f "$tmp/rehearsal-terminal.json" ] || fail "F7 checker did not bind the observed terminal"
+! grep -q 'IMPLEMENTAUDIT_REHEARSAL_TERMINAL\|IMPLEMENTAUDIT_REHEARSAL_STUB_PROOF' \
+  "$tmp/production-wrapper.py" || fail "F7 wrapper must not author proof or terminal"
+
+# F10/R30: the native phase validator consumes the same audit object and
+# executes the declared checker route; this is not a direct-test/prose proxy.
+must_pass F10-native-phase-consumer run_production_rehearsal \
+  bash skills/implementaudit/scripts/validate-phase.sh "$tmp/phase-consumer.md"
+[ -f "$tmp/consumer-terminal.json" ] || fail "F10 native phase route did not bind terminal"
 
 # F8: strict schemas reject extras, value-bearing fields/key-value strings,
 # ordering/uniqueness violations, and booleans masquerading as integers.
@@ -251,5 +328,6 @@ printf '%s' "$p411_text" | grep -qi 'second apparatus.*cold review' || fail "F6 
 printf '%s' "$p411_text" | grep -qi 'manual repair.*re-run' || fail "F7 manual repair/re-run rule missing"
 printf '%s' "$p411_text" | grep -qi 'no automatic retr\|must not automatically retr' || fail "F7 automatic retry prohibition missing"
 grep -q '^Scarce resource budget: {{N <resource> | none}}$' "$template" || fail "phase budget field missing"
+grep -q '^Rehearsal terminal artifact: {{PATH | none}}$' "$template" || fail "phase terminal binding field missing"
 
-printf 'scarce-resource-rehearsal-contract: ok (F1-F9; zero metered calls)\n'
+printf 'scarce-resource-rehearsal-contract: ok (F1-F10; zero metered calls)\n'
