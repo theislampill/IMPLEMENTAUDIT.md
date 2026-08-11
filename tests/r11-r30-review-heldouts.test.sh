@@ -4,11 +4,13 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 outer_timeout_only=0
 windows_custody_only=0
+candidate_probe_only=0
 case "${1:-}" in
   --outer-timeout-heldout) outer_timeout_only=1; shift;;
   --windows-custody-reproducer) windows_custody_only=1; shift;;
+  --candidate-probe-heldout) candidate_probe_only=1; shift;;
 esac
-[ "$#" -eq 0 ] || { printf 'usage: r11-r30-review-heldouts.test.sh [--outer-timeout-heldout]\n' >&2; exit 2; }
+[ "$#" -eq 0 ] || { printf 'usage: r11-r30-review-heldouts.test.sh [--outer-timeout-heldout|--candidate-probe-heldout]\n' >&2; exit 2; }
 cd "$repo_root"
 
 checker="skills/implementaudit/scripts/check-authorization-binding.sh"
@@ -179,6 +181,14 @@ seed_candidate() {
   cp fixtures/run-root-example/phases/phase-1.md "$candidate/fixtures/run-root-example/phases/"
   printf '%s\n' "$candidate"
 }
+seed_probe_authority() {
+  local authority="$tmp/$1"
+  mkdir -p "$authority/scripts" "$authority/tests"
+  cp "$reachability" "$authority/scripts/check-helper-reachability.sh"
+  cp tests/scarce-resource-rehearsal-contract.test.sh \
+    "$authority/tests/scarce-resource-rehearsal-contract.test.sh"
+  printf '%s\n' "$authority"
+}
 expect_rejected() {
   local label="$1" candidate="$2"
   if bash "$reachability" --repo-root "$candidate" >/dev/null 2>&1; then failures+=("$label"); fi
@@ -190,6 +200,28 @@ expect_rejected_with_diagnostic() {
   elif ! grep -Fq "$expected" <<<"$output"; then
     failures+=("$label-diagnostic-lost")
   fi
+}
+expect_authority_probe_timeout() {
+  local label="$1" expected="$2" candidate="$3" authority="$4" output
+  if output="$(bash "$authority/scripts/check-helper-reachability.sh" --repo-root "$candidate" 2>&1)"; then
+    failures+=("$label")
+  elif ! grep -Fq "$expected" <<<"$output"; then
+    failures+=("$label-diagnostic-lost")
+  fi
+}
+stall_probe_authority() {
+  local authority="$1"
+  python - "$authority/tests/scarce-resource-rehearsal-contract.test.sh" <<'PY'
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+text = path.read_text(encoding="utf-8")
+injection = 'printf "outer-timeout-diagnostic\\n" >&2\nsleep 60 &\nprintf "%s\\n" "$!" > "$PWD/.outer-timeout-child.pid"\nwait\n'
+if text.count("checker=") != 1:
+    raise SystemExit("expected one checker binding")
+path.write_text(text.replace("checker=", injection + "checker="), encoding="utf-8")
+PY
 }
 expect_no_pid() {
   local label="$1" pid_file="$2"
@@ -207,21 +239,25 @@ os.kill(pid, 9)
 raise SystemExit(1)
 PY
 }
+if [ "$candidate_probe_only" -eq 1 ]; then
+  self_authorized="$(seed_candidate candidate-owned-probe)"
+  sed -i 's/--rehearsal)/--receipt)/' \
+    "$self_authorized/skills/implementaudit/scripts/check-authorization-binding.sh"
+  printf 'exit 0\n' > "$self_authorized/tests/scarce-resource-rehearsal-contract.test.sh"
+  chmod +x "$self_authorized/tests/scarce-resource-rehearsal-contract.test.sh"
+  if bash "$reachability" --repo-root "$self_authorized" >/dev/null 2>&1; then
+    printf '%s\n' 'r11-r30-review-heldouts: GAP-REVISE reproduced: candidate-owned-probe-self-authorizes' >&2
+    exit 1
+  fi
+  printf '%s\n' 'r11-r30-review-heldouts: candidate-probe heldout ok'
+  exit 0
+fi
 if [ "$outer_timeout_only" -eq 1 ]; then
   stalled_consumer="$(seed_candidate stalled-consumer)"
-  python - "$stalled_consumer/tests/scarce-resource-rehearsal-contract.test.sh" <<'PY'
-import sys
-from pathlib import Path
-
-path = Path(sys.argv[1])
-text = path.read_text(encoding="utf-8")
-injection = 'printf "outer-timeout-diagnostic\\n" >&2\nsleep 60 &\nprintf "%s\\n" "$!" > "$PWD/.outer-timeout-child.pid"\nwait\n'
-if text.count("checker=") != 1:
-    raise SystemExit("expected one checker binding")
-path.write_text(text.replace("checker=", injection + "checker="), encoding="utf-8")
-PY
-  expect_rejected_with_diagnostic stalled-candidate-process-tree \
-    'outer-timeout-diagnostic' "$stalled_consumer"
+  stalled_authority="$(seed_probe_authority stalled-authority)"
+  stall_probe_authority "$stalled_authority"
+  expect_authority_probe_timeout stalled-authority-process-tree \
+    'outer-timeout-diagnostic' "$stalled_consumer" "$stalled_authority"
   expect_no_pid stalled-candidate-process-tree "$stalled_consumer/.outer-timeout-child.pid"
   if [ "${#failures[@]}" -gt 0 ]; then
     printf 'r11-r30-review-heldouts: GAP-REVISE reproduced: %s\n' "${failures[*]}" >&2
@@ -236,6 +272,12 @@ fi
 missing="$(seed_candidate missing)"
 sed -i 's/--rehearsal)/--receipt)/' "$missing/skills/implementaudit/scripts/check-authorization-binding.sh"
 expect_rejected missing-parser-arm "$missing"
+
+self_authorized="$(seed_candidate candidate-owned-probe)"
+sed -i 's/--rehearsal)/--receipt)/' "$self_authorized/skills/implementaudit/scripts/check-authorization-binding.sh"
+printf 'exit 0\n' > "$self_authorized/tests/scarce-resource-rehearsal-contract.test.sh"
+chmod +x "$self_authorized/tests/scarce-resource-rehearsal-contract.test.sh"
+expect_rejected candidate-owned-probe-self-authorizes "$self_authorized"
 
 optional="$(seed_candidate optional)"
 sed -i 's/^mediator_thread\.start()$/if os.environ.get("R30_OPTIONAL"): mediator_thread.start()/' "$optional/skills/implementaudit/scripts/check-authorization-binding.sh"
@@ -287,10 +329,11 @@ expect_rejected_with_diagnostic dead-static-invocation-with-copied-terminal \
   'R30 native phase route did not invoke the declared helper' "$dead_consumer"
 
 stalled_consumer="$(seed_candidate stalled-consumer)"
-sed -i '/^checker=/i printf "outer-timeout-diagnostic\\n" >&2\nsleep 60' \
-  "$stalled_consumer/tests/scarce-resource-rehearsal-contract.test.sh"
-expect_rejected_with_diagnostic stalled-candidate-process-tree \
-  'outer-timeout-diagnostic' "$stalled_consumer"
+stalled_authority="$(seed_probe_authority stalled-authority)"
+stall_probe_authority "$stalled_authority"
+expect_authority_probe_timeout stalled-authority-process-tree \
+  'outer-timeout-diagnostic' "$stalled_consumer" "$stalled_authority"
+expect_no_pid stalled-authority-process-tree "$stalled_consumer/.outer-timeout-child.pid"
 
 inert="$(seed_candidate inert-deferred)"
 sed -i '/^mediator_thread\.start()$/i deferred_lambda = lambda: sys.exit(0)\ndeferred_generator = (sys.exit(0) for _ in ())\n[sys.exit(0) for _ in []]' "$inert/skills/implementaudit/scripts/check-authorization-binding.sh"

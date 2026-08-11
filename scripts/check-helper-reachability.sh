@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+authority_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+repo_root="$authority_root"
 census_only=0
 if [ "${1:-}" = "--census-only" ]; then
   census_only=1
@@ -26,7 +27,7 @@ else
   exit 2
 fi
 
-"${py_cmd[@]}" - "$repo_root" "$BASH" "$census_only" <<'PY'
+"${py_cmd[@]}" - "$repo_root" "$authority_root" "$BASH" "$census_only" <<'PY'
 import os
 import re
 import signal
@@ -67,8 +68,9 @@ if os.name == "nt":
                 self.handle = None
 
 root = Path(sys.argv[1]).resolve()
-bash_runner = sys.argv[2]
-census_only = sys.argv[3] == "1"
+authority_root = Path(sys.argv[2]).resolve()
+bash_runner = sys.argv[3]
+census_only = sys.argv[4] == "1"
 builder = root / "scripts" / "build-release-asset.sh"
 skill_root = root / "skills" / "implementaudit"
 contract = skill_root / "references" / "repo-state-comparison.md"
@@ -292,11 +294,13 @@ for helper in helpers:
         raise SystemExit(f"check-helper-reachability: nonautomatic helper declares caller: {helper}")
 
 if not census_only:
-    r30_probe = root / "tests" / "scarce-resource-rehearsal-contract.test.sh"
+    # The evaluated candidate supplies skills and fixtures, never the probe
+    # program.  The checker invocation root is the authority for F10 behavior.
+    r30_probe = authority_root / "tests" / "scarce-resource-rehearsal-contract.test.sh"
     if not r30_probe.is_file():
-        raise SystemExit("check-helper-reachability: missing candidate-bound R30 rehearsal probe")
-    probe_args = [bash_runner, "tests/scarce-resource-rehearsal-contract.test.sh", "--r30-probe", "--repo-root", "."]
-    probe_kwargs = {"cwd": root, "stdout": subprocess.PIPE, "stderr": subprocess.PIPE}
+        raise SystemExit("check-helper-reachability: missing independently rooted R30 rehearsal probe")
+    probe_args = [bash_runner, str(r30_probe), "--r30-probe", "--repo-root", str(root)]
+    probe_kwargs = {"cwd": authority_root, "stdout": subprocess.PIPE, "stderr": subprocess.PIPE}
     probe_job = None
     if os.name == "nt":
         probe_kwargs["creationflags"] = subprocess.CREATE_NEW_PROCESS_GROUP
