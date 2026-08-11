@@ -169,10 +169,36 @@ if bash "$reachability" --repo-root "$inert_mediator" >/dev/null 2>&1; then
   failures+=("inert-mediator-comment-counts-as-transport")
 fi
 
+dead_start="$tmp/dead-start"
+mkdir -p "$dead_start/scripts"
+cp -R skills "$dead_start/skills"
+cp scripts/build-release-asset.sh "$dead_start/scripts/build-release-asset.sh"
+sed -i 's/^[[:space:]]*mediator_thread\.start()/if False: mediator_thread.start()/' \
+  "$dead_start/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$dead_start" >/dev/null 2>&1; then
+  failures+=("dead-start-control-flow-counts-as-transport")
+fi
+
+dead_join="$tmp/dead-join"
+mkdir -p "$dead_join/scripts"
+cp -R skills "$dead_join/skills"
+cp scripts/build-release-asset.sh "$dead_join/scripts/build-release-asset.sh"
+sed -i 's/^[[:space:]]*mediator_thread\.join(3)/if False: mediator_thread.join(3)/' \
+  "$dead_join/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$dead_join" >/dev/null 2>&1; then
+  failures+=("dead-join-control-flow-counts-as-transport")
+fi
+
 if ! grep -Fqx \
   'helper-mode: check-authorization-binding.sh|--phase --rehearsal --launch|<phase> <receipt> <launch>|failed-rehearsal-blocks-launch|scripts/validate-phase.sh' \
   skills/implementaudit/references/repo-state-comparison.md; then
   failures+=("rehearsal-route-is-generic-prose-and-direct-test-only")
+fi
+
+asset_dir="$tmp/r33-asset"
+bash scripts/build-release-asset.sh "$asset_dir" >/dev/null
+if [ "$(wc -c < "$asset_dir/IMPLEMENTAUDIT.skill")" -gt 228000 ]; then
+  failures+=("r33-package-capacity-over-228000")
 fi
 
 if [ "${#failures[@]}" -gt 0 ]; then

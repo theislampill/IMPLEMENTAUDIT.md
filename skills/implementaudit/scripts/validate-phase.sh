@@ -935,16 +935,12 @@ if (( errors > 0 )); then
   exit 1
 fi
 
-# Scarce-resource rehearsal is consumed here, from the same phase spec that
-# names the audit object.  This is an explicit execution boundary, not a
-# prose-only route: any failure stops phase validation and leaves repair/re-run
-# manual for the operator.
 budget="$(sed -nE 's/^Scarce resource budget:[[:space:]]*(.*[^[:space:]])?[[:space:]]*$/\1/p' "$phase_file")"
 if [ -n "$budget" ] && [ "$budget" != "none" ]; then
   phase_field() {
     local name="$1" values
     values="$(sed -nE "s/^${name}:[[:space:]]*(.*[^[:space:]])?[[:space:]]*$/\\1/p" "$phase_file")"
-    [ "$(printf '%s\n' "$values" | sed '/^$/d' | wc -l)" -eq 1 ] || fail "non-none scarce budget requires exactly one ${name} field"
+    [ "$(printf '%s\n' "$values" | sed '/^$/d' | wc -l)" -eq 1 ] || fail "non-none budget requires one ${name}"
     values="$(printf '%s\n' "$values" | sed '/^$/d')"
     [ "$values" != "none" ] || fail "non-none scarce budget requires ${name}"
     printf '%s\n' "$values"
@@ -952,12 +948,10 @@ if [ -n "$budget" ] && [ "$budget" != "none" ]; then
   rehearsal="$(phase_field 'Rehearsal receipt')"
   launch="$(phase_field 'Rehearsal launch')"
   producer_stub="$(phase_field 'Rehearsal producer stub')"
-  phase_field 'Rehearsal command hash' >/dev/null
-  phase_field 'Rehearsal terminal artifact' >/dev/null
-  phase_field 'Rehearsal environment keys' >/dev/null
+  for field in 'Rehearsal command hash' 'Rehearsal terminal artifact' 'Rehearsal environment keys'; do phase_field "$field" >/dev/null; done
   IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB="$producer_stub" \
     "$script_dir/check-authorization-binding.sh" --phase "$phase_file" --rehearsal "$rehearsal" --launch "$launch" ||
-    fail "scarce-resource rehearsal failed; repair manually and re-run validation"
+    fail "rehearsal failed; repair manually and re-run"
 fi
 
 printf 'validate-phase: ok\n'

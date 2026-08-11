@@ -268,13 +268,35 @@ def has_mediated_execution(body):
                 and isinstance(node.func.value, ast.Name)
                 and node.func.value.id == base and node.func.attr == attribute)
 
-    bridge_written = any(is_call(node, "bridge_path", "write_text")
-                         for node in ast.walk(tree))
+    def literal_truth(node):
+        return bool(node.value) if isinstance(node, ast.Constant) else None
+
+    def executable_nodes(nodes):
+        for node in nodes:
+            yield node
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda)):
+                continue
+            if isinstance(node, ast.If):
+                truth = literal_truth(node.test)
+                branches = node.orelse if truth is False else node.body if truth is True else node.body + node.orelse
+                yield from executable_nodes(branches)
+                continue
+            if isinstance(node, (ast.While, ast.For, ast.AsyncFor)):
+                if isinstance(node, ast.While) and literal_truth(node.test) is False:
+                    yield from executable_nodes(node.orelse)
+                else:
+                    yield from executable_nodes(node.body + node.orelse)
+                continue
+            for child in ast.iter_child_nodes(node):
+                yield from executable_nodes([child])
+
+    live = list(executable_nodes(tree.body))
+    bridge_written = any(is_call(node, "bridge_path", "write_text") for node in live)
     thread_bound = False
     thread_started = False
     thread_joined = False
     stub_function = None
-    for node in ast.walk(tree):
+    for node in live:
         if isinstance(node, ast.FunctionDef) and node.name == "run_bounded_stub":
             stub_function = node
         if not (isinstance(node, ast.Assign) and len(node.targets) == 1
@@ -290,7 +312,7 @@ def has_mediated_execution(body):
                            and isinstance(keyword.value, ast.Name)
                            and keyword.value.id == "run_bounded_stub"
                            for keyword in value.keywords)
-    for node in ast.walk(tree):
+    for node in live:
         if not (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
                 and isinstance(node.func.value, ast.Name)
                 and node.func.value.id == "mediator_thread"):
@@ -302,7 +324,7 @@ def has_mediated_execution(body):
         and isinstance(node.func.value, ast.Name) and node.func.value.id == "subprocess"
         and node.func.attr == "run" and node.args
         and isinstance(node.args[0], ast.Name) and node.args[0].id == "command"
-        for node in ast.walk(stub_function)
+        for node in executable_nodes(stub_function.body)
     )
     return bridge_written and thread_bound and thread_started and thread_joined and stub_runs
 
