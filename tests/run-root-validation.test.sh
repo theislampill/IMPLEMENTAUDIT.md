@@ -986,10 +986,18 @@ if bash "$helper" --claim-only "$claim_root" --repo-root "$claim_repo" >/dev/nul
   printf 'run-root-validation.test: impossible RFC3339 claim timestamp must fail\n' >&2; exit 1
 fi
 cp "$claim_saved" "$claim_root/.claimed"
-if bash "$helper" --claim-only "$claim_root/." --repo-root "$claim_repo" >/dev/null 2>&1; then
+alias_claim_root="$claim_root/."
+alias_claim_repo="$claim_repo/."
+case "$(uname -s 2>/dev/null || true)" in
+  MINGW*|MSYS*|CYGWIN*)
+    alias_claim_root="$(cygpath -w "$claim_root")\\."
+    alias_claim_repo="$(cygpath -w "$claim_repo")\\."
+    ;;
+esac
+if bash "$helper" --claim-only "$alias_claim_root" --repo-root "$claim_repo" >/dev/null 2>&1; then
   printf 'run-root-validation.test: lexical dot run-root alias must fail\n' >&2; exit 1
 fi
-if bash "$helper" --claim-only "$claim_root" --repo-root "$claim_repo/." >/dev/null 2>&1; then
+if bash "$helper" --claim-only "$claim_root" --repo-root "$alias_claim_repo" >/dev/null 2>&1; then
   printf 'run-root-validation.test: lexical dot repo-root alias must fail\n' >&2; exit 1
 fi
 mkdir -p "$tmp/claim-alias-target"
