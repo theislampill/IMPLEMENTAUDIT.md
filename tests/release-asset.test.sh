@@ -272,8 +272,21 @@ if [ "${1:-}" = "--identity-only" ]; then
     fail 'family-forward accepted a candidate commit after HEAD moved'
   fi
 
-  verify_output="$(bash scripts/verify-package.sh --release-identity \
-    family-forward v0.3.3.0 v0.3.3.3 HEAD 2>&1 || true)"
+  verify_family_forward="$tmp_parent/verify-family-forward"
+  mkdir -p "$verify_family_forward"
+  git archive HEAD | tar -x -C "$verify_family_forward"
+  git -C "$verify_family_forward" init -q
+  git -C "$verify_family_forward" config user.email t@example.invalid
+  git -C "$verify_family_forward" config user.name t
+  printf '%s\n' \
+    '{"release":{"milestone":"v0.3.3.0","audit_ledger_url":"https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/archive/v0.3.3.0-release-report.md"}}' \
+    > "$verify_family_forward/docs/portal/site.json"
+  git -C "$verify_family_forward" add .
+  git -C "$verify_family_forward" -c user.email=t@example.invalid \
+    -c user.name=t commit -qm verify-family-forward
+  verify_output="$(cd "$verify_family_forward" && \
+    bash scripts/verify-package.sh --release-identity \
+      family-forward v0.3.3.0 v0.3.3.3 HEAD 2>&1 || true)"
   case "$verify_output" in
     *"family-forward candidate tag 'v0.3.3.3' != docs/portal/site.json milestone 'v0.3.3.0'"*) : ;;
     *) fail 'verify-package.sh did not expose family-forward identity mode' ;;
