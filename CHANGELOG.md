@@ -127,8 +127,8 @@ assets, checksum, and body were corrected in place and independently read back.
   `6d57060aeab3aeec1d0ad090c2fa7ab66ca9de67` resolves to final commit
   `3b5c300...`. Release ID `368332810` serves asset ID `510191694` at 227,999
   bytes and checksum asset ID `510191721` at 96 bytes. The final user-facing
-  body is 11,519 UTF-8 bytes with SHA-256
-  `dedd29580d042d45f10cd30a00dcf731910e8b5af101ff806d91cb8b97dacf80`.
+  body is 11,483 UTF-8 bytes with SHA-256
+  `b03fc28e2bb9a712fc14f0cb9ec95b190ee016d775b2ce1e7e2edd2d6eca5798`.
 - R36 / #167 remains open and was not shipped or qualified in this release. R28 /
   #117 remains open, optional, and nonblocking. `/dashboard/` remains excluded
   from `IMPLEMENTAUDIT.skill`.
