@@ -405,6 +405,46 @@ if bash "$reachability" --repo-root "$assigned_exit_before_producer" >/dev/null 
   failures+=("assigned-exit-before-producer-counts-as-live-stub")
 fi
 
+short_circuit_compare_start="$tmp/short-circuit-compare-start"
+mkdir -p "$short_circuit_compare_start/scripts"
+cp -R skills "$short_circuit_compare_start/skills"
+cp scripts/build-release-asset.sh "$short_circuit_compare_start/scripts/build-release-asset.sh"
+sed -i 's/^mediator_thread\.start()$/0 == 1 == mediator_thread.start()/' \
+  "$short_circuit_compare_start/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$short_circuit_compare_start" >/dev/null 2>&1; then
+  failures+=("short-circuit-comparison-start-counts-as-transport")
+fi
+
+short_circuit_compare_launch="$tmp/short-circuit-compare-launch"
+mkdir -p "$short_circuit_compare_launch/scripts"
+cp -R skills "$short_circuit_compare_launch/skills"
+cp scripts/build-release-asset.sh "$short_circuit_compare_launch/scripts/build-release-asset.sh"
+sed -i 's/completed = subprocess\.run(launch\["argv"\], env=run_env, check=False)/completed = (0 == 1 == subprocess.run(launch["argv"], env=run_env, check=False))/' \
+  "$short_circuit_compare_launch/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$short_circuit_compare_launch" >/dev/null 2>&1; then
+  failures+=("short-circuit-comparison-launch-counts-as-transport")
+fi
+
+short_circuit_compare_producer="$tmp/short-circuit-compare-producer"
+mkdir -p "$short_circuit_compare_producer/scripts"
+cp -R skills "$short_circuit_compare_producer/skills"
+cp scripts/build-release-asset.sh "$short_circuit_compare_producer/scripts/build-release-asset.sh"
+sed -i 's/result = subprocess\.run(command, env=stub_env, check=False)/result = (0 == 1 == subprocess.run(command, env=stub_env, check=False))/' \
+  "$short_circuit_compare_producer/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$short_circuit_compare_producer" >/dev/null 2>&1; then
+  failures+=("short-circuit-comparison-producer-counts-as-live-stub")
+fi
+
+constant_assert_before_start="$tmp/constant-assert-before-start"
+mkdir -p "$constant_assert_before_start/scripts"
+cp -R skills "$constant_assert_before_start/skills"
+cp scripts/build-release-asset.sh "$constant_assert_before_start/scripts/build-release-asset.sh"
+sed -i '/^mediator_thread\.start()$/i assert 1 - 1\nassert 1 == 1 == 2' \
+  "$constant_assert_before_start/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$constant_assert_before_start" >/dev/null 2>&1; then
+  failures+=("constant-expression-assert-before-start-counts-as-transport")
+fi
+
 if ! grep -Fqx \
   'helper-mode: check-authorization-binding.sh|--phase --rehearsal --launch|<phase> <receipt> <launch>|failed-rehearsal-blocks-launch|scripts/validate-phase.sh' \
   skills/implementaudit/references/repo-state-comparison.md; then

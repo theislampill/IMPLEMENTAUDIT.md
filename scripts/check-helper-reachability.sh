@@ -23,6 +23,7 @@ fi
 
 "${py_cmd[@]}" - "$repo_root" <<'PY'
 import ast
+import operator
 import re
 import sys
 from pathlib import Path
@@ -235,38 +236,126 @@ transport_match = re.search(
     rehearsal_text,
 )
 
+UNKNOWN_CONSTANT = object()
+COMPARISON_OPERATIONS = {
+    ast.Eq: operator.eq, ast.NotEq: operator.ne,
+    ast.Is: operator.is_, ast.IsNot: operator.is_not,
+    ast.Lt: operator.lt, ast.LtE: operator.le,
+    ast.Gt: operator.gt, ast.GtE: operator.ge,
+    ast.In: lambda left, right: left in right,
+    ast.NotIn: lambda left, right: left not in right,
+}
+UNARY_OPERATIONS = {
+    ast.Not: operator.not_, ast.UAdd: operator.pos,
+    ast.USub: operator.neg, ast.Invert: operator.invert,
+}
+BINARY_OPERATIONS = {
+    ast.Add: operator.add, ast.Sub: operator.sub, ast.Mult: operator.mul,
+    ast.Div: operator.truediv, ast.FloorDiv: operator.floordiv,
+    ast.Mod: operator.mod, ast.BitAnd: operator.and_, ast.BitOr: operator.or_,
+    ast.BitXor: operator.xor, ast.LShift: operator.lshift,
+    ast.RShift: operator.rshift,
+}
+
+def compare_constants(operation, left, right):
+    function = COMPARISON_OPERATIONS.get(type(operation))
+    if function is None:
+        return UNKNOWN_CONSTANT
+    try:
+        return function(left, right)
+    except (TypeError, ValueError):
+        return UNKNOWN_CONSTANT
+
+def constant_value(node):
+    """Evaluate a bounded pure-literal expression without executing source."""
+    if isinstance(node, ast.Constant):
+        return node.value
+    if isinstance(node, (ast.Tuple, ast.List, ast.Set)):
+        values = [constant_value(item) for item in node.elts]
+        if UNKNOWN_CONSTANT in values:
+            return UNKNOWN_CONSTANT
+        if isinstance(node, ast.Tuple):
+            return tuple(values)
+        if isinstance(node, ast.List):
+            return values
+        return set(values)
+    if isinstance(node, ast.Dict):
+        keys = [constant_value(item) for item in node.keys]
+        values = [constant_value(item) for item in node.values]
+        if UNKNOWN_CONSTANT in keys or UNKNOWN_CONSTANT in values:
+            return UNKNOWN_CONSTANT
+        try:
+            return dict(zip(keys, values))
+        except (TypeError, ValueError):
+            return UNKNOWN_CONSTANT
+    if (isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+            and node.func.id in {"dict", "list", "set", "tuple"}
+            and not node.args and not node.keywords):
+        return {"dict": {}, "list": [], "set": set(), "tuple": ()}[node.func.id]
+    if isinstance(node, ast.UnaryOp):
+        value = constant_value(node.operand)
+        if value is UNKNOWN_CONSTANT:
+            return value
+        function = UNARY_OPERATIONS.get(type(node.op))
+        if function is None:
+            return UNKNOWN_CONSTANT
+        try:
+            return function(value)
+        except (TypeError, ValueError, OverflowError):
+            return UNKNOWN_CONSTANT
+    if isinstance(node, ast.BinOp):
+        left = constant_value(node.left)
+        right = constant_value(node.right)
+        if UNKNOWN_CONSTANT in (left, right):
+            return UNKNOWN_CONSTANT
+        function = BINARY_OPERATIONS.get(type(node.op))
+        if function is None:
+            return UNKNOWN_CONSTANT
+        if isinstance(node.op, (ast.LShift, ast.RShift)):
+            if not isinstance(right, int) or not 0 <= right <= 64:
+                return UNKNOWN_CONSTANT
+        if isinstance(node.op, ast.Mult):
+            for value in (left, right):
+                if isinstance(value, int) and abs(value) > 10_000:
+                    return UNKNOWN_CONSTANT
+        try:
+            return function(left, right)
+        except (TypeError, ValueError, ZeroDivisionError, OverflowError):
+            return UNKNOWN_CONSTANT
+    if isinstance(node, ast.BoolOp):
+        value = UNKNOWN_CONSTANT
+        for item in node.values:
+            value = constant_value(item)
+            if value is UNKNOWN_CONSTANT:
+                return value
+            if isinstance(node.op, ast.And) and not value:
+                return value
+            if isinstance(node.op, ast.Or) and value:
+                return value
+        return value
+    if isinstance(node, ast.Compare):
+        left = constant_value(node.left)
+        if left is UNKNOWN_CONSTANT:
+            return left
+        for operation, comparator in zip(node.ops, node.comparators):
+            right = constant_value(comparator)
+            if right is UNKNOWN_CONSTANT:
+                return right
+            outcome = compare_constants(operation, left, right)
+            if outcome is UNKNOWN_CONSTANT or not outcome:
+                return outcome
+            left = right
+        return True
+    return UNKNOWN_CONSTANT
+
 def constant_truth(node):
     """Return a statically known truth value without executing source."""
-    if isinstance(node, ast.Constant):
-        return bool(node.value)
     if isinstance(node, (ast.Tuple, ast.List, ast.Set)):
         return bool(node.elts)
     if isinstance(node, ast.Dict):
         return bool(node.keys)
-    if isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.Not):
-        value = constant_truth(node.operand)
-        return None if value is None else not value
-    if isinstance(node, ast.BoolOp):
-        values = [constant_truth(value) for value in node.values]
-        if isinstance(node.op, ast.And):
-            if False in values:
-                return False
-            return True if all(value is True for value in values) else None
-        if isinstance(node.op, ast.Or):
-            if True in values:
-                return True
-            return False if all(value is False for value in values) else None
-    if (isinstance(node, ast.Compare) and len(node.ops) == 1
-            and len(node.comparators) == 1
-            and isinstance(node.left, ast.Constant)
-            and isinstance(node.comparators[0], ast.Constant)):
-        left = node.left.value
-        right = node.comparators[0].value
-        if isinstance(node.ops[0], (ast.Eq, ast.Is)):
-            return left == right
-        if isinstance(node.ops[0], (ast.NotEq, ast.IsNot)):
-            return left != right
-    return None
+    value = constant_value(node)
+    return None if value is UNKNOWN_CONSTANT else bool(value)
 
 def terminating_call(node):
     if not isinstance(node, ast.Call):
@@ -286,65 +375,21 @@ def terminates_route(node):
         return True
     return isinstance(node, ast.Expr) and terminating_call(node.value)
 
-def mandatory_expression_nodes(node):
-    """Return required expression nodes and whether their evaluation terminates."""
-    result = [node]
-    if isinstance(node, ast.Lambda):
-        return result, False
-    if isinstance(node, ast.IfExp):
-        nested, terminated = mandatory_expression_nodes(node.test)
-        result.extend(nested)
-        if terminated:
-            return result, True
-        truth = constant_truth(node.test)
-        branch = node.body if truth is True else node.orelse if truth is False else None
-        if branch is not None:
-            nested, terminated = mandatory_expression_nodes(branch)
-            result.extend(nested)
-            if terminated:
-                return result, True
-        return result, False
-    if isinstance(node, ast.BoolOp):
-        for value in node.values:
-            nested, terminated = mandatory_expression_nodes(value)
-            result.extend(nested)
-            if terminated:
-                return result, True
-            truth = constant_truth(value)
-            if isinstance(node.op, ast.And) and truth is not True:
-                break
-            if isinstance(node.op, ast.Or) and truth is not False:
-                break
-        return result, False
-    if isinstance(node, (ast.GeneratorExp, ast.ListComp, ast.SetComp, ast.DictComp)):
-        for generator in node.generators:
-            nested, terminated = mandatory_expression_nodes(generator.iter)
-            result.extend(nested)
-            if terminated:
-                return result, True
-            break
-        return result, False
-    for child in ast.iter_child_nodes(node):
-        if isinstance(child, ast.expr):
-            nested, terminated = mandatory_expression_nodes(child)
-            result.extend(nested)
-            if terminated:
-                return result, True
-    return result, terminating_call(node)
+def expression_terminates(node):
+    """Conservatively reject route expressions containing an explicit process exit."""
+    return any(terminating_call(item) for item in ast.walk(node))
 
 def normal_path_nodes(statements):
-    """Return ordered nodes on the non-exception route and whether it terminates."""
+    """Return ordered statements on the normal non-exception route."""
     result = []
     for node in statements:
         result.append(node)
-        if terminates_route(node):
-            return result, True
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
             continue
+        if terminates_route(node):
+            return result, True
         if isinstance(node, ast.If):
-            test_nodes, test_terminated = mandatory_expression_nodes(node.test)
-            result.extend(test_nodes)
-            if test_terminated:
+            if expression_terminates(node.test):
                 return result, True
             truth = constant_truth(node.test)
             branch = node.orelse if truth is False else node.body if truth is True else []
@@ -365,15 +410,15 @@ def normal_path_nodes(statements):
                 return result, True
             continue
         if isinstance(node, (ast.With, ast.AsyncWith)):
+            if any(expression_terminates(item.context_expr) for item in node.items):
+                return result, True
             nested, terminated = normal_path_nodes(node.body)
             result.extend(nested)
             if terminated:
                 return result, True
             continue
         if isinstance(node, ast.While):
-            test_nodes, test_terminated = mandatory_expression_nodes(node.test)
-            result.extend(test_nodes)
-            if test_terminated:
+            if expression_terminates(node.test):
                 return result, True
             truth = constant_truth(node.test)
             if truth is False:
@@ -387,24 +432,35 @@ def normal_path_nodes(statements):
                 return result, True
             continue
         if isinstance(node, (ast.For, ast.AsyncFor)):
+            if expression_terminates(node.iter):
+                return result, True
             continue
         for child in ast.iter_child_nodes(node):
-            if isinstance(child, ast.expr):
-                nested, terminated = mandatory_expression_nodes(child)
-                result.extend(nested)
-                if terminated:
-                    return result, True
+            if isinstance(child, ast.expr) and expression_terminates(child):
+                return result, True
     return result, False
 
+def statement_call(node):
+    if isinstance(node, ast.Expr) and isinstance(node.value, ast.Call):
+        return node.value
+    if (isinstance(node, ast.Assign) and len(node.targets) == 1
+            and isinstance(node.value, ast.Call)):
+        return node.value
+    return None
+
 def is_launch_subprocess(node):
-    if not (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
-            and isinstance(node.func.value, ast.Name)
-            and node.func.value.id == "subprocess" and node.func.attr == "run"
-            and node.args and isinstance(node.args[0], ast.Subscript)
-            and isinstance(node.args[0].value, ast.Name)
-            and node.args[0].value.id == "launch"):
+    call = statement_call(node)
+    if not (call and isinstance(node, ast.Assign)
+            and isinstance(node.targets[0], ast.Name)
+            and node.targets[0].id == "completed"
+            and isinstance(call.func, ast.Attribute)
+            and isinstance(call.func.value, ast.Name)
+            and call.func.value.id == "subprocess" and call.func.attr == "run"
+            and call.args and isinstance(call.args[0], ast.Subscript)
+            and isinstance(call.args[0].value, ast.Name)
+            and call.args[0].value.id == "launch"):
         return False
-    slice_node = node.args[0].slice
+    slice_node = call.args[0].slice
     return isinstance(slice_node, ast.Constant) and slice_node.value == "argv"
 
 def has_launch_subprocess(body):
@@ -427,9 +483,11 @@ def has_mediated_execution(body):
         return False
 
     def is_call(node, base, attribute):
-        return (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
-                and isinstance(node.func.value, ast.Name)
-                and node.func.value.id == base and node.func.attr == attribute)
+        call = statement_call(node)
+        return (call is not None and isinstance(node, ast.Expr)
+                and isinstance(call.func, ast.Attribute)
+                and isinstance(call.func.value, ast.Name)
+                and call.func.value.id == base and call.func.attr == attribute)
 
     live, _ = normal_path_nodes(tree.body)
     bridge_position = None
@@ -467,10 +525,13 @@ def has_mediated_execution(body):
             thread_position = position
     stub_live, _ = normal_path_nodes(stub_function.body if stub_function else [])
     stub_runs = bool(stub_function) and any(
-        isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
-        and isinstance(node.func.value, ast.Name) and node.func.value.id == "subprocess"
-        and node.func.attr == "run" and node.args
-        and isinstance(node.args[0], ast.Name) and node.args[0].id == "command"
+        isinstance(node, ast.Assign) and len(node.targets) == 1
+        and isinstance(node.targets[0], ast.Name) and node.targets[0].id == "result"
+        and (call := statement_call(node)) is not None
+        and isinstance(call.func, ast.Attribute)
+        and isinstance(call.func.value, ast.Name) and call.func.value.id == "subprocess"
+        and call.func.attr == "run" and call.args
+        and isinstance(call.args[0], ast.Name) and call.args[0].id == "command"
         for node in stub_live
     )
     positions = (
