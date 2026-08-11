@@ -19,6 +19,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install --yes ripgrep
+          python -m pip install --disable-pip-version-check --no-deps --requirement requirements-release.txt
           rg --version
 
       - name: Validate whitespace

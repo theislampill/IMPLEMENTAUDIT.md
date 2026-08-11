@@ -48,6 +48,7 @@ include_files = [
     "CLAUDE.md",
     "CONTRIBUTING.md",
     "README.md",
+    "requirements-release.txt",
     "docs/audits/INDEX.md",
     "docs/audits/RETENTION.md",
 ]
@@ -80,6 +81,9 @@ marketplace claim, provenance artifact, issue publication, license selection,
 or real-home install proof.
 
 Extract the zip, then run from the extracted pack root:
+
+Canonical release-package builds additionally require
+`python -m pip install --no-deps --requirement requirements-release.txt`.
 
 | Suite | Command | Expected exit | Expected last line |
 |---|---|---:|---|
@@ -136,6 +140,7 @@ if len(names) != len(set(names)):
     raise SystemExit("duplicate source evidence archive entries")
 
 for required in [
+    "requirements-release.txt",
     "skills/implementaudit/SKILL.md",
     "skills/implementaudit/references/sidecars.md",
     "skills/implementaudit/templates/final-report.md",

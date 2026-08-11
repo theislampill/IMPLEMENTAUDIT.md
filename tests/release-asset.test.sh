@@ -565,10 +565,14 @@ fi
 
 "${py_cmd[@]}" - "$asset" <<'PY'
 import json
+import struct
 import sys
 import tempfile
 import zipfile
+from importlib.metadata import version
 from pathlib import Path
+
+import zopfli.zlib
 
 asset = Path(sys.argv[1])
 
@@ -638,6 +642,31 @@ allowed_top_level = {"SKILL.md", "references", "scripts", "templates", ".claude-
 
 with zipfile.ZipFile(asset) as zf:
     names = set(zf.namelist())
+
+    if version("zopfli") != "0.2.3.post1":
+        raise SystemExit("canonical release build requires zopfli 0.2.3.post1")
+
+    archive_bytes = asset.read_bytes()
+    for info in zf.infolist():
+        if info.compress_type != zipfile.ZIP_DEFLATED:
+            raise SystemExit(f"non-DEFLATE package member: {info.filename}")
+        header = archive_bytes[info.header_offset:info.header_offset + 30]
+        if len(header) != 30 or header[:4] != b"PK\x03\x04":
+            raise SystemExit(f"invalid local ZIP header: {info.filename}")
+        filename_len, extra_len = struct.unpack_from("<HH", header, 26)
+        payload_offset = info.header_offset + 30 + filename_len + extra_len
+        observed = archive_bytes[payload_offset:payload_offset + info.compress_size]
+        expected = zopfli.zlib.compress(
+            zf.read(info.filename),
+            numiterations=15,
+            blocksplitting=1,
+            blocksplittinglast=0,
+            blocksplittingmax=15,
+        )[2:-4]
+        if observed != expected:
+            raise SystemExit(
+                f"member is not canonical Zopfli DEFLATE: {info.filename}"
+            )
 
     # Regression guard: skills/implementaudit/SKILL.md must NOT be in the archive.
     # Claude import requires SKILL.md at archive root.
@@ -711,13 +740,13 @@ with zipfile.ZipFile(asset) as zf:
         "owner", "dedicated-calibration-lane",
     }
 
-    # The final R29 audience/owner/rendered-consumer candidate is 227,999 bytes
-    # after semantic-preserving representation compaction. Owner authority
-    # for this corrective source lane retains the smallest whole-1,000-byte
-    # value that preserves at least 2,000 bytes of measured headroom. The outer
-    # 230,000-byte bound remains unchanged, and capacity is not a target.
-    MAX_ASSET_BYTES = 230_000
-    CURRENT_CALIBRATION_ASSET_BYTES = 227_999
+    # The extracted payload is byte-identical to the 227,999-byte final R29
+    # package; canonical Zopfli method-8 DEFLATE yields 220,699 bytes. This
+    # dedicated R33 calibration lane uses the smallest whole-1,000-byte value
+    # preserving at least 2,000 bytes of measured headroom. The 230,000-byte
+    # outer bound remains unchanged, and capacity is not a target.
+    MAX_ASSET_BYTES = 223_000
+    CURRENT_CALIBRATION_ASSET_BYTES = 220_699
     N06_BASELINE_ASSET_BYTES = 206_584
     N06_FINAL_P7_ASSET_BYTES = 215_126
     FULL_W1_FORECAST_BYTES = 144_730

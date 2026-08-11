@@ -32,6 +32,7 @@ with zipfile.ZipFile(pack) as zf:
     names = set(zf.namelist())
     required = {
         "RUN-VALIDATION.md",
+        "requirements-release.txt",
         "skills/implementaudit/SKILL.md",
         "skills/implementaudit/references/sidecars.md",
         "skills/implementaudit/templates/final-report.md",

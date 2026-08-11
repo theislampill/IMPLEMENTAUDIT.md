@@ -448,7 +448,27 @@ import sys
 import tempfile
 import time
 import zipfile
+import zlib
+from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
+
+try:
+    import zopfli.zlib
+except ImportError as exc:
+    raise SystemExit(
+        "release build requires zopfli 0.2.3.post1; "
+        "run: python -m pip install --no-deps --requirement requirements-release.txt"
+    ) from exc
+
+try:
+    zopfli_version = version("zopfli")
+except PackageNotFoundError as exc:
+    raise SystemExit("release build cannot resolve the zopfli package version") from exc
+if zopfli_version != "0.2.3.post1":
+    raise SystemExit(
+        "release build requires zopfli 0.2.3.post1, "
+        f"found {zopfli_version}"
+    )
 
 repo = Path.cwd()
 asset = Path(sys.argv[1]).resolve()
@@ -709,13 +729,54 @@ payload_entries.extend(
 payload_entries.sort(key=lambda item: item[0].as_posix())
 
 
+class CanonicalZopfliCompressor:
+    """Buffer one member and emit deterministic raw method-8 DEFLATE."""
+
+    def __init__(self):
+        self.buffer = bytearray()
+
+    def compress(self, data):
+        self.buffer.extend(data)
+        return b""
+
+    def flush(self):
+        source = bytes(self.buffer)
+        stream = zopfli.zlib.compress(
+            source,
+            numiterations=15,
+            blocksplitting=1,
+            blocksplittinglast=0,
+            blocksplittingmax=15,
+        )
+        raw_deflate = stream[2:-4]
+        if (zlib.decompress(stream) != source
+                or zlib.decompress(raw_deflate, wbits=-15) != source):
+            raise SystemExit("zopfli round-trip validation failed")
+        return raw_deflate
+
+
+stdlib_get_compressor = getattr(zipfile, "_get_compressor", None)
+if not callable(stdlib_get_compressor):
+    raise SystemExit("unsupported Python zipfile compressor interface")
+
+
+def canonical_get_compressor(compress_type, compresslevel=None):
+    if compress_type == zipfile.ZIP_DEFLATED:
+        return CanonicalZopfliCompressor()
+    return stdlib_get_compressor(compress_type, compresslevel)
+
+
 asset.parent.mkdir(parents=True, exist_ok=True)
-with zipfile.ZipFile(
-        asset, "w", compression=zipfile.ZIP_DEFLATED,
-        compresslevel=9, strict_timestamps=True) as zf:
-    for archive_rel, data, mode in payload_entries:
-        info = zip_info(archive_rel, mode)
-        zf.writestr(info, data)
+zipfile._get_compressor = canonical_get_compressor
+try:
+    with zipfile.ZipFile(
+            asset, "w", compression=zipfile.ZIP_DEFLATED,
+            strict_timestamps=True) as zf:
+        for archive_rel, data, mode in payload_entries:
+            info = zip_info(archive_rel, mode)
+            zf.writestr(info, data)
+finally:
+    zipfile._get_compressor = stdlib_get_compressor
 
 with zipfile.ZipFile(asset) as zf:
     names = set(zf.namelist())

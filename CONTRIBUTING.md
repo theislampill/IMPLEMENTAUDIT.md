@@ -52,6 +52,11 @@ do not ship in `IMPLEMENTAUDIT.skill`.
   Git Bash is the established, release-qualified path. WSL is usable only when
   the checkout is accessible from WSL and its `python` command resolves to
   Python 3; verify both before relying on that route.
+- Canonical release builds require the pinned build-only dependency in
+  `requirements-release.txt`. Install it with
+  `python -m pip install --no-deps --requirement requirements-release.txt`; the resulting
+  archive remains standard ZIP method-8 DEFLATE and the installed runtime gains
+  no Python-package dependency.
 - Preserve LF line endings in shell scripts and generated/source evidence. Do
   not hide line-ending churn inside a semantic change.
 - Keep one worktree and branch focused on one coherent outcome. Use an isolated
