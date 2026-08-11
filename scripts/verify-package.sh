@@ -13,14 +13,21 @@ release_identity_args=()
 release_identity_tmp=""
 trap 'if [ -n "${release_identity_tmp:-}" ]; then rm -rf "$release_identity_tmp"; fi' EXIT
 if [ "${1:-}" = "--release-identity" ]; then
-  [ "$#" -eq 4 ] \
-    || fail "--release-identity requires <forward|republish> <previous-version> <release-commit>"
   case "$2" in
-    forward|republish) : ;;
-    *) fail "--release-identity mode must be forward or republish" ;;
+    family-forward)
+      [ "$#" -eq 5 ] \
+        || fail "--release-identity family-forward requires <previous-tag> <candidate-tag> <release-commit>"
+      release_identity_args=("$2" "$3" "$4" "$5")
+      shift 5
+      ;;
+    forward|republish)
+      [ "$#" -eq 4 ] \
+        || fail "--release-identity requires <forward|republish> <previous-version> <release-commit>"
+      release_identity_args=("$2" "$3" "$4")
+      shift 4
+      ;;
+    *) fail "--release-identity mode must be forward, republish, or family-forward" ;;
   esac
-  release_identity_args=("$2" "$3" "$4")
-  shift 4
 fi
 [ "$#" -eq 0 ] || fail "unknown argument: $1"
 
@@ -442,6 +449,7 @@ PY
 
 "${py_cmd[@]}" - <<'PY'
 import json
+import re
 from pathlib import Path
 
 plugin = json.loads(Path(".claude-plugin/plugin.json").read_text())
@@ -455,7 +463,7 @@ if plugin.get("skills") != "./skills/":
 if not plugin.get("version"):
     raise SystemExit("plugin version is required")
 if plugin.get("version") != "0.3.3":
-    raise SystemExit("plugin version must be 0.3.3 for the v0.3.3.0 project milestone")
+    raise SystemExit("plugin version must be 0.3.3 for the v0.3.3 runtime family")
 
 marketplace = json.loads(Path(".claude-plugin/marketplace.json").read_text())
 plugins = marketplace.get("plugins")
@@ -466,19 +474,28 @@ if plugins[0].get("source") != "./":
 if "path" in plugins[0]:
     raise SystemExit("source marketplace entry must not use archive-only path")
 
-# Public version-claim truth: README's "Version and release notes" claim must
-# match the live manifest. The other version pins are checker-enforced; this
-# line drifted silently at v0.2.9.0 because nothing derived it from the
-# manifest.
+# Public version-claim truth: the portal site owns the four-component project
+# milestone while the plugin manifest owns the three-component runtime family.
+# README must project both identities without synthesising the public tag from
+# the runtime version.
 readme = Path("README.md").read_text(encoding="utf-8")
 version = plugin["version"]
+site = json.loads(Path("docs/portal/site.json").read_text(encoding="utf-8"))
+milestone = str(site.get("release", {}).get("milestone", "")).strip()
+milestone_match = re.fullmatch(r"v([0-9]+\.[0-9]+\.[0-9]+)\.([0-9]+)", milestone)
+if not milestone_match:
+    raise SystemExit("docs/portal/site.json release milestone must be v-prefixed with four numeric components")
+if milestone_match.group(1) != version:
+    raise SystemExit(
+        f"docs/portal/site.json release milestone {milestone!r} does not belong to runtime family {version}"
+    )
 claim_lines = [l for l in readme.splitlines() if "Current project milestone:" in l]
 if not claim_lines:
     raise SystemExit("README must state 'Current project milestone:' in Version and release notes")
 for line in claim_lines:
-    if f"v{version}.0" not in line or f"`{version}`" not in line:
+    if f"`{milestone}`" not in line or f"`{version}`" not in line:
         raise SystemExit(
-            f"README version claim does not match manifest {version}: {line.strip()}"
+            f"README version claim does not match milestone {milestone} and manifest {version}: {line.strip()}"
         )
 PY
 
