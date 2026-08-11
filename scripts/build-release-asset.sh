@@ -31,6 +31,13 @@ check_release_identity() {
     candidate_asset="${6:-$check_root/$asset_name}"
     [ -n "$previous_identity" ] && [ -n "$candidate_identity" ] && [ -n "$release_commit" ] \
       || fail "--check-release-identity family-forward requires <previous-tag> <candidate-tag> <release-commit> [repo-root] [candidate-asset]"
+  elif [ "$mode" = "same-tag-correction" ]; then
+    candidate_identity="$previous_identity"
+    release_commit="${3:-}"
+    check_root="${4:-$repo_root}"
+    candidate_asset="${5:-$check_root/$asset_name}"
+    [ -n "$candidate_identity" ] && [ -n "$release_commit" ] \
+      || fail "--check-release-identity same-tag-correction requires <public-tag> <release-commit> [repo-root] [candidate-asset]"
   else
     release_commit="${3:-}"
     check_root="${4:-$repo_root}"
@@ -48,8 +55,11 @@ from pathlib import Path
 
 mode, previous_identity, candidate_identity, release_commit, root_arg, candidate_arg = sys.argv[1:]
 root = Path(root_arg).resolve()
-if mode not in {"forward", "republish", "family-forward"}:
-    raise SystemExit("prospective release identity mode must be forward, republish, or family-forward")
+if mode not in {"forward", "republish", "family-forward", "same-tag-correction"}:
+    raise SystemExit(
+        "prospective release identity mode must be forward, republish, "
+        "family-forward, or same-tag-correction"
+    )
 
 plugin_path = root / ".claude-plugin" / "plugin.json"
 skill_path = root / "skills" / "implementaudit" / "SKILL.md"
@@ -91,14 +101,14 @@ headings = [
 distinct_headings = list(dict.fromkeys(headings))
 if not distinct_headings:
     raise SystemExit("CHANGELOG.md has no published version heading")
-if mode == "family-forward":
+if mode in {"family-forward", "same-tag-correction"}:
     if not portal_path.is_file():
         raise SystemExit(f"release identity owner is missing: {portal_path}")
     portal_release = json.loads(portal_path.read_text(encoding="utf-8")).get("release", {})
     portal_milestone = str(portal_release.get("milestone", "")).strip()
     if candidate_identity != portal_milestone:
         raise SystemExit(
-            f"family-forward candidate tag {candidate_identity!r} != "
+            f"{mode} candidate tag {candidate_identity!r} != "
             f"docs/portal/site.json milestone {portal_milestone!r}"
         )
     portal_ledger = str(portal_release.get("audit_ledger_url", "")).strip()
@@ -109,6 +119,17 @@ if mode == "family-forward":
             f"docs/portal/site.json audit ledger must name a non-placeholder "
             f"{candidate_identity} markdown ledger"
         )
+    changelog_text = changelog_path.read_text(encoding="utf-8")
+    candidate_heading = re.compile(
+        rf"(?m)^## \[{re.escape(candidate_identity)}\](?:\s+-\s+[^\n]+)?\s*$"
+    )
+    if not candidate_heading.search(changelog_text):
+        raise SystemExit("CHANGELOG.md does not contain exact candidate release heading")
+    public_headings = list(dict.fromkeys(f"v{value}" for value in heading_values if value.count(".") == 3))
+    if not public_headings or public_headings[0] != candidate_identity:
+        raise SystemExit(f"{mode} candidate tag must be the first public CHANGELOG heading")
+
+if mode == "family-forward":
     public_tag_pattern = re.compile(r"v([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)")
     previous_match = public_tag_pattern.fullmatch(previous_identity)
     candidate_match = public_tag_pattern.fullmatch(candidate_identity)
@@ -127,23 +148,20 @@ if mode == "family-forward":
         raise SystemExit("family-forward candidate tag must use a non-zero fourth component")
     if int(candidate_match.group(4)) <= int(previous_match.group(4)):
         raise SystemExit("family-forward candidate fourth component must be greater than the previous tag")
-    changelog_text = changelog_path.read_text(encoding="utf-8")
-    candidate_heading = re.compile(
-        rf"(?m)^## \[{re.escape(candidate_identity)}\](?:\s+-\s+[^\n]+)?\s*$"
-    )
-    if not candidate_heading.search(changelog_text):
-        raise SystemExit("CHANGELOG.md does not contain exact candidate release heading")
-    public_headings = list(dict.fromkeys(f"v{value}" for value in heading_values if value.count(".") == 3))
-    if not public_headings or public_headings[0] != candidate_identity:
-        raise SystemExit("family-forward candidate tag must be the first public CHANGELOG heading")
     prior_public_headings = [value for value in public_headings if value != candidate_identity]
     authoritative_previous = prior_public_headings[0] if prior_public_headings else ""
+elif mode == "same-tag-correction":
+    if candidate_identity != "v0.3.3.3":
+        raise SystemExit("same-tag correction is bounded to public tag v0.3.3.3")
+    if plugin_version != "0.3.3":
+        raise SystemExit("same-tag correction is bounded to runtime 0.3.3")
+    authoritative_previous = ""
 elif mode == "forward":
     candidates = [value for value in distinct_headings if value != plugin_version]
     authoritative_previous = candidates[0] if candidates else ""
 else:
     authoritative_previous = distinct_headings[0]
-if previous_identity != authoritative_previous:
+if mode != "same-tag-correction" and previous_identity != authoritative_previous:
     raise SystemExit(
         f"declared previous identity {previous_identity!r} != CHANGELOG authority {authoritative_previous!r}"
     )
@@ -162,7 +180,7 @@ owner_relpaths = [
     "skills/implementaudit/SKILL.md",
     "CHANGELOG.md",
 ]
-if mode == "family-forward":
+if mode in {"family-forward", "same-tag-correction"}:
     owner_relpaths.append("docs/portal/site.json")
 for owner_relpath in owner_relpaths:
     committed_owner = subprocess.run(
@@ -199,6 +217,15 @@ if ancestor.returncode != 0:
     raise SystemExit("release identity commit must be an ancestor of current HEAD")
 if commit_tree != head_tree:
     raise SystemExit("release identity commit tree must equal current HEAD tree")
+if mode == "same-tag-correction":
+    head_commit = subprocess.run(
+        ["git", "-C", str(root), "rev-parse", "HEAD^{commit}"],
+        check=True,
+        text=True,
+        stdout=subprocess.PIPE,
+    ).stdout.strip()
+    if commit_sha != head_commit:
+        raise SystemExit("same-tag correction release commit must equal current HEAD")
 
 if mode == "family-forward":
     print(
@@ -213,16 +240,16 @@ if mode == "forward":
     print(f"build-release-asset: release identity forward {previous_identity} -> {plugin_version} at {commit_sha}")
     raise SystemExit(0)
 
-if plugin_version != previous_identity:
+if mode == "republish" and plugin_version != previous_identity:
     raise SystemExit("same-version republication must retain the prior published version")
 
 candidate_path = Path(candidate_arg)
 if not candidate_path.is_absolute():
     candidate_path = root / candidate_path
 if candidate_path.name != "IMPLEMENTAUDIT.skill":
-    raise SystemExit("same-version republication candidate must be named IMPLEMENTAUDIT.skill")
+    raise SystemExit(f"{mode} candidate must be named IMPLEMENTAUDIT.skill")
 if candidate_path.is_symlink() or not candidate_path.is_file():
-    raise SystemExit("same-version republication candidate must be a regular non-symlink file")
+    raise SystemExit(f"{mode} candidate must be a regular non-symlink file")
 candidate_digest = hashlib.sha256(candidate_path.read_bytes()).hexdigest()
 candidate_bytes = candidate_path.stat().st_size
 
@@ -239,17 +266,34 @@ added = "\n".join(
     for line in shown.stdout.splitlines()
     if line.startswith("+") and not line.startswith("+++")
 )
-pairs = re.findall(
-    r"(?ims)^[ \t]*-\s+`IMPLEMENTAUDIT\.skill`:\s+superseded\s+"
-    r"`?([0-9a-f]{64})`?\s*\(([0-9][0-9,]*)\s+bytes?\)\s*(?:→|->)\s*"
-    r"superseding\s+`?([0-9a-f]{64})`?\s*\(([0-9][0-9,]*)\s+bytes?\)\s*\.?\s*$",
-    added,
-)
+if mode == "same-tag-correction":
+    pairs = re.findall(
+        r"(?ims)^[ \t]*-\s+same-tag\s+correction\s+for\s+`v0\.3\.3\.3`\s+"
+        r"`IMPLEMENTAUDIT\.skill`:\s+prematurely\s+published\s+"
+        r"`?([0-9a-f]{64})`?\s*\(([0-9][0-9,]*)\s+bytes?\)\s*(?:→|->)\s*"
+        r"final\s+`?([0-9a-f]{64})`?\s*\(([0-9][0-9,]*)\s+bytes?\)\s*\.?\s*$",
+        added,
+    )
+else:
+    pairs = re.findall(
+        r"(?ims)^[ \t]*-\s+`IMPLEMENTAUDIT\.skill`:\s+superseded\s+"
+        r"`?([0-9a-f]{64})`?\s*\(([0-9][0-9,]*)\s+bytes?\)\s*(?:→|->)\s*"
+        r"superseding\s+`?([0-9a-f]{64})`?\s*\(([0-9][0-9,]*)\s+bytes?\)\s*\.?\s*$",
+        added,
+    )
 if len(pairs) != 1:
-    raise SystemExit("same-version republication commit must add exactly one IMPLEMENTAUDIT.skill digest-and-byte pair")
-superseded_digest, _, superseding_digest, superseding_bytes_text = pairs[0]
+    raise SystemExit(f"{mode} commit must add exactly one IMPLEMENTAUDIT.skill digest-and-byte pair")
+superseded_digest, superseded_bytes_text, superseding_digest, superseding_bytes_text = pairs[0]
 if superseded_digest == superseding_digest:
-    raise SystemExit("same-version republication digest pair must name distinct payloads")
+    raise SystemExit(f"{mode} digest pair must name distinct payloads")
+if mode == "same-tag-correction":
+    expected_digest = "bfe323853fcb814530c9f58e078ef09d4e930419d99005af26c9135f936e3536"
+    superseded_bytes = int(superseded_bytes_text.replace(",", ""))
+    if superseded_digest != expected_digest or superseded_bytes != 227995:
+        raise SystemExit(
+            "same-tag correction must supersede the premature v0.3.3.3 "
+            "IMPLEMENTAUDIT.skill digest and 227,995-byte payload"
+        )
 superseding_bytes = int(superseding_bytes_text.replace(",", ""))
 if superseding_digest != candidate_digest or superseding_bytes != candidate_bytes:
     raise SystemExit(

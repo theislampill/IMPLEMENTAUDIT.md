@@ -20,13 +20,19 @@ if [ "${1:-}" = "--release-identity" ]; then
       release_identity_args=("$2" "$3" "$4" "$5")
       shift 5
       ;;
+    same-tag-correction)
+      [ "$#" -eq 4 ] \
+        || fail "--release-identity same-tag-correction requires <public-tag> <release-commit>"
+      release_identity_args=("$2" "$3" "$4")
+      shift 4
+      ;;
     forward|republish)
       [ "$#" -eq 4 ] \
         || fail "--release-identity requires <forward|republish> <previous-version> <release-commit>"
       release_identity_args=("$2" "$3" "$4")
       shift 4
       ;;
-    *) fail "--release-identity mode must be forward, republish, or family-forward" ;;
+    *) fail "--release-identity mode must be forward, republish, family-forward, or same-tag-correction" ;;
   esac
 fi
 [ "$#" -eq 0 ] || fail "unknown argument: $1"
