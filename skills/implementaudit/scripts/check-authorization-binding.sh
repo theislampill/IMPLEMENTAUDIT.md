@@ -48,6 +48,7 @@ import os
 import pathlib
 import re
 import socket
+import stat
 import subprocess
 import sys
 import tempfile
@@ -237,8 +238,16 @@ if receipt["stub_identity"] != stub_identity:
 terminal_path = pathlib.Path(launch["terminal_artifact_path"])
 if not terminal_path.parent.is_dir():
     fail("terminal artifact parent directory does not exist")
-if terminal_path.exists() or terminal_path.is_symlink():
-    fail("terminal artifact must be absent before wrapper execution")
+
+def require_absent_terminal(stage):
+    try:
+        existing = terminal_path.lstat()
+    except FileNotFoundError:
+        return
+    kind = "symlink" if stat.S_ISLNK(existing.st_mode) else "existing owner"
+    fail(f"terminal artifact must be absent {stage}; found {kind}")
+
+require_absent_terminal("before wrapper execution")
 
 bridge_fd, bridge_raw = tempfile.mkstemp(
     prefix=".implementaudit-rehearsal-mediator-bridge-",
@@ -324,10 +333,23 @@ if mediated["exit_code"] != 0:
 if completed.returncode != 0:
     fail(f"production wrapper exited {completed.returncode}")
 
-# The checker, not the wrapper, is the only terminal author.  The terminal is
-# written only after the checker-owned mediator has observed the zero-meter
-# producer exit during the wrapper traversal above.
-terminal_path.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
+# The checker, not the wrapper, is the only terminal author.  Re-check with
+# lstat after the untrusted wrapper completes, then use exclusive creation so
+# an alias/hardlink/nonterminal owner cannot be followed or overwritten.
+require_absent_terminal("when publishing the rehearsal terminal")
+try:
+    terminal_fd = os.open(
+        terminal_path,
+        os.O_WRONLY | os.O_CREAT | os.O_EXCL,
+        0o600,
+    )
+except FileExistsError:
+    fail("terminal artifact appeared before exclusive publication")
+with os.fdopen(terminal_fd, "w", encoding="utf-8") as terminal_file:
+    terminal_file.write(json.dumps(receipt, indent=2) + "\n")
+published = terminal_path.lstat()
+if not stat.S_ISREG(published.st_mode) or published.st_nlink != 1:
+    fail("checker-owned terminal publication lost exclusive regular-file identity")
 observed = load_object(str(terminal_path), "execution terminal")
 if observed != receipt:
     fail("execution terminal does not match the supplied rehearsal receipt")

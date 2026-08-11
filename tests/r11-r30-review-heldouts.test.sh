@@ -20,6 +20,9 @@ root = pathlib.Path(sys.argv[1])
 stub = root / "producer-stub.py"
 stub.write_text("#!/usr/bin/env python3\nraise SystemExit(23)\n", encoding="utf-8")
 stub.chmod(0o755)
+success_stub = root / "producer-success.py"
+success_stub.write_text("#!/usr/bin/env python3\nraise SystemExit(0)\n", encoding="utf-8")
+success_stub.chmod(0o755)
 
 def wrapper(name, body):
     path = root / name
@@ -50,18 +53,25 @@ pathlib.Path(os.environ["IMPLEMENTAUDIT_REHEARSAL_STUB_EVENT"]).write_text(json.
   "stub_identity": "sha256:" + hashlib.sha256(stub.read_bytes()).hexdigest(),
   "nonce": os.environ["IMPLEMENTAUDIT_REHEARSAL_STUB_NONCE"], "exit_code": 0}), encoding="utf-8")
 ''')
+victim = root / "hardlink-victim.txt"
+victim.write_text("do-not-overwrite\n", encoding="utf-8")
+hardlinking = wrapper("hardlinking-wrapper.py", f'''import os, pathlib, subprocess, sys
+target = pathlib.Path(sys.argv[sys.argv.index("--terminal") + 1])
+subprocess.run([sys.executable, os.environ["IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB"]], check=True)
+os.link({str(victim)!r}, target)
+''')
 
 def canonical_hash(argv, env_keys):
     return hashlib.sha256(json.dumps(
         {"argv": argv, "env_keys_present": sorted(env_keys)},
         separators=(",", ":"), ensure_ascii=False).encode()).hexdigest()
 
-def payload(suffix, wrapper_path, argv_suffix="fixture.txt", env_keys=["API_TOKEN", "MODEL"]):
+def payload(suffix, wrapper_path, argv_suffix="fixture.txt", env_keys=["API_TOKEN", "MODEL"], stub_path=stub, extra_argv=[]):
     terminal = root / f"terminal-{suffix}.json"
-    argv = [sys.executable, str(wrapper_path), "--input", argv_suffix]
+    argv = [sys.executable, str(wrapper_path), "--input", argv_suffix] + extra_argv
     receipt = {
         "rehearsed_command_hash": canonical_hash(argv, env_keys),
-        "stub_identity": "sha256:" + hashlib.sha256(stub.read_bytes()).hexdigest(),
+        "stub_identity": "sha256:" + hashlib.sha256(stub_path.read_bytes()).hexdigest(),
         "stubbed_components": ["producer"], "env_keys_present": env_keys,
         "terminal_artifact_path": str(terminal), "exit_code": 0,
         "disposition": "PASS", "timestamp": "2026-08-11T12:00:00Z",
@@ -74,12 +84,12 @@ def payload(suffix, wrapper_path, argv_suffix="fixture.txt", env_keys=["API_TOKE
     launch_path.write_text(json.dumps(launch), encoding="utf-8")
     return receipt, receipt_path, launch_path
 
-def complete_phase(name, receipt, receipt_path, launch_path):
+def complete_phase(name, receipt, receipt_path, launch_path, stub_path=stub):
     base = pathlib.Path("fixtures/run-root-example/phases/phase-1.md").read_text(encoding="utf-8")
     fields = (
         "Scarce resource budget: 1 model-call\n"
         f"Rehearsal receipt: {receipt_path}\nRehearsal launch: {launch_path}\n"
-        f"Rehearsal producer stub: {stub}\n"
+        f"Rehearsal producer stub: {stub_path}\n"
         f"Rehearsal command hash: {receipt['rehearsed_command_hash']}\n"
         f"Rehearsal terminal artifact: {receipt['terminal_artifact_path']}\n"
         f"Rehearsal environment keys: {','.join(receipt['env_keys_present'])}\n"
@@ -92,17 +102,22 @@ forged, forged_receipt, forged_launch = payload("forged", forging)
 ignored, ignored_receipt, ignored_launch = payload("ignored", ignoring)
 inherited, inherited_receipt, inherited_launch = payload("inherited", leaking)
 changed, changed_receipt, changed_launch = payload("changed", forging, "changed-fixture.txt", ["ALT_TOKEN"])
+hardlinked, hardlinked_receipt, hardlinked_launch = payload(
+    "hardlinked", hardlinking, stub_path=success_stub,
+    extra_argv=["--terminal", str(root / "terminal-hardlinked.json")],
+)
 complete_phase("phase-forged.md", forged, forged_receipt, forged_launch)
 complete_phase("phase-ignored.md", ignored, ignored_receipt, ignored_launch)
 complete_phase("phase-inherited.md", inherited, inherited_receipt, inherited_launch)
+complete_phase("phase-hardlinked.md", hardlinked, hardlinked_receipt, hardlinked_launch, success_stub)
 PY
 
 heldout_passes() {
-  local phase="$1" receipt="$2" launch="$3" marker="${4:-}"
+  local phase="$1" receipt="$2" launch="$3" marker="${4:-}" stub_path="${5:-$tmp/producer-stub.py}"
   API_TOKEN=real-api-token MODEL=real-model-token ALT_TOKEN=real-alt-token \
   HELDOUT_CREDENTIAL_SENTINEL=must-not-reach-wrapper \
   IMPLEMENTAUDIT_TEST_INHERITED_MARKER="$marker" \
-  IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB="$tmp/producer-stub.py" \
+  IMPLEMENTAUDIT_REHEARSAL_PRODUCER_STUB="$stub_path" \
   bash "$checker" --phase "$phase" --rehearsal "$receipt" --launch "$launch" \
     >/dev/null 2>&1
 }
@@ -120,6 +135,12 @@ if heldout_passes "$tmp/phase-inherited.md" "$tmp/receipt-inherited.json" "$tmp/
     && [ -f "$tmp/inherited-marker" ]; then
   failures+=("undeclared-credential-sentinel-reaches-wrapper")
 fi
+if heldout_passes "$tmp/phase-hardlinked.md" "$tmp/receipt-hardlinked.json" "$tmp/launch-hardlinked.json" "" "$tmp/producer-success.py"; then
+  failures+=("hardlink-terminal-alias-passes")
+fi
+if [ "$(<"$tmp/hardlink-victim.txt")" != "do-not-overwrite" ]; then
+  failures+=("hardlink-terminal-alias-overwrites-victim")
+fi
 
 candidate="$tmp/reachability"
 mkdir -p "$candidate/scripts"
@@ -136,6 +157,16 @@ INERT_MODE
 EOF
 if bash "$reachability" --repo-root "$candidate" >/dev/null 2>&1; then
   failures+=("inert-heredoc-literal-counts-as-parser-arm")
+fi
+
+inert_mediator="$tmp/inert-mediator"
+mkdir -p "$inert_mediator/scripts"
+cp -R skills "$inert_mediator/skills"
+cp scripts/build-release-asset.sh "$inert_mediator/scripts/build-release-asset.sh"
+sed -i 's/^[[:space:]]*mediator_thread\.start()/# mediator_thread.start()/' \
+  "$inert_mediator/skills/implementaudit/scripts/check-authorization-binding.sh"
+if bash "$reachability" --repo-root "$inert_mediator" >/dev/null 2>&1; then
+  failures+=("inert-mediator-comment-counts-as-transport")
 fi
 
 if ! grep -Fqx \

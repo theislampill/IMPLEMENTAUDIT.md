@@ -254,11 +254,62 @@ def has_launch_subprocess(body):
             return True
     return False
 
+def has_mediated_execution(body):
+    """Require executable bridge -> thread start/join -> stub-run edges."""
+    if not body:
+        return False
+    try:
+        tree = ast.parse(body)
+    except SyntaxError:
+        return False
+
+    def is_call(node, base, attribute):
+        return (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+                and isinstance(node.func.value, ast.Name)
+                and node.func.value.id == base and node.func.attr == attribute)
+
+    bridge_written = any(is_call(node, "bridge_path", "write_text")
+                         for node in ast.walk(tree))
+    thread_bound = False
+    thread_started = False
+    thread_joined = False
+    stub_function = None
+    for node in ast.walk(tree):
+        if isinstance(node, ast.FunctionDef) and node.name == "run_bounded_stub":
+            stub_function = node
+        if not (isinstance(node, ast.Assign) and len(node.targets) == 1
+                and isinstance(node.targets[0], ast.Name)
+                and node.targets[0].id == "mediator_thread"):
+            continue
+        value = node.value
+        if not (isinstance(value, ast.Call) and isinstance(value.func, ast.Attribute)
+                and isinstance(value.func.value, ast.Name)
+                and value.func.value.id == "threading" and value.func.attr == "Thread"):
+            continue
+        thread_bound = any(keyword.arg == "target"
+                           and isinstance(keyword.value, ast.Name)
+                           and keyword.value.id == "run_bounded_stub"
+                           for keyword in value.keywords)
+    for node in ast.walk(tree):
+        if not (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+                and isinstance(node.func.value, ast.Name)
+                and node.func.value.id == "mediator_thread"):
+            continue
+        thread_started = thread_started or node.func.attr == "start"
+        thread_joined = thread_joined or node.func.attr == "join"
+    stub_runs = bool(stub_function) and any(
+        isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+        and isinstance(node.func.value, ast.Name) and node.func.value.id == "subprocess"
+        and node.func.attr == "run" and node.args
+        and isinstance(node.args[0], ast.Name) and node.args[0].id == "command"
+        for node in ast.walk(stub_function)
+    )
+    return bridge_written and thread_bound and thread_started and thread_joined and stub_runs
+
 transport_body = transport_match.group(2) if transport_match else ""
 rehearsal_transport = (
     has_launch_subprocess(transport_body)
-    and "mediator_thread" in transport_body
-    and "bridge_path.write_text" in transport_body
+    and has_mediated_execution(transport_body)
 )
 if rehearsal_arms and rehearsal_transport:
     implemented_mode_sets[rehearsal_helper] = [rehearsal_mode]
