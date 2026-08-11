@@ -149,7 +149,7 @@ if source.count(script_dir_line) != 1: raise SystemExit('R36 sibling-script loca
 source=source.replace(script_dir_line,derived_dir_line)
 needle='    # R36_INSTRUMENT_INSERT\n'
 if source.count(needle) != 1: raise SystemExit('R36 instrument marker count is not exactly one')
-insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'init':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n        if fault == 'io-after-displacement':\n            original_open=Path.open\n            def fail_stage_open(self,*args,**kwargs):\n                if self.name == 'stage.bin' and args and 'x' in args[0]: raise OSError(28,'injected ENOSPC')\n                return original_open(self,*args,**kwargs)\n            Path.open=fail_stage_open\n    if phase == 'move-destination-published' and fault == 'move-after-destination':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
+insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'pre-transaction':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n        if fault == 'io-after-displacement':\n            original_open=Path.open\n            def fail_stage_open(self,*args,**kwargs):\n                if self.name == 'stage.bin' and args and 'x' in args[0]: raise OSError(28,'injected ENOSPC')\n                return original_open(self,*args,**kwargs)\n            Path.open=fail_stage_open\n        if fault in {'fsync-after-displacement','fsync-after-destination','init-authority-fsync'}:\n            original_sync=sync_directory_raw; injected={'done':False}\n            def fail_selected_sync(path):\n                trigger=(fault=='fsync-after-displacement' and path_identity(BACKUP).get('kind')=='regular' and path_identity(SOURCE).get('kind')=='absent') or (fault=='fsync-after-destination' and operation=='move' and path_identity(DESTINATION).get('kind')=='regular') or (fault=='init-authority-fsync' and path==TX and path_identity(AUTHORITY).get('kind')=='regular')\n                if trigger and not injected['done']:\n                    injected['done']=True; raise OSError(28,'injected fsync failure')\n                return original_sync(path)\n            globals()['sync_directory_raw']=fail_selected_sync\n    if phase == 'move-destination-published' and fault == 'move-after-destination':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
 Path(sys.argv[2]).write_text(source.replace(needle,needle+insert),encoding='utf-8')
 PY
   chmod +x "$derived" || return 1
@@ -159,7 +159,7 @@ from pathlib import Path
 canonical,derived=map(Path,sys.argv[1:]); text=derived.read_text(encoding='utf-8')
 script_dir_line='script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"'
 derived_dir_line='script_dir='+repr(str(canonical.parent))
-insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'init':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n        if fault == 'io-after-displacement':\n            original_open=Path.open\n            def fail_stage_open(self,*args,**kwargs):\n                if self.name == 'stage.bin' and args and 'x' in args[0]: raise OSError(28,'injected ENOSPC')\n                return original_open(self,*args,**kwargs)\n            Path.open=fail_stage_open\n    if phase == 'move-destination-published' and fault == 'move-after-destination':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
+insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'pre-transaction':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n        if fault == 'io-after-displacement':\n            original_open=Path.open\n            def fail_stage_open(self,*args,**kwargs):\n                if self.name == 'stage.bin' and args and 'x' in args[0]: raise OSError(28,'injected ENOSPC')\n                return original_open(self,*args,**kwargs)\n            Path.open=fail_stage_open\n        if fault in {'fsync-after-displacement','fsync-after-destination','init-authority-fsync'}:\n            original_sync=sync_directory_raw; injected={'done':False}\n            def fail_selected_sync(path):\n                trigger=(fault=='fsync-after-displacement' and path_identity(BACKUP).get('kind')=='regular' and path_identity(SOURCE).get('kind')=='absent') or (fault=='fsync-after-destination' and operation=='move' and path_identity(DESTINATION).get('kind')=='regular') or (fault=='init-authority-fsync' and path==TX and path_identity(AUTHORITY).get('kind')=='regular')\n                if trigger and not injected['done']:\n                    injected['done']=True; raise OSError(28,'injected fsync failure')\n                return original_sync(path)\n            globals()['sync_directory_raw']=fail_selected_sync\n    if phase == 'move-destination-published' and fault == 'move-after-destination':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
 if text.replace(insert,'').replace(derived_dir_line,script_dir_line) != canonical.read_text(encoding='utf-8'): raise SystemExit('instrumented copy does not strip byte-equal')
 PY
   printf '%s\n' "$derived"
@@ -216,7 +216,8 @@ PY
 assert_response_v2() { "$python_bin" - "$@" "$fixture_repo" <<'PY'
 import hashlib,json,re,sys
 from pathlib import Path,PurePosixPath
-label,status,operation,source,dest,pre,candidate,post,post_identities,phase,step,out,fixture_root=sys.argv[1:]
+label,status,operation,source,dest,pre,candidate,post,post_identities,phase,step,out_path,fixture_root=sys.argv[1:]
+out=Path(out_path).read_text(encoding='utf-8')
 lines=[x for x in out.splitlines() if x.strip()]
 if len(lines)!=1: raise SystemExit(f'{label}: expected one stdout JSON object, got {len(lines)}')
 r=json.loads(lines[0]); required={'schema','transaction_id','claim_id','phase','step','authority_binding_sha256','operation','status','reason_code','source_path','destination_path','pre_identities','candidate_identities','post_identities','planned_effect_set','planned_effect_set_sha256','actual_effect_set','residue'}
@@ -289,10 +290,12 @@ if r['transaction_id'] is not None and planned:
    parent=('repo',str(PurePosixPath(row['path']).parent))
    later=[x for x in actual_rows.get(parent,[]) if x['outcome']=='applied' and x['effect']=='fsync' and x['sequence']>row['sequence']]
    if not later: raise SystemExit(f'{label}: mutation lacks later parent-directory fsync: {row!r}')
- journal_rows=[row for key,value in roles.items() if 'journal' in value for row in actual_rows.get(key,[]) if row['effect']=='replace' and row['outcome']=='applied']
- if journal_rows and not all(isinstance(row['after'],dict) and row['after'].get('kind')=='regular' for row in journal_rows): raise SystemExit(f'{label}: journal effect was recorded before durable replacement')
- result_rows=[row for key,value in roles.items() if 'result' in value for row in actual_rows.get(key,[]) if row['effect']=='create' and row['outcome']=='applied']
- if len(result_rows)!=1 or not isinstance(result_rows[0]['after'],dict) or result_rows[0]['after'].get('kind')!='regular': raise SystemExit(f'{label}: result effect was recorded before file creation')
+ journal_temp=[row for key,value in roles.items() if 'journal-temp' in value for row in actual_rows.get(key,[]) if row['outcome']=='applied']
+ if journal_temp:
+  effects=[row['effect'] for row in journal_temp]
+  if effects[:3]!=['create','write','fsync'] or 'replace' not in effects[3:]: raise SystemExit(f'{label}: journal physical write ordering incomplete: {effects!r}')
+ result_rows=[row for key,value in roles.items() if 'result' in value for row in actual_rows.get(key,[]) if row['outcome']=='applied']
+ if [row['effect'] for row in result_rows] != ['create','write','fsync']: raise SystemExit(f'{label}: result physical write ordering incomplete')
 print(json.dumps({'transaction_id':r['transaction_id'],'planned_effect_set':planned,'residue':r['residue']}))
 PY
 }
@@ -356,7 +359,7 @@ PY
   [ "$actual" -eq "$expected_exit" ] || fail "$label: exit=$actual expected=$expected_exit stderr=$(<"$stderr")"
   [ -s "$stdout" ] || fail "$label: helper emitted no JSON stderr=$(<"$stderr")"
   post="$(identity_json "$post_path")"; post_identities="$(post_identities_json "$target" "$dest")"
-  if [ "$helper_api" = v2 ]; then last_record="$(assert_response_v2 "$label" "$status" "$op" "$target" "$dest" "$pre" "$candidate_id" "$post" "$post_identities" "$prepared_phase" "$prepared_step" "$(<"$stdout")")"
+  if [ "$helper_api" = v2 ]; then last_record="$(assert_response_v2 "$label" "$status" "$op" "$target" "$dest" "$pre" "$candidate_id" "$post" "$post_identities" "$prepared_phase" "$prepared_step" "$stdout")"
   else last_record="$(assert_response_v1 "$label" "$status" "$op" "$target" "$dest" "$targets" "$pre" "$candidate_id" "$post" "$post_identities" "$(<"$stdout")")"; fi
   assert_hex "$label visible state" "$post_path" "$expected"
 }
@@ -432,7 +435,7 @@ PY
   wait_bounded "$pid" "R36-$stage fault helper"; actual="$(<"$barrier/exit")"
   [ "$actual" -eq "$(status_exit "$status")" ] || fail "R36-$stage exit=$actual expected $(status_exit "$status") stderr=$(<"$stderr")"
   post="$(identity_json "$fixture_repo/$target")"; post_ids="$(post_identities_json "$target" "$dest")"
-  last_record="$(assert_response_v2 "$label" "$status" "$op" "$target" "$dest" "$pre" "$candidate_id" "$post" "$post_ids" "$prepared_phase" "$prepared_step" "$(<"$stdout")")"
+  last_record="$(assert_response_v2 "$label" "$status" "$op" "$target" "$dest" "$pre" "$candidate_id" "$post" "$post_ids" "$prepared_phase" "$prepared_step" "$stdout")"
   assert_hex "$label visible state" "$fixture_repo/$target" "$expected"
   "$python_bin" - "$barrier/observed.json" "$stage" <<'PY'
 import json,sys
@@ -739,7 +742,7 @@ canonical_observation_races() {
     : >"$barrier/release"; wait_bounded "$pid" "$label helper"; actual="$(<"$barrier/exit")"
     [ "$actual" -eq 65 ] || fail "$label exit $actual, expected stale conflict 65"
     source_post="$(identity_json "$fixture_repo/target")"; post_set="$(post_identities_json target destination)"
-    last_record="$(assert_response_v2 "$label" CONFLICT_REBASE move target destination "$source_pre" "$(identity_json "$pre")" "$source_post" "$post_set" "$race_phase" 1 "$(<"$stdout")")"
+    last_record="$(assert_response_v2 "$label" CONFLICT_REBASE move target destination "$source_pre" "$(identity_json "$pre")" "$source_post" "$post_set" "$race_phase" 1 "$stdout")"
     if [ "$mode" = source ]; then assert_hex "$label-source" "$fixture_repo/target" 4c41544552; assert_hex "$label-destination" "$fixture_repo/destination" -
     else assert_hex "$label-source" "$fixture_repo/target" 4142434445; assert_hex "$label-destination" "$fixture_repo/destination" 45585445524e414c; fi
   done
@@ -794,7 +797,7 @@ PY
   [ "$status" = ROLLBACK_CONFLICT ] || fail "R36-DRIFT status $status, expected ROLLBACK_CONFLICT"
   [ "$actual" -eq "$(status_exit ROLLBACK_CONFLICT)" ] || fail "R36-DRIFT exit/status mismatch"
   post="$(identity_json "$fixture_repo/target")"
-  last_record="$(assert_response_v2 R36-DRIFT "$status" replace target - "$pre_id" "$(identity_json "$candidate")" "$post" "$(post_identities_json target -)" "$drift_phase" 1 "$(<"$stdout")")"
+  last_record="$(assert_response_v2 R36-DRIFT "$status" replace target - "$pre_id" "$(identity_json "$candidate")" "$post" "$(post_identities_json target -)" "$drift_phase" 1 "$stdout")"
   assert_hex R36-DRIFT-winner "$fixture_repo/target" 45585445524e414c2d57494e4e4552
   journal="$(residual_field journal_path)"; token="$(residual_field token)"
   assert_retained_recovery_paths
@@ -934,6 +937,59 @@ print(r['transaction_id'])
 PY
 )" || fail 'R36-IO lacked terminal rollback JSON'
   [ -f "$run_root/mutation-transactions/$tx/result.json" ] || fail 'R36-IO lacked durable result.json'
+
+  # The mutating syscall owns the state transition even when the immediately
+  # following durability sync fails. Replace must therefore roll back from the
+  # displaced backup rather than treating the source as untouched.
+  setup; pre="$(artifact replace-sync-pre 4142434445)"; cand="$(artifact replace-sync-candidate 4e4557)"; derived="$(instrumented_helper)"
+  prepare_authority replace target -; phase="$prepared_phase"; stdout="$tmp/replace-sync.out"; stderr="$tmp/replace-sync.err"
+  set +e; IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=fsync-after-displacement bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$phase" --step 1 --preimage "$pre" --candidate "$cand" >"$stdout" 2>"$stderr"; actual=$?; set -e
+  [ "$actual" -eq 71 ] || fail "R36-REPLACE-SYNC exit=$actual expected=71 stderr=$(<"$stderr")"
+  assert_hex R36-REPLACE-SYNC-restored "$fixture_repo/target" 4142434445
+  tx="$($python_bin - "$stdout" <<'PY'
+import json,sys
+r=json.load(open(sys.argv[1],encoding='utf-8'))
+if r['status']!='MUTATION_FAILED_ROLLED_BACK' or r['reason_code']!='IO_FAILURE': raise SystemExit(r)
+print(r['transaction_id'])
+PY
+)" || fail 'R36-REPLACE-SYNC lacked terminal rollback JSON'
+  [ -f "$run_root/mutation-transactions/$tx/result.json" ] || fail 'R36-REPLACE-SYNC lacked durable result.json'
+
+  # Move publication begins at the successful hard-link syscall. A following
+  # directory-sync failure must remove that published name and report rollback.
+  setup; pre="$(artifact move-sync-pre 4142434445)"; derived="$(instrumented_helper)"
+  prepare_authority move target destination; phase="$prepared_phase"; stdout="$tmp/move-sync.out"; stderr="$tmp/move-sync.err"
+  set +e; IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=fsync-after-destination bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$phase" --step 1 --preimage "$pre" >"$stdout" 2>"$stderr"; actual=$?; set -e
+  [ "$actual" -eq 71 ] || fail "R36-MOVE-SYNC exit=$actual expected=71 stderr=$(<"$stderr")"
+  assert_hex R36-MOVE-SYNC-source "$fixture_repo/target" 4142434445
+  assert_hex R36-MOVE-SYNC-destination "$fixture_repo/destination" -
+  tx="$($python_bin - "$stdout" <<'PY'
+import json,sys
+r=json.load(open(sys.argv[1],encoding='utf-8'))
+if r['status']!='MUTATION_FAILED_ROLLED_BACK' or r['reason_code']!='IO_FAILURE': raise SystemExit(r)
+print(r['transaction_id'])
+PY
+)" || fail 'R36-MOVE-SYNC lacked terminal rollback JSON'
+  [ -f "$run_root/mutation-transactions/$tx/result.json" ] || fail 'R36-MOVE-SYNC lacked durable result.json'
+
+  # Transaction custody creation is itself an I/O boundary. Failure to make
+  # authority durable must emit F70 JSON and leave the target bytes untouched.
+  # A pre-existing transaction parent belongs to the run, not this failed
+  # transaction, so its continued existence is not rollback residue.
+  setup; pre="$(artifact init-sync-pre 4142434445)"; cand="$(artifact init-sync-candidate 4e4557)"; derived="$(instrumented_helper)"
+  mkdir -p "$run_root/mutation-transactions"
+  prepare_authority replace target -; phase="$prepared_phase"; stdout="$tmp/init-sync.out"; stderr="$tmp/init-sync.err"
+  set +e; IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=init-authority-fsync bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$phase" --step 1 --preimage "$pre" --candidate "$cand" >"$stdout" 2>"$stderr"; actual=$?; set -e
+  [ "$actual" -eq 70 ] || fail "R36-INIT-SYNC exit=$actual expected=70 stderr=$(<"$stderr")"
+  assert_hex R36-INIT-SYNC-source "$fixture_repo/target" 4142434445
+  "$python_bin" - "$stdout" <<'PY' || fail 'R36-INIT-SYNC lacked F70 terminal JSON'
+import json,sys
+r=json.load(open(sys.argv[1],encoding='utf-8'))
+if r['status']!='MUTATION_FAILED_NO_STATE_CHANGE' or r['reason_code']!='INITIALISATION_IO_FAILURE': raise SystemExit(r)
+if r['residue']: raise SystemExit(f'unexpected initialisation residue: {r["residue"]!r}')
+PY
+  [ -d "$run_root/mutation-transactions" ] || fail 'R36-INIT-SYNC removed pre-existing transaction parent'
+  [ -z "$(find "$run_root/mutation-transactions" -mindepth 1 -print -quit)" ] || fail 'R36-INIT-SYNC retained owned transaction custody after clean F70'
 
   # Internal transaction and lock custody paths may be absent or ordinary
   # directories only; symlink/reparse redirection fails before mutation.
