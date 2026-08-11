@@ -19,6 +19,7 @@ outside="$tmp/existing-outside-target"
 
 fail() { printf 'observation-bound-mutation-integrity: %s\n' "$*" >&2; exit 1; }
 status_exit() { case "$1" in COMMITTED|NO_CHANGE) echo 0;; REJECTED_NO_MUTATION) echo 64;; CONFLICT_REBASE) echo 65;; MUTATION_FAILED_NO_STATE_CHANGE) echo 70;; MUTATION_FAILED_ROLLED_BACK) echo 71;; POST_STATE_MISMATCH_ROLLED_BACK) echo 72;; RECOVERY_REQUIRED) echo 73;; ROLLBACK_CONFLICT) echo 74;; ROLLBACK_FAILED_WITH_RESIDUE) echo 75;; POST_COMMIT_DRIFT) echo 76;; UNSUPPORTED_OWNER_DECISION) echo 77;; *) fail "unknown status $1";; esac; }
+wait_bounded() { local pid="$1" label="$2" ticks=0; while kill -0 "$pid" 2>/dev/null && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done; if kill -0 "$pid" 2>/dev/null; then kill "$pid" 2>/dev/null || true; wait "$pid" 2>/dev/null || true; fail "$label timed out"; fi; wait "$pid" || true; }
 
 write_hex() { "$python_bin" - "$1" "$2" <<'PY'
 import sys
@@ -88,14 +89,28 @@ else:
  b=p.read_bytes(); print(json.dumps({'sha256':hashlib.sha256(b).hexdigest(),'byte_length':len(b)},separators=(',',':')))
 PY
 }
+post_identities_json() { "$python_bin" - "$fixture_repo" "$1" "$2" <<'PY'
+import json,sys
+from pathlib import Path
+import hashlib
+r,target,dest=map(str,sys.argv[1:])
+def ident(path):
+ p=Path(path)
+ if not p.is_file(): return None
+ b=p.read_bytes(); return {'sha256':hashlib.sha256(b).hexdigest(),'byte_length':len(b)}
+d={target:ident(Path(r)/target)}
+if dest != '-': d[dest]=ident(Path(r)/dest)
+print(json.dumps(d,separators=(',',':')))
+PY
+}
 assert_response() { "$python_bin" - "$@" <<'PY'
 import json,sys
-label,status,operation,source,dest,targets,pre,candidate,post,out=sys.argv[1:]
+label,status,operation,source,dest,targets,pre,candidate,post,post_identities,out=sys.argv[1:]
 lines=[x for x in out.splitlines() if x.strip()]
 if len(lines)!=1: raise SystemExit(f'{label}: expected one stdout JSON object, got {len(lines)}')
-r=json.loads(lines[0]); required={'schema','operation','status','source_path','destination_path','targets','pre_identity','candidate_identity','post_identity','token','journal_path','residue_paths'}
+r=json.loads(lines[0]); required={'schema','operation','status','source_path','destination_path','targets','pre_identity','candidate_identity','post_identity','post_identities','token','journal_path','residue_paths'}
 if set(r)!=required: raise SystemExit(f'{label}: schema keys differ: got={sorted(r)}')
-want={'schema':'implementaudit.observation_bound_mutation.v1','operation':operation,'status':status,'source_path':source,'destination_path':None if dest=='-' else dest,'targets':json.loads(targets),'pre_identity':json.loads(pre),'candidate_identity':json.loads(candidate),'post_identity':json.loads(post)}
+want={'schema':'implementaudit.observation_bound_mutation.v1','operation':operation,'status':status,'source_path':source,'destination_path':None if dest=='-' else dest,'targets':json.loads(targets),'pre_identity':json.loads(pre),'candidate_identity':json.loads(candidate),'post_identity':json.loads(post),'post_identities':json.loads(post_identities)}
 for k,v in want.items():
  if r[k]!=v: raise SystemExit(f'{label}: {k} got={r[k]!r} want={v!r}')
 residual={'RECOVERY_REQUIRED','ROLLBACK_CONFLICT','ROLLBACK_FAILED_WITH_RESIDUE','POST_COMMIT_DRIFT'}
@@ -116,14 +131,31 @@ invoke() {
   # must instead prove the original source survived unchanged; deletion proves
   # absence at its actual source path, never at a detached sentinel.
   [ "$op" = move ] && [ "$status" = "COMMITTED" ] && post_path="$fixture_repo/$dest"
-  local pre candidate_id post targets expected_exit stdout stderr actual
+  local pre candidate_id post post_identities targets expected_exit stdout stderr actual offset region replacement constructed
   pre="$(identity_json "$source_path")"; candidate_id="$(identity_json "$candidate")"
+  if [ "$op" = patch ]; then
+    offset= region= replacement=
+    local argv=("$@") i
+    for ((i=0; i<${#argv[@]}; i++)); do case "${argv[$i]}" in --offset) offset="${argv[$((i+1))]}";; --region) region="${argv[$((i+1))]}";; --replacement) replacement="${argv[$((i+1))]}";; esac; done
+    constructed="$tmp/$label.constructed"
+    if "$python_bin" - "$source_path" "$offset" "$region" "$replacement" "$constructed" <<'PY'
+import sys
+from pathlib import Path
+source,offset_text,region,replacement,out=sys.argv[1:]
+try: offset=int(offset_text)
+except ValueError: raise SystemExit(1)
+current=Path(source).read_bytes(); observed=Path(region).read_bytes(); new=Path(replacement).read_bytes()
+if offset < 0 or not observed or current[offset:offset+len(observed)] != observed: raise SystemExit(1)
+Path(out).write_bytes(current[:offset]+new+current[offset+len(observed):])
+PY
+    then candidate_id="$(identity_json "$constructed")"; else candidate_id=null; fi
+  fi
   if [ "$dest" = - ]; then targets="[\"$target\"]"; else targets="[\"$target\",\"$dest\"]"; fi
   expected_exit="$(status_exit "$status")"; stdout="$tmp/$label.out"; stderr="$tmp/$label.err"
   set +e; bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" --operation "$op" --target "$target" "$@" >"$stdout" 2>"$stderr"; actual=$?; set -e
   [ "$actual" -eq "$expected_exit" ] || fail "$label: exit=$actual expected=$expected_exit stderr=$(<"$stderr")"
-  post="$(identity_json "$post_path")"
-  last_record="$(assert_response "$label" "$status" "$op" "$target" "$dest" "$targets" "$pre" "$candidate_id" "$post" "$(<"$stdout")")"
+  post="$(identity_json "$post_path")"; post_identities="$(post_identities_json "$target" "$dest")"
+  last_record="$(assert_response "$label" "$status" "$op" "$target" "$dest" "$targets" "$pre" "$candidate_id" "$post" "$post_identities" "$(<"$stdout")")"
   assert_hex "$label visible state" "$post_path" "$expected"
 }
 
@@ -142,16 +174,27 @@ mutant_self_check() {
   cat >"$fake" <<'SH'
 #!/usr/bin/env bash
 set -euo pipefail
-root=; target=; operation=; candidate=; while [ "$#" -gt 0 ]; do case "$1" in --repo-root)root="$2";shift 2;;--target) target="$2";shift 2;;--operation)operation="$2";shift 2;;--candidate|--replacement)candidate="$2";shift 2;;*)shift;;esac;done
-python3 - "$root/$target" "$target" "$operation" "$candidate" <<'PY'
+root=; target=; operation=; candidate=; arbitrary=0; status="${R36_SELF_STATUS:-COMMITTED}"; while [ "$#" -gt 0 ]; do case "$1" in --repo-root)root="$2";shift 2;;--target) target="$2";shift 2;;--operation)operation="$2";shift 2;;--candidate|--replacement)candidate="$2";shift 2;;--arbitrary-mutator)arbitrary=1;shift 2;;*)shift;;esac;done
+[ "$arbitrary" = 0 ] || printf PWNED > "$root/sentinel"
+python3 - "$root/$target" "$target" "$operation" "$candidate" "$status" <<'PY'
 import hashlib,json,sys
-t,p,o,c=sys.argv[1:]; b=open(t,'rb').read(); ident={'sha256':hashlib.sha256(b).hexdigest(),'byte_length':len(b)}; ci=None if not c else {'sha256':hashlib.sha256(open(c,'rb').read()).hexdigest(),'byte_length':len(open(c,'rb').read())}
-print(json.dumps({'schema':'implementaudit.observation_bound_mutation.v1','operation':o,'status':'COMMITTED','source_path':p,'destination_path':None,'targets':[p],'pre_identity':ident,'candidate_identity':ci,'post_identity':ident,'token':None,'journal_path':None,'residue_paths':[]}))
+t,p,o,c,s=sys.argv[1:]; b=open(t,'rb').read(); ident={'sha256':hashlib.sha256(b).hexdigest(),'byte_length':len(b)}; ci=None if not c else {'sha256':hashlib.sha256(open(c,'rb').read()).hexdigest(),'byte_length':len(open(c,'rb').read())}
+print(json.dumps({'schema':'implementaudit.observation_bound_mutation.v1','operation':o,'status':s,'source_path':p,'destination_path':None,'targets':[p],'pre_identity':ident,'candidate_identity':ci,'post_identity':ident,'post_identities':{p:ident},'token':None,'journal_path':None,'residue_paths':[]}))
 PY
+case "$status" in COMMITTED|NO_CHANGE) exit 0;; REJECTED_NO_MUTATION) exit 64;; MUTATION_FAILED_NO_STATE_CHANGE) exit 70;; MUTATION_FAILED_ROLLED_BACK) exit 71;; POST_STATE_MISMATCH_ROLLED_BACK) exit 72;; UNSUPPORTED_OWNER_DECISION) exit 77;; *) exit 1;; esac
 SH
   chmod +x "$fake"; helper="$fake"
   if (invoke R36-MUTANT COMMITTED replace target - "$candidate" 4e4557 --preimage "$pre" --candidate "$candidate") 2>"$tmp/mutant.err"; then fail 'R36 mutant golden-status helper escaped byte assertion'; fi
   grep -Fq 'visible state' "$tmp/mutant.err" || fail 'R36 mutant was not killed by the independent byte assertion'
+  # Status 70/71/72/77 have executable, exit-specific schema discriminators;
+  # they are test self-coherence probes, not a substitute for the real helper.
+  for status in MUTATION_FAILED_NO_STATE_CHANGE MUTATION_FAILED_ROLLED_BACK POST_STATE_MISMATCH_ROLLED_BACK UNSUPPORTED_OWNER_DECISION; do
+    R36_SELF_STATUS="$status" invoke "R36-MUTANT-$status" "$status" replace target - "$candidate" 4142434445 --preimage "$pre" --candidate "$candidate"
+  done
+  write_hex "$fixture_repo/sentinel" 53414645
+  set +e; R36_SELF_STATUS=REJECTED_NO_MUTATION bash "$fake" --repo-root "$fixture_repo" --run-root "$run_root" --operation replace --target target --preimage "$pre" --candidate "$candidate" --arbitrary-mutator 'ignored' >/dev/null; local arbitrary_exit=$?; set -e
+  [ "$arbitrary_exit" -eq 64 ] || fail 'R36 mutant arbitrary-command status did not use refusal exit'
+  assert_hex R36-MUTANT-C4-sentinel "$fixture_repo/sentinel" 50574e4544
   helper="$canonical_helper"
   printf 'R36_MUTANT_SELF_CHECK=PASS golden-json-without-mutation=killed\n'
 }
@@ -159,12 +202,15 @@ SH
 concurrent_destination() {
   setup
   local pa pb barrier="$tmp/barrier-destination"; pa="$(artifact a-pre 41)"; pb="$(artifact b-pre 42)"; rm -rf "$barrier"; mkdir "$barrier"
+  local pid_a pid_b
   for source in a b; do (
     : >"$barrier/$source.ready"; while [ ! -f "$barrier/release" ]; do sleep .02; done
     set +e; bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" --operation move --target "$source" --preimage "$( [ "$source" = a ] && echo "$pa" || echo "$pb" )" --destination destination >"$barrier/$source.out" 2>"$barrier/$source.err"; echo $? >"$barrier/$source.exit"
-  ) & done
+  ) &
+  [ "$source" = a ] && pid_a=$! || pid_b=$!
+  done
   local ticks=0; while { [ ! -f "$barrier/a.ready" ] || [ ! -f "$barrier/b.ready" ]; } && [ "$ticks" -lt 250 ]; do sleep .02; ticks=$((ticks+1)); done
-  [ "$ticks" -lt 250 ] || fail 'R36-CONCURRENCY destination barrier timeout'; : >"$barrier/release"; wait
+  [ "$ticks" -lt 250 ] || fail 'R36-CONCURRENCY destination barrier timeout'; : >"$barrier/release"; wait_bounded "$pid_a" 'R36-CONCURRENCY writer a'; wait_bounded "$pid_b" 'R36-CONCURRENCY writer b'
   "$python_bin" - "$barrier" "$fixture_repo" <<'PY'
 import json,sys
 from pathlib import Path
@@ -191,14 +237,17 @@ PY
 opposing_moves() {
   setup
   local pa pb barrier="$tmp/barrier-opposing"; pa="$(artifact opposing-a 41)"; pb="$(artifact opposing-b 42)"; rm -rf "$barrier"; mkdir "$barrier"
+  local pid_a pid_b
   for source in a b; do (
     : >"$barrier/$source.ready"; while [ ! -f "$barrier/release" ]; do sleep .02; done
     destination=b; [ "$source" = b ] && destination=a
     pre="$pb"; [ "$source" = a ] && pre="$pa"
     set +e; bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" --operation move --target "$source" --preimage "$pre" --destination "$destination" >"$barrier/$source.out" 2>"$barrier/$source.err"; echo $? >"$barrier/$source.exit"
-  ) & done
+  ) &
+  [ "$source" = a ] && pid_a=$! || pid_b=$!
+  done
   local ticks=0; while { [ ! -f "$barrier/a.ready" ] || [ ! -f "$barrier/b.ready" ]; } && [ "$ticks" -lt 250 ]; do sleep .02; ticks=$((ticks+1)); done
-  [ "$ticks" -lt 250 ] || fail 'R36-OPPOSING barrier timeout'; : >"$barrier/release"; wait
+  [ "$ticks" -lt 250 ] || fail 'R36-OPPOSING barrier timeout'; : >"$barrier/release"; wait_bounded "$pid_a" 'R36-OPPOSING writer a'; wait_bounded "$pid_b" 'R36-OPPOSING writer b'
   "$python_bin" - "$barrier" "$fixture_repo" <<'PY'
 import json,sys
 from pathlib import Path
@@ -254,7 +303,7 @@ PY
   case "$status" in POST_COMMIT_DRIFT|ROLLBACK_CONFLICT|ROLLBACK_FAILED_WITH_RESIDUE) ;; *) fail "R36-DRIFT non-residual status $status";; esac
   [ "$actual" -eq "$(status_exit "$status")" ] || fail "R36-DRIFT exit/status mismatch"
   post="$(identity_json "$fixture_repo/target")"
-  last_record="$(assert_response R36-DRIFT "$status" replace target - '["target"]' "$pre_id" "$(identity_json "$candidate")" "$post" "$(<"$stdout")")"
+  last_record="$(assert_response R36-DRIFT "$status" replace target - '["target"]' "$pre_id" "$(identity_json "$candidate")" "$post" "$(post_identities_json target -)" "$(<"$stdout")")"
   assert_hex R36-DRIFT-winner "$fixture_repo/target" 45585445524e414c2d57494e4e4552
   journal="$(residual_field journal_path)"; token="$(residual_field token)"
   case "$journal" in "$fixture_repo"/*) ;; *) fail "R36-DRIFT journal escapes fixture: $journal";; esac
@@ -272,6 +321,8 @@ PY
   [ -e "$journal" ] || fail 'R36-DRIFT forged token removed journal'
   # Correct token is exercised against the recreated winner; it must retain a
   # residual conflict rather than overwrite the external winner.
+  local recovery_pre recovery_post
+  recovery_pre="$(identity_json "$fixture_repo/target")"
   set +e; bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" --operation recover --target target --journal "$journal" --token "$token" >"$tmp/recover.out" 2>"$tmp/recover.err"; actual=$?; set -e
   status="$($python_bin - "$tmp/recover.out" <<'PY'
 import json,sys
@@ -280,6 +331,8 @@ PY
 )"
   case "$status" in ROLLBACK_CONFLICT|ROLLBACK_FAILED_WITH_RESIDUE|RECOVERY_REQUIRED) ;; *) fail "R36-DRIFT correct-token status $status";; esac
   [ "$actual" -eq "$(status_exit "$status")" ] || fail 'R36-DRIFT correct-token exit mismatch'
+  recovery_post="$(identity_json "$fixture_repo/target")"
+  last_record="$(assert_response R36-DRIFT-correct-token "$status" recover target - '["target"]' "$recovery_pre" null "$recovery_post" "$(post_identities_json target -)" "$(<"$tmp/recover.out")")"
   assert_hex R36-DRIFT-correct-token-winner "$fixture_repo/target" 45585445524e414c2d57494e4e4552
 }
 
@@ -297,17 +350,19 @@ state_family() {
   setup; region="$(artifact empty-region '')"; repl="$(artifact empty-repl 58)"; invoke R36-B2-empty REJECTED_NO_MUTATION patch target - "$repl" 4142434445 --offset 0 --region "$region" --replacement "$repl"
   setup; pre="$(artifact binary-pre 0001ff7f42494e0d0a)"; cand="$(artifact binary-candidate ff0042494e2d)"; invoke R36-B3 COMMITTED replace binary - "$cand" ff0042494e2d --preimage "$pre" --candidate "$cand"; pre="$(artifact binary-delete-pre ff0042494e2d)"; invoke R36-B4 COMMITTED delete binary - - - --preimage "$pre"; setup; pre="$(artifact binary-move-pre 0001ff7f42494e0d0a)"; invoke R36-B5 COMMITTED move binary binary-destination "$pre" 0001ff7f42494e0d0a --preimage "$pre" --destination binary-destination; assert_hex R36-B5-source-absent "$fixture_repo/binary" -; assert_hex R36-B5-destination "$fixture_repo/binary-destination" 0001ff7f42494e0d0a
   setup; pre="$(artifact hard-pre 5349424c494e47)"; cand="$(artifact hard-candidate 4e4557)"; invoke R36-T1 COMMITTED replace hardlink - "$cand" 4e4557 --preimage "$pre" --candidate "$cand"; assert_hex R36-T1-sibling "$fixture_repo/sibling" 5349424c494e47
+  setup; pre="$(artifact equal-pre 53414d45)"; cand="$(artifact equal-candidate 4e4557)"; invoke R36-T1-equal COMMITTED replace equal-one - "$cand" 4e4557 --preimage "$pre" --candidate "$cand"; assert_hex R36-T1-equal-other "$fixture_repo/equal-two" 53414d45
   setup; pre="$(artifact scope-pre 4142434445)"; cand="$(artifact scope-candidate 4e4557)"; invoke R36-T2 REJECTED_NO_MUTATION replace ../existing-outside-target - "$cand" 4f555453494445 --preimage "$pre" --candidate "$cand"; [ "$(cat "$fixture_repo/symlink-capability")" = yes ] && { pre="$(artifact link-pre 4142434445)"; invoke R36-T3 REJECTED_NO_MUTATION replace final-link - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"; pre="$(artifact parent-pre 6368696c64)"; invoke R36-T4 REJECTED_NO_MUTATION replace parent-link/child - "$cand" 6368696c64 --preimage "$pre" --candidate "$cand"; }
+  setup; pre="$(artifact reference-pre 4142434445)"; ln -s "$(basename "$pre")" "$fixture_repo/artifacts/reference-preimage" 2>/dev/null || true; if [ -L "$fixture_repo/artifacts/reference-preimage" ]; then cand="$(artifact reference-candidate 4e4557)"; invoke R36-T5 REJECTED_NO_MUTATION replace target - "$cand" 4142434445 --preimage "$fixture_repo/artifacts/reference-preimage" --candidate "$cand"; fi
   setup; pre="$(artifact stale-delete-pre 414243)"; invoke R36-D1 REJECTED_NO_MUTATION delete target - - 4142434445 --preimage "$pre"; pre="$(artifact stale-move-pre 414243)"; invoke R36-D2 REJECTED_NO_MUTATION move target absent-destination "$pre" 4142434445 --preimage "$pre" --destination absent-destination; assert_hex R36-D2-destination-absent "$fixture_repo/absent-destination" -
   setup; pre="$(artifact stale-move-full-pre 4142434445)"; write_hex "$fixture_repo/target" 4c41544552; invoke R36-D2-currentness CONFLICT_REBASE move target absent-destination "$pre" 4c41544552 --preimage "$pre" --destination absent-destination; assert_hex R36-D2-currentness-destination-absent "$fixture_repo/absent-destination" -
   setup; pre="$(artifact move-pre 4142434445)"; write_hex "$fixture_repo/existing-destination" 455849535453; invoke R36-D3 REJECTED_NO_MUTATION move target existing-destination "$pre" 4142434445 --preimage "$pre" --destination existing-destination; assert_hex R36-D3-destination "$fixture_repo/existing-destination" 455849535453
   setup; pre="$(artifact same-pre 4142434445)"; invoke R36-D4 REJECTED_NO_MUTATION move target target "$pre" 4142434445 --preimage "$pre" --destination target
   setup; mkdir "$fixture_repo/directory-target"; pre="$(artifact regular-pre 4142434445)"; cand="$(artifact regular-candidate 4e4557)"; invoke R36-D5 REJECTED_NO_MUTATION replace directory-target - "$cand" @DIRECTORY --preimage "$pre" --candidate "$cand"
-  # Cheap and untracked/run-root controls stay ordinary only when complete bytes
-  # establish the named object; a partial read of run-root state is still refused.
-  setup; pre="$(artifact cheap-pre 4142434445)"; cand="$(artifact cheap-same 4142434445)"; invoke R36-P1 NO_CHANGE replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"
+  # Cheap controls are not helper triggers: read-only inspection, disposable
+  # task-owned creation, and unrelated diagnostics leave the named bytes alone.
+  setup; assert_hex R36-P1-read-only "$fixture_repo/target" 4142434445; : > "$run_root/disposable"; [ -f "$run_root/disposable" ] || fail 'R36-P1 disposable creation failed'
   setup; local run_relative="${run_root#$fixture_repo/}"; write_hex "$run_root/untracked" 554e545241434b4544; pre="$(artifact untracked-partial 554e54)"; cand="$(artifact untracked-candidate 4e4557)"; invoke R36-P2 REJECTED_NO_MUTATION replace "$run_relative/untracked" - "$cand" 554e545241434b4544 --preimage "$pre" --candidate "$cand"
-  setup; pre="$(artifact representation-complete 4142434445)"; cand="$(artifact representation-same 4142434445)"; invoke R36-P3 NO_CHANGE replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"
+  setup; printf 'diagnostic: truncated unrelated output\n' > "$fixture_repo/unrelated.log"; pre="$(artifact unrelated-pre 4142434445)"; cand="$(artifact unrelated-same 4142434445)"; invoke R36-P3 NO_CHANGE replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"
   concurrent_destination
   opposing_moves
   external_drift_and_recovery
