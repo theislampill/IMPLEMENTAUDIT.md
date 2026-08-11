@@ -77,8 +77,12 @@ if [ "${1:-}" = "--identity-only" ]; then
     local pair_count="${6:-1}"
     local old_digest='bfe323853fcb814530c9f58e078ef09d4e930419d99005af26c9135f936e3536'
     make_fixture "$root" "$runtime_version" v0.3.3.0
-    write_public_receipt "$root/current-public-receipt.json" "$public_tag" \
+    mkdir -p "$root/docs/audits/archive"
+    write_public_receipt "$root/docs/audits/archive/v0.3.3.3-current-public-receipt.json" "$public_tag" \
       "$old_digest" 227995 368332810 509660798
+    git -C "$root" add docs/audits/archive/v0.3.3.3-current-public-receipt.json
+    git -C "$root" -c user.email=t@example.invalid -c user.name=t \
+      commit -qm retain-current-public-receipt
     mkdir -p "$root/docs/portal"
     printf '{"release":{"milestone":"%s","audit_ledger_url":"https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/archive/%s"}}\n' \
       "$site_milestone" "$ledger_name" > "$root/docs/portal/site.json"
@@ -115,19 +119,21 @@ if [ "${1:-}" = "--identity-only" ]; then
 
   make_repeated_same_tag_correction_fixture() {
     local root="$1" pair_count="${2:-1}"
-    local current_digest='151cb5400d248e3e41a30750ba690d8c46bbe907294ba82a0a5a627536ad563e'
+    local current_digest="${3:-151cb5400d248e3e41a30750ba690d8c46bbe907294ba82a0a5a627536ad563e}"
+    local current_bytes="${4:-227999}"
+    local history_action="${5:-preserve}" grammar="${6:-current}"
     make_fixture "$root" 0.3.3 v0.3.3.0
-    mkdir -p "$root/docs/portal"
+    mkdir -p "$root/docs/audits/archive" "$root/docs/portal"
     cp fixtures/release-identity/current-public-v0.3.3.3.json \
-      "$root/current-public-receipt.json"
+      "$root/docs/audits/archive/v0.3.3.3-current-public-receipt.json"
     printf '%s\n' \
       '{"release":{"milestone":"v0.3.3.3","audit_ledger_url":"https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/archive/v0.3.3.3-release-report.md"}}' \
       > "$root/docs/portal/site.json"
     {
       printf '# Changelog\n\n## [v0.3.3.3] - 2026-08-11\n\n'
-      printf -- '- same-tag correction for `v0.3.3.3` `IMPLEMENTAUDIT.skill`: prematurely published `%s` (227,995 bytes) -> final `%s` (227,999 bytes).\n\n' \
+      printf -- '- same-tag correction for `v0.3.3.3` `IMPLEMENTAUDIT.skill`: prematurely published `%s` (227,995 bytes) -> final `%s` (%s bytes).\n\n' \
         'bfe323853fcb814530c9f58e078ef09d4e930419d99005af26c9135f936e3536' \
-        "$current_digest"
+        "$current_digest" "$current_bytes"
       tail -n +3 "$root/CHANGELOG.md"
     } > "$root/CHANGELOG.md.next"
     mv "$root/CHANGELOG.md.next" "$root/CHANGELOG.md"
@@ -138,9 +144,15 @@ if [ "${1:-}" = "--identity-only" ]; then
     local candidate_digest candidate_bytes
     candidate_digest="$(sha256sum "$root/IMPLEMENTAUDIT.skill" | awk '{print $1}')"
     candidate_bytes="$(wc -c < "$root/IMPLEMENTAUDIT.skill" | tr -d '[:space:]')"
+    [ "$history_action" = preserve ] || sed -i '/prematurely published/d' "$root/CHANGELOG.md"
     for _ in $(seq 1 "$pair_count"); do
-      printf '\n- same-tag correction for `v0.3.3.3` `IMPLEMENTAUDIT.skill`: current public `%s` (227,999 bytes) -> candidate `%s` (%s bytes).\n' \
-        "$current_digest" "$candidate_digest" "$candidate_bytes" >> "$root/CHANGELOG.md"
+      if [ "$grammar" = historical ]; then
+        printf '\n- same-tag correction for `v0.3.3.3` `IMPLEMENTAUDIT.skill`: prematurely published `%s` (%s bytes) -> final `%s` (%s bytes).\n' \
+          "$current_digest" "$current_bytes" "$candidate_digest" "$candidate_bytes" >> "$root/CHANGELOG.md"
+      else
+        printf '\n- same-tag correction for `v0.3.3.3` `IMPLEMENTAUDIT.skill`: current public `%s` (%s bytes) -> candidate `%s` (%s bytes).\n' \
+          "$current_digest" "$current_bytes" "$candidate_digest" "$candidate_bytes" >> "$root/CHANGELOG.md"
+      fi
     done
     git -C "$root" add IMPLEMENTAUDIT.skill CHANGELOG.md
     git -C "$root" commit -qm repeated-same-tag-correction
@@ -149,34 +161,66 @@ if [ "${1:-}" = "--identity-only" ]; then
   same_tag_correction="$tmp_parent/same-tag-correction"
   make_same_tag_correction_fixture "$same_tag_correction"
   bash scripts/build-release-asset.sh --check-release-identity \
-    same-tag-correction v0.3.3.3 "$same_tag_correction/current-public-receipt.json" \
+    same-tag-correction v0.3.3.3 "$same_tag_correction/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
     HEAD "$same_tag_correction" >/dev/null \
     || fail 'valid v0.3.3.3 same-tag correction was rejected'
 
   same_tag_merge="$tmp_parent/same-tag-merge"
   make_same_tag_merge_fixture "$same_tag_merge"
   bash scripts/build-release-asset.sh --check-release-identity \
-    same-tag-correction v0.3.3.3 "$same_tag_merge/current-public-receipt.json" \
+    same-tag-correction v0.3.3.3 "$same_tag_merge/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
     HEAD "$same_tag_merge" >/dev/null \
     || fail 'valid same-tag correction merged through a pull request was rejected'
 
   repeated_same_tag="$tmp_parent/repeated-same-tag"
   make_repeated_same_tag_correction_fixture "$repeated_same_tag"
   bash scripts/build-release-asset.sh --check-release-identity \
-    same-tag-correction v0.3.3.3 "$repeated_same_tag/current-public-receipt.json" \
+    same-tag-correction v0.3.3.3 "$repeated_same_tag/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
     HEAD "$repeated_same_tag" >/dev/null \
     || fail 'valid repeated v0.3.3.3 correction bound to current public receipt was rejected'
   [ "$(grep -c 'same-tag correction for `v0.3.3.3`' "$repeated_same_tag/CHANGELOG.md")" -eq 2 ] \
     || fail 'repeated correction did not preserve the earlier same-tag pair as chronology'
+
+  repeated_deleted_history="$tmp_parent/repeated-deleted-history"
+  make_repeated_same_tag_correction_fixture "$repeated_deleted_history" 1 \
+    151cb5400d248e3e41a30750ba690d8c46bbe907294ba82a0a5a627536ad563e 227999 delete
+
+  repeated_fake_receipt="$tmp_parent/repeated-fake-receipt"
+  make_repeated_same_tag_correction_fixture "$repeated_fake_receipt" 1 "$a_digest" 123
+  write_public_receipt "$repeated_fake_receipt/untracked-self-authored-receipt.json" \
+    v0.3.3.3 "$a_digest" 123 1 1
+
+  repeated_historical_grammar="$tmp_parent/repeated-historical-grammar"
+  make_repeated_same_tag_correction_fixture "$repeated_historical_grammar" 1 \
+    151cb5400d248e3e41a30750ba690d8c46bbe907294ba82a0a5a627536ad563e 227999 preserve historical
+
+  accepted_heldouts=()
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      same-tag-correction v0.3.3.3 "$repeated_deleted_history/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
+      HEAD "$repeated_deleted_history" >/dev/null 2>&1; then
+    accepted_heldouts+=(deleted-history)
+  fi
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      same-tag-correction v0.3.3.3 "$repeated_fake_receipt/untracked-self-authored-receipt.json" \
+      HEAD "$repeated_fake_receipt" >/dev/null 2>&1; then
+    accepted_heldouts+=(untracked-self-authored-receipt)
+  fi
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      same-tag-correction v0.3.3.3 "$repeated_historical_grammar/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
+      HEAD "$repeated_historical_grammar" >/dev/null 2>&1; then
+    accepted_heldouts+=(repeated-historical-grammar)
+  fi
+  [ "${#accepted_heldouts[@]}" -eq 0 ] \
+    || fail "same-tag correction accepted held-outs: ${accepted_heldouts[*]}"
 
   repeated_stale_receipt="$tmp_parent/repeated-stale-receipt"
   make_repeated_same_tag_correction_fixture "$repeated_stale_receipt"
   sed -i \
     -e 's/151cb5400d248e3e41a30750ba690d8c46bbe907294ba82a0a5a627536ad563e/bfe323853fcb814530c9f58e078ef09d4e930419d99005af26c9135f936e3536/g' \
     -e 's/227999/227995/g' \
-    "$repeated_stale_receipt/current-public-receipt.json"
+    "$repeated_stale_receipt/docs/audits/archive/v0.3.3.3-current-public-receipt.json"
   if bash scripts/build-release-asset.sh --check-release-identity \
-      same-tag-correction v0.3.3.3 "$repeated_stale_receipt/current-public-receipt.json" \
+      same-tag-correction v0.3.3.3 "$repeated_stale_receipt/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
       HEAD "$repeated_stale_receipt" >/dev/null 2>&1; then
     fail 'repeated correction accepted a stale first-publication receipt as the current preimage'
   fi
@@ -185,9 +229,9 @@ if [ "${1:-}" = "--identity-only" ]; then
   make_repeated_same_tag_correction_fixture "$repeated_disagreeing_receipt"
   sed -i \
     's/"download_sha256": "[0-9a-f]*"/"download_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"/' \
-    "$repeated_disagreeing_receipt/current-public-receipt.json"
+    "$repeated_disagreeing_receipt/docs/audits/archive/v0.3.3.3-current-public-receipt.json"
   if bash scripts/build-release-asset.sh --check-release-identity \
-      same-tag-correction v0.3.3.3 "$repeated_disagreeing_receipt/current-public-receipt.json" \
+      same-tag-correction v0.3.3.3 "$repeated_disagreeing_receipt/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
       HEAD "$repeated_disagreeing_receipt" >/dev/null 2>&1; then
     fail 'repeated correction accepted disagreeing API and download readbacks'
   fi
@@ -195,9 +239,9 @@ if [ "${1:-}" = "--identity-only" ]; then
   repeated_wrong_tag_receipt="$tmp_parent/repeated-wrong-tag-receipt"
   make_repeated_same_tag_correction_fixture "$repeated_wrong_tag_receipt"
   sed -i 's/"release_tag": "v0.3.3.3"/"release_tag": "v0.3.3.2"/' \
-    "$repeated_wrong_tag_receipt/current-public-receipt.json"
+    "$repeated_wrong_tag_receipt/docs/audits/archive/v0.3.3.3-current-public-receipt.json"
   if bash scripts/build-release-asset.sh --check-release-identity \
-      same-tag-correction v0.3.3.3 "$repeated_wrong_tag_receipt/current-public-receipt.json" \
+      same-tag-correction v0.3.3.3 "$repeated_wrong_tag_receipt/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
       HEAD "$repeated_wrong_tag_receipt" >/dev/null 2>&1; then
     fail 'repeated correction accepted a current-public receipt for another tag'
   fi
@@ -208,7 +252,7 @@ if [ "${1:-}" = "--identity-only" ]; then
   git -C "$repeated_missing_pair" add CHANGELOG.md
   git -C "$repeated_missing_pair" commit -qm repeated-missing-pair
   if bash scripts/build-release-asset.sh --check-release-identity \
-      same-tag-correction v0.3.3.3 "$repeated_missing_pair/current-public-receipt.json" \
+      same-tag-correction v0.3.3.3 "$repeated_missing_pair/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
       HEAD "$repeated_missing_pair" >/dev/null 2>&1; then
     fail 'repeated correction accepted a release commit without a new current-to-candidate pair'
   fi
@@ -216,7 +260,7 @@ if [ "${1:-}" = "--identity-only" ]; then
   repeated_duplicate_pair="$tmp_parent/repeated-duplicate-pair"
   make_repeated_same_tag_correction_fixture "$repeated_duplicate_pair" 2
   if bash scripts/build-release-asset.sh --check-release-identity \
-      same-tag-correction v0.3.3.3 "$repeated_duplicate_pair/current-public-receipt.json" \
+      same-tag-correction v0.3.3.3 "$repeated_duplicate_pair/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
       HEAD "$repeated_duplicate_pair" >/dev/null 2>&1; then
     fail 'repeated correction accepted duplicate current-to-candidate pairs'
   fi
@@ -229,7 +273,7 @@ if [ "${1:-}" = "--identity-only" ]; then
   git -C "$repeated_unchanged_digest" add CHANGELOG.md
   git -C "$repeated_unchanged_digest" commit -qm repeated-unchanged-digest
   if bash scripts/build-release-asset.sh --check-release-identity \
-      same-tag-correction v0.3.3.3 "$repeated_unchanged_digest/current-public-receipt.json" \
+      same-tag-correction v0.3.3.3 "$repeated_unchanged_digest/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
       HEAD "$repeated_unchanged_digest" >/dev/null 2>&1; then
     fail 'repeated correction accepted an unchanged current-public digest'
   fi
@@ -242,7 +286,7 @@ if [ "${1:-}" = "--identity-only" ]; then
   git -C "$repeated_wrong_candidate" add CHANGELOG.md
   git -C "$repeated_wrong_candidate" commit -qm repeated-wrong-candidate
   if bash scripts/build-release-asset.sh --check-release-identity \
-      same-tag-correction v0.3.3.3 "$repeated_wrong_candidate/current-public-receipt.json" \
+      same-tag-correction v0.3.3.3 "$repeated_wrong_candidate/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
       HEAD "$repeated_wrong_candidate" >/dev/null 2>&1; then
     fail 'repeated correction accepted a candidate digest that does not match the asset'
   fi
@@ -254,7 +298,7 @@ if [ "${1:-}" = "--identity-only" ]; then
   git -C "$repeated_wrong_candidate_bytes" add CHANGELOG.md
   git -C "$repeated_wrong_candidate_bytes" commit -qm repeated-wrong-candidate-bytes
   if bash scripts/build-release-asset.sh --check-release-identity \
-      same-tag-correction v0.3.3.3 "$repeated_wrong_candidate_bytes/current-public-receipt.json" \
+      same-tag-correction v0.3.3.3 "$repeated_wrong_candidate_bytes/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
       HEAD "$repeated_wrong_candidate_bytes" >/dev/null 2>&1; then
     fail 'repeated correction accepted candidate bytes that do not match the asset'
   fi
@@ -263,7 +307,7 @@ if [ "${1:-}" = "--identity-only" ]; then
   make_repeated_same_tag_correction_fixture "$repeated_dirty_owner"
   printf '\n' >> "$repeated_dirty_owner/docs/portal/site.json"
   if bash scripts/build-release-asset.sh --check-release-identity \
-      same-tag-correction v0.3.3.3 "$repeated_dirty_owner/current-public-receipt.json" \
+      same-tag-correction v0.3.3.3 "$repeated_dirty_owner/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
       HEAD "$repeated_dirty_owner" >/dev/null 2>&1; then
     fail 'repeated correction accepted a dirty release identity owner'
   fi
@@ -275,7 +319,7 @@ if [ "${1:-}" = "--identity-only" ]; then
   git -C "$repeated_non_head" add payload.txt
   git -C "$repeated_non_head" commit -qm repeated-later-tree
   if bash scripts/build-release-asset.sh --check-release-identity \
-      same-tag-correction v0.3.3.3 "$repeated_non_head/current-public-receipt.json" \
+      same-tag-correction v0.3.3.3 "$repeated_non_head/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
       "$repeated_release_commit" "$repeated_non_head" >/dev/null 2>&1; then
     fail 'repeated correction accepted a non-HEAD release commit/tree'
   fi
@@ -294,7 +338,7 @@ if [ "${1:-}" = "--identity-only" ]; then
   fi
 
   if bash scripts/build-release-asset.sh --check-release-identity \
-      same-tag-correction v0.3.3.2 "$same_tag_correction/current-public-receipt.json" \
+      same-tag-correction v0.3.3.2 "$same_tag_correction/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
       HEAD "$same_tag_correction" >/dev/null 2>&1; then
     fail 'same-tag correction accepted a different public tag'
   fi
@@ -305,7 +349,7 @@ if [ "${1:-}" = "--identity-only" ]; then
   git -C "$same_tag_missing_pair" add CHANGELOG.md
   git -C "$same_tag_missing_pair" commit -qm remove-pair
   if bash scripts/build-release-asset.sh --check-release-identity \
-      same-tag-correction v0.3.3.3 "$same_tag_missing_pair/current-public-receipt.json" \
+      same-tag-correction v0.3.3.3 "$same_tag_missing_pair/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
       HEAD "$same_tag_missing_pair" >/dev/null 2>&1; then
     fail 'same-tag correction accepted a commit without the replacement pair'
   fi
@@ -314,7 +358,7 @@ if [ "${1:-}" = "--identity-only" ]; then
   make_same_tag_correction_fixture "$same_tag_duplicate_pair" \
     0.3.3 v0.3.3.3 v0.3.3.3 v0.3.3.3-release-report.md 2
   if bash scripts/build-release-asset.sh --check-release-identity \
-      same-tag-correction v0.3.3.3 "$same_tag_duplicate_pair/current-public-receipt.json" \
+      same-tag-correction v0.3.3.3 "$same_tag_duplicate_pair/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
       HEAD "$same_tag_duplicate_pair" >/dev/null 2>&1; then
     fail 'same-tag correction accepted duplicate replacement pairs'
   fi
@@ -327,7 +371,7 @@ if [ "${1:-}" = "--identity-only" ]; then
   git -C "$same_tag_unchanged_digest" add CHANGELOG.md
   git -C "$same_tag_unchanged_digest" commit -qm unchanged-digest
   if bash scripts/build-release-asset.sh --check-release-identity \
-      same-tag-correction v0.3.3.3 "$same_tag_unchanged_digest/current-public-receipt.json" \
+      same-tag-correction v0.3.3.3 "$same_tag_unchanged_digest/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
       HEAD "$same_tag_unchanged_digest" >/dev/null 2>&1; then
     fail 'same-tag correction accepted an unchanged package digest'
   fi
@@ -340,7 +384,7 @@ if [ "${1:-}" = "--identity-only" ]; then
   git -C "$same_tag_wrong_old_digest" add CHANGELOG.md
   git -C "$same_tag_wrong_old_digest" commit -qm wrong-old-digest
   if bash scripts/build-release-asset.sh --check-release-identity \
-      same-tag-correction v0.3.3.3 "$same_tag_wrong_old_digest/current-public-receipt.json" \
+      same-tag-correction v0.3.3.3 "$same_tag_wrong_old_digest/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
       HEAD "$same_tag_wrong_old_digest" >/dev/null 2>&1; then
     fail 'same-tag correction accepted the wrong premature package digest'
   fi
@@ -351,7 +395,7 @@ if [ "${1:-}" = "--identity-only" ]; then
   git -C "$same_tag_wrong_old_bytes" add CHANGELOG.md
   git -C "$same_tag_wrong_old_bytes" commit -qm wrong-old-bytes
   if bash scripts/build-release-asset.sh --check-release-identity \
-      same-tag-correction v0.3.3.3 "$same_tag_wrong_old_bytes/current-public-receipt.json" \
+      same-tag-correction v0.3.3.3 "$same_tag_wrong_old_bytes/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
       HEAD "$same_tag_wrong_old_bytes" >/dev/null 2>&1; then
     fail 'same-tag correction accepted the wrong premature package byte count'
   fi
@@ -364,7 +408,7 @@ if [ "${1:-}" = "--identity-only" ]; then
   git -C "$same_tag_wrong_new_digest" add CHANGELOG.md
   git -C "$same_tag_wrong_new_digest" commit -qm wrong-new-digest
   if bash scripts/build-release-asset.sh --check-release-identity \
-      same-tag-correction v0.3.3.3 "$same_tag_wrong_new_digest/current-public-receipt.json" \
+      same-tag-correction v0.3.3.3 "$same_tag_wrong_new_digest/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
       HEAD "$same_tag_wrong_new_digest" >/dev/null 2>&1; then
     fail 'same-tag correction accepted a replacement digest that does not match the candidate'
   fi
@@ -376,7 +420,7 @@ if [ "${1:-}" = "--identity-only" ]; then
   git -C "$same_tag_wrong_new_bytes" add CHANGELOG.md
   git -C "$same_tag_wrong_new_bytes" commit -qm wrong-new-bytes
   if bash scripts/build-release-asset.sh --check-release-identity \
-      same-tag-correction v0.3.3.3 "$same_tag_wrong_new_bytes/current-public-receipt.json" \
+      same-tag-correction v0.3.3.3 "$same_tag_wrong_new_bytes/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
       HEAD "$same_tag_wrong_new_bytes" >/dev/null 2>&1; then
     fail 'same-tag correction accepted a replacement byte count that does not match the candidate'
   fi
@@ -391,7 +435,7 @@ if [ "${1:-}" = "--identity-only" ]; then
     make_same_tag_correction_fixture "$dirty_owner_root"
     printf '\n' >> "$dirty_owner_root/$dirty_owner"
     if bash scripts/build-release-asset.sh --check-release-identity \
-        same-tag-correction v0.3.3.3 "$dirty_owner_root/current-public-receipt.json" \
+        same-tag-correction v0.3.3.3 "$dirty_owner_root/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
         HEAD "$dirty_owner_root" >/dev/null 2>&1; then
       fail "same-tag correction accepted dirty release identity owner $dirty_owner"
     fi
@@ -400,7 +444,7 @@ if [ "${1:-}" = "--identity-only" ]; then
   same_tag_wrong_portal="$tmp_parent/same-tag-wrong-portal"
   make_same_tag_correction_fixture "$same_tag_wrong_portal" 0.3.3 v0.3.3.3 v0.3.3.2
   if bash scripts/build-release-asset.sh --check-release-identity \
-      same-tag-correction v0.3.3.3 "$same_tag_wrong_portal/current-public-receipt.json" \
+      same-tag-correction v0.3.3.3 "$same_tag_wrong_portal/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
       HEAD "$same_tag_wrong_portal" >/dev/null 2>&1; then
     fail 'same-tag correction accepted the wrong portal milestone'
   fi
@@ -408,7 +452,7 @@ if [ "${1:-}" = "--identity-only" ]; then
   same_tag_wrong_ledger="$tmp_parent/same-tag-wrong-ledger"
   make_same_tag_correction_fixture "$same_tag_wrong_ledger" 0.3.3 v0.3.3.3 v0.3.3.3 v0.3.3.2-release-report.md
   if bash scripts/build-release-asset.sh --check-release-identity \
-      same-tag-correction v0.3.3.3 "$same_tag_wrong_ledger/current-public-receipt.json" \
+      same-tag-correction v0.3.3.3 "$same_tag_wrong_ledger/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
       HEAD "$same_tag_wrong_ledger" >/dev/null 2>&1; then
     fail 'same-tag correction accepted the wrong release ledger'
   fi
@@ -416,7 +460,7 @@ if [ "${1:-}" = "--identity-only" ]; then
   same_tag_wrong_runtime="$tmp_parent/same-tag-wrong-runtime"
   make_same_tag_correction_fixture "$same_tag_wrong_runtime" 0.3.2
   if bash scripts/build-release-asset.sh --check-release-identity \
-      same-tag-correction v0.3.3.3 "$same_tag_wrong_runtime/current-public-receipt.json" \
+      same-tag-correction v0.3.3.3 "$same_tag_wrong_runtime/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
       HEAD "$same_tag_wrong_runtime" >/dev/null 2>&1; then
     fail 'same-tag correction accepted a runtime outside 0.3.3'
   fi
@@ -428,7 +472,7 @@ if [ "${1:-}" = "--identity-only" ]; then
   git -C "$same_tag_non_head" add payload.txt
   git -C "$same_tag_non_head" commit -qm later-tree
   if bash scripts/build-release-asset.sh --check-release-identity \
-      same-tag-correction v0.3.3.3 "$same_tag_non_head/current-public-receipt.json" \
+      same-tag-correction v0.3.3.3 "$same_tag_non_head/docs/audits/archive/v0.3.3.3-current-public-receipt.json" \
       "$same_tag_release_commit" "$same_tag_non_head" >/dev/null 2>&1; then
     fail 'same-tag correction accepted a non-HEAD release commit/tree'
   fi

@@ -175,6 +175,15 @@ if mode == "same-tag-correction":
     receipt_path = Path(receipt_arg)
     if not receipt_path.is_absolute():
         receipt_path = root / receipt_path
+    canonical_receipt_relpath = (
+        "docs/audits/archive/v0.3.3.3-current-public-receipt.json"
+    )
+    canonical_receipt_path = root / canonical_receipt_relpath
+    if receipt_path.resolve() != canonical_receipt_path.resolve():
+        raise SystemExit(
+            "same-tag correction current-public receipt must use canonical "
+            f"repository custody at {canonical_receipt_relpath}"
+        )
     if receipt_path.is_symlink() or not receipt_path.is_file():
         raise SystemExit("same-tag correction current-public receipt must be a regular non-symlink JSON file")
 
@@ -244,6 +253,17 @@ resolved = subprocess.run(
 if resolved.returncode != 0:
     raise SystemExit("release identity commit does not resolve")
 commit_sha = resolved.stdout.strip()
+parent_sha = ""
+if mode == "same-tag-correction":
+    resolved_parent = subprocess.run(
+        ["git", "-C", str(root), "rev-parse", "--verify", f"{commit_sha}^1^{{commit}}"],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    if resolved_parent.returncode != 0:
+        raise SystemExit("same-tag correction release commit must have a first parent")
+    parent_sha = resolved_parent.stdout.strip()
 owner_relpaths = [
     ".claude-plugin/plugin.json",
     "skills/implementaudit/SKILL.md",
@@ -251,6 +271,8 @@ owner_relpaths = [
 ]
 if mode in {"family-forward", "same-tag-correction"}:
     owner_relpaths.append("docs/portal/site.json")
+if mode == "same-tag-correction":
+    owner_relpaths.append(canonical_receipt_relpath)
 for owner_relpath in owner_relpaths:
     committed_owner = subprocess.run(
         ["git", "-C", str(root), "show", f"{commit_sha}:{owner_relpath}"],
@@ -264,6 +286,22 @@ for owner_relpath in owner_relpaths:
     if (root / owner_relpath).read_bytes() != committed_owner.stdout:
         raise SystemExit(
             f"release identity owner {owner_relpath} does not match release commit {commit_sha}"
+        )
+if mode == "same-tag-correction":
+    parent_receipt = subprocess.run(
+        ["git", "-C", str(root), "show", f"{parent_sha}:{canonical_receipt_relpath}"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    if parent_receipt.returncode != 0:
+        raise SystemExit(
+            "same-tag correction current-public receipt must be retained in the "
+            "release commit first parent"
+        )
+    if parent_receipt.stdout != receipt_path.read_bytes():
+        raise SystemExit(
+            "same-tag correction current-public receipt must remain byte-identical "
+            "from the release commit first parent"
         )
 commit_tree = subprocess.run(
     ["git", "-C", str(root), "rev-parse", f"{commit_sha}^{{tree}}"],
@@ -358,21 +396,70 @@ added = "\n".join(
     if line.startswith("+") and not line.startswith("+++")
 )
 if mode == "same-tag-correction":
-    pair_patterns = (
-        (
-            r"(?ims)^[ \t]*-\s+same-tag\s+correction\s+for\s+`v0\.3\.3\.3`\s+"
+    pair_patterns = {
+        "historical": re.compile(
+            r"^[ \t]*-\s+same-tag\s+correction\s+for\s+`v0\.3\.3\.3`\s+"
             r"`IMPLEMENTAUDIT\.skill`:\s+prematurely\s+published\s+"
             r"`?([0-9a-f]{64})`?\s*\(([0-9][0-9,]*)\s+bytes?\)\s*(?:→|->)\s*"
-            r"final\s+`?([0-9a-f]{64})`?\s*\(([0-9][0-9,]*)\s+bytes?\)\s*\.?\s*$"
+            r"final\s+`?([0-9a-f]{64})`?\s*\(([0-9][0-9,]*)\s+bytes?\)\s*\.?\s*$",
+            re.IGNORECASE,
         ),
-        (
-            r"(?ims)^[ \t]*-\s+same-tag\s+correction\s+for\s+`v0\.3\.3\.3`\s+"
+        "current": re.compile(
+            r"^[ \t]*-\s+same-tag\s+correction\s+for\s+`v0\.3\.3\.3`\s+"
             r"`IMPLEMENTAUDIT\.skill`:\s+current\s+public\s+"
             r"`?([0-9a-f]{64})`?\s*\(([0-9][0-9,]*)\s+bytes?\)\s*(?:→|->)\s*"
-            r"candidate\s+`?([0-9a-f]{64})`?\s*\(([0-9][0-9,]*)\s+bytes?\)\s*\.?\s*$"
+            r"candidate\s+`?([0-9a-f]{64})`?\s*\(([0-9][0-9,]*)\s+bytes?\)\s*\.?\s*$",
+            re.IGNORECASE,
         ),
-    )
-    pairs = [pair for pattern in pair_patterns for pair in re.findall(pattern, added)]
+    }
+
+    def committed_changelog(commit):
+        shown_changelog = subprocess.run(
+            ["git", "-C", str(root), "show", f"{commit}:CHANGELOG.md"],
+            encoding="utf-8",
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        if shown_changelog.returncode != 0:
+            raise SystemExit(
+                f"same-tag correction CHANGELOG.md is missing from commit {commit}"
+            )
+        return shown_changelog.stdout
+
+    def correction_rows(text):
+        rows = []
+        for line in text.splitlines():
+            for grammar, pattern in pair_patterns.items():
+                match = pattern.fullmatch(line)
+                if match:
+                    rows.append((grammar, line, match.groups()))
+                    break
+        return rows
+
+    parent_rows = correction_rows(committed_changelog(parent_sha))
+    current_rows = correction_rows(committed_changelog(commit_sha))
+    if (
+        len(current_rows) != len(parent_rows) + 1
+        or current_rows[: len(parent_rows)] != parent_rows
+    ):
+        raise SystemExit(
+            "same-tag correction must preserve every historical correction pair "
+            "and append exactly one new pair"
+        )
+    new_grammar, new_pair_line, new_pair = current_rows[-1]
+    required_grammar = "historical" if not parent_rows else "current"
+    if new_grammar != required_grammar:
+        raise SystemExit(
+            "same-tag correction must use prematurely-published-to-final grammar "
+            "only for the first correction and current-public-to-candidate grammar "
+            "for every repeated correction"
+        )
+    if added.splitlines().count(new_pair_line) != 1:
+        raise SystemExit(
+            "same-tag correction release commit must add its new canonical "
+            "IMPLEMENTAUDIT.skill pair"
+        )
+    pairs = [new_pair]
 else:
     pairs = re.findall(
         r"(?ims)^[ \t]*-\s+`IMPLEMENTAUDIT\.skill`:\s+superseded\s+"
