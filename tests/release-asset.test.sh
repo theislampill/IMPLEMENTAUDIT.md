@@ -18,11 +18,11 @@ if [ "${1:-}" = "--identity-only" ]; then
   b_digest='bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
 
   make_fixture() {
-    local root="$1" version="$2"
+    local root="$1" version="$2" previous_tag="${3:-v0.3.2.0}"
     mkdir -p "$root/.claude-plugin" "$root/skills/implementaudit"
     printf '{"version":"%s"}\n' "$version" > "$root/.claude-plugin/plugin.json"
     printf '%s\n' '---' 'metadata:' "  version: \"$version\"" '---' > "$root/skills/implementaudit/SKILL.md"
-    printf '# Changelog\n\n## [v0.3.2.0] - 2026-07-18\n' > "$root/CHANGELOG.md"
+    printf '# Changelog\n\n## [%s] - 2026-07-18\n' "$previous_tag" > "$root/CHANGELOG.md"
     printf 'original payload\n' > "$root/payload.txt"
     printf 'original package\n' > "$root/IMPLEMENTAUDIT.skill"
     git -C "$root" init -q
@@ -30,6 +30,25 @@ if [ "${1:-}" = "--identity-only" ]; then
     git -C "$root" config user.name t
     git -C "$root" add .
     git -C "$root" -c user.email=t@example.invalid -c user.name=t commit -qm initial
+  }
+
+  make_family_forward_fixture() {
+    local root="$1" runtime_version="$2" previous_tag="$3" candidate_tag="$4"
+    local site_milestone="${5:-$candidate_tag}"
+    local ledger_milestone="${6:-$site_milestone}"
+    local ledger_name="${7:-${ledger_milestone}-release-report.md}"
+    make_fixture "$root" "$runtime_version" "$previous_tag"
+    mkdir -p "$root/docs/portal"
+    printf '{"release":{"milestone":"%s","audit_ledger_url":"https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/archive/%s"}}\n' \
+      "$site_milestone" "$ledger_name" > "$root/docs/portal/site.json"
+    printf 'changed payload\n' > "$root/payload.txt"
+    {
+      printf '# Changelog\n\n## [%s] - 2026-08-10\n- Corrective and completion release.\n\n' "$candidate_tag"
+      tail -n +3 "$root/CHANGELOG.md"
+    } > "$root/CHANGELOG.md.next"
+    mv "$root/CHANGELOG.md.next" "$root/CHANGELOG.md"
+    git -C "$root" add payload.txt CHANGELOG.md docs/portal/site.json
+    git -C "$root" -c user.email=t@example.invalid -c user.name=t commit -qm family-forward
   }
 
   no_record="$tmp_parent/republish-no-record"
@@ -119,6 +138,146 @@ if [ "${1:-}" = "--identity-only" ]; then
       forward 0.2.0 HEAD "$forward" >/dev/null 2>&1; then
     fail 'caller-supplied non-current previous version bypassed CHANGELOG authority'
   fi
+
+  family_forward="$tmp_parent/family-forward"
+  make_family_forward_fixture "$family_forward" 0.3.3 v0.3.3.0 v0.3.3.3
+  bash scripts/build-release-asset.sh --check-release-identity \
+    family-forward v0.3.3.0 v0.3.3.3 HEAD "$family_forward" >/dev/null \
+    || fail 'valid v0.3.3.3 public identity for runtime 0.3.3 was rejected'
+
+  dirty_candidate_owners="$tmp_parent/family-forward-dirty-candidate-owners"
+  make_fixture "$dirty_candidate_owners" 0.3.3 v0.3.3.0
+  printf '\n' >> "$dirty_candidate_owners/.claude-plugin/plugin.json"
+  printf '\n' >> "$dirty_candidate_owners/skills/implementaudit/SKILL.md"
+  mkdir -p "$dirty_candidate_owners/docs/portal"
+  printf '{"release":{"milestone":"v0.3.3.3","audit_ledger_url":"https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/archive/v0.3.3.3-release-report.md"}}\n' \
+    > "$dirty_candidate_owners/docs/portal/site.json"
+  {
+    printf '# Changelog\n\n## [v0.3.3.3] - 2026-08-10\n- Corrective and completion release.\n\n'
+    tail -n +3 "$dirty_candidate_owners/CHANGELOG.md"
+  } > "$dirty_candidate_owners/CHANGELOG.md.next"
+  mv "$dirty_candidate_owners/CHANGELOG.md.next" "$dirty_candidate_owners/CHANGELOG.md"
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      family-forward v0.3.3.0 v0.3.3.3 HEAD "$dirty_candidate_owners" >/dev/null 2>&1; then
+    fail 'family-forward accepted dirty candidate owners absent from the v0.3.3.0 release commit'
+  fi
+
+  for dirty_owner in \
+      .claude-plugin/plugin.json \
+      skills/implementaudit/SKILL.md \
+      CHANGELOG.md \
+      docs/portal/site.json; do
+    owner_slug="$(printf '%s' "$dirty_owner" | tr '/.' '--')"
+    dirty_owner_root="$tmp_parent/family-forward-dirty-owner-$owner_slug"
+    make_family_forward_fixture "$dirty_owner_root" 0.3.3 v0.3.3.0 v0.3.3.3
+    printf '\n' >> "$dirty_owner_root/$dirty_owner"
+    if bash scripts/build-release-asset.sh --check-release-identity \
+        family-forward v0.3.3.0 v0.3.3.3 HEAD "$dirty_owner_root" >/dev/null 2>&1; then
+      fail "family-forward accepted dirty release identity owner $dirty_owner"
+    fi
+  done
+
+  backward_9_to_3="$tmp_parent/family-forward-backward-9-to-3"
+  make_family_forward_fixture "$backward_9_to_3" 0.3.3 v0.3.3.9 v0.3.3.3
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      family-forward v0.3.3.9 v0.3.3.3 HEAD "$backward_9_to_3" >/dev/null 2>&1; then
+    fail 'family-forward accepted v0.3.3.9 -> v0.3.3.3 rollback'
+  fi
+
+  backward_3_to_2="$tmp_parent/family-forward-backward-3-to-2"
+  make_family_forward_fixture "$backward_3_to_2" 0.3.3 v0.3.3.3 v0.3.3.2
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      family-forward v0.3.3.3 v0.3.3.2 HEAD "$backward_3_to_2" >/dev/null 2>&1; then
+    fail 'family-forward accepted v0.3.3.3 -> v0.3.3.2 rollback'
+  fi
+
+  site_mismatch="$tmp_parent/family-forward-site-mismatch"
+  make_family_forward_fixture "$site_mismatch" 0.3.3 v0.3.3.0 v0.3.3.3 v0.3.3.2
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      family-forward v0.3.3.0 v0.3.3.3 HEAD "$site_mismatch" >/dev/null 2>&1; then
+    fail 'family-forward accepted a candidate tag different from docs/portal/site.json milestone'
+  fi
+
+  stale_ledger="$tmp_parent/family-forward-stale-ledger"
+  make_family_forward_fixture "$stale_ledger" 0.3.3 v0.3.3.0 v0.3.3.3 v0.3.3.3 v0.3.3.0
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      family-forward v0.3.3.0 v0.3.3.3 HEAD "$stale_ledger" >/dev/null 2>&1; then
+    fail 'family-forward accepted a v0.3.3.0 audit ledger for v0.3.3.3'
+  fi
+
+  prefix_collision_ledger="$tmp_parent/family-forward-prefix-collision-ledger"
+  make_family_forward_fixture "$prefix_collision_ledger" 0.3.3 v0.3.3.0 v0.3.3.3 v0.3.3.3 v0.3.3.30
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      family-forward v0.3.3.0 v0.3.3.3 HEAD "$prefix_collision_ledger" >/dev/null 2>&1; then
+    fail 'family-forward accepted a v0.3.3.30 audit ledger for v0.3.3.3'
+  fi
+
+  exact_tag_placeholder_ledger="$tmp_parent/family-forward-exact-tag-placeholder-ledger"
+  make_family_forward_fixture "$exact_tag_placeholder_ledger" 0.3.3 v0.3.3.0 v0.3.3.3 \
+    v0.3.3.3 v0.3.3.3 placeholder-v0.3.3.3-TBD.md
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      family-forward v0.3.3.0 v0.3.3.3 HEAD "$exact_tag_placeholder_ledger" >/dev/null 2>&1; then
+    fail 'family-forward accepted placeholder-v0.3.3.3-TBD.md instead of the canonical ledger basename'
+  fi
+
+  wrong_family="$tmp_parent/family-forward-wrong-family"
+  make_family_forward_fixture "$wrong_family" 0.3.3 v0.3.3.0 v0.3.4.3
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      family-forward v0.3.3.0 v0.3.4.3 HEAD "$wrong_family" >/dev/null 2>&1; then
+    fail 'family-forward accepted a candidate tag outside runtime 0.3.3'
+  fi
+
+  zero_suffix="$tmp_parent/family-forward-zero-suffix"
+  make_family_forward_fixture "$zero_suffix" 0.3.3 v0.3.3.2 v0.3.3.0
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      family-forward v0.3.3.2 v0.3.3.0 HEAD "$zero_suffix" >/dev/null 2>&1; then
+    fail 'family-forward accepted a zero fourth-component candidate tag'
+  fi
+
+  equal_tag="$tmp_parent/family-forward-equal-tag"
+  make_family_forward_fixture "$equal_tag" 0.3.3 v0.3.3.3 v0.3.3.3
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      family-forward v0.3.3.3 v0.3.3.3 HEAD "$equal_tag" >/dev/null 2>&1; then
+    fail 'family-forward accepted an unchanged public tag'
+  fi
+
+  missing_heading="$tmp_parent/family-forward-missing-heading"
+  make_fixture "$missing_heading" 0.3.3 v0.3.3.0
+  printf 'changed payload\n' > "$missing_heading/payload.txt"
+  git -C "$missing_heading" add payload.txt
+  git -C "$missing_heading" -c user.email=t@example.invalid -c user.name=t commit -qm family-forward
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      family-forward v0.3.3.0 v0.3.3.3 HEAD "$missing_heading" >/dev/null 2>&1; then
+    fail 'family-forward accepted a candidate without an exact CHANGELOG heading'
+  fi
+
+  four_component_runtime="$tmp_parent/family-forward-four-component-runtime"
+  make_family_forward_fixture "$four_component_runtime" 0.3.3.3 v0.3.3.0 v0.3.3.3
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      family-forward v0.3.3.0 v0.3.3.3 HEAD "$four_component_runtime" >/dev/null 2>&1; then
+    fail 'family-forward accepted a four-component runtime version'
+  fi
+
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      republish 0.3.3 HEAD "$family_forward" >/dev/null 2>&1; then
+    fail 'republish substituted for a family-forward release'
+  fi
+
+  family_forward_commit="$(git -C "$family_forward" rev-parse HEAD)"
+  printf 'moved head\n' >> "$family_forward/payload.txt"
+  git -C "$family_forward" add payload.txt
+  git -C "$family_forward" -c user.email=t@example.invalid -c user.name=t commit -qm moved-head
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      family-forward v0.3.3.0 v0.3.3.3 "$family_forward_commit" "$family_forward" >/dev/null 2>&1; then
+    fail 'family-forward accepted a candidate commit after HEAD moved'
+  fi
+
+  verify_output="$(bash scripts/verify-package.sh --release-identity \
+    family-forward v0.3.3.0 v0.3.3.3 HEAD 2>&1 || true)"
+  case "$verify_output" in
+    *"family-forward candidate tag 'v0.3.3.3' != docs/portal/site.json milestone 'v0.3.3.0'"*) : ;;
+    *) fail 'verify-package.sh did not expose family-forward identity mode' ;;
+  esac
 
   real_record_commit="$(git log -1 --format=%H -S 'This entry is the one retroactive application' -- CHANGELOG.md)"
   [ -n "$real_record_commit" ] || fail 'real #96 retroactive digest-pair commit not found'

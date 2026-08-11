@@ -23,11 +23,22 @@ asset_name="IMPLEMENTAUDIT.skill"
 cleanup_dir=""
 
 check_release_identity() {
-  local mode="${1:-}" previous_version="${2:-}" release_commit="${3:-}" check_root="${4:-$repo_root}"
-  local candidate_asset="${5:-$check_root/$asset_name}"
-  [ -n "$mode" ] && [ -n "$previous_version" ] && [ -n "$release_commit" ] \
-    || fail "--check-release-identity requires <forward|republish> <previous-version> <release-commit> [repo-root] [candidate-asset]"
-  "${py_cmd[@]}" - "$mode" "$previous_version" "$release_commit" "$check_root" "$candidate_asset" <<'PY'
+  local mode="${1:-}" previous_identity="${2:-}" candidate_identity="" release_commit="" check_root="" candidate_asset=""
+  if [ "$mode" = "family-forward" ]; then
+    candidate_identity="${3:-}"
+    release_commit="${4:-}"
+    check_root="${5:-$repo_root}"
+    candidate_asset="${6:-$check_root/$asset_name}"
+    [ -n "$previous_identity" ] && [ -n "$candidate_identity" ] && [ -n "$release_commit" ] \
+      || fail "--check-release-identity family-forward requires <previous-tag> <candidate-tag> <release-commit> [repo-root] [candidate-asset]"
+  else
+    release_commit="${3:-}"
+    check_root="${4:-$repo_root}"
+    candidate_asset="${5:-$check_root/$asset_name}"
+    [ -n "$mode" ] && [ -n "$previous_identity" ] && [ -n "$release_commit" ] \
+      || fail "--check-release-identity requires <forward|republish> <previous-version> <release-commit> [repo-root] [candidate-asset]"
+  fi
+  "${py_cmd[@]}" - "$mode" "$previous_identity" "$candidate_identity" "$release_commit" "$check_root" "$candidate_asset" <<'PY'
 import hashlib
 import json
 import re
@@ -35,10 +46,10 @@ import subprocess
 import sys
 from pathlib import Path
 
-mode, previous_version, release_commit, root_arg, candidate_arg = sys.argv[1:]
+mode, previous_identity, candidate_identity, release_commit, root_arg, candidate_arg = sys.argv[1:]
 root = Path(root_arg).resolve()
-if mode not in {"forward", "republish"}:
-    raise SystemExit("prospective release identity mode must be forward or republish")
+if mode not in {"forward", "republish", "family-forward"}:
+    raise SystemExit("prospective release identity mode must be forward, republish, or family-forward")
 
 plugin_path = root / ".claude-plugin" / "plugin.json"
 skill_path = root / "skills" / "implementaudit" / "SKILL.md"
@@ -46,6 +57,7 @@ changelog_path = root / "CHANGELOG.md"
 for path in (plugin_path, skill_path, changelog_path):
     if not path.is_file():
         raise SystemExit(f"release identity owner is missing: {path}")
+portal_path = root / "docs" / "portal" / "site.json"
 
 plugin_version = str(json.loads(plugin_path.read_text(encoding="utf-8")).get("version", "")).strip()
 skill_text = skill_path.read_text(encoding="utf-8")
@@ -68,24 +80,72 @@ def normalized_heading(value: str) -> str:
     return ".".join(parts)
 
 
+heading_values = re.findall(
+    r"(?m)^## \[v?([0-9]+\.[0-9]+\.[0-9]+(?:\.[0-9]+)?)(?: [^\]]+)?\]",
+    changelog_path.read_text(encoding="utf-8"),
+)
 headings = [
     normalized_heading(value)
-    for value in re.findall(
-        r"(?m)^## \[v?([0-9]+\.[0-9]+\.[0-9]+(?:\.[0-9]+)?)(?: [^\]]+)?\]",
-        changelog_path.read_text(encoding="utf-8"),
-    )
+    for value in heading_values
 ]
 distinct_headings = list(dict.fromkeys(headings))
 if not distinct_headings:
     raise SystemExit("CHANGELOG.md has no published version heading")
-if mode == "forward":
+if mode == "family-forward":
+    if not portal_path.is_file():
+        raise SystemExit(f"release identity owner is missing: {portal_path}")
+    portal_release = json.loads(portal_path.read_text(encoding="utf-8")).get("release", {})
+    portal_milestone = str(portal_release.get("milestone", "")).strip()
+    if candidate_identity != portal_milestone:
+        raise SystemExit(
+            f"family-forward candidate tag {candidate_identity!r} != "
+            f"docs/portal/site.json milestone {portal_milestone!r}"
+        )
+    portal_ledger = str(portal_release.get("audit_ledger_url", "")).strip()
+    ledger_name = portal_ledger.rstrip("/").rsplit("/", 1)[-1]
+    expected_ledger_name = f"{candidate_identity}-release-report.md"
+    if ledger_name != expected_ledger_name:
+        raise SystemExit(
+            f"docs/portal/site.json audit ledger must name a non-placeholder "
+            f"{candidate_identity} markdown ledger"
+        )
+    public_tag_pattern = re.compile(r"v([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)")
+    previous_match = public_tag_pattern.fullmatch(previous_identity)
+    candidate_match = public_tag_pattern.fullmatch(candidate_identity)
+    if not previous_match or not candidate_match:
+        raise SystemExit("family-forward release identities must be v-prefixed with four numeric components")
+    previous_family = ".".join(previous_match.groups()[:3])
+    candidate_family = ".".join(candidate_match.groups()[:3])
+    if previous_family != plugin_version or candidate_family != plugin_version:
+        raise SystemExit(
+            f"family-forward tags must remain in runtime family {plugin_version}: "
+            f"previous={previous_identity!r} candidate={candidate_identity!r}"
+        )
+    if candidate_identity == previous_identity:
+        raise SystemExit("family-forward candidate tag must differ from the previous public tag")
+    if candidate_match.group(4) == "0":
+        raise SystemExit("family-forward candidate tag must use a non-zero fourth component")
+    if int(candidate_match.group(4)) <= int(previous_match.group(4)):
+        raise SystemExit("family-forward candidate fourth component must be greater than the previous tag")
+    changelog_text = changelog_path.read_text(encoding="utf-8")
+    candidate_heading = re.compile(
+        rf"(?m)^## \[{re.escape(candidate_identity)}\](?:\s+-\s+[^\n]+)?\s*$"
+    )
+    if not candidate_heading.search(changelog_text):
+        raise SystemExit("CHANGELOG.md does not contain exact candidate release heading")
+    public_headings = list(dict.fromkeys(f"v{value}" for value in heading_values if value.count(".") == 3))
+    if not public_headings or public_headings[0] != candidate_identity:
+        raise SystemExit("family-forward candidate tag must be the first public CHANGELOG heading")
+    prior_public_headings = [value for value in public_headings if value != candidate_identity]
+    authoritative_previous = prior_public_headings[0] if prior_public_headings else ""
+elif mode == "forward":
     candidates = [value for value in distinct_headings if value != plugin_version]
     authoritative_previous = candidates[0] if candidates else ""
 else:
     authoritative_previous = distinct_headings[0]
-if previous_version != authoritative_previous:
+if previous_identity != authoritative_previous:
     raise SystemExit(
-        f"declared previous version {previous_version!r} != CHANGELOG authority {authoritative_previous!r}"
+        f"declared previous identity {previous_identity!r} != CHANGELOG authority {authoritative_previous!r}"
     )
 
 resolved = subprocess.run(
@@ -97,6 +157,27 @@ resolved = subprocess.run(
 if resolved.returncode != 0:
     raise SystemExit("release identity commit does not resolve")
 commit_sha = resolved.stdout.strip()
+owner_relpaths = [
+    ".claude-plugin/plugin.json",
+    "skills/implementaudit/SKILL.md",
+    "CHANGELOG.md",
+]
+if mode == "family-forward":
+    owner_relpaths.append("docs/portal/site.json")
+for owner_relpath in owner_relpaths:
+    committed_owner = subprocess.run(
+        ["git", "-C", str(root), "show", f"{commit_sha}:{owner_relpath}"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    if committed_owner.returncode != 0:
+        raise SystemExit(
+            f"release identity owner {owner_relpath} is missing from release commit {commit_sha}"
+        )
+    if (root / owner_relpath).read_bytes() != committed_owner.stdout:
+        raise SystemExit(
+            f"release identity owner {owner_relpath} does not match release commit {commit_sha}"
+        )
 commit_tree = subprocess.run(
     ["git", "-C", str(root), "rev-parse", f"{commit_sha}^{{tree}}"],
     check=True,
@@ -119,13 +200,20 @@ if ancestor.returncode != 0:
 if commit_tree != head_tree:
     raise SystemExit("release identity commit tree must equal current HEAD tree")
 
-if mode == "forward":
-    if plugin_version == previous_version:
-        raise SystemExit("forward release must change the prior published version")
-    print(f"build-release-asset: release identity forward {previous_version} -> {plugin_version} at {commit_sha}")
+if mode == "family-forward":
+    print(
+        f"build-release-asset: release identity family-forward "
+        f"{previous_identity} -> {candidate_identity} (runtime {plugin_version}) at {commit_sha}"
+    )
     raise SystemExit(0)
 
-if plugin_version != previous_version:
+if mode == "forward":
+    if plugin_version == previous_identity:
+        raise SystemExit("forward release must change the prior published version")
+    print(f"build-release-asset: release identity forward {previous_identity} -> {plugin_version} at {commit_sha}")
+    raise SystemExit(0)
+
+if plugin_version != previous_identity:
     raise SystemExit("same-version republication must retain the prior published version")
 
 candidate_path = Path(candidate_arg)

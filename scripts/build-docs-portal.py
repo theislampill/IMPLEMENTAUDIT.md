@@ -160,13 +160,26 @@ def plugin_version(root: Path) -> str:
         return "unknown"
 
 
-def project_milestone(version: str) -> str:
-    if version == "unknown":
-        return "unknown"
-    parts = version.split(".")
-    if len(parts) == 3:
-        return f"v{parts[0]}.{parts[1]}.{parts[2]}.0"
-    return f"v{version}"
+def validate_project_milestone(milestone: str, runtime_version: str) -> None:
+    if not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+", runtime_version):
+        raise SystemExit("site release manifest_version must use three numeric components")
+    match = re.fullmatch(r"v([0-9]+\.[0-9]+\.[0-9]+)\.([0-9]+)", milestone)
+    if not match:
+        raise SystemExit("site release milestone must be v-prefixed with four numeric components")
+    if match.group(1) != runtime_version:
+        raise SystemExit(
+            f"site release milestone {milestone!r} does not belong to runtime family {runtime_version}"
+        )
+
+
+def validate_release_ledger(milestone: str, audit_ledger_url: str) -> None:
+    ledger_name = audit_ledger_url.strip().rstrip("/").rsplit("/", 1)[-1]
+    expected_ledger_name = f"{milestone}-release-report.md"
+    if ledger_name != expected_ledger_name:
+        raise SystemExit(
+            f"site release audit_ledger_url must name a non-placeholder "
+            f"{milestone} markdown ledger"
+        )
 
 
 def load_site(source_dir: Path) -> tuple[list[dict], dict]:
@@ -269,7 +282,9 @@ def release_info(site: dict, root: Path) -> dict:
     if release.get("manifest_version") in (None, "unknown"):
         release["manifest_version"] = version
     if release.get("milestone") in (None, "unknown"):
-        release["milestone"] = project_milestone(str(release["manifest_version"]))
+        raise SystemExit("docs/portal/site.json must declare an explicit release milestone")
+    validate_project_milestone(str(release["milestone"]), str(release["manifest_version"]))
+    validate_release_ledger(str(release["milestone"]), str(release.get("audit_ledger_url", "")))
     return release
 
 
@@ -617,8 +632,8 @@ def build_portal(out_dir: Path) -> None:
         "worktree_state": worktree_state,
         "worktree_dirty": worktree_state == "dirty",
         "generated_at": datetime.now(timezone.utc).isoformat(),
-        "project_milestone": project_milestone(version),
-        "plugin_manifest_version": version,
+        "project_milestone": release["milestone"],
+        "plugin_manifest_version": release["manifest_version"],
         "release_url": release.get("url", REPO_URL),
         "audit_ledger_url": release.get("audit_ledger_url", DEFAULT_RELEASE["audit_ledger_url"]),
         "checksum_boundary": release.get("checksum_boundary", DEFAULT_RELEASE["checksum_boundary"]),

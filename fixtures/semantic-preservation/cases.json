@@ -2,7 +2,7 @@
   "schema_version": 2,
   "package_evidence": {
     "builder_path": "scripts/build-release-asset.sh",
-    "builder_sha256": "72870fe420fe895a5f35e1b92b73b6dfb11d679c945749f86b1d928d18ecc878",
+    "builder_sha256": "772f289ab21aa85380ff02d7ba8803a0fb3acde3af3ac70b414f52c2706f6faf",
     "repo_only_instrumentation": [
       "fixtures/semantic-preservation/cases.json",
       "fixtures/semantic-preservation/evaluate.py",

@@ -131,6 +131,121 @@ else
   fail_check "metadata/site nav/page shell mismatch"
 fi
 
+if "${py_cmd[@]}" - "$tmp/portal-release-identity" <<'PY'
+import json
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+source_root = Path.cwd()
+fixture_root = Path(sys.argv[1])
+shutil.copytree(source_root / "docs" / "portal", fixture_root / "docs" / "portal")
+(fixture_root / "scripts").mkdir(parents=True)
+shutil.copy2(source_root / "scripts" / "build-docs-portal.py", fixture_root / "scripts" / "build-docs-portal.py")
+
+site_path = fixture_root / "docs" / "portal" / "site.json"
+site = json.loads(site_path.read_text(encoding="utf-8"))
+rel_sources = set(site.get("semantic_sources", []))
+for page in site["pages"].values():
+    rel_sources.update(page.get("sources", []))
+rel_sources.add(".claude-plugin/plugin.json")
+for rel in rel_sources:
+    source = source_root / rel
+    target = fixture_root / rel
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(source, target)
+
+site["release"]["milestone"] = "v0.3.3.3"
+site["release"]["manifest_version"] = "0.3.3"
+site["release"]["audit_ledger_url"] = (
+    "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/"
+    "docs/audits/archive/v0.3.3.3-release-report.md"
+)
+site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
+valid = subprocess.run(
+    [sys.executable, str(fixture_root / "scripts" / "build-docs-portal.py"), "--out", str(fixture_root / "dist" / "docs-portal")],
+    text=True,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+)
+assert valid.returncode == 0, valid.stderr
+metadata = json.loads((fixture_root / "dist" / "docs-portal" / "docs-metadata.json").read_text(encoding="utf-8"))
+assert metadata["project_milestone"] == "v0.3.3.3", metadata["project_milestone"]
+
+site["release"]["milestone"] = "v0.3.4.3"
+site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
+wrong_family = subprocess.run(
+    [sys.executable, str(fixture_root / "scripts" / "build-docs-portal.py"), "--out", str(fixture_root / "dist" / "docs-portal")],
+    text=True,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+)
+assert wrong_family.returncode != 0
+assert "does not belong to runtime family 0.3.3" in wrong_family.stderr
+
+site["release"]["milestone"] = "v0.3.3.3"
+site["release"]["audit_ledger_url"] = (
+    "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/"
+    "docs/audits/archive/v0.3.3.0-release-report.md"
+)
+site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
+stale_ledger = subprocess.run(
+    [sys.executable, str(fixture_root / "scripts" / "build-docs-portal.py"), "--out", str(fixture_root / "dist" / "docs-portal")],
+    text=True,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+)
+assert stale_ledger.returncode != 0, "generator accepted a v0.3.3.0 audit ledger for v0.3.3.3"
+assert "must name a non-placeholder v0.3.3.3 markdown ledger" in stale_ledger.stderr
+
+site["release"]["audit_ledger_url"] = "unknown"
+site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
+placeholder_ledger = subprocess.run(
+    [sys.executable, str(fixture_root / "scripts" / "build-docs-portal.py"), "--out", str(fixture_root / "dist" / "docs-portal")],
+    text=True,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+)
+assert placeholder_ledger.returncode != 0, "generator accepted a placeholder audit ledger"
+assert "must name a non-placeholder v0.3.3.3 markdown ledger" in placeholder_ledger.stderr
+
+site["release"]["audit_ledger_url"] = (
+    "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/"
+    "docs/audits/archive/placeholder-v0.3.3.3-TBD.md"
+)
+site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
+exact_tag_placeholder_ledger = subprocess.run(
+    [sys.executable, str(fixture_root / "scripts" / "build-docs-portal.py"), "--out", str(fixture_root / "dist" / "docs-portal")],
+    text=True,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+)
+assert exact_tag_placeholder_ledger.returncode != 0, (
+    "generator accepted placeholder-v0.3.3.3-TBD.md instead of the canonical ledger basename"
+)
+assert "must name a non-placeholder v0.3.3.3 markdown ledger" in exact_tag_placeholder_ledger.stderr
+
+site["release"]["audit_ledger_url"] = (
+    "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/"
+    "docs/audits/archive/v0.3.3.30-release-report.md"
+)
+site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
+prefix_collision_ledger = subprocess.run(
+    [sys.executable, str(fixture_root / "scripts" / "build-docs-portal.py"), "--out", str(fixture_root / "dist" / "docs-portal")],
+    text=True,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+)
+assert prefix_collision_ledger.returncode != 0, "generator accepted a v0.3.3.30 ledger for v0.3.3.3"
+assert "must name a non-placeholder v0.3.3.3 markdown ledger" in prefix_collision_ledger.stderr
+PY
+then
+  ok "explicit portal milestone and matching non-placeholder ledger control release metadata"
+else
+  fail_check "portal release milestone, runtime-family, or audit-ledger validation failed"
+fi
+
 if "${py_cmd[@]}" - "$out" <<'PY'
 import sys
 from pathlib import Path
@@ -352,13 +467,16 @@ fi
 
 cp -R "$out" "$bad_overview_release"
 "${py_cmd[@]}" - "$bad_overview_release/index.html" <<'PY'
+import json
 import sys
 from pathlib import Path
 
 path = Path(sys.argv[1])
 text = path.read_text(encoding="utf-8")
+current_ledger = json.loads(Path("docs/portal/site.json").read_text(encoding="utf-8"))["release"]["audit_ledger_url"]
+assert current_ledger in text
 text = text.replace(
-    "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/archive/v0.3.3.0-release-report.md",
+    current_ledger,
     "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/archive/v0.2.9.0-andon-escalation-jidoka-repair.md",
 )
 path.write_text(text, encoding="utf-8")
