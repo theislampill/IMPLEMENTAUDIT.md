@@ -30,7 +30,7 @@ fail() { printf 'verification-window-contract.test: %s\n' "$*" >&2; exit 1; }
 import json, sys
 rows = json.load(open(sys.argv[1], encoding="utf-8"))
 ids = [row.get("id") for row in rows]
-expected = [f"R2-F{i}" for i in range(1, 37)]
+expected = [f"R2-F{i}" for i in range(1, 38)]
 if ids != expected:
     raise SystemExit(f"verification-window cases must be exactly {expected}, got {ids}")
 PY
