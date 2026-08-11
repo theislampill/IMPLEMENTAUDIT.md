@@ -25,5 +25,11 @@
   {"id":"R2-F24","window":"closed-historical","surface":"ignored/declared.txt","change":"in-place ignored mutation","expected":"FAIL_HISTORICAL_IGNORED_CONTENT"},
   {"id":"R2-F25","window":"closed-equal","surface":".IMPLEMENTAUDIT/runs/window/live/declared.txt","change":"unchanged run-root identity","expected":"PASS_UNCHANGED_RUN_ROOT"},
   {"id":"R2-F26","window":"closed-equal","surface":".IMPLEMENTAUDIT/runs/window/live/declared.txt","change":"in-place run-root mutation","expected":"FAIL_EQUAL_RUN_ROOT_CONTENT"},
-  {"id":"R2-F27","window":"closed-historical","surface":".IMPLEMENTAUDIT/runs/window/live/declared.txt","change":"in-place run-root mutation","expected":"FAIL_HISTORICAL_RUN_ROOT_CONTENT"}
+  {"id":"R2-F27","window":"closed-historical","surface":".IMPLEMENTAUDIT/runs/window/live/declared.txt","change":"in-place run-root mutation","expected":"FAIL_HISTORICAL_RUN_ROOT_CONTENT"},
+  {"id":"R2-F28","window":"closed-equal","surface":"ignored/empty/","change":"unchanged empty ignored directory","expected":"PASS_EMPTY_IGNORED_DIRECTORY"},
+  {"id":"R2-F29","window":"closed-equal","surface":"ignored/empty/","change":"create empty ignored directory","expected":"FAIL_CREATED_EMPTY_IGNORED_DIRECTORY"},
+  {"id":"R2-F30","window":"open","surface":"ignored/empty/","change":"delete empty ignored directory","expected":"FAIL_DELETED_EMPTY_IGNORED_DIRECTORY"},
+  {"id":"R2-F31","window":"closed-equal","surface":".IMPLEMENTAUDIT/runs/window/live/empty/","change":"unchanged empty run-root directory","expected":"PASS_EMPTY_RUN_ROOT_DIRECTORY"},
+  {"id":"R2-F32","window":"closed-equal","surface":".IMPLEMENTAUDIT/runs/window/live/empty/","change":"create empty run-root directory","expected":"FAIL_CREATED_EMPTY_RUN_ROOT_DIRECTORY"},
+  {"id":"R2-F33","window":"open","surface":".IMPLEMENTAUDIT/runs/window/live/empty/","change":"delete empty run-root directory","expected":"FAIL_DELETED_EMPTY_RUN_ROOT_DIRECTORY"}
 ]

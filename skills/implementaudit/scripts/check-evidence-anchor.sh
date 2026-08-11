@@ -347,9 +347,11 @@ def identity_records(payload, label):
     return records
 
 
-def window_identity_records():
+def window_identity_records(surfaces):
     identities = subprocess.run(
-        [bash_exe, repo_state, "window-identities", "--records"],
+        [bash_exe, repo_state, "window-identities", "--records", *(
+            value for surface in surfaces for value in ("--surface", surface)
+        )],
         capture_output=True,
         check=False,
     )
@@ -483,7 +485,7 @@ for index, window in enumerate(windows, 1):
         recorded_closing_records = receipt_records(closing_receipt, closing_digest, "closing")
         if closed == now:
             window_changed_paths(opened)
-            closing_records = window_identity_records()
+            closing_records = window_identity_records(surfaces)
         else:
             window_changed_paths(opened)
             closing_records = recorded_closing_records
@@ -499,7 +501,7 @@ for index, window in enumerate(windows, 1):
             )
         continue
     window_changed_paths(opened)
-    current_records = window_identity_records()
+    current_records = window_identity_records(surfaces)
     intersecting = intersecting_paths(
         identity_delta(opening_records, current_records),
         surfaces,

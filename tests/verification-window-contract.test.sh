@@ -30,7 +30,7 @@ fail() { printf 'verification-window-contract.test: %s\n' "$*" >&2; exit 1; }
 import json, sys
 rows = json.load(open(sys.argv[1], encoding="utf-8"))
 ids = [row.get("id") for row in rows]
-expected = [f"R2-F{i}" for i in range(1, 28)]
+expected = [f"R2-F{i}" for i in range(1, 34)]
 if ids != expected:
     raise SystemExit(f"verification-window cases must be exactly {expected}, got {ids}")
 PY
@@ -59,11 +59,11 @@ write_intent() {
   fi
   mkdir -p "$repo/.IMPLEMENTAUDIT/runs/window/background/chain-a"
   if [ ! -f "$opening_receipt" ]; then
-    (cd "$repo" && bash "$repo_state" window-identities --records > "$opening_receipt") \
+    (cd "$repo" && bash "$repo_state" window-identities --records --surface "$surface" > "$opening_receipt") \
       || fail 'unable to record opening identity receipt'
   fi
   if [ "$state" = closed ]; then
-    (cd "$repo" && bash "$repo_state" window-identities --records > "$closing_receipt") \
+    (cd "$repo" && bash "$repo_state" window-identities --records --surface "$surface" > "$closing_receipt") \
       || fail 'unable to record closing identity receipt'
   fi
   local opening_digest
@@ -534,6 +534,84 @@ if (cd "$case_repo" && bash "$checker" --window "$case_intent" --now "$case_now"
 fi
 ok
 
+# R2-F28/R2-F29/R2-F30: declared empty ignored directories retain their own
+# identity. Existing empty directories pass, while creation and deletion fail.
+new_repo f28-unchanged-empty-ignored-directory
+printf 'ignored/**\n' > "$case_repo/.gitignore"
+git -C "$case_repo" add .gitignore
+git -C "$case_repo" commit -qm ignore-empty-directory
+mkdir -p "$case_repo/ignored/empty"
+case_opened="$(git -C "$case_repo" rev-parse HEAD)"
+write_intent "$case_repo" open 'ignored/empty/'
+touch "$case_repo/.IMPLEMENTAUDIT/runs/window/background/chain-a/chain.done"
+write_intent "$case_repo" closed 'ignored/empty/'
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+(cd "$case_repo" && bash "$checker" --window "$case_intent" --now "$case_now") >"$tmp/f28.out" 2>&1 \
+  || fail 'R2-F28 unchanged empty ignored directory must pass'
+ok
+
+new_repo f29-created-empty-ignored-directory
+printf 'ignored/**\n' > "$case_repo/.gitignore"
+git -C "$case_repo" add .gitignore
+git -C "$case_repo" commit -qm ignore-empty-directory
+case_opened="$(git -C "$case_repo" rev-parse HEAD)"
+write_intent "$case_repo" open 'ignored/empty/'
+mkdir -p "$case_repo/ignored/empty"
+touch "$case_repo/.IMPLEMENTAUDIT/runs/window/background/chain-a/chain.done"
+write_intent "$case_repo" closed 'ignored/empty/'
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+if (cd "$case_repo" && bash "$checker" --window "$case_intent" --now "$case_now") >"$tmp/f29.out" 2>&1; then
+  fail 'R2-F29 created empty ignored directory must fail'
+fi
+ok
+
+new_repo f30-deleted-empty-ignored-directory
+printf 'ignored/**\n' > "$case_repo/.gitignore"
+git -C "$case_repo" add .gitignore
+git -C "$case_repo" commit -qm ignore-empty-directory
+mkdir -p "$case_repo/ignored/empty"
+case_opened="$(git -C "$case_repo" rev-parse HEAD)"
+write_intent "$case_repo" open 'ignored/empty/'
+rmdir "$case_repo/ignored/empty"
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+if (cd "$case_repo" && bash "$checker" --window "$case_intent" --now "$case_now") >"$tmp/f30.out" 2>&1; then
+  fail 'R2-F30 deleted empty ignored directory must fail'
+fi
+ok
+
+# R2-F31/R2-F32/R2-F33 repeat the empty-directory controls for an explicit
+# run-root surface that Git does not otherwise enumerate.
+new_repo f31-unchanged-empty-run-root-directory
+mkdir -p "$case_repo/.IMPLEMENTAUDIT/runs/window/live/empty"
+write_intent "$case_repo" open '.IMPLEMENTAUDIT/runs/window/live/empty/'
+touch "$case_repo/.IMPLEMENTAUDIT/runs/window/background/chain-a/chain.done"
+write_intent "$case_repo" closed '.IMPLEMENTAUDIT/runs/window/live/empty/'
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+(cd "$case_repo" && bash "$checker" --window "$case_intent" --now "$case_now") >"$tmp/f31.out" 2>&1 \
+  || fail 'R2-F31 unchanged empty run-root directory must pass'
+ok
+
+new_repo f32-created-empty-run-root-directory
+write_intent "$case_repo" open '.IMPLEMENTAUDIT/runs/window/live/empty/'
+mkdir -p "$case_repo/.IMPLEMENTAUDIT/runs/window/live/empty"
+touch "$case_repo/.IMPLEMENTAUDIT/runs/window/background/chain-a/chain.done"
+write_intent "$case_repo" closed '.IMPLEMENTAUDIT/runs/window/live/empty/'
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+if (cd "$case_repo" && bash "$checker" --window "$case_intent" --now "$case_now") >"$tmp/f32.out" 2>&1; then
+  fail 'R2-F32 created empty run-root directory must fail'
+fi
+ok
+
+new_repo f33-deleted-empty-run-root-directory
+mkdir -p "$case_repo/.IMPLEMENTAUDIT/runs/window/live/empty"
+write_intent "$case_repo" open '.IMPLEMENTAUDIT/runs/window/live/empty/'
+rmdir "$case_repo/.IMPLEMENTAUDIT/runs/window/live/empty"
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+if (cd "$case_repo" && bash "$checker" --window "$case_intent" --now "$case_now") >"$tmp/f33.out" 2>&1; then
+  fail 'R2-F33 deleted empty run-root directory must fail'
+fi
+ok
+
 # Legacy anchor modes remain compatible.
 bash "$checker" --row 'legacy evidence without an anchor' >/dev/null
 artifact="$tmp/artifact.md"
@@ -558,8 +636,11 @@ ok
 grep -Fq 'path, type, extent, and SHA-256 digest' "$protocol" \
   || fail 'verification-window content identity receipt contract missing'
 ok
+grep -Fq 'Declared trailing-slash directory surfaces are explicitly included' "$protocol" \
+  || fail 'verification-window empty directory identity contract missing'
+ok
 grep -Fq 'verification is reading the same tree' "$phase_design" || fail 'phase-design verification boundary missing'
 grep -Fq 'post-state was compared' "$lean" || fail 'Lean post-state evidence boundary missing'
 ok; ok; ok; ok; ok
 
-printf 'verification-window-contract.test: ok (%d/38)\n' "$count"
+printf 'verification-window-contract.test: ok (%d/45)\n' "$count"
