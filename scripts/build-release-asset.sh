@@ -176,7 +176,7 @@ if mode == "same-tag-correction":
     if not receipt_path.is_absolute():
         receipt_path = root / receipt_path
     canonical_receipt_relpath = (
-        "docs/audits/archive/v0.3.3.3-current-public-receipt.json"
+        "fixtures/release-identity/current-public-v0.3.3.3.json"
     )
     canonical_receipt_path = root / canonical_receipt_relpath
     if receipt_path.resolve() != canonical_receipt_path.resolve():
