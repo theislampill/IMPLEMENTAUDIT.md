@@ -129,6 +129,25 @@ risk deepens the action set automatically; request size alone never does.
 An absent or hand-wavy action-selection record is a plan-quality defect, not a
 style preference.
 
+## Engineering-value admission and control lifecycle
+
+Preserve the gate or engineering obligation where warranted, while omitting
+candidate work inside it that has no discriminating payoff for the current
+state. When proposing, repeating, or standardising process work, reuse the
+action-selection or Muda/Mura/Muri record. No retain, admit, or owner-decision disposition is complete unless it names the live driver; authoritative owner; consumer existence and authoritative consumer; protected consequence; cheapest sufficient discriminator; expected evidence and material marginal cost; activation and non-trigger path; and stopping, retirement, or reclassification condition. Incomplete evidence defers the lifecycle mutation and leaves the controlling gate intact.
+
+Activate for a proposed permanent gate or artefact; repeated unchanged
+evidence, planning, or reporting; unclear artefact consumption; unexplained
+process-heavy work; avoidable serialisation; live-control retirement; or
+IMPLEMENTAUDIT self-modification. No activation factor means no R34 diagnostic or artefact.
+Ordinary bounded work keeps its existing minimum Smoke A/B and
+self-check path without a worksheet, meta-work ratio, or per-command defence.
+
+Evidence-based omission preserves the controlling obligation, establishes the
+current decision with a narrower discriminator, records the residual, and
+retains escalation when risk changes. Omission for convenience or cost alone is
+optional-by-whim and does not waive a warranted gate.
+
 ## Unit independence and change class
 
 At three or more enumerated work units, record:

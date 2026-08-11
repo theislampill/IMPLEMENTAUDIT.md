@@ -95,7 +95,57 @@ printf '\nAlso include recon facts here.\n' \
   >>"$tmp_root/fixtures/child-agents/negative-child-prompt-missing-fanout-contract.md"
 expect_fail "token leak into the fanout-free negative prompt"
 
-# 8. Command-mode advertisement in a fanout fixture -> must fail.
+# 8. Exploratory discrimination loses its anti-anchoring clause -> must fail.
+reset_sandbox
+grep -v "root-favoured conclusion" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md" \
+  >"$tmp_root/child-agents.tmp"
+mv "$tmp_root/child-agents.tmp" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md"
+expect_fail "exploratory discrimination without conclusion withholding"
+
+# 9. False-diversity fixture disappears -> must fail.
+reset_sandbox
+rm "$tmp_root/fixtures/child-agents/exploratory-discrimination-cases.md"
+expect_fail "missing exploratory-discrimination fixture bank"
+
+# 10. Changed evidence can no longer reopen a saturated question -> must fail.
+reset_sandbox
+sed 's/Expected disposition: ALLOW/Expected disposition: REJECT/' \
+  "$tmp_root/fixtures/child-agents/exploratory-discrimination-cases.md" \
+  >"$tmp_root/discrimination.tmp"
+mv "$tmp_root/discrimination.tmp" \
+  "$tmp_root/fixtures/child-agents/exploratory-discrimination-cases.md"
+expect_fail "changed-evidence reopening was rejected"
+
+# 11. FD-01 is changed from rejection to acceptance -> must fail even though
+#     other fixture cells still contain both disposition words.
+reset_sandbox
+sed '0,/Expected disposition: REJECT/{s/Expected disposition: REJECT/Expected disposition: PASS/}' \
+  "$tmp_root/fixtures/child-agents/exploratory-discrimination-cases.md" \
+  >"$tmp_root/discrimination.tmp"
+mv "$tmp_root/discrimination.tmp" \
+  "$tmp_root/fixtures/child-agents/exploratory-discrimination-cases.md"
+expect_fail "FD-01 false diversity changed from REJECT to PASS"
+
+# 12. The owner changes the pre-synthesis obligation into a post-synthesis
+#     option -> must fail inside the owning exploratory-discrimination section.
+reset_sandbox
+python - "$tmp_root/skills/implementaudit/references/child-agents.md" <<'PY'
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+text = path.read_text(encoding="utf-8")
+old = "Before\nsynthesis, each lane must return"
+new = "After\nsynthesis, each lane may return"
+if text.count(old) != 1:
+    raise SystemExit("owner-clause mutation target is not unique")
+path.write_text(text.replace(old, new), encoding="utf-8")
+PY
+expect_fail "pre-synthesis lane obligation changed into post-synthesis option"
+
+# 13. Command-mode advertisement in a fanout fixture -> must fail.
 reset_sandbox
 printf '\nAdvertised mode: /implementaudit deep\n' \
   >>"$tmp_root/fixtures/child-agents/broad-scope-four-lanes.md"
