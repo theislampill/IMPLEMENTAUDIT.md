@@ -282,6 +282,12 @@ investigate, spike, defer, or owner decision rather than pretending to be ready
 fixes. Rejected / duplicate / by-design / false-positive rows remain visible
 when they explain why a lead was not carried forward.
 
+A material row selected for publication becomes an executor-ready work order
+through `issue-ready-work-orders.md`. This preserves the row as the evidence
+owner while adding the gap explanation, counterargument, ordered integration,
+controls, dependencies, overlap, rollback, and done state a cold executor needs.
+Several new drafts are reconciled as one set before publication review.
+
 A `dismissed-observation` is distinct from those finding dispositions: it
 records an in-scope observation that never became a candidate finding. Preserve
 what was observed, why it is judged intended, and what evidence would falsify

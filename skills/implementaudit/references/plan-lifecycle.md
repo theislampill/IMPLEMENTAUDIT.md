@@ -384,6 +384,15 @@ issue creation happened. Issue creation is
 a future publication gate requiring explicit authorization, destination, title
 policy, body policy, duplicate check, and readback evidence.
 
+## Issue-Ready Preparation
+
+Before the authorised gate, apply `issue-ready-work-orders.md` to each material
+finding selected for publication. Bind stable draft IDs and hashes, then
+reconcile every unordered pair (or a justified equivalent complete grouping),
+shared owner, dependency, filing order, and implementation/PR topology. Reread
+each draft after the sibling set stabilises. This preparation remains inside
+the same audit object; it grants no publication or implementation authority.
+
 ## Issue Publication (Authorized)
 
 Once publication is explicitly authorized under the run invariants, the
@@ -415,6 +424,8 @@ this step.
 destination, the exact draft set, and the moment it was given. Record it in the
 run root before any object is created.
 Authorization for one set never generalizes to a later one.
+Substantive draft changes after sign-off require renewed sign-off; exact-number
+cross-links may be backfilled without changing the signed scope.
 Items routed to another owner or repository are surfaced in the sign-off packet,
 not filed at the authorized destination.
 
