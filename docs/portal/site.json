@@ -4,8 +4,8 @@
     "manifest_version": "0.3.3",
     "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/tag/v0.3.3.3",
     "audit_ledger_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/archive/v0.3.3.3-release-report.md",
-    "status": "v0.3.3.3 remains the intended corrective four-component public identity for runtime 0.3.3. Its premature 00591cc4257f1aea1aa9d3d4887ca4069731b074 publication is superseded historical evidence. PR #173 merged and deployed the R29 correction at 4624ef95542769ecd6a88402fcc585d7c5894c71; final same-tag qualification, in-place asset and body replacement, and public download/install readback remain pending",
-    "checksum_boundary": "the release URL currently serves the superseded 227995-byte IMPLEMENTAUDIT.skill with SHA-256 bfe323853fcb814530c9f58e078ef09d4e930419d99005af26c9135f936e3536; the corrected prepublication candidate is 227999 bytes with SHA-256 151cb5400d248e3e41a30750ba690d8c46bbe907294ba82a0a5a627536ad563e. The replacement CHECKSUMS.txt and public bytes require final readback; digests are artifact-integrity evidence, not a signature, attestation, SBOM, or proof of provenance"
+    "status": "v0.3.3.3 is the final corrected four-component public identity for runtime 0.3.3. The premature 00591cc4257f1aea1aa9d3d4887ca4069731b074 publication remains superseded historical evidence. The corrected tag resolves to final commit 3b5c300f366bec41fcbfedfceeda5a8b56747c71; release ID 368332810 serves the final package, checksum, and user-facing body, with fresh public download/install readback complete",
+    "checksum_boundary": "the release URL serves the final 227999-byte IMPLEMENTAUDIT.skill with SHA-256 151cb5400d248e3e41a30750ba690d8c46bbe907294ba82a0a5a627536ad563e; the 96-byte CHECKSUMS.txt has SHA-256 f6bb2719c3dd378d226688eaa87d2c989b9ae06fc243f5b57da7826a9f617407 and validates those public bytes. Digests are artifact-integrity evidence, not a signature, attestation, SBOM, or proof of provenance"
   },
   "semantic_sources": [
     "README.md",

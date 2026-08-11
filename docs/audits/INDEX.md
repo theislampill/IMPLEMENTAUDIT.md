@@ -120,12 +120,12 @@ Standing gate owners: `check-action-selection-contract.sh`,
 
 - `docs/audits/archive/v0.3.3.3-release-report.md` - corrective four-component
   public identity for runtime 0.3.3, the eight integrated countermeasures,
-  custody of the premature tag/release/assets/body, the corrected candidate
+  custody of the premature tag/release/assets/body, the final corrected
   package identity, PR #173 repository-owner and Pages completion, R31
   `OWNER_ACCEPTED_PARTIAL`, bounded #144 deterministic adoption, open and
-  unshipped R36/#167, open #117, and dashboard exclusion. Final same-tag
-  qualification and in-place asset/checksum/body/tag correction, public
-  download/install readback, and R29 row 14 owner disposition remain pending.
+  unshipped R36/#167, open #117, and dashboard exclusion. The final same-tag
+  qualification, in-place asset/checksum/body/tag correction, public
+  download/install readback, and R29 row 14 owner waiver are recorded complete.
 
 ## Boundary
 

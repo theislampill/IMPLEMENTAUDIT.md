@@ -13,7 +13,7 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ## [Unreleased]
 
-No changes are recorded after the corrected `v0.3.3.3` candidate.
+No changes are recorded after the final corrected `v0.3.3.3` release.
 
 ## [v0.3.3.3] - 2026-08-11
 
@@ -26,14 +26,15 @@ the complete `v0.3.3.0` history. A premature publication at commit
 the authorised campaign reached its terminal R29 boundary. Its tag object,
 release object, assets, body, hosted validation, Pages deployment, and temporary
 Codex install remain historical evidence. They do not describe the final
-`v0.3.3.3` candidate.
+`v0.3.3.3` release.
 
 PR #173 merged the R29 public-information-architecture and acceptance-
 instrument repair as commit `4624ef95542769ecd6a88402fcc585d7c5894c71`, tree
-`1f6ae936a7b00bbce86f2a712233655cd776152f`. The same `v0.3.3.3` identity will
-be corrected in place only after one exact final tree passes the remaining
-qualification, tag/source alignment, asset/body replacement, and public
-download/install readback gates.
+`1f6ae936a7b00bbce86f2a712233655cd776152f`. The rendered-consumer repair and
+same-tag identity mechanism then qualified final release commit
+`3b5c300f366bec41fcbfedfceeda5a8b56747c71`, tree
+`90a420245f3a4fefadce97dc8dccb77d98ac85e4`. The existing `v0.3.3.3` tag,
+assets, checksum, and body were corrected in place and independently read back.
 
 ### Changed
 
@@ -90,8 +91,9 @@ download/install readback gates.
   witness and adds negative, positive, cheap-path, adjacent, and held-out
   controls. It imposes no README template, word count, section quota, or
   mandatory documentation lifecycle. R29 acceptance rows 1–13 and 15–20 are
-  PASS; row 14 remains `OWNER_DISPOSITION_REQUIRED` because no valid
-  candidate-bound model sample exists and no retry is authorised.
+  PASS. The owner closed #155 as completed after the missing valid model sample
+  and no-retry boundary were explicit; row 14 is
+  `OWNER_ACCEPTED_WITH_ROW_14_WAIVED`, not a model PASS.
 - A later rendered-consumer Andon found that source parity, generator success,
   and valid Mermaid syntax had false-passed collapsed labels and an unreadably
   wide public graph. R29 now requires rendered-consumer evidence and
@@ -109,28 +111,30 @@ download/install readback gates.
   original release body had SHA-256
   `21e7e7b379dbf9a312643186e749d4fb5bd97cdbdde3ad162e3f42f77da6751e`.
 - same-tag correction for `v0.3.3.3` `IMPLEMENTAUDIT.skill`: prematurely published `bfe323853fcb814530c9f58e078ef09d4e930419d99005af26c9135f936e3536` (227,995 bytes) -> final `151cb5400d248e3e41a30750ba690d8c46bbe907294ba82a0a5a627536ad563e` (227,999 bytes).
-- The corrected candidate contains 50 members, excludes `/dashboard/`, and
+- The final corrected package contains 50 members, excludes `/dashboard/`, and
   leaves 2,001 bytes under the unchanged 230,000-byte owner bound. Focused
   R29/R30/R33/R35, package, source/package parity, temporary-install, and
   ordinary-run checks passed. Repo-only public-owner edits do not change those
-  archive bytes. One terminal complete-verifier result on the final composed
-  tree and final exact-tree review remain required.
+  archive bytes. Exact-main hosted verification and fresh exact-tree review
+  passed on the final composed tree.
 - PR #173 hosted validation run `31470732558`, post-merge validation run
   `31471582591`, Pages run `31471582620`, deployment `5846669789`, and public
-  homepage readback establish the repository-owner correction at
-  `4624ef95542769ecd6a88402fcc585d7c5894c71`. They do not establish final
-  replacement of the release assets, checksum, body, or tag target.
-- The existing `v0.3.3.3` release will be corrected in place after final
-  qualification. Replacement asset IDs, checksum identity, final tag object or
-  target, final release-body identity, and public download/install readback are
-  deliberately not claimed before that publication gate.
+  homepage readback establish the first repository-owner correction at
+  `4624ef95542769ecd6a88402fcc585d7c5894c71`. Final exact-main validation run
+  `31496828881` and Pages run `31496828886` passed after the rendered-consumer
+  and same-tag corrections merged.
+- The corrected annotated tag object
+  `6d57060aeab3aeec1d0ad090c2fa7ab66ca9de67` resolves to final commit
+  `3b5c300...`. Release ID `368332810` serves asset ID `510191694` at 227,999
+  bytes and checksum asset ID `510191721` at 96 bytes. The final user-facing
+  body is 11,519 UTF-8 bytes with SHA-256
+  `dedd29580d042d45f10cd30a00dcf731910e8b5af101ff806d91cb8b97dacf80`.
 - R36 / #167 remains open and was not shipped or qualified in this release. R28 /
   #117 remains open, optional, and nonblocking. `/dashboard/` remains excluded
   from `IMPLEMENTAUDIT.skill`.
-- The earlier public download installed into a temporary Codex home with 48/48
-  non-plugin payload parity, and the installed `detect-env` route exited zero.
-  That receipt applies only to the superseded bytes. Fresh download/install
-  parity for the replacement asset remains required. Neither receipt is
+- A fresh final public download matched the qualified asset and checksum, then
+  installed into a temporary Codex home with 48 files at runtime `0.3.3`; the
+  installed ordinary read-only `summarize-repo` route exited zero. This is not
   marketplace, signature, attestation, SBOM, provenance, universal-host,
   passive-update, or host-load proof.
 

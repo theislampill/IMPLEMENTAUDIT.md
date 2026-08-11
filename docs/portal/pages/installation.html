@@ -1,7 +1,7 @@
 <div class="page-eyebrow">First run</div>
       <h1>Installation</h1>
       <p class="lead">This portal keeps installation early, but separates install proof from run proof.<br>Package extraction can be verified; host loading and audit correctness still need their own evidence.</p>
-      <p>The <code>v0.3.3.3</code> URLs below currently serve a prematurely published, independently read-back package. The corrected same-identity candidate awaits final qualification and in-place replacement. Until this page records fresh public readback, prefer current source or a locally built, checksum-verified candidate when the R29 correction is required. The runtime version remains <code>0.3.3</code>.</p>
+      <p>The <code>v0.3.3.3</code> URLs below serve the final corrected, independently read-back package. The runtime version remains <code>0.3.3</code>. A current source checkout may contain later repository-only changes, so choose the release or source route deliberately.</p>
 
       <h2 id="skills-cli">Skills CLI path</h2>
       <p>The repository is discoverable through the open <a href="https://skills.sh/theislampill/IMPLEMENTAUDIT.md">skills CLI directory</a>. Install from the current repository source with:</p>
@@ -30,7 +30,7 @@
 <span class="k-cyan">  --codex-home "$HOME/.codex" \</span>
 <span class="k-cyan">  --version 0.3.3</span></pre>
       </div>
-      <p>The local checksum check verifies artifact integrity when a checksum manifest is supplied.<br>The release URL currently serves the superseded 227,995-byte <code>IMPLEMENTAUDIT.skill</code> with SHA-256 <code>bfe323853fcb814530c9f58e078ef09d4e930419d99005af26c9135f936e3536</code>; its 96-byte <code>CHECKSUMS.txt</code> has SHA-256 <code>bb8c63c1f8b45354c96e5bbe04953767e85c036db6def5f8e0d98fa85da5c081</code>. The corrected prepublication candidate is 227,999 bytes with SHA-256 <code>151cb5400d248e3e41a30750ba690d8c46bbe907294ba82a0a5a627536ad563e</code>. Replacement checksum and public-byte readback remain pending. These are artifact-integrity facts, not a signature, attestation, SBOM, provenance chain, or host-load proof.</p>
+      <p>The local checksum check verifies artifact integrity when a checksum manifest is supplied.<br>The release URL serves the final 227,999-byte <code>IMPLEMENTAUDIT.skill</code> with SHA-256 <code>151cb5400d248e3e41a30750ba690d8c46bbe907294ba82a0a5a627536ad563e</code>; its 96-byte <code>CHECKSUMS.txt</code> has SHA-256 <code>f6bb2719c3dd378d226688eaa87d2c989b9ae06fc243f5b57da7826a9f617407</code> and validates those public bytes. These are artifact-integrity facts, not a signature, attestation, SBOM, provenance chain, or host-load proof.</p>
       <p>For a manual Codex copy from a checkout, repeat the copy when the package changes:</p>
       <div class="term-window example-console">
         <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Manual Codex copy</em><span class="term-badge">unix</span></div>
@@ -78,7 +78,7 @@
       <ul>
         <li>The release tag exists.</li>
         <li>Assets can be read.</li>
-        <li><code>CHECKSUMS.txt</code> verifies artifact integrity when supplied; the old <code>v0.3.3.3</code> release-page and fresh-download digests were read back, while replacement-byte readback remains pending.</li>
+        <li><code>CHECKSUMS.txt</code> verifies artifact integrity when supplied; the final <code>v0.3.3.3</code> release-page, checksum, and fresh-download digests were read back.</li>
         <li>Pages is current only after deploy success.</li>
         <li>Local installs do not auto-update.</li>
       </ul>
