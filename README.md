@@ -87,8 +87,10 @@ Each action requires separate explicit authorisation.
 ## Quick start
 
 1. Choose the installation route in [Install notes](#install-notes). The
-   current public release is `v0.3.3.3`; its host-facing runtime remains
-   `0.3.3`. A checkout of `main`, a locally built archive, and the published
+   intended release identity is `v0.3.3.3`; its host-facing runtime remains
+   `0.3.3`. The existing release URL still serves prematurely published bytes
+   while the corrected candidate awaits final qualification and in-place
+   replacement. A checkout of `main`, a locally built archive, and the public
    release asset are distinct until their bytes are verified.
 
 2. Invoke `/implementaudit` with a bounded repository target. Common shapes
@@ -267,14 +269,24 @@ Current optional-tooling architecture:
 <!-- BEGIN: implementaudit-diagram:tooling-architecture -->
 
 ```mermaid
-flowchart LR
-  I["IMPLEMENTAUDIT<br/>engineering and assurance method"]
-  G["Graphify<br/>optional scoped terrain<br/>orientation only"]
-  A["ActiveGraph<br/>optional checkpoint or mirror<br/>not lifecycle authority"]
-  C["Capability Ledger<br/>derived history<br/>not proof by itself"]
-  M["Markdown evidence<br/>first-class fallback"]
-  L["Live repository files<br/>authoritative state"]
-  R["Run root and evidence<br/>authoritative run state"]
+flowchart TB
+  G["`Graphify
+  optional scoped terrain
+  orientation only`"]
+  I["`IMPLEMENTAUDIT
+  engineering and assurance method`"]
+  L["`Live repository files
+  authoritative state`"]
+  R["`Run root and evidence
+  authoritative run state`"]
+  M["`Markdown evidence
+  first-class fallback`"]
+  A["`ActiveGraph
+  optional checkpoint or mirror
+  not lifecycle authority`"]
+  C["`Capability Ledger
+  derived history
+  not proof by itself`"]
 
   G -.->|suggests where to inspect| I
   I -->|must verify claims against| L
@@ -376,41 +388,77 @@ of the object.
 
 ```mermaid
 flowchart TB
-  Final["Terminal audit-object closure<br/>AUDIT_COMPLETE before<br/>IMPLEMENTAUDIT_RUN_COMPLETE"]:::success
+  Final["`Terminal audit-object closure
+  AUDIT_COMPLETE before
+  IMPLEMENTAUDIT_RUN_COMPLETE`"]:::success
 
   subgraph Direct["Direct governance"]
-    DIn["Input<br/>/implementaudit + bounded audit<br/>handoff / checklist / review"]:::input
-    DObj["tdqyq-audit-object<br/>user supplies or implies it"]:::artifact
-    DLoop["ydqyq-audit-action<br/>inspect -> classify -> patch -> verify"]:::loop
-    DArt["Artifacts<br/>findings ledger<br/>source patches<br/>Smoke A/B evidence"]:::artifact
-    DGoal["Continue directly<br/>no second /goal"]:::boundary
+    DIn["`Input
+    /implementaudit + bounded audit
+    handoff / checklist / review`"]:::input
+    DObj["`tdqyq-audit-object
+    user supplies or implies it`"]:::artifact
+    DLoop["`ydqyq-audit-action
+    inspect -> classify -> patch -> verify`"]:::loop
+    DArt["`Artifacts
+    findings ledger
+    source patches
+    Smoke A/B evidence`"]:::artifact
+    DGoal["`Continue directly
+    no second /goal`"]:::boundary
     DIn --> DObj --> DLoop --> DArt --> DGoal
   end
 
   subgraph Embedded["Embedded governance"]
-    EIn["Input<br/>/goal already owns the run<br/>using /implementaudit"]:::input
-    EObj["tdqyq-audit-object<br/>owned by outer /goal"]:::artifact
-    ELoop["ydqyq-audit-action<br/>govern inside supplied target"]:::loop
-    EArt["Artifacts<br/>active goal evidence<br/>ledger updates<br/>repo-local checks"]:::artifact
-    EGoal["Continue inside outer goal<br/>a second /goal is not emitted"]:::boundary
+    EIn["`Input
+    /goal already owns the run
+    using /implementaudit`"]:::input
+    EObj["`tdqyq-audit-object
+    owned by outer /goal`"]:::artifact
+    ELoop["`ydqyq-audit-action
+    govern inside supplied target`"]:::loop
+    EArt["`Artifacts
+    active goal evidence
+    ledger updates
+    repo-local checks`"]:::artifact
+    EGoal["`Continue inside outer goal
+    a second /goal is not emitted`"]:::boundary
     EIn --> EObj --> ELoop --> EArt --> EGoal
   end
 
   subgraph Synthesis["Goal synthesis / phased handoff"]
-    SIn["Input<br/>idea / gap / incomplete target"]:::input
-    SObj["tdqyq-audit-object<br/>created or normalized first"]:::artifact
-    SLoop["ydqyq-audit-action<br/>Gemba + route + Stage 0-7 planning"]:::loop
-    SArt["Artifacts<br/>.IMPLEMENTAUDIT/runs/slug-id/<br/>ROADMAP · STATE · THINKING<br/>PROTOCOL · sidecars · applied-context<br/>repo-map · phases/phase-N.md"]:::artifact
-    SGoal["One /goal handoff<br/>only when not embedded"]:::handoff
+    SIn["`Input
+    idea / gap / incomplete target`"]:::input
+    SObj["`tdqyq-audit-object
+    created or normalized first`"]:::artifact
+    SLoop["`ydqyq-audit-action
+    Gemba + route + Stage 0-7 planning`"]:::loop
+    SArt["`Artifacts
+    .IMPLEMENTAUDIT/runs/slug-id/
+    ROADMAP · STATE · THINKING
+    PROTOCOL · sidecars · applied-context
+    repo-map · phases/phase-N.md`"]:::artifact
+    SGoal["`One /goal handoff
+    only when not embedded`"]:::handoff
     SIn --> SObj --> SLoop --> SArt --> SGoal
   end
 
   subgraph Casual["Governed casual-build intake"]
-    CIn["Input<br/>natural-language repo-build intent<br/>no audit artifact yet"]:::input
-    CObj["tdqyq-audit-object<br/>synthesized by 5-step intake<br/>owner/source · criteria · rollback"]:::artifact
-    CLoop["ydqyq-audit-action<br/>route greenfield / brownfield / mixed<br/>then govern as direct"]:::loop
-    CArt["Artifacts<br/>bounded intake record<br/>STOP on unbounded / unsafe /<br/>non-repo input"]:::artifact
-    CGoal["Continue directly<br/>no second /goal"]:::boundary
+    CIn["`Input
+    natural-language repo-build intent
+    no audit artifact yet`"]:::input
+    CObj["`tdqyq-audit-object
+    synthesized by 5-step intake
+    owner/source · criteria · rollback`"]:::artifact
+    CLoop["`ydqyq-audit-action
+    route greenfield / brownfield / mixed
+    then govern as direct`"]:::loop
+    CArt["`Artifacts
+    bounded intake record
+    STOP on unbounded / unsafe /
+    non-repo input`"]:::artifact
+    CGoal["`Continue directly
+    no second /goal`"]:::boundary
     CIn --> CObj --> CLoop --> CArt --> CGoal
   end
 
@@ -598,38 +646,72 @@ stop, recover, or hand off instead of pretending the run is complete.
 ```mermaid
 flowchart TD
   Input(["Audit-style input / handoff / goal / gap"]):::human
-  Route["Route before mutation<br/>greenfield / brownfield / mixed<br/>brownfield recon is read-only"]:::audit
-  OwnerDecision(["OWNER DECISION<br/>unsafe request or AGENTS/policy conflict"]):::blocker
+  Route["`Route before mutation
+  greenfield / brownfield / mixed
+  brownfield recon is read-only`"]:::audit
+  OwnerDecision(["`OWNER DECISION
+  unsafe request or AGENTS/policy conflict`"]):::blocker
 
-  Graphify["Graphify qualified first-contact terrain<br/>freshness checked; not proof"]:::optional
-  Gemba["Live-file Gemba<br/>confirm owner/source before mutation"]:::source
-  SmokeA["Smoke A<br/>baseline before change"]:::checker
-  Patch["Patch owner/source<br/>bounded P0 -> P1 -> P2"]:::source
-  Generated["Refresh generated artifacts<br/>from source/generator"]:::generated
-  SmokeB["Smoke B + complete<br/>working-tree-vs-baseline check"]:::checker
+  Graphify["`Graphify qualified first-contact terrain
+  freshness checked; not proof`"]:::optional
+  Gemba["`Live-file Gemba
+  confirm owner/source before mutation`"]:::source
+  SmokeA["`Smoke A
+  baseline before change`"]:::checker
+  Patch["`Patch owner/source
+  bounded P0 -> P1 -> P2`"]:::source
+  Generated["`Refresh generated artifacts
+  from source/generator`"]:::generated
+  SmokeB["`Smoke B + complete
+  working-tree-vs-baseline check`"]:::checker
 
-  ActiveGraph["ActiveGraph fork/diff checkpoint<br/>optional non-authoritative mirror"]:::optional
-  Ledger["Capability Ledger or<br/>Markdown final report fallback"]:::audit
+  ActiveGraph["`ActiveGraph fork/diff checkpoint
+  optional non-authoritative mirror`"]:::optional
+  Ledger["`Capability Ledger or
+  Markdown final report fallback`"]:::audit
 
-  Andon["Andon / handoff loop<br/>abnormality -> 5 Whys -> Hansei<br/>countermeasure -> rerun"]:::blocker
-  Final["Final audit<br/>criteria, boundaries, evidence"]:::audit
+  Andon["`Andon / handoff loop
+  abnormality -> 5 Whys -> Hansei
+  countermeasure -> rerun`"]:::blocker
+  Final["`Final audit
+  criteria, boundaries, evidence`"]:::audit
   AuditDone(["AUDIT_COMPLETE"]):::success
   RunDone(["IMPLEMENTAUDIT_RUN_COMPLETE"]):::success
-  NoRelease["Ordinary completion default<br/>No tag, release, publication, or provenance"]:::audit
-  ReleaseGate{"Separate release/provenance gate<br/>explicitly authorized?"}:::release
-  Release["Tag / release / asset<br/>checksum manifest only if produced and verified"]:::release
-  Legend["Legend: solid arrows are governed flow; dashed arrows are conditional or optional;<br/>blue is authoritative source; purple is generated; green is evidence; red stops the line"]:::audit
+  NoRelease["`Ordinary completion default
+  No tag, release, publication, or provenance`"]:::audit
+  ReleaseGate{"`Separate release/provenance gate
+  explicitly authorized?`"}:::release
+  Release["`Tag / release / asset
+  checksum manifest only if produced and verified`"]:::release
+  Legend["`Legend: solid arrows are governed flow; dashed arrows are conditional or optional;
+  blue is authoritative source; purple is generated; green is evidence; red stops the line`"]:::audit
 
   subgraph PhasedRun["Phased planned run — goal synthesis path"]
-    RunRoot["Run-root claim<br/>claim-run.sh<br/>.IMPLEMENTAUDIT/runs/slug-id/"]:::source
-    Stage6["Stage 6<br/>plan review + self-critique<br/>revision menu"]:::audit
-    Stage6i["Stage 6.i independent cold review<br/>PASS / GAP-REVISE / BLOCKED / OWNER DECISION"]:::audit
-    Stage6ii["Stage 6.ii preflight smoke<br/>PREFLIGHT_GREEN / PREFLIGHT_RED"]:::checker
-    Stage7["Stage 7 handoff<br/>one-paste /implementaudit<br/>omitted if embedded"]:::audit
-    PhaseSpec["validate-phase.sh<br/>each phase spec<br/>exit 0 required"]:::checker
-    PhaseLoop["16-step phase loop<br/>Smoke A -> execute -> cmds<br/>criteria -> cleanliness -> Smoke B"]:::source
-    Recovery["Andon escalation, no try cap<br/>ANDON_PROBE -> ANDON_ESCALATE<br/>-> ANDON_HANDOFF only when blocked"]:::blocker
-    AuditFix["Final audit + audit-fix rounds<br/>loop until closed or audited handoff<br/>AUDIT_GAPS -> fix -> re-round"]:::audit
+    RunRoot["`Run-root claim
+    claim-run.sh
+    .IMPLEMENTAUDIT/runs/slug-id/`"]:::source
+    Stage6["`Stage 6
+    plan review + self-critique
+    revision menu`"]:::audit
+    Stage6i["`Stage 6.i independent cold review
+    PASS / GAP-REVISE / BLOCKED / OWNER DECISION`"]:::audit
+    Stage6ii["`Stage 6.ii preflight smoke
+    PREFLIGHT_GREEN / PREFLIGHT_RED`"]:::checker
+    Stage7["`Stage 7 handoff
+    one-paste /implementaudit
+    omitted if embedded`"]:::audit
+    PhaseSpec["`validate-phase.sh
+    each phase spec
+    exit 0 required`"]:::checker
+    PhaseLoop["`16-step phase loop
+    Smoke A -> execute -> cmds
+    criteria -> cleanliness -> Smoke B`"]:::source
+    Recovery["`Andon escalation, no try cap
+    ANDON_PROBE -> ANDON_ESCALATE
+    -> ANDON_HANDOFF only when blocked`"]:::blocker
+    AuditFix["`Final audit + audit-fix rounds
+    loop until closed or audited handoff
+    AUDIT_GAPS -> fix -> re-round`"]:::audit
     RunRoot --> Stage6 --> Stage6i --> Stage6ii --> Stage7 --> PhaseSpec --> PhaseLoop
     PhaseLoop -->|criterion fails| Recovery
     PhaseLoop -->|all phases done| AuditFix
@@ -796,22 +878,26 @@ Package metadata lives under `.claude-plugin/`:
 ```
 
 The manifest JSON is validated by `scripts/verify-package.sh`. This README
-records the bounded `v0.3.3.3` release and temporary Codex copy/install
-readbacks below. It does not claim Claude Code marketplace behaviour, passive
-update, active-user installation, universal host loading, or provenance.
+records the bounded historical `v0.3.3.3` publication and the corrected
+same-identity candidate below. It does not claim the in-place asset, checksum,
+body, or tag correction before independent public readback, nor Claude Code
+marketplace behaviour, passive update, active-user installation, universal
+host loading, or provenance.
 
 ## Version and release notes
 
-Current project milestone: public release `v0.3.3.3`; plugin/runtime version `0.3.3`.
+Current project milestone: corrected `v0.3.3.3` candidate; plugin/runtime version `0.3.3`.
 
 `v0.3.3.3` is a corrective and completion release of the `v0.3.3` runtime
 family. It incorporates countermeasures found during `v0.3.3.0` qualification
 and immediate dogfood, while the host-facing manifest remains `0.3.3` because
 the supported manifest schema is three-component.
 
-The published tag and assets have been independently read back. Exact commit,
-tree, package, checksum, hosted-run, deployment, and public-install evidence
-belongs in the
+The first tag and assets were independently read back, but publication occurred
+before the final R29 correction. They are preserved as superseded historical
+evidence while the corrected `v0.3.3.3` candidate awaits final qualification
+and in-place replacement. Exact old and candidate commit, tree, package,
+checksum, hosted-run, deployment, and public-install evidence belongs in the
 [`v0.3.3.3` release report](docs/audits/archive/v0.3.3.3-release-report.md);
 release chronology and user-visible changes belong in
 [`CHANGELOG.md`](CHANGELOG.md). This README describes the current product and
@@ -966,17 +1052,18 @@ To choose the right invocation shape, see the chooser table in
 Install flows are evidence-bounded. This repo can locally validate the release
 asset-to-Codex-install path into a temporary Codex home. It does not claim passive auto-update, universal host support, marketplace verification, or public GitHub release download verification unless those checks are run and recorded.
 
-**Release/contract alignment:** the current public release is `v0.3.3.3`, with
-plugin/runtime version `0.3.3`. Exact-tree qualification, tag, release, public
-asset, hosted validation, Pages, and temporary Codex public-install readback
-completed; exact evidence belongs in the release report rather than this
+**Release/contract alignment:** the intended public identity remains
+`v0.3.3.3`, with plugin/runtime version `0.3.3`. The release URL currently
+serves the premature 227,995-byte asset; the corrected 227,999-byte candidate
+has not yet completed final qualification or in-place public replacement.
+Exact evidence and pending gates belong in the release report rather than this
 installation guide.
 
 A checkout of `main` may contain post-release source changes. Installing from a
 checkout or through a CLI that resolves current `main` uses source-checkout
-semantics; it is not automatically a byte-for-byte installation of the
-final-qualified or published `v0.3.3.3` release asset. Re-verify this paragraph at every release
-gate.
+semantics; it is not automatically byte-identical either to the currently
+published superseded asset or to the eventually final-qualified `v0.3.3.3`
+replacement. Re-verify this paragraph at every release gate.
 
 ### Quick install via the skills CLI
 
@@ -1002,10 +1089,10 @@ ecosystem's install-telemetry index, not by this repo.
 
 Choose the source deliberately:
 
-- the public `v0.3.3.3` release is the immutable, independently read-back
-  package described by the release report;
-- the current `main` branch may contain later source corrections and is not
-  automatically byte-identical to that asset;
+- the `v0.3.3.3` release URL currently resolves to the independently read-back
+  but superseded 227,995-byte package described by the release report;
+- the current source contains the R29 correction and is not byte-identical to
+  that premature asset;
 - a local archive is evidence only for the exact source tree from which it was
   built.
 
@@ -1016,8 +1103,8 @@ validation-policy integrity, package semantic preservation, public-projection
 discipline, and optional freshness-aware Graphify terrain. The canonical
 runtime references define those behaviours; the
 [`v0.3.3.3` release report](docs/audits/archive/v0.3.3.3-release-report.md)
-maps the shipped release to its exact acceptance evidence. `/dashboard/` is not
-part of the `.skill` package.
+maps the superseded publication and corrected candidate to their separate
+acceptance evidence. `/dashboard/` is not part of the `.skill` package.
 
 ### Install / update for Codex
 
@@ -1052,7 +1139,10 @@ bash scripts/install-codex-from-release.sh \
   --version 0.3.3
 ```
 
-The published `v0.3.3.3` asset is available at this independently read-back URL:
+The existing `v0.3.3.3` asset remains available at this URL while replacement
+is pending. Until the release report records final replacement and public
+readback, this command installs the superseded 227,995-byte package rather than
+the corrected candidate:
 
 ```bash
 bash scripts/install-codex-from-release.sh \
@@ -1062,11 +1152,12 @@ bash scripts/install-codex-from-release.sh \
 ```
 
 The release page, asset, checksum manifest, downloaded bytes, installed version,
-and installed payload were read back in a fresh temporary Codex home. That
-bounded copy/install proof does not establish passive update, universal host
-support, or host-load proof. For local verification, download `CHECKSUMS.txt`
-alongside `IMPLEMENTAUDIT.skill` and use the `--asset` plus `--checksum` form
-shown above.
+and installed payload were read back for the superseded package in a fresh
+temporary Codex home. Replacement bytes need their own public download/install
+readback. The historical receipt does not prove passive update, universal host
+support, or host-load behaviour. For local verification, download
+`CHECKSUMS.txt` alongside `IMPLEMENTAUDIT.skill` and use the `--asset` plus
+`--checksum` form shown above.
 
 ### Install / update for Claude Desktop
 
@@ -1090,7 +1181,7 @@ bash scripts/install-claude-from-release.sh \
   --claude-skills-dir "<claude-session-path>/skills/implementaudit"
 ```
 
-After publication and readback of the `v0.3.3.3` release asset:
+After in-place replacement and readback of the final `v0.3.3.3` release asset:
 
 ```bash
 bash scripts/install-claude-from-release.sh \
@@ -1169,10 +1260,15 @@ check, package extraction, temporary-home install, live host run, hosted CI
 result, public deployment, and fresh download establish different properties;
 none silently substitutes for another. Claims must name the layer that actually
 ran and bind it to the relevant source, tree, package, or public bytes.
+When material meaning depends on rendered, generated, visual, layout-sensitive,
+or otherwise representation-dependent output, source and generator checks
+require both rendered-consumer validation and governed-detail preservation.
+Ordinary non-layout-sensitive prose stays on the cheaper content path.
 
 The current evidence index is [`docs/audits/INDEX.md`](docs/audits/INDEX.md),
 with retention rules in [`docs/audits/RETENTION.md`](docs/audits/RETENTION.md).
-The exact `v0.3.3.3` release qualification is in its
+The exact historical publication record, corrected candidate qualification,
+and remaining `v0.3.3.3` publication gates are in its
 [release report](docs/audits/archive/v0.3.3.3-release-report.md). Contributor
 checks, package validation, generated-doc regeneration, and release boundaries
 belong in [`CONTRIBUTING.md`](CONTRIBUTING.md).

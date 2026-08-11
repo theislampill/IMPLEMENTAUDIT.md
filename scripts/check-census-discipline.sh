@@ -568,6 +568,60 @@ def classify_public_projection(case):
             case["generated_from_owner"] is True and
             case["current_product"] is True and
             case["relation_valid"] is True)
+    elif kind == "rendered-consumer-boundary":
+        public_case(case, {
+            "projection", "owner_source", "material_public_claim",
+            "rendering_material_to_meaning", "source_or_generator_result",
+            "consumer_surface", "consumer_matches_claim",
+            "candidate_identity_bound", "rendered_consumer_result",
+            "rendered_consumer_evidence", "semantic_detail_preserved",
+            "source_backed_correction", "source_backed_correction_evidence",
+            "cheap_path_reason"})
+        for field in (
+                "material_public_claim", "rendering_material_to_meaning",
+                "consumer_matches_claim", "candidate_identity_bound",
+                "semantic_detail_preserved", "source_backed_correction"):
+            if case[field] is not None and type(case[field]) is not bool:
+                raise ValueError(f"{field} must be bool or null")
+        correction_evidence = case["source_backed_correction_evidence"]
+        if correction_evidence is not None and not nonempty_string(correction_evidence):
+            raise ValueError(
+                "source_backed_correction_evidence must be a non-empty string or null")
+        allowed(case["source_or_generator_result"], {"PASS", "FAIL"},
+                "source_or_generator_result")
+        allowed(case["rendered_consumer_result"], {
+            "PASS", "FAIL", "NOT_RUN", "NOT_APPLICABLE"},
+            "rendered_consumer_result")
+        rendered = case["rendering_material_to_meaning"]
+        complete = (
+            nonempty_string(case["projection"]) and
+            nonempty_string(case["owner_source"]) and
+            case["material_public_claim"] is True and
+            type(rendered) is bool and
+            case["source_or_generator_result"] == "PASS" and
+            ((rendered and
+             nonempty_string(case["consumer_surface"]) and
+              case["consumer_matches_claim"] is True and
+              case["candidate_identity_bound"] is True and
+              case["rendered_consumer_result"] == "PASS" and
+              nonempty_string(case["rendered_consumer_evidence"]) and
+              ((case["semantic_detail_preserved"] is True and
+                case["source_backed_correction"] is False and
+                case["source_backed_correction_evidence"] is None) or
+               (case["semantic_detail_preserved"] is False and
+                case["source_backed_correction"] is True and
+                nonempty_string(case["source_backed_correction_evidence"]))) and
+              case["cheap_path_reason"] is None) or
+             (not rendered and
+              case["consumer_surface"] is None and
+              case["consumer_matches_claim"] is None and
+              case["candidate_identity_bound"] is None and
+              case["rendered_consumer_result"] == "NOT_APPLICABLE" and
+              case["rendered_consumer_evidence"] is None and
+              case["semantic_detail_preserved"] is None and
+              case["source_backed_correction"] is None and
+              case["source_backed_correction_evidence"] is None and
+              nonempty_string(case["cheap_path_reason"]))))
     else:
         raise ValueError(f"unsupported public-projection kind: {kind!r}")
     return "PASS" if complete else "FAIL"
@@ -598,7 +652,8 @@ elif schema == "implementaudit-public-projection-fixtures-v1":
          "R29-F18",
          "R29-F19", "R29-F20", "R29-F21", "R29-F22", "R29-F23",
          "R29-F24", "R29-F25", "R29-F26", "R29-F27", "R29-F28",
-         "R29-F29", "R29-F30", "R29-F31",
+         "R29-F29", "R29-F30", "R29-F31", "R29-F32", "R29-F33", "R29-F34",
+         "R29-F35", "R29-F36", "R29-F37", "R29-F38", "R29-F39",
     }
     classifier = classify_public_projection
 else:
@@ -637,6 +692,10 @@ if schema == "implementaudit-public-projection-fixtures-v1":
         "R29-H13-duplicate-placement-identities",
         "R29-H14-unknown-diagram-relation",
         "R29-H15-integer-campaign-history",
+        "R29-H16-unknown-rendered-result",
+        "R29-H17-integer-semantic-preservation",
+        "R29-H18-string-consumer-match",
+        "R29-H19-missing-source-correction-evidence",
     }
     if set(mutation_ids) != required_mutation_ids or len(mutation_ids) != len(set(mutation_ids)):
         raise ValueError("held-out mutation identity set invalid")

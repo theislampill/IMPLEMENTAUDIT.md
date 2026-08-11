@@ -13,33 +13,27 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ## [Unreleased]
 
-### Changed
-
-- R29 public projection now distinguishes completeness from audience, consumer,
-  abstraction, authority, discoverability, and duplicate-owner fitness. The
-  README remains a substantial offline-capable newcomer guide; contributor
-  workflow moves to `CONTRIBUTING.md`, chronology stays in this changelog, and
-  exact qualification stays in the release report.
-- The public-information-architecture repair retains the original false-pass
-  witness and adds negative, positive, cheap-path, adjacent, and held-out
-  controls. It does not impose a README template, word count, section quota, or
-  mandatory documentation ceremony.
-- The published `v0.3.3.3` tag and assets remain immutable. This source
-  correction changes packaged R29 owner bytes and therefore belongs to a later
-  corrective package identity; it is not retroactively present in the
-  227,995-byte `v0.3.3.3` archive.
+No changes are recorded after the corrected `v0.3.3.3` candidate.
 
 ## [v0.3.3.3] - 2026-08-11
 
 This corrective milestone uses public project identity `v0.3.3.3` while the
 host-facing plugin and runtime version remains `0.3.3`. The fourth component
 advances the public release within the existing runtime family and preserves
-the complete `v0.3.3.0` history. Release commit
+the complete `v0.3.3.0` history. A premature publication at commit
 `00591cc4257f1aea1aa9d3d4887ca4069731b074`, tree
-`87d12e6920f680fcfa69f65646a1c536240e9528`, the annotated tag, GitHub release,
-assets, hosted validation, Pages deployment, and a fresh temporary Codex
-public-install route were independently read back. Tracker reconciliation and
-the post-publication repository-owner transition remain separate gates.
+`87d12e6920f680fcfa69f65646a1c536240e9528`, was independently read back before
+the authorised campaign reached its terminal R29 boundary. Its tag object,
+release object, assets, body, hosted validation, Pages deployment, and temporary
+Codex install remain historical evidence. They do not describe the final
+`v0.3.3.3` candidate.
+
+PR #173 merged the R29 public-information-architecture and acceptance-
+instrument repair as commit `4624ef95542769ecd6a88402fcc585d7c5894c71`, tree
+`1f6ae936a7b00bbce86f2a712233655cd776152f`. The same `v0.3.3.3` identity will
+be corrected in place only after one exact final tree passes the remaining
+qualification, tag/source alignment, asset/body replacement, and public
+download/install readback gates.
 
 ### Changed
 
@@ -87,27 +81,58 @@ the post-publication repository-owner transition remain separate gates.
   a candidate PASS or product FAIL. Installed-runtime dogfood on the exact
   release candidate exercised the public-projection route without converting
   that model boundary into a PASS.
+- R29 now also distinguishes completeness from audience, consumer,
+  abstraction, authority, discoverability, and duplicate-owner fitness. The
+  README remains a substantial offline-capable newcomer guide; contributor
+  workflow belongs in `CONTRIBUTING.md`, chronology stays in this changelog,
+  and exact qualification stays in the release report.
+- The public-information-architecture repair retains the original false-pass
+  witness and adds negative, positive, cheap-path, adjacent, and held-out
+  controls. It imposes no README template, word count, section quota, or
+  mandatory documentation lifecycle. R29 acceptance rows 1–13 and 15–20 are
+  PASS; row 14 remains `OWNER_DISPOSITION_REQUIRED` because no valid
+  candidate-bound model sample exists and no retry is authorised.
+- A later rendered-consumer Andon found that source parity, generator success,
+  and valid Mermaid syntax had false-passed collapsed labels and an unreadably
+  wide public graph. R29 now requires rendered-consumer evidence and
+  governed-detail preservation together for material representation-dependent
+  claims, while ordinary prose stays cheap. The README diagrams retain their
+  pre-Andon nodes, edges, labels, groupings, and distinctions; invocation keeps
+  four governed columns and five steps per mode.
 
 ### Qualification and publication boundary
 
-- The published archive contains 50 members and is 227,995 bytes. Its SHA-256
-  digest is `bfe323853fcb814530c9f58e078ef09d4e930419d99005af26c9135f936e3536`,
-  leaving 2,005 bytes under the 230,000-byte owner bound. The published
-  `CHECKSUMS.txt` is 96 bytes with SHA-256
-  `bb8c63c1f8b45354c96e5bbe04953767e85c036db6def5f8e0d98fa85da5c081`;
-  fresh downloads matched both published assets.
-- The annotated tag object is
-  `89bf563c965e65e189f6bfa9ab5008f946f3081e`; GitHub release ID `368332810`
-  is public. Hosted validation run `31456284912`, Pages run `31456284913`,
-  deployment `5843992982`, and 32 public routes were read back.
+- Premature publication is retained as history: annotated tag object
+  `89bf563c965e65e189f6bfa9ab5008f946f3081e` resolves to commit `00591cc...`;
+  GitHub release ID `368332810` was created on 2026-08-11 and carried asset IDs
+  `509660798` (`IMPLEMENTAUDIT.skill`) and `509660797` (`CHECKSUMS.txt`). The
+  original release body had SHA-256
+  `21e7e7b379dbf9a312643186e749d4fb5bd97cdbdde3ad162e3f42f77da6751e`.
+- same-tag correction for `v0.3.3.3` `IMPLEMENTAUDIT.skill`: prematurely published `bfe323853fcb814530c9f58e078ef09d4e930419d99005af26c9135f936e3536` (227,995 bytes) → final `151cb5400d248e3e41a30750ba690d8c46bbe907294ba82a0a5a627536ad563e` (227,999 bytes).
+- The corrected candidate contains 50 members, excludes `/dashboard/`, and
+  leaves 2,001 bytes under the unchanged 230,000-byte owner bound. Focused
+  R29/R30/R33/R35, package, source/package parity, temporary-install, and
+  ordinary-run checks passed. Repo-only public-owner edits do not change those
+  archive bytes. One terminal complete-verifier result on the final composed
+  tree and final exact-tree review remain required.
+- PR #173 hosted validation run `31470732558`, post-merge validation run
+  `31471582591`, Pages run `31471582620`, deployment `5846669789`, and public
+  homepage readback establish the repository-owner correction at
+  `4624ef95542769ecd6a88402fcc585d7c5894c71`. They do not establish final
+  replacement of the release assets, checksum, body, or tag target.
+- The existing `v0.3.3.3` release will be corrected in place after final
+  qualification. Replacement asset IDs, checksum identity, final tag object or
+  target, final release-body identity, and public download/install readback are
+  deliberately not claimed before that publication gate.
 - R36 / #167 remains open and was not shipped or qualified in this release. R28 /
   #117 remains open, optional, and nonblocking. `/dashboard/` remains excluded
   from `IMPLEMENTAUDIT.skill`.
-- A fresh public download installed into a temporary Codex home with 48/48
+- The earlier public download installed into a temporary Codex home with 48/48
   non-plugin payload parity, and the installed `detect-env` route exited zero.
-  This is bounded copy/install evidence, not marketplace, signature,
-  attestation, SBOM, provenance, universal-host, passive-update, or host-load
-  proof. Tracker reconciliation remains pending.
+  That receipt applies only to the superseded bytes. Fresh download/install
+  parity for the replacement asset remains required. Neither receipt is
+  marketplace, signature, attestation, SBOM, provenance, universal-host,
+  passive-update, or host-load proof.
 
 ## [v0.3.3.0] - 2026-08-08
 

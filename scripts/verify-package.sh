@@ -20,13 +20,19 @@ if [ "${1:-}" = "--release-identity" ]; then
       release_identity_args=("$2" "$3" "$4" "$5")
       shift 5
       ;;
+    same-tag-correction)
+      [ "$#" -eq 4 ] \
+        || fail "--release-identity same-tag-correction requires <public-tag> <release-commit>"
+      release_identity_args=("$2" "$3" "$4")
+      shift 4
+      ;;
     forward|republish)
       [ "$#" -eq 4 ] \
         || fail "--release-identity requires <forward|republish> <previous-version> <release-commit>"
       release_identity_args=("$2" "$3" "$4")
       shift 4
       ;;
-    *) fail "--release-identity mode must be forward, republish, or family-forward" ;;
+    *) fail "--release-identity mode must be forward, republish, family-forward, or same-tag-correction" ;;
   esac
 fi
 [ "$#" -eq 0 ] || fail "unknown argument: $1"
@@ -76,6 +82,7 @@ require_file scripts/check-sidecar-boundaries.sh
 require_file scripts/check-terminology-integration.sh
 require_file scripts/build-source-evidence-pack.sh
 require_file scripts/generate-readme-diagrams.sh
+require_file scripts/verify-readme-diagrams-rendered.sh
 require_file scripts/install-claude-from-release.sh
 require_file scripts/install-codex-from-release.sh
 require_file scripts/write-release-checksums.sh
@@ -626,6 +633,7 @@ grep -R "Issue Publication Deferred" -n skills/implementaudit/references/plan-li
 grep -Ri 'Do not add command identities for quick, deep, security, next' -n skills/implementaudit/references/audit-category-matrix.md >/dev/null || fail "foreign command identity rejection is missing"
 
 bash scripts/generate-readme-diagrams.sh --check
+bash scripts/verify-readme-diagrams-rendered.sh
 bash scripts/check-readme-toc.sh
 bash scripts/check-audit-retention.sh
 bash scripts/check-agents-bootstrap-budget.sh

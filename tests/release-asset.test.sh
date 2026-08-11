@@ -51,6 +51,190 @@ if [ "${1:-}" = "--identity-only" ]; then
     git -C "$root" -c user.email=t@example.invalid -c user.name=t commit -qm family-forward
   }
 
+  make_same_tag_correction_fixture() {
+    local root="$1"
+    local runtime_version="${2:-0.3.3}"
+    local public_tag="${3:-v0.3.3.3}"
+    local site_milestone="${4:-$public_tag}"
+    local ledger_name="${5:-${site_milestone}-release-report.md}"
+    local pair_count="${6:-1}"
+    local old_digest='bfe323853fcb814530c9f58e078ef09d4e930419d99005af26c9135f936e3536'
+    make_fixture "$root" "$runtime_version" v0.3.3.0
+    mkdir -p "$root/docs/portal"
+    printf '{"release":{"milestone":"%s","audit_ledger_url":"https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/archive/%s"}}\n' \
+      "$site_milestone" "$ledger_name" > "$root/docs/portal/site.json"
+    printf 'corrected package bytes\n' > "$root/IMPLEMENTAUDIT.skill"
+    local candidate_digest candidate_bytes
+    candidate_digest="$(sha256sum "$root/IMPLEMENTAUDIT.skill" | awk '{print $1}')"
+    candidate_bytes="$(wc -c < "$root/IMPLEMENTAUDIT.skill" | tr -d '[:space:]')"
+    {
+      printf '# Changelog\n\n## [%s] - 2026-08-11\n' "$public_tag"
+      for _ in $(seq 1 "$pair_count"); do
+        printf '\n- same-tag correction for `%s` `IMPLEMENTAUDIT.skill`: prematurely published `%s` (227,995 bytes) -> final `%s` (%s bytes).\n' \
+          "$public_tag" "$old_digest" "$candidate_digest" "$candidate_bytes"
+      done
+      printf '\n'
+      tail -n +3 "$root/CHANGELOG.md"
+    } > "$root/CHANGELOG.md.next"
+    mv "$root/CHANGELOG.md.next" "$root/CHANGELOG.md"
+    git -C "$root" add .
+    git -C "$root" -c user.email=t@example.invalid -c user.name=t commit -qm same-tag-correction
+  }
+
+  same_tag_correction="$tmp_parent/same-tag-correction"
+  make_same_tag_correction_fixture "$same_tag_correction"
+  bash scripts/build-release-asset.sh --check-release-identity \
+    same-tag-correction v0.3.3.3 HEAD "$same_tag_correction" >/dev/null \
+    || fail 'valid v0.3.3.3 same-tag correction was rejected'
+
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      same-tag-correction v0.3.3.2 HEAD "$same_tag_correction" >/dev/null 2>&1; then
+    fail 'same-tag correction accepted a different public tag'
+  fi
+
+  same_tag_missing_pair="$tmp_parent/same-tag-missing-pair"
+  make_same_tag_correction_fixture "$same_tag_missing_pair"
+  sed -i '/same-tag correction for/d' "$same_tag_missing_pair/CHANGELOG.md"
+  git -C "$same_tag_missing_pair" add CHANGELOG.md
+  git -C "$same_tag_missing_pair" commit -qm remove-pair
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      same-tag-correction v0.3.3.3 HEAD "$same_tag_missing_pair" >/dev/null 2>&1; then
+    fail 'same-tag correction accepted a commit without the replacement pair'
+  fi
+
+  same_tag_duplicate_pair="$tmp_parent/same-tag-duplicate-pair"
+  make_same_tag_correction_fixture "$same_tag_duplicate_pair" \
+    0.3.3 v0.3.3.3 v0.3.3.3 v0.3.3.3-release-report.md 2
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      same-tag-correction v0.3.3.3 HEAD "$same_tag_duplicate_pair" >/dev/null 2>&1; then
+    fail 'same-tag correction accepted duplicate replacement pairs'
+  fi
+
+  same_tag_unchanged_digest="$tmp_parent/same-tag-unchanged-digest"
+  make_same_tag_correction_fixture "$same_tag_unchanged_digest"
+  sed -i -E \
+    's/(-> final `)[0-9a-f]{64}(`)/\1bfe323853fcb814530c9f58e078ef09d4e930419d99005af26c9135f936e3536\2/' \
+    "$same_tag_unchanged_digest/CHANGELOG.md"
+  git -C "$same_tag_unchanged_digest" add CHANGELOG.md
+  git -C "$same_tag_unchanged_digest" commit -qm unchanged-digest
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      same-tag-correction v0.3.3.3 HEAD "$same_tag_unchanged_digest" >/dev/null 2>&1; then
+    fail 'same-tag correction accepted an unchanged package digest'
+  fi
+
+  same_tag_wrong_old_digest="$tmp_parent/same-tag-wrong-old-digest"
+  make_same_tag_correction_fixture "$same_tag_wrong_old_digest"
+  sed -i \
+    's/bfe323853fcb814530c9f58e078ef09d4e930419d99005af26c9135f936e3536/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/' \
+    "$same_tag_wrong_old_digest/CHANGELOG.md"
+  git -C "$same_tag_wrong_old_digest" add CHANGELOG.md
+  git -C "$same_tag_wrong_old_digest" commit -qm wrong-old-digest
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      same-tag-correction v0.3.3.3 HEAD "$same_tag_wrong_old_digest" >/dev/null 2>&1; then
+    fail 'same-tag correction accepted the wrong premature package digest'
+  fi
+
+  same_tag_wrong_old_bytes="$tmp_parent/same-tag-wrong-old-bytes"
+  make_same_tag_correction_fixture "$same_tag_wrong_old_bytes"
+  sed -i 's/(227,995 bytes)/(227,994 bytes)/' "$same_tag_wrong_old_bytes/CHANGELOG.md"
+  git -C "$same_tag_wrong_old_bytes" add CHANGELOG.md
+  git -C "$same_tag_wrong_old_bytes" commit -qm wrong-old-bytes
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      same-tag-correction v0.3.3.3 HEAD "$same_tag_wrong_old_bytes" >/dev/null 2>&1; then
+    fail 'same-tag correction accepted the wrong premature package byte count'
+  fi
+
+  same_tag_wrong_new_digest="$tmp_parent/same-tag-wrong-new-digest"
+  make_same_tag_correction_fixture "$same_tag_wrong_new_digest"
+  sed -i -E \
+    's/(-> final `)[0-9a-f]{64}(`)/\1bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\2/' \
+    "$same_tag_wrong_new_digest/CHANGELOG.md"
+  git -C "$same_tag_wrong_new_digest" add CHANGELOG.md
+  git -C "$same_tag_wrong_new_digest" commit -qm wrong-new-digest
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      same-tag-correction v0.3.3.3 HEAD "$same_tag_wrong_new_digest" >/dev/null 2>&1; then
+    fail 'same-tag correction accepted a replacement digest that does not match the candidate'
+  fi
+
+  same_tag_wrong_new_bytes="$tmp_parent/same-tag-wrong-new-bytes"
+  make_same_tag_correction_fixture "$same_tag_wrong_new_bytes"
+  sed -i -E 's/(-> final `[^`]+` \()[0-9,]+( bytes\))/\1999\2/' \
+    "$same_tag_wrong_new_bytes/CHANGELOG.md"
+  git -C "$same_tag_wrong_new_bytes" add CHANGELOG.md
+  git -C "$same_tag_wrong_new_bytes" commit -qm wrong-new-bytes
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      same-tag-correction v0.3.3.3 HEAD "$same_tag_wrong_new_bytes" >/dev/null 2>&1; then
+    fail 'same-tag correction accepted a replacement byte count that does not match the candidate'
+  fi
+
+  for dirty_owner in \
+      .claude-plugin/plugin.json \
+      skills/implementaudit/SKILL.md \
+      CHANGELOG.md \
+      docs/portal/site.json; do
+    owner_slug="$(printf '%s' "$dirty_owner" | tr '/.' '--')"
+    dirty_owner_root="$tmp_parent/same-tag-dirty-owner-$owner_slug"
+    make_same_tag_correction_fixture "$dirty_owner_root"
+    printf '\n' >> "$dirty_owner_root/$dirty_owner"
+    if bash scripts/build-release-asset.sh --check-release-identity \
+        same-tag-correction v0.3.3.3 HEAD "$dirty_owner_root" >/dev/null 2>&1; then
+      fail "same-tag correction accepted dirty release identity owner $dirty_owner"
+    fi
+  done
+
+  same_tag_wrong_portal="$tmp_parent/same-tag-wrong-portal"
+  make_same_tag_correction_fixture "$same_tag_wrong_portal" 0.3.3 v0.3.3.3 v0.3.3.2
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      same-tag-correction v0.3.3.3 HEAD "$same_tag_wrong_portal" >/dev/null 2>&1; then
+    fail 'same-tag correction accepted the wrong portal milestone'
+  fi
+
+  same_tag_wrong_ledger="$tmp_parent/same-tag-wrong-ledger"
+  make_same_tag_correction_fixture "$same_tag_wrong_ledger" 0.3.3 v0.3.3.3 v0.3.3.3 v0.3.3.2-release-report.md
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      same-tag-correction v0.3.3.3 HEAD "$same_tag_wrong_ledger" >/dev/null 2>&1; then
+    fail 'same-tag correction accepted the wrong release ledger'
+  fi
+
+  same_tag_wrong_runtime="$tmp_parent/same-tag-wrong-runtime"
+  make_same_tag_correction_fixture "$same_tag_wrong_runtime" 0.3.2
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      same-tag-correction v0.3.3.3 HEAD "$same_tag_wrong_runtime" >/dev/null 2>&1; then
+    fail 'same-tag correction accepted a runtime outside 0.3.3'
+  fi
+
+  same_tag_non_head="$tmp_parent/same-tag-non-head"
+  make_same_tag_correction_fixture "$same_tag_non_head"
+  same_tag_release_commit="$(git -C "$same_tag_non_head" rev-parse HEAD)"
+  printf 'later tree\n' >> "$same_tag_non_head/payload.txt"
+  git -C "$same_tag_non_head" add payload.txt
+  git -C "$same_tag_non_head" commit -qm later-tree
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      same-tag-correction v0.3.3.3 "$same_tag_release_commit" "$same_tag_non_head" >/dev/null 2>&1; then
+    fail 'same-tag correction accepted a non-HEAD release commit/tree'
+  fi
+
+  # Enumerate every accepted prospective mode against the correction fixture:
+  # same-tag-correction passes above; every ordinary mode must reject it.
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      forward 0.3.3.3 HEAD "$same_tag_correction" >/dev/null 2>&1; then
+    fail 'forward accepted a four-component public tag as a prior runtime version and substituted for same-tag correction'
+  fi
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      republish 0.3.3 HEAD "$same_tag_correction" >/dev/null 2>&1; then
+    fail 'ordinary republish substituted for same-tag correction'
+  fi
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      family-forward v0.3.3.0 v0.3.3.3 HEAD "$same_tag_correction" >/dev/null 2>&1; then
+    fail 'real-shape family-forward substituted for same-tag correction without enforcing its asset pair'
+  fi
+  verify_same_tag_output="$(bash scripts/verify-package.sh \
+    --release-identity same-tag-correction 2>&1 || true)"
+  case "$verify_same_tag_output" in
+    *"--release-identity same-tag-correction requires <public-tag> <release-commit>"*) : ;;
+    *) fail 'verify-package.sh did not expose same-tag-correction identity mode' ;;
+  esac
+
   no_record="$tmp_parent/republish-no-record"
   make_fixture "$no_record" 0.3.2
   printf 'changed payload\n' > "$no_record/payload.txt"
@@ -508,13 +692,13 @@ with zipfile.ZipFile(asset) as zf:
         "owner", "dedicated-calibration-lane",
     }
 
-    # The postpublication R29 audience/owner-fit source candidate is 227,989
-    # bytes after semantic-preserving representation compaction. Owner authority
+    # The final R29 audience/owner/rendered-consumer candidate is 227,999 bytes
+    # after semantic-preserving representation compaction. Owner authority
     # for this corrective source lane retains the smallest whole-1,000-byte
     # value that preserves at least 2,000 bytes of measured headroom. The outer
     # 230,000-byte bound remains unchanged, and capacity is not a target.
     MAX_ASSET_BYTES = 230_000
-    CURRENT_CALIBRATION_ASSET_BYTES = 227_989
+    CURRENT_CALIBRATION_ASSET_BYTES = 227_999
     N06_BASELINE_ASSET_BYTES = 206_584
     N06_FINAL_P7_ASSET_BYTES = 215_126
     FULL_W1_FORECAST_BYTES = 144_730

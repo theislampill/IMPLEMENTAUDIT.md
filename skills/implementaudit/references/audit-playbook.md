@@ -191,8 +191,11 @@ evidence; a substantial offline README may be authority.
 Reject competing authorities, misplaced contributor/release detail,
 hidden/campaign-bound routes or duplicates. Delegated prose and contextualised
 history may pass. Missing/stale/broken/unresolved cannot close.
-Change owners, regenerate, retain British English/exact literals. Bytes are not
-semantics; overclaim/omission gates remain.
+Change owners, regenerate, keep British English/exact literals. Material
+representation-dependent claims require rendered-consumer evidence and
+governed-detail preservation; source/generator green cannot close.
+Ordinary prose stays cheap; source-backed corrections, overclaim/omission and
+hosted readback remain.
 
 ## Direction / Design
 

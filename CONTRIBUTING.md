@@ -84,7 +84,13 @@ check the tracked projection:
 ```bash
 bash scripts/generate-readme-diagrams.sh
 bash scripts/generate-readme-diagrams.sh --check
+bash scripts/verify-readme-diagrams-rendered.sh --force
 ```
+
+The rendered check is required when diagram meaning or layout changes; it is
+`NOT_APPLICABLE` for ordinary prose-only work. Hosted publication still needs
+consumer readback because a local renderer cannot prove GitHub's projection.
+Both rendered readability and semantic-detail preservation must pass.
 
 For portal changes, edit `docs/portal/` sources and run the focused build and
 validation gate:
