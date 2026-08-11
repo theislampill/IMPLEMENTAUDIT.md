@@ -437,17 +437,18 @@ done
 # deterministic receipt from the validated phase, not caller-selected paths.
 # ------------------------------------------------------------------
 authority_run="$repo_root/.IMPLEMENTAUDIT/runs/authority-Ab3Kx9"
-authority_phase="$authority_run/phases/phase-1.md"
+authority_phase="$authority_run/phases/phase-2.md"
 mkdir -p "$(dirname "$authority_phase")"
 cp fixtures/phase-validation/valid-full-spec.md "$authority_phase"
 printf 'claim_id=0123456789abcdef0123456789abcdef\n' > "$authority_run/.claimed"
-printf '| 1 | mutation authority fixture |\n' > "$authority_run/ROADMAP.md"
+printf '| 2 | mutation authority fixture |\n' > "$authority_run/ROADMAP.md"
 "${py_cmd[@]}" - "$authority_phase" <<'PY'
 import sys
 from pathlib import Path
 p=Path(sys.argv[1]); text=p.read_text(encoding='utf-8')
 text=text.replace('Run root: .IMPLEMENTAUDIT/runs/add-settings-Xy9Zq1',
                   'Run root: .IMPLEMENTAUDIT/runs/authority-Ab3Kx9')
+text=text.replace('Phase: 1 of 3', 'Phase: 2 of 3')
 text=text.replace(
     '- Step 1: Create the settings route — target: src/routes/settings.ts (registerSettingsRoutes); change: add GET /api/settings handler behind requireAuth from src/middleware/auth.ts; verify: npm run build; expected: exit 0 with no errors',
     '- Step 1: Create the settings route — target: src/routes/settings.ts (registerSettingsRoutes); change: add GET /api/settings handler behind requireAuth from src/middleware/auth.ts; verify: npm run build; expected: exit 0 with no errors\n  mutation-authority: {"operation":"replace","source":"src/routes/settings.ts","destination":null}')
@@ -456,11 +457,11 @@ text=text.replace('In scope: src/routes/settings.ts, tests/settings.test.ts, src
 p.write_text(text,encoding='utf-8')
 PY
 authority_out="$tmp/authority.out"
-if bash skills/implementaudit/scripts/validate-phase.sh --mutation-authority "$authority_phase" --step 1 --repo-root "$repo_root" --run-root "$authority_run" >"$authority_out" 2>"$tmp/authority.err" \
+if bash skills/implementaudit/scripts/validate-phase.sh --mutation-authority "$authority_phase" --phase 2 --step 1 --repo-root "$repo_root" --run-root "$authority_run" >"$authority_out" 2>"$tmp/authority.err" \
   && "${py_cmd[@]}" - "$authority_out" <<'PY'
 import json,re,sys
 r=json.loads(open(sys.argv[1],encoding='utf-8').read())
-want={'schema':'implementaudit.phase-mutation-authority.v1','phase':1,'step':1,
+want={'schema':'implementaudit.phase-mutation-authority.v1','phase':2,'step':1,
       'run_root':'.IMPLEMENTAUDIT/runs/authority-Ab3Kx9','operation':'replace',
       'source':'src/routes/settings.ts','destination':None,
       'mutation_scope':{'in':['src/routes/settings.ts'],'out':['README.md']}}
@@ -476,15 +477,23 @@ else
   fail=$((fail + 1))
 fi
 
-bad_authority="$tmp/authority-outside.md"
-cp "$authority_phase" "$bad_authority"
-sed -i 's|"src/routes/settings.ts"],"out"|"tests/settings.test.ts"],"out"|' "$bad_authority"
-if bash skills/implementaudit/scripts/validate-phase.sh --mutation-authority "$bad_authority" --step 1 --repo-root "$repo_root" --run-root "$authority_run" >/dev/null 2>&1; then
+authority_saved="$tmp/authority-saved.md"
+cp "$authority_phase" "$authority_saved"
+sed -i 's|"src/routes/settings.ts"],"out"|"tests/settings.test.ts"],"out"|' "$authority_phase"
+if bash skills/implementaudit/scripts/validate-phase.sh --mutation-authority "$authority_phase" --phase 2 --step 1 --repo-root "$repo_root" --run-root "$authority_run" >/dev/null 2>&1; then
   printf 'phase-validation.test: out-of-scope mutation authority must fail\n' >&2
   fail=$((fail + 1))
 else
   pass=$((pass + 1))
 fi
+cp "$authority_saved" "$authority_phase"
+if bash skills/implementaudit/scripts/validate-phase.sh --mutation-authority "$authority_run/phases/../phases/phase-2.md" --phase 2 --step 1 --repo-root "$repo_root" --run-root "$authority_run" >/dev/null 2>&1; then
+  printf 'phase-validation.test: aliased phase path must fail\n' >&2; fail=$((fail + 1))
+else pass=$((pass + 1)); fi
+sed -i 's|"source":"src/routes/settings.ts"|"source":"src/routes/settings.ts","source":"src/routes/settings.ts"|' "$authority_phase"
+if bash skills/implementaudit/scripts/validate-phase.sh --mutation-authority "$authority_phase" --phase 2 --step 1 --repo-root "$repo_root" --run-root "$authority_run" >/dev/null 2>&1; then
+  printf 'phase-validation.test: duplicate authority JSON key must fail\n' >&2; fail=$((fail + 1))
+else pass=$((pass + 1)); fi
 rm -rf "$authority_run"
 
 # ------------------------------------------------------------------
