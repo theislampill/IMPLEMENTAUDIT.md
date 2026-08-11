@@ -148,8 +148,15 @@ print("verify-readme-diagrams-rendered: SEMANTIC_DETAIL_PRESERVATION=PASS")
 PY
 
 renderer='@mermaid-js/mermaid-cli@11.16.0'
+puppeteer_config=()
+if [ "${GITHUB_ACTIONS:-}" = "true" ]; then
+  printf '%s\n' '{"args":["--no-sandbox","--disable-setuid-sandbox"]}' \
+    >"$tmp/puppeteer-config.json"
+  puppeteer_config=(-p "$tmp/puppeteer-config.json")
+fi
 for name in tooling-architecture invocation-modes execution-spine; do
   npx --yes "$renderer" \
+    "${puppeteer_config[@]}" \
     -i "docs/diagrams/$name.mmd" \
     -o "$tmp/$name.svg" \
     -b transparent >/dev/null
