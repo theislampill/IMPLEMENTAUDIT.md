@@ -346,6 +346,17 @@ check_contains "scenario9: run root remains authority" "$protocol_template" "run
 check_contains "scenario9: fork/diff checkpoint use survives" "$sidecar_template" "fork / diff"
 check_contains "scenario9: THINKING carries narrowed trigger decision" "$thinking_template" "Graphify trigger decision"
 check_contains "scenario9: missed-use goal retired" "$sidecar_ref" "missed-use-detection goal is retired"
+check_contains "scenario9: TokenSave derived evidence ceiling documented" "$sidecar_ref" "TokenSave-derived"
+check_contains "scenario9: TokenSave cheap path documented" "$sidecar_ref" "NO TOKENSAVE"
+check_contains "scenario9: TokenSave source retention disclosed" "$sidecar_ref" "function bodies and rendered-source cache"
+check_contains "scenario9: TokenSave mutation tools excluded" "$sidecar_ref" "Editing, test-running, session"
+check_contains "scenario9: TokenSave runtime route documented" \
+  "skills/implementaudit/templates/PROTOCOL.md" "TokenSave code-navigation rules"
+check_contains "scenario9: TokenSave README projection documented" README.md "### TokenSave-assisted code navigation"
+check_contains "scenario9: TokenSave diagram projection documented" \
+  "docs/diagrams/tooling-architecture.mmd" "optional supported-code navigation"
+check_contains "scenario9: TokenSave portal projection documented" \
+  "docs/portal/pages/optional-tooling.html" 'id="tokensave"'
 check_contains "scenario9: auditor portal carries non-authoritative mirror" \
   docs/portal/pages/for-auditors-and-maintainers.html "optional non-authoritative mirror"
 check_contains "scenario9: state portal carries executable freshness" \
@@ -1346,6 +1357,135 @@ for heldout_id in \
     check_pass "scenario11: $heldout_id cannot retain PASS" 1
   fi
 done
+
+# ---------------------------------------------------------------------------
+# Scenario 12: TokenSave is a progressive derived code-navigation layer, not
+# repository, mutation, acceptance, or installation authority.
+# ---------------------------------------------------------------------------
+tokensave_fixture="fixtures/sidecar-contract/tokensave-claims/cases.json"
+set +e
+tokensave_output="$(bash scripts/check-sidecar-boundaries.sh \
+  --evaluate-tokensave-claims "$tokensave_fixture" 2>&1)"
+tokensave_status=$?
+set -e
+if [ "$tokensave_status" -eq 0 ] && \
+   printf '%s' "$tokensave_output" | grep -Fqx \
+     "tokensave-claim: ok (20/20)"; then
+  check_pass "scenario12: complete TokenSave claim population is classified" 0
+else
+  printf 'sidecars.test: TokenSave claim output: %s\n' "$tokensave_output" >&2
+  check_pass "scenario12: complete TokenSave claim population is classified" 1
+fi
+
+tokensave_tmp="$(mktemp -d)"
+tokensave_public_tmp="$(mktemp -d)"
+trap 'rm -rf "$tmp" "$tmp_spine" "$tmp_promote" "$tmp_contract" "${scope_tmp:-}" "$activegraph_tmp" "$tokensave_tmp" "$tokensave_public_tmp"' EXIT
+cp -R skills README.md AGENTS.md CONTRIBUTING.md docs scripts tests "$tokensave_public_tmp/"
+"${py_cmd[@]}" - "$tokensave_public_tmp/README.md" <<'PY'
+import pathlib, sys
+path = pathlib.Path(sys.argv[1])
+text = path.read_text(encoding="utf-8")
+path.write_text(text.replace("### TokenSave-assisted code navigation", "### Code navigation"), encoding="utf-8")
+PY
+set +e
+tokensave_public_output="$(cd "$tokensave_public_tmp" && bash scripts/check-sidecar-boundaries.sh 2>&1)"
+tokensave_public_status=$?
+set -e
+if [ "$tokensave_public_status" -ne 0 ] && \
+   printf '%s' "$tokensave_public_output" | grep -Fq "TokenSave README projection is missing"; then
+  check_pass "scenario12: TokenSave public projection removal is rejected" 0
+else
+  printf 'sidecars.test: TokenSave public mutation output: %s\n' "$tokensave_public_output" >&2
+  check_pass "scenario12: TokenSave public projection removal is rejected" 1
+fi
+"${py_cmd[@]}" - "$tokensave_fixture" "$tokensave_tmp/heldout.json" <<'PY'
+import copy, json, sys
+source, target = sys.argv[1:]
+fixture = json.load(open(source, encoding="utf-8"))
+row = copy.deepcopy(next(case for case in fixture["cases"]
+                         if case["id"] == "TS-C3-current-supported-derived"))
+row["id"] = "TS-H1-current-result-lost-live-readback"
+row["live_readback"] = False
+fixture["cases"] = [row]
+with open(target, "w", encoding="utf-8", newline="\n") as handle:
+    json.dump(fixture, handle, indent=2)
+    handle.write("\n")
+PY
+set +e
+tokensave_heldout="$(bash scripts/check-sidecar-boundaries.sh \
+  --evaluate-tokensave-claims "$tokensave_tmp/heldout.json" 2>&1)"
+tokensave_heldout_status=$?
+set -e
+if [ "$tokensave_heldout_status" -ne 0 ] && \
+   printf '%s' "$tokensave_heldout" | grep -Fq \
+     "TS-H1-current-result-lost-live-readback: expected"; then
+  check_pass "scenario12: held-out lost Gemba cannot retain PASS" 0
+else
+  printf 'sidecars.test: TokenSave held-out output: %s\n' "$tokensave_heldout" >&2
+  check_pass "scenario12: held-out lost Gemba cannot retain PASS" 1
+fi
+
+"${py_cmd[@]}" - "$tokensave_fixture" "$tokensave_tmp" <<'PY'
+import copy, json, pathlib, sys
+source, target = sys.argv[1:]
+fixture = json.load(open(source, encoding="utf-8"))
+by_id = {case["id"]: case for case in fixture["cases"]}
+mutations = [
+    ("TS-H2-current-became-stale", "TS-C3-current-supported-derived", {"index_state": "stale"}),
+    ("TS-H3-navigation-became-mutation", "TS-C3-current-supported-derived", {"requested_use": "mutation-authority"}),
+    ("TS-H4-docs-became-code-query", "TS-C0-no-tokensave-docs", {
+        "query_shape": "supported-code-relation", "index_state": "current",
+        "coverage": "unsupported", "evidence_sources": "tokensave"}),
+    ("TS-H5-conflict-hidden", "TS-C9-conflicting-relation", {"result_state": "consistent"}),
+]
+for heldout_id, source_id, delta in mutations:
+    row = copy.deepcopy(by_id[source_id])
+    row["id"] = heldout_id
+    row.update(delta)
+    out = {"schema": fixture["schema"], "cases": [row]}
+    pathlib.Path(target, f"{heldout_id}.json").write_text(
+        json.dumps(out, indent=2) + "\n", encoding="utf-8")
+PY
+for heldout_id in \
+  TS-H2-current-became-stale \
+  TS-H3-navigation-became-mutation \
+  TS-H4-docs-became-code-query \
+  TS-H5-conflict-hidden; do
+  set +e
+  boundary_output="$(bash scripts/check-sidecar-boundaries.sh \
+    --evaluate-tokensave-claims "$tokensave_tmp/$heldout_id.json" 2>&1)"
+  boundary_status=$?
+  set -e
+  if [ "$boundary_status" -ne 0 ] && \
+     printf '%s' "$boundary_output" | grep -Fq "$heldout_id:"; then
+    check_pass "scenario12: $heldout_id cannot retain its prior verdict" 0
+  else
+    printf 'sidecars.test: TokenSave boundary held-out output: %s\n' "$boundary_output" >&2
+    check_pass "scenario12: $heldout_id cannot retain its prior verdict" 1
+  fi
+done
+
+"${py_cmd[@]}" - "$tokensave_fixture" "$tokensave_tmp/duplicate.json" <<'PY'
+import copy, json, sys
+source, target = sys.argv[1:]
+fixture = json.load(open(source, encoding="utf-8"))
+fixture["cases"] = [fixture["cases"][0], copy.deepcopy(fixture["cases"][0])]
+with open(target, "w", encoding="utf-8", newline="\n") as handle:
+    json.dump(fixture, handle, indent=2)
+    handle.write("\n")
+PY
+set +e
+tokensave_duplicate="$(bash scripts/check-sidecar-boundaries.sh \
+  --evaluate-tokensave-claims "$tokensave_tmp/duplicate.json" 2>&1)"
+tokensave_duplicate_status=$?
+set -e
+if [ "$tokensave_duplicate_status" -ne 0 ] && \
+   printf '%s' "$tokensave_duplicate" | grep -Fq "duplicate case id"; then
+  check_pass "scenario12: duplicate TokenSave claim identity is rejected" 0
+else
+  printf 'sidecars.test: TokenSave duplicate output: %s\n' "$tokensave_duplicate" >&2
+  check_pass "scenario12: duplicate TokenSave claim identity is rejected" 1
+fi
 
 # ---------------------------------------------------------------------------
 # Summary

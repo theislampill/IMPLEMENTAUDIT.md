@@ -123,7 +123,7 @@ def inventory(text):
 
 root = Path(sys.argv[1])
 expected_populations = {
-    "tooling-architecture": (7, 0, 6, 6),
+    "tooling-architecture": (8, 0, 7, 7),
     "invocation-modes": (21, 4, 8, 20),
     "execution-spine": (28, 1, 23, 33),
 }
@@ -132,8 +132,12 @@ for name in ("tooling-architecture", "invocation-modes", "execution-spine"):
     current = inventory(Path(f"docs/diagrams/{name}.mmd").read_text(encoding="utf-8"))
     labels = ("node population/labels", "subgraph population/labels", "edge topology/labels")
     for label, old, new in zip(labels, before, current):
-        if old != new:
-            raise SystemExit(f"{name}: {label} changed without an authoritative correction")
+        if isinstance(old, dict):
+            preserved = all(new.get(key) == value for key, value in old.items())
+        else:
+            preserved = all(value in new for value in old)
+        if not preserved:
+            raise SystemExit(f"{name}: {label} lost or changed pre-existing detail")
     nodes, groups, edge_statements = current
     graph_edges = sum(
         len(re.findall(r"-->|-\.->|-\..*?\.->", statement))
@@ -173,7 +177,7 @@ anchors = {
     "tooling-architecture": (
         "Graphify", "IMPLEMENTAUDIT", "Live repository files",
         "Run root and evidence", "Markdown evidence", "ActiveGraph",
-        "Capability Ledger"),
+        "Capability Ledger", "TokenSave"),
     "invocation-modes": (
         "Direct governance", "Embedded governance",
         "Goal synthesis / phased handoff", "Governed casual-build intake",

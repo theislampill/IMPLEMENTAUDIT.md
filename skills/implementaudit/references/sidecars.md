@@ -43,6 +43,24 @@ Dogfood-only (Windows/graphifyy 0.8.37, 2026-08-09): release beat root once;
 both missed a variable-bound call. Luna/partitions remain unproved; an
 unfamiliar third-party repo gates broadening. The missed-use-detection goal is retired.
 
+TokenSave is optional code navigation, not another terrain or custody authority.
+Use it only when a supported code-relation question makes a repeated or
+transitive source walk worthwhile. Bind the query to a current index/check-out,
+classify its result as `TokenSave-derived`, partial, stale, unsupported or
+unresolved, then confirm consequential findings in live source. Database
+freshness proves only the represented population: unsupported languages,
+extraction failures, dynamic dispatch, generated code and external dependencies
+remain outside it. Same-name/cross-language conflicts fall back to Gemba.
+
+Documentation, policy, public projection, non-code artefacts, an exact supplied
+file and tiny reversible work are `NO TOKENSAVE` cheap paths. Presence authorises
+no install, indexing, config or ignore edit. Repo-local state may retain complete
+function bodies and rendered-source cache; keep it untracked, disclose documented
+metadata network calls, and clean it deliberately. Editing, test-running, session
+and memory tools stay outside supported use. Impact is not edit authority;
+affected tests are not acceptance; TokenSave plus Graphify is not independent
+corroboration. Absence never blocks ordinary Gemba.
+
 ActiveGraph: authorised `fork` / `diff` or non-authoritative mirror; run root
 stays authoritative. Replay proves only supported recorded graph state; events,
 forks, diffs, trials, promotion, snapshots and idle state establish only their
