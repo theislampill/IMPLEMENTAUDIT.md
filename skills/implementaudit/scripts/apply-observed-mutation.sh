@@ -37,7 +37,9 @@ if u or op not in ('patch','replace','delete','move','recover'):out('REJECTED_NO
 run=Path(a.run_root);run=run if run.is_absolute() else R/run
 if not (R.is_dir() and R in run.parents and (run/'.claimed').is_file()):out('REJECTED_NO_MUTATION')
 if op=='recover':
- try:r=json.loads(Path(a.journal).read_text());j=Path(a.journal);ok=secrets.compare_digest(r['token'],a.token);B=Path(r['backup'])
+ try:
+  j=Path(a.journal).resolve(); rr=run.resolve(); r=json.loads(j.read_text());B=Path(r['backup']).resolve()
+  ok=(j.parent==rr and j.name=='.r36-journal-'+a.token+'.json' and B.parent==rr and B.name=='.r36-backup-'+a.token and r['target']==a.target and secrets.compare_digest(r['token'],a.token) and B.is_file() and I(B.read_bytes())==r['pre_identity'])
  except Exception:ok=False
  if not ok:out('REJECTED_NO_MUTATION')
  rs=[B]
@@ -95,6 +97,9 @@ try:
  if raw(T)!=now or (op=='move' and D.exists()):out('CONFLICT_REBASE',cand=I(pre if op=='move' else c))
  if op=='move':
   time.sleep(.05)
+  # Re-read immediately before the absent-only publish; a writer that changed
+  # the source during lock acquisition cannot be moved under an old preimage.
+  if raw(T)!=pre or D.exists():out('CONFLICT_REBASE',cand=I(pre))
   try:os.link(T,D);os.unlink(T)
   except FileExistsError:out('CONFLICT_REBASE',cand=I(pre))
   except OSError:out('UNSUPPORTED_OWNER_DECISION',cand=I(pre))
@@ -102,7 +107,7 @@ try:
  tok=secrets.token_hex(16);B=run/('.r36-backup-'+tok);J=run/('.r36-journal-'+tok+'.json')
  # The journal is durable before the first destructive rename.
  with J.open('w',encoding='utf-8') as jf:
-  json.dump({'token':tok,'target':a.target,'backup':str(B),'candidate_identity':I(c) if c is not None else None},jf,separators=(',',':'));jf.flush();os.fsync(jf.fileno())
+  json.dump({'token':tok,'target':a.target,'backup':str(B),'pre_identity':I(now),'candidate_identity':I(c) if c is not None else None},jf,separators=(',',':'));jf.flush();os.fsync(jf.fileno())
  os.replace(T,B)
  if fault=='after-displacement':wait('paused');os.link(B,T);B.unlink();J.unlink();out('MUTATION_FAILED_ROLLED_BACK',cand=I(c) if c else None)
  if op=='delete':os.unlink(B);J.unlink();out('COMMITTED')

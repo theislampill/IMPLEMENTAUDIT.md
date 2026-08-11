@@ -615,6 +615,17 @@ PY
   # Wrong token must not delete the journal, mutate winner bytes, or consume the lock/recovery authority.
   invoke R36-DRIFT-forged REJECTED_NO_MUTATION recover target - - 45585445524e414c2d57494e4e4552 --journal "$journal" --token "forged-$token"
   [ -e "$journal" ] || fail 'R36-DRIFT forged token removed journal'
+  # A token-looking, externally crafted journal/backup cannot become recovery
+  # authority or consume either external file.
+  local crafted_backup="$tmp/crafted-backup" crafted_journal="$tmp/crafted-journal.json" crafted_token='crafted-token'
+  write_hex "$crafted_backup" 41545441434b
+  "$python_bin" - "$crafted_journal" "$crafted_backup" "$crafted_token" <<'PY'
+import json,sys
+from pathlib import Path
+j,b,t=sys.argv[1:]; Path(j).write_text(json.dumps({'token':t,'target':'target','backup':b,'pre_identity':{'sha256':'x','byte_length':6},'candidate_identity':None}),encoding='utf-8')
+PY
+  invoke R36-DRIFT-crafted-journal REJECTED_NO_MUTATION recover target - - 45585445524e414c2d57494e4e4552 --journal "$crafted_journal" --token "$crafted_token"
+  assert_hex R36-DRIFT-crafted-backup-intact "$crafted_backup" 41545441434b; [ -e "$crafted_journal" ] || fail 'crafted journal was consumed'
   # Correct token is exercised against the recreated winner; it must retain a
   # residual conflict rather than overwrite the external winner.
   local recovery_pre recovery_post
