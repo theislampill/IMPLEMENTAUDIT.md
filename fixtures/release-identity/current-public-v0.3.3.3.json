@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "kind": "implementaudit-public-release-asset-readback",
+  "release_tag": "v0.3.3.3",
+  "release_id": 368332810,
+  "asset_name": "IMPLEMENTAUDIT.skill",
+  "asset_id": 510191694,
+  "api_bytes": 227999,
+  "api_digest": "sha256:151cb5400d248e3e41a30750ba690d8c46bbe907294ba82a0a5a627536ad563e",
+  "download_bytes": 227999,
+  "download_sha256": "151cb5400d248e3e41a30750ba690d8c46bbe907294ba82a0a5a627536ad563e"
+}

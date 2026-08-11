@@ -23,7 +23,7 @@ asset_name="IMPLEMENTAUDIT.skill"
 cleanup_dir=""
 
 check_release_identity() {
-  local mode="${1:-}" previous_identity="${2:-}" candidate_identity="" release_commit="" check_root="" candidate_asset=""
+  local mode="${1:-}" previous_identity="${2:-}" candidate_identity="" current_public_receipt="" release_commit="" check_root="" candidate_asset=""
   if [ "$mode" = "family-forward" ]; then
     candidate_identity="${3:-}"
     release_commit="${4:-}"
@@ -33,11 +33,12 @@ check_release_identity() {
       || fail "--check-release-identity family-forward requires <previous-tag> <candidate-tag> <release-commit> [repo-root] [candidate-asset]"
   elif [ "$mode" = "same-tag-correction" ]; then
     candidate_identity="$previous_identity"
-    release_commit="${3:-}"
-    check_root="${4:-$repo_root}"
-    candidate_asset="${5:-$check_root/$asset_name}"
-    [ -n "$candidate_identity" ] && [ -n "$release_commit" ] \
-      || fail "--check-release-identity same-tag-correction requires <public-tag> <release-commit> [repo-root] [candidate-asset]"
+    current_public_receipt="${3:-}"
+    release_commit="${4:-}"
+    check_root="${5:-$repo_root}"
+    candidate_asset="${6:-$check_root/$asset_name}"
+    [ -n "$candidate_identity" ] && [ -n "$current_public_receipt" ] && [ -n "$release_commit" ] \
+      || fail "--check-release-identity same-tag-correction requires <public-tag> <current-public-receipt> <release-commit> [repo-root] [candidate-asset]"
   else
     release_commit="${3:-}"
     check_root="${4:-$repo_root}"
@@ -45,7 +46,7 @@ check_release_identity() {
     [ -n "$mode" ] && [ -n "$previous_identity" ] && [ -n "$release_commit" ] \
       || fail "--check-release-identity requires <forward|republish> <previous-version> <release-commit> [repo-root] [candidate-asset]"
   fi
-  "${py_cmd[@]}" - "$mode" "$previous_identity" "$candidate_identity" "$release_commit" "$check_root" "$candidate_asset" <<'PY'
+  "${py_cmd[@]}" - "$mode" "$previous_identity" "$candidate_identity" "$current_public_receipt" "$release_commit" "$check_root" "$candidate_asset" <<'PY'
 import hashlib
 import json
 import re
@@ -53,7 +54,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-mode, previous_identity, candidate_identity, release_commit, root_arg, candidate_arg = sys.argv[1:]
+mode, previous_identity, candidate_identity, receipt_arg, release_commit, root_arg, candidate_arg = sys.argv[1:]
 root = Path(root_arg).resolve()
 if mode not in {"forward", "republish", "family-forward", "same-tag-correction"}:
     raise SystemExit(
@@ -167,6 +168,72 @@ if mode != "same-tag-correction" and previous_identity != authoritative_previous
     raise SystemExit(
         f"declared previous identity {previous_identity!r} != CHANGELOG authority {authoritative_previous!r}"
     )
+
+current_public_digest = ""
+current_public_bytes = 0
+if mode == "same-tag-correction":
+    receipt_path = Path(receipt_arg)
+    if not receipt_path.is_absolute():
+        receipt_path = root / receipt_path
+    if receipt_path.is_symlink() or not receipt_path.is_file():
+        raise SystemExit("same-tag correction current-public receipt must be a regular non-symlink JSON file")
+
+    def reject_duplicate_key(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError(f"duplicate object key {key!r}")
+            result[key] = value
+        return result
+
+    try:
+        receipt = json.loads(
+            receipt_path.read_text(encoding="utf-8"),
+            object_pairs_hook=reject_duplicate_key,
+            parse_constant=lambda value: (_ for _ in ()).throw(
+                ValueError(f"non-standard constant {value!r}")
+            ),
+        )
+    except (OSError, UnicodeError, json.JSONDecodeError, ValueError) as exc:
+        raise SystemExit(f"same-tag correction current-public receipt is invalid: {exc}") from exc
+
+    expected_receipt_keys = {
+        "schema_version",
+        "kind",
+        "release_tag",
+        "release_id",
+        "asset_name",
+        "asset_id",
+        "api_bytes",
+        "api_digest",
+        "download_bytes",
+        "download_sha256",
+    }
+    if not isinstance(receipt, dict) or set(receipt) != expected_receipt_keys:
+        raise SystemExit("same-tag correction current-public receipt has the wrong schema")
+    if (
+        isinstance(receipt["schema_version"], bool)
+        or receipt["schema_version"] != 1
+        or receipt["kind"] != "implementaudit-public-release-asset-readback"
+    ):
+        raise SystemExit("same-tag correction current-public receipt has the wrong schema identity")
+    if receipt["release_tag"] != candidate_identity:
+        raise SystemExit("same-tag correction current-public receipt names the wrong release tag")
+    if receipt["asset_name"] != "IMPLEMENTAUDIT.skill":
+        raise SystemExit("same-tag correction current-public receipt names the wrong asset")
+    for field in ("release_id", "asset_id", "api_bytes", "download_bytes"):
+        value = receipt[field]
+        if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
+            raise SystemExit(f"same-tag correction current-public receipt field {field} must be a positive integer")
+    api_digest = receipt["api_digest"]
+    download_digest = receipt["download_sha256"]
+    api_match = re.fullmatch(r"sha256:([0-9a-f]{64})", api_digest) if isinstance(api_digest, str) else None
+    if not api_match or not isinstance(download_digest, str) or not re.fullmatch(r"[0-9a-f]{64}", download_digest):
+        raise SystemExit("same-tag correction current-public receipt has an invalid digest")
+    current_public_digest = api_match.group(1)
+    current_public_bytes = receipt["api_bytes"]
+    if current_public_digest != download_digest or current_public_bytes != receipt["download_bytes"]:
+        raise SystemExit("same-tag correction current-public API and download readbacks disagree")
 
 resolved = subprocess.run(
     ["git", "-C", str(root), "rev-parse", "--verify", f"{release_commit}^{{commit}}"],
@@ -291,13 +358,21 @@ added = "\n".join(
     if line.startswith("+") and not line.startswith("+++")
 )
 if mode == "same-tag-correction":
-    pairs = re.findall(
-        r"(?ims)^[ \t]*-\s+same-tag\s+correction\s+for\s+`v0\.3\.3\.3`\s+"
-        r"`IMPLEMENTAUDIT\.skill`:\s+prematurely\s+published\s+"
-        r"`?([0-9a-f]{64})`?\s*\(([0-9][0-9,]*)\s+bytes?\)\s*(?:→|->)\s*"
-        r"final\s+`?([0-9a-f]{64})`?\s*\(([0-9][0-9,]*)\s+bytes?\)\s*\.?\s*$",
-        added,
+    pair_patterns = (
+        (
+            r"(?ims)^[ \t]*-\s+same-tag\s+correction\s+for\s+`v0\.3\.3\.3`\s+"
+            r"`IMPLEMENTAUDIT\.skill`:\s+prematurely\s+published\s+"
+            r"`?([0-9a-f]{64})`?\s*\(([0-9][0-9,]*)\s+bytes?\)\s*(?:→|->)\s*"
+            r"final\s+`?([0-9a-f]{64})`?\s*\(([0-9][0-9,]*)\s+bytes?\)\s*\.?\s*$"
+        ),
+        (
+            r"(?ims)^[ \t]*-\s+same-tag\s+correction\s+for\s+`v0\.3\.3\.3`\s+"
+            r"`IMPLEMENTAUDIT\.skill`:\s+current\s+public\s+"
+            r"`?([0-9a-f]{64})`?\s*\(([0-9][0-9,]*)\s+bytes?\)\s*(?:→|->)\s*"
+            r"candidate\s+`?([0-9a-f]{64})`?\s*\(([0-9][0-9,]*)\s+bytes?\)\s*\.?\s*$"
+        ),
     )
+    pairs = [pair for pattern in pair_patterns for pair in re.findall(pattern, added)]
 else:
     pairs = re.findall(
         r"(?ims)^[ \t]*-\s+`IMPLEMENTAUDIT\.skill`:\s+superseded\s+"
@@ -311,12 +386,10 @@ superseded_digest, superseded_bytes_text, superseding_digest, superseding_bytes_
 if superseded_digest == superseding_digest:
     raise SystemExit(f"{mode} digest pair must name distinct payloads")
 if mode == "same-tag-correction":
-    expected_digest = "bfe323853fcb814530c9f58e078ef09d4e930419d99005af26c9135f936e3536"
     superseded_bytes = int(superseded_bytes_text.replace(",", ""))
-    if superseded_digest != expected_digest or superseded_bytes != 227995:
+    if superseded_digest != current_public_digest or superseded_bytes != current_public_bytes:
         raise SystemExit(
-            "same-tag correction must supersede the premature v0.3.3.3 "
-            "IMPLEMENTAUDIT.skill digest and 227,995-byte payload"
+            "same-tag correction pair does not match the retained current-public receipt"
         )
 superseding_bytes = int(superseding_bytes_text.replace(",", ""))
 if superseding_digest != candidate_digest or superseding_bytes != candidate_bytes:

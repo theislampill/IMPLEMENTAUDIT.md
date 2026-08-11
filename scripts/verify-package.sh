@@ -21,10 +21,10 @@ if [ "${1:-}" = "--release-identity" ]; then
       shift 5
       ;;
     same-tag-correction)
-      [ "$#" -eq 4 ] \
-        || fail "--release-identity same-tag-correction requires <public-tag> <release-commit>"
-      release_identity_args=("$2" "$3" "$4")
-      shift 4
+      [ "$#" -eq 5 ] \
+        || fail "--release-identity same-tag-correction requires <public-tag> <current-public-receipt> <release-commit>"
+      release_identity_args=("$2" "$3" "$4" "$5")
+      shift 5
       ;;
     forward|republish)
       [ "$#" -eq 4 ] \
