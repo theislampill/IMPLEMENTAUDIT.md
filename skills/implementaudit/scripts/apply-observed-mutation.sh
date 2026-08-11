@@ -38,18 +38,10 @@ run=Path(a.run_root);run=run if run.is_absolute() else R/run
 if not (R.is_dir() and R in run.parents and (run/'.claimed').is_file()):out('REJECTED_NO_MUTATION')
 if not rel(a.target) or not links(T,R) or not T.parent.exists() or not links(T.parent,R):out('REJECTED_NO_MUTATION',cand=early())
 if op=='recover':
- try:
-  j=Path(a.journal).resolve(); rr=run.resolve(); r=json.loads(j.read_text());B=Path(r['backup']).resolve();A=rr/('.r36-authority-'+a.token)
-  ok=(j.parent==rr and j.name=='.r36-journal-'+a.token+'.json' and B.parent==rr and B.name=='.r36-backup-'+a.token and r['target']==a.target and secrets.compare_digest(r['token'],a.token) and B.is_file() and A.is_file() and secrets.compare_digest(hashlib.sha256(A.read_bytes()).hexdigest(),r['authority_hash']) and I(B.read_bytes())==r['pre_identity'])
- except Exception:ok=False
- if not ok:out('REJECTED_NO_MUTATION')
- rs=[B]
- # Only an absent slot or the helper's still-identical candidate is recoverable.
- own=r.get('candidate_identity'); now=raw(T)
- if B.is_file() and (now is None or (own and I(now)==own)):
-  if now is not None: os.unlink(T)
-  os.link(B,T); os.unlink(B); j.unlink(); A.unlink(); out('COMMITTED')
- out('ROLLBACK_CONFLICT',j=j,tok=a.token,res=rs)
+ # Portable same-principal files cannot prove that a caller-created journal is
+ # helper authority. Recovery is therefore owner-gated/manual custody, never
+ # an automatic caller-driven mutation path.
+ out('REJECTED_NO_MUTATION')
 if op=='move' and (not rel(a.destination) or a.destination==a.target or not links(D.parent,R)):out('REJECTED_NO_MUTATION',cand=early())
 pre=raw(a.preimage) if a.preimage else None
 if op in ('replace','delete','move') and pre is None:out('REJECTED_NO_MUTATION',cand=early())
@@ -104,25 +96,25 @@ try:
   except FileExistsError:out('CONFLICT_REBASE',cand=I(pre))
   except OSError:out('UNSUPPORTED_OWNER_DECISION',cand=I(pre))
   out('COMMITTED',cand=I(pre),post=D)
- tok=secrets.token_hex(16);B=run/('.r36-backup-'+tok);J=run/('.r36-journal-'+tok+'.json');A=run/('.r36-authority-'+tok);A.write_bytes(secrets.token_bytes(32))
+ tok=secrets.token_hex(16);B=run/('.r36-backup-'+tok);J=run/('.r36-journal-'+tok+'.json')
  # The journal is durable before the first destructive rename.
  with J.open('w',encoding='utf-8') as jf:
-  json.dump({'token':tok,'target':a.target,'backup':str(B),'pre_identity':I(now),'candidate_identity':I(c) if c is not None else None,'authority_hash':hashlib.sha256(A.read_bytes()).hexdigest()},jf,separators=(',',':'));jf.flush();os.fsync(jf.fileno())
+  json.dump({'token':tok,'target':a.target,'backup':str(B),'pre_identity':I(now),'candidate_identity':I(c) if c is not None else None},jf,separators=(',',':'));jf.flush();os.fsync(jf.fileno())
  os.replace(T,B)
- if fault=='after-displacement':wait('paused');os.link(B,T);B.unlink();J.unlink();A.unlink();out('MUTATION_FAILED_ROLLED_BACK',cand=I(c) if c else None)
- if op=='delete':os.unlink(B);J.unlink();A.unlink();out('COMMITTED')
+ if fault=='after-displacement':wait('paused');os.link(B,T);B.unlink();J.unlink();out('MUTATION_FAILED_ROLLED_BACK',cand=I(c) if c else None)
+ if op=='delete':os.unlink(B);J.unlink();out('COMMITTED')
  S=run/('.r36-stage-'+secrets.token_hex(8));S.write_bytes(c);os.link(S,T);S.unlink()
- if fault=='after-publication':wait('paused');os.unlink(T);os.link(B,T);B.unlink();J.unlink();A.unlink();out('MUTATION_FAILED_ROLLED_BACK',cand=I(c))
+ if fault=='after-publication':wait('paused');os.unlink(T);os.link(B,T);B.unlink();J.unlink();out('MUTATION_FAILED_ROLLED_BACK',cand=I(c))
  if fault=='post-state-mismatch':
   wait('paused');wait('observed-after-external','continue-after-external');
   if reg(T):os.unlink(T)
-  os.link(B,T);B.unlink();J.unlink();A.unlink();out('POST_STATE_MISMATCH_ROLLED_BACK',cand=I(c))
+  os.link(B,T);B.unlink();J.unlink();out('POST_STATE_MISMATCH_ROLLED_BACK',cand=I(c))
  for _ in range(30):
   if raw(T)!=c:break
   time.sleep(.005)
  if raw(T)!=c:
   out('ROLLBACK_CONFLICT',cand=I(c),j=J,tok=tok,res=[B])
- B.unlink();J.unlink();A.unlink();out('COMMITTED',cand=I(c))
+ B.unlink();J.unlink();out('COMMITTED',cand=I(c))
 finally:
  for q in held:
   try:

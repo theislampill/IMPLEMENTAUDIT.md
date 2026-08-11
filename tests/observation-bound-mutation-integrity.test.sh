@@ -639,8 +639,8 @@ Path(j).write_text(json.dumps({'token':t,'target':'target','backup':b,'pre_ident
 PY
   invoke R36-DRIFT-internal-forgery REJECTED_NO_MUTATION recover target - - 45585445524e414c2d57494e4e4552 --journal "$internal_journal" --token "$internal_token"
   assert_hex R36-DRIFT-internal-backup-intact "$internal_backup" 41545441434b; [ -e "$internal_journal" ] || fail 'internal forged journal was consumed'
-  # Correct token is exercised against the recreated winner; it must retain a
-  # residual conflict rather than overwrite the external winner.
+  # Even a correct token is manual/owner-gated custody on portable
+  # same-principal filesystems: this helper never auto-recovers it.
   local recovery_pre recovery_post
   recovery_pre="$(identity_json "$fixture_repo/target")"
   set +e; bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" --operation recover --target target --journal "$journal" --token "$token" >"$tmp/recover.out" 2>"$tmp/recover.err"; actual=$?; set -e
@@ -649,11 +649,11 @@ import json,sys
 print(json.loads(open(sys.argv[1],encoding='utf-8').read())['status'])
 PY
 )"
-  case "$status" in ROLLBACK_CONFLICT|ROLLBACK_FAILED_WITH_RESIDUE|RECOVERY_REQUIRED) ;; *) fail "R36-DRIFT correct-token status $status";; esac
-  [ "$actual" -eq "$(status_exit "$status")" ] || fail 'R36-DRIFT correct-token exit mismatch'
+  [ "$status" = REJECTED_NO_MUTATION ] || fail "R36-DRIFT correct-token status $status"
+  [ "$actual" -eq 64 ] || fail 'R36-DRIFT correct-token exit mismatch'
   recovery_post="$(identity_json "$fixture_repo/target")"
   last_record="$(assert_response R36-DRIFT-correct-token "$status" recover target - '["target"]' "$recovery_pre" null "$recovery_post" "$(post_identities_json target -)" "$(<"$tmp/recover.out")")"
-  assert_retained_recovery_paths
+  [ -e "$journal" ] || fail 'R36-DRIFT owner-gated recovery removed journal'
   assert_hex R36-DRIFT-correct-token-winner "$fixture_repo/target" 45585445524e414c2d57494e4e4552
 }
 
