@@ -11,5 +11,13 @@
   {"id":"R2-F10","window":"open","surface":"curriculum/","change":"curriculum/x.json","expected":"FAIL_DIRECTORY_DESCENDANT"},
   {"id":"R2-F11","window":"open","surface":"missing/declared.txt","change":"delete missing/declared.txt","expected":"FAIL_MISSING_DECLARED"},
   {"id":"R2-F12","window":"open","surface":"curriculum/*.json","change":"curriculum/x.json","expected":"FAIL_GLOB"},
-  {"id":"R2-F13","window":"open","surface":"ignored/declared/**","change":"ignored/not-declared.txt","expected":"PASS_HELD_OUT_DISJOINT"}
+  {"id":"R2-F13","window":"open","surface":"ignored/declared/**","change":"ignored/not-declared.txt","expected":"PASS_HELD_OUT_DISJOINT"},
+  {"id":"R2-F14","window":"closed-equal","surface":"ignored/declared.txt","change":"ignored/declared.txt","expected":"FAIL_CLOSED_EQUAL_IGNORED"},
+  {"id":"R2-F15","window":"closed-historical","surface":"ignored/declared.txt","change":"ignored/declared.txt","expected":"FAIL_CLOSED_HISTORICAL_IGNORED"},
+  {"id":"R2-F16","window":"closed-equal","surface":".IMPLEMENTAUDIT/runs/window/live/declared.txt","change":".IMPLEMENTAUDIT/runs/window/live/declared.txt","expected":"FAIL_CLOSED_EQUAL_RUN_ROOT"},
+  {"id":"R2-F17","window":"closed-historical","surface":".IMPLEMENTAUDIT/runs/window/live/declared.txt","change":".IMPLEMENTAUDIT/runs/window/live/declared.txt","expected":"FAIL_CLOSED_HISTORICAL_RUN_ROOT"},
+  {"id":"R2-F18","window":"open","surface":"ignored/declared.txt","change":"delete ignored/declared.txt","expected":"FAIL_DELETED_IGNORED"},
+  {"id":"R2-F19","window":"open","surface":".IMPLEMENTAUDIT/runs/window/live/declared.txt","change":"delete .IMPLEMENTAUDIT/runs/window/live/declared.txt","expected":"FAIL_DELETED_RUN_ROOT"},
+  {"id":"R2-F20","window":"open","surface":"curriculum/**","change":"enumeration index failure","expected":"FAIL_ENUMERATION_ERROR"},
+  {"id":"R2-F21","window":"closed-equal","surface":"curriculum/**","change":"alter closing identity receipt","expected":"FAIL_CLOSING_RECEIPT_TAMPER"}
 ]

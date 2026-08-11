@@ -460,7 +460,11 @@ with a durable status contract, never awaited inline:
    anchor equals `opened_at` or the complete `opened_at`-to-`closed_at` diff is disjoint
    from `surfaces`. Window intersection uses complete path identities, including ignored
    and .IMPLEMENTAUDIT/ run-root paths, when they are declared surfaces. A disjoint
-   mutation does not freeze the whole repository.
+   mutation does not freeze the whole repository. At open, persist a NUL-delimited
+   `opening_identity_receipt` with its `opening_identity_sha256`; at close, persist a
+   `closing_identity_receipt` with its `closing_identity_sha256`. The checker compares
+   those bound identity populations and fails closed if either receipt is unavailable,
+   altered, or cannot be enumerated.
    Compound shell verification (`git stash`, `git checkout --`, or an
    `&&`-chained restore) is itself a surface mutation: run the check as one
    command and restore state in a separate, separately observed action.

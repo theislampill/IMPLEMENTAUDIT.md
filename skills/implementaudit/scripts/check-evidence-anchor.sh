@@ -275,6 +275,8 @@ PY
     repo_state="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/repo-state.sh"
     "${py_cmd[@]}" - "$intent" "$now" "$repo_state" "$BASH" <<'PY'
 import fnmatch
+import hashlib
+import os
 import re
 import subprocess
 import sys
@@ -319,6 +321,58 @@ def window_changed_paths(opened):
         fail(f"complete window changed-files enumeration returned a non-UTF-8 path for {opened}")
 
 
+def window_identity_paths():
+    identities = subprocess.run(
+        [bash_exe, repo_state, "window-identities", "--null"],
+        capture_output=True,
+        check=False,
+    )
+    if identities.returncode != 0:
+        fail(f"complete window identity enumeration failed: {identities.stderr.decode(errors='replace').strip()}")
+    try:
+        candidates = {
+            normalize_surface(part.decode("utf-8"))
+            for part in identities.stdout.split(b"\0")
+            if part
+        }
+    except UnicodeDecodeError:
+        fail("complete window identity enumeration returned a non-UTF-8 path")
+    return {
+        path for path in candidates
+        if os.path.lexists(os.path.join(repo_root, path))
+    }
+
+
+def receipt_paths(receipt_name, expected_digest, label):
+    receipt = Path(receipt_name)
+    if (not receipt_name or receipt.is_absolute() or ".." in receipt.parts
+            or receipt_name.startswith("/") or re.match(r"^[A-Za-z]:", receipt_name)):
+        fail(f"verification window {label} identity receipt is unsafe: {receipt_name}")
+    receipt_path = intent_path.parent / receipt
+    if not receipt_path.is_file() or receipt_path.is_symlink():
+        fail(f"verification window {label} identity receipt is not a regular file: {receipt_path}")
+    if not re.fullmatch(r"[0-9a-f]{64}", expected_digest):
+        fail(f"verification window {label} identity receipt digest is invalid")
+    payload = receipt_path.read_bytes()
+    if hashlib.sha256(payload).hexdigest() != expected_digest:
+        fail(f"verification window {label} identity receipt digest does not match")
+    try:
+        return {
+            normalize_surface(part.decode("utf-8"))
+            for part in payload.split(b"\0")
+            if part
+        }
+    except UnicodeDecodeError:
+        fail(f"verification window {label} identity receipt contains a non-UTF-8 path")
+
+
+def intersecting_paths(paths, surfaces):
+    return sorted(
+        path for path in paths
+        if any(surface_matches(path, surface) for surface in surfaces)
+    )
+
+
 if not sha_re.fullmatch(now):
     fail("--now must be a full 40-hex SHA")
 
@@ -345,7 +399,10 @@ for raw in text.splitlines():
         current = {"surfaces": surfaces}
         windows.append(current)
         continue
-    match = re.match(r"^\s*(opened_at|closed_at|chain|state):\s*(.*?)\s*$", raw)
+    match = re.match(
+        r"^\s*(opened_at|closed_at|chain|state|opening_identity_receipt|opening_identity_sha256|closing_identity_receipt|closing_identity_sha256):\s*(.*?)\s*$",
+        raw,
+    )
     if match and current is not None:
         current[match.group(1)] = match.group(2).strip().strip("'\"`")
 
@@ -360,6 +417,14 @@ if head.returncode != 0:
 head_sha = head.stdout.strip()
 if head_sha != now:
     fail(f"--now {now} does not equal current HEAD {head_sha}")
+repo_root = subprocess.run(
+    ["git", "rev-parse", "--show-toplevel"],
+    text=True,
+    capture_output=True,
+    check=False,
+).stdout.strip()
+if not repo_root:
+    fail("--window cannot resolve the current repository root")
 
 open_moved = []
 for index, window in enumerate(windows, 1):
@@ -368,7 +433,9 @@ for index, window in enumerate(windows, 1):
     closed = window.get("closed_at", "")
     state = window.get("state", "")
     chain = window.get("chain", "")
-    if not surfaces or not chain or state not in {"open", "closed"}:
+    opening_receipt = window.get("opening_identity_receipt", "")
+    opening_digest = window.get("opening_identity_sha256", "")
+    if not surfaces or not chain or state not in {"open", "closed"} or not opening_receipt or not opening_digest:
         fail(f"verification_window entry {index} is incomplete or invalid")
     if not sha_re.fullmatch(opened):
         fail(f"verification_window entry {index} opened_at must be a full 40-hex SHA")
@@ -382,6 +449,7 @@ for index, window in enumerate(windows, 1):
         fail(f"verification_window entry {index} opened_at is not a local commit: {opened}")
     if Path(intent_path).parent.name != chain:
         fail(f"verification_window entry {index} chain does not match its directory: {chain}")
+    opening_paths = receipt_paths(opening_receipt, opening_digest, "opening")
     if state == "closed":
         marker = intent_path.parent / "chain.done"
         if not marker.is_file():
@@ -396,10 +464,14 @@ for index, window in enumerate(windows, 1):
         )
         if verify_closed.returncode != 0:
             fail(f"verification_window entry {index} closed_at is not a local commit: {closed}")
-        if closed == opened:
-            continue
+        closing_receipt = window.get("closing_identity_receipt", "")
+        closing_digest = window.get("closing_identity_sha256", "")
+        if not closing_receipt or not closing_digest:
+            fail(f"verification_window entry {index} is closed without a closing identity receipt")
+        recorded_closing_paths = receipt_paths(closing_receipt, closing_digest, "closing")
         if closed == now:
             changed_paths = window_changed_paths(opened)
+            closing_paths = window_identity_paths()
         else:
             changed = subprocess.run(
                 ["git", "diff", "--name-only", opened, closed],
@@ -410,10 +482,10 @@ for index, window in enumerate(windows, 1):
             if changed.returncode != 0:
                 fail(f"closing diff enumeration failed for {opened}..{closed}: {changed.stderr.strip()}")
             changed_paths = [line for line in changed.stdout.splitlines() if line]
-        intersecting = sorted(
-            path
-            for path in changed_paths
-            if any(surface_matches(path, surface) for surface in surfaces)
+            closing_paths = recorded_closing_paths
+        intersecting = intersecting_paths(
+            set(changed_paths) | (closing_paths - opening_paths) | (opening_paths - closing_paths),
+            surfaces,
         )
         if intersecting:
             fail(
@@ -423,10 +495,10 @@ for index, window in enumerate(windows, 1):
             )
         continue
     changed_paths = window_changed_paths(opened)
-    intersecting = sorted(
-        path
-        for path in changed_paths
-        if any(surface_matches(path, surface) for surface in surfaces)
+    current_paths = window_identity_paths()
+    intersecting = intersecting_paths(
+        set(changed_paths) | (current_paths - opening_paths) | (opening_paths - current_paths),
+        surfaces,
     )
     if intersecting:
         fail(

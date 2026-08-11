@@ -113,9 +113,25 @@ cmd_window_changed_files() {
     # current path identity that can intersect a declared surface. In
     # particular, ignored files and .IMPLEMENTAUDIT/ run-root files are live
     # surfaces when explicitly declared by an open window.
-    git diff --name-only -z "$baseline" 2>/dev/null || true
-    git ls-files --others --exclude-standard -z 2>/dev/null || true
-    git ls-files --others --ignored --exclude-standard -z 2>/dev/null || true
+    git diff --name-only -z "$baseline" || return $?
+    git ls-files --others --exclude-standard -z || return $?
+    git ls-files --others --ignored --exclude-standard -z || return $?
+  fi
+}
+
+cmd_window_identities() {
+  local format="$1"
+  [ "$format" = "--null" ] || {
+    printf 'usage: repo-state.sh window-identities --null\n' >&2
+    return 2
+  }
+  if in_git_repo; then
+    # This is the opening/closing receipt population for verification windows.
+    # Do not inherit changed-files exclusions: explicitly declared ignored and
+    # run-root paths are live window identities.
+    git ls-files -z || return $?
+    git ls-files --others --exclude-standard -z || return $?
+    git ls-files --others --ignored --exclude-standard -z || return $?
   fi
 }
 
@@ -399,6 +415,13 @@ case "$subcommand" in
     }
     cmd_window_changed_files "$1" "$2"
     ;;
+  window-identities)
+    [ "$#" -eq 1 ] || {
+      printf 'usage: repo-state.sh window-identities --null\n' >&2
+      exit 2
+    }
+    cmd_window_identities "$1"
+    ;;
   added-lines)
     [ "$#" -ge 1 ] || {
       printf 'usage: repo-state.sh added-lines <baseline>\n' >&2
@@ -413,6 +436,7 @@ repo-state.sh - evaluate complete working-tree state vs a baseline commit.
   repo-state.sh deliverable   <baseline> <path>
   repo-state.sh changed-files <baseline>
   repo-state.sh window-changed-files --null <baseline>
+  repo-state.sh window-identities --null
   repo-state.sh added-lines   <baseline>
   repo-state.sh commit-message <message-file> [--ledger-linked]
   repo-state.sh ignored-artifact <source|package|release> <artifact> <published-digest-record> <authority-baseline>
