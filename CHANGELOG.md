@@ -29,7 +29,7 @@ schema evidence proved four-component plugin manifest versions are accepted.
   corrective package identity; it is not retroactively present in the
   227,995-byte `v0.3.3.3` archive.
 
-## [v0.3.3.3] - 2026-08-10
+## [v0.3.3.3] - 2026-08-11
 
 This corrective milestone uses public project identity `v0.3.3.3` while the
 host-facing plugin and runtime version remains `0.3.3`. The fourth component
