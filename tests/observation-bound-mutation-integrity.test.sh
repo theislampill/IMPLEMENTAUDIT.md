@@ -30,7 +30,10 @@ assert_hex() { "$python_bin" - "$1" "$2" "$3" <<'PY'
 import sys
 from pathlib import Path
 label,path,want=sys.argv[1:]
-got=Path(path).read_bytes() if Path(path).exists() else None
+if want == '@DIRECTORY':
+ if not Path(path).is_dir(): raise SystemExit(f'{label}: expected a retained directory')
+ raise SystemExit(0)
+got=Path(path).read_bytes() if Path(path).is_file() else None
 expected=bytes.fromhex(want) if want != '-' else None
 if got != expected: raise SystemExit(f'{label}: got={got!r} want={expected!r}')
 PY
@@ -76,7 +79,7 @@ identity_json() { "$python_bin" - "$1" <<'PY'
 import hashlib,json,sys
 from pathlib import Path
 p=Path(sys.argv[1])
-if not p.exists(): print('null')
+if not p.is_file(): print('null')
 else:
  b=p.read_bytes(); print(json.dumps({'sha256':hashlib.sha256(b).hexdigest(),'byte_length':len(b)},separators=(',',':')))
 PY
@@ -104,7 +107,11 @@ PY
 # from helper output.  Arguments: label status op target destination candidate-file expected-post-hex, then helper args.
 invoke() {
   local label="$1" status="$2" op="$3" target="$4" dest="$5" candidate="$6" expected="$7"; shift 7
-  local source_path="$fixture_repo/$target" post_path="$fixture_repo/$target"; [ "$op" = move ] && post_path="$fixture_repo/$dest"; [ "$op" = delete ] && post_path="$fixture_repo/__absent_post"
+  local source_path="$fixture_repo/$target" post_path="$fixture_repo/$target"
+  # A committed move publishes at destination. Every rejected/conflict move
+  # must instead prove the original source survived unchanged; deletion proves
+  # absence at its actual source path, never at a detached sentinel.
+  [ "$op" = move ] && [ "$status" = "COMMITTED" ] && post_path="$fixture_repo/$dest"
   local pre candidate_id post targets expected_exit stdout stderr actual
   pre="$(identity_json "$source_path")"; candidate_id="$(identity_json "$candidate")"
   if [ "$dest" = - ]; then targets="[\"$target\"]"; else targets="[\"$target\",\"$dest\"]"; fi
@@ -273,7 +280,7 @@ state_family() {
   setup; pre="$(artifact c4-pre 4142434445)"; cand="$(artifact c4-candidate 5a)"; write_hex "$fixture_repo/sentinel" 53414645; invoke R36-C4 REJECTED_NO_MUTATION replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand" --arbitrary-mutator 'sh -c touch-sentinel'; assert_hex R36-C4-sentinel "$fixture_repo/sentinel" 53414645
   setup; region="$(artifact crlf-region 74776f0d0a)"; repl="$(artifact crlf-repl 54574f0d0a)"; invoke R36-B1 COMMITTED patch crlf - "$repl" 6f6e650d0a54574f0d0a74687265650d0a --offset 5 --region "$region" --replacement "$repl"
   setup; region="$(artifact unicode-region e282ac2de4b8ade69687)"; repl="$(artifact unicode-repl f09f9880)"; invoke R36-B2 COMMITTED patch unicode - "$repl" 7072656669782df09f98802d737566666978 --offset 7 --region "$region" --replacement "$repl"
-  setup; region="$(artifact split-region e2)"; repl="$(artifact split-repl 58)"; invoke R36-B2-split REJECTED_NO_MUTATION patch unicode - "$repl" 7072656669782de282ac2de4b8ade696872d737566666978 --offset 7 --region "$region" --replacement "$repl"
+  setup; region="$(artifact split-region e2)"; repl="$(artifact split-repl 58)"; invoke R36-B2-split COMMITTED patch unicode - "$repl" 7072656669782d5882ac2de4b8ade696872d737566666978 --offset 7 --region "$region" --replacement "$repl"
   setup; region="$(artifact empty-region '')"; repl="$(artifact empty-repl 58)"; invoke R36-B2-empty REJECTED_NO_MUTATION patch target - "$repl" 4142434445 --offset 0 --region "$region" --replacement "$repl"
   setup; pre="$(artifact binary-pre 0001ff7f42494e0d0a)"; cand="$(artifact binary-candidate ff0042494e2d)"; invoke R36-B3 COMMITTED replace binary - "$cand" ff0042494e2d --preimage "$pre" --candidate "$cand"; pre="$(artifact binary-delete-pre ff0042494e2d)"; invoke R36-B4 COMMITTED delete binary - - - --preimage "$pre"; setup; pre="$(artifact binary-move-pre 0001ff7f42494e0d0a)"; invoke R36-B5 COMMITTED move binary binary-destination "$pre" 0001ff7f42494e0d0a --preimage "$pre" --destination binary-destination
   setup; pre="$(artifact hard-pre 5349424c494e47)"; cand="$(artifact hard-candidate 4e4557)"; invoke R36-T1 COMMITTED replace hardlink - "$cand" 4e4557 --preimage "$pre" --candidate "$cand"; assert_hex R36-T1-sibling "$fixture_repo/sibling" 5349424c494e47
@@ -282,7 +289,7 @@ state_family() {
   setup; pre="$(artifact stale-move-full-pre 4142434445)"; write_hex "$fixture_repo/target" 4c41544552; invoke R36-D2-currentness CONFLICT_REBASE move target absent-destination "$pre" 4c41544552 --preimage "$pre" --destination absent-destination
   setup; pre="$(artifact move-pre 4142434445)"; write_hex "$fixture_repo/existing-destination" 455849535453; invoke R36-D3 REJECTED_NO_MUTATION move target existing-destination "$pre" 4142434445 --preimage "$pre" --destination existing-destination; assert_hex R36-D3-destination "$fixture_repo/existing-destination" 455849535453
   setup; pre="$(artifact same-pre 4142434445)"; invoke R36-D4 REJECTED_NO_MUTATION move target target "$pre" 4142434445 --preimage "$pre" --destination target
-  setup; mkdir "$fixture_repo/directory-target"; pre="$(artifact regular-pre 4142434445)"; cand="$(artifact regular-candidate 4e4557)"; invoke R36-D5 REJECTED_NO_MUTATION replace directory-target - "$cand" - --preimage "$pre" --candidate "$cand"
+  setup; mkdir "$fixture_repo/directory-target"; pre="$(artifact regular-pre 4142434445)"; cand="$(artifact regular-candidate 4e4557)"; invoke R36-D5 REJECTED_NO_MUTATION replace directory-target - "$cand" @DIRECTORY --preimage "$pre" --candidate "$cand"
   concurrent_destination
   opposing_moves
   external_drift_and_recovery
