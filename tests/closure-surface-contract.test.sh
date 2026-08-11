@@ -63,12 +63,15 @@ EOF
 }
 
 external_composition_controls() {
-  local root="$1" work="$1/records" operator="$1/operator" output failures=0
+  local root="$1" work="$1/records" candidate="$1/candidate" operator="$1/operator"
+  local output failures=0 candidate_native operator_native transport nested_transport
   local grant_sha wrong_grant_sha digest_file_sha public_sha qualification_sha
   local qualified_commit qualified_tree asset_size asset_digest fake_commit fake_tree
-  local release_url asset_url download_url case_sha trusted_path
+  local release_url asset_url download_url case_sha
 
-  mkdir -p "$work" "$operator/bin" "$operator/source"
+  mkdir -p "$work" "$candidate/repository" "$operator/bin" "$operator/source"
+  candidate_native="$(cd "$candidate" && { pwd -W 2>/dev/null || pwd; })"
+  operator_native="$(cd "$operator" && { pwd -W 2>/dev/null || pwd; })"
 
   expect_composed_fail() {
     local file="$1" expected="$2" false_green="$3"
@@ -129,17 +132,16 @@ EOF
     'check-closure-surface: claim hosted-local-only: hosted release asset requires release/tag/asset/qualification/public-readback identity' \
     'hosted release asset passed on a local digest file alone'
 
-  mkdir "$work/qualified-repository"
-  git -C "$work/qualified-repository" init -q
-  printf '%s\n' 'qualified source tree' > "$work/qualified-repository/source.txt"
-  git -C "$work/qualified-repository" add source.txt
-  git -C "$work/qualified-repository" -c user.name=Fixture \
+  git -C "$candidate/repository" init -q
+  printf '%s\n' 'qualified source tree' > "$candidate/repository/source.txt"
+  git -C "$candidate/repository" add source.txt
+  git -C "$candidate/repository" -c user.name=Fixture \
     -c user.email=fixture@example.invalid commit -q -m fixture
-  qualified_commit="$(git -C "$work/qualified-repository" rev-parse HEAD)"
-  qualified_tree="$(git -C "$work/qualified-repository" rev-parse 'HEAD^{tree}')"
-  printf '%s' 'qualified release asset bytes' > "$work/qualified-package.skill"
-  asset_size="$(wc -c < "$work/qualified-package.skill" | tr -d ' ')"
-  asset_digest="$(sha256sum "$work/qualified-package.skill" | awk '{print $1}')"
+  qualified_commit="$(git -C "$candidate/repository" rev-parse HEAD)"
+  qualified_tree="$(git -C "$candidate/repository" rev-parse 'HEAD^{tree}')"
+  printf '%s' 'qualified release asset bytes' > "$candidate/qualified-package.skill"
+  asset_size="$(wc -c < "$candidate/qualified-package.skill" | tr -d ' ')"
+  asset_digest="$(sha256sum "$candidate/qualified-package.skill" | awk '{print $1}')"
   release_url='https://api.github.com/repos/acme/example/releases/R_test'
   asset_url='https://api.github.com/repos/acme/example/releases/assets/A_test'
   download_url='https://github.com/acme/example/releases/download/v9.9.9/IMPLEMENTAUDIT.skill'
@@ -162,6 +164,7 @@ elif [[ "$url" == https://github.com/acme/example/releases/download/*/IMPLEMENTA
   case "${CAPTURE_ASSET_MODE:-good}" in
     good) cat "$CAPTURE_ASSET_SOURCE" ;;
     wrong) printf '%s' 'unrelated copied bytes' ;;
+    oversized) cat "$CAPTURE_OVERSIZE_SOURCE" ;;
     missing) exit 22 ;;
   esac
 else
@@ -169,21 +172,55 @@ else
 fi
 EOF
   chmod +x "$operator/bin/curl"
-  export PATH="$operator/bin:$PATH"
-  trusted_path="$PATH"
-  export CAPTURE_LOG="$operator/capture.log"
-  export CAPTURE_RELEASE_SOURCE="$operator/source/release.json"
-  export CAPTURE_ASSET_SOURCE="$operator/source/asset.skill"
+  cat > "$operator/bin/curl.cmd" <<'EOF'
+@echo off
+setlocal EnableExtensions
+set "url="
+:next
+if "%~1"=="" goto route
+set "url=%~1"
+shift
+goto next
+:route
+>>"%CAPTURE_LOG%" echo %url%
+echo(%url%| findstr /B /C:"https://github.com/acme/example/releases/download/" >nul
+if not errorlevel 1 goto asset
+echo(%url%| findstr /B /C:"https://api.github.com/repos/acme/example/releases/" >nul
+if not errorlevel 1 goto release
+exit /b 22
+:release
+powershell.exe -NoLogo -NoProfile -NonInteractive -Command "$b=[IO.File]::ReadAllBytes($env:CAPTURE_RELEASE_SOURCE);[Console]::OpenStandardOutput().Write($b,0,$b.Length)"
+exit /b %errorlevel%
+:asset
+if "%CAPTURE_ASSET_MODE%"=="missing" exit /b 22
+if "%CAPTURE_ASSET_MODE%"=="wrong" (<nul set /p="unrelated copied bytes" & exit /b 0)
+if "%CAPTURE_ASSET_MODE%"=="oversized" (powershell.exe -NoLogo -NoProfile -NonInteractive -Command "$b=[IO.File]::ReadAllBytes($env:CAPTURE_OVERSIZE_SOURCE);[Console]::OpenStandardOutput().Write($b,0,$b.Length)" & exit /b 0)
+<nul set /p="qualified release asset bytes"
+exit /b 0
+EOF
+  head -c 1048577 /dev/zero > "$operator/source/oversized.skill"
+  case "$(uname -s)" in
+    MINGW*|MSYS*) transport="$operator_native/bin/curl.cmd" ;;
+    *) transport="$operator_native/bin/curl" ;;
+  esac
+  export IMPLEMENTAUDIT_PUBLIC_CAPTURE_TRANSPORT="$transport"
+  export CAPTURE_LOG="$operator_native/capture.log"
+  export CAPTURE_RELEASE_SOURCE="$operator_native/source/release.json"
+  export CAPTURE_ASSET_SOURCE="$operator_native/source/asset.skill"
+  export CAPTURE_OVERSIZE_SOURCE="$operator_native/source/oversized.skill"
 
   printf '%s\n' \
-    "{\"qualified_commit\":\"$qualified_commit\",\"qualified_tree\":\"$qualified_tree\",\"package_name\":\"IMPLEMENTAUDIT.skill\",\"package_size\":$asset_size,\"package_digest\":\"$asset_digest\"}" \
-    > "$work/qualification.json"
-  qualification_sha="$(sha256sum "$work/qualification.json" | awk '{print $1}')"
+    "{\"candidate_root\":\"$candidate_native\",\"qualified_commit\":\"$qualified_commit\",\"qualified_tree\":\"$qualified_tree\",\"package_name\":\"IMPLEMENTAUDIT.skill\",\"package_size\":$asset_size,\"package_digest\":\"$asset_digest\"}" \
+    > "$operator/source/qualification.json"
+  qualification_sha="$(sha256sum "$operator/source/qualification.json" | awk '{print $1}')"
+  export IMPLEMENTAUDIT_QUALIFICATION_RECORD="$operator_native/source/qualification.json"
 
   # This is the former false pass: caller-authored JSON plus copied local
   # bytes, even with real Git objects, must not satisfy public capture.
   cp "$operator/source/release.json" "$work/preauthored-readback.json"
-  cp "$work/qualified-package.skill" "$work/copied-asset.skill"
+  cp "$candidate/qualified-package.skill" "$work/qualified-package.skill"
+  cp "$candidate/qualified-package.skill" "$work/copied-asset.skill"
+  cp -R "$candidate/repository" "$work/qualified-repository"
   cat > "$work/preauthored-copied.md" <<EOF
 claim: hosted-release | surface: publication | publication-kind: hosted-release-asset | status: verified | evidence-surface: publication | evidence-digest: $asset_digest
 publication-identity: hosted-release | publication-kind: hosted-release-asset | release-id: R_test | tag: v9.9.9 | asset-id: A_test | asset-name: IMPLEMENTAUDIT.skill | asset-size: $asset_size | asset-digest: $asset_digest | qualified-repository: qualified-repository | qualified-commit: $qualified_commit | qualified-tree: $qualified_tree | qualified-package-file: qualified-package.skill | release-url: $release_url | asset-url: $asset_url | download-url: $download_url | public-readback-file: preauthored-readback.json | public-readback-sha256: $public_sha | downloaded-asset-file: copied-asset.skill | disposition: verified
@@ -194,7 +231,7 @@ EOF
 
   cat > "$work/hosted-release-PASS.md" <<EOF
 claim: hosted-release | surface: publication | publication-kind: hosted-release-asset | status: verified | evidence-surface: publication | evidence-digest: $asset_digest
-publication-identity: hosted-release | publication-kind: hosted-release-asset | release-id: R_test | tag: v9.9.9 | asset-id: A_test | asset-name: IMPLEMENTAUDIT.skill | asset-size: $asset_size | asset-digest: $asset_digest | qualified-repository: qualified-repository | qualified-commit: $qualified_commit | qualified-tree: $qualified_tree | qualified-package-file: qualified-package.skill | qualification-record-file: qualification.json | qualification-record-sha256: $qualification_sha | release-url: $release_url | asset-url: $asset_url | download-url: $download_url | public-readback-sha256: $public_sha | disposition: verified
+publication-identity: hosted-release | publication-kind: hosted-release-asset | release-id: R_test | tag: v9.9.9 | asset-id: A_test | asset-name: IMPLEMENTAUDIT.skill | asset-size: $asset_size | asset-digest: $asset_digest | candidate-root: $candidate_native | qualified-repository: repository | qualified-commit: $qualified_commit | qualified-tree: $qualified_tree | qualified-package-file: qualified-package.skill | qualification-record-sha256: $qualification_sha | release-url: $release_url | asset-url: $asset_url | download-url: $download_url | public-readback-sha256: $public_sha | disposition: verified
 EOF
   if ! output="$(bash "$scorer" "$work/hosted-release-PASS.md" 2>&1)"; then
     printf 'closure-surface-contract: hosted release identity expected PASS; got %s\n' \
@@ -202,25 +239,30 @@ EOF
     failures=$((failures + 1))
   fi
 
-  mkdir "$work/candidate-bin"
-  cp "$operator/bin/curl" "$work/candidate-bin/curl"
-  chmod +x "$work/candidate-bin/curl"
-  PATH="$work/candidate-bin:$trusted_path"
+  mkdir "$candidate/bin"
+  cp "$operator/bin/curl" "$candidate/bin/curl"
+  cp "$operator/bin/curl.cmd" "$candidate/bin/curl.cmd"
+  chmod +x "$candidate/bin/curl"
+  case "$(uname -s)" in
+    MINGW*|MSYS*) nested_transport="$candidate_native/bin/curl.cmd" ;;
+    *) nested_transport="$candidate_native/bin/curl" ;;
+  esac
+  IMPLEMENTAUDIT_PUBLIC_CAPTURE_TRANSPORT="$nested_transport"
   expect_composed_fail "$work/hosted-release-PASS.md" \
-    'check-closure-surface: claim hosted-release: public capture transport must be outside the evaluated record tree' \
-    'candidate-controlled PATH transport satisfied public capture'
-  PATH="$trusted_path"
+    'check-closure-surface: claim hosted-release: public capture transport must be outside the declared candidate root' \
+    'candidate-controlled transport satisfied public capture'
+  IMPLEMENTAUDIT_PUBLIC_CAPTURE_TRANSPORT="$transport"
 
   sed 's/{"release_id":"R_test"/{"release_id":"R_other","release_id":"R_test"/' \
     "$operator/source/release.json" > "$operator/source/duplicate-release.json"
   case_sha="$(sha256sum "$operator/source/duplicate-release.json" | awk '{print $1}')"
   sed "s/public-readback-sha256: $public_sha/public-readback-sha256: $case_sha/" \
     "$work/hosted-release-PASS.md" > "$work/hosted-duplicate-readback.md"
-  CAPTURE_RELEASE_SOURCE="$operator/source/duplicate-release.json"
+  CAPTURE_RELEASE_SOURCE="$operator_native/source/duplicate-release.json"
   expect_composed_fail "$work/hosted-duplicate-readback.md" \
     'check-closure-surface: claim hosted-release: public readback is not valid unique-key UTF-8 JSON' \
     'duplicate-key public JSON satisfied captured readback'
-  CAPTURE_RELEASE_SOURCE="$operator/source/release.json"
+  CAPTURE_RELEASE_SOURCE="$operator_native/source/release.json"
 
   sed -e 's/asset-id: A_test/asset-id: A_other/' \
     -e 's|/assets/A_test|/assets/A_other|' \
@@ -257,6 +299,12 @@ EOF
     'wrong downloaded asset bytes were accepted'
   unset CAPTURE_ASSET_MODE
 
+  export CAPTURE_ASSET_MODE=oversized
+  expect_composed_fail "$work/hosted-release-PASS.md" \
+    'check-closure-surface: claim hosted-release: captured public asset exceeds 1048576 bytes' \
+    '1,048,577-byte public asset capture was accepted'
+  unset CAPTURE_ASSET_MODE
+
   sed "s/asset-size: $asset_size/asset-size: 999/" \
     "$work/hosted-release-PASS.md" > "$work/hosted-wrong-size.md"
   expect_composed_fail "$work/hosted-wrong-size.md" \
@@ -290,14 +338,15 @@ EOF
     'wrong hosted tag was accepted'
 
   sed "s/\"package_digest\":\"$asset_digest\"/\"package_digest\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"/" \
-    "$work/qualification.json" > "$work/unbound-qualification.json"
-  case_sha="$(sha256sum "$work/unbound-qualification.json" | awk '{print $1}')"
-  sed -e 's/qualification-record-file: qualification.json/qualification-record-file: unbound-qualification.json/' \
-    -e "s/qualification-record-sha256: $qualification_sha/qualification-record-sha256: $case_sha/" \
+    "$operator/source/qualification.json" > "$operator/source/unbound-qualification.json"
+  case_sha="$(sha256sum "$operator/source/unbound-qualification.json" | awk '{print $1}')"
+  sed -e "s/qualification-record-sha256: $qualification_sha/qualification-record-sha256: $case_sha/" \
     "$work/hosted-release-PASS.md" > "$work/hosted-unbound-qualification.md"
+  IMPLEMENTAUDIT_QUALIFICATION_RECORD="$operator_native/source/unbound-qualification.json"
   expect_composed_fail "$work/hosted-unbound-qualification.md" \
     'check-closure-surface: claim hosted-release: qualification record does not bind commit/tree/package identity' \
     'unbound qualification record satisfied hosted publication'
+  IMPLEMENTAUDIT_QUALIFICATION_RECORD="$operator_native/source/qualification.json"
 
   [ "$failures" -eq 0 ] || fail "$failures external composition control(s) failed"
 }

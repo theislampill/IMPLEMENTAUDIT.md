@@ -575,10 +575,11 @@ if grep -Eq '^claim:.*\|[[:space:]]*surface:[[:space:]]*publication([[:space:]]*
   if ! publication_error="$("${py_cmd[@]}" - "$file" <<'PY'
 import hashlib
 import json
+import os
 import re
-import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 record = Path(sys.argv[1]).resolve()
@@ -652,10 +653,10 @@ local_identity = {
 }
 hosted_fields = (
     "publication-kind", "release-id", "tag", "asset-id", "asset-name",
-    "asset-size", "asset-digest", "qualified-repository", "qualified-commit",
-    "qualified-tree", "qualified-package-file", "qualification-record-file",
-    "qualification-record-sha256", "release-url", "asset-url", "download-url",
-    "public-readback-sha256", "disposition",
+    "asset-size", "asset-digest", "candidate-root", "qualified-repository",
+    "qualified-commit", "qualified-tree", "qualified-package-file",
+    "qualification-record-sha256", "release-url", "asset-url",
+    "download-url", "public-readback-sha256", "disposition",
 )
 hosted_identity = {"publication-identity", *hosted_fields}
 for claim_id, claim in claims.items():
@@ -682,17 +683,27 @@ for claim_id, claim in claims.items():
         if any(not re.fullmatch(r"(?:[0-9a-f]{40}|[0-9a-f]{64})", identity[key]) for key in ("qualified-commit", "qualified-tree")):
             die(f"claim {claim_id}: qualified commit or tree identity is malformed")
 
-        def contained(key, label, directory=False, suffix=""):
+        candidate_arg = Path(identity["candidate-root"])
+        if not candidate_arg.is_absolute() or candidate_arg.is_symlink():
+            die(f"claim {claim_id}: candidate-root must be an absolute non-symlink directory")
+        try:
+            candidate_root = candidate_arg.resolve(strict=True)
+        except OSError:
+            die(f"claim {claim_id}: candidate-root does not resolve")
+        if not candidate_root.is_dir():
+            die(f"claim {claim_id}: candidate-root is not a directory")
+
+        def candidate_path(key, label, directory=False):
             name = identity[key]
             noun = "directory" if directory else "file"
-            if not name or Path(name).name != name or "/" in name or "\\" in name or (suffix and not name.endswith(suffix)):
+            if not name or Path(name).name != name or "/" in name or "\\" in name:
                 die(f"claim {claim_id}: {key} must be a contained bare {noun}")
-            path = base / name
+            path = candidate_root / name
             if path.is_symlink() or not (path.is_dir() if directory else path.is_file()):
                 die(f"claim {claim_id}: {label} is missing or not a regular contained {noun}")
             return path
 
-        repository = contained("qualified-repository", "qualified repository", True)
+        repository = candidate_path("qualified-repository", "qualified repository", True)
         git_command = ["git", "--no-replace-objects", "-C", str(repository), "rev-parse"]
         commit = identity["qualified-commit"]
         resolved = subprocess.run(
@@ -709,7 +720,7 @@ for claim_id, claim in claims.items():
                 f"does not match commit tree '{actual_tree}'"
             )
 
-        package_file = contained("qualified-package-file", "qualified package")
+        package_file = candidate_path("qualified-package-file", "qualified package")
         package_data = package_file.read_bytes()
         measured_size = len(package_data)
         measured_digest = hashlib.sha256(package_data).hexdigest()
@@ -720,7 +731,27 @@ for claim_id, claim in claims.items():
             )
         if identity["asset-digest"] != measured_digest:
             die(f"claim {claim_id}: asset-digest does not match measured digest '{measured_digest}'")
-        qualification = contained("qualification-record-file", "qualification record", suffix=".json")
+        qualification_name = os.environ.get("IMPLEMENTAUDIT_QUALIFICATION_RECORD", "")
+        qualification_arg = Path(qualification_name)
+        if not qualification_arg.is_absolute() or qualification_arg.suffix != ".json":
+            die(f"claim {claim_id}: authority qualification record must be an absolute JSON path")
+        try:
+            qualification = qualification_arg.resolve(strict=True)
+            qualification.relative_to(candidate_root)
+        except ValueError:
+            pass
+        except OSError:
+            die(f"claim {claim_id}: authority qualification record does not resolve")
+        else:
+            die(f"claim {claim_id}: qualification record must be outside the declared candidate root")
+        try:
+            qualification.relative_to(base)
+        except ValueError:
+            pass
+        else:
+            die(f"claim {claim_id}: qualification record must be outside the evaluated record tree")
+        if qualification_arg.is_symlink() or not qualification.is_file():
+            die(f"claim {claim_id}: authority qualification record is not a regular file")
         qualification_data = qualification.read_bytes()
         qualification_sha = identity["qualification-record-sha256"]
         if not sha_re.fullmatch(qualification_sha) or hashlib.sha256(qualification_data).hexdigest() != qualification_sha:
@@ -734,6 +765,7 @@ for claim_id, claim in claims.items():
         except (UnicodeDecodeError, json.JSONDecodeError, ValueError):
             die(f"claim {claim_id}: qualification record is not valid unique-key UTF-8 JSON")
         expected_qualification = {
+            "candidate_root": identity["candidate-root"],
             "qualified_commit": commit, "qualified_tree": actual_tree,
             "package_name": asset_name, "package_size": measured_size,
             "package_digest": measured_digest,
@@ -761,35 +793,48 @@ for claim_id, claim in claims.items():
         if identity["download-url"] != expected_download_url:
             die(f"claim {claim_id}: download-url does not bind repository, tag, and asset-name")
 
-        curl_name = shutil.which("curl")
-        if not curl_name:
-            die(f"claim {claim_id}: checker-controlled public capture transport is unavailable")
+        transport_name = os.environ.get("IMPLEMENTAUDIT_PUBLIC_CAPTURE_TRANSPORT", "")
+        if transport_name:
+            transport_arg = Path(transport_name)
+            if not transport_arg.is_absolute():
+                die(f"claim {claim_id}: authority capture transport must be absolute")
+        else:
+            defaults = ([Path(r"C:\Windows\System32\curl.exe")] if os.name == "nt"
+                        else [Path("/usr/bin/curl"), Path("/usr/local/bin/curl")])
+            transport_arg = next((path for path in defaults if path.is_file()), None)
+            if transport_arg is None:
+                die(f"claim {claim_id}: checker-controlled public capture transport is unavailable")
         try:
-            curl = Path(curl_name).resolve(strict=True)
-            curl.relative_to(base)
+            transport = transport_arg.resolve(strict=True)
+            transport.relative_to(candidate_root)
         except ValueError:
             pass
         except OSError:
             die(f"claim {claim_id}: checker-controlled public capture transport is invalid")
         else:
-            die(f"claim {claim_id}: public capture transport must be outside the evaluated record tree")
-        if not curl.is_file():
+            die(f"claim {claim_id}: public capture transport must be outside the declared candidate root")
+        if transport_arg.is_symlink() or not transport.is_file():
             die(f"claim {claim_id}: checker-controlled public capture transport is invalid")
 
         def capture(url, label):
-            try:
-                result = subprocess.run(
-                    [str(curl), "--fail", "--silent", "--show-error", "--location",
-                     "--proto", "=https", "--max-filesize", "1048576",
-                     "--max-time", "30", url],
-                    stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE, timeout=35,
-                )
-            except (OSError, subprocess.TimeoutExpired):
-                die(f"claim {claim_id}: {label} capture failed")
-            if result.returncode:
-                die(f"claim {claim_id}: {label} capture failed")
-            return result.stdout
+            with tempfile.TemporaryFile() as output:
+                try:
+                    result = subprocess.run(
+                        [str(transport), "--fail", "--silent", "--show-error", "--location",
+                         "--proto", "=https", "--max-filesize", "1048576",
+                         "--max-time", "30", url],
+                        stdin=subprocess.DEVNULL, stdout=output,
+                        stderr=subprocess.DEVNULL, timeout=35,
+                    )
+                except (OSError, subprocess.TimeoutExpired):
+                    die(f"claim {claim_id}: {label} capture failed")
+                size = output.tell()
+                if size > 1048576:
+                    die(f"claim {claim_id}: captured {label} exceeds 1048576 bytes")
+                if result.returncode:
+                    die(f"claim {claim_id}: {label} capture failed")
+                output.seek(0)
+                return output.read()
 
         readback_data = capture(identity["release-url"], "public readback")
         captured_asset = capture(identity["download-url"], "public asset")

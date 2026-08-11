@@ -354,17 +354,19 @@ row:
 
 ```text
 claim: <id> | surface: publication | publication-kind: hosted-release-asset | status: verified|unverified | evidence-surface: publication | evidence-digest: <sha256>
-publication-identity: <id> | publication-kind: hosted-release-asset | release-id: <id> | tag: <tag> | asset-id: <id> | asset-name: <bare-name> | asset-size: <bytes> | asset-digest: <sha256> | qualified-repository: <bare-directory> | qualified-commit: <git-object> | qualified-tree: <git-object> | qualified-package-file: <bare-file> | qualification-record-file: <bare-json-file> | qualification-record-sha256: <sha256> | release-url: <public-api-url> | asset-url: <public-api-url> | download-url: <public-download-url> | public-readback-sha256: <sha256> | disposition: verified|SUPERSEDED
+publication-identity: <id> | publication-kind: hosted-release-asset | release-id: <id> | tag: <tag> | asset-id: <id> | asset-name: <bare-name> | asset-size: <bytes> | asset-digest: <sha256> | candidate-root: <absolute-directory> | qualified-repository: <bare-directory> | qualified-commit: <git-object> | qualified-tree: <git-object> | qualified-package-file: <bare-file> | qualification-record-sha256: <sha256> | release-url: <public-api-url> | asset-url: <public-api-url> | download-url: <public-download-url> | public-readback-sha256: <sha256> | disposition: verified|SUPERSEDED
 ```
 
-The hash-bound qualification record ties the resolved commit and exact tree to
-the qualified package name, measured size, and SHA-256. For public proof the
-checker resolves a read-only capture executable outside the evaluated record
-tree, invokes fixed arguments with no stdin and a bounded timeout, and captures
-the release JSON plus download bytes into checker memory. The captured JSON is
-strict unique-key UTF-8 and must equal the row; captured bytes must equal the
-qualified package. Pre-authored JSON, copied local bytes, or a local digest
-alone cannot establish hosted state.
+Operator authority supplies the absolute qualification-record path outside
+both the declared candidate root and evaluated record tree. Its bound SHA-256
+ties the resolved commit and exact tree to the qualified package name, measured
+size, and digest. Operator authority likewise supplies an absolute read-only
+capture executable outside the candidate root (otherwise the checker uses only
+a fixed OS curl location). Fixed HTTPS-only arguments use no stdin, a bounded
+timeout, and a temporary output file; the checker rejects captured stdout over
+1 MiB before reading it. Captured JSON is strict unique-key UTF-8 and equals the
+row; captured asset bytes equal the qualified package. Pre-authored JSON,
+copied local bytes, or a local digest alone cannot establish hosted state.
 
 ## Proving a file is dead
 
