@@ -294,6 +294,7 @@ require_file tests/handoff-packet-contract.test.sh
 require_file tests/closure-surface-contract.test.sh
 require_file tests/authorization-binding-contract.test.sh
 require_file tests/scarce-resource-rehearsal-contract.test.sh
+require_file tests/r11-r30-review-heldouts.test.sh
 require_file fixtures/scarce-resource-rehearsal/cases.json
 require_file tests/convergence-mode-contract.test.sh
 require_file tests/andon-escalation-judgment.test.sh
@@ -668,6 +669,7 @@ bash tests/handoff-packet-contract.test.sh
 bash tests/closure-surface-contract.test.sh
 bash tests/authorization-binding-contract.test.sh
 bash tests/scarce-resource-rehearsal-contract.test.sh
+bash tests/r11-r30-review-heldouts.test.sh
 bash tests/convergence-mode-contract.test.sh
 bash tests/andon-escalation-judgment.test.sh
 bash tests/background-chain-contract.test.sh

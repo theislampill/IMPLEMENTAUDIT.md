@@ -62,6 +62,7 @@ jobs:
           bash tests/closure-surface-contract.test.sh
           bash tests/authorization-binding-contract.test.sh
           bash tests/scarce-resource-rehearsal-contract.test.sh
+          bash tests/r11-r30-review-heldouts.test.sh
           bash tests/convergence-mode-contract.test.sh
           bash tests/andon-escalation-judgment.test.sh
           bash tests/background-chain-contract.test.sh
