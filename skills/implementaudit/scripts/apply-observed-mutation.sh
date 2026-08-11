@@ -1,137 +1,839 @@
 #!/usr/bin/env bash
-exec python3 - "$@" <<'PY'
-import argparse,hashlib,json,os,secrets,stat,sys,time
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if command -v python3 >/dev/null 2>&1; then python_cmd=(python3)
+elif command -v python >/dev/null 2>&1; then python_cmd=(python)
+elif command -v py >/dev/null 2>&1; then python_cmd=(py -3)
+else printf 'apply-observed-mutation: Python is required\n' >&2; exit 77
+fi
+exec "${python_cmd[@]}" - "$script_dir" "$@" <<'PY'
+import argparse
+import hashlib
+import json
+import os
+import secrets
+import stat
+import subprocess
+import sys
+import time
+from datetime import datetime, timezone
 from pathlib import Path
-X={'COMMITTED':0,'NO_CHANGE':0,'REJECTED_NO_MUTATION':64,'CONFLICT_REBASE':65,'MUTATION_FAILED_NO_STATE_CHANGE':70,'MUTATION_FAILED_ROLLED_BACK':71,'POST_STATE_MISMATCH_ROLLED_BACK':72,'RECOVERY_REQUIRED':73,'ROLLBACK_CONFLICT':74,'ROLLBACK_FAILED_WITH_RESIDUE':75,'POST_COMMIT_DRIFT':76,'UNSUPPORTED_OWNER_DECISION':77}
-def I(b): return {'sha256':hashlib.sha256(b).hexdigest(),'byte_length':len(b)}
-def reg(p):
- try:return stat.S_ISREG(os.lstat(p).st_mode)
- except FileNotFoundError:return False
-def links(p,stop=None):
- p=Path(p)
- try:
-  while 1:
-   if p.is_symlink():return False
-   if stop and p==stop:return True
-   if p.parent==p:return not stop
-   p=p.parent
- except OSError:return False
-def ident(p): return I(Path(p).read_bytes()) if reg(p) and links(p,R) else None
-def raw(p): return Path(p).read_bytes() if reg(p) and links(p,R) else None
-def rel(s):return bool(s) and not os.path.isabs(s) and '..' not in Path(s).parts
+
+SCRIPT_DIR = Path(sys.argv[1])
+ARGV = sys.argv[2:]
+EXITS = {
+    "COMMITTED": 0,
+    "NO_CHANGE": 0,
+    "REJECTED_NO_MUTATION": 64,
+    "CONFLICT_REBASE": 65,
+    "MUTATION_FAILED_NO_STATE_CHANGE": 70,
+    "MUTATION_FAILED_ROLLED_BACK": 71,
+    "POST_STATE_MISMATCH_ROLLED_BACK": 72,
+    "RECOVERY_REQUIRED": 73,
+    "ROLLBACK_CONFLICT": 74,
+    "ROLLBACK_FAILED_WITH_RESIDUE": 75,
+    "POST_COMMIT_DRIFT": 76,
+    "UNSUPPORTED_OWNER_DECISION": 77,
+}
+
+
+def canonical(value):
+    return json.dumps(
+        value, sort_keys=True, separators=(",", ":"), ensure_ascii=False
+    ).encode("utf-8")
+
+
+def digest(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def simple_identity(data):
+    return {"sha256": digest(data), "byte_length": len(data)}
+
+
+def utc_now():
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def is_reparse(st):
+    return bool(getattr(st, "st_file_attributes", 0) & 0x400)
+
+
+def path_identity(path):
+    path = Path(path)
+    try:
+        st = os.lstat(path)
+    except FileNotFoundError:
+        return {"kind": "absent"}
+    base = {
+        "device": int(st.st_dev),
+        "inode": int(st.st_ino),
+        "link_count": int(st.st_nlink),
+    }
+    if stat.S_ISLNK(st.st_mode) or is_reparse(st):
+        return {"kind": "symlink", **base}
+    if stat.S_ISREG(st.st_mode):
+        data = path.read_bytes()
+        return {
+            "kind": "regular",
+            "sha256": digest(data),
+            "byte_length": len(data),
+            **base,
+        }
+    if stat.S_ISDIR(st.st_mode):
+        return {"kind": "directory", **base}
+    return {"kind": "other", **base}
+
+
+def regular_bytes(path):
+    identity = path_identity(path)
+    if identity.get("kind") != "regular":
+        return None
+    return Path(path).read_bytes()
+
+
+def contained_regular(path, root=None):
+    path = Path(path)
+    try:
+        st = os.lstat(path)
+    except OSError:
+        return False
+    if not stat.S_ISREG(st.st_mode) or is_reparse(st):
+        return False
+    cursor = path
+    while True:
+        try:
+            st = os.lstat(cursor)
+        except OSError:
+            return False
+        if stat.S_ISLNK(st.st_mode) or is_reparse(st):
+            return False
+        if root is not None and cursor == root:
+            return True
+        if cursor.parent == cursor:
+            return root is None
+        cursor = cursor.parent
+
+
+def repo_relative(path):
+    return Path(os.path.abspath(path)).relative_to(REPO).as_posix()
+
+
+def repo_path(raw):
+    if (
+        not isinstance(raw, str)
+        or not raw
+        or raw.startswith("/")
+        or "\\" in raw
+        or any(part in ("", ".", "..") for part in raw.split("/"))
+    ):
+        return None
+    path = REPO.joinpath(*raw.split("/"))
+    try:
+        path.relative_to(REPO)
+    except ValueError:
+        return None
+    cursor = REPO
+    for part in raw.split("/")[:-1]:
+        cursor = cursor / part
+        try:
+            st = os.lstat(cursor)
+        except OSError:
+            return None
+        if not stat.S_ISDIR(st.st_mode) or stat.S_ISLNK(st.st_mode) or is_reparse(st):
+            return None
+    try:
+        st = os.lstat(path)
+        if stat.S_ISLNK(st.st_mode) or is_reparse(st):
+            return None
+    except FileNotFoundError:
+        pass
+    return path
+
+
+def rejected_repo_identity(raw):
+    """Describe a rejected lexical path without following an unsafe ancestor."""
+    if (
+        not isinstance(raw, str)
+        or not raw
+        or raw.startswith("/")
+        or "\\" in raw
+        or any(part in ("", ".", "..") for part in raw.split("/"))
+    ):
+        return {"kind": "absent"}
+    cursor = REPO
+    for part in raw.split("/"):
+        cursor = cursor / part
+        try:
+            st = os.lstat(cursor)
+        except OSError:
+            return {"kind": "absent"}
+        base = {
+            "device": int(st.st_dev),
+            "inode": int(st.st_ino),
+            "link_count": int(st.st_nlink),
+        }
+        if stat.S_ISLNK(st.st_mode) or is_reparse(st):
+            return {"kind": "symlink", **base}
+        if cursor != REPO.joinpath(*raw.split("/")) and not stat.S_ISDIR(st.st_mode):
+            return {"kind": "other", **base}
+    return path_identity(cursor)
+
+
 def phase_hook(phase):
     # R36_INSTRUMENT_INSERT
     return
-p=argparse.ArgumentParser(add_help=False);p.add_argument('--repo-root',required=True);p.add_argument('--run-root',required=True);p.add_argument('--operation',required=True);p.add_argument('--target',required=True);p.add_argument('--preimage');p.add_argument('--candidate');p.add_argument('--destination');p.add_argument('--offset');p.add_argument('--region');p.add_argument('--replacement');p.add_argument('--journal');p.add_argument('--token');p.add_argument('--arbitrary-mutator',nargs=2)
-try:a,u=p.parse_known_args()
-except SystemExit:sys.exit(64)
-R=Path(a.repo_root).resolve();T=R/a.target;D=R/a.destination if a.destination else None;op=a.operation
-pre0=I(Path(T).read_bytes()) if reg(T) and links(T) else None
-def out(s,pre=pre0,cand=None,post=None,j=None,tok=None,res=()):
- q=T if post is None else post; ps={a.target:ident(T)}
- if D:ps[a.destination]=ident(D)
- print(json.dumps({'schema':'implementaudit.observation_bound_mutation.v1','operation':op,'status':s,'source_path':a.target,'destination_path':a.destination,'targets':[a.target]+([a.destination] if D else []),'pre_identity':pre,'candidate_identity':cand,'post_identity':ident(q),'post_identities':ps,'token':tok,'journal_path':str(j) if j else None,'residue_paths':[str(x) for x in res]},separators=(',',':')));sys.exit(X[s])
-def early():
- q=Path(a.candidate or a.preimage) if (a.candidate or a.preimage) else None;b=raw(q) if q else None;return I(b) if b is not None else None
-if u or op not in ('patch','replace','delete','move','recover'):out('REJECTED_NO_MUTATION')
-run=Path(a.run_root);run=run if run.is_absolute() else R/run
-if not (R.is_dir() and R in run.parents and (run/'.claimed').is_file()):out('REJECTED_NO_MUTATION')
-if not rel(a.target) or not links(T,R) or not T.parent.exists() or not links(T.parent,R):out('REJECTED_NO_MUTATION',cand=early())
-if op=='recover':
- # Portable same-principal files cannot prove that a caller-created journal is
- # helper authority. Recovery is therefore owner-gated/manual custody, never
- # an automatic caller-driven mutation path.
- out('REJECTED_NO_MUTATION')
-if op=='move' and (not rel(a.destination) or a.destination==a.target or not links(D.parent,R)):out('REJECTED_NO_MUTATION',cand=early())
-pre=raw(a.preimage) if a.preimage else None
-if op in ('replace','delete','move') and pre is None:out('REJECTED_NO_MUTATION',cand=early())
-c=None
-if op=='replace':
- c=raw(a.candidate)
- if c is None:out('REJECTED_NO_MUTATION')
-elif op=='patch':
- g=raw(a.region);z=raw(a.replacement);now=raw(T)
- try:o=int(a.offset)
- except:out('REJECTED_NO_MUTATION')
- if now is None or g is None or z is None or o<0 or not g or now[o:o+len(g)]!=g:out('REJECTED_NO_MUTATION')
- c=now[:o]+z+now[o+len(g):]
-if a.arbitrary_mutator:out('REJECTED_NO_MUTATION',cand=I(c) if c is not None else None)
-now=raw(T)
-if now is None:out('REJECTED_NO_MUTATION',cand=I(pre if op=='move' else c) if (op=='move' or c is not None) else None)
-if op in ('replace','delete','move') and now!=pre:out('REJECTED_NO_MUTATION' if now.startswith(pre) else 'CONFLICT_REBASE',cand=I(pre if op=='move' else c) if (op=='move' or c is not None) else None)
-if op=='replace' and c==now:out('NO_CHANGE',cand=I(c))
-if op=='move' and D.exists():out('REJECTED_NO_MUTATION',cand=I(pre))
-bar=None;fault=None;phase_hook('init')
-def wait(name,release='release'):
- if not bar:return
- b=Path(bar);b.mkdir(parents=True,exist_ok=True);(b/name).touch()
- for _ in range(500):
-  if (b/release).exists():return
-  time.sleep(.02)
- raise RuntimeError('timeout')
-if fault=='pre-displacement':wait('paused');out('MUTATION_FAILED_NO_STATE_CHANGE',cand=I(c) if c is not None else None)
-if fault=='unsupported-external-writer':
- wait('paused');wait('observed-after-external','continue-after-external');out('UNSUPPORTED_OWNER_DECISION',cand=I(c))
-if bar and not fault:
- wait('observed')
- if raw(T)!=now or (op=='move' and D.exists()):out('CONFLICT_REBASE',cand=I(pre if op=='move' else c))
-L=R/'.IMPLEMENTAUDIT'/'.r36-locks'
-if L.is_symlink() or (L.exists() and not L.is_dir()):out('UNSUPPORTED_OWNER_DECISION',cand=I(pre if op=='move' else c) if (op=='move' or c is not None) else None)
-L.mkdir(parents=True,exist_ok=True);owner=secrets.token_hex(16);held=[];initial=bool(op=='move' and D.exists())
+
+
+bar = None
+fault = None
+
+
+def wait(name, release="release"):
+    if not bar:
+        return
+    base = Path(bar)
+    base.mkdir(parents=True, exist_ok=True)
+    (base / name).touch()
+    for _ in range(500):
+        if (base / release).exists():
+            return
+        time.sleep(0.02)
+    raise RuntimeError("timeout")
+
+
+parser = argparse.ArgumentParser(add_help=False)
+parser.add_argument("--repo-root", required=True)
+parser.add_argument("--run-root", required=True)
+parser.add_argument("--phase", required=True, type=int)
+parser.add_argument("--step", required=True, type=int)
+parser.add_argument("--preimage")
+parser.add_argument("--candidate")
+parser.add_argument("--offset")
+parser.add_argument("--region")
+parser.add_argument("--replacement")
 try:
- obj=os.lstat(T); keys=[a.target]+([a.destination] if op=='move' else [])+[f'object:{obj.st_dev}:{obj.st_ino}']
- for k in sorted(keys):
-  q=L/(hashlib.sha256(k.encode()).hexdigest()+'.lock')
-  try:
-   os.mkdir(q);(q/'owner').write_text(owner);held.append(q)
-  except FileExistsError:out('CONFLICT_REBASE',cand=I(pre if op=='move' else c))
- if initial:out('REJECTED_NO_MUTATION',cand=I(pre))
- if raw(T)!=now or (op=='move' and D.exists()):out('CONFLICT_REBASE',cand=I(pre if op=='move' else c))
- if op=='move':
-  time.sleep(.05)
-  # Re-read immediately before the absent-only publish; a writer that changed
-  # the source during lock acquisition cannot be moved under an old preimage.
-  if raw(T)!=pre or D.exists():out('CONFLICT_REBASE',cand=I(pre))
-  tok=secrets.token_hex(16);J=run/('.r36-journal-'+tok+'.json')
-  # A move has a real intermediate state: destination published while the
-  # source still names the same bytes.  Record it durably before publication;
-  # after a crash this is manual-custody residue, never an implicit copy.
-  with J.open('w',encoding='utf-8') as jf:
-   json.dump({'token':tok,'operation':'move','target':a.target,'destination':a.destination,'pre_identity':I(pre),'candidate_identity':I(pre),'recovery_disposition':'RECOVERY_REQUIRED'},jf,separators=(',',':'));jf.flush();os.fsync(jf.fileno())
-  try:os.link(T,D)
-  except FileExistsError:
-   J.unlink();out('CONFLICT_REBASE',cand=I(pre))
-  except OSError:
-   J.unlink();out('UNSUPPORTED_OWNER_DECISION',cand=I(pre))
-  phase_hook('move-destination-published')
-  # Do not remove a source that changed after link publication.  The exact
-  # destination and journal remain for manual owner disposition.
-  if raw(T)!=pre or raw(D)!=pre:out('RECOVERY_REQUIRED',cand=I(pre),j=J,tok=tok,res=[D])
-  os.unlink(T)
-  J.unlink()
-  out('COMMITTED',cand=I(pre),post=D)
- tok=secrets.token_hex(16);B=run/('.r36-backup-'+tok);J=run/('.r36-journal-'+tok+'.json')
- # The journal is durable before the first destructive rename.
- with J.open('w',encoding='utf-8') as jf:
-  json.dump({'token':tok,'target':a.target,'backup':str(B),'pre_identity':I(now),'candidate_identity':I(c) if c is not None else None,'recovery_disposition':'RECOVERY_REQUIRED'},jf,separators=(',',':'));jf.flush();os.fsync(jf.fileno())
- os.replace(T,B)
- if fault=='after-displacement':wait('paused');os.link(B,T);B.unlink();J.unlink();out('MUTATION_FAILED_ROLLED_BACK',cand=I(c) if c else None)
- if op=='delete':os.unlink(B);J.unlink();out('COMMITTED')
- S=run/('.r36-stage-'+secrets.token_hex(8));S.write_bytes(c);os.link(S,T);S.unlink()
- if fault=='after-publication':wait('paused');os.unlink(T);os.link(B,T);B.unlink();J.unlink();out('MUTATION_FAILED_ROLLED_BACK',cand=I(c))
- if fault=='post-state-mismatch':
-  wait('paused');wait('observed-after-external','continue-after-external');
-  if reg(T):os.unlink(T)
-  os.link(B,T);B.unlink();J.unlink();out('POST_STATE_MISMATCH_ROLLED_BACK',cand=I(c))
- for _ in range(30):
-  if raw(T)!=c:break
-  time.sleep(.005)
- if raw(T)!=c:
-  out('ROLLBACK_CONFLICT',cand=I(c),j=J,tok=tok,res=[B])
- B.unlink();J.unlink();out('COMMITTED',cand=I(c))
+    args, unknown = parser.parse_known_args(ARGV)
+except SystemExit:
+    raise SystemExit(64)
+if unknown or args.phase <= 0 or args.step <= 0:
+    raise SystemExit(64)
+
+REPO = Path(os.path.abspath(args.repo_root))
+RUN = Path(args.run_root)
+RUN = Path(os.path.abspath(REPO / RUN)) if not RUN.is_absolute() else Path(os.path.abspath(RUN))
+PHASE_FILE = RUN / "phases" / f"phase-{args.phase}.md"
+
+
+def validator(command):
+    completed = subprocess.run(command, text=True, capture_output=True, check=False)
+    if completed.returncode != 0:
+        raise SystemExit(64)
+    return completed.stdout.strip()
+
+
+validator(
+    [
+        "bash",
+        str(SCRIPT_DIR / "validate-run-root.sh"),
+        "--claim-only",
+        str(RUN),
+        "--repo-root",
+        str(REPO),
+    ]
+)
+authority_text = validator(
+    [
+        "bash",
+        str(SCRIPT_DIR / "validate-phase.sh"),
+        "--mutation-authority",
+        str(PHASE_FILE),
+        "--phase",
+        str(args.phase),
+        "--step",
+        str(args.step),
+        "--repo-root",
+        str(REPO),
+        "--run-root",
+        str(RUN),
+    ]
+)
+try:
+    authority_projection = json.loads(authority_text)
+except json.JSONDecodeError:
+    raise SystemExit(64)
+
+claim_bytes = (RUN / ".claimed").read_bytes()
+claim_rows = claim_bytes.decode("utf-8").splitlines()
+claim = dict(row.split("=", 1) for row in claim_rows)
+claim_id = claim["claim_id"]
+operation = authority_projection["operation"]
+source_name = authority_projection["source"]
+destination_name = authority_projection["destination"]
+SOURCE = repo_path(source_name)
+DESTINATION = repo_path(destination_name) if destination_name is not None else None
+
+
+def identity_rows(paths):
+    return [
+        {"path": name, "identity": path_identity(path)}
+        for name, path in paths
+    ]
+
+
+source_initial = path_identity(SOURCE) if SOURCE is not None else {"kind": "absent"}
+pre_rows = identity_rows([(source_name, SOURCE)]) if SOURCE is not None else []
+candidate_rows = []
+candidate_data = None
+preimage_data = None
+reason = "NONE"
+
+
+def evidence_bytes(raw):
+    if not raw:
+        return None
+    path = Path(raw)
+    if not contained_regular(path):
+        return None
+    return path.read_bytes()
+
+
+if SOURCE is None or source_initial.get("kind") != "regular":
+    reason = "PATH_REDIRECTION_UNSUPPORTED"
+elif operation == "move" and (
+    DESTINATION is None or destination_name == source_name or not DESTINATION.parent.is_dir()
+):
+    reason = "SCOPE_NOT_AUTHORIZED"
+
+if operation in {"replace", "delete", "move"}:
+    preimage_data = evidence_bytes(args.preimage)
+    if preimage_data is None:
+        reason = reason if reason != "NONE" else "PREIMAGE_REQUIRED"
+elif operation == "patch":
+    current = regular_bytes(SOURCE) if SOURCE is not None else None
+    region = evidence_bytes(args.region)
+    replacement = evidence_bytes(args.replacement)
+    try:
+        offset = int(args.offset)
+    except (TypeError, ValueError):
+        offset = -1
+    if (
+        current is None
+        or region is None
+        or replacement is None
+        or offset < 0
+        or not region
+        or current[offset : offset + len(region)] != region
+    ):
+        reason = reason if reason != "NONE" else "PATCH_REGION_MISMATCH"
+    else:
+        candidate_data = current[:offset] + replacement + current[offset + len(region) :]
+
+if operation == "replace":
+    candidate_data = evidence_bytes(args.candidate)
+    if candidate_data is None:
+        reason = reason if reason != "NONE" else "PREIMAGE_REQUIRED"
+if operation == "move" and preimage_data is not None:
+    candidate_data = preimage_data
+if candidate_data is not None:
+    candidate_rows = [
+        {
+            "path": source_name,
+            "identity": {
+                "kind": "regular",
+                **simple_identity(candidate_data),
+                "device": 0,
+                "inode": 0,
+                "link_count": 0,
+            },
+        }
+    ]
+
+
+def current_post_rows():
+    rows = []
+    paths = []
+    if SOURCE is not None:
+        paths.append((source_name, SOURCE))
+    elif source_name is not None:
+        rows.append({"path": source_name, "identity": rejected_repo_identity(source_name)})
+    if DESTINATION is not None:
+        paths.append((destination_name, DESTINATION))
+    return rows + identity_rows(paths)
+
+
+empty_effect_digest = digest(canonical([]))
+
+
+def emit_no_effect(status, why):
+    result = {
+        "schema": "implementaudit.observation_bound_mutation.v2",
+        "transaction_id": None,
+        "claim_id": claim_id,
+        "phase": args.phase,
+        "step": args.step,
+        "authority_binding_sha256": authority_projection["authority_binding_sha256"],
+        "operation": operation,
+        "status": status,
+        "reason_code": why,
+        "source_path": source_name,
+        "destination_path": destination_name,
+        "pre_identities": pre_rows,
+        "candidate_identities": candidate_rows,
+        "post_identities": current_post_rows(),
+        "planned_effect_set": [],
+        "planned_effect_set_sha256": empty_effect_digest,
+        "actual_effect_set": [],
+        "residue": [],
+    }
+    print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
+    raise SystemExit(EXITS[status])
+
+
+if reason != "NONE":
+    emit_no_effect("REJECTED_NO_MUTATION", reason)
+current_data = regular_bytes(SOURCE)
+if operation in {"replace", "delete", "move"} and current_data != preimage_data:
+    status = (
+        "REJECTED_NO_MUTATION"
+        if current_data is not None
+        and preimage_data is not None
+        and current_data.startswith(preimage_data)
+        else "CONFLICT_REBASE"
+    )
+    emit_no_effect(status, "PREIMAGE_DRIFT")
+if operation == "replace" and candidate_data == current_data:
+    emit_no_effect("NO_CHANGE", "NONE")
+if operation == "move" and path_identity(DESTINATION).get("kind") != "absent":
+    emit_no_effect("REJECTED_NO_MUTATION", "DESTINATION_EXISTS")
+
+transaction_id = f"{claim_id}-p{args.phase}-s{args.step}"
+TX_PARENT = RUN / "mutation-transactions"
+TX = TX_PARENT / transaction_id
+AUTHORITY = TX / "authority.json"
+JOURNAL = TX / "journal.json"
+JOURNAL_TMP = TX / "journal.tmp"
+RESULT = TX / "result.json"
+DISPOSITION = TX / "disposition.json"
+BACKUP = TX / "backup.bin"
+STAGE = TX / "stage.bin"
+LOCK_ROOT = REPO / ".IMPLEMENTAUDIT" / ".r36-locks"
+
+try:
+    object_stat = os.lstat(SOURCE)
+except OSError:
+    emit_no_effect("REJECTED_NO_MUTATION", "PATH_NOT_REGULAR")
+lock_keys = [source_name, f"object:{object_stat.st_dev}:{object_stat.st_ino}"]
+if destination_name is not None:
+    lock_keys.append(destination_name)
+lock_paths = [LOCK_ROOT / (digest(key.encode("utf-8")) + ".lock") for key in sorted(lock_keys)]
+
+planned_map = {}
+
+
+def plan(path, roles, effects, retention):
+    key = ("repo", repo_relative(path))
+    row = planned_map.setdefault(
+        key,
+        {"roles": set(), "allowed_effects": set(), "retention": retention},
+    )
+    row["roles"].update(roles)
+    row["allowed_effects"].update(effects)
+    priorities = {"input": 0, "transient": 1, "durable": 2, "conditional-residue": 3}
+    if priorities[retention] > priorities[row["retention"]]:
+        row["retention"] = retention
+
+
+plan(SOURCE, ["source"], ["link", "replace", "unlink", "fsync"], "input")
+if DESTINATION is not None:
+    plan(DESTINATION, ["destination", "residue"], ["link", "unlink", "fsync"], "conditional-residue")
+plan(TX_PARENT, ["transaction-dir"], ["mkdir", "fsync"], "durable")
+plan(TX, ["transaction-dir"], ["mkdir", "fsync"], "durable")
+plan(AUTHORITY, ["authority"], ["create", "write", "fsync"], "durable")
+plan(JOURNAL, ["journal", "residue"], ["create", "write", "replace", "unlink", "fsync"], "conditional-residue")
+plan(JOURNAL_TMP, ["journal-temp"], ["create", "write", "replace", "unlink", "fsync"], "transient")
+plan(RESULT, ["result"], ["create", "write", "fsync"], "durable")
+plan(DISPOSITION, ["disposition"], [], "durable")
+plan(BACKUP, ["backup", "residue"], ["link", "replace", "unlink", "fsync"], "conditional-residue")
+plan(STAGE, ["stage", "residue"], ["create", "write", "link", "unlink", "fsync"], "conditional-residue")
+plan(LOCK_ROOT, ["lock-root"], ["mkdir", "fsync"], "durable")
+for lock in lock_paths:
+    plan(lock, ["path-lock", "residue"], ["mkdir", "rmdir", "fsync"], "conditional-residue")
+    plan(lock / "owner", ["lock-owner", "residue"], ["create", "write", "unlink", "fsync"], "conditional-residue")
+
+planned = [
+    {
+        "scope": scope,
+        "path": path,
+        "roles": sorted(row["roles"]),
+        "allowed_effects": sorted(row["allowed_effects"]),
+        "retention": row["retention"],
+    }
+    for (scope, path), row in sorted(planned_map.items())
+]
+planned_digest = digest(canonical(planned))
+allowed = {
+    (row["scope"], row["path"]): set(row["allowed_effects"]) for row in planned
+}
+actual = []
+
+
+def authorise(path, effect):
+    key = ("repo", repo_relative(path))
+    if effect not in allowed.get(key, set()):
+        raise RuntimeError(f"EFFECT_SET_INCOMPLETE:{key[1]}:{effect}")
+
+
+def record(path, effect, before=None, after=None, outcome="applied"):
+    key = ("repo", repo_relative(path))
+    authorise(path, effect)
+    actual.append(
+        {
+            "sequence": len(actual) + 1,
+            "scope": "repo",
+            "path": key[1],
+            "effect": effect,
+            "before": before,
+            "after": after,
+            "outcome": outcome,
+        }
+    )
+
+
+def mkdir(path):
+    before = path_identity(path)
+    authorise(path, "mkdir")
+    try:
+        os.mkdir(path)
+    except FileExistsError:
+        record(path, "mkdir", before, path_identity(path), "not-applied")
+        raise
+    record(path, "mkdir", before, path_identity(path))
+
+
+def write_new(path, data):
+    before = path_identity(path)
+    authorise(path, "create")
+    authorise(path, "fsync")
+    with path.open("xb") as handle:
+        handle.write(data)
+        handle.flush()
+        os.fsync(handle.fileno())
+    record(path, "create", before, path_identity(path))
+    record(path, "fsync", path_identity(path), path_identity(path))
+
+
+def unlink(path):
+    before = path_identity(path)
+    authorise(path, "unlink")
+    os.unlink(path)
+    record(path, "unlink", before, path_identity(path))
+
+
+def link(source, destination):
+    before = path_identity(destination)
+    authorise(destination, "link")
+    os.link(source, destination)
+    record(destination, "link", before, path_identity(destination))
+
+
+def replace(source, destination):
+    source_before = path_identity(source)
+    destination_before = path_identity(destination)
+    authorise(source, "replace")
+    authorise(destination, "replace")
+    os.replace(source, destination)
+    record(source, "replace", source_before, path_identity(source))
+    record(destination, "replace", destination_before, path_identity(destination))
+
+
+def rmdir(path):
+    before = path_identity(path)
+    authorise(path, "rmdir")
+    os.rmdir(path)
+    record(path, "rmdir", before, path_identity(path))
+
+
+def fsync_dir(path):
+    authorise(path, "fsync")
+    try:
+        descriptor = os.open(path, os.O_RDONLY)
+    except OSError:
+        return
+    try:
+        os.fsync(descriptor)
+        record(path, "fsync", path_identity(path), path_identity(path))
+    finally:
+        os.close(descriptor)
+
+
+def observations():
+    if operation == "patch":
+        return {
+            "current": simple_identity(current_data),
+            "region": simple_identity(evidence_bytes(args.region)),
+            "replacement": simple_identity(evidence_bytes(args.replacement)),
+            "offset": int(args.offset),
+            "candidate": simple_identity(candidate_data),
+        }
+    result = {"preimage": simple_identity(preimage_data)}
+    if candidate_data is not None:
+        result["candidate"] = simple_identity(candidate_data)
+    return result
+
+
+authority_record = {
+    "schema": "implementaudit.observation-bound-mutation.authority.v2",
+    "transaction_id": transaction_id,
+    "created_at_utc": utc_now(),
+    "claim": {
+        "claim_id": claim_id,
+        "claim_sha256": digest(claim_bytes),
+        "repo_root": claim["repo_root"],
+        "git_common_dir": claim["git_common_dir"],
+        "run_root": claim["run_root"],
+    },
+    "phase": {
+        "phase": args.phase,
+        "step": args.step,
+        "authority_binding_sha256": authority_projection["authority_binding_sha256"],
+    },
+    "operation": operation,
+    "source": source_name,
+    "destination": destination_name,
+    "observations": observations(),
+    "planned_effect_set": planned,
+    "planned_effect_set_sha256": planned_digest,
+}
+
+if TX.exists():
+    emit_no_effect("REJECTED_NO_MUTATION", "PHASE_AUTHORITY_INVALID")
+if not TX_PARENT.exists():
+    mkdir(TX_PARENT)
+mkdir(TX)
+write_new(AUTHORITY, canonical(authority_record))
+fsync_dir(TX)
+
+owner = secrets.token_hex(16)
+held = []
+residue = []
+
+
+def residue_row(path):
+    return {
+        "scope": "repo",
+        "path": repo_relative(path),
+        "identity": path_identity(path),
+        "custody": "run-owner-required",
+    }
+
+
+def journal_record(status, residue_paths=()):
+    return {
+        "schema": "implementaudit.observation-bound-mutation.journal.v2",
+        "transaction_id": transaction_id,
+        "authority_sha256": digest(AUTHORITY.read_bytes()),
+        "status": status,
+        "pre_identities": pre_rows,
+        "candidate_identities": candidate_rows,
+        "current_identities": current_post_rows(),
+        "planned_effect_set_sha256": planned_digest,
+        "actual_effect_set": actual,
+        "residue": [residue_row(path) for path in residue_paths if path.exists()],
+        "updated_at_utc": utc_now(),
+    }
+
+
+def persist_journal(status, residue_paths=()):
+    if JOURNAL_TMP.exists():
+        unlink(JOURNAL_TMP)
+    temporary_before = path_identity(JOURNAL_TMP)
+    journal_before = path_identity(JOURNAL)
+    directory_identity = path_identity(TX)
+    record(JOURNAL_TMP, "create", temporary_before, None)
+    record(JOURNAL_TMP, "fsync", None, None)
+    record(JOURNAL_TMP, "replace", None, {"kind": "absent"})
+    record(JOURNAL, "replace", journal_before, None)
+    record(TX, "fsync", directory_identity, directory_identity)
+    data = canonical(journal_record(status, residue_paths))
+    with JOURNAL_TMP.open("xb") as handle:
+        handle.write(data)
+        handle.flush()
+        os.fsync(handle.fileno())
+    os.replace(JOURNAL_TMP, JOURNAL)
+    descriptor = os.open(TX, os.O_RDONLY)
+    try:
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
+
+
+retain_owned_locks = False
+
+
+def release_locks():
+    while held:
+        lock = held[-1]
+        owner_path = lock / "owner"
+        try:
+            if owner_path.read_text(encoding="ascii") != owner:
+                break
+            unlink(owner_path)
+            rmdir(lock)
+            held.pop()
+        except OSError:
+            break
+
+
+def final_result(status, reason_code="NONE", residue_paths=(), post_path=None):
+    global retain_owned_locks
+    uncertain_paths = list(residue_paths)
+    if uncertain_paths:
+        retain_owned_locks = True
+        for lock in held:
+            uncertain_paths.extend([lock, lock / "owner"])
+    result_residue = [residue_row(path) for path in uncertain_paths if path.exists()]
+    if not result_residue:
+        if JOURNAL.exists():
+            unlink(JOURNAL)
+        release_locks()
+        result_before = path_identity(RESULT)
+        transaction_identity = path_identity(TX)
+        record(RESULT, "create", result_before, None)
+        record(RESULT, "fsync", None, None)
+        record(TX, "fsync", transaction_identity, transaction_identity)
+    result = {
+        "schema": "implementaudit.observation_bound_mutation.v2",
+        "transaction_id": transaction_id,
+        "claim_id": claim_id,
+        "phase": args.phase,
+        "step": args.step,
+        "authority_binding_sha256": authority_projection["authority_binding_sha256"],
+        "operation": operation,
+        "status": status,
+        "reason_code": reason_code,
+        "source_path": source_name,
+        "destination_path": destination_name,
+        "pre_identities": pre_rows,
+        "candidate_identities": candidate_rows,
+        "post_identities": current_post_rows(),
+        "planned_effect_set": planned,
+        "planned_effect_set_sha256": planned_digest,
+        "actual_effect_set": actual,
+        "residue": result_residue,
+    }
+    if not result_residue:
+        write_new_direct = canonical(result)
+        with RESULT.open("xb") as handle:
+            handle.write(write_new_direct)
+            handle.flush()
+            os.fsync(handle.fileno())
+        descriptor = os.open(TX, os.O_RDONLY)
+        try:
+            os.fsync(descriptor)
+        finally:
+            os.close(descriptor)
+    print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
+    raise SystemExit(EXITS[status])
+
+
+phase_hook("init")
+if fault == "pre-displacement":
+    wait("paused")
+    final_result("MUTATION_FAILED_NO_STATE_CHANGE", "NONE")
+if fault == "unsupported-external-writer":
+    wait("paused")
+    wait("observed-after-external", "continue-after-external")
+    final_result("UNSUPPORTED_OWNER_DECISION", "POST_STATE_MISMATCH")
+if bar and not fault:
+    wait("observed")
+    if regular_bytes(SOURCE) != current_data or (
+        operation == "move" and path_identity(DESTINATION).get("kind") != "absent"
+    ):
+        final_result("CONFLICT_REBASE", "PREIMAGE_DRIFT")
+
+if not LOCK_ROOT.exists():
+    try:
+        mkdir(LOCK_ROOT)
+    except FileExistsError:
+        if path_identity(LOCK_ROOT).get("kind") != "directory":
+            final_result("UNSUPPORTED_OWNER_DECISION", "PATH_NOT_REGULAR")
+try:
+    for lock in lock_paths:
+        try:
+            mkdir(lock)
+            write_new(lock / "owner", owner.encode("ascii"))
+            held.append(lock)
+        except FileExistsError:
+            final_result("CONFLICT_REBASE", "TARGET_LOCK_BUSY")
+
+    if regular_bytes(SOURCE) != current_data or (
+        operation == "move" and path_identity(DESTINATION).get("kind") != "absent"
+    ):
+        final_result("CONFLICT_REBASE", "PREIMAGE_DRIFT")
+
+    if operation == "move":
+        time.sleep(0.05)
+        if regular_bytes(SOURCE) != preimage_data or path_identity(DESTINATION).get("kind") != "absent":
+            final_result("CONFLICT_REBASE", "PREIMAGE_DRIFT")
+        persist_journal("PLANNED")
+        try:
+            link(SOURCE, DESTINATION)
+        except FileExistsError:
+            final_result("CONFLICT_REBASE", "DESTINATION_EXISTS")
+        except OSError:
+            final_result("UNSUPPORTED_OWNER_DECISION", "PATH_NOT_REGULAR")
+        persist_journal("PUBLICATION_DURABLE", [DESTINATION])
+        phase_hook("move-destination-published")
+        if regular_bytes(SOURCE) != preimage_data or regular_bytes(DESTINATION) != preimage_data:
+            persist_journal("RECOVERY_REQUIRED", [DESTINATION])
+            final_result("RECOVERY_REQUIRED", "RESIDUE_RETAINED", [JOURNAL, DESTINATION])
+        unlink(SOURCE)
+        final_result("COMMITTED")
+
+    persist_journal("PLANNED")
+    replace(SOURCE, BACKUP)
+    persist_journal("DISPLACEMENT_DURABLE", [BACKUP])
+    if fault == "after-displacement":
+        wait("paused")
+        link(BACKUP, SOURCE)
+        unlink(BACKUP)
+        final_result("MUTATION_FAILED_ROLLED_BACK")
+    if operation == "delete":
+        unlink(BACKUP)
+        final_result("COMMITTED")
+
+    write_new(STAGE, candidate_data)
+    link(STAGE, SOURCE)
+    unlink(STAGE)
+    persist_journal("PUBLICATION_DURABLE", [BACKUP])
+    if fault == "after-publication":
+        wait("paused")
+        unlink(SOURCE)
+        link(BACKUP, SOURCE)
+        unlink(BACKUP)
+        final_result("MUTATION_FAILED_ROLLED_BACK")
+    if fault == "post-state-mismatch":
+        wait("paused")
+        wait("observed-after-external", "continue-after-external")
+        if path_identity(SOURCE).get("kind") == "regular":
+            unlink(SOURCE)
+        link(BACKUP, SOURCE)
+        unlink(BACKUP)
+        final_result("POST_STATE_MISMATCH_ROLLED_BACK")
+    for _ in range(30):
+        if regular_bytes(SOURCE) != candidate_data:
+            break
+        time.sleep(0.005)
+    if regular_bytes(SOURCE) != candidate_data:
+        persist_journal("ROLLBACK_CONFLICT", [BACKUP])
+        final_result("ROLLBACK_CONFLICT", "ROLLBACK_TARGET_CHANGED", [JOURNAL, BACKUP])
+    unlink(BACKUP)
+    final_result("COMMITTED")
+except RuntimeError as error:
+    if str(error).startswith("EFFECT_SET_INCOMPLETE:"):
+        final_result("UNSUPPORTED_OWNER_DECISION", "EFFECT_SET_INCOMPLETE", [JOURNAL] if JOURNAL.exists() else [])
+    raise
 finally:
- for q in held:
-  try:
-   if (q/'owner').read_text()==owner: (q/'owner').unlink();os.rmdir(q)
-  except OSError:pass
+    if not retain_owned_locks:
+        release_locks()
 PY

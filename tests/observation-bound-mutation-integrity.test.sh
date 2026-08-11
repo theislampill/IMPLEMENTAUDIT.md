@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
-# R36 black-box state-family acceptance.  No production implementation is
-# present at this checkpoint; --fixture-self-check and --mutant-self-check keep
-# this test honest before the canonical helper exists.
+# R36 black-box state-family acceptance.  The fixture and mutant self-checks
+# keep the oracle honest independently of the canonical production helper.
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -143,7 +142,11 @@ instrumented_helper() {
   "$python_bin" - "$canonical_helper" "$derived" <<'PY' || return 1
 import sys
 from pathlib import Path
-source=Path(sys.argv[1]).read_text(encoding='utf-8')
+canonical=Path(sys.argv[1]); source=canonical.read_text(encoding='utf-8')
+script_dir_line='script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"'
+derived_dir_line='script_dir='+repr(str(canonical.parent))
+if source.count(script_dir_line) != 1: raise SystemExit('R36 sibling-script locator count is not exactly one')
+source=source.replace(script_dir_line,derived_dir_line)
 needle='    # R36_INSTRUMENT_INSERT\n'
 if source.count(needle) != 1: raise SystemExit('R36 instrument marker count is not exactly one')
 insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'init':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n    if phase == 'move-destination-published' and fault == 'move-after-destination':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
@@ -154,8 +157,10 @@ PY
 import sys
 from pathlib import Path
 canonical,derived=map(Path,sys.argv[1:]); text=derived.read_text(encoding='utf-8')
+script_dir_line='script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"'
+derived_dir_line='script_dir='+repr(str(canonical.parent))
 insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'init':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n    if phase == 'move-destination-published' and fault == 'move-after-destination':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
-if text.replace(insert,'') != canonical.read_text(encoding='utf-8'): raise SystemExit('instrumented copy does not strip byte-equal')
+if text.replace(insert,'').replace(derived_dir_line,script_dir_line) != canonical.read_text(encoding='utf-8'): raise SystemExit('instrumented copy does not strip byte-equal')
 PY
   printf '%s\n' "$derived"
 }
@@ -238,23 +243,38 @@ want_post=json.loads(post_identities)
 if post_rows != want_post: raise SystemExit(f'{label}: post identity set mismatch got={post_rows!r} want={want_post!r}')
 planned=r['planned_effect_set']
 if not isinstance(planned,list): raise SystemExit(f'{label}: planned effects are not a list')
-seen=set(); allowed={}
+seen=set(); allowed={}; roles={}
 for row in planned:
  if set(row)!= {'scope','path','roles','allowed_effects','retention'}: raise SystemExit(f'{label}: malformed planned effect')
  key=(row['scope'],row['path'])
  if key in seen or row['roles']!=sorted(set(row['roles'])) or row['allowed_effects']!=sorted(set(row['allowed_effects'])): raise SystemExit(f'{label}: noncanonical planned effect')
- seen.add(key); allowed[key]=set(row['allowed_effects'])
+ seen.add(key); allowed[key]=set(row['allowed_effects']); roles[key]=set(row['roles'])
 digest=hashlib.sha256(json.dumps(planned,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()
 if r['planned_effect_set_sha256']!=digest: raise SystemExit(f'{label}: planned-effect digest mismatch')
-for row in r['actual_effect_set']:
+actual_by={}
+for index,row in enumerate(r['actual_effect_set'],1):
  if set(row)!= {'sequence','scope','path','effect','before','after','outcome'}: raise SystemExit(f'{label}: malformed actual effect')
+ if row['sequence']!=index or row['outcome'] not in {'applied','not-applied'}: raise SystemExit(f'{label}: noncanonical actual-effect sequence/outcome')
  if row['effect'] not in allowed.get((row['scope'],row['path']),set()): raise SystemExit(f'{label}: actual effect escaped planned set: {row!r}')
+ if row['outcome']=='applied': actual_by.setdefault((row['scope'],row['path']),[]).append(row['effect'])
 if status in {'COMMITTED','MUTATION_FAILED_ROLLED_BACK','POST_STATE_MISMATCH_ROLLED_BACK','RECOVERY_REQUIRED','ROLLBACK_CONFLICT','ROLLBACK_FAILED_WITH_RESIDUE','POST_COMMIT_DRIFT'}:
  if not isinstance(r['transaction_id'],str) or not r['transaction_id']: raise SystemExit(f'{label}: effectful result lacks transaction id')
 if status in {'RECOVERY_REQUIRED','ROLLBACK_CONFLICT','ROLLBACK_FAILED_WITH_RESIDUE','POST_COMMIT_DRIFT'}:
  if not isinstance(r['residue'],list) or not r['residue']: raise SystemExit(f'{label}: blocking result lacks residue')
 else:
  if r['residue']!=[]: raise SystemExit(f'{label}: terminal clean result retained residue')
+ if r['transaction_id'] is not None:
+  for key,path_roles in roles.items():
+   effects=actual_by.get(key,[])
+   required=None
+   if 'path-lock' in path_roles and 'mkdir' in effects: required='rmdir'
+   elif 'lock-owner' in path_roles and 'create' in effects: required='unlink'
+   elif 'journal' in path_roles and 'replace' in effects: required='unlink'
+   elif 'journal-temp' in path_roles and 'create' in effects: required='replace'
+   elif 'backup' in path_roles and any(x in effects for x in ('link','replace')): required='unlink'
+   elif 'stage' in path_roles and 'create' in effects: required='unlink'
+   elif 'result' in path_roles: required='fsync'
+   if required is not None and required not in effects: raise SystemExit(f'{label}: clean result omitted {required} for {key}')
 print(json.dumps({'transaction_id':r['transaction_id'],'planned_effect_set':planned,'residue':r['residue']}))
 PY
 }
@@ -290,7 +310,9 @@ PY
   if [ "$dest" = - ]; then targets="[\"$target\"]"; else targets="[\"$target\",\"$dest\"]"; fi
   expected_exit="$(status_exit "$status")"; stdout="$tmp/$label.out"; stderr="$tmp/$label.err"
   [ "$op" = recover ] && forbidden=1
-  local item; for item in "$@"; do [ "$item" = --arbitrary-mutator ] && forbidden=1; done
+  local item; for item in "$@"; do
+    case "$item" in --operation|--target|--destination|--journal|--token|--arbitrary-mutator) forbidden=1;; esac
+  done
   if [ "$helper_api" = v2 ] && [ "$forbidden" -eq 1 ]; then
     if [ "$op" = recover ]; then
       set +e; bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" --operation recover "$@" >"$stdout" 2>"$stderr"; actual=$?; set -e
@@ -307,8 +329,7 @@ PY
   set +e
   if [ "$helper_api" = v2 ]; then
     prepare_authority "$op" "$target" "$dest"
-    local evidence_args=() i=1
-    while [ "$#" -gt 0 ]; do case "$1" in --destination) shift 2;; *) evidence_args+=("$1"); shift;; esac; done
+    local evidence_args=("$@")
     if [ -n "$fault_stage" ]; then IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE="$fault_stage" bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$prepared_phase" --step "$prepared_step" "${evidence_args[@]}" >"$stdout" 2>"$stderr"; actual=$?
     else bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$prepared_phase" --step "$prepared_step" "${evidence_args[@]}" >"$stdout" 2>"$stderr"; actual=$?; fi
   elif [ -n "$fault_stage" ]; then IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE="$fault_stage" bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" --operation "$op" --target "$target" "$@" >"$stdout" 2>"$stderr"; actual=$?
@@ -333,8 +354,7 @@ invoke_fault() {
   shift 7
   instrumented="$(instrumented_helper)"; helper="$instrumented"
   prepare_authority "$op" "$target" "$dest"
-  local evidence_args=()
-  while [ "$#" -gt 0 ]; do case "$1" in --destination) shift 2;; *) evidence_args+=("$1"); shift;; esac; done
+  local evidence_args=("$@")
   pre="$(identity_json "$fixture_repo/$target")"; candidate_id="$(identity_json "$candidate")"
   [ "$dest" = - ] && targets="[\"$target\"]" || targets="[\"$target\",\"$dest\"]"
   [ "$op" = patch ] && fail 'fault fixture only supports whole-file operations'
@@ -344,7 +364,7 @@ invoke_fault() {
   # are task evidence rather than helper-supplied fault claims.
   (set +e; IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE="$stage" bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$prepared_phase" --step "$prepared_step" "${evidence_args[@]}" >"$stdout" 2>"$stderr"; echo $? >"$barrier/exit") & pid=$!
   while [ ! -f "$barrier/paused" ] && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done
-  [ "$ticks" -lt 500 ] || { wait_bounded "$pid" "R36-$stage fault helper"; fail "R36-$stage did not pause for external stage observation"; }
+  [ "$ticks" -lt 500 ] || { wait_bounded "$pid" "R36-$stage fault helper"; fail "R36-$stage did not pause for external stage observation; exit=$([ -f "$barrier/exit" ] && cat "$barrier/exit" || printf missing) stdout=$(<"$stdout") stderr=$(<"$stderr")"; }
   if [ "$stage" = after-publication ]; then
     "$python_bin" - "$fixture_repo/target" "$barrier/publication.snapshot" <<'PY'
 import hashlib,json,sys
@@ -814,16 +834,18 @@ true_kill_requires_manual_custody() {
   [ "$ticks" -lt 500 ] || { wait_bounded "$pid" 'R36 true-kill helper'; fail 'R36 true-kill never reached durable displacement'; }
   kill -9 "$pid" 2>/dev/null || true; wait "$pid" 2>/dev/null || true
   [ ! -e "$fixture_repo/target" ] || fail 'R36 true-kill retained target after displacement'
-  journal="$(find "$run_root" -maxdepth 1 -type f -name '.r36-journal-*.json' -print -quit)"
-  backup="$(find "$run_root" -maxdepth 1 -type f -name '.r36-backup-*' -print -quit)"
+  journal="$(find "$run_root/mutation-transactions" -mindepth 2 -maxdepth 2 -type f -name journal.json -print -quit)"
+  backup="${journal%/journal.json}/backup.bin"
   [ -n "$journal" ] && [ -n "$backup" ] || fail 'R36 true-kill did not retain journal and backup'
   assert_hex R36-TRUE-KILL-backup "$backup" 4142434445
   record="$($python_bin - "$journal" <<'PY'
 import json,sys
 r=json.load(open(sys.argv[1],encoding='utf-8'))
-if r.get('recovery_disposition') != 'RECOVERY_REQUIRED': raise SystemExit(f'journal disposition is not recovery-required: {r!r}')
-if not isinstance(r.get('token'),str) or not r['token']: raise SystemExit('journal token missing')
-print(r['token'])
+if r.get('schema') != 'implementaudit.observation-bound-mutation.journal.v2': raise SystemExit(f'journal schema is not v2: {r!r}')
+if r.get('status') != 'DISPLACEMENT_DURABLE': raise SystemExit(f'journal displacement state missing: {r!r}')
+if not isinstance(r.get('transaction_id'),str) or not r['transaction_id']: raise SystemExit('journal transaction id missing')
+if not any(x.get('path','').endswith('/backup.bin') for x in r.get('residue',[])): raise SystemExit(f'journal backup residue missing: {r!r}')
+print(r['transaction_id'])
 PY
 )" || fail 'R36 true-kill journal is not a durable recovery-required record'
   token="$record"
@@ -847,17 +869,19 @@ interrupted_move_requires_manual_custody() {
   [ -f "$barrier/paused" ] || { wait_bounded "$pid" 'R36 move-crash helper'; fail 'R36 move-crash never reached destination-published window'; }
   assert_hex R36-MOVE-CRASH-source-visible "$fixture_repo/target" 4142434445
   assert_hex R36-MOVE-CRASH-destination-visible "$fixture_repo/destination" 4142434445
-  journal="$(find "$run_root" -maxdepth 1 -type f -name '.r36-journal-*.json' -print -quit)"
+  journal="$(find "$run_root/mutation-transactions" -mindepth 2 -maxdepth 2 -type f -name journal.json -print -quit)"
   [ -n "$journal" ] || fail 'R36 move-crash has no durable journal before destination publication'
   token="$($python_bin - "$journal" "$fixture_repo" <<'PY'
 import hashlib,json,sys
 from pathlib import Path
-j,repo=map(Path,sys.argv[1:]); r=json.loads(j.read_text(encoding='utf-8'))
+j,repo=map(Path,sys.argv[1:]); r=json.loads(j.read_text(encoding='utf-8')); a=json.loads((j.parent/'authority.json').read_text(encoding='utf-8'))
 want={'sha256':hashlib.sha256(b'ABCDE').hexdigest(),'byte_length':5}
-if r.get('operation') != 'move' or r.get('target') != 'target' or r.get('destination') != 'destination': raise SystemExit(f'move journal identity route incorrect: {r!r}')
-if r.get('pre_identity') != want or r.get('candidate_identity') != want: raise SystemExit(f'move journal byte identities incorrect: {r!r}')
-if r.get('recovery_disposition') != 'RECOVERY_REQUIRED': raise SystemExit(f'move custody disposition missing: {r!r}')
-print(r['token'])
+if a.get('operation') != 'move' or a.get('source') != 'target' or a.get('destination') != 'destination': raise SystemExit(f'move authority route incorrect: {a!r}')
+pre={x['path']:{k:v for k,v in x['identity'].items() if k in ('sha256','byte_length')} for x in r.get('pre_identities',[])}
+cand=[{k:v for k,v in x['identity'].items() if k in ('sha256','byte_length')} for x in r.get('candidate_identities',[])]
+if pre.get('target') != want or want not in cand: raise SystemExit(f'move journal byte identities incorrect: {r!r}')
+if r.get('status') != 'PUBLICATION_DURABLE' or not any(x.get('path')=='destination' for x in r.get('residue',[])): raise SystemExit(f'move custody disposition missing: {r!r}')
+print(r['transaction_id'])
 PY
 )" || fail 'R36 move-crash journal was not a truthful custody record'
   find "$fixture_repo/.IMPLEMENTAUDIT/.r36-locks" -mindepth 1 -maxdepth 1 -type d -print -quit | grep -q . || fail 'R36 move-crash did not retain owned locks'
@@ -866,8 +890,8 @@ PY
   assert_hex R36-MOVE-CRASH-recover-source "$fixture_repo/target" 4142434445
   assert_hex R36-MOVE-CRASH-recover-destination "$fixture_repo/destination" 4142434445
   [ -e "$journal" ] || fail 'R36 move-crash recover consumed journal'
-  setup; pre="$(artifact move-clean-pre 4142434445)"; invoke R36-MOVE-CLEAN COMMITTED move target destination "$pre" 4142434445 --preimage "$pre" --destination destination
-  if [ -n "$(find "$run_root" -maxdepth 1 -type f -name '.r36-journal-*.json' -print -quit)" ]; then
+  setup; pre="$(artifact move-clean-pre 4142434445)"; invoke R36-MOVE-CLEAN COMMITTED move target destination "$pre" 4142434445 --preimage "$pre"
+  if [ -n "$(find "$run_root/mutation-transactions" -mindepth 2 -maxdepth 2 -type f -name journal.json -print -quit)" ]; then
     fail 'R36 successful move retained a journal'
   fi
   return 0
@@ -900,15 +924,15 @@ PY
   setup; pre="$(artifact fault-after-publication 4142434445)"; cand="$(artifact fault-candidate 4e4557)"; invoke_fault after-publication R36-F71b MUTATION_FAILED_ROLLED_BACK replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"
   setup; pre="$(artifact fault-post-mismatch 4142434445)"; cand="$(artifact fault-candidate 4e4557)"; invoke_fault post-state-mismatch R36-F72 POST_STATE_MISMATCH_ROLLED_BACK replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"
   setup; pre="$(artifact fault-unsupported 4142434445)"; cand="$(artifact fault-candidate 4e4557)"; invoke_fault unsupported-external-writer R36-F77 UNSUPPORTED_OWNER_DECISION replace target - "$cand" 554e535550504f525445442d575249544552 --preimage "$pre" --candidate "$cand"
-  setup; pre="$(artifact binary-pre 0001ff7f42494e0d0a)"; cand="$(artifact binary-candidate ff0042494e2d)"; invoke R36-B3 COMMITTED replace binary - "$cand" ff0042494e2d --preimage "$pre" --candidate "$cand"; pre="$(artifact binary-delete-pre ff0042494e2d)"; invoke R36-B4 COMMITTED delete binary - - - --preimage "$pre"; setup; pre="$(artifact binary-move-pre 0001ff7f42494e0d0a)"; invoke R36-B5 COMMITTED move binary binary-destination "$pre" 0001ff7f42494e0d0a --preimage "$pre" --destination binary-destination; assert_hex R36-B5-source-absent "$fixture_repo/binary" -; assert_hex R36-B5-destination "$fixture_repo/binary-destination" 0001ff7f42494e0d0a
+  setup; pre="$(artifact binary-pre 0001ff7f42494e0d0a)"; cand="$(artifact binary-candidate ff0042494e2d)"; invoke R36-B3 COMMITTED replace binary - "$cand" ff0042494e2d --preimage "$pre" --candidate "$cand"; pre="$(artifact binary-delete-pre ff0042494e2d)"; invoke R36-B4 COMMITTED delete binary - - - --preimage "$pre"; setup; pre="$(artifact binary-move-pre 0001ff7f42494e0d0a)"; invoke R36-B5 COMMITTED move binary binary-destination "$pre" 0001ff7f42494e0d0a --preimage "$pre"; assert_hex R36-B5-source-absent "$fixture_repo/binary" -; assert_hex R36-B5-destination "$fixture_repo/binary-destination" 0001ff7f42494e0d0a
   setup; pre="$(artifact hard-pre 5349424c494e47)"; cand="$(artifact hard-candidate 4e4557)"; invoke R36-T1 COMMITTED replace hardlink - "$cand" 4e4557 --preimage "$pre" --candidate "$cand"; assert_hex R36-T1-sibling "$fixture_repo/sibling" 5349424c494e47
   setup; pre="$(artifact equal-pre 53414d45)"; cand="$(artifact equal-candidate 4e4557)"; invoke R36-T1-equal COMMITTED replace equal-one - "$cand" 4e4557 --preimage "$pre" --candidate "$cand"; assert_hex R36-T1-equal-other "$fixture_repo/equal-two" 53414d45
-  setup; pre="$(artifact scope-pre 4142434445)"; cand="$(artifact scope-candidate 4e4557)"; invoke R36-T2 REJECTED_NO_MUTATION replace ../existing-outside-target - "$cand" 4f555453494445 --preimage "$pre" --candidate "$cand"; [ "$(cat "$fixture_repo/symlink-capability")" = yes ] && { pre="$(artifact link-pre 4142434445)"; invoke R36-T3 REJECTED_NO_MUTATION replace final-link - "$cand" @SYMLINK_PATH --preimage "$pre" --candidate "$cand"; assert_hex R36-T3-outside-referent "$fixture_repo/target" 4142434445; pre="$(artifact parent-pre 6368696c64)"; invoke R36-T4 REJECTED_NO_MUTATION replace parent-link/child - "$cand" @SYMLINK_PATH --preimage "$pre" --candidate "$cand"; assert_hex R36-T4-ancestor-outside-referent "$fixture_repo/real/child" 6368696c64; }
+  setup; pre="$(artifact scope-pre 4142434445)"; cand="$(artifact scope-candidate 4e4557)"; invoke R36-T2 REJECTED_NO_MUTATION replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand" --target ../existing-outside-target; [ "$(cat "$fixture_repo/symlink-capability")" = yes ] && { pre="$(artifact link-pre 4142434445)"; invoke R36-T3 REJECTED_NO_MUTATION replace final-link - "$cand" @SYMLINK_PATH --preimage "$pre" --candidate "$cand"; assert_hex R36-T3-outside-referent "$fixture_repo/target" 4142434445; pre="$(artifact parent-pre 6368696c64)"; invoke R36-T4 REJECTED_NO_MUTATION replace parent-link/child - "$cand" @SYMLINK_PATH --preimage "$pre" --candidate "$cand"; assert_hex R36-T4-ancestor-outside-referent "$fixture_repo/real/child" 6368696c64; }
   setup; pre="$(artifact reference-pre 4142434445)"; ln -s "$(basename "$pre")" "$fixture_repo/artifacts/reference-preimage" 2>/dev/null || true; if [ -L "$fixture_repo/artifacts/reference-preimage" ]; then cand="$(artifact reference-candidate 4e4557)"; invoke R36-T5 REJECTED_NO_MUTATION replace target - "$cand" 4142434445 --preimage "$fixture_repo/artifacts/reference-preimage" --candidate "$cand"; fi
-  setup; pre="$(artifact stale-delete-pre 414243)"; invoke R36-D1 REJECTED_NO_MUTATION delete target - - 4142434445 --preimage "$pre"; pre="$(artifact stale-move-pre 414243)"; invoke R36-D2 REJECTED_NO_MUTATION move target absent-destination "$pre" 4142434445 --preimage "$pre" --destination absent-destination; assert_hex R36-D2-destination-absent "$fixture_repo/absent-destination" -
-  setup; pre="$(artifact stale-move-full-pre 4142434445)"; write_hex "$fixture_repo/target" 4c41544552; invoke R36-D2-currentness CONFLICT_REBASE move target absent-destination "$pre" 4c41544552 --preimage "$pre" --destination absent-destination; assert_hex R36-D2-currentness-destination-absent "$fixture_repo/absent-destination" -
-  setup; pre="$(artifact move-pre 4142434445)"; write_hex "$fixture_repo/existing-destination" 455849535453; invoke R36-D3 REJECTED_NO_MUTATION move target existing-destination "$pre" 4142434445 --preimage "$pre" --destination existing-destination; assert_hex R36-D3-destination "$fixture_repo/existing-destination" 455849535453
-  setup; pre="$(artifact same-pre 4142434445)"; invoke R36-D4 REJECTED_NO_MUTATION move target target "$pre" 4142434445 --preimage "$pre" --destination target
+  setup; pre="$(artifact stale-delete-pre 414243)"; invoke R36-D1 REJECTED_NO_MUTATION delete target - - 4142434445 --preimage "$pre"; pre="$(artifact stale-move-pre 414243)"; invoke R36-D2 REJECTED_NO_MUTATION move target absent-destination "$pre" 4142434445 --preimage "$pre"; assert_hex R36-D2-destination-absent "$fixture_repo/absent-destination" -
+  setup; pre="$(artifact stale-move-full-pre 4142434445)"; write_hex "$fixture_repo/target" 4c41544552; invoke R36-D2-currentness CONFLICT_REBASE move target absent-destination "$pre" 4c41544552 --preimage "$pre"; assert_hex R36-D2-currentness-destination-absent "$fixture_repo/absent-destination" -
+  setup; pre="$(artifact move-pre 4142434445)"; write_hex "$fixture_repo/existing-destination" 455849535453; invoke R36-D3 REJECTED_NO_MUTATION move target existing-destination "$pre" 4142434445 --preimage "$pre"; assert_hex R36-D3-destination "$fixture_repo/existing-destination" 455849535453
+  setup; pre="$(artifact same-pre 4142434445)"; invoke R36-D4 REJECTED_NO_MUTATION move target absent-destination "$pre" 4142434445 --preimage "$pre" --destination target
   setup; mkdir "$fixture_repo/directory-target"; pre="$(artifact regular-pre 4142434445)"; cand="$(artifact regular-candidate 4e4557)"; invoke R36-D5 REJECTED_NO_MUTATION replace directory-target - "$cand" @DIRECTORY --preimage "$pre" --candidate "$cand"
   # Cheap controls are not helper triggers: read-only inspection, disposable
   # task-owned creation, and unrelated diagnostics leave the named bytes alone.
