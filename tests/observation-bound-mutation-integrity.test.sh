@@ -72,6 +72,9 @@ PY
 }
 fixture_self_check() {
   setup
+  # JSON paths are host-native (for example a Windows drive path under Git
+  # Bash); containment is canonical rather than a POSIX string-prefix test.
+  assert_reported_fixture_path "$fixture_repo/artifacts/../target" || fail 'fixture alternate-spelling containment failed'
   "$python_bin" - "$fixture_repo" <<'PY'
 import os,sys
 from pathlib import Path
@@ -351,6 +354,14 @@ for raw in record['residue_paths']:
  if root not in p.parents or not p.exists(): raise SystemExit(f'missing retained residue: {p}')
 PY
 }
+assert_reported_fixture_path() { "$python_bin" - "$fixture_repo" "$1" <<'PY'
+import sys
+from pathlib import Path
+root=Path(sys.argv[1]).resolve(); path=Path(sys.argv[2]).resolve()
+if root not in path.parents or not path.exists():
+ raise SystemExit(f'reported path is not a retained fixture path: {path}')
+PY
+}
 
 mutant_self_check() {
   setup
@@ -602,19 +613,11 @@ PY
   last_record="$(assert_response R36-DRIFT "$status" replace target - '["target"]' "$pre_id" "$(identity_json "$candidate")" "$post" "$(post_identities_json target -)" "$(<"$stdout")")"
   assert_hex R36-DRIFT-winner "$fixture_repo/target" 45585445524e414c2d57494e4e4552
   journal="$(residual_field journal_path)"; token="$(residual_field token)"
-  case "$journal" in "$fixture_repo"/*) ;; *) fail "R36-DRIFT journal escapes fixture: $journal";; esac
-  [ -e "$journal" ] || fail 'R36-DRIFT journal not retained'
-  "$python_bin" - "$last_record" "$fixture_repo" <<'PY'
-import json,sys
-from pathlib import Path
-r=Path(sys.argv[2]).resolve()
-for p in json.loads(sys.argv[1])['residue_paths']:
- q=Path(p).resolve()
- if r not in q.parents or not q.exists(): raise SystemExit(f'bad residue {p}')
-PY
+  assert_retained_recovery_paths
+  assert_reported_fixture_path "$journal"
   # Wrong token must not delete the journal, mutate winner bytes, or consume the lock/recovery authority.
   invoke R36-DRIFT-forged REJECTED_NO_MUTATION recover target - - 45585445524e414c2d57494e4e4552 --journal "$journal" --token "forged-$token"
-  [ -e "$journal" ] || fail 'R36-DRIFT forged token removed journal'
+  assert_reported_fixture_path "$journal"
   # A token-looking, externally crafted journal/backup cannot become recovery
   # authority or consume either external file.
   local crafted_backup="$tmp/crafted-backup" crafted_journal="$tmp/crafted-journal.json" crafted_token='crafted-token'
@@ -657,7 +660,7 @@ PY
   [ "$actual" -eq 64 ] || fail 'R36-DRIFT correct-token exit mismatch'
   recovery_post="$(identity_json "$fixture_repo/target")"
   last_record="$(assert_response R36-DRIFT-correct-token "$status" recover target - '["target"]' "$recovery_pre" null "$recovery_post" "$(post_identities_json target -)" "$(<"$tmp/recover.out")")"
-  [ -e "$journal" ] || fail 'R36-DRIFT owner-gated recovery removed journal'
+  assert_reported_fixture_path "$journal"
   assert_hex R36-DRIFT-correct-token-winner "$fixture_repo/target" 45585445524e414c2d57494e4e4552
 }
 
