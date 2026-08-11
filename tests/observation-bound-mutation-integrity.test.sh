@@ -87,6 +87,31 @@ print('R36_FIXTURE_SELF_CHECK=PASS bytes=raw topology=hardlink,symlink-or-declar
 PY
 }
 
+# The fault/rendezvous driver is mechanically derived from the authoritative
+# helper.  Production contains only inert structural hook markers; this copy
+# receives test-only code by insertion and is never installed or packaged.
+instrumented_helper() {
+  local derived="$tmp/instrumented-apply-observed-mutation.sh"
+  "$python_bin" - "$canonical_helper" "$derived" <<'PY' || return 1
+import sys
+from pathlib import Path
+source=Path(sys.argv[1]).read_text(encoding='utf-8')
+needle='    # R36_INSTRUMENT_INSERT\n'
+if source.count(needle) != 1: raise SystemExit('R36 instrument marker count is not exactly one')
+insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'init':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n"""
+Path(sys.argv[2]).write_text(source.replace(needle,needle+insert),encoding='utf-8')
+PY
+  chmod +x "$derived" || return 1
+  "$python_bin" - "$canonical_helper" "$derived" <<'PY' || return 1
+import sys
+from pathlib import Path
+canonical,derived=map(Path,sys.argv[1:]); text=derived.read_text(encoding='utf-8')
+insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'init':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n"""
+if text.replace(insert,'') != canonical.read_text(encoding='utf-8'): raise SystemExit('instrumented copy does not strip byte-equal')
+PY
+  printf '%s\n' "$derived"
+}
+
 identity_json() { "$python_bin" - "$1" <<'PY'
 import hashlib,json,stat,sys
 from pathlib import Path
@@ -185,7 +210,9 @@ PY
 invoke_fault() {
   local stage="$1"; shift; local barrier="$tmp/fault-$stage" stdout="$tmp/fault-$stage.out" stderr="$tmp/fault-$stage.err" pid ticks=0 actual
   local label="$1" status="$2" op="$3" target="$4" dest="$5" candidate="$6" expected="$7" pre candidate_id post post_ids targets
+  local canonical_saved="$helper" instrumented
   shift 7
+  instrumented="$(instrumented_helper)"; helper="$instrumented"
   pre="$(identity_json "$fixture_repo/$target")"; candidate_id="$(identity_json "$candidate")"
   [ "$dest" = - ] && targets="[\"$target\"]" || targets="[\"$target\",\"$dest\"]"
   [ "$op" = patch ] && fail 'fault fixture only supports whole-file operations'
@@ -302,6 +329,7 @@ PY
     assert_hex "$label task-owned-actor-cleanup" "$fixture_repo/target" 4142434445
   fi
   [ "$stage" != unsupported-external-writer ] || [ -f "$barrier/external-writer-created" ] || fail 'R36 unsupported cell did not use external writer'
+  helper="$canonical_saved"
 }
 
 residual_field() { "$python_bin" - "$last_record" "$1" <<'PY'
@@ -506,7 +534,8 @@ canonical_observation_races() {
   # The helper publishes an `observed` barrier only after it captured the
   # supplied preimage/current target, so these external writes are genuinely
   # after observation rather than setup-time stale fixtures.
-  local label mode pre barrier pid actual stdout stderr source_pre source_post post_set
+  local label mode pre barrier pid actual stdout stderr source_pre source_post post_set canonical_saved="$helper" instrumented
+  instrumented="$(instrumented_helper)"; helper="$instrumented"
   for mode in source destination; do
     setup; label="R36-RACE-$mode"; pre="$(artifact "$mode-pre" 4142434445)"; barrier="$tmp/barrier-race-$mode"; mkdir "$barrier"; stdout="$tmp/$label.out"; stderr="$tmp/$label.err"; source_pre="$(identity_json "$fixture_repo/target")"
     (set +e; IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" --operation move --target target --preimage "$pre" --destination destination >"$stdout" 2>"$stderr"; echo $? >"$barrier/exit") & pid=$!
@@ -520,6 +549,7 @@ canonical_observation_races() {
     if [ "$mode" = source ]; then assert_hex "$label-source" "$fixture_repo/target" 4c41544552; assert_hex "$label-destination" "$fixture_repo/destination" -
     else assert_hex "$label-source" "$fixture_repo/target" 4142434445; assert_hex "$label-destination" "$fixture_repo/destination" 45585445524e414c; fi
   done
+  helper="$canonical_saved"
 }
 
 external_drift_and_recovery() {
@@ -616,6 +646,9 @@ from pathlib import Path
 p=Path(sys.argv[1]); p.write_text('#!/usr/bin/env bash\nprintf PWNED > "$1"\n',encoding='utf-8'); os.chmod(p,0o700)
 PY
   invoke R36-C4 REJECTED_NO_MUTATION replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand" --arbitrary-mutator "$mutator" "$fixture_repo/sentinel"; assert_hex R36-C4-sentinel "$fixture_repo/sentinel" 53414645
+  # Ambient test labels are inert to the authoritative helper. Only the
+  # mechanically derived, unshipped driver may consume them.
+  setup; pre="$(artifact ambient-pre 4142434445)"; cand="$(artifact ambient-candidate 4e4557)"; IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=after-publication IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$tmp/ambient-inert" invoke R36-AMBIENT-inert COMMITTED replace target - "$cand" 4e4557 --preimage "$pre" --candidate "$cand"
   setup; region="$(artifact crlf-region 74776f0d0a)"; repl="$(artifact crlf-repl 54574f0d0a)"; invoke R36-B1 COMMITTED patch crlf - "$repl" 6f6e650d0a54574f0d0a74687265650d0a --offset 5 --region "$region" --replacement "$repl"
   setup; region="$(artifact unicode-region e282ac2de4b8ade69687)"; repl="$(artifact unicode-repl f09f9880)"; invoke R36-B2 COMMITTED patch unicode - "$repl" 7072656669782df09f98802d737566666978 --offset 7 --region "$region" --replacement "$repl"
   setup; region="$(artifact split-region e2)"; repl="$(artifact split-repl 58)"; invoke R36-B2-split COMMITTED patch unicode - "$repl" 7072656669782d5882ac2de4b8ade696872d737566666978 --offset 7 --region "$region" --replacement "$repl"
@@ -657,4 +690,5 @@ fixture_self_check
 if [ -n "${R36_HELPER:-}" ] && [ "$R36_HELPER" != "$canonical_helper" ]; then fail "refusing non-canonical helper path: $R36_HELPER"; fi
 if [ ! -f "$canonical_helper" ] || [ -L "$canonical_helper" ]; then printf 'observation-bound-mutation-integrity: RED missing authoritative helper: %s\n' "$canonical_helper" >&2; exit 1; fi
 bash -n "$canonical_helper" || fail 'canonical helper has invalid Bash syntax'
+instrumented_helper >/dev/null || fail 'R36 instrumented-copy derivation failed'
 state_family

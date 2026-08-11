@@ -19,6 +19,9 @@ def links(p,stop=None):
 def ident(p): return I(Path(p).read_bytes()) if reg(p) and links(p,R) else None
 def raw(p): return Path(p).read_bytes() if reg(p) and links(p,R) else None
 def rel(s):return bool(s) and not os.path.isabs(s) and '..' not in Path(s).parts
+def phase_hook(phase):
+    # R36_INSTRUMENT_INSERT
+    return
 p=argparse.ArgumentParser(add_help=False);p.add_argument('--repo-root',required=True);p.add_argument('--run-root',required=True);p.add_argument('--operation',required=True);p.add_argument('--target',required=True);p.add_argument('--preimage');p.add_argument('--candidate');p.add_argument('--destination');p.add_argument('--offset');p.add_argument('--region');p.add_argument('--replacement');p.add_argument('--journal');p.add_argument('--token');p.add_argument('--arbitrary-mutator',nargs=2)
 try:a,u=p.parse_known_args()
 except SystemExit:sys.exit(64)
@@ -34,10 +37,16 @@ if u or op not in ('patch','replace','delete','move','recover'):out('REJECTED_NO
 run=Path(a.run_root);run=run if run.is_absolute() else R/run
 if not (R.is_dir() and R in run.parents and (run/'.claimed').is_file()):out('REJECTED_NO_MUTATION')
 if op=='recover':
- try:r=json.loads(Path(a.journal).read_text());ok=secrets.compare_digest(r['token'],a.token)
+ try:r=json.loads(Path(a.journal).read_text());j=Path(a.journal);ok=secrets.compare_digest(r['token'],a.token);B=Path(r['backup'])
  except Exception:ok=False
  if not ok:out('REJECTED_NO_MUTATION')
- rs=[Path(x) for x in r['residue_paths']];out('ROLLBACK_CONFLICT',j=Path(a.journal),tok=a.token,res=rs)
+ rs=[B]
+ # Only an absent slot or the helper's still-identical candidate is recoverable.
+ own=r.get('candidate_identity'); now=raw(T)
+ if B.is_file() and (now is None or (own and I(now)==own)):
+  if now is not None: os.unlink(T)
+  os.link(B,T); os.unlink(B); j.unlink(); out('COMMITTED')
+ out('ROLLBACK_CONFLICT',j=j,tok=a.token,res=rs)
 if not rel(a.target) or not links(T,R) or not T.parent.exists() or not links(T.parent,R):out('REJECTED_NO_MUTATION',cand=early())
 if op=='move' and (not rel(a.destination) or a.destination==a.target or not links(D.parent,R)):out('REJECTED_NO_MUTATION',cand=early())
 pre=raw(a.preimage) if a.preimage else None
@@ -58,7 +67,7 @@ if now is None:out('REJECTED_NO_MUTATION',cand=I(pre if op=='move' else c) if (o
 if op in ('replace','delete','move') and now!=pre:out('REJECTED_NO_MUTATION' if now.startswith(pre) else 'CONFLICT_REBASE',cand=I(pre if op=='move' else c) if (op=='move' or c is not None) else None)
 if op=='replace' and c==now:out('NO_CHANGE',cand=I(c))
 if op=='move' and D.exists():out('REJECTED_NO_MUTATION',cand=I(pre))
-bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR');fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')
+bar=None;fault=None;phase_hook('init')
 def wait(name,release='release'):
  if not bar:return
  b=Path(bar);b.mkdir(parents=True,exist_ok=True);(b/name).touch()
@@ -72,11 +81,15 @@ if fault=='unsupported-external-writer':
 if bar and not fault:
  wait('observed')
  if raw(T)!=now or (op=='move' and D.exists()):out('CONFLICT_REBASE',cand=I(pre if op=='move' else c))
-L=run/'.r36-locks';L.mkdir(exist_ok=True);held=[];initial=bool(op=='move' and D.exists())
+L=R/'.IMPLEMENTAUDIT'/'.r36-locks'
+if L.is_symlink() or (L.exists() and not L.is_dir()):out('UNSUPPORTED_OWNER_DECISION',cand=I(pre if op=='move' else c) if (op=='move' or c is not None) else None)
+L.mkdir(parents=True,exist_ok=True);owner=secrets.token_hex(16);held=[];initial=bool(op=='move' and D.exists())
 try:
- for k in sorted([a.target]+([a.destination] if op=='move' else [])):
+ obj=os.lstat(T); keys=[a.target]+([a.destination] if op=='move' else [])+[f'object:{obj.st_dev}:{obj.st_ino}']
+ for k in sorted(keys):
   q=L/(hashlib.sha256(k.encode()).hexdigest()+'.lock')
-  try:os.mkdir(q);held.append(q)
+  try:
+   os.mkdir(q);(q/'owner').write_text(owner);held.append(q)
   except FileExistsError:out('CONFLICT_REBASE',cand=I(pre if op=='move' else c))
  if initial:out('REJECTED_NO_MUTATION',cand=I(pre))
  if raw(T)!=now or (op=='move' and D.exists()):out('CONFLICT_REBASE',cand=I(pre if op=='move' else c))
@@ -86,23 +99,28 @@ try:
   except FileExistsError:out('CONFLICT_REBASE',cand=I(pre))
   except OSError:out('UNSUPPORTED_OWNER_DECISION',cand=I(pre))
   out('COMMITTED',cand=I(pre),post=D)
- B=run/('.r36-backup-'+secrets.token_hex(8));os.replace(T,B)
- if fault=='after-displacement':wait('paused');os.link(B,T);out('MUTATION_FAILED_ROLLED_BACK',cand=I(c) if c else None)
- if op=='delete':os.unlink(B);out('COMMITTED')
+ tok=secrets.token_hex(16);B=run/('.r36-backup-'+tok);J=run/('.r36-journal-'+tok+'.json')
+ # The journal is durable before the first destructive rename.
+ with J.open('w',encoding='utf-8') as jf:
+  json.dump({'token':tok,'target':a.target,'backup':str(B),'candidate_identity':I(c) if c is not None else None},jf,separators=(',',':'));jf.flush();os.fsync(jf.fileno())
+ os.replace(T,B)
+ if fault=='after-displacement':wait('paused');os.link(B,T);B.unlink();J.unlink();out('MUTATION_FAILED_ROLLED_BACK',cand=I(c) if c else None)
+ if op=='delete':os.unlink(B);J.unlink();out('COMMITTED')
  S=run/('.r36-stage-'+secrets.token_hex(8));S.write_bytes(c);os.link(S,T);S.unlink()
- if fault=='after-publication':wait('paused');os.unlink(T);os.link(B,T);B.unlink();out('MUTATION_FAILED_ROLLED_BACK',cand=I(c))
+ if fault=='after-publication':wait('paused');os.unlink(T);os.link(B,T);B.unlink();J.unlink();out('MUTATION_FAILED_ROLLED_BACK',cand=I(c))
  if fault=='post-state-mismatch':
   wait('paused');wait('observed-after-external','continue-after-external');
   if reg(T):os.unlink(T)
-  os.link(B,T);B.unlink();out('POST_STATE_MISMATCH_ROLLED_BACK',cand=I(c))
+  os.link(B,T);B.unlink();J.unlink();out('POST_STATE_MISMATCH_ROLLED_BACK',cand=I(c))
  for _ in range(30):
   if raw(T)!=c:break
   time.sleep(.005)
  if raw(T)!=c:
-  tok=secrets.token_hex(16);j=run/('.r36-journal-'+tok+'.json');j.write_text(json.dumps({'token':tok,'residue_paths':[str(B)]}));out('ROLLBACK_CONFLICT',cand=I(c),j=j,tok=tok,res=[B])
- B.unlink();out('COMMITTED',cand=I(c))
+  out('ROLLBACK_CONFLICT',cand=I(c),j=J,tok=tok,res=[B])
+ B.unlink();J.unlink();out('COMMITTED',cand=I(c))
 finally:
  for q in held:
-  try:os.rmdir(q)
+  try:
+   if (q/'owner').read_text()==owner: (q/'owner').unlink();os.rmdir(q)
   except OSError:pass
 PY
