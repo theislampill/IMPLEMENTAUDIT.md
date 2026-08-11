@@ -202,16 +202,6 @@ import hashlib,json,sys
 from pathlib import Path
 b=Path(sys.argv[1]).read_bytes(); Path(sys.argv[2]).write_text(json.dumps({'published_sha256':hashlib.sha256(b).hexdigest(),'published_bytes':len(b)}),encoding='utf-8')
 PY
-  elif [ "$stage" = post-state-mismatch ] || [ "$stage" = unsupported-external-writer ]; then
-    "$python_bin" - "$fixture_repo/target" "$barrier/$stage.transition" "$stage" <<'PY'
-import hashlib,json,sys
-from pathlib import Path
-t=Path(sys.argv[1]); out=Path(sys.argv[2]); stage=sys.argv[3]
-before=t.read_bytes(); injected=b'MISMATCH-ACTOR' if stage=='post-state-mismatch' else b'UNSUPPORTED-WRITER'
-t.write_bytes(injected); during=t.read_bytes(); t.write_bytes(before); after=t.read_bytes()
-out.write_text(json.dumps({'before_sha256':hashlib.sha256(before).hexdigest(),'during_sha256':hashlib.sha256(during).hexdigest(),'after_sha256':hashlib.sha256(after).hexdigest(),'actor':stage},sort_keys=True),encoding='utf-8')
-PY
-    [ "$stage" != unsupported-external-writer ] || : >"$barrier/external-writer-created"
   fi
   "$python_bin" - "$fixture_repo/target" "$barrier/observed.json" "$stage" <<'PY'
 import hashlib,json,stat,sys
@@ -226,7 +216,32 @@ except FileNotFoundError:
 record={'exists':exists,'sha256':None if data is None else hashlib.sha256(data).hexdigest(),'byte_length':None if data is None else len(data)}
 out.write_text(json.dumps(record,sort_keys=True),encoding='utf-8')
 PY
-  : >"$barrier/release"; wait_bounded "$pid" "R36-$stage fault helper"; actual="$(<"$barrier/exit")"
+  # The post-mismatch and unsupported actors now retain their bytes throughout
+  # release.  A helper which merely reads a caller label cannot pass: it must
+  # observe the task-owned state before `continue-after-external` is granted.
+  if [ "$stage" = post-state-mismatch ] || [ "$stage" = unsupported-external-writer ]; then
+    "$python_bin" - "$fixture_repo/target" "$barrier/$stage.transition" "$barrier/$stage.before" "$stage" <<'PY'
+import hashlib,json,sys
+from pathlib import Path
+t=Path(sys.argv[1]); out=Path(sys.argv[2]); saved=Path(sys.argv[3]); stage=sys.argv[4]
+before=t.read_bytes(); injected=b'MISMATCH-ACTOR' if stage=='post-state-mismatch' else b'UNSUPPORTED-WRITER'
+saved.write_bytes(before); t.write_bytes(injected); during=t.read_bytes()
+out.write_text(json.dumps({'before_sha256':hashlib.sha256(before).hexdigest(),'during_sha256':hashlib.sha256(during).hexdigest(),'actor':stage},sort_keys=True),encoding='utf-8')
+PY
+    [ "$stage" != unsupported-external-writer ] || : >"$barrier/external-writer-created"
+  fi
+  : >"$barrier/release"
+  if [ "$stage" = post-state-mismatch ] || [ "$stage" = unsupported-external-writer ]; then
+    ticks=0; while [ ! -f "$barrier/observed-after-external" ] && kill -0 "$pid" 2>/dev/null && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done
+    [ "$ticks" -lt 500 ] || { wait_bounded "$pid" "R36-$stage external observation"; fail "R36-$stage did not observe externally held state"; }
+    "$python_bin" - "$fixture_repo/target" "$barrier/continuation.snapshot" <<'PY'
+import hashlib,json,sys
+from pathlib import Path
+b=Path(sys.argv[1]).read_bytes(); Path(sys.argv[2]).write_text(json.dumps({'sha256':hashlib.sha256(b).hexdigest(),'byte_length':len(b)}),encoding='utf-8')
+PY
+    : >"$barrier/continue-after-external"
+  fi
+  wait_bounded "$pid" "R36-$stage fault helper"; actual="$(<"$barrier/exit")"
   [ "$actual" -eq "$(status_exit "$status")" ] || fail "R36-$stage exit=$actual expected $(status_exit "$status") stderr=$(<"$stderr")"
   post="$(identity_json "$fixture_repo/$target")"; post_ids="$(post_identities_json "$target" "$dest")"
   last_record="$(assert_response "$label" "$status" "$op" "$target" "$dest" "$targets" "$pre" "$candidate_id" "$post" "$post_ids" "$(<"$stdout")")"
@@ -255,8 +270,36 @@ PY
 import json,sys
 r=json.loads(open(sys.argv[1],encoding='utf-8').read()); stage=sys.argv[2]
 want_before='a253ff09c5a8678e1fd1962b2c329245e139e45f9cc6ced4e5d7ad42c4108fc0' if stage=='post-state-mismatch' else 'f0393febe8baaa55e32f7be2a7cc180bf34e52137d99e056c817a9c07b8f239a'
-if r['actor'] != stage or r['before_sha256'] != want_before or r['after_sha256'] != want_before or r['during_sha256'] == want_before: raise SystemExit(f'bad external transition: {r!r}')
+if r['actor'] != stage or r['before_sha256'] != want_before or r['during_sha256'] == want_before: raise SystemExit(f'bad externally-held transition: {r!r}')
 PY
+    # The continuation snapshot is made before the task grants the second
+    # release gate.  If the helper exits instead, its terminal state above is
+    # still checked exactly; either route proves the actor was not restored
+    # before continuation became possible.
+    if [ -f "$barrier/observed-after-external" ]; then
+      "$python_bin" - "$barrier/continuation.snapshot" "$stage" <<'PY'
+import hashlib,json,sys
+r=json.loads(open(sys.argv[1],encoding='utf-8').read()); stage=sys.argv[2]
+b=b'MISMATCH-ACTOR' if stage=='post-state-mismatch' else b'UNSUPPORTED-WRITER'
+want={'sha256':hashlib.sha256(b).hexdigest(),'byte_length':len(b)}
+if r != want: raise SystemExit(f'helper observation did not overlap injected state: {r!r}')
+PY
+    else
+      [ -f "$barrier/exit" ] || fail "R36-$stage neither observed external state nor exited"
+    fi
+    "$python_bin" - "$fixture_repo/target" "$barrier/$stage.before" "$barrier/$stage.transition" "$stage" <<'PY'
+import hashlib,json,sys
+from pathlib import Path
+t=Path(sys.argv[1]); saved=Path(sys.argv[2]); out=Path(sys.argv[3]); stage=sys.argv[4]
+injected=b'MISMATCH-ACTOR' if stage=='post-state-mismatch' else b'UNSUPPORTED-WRITER'
+current=t.read_bytes(); restored=current==injected
+if restored: t.write_bytes(saved.read_bytes())
+r=json.loads(out.read_text(encoding='utf-8')); r.update({'terminal_sha256':hashlib.sha256(current).hexdigest(),'actor_restored_after_exit':restored})
+out.write_text(json.dumps(r,sort_keys=True),encoding='utf-8')
+PY
+    # Post-mismatch has already rolled back; unsupported deliberately leaves
+    # the external writer's bytes alone until this task-owned cleanup.
+    assert_hex "$label task-owned-actor-cleanup" "$fixture_repo/target" 4142434445
   fi
   [ "$stage" != unsupported-external-writer ] || [ -f "$barrier/external-writer-created" ] || fail 'R36 unsupported cell did not use external writer'
 }
@@ -583,7 +626,7 @@ PY
   setup; pre="$(artifact fault-after-displacement 4142434445)"; cand="$(artifact fault-candidate 4e4557)"; invoke_fault after-displacement R36-F71a MUTATION_FAILED_ROLLED_BACK replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"
   setup; pre="$(artifact fault-after-publication 4142434445)"; cand="$(artifact fault-candidate 4e4557)"; invoke_fault after-publication R36-F71b MUTATION_FAILED_ROLLED_BACK replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"
   setup; pre="$(artifact fault-post-mismatch 4142434445)"; cand="$(artifact fault-candidate 4e4557)"; invoke_fault post-state-mismatch R36-F72 POST_STATE_MISMATCH_ROLLED_BACK replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"
-  setup; pre="$(artifact fault-unsupported 4142434445)"; cand="$(artifact fault-candidate 4e4557)"; invoke_fault unsupported-external-writer R36-F77 UNSUPPORTED_OWNER_DECISION replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"
+  setup; pre="$(artifact fault-unsupported 4142434445)"; cand="$(artifact fault-candidate 4e4557)"; invoke_fault unsupported-external-writer R36-F77 UNSUPPORTED_OWNER_DECISION replace target - "$cand" 554e535550504f525445442d575249544552 --preimage "$pre" --candidate "$cand"
   setup; pre="$(artifact binary-pre 0001ff7f42494e0d0a)"; cand="$(artifact binary-candidate ff0042494e2d)"; invoke R36-B3 COMMITTED replace binary - "$cand" ff0042494e2d --preimage "$pre" --candidate "$cand"; pre="$(artifact binary-delete-pre ff0042494e2d)"; invoke R36-B4 COMMITTED delete binary - - - --preimage "$pre"; setup; pre="$(artifact binary-move-pre 0001ff7f42494e0d0a)"; invoke R36-B5 COMMITTED move binary binary-destination "$pre" 0001ff7f42494e0d0a --preimage "$pre" --destination binary-destination; assert_hex R36-B5-source-absent "$fixture_repo/binary" -; assert_hex R36-B5-destination "$fixture_repo/binary-destination" 0001ff7f42494e0d0a
   setup; pre="$(artifact hard-pre 5349424c494e47)"; cand="$(artifact hard-candidate 4e4557)"; invoke R36-T1 COMMITTED replace hardlink - "$cand" 4e4557 --preimage "$pre" --candidate "$cand"; assert_hex R36-T1-sibling "$fixture_repo/sibling" 5349424c494e47
   setup; pre="$(artifact equal-pre 53414d45)"; cand="$(artifact equal-candidate 4e4557)"; invoke R36-T1-equal COMMITTED replace equal-one - "$cand" 4e4557 --preimage "$pre" --candidate "$cand"; assert_hex R36-T1-equal-other "$fixture_repo/equal-two" 53414d45
