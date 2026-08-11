@@ -599,6 +599,12 @@ and ordinary Gemba; they must not block the run.
 - `replay` does not reconstruct the tested custody use case from custom event
   names. Historical backfill, when separately authorized, stays labeled with
   `source`, `backfilled_at`, `original_event_time`, and `evidence_boundary`.
+- Recorded state, lineage, structural difference, declared subprocess isolation,
+  promotion, snapshot integrity or idle state proves only that local property.
+  External effect, completeness, semantic correctness, independence, owner
+  authority, host security, engineering closure and distributed correctness need
+  independent evidence at that owner. With no durable causal/counterfactual need,
+  use no ActiveGraph.
 
 **ActiveGraph mirror rules (when authorized):**
 - Mirroring Lean gate passages is optional. Compatibility event names in

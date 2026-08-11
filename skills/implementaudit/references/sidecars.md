@@ -44,6 +44,12 @@ both missed a variable-bound call. Luna/partitions remain unproved; an
 unfamiliar third-party repo gates broadening. The missed-use-detection goal is retired.
 
 ActiveGraph: authorised `fork` / `diff` or non-authoritative mirror; run root
-stays authoritative; `replay` cannot reconstruct.
+stays authoritative. Replay proves only supported recorded graph state; events,
+forks, diffs, trials, promotion, snapshots and idle state establish only their
+recorded state, lineage, structure, declared process boundary, graph update,
+local integrity or quiescence. External effect, observation completeness,
+semantic correctness, independence, owner authority, host security, engineering
+closure and distributed correctness require independent evidence at that owner.
+With no durable causal/counterfactual need, use no ActiveGraph.
 Never ship sidecar/run-root output, `custody.db`, graphs/caches/JSONL. Prove
 manifest equality, checksums, install-copy smoke.
