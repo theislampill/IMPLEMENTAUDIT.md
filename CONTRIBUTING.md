@@ -49,8 +49,9 @@ do not ship in `IMPLEMENTAUDIT.skill`.
 ## Environment and file discipline
 
 - The validation and build entry points are POSIX shell scripts. On Windows,
-  run them from Git Bash or WSL; Git Bash is the established release-packaging
-  path. Python 3 is required by several checks and generators.
+  Git Bash is the established, release-qualified path. WSL is usable only when
+  the checkout is accessible from WSL and its `python` command resolves to
+  Python 3; verify both before relying on that route.
 - Preserve LF line endings in shell scripts and generated/source evidence. Do
   not hide line-ending churn inside a semantic change.
 - Keep one worktree and branch focused on one coherent outcome. Use an isolated

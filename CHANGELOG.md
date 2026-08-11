@@ -80,10 +80,13 @@ the post-publication repository-owner transition remain separate gates.
 - R29 / #155 projects material capability changes to README, portal, and
   current-state surfaces only when the public-effect, success-carrier, and
   current-or-release-final activation conjuncts all hold. Its held-out mutation
-  controls challenge omissions and overclaims. The prompt-independent model
-  cell remains unexecuted; installed-runtime dogfood on the exact release
-  candidate exercised the public-projection route without converting that
-  model boundary into a PASS.
+  controls challenge omissions and overclaims. Three attempted model cells are
+  retained as non-samples: a wrong installed-skill run, an outer-transport
+  failure, and an `INVALID_HOST_RESOLUTION` run that activated the unrelated
+  `improve` skill and read zero candidate files. Its unchanged 0/6 score is not
+  a candidate PASS or product FAIL. Installed-runtime dogfood on the exact
+  release candidate exercised the public-projection route without converting
+  that model boundary into a PASS.
 
 ### Qualification and publication boundary
 
