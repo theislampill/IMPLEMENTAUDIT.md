@@ -19,8 +19,8 @@ set -euo pipefail
 #   check-evidence-anchor.sh --window <launch-intent-file> --now <sha>
 #       an open verification window refuses an anchor-to-current-tree diff
 #       that intersects a declared surface. Closed windows and complete diffs
-#       proven disjoint pass. The existing repo-state.sh changed-files command
-#       remains the sole complete working-tree enumerator.
+#       proven disjoint pass. Its window-specific repo-state route includes
+#       ignored and .IMPLEMENTAUDIT/ path identities as live declared surfaces.
 
 fail() { printf 'check-evidence-anchor: %s\n' "$*" >&2; exit 1; }
 
@@ -278,7 +278,7 @@ import fnmatch
 import re
 import subprocess
 import sys
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 intent_path = Path(sys.argv[1])
 now = sys.argv[2]
@@ -290,6 +290,33 @@ sha_re = re.compile(r"^[0-9a-f]{40}$")
 def fail(message):
     print(f"check-evidence-anchor: {message}", file=sys.stderr)
     raise SystemExit(1)
+
+
+def normalize_surface(surface):
+    normalized = surface.replace("\\", "/")
+    pure = PurePosixPath(normalized)
+    if (not normalized or pure.is_absolute() or ".." in pure.parts
+            or normalized.startswith("/") or re.match(r"^[A-Za-z]:", normalized)):
+        fail(f"verification window contains unsafe surface: {surface}")
+    return normalized
+
+
+def surface_matches(path, surface):
+    return path.startswith(surface) if surface.endswith("/") else fnmatch.fnmatchcase(path, surface)
+
+
+def window_changed_paths(opened):
+    changed = subprocess.run(
+        [bash_exe, repo_state, "window-changed-files", "--null", opened],
+        capture_output=True,
+        check=False,
+    )
+    if changed.returncode != 0:
+        fail(f"complete window changed-files enumeration failed for {opened}: {changed.stderr.decode(errors='replace').strip()}")
+    try:
+        return sorted({part.decode("utf-8") for part in changed.stdout.split(b"\0") if part})
+    except UnicodeDecodeError:
+        fail(f"complete window changed-files enumeration returned a non-UTF-8 path for {opened}")
 
 
 if not sha_re.fullmatch(now):
@@ -311,7 +338,7 @@ for raw in text.splitlines():
     match = re.match(r"^\s*-\s*surfaces:\s*\[(.*)\]\s*$", raw)
     if match:
         surfaces = [
-            item.strip().strip("'\"`")
+            normalize_surface(item.strip().strip("'\"`"))
             for item in match.group(1).split(",")
             if item.strip()
         ]
@@ -372,12 +399,7 @@ for index, window in enumerate(windows, 1):
         if closed == opened:
             continue
         if closed == now:
-            changed = subprocess.run(
-                [bash_exe, repo_state, "changed-files", opened],
-                text=True,
-                capture_output=True,
-                check=False,
-            )
+            changed_paths = window_changed_paths(opened)
         else:
             changed = subprocess.run(
                 ["git", "diff", "--name-only", opened, closed],
@@ -385,13 +407,13 @@ for index, window in enumerate(windows, 1):
                 capture_output=True,
                 check=False,
             )
-        if changed.returncode != 0:
-            fail(f"closing diff enumeration failed for {opened}..{closed}: {changed.stderr.strip()}")
-        changed_paths = [line for line in changed.stdout.splitlines() if line]
+            if changed.returncode != 0:
+                fail(f"closing diff enumeration failed for {opened}..{closed}: {changed.stderr.strip()}")
+            changed_paths = [line for line in changed.stdout.splitlines() if line]
         intersecting = sorted(
             path
             for path in changed_paths
-            if any(fnmatch.fnmatchcase(path, surface) for surface in surfaces)
+            if any(surface_matches(path, surface) for surface in surfaces)
         )
         if intersecting:
             fail(
@@ -400,21 +422,11 @@ for index, window in enumerate(windows, 1):
                 f"intersecting=[{', '.join(intersecting)}]"
             )
         continue
-    if now == opened:
-        continue
-    changed = subprocess.run(
-        [bash_exe, repo_state, "changed-files", opened],
-        text=True,
-        capture_output=True,
-        check=False,
-    )
-    if changed.returncode != 0:
-        fail(f"complete changed-files enumeration failed for {opened}: {changed.stderr.strip()}")
-    changed_paths = [line for line in changed.stdout.splitlines() if line]
+    changed_paths = window_changed_paths(opened)
     intersecting = sorted(
         path
         for path in changed_paths
-        if any(fnmatch.fnmatchcase(path, surface) for surface in surfaces)
+        if any(surface_matches(path, surface) for surface in surfaces)
     )
     if intersecting:
         fail(

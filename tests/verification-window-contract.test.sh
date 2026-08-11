@@ -29,7 +29,7 @@ fail() { printf 'verification-window-contract.test: %s\n' "$*" >&2; exit 1; }
 import json, sys
 rows = json.load(open(sys.argv[1], encoding="utf-8"))
 ids = [row.get("id") for row in rows]
-expected = [f"R2-F{i}" for i in range(1, 8)]
+expected = [f"R2-F{i}" for i in range(1, 14)]
 if ids != expected:
     raise SystemExit(f"verification-window cases must be exactly {expected}, got {ids}")
 PY
@@ -177,6 +177,96 @@ set -e
 grep -Fq 'Compound shell verification' "$protocol" || fail 'R2-F6 compound verification prohibition missing'
 ok
 
+# R2-F8: an ignored, declared file remains a live verification surface. This
+# starts with HEAD at opened_at, so an enumerator that only consults committed
+# diffs or standard untracked files incorrectly returns the anchor-current PASS.
+new_repo f8-ignored
+printf 'ignored/**\n' > "$case_repo/.gitignore"
+git -C "$case_repo" add .gitignore
+git -C "$case_repo" commit -qm ignore-declared-surface
+case_opened="$(git -C "$case_repo" rev-parse HEAD)"
+write_intent "$case_repo" open 'ignored/declared.txt'
+mkdir -p "$case_repo/ignored"
+printf 'mutated while open\n' > "$case_repo/ignored/declared.txt"
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+if (cd "$case_repo" && bash "$checker" --window "$case_intent" --now "$case_now") >"$tmp/f8.out" 2>&1; then
+  fail 'R2-F8 declared ignored surface mutation during an open window must fail'
+fi
+grep -Fq 'ignored/declared.txt' "$tmp/f8.out" || fail 'R2-F8 output missing ignored changed path'
+ok
+
+# R2-F9: a declared run-root file is a live verification surface even though
+# the ordinary repo-state census deliberately excludes .IMPLEMENTAUDIT/.
+new_repo f9-run-root
+write_intent "$case_repo" open '.IMPLEMENTAUDIT/runs/window/live/**'
+mkdir -p "$case_repo/.IMPLEMENTAUDIT/runs/window/live"
+printf 'mutated while open\n' > "$case_repo/.IMPLEMENTAUDIT/runs/window/live/declared.txt"
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+if (cd "$case_repo" && bash "$checker" --window "$case_intent" --now "$case_now") >"$tmp/f9.out" 2>&1; then
+  fail 'R2-F9 declared run-root surface mutation during an open window must fail'
+fi
+grep -Fq '.IMPLEMENTAUDIT/runs/window/live/declared.txt' "$tmp/f9.out" \
+  || fail 'R2-F9 output missing run-root changed path'
+ok
+
+# R2-F10: a declared directory covers its descendants, rather than requiring
+# every child to be repeated as a separate path/glob surface.
+new_repo f10-directory
+write_intent "$case_repo" open 'curriculum/'
+printf 'mutated\n' > "$case_repo/curriculum/x.json"
+git -C "$case_repo" add curriculum/x.json
+git -C "$case_repo" commit -qm directory-intersection
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+if (cd "$case_repo" && bash "$checker" --window "$case_intent" --now "$case_now") >"$tmp/f10.out" 2>&1; then
+  fail 'R2-F10 declared directory mutation during an open window must fail'
+fi
+grep -Fq 'curriculum/x.json' "$tmp/f10.out" || fail 'R2-F10 output missing directory child path'
+ok
+
+# R2-F11: deletion is a declared-surface mutation even when the path is absent
+# when the window is checked.
+new_repo f11-missing
+mkdir -p "$case_repo/missing"
+printf 'present at open\n' > "$case_repo/missing/declared.txt"
+git -C "$case_repo" add missing/declared.txt
+git -C "$case_repo" commit -qm missing-path-at-open
+case_opened="$(git -C "$case_repo" rev-parse HEAD)"
+write_intent "$case_repo" open 'missing/declared.txt'
+rm "$case_repo/missing/declared.txt"
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+if (cd "$case_repo" && bash "$checker" --window "$case_intent" --now "$case_now") >"$tmp/f11.out" 2>&1; then
+  fail 'R2-F11 deleted declared path during an open window must fail'
+fi
+grep -Fq 'missing/declared.txt' "$tmp/f11.out" || fail 'R2-F11 output missing deleted path'
+ok
+
+# R2-F12: the glob control remains enforced by the repaired enumeration.
+new_repo f12-glob
+write_intent "$case_repo" open 'curriculum/*.json'
+printf 'mutated\n' > "$case_repo/curriculum/x.json"
+git -C "$case_repo" add curriculum/x.json
+git -C "$case_repo" commit -qm glob-intersection
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+if (cd "$case_repo" && bash "$checker" --window "$case_intent" --now "$case_now") >"$tmp/f12.out" 2>&1; then
+  fail 'R2-F12 declared glob mutation during an open window must fail'
+fi
+ok
+
+# R2-F13: complete enumeration remains surface-specific. An ignored held-out
+# path does not stale a window whose declared ignored surface is disjoint.
+new_repo f13-held-out
+printf 'ignored/**\n' > "$case_repo/.gitignore"
+git -C "$case_repo" add .gitignore
+git -C "$case_repo" commit -qm ignore-held-out
+case_opened="$(git -C "$case_repo" rev-parse HEAD)"
+write_intent "$case_repo" open 'ignored/declared/**'
+mkdir -p "$case_repo/ignored"
+printf 'held out\n' > "$case_repo/ignored/not-declared.txt"
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+(cd "$case_repo" && bash "$checker" --window "$case_intent" --now "$case_now") >"$tmp/f13.out" 2>&1 \
+  || fail 'R2-F13 ignored held-out path must remain disjoint'
+ok
+
 # Legacy anchor modes remain compatible.
 bash "$checker" --row 'legacy evidence without an anchor' >/dev/null
 artifact="$tmp/artifact.md"
@@ -188,8 +278,13 @@ ok
 grep -Fq '7. Verification-window freeze.' "$protocol" || fail 'PROTOCOL item 7 was not filled'
 grep -Fq '8. Wait contract.' "$protocol" || fail '#81 item 8 moved'
 grep -Fq '12. Checkpoint before block.' "$protocol" || fail '#81 item 12 moved'
+grep -Fq 'Window intersection uses complete path identities, including ignored' "$protocol" \
+  || fail 'verification-window complete identity route missing'
+grep -Fq 'and .IMPLEMENTAUDIT/ run-root paths, when they are declared surfaces' "$protocol" \
+  || fail 'verification-window complete identity route missing'
+ok
 grep -Fq 'verification is reading the same tree' "$phase_design" || fail 'phase-design verification boundary missing'
 grep -Fq 'post-state was compared' "$lean" || fail 'Lean post-state evidence boundary missing'
 ok; ok; ok; ok; ok
 
-printf 'verification-window-contract.test: ok (%d/15)\n' "$count"
+printf 'verification-window-contract.test: ok (%d/22)\n' "$count"

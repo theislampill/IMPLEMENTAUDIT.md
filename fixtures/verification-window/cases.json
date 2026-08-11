@@ -5,5 +5,11 @@
   {"id":"R2-F4","window":"closed","surface":"curriculum/**","change":"curriculum/x.json","expected":"PASS"},
   {"id":"R2-F5","window":"open","surface":"curriculum/**","change":"docs/readme.md","expected":"PASS_DISJOINT"},
   {"id":"R2-F6","window":"open","surface":"curriculum/**","change":"compound stash-check-restore timeout","expected":"FAIL_HIDDEN_STASH"},
-  {"id":"R2-F7","window":"open","surface":"curriculum/**","change":"terminal run-root closure","expected":"FAIL_CLOSURE"}
+  {"id":"R2-F7","window":"open","surface":"curriculum/**","change":"terminal run-root closure","expected":"FAIL_CLOSURE"},
+  {"id":"R2-F8","window":"open","surface":"ignored/declared.txt","change":"ignored/declared.txt","expected":"FAIL_IGNORED_DECLARED"},
+  {"id":"R2-F9","window":"open","surface":".IMPLEMENTAUDIT/runs/window/live/**","change":".IMPLEMENTAUDIT/runs/window/live/declared.txt","expected":"FAIL_RUN_ROOT_DECLARED"},
+  {"id":"R2-F10","window":"open","surface":"curriculum/","change":"curriculum/x.json","expected":"FAIL_DIRECTORY_DESCENDANT"},
+  {"id":"R2-F11","window":"open","surface":"missing/declared.txt","change":"delete missing/declared.txt","expected":"FAIL_MISSING_DECLARED"},
+  {"id":"R2-F12","window":"open","surface":"curriculum/*.json","change":"curriculum/x.json","expected":"FAIL_GLOB"},
+  {"id":"R2-F13","window":"open","surface":"ignored/declared/**","change":"ignored/not-declared.txt","expected":"PASS_HELD_OUT_DISJOINT"}
 ]

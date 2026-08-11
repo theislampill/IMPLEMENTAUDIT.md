@@ -458,7 +458,9 @@ with a durable status contract, never awaited inline:
    produced by that chain; record an `evidence-mismatch` Andon, re-run, or mark
    the verdict unverified. After closure, cite the verdict only when the closing
    anchor equals `opened_at` or the complete `opened_at`-to-`closed_at` diff is disjoint
-   from `surfaces`. A disjoint mutation does not freeze the whole repository.
+   from `surfaces`. Window intersection uses complete path identities, including ignored
+   and .IMPLEMENTAUDIT/ run-root paths, when they are declared surfaces. A disjoint
+   mutation does not freeze the whole repository.
    Compound shell verification (`git stash`, `git checkout --`, or an
    `&&`-chained restore) is itself a surface mutation: run the check as one
    command and restore state in a separate, separately observed action.
