@@ -183,7 +183,9 @@ PUBLIC_FIELD_TYPES = {
         historical_context compatibility_alias public_copy public_copy_locale
         mutation_target claim existing_claim_boundary_result projection_result
         capability population_definition enumeration_source change_class
-        coverage_claim readme_wording docs_wording
+        coverage_claim readme_wording docs_wording intended_audience consumer_job
+        declared_authority diagram relation_type relation_statement
+        relation_evidence
     """.split(), str),
     **dict.fromkeys("""
         material supported exists discoverable maintained user_facing
@@ -195,7 +197,8 @@ PUBLIC_FIELD_TYPES = {
         intended_current_complete_or_release_final_claim
         projection_record_present release_docs_close_claim owner_source_exists
         generated_output_updated regenerated_from_owner
-        landed_postcondition_checked
+        landed_postcondition_checked source_only_route_required
+        generated_from_owner current_product relation_valid
     """.split(), bool),
     **dict.fromkeys("population_size examined_count".split(), int),
 }
@@ -206,7 +209,38 @@ PUBLIC_STRING_LISTS = {
 PUBLIC_REQUIRED_STRINGS = set("""
     current_release current_runtime readme_release readme_runtime docs_release
     docs_runtime historical_release source_state generated_state live_state
+    intended_audience consumer_job declared_authority diagram relation_type
+    relation_statement relation_evidence
 """.split())
+
+PUBLIC_AUDIENCES = {
+    "prospective-user", "source-only-user", "advanced-user", "operator",
+    "contributor-maintainer", "release-reader", "evidence-auditor",
+}
+PUBLIC_JOB_ABSTRACTIONS = {
+    "orientation": "product-explanation",
+    "operation": "operational-guidance",
+    "contribution": "maintainer-procedure",
+    "chronology": "release-chronology",
+    "qualification": "exact-evidence",
+    "deep-reference": "deep-mechanism",
+}
+PUBLIC_PLACEMENT_ROLES = {
+    "authoritative", "summary-link", "historical", "not-applicable",
+}
+PUBLIC_ABSTRACTIONS = {
+    *PUBLIC_JOB_ABSTRACTIONS.values(), "concise-pointer",
+}
+PUBLIC_PLACEMENT_KEYS = {
+    "placement_id", "surface", "owner_id", "role", "abstraction",
+    "current", "discoverable", "entrypoint", "source_only",
+    "authority_ref", "evidence", "requires_campaign_history",
+}
+PUBLIC_RELATION_TYPES = {
+    "mandatory-flow", "conditional-flow", "optional-tooling",
+    "authority-boundary", "evidence-boundary", "generated-surface",
+    "terminal-state",
+}
 
 
 def public_case(case, keys):
@@ -447,6 +481,93 @@ def classify_public_projection(case):
             bool(readme_facts) and len(readme_facts) == len(set(readme_facts)) and
             len(docs_facts) == len(set(docs_facts)) and
             set(readme_facts) == set(docs_facts))
+    elif kind == "audience-owner-fit":
+        public_case(case, {
+            "topic", "intended_audience", "consumer_job",
+            "declared_authority", "source_only_route_required", "placements"})
+        allowed(case["intended_audience"], PUBLIC_AUDIENCES,
+                "intended_audience")
+        allowed(case["consumer_job"], set(PUBLIC_JOB_ABSTRACTIONS),
+                "consumer_job")
+        placements = case["placements"]
+        if type(placements) is not list or not placements:
+            raise ValueError("placements must be a non-empty list")
+        normalized = []
+        for row in placements:
+            if type(row) is not dict or set(row) != PUBLIC_PLACEMENT_KEYS:
+                raise ValueError("placement keys invalid")
+            for field in (
+                    "placement_id", "surface", "owner_id", "role",
+                    "abstraction", "authority_ref", "evidence"):
+                if not nonempty_string(row[field]):
+                    raise ValueError(f"placement {field} must be non-empty")
+            for field in (
+                    "current", "discoverable", "entrypoint", "source_only",
+                    "requires_campaign_history"):
+                if type(row[field]) is not bool:
+                    raise ValueError(f"placement {field} must be bool")
+            allowed(row["role"], PUBLIC_PLACEMENT_ROLES, "placement role")
+            allowed(row["abstraction"], PUBLIC_ABSTRACTIONS,
+                    "placement abstraction")
+            normalized.append(row)
+        placement_ids = [row["placement_id"] for row in normalized]
+        if len(placement_ids) != len(set(placement_ids)):
+            raise ValueError("placement identities must be unique")
+        by_placement = {row["placement_id"]: row for row in normalized}
+        if any(row["authority_ref"] not in by_placement for row in normalized):
+            raise ValueError("placement authority_ref is unresolved")
+        authorities = [
+            row for row in normalized
+            if row["role"] == "authoritative" and row["current"] is True]
+        authority = authorities[0] if len(authorities) == 1 else None
+        expected_abstraction = PUBLIC_JOB_ABSTRACTIONS[case["consumer_job"]]
+        authority_valid = bool(authority) and (
+            authority["owner_id"] == case["declared_authority"] and
+            authority["abstraction"] == expected_abstraction and
+            authority["discoverable"] is True and
+            authority["authority_ref"] == authority["placement_id"] and
+            authority["requires_campaign_history"] is False)
+        current_roles_valid = all(
+            row["role"] in {"authoritative", "summary-link"}
+            for row in normalized if row["current"] is True)
+        inactive_roles_valid = all(
+            row["role"] in {"historical", "not-applicable"}
+            for row in normalized if row["current"] is False)
+        summary_links_valid = bool(authority) and all(
+            row["abstraction"] == "concise-pointer" and
+            row["discoverable"] is True and
+            row["authority_ref"] == authority["placement_id"] and
+            row["requires_campaign_history"] is False
+            for row in normalized
+            if row["current"] is True and row["role"] == "summary-link")
+        entrypoints = [row for row in normalized if row["entrypoint"] is True]
+        entrypoints_valid = bool(entrypoints) and all(
+            row["current"] is True and row["discoverable"] is True and
+            row["role"] in {"authoritative", "summary-link"} and
+            row["requires_campaign_history"] is False
+            for row in entrypoints)
+        source_only_valid = (
+            case["source_only_route_required"] is False or
+            any(row["source_only"] is True for row in entrypoints))
+        complete = (
+            nonempty_string(case["topic"]) and
+            nonempty_string(case["declared_authority"]) and
+            authority_valid and current_roles_valid and inactive_roles_valid and
+            summary_links_valid and entrypoints_valid and source_only_valid)
+    elif kind == "diagram-projection":
+        public_case(case, {
+            "diagram", "owner_source", "generated_from_owner",
+            "current_product", "relation_type", "relation_statement",
+            "relation_evidence", "relation_valid"})
+        allowed(case["relation_type"], PUBLIC_RELATION_TYPES, "relation_type")
+        complete = (
+            nonempty_string(case["diagram"]) and
+            nonempty_string(case["owner_source"]) and
+            nonempty_string(case["relation_statement"]) and
+            nonempty_string(case["relation_evidence"]) and
+            case["generated_from_owner"] is True and
+            case["current_product"] is True and
+            case["relation_valid"] is True)
     else:
         raise ValueError(f"unsupported public-projection kind: {kind!r}")
     return "PASS" if complete else "FAIL"
@@ -473,8 +594,11 @@ elif schema == "implementaudit-public-projection-fixtures-v1":
         "R29-F7", "R29-F8", "R29-F9", "R29-F10", "R29-F10n",
         "R29-F11", "R29-F12", "R29-F13", "R29-F14", "R29-F15",
         "R29-F15a", "R29-F15b", "R29-F15c", "R29-F15d", "R29-F15e", "R29-F16",
-        "R29-F17",
-        "R29-F18",
+         "R29-F17",
+         "R29-F18",
+         "R29-F19", "R29-F20", "R29-F21", "R29-F22", "R29-F23",
+         "R29-F24", "R29-F25", "R29-F26", "R29-F27", "R29-F28",
+         "R29-F29", "R29-F30", "R29-F31",
     }
     classifier = classify_public_projection
 else:
@@ -508,6 +632,11 @@ if schema == "implementaudit-public-projection-fixtures-v1":
         "R29-H7-non-string-historical-identities",
         "R29-H8-boolean-census-counts-and-integer-members",
         "R29-H9-integer-fact-lists",
+        "R29-H10-blank-consumer-job", "R29-H11-non-list-placements",
+        "R29-H12-unknown-placement-role",
+        "R29-H13-duplicate-placement-identities",
+        "R29-H14-unknown-diagram-relation",
+        "R29-H15-integer-campaign-history",
     }
     if set(mutation_ids) != required_mutation_ids or len(mutation_ids) != len(set(mutation_ids)):
         raise ValueError("held-out mutation identity set invalid")

@@ -1,14 +1,15 @@
 flowchart LR
-  I["ImplementAudit<br/>officer / method / standard"]
-  G["Graphify<br/>qualified first-contact terrain<br/>outside-repo graph.json + SHA check<br/>orientation, not proof"]
-  A["ActiveGraph<br/>fork/diff checkpoint assistance<br/>optional non-authoritative mirror<br/>run root remains authority"]
-  C["Capability Ledger<br/>derived work history"]
-  M["Markdown fallback<br/>always valid when optional tools are absent"]
-  L["Live files<br/>source of truth"]
+  I["IMPLEMENTAUDIT<br/>engineering and assurance method"]
+  G["Graphify<br/>optional scoped terrain<br/>orientation only"]
+  A["ActiveGraph<br/>optional checkpoint or mirror<br/>not lifecycle authority"]
+  C["Capability Ledger<br/>derived history<br/>not proof by itself"]
+  M["Markdown evidence<br/>first-class fallback"]
+  L["Live repository files<br/>authoritative state"]
+  R["Run root and evidence<br/>authoritative run state"]
 
-  G -->|where to look| I
-  I -->|must confirm in| L
-  I -->|gate passages, smokes, Andons, closures| A
-  A -->|what happened, not proof by itself| C
-  I -->|competence standard| C
-  I -->|when tools are absent| M
+  G -.->|suggests where to inspect| I
+  I -->|must verify claims against| L
+  I -->|records governed execution in| R
+  R -.->|may mirror when authorised| A
+  R -->|supports derived entries| C
+  I -->|uses when sidecars are absent| M

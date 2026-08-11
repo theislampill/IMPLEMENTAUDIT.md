@@ -239,6 +239,429 @@
       "readme_facts": ["planning", "implementation", "review"],
       "docs_facts": ["planning", "implementation", "review"],
       "expected": "PASS"
+    },
+    {
+      "id": "R29-F19",
+      "kind": "audience-owner-fit",
+      "topic": "product orientation",
+      "intended_audience": "prospective-user",
+      "consumer_job": "orientation",
+      "declared_authority": "product-front-door",
+      "source_only_route_required": true,
+      "placements": [
+        {
+          "placement_id": "readme-history",
+          "surface": "repository front door",
+          "owner_id": "product-front-door",
+          "role": "authoritative",
+          "abstraction": "release-chronology",
+          "current": true,
+          "discoverable": true,
+          "entrypoint": true,
+          "source_only": true,
+          "authority_ref": "readme-history",
+          "evidence": "complete release chronology precedes the current product model",
+          "requires_campaign_history": false
+        }
+      ],
+      "expected": "FAIL"
+    },
+    {
+      "id": "R29-F20",
+      "kind": "audience-owner-fit",
+      "topic": "repository contribution",
+      "intended_audience": "contributor-maintainer",
+      "consumer_job": "contribution",
+      "declared_authority": "contributor-contract",
+      "source_only_route_required": true,
+      "placements": [
+        {
+          "placement_id": "readme-maintenance",
+          "surface": "repository front door",
+          "owner_id": "product-front-door",
+          "role": "authoritative",
+          "abstraction": "maintainer-procedure",
+          "current": true,
+          "discoverable": true,
+          "entrypoint": true,
+          "source_only": true,
+          "authority_ref": "readme-maintenance",
+          "evidence": "current maintainer commands live only in onboarding",
+          "requires_campaign_history": false
+        },
+        {
+          "placement_id": "stale-contributor-guide",
+          "surface": "contributor guide",
+          "owner_id": "contributor-contract",
+          "role": "historical",
+          "abstraction": "maintainer-procedure",
+          "current": false,
+          "discoverable": false,
+          "entrypoint": false,
+          "source_only": true,
+          "authority_ref": "readme-maintenance",
+          "evidence": "guide names an obsolete contract line",
+          "requires_campaign_history": false
+        }
+      ],
+      "expected": "FAIL"
+    },
+    {
+      "id": "R29-F21",
+      "kind": "audience-owner-fit",
+      "topic": "release chronology",
+      "intended_audience": "release-reader",
+      "consumer_job": "chronology",
+      "declared_authority": "release-history",
+      "source_only_route_required": true,
+      "placements": [
+        {
+          "placement_id": "readme-release-table",
+          "surface": "repository front door",
+          "owner_id": "release-history",
+          "role": "authoritative",
+          "abstraction": "release-chronology",
+          "current": true,
+          "discoverable": true,
+          "entrypoint": true,
+          "source_only": true,
+          "authority_ref": "readme-release-table",
+          "evidence": "detailed current release table",
+          "requires_campaign_history": false
+        },
+        {
+          "placement_id": "changelog-release-table",
+          "surface": "release history",
+          "owner_id": "release-history",
+          "role": "authoritative",
+          "abstraction": "release-chronology",
+          "current": true,
+          "discoverable": true,
+          "entrypoint": false,
+          "source_only": true,
+          "authority_ref": "changelog-release-table",
+          "evidence": "independent detailed current release table",
+          "requires_campaign_history": false
+        }
+      ],
+      "expected": "FAIL"
+    },
+    {
+      "id": "R29-F22",
+      "kind": "audience-owner-fit",
+      "topic": "deep runtime detail",
+      "intended_audience": "advanced-user",
+      "consumer_job": "deep-reference",
+      "declared_authority": "runtime-reference",
+      "source_only_route_required": true,
+      "placements": [
+        {
+          "placement_id": "runtime-owner",
+          "surface": "runtime reference",
+          "owner_id": "runtime-reference",
+          "role": "authoritative",
+          "abstraction": "deep-mechanism",
+          "current": true,
+          "discoverable": false,
+          "entrypoint": false,
+          "source_only": true,
+          "authority_ref": "runtime-owner",
+          "evidence": "detail exists but no public route reaches it",
+          "requires_campaign_history": false
+        }
+      ],
+      "expected": "FAIL"
+    },
+    {
+      "id": "R29-F23",
+      "kind": "audience-owner-fit",
+      "topic": "product identity",
+      "intended_audience": "prospective-user",
+      "consumer_job": "orientation",
+      "declared_authority": "product-front-door",
+      "source_only_route_required": true,
+      "placements": [
+        {
+          "placement_id": "thin-front-door",
+          "surface": "repository front door",
+          "owner_id": "product-front-door",
+          "role": "authoritative",
+          "abstraction": "concise-pointer",
+          "current": true,
+          "discoverable": true,
+          "entrypoint": true,
+          "source_only": true,
+          "authority_ref": "thin-front-door",
+          "evidence": "short link list omits the product model",
+          "requires_campaign_history": false
+        }
+      ],
+      "expected": "FAIL"
+    },
+    {
+      "id": "R29-F24",
+      "kind": "diagram-projection",
+      "diagram": "execution flow",
+      "owner_source": "diagrams/execution-flow.mmd",
+      "generated_from_owner": true,
+      "current_product": true,
+      "relation_type": "evidence-boundary",
+      "relation_statement": "tool output directly proves repository truth",
+      "relation_evidence": "runtime owner requires live-file confirmation",
+      "relation_valid": false,
+      "expected": "FAIL"
+    },
+    {
+      "id": "R29-F25",
+      "kind": "audience-owner-fit",
+      "topic": "current capability overview",
+      "intended_audience": "prospective-user",
+      "consumer_job": "orientation",
+      "declared_authority": "product-front-door",
+      "source_only_route_required": true,
+      "placements": [
+        {
+          "placement_id": "campaign-first-readme",
+          "surface": "repository front door",
+          "owner_id": "product-front-door",
+          "role": "authoritative",
+          "abstraction": "product-explanation",
+          "current": true,
+          "discoverable": true,
+          "entrypoint": true,
+          "source_only": true,
+          "authority_ref": "campaign-first-readme",
+          "evidence": "capability is expressed only through issue and R-number dispositions",
+          "requires_campaign_history": true
+        }
+      ],
+      "expected": "FAIL"
+    },
+    {
+      "id": "R29-F26",
+      "kind": "audience-owner-fit",
+      "topic": "substantial product mental model",
+      "intended_audience": "prospective-user",
+      "consumer_job": "orientation",
+      "declared_authority": "product-front-door",
+      "source_only_route_required": true,
+      "placements": [
+        {
+          "placement_id": "substantial-readme",
+          "surface": "repository front door with explanatory diagrams",
+          "owner_id": "product-front-door",
+          "role": "authoritative",
+          "abstraction": "product-explanation",
+          "current": true,
+          "discoverable": true,
+          "entrypoint": true,
+          "source_only": true,
+          "authority_ref": "substantial-readme",
+          "evidence": "product explanation covers role, lifecycle, evidence and safety",
+          "requires_campaign_history": false
+        },
+        {
+          "placement_id": "runtime-depth",
+          "surface": "deep runtime reference",
+          "owner_id": "runtime-reference",
+          "role": "summary-link",
+          "abstraction": "concise-pointer",
+          "current": true,
+          "discoverable": true,
+          "entrypoint": false,
+          "source_only": true,
+          "authority_ref": "substantial-readme",
+          "evidence": "deeper specification links back to the public product model",
+          "requires_campaign_history": false
+        }
+      ],
+      "expected": "PASS"
+    },
+    {
+      "id": "R29-F27",
+      "kind": "audience-owner-fit",
+      "topic": "runtime behaviour explanation",
+      "intended_audience": "prospective-user",
+      "consumer_job": "deep-reference",
+      "declared_authority": "runtime-reference",
+      "source_only_route_required": true,
+      "placements": [
+        {
+          "placement_id": "runtime-spec",
+          "surface": "runtime reference",
+          "owner_id": "runtime-reference",
+          "role": "authoritative",
+          "abstraction": "deep-mechanism",
+          "current": true,
+          "discoverable": true,
+          "entrypoint": false,
+          "source_only": true,
+          "authority_ref": "runtime-spec",
+          "evidence": "canonical behaviour owner",
+          "requires_campaign_history": false
+        },
+        {
+          "placement_id": "readme-explanation",
+          "surface": "repository front door",
+          "owner_id": "product-front-door",
+          "role": "summary-link",
+          "abstraction": "concise-pointer",
+          "current": true,
+          "discoverable": true,
+          "entrypoint": true,
+          "source_only": true,
+          "authority_ref": "runtime-spec",
+          "evidence": "user-language explanation links to the canonical owner",
+          "requires_campaign_history": false
+        }
+      ],
+      "expected": "PASS"
+    },
+    {
+      "id": "R29-F28",
+      "kind": "audience-owner-fit",
+      "topic": "current release summary",
+      "intended_audience": "prospective-user",
+      "consumer_job": "chronology",
+      "declared_authority": "release-history",
+      "source_only_route_required": true,
+      "placements": [
+        {
+          "placement_id": "release-history-owner",
+          "surface": "release history",
+          "owner_id": "release-history",
+          "role": "authoritative",
+          "abstraction": "release-chronology",
+          "current": true,
+          "discoverable": true,
+          "entrypoint": false,
+          "source_only": true,
+          "authority_ref": "release-history-owner",
+          "evidence": "ordered release chronology and shipped delta",
+          "requires_campaign_history": false
+        },
+        {
+          "placement_id": "readme-release-summary",
+          "surface": "repository front door",
+          "owner_id": "product-front-door",
+          "role": "summary-link",
+          "abstraction": "concise-pointer",
+          "current": true,
+          "discoverable": true,
+          "entrypoint": true,
+          "source_only": true,
+          "authority_ref": "release-history-owner",
+          "evidence": "current release summary links to chronology and exact evidence",
+          "requires_campaign_history": false
+        }
+      ],
+      "expected": "PASS"
+    },
+    {
+      "id": "R29-F29",
+      "kind": "audience-owner-fit",
+      "topic": "repository contribution",
+      "intended_audience": "contributor-maintainer",
+      "consumer_job": "contribution",
+      "declared_authority": "contributor-contract",
+      "source_only_route_required": true,
+      "placements": [
+        {
+          "placement_id": "contributor-owner",
+          "surface": "contributor guide",
+          "owner_id": "contributor-contract",
+          "role": "authoritative",
+          "abstraction": "maintainer-procedure",
+          "current": true,
+          "discoverable": true,
+          "entrypoint": false,
+          "source_only": true,
+          "authority_ref": "contributor-owner",
+          "evidence": "current repository maintenance contract",
+          "requires_campaign_history": false
+        },
+        {
+          "placement_id": "readme-contribution-pointer",
+          "surface": "repository front door",
+          "owner_id": "product-front-door",
+          "role": "summary-link",
+          "abstraction": "concise-pointer",
+          "current": true,
+          "discoverable": true,
+          "entrypoint": true,
+          "source_only": true,
+          "authority_ref": "contributor-owner",
+          "evidence": "concise contribution route",
+          "requires_campaign_history": false
+        }
+      ],
+      "expected": "PASS"
+    },
+    {
+      "id": "R29-F30",
+      "kind": "audience-owner-fit",
+      "topic": "optional tooling",
+      "intended_audience": "operator",
+      "consumer_job": "deep-reference",
+      "declared_authority": "optional-tool-reference",
+      "source_only_route_required": true,
+      "placements": [
+        {
+          "placement_id": "optional-tool-owner",
+          "surface": "optional tooling reference",
+          "owner_id": "optional-tool-reference",
+          "role": "authoritative",
+          "abstraction": "deep-mechanism",
+          "current": true,
+          "discoverable": true,
+          "entrypoint": false,
+          "source_only": true,
+          "authority_ref": "optional-tool-owner",
+          "evidence": "detailed optional/non-authoritative operating contract",
+          "requires_campaign_history": false
+        },
+        {
+          "placement_id": "readme-optional-model",
+          "surface": "repository front door",
+          "owner_id": "product-front-door",
+          "role": "summary-link",
+          "abstraction": "concise-pointer",
+          "current": true,
+          "discoverable": true,
+          "entrypoint": true,
+          "source_only": true,
+          "authority_ref": "optional-tool-owner",
+          "evidence": "public explanation preserves optional, orientation-only and Gemba boundaries",
+          "requires_campaign_history": false
+        }
+      ],
+      "expected": "PASS"
+    },
+    {
+      "id": "R29-F31",
+      "kind": "audience-owner-fit",
+      "topic": "source-only product comprehension",
+      "intended_audience": "source-only-user",
+      "consumer_job": "orientation",
+      "declared_authority": "product-front-door",
+      "source_only_route_required": true,
+      "placements": [
+        {
+          "placement_id": "offline-readme",
+          "surface": "repository front door",
+          "owner_id": "product-front-door",
+          "role": "authoritative",
+          "abstraction": "product-explanation",
+          "current": true,
+          "discoverable": true,
+          "entrypoint": true,
+          "source_only": true,
+          "authority_ref": "offline-readme",
+          "evidence": "identity, use, lifecycle, evidence, safety and navigation remain understandable offline",
+          "requires_campaign_history": false
+        }
+      ],
+      "expected": "PASS"
     }
   ],
   "held_out_mutations": [
@@ -391,6 +814,107 @@
         {
           "readme_facts": ["\t"],
           "docs_facts": ["\t"]
+        }
+      ],
+      "expected": "ERROR"
+    },
+    {
+      "id": "R29-H10-blank-consumer-job",
+      "target_id": "R29-F26",
+      "field": "consumer_job",
+      "replacement": " ",
+      "expected": "ERROR"
+    },
+    {
+      "id": "R29-H11-non-list-placements",
+      "target_id": "R29-F27",
+      "field": "placements",
+      "replacement": "repository front door",
+      "expected": "ERROR"
+    },
+    {
+      "id": "R29-H12-unknown-placement-role",
+      "target_id": "R29-F28",
+      "field": "placements",
+      "replacement": [
+        {
+          "placement_id": "release-history-owner",
+          "surface": "release history",
+          "owner_id": "release-history",
+          "role": "canonical-somewhere",
+          "abstraction": "release-chronology",
+          "current": true,
+          "discoverable": true,
+          "entrypoint": true,
+          "source_only": true,
+          "authority_ref": "release-history-owner",
+          "evidence": "unknown role must not classify",
+          "requires_campaign_history": false
+        }
+      ],
+      "expected": "ERROR"
+    },
+    {
+      "id": "R29-H13-duplicate-placement-identities",
+      "target_id": "R29-F29",
+      "field": "placements",
+      "replacement": [
+        {
+          "placement_id": "duplicate",
+          "surface": "contributor guide",
+          "owner_id": "contributor-contract",
+          "role": "authoritative",
+          "abstraction": "maintainer-procedure",
+          "current": true,
+          "discoverable": true,
+          "entrypoint": false,
+          "source_only": true,
+          "authority_ref": "duplicate",
+          "evidence": "first duplicate",
+          "requires_campaign_history": false
+        },
+        {
+          "placement_id": "duplicate",
+          "surface": "repository front door",
+          "owner_id": "product-front-door",
+          "role": "summary-link",
+          "abstraction": "concise-pointer",
+          "current": true,
+          "discoverable": true,
+          "entrypoint": true,
+          "source_only": true,
+          "authority_ref": "duplicate",
+          "evidence": "second duplicate",
+          "requires_campaign_history": false
+        }
+      ],
+      "expected": "ERROR"
+    },
+    {
+      "id": "R29-H14-unknown-diagram-relation",
+      "target_id": "R29-F24",
+      "field": "relation_type",
+      "replacement": "looks-right",
+      "expected": "ERROR"
+    },
+    {
+      "id": "R29-H15-integer-campaign-history",
+      "target_id": "R29-F31",
+      "field": "placements",
+      "replacement": [
+        {
+          "placement_id": "offline-readme",
+          "surface": "repository front door",
+          "owner_id": "product-front-door",
+          "role": "authoritative",
+          "abstraction": "product-explanation",
+          "current": true,
+          "discoverable": true,
+          "entrypoint": true,
+          "source_only": true,
+          "authority_ref": "offline-readme",
+          "evidence": "identity and safety remain understandable offline",
+          "requires_campaign_history": 0
         }
       ],
       "expected": "ERROR"

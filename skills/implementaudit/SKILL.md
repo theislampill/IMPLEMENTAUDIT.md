@@ -300,10 +300,11 @@ separate child agent where the host supports subagents,
 else a bounded serial fresh-context pass. As cold reader/weak executor, it records
 PASS / GAP-REVISE / BLOCKED / OWNER DECISION.
 No handoff, preflight, or dispatch proceeds without a disposition.
-For public projection under `references/audit-playbook.md`, challenge
-unsupported claims and material owner-sourced capabilities omitted
-from every public route. Keywords do not trigger review; trivial work without an
-executor artifact skips it. Self-critique is preserved, not replaced.
+Under `references/audit-playbook.md`, challenge:
+material owner-sourced capabilities omitted from every public route,
+audience/authority/abstraction mismatch, duplicate current authority, and
+hidden/campaign-bound routes. Keywords do not trigger it; trivial no-artifact
+work skips it. Self-critique is preserved, not replaced.
 
 ### Stage 6.ii - Pre-flight smoke
 

@@ -161,6 +161,7 @@ current_reader_phrases = [
 ]
 current_reader_paths = [
     Path("README.md"),
+    Path("CONTRIBUTING.md"),
     Path("AGENTS.md"),
     Path("docs/portal/site.json"),
 ]

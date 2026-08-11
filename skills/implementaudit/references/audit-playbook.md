@@ -172,27 +172,27 @@ commands, STOP conditions, acceptance criteria, rollback, and remaining risk.
 
 ### Public capability projection
 
-Activate only when all three hold: a material public/release effect; README or
-public docs are declared success carriers; an intended current, complete, or
-release-final claim. Otherwise omit the projection record;
-private source-only work stays cheap. Derive owner topics across runtime/version; release/changelog;
-invocation-to-closure; install/host/package; optional/excluded; current/history;
-authorisation/publication/evidence/provenance. Use the audit object, not a new registry. Reuse
-`repo-state-comparison.md` (`population_definition`, `population_size`,
-`examined_count`, `enumeration_source`) plus discrimination witness; partial
-samples cannot close.
+Activate for material public/release effects when README/docs claim
+current/complete/release-final state; otherwise omit; private work stays cheap.
+Census runtime/version; release/changelog; invocation/closure;
+install/host/package; optional/excluded; current/history; and
+authority/publication/evidence/provenance. Use the audit object, not a registry.
+Reuse `repo-state-comparison.md` (`population_definition`, `population_size`,
+`examined_count`, `enumeration_source`) and a discriminator; samples cannot close.
 
-| Topic | Owner/source | README disposition | Docs disposition | Current-state transition | Evidence |
+| Topic | Audience/job | Authority and placements | Abstraction/route | Current-state transition | Evidence |
 |---|---|---|---|---|---|
 
-Exact dispositions: `present-correct`, `discoverably-delegated`,
+Dispositions: `present-correct`, `discoverably-delegated`,
 `historical-intentional`, `not-user-facing`, `missing`; transitions:
 `not-applicable`, `prepublication-current`, `postpublication-current`, `stale`.
-Delegated/non-identical prose may pass; internal/history rows need context.
-Unenumerated, missing/stale, broken, discordant, or unresolved rows cannot close.
-Change owners then regenerate; byte parity is not semantic currency. Use British
-English but preserve generated/exact literals. Existing gates still govern;
-contract audit and Stage 6.i challenge overclaim and omission.
+Record audience job, current authority, abstraction, placements, discovery and
+evidence; a substantial offline README may be authority.
+Reject competing authorities, misplaced contributor/release detail,
+hidden/campaign-bound routes or duplicates. Delegated prose and contextualised
+history may pass. Missing/stale/broken/unresolved cannot close.
+Change owners, regenerate, retain British English/exact literals. Bytes are not
+semantics; overclaim/omission gates remain.
 
 ## Direction / Design
 

@@ -57,16 +57,19 @@ fi
 # keep the material owner-sourced omission predicate exact here.
 if grep -Fq "### Public capability projection" \
      skills/implementaudit/references/audit-playbook.md &&
-   grep -Fq '| Topic | Owner/source | README disposition | Docs disposition | Current-state transition | Evidence |' \
+   grep -Fq '| Topic | Audience/job | Authority and placements | Abstraction/route | Current-state transition | Evidence |' \
      skills/implementaudit/references/audit-playbook.md &&
    grep -Fq '`prepublication-current`' skills/implementaudit/references/audit-playbook.md &&
    grep -Fq '`postpublication-current`' skills/implementaudit/references/audit-playbook.md &&
    grep -Fq '`stale`' skills/implementaudit/references/audit-playbook.md &&
    grep -Fq 'material owner-sourced capabilities omitted' \
      skills/implementaudit/SKILL.md &&
-   grep -Fq 'Public projection challenge: overclaim / omission / not applicable with owner evidence' \
+   grep -Fq 'audience/authority/abstraction mismatch' skills/implementaudit/SKILL.md &&
+   grep -Fq 'Public projection challenge: overclaim / omission / audience-owner-abstraction mismatch / duplicate authority / hidden route / not applicable with owner evidence' \
      fixtures/child-agents/read-only-contract-auditor.md &&
    grep -Fq '## Public Capability Projection (when activated)' \
+     skills/implementaudit/templates/final-report.md &&
+   grep -Fq '| Topic | Audience/job | Authority and placements | Abstraction/route | Current-state transition | Evidence |' \
      skills/implementaudit/templates/final-report.md; then
   record_pass
 else
@@ -108,6 +111,97 @@ then
   record_pass
 else
   record_fail "package semantic-preservation owner/consumer binding failed"
+fi
+
+# Bind the repaired repository projection as a positive example without
+# prescribing a README template, section count, or length.  The reusable
+# fixture bank above owns the generic classification; this cell proves that a
+# substantial, diagram-rich README can pass while contributor procedure,
+# chronology, and exact release evidence retain distinct discoverable owners.
+if "${py_cmd[@]}" - <<'PY'
+import json
+from pathlib import Path
+
+readme = Path("README.md").read_text(encoding="utf-8")
+contributing = Path("CONTRIBUTING.md").read_text(encoding="utf-8")
+site = json.loads(Path("docs/portal/site.json").read_text(encoding="utf-8"))
+diagrams = {
+    path.name: path.read_text(encoding="utf-8")
+    for path in Path("docs/diagrams").glob("*.mmd")
+}
+
+def projection_fits(readme_text, contributing_text, site_data, diagram_texts):
+    readme_routes = (
+        "[`CONTRIBUTING.md`](CONTRIBUTING.md)",
+        "[`CHANGELOG.md`](CHANGELOG.md)",
+        "[release report](docs/audits/archive/v0.3.3.3-release-report.md)",
+        "[`docs portal`](https://theislampill.github.io/IMPLEMENTAUDIT.md/)",
+    )
+    readme_model = (
+        "reusable meta-engineering",
+        "skills-about-skills",
+        "## Why IMPLEMENTAUDIT is stronger than a bare `/goal`",
+        "## Invocation modes",
+        "## Evidence boundaries",
+        "## Install notes",
+        "Graphify output is orientation evidence, not proof",
+        "ActiveGraph custody is not correctness proof",
+    )
+    contributor_contract = (
+        "## Canonical and generated owners",
+        "## Environment and file discipline",
+        "## Implementation and validation flow",
+        "## Review, commits and public mutations",
+        "bash scripts/generate-readme-diagrams.sh --check",
+        "bash scripts/verify-docs-portal.sh",
+    )
+    diagram_contract = (
+        "tooling-architecture.mmd",
+        "invocation-modes.mmd",
+        "execution-spine.mmd",
+    )
+    return (
+        all(token in readme_text for token in readme_routes + readme_model)
+        and "OWNER_ACCEPTED_PARTIAL" not in readme_text
+        and "v0.3.3.3 candidate countermeasures" not in readme_text
+        and all(token in contributing_text for token in contributor_contract)
+        and "Current contract essentials (v0.3.0.0 line)" not in contributing_text
+        and "CONTRIBUTING.md" in site_data.get("semantic_sources", [])
+        and all(name in diagram_texts for name in diagram_contract)
+        and all("authoritative" in diagram_texts[name].lower()
+                or "authority" in diagram_texts[name].lower()
+                or "evidence" in diagram_texts[name].lower()
+                for name in diagram_contract)
+    )
+
+if not projection_fits(readme, contributing, site, diagrams):
+    raise SystemExit("current substantial public projection is not audience/owner fit")
+
+mutations = {
+    "missing-contributor-route": (
+        readme.replace("[`CONTRIBUTING.md`](CONTRIBUTING.md)", "CONTRIBUTING"),
+        contributing, site, diagrams),
+    "campaign-jargon-in-onboarding": (
+        readme + "\nOWNER_ACCEPTED_PARTIAL\n", contributing, site, diagrams),
+    "stale-contributor-authority": (
+        readme,
+        contributing + "\nCurrent contract essentials (v0.3.0.0 line)\n",
+        site, diagrams),
+    "missing-portal-owner": (
+        readme, contributing,
+        {**site, "semantic_sources": [
+            value for value in site.get("semantic_sources", [])
+            if value != "CONTRIBUTING.md"]},
+        diagrams),
+}
+for name, values in mutations.items():
+    if projection_fits(*values):
+        raise SystemExit(f"current public projection accepted {name}")
+PY
+then
+  record_pass
+else
+  record_fail "current substantial README/contributor projection binding failed"
 fi
 
 case_ids="$("${py_cmd[@]}" - "$fixture" <<'PY'
