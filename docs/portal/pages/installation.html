@@ -1,7 +1,7 @@
 <div class="page-eyebrow">First run</div>
       <h1>Installation</h1>
       <p class="lead">This portal keeps installation early, but separates install proof from run proof.<br>Package extraction can be verified; host loading and audit correctness still need their own evidence.</p>
-      <p>The <code>v0.3.3.3</code> URLs below serve the final corrected, independently read-back package. The runtime version remains <code>0.3.3</code>. A current source checkout may contain later repository-only changes, so choose the release or source route deliberately.</p>
+      <p>The <code>v0.3.3.3</code> URLs below are the intended final release routes, but do not establish that the correction candidate is already available. The runtime version remains <code>0.3.3</code>. Until publication and readback complete, use the source route or verify the release assets before installation.</p>
 
       <h2 id="skills-cli">Skills CLI path</h2>
       <p>The repository is discoverable through the open <a href="https://skills.sh/theislampill/IMPLEMENTAUDIT.md">skills CLI directory</a>. Install from the current repository source with:</p>
@@ -30,7 +30,7 @@
 <span class="k-cyan">  --codex-home "$HOME/.codex" \</span>
 <span class="k-cyan">  --version 0.3.3</span></pre>
       </div>
-      <p>The local checksum check verifies artifact integrity when a checksum manifest is supplied.<br>The exact final correction candidate is a 257,433-byte <code>IMPLEMENTAUDIT.skill</code> with SHA-256 <code>3116a2be2992928af8f0ae7ac2f0cb357c1e81990d43469f6f921fe454bdf7bd</code>. The release URL is not treated as serving those bytes until publication and independent public readback complete. These are artifact-integrity facts, not a signature, attestation, SBOM, provenance chain, or host-load proof.</p>
+      <p>The local checksum check verifies artifact integrity when a checksum manifest is supplied.<br>The exact final correction candidate is a 258,000-byte <code>IMPLEMENTAUDIT.skill</code> with SHA-256 <code>dc943cc7054addede51bd4d5a98cac84ddcc0578379c4e0d3db023822252b6ae</code>. The release URL is not treated as serving those bytes until publication and independent public readback complete. These are artifact-integrity facts, not a signature, attestation, SBOM, provenance chain, or host-load proof.</p>
       <p>For a manual Codex copy from a checkout, repeat the copy when the package changes:</p>
       <div class="term-window example-console">
         <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Manual Codex copy</em><span class="term-badge">unix</span></div>
@@ -78,7 +78,7 @@
       <ul>
         <li>The release tag exists.</li>
         <li>Assets can be read.</li>
-        <li><code>CHECKSUMS.txt</code> verifies artifact integrity when supplied; the final <code>v0.3.3.3</code> release-page, checksum, and fresh-download digests were read back.</li>
+        <li><code>CHECKSUMS.txt</code> verifies artifact integrity when supplied; final <code>v0.3.3.3</code> release-page, checksum, and fresh-download digests remain pending until the publication readback is recorded.</li>
         <li>Pages is current only after deploy success.</li>
         <li>Local installs do not auto-update.</li>
       </ul>

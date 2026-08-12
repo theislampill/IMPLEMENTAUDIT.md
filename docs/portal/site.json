@@ -4,8 +4,8 @@
     "manifest_version": "0.3.3",
     "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/tag/v0.3.3.3",
     "audit_ledger_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/archive/v0.3.3.3-release-report.md",
-    "status": "v0.3.3.3 remains the four-component public identity for runtime 0.3.3. The 257433-byte final correction candidate is locally qualified; authoritative-main integration, same-identity publication, and fresh public download/install readback remain separate gates. Earlier publication receipts remain historical evidence and do not establish current asset availability",
-    "checksum_boundary": "the exact qualified candidate has SHA-256 3116a2be2992928af8f0ae7ac2f0cb357c1e81990d43469f6f921fe454bdf7bd. The release URL is not treated as serving those bytes until publication and independent readback. Digests are artifact-integrity evidence, not a signature, attestation, SBOM, or proof of provenance"
+    "status": "v0.3.3.3 remains the four-component public identity for runtime 0.3.3. The 258000-byte final correction candidate is locally qualified; authoritative-main integration, same-identity publication, and fresh public download/install readback remain separate gates. Earlier publication receipts remain historical evidence and do not establish current asset availability",
+    "checksum_boundary": "the exact qualified candidate has SHA-256 dc943cc7054addede51bd4d5a98cac84ddcc0578379c4e0d3db023822252b6ae. The release URL is not treated as serving those bytes until publication and independent readback. Digests are artifact-integrity evidence, not a signature, attestation, SBOM, or proof of provenance"
   },
   "semantic_sources": [
     "README.md",
