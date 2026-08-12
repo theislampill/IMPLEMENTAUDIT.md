@@ -15,10 +15,16 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Changed
 
+- R34/R40/R41 add native, proportionate dominance controls for a recomputed
+  work-conserving ready-cell frontier, optional operator resource ceilings,
+  conditional planner/executor epistemic separation, capability-fit delegation,
+  explicit cross-boundary context capsules, and post-worker source revalidation.
+  Trivial work remains serial and same-root; no fixed modes, fanout quotas, model
+  hierarchy, second lifecycle, or `/improve` runtime dependency is introduced.
 - R33 package builds use pinned, deterministic Zopfli method-8 DEFLATE. The
-  exact 254,496-byte composed candidate is calibrated to the smallest
+  exact 255,808-byte composed candidate is calibrated to the smallest
   whole-1,000-byte ceiling retaining at least 2,000 bytes of headroom:
-  257,000 bytes, leaving 2,504 bytes. The 260,000-byte owner outer bound is a
+  258,000 bytes, leaving 2,192 bytes. The 260,000-byte owner outer bound is a
   guard, not a spending target; required governed runtime semantics were not
   deleted or weakened to recover bytes.
 - #101 narrowly adopts TokenSave as optional derived code navigation for

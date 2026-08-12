@@ -46,6 +46,8 @@ reset_sandbox() {
     "$tmp_root/skills/implementaudit/references/"
   cp skills/implementaudit/references/child-agents.md \
     "$tmp_root/skills/implementaudit/references/"
+  cp skills/implementaudit/references/plan-lifecycle.md \
+    "$tmp_root/skills/implementaudit/references/"
   cp skills/implementaudit/templates/THINKING.md \
     skills/implementaudit/templates/ROADMAP.md \
     "$tmp_root/skills/implementaudit/templates/"
@@ -290,6 +292,7 @@ case["observations"] = {
     "event": "cell_complete",
     "work_units": 4,
     "host_capacity": 2,
+    "operator_ceiling": -1,
     "active_cells": 1,
     "ready_cells": 1,
     "parallelism_allowed": True,
@@ -298,6 +301,7 @@ case["observations"] = {
     "closed_acceptance_boundaries": True,
     "closed_resource_boundaries": True,
     "closed_authority_boundaries": True,
+    "authority_boundary_open": False,
     "irreversible_external": False,
     "authorization_current": True,
 }
@@ -431,5 +435,157 @@ sed 's/, dashboard//' \
 mv "$tmp_root/child-agents.tmp" \
   "$tmp_root/skills/implementaudit/references/child-agents.md"
 expect_fail "dashboard prohibition removed from cheap-path owner"
+
+# 28. Completion must recompute and activate a newly ready cell.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C104-completion-recomputes-frontier")
+case["expected"] = "HOLD_FRONTIER"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "completion bypassed ready-frontier recomputation"
+
+# 29. An operator ceiling must remain an upper bound, not disappear into host capacity.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C109-operator-ceiling-bounds-frontier")
+case["observations"]["operator_ceiling"] = -1
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "operator ceiling ignored"
+
+# 30. A live self-confirmation trigger cannot fall back to same-root execution.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C115-triggered-planner-executor-separation")
+case["expected"] = "SAME_ROOT"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "self-confirmation trigger collapsed to same-root execution"
+
+# 31. Cost cannot select a route whose capability is insufficient.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C120-cheaper-incapable-route-rejected")
+case["expected"] = "DELEGATE_LEAST_COST_SUFFICIENT"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "incapable lower-cost route selected"
+
+# 32. The cross-boundary context/revalidation owner clause is mandatory.
+reset_sandbox
+sed '/This prompt is an explicit context capsule/,/issuing any disposition\./d' \
+  "$tmp_root/skills/implementaudit/references/plan-lifecycle.md" \
+  >"$tmp_root/plan-lifecycle.tmp"
+mv "$tmp_root/plan-lifecycle.tmp" \
+  "$tmp_root/skills/implementaudit/references/plan-lifecycle.md"
+expect_fail "missing context capsule and fresh-source revalidation"
+
+# 33. Cross-repo behavior cannot be credited from a success-shaped receipt
+# that hides activation-keyword leakage.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/dominance-dogfood-receipt.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+payload["activation_prompt_leakage"] = True
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "dogfood receipt with activation-keyword leakage"
+
+# 34. The timed-out combined cell must remain rejected non-evidence.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/dominance-dogfood-receipt.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+payload["cells"][-1]["disposition"] = "PASS"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "timed-out dogfood cell promoted to PASS"
+
+# 35. Current authorization cannot impersonate an unresolved authority boundary.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C126-open-authority-boundary-defers")
+case["expected"] = "ACTIVATE_READY_CELLS"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "open authority boundary activated"
+
+# 36. Drift is a reconciliation event even on the serial cheap path.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C127-small-drift-still-reconciles")
+case["expected"] = "SERIAL_CHEAP_PATH"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "serial cheap path hid drift reconciliation"
+
+# 37. Recomputing under a zero ceiling cannot activate a ready cell.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C130-zero-ceiling-completion-recomputes-without-activation")
+case["expected"] = "RECOMPUTE_AND_ACTIVATE"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "zero-ceiling recomputation activated a ready cell"
 
 printf 'action-selection-contract.test: ok\n'

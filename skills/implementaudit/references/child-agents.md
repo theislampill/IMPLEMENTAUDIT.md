@@ -133,6 +133,12 @@ per-lane contract when it does not. Host concurrency limits may change
 scheduling; they never silently erase a warranted lane. A coverage table
 documents executed lanes; it never substitutes for them.
 
+No worker output becomes authoritative because it was scheduled correctly.
+Across agent or worktree boundaries, pass an explicit context capsule and
+require the consuming root or independent reviewer to reread fresh source and
+the returned evidence before acceptance. Missing context stops the lane for
+reconstruction; insufficient delegated capability stops for escalation.
+
 ### Exploratory hypothesis discrimination
 
 Do not confuse several reports with several independent lines of support.
@@ -190,11 +196,12 @@ dependency, conflicting/serial, or final-composed-only. A shared issue,
 milestone, PR train, runtime owner, package, or eventual public surface does not
 create a dependency without an overlapping current cell.
 
-At initial dispatch, execute worthwhile ready cells when host capacity and
-rollback margin exist, independence is known, and their expected engineering or
-information value exceeds dispatch and reconciliation cost. Keep the named join
-point. Unknown independence, shared write/acceptance/resource authority, and
-irreversible external effects serialise only the affected cell.
+At initial dispatch, execute worthwhile ready cells when host capacity,
+rollback margin, and any positive operator-supplied ceiling permit;
+independence is known; and their expected engineering or information value
+exceeds dispatch and reconciliation cost. Keep the named join point. Unknown
+independence, shared write/acceptance/resource authority, and irreversible
+external effects serialise only the affected cell.
 
 Recompute after a material scheduling transition: a cell completes or blocks;
 review, verification, hosted CI, Pages, or external readback begins or ends; a

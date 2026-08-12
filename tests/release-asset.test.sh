@@ -990,21 +990,21 @@ with zipfile.ZipFile(asset) as zf:
     OWNER_OUTER_BOUND_BYTES = 260_000
     MIN_HEADROOM_BYTES = 2_000
     CALIBRATION_QUANTUM_BYTES = 1_000
-    CURRENT_CALIBRATION_AUTHORITY = "dedicated-calibration-lane"
+    CURRENT_CALIBRATION_AUTHORITY = "owner"
     ALLOWED_CALIBRATION_AUTHORITIES = {
         "owner", "dedicated-calibration-lane",
     }
-    if CURRENT_CALIBRATION_AUTHORITY != "dedicated-calibration-lane":
+    if CURRENT_CALIBRATION_AUTHORITY != "owner":
         raise SystemExit(
-            "current calibration authority must name the dedicated R33 lane"
+            "current calibration authority must name the owner-authorised fold-in"
         )
 
-    # The final pre-/improve-gate composed candidate measures 254,496 bytes.
-    # This owner-authorised R33 calibration keeps the smallest whole-1,000-byte
-    # ceiling preserving at least 2,000 bytes of measured headroom: 257,000
-    # leaves 2,504 bytes. The 260,000-byte outer bound is a guard, not a target.
-    MAX_ASSET_BYTES = 257_000
-    CURRENT_CALIBRATION_ASSET_BYTES = 254_496
+    # The composed /improve dominance fold-in measures 255,808 bytes. This
+    # owner-authorised R33 calibration keeps the smallest whole-1,000-byte
+    # ceiling preserving at least 2,000 bytes of measured headroom: 258,000
+    # leaves 2,192 bytes. The 260,000-byte outer bound is a guard, not a target.
+    MAX_ASSET_BYTES = 258_000
+    CURRENT_CALIBRATION_ASSET_BYTES = 255_808
     N06_BASELINE_ASSET_BYTES = 206_584
     N06_FINAL_P7_ASSET_BYTES = 215_126
     FULL_W1_FORECAST_BYTES = 144_730

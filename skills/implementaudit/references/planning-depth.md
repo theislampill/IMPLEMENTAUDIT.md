@@ -162,6 +162,38 @@ add lifecycle ceremonies, mandatory buffers, sprint machinery, traceability
 matrices, or methodology-specific modes. When no proportionality pressure is
 live, create no R34 artefact.
 
+## Conditional delegation and work-conserving execution
+
+Use **conditional planner/executor separation** when material engineering
+judgement would otherwise be confirmed by the same role that mutates it and
+self-confirmation risk, a contested interpretation, or a high-consequence
+change is live. Freeze the planning/adjudication role against source mutation,
+dispatch a separately bounded executor, and require an independent reviewer to
+reread the resulting source and evidence. Executor output is candidate evidence,
+not acceptance authority. If the independent execution or review route is
+unavailable, block or obtain an owner decision; do not silently collapse the
+roles. Ordinary narrow, reversible work with one obvious route stays on the
+same-root cheap path.
+
+When several authorised executor routes are valid, select the least-cost
+sufficiently capable route after checking context completeness, privacy,
+tooling, authority, and acceptance needs. Compile the necessary owner/source,
+scope, constraints, acceptance, rollback, and STOP conditions into the durable
+handoff. A delegate that encounters missing context or insufficient capability
+stops and escalates; cost never overrides correctness or evidence.
+
+For three or more material cells with closed dependency, write, acceptance,
+resource, and authority boundaries, maintain a work-conserving ready-cell
+frontier. Activate worthwhile independent ready cells up to safe host capacity
+and any positive **operator-supplied ceiling**; recompute after a cell completes
+or blocks, capacity or authorization changes, or drift is observed. Unknown
+independence, shared boundaries, and irreversible external work serialize until
+proved safe. An unchanged reminder is not a scheduling transition and does not
+justify redispatch. Fewer than three material cells, unavailable parallelism,
+or an effective capacity below two uses the serial cheap path. The ceiling is a
+maximum resource envelope, not a fixed agent quota or utilization target, and
+does not replace factor-derived depth or marginal-value stopping.
+
 Evidence-based omission preserves the controlling obligation, establishes the
 current decision with a narrower discriminator, records the residual, and
 retains escalation when risk changes. Omission for convenience or cost alone is
