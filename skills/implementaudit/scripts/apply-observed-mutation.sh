@@ -542,7 +542,7 @@ plan(RESULT, ["result"], ["create", "write", "fsync"], "durable")
 plan(DISPOSITION, ["disposition"], [], "durable")
 plan(BACKUP, ["backup", "residue"], ["link", "replace", "unlink", "fsync"], "conditional-residue")
 plan(STAGE, ["stage", "residue"], ["create", "write", "link", "unlink", "fsync"], "conditional-residue")
-plan(LOCK_ROOT, ["lock-root"], ["mkdir", "fsync"], "durable")
+plan(LOCK_ROOT, ["lock-root"], ["mkdir", "rmdir", "fsync"], "durable")
 plan(LOCK_PARENT, ["lock-parent"], ["fsync"], "durable")
 for lock in lock_paths:
     plan(lock, ["path-lock", "residue"], ["mkdir", "rmdir", "fsync"], "conditional-residue")
@@ -605,7 +605,28 @@ def future_effect_rows(entries):
     return rows
 
 
-def mkdir(path, after_mutation=None):
+def notify_mutated(callback, path, effect):
+    if callback is not None:
+        callback(path, effect)
+
+
+def notify_durable(callback, path, effect):
+    if callback is not None:
+        callback(path, effect)
+
+
+def record_applied(path, effect, before, after, effect_row=None):
+    if effect_row is None:
+        record(path, effect, before, after)
+        return
+    if effect_row.get("sequence") != len(actual) + 1:
+        raise RuntimeError("EFFECT_SET_SEQUENCE_DRIFT")
+    if effect_row.get("scope") != "repo" or effect_row.get("path") != repo_relative(path) or effect_row.get("effect") != effect:
+        raise RuntimeError("EFFECT_SET_PRECOMPUTE_DRIFT")
+    actual.append(dict(effect_row))
+
+
+def mkdir(path, on_mutated=None, on_durable=None, effect_row=None, sync_parent=True):
     before = path_identity(path)
     authorise(path, "mkdir")
     try:
@@ -613,74 +634,93 @@ def mkdir(path, after_mutation=None):
     except FileExistsError:
         record(path, "mkdir", before, path_identity(path), "not-applied")
         raise
-    if after_mutation is not None:
-        after_mutation()
-    record(path, "mkdir", before, path_identity(path))
-    fsync_dir(path.parent)
+    notify_mutated(on_mutated, path, "mkdir")
+    record_applied(path, "mkdir", before, path_identity(path), effect_row)
+    if sync_parent:
+        fsync_dir(path.parent)
+        notify_durable(on_durable, path, "mkdir")
 
 
-def write_new(path, data, after_mutation=None):
+def write_new(path, data, on_mutated=None, on_durable=None, effect_rows=None, sync_parent=True):
     before = path_identity(path)
     authorise(path, "create")
     authorise(path, "write")
     authorise(path, "fsync")
-    with path.open("xb") as handle:
-        handle.write(data)
-        handle.flush()
+    rows = list(effect_rows or (None, None, None))
+    if len(rows) != 3:
+        raise RuntimeError("EFFECT_SET_PRECOMPUTE_DRIFT")
+    with path.open("xb", buffering=0) as handle:
+        notify_mutated(on_mutated, path, "create")
+        record_applied(path, "create", before, path_identity(path), rows[0])
+        written = handle.write(data)
+        notify_mutated(on_mutated, path, "write")
+        record_applied(path, "write", before, path_identity(path), rows[1])
+        if written != len(data):
+            raise OSError("short write")
         os.fsync(handle.fileno())
-    if after_mutation is not None:
-        after_mutation()
-    record(path, "create", before, path_identity(path))
-    record(path, "write", before, path_identity(path))
-    record(path, "fsync", path_identity(path), path_identity(path))
-    fsync_dir(path.parent)
+        record_applied(path, "fsync", path_identity(path), path_identity(path), rows[2])
+    if sync_parent:
+        fsync_dir(path.parent)
+        notify_durable(on_durable, path, "write")
 
 
-def unlink(path):
+def unlink(path, on_mutated=None, on_durable=None, effect_row=None, sync_parent=True):
     before = path_identity(path)
     authorise(path, "unlink")
     os.unlink(path)
-    record(path, "unlink", before, path_identity(path))
-    fsync_dir(path.parent)
+    notify_mutated(on_mutated, path, "unlink")
+    record_applied(path, "unlink", before, path_identity(path), effect_row)
+    if sync_parent:
+        fsync_dir(path.parent)
+        notify_durable(on_durable, path, "unlink")
 
 
-def link(source, destination, after_mutation=None):
+def link(source, destination, on_mutated=None, on_durable=None, effect_row=None, sync_parent=True):
     before = path_identity(destination)
     authorise(destination, "link")
     os.link(source, destination)
-    if after_mutation is not None:
-        after_mutation()
-    record(destination, "link", before, path_identity(destination))
-    fsync_dir(destination.parent)
+    notify_mutated(on_mutated, destination, "link")
+    record_applied(destination, "link", before, path_identity(destination), effect_row)
+    if sync_parent:
+        fsync_dir(destination.parent)
+        notify_durable(on_durable, destination, "link")
 
 
-def replace(source, destination, after_mutation=None):
+def replace(source, destination, on_mutated=None, on_durable=None, effect_rows=None, sync_parents=True):
     source_before = path_identity(source)
     destination_before = path_identity(destination)
     authorise(source, "replace")
     authorise(destination, "replace")
+    rows = list(effect_rows or (None, None))
+    if len(rows) != 2:
+        raise RuntimeError("EFFECT_SET_PRECOMPUTE_DRIFT")
     os.replace(source, destination)
-    if after_mutation is not None:
-        after_mutation()
-    record(source, "replace", source_before, path_identity(source))
-    record(destination, "replace", destination_before, path_identity(destination))
-    fsync_dir(source.parent)
-    if destination.parent != source.parent:
-        fsync_dir(destination.parent)
+    notify_mutated(on_mutated, source, "replace")
+    record_applied(source, "replace", source_before, path_identity(source), rows[0])
+    record_applied(destination, "replace", destination_before, path_identity(destination), rows[1])
+    if sync_parents:
+        fsync_dir(source.parent)
+        if destination.parent != source.parent:
+            fsync_dir(destination.parent)
+        notify_durable(on_durable, destination, "replace")
 
 
-def rmdir(path):
+def rmdir(path, on_mutated=None, on_durable=None, effect_row=None, sync_parent=True):
     before = path_identity(path)
     authorise(path, "rmdir")
     os.rmdir(path)
-    record(path, "rmdir", before, path_identity(path))
-    fsync_dir(path.parent)
+    notify_mutated(on_mutated, path, "rmdir")
+    record_applied(path, "rmdir", before, path_identity(path), effect_row)
+    if sync_parent:
+        fsync_dir(path.parent)
+        notify_durable(on_durable, path, "rmdir")
 
 
-def fsync_dir(path):
+def fsync_dir(path, effect_row=None):
     authorise(path, "fsync")
+    before = path_identity(path)
     sync_directory_raw(path)
-    record(path, "fsync", path_identity(path), path_identity(path))
+    record_applied(path, "fsync", before, path_identity(path), effect_row)
 
 
 def sync_directory_raw(path):
@@ -781,19 +821,77 @@ init_created_tx = False
 init_created_authority = False
 
 
-def mark_init_parent():
+def mark_init_parent(_path, _effect):
     global init_created_parent
     init_created_parent = True
 
 
-def mark_init_tx():
+def mark_init_tx(_path, _effect):
     global init_created_tx
     init_created_tx = True
 
 
-def mark_init_authority():
+def mark_init_authority(_path, _effect):
     global init_created_authority
     init_created_authority = True
+
+
+def residue_row(path):
+    return {
+        "scope": "repo",
+        "path": repo_relative(path),
+        "identity": path_identity(path),
+        "custody": "run-owner-required",
+    }
+
+
+def result_record(status, reason_code, residue_paths, effect_rows):
+    return {
+        "schema": "implementaudit.observation_bound_mutation.v2",
+        "transaction_id": transaction_id,
+        "claim_id": claim_id,
+        "phase": args.phase,
+        "step": args.step,
+        "authority_binding_sha256": authority_projection["authority_binding_sha256"],
+        "operation": operation,
+        "status": status,
+        "reason_code": reason_code,
+        "source_path": source_name,
+        "destination_path": destination_name,
+        "pre_identities": pre_rows,
+        "candidate_identities": candidate_rows,
+        "post_identities": current_post_rows(),
+        "planned_effect_set": planned,
+        "planned_effect_set_sha256": planned_digest,
+        "actual_effect_set": list(effect_rows),
+        "residue": [residue_row(path) for path in residue_paths if path_identity(path).get("kind") != "absent"],
+    }
+
+
+def persist_result_record(status, reason_code, residue_paths):
+    result_before = path_identity(RESULT)
+    transaction_identity = path_identity(TX)
+    future = future_effect_rows(
+        [
+            (RESULT, "create", result_before, None),
+            (RESULT, "write", result_before, None),
+            (RESULT, "fsync", None, None),
+            (TX, "fsync", transaction_identity, transaction_identity),
+        ]
+    )
+    payload = result_record(status, reason_code, residue_paths, actual + future)
+    write_new(RESULT, canonical(payload), effect_rows=future[:3], sync_parent=False)
+    fsync_dir(TX, future[3])
+    return result_record(status, reason_code, residue_paths, actual)
+
+
+def initialisation_residue_paths():
+    owned_paths = (
+        (AUTHORITY, init_created_authority),
+        (TX, init_created_tx),
+        (TX_PARENT, init_created_parent),
+    )
+    return [path for path, owned in owned_paths if owned and path_identity(path).get("kind") != "absent"]
 
 
 def emit_initialisation_failure():
@@ -806,33 +904,17 @@ def emit_initialisation_failure():
         if init_created_parent and path_identity(TX_PARENT).get("kind") == "directory":
             rmdir(TX_PARENT)
     except (OSError, RuntimeError):
-        owned_paths = (
-            (AUTHORITY, init_created_authority),
-            (TX, init_created_tx),
-            (TX_PARENT, init_created_parent),
-        )
-        residue_paths = [path for path, owned in owned_paths if owned and path_identity(path).get("kind") != "absent"]
+        residue_paths = initialisation_residue_paths()
     status = "MUTATION_FAILED_NO_STATE_CHANGE" if not residue_paths else "ROLLBACK_FAILED_WITH_RESIDUE"
-    result = {
-        "schema": "implementaudit.observation_bound_mutation.v2",
-        "transaction_id": transaction_id,
-        "claim_id": claim_id,
-        "phase": args.phase,
-        "step": args.step,
-        "authority_binding_sha256": authority_projection["authority_binding_sha256"],
-        "operation": operation,
-        "status": status,
-        "reason_code": "INITIALISATION_IO_FAILURE",
-        "source_path": source_name,
-        "destination_path": destination_name,
-        "pre_identities": pre_rows,
-        "candidate_identities": candidate_rows,
-        "post_identities": current_post_rows(),
-        "planned_effect_set": planned,
-        "planned_effect_set_sha256": planned_digest,
-        "actual_effect_set": actual,
-        "residue": [{"scope":"repo","path":repo_relative(path),"identity":path_identity(path),"custody":"run-owner-required"} for path in residue_paths],
-    }
+    result = result_record(status, "INITIALISATION_IO_FAILURE", residue_paths, actual)
+    if status == "ROLLBACK_FAILED_WITH_RESIDUE" and path_identity(TX).get("kind") == "directory":
+        try:
+            result = persist_result_record(status, "INITIALISATION_IO_FAILURE", residue_paths)
+        except (OSError, RuntimeError):
+            residue_paths = initialisation_residue_paths()
+            if path_identity(RESULT).get("kind") != "absent":
+                residue_paths.append(RESULT)
+            result = result_record(status, "INITIALISATION_IO_FAILURE", residue_paths, actual)
     print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
     raise SystemExit(EXITS[status])
 
@@ -858,15 +940,6 @@ except OSError:
 owner = secrets.token_hex(16)
 held = []
 residue = []
-
-
-def residue_row(path):
-    return {
-        "scope": "repo",
-        "path": repo_relative(path),
-        "identity": path_identity(path),
-        "custody": "run-owner-required",
-    }
 
 
 def journal_record(status, residue_paths=(), effect_rows=None):
@@ -902,30 +975,81 @@ def persist_journal(status, residue_paths=()):
         ]
     )
     data = canonical(journal_record(status, residue_paths, actual + future))
-    with JOURNAL_TMP.open("xb") as handle:
-        handle.write(data)
-        handle.flush()
-        os.fsync(handle.fileno())
-    os.replace(JOURNAL_TMP, JOURNAL)
-    sync_directory_raw(TX)
-    actual.extend(future)
+    write_new(JOURNAL_TMP, data, effect_rows=future[:3], sync_parent=False)
+    replace(JOURNAL_TMP, JOURNAL, effect_rows=future[3:5], sync_parents=False)
+    fsync_dir(TX, future[5])
 
 
 retain_owned_locks = False
+lock_root_created = False
+
+
+def mark_lock_root(_path, effect):
+    global lock_root_created
+    if effect == "mkdir":
+        lock_root_created = True
+
+
+def mark_lock_root_durable(_path, effect):
+    global lock_root_created
+    if effect == "mkdir":
+        lock_root_created = False
+
+
+def mark_lock_owned(lock):
+    def mark(path, effect):
+        entry = next((item for item in held if item["path"] == lock), None)
+        if entry is None:
+            entry = {"path": lock, "owner_created": False}
+            held.append(entry)
+        if path == lock / "owner" and effect == "create":
+            entry["owner_created"] = True
+    return mark
 
 
 def release_locks():
     while held:
-        lock = held[-1]
+        entry = held[-1]
+        lock = entry["path"]
         owner_path = lock / "owner"
         try:
-            if owner_path.read_text(encoding="ascii") != owner:
+            owner_kind = path_identity(owner_path).get("kind")
+            if owner_kind != "absent":
+                if owner_kind != "regular":
+                    break
+                unlink(owner_path)
+            lock_kind = path_identity(lock).get("kind")
+            if lock_kind == "directory":
+                rmdir(lock)
+            elif lock_kind != "absent":
                 break
-            unlink(owner_path)
-            rmdir(lock)
             held.pop()
-        except OSError:
+        except (OSError, RuntimeError):
             break
+
+
+def release_lock_root():
+    global lock_root_created
+    if not lock_root_created:
+        return
+    try:
+        kind = path_identity(LOCK_ROOT).get("kind")
+        if kind == "directory":
+            rmdir(LOCK_ROOT)
+        elif kind != "absent":
+            return
+        lock_root_created = False
+    except (OSError, RuntimeError):
+        return
+
+
+def owned_lock_residue_paths():
+    paths = []
+    for entry in held:
+        paths.extend([entry["path"], entry["path"] / "owner"])
+    if lock_root_created:
+        paths.append(LOCK_ROOT)
+    return [path for path in paths if path_identity(path).get("kind") != "absent"]
 
 
 def final_result(status, reason_code="NONE", residue_paths=(), post_path=None):
@@ -933,51 +1057,20 @@ def final_result(status, reason_code="NONE", residue_paths=(), post_path=None):
     uncertain_paths = list(residue_paths)
     if uncertain_paths:
         retain_owned_locks = True
-        for lock in held:
-            uncertain_paths.extend([lock, lock / "owner"])
-    result_residue = [residue_row(path) for path in uncertain_paths if path_identity(path).get("kind") != "absent"]
-    if not result_residue:
+        uncertain_paths.extend(owned_lock_residue_paths())
+    else:
         if path_identity(JOURNAL).get("kind") != "absent":
             unlink(JOURNAL)
         release_locks()
-    result_before = path_identity(RESULT)
-    transaction_identity = path_identity(TX)
-    future = future_effect_rows(
-        [
-            (RESULT, "create", result_before, None),
-            (RESULT, "write", result_before, None),
-            (RESULT, "fsync", None, None),
-            (TX, "fsync", transaction_identity, transaction_identity),
-        ]
-    )
-    def build_result(effect_rows):
-        return {
-        "schema": "implementaudit.observation_bound_mutation.v2",
-        "transaction_id": transaction_id,
-        "claim_id": claim_id,
-        "phase": args.phase,
-        "step": args.step,
-        "authority_binding_sha256": authority_projection["authority_binding_sha256"],
-        "operation": operation,
-        "status": status,
-        "reason_code": reason_code,
-        "source_path": source_name,
-        "destination_path": destination_name,
-        "pre_identities": pre_rows,
-        "candidate_identities": candidate_rows,
-        "post_identities": current_post_rows(),
-        "planned_effect_set": planned,
-        "planned_effect_set_sha256": planned_digest,
-        "actual_effect_set": list(effect_rows),
-        "residue": result_residue,
-        }
-    with RESULT.open("xb") as handle:
-        handle.write(canonical(build_result(actual + future)))
-        handle.flush()
-        os.fsync(handle.fileno())
-    sync_directory_raw(TX)
-    actual.extend(future)
-    result = build_result(actual)
+        release_lock_root()
+        cleanup_residue = owned_lock_residue_paths()
+        if cleanup_residue:
+            uncertain_paths.extend(cleanup_residue)
+            retain_owned_locks = True
+            status = "ROLLBACK_FAILED_WITH_RESIDUE"
+            if reason_code == "NONE":
+                reason_code = "IO_FAILURE"
+    result = persist_result_record(status, reason_code, uncertain_paths)
     print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
     raise SystemExit(EXITS[status])
 
@@ -997,32 +1090,32 @@ if bar and not fault:
     ):
         final_result("CONFLICT_REBASE", "PREIMAGE_DRIFT")
 
-if path_identity(LOCK_ROOT).get("kind") == "absent":
-    try:
-        mkdir(LOCK_ROOT)
-    except FileExistsError:
-        if path_identity(LOCK_ROOT).get("kind") != "directory":
-            final_result("UNSUPPORTED_OWNER_DECISION", "PATH_NOT_REGULAR")
 displaced = False
 move_destination_published = False
 
 
-def mark_displaced():
+def mark_displaced(_path, _effect):
     global displaced
     displaced = True
 
 
-def mark_move_destination_published():
+def mark_move_destination_published(_path, _effect):
     global move_destination_published
     move_destination_published = True
 
 
 try:
-    for lock in lock_paths:
+    if path_identity(LOCK_ROOT).get("kind") == "absent":
         try:
-            mkdir(lock)
-            write_new(lock / "owner", owner.encode("ascii"))
-            held.append(lock)
+            mkdir(LOCK_ROOT, on_mutated=mark_lock_root, on_durable=mark_lock_root_durable)
+        except FileExistsError:
+            if path_identity(LOCK_ROOT).get("kind") != "directory":
+                final_result("UNSUPPORTED_OWNER_DECISION", "PATH_NOT_REGULAR")
+    for lock in lock_paths:
+        mark_owned = mark_lock_owned(lock)
+        try:
+            mkdir(lock, mark_owned)
+            write_new(lock / "owner", owner.encode("ascii"), mark_owned)
         except FileExistsError:
             final_result("CONFLICT_REBASE", "TARGET_LOCK_BUSY")
 
@@ -1122,4 +1215,5 @@ except OSError:
 finally:
     if not retain_owned_locks:
         release_locks()
+        release_lock_root()
 PY

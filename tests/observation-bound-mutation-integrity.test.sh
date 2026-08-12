@@ -149,7 +149,7 @@ if source.count(script_dir_line) != 1: raise SystemExit('R36 sibling-script loca
 source=source.replace(script_dir_line,derived_dir_line)
 needle='    # R36_INSTRUMENT_INSERT\n'
 if source.count(needle) != 1: raise SystemExit('R36 instrument marker count is not exactly one')
-insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'pre-transaction':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n        if fault == 'io-after-displacement':\n            original_open=Path.open\n            def fail_stage_open(self,*args,**kwargs):\n                if self.name == 'stage.bin' and args and 'x' in args[0]: raise OSError(28,'injected ENOSPC')\n                return original_open(self,*args,**kwargs)\n            Path.open=fail_stage_open\n        if fault in {'fsync-after-displacement','fsync-after-destination','init-authority-fsync'}:\n            original_sync=sync_directory_raw; injected={'done':False}\n            def fail_selected_sync(path):\n                trigger=(fault=='fsync-after-displacement' and path_identity(BACKUP).get('kind')=='regular' and path_identity(SOURCE).get('kind')=='absent') or (fault=='fsync-after-destination' and operation=='move' and path_identity(DESTINATION).get('kind')=='regular') or (fault=='init-authority-fsync' and path==TX and path_identity(AUTHORITY).get('kind')=='regular')\n                if trigger and not injected['done']:\n                    injected['done']=True; raise OSError(28,'injected fsync failure')\n                return original_sync(path)\n            globals()['sync_directory_raw']=fail_selected_sync\n    if phase == 'move-destination-published' and fault == 'move-after-destination':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
+insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'pre-transaction':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n        delay_mutated=os.getenv('IMPLEMENTAUDIT_R36_TEST_DELAY_MUTATED')=='1'\n        if delay_mutated:\n            original_notify=notify_mutated; delayed=[]\n            def queue_mutated(callback,path,effect): delayed.append((callback,path,effect))\n            globals()['notify_mutated']=queue_mutated\n        if fault == 'io-after-displacement':\n            original_open=Path.open\n            def fail_stage_open(self,*args,**kwargs):\n                if self.name == 'stage.bin' and args and 'x' in args[0]: raise OSError(28,'injected ENOSPC')\n                return original_open(self,*args,**kwargs)\n            Path.open=fail_stage_open\n        original_os_fsync=os.fsync; file_state={'authority_failed':False,'result_failed':False,'owner_failed':False}\n        def fail_selected_file_fsync(fd):\n            authority_fault=fault in {'authority-file-fsync','authority-cleanup-fails','authority-result-fsync-fails'} and path_identity(AUTHORITY).get('kind')=='regular' and not file_state['authority_failed']\n            result_fault=fault=='authority-result-fsync-fails' and file_state['authority_failed'] and path_identity(RESULT).get('kind')=='regular' and not file_state['result_failed']\n            owner_fault=fault=='lock-owner-file-fsync' and any(path_identity(p/'owner').get('kind')=='regular' for p in lock_paths) and not file_state['owner_failed']\n            if authority_fault:\n                file_state['authority_failed']=True; raise OSError(28,'injected authority file fsync failure')\n            if result_fault:\n                file_state['result_failed']=True; raise OSError(28,'injected result file fsync failure')\n            if owner_fault:\n                file_state['owner_failed']=True; raise OSError(28,'injected lock owner file fsync failure')\n            return original_os_fsync(fd)\n        os.fsync=fail_selected_file_fsync\n        if fault in {'authority-cleanup-fails','authority-result-fsync-fails'}:\n            original_unlink=os.unlink\n            def fail_authority_unlink(path):\n                if Path(path)==AUTHORITY: raise OSError(13,'injected authority cleanup failure')\n                return original_unlink(path)\n            os.unlink=fail_authority_unlink\n        original_sync=sync_directory_raw; injected={'done':False}\n        def fail_selected_sync(path):\n            trigger=(fault=='fsync-after-displacement' and path_identity(BACKUP).get('kind')=='regular' and path_identity(SOURCE).get('kind')=='absent') or (fault=='fsync-after-destination' and operation=='move' and path_identity(DESTINATION).get('kind')=='regular') or (fault=='init-authority-fsync' and path==TX and path_identity(AUTHORITY).get('kind')=='regular') or (fault=='lock-root-parent-fsync' and path==LOCK_PARENT and path_identity(LOCK_ROOT).get('kind')=='directory') or (fault=='lock-mkdir-parent-fsync' and path==LOCK_ROOT and any(path_identity(p).get('kind')=='directory' for p in lock_paths))\n            if trigger and not injected['done']:\n                injected['done']=True; raise OSError(28,'injected directory fsync failure')\n            value=original_sync(path)\n            if delay_mutated and delayed:\n                pending=list(delayed); delayed.clear()\n                for callback,item,effect in pending: original_notify(callback,item,effect)\n            return value\n        globals()['sync_directory_raw']=fail_selected_sync\n    if phase == 'move-destination-published' and fault == 'move-after-destination':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
 Path(sys.argv[2]).write_text(source.replace(needle,needle+insert),encoding='utf-8')
 PY
   chmod +x "$derived" || return 1
@@ -159,7 +159,7 @@ from pathlib import Path
 canonical,derived=map(Path,sys.argv[1:]); text=derived.read_text(encoding='utf-8')
 script_dir_line='script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"'
 derived_dir_line='script_dir='+repr(str(canonical.parent))
-insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'pre-transaction':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n        if fault == 'io-after-displacement':\n            original_open=Path.open\n            def fail_stage_open(self,*args,**kwargs):\n                if self.name == 'stage.bin' and args and 'x' in args[0]: raise OSError(28,'injected ENOSPC')\n                return original_open(self,*args,**kwargs)\n            Path.open=fail_stage_open\n        if fault in {'fsync-after-displacement','fsync-after-destination','init-authority-fsync'}:\n            original_sync=sync_directory_raw; injected={'done':False}\n            def fail_selected_sync(path):\n                trigger=(fault=='fsync-after-displacement' and path_identity(BACKUP).get('kind')=='regular' and path_identity(SOURCE).get('kind')=='absent') or (fault=='fsync-after-destination' and operation=='move' and path_identity(DESTINATION).get('kind')=='regular') or (fault=='init-authority-fsync' and path==TX and path_identity(AUTHORITY).get('kind')=='regular')\n                if trigger and not injected['done']:\n                    injected['done']=True; raise OSError(28,'injected fsync failure')\n                return original_sync(path)\n            globals()['sync_directory_raw']=fail_selected_sync\n    if phase == 'move-destination-published' and fault == 'move-after-destination':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
+insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'pre-transaction':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n        delay_mutated=os.getenv('IMPLEMENTAUDIT_R36_TEST_DELAY_MUTATED')=='1'\n        if delay_mutated:\n            original_notify=notify_mutated; delayed=[]\n            def queue_mutated(callback,path,effect): delayed.append((callback,path,effect))\n            globals()['notify_mutated']=queue_mutated\n        if fault == 'io-after-displacement':\n            original_open=Path.open\n            def fail_stage_open(self,*args,**kwargs):\n                if self.name == 'stage.bin' and args and 'x' in args[0]: raise OSError(28,'injected ENOSPC')\n                return original_open(self,*args,**kwargs)\n            Path.open=fail_stage_open\n        original_os_fsync=os.fsync; file_state={'authority_failed':False,'result_failed':False,'owner_failed':False}\n        def fail_selected_file_fsync(fd):\n            authority_fault=fault in {'authority-file-fsync','authority-cleanup-fails','authority-result-fsync-fails'} and path_identity(AUTHORITY).get('kind')=='regular' and not file_state['authority_failed']\n            result_fault=fault=='authority-result-fsync-fails' and file_state['authority_failed'] and path_identity(RESULT).get('kind')=='regular' and not file_state['result_failed']\n            owner_fault=fault=='lock-owner-file-fsync' and any(path_identity(p/'owner').get('kind')=='regular' for p in lock_paths) and not file_state['owner_failed']\n            if authority_fault:\n                file_state['authority_failed']=True; raise OSError(28,'injected authority file fsync failure')\n            if result_fault:\n                file_state['result_failed']=True; raise OSError(28,'injected result file fsync failure')\n            if owner_fault:\n                file_state['owner_failed']=True; raise OSError(28,'injected lock owner file fsync failure')\n            return original_os_fsync(fd)\n        os.fsync=fail_selected_file_fsync\n        if fault in {'authority-cleanup-fails','authority-result-fsync-fails'}:\n            original_unlink=os.unlink\n            def fail_authority_unlink(path):\n                if Path(path)==AUTHORITY: raise OSError(13,'injected authority cleanup failure')\n                return original_unlink(path)\n            os.unlink=fail_authority_unlink\n        original_sync=sync_directory_raw; injected={'done':False}\n        def fail_selected_sync(path):\n            trigger=(fault=='fsync-after-displacement' and path_identity(BACKUP).get('kind')=='regular' and path_identity(SOURCE).get('kind')=='absent') or (fault=='fsync-after-destination' and operation=='move' and path_identity(DESTINATION).get('kind')=='regular') or (fault=='init-authority-fsync' and path==TX and path_identity(AUTHORITY).get('kind')=='regular') or (fault=='lock-root-parent-fsync' and path==LOCK_PARENT and path_identity(LOCK_ROOT).get('kind')=='directory') or (fault=='lock-mkdir-parent-fsync' and path==LOCK_ROOT and any(path_identity(p).get('kind')=='directory' for p in lock_paths))\n            if trigger and not injected['done']:\n                injected['done']=True; raise OSError(28,'injected directory fsync failure')\n            value=original_sync(path)\n            if delay_mutated and delayed:\n                pending=list(delayed); delayed.clear()\n                for callback,item,effect in pending: original_notify(callback,item,effect)\n            return value\n        globals()['sync_directory_raw']=fail_selected_sync\n    if phase == 'move-destination-published' and fault == 'move-after-destination':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
 if text.replace(insert,'').replace(derived_dir_line,script_dir_line) != canonical.read_text(encoding='utf-8'): raise SystemExit('instrumented copy does not strip byte-equal')
 PY
   printf '%s\n' "$derived"
@@ -544,7 +544,7 @@ PY
 mutant_self_check() {
   setup
   helper_api=v1
-  local fake="$tmp/golden-helper.sh" pre candidate
+  local fake="$tmp/golden-helper.sh" pre candidate derived
   pre="$(artifact mutant-pre 4142434445)"; candidate="$(artifact mutant-candidate 4e4557)"
   cat >"$fake" <<'SH'
 #!/usr/bin/env bash
@@ -566,6 +566,23 @@ SH
   for status in MUTATION_FAILED_NO_STATE_CHANGE MUTATION_FAILED_ROLLED_BACK POST_STATE_MISMATCH_ROLLED_BACK UNSUPPORTED_OWNER_DECISION; do
     R36_SELF_STATUS="$status" invoke "R36-MUTANT-$status" "$status" replace target - "$candidate" 4142434445 --preimage "$pre" --candidate "$candidate"
   done
+  # Mechanism mutant: queue every on_mutated callback until the following
+  # directory sync. An authority file-fsync failure occurs first, so the
+  # delayed callback cannot establish clean ownership and must be killed by
+  # the exact residue/terminal discriminator.
+  setup; pre="$(artifact delayed-callback-pre 4142434445)"; candidate="$(artifact delayed-callback-candidate 4e4557)"; derived="$(instrumented_helper)"
+  prepare_authority replace target -; local delayed_out="$tmp/delayed-callback.out" delayed_err="$tmp/delayed-callback.err" delayed_exit
+  set +e; IMPLEMENTAUDIT_R36_TEST_DELAY_MUTATED=1 IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=authority-file-fsync bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$prepared_phase" --step 1 --preimage "$pre" --candidate "$candidate" >"$delayed_out" 2>"$delayed_err"; delayed_exit=$?; set -e
+  assert_hex R36-MUTANT-delayed-callback-source "$fixture_repo/target" 4142434445
+  if [ "$delayed_exit" -eq 70 ] && "$python_bin" - "$delayed_out" "$run_root" <<'PY'
+import json,sys
+from pathlib import Path
+try: r=json.load(open(sys.argv[1],encoding='utf-8'))
+except Exception: raise SystemExit(1)
+root=Path(sys.argv[2]); authority=list((root/'mutation-transactions').glob('*/authority.json'))
+raise SystemExit(0 if r.get('status')=='MUTATION_FAILED_NO_STATE_CHANGE' and not r.get('residue') and not authority else 1)
+PY
+  then fail 'R36 delayed-callback mutant escaped ownership-before-durability discriminator'; fi
   write_hex "$fixture_repo/sentinel" 53414645
   set +e; R36_SELF_STATUS=REJECTED_NO_MUTATION bash "$fake" --repo-root "$fixture_repo" --run-root "$run_root" --operation replace --target target --preimage "$pre" --candidate "$candidate" --arbitrary-mutator 'ignored' >/dev/null; local arbitrary_exit=$?; set -e
   [ "$arbitrary_exit" -eq 64 ] || fail 'R36 mutant arbitrary-command status did not use refusal exit'
@@ -991,6 +1008,75 @@ PY
   [ -d "$run_root/mutation-transactions" ] || fail 'R36-INIT-SYNC removed pre-existing transaction parent'
   [ -z "$(find "$run_root/mutation-transactions" -mindepth 1 -print -quit)" ] || fail 'R36-INIT-SYNC retained owned transaction custody after clean F70'
 
+  # File creation is already a mutation. Authority ownership must be known
+  # before its file fsync so a failure cannot leave an unreported authority.
+  setup; pre="$(artifact authority-file-pre 4142434445)"; cand="$(artifact authority-file-candidate 4e4557)"; derived="$(instrumented_helper)"
+  prepare_authority replace target -; phase="$prepared_phase"; stdout="$tmp/authority-file.out"; stderr="$tmp/authority-file.err"
+  set +e; IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=authority-file-fsync bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$phase" --step 1 --preimage "$pre" --candidate "$cand" >"$stdout" 2>"$stderr"; actual=$?; set -e
+  [ "$actual" -eq 70 ] || fail "R36-AUTHORITY-FILE exit=$actual expected=70 stderr=$(<"$stderr")"
+  assert_hex R36-AUTHORITY-FILE-source "$fixture_repo/target" 4142434445
+  "$python_bin" - "$stdout" <<'PY' || fail 'R36-AUTHORITY-FILE lacked clean F70 JSON'
+import json,sys
+r=json.load(open(sys.argv[1],encoding='utf-8'))
+if r['status']!='MUTATION_FAILED_NO_STATE_CHANGE' or r['reason_code']!='INITIALISATION_IO_FAILURE' or r['residue']: raise SystemExit(r)
+PY
+  [ -z "$(find "$run_root/mutation-transactions" -mindepth 1 -print -quit 2>/dev/null)" ] || fail 'R36-AUTHORITY-FILE retained unowned authority/transaction state'
+
+  # If owned authority cleanup fails, TX is retained as custody and result.json
+  # must durably bind the exact authority/TX residue before stdout reports F75.
+  setup; pre="$(artifact authority-residue-pre 4142434445)"; cand="$(artifact authority-residue-candidate 4e4557)"; derived="$(instrumented_helper)"
+  prepare_authority replace target -; phase="$prepared_phase"; stdout="$tmp/authority-residue.out"; stderr="$tmp/authority-residue.err"
+  set +e; IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=authority-cleanup-fails bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$phase" --step 1 --preimage "$pre" --candidate "$cand" >"$stdout" 2>"$stderr"; actual=$?; set -e
+  [ "$actual" -eq 75 ] || fail "R36-AUTHORITY-RESIDUE exit=$actual expected=75 stderr=$(<"$stderr")"
+  assert_hex R36-AUTHORITY-RESIDUE-source "$fixture_repo/target" 4142434445
+  tx="$($python_bin - "$stdout" <<'PY'
+import json,sys
+r=json.load(open(sys.argv[1],encoding='utf-8')); paths={x['path'] for x in r['residue']}
+if r['status']!='ROLLBACK_FAILED_WITH_RESIDUE' or r['reason_code']!='INITIALISATION_IO_FAILURE': raise SystemExit(r)
+if not any(x.endswith('/authority.json') for x in paths) or not any('/mutation-transactions/' in x and not x.endswith('.json') for x in paths): raise SystemExit(paths)
+print(r['transaction_id'])
+PY
+  )" || fail 'R36-AUTHORITY-RESIDUE lacked exact F75 residue JSON'
+  [ -f "$run_root/mutation-transactions/$tx/result.json" ] || fail 'R36-AUTHORITY-RESIDUE lacked durable result.json'
+  "$python_bin" - "$stdout" "$run_root/mutation-transactions/$tx/result.json" <<'PY' || fail 'R36-AUTHORITY-RESIDUE durable result differs from stdout'
+import json,sys
+if json.load(open(sys.argv[1],encoding='utf-8')) != json.load(open(sys.argv[2],encoding='utf-8')): raise SystemExit(1)
+PY
+
+  # Result persistence can itself fail after creating result.json. Stdout must
+  # then add that uncertain result file to the residue instead of overclaiming
+  # a durable terminal receipt.
+  setup; pre="$(artifact authority-result-pre 4142434445)"; cand="$(artifact authority-result-candidate 4e4557)"; derived="$(instrumented_helper)"
+  prepare_authority replace target -; phase="$prepared_phase"; stdout="$tmp/authority-result.out"; stderr="$tmp/authority-result.err"
+  set +e; IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=authority-result-fsync-fails bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$phase" --step 1 --preimage "$pre" --candidate "$cand" >"$stdout" 2>"$stderr"; actual=$?; set -e
+  [ "$actual" -eq 75 ] || fail "R36-AUTHORITY-RESULT exit=$actual expected=75 stderr=$(<"$stderr")"
+  assert_hex R36-AUTHORITY-RESULT-source "$fixture_repo/target" 4142434445
+  "$python_bin" - "$stdout" <<'PY' || fail 'R36-AUTHORITY-RESULT lacked truthful persistence-failure residue'
+import json,sys
+r=json.load(open(sys.argv[1],encoding='utf-8')); paths={x['path'] for x in r['residue']}
+if r['status']!='ROLLBACK_FAILED_WITH_RESIDUE': raise SystemExit(r)
+for suffix in ('/authority.json','/result.json'):
+ if not any(x.endswith(suffix) for x in paths): raise SystemExit(paths)
+if not any('/mutation-transactions/' in x and not x.endswith('.json') for x in paths): raise SystemExit(paths)
+PY
+
+  # Shared lock infrastructure and each acquired lock enter the same JSON
+  # boundary. Directory or owner durability faults must not escape or leak an
+  # unregistered lock while the source remains unchanged.
+  for a in lock-root-parent-fsync lock-mkdir-parent-fsync lock-owner-file-fsync; do
+    setup; pre="$(artifact "$a-pre" 4142434445)"; cand="$(artifact "$a-candidate" 4e4557)"; derived="$(instrumented_helper)"
+    prepare_authority replace target -; phase="$prepared_phase"; stdout="$tmp/$a.out"; stderr="$tmp/$a.err"
+    set +e; IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE="$a" bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$phase" --step 1 --preimage "$pre" --candidate "$cand" >"$stdout" 2>"$stderr"; actual=$?; set -e
+    [ "$actual" -eq 70 ] || fail "R36-$a exit=$actual expected=70 stderr=$(<"$stderr")"
+    assert_hex "R36-$a-source" "$fixture_repo/target" 4142434445
+    "$python_bin" - "$stdout" <<'PY' || fail "R36-$a lacked clean JSON boundary"
+import json,sys
+r=json.load(open(sys.argv[1],encoding='utf-8'))
+if r['status']!='MUTATION_FAILED_NO_STATE_CHANGE' or r['reason_code']!='IO_FAILURE' or r['residue']: raise SystemExit(r)
+PY
+    [ -z "$(find "$fixture_repo/.IMPLEMENTAUDIT/.r36-locks" -mindepth 1 -print -quit 2>/dev/null)" ] || fail "R36-$a retained lock residue"
+  done
+
   # Internal transaction and lock custody paths may be absent or ordinary
   # directories only; symlink/reparse redirection fails before mutation.
   setup; mkdir "$tmp/tx-outside"; rm -rf "$run_root/mutation-transactions"; "$python_bin" - "$tmp/tx-outside" "$run_root/mutation-transactions" <<'PY' 2>/dev/null && {
@@ -1029,7 +1115,10 @@ import json,sys
 from pathlib import Path
 b=Path(sys.argv[1]); rows=[]
 for n in ('a','b'):
- rows.append((int((b/f'{n}.exit').read_text()),json.loads((b/f'{n}.out').read_text())['status']))
+ raw=(b/f'{n}.out').read_text(); err=(b/f'{n}.err').read_text(); code=int((b/f'{n}.exit').read_text())
+ try: status=json.loads(raw)['status']
+ except Exception as exc: raise SystemExit({'actor':n,'exit':code,'stdout':raw,'stderr':err,'parse_error':str(exc)})
+ rows.append((code,status))
 if sorted(rows)!=[(0,'COMMITTED'),(65,'CONFLICT_REBASE')]: raise SystemExit(rows)
 PY
 
@@ -1094,7 +1183,7 @@ PY
 case "${1:-}" in
   --fixture-self-check) fixture_self_check; exit 0;;
   --mutant-self-check) fixture_self_check; mutant_self_check; exit 0;;
-  --review-heldouts) fixture_self_check; bash -n "$canonical_helper"; causal_review_heldouts; printf 'R36_REVIEW_HELDOUTS=PASS\n'; exit 0;;
+  --review-heldouts) fixture_self_check; bash -n "$canonical_helper"; concurrent_destination; causal_review_heldouts; printf 'R36_REVIEW_HELDOUTS=PASS\n'; exit 0;;
 esac
 fixture_self_check
 if [ -n "${R36_HELPER:-}" ] && [ "$R36_HELPER" != "$canonical_helper" ]; then fail "refusing non-canonical helper path: $R36_HELPER"; fi
