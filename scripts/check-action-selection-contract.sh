@@ -80,6 +80,12 @@ for text in \
   "### Work-conserving ready-cell frontier" \
   "operator-supplied ceiling" \
   "shared write/acceptance/resource authority" \
+  "Before dispatch, expose" \
+  "DONE + ACTIVE + READY + BLOCKED = population" \
+  "capacity = min(host, positive operator ceiling)" \
+  "free = max(0, capacity - ACTIVE)" \
+  "dispatch = min(READY, free)" \
+  "Use deterministic tooling, not model estimates" \
   "An unchanged reminder or status" \
   "Missing context stops the lane"
 do
@@ -152,11 +158,11 @@ for text in \
   "At initial dispatch, execute worthwhile ready cells" \
   "Recompute after a material scheduling transition" \
   "An unchanged reminder or status" \
-  "every governed cell exactly once as DONE" \
+  "Partition each governed cell once" \
   "Unknown," \
   "state prevents dispatch" \
   "Completion" \
-  "does not prove other cells inactive" \
+  "never zeroes" \
   "Use the ordinary serial cheap path" \
   "ready-queue artefact" \
   "minimum agent count" \
@@ -167,6 +173,7 @@ done
 
 skill_ref="skills/implementaudit/SKILL.md"
 for text in \
+  "For scheduling/dispatch/resource ceilings, read" \
   "reacquire a closed DONE/ACTIVE/READY/BLOCKED census" \
   "dispatch min(READY,capacity-ACTIVE)" \
   "serialise" \

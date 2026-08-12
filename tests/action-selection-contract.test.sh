@@ -750,4 +750,35 @@ mv "$tmp_root/plan-lifecycle.tmp" \
   "$tmp_root/skills/implementaudit/references/plan-lifecycle.md"
 expect_fail "closed executor mutation scope owner removed"
 
+# 49. The catalogue trigger must route scheduling decisions to the executable
+# owner instead of allowing a description-only claim of skill use.
+reset_sandbox
+grep -v "For scheduling/dispatch/resource ceilings, read" \
+  "$tmp_root/skills/implementaudit/SKILL.md" \
+  >"$tmp_root/SKILL.tmp"
+mv "$tmp_root/SKILL.tmp" \
+  "$tmp_root/skills/implementaudit/SKILL.md"
+expect_fail "scheduling catalogue route removed"
+
+# 50. Reconciliation must expose population conservation and occupied-capacity
+# arithmetic before dispatch; merely asserting that reconciliation occurred is
+# not an observable scheduling discriminator.
+reset_sandbox
+grep -v "Before dispatch, expose:" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md" \
+  >"$tmp_root/child-agents.tmp"
+mv "$tmp_root/child-agents.tmp" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md"
+expect_fail "frontier conservation proof owner removed"
+
+# 51. Occupancy arithmetic is deterministic plumbing. Removing its tool-use
+# boundary must fail even when the equations remain as plausible prose.
+reset_sandbox
+grep -v "Use deterministic tooling, not model estimates" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md" \
+  >"$tmp_root/child-agents.tmp"
+mv "$tmp_root/child-agents.tmp" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md"
+expect_fail "deterministic frontier arithmetic boundary removed"
+
 printf 'action-selection-contract.test: ok\n'
