@@ -35,5 +35,15 @@
   {"id":"R2-F34","window":"receipt","surface":"none","change":"empty declared-surface population","expected":"FAIL_SURFACE_POPULATION_REQUIRED"},
   {"id":"R2-F35","window":"open","surface":"ignored/empty/","change":"omit opening receipt declaration","expected":"FAIL_OPENING_SURFACE_BINDING"},
   {"id":"R2-F36","window":"closed-equal","surface":".IMPLEMENTAUDIT/runs/window/live/empty/","change":"omit closing receipt declaration","expected":"FAIL_CLOSING_SURFACE_BINDING"},
-  {"id":"R2-F37","window":"open","surface":"./ignored/declared.txt","change":"ignored/declared.txt","expected":"FAIL_NORMALIZED_RELATIVE_SURFACE"}
+  {"id":"R2-F37","window":"open","surface":"./ignored/declared.txt","change":"ignored/declared.txt","expected":"FAIL_NORMALIZED_RELATIVE_SURFACE"},
+  {"id":"R2-F38","window":"open","surface":"curriculum/**","change":"planned curriculum/x.json","expected":"FAIL_PLANNED_INTERSECTION"},
+  {"id":"R2-F39","window":"open","surface":"curriculum/**","change":"planned docs/readme.md","expected":"PASS_PLANNED_DISJOINT"},
+  {"id":"R2-F40","window":"closed","surface":"curriculum/**","change":"planned curriculum/x.json","expected":"PASS_PLANNED_AFTER_CLOSE"},
+  {"id":"R2-F41","window":"open","surface":"curriculum/**","change":"malformed planned path population","expected":"FAIL_PLANNED_POPULATION"},
+  {"id":"R2-F42","window":"prepared","surface":"curriculum/**","change":"governed open transition","expected":"PASS_OPEN_RECEIPT"},
+  {"id":"R2-F43","window":"open","surface":"curriculum/**","change":"close without terminal marker","expected":"FAIL_PREMATURE_CLOSE"},
+  {"id":"R2-F44","window":"open","surface":"curriculum/**","change":"governed close transition","expected":"PASS_CLOSE_RECEIPT"},
+  {"id":"R2-F45","window":"prepared","surface":"curriculum/**","change":"wrong entry selector","expected":"FAIL_ENTRY_SELECTOR"},
+  {"id":"R2-F46","window":"prepared","surface":"curriculum/**","change":"intent outside governed run topology","expected":"FAIL_INTENT_CUSTODY"},
+  {"id":"R2-F47","window":"receipt","surface":"curriculum/**","change":"unrelated repository population","expected":"PASS_DECLARED_SURFACE_ONLY"}
 ]

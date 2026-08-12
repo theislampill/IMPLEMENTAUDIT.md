@@ -30,7 +30,7 @@ fail() { printf 'verification-window-contract.test: %s\n' "$*" >&2; exit 1; }
 import json, sys
 rows = json.load(open(sys.argv[1], encoding="utf-8"))
 ids = [row.get("id") for row in rows]
-expected = [f"R2-F{i}" for i in range(1, 38)]
+expected = [f"R2-F{i}" for i in range(1, 48)]
 if ids != expected:
     raise SystemExit(f"verification-window cases must be exactly {expected}, got {ids}")
 PY
@@ -94,6 +94,31 @@ write_intent() {
     "    closing_identity_sha256: $closing_digest" \
     > "$repo/.IMPLEMENTAUDIT/runs/window/background/chain-a/launch-intent.md"
   case_intent="$repo/.IMPLEMENTAUDIT/runs/window/background/chain-a/launch-intent.md"
+}
+
+write_prepared_intent() {
+  local repo="$1" run="$2" surface="${3:-curriculum/**}"
+  local promised
+  for promised in STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md; do
+    cp "$repo_root/skills/implementaudit/templates/$promised" "$run/$promised"
+  done
+  mkdir -p "$run/background/chain-a"
+  printf '%s\n' \
+    'command: verify-curriculum' \
+    'owner/source: tests/verification-window-contract.test.sh' \
+    'expected_completion_marker: chain.done' \
+    'verification_window:' \
+    "  - surfaces: [$surface]" \
+    '    opened_at: none' \
+    '    closed_at: none' \
+    '    chain: chain-a' \
+    '    state: prepared' \
+    '    opening_identity_receipt: none' \
+    '    opening_identity_sha256: none' \
+    '    closing_identity_receipt: none' \
+    '    closing_identity_sha256: none' \
+    >"$run/background/chain-a/launch-intent.md"
+  case_intent="$run/background/chain-a/launch-intent.md"
 }
 
 # R2-F1 / R2-F3: an intersecting committed change during an open window fails
@@ -680,6 +705,133 @@ grep -Fq 'ignored/declared.txt' "$tmp/f37.out" \
   || fail 'R2-F37 output missing normalized intersecting path'
 ok
 
+# R2-F38--F41: a governed mutation must present its complete planned repo-path
+# population to the existing verification-window authority. Open intersections
+# fail before mutation; disjoint and already-closed windows remain cheap.
+new_repo f38-planned-intersection
+write_intent "$case_repo" open 'curriculum/**'
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+if (cd "$case_repo" && IMPLEMENTAUDIT_WINDOW_PLANNED_PATHS_JSON='["curriculum/x.json"]' \
+    bash "$checker" --window "$case_intent" --now "$case_now" --planned-paths-env) >"$tmp/f38.out" 2>&1; then
+  fail 'R2-F38 planned intersection with an open window must fail'
+fi
+grep -Fq 'curriculum/x.json' "$tmp/f38.out" \
+  || fail 'R2-F38 output missing planned intersecting path'
+ok
+
+new_repo f39-planned-disjoint
+write_intent "$case_repo" open 'curriculum/**'
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+(cd "$case_repo" && IMPLEMENTAUDIT_WINDOW_PLANNED_PATHS_JSON='["docs/readme.md"]' \
+  bash "$checker" --window "$case_intent" --now "$case_now" --planned-paths-env) >"$tmp/f39.out" 2>&1 \
+  || fail 'R2-F39 planned path disjoint from an open window must pass'
+ok
+
+new_repo f40-planned-after-close
+write_intent "$case_repo" open 'curriculum/**'
+touch "$case_repo/.IMPLEMENTAUDIT/runs/window/background/chain-a/chain.done"
+write_intent "$case_repo" closed 'curriculum/**'
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+(cd "$case_repo" && IMPLEMENTAUDIT_WINDOW_PLANNED_PATHS_JSON='["curriculum/x.json"]' \
+  bash "$checker" --window "$case_intent" --now "$case_now" --planned-paths-env) >"$tmp/f40.out" 2>&1 \
+  || fail 'R2-F40 planned path after verified closure must pass'
+ok
+
+new_repo f41-malformed-planned-population
+write_intent "$case_repo" open 'curriculum/**'
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+if (cd "$case_repo" && IMPLEMENTAUDIT_WINDOW_PLANNED_PATHS_JSON='{"path":"curriculum/x.json"}' \
+    bash "$checker" --window "$case_intent" --now "$case_now" --planned-paths-env) >"$tmp/f41.out" 2>&1; then
+  fail 'R2-F41 malformed planned path population must fail closed'
+fi
+grep -Fq 'planned path population' "$tmp/f41.out" \
+  || fail 'R2-F41 output missing malformed population diagnostic'
+ok
+
+# R2-F42--F46: only the governed transition route may publish open/closed
+# state. It binds exact identities while holding the same persistent gate R36
+# uses, and refuses premature closure, selector drift, and wrong custody.
+new_repo f42-transition-open
+transition_run_rel="$(cd "$case_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" window 2>/dev/null)"
+write_prepared_intent "$case_repo" "$case_repo/$transition_run_rel"
+(cd "$case_repo" && bash "$checker" --window-transition open "$case_intent" --entry 1 --repo-root "$case_repo") >"$tmp/f42.out" 2>&1 \
+  || { cat "$tmp/f42.out" >&2; fail 'R2-F42 governed open transition failed'; }
+grep -Fq 'state: open' "$case_intent" || fail 'R2-F42 did not publish open state'
+grep -Eq '^    opening_identity_sha256: [0-9a-f]{64}$' "$case_intent" \
+  || fail 'R2-F42 did not bind opening identity digest'
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+(cd "$case_repo" && bash "$checker" --window "$case_intent" --now "$case_now") >/dev/null \
+  || fail 'R2-F42 published window does not validate'
+ok
+
+new_repo f43-transition-premature-close
+transition_run_rel="$(cd "$case_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" window 2>/dev/null)"
+write_prepared_intent "$case_repo" "$case_repo/$transition_run_rel"
+(cd "$case_repo" && bash "$checker" --window-transition open "$case_intent" --entry 1 --repo-root "$case_repo") >/dev/null
+if (cd "$case_repo" && bash "$checker" --window-transition close "$case_intent" --entry 1 --repo-root "$case_repo") >"$tmp/f43.out" 2>&1; then
+  fail 'R2-F43 close transition without chain.done must fail'
+fi
+grep -Fq 'state: open' "$case_intent" || fail 'R2-F43 premature close altered open state'
+ok
+
+new_repo f44-transition-close
+transition_run_rel="$(cd "$case_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" window 2>/dev/null)"
+write_prepared_intent "$case_repo" "$case_repo/$transition_run_rel"
+(cd "$case_repo" && bash "$checker" --window-transition open "$case_intent" --entry 1 --repo-root "$case_repo") >/dev/null
+touch "$(dirname "$case_intent")/chain.done"
+(cd "$case_repo" && bash "$checker" --window-transition close "$case_intent" --entry 1 --repo-root "$case_repo") >"$tmp/f44.out" 2>&1 \
+  || fail 'R2-F44 governed close transition failed'
+grep -Fq 'state: closed' "$case_intent" || fail 'R2-F44 did not publish closed state'
+grep -Eq '^    closing_identity_sha256: [0-9a-f]{64}$' "$case_intent" \
+  || fail 'R2-F44 did not bind closing identity digest'
+ok
+
+new_repo f45-transition-entry
+transition_run_rel="$(cd "$case_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" window 2>/dev/null)"
+write_prepared_intent "$case_repo" "$case_repo/$transition_run_rel"
+if (cd "$case_repo" && bash "$checker" --window-transition open "$case_intent" --entry 2 --repo-root "$case_repo") >/dev/null 2>&1; then
+  fail 'R2-F45 absent verification-window entry selector accepted'
+fi
+grep -Fq 'state: prepared' "$case_intent" || fail 'R2-F45 wrong selector altered intent'
+ok
+
+new_repo f46-transition-custody
+transition_run_rel="$(cd "$case_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" window 2>/dev/null)"
+write_prepared_intent "$case_repo" "$case_repo/$transition_run_rel"
+cp "$case_intent" "$case_repo/outside-intent.md"
+if (cd "$case_repo" && bash "$checker" --window-transition open "$case_repo/outside-intent.md" --entry 1 --repo-root "$case_repo") >/dev/null 2>&1; then
+  fail 'R2-F46 launch intent outside governed run topology accepted'
+fi
+grep -Fq 'state: prepared' "$case_repo/outside-intent.md" || fail 'R2-F46 wrong-custody intent altered'
+ok
+
+# R2-F47: identity receipts contain the complete declared-surface population,
+# not unrelated tracked, ignored, or run-root paths. This is both the evidence
+# ceiling and the condition that lets a governed transition capture identities
+# while holding the namespace gate on Windows.
+new_repo f47-declared-surface-only
+mkdir -p "$case_repo/curriculum" "$case_repo/docs" "$case_repo/.IMPLEMENTAUDIT/private"
+printf 'declared\n' > "$case_repo/curriculum/declared.txt"
+printf 'unrelated tracked\n' > "$case_repo/docs/unrelated.txt"
+printf 'unrelated ignored\n' > "$case_repo/.IMPLEMENTAUDIT/private/unrelated.txt"
+git -C "$case_repo" add curriculum/declared.txt docs/unrelated.txt
+git -C "$case_repo" commit -qm 'add receipt population'
+(cd "$case_repo" && bash "$repo_state" window-identities --records --surface 'curriculum/**') > "$tmp/f47.receipt" \
+  || fail 'R2-F47 declared-surface receipt failed'
+python - "$tmp/f47.receipt" <<'PY' || fail 'R2-F47 receipt population was not bounded to declared surfaces'
+import json
+import pathlib
+import sys
+
+parts = [part for part in pathlib.Path(sys.argv[1]).read_bytes().split(b"\0") if part]
+rows = [json.loads(part) for part in parts]
+expected_header = {"schema": "verification-window-identity-receipt-v1", "surfaces": ["curriculum/**"]}
+assert rows[0] == expected_header, f"header={rows[0]!r}"
+paths = [row["path"] for row in rows[1:]]
+assert paths == ["curriculum/declared.txt", "curriculum/x.json"], f"paths={paths!r}"
+PY
+ok
+
 # Legacy anchor modes remain compatible.
 bash "$checker" --row 'legacy evidence without an anchor' >/dev/null
 artifact="$tmp/artifact.md"
@@ -713,4 +865,4 @@ grep -Fq 'verification is reading the same tree' "$phase_design" || fail 'phase-
 grep -Fq 'post-state was compared' "$lean" || fail 'Lean post-state evidence boundary missing'
 ok; ok; ok; ok; ok
 
-printf 'verification-window-contract.test: ok (%d/49)\n' "$count"
+printf 'verification-window-contract.test: ok (%d/59)\n' "$count"

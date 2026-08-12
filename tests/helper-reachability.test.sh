@@ -81,14 +81,14 @@ PY
 }
 
 positive_output="$(bash "$checker" --repo-root "$repo_root")"
-grep -Fq 'HELPER_REACHABILITY=PASS population=18 examined=18 modes=4/4 enumeration=build-release-asset.required_archive' \
+grep -Fq 'HELPER_REACHABILITY=PASS population=19 examined=19 modes=5/5 enumeration=build-release-asset.required_archive' \
   <<<"$positive_output" || {
-    printf 'helper-reachability.test: live positive census did not prove 18/18\n%s\n' "$positive_output" >&2
+    printf 'helper-reachability.test: live positive census did not prove 19/19\n%s\n' "$positive_output" >&2
     exit 1
 }
 
 census_output="$(bash "$checker" --census-only --repo-root "$repo_root")"
-grep -Fq 'HELPER_REACHABILITY_CENSUS=PASS population=18 examined=18 modes=4/4 enumeration=build-release-asset.required_archive' \
+grep -Fq 'HELPER_REACHABILITY_CENSUS=PASS population=19 examined=19 modes=5/5 enumeration=build-release-asset.required_archive' \
   <<<"$census_output" || {
     printf 'helper-reachability.test: census-only result was not distinctly nonterminal\n%s\n' "$census_output" >&2
     exit 1
@@ -359,7 +359,7 @@ text = text.replace(
 )
 path.write_text(text, encoding="utf-8")
 PY
-expect_fail R30-F20 'missing applicability rows: future-helper.sh (population=19 examined=18)' "$future_helper"
+expect_fail R30-F20 'missing applicability rows: future-helper.sh (population=20 examined=19)' "$future_helper"
 
 extra_row="$(make_candidate extra-row)"
 printf '%s\n' \
@@ -367,4 +367,4 @@ printf '%s\n' \
   >>"$extra_row/skills/implementaudit/references/repo-state-comparison.md"
 expect_fail R30-F11 'applicability rows not in package: ghost-helper.sh' "$extra_row"
 
-printf 'helper-reachability.test: ok (derived 18/18 + modes 4/4 + R30-F1-F5/F8/F11/F20/M1-M4 controls)\n'
+printf 'helper-reachability.test: ok (derived 19/19 + modes 5/5 + R30-F1-F5/F8/F11/F20/M1-M4 controls)\n'

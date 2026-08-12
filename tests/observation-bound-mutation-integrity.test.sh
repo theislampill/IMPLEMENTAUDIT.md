@@ -114,6 +114,115 @@ PY
   printf '| %s | R36 observation-bound mutation fixture |\n' "$prepared_phase" >> "$run_root/ROADMAP.md"
   bash "$repo_root/skills/implementaudit/scripts/validate-phase.sh" --mutation-authority "$phase_file" --phase "$prepared_phase" --step "$prepared_step" --repo-root "$fixture_repo" --run-root "$run_root" >/dev/null || fail "authority factory produced invalid phase $prepared_phase"
 }
+
+write_window_intent() {
+  local state="$1" surface="$2" chain="$run_root/background/window-chain"
+  local opened receipt closing_receipt opening_sha closing_sha closed_at=none
+  mkdir -p "$chain"
+  opened="$(git -C "$fixture_repo" rev-parse HEAD)"
+  receipt="$chain/opening-identities.nul"
+  (cd "$fixture_repo" && bash "$repo_root/skills/implementaudit/scripts/repo-state.sh" \
+    window-identities --records --surface "$surface" >"$receipt") \
+    || fail 'R36 window fixture opening receipt failed'
+  opening_sha="$(sha256sum "$receipt" | awk '{print $1}')"
+  closing_receipt="$chain/closing-identities.nul"; closing_sha=none
+  if [ "$state" = closed ]; then
+    touch "$chain/chain.done"
+    (cd "$fixture_repo" && bash "$repo_root/skills/implementaudit/scripts/repo-state.sh" \
+      window-identities --records --surface "$surface" >"$closing_receipt") \
+      || fail 'R36 window fixture closing receipt failed'
+    closing_sha="$(sha256sum "$closing_receipt" | awk '{print $1}')"
+    closed_at="$opened"
+  fi
+  printf '%s\n' \
+    'command: r36-window-fixture' \
+    'owner/source: tests/observation-bound-mutation-integrity.test.sh' \
+    'expected_completion_marker: chain.done' \
+    'abort_containment_plan: fixture-only' \
+    'poll_budget: 3' \
+    'terminal_signal: chain.done' \
+    'expected_duration: 20m' \
+    'transport_timeout: 10m' \
+    'launch_mode: detached' \
+    'verification_window:' \
+    "  - surfaces: [$surface]" \
+    "    opened_at: $opened" \
+    "    closed_at: $closed_at" \
+    '    chain: window-chain' \
+    "    state: $state" \
+    '    opening_identity_receipt: opening-identities.nul' \
+    "    opening_identity_sha256: $opening_sha" \
+    "    closing_identity_receipt: $([ "$state" = closed ] && printf closing-identities.nul || printf none)" \
+    "    closing_identity_sha256: $closing_sha" \
+    >"$chain/launch-intent.md"
+}
+
+write_prepared_window_intent() {
+  local surface="$1" chain="$run_root/background/window-chain"
+  mkdir -p "$chain"
+  printf '%s\n' \
+    'verification_window:' \
+    "  - surfaces: [$surface]" \
+    '    opened_at: none' \
+    '    closed_at: none' \
+    '    chain: window-chain' \
+    '    state: prepared' \
+    '    opening_identity_receipt: none' \
+    '    opening_identity_sha256: none' \
+    '    closing_identity_receipt: none' \
+    '    closing_identity_sha256: none' \
+    >"$chain/launch-intent.md"
+}
+
+window_interlock_heldouts() {
+  local pre cand derived barrier helper_pid transition_pid helper_exit transition_exit intent
+  setup; write_window_intent open target
+  pre="$(artifact window-open-pre 4142434445)"; cand="$(artifact window-open-candidate 4e4557)"
+  invoke R36-WINDOW-open-intersection UNSUPPORTED_OWNER_DECISION replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"
+  [ ! -e "$run_root/mutation-transactions" ] \
+    || fail 'R36-WINDOW-open-intersection created transaction state before window refusal'
+
+  setup; write_window_intent open 'docs/**'
+  pre="$(artifact window-disjoint-pre 4142434445)"; cand="$(artifact window-disjoint-candidate 4e4557)"
+  invoke R36-WINDOW-open-disjoint COMMITTED replace target - "$cand" 4e4557 --preimage "$pre" --candidate "$cand"
+
+  setup; write_window_intent closed target
+  pre="$(artifact window-closed-pre 4142434445)"; cand="$(artifact window-closed-candidate 4e4557)"
+  invoke R36-WINDOW-closed COMMITTED replace target - "$cand" 4e4557 --preimage "$pre" --candidate "$cand"
+
+  setup; mkdir -p "$run_root/background/window-chain"; printf 'verification_window: malformed\n' >"$run_root/background/window-chain/launch-intent.md"
+  pre="$(artifact window-malformed-pre 4142434445)"; cand="$(artifact window-malformed-candidate 4e4557)"
+  invoke R36-WINDOW-malformed UNSUPPORTED_OWNER_DECISION replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"
+
+  # The R02 prepared→open publication cannot enter between R36's complete
+  # intent scan and its product mutation: both governed writers hold the same
+  # persistent gate. The opening receipt therefore captures the committed
+  # post-state, never a stale pre-mutation identity.
+  setup; write_prepared_window_intent target
+  pre="$(artifact window-race-pre 4142434445)"; cand="$(artifact window-race-candidate 4e4557)"
+  prepare_authority replace target -; derived="$(instrumented_helper)"; barrier="$tmp/window-scan-race"; mkdir "$barrier"
+  IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=window-scan-race \
+    bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$prepared_phase" --step 1 --preimage "$pre" --candidate "$cand" \
+    >"$barrier/helper.out" 2>"$barrier/helper.err" & helper_pid=$!
+  for _ in $(seq 1 500); do [ -f "$barrier/scanned" ] && break; kill -0 "$helper_pid" 2>/dev/null || break; sleep .02; done
+  [ -f "$barrier/scanned" ] || { wait_bounded "$helper_pid" 'R36 window-scan helper'; fail 'R36 window-scan race did not reach protected boundary'; }
+  [ ! -e "$run_root/mutation-transactions" ] || fail 'R36 window-scan race created transaction state before protected scan completed'
+  intent="$run_root/background/window-chain/launch-intent.md"
+  (cd "$fixture_repo" && bash "$repo_root/skills/implementaudit/scripts/check-evidence-anchor.sh" \
+    --window-transition open "$intent" --entry 1 --repo-root "$fixture_repo") \
+    >"$barrier/transition.out" 2>"$barrier/transition.err" & transition_pid=$!
+  sleep .2
+  kill -0 "$transition_pid" 2>/dev/null || fail 'R36 window transition bypassed the held governed gate'
+  [ ! -s "$barrier/transition.out" ] || fail 'R36 window transition published before mutation gate release'
+  touch "$barrier/release"
+  set +e; wait "$helper_pid"; helper_exit=$?; wait "$transition_pid"; transition_exit=$?; set -e
+  [ "$helper_exit" -eq 0 ] || fail "R36 window-scan helper exit=$helper_exit stderr=$(<"$barrier/helper.err")"
+  [ "$transition_exit" -eq 0 ] || fail "R36 window transition exit=$transition_exit stderr=$(<"$barrier/transition.err")"
+  assert_hex R36-WINDOW-race-target "$fixture_repo/target" 4e4557
+  case_now="$(git -C "$fixture_repo" rev-parse HEAD)"
+  (cd "$fixture_repo" && bash "$repo_root/skills/implementaudit/scripts/check-evidence-anchor.sh" --window "$intent" --now "$case_now") >/dev/null \
+    || fail 'R36 window transition captured stale pre-mutation identity'
+}
 fixture_self_check() {
   setup
   # JSON paths are host-native (for example a Windows drive path under Git
@@ -175,7 +284,8 @@ insert="""    # test-only insertion: absent from authoritative helper after stri
 extra="""    if phase == 'pre-transaction' and fault == 'terminal-result-fsync-after-rollback-failure':\n        original_extra_open=Path.open; original_extra_link=os.link; original_extra_fsync=os.fsync\n        def fail_stage_write(self,*args,**kwargs):\n            if self.name == 'stage.bin' and args and 'x' in args[0]: raise OSError(28,'injected stage write failure')\n            return original_extra_open(self,*args,**kwargs)\n        def fail_rollback_link(source,destination,*args,**kwargs):\n            if Path(source)==BACKUP and Path(destination)==SOURCE: raise OSError(5,'injected rollback link failure')\n            return original_extra_link(source,destination,*args,**kwargs)\n        def fail_terminal_result_fsync(fd):\n            if path_identity(RESULT).get('kind')=='regular': raise OSError(28,'injected terminal result fsync failure')\n            return original_extra_fsync(fd)\n        Path.open=fail_stage_write; os.link=fail_rollback_link; os.fsync=fail_terminal_result_fsync\n    if phase == 'locks-acquired' and fault in {'lock-aba','lock-release-destination-race'}:\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True)\n        if fault == 'lock-release-destination-race': (b/'lock-path').write_text(str(held[-1]['released_path']),encoding='utf-8')\n        (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
 extra2="""    if phase == 'pre-transaction' and fault in {'lock-post-check-race','lock-release-record-race','lock-directory-aba'}:\n        def pause_release_race(lock_path):\n            lock_path=Path(lock_path); b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'lock-path').write_text(str(lock_path),encoding='utf-8'); (b/'owner-token').write_text(owner,encoding='ascii'); (b/'paused').touch()\n            for _ in range(500):\n                if (b/'release').exists(): return\n                time.sleep(.02)\n            raise RuntimeError('timeout')\n        globals()['pause_release_race']=pause_release_race\n    if phase == 'pre-transaction' and fault == 'lock-directory-aba-peer':\n        def pause_peer(name,release):\n            b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/name).touch()\n            for _ in range(500):\n                if (b/release).exists(): return\n                time.sleep(.02)\n            raise RuntimeError('timeout')\n        globals()['pause_peer']=pause_peer\n    if phase == 'locks-acquired' and fault == 'lock-directory-aba': globals()['pause_release_race'](held[-1]['public_path'])\n    if phase == 'locks-acquired' and fault == 'lock-directory-aba-peer': globals()['pause_peer']('acquired','replace')\n    if phase == 'lock-release-mismatch' and fault == 'lock-directory-aba-peer': globals()['pause_peer']('mismatch','finish')\n    if phase == 'lock-release-published' and fault == 'lock-post-check-race': globals()['pause_release_race'](held[-1]['public_path'])\n    if phase == 'lock-release-published' and fault == 'lock-release-record-race': globals()['pause_release_race'](held[-1]['released_path'])\n"""
 extra3="""    if phase == 'pre-transaction' and fault == 'gate-unlock-fails':\n        if os.name == 'nt':\n            original_gate_unlock=msvcrt.locking\n            def fail_gate_unlock(fd,mode,count):\n                if mode == msvcrt.LK_UNLCK: raise OSError(5,'injected gate unlock failure')\n                return original_gate_unlock(fd,mode,count)\n            msvcrt.locking=fail_gate_unlock\n        else:\n            original_gate_unlock=fcntl.flock\n            def fail_gate_unlock(fd,op):\n                if op == fcntl.LOCK_UN: raise OSError(5,'injected gate unlock failure')\n                return original_gate_unlock(fd,op)\n            fcntl.flock=fail_gate_unlock\n"""
-Path(sys.argv[2]).write_text(source.replace(needle,needle+insert+extra+extra2+extra3),encoding='utf-8')
+extra4="""    if phase == 'window-scan-complete' and fault == 'window-scan-race':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'scanned').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
+Path(sys.argv[2]).write_text(source.replace(needle,needle+insert+extra+extra2+extra3+extra4),encoding='utf-8')
 PY
   chmod +x "$derived" || return 1
   "$python_bin" - "$canonical_helper" "$derived" <<'PY' || return 1
@@ -188,7 +298,8 @@ insert="""    # test-only insertion: absent from authoritative helper after stri
 extra="""    if phase == 'pre-transaction' and fault == 'terminal-result-fsync-after-rollback-failure':\n        original_extra_open=Path.open; original_extra_link=os.link; original_extra_fsync=os.fsync\n        def fail_stage_write(self,*args,**kwargs):\n            if self.name == 'stage.bin' and args and 'x' in args[0]: raise OSError(28,'injected stage write failure')\n            return original_extra_open(self,*args,**kwargs)\n        def fail_rollback_link(source,destination,*args,**kwargs):\n            if Path(source)==BACKUP and Path(destination)==SOURCE: raise OSError(5,'injected rollback link failure')\n            return original_extra_link(source,destination,*args,**kwargs)\n        def fail_terminal_result_fsync(fd):\n            if path_identity(RESULT).get('kind')=='regular': raise OSError(28,'injected terminal result fsync failure')\n            return original_extra_fsync(fd)\n        Path.open=fail_stage_write; os.link=fail_rollback_link; os.fsync=fail_terminal_result_fsync\n    if phase == 'locks-acquired' and fault in {'lock-aba','lock-release-destination-race'}:\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True)\n        if fault == 'lock-release-destination-race': (b/'lock-path').write_text(str(held[-1]['released_path']),encoding='utf-8')\n        (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
 extra2="""    if phase == 'pre-transaction' and fault in {'lock-post-check-race','lock-release-record-race','lock-directory-aba'}:\n        def pause_release_race(lock_path):\n            lock_path=Path(lock_path); b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'lock-path').write_text(str(lock_path),encoding='utf-8'); (b/'owner-token').write_text(owner,encoding='ascii'); (b/'paused').touch()\n            for _ in range(500):\n                if (b/'release').exists(): return\n                time.sleep(.02)\n            raise RuntimeError('timeout')\n        globals()['pause_release_race']=pause_release_race\n    if phase == 'pre-transaction' and fault == 'lock-directory-aba-peer':\n        def pause_peer(name,release):\n            b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/name).touch()\n            for _ in range(500):\n                if (b/release).exists(): return\n                time.sleep(.02)\n            raise RuntimeError('timeout')\n        globals()['pause_peer']=pause_peer\n    if phase == 'locks-acquired' and fault == 'lock-directory-aba': globals()['pause_release_race'](held[-1]['public_path'])\n    if phase == 'locks-acquired' and fault == 'lock-directory-aba-peer': globals()['pause_peer']('acquired','replace')\n    if phase == 'lock-release-mismatch' and fault == 'lock-directory-aba-peer': globals()['pause_peer']('mismatch','finish')\n    if phase == 'lock-release-published' and fault == 'lock-post-check-race': globals()['pause_release_race'](held[-1]['public_path'])\n    if phase == 'lock-release-published' and fault == 'lock-release-record-race': globals()['pause_release_race'](held[-1]['released_path'])\n"""
 extra3="""    if phase == 'pre-transaction' and fault == 'gate-unlock-fails':\n        if os.name == 'nt':\n            original_gate_unlock=msvcrt.locking\n            def fail_gate_unlock(fd,mode,count):\n                if mode == msvcrt.LK_UNLCK: raise OSError(5,'injected gate unlock failure')\n                return original_gate_unlock(fd,mode,count)\n            msvcrt.locking=fail_gate_unlock\n        else:\n            original_gate_unlock=fcntl.flock\n            def fail_gate_unlock(fd,op):\n                if op == fcntl.LOCK_UN: raise OSError(5,'injected gate unlock failure')\n                return original_gate_unlock(fd,op)\n            fcntl.flock=fail_gate_unlock\n"""
-if text.replace(insert,'').replace(extra,'').replace(extra2,'').replace(extra3,'').replace(derived_dir_line,script_dir_line) != canonical.read_text(encoding='utf-8'): raise SystemExit('instrumented copy does not strip byte-equal')
+extra4="""    if phase == 'window-scan-complete' and fault == 'window-scan-race':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'scanned').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
+if text.replace(insert,'').replace(extra,'').replace(extra2,'').replace(extra3,'').replace(extra4,'').replace(derived_dir_line,script_dir_line) != canonical.read_text(encoding='utf-8'): raise SystemExit('instrumented copy does not strip byte-equal')
 PY
   printf '%s\n' "$derived"
 }
@@ -729,7 +840,7 @@ import json,sys
 from pathlib import Path
 b,r=map(Path,sys.argv[1:]); rows=[]
 for n in ('a','b'):
- code=int((b/f'{n}.exit').read_text()); rec=json.loads((b/f'{n}.out').read_text()); rows.append((n,code,rec['status'],rec.get('reason_code'),rec.get('residue')))
+ code=int((b/f'{n}.exit').read_text()); rec=json.loads((b/f'{n}.out').read_text()); rows.append((n,code,rec['status'],rec.get('reason_code'),rec.get('residue'),(b/f'{n}.err').read_text()))
 # Both loser timings are valid: overlap after transaction entry is a rebase
 # conflict; a winner that publishes first is rejected at the no-effect
 # destination preflight. Neither may retain residue or mutate the losing source.
@@ -904,7 +1015,7 @@ true_kill_requires_manual_custody() {
   derived="$(instrumented_helper)" || fail 'R36 true-kill could not derive instrumented helper'
   prepare_authority replace target -; local kill_phase="$prepared_phase"
   rm -rf "$barrier"; mkdir "$barrier"
-  (set +e; IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=after-displacement bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$kill_phase" --step 1 --preimage "$pre" --candidate "$cand" >"$stdout" 2>"$stderr"; echo $? >"$barrier/exit") & pid=$!
+  IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=after-displacement bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$kill_phase" --step 1 --preimage "$pre" --candidate "$cand" >"$stdout" 2>"$stderr" & pid=$!
   while [ ! -f "$barrier/paused" ] && kill -0 "$pid" 2>/dev/null && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done
   [ "$ticks" -lt 500 ] || { wait_bounded "$pid" 'R36 true-kill helper'; fail 'R36 true-kill never reached durable displacement'; }
   kill -9 "$pid" 2>/dev/null || true; wait "$pid" 2>/dev/null || true
@@ -996,6 +1107,9 @@ def relative(path):
  return value
 def independent_allowed(record):
  transaction=record.get('transaction_id')
+ if transaction is None:
+  if record.get('planned_effect_set')!=[] or record.get('actual_effect_set')!=[]: raise ValueError('preflight refusal claimed transaction effects without a transaction')
+  return {}
  match=re.fullmatch(r'([0-9a-f]{32})-p([1-9][0-9]*)-s([1-9][0-9]*)',transaction) if isinstance(transaction,str) else None
  if match is None: raise ValueError(f'malformed transaction identity: {transaction!r}')
  if type(record.get('phase')) is not int or type(record.get('step')) is not int: raise ValueError('phase/step are not integers')
@@ -1041,6 +1155,14 @@ def evidence_only(record):
   accepted.append((effect['path'],effect['effect']))
  return accepted
 accepted=evidence_only(r)
+if r['transaction_id'] is None:
+ if accepted or r['planned_effect_set'] or r['actual_effect_set']: raise SystemExit('preflight refusal was not effect-empty')
+ mutant=copy.deepcopy(r); mutant['actual_effect_set']=[{'sequence':1,'scope':'repo','path':r['source_path'],'effect':'write','before':None,'after':None,'outcome':'applied'}]
+ try: evidence_only(mutant)
+ except ValueError: pass
+ else: raise SystemExit('effect-empty preflight oracle accepted an applied product mutation')
+ print('R36_GATE_DOMAIN_ORACLE=PASS preflight-effect-empty')
+ raise SystemExit(0)
 mutant=copy.deepcopy(r); stage=next(x for x in mutant['planned_effect_set'] if 'stage' in x['roles'])
 mutant['actual_effect_set'].append({'sequence':len(mutant['actual_effect_set'])+1,'scope':stage['scope'],'path':stage['path'],'effect':'create','before':{'kind':'absent'},'after':{'kind':'regular'},'outcome':'applied'})
 try: evidence_only(mutant)
@@ -1191,21 +1313,22 @@ for suffix in ('/authority.json','/result.json'):
 if not any('/mutation-transactions/' in x and not x.endswith('.json') for x in paths): raise SystemExit(paths)
 PY
 
-  # Shared lock infrastructure and each acquired lock enter the same JSON
-  # boundary. Directory or owner durability faults must not escape or leak an
-  # unregistered lock while the source remains unchanged.
-  for a in lock-root-parent-fsync lock-mkdir-parent-fsync lock-owner-file-fsync; do
+  # Each acquired lock enters the same JSON boundary. The persistent lock root
+  # and namespace gate are now established by claim-run before any window can
+  # open, so their creation-fsync fault belongs to the claim producer rather
+  # than this mutation consumer.
+  for a in lock-mkdir-parent-fsync lock-owner-file-fsync; do
     setup; pre="$(artifact "$a-pre" 4142434445)"; cand="$(artifact "$a-candidate" 4e4557)"; derived="$(instrumented_helper)"
     prepare_authority replace target -; phase="$prepared_phase"; stdout="$tmp/$a.out"; stderr="$tmp/$a.err"
     set +e; IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE="$a" bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$phase" --step 1 --preimage "$pre" --candidate "$cand" >"$stdout" 2>"$stderr"; actual=$?; set -e
-    local expected_lock_exit=70; [ "$a" = lock-root-parent-fsync ] || [ "$a" = lock-mkdir-parent-fsync ] && expected_lock_exit=75
+    local expected_lock_exit=70; [ "$a" = lock-mkdir-parent-fsync ] && expected_lock_exit=75
     [ "$actual" -eq "$expected_lock_exit" ] || fail "R36-$a exit=$actual expected=$expected_lock_exit stderr=$(<"$stderr")"
     assert_hex "R36-$a-source" "$fixture_repo/target" 4142434445
     "$python_bin" - "$stdout" "$a" <<'PY' || fail "R36-$a lacked truthful JSON boundary"
 import json,sys
 r=json.load(open(sys.argv[1],encoding='utf-8')); fault=sys.argv[2]
-if fault in {'lock-root-parent-fsync','lock-mkdir-parent-fsync'}:
- suffix='/.r36-locks' if fault=='lock-root-parent-fsync' else '.lock'
+if fault == 'lock-mkdir-parent-fsync':
+ suffix='.lock'
  if r['status']!='ROLLBACK_FAILED_WITH_RESIDUE' or r['reason_code']!='IO_FAILURE' or not any(x['path'].endswith(suffix) for x in r['residue']): raise SystemExit(r)
 elif r['status']!='MUTATION_FAILED_NO_STATE_CHANGE' or r['reason_code']!='IO_FAILURE' or r['residue']: raise SystemExit(r)
 PY
@@ -1394,7 +1517,11 @@ PY
   (set +e; IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=lock-directory-aba-peer bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$gate_phase_a" --step 1 --preimage "$pre" --candidate "$cand" >"$stdout" 2>"$stderr"; echo $? >"$barrier/a.exit") & local gate_pid_a=$!
   ticks=0; while [ ! -f "$barrier/acquired" ] && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done; [ "$ticks" -lt 500 ] || { wait_bounded "$gate_pid_a" 'R36 gate first helper'; fail 'R36 gate first helper did not acquire locks'; }
   local gate_lock gate_owner gate_token gate_inode
-  gate_owner="$(find "$fixture_repo/.IMPLEMENTAUDIT/.r36-locks" -mindepth 2 -maxdepth 2 -type f -name owner -print -quit)"; gate_lock="$(dirname "$gate_owner")"; gate_token="$(<"$gate_owner")"; mv "$gate_lock" "$gate_lock.original"; mkdir "$gate_lock"; printf '%s' "$gate_token" >"$gate_lock/owner"; gate_inode="$(stat -c %i "$gate_lock/owner")"; : >"$barrier/replace"
+  gate_lock="$fixture_repo/.IMPLEMENTAUDIT/.r36-locks/$($python_bin - <<'PY'
+import hashlib
+print(hashlib.sha256(b'target').hexdigest() + '.lock')
+PY
+)"; gate_owner="$gate_lock/owner"; [ -f "$gate_owner" ] || fail 'R36 gate first helper did not acquire the shared target lock'; gate_token="$(<"$gate_owner")"; mv "$gate_lock" "$gate_lock.original"; mkdir "$gate_lock"; printf '%s' "$gate_token" >"$gate_lock/owner"; gate_inode="$(stat -c %i "$gate_lock/owner")"; : >"$barrier/replace"
   ticks=0; while [ ! -f "$barrier/mismatch" ] && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done; [ "$ticks" -lt 500 ] || { : >"$barrier/finish"; wait_bounded "$gate_pid_a" 'R36 gate first helper'; fail 'R36 gate first helper did not reach mismatch adjudication'; }
   local peer_pre peer_cand peer_stdout peer_stderr gate_pid_b reoccupied_inode
   peer_pre="$(artifact gate-peer-second-pre 4e4557)"; peer_cand="$(artifact gate-peer-second-candidate 50454552)"; prepare_authority replace target -; local gate_phase_b="$prepared_phase"; peer_stdout="$tmp/gate-peer-b.out"; peer_stderr="$tmp/gate-peer-b.err"
@@ -1523,10 +1650,13 @@ PY
 }
 
 case "${1:-}" in
+  --window-interlock-heldouts) fixture_self_check; window_interlock_heldouts; printf 'R36_WINDOW_INTERLOCK_HELDOUTS=PASS\n'; exit 0;;
+  --concurrent-destination-heldout) fixture_self_check; concurrent_destination; printf 'R36_CONCURRENT_DESTINATION_HELDOUT=PASS\n'; exit 0;;
+  --true-kill-heldout) fixture_self_check; true_kill_requires_manual_custody; printf 'R36_TRUE_KILL_HELDOUT=PASS\n'; exit 0;;
   --fixture-self-check) fixture_self_check; exit 0;;
   --mutant-self-check) fixture_self_check; mutant_self_check; exit 0;;
   --gate-domain-self-check) fixture_self_check; gate_domain_self_check; exit 0;;
-  --review-heldouts) fixture_self_check; unsupported_external_gate_replacement_evidence; bash -n "$canonical_helper"; concurrent_destination; causal_review_heldouts; printf 'R36_REVIEW_HELDOUTS=PASS\n'; exit 0;;
+  --review-heldouts) fixture_self_check; unsupported_external_gate_replacement_evidence; bash -n "$canonical_helper"; concurrent_destination; causal_review_heldouts; window_interlock_heldouts; printf 'R36_REVIEW_HELDOUTS=PASS\n'; exit 0;;
 esac
 fixture_self_check
 unsupported_external_gate_replacement_evidence

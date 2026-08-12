@@ -68,6 +68,7 @@ jobs:
           bash tests/background-chain-contract.test.sh
           bash tests/evidence-anchoring.test.sh
           bash tests/verification-window-contract.test.sh
+          bash tests/observation-bound-mutation-integrity.test.sh
           bash tests/respec-impact-set-contract.test.sh
           bash tests/marker-order.test.sh
           bash tests/planner-stages.test.sh

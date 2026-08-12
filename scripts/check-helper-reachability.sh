@@ -208,6 +208,7 @@ rehearsal_helper, rehearsal_mode = "check-authorization-binding.sh", "--phase --
 # R32: static census records the declared mode; candidate-bound F10 below is
 # the only execution authority for its parser, mediator, wrapper, and stub.
 implemented_mode_sets[rehearsal_helper] = [rehearsal_mode]
+implemented_mode_sets["check-evidence-anchor.sh"] = ["--window-transition"]
 
 for helper, mode in mode_rows:
     if helper not in helpers or mode not in implemented_mode_sets.get(helper, []):

@@ -584,6 +584,144 @@ allowed = {
     (row["scope"], row["path"]): set(row["allowed_effects"]) for row in planned
 }
 actual = []
+namespace_gate_fd = None
+
+
+def acquire_window_gate():
+    """Lock the persistent governed-writer inode before any run-root effect."""
+    global namespace_gate_fd
+    try:
+        gate_stat = os.lstat(LOCK_GATE)
+    except OSError as error:
+        raise WriterDomainBreach("governed-writer namespace gate is unavailable") from error
+    if (
+        not stat.S_ISREG(gate_stat.st_mode)
+        or stat.S_ISLNK(gate_stat.st_mode)
+        or is_reparse(gate_stat)
+        or gate_stat.st_nlink != 1
+        or gate_stat.st_size != 1
+    ):
+        raise WriterDomainBreach("governed-writer namespace gate is unavailable")
+    flags = os.O_RDWR | getattr(os, "O_BINARY", 0) | getattr(os, "O_NOFOLLOW", 0)
+    fd = os.open(LOCK_GATE, flags)
+    try:
+        opened = os.fstat(fd)
+        if not stat.S_ISREG(opened.st_mode) or opened.st_nlink != 1:
+            raise WriterDomainBreach("lock namespace gate is not a unique regular file")
+        os.lseek(fd, 0, os.SEEK_SET)
+        if os.name == "nt":
+            while True:
+                try:
+                    msvcrt.locking(fd, msvcrt.LK_NBLCK, 1)
+                    break
+                except OSError as error:
+                    if error.errno not in {errno.EACCES, errno.EAGAIN, errno.EDEADLK}:
+                        raise
+                    time.sleep(0.05)
+        else:
+            fcntl.flock(fd, fcntl.LOCK_EX)
+        current = os.lstat(LOCK_GATE)
+        if (
+            not stat.S_ISREG(current.st_mode)
+            or stat.S_ISLNK(current.st_mode)
+            or is_reparse(current)
+            or current.st_nlink != 1
+            or (current.st_dev, current.st_ino) != (opened.st_dev, opened.st_ino)
+        ):
+            raise WriterDomainBreach("lock namespace gate identity changed")
+        namespace_gate_fd = fd
+    except BaseException:
+        try:
+            if os.name == "nt":
+                os.lseek(fd, 0, os.SEEK_SET)
+                msvcrt.locking(fd, msvcrt.LK_UNLCK, 1)
+            else:
+                fcntl.flock(fd, fcntl.LOCK_UN)
+        except OSError:
+            pass
+        os.close(fd)
+        raise
+
+
+def release_window_gate():
+    global namespace_gate_fd
+    if namespace_gate_fd is None:
+        return []
+    fd = namespace_gate_fd
+    namespace_gate_fd = None
+    errors = []
+    try:
+        if os.name == "nt":
+            os.lseek(fd, 0, os.SEEK_SET)
+            msvcrt.locking(fd, msvcrt.LK_UNLCK, 1)
+        else:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+    except BaseException as error:
+        errors.append(error)
+    try:
+        os.close(fd)
+    except BaseException as error:
+        errors.append(error)
+    return errors
+
+
+def window_intents():
+    runs = REPO / ".IMPLEMENTAUDIT" / "runs"
+    if path_identity(runs).get("kind") == "absent":
+        return []
+    if not safe_directory_chain(runs, REPO):
+        raise WriterDomainBreach("verification-window run base custody is unsafe")
+    found = []
+    for run in sorted(runs.iterdir(), key=lambda path: path.name):
+        run_kind = path_identity(run).get("kind")
+        if run_kind in {"symlink", "other"}:
+            raise WriterDomainBreach("verification-window run census contains unsafe custody")
+        if run_kind != "directory":
+            continue
+        background = run / "background"
+        if path_identity(background).get("kind") == "absent":
+            continue
+        if not safe_directory_chain(background, run):
+            raise WriterDomainBreach("verification-window background custody is unsafe")
+        for chain in sorted(background.iterdir(), key=lambda path: path.name):
+            chain_kind = path_identity(chain).get("kind")
+            if chain_kind in {"symlink", "other"}:
+                raise WriterDomainBreach("verification-window chain census contains unsafe custody")
+            if chain_kind != "directory":
+                continue
+            intent = chain / "launch-intent.md"
+            identity = path_identity(intent)
+            if identity.get("kind") == "absent":
+                continue
+            if identity.get("kind") != "regular" or identity.get("link_count") != 1:
+                raise WriterDomainBreach("verification-window intent is not a unique regular file")
+            found.append(intent)
+    return found
+
+
+def verification_window_failure():
+    head = subprocess.run(
+        ["git", "-C", os.fspath(REPO), "rev-parse", "HEAD"],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if head.returncode != 0 or not re.fullmatch(r"[0-9a-f]{40}", head.stdout.strip()):
+        return "verification-window repository identity unavailable"
+    environment = os.environ.copy()
+    environment["IMPLEMENTAUDIT_WINDOW_PLANNED_PATHS_JSON"] = json.dumps(
+        [row["path"] for row in planned if row["scope"] == "repo"],
+        separators=(",", ":"),
+    )
+    checker = SCRIPT_DIR / "check-evidence-anchor.sh"
+    for intent in window_intents():
+        completed = subprocess.run(
+            [BASH_EXE, bash_path(checker), "--window", bash_path(intent), "--now", head.stdout.strip(), "--planned-paths-env"],
+            cwd=os.fspath(REPO), env=environment, text=True, capture_output=True, check=False,
+        )
+        if completed.returncode != 0:
+            return (completed.stderr or completed.stdout).strip() or "verification-window authority rejected planned effects"
+    return None
 
 
 def authorise(path, effect):
@@ -994,6 +1132,9 @@ def emit_initialisation_failure():
             rmdir(TX_PARENT)
     except (OSError, RuntimeError):
         residue_paths = initialisation_residue_paths()
+    gate_release_errors = release_window_gate()
+    if gate_release_errors:
+        residue_paths.append(LOCK_GATE)
     status = "MUTATION_FAILED_NO_STATE_CHANGE" if not residue_paths else "ROLLBACK_FAILED_WITH_RESIDUE"
     result = result_record(status, "INITIALISATION_IO_FAILURE", residue_paths, actual)
     if status == "ROLLBACK_FAILED_WITH_RESIDUE" and path_identity(TX).get("kind") == "directory":
@@ -1001,6 +1142,24 @@ def emit_initialisation_failure():
     print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
     raise SystemExit(EXITS[status])
 
+
+try:
+    acquire_window_gate()
+except WriterDomainBreach:
+    emit_no_effect("UNSUPPORTED_OWNER_DECISION", "WRITER_DOMAIN_BREACH")
+except OSError as error:
+    sys.stderr.write(f"apply-observed-mutation: namespace gate acquisition failed: {error}\n")
+    emit_no_effect("MUTATION_FAILED_NO_STATE_CHANGE", "IO_FAILURE")
+try:
+    window_failure = verification_window_failure()
+except (OSError, RuntimeError, WriterDomainBreach) as error:
+    window_failure = str(error) or error.__class__.__name__
+if window_failure is not None:
+    sys.stderr.write(f"apply-observed-mutation: {window_failure}\n")
+    if release_window_gate():
+        emit_no_effect("ROLLBACK_FAILED_WITH_RESIDUE", "GATE_RELEASE_FAILURE")
+    emit_no_effect("UNSUPPORTED_OWNER_DECISION", "OPEN_VERIFICATION_WINDOW")
+phase_hook("window-scan-complete")
 
 try:
     if path_identity(TX_PARENT).get("kind") == "absent":
@@ -1155,76 +1314,13 @@ def release_lock_root():
     return
 
 
-namespace_gate_fd = None
-
-
 def acquire_namespace_gate():
-    global namespace_gate_fd
-    if path_identity(LOCK_GATE).get("kind") == "absent":
-        try:
-            write_new(LOCK_GATE, b"\0")
-        except FileExistsError:
-            pass
-    flags = os.O_RDWR | getattr(os, "O_BINARY", 0) | getattr(os, "O_NOFOLLOW", 0)
-    fd = os.open(LOCK_GATE, flags)
-    try:
-        opened = os.fstat(fd)
-        if not stat.S_ISREG(opened.st_mode) or opened.st_nlink != 1:
-            raise WriterDomainBreach(
-                "lock namespace gate is not a unique regular file"
-            )
-        os.lseek(fd, 0, os.SEEK_SET)
-        if os.name == "nt":
-            msvcrt.locking(fd, msvcrt.LK_LOCK, 1)
-        else:
-            fcntl.flock(fd, fcntl.LOCK_EX)
-        current = os.lstat(LOCK_GATE)
-        # This advisory/inode lock serialises cooperating invocations of this
-        # helper. It does not exclude an arbitrary same-principal writer that
-        # bypasses the helper and replaces a pathname; that stronger property
-        # belongs to the target system or security substrate.
-        if (
-            not stat.S_ISREG(current.st_mode)
-            or stat.S_ISLNK(current.st_mode)
-            or is_reparse(current)
-            or current.st_nlink != 1
-            or (current.st_dev, current.st_ino) != (opened.st_dev, opened.st_ino)
-        ):
-            raise WriterDomainBreach("lock namespace gate identity changed")
-        namespace_gate_fd = fd
-    except BaseException:
-        try:
-            if os.name == "nt":
-                os.lseek(fd, 0, os.SEEK_SET)
-                msvcrt.locking(fd, msvcrt.LK_UNLCK, 1)
-            else:
-                fcntl.flock(fd, fcntl.LOCK_UN)
-        except OSError:
-            pass
-        os.close(fd)
-        raise
+    if namespace_gate_fd is None:
+        acquire_window_gate()
 
 
 def release_namespace_gate():
-    global namespace_gate_fd
-    if namespace_gate_fd is None:
-        return []
-    fd = namespace_gate_fd
-    namespace_gate_fd = None
-    errors = []
-    try:
-        if os.name == "nt":
-            os.lseek(fd, 0, os.SEEK_SET)
-            msvcrt.locking(fd, msvcrt.LK_UNLCK, 1)
-        else:
-            fcntl.flock(fd, fcntl.LOCK_UN)
-    except BaseException as error:
-        errors.append(error)
-    try:
-        os.close(fd)
-    except BaseException as error:
-        errors.append(error)
-    return errors
+    return release_window_gate()
 
 
 def owned_lock_residue_paths():
@@ -1315,7 +1411,6 @@ try:
         except FileExistsError:
             if path_identity(LOCK_ROOT).get("kind") != "directory":
                 final_result("UNSUPPORTED_OWNER_DECISION", "PATH_NOT_REGULAR")
-    acquire_namespace_gate()
     for lock in lock_paths:
         mark_owned = mark_lock_owned(lock)
         try:

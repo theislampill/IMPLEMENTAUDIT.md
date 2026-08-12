@@ -27,6 +27,15 @@ git config user.name claim-run-test
 first="$(bash "$helper" "Audit release asset boundary" 2>/dev/null)"
 second="$(bash "$helper" "Audit release asset boundary" 2>/dev/null)"
 
+[ -f .IMPLEMENTAUDIT/.r36-locks/namespace.gate ] || {
+  printf 'claim-run.test: governed-writer namespace gate missing\n' >&2
+  exit 1
+}
+[ "$(wc -c < .IMPLEMENTAUDIT/.r36-locks/namespace.gate | tr -d ' ')" = 1 ] || {
+  printf 'claim-run.test: governed-writer namespace gate has wrong extent\n' >&2
+  exit 1
+}
+
 [ -d "$first" ] || {
   printf 'claim-run.test: first run root not created\n' >&2
   exit 1
@@ -127,6 +136,38 @@ grep -qx 'templates=STATE.md' "$micro/.claimed" || {
   printf 'claim-run.test: micro claim sentinel names the wrong template set\n' >&2
   exit 1
 }
+
+alias_repo="$tmp/alias repo"; alias_outside="$tmp/alias outside"
+mkdir -p "$alias_repo" "$alias_outside"
+git -C "$alias_repo" init -q
+if ln -s "$alias_outside" "$alias_repo/.IMPLEMENTAUDIT" 2>/dev/null && [ -L "$alias_repo/.IMPLEMENTAUDIT" ]; then
+  if (cd "$alias_repo" && bash "$helper" 'unsafe gate custody') >/dev/null 2>&1; then
+    printf 'claim-run.test: symlinked coordination parent accepted\n' >&2
+    exit 1
+  fi
+  [ ! -e "$alias_outside/.r36-locks/namespace.gate" ] || {
+    printf 'claim-run.test: symlinked coordination parent escaped repository\n' >&2
+    exit 1
+  }
+fi
+
+if command -v cmd.exe >/dev/null 2>&1 && command -v cygpath >/dev/null 2>&1; then
+  junction_repo="$tmp/junction repo"; junction_outside="$tmp/junction outside"
+  mkdir -p "$junction_repo" "$junction_outside"
+  git -C "$junction_repo" init -q
+  junction_path_win="$(cygpath -w "$junction_repo/.IMPLEMENTAUDIT")"
+  junction_outside_win="$(cygpath -w "$junction_outside")"
+  if MSYS2_ARG_CONV_EXCL='*' cmd.exe /d /c mklink /J "$junction_path_win" "$junction_outside_win" >/dev/null 2>&1; then
+    if (cd "$junction_repo" && bash "$helper" 'unsafe junction custody') >/dev/null 2>&1; then
+      printf 'claim-run.test: junction coordination parent accepted\n' >&2
+      exit 1
+    fi
+    [ ! -e "$junction_outside/.r36-locks/namespace.gate" ] || {
+      printf 'claim-run.test: junction coordination parent escaped repository\n' >&2
+      exit 1
+    }
+  fi
+fi
 
 mkdir -p "$micro_base/unmarked-sibling"
 printf '# state without disposition\n' > "$micro_base/unmarked-sibling/STATE.md"

@@ -250,12 +250,27 @@ Graphify modes: `bash <skill-dir>/scripts/validate-run-root.sh --graph-freshness
 
 When the native audit object opens a scarce-resource phase, `validate-phase.sh` consumes its receipt, launch, stub, hash, environment-key names, and terminal then invokes `check-authorization-binding.sh --phase <phase> --rehearsal <receipt> --launch <launch>`. The wrapper crosses a checker-owned mediator to the bounded producer; its zero exit precedes checker terminal publication. A failed rehearsal blocks launch; repair/re-run stays manual.
 
+Before publishing a governed verification window, invoke
+`check-evidence-anchor.sh --window-transition <transition> <launch-intent> --entry <n> --repo-root <repo>`.
+Its governed-window-publication boundary serialises the prepared/open/closed
+identity transition with R36 mutation; it does not claim exclusion against a
+non-cooperating same-principal writer.
+
+A validated destructive mutation is required to run through
+`apply-observed-mutation.sh --repo-root <r> --run-root <rr> --phase <n> --step <n> <evidence>`.
+This destructive-mutation route binds a validated phase step, complete planned
+effects, the governed-writer window/lock boundary, transactional evidence and
+truthful terminal status; direct filesystem replacement is not an equivalent
+consumer route.
+
 helper-mode: validate-run-root.sh|--graph-freshness|<graph.json> <repo-root>|stale
 helper-mode: validate-run-root.sh|--graph-scope|<catalog> <repo> <path> [path...]|smallest
 helper-mode: validate-run-root.sh|--graph-parent|<catalog> <repo> <scope> <reason>|fallback
 helper-mode: check-authorization-binding.sh|--phase --rehearsal --launch|<phase> <receipt> <launch>|failed-rehearsal-blocks-launch|scripts/validate-phase.sh
+helper-mode: check-evidence-anchor.sh|--window-transition|<transition> <launch-intent> --entry <n> --repo-root <repo>|governed-window-publication|-
 
 helper-route: check-authorization-binding.sh|R|auth|P|-|--auth <a> --invocation <i> --state <s>|no-param
+helper-route: apply-observed-mutation.sh|R|destructive-mutation|R|-|--repo-root <r> --run-root <rr> --phase <n> --step <n> <evidence>|governed-writer
 helper-route: check-closure-surface.sh|R|final|P|-|<closure-record> --superseded-plan <each-replaced-plan> --steer-dir <run-root> --plan-cycle-record <each-cycle-accounted-plan>|inputs
 helper-route: check-duplication-parity.sh|R|duplication-set|R|-|<manifest>|no-set
 helper-route: check-evidence-anchor.sh|R|scope|P|-|--artifact ... --tree ...|disjoint
