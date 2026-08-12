@@ -297,6 +297,7 @@ case["observations"] = {
     "closed_write_boundaries": True,
     "closed_acceptance_boundaries": True,
     "closed_resource_boundaries": True,
+    "closed_authority_boundaries": True,
     "irreversible_external": False,
     "authorization_current": True,
 }
@@ -388,5 +389,47 @@ grep -v "recompute the ready-cell frontier" \
   >"$tmp_root/SKILL.tmp"
 mv "$tmp_root/SKILL.tmp" "$tmp_root/skills/implementaudit/SKILL.md"
 expect_fail "ready-frontier runtime route removed"
+
+# 25. Two currently authorised cells that overlap an authority boundary still
+# serialize; current authorization is not proof of independent authority.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C102-authority-boundary-conflict-serialises")
+case["expected"] = "ACTIVATE_READY_CELLS"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "authority conflict relabelled as parallel activation"
+
+# 26. The authority observation, not the fixture label, drives the conflict.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C102-authority-boundary-conflict-serialises")
+case["observations"]["closed_authority_boundaries"] = True
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "authority-conflict observation did not change the derived verdict"
+
+# 27. The serial cheap path must not grow a mandatory scheduler dashboard.
+reset_sandbox
+sed 's/, dashboard//' \
+  "$tmp_root/skills/implementaudit/references/child-agents.md" \
+  >"$tmp_root/child-agents.tmp"
+mv "$tmp_root/child-agents.tmp" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md"
+expect_fail "dashboard prohibition removed from cheap-path owner"
 
 printf 'action-selection-contract.test: ok\n'

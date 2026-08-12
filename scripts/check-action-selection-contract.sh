@@ -123,7 +123,8 @@ for text in \
   "An unchanged reminder or status" \
   "Use the ordinary serial cheap path" \
   "ready-queue artefact" \
-  "minimum agent count"
+  "minimum agent count" \
+  "dashboard"
 do
   require "$child_ref" "$text"
 done
@@ -236,6 +237,7 @@ required_ids = {
         (99, "reminder-does-not-redispatch"),
         (100, "capacity-change-recomputes-frontier"),
         (101, "parallelism-unavailable-cheap-serial"),
+        (102, "authority-boundary-conflict-serialises"),
     )
 }
 ids = [case.get("id") for case in cases if isinstance(case, dict)]
@@ -330,9 +332,9 @@ def decide(case):
             return "PARALLEL_SAFE"
         return "SERIALISE_SHARED"
     if kind == "scheduling":
-        fields = "event work_units host_capacity active_cells ready_cells parallelism_allowed cell_independence_known closed_write_boundaries closed_acceptance_boundaries closed_resource_boundaries irreversible_external authorization_current"
+        fields = "event work_units host_capacity active_cells ready_cells parallelism_allowed cell_independence_known closed_write_boundaries closed_acceptance_boundaries closed_resource_boundaries closed_authority_boundaries irreversible_external authorization_current"
         exact(o, fields)
-        booleans(o, "parallelism_allowed cell_independence_known closed_write_boundaries closed_acceptance_boundaries closed_resource_boundaries irreversible_external authorization_current")
+        booleans(o, "parallelism_allowed cell_independence_known closed_write_boundaries closed_acceptance_boundaries closed_resource_boundaries closed_authority_boundaries irreversible_external authorization_current")
         if type(o["event"]) is not str or o["event"] not in {
                 "initial", "cell_complete", "cell_blocked", "drift",
                 "authorization_change", "capacity_change", "unchanged_reminder"}:
@@ -357,7 +359,8 @@ def decide(case):
             return "DEFER_INDEPENDENCE_UNKNOWN"
         if (not all((o["closed_write_boundaries"],
                      o["closed_acceptance_boundaries"],
-                     o["closed_resource_boundaries"]))
+                     o["closed_resource_boundaries"],
+                     o["closed_authority_boundaries"]))
                 or o["irreversible_external"]):
             return "SERIALISE_CONFLICT"
         capacity_available = o["active_cells"] < o["host_capacity"]
