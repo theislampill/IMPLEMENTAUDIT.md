@@ -30,7 +30,7 @@ fail() { printf 'verification-window-contract.test: %s\n' "$*" >&2; exit 1; }
 import json, sys
 rows = json.load(open(sys.argv[1], encoding="utf-8"))
 ids = [row.get("id") for row in rows]
-expected = [f"R2-F{i}" for i in range(1, 48)]
+expected = [f"R2-F{i}" for i in range(1, 52)]
 if ids != expected:
     raise SystemExit(f"verification-window cases must be exactly {expected}, got {ids}")
 PY
@@ -818,7 +818,7 @@ git -C "$case_repo" add curriculum/declared.txt docs/unrelated.txt
 git -C "$case_repo" commit -qm 'add receipt population'
 (cd "$case_repo" && bash "$repo_state" window-identities --records --surface 'curriculum/**') > "$tmp/f47.receipt" \
   || fail 'R2-F47 declared-surface receipt failed'
-python - "$tmp/f47.receipt" <<'PY' || fail 'R2-F47 receipt population was not bounded to declared surfaces'
+"${py_cmd[@]}" - "$tmp/f47.receipt" <<'PY' || fail 'R2-F47 receipt population was not bounded to declared surfaces'
 import json
 import pathlib
 import sys
@@ -830,6 +830,69 @@ assert rows[0] == expected_header, f"header={rows[0]!r}"
 paths = [row["path"] for row in rows[1:]]
 assert paths == ["curriculum/declared.txt", "curriculum/x.json"], f"paths={paths!r}"
 PY
+ok
+
+# R2-F48: a transition refuses a declared surface that contains its own
+# intent/receipt publication chain; a successful open must not stale itself.
+new_repo f48-transition-self-surface
+transition_run_rel="$(cd "$case_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" window 2>/dev/null)"
+write_prepared_intent "$case_repo" "$case_repo/$transition_run_rel" '.IMPLEMENTAUDIT/runs/**'
+if (cd "$case_repo" && bash "$checker" --window-transition open "$case_intent" --entry 1 --repo-root "$case_repo") >"$tmp/f48.out" 2>&1; then
+  fail 'R2-F48 self-intersecting transition surface was accepted'
+fi
+grep -Fq 'transition publication paths' "$tmp/f48.out" || fail 'R2-F48 missing self-intersection diagnostic'
+grep -Fq 'state: prepared' "$case_intent" || fail 'R2-F48 self-intersection altered intent'
+[ ! -e "$(dirname "$case_intent")/opening-identities-1.nul" ] || fail 'R2-F48 self-intersection created receipt'
+ok
+
+# R2-F49: a failure after durable receipt publication removes its owned
+# receipt/temp state and leaves the prepared transition immediately retryable.
+new_repo f49-transition-receipt-failure
+transition_run_rel="$(cd "$case_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" window 2>/dev/null)"
+write_prepared_intent "$case_repo" "$case_repo/$transition_run_rel"
+if (cd "$case_repo" && IMPLEMENTAUDIT_WINDOW_TEST_FAULT=after-receipt-publish \
+    bash "$checker" --window-transition open "$case_intent" --entry 1 --repo-root "$case_repo") >"$tmp/f49.out" 2>&1; then
+  fail 'R2-F49 injected receipt-publication failure returned success'
+fi
+grep -Fq 'state: prepared' "$case_intent" || fail 'R2-F49 receipt failure altered intent'
+[ ! -e "$(dirname "$case_intent")/opening-identities-1.nul" ] || fail 'R2-F49 left unreferenced receipt'
+[ ! -e "$case_intent.transition.tmp" ] || fail 'R2-F49 left intent temporary'
+(cd "$case_repo" && bash "$checker" --window-transition open "$case_intent" --entry 1 --repo-root "$case_repo") >/dev/null \
+  || fail 'R2-F49 clean retry failed'
+ok
+
+# R2-F50: failure after intent replacement restores the durable original,
+# removes owned transition residue, and permits a clean retry.
+new_repo f50-transition-replace-failure
+transition_run_rel="$(cd "$case_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" window 2>/dev/null)"
+write_prepared_intent "$case_repo" "$case_repo/$transition_run_rel"
+if (cd "$case_repo" && IMPLEMENTAUDIT_WINDOW_TEST_FAULT=after-intent-replace \
+    bash "$checker" --window-transition open "$case_intent" --entry 1 --repo-root "$case_repo") >"$tmp/f50.out" 2>&1; then
+  fail 'R2-F50 injected post-replace failure returned success'
+fi
+grep -Fq 'state: prepared' "$case_intent" || fail 'R2-F50 did not restore prepared intent'
+[ ! -e "$(dirname "$case_intent")/opening-identities-1.nul" ] || fail 'R2-F50 left rolled-back receipt'
+[ ! -e "$case_intent.transition.tmp" ] || fail 'R2-F50 left intent temporary'
+(cd "$case_repo" && bash "$checker" --window-transition open "$case_intent" --entry 1 --repo-root "$case_repo") >/dev/null \
+  || fail 'R2-F50 rollback retry failed'
+ok
+
+# R2-F51: an unlock failure after durable publication cannot escape as a
+# traceback or erase the fact that the transition itself committed.
+new_repo f51-transition-unlock-failure
+transition_run_rel="$(cd "$case_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" window 2>/dev/null)"
+write_prepared_intent "$case_repo" "$case_repo/$transition_run_rel"
+if (cd "$case_repo" && IMPLEMENTAUDIT_WINDOW_TEST_FAULT=gate-unlock \
+    bash "$checker" --window-transition open "$case_intent" --entry 1 --repo-root "$case_repo") >"$tmp/f51.out" 2>&1; then
+  fail 'R2-F51 injected unlock failure returned success'
+fi
+grep -Fq 'transition committed but governed-writer gate release failed' "$tmp/f51.out" \
+  || fail 'R2-F51 missing committed-release diagnostic'
+if grep -Fq 'Traceback' "$tmp/f51.out"; then fail 'R2-F51 emitted traceback'; fi
+grep -Fq 'state: open' "$case_intent" || fail 'R2-F51 hid committed state'
+case_now="$(git -C "$case_repo" rev-parse HEAD)"
+(cd "$case_repo" && bash "$checker" --window "$case_intent" --now "$case_now") >/dev/null \
+  || fail 'R2-F51 committed transition receipt is not current'
 ok
 
 # Legacy anchor modes remain compatible.
@@ -865,4 +928,4 @@ grep -Fq 'verification is reading the same tree' "$phase_design" || fail 'phase-
 grep -Fq 'post-state was compared' "$lean" || fail 'Lean post-state evidence boundary missing'
 ok; ok; ok; ok; ok
 
-printf 'verification-window-contract.test: ok (%d/59)\n' "$count"
+printf 'verification-window-contract.test: ok (%d/63)\n' "$count"

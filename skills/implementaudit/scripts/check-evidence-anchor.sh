@@ -56,6 +56,7 @@ case "$mode" in
     "${py_cmd[@]}" - "$transition" "$intent" "$entry" "$repo" "$repo_state" "$run_validator" "$bash_exe" <<'PY'
 import hashlib
 import errno
+import fnmatch
 import json
 import os
 import re
@@ -131,6 +132,27 @@ def normalize_surface(surface):
     return canonical
 
 
+def surface_matches(path, surface):
+    if surface.endswith("/"):
+        return path == surface[:-1] or path.startswith(surface)
+    return fnmatch.fnmatchcase(path, surface)
+
+
+def file_identity(path):
+    st = os.lstat(path)
+    return (st.st_dev, st.st_ino, st.st_mode, st.st_nlink)
+
+
+def remove_owned(path, owned_identity):
+    try:
+        if file_identity(path) != owned_identity:
+            return False
+        os.unlink(path)
+        return True
+    except FileNotFoundError:
+        return True
+
+
 try:
     entry_number = int(entry_raw)
 except ValueError:
@@ -176,6 +198,10 @@ if not unique_regular(gate) or gate.stat().st_size != 1:
     fail("governed-writer namespace gate is unavailable or unsafe")
 fd = os.open(gate, os.O_RDWR | getattr(os, "O_BINARY", 0) | getattr(os, "O_NOFOLLOW", 0))
 released = False
+committed = False
+transition_error = None
+release_error = None
+now = "unavailable"
 try:
     opened = os.fstat(fd)
     os.lseek(fd, 0, os.SEEK_SET)
@@ -195,7 +221,11 @@ try:
             or not stat.S_ISREG(current.st_mode) or current.st_nlink != 1):
         fail("governed-writer namespace gate identity changed")
 
-    lines = intent.read_text(encoding="utf-8").splitlines(keepends=True)
+    original_bytes = intent.read_bytes()
+    try:
+        lines = original_bytes.decode("utf-8").splitlines(keepends=True)
+    except UnicodeDecodeError:
+        fail("launch intent is not UTF-8")
     entries = []
     active = False
     current_entry = None
@@ -243,8 +273,18 @@ try:
     label = "opening" if transition == "open" else "closing"
     receipt_name = f"{label}-identities-{entry_number}.nul"
     receipt = intent.parent / receipt_name
-    if receipt.exists():
-        fail(f"{label} identity receipt already exists")
+    temporary = intent.with_name(intent.name + ".transition.tmp")
+    receipt_temporary = receipt.with_name(receipt.name + ".transition.tmp")
+    control_paths = [
+        intent.relative_to(repo).as_posix(),
+        temporary.relative_to(repo).as_posix(),
+        receipt.relative_to(repo).as_posix(),
+        receipt_temporary.relative_to(repo).as_posix(),
+    ]
+    if any(surface_matches(path, surface) for path in control_paths for surface in selected["surfaces"]):
+        fail("verification window surfaces intersect transition publication paths")
+    if receipt.exists() or receipt_temporary.exists() or temporary.exists():
+        fail(f"{label} transition publication path is already occupied")
     environment = os.environ.copy()
     environment["IMPLEMENTAUDIT_WINDOW_SURFACES_JSON"] = json.dumps(selected["surfaces"], separators=(",", ":"))
     captured = subprocess.run(
@@ -254,8 +294,6 @@ try:
     if captured.returncode != 0 or not captured.stdout:
         detail = captured.stderr.decode(errors="replace").strip()
         fail(f"{label} identity capture failed: {detail or 'empty capture'}")
-    with receipt.open("xb") as handle:
-        handle.write(captured.stdout); handle.flush(); os.fsync(handle.fileno())
     receipt_digest = hashlib.sha256(captured.stdout).hexdigest()
     updates = {
         "state": transition == "open" and "open" or "closed",
@@ -266,25 +304,89 @@ try:
     for key, value in updates.items():
         ending = "\r\n" if lines[selected["lines"][key]].endswith("\r\n") else "\n"
         lines[selected["lines"][key]] = f"{selected['indent']}{key}: {value}{ending}"
-    temporary = intent.with_name(intent.name + ".transition.tmp")
-    if temporary.exists():
-        fail("transition temporary path is already occupied")
-    with temporary.open("x", encoding="utf-8", newline="") as handle:
-        handle.writelines(lines); handle.flush(); os.fsync(handle.fileno())
-    os.replace(temporary, intent)
-    sync_directory(intent.parent)
+    fault = os.environ.get("IMPLEMENTAUDIT_WINDOW_TEST_FAULT", "")
+    if fault not in {"", "after-receipt-publish", "after-intent-replace", "gate-unlock"}:
+        fail("unsupported verification-window test fault")
+    receipt_identity = None
+    receipt_temp_identity = None
+    intent_temp_identity = None
+    published_intent_identity = None
+    try:
+        with receipt_temporary.open("xb") as handle:
+            handle.write(captured.stdout); handle.flush(); os.fsync(handle.fileno())
+        receipt_temp_identity = file_identity(receipt_temporary)
+        os.replace(receipt_temporary, receipt)
+        receipt_identity = file_identity(receipt)
+        sync_directory(intent.parent)
+        if fault == "after-receipt-publish":
+            raise OSError(errno.EIO, "injected failure after receipt publication")
+
+        with temporary.open("x", encoding="utf-8", newline="") as handle:
+            handle.writelines(lines); handle.flush(); os.fsync(handle.fileno())
+        intent_temp_identity = file_identity(temporary)
+        os.replace(temporary, intent)
+        published_intent_identity = file_identity(intent)
+        if fault == "after-intent-replace":
+            raise OSError(errno.EIO, "injected failure after intent replacement")
+        sync_directory(intent.parent)
+        committed = True
+    except Exception as error:
+        rollback_errors = []
+        if published_intent_identity is not None:
+            try:
+                if file_identity(intent) != published_intent_identity:
+                    raise OSError(errno.EBUSY, "published intent identity changed before rollback")
+                with temporary.open("xb") as handle:
+                    handle.write(original_bytes); handle.flush(); os.fsync(handle.fileno())
+                rollback_identity = file_identity(temporary)
+                os.replace(temporary, intent)
+                sync_directory(intent.parent)
+                intent_temp_identity = rollback_identity
+            except Exception as rollback_error:
+                rollback_errors.append(f"intent rollback failed: {rollback_error}")
+        for path, owned, name in (
+            (temporary, intent_temp_identity, "intent temporary"),
+            (receipt_temporary, receipt_temp_identity, "receipt temporary"),
+            (receipt, receipt_identity, "identity receipt"),
+        ):
+            if owned is None:
+                continue
+            try:
+                if not remove_owned(path, owned):
+                    rollback_errors.append(f"{name} identity changed before cleanup")
+            except Exception as cleanup_error:
+                rollback_errors.append(f"{name} cleanup failed: {cleanup_error}")
+        try:
+            sync_directory(intent.parent)
+        except Exception as sync_error:
+            rollback_errors.append(f"rollback directory fsync failed: {sync_error}")
+        detail = f"{type(error).__name__}: {error}"
+        if rollback_errors:
+            detail += "; " + "; ".join(rollback_errors)
+        transition_error = detail
 finally:
     try:
         os.lseek(fd, 0, os.SEEK_SET)
+        if os.environ.get("IMPLEMENTAUDIT_WINDOW_TEST_FAULT", "") == "gate-unlock":
+            raise OSError(errno.EIO, "injected governed-writer gate unlock failure")
         if os.name == "nt":
             msvcrt.locking(fd, msvcrt.LK_UNLCK, 1)
         else:
             fcntl.flock(fd, fcntl.LOCK_UN)
         released = True
-    finally:
+    except Exception as error:
+        release_error = f"{type(error).__name__}: {error}"
+    try:
         os.close(fd)
-if not released:
-    fail("governed-writer namespace gate release failed")
+    except Exception as error:
+        close_detail = f"{type(error).__name__}: {error}"
+        release_error = f"{release_error}; {close_detail}" if release_error else close_detail
+if transition_error is not None:
+    suffix = f"; governed-writer gate release failed: {release_error}" if release_error else ""
+    fail(f"verification window transition failed; rollback adjudicated: {transition_error}{suffix}")
+if release_error is not None or not released:
+    state = "committed" if committed else "not committed"
+    fail(f"verification window transition {state} but governed-writer gate release failed: {release_error or 'unknown release failure'}")
 print(f"check-evidence-anchor: verification window {transition} transition committed entry={entry_number} at={now}")
 PY
     ;;

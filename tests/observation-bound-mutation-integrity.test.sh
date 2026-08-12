@@ -11,7 +11,20 @@ elif command -v python >/dev/null 2>&1; then python_bin=python
 elif command -v python3 >/dev/null 2>&1; then python_bin=python3
 else printf 'observation-bound-mutation-integrity: Python is required\n' >&2; exit 1; fi
 tmp="$(mktemp -d)"
-trap 'rm -rf -- "$tmp"' EXIT
+owned_background_pids=()
+owned_release_path=
+cleanup_test_state() {
+  local pid ticks
+  [ -z "$owned_release_path" ] || : >"$owned_release_path" 2>/dev/null || true
+  for pid in "${owned_background_pids[@]}"; do
+    ticks=0
+    while kill -0 "$pid" 2>/dev/null && [ "$ticks" -lt 250 ]; do sleep .02; ticks=$((ticks+1)); done
+    if kill -0 "$pid" 2>/dev/null; then kill "$pid" 2>/dev/null || true; fi
+    wait "$pid" 2>/dev/null || true
+  done
+  rm -rf -- "$tmp"
+}
+trap cleanup_test_state EXIT
 fixture_repo="$tmp/repository"
 run_root="$fixture_repo/.IMPLEMENTAUDIT/r36"
 outside="$tmp/existing-outside-target"
@@ -204,6 +217,7 @@ window_interlock_heldouts() {
   IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=window-scan-race \
     bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$prepared_phase" --step 1 --preimage "$pre" --candidate "$cand" \
     >"$barrier/helper.out" 2>"$barrier/helper.err" & helper_pid=$!
+  owned_background_pids=("$helper_pid"); owned_release_path="$barrier/release"
   for _ in $(seq 1 500); do [ -f "$barrier/scanned" ] && break; kill -0 "$helper_pid" 2>/dev/null || break; sleep .02; done
   [ -f "$barrier/scanned" ] || { wait_bounded "$helper_pid" 'R36 window-scan helper'; fail 'R36 window-scan race did not reach protected boundary'; }
   [ ! -e "$run_root/mutation-transactions" ] || fail 'R36 window-scan race created transaction state before protected scan completed'
@@ -211,11 +225,13 @@ window_interlock_heldouts() {
   (cd "$fixture_repo" && bash "$repo_root/skills/implementaudit/scripts/check-evidence-anchor.sh" \
     --window-transition open "$intent" --entry 1 --repo-root "$fixture_repo") \
     >"$barrier/transition.out" 2>"$barrier/transition.err" & transition_pid=$!
+  owned_background_pids+=("$transition_pid")
   sleep .2
   kill -0 "$transition_pid" 2>/dev/null || fail 'R36 window transition bypassed the held governed gate'
   [ ! -s "$barrier/transition.out" ] || fail 'R36 window transition published before mutation gate release'
   touch "$barrier/release"
   set +e; wait "$helper_pid"; helper_exit=$?; wait "$transition_pid"; transition_exit=$?; set -e
+  owned_background_pids=(); owned_release_path=
   [ "$helper_exit" -eq 0 ] || fail "R36 window-scan helper exit=$helper_exit stderr=$(<"$barrier/helper.err")"
   [ "$transition_exit" -eq 0 ] || fail "R36 window transition exit=$transition_exit stderr=$(<"$barrier/transition.err")"
   assert_hex R36-WINDOW-race-target "$fixture_repo/target" 4e4557
