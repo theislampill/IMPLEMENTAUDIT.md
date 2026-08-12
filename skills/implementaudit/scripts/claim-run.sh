@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
-# claim-run.sh - atomically claim a native IMPLEMENTAUDIT run root.
-#
-# The helper is intentionally small and side-effect bounded: it creates the
-# run-root directory and its claim metadata under IMPLEMENTAUDIT_BASE, then
-# prints that path. It does not write roadmap/state/protocol files, inspect
-# source files, install tools, index sidecars, or start execution.
+# Atomically claim native run roots and controller continuity.
 
 set -u
 
@@ -22,6 +17,81 @@ reject_coordination_reparse() {
   fi
   return 0
 }
+
+controller_io() {
+  local a="$1" c="$2" repo common ref oid s rc rg root rr target_common; shift 2
+  repo="$(git rev-parse --path-format=absolute --show-toplevel)" || return
+  common="$(cd "$(git rev-parse --path-format=absolute --git-common-dir)" && pwd -P)" || return
+  if [ "$a" = current ] && [ -z "$c" ]; then
+    local x=(); mapfile -t x < <(git for-each-ref --format='%(refname)' refs/implementaudit/controllers/)
+    [ "${#x[@]}" = 1 ] || { printf 'claim-run.sh: ambiguous controller population: %s\n' "${#x[@]}" >&2; return 1; }
+    c="${x[0]##*/}"
+  fi
+  case "$c" in ''|*[!a-z0-9-]*|-*) return 1;; esac
+  [ "${#c}" -le 48 ] || return 1; ref="refs/implementaudit/controllers/$c"
+  load() {
+    oid="$(git rev-parse --verify "$ref" 2>/dev/null)" || return
+    IFS=$'\t' read -r s rc rg root <<< "$(git cat-file blob "$oid")"
+    rr="${root%/.IMPLEMENTAUDIT/runs/*}"
+    target_common="$(cd "$(git -C "$rr" rev-parse --path-format=absolute --git-common-dir)" && pwd -P)" || return
+    [ "$s:$rc" = "implementaudit.controller-current.v1:$c" ] &&
+      [ "$target_common" = "$common" ] &&
+      bash "$(dirname "$0")/validate-run-root.sh" --claim-only "$root" --repo-root "$rr" >/dev/null 2>&1 &&
+      grep -Fxq "claim_id=$rg" "$root/.claimed"
+  }
+  case "$a" in
+    bind)
+      [ "$#" = 2 ] && [ "$base" = .IMPLEMENTAUDIT/runs ] || return 1
+      local expect="$1" run="$2" old new newclaim zero=0000000000000000000000000000000000000000
+      newclaim="$(sed -n 's/^claim_id=//p' "$repo/$run/.claimed")"; [ -n "$newclaim" ] || return
+      old="$(git rev-parse --verify "$ref" 2>/dev/null || printf %s "$zero")"
+      if [ "$old" != "$zero" ]; then
+        IFS=$'\t' read -r s rc rg _ <<< "$(git cat-file blob "$old")"
+        [ -n "$expect" ] && [ "$s:$rc:$rg" = "implementaudit.controller-current.v1:$c:$expect" ] || return 1
+      else [ -z "$expect" ] || return 1; fi
+      new="$(printf 'implementaudit.controller-current.v1\t%s\t%s\t%s/%s\n' "$c" "$newclaim" "$repo" "$run" | git hash-object -w --stdin)" &&
+        git update-ref "$ref" "$new" "$old" ;;
+    current)
+      load || return; printf '%s\t%s\t%s\t%s\n' "$c" "$rr" "$root" "$rg" ;;
+    resume|verify)
+      load || return; [ "$repo" = "$rr" ] || return 1
+      local state="$root/STATE.md" road="$root/ROADMAP.md" token rref roid h t sh rh
+      h="$(git rev-parse HEAD)"; t="$(git rev-parse 'HEAD^{tree}')"
+      sh="$(sha256sum "$state" | cut -d' ' -f1)"; rh="$(sha256sum "$road" | cut -d' ' -f1)"
+      if [ "$a" = resume ]; then
+        local b="$1" e="$2" next newr zero=0000000000000000000000000000000000000000
+        case "$b" in host-reported-compaction|new-session|handoff-resume|manual-resume|inferred-context-gap):;; *) return 1;; esac
+        next="$(awk -F'|' -v e="$e" -v b="$b" -v h="$h" -v t="$t" 'function q(x){gsub(/^[ \t`]+|[ \t`]+$/, "", x);return x} /^Current epoch:/{ce=$0} q($2)=="Next action"{n=q($3)} q($2)==e&&q($3)==b&&q($6)=="yes"&&index($5,h)&&index($5,t){ok=1} END{if(ce=="Current epoch: "e&&ok&&n!=""&&n!="-"&&tolower(n)!="none"&&tolower(n)!="pending")print n;else exit 1}' "$state")" || return
+        rref="refs/implementaudit/continuity-receipts/$c/$e"
+        newr="$(printf 'implementaudit.continuity-receipt.v1\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' "$c" "$oid" "$rg" "$h" "$t" "$sh" "$rh" "$b" "$e" "$next" | git hash-object -w --stdin)" &&
+          git update-ref "$rref" "$newr" "$zero" || return
+        token="$rref@$newr"
+      else
+        token="$1"; rref="${token%@*}"; roid="${token##*@}"
+        [ "$(git rev-parse --verify "$rref" 2>/dev/null)" = "$roid" ] || return
+        IFS=$'\t' read -r s rc owner rg2 h2 t2 sh2 rh2 b2 e2 _ <<< "$(git cat-file blob "$roid")"
+        [ "$rref" = "refs/implementaudit/continuity-receipts/$c/$e2" ] &&
+          [ "$s:$rc:$owner:$rg2:$h2:$t2:$sh2:$rh2" = "implementaudit.continuity-receipt.v1:$c:$oid:$rg:$h:$t:$sh:$rh" ] || return
+      fi
+      printf '%s\n' "$token" ;;
+    *) return 1 ;;
+  esac
+}
+
+controller='' supersede=''
+case "${1:-}" in
+  --current-controller) controller_io current "${2:-}"; exit $? ;;
+  --resume-controller)
+    controller="${2:-}"; shift 2; boundary='' epoch=''
+    while [ "$#" -gt 0 ]; do case "$1" in --boundary) boundary="${2:-}"; shift 2;; --epoch) epoch="${2:-}"; shift 2;; *) printf 'claim-run.sh: unknown resume argument: %s\n' "$1" >&2; exit 1;; esac; done
+    controller_io resume "$controller" "$boundary" "$epoch"; exit $? ;;
+  --verify-resume-receipt)
+    receipt_arg="${2:-}"; controller="${receipt_arg%@*}"; controller="${controller#refs/implementaudit/continuity-receipts/}"; controller="${controller%/*}"
+    controller_io verify "$controller" "$receipt_arg"; exit $? ;;
+  --controller)
+    controller="${2:-}"; shift 2
+    if [ "${1:-}" = --supersede-claim ]; then supersede="${2:-}"; shift 2; fi ;;
+esac
 
 mode=full
 if [ "${1:-}" = "--micro" ]; then
@@ -77,10 +147,6 @@ run_root="$(mktemp -d "$base/${slug}-XXXXXX" 2>/dev/null)" || {
 
 claimed_at_utc="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
 if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-  # Keep producer and strict consumer in Git's native absolute path domain.
-  # In Git Bash, `pwd -P` may spell the worktree as /c/... while Git and the
-  # host Python runtime use C:/...; mixing those domains makes an own-generated
-  # claim fail strict custody despite naming the same worktree.
   claim_repo="$(git rev-parse --path-format=absolute --show-toplevel)" || exit 1
   claim_common="$(git rev-parse --path-format=absolute --git-common-dir)" || exit 1
   claim_id="$(LC_ALL=C od -An -N16 -tx1 /dev/urandom | tr -d ' \n')"
@@ -95,8 +161,12 @@ if [ ! -f "$run_root/.claimed" ]; then
   exit 1
 fi
 
-# Claiming remains non-blocking so explicitly parallel work can declare itself.
-# List siblings that need COMPLETE, HANDOFF, SUPERSEDED_BY, or PARALLEL state.
+if [ -n "$controller" ]; then
+  controller_io bind "$controller" "$supersede" "$run_root" || {
+    rm -f "$run_root/.claimed"; rmdir "$run_root" 2>/dev/null; exit 1
+  }
+fi
+
 for sibling in "$base"/*; do
   [ -d "$sibling" ] || continue
   [ "$sibling" = "$run_root" ] && continue
@@ -108,9 +178,6 @@ for sibling in "$base"/*; do
   fi
 done
 
-# Advisory only (this helper never mutates repo config): in target repos that
-# do not ignore the run-root base, run artifacts would appear as untracked
-# changes in commits and evidence scans.
 if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   if ! git check-ignore -q "$base" 2>/dev/null; then
     printf 'claim-run: note: %s is not gitignored here; consider adding ".IMPLEMENTAUDIT/" to .git/info/exclude (local-only) so run artifacts stay out of commits and evidence\n' "$base" >&2
