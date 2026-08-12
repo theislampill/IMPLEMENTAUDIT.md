@@ -213,6 +213,19 @@ if fixture["compact_label"] not in synthesis:
     raise SystemExit("compact SORME label missing from synthesis")
 if "Semantica" in readme + changelog + report:
     raise SystemExit("internal comparative corpus branding leaked to public owners")
+
+unreleased = changelog.split("## [Unreleased]", 1)[1].split("\n## [", 1)[0]
+for forbidden in (
+    "/improve",
+    "63-property comparator",
+    "source-stronger",
+    "reverse-dominance",
+    "strict superset",
+):
+    if forbidden in unreleased.casefold():
+        raise SystemExit(
+            f"internal comparison framing leaked into active public projection: {forbidden}"
+        )
 PY
 then
   record_pass

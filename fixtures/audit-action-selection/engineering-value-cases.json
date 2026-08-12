@@ -780,6 +780,48 @@
       "kind": "scheduling",
       "observations": {"event":"cell_complete","work_units":4,"host_capacity":3,"operator_ceiling":0,"active_cells":0,"ready_cells":2,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"irreversible_external":false,"authorization_current":true,"closed_authority_boundaries":true,"authority_boundary_open":false},
       "expected": "RECOMPUTE_FRONTIER"
+    },
+    {
+      "id": "R34-C131-completion-frees-one-bounded-slot",
+      "kind": "frontier_accounting",
+      "observations": {"work_units":4,"done_cells":1,"active_cells":1,"ready_cells":2,"blocked_cells":0,"unknown_cells":0,"host_capacity":3,"operator_ceiling":2,"state_evidence_current":true,"dependencies_current":true},
+      "expected": "DISPATCH_1_READY_CELL"
+    },
+    {
+      "id": "R34-C132-closed-population-bounds-three-slots",
+      "kind": "frontier_accounting",
+      "observations": {"work_units":10,"done_cells":3,"active_cells":2,"ready_cells":4,"blocked_cells":1,"unknown_cells":0,"host_capacity":8,"operator_ceiling":5,"state_evidence_current":true,"dependencies_current":true},
+      "expected": "DISPATCH_3_READY_CELLS"
+    },
+    {
+      "id": "R34-C133-ready-population-bounds-one-dispatch",
+      "kind": "frontier_accounting",
+      "observations": {"work_units":8,"done_cells":4,"active_cells":0,"ready_cells":1,"blocked_cells":3,"unknown_cells":0,"host_capacity":8,"operator_ceiling":5,"state_evidence_current":true,"dependencies_current":true},
+      "expected": "DISPATCH_1_READY_CELL"
+    },
+    {
+      "id": "R34-C134-unknown-population-refuses-capacity-assumption",
+      "kind": "frontier_accounting",
+      "observations": {"work_units":4,"done_cells":1,"active_cells":0,"ready_cells":2,"blocked_cells":0,"unknown_cells":1,"host_capacity":3,"operator_ceiling":2,"state_evidence_current":true,"dependencies_current":true},
+      "expected": "REACQUIRE_OR_SERIALISE"
+    },
+    {
+      "id": "R34-C135-stale-population-refuses-dispatch",
+      "kind": "frontier_accounting",
+      "observations": {"work_units":5,"done_cells":2,"active_cells":1,"ready_cells":1,"blocked_cells":1,"unknown_cells":0,"host_capacity":3,"operator_ceiling":2,"state_evidence_current":false,"dependencies_current":true},
+      "expected": "REACQUIRE_OR_SERIALISE"
+    },
+    {
+      "id": "R31-C136-grounded-executor-plan-ready",
+      "kind": "executor_plan_grounding",
+      "observations": {"live_source_inspected":true,"current_state_exact":true,"scope_exact":true,"edits_exact":true,"verification_exact":true,"stop_conditions_present":true,"rollback_present":true,"non_scope_present":true},
+      "expected": "EXECUTOR_PLAN_READY"
+    },
+    {
+      "id": "R31-C137-uninspected-plan-held",
+      "kind": "executor_plan_grounding",
+      "observations": {"live_source_inspected":false,"current_state_exact":false,"scope_exact":false,"edits_exact":false,"verification_exact":false,"stop_conditions_present":true,"rollback_present":true,"non_scope_present":true},
+      "expected": "HOLD_FOR_SOURCE_GROUNDING"
     }
   ]
 }

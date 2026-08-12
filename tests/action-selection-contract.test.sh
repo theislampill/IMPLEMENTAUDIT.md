@@ -385,14 +385,14 @@ mv "$tmp_root/child-agents.tmp" \
   "$tmp_root/skills/implementaudit/references/child-agents.md"
 expect_fail "ready-frontier execution owner removed"
 
-# 24. The always-loaded runtime loop must progressively route material
-# scheduling transitions to the ready-frontier owner.
+# 24. The always-loaded runtime loop must progressively activate closed
+# frontier accounting rather than merely permit it in a deep reference.
 reset_sandbox
-grep -v "recompute the ready-cell frontier" \
+grep -v "reacquire a closed DONE/ACTIVE/READY/BLOCKED census" \
   "$tmp_root/skills/implementaudit/SKILL.md" \
   >"$tmp_root/SKILL.tmp"
 mv "$tmp_root/SKILL.tmp" "$tmp_root/skills/implementaudit/SKILL.md"
-expect_fail "ready-frontier runtime route removed"
+expect_fail "closed frontier census runtime route removed"
 
 # 25. Two currently authorised cells that overlap an authority boundary still
 # serialize; current authorization is not proof of independent authority.
@@ -587,5 +587,167 @@ case["expected"] = "RECOMPUTE_AND_ACTIVATE"
 path.write_text(json.dumps(payload), encoding="utf-8")
 PY
 expect_fail "zero-ceiling recomputation activated a ready cell"
+
+# 38. A completion frees only the bounded slot left after the closed frontier
+# census; it does not reset active work to zero or spend the whole ceiling.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C131-completion-frees-one-bounded-slot")
+case["observations"]["done_cells"] = 2
+case["observations"]["active_cells"] = 0
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "completed cell reset the active census and overspent the ceiling"
+
+# 39. The executable discriminator remains bound to the native runtime owner.
+reset_sandbox
+grep -v "state prevents dispatch" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md" \
+  >"$tmp_root/child-agents.tmp"
+mv "$tmp_root/child-agents.tmp" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md"
+expect_fail "closed frontier census runtime owner removed"
+
+# 40. A larger population derives three free slots from current occupancy;
+# changing DONE/ACTIVE labels without changing the total must change dispatch.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C132-closed-population-bounds-three-slots")
+case["observations"]["done_cells"] = 4
+case["observations"]["active_cells"] = 1
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "larger closed population ignored active occupancy"
+
+# 41. READY cardinality, not spare ceiling alone, bounds dispatch.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C133-ready-population-bounds-one-dispatch")
+case["expected"] = "DISPATCH_5_READY_CELLS"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "spare ceiling overrode ready cardinality"
+
+# 42. An unknown cell cannot be relabelled BLOCKED to manufacture free capacity.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C134-unknown-population-refuses-capacity-assumption")
+case["observations"]["unknown_cells"] = 0
+case["observations"]["blocked_cells"] = 1
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "unknown cell was laundered into free capacity"
+
+# 43. A complete-looking but stale state partition is not dispatch authority.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C135-stale-population-refuses-dispatch")
+case["observations"]["state_evidence_current"] = True
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "stale frontier state was treated as current dispatch authority"
+
+# 44. An executor-ready handoff cannot claim READY before live source grounds
+# its exact state, scope, edits, and verification route.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R31-C137-uninspected-plan-held")
+case["expected"] = "EXECUTOR_PLAN_READY"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "uninspected speculative executor plan claimed READY"
+
+# 45. The READY positive requires every reconstructibility field; schema shape
+# plus generic STOP/rollback prose cannot replace exact current-state evidence.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R31-C136-grounded-executor-plan-ready")
+case["observations"]["current_state_exact"] = False
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "generic plan shape replaced exact current state"
+
+# 46. The executable discriminator remains bound to the R31 lifecycle owner.
+reset_sandbox
+grep -v "cannot claim READY" \
+  "$tmp_root/skills/implementaudit/references/plan-lifecycle.md" \
+  >"$tmp_root/plan-lifecycle.tmp"
+mv "$tmp_root/plan-lifecycle.tmp" \
+  "$tmp_root/skills/implementaudit/references/plan-lifecycle.md"
+expect_fail "executor-plan source-grounding owner removed"
+
+# 47. Live grounding does not authorize optional ancillary tidy-up files.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R31-C136-grounded-executor-plan-ready")
+case["observations"]["scope_exact"] = False
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "optional ancillary file expanded executor authority"
+
+# 48. Remove the closed-scope owner phrase while leaving source grounding.
+reset_sandbox
+grep -v "Optional ancillary files remain out of scope" \
+  "$tmp_root/skills/implementaudit/references/plan-lifecycle.md" \
+  >"$tmp_root/plan-lifecycle.tmp"
+mv "$tmp_root/plan-lifecycle.tmp" \
+  "$tmp_root/skills/implementaudit/references/plan-lifecycle.md"
+expect_fail "closed executor mutation scope owner removed"
 
 printf 'action-selection-contract.test: ok\n'

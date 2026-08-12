@@ -286,11 +286,11 @@ then route to the STATE residual procedure: preserve distinct supported candidat
 separately (or record why fewer are supportable), record residual dispositions,
 and do not claim full root-cause resolution.
 
-### Stage 6 - Plan review and self-critique
+### Stage 6 - Review
 
-Review assumptions, phase atomicity, weakest dependency, and falsifiability.
-Print `Self-critique:` with clean or 1-3 findings after fixing phase specs.
-Record Stage 6 assumptions.
+Review assumptions, atomicity, falsifiability, and readiness against
+live source and exact mutation scope. Without exact evidence, HOLD, not READY.
+Print `Self-critique:` (1-3 findings) and record assumptions.
 
 ### Stage 6.i - Independent cold review
 
@@ -343,8 +343,8 @@ second `/goal` inside an existing `/goal` run.
 3. Plan: map each finding to owner/source, priority, risk, smallest safe
    change, evidence command, rollback, and terminal status.
 4. Smoke A: run and record baseline checks before mutation.
-5. Do: patch owner/source; preserve notation/schema/paths; avoid broad
-   rewrites. On transitions, recompute the ready-cell frontier; dispatch known-independent cells or serialise conflicts (`references/child-agents.md`).
+5. Do: patch owner/source only; preserve notation/schema/paths.
+   On transitions, reacquire a closed DONE/ACTIVE/READY/BLOCKED census; dispatch min(READY,capacity-ACTIVE) or serialise (`references/child-agents.md`).
 6. Check: run Smoke B, compare to Smoke A, classify regressions, and rerun only
    meaningful checks.
 7. Act: update audit ledger, handoff/docs, AGENTS_UPDATE_DECISION, continuity

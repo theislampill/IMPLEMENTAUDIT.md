@@ -194,6 +194,11 @@ or an effective capacity below two uses the serial cheap path. The ceiling is a
 maximum resource envelope, not a fixed agent quota or utilization target, and
 does not replace factor-derived depth or marginal-value stopping.
 
+Before activation, reconcile every governed cell exactly once into an
+evidence-current DONE, ACTIVE, READY, or BLOCKED state. Unknown or stale state
+defers dispatch. READY requires its actual dependency edges satisfied; compute
+free capacity only after subtracting ACTIVE occupancy.
+
 Evidence-based omission preserves the controlling obligation, establishes the
 current decision with a narrower discriminator, records the residual, and
 retains escalation when risk changes. Omission for convenience or cost alone is

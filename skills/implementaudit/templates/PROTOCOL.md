@@ -316,6 +316,16 @@ For a non-same-session HANDOFF PACKET, run
 `check-handoff-packet.sh <p> --repo-root <r>` against live state before
 acceptance; not a full re-audit.
 
+If the receiving continuation must independently reproduce or re-adjudicate an
+acceptance claim, invoke the checker with
+`--receiver-requires-reproduction`. A terminal `READY` packet then passes only
+when it carries the implementation identity and receiver-required immutable
+acceptance state: denominator, oracle, exact inputs, evaluator/schema semantics,
+prior evidence and rejected non-evidence (or explicit not-applicable state),
+authority/STOP boundaries, and exact receipt. The receiver requirement is not a
+sender-controlled packet field. Ordinary implementation-only handoffs retain
+the no-bundle cheap path.
+
 Packet identity (required before any claim comparison): packet ID; packet
 version; packet content hash; claimed subject identity (repository +
 expected tree, or — for a non-Git subject — a declared file inventory with

@@ -24,6 +24,8 @@ printf '%s' "$flat" | grep -qi 'PRESERVED verbatim' \
   || fail "Class-3 verbatim preservation missing"
 printf '%s' "$flat" | grep -qi 'BLOCKS ONLY.*DEPENDENT EXECUTION' \
   || fail "block-only-dependent-execution rule missing"
+printf '%s' "$flat" | grep -qi -- '--receiver-requires-reproduction' \
+  || fail "receiver-required acceptance-state route missing"
 
 # A. contradicted claim blocks + names abnormality + carries owner verbatim
 out="$(bash "$scorer" "$fx/contradicted.pkt" --repo-root "$repo_root" 2>&1 || true)"
@@ -136,4 +138,67 @@ out="$(bash "$scorer" "$fx/no-claims.pkt" --repo-root "$repo_root" 2>&1)" \
 printf '%s' "$out" | grep -qi 'not verifiable' \
   || fail "opaque hash must be reported as not verifiable, not silently trusted"
 
-printf 'handoff-packet-contract: ok (contract + contradicted/matching/owner/no-claims + minimal-fields + 4 Fable adversarial)\n'
+# J. A terminal READY fold-in that requires independent receiver
+# re-adjudication is receiver-incomplete without its acceptance-state bundle.
+cat > "$tmp/receiver-incomplete.pkt" <<EOF
+packet_id: preceiver
+packet_version: 1
+packet_content_hash: opaque-receiver-test
+sender_run_id: sender-receiver-test
+handoff_state: READY
+implementation_identity_present: yes
+frozen_denominator_present: no
+acceptance_oracle_present: no
+reproduction_inputs_present: no
+evaluator_schema_semantics_present: no
+prior_evidence_present: yes
+rejected_non_evidence_present: no
+authority_stop_boundaries_present: yes
+exact_handoff_receipt_present: yes
+has_state_claims: no
+EOF
+if bash "$scorer" "$tmp/receiver-incomplete.pkt" --repo-root "$repo_root" \
+    --receiver-requires-reproduction \
+    >/dev/null 2>&1; then
+  fail "receiver-incomplete READY handoff was accepted"
+fi
+
+# K. The complete reproduction bundle passes when the receiver requires it.
+cat > "$tmp/receiver-complete.pkt" <<EOF
+packet_id: preceiver-complete
+packet_version: 1
+packet_content_hash: opaque-receiver-complete-test
+sender_run_id: sender-receiver-complete-test
+handoff_state: READY
+implementation_identity_present: yes
+frozen_denominator_present: yes
+acceptance_oracle_present: yes
+reproduction_inputs_present: yes
+evaluator_schema_semantics_present: yes
+prior_evidence_present: yes
+rejected_non_evidence_present: yes
+authority_stop_boundaries_present: yes
+exact_handoff_receipt_present: yes
+has_state_claims: no
+EOF
+out="$(bash "$scorer" "$tmp/receiver-complete.pkt" --repo-root "$repo_root" \
+  --receiver-requires-reproduction 2>&1)" \
+  || fail "complete receiver-required acceptance bundle was rejected"
+printf '%s' "$out" | grep -q 'RECEIVER_ACCEPTANCE_STATE=COMPLETE' \
+  || fail "complete receiver-required bundle lacked terminal evidence"
+
+# L. Cheap path: a READY implementation-only handoff needs no synthetic
+# denominator/oracle bundle when the receiver does not require reproduction.
+cat > "$tmp/receiver-cheap-path.pkt" <<EOF
+packet_id: preceiver-cheap
+packet_version: 1
+packet_content_hash: opaque-receiver-cheap-test
+sender_run_id: sender-receiver-cheap-test
+handoff_state: READY
+implementation_identity_present: yes
+has_state_claims: no
+EOF
+bash "$scorer" "$tmp/receiver-cheap-path.pkt" --repo-root "$repo_root" \
+  >/dev/null 2>&1 || fail "implementation-only READY cheap path was rejected"
+
+printf 'handoff-packet-contract: ok (contract + receiver-complete/incomplete/cheap-path + contradicted/matching/owner/no-claims + minimal-fields + 4 Fable adversarial)\n'

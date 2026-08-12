@@ -4,10 +4,10 @@ Use Graphify only for unfamiliar, majority-code, terrain-shaped work lacking a
 one-search answer; otherwise search/read/Git. Graphify is orientation only.
 Live files remain proof. Graphify absence does not block consumer runs.
 IMPLEMENTAUDIT self-maintenance may use Graphify; no sidecar output enters the release package.
-First run: detect only optional tools with a shipped detection route; TokenSave
-remains explicit/on-demand. Document install or usage commands; install or
-configure tools only after explicit authorization; index/export/write
-sidecar outputs only after separate explicit authorization. No silent install.
+First run: detect optional tools only with a shipped detection route; TokenSave
+remains explicit/on-demand. Document install or usage commands.
+Install or configure tools only after explicit authorization.
+Index/export/write sidecar outputs only after separate explicit authorization. No silent install.
 No silent indexing. Storage is representation-specific: Graphify catalogues stay
 outside the repo. TokenSave's separately authorised repo-local database is the
 representation-specific exception; keep it untracked, non-packaged and

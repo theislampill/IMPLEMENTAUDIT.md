@@ -9,6 +9,15 @@ or hands off an implementation plan. The plan is part of the
 Every generated or accepted handoff plan must be executable from disk by a fresh
 agent that has not read the chat transcript. Include:
 
+Before emitting it as executor-ready, inspect the live repository sources that
+establish its exact current state, file scope, edits, and verification route.
+A schema-valid plan cannot claim READY when source inspection was skipped or
+those facts remain placeholders: retain a truthful nonterminal HOLD/STOP,
+reacquire the missing evidence, and only then emit the grounded artifact.
+Close mutation scope before READY. Optional ancillary files remain out of scope
+unless live evidence makes them necessary and the receiver is authorised to
+change them; do not turn a possible tidy-up into executor authority.
+
 - planned-at baseline ref and working-tree state;
 - objective, non-scope, owner/source, and route;
 - terminology integration attachment when used: native parent, phase, route or
@@ -249,6 +258,16 @@ authorised work without ambient chat, while keeping unknowns and unavailable
 authority visible. The executor report remains candidate evidence: the
 reviewer rereads fresh live source, the full diff, and the verification results
 before issuing any disposition.
+
+Handoff completeness is determined by the receiving continuation, not only by
+what the sender produced. When a receiver must independently reproduce or
+re-adjudicate an acceptance claim, a terminal `READY` fold-in carries the
+implementation identity plus the immutable denominator, acceptance oracle,
+exact reproduction inputs, evaluator/schema semantics, prior evidence,
+rejected non-evidence, authority and STOP boundaries, and exact handoff receipt.
+Implementation identity or a success-shaped result alone is receiver-incomplete.
+When no independent reproduction is required, retain the ordinary
+implementation-only handoff path without manufacturing an acceptance bundle.
 
 Required executor report format:
 

@@ -209,7 +209,13 @@ parent or write set freezes; capacity changes; owner, source, scope, authority,
 or a mutation family changes; a conflict or dependency appears or disappears;
 a cell becomes composed-only; or new evidence changes the topology. Reconcile
 authority and boundaries before dispatch. An unchanged reminder or status
-message is not a transition and never redispatches work.
+message is not a transition and never redispatches work. Reacquire an
+evidence-current partition of every governed cell exactly once as DONE,
+ACTIVE, READY, or BLOCKED; READY requires satisfied dependency edges. Unknown,
+stale, duplicate, or missing state prevents dispatch: reacquire or serialise.
+Free slots equal safe host capacity or a lower positive operator ceiling minus
+ACTIVE; dispatch at most the lesser of READY and free slots. Completion
+triggers reconciliation; it does not prove other cells inactive.
 
 Use the ordinary serial cheap path when fewer than three material units exist,
 only one cell is ready, the dependency chain is strict, concurrency is

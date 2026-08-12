@@ -66,7 +66,10 @@ for text in \
   "adjudication role non-mutating" \
   "Select among valid executor routes by sufficient capability first, then by" \
   "explicit context capsule across agent and worktree" \
-  "reviewer rereads fresh live source"
+  "reviewer rereads fresh live source" \
+  "Handoff completeness is determined by the receiving continuation" \
+  "cannot claim READY" \
+  "Optional ancillary files remain out of scope"
 do
   require "$plan_lifecycle" "$text"
 done
@@ -149,6 +152,11 @@ for text in \
   "At initial dispatch, execute worthwhile ready cells" \
   "Recompute after a material scheduling transition" \
   "An unchanged reminder or status" \
+  "every governed cell exactly once as DONE" \
+  "Unknown," \
+  "state prevents dispatch" \
+  "Completion" \
+  "does not prove other cells inactive" \
   "Use the ordinary serial cheap path" \
   "ready-queue artefact" \
   "minimum agent count" \
@@ -159,9 +167,9 @@ done
 
 skill_ref="skills/implementaudit/SKILL.md"
 for text in \
-  "recompute the ready-cell frontier" \
-  "dispatch known-independent cells" \
-  "serialise conflicts" \
+  "reacquire a closed DONE/ACTIVE/READY/BLOCKED census" \
+  "dispatch min(READY,capacity-ACTIVE)" \
+  "serialise" \
   "references/child-agents.md"
 do
   require "$skill_ref" "$text"
@@ -294,8 +302,17 @@ required_ids = {
         (128, "zero-ceiling-authorization-change-reconciles"),
         (129, "serial-capacity-change-recomputes"),
         (130, "zero-ceiling-completion-recomputes-without-activation"),
+        (131, "completion-frees-one-bounded-slot"),
+        (132, "closed-population-bounds-three-slots"),
+        (133, "ready-population-bounds-one-dispatch"),
+        (134, "unknown-population-refuses-capacity-assumption"),
+        (135, "stale-population-refuses-dispatch"),
     )
 }
+required_ids.update({
+    "R31-C136-grounded-executor-plan-ready",
+    "R31-C137-uninspected-plan-held",
+})
 ids = [case.get("id") for case in cases if isinstance(case, dict)]
 if len(ids) != len(set(ids)) or set(ids) != required_ids:
     raise SystemExit("engineering-value fixture population is incomplete or duplicated")
@@ -467,6 +484,47 @@ def decide(case):
         if activatable and o["operator_ceiling"] > 0:
             return "ACTIVATE_BOUNDED"
         return "ACTIVATE_READY_CELLS" if activatable else "HOLD_FRONTIER"
+    if kind == "frontier_accounting":
+        fields = "work_units done_cells active_cells ready_cells blocked_cells unknown_cells host_capacity operator_ceiling state_evidence_current dependencies_current"
+        exact(o, fields)
+        booleans(o, "state_evidence_current dependencies_current")
+        for name in "work_units done_cells active_cells ready_cells blocked_cells unknown_cells host_capacity operator_ceiling".split():
+            if type(o[name]) is not int:
+                raise ValueError(f"frontier accounting {name}")
+        if (o["work_units"] < 1 or o["host_capacity"] < 1
+                or o["operator_ceiling"] < -1
+                or any(o[name] < 0 for name in (
+                    "done_cells", "active_cells", "ready_cells",
+                    "blocked_cells", "unknown_cells"))
+                or sum(o[name] for name in (
+                    "done_cells", "active_cells", "ready_cells",
+                    "blocked_cells", "unknown_cells"))
+                    != o["work_units"]):
+            raise ValueError("frontier accounting population")
+        if o["unknown_cells"] or not o["state_evidence_current"]:
+            return "REACQUIRE_OR_SERIALISE"
+        if not o["dependencies_current"]:
+            return "HOLD_DEPENDENCY"
+        effective_capacity = (
+            0 if o["operator_ceiling"] == 0
+            else min(o["host_capacity"], o["operator_ceiling"])
+            if o["operator_ceiling"] > 0 else o["host_capacity"]
+        )
+        dispatch = min(o["ready_cells"], max(0, effective_capacity - o["active_cells"]))
+        suffix = "READY_CELL" if dispatch == 1 else "READY_CELLS"
+        return f"DISPATCH_{dispatch}_{suffix}"
+    if kind == "executor_plan_grounding":
+        fields = "live_source_inspected current_state_exact scope_exact edits_exact verification_exact stop_conditions_present rollback_present non_scope_present"
+        exact(o, fields)
+        booleans(o, fields)
+        if not o["live_source_inspected"]:
+            return "HOLD_FOR_SOURCE_GROUNDING"
+        if not all(o[name] for name in (
+                "current_state_exact", "scope_exact", "edits_exact",
+                "verification_exact", "stop_conditions_present",
+                "rollback_present", "non_scope_present")):
+            return "HOLD_INCOMPLETE_EXECUTOR_PLAN"
+        return "EXECUTOR_PLAN_READY"
     if kind == "proportionality":
         fields = "candidate live_pressure variability_or_uncertainty high_consequence_or_hard_to_reverse actionable_information authoritative_consumer protected_consequence benefit_exceeds_carrying_cost bounded exit_condition recovery_capacity_required universal_rule methodology_ceremony"
         exact(o, fields)
