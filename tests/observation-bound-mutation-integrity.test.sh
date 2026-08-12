@@ -134,6 +134,28 @@ print('R36_FIXTURE_SELF_CHECK=PASS bytes=raw topology=hardlink,symlink-or-declar
 PY
 }
 
+unsupported_external_gate_replacement_evidence() {
+  "$python_bin" - "$tmp" <<'PY'
+import os,sys
+from pathlib import Path
+if os.name == 'nt':
+ print('R36_POSIX_GATE_REPLACEMENT=NOT_APPLICABLE')
+ raise SystemExit(0)
+import fcntl
+root=Path(sys.argv[1])/'posix-gate-replacement'; root.mkdir()
+gate=root/'namespace.gate'; gate.write_bytes(b'old')
+old=os.open(gate,os.O_RDWR); fcntl.flock(old,fcntl.LOCK_EX)
+old_identity=os.fstat(old)
+replacement=root/'replacement'; replacement.write_bytes(b'new'); os.replace(replacement,gate)
+new=os.open(gate,os.O_RDWR); fcntl.flock(new,fcntl.LOCK_EX|fcntl.LOCK_NB)
+new_identity=os.fstat(new)
+if (old_identity.st_dev,old_identity.st_ino)==(new_identity.st_dev,new_identity.st_ino):
+ raise SystemExit('replacement did not create the required distinct inode witness')
+fcntl.flock(new,fcntl.LOCK_UN); os.close(new); fcntl.flock(old,fcntl.LOCK_UN); os.close(old)
+print('R36_POSIX_GATE_REPLACEMENT=UNSUPPORTED_EXTERNAL_WRITER_WITNESS')
+PY
+}
+
 # The fault/rendezvous driver is mechanically derived from the authoritative
 # helper.  Production contains only inert structural hook markers; this copy
 # receives test-only code by insertion and is never installed or packaged.
@@ -152,7 +174,8 @@ if source.count(needle) != 1: raise SystemExit('R36 instrument marker count is n
 insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'pre-transaction':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n        delay_mutated=os.getenv('IMPLEMENTAUDIT_R36_TEST_DELAY_MUTATED')=='1'\n        if delay_mutated:\n            original_notify=notify_mutated; delayed=[]\n            def queue_mutated(callback,path,effect): delayed.append((callback,path,effect))\n            globals()['notify_mutated']=queue_mutated\n        if fault == 'io-after-displacement':\n            original_open=Path.open\n            def fail_stage_open(self,*args,**kwargs):\n                if self.name == 'stage.bin' and args and 'x' in args[0]: raise OSError(28,'injected ENOSPC')\n                return original_open(self,*args,**kwargs)\n            Path.open=fail_stage_open\n        original_os_fsync=os.fsync; file_state={'authority_failed':False,'result_failed':False,'owner_failed':False}\n        def fail_selected_file_fsync(fd):\n            authority_fault=fault in {'authority-file-fsync','authority-cleanup-fails','authority-result-fsync-fails'} and path_identity(AUTHORITY).get('kind')=='regular' and not file_state['authority_failed']\n            result_fault=fault=='authority-result-fsync-fails' and file_state['authority_failed'] and path_identity(RESULT).get('kind')=='regular' and not file_state['result_failed']\n            owner_fault=fault=='lock-owner-file-fsync' and any(path_identity(p/'owner').get('kind')=='regular' for p in lock_paths) and not file_state['owner_failed']\n            if authority_fault:\n                file_state['authority_failed']=True; raise OSError(28,'injected authority file fsync failure')\n            if result_fault:\n                file_state['result_failed']=True; raise OSError(28,'injected result file fsync failure')\n            if owner_fault:\n                file_state['owner_failed']=True; raise OSError(28,'injected lock owner file fsync failure')\n            return original_os_fsync(fd)\n        os.fsync=fail_selected_file_fsync\n        if fault in {'authority-cleanup-fails','authority-result-fsync-fails'}:\n            original_unlink=os.unlink\n            def fail_authority_unlink(path):\n                if Path(path)==AUTHORITY: raise OSError(13,'injected authority cleanup failure')\n                return original_unlink(path)\n            os.unlink=fail_authority_unlink\n        original_sync=sync_directory_raw; injected={'done':False}\n        def fail_selected_sync(path):\n            trigger=(fault=='fsync-after-displacement' and path_identity(BACKUP).get('kind')=='regular' and path_identity(SOURCE).get('kind')=='absent') or (fault=='fsync-after-destination' and operation=='move' and path_identity(DESTINATION).get('kind')=='regular') or (fault=='init-authority-fsync' and path==TX and path_identity(AUTHORITY).get('kind')=='regular') or (fault=='lock-root-parent-fsync' and path==LOCK_PARENT and path_identity(LOCK_ROOT).get('kind')=='directory') or (fault=='lock-mkdir-parent-fsync' and path==LOCK_ROOT and any(path_identity(p).get('kind')=='directory' for p in lock_paths))\n            if trigger and not injected['done']:\n                injected['done']=True; raise OSError(28,'injected directory fsync failure')\n            value=original_sync(path)\n            if delay_mutated and delayed:\n                pending=list(delayed); delayed.clear()\n                for callback,item,effect in pending: original_notify(callback,item,effect)\n            return value\n        globals()['sync_directory_raw']=fail_selected_sync\n    if phase == 'move-destination-published' and fault == 'move-after-destination':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
 extra="""    if phase == 'pre-transaction' and fault == 'terminal-result-fsync-after-rollback-failure':\n        original_extra_open=Path.open; original_extra_link=os.link; original_extra_fsync=os.fsync\n        def fail_stage_write(self,*args,**kwargs):\n            if self.name == 'stage.bin' and args and 'x' in args[0]: raise OSError(28,'injected stage write failure')\n            return original_extra_open(self,*args,**kwargs)\n        def fail_rollback_link(source,destination,*args,**kwargs):\n            if Path(source)==BACKUP and Path(destination)==SOURCE: raise OSError(5,'injected rollback link failure')\n            return original_extra_link(source,destination,*args,**kwargs)\n        def fail_terminal_result_fsync(fd):\n            if path_identity(RESULT).get('kind')=='regular': raise OSError(28,'injected terminal result fsync failure')\n            return original_extra_fsync(fd)\n        Path.open=fail_stage_write; os.link=fail_rollback_link; os.fsync=fail_terminal_result_fsync\n    if phase == 'locks-acquired' and fault in {'lock-aba','lock-release-destination-race'}:\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True)\n        if fault == 'lock-release-destination-race': (b/'lock-path').write_text(str(held[-1]['released_path']),encoding='utf-8')\n        (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
 extra2="""    if phase == 'pre-transaction' and fault in {'lock-post-check-race','lock-release-record-race','lock-directory-aba'}:\n        def pause_release_race(lock_path):\n            lock_path=Path(lock_path); b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'lock-path').write_text(str(lock_path),encoding='utf-8'); (b/'owner-token').write_text(owner,encoding='ascii'); (b/'paused').touch()\n            for _ in range(500):\n                if (b/'release').exists(): return\n                time.sleep(.02)\n            raise RuntimeError('timeout')\n        globals()['pause_release_race']=pause_release_race\n    if phase == 'pre-transaction' and fault == 'lock-directory-aba-peer':\n        def pause_peer(name,release):\n            b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/name).touch()\n            for _ in range(500):\n                if (b/release).exists(): return\n                time.sleep(.02)\n            raise RuntimeError('timeout')\n        globals()['pause_peer']=pause_peer\n    if phase == 'locks-acquired' and fault == 'lock-directory-aba': globals()['pause_release_race'](held[-1]['public_path'])\n    if phase == 'locks-acquired' and fault == 'lock-directory-aba-peer': globals()['pause_peer']('acquired','replace')\n    if phase == 'lock-release-mismatch' and fault == 'lock-directory-aba-peer': globals()['pause_peer']('mismatch','finish')\n    if phase == 'lock-release-published' and fault == 'lock-post-check-race': globals()['pause_release_race'](held[-1]['public_path'])\n    if phase == 'lock-release-published' and fault == 'lock-release-record-race': globals()['pause_release_race'](held[-1]['released_path'])\n"""
-Path(sys.argv[2]).write_text(source.replace(needle,needle+insert+extra+extra2),encoding='utf-8')
+extra3="""    if phase == 'pre-transaction' and fault == 'gate-unlock-fails':\n        if os.name == 'nt':\n            original_gate_unlock=msvcrt.locking\n            def fail_gate_unlock(fd,mode,count):\n                if mode == msvcrt.LK_UNLCK: raise OSError(5,'injected gate unlock failure')\n                return original_gate_unlock(fd,mode,count)\n            msvcrt.locking=fail_gate_unlock\n        else:\n            original_gate_unlock=fcntl.flock\n            def fail_gate_unlock(fd,op):\n                if op == fcntl.LOCK_UN: raise OSError(5,'injected gate unlock failure')\n                return original_gate_unlock(fd,op)\n            fcntl.flock=fail_gate_unlock\n"""
+Path(sys.argv[2]).write_text(source.replace(needle,needle+insert+extra+extra2+extra3),encoding='utf-8')
 PY
   chmod +x "$derived" || return 1
   "$python_bin" - "$canonical_helper" "$derived" <<'PY' || return 1
@@ -164,7 +187,8 @@ derived_dir_line='script_dir='+repr(str(canonical.parent))
 insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'pre-transaction':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n        delay_mutated=os.getenv('IMPLEMENTAUDIT_R36_TEST_DELAY_MUTATED')=='1'\n        if delay_mutated:\n            original_notify=notify_mutated; delayed=[]\n            def queue_mutated(callback,path,effect): delayed.append((callback,path,effect))\n            globals()['notify_mutated']=queue_mutated\n        if fault == 'io-after-displacement':\n            original_open=Path.open\n            def fail_stage_open(self,*args,**kwargs):\n                if self.name == 'stage.bin' and args and 'x' in args[0]: raise OSError(28,'injected ENOSPC')\n                return original_open(self,*args,**kwargs)\n            Path.open=fail_stage_open\n        original_os_fsync=os.fsync; file_state={'authority_failed':False,'result_failed':False,'owner_failed':False}\n        def fail_selected_file_fsync(fd):\n            authority_fault=fault in {'authority-file-fsync','authority-cleanup-fails','authority-result-fsync-fails'} and path_identity(AUTHORITY).get('kind')=='regular' and not file_state['authority_failed']\n            result_fault=fault=='authority-result-fsync-fails' and file_state['authority_failed'] and path_identity(RESULT).get('kind')=='regular' and not file_state['result_failed']\n            owner_fault=fault=='lock-owner-file-fsync' and any(path_identity(p/'owner').get('kind')=='regular' for p in lock_paths) and not file_state['owner_failed']\n            if authority_fault:\n                file_state['authority_failed']=True; raise OSError(28,'injected authority file fsync failure')\n            if result_fault:\n                file_state['result_failed']=True; raise OSError(28,'injected result file fsync failure')\n            if owner_fault:\n                file_state['owner_failed']=True; raise OSError(28,'injected lock owner file fsync failure')\n            return original_os_fsync(fd)\n        os.fsync=fail_selected_file_fsync\n        if fault in {'authority-cleanup-fails','authority-result-fsync-fails'}:\n            original_unlink=os.unlink\n            def fail_authority_unlink(path):\n                if Path(path)==AUTHORITY: raise OSError(13,'injected authority cleanup failure')\n                return original_unlink(path)\n            os.unlink=fail_authority_unlink\n        original_sync=sync_directory_raw; injected={'done':False}\n        def fail_selected_sync(path):\n            trigger=(fault=='fsync-after-displacement' and path_identity(BACKUP).get('kind')=='regular' and path_identity(SOURCE).get('kind')=='absent') or (fault=='fsync-after-destination' and operation=='move' and path_identity(DESTINATION).get('kind')=='regular') or (fault=='init-authority-fsync' and path==TX and path_identity(AUTHORITY).get('kind')=='regular') or (fault=='lock-root-parent-fsync' and path==LOCK_PARENT and path_identity(LOCK_ROOT).get('kind')=='directory') or (fault=='lock-mkdir-parent-fsync' and path==LOCK_ROOT and any(path_identity(p).get('kind')=='directory' for p in lock_paths))\n            if trigger and not injected['done']:\n                injected['done']=True; raise OSError(28,'injected directory fsync failure')\n            value=original_sync(path)\n            if delay_mutated and delayed:\n                pending=list(delayed); delayed.clear()\n                for callback,item,effect in pending: original_notify(callback,item,effect)\n            return value\n        globals()['sync_directory_raw']=fail_selected_sync\n    if phase == 'move-destination-published' and fault == 'move-after-destination':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
 extra="""    if phase == 'pre-transaction' and fault == 'terminal-result-fsync-after-rollback-failure':\n        original_extra_open=Path.open; original_extra_link=os.link; original_extra_fsync=os.fsync\n        def fail_stage_write(self,*args,**kwargs):\n            if self.name == 'stage.bin' and args and 'x' in args[0]: raise OSError(28,'injected stage write failure')\n            return original_extra_open(self,*args,**kwargs)\n        def fail_rollback_link(source,destination,*args,**kwargs):\n            if Path(source)==BACKUP and Path(destination)==SOURCE: raise OSError(5,'injected rollback link failure')\n            return original_extra_link(source,destination,*args,**kwargs)\n        def fail_terminal_result_fsync(fd):\n            if path_identity(RESULT).get('kind')=='regular': raise OSError(28,'injected terminal result fsync failure')\n            return original_extra_fsync(fd)\n        Path.open=fail_stage_write; os.link=fail_rollback_link; os.fsync=fail_terminal_result_fsync\n    if phase == 'locks-acquired' and fault in {'lock-aba','lock-release-destination-race'}:\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True)\n        if fault == 'lock-release-destination-race': (b/'lock-path').write_text(str(held[-1]['released_path']),encoding='utf-8')\n        (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
 extra2="""    if phase == 'pre-transaction' and fault in {'lock-post-check-race','lock-release-record-race','lock-directory-aba'}:\n        def pause_release_race(lock_path):\n            lock_path=Path(lock_path); b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'lock-path').write_text(str(lock_path),encoding='utf-8'); (b/'owner-token').write_text(owner,encoding='ascii'); (b/'paused').touch()\n            for _ in range(500):\n                if (b/'release').exists(): return\n                time.sleep(.02)\n            raise RuntimeError('timeout')\n        globals()['pause_release_race']=pause_release_race\n    if phase == 'pre-transaction' and fault == 'lock-directory-aba-peer':\n        def pause_peer(name,release):\n            b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/name).touch()\n            for _ in range(500):\n                if (b/release).exists(): return\n                time.sleep(.02)\n            raise RuntimeError('timeout')\n        globals()['pause_peer']=pause_peer\n    if phase == 'locks-acquired' and fault == 'lock-directory-aba': globals()['pause_release_race'](held[-1]['public_path'])\n    if phase == 'locks-acquired' and fault == 'lock-directory-aba-peer': globals()['pause_peer']('acquired','replace')\n    if phase == 'lock-release-mismatch' and fault == 'lock-directory-aba-peer': globals()['pause_peer']('mismatch','finish')\n    if phase == 'lock-release-published' and fault == 'lock-post-check-race': globals()['pause_release_race'](held[-1]['public_path'])\n    if phase == 'lock-release-published' and fault == 'lock-release-record-race': globals()['pause_release_race'](held[-1]['released_path'])\n"""
-if text.replace(insert,'').replace(extra,'').replace(extra2,'').replace(derived_dir_line,script_dir_line) != canonical.read_text(encoding='utf-8'): raise SystemExit('instrumented copy does not strip byte-equal')
+extra3="""    if phase == 'pre-transaction' and fault == 'gate-unlock-fails':\n        if os.name == 'nt':\n            original_gate_unlock=msvcrt.locking\n            def fail_gate_unlock(fd,mode,count):\n                if mode == msvcrt.LK_UNLCK: raise OSError(5,'injected gate unlock failure')\n                return original_gate_unlock(fd,mode,count)\n            msvcrt.locking=fail_gate_unlock\n        else:\n            original_gate_unlock=fcntl.flock\n            def fail_gate_unlock(fd,op):\n                if op == fcntl.LOCK_UN: raise OSError(5,'injected gate unlock failure')\n                return original_gate_unlock(fd,op)\n            fcntl.flock=fail_gate_unlock\n"""
+if text.replace(insert,'').replace(extra,'').replace(extra2,'').replace(extra3,'').replace(derived_dir_line,script_dir_line) != canonical.read_text(encoding='utf-8'): raise SystemExit('instrumented copy does not strip byte-equal')
 PY
   printf '%s\n' "$derived"
 }
@@ -224,9 +248,10 @@ label,status,operation,source,dest,pre,candidate,post,post_identities,phase,step
 out=Path(out_path).read_text(encoding='utf-8')
 lines=[x for x in out.splitlines() if x.strip()]
 if len(lines)!=1: raise SystemExit(f'{label}: expected one stdout JSON object, got {len(lines)}')
-r=json.loads(lines[0]); required={'schema','transaction_id','claim_id','phase','step','authority_binding_sha256','operation','status','reason_code','source_path','destination_path','pre_identities','candidate_identities','post_identities','planned_effect_set','planned_effect_set_sha256','actual_effect_set','residue'}
+r=json.loads(lines[0]); required={'schema','transaction_id','claim_id','phase','step','authority_binding_sha256','coordination_scope','operation','status','reason_code','source_path','destination_path','pre_identities','candidate_identities','post_identities','planned_effect_set','planned_effect_set_sha256','actual_effect_set','residue'}
 if set(r)!=required: raise SystemExit(f'{label}: v2 schema keys differ: got={sorted(r)}')
 if r['schema']!='implementaudit.observation_bound_mutation.v2' or r['status']!=status or r['operation']!=operation: raise SystemExit(f'{label}: schema/status/operation mismatch')
+if r['coordination_scope']!='GOVERNED_HELPER_ROUTED_WRITERS_ONLY': raise SystemExit(f'{label}: coordination scope overclaims writer exclusion: {r.get("coordination_scope")!r}')
 if r['source_path']!=source or r['destination_path']!=(None if dest=='-' else dest): raise SystemExit(f'{label}: phase-derived paths mismatch')
 if r['phase']!=int(phase) or r['step']!=int(step): raise SystemExit(f'{label}: phase/step mismatch')
 if not re.fullmatch(r'[0-9a-f]{32}',r['claim_id']) or not re.fullmatch(r'[0-9a-f]{64}',r['authority_binding_sha256']): raise SystemExit(f'{label}: claim/authority binding malformed')
@@ -1111,6 +1136,41 @@ for suffix in ('/backup.bin','/journal.json','/result.json'):
  if not any(x.endswith(suffix) for x in paths): raise SystemExit(paths)
 PY
 
+  # Gate release is part of terminal adjudication. A release failure must
+  # replace provisional success with one F75 JSON rather than print success
+  # and then escape through the outer finally block.
+  setup; pre="$(artifact gate-unlock-pre 4142434445)"; cand="$(artifact gate-unlock-candidate 4e4557)"; derived="$(instrumented_helper)"
+  prepare_authority replace target -; phase="$prepared_phase"; stdout="$tmp/gate-unlock.out"; stderr="$tmp/gate-unlock.err"
+  set +e; IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=gate-unlock-fails bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$phase" --step 1 --preimage "$pre" --candidate "$cand" >"$stdout" 2>"$stderr"; actual=$?; set -e
+  [ "$actual" -eq 75 ] || fail "R36-GATE-UNLOCK exit=$actual expected=75 stderr=$(<"$stderr") stdout=$(<"$stdout")"
+  [ -z "$(<"$stderr")" ] || fail "R36-GATE-UNLOCK emitted traceback/diagnostic: $(<"$stderr")"
+  assert_hex R36-GATE-UNLOCK-source "$fixture_repo/target" 4e4557
+  "$python_bin" - "$stdout" "$run_root" <<'PY' || fail 'R36-GATE-UNLOCK lacked one truthful terminal JSON'
+import json,sys
+from pathlib import Path
+lines=[x for x in open(sys.argv[1],encoding='utf-8').read().splitlines() if x.strip()]
+if len(lines)!=1: raise SystemExit(lines)
+r=json.loads(lines[0]); paths={x['path'] for x in r['residue']}
+if r['status']!='ROLLBACK_FAILED_WITH_RESIDUE' or r['reason_code']!='GATE_RELEASE_FAILURE': raise SystemExit(r)
+if not any(x.endswith('/.r36-locks/namespace.gate') for x in paths): raise SystemExit(paths)
+durable=Path(sys.argv[2])/'mutation-transactions'/r['transaction_id']/'result.json'
+if not durable.is_file() or json.loads(durable.read_text(encoding='utf-8'))!=r: raise SystemExit('durable gate-release adjudication differs from stdout')
+PY
+
+  # A structurally replaced or aliased gate is detected before product
+  # mutation and routes to the existing owner-decision boundary. The constant
+  # coordination scope does not claim arbitrary same-principal exclusion.
+  setup; mkdir -p "$fixture_repo/.IMPLEMENTAUDIT/.r36-locks"; printf '\0' >"$fixture_repo/.IMPLEMENTAUDIT/.r36-locks/namespace.gate"; ln "$fixture_repo/.IMPLEMENTAUDIT/.r36-locks/namespace.gate" "$fixture_repo/.IMPLEMENTAUDIT/.r36-locks/namespace.gate.external-alias"
+  pre="$(artifact gate-domain-pre 4142434445)"; cand="$(artifact gate-domain-candidate 4e4557)"
+  invoke R36-GATE-DOMAIN UNSUPPORTED_OWNER_DECISION replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"
+  "$python_bin" - "$tmp/R36-GATE-DOMAIN.out" <<'PY' || fail 'R36-GATE-DOMAIN lacked exact pre-effect owner-decision evidence'
+import json,sys
+r=json.load(open(sys.argv[1],encoding='utf-8'))
+if r['reason_code']!='WRITER_DOMAIN_BREACH' or r['coordination_scope']!='GOVERNED_HELPER_ROUTED_WRITERS_ONLY': raise SystemExit(r)
+product_effects=[x for x in r['actual_effect_set'] if x['path']=='target' and x['outcome']=='applied']
+if product_effects: raise SystemExit(product_effects)
+PY
+
   # ABA replacement with the same visible owner token is not ownership. Lock
   # release preserves the whole directory as a durable transaction record; it
   # never deletes the actor's object after a separate identity comparison.
@@ -1220,7 +1280,7 @@ PY
 
   # Replacing the whole public lock directory after acquisition must not move
   # the actor directory into transaction custody and report success. The moved
-  # identity is adjudicated under the stable namespace gate and restored
+  # identity is adjudicated under the unchanged governed-writer gate and restored
   # without replacing either an actor-owned public or release path.
   setup; pre="$(artifact lock-directory-aba-pre 4142434445)"; cand="$(artifact lock-directory-aba-candidate 4e4557)"; derived="$(instrumented_helper)"; barrier="$tmp/lock-directory-aba"; mkdir "$barrier"
   prepare_authority replace target -; phase="$prepared_phase"; stdout="$tmp/lock-directory-aba.out"; stderr="$tmp/lock-directory-aba.err"
@@ -1244,7 +1304,8 @@ PY
 
   # A later governed peer cannot enter the acquisition namespace while the
   # first helper adjudicates and restores a whole-directory substitution. It
-  # blocks on the stable gate, then observes the restored public lock as busy.
+  # blocks on the unchanged governed-writer gate, then observes the restored
+  # public lock as busy.
   setup; pre="$(artifact gate-peer-pre 4142434445)"; cand="$(artifact gate-peer-candidate 4e4557)"; derived="$(instrumented_helper)"; barrier="$tmp/gate-peer"; mkdir "$barrier"
   prepare_authority replace target -; local gate_phase_a="$prepared_phase"; stdout="$tmp/gate-peer-a.out"; stderr="$tmp/gate-peer-a.err"
   (set +e; IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=lock-directory-aba-peer bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$gate_phase_a" --step 1 --preimage "$pre" --candidate "$cand" >"$stdout" 2>"$stderr"; echo $? >"$barrier/a.exit") & local gate_pid_a=$!
@@ -1381,9 +1442,10 @@ PY
 case "${1:-}" in
   --fixture-self-check) fixture_self_check; exit 0;;
   --mutant-self-check) fixture_self_check; mutant_self_check; exit 0;;
-  --review-heldouts) fixture_self_check; bash -n "$canonical_helper"; concurrent_destination; causal_review_heldouts; printf 'R36_REVIEW_HELDOUTS=PASS\n'; exit 0;;
+  --review-heldouts) fixture_self_check; unsupported_external_gate_replacement_evidence; bash -n "$canonical_helper"; concurrent_destination; causal_review_heldouts; printf 'R36_REVIEW_HELDOUTS=PASS\n'; exit 0;;
 esac
 fixture_self_check
+unsupported_external_gate_replacement_evidence
 if [ -n "${R36_HELPER:-}" ] && [ "$R36_HELPER" != "$canonical_helper" ]; then fail "refusing non-canonical helper path: $R36_HELPER"; fi
 if [ ! -f "$canonical_helper" ] || [ -L "$canonical_helper" ]; then printf 'observation-bound-mutation-integrity: RED missing authoritative helper: %s\n' "$canonical_helper" >&2; exit 1; fi
 bash -n "$canonical_helper" || fail 'canonical helper has invalid Bash syntax'

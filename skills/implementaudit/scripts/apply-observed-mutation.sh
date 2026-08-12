@@ -46,6 +46,11 @@ EXITS = {
     "POST_COMMIT_DRIFT": 76,
     "UNSUPPORTED_OWNER_DECISION": 77,
 }
+COORDINATION_SCOPE = "GOVERNED_HELPER_ROUTED_WRITERS_ONLY"
+
+
+class WriterDomainBreach(RuntimeError):
+    """Detected interference outside the cooperating helper-writer domain."""
 
 
 def canonical(value):
@@ -450,6 +455,7 @@ def emit_no_effect(status, why, transaction=None):
         "phase": args.phase,
         "step": args.step,
         "authority_binding_sha256": authority_projection["authority_binding_sha256"],
+        "coordination_scope": COORDINATION_SCOPE,
         "operation": operation,
         "status": status,
         "reason_code": why,
@@ -860,6 +866,7 @@ def emit_transaction_conflict(reason_code):
         "phase": args.phase,
         "step": args.step,
         "authority_binding_sha256": authority_projection["authority_binding_sha256"],
+        "coordination_scope": COORDINATION_SCOPE,
         "operation": operation,
         "status": "CONFLICT_REBASE",
         "reason_code": reason_code,
@@ -917,6 +924,7 @@ def result_record(status, reason_code, residue_paths, effect_rows):
         "phase": args.phase,
         "step": args.step,
         "authority_binding_sha256": authority_projection["authority_binding_sha256"],
+        "coordination_scope": COORDINATION_SCOPE,
         "operation": operation,
         "status": status,
         "reason_code": reason_code,
@@ -1158,13 +1166,19 @@ def acquire_namespace_gate():
     try:
         opened = os.fstat(fd)
         if not stat.S_ISREG(opened.st_mode) or opened.st_nlink != 1:
-            raise OSError(errno.EINVAL, "lock namespace gate is not a unique regular file")
+            raise WriterDomainBreach(
+                "lock namespace gate is not a unique regular file"
+            )
         os.lseek(fd, 0, os.SEEK_SET)
         if os.name == "nt":
             msvcrt.locking(fd, msvcrt.LK_LOCK, 1)
         else:
             fcntl.flock(fd, fcntl.LOCK_EX)
         current = os.lstat(LOCK_GATE)
+        # This advisory/inode lock serialises cooperating invocations of this
+        # helper. It does not exclude an arbitrary same-principal writer that
+        # bypasses the helper and replaces a pathname; that stronger property
+        # belongs to the target system or security substrate.
         if (
             not stat.S_ISREG(current.st_mode)
             or stat.S_ISLNK(current.st_mode)
@@ -1172,7 +1186,7 @@ def acquire_namespace_gate():
             or current.st_nlink != 1
             or (current.st_dev, current.st_ino) != (opened.st_dev, opened.st_ino)
         ):
-            raise OSError(errno.EBUSY, "lock namespace gate identity changed")
+            raise WriterDomainBreach("lock namespace gate identity changed")
         namespace_gate_fd = fd
     except BaseException:
         try:
@@ -1190,17 +1204,23 @@ def acquire_namespace_gate():
 def release_namespace_gate():
     global namespace_gate_fd
     if namespace_gate_fd is None:
-        return
+        return []
     fd = namespace_gate_fd
     namespace_gate_fd = None
+    errors = []
     try:
         if os.name == "nt":
             os.lseek(fd, 0, os.SEEK_SET)
             msvcrt.locking(fd, msvcrt.LK_UNLCK, 1)
         else:
             fcntl.flock(fd, fcntl.LOCK_UN)
-    finally:
+    except BaseException as error:
+        errors.append(error)
+    try:
         os.close(fd)
+    except BaseException as error:
+        errors.append(error)
+    return errors
 
 
 def owned_lock_residue_paths():
@@ -1216,8 +1236,11 @@ def owned_lock_residue_paths():
     return present
 
 
+terminal_finalized = False
+
+
 def final_result(status, reason_code="NONE", residue_paths=(), post_path=None):
-    global retain_owned_locks
+    global retain_owned_locks, terminal_finalized
     uncertain_paths = list(residue_paths)
     if uncertain_paths:
         retain_owned_locks = True
@@ -1236,9 +1259,17 @@ def final_result(status, reason_code="NONE", residue_paths=(), post_path=None):
                 reason_code = "IO_FAILURE"
     if status == "ROLLBACK_FAILED_WITH_RESIDUE":
         retain_owned_locks = True
+    gate_release_errors = release_namespace_gate()
+    if gate_release_errors:
+        retain_owned_locks = True
+        status = "ROLLBACK_FAILED_WITH_RESIDUE"
+        reason_code = "GATE_RELEASE_FAILURE"
+        uncertain_paths.append(LOCK_GATE)
+        uncertain_paths.extend(owned_lock_residue_paths())
     status, result = persist_terminal_or_fallback(status, reason_code, uncertain_paths)
     if status == "ROLLBACK_FAILED_WITH_RESIDUE":
         retain_owned_locks = True
+    terminal_finalized = True
     print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
     raise SystemExit(EXITS[status])
 
@@ -1356,6 +1387,8 @@ try:
     unlink(BACKUP)
     final_result("COMMITTED")
 except RuntimeError as error:
+    if isinstance(error, WriterDomainBreach):
+        final_result("UNSUPPORTED_OWNER_DECISION", "WRITER_DOMAIN_BREACH")
     if str(error).startswith("EFFECT_SET_INCOMPLETE:"):
         final_result("UNSUPPORTED_OWNER_DECISION", "EFFECT_SET_INCOMPLETE", [JOURNAL] if JOURNAL.exists() else [])
     raise
@@ -1384,8 +1417,9 @@ except OSError:
         pass
     final_result("ROLLBACK_FAILED_WITH_RESIDUE", "IO_FAILURE", rollback_residue)
 finally:
-    if not retain_owned_locks:
-        release_locks()
-        release_lock_root()
-    release_namespace_gate()
+    if not terminal_finalized:
+        if not retain_owned_locks:
+            release_locks()
+            release_lock_root()
+        release_namespace_gate()
 PY
