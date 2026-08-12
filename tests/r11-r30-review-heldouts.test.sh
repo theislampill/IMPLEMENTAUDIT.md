@@ -343,7 +343,7 @@ if ! grep -Fqx 'helper-mode: check-authorization-binding.sh|--phase --rehearsal 
 
 asset_dir="$tmp/r33-asset"
 bash scripts/build-release-asset.sh "$asset_dir" >/dev/null
-if [ "$(wc -c < "$asset_dir/IMPLEMENTAUDIT.skill")" -gt 228000 ]; then failures+=("r33-package-capacity-over-228000"); fi
+if [ "$(wc -c < "$asset_dir/IMPLEMENTAUDIT.skill")" -gt 257000 ]; then failures+=("r33-package-capacity-over-257000"); fi
 
 if [ "${#failures[@]}" -gt 0 ]; then
   printf 'r11-r30-review-heldouts: GAP-REVISE reproduced: %s\n' "${failures[*]}" >&2

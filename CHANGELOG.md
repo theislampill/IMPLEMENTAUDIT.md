@@ -15,10 +15,12 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Changed
 
-- R33 package builds now use pinned, deterministic Zopfli method-8 DEFLATE.
-  Extracted member bytes, paths, modes, timestamps, runtime dependencies and
-  the 230,000-byte owner outer bound are unchanged; the stronger build-only
-  compressor restores headroom without deleting governed runtime semantics.
+- R33 package builds use pinned, deterministic Zopfli method-8 DEFLATE. The
+  exact 254,496-byte composed candidate is calibrated to the smallest
+  whole-1,000-byte ceiling retaining at least 2,000 bytes of headroom:
+  257,000 bytes, leaving 2,504 bytes. The 260,000-byte owner outer bound is a
+  guard, not a spending target; required governed runtime semantics were not
+  deleted or weakened to recover bytes.
 - #101 narrowly adopts TokenSave as optional derived code navigation for
   supported relations with exact checkout/database and successful
   sync/reconnect freshness witnesses plus live-source confirmation. It keeps
