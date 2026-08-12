@@ -88,9 +88,11 @@ Each action requires separate explicit authorisation.
 
 1. Choose the installation route in [Install notes](#install-notes). The
    current release identity is `v0.3.3.3`; its host-facing runtime remains
-   `0.3.3`. The release URL serves the final corrected 227,999-byte package.
+   `0.3.3`. The final correction candidate is a qualified 257,437-byte package
+   with SHA-256
+   `a244b36d3d04f149ce6b5c110b8807428b7a31ab8fc60f0429adfae263327aca`.
    A checkout of `main`, a locally built archive, and the public release asset
-   remain distinct until their bytes are verified.
+   remain distinct until publication and byte-for-byte readback are complete.
 
 2. Invoke `/implementaudit` with a bounded repository target. Common shapes
    include:
@@ -1088,11 +1090,12 @@ Install flows are evidence-bounded. This repo can locally validate the release
 asset-to-Codex-install path into a temporary Codex home. It does not claim passive auto-update, universal host support, marketplace verification, or public GitHub release download verification unless those checks are run and recorded.
 
 **Release/contract alignment:** the public identity is `v0.3.3.3`, with
-plugin/runtime version `0.3.3`. The release URL serves the final 227,999-byte
-asset with SHA-256
-`151cb5400d248e3e41a30750ba690d8c46bbe907294ba82a0a5a627536ad563e`.
-Exact qualification and replacement history belongs in the release report
-rather than this installation guide.
+plugin/runtime version `0.3.3`. The final correction candidate is 257,437 bytes
+with SHA-256
+`a244b36d3d04f149ce6b5c110b8807428b7a31ab8fc60f0429adfae263327aca`.
+The release URL is not treated as current for those bytes until publication and
+fresh public download/readback complete. Exact qualification and replacement
+history belongs in the release report rather than this installation guide.
 
 A checkout of `main` may contain post-release source changes. Installing from a
 checkout or through a CLI that resolves current `main` uses source-checkout
@@ -1123,10 +1126,11 @@ ecosystem's install-telemetry index, not by this repo.
 
 Choose the source deliberately:
 
-- the `v0.3.3.3` release URL resolves to the independently read-back final
-  227,999-byte package described by the release report;
-- the current source contains the same packaged R29 correction but may include
-  later repository-only status changes;
+- the final `v0.3.3.3` correction candidate is the qualified 257,437-byte
+  package described by the release report, while public availability remains
+  pending publication and independent readback;
+- the current source contains the packaged R29 correction and later native
+  runtime countermeasures;
 - a local archive is evidence only for the exact source tree from which it was
   built.
 
@@ -1173,9 +1177,11 @@ bash scripts/install-codex-from-release.sh \
   --version 0.3.3
 ```
 
-The `v0.3.3.3` URL now serves the final corrected package. This command installs
-those public bytes; use the `--tag` route above or download `CHECKSUMS.txt`
-alongside the asset when checksum verification is required:
+After the final correction is published and independently read back, this
+command installs the public `v0.3.3.3` bytes. Until then, use the locally
+qualified asset route above rather than inferring current availability from the
+release URL; download `CHECKSUMS.txt` alongside the public asset when checksum
+verification is required:
 
 ```bash
 bash scripts/install-codex-from-release.sh \
@@ -1184,10 +1190,11 @@ bash scripts/install-codex-from-release.sh \
   --version 0.3.3
 ```
 
-The release page, final asset, checksum manifest, downloaded bytes, installed
+The earlier release page, asset, checksum manifest, downloaded bytes, installed
 version, and 48-file installed payload were read back in a fresh temporary
-Codex home. The receipt does not prove passive update, universal host support,
-or host-load behaviour. For local verification, download
+Codex home as historical evidence. The final correction requires its own fresh
+public readback. These receipts do not claim passive update, universal host
+support, or host-load behaviour. For local verification, download
 `CHECKSUMS.txt` alongside `IMPLEMENTAUDIT.skill` and use the `--asset` plus
 `--checksum` form shown above.
 

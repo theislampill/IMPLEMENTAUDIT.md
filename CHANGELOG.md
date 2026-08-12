@@ -13,6 +13,15 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ## [Unreleased]
 
+No changes are currently assigned beyond the final `v0.3.3.3` correction.
+
+## [v0.3.3.3 final correction candidate] - 2026-08-12
+
+This section records the final same-identity correction candidate. Publication,
+hosted deployment, and public download/install readback remain separate gates
+until the candidate is merged to authoritative `main` and the existing
+`v0.3.3.3` release is corrected in place.
+
 ### Changed
 
 - R31 makes terminal handoff readiness receiver-relative. When the receiving
@@ -39,6 +48,18 @@ schema evidence proved four-component plugin manifest versions are accepted.
   sync/reconnect freshness witnesses plus live-source confirmation. It keeps
   installation/indexing explicit, preserves cheap Gemba/Graphify paths, and
   excludes edit/test/session authority and broad discovery interception.
+
+### Package boundary
+
+- The exact qualified candidate is a 257,437-byte, 51-member
+  `IMPLEMENTAUDIT.skill` with SHA-256
+  `a244b36d3d04f149ce6b5c110b8807428b7a31ab8fc60f0429adfae263327aca`.
+  Its 260,000-byte calibrated ceiling leaves 2,563 bytes of headroom and is
+  also the owner-approved outer guard.
+- The earlier 227,999-byte public-asset receipt remains historical evidence.
+  A fresh API census found that asset absent while the earlier checksum asset
+  remained present, so current public availability is not claimed until the
+  final correction is published and independently read back.
 
 ## [v0.3.3.3] - 2026-08-11
 
