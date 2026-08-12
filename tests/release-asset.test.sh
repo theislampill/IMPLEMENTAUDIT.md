@@ -1001,12 +1001,12 @@ with zipfile.ZipFile(asset) as zf:
 
     # The composed /improve dominance fold-in plus the R31 receiver-completeness
     # countermeasure, closed frontier census, and grounded plan boundary measure
-    # 257,437 bytes. This
+    # 257,433 bytes. This
     # owner-authorised R33 calibration keeps the smallest whole-1,000-byte
     # ceiling preserving at least 2,000 bytes of measured headroom: 260,000
-    # leaves 2,563 bytes. The 260,000-byte outer bound is a guard, not a target.
+    # leaves 2,567 bytes. The 260,000-byte outer bound is a guard, not a target.
     MAX_ASSET_BYTES = 260_000
-    CURRENT_CALIBRATION_ASSET_BYTES = 257_437
+    CURRENT_CALIBRATION_ASSET_BYTES = 257_433
     N06_BASELINE_ASSET_BYTES = 206_584
     N06_FINAL_P7_ASSET_BYTES = 215_126
     FULL_W1_FORECAST_BYTES = 144_730

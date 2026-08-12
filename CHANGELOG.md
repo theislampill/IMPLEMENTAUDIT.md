@@ -38,9 +38,9 @@ until the candidate is merged to authoritative `main` and the existing
   Trivial work remains serial and same-root; no fixed modes, fanout quotas, model
   hierarchy, or second lifecycle is introduced.
 - R33 package builds use pinned, deterministic Zopfli method-8 DEFLATE. The
-  exact 257,437-byte composed candidate is calibrated to the smallest
+  exact 257,433-byte composed candidate is calibrated to the smallest
   whole-1,000-byte ceiling retaining at least 2,000 bytes of headroom:
-  260,000 bytes, leaving 2,563 bytes. The 260,000-byte owner outer bound is a
+  260,000 bytes, leaving 2,567 bytes. The 260,000-byte owner outer bound is a
   guard, not a spending target; required governed runtime semantics were not
   deleted or weakened to recover bytes.
 - #101 narrowly adopts TokenSave as optional derived code navigation for
@@ -51,10 +51,10 @@ until the candidate is merged to authoritative `main` and the existing
 
 ### Package boundary
 
-- The exact qualified candidate is a 257,437-byte, 51-member
+- The exact qualified candidate is a 257,433-byte, 51-member
   `IMPLEMENTAUDIT.skill` with SHA-256
-  `a244b36d3d04f149ce6b5c110b8807428b7a31ab8fc60f0429adfae263327aca`.
-  Its 260,000-byte calibrated ceiling leaves 2,563 bytes of headroom and is
+  `3116a2be2992928af8f0ae7ac2f0cb357c1e81990d43469f6f921fe454bdf7bd`.
+  Its 260,000-byte calibrated ceiling leaves 2,567 bytes of headroom and is
   also the owner-approved outer guard.
 - The earlier 227,999-byte public-asset receipt remains historical evidence.
   A fresh API census found that asset absent while the earlier checksum asset

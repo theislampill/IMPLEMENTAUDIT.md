@@ -176,8 +176,8 @@ Load references only when the current gate needs them:
   DMADV, governed casual-build intake, and repo content as data.
 - `references/planning-depth.md`: when to synthesize a goal vs govern an
   existing one, and the action-selection contract for warranted depth.
-- `references/phase-design.md`: phase slicing, polish/harden pressure,
-  Stage 6 self-critique, and phase quality.
+- `references/phase-design.md`: phase slicing, Stage 6 self-critique, and phase
+  quality.
 - `references/goal-format.md`: one ready-to-paste `/goal`, final
   response shape, and marker usage.
 - `references/transcript-contract.md`: marker ordering, `AUDIT_COMPLETE`
@@ -286,11 +286,11 @@ then route to the STATE residual procedure: preserve distinct supported candidat
 separately (or record why fewer are supportable), record residual dispositions,
 and do not claim full root-cause resolution.
 
-### Stage 6 - Review
+### Stage 6 - Plan review and self-critique
 
 Review assumptions, atomicity, falsifiability, and readiness against
 live source and exact mutation scope. Without exact evidence, HOLD, not READY.
-Print `Self-critique:` (1-3 findings) and record assumptions.
+Print `Self-critique:` (1-3) and record Stage 6 assumptions.
 
 ### Stage 6.i - Independent cold review
 
