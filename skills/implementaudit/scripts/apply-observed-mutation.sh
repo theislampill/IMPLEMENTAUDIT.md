@@ -885,6 +885,19 @@ def persist_result_record(status, reason_code, residue_paths):
     return result_record(status, reason_code, residue_paths, actual)
 
 
+def persist_terminal_or_fallback(status, reason_code, residue_paths):
+    try:
+        return status, persist_result_record(status, reason_code, residue_paths)
+    except (OSError, RuntimeError):
+        fallback_paths = list(residue_paths)
+        if path_identity(TX).get("kind") == "directory" and TX not in fallback_paths:
+            fallback_paths.append(TX)
+        if path_identity(RESULT).get("kind") != "absent":
+            fallback_paths.append(RESULT)
+        status = "ROLLBACK_FAILED_WITH_RESIDUE"
+        return status, result_record(status, "RESULT_PERSISTENCE_FAILURE", fallback_paths, actual)
+
+
 def initialisation_residue_paths():
     owned_paths = (
         (AUTHORITY, init_created_authority),
@@ -908,13 +921,7 @@ def emit_initialisation_failure():
     status = "MUTATION_FAILED_NO_STATE_CHANGE" if not residue_paths else "ROLLBACK_FAILED_WITH_RESIDUE"
     result = result_record(status, "INITIALISATION_IO_FAILURE", residue_paths, actual)
     if status == "ROLLBACK_FAILED_WITH_RESIDUE" and path_identity(TX).get("kind") == "directory":
-        try:
-            result = persist_result_record(status, "INITIALISATION_IO_FAILURE", residue_paths)
-        except (OSError, RuntimeError):
-            residue_paths = initialisation_residue_paths()
-            if path_identity(RESULT).get("kind") != "absent":
-                residue_paths.append(RESULT)
-            result = result_record(status, "INITIALISATION_IO_FAILURE", residue_paths, actual)
+        status, result = persist_terminal_or_fallback(status, "INITIALISATION_IO_FAILURE", residue_paths)
     print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
     raise SystemExit(EXITS[status])
 
@@ -1000,10 +1007,19 @@ def mark_lock_owned(lock):
     def mark(path, effect):
         entry = next((item for item in held if item["path"] == lock), None)
         if entry is None:
-            entry = {"path": lock, "owner_created": False}
+            entry = {
+                "path": lock,
+                "lock_identity": path_identity(lock),
+                "owner_created": False,
+                "owner_identity": None,
+                "owner_token_sha256": digest(owner.encode("ascii")),
+            }
             held.append(entry)
+        entry["lock_identity"] = path_identity(lock)
         if path == lock / "owner" and effect == "create":
             entry["owner_created"] = True
+        if path == lock / "owner" and effect in {"create", "write"}:
+            entry["owner_identity"] = path_identity(path)
     return mark
 
 
@@ -1013,15 +1029,24 @@ def release_locks():
         lock = entry["path"]
         owner_path = lock / "owner"
         try:
-            owner_kind = path_identity(owner_path).get("kind")
-            if owner_kind != "absent":
-                if owner_kind != "regular":
+            current_lock = path_identity(lock)
+            current_owner = path_identity(owner_path)
+            if current_lock != entry["lock_identity"]:
+                break
+            if entry["owner_created"]:
+                if current_owner != entry["owner_identity"] or current_owner.get("kind") != "regular":
+                    break
+                if current_owner.get("sha256") != entry["owner_token_sha256"]:
                     break
                 unlink(owner_path)
-            lock_kind = path_identity(lock).get("kind")
-            if lock_kind == "directory":
+            elif current_owner.get("kind") != "absent":
+                break
+            current_lock = path_identity(lock)
+            if current_lock != entry["lock_identity"] or path_identity(owner_path).get("kind") != "absent":
+                break
+            if current_lock.get("kind") == "directory":
                 rmdir(lock)
-            elif lock_kind != "absent":
+            elif current_lock.get("kind") != "absent":
                 break
             held.pop()
         except (OSError, RuntimeError):
@@ -1070,7 +1095,11 @@ def final_result(status, reason_code="NONE", residue_paths=(), post_path=None):
             status = "ROLLBACK_FAILED_WITH_RESIDUE"
             if reason_code == "NONE":
                 reason_code = "IO_FAILURE"
-    result = persist_result_record(status, reason_code, uncertain_paths)
+    if status == "ROLLBACK_FAILED_WITH_RESIDUE":
+        retain_owned_locks = True
+    status, result = persist_terminal_or_fallback(status, reason_code, uncertain_paths)
+    if status == "ROLLBACK_FAILED_WITH_RESIDUE":
+        retain_owned_locks = True
     print(json.dumps(result, separators=(",", ":"), ensure_ascii=False))
     raise SystemExit(EXITS[status])
 
@@ -1118,6 +1147,7 @@ try:
             write_new(lock / "owner", owner.encode("ascii"), mark_owned)
         except FileExistsError:
             final_result("CONFLICT_REBASE", "TARGET_LOCK_BUSY")
+    phase_hook("locks-acquired")
 
     if not source_observation_unchanged() or (
         operation == "move" and path_identity(DESTINATION).get("kind") != "absent"
