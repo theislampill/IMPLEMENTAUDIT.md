@@ -588,6 +588,12 @@
       "kind": "scheduling",
       "observations": {"event": "capacity_change", "work_units": 4, "host_capacity": 1, "operator_ceiling": -1, "active_cells": 1, "ready_cells": 2, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": true, "closed_authority_boundaries": true},
       "expected": "RECOMPUTE_FRONTIER"
+    },
+    {
+      "id": "R34-C99-zero-ceiling-completion-recomputes-without-activation",
+      "kind": "scheduling",
+      "observations": {"event": "cell_complete", "work_units": 4, "host_capacity": 3, "operator_ceiling": 0, "active_cells": 0, "ready_cells": 2, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": true, "closed_authority_boundaries": true},
+      "expected": "RECOMPUTE_FRONTIER"
     }
   ]
 }

@@ -315,4 +315,20 @@ path.write_text(json.dumps(payload), encoding="utf-8")
 PY
 expect_fail "serial cheap path hid drift reconciliation"
 
+# 21. Recomputing under a zero ceiling cannot activate a ready cell.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C99-zero-ceiling-completion-recomputes-without-activation")
+case["expected"] = "RECOMPUTE_AND_ACTIVATE"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "zero-ceiling recomputation activated a ready cell"
+
 printf 'action-selection-contract.test: ok\n'

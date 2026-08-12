@@ -222,6 +222,7 @@ required_ids = {
         (96, "small-drift-still-reconciles"),
         (97, "zero-ceiling-authorization-change-reconciles"),
         (98, "serial-capacity-change-recomputes"),
+        (99, "zero-ceiling-completion-recomputes-without-activation"),
     )
 }
 ids = [case.get("id") for case in cases if isinstance(case, dict)]
@@ -366,9 +367,13 @@ def decide(case):
             return "NO_REDISPATCH"
         if not o["closed_authority_boundaries"]:
             return "DEFER_AUTHORITY_OPEN"
-        effective_capacity = min(
-            o["host_capacity"],
-            o["operator_ceiling"] if o["operator_ceiling"] > 0 else o["host_capacity"],
+        effective_capacity = (
+            0 if o["operator_ceiling"] == 0
+            else min(
+                o["host_capacity"],
+                o["operator_ceiling"] if o["operator_ceiling"] > 0
+                else o["host_capacity"],
+            )
         )
         if not o["cell_independence_known"]:
             return "DEFER_INDEPENDENCE_UNKNOWN"
