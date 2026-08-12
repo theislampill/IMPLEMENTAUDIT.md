@@ -151,6 +151,29 @@ else
   check_pass "ActiveGraph evidence-ceiling mutation rejected" 1
 fi
 
+cp -R skills README.md AGENTS.md CONTRIBUTING.md docs scripts tests "$tmp_contract/"
+perl -0pi -e \
+  's#Only an operator/checker-controlled adapter\s+outside candidate authority can establish currentness; claim fields alone\s+never\s+do\.#A recorded sync/reconnect witness can establish currentness.#g' \
+  "$tmp_contract/skills/implementaudit/references/sidecars.md"
+if ! grep -Fq "A recorded sync/reconnect witness can establish currentness." \
+    "$tmp_contract/skills/implementaudit/references/sidecars.md"; then
+  printf '%s\n' "sidecars.test: TokenSave contract mutation setup failed" >&2
+  exit 1
+fi
+set +e
+tokensave_contract_output="$(cd "$tmp_contract" && bash scripts/check-sidecar-boundaries.sh 2>&1)"
+tokensave_contract_status=$?
+set -e
+if [ "$tokensave_contract_status" -ne 0 ] && \
+   printf '%s' "$tokensave_contract_output" | grep -Fq \
+     "TokenSave authority-executed freshness mechanism is missing"; then
+  check_pass "TokenSave generic freshness self-attestation mutation rejected" 0
+else
+  printf 'sidecars.test: TokenSave contract mutation output: %s\n' \
+    "$tokensave_contract_output" >&2
+  check_pass "TokenSave generic freshness self-attestation mutation rejected" 1
+fi
+
 # ---------------------------------------------------------------------------
 # Scenario 1: Graphify absent — ordinary Gemba passes
 # Fixture: documents expected sidecar block for absent Graphify

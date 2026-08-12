@@ -593,10 +593,13 @@ and ordinary Gemba; they must not block the run.
 
 **TokenSave code-navigation rules (when present and authorized):**
 - Activate only for a supported code-relation question whose repeated or
-  transitive walk earns indexing/query cost. Record the exact checkout/database
-  binding, the successful supported sync/reconnect witness, coverage and query;
-  verify consequential results in live source. Without both binding and witness,
-  classify currentness as stale or unresolved and use Gemba.
+  transitive walk earns indexing/query cost. Only an operator/checker-controlled
+  adapter outside candidate authority can establish currentness; claim fields
+  alone never do. Execute its fixed supported sync/reconnect route against the
+  live checkout and compare the strict result with the claimed checkout/database
+  expectation. An absent, failed, timed-out, malformed or mismatched execution is
+  `TOKENSAVE_FRESHNESS_UNVERIFIED`, never derived-current, and routes to Gemba.
+  Record coverage and query, then verify consequential results in live source.
 - Classify results as derived, partial, stale, unsupported or unresolved. A
   current database is not complete program truth; conflicts and extraction
   limits route to Gemba.

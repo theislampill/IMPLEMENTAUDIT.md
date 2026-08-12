@@ -53,12 +53,16 @@ unfamiliar third-party repo gates broadening. The missed-use-detection goal is r
 
 TokenSave is optional code navigation, not another terrain or custody authority.
 Use it only when a supported code-relation question makes a repeated or
-transitive source walk worthwhile. A `current` classification requires an exact
-checkout/database binding and a successful sync/reconnect witness for that same
-binding. Missing, failed, stale, wrong-worktree, branch-unknown or unverifiable
-binding routes to live Gemba. Classify the result as `TokenSave-derived`,
-partial, stale, unsupported or unresolved, then confirm consequential findings
-in live source. Database
+transitive source walk worthwhile. Only an operator/checker-controlled adapter
+outside candidate authority can establish currentness; claim fields alone never
+do. The checker executes that adapter against the live checkout using its fixed
+supported sync/reconnect route, then compares the strict result with the claimed
+checkout/database expectation. An absent, failed, timed-out, malformed or
+mismatched execution is `TOKENSAVE_FRESHNESS_UNVERIFIED`, never
+`TokenSave-derived`, and routes to live Gemba. Stale, wrong-worktree,
+branch-unknown or unverifiable bindings also route to Gemba. Classify a result
+only after that gate as `TokenSave-derived`, partial, stale, unsupported or
+unresolved, then confirm consequential findings in live source. Database
 freshness proves only the represented population: unsupported languages,
 extraction failures, dynamic dispatch, generated code and external dependencies
 remain outside it. Same-name/cross-language conflicts fall back to Gemba.

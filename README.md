@@ -999,13 +999,17 @@ catalogue, freshness, privacy, and backend boundaries live in
 
 TokenSave is an optional deterministic navigation layer for supported code
 relations when a repeated or transitive dependency walk earns its indexing and
-query cost. A current result requires an exact checkout/database binding plus a
-successful supported sync/reconnect witness; otherwise it is stale or unresolved
-and routes to ordinary Gemba. A witnessed current result is derived evidence
-about the represented code,
-not complete program truth. Consequential symbol, caller/callee, impact, context
-or test-mapping findings still require live-source confirmation; stale,
-unsupported, extraction-failed or conflicting results route to ordinary Gemba.
+query cost. Only an operator/checker-controlled adapter outside candidate
+authority can establish currentness; claim fields alone never do. The checker
+runs its fixed supported sync/reconnect route against the live checkout and
+compares the strict result with the claimed checkout/database expectation. An
+absent, failed, timed-out, malformed or mismatched execution is
+`TOKENSAVE_FRESHNESS_UNVERIFIED`, never derived-current, and routes to ordinary
+Gemba. A successfully established current result is derived evidence about the
+represented code, not complete program truth. Consequential symbol,
+caller/callee, impact, context or test-mapping findings still require live-source
+confirmation; stale, unsupported, extraction-failed or conflicting results route
+to ordinary Gemba.
 
 Documentation, policy, public projection, arbitrary non-code artefacts, an exact
 file already supplied, and tiny reversible work are cheap `NO TOKENSAVE` paths.

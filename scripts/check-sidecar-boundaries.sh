@@ -620,19 +620,46 @@ require_literal skills/implementaudit/references/sidecars.md \
   "representation-specific exception" \
   "TokenSave storage exception"
 require_literal skills/implementaudit/references/sidecars.md \
-  "successful sync/reconnect witness" "TokenSave executable freshness witness"
+  "Only an operator/checker-controlled adapter" \
+  "TokenSave authority-executed freshness mechanism"
+require_literal skills/implementaudit/references/sidecars.md \
+  "claim fields alone never" "TokenSave self-attestation rejection"
+require_literal skills/implementaudit/references/sidecars.md \
+  "TOKENSAVE_FRESHNESS_UNVERIFIED" "TokenSave unverified freshness route"
 require_literal skills/implementaudit/references/sidecars.md \
   "remains explicit/on-demand" "TokenSave explicit runtime route"
 require_literal skills/implementaudit/references/sidecars.md "Editing, test-running, session" "TokenSave mutation firewall"
 require_literal skills/implementaudit/templates/PROTOCOL.md "TokenSave code-navigation rules" "TokenSave runtime route"
 require_literal skills/implementaudit/templates/PROTOCOL.md \
   "checkout/database" "TokenSave protocol freshness binding"
+require_literal skills/implementaudit/templates/PROTOCOL.md \
+  "operator/checker-controlled" "TokenSave protocol adapter authority"
+require_literal skills/implementaudit/templates/PROTOCOL.md \
+  "outside candidate authority" "TokenSave protocol candidate boundary"
+require_literal skills/implementaudit/templates/PROTOCOL.md \
+  "claim fields" "TokenSave protocol claim boundary"
+require_literal skills/implementaudit/templates/PROTOCOL.md \
+  "alone never do" "TokenSave protocol self-attestation rejection"
+require_literal skills/implementaudit/templates/PROTOCOL.md \
+  "TOKENSAVE_FRESHNESS_UNVERIFIED" "TokenSave protocol unverified route"
 require_literal README.md "### TokenSave-assisted code navigation" "TokenSave README projection"
 require_literal README.md "TokenSave is explicit, on-demand optional tooling" "TokenSave explicit public route"
+require_literal README.md "operator/checker-controlled" "TokenSave README adapter authority"
+require_literal README.md "outside candidate" "TokenSave README candidate boundary"
+require_literal README.md "claim fields alone" "TokenSave README self-attestation rejection"
+require_literal README.md "TOKENSAVE_FRESHNESS_UNVERIFIED" "TokenSave README unverified route"
 forbid_literal README.md "may detect Graphify, TokenSave, and ActiveGraph" "TokenSave automatic detection"
 require_literal docs/diagrams/tooling-architecture.mmd "optional supported-code navigation" "TokenSave tooling-diagram projection"
 require_literal docs/portal/pages/optional-tooling.html "id=\"tokensave\"" "TokenSave portal projection"
 require_literal docs/portal/pages/optional-tooling.html "explicit, on-demand" "TokenSave explicit portal route"
+require_literal docs/portal/pages/optional-tooling.html \
+  "operator/checker-controlled" "TokenSave portal adapter authority"
+require_literal docs/portal/pages/optional-tooling.html \
+  "outside candidate authority" "TokenSave portal candidate boundary"
+require_literal docs/portal/pages/optional-tooling.html \
+  "claim fields alone" "TokenSave portal self-attestation rejection"
+require_literal docs/portal/pages/optional-tooling.html \
+  "TOKENSAVE_FRESHNESS_UNVERIFIED" "TokenSave portal unverified route"
 require_literal docs/portal/pages/optional-tooling.html \
   "skills/implementaudit/references/sidecars.md" "TokenSave portal sidecar owner source"
 require_literal docs/portal/pages/optional-tooling.html \
