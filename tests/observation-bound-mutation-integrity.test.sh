@@ -951,10 +951,15 @@ import hashlib,sys,time
 from pathlib import Path
 t,c,f=map(Path,sys.argv[1:]); wanted=hashlib.sha256(c.read_bytes()).digest()
 for _ in range(1000):
-    if t.exists() and hashlib.sha256(t.read_bytes()).digest()==wanted:
-        t.write_bytes(b'EXTERNAL-WINNER')
-        f.write_text('fired\n',encoding='ascii')
-        raise SystemExit(0)
+    try:
+        if t.exists() and hashlib.sha256(t.read_bytes()).digest()==wanted:
+            t.write_bytes(b'EXTERNAL-WINNER')
+            f.write_text('fired\n',encoding='ascii')
+            raise SystemExit(0)
+    except (FileNotFoundError, PermissionError):
+        # Windows may briefly deny access while the helper publishes/replaces
+        # the target.  That transient state is not the actor's terminal result.
+        pass
     time.sleep(.005)
 raise SystemExit('candidate publication was not observed')
 PY
@@ -1668,6 +1673,7 @@ PY
 case "${1:-}" in
   --window-interlock-heldouts) fixture_self_check; window_interlock_heldouts; printf 'R36_WINDOW_INTERLOCK_HELDOUTS=PASS\n'; exit 0;;
   --concurrent-destination-heldout) fixture_self_check; concurrent_destination; printf 'R36_CONCURRENT_DESTINATION_HELDOUT=PASS\n'; exit 0;;
+  --external-drift-heldout) fixture_self_check; external_drift_and_recovery; printf 'R36_EXTERNAL_DRIFT_HELDOUT=PASS\n'; exit 0;;
   --true-kill-heldout) fixture_self_check; true_kill_requires_manual_custody; printf 'R36_TRUE_KILL_HELDOUT=PASS\n'; exit 0;;
   --fixture-self-check) fixture_self_check; exit 0;;
   --mutant-self-check) fixture_self_check; mutant_self_check; exit 0;;

@@ -784,6 +784,28 @@ if [ "${1:-}" = "--identity-only" ]; then
   exit 0
 fi
 
+# Hosted validation must exercise the candidate diff and must delegate the
+# registered validation population to the canonical verifier exactly once.
+workflow=.github/workflows/validate.yml
+if ! grep -Fq 'run: git diff --check HEAD^ HEAD' "$workflow"; then
+  printf 'release-asset.test: hosted whitespace check does not inspect the candidate diff\n' >&2
+  exit 1
+fi
+if ! grep -Fq 'run: bash scripts/verify-package.sh' "$workflow"; then
+  printf 'release-asset.test: hosted workflow does not invoke the canonical verifier\n' >&2
+  exit 1
+fi
+direct_registered_tests="$(grep -Ec '^[[:space:]]+bash tests/.*\.sh' "$workflow" || :)"
+if [ "$direct_registered_tests" -ne 0 ]; then
+  printf 'release-asset.test: hosted workflow duplicates %s registered test invocation(s)\n' "$direct_registered_tests" >&2
+  exit 1
+fi
+direct_verifier_scripts="$(grep -Ec '^[[:space:]]+(run:[[:space:]]+)?bash scripts/.*\.sh' "$workflow" || :)"
+if [ "$direct_verifier_scripts" -ne 1 ]; then
+  printf 'release-asset.test: hosted workflow has %s verifier script invocation(s), expected one canonical entrypoint\n' "$direct_verifier_scripts" >&2
+  exit 1
+fi
+
 # Package parity: a stray file under skills/implementaudit/ must fail the build, because it
 # would otherwise ship without a deliberate manifest update.
 printf 'stray payload parity probe\n' > "$stray_file"
