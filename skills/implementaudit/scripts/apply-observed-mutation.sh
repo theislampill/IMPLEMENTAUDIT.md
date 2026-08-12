@@ -23,6 +23,11 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
+if os.name == "nt":
+    import msvcrt
+else:
+    import fcntl
+
 SCRIPT_DIR_RAW = sys.argv[1]
 BASH_EXE_RAW = sys.argv[2]
 ARGV = sys.argv[3:]
@@ -495,6 +500,7 @@ BACKUP = TX / "backup.bin"
 STAGE = TX / "stage.bin"
 LOCK_ROOT = REPO / ".IMPLEMENTAUDIT" / ".r36-locks"
 LOCK_PARENT = LOCK_ROOT.parent
+LOCK_GATE = LOCK_ROOT / "namespace.gate"
 RELEASED_LOCK_ROOT = TX / "released-locks"
 
 if not safe_directory_chain(TX_PARENT, RUN, True):
@@ -548,6 +554,7 @@ plan(BACKUP, ["backup", "residue"], ["link", "replace", "unlink", "fsync"], "con
 plan(STAGE, ["stage", "residue"], ["create", "write", "link", "unlink", "fsync"], "conditional-residue")
 plan(RELEASED_LOCK_ROOT, ["released-lock-root"], ["mkdir", "fsync"], "durable")
 plan(LOCK_ROOT, ["lock-root"], ["mkdir", "fsync"], "durable")
+plan(LOCK_GATE, ["lock-namespace-gate"], ["create", "write", "fsync"], "durable")
 plan(LOCK_PARENT, ["lock-parent"], ["fsync"], "durable")
 for lock in lock_paths:
     released = released_locks[lock]
@@ -1071,6 +1078,7 @@ def mark_lock_owned(lock):
                 "owner_created": False,
                 "owner_identity": None,
                 "owner_token_sha256": digest(owner.encode("ascii")),
+                "conflict_paths": [],
             }
             held.append(entry)
         entry["lock_identity"] = path_identity(lock)
@@ -1088,6 +1096,26 @@ def mark_lock_released(entry):
     return mark
 
 
+def mark_lock_restored(entry):
+    def mark(_path, effect):
+        if effect == "replace":
+            entry["path"] = entry["public_path"]
+    return mark
+
+
+def released_lock_matches(entry):
+    released = entry["released_path"]
+    current_lock = path_identity(released)
+    current_owner = path_identity(released / "owner")
+    return (
+        current_lock == entry["lock_identity"]
+        and entry["owner_created"]
+        and current_owner == entry["owner_identity"]
+        and current_owner.get("kind") == "regular"
+        and current_owner.get("sha256") == entry["owner_token_sha256"]
+    )
+
+
 def release_locks():
     while held:
         entry = held[-1]
@@ -1096,6 +1124,13 @@ def release_locks():
         try:
             rename_no_replace(public_lock, released, mark_lock_released(entry))
             phase_hook("lock-release-published")
+            if not released_lock_matches(entry):
+                phase_hook("lock-release-mismatch")
+                try:
+                    rename_no_replace(released, public_lock, mark_lock_restored(entry))
+                except (OSError, RuntimeError):
+                    entry["conflict_paths"] = [public_lock, released]
+                break
             held.pop()
         except (OSError, RuntimeError):
             break
@@ -1108,10 +1143,71 @@ def release_lock_root():
     return
 
 
+namespace_gate_fd = None
+
+
+def acquire_namespace_gate():
+    global namespace_gate_fd
+    if path_identity(LOCK_GATE).get("kind") == "absent":
+        try:
+            write_new(LOCK_GATE, b"\0")
+        except FileExistsError:
+            pass
+    flags = os.O_RDWR | getattr(os, "O_BINARY", 0) | getattr(os, "O_NOFOLLOW", 0)
+    fd = os.open(LOCK_GATE, flags)
+    try:
+        opened = os.fstat(fd)
+        if not stat.S_ISREG(opened.st_mode) or opened.st_nlink != 1:
+            raise OSError(errno.EINVAL, "lock namespace gate is not a unique regular file")
+        os.lseek(fd, 0, os.SEEK_SET)
+        if os.name == "nt":
+            msvcrt.locking(fd, msvcrt.LK_LOCK, 1)
+        else:
+            fcntl.flock(fd, fcntl.LOCK_EX)
+        current = os.lstat(LOCK_GATE)
+        if (
+            not stat.S_ISREG(current.st_mode)
+            or stat.S_ISLNK(current.st_mode)
+            or is_reparse(current)
+            or current.st_nlink != 1
+            or (current.st_dev, current.st_ino) != (opened.st_dev, opened.st_ino)
+        ):
+            raise OSError(errno.EBUSY, "lock namespace gate identity changed")
+        namespace_gate_fd = fd
+    except BaseException:
+        try:
+            if os.name == "nt":
+                os.lseek(fd, 0, os.SEEK_SET)
+                msvcrt.locking(fd, msvcrt.LK_UNLCK, 1)
+            else:
+                fcntl.flock(fd, fcntl.LOCK_UN)
+        except OSError:
+            pass
+        os.close(fd)
+        raise
+
+
+def release_namespace_gate():
+    global namespace_gate_fd
+    if namespace_gate_fd is None:
+        return
+    fd = namespace_gate_fd
+    namespace_gate_fd = None
+    try:
+        if os.name == "nt":
+            os.lseek(fd, 0, os.SEEK_SET)
+            msvcrt.locking(fd, msvcrt.LK_UNLCK, 1)
+        else:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+    finally:
+        os.close(fd)
+
+
 def owned_lock_residue_paths():
     paths = []
     for entry in held:
         paths.extend([entry["path"], entry["path"] / "owner"])
+        paths.extend(entry["conflict_paths"])
     if lock_root_created:
         paths.append(LOCK_ROOT)
     present = [path for path in paths if path_identity(path).get("kind") != "absent"]
@@ -1184,6 +1280,7 @@ try:
         except FileExistsError:
             if path_identity(LOCK_ROOT).get("kind") != "directory":
                 final_result("UNSUPPORTED_OWNER_DECISION", "PATH_NOT_REGULAR")
+    acquire_namespace_gate()
     for lock in lock_paths:
         mark_owned = mark_lock_owned(lock)
         try:
@@ -1290,4 +1387,5 @@ finally:
     if not retain_owned_locks:
         release_locks()
         release_lock_root()
+    release_namespace_gate()
 PY
