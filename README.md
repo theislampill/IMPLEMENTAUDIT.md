@@ -1364,11 +1364,12 @@ chronology use [`CHANGELOG.md`](CHANGELOG.md); for exact qualification and
 publication evidence use the [audit index](docs/audits/INDEX.md) and named
 release reports.
 
-The portal's
-[Research & Engineering Lineage](https://theislampill.github.io/IMPLEMENTAUDIT.md/research-engineering-lineage/)
+The repository's
+[Research & Engineering Lineage source](docs/portal/pages/research-lineage-overview.html)
 explains why IMPLEMENTAUDIT uses visible Lean-derived vocabulary, what Agile
 and plan-driven assurance contributed, which properties were already native,
 which were sharpened in the `v0.3.3.3` source family, and which ceremonies or
-universal prescriptions were rejected. Evolved-LAW is a property-level
-research synthesis, not three methodology modes, a new runtime, or evidence of
-universal effectiveness.
+universal prescriptions were rejected. It is prepared for portal generation;
+hosted availability remains pending separate publication and readback.
+Evolved-LAW is a property-level research synthesis, not three methodology
+modes, a new runtime, or evidence of universal effectiveness.

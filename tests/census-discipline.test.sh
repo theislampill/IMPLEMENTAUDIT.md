@@ -194,6 +194,21 @@ if title not in changelog or title not in report:
     raise SystemExit("SORME working release title is not owned by changelog/report")
 if "Research & Engineering Lineage" not in readme:
     raise SystemExit("README does not route readers to lineage owners")
+lineage_hosted_route = (
+    "https://theislampill.github.io/IMPLEMENTAUDIT.md/"
+    "research-engineering-lineage/"
+)
+lineage_source_route = "docs/portal/pages/research-lineage-overview.html"
+lineage_pending = (
+    "This source entry does not claim that the hosted portal or GitHub release "
+    "body contains the new projection until a separate publication and "
+    "readback gate records that state"
+)
+if lineage_pending in " ".join(changelog.split()):
+    if lineage_hosted_route in readme:
+        raise SystemExit("README preclaims the pending hosted lineage route")
+    if lineage_source_route not in readme:
+        raise SystemExit("README does not route pending lineage readers to repository source")
 if fixture["compact_label"] not in synthesis:
     raise SystemExit("compact SORME label missing from synthesis")
 if "Semantica" in readme + changelog + report:
