@@ -510,6 +510,11 @@ lock_keys = [source_name, f"object:{object_stat.st_dev}:{object_stat.st_ino}"]
 if destination_name is not None:
     lock_keys.append(destination_name)
 lock_paths = [LOCK_ROOT / (digest(key.encode("utf-8")) + ".lock") for key in sorted(lock_keys)]
+owner = secrets.token_hex(16)
+lock_quarantines = {
+    lock: LOCK_ROOT / ("." + digest((owner + ":" + lock.name).encode("utf-8")) + ".release-quarantine")
+    for lock in lock_paths
+}
 
 planned_map = {}
 
@@ -545,8 +550,11 @@ plan(STAGE, ["stage", "residue"], ["create", "write", "link", "unlink", "fsync"]
 plan(LOCK_ROOT, ["lock-root"], ["mkdir", "rmdir", "fsync"], "durable")
 plan(LOCK_PARENT, ["lock-parent"], ["fsync"], "durable")
 for lock in lock_paths:
-    plan(lock, ["path-lock", "residue"], ["mkdir", "rmdir", "fsync"], "conditional-residue")
+    quarantine = lock_quarantines[lock]
+    plan(lock, ["path-lock", "residue"], ["mkdir", "replace", "rmdir", "fsync"], "conditional-residue")
     plan(lock / "owner", ["lock-owner", "residue"], ["create", "write", "unlink", "fsync"], "conditional-residue")
+    plan(quarantine, ["lock-quarantine", "residue"], ["replace", "rmdir", "fsync"], "conditional-residue")
+    plan(quarantine / "owner", ["lock-quarantine-owner", "residue"], ["unlink", "fsync"], "conditional-residue")
 
 planned = [
     {
@@ -944,7 +952,6 @@ try:
 except OSError:
     emit_initialisation_failure()
 
-owner = secrets.token_hex(16)
 held = []
 residue = []
 
@@ -1009,6 +1016,8 @@ def mark_lock_owned(lock):
         if entry is None:
             entry = {
                 "path": lock,
+                "public_path": lock,
+                "quarantine": lock_quarantines[lock],
                 "lock_identity": path_identity(lock),
                 "owner_created": False,
                 "owner_identity": None,
@@ -1023,13 +1032,25 @@ def mark_lock_owned(lock):
     return mark
 
 
+def mark_lock_quarantined(entry):
+    def mark(_path, effect):
+        if effect == "replace":
+            entry["path"] = entry["quarantine"]
+    return mark
+
+
 def release_locks():
     while held:
         entry = held[-1]
-        lock = entry["path"]
-        owner_path = lock / "owner"
+        public_lock = entry["public_path"]
+        quarantine = entry["quarantine"]
         try:
-            current_lock = path_identity(lock)
+            if path_identity(quarantine).get("kind") != "absent":
+                break
+            replace(public_lock, quarantine, mark_lock_quarantined(entry))
+            phase_hook("lock-quarantine-published")
+            owner_path = quarantine / "owner"
+            current_lock = path_identity(quarantine)
             current_owner = path_identity(owner_path)
             if current_lock != entry["lock_identity"]:
                 break
@@ -1041,12 +1062,15 @@ def release_locks():
                 unlink(owner_path)
             elif current_owner.get("kind") != "absent":
                 break
-            current_lock = path_identity(lock)
+            current_lock = path_identity(quarantine)
             if current_lock != entry["lock_identity"] or path_identity(owner_path).get("kind") != "absent":
                 break
             if current_lock.get("kind") == "directory":
-                rmdir(lock)
+                rmdir(quarantine)
             elif current_lock.get("kind") != "absent":
+                break
+            if path_identity(public_lock).get("kind") != "absent":
+                entry["path"] = public_lock
                 break
             held.pop()
         except (OSError, RuntimeError):
@@ -1074,7 +1098,10 @@ def owned_lock_residue_paths():
         paths.extend([entry["path"], entry["path"] / "owner"])
     if lock_root_created:
         paths.append(LOCK_ROOT)
-    return [path for path in paths if path_identity(path).get("kind") != "absent"]
+    present = [path for path in paths if path_identity(path).get("kind") != "absent"]
+    if held and not present and path_identity(TX).get("kind") == "directory":
+        present.append(TX)
+    return present
 
 
 def final_result(status, reason_code="NONE", residue_paths=(), post_path=None):

@@ -151,7 +151,8 @@ needle='    # R36_INSTRUMENT_INSERT\n'
 if source.count(needle) != 1: raise SystemExit('R36 instrument marker count is not exactly one')
 insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'pre-transaction':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n        delay_mutated=os.getenv('IMPLEMENTAUDIT_R36_TEST_DELAY_MUTATED')=='1'\n        if delay_mutated:\n            original_notify=notify_mutated; delayed=[]\n            def queue_mutated(callback,path,effect): delayed.append((callback,path,effect))\n            globals()['notify_mutated']=queue_mutated\n        if fault == 'io-after-displacement':\n            original_open=Path.open\n            def fail_stage_open(self,*args,**kwargs):\n                if self.name == 'stage.bin' and args and 'x' in args[0]: raise OSError(28,'injected ENOSPC')\n                return original_open(self,*args,**kwargs)\n            Path.open=fail_stage_open\n        original_os_fsync=os.fsync; file_state={'authority_failed':False,'result_failed':False,'owner_failed':False}\n        def fail_selected_file_fsync(fd):\n            authority_fault=fault in {'authority-file-fsync','authority-cleanup-fails','authority-result-fsync-fails'} and path_identity(AUTHORITY).get('kind')=='regular' and not file_state['authority_failed']\n            result_fault=fault=='authority-result-fsync-fails' and file_state['authority_failed'] and path_identity(RESULT).get('kind')=='regular' and not file_state['result_failed']\n            owner_fault=fault=='lock-owner-file-fsync' and any(path_identity(p/'owner').get('kind')=='regular' for p in lock_paths) and not file_state['owner_failed']\n            if authority_fault:\n                file_state['authority_failed']=True; raise OSError(28,'injected authority file fsync failure')\n            if result_fault:\n                file_state['result_failed']=True; raise OSError(28,'injected result file fsync failure')\n            if owner_fault:\n                file_state['owner_failed']=True; raise OSError(28,'injected lock owner file fsync failure')\n            return original_os_fsync(fd)\n        os.fsync=fail_selected_file_fsync\n        if fault in {'authority-cleanup-fails','authority-result-fsync-fails'}:\n            original_unlink=os.unlink\n            def fail_authority_unlink(path):\n                if Path(path)==AUTHORITY: raise OSError(13,'injected authority cleanup failure')\n                return original_unlink(path)\n            os.unlink=fail_authority_unlink\n        original_sync=sync_directory_raw; injected={'done':False}\n        def fail_selected_sync(path):\n            trigger=(fault=='fsync-after-displacement' and path_identity(BACKUP).get('kind')=='regular' and path_identity(SOURCE).get('kind')=='absent') or (fault=='fsync-after-destination' and operation=='move' and path_identity(DESTINATION).get('kind')=='regular') or (fault=='init-authority-fsync' and path==TX and path_identity(AUTHORITY).get('kind')=='regular') or (fault=='lock-root-parent-fsync' and path==LOCK_PARENT and path_identity(LOCK_ROOT).get('kind')=='directory') or (fault=='lock-mkdir-parent-fsync' and path==LOCK_ROOT and any(path_identity(p).get('kind')=='directory' for p in lock_paths))\n            if trigger and not injected['done']:\n                injected['done']=True; raise OSError(28,'injected directory fsync failure')\n            value=original_sync(path)\n            if delay_mutated and delayed:\n                pending=list(delayed); delayed.clear()\n                for callback,item,effect in pending: original_notify(callback,item,effect)\n            return value\n        globals()['sync_directory_raw']=fail_selected_sync\n    if phase == 'move-destination-published' and fault == 'move-after-destination':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
 extra="""    if phase == 'pre-transaction' and fault == 'terminal-result-fsync-after-rollback-failure':\n        original_extra_open=Path.open; original_extra_link=os.link; original_extra_fsync=os.fsync\n        def fail_stage_write(self,*args,**kwargs):\n            if self.name == 'stage.bin' and args and 'x' in args[0]: raise OSError(28,'injected stage write failure')\n            return original_extra_open(self,*args,**kwargs)\n        def fail_rollback_link(source,destination,*args,**kwargs):\n            if Path(source)==BACKUP and Path(destination)==SOURCE: raise OSError(5,'injected rollback link failure')\n            return original_extra_link(source,destination,*args,**kwargs)\n        def fail_terminal_result_fsync(fd):\n            if path_identity(RESULT).get('kind')=='regular': raise OSError(28,'injected terminal result fsync failure')\n            return original_extra_fsync(fd)\n        Path.open=fail_stage_write; os.link=fail_rollback_link; os.fsync=fail_terminal_result_fsync\n    if phase == 'locks-acquired' and fault == 'lock-aba':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
-Path(sys.argv[2]).write_text(source.replace(needle,needle+insert+extra),encoding='utf-8')
+extra2="""    if phase == 'pre-transaction' and fault == 'lock-post-check-race':\n        original_race_identity=path_identity; race_state={'paused':False}\n        def pause_release_race(lock_path=None):\n            if race_state['paused']: return\n            race_state['paused']=True; lock_path=Path(lock_path or lock_paths[-1]); b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'lock-path').write_text(str(lock_path),encoding='utf-8'); (b/'owner-token').write_text(owner,encoding='ascii'); (b/'paused').touch()\n            for _ in range(500):\n                if (b/'release').exists(): return\n                time.sleep(.02)\n            raise RuntimeError('timeout')\n        def race_identity(path):\n            value=original_race_identity(path); p=Path(path); source_now=original_race_identity(SOURCE)\n            if p.name=='owner' and p.parent.parent==LOCK_ROOT and source_now.get('sha256')==digest(candidate_data): pause_release_race(p.parent)\n            return value\n        globals()['pause_release_race']=pause_release_race\n        globals()['path_identity']=race_identity\n    if phase == 'lock-quarantine-published' and fault == 'lock-post-check-race': globals()['pause_release_race']()\n"""
+Path(sys.argv[2]).write_text(source.replace(needle,needle+insert+extra+extra2),encoding='utf-8')
 PY
   chmod +x "$derived" || return 1
   "$python_bin" - "$canonical_helper" "$derived" <<'PY' || return 1
@@ -162,7 +163,8 @@ script_dir_line='script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"'
 derived_dir_line='script_dir='+repr(str(canonical.parent))
 insert="""    # test-only insertion: absent from authoritative helper after strip\n    global bar,fault\n    if phase == 'pre-transaction':\n        import os\n        bar=os.getenv('IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR')\n        fault=os.getenv('IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE')\n        delay_mutated=os.getenv('IMPLEMENTAUDIT_R36_TEST_DELAY_MUTATED')=='1'\n        if delay_mutated:\n            original_notify=notify_mutated; delayed=[]\n            def queue_mutated(callback,path,effect): delayed.append((callback,path,effect))\n            globals()['notify_mutated']=queue_mutated\n        if fault == 'io-after-displacement':\n            original_open=Path.open\n            def fail_stage_open(self,*args,**kwargs):\n                if self.name == 'stage.bin' and args and 'x' in args[0]: raise OSError(28,'injected ENOSPC')\n                return original_open(self,*args,**kwargs)\n            Path.open=fail_stage_open\n        original_os_fsync=os.fsync; file_state={'authority_failed':False,'result_failed':False,'owner_failed':False}\n        def fail_selected_file_fsync(fd):\n            authority_fault=fault in {'authority-file-fsync','authority-cleanup-fails','authority-result-fsync-fails'} and path_identity(AUTHORITY).get('kind')=='regular' and not file_state['authority_failed']\n            result_fault=fault=='authority-result-fsync-fails' and file_state['authority_failed'] and path_identity(RESULT).get('kind')=='regular' and not file_state['result_failed']\n            owner_fault=fault=='lock-owner-file-fsync' and any(path_identity(p/'owner').get('kind')=='regular' for p in lock_paths) and not file_state['owner_failed']\n            if authority_fault:\n                file_state['authority_failed']=True; raise OSError(28,'injected authority file fsync failure')\n            if result_fault:\n                file_state['result_failed']=True; raise OSError(28,'injected result file fsync failure')\n            if owner_fault:\n                file_state['owner_failed']=True; raise OSError(28,'injected lock owner file fsync failure')\n            return original_os_fsync(fd)\n        os.fsync=fail_selected_file_fsync\n        if fault in {'authority-cleanup-fails','authority-result-fsync-fails'}:\n            original_unlink=os.unlink\n            def fail_authority_unlink(path):\n                if Path(path)==AUTHORITY: raise OSError(13,'injected authority cleanup failure')\n                return original_unlink(path)\n            os.unlink=fail_authority_unlink\n        original_sync=sync_directory_raw; injected={'done':False}\n        def fail_selected_sync(path):\n            trigger=(fault=='fsync-after-displacement' and path_identity(BACKUP).get('kind')=='regular' and path_identity(SOURCE).get('kind')=='absent') or (fault=='fsync-after-destination' and operation=='move' and path_identity(DESTINATION).get('kind')=='regular') or (fault=='init-authority-fsync' and path==TX and path_identity(AUTHORITY).get('kind')=='regular') or (fault=='lock-root-parent-fsync' and path==LOCK_PARENT and path_identity(LOCK_ROOT).get('kind')=='directory') or (fault=='lock-mkdir-parent-fsync' and path==LOCK_ROOT and any(path_identity(p).get('kind')=='directory' for p in lock_paths))\n            if trigger and not injected['done']:\n                injected['done']=True; raise OSError(28,'injected directory fsync failure')\n            value=original_sync(path)\n            if delay_mutated and delayed:\n                pending=list(delayed); delayed.clear()\n                for callback,item,effect in pending: original_notify(callback,item,effect)\n            return value\n        globals()['sync_directory_raw']=fail_selected_sync\n    if phase == 'move-destination-published' and fault == 'move-after-destination':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
 extra="""    if phase == 'pre-transaction' and fault == 'terminal-result-fsync-after-rollback-failure':\n        original_extra_open=Path.open; original_extra_link=os.link; original_extra_fsync=os.fsync\n        def fail_stage_write(self,*args,**kwargs):\n            if self.name == 'stage.bin' and args and 'x' in args[0]: raise OSError(28,'injected stage write failure')\n            return original_extra_open(self,*args,**kwargs)\n        def fail_rollback_link(source,destination,*args,**kwargs):\n            if Path(source)==BACKUP and Path(destination)==SOURCE: raise OSError(5,'injected rollback link failure')\n            return original_extra_link(source,destination,*args,**kwargs)\n        def fail_terminal_result_fsync(fd):\n            if path_identity(RESULT).get('kind')=='regular': raise OSError(28,'injected terminal result fsync failure')\n            return original_extra_fsync(fd)\n        Path.open=fail_stage_write; os.link=fail_rollback_link; os.fsync=fail_terminal_result_fsync\n    if phase == 'locks-acquired' and fault == 'lock-aba':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'paused').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
-if text.replace(insert,'').replace(extra,'').replace(derived_dir_line,script_dir_line) != canonical.read_text(encoding='utf-8'): raise SystemExit('instrumented copy does not strip byte-equal')
+extra2="""    if phase == 'pre-transaction' and fault == 'lock-post-check-race':\n        original_race_identity=path_identity; race_state={'paused':False}\n        def pause_release_race(lock_path=None):\n            if race_state['paused']: return\n            race_state['paused']=True; lock_path=Path(lock_path or lock_paths[-1]); b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'lock-path').write_text(str(lock_path),encoding='utf-8'); (b/'owner-token').write_text(owner,encoding='ascii'); (b/'paused').touch()\n            for _ in range(500):\n                if (b/'release').exists(): return\n                time.sleep(.02)\n            raise RuntimeError('timeout')\n        def race_identity(path):\n            value=original_race_identity(path); p=Path(path); source_now=original_race_identity(SOURCE)\n            if p.name=='owner' and p.parent.parent==LOCK_ROOT and source_now.get('sha256')==digest(candidate_data): pause_release_race(p.parent)\n            return value\n        globals()['pause_release_race']=pause_release_race\n        globals()['path_identity']=race_identity\n    if phase == 'lock-quarantine-published' and fault == 'lock-post-check-race': globals()['pause_release_race']()\n"""
+if text.replace(insert,'').replace(extra,'').replace(extra2,'').replace(derived_dir_line,script_dir_line) != canonical.read_text(encoding='utf-8'): raise SystemExit('instrumented copy does not strip byte-equal')
 PY
   printf '%s\n' "$derived"
 }
@@ -273,14 +275,20 @@ else:
   for key,path_roles in roles.items():
    effects=actual_by.get(key,[])
    required=None
-   if 'path-lock' in path_roles and 'mkdir' in effects: required='rmdir'
-   elif 'lock-owner' in path_roles and 'create' in effects: required='unlink'
+   if 'path-lock' in path_roles and 'mkdir' in effects:
+    if 'replace' not in effects: required='rmdir'
+   elif 'lock-owner' in path_roles and 'create' in effects:
+    parent=('repo',str(PurePosixPath(key[1]).parent))
+    if 'replace' not in actual_by.get(parent,[]): required='unlink'
    elif 'journal' in path_roles and 'replace' in effects: required='unlink'
    elif 'journal-temp' in path_roles and 'create' in effects: required='replace'
    elif 'backup' in path_roles and any(x in effects for x in ('link','replace')): required='unlink'
    elif 'stage' in path_roles and 'create' in effects: required='unlink'
    elif 'result' in path_roles: required='fsync'
    if required is not None and required not in effects: raise SystemExit(f'{label}: clean result omitted {required} for {key}')
+  quarantined=sum('replace' in actual_by.get(key,[]) for key,value in roles.items() if 'path-lock' in value)
+  disposed=sum('rmdir' in actual_by.get(key,[]) for key,value in roles.items() if 'lock-quarantine' in value)
+  if quarantined!=disposed: raise SystemExit(f'{label}: clean result quarantine disposal mismatch: moved={quarantined} removed={disposed}')
 if r['transaction_id'] is not None and planned:
  result_paths=[key[1] for key,value in roles.items() if 'result' in value]
  if len(result_paths)!=1: raise SystemExit(f'{label}: missing unique result owner')
@@ -701,7 +709,12 @@ from pathlib import Path
 b,r=map(Path,sys.argv[1:]); rows=[]
 for n in ('a','b'):
  code=int((b/f'{n}.exit').read_text()); rec=json.loads((b/f'{n}.out').read_text()); rows.append((n,code,rec['status'],rec.get('reason_code'),rec.get('residue')))
-if sorted((x[1],x[2]) for x in rows)!=[(0,'COMMITTED'),(65,'CONFLICT_REBASE')]: raise SystemExit(f'R36-CONCURRENCY statuses {rows!r}')
+# Both loser timings are valid: overlap after transaction entry is a rebase
+# conflict; a winner that publishes first is rejected at the no-effect
+# destination preflight. Neither may retain residue or mutate the losing source.
+winners=[x for x in rows if x[1:3]==(0,'COMMITTED')]
+losers=[x for x in rows if (x[1:4] in {(65,'CONFLICT_REBASE','TARGET_LOCK_BUSY'),(65,'CONFLICT_REBASE','PREIMAGE_DRIFT'),(65,'CONFLICT_REBASE','DESTINATION_EXISTS'),(64,'REJECTED_NO_MUTATION','DESTINATION_EXISTS')}) and x[4]==[]]
+if len(winners)!=1 or len(losers)!=1: raise SystemExit(f'R36-CONCURRENCY statuses {rows!r}')
 winner=next(row[0] for row in rows if row[2]=='COMMITTED'); loser='b' if winner=='a' else 'a'
 if (r/'destination').read_bytes()!=winner.upper().encode() or (r/loser).read_bytes()!=loser.upper().encode() or (r/winner).exists(): raise SystemExit('R36-CONCURRENCY filesystem postcondition failed')
 (b/'winner').write_text(winner,encoding='ascii'); (b/'loser').write_text(loser,encoding='ascii')
@@ -1117,16 +1130,47 @@ PY
   : >"$barrier/release"; wait_bounded "$pid" 'R36 lock ABA helper'
   [ "$(<"$barrier/exit")" -eq 75 ] || fail "R36 lock ABA exit=$(<"$barrier/exit") expected=75 stderr=$(<"$stderr")"
   assert_hex R36-lock-ABA-source "$fixture_repo/target" 4e4557
-  [ "$(<"$aba_owner")" = "$aba_token" ] || fail 'R36 lock ABA external owner token was changed'
-  [ "$(stat -c %i "$aba_owner")" = "$aba_inode" ] || fail 'R36 lock ABA external owner identity was removed/replaced'
-  [ -d "$(dirname "$aba_owner")" ] || fail 'R36 lock ABA external lock was removed'
-  "$python_bin" - "$stdout" "$aba_owner" "$fixture_repo" <<'PY' || fail 'R36 lock ABA lacked exact conflict residue'
+  "$python_bin" - "$stdout" "$fixture_repo" "$aba_inode" "$aba_token" <<'PY' || fail 'R36 lock ABA lacked preserved exact conflict residue'
+import json,os,sys
+from pathlib import Path
+r=json.load(open(sys.argv[1],encoding='utf-8')); root=Path(sys.argv[2]); inode=int(sys.argv[3]); token=sys.argv[4].encode(); paths={x['path'] for x in r['residue']}
+if r['status']!='ROLLBACK_FAILED_WITH_RESIDUE' or r['reason_code']!='IO_FAILURE': raise SystemExit(r)
+owners=[root/path for path in paths if path.endswith('/owner')]
+matches=[p for p in owners if p.is_file() and os.lstat(p).st_ino==inode and p.read_bytes()==token]
+if len(matches)!=1 or matches[0].parent.relative_to(root).as_posix() not in paths: raise SystemExit({'paths':paths,'matches':matches})
+PY
+
+  # Exact check/use witness: the actor replaces the public owner with the same
+  # token after the helper's identity check returns but before cleanup mutates
+  # the pathname. The actor object and its directory must survive unchanged.
+  setup; pre="$(artifact lock-race-pre 4142434445)"; cand="$(artifact lock-race-candidate 4e4557)"; derived="$(instrumented_helper)"; barrier="$tmp/lock-post-check"; mkdir "$barrier"
+  prepare_authority replace target -; phase="$prepared_phase"; stdout="$tmp/lock-post-check.out"; stderr="$tmp/lock-post-check.err"
+  (set +e; IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=lock-post-check-race bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$phase" --step 1 --preimage "$pre" --candidate "$cand" >"$stdout" 2>"$stderr"; echo $? >"$barrier/exit") & pid=$!
+  ticks=0; while [ ! -f "$barrier/paused" ] && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done; [ "$ticks" -lt 500 ] || {
+    wait_bounded "$pid" 'R36 lock post-check helper'
+    local timeout_exit timeout_stdout timeout_stderr
+    timeout_exit="$(<"$barrier/exit")"; timeout_stdout="$(<"$stdout")"; timeout_stderr="$(<"$stderr")"
+    fail "R36 lock post-check race did not reach destructive seam exit=$timeout_exit stdout=$timeout_stdout stderr=$timeout_stderr"
+  }
+  local race_lock race_owner race_inode race_token
+  race_lock="$(<"$barrier/lock-path")"; race_owner="$race_lock/owner"; race_token="$(<"$barrier/owner-token")"
+  race_inode="$($python_bin - "$race_lock" "$race_token" <<'PY'
+import os,sys
+from pathlib import Path
+lock=Path(sys.argv[1]); token=sys.argv[2].encode('ascii'); lock.mkdir(parents=True,exist_ok=True); owner=lock/'owner'; replacement=lock/'owner.external-replacement'; replacement.write_bytes(token); os.replace(replacement,owner); print(os.lstat(owner).st_ino)
+PY
+)" || fail 'R36 lock post-check actor could not install replacement'
+  : >"$barrier/release"; wait_bounded "$pid" 'R36 lock post-check helper'
+  [ "$(<"$barrier/exit")" -eq 75 ] || fail "R36 lock post-check exit=$(<"$barrier/exit") expected=75 stderr=$(<"$stderr")"
+  [ -d "$race_lock" ] && [ -f "$race_owner" ] || fail 'R36 lock post-check actor lock/owner was deleted'
+  [ "$(<"$race_owner")" = "$race_token" ] || fail 'R36 lock post-check actor token changed'
+  [ "$(stat -c %i "$race_owner")" = "$race_inode" ] || fail 'R36 lock post-check actor identity changed'
+  "$python_bin" - "$stdout" "$race_owner" "$fixture_repo" <<'PY' || fail 'R36 lock post-check race lacked exact residue'
 import json,sys
 from pathlib import Path
 r=json.load(open(sys.argv[1],encoding='utf-8')); owner=Path(sys.argv[2]); root=Path(sys.argv[3]); paths={x['path'] for x in r['residue']}
 relative=owner.relative_to(root).as_posix(); lock=owner.parent.relative_to(root).as_posix()
-if r['status']!='ROLLBACK_FAILED_WITH_RESIDUE' or r['reason_code']!='IO_FAILURE': raise SystemExit(r)
-if relative not in paths or lock not in paths: raise SystemExit(paths)
+if r['status']!='ROLLBACK_FAILED_WITH_RESIDUE' or relative not in paths or lock not in paths: raise SystemExit(r)
 PY
 
   # Internal transaction and lock custody paths may be absent or ordinary
