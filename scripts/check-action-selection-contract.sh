@@ -218,6 +218,10 @@ required_ids = {
         (92, "insufficient-delegated-capability-escalates"),
         (93, "high-consequence-separates"),
         (94, "same-root-does-not-require-transfer-capsule"),
+        (95, "open-authority-boundary-defers"),
+        (96, "small-drift-still-reconciles"),
+        (97, "zero-ceiling-authorization-change-reconciles"),
+        (98, "serial-capacity-change-recomputes"),
     )
 }
 ids = [case.get("id") for case in cases if isinstance(case, dict)]
@@ -340,9 +344,9 @@ def decide(case):
             return "PARALLEL_SAFE"
         return "SERIALISE_SHARED"
     if kind == "scheduling":
-        fields = "event work_units host_capacity operator_ceiling active_cells ready_cells parallelism_allowed cell_independence_known closed_write_boundaries closed_acceptance_boundaries closed_resource_boundaries irreversible_external authorization_current"
+        fields = "event work_units host_capacity operator_ceiling active_cells ready_cells parallelism_allowed cell_independence_known closed_write_boundaries closed_acceptance_boundaries closed_resource_boundaries irreversible_external authorization_current closed_authority_boundaries"
         exact(o, fields)
-        booleans(o, "parallelism_allowed cell_independence_known closed_write_boundaries closed_acceptance_boundaries closed_resource_boundaries irreversible_external authorization_current")
+        booleans(o, "parallelism_allowed cell_independence_known closed_write_boundaries closed_acceptance_boundaries closed_resource_boundaries irreversible_external authorization_current closed_authority_boundaries")
         if type(o["event"]) is not str or o["event"] not in {
                 "initial", "cell_complete", "cell_blocked", "drift",
                 "authorization_change", "capacity_change", "unchanged_reminder"}:
@@ -355,20 +359,17 @@ def decide(case):
                 or o["ready_cells"] < 0
                 or o["active_cells"] + o["ready_cells"] > o["work_units"]):
             raise ValueError("scheduling population or capacity")
-        if o["operator_ceiling"] == 0:
-            return "SERIAL_CHEAP_PATH"
+        if (o["event"] in {"drift", "authorization_change"}
+                or not o["authorization_current"]):
+            return "RECONCILE_FRONTIER"
+        if o["event"] == "unchanged_reminder":
+            return "NO_REDISPATCH"
+        if not o["closed_authority_boundaries"]:
+            return "DEFER_AUTHORITY_OPEN"
         effective_capacity = min(
             o["host_capacity"],
             o["operator_ceiling"] if o["operator_ceiling"] > 0 else o["host_capacity"],
         )
-        if (o["work_units"] < 3 or effective_capacity < 2
-                or not o["parallelism_allowed"]):
-            return "SERIAL_CHEAP_PATH"
-        if o["event"] == "unchanged_reminder":
-            return "NO_REDISPATCH"
-        if (o["event"] in {"drift", "authorization_change"}
-                or not o["authorization_current"]):
-            return "RECONCILE_FRONTIER"
         if not o["cell_independence_known"]:
             return "DEFER_INDEPENDENCE_UNKNOWN"
         if (not all((o["closed_write_boundaries"],
@@ -380,6 +381,9 @@ def decide(case):
         activatable = capacity_available and o["ready_cells"] > 0
         if o["event"] in {"cell_complete", "cell_blocked", "capacity_change"}:
             return "RECOMPUTE_AND_ACTIVATE" if activatable else "RECOMPUTE_FRONTIER"
+        if (o["operator_ceiling"] == 0 or o["work_units"] < 3
+                or effective_capacity < 2 or not o["parallelism_allowed"]):
+            return "SERIAL_CHEAP_PATH"
         if activatable and o["operator_ceiling"] > 0:
             return "ACTIVATE_BOUNDED"
         return "ACTIVATE_READY_CELLS" if activatable else "HOLD_FRONTIER"

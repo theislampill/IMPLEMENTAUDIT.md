@@ -283,4 +283,36 @@ path.write_text(json.dumps(payload), encoding="utf-8")
 PY
 expect_fail "timed-out dogfood cell promoted to PASS"
 
+# 19. Current authorization cannot impersonate a closed per-cell authority boundary.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C95-open-authority-boundary-defers")
+case["expected"] = "ACTIVATE_READY_CELLS"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "open authority boundary activated"
+
+# 20. Drift is a reconciliation event even on the serial cheap path.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C96-small-drift-still-reconciles")
+case["expected"] = "SERIAL_CHEAP_PATH"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "serial cheap path hid drift reconciliation"
+
 printf 'action-selection-contract.test: ok\n'
