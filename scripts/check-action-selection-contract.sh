@@ -71,7 +71,7 @@ do
   require "$plan_lifecycle" "$text"
 done
 
-child_agents="skills/implementaudit/references/child-agents.md"
+child_ref="skills/implementaudit/references/child-agents.md"
 for text in \
   "maintain the" \
   "work-conserving ready-cell frontier" \
@@ -80,7 +80,7 @@ for text in \
   "unchanged owner reminder" \
   "Missing context stops the lane"
 do
-  require "$child_agents" "$text"
+  require "$child_ref" "$text"
 done
 
 # --- engineering-value admission and retirement contract (#163 / R34) ---
