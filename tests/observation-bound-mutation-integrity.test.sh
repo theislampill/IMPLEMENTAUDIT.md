@@ -972,6 +972,54 @@ PY
   return 0
 }
 
+gate_domain_self_check() {
+  local pre cand
+  # A structurally replaced or aliased gate is detected before product
+  # mutation and routes to the existing owner-decision boundary. The constant
+  # coordination scope does not claim arbitrary same-principal exclusion.
+  setup; mkdir -p "$fixture_repo/.IMPLEMENTAUDIT/.r36-locks"; printf '\0' >"$fixture_repo/.IMPLEMENTAUDIT/.r36-locks/namespace.gate"; ln "$fixture_repo/.IMPLEMENTAUDIT/.r36-locks/namespace.gate" "$fixture_repo/.IMPLEMENTAUDIT/.r36-locks/namespace.gate.external-alias"
+  pre="$(artifact gate-domain-pre 4142434445)"; cand="$(artifact gate-domain-candidate 4e4557)"
+  invoke R36-GATE-DOMAIN UNSUPPORTED_OWNER_DECISION replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"
+  "$python_bin" - "$tmp/R36-GATE-DOMAIN.out" <<'PY' || fail 'R36-GATE-DOMAIN lacked exact pre-effect owner-decision evidence'
+import copy,json,sys
+r=json.load(open(sys.argv[1],encoding='utf-8'))
+if r['reason_code']!='WRITER_DOMAIN_BREACH' or r['coordination_scope']!='GOVERNED_HELPER_ROUTED_WRITERS_ONLY': raise SystemExit(r)
+if r['residue']!=[]: raise SystemExit(f'pre-product refusal retained unresolved residue: {r["residue"]!r}')
+allowed_by_role={
+ 'transaction-parent':{'fsync'},
+ 'transaction-dir':{'mkdir','fsync'},
+ 'authority':{'create','write','fsync'},
+ 'released-lock-root':{'mkdir','fsync'},
+ 'lock-parent':{'fsync'},
+ 'lock-root':{'mkdir','fsync'},
+ 'lock-namespace-gate':{'create','write','fsync'},
+ 'result':{'create','write','fsync'},
+}
+planned={(x['scope'],x['path']):x for x in r['planned_effect_set']}
+def evidence_only(record):
+ accepted=[]
+ for effect in record['actual_effect_set']:
+  if effect['outcome']!='applied': continue
+  declaration=planned.get((effect['scope'],effect['path']))
+  if declaration is None: raise ValueError(f'undeclared applied effect: {effect!r}')
+  roles=set(declaration['roles']); allowed_roles=roles & set(allowed_by_role)
+  if not allowed_roles or roles-allowed_roles: raise ValueError(f'non-evidence role mutated: roles={sorted(roles)!r} effect={effect!r}')
+  allowed_effects=set().union(*(allowed_by_role[role] for role in allowed_roles))
+  if effect['effect'] not in allowed_effects: raise ValueError(f'non-evidence operation for role: roles={sorted(roles)!r} effect={effect!r}')
+  accepted.append((tuple(sorted(roles)),effect['effect']))
+ return accepted
+accepted=evidence_only(r)
+mutant=copy.deepcopy(r); stage=next(x for x in mutant['planned_effect_set'] if 'stage' in x['roles'])
+mutant['actual_effect_set'].append({'sequence':len(mutant['actual_effect_set'])+1,'scope':stage['scope'],'path':stage['path'],'effect':'create','before':{'kind':'absent'},'after':{'kind':'regular'},'outcome':'applied'})
+mutant_product_effects=[x for x in mutant['actual_effect_set'] if x['path']=='target' and x['outcome']=='applied']
+if mutant_product_effects: raise SystemExit('mutant unexpectedly touched the witnessed target')
+try: evidence_only(mutant)
+except ValueError: pass
+else: raise SystemExit('closed evidence-role oracle accepted an applied stage mutation')
+print('R36_GATE_DOMAIN_APPLIED_EVIDENCE_ROLES='+json.dumps(sorted(set(accepted)),separators=(',',':')))
+PY
+}
+
 causal_review_heldouts() {
   local pre cand derived stdout stderr actual phase barrier pid a b ticks region repl tx
 
@@ -1157,19 +1205,7 @@ durable=Path(sys.argv[2])/'mutation-transactions'/r['transaction_id']/'result.js
 if not durable.is_file() or json.loads(durable.read_text(encoding='utf-8'))!=r: raise SystemExit('durable gate-release adjudication differs from stdout')
 PY
 
-  # A structurally replaced or aliased gate is detected before product
-  # mutation and routes to the existing owner-decision boundary. The constant
-  # coordination scope does not claim arbitrary same-principal exclusion.
-  setup; mkdir -p "$fixture_repo/.IMPLEMENTAUDIT/.r36-locks"; printf '\0' >"$fixture_repo/.IMPLEMENTAUDIT/.r36-locks/namespace.gate"; ln "$fixture_repo/.IMPLEMENTAUDIT/.r36-locks/namespace.gate" "$fixture_repo/.IMPLEMENTAUDIT/.r36-locks/namespace.gate.external-alias"
-  pre="$(artifact gate-domain-pre 4142434445)"; cand="$(artifact gate-domain-candidate 4e4557)"
-  invoke R36-GATE-DOMAIN UNSUPPORTED_OWNER_DECISION replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"
-  "$python_bin" - "$tmp/R36-GATE-DOMAIN.out" <<'PY' || fail 'R36-GATE-DOMAIN lacked exact pre-effect owner-decision evidence'
-import json,sys
-r=json.load(open(sys.argv[1],encoding='utf-8'))
-if r['reason_code']!='WRITER_DOMAIN_BREACH' or r['coordination_scope']!='GOVERNED_HELPER_ROUTED_WRITERS_ONLY': raise SystemExit(r)
-product_effects=[x for x in r['actual_effect_set'] if x['path']=='target' and x['outcome']=='applied']
-if product_effects: raise SystemExit(product_effects)
-PY
+  gate_domain_self_check
 
   # ABA replacement with the same visible owner token is not ownership. Lock
   # release preserves the whole directory as a durable transaction record; it
@@ -1442,6 +1478,7 @@ PY
 case "${1:-}" in
   --fixture-self-check) fixture_self_check; exit 0;;
   --mutant-self-check) fixture_self_check; mutant_self_check; exit 0;;
+  --gate-domain-self-check) fixture_self_check; gate_domain_self_check; exit 0;;
   --review-heldouts) fixture_self_check; unsupported_external_gate_replacement_evidence; bash -n "$canonical_helper"; concurrent_destination; causal_review_heldouts; printf 'R36_REVIEW_HELDOUTS=PASS\n'; exit 0;;
 esac
 fixture_self_check

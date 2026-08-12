@@ -917,6 +917,10 @@ def residue_row(path):
 
 
 def result_record(status, reason_code, residue_paths, effect_rows):
+    # A pre-product owner refusal can retain contained transaction/audit
+    # bookkeeping while product effects remain absent and residue is empty.
+    # Preserve those actual evidence rows; do not turn "no product mutation"
+    # into an empty-ledger claim.
     return {
         "schema": "implementaudit.observation_bound_mutation.v2",
         "transaction_id": transaction_id,
