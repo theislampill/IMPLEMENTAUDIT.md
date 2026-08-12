@@ -74,7 +74,10 @@ for text in \
   "No universal rule makes shorter feedback" \
   "higher utilisation, more slack, or less slack correct" \
   "stopping, retirement, or reclassification condition" \
-  "No activation factor means no R34 diagnostic or artefact"
+  "No activation factor means no R34 diagnostic or artefact" \
+  "actual dependency, write," \
+  "acceptance, resource, authority, and composed-only boundaries" \
+  'ready-cell frontier in `child-agents.md`'
 do
   require "$depth_ref" "$text"
 done
@@ -101,10 +104,38 @@ for text in \
   "changed scope or consumer requires a fresh run" \
   "no shared owner or shared write remains parallel-safe" \
   "one shared owner does not serialise disjoint cells" \
+  "Known independence is not activation" \
+  "Reconsider the ready frontier after a" \
+  "not a concurrency or utilisation" \
   "mandatory control ledger" \
   "large worksheet"
 do
   require "$lean_ref" "$text"
+done
+
+child_ref="skills/implementaudit/references/child-agents.md"
+for text in \
+  "### Work-conserving ready-cell frontier" \
+  "Maintain a ready-cell frontier" \
+  "Classify cells as ready, waiting on a named" \
+  "At initial dispatch, execute worthwhile ready cells" \
+  "Recompute after a material scheduling transition" \
+  "An unchanged reminder or status" \
+  "Use the ordinary serial cheap path" \
+  "ready-queue artefact" \
+  "minimum agent count"
+do
+  require "$child_ref" "$text"
+done
+
+skill_ref="skills/implementaudit/SKILL.md"
+for text in \
+  "recompute the ready-cell frontier" \
+  "dispatch known-independent cells" \
+  "serialise conflicts" \
+  "references/child-agents.md"
+do
+  require "$skill_ref" "$text"
 done
 
 "${py_cmd[@]}" - "$repo_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'

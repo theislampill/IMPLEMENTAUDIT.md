@@ -199,6 +199,15 @@ Serialise only the conflicting cell, keep closed write boundaries, and name the
 reconciliation point. Throughput never permits concurrent mutation of the same
 owner or an unqualified shared acceptance surface.
 
+Known independence is not activation. When useful ready work exists, dispatch
+it only with closed write, acceptance, resource, authority, and reconciliation
+boundaries; unknown independence, irreversible external effect, or an actual
+conflict serialises the affected cell. Reconsider the ready frontier after a
+material scheduling-state change rather than retaining an issue-level wait.
+This is work-conserving where the expected decision or information value
+exceeds dispatch and reconciliation cost, not a concurrency or utilisation
+target.
+
 Process volume is not value evidence. Commit, file, line, command, reviewer,
 artefact, report, token, and elapsed-time counts establish neither engineering
 value nor ceremony by themselves. A named consumer without a protected

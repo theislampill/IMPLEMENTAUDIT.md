@@ -44,6 +44,8 @@ reset_sandbox() {
     "$tmp_root/skills/implementaudit/references/"
   cp skills/implementaudit/references/lean-operating-discipline.md \
     "$tmp_root/skills/implementaudit/references/"
+  cp skills/implementaudit/references/child-agents.md \
+    "$tmp_root/skills/implementaudit/references/"
   cp skills/implementaudit/templates/THINKING.md \
     skills/implementaudit/templates/ROADMAP.md \
     "$tmp_root/skills/implementaudit/templates/"
@@ -367,5 +369,24 @@ case["expected"] = "RECOMPUTE_AND_ACTIVATE"
 path.write_text(json.dumps(payload), encoding="utf-8")
 PY
 expect_fail "unchanged reminder relabelled as a frontier event"
+
+# 23. The executable scheduling population must remain bound to its native
+# ready-frontier execution owner, not merely to fixture verdicts.
+reset_sandbox
+grep -v "Maintain a ready-cell frontier" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md" \
+  >"$tmp_root/child-agents.tmp"
+mv "$tmp_root/child-agents.tmp" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md"
+expect_fail "ready-frontier execution owner removed"
+
+# 24. The always-loaded runtime loop must progressively route material
+# scheduling transitions to the ready-frontier owner.
+reset_sandbox
+grep -v "recompute the ready-cell frontier" \
+  "$tmp_root/skills/implementaudit/SKILL.md" \
+  >"$tmp_root/SKILL.tmp"
+mv "$tmp_root/SKILL.tmp" "$tmp_root/skills/implementaudit/SKILL.md"
+expect_fail "ready-frontier runtime route removed"
 
 printf 'action-selection-contract.test: ok\n'

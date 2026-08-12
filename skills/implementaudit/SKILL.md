@@ -343,8 +343,8 @@ second `/goal` inside an existing `/goal` run.
 3. Plan: map each finding to owner/source, priority, risk, smallest safe
    change, evidence command, rollback, and terminal status.
 4. Smoke A: run and record baseline checks before mutation.
-5. Do: patch only owner/source, preserve exact domain notation/API/schema/paths,
-   and avoid broad rewrites.
+5. Do: patch owner/source; preserve notation/schema/paths; avoid broad
+   rewrites. On transitions, recompute the ready-cell frontier; dispatch known-independent cells or serialise conflicts (`references/child-agents.md`).
 6. Check: run Smoke B, compare to Smoke A, classify regressions, and rerun only
    meaningful checks.
 7. Act: update audit ledger, handoff/docs, AGENTS_UPDATE_DECISION, continuity

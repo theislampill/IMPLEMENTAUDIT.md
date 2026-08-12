@@ -181,6 +181,13 @@ dependency. Batch independent units to host concurrency and rollback margin,
 then run the class-earned ceremony once per batch. Fewer than three units use
 ordinary planning. Scaling never waives review, rollback, or external gates.
 
+For a materially decomposable run, distinguish actual dependency, write,
+acceptance, resource, authority, and composed-only boundaries before scheduling.
+A shared issue, milestone, branch train, eventual package, or public surface is
+not itself a dependency. Route known-independent units to the work-conserving
+ready-cell frontier in `child-agents.md`; unknown or overlapping boundaries
+remain ordered. This adds no frontier artefact to the ordinary serial path.
+
 | `change_class` | Ceremony floor |
 |---|---|
 | `reversible-local` | Smoke A/B + Stage 6; no repetition-only cold review. |

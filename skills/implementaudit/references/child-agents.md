@@ -179,6 +179,37 @@ that limit and rollback margin: one class-appropriate review/batch, not one
 programme/lane. `irreversible-external` and `unknown` keep full ceremony and
 external-state gates per unit.
 
+### Work-conserving ready-cell frontier
+
+Maintain a ready-cell frontier for a materially decomposable run. Derive the
+unfinished implementation, research, verification, review, documentation,
+package, publication, and acceptance cells only as deeply as needed to expose
+their dependency, read, write, acceptance, resource, authority, and
+composed-only boundaries. Classify cells as ready, waiting on a named
+dependency, conflicting/serial, or final-composed-only. A shared issue,
+milestone, PR train, runtime owner, package, or eventual public surface does not
+create a dependency without an overlapping current cell.
+
+At initial dispatch, execute worthwhile ready cells when host capacity and
+rollback margin exist, independence is known, and their expected engineering or
+information value exceeds dispatch and reconciliation cost. Keep the named join
+point. Unknown independence, shared write/acceptance/resource authority, and
+irreversible external effects serialise only the affected cell.
+
+Recompute after a material scheduling transition: a cell completes or blocks;
+review, verification, hosted CI, Pages, or external readback begins or ends; a
+parent or write set freezes; capacity changes; owner, source, scope, authority,
+or a mutation family changes; a conflict or dependency appears or disappears;
+a cell becomes composed-only; or new evidence changes the topology. Reconcile
+authority and boundaries before dispatch. An unchanged reminder or status
+message is not a transition and never redispatches work.
+
+Use the ordinary serial cheap path when fewer than three material units exist,
+only one cell is ready, the dependency chain is strict, concurrency is
+unavailable, or coordination would cost more than the work. Do not create a
+ready-queue artefact, mandatory child lane, minimum agent count, utilisation
+target, dashboard, or artificial split for that path.
+
 Specialist lanes cover:
 
 - deep category fanout for correctness, security, performance, tests,
