@@ -10,6 +10,7 @@ fi
 MSYS2_ARG_CONV_EXCL='*' exec "${python_cmd[@]}" - "$script_dir" "$bash_exe" "$@" <<'PY'
 import argparse
 import ctypes
+import errno
 import hashlib
 import json
 import os
@@ -494,6 +495,7 @@ BACKUP = TX / "backup.bin"
 STAGE = TX / "stage.bin"
 LOCK_ROOT = REPO / ".IMPLEMENTAUDIT" / ".r36-locks"
 LOCK_PARENT = LOCK_ROOT.parent
+RELEASED_LOCK_ROOT = TX / "released-locks"
 
 if not safe_directory_chain(TX_PARENT, RUN, True):
     emit_no_effect("REJECTED_NO_MUTATION", "INTERNAL_CUSTODY_UNSAFE", transaction_id)
@@ -511,10 +513,7 @@ if destination_name is not None:
     lock_keys.append(destination_name)
 lock_paths = [LOCK_ROOT / (digest(key.encode("utf-8")) + ".lock") for key in sorted(lock_keys)]
 owner = secrets.token_hex(16)
-lock_quarantines = {
-    lock: LOCK_ROOT / ("." + digest((owner + ":" + lock.name).encode("utf-8")) + ".release-quarantine")
-    for lock in lock_paths
-}
+released_locks = {lock: RELEASED_LOCK_ROOT / lock.name for lock in lock_paths}
 
 planned_map = {}
 
@@ -547,14 +546,15 @@ plan(RESULT, ["result"], ["create", "write", "fsync"], "durable")
 plan(DISPOSITION, ["disposition"], [], "durable")
 plan(BACKUP, ["backup", "residue"], ["link", "replace", "unlink", "fsync"], "conditional-residue")
 plan(STAGE, ["stage", "residue"], ["create", "write", "link", "unlink", "fsync"], "conditional-residue")
-plan(LOCK_ROOT, ["lock-root"], ["mkdir", "rmdir", "fsync"], "durable")
+plan(RELEASED_LOCK_ROOT, ["released-lock-root"], ["mkdir", "fsync"], "durable")
+plan(LOCK_ROOT, ["lock-root"], ["mkdir", "fsync"], "durable")
 plan(LOCK_PARENT, ["lock-parent"], ["fsync"], "durable")
 for lock in lock_paths:
-    quarantine = lock_quarantines[lock]
-    plan(lock, ["path-lock", "residue"], ["mkdir", "replace", "rmdir", "fsync"], "conditional-residue")
-    plan(lock / "owner", ["lock-owner", "residue"], ["create", "write", "unlink", "fsync"], "conditional-residue")
-    plan(quarantine, ["lock-quarantine", "residue"], ["replace", "rmdir", "fsync"], "conditional-residue")
-    plan(quarantine / "owner", ["lock-quarantine-owner", "residue"], ["unlink", "fsync"], "conditional-residue")
+    released = released_locks[lock]
+    plan(lock, ["path-lock", "residue"], ["mkdir", "replace", "fsync"], "transient")
+    plan(lock / "owner", ["lock-owner", "residue"], ["create", "write", "fsync"], "transient")
+    plan(released, ["released-lock-record"], ["replace", "fsync"], "durable")
+    plan(released / "owner", ["released-lock-owner"], [], "durable")
 
 planned = [
     {
@@ -703,6 +703,55 @@ def replace(source, destination, on_mutated=None, on_durable=None, effect_rows=N
     if len(rows) != 2:
         raise RuntimeError("EFFECT_SET_PRECOMPUTE_DRIFT")
     os.replace(source, destination)
+    notify_mutated(on_mutated, source, "replace")
+    record_applied(source, "replace", source_before, path_identity(source), rows[0])
+    record_applied(destination, "replace", destination_before, path_identity(destination), rows[1])
+    if sync_parents:
+        fsync_dir(source.parent)
+        if destination.parent != source.parent:
+            fsync_dir(destination.parent)
+        notify_durable(on_durable, destination, "replace")
+
+
+def rename_no_replace(source, destination, on_mutated=None, on_durable=None, effect_rows=None, sync_parents=True):
+    """Atomically move a custody directory without replacing any destination."""
+    source_before = path_identity(source)
+    destination_before = path_identity(destination)
+    authorise(source, "replace")
+    authorise(destination, "replace")
+    rows = list(effect_rows or (None, None))
+    if len(rows) != 2:
+        raise RuntimeError("EFFECT_SET_PRECOMPUTE_DRIFT")
+    if os.name == "nt":
+        os.rename(source, destination)
+    elif sys.platform.startswith("linux"):
+        libc = ctypes.CDLL(None, use_errno=True)
+        try:
+            renameat2 = libc.renameat2
+        except AttributeError as error:
+            raise OSError(errno.ENOTSUP, "atomic no-replace rename is unavailable") from error
+        renameat2.argtypes = [ctypes.c_int, ctypes.c_char_p, ctypes.c_int, ctypes.c_char_p, ctypes.c_uint]
+        renameat2.restype = ctypes.c_int
+        if renameat2(-100, os.fsencode(source), -100, os.fsencode(destination), 1) != 0:
+            code = ctypes.get_errno()
+            if code == errno.EEXIST:
+                raise FileExistsError(code, os.strerror(code), str(destination))
+            raise OSError(code, os.strerror(code), str(destination))
+    elif sys.platform == "darwin":
+        libc = ctypes.CDLL(None, use_errno=True)
+        try:
+            renamex_np = libc.renamex_np
+        except AttributeError as error:
+            raise OSError(errno.ENOTSUP, "atomic no-replace rename is unavailable") from error
+        renamex_np.argtypes = [ctypes.c_char_p, ctypes.c_char_p, ctypes.c_uint]
+        renamex_np.restype = ctypes.c_int
+        if renamex_np(os.fsencode(source), os.fsencode(destination), 4) != 0:
+            code = ctypes.get_errno()
+            if code == errno.EEXIST:
+                raise FileExistsError(code, os.strerror(code), str(destination))
+            raise OSError(code, os.strerror(code), str(destination))
+    else:
+        raise OSError(errno.ENOTSUP, "atomic no-replace rename is unavailable")
     notify_mutated(on_mutated, source, "replace")
     record_applied(source, "replace", source_before, path_identity(source), rows[0])
     record_applied(destination, "replace", destination_before, path_identity(destination), rows[1])
@@ -1017,7 +1066,7 @@ def mark_lock_owned(lock):
             entry = {
                 "path": lock,
                 "public_path": lock,
-                "quarantine": lock_quarantines[lock],
+                "released_path": released_locks[lock],
                 "lock_identity": path_identity(lock),
                 "owner_created": False,
                 "owner_identity": None,
@@ -1032,10 +1081,10 @@ def mark_lock_owned(lock):
     return mark
 
 
-def mark_lock_quarantined(entry):
+def mark_lock_released(entry):
     def mark(_path, effect):
         if effect == "replace":
-            entry["path"] = entry["quarantine"]
+            entry["path"] = entry["released_path"]
     return mark
 
 
@@ -1043,53 +1092,20 @@ def release_locks():
     while held:
         entry = held[-1]
         public_lock = entry["public_path"]
-        quarantine = entry["quarantine"]
+        released = entry["released_path"]
         try:
-            if path_identity(quarantine).get("kind") != "absent":
-                break
-            replace(public_lock, quarantine, mark_lock_quarantined(entry))
-            phase_hook("lock-quarantine-published")
-            owner_path = quarantine / "owner"
-            current_lock = path_identity(quarantine)
-            current_owner = path_identity(owner_path)
-            if current_lock != entry["lock_identity"]:
-                break
-            if entry["owner_created"]:
-                if current_owner != entry["owner_identity"] or current_owner.get("kind") != "regular":
-                    break
-                if current_owner.get("sha256") != entry["owner_token_sha256"]:
-                    break
-                unlink(owner_path)
-            elif current_owner.get("kind") != "absent":
-                break
-            current_lock = path_identity(quarantine)
-            if current_lock != entry["lock_identity"] or path_identity(owner_path).get("kind") != "absent":
-                break
-            if current_lock.get("kind") == "directory":
-                rmdir(quarantine)
-            elif current_lock.get("kind") != "absent":
-                break
-            if path_identity(public_lock).get("kind") != "absent":
-                entry["path"] = public_lock
-                break
+            rename_no_replace(public_lock, released, mark_lock_released(entry))
+            phase_hook("lock-release-published")
             held.pop()
         except (OSError, RuntimeError):
             break
 
 
 def release_lock_root():
-    global lock_root_created
-    if not lock_root_created:
-        return
-    try:
-        kind = path_identity(LOCK_ROOT).get("kind")
-        if kind == "directory":
-            rmdir(LOCK_ROOT)
-        elif kind != "absent":
-            return
-        lock_root_created = False
-    except (OSError, RuntimeError):
-        return
+    # Shared acquisition namespace is durable. Removing it would recreate the
+    # same check/use problem as removing a lock: an external actor can replace
+    # an empty pathname after validation but before rmdir.
+    return
 
 
 def owned_lock_residue_paths():
@@ -1161,6 +1177,7 @@ def mark_move_destination_published(_path, _effect):
 
 
 try:
+    mkdir(RELEASED_LOCK_ROOT)
     if path_identity(LOCK_ROOT).get("kind") == "absent":
         try:
             mkdir(LOCK_ROOT, on_mutated=mark_lock_root, on_durable=mark_lock_root_durable)
