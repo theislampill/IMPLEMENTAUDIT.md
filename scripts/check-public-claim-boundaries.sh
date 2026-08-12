@@ -58,6 +58,10 @@ unsupported_claims = [
 ]
 stale_current_release_claims = [
     (
+        "r36 / #167 remains open and was not shipped or qualified in this release",
+        "current release surfaces must not retain the pre-R36 exclusion claim",
+    ),
+    (
         "do not replace bytes under an already-published tag",
         "release policy must preserve bounded owner-authorised same-identity correction",
     ),

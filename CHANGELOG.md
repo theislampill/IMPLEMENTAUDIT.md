@@ -38,9 +38,9 @@ until the candidate is merged to authoritative `main` and the existing
   Trivial work remains serial and same-root; no fixed modes, fanout quotas, model
   hierarchy, or second lifecycle is introduced.
 - R33 package builds use pinned, deterministic Zopfli method-8 DEFLATE. The
-  exact 258,000-byte composed candidate is calibrated to the smallest
+  exact 257,998-byte composed candidate is calibrated to the smallest
   whole-1,000-byte ceiling retaining at least 2,000 bytes of headroom:
-  260,000 bytes, leaving 2,000 bytes. The 260,000-byte owner outer bound is a
+  260,000 bytes, leaving 2,002 bytes. The 260,000-byte owner outer bound is a
   guard, not a spending target; required governed runtime semantics were not
   deleted or weakened to recover bytes.
 - #101 narrowly adopts TokenSave as optional derived code navigation for
@@ -51,10 +51,10 @@ until the candidate is merged to authoritative `main` and the existing
 
 ### Package boundary
 
-- The exact qualified candidate is a 258,000-byte, 51-member
+- The exact qualified candidate is a 257,998-byte, 51-member
   `IMPLEMENTAUDIT.skill` with SHA-256
-  `dc943cc7054addede51bd4d5a98cac84ddcc0578379c4e0d3db023822252b6ae`.
-  Its 260,000-byte calibrated ceiling leaves 2,000 bytes of headroom and is
+  `0e10a21600062c6f7cd440a6efb0ff3b795ce1a01067efb4005c7a176db02413`.
+  Its 260,000-byte calibrated ceiling leaves 2,002 bytes of headroom and is
   also the owner-approved outer guard.
 - The earlier 227,999-byte public-asset receipt remains historical evidence.
   A fresh API census found that asset absent while the earlier checksum asset
@@ -166,6 +166,7 @@ separate publication and readback gate records that state; the published
   `21e7e7b379dbf9a312643186e749d4fb5bd97cdbdde3ad162e3f42f77da6751e`.
 - same-tag correction for `v0.3.3.3` `IMPLEMENTAUDIT.skill`: prematurely published `bfe323853fcb814530c9f58e078ef09d4e930419d99005af26c9135f936e3536` (227,995 bytes) -> final `151cb5400d248e3e41a30750ba690d8c46bbe907294ba82a0a5a627536ad563e` (227,999 bytes).
 - same-tag correction for `v0.3.3.3` `IMPLEMENTAUDIT.skill`: current public `151cb5400d248e3e41a30750ba690d8c46bbe907294ba82a0a5a627536ad563e` (227,999 bytes) -> candidate `dc943cc7054addede51bd4d5a98cac84ddcc0578379c4e0d3db023822252b6ae` (258,000 bytes).
+- same-tag correction for `v0.3.3.3` `IMPLEMENTAUDIT.skill`: current public `151cb5400d248e3e41a30750ba690d8c46bbe907294ba82a0a5a627536ad563e` (227,999 bytes) -> candidate `0e10a21600062c6f7cd440a6efb0ff3b795ce1a01067efb4005c7a176db02413` (257,998 bytes).
 - The final corrected package contains 50 members, excludes `/dashboard/`, and
   leaves 2,001 bytes under the unchanged 230,000-byte owner bound. Focused
   R29/R30/R33/R35, package, source/package parity, temporary-install, and
@@ -184,9 +185,10 @@ separate publication and readback gate records that state; the published
   bytes and checksum asset ID `510191721` at 96 bytes. The final user-facing
   body is 11,483 UTF-8 bytes with SHA-256
   `b03fc28e2bb9a712fc14f0cb9ec95b190ee016d775b2ce1e7e2edd2d6eca5798`.
-- R36 / #167 remains open and was not shipped or qualified in this release. R28 /
-  #117 remains open, optional, and nonblocking. `/dashboard/` remains excluded
-  from `IMPLEMENTAUDIT.skill`.
+- At that 2026-08-11 readback, R36 / #167 remained open and its later
+  governed-writer helper was not yet shipped. R28 / #117 remained open,
+  optional, and nonblocking. `/dashboard/` remained excluded from
+  `IMPLEMENTAUDIT.skill`.
 - A fresh final public download matched the qualified asset and checksum, then
   installed into a temporary Codex home with 48 files at runtime `0.3.3`; the
   installed ordinary read-only `summarize-repo` route exited zero. This is not

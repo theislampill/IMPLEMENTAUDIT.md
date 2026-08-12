@@ -214,15 +214,15 @@ current evidence, as DONE, ACTIVE, READY, or BLOCKED; READY needs satisfied
 dependencies. Unknown, stale, duplicate, or
 missing state prevents dispatch. Before dispatch, expose:
 `DONE + ACTIVE + READY + BLOCKED = population`;
-`capacity = min(host, positive operator ceiling)` (or host without one);
+`capacity = 0 at ceiling 0, host if absent, else min(host, ceiling)`;
 `free = max(0, capacity - ACTIVE)`; `dispatch = min(READY, free)`.
 Use deterministic tooling, not model estimates; ungrounded terms require
-reacquisition or serial execution. Completion reconciles; it never zeroes
-ACTIVE.
+reacquisition or serial execution.
+Completion reconciles; never infer other ACTIVE=0.
 
-Use the ordinary serial cheap path when fewer than three material units exist,
-only one cell is ready, the dependency chain is strict, concurrency is
-unavailable, or coordination would cost more than the work. Do not create a
+Use the serial cheap path for fewer than three material units, one ready cell,
+a strict dependency chain, unavailable concurrency, or when
+coordination would cost more than the work. Do not create a
 ready-queue artefact, mandatory child lane, minimum agent count, utilisation
 target, dashboard, or artificial split for that path.
 

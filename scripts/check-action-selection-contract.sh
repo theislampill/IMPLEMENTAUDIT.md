@@ -82,7 +82,7 @@ for text in \
   "shared write/acceptance/resource authority" \
   "Before dispatch, expose" \
   "DONE + ACTIVE + READY + BLOCKED = population" \
-  "capacity = min(host, positive operator ceiling)" \
+  "capacity = 0 at ceiling 0, host if absent, else min(host, ceiling)" \
   "free = max(0, capacity - ACTIVE)" \
   "dispatch = min(READY, free)" \
   "Use deterministic tooling, not model estimates" \
@@ -162,8 +162,8 @@ for text in \
   "Unknown," \
   "state prevents dispatch" \
   "Completion" \
-  "never zeroes" \
-  "Use the ordinary serial cheap path" \
+  "never infer other ACTIVE=0" \
+  "Use the serial cheap path" \
   "ready-queue artefact" \
   "minimum agent count" \
   "dashboard"

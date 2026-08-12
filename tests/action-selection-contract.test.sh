@@ -781,4 +781,24 @@ mv "$tmp_root/child-agents.tmp" \
   "$tmp_root/skills/implementaudit/references/child-agents.md"
 expect_fail "deterministic frontier arithmetic boundary removed"
 
+# 52. A zero operator ceiling is an explicit no-dispatch bound, not an absent
+# ceiling that silently falls back to host capacity.
+reset_sandbox
+grep -v "capacity = 0 at ceiling 0" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md" \
+  >"$tmp_root/child-agents.tmp"
+mv "$tmp_root/child-agents.tmp" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md"
+expect_fail "zero-ceiling capacity branch removed"
+
+# 53. Completion may leave ACTIVE at zero, but it cannot infer that other
+# governed activity vanished merely because one cell completed.
+reset_sandbox
+grep -v "never infer other ACTIVE=0" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md" \
+  >"$tmp_root/child-agents.tmp"
+mv "$tmp_root/child-agents.tmp" \
+  "$tmp_root/skills/implementaudit/references/child-agents.md"
+expect_fail "completion inferred other active cells were zero"
+
 printf 'action-selection-contract.test: ok\n'

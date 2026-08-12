@@ -857,6 +857,22 @@ else
   ok "check-public-claim-boundaries.sh rejects the superseded v0.3.3.0 current-release claim"
 fi
 
+"${py_cmd[@]}" - "$host_claim_fixture" <<'PY'
+import sys
+from pathlib import Path
+
+Path(sys.argv[1]).write_text(
+    "R36 / #167 remains open and was not "
+    + "shipped or qualified in this release.\n",
+    encoding="utf-8",
+)
+PY
+if bash scripts/check-public-claim-boundaries.sh >/dev/null 2>&1; then
+  fail_check "check-public-claim-boundaries.sh accepted the stale pre-R36 release claim"
+else
+  ok "check-public-claim-boundaries.sh rejects the stale pre-R36 release claim"
+fi
+
 if "${py_cmd[@]}" - <<'PY'
 from pathlib import Path
 

@@ -88,9 +88,9 @@ Each action requires separate explicit authorisation.
 
 1. Choose the installation route in [Install notes](#install-notes). The
    current release identity is `v0.3.3.3`; its host-facing runtime remains
-   `0.3.3`. The final correction candidate is a qualified 258,000-byte package
+   `0.3.3`. The final correction candidate is a qualified 257,998-byte package
    with SHA-256
-   `dc943cc7054addede51bd4d5a98cac84ddcc0578379c4e0d3db023822252b6ae`.
+   `0e10a21600062c6f7cd440a6efb0ff3b795ce1a01067efb4005c7a176db02413`.
    A checkout of `main`, a locally built archive, and the public release asset
    remain distinct until publication and byte-for-byte readback are complete.
 
@@ -1090,9 +1090,9 @@ Install flows are evidence-bounded. This repo can locally validate the release
 asset-to-Codex-install path into a temporary Codex home. It does not claim passive auto-update, universal host support, marketplace verification, or public GitHub release download verification unless those checks are run and recorded.
 
 **Release/contract alignment:** the public identity is `v0.3.3.3`, with
-plugin/runtime version `0.3.3`. The final correction candidate is 258,000 bytes
+plugin/runtime version `0.3.3`. The final correction candidate is 257,998 bytes
 with SHA-256
-`dc943cc7054addede51bd4d5a98cac84ddcc0578379c4e0d3db023822252b6ae`.
+`0e10a21600062c6f7cd440a6efb0ff3b795ce1a01067efb4005c7a176db02413`.
 The release URL is not treated as current for those bytes until publication and
 fresh public download/readback complete. Exact qualification and replacement
 history belongs in the release report rather than this installation guide.
@@ -1126,7 +1126,7 @@ ecosystem's install-telemetry index, not by this repo.
 
 Choose the source deliberately:
 
-- the final `v0.3.3.3` correction candidate is the qualified 258,000-byte
+- the final `v0.3.3.3` correction candidate is the qualified 257,998-byte
   package described by the release report, while public availability remains
   pending publication and independent readback;
 - the current source contains the packaged R29 correction and later native
