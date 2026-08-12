@@ -176,4 +176,98 @@ PY
 bash scripts/check-action-selection-contract.sh --repo-root "$tmp_root" \
   >/dev/null 2>&1 || fail "held-out missing reconciliation point was called parallel-safe"
 
+# 12. A protective buffer is not waste merely because it consumes capacity.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C73-protective-buffer")
+case["expected"] = "REJECT"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "protective buffer misclassified as waste"
+
+# 13. Feedback frequency without actionable information is not value evidence.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C75-actionable-feedback")
+case["observations"]["actionable_information"] = False
+case["expected"] = "SELECT_PROPORTIONATE_CONTROL"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "non-actionable feedback retained as proportionate"
+
+# 14. Temporary option value ends when carrying cost dominates.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C79-bounded-option-value")
+case["observations"]["benefit_exceeds_carrying_cost"] = False
+case["expected"] = "RETIRE"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+bash scripts/check-action-selection-contract.sh --repo-root "$tmp_root" \
+  >/dev/null 2>&1 || fail "held-out option retirement was not derived from carrying cost"
+
+# 15. Universal utilisation/WIP/cadence rules cannot self-authorise.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C77-sustainable-recovery-capacity")
+case["observations"]["universal_rule"] = True
+case["expected"] = "SELECT_PROPORTIONATE_CONTROL"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "universal maximum-utilisation rule accepted"
+
+# 16. The native rule must stay ceremony-free.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C75-actionable-feedback")
+case["observations"]["methodology_ceremony"] = True
+case["expected"] = "SELECT_PROPORTIONATE_CONTROL"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "methodology ceremony accepted as a native control"
+
+# 17. The executable population remains bound to its native owner prose.
+reset_sandbox
+grep -v "Feedback value depends on actionable" \
+  "$tmp_root/skills/implementaudit/references/planning-depth.md" \
+  >"$tmp_root/planning-depth.tmp"
+mv "$tmp_root/planning-depth.tmp" \
+  "$tmp_root/skills/implementaudit/references/planning-depth.md"
+expect_fail "actionability rule removed from native owner prose"
+
 printf 'action-selection-contract.test: ok\n'

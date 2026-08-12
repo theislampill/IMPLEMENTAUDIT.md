@@ -143,6 +143,25 @@ IMPLEMENTAUDIT self-modification. No activation factor means no R34 diagnostic o
 Ordinary bounded work keeps its existing minimum Smoke A/B and
 self-check path without a worksheet, meta-work ratio, or per-command defence.
 
+Select feedback cadence, finite slack or buffers, sustainable recovery
+capacity, temporary option preservation, and control depth proportionately to
+variability, information value, actionability, consequence, reversibility,
+recovery need, and carrying cost. Protective slack or a buffer is not waste
+when it has an authoritative consumer, protects a named consequence, and its
+benefit exceeds its bounded carrying cost. Feedback value depends on actionable
+information rather than frequency alone. Temporary option value is retained
+only while expected information value exceeds carrying cost and an exit or
+reclassification condition remains live. Preserve sustainable recovery
+capacity instead of treating maximum utilisation as value.
+
+No universal rule makes shorter feedback, lower work in progress, smaller
+batches, higher utilisation, more slack, or less slack correct. Stronger
+control depth is warranted by material consequence or hard-to-reverse action,
+not by a methodology label. Reuse the native action-selection record; do not
+add lifecycle ceremonies, mandatory buffers, sprint machinery, traceability
+matrices, or methodology-specific modes. When no proportionality pressure is
+live, create no R34 artefact.
+
 Evidence-based omission preserves the controlling obligation, establishes the
 current decision with a narrower discriminator, records the residual, and
 retains escalation when risk changes. Omission for convenience or cost alone is
