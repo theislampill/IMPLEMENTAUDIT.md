@@ -270,4 +270,102 @@ mv "$tmp_root/planning-depth.tmp" \
   "$tmp_root/skills/implementaudit/references/planning-depth.md"
 expect_fail "actionability rule removed from native owner prose"
 
+# 18. A completed cell recomputes the frontier and activates newly ready work.
+# This catches a scheduler that records static parallel safety but never uses
+# freed capacity after a dependency transition.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C01-tiny-cheap-path")
+case["kind"] = "scheduling"
+case["observations"] = {
+    "event": "cell_complete",
+    "work_units": 4,
+    "host_capacity": 2,
+    "active_cells": 1,
+    "ready_cells": 1,
+    "parallelism_allowed": True,
+    "cell_independence_known": True,
+    "closed_write_boundaries": True,
+    "closed_acceptance_boundaries": True,
+    "closed_resource_boundaries": True,
+    "irreversible_external": False,
+    "authorization_current": True,
+}
+case["expected"] = "RECOMPUTE_AND_ACTIVATE"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+bash scripts/check-action-selection-contract.sh --repo-root "$tmp_root" \
+  >/dev/null 2>&1 || fail "completed cell did not activate newly ready independent work"
+
+# 19. A shared resource claim cannot be relabelled as work-conserving activation.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C95-resource-claim-conflict-serialises")
+case["expected"] = "ACTIVATE_READY_CELLS"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "resource conflict relabelled as parallel activation"
+
+# 20. Unknown independence cannot be treated as an activatable ready cell.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C92-unknown-independence-defers")
+case["expected"] = "ACTIVATE_READY_CELLS"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "unknown independence relabelled as parallel activation"
+
+# 21. Host capacity one retains the ordinary cheap serial path.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C97-host-capacity-one-cheap-serial")
+case["expected"] = "ACTIVATE_READY_CELLS"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "host-capacity-one cheap path relabelled as parallel activation"
+
+# 22. An unchanged reminder is not a frontier event or redispatch warrant.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C99-reminder-does-not-redispatch")
+case["expected"] = "RECOMPUTE_AND_ACTIVATE"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "unchanged reminder relabelled as a frontier event"
+
 printf 'action-selection-contract.test: ok\n'

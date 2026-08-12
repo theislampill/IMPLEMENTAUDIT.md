@@ -510,6 +510,102 @@
       "kind": "proportionality",
       "observations": {"candidate": "feedback", "live_pressure": true, "variability_or_uncertainty": true, "high_consequence_or_hard_to_reverse": false, "actionable_information": true, "authoritative_consumer": false, "protected_consequence": true, "benefit_exceeds_carrying_cost": true, "bounded": true, "exit_condition": true, "recovery_capacity_required": false, "universal_rule": false, "methodology_ceremony": false},
       "expected": "DEFER"
+    },
+    {
+      "id": "R34-C86-ready-capacity-activates",
+      "kind": "scheduling",
+      "observations": {"event": "initial", "work_units": 4, "host_capacity": 2, "active_cells": 0, "ready_cells": 2, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": true},
+      "expected": "ACTIVATE_READY_CELLS"
+    },
+    {
+      "id": "R34-C87-completion-recomputes-frontier",
+      "kind": "scheduling",
+      "observations": {"event": "cell_complete", "work_units": 4, "host_capacity": 2, "active_cells": 1, "ready_cells": 1, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": true},
+      "expected": "RECOMPUTE_AND_ACTIVATE"
+    },
+    {
+      "id": "R34-C88-blocked-cell-recomputes-frontier",
+      "kind": "scheduling",
+      "observations": {"event": "cell_blocked", "work_units": 4, "host_capacity": 2, "active_cells": 1, "ready_cells": 1, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": true},
+      "expected": "RECOMPUTE_AND_ACTIVATE"
+    },
+    {
+      "id": "R34-C89-full-capacity-still-recomputes",
+      "kind": "scheduling",
+      "observations": {"event": "cell_complete", "work_units": 5, "host_capacity": 2, "active_cells": 2, "ready_cells": 1, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": true},
+      "expected": "RECOMPUTE_FRONTIER"
+    },
+    {
+      "id": "R34-C90-drift-reconciles-frontier",
+      "kind": "scheduling",
+      "observations": {"event": "drift", "work_units": 4, "host_capacity": 2, "active_cells": 1, "ready_cells": 1, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": false},
+      "expected": "RECONCILE_FRONTIER"
+    },
+    {
+      "id": "R34-C91-authorization-change-reconciles-frontier",
+      "kind": "scheduling",
+      "observations": {"event": "authorization_change", "work_units": 4, "host_capacity": 2, "active_cells": 1, "ready_cells": 1, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": false},
+      "expected": "RECONCILE_FRONTIER"
+    },
+    {
+      "id": "R34-C92-unknown-independence-defers",
+      "kind": "scheduling",
+      "observations": {"event": "initial", "work_units": 4, "host_capacity": 2, "active_cells": 0, "ready_cells": 2, "parallelism_allowed": true, "cell_independence_known": false, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": true},
+      "expected": "DEFER_INDEPENDENCE_UNKNOWN"
+    },
+    {
+      "id": "R34-C93-write-conflict-serialises",
+      "kind": "scheduling",
+      "observations": {"event": "initial", "work_units": 4, "host_capacity": 2, "active_cells": 0, "ready_cells": 2, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": false, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": true},
+      "expected": "SERIALISE_CONFLICT"
+    },
+    {
+      "id": "R34-C94-acceptance-conflict-serialises",
+      "kind": "scheduling",
+      "observations": {"event": "initial", "work_units": 4, "host_capacity": 2, "active_cells": 0, "ready_cells": 2, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": false, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": true},
+      "expected": "SERIALISE_CONFLICT"
+    },
+    {
+      "id": "R34-C95-resource-claim-conflict-serialises",
+      "kind": "scheduling",
+      "observations": {"event": "initial", "work_units": 4, "host_capacity": 2, "active_cells": 0, "ready_cells": 2, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": false, "irreversible_external": false, "authorization_current": true},
+      "expected": "SERIALISE_CONFLICT"
+    },
+    {
+      "id": "R34-C96-irreversible-external-serialises",
+      "kind": "scheduling",
+      "observations": {"event": "initial", "work_units": 4, "host_capacity": 2, "active_cells": 0, "ready_cells": 2, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": true, "authorization_current": true},
+      "expected": "SERIALISE_CONFLICT"
+    },
+    {
+      "id": "R34-C97-host-capacity-one-cheap-serial",
+      "kind": "scheduling",
+      "observations": {"event": "initial", "work_units": 4, "host_capacity": 1, "active_cells": 0, "ready_cells": 2, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": true},
+      "expected": "SERIAL_CHEAP_PATH"
+    },
+    {
+      "id": "R34-C98-two-unit-cheap-serial",
+      "kind": "scheduling",
+      "observations": {"event": "initial", "work_units": 2, "host_capacity": 2, "active_cells": 0, "ready_cells": 2, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": true},
+      "expected": "SERIAL_CHEAP_PATH"
+    },
+    {
+      "id": "R34-C99-reminder-does-not-redispatch",
+      "kind": "scheduling",
+      "observations": {"event": "unchanged_reminder", "work_units": 4, "host_capacity": 2, "active_cells": 1, "ready_cells": 1, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": true},
+      "expected": "NO_REDISPATCH"
+    },
+    {
+      "id": "R34-C100-capacity-change-recomputes-frontier",
+      "kind": "scheduling",
+      "observations": {"event": "capacity_change", "work_units": 5, "host_capacity": 3, "active_cells": 1, "ready_cells": 2, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": true},
+      "expected": "RECOMPUTE_AND_ACTIVATE"
+    },
+    {
+      "id": "R34-C101-parallelism-unavailable-cheap-serial",
+      "kind": "scheduling",
+      "observations": {"event": "initial", "work_units": 4, "host_capacity": 3, "active_cells": 0, "ready_cells": 2, "parallelism_allowed": false, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": true},
+      "expected": "SERIAL_CHEAP_PATH"
     }
   ]
 }

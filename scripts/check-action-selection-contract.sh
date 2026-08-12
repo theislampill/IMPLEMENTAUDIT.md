@@ -189,6 +189,22 @@ required_ids = {
         (83, "fixed-wip-rule"),
         (84, "methodology-ceremony"),
         (85, "missing-proportional-consumer"),
+        (86, "ready-capacity-activates"),
+        (87, "completion-recomputes-frontier"),
+        (88, "blocked-cell-recomputes-frontier"),
+        (89, "full-capacity-still-recomputes"),
+        (90, "drift-reconciles-frontier"),
+        (91, "authorization-change-reconciles-frontier"),
+        (92, "unknown-independence-defers"),
+        (93, "write-conflict-serialises"),
+        (94, "acceptance-conflict-serialises"),
+        (95, "resource-claim-conflict-serialises"),
+        (96, "irreversible-external-serialises"),
+        (97, "host-capacity-one-cheap-serial"),
+        (98, "two-unit-cheap-serial"),
+        (99, "reminder-does-not-redispatch"),
+        (100, "capacity-change-recomputes-frontier"),
+        (101, "parallelism-unavailable-cheap-serial"),
     )
 }
 ids = [case.get("id") for case in cases if isinstance(case, dict)]
@@ -282,6 +298,42 @@ def decide(case):
                 and o["closed_write_boundaries"] and o["reconciliation_point"]):
             return "PARALLEL_SAFE"
         return "SERIALISE_SHARED"
+    if kind == "scheduling":
+        fields = "event work_units host_capacity active_cells ready_cells parallelism_allowed cell_independence_known closed_write_boundaries closed_acceptance_boundaries closed_resource_boundaries irreversible_external authorization_current"
+        exact(o, fields)
+        booleans(o, "parallelism_allowed cell_independence_known closed_write_boundaries closed_acceptance_boundaries closed_resource_boundaries irreversible_external authorization_current")
+        if type(o["event"]) is not str or o["event"] not in {
+                "initial", "cell_complete", "cell_blocked", "drift",
+                "authorization_change", "capacity_change", "unchanged_reminder"}:
+            raise ValueError("scheduling event")
+        for name in ("work_units", "host_capacity", "active_cells", "ready_cells"):
+            if type(o[name]) is not int or o[name] < 0:
+                raise ValueError(f"scheduling {name}")
+        if o["work_units"] < 1 or o["host_capacity"] < 1:
+            raise ValueError("scheduling population or capacity")
+        if (o["active_cells"] > o["host_capacity"]
+                or o["active_cells"] + o["ready_cells"] > o["work_units"]):
+            raise ValueError("scheduling frontier counts")
+        if (o["work_units"] < 3 or o["host_capacity"] < 2
+                or not o["parallelism_allowed"]):
+            return "SERIAL_CHEAP_PATH"
+        if o["event"] == "unchanged_reminder":
+            return "NO_REDISPATCH"
+        if (o["event"] in {"drift", "authorization_change"}
+                or not o["authorization_current"]):
+            return "RECONCILE_FRONTIER"
+        if not o["cell_independence_known"]:
+            return "DEFER_INDEPENDENCE_UNKNOWN"
+        if (not all((o["closed_write_boundaries"],
+                     o["closed_acceptance_boundaries"],
+                     o["closed_resource_boundaries"]))
+                or o["irreversible_external"]):
+            return "SERIALISE_CONFLICT"
+        capacity_available = o["active_cells"] < o["host_capacity"]
+        activatable = capacity_available and o["ready_cells"] > 0
+        if o["event"] in {"cell_complete", "cell_blocked", "capacity_change"}:
+            return "RECOMPUTE_AND_ACTIVATE" if activatable else "RECOMPUTE_FRONTIER"
+        return "ACTIVATE_READY_CELLS" if activatable else "HOLD_FRONTIER"
     if kind == "proportionality":
         fields = "candidate live_pressure variability_or_uncertainty high_consequence_or_hard_to_reverse actionable_information authoritative_consumer protected_consequence benefit_exceeds_carrying_cost bounded exit_condition recovery_capacity_required universal_rule methodology_ceremony"
         exact(o, fields)
