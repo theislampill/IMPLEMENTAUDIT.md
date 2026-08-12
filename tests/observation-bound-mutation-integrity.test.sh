@@ -980,43 +980,69 @@ gate_domain_self_check() {
   setup; mkdir -p "$fixture_repo/.IMPLEMENTAUDIT/.r36-locks"; printf '\0' >"$fixture_repo/.IMPLEMENTAUDIT/.r36-locks/namespace.gate"; ln "$fixture_repo/.IMPLEMENTAUDIT/.r36-locks/namespace.gate" "$fixture_repo/.IMPLEMENTAUDIT/.r36-locks/namespace.gate.external-alias"
   pre="$(artifact gate-domain-pre 4142434445)"; cand="$(artifact gate-domain-candidate 4e4557)"
   invoke R36-GATE-DOMAIN UNSUPPORTED_OWNER_DECISION replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"
-  "$python_bin" - "$tmp/R36-GATE-DOMAIN.out" <<'PY' || fail 'R36-GATE-DOMAIN lacked exact pre-effect owner-decision evidence'
-import copy,json,sys
+  "$python_bin" - "$tmp/R36-GATE-DOMAIN.out" "$fixture_repo" "$run_root" <<'PY' || fail 'R36-GATE-DOMAIN lacked exact pre-effect owner-decision evidence'
+import copy,json,os,sys
+from pathlib import Path,PurePosixPath
 r=json.load(open(sys.argv[1],encoding='utf-8'))
 if r['reason_code']!='WRITER_DOMAIN_BREACH' or r['coordination_scope']!='GOVERNED_HELPER_ROUTED_WRITERS_ONLY': raise SystemExit(r)
 if r['residue']!=[]: raise SystemExit(f'pre-product refusal retained unresolved residue: {r["residue"]!r}')
-allowed_by_role={
- 'transaction-parent':{'fsync'},
- 'transaction-dir':{'mkdir','fsync'},
- 'authority':{'create','write','fsync'},
- 'released-lock-root':{'mkdir','fsync'},
- 'lock-parent':{'fsync'},
- 'lock-root':{'mkdir','fsync'},
- 'lock-namespace-gate':{'create','write','fsync'},
- 'result':{'create','write','fsync'},
+repo=Path(sys.argv[2]); run=Path(sys.argv[3]); transaction=r['transaction_id']
+if not isinstance(transaction,str) or not transaction: raise SystemExit('missing transaction identity')
+def relative(path):
+ absolute=Path(os.path.abspath(path))
+ try: value=absolute.relative_to(repo).as_posix()
+ except ValueError: raise SystemExit(f'expected evidence path escapes repository: {absolute}')
+ canonical=PurePosixPath(value)
+ if str(canonical)!=value or value in {'','.'} or any(part in {'','.','..'} for part in canonical.parts): raise SystemExit(f'noncanonical expected evidence path: {value!r}')
+ return value
+tx_parent=run/'mutation-transactions'; tx=tx_parent/transaction
+allowed={
+ relative(run):{'fsync'},
+ relative(tx_parent):{'mkdir','fsync'},
+ relative(tx):{'mkdir','fsync'},
+ relative(tx/'authority.json'):{'create','write','fsync'},
+ relative(tx/'released-locks'):{'mkdir','fsync'},
+ relative(tx/'result.json'):{'create','write','fsync'},
+ relative(tx/'result.tmp'):{'create','write','fsync','replace','unlink'},
+ relative(repo/'.IMPLEMENTAUDIT'):{'fsync'},
+ relative(repo/'.IMPLEMENTAUDIT'/'.r36-locks'):{'mkdir','fsync'},
+ relative(repo/'.IMPLEMENTAUDIT'/'.r36-locks'/'namespace.gate'):{'create','write','fsync'},
 }
-planned={(x['scope'],x['path']):x for x in r['planned_effect_set']}
+if len(allowed)!=10: raise SystemExit('independent allowed path map contains an alias/duplicate')
+planned={}
+for declaration in r['planned_effect_set']:
+ key=(declaration['scope'],declaration['path'])
+ if key in planned: raise SystemExit(f'duplicate planned path: {key!r}')
+ planned[key]=declaration
 def evidence_only(record):
  accepted=[]
+ seen=set()
  for effect in record['actual_effect_set']:
   if effect['outcome']!='applied': continue
+  path=PurePosixPath(effect['path'])
+  if str(path)!=effect['path'] or effect['path'] in {'','.'} or any(part in {'','.','..'} for part in path.parts): raise ValueError(f'noncanonical applied path: {effect!r}')
+  identity=(effect['scope'],effect['path'],effect['effect'],effect['sequence'])
+  if identity in seen: raise ValueError(f'duplicate applied effect row: {effect!r}')
+  seen.add(identity)
   declaration=planned.get((effect['scope'],effect['path']))
   if declaration is None: raise ValueError(f'undeclared applied effect: {effect!r}')
-  roles=set(declaration['roles']); allowed_roles=roles & set(allowed_by_role)
-  if not allowed_roles or roles-allowed_roles: raise ValueError(f'non-evidence role mutated: roles={sorted(roles)!r} effect={effect!r}')
-  allowed_effects=set().union(*(allowed_by_role[role] for role in allowed_roles))
-  if effect['effect'] not in allowed_effects: raise ValueError(f'non-evidence operation for role: roles={sorted(roles)!r} effect={effect!r}')
-  accepted.append((tuple(sorted(roles)),effect['effect']))
+  if effect['scope']!='repo' or effect['path'] not in allowed or effect['effect'] not in allowed[effect['path']]: raise ValueError(f'non-evidence path/operation: {effect!r}')
+  if effect['effect'] not in declaration['allowed_effects']: raise ValueError(f'applied effect contradicts planned declaration: {effect!r}')
+  accepted.append((effect['path'],effect['effect']))
  return accepted
 accepted=evidence_only(r)
 mutant=copy.deepcopy(r); stage=next(x for x in mutant['planned_effect_set'] if 'stage' in x['roles'])
 mutant['actual_effect_set'].append({'sequence':len(mutant['actual_effect_set'])+1,'scope':stage['scope'],'path':stage['path'],'effect':'create','before':{'kind':'absent'},'after':{'kind':'regular'},'outcome':'applied'})
-mutant_product_effects=[x for x in mutant['actual_effect_set'] if x['path']=='target' and x['outcome']=='applied']
-if mutant_product_effects: raise SystemExit('mutant unexpectedly touched the witnessed target')
 try: evidence_only(mutant)
 except ValueError: pass
 else: raise SystemExit('closed evidence-role oracle accepted an applied stage mutation')
-print('R36_GATE_DOMAIN_APPLIED_EVIDENCE_ROLES='+json.dumps(sorted(set(accepted)),separators=(',',':')))
+relabel=copy.deepcopy(r); target=next(x for x in relabel['planned_effect_set'] if x['path']==r['source_path'])
+target['roles']=['authority']; target['allowed_effects']=sorted(set(target['allowed_effects'])|{'write'})
+relabel['actual_effect_set'].append({'sequence':len(relabel['actual_effect_set'])+1,'scope':target['scope'],'path':target['path'],'effect':'write','before':r['pre_identities'][0]['identity'],'after':r['pre_identities'][0]['identity'],'outcome':'applied'})
+try: evidence_only(relabel)
+except ValueError: pass
+else: raise SystemExit('independent path oracle accepted helper-relabeled product mutation')
+print('R36_GATE_DOMAIN_APPLIED_EVIDENCE_PATHS='+json.dumps(sorted(set(accepted)),separators=(',',':')))
 PY
 }
 
