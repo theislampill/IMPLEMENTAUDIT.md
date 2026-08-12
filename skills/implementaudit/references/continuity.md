@@ -31,11 +31,10 @@ NOT add epoch ceremony.
 
 After any continuity boundary, and before the next repository mutation:
 
-1. Establish the unique active run root and the current repository identity
-   (repo root + HEAD; for non-Git subjects, the declared inventory).
-   Ambiguous or multiple candidate run roots route to an audited handoff —
-   never guess. No run root at all means truthful intake, not fabricated
-   recovery.
+1. Establish the unique active run root and current repository identity. In Git,
+   `scripts/claim-run.sh --current-controller [controller-id]` discovers the
+   Git-common current-controller record without prior worktree knowledge.
+   Missing, ambiguous, invalid, or stale custody refuses; never guess.
 2. Reread current `ROADMAP.md`, `STATE.md`, the repository-family
    `.IMPLEMENTAUDIT/host-notes.md` when present, process/command state
    (including `background/<chain-id>` chains), and the relevant terminal
@@ -55,6 +54,14 @@ After any continuity boundary, and before the next repository mutation:
 7. When continuity cannot be established (identity mismatch, corrupted
    state, irreconcilable instruction set), hand off with the evidence rather
    than speculate.
+
+Transfer long-run controller ownership with the atomic expected-claim CAS
+`claim-run.sh --controller <id> --supersede-claim <claim> <task>`. After the
+separate live reads and reconciled epoch row, run `--resume-controller <id>
+--boundary <provenance> --epoch <epoch>` and verify its token with
+`--verify-resume-receipt`. The receipt binds controller/run claim, repo
+HEAD/tree, STATE/ROADMAP hashes, boundary, epoch, and Next action; without that
+verified current receipt, refuse post-boundary mutation.
 
 At every phase start, read `.IMPLEMENTAUDIT/host-notes.md` from the
 repository-family root (the parent of Git's common directory) when present

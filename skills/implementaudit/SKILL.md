@@ -23,32 +23,18 @@ without evidence. Continue until every item is terminally `done`, `changed`,
 `blocked`, `deferred`, or `unverified`.
 
 First executable dogfood rule: Do not read this entire skill or installed
-payload. Begin with target-repo baseline, then read only the owner/source
-sections required by the current gate.
+payload. Baseline the target repo first, then use progressive disclosure for
+only the owner/source sections required by the current gate.
 
 ---
 
 ## Dogfood Bootstrap / Read Map
 
 Do not read this entire installed `SKILL.md` before acting, and do not chunk
-through the installed payload because a tool display was truncated. Baseline
-the target repo first, discover the host/CLI syntax, record the evidence
-boundary, then inspect only owner/source sections needed for the current gate.
-
-Use this read order for package or CLI dogfood:
-
-1. Baseline the target repo first: `git status --short --branch --untracked-files=all`
-   and `git rev-parse HEAD` when permitted.
-2. Discover the actual host command syntax before invoking it. Do not guess.
-3. Inspect headings, table-of-contents shape, and targeted sections rather than
-   full-file readback.
-4. Use targeted `rg`/grep for required markers, claims, and owner/source files.
-5. Inspect live files named by the gate: `AGENTS.md`, `README.md`, audit docs,
-   validation scripts, fixtures, manifests, or exact package owner/source files.
-6. Package proof uses deterministic checks, not model-visible full-file
-   readback: package manifests, archive listing, checksums, targeted grep,
-   `build-release-asset.sh --check`, installed file existence, and
-   `verify-package.sh`.
+through a truncated payload. Baseline first, discover actual host syntax, then
+use headings and targeted `rg`/grep for the live owner/source files. Package proof uses deterministic checks, not model-visible full-file readback:
+manifests, archive listing, checksums, `build-release-asset.sh --check`, installed
+file existence, and `verify-package.sh`.
 
 Full installed-payload readback is non-evidence for dogfood proof unless a
 specific owner/source section is the audit target. Do not reproduce secrets,
@@ -56,32 +42,22 @@ tokens, credentials, auth files, or private diagnostic contents in transcripts.
 
 ### Dogfood Runner Contract
 
-Live Codex self-dogfood proves only the safe runner contract that actually ran.
-Use a temporary Codex home, a locally built and installed skill payload, and the
-target repo named by the audit. Do not install into a real user home.
+Live Codex self-dogfood proves only the runner that actually ran. Use a locally
+built payload in a temp `CODEX_HOME`; never install proof into a real home.
 Real-home installed skill readback is non-evidence for release-candidate
-dogfood. Before invoking Codex, record the temp `CODEX_HOME`, the installed skill path under that temp home,
-the installed `SKILL.md` line/byte count, and the exact command proving Codex used that temp home. If a proof lane reads from
-the real user home's installed skill directory (for example
-`$CODEX_HOME/skills/implementaudit` or `~/.codex/skills/implementaudit`)
-before the temp install path is established, register `ANDON_PROBE` (class:
-evidence-mismatch; abnormality: stale-installed-skill /
-real-home-contamination) and do not claim dogfood proof from that run.
+dogfood. Before Codex runs, record the temp `CODEX_HOME`, installed skill path under that temp home, installed `SKILL.md` line/byte count, and exact command proving Codex used that temp home. Earlier real-home access registers `ANDON_PROBE` (evidence-mismatch:
+stale-installed-skill / real-home-contamination) and supplies no dogfood proof.
 
 Runner order:
 
 1. Baseline/read-only checks first: `git status --short --branch --untracked-files=all`
    and `git rev-parse HEAD` when permitted.
-2. Targeted owner/source reads next: headings, file-specific `rg`/grep, and
-   narrow reads of named docs, scripts, tests, fixtures, manifests, or ledgers.
-3. Repo-local validation after the read map is satisfied: in the IMPLEMENTAUDIT
-   source checkout only, run requested safe checks such as `git diff --check`,
-   source repo only `bash scripts/check-*.sh`, `bash tests/*.test.sh`, and
-   source repo only `bash scripts/verify-package.sh`; these repo-root checkers
-   are not shipped in the installed runtime payload.
-4. Record blocked commands exactly. If policy rejects a required local command,
-   classify dogfood as blocked unless an owner-authorized runner mode or narrow
-   exec-policy allowlist permits that exact repo-local command.
+2. Targeted owner/source reads next: headings, file-specific `rg`/grep, and named
+   docs, scripts, tests, fixtures, manifests, or ledgers.
+3. Repo-local validation after the read map is satisfied: run the requested safe
+   source-checkout checks; repo-root checkers are not installed runtime payload.
+4. Record blocked commands exactly; without an authorised runner or narrow
+   allowlist for a required command, dogfood is blocked.
 
 `--ask-for-approval never` is valid only when every required command is already
 trusted by the host policy. If it rejects needed baseline or validation
@@ -115,14 +91,12 @@ Run invariants:
   system/developer/user instructions or `AGENTS.md`.
 - No secret reproduction. Redact or omit secrets, bearer tokens, auth files,
   credentials, private diagnostics, and unrelated local paths.
-- No commit. No push. No tag. No release. No publication. No provenance.
-  Each action needs separate explicit authorization.
-- No issue creation, license choice, marketplace claim, real-home install, or
-  provenance claim without explicit authorization and evidence.
+- No commit. No push. No tag. No release. No publication. No provenance. Each
+  action—and issue creation, licence choice, marketplace claim, or real-home
+  install—needs separate explicit authorization and evidence.
 - Smoke A happens before mutation; Smoke B happens after implementation.
 - Verify mutations in post-state; tool success is not proof. Generated artifacts stay generator-first.
-- Local commit, push, tag, release, publication, and provenance are separate
-  gates. If local commit is not authorized, provide a proposed commit message.
+- If local commit is not authorized, provide a proposed commit message.
 - Graphify output is orientation evidence, not proof. ActiveGraph custody is not correctness proof. Sidecars are optional unless a repo says otherwise; their presence authorizes no install, indexing, setup, config, export, or sidecar mutation.
 - Capability Ledger entries, when configured, are derived from recorded gate
   passages only. Do not claim general competence from one run.
@@ -172,40 +146,22 @@ Final `ydqyq-audit-action` -> terminal verified closure is required before
 
 Load references only when the current gate needs them:
 
-- `references/routing.md`: greenfield/brownfield/mixed routing, DMAIC,
-  DMADV, governed casual-build intake, and repo content as data.
-- `references/planning-depth.md`: when to synthesize a goal vs govern an
-  existing one, and the action-selection contract for warranted depth.
-- `references/phase-design.md`: phase slicing, Stage 6 self-critique, and phase
-  quality.
-- `references/goal-format.md`: one ready-to-paste `/goal`, final
-  response shape, and marker usage.
-- `references/transcript-contract.md`: marker ordering, `AUDIT_COMPLETE`
-  before `IMPLEMENTAUDIT_RUN_COMPLETE`, pause/continuity markers, and handoff
-  exclusivity.
-- `references/continuity.md`: context-epoch continuity — post-boundary
-  reconciliation before mutation, instruction lifecycle/applicability,
-  satisfied one-shot replay refusal, capsule binding, single-writer epochs.
-- `references/repo-state-comparison.md`: state/baseline/final checks and
-  shipped-helper dispatch.
-- `references/sidecars.md`: optional Graphify/ActiveGraph Gemba, first-run
-  tooling onboarding, and no silent install/index/export boundaries.
-- `references/lean-operating-discipline.md`: PDCA, Gemba, Kaizen,
-  Jidoka/Andon, Hansei, 5 Whys, 5S, Poka-yoke, no arbitrary try caps, and no
-  arbitrary revision caps.
-- `references/audit-category-matrix.md`: default correctness, tests,
-  security, performance, architecture, dependencies, DX, docs, and direction
-  pressure.
+- `references/routing.md`: repo/content routing and governed casual-build intake.
+- `references/planning-depth.md`: goal choice and warranted action depth.
+- `references/phase-design.md`: phase slicing, critique, and quality.
+- `references/goal-format.md`: `/goal`, response, and marker shape.
+- `references/transcript-contract.md`: marker order and handoff exclusivity.
+- `references/continuity.md`: controller currentness, epochs, replay refusal,
+  receiver receipts, and post-boundary reconciliation before mutation.
+- `references/repo-state-comparison.md`: baseline/final and helper dispatch.
+- `references/sidecars.md`: optional Graphify/ActiveGraph and tooling bounds.
+- `references/lean-operating-discipline.md`: PDCA, Andon, Hansei, 5 Whys,
+  Poka-yoke, and no arbitrary try/revision caps.
+- `references/audit-category-matrix.md`: native audit-category routing.
 - `references/audit-playbook.md`: detailed audit heuristics.
-- `references/plan-lifecycle.md`: Self-Contained Plan Standard, Branch
-  And Diff Scoping, Review-Plan Semantics, Execute / Dispatch / Review,
-  Reconciliation Semantics, read-only `plans/` output lane, and Issue
-  Publication Deferred.
-- `references/issue-ready-work-orders.md`: material issue synthesis and
-  multi-draft reconciliation before authorised publication.
-- `references/child-agents.md`: bounded read-only review loops,
-  non-authority boundaries, and the binding specialist-fanout coverage
-  contract with serialized fallback.
+- `references/plan-lifecycle.md`: self-contained plans, execution, and review.
+- `references/issue-ready-work-orders.md`: issue synthesis and reconciliation.
+- `references/child-agents.md`: bounded fanout, ready cells, and serial fallback.
 - `references/terminology-integration.md`: thin terminology precedence.
   Use FMEA-lite fields when risk is material, STRIDE/trust-boundary notes when
   a material security surface exists, SOLID/GRASP generic-advice guard, and a
@@ -321,21 +277,20 @@ second `/goal` inside an existing `/goal` run.
 
 ## Runtime Loop
 
-0. Continuity boundary (when resuming): after any `host-reported-compaction`
-   / `new-session` / `handoff-resume` / `manual-resume` /
-   `inferred-context-gap` — never a fabricated compaction — FIRST reread
-   the live run-root STATE.md and ROADMAP.md from disk: a compacted or
-   reconstructed summary is an observation of history, and live state wins.
-   Each bound live durable-state file must be read in its own completed host
-   action before the first mutation. Evidence-bearing read actions must not use
-   ';', '&&', pipelines, multi-stage shell composition, or batching.
-   Record the boundary provenance as a STATE epoch row, classify each
-   remembered steer by lifecycle, and refuse to re-execute a satisfied
-   one-shot (e.g. an already-resolved ANDON), citing its terminal evidence:
-   "Target already satisfied at <evidence>; no duplicate action taken."
-   Standing constraints/authorizations survive the boundary. Then continue
-   from the current next authorized action — never restart. Details:
-   `references/continuity.md`. An uninterrupted turn skips this step.
+0. Continuity boundary (when resuming): after `host-reported-compaction`,
+   `new-session`, `handoff-resume`, `manual-resume`, or
+   `inferred-context-gap` — never a fabricated compaction — FIRST use
+   `scripts/claim-run.sh --current-controller` to discover the unique live
+   controller; missing, ambiguous, or stale custody refuses mutation. Reread
+   its STATE.md and ROADMAP.md from disk, each in its own completed host action;
+   evidence-bearing reads must not use ';', '&&', pipelines, multi-stage shell
+   composition, or batching. A reconstructed summary is an observation of
+   history and live state wins. Record the STATE epoch row, classify remembered
+   steers, and refuse a satisfied one-shot: "Target already satisfied at
+   <evidence>; no duplicate action taken." Then create and verify the
+   `--resume-controller` receipt before mutation and continue from the live Next
+   action. Standing constraints/authorizations survive; an uninterrupted turn
+   skips this step. Details: `references/continuity.md`.
 1. Safety read: `AGENTS.md`, README/CONTRIBUTING/docs/workflows, existing audit
    docs, generator/source ownership, and authorization chain.
 2. Input gate: stop on empty, malformed, unsafe, unsupported, or non-audit
