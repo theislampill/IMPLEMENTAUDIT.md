@@ -574,8 +574,13 @@ if grep -Eq '^claim:.*\|[[:space:]]*surface:[[:space:]]*publication([[:space:]]*
   publication_error=""
   if ! publication_error="$("${py_cmd[@]}" - "$file" <<'PY'
 import hashlib
+import json
+import os
 import re
+import signal
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 record = Path(sys.argv[1]).resolve()
@@ -586,6 +591,19 @@ sha_re = re.compile(r"[0-9a-f]{64}")
 def die(message: str) -> None:
     print(message)
     raise SystemExit(1)
+
+
+def unique_object(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"duplicate:{key}")
+        result[key] = value
+    return result
+
+
+def reject_constant(value):
+    raise ValueError(f"constant:{value}")
 
 
 def fields(line: str, first_key: str) -> dict[str, str]:
@@ -627,20 +645,345 @@ if set(claims) != set(identities):
     dangling = sorted(set(identities) - set(claims))
     die(f"publication identity rows must match publication claims; missing={missing} dangling={dangling}")
 
-required_identity = {
+local_identity = {
     "publication-identity",
     "live-digest-file",
     "live-file-sha256",
     "live-digest",
     "disposition",
 }
+hosted_fields = (
+    "publication-kind", "release-id", "tag", "asset-id", "asset-name",
+    "asset-size", "asset-digest", "candidate-root", "qualified-repository",
+    "qualified-commit", "qualified-tree", "qualified-package-file",
+    "qualification-record-sha256", "release-url", "asset-url",
+    "download-url", "public-readback-sha256", "disposition",
+)
+hosted_identity = {"publication-identity", *hosted_fields}
 for claim_id, claim in claims.items():
     identity = identities[claim_id]
-    if set(identity) != required_identity:
-        die(f"claim {claim_id}: publication identity fields must be exactly {sorted(required_identity)}")
     evidence_digest = claim.get("evidence-digest", "")
     if not sha_re.fullmatch(evidence_digest):
         die(f"claim {claim_id}: publication evidence-digest must be lowercase SHA-256")
+    publication_kind = claim.get("publication-kind", "local-digest")
+    if publication_kind not in {"local-digest", "hosted-release-asset"}:
+        die(f"claim {claim_id}: publication-kind must be local-digest or hosted-release-asset")
+
+    if publication_kind == "hosted-release-asset":
+        if set(identity) != hosted_identity or identity.get("publication-kind") != publication_kind:
+            if set(identity) == local_identity:
+                die(f"claim {claim_id}: hosted release asset requires release/tag/asset/qualification/public-readback identity")
+            die(f"claim {claim_id}: hosted release asset requires checker-captured public evidence and a qualification record")
+        if any(not re.fullmatch(r"\S+", identity[key]) for key in ("release-id", "tag", "asset-id")):
+            die(f"claim {claim_id}: hosted release identity token is empty or malformed")
+        asset_name = identity["asset-name"]
+        if not asset_name or Path(asset_name).name != asset_name or "/" in asset_name or "\\" in asset_name:
+            die(f"claim {claim_id}: asset-name must be a bare filename")
+        if not re.fullmatch(r"[0-9]+", identity["asset-size"]) or not sha_re.fullmatch(identity["asset-digest"]):
+            die(f"claim {claim_id}: hosted asset size or digest is malformed")
+        if any(not re.fullmatch(r"(?:[0-9a-f]{40}|[0-9a-f]{64})", identity[key]) for key in ("qualified-commit", "qualified-tree")):
+            die(f"claim {claim_id}: qualified commit or tree identity is malformed")
+
+        candidate_arg = Path(identity["candidate-root"])
+        if not candidate_arg.is_absolute() or candidate_arg.is_symlink():
+            die(f"claim {claim_id}: candidate-root must be an absolute non-symlink directory")
+        try:
+            candidate_root = candidate_arg.resolve(strict=True)
+        except OSError:
+            die(f"claim {claim_id}: candidate-root does not resolve")
+        if not candidate_root.is_dir():
+            die(f"claim {claim_id}: candidate-root is not a directory")
+
+        def candidate_path(key, label, directory=False):
+            name = identity[key]
+            noun = "directory" if directory else "file"
+            if not name or Path(name).name != name or "/" in name or "\\" in name:
+                die(f"claim {claim_id}: {key} must be a contained bare {noun}")
+            path = candidate_root / name
+            if path.is_symlink() or not (path.is_dir() if directory else path.is_file()):
+                die(f"claim {claim_id}: {label} is missing or not a regular contained {noun}")
+            return path
+
+        repository = candidate_path("qualified-repository", "qualified repository", True)
+        git_command = ["git", "--no-replace-objects", "-C", str(repository), "rev-parse"]
+        commit = identity["qualified-commit"]
+        resolved = subprocess.run(
+            [*git_command, "--verify", f"{commit}^{{commit}}"], capture_output=True, text=True
+        ).stdout.strip()
+        if resolved != commit:
+            die(f"claim {claim_id}: qualified commit '{commit}' does not resolve in qualified repository")
+        actual_tree = subprocess.run(
+            [*git_command, f"{commit}^{{tree}}"], capture_output=True, text=True
+        ).stdout.strip()
+        if identity["qualified-tree"] != actual_tree:
+            die(
+                f"claim {claim_id}: qualified tree '{identity['qualified-tree']}' "
+                f"does not match commit tree '{actual_tree}'"
+            )
+
+        package_file = candidate_path("qualified-package-file", "qualified package")
+        package_data = package_file.read_bytes()
+        measured_size = len(package_data)
+        measured_digest = hashlib.sha256(package_data).hexdigest()
+        if int(identity["asset-size"]) != measured_size:
+            die(
+                f"claim {claim_id}: asset-size '{identity['asset-size']}' "
+                f"does not match measured size '{measured_size}'"
+            )
+        if identity["asset-digest"] != measured_digest:
+            die(f"claim {claim_id}: asset-digest does not match measured digest '{measured_digest}'")
+        qualification_name = os.environ.get("IMPLEMENTAUDIT_QUALIFICATION_RECORD", "")
+        qualification_arg = Path(qualification_name)
+        if not qualification_arg.is_absolute() or qualification_arg.suffix != ".json":
+            die(f"claim {claim_id}: authority qualification record must be an absolute JSON path")
+        try:
+            qualification = qualification_arg.resolve(strict=True)
+            qualification.relative_to(candidate_root)
+        except ValueError:
+            pass
+        except OSError:
+            die(f"claim {claim_id}: authority qualification record does not resolve")
+        else:
+            die(f"claim {claim_id}: qualification record must be outside the declared candidate root")
+        try:
+            qualification.relative_to(base)
+        except ValueError:
+            pass
+        else:
+            die(f"claim {claim_id}: qualification record must be outside the evaluated record tree")
+        if qualification_arg.is_symlink() or not qualification.is_file():
+            die(f"claim {claim_id}: authority qualification record is not a regular file")
+        qualification_data = qualification.read_bytes()
+        qualification_sha = identity["qualification-record-sha256"]
+        if not sha_re.fullmatch(qualification_sha) or hashlib.sha256(qualification_data).hexdigest() != qualification_sha:
+            die(f"claim {claim_id}: qualification record SHA-256 mismatch")
+        try:
+            qualification_payload = json.loads(
+                qualification_data.decode("utf-8"),
+                object_pairs_hook=unique_object,
+                parse_constant=reject_constant,
+            )
+        except (UnicodeDecodeError, json.JSONDecodeError, ValueError):
+            die(f"claim {claim_id}: qualification record is not valid unique-key UTF-8 JSON")
+        expected_qualification = {
+            "candidate_root": identity["candidate-root"],
+            "qualified_commit": commit, "qualified_tree": actual_tree,
+            "package_name": asset_name, "package_size": measured_size,
+            "package_digest": measured_digest,
+        }
+        if (
+            type(qualification_payload) is not dict
+            or type(qualification_payload.get("package_size")) is not int
+            or qualification_payload != expected_qualification
+        ):
+            die(f"claim {claim_id}: qualification record does not bind commit/tree/package identity")
+
+        release_match = re.fullmatch(
+            rf"https://api\.github\.com/repos/([^/?#]+)/([^/?#]+)/releases/{re.escape(identity['release-id'])}",
+            identity["release-url"],
+        )
+        if not release_match:
+            die(f"claim {claim_id}: release-url does not bind repository and release-id")
+        owner, repo = release_match.groups()
+        if identity["asset-url"] != f"https://api.github.com/repos/{owner}/{repo}/releases/assets/{identity['asset-id']}":
+            die(f"claim {claim_id}: asset-url does not bind repository and asset-id")
+        expected_download_url = (
+            f"https://github.com/{owner}/{repo}/releases/download/"
+            f"{identity['tag']}/{identity['asset-name']}"
+        )
+        if identity["download-url"] != expected_download_url:
+            die(f"claim {claim_id}: download-url does not bind repository, tag, and asset-name")
+
+        transport_name = os.environ.get("IMPLEMENTAUDIT_PUBLIC_CAPTURE_TRANSPORT", "")
+        if transport_name:
+            transport_arg = Path(transport_name)
+            if not transport_arg.is_absolute():
+                die(f"claim {claim_id}: authority capture transport must be absolute")
+        else:
+            system_root = Path(os.environ.get("SystemRoot", ""))
+            defaults = ([system_root / "System32" / "curl.exe"]
+                        if os.name == "nt" and system_root.is_absolute()
+                        else [Path("/usr/bin/curl"), Path("/usr/local/bin/curl")])
+            transport_arg = next((path for path in defaults if path.is_file()), None)
+            if transport_arg is None:
+                die(f"claim {claim_id}: checker-controlled public capture transport is unavailable")
+        try:
+            transport = transport_arg.resolve(strict=True)
+            transport.relative_to(candidate_root)
+        except ValueError:
+            pass
+        except OSError:
+            die(f"claim {claim_id}: checker-controlled public capture transport is invalid")
+        else:
+            die(f"claim {claim_id}: public capture transport must be outside the declared candidate root")
+        if transport_arg.is_symlink() or not transport.is_file():
+            die(f"claim {claim_id}: checker-controlled public capture transport is invalid")
+
+        def windows_job(process):
+            if os.name != "nt":
+                return None
+            import ctypes
+            from ctypes import wintypes
+
+            class BasicLimits(ctypes.Structure):
+                _fields_ = [
+                    ("PerProcessUserTimeLimit", ctypes.c_int64),
+                    ("PerJobUserTimeLimit", ctypes.c_int64),
+                    ("LimitFlags", wintypes.DWORD),
+                    ("MinimumWorkingSetSize", ctypes.c_size_t),
+                    ("MaximumWorkingSetSize", ctypes.c_size_t),
+                    ("ActiveProcessLimit", wintypes.DWORD),
+                    ("Affinity", ctypes.c_size_t),
+                    ("PriorityClass", wintypes.DWORD),
+                    ("SchedulingClass", wintypes.DWORD),
+                ]
+
+            class IoCounters(ctypes.Structure):
+                _fields_ = [(name, ctypes.c_uint64) for name in (
+                    "ReadOperationCount", "WriteOperationCount", "OtherOperationCount",
+                    "ReadTransferCount", "WriteTransferCount", "OtherTransferCount",
+                )]
+
+            class ExtendedLimits(ctypes.Structure):
+                _fields_ = [
+                    ("BasicLimitInformation", BasicLimits), ("IoInfo", IoCounters),
+                    ("ProcessMemoryLimit", ctypes.c_size_t),
+                    ("JobMemoryLimit", ctypes.c_size_t),
+                    ("PeakProcessMemoryUsed", ctypes.c_size_t),
+                    ("PeakJobMemoryUsed", ctypes.c_size_t),
+                ]
+
+            kernel = ctypes.WinDLL("kernel32", use_last_error=True)
+            kernel.CreateJobObjectW.restype = wintypes.HANDLE
+            job = kernel.CreateJobObjectW(None, None)
+            if not job:
+                raise OSError(ctypes.get_last_error(), "CreateJobObjectW")
+            limits = ExtendedLimits()
+            limits.BasicLimitInformation.LimitFlags = 0x2000
+            if not kernel.SetInformationJobObject(job, 9, ctypes.byref(limits), ctypes.sizeof(limits)):
+                kernel.CloseHandle(job)
+                raise OSError(ctypes.get_last_error(), "SetInformationJobObject")
+            if not kernel.AssignProcessToJobObject(job, wintypes.HANDLE(int(process._handle))):
+                kernel.CloseHandle(job)
+                raise OSError(ctypes.get_last_error(), "AssignProcessToJobObject")
+            return kernel, job
+
+        def taskkill_tree(pid):
+            system_root = Path(os.environ.get("SystemRoot", ""))
+            taskkill = system_root / "System32" / "taskkill.exe"
+            if system_root.is_absolute() and taskkill.is_file():
+                try:
+                    subprocess.run(
+                        [str(taskkill), "/PID", str(pid), "/T", "/F"],
+                        stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+                        stderr=subprocess.DEVNULL, timeout=10,
+                    )
+                except (OSError, subprocess.TimeoutExpired):
+                    pass
+
+        def capture(url, label):
+            with tempfile.TemporaryFile() as output:
+                flags = subprocess.CREATE_NEW_PROCESS_GROUP if os.name == "nt" else 0
+                try:
+                    process = subprocess.Popen(
+                        [str(transport), "--fail", "--silent", "--show-error", "--location",
+                         "--proto", "=https", "--max-filesize", "1048576",
+                         "--max-time", "30", url],
+                        stdin=subprocess.DEVNULL, stdout=output,
+                        stderr=subprocess.DEVNULL, creationflags=flags,
+                        start_new_session=os.name != "nt",
+                    )
+                except OSError:
+                    die(f"claim {claim_id}: {label} capture failed")
+                try:
+                    job = windows_job(process)
+                except OSError:
+                    if os.name == "nt":
+                        taskkill_tree(process.pid)
+                    else:
+                        os.killpg(process.pid, signal.SIGKILL)
+                    process.wait()
+                    die(f"claim {claim_id}: {label} process-tree custody failed")
+                timed_out = False
+                try:
+                    process.wait(timeout=35)
+                except subprocess.TimeoutExpired:
+                    timed_out = True
+                    if os.name == "nt":
+                        taskkill_tree(process.pid)
+                    else:
+                        try:
+                            os.killpg(process.pid, signal.SIGKILL)
+                        except ProcessLookupError:
+                            pass
+                finally:
+                    if job is not None:
+                        job[0].CloseHandle(job[1])
+                    elif os.name != "nt":
+                        try:
+                            os.killpg(process.pid, signal.SIGKILL)
+                        except ProcessLookupError:
+                            pass
+                    try:
+                        process.wait(timeout=10)
+                    except subprocess.TimeoutExpired:
+                        if os.name == "nt":
+                            taskkill_tree(process.pid)
+                        process.kill()
+                        process.wait()
+                if timed_out:
+                    die(f"claim {claim_id}: {label} capture failed")
+                size = output.tell()
+                if size > 1048576:
+                    die(f"claim {claim_id}: captured {label} exceeds 1048576 bytes")
+                if process.returncode:
+                    die(f"claim {claim_id}: {label} capture failed")
+                output.seek(0)
+                return output.read()
+
+        readback_data = capture(identity["release-url"], "public readback")
+        captured_asset = capture(identity["download-url"], "public asset")
+        if captured_asset != package_data:
+            die(f"claim {claim_id}: captured public asset bytes do not match qualified package")
+        readback_sha = identity["public-readback-sha256"]
+        if not sha_re.fullmatch(readback_sha) or hashlib.sha256(readback_data).hexdigest() != readback_sha:
+            die(f"claim {claim_id}: public readback SHA-256 mismatch")
+        try:
+            payload = json.loads(
+                readback_data.decode("utf-8"), object_pairs_hook=unique_object,
+                parse_constant=reject_constant,
+            )
+        except (UnicodeDecodeError, json.JSONDecodeError, ValueError):
+            die(f"claim {claim_id}: public readback is not valid unique-key UTF-8 JSON")
+        public_keys = (
+            "release_id", "tag", "asset_id", "asset_name", "asset_size",
+            "asset_digest", "qualified_commit", "qualified_tree", "release_url",
+            "asset_url", "download_url",
+        )
+        if type(payload) is not dict or set(payload) != set(public_keys):
+            die(f"claim {claim_id}: public readback must contain the exact release/asset/qualification fields")
+        if type(payload["asset_size"]) is not int or payload["asset_size"] < 0:
+            die(f"claim {claim_id}: public readback field type is invalid")
+        for public_key in public_keys:
+            identity_key = public_key.replace("_", "-")
+            expected = int(identity[identity_key]) if public_key == "asset_size" else identity[identity_key]
+            if payload[public_key] != expected:
+                die(
+                    f"claim {claim_id}: public readback {public_key} '{payload[public_key]}' "
+                    f"does not match identity '{identity[identity_key]}'"
+                )
+
+        disposition = identity["disposition"]
+        status = claim.get("status", "")
+        if evidence_digest == identity["asset-digest"]:
+            if disposition != "verified":
+                die(f"claim {claim_id}: stable hosted asset digest must use disposition verified")
+        elif status == "verified" or disposition != "SUPERSEDED":
+            die(f"claim {claim_id}: hosted asset digest drift is SUPERSEDED and cannot remain verified")
+        continue
+
+    if set(identity) != local_identity:
+        die(f"claim {claim_id}: publication identity fields must be exactly {sorted(local_identity)}")
     live_digest = identity["live-digest"]
     file_digest = identity["live-file-sha256"]
     if not sha_re.fullmatch(live_digest) or not sha_re.fullmatch(file_digest):
@@ -1014,7 +1357,7 @@ fi
 # explicit #88 claim fields, and schema headings enter this validator. Existing
 # claim rows and the source-to-publication rank ladder above retain their behavior.
 schema_required=0
-if grep -Eqi '^[[:space:]]*(external-mutation-record|artifact-identity|collision-receipt|external-evidence):|external-(kind|mutation|mutation-record):[[:space:]]|^## Suggested Commit Message When No Commit Authorized$' "$file"; then
+if grep -Eqi '^[[:space:]]*(external-mutation-record|external-authorization-grant|artifact-identity|collision-receipt|external-evidence):|external-(kind|mutation|mutation-record|authorization-grant):[[:space:]]|^## Suggested Commit Message When No Commit Authorized$' "$file"; then
   schema_required=1
 fi
 if [ "$schema_required" -eq 1 ]; then
@@ -1261,8 +1604,27 @@ def approved_readback_query(command, runner, target_kind, target_id):
     return False
 
 
+def effective_mutation(command, runner):
+    argv = readback_argv(command, runner)
+    if not argv or len(argv) < 4 or argv[0] != "gh":
+        return None
+    direct_actions = {
+        "issue": {"close", "reopen", "edit", "comment", "delete"},
+        "pr": {"merge", "close", "reopen", "edit", "comment", "review"},
+        "label": {"create", "edit", "delete"},
+        "release": {"create", "edit", "delete"},
+    }
+    target_kind = argv[1]
+    action = argv[2]
+    target_id = argv[3]
+    if target_kind not in direct_actions or action not in direct_actions[target_kind] or target_id.startswith("-"):
+        return None
+    return action, target_kind, target_id
+
+
 prefix_labels = {
     "external-mutation-record:": "external-mutation-record",
+    "external-authorization-grant:": "external-authorization-grant",
     "artifact-identity:": "artifact-identity",
     "collision-receipt:": "collision-receipt",
     "external-evidence:": "external-evidence",
@@ -1283,11 +1645,12 @@ for line in lines:
     fields, raw_keys = loose_fields(line)
     claims[claim_id] = fields
     claim_order.append(claim_id)
-    external_key_variants = [key for key in raw_keys if key.lower() in {"external-kind", "external-mutation", "external-mutation-record"}]
+    external_keys = {"external-kind", "external-mutation", "external-mutation-record", "external-authorization-grant"}
+    external_key_variants = [key for key in raw_keys if key.lower() in external_keys]
     for key in external_key_variants:
-        if key not in {"external-kind", "external-mutation", "external-mutation-record"}:
+        if key not in external_keys:
             die(f"claim {claim_id}: malformed external field '{key}'")
-    for key in ("external-kind", "external-mutation", "external-mutation-record"):
+    for key in ("external-kind", "external-mutation", "external-mutation-record", "external-authorization-grant"):
         if len([raw_key for raw_key in raw_keys if raw_key == key]) > 1:
             die(f"claim {claim_id}: duplicate field '{key}'")
 
@@ -1300,9 +1663,48 @@ mutation_fields = [
     "readback-evidence",
 ]
 mutation_records = {}
+mutation_effects = {}
 record_dir = os.path.realpath(os.path.dirname(path))
-mutating_verbs = ("close", "create", "edit", "delete", "merge", "label", "comment", "transfer", "publish", "upload")
 target_kinds = {"issue", "pr", "milestone", "label", "release", "release-asset"}
+
+grant_fields = ["record-file", "record-sha256"]
+authorization_grants = {}
+for line in lines:
+    if not line.startswith("external-authorization-grant:"):
+        continue
+    grant_id, fields = parse_segments(
+        line, "external-authorization-grant:", "external authorization grant", grant_fields
+    )
+    if grant_id in authorization_grants:
+        die(f"duplicate external-authorization-grant ID '{grant_id}'")
+    record_name = fields["record-file"]
+    if not record_name or os.path.basename(record_name) != record_name or "/" in record_name or "\\" in record_name:
+        die(f"authorization grant {grant_id}: record-file must be a bare relative filename")
+    record_path = os.path.join(record_dir, record_name)
+    if os.path.islink(record_path) or not os.path.isfile(record_path):
+        die(f"authorization grant {grant_id}: record-file is missing, symlinked, or non-regular")
+    record_data = open(record_path, "rb").read()
+    record_sha = fields["record-sha256"]
+    if not re.fullmatch(r"[0-9a-f]{64}", record_sha) or hashlib.sha256(record_data).hexdigest() != record_sha:
+        die(f"authorization grant {grant_id}: record SHA-256 is malformed or mismatched")
+    try:
+        rows = [raw.split(":", 1) for raw in record_data.decode("utf-8").splitlines() if raw.strip()]
+    except UnicodeDecodeError:
+        die(f"authorization grant {grant_id}: record-file must be UTF-8")
+    if any(len(row) != 2 for row in rows):
+        die(f"authorization grant {grant_id}: record line is malformed")
+    pairs = [(key.strip(), value.strip()) for key, value in rows]
+    grant = dict(pairs)
+    required = {"source", "grant_quote", "lifecycle", "action", "binds", "target_kind", "target_id"}
+    if len(grant) != len(pairs) or any(not grant.get(key) for key in required) or grant["lifecycle"] != "standing-authorization":
+        die(f"authorization grant {grant_id}: grant source or binding metadata is incomplete")
+    bound_keys = [key.strip() for key in grant["binds"].split(",") if key.strip()]
+    if len(bound_keys) != len(set(bound_keys)) or not {"target_kind", "target_id"}.issubset(bound_keys):
+        die(f"authorization grant {grant_id}: binds must uniquely include target_kind,target_id")
+    if grant["target_kind"] not in target_kinds or not re.fullmatch(r"\S+", grant["target_id"]):
+        die(f"authorization grant {grant_id}: target binding is invalid")
+    authorization_grants[grant_id] = grant
+
 for line in lines:
     if not line.startswith("external-mutation-record:"):
         continue
@@ -1322,19 +1724,20 @@ for line in lines:
     target_id = fields["target-id"]
     if not re.fullmatch(r"\S+", target_id):
         die(f"external mutation {record_id}: target-id must be one nonempty token")
-    command_mutating_verbs = tuple(
-        verb for verb in mutating_verbs
-        if not (target_kind == "label" and verb == "label")
-    )
-
     mutation_command = fields["mutation-command"]
     readback_command = fields["readback-command"]
     if re.search(r"\becho\b", mutation_command, re.IGNORECASE):
         die(f"external mutation {record_id}: mutation-command cannot use echo as evidence")
-    if not token_in(mutation_command, target_kind) or not token_in(mutation_command, target_id):
-        die(f"external mutation {record_id}: mutation-command does not target {target_kind} '{target_id}'")
-    if not any(token_in(mutation_command.lower(), verb) for verb in command_mutating_verbs):
-        die(f"external mutation {record_id}: mutation-command has no approved mutating verb")
+    effect = effective_mutation(mutation_command, runner)
+    if effect is None:
+        die(f"external mutation {record_id}: mutation-command is not an approved structural mutation")
+    effective_action, effective_kind, effective_id = effect
+    if effective_kind != target_kind or effective_id != target_id:
+        die(
+            f"external mutation {record_id}: mutation-command effective target "
+            f"{effective_kind} '{effective_id}' does not match declared {target_kind} '{target_id}'"
+        )
+    mutation_effects[record_id] = effect
     if runner == "python" and "subprocess.run" not in mutation_command:
         die(f"external mutation {record_id}: python mutation-command must use subprocess.run")
     if fields["mutation-exit"] != "0":
@@ -1419,9 +1822,10 @@ for line in lines:
         die(f"external mutation {record_id}: observed value '{observed}' does not match expected '{expected}'")
 
 
+referenced_grants = set()
 for claim_id in claim_order:
     fields = claims[claim_id]
-    opted_in = any(key in fields for key in ("external-kind", "external-mutation", "external-mutation-record"))
+    opted_in = any(key in fields for key in ("external-kind", "external-mutation", "external-mutation-record", "external-authorization-grant"))
     if not opted_in:
         continue
     explicit_mutation = fields.get("external-mutation") == "true"
@@ -1436,6 +1840,33 @@ for claim_id in claim_order:
             die(f"claim {claim_id}: external mutation requires external-mutation-record")
         if record_id not in mutation_records:
             die(f"claim {claim_id}: external-mutation-record '{record_id}' does not resolve exactly once")
+        grant_id = fields.get("external-authorization-grant", "")
+        if not grant_id:
+            die(f"claim {claim_id}: external mutation requires external-authorization-grant")
+        if grant_id not in authorization_grants:
+            die(f"claim {claim_id}: external-authorization-grant '{grant_id}' does not resolve exactly once")
+        referenced_grants.add(grant_id)
+        grant = authorization_grants[grant_id]
+        action, target_kind, target_id = mutation_effects[record_id]
+        if grant["action"] != action:
+            die(
+                f"authorization grant {grant_id}: action '{grant['action']}' "
+                f"does not bind mutation action '{action}'"
+            )
+        if grant["target_kind"] != target_kind:
+            die(
+                f"authorization grant {grant_id}: target_kind '{grant['target_kind']}' "
+                f"does not bind mutation target kind '{target_kind}'"
+            )
+        if grant["target_id"] != target_id:
+            die(
+                f"authorization grant {grant_id}: target_id '{grant['target_id']}' "
+                f"does not bind mutation target '{target_id}'"
+            )
+
+unused_grants = sorted(set(authorization_grants) - referenced_grants)
+if unused_grants:
+    die(f"external authorization grant rows must be referenced by mutation claims; dangling={unused_grants}")
 
 
 artifact_fields = ["sha256"]

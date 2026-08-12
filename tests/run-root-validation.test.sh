@@ -966,4 +966,57 @@ expect_cold_review_fail "$live_dropped_findings" \
   "live successor/non-verdict contract failed" \
   "live dropped provisional findings"
 
+# R36 strict claim-only custody: ordinary legacy run-root validation remains
+# compatible, while destructive callers require an exact v2 Git-bound claim.
+claim_repo="$tmp/claim-only-repo"
+mkdir -p "$claim_repo"
+git -C "$claim_repo" init -q
+git -C "$claim_repo" config user.email claim@example.invalid
+git -C "$claim_repo" config user.name claim-only-test
+claim_rel="$(cd "$claim_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" 'strict custody' 2>/dev/null)"
+claim_root="$claim_repo/$claim_rel"
+for promised in STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md; do printf 'fixture\n' > "$claim_root/$promised"; done
+bash "$helper" --claim-only "$claim_root" --repo-root "$claim_repo" >/dev/null || {
+  printf 'run-root-validation.test: valid v2 Git claim must pass strict claim-only\n' >&2; exit 1;
+}
+claim_saved="$tmp/claim-only.saved"
+cp "$claim_root/.claimed" "$claim_saved"
+sed -i 's/^claimed_at_utc=.*/claimed_at_utc=2026-99-99T99:99:99Z/' "$claim_root/.claimed"
+if bash "$helper" --claim-only "$claim_root" --repo-root "$claim_repo" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: impossible RFC3339 claim timestamp must fail\n' >&2; exit 1
+fi
+cp "$claim_saved" "$claim_root/.claimed"
+alias_claim_root="$claim_root/."
+alias_claim_repo="$claim_repo/."
+case "$(uname -s 2>/dev/null || true)" in
+  MINGW*|MSYS*|CYGWIN*)
+    alias_claim_root="$(cygpath -w "$claim_root")\\."
+    alias_claim_repo="$(cygpath -w "$claim_repo")\\."
+    ;;
+esac
+if bash "$helper" --claim-only "$alias_claim_root" --repo-root "$claim_repo" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: lexical dot run-root alias must fail\n' >&2; exit 1
+fi
+if bash "$helper" --claim-only "$claim_root" --repo-root "$alias_claim_repo" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: lexical dot repo-root alias must fail\n' >&2; exit 1
+fi
+mkdir -p "$tmp/claim-alias-target"
+if ln -s "$tmp/claim-alias-target" "$tmp/claim-alias-component" 2>/dev/null; then
+  if bash "$helper" --claim-only "$tmp/claim-alias-component/../claim-only-repo/$claim_rel" --repo-root "$claim_repo" >/dev/null 2>&1; then
+    printf 'run-root-validation.test: symlink-component dotdot alias must fail before normalisation\n' >&2; exit 1
+  fi
+fi
+copied_repo="$tmp/claim-only-copied"
+mkdir -p "$copied_repo"
+git -C "$copied_repo" init -q
+cp -a "$claim_root" "$copied_repo/copied-root"
+if bash "$helper" --claim-only "$copied_repo/copied-root" --repo-root "$copied_repo" >/dev/null 2>&1; then
+  printf 'run-root-validation.test: copied claim must fail strict custody\n' >&2; exit 1
+fi
+if ln -s "$claim_root" "$tmp/claim-only-link" 2>/dev/null; then
+  if bash "$helper" --claim-only "$tmp/claim-only-link" --repo-root "$claim_repo" >/dev/null 2>&1; then
+    printf 'run-root-validation.test: symlinked claim root must fail strict custody\n' >&2; exit 1
+  fi
+fi
+
 printf 'run-root-validation.test: ok\n'

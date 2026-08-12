@@ -82,7 +82,8 @@ conditions, missing out-of-scope lists, or commands without expected results.
 - Add shell tests under `tests/` that call the new checkers and include at
   least one negative fixture created in a temp directory.
 - Run `bash scripts/check-validation-registry.sh`; expected: every new
-  `tests/*.test.sh` appears in both local and CI registries.
+  `tests/*.test.sh` appears in the canonical package registry and CI reaches
+  that registry once without duplicating its direct test list.
 
 ## Done criteria
 

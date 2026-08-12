@@ -8,6 +8,93 @@
 
 set -uo pipefail
 
+if [ "${1:-}" = "--mutation-authority" ]; then
+  phase_file="${2:-}"; shift 2 || true
+  phase= step= repo_root= run_root=
+  while [ "$#" -gt 0 ]; do
+    case "$1" in
+      --phase) phase="${2:-}"; shift 2 ;;
+      --step) step="${2:-}"; shift 2 ;;
+      --repo-root) repo_root="${2:-}"; shift 2 ;;
+      --run-root) run_root="${2:-}"; shift 2 ;;
+      *) printf 'usage: validate-phase.sh --mutation-authority <phase-file> --step <N> --repo-root <repo-root> --run-root <run-root>\n' >&2; exit 2 ;;
+    esac
+  done
+  case "$phase" in ''|*[!0-9]*) printf 'validate-phase: mutation authority phase must be a positive decimal\n' >&2; exit 1;; esac
+  case "$step" in ''|*[!0-9]*) printf 'validate-phase: mutation authority step must be a positive decimal\n' >&2; exit 1;; esac
+  [ "$phase" -gt 0 ] 2>/dev/null && [ "$step" -gt 0 ] 2>/dev/null || { printf 'validate-phase: mutation authority phase and step must be positive decimals\n' >&2; exit 1; }
+  [ -n "$phase_file" ] && [ -n "$repo_root" ] && [ -n "$run_root" ] || { printf 'validate-phase: mutation authority requires phase, repo root and run root\n' >&2; exit 2; }
+  bash "$0" "$phase_file" >/dev/null 2>&1 || { printf 'validate-phase: mutation authority requires an ordinary valid phase\n' >&2; exit 1; }
+  if command -v python >/dev/null 2>&1; then py=(python)
+  elif command -v python3 >/dev/null 2>&1; then py=(python3)
+  elif command -v py >/dev/null 2>&1; then py=(py -3)
+  else printf 'validate-phase: Python is required for mutation authority\n' >&2; exit 2; fi
+  "${py[@]}" - "$phase_file" "$phase" "$step" "$repo_root" "$run_root" <<'PY'
+import hashlib,json,os,re,stat,sys
+from pathlib import Path
+phase_file,phase_text,step_text,repo_text,run_text=sys.argv[1:]; phase_no=int(phase_text); step=int(step_text)
+def die(s): print('validate-phase: mutation authority '+s,file=sys.stderr); raise SystemExit(1)
+if any(part in ('.','..') for part in Path(phase_file).parts):
+ die('phase path must be canonical without dot components')
+repo=Path(os.path.abspath(repo_text)); run=Path(os.path.abspath(run_text)); phase=Path(os.path.abspath(phase_file))
+try: run_rel=run.relative_to(repo).as_posix()
+except ValueError: die('run root is outside supplied repository')
+if phase != run/'phases'/f'phase-{phase_no}.md': die('phase path does not equal the run-root phase path')
+for p in (phase, phase.parent, run):
+ try:
+  if stat.S_ISLNK(os.lstat(p).st_mode): die(f'custody path is a symlink: {p}')
+ except OSError: die(f'custody path missing: {p}')
+if not stat.S_ISREG(os.lstat(phase).st_mode): die('phase is not regular')
+text=phase.read_text(encoding='utf-8')
+def one(name):
+ rows=re.findall(rf'(?m)^{re.escape(name)}:\s*(\S.*)$',text)
+ if len(rows)!=1: die(f'expected exactly one {name}: field')
+ return rows[0].strip()
+pm=re.findall(r'(?m)^Phase:\s*([1-9][0-9]*)\b',text)
+if len(pm)!=1 or int(pm[0])!=phase_no: die('Phase header does not equal requested phase')
+if one('Run root')!=run_rel: die('Run root field does not equal supplied run root')
+baseline=one('Baseline ref'); owner=one('Owner/source')
+try: claim=(run/'.claimed').read_text(encoding='utf-8').splitlines()
+except OSError: die('claim metadata is missing')
+ids=[x.split('=',1)[1] for x in claim if x.startswith('claim_id=')]
+if len(ids)!=1 or not re.fullmatch(r'[0-9a-f]{32}',ids[0]): die('claim metadata lacks one v2 claim_id')
+roadmap=run/'ROADMAP.md'
+if not roadmap.is_file() or len(re.findall(rf'(?m)^\|\s*{phase_no}\s*\|',roadmap.read_text(encoding='utf-8')))!=1: die('ROADMAP does not contain exactly one matching phase row')
+def pathok(x):
+ return isinstance(x,str) and bool(x) and not x.endswith('/') and not x.startswith('/') and '\\' not in x and not re.match(r'^[A-Za-z]:',x) and not any(ord(c)<32 for c in x) and all(y not in ('','.','..') for y in x.split('/'))
+sm=re.search(r'(?ms)^##\s+Scope boundaries\b(.*?)(?=^##\s+|^---\s*$|\Z)',text)
+if not sm: die('Scope boundaries section is missing')
+rows=re.findall(r'(?m)^Mutation scope:\s*(\{[^\r\n]*\})\s*$',sm.group(1))
+if len(rows)!=1: die('expected exactly one Mutation scope line')
+def unique_pairs(pairs):
+ d={}
+ for k,v in pairs:
+  if k in d: raise ValueError('duplicate JSON key')
+  d[k]=v
+ return d
+try: scope=json.loads(rows[0],object_pairs_hook=unique_pairs)
+except (json.JSONDecodeError,ValueError): die('Mutation scope is not unique-key JSON')
+if list(scope)!=['in','out'] or not all(isinstance(scope.get(k),list) for k in ('in','out')): die('Mutation scope keys must be exactly in, out')
+for k in ('in','out'):
+ if not all(pathok(x) for x in scope[k]) or len(scope[k])!=len(set(scope[k])) or scope[k]!=sorted(scope[k],key=lambda x:x.encode()): die(f'Mutation scope {k} paths must be unique sorted literals')
+steps=re.findall(r'(?m)^- Step\s+([1-9][0-9]*):',text)
+if len(steps)!=len(set(steps)): die('Step numbers are not unique')
+rows=re.findall(rf'(?m)^- Step\s+{step}:.*\n  mutation-authority:\s*(\{{[^\r\n]*\}})\s*$',text)
+if len(rows)!=1: die('requested Step must carry exactly one immediate mutation-authority line')
+try: auth=json.loads(rows[0],object_pairs_hook=unique_pairs)
+except (json.JSONDecodeError,ValueError): die('mutation-authority is not unique-key JSON')
+if list(auth)!=['operation','source','destination']: die('mutation-authority keys/order must be operation, source, destination')
+op,source,dest=auth['operation'],auth['source'],auth['destination']
+if op not in {'replace','patch','delete','move'} or not pathok(source): die('invalid operation or source')
+if (op=='move' and (not pathok(dest) or dest==source)) or (op!='move' and dest is not None): die('invalid destination')
+if source not in scope['in'] or source in scope['out'] or (dest is not None and (dest not in scope['in'] or dest in scope['out'])): die('authority paths are outside Mutation scope')
+binding={'schema':'implementaudit.phase-mutation-authority-binding.v1','claim_id':ids[0],'run_root':run_rel,'phase':phase_no,'step':step,'owner_source':owner,'baseline_ref':baseline,'operation':op,'source':source,'destination':dest,'mutation_scope':scope}
+digest=hashlib.sha256(json.dumps(binding,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()
+print(json.dumps({'schema':'implementaudit.phase-mutation-authority.v1','phase':phase_no,'step':step,'run_root':run_rel,'operation':op,'source':source,'destination':dest,'mutation_scope':scope,'authority_binding_sha256':digest},separators=(',',':'),ensure_ascii=False))
+PY
+  exit $?
+fi
+
 fail() {
   printf 'validate-phase: %s\n' "$*" >&2
   exit 1

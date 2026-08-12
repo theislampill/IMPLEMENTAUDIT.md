@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Validation-registry parity meta-gate. The repo maintains two hand-edited
-# suite registries: the internal run block in scripts/verify-package.sh and
-# the CI test list in .github/workflows/validate.yml. They drift
-# independently (proven at v0.2.9.0 in both directions). This gate asserts
-# every tests/*.test.sh on disk is invoked in BOTH registries.
+# Validation-registry reachability meta-gate. scripts/verify-package.sh is the
+# one hand-edited test registry. CI must invoke that canonical registry once,
+# without maintaining a second direct-test list that can drift or duplicate
+# work (the former dual-registry defect was proven at v0.2.9.0).
 #
 # Usage: check-validation-registry.sh [--repo-root <dir>]
 
@@ -44,23 +43,35 @@ if not tests:
 verify_pkg = Path("scripts/verify-package.sh").read_text(encoding="utf-8")
 ci = Path(".github/workflows/validate.yml").read_text(encoding="utf-8")
 
-def invokes(text: str, ref: str) -> bool:
+def invocation_count(text: str, ref: str) -> int:
     pattern = re.compile(
         rf"(?m)^\s*(?:-\s*)?(?:run:\s*)?(?:bash|sh)\s+{re.escape(ref)}(?:\s|$)"
     )
-    return bool(pattern.search(text))
+    return len(pattern.findall(text))
 
 failures = []
 for name in tests:
     ref = f"tests/{name}"
-    if not invokes(verify_pkg, ref):
+    if invocation_count(verify_pkg, ref) != 1:
         failures.append(f"{ref} is not invoked by scripts/verify-package.sh")
-    if not invokes(ci, ref):
-        failures.append(f"{ref} is not invoked by .github/workflows/validate.yml")
+
+canonical_route = invocation_count(ci, "scripts/verify-package.sh")
+if canonical_route != 1:
+    failures.append(
+        ".github/workflows/validate.yml must invoke scripts/verify-package.sh exactly once"
+    )
+for name in tests:
+    ref = f"tests/{name}"
+    if invocation_count(ci, ref):
+        failures.append(
+            f"{ref} is directly invoked by .github/workflows/validate.yml; use the canonical registry"
+        )
 
 if failures:
     sys.stderr.write("\n".join(failures) + "\n")
     raise SystemExit(1)
 
-sys.stdout.write(f"check-validation-registry: ok ({len(tests)} tests in both registries)\n")
+sys.stdout.write(
+    f"check-validation-registry: ok ({len(tests)} tests; one canonical CI route)\n"
+)
 PY

@@ -45,6 +45,7 @@ REQUIRED_GROUPS = [
     "Evidence",
     "Closure",
     "Repository",
+    "Research & Engineering Lineage",
     "References",
 ]
 
@@ -102,6 +103,11 @@ REQUIRED_PAGES = [
     "optional-tooling",
     "package-contents",
     "audit-trail",
+    "research-lineage-overview",
+    "research-lineage-lean",
+    "research-lineage-agile",
+    "research-lineage-waterfall",
+    "research-lineage-evolved-law",
     "reference-index",
 ]
 

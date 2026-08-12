@@ -4,428 +4,824 @@
     {
       "id": "R34-C01-tiny-cheap-path",
       "kind": "depth",
-      "observations": {"activation": false, "process_heavy_or_disputed": false},
+      "observations": {"activation":false,"process_heavy_or_disputed":false},
       "expected": "NO_R34_ARTEFACT"
     },
     {
       "id": "R34-C02-triggered-minimal-record",
       "kind": "depth",
-      "observations": {"activation": true, "process_heavy_or_disputed": false},
+      "observations": {"activation":true,"process_heavy_or_disputed":false},
       "expected": "MINIMAL_TRIGGERED_RECORD"
     },
     {
       "id": "R34-C03-deep-retrospective-bounded",
       "kind": "depth",
-      "observations": {"activation": true, "process_heavy_or_disputed": true},
+      "observations": {"activation":true,"process_heavy_or_disputed":true},
       "expected": "DEEP_RETROSPECTIVE"
     },
     {
       "id": "R34-C04-risky-smoke-retained",
       "kind": "admission",
-      "observations": {"required_gate": true, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate":true,"equivalent_protection":false,"live_driver":true,"authoritative_owner":true,"consumer":true,"authoritative_consumer":true,"consequence":true,"discriminator":true,"expected_evidence":true,"marginal_cost_recorded":true,"exit_condition":true,"proxy_only":false,"optional_by_whim":false,"expected_risk_material":false},
       "expected": "RETAIN"
     },
     {
       "id": "R34-C05-habit-only-control",
       "kind": "admission",
-      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": false, "authoritative_owner": false, "consumer": false, "authoritative_consumer": false, "consequence": false, "discriminator": false, "expected_evidence": false, "marginal_cost_recorded": false, "exit_condition": false, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate":false,"equivalent_protection":false,"live_driver":false,"authoritative_owner":false,"consumer":false,"authoritative_consumer":false,"consequence":false,"discriminator":false,"expected_evidence":false,"marginal_cost_recorded":false,"exit_condition":false,"proxy_only":false,"optional_by_whim":false,"expected_risk_material":false},
       "expected": "REJECT"
     },
     {
       "id": "R34-C06-optional-by-whim",
       "kind": "admission",
-      "observations": {"required_gate": true, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": true, "expected_risk_material": false},
+      "observations": {"required_gate":true,"equivalent_protection":false,"live_driver":true,"authoritative_owner":true,"consumer":true,"authoritative_consumer":true,"consequence":true,"discriminator":true,"expected_evidence":true,"marginal_cost_recorded":true,"exit_condition":true,"proxy_only":false,"optional_by_whim":true,"expected_risk_material":false},
       "expected": "RETAIN"
     },
     {
       "id": "R34-C07-commit-count-proxy",
       "kind": "anti_gaming",
-      "observations": {"proxy": "commit_count", "large_mandatory_worksheet": false, "form_only": false},
+      "observations": {"proxy":"commit_count","large_mandatory_worksheet":false,"form_only":false},
       "expected": "FAIL"
     },
     {
       "id": "R34-C08-artefact-count-proxy",
       "kind": "anti_gaming",
-      "observations": {"proxy": "artefact_count", "large_mandatory_worksheet": false, "form_only": false},
+      "observations": {"proxy":"artefact_count","large_mandatory_worksheet":false,"form_only":false},
       "expected": "FAIL"
     },
     {
       "id": "R34-C09-report-count-proxy",
       "kind": "anti_gaming",
-      "observations": {"proxy": "report_count", "large_mandatory_worksheet": false, "form_only": false},
+      "observations": {"proxy":"report_count","large_mandatory_worksheet":false,"form_only":false},
       "expected": "FAIL"
     },
     {
       "id": "R34-C10-reviewer-count-proxy",
       "kind": "anti_gaming",
-      "observations": {"proxy": "reviewer_count", "large_mandatory_worksheet": false, "form_only": false},
+      "observations": {"proxy":"reviewer_count","large_mandatory_worksheet":false,"form_only":false},
       "expected": "FAIL"
     },
     {
       "id": "R34-C11-command-count-proxy",
       "kind": "anti_gaming",
-      "observations": {"proxy": "command_count", "large_mandatory_worksheet": false, "form_only": false},
+      "observations": {"proxy":"command_count","large_mandatory_worksheet":false,"form_only":false},
       "expected": "FAIL"
     },
     {
       "id": "R34-C12-recovery-handoff",
       "kind": "artefact",
-      "observations": {"live_consumer": true, "recovery_or_authority_consequence": true, "duplicate_authority": false},
+      "observations": {"live_consumer":true,"recovery_or_authority_consequence":true,"duplicate_authority":false},
       "expected": "RETAIN"
     },
     {
       "id": "R34-C13-duplicate-status-artefact",
       "kind": "artefact",
-      "observations": {"live_consumer": false, "recovery_or_authority_consequence": false, "duplicate_authority": true},
+      "observations": {"live_consumer":false,"recovery_or_authority_consequence":false,"duplicate_authority":true},
       "expected": "MERGE_OR_RETIRE"
     },
     {
       "id": "R34-C14-demonstrated-defect-control",
       "kind": "admission",
-      "observations": {"required_gate": true, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate":true,"equivalent_protection":false,"live_driver":true,"authoritative_owner":true,"consumer":true,"authoritative_consumer":true,"consequence":true,"discriminator":true,"expected_evidence":true,"marginal_cost_recorded":true,"exit_condition":true,"proxy_only":false,"optional_by_whim":false,"expected_risk_material":false},
       "expected": "RETAIN"
     },
     {
       "id": "R34-C15-rare-catastrophic-risk",
       "kind": "admission",
-      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": true},
+      "observations": {"required_gate":false,"equivalent_protection":false,"live_driver":true,"authoritative_owner":true,"consumer":true,"authoritative_consumer":true,"consequence":true,"discriminator":true,"expected_evidence":true,"marginal_cost_recorded":true,"exit_condition":true,"proxy_only":false,"optional_by_whim":false,"expected_risk_material":true},
       "expected": "RETAIN"
     },
     {
       "id": "R34-C16-exact-evidence-reuse",
       "kind": "repeat",
-      "observations": {"prior_exact_pass": true, "exact_bytes_unchanged": true, "other_relevant_state_unchanged": true, "scope_identical": true, "consumer_identical": true, "authoritative_consumer_identical": true, "new_residual": false, "new_mutation_family": false},
+      "observations": {"prior_exact_pass":true,"exact_bytes_unchanged":true,"other_relevant_state_unchanged":true,"scope_identical":true,"consumer_identical":true,"authoritative_consumer_identical":true,"new_residual":false,"new_mutation_family":false},
       "expected": "REUSE"
     },
     {
       "id": "R34-C17-changed-state-rerun",
       "kind": "repeat",
-      "observations": {"prior_exact_pass": true, "exact_bytes_unchanged": true, "other_relevant_state_unchanged": false, "scope_identical": true, "consumer_identical": true, "authoritative_consumer_identical": true, "new_residual": true, "new_mutation_family": false},
+      "observations": {"prior_exact_pass":true,"exact_bytes_unchanged":true,"other_relevant_state_unchanged":false,"scope_identical":true,"consumer_identical":true,"authoritative_consumer_identical":true,"new_residual":true,"new_mutation_family":false},
       "expected": "RUN"
     },
     {
       "id": "R34-C18-repeat-review-no-residual",
       "kind": "review",
-      "observations": {"new_residual": false, "new_mutation_family": false},
+      "observations": {"new_residual":false,"new_mutation_family":false},
       "expected": "STOP"
     },
     {
       "id": "R34-C19-review-new-mutation-family",
       "kind": "review",
-      "observations": {"new_residual": false, "new_mutation_family": true},
+      "observations": {"new_residual":false,"new_mutation_family":true},
       "expected": "RUN"
     },
     {
       "id": "R34-C20-shared-and-disjoint-topology",
       "kind": "topology",
-      "observations": {"shared_owner": true, "shared_cell": true, "disjoint_cells": 3, "closed_write_boundaries": true, "reconciliation_point": true, "parallel_shared_cell": false},
+      "observations": {"shared_owner":true,"shared_cell":true,"disjoint_cells":3,"closed_write_boundaries":true,"reconciliation_point":true,"parallel_shared_cell":false},
       "expected": "PARALLEL_DISJOINT_SERIALISE_SHARED"
     },
     {
       "id": "R34-C21-shared-cell-conflict",
       "kind": "topology",
-      "observations": {"shared_owner": true, "shared_cell": true, "disjoint_cells": 2, "closed_write_boundaries": false, "reconciliation_point": false, "parallel_shared_cell": true},
+      "observations": {"shared_owner":true,"shared_cell":true,"disjoint_cells":2,"closed_write_boundaries":false,"reconciliation_point":false,"parallel_shared_cell":true},
       "expected": "FAIL"
     },
     {
       "id": "R34-C22-duplicate-controls-merge",
       "kind": "lifecycle",
-      "observations": {"requested": "merge", "live_consumer": true, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": true, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": true, "marginal_cost_reduced": true, "record_complete": true},
+      "observations": {"requested":"merge","live_consumer":true,"protected_consequence":true,"failure_mode_live":true,"rollback_proved":false,"duplicate_authority":true,"activation_conditional":false,"risk_or_authority_changed":false,"equivalent_protection_proved":true,"marginal_cost_reduced":true,"record_complete":true},
       "expected": "MERGE"
     },
     {
       "id": "R34-C23-trigger-dependent-control",
       "kind": "lifecycle",
-      "observations": {"requested": "conditionalise", "live_consumer": true, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": true, "risk_or_authority_changed": false, "equivalent_protection_proved": true, "marginal_cost_reduced": true, "record_complete": true},
+      "observations": {"requested":"conditionalise","live_consumer":true,"protected_consequence":true,"failure_mode_live":true,"rollback_proved":false,"duplicate_authority":false,"activation_conditional":true,"risk_or_authority_changed":false,"equivalent_protection_proved":true,"marginal_cost_reduced":true,"record_complete":true},
       "expected": "CONDITIONAL"
     },
     {
       "id": "R34-C24-retire-obsolete-control",
       "kind": "lifecycle",
-      "observations": {"requested": "retire", "live_consumer": false, "protected_consequence": false, "failure_mode_live": false, "rollback_proved": true, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": false, "marginal_cost_reduced": false, "record_complete": true},
+      "observations": {"requested":"retire","live_consumer":false,"protected_consequence":false,"failure_mode_live":false,"rollback_proved":true,"duplicate_authority":false,"activation_conditional":false,"risk_or_authority_changed":false,"equivalent_protection_proved":false,"marginal_cost_reduced":false,"record_complete":true},
       "expected": "RETIRE"
     },
     {
       "id": "R34-C25-reclassify-changed-risk",
       "kind": "lifecycle",
-      "observations": {"requested": "retire", "live_consumer": false, "protected_consequence": false, "failure_mode_live": false, "rollback_proved": true, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": true, "equivalent_protection_proved": false, "marginal_cost_reduced": false, "record_complete": true},
+      "observations": {"requested":"retire","live_consumer":false,"protected_consequence":false,"failure_mode_live":false,"rollback_proved":true,"duplicate_authority":false,"activation_conditional":false,"risk_or_authority_changed":true,"equivalent_protection_proved":false,"marginal_cost_reduced":false,"record_complete":true},
       "expected": "RECLASSIFY"
     },
     {
       "id": "R34-C26-live-consumer-retirement",
       "kind": "lifecycle",
-      "observations": {"requested": "retire", "live_consumer": true, "protected_consequence": true, "failure_mode_live": false, "rollback_proved": true, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": false, "marginal_cost_reduced": false, "record_complete": true},
+      "observations": {"requested":"retire","live_consumer":true,"protected_consequence":true,"failure_mode_live":false,"rollback_proved":true,"duplicate_authority":false,"activation_conditional":false,"risk_or_authority_changed":false,"equivalent_protection_proved":false,"marginal_cost_reduced":false,"record_complete":true},
       "expected": "FAIL"
     },
     {
       "id": "R34-C27-mandatory-large-worksheet",
       "kind": "anti_gaming",
-      "observations": {"proxy": "none", "large_mandatory_worksheet": true, "form_only": false},
+      "observations": {"proxy":"none","large_mandatory_worksheet":true,"form_only":false},
       "expected": "FAIL"
     },
     {
       "id": "R34-C28-filled-record-no-consequence",
       "kind": "anti_gaming",
-      "observations": {"proxy": "none", "large_mandatory_worksheet": false, "form_only": true},
+      "observations": {"proxy":"none","large_mandatory_worksheet":false,"form_only":true},
       "expected": "FAIL"
     },
     {
       "id": "R34-C29-complete-admission",
       "kind": "admission",
-      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate":false,"equivalent_protection":false,"live_driver":true,"authoritative_owner":true,"consumer":true,"authoritative_consumer":true,"consequence":true,"discriminator":true,"expected_evidence":true,"marginal_cost_recorded":true,"exit_condition":true,"proxy_only":false,"optional_by_whim":false,"expected_risk_material":false},
       "expected": "ADMIT"
     },
     {
       "id": "R34-C30-missing-authoritative-owner",
       "kind": "admission",
-      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": false, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate":false,"equivalent_protection":false,"live_driver":true,"authoritative_owner":false,"consumer":true,"authoritative_consumer":true,"consequence":true,"discriminator":true,"expected_evidence":true,"marginal_cost_recorded":true,"exit_condition":true,"proxy_only":false,"optional_by_whim":false,"expected_risk_material":false},
       "expected": "DEFER"
     },
     {
       "id": "R34-C31-missing-consumer",
       "kind": "admission",
-      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": false, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate":false,"equivalent_protection":false,"live_driver":true,"authoritative_owner":true,"consumer":false,"authoritative_consumer":true,"consequence":true,"discriminator":true,"expected_evidence":true,"marginal_cost_recorded":true,"exit_condition":true,"proxy_only":false,"optional_by_whim":false,"expected_risk_material":false},
       "expected": "DEFER"
     },
     {
       "id": "R34-C32-missing-consequence",
       "kind": "admission",
-      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": false, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate":false,"equivalent_protection":false,"live_driver":true,"authoritative_owner":true,"consumer":true,"authoritative_consumer":true,"consequence":false,"discriminator":true,"expected_evidence":true,"marginal_cost_recorded":true,"exit_condition":true,"proxy_only":false,"optional_by_whim":false,"expected_risk_material":false},
       "expected": "DEFER"
     },
     {
       "id": "R34-C33-missing-discriminator",
       "kind": "admission",
-      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": false, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate":false,"equivalent_protection":false,"live_driver":true,"authoritative_owner":true,"consumer":true,"authoritative_consumer":true,"consequence":true,"discriminator":false,"expected_evidence":true,"marginal_cost_recorded":true,"exit_condition":true,"proxy_only":false,"optional_by_whim":false,"expected_risk_material":false},
       "expected": "DEFER"
     },
     {
       "id": "R34-C34-missing-expected-evidence",
       "kind": "admission",
-      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": false, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate":false,"equivalent_protection":false,"live_driver":true,"authoritative_owner":true,"consumer":true,"authoritative_consumer":true,"consequence":true,"discriminator":true,"expected_evidence":false,"marginal_cost_recorded":true,"exit_condition":true,"proxy_only":false,"optional_by_whim":false,"expected_risk_material":false},
       "expected": "DEFER"
     },
     {
       "id": "R34-C35-missing-marginal-cost",
       "kind": "admission",
-      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": false, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate":false,"equivalent_protection":false,"live_driver":true,"authoritative_owner":true,"consumer":true,"authoritative_consumer":true,"consequence":true,"discriminator":true,"expected_evidence":true,"marginal_cost_recorded":false,"exit_condition":true,"proxy_only":false,"optional_by_whim":false,"expected_risk_material":false},
       "expected": "DEFER"
     },
     {
       "id": "R34-C36-missing-exit-condition",
       "kind": "admission",
-      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": false, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate":false,"equivalent_protection":false,"live_driver":true,"authoritative_owner":true,"consumer":true,"authoritative_consumer":true,"consequence":true,"discriminator":true,"expected_evidence":true,"marginal_cost_recorded":true,"exit_condition":false,"proxy_only":false,"optional_by_whim":false,"expected_risk_material":false},
       "expected": "DEFER"
     },
     {
       "id": "R34-C37-changed-scope-rerun",
       "kind": "repeat",
-      "observations": {"prior_exact_pass": true, "exact_bytes_unchanged": true, "other_relevant_state_unchanged": true, "scope_identical": false, "consumer_identical": true, "authoritative_consumer_identical": true, "new_residual": false, "new_mutation_family": false},
+      "observations": {"prior_exact_pass":true,"exact_bytes_unchanged":true,"other_relevant_state_unchanged":true,"scope_identical":false,"consumer_identical":true,"authoritative_consumer_identical":true,"new_residual":false,"new_mutation_family":false},
       "expected": "RUN"
     },
     {
       "id": "R34-C38-changed-consumer-rerun",
       "kind": "repeat",
-      "observations": {"prior_exact_pass": true, "exact_bytes_unchanged": true, "other_relevant_state_unchanged": true, "scope_identical": true, "consumer_identical": false, "authoritative_consumer_identical": true, "new_residual": false, "new_mutation_family": false},
+      "observations": {"prior_exact_pass":true,"exact_bytes_unchanged":true,"other_relevant_state_unchanged":true,"scope_identical":true,"consumer_identical":false,"authoritative_consumer_identical":true,"new_residual":false,"new_mutation_family":false},
       "expected": "RUN"
     },
     {
       "id": "R34-C39-invalid-retain",
       "kind": "lifecycle",
-      "observations": {"requested": "retain", "live_consumer": false, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": false, "marginal_cost_reduced": false, "record_complete": true},
+      "observations": {"requested":"retain","live_consumer":false,"protected_consequence":true,"failure_mode_live":true,"rollback_proved":false,"duplicate_authority":false,"activation_conditional":false,"risk_or_authority_changed":false,"equivalent_protection_proved":false,"marginal_cost_reduced":false,"record_complete":true},
       "expected": "DEFER"
     },
     {
       "id": "R34-C40-invalid-merge",
       "kind": "lifecycle",
-      "observations": {"requested": "merge", "live_consumer": true, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": true, "marginal_cost_reduced": true, "record_complete": true},
+      "observations": {"requested":"merge","live_consumer":true,"protected_consequence":true,"failure_mode_live":true,"rollback_proved":false,"duplicate_authority":false,"activation_conditional":false,"risk_or_authority_changed":false,"equivalent_protection_proved":true,"marginal_cost_reduced":true,"record_complete":true},
       "expected": "DEFER"
     },
     {
       "id": "R34-C41-invalid-conditionalise",
       "kind": "lifecycle",
-      "observations": {"requested": "conditionalise", "live_consumer": true, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": true, "marginal_cost_reduced": true, "record_complete": true},
+      "observations": {"requested":"conditionalise","live_consumer":true,"protected_consequence":true,"failure_mode_live":true,"rollback_proved":false,"duplicate_authority":false,"activation_conditional":false,"risk_or_authority_changed":false,"equivalent_protection_proved":true,"marginal_cost_reduced":true,"record_complete":true},
       "expected": "DEFER"
     },
     {
       "id": "R34-C42-cheapen-equivalent-control",
       "kind": "lifecycle",
-      "observations": {"requested": "cheapen", "live_consumer": true, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": true, "marginal_cost_reduced": true, "record_complete": true},
+      "observations": {"requested":"cheapen","live_consumer":true,"protected_consequence":true,"failure_mode_live":true,"rollback_proved":false,"duplicate_authority":false,"activation_conditional":false,"risk_or_authority_changed":false,"equivalent_protection_proved":true,"marginal_cost_reduced":true,"record_complete":true},
       "expected": "CHEAPEN"
     },
     {
       "id": "R34-C43-explicit-defer",
       "kind": "escalation",
-      "observations": {"requested": "defer", "mutation_incomplete": true, "controlling_gate_intact": true, "supported_alternatives": 0, "alternatives_indistinguishable": false, "expected_risk_material": false, "permanent_cost_material": false, "mechanically_resolvable": true},
+      "observations": {"requested":"defer","mutation_incomplete":true,"controlling_gate_intact":true,"supported_alternatives":0,"alternatives_indistinguishable":false,"expected_risk_material":false,"permanent_cost_material":false,"mechanically_resolvable":true},
       "expected": "DEFER"
     },
     {
       "id": "R34-C44-unresolved-tradeoff",
       "kind": "escalation",
-      "observations": {"requested": "unresolved", "mutation_incomplete": false, "controlling_gate_intact": true, "supported_alternatives": 2, "alternatives_indistinguishable": true, "expected_risk_material": false, "permanent_cost_material": false, "mechanically_resolvable": false},
+      "observations": {"requested":"unresolved","mutation_incomplete":false,"controlling_gate_intact":true,"supported_alternatives":2,"alternatives_indistinguishable":true,"expected_risk_material":false,"permanent_cost_material":false,"mechanically_resolvable":false},
       "expected": "UNRESOLVED"
     },
     {
       "id": "R34-C45-disjoint-cells-no-shared-cell",
       "kind": "topology",
-      "observations": {"shared_owner": false, "shared_cell": false, "disjoint_cells": 3, "closed_write_boundaries": true, "reconciliation_point": true, "parallel_shared_cell": false},
+      "observations": {"shared_owner":false,"shared_cell":false,"disjoint_cells":3,"closed_write_boundaries":true,"reconciliation_point":true,"parallel_shared_cell":false},
       "expected": "PARALLEL_SAFE"
     },
     {
       "id": "R34-C46-owner-decision",
       "kind": "escalation",
-      "observations": {"requested": "owner_decision", "mutation_incomplete": false, "controlling_gate_intact": true, "supported_alternatives": 0, "alternatives_indistinguishable": false, "expected_risk_material": true, "permanent_cost_material": true, "mechanically_resolvable": false},
+      "observations": {"requested":"owner_decision","mutation_incomplete":false,"controlling_gate_intact":true,"supported_alternatives":0,"alternatives_indistinguishable":false,"expected_risk_material":true,"permanent_cost_material":true,"mechanically_resolvable":false},
       "expected": "OWNER_DECISION"
     },
     {
       "id": "R34-C47-valid-retain",
       "kind": "lifecycle",
-      "observations": {"requested": "retain", "live_consumer": true, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": false, "marginal_cost_reduced": false, "record_complete": true},
+      "observations": {"requested":"retain","live_consumer":true,"protected_consequence":true,"failure_mode_live":true,"rollback_proved":false,"duplicate_authority":false,"activation_conditional":false,"risk_or_authority_changed":false,"equivalent_protection_proved":false,"marginal_cost_reduced":false,"record_complete":true},
       "expected": "RETAIN"
     },
     {
       "id": "R34-C48-invalid-cheapen",
       "kind": "lifecycle",
-      "observations": {"requested": "cheapen", "live_consumer": true, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": false, "marginal_cost_reduced": true, "record_complete": true},
+      "observations": {"requested":"cheapen","live_consumer":true,"protected_consequence":true,"failure_mode_live":true,"rollback_proved":false,"duplicate_authority":false,"activation_conditional":false,"risk_or_authority_changed":false,"equivalent_protection_proved":false,"marginal_cost_reduced":true,"record_complete":true},
       "expected": "DEFER"
     },
     {
       "id": "R34-C49-defer-with-complete-mutation",
       "kind": "escalation",
-      "observations": {"requested": "defer", "mutation_incomplete": false, "controlling_gate_intact": true, "supported_alternatives": 0, "alternatives_indistinguishable": false, "expected_risk_material": false, "permanent_cost_material": false, "mechanically_resolvable": true},
+      "observations": {"requested":"defer","mutation_incomplete":false,"controlling_gate_intact":true,"supported_alternatives":0,"alternatives_indistinguishable":false,"expected_risk_material":false,"permanent_cost_material":false,"mechanically_resolvable":true},
       "expected": "FAIL"
     },
     {
       "id": "R34-C50-defer-without-controlling-gate",
       "kind": "escalation",
-      "observations": {"requested": "defer", "mutation_incomplete": true, "controlling_gate_intact": false, "supported_alternatives": 0, "alternatives_indistinguishable": false, "expected_risk_material": false, "permanent_cost_material": false, "mechanically_resolvable": true},
+      "observations": {"requested":"defer","mutation_incomplete":true,"controlling_gate_intact":false,"supported_alternatives":0,"alternatives_indistinguishable":false,"expected_risk_material":false,"permanent_cost_material":false,"mechanically_resolvable":true},
       "expected": "FAIL"
     },
     {
       "id": "R34-C51-unresolved-single-alternative",
       "kind": "escalation",
-      "observations": {"requested": "unresolved", "mutation_incomplete": false, "controlling_gate_intact": true, "supported_alternatives": 1, "alternatives_indistinguishable": true, "expected_risk_material": false, "permanent_cost_material": false, "mechanically_resolvable": false},
+      "observations": {"requested":"unresolved","mutation_incomplete":false,"controlling_gate_intact":true,"supported_alternatives":1,"alternatives_indistinguishable":true,"expected_risk_material":false,"permanent_cost_material":false,"mechanically_resolvable":false},
       "expected": "FAIL"
     },
     {
       "id": "R34-C52-unresolved-distinguishable-alternatives",
       "kind": "escalation",
-      "observations": {"requested": "unresolved", "mutation_incomplete": false, "controlling_gate_intact": true, "supported_alternatives": 2, "alternatives_indistinguishable": false, "expected_risk_material": false, "permanent_cost_material": false, "mechanically_resolvable": true},
+      "observations": {"requested":"unresolved","mutation_incomplete":false,"controlling_gate_intact":true,"supported_alternatives":2,"alternatives_indistinguishable":false,"expected_risk_material":false,"permanent_cost_material":false,"mechanically_resolvable":true},
       "expected": "FAIL"
     },
     {
       "id": "R34-C53-owner-decision-mechanically-resolvable",
       "kind": "escalation",
-      "observations": {"requested": "owner_decision", "mutation_incomplete": false, "controlling_gate_intact": true, "supported_alternatives": 0, "alternatives_indistinguishable": false, "expected_risk_material": true, "permanent_cost_material": true, "mechanically_resolvable": true},
+      "observations": {"requested":"owner_decision","mutation_incomplete":false,"controlling_gate_intact":true,"supported_alternatives":0,"alternatives_indistinguishable":false,"expected_risk_material":true,"permanent_cost_material":true,"mechanically_resolvable":true},
       "expected": "FAIL"
     },
     {
       "id": "R34-C54-owner-decision-without-risk-tradeoff",
       "kind": "escalation",
-      "observations": {"requested": "owner_decision", "mutation_incomplete": false, "controlling_gate_intact": true, "supported_alternatives": 0, "alternatives_indistinguishable": false, "expected_risk_material": false, "permanent_cost_material": true, "mechanically_resolvable": false},
+      "observations": {"requested":"owner_decision","mutation_incomplete":false,"controlling_gate_intact":true,"supported_alternatives":0,"alternatives_indistinguishable":false,"expected_risk_material":false,"permanent_cost_material":true,"mechanically_resolvable":false},
       "expected": "FAIL"
     },
     {
       "id": "R34-C55-held-out-defer-adjacent",
       "kind": "escalation",
-      "observations": {"requested": "defer", "mutation_incomplete": true, "controlling_gate_intact": true, "supported_alternatives": 1, "alternatives_indistinguishable": false, "expected_risk_material": false, "permanent_cost_material": false, "mechanically_resolvable": true},
+      "observations": {"requested":"defer","mutation_incomplete":true,"controlling_gate_intact":true,"supported_alternatives":1,"alternatives_indistinguishable":false,"expected_risk_material":false,"permanent_cost_material":false,"mechanically_resolvable":true},
       "expected": "DEFER"
     },
     {
       "id": "R34-C56-held-out-unresolved-adjacent",
       "kind": "escalation",
-      "observations": {"requested": "unresolved", "mutation_incomplete": false, "controlling_gate_intact": true, "supported_alternatives": 3, "alternatives_indistinguishable": true, "expected_risk_material": false, "permanent_cost_material": false, "mechanically_resolvable": false},
+      "observations": {"requested":"unresolved","mutation_incomplete":false,"controlling_gate_intact":true,"supported_alternatives":3,"alternatives_indistinguishable":true,"expected_risk_material":false,"permanent_cost_material":false,"mechanically_resolvable":false},
       "expected": "UNRESOLVED"
     },
     {
       "id": "R34-C57-held-out-owner-decision-adjacent",
       "kind": "escalation",
-      "observations": {"requested": "owner_decision", "mutation_incomplete": true, "controlling_gate_intact": true, "supported_alternatives": 2, "alternatives_indistinguishable": true, "expected_risk_material": true, "permanent_cost_material": true, "mechanically_resolvable": false},
+      "observations": {"requested":"owner_decision","mutation_incomplete":true,"controlling_gate_intact":true,"supported_alternatives":2,"alternatives_indistinguishable":true,"expected_risk_material":true,"permanent_cost_material":true,"mechanically_resolvable":false},
       "expected": "OWNER_DECISION"
     },
     {
       "id": "R34-C58-non-authoritative-consumer",
       "kind": "admission",
-      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": false, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate":false,"equivalent_protection":false,"live_driver":true,"authoritative_owner":true,"consumer":true,"authoritative_consumer":false,"consequence":true,"discriminator":true,"expected_evidence":true,"marginal_cost_recorded":true,"exit_condition":true,"proxy_only":false,"optional_by_whim":false,"expected_risk_material":false},
       "expected": "DEFER"
     },
     {
       "id": "R34-C59-changed-authoritative-consumer-rerun",
       "kind": "repeat",
-      "observations": {"prior_exact_pass": true, "exact_bytes_unchanged": true, "other_relevant_state_unchanged": true, "scope_identical": true, "consumer_identical": true, "authoritative_consumer_identical": false, "new_residual": false, "new_mutation_family": false},
+      "observations": {"prior_exact_pass":true,"exact_bytes_unchanged":true,"other_relevant_state_unchanged":true,"scope_identical":true,"consumer_identical":true,"authoritative_consumer_identical":false,"new_residual":false,"new_mutation_family":false},
       "expected": "RUN"
     },
     {
       "id": "R34-C60-changed-bytes-rerun",
       "kind": "repeat",
-      "observations": {"prior_exact_pass": true, "exact_bytes_unchanged": false, "other_relevant_state_unchanged": true, "scope_identical": true, "consumer_identical": true, "authoritative_consumer_identical": true, "new_residual": false, "new_mutation_family": false},
+      "observations": {"prior_exact_pass":true,"exact_bytes_unchanged":false,"other_relevant_state_unchanged":true,"scope_identical":true,"consumer_identical":true,"authoritative_consumer_identical":true,"new_residual":false,"new_mutation_family":false},
       "expected": "RUN"
     },
     {
       "id": "R34-C61-required-gate-without-live-driver",
       "kind": "admission",
-      "observations": {"required_gate": true, "equivalent_protection": false, "live_driver": false, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate":true,"equivalent_protection":false,"live_driver":false,"authoritative_owner":true,"consumer":true,"authoritative_consumer":true,"consequence":true,"discriminator":true,"expected_evidence":true,"marginal_cost_recorded":true,"exit_condition":true,"proxy_only":false,"optional_by_whim":false,"expected_risk_material":false},
       "expected": "DEFER"
     },
     {
       "id": "R34-C62-retain-with-cheaper-equivalent",
       "kind": "lifecycle",
-      "observations": {"requested": "retain", "live_consumer": true, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": true, "marginal_cost_reduced": true, "record_complete": true},
+      "observations": {"requested":"retain","live_consumer":true,"protected_consequence":true,"failure_mode_live":true,"rollback_proved":false,"duplicate_authority":false,"activation_conditional":false,"risk_or_authority_changed":false,"equivalent_protection_proved":true,"marginal_cost_reduced":true,"record_complete":true},
       "expected": "CHEAPEN"
     },
     {
       "id": "R34-C63-reuse-without-prior-exact-pass",
       "kind": "repeat",
-      "observations": {"prior_exact_pass": false, "exact_bytes_unchanged": true, "other_relevant_state_unchanged": true, "scope_identical": true, "consumer_identical": true, "authoritative_consumer_identical": true, "new_residual": false, "new_mutation_family": false},
+      "observations": {"prior_exact_pass":false,"exact_bytes_unchanged":true,"other_relevant_state_unchanged":true,"scope_identical":true,"consumer_identical":true,"authoritative_consumer_identical":true,"new_residual":false,"new_mutation_family":false},
       "expected": "RUN"
     },
     {
       "id": "R34-C64-required-gate-missing-authoritative-consumer",
       "kind": "admission",
-      "observations": {"required_gate": true, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": false, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate":true,"equivalent_protection":false,"live_driver":true,"authoritative_owner":true,"consumer":true,"authoritative_consumer":false,"consequence":true,"discriminator":true,"expected_evidence":true,"marginal_cost_recorded":true,"exit_condition":true,"proxy_only":false,"optional_by_whim":false,"expected_risk_material":false},
       "expected": "DEFER"
     },
     {
       "id": "R34-C65-nonrequired-without-live-driver",
       "kind": "admission",
-      "observations": {"required_gate": false, "equivalent_protection": false, "live_driver": false, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate":false,"equivalent_protection":false,"live_driver":false,"authoritative_owner":true,"consumer":true,"authoritative_consumer":true,"consequence":true,"discriminator":true,"expected_evidence":true,"marginal_cost_recorded":true,"exit_condition":true,"proxy_only":false,"optional_by_whim":false,"expected_risk_material":false},
       "expected": "REJECT"
     },
     {
       "id": "R34-C66-required-complete-live-driver",
       "kind": "admission",
-      "observations": {"required_gate": true, "equivalent_protection": false, "live_driver": true, "authoritative_owner": true, "consumer": true, "authoritative_consumer": true, "consequence": true, "discriminator": true, "expected_evidence": true, "marginal_cost_recorded": true, "exit_condition": true, "proxy_only": false, "optional_by_whim": false, "expected_risk_material": false},
+      "observations": {"required_gate":true,"equivalent_protection":false,"live_driver":true,"authoritative_owner":true,"consumer":true,"authoritative_consumer":true,"consequence":true,"discriminator":true,"expected_evidence":true,"marginal_cost_recorded":true,"exit_condition":true,"proxy_only":false,"optional_by_whim":false,"expected_risk_material":false},
       "expected": "RETAIN"
     },
     {
       "id": "R34-C67-retain-equivalent-without-lower-cost",
       "kind": "lifecycle",
-      "observations": {"requested": "retain", "live_consumer": true, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": true, "marginal_cost_reduced": false, "record_complete": true},
+      "observations": {"requested":"retain","live_consumer":true,"protected_consequence":true,"failure_mode_live":true,"rollback_proved":false,"duplicate_authority":false,"activation_conditional":false,"risk_or_authority_changed":false,"equivalent_protection_proved":true,"marginal_cost_reduced":false,"record_complete":true},
       "expected": "RETAIN"
     },
     {
       "id": "R34-C68-retain-lower-cost-without-equivalence",
       "kind": "lifecycle",
-      "observations": {"requested": "retain", "live_consumer": true, "protected_consequence": true, "failure_mode_live": true, "rollback_proved": false, "duplicate_authority": false, "activation_conditional": false, "risk_or_authority_changed": false, "equivalent_protection_proved": false, "marginal_cost_reduced": true, "record_complete": true},
+      "observations": {"requested":"retain","live_consumer":true,"protected_consequence":true,"failure_mode_live":true,"rollback_proved":false,"duplicate_authority":false,"activation_conditional":false,"risk_or_authority_changed":false,"equivalent_protection_proved":false,"marginal_cost_reduced":true,"record_complete":true},
       "expected": "RETAIN"
     },
     {
       "id": "R34-C69-unqualified-changed-bytes",
       "kind": "repeat",
-      "observations": {"prior_exact_pass": false, "exact_bytes_unchanged": false, "other_relevant_state_unchanged": true, "scope_identical": true, "consumer_identical": true, "authoritative_consumer_identical": true, "new_residual": false, "new_mutation_family": false},
+      "observations": {"prior_exact_pass":false,"exact_bytes_unchanged":false,"other_relevant_state_unchanged":true,"scope_identical":true,"consumer_identical":true,"authoritative_consumer_identical":true,"new_residual":false,"new_mutation_family":false},
       "expected": "RUN"
     },
     {
       "id": "R34-C70-process-heavy-derives-activation",
       "kind": "depth",
-      "observations": {"activation": false, "process_heavy_or_disputed": true},
+      "observations": {"activation":false,"process_heavy_or_disputed":true},
       "expected": "DEEP_RETROSPECTIVE"
     },
     {
       "id": "R34-C71-parallel-safe-without-reconciliation",
       "kind": "topology",
-      "observations": {"shared_owner": false, "shared_cell": false, "disjoint_cells": 3, "closed_write_boundaries": true, "reconciliation_point": false, "parallel_shared_cell": false},
+      "observations": {"shared_owner":false,"shared_cell":false,"disjoint_cells":3,"closed_write_boundaries":true,"reconciliation_point":false,"parallel_shared_cell":false},
       "expected": "SERIALISE_SHARED"
+    },
+    {
+      "id": "R34-C72-proportionality-cheap-path",
+      "kind": "proportionality",
+      "observations": {"candidate":"none","live_pressure":false,"variability_or_uncertainty":false,"high_consequence_or_hard_to_reverse":false,"actionable_information":false,"authoritative_consumer":false,"protected_consequence":false,"benefit_exceeds_carrying_cost":false,"bounded":true,"exit_condition":true,"recovery_capacity_required":false,"universal_rule":false,"methodology_ceremony":false},
+      "expected": "NO_R34_ARTEFACT"
+    },
+    {
+      "id": "R34-C73-protective-buffer",
+      "kind": "proportionality",
+      "observations": {"candidate":"buffer","live_pressure":true,"variability_or_uncertainty":true,"high_consequence_or_hard_to_reverse":false,"actionable_information":false,"authoritative_consumer":true,"protected_consequence":true,"benefit_exceeds_carrying_cost":true,"bounded":true,"exit_condition":true,"recovery_capacity_required":false,"universal_rule":false,"methodology_ceremony":false},
+      "expected": "SELECT_PROPORTIONATE_CONTROL"
+    },
+    {
+      "id": "R34-C74-buffer-without-variability",
+      "kind": "proportionality",
+      "observations": {"candidate":"buffer","live_pressure":true,"variability_or_uncertainty":false,"high_consequence_or_hard_to_reverse":false,"actionable_information":false,"authoritative_consumer":true,"protected_consequence":true,"benefit_exceeds_carrying_cost":true,"bounded":true,"exit_condition":true,"recovery_capacity_required":false,"universal_rule":false,"methodology_ceremony":false},
+      "expected": "REJECT"
+    },
+    {
+      "id": "R34-C75-actionable-feedback",
+      "kind": "proportionality",
+      "observations": {"candidate":"feedback","live_pressure":true,"variability_or_uncertainty":true,"high_consequence_or_hard_to_reverse":false,"actionable_information":true,"authoritative_consumer":true,"protected_consequence":true,"benefit_exceeds_carrying_cost":true,"bounded":true,"exit_condition":true,"recovery_capacity_required":false,"universal_rule":false,"methodology_ceremony":false},
+      "expected": "SELECT_PROPORTIONATE_CONTROL"
+    },
+    {
+      "id": "R34-C76-feedback-without-actionability",
+      "kind": "proportionality",
+      "observations": {"candidate":"feedback","live_pressure":true,"variability_or_uncertainty":true,"high_consequence_or_hard_to_reverse":false,"actionable_information":false,"authoritative_consumer":true,"protected_consequence":true,"benefit_exceeds_carrying_cost":true,"bounded":true,"exit_condition":true,"recovery_capacity_required":false,"universal_rule":false,"methodology_ceremony":false},
+      "expected": "REJECT"
+    },
+    {
+      "id": "R34-C77-sustainable-recovery-capacity",
+      "kind": "proportionality",
+      "observations": {"candidate":"capacity","live_pressure":true,"variability_or_uncertainty":true,"high_consequence_or_hard_to_reverse":true,"actionable_information":false,"authoritative_consumer":true,"protected_consequence":true,"benefit_exceeds_carrying_cost":true,"bounded":true,"exit_condition":true,"recovery_capacity_required":true,"universal_rule":false,"methodology_ceremony":false},
+      "expected": "SELECT_PROPORTIONATE_CONTROL"
+    },
+    {
+      "id": "R34-C78-maximum-utilisation",
+      "kind": "proportionality",
+      "observations": {"candidate":"capacity","live_pressure":true,"variability_or_uncertainty":true,"high_consequence_or_hard_to_reverse":true,"actionable_information":false,"authoritative_consumer":true,"protected_consequence":true,"benefit_exceeds_carrying_cost":true,"bounded":true,"exit_condition":true,"recovery_capacity_required":true,"universal_rule":true,"methodology_ceremony":false},
+      "expected": "REJECT"
+    },
+    {
+      "id": "R34-C79-bounded-option-value",
+      "kind": "proportionality",
+      "observations": {"candidate":"option","live_pressure":true,"variability_or_uncertainty":true,"high_consequence_or_hard_to_reverse":false,"actionable_information":true,"authoritative_consumer":true,"protected_consequence":true,"benefit_exceeds_carrying_cost":true,"bounded":true,"exit_condition":true,"recovery_capacity_required":false,"universal_rule":false,"methodology_ceremony":false},
+      "expected": "SELECT_PROPORTIONATE_CONTROL"
+    },
+    {
+      "id": "R34-C80-option-carrying-cost-dominates",
+      "kind": "proportionality",
+      "observations": {"candidate":"option","live_pressure":true,"variability_or_uncertainty":true,"high_consequence_or_hard_to_reverse":false,"actionable_information":true,"authoritative_consumer":true,"protected_consequence":true,"benefit_exceeds_carrying_cost":false,"bounded":true,"exit_condition":true,"recovery_capacity_required":false,"universal_rule":false,"methodology_ceremony":false},
+      "expected": "RETIRE"
+    },
+    {
+      "id": "R34-C81-indefinite-option",
+      "kind": "proportionality",
+      "observations": {"candidate":"option","live_pressure":true,"variability_or_uncertainty":true,"high_consequence_or_hard_to_reverse":false,"actionable_information":true,"authoritative_consumer":true,"protected_consequence":true,"benefit_exceeds_carrying_cost":true,"bounded":false,"exit_condition":false,"recovery_capacity_required":false,"universal_rule":false,"methodology_ceremony":false},
+      "expected": "REJECT"
+    },
+    {
+      "id": "R34-C82-hard-to-reverse-control-depth",
+      "kind": "proportionality",
+      "observations": {"candidate":"control_depth","live_pressure":true,"variability_or_uncertainty":false,"high_consequence_or_hard_to_reverse":true,"actionable_information":false,"authoritative_consumer":true,"protected_consequence":true,"benefit_exceeds_carrying_cost":true,"bounded":true,"exit_condition":true,"recovery_capacity_required":false,"universal_rule":false,"methodology_ceremony":false},
+      "expected": "SELECT_PROPORTIONATE_CONTROL"
+    },
+    {
+      "id": "R34-C83-fixed-wip-rule",
+      "kind": "proportionality",
+      "observations": {"candidate":"buffer","live_pressure":true,"variability_or_uncertainty":true,"high_consequence_or_hard_to_reverse":false,"actionable_information":false,"authoritative_consumer":true,"protected_consequence":true,"benefit_exceeds_carrying_cost":true,"bounded":true,"exit_condition":true,"recovery_capacity_required":false,"universal_rule":true,"methodology_ceremony":false},
+      "expected": "REJECT"
+    },
+    {
+      "id": "R34-C84-methodology-ceremony",
+      "kind": "proportionality",
+      "observations": {"candidate":"feedback","live_pressure":true,"variability_or_uncertainty":true,"high_consequence_or_hard_to_reverse":false,"actionable_information":true,"authoritative_consumer":true,"protected_consequence":true,"benefit_exceeds_carrying_cost":true,"bounded":true,"exit_condition":true,"recovery_capacity_required":false,"universal_rule":false,"methodology_ceremony":true},
+      "expected": "REJECT"
+    },
+    {
+      "id": "R34-C85-missing-proportional-consumer",
+      "kind": "proportionality",
+      "observations": {"candidate":"feedback","live_pressure":true,"variability_or_uncertainty":true,"high_consequence_or_hard_to_reverse":false,"actionable_information":true,"authoritative_consumer":false,"protected_consequence":true,"benefit_exceeds_carrying_cost":true,"bounded":true,"exit_condition":true,"recovery_capacity_required":false,"universal_rule":false,"methodology_ceremony":false},
+      "expected": "DEFER"
+    },
+    {
+      "id": "R34-C86-ready-capacity-activates",
+      "kind": "scheduling",
+      "observations": {"event":"initial","work_units":4,"host_capacity":2,"active_cells":0,"ready_cells":2,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"closed_authority_boundaries":true,"irreversible_external":false,"authorization_current":true,"operator_ceiling":-1,"authority_boundary_open":false},
+      "expected": "ACTIVATE_READY_CELLS"
+    },
+    {
+      "id": "R34-C87-completion-recomputes-frontier",
+      "kind": "scheduling",
+      "observations": {"event":"cell_complete","work_units":4,"host_capacity":2,"active_cells":1,"ready_cells":1,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"closed_authority_boundaries":true,"irreversible_external":false,"authorization_current":true,"operator_ceiling":-1,"authority_boundary_open":false},
+      "expected": "RECOMPUTE_AND_ACTIVATE"
+    },
+    {
+      "id": "R34-C88-blocked-cell-recomputes-frontier",
+      "kind": "scheduling",
+      "observations": {"event":"cell_blocked","work_units":4,"host_capacity":2,"active_cells":1,"ready_cells":1,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"closed_authority_boundaries":true,"irreversible_external":false,"authorization_current":true,"operator_ceiling":-1,"authority_boundary_open":false},
+      "expected": "RECOMPUTE_AND_ACTIVATE"
+    },
+    {
+      "id": "R34-C89-full-capacity-still-recomputes",
+      "kind": "scheduling",
+      "observations": {"event":"cell_complete","work_units":5,"host_capacity":2,"active_cells":2,"ready_cells":1,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"closed_authority_boundaries":true,"irreversible_external":false,"authorization_current":true,"operator_ceiling":-1,"authority_boundary_open":false},
+      "expected": "RECOMPUTE_FRONTIER"
+    },
+    {
+      "id": "R34-C90-drift-reconciles-frontier",
+      "kind": "scheduling",
+      "observations": {"event":"drift","work_units":4,"host_capacity":2,"active_cells":1,"ready_cells":1,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"closed_authority_boundaries":true,"irreversible_external":false,"authorization_current":false,"operator_ceiling":-1,"authority_boundary_open":false},
+      "expected": "RECONCILE_FRONTIER"
+    },
+    {
+      "id": "R34-C91-authorization-change-reconciles-frontier",
+      "kind": "scheduling",
+      "observations": {"event":"authorization_change","work_units":4,"host_capacity":2,"active_cells":1,"ready_cells":1,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"closed_authority_boundaries":true,"irreversible_external":false,"authorization_current":false,"operator_ceiling":-1,"authority_boundary_open":false},
+      "expected": "RECONCILE_FRONTIER"
+    },
+    {
+      "id": "R34-C92-unknown-independence-defers",
+      "kind": "scheduling",
+      "observations": {"event":"initial","work_units":4,"host_capacity":2,"active_cells":0,"ready_cells":2,"parallelism_allowed":true,"cell_independence_known":false,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"closed_authority_boundaries":true,"irreversible_external":false,"authorization_current":true,"operator_ceiling":-1,"authority_boundary_open":false},
+      "expected": "DEFER_INDEPENDENCE_UNKNOWN"
+    },
+    {
+      "id": "R34-C93-write-conflict-serialises",
+      "kind": "scheduling",
+      "observations": {"event":"initial","work_units":4,"host_capacity":2,"active_cells":0,"ready_cells":2,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":false,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"closed_authority_boundaries":true,"irreversible_external":false,"authorization_current":true,"operator_ceiling":-1,"authority_boundary_open":false},
+      "expected": "SERIALISE_CONFLICT"
+    },
+    {
+      "id": "R34-C94-acceptance-conflict-serialises",
+      "kind": "scheduling",
+      "observations": {"event":"initial","work_units":4,"host_capacity":2,"active_cells":0,"ready_cells":2,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":false,"closed_resource_boundaries":true,"closed_authority_boundaries":true,"irreversible_external":false,"authorization_current":true,"operator_ceiling":-1,"authority_boundary_open":false},
+      "expected": "SERIALISE_CONFLICT"
+    },
+    {
+      "id": "R34-C95-resource-claim-conflict-serialises",
+      "kind": "scheduling",
+      "observations": {"event":"initial","work_units":4,"host_capacity":2,"active_cells":0,"ready_cells":2,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":false,"closed_authority_boundaries":true,"irreversible_external":false,"authorization_current":true,"operator_ceiling":-1,"authority_boundary_open":false},
+      "expected": "SERIALISE_CONFLICT"
+    },
+    {
+      "id": "R34-C96-irreversible-external-serialises",
+      "kind": "scheduling",
+      "observations": {"event":"initial","work_units":4,"host_capacity":2,"active_cells":0,"ready_cells":2,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"closed_authority_boundaries":true,"irreversible_external":true,"authorization_current":true,"operator_ceiling":-1,"authority_boundary_open":false},
+      "expected": "SERIALISE_CONFLICT"
+    },
+    {
+      "id": "R34-C97-host-capacity-one-cheap-serial",
+      "kind": "scheduling",
+      "observations": {"event":"initial","work_units":4,"host_capacity":1,"active_cells":0,"ready_cells":2,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"closed_authority_boundaries":true,"irreversible_external":false,"authorization_current":true,"operator_ceiling":-1,"authority_boundary_open":false},
+      "expected": "SERIAL_CHEAP_PATH"
+    },
+    {
+      "id": "R34-C98-two-unit-cheap-serial",
+      "kind": "scheduling",
+      "observations": {"event":"initial","work_units":2,"host_capacity":2,"active_cells":0,"ready_cells":2,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"closed_authority_boundaries":true,"irreversible_external":false,"authorization_current":true,"operator_ceiling":-1,"authority_boundary_open":false},
+      "expected": "SERIAL_CHEAP_PATH"
+    },
+    {
+      "id": "R34-C99-reminder-does-not-redispatch",
+      "kind": "scheduling",
+      "observations": {"event":"unchanged_reminder","work_units":4,"host_capacity":2,"active_cells":1,"ready_cells":1,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"closed_authority_boundaries":true,"irreversible_external":false,"authorization_current":true,"operator_ceiling":-1,"authority_boundary_open":false},
+      "expected": "NO_REDISPATCH"
+    },
+    {
+      "id": "R34-C100-capacity-change-recomputes-frontier",
+      "kind": "scheduling",
+      "observations": {"event":"capacity_change","work_units":5,"host_capacity":3,"active_cells":1,"ready_cells":2,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"closed_authority_boundaries":true,"irreversible_external":false,"authorization_current":true,"operator_ceiling":-1,"authority_boundary_open":false},
+      "expected": "RECOMPUTE_AND_ACTIVATE"
+    },
+    {
+      "id": "R34-C101-parallelism-unavailable-cheap-serial",
+      "kind": "scheduling",
+      "observations": {"event":"initial","work_units":4,"host_capacity":3,"active_cells":0,"ready_cells":2,"parallelism_allowed":false,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"closed_authority_boundaries":true,"irreversible_external":false,"authorization_current":true,"operator_ceiling":-1,"authority_boundary_open":false},
+      "expected": "SERIAL_CHEAP_PATH"
+    },
+    {
+      "id": "R34-C102-authority-boundary-conflict-serialises",
+      "kind": "scheduling",
+      "observations": {"event":"initial","work_units":4,"host_capacity":2,"active_cells":0,"ready_cells":2,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"closed_authority_boundaries":false,"irreversible_external":false,"authorization_current":true,"operator_ceiling":-1,"authority_boundary_open":false},
+      "expected": "SERIALISE_CONFLICT"
+    },
+    {
+      "id": "R34-C103-ready-frontier-activates",
+      "kind": "scheduling",
+      "observations": {"event":"initial","work_units":4,"host_capacity":3,"operator_ceiling":-1,"active_cells":0,"ready_cells":2,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"irreversible_external":false,"authorization_current":true,"closed_authority_boundaries":true,"authority_boundary_open":false},
+      "expected": "ACTIVATE_READY_CELLS"
+    },
+    {
+      "id": "R34-C104-completion-recomputes-frontier",
+      "kind": "scheduling",
+      "observations": {"event":"cell_complete","work_units":4,"host_capacity":2,"operator_ceiling":-1,"active_cells":1,"ready_cells":1,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"irreversible_external":false,"authorization_current":true,"closed_authority_boundaries":true,"authority_boundary_open":false},
+      "expected": "RECOMPUTE_AND_ACTIVATE"
+    },
+    {
+      "id": "R34-C105-block-recomputes-frontier",
+      "kind": "scheduling",
+      "observations": {"event":"cell_blocked","work_units":4,"host_capacity":2,"operator_ceiling":-1,"active_cells":1,"ready_cells":1,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"irreversible_external":false,"authorization_current":true,"closed_authority_boundaries":true,"authority_boundary_open":false},
+      "expected": "RECOMPUTE_AND_ACTIVATE"
+    },
+    {
+      "id": "R34-C106-resource-conflict-serialises",
+      "kind": "scheduling",
+      "observations": {"event":"initial","work_units":4,"host_capacity":2,"operator_ceiling":-1,"active_cells":0,"ready_cells":2,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":false,"irreversible_external":false,"authorization_current":true,"closed_authority_boundaries":true,"authority_boundary_open":false},
+      "expected": "SERIALISE_CONFLICT"
+    },
+    {
+      "id": "R34-C107-unknown-independence-defers",
+      "kind": "scheduling",
+      "observations": {"event":"initial","work_units":4,"host_capacity":2,"operator_ceiling":-1,"active_cells":0,"ready_cells":2,"parallelism_allowed":true,"cell_independence_known":false,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"irreversible_external":false,"authorization_current":true,"closed_authority_boundaries":true,"authority_boundary_open":false},
+      "expected": "DEFER_INDEPENDENCE_UNKNOWN"
+    },
+    {
+      "id": "R34-C108-trivial-serial-cheap-path",
+      "kind": "scheduling",
+      "observations": {"event":"initial","work_units":2,"host_capacity":3,"operator_ceiling":-1,"active_cells":0,"ready_cells":2,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"irreversible_external":false,"authorization_current":true,"closed_authority_boundaries":true,"authority_boundary_open":false},
+      "expected": "SERIAL_CHEAP_PATH"
+    },
+    {
+      "id": "R34-C109-operator-ceiling-bounds-frontier",
+      "kind": "scheduling",
+      "observations": {"event":"initial","work_units":6,"host_capacity":4,"operator_ceiling":2,"active_cells":1,"ready_cells":4,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"irreversible_external":false,"authorization_current":true,"closed_authority_boundaries":true,"authority_boundary_open":false},
+      "expected": "ACTIVATE_BOUNDED"
+    },
+    {
+      "id": "R34-C110-no-ceiling-uses-safe-capacity",
+      "kind": "scheduling",
+      "observations": {"event":"initial","work_units":6,"host_capacity":4,"operator_ceiling":-1,"active_cells":1,"ready_cells":3,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"irreversible_external":false,"authorization_current":true,"closed_authority_boundaries":true,"authority_boundary_open":false},
+      "expected": "ACTIVATE_READY_CELLS"
+    },
+    {
+      "id": "R34-C111-zero-ceiling-serial-cheap-path",
+      "kind": "scheduling",
+      "observations": {"event":"initial","work_units":4,"host_capacity":3,"operator_ceiling":0,"active_cells":0,"ready_cells":2,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"irreversible_external":false,"authorization_current":true,"closed_authority_boundaries":true,"authority_boundary_open":false},
+      "expected": "SERIAL_CHEAP_PATH"
+    },
+    {
+      "id": "R34-C112-reminder-does-not-redispatch",
+      "kind": "scheduling",
+      "observations": {"event":"unchanged_reminder","work_units":4,"host_capacity":2,"operator_ceiling":-1,"active_cells":1,"ready_cells":1,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"irreversible_external":false,"authorization_current":true,"closed_authority_boundaries":true,"authority_boundary_open":false},
+      "expected": "NO_REDISPATCH"
+    },
+    {
+      "id": "R34-C113-authorization-change-reconciles",
+      "kind": "scheduling",
+      "observations": {"event":"authorization_change","work_units":4,"host_capacity":2,"operator_ceiling":-1,"active_cells":1,"ready_cells":1,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"irreversible_external":false,"authorization_current":false,"closed_authority_boundaries":true,"authority_boundary_open":false},
+      "expected": "RECONCILE_FRONTIER"
+    },
+    {
+      "id": "R34-C114-full-capacity-still-recomputes",
+      "kind": "scheduling",
+      "observations": {"event":"cell_complete","work_units":5,"host_capacity":2,"operator_ceiling":-1,"active_cells":2,"ready_cells":1,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"irreversible_external":false,"authorization_current":true,"closed_authority_boundaries":true,"authority_boundary_open":false},
+      "expected": "RECOMPUTE_FRONTIER"
+    },
+    {
+      "id": "R34-C115-triggered-planner-executor-separation",
+      "kind": "delegation",
+      "observations": {"ordinary_direct":false,"material_judgement":true,"self_confirmation_risk":true,"contested_interpretation":false,"high_consequence":false,"independent_executor_available":true,"independent_reviewer_available":true,"context_complete":true,"multiple_valid_executors":true,"lower_cost_executor_sufficient":true,"privacy_allows_lower_cost":true,"delegated_capability_insufficient":false},
+      "expected": "SEPARATE_EXECUTOR"
+    },
+    {
+      "id": "R34-C116-ordinary-same-root-cheap-path",
+      "kind": "delegation",
+      "observations": {"ordinary_direct":true,"material_judgement":false,"self_confirmation_risk":false,"contested_interpretation":false,"high_consequence":false,"independent_executor_available":false,"independent_reviewer_available":false,"context_complete":true,"multiple_valid_executors":false,"lower_cost_executor_sufficient":false,"privacy_allows_lower_cost":false,"delegated_capability_insufficient":false},
+      "expected": "SAME_ROOT"
+    },
+    {
+      "id": "R34-C117-trigger-without-independent-route",
+      "kind": "delegation",
+      "observations": {"ordinary_direct":false,"material_judgement":true,"self_confirmation_risk":false,"contested_interpretation":true,"high_consequence":false,"independent_executor_available":false,"independent_reviewer_available":true,"context_complete":true,"multiple_valid_executors":false,"lower_cost_executor_sufficient":false,"privacy_allows_lower_cost":false,"delegated_capability_insufficient":false},
+      "expected": "BLOCK_OR_OWNER_DECISION"
+    },
+    {
+      "id": "R34-C118-hidden-context-stops-delegation",
+      "kind": "delegation",
+      "observations": {"ordinary_direct":false,"material_judgement":true,"self_confirmation_risk":false,"contested_interpretation":false,"high_consequence":false,"independent_executor_available":true,"independent_reviewer_available":true,"context_complete":false,"multiple_valid_executors":true,"lower_cost_executor_sufficient":true,"privacy_allows_lower_cost":true,"delegated_capability_insufficient":false},
+      "expected": "STOP_RECONSTRUCT_CONTEXT"
+    },
+    {
+      "id": "R34-C119-least-cost-sufficient-executor",
+      "kind": "delegation",
+      "observations": {"ordinary_direct":false,"material_judgement":false,"self_confirmation_risk":false,"contested_interpretation":false,"high_consequence":false,"independent_executor_available":true,"independent_reviewer_available":true,"context_complete":true,"multiple_valid_executors":true,"lower_cost_executor_sufficient":true,"privacy_allows_lower_cost":true,"delegated_capability_insufficient":false},
+      "expected": "DELEGATE_LEAST_COST_SUFFICIENT"
+    },
+    {
+      "id": "R34-C120-cheaper-incapable-route-rejected",
+      "kind": "delegation",
+      "observations": {"ordinary_direct":false,"material_judgement":false,"self_confirmation_risk":false,"contested_interpretation":false,"high_consequence":false,"independent_executor_available":true,"independent_reviewer_available":true,"context_complete":true,"multiple_valid_executors":true,"lower_cost_executor_sufficient":false,"privacy_allows_lower_cost":true,"delegated_capability_insufficient":false},
+      "expected": "RETAIN_CAPABLE_ROUTE"
+    },
+    {
+      "id": "R34-C121-single-valid-executor",
+      "kind": "delegation",
+      "observations": {"ordinary_direct":false,"material_judgement":false,"self_confirmation_risk":false,"contested_interpretation":false,"high_consequence":false,"independent_executor_available":true,"independent_reviewer_available":true,"context_complete":true,"multiple_valid_executors":false,"lower_cost_executor_sufficient":false,"privacy_allows_lower_cost":false,"delegated_capability_insufficient":false},
+      "expected": "DIRECT_CAPABLE_ROUTE"
+    },
+    {
+      "id": "R34-C122-privacy-excludes-cheaper-route",
+      "kind": "delegation",
+      "observations": {"ordinary_direct":false,"material_judgement":false,"self_confirmation_risk":false,"contested_interpretation":false,"high_consequence":false,"independent_executor_available":true,"independent_reviewer_available":true,"context_complete":true,"multiple_valid_executors":true,"lower_cost_executor_sufficient":true,"privacy_allows_lower_cost":false,"delegated_capability_insufficient":false},
+      "expected": "RETAIN_CAPABLE_ROUTE"
+    },
+    {
+      "id": "R34-C123-insufficient-delegated-capability-escalates",
+      "kind": "delegation",
+      "observations": {"ordinary_direct":false,"material_judgement":false,"self_confirmation_risk":false,"contested_interpretation":false,"high_consequence":false,"independent_executor_available":true,"independent_reviewer_available":true,"context_complete":true,"multiple_valid_executors":true,"lower_cost_executor_sufficient":true,"privacy_allows_lower_cost":true,"delegated_capability_insufficient":true},
+      "expected": "STOP_AND_ESCALATE"
+    },
+    {
+      "id": "R34-C124-high-consequence-separates",
+      "kind": "delegation",
+      "observations": {"ordinary_direct":false,"material_judgement":true,"self_confirmation_risk":false,"contested_interpretation":false,"high_consequence":true,"independent_executor_available":true,"independent_reviewer_available":true,"context_complete":true,"multiple_valid_executors":false,"lower_cost_executor_sufficient":false,"privacy_allows_lower_cost":false,"delegated_capability_insufficient":false},
+      "expected": "SEPARATE_EXECUTOR"
+    },
+    {
+      "id": "R34-C125-same-root-does-not-require-transfer-capsule",
+      "kind": "delegation",
+      "observations": {"ordinary_direct":true,"material_judgement":false,"self_confirmation_risk":false,"contested_interpretation":false,"high_consequence":false,"independent_executor_available":false,"independent_reviewer_available":false,"context_complete":false,"multiple_valid_executors":false,"lower_cost_executor_sufficient":false,"privacy_allows_lower_cost":false,"delegated_capability_insufficient":false},
+      "expected": "SAME_ROOT"
+    },
+    {
+      "id": "R34-C126-open-authority-boundary-defers",
+      "kind": "scheduling",
+      "observations": {"event":"initial","work_units":4,"host_capacity":3,"operator_ceiling":-1,"active_cells":0,"ready_cells":2,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"irreversible_external":false,"authorization_current":true,"closed_authority_boundaries":false,"authority_boundary_open":true},
+      "expected": "DEFER_AUTHORITY_OPEN"
+    },
+    {
+      "id": "R34-C127-small-drift-still-reconciles",
+      "kind": "scheduling",
+      "observations": {"event":"drift","work_units":2,"host_capacity":1,"operator_ceiling":-1,"active_cells":1,"ready_cells":1,"parallelism_allowed":false,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"irreversible_external":false,"authorization_current":true,"closed_authority_boundaries":true,"authority_boundary_open":false},
+      "expected": "RECONCILE_FRONTIER"
+    },
+    {
+      "id": "R34-C128-zero-ceiling-authorization-change-reconciles",
+      "kind": "scheduling",
+      "observations": {"event":"authorization_change","work_units":4,"host_capacity":3,"operator_ceiling":0,"active_cells":0,"ready_cells":2,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"irreversible_external":false,"authorization_current":false,"closed_authority_boundaries":true,"authority_boundary_open":false},
+      "expected": "RECONCILE_FRONTIER"
+    },
+    {
+      "id": "R34-C129-serial-capacity-change-recomputes",
+      "kind": "scheduling",
+      "observations": {"event":"capacity_change","work_units":4,"host_capacity":1,"operator_ceiling":-1,"active_cells":1,"ready_cells":2,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"irreversible_external":false,"authorization_current":true,"closed_authority_boundaries":true,"authority_boundary_open":false},
+      "expected": "RECOMPUTE_FRONTIER"
+    },
+    {
+      "id": "R34-C130-zero-ceiling-completion-recomputes-without-activation",
+      "kind": "scheduling",
+      "observations": {"event":"cell_complete","work_units":4,"host_capacity":3,"operator_ceiling":0,"active_cells":0,"ready_cells":2,"parallelism_allowed":true,"cell_independence_known":true,"closed_write_boundaries":true,"closed_acceptance_boundaries":true,"closed_resource_boundaries":true,"irreversible_external":false,"authorization_current":true,"closed_authority_boundaries":true,"authority_boundary_open":false},
+      "expected": "RECOMPUTE_FRONTIER"
+    },
+    {
+      "id": "R34-C131-completion-frees-one-bounded-slot",
+      "kind": "frontier_accounting",
+      "observations": {"work_units":4,"done_cells":1,"active_cells":1,"ready_cells":2,"blocked_cells":0,"unknown_cells":0,"host_capacity":3,"operator_ceiling":2,"state_evidence_current":true,"dependencies_current":true},
+      "expected": "DISPATCH_1_READY_CELL"
+    },
+    {
+      "id": "R34-C132-closed-population-bounds-three-slots",
+      "kind": "frontier_accounting",
+      "observations": {"work_units":10,"done_cells":3,"active_cells":2,"ready_cells":4,"blocked_cells":1,"unknown_cells":0,"host_capacity":8,"operator_ceiling":5,"state_evidence_current":true,"dependencies_current":true},
+      "expected": "DISPATCH_3_READY_CELLS"
+    },
+    {
+      "id": "R34-C133-ready-population-bounds-one-dispatch",
+      "kind": "frontier_accounting",
+      "observations": {"work_units":8,"done_cells":4,"active_cells":0,"ready_cells":1,"blocked_cells":3,"unknown_cells":0,"host_capacity":8,"operator_ceiling":5,"state_evidence_current":true,"dependencies_current":true},
+      "expected": "DISPATCH_1_READY_CELL"
+    },
+    {
+      "id": "R34-C134-unknown-population-refuses-capacity-assumption",
+      "kind": "frontier_accounting",
+      "observations": {"work_units":4,"done_cells":1,"active_cells":0,"ready_cells":2,"blocked_cells":0,"unknown_cells":1,"host_capacity":3,"operator_ceiling":2,"state_evidence_current":true,"dependencies_current":true},
+      "expected": "REACQUIRE_OR_SERIALISE"
+    },
+    {
+      "id": "R34-C135-stale-population-refuses-dispatch",
+      "kind": "frontier_accounting",
+      "observations": {"work_units":5,"done_cells":2,"active_cells":1,"ready_cells":1,"blocked_cells":1,"unknown_cells":0,"host_capacity":3,"operator_ceiling":2,"state_evidence_current":false,"dependencies_current":true},
+      "expected": "REACQUIRE_OR_SERIALISE"
+    },
+    {
+      "id": "R31-C136-grounded-executor-plan-ready",
+      "kind": "executor_plan_grounding",
+      "observations": {"live_source_inspected":true,"current_state_exact":true,"scope_exact":true,"edits_exact":true,"verification_exact":true,"stop_conditions_present":true,"rollback_present":true,"non_scope_present":true},
+      "expected": "EXECUTOR_PLAN_READY"
+    },
+    {
+      "id": "R31-C137-uninspected-plan-held",
+      "kind": "executor_plan_grounding",
+      "observations": {"live_source_inspected":false,"current_state_exact":false,"scope_exact":false,"edits_exact":false,"verification_exact":false,"stop_conditions_present":true,"rollback_present":true,"non_scope_present":true},
+      "expected": "HOLD_FOR_SOURCE_GROUNDING"
     }
   ]
 }

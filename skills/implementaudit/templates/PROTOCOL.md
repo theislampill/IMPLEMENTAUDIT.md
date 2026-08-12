@@ -316,6 +316,16 @@ For a non-same-session HANDOFF PACKET, run
 `check-handoff-packet.sh <p> --repo-root <r>` against live state before
 acceptance; not a full re-audit.
 
+If the receiving continuation must independently reproduce or re-adjudicate an
+acceptance claim, invoke the checker with
+`--receiver-requires-reproduction`. A terminal `READY` packet then passes only
+when it carries the implementation identity and receiver-required immutable
+acceptance state: denominator, oracle, exact inputs, evaluator/schema semantics,
+prior evidence and rejected non-evidence (or explicit not-applicable state),
+authority/STOP boundaries, and exact receipt. The receiver requirement is not a
+sender-controlled packet field. Ordinary implementation-only handoffs retain
+the no-bundle cheap path.
+
 Packet identity (required before any claim comparison): packet ID; packet
 version; packet content hash; claimed subject identity (repository +
 expected tree, or — for a non-Git subject — a declared file inventory with
@@ -591,6 +601,26 @@ and ordinary Gemba; they must not block the run.
   owner-named backend. Auto-detection and Ollama remain unauthorised.
 - Graphify absence is not a blocker. Fall back to live-file Gemba and repo-state.sh.
 
+**TokenSave code-navigation rules (when present and authorized):**
+- Activate only for a supported code-relation question whose repeated or
+  transitive walk earns indexing/query cost. Only an operator/checker-controlled
+  adapter outside candidate authority can establish currentness; claim fields
+  alone never do. Execute its fixed supported sync/reconnect route against the
+  live checkout and compare the strict result with the claimed checkout/database
+  expectation. An absent, failed, timed-out, malformed or mismatched execution is
+  `TOKENSAVE_FRESHNESS_UNVERIFIED`, never derived-current, and routes to Gemba.
+  Record coverage and query, then verify consequential results in live source.
+- Classify results as derived, partial, stale, unsupported or unresolved. A
+  current database is not complete program truth; conflicts and extraction
+  limits route to Gemba.
+- Use `NO TOKENSAVE` for docs, policy, public projection, non-code artefacts,
+  an exact supplied file or tiny reversible work. Absence is not a blocker.
+- Authorise installation/index/config separately. A separately authorised
+  TokenSave repo-local database is the bounded exception to Graphify's
+  outside-repo storage rule; keep it untracked and non-packaged, and disclose
+  source retention, metadata calls, retention and cleanup. Do not use TokenSave
+  edit, test, session or memory tools as IMPLEMENTAUDIT authority.
+
 **ActiveGraph checkpoint assistance and optional mirror:**
 - The run root remains the sole authority for lifecycle facts. ActiveGraph's
   evidenced use is authorized `fork` / `diff` resume-from-checkpoint.
@@ -599,6 +629,12 @@ and ordinary Gemba; they must not block the run.
 - `replay` does not reconstruct the tested custody use case from custom event
   names. Historical backfill, when separately authorized, stays labeled with
   `source`, `backfilled_at`, `original_event_time`, and `evidence_boundary`.
+- Recorded state, lineage, structural difference, declared subprocess isolation,
+  promotion, snapshot integrity or idle state proves only that local property.
+  External effect, completeness, semantic correctness, independence, owner
+  authority, host security, engineering closure and distributed correctness need
+  independent evidence at that owner. With no durable causal/counterfactual need,
+  use no ActiveGraph.
 
 **ActiveGraph mirror rules (when authorized):**
 - Mirroring Lean gate passages is optional. Compatibility event names in

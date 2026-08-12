@@ -60,6 +60,32 @@ do
   require "$depth_ref" "$text"
 done
 
+plan_lifecycle="skills/implementaudit/references/plan-lifecycle.md"
+for text in \
+  "keep the planning and" \
+  "adjudication role non-mutating" \
+  "Select among valid executor routes by sufficient capability first, then by" \
+  "explicit context capsule across agent and worktree" \
+  "reviewer rereads fresh live source" \
+  "Handoff completeness is determined by the receiving continuation" \
+  "cannot claim READY" \
+  "Optional ancillary files remain out of scope"
+do
+  require "$plan_lifecycle" "$text"
+done
+
+child_ref="skills/implementaudit/references/child-agents.md"
+for text in \
+  "Maintain a ready-cell frontier" \
+  "### Work-conserving ready-cell frontier" \
+  "operator-supplied ceiling" \
+  "shared write/acceptance/resource authority" \
+  "An unchanged reminder or status" \
+  "Missing context stops the lane"
+do
+  require "$child_ref" "$text"
+done
+
 # --- engineering-value admission and retirement contract (#163 / R34) ---
 for text in \
   "## Engineering-value admission and control lifecycle" \
@@ -68,8 +94,21 @@ for text in \
   "consumer existence and authoritative consumer" \
   "cheapest sufficient discriminator" \
   "No retain, admit, or owner-decision disposition" \
+  "Protective slack or a buffer is not waste" \
+  "Feedback value depends on actionable" \
+  "Temporary option value is retained" \
+  "No universal rule makes shorter feedback" \
+  "higher utilisation, more slack, or less slack correct" \
+  "conditional planner/executor separation" \
+  "least-cost" \
+  "sufficiently capable route" \
+  "work-conserving ready-cell" \
+  "operator-supplied ceiling" \
   "stopping, retirement, or reclassification condition" \
-  "No activation factor means no R34 diagnostic or artefact"
+  "No activation factor means no R34 diagnostic or artefact" \
+  "actual dependency, write," \
+  "acceptance, resource, authority, and composed-only boundaries" \
+  'ready-cell frontier in `child-agents.md`'
 do
   require "$depth_ref" "$text"
 done
@@ -79,6 +118,8 @@ for text in \
   "## Engineering-value admission, retention, and retirement" \
   "optional-by-whim" \
   "expected-risk" \
+  "Protective slack, sustainable capacity, feedback cadence, temporary options" \
+  "carrying cost and its exit condition remains current" \
   "Retain" \
   "Cheapen" \
   "Merge" \
@@ -94,10 +135,44 @@ for text in \
   "changed scope or consumer requires a fresh run" \
   "no shared owner or shared write remains parallel-safe" \
   "one shared owner does not serialise disjoint cells" \
+  "Known independence is not activation" \
+  "Reconsider the ready frontier after a" \
+  "not a concurrency or utilisation" \
   "mandatory control ledger" \
   "large worksheet"
 do
   require "$lean_ref" "$text"
+done
+
+child_ref="skills/implementaudit/references/child-agents.md"
+for text in \
+  "### Work-conserving ready-cell frontier" \
+  "Maintain a ready-cell frontier" \
+  "Classify cells as ready, waiting on a named" \
+  "At initial dispatch, execute worthwhile ready cells" \
+  "Recompute after a material scheduling transition" \
+  "An unchanged reminder or status" \
+  "every governed cell exactly once as DONE" \
+  "Unknown," \
+  "state prevents dispatch" \
+  "Completion" \
+  "does not prove other cells inactive" \
+  "Use the ordinary serial cheap path" \
+  "ready-queue artefact" \
+  "minimum agent count" \
+  "dashboard"
+do
+  require "$child_ref" "$text"
+done
+
+skill_ref="skills/implementaudit/SKILL.md"
+for text in \
+  "reacquire a closed DONE/ACTIVE/READY/BLOCKED census" \
+  "dispatch min(READY,capacity-ACTIVE)" \
+  "serialise" \
+  "references/child-agents.md"
+do
+  require "$skill_ref" "$text"
 done
 
 "${py_cmd[@]}" - "$repo_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
@@ -168,11 +243,107 @@ required_ids = {
         (69, "unqualified-changed-bytes"),
         (70, "process-heavy-derives-activation"),
         (71, "parallel-safe-without-reconciliation"),
+        (72, "proportionality-cheap-path"),
+        (73, "protective-buffer"),
+        (74, "buffer-without-variability"),
+        (75, "actionable-feedback"),
+        (76, "feedback-without-actionability"),
+        (77, "sustainable-recovery-capacity"),
+        (78, "maximum-utilisation"),
+        (79, "bounded-option-value"),
+        (80, "option-carrying-cost-dominates"),
+        (81, "indefinite-option"),
+        (82, "hard-to-reverse-control-depth"),
+        (83, "fixed-wip-rule"),
+        (84, "methodology-ceremony"),
+        (85, "missing-proportional-consumer"),
+        (86, "ready-capacity-activates"),
+        (87, "completion-recomputes-frontier"),
+        (88, "blocked-cell-recomputes-frontier"),
+        (89, "full-capacity-still-recomputes"),
+        (90, "drift-reconciles-frontier"),
+        (91, "authorization-change-reconciles-frontier"),
+        (92, "unknown-independence-defers"),
+        (93, "write-conflict-serialises"),
+        (94, "acceptance-conflict-serialises"),
+        (95, "resource-claim-conflict-serialises"),
+        (96, "irreversible-external-serialises"),
+        (97, "host-capacity-one-cheap-serial"),
+        (98, "two-unit-cheap-serial"),
+        (99, "reminder-does-not-redispatch"),
+        (100, "capacity-change-recomputes-frontier"),
+        (101, "parallelism-unavailable-cheap-serial"),
+        (102, "authority-boundary-conflict-serialises"),
+        (103, "ready-frontier-activates"),
+        (104, "completion-recomputes-frontier"),
+        (105, "block-recomputes-frontier"),
+        (106, "resource-conflict-serialises"),
+        (107, "unknown-independence-defers"),
+        (108, "trivial-serial-cheap-path"),
+        (109, "operator-ceiling-bounds-frontier"),
+        (110, "no-ceiling-uses-safe-capacity"),
+        (111, "zero-ceiling-serial-cheap-path"),
+        (112, "reminder-does-not-redispatch"),
+        (113, "authorization-change-reconciles"),
+        (114, "full-capacity-still-recomputes"),
+        (115, "triggered-planner-executor-separation"),
+        (116, "ordinary-same-root-cheap-path"),
+        (117, "trigger-without-independent-route"),
+        (118, "hidden-context-stops-delegation"),
+        (119, "least-cost-sufficient-executor"),
+        (120, "cheaper-incapable-route-rejected"),
+        (121, "single-valid-executor"),
+        (122, "privacy-excludes-cheaper-route"),
+        (123, "insufficient-delegated-capability-escalates"),
+        (124, "high-consequence-separates"),
+        (125, "same-root-does-not-require-transfer-capsule"),
+        (126, "open-authority-boundary-defers"),
+        (127, "small-drift-still-reconciles"),
+        (128, "zero-ceiling-authorization-change-reconciles"),
+        (129, "serial-capacity-change-recomputes"),
+        (130, "zero-ceiling-completion-recomputes-without-activation"),
+        (131, "completion-frees-one-bounded-slot"),
+        (132, "closed-population-bounds-three-slots"),
+        (133, "ready-population-bounds-one-dispatch"),
+        (134, "unknown-population-refuses-capacity-assumption"),
+        (135, "stale-population-refuses-dispatch"),
     )
 }
+required_ids.update({
+    "R31-C136-grounded-executor-plan-ready",
+    "R31-C137-uninspected-plan-held",
+})
 ids = [case.get("id") for case in cases if isinstance(case, dict)]
 if len(ids) != len(set(ids)) or set(ids) != required_ids:
     raise SystemExit("engineering-value fixture population is incomplete or duplicated")
+
+dogfood_path = path.with_name("dominance-dogfood-receipt.json")
+try:
+    dogfood = json.loads(dogfood_path.read_text(encoding="utf-8"))
+except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+    raise SystemExit(f"dominance dogfood receipt unreadable: {exc}")
+if set(dogfood) != {
+        "schema_version", "kind", "source_population", "candidate_package",
+        "disposable_repository", "activation_prompt_leakage", "subagents_used",
+        "cells", "evidence_boundary"}:
+    raise SystemExit("dominance dogfood receipt schema")
+if (dogfood["schema_version"] != 1
+        or dogfood["kind"] != "implementaudit-improve-dominance-cross-repository-dogfood"
+        or dogfood["activation_prompt_leakage"] is not False
+        or dogfood["subagents_used"] is not False
+        or dogfood["disposable_repository"].get("dirty_after") is not False):
+    raise SystemExit("dominance dogfood receipt identity or hygiene")
+dog_ids = [cell.get("id") for cell in dogfood["cells"]]
+if dog_ids != [
+        "DOG-C01-ready-frontier", "DOG-C02-conditional-separation",
+        "DOG-C03-capability-fit", "DOG-C04-context-capsule-boundary",
+        "DOG-C05-source-revalidation", "DOG-C06-cold-executor-reconstruction",
+        "DOG-R01-combined-cell-timeout"]:
+    raise SystemExit("dominance dogfood receipt population")
+if [cell["disposition"] for cell in dogfood["cells"]] != [
+        "PASS", "PASS", "PASS", "PASS", "PASS_WITH_TEST_EXECUTION_BLOCKED",
+        "PASS", "REJECTED_NON_VERDICT"]:
+    raise SystemExit("dominance dogfood receipt dispositions")
 
 def exact(observations, names):
     if set(observations) != set(names.split()):
@@ -261,6 +432,164 @@ def decide(case):
                 and o["closed_write_boundaries"] and o["reconciliation_point"]):
             return "PARALLEL_SAFE"
         return "SERIALISE_SHARED"
+    if kind == "scheduling":
+        fields = "event work_units host_capacity operator_ceiling active_cells ready_cells parallelism_allowed cell_independence_known closed_write_boundaries closed_acceptance_boundaries closed_resource_boundaries irreversible_external authorization_current closed_authority_boundaries authority_boundary_open"
+        exact(o, fields)
+        booleans(o, "parallelism_allowed cell_independence_known closed_write_boundaries closed_acceptance_boundaries closed_resource_boundaries irreversible_external authorization_current closed_authority_boundaries authority_boundary_open")
+        if type(o["event"]) is not str or o["event"] not in {
+                "initial", "cell_complete", "cell_blocked", "drift",
+                "authorization_change", "capacity_change", "unchanged_reminder"}:
+            raise ValueError("scheduling event")
+        for name in ("work_units", "host_capacity", "operator_ceiling", "active_cells", "ready_cells"):
+            if type(o[name]) is not int:
+                raise ValueError(f"scheduling {name}")
+        if (o["work_units"] < 1 or o["host_capacity"] < 1
+                or o["operator_ceiling"] < -1 or o["active_cells"] < 0
+                or o["ready_cells"] < 0
+                or o["active_cells"] > o["host_capacity"]
+                or o["active_cells"] + o["ready_cells"] > o["work_units"]):
+            raise ValueError("scheduling population or capacity")
+        if (o["event"] in {"drift", "authorization_change"}
+                or not o["authorization_current"]):
+            return "RECONCILE_FRONTIER"
+        if o["event"] == "unchanged_reminder":
+            return "NO_REDISPATCH"
+        if o["authority_boundary_open"]:
+            if o["closed_authority_boundaries"]:
+                raise ValueError("authority boundary cannot be open and closed")
+            return "DEFER_AUTHORITY_OPEN"
+        if not o["cell_independence_known"]:
+            return "DEFER_INDEPENDENCE_UNKNOWN"
+        if (not all((o["closed_write_boundaries"],
+                     o["closed_acceptance_boundaries"],
+                     o["closed_resource_boundaries"],
+                     o["closed_authority_boundaries"]))
+                or o["irreversible_external"]):
+            return "SERIALISE_CONFLICT"
+        effective_capacity = (
+            0 if o["operator_ceiling"] == 0
+            else min(
+                o["host_capacity"],
+                o["operator_ceiling"] if o["operator_ceiling"] > 0
+                else o["host_capacity"],
+            )
+        )
+        capacity_available = o["active_cells"] < effective_capacity
+        activatable = capacity_available and o["ready_cells"] > 0
+        if o["event"] in {"cell_complete", "cell_blocked", "capacity_change"}:
+            return "RECOMPUTE_AND_ACTIVATE" if activatable else "RECOMPUTE_FRONTIER"
+        if (o["operator_ceiling"] == 0 or o["work_units"] < 3
+                or effective_capacity < 2 or not o["parallelism_allowed"]):
+            return "SERIAL_CHEAP_PATH"
+        if activatable and o["operator_ceiling"] > 0:
+            return "ACTIVATE_BOUNDED"
+        return "ACTIVATE_READY_CELLS" if activatable else "HOLD_FRONTIER"
+    if kind == "frontier_accounting":
+        fields = "work_units done_cells active_cells ready_cells blocked_cells unknown_cells host_capacity operator_ceiling state_evidence_current dependencies_current"
+        exact(o, fields)
+        booleans(o, "state_evidence_current dependencies_current")
+        for name in "work_units done_cells active_cells ready_cells blocked_cells unknown_cells host_capacity operator_ceiling".split():
+            if type(o[name]) is not int:
+                raise ValueError(f"frontier accounting {name}")
+        if (o["work_units"] < 1 or o["host_capacity"] < 1
+                or o["operator_ceiling"] < -1
+                or any(o[name] < 0 for name in (
+                    "done_cells", "active_cells", "ready_cells",
+                    "blocked_cells", "unknown_cells"))
+                or sum(o[name] for name in (
+                    "done_cells", "active_cells", "ready_cells",
+                    "blocked_cells", "unknown_cells"))
+                    != o["work_units"]):
+            raise ValueError("frontier accounting population")
+        if o["unknown_cells"] or not o["state_evidence_current"]:
+            return "REACQUIRE_OR_SERIALISE"
+        if not o["dependencies_current"]:
+            return "HOLD_DEPENDENCY"
+        effective_capacity = (
+            0 if o["operator_ceiling"] == 0
+            else min(o["host_capacity"], o["operator_ceiling"])
+            if o["operator_ceiling"] > 0 else o["host_capacity"]
+        )
+        dispatch = min(o["ready_cells"], max(0, effective_capacity - o["active_cells"]))
+        suffix = "READY_CELL" if dispatch == 1 else "READY_CELLS"
+        return f"DISPATCH_{dispatch}_{suffix}"
+    if kind == "executor_plan_grounding":
+        fields = "live_source_inspected current_state_exact scope_exact edits_exact verification_exact stop_conditions_present rollback_present non_scope_present"
+        exact(o, fields)
+        booleans(o, fields)
+        if not o["live_source_inspected"]:
+            return "HOLD_FOR_SOURCE_GROUNDING"
+        if not all(o[name] for name in (
+                "current_state_exact", "scope_exact", "edits_exact",
+                "verification_exact", "stop_conditions_present",
+                "rollback_present", "non_scope_present")):
+            return "HOLD_INCOMPLETE_EXECUTOR_PLAN"
+        return "EXECUTOR_PLAN_READY"
+    if kind == "proportionality":
+        fields = "candidate live_pressure variability_or_uncertainty high_consequence_or_hard_to_reverse actionable_information authoritative_consumer protected_consequence benefit_exceeds_carrying_cost bounded exit_condition recovery_capacity_required universal_rule methodology_ceremony"
+        exact(o, fields)
+        booleans(o, "live_pressure variability_or_uncertainty high_consequence_or_hard_to_reverse actionable_information authoritative_consumer protected_consequence benefit_exceeds_carrying_cost bounded exit_condition recovery_capacity_required universal_rule methodology_ceremony")
+        if type(o["candidate"]) is not str or o["candidate"] not in {
+                "none", "buffer", "feedback", "capacity", "option", "control_depth"}:
+            raise ValueError("proportional candidate")
+        if o["universal_rule"] or o["methodology_ceremony"]:
+            return "REJECT"
+        if o["candidate"] == "none":
+            pressures = (
+                o["live_pressure"], o["variability_or_uncertainty"],
+                o["high_consequence_or_hard_to_reverse"],
+                o["recovery_capacity_required"],
+            )
+            return "DEFER" if any(pressures) else "NO_R34_ARTEFACT"
+        if not o["live_pressure"]:
+            return "REJECT"
+        if not o["bounded"]:
+            return "REJECT"
+        if not all((o["authoritative_consumer"], o["protected_consequence"], o["exit_condition"])):
+            return "DEFER"
+        if o["candidate"] == "option" and not o["benefit_exceeds_carrying_cost"]:
+            return "RETIRE"
+        if not o["benefit_exceeds_carrying_cost"]:
+            return "REJECT"
+        if o["candidate"] == "buffer":
+            valid = o["variability_or_uncertainty"]
+        elif o["candidate"] == "feedback":
+            valid = o["actionable_information"]
+        elif o["candidate"] == "capacity":
+            valid = o["recovery_capacity_required"]
+        elif o["candidate"] == "option":
+            valid = o["variability_or_uncertainty"] and o["actionable_information"]
+        else:
+            valid = o["high_consequence_or_hard_to_reverse"]
+        return "SELECT_PROPORTIONATE_CONTROL" if valid else "REJECT"
+    if kind == "delegation":
+        fields = "ordinary_direct material_judgement self_confirmation_risk contested_interpretation high_consequence independent_executor_available independent_reviewer_available context_complete multiple_valid_executors lower_cost_executor_sufficient privacy_allows_lower_cost delegated_capability_insufficient"
+        exact(o, fields)
+        booleans(o, fields)
+        separation_needed = o["material_judgement"] and any((
+            o["self_confirmation_risk"],
+            o["contested_interpretation"],
+            o["high_consequence"],
+        ))
+        if separation_needed:
+            if not o["context_complete"]:
+                return "STOP_RECONSTRUCT_CONTEXT"
+            if o["delegated_capability_insufficient"]:
+                return "STOP_AND_ESCALATE"
+            if not all((o["independent_executor_available"], o["independent_reviewer_available"])):
+                return "BLOCK_OR_OWNER_DECISION"
+            return "SEPARATE_EXECUTOR"
+        if o["ordinary_direct"]:
+            return "SAME_ROOT"
+        if not o["context_complete"]:
+            return "STOP_RECONSTRUCT_CONTEXT"
+        if o["delegated_capability_insufficient"]:
+            return "STOP_AND_ESCALATE"
+        if o["multiple_valid_executors"]:
+            if o["lower_cost_executor_sufficient"] and o["privacy_allows_lower_cost"]:
+                return "DELEGATE_LEAST_COST_SUFFICIENT"
+            return "RETAIN_CAPABLE_ROUTE"
+        return "DIRECT_CAPABLE_ROUTE"
     if kind == "escalation":
         fields = "requested mutation_incomplete controlling_gate_intact supported_alternatives alternatives_indistinguishable expected_risk_material permanent_cost_material mechanically_resolvable"
         exact(o, fields)

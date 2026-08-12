@@ -172,6 +172,7 @@ cmd_window_identities() {
       fi
       "${py_cmd[@]}" - "${surfaces[@]}" <<'PY'
 import hashlib
+import fnmatch
 import json
 import os
 import stat
@@ -243,6 +244,18 @@ for args in (
             raise SystemExit(f"repo-state: unsafe window identity path: {path}")
         candidates.add(path)
 candidates.update(explicit_directories)
+
+
+def surface_matches(path, surface):
+    if surface.endswith("/"):
+        return path == surface[:-1] or path.startswith(surface)
+    return fnmatch.fnmatchcase(path, surface)
+
+
+candidates = {
+    path for path in candidates
+    if any(surface_matches(path, surface) for surface in declared_surfaces)
+}
 
 
 def digest_file(path):

@@ -88,9 +88,11 @@ Each action requires separate explicit authorisation.
 
 1. Choose the installation route in [Install notes](#install-notes). The
    current release identity is `v0.3.3.3`; its host-facing runtime remains
-   `0.3.3`. The release URL serves the final corrected 227,999-byte package.
+   `0.3.3`. The final correction candidate is a qualified 257,433-byte package
+   with SHA-256
+   `3116a2be2992928af8f0ae7ac2f0cb357c1e81990d43469f6f921fe454bdf7bd`.
    A checkout of `main`, a locally built archive, and the public release asset
-   remain distinct until their bytes are verified.
+   remain distinct until publication and byte-for-byte readback are complete.
 
 2. Invoke `/implementaudit` with a bounded repository target. Common shapes
    include:
@@ -272,6 +274,9 @@ flowchart TB
   G["`Graphify
   optional scoped terrain
   orientation only`"]
+  T["`TokenSave
+  optional supported-code navigation
+  derived evidence only`"]
   I["`IMPLEMENTAUDIT
   engineering and assurance method`"]
   L["`Live repository files
@@ -288,6 +293,7 @@ flowchart TB
   not proof by itself`"]
 
   G -.->|suggests where to inspect| I
+  T -.->|maps supported code relations| I
   I -->|must verify claims against| L
   I -->|records governed execution in| R
   R -.->|may mirror when authorised| A
@@ -297,13 +303,14 @@ flowchart TB
 
 <!-- END: implementaudit-diagram:tooling-architecture -->
 
-Two-tier policy: the sidecars are **optional everywhere** — absence blocks
-nothing, `/implementaudit` remains fully usable with neither tool installed,
+Progressive policy: optional tools are **optional everywhere** — absence blocks
+nothing, `/implementaudit` remains fully usable with none installed,
 and Markdown fallback is first-class. This repo is the dogfood evidence base,
 not a universal capability claim. Graphify is narrowed to first-contact terrain
-orientation when every trigger holds; ActiveGraph is narrowed to authorized
+orientation when every trigger holds; TokenSave to derived supported-code
+navigation when the walk earns its cost; ActiveGraph to authorized
 `fork` / `diff` checkpoint assistance and an optional non-authoritative mirror.
-Consumers inherit no maintenance obligation. Neither sidecar replaces the run
+Consumers inherit no maintenance obligation. No optional tool replaces the run
 root, live-file gates, or proof.
 
 ## Quick Vocabulary, Not Authority
@@ -339,6 +346,7 @@ instead of replacing them.
 - Gemba / Genchi Genbutsu: inspect the real repo artifact, output, or path; do
   not rely on memory or summaries when the live surface exists.
 - Graphify: optional terrain/orientation aid; not canonical proof.
+- TokenSave: optional supported-code navigation; derived evidence only.
 - ActiveGraph: optional fork/diff checkpoint aid or non-authoritative mirror; not canonical proof.
 - Provenance/checksum manifest: bounded artifact integrity evidence. A checksum
   manifest is not a signature, SBOM, attestation, marketplace verification, or
@@ -932,22 +940,23 @@ into the ledger and inspect live files before patching or closing them.
 
 ## Optional tooling
 
-Optional tooling can improve orientation and custody, but it does not change
+Optional tooling can improve orientation, code navigation, and custody, but it does not change
 `/implementaudit` safety rules.
 
-Tool installation, Graphify indexing, ActiveGraph event-store setup,
+Tool installation, Graphify or TokenSave indexing, ActiveGraph event-store setup,
 ActiveGraph export, local commit, push, tag, release, publication, and
 provenance are separate gates. Installing a tool does not authorise any later
 action.
 
 ### First-run onboarding
 
-On first runs, `/implementaudit` may detect Graphify and ActiveGraph
-availability. Missing tools are not errors.
+On first runs, `/implementaudit` may detect Graphify and ActiveGraph availability.
+TokenSave is explicit, on-demand optional tooling; it is not automatically
+detected or routed. Missing tools are not errors.
 
 Default behavior:
 
-- detect and record availability
+- detect and record availability only through shipped detector routes
 - continue safely without optional tooling when absent
 - print install/configure commands as documentation when useful
 - install or configure tools only with explicit authorisation such as
@@ -988,6 +997,33 @@ semantic/Luna behaviour; Ollama is explicitly unauthorized. Detailed scope,
 catalogue, freshness, privacy, and backend boundaries live in
 [`references/sidecars.md`](skills/implementaudit/references/sidecars.md).
 
+### TokenSave-assisted code navigation
+
+TokenSave is an optional deterministic navigation layer for supported code
+relations when a repeated or transitive dependency walk earns its indexing and
+query cost. Only an operator/checker-controlled adapter outside candidate
+authority can establish currentness; claim fields alone never do. The checker
+runs its fixed supported sync/reconnect route against the live checkout and
+compares the strict result with the claimed checkout/database expectation. An
+absent, failed, timed-out, malformed or mismatched execution is
+`TOKENSAVE_FRESHNESS_UNVERIFIED`, never derived-current, and routes to ordinary
+Gemba. A successfully established current result is derived evidence about the
+represented code, not complete program truth. Consequential symbol,
+caller/callee, impact, context or test-mapping findings still require live-source
+confirmation; stale, unsupported, extraction-failed or conflicting results route
+to ordinary Gemba.
+
+Documentation, policy, public projection, arbitrary non-code artefacts, an exact
+file already supplied, and tiny reversible work are cheap `NO TOKENSAVE` paths.
+Installation, indexing and configuration require separate authorisation. Its
+repo-local database is a representation-specific storage exception that can
+retain source bodies and rendered-source cache, so it requires explicit
+retention/cleanup disclosure and stays untracked and outside packages.
+IMPLEMENTAUDIT does not adopt TokenSave's
+editing, test-running, session/memory tools, broad auto-approval, or discovery-
+interception hooks. Detailed evidence, privacy, freshness and authority limits
+live in [`references/sidecars.md`](skills/implementaudit/references/sidecars.md).
+
 ### ActiveGraph checkpoint assistance and optional mirror
 
 ActiveGraph may assist an authorised fork/diff checkpoint or hold a separately
@@ -1005,6 +1041,8 @@ Interop boundaries are explicit:
 - Graphify-supported behaviour must be distinguished from ImplementAudit
   heuristics.
 - Graphify summaries and graph output are not proof.
+- TokenSave code relations are derived evidence, not repository completeness,
+  mutation authority, or acceptance proof.
 - ActiveGraph custody is not correctness proof.
 - ImplementAudit custom adapter events are not upstream ActiveGraph built-ins
   unless explicitly identified as such.
@@ -1052,11 +1090,12 @@ Install flows are evidence-bounded. This repo can locally validate the release
 asset-to-Codex-install path into a temporary Codex home. It does not claim passive auto-update, universal host support, marketplace verification, or public GitHub release download verification unless those checks are run and recorded.
 
 **Release/contract alignment:** the public identity is `v0.3.3.3`, with
-plugin/runtime version `0.3.3`. The release URL serves the final 227,999-byte
-asset with SHA-256
-`151cb5400d248e3e41a30750ba690d8c46bbe907294ba82a0a5a627536ad563e`.
-Exact qualification and replacement history belongs in the release report
-rather than this installation guide.
+plugin/runtime version `0.3.3`. The final correction candidate is 257,433 bytes
+with SHA-256
+`3116a2be2992928af8f0ae7ac2f0cb357c1e81990d43469f6f921fe454bdf7bd`.
+The release URL is not treated as current for those bytes until publication and
+fresh public download/readback complete. Exact qualification and replacement
+history belongs in the release report rather than this installation guide.
 
 A checkout of `main` may contain post-release source changes. Installing from a
 checkout or through a CLI that resolves current `main` uses source-checkout
@@ -1087,10 +1126,11 @@ ecosystem's install-telemetry index, not by this repo.
 
 Choose the source deliberately:
 
-- the `v0.3.3.3` release URL resolves to the independently read-back final
-  227,999-byte package described by the release report;
-- the current source contains the same packaged R29 correction but may include
-  later repository-only status changes;
+- the final `v0.3.3.3` correction candidate is the qualified 257,433-byte
+  package described by the release report, while public availability remains
+  pending publication and independent readback;
+- the current source contains the packaged R29 correction and later native
+  runtime countermeasures;
 - a local archive is evidence only for the exact source tree from which it was
   built.
 
@@ -1137,9 +1177,11 @@ bash scripts/install-codex-from-release.sh \
   --version 0.3.3
 ```
 
-The `v0.3.3.3` URL now serves the final corrected package. This command installs
-those public bytes; use the `--tag` route above or download `CHECKSUMS.txt`
-alongside the asset when checksum verification is required:
+After the final correction is published and independently read back, this
+command installs the public `v0.3.3.3` bytes. Until then, use the locally
+qualified asset route above rather than inferring current availability from the
+release URL; download `CHECKSUMS.txt` alongside the public asset when checksum
+verification is required:
 
 ```bash
 bash scripts/install-codex-from-release.sh \
@@ -1148,10 +1190,11 @@ bash scripts/install-codex-from-release.sh \
   --version 0.3.3
 ```
 
-The release page, final asset, checksum manifest, downloaded bytes, installed
+The earlier release page, asset, checksum manifest, downloaded bytes, installed
 version, and 48-file installed payload were read back in a fresh temporary
-Codex home. The receipt does not prove passive update, universal host support,
-or host-load behaviour. For local verification, download
+Codex home as historical evidence. The final correction requires its own fresh
+public readback. These receipts do not claim passive update, universal host
+support, or host-load behaviour. For local verification, download
 `CHECKSUMS.txt` alongside `IMPLEMENTAUDIT.skill` and use the `--asset` plus
 `--checksum` form shown above.
 
@@ -1327,3 +1370,13 @@ For current public documentation, use the repository
 chronology use [`CHANGELOG.md`](CHANGELOG.md); for exact qualification and
 publication evidence use the [audit index](docs/audits/INDEX.md) and named
 release reports.
+
+The repository's
+[Research & Engineering Lineage source](docs/portal/pages/research-lineage-overview.html)
+explains why IMPLEMENTAUDIT uses visible Lean-derived vocabulary, what Agile
+and plan-driven assurance contributed, which properties were already native,
+which were sharpened in the `v0.3.3.3` source family, and which ceremonies or
+universal prescriptions were rejected. It is prepared for portal generation;
+hosted availability remains pending separate publication and readback.
+Evolved-LAW is a property-level research synthesis, not three methodology
+modes, a new runtime, or evidence of universal effectiveness.

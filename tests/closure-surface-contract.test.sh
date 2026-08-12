@@ -62,11 +62,324 @@ EOF
   fi
 }
 
+external_composition_controls() {
+  local root="$1" work="$1/records" candidate="$1/candidate" operator="$1/operator"
+  local output failures=0 candidate_native operator_native transport nested_transport
+  local grant_sha wrong_grant_sha digest_file_sha public_sha qualification_sha
+  local qualified_commit qualified_tree asset_size asset_digest fake_commit fake_tree
+  local release_url asset_url download_url case_sha
+
+  mkdir -p "$work" "$candidate/repository" "$operator/bin" "$operator/source"
+  candidate_native="$(cd "$candidate" && { pwd -W 2>/dev/null || pwd; })"
+  operator_native="$(cd "$operator" && { pwd -W 2>/dev/null || pwd; })"
+
+  expect_composed_fail() {
+    local file="$1" expected="$2" false_green="$3"
+    if output="$(bash "$scorer" "$file" 2>&1)"; then
+      printf 'closure-surface-contract: %s\n' "$false_green" >&2
+      failures=$((failures + 1))
+    elif ! printf '%s\n' "$output" | grep -Fxq "$expected"; then
+      printf 'closure-surface-contract: %s wrong diagnostic; expected %s; got %s\n' \
+        "$(basename "$file")" "$expected" "${output//$'\n'/ }" >&2
+      failures=$((failures + 1))
+    fi
+  }
+
+  cp "$fx/external-close-readback-PASS.json" "$work/external-close-readback-PASS.json"
+  cp "$fx/external-close-authorization.txt" "$work/external-close-authorization.txt"
+  sed "s/mutation-command: gh issue close 207/mutation-command: gh issue close 208 --comment 'issue 207'/" \
+    "$fx/external-close-readback-PASS.md" > "$work/misleading-comment-target.md"
+  expect_composed_fail "$work/misleading-comment-target.md" \
+    "check-closure-surface: external mutation close-207: mutation-command effective target issue '208' does not match declared issue '207'" \
+    'misleading comment token satisfied the declared mutation target'
+
+  sed \
+    -e '1 s/ | external-authorization-grant: grant-close-207//' \
+    -e '/^external-authorization-grant:/d' \
+    "$fx/external-close-readback-PASS.md" > "$work/missing-authorization.md"
+  expect_composed_fail "$work/missing-authorization.md" \
+    'check-closure-surface: claim close-207: external mutation requires external-authorization-grant' \
+    'verified external mutation passed without a bound authorization grant'
+
+  grant_sha="$(sha256sum "$work/external-close-authorization.txt" | awk '{print $1}')"
+  cp "$fx/external-close-readback-PASS.md" "$work/composed-close-PASS.md"
+  if ! output="$(bash "$scorer" "$work/composed-close-PASS.md" 2>&1)"; then
+    printf 'closure-surface-contract: composed external mutation expected PASS; got %s\n' \
+      "${output//$'\n'/ }" >&2
+    failures=$((failures + 1))
+  fi
+
+  sed 's/target_id: 207/target_id: 208/' \
+    "$work/external-close-authorization.txt" > "$work/wrong-target-authorization.txt"
+  wrong_grant_sha="$(sha256sum "$work/wrong-target-authorization.txt" | awk '{print $1}')"
+  sed \
+    -e 's/grant-close-207/grant-wrong-target/g' \
+    -e 's/external-close-authorization.txt/wrong-target-authorization.txt/' \
+    -e "s/$grant_sha/$wrong_grant_sha/" \
+    "$work/composed-close-PASS.md" > "$work/wrong-grant-target.md"
+  expect_composed_fail "$work/wrong-grant-target.md" \
+    "check-closure-surface: authorization grant grant-wrong-target: target_id '208' does not bind mutation target '207'" \
+    'authorization for a different target satisfied the external mutation'
+
+  printf '%s\n' 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' \
+    > "$work/hosted-local-only.sha256"
+  digest_file_sha="$(sha256sum "$work/hosted-local-only.sha256" | awk '{print $1}')"
+  cat > "$work/hosted-local-only.md" <<EOF
+claim: hosted-local-only | surface: publication | publication-kind: hosted-release-asset | status: verified | evidence-surface: publication | evidence-digest: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+publication-identity: hosted-local-only | live-digest-file: hosted-local-only.sha256 | live-file-sha256: $digest_file_sha | live-digest: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa | disposition: verified
+EOF
+  expect_composed_fail "$work/hosted-local-only.md" \
+    'check-closure-surface: claim hosted-local-only: hosted release asset requires release/tag/asset/qualification/public-readback identity' \
+    'hosted release asset passed on a local digest file alone'
+
+  git -C "$candidate/repository" init -q
+  printf '%s\n' 'qualified source tree' > "$candidate/repository/source.txt"
+  git -C "$candidate/repository" add source.txt
+  git -C "$candidate/repository" -c user.name=Fixture \
+    -c user.email=fixture@example.invalid commit -q -m fixture
+  qualified_commit="$(git -C "$candidate/repository" rev-parse HEAD)"
+  qualified_tree="$(git -C "$candidate/repository" rev-parse 'HEAD^{tree}')"
+  printf '%s' 'qualified release asset bytes' > "$candidate/qualified-package.skill"
+  asset_size="$(wc -c < "$candidate/qualified-package.skill" | tr -d ' ')"
+  asset_digest="$(sha256sum "$candidate/qualified-package.skill" | awk '{print $1}')"
+  release_url='https://api.github.com/repos/acme/example/releases/R_test'
+  asset_url='https://api.github.com/repos/acme/example/releases/assets/A_test'
+  download_url='https://github.com/acme/example/releases/download/v9.9.9/IMPLEMENTAUDIT.skill'
+  printf '%s\n' \
+    "{\"release_id\":\"R_test\",\"tag\":\"v9.9.9\",\"asset_id\":\"A_test\",\"asset_name\":\"IMPLEMENTAUDIT.skill\",\"asset_size\":$asset_size,\"asset_digest\":\"$asset_digest\",\"qualified_commit\":\"$qualified_commit\",\"qualified_tree\":\"$qualified_tree\",\"release_url\":\"$release_url\",\"asset_url\":\"$asset_url\",\"download_url\":\"$download_url\"}" \
+    > "$operator/source/release.json"
+  printf '%s' 'qualified release asset bytes' > "$operator/source/asset.skill"
+  public_sha="$(sha256sum "$operator/source/release.json" | awk '{print $1}')"
+
+  # The authority-controlled transport lives outside the evaluated record
+  # tree. The checker selects it once, resolves it, and invokes fixed argv.
+  cat > "$operator/bin/curl" <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+url="${*: -1}"
+printf '%s\n' "$url" >> "$CAPTURE_LOG"
+if [[ "$url" == https://api.github.com/repos/acme/example/releases/* ]]; then
+  cat "$CAPTURE_RELEASE_SOURCE"
+elif [[ "$url" == https://github.com/acme/example/releases/download/*/IMPLEMENTAUDIT.skill ]]; then
+  case "${CAPTURE_ASSET_MODE:-good}" in
+    good) cat "$CAPTURE_ASSET_SOURCE" ;;
+    wrong) printf '%s' 'unrelated copied bytes' ;;
+    oversized) cat "$CAPTURE_OVERSIZE_SOURCE" ;;
+    timeout) (sleep 37; printf '%s' survived > "$CAPTURE_SURVIVOR_MARKER") & sleep 60 ;;
+    missing) exit 22 ;;
+  esac
+else
+  exit 22
+fi
+EOF
+  chmod +x "$operator/bin/curl"
+  cat > "$operator/bin/curl.cmd" <<'EOF'
+@echo off
+setlocal EnableExtensions
+set "url="
+:next
+if "%~1"=="" goto route
+set "url=%~1"
+shift
+goto next
+:route
+>>"%CAPTURE_LOG%" echo %url%
+echo(%url%| findstr /B /C:"https://github.com/acme/example/releases/download/" >nul
+if not errorlevel 1 goto asset
+echo(%url%| findstr /B /C:"https://api.github.com/repos/acme/example/releases/" >nul
+if not errorlevel 1 goto release
+exit /b 22
+:release
+powershell.exe -NoLogo -NoProfile -NonInteractive -Command "$b=[IO.File]::ReadAllBytes($env:CAPTURE_RELEASE_SOURCE);[Console]::OpenStandardOutput().Write($b,0,$b.Length)"
+exit /b %errorlevel%
+:asset
+if "%CAPTURE_ASSET_MODE%"=="missing" exit /b 22
+if "%CAPTURE_ASSET_MODE%"=="wrong" (<nul set /p="unrelated copied bytes" & exit /b 0)
+if "%CAPTURE_ASSET_MODE%"=="oversized" (powershell.exe -NoLogo -NoProfile -NonInteractive -Command "$b=[IO.File]::ReadAllBytes($env:CAPTURE_OVERSIZE_SOURCE);[Console]::OpenStandardOutput().Write($b,0,$b.Length)" & exit /b 0)
+if "%CAPTURE_ASSET_MODE%"=="timeout" (start "" /b powershell.exe -NoLogo -NoProfile -NonInteractive -Command "Start-Sleep -Seconds 37;[IO.File]::WriteAllText($env:CAPTURE_SURVIVOR_MARKER,'survived')" & powershell.exe -NoLogo -NoProfile -NonInteractive -Command "Start-Sleep -Seconds 60" & exit /b 0)
+<nul set /p="qualified release asset bytes"
+exit /b 0
+EOF
+  head -c 1048577 /dev/zero > "$operator/source/oversized.skill"
+  case "$(uname -s)" in
+    MINGW*|MSYS*) transport="$operator_native/bin/curl.cmd" ;;
+    *) transport="$operator_native/bin/curl" ;;
+  esac
+  export IMPLEMENTAUDIT_PUBLIC_CAPTURE_TRANSPORT="$transport"
+  export CAPTURE_LOG="$operator_native/capture.log"
+  export CAPTURE_RELEASE_SOURCE="$operator_native/source/release.json"
+  export CAPTURE_ASSET_SOURCE="$operator_native/source/asset.skill"
+  export CAPTURE_OVERSIZE_SOURCE="$operator_native/source/oversized.skill"
+  export CAPTURE_SURVIVOR_MARKER="$operator_native/survivor.marker"
+
+  printf '%s\n' \
+    "{\"candidate_root\":\"$candidate_native\",\"qualified_commit\":\"$qualified_commit\",\"qualified_tree\":\"$qualified_tree\",\"package_name\":\"IMPLEMENTAUDIT.skill\",\"package_size\":$asset_size,\"package_digest\":\"$asset_digest\"}" \
+    > "$operator/source/qualification.json"
+  qualification_sha="$(sha256sum "$operator/source/qualification.json" | awk '{print $1}')"
+  export IMPLEMENTAUDIT_QUALIFICATION_RECORD="$operator_native/source/qualification.json"
+
+  # This is the former false pass: caller-authored JSON plus copied local
+  # bytes, even with real Git objects, must not satisfy public capture.
+  cp "$operator/source/release.json" "$work/preauthored-readback.json"
+  cp "$candidate/qualified-package.skill" "$work/qualified-package.skill"
+  cp "$candidate/qualified-package.skill" "$work/copied-asset.skill"
+  cp -R "$candidate/repository" "$work/qualified-repository"
+  cat > "$work/preauthored-copied.md" <<EOF
+claim: hosted-release | surface: publication | publication-kind: hosted-release-asset | status: verified | evidence-surface: publication | evidence-digest: $asset_digest
+publication-identity: hosted-release | publication-kind: hosted-release-asset | release-id: R_test | tag: v9.9.9 | asset-id: A_test | asset-name: IMPLEMENTAUDIT.skill | asset-size: $asset_size | asset-digest: $asset_digest | qualified-repository: qualified-repository | qualified-commit: $qualified_commit | qualified-tree: $qualified_tree | qualified-package-file: qualified-package.skill | release-url: $release_url | asset-url: $asset_url | download-url: $download_url | public-readback-file: preauthored-readback.json | public-readback-sha256: $public_sha | downloaded-asset-file: copied-asset.skill | disposition: verified
+EOF
+  expect_composed_fail "$work/preauthored-copied.md" \
+    'check-closure-surface: claim hosted-release: hosted release asset requires checker-captured public evidence and a qualification record' \
+    'pre-authored JSON and copied local bytes satisfied public evidence'
+
+  cat > "$work/hosted-release-PASS.md" <<EOF
+claim: hosted-release | surface: publication | publication-kind: hosted-release-asset | status: verified | evidence-surface: publication | evidence-digest: $asset_digest
+publication-identity: hosted-release | publication-kind: hosted-release-asset | release-id: R_test | tag: v9.9.9 | asset-id: A_test | asset-name: IMPLEMENTAUDIT.skill | asset-size: $asset_size | asset-digest: $asset_digest | candidate-root: $candidate_native | qualified-repository: repository | qualified-commit: $qualified_commit | qualified-tree: $qualified_tree | qualified-package-file: qualified-package.skill | qualification-record-sha256: $qualification_sha | release-url: $release_url | asset-url: $asset_url | download-url: $download_url | public-readback-sha256: $public_sha | disposition: verified
+EOF
+  if ! output="$(bash "$scorer" "$work/hosted-release-PASS.md" 2>&1)"; then
+    printf 'closure-surface-contract: hosted release identity expected PASS; got %s\n' \
+      "${output//$'\n'/ }" >&2
+    failures=$((failures + 1))
+  fi
+
+  mkdir "$candidate/bin"
+  cp "$operator/bin/curl" "$candidate/bin/curl"
+  cp "$operator/bin/curl.cmd" "$candidate/bin/curl.cmd"
+  chmod +x "$candidate/bin/curl"
+  case "$(uname -s)" in
+    MINGW*|MSYS*) nested_transport="$candidate_native/bin/curl.cmd" ;;
+    *) nested_transport="$candidate_native/bin/curl" ;;
+  esac
+  IMPLEMENTAUDIT_PUBLIC_CAPTURE_TRANSPORT="$nested_transport"
+  expect_composed_fail "$work/hosted-release-PASS.md" \
+    'check-closure-surface: claim hosted-release: public capture transport must be outside the declared candidate root' \
+    'candidate-controlled transport satisfied public capture'
+  IMPLEMENTAUDIT_PUBLIC_CAPTURE_TRANSPORT="$transport"
+
+  sed 's/{"release_id":"R_test"/{"release_id":"R_other","release_id":"R_test"/' \
+    "$operator/source/release.json" > "$operator/source/duplicate-release.json"
+  case_sha="$(sha256sum "$operator/source/duplicate-release.json" | awk '{print $1}')"
+  sed "s/public-readback-sha256: $public_sha/public-readback-sha256: $case_sha/" \
+    "$work/hosted-release-PASS.md" > "$work/hosted-duplicate-readback.md"
+  CAPTURE_RELEASE_SOURCE="$operator_native/source/duplicate-release.json"
+  expect_composed_fail "$work/hosted-duplicate-readback.md" \
+    'check-closure-surface: claim hosted-release: public readback is not valid unique-key UTF-8 JSON' \
+    'duplicate-key public JSON satisfied captured readback'
+  CAPTURE_RELEASE_SOURCE="$operator_native/source/release.json"
+
+  sed -e 's/asset-id: A_test/asset-id: A_other/' \
+    -e 's|/assets/A_test|/assets/A_other|' \
+    "$work/hosted-release-PASS.md" > "$work/hosted-asset-id-mismatch.md"
+  expect_composed_fail "$work/hosted-asset-id-mismatch.md" \
+    "check-closure-surface: claim hosted-release: public readback asset_id 'A_test' does not match identity 'A_other'" \
+    'hosted release identity accepted a different public asset ID'
+
+  fake_commit='1111111111111111111111111111111111111111'
+  sed "s/qualified-commit: $qualified_commit/qualified-commit: $fake_commit/" \
+    "$work/hosted-release-PASS.md" > "$work/hosted-missing-commit.md"
+  expect_composed_fail "$work/hosted-missing-commit.md" \
+    "check-closure-surface: claim hosted-release: qualified commit '$fake_commit' does not resolve in qualified repository" \
+    'nonexistent qualified commit was accepted'
+
+  fake_tree='2222222222222222222222222222222222222222'
+  sed "s/qualified-tree: $qualified_tree/qualified-tree: $fake_tree/" \
+    "$work/hosted-release-PASS.md" > "$work/hosted-wrong-tree.md"
+  expect_composed_fail "$work/hosted-wrong-tree.md" \
+    "check-closure-surface: claim hosted-release: qualified tree '$fake_tree' does not match commit tree '$qualified_tree'" \
+    'wrong qualified tree was accepted'
+
+  cp "$work/hosted-release-PASS.md" "$work/hosted-missing-download.md"
+  export CAPTURE_ASSET_MODE=missing
+  expect_composed_fail "$work/hosted-missing-download.md" \
+    'check-closure-surface: claim hosted-release: public asset capture failed' \
+    'hosted release passed without a downloaded asset'
+  unset CAPTURE_ASSET_MODE
+
+  cp "$work/hosted-release-PASS.md" "$work/hosted-wrong-bytes.md"
+  export CAPTURE_ASSET_MODE=wrong
+  expect_composed_fail "$work/hosted-wrong-bytes.md" \
+    'check-closure-surface: claim hosted-release: captured public asset bytes do not match qualified package' \
+    'wrong downloaded asset bytes were accepted'
+  unset CAPTURE_ASSET_MODE
+
+  export CAPTURE_ASSET_MODE=oversized
+  expect_composed_fail "$work/hosted-release-PASS.md" \
+    'check-closure-surface: claim hosted-release: captured public asset exceeds 1048576 bytes' \
+    '1,048,577-byte public asset capture was accepted'
+  unset CAPTURE_ASSET_MODE
+
+  rm -f "$operator/survivor.marker"
+  export CAPTURE_ASSET_MODE=timeout
+  expect_composed_fail "$work/hosted-release-PASS.md" \
+    'check-closure-surface: claim hosted-release: public asset capture failed' \
+    'timed-out public capture was accepted'
+  unset CAPTURE_ASSET_MODE
+  sleep 4
+  if [ -e "$operator/survivor.marker" ]; then
+    printf 'closure-surface-contract: timed-out capture left a surviving child process\n' >&2
+    failures=$((failures + 1))
+  fi
+
+  sed "s/asset-size: $asset_size/asset-size: 999/" \
+    "$work/hosted-release-PASS.md" > "$work/hosted-wrong-size.md"
+  expect_composed_fail "$work/hosted-wrong-size.md" \
+    "check-closure-surface: claim hosted-release: asset-size '999' does not match measured size '$asset_size'" \
+    'wrong hosted asset size was accepted'
+
+  sed "s/asset-digest: $asset_digest/asset-digest: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/g" \
+    "$work/hosted-release-PASS.md" > "$work/hosted-wrong-digest.md"
+  expect_composed_fail "$work/hosted-wrong-digest.md" \
+    "check-closure-surface: claim hosted-release: asset-digest does not match measured digest '$asset_digest'" \
+    'wrong hosted asset digest was accepted'
+
+  sed -e "s|release-url: $release_url|release-url: https://example.invalid/releases/R_test|" \
+    "$work/hosted-release-PASS.md" > "$work/hosted-wrong-url.md"
+  expect_composed_fail "$work/hosted-wrong-url.md" \
+    'check-closure-surface: claim hosted-release: release-url does not bind repository and release-id' \
+    'wrong hosted release URL was accepted'
+
+  sed -e 's/release-id: R_test/release-id: R_other/' \
+    -e 's|/releases/R_test|/releases/R_other|' \
+    "$work/hosted-release-PASS.md" > "$work/hosted-release-id-mismatch.md"
+  expect_composed_fail "$work/hosted-release-id-mismatch.md" \
+    "check-closure-surface: claim hosted-release: public readback release_id 'R_test' does not match identity 'R_other'" \
+    'wrong hosted release ID was accepted'
+
+  sed -e 's/tag: v9.9.9/tag: v9.9.8/' \
+    -e 's|/download/v9.9.9/|/download/v9.9.8/|' \
+    "$work/hosted-release-PASS.md" > "$work/hosted-tag-mismatch.md"
+  expect_composed_fail "$work/hosted-tag-mismatch.md" \
+    "check-closure-surface: claim hosted-release: public readback tag 'v9.9.9' does not match identity 'v9.9.8'" \
+    'wrong hosted tag was accepted'
+
+  sed "s/\"package_digest\":\"$asset_digest\"/\"package_digest\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"/" \
+    "$operator/source/qualification.json" > "$operator/source/unbound-qualification.json"
+  case_sha="$(sha256sum "$operator/source/unbound-qualification.json" | awk '{print $1}')"
+  sed -e "s/qualification-record-sha256: $qualification_sha/qualification-record-sha256: $case_sha/" \
+    "$work/hosted-release-PASS.md" > "$work/hosted-unbound-qualification.md"
+  IMPLEMENTAUDIT_QUALIFICATION_RECORD="$operator_native/source/unbound-qualification.json"
+  expect_composed_fail "$work/hosted-unbound-qualification.md" \
+    'check-closure-surface: claim hosted-release: qualification record does not bind commit/tree/package identity' \
+    'unbound qualification record satisfied hosted publication'
+  IMPLEMENTAUDIT_QUALIFICATION_RECORD="$operator_native/source/qualification.json"
+
+  [ "$failures" -eq 0 ] || fail "$failures external composition control(s) failed"
+}
+
 if [ "${1:-}" = "--publication-identity-only" ]; then
   focused_tmp="$(mktemp -d)"
   trap 'rm -rf "$focused_tmp"' EXIT
   publication_identity_controls "$focused_tmp"
   printf 'closure-surface-contract: publication-identity-only ok\n'
+  exit 0
+fi
+
+if [ "${1:-}" = "--external-composition-only" ]; then
+  focused_tmp="$(mktemp -d)"
+  trap 'rm -rf "$focused_tmp"' EXIT
+  external_composition_controls "$focused_tmp"
+  publication_identity_controls "$focused_tmp"
+  printf 'closure-surface-contract: external-composition-only ok\n'
   exit 0
 fi
 
@@ -399,6 +712,22 @@ expect_fail_diag() {
     || fail "$(basename "$file") wrong diagnostic; expected '$expected'; got '${output//$'\n'/ }'"
 }
 
+write_external_grant() {
+  local file="$1" action="$2" target_kind="$3" target_id="$4"
+  cat > "$file" <<EOF
+source: owner-message:test-$action-$target_kind-$target_id
+issued_at: 2026-08-11
+grant_quote: Authorize $action on $target_kind $target_id with independent readback.
+scope: $target_kind-$target_id
+lifecycle: standing-authorization
+action: $action
+binds: target_kind,target_id
+target_kind: $target_kind
+target_id: $target_id
+EOF
+  sha256sum "$file" | awk '{print $1}'
+}
+
 fail_case layer-promotion-FAIL.md
 fail_case verified-no-evidence-FAIL.md
 pass_case uninspectable-unverified-PASS.md
@@ -418,6 +747,7 @@ required_fixtures=(
   external-close-wrong-state-FAIL.md
   external-close-readback-PASS.json
   external-close-wrong-state-FAIL.json
+  external-close-authorization.txt
   mutation-python-no-zero-FAIL.md
   mutation-python-zero-PASS.md
   mutation-bash-unrelated-status-FAIL.md
@@ -508,6 +838,7 @@ tmp="$(mktemp -d)"; trap 'rm -rf "$tmp"' EXIT
 # zero-exit postconditions, digest identity, and path containment each have an
 # independent behavioral check without network, model, or clock input.
 cp "$fx/external-close-readback-PASS.json" "$tmp/external-close-readback-PASS.json"
+cp "$fx/external-close-authorization.txt" "$tmp/external-close-authorization.txt"
 sed 's/ | external-kind: mutation//' \
   "$fx/external-close-readback-PASS.md" > "$tmp/external-kind-missing.md"
 expect_fail_diag "$tmp/external-kind-missing.md" \
@@ -549,9 +880,11 @@ expect_pass "$tmp/legacy-api.md"
 
 printf '%s\n' '{"name":"triage"}' > "$tmp/readback-label.json"
 label_sha="$(sha256sum "$tmp/readback-label.json" | awk '{print $1}')"
-printf '%s\n%s\n' \
-  'claim: label-create | surface: api | property: behavioral | status: verified | evidence-surface: api | external-kind: mutation | external-mutation-record: label-create' \
+label_grant_sha="$(write_external_grant "$tmp/label-create-authorization.txt" create label triage)"
+printf '%s\n%s\n%s\n' \
+  'claim: label-create | surface: api | property: behavioral | status: verified | evidence-surface: api | external-kind: mutation | external-mutation-record: label-create | external-authorization-grant: grant-label-create' \
   "external-mutation-record: label-create | runner: bash | target-kind: label | target-id: triage | mutation-command: gh label create triage | mutation-exit: 0 | mutation-evidence: label-mut | readback-command: gh label list --search triage --json name --jq 'map(select(.name == \"triage\"))[0]' | readback-exit: 0 | readback-file: readback-label.json | readback-sha256: $label_sha | readback-field: name | expected-value: triage | observed-value: triage | readback-evidence: label-read" \
+  "external-authorization-grant: grant-label-create | record-file: label-create-authorization.txt | record-sha256: $label_grant_sha" \
   > "$tmp/label-target-noun.md"
 expect_pass "$tmp/label-target-noun.md"
 
@@ -564,7 +897,7 @@ expect_fail_diag "$tmp/readback-label-duplicate-search.md" \
 sed 's/mutation-command: gh issue close 207/mutation-command: gh issue close 208/' \
   "$fx/external-close-readback-PASS.md" > "$tmp/mutation-target-mismatch.md"
 expect_fail_diag "$tmp/mutation-target-mismatch.md" \
-  "check-closure-surface: external mutation close-207: mutation-command does not target issue '207'" \
+  "check-closure-surface: external mutation close-207: mutation-command effective target issue '208' does not match declared issue '207'" \
   'mutation command target mismatch was accepted'
 
 sed 's/readback-command: gh issue view 207/readback-command: gh issue view 208/' \
@@ -603,10 +936,14 @@ expect_fail_diag "$tmp/readback-issue-reopen.md" \
   'check-closure-surface: external mutation close-207: readback-command is not an approved read-only issue query' \
   'issue reopen was accepted as read-back evidence'
 
+pr_grant_sha="$(write_external_grant "$tmp/pr-merge-authorization.txt" merge pr 207)"
 sed \
   -e 's/target-kind: issue/target-kind: pr/' \
   -e 's/mutation-command: gh issue close 207/mutation-command: gh pr merge 207/' \
   -e 's/readback-command: gh issue view 207 --json state/readback-command: gh pr review 207 --approve/' \
+  -e 's/grant-close-207/grant-pr-merge/g' \
+  -e 's/external-close-authorization.txt/pr-merge-authorization.txt/' \
+  -e "s/9e4eb798de33536b66b3d84d0672838e7d18d678a23b4608f84faf8df8cc5c7f/$pr_grant_sha/" \
   "$fx/external-close-readback-PASS.md" > "$tmp/readback-pr-approve.md"
 expect_fail_diag "$tmp/readback-pr-approve.md" \
   'check-closure-surface: external mutation close-207: readback-command is not an approved read-only pr query' \
@@ -616,14 +953,19 @@ sed \
   -e 's/target-kind: issue/target-kind: pr/' \
   -e 's/mutation-command: gh issue close 207/mutation-command: gh pr merge 207/' \
   -e 's/readback-command: gh issue view 207 --json state/readback-command: gh pr view 207 --json state/' \
+  -e 's/grant-close-207/grant-pr-merge/g' \
+  -e 's/external-close-authorization.txt/pr-merge-authorization.txt/' \
+  -e "s/9e4eb798de33536b66b3d84d0672838e7d18d678a23b4608f84faf8df8cc5c7f/$pr_grant_sha/" \
   "$fx/external-close-readback-PASS.md" > "$tmp/readback-pr-view.md"
 expect_pass "$tmp/readback-pr-view.md"
 
 printf '%s\n' '{"tagName":"v1.2.3"}' > "$tmp/readback-release.json"
 release_sha="$(sha256sum "$tmp/readback-release.json" | awk '{print $1}')"
-printf '%s\n%s\n' \
-  'claim: release-view | surface: api | property: behavioral | status: verified | evidence-surface: api | external-kind: mutation | external-mutation-record: release-view' \
+release_grant_sha="$(write_external_grant "$tmp/release-edit-authorization.txt" edit release v1.2.3)"
+printf '%s\n%s\n%s\n' \
+  'claim: release-view | surface: api | property: behavioral | status: verified | evidence-surface: api | external-kind: mutation | external-mutation-record: release-view | external-authorization-grant: grant-release-edit' \
   "external-mutation-record: release-view | runner: bash | target-kind: release | target-id: v1.2.3 | mutation-command: gh release edit v1.2.3 | mutation-exit: 0 | mutation-evidence: release-mut | readback-command: gh release view v1.2.3 --json tagName | readback-exit: 0 | readback-file: readback-release.json | readback-sha256: $release_sha | readback-field: tagName | expected-value: v1.2.3 | observed-value: v1.2.3 | readback-evidence: release-read" \
+  "external-authorization-grant: grant-release-edit | record-file: release-edit-authorization.txt | record-sha256: $release_grant_sha" \
   > "$tmp/readback-release-view.md"
 expect_pass "$tmp/readback-release-view.md"
 

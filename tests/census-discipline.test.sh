@@ -11,6 +11,7 @@ trap 'rm -rf "$tmp"' EXIT
 fixture="fixtures/census-discipline/cases.json"
 public_projection_fixture="fixtures/public-projection/cases.json"
 semantic_fixture="fixtures/public-projection/semantic-preservation.json"
+lineage_fixture="fixtures/public-projection/lineage-reader-questions.json"
 base="fixtures/phase-validation/valid-full-spec.md"
 eval_fixture="eval/fixtures/E5d-census-discipline"
 r29_eval_fixture="eval/fixtures/R29-public-projection"
@@ -117,6 +118,119 @@ then
   record_pass
 else
   record_fail "package semantic-preservation owner/consumer binding failed"
+fi
+
+# Bind each owner-supplied reader question to a named public owner and a small
+# evidence set.  The existing R29 positive/negative/cheap/held-out controls
+# remain the generic semantic discriminator; this cell owns lineage routing,
+# classifications, non-claims, and native-control distinctions.
+if "${py_cmd[@]}" - "$lineage_fixture" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+fixture = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+site = json.loads(Path("docs/portal/site.json").read_text(encoding="utf-8"))
+
+if fixture.get("schema") != "implementaudit-research-lineage-reader-questions-v1":
+    raise SystemExit("lineage reader-question schema invalid")
+questions = fixture.get("questions", [])
+if len(questions) != 10 or len({row.get("id") for row in questions}) != 10:
+    raise SystemExit("lineage reader-question population must be exactly ten unique owner questions")
+if [row.get("id") for row in questions] != [f"R29-LQ{i}" for i in range(1, 11)]:
+    raise SystemExit("lineage reader-question identity/order drift")
+
+groups = [group.get("group") for group in site.get("nav", [])]
+if "Research & Engineering Lineage" not in groups:
+    raise SystemExit("lineage navigation group missing")
+if groups.index("Research & Engineering Lineage") != groups.index("Repository") + 1:
+    raise SystemExit("lineage navigation must sit between Repository and References")
+lineage_group = next(group for group in site["nav"]
+                     if group.get("group") == "Research & Engineering Lineage")
+if lineage_group.get("pages") != fixture.get("public_pages"):
+    raise SystemExit("lineage page order/denominator drift")
+
+page_text = {}
+for page_id in fixture["public_pages"]:
+    page = site.get("pages", {}).get(page_id)
+    if not page:
+        raise SystemExit(f"lineage page missing from site owner: {page_id}")
+    source = Path("docs/portal/pages") / page["source"]
+    if not source.is_file():
+        raise SystemExit(f"lineage source missing: {source}")
+    page_text[page_id] = source.read_text(encoding="utf-8")
+
+for row in questions:
+    text = page_text[row["page"]]
+    missing = [token for token in row["evidence"] if token not in text]
+    if missing:
+        raise SystemExit(f"{row['id']}: reader answer missing {missing}")
+
+synthesis = page_text["research-lineage-evolved-law"]
+for literal in fixture["classification_literals"]:
+    if literal not in synthesis:
+        raise SystemExit(f"lineage synthesis missing classification {literal}")
+for issue in ("R37 / #186", "R38 / #187", "R39 / #188"):
+    if issue not in synthesis:
+        raise SystemExit(f"lineage synthesis missing evidence owner {issue}")
+
+combined = "\n".join(page_text.values())
+for forbidden in ("Semantica", "Semantica-main", "three methodology modes"):
+    if forbidden in combined:
+        raise SystemExit(f"internal comparative branding leaked publicly: {forbidden}")
+for boundary in (
+        "non-cooperating same-principal writer",
+        "work-conserving",
+        "shared issue, milestone, branch train, eventual package, or public surface is not itself a dependency",
+        "not universally validated"):
+    if boundary not in combined:
+        raise SystemExit(f"lineage public boundary missing: {boundary}")
+
+readme = Path("README.md").read_text(encoding="utf-8")
+changelog = Path("CHANGELOG.md").read_text(encoding="utf-8")
+report = Path("docs/audits/archive/v0.3.3.3-release-report.md").read_text(encoding="utf-8")
+title = fixture["release_title"]
+if title not in changelog or title not in report:
+    raise SystemExit("SORME working release title is not owned by changelog/report")
+if "Research & Engineering Lineage" not in readme:
+    raise SystemExit("README does not route readers to lineage owners")
+lineage_hosted_route = (
+    "https://theislampill.github.io/IMPLEMENTAUDIT.md/"
+    "research-engineering-lineage/"
+)
+lineage_source_route = "docs/portal/pages/research-lineage-overview.html"
+lineage_pending = (
+    "This source entry does not claim that the hosted portal or GitHub release "
+    "body contains the new projection until a separate publication and "
+    "readback gate records that state"
+)
+if lineage_pending in " ".join(changelog.split()):
+    if lineage_hosted_route in readme:
+        raise SystemExit("README preclaims the pending hosted lineage route")
+    if lineage_source_route not in readme:
+        raise SystemExit("README does not route pending lineage readers to repository source")
+if fixture["compact_label"] not in synthesis:
+    raise SystemExit("compact SORME label missing from synthesis")
+if "Semantica" in readme + changelog + report:
+    raise SystemExit("internal comparative corpus branding leaked to public owners")
+
+unreleased = changelog.split("## [Unreleased]", 1)[1].split("\n## [", 1)[0]
+for forbidden in (
+    "/improve",
+    "63-property comparator",
+    "source-stronger",
+    "reverse-dominance",
+    "strict superset",
+):
+    if forbidden in unreleased.casefold():
+        raise SystemExit(
+            f"internal comparison framing leaked into active public projection: {forbidden}"
+        )
+PY
+then
+  record_pass
+else
+  record_fail "R29 ten-question research-lineage comprehension contract failed"
 fi
 
 # Bind the repaired repository projection as a positive example without

@@ -4,7 +4,15 @@ Use Graphify only for unfamiliar, majority-code, terrain-shaped work lacking a
 one-search answer; otherwise search/read/Git. Graphify is orientation only.
 Live files remain proof. Graphify absence does not block consumer runs.
 IMPLEMENTAUDIT self-maintenance may use Graphify; no sidecar output enters the release package.
-First run: detect optional tools; document install or usage commands; install or configure tools only after explicit authorization; index/export/write sidecar outputs only after separate explicit authorization. No silent install. No silent indexing. Outputs stay outside repo.
+First run: detect optional tools only with a shipped detection route; TokenSave
+remains explicit/on-demand. Document install or usage commands.
+Install or configure tools only after explicit authorization.
+Index/export/write sidecar outputs only after separate explicit authorization. No silent install.
+No silent indexing. Storage is representation-specific: Graphify catalogues stay
+outside the repo. TokenSave's separately authorised repo-local database is the
+representation-specific exception; keep it untracked, non-packaged and
+retention/cleanup-disclosed. ActiveGraph custody stays in the governed run root
+or an authorised temporary path.
 
 A strict outside-repo `schema: 1` catalogue binds graph/digest, parent, canonical
 scan root, rules/files/config, build and `llm: false`. `--graph-scope <catalog>
@@ -43,7 +51,38 @@ Dogfood-only (Windows/graphifyy 0.8.37, 2026-08-09): release beat root once;
 both missed a variable-bound call. Luna/partitions remain unproved; an
 unfamiliar third-party repo gates broadening. The missed-use-detection goal is retired.
 
+TokenSave is optional code navigation, not another terrain or custody authority.
+Use it only when a supported code-relation question makes a repeated or
+transitive source walk worthwhile. Only an operator/checker-controlled adapter
+outside candidate authority can establish currentness; claim fields alone never
+do. The checker executes that adapter against the live checkout using its fixed
+supported sync/reconnect route, then compares the strict result with the claimed
+checkout/database expectation. An absent, failed, timed-out, malformed or
+mismatched execution is `TOKENSAVE_FRESHNESS_UNVERIFIED`, never
+`TokenSave-derived`, and routes to live Gemba. Stale, wrong-worktree,
+branch-unknown or unverifiable bindings also route to Gemba. Classify a result
+only after that gate as `TokenSave-derived`, partial, stale, unsupported or
+unresolved, then confirm consequential findings in live source. Database
+freshness proves only the represented population: unsupported languages,
+extraction failures, dynamic dispatch, generated code and external dependencies
+remain outside it. Same-name/cross-language conflicts fall back to Gemba.
+
+Documentation, policy, public projection, non-code artefacts, an exact supplied
+file and tiny reversible work are `NO TOKENSAVE` cheap paths. Presence authorises
+no install, indexing, config or ignore edit. Repo-local state may retain complete
+function bodies and rendered-source cache; keep it untracked, disclose documented
+metadata network calls, and clean it deliberately. Editing, test-running, session
+and memory tools stay outside supported use. Impact is not edit authority;
+affected tests are not acceptance; TokenSave plus Graphify is not independent
+corroboration. Absence never blocks ordinary Gemba.
+
 ActiveGraph: authorised `fork` / `diff` or non-authoritative mirror; run root
-stays authoritative; `replay` cannot reconstruct.
+stays authoritative. Replay proves only supported recorded graph state; events,
+forks, diffs, trials, promotion, snapshots and idle state establish only their
+recorded state, lineage, structure, declared process boundary, graph update,
+local integrity or quiescence. External effect, observation completeness,
+semantic correctness, independence, owner authority, host security, engineering
+closure and distributed correctness require independent evidence at that owner.
+With no durable causal/counterfactual need, use no ActiveGraph.
 Never ship sidecar/run-root output, `custody.db`, graphs/caches/JSONL. Prove
 manifest equality, checksums, install-copy smoke.

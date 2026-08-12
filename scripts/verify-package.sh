@@ -102,6 +102,7 @@ require_file skills/implementaudit/references/plan-lifecycle.md
 require_file skills/implementaudit/references/terminology-integration.md
 require_file skills/implementaudit/references/convergence-mode.md
 require_file skills/implementaudit/scripts/check-evidence-anchor.sh
+require_file skills/implementaudit/scripts/apply-observed-mutation.sh
 require_file skills/implementaudit/scripts/check-duplication-parity.sh
 require_file skills/implementaudit/scripts/check-respec-impact-set.sh
 require_file skills/implementaudit/scripts/check-lesson-lift.sh
@@ -301,6 +302,7 @@ require_file tests/andon-escalation-judgment.test.sh
 require_file tests/background-chain-contract.test.sh
 require_file tests/evidence-anchoring.test.sh
 require_file tests/verification-window-contract.test.sh
+require_file tests/observation-bound-mutation-integrity.test.sh
 require_file tests/respec-impact-set-contract.test.sh
 require_file tests/marker-order.test.sh
 require_file tests/planner-stages.test.sh
@@ -675,6 +677,7 @@ bash tests/andon-escalation-judgment.test.sh
 bash tests/background-chain-contract.test.sh
 bash tests/evidence-anchoring.test.sh
 bash tests/verification-window-contract.test.sh
+bash tests/observation-bound-mutation-integrity.test.sh
 bash tests/respec-impact-set-contract.test.sh
 bash tests/marker-order.test.sh
 bash tests/planner-stages.test.sh

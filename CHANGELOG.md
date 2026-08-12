@@ -13,12 +13,53 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ## [Unreleased]
 
+No changes are currently assigned beyond the final `v0.3.3.3` correction.
+
+## [v0.3.3.3 final correction candidate] - 2026-08-12
+
+This section records the final same-identity correction candidate. Publication,
+hosted deployment, and public download/install readback remain separate gates
+until the candidate is merged to authoritative `main` and the existing
+`v0.3.3.3` release is corrected in place.
+
 ### Changed
 
-- R33 package builds now use pinned, deterministic Zopfli method-8 DEFLATE.
-  Extracted member bytes, paths, modes, timestamps, runtime dependencies and
-  the 230,000-byte owner outer bound are unchanged; the stronger build-only
-  compressor restores headroom without deleting governed runtime semantics.
+- R31 makes terminal handoff readiness receiver-relative. When the receiving
+  continuation must independently reproduce an acceptance claim, the packaged
+  handoff checker rejects `READY` without the immutable denominator, oracle,
+  inputs, evaluator/schema semantics, evidence limits, authority/STOP boundary,
+  and exact receipt. Implementation-only handoffs retain the ordinary cheap
+  path.
+- R34/R40/R41 add native, proportionate coordination and delegation controls:
+  a recomputed work-conserving ready-cell frontier, optional operator resource
+  ceilings,
+  conditional planner/executor epistemic separation, capability-fit delegation,
+  explicit cross-boundary context capsules, and post-worker source revalidation.
+  Trivial work remains serial and same-root; no fixed modes, fanout quotas, model
+  hierarchy, or second lifecycle is introduced.
+- R33 package builds use pinned, deterministic Zopfli method-8 DEFLATE. The
+  exact 257,433-byte composed candidate is calibrated to the smallest
+  whole-1,000-byte ceiling retaining at least 2,000 bytes of headroom:
+  260,000 bytes, leaving 2,567 bytes. The 260,000-byte owner outer bound is a
+  guard, not a spending target; required governed runtime semantics were not
+  deleted or weakened to recover bytes.
+- #101 narrowly adopts TokenSave as optional derived code navigation for
+  supported relations with exact checkout/database and successful
+  sync/reconnect freshness witnesses plus live-source confirmation. It keeps
+  installation/indexing explicit, preserves cheap Gemba/Graphify paths, and
+  excludes edit/test/session authority and broad discovery interception.
+
+### Package boundary
+
+- The exact qualified candidate is a 257,433-byte, 51-member
+  `IMPLEMENTAUDIT.skill` with SHA-256
+  `3116a2be2992928af8f0ae7ac2f0cb357c1e81990d43469f6f921fe454bdf7bd`.
+  Its 260,000-byte calibrated ceiling leaves 2,567 bytes of headroom and is
+  also the owner-approved outer guard.
+- The earlier 227,999-byte public-asset receipt remains historical evidence.
+  A fresh API census found that asset absent while the earlier checksum asset
+  remained present, so current public availability is not claimed until the
+  final correction is published and independently read back.
 
 ## [v0.3.3.3] - 2026-08-11
 
@@ -40,6 +81,15 @@ same-tag identity mechanism then qualified final release commit
 `3b5c300f366bec41fcbfedfceeda5a8b56747c71`, tree
 `90a420245f3a4fefadce97dc8dccb77d98ac85e4`. The existing `v0.3.3.3` tag,
 assets, checksum, and body were corrected in place and independently read back.
+
+The later R29 source-projection repair uses the working public title
+**v0.3.3.3 — Second-Order Reflexive Meta-Engineering: Evolved-LAW (Lean · Agile · Waterfall)**.
+It adds a five-page Research & Engineering Lineage route that distinguishes
+pre-existing native controls, sharpened/reconciled properties, context-specific
+residuals, and rejected prescriptions. This source entry does not claim that
+the hosted portal or GitHub release body contains the new projection until a
+separate publication and readback gate records that state; the published
+`IMPLEMENTAUDIT.skill` and checksum bytes remain unchanged.
 
 ### Changed
 

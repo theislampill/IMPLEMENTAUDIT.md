@@ -143,6 +143,62 @@ IMPLEMENTAUDIT self-modification. No activation factor means no R34 diagnostic o
 Ordinary bounded work keeps its existing minimum Smoke A/B and
 self-check path without a worksheet, meta-work ratio, or per-command defence.
 
+Select feedback cadence, finite slack or buffers, sustainable recovery
+capacity, temporary option preservation, and control depth proportionately to
+variability, information value, actionability, consequence, reversibility,
+recovery need, and carrying cost. Protective slack or a buffer is not waste
+when it has an authoritative consumer, protects a named consequence, and its
+benefit exceeds its bounded carrying cost. Feedback value depends on actionable
+information rather than frequency alone. Temporary option value is retained
+only while expected information value exceeds carrying cost and an exit or
+reclassification condition remains live. Preserve sustainable recovery
+capacity instead of treating maximum utilisation as value.
+
+No universal rule makes shorter feedback, lower work in progress, smaller
+batches, higher utilisation, more slack, or less slack correct. Stronger
+control depth is warranted by material consequence or hard-to-reverse action,
+not by a methodology label. Reuse the native action-selection record; do not
+add lifecycle ceremonies, mandatory buffers, sprint machinery, traceability
+matrices, or methodology-specific modes. When no proportionality pressure is
+live, create no R34 artefact.
+
+## Conditional delegation and work-conserving execution
+
+Use **conditional planner/executor separation** when material engineering
+judgement would otherwise be confirmed by the same role that mutates it and
+self-confirmation risk, a contested interpretation, or a high-consequence
+change is live. Freeze the planning/adjudication role against source mutation,
+dispatch a separately bounded executor, and require an independent reviewer to
+reread the resulting source and evidence. Executor output is candidate evidence,
+not acceptance authority. If the independent execution or review route is
+unavailable, block or obtain an owner decision; do not silently collapse the
+roles. Ordinary narrow, reversible work with one obvious route stays on the
+same-root cheap path.
+
+When several authorised executor routes are valid, select the least-cost
+sufficiently capable route after checking context completeness, privacy,
+tooling, authority, and acceptance needs. Compile the necessary owner/source,
+scope, constraints, acceptance, rollback, and STOP conditions into the durable
+handoff. A delegate that encounters missing context or insufficient capability
+stops and escalates; cost never overrides correctness or evidence.
+
+For three or more material cells with closed dependency, write, acceptance,
+resource, and authority boundaries, maintain a work-conserving ready-cell
+frontier. Activate worthwhile independent ready cells up to safe host capacity
+and any positive **operator-supplied ceiling**; recompute after a cell completes
+or blocks, capacity or authorization changes, or drift is observed. Unknown
+independence, shared boundaries, and irreversible external work serialize until
+proved safe. An unchanged reminder is not a scheduling transition and does not
+justify redispatch. Fewer than three material cells, unavailable parallelism,
+or an effective capacity below two uses the serial cheap path. The ceiling is a
+maximum resource envelope, not a fixed agent quota or utilization target, and
+does not replace factor-derived depth or marginal-value stopping.
+
+Before activation, reconcile every governed cell exactly once into an
+evidence-current DONE, ACTIVE, READY, or BLOCKED state. Unknown or stale state
+defers dispatch. READY requires its actual dependency edges satisfied; compute
+free capacity only after subtracting ACTIVE occupancy.
+
 Evidence-based omission preserves the controlling obligation, establishes the
 current decision with a narrower discriminator, records the residual, and
 retains escalation when risk changes. Omission for convenience or cost alone is
@@ -161,6 +217,13 @@ Independent means no unit needs another's uncommitted output; ordered names the
 dependency. Batch independent units to host concurrency and rollback margin,
 then run the class-earned ceremony once per batch. Fewer than three units use
 ordinary planning. Scaling never waives review, rollback, or external gates.
+
+For a materially decomposable run, distinguish actual dependency, write,
+acceptance, resource, authority, and composed-only boundaries before scheduling.
+A shared issue, milestone, branch train, eventual package, or public surface is
+not itself a dependency. Route known-independent units to the work-conserving
+ready-cell frontier in `child-agents.md`; unknown or overlapping boundaries
+remain ordered. This adds no frontier artefact to the ordinary serial path.
 
 | `change_class` | Ceremony floor |
 |---|---|

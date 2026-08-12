@@ -134,8 +134,9 @@ bash tests/docs-portal.test.sh
 ```
 
 The meta-gate `scripts/check-validation-registry.sh` requires every
-`tests/*.test.sh` to appear in both `scripts/verify-package.sh` and
-`.github/workflows/validate.yml`, with only documented exemptions.
+`tests/*.test.sh` to appear in the canonical `scripts/verify-package.sh`
+registry and requires CI to invoke that registry exactly once, without a
+second hand-maintained direct-test list.
 
 ## Release And Dogfood Boundaries
 

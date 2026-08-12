@@ -16,11 +16,15 @@ set -euo pipefail
 #       every anchor-to-current changed path is disjoint from the nonempty,
 #       repo-relative path/glob manifest. Without it, exact equality remains.
 #
-#   check-evidence-anchor.sh --window <launch-intent-file> --now <sha>
+#   check-evidence-anchor.sh --window <launch-intent-file> --now <sha> [--planned-paths-env]
 #       an open verification window refuses an anchor-to-current-tree diff
 #       that intersects a declared surface. Closed windows and complete diffs
 #       proven disjoint pass. Its window-specific repo-state route includes
 #       ignored and .IMPLEMENTAUDIT/ path identities as live declared surfaces.
+#
+#   check-evidence-anchor.sh --window-transition <open|close> <launch-intent-file> --entry <n> --repo-root <repo>
+#       publishes a prepared/open verification-window transition with complete
+#       identity evidence while holding the persistent governed-writer gate.
 
 fail() { printf 'check-evidence-anchor: %s\n' "$*" >&2; exit 1; }
 
@@ -31,6 +35,394 @@ case "$mode" in
     ;;
 esac
 case "$mode" in
+  --window-transition)
+    transition="${2:-}"
+    intent="${3:-}"
+    [ "$transition" = open ] || [ "$transition" = close ] \
+      || fail "usage: --window-transition <open|close> <launch-intent-file> --entry <n> --repo-root <repo>"
+    [ "${4:-}" = "--entry" ] && [ "${6:-}" = "--repo-root" ] && [ "$#" -eq 7 ] \
+      || fail "usage: --window-transition <open|close> <launch-intent-file> --entry <n> --repo-root <repo>"
+    entry="${5:-}"
+    repo="${7:-}"
+    if command -v python >/dev/null 2>&1; then py_cmd=(python)
+    elif command -v python3 >/dev/null 2>&1; then py_cmd=(python3)
+    elif command -v py >/dev/null 2>&1; then py_cmd=(py -3)
+    else fail "python, python3, or py -3 is required for --window-transition"
+    fi
+    repo_state="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/repo-state.sh"
+    run_validator="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/validate-run-root.sh"
+    bash_exe="$BASH"
+    if command -v cygpath >/dev/null 2>&1; then bash_exe="$(cygpath -w "$bash_exe")"; fi
+    "${py_cmd[@]}" - "$transition" "$intent" "$entry" "$repo" "$repo_state" "$run_validator" "$bash_exe" <<'PY'
+import hashlib
+import errno
+import fnmatch
+import json
+import os
+import re
+import stat
+import subprocess
+import sys
+import time
+from pathlib import Path, PurePosixPath
+
+if os.name == "nt":
+    import msvcrt
+else:
+    import fcntl
+
+transition, intent_raw, entry_raw, repo_raw, repo_state, run_validator, bash_exe = sys.argv[1:]
+
+
+def fail(message):
+    print(f"check-evidence-anchor: {message}", file=sys.stderr)
+    raise SystemExit(1)
+
+
+def is_reparse(st):
+    return bool(getattr(st, "st_file_attributes", 0) & 0x400)
+
+
+def unique_regular(path):
+    try:
+        st = os.lstat(path)
+    except OSError:
+        return False
+    return stat.S_ISREG(st.st_mode) and not stat.S_ISLNK(st.st_mode) and not is_reparse(st) and st.st_nlink == 1
+
+
+def bash_path(path):
+    return os.fspath(path).replace("\\", "/") if os.name == "nt" else os.fspath(path)
+
+
+def sync_directory(path):
+    if os.name != "nt":
+        fd = os.open(path, os.O_RDONLY | getattr(os, "O_DIRECTORY", 0))
+        try:
+            os.fsync(fd)
+        finally:
+            os.close(fd)
+        return
+    import ctypes
+    kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+    create = kernel32.CreateFileW
+    create.argtypes = [ctypes.c_wchar_p, ctypes.c_uint32, ctypes.c_uint32, ctypes.c_void_p, ctypes.c_uint32, ctypes.c_uint32, ctypes.c_void_p]
+    create.restype = ctypes.c_void_p
+    handle = create(str(path), 0x40000000, 0x7, None, 3, 0x02000000, None)
+    if handle == ctypes.c_void_p(-1).value:
+        raise OSError(ctypes.get_last_error(), f"open directory for fsync: {path}")
+    try:
+        if not kernel32.FlushFileBuffers(ctypes.c_void_p(handle)):
+            raise OSError(ctypes.get_last_error(), f"fsync directory: {path}")
+    finally:
+        kernel32.CloseHandle(ctypes.c_void_p(handle))
+
+
+def normalize_surface(surface):
+    normalized = surface.replace("\\", "/")
+    pure = PurePosixPath(normalized)
+    if (not normalized or pure.is_absolute() or ".." in pure.parts
+            or normalized.startswith("/") or re.match(r"^[A-Za-z]:", normalized)):
+        fail(f"verification window contains unsafe surface: {surface}")
+    canonical = str(pure)
+    if canonical in {"", "."}:
+        fail(f"verification window contains unsafe surface: {surface}")
+    if normalized.endswith("/"):
+        canonical += "/"
+    return canonical
+
+
+def surface_matches(path, surface):
+    if surface.endswith("/"):
+        return path == surface[:-1] or path.startswith(surface)
+    return fnmatch.fnmatchcase(path, surface)
+
+
+def file_identity(path):
+    st = os.lstat(path)
+    return (st.st_dev, st.st_ino, st.st_mode, st.st_nlink)
+
+
+def stat_identity(st):
+    return (st.st_dev, st.st_ino, st.st_mode, st.st_nlink)
+
+
+def write_all(fd, data):
+    view = memoryview(data)
+    while view:
+        written = os.write(fd, view)
+        if written <= 0:
+            raise OSError(errno.EIO, "short transition write")
+        view = view[written:]
+
+
+def remove_owned(path, owned_identity):
+    try:
+        if file_identity(path) != owned_identity:
+            return False
+        os.unlink(path)
+        return True
+    except FileNotFoundError:
+        return True
+
+
+try:
+    entry_number = int(entry_raw)
+except ValueError:
+    fail("--entry must be a positive integer")
+if entry_number <= 0 or str(entry_number) != entry_raw:
+    fail("--entry must be a canonical positive integer")
+
+repo = Path(os.path.abspath(repo_raw))
+intent = Path(os.path.abspath(intent_raw))
+head = subprocess.run(["git", "-C", os.fspath(repo), "rev-parse", "--show-toplevel"], text=True, capture_output=True, check=False)
+if head.returncode != 0 or Path(os.path.abspath(head.stdout.strip())) != repo:
+    fail("--repo-root is not the exact current Git worktree root")
+try:
+    relative = intent.relative_to(repo)
+except ValueError:
+    fail("launch intent is outside the governed repository")
+parts = relative.parts
+if (len(parts) != 6 or parts[0:2] != (".IMPLEMENTAUDIT", "runs")
+        or parts[3] != "background" or parts[5] != "launch-intent.md"):
+    fail("launch intent is outside the governed run topology")
+run = repo.joinpath(*parts[:3])
+chain = parts[4]
+cursor = repo
+for part in parts:
+    cursor /= part
+    try:
+        st = os.lstat(cursor)
+    except OSError:
+        fail("launch intent custody is incomplete")
+    if stat.S_ISLNK(st.st_mode) or is_reparse(st):
+        fail("launch intent custody contains an alias")
+if not unique_regular(intent):
+    fail("launch intent is not a unique regular file")
+validated = subprocess.run(
+    [bash_exe, bash_path(run_validator), "--claim-only", bash_path(run), "--repo-root", bash_path(repo)],
+    text=True, capture_output=True, check=False,
+)
+if validated.returncode != 0:
+    fail("launch intent run-root claim is not valid")
+
+gate = repo / ".IMPLEMENTAUDIT" / ".r36-locks" / "namespace.gate"
+if not unique_regular(gate) or gate.stat().st_size != 1:
+    fail("governed-writer namespace gate is unavailable or unsafe")
+fd = os.open(gate, os.O_RDWR | getattr(os, "O_BINARY", 0) | getattr(os, "O_NOFOLLOW", 0))
+released = False
+committed = False
+transition_error = None
+release_error = None
+now = "unavailable"
+try:
+    opened = os.fstat(fd)
+    os.lseek(fd, 0, os.SEEK_SET)
+    if os.name == "nt":
+        while True:
+            try:
+                msvcrt.locking(fd, msvcrt.LK_NBLCK, 1)
+                break
+            except OSError as error:
+                if error.errno not in {errno.EACCES, errno.EAGAIN, errno.EDEADLK}:
+                    raise
+                time.sleep(0.05)
+    else:
+        fcntl.flock(fd, fcntl.LOCK_EX)
+    current = os.lstat(gate)
+    if ((opened.st_dev, opened.st_ino) != (current.st_dev, current.st_ino)
+            or not stat.S_ISREG(current.st_mode) or current.st_nlink != 1):
+        fail("governed-writer namespace gate identity changed")
+
+    original_bytes = intent.read_bytes()
+    try:
+        lines = original_bytes.decode("utf-8").splitlines(keepends=True)
+    except UnicodeDecodeError:
+        fail("launch intent is not UTF-8")
+    entries = []
+    active = False
+    current_entry = None
+    for index, raw in enumerate(lines):
+        text = raw.rstrip("\r\n")
+        if text == "verification_window:":
+            active = True
+            continue
+        if active and text and not text[0].isspace():
+            active = False
+            current_entry = None
+        if not active:
+            continue
+        match = re.match(r"^(\s*)-\s*surfaces:\s*\[(.*)\]\s*$", text)
+        if match:
+            surfaces = [normalize_surface(item.strip().strip("'\"`")) for item in match.group(2).split(",") if item.strip()]
+            current_entry = {"surfaces": surfaces, "lines": {}, "indent": match.group(1) + "  "}
+            entries.append(current_entry)
+            continue
+        match = re.match(r"^\s*(opened_at|closed_at|chain|state|opening_identity_receipt|opening_identity_sha256|closing_identity_receipt|closing_identity_sha256):\s*(.*?)\s*$", text)
+        if match and current_entry is not None:
+            key = match.group(1)
+            if key in current_entry["lines"]:
+                fail(f"verification_window entry contains duplicate key: {key}")
+            current_entry[key] = match.group(2).strip().strip("'\"`")
+            current_entry["lines"][key] = index
+    if entry_number > len(entries):
+        fail("selected verification_window entry does not exist")
+    selected = entries[entry_number - 1]
+    required = {"opened_at", "closed_at", "chain", "state", "opening_identity_receipt", "opening_identity_sha256", "closing_identity_receipt", "closing_identity_sha256"}
+    if set(selected["lines"]) != required or not selected["surfaces"] or selected.get("chain") != chain:
+        fail("selected verification_window entry is incomplete or bound to another chain")
+    expected_state = "prepared" if transition == "open" else "open"
+    if selected.get("state") != expected_state:
+        fail(f"{transition} transition requires state {expected_state}")
+    if transition == "open" and any(selected.get(key) != "none" for key in required - {"chain", "state"}):
+        fail("prepared verification_window entry already contains transition evidence")
+    if transition == "close" and not (intent.parent / "chain.done").is_file():
+        fail("close transition requires chain.done")
+
+    now_result = subprocess.run(["git", "-C", os.fspath(repo), "rev-parse", "HEAD"], text=True, capture_output=True, check=False)
+    now = now_result.stdout.strip()
+    if now_result.returncode != 0 or not re.fullmatch(r"[0-9a-f]{40}", now):
+        fail("current repository commit identity is unavailable")
+    label = "opening" if transition == "open" else "closing"
+    receipt_name = f"{label}-identities-{entry_number}.nul"
+    receipt = intent.parent / receipt_name
+    temporary = intent.with_name(intent.name + ".transition.tmp")
+    receipt_temporary = receipt.with_name(receipt.name + ".transition.tmp")
+    control_paths = [
+        intent.relative_to(repo).as_posix(),
+        temporary.relative_to(repo).as_posix(),
+        receipt.relative_to(repo).as_posix(),
+        receipt_temporary.relative_to(repo).as_posix(),
+    ]
+    if any(surface_matches(path, surface) for path in control_paths for surface in selected["surfaces"]):
+        fail("verification window surfaces intersect transition publication paths")
+    if receipt.exists() or receipt_temporary.exists() or temporary.exists():
+        fail(f"{label} transition publication path is already occupied")
+    environment = os.environ.copy()
+    environment["IMPLEMENTAUDIT_WINDOW_SURFACES_JSON"] = json.dumps(selected["surfaces"], separators=(",", ":"))
+    captured = subprocess.run(
+        [bash_exe, bash_path(repo_state), "window-identities", "--records", "--surfaces-env"],
+        cwd=os.fspath(repo), env=environment, capture_output=True, check=False,
+    )
+    if captured.returncode != 0 or not captured.stdout:
+        detail = captured.stderr.decode(errors="replace").strip()
+        fail(f"{label} identity capture failed: {detail or 'empty capture'}")
+    receipt_digest = hashlib.sha256(captured.stdout).hexdigest()
+    updates = {
+        "state": transition == "open" and "open" or "closed",
+        ("opened_at" if transition == "open" else "closed_at"): now,
+        ("opening_identity_receipt" if transition == "open" else "closing_identity_receipt"): receipt_name,
+        ("opening_identity_sha256" if transition == "open" else "closing_identity_sha256"): receipt_digest,
+    }
+    for key, value in updates.items():
+        ending = "\r\n" if lines[selected["lines"][key]].endswith("\r\n") else "\n"
+        lines[selected["lines"][key]] = f"{selected['indent']}{key}: {value}{ending}"
+    fault = os.environ.get("IMPLEMENTAUDIT_WINDOW_TEST_FAULT", "")
+    if fault not in {"", "receipt-temp-write", "receipt-temp-fsync", "intent-temp-write", "intent-temp-fsync", "after-receipt-publish", "after-intent-replace", "gate-unlock"}:
+        fail("unsupported verification-window test fault")
+    receipt_identity = None
+    receipt_temp_identity = None
+    intent_temp_identity = None
+    published_intent_identity = None
+    try:
+        receipt_fd = os.open(receipt_temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_BINARY", 0), 0o600)
+        receipt_temp_identity = stat_identity(os.fstat(receipt_fd))
+        try:
+            if fault == "receipt-temp-write":
+                raise OSError(errno.EIO, "injected receipt temporary write failure")
+            write_all(receipt_fd, captured.stdout)
+            if fault == "receipt-temp-fsync":
+                raise OSError(errno.EIO, "injected receipt temporary fsync failure")
+            os.fsync(receipt_fd)
+        finally:
+            os.close(receipt_fd)
+        receipt_identity = receipt_temp_identity
+        os.replace(receipt_temporary, receipt)
+        sync_directory(intent.parent)
+        if fault == "after-receipt-publish":
+            raise OSError(errno.EIO, "injected failure after receipt publication")
+
+        intent_bytes = "".join(lines).encode("utf-8")
+        intent_fd = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_BINARY", 0), 0o600)
+        intent_temp_identity = stat_identity(os.fstat(intent_fd))
+        try:
+            if fault == "intent-temp-write":
+                raise OSError(errno.EIO, "injected intent temporary write failure")
+            write_all(intent_fd, intent_bytes)
+            if fault == "intent-temp-fsync":
+                raise OSError(errno.EIO, "injected intent temporary fsync failure")
+            os.fsync(intent_fd)
+        finally:
+            os.close(intent_fd)
+        published_intent_identity = intent_temp_identity
+        os.replace(temporary, intent)
+        if fault == "after-intent-replace":
+            raise OSError(errno.EIO, "injected failure after intent replacement")
+        sync_directory(intent.parent)
+        committed = True
+    except Exception as error:
+        rollback_errors = []
+        if published_intent_identity is not None:
+            try:
+                if file_identity(intent) != published_intent_identity:
+                    raise OSError(errno.EBUSY, "published intent identity changed before rollback")
+                rollback_fd = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_BINARY", 0), 0o600)
+                intent_temp_identity = stat_identity(os.fstat(rollback_fd))
+                try:
+                    write_all(rollback_fd, original_bytes)
+                    os.fsync(rollback_fd)
+                finally:
+                    os.close(rollback_fd)
+                os.replace(temporary, intent)
+                sync_directory(intent.parent)
+            except Exception as rollback_error:
+                rollback_errors.append(f"intent rollback failed: {rollback_error}")
+        for path, owned, name in (
+            (temporary, intent_temp_identity, "intent temporary"),
+            (receipt_temporary, receipt_temp_identity, "receipt temporary"),
+            (receipt, receipt_identity, "identity receipt"),
+        ):
+            if owned is None:
+                continue
+            try:
+                if not remove_owned(path, owned):
+                    rollback_errors.append(f"{name} identity changed before cleanup")
+            except Exception as cleanup_error:
+                rollback_errors.append(f"{name} cleanup failed: {cleanup_error}")
+        try:
+            sync_directory(intent.parent)
+        except Exception as sync_error:
+            rollback_errors.append(f"rollback directory fsync failed: {sync_error}")
+        detail = f"{type(error).__name__}: {error}"
+        if rollback_errors:
+            detail += "; " + "; ".join(rollback_errors)
+        transition_error = detail
+finally:
+    try:
+        os.lseek(fd, 0, os.SEEK_SET)
+        if os.environ.get("IMPLEMENTAUDIT_WINDOW_TEST_FAULT", "") == "gate-unlock":
+            raise OSError(errno.EIO, "injected governed-writer gate unlock failure")
+        if os.name == "nt":
+            msvcrt.locking(fd, msvcrt.LK_UNLCK, 1)
+        else:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+        released = True
+    except Exception as error:
+        release_error = f"{type(error).__name__}: {error}"
+    try:
+        os.close(fd)
+    except Exception as error:
+        close_detail = f"{type(error).__name__}: {error}"
+        release_error = f"{release_error}; {close_detail}" if release_error else close_detail
+if transition_error is not None:
+    suffix = f"; governed-writer gate release failed: {release_error}" if release_error else ""
+    fail(f"verification window transition failed; rollback adjudicated: {transition_error}{suffix}")
+if release_error is not None or not released:
+    state = "committed" if committed else "not committed"
+    fail(f"verification window transition {state} but governed-writer gate release failed: {release_error or 'unknown release failure'}")
+print(f"check-evidence-anchor: verification window {transition} transition committed entry={entry_number} at={now}")
+PY
+    ;;
   --mutation-window)
     landed_path="${2:-}"
     [ "${3:-}" = "--expect" ] \
@@ -260,8 +652,14 @@ PY
     ;;
   --window)
     intent="${2:-}"
-    [ "${3:-}" = "--now" ] || fail "usage: --window <launch-intent-file> --now <sha>"
+    [ "${3:-}" = "--now" ] || fail "usage: --window <launch-intent-file> --now <sha> [--planned-paths-env]"
     now="${4:-}"
+    planned_paths=0
+    if [ "$#" -eq 5 ] && [ "${5:-}" = "--planned-paths-env" ]; then
+      planned_paths=1
+    elif [ "$#" -ne 4 ]; then
+      fail "usage: --window <launch-intent-file> --now <sha> [--planned-paths-env]"
+    fi
     [ -f "$intent" ] || fail "launch intent not found: $intent"
     if command -v python >/dev/null 2>&1; then
       py_cmd=(python)
@@ -273,7 +671,9 @@ PY
       fail "python, python3, or py -3 is required for --window"
     fi
     repo_state="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/repo-state.sh"
-    "${py_cmd[@]}" - "$intent" "$now" "$repo_state" "$BASH" <<'PY'
+    bash_exe="$BASH"
+    if command -v cygpath >/dev/null 2>&1; then bash_exe="$(cygpath -w "$bash_exe")"; fi
+    "${py_cmd[@]}" - "$intent" "$now" "$repo_state" "$bash_exe" "$planned_paths" <<'PY'
 import fnmatch
 import hashlib
 import json
@@ -287,6 +687,7 @@ intent_path = Path(sys.argv[1])
 now = sys.argv[2]
 repo_state = sys.argv[3]
 bash_exe = sys.argv[4]
+planned_paths_enabled = sys.argv[5] == "1"
 sha_re = re.compile(r"^[0-9a-f]{40}$")
 
 
@@ -311,6 +712,25 @@ def normalize_surface(surface):
 
 def surface_matches(path, surface):
     return path.startswith(surface) if surface.endswith("/") else fnmatch.fnmatchcase(path, surface)
+
+
+def planned_path_population():
+    if not planned_paths_enabled:
+        return []
+    raw = os.environ.get("IMPLEMENTAUDIT_WINDOW_PLANNED_PATHS_JSON", "")
+    try:
+        paths = json.loads(raw)
+    except json.JSONDecodeError:
+        fail("planned path population is not valid JSON")
+    if not isinstance(paths, list) or not paths or any(not isinstance(path, str) for path in paths):
+        fail("planned path population must be a nonempty JSON string array")
+    # The repository root itself is a valid planned durability target even
+    # though it is not a valid user-declared surface. It cannot intersect a
+    # narrower repo-relative declaration; descendant paths remain explicit.
+    normalized = ["." if path == "." else normalize_surface(path) for path in paths]
+    if len(set(normalized)) != len(normalized):
+        fail("planned path population contains duplicate paths")
+    return sorted(normalized)
 
 
 def window_changed_paths(opened):
@@ -431,6 +851,8 @@ def identity_delta(before, after):
 if not sha_re.fullmatch(now):
     fail("--now must be a full 40-hex SHA")
 
+planned_paths = planned_path_population()
+
 text = intent_path.read_text(encoding="utf-8")
 windows = []
 current = None
@@ -481,6 +903,14 @@ for index, window in enumerate(windows, 1):
     chain = window.get("chain", "")
     opening_receipt = window.get("opening_identity_receipt", "")
     opening_digest = window.get("opening_identity_sha256", "")
+    if state == "prepared" and planned_paths_enabled:
+        if (not surfaces or not chain or any(window.get(key, "") != "none" for key in (
+                "opened_at", "closed_at", "opening_identity_receipt", "opening_identity_sha256",
+                "closing_identity_receipt", "closing_identity_sha256"))):
+            fail(f"verification_window entry {index} has invalid prepared transition state")
+        if Path(intent_path).parent.name != chain:
+            fail(f"verification_window entry {index} chain does not match its directory: {chain}")
+        continue
     if not surfaces or not chain or state not in {"open", "closed"} or not opening_receipt or not opening_digest:
         fail(f"verification_window entry {index} is incomplete or invalid")
     if not sha_re.fullmatch(opened):
@@ -544,6 +974,13 @@ for index, window in enumerate(windows, 1):
             f"{opened} to {now}; surfaces=[{', '.join(surfaces)}]; "
             f"intersecting=[{', '.join(intersecting)}]"
         )
+    planned_intersections = intersecting_paths(planned_paths, surfaces)
+    if planned_intersections:
+        fail(
+            "AUTH_EXCEEDED: planned mutation intersects open verification window; "
+            f"surfaces=[{', '.join(surfaces)}]; "
+            f"intersecting=[{', '.join(planned_intersections)}]"
+        )
     open_moved.append((opened, surfaces))
 
 if open_moved:
@@ -557,6 +994,6 @@ else:
 PY
     ;;
   *)
-    fail "usage: --row \"<text>\" | --artifact <file> --tree <sha> | --window <launch-intent-file> --now <sha> | --mutation-window <path> --expect <spec> -- <command> [args...]"
+    fail "usage: --row \"<text>\" | --artifact <file> --tree <sha> | --window <launch-intent-file> --now <sha> [--planned-paths-env] | --window-transition <open|close> <launch-intent-file> --entry <n> --repo-root <repo> | --mutation-window <path> --expect <spec> -- <command> [args...]"
     ;;
 esac

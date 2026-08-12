@@ -4,8 +4,8 @@
     "manifest_version": "0.3.3",
     "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/tag/v0.3.3.3",
     "audit_ledger_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/archive/v0.3.3.3-release-report.md",
-    "status": "v0.3.3.3 is the final corrected four-component public identity for runtime 0.3.3. The premature 00591cc4257f1aea1aa9d3d4887ca4069731b074 publication remains superseded historical evidence. The corrected tag resolves to final commit 3b5c300f366bec41fcbfedfceeda5a8b56747c71; release ID 368332810 serves the final package, checksum, and user-facing body, with fresh public download/install readback complete",
-    "checksum_boundary": "the release URL serves the final 227999-byte IMPLEMENTAUDIT.skill with SHA-256 151cb5400d248e3e41a30750ba690d8c46bbe907294ba82a0a5a627536ad563e; the 96-byte CHECKSUMS.txt has SHA-256 f6bb2719c3dd378d226688eaa87d2c989b9ae06fc243f5b57da7826a9f617407 and validates those public bytes. Digests are artifact-integrity evidence, not a signature, attestation, SBOM, or proof of provenance"
+    "status": "v0.3.3.3 remains the four-component public identity for runtime 0.3.3. The 257433-byte final correction candidate is locally qualified; authoritative-main integration, same-identity publication, and fresh public download/install readback remain separate gates. Earlier publication receipts remain historical evidence and do not establish current asset availability",
+    "checksum_boundary": "the exact qualified candidate has SHA-256 3116a2be2992928af8f0ae7ac2f0cb357c1e81990d43469f6f921fe454bdf7bd. The release URL is not treated as serving those bytes until publication and independent readback. Digests are artifact-integrity evidence, not a signature, attestation, SBOM, or proof of provenance"
   },
   "semantic_sources": [
     "README.md",
@@ -90,6 +90,16 @@
         "repo-layout",
         "package-contents",
         "audit-trail"
+      ]
+    },
+    {
+      "group": "Research & Engineering Lineage",
+      "pages": [
+        "research-lineage-overview",
+        "research-lineage-lean",
+        "research-lineage-agile",
+        "research-lineage-waterfall",
+        "research-lineage-evolved-law"
       ]
     },
     {
@@ -421,6 +431,9 @@
       "sources": [
         "README.md",
         "AGENTS.md",
+        "docs/diagrams/tooling-architecture.mmd",
+        "skills/implementaudit/references/sidecars.md",
+        "skills/implementaudit/templates/PROTOCOL.md",
         "skills/implementaudit/references/lean-operating-discipline.md",
         "skills/implementaudit/templates/sidecars.md",
         "skills/implementaudit/scripts/custody-append.sh"
@@ -457,6 +470,63 @@
         ".github/workflows/pages.yml",
         ".github/workflows/validate.yml",
         "docs/audits/INDEX.md"
+      ]
+    },
+    "research-lineage-overview": {
+      "title": "Overview",
+      "path": "research-engineering-lineage/",
+      "source": "research-lineage-overview.html",
+      "sources": [
+        "README.md",
+        "CHANGELOG.md",
+        "docs/audits/archive/v0.3.3.3-release-report.md",
+        "fixtures/public-projection/lineage-reader-questions.json",
+        "skills/implementaudit/references/terminology-integration.md"
+      ]
+    },
+    "research-lineage-lean": {
+      "title": "Lean",
+      "path": "research-engineering-lineage/lean/",
+      "source": "research-lineage-lean.html",
+      "sources": [
+        "fixtures/public-projection/lineage-reader-questions.json",
+        "skills/implementaudit/references/lean-operating-discipline.md",
+        "skills/implementaudit/references/planning-depth.md"
+      ]
+    },
+    "research-lineage-agile": {
+      "title": "Agile",
+      "path": "research-engineering-lineage/agile/",
+      "source": "research-lineage-agile.html",
+      "sources": [
+        "fixtures/public-projection/lineage-reader-questions.json",
+        "skills/implementaudit/references/planning-depth.md",
+        "skills/implementaudit/references/phase-design.md"
+      ]
+    },
+    "research-lineage-waterfall": {
+      "title": "Waterfall",
+      "path": "research-engineering-lineage/waterfall/",
+      "source": "research-lineage-waterfall.html",
+      "sources": [
+        "fixtures/public-projection/lineage-reader-questions.json",
+        "skills/implementaudit/references/repo-state-comparison.md",
+        "skills/implementaudit/references/phase-design.md"
+      ]
+    },
+    "research-lineage-evolved-law": {
+      "title": "Evolved-LAW",
+      "path": "research-engineering-lineage/evolved-law/",
+      "source": "research-lineage-evolved-law.html",
+      "sources": [
+        "README.md",
+        "CHANGELOG.md",
+        "docs/audits/archive/v0.3.3.3-release-report.md",
+        "fixtures/public-projection/lineage-reader-questions.json",
+        "skills/implementaudit/references/planning-depth.md",
+        "skills/implementaudit/references/issue-ready-work-orders.md",
+        "skills/implementaudit/references/convergence-mode.md",
+        "skills/implementaudit/references/repo-state-comparison.md"
       ]
     },
     "reference-index": {

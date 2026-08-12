@@ -108,15 +108,18 @@ New records use one external-state vocabulary. Legacy rows that do not opt in
 to these prefixes remain valid; `external-mutation: true` explicitly opts a
 row into the same mutation validation.
 
-A verified `api`, `user-visible`, or `publication` claim declares
-`external-kind: observation|mutation`. A mutation claim also names exactly one
-`external-mutation-record: <id>` in the same record. The mutation record is the
-machine carrier. Adjacent Python, Bash, or PowerShell code is illustrative and
-cannot supply an omitted record field or zero exit.
+A verified external claim declares `external-kind: observation|mutation`. A
+mutation names one `external-mutation-record` and one
+`external-authorization-grant`; illustrative code cannot replace either row.
 
 ```text
 external-mutation-record: <id> | runner: python|bash|powershell | target-kind: issue|pr|milestone|label|release|release-asset | target-id: <token> | mutation-command: <target-bound mutating command> | mutation-exit: 0 | mutation-evidence: <id> | readback-command: <distinct target-bound read-only command> | readback-exit: 0 | readback-file: <bare-relative-basename.json> | readback-sha256: <64-lowercase-hex> | readback-field: <top-level-field> | expected-value: <scalar> | observed-value: <same-scalar> | readback-evidence: <different-id>
+external-authorization-grant: <id> | record-file: <bare-relative-authorization-record> | record-sha256: <64-lowercase-hex>
 ```
+
+The contained hash-bound grant uses the durable intake format, uniquely binds
+`target_kind,target_id`, and authorizes the structurally parsed mutation action.
+Comment or flag text is not an effective target.
 
 The mutator's output is not read-back evidence. Resolve the JSON basename
 inside the record file's canonical directory, reject separators, traversal,
@@ -247,12 +250,27 @@ Graphify modes: `bash <skill-dir>/scripts/validate-run-root.sh --graph-freshness
 
 When the native audit object opens a scarce-resource phase, `validate-phase.sh` consumes its receipt, launch, stub, hash, environment-key names, and terminal then invokes `check-authorization-binding.sh --phase <phase> --rehearsal <receipt> --launch <launch>`. The wrapper crosses a checker-owned mediator to the bounded producer; its zero exit precedes checker terminal publication. A failed rehearsal blocks launch; repair/re-run stays manual.
 
+Before publishing a governed verification window, invoke
+`check-evidence-anchor.sh --window-transition <transition> <launch-intent> --entry <n> --repo-root <repo>`.
+Its governed-window-publication boundary serialises the prepared/open/closed
+identity transition with R36 mutation; it does not claim exclusion against a
+non-cooperating same-principal writer.
+
+A validated destructive mutation is required to run through
+`apply-observed-mutation.sh --repo-root <r> --run-root <rr> --phase <n> --step <n> <evidence>`.
+This destructive-mutation route binds a validated phase step, complete planned
+effects, the governed-writer window/lock boundary, transactional evidence and
+truthful terminal status; direct filesystem replacement is not an equivalent
+consumer route.
+
 helper-mode: validate-run-root.sh|--graph-freshness|<graph.json> <repo-root>|stale
 helper-mode: validate-run-root.sh|--graph-scope|<catalog> <repo> <path> [path...]|smallest
 helper-mode: validate-run-root.sh|--graph-parent|<catalog> <repo> <scope> <reason>|fallback
 helper-mode: check-authorization-binding.sh|--phase --rehearsal --launch|<phase> <receipt> <launch>|failed-rehearsal-blocks-launch|scripts/validate-phase.sh
+helper-mode: check-evidence-anchor.sh|--window-transition|<transition> <launch-intent> --entry <n> --repo-root <repo>|governed-window-publication|-
 
 helper-route: check-authorization-binding.sh|R|auth|P|-|--auth <a> --invocation <i> --state <s>|no-param
+helper-route: apply-observed-mutation.sh|R|destructive-mutation|R|-|--repo-root <r> --run-root <rr> --phase <n> --step <n> <evidence>|governed-writer
 helper-route: check-closure-surface.sh|R|final|P|-|<closure-record> --superseded-plan <each-replaced-plan> --steer-dir <run-root> --plan-cycle-record <each-cycle-accounted-plan>|inputs
 helper-route: check-duplication-parity.sh|R|duplication-set|R|-|<manifest>|no-set
 helper-route: check-evidence-anchor.sh|R|scope|P|-|--artifact ... --tree ...|disjoint
@@ -333,8 +351,8 @@ or prospective release and `retroactive` is not a release-identity mode.
 rebuilt. Source-only runs retain the #76 negative-control boundary and do not
 gain this package/release obligation.
 
-A publication closure claim carries both its evidence digest and a contained,
-hash-bound current-digest receipt:
+The local cheap path retains its contained current-digest receipt;
+`publication-kind: local-digest` is optional:
 
 ```text
 claim: <id> | surface: publication | status: verified|unverified | evidence-surface: publication | evidence-digest: <sha256>
@@ -344,6 +362,29 @@ publication-identity: <id> | live-digest-file: <bare-file.sha256> | live-file-sh
 Equal evidence/current digests use `verified`. Drift cannot remain verified;
 retain it as `status: unverified` with disposition `SUPERSEDED`, reusing #87's
 vocabulary rather than inventing another terminal state.
+
+A hosted release-asset claim is a different evidence surface. It declares
+`publication-kind: hosted-release-asset` and cannot reuse the local digest-file
+row:
+
+```text
+claim: <id> | surface: publication | publication-kind: hosted-release-asset | status: verified|unverified | evidence-surface: publication | evidence-digest: <sha256>
+publication-identity: <id> | publication-kind: hosted-release-asset | release-id: <id> | tag: <tag> | asset-id: <id> | asset-name: <bare-name> | asset-size: <bytes> | asset-digest: <sha256> | candidate-root: <absolute-directory> | qualified-repository: <bare-directory> | qualified-commit: <git-object> | qualified-tree: <git-object> | qualified-package-file: <bare-file> | qualification-record-sha256: <sha256> | release-url: <public-api-url> | asset-url: <public-api-url> | download-url: <public-download-url> | public-readback-sha256: <sha256> | disposition: verified|SUPERSEDED
+```
+
+Operator authority supplies the absolute qualification-record path outside
+both the declared candidate root and evaluated record tree. Its bound SHA-256
+ties the resolved commit and exact tree to the qualified package name, measured
+size, and digest. Operator authority likewise supplies an absolute read-only
+capture executable outside the candidate root (otherwise the checker uses only
+a fixed OS curl location, derived from `SystemRoot` on Windows). Fixed
+HTTPS-only arguments use no stdin, a bounded timeout, and a temporary output
+file. Each capture owns its full process tree: a kill-on-close Job Object on
+Windows or a new process group on POSIX is terminated and waited on after
+completion or timeout. The checker rejects captured stdout over 1 MiB before
+reading it. Captured JSON is strict unique-key UTF-8 and equals the row;
+captured asset bytes equal the qualified package. Pre-authored JSON, copied
+local bytes, or a local digest alone cannot establish hosted state.
 
 ## Proving a file is dead
 

@@ -155,6 +155,16 @@ privacy, spend, and coordination cost; activation and non-trigger path; exit;
 and disposition. The record supports a decision. It does not prove that the
 control protects its claimed property.
 
+Protective slack, sustainable capacity, feedback cadence, temporary options,
+and control depth are governed by the same native decision. Distinguish a
+bounded buffer that protects a named consequence from waste that has no live
+consumer. Prefer actionable information over shorter feedback for its own
+sake, and preserve recovery capacity rather than maximising utilisation.
+Retain an option only while its expected information value exceeds its bounded
+carrying cost and its exit condition remains current. Increase control depth
+for material consequence or hard-to-reverse action, not to imitate a named
+methodology. No trigger means no new record, ceremony, or runtime mode.
+
 Use these lifecycle dispositions:
 
 - **Retain** while the consumer and consequence remain live and no cheaper
@@ -188,6 +198,15 @@ Parallelism follows write and acceptance cells: one shared owner does not serial
 Serialise only the conflicting cell, keep closed write boundaries, and name the
 reconciliation point. Throughput never permits concurrent mutation of the same
 owner or an unqualified shared acceptance surface.
+
+Known independence is not activation. When useful ready work exists, dispatch
+it only with closed write, acceptance, resource, authority, and reconciliation
+boundaries; unknown independence, irreversible external effect, or an actual
+conflict serialises the affected cell. Reconsider the ready frontier after a
+material scheduling-state change rather than retaining an issue-level wait.
+This is work-conserving where the expected decision or information value
+exceeds dispatch and reconciliation cost, not a concurrency or utilisation
+target.
 
 Process volume is not value evidence. Commit, file, line, command, reviewer,
 artefact, report, token, and elapsed-time counts establish neither engineering

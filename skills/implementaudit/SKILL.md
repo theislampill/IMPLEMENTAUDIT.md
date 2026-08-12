@@ -176,8 +176,8 @@ Load references only when the current gate needs them:
   DMADV, governed casual-build intake, and repo content as data.
 - `references/planning-depth.md`: when to synthesize a goal vs govern an
   existing one, and the action-selection contract for warranted depth.
-- `references/phase-design.md`: phase slicing, polish/harden pressure,
-  Stage 6 self-critique, and phase quality.
+- `references/phase-design.md`: phase slicing, Stage 6 self-critique, and phase
+  quality.
 - `references/goal-format.md`: one ready-to-paste `/goal`, final
   response shape, and marker usage.
 - `references/transcript-contract.md`: marker ordering, `AUDIT_COMPLETE`
@@ -288,9 +288,9 @@ and do not claim full root-cause resolution.
 
 ### Stage 6 - Plan review and self-critique
 
-Review assumptions, phase atomicity, weakest dependency, and falsifiability.
-Print `Self-critique:` with clean or 1-3 findings after fixing phase specs.
-Record Stage 6 assumptions.
+Review assumptions, atomicity, falsifiability, and readiness against
+live source and exact mutation scope. Without exact evidence, HOLD, not READY.
+Print `Self-critique:` (1-3) and record Stage 6 assumptions.
 
 ### Stage 6.i - Independent cold review
 
@@ -343,8 +343,8 @@ second `/goal` inside an existing `/goal` run.
 3. Plan: map each finding to owner/source, priority, risk, smallest safe
    change, evidence command, rollback, and terminal status.
 4. Smoke A: run and record baseline checks before mutation.
-5. Do: patch only owner/source, preserve exact domain notation/API/schema/paths,
-   and avoid broad rewrites.
+5. Do: patch owner/source only; preserve notation/schema/paths.
+   On transitions, reacquire a closed DONE/ACTIVE/READY/BLOCKED census; dispatch min(READY,capacity-ACTIVE) or serialise (`references/child-agents.md`).
 6. Check: run Smoke B, compare to Smoke A, classify regressions, and rerun only
    meaningful checks.
 7. Act: update audit ledger, handoff/docs, AGENTS_UPDATE_DECISION, continuity

@@ -784,6 +784,28 @@ if [ "${1:-}" = "--identity-only" ]; then
   exit 0
 fi
 
+# Hosted validation must exercise the candidate diff and must delegate the
+# registered validation population to the canonical verifier exactly once.
+workflow=.github/workflows/validate.yml
+if ! grep -Fq 'run: git diff --check HEAD^ HEAD' "$workflow"; then
+  printf 'release-asset.test: hosted whitespace check does not inspect the candidate diff\n' >&2
+  exit 1
+fi
+if ! grep -Fq 'run: bash scripts/verify-package.sh' "$workflow"; then
+  printf 'release-asset.test: hosted workflow does not invoke the canonical verifier\n' >&2
+  exit 1
+fi
+direct_registered_tests="$(grep -Ec '^[[:space:]]+bash tests/.*\.sh' "$workflow" || :)"
+if [ "$direct_registered_tests" -ne 0 ]; then
+  printf 'release-asset.test: hosted workflow duplicates %s registered test invocation(s)\n' "$direct_registered_tests" >&2
+  exit 1
+fi
+direct_verifier_scripts="$(grep -Ec '^[[:space:]]+(run:[[:space:]]+)?bash scripts/.*\.sh' "$workflow" || :)"
+if [ "$direct_verifier_scripts" -ne 1 ]; then
+  printf 'release-asset.test: hosted workflow has %s verifier script invocation(s), expected one canonical entrypoint\n' "$direct_verifier_scripts" >&2
+  exit 1
+fi
+
 # Package parity: a stray file under skills/implementaudit/ must fail the build, because it
 # would otherwise ship without a deliberate manifest update.
 printf 'stray payload parity probe\n' > "$stray_file"
@@ -983,30 +1005,30 @@ with zipfile.ZipFile(asset) as zf:
     # references/continuity.md plus PROTOCOL/STATE contract text grew the
     # deflated asset to ~131 KB — growth verified intentional and deflated.
     asset_bytes = asset.stat().st_size
-    # Owner policy authority: issue #136 plus the attached N06 packet
-    # (2026-08-07) bind the 230,000-byte outer bound. Calibrations at or below
+    # Owner policy authority: the v0.3.3.3 composed-candidate disposition
+    # (2026-08-12) binds a 260,000-byte outer guard. Calibrations at or below
     # that bound require either the owner or a dedicated calibration lane;
     # implementation lanes may not self-raise the hard ceiling.
-    OWNER_OUTER_BOUND_BYTES = 230_000
+    OWNER_OUTER_BOUND_BYTES = 260_000
     MIN_HEADROOM_BYTES = 2_000
     CALIBRATION_QUANTUM_BYTES = 1_000
-    CURRENT_CALIBRATION_AUTHORITY = "dedicated-calibration-lane"
+    CURRENT_CALIBRATION_AUTHORITY = "owner"
     ALLOWED_CALIBRATION_AUTHORITIES = {
         "owner", "dedicated-calibration-lane",
     }
-    if CURRENT_CALIBRATION_AUTHORITY != "dedicated-calibration-lane":
+    if CURRENT_CALIBRATION_AUTHORITY != "owner":
         raise SystemExit(
-            "current calibration authority must name the dedicated R33 lane"
+            "current calibration authority must name the owner-authorised fold-in"
         )
 
-    # The composed R11/R30 rehearsal repair first measured 225,318 bytes.
-    # Its accepted packaged timeout/process-custody semantics then measure
-    # 225,945 bytes. This dedicated R33 calibration keeps the smallest
-    # whole-1,000-byte ceiling preserving at least 2,000 bytes of measured
-    # headroom. The 230,000-byte outer bound remains unchanged, and capacity
-    # is not a target.
-    MAX_ASSET_BYTES = 228_000
-    CURRENT_CALIBRATION_ASSET_BYTES = 225_945
+    # The composed /improve dominance fold-in plus the R31 receiver-completeness
+    # countermeasure, closed frontier census, and grounded plan boundary measure
+    # 257,433 bytes. This
+    # owner-authorised R33 calibration keeps the smallest whole-1,000-byte
+    # ceiling preserving at least 2,000 bytes of measured headroom: 260,000
+    # leaves 2,567 bytes. The 260,000-byte outer bound is a guard, not a target.
+    MAX_ASSET_BYTES = 260_000
+    CURRENT_CALIBRATION_ASSET_BYTES = 257_433
     N06_BASELINE_ASSET_BYTES = 206_584
     N06_FINAL_P7_ASSET_BYTES = 215_126
     FULL_W1_FORECAST_BYTES = 144_730
@@ -1069,7 +1091,7 @@ with zipfile.ZipFile(asset) as zf:
             raise SystemExit(f"budget policy accepted {fragment}")
 
     for fragment, values in (
-        ("outer bound", (231_000, N06_BASELINE_ASSET_BYTES, "owner")),
+        ("outer bound", (261_000, N06_BASELINE_ASSET_BYTES, "owner")),
         ("minimum headroom", (208_000, N06_BASELINE_ASSET_BYTES, "owner")),
         ("calibration authority", (
             MAX_ASSET_BYTES, N06_BASELINE_ASSET_BYTES, "implementation-lane")),

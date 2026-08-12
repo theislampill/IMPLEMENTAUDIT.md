@@ -9,6 +9,15 @@ or hands off an implementation plan. The plan is part of the
 Every generated or accepted handoff plan must be executable from disk by a fresh
 agent that has not read the chat transcript. Include:
 
+Before emitting it as executor-ready, inspect the live repository sources that
+establish its exact current state, file scope, edits, and verification route.
+A schema-valid plan cannot claim READY when source inspection was skipped or
+those facts remain placeholders: retain a truthful nonterminal HOLD/STOP,
+reacquire the missing evidence, and only then emit the grounded artifact.
+Close mutation scope before READY. Optional ancillary files remain out of scope
+unless live evidence makes them necessary and the receiver is authorised to
+change them; do not turn a possible tidy-up into executor authority.
+
 - planned-at baseline ref and working-tree state;
 - objective, non-scope, owner/source, and route;
 - terminology integration attachment when used: native parent, phase, route or
@@ -197,6 +206,11 @@ Execution semantics are audit-governed:
 - use an isolated worktree when available or when concurrent writes would
   collide; otherwise record fallback risk before main-worktree execution and
   keep changes narrow and visible;
+- when material self-confirmation risk, contested interpretation, or
+  high-consequence work warrants epistemic separation, keep the planning and
+  adjudication role non-mutating, dispatch a separately bounded executor, and
+  preserve a distinct post-execution reviewer; ordinary narrow reversible work
+  may keep the same-root route;
 - inline enough plan context in subagent prompts for disjoint read-only review
   or disjoint write scopes;
 - subagents are review evidence or bounded workers, never authorization
@@ -225,11 +239,35 @@ plan index or run-root state, then run the drift check before dispatch. If a
 dependency is not DONE, or live files changed since the plan baseline, stop and
 reconcile before execution.
 
+Select among valid executor routes by sufficient capability first, then by
+cost. A lower-cost route is eligible only when its available context, tools,
+privacy boundary, authority, and required acceptance are adequate. Never create
+a permanent model hierarchy: when only one route is valid, retain it; when the
+delegate discovers missing context or insufficient capability, it must STOP and
+escalate rather than improvise.
+
 The executor prompt must include the full plan text, inlined, plus the current
 audit-object route, owner/source, in-scope and out-of-scope files, acceptance
 criteria, STOP conditions, verification commands with expected results,
 rollback, and authorization boundaries. Inlining prevents uncommitted plan files
 or run-root artifacts from becoming invisible in isolated worktrees.
+
+This prompt is an explicit context capsule across agent and worktree
+boundaries. It must be sufficient for a cold executor to reconstruct the
+authorised work without ambient chat, while keeping unknowns and unavailable
+authority visible. The executor report remains candidate evidence: the
+reviewer rereads fresh live source, the full diff, and the verification results
+before issuing any disposition.
+
+Handoff completeness is determined by the receiving continuation, not only by
+what the sender produced. When a receiver must independently reproduce or
+re-adjudicate an acceptance claim, a terminal `READY` fold-in carries the
+implementation identity plus the immutable denominator, acceptance oracle,
+exact reproduction inputs, evaluator/schema semantics, prior evidence,
+rejected non-evidence, authority and STOP boundaries, and exact handoff receipt.
+Implementation identity or a success-shaped result alone is receiver-incomplete.
+When no independent reproduction is required, retain the ordinary
+implementation-only handoff path without manufacturing an acceptance bundle.
 
 Required executor report format:
 

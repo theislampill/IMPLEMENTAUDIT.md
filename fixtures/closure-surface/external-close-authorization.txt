@@ -1,0 +1,9 @@
+source: owner-message:test-close-207
+issued_at: 2026-08-11
+grant_quote: Close issue 207 and read it back independently.
+scope: issue-207
+lifecycle: standing-authorization
+action: close
+binds: target_kind,target_id
+target_kind: issue
+target_id: 207
