@@ -143,6 +143,19 @@ def file_identity(path):
     return (st.st_dev, st.st_ino, st.st_mode, st.st_nlink)
 
 
+def stat_identity(st):
+    return (st.st_dev, st.st_ino, st.st_mode, st.st_nlink)
+
+
+def write_all(fd, data):
+    view = memoryview(data)
+    while view:
+        written = os.write(fd, view)
+        if written <= 0:
+            raise OSError(errno.EIO, "short transition write")
+        view = view[written:]
+
+
 def remove_owned(path, owned_identity):
     try:
         if file_identity(path) != owned_identity:
@@ -305,27 +318,44 @@ try:
         ending = "\r\n" if lines[selected["lines"][key]].endswith("\r\n") else "\n"
         lines[selected["lines"][key]] = f"{selected['indent']}{key}: {value}{ending}"
     fault = os.environ.get("IMPLEMENTAUDIT_WINDOW_TEST_FAULT", "")
-    if fault not in {"", "after-receipt-publish", "after-intent-replace", "gate-unlock"}:
+    if fault not in {"", "receipt-temp-write", "receipt-temp-fsync", "intent-temp-write", "intent-temp-fsync", "after-receipt-publish", "after-intent-replace", "gate-unlock"}:
         fail("unsupported verification-window test fault")
     receipt_identity = None
     receipt_temp_identity = None
     intent_temp_identity = None
     published_intent_identity = None
     try:
-        with receipt_temporary.open("xb") as handle:
-            handle.write(captured.stdout); handle.flush(); os.fsync(handle.fileno())
-        receipt_temp_identity = file_identity(receipt_temporary)
+        receipt_fd = os.open(receipt_temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_BINARY", 0), 0o600)
+        receipt_temp_identity = stat_identity(os.fstat(receipt_fd))
+        try:
+            if fault == "receipt-temp-write":
+                raise OSError(errno.EIO, "injected receipt temporary write failure")
+            write_all(receipt_fd, captured.stdout)
+            if fault == "receipt-temp-fsync":
+                raise OSError(errno.EIO, "injected receipt temporary fsync failure")
+            os.fsync(receipt_fd)
+        finally:
+            os.close(receipt_fd)
+        receipt_identity = receipt_temp_identity
         os.replace(receipt_temporary, receipt)
-        receipt_identity = file_identity(receipt)
         sync_directory(intent.parent)
         if fault == "after-receipt-publish":
             raise OSError(errno.EIO, "injected failure after receipt publication")
 
-        with temporary.open("x", encoding="utf-8", newline="") as handle:
-            handle.writelines(lines); handle.flush(); os.fsync(handle.fileno())
-        intent_temp_identity = file_identity(temporary)
+        intent_bytes = "".join(lines).encode("utf-8")
+        intent_fd = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_BINARY", 0), 0o600)
+        intent_temp_identity = stat_identity(os.fstat(intent_fd))
+        try:
+            if fault == "intent-temp-write":
+                raise OSError(errno.EIO, "injected intent temporary write failure")
+            write_all(intent_fd, intent_bytes)
+            if fault == "intent-temp-fsync":
+                raise OSError(errno.EIO, "injected intent temporary fsync failure")
+            os.fsync(intent_fd)
+        finally:
+            os.close(intent_fd)
+        published_intent_identity = intent_temp_identity
         os.replace(temporary, intent)
-        published_intent_identity = file_identity(intent)
         if fault == "after-intent-replace":
             raise OSError(errno.EIO, "injected failure after intent replacement")
         sync_directory(intent.parent)
@@ -336,12 +366,15 @@ try:
             try:
                 if file_identity(intent) != published_intent_identity:
                     raise OSError(errno.EBUSY, "published intent identity changed before rollback")
-                with temporary.open("xb") as handle:
-                    handle.write(original_bytes); handle.flush(); os.fsync(handle.fileno())
-                rollback_identity = file_identity(temporary)
+                rollback_fd = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_BINARY", 0), 0o600)
+                intent_temp_identity = stat_identity(os.fstat(rollback_fd))
+                try:
+                    write_all(rollback_fd, original_bytes)
+                    os.fsync(rollback_fd)
+                finally:
+                    os.close(rollback_fd)
                 os.replace(temporary, intent)
                 sync_directory(intent.parent)
-                intent_temp_identity = rollback_identity
             except Exception as rollback_error:
                 rollback_errors.append(f"intent rollback failed: {rollback_error}")
         for path, owned, name in (

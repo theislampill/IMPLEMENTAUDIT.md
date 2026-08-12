@@ -30,7 +30,7 @@ fail() { printf 'verification-window-contract.test: %s\n' "$*" >&2; exit 1; }
 import json, sys
 rows = json.load(open(sys.argv[1], encoding="utf-8"))
 ids = [row.get("id") for row in rows]
-expected = [f"R2-F{i}" for i in range(1, 52)]
+expected = [f"R2-F{i}" for i in range(1, 56)]
 if ids != expected:
     raise SystemExit(f"verification-window cases must be exactly {expected}, got {ids}")
 PY
@@ -895,6 +895,25 @@ case_now="$(git -C "$case_repo" rev-parse HEAD)"
   || fail 'R2-F51 committed transition receipt is not current'
 ok
 
+# R2-F52--F55: ownership begins at successful creation, before any write or
+# fsync. Each fault must remove only its owned temp/receipt paths and retry.
+for transition_fault in receipt-temp-write receipt-temp-fsync intent-temp-write intent-temp-fsync; do
+  new_repo "f-${transition_fault}"
+  transition_run_rel="$(cd "$case_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" window 2>/dev/null)"
+  write_prepared_intent "$case_repo" "$case_repo/$transition_run_rel"
+  if (cd "$case_repo" && IMPLEMENTAUDIT_WINDOW_TEST_FAULT="$transition_fault" \
+      bash "$checker" --window-transition open "$case_intent" --entry 1 --repo-root "$case_repo") >"$tmp/${transition_fault}.out" 2>&1; then
+    fail "R2 ${transition_fault} injected failure returned success"
+  fi
+  grep -Fq 'state: prepared' "$case_intent" || fail "R2 ${transition_fault} altered prepared intent"
+  [ ! -e "$(dirname "$case_intent")/opening-identities-1.nul" ] || fail "R2 ${transition_fault} left identity receipt"
+  [ ! -e "$(dirname "$case_intent")/opening-identities-1.nul.transition.tmp" ] || fail "R2 ${transition_fault} left receipt temporary"
+  [ ! -e "$case_intent.transition.tmp" ] || fail "R2 ${transition_fault} left intent temporary"
+  (cd "$case_repo" && bash "$checker" --window-transition open "$case_intent" --entry 1 --repo-root "$case_repo") >/dev/null \
+    || fail "R2 ${transition_fault} clean retry failed"
+  ok
+done
+
 # Legacy anchor modes remain compatible.
 bash "$checker" --row 'legacy evidence without an anchor' >/dev/null
 artifact="$tmp/artifact.md"
@@ -928,4 +947,4 @@ grep -Fq 'verification is reading the same tree' "$phase_design" || fail 'phase-
 grep -Fq 'post-state was compared' "$lean" || fail 'Lean post-state evidence boundary missing'
 ok; ok; ok; ok; ok
 
-printf 'verification-window-contract.test: ok (%d/63)\n' "$count"
+printf 'verification-window-contract.test: ok (%d/67)\n' "$count"

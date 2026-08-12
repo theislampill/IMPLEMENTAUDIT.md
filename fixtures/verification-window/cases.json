@@ -49,5 +49,9 @@
   {"id":"R2-F48","window":"prepared","surface":".IMPLEMENTAUDIT/runs/**","change":"transition control-plane self-intersection","expected":"FAIL_SELF_INTERSECTION"},
   {"id":"R2-F49","window":"prepared","surface":"curriculum/**","change":"failure after receipt publication","expected":"FAIL_ATOMIC_CLEAN_RETRY"},
   {"id":"R2-F50","window":"prepared","surface":"curriculum/**","change":"failure after intent replacement","expected":"FAIL_ATOMIC_ROLLBACK_RETRY"},
-  {"id":"R2-F51","window":"prepared","surface":"curriculum/**","change":"gate release failure after commit","expected":"FAIL_COMMITTED_RELEASE_ADJUDICATED"}
+  {"id":"R2-F51","window":"prepared","surface":"curriculum/**","change":"gate release failure after commit","expected":"FAIL_COMMITTED_RELEASE_ADJUDICATED"},
+  {"id":"R2-F52","window":"prepared","surface":"curriculum/**","change":"receipt temporary write failure","expected":"FAIL_ATOMIC_CLEAN_RETRY"},
+  {"id":"R2-F53","window":"prepared","surface":"curriculum/**","change":"receipt temporary fsync failure","expected":"FAIL_ATOMIC_CLEAN_RETRY"},
+  {"id":"R2-F54","window":"prepared","surface":"curriculum/**","change":"intent temporary write failure","expected":"FAIL_ATOMIC_CLEAN_RETRY"},
+  {"id":"R2-F55","window":"prepared","surface":"curriculum/**","change":"intent temporary fsync failure","expected":"FAIL_ATOMIC_CLEAN_RETRY"}
 ]
