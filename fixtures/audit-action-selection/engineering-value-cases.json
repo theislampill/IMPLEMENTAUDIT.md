@@ -426,6 +426,144 @@
       "kind": "topology",
       "observations": {"shared_owner": false, "shared_cell": false, "disjoint_cells": 3, "closed_write_boundaries": true, "reconciliation_point": false, "parallel_shared_cell": false},
       "expected": "SERIALISE_SHARED"
+    },
+    {
+      "id": "R34-C72-ready-frontier-activates",
+      "kind": "scheduling",
+      "observations": {"event": "initial", "work_units": 4, "host_capacity": 3, "operator_ceiling": -1, "active_cells": 0, "ready_cells": 2, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": true},
+      "expected": "ACTIVATE_READY_CELLS"
+    },
+    {
+      "id": "R34-C73-completion-recomputes-frontier",
+      "kind": "scheduling",
+      "observations": {"event": "cell_complete", "work_units": 4, "host_capacity": 2, "operator_ceiling": -1, "active_cells": 1, "ready_cells": 1, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": true},
+      "expected": "RECOMPUTE_AND_ACTIVATE"
+    },
+    {
+      "id": "R34-C74-block-recomputes-frontier",
+      "kind": "scheduling",
+      "observations": {"event": "cell_blocked", "work_units": 4, "host_capacity": 2, "operator_ceiling": -1, "active_cells": 1, "ready_cells": 1, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": true},
+      "expected": "RECOMPUTE_AND_ACTIVATE"
+    },
+    {
+      "id": "R34-C75-resource-conflict-serialises",
+      "kind": "scheduling",
+      "observations": {"event": "initial", "work_units": 4, "host_capacity": 2, "operator_ceiling": -1, "active_cells": 0, "ready_cells": 2, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": false, "irreversible_external": false, "authorization_current": true},
+      "expected": "SERIALISE_CONFLICT"
+    },
+    {
+      "id": "R34-C76-unknown-independence-defers",
+      "kind": "scheduling",
+      "observations": {"event": "initial", "work_units": 4, "host_capacity": 2, "operator_ceiling": -1, "active_cells": 0, "ready_cells": 2, "parallelism_allowed": true, "cell_independence_known": false, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": true},
+      "expected": "DEFER_INDEPENDENCE_UNKNOWN"
+    },
+    {
+      "id": "R34-C77-trivial-serial-cheap-path",
+      "kind": "scheduling",
+      "observations": {"event": "initial", "work_units": 2, "host_capacity": 3, "operator_ceiling": -1, "active_cells": 0, "ready_cells": 2, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": true},
+      "expected": "SERIAL_CHEAP_PATH"
+    },
+    {
+      "id": "R34-C78-operator-ceiling-bounds-frontier",
+      "kind": "scheduling",
+      "observations": {"event": "initial", "work_units": 6, "host_capacity": 4, "operator_ceiling": 2, "active_cells": 1, "ready_cells": 4, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": true},
+      "expected": "ACTIVATE_BOUNDED"
+    },
+    {
+      "id": "R34-C79-no-ceiling-uses-safe-capacity",
+      "kind": "scheduling",
+      "observations": {"event": "initial", "work_units": 6, "host_capacity": 4, "operator_ceiling": -1, "active_cells": 1, "ready_cells": 3, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": true},
+      "expected": "ACTIVATE_READY_CELLS"
+    },
+    {
+      "id": "R34-C80-zero-ceiling-serial-cheap-path",
+      "kind": "scheduling",
+      "observations": {"event": "initial", "work_units": 4, "host_capacity": 3, "operator_ceiling": 0, "active_cells": 0, "ready_cells": 2, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": true},
+      "expected": "SERIAL_CHEAP_PATH"
+    },
+    {
+      "id": "R34-C81-reminder-does-not-redispatch",
+      "kind": "scheduling",
+      "observations": {"event": "unchanged_reminder", "work_units": 4, "host_capacity": 2, "operator_ceiling": -1, "active_cells": 1, "ready_cells": 1, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": true},
+      "expected": "NO_REDISPATCH"
+    },
+    {
+      "id": "R34-C82-authorization-change-reconciles",
+      "kind": "scheduling",
+      "observations": {"event": "authorization_change", "work_units": 4, "host_capacity": 2, "operator_ceiling": -1, "active_cells": 1, "ready_cells": 1, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": false},
+      "expected": "RECONCILE_FRONTIER"
+    },
+    {
+      "id": "R34-C83-full-capacity-still-recomputes",
+      "kind": "scheduling",
+      "observations": {"event": "cell_complete", "work_units": 5, "host_capacity": 2, "operator_ceiling": -1, "active_cells": 2, "ready_cells": 1, "parallelism_allowed": true, "cell_independence_known": true, "closed_write_boundaries": true, "closed_acceptance_boundaries": true, "closed_resource_boundaries": true, "irreversible_external": false, "authorization_current": true},
+      "expected": "RECOMPUTE_FRONTIER"
+    },
+    {
+      "id": "R34-C84-triggered-planner-executor-separation",
+      "kind": "delegation",
+      "observations": {"ordinary_direct": false, "material_judgement": true, "self_confirmation_risk": true, "contested_interpretation": false, "high_consequence": false, "independent_executor_available": true, "independent_reviewer_available": true, "context_complete": true, "multiple_valid_executors": true, "lower_cost_executor_sufficient": true, "privacy_allows_lower_cost": true, "delegated_capability_insufficient": false},
+      "expected": "SEPARATE_EXECUTOR"
+    },
+    {
+      "id": "R34-C85-ordinary-same-root-cheap-path",
+      "kind": "delegation",
+      "observations": {"ordinary_direct": true, "material_judgement": false, "self_confirmation_risk": false, "contested_interpretation": false, "high_consequence": false, "independent_executor_available": false, "independent_reviewer_available": false, "context_complete": true, "multiple_valid_executors": false, "lower_cost_executor_sufficient": false, "privacy_allows_lower_cost": false, "delegated_capability_insufficient": false},
+      "expected": "SAME_ROOT"
+    },
+    {
+      "id": "R34-C86-trigger-without-independent-route",
+      "kind": "delegation",
+      "observations": {"ordinary_direct": false, "material_judgement": true, "self_confirmation_risk": false, "contested_interpretation": true, "high_consequence": false, "independent_executor_available": false, "independent_reviewer_available": true, "context_complete": true, "multiple_valid_executors": false, "lower_cost_executor_sufficient": false, "privacy_allows_lower_cost": false, "delegated_capability_insufficient": false},
+      "expected": "BLOCK_OR_OWNER_DECISION"
+    },
+    {
+      "id": "R34-C87-hidden-context-stops-delegation",
+      "kind": "delegation",
+      "observations": {"ordinary_direct": false, "material_judgement": true, "self_confirmation_risk": false, "contested_interpretation": false, "high_consequence": false, "independent_executor_available": true, "independent_reviewer_available": true, "context_complete": false, "multiple_valid_executors": true, "lower_cost_executor_sufficient": true, "privacy_allows_lower_cost": true, "delegated_capability_insufficient": false},
+      "expected": "STOP_RECONSTRUCT_CONTEXT"
+    },
+    {
+      "id": "R34-C88-least-cost-sufficient-executor",
+      "kind": "delegation",
+      "observations": {"ordinary_direct": false, "material_judgement": false, "self_confirmation_risk": false, "contested_interpretation": false, "high_consequence": false, "independent_executor_available": true, "independent_reviewer_available": true, "context_complete": true, "multiple_valid_executors": true, "lower_cost_executor_sufficient": true, "privacy_allows_lower_cost": true, "delegated_capability_insufficient": false},
+      "expected": "DELEGATE_LEAST_COST_SUFFICIENT"
+    },
+    {
+      "id": "R34-C89-cheaper-incapable-route-rejected",
+      "kind": "delegation",
+      "observations": {"ordinary_direct": false, "material_judgement": false, "self_confirmation_risk": false, "contested_interpretation": false, "high_consequence": false, "independent_executor_available": true, "independent_reviewer_available": true, "context_complete": true, "multiple_valid_executors": true, "lower_cost_executor_sufficient": false, "privacy_allows_lower_cost": true, "delegated_capability_insufficient": false},
+      "expected": "RETAIN_CAPABLE_ROUTE"
+    },
+    {
+      "id": "R34-C90-single-valid-executor",
+      "kind": "delegation",
+      "observations": {"ordinary_direct": false, "material_judgement": false, "self_confirmation_risk": false, "contested_interpretation": false, "high_consequence": false, "independent_executor_available": true, "independent_reviewer_available": true, "context_complete": true, "multiple_valid_executors": false, "lower_cost_executor_sufficient": false, "privacy_allows_lower_cost": false, "delegated_capability_insufficient": false},
+      "expected": "DIRECT_CAPABLE_ROUTE"
+    },
+    {
+      "id": "R34-C91-privacy-excludes-cheaper-route",
+      "kind": "delegation",
+      "observations": {"ordinary_direct": false, "material_judgement": false, "self_confirmation_risk": false, "contested_interpretation": false, "high_consequence": false, "independent_executor_available": true, "independent_reviewer_available": true, "context_complete": true, "multiple_valid_executors": true, "lower_cost_executor_sufficient": true, "privacy_allows_lower_cost": false, "delegated_capability_insufficient": false},
+      "expected": "RETAIN_CAPABLE_ROUTE"
+    },
+    {
+      "id": "R34-C92-insufficient-delegated-capability-escalates",
+      "kind": "delegation",
+      "observations": {"ordinary_direct": false, "material_judgement": false, "self_confirmation_risk": false, "contested_interpretation": false, "high_consequence": false, "independent_executor_available": true, "independent_reviewer_available": true, "context_complete": true, "multiple_valid_executors": true, "lower_cost_executor_sufficient": true, "privacy_allows_lower_cost": true, "delegated_capability_insufficient": true},
+      "expected": "STOP_AND_ESCALATE"
+    },
+    {
+      "id": "R34-C93-high-consequence-separates",
+      "kind": "delegation",
+      "observations": {"ordinary_direct": false, "material_judgement": true, "self_confirmation_risk": false, "contested_interpretation": false, "high_consequence": true, "independent_executor_available": true, "independent_reviewer_available": true, "context_complete": true, "multiple_valid_executors": false, "lower_cost_executor_sufficient": false, "privacy_allows_lower_cost": false, "delegated_capability_insufficient": false},
+      "expected": "SEPARATE_EXECUTOR"
+    },
+    {
+      "id": "R34-C94-same-root-does-not-require-transfer-capsule",
+      "kind": "delegation",
+      "observations": {"ordinary_direct": true, "material_judgement": false, "self_confirmation_risk": false, "contested_interpretation": false, "high_consequence": false, "independent_executor_available": false, "independent_reviewer_available": false, "context_complete": false, "multiple_valid_executors": false, "lower_cost_executor_sufficient": false, "privacy_allows_lower_cost": false, "delegated_capability_insufficient": false},
+      "expected": "SAME_ROOT"
     }
   ]
 }

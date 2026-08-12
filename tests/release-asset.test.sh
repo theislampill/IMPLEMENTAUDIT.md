@@ -990,23 +990,23 @@ with zipfile.ZipFile(asset) as zf:
     OWNER_OUTER_BOUND_BYTES = 230_000
     MIN_HEADROOM_BYTES = 2_000
     CALIBRATION_QUANTUM_BYTES = 1_000
-    CURRENT_CALIBRATION_AUTHORITY = "dedicated-calibration-lane"
+    CURRENT_CALIBRATION_AUTHORITY = "owner"
     ALLOWED_CALIBRATION_AUTHORITIES = {
         "owner", "dedicated-calibration-lane",
     }
-    if CURRENT_CALIBRATION_AUTHORITY != "dedicated-calibration-lane":
+    if CURRENT_CALIBRATION_AUTHORITY != "owner":
         raise SystemExit(
-            "current calibration authority must name the dedicated R33 lane"
+            "current calibration authority must name the owner-authorised fold-in"
         )
 
-    # The composed R11/R30 rehearsal repair first measured 225,318 bytes.
-    # Its accepted packaged timeout/process-custody semantics then measure
-    # 225,945 bytes. This dedicated R33 calibration keeps the smallest
-    # whole-1,000-byte ceiling preserving at least 2,000 bytes of measured
-    # headroom. The 230,000-byte outer bound remains unchanged, and capacity
-    # is not a target.
-    MAX_ASSET_BYTES = 228_000
-    CURRENT_CALIBRATION_ASSET_BYTES = 225_945
+    # The composed R11/R30 rehearsal repair first measured 225,318 bytes and
+    # its accepted timeout/process-custody semantics measured 225,945 bytes.
+    # The owner-authorised /improve dominance fold-in measures 227,502 bytes.
+    # Its smallest whole-1,000-byte ceiling preserving at least 2,000 bytes of
+    # headroom is the unchanged 230,000-byte owner outer bound; capacity is not
+    # a target.
+    MAX_ASSET_BYTES = 230_000
+    CURRENT_CALIBRATION_ASSET_BYTES = 227_502
     N06_BASELINE_ASSET_BYTES = 206_584
     N06_FINAL_P7_ASSET_BYTES = 215_126
     FULL_W1_FORECAST_BYTES = 144_730

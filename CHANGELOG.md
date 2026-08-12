@@ -15,6 +15,12 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ### Changed
 
+- R34/R40/R41 add native, proportionate dominance controls for a recomputed
+  work-conserving ready-cell frontier, optional operator resource ceilings,
+  conditional planner/executor epistemic separation, capability-fit delegation,
+  explicit cross-boundary context capsules, and post-worker source revalidation.
+  Trivial work remains serial and same-root; no fixed modes, fanout quotas, model
+  hierarchy, second lifecycle, or `/improve` runtime dependency is introduced.
 - R33 package builds now use pinned, deterministic Zopfli method-8 DEFLATE.
   Extracted member bytes, paths, modes, timestamps, runtime dependencies and
   the 230,000-byte owner outer bound are unchanged; the stronger build-only

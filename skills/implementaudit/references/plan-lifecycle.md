@@ -197,6 +197,11 @@ Execution semantics are audit-governed:
 - use an isolated worktree when available or when concurrent writes would
   collide; otherwise record fallback risk before main-worktree execution and
   keep changes narrow and visible;
+- when material self-confirmation risk, contested interpretation, or
+  high-consequence work warrants epistemic separation, keep the planning and
+  adjudication role non-mutating, dispatch a separately bounded executor, and
+  preserve a distinct post-execution reviewer; ordinary narrow reversible work
+  may keep the same-root route;
 - inline enough plan context in subagent prompts for disjoint read-only review
   or disjoint write scopes;
 - subagents are review evidence or bounded workers, never authorization
@@ -225,11 +230,25 @@ plan index or run-root state, then run the drift check before dispatch. If a
 dependency is not DONE, or live files changed since the plan baseline, stop and
 reconcile before execution.
 
+Select among valid executor routes by sufficient capability first, then by
+cost. A lower-cost route is eligible only when its available context, tools,
+privacy boundary, authority, and required acceptance are adequate. Never create
+a permanent model hierarchy: when only one route is valid, retain it; when the
+delegate discovers missing context or insufficient capability, it must STOP and
+escalate rather than improvise.
+
 The executor prompt must include the full plan text, inlined, plus the current
 audit-object route, owner/source, in-scope and out-of-scope files, acceptance
 criteria, STOP conditions, verification commands with expected results,
 rollback, and authorization boundaries. Inlining prevents uncommitted plan files
 or run-root artifacts from becoming invisible in isolated worktrees.
+
+This prompt is an explicit context capsule across agent and worktree
+boundaries. It must be sufficient for a cold executor to reconstruct the
+authorised work without ambient chat, while keeping unknowns and unavailable
+authority visible. The executor report remains candidate evidence: the
+reviewer rereads fresh live source, the full diff, and the verification results
+before issuing any disposition.
 
 Required executor report format:
 

@@ -133,6 +133,21 @@ per-lane contract when it does not. Host concurrency limits may change
 scheduling; they never silently erase a warranted lane. A coverage table
 documents executed lanes; it never substitutes for them.
 
+During sustained work with three or more material cells, maintain the
+work-conserving ready-cell frontier from `planning-depth.md`: dispatch worthwhile
+ready lanes up to safe host capacity and any positive operator-supplied ceiling,
+then recompute after completion, blocking, capacity or authorization changes,
+or drift. Serialize actual dependency, write, acceptance, resource, and
+irreversible-external conflicts, not whole issues. An unchanged owner reminder
+does not create a new scheduling event. A small task, unknown independence, or
+an effective capacity below two remains serial.
+
+No worker output becomes authoritative because it was scheduled correctly.
+Across agent or worktree boundaries, pass an explicit context capsule and
+require the consuming root or independent reviewer to reread fresh source and
+the returned evidence before acceptance. Missing context stops the lane for
+reconstruction; insufficient delegated capability stops for escalation.
+
 ### Exploratory hypothesis discrimination
 
 Do not confuse several reports with several independent lines of support.

@@ -42,6 +42,9 @@ reset_sandbox() {
   cp skills/implementaudit/SKILL.md "$tmp_root/skills/implementaudit/"
   cp skills/implementaudit/references/planning-depth.md \
     "$tmp_root/skills/implementaudit/references/"
+  cp skills/implementaudit/references/plan-lifecycle.md \
+    skills/implementaudit/references/child-agents.md \
+    "$tmp_root/skills/implementaudit/references/"
   cp skills/implementaudit/references/lean-operating-discipline.md \
     "$tmp_root/skills/implementaudit/references/"
   cp skills/implementaudit/templates/THINKING.md \
@@ -175,5 +178,109 @@ path.write_text(json.dumps(payload), encoding="utf-8")
 PY
 bash scripts/check-action-selection-contract.sh --repo-root "$tmp_root" \
   >/dev/null 2>&1 || fail "held-out missing reconciliation point was called parallel-safe"
+
+# 12. Completion must recompute and activate a newly ready cell.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C73-completion-recomputes-frontier")
+case["expected"] = "HOLD_FRONTIER"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "completion bypassed ready-frontier recomputation"
+
+# 13. An operator ceiling must remain an upper bound, not disappear into host capacity.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C78-operator-ceiling-bounds-frontier")
+case["observations"]["operator_ceiling"] = -1
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "operator ceiling ignored"
+
+# 14. A live self-confirmation trigger cannot fall back to same-root execution.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C84-triggered-planner-executor-separation")
+case["expected"] = "SAME_ROOT"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "self-confirmation trigger collapsed to same-root execution"
+
+# 15. Cost cannot select a route whose capability is insufficient.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(item for item in payload["cases"] if item["id"] == "R34-C89-cheaper-incapable-route-rejected")
+case["expected"] = "DELEGATE_LEAST_COST_SUFFICIENT"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "incapable lower-cost route selected"
+
+# 16. The cross-boundary context/revalidation owner clause is mandatory.
+reset_sandbox
+sed '/This prompt is an explicit context capsule/,/issuing any disposition\./d' \
+  "$tmp_root/skills/implementaudit/references/plan-lifecycle.md" \
+  >"$tmp_root/plan-lifecycle.tmp"
+mv "$tmp_root/plan-lifecycle.tmp" \
+  "$tmp_root/skills/implementaudit/references/plan-lifecycle.md"
+expect_fail "missing context capsule and fresh-source revalidation"
+
+# 17. Cross-repo behavior cannot be credited from a success-shaped receipt
+# that hides activation-keyword leakage.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/dominance-dogfood-receipt.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+payload["activation_prompt_leakage"] = True
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "dogfood receipt with activation-keyword leakage"
+
+# 18. The timed-out combined cell must remain rejected non-evidence.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/dominance-dogfood-receipt.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+payload["cells"][-1]["disposition"] = "PASS"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "timed-out dogfood cell promoted to PASS"
 
 printf 'action-selection-contract.test: ok\n'
