@@ -93,6 +93,16 @@
       ]
     },
     {
+      "group": "Research & Engineering Lineage",
+      "pages": [
+        "research-lineage-overview",
+        "research-lineage-lean",
+        "research-lineage-agile",
+        "research-lineage-waterfall",
+        "research-lineage-evolved-law"
+      ]
+    },
+    {
       "group": "References",
       "pages": [
         "terminology",
@@ -460,6 +470,63 @@
         ".github/workflows/pages.yml",
         ".github/workflows/validate.yml",
         "docs/audits/INDEX.md"
+      ]
+    },
+    "research-lineage-overview": {
+      "title": "Overview",
+      "path": "research-engineering-lineage/",
+      "source": "research-lineage-overview.html",
+      "sources": [
+        "README.md",
+        "CHANGELOG.md",
+        "docs/audits/archive/v0.3.3.3-release-report.md",
+        "fixtures/public-projection/lineage-reader-questions.json",
+        "skills/implementaudit/references/terminology-integration.md"
+      ]
+    },
+    "research-lineage-lean": {
+      "title": "Lean",
+      "path": "research-engineering-lineage/lean/",
+      "source": "research-lineage-lean.html",
+      "sources": [
+        "fixtures/public-projection/lineage-reader-questions.json",
+        "skills/implementaudit/references/lean-operating-discipline.md",
+        "skills/implementaudit/references/planning-depth.md"
+      ]
+    },
+    "research-lineage-agile": {
+      "title": "Agile",
+      "path": "research-engineering-lineage/agile/",
+      "source": "research-lineage-agile.html",
+      "sources": [
+        "fixtures/public-projection/lineage-reader-questions.json",
+        "skills/implementaudit/references/planning-depth.md",
+        "skills/implementaudit/references/phase-design.md"
+      ]
+    },
+    "research-lineage-waterfall": {
+      "title": "Waterfall",
+      "path": "research-engineering-lineage/waterfall/",
+      "source": "research-lineage-waterfall.html",
+      "sources": [
+        "fixtures/public-projection/lineage-reader-questions.json",
+        "skills/implementaudit/references/repo-state-comparison.md",
+        "skills/implementaudit/references/phase-design.md"
+      ]
+    },
+    "research-lineage-evolved-law": {
+      "title": "Evolved-LAW",
+      "path": "research-engineering-lineage/evolved-law/",
+      "source": "research-lineage-evolved-law.html",
+      "sources": [
+        "README.md",
+        "CHANGELOG.md",
+        "docs/audits/archive/v0.3.3.3-release-report.md",
+        "fixtures/public-projection/lineage-reader-questions.json",
+        "skills/implementaudit/references/planning-depth.md",
+        "skills/implementaudit/references/issue-ready-work-orders.md",
+        "skills/implementaudit/references/convergence-mode.md",
+        "skills/implementaudit/references/repo-state-comparison.md"
       ]
     },
     "reference-index": {

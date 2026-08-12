@@ -46,6 +46,15 @@ same-tag identity mechanism then qualified final release commit
 `90a420245f3a4fefadce97dc8dccb77d98ac85e4`. The existing `v0.3.3.3` tag,
 assets, checksum, and body were corrected in place and independently read back.
 
+The later R29 source-projection repair uses the working public title
+**v0.3.3.3 — Second-Order Reflexive Meta-Engineering: Evolved-LAW (Lean · Agile · Waterfall)**.
+It adds a five-page Research & Engineering Lineage route that distinguishes
+pre-existing native controls, sharpened/reconciled properties, context-specific
+residuals, and rejected prescriptions. This source entry does not claim that
+the hosted portal or GitHub release body contains the new projection until a
+separate publication and readback gate records that state; the published
+`IMPLEMENTAUDIT.skill` and checksum bytes remain unchanged.
+
 ### Changed
 
 - R30 / #157 makes shipped helpers instruction-reachable, same-run

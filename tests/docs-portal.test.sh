@@ -88,7 +88,7 @@ for group in site["nav"]:
 assert site["nav"][0]["group"] == "Overview"
 assert ordered[0] == "overview"
 groups = {group["group"]: group["pages"] for group in site["nav"]}
-assert list(groups) == ["Overview", "First run", "Audience", "Core model", "Evidence", "Closure", "Repository", "References"]
+assert list(groups) == ["Overview", "First run", "Audience", "Core model", "Evidence", "Closure", "Repository", "Research & Engineering Lineage", "References"]
 assert "References" in groups
 assert "Reference" not in groups
 assert "Maintainers" not in groups
@@ -98,6 +98,7 @@ assert groups["Core model"] == ["runtime-model", "audit-gate-model", "invocation
 assert groups["Evidence"] == ["state-and-artifacts", "repo-state-comparison", "error-handling", "evidence-boundaries", "optional-tooling", "child-agent-review-loops"]
 assert groups["Closure"] == ["completion-semantics", "continuity-and-sidecars"]
 assert groups["Repository"] == ["repo-layout", "package-contents", "audit-trail"]
+assert groups["Research & Engineering Lineage"] == ["research-lineage-overview", "research-lineage-lean", "research-lineage-agile", "research-lineage-waterfall", "research-lineage-evolved-law"]
 assert groups["References"] == ["terminology", "reference-index"]
 assert len(ordered) == meta["page_count"]
 assert meta["portal_version"] == "v2-multipage"

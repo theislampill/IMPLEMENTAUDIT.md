@@ -1,0 +1,80 @@
+{
+  "schema": "implementaudit-research-lineage-reader-questions-v1",
+  "questions": [
+    {
+      "id": "R29-LQ1",
+      "question": "Why does IMPLEMENTAUDIT visibly use substantial Lean-derived vocabulary?",
+      "page": "research-lineage-overview",
+      "evidence": ["native engineering controls", "not methodology conformance", "Andon", "Hansei", "Gemba"]
+    },
+    {
+      "id": "R29-LQ2",
+      "question": "Why is Evolved-LAW not three methodology modes bolted together?",
+      "page": "research-lineage-evolved-law",
+      "evidence": ["not a runtime mode", "one native owner", "property-level synthesis", "no methodology-specific runtime"]
+    },
+    {
+      "id": "R29-LQ3",
+      "question": "What did Agile contribute beyond the word iteration?",
+      "page": "research-lineage-agile",
+      "evidence": ["integrated working evidence", "technical changeability", "sustainable pace", "operational feedback"]
+    },
+    {
+      "id": "R29-LQ4",
+      "question": "What did Waterfall and plan-driven assurance contribute beyond the caricature of fixed phases?",
+      "page": "research-lineage-waterfall",
+      "evidence": ["authoritative but revisable intent", "configuration identity", "multi-level verification", "acceptance authority"]
+    },
+    {
+      "id": "R29-LQ5",
+      "question": "Which major properties were already native before Evolved-LAW?",
+      "page": "research-lineage-evolved-law",
+      "evidence": ["PRE_EXISTING_NATIVE", "Smoke A", "Andon", "exact identity", "independent review"]
+    },
+    {
+      "id": "R29-LQ6",
+      "question": "Which properties actually changed or sharpened v0.3.3.3?",
+      "page": "research-lineage-evolved-law",
+      "evidence": ["SHARPENED_OR_RECONCILED", "actionability-weighted feedback", "protective slack", "sustainable recovery capacity", "option"]
+    },
+    {
+      "id": "R29-LQ7",
+      "question": "Which ceremonies and universal prescriptions were rejected?",
+      "page": "research-lineage-evolved-law",
+      "evidence": ["REJECTED_OR_NOT_ADOPTED", "fixed sprint", "zero slack", "fixed phase", "manual trace matrix"]
+    },
+    {
+      "id": "R29-LQ8",
+      "question": "Where do surviving properties live in native IMPLEMENTAUDIT controls?",
+      "page": "research-lineage-evolved-law",
+      "evidence": ["property-to-native-owner", "R29", "R32", "R34", "R35"]
+    },
+    {
+      "id": "R29-LQ9",
+      "question": "What research and source evidence supports the explanation?",
+      "page": "research-lineage-overview",
+      "evidence": ["primary history", "authoritative current guidance", "empirical evidence", "claim boundary", "R37"]
+    },
+    {
+      "id": "R29-LQ10",
+      "question": "What has not been universally validated across agents, repositories, hosts, or skill ecosystems?",
+      "page": "research-lineage-overview",
+      "evidence": ["not universal validation", "agents", "repositories", "hosts", "skill ecosystems"]
+    }
+  ],
+  "public_pages": [
+    "research-lineage-overview",
+    "research-lineage-lean",
+    "research-lineage-agile",
+    "research-lineage-waterfall",
+    "research-lineage-evolved-law"
+  ],
+  "classification_literals": [
+    "PRE_EXISTING_NATIVE",
+    "SHARPENED_OR_RECONCILED",
+    "NEW_RESIDUAL",
+    "REJECTED_OR_NOT_ADOPTED"
+  ],
+  "release_title": "v0.3.3.3 — Second-Order Reflexive Meta-Engineering: Evolved-LAW (Lean · Agile · Waterfall)",
+  "compact_label": "SORME"
+}
