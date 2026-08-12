@@ -981,13 +981,12 @@ gate_domain_self_check() {
   pre="$(artifact gate-domain-pre 4142434445)"; cand="$(artifact gate-domain-candidate 4e4557)"
   invoke R36-GATE-DOMAIN UNSUPPORTED_OWNER_DECISION replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"
   "$python_bin" - "$tmp/R36-GATE-DOMAIN.out" "$fixture_repo" "$run_root" <<'PY' || fail 'R36-GATE-DOMAIN lacked exact pre-effect owner-decision evidence'
-import copy,json,os,sys
+import copy,json,os,re,sys
 from pathlib import Path,PurePosixPath
 r=json.load(open(sys.argv[1],encoding='utf-8'))
 if r['reason_code']!='WRITER_DOMAIN_BREACH' or r['coordination_scope']!='GOVERNED_HELPER_ROUTED_WRITERS_ONLY': raise SystemExit(r)
 if r['residue']!=[]: raise SystemExit(f'pre-product refusal retained unresolved residue: {r["residue"]!r}')
-repo=Path(sys.argv[2]); run=Path(sys.argv[3]); transaction=r['transaction_id']
-if not isinstance(transaction,str) or not transaction: raise SystemExit('missing transaction identity')
+repo=Path(os.path.abspath(sys.argv[2])); run=Path(os.path.abspath(sys.argv[3]))
 def relative(path):
  absolute=Path(os.path.abspath(path))
  try: value=absolute.relative_to(repo).as_posix()
@@ -995,26 +994,37 @@ def relative(path):
  canonical=PurePosixPath(value)
  if str(canonical)!=value or value in {'','.'} or any(part in {'','.','..'} for part in canonical.parts): raise SystemExit(f'noncanonical expected evidence path: {value!r}')
  return value
-tx_parent=run/'mutation-transactions'; tx=tx_parent/transaction
-allowed={
- relative(run):{'fsync'},
- relative(tx_parent):{'mkdir','fsync'},
- relative(tx):{'mkdir','fsync'},
- relative(tx/'authority.json'):{'create','write','fsync'},
- relative(tx/'released-locks'):{'mkdir','fsync'},
- relative(tx/'result.json'):{'create','write','fsync'},
- relative(tx/'result.tmp'):{'create','write','fsync','replace','unlink'},
- relative(repo/'.IMPLEMENTAUDIT'):{'fsync'},
- relative(repo/'.IMPLEMENTAUDIT'/'.r36-locks'):{'mkdir','fsync'},
- relative(repo/'.IMPLEMENTAUDIT'/'.r36-locks'/'namespace.gate'):{'create','write','fsync'},
-}
-if len(allowed)!=10: raise SystemExit('independent allowed path map contains an alias/duplicate')
-planned={}
-for declaration in r['planned_effect_set']:
- key=(declaration['scope'],declaration['path'])
- if key in planned: raise SystemExit(f'duplicate planned path: {key!r}')
- planned[key]=declaration
+def independent_allowed(record):
+ transaction=record.get('transaction_id')
+ match=re.fullmatch(r'([0-9a-f]{32})-p([1-9][0-9]*)-s([1-9][0-9]*)',transaction) if isinstance(transaction,str) else None
+ if match is None: raise ValueError(f'malformed transaction identity: {transaction!r}')
+ if type(record.get('phase')) is not int or type(record.get('step')) is not int: raise ValueError('phase/step are not integers')
+ if int(match.group(2))!=record['phase'] or int(match.group(3))!=record['step']: raise ValueError(f'transaction phase/step mismatch: {transaction!r}')
+ tx_parent=Path(os.path.abspath(run/'mutation-transactions')); tx=tx_parent/transaction
+ if tx.parent!=tx_parent or tx.name!=transaction or any(separator in transaction for separator in ('/','\\')): raise ValueError(f'transaction is not a direct child: {transaction!r}')
+ allowed={
+  relative(run):{'fsync'},
+  relative(tx_parent):{'mkdir','fsync'},
+  relative(tx):{'mkdir','fsync'},
+  relative(tx/'authority.json'):{'create','write','fsync'},
+  relative(tx/'released-locks'):{'mkdir','fsync'},
+  relative(tx/'result.json'):{'create','write','fsync'},
+  relative(tx/'result.tmp'):{'create','write','fsync','replace','unlink'},
+  relative(repo/'.IMPLEMENTAUDIT'):{'fsync'},
+  relative(repo/'.IMPLEMENTAUDIT'/'.r36-locks'):{'mkdir','fsync'},
+  relative(repo/'.IMPLEMENTAUDIT'/'.r36-locks'/'namespace.gate'):{'create','write','fsync'},
+ }
+ if len(allowed)!=10: raise ValueError('independent allowed path map contains an alias/duplicate')
+ return allowed
 def evidence_only(record):
+ allowed=independent_allowed(record)
+ planned={}
+ for declaration in record['planned_effect_set']:
+  path=PurePosixPath(declaration['path'])
+  if str(path)!=declaration['path'] or declaration['path']=='' or any(part in {'','..'} for part in path.parts): raise ValueError(f'noncanonical planned path: {declaration!r}')
+  key=(declaration['scope'],declaration['path'])
+  if key in planned: raise ValueError(f'duplicate planned path: {key!r}')
+  planned[key]=declaration
  accepted=[]
  seen=set()
  for effect in record['actual_effect_set']:
@@ -1042,6 +1052,17 @@ relabel['actual_effect_set'].append({'sequence':len(relabel['actual_effect_set']
 try: evidence_only(relabel)
 except ValueError: pass
 else: raise SystemExit('independent path oracle accepted helper-relabeled product mutation')
+identity_mutants={
+ 'traversal':'../outside',
+ 'phase-mismatch':re.sub(r'-p[1-9][0-9]*-',f'-p{r["phase"]+1}-',r['transaction_id']),
+ 'leading-zero':re.sub(r'-p[1-9][0-9]*-',f'-p0{r["phase"]}-',r['transaction_id']),
+ 'malformed':r['transaction_id'].replace('-s','-step',1),
+}
+for label,transaction in identity_mutants.items():
+ identity_mutant=copy.deepcopy(r); identity_mutant['transaction_id']=transaction
+ try: evidence_only(identity_mutant)
+ except ValueError: pass
+ else: raise SystemExit(f'independent transaction oracle accepted {label}: {transaction!r}')
 print('R36_GATE_DOMAIN_APPLIED_EVIDENCE_PATHS='+json.dumps(sorted(set(accepted)),separators=(',',':')))
 PY
 }
