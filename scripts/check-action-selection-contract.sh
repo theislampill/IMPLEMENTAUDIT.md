@@ -68,6 +68,11 @@ for text in \
   "consumer existence and authoritative consumer" \
   "cheapest sufficient discriminator" \
   "No retain, admit, or owner-decision disposition" \
+  "Protective slack or a buffer is not waste" \
+  "Feedback value depends on actionable" \
+  "Temporary option value is retained" \
+  "No universal rule makes shorter feedback" \
+  "higher utilisation, more slack, or less slack correct" \
   "stopping, retirement, or reclassification condition" \
   "No activation factor means no R34 diagnostic or artefact"
 do
@@ -79,6 +84,8 @@ for text in \
   "## Engineering-value admission, retention, and retirement" \
   "optional-by-whim" \
   "expected-risk" \
+  "Protective slack, sustainable capacity, feedback cadence, temporary options" \
+  "carrying cost and its exit condition remains current" \
   "Retain" \
   "Cheapen" \
   "Merge" \
@@ -168,6 +175,20 @@ required_ids = {
         (69, "unqualified-changed-bytes"),
         (70, "process-heavy-derives-activation"),
         (71, "parallel-safe-without-reconciliation"),
+        (72, "proportionality-cheap-path"),
+        (73, "protective-buffer"),
+        (74, "buffer-without-variability"),
+        (75, "actionable-feedback"),
+        (76, "feedback-without-actionability"),
+        (77, "sustainable-recovery-capacity"),
+        (78, "maximum-utilisation"),
+        (79, "bounded-option-value"),
+        (80, "option-carrying-cost-dominates"),
+        (81, "indefinite-option"),
+        (82, "hard-to-reverse-control-depth"),
+        (83, "fixed-wip-rule"),
+        (84, "methodology-ceremony"),
+        (85, "missing-proportional-consumer"),
     )
 }
 ids = [case.get("id") for case in cases if isinstance(case, dict)]
@@ -261,6 +282,43 @@ def decide(case):
                 and o["closed_write_boundaries"] and o["reconciliation_point"]):
             return "PARALLEL_SAFE"
         return "SERIALISE_SHARED"
+    if kind == "proportionality":
+        fields = "candidate live_pressure variability_or_uncertainty high_consequence_or_hard_to_reverse actionable_information authoritative_consumer protected_consequence benefit_exceeds_carrying_cost bounded exit_condition recovery_capacity_required universal_rule methodology_ceremony"
+        exact(o, fields)
+        booleans(o, "live_pressure variability_or_uncertainty high_consequence_or_hard_to_reverse actionable_information authoritative_consumer protected_consequence benefit_exceeds_carrying_cost bounded exit_condition recovery_capacity_required universal_rule methodology_ceremony")
+        if type(o["candidate"]) is not str or o["candidate"] not in {
+                "none", "buffer", "feedback", "capacity", "option", "control_depth"}:
+            raise ValueError("proportional candidate")
+        if o["universal_rule"] or o["methodology_ceremony"]:
+            return "REJECT"
+        if o["candidate"] == "none":
+            pressures = (
+                o["live_pressure"], o["variability_or_uncertainty"],
+                o["high_consequence_or_hard_to_reverse"],
+                o["recovery_capacity_required"],
+            )
+            return "DEFER" if any(pressures) else "NO_R34_ARTEFACT"
+        if not o["live_pressure"]:
+            return "REJECT"
+        if not o["bounded"]:
+            return "REJECT"
+        if not all((o["authoritative_consumer"], o["protected_consequence"], o["exit_condition"])):
+            return "DEFER"
+        if o["candidate"] == "option" and not o["benefit_exceeds_carrying_cost"]:
+            return "RETIRE"
+        if not o["benefit_exceeds_carrying_cost"]:
+            return "REJECT"
+        if o["candidate"] == "buffer":
+            valid = o["variability_or_uncertainty"]
+        elif o["candidate"] == "feedback":
+            valid = o["actionable_information"]
+        elif o["candidate"] == "capacity":
+            valid = o["recovery_capacity_required"]
+        elif o["candidate"] == "option":
+            valid = o["variability_or_uncertainty"] and o["actionable_information"]
+        else:
+            valid = o["high_consequence_or_hard_to_reverse"]
+        return "SELECT_PROPORTIONATE_CONTROL" if valid else "REJECT"
     if kind == "escalation":
         fields = "requested mutation_incomplete controlling_gate_intact supported_alternatives alternatives_indistinguishable expected_risk_material permanent_cost_material mechanically_resolvable"
         exact(o, fields)

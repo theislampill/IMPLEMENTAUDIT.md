@@ -426,6 +426,90 @@
       "kind": "topology",
       "observations": {"shared_owner": false, "shared_cell": false, "disjoint_cells": 3, "closed_write_boundaries": true, "reconciliation_point": false, "parallel_shared_cell": false},
       "expected": "SERIALISE_SHARED"
+    },
+    {
+      "id": "R34-C72-proportionality-cheap-path",
+      "kind": "proportionality",
+      "observations": {"candidate": "none", "live_pressure": false, "variability_or_uncertainty": false, "high_consequence_or_hard_to_reverse": false, "actionable_information": false, "authoritative_consumer": false, "protected_consequence": false, "benefit_exceeds_carrying_cost": false, "bounded": true, "exit_condition": true, "recovery_capacity_required": false, "universal_rule": false, "methodology_ceremony": false},
+      "expected": "NO_R34_ARTEFACT"
+    },
+    {
+      "id": "R34-C73-protective-buffer",
+      "kind": "proportionality",
+      "observations": {"candidate": "buffer", "live_pressure": true, "variability_or_uncertainty": true, "high_consequence_or_hard_to_reverse": false, "actionable_information": false, "authoritative_consumer": true, "protected_consequence": true, "benefit_exceeds_carrying_cost": true, "bounded": true, "exit_condition": true, "recovery_capacity_required": false, "universal_rule": false, "methodology_ceremony": false},
+      "expected": "SELECT_PROPORTIONATE_CONTROL"
+    },
+    {
+      "id": "R34-C74-buffer-without-variability",
+      "kind": "proportionality",
+      "observations": {"candidate": "buffer", "live_pressure": true, "variability_or_uncertainty": false, "high_consequence_or_hard_to_reverse": false, "actionable_information": false, "authoritative_consumer": true, "protected_consequence": true, "benefit_exceeds_carrying_cost": true, "bounded": true, "exit_condition": true, "recovery_capacity_required": false, "universal_rule": false, "methodology_ceremony": false},
+      "expected": "REJECT"
+    },
+    {
+      "id": "R34-C75-actionable-feedback",
+      "kind": "proportionality",
+      "observations": {"candidate": "feedback", "live_pressure": true, "variability_or_uncertainty": true, "high_consequence_or_hard_to_reverse": false, "actionable_information": true, "authoritative_consumer": true, "protected_consequence": true, "benefit_exceeds_carrying_cost": true, "bounded": true, "exit_condition": true, "recovery_capacity_required": false, "universal_rule": false, "methodology_ceremony": false},
+      "expected": "SELECT_PROPORTIONATE_CONTROL"
+    },
+    {
+      "id": "R34-C76-feedback-without-actionability",
+      "kind": "proportionality",
+      "observations": {"candidate": "feedback", "live_pressure": true, "variability_or_uncertainty": true, "high_consequence_or_hard_to_reverse": false, "actionable_information": false, "authoritative_consumer": true, "protected_consequence": true, "benefit_exceeds_carrying_cost": true, "bounded": true, "exit_condition": true, "recovery_capacity_required": false, "universal_rule": false, "methodology_ceremony": false},
+      "expected": "REJECT"
+    },
+    {
+      "id": "R34-C77-sustainable-recovery-capacity",
+      "kind": "proportionality",
+      "observations": {"candidate": "capacity", "live_pressure": true, "variability_or_uncertainty": true, "high_consequence_or_hard_to_reverse": true, "actionable_information": false, "authoritative_consumer": true, "protected_consequence": true, "benefit_exceeds_carrying_cost": true, "bounded": true, "exit_condition": true, "recovery_capacity_required": true, "universal_rule": false, "methodology_ceremony": false},
+      "expected": "SELECT_PROPORTIONATE_CONTROL"
+    },
+    {
+      "id": "R34-C78-maximum-utilisation",
+      "kind": "proportionality",
+      "observations": {"candidate": "capacity", "live_pressure": true, "variability_or_uncertainty": true, "high_consequence_or_hard_to_reverse": true, "actionable_information": false, "authoritative_consumer": true, "protected_consequence": true, "benefit_exceeds_carrying_cost": true, "bounded": true, "exit_condition": true, "recovery_capacity_required": true, "universal_rule": true, "methodology_ceremony": false},
+      "expected": "REJECT"
+    },
+    {
+      "id": "R34-C79-bounded-option-value",
+      "kind": "proportionality",
+      "observations": {"candidate": "option", "live_pressure": true, "variability_or_uncertainty": true, "high_consequence_or_hard_to_reverse": false, "actionable_information": true, "authoritative_consumer": true, "protected_consequence": true, "benefit_exceeds_carrying_cost": true, "bounded": true, "exit_condition": true, "recovery_capacity_required": false, "universal_rule": false, "methodology_ceremony": false},
+      "expected": "SELECT_PROPORTIONATE_CONTROL"
+    },
+    {
+      "id": "R34-C80-option-carrying-cost-dominates",
+      "kind": "proportionality",
+      "observations": {"candidate": "option", "live_pressure": true, "variability_or_uncertainty": true, "high_consequence_or_hard_to_reverse": false, "actionable_information": true, "authoritative_consumer": true, "protected_consequence": true, "benefit_exceeds_carrying_cost": false, "bounded": true, "exit_condition": true, "recovery_capacity_required": false, "universal_rule": false, "methodology_ceremony": false},
+      "expected": "RETIRE"
+    },
+    {
+      "id": "R34-C81-indefinite-option",
+      "kind": "proportionality",
+      "observations": {"candidate": "option", "live_pressure": true, "variability_or_uncertainty": true, "high_consequence_or_hard_to_reverse": false, "actionable_information": true, "authoritative_consumer": true, "protected_consequence": true, "benefit_exceeds_carrying_cost": true, "bounded": false, "exit_condition": false, "recovery_capacity_required": false, "universal_rule": false, "methodology_ceremony": false},
+      "expected": "REJECT"
+    },
+    {
+      "id": "R34-C82-hard-to-reverse-control-depth",
+      "kind": "proportionality",
+      "observations": {"candidate": "control_depth", "live_pressure": true, "variability_or_uncertainty": false, "high_consequence_or_hard_to_reverse": true, "actionable_information": false, "authoritative_consumer": true, "protected_consequence": true, "benefit_exceeds_carrying_cost": true, "bounded": true, "exit_condition": true, "recovery_capacity_required": false, "universal_rule": false, "methodology_ceremony": false},
+      "expected": "SELECT_PROPORTIONATE_CONTROL"
+    },
+    {
+      "id": "R34-C83-fixed-wip-rule",
+      "kind": "proportionality",
+      "observations": {"candidate": "buffer", "live_pressure": true, "variability_or_uncertainty": true, "high_consequence_or_hard_to_reverse": false, "actionable_information": false, "authoritative_consumer": true, "protected_consequence": true, "benefit_exceeds_carrying_cost": true, "bounded": true, "exit_condition": true, "recovery_capacity_required": false, "universal_rule": true, "methodology_ceremony": false},
+      "expected": "REJECT"
+    },
+    {
+      "id": "R34-C84-methodology-ceremony",
+      "kind": "proportionality",
+      "observations": {"candidate": "feedback", "live_pressure": true, "variability_or_uncertainty": true, "high_consequence_or_hard_to_reverse": false, "actionable_information": true, "authoritative_consumer": true, "protected_consequence": true, "benefit_exceeds_carrying_cost": true, "bounded": true, "exit_condition": true, "recovery_capacity_required": false, "universal_rule": false, "methodology_ceremony": true},
+      "expected": "REJECT"
+    },
+    {
+      "id": "R34-C85-missing-proportional-consumer",
+      "kind": "proportionality",
+      "observations": {"candidate": "feedback", "live_pressure": true, "variability_or_uncertainty": true, "high_consequence_or_hard_to_reverse": false, "actionable_information": true, "authoritative_consumer": false, "protected_consequence": true, "benefit_exceeds_carrying_cost": true, "bounded": true, "exit_condition": true, "recovery_capacity_required": false, "universal_rule": false, "methodology_ceremony": false},
+      "expected": "DEFER"
     }
   ]
 }
