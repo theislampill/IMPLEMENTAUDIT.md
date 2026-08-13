@@ -53,6 +53,8 @@ from pathlib import Path
 fixture = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
 cases = fixture.get("state_synthesis_cases")
 expected = {
+    "S3E-W01-automated-action-complete-risk-envelope",
+    "S3E-W01-automated-action-incomplete-risk-envelope",
     "S3E-W01-complete-triggered-state",
     "S3E-W01-cheap-authoritative-discriminator",
     "S3E-W01-health-proxy-not-required-function",
@@ -93,6 +95,33 @@ elif grep -Fq 'S3E-W01-complete-triggered-state' \
 else
   record_fail "S3E-W01 negative did not identify its rejected cell"
 fi
+
+for action_axis in false_alarm_cost missed_detection_cost detection_latency \
+  diagnosis_confidence reversibility action_authority; do
+  automated_action_mutant="$tmp/s3e-w01-automated-action-$action_axis.json"
+  "${py_cmd[@]}" - "$fixture" "$automated_action_mutant" "$action_axis" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+source, target = map(Path, sys.argv[1:3])
+axis = sys.argv[3]
+fixture = json.loads(source.read_text(encoding="utf-8"))
+case = next(row for row in fixture["state_synthesis_cases"]
+            if row["id"] == "S3E-W01-automated-action-complete-risk-envelope")
+case[axis] = False
+target.write_text(json.dumps(fixture, indent=2) + "\n", encoding="utf-8")
+PY
+  if bash scripts/check-acceptance-instrument-discipline.sh \
+      "$automated_action_mutant" >"$tmp/s3e-w01-automated-action-$action_axis.out" 2>&1; then
+    record_fail "S3E-W01 accepted automated action without $action_axis"
+  elif grep -Fq 'S3E-W01-automated-action-complete-risk-envelope' \
+      "$tmp/s3e-w01-automated-action-$action_axis.out"; then
+    record_pass
+  else
+    record_fail "S3E-W01 $action_axis negative did not identify its rejected cell"
+  fi
+done
 
 identity_proxy_fixture="$tmp/r35-nonresolving-identity-proxy.json"
 "${py_cmd[@]}" - "$fixture" "$identity_proxy_fixture" <<'PY'

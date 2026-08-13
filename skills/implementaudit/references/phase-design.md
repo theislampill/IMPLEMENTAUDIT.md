@@ -287,31 +287,31 @@ reclassification. Changed evaluators need the old/new product × old/new
 evaluator matrix or an authoritative independent instrument; unisolated effects
 remain `UNRESOLVED` or owner-decided.
 
-Evaluator repair may PASS only when authoritative property evidence disproves
-the old evaluator, retains its witness, rejects a known bad where feasible, and
-held-outs discriminate. Changed contracts retain history and state effective
-boundary plus migration/population effects. Representation preserves property
-equivalence and held-outs. `STIMULUS`, prompt, mock, and secondary-instrument
-changes still require independence, parity, liveness, and proof level; prompt
-records separate before/after missions, answers, forbidden phrases, distractors,
-and held-outs without exposing answers/distractors. Easing assertions, goldens,
-answers, tolerances, denominators, populations, bypasses, skips, mocks, or prompts
-does not prove an unchanged candidate. Neither literal retention nor a complete
-form defeats a lost property or failing held-out negative. Stop after owner,
-repair class, original/held-out discrimination, and coupled residual resolve;
-absorb the evidence and retire the row—no permanent evaluator registry/worksheet.
+Evaluator repair PASS requires authoritative property evidence to disprove the
+old evaluator, retained witness, feasible known-bad rejection, and
+discriminating held-outs. Changed contracts retain history, effective boundary,
+and migration/population effects; representation retains property equivalence
+and held-outs. `STIMULUS`/prompt/mock/secondary-instrument changes require
+independence, parity, liveness, and proof level. Record before/after missions,
+answers, forbidden phrases, distractors, and held-outs without exposing answers.
+Easier assertions, goldens, tolerances, denominators, populations, bypasses,
+skips, mocks, or prompts prove no unchanged semantics; literal retention or a
+complete form cannot defeat lost property or held-out failure. After owner,
+repair class, original/held-out discrimination, and coupled residual resolve,
+absorb evidence and retire the row—no permanent evaluator registry/worksheet.
 
 **Rule P4-17 — Triggered state-synthesis acceptance.**
-For material currentness, receiver, evaluator, proof, consequence, or recovery
-risk, record only decision-changing fields: decision/consumer, required function
-(not health proxy), current authority/state, evaluator fitness, evidence limits,
-independent basis where self-confirmation matters, and recovery/reopen. Keep
-conformance, translation, correspondence/environment, tool/result class, and
-replay/currentness distinct; one green leg promotes no other. Counts of
-reviewers, replicas, runs, or scores are not independence. One authoritative
-deterministic discriminator keeps a small reversible task on
-inspect → act → verify → done. Use existing surfaces, not modes, worksheets, or
-another audit object.
+For material currentness, receiver, evaluator, proof, consequence or recovery,
+record only decision-changing: decision/consumer; required function, not health
+proxy; current authority/state; evaluator fitness; evidence limits; independent
+basis against self-confirmation; recovery/reopen. Automation bounds false-alarm
+and missed-detection cost, latency, diagnosis confidence, reversibility and
+authority. Keep conformance, translation, correspondence/environment,
+tool/result class and replay/currentness distinct; no green leg promotes
+another. Reviewer/replica/run/score counts are not independence. One
+authoritative deterministic discriminator keeps small reversible work on
+inspect → act → verify → done. Reuse surfaces; add no mode, worksheet or audit
+object.
 
 The same row's `CANDIDATE_CONTROLLED_VALIDATION_POLICY` surface activates only
 when candidate semantics intersect validation authority judging that candidate;

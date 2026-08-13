@@ -1146,12 +1146,12 @@ with zipfile.ZipFile(asset) as zf:
             "current calibration authority must name the owner-authorised fold-in"
         )
 
-    # The composed S3E W01-W04 candidate measures 257,998 bytes. This
+    # The composed S3E W01-W04 candidate measures 257,992 bytes. This
     # owner-authorised R33 calibration keeps the smallest whole-1,000-byte
     # ceiling preserving at least 2,000 bytes of measured headroom: 260,000
-    # leaves 2,002 bytes. The 260,000-byte outer bound is a guard, not a target.
+    # leaves 2,008 bytes. The 260,000-byte outer bound is a guard, not a target.
     MAX_ASSET_BYTES = 260_000
-    CURRENT_CALIBRATION_ASSET_BYTES = 257_998
+    CURRENT_CALIBRATION_ASSET_BYTES = 257_992
     N06_BASELINE_ASSET_BYTES = 206_584
     N06_FINAL_P7_ASSET_BYTES = 215_126
     FULL_W1_FORECAST_BYTES = 144_730
