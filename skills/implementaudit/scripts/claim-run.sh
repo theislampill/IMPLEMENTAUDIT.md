@@ -18,6 +18,41 @@ reject_coordination_reparse() {
   return 0
 }
 
+update_controller_ref() {
+  local py=()
+  if command -v python >/dev/null 2>&1; then py=(python)
+  elif command -v python3 >/dev/null 2>&1; then py=(python3)
+  elif command -v py >/dev/null 2>&1; then py=(py -3)
+  else return 1; fi
+  "${py[@]}" - "$gate" "$1" "$2" "$3" <<'PY'
+import errno,os,stat,subprocess,sys,time
+if os.name=='nt': import msvcrt
+else: import fcntl
+gate,ref,new,old=sys.argv[1:]
+def unsafe(s): return not stat.S_ISREG(s.st_mode) or stat.S_ISLNK(s.st_mode) or bool(getattr(s,'st_file_attributes',0)&0x400) or s.st_nlink!=1 or s.st_size!=1
+before=os.lstat(gate)
+if unsafe(before): raise SystemExit(1)
+fd=os.open(gate,os.O_RDWR|getattr(os,'O_BINARY',0)|getattr(os,'O_NOFOLLOW',0))
+try:
+ opened=os.fstat(fd)
+ if os.name=='nt':
+  while True:
+   try: os.lseek(fd,0,os.SEEK_SET); msvcrt.locking(fd,msvcrt.LK_NBLCK,1); break
+   except OSError as e:
+    if e.errno not in {errno.EACCES,errno.EAGAIN,errno.EDEADLK}: raise
+    time.sleep(.05)
+ else: fcntl.flock(fd,fcntl.LOCK_EX)
+ current=os.lstat(gate)
+ if unsafe(current) or (current.st_dev,current.st_ino)!=(opened.st_dev,opened.st_ino): raise SystemExit(1)
+ raise SystemExit(subprocess.run(['git','update-ref',ref,new,old],check=False).returncode)
+finally:
+ try:
+  if os.name=='nt': os.lseek(fd,0,os.SEEK_SET); msvcrt.locking(fd,msvcrt.LK_UNLCK,1)
+  else: fcntl.flock(fd,fcntl.LOCK_UN)
+ finally: os.close(fd)
+PY
+}
+
 controller_io() {
   local a="$1" c="$2" repo common ref oid s rc rg root rr target_common; shift 2
   repo="$(git rev-parse --path-format=absolute --show-toplevel)" || return
@@ -50,7 +85,7 @@ controller_io() {
         [ -n "$expect" ] && [ "$s:$rc:$rg" = "implementaudit.controller-current.v1:$c:$expect" ] || return 1
       else [ -z "$expect" ] || return 1; fi
       new="$(printf 'implementaudit.controller-current.v1\t%s\t%s\t%s/%s\n' "$c" "$newclaim" "$repo" "$run" | git hash-object -w --stdin)" &&
-        git update-ref "$ref" "$new" "$old" ;;
+        update_controller_ref "$ref" "$new" "$old" ;;
     current)
       load || return; printf '%s\t%s\t%s\t%s\n' "$c" "$rr" "$root" "$rg" ;;
     resume|verify)
@@ -162,8 +197,11 @@ if [ ! -f "$run_root/.claimed" ]; then
 fi
 
 if [ -n "$controller" ]; then
-  controller_io bind "$controller" "$supersede" "$run_root" || {
+  ( set -C; printf 'controller_id=%s\n' "$controller" > "$run_root/.controller" ) 2>/dev/null || {
     rm -f "$run_root/.claimed"; rmdir "$run_root" 2>/dev/null; exit 1
+  }
+  controller_io bind "$controller" "$supersede" "$run_root" || {
+    rm -f "$run_root/.controller" "$run_root/.claimed"; rmdir "$run_root" 2>/dev/null; exit 1
   }
 fi
 

@@ -665,6 +665,28 @@ def release_window_gate():
     return errors
 
 
+def current_controller_custody():
+    marker = RUN / ".controller"
+    identity = path_identity(marker)
+    if identity.get("kind") == "absent":
+        return True
+    if identity.get("kind") != "regular" or identity.get("link_count") != 1 or not contained_regular(marker, RUN):
+        return False
+    match = re.fullmatch(rb"controller_id=([a-z0-9](?:[a-z0-9-]{0,47}))\n", marker.read_bytes())
+    if match is None:
+        return False
+    controller = match.group(1).decode("ascii")
+    completed = subprocess.run(
+        [BASH_EXE, bash_path(SCRIPT_DIR / "claim-run.sh"), "--current-controller", controller],
+        cwd=os.fspath(REPO), text=True, capture_output=True, check=False,
+    )
+    fields = completed.stdout.rstrip("\n").split("\t")
+    if completed.returncode != 0 or len(fields) != 4:
+        return False
+    same = lambda left, right: os.path.normcase(os.path.abspath(native_input(left))) == os.path.normcase(os.path.abspath(right))
+    return fields[0] == controller and same(fields[1], REPO) and same(fields[2], RUN) and fields[3] == claim_id
+
+
 def window_intents():
     runs = REPO / ".IMPLEMENTAUDIT" / "runs"
     if path_identity(runs).get("kind") == "absent":
@@ -1150,6 +1172,10 @@ except WriterDomainBreach:
 except OSError as error:
     sys.stderr.write(f"apply-observed-mutation: namespace gate acquisition failed: {error}\n")
     emit_no_effect("MUTATION_FAILED_NO_STATE_CHANGE", "IO_FAILURE")
+if not current_controller_custody():
+    if release_window_gate():
+        emit_no_effect("ROLLBACK_FAILED_WITH_RESIDUE", "GATE_RELEASE_FAILURE")
+    emit_no_effect("UNSUPPORTED_OWNER_DECISION", "STALE_CONTROLLER_CUSTODY")
 try:
     window_failure = verification_window_failure()
 except (OSError, RuntimeError, WriterDomainBreach) as error:
