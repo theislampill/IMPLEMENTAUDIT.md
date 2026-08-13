@@ -1,13 +1,5 @@
 name: Deploy docs portal to GitHub Pages
 
-# OWNER DECISION required before this workflow can deploy successfully:
-# In repository Settings → Pages → Source, select "GitHub Actions".
-# Until that setting is changed, the deploy job will fail at the Pages API
-# step. The build and validate jobs will still run cleanly.
-#
-# Pages deployment status is unverified until the workflow actually succeeds
-# in CI with the Pages source setting active.
-
 on:
   push:
     branches:

@@ -1,0 +1,23 @@
+<p class="eyebrow">Research &amp; Engineering Lineage · Evolved-DRF</p>
+<h1>Formal Methods &amp; Verification Engineering</h1>
+<p class="lead">Use this lineage to state the protected property precisely, expose assumptions, and choose a check whose result actually bears on that property.</p>
+
+<h2 id="contribution">What this lineage contributes</h2>
+<p>Formal Methods &amp; Verification Engineering starts with a precise property, then contributes explicit assumptions, invariants, temporal properties, abstraction and compositional contracts. It distinguishes safety from liveness, local checks from system claims, and tool success from a proof about the intended environment.</p>
+<p>A proof or deterministic checker is useful only while its property, model, toolchain, inputs and configuration remain current. The proof currentness boundary is therefore part of the claim, not a later administrative detail.</p>
+
+<h2 id="changed">What changed</h2>
+<p>The landed v0.4.0 composition strengthens evaluator discipline and exact-identity release checks. When a candidate and its evaluator both change, retained witnesses, old/new product-by-evaluator comparisons and held-out positive, negative, boundary and adjacent cases prevent self-authenticating green.</p>
+<p>Cross-family release verification now requires the named candidate commit itself; a different same-tree commit cannot satisfy that identity contract.</p>
+
+<h2 id="already-native">What was already native</h2>
+<p>IMPLEMENTAUDIT already required explicit invariants, terminal markers, exact hashes, deterministic package checks, negative evidence and independent review. Many formal properties therefore mapped to existing stronger or equivalent native controls.</p>
+
+<h2 id="rejected">What was rejected</h2>
+<p>No universal formalisation, theorem-prover requirement, proof-count target or ceremony around notation was adopted. A model is not required where a direct authoritative discriminator is cheaper and sufficient. Formal appearance cannot rescue the wrong property.</p>
+
+<h2 id="unverified">What remains unverified</h2>
+<p>This route does not claim that IMPLEMENTAUDIT is formally verified, that its environment model is complete, or that all safety and liveness properties have mechanical proofs. Toolchain soundness and external-host behaviour remain separate evidence obligations.</p>
+
+<h2 id="provenance">Provenance</h2>
+<p>The frozen Formal Methods &amp; Verification Engineering population is reconciled through the R50 composition. Current claims resolve to landed phase-design, evaluator and release-identity checks. See the <a href="../evolved-drf/">Evolved-DRF synthesis</a> for family placement and proof ceilings.</p>

@@ -14,9 +14,9 @@ release_identity_tmp=""
 trap 'if [ -n "${release_identity_tmp:-}" ]; then rm -rf "$release_identity_tmp"; fi' EXIT
 if [ "${1:-}" = "--release-identity" ]; then
   case "$2" in
-    family-forward)
+    family-forward|cross-family-forward)
       [ "$#" -eq 5 ] \
-        || fail "--release-identity family-forward requires <previous-tag> <candidate-tag> <release-commit>"
+        || fail "--release-identity $2 requires <previous-tag> <candidate-tag> <release-commit>"
       release_identity_args=("$2" "$3" "$4" "$5")
       shift 5
       ;;
@@ -32,7 +32,7 @@ if [ "${1:-}" = "--release-identity" ]; then
       release_identity_args=("$2" "$3" "$4")
       shift 4
       ;;
-    *) fail "--release-identity mode must be forward, republish, family-forward, or same-tag-correction" ;;
+    *) fail "--release-identity mode must be forward, republish, family-forward, cross-family-forward, or same-tag-correction" ;;
   esac
 fi
 [ "$#" -eq 0 ] || fail "unknown argument: $1"
@@ -472,8 +472,8 @@ if plugin.get("skills") != "./skills/":
     )
 if not plugin.get("version"):
     raise SystemExit("plugin version is required")
-if plugin.get("version") != "0.3.3":
-    raise SystemExit("plugin version must be 0.3.3 for the v0.3.3 runtime family")
+if plugin.get("version") != "0.4.0":
+    raise SystemExit("plugin version must be 0.4.0 for the v0.4.0 runtime family")
 
 marketplace = json.loads(Path(".claude-plugin/marketplace.json").read_text())
 plugins = marketplace.get("plugins")

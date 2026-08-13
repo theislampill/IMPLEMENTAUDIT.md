@@ -24,13 +24,13 @@ cleanup_dir=""
 
 check_release_identity() {
   local mode="${1:-}" previous_identity="${2:-}" candidate_identity="" current_public_receipt="" release_commit="" check_root="" candidate_asset=""
-  if [ "$mode" = "family-forward" ]; then
+  if [ "$mode" = "family-forward" ] || [ "$mode" = "cross-family-forward" ]; then
     candidate_identity="${3:-}"
     release_commit="${4:-}"
     check_root="${5:-$repo_root}"
     candidate_asset="${6:-$check_root/$asset_name}"
     [ -n "$previous_identity" ] && [ -n "$candidate_identity" ] && [ -n "$release_commit" ] \
-      || fail "--check-release-identity family-forward requires <previous-tag> <candidate-tag> <release-commit> [repo-root] [candidate-asset]"
+      || fail "--check-release-identity $mode requires <previous-tag> <candidate-tag> <release-commit> [repo-root] [candidate-asset]"
   elif [ "$mode" = "same-tag-correction" ]; then
     candidate_identity="$previous_identity"
     current_public_receipt="${3:-}"
@@ -56,10 +56,10 @@ from pathlib import Path
 
 mode, previous_identity, candidate_identity, receipt_arg, release_commit, root_arg, candidate_arg = sys.argv[1:]
 root = Path(root_arg).resolve()
-if mode not in {"forward", "republish", "family-forward", "same-tag-correction"}:
+if mode not in {"forward", "republish", "family-forward", "cross-family-forward", "same-tag-correction"}:
     raise SystemExit(
         "prospective release identity mode must be forward, republish, "
-        "family-forward, or same-tag-correction"
+        "family-forward, cross-family-forward, or same-tag-correction"
     )
 
 plugin_path = root / ".claude-plugin" / "plugin.json"
@@ -102,7 +102,7 @@ headings = [
 distinct_headings = list(dict.fromkeys(headings))
 if not distinct_headings:
     raise SystemExit("CHANGELOG.md has no published version heading")
-if mode in {"family-forward", "same-tag-correction"}:
+if mode in {"family-forward", "cross-family-forward", "same-tag-correction"}:
     if not portal_path.is_file():
         raise SystemExit(f"release identity owner is missing: {portal_path}")
     portal_release = json.loads(portal_path.read_text(encoding="utf-8")).get("release", {})
@@ -130,7 +130,7 @@ if mode in {"family-forward", "same-tag-correction"}:
     if not public_headings or public_headings[0] != candidate_identity:
         raise SystemExit(f"{mode} candidate tag must be the first public CHANGELOG heading")
 
-if mode == "family-forward":
+if mode in {"family-forward", "cross-family-forward"}:
     public_tag_pattern = re.compile(r"v([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)")
     previous_match = public_tag_pattern.fullmatch(previous_identity)
     candidate_match = public_tag_pattern.fullmatch(candidate_identity)
@@ -138,17 +138,32 @@ if mode == "family-forward":
         raise SystemExit("family-forward release identities must be v-prefixed with four numeric components")
     previous_family = ".".join(previous_match.groups()[:3])
     candidate_family = ".".join(candidate_match.groups()[:3])
-    if previous_family != plugin_version or candidate_family != plugin_version:
+    if mode == "family-forward" and (
+            previous_family != plugin_version or candidate_family != plugin_version):
         raise SystemExit(
             f"family-forward tags must remain in runtime family {plugin_version}: "
             f"previous={previous_identity!r} candidate={candidate_identity!r}"
         )
+    if mode == "cross-family-forward" and candidate_family != plugin_version:
+        raise SystemExit(
+            f"cross-family-forward candidate tag must project runtime {plugin_version}: "
+            f"candidate={candidate_identity!r}"
+        )
+    if mode == "cross-family-forward" and previous_family == candidate_family:
+        raise SystemExit("cross-family-forward must change the runtime family")
     if candidate_identity == previous_identity:
         raise SystemExit("family-forward candidate tag must differ from the previous public tag")
-    if candidate_match.group(4) == "0":
+    if mode == "family-forward" and candidate_match.group(4) == "0":
         raise SystemExit("family-forward candidate tag must use a non-zero fourth component")
-    if int(candidate_match.group(4)) <= int(previous_match.group(4)):
+    if mode == "family-forward" and int(candidate_match.group(4)) <= int(previous_match.group(4)):
         raise SystemExit("family-forward candidate fourth component must be greater than the previous tag")
+    if mode == "cross-family-forward":
+        previous_runtime = tuple(int(value) for value in previous_match.groups()[:3])
+        candidate_runtime = tuple(int(value) for value in candidate_match.groups()[:3])
+        if candidate_runtime <= previous_runtime:
+            raise SystemExit("cross-family-forward candidate runtime family must be greater than the predecessor")
+        if candidate_match.group(4) != "0":
+            raise SystemExit("cross-family-forward candidate tag must start the runtime family at fourth component zero")
     prior_public_headings = [value for value in public_headings if value != candidate_identity]
     authoritative_previous = prior_public_headings[0] if prior_public_headings else ""
 elif mode == "same-tag-correction":
@@ -254,7 +269,7 @@ if resolved.returncode != 0:
     raise SystemExit("release identity commit does not resolve")
 commit_sha = resolved.stdout.strip()
 parent_sha = ""
-if mode == "same-tag-correction":
+if mode in {"same-tag-correction", "cross-family-forward"}:
     resolved_parent = subprocess.run(
         ["git", "-C", str(root), "rev-parse", "--verify", f"{commit_sha}^1^{{commit}}"],
         text=True,
@@ -262,14 +277,14 @@ if mode == "same-tag-correction":
         stderr=subprocess.PIPE,
     )
     if resolved_parent.returncode != 0:
-        raise SystemExit("same-tag correction release commit must have a first parent")
+        raise SystemExit(f"{mode} release commit must have a first parent")
     parent_sha = resolved_parent.stdout.strip()
 owner_relpaths = [
     ".claude-plugin/plugin.json",
     "skills/implementaudit/SKILL.md",
     "CHANGELOG.md",
 ]
-if mode in {"family-forward", "same-tag-correction"}:
+if mode in {"family-forward", "cross-family-forward", "same-tag-correction"}:
     owner_relpaths.append("docs/portal/site.json")
 if mode == "same-tag-correction":
     owner_relpaths.append(canonical_receipt_relpath)
@@ -324,7 +339,7 @@ if ancestor.returncode != 0:
     raise SystemExit("release identity commit must be an ancestor of current HEAD")
 if commit_tree != head_tree:
     raise SystemExit("release identity commit tree must equal current HEAD tree")
-if mode == "same-tag-correction":
+if mode in {"same-tag-correction", "cross-family-forward"}:
     head_commit = subprocess.run(
         ["git", "-C", str(root), "rev-parse", "HEAD^{commit}"],
         check=True,
@@ -332,7 +347,35 @@ if mode == "same-tag-correction":
         stdout=subprocess.PIPE,
     ).stdout.strip()
     if commit_sha != head_commit:
-        raise SystemExit("same-tag correction release commit must equal current HEAD")
+        raise SystemExit(f"{mode} release commit must equal current HEAD")
+
+if mode == "cross-family-forward":
+    parent_versions = []
+    for owner_relpath in (".claude-plugin/plugin.json", "skills/implementaudit/SKILL.md"):
+        parent_owner = subprocess.run(
+            ["git", "-C", str(root), "show", f"{parent_sha}:{owner_relpath}"],
+            check=True,
+            stdout=subprocess.PIPE,
+        ).stdout.decode("utf-8")
+        if owner_relpath.endswith("plugin.json"):
+            parent_versions.append(str(json.loads(parent_owner).get("version", "")).strip())
+        else:
+            parent_match = re.search(
+                r'(?m)^\s+version:\s*["\']?([^"\'\n]+)["\']?\s*$', parent_owner)
+            if not parent_match:
+                raise SystemExit("cross-family-forward predecessor SKILL.md metadata.version is missing")
+            parent_versions.append(parent_match.group(1).strip())
+    if parent_versions != [previous_family, previous_family]:
+        raise SystemExit(
+            "cross-family-forward predecessor plugin/SKILL runtime does not "
+            f"match public family {previous_family!r}: {parent_versions!r}"
+        )
+    print(
+        f"build-release-asset: release identity cross-family-forward "
+        f"{previous_identity}/{previous_family} -> "
+        f"{candidate_identity}/{plugin_version} at {commit_sha}"
+    )
+    raise SystemExit(0)
 
 if mode == "family-forward":
     shown = subprocess.run(
@@ -990,8 +1033,8 @@ with zipfile.ZipFile(asset) as zf:
         marketplace = json.loads((extracted / ".claude-plugin/marketplace.json").read_text())
         if plugin.get("name") != "implementaudit":
             raise SystemExit("extracted plugin name must be implementaudit")
-        if plugin.get("version") != "0.3.3":
-            raise SystemExit("extracted plugin version must be 0.3.3")
+        if plugin.get("version") != "0.4.0":
+            raise SystemExit("extracted plugin version must be 0.4.0")
         if plugin.get("skills") != "./":
             raise SystemExit(
                 "extracted plugin skills path must be ./ "

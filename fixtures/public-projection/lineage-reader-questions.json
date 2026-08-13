@@ -1,5 +1,5 @@
 {
-  "schema": "implementaudit-research-lineage-reader-questions-v1",
+  "schema": "implementaudit-research-lineage-reader-questions-v2",
   "questions": [
     {
       "id": "R29-LQ1",
@@ -60,6 +60,84 @@
       "question": "What has not been universally validated across agents, repositories, hosts, or skill ecosystems?",
       "page": "research-lineage-overview",
       "evidence": ["not universal validation", "agents", "repositories", "hosts", "skill ecosystems"]
+    },
+    {
+      "id": "R29-LQ11",
+      "question": "What does Evolved-CSS contribute without becoming a selectable methodology?",
+      "page": "research-lineage-evolved-css",
+      "evidence": ["Cognitive Systems Engineering", "Statistical Engineering", "Systems Safety", "native controls", "not a runtime mode"]
+    },
+    {
+      "id": "R29-LQ12",
+      "question": "What does Evolved-SSD contribute to the integrated substrate?",
+      "page": "research-lineage-evolved-ssd",
+      "evidence": ["Systems Engineering", "Systems Security Engineering", "Decision &amp; Operations Engineering", "native controls", "claim boundary"]
+    },
+    {
+      "id": "R29-LQ13",
+      "question": "What does Evolved-DRF contribute while preserving negative evidence?",
+      "page": "research-lineage-evolved-drf",
+      "evidence": ["Distributed Systems Engineering", "Reliability &amp; Maintainability Engineering", "Formal Methods &amp; Verification Engineering", "negative evidence", "owner decision"]
+    },
+    {
+      "id": "R29-LQ14",
+      "question": "How should readers interpret S³E, the 552 denominator, and package projections?",
+      "page": "research-lineage-s3e",
+      "evidence": ["one native state-synthesis substrate", "552/552 disposition accounting", "not 552 source changes", "51 archive members", "49 Codex-installed payload files"]
+    },
+    {
+      "id": "R29-LQ15",
+      "question": "What does Systems Engineering contribute without imposing a fixed lifecycle?",
+      "page": "research-lineage-systems-engineering",
+      "evidence": ["authoritative but revisable intent", "configuration identity", "interfaces", "V&amp;V", "lifecycle coherence"]
+    },
+    {
+      "id": "R29-LQ16",
+      "question": "What does Systems Security Engineering contribute without claiming certification?",
+      "page": "research-lineage-systems-security-engineering",
+      "evidence": ["protected consequence", "trust boundaries", "least privilege", "current authorisation", "secure failure"]
+    },
+    {
+      "id": "R29-LQ17",
+      "question": "What does Decision & Operations Engineering contribute to bounded action selection?",
+      "page": "research-lineage-decision-operations-engineering",
+      "evidence": ["decision owner", "meaningful alternatives", "hard constraints", "proxy substitution", "cheap authoritative discriminator"]
+    },
+    {
+      "id": "R29-LQ18",
+      "question": "What does Distributed Systems Engineering contribute without claiming consensus or fault tolerance?",
+      "page": "research-lineage-distributed-systems-engineering",
+      "evidence": ["partial failure", "unknown outcome", "currentness", "configuration", "fenced effects"]
+    },
+    {
+      "id": "R29-LQ19",
+      "question": "What does Reliability & Maintainability Engineering contribute without claiming measured reliability?",
+      "page": "research-lineage-reliability-maintainability-engineering",
+      "evidence": ["required function", "common-cause", "diagnostic coverage", "graceful degradation", "restoration"]
+    },
+    {
+      "id": "R29-LQ20",
+      "question": "What does Formal Methods & Verification Engineering contribute without claiming a formal proof?",
+      "page": "research-lineage-formal-methods-verification-engineering",
+      "evidence": ["precise property", "assumptions", "invariants", "temporal properties", "proof currentness"]
+    },
+    {
+      "id": "R29-LQ21",
+      "question": "What does Cognitive Systems Engineering contribute without creating a human-factors ceremony?",
+      "page": "research-lineage-cognitive-systems-engineering",
+      "evidence": ["joint cognitive work", "decision-relevant state", "authority and capability", "handoff", "attention"]
+    },
+    {
+      "id": "R29-LQ22",
+      "question": "What does Statistical Engineering contribute without turning metrics into proof?",
+      "page": "research-lineage-statistical-engineering",
+      "evidence": ["measurand", "measurement-system fitness", "variation", "negative controls", "proxy resistance"]
+    },
+    {
+      "id": "R29-LQ23",
+      "question": "What does Systems Safety contribute without claiming universal safety?",
+      "page": "research-lineage-systems-safety",
+      "evidence": ["unacceptable loss", "hazardous state", "safety constraints", "containment", "recovery"]
     }
   ],
   "public_pages": [
@@ -67,14 +145,42 @@
     "research-lineage-lean",
     "research-lineage-agile",
     "research-lineage-waterfall",
-    "research-lineage-evolved-law"
+    "research-lineage-evolved-law",
+    "research-lineage-systems-engineering",
+    "research-lineage-systems-security-engineering",
+    "research-lineage-decision-operations-engineering",
+    "research-lineage-evolved-ssd",
+    "research-lineage-distributed-systems-engineering",
+    "research-lineage-reliability-maintainability-engineering",
+    "research-lineage-formal-methods-verification-engineering",
+    "research-lineage-evolved-drf",
+    "research-lineage-cognitive-systems-engineering",
+    "research-lineage-statistical-engineering",
+    "research-lineage-systems-safety",
+    "research-lineage-evolved-css",
+    "research-lineage-s3e"
   ],
+  "first_reader_contract": {
+    "section_ids": ["contribution", "changed", "already-native", "rejected", "unverified", "provenance"],
+    "minimum_visible_words": 180,
+    "individual_pages": [
+      {"page": "research-lineage-systems-engineering", "title": "Systems Engineering", "route": "research-engineering-lineage/systems-engineering/", "family": "SSD", "rxx": "R45", "review_tier": "cold-review"},
+      {"page": "research-lineage-systems-security-engineering", "title": "Systems Security Engineering", "route": "research-engineering-lineage/systems-security-engineering/", "family": "SSD", "rxx": "R46", "review_tier": "shared-template-census"},
+      {"page": "research-lineage-decision-operations-engineering", "title": "Decision & Operations Engineering", "route": "research-engineering-lineage/decision-operations-engineering/", "family": "SSD", "rxx": "R47", "review_tier": "shared-template-census"},
+      {"page": "research-lineage-distributed-systems-engineering", "title": "Distributed Systems Engineering", "route": "research-engineering-lineage/distributed-systems-engineering/", "family": "DRF", "rxx": "R48", "review_tier": "cold-review"},
+      {"page": "research-lineage-reliability-maintainability-engineering", "title": "Reliability & Maintainability Engineering", "route": "research-engineering-lineage/reliability-maintainability-engineering/", "family": "DRF", "rxx": "R49", "review_tier": "shared-template-census"},
+      {"page": "research-lineage-formal-methods-verification-engineering", "title": "Formal Methods & Verification Engineering", "route": "research-engineering-lineage/formal-methods-verification-engineering/", "family": "DRF", "rxx": "R50", "review_tier": "shared-template-census"},
+      {"page": "research-lineage-cognitive-systems-engineering", "title": "Cognitive Systems Engineering", "route": "research-engineering-lineage/cognitive-systems-engineering/", "family": "CSS", "rxx": "R42", "review_tier": "cold-review"},
+      {"page": "research-lineage-statistical-engineering", "title": "Statistical Engineering", "route": "research-engineering-lineage/statistical-engineering/", "family": "CSS", "rxx": "R43", "review_tier": "shared-template-census"},
+      {"page": "research-lineage-systems-safety", "title": "Systems Safety", "route": "research-engineering-lineage/systems-safety/", "family": "CSS", "rxx": "R44", "review_tier": "shared-template-census"}
+    ]
+  },
   "classification_literals": [
     "PRE_EXISTING_NATIVE",
     "SHARPENED_OR_RECONCILED",
     "NEW_RESIDUAL",
     "REJECTED_OR_NOT_ADOPTED"
   ],
-  "release_title": "v0.3.3.3 — Second-Order Reflexive Meta-Engineering: Evolved-LAW (Lean · Agile · Waterfall)",
-  "compact_label": "SORME"
+  "release_title": "State Synthesis Substrate Engineering: Evolved-SSDDRFCSS",
+  "compact_label": "S³E"
 }

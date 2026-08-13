@@ -5,6 +5,7 @@
 
       <h2 id="contents">Contents</h2>
       <p>The package includes <code>SKILL.md</code>, <code>references/</code>, <code>templates/</code>, helper <code>scripts/</code>, and plugin metadata.<br>In the repository those files live under <code>skills/implementaudit/</code>; in the built <code>IMPLEMENTAUDIT.skill</code> archive the skill payload is at archive root.<br>The source <code>.claude-plugin/plugin.json</code> uses <code>skills: "./skills/"</code>; the release builder generates archive-local metadata with <code>skills: "./"</code> for that archive-root layout.<br>Optional <code>/dashboard/</code> content is not part of <code>IMPLEMENTAUDIT.skill</code>.</p>
+      <p>The exact archive projection contains 51 members, including two archive-local <code>.claude-plugin</code> manifests. Codex copies the remaining 49 payload files and intentionally excludes both manifests; this is not literal 51-to-51 install parity.</p>
 
       <h2 id="scripts">Shipped scripts</h2>
       <p>These helper scripts live in the repo under <code>skills/implementaudit/scripts/</code> and ship in <code>IMPLEMENTAUDIT.skill</code> as root <code>scripts/</code>.</p>

@@ -618,7 +618,12 @@ def build_portal(out_dir: Path) -> None:
     for page in ordered:
         path = page_output_path(out_dir, page)
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(render_page(page, ordered, site, pages_by_id, source_dir, release, versions), encoding="utf-8")
+        rendered = render_page(page, ordered, site, pages_by_id, source_dir, release, versions)
+        # The portal contract is ASCII HTML. Preserve protected public literals
+        # such as S³E through numeric character references rather than dropping
+        # or renaming them.
+        rendered = rendered.encode("ascii", "xmlcharrefreplace").decode("ascii")
+        path.write_text(rendered, encoding="utf-8")
 
     source_files = collect_source_files(root, source_dir, site, ordered)
     version = plugin_version(root)

@@ -87,10 +87,9 @@ Each action requires separate explicit authorisation.
 ## Quick start
 
 1. Choose the installation route in [Install notes](#install-notes). The
-   current release identity is `v0.3.3.3`; its host-facing runtime remains
-   `0.3.3`. The final correction candidate is a qualified 257,998-byte package
-   with SHA-256
-   `0e10a21600062c6f7cd440a6efb0ff3b795ce1a01067efb4005c7a176db02413`.
+   candidate public identity is `v0.4.0.0`; its host-facing runtime is `0.4.0`.
+   **State Synthesis Substrate Engineering: Evolved-SSDDRFCSS** (`S³E`) names
+   one native state-synthesis substrate, not selectable lineage modes.
    A checkout of `main`, a locally built archive, and the public release asset
    remain distinct until publication and byte-for-byte readback are complete.
 
@@ -224,7 +223,7 @@ justified by the live risk and evidence gap.
 
 Release chronology and exact campaign accounting belong in
 [`CHANGELOG.md`](CHANGELOG.md) and the
-[`v0.3.3.3` release report](docs/audits/archive/v0.3.3.3-release-report.md).
+[`v0.4.0.0` release report](docs/audits/archive/v0.4.0.0-release-report.md).
 The optional dashboard remains outside the shipped `.skill` package.
 
 The current bootloader architecture keeps weak-executor safeguards in
@@ -893,19 +892,17 @@ universal host loading, or provenance.
 
 ## Version and release notes
 
-Current project milestone: final `v0.3.3.3` correction candidate; plugin/runtime version `0.3.3`.
+Current project milestone: prepublication `v0.4.0.0` candidate; plugin/runtime version `0.4.0`.
 
-`v0.3.3.3` is a corrective and completion release of the `v0.3.3` runtime
-family. It incorporates countermeasures found during `v0.3.3.0` qualification
-and immediate dogfood, while the host-facing manifest remains `0.3.3` because
-the supported manifest schema is three-component.
+The canonical title is **State Synthesis Substrate Engineering:
+Evolved-SSDDRFCSS**. The protected compact label is **S³E** wherever used. The
+four-component public milestone maps to the three-component runtime family;
+the source composition does not itself create a tag, GitHub Release, asset or
+Pages deployment.
 
-The first tag and assets were independently read back, but publication occurred
-before the final R29 correction. They are preserved as superseded historical
-evidence. The final candidate will replace the same `v0.3.3.3` tag, package,
-checksum, and body only after exact-main qualification. Exact old and final commit, tree, package,
-checksum, hosted-run, deployment, and public-install evidence belongs in the
-[`v0.3.3.3` release report](docs/audits/archive/v0.3.3.3-release-report.md);
+The prior `v0.3.3.3` tag and release remain append-only historical evidence.
+Candidate and later authorised publication evidence belongs in the
+[`v0.4.0.0` release report](docs/audits/archive/v0.4.0.0-release-report.md);
 release chronology and user-visible changes belong in
 [`CHANGELOG.md`](CHANGELOG.md). This README describes the current product and
 installation routes rather than duplicating either evidence record.
@@ -1089,17 +1086,14 @@ To choose the right invocation shape, see the chooser table in
 Install flows are evidence-bounded. This repo can locally validate the release
 asset-to-Codex-install path into a temporary Codex home. It does not claim passive auto-update, universal host support, marketplace verification, or public GitHub release download verification unless those checks are run and recorded.
 
-**Release/contract alignment:** the public identity is `v0.3.3.3`, with
-plugin/runtime version `0.3.3`. The final correction candidate is 257,998 bytes
-with SHA-256
-`0e10a21600062c6f7cd440a6efb0ff3b795ce1a01067efb4005c7a176db02413`.
-The release URL is not treated as current for those bytes until publication and
-fresh public download/readback complete. Exact qualification and replacement
-history belongs in the release report rather than this installation guide.
+**Release/contract alignment:** the candidate public identity is `v0.4.0.0`,
+with plugin/runtime version `0.4.0`. Candidate bytes and SHA-256 are bound by a
+fresh exact-tree build; the release URL is not treated as serving them until
+publication and fresh public download/readback complete.
 
 A checkout of `main` may contain post-release source changes. Installing from a
 checkout or through a CLI that resolves current `main` uses source-checkout
-semantics; it is not automatically byte-identical to the tagged `v0.3.3.3`
+semantics; it is not automatically byte-identical to a future tagged `v0.4.0.0`
 asset. Re-verify this paragraph at every release gate.
 
 ### Quick install via the skills CLI
@@ -1126,9 +1120,8 @@ ecosystem's install-telemetry index, not by this repo.
 
 Choose the source deliberately:
 
-- the final `v0.3.3.3` correction candidate is the qualified 257,998-byte
-  package described by the release report, while public availability remains
-  pending publication and independent readback;
+- the `v0.4.0.0` source candidate must be built, qualified and independently
+  reviewed before any public availability can be claimed;
 - the current source contains the packaged R29 correction and later native
   runtime countermeasures;
 - a local archive is evidence only for the exact source tree from which it was
@@ -1140,9 +1133,9 @@ informational-independence controls, evaluator and candidate-controlled
 validation-policy integrity, package semantic preservation, public-projection
 discipline, and optional freshness-aware Graphify terrain. The canonical
 runtime references define those behaviours; the
-[`v0.3.3.3` release report](docs/audits/archive/v0.3.3.3-release-report.md)
-maps the superseded publication and final corrected release to their separate
-acceptance evidence. `/dashboard/` is not part of the `.skill` package.
+[`v0.4.0.0` release report](docs/audits/archive/v0.4.0.0-release-report.md)
+keeps source, package, install, hosted and public evidence separate.
+`/dashboard/` is not part of the `.skill` package.
 
 ### Install / update for Codex
 
@@ -1174,27 +1167,23 @@ bash scripts/install-codex-from-release.sh \
   --asset dist/IMPLEMENTAUDIT.skill \
   --checksum dist/CHECKSUMS.txt \
   --codex-home "$HOME/.codex" \
-  --version 0.3.3
+  --version 0.4.0
 ```
 
-After the final correction is published and independently read back, this
-command installs the public `v0.3.3.3` bytes. Until then, use the locally
-qualified asset route above rather than inferring current availability from the
-release URL; download `CHECKSUMS.txt` alongside the public asset when checksum
-verification is required:
+Only after v0.4.0.0 is published and independently read back may this public-tag
+form be treated as current; until then, use the locally qualified asset route:
 
 ```bash
 bash scripts/install-codex-from-release.sh \
-  --url https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/download/v0.3.3.3/IMPLEMENTAUDIT.skill \
+  --url https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/download/v0.4.0.0/IMPLEMENTAUDIT.skill \
   --codex-home "$HOME/.codex" \
-  --version 0.3.3
+  --version 0.4.0
 ```
 
-The earlier release page, asset, checksum manifest, downloaded bytes, installed
-version, and 48-file installed payload were read back in a fresh temporary
-Codex home as historical evidence. The final correction requires its own fresh
-public readback. These receipts do not claim passive update, universal host
-support, or host-load behaviour. For local verification, download
+The candidate archive has 51 members; the Codex copy intentionally excludes the
+two archive-local plugin manifests and must contain exactly 49 installed payload
+files. These local receipts do not claim passive update or public availability.
+They do not claim universal host support or host-load behaviour. For local verification, download
 `CHECKSUMS.txt` alongside `IMPLEMENTAUDIT.skill` and use the `--asset` plus
 `--checksum` form shown above.
 
@@ -1220,11 +1209,11 @@ bash scripts/install-claude-from-release.sh \
   --claude-skills-dir "<claude-session-path>/skills/implementaudit"
 ```
 
-After final public readback, install the `v0.3.3.3` release asset with:
+After final public readback, install the `v0.4.0.0` release asset with:
 
 ```bash
 bash scripts/install-claude-from-release.sh \
-  --url https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/download/v0.3.3.3/IMPLEMENTAUDIT.skill \
+  --url https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/download/v0.4.0.0/IMPLEMENTAUDIT.skill \
   --claude-skills-dir "<claude-session-path>/skills/implementaudit"
 ```
 
@@ -1306,9 +1295,9 @@ Ordinary non-layout-sensitive prose stays on the cheaper content path.
 
 The current evidence index is [`docs/audits/INDEX.md`](docs/audits/INDEX.md),
 with retention rules in [`docs/audits/RETENTION.md`](docs/audits/RETENTION.md).
-The exact historical publication record, final corrected qualification, and
-pending terminal `v0.3.3.3` publication readbacks are in its
-[release report](docs/audits/archive/v0.3.3.3-release-report.md). Contributor
+The exact candidate qualification and any later publication readbacks belong in
+the [`v0.4.0.0` release report](docs/audits/archive/v0.4.0.0-release-report.md).
+Contributor
 checks, package validation, generated-doc regeneration, and release boundaries
 belong in [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
@@ -1373,10 +1362,9 @@ release reports.
 
 The repository's
 [Research & Engineering Lineage source](docs/portal/pages/research-lineage-overview.html)
-explains why IMPLEMENTAUDIT uses visible Lean-derived vocabulary, what Agile
-and plan-driven assurance contributed, which properties were already native,
-which were sharpened in the `v0.3.3.3` source family, and which ceremonies or
-universal prescriptions were rejected. It is prepared for portal generation;
-hosted availability remains pending separate publication and readback.
-Evolved-LAW is a property-level research synthesis, not three methodology
-modes, a new runtime, or evidence of universal effectiveness.
+explains Evolved-LAW, Evolved-CSS, Evolved-SSD and Evolved-DRF at property level.
+The integrated S³E route reports 552/552 disposition accounting, not 552 source
+changes. It preserves rejected, unresolved and owner-decision evidence and adds
+no nine runtimes, lineage selector, methodology mode, or universal-effectiveness
+claim. Hosted-current status still requires separate Pages publication and
+readback.

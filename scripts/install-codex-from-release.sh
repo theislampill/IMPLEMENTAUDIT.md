@@ -9,9 +9,9 @@ fail() {
 usage() {
   cat <<'EOF'
 Usage:
-  scripts/install-codex-from-release.sh --asset PATH [--checksum PATH] [--codex-home PATH] [--version 0.3.3]
-  scripts/install-codex-from-release.sh --url URL [--checksum-url URL] [--codex-home PATH] [--version 0.3.3]
-  scripts/install-codex-from-release.sh --tag vX.Y.Z.W [--repo OWNER/REPO] [--codex-home PATH] [--version 0.3.3]
+  scripts/install-codex-from-release.sh --asset PATH [--checksum PATH] [--codex-home PATH] [--version 0.4.0]
+  scripts/install-codex-from-release.sh --url URL [--checksum-url URL] [--codex-home PATH] [--version 0.4.0]
+  scripts/install-codex-from-release.sh --tag vX.Y.Z.W [--repo OWNER/REPO] [--codex-home PATH] [--version 0.4.0]
 
 Installs IMPLEMENTAUDIT.skill into a Codex-style skill directory:
   $CODEX_HOME/skills/implementaudit
@@ -42,7 +42,7 @@ checksum_url=""
 tag=""
 repo="theislampill/IMPLEMENTAUDIT.md"
 codex_home="${CODEX_HOME:-$HOME/.codex}"
-expected_version="0.3.3"
+expected_version="0.4.0"
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
@@ -336,6 +336,15 @@ with zipfile.ZipFile(asset) as zf:
         ]:
             if not (tmp_target / rel).is_file():
                 raise SystemExit(f"installed skill missing required file: {rel}")
+
+        installed_files = [path for path in tmp_target.rglob("*") if path.is_file()]
+        if len(names) != 51:
+            raise SystemExit(f"release archive must contain 51 members, got {len(names)}")
+        if len(installed_files) != 49:
+            raise SystemExit(
+                "Codex projection must contain 49 files after excluding the two "
+                f".claude-plugin manifests, got {len(installed_files)}"
+            )
 
         if target.exists():
             shutil.rmtree(target)

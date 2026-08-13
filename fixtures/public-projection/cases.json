@@ -814,6 +814,49 @@
       "source_backed_correction_evidence": null,
       "cheap_path_reason": null,
       "expected": "FAIL"
+    },
+    {
+      "id": "S3E-W04-F1",
+      "kind": "language-owner-boundary",
+      "public_copy": "S³E — State Synthesis Substrate Engineering: Evolved-SSDDRFCSS preserves authorised behaviour.",
+      "public_copy_locale": "en-GB",
+      "generator_output_preserved": true,
+      "canonical_literals_preserved": true,
+      "expected": "PASS"
+    },
+    {
+      "id": "S3E-W04-F2",
+      "kind": "factual-parity",
+      "readme_wording": "One native state-synthesis substrate; the lineage families are not selectable modes.",
+      "docs_wording": "The four lineage families project into one native state-synthesis substrate, not nine runtimes or methodology modes.",
+      "readme_facts": ["one-substrate", "no-lineage-selector", "no-methodology-mode"],
+      "docs_facts": ["one-substrate", "no-lineage-selector", "no-methodology-mode"],
+      "expected": "PASS"
+    },
+    {
+      "id": "S3E-W04-F3",
+      "kind": "factual-parity",
+      "readme_wording": "552/552 is property-disposition accounting, not 552 source changes.",
+      "docs_wording": "The 552-row denominator records dispositions and must not be read as a source-change count.",
+      "readme_facts": ["552-dispositions", "not-source-change-count"],
+      "docs_facts": ["552-dispositions", "not-source-change-count"],
+      "expected": "PASS"
+    },
+    {
+      "id": "S3E-W04-F4",
+      "kind": "factual-parity",
+      "readme_wording": "The archive has 51 members; Codex installs 49 payload files after excluding two plugin manifests.",
+      "docs_wording": "Archive membership is 51 while the intentional Codex copy projection is 49 files.",
+      "readme_facts": ["archive-51", "codex-install-49", "two-manifest-exclusion"],
+      "docs_facts": ["archive-51", "codex-install-49", "two-manifest-exclusion"],
+      "expected": "PASS"
+    },
+    {
+      "id": "S3E-W04-F5",
+      "kind": "publication-transition",
+      "publication_state": "prepublication",
+      "public_wording_state": "prepublication-current",
+      "expected": "PASS"
     }
   ],
   "held_out_mutations": [

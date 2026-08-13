@@ -1,7 +1,7 @@
 <div class="page-eyebrow">First run</div>
       <h1>Installation</h1>
       <p class="lead">This portal keeps installation early, but separates install proof from run proof.<br>Package extraction can be verified; host loading and audit correctness still need their own evidence.</p>
-      <p>The <code>v0.3.3.3</code> URLs below are the intended final release routes, but do not establish that the correction candidate is already available. The runtime version remains <code>0.3.3</code>. Until publication and readback complete, use the source route or verify the release assets before installation.</p>
+      <p>The <code>v0.4.0.0</code> URLs below are candidate release routes, not evidence that a public release already exists. The runtime version is <code>0.4.0</code>. Until publication and readback complete, use a locally built, checksum-verified candidate.</p>
 
       <h2 id="skills-cli">Skills CLI path</h2>
       <p>The repository is discoverable through the open <a href="https://skills.sh/theislampill/IMPLEMENTAUDIT.md">skills CLI directory</a>. Install from the current repository source with:</p>
@@ -17,7 +17,7 @@
       <div class="term-window example-console">
         <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Claude release copy</em><span class="term-badge">install</span></div>
         <pre><span class="k-cyan">$ bash scripts/install-claude-from-release.sh \</span>
-<span class="k-cyan">  --url https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/download/v0.3.3.3/IMPLEMENTAUDIT.skill \</span>
+<span class="k-cyan">  --url https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/download/v0.4.0.0/IMPLEMENTAUDIT.skill \</span>
 <span class="k-cyan">  --claude-skills-dir "&lt;path-to-claude-skills/implementaudit&gt;"</span></pre>
       </div>
       <p>That helper is a file-copy workaround.<br>It proves extraction and placement only; it does not prove Claude Desktop import, runtime loading, or marketplace installation.</p>
@@ -26,11 +26,11 @@
       <div class="term-window example-console">
         <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Codex release copy</em><span class="term-badge">install</span></div>
         <pre><span class="k-cyan">$ bash scripts/install-codex-from-release.sh \</span>
-<span class="k-cyan">  --url https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/download/v0.3.3.3/IMPLEMENTAUDIT.skill \</span>
+<span class="k-cyan">  --url https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/download/v0.4.0.0/IMPLEMENTAUDIT.skill \</span>
 <span class="k-cyan">  --codex-home "$HOME/.codex" \</span>
-<span class="k-cyan">  --version 0.3.3</span></pre>
+<span class="k-cyan">  --version 0.4.0</span></pre>
       </div>
-      <p>The local checksum check verifies artifact integrity when a checksum manifest is supplied.<br>The exact final correction candidate is a 257,998-byte <code>IMPLEMENTAUDIT.skill</code> with SHA-256 <code>0e10a21600062c6f7cd440a6efb0ff3b795ce1a01067efb4005c7a176db02413</code>. The release URL is not treated as serving those bytes until publication and independent public readback complete. These are artifact-integrity facts, not a signature, attestation, SBOM, provenance chain, or host-load proof.</p>
+      <p>The local checksum check verifies artefact integrity when a checksum manifest is supplied.<br>The candidate archive has 51 members; the Codex copy intentionally excludes two plugin manifests and installs 49 payload files. Final bytes and SHA-256 come only from the fresh exact-tree build. These facts are not a signature, attestation, SBOM, provenance chain, public-release claim, or host-load proof.</p>
       <p>For a manual Codex copy from a checkout, repeat the copy when the package changes:</p>
       <div class="term-window example-console">
         <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Manual Codex copy</em><span class="term-badge">unix</span></div>
@@ -55,7 +55,7 @@
 <span class="k-cyan">  --asset dist/IMPLEMENTAUDIT.skill \</span>
 <span class="k-cyan">  --checksum dist/CHECKSUMS.txt \</span>
 <span class="k-cyan">  --codex-home "$HOME/.codex" \</span>
-<span class="k-cyan">  --version 0.3.3</span></pre>
+<span class="k-cyan">  --version 0.4.0</span></pre>
       </div>
 
       <h2 id="first">First run after install</h2>
@@ -78,7 +78,7 @@
       <ul>
         <li>The release tag exists.</li>
         <li>Assets can be read.</li>
-        <li><code>CHECKSUMS.txt</code> verifies artifact integrity when supplied; final <code>v0.3.3.3</code> release-page, checksum, and fresh-download digests remain pending until the publication readback is recorded.</li>
+        <li><code>CHECKSUMS.txt</code> verifies artefact integrity when supplied; <code>v0.4.0.0</code> release-page, checksum, and fresh-download digests remain pending until publication readback is recorded.</li>
         <li>Pages is current only after deploy success.</li>
         <li>Local installs do not auto-update.</li>
       </ul>

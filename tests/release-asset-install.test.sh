@@ -77,6 +77,16 @@ do
   }
 done
 
+installed_count="$(find "$installed" -type f | wc -l | tr -d '[:space:]')"
+[ "$installed_count" -eq 49 ] || {
+  printf 'release-asset-install.test: expected 49 installed files after excluding two plugin manifests, got %s\n' "$installed_count" >&2
+  exit 1
+}
+[ ! -e "$installed/.claude-plugin/plugin.json" ] && [ ! -e "$installed/.claude-plugin/marketplace.json" ] || {
+  printf 'release-asset-install.test: Codex projection must exclude both plugin manifests\n' >&2
+  exit 1
+}
+
 if [ -e "$installed/IMPLEMENTAUDIT.md" ]; then
   printf 'release-asset-install.test: root behavior file must not be installed\n' >&2
   exit 1
@@ -84,7 +94,7 @@ fi
 
 # The default follows the current runtime family. Stale and arbitrary caller
 # values remain hard mismatches rather than overrides.
-for mismatched_version in 0.4.0 9.9.9; do
+for mismatched_version in 0.3.3 9.9.9; do
   if bash scripts/install-codex-from-release.sh \
     --asset "$asset" \
     --checksum "$checksums" \
@@ -102,7 +112,7 @@ if bash scripts/install-codex-from-release.sh \
   --asset "$asset" \
   --checksum "$stale" \
   --codex-home "$tmp_parent/stale codex home" \
-  --version 0.3.3 >/dev/null 2>&1; then
+  --version 0.4.0 >/dev/null 2>&1; then
   printf 'release-asset-install.test: stale checksum unexpectedly passed\n' >&2
   exit 1
 fi
@@ -132,7 +142,7 @@ if bash scripts/install-codex-from-release.sh \
   --asset "$overbroad" \
   --checksum "$overbroad_checksums" \
   --codex-home "$tmp_parent/overbroad codex home" \
-  --version 0.3.3 >/dev/null 2>&1; then
+  --version 0.4.0 >/dev/null 2>&1; then
   printf 'release-asset-install.test: overbroad archive unexpectedly passed\n' >&2
   exit 1
 fi
@@ -162,7 +172,7 @@ if bash scripts/install-codex-from-release.sh \
   --asset "$sidecar" \
   --checksum "$sidecar_checksums" \
   --codex-home "$tmp_parent/sidecar codex home" \
-  --version 0.3.3 >/dev/null 2>&1; then
+  --version 0.4.0 >/dev/null 2>&1; then
   printf 'release-asset-install.test: sidecar artifact unexpectedly passed\n' >&2
   exit 1
 fi

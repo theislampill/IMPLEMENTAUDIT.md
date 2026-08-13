@@ -2,7 +2,7 @@
 name: implementaudit
 description: Execute audit-governed work to closure or handoff. Activate for /implementaudit and audit closure. For scheduling/dispatch/resource ceilings, read references/child-agents.md.
 metadata:
-  version: "0.3.3"
+  version: "0.4.0"
 ---
 
 # /implementaudit

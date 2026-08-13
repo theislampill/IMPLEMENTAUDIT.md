@@ -1,0 +1,23 @@
+<p class="eyebrow">Research &amp; Engineering Lineage · Evolved-CSS</p>
+<h1>Systems Safety</h1>
+<p class="lead">Use this lineage when an action can enter a hazardous state or produce an unacceptable loss even without a component failure.</p>
+
+<h2 id="contribution">What this lineage contributes</h2>
+<p>Systems Safety contributes explicit unacceptable loss, hazardous state, enforceable safety constraints, control and feedback integrity, containment and recovery. It challenges unsafe interactions, timing and transition conditions rather than treating a risk label as the control.</p>
+<p>Consequence drives depth: high-consequence continuation requires a current target state, observable feedback, a capable intervention chain and a bounded path to containment or recovery.</p>
+
+<h2 id="changed">What changed</h2>
+<p>The landed v0.4.0 composition adds deterministic consequence-control selection. It rejects nominal override and method-only risk matrices, chooses bounded degraded operation only when stopping is itself hazardous, and preserves STOP when the control envelope cannot be shown.</p>
+<p>Decision-state acceptance also keeps required function, current authority, evidence limits and recovery visible instead of promoting component health to system safety.</p>
+
+<h2 id="already-native">What was already native</h2>
+<p>IMPLEMENTAUDIT already used consequence-aware STOP, rollback, negative evidence, bounded scope and post-effect verification. Independent review and claim ceilings already prevented a local green result from proving broader safety.</p>
+
+<h2 id="rejected">What was rejected</h2>
+<p>No universal risk matrix, mandatory hazard worksheet, safety score, fixed review count or automatic “human override” claim was adopted. Low-consequence reversible action with direct authoritative readback retains the cheap path.</p>
+
+<h2 id="unverified">What remains unverified</h2>
+<p>This route does not claim a complete hazard analysis, a certified safety case, universal safety, loss probability or safe operation in an external environment. Hazard completeness and live intervention capability require domain-specific evidence.</p>
+
+<h2 id="provenance">Provenance</h2>
+<p>The frozen Systems Safety population is reconciled through the R44 composition. Current claims resolve to landed consequence-control, planning and operating-discipline owners. See the <a href="../evolved-css/">Evolved-CSS synthesis</a> for family placement and the one-substrate boundary.</p>

@@ -98,7 +98,26 @@ assert groups["Core model"] == ["runtime-model", "audit-gate-model", "invocation
 assert groups["Evidence"] == ["state-and-artifacts", "repo-state-comparison", "error-handling", "evidence-boundaries", "optional-tooling", "child-agent-review-loops"]
 assert groups["Closure"] == ["completion-semantics", "continuity-and-sidecars"]
 assert groups["Repository"] == ["repo-layout", "package-contents", "audit-trail"]
-assert groups["Research & Engineering Lineage"] == ["research-lineage-overview", "research-lineage-lean", "research-lineage-agile", "research-lineage-waterfall", "research-lineage-evolved-law"]
+assert groups["Research & Engineering Lineage"] == [
+    "research-lineage-overview",
+    "research-lineage-lean",
+    "research-lineage-agile",
+    "research-lineage-waterfall",
+    "research-lineage-evolved-law",
+    "research-lineage-systems-engineering",
+    "research-lineage-systems-security-engineering",
+    "research-lineage-decision-operations-engineering",
+    "research-lineage-evolved-ssd",
+    "research-lineage-distributed-systems-engineering",
+    "research-lineage-reliability-maintainability-engineering",
+    "research-lineage-formal-methods-verification-engineering",
+    "research-lineage-evolved-drf",
+    "research-lineage-cognitive-systems-engineering",
+    "research-lineage-statistical-engineering",
+    "research-lineage-systems-safety",
+    "research-lineage-evolved-css",
+    "research-lineage-s3e",
+]
 assert groups["References"] == ["terminology", "reference-index"]
 assert len(ordered) == meta["page_count"]
 assert meta["portal_version"] == "v2-multipage"
@@ -108,12 +127,33 @@ assert isinstance(meta["worktree_dirty"], bool)
 assert meta["project_milestone"] == site["release"]["milestone"]
 assert meta["plugin_manifest_version"] == site["release"]["manifest_version"]
 assert meta["release_url"] == site["release"]["url"]
+assert site["release"]["milestone"] == "v0.4.0.0"
+assert site["release"]["manifest_version"] == "0.4.0"
+assert site["release"]["audit_ledger_url"].endswith("/v0.4.0.0-release-report.md")
+audit_trail_source = Path("docs/portal/pages/audit-trail.html").read_text(encoding="utf-8")
+assert "39bf3006df81a12d3c2a32e956cab00c3b3384d9" in audit_trail_source
+assert "e7a733be10338a398d0112454088ae3dc2b56f60" in audit_trail_source
+assert "6d57060aeab3aeec1d0ad090c2fa7ab66ca9de67" not in audit_trail_source
+assert "3b5c300..." not in audit_trail_source
 required = {
     "docs/portal/site.json",
     "docs/portal/pages/overview.html",
     "docs/portal/pages/quick-start.html",
     "docs/portal/pages/runtime-model.html",
     "docs/portal/pages/reference-index.html",
+    "docs/portal/pages/research-lineage-evolved-css.html",
+    "docs/portal/pages/research-lineage-evolved-ssd.html",
+    "docs/portal/pages/research-lineage-evolved-drf.html",
+    "docs/portal/pages/research-lineage-systems-engineering.html",
+    "docs/portal/pages/research-lineage-systems-security-engineering.html",
+    "docs/portal/pages/research-lineage-decision-operations-engineering.html",
+    "docs/portal/pages/research-lineage-distributed-systems-engineering.html",
+    "docs/portal/pages/research-lineage-reliability-maintainability-engineering.html",
+    "docs/portal/pages/research-lineage-formal-methods-verification-engineering.html",
+    "docs/portal/pages/research-lineage-cognitive-systems-engineering.html",
+    "docs/portal/pages/research-lineage-statistical-engineering.html",
+    "docs/portal/pages/research-lineage-systems-safety.html",
+    "docs/portal/pages/research-lineage-s3e.html",
 }
 assert required.issubset(set(meta["source_files_used"]))
 for page_id in ordered:
@@ -130,6 +170,40 @@ then
   ok "metadata, site nav, and page shell agree"
 else
   fail_check "metadata/site nav/page shell mismatch"
+fi
+
+if "${py_cmd[@]}" - <<'PY'
+from pathlib import Path
+
+sources = {
+    "s3e": Path("docs/portal/pages/research-lineage-s3e.html").read_text(encoding="utf-8"),
+    "css": Path("docs/portal/pages/research-lineage-evolved-css.html").read_text(encoding="utf-8"),
+}
+anchors = {
+    "canonical-title": (
+        "s3e", "State Synthesis Substrate Engineering: Evolved-SSDDRFCSS"),
+    "one-substrate-no-methodology-mode": (
+        "s3e", "They do not create nine runtimes, selectable methodology modes, or a fixed ceremony."),
+    "ordinary-work-cheap-path": (
+        "css", "When one authoritative deterministic discriminator settles ordinary bounded work, use it and stop. No trigger means no added ceremony, record, or family machinery."),
+}
+
+def missing(text_by_owner):
+    return [key for key, (owner, literal) in anchors.items()
+            if literal not in text_by_owner[owner]]
+
+if missing(sources):
+    raise SystemExit(f"live S³E docs anchors missing: {missing(sources)}")
+for key, (owner, literal) in anchors.items():
+    mutated = dict(sources)
+    mutated[owner] = mutated[owner].replace(literal, "CORRUPTED", 1)
+    if key not in missing(mutated):
+        raise SystemExit(f"held-out S³E docs mutation false-passed: {key}")
+PY
+then
+  ok "source-coupled S³E title/no-mode/cheap-path held-outs fail docs acceptance"
+else
+  fail_check "source-coupled S³E public boundary held-out failed"
 fi
 
 if "${py_cmd[@]}" - "$tmp/portal-release-identity" <<'PY'
@@ -157,11 +231,11 @@ for rel in rel_sources:
     target.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(source, target)
 
-site["release"]["milestone"] = "v0.3.3.3"
-site["release"]["manifest_version"] = "0.3.3"
+site["release"]["milestone"] = "v0.4.0.0"
+site["release"]["manifest_version"] = "0.4.0"
 site["release"]["audit_ledger_url"] = (
     "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/"
-    "docs/audits/archive/v0.3.3.3-release-report.md"
+    "docs/audits/archive/v0.4.0.0-release-report.md"
 )
 site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
 valid = subprocess.run(
@@ -172,9 +246,9 @@ valid = subprocess.run(
 )
 assert valid.returncode == 0, valid.stderr
 metadata = json.loads((fixture_root / "dist" / "docs-portal" / "docs-metadata.json").read_text(encoding="utf-8"))
-assert metadata["project_milestone"] == "v0.3.3.3", metadata["project_milestone"]
+assert metadata["project_milestone"] == "v0.4.0.0", metadata["project_milestone"]
 
-site["release"]["milestone"] = "v0.3.4.3"
+site["release"]["milestone"] = "v0.4.1.0"
 site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
 wrong_family = subprocess.run(
     [sys.executable, str(fixture_root / "scripts" / "build-docs-portal.py"), "--out", str(fixture_root / "dist" / "docs-portal")],
@@ -183,12 +257,12 @@ wrong_family = subprocess.run(
     stderr=subprocess.PIPE,
 )
 assert wrong_family.returncode != 0
-assert "does not belong to runtime family 0.3.3" in wrong_family.stderr
+assert "does not belong to runtime family 0.4.0" in wrong_family.stderr
 
-site["release"]["milestone"] = "v0.3.3.3"
+site["release"]["milestone"] = "v0.4.0.0"
 site["release"]["audit_ledger_url"] = (
     "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/"
-    "docs/audits/archive/v0.3.3.0-release-report.md"
+    "docs/audits/archive/v0.3.3.3-release-report.md"
 )
 site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
 stale_ledger = subprocess.run(
@@ -197,8 +271,8 @@ stale_ledger = subprocess.run(
     stdout=subprocess.PIPE,
     stderr=subprocess.PIPE,
 )
-assert stale_ledger.returncode != 0, "generator accepted a v0.3.3.0 audit ledger for v0.3.3.3"
-assert "must name a non-placeholder v0.3.3.3 markdown ledger" in stale_ledger.stderr
+assert stale_ledger.returncode != 0, "generator accepted a v0.3.3.3 audit ledger for v0.4.0.0"
+assert "must name a non-placeholder v0.4.0.0 markdown ledger" in stale_ledger.stderr
 
 site["release"]["audit_ledger_url"] = "unknown"
 site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
@@ -209,11 +283,11 @@ placeholder_ledger = subprocess.run(
     stderr=subprocess.PIPE,
 )
 assert placeholder_ledger.returncode != 0, "generator accepted a placeholder audit ledger"
-assert "must name a non-placeholder v0.3.3.3 markdown ledger" in placeholder_ledger.stderr
+assert "must name a non-placeholder v0.4.0.0 markdown ledger" in placeholder_ledger.stderr
 
 site["release"]["audit_ledger_url"] = (
     "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/"
-    "docs/audits/archive/placeholder-v0.3.3.3-TBD.md"
+    "docs/audits/archive/placeholder-v0.4.0.0-TBD.md"
 )
 site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
 exact_tag_placeholder_ledger = subprocess.run(
@@ -223,13 +297,13 @@ exact_tag_placeholder_ledger = subprocess.run(
     stderr=subprocess.PIPE,
 )
 assert exact_tag_placeholder_ledger.returncode != 0, (
-    "generator accepted placeholder-v0.3.3.3-TBD.md instead of the canonical ledger basename"
+    "generator accepted placeholder-v0.4.0.0-TBD.md instead of the canonical ledger basename"
 )
-assert "must name a non-placeholder v0.3.3.3 markdown ledger" in exact_tag_placeholder_ledger.stderr
+assert "must name a non-placeholder v0.4.0.0 markdown ledger" in exact_tag_placeholder_ledger.stderr
 
 site["release"]["audit_ledger_url"] = (
     "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/"
-    "docs/audits/archive/v0.3.3.30-release-report.md"
+    "docs/audits/archive/v0.4.0.00-release-report.md"
 )
 site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
 prefix_collision_ledger = subprocess.run(
@@ -238,8 +312,8 @@ prefix_collision_ledger = subprocess.run(
     stdout=subprocess.PIPE,
     stderr=subprocess.PIPE,
 )
-assert prefix_collision_ledger.returncode != 0, "generator accepted a v0.3.3.30 ledger for v0.3.3.3"
-assert "must name a non-placeholder v0.3.3.3 markdown ledger" in prefix_collision_ledger.stderr
+assert prefix_collision_ledger.returncode != 0, "generator accepted a v0.4.0.00 ledger for v0.4.0.0"
+assert "must name a non-placeholder v0.4.0.0 markdown ledger" in prefix_collision_ledger.stderr
 PY
 then
   ok "explicit portal milestone and matching non-placeholder ledger control release metadata"
@@ -811,6 +885,14 @@ if bash scripts/check-public-claim-boundaries.sh >/dev/null 2>&1; then
   ok "check-public-claim-boundaries.sh allows negative local install update context"
 else
   fail_check "check-public-claim-boundaries.sh rejected negative local install update context"
+fi
+
+if grep -Fq 'S³E held-out source mutation false-passed' \
+     scripts/check-public-claim-boundaries.sh &&
+   bash scripts/check-public-claim-boundaries.sh >/dev/null 2>&1; then
+  ok "public-claim acceptance guards S³E title/no-mode/cheap-path held-outs"
+else
+  fail_check "public-claim acceptance lacks S³E source-coupled held-outs"
 fi
 
 "${py_cmd[@]}" - "$host_claim_fixture" <<'PY'

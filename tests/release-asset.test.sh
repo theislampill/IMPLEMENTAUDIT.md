@@ -79,6 +79,28 @@ if [ "${1:-}" = "--identity-only" ]; then
     git -C "$root" -c user.email=t@example.invalid -c user.name=t commit -qm family-forward
   }
 
+  make_cross_family_forward_fixture() {
+    local root="$1" previous_runtime="$2" previous_tag="$3" candidate_runtime="$4" candidate_tag="$5"
+    local site_milestone="${6:-$candidate_tag}"
+    local ledger_name="${7:-${site_milestone}-release-report.md}"
+    make_fixture "$root" "$previous_runtime" "$previous_tag"
+    mkdir -p "$root/docs/portal"
+    printf '{"version":"%s"}\n' "$candidate_runtime" > "$root/.claude-plugin/plugin.json"
+    sed -i "s/version: \"$previous_runtime\"/version: \"$candidate_runtime\"/" \
+      "$root/skills/implementaudit/SKILL.md"
+    printf '{"release":{"milestone":"%s","audit_ledger_url":"https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/archive/%s"}}\n' \
+      "$site_milestone" "$ledger_name" > "$root/docs/portal/site.json"
+    printf 'changed payload\n' > "$root/payload.txt"
+    {
+      printf '# Changelog\n\n## [%s] - 2026-08-13\n- Atomic public and runtime family transition.\n\n' "$candidate_tag"
+      tail -n +3 "$root/CHANGELOG.md"
+    } > "$root/CHANGELOG.md.next"
+    mv "$root/CHANGELOG.md.next" "$root/CHANGELOG.md"
+    git -C "$root" add .claude-plugin/plugin.json skills/implementaudit/SKILL.md \
+      payload.txt CHANGELOG.md docs/portal/site.json
+    git -C "$root" -c user.email=t@example.invalid -c user.name=t commit -qm cross-family-forward
+  }
+
   make_same_tag_correction_fixture() {
     local root="$1"
     local runtime_version="${2:-0.3.3}"
@@ -603,6 +625,109 @@ if [ "${1:-}" = "--identity-only" ]; then
     family-forward v0.3.3.0 v0.3.3.3 HEAD "$family_forward" >/dev/null \
     || fail 'valid v0.3.3.3 public identity for runtime 0.3.3 was rejected'
 
+  cross_family_forward="$tmp_parent/cross-family-forward"
+  make_cross_family_forward_fixture \
+    "$cross_family_forward" 0.3.3 v0.3.3.3 0.4.0 v0.4.0.0
+  bash scripts/build-release-asset.sh --check-release-identity \
+    cross-family-forward v0.3.3.3 v0.4.0.0 HEAD "$cross_family_forward" >/dev/null \
+    || fail 'valid v0.3.3.3/0.3.3 to v0.4.0.0/0.4.0 transition was rejected'
+
+  cross_family_stale_previous="$tmp_parent/cross-family-stale-previous"
+  make_cross_family_forward_fixture \
+    "$cross_family_stale_previous" 0.3.3 v0.3.3.3 0.4.0 v0.4.0.0
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      cross-family-forward v0.3.3.2 v0.4.0.0 HEAD "$cross_family_stale_previous" >/dev/null 2>&1; then
+    fail 'cross-family-forward accepted a stale predecessor public tag'
+  fi
+
+  cross_family_wrong_previous_runtime="$tmp_parent/cross-family-wrong-previous-runtime"
+  make_cross_family_forward_fixture \
+    "$cross_family_wrong_previous_runtime" 0.3.2 v0.3.3.3 0.4.0 v0.4.0.0
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      cross-family-forward v0.3.3.3 v0.4.0.0 HEAD "$cross_family_wrong_previous_runtime" >/dev/null 2>&1; then
+    fail 'cross-family-forward accepted predecessor runtime 0.3.2 for v0.3.3.3'
+  fi
+
+  cross_family_wrong_candidate_runtime="$tmp_parent/cross-family-wrong-candidate-runtime"
+  make_cross_family_forward_fixture \
+    "$cross_family_wrong_candidate_runtime" 0.3.3 v0.3.3.3 0.4.1 v0.4.0.0
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      cross-family-forward v0.3.3.3 v0.4.0.0 HEAD "$cross_family_wrong_candidate_runtime" >/dev/null 2>&1; then
+    fail 'cross-family-forward accepted candidate runtime 0.4.1 for v0.4.0.0'
+  fi
+
+  cross_family_wrong_portal="$tmp_parent/cross-family-wrong-portal"
+  make_cross_family_forward_fixture \
+    "$cross_family_wrong_portal" 0.3.3 v0.3.3.3 0.4.0 v0.4.0.0 v0.4.0.1
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      cross-family-forward v0.3.3.3 v0.4.0.0 HEAD "$cross_family_wrong_portal" >/dev/null 2>&1; then
+    fail 'cross-family-forward accepted a candidate tag different from the portal milestone'
+  fi
+
+  cross_family_wrong_ledger="$tmp_parent/cross-family-wrong-ledger"
+  make_cross_family_forward_fixture \
+    "$cross_family_wrong_ledger" 0.3.3 v0.3.3.3 0.4.0 v0.4.0.0 v0.4.0.0 v0.3.3.3-release-report.md
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      cross-family-forward v0.3.3.3 v0.4.0.0 HEAD "$cross_family_wrong_ledger" >/dev/null 2>&1; then
+    fail 'cross-family-forward accepted the predecessor release ledger'
+  fi
+
+  cross_family_history_rewrite="$tmp_parent/cross-family-history-rewrite"
+  make_cross_family_forward_fixture \
+    "$cross_family_history_rewrite" 0.3.3 v0.3.3.3 0.4.0 v0.4.0.0
+  sed -i '/## \[v0.3.3.3\]/,$d' "$cross_family_history_rewrite/CHANGELOG.md"
+  git -C "$cross_family_history_rewrite" add CHANGELOG.md
+  git -C "$cross_family_history_rewrite" commit -qm rewrite-history
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      cross-family-forward v0.3.3.3 v0.4.0.0 HEAD "$cross_family_history_rewrite" >/dev/null 2>&1; then
+    fail 'cross-family-forward accepted removal of predecessor CHANGELOG authority'
+  fi
+
+  cross_family_backward="$tmp_parent/cross-family-backward"
+  make_cross_family_forward_fixture \
+    "$cross_family_backward" 0.4.0 v0.4.0.3 0.3.9 v0.3.9.0
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      cross-family-forward v0.4.0.3 v0.3.9.0 HEAD "$cross_family_backward" >/dev/null 2>&1; then
+    fail 'cross-family-forward accepted a backward runtime-family transition'
+  fi
+
+  for dirty_owner in \
+      .claude-plugin/plugin.json \
+      skills/implementaudit/SKILL.md \
+      CHANGELOG.md \
+      docs/portal/site.json; do
+    owner_slug="$(printf '%s' "$dirty_owner" | tr '/.' '--')"
+    dirty_owner_root="$tmp_parent/cross-family-dirty-owner-$owner_slug"
+    make_cross_family_forward_fixture \
+      "$dirty_owner_root" 0.3.3 v0.3.3.3 0.4.0 v0.4.0.0
+    printf '\n' >> "$dirty_owner_root/$dirty_owner"
+    if bash scripts/build-release-asset.sh --check-release-identity \
+        cross-family-forward v0.3.3.3 v0.4.0.0 HEAD "$dirty_owner_root" >/dev/null 2>&1; then
+      fail "cross-family-forward accepted dirty release identity owner $dirty_owner"
+    fi
+  done
+
+  cross_family_commit="$(git -C "$cross_family_forward" rev-parse HEAD)"
+  printf 'moved head\n' >> "$cross_family_forward/payload.txt"
+  git -C "$cross_family_forward" add payload.txt
+  git -C "$cross_family_forward" commit -qm moved-head
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      cross-family-forward v0.3.3.3 v0.4.0.0 "$cross_family_commit" "$cross_family_forward" >/dev/null 2>&1; then
+    fail 'cross-family-forward accepted a candidate commit after HEAD moved'
+  fi
+
+  cross_family_same_tree_head="$tmp_parent/cross-family-same-tree-head"
+  make_cross_family_forward_fixture \
+    "$cross_family_same_tree_head" 0.3.3 v0.3.3.3 0.4.0 v0.4.0.0
+  cross_family_same_tree_commit="$(git -C "$cross_family_same_tree_head" rev-parse HEAD)"
+  git -C "$cross_family_same_tree_head" \
+    -c user.email=t@example.invalid -c user.name=t commit --allow-empty -qm moved-head-same-tree
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      cross-family-forward v0.3.3.3 v0.4.0.0 "$cross_family_same_tree_commit" \
+      "$cross_family_same_tree_head" >/dev/null 2>&1; then
+    fail 'cross-family-forward accepted a named release commit after HEAD moved to an empty same-tree commit'
+  fi
+
   dirty_candidate_owners="$tmp_parent/family-forward-dirty-candidate-owners"
   make_fixture "$dirty_candidate_owners" 0.3.3 v0.3.3.0
   printf '\n' >> "$dirty_candidate_owners/.claude-plugin/plugin.json"
@@ -1021,13 +1146,12 @@ with zipfile.ZipFile(asset) as zf:
             "current calibration authority must name the owner-authorised fold-in"
         )
 
-    # The composed /improve dominance fold-in plus S3E W01-W03 controls
-    # measure 257,900 bytes. This
+    # The composed S3E W01-W04 candidate measures 257,998 bytes. This
     # owner-authorised R33 calibration keeps the smallest whole-1,000-byte
     # ceiling preserving at least 2,000 bytes of measured headroom: 260,000
-    # leaves 2,100 bytes. The 260,000-byte outer bound is a guard, not a target.
+    # leaves 2,002 bytes. The 260,000-byte outer bound is a guard, not a target.
     MAX_ASSET_BYTES = 260_000
-    CURRENT_CALIBRATION_ASSET_BYTES = 257_900
+    CURRENT_CALIBRATION_ASSET_BYTES = 257_998
     N06_BASELINE_ASSET_BYTES = 206_584
     N06_FINAL_P7_ASSET_BYTES = 215_126
     FULL_W1_FORECAST_BYTES = 144_730
@@ -1179,8 +1303,8 @@ with zipfile.ZipFile(asset) as zf:
             )
 
         plugin = json.loads((root / ".claude-plugin/plugin.json").read_text())
-        if plugin.get("version") != "0.3.3":
-            raise SystemExit("expected plugin version 0.3.3")
+        if plugin.get("version") != "0.4.0":
+            raise SystemExit("expected plugin version 0.4.0")
         if plugin.get("skills") != "./":
             raise SystemExit(
                 "expected plugin skills path ./ "

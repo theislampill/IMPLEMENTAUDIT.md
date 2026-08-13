@@ -117,6 +117,46 @@ if Path("LICENSE").exists():
 
 failures = []
 
+# W04 source-coupled public boundaries. These anchors are independent of the
+# declarative projection fixture so source plus fixture co-mutation cannot turn
+# a canonical-title, no-mode, or cheap-path reversal into a pass.
+s3e_source_paths = {
+    "s3e": Path("docs/portal/pages/research-lineage-s3e.html"),
+    "css": Path("docs/portal/pages/research-lineage-evolved-css.html"),
+}
+s3e_source_anchors = {
+    "canonical-title": (
+        "s3e", "State Synthesis Substrate Engineering: Evolved-SSDDRFCSS"),
+    "one-substrate-no-methodology-mode": (
+        "s3e", "They do not create nine runtimes, selectable methodology modes, or a fixed ceremony."),
+    "ordinary-work-cheap-path": (
+        "css", "When one authoritative deterministic discriminator settles ordinary bounded work, use it and stop. No trigger means no added ceremony, record, or family machinery."),
+}
+
+
+def missing_s3e_source_anchors(text_by_owner):
+    return [
+        anchor_id for anchor_id, (owner, literal) in s3e_source_anchors.items()
+        if owner not in text_by_owner or literal not in text_by_owner[owner]
+    ]
+
+
+if any(not source.is_file() for source in s3e_source_paths.values()):
+    failures.append("S³E public source owner is missing")
+else:
+    s3e_source_text = {
+        key: source.read_text(encoding="utf-8")
+        for key, source in s3e_source_paths.items()
+    }
+    missing = missing_s3e_source_anchors(s3e_source_text)
+    if missing:
+        failures.append(f"S³E public source anchor missing: {missing}")
+    for anchor_id, (owner, literal) in s3e_source_anchors.items():
+        mutated = dict(s3e_source_text)
+        mutated[owner] = mutated[owner].replace(literal, "CORRUPTED", 1)
+        if anchor_id not in missing_s3e_source_anchors(mutated):
+            failures.append(f"S³E held-out source mutation false-passed: {anchor_id}")
+
 # Proof-level discipline (#53, IA-PROOF-LEVELS): on active/current surfaces,
 # verdict-class wording must carry a same-line proof-level qualification
 # (docs/audits/RETENTION.md taxonomy PL1-PL7). docs/audits/archive/** is

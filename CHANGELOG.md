@@ -13,7 +13,38 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ## [Unreleased]
 
-No changes are currently assigned beyond the final `v0.3.3.3` correction.
+No changes are currently assigned beyond the v0.4.0.0 candidate.
+
+## [v0.4.0.0] - 2026-08-13
+
+**State Synthesis Substrate Engineering: Evolved-SSDDRFCSS** (`S³E`) maps the
+four-component public milestone to plugin/runtime version `0.4.0`. This source
+entry is a prepublication candidate; tag, GitHub Release, assets, hosted
+workflows, Pages and fresh public-download installation remain separate gates.
+
+### Changed
+
+- Decision-state synthesis, current-controller custody, consequence-aware
+  action selection, evidence independence, semantic package preservation, and
+  observation/effect boundaries now compose through their landed native owners.
+- The public lineage route integrates Evolved-LAW, Evolved-CSS, Evolved-SSD and
+  Evolved-DRF as property genealogy for one native substrate. It adds no
+  lineage selector, runtime mode, fixed ceremony, or methodology-conformance
+  claim.
+- The 552-row research population is reported as 552/552 disposition
+  accounting, not as 552 source changes. Negative, rejected, unresolved,
+  residual and owner-decision outcomes remain visible.
+- Release identity qualification now has an explicit cross-family path that
+  binds predecessor public `v0.3.3.3`/runtime `0.3.3` to candidate public
+  `v0.4.0.0`/runtime `0.4.0`, the exact changelog/portal ledger and candidate
+  commit tree.
+
+### Package boundary
+
+- The release archive retains 51 members. Codex installation intentionally
+  excludes the two archive-local `.claude-plugin` manifests and therefore
+  projects 49 installed payload files. Final bytes and SHA-256 are recorded
+  only after the exact candidate build.
 
 ## [v0.3.3.3 final correction candidate] - 2026-08-12
 
