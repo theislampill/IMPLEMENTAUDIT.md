@@ -801,4 +801,31 @@ mv "$tmp_root/child-agents.tmp" \
   "$tmp_root/skills/implementaudit/references/child-agents.md"
 expect_fail "completion inferred other active cells were zero"
 
+# 54. A high-consequence control cannot pass without the complete target,
+# feedback, containment, and recovery envelope.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R44-C142-high-consequence-control-trigger")
+case["observations"]["containment"] = False
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "high-consequence control accepted without containment"
+
+# 55. Method labels never replace the consequence-control discriminator.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R44-C145-risk-matrix-insufficient")
+case["expected"] = "SELECT_CONSEQUENCE_CONTROL"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "risk-matrix label accepted as sufficient control evidence"
+
 printf 'action-selection-contract.test: ok\n'

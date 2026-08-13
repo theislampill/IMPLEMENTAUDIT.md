@@ -143,27 +143,15 @@ blocked interval retires no risk by construction and is Muda — log it in the
 
 ## Engineering-value admission, retention, and retirement
 
-The action-selection invariant applies to process controls as they are admitted
-and throughout their lifecycle. A triggered decision reuses the existing audit
-object, action-selection record, Muda/Mura/Muri register, countermeasure record,
-or Plan Closure surface. It records only the candidate work; live risk,
-uncertainty, boundary, coordination, evidence, or recurrence burden; owner and
-authoritative consumer; decision, action, authority, recovery, or knowledge
-state protected; cheapest sufficient discriminator and cheaper alternatives;
-expected evidence and residual; material time, tool, package, bootstrap,
-privacy, spend, and coordination cost; activation and non-trigger path; exit;
-and disposition. The record supports a decision. It does not prove that the
-control protects its claimed property.
-
+Apply the action-selection invariant and compact record defined in
+`planning-depth.md` throughout a process control's lifecycle; reuse an existing
+audit, action-selection, Muda/Mura/Muri, countermeasure, or closure surface. The
+record supports a decision but does not prove the protected property.
 Protective slack, sustainable capacity, feedback cadence, temporary options,
-and control depth are governed by the same native decision. Distinguish a
-bounded buffer that protects a named consequence from waste that has no live
-consumer. Prefer actionable information over shorter feedback for its own
-sake, and preserve recovery capacity rather than maximising utilisation.
-Retain an option only while its expected information value exceeds its bounded
-carrying cost and its exit condition remains current. Increase control depth
-for material consequence or hard-to-reverse action, not to imitate a named
-methodology. No trigger means no new record, ceremony, or runtime mode.
+and control depth share that decision: require a live consumer and consequence,
+actionable information, bounded cost, and an exit. Retain an option only while
+information value exceeds carrying cost and its exit condition remains current.
+No trigger means no new record, ceremony, or runtime mode.
 
 Use these lifecycle dispositions:
 
@@ -194,37 +182,14 @@ consumer identity, authoritative consumer, and evidence scope are unchanged;
 changed scope or consumer requires a fresh run. Keep producer, scope, and
 residual visible; command identity cannot make changed-state evidence reusable.
 
-Parallelism follows write and acceptance cells: one shared owner does not serialise disjoint cells; no shared owner or shared write remains parallel-safe.
-Serialise only the conflicting cell, keep closed write boundaries, and name the
-reconciliation point. Throughput never permits concurrent mutation of the same
-owner or an unqualified shared acceptance surface.
+Parallelism follows `child-agents.md`: one shared owner does not serialise disjoint cells; no shared owner or shared write remains parallel-safe. Known independence is not activation. Serialise only a conflicting
+cell, keep all boundaries closed, and name the join. Reconsider the ready frontier after a material scheduling-state change; dispatch is value-bearing work, not a concurrency or utilisation target.
 
-Known independence is not activation. When useful ready work exists, dispatch
-it only with closed write, acceptance, resource, authority, and reconciliation
-boundaries; unknown independence, irreversible external effect, or an actual
-conflict serialises the affected cell. Reconsider the ready frontier after a
-material scheduling-state change rather than retaining an issue-level wait.
-This is work-conserving where the expected decision or information value
-exceeds dispatch and reconciliation cost, not a concurrency or utilisation
-target.
-
-Process volume is not value evidence. Commit, file, line, command, reviewer,
-artefact, report, token, and elapsed-time counts establish neither engineering
-value nor ceremony by themselves. A named consumer without a protected
-consequence, a filled admission form without the protected property, relabelling
-mandatory work as optional-by-whim, or splitting one control without lowering
-actual activation and maintenance cost also fails. Do not add a mandatory control ledger,
-fixed meta-work ratio, numerical ceremony threshold, new marker family,
-per-command justification, or large worksheet to ordinary runs.
-
-Progressive cost is bounded. The compact invariant stays with native action
-selection. The admission decision activates only on supported factors. An
-artefact-consumer census or repeat-review retrospective is reserved for
-process-heavy, self-modifying, or disputed work. When no factor fires, create no
-R34 record and make no model call. Prefer mechanical paths, hashes, invocation
-traces, consumer links, and exact state comparisons; model judgement is review
-evidence only when those cannot discriminate the expected-risk or human-value
-question.
+Process volume is not value evidence. A consumer without a protected consequence,
+a form without the property, optional-by-whim relabelling, or a split that does
+not lower real cost fails. Add no mandatory control ledger, numerical ceremony
+threshold, per-command defence, or large worksheet. Use the progressive path in
+`planning-depth.md`; when no factor fires, create no R34 record or model call.
 
 ## Package semantic preservation
 

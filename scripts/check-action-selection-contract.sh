@@ -76,6 +76,9 @@ done
 
 child_ref="skills/implementaudit/references/child-agents.md"
 for text in \
+  "Independence is evidential" \
+  "resist the same common cause" \
+  "current access, competence, time, control" \
   "Maintain a ready-cell frontier" \
   "### Work-conserving ready-cell frontier" \
   "operator-supplied ceiling" \
@@ -111,6 +114,10 @@ for text in \
   "work-conserving ready-cell" \
   "operator-supplied ceiling" \
   "stopping, retirement, or reclassification condition" \
+  "coordination/peak-attention burden" \
+  "nominal override or" \
+  "degraded envelope is bounded and observable" \
+  "serial cheap path" \
   "No activation factor means no R34 diagnostic or artefact" \
   "actual dependency, write," \
   "acceptance, resource, authority, and composed-only boundaries" \
@@ -319,6 +326,14 @@ required_ids = {
 required_ids.update({
     "R31-C136-grounded-executor-plan-ready",
     "R31-C137-uninspected-plan-held",
+    "R34-C138-joint-cognitive-burden-trigger",
+    "R34-C139-immediate-effect-cheap-path",
+    "R34-C140-capable-intervention-chain",
+    "R34-C141-nominal-override-rejected",
+    "R44-C142-high-consequence-control-trigger",
+    "R44-C143-low-consequence-cheap-path",
+    "R44-C144-bounded-degraded-operation",
+    "R44-C145-risk-matrix-insufficient",
 })
 ids = [case.get("id") for case in cases if isinstance(case, dict)]
 if len(ids) != len(set(ids)) or set(ids) != required_ids:
@@ -532,6 +547,26 @@ def decide(case):
                 "rollback_present", "non_scope_present")):
             return "HOLD_INCOMPLETE_EXECUTOR_PLAN"
         return "EXECUTOR_PLAN_READY"
+    if kind == "consequence_control":
+        fields = "live_pressure low_consequence_reversible direct_readback coordination_or_attention_burden information_value_remaining capable_intervention_chain nominal_override_only high_consequence target_state feedback containment recovery stopping_hazardous bounded_degraded_operation method_only"
+        exact(o, fields)
+        booleans(o, fields)
+        if o["method_only"]:
+            return "REJECT"
+        if o["low_consequence_reversible"] and o["direct_readback"] and not o["high_consequence"]:
+            return "SERIAL_CHEAP_PATH"
+        if o["nominal_override_only"] or not o["capable_intervention_chain"]:
+            return "STOP_AND_ESCALATE"
+        complete = all(o[name] for name in ("target_state", "feedback", "containment", "recovery"))
+        if o["high_consequence"]:
+            if not complete:
+                return "DEFER"
+            if o["stopping_hazardous"]:
+                return "BOUNDED_DEGRADED_OPERATION" if o["bounded_degraded_operation"] else "DEFER"
+            return "SELECT_CONSEQUENCE_CONTROL"
+        if o["coordination_or_attention_burden"]:
+            return "SELECT_PROPORTIONATE_CONTROL" if o["live_pressure"] and o["information_value_remaining"] else "NO_R34_ARTEFACT"
+        return "CAPABLE_INTERVENTION" if o["live_pressure"] else "NO_R34_ARTEFACT"
     if kind == "proportionality":
         fields = "candidate live_pressure variability_or_uncertainty high_consequence_or_hard_to_reverse actionable_information authoritative_consumer protected_consequence benefit_exceeds_carrying_cost bounded exit_condition recovery_capacity_required universal_rule methodology_ceremony"
         exact(o, fields)
