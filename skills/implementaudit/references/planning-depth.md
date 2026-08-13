@@ -162,6 +162,16 @@ add lifecycle ceremonies, mandatory buffers, sprint machinery, traceability
 matrices, or methodology-specific modes. When no proportionality pressure is
 live, create no R34 artefact.
 
+For consequential or degraded operation, the same decision accounts for
+coordination/peak-attention burden, remaining information value, downstream and
+recovery capacity, and the intervention chain's current access, competence,
+time, stop, containment, and recovery authority. High consequence requires a
+current target state, feedback, containment, and recovery; nominal override or
+a risk-matrix label is insufficient. Continue degraded only when stopping is
+itself hazardous and the degraded envelope is bounded and observable. Retire
+the control when its consumer or driver ends. Low-consequence reversible action
+with direct authoritative readback remains the serial cheap path.
+
 ## Conditional delegation and work-conserving execution
 
 Use **conditional planner/executor separation** when material engineering

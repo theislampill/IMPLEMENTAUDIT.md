@@ -30,8 +30,7 @@ bash scripts/write-release-checksums.sh "$asset" "$checksums"
 bash scripts/install-codex-from-release.sh \
   --asset "$asset" \
   --checksum "$checksums" \
-  --codex-home "$codex_home" \
-  --version 0.3.3
+  --codex-home "$codex_home"
 
 installed="$codex_home/skills/implementaudit"
 for file in \
@@ -82,6 +81,19 @@ if [ -e "$installed/IMPLEMENTAUDIT.md" ]; then
   printf 'release-asset-install.test: root behavior file must not be installed\n' >&2
   exit 1
 fi
+
+# The default follows the current runtime family. Stale and arbitrary caller
+# values remain hard mismatches rather than overrides.
+for mismatched_version in 0.4.0 9.9.9; do
+  if bash scripts/install-codex-from-release.sh \
+    --asset "$asset" \
+    --checksum "$checksums" \
+    --codex-home "$tmp_parent/wrong version $mismatched_version" \
+    --version "$mismatched_version" >/dev/null 2>&1; then
+    printf 'release-asset-install.test: mismatched runtime %s unexpectedly passed\n' "$mismatched_version" >&2
+    exit 1
+  fi
+done
 
 stale="$out_dir/STALE-CHECKSUMS.txt"
 printf 'sha256  %064d  IMPLEMENTAUDIT.skill\n' 0 > "$stale"

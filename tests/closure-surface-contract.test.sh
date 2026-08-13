@@ -374,6 +374,18 @@ if [ "${1:-}" = "--publication-identity-only" ]; then
   exit 0
 fi
 
+if [ "${1:-}" = "--w03-state-only" ]; then
+  repo_state_flat="$(tr '\n' ' ' < skills/implementaudit/references/repo-state-comparison.md | tr -s ' ')"
+  printf '%s' "$repo_state_flat" | grep -Fq 'intended world effect and its terminal, failure, or reversion state' \
+    || fail "repo-state owner missing consequential effect-state readback"
+  printf '%s' "$repo_state_flat" | grep -Fq 'material identity change invalidates dependent evidence' \
+    || fail "repo-state owner leaves drifted evidence current"
+  printf '%s' "$repo_state_flat" | grep -Fq 'not automatic causal claims or mutation authority' \
+    || fail "repo-state owner overclaims causal or mutation authority"
+  printf 'closure-surface-contract: w03-state-only ok\n'
+  exit 0
+fi
+
 if [ "${1:-}" = "--external-composition-only" ]; then
   focused_tmp="$(mktemp -d)"
   trap 'rm -rf "$focused_tmp"' EXIT
@@ -653,6 +665,12 @@ printf '%s' "$repo_state_flat" | grep -Fq 'workflow-runs@pushed-sha' \
   || fail "repo-state owner missing workflow-run readback"
 printf '%s' "$repo_state_flat" | grep -Fq 'coverage, not a second grant of authority' \
   || fail "repo-state owner incorrectly requires second authorization"
+printf '%s' "$repo_state_flat" | grep -Fq 'intended world effect and its terminal, failure, or reversion state' \
+  || fail "repo-state owner missing consequential effect-state readback"
+printf '%s' "$repo_state_flat" | grep -Fq 'material identity change invalidates dependent evidence' \
+  || fail "repo-state owner leaves drifted evidence current"
+printf '%s' "$repo_state_flat" | grep -Fq 'not automatic causal claims or mutation authority' \
+  || fail "repo-state owner overclaims causal or mutation authority"
 
 # The owner surfaces carry one vocabulary; the fixtures below then exercise
 # that vocabulary through the checker instead of treating prose presence as

@@ -180,6 +180,13 @@ its cost. It introduces no fixed agent count, round quota, extra phase, or
 mandatory worksheet, and it does not weaken the existing reconnaissance,
 security, evidence-boundary, or child-agent non-authority requirements.
 
+Independence is evidential, not a count, role label, or repeated prompt. Shared
+authoritative facts may remain common, but material hypothesis, mechanism,
+oracle, diagnostic, or evidence paths must resist the same common cause. If
+that independence or the delegate's current access, competence, time, control,
+stop, recovery, and escalation capability is unknown, do not use fanout or a
+nominally available reviewer as corroboration.
+
 Only host concurrency limits may serialize declared-independent lanes. Batch to
 that limit and rollback margin: one class-appropriate review/batch, not one
 programme/lane. `irreversible-external` and `unknown` keep full ceremony and

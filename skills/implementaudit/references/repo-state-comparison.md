@@ -171,6 +171,16 @@ Orientation does not require closure re-stat. Terminal use requires closure
 bytes and mtime equal to the original pair. A still-producing snapshot cannot
 support terminal use even when the two stat pairs happen to match.
 
+Consequential asynchronous work is terminal only after independent readback of
+the intended world effect and its terminal, failure, or reversion state; request,
+receipt, command exit, and local validation are not that effect. Bind evidence
+to the current interface, schema, configuration, environment, and authority
+identity. A material identity change invalidates dependent evidence until its
+exact applicability is requalified. Logs, correlation, and telemetry are
+observations, not automatic causal claims or mutation authority. Immediate
+local reversible work with authoritative before/after state uses the direct
+comparison path without an external lineage artefact.
+
 The fenced block under `## Suggested Commit Message When No Commit Authorized`
 is also a claim carrier. A digit or verdict token in that block has exactly one
 `Evidence anchor: claim:<Claim-ID>` inside the block. That ID resolves to a
