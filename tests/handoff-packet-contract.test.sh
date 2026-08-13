@@ -155,6 +155,12 @@ prior_evidence_present: yes
 rejected_non_evidence_present: no
 authority_stop_boundaries_present: yes
 exact_handoff_receipt_present: yes
+current_state_ref: git:HEAD
+provenance_ref: packet:preceiver
+pending_effects_disposition: unresolved-listed-above
+authority_capability_ref: owner:R31
+discrepancy_state: acceptance-state-incomplete
+receiver_live_verification: command:git-rev-parse-HEAD
 has_state_claims: no
 EOF
 if bash "$scorer" "$tmp/receiver-incomplete.pkt" --repo-root "$repo_root" \
@@ -179,6 +185,12 @@ prior_evidence_present: yes
 rejected_non_evidence_present: yes
 authority_stop_boundaries_present: yes
 exact_handoff_receipt_present: yes
+current_state_ref: git:HEAD
+provenance_ref: packet:preceiver-complete
+pending_effects_disposition: none-observed
+authority_capability_ref: owner:R31
+discrepancy_state: none-observed
+receiver_live_verification: command:git-rev-parse-HEAD
 has_state_claims: no
 EOF
 out="$(bash "$scorer" "$tmp/receiver-complete.pkt" --repo-root "$repo_root" \
@@ -201,4 +213,67 @@ EOF
 bash "$scorer" "$tmp/receiver-cheap-path.pkt" --repo-root "$repo_root" \
   >/dev/null 2>&1 || fail "implementation-only READY cheap path was rejected"
 
-printf 'handoff-packet-contract: ok (contract + receiver-complete/incomplete/cheap-path + contradicted/matching/owner/no-claims + minimal-fields + 4 Fable adversarial)\n'
+# M. A reproduction-required continuation also needs the current decision state
+# it will act from.  An acceptance bundle without current state, provenance,
+# pending-effect disposition, authority/capability, discrepancy state, and the
+# receiver's live-verification obligation is receiver-incomplete.
+cat > "$tmp/receiver-stale-state.pkt" <<EOF
+packet_id: preceiver-stale-state
+packet_version: 1
+packet_content_hash: opaque-receiver-stale-state-test
+sender_run_id: sender-receiver-stale-state-test
+handoff_state: READY
+implementation_identity_present: yes
+frozen_denominator_present: yes
+acceptance_oracle_present: yes
+reproduction_inputs_present: yes
+evaluator_schema_semantics_present: yes
+prior_evidence_present: yes
+rejected_non_evidence_present: yes
+authority_stop_boundaries_present: yes
+exact_handoff_receipt_present: yes
+has_state_claims: no
+EOF
+if bash "$scorer" "$tmp/receiver-stale-state.pkt" --repo-root "$repo_root" \
+    --receiver-requires-reproduction >/dev/null 2>&1; then
+  fail "S3E-W01 RED: receiver-current decision state was not required"
+fi
+
+# N. Presence-shaped values are not state evidence.
+cat >> "$tmp/receiver-stale-state.pkt" <<EOF
+current_state_present: yes
+provenance_present: yes
+pending_effects_disposition_present: yes
+authority_capability_present: yes
+discrepancy_state_present: yes
+receiver_live_verification_present: yes
+EOF
+if bash "$scorer" "$tmp/receiver-stale-state.pkt" --repo-root "$repo_root" \
+    --receiver-requires-reproduction >/dev/null 2>&1; then
+  fail "S3E-W01 RED: presence markers false-greened without concrete state values"
+fi
+
+# O. Horizontal whitespace cannot turn presence tokens into concrete values.
+for variant in trailing-space trailing-spaces trailing-tab leading-tab space-before-cr; do
+  grep -vE '^(current_state_ref|provenance_ref|pending_effects_disposition|authority_capability_ref|discrepancy_state|receiver_live_verification):' \
+    "$tmp/receiver-complete.pkt" > "$tmp/receiver-placeholder-$variant.pkt"
+  prefix="" suffix="" cr=""
+  case "$variant" in
+    trailing-space) suffix=" " ;;
+    trailing-spaces) suffix="   " ;;
+    trailing-tab) suffix=$'\t' ;;
+    leading-tab) prefix=$'\t' ;;
+    space-before-cr) suffix=" "; cr=$'\r' ;;
+  esac
+  printf 'current_state_ref: %syes%s%s\nprovenance_ref: %spresent%s%s\npending_effects_disposition: %sunknown%s%s\nauthority_capability_ref: %strue%s%s\ndiscrepancy_state: %sno%s%s\nreceiver_live_verification: %sfalse%s%s\n' \
+    "$prefix" "$suffix" "$cr" "$prefix" "$suffix" "$cr" \
+    "$prefix" "$suffix" "$cr" "$prefix" "$suffix" "$cr" \
+    "$prefix" "$suffix" "$cr" "$prefix" "$suffix" "$cr" \
+    >> "$tmp/receiver-placeholder-$variant.pkt"
+  if bash "$scorer" "$tmp/receiver-placeholder-$variant.pkt" --repo-root "$repo_root" \
+      --receiver-requires-reproduction >/dev/null 2>&1; then
+    fail "S3E-W01 RED: $variant presence placeholders false-greened"
+  fi
+done
+
+printf 'handoff-packet-contract: ok (contract + receiver-current/complete/incomplete/cheap-path + contradicted/matching/owner/no-claims + minimal-fields + 4 Fable adversarial)\n'

@@ -589,6 +589,23 @@ def classify(case):
     raise ValueError(f"unsupported control kind: {kind!r}")
 
 
+def classify_state_synthesis(case):
+    keys = {"id", "triggered", "authoritative_discriminator",
+            "decision_consumer", "required_function", "current_state",
+            "evaluator_fit", "evidence_boundaries", "independent_basis",
+            "recovery", "expected"}
+    require_exact(case, keys, case.get("id", "state synthesis case"))
+    for key in keys - {"id", "expected"}:
+        if type(case[key]) is not bool:
+            raise ValueError(f"{case['id']}: {key} must be boolean")
+    if not case["triggered"]:
+        return "PASS" if case["authoritative_discriminator"] else "FAIL"
+    required = ("decision_consumer", "required_function", "current_state",
+                "evaluator_fit", "evidence_boundaries", "independent_basis",
+                "recovery")
+    return "PASS" if all(case[key] for key in required) else "FAIL"
+
+
 path = Path(sys.argv[1])
 repository = sys.argv[2]
 fixture = json.loads(
@@ -597,7 +614,7 @@ require_exact(
     fixture,
     {"schema", "controls", "instrument_parity", "mutation_cases",
      "mutation_records", "phase_cases", "policy_cases", "policy_evidence",
-     "policy_evidence_context"},
+     "policy_evidence_context", "state_synthesis_cases"},
     "fixture bank")
 if fixture["schema"] != "implementaudit-acceptance-instrument-discipline-fixtures-v2":
     raise ValueError("fixture bank schema invalid")
@@ -609,6 +626,9 @@ if type(fixture["mutation_cases"]) is not list or not fixture["mutation_cases"]:
     raise ValueError("fixture mutation_cases must be a non-empty list")
 if type(fixture["policy_cases"]) is not list or not fixture["policy_cases"]:
     raise ValueError("fixture policy_cases must be a non-empty list")
+state_synthesis_cases = fixture["state_synthesis_cases"]
+if type(state_synthesis_cases) is not list or not state_synthesis_cases:
+    raise ValueError("fixture state_synthesis_cases must be a non-empty list")
 policy_evidence = fixture["policy_evidence"]
 if type(policy_evidence) is not dict:
     raise ValueError("fixture policy_evidence must be an object")
@@ -845,6 +865,22 @@ required_mutation_ids = {
 if set(mutation_ids) != required_mutation_ids:
     raise ValueError("mutation control identity set invalid")
 
+state_ids = []
+for case in state_synthesis_cases:
+    state_ids.append(case.get("id"))
+    actual = classify_state_synthesis(case)
+    if actual != case["expected"]:
+        failures.append(f"{case['id']}: expected {case['expected']!r}, got {actual!r}")
+required_state_ids = {
+    "S3E-W01-complete-triggered-state",
+    "S3E-W01-cheap-authoritative-discriminator",
+    "S3E-W01-health-proxy-not-required-function",
+    "S3E-W01-correlated-review-not-independent",
+    "S3E-W01-incomplete-proof-boundary",
+}
+if len(state_ids) != len(set(state_ids)) or set(state_ids) != required_state_ids:
+    raise ValueError("state-synthesis control identity set invalid")
+
 if failures:
     sys.stderr.write("\n".join(failures) + "\n")
     raise SystemExit(1)
@@ -852,5 +888,5 @@ if failures:
 sys.stdout.write(
     "check-acceptance-instrument-discipline: ok "
     f"({len(ids)} instrument + {len(mutation_ids)} mutation + "
-    f"{len(policy_ids)} policy controls)\n")
+    f"{len(policy_ids)} policy + {len(state_ids)} state-synthesis controls)\n")
 PY
