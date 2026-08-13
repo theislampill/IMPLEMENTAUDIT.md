@@ -192,6 +192,7 @@ initial_rel="$(cd "$resume_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs \
   || fail "initial controller claim failed"
 initial_root="$resume_repo/$initial_rel"
 initial_claim="$(sed -n 's/^claim_id=//p' "$initial_root/.claimed")"
+[ "$(cat "$initial_root/.controller" 2>/dev/null)" = 'controller_id=release-v0333' ] || fail 'S3E-W02 RED: controller root lacks value-bearing custody record'
 
 printf 'post-merge\n' >> "$successor_repo/product.txt"
 git -C "$successor_repo" add product.txt
@@ -203,6 +204,7 @@ successor_rel="$(cd "$successor_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/run
   'continued controller' 2>/dev/null)" || fail "controller migration failed"
 successor_root="$successor_repo/$successor_rel"
 successor_claim="$(sed -n 's/^claim_id=//p' "$successor_root/.claimed")"
+[ "$(cat "$successor_root/.controller" 2>/dev/null)" = 'controller_id=release-v0333' ] || fail 'successor controller custody record is missing or malformed'
 
 for root in "$initial_root" "$successor_root"; do
   for f in STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md; do
@@ -405,5 +407,6 @@ PY
 cheap_rel="$(cd "$positive_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs \
   bash "$claim_helper" 'small ordinary task' 2>/dev/null)"
 [ -f "$positive_repo/$cheap_rel/.claimed" ] || fail "ordinary claim cheap path regressed"
+[ ! -e "$positive_repo/$cheap_rel/.controller" ] || fail 'ordinary cheap path acquired controller ceremony'
 
 printf 'continuity-contract.test: ok (surfaces + validator: legacy pass, honest-provenance, kind/status tokens, terminal-status evidence)\n'

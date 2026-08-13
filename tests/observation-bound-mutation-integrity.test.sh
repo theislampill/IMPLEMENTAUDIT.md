@@ -65,6 +65,7 @@ PY
 artifact() { local name="$1" hex="$2"; local p="$fixture_repo/artifacts/$name"; write_hex "$p" "$hex"; printf '%s\n' "$p"; }
 
 setup() {
+  local controller="${1:-}" claim_args=('r36-observation-bound-mutation')
   rm -rf -- "$fixture_repo"
   mkdir -p "$fixture_repo/artifacts"
   git -C "$fixture_repo" init -q
@@ -73,7 +74,8 @@ setup() {
   printf 'R36 fixture repository\n' > "$fixture_repo/fixture-seed"
   git -C "$fixture_repo" add fixture-seed
   git -C "$fixture_repo" commit -q -m fixture
-  run_root="$(cd "$fixture_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" 'r36-observation-bound-mutation')"
+  [ -z "$controller" ] || claim_args=(--controller "$controller" 'r36-observation-bound-mutation')
+  run_root="$(cd "$fixture_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" "${claim_args[@]}")"
   run_root="$fixture_repo/$run_root"
   for promised in STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md; do
     cp "$repo_root/skills/implementaudit/templates/$promised" "$run_root/$promised"
@@ -301,7 +303,8 @@ extra="""    if phase == 'pre-transaction' and fault == 'terminal-result-fsync-a
 extra2="""    if phase == 'pre-transaction' and fault in {'lock-post-check-race','lock-release-record-race','lock-directory-aba'}:\n        def pause_release_race(lock_path):\n            lock_path=Path(lock_path); b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'lock-path').write_text(str(lock_path),encoding='utf-8'); (b/'owner-token').write_text(owner,encoding='ascii'); (b/'paused').touch()\n            for _ in range(500):\n                if (b/'release').exists(): return\n                time.sleep(.02)\n            raise RuntimeError('timeout')\n        globals()['pause_release_race']=pause_release_race\n    if phase == 'pre-transaction' and fault == 'lock-directory-aba-peer':\n        def pause_peer(name,release):\n            b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/name).touch()\n            for _ in range(500):\n                if (b/release).exists(): return\n                time.sleep(.02)\n            raise RuntimeError('timeout')\n        globals()['pause_peer']=pause_peer\n    if phase == 'locks-acquired' and fault == 'lock-directory-aba': globals()['pause_release_race'](held[-1]['public_path'])\n    if phase == 'locks-acquired' and fault == 'lock-directory-aba-peer': globals()['pause_peer']('acquired','replace')\n    if phase == 'lock-release-mismatch' and fault == 'lock-directory-aba-peer': globals()['pause_peer']('mismatch','finish')\n    if phase == 'lock-release-published' and fault == 'lock-post-check-race': globals()['pause_release_race'](held[-1]['public_path'])\n    if phase == 'lock-release-published' and fault == 'lock-release-record-race': globals()['pause_release_race'](held[-1]['released_path'])\n"""
 extra3="""    if phase == 'pre-transaction' and fault == 'gate-unlock-fails':\n        if os.name == 'nt':\n            original_gate_unlock=msvcrt.locking\n            def fail_gate_unlock(fd,mode,count):\n                if mode == msvcrt.LK_UNLCK: raise OSError(5,'injected gate unlock failure')\n                return original_gate_unlock(fd,mode,count)\n            msvcrt.locking=fail_gate_unlock\n        else:\n            original_gate_unlock=fcntl.flock\n            def fail_gate_unlock(fd,op):\n                if op == fcntl.LOCK_UN: raise OSError(5,'injected gate unlock failure')\n                return original_gate_unlock(fd,op)\n            fcntl.flock=fail_gate_unlock\n"""
 extra4="""    if phase == 'window-scan-complete' and fault == 'window-scan-race':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'scanned').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
-Path(sys.argv[2]).write_text(source.replace(needle,needle+insert+extra+extra2+extra3+extra4),encoding='utf-8')
+extra5="""    if phase == 'pre-transaction' and fault == 'same-authority-pretransaction': wait('ready')\n"""
+Path(sys.argv[2]).write_text(source.replace(needle,needle+insert+extra+extra2+extra3+extra4+extra5),encoding='utf-8')
 PY
   chmod +x "$derived" || return 1
   "$python_bin" - "$canonical_helper" "$derived" <<'PY' || return 1
@@ -315,7 +318,8 @@ extra="""    if phase == 'pre-transaction' and fault == 'terminal-result-fsync-a
 extra2="""    if phase == 'pre-transaction' and fault in {'lock-post-check-race','lock-release-record-race','lock-directory-aba'}:\n        def pause_release_race(lock_path):\n            lock_path=Path(lock_path); b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'lock-path').write_text(str(lock_path),encoding='utf-8'); (b/'owner-token').write_text(owner,encoding='ascii'); (b/'paused').touch()\n            for _ in range(500):\n                if (b/'release').exists(): return\n                time.sleep(.02)\n            raise RuntimeError('timeout')\n        globals()['pause_release_race']=pause_release_race\n    if phase == 'pre-transaction' and fault == 'lock-directory-aba-peer':\n        def pause_peer(name,release):\n            b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/name).touch()\n            for _ in range(500):\n                if (b/release).exists(): return\n                time.sleep(.02)\n            raise RuntimeError('timeout')\n        globals()['pause_peer']=pause_peer\n    if phase == 'locks-acquired' and fault == 'lock-directory-aba': globals()['pause_release_race'](held[-1]['public_path'])\n    if phase == 'locks-acquired' and fault == 'lock-directory-aba-peer': globals()['pause_peer']('acquired','replace')\n    if phase == 'lock-release-mismatch' and fault == 'lock-directory-aba-peer': globals()['pause_peer']('mismatch','finish')\n    if phase == 'lock-release-published' and fault == 'lock-post-check-race': globals()['pause_release_race'](held[-1]['public_path'])\n    if phase == 'lock-release-published' and fault == 'lock-release-record-race': globals()['pause_release_race'](held[-1]['released_path'])\n"""
 extra3="""    if phase == 'pre-transaction' and fault == 'gate-unlock-fails':\n        if os.name == 'nt':\n            original_gate_unlock=msvcrt.locking\n            def fail_gate_unlock(fd,mode,count):\n                if mode == msvcrt.LK_UNLCK: raise OSError(5,'injected gate unlock failure')\n                return original_gate_unlock(fd,mode,count)\n            msvcrt.locking=fail_gate_unlock\n        else:\n            original_gate_unlock=fcntl.flock\n            def fail_gate_unlock(fd,op):\n                if op == fcntl.LOCK_UN: raise OSError(5,'injected gate unlock failure')\n                return original_gate_unlock(fd,op)\n            fcntl.flock=fail_gate_unlock\n"""
 extra4="""    if phase == 'window-scan-complete' and fault == 'window-scan-race':\n        b=Path(bar); b.mkdir(parents=True,exist_ok=True); (b/'scanned').touch()\n        for _ in range(500):\n            if (b/'release').exists(): return\n            time.sleep(.02)\n        raise RuntimeError('timeout')\n"""
-if text.replace(insert,'').replace(extra,'').replace(extra2,'').replace(extra3,'').replace(extra4,'').replace(derived_dir_line,script_dir_line) != canonical.read_text(encoding='utf-8'): raise SystemExit('instrumented copy does not strip byte-equal')
+extra5="""    if phase == 'pre-transaction' and fault == 'same-authority-pretransaction': wait('ready')\n"""
+if text.replace(insert,'').replace(extra,'').replace(extra2,'').replace(extra3,'').replace(extra4,'').replace(extra5,'').replace(derived_dir_line,script_dir_line) != canonical.read_text(encoding='utf-8'): raise SystemExit('instrumented copy does not strip byte-equal')
 PY
   printf '%s\n' "$derived"
 }
@@ -1597,9 +1601,9 @@ PY
 
   # One phase/step is one deterministic transaction. Two peers receive JSON;
   # exactly one may commit and the other reports the replay/in-progress conflict.
-  setup; derived="$(instrumented_helper)"; pre="$(artifact same-authority-pre 4142434445)"; cand="$(artifact same-authority-candidate 4e4557)"; prepare_authority replace target -; phase="$prepared_phase"; barrier="$tmp/same-authority"; mkdir "$barrier"
-  for a in a b; do (set +e; IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$phase" --step 1 --preimage "$pre" --candidate "$cand" >"$barrier/$a.out" 2>"$barrier/$a.err"; echo $? >"$barrier/$a.exit") & [ "$a" = a ] && pid=$! || b=$!; done
-  ticks=0; while [ "$(find "$barrier" -name observed | wc -l)" -lt 1 ] && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done; : >"$barrier/release"; wait_bounded "$pid" 'R36 same-authority a'; wait_bounded "$b" 'R36 same-authority b'
+  setup; derived="$(instrumented_helper)"; pre="$(artifact same-authority-pre 4142434445)"; cand="$(artifact same-authority-candidate 4e4557)"; prepare_authority replace target -; phase="$prepared_phase"; barrier="$tmp/same-authority"; mkdir -p "$barrier/a" "$barrier/b"
+  for a in a b; do (set +e; IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier/$a" IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=same-authority-pretransaction bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$phase" --step 1 --preimage "$pre" --candidate "$cand" >"$barrier/$a.out" 2>"$barrier/$a.err"; echo $? >"$barrier/$a.exit") & [ "$a" = a ] && pid=$! || b=$!; done
+  ticks=0; while { [ ! -f "$barrier/a/ready" ] || [ ! -f "$barrier/b/ready" ]; } && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done; [ "$ticks" -lt 500 ] || fail 'R36 same-authority peers did not both reach the pre-transaction barrier'; : >"$barrier/a/release"; : >"$barrier/b/release"; wait_bounded "$pid" 'R36 same-authority a'; wait_bounded "$b" 'R36 same-authority b'
   "$python_bin" - "$barrier" <<'PY' || fail 'R36 same-authority did not produce one commit and one JSON conflict'
 import json,sys
 from pathlib import Path
@@ -1616,6 +1620,62 @@ PY
   # them to the claimed repository.
   setup; pre="$(artifact alias-pre 4142434445)"; cand="$(artifact alias-candidate 4e4557)"; prepare_authority replace target -; set +e; stdout="$(bash "$helper" --repo-root "$fixture_repo/." --run-root "$run_root" --phase "$prepared_phase" --step 1 --preimage "$pre" --candidate "$cand" 2>/dev/null)"; actual=$?; set -e
   [ "$actual" -eq 64 ] && [ -z "$stdout" ] || fail 'R36 lexical repository alias was normalised before strict claim validation'
+}
+
+controller_stale_heldout() {
+  local controller=s3e-w02-stale old_claim successor pre cand stdout stderr actual
+  setup "$controller"
+  old_claim="$(sed -n 's/^claim_id=//p' "$run_root/.claimed")"
+  successor="$(cd "$fixture_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" --controller "$controller" --supersede-claim "$old_claim" 's3e w02 successor' 2>/dev/null)" || fail 'S3E-W02 successor transfer fixture failed'
+  [ -f "$fixture_repo/$successor/.claimed" ] || fail 'S3E-W02 successor root is absent'
+  pre="$(artifact controller-stale-pre 4142434445)"; cand="$(artifact controller-stale-candidate 4e4557)"
+  prepare_authority replace target -; stdout="$tmp/controller-stale.out"; stderr="$tmp/controller-stale.err"
+  set +e; bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$prepared_phase" --step 1 --preimage "$pre" --candidate "$cand" >"$stdout" 2>"$stderr"; actual=$?; set -e
+  if [ "$actual" -eq 0 ]; then fail 'S3E-W02 RED: stale controller reached governed mutation sink'; fi
+  [ "$actual" -eq 77 ] || fail "S3E-W02 stale controller exit=$actual expected=77 stderr=$(<"$stderr")"
+  assert_hex S3E-W02-stale-controller "$fixture_repo/target" 4142434445
+  "$python_bin" - "$stdout" <<'PY' || fail 'S3E-W02 stale controller refusal is not explicit'
+import json,sys
+from pathlib import Path
+r=json.loads(Path(sys.argv[1]).read_text())
+assert r['status']=='UNSUPPORTED_OWNER_DECISION' and r['reason_code']=='STALE_CONTROLLER_CUSTODY'
+assert r['transaction_id'] is None and r['actual_effect_set']==[]
+PY
+  setup s3e-w02-malformed; printf 'controller_id=s3e-w02-malformed \n' >"$run_root/.controller"
+  pre="$(artifact controller-malformed-pre 4142434445)"; cand="$(artifact controller-malformed-candidate 4e4557)"
+  invoke S3E-W02-malformed UNSUPPORTED_OWNER_DECISION replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"
+  "$python_bin" - "$tmp/S3E-W02-malformed.out" <<'PY' || fail 'S3E-W02 malformed controller record lacked named refusal'
+import json,sys
+from pathlib import Path
+assert json.loads(Path(sys.argv[1]).read_text())['reason_code']=='STALE_CONTROLLER_CUSTODY'
+PY
+}
+
+controller_transfer_race_heldout() {
+  local controller=s3e-w02-race old_claim pre cand derived barrier helper_pid transfer_pid ticks helper_rc transfer_rc current
+  setup "$controller"; old_claim="$(sed -n 's/^claim_id=//p' "$run_root/.claimed")"
+  pre="$(artifact controller-race-pre 4142434445)"; cand="$(artifact controller-race-candidate 4e4557)"
+  prepare_authority replace target -; derived="$(instrumented_helper)"; barrier="$tmp/controller-transfer-race"; mkdir "$barrier"
+  (IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=lock-aba bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$prepared_phase" --step 1 --preimage "$pre" --candidate "$cand" >"$barrier/helper.out" 2>"$barrier/helper.err") & helper_pid=$!
+  owned_background_pids=("$helper_pid"); owned_release_path="$barrier/release"
+  ticks=0; while [ ! -f "$barrier/paused" ] && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done
+  [ -f "$barrier/paused" ] || fail 'S3E-W02 controller race did not reach protected mutation boundary'
+  (cd "$fixture_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" --controller "$controller" --supersede-claim "$old_claim" 's3e w02 raced successor' >"$barrier/transfer.out" 2>"$barrier/transfer.err") & transfer_pid=$!
+  owned_background_pids+=("$transfer_pid")
+  for _ in $(seq 1 100); do [ ! -s "$barrier/transfer.out" ] || break; sleep .02; done
+  if [ -s "$barrier/transfer.out" ]; then
+    : >"$barrier/release"; wait "$helper_pid" || true; wait "$transfer_pid" || true
+    owned_background_pids=(); owned_release_path=
+    fail 'S3E-W02 RED: controller transfer raced protected mutation'
+  fi
+  : >"$barrier/release"; set +e; wait "$helper_pid"; helper_rc=$?; wait "$transfer_pid"; transfer_rc=$?; set -e
+  owned_background_pids=(); owned_release_path=
+  [ "$helper_rc" -eq 0 ] || fail "S3E-W02 protected mutation failed before transfer: $helper_rc $(<"$barrier/helper.err")"
+  [ "$transfer_rc" -eq 0 ] || fail "S3E-W02 serialized transfer failed: $transfer_rc $(<"$barrier/transfer.err")"
+  assert_hex S3E-W02-controller-race "$fixture_repo/target" 4e4557
+  for promised in STATE.md PROTOCOL.md ROADMAP.md THINKING.md sidecars.md tools.md context.md; do cp "$repo_root/skills/implementaudit/templates/$promised" "$fixture_repo/$(<"$barrier/transfer.out")/$promised"; done
+  current="$(cd "$fixture_repo" && bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" --current-controller "$controller")" || fail 'S3E-W02 raced successor is not current'
+  [ "$(printf '%s' "$current" | cut -f4)" = "$(sed -n 's/^claim_id=//p' "$fixture_repo/$(<"$barrier/transfer.out")/.claimed")" ] || fail 'S3E-W02 transfer result and current controller differ'
 }
 
 state_family() {
@@ -1671,6 +1731,8 @@ PY
 }
 
 case "${1:-}" in
+  --controller-stale-heldout) controller_stale_heldout; printf 'S3E_W02_STALE_CONTROLLER_HELDOUT=PASS\n'; exit 0;;
+  --controller-transfer-race-heldout) controller_transfer_race_heldout; printf 'S3E_W02_CONTROLLER_TRANSFER_RACE_HELDOUT=PASS\n'; exit 0;;
   --window-interlock-heldouts) fixture_self_check; window_interlock_heldouts; printf 'R36_WINDOW_INTERLOCK_HELDOUTS=PASS\n'; exit 0;;
   --concurrent-destination-heldout) fixture_self_check; concurrent_destination; printf 'R36_CONCURRENT_DESTINATION_HELDOUT=PASS\n'; exit 0;;
   --external-drift-heldout) fixture_self_check; external_drift_and_recovery; printf 'R36_EXTERNAL_DRIFT_HELDOUT=PASS\n'; exit 0;;

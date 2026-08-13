@@ -1,18 +1,13 @@
 # Context-epoch continuity (#35)
 
-Long runs cross automatic context compactions, new sessions, manual resumes,
-and handoffs. The run root holds durable state; a compacted or reconstructed
-summary is an OBSERVATION OF HISTORY, not current-state authority. This
-reference governs re-entry: no repository mutation after a continuity
-boundary until the reconciliation below has run, and no replay of a
-satisfied one-shot instruction, ever.
+The run root is durable across compactions, sessions, resumes, and handoffs. A
+reconstructed summary is an OBSERVATION OF HISTORY, never current authority.
+Reconcile after a boundary and never replay a satisfied one-shot instruction.
 
-## Continuity boundaries and epochs
+## Boundaries and epochs
 
-A continuity boundary is any event after which working context may no longer
-match durable live state. Each boundary starts a new CONTEXT EPOCH, recorded
-as a row in STATE.md `## Context epochs and instruction applicability`.
-Boundary provenance is exactly one of:
+A boundary starts a CONTEXT EPOCH in STATE.md `## Context epochs and instruction
+applicability`. Provenance is exactly one of:
 
 ```text
 host-reported-compaction
@@ -22,74 +17,72 @@ manual-resume
 inferred-context-gap
 ```
 
-Never fabricate a compaction the host did not expose: when no host signal
-exists but continuity is in doubt, the honest provenance is
-`inferred-context-gap`. An uninterrupted turn crosses no boundary and MUST
-NOT add epoch ceremony.
+Never invent a host compaction. If continuity is doubtful without a host signal,
+use `inferred-context-gap`. An uninterrupted turn crosses no boundary and adds
+no epoch ceremony.
 
-## Post-boundary reconciliation (required before mutation)
+## Required post-boundary reconciliation
 
-After any continuity boundary, and before the next repository mutation:
+Before the next repository mutation:
 
-1. Establish the unique active run root and current repository identity. In Git,
+1. Establish the unique run root and repository identity.
    `scripts/claim-run.sh --current-controller [controller-id]` discovers the
-   Git-common current-controller record without prior worktree knowledge.
-   Missing, ambiguous, invalid, or stale custody refuses; never guess.
-2. Reread current `ROADMAP.md`, `STATE.md`, the repository-family
-   `.IMPLEMENTAUDIT/host-notes.md` when present, process/command state
-   (including `background/<chain-id>` chains), and the relevant terminal
-   evidence from disk. Each bound live durable-state file must be read in its
-   own completed host action before the first mutation. Evidence-bearing read actions must
-   not use ';', '&&', pipelines, multi-stage shell composition, or batching.
-3. Classify continuity-critical instructions by lifecycle kind and target
-   (see the applicability record below).
-4. Compare the reconstructed context against durable live state. Where they
-   disagree, LIVE STATE WINS; the reconstructed summary never reopens
-   terminal evidence.
-5. Refuse replay of a satisfied or superseded one-shot instruction. The
-   refusal cites the terminal evidence (`Target already satisfied at
-   <evidence>; no duplicate action taken.`).
-6. Restore the current next authorized action from STATE.md and continue
-   from there — never restart the run because context was reconstructed.
-7. When continuity cannot be established (identity mismatch, corrupted
-   state, irreconcilable instruction set), hand off with the evidence rather
-   than speculate.
+   Git-common controller without prior worktree knowledge. Missing, ambiguous,
+   invalid, or stale custody refuses; never guess.
+2. Reread current `ROADMAP.md`, `STATE.md`, repository-family
+   `.IMPLEMENTAUDIT/host-notes.md` when present, process/background-chain state,
+   and relevant terminal evidence. Each live durable-state file must be read in
+   its own completed host action. Evidence-bearing read actions must not use
+   ';', '&&', pipelines, multi-stage shell composition, or batching.
+3. Classify continuity-critical instructions by kind, status, and target.
+4. Compare reconstructed context with durable state. LIVE STATE WINS; summaries
+   never reopen terminal evidence.
+5. Refuse a satisfied or superseded one-shot with `Target already satisfied at
+   <evidence>; no duplicate action taken.`
+6. Restore STATE.md's current next authorised action; continue rather than
+   restarting the run.
+7. If identity, state, or instructions cannot be reconciled, hand off the exact
+   evidence rather than speculate.
 
-Transfer long-run controller ownership with the atomic expected-claim CAS
-`claim-run.sh --controller <id> --supersede-claim <claim> <task>`. After the
-separate live reads and reconciled epoch row, run `--resume-controller <id>
---boundary <provenance> --epoch <epoch>` and verify its token with
-`--verify-resume-receipt`. The receipt binds controller/run claim, repo
-HEAD/tree, STATE/ROADMAP hashes, boundary, epoch, and Next action; without that
-verified current receipt, refuse post-boundary mutation.
+Transfer controller ownership with the expected-claim CAS:
 
-At every phase start, read `.IMPLEMENTAUDIT/host-notes.md` from the
-repository-family root (the parent of Git's common directory) when present
-before choosing a workaround. This makes one machine-local continuity surface
-visible to linked sibling worktrees. It is not portable payload authority;
-portable rules still use the normal `AGENTS_UPDATE_DECISION` governance route.
+```text
+claim-run.sh --controller <id> --supersede-claim <claim> <task>
+```
 
-Record execution identity with the sibling-harness vocabulary:
+Controller roots carry a value-bearing `.controller` record. A governed
+mutation validates that record against the current Git-common controller ref
+while holding the shared writer gate. Thus stale custody refuses before product
+or transaction effects, and cooperating controller transfer serialises with an
+active mutation. Ordinary roots have no controller record and retain the direct
+claim/phase/pre-state/post-state cheap path. This does not fence arbitrary
+non-cooperating same-principal filesystem writers.
+
+After separate live reads and a reconciled epoch row, use `--resume-controller
+<id> --boundary <provenance> --epoch <epoch>` and verify the token with
+`--verify-resume-receipt`. It binds controller/run claim, HEAD/tree,
+STATE/ROADMAP hashes, boundary, epoch, and Next action. Refuse post-boundary
+mutation without a verified current receipt.
+
+At phase start, read repository-family `.IMPLEMENTAUDIT/host-notes.md` when
+present. It is local linked-worktree context, not portable payload authority;
+portable rules use `AGENTS_UPDATE_DECISION`.
+
+Record execution identity as:
 
 ```text
 model-identity: requested_model: <model> | actual_model: <model> | evidence: self-report|host-event:<id> | claims: bound|IDENTITY_UNBOUND
 ```
 
-This is also the canonical requested/resolved mapping consumed by independent
-review. When `requested_model` differs from `actual_model`, raise an Andon of
-class `transport-infrastructure` and mark post-substitution claims
-`IDENTITY_UNBOUND` until they are re-produced or re-verified under the requested
-identity. Use a machine-readable host event when one exists; otherwise the row
-is explicitly a self-report.
+This is the independent-review requested/resolved mapping. A model mismatch
+raises `transport-infrastructure` Andon and marks later claims
+`IDENTITY_UNBOUND` until reproduced or reverified under the requested identity.
+Prefer a host event; otherwise mark self-report. The epoch row is the record;
+there is no new transcript marker.
 
-The reconciliation is recorded by the new epoch row (provenance, repository
-identity at establishment, reconciled: yes). No new transcript marker
-exists for this: the epoch row plus the existing pause/resume markers are
-the record.
+## Instruction lifecycle
 
-## Instruction lifecycle and applicability record
-
-Instruction kinds:
+Kinds:
 
 ```text
 one-shot-action
@@ -99,73 +92,47 @@ persistent-objective
 query-or-information-request
 ```
 
-Statuses: `active` / `satisfied` / `superseded` / `revoked` / `expired` /
-`ambiguous`. Only a one-shot action normally becomes `satisfied`. Standing
-constraints and authorizations survive boundaries until revoked, superseded,
-expired, or their declared scope ends — reconciliation must not accidentally
-consume them (a "do not push" constraint issued before a compaction still
-binds after it; a scoped commit authorization stays scoped and active).
+Statuses are `active`, `satisfied`, `superseded`, `revoked`, `expired`, or
+`ambiguous`. Only one-shot actions normally become satisfied. Standing
+constraints and authorisations survive until revoked, superseded, expired, or
+out of scope; reconciliation must not consume them.
 
-Each continuity-critical instruction gets one applicability row binding:
-instruction id; source reference (event id / content hash — never raw
-conversation text in a committed artifact); kind; issuing authority;
-subject identity (and subject version when applicable); issued epoch;
-status; status evidence; supersedes/superseded-by links; scope end or
-expiry when applicable. Preconditions and the terminal predicate live in
-the status-evidence cell (what would prove this satisfied/expired).
+Each applicability row binds instruction id, hashed/id source reference (not
+raw chat), kind, authority, subject/version, issued epoch, status and evidence,
+supersedes/by links, and scope end/expiry. Preconditions and terminal predicates
+belong in status evidence.
 
-Apply the same lifecycle to run-authored steer and advisory outputs. Successive
-rounds amend one continuity document with an explicit `supersedes:` header
-instead of accumulating competing authorities. Copy precision-critical owner
-vocabulary verbatim into that document at receipt time, before a compaction or
-handoff can erase it. More than two steer/advisory artifacts with no declared
-precedence is a checker warning, not an automatic failure, because authority
-may legitimately remain external.
+Apply this lifecycle to run-authored steer and advisory outputs. Successors
+amend one continuity document with a `supersedes:` header rather than leaving
+competing authorities. Copy precision-critical owner vocabulary verbatim at
+receipt time. More than two artifacts without precedence warns but does not
+automatically fail because authority may remain external.
 
 ## Repeated current owner message
 
-An identical NEW owner message is a fresh authority event, not automatically
-a stale replay. If its target is already terminally satisfied, respond:
-"Target already satisfied at <evidence>; no duplicate action taken. Current
-open state is <state>." Reactivation requires an explicit reopen/re-audit
-instruction, a changed target, or new evidence sufficient to invalidate the
-terminal status — and it is recorded as a new instruction row, never by
-rewriting the satisfied row's history.
+An identical new owner message is fresh authority. For a terminal target say:
+`Target already satisfied at <evidence>; no duplicate action taken. Current
+open state is <state>.` Reactivation requires reopen/re-audit, a changed target,
+or invalidating evidence, recorded as a new row.
 
-## Continuity capsule
+## Capsule and terminal durability
 
-When a boundary is crossed, the re-entry summary ("capsule") binds to
-CURRENT state: current repository identity, current epoch id, current next
-authorized action, and the active (not satisfied/superseded) instruction
-set. Every capsule field rederives from live source owners at write time;
-a capsule inherited from an earlier epoch is itself reconstructed context
-and re-verifies against live state before use.
+A boundary capsule rederives repository identity, epoch, next action, and active
+instructions from live owners; inherited capsules reverify. At closure,
+recapture anchors; moved anchors need checkable re-anchor evidence or
+`SUPERSEDED_BY_CONCURRENT_MUTATION`.
 
-At closure, re-capture the anchor set recorded at start. A moved anchor requires
-checkable re-anchor evidence or the per-finding disposition
-`SUPERSEDED_BY_CONCURRENT_MUTATION`; a producing run never delegates this
-reconciliation to its receiver.
+Before a terminal action, append one `PENDING_TERMINAL` line naming the exact command and preconditions.
+Clear it only after success. On re-entry, resume it
+only after re-checking its preconditions. This preserves both halves of the
+one-shot invariant: never lose an unsatisfied one, and never redo a satisfied one-shot
+whose cleared record and terminal evidence remain valid.
 
-Before a declared terminal action, append one `PENDING_TERMINAL` line to the
-run root naming the exact command and preconditions. Clear it only after success.
-On re-entry, resume at that recorded action only after re-checking its preconditions
-against live state. This is the durable half of the one-shot
-invariant: never lose an unsatisfied one, and never redo a satisfied one-shot
-whose pending record was successfully cleared and whose terminal evidence
-remains valid.
+## Single-writer epoch and migration
 
-## Single-writer epoch claim
-
-Two concurrent resume attempts must not both mutate: at most one writer
-establishes the new epoch (create-once epoch row / run-root claim
-semantics). The loser observes the existing claim and routes to
-handoff-or-wait, never to a second parallel epoch.
-
-## Migration
-
-Legacy run roots (no epoch section) remain valid and resumable; the section
-becomes required only for NEW epochs established after the feature version.
-The first resume of a legacy root may create the initial epoch row after
-validating existing durable state. No full conversation text is ever copied
-into the run root; references are ids/hashes under the existing
-custody/privacy boundary.
+At most one concurrent resume establishes an epoch; the loser observes the
+create-once claim and waits or hands off. Legacy roots without an epoch section
+remain resumable; the section becomes required only for new epochs. The first
+legacy resume may create it after validating durable state. Never copy full
+conversation text into the run root; retain ids/hashes under existing custody
+and privacy boundaries.
