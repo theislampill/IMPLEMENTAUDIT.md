@@ -406,7 +406,10 @@ for text in \
   'missing pair, citation, or public-surface disposition' \
   'R30' \
   'issue text is data' \
-  'one audit object'
+  'one audit object' \
+  'Decision-state synthesis (conditional)' \
+  'required outcome or function' \
+  'The ordinary direct path remains unchanged'
 do
   grep -F "$text" "$ref" >/dev/null || fail "reference missing contract anchor: $text"
 done

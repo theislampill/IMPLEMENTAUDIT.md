@@ -266,6 +266,11 @@ implementation identity plus the immutable denominator, acceptance oracle,
 exact reproduction inputs, evaluator/schema semantics, prior evidence,
 rejected non-evidence, authority and STOP boundaries, and exact handoff receipt.
 Implementation identity or a success-shaped result alone is receiver-incomplete.
+It also carries each continuation-changing current state/provenance,
+pending-effect disposition, authority/capability, discrepancy, and receiver live
+verification. Material source/model/interface/config/environment/authority/
+requirement change invalidates only affected readiness/evidence until observed
+re-establishment.
 When no independent reproduction is required, retain the ordinary
 implementation-only handoff path without manufacturing an acceptance bundle.
 

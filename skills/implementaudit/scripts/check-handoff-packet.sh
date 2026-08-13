@@ -17,7 +17,10 @@ set -euo pipefail
 #   acceptance_oracle_present, reproduction_inputs_present,
 #   evaluator_schema_semantics_present, prior_evidence_present,
 #   rejected_non_evidence_present, authority_stop_boundaries_present,
-#   exact_handoff_receipt_present (yes|no; prior/rejected may be not-applicable)
+#   exact_handoff_receipt_present, current_state_ref, provenance_ref,
+#   pending_effects_disposition, authority_capability_ref, discrepancy_state,
+#   receiver_live_verification
+#   (yes|no; prior/rejected may be not-applicable)
 #
 # Exit 0 = accept/proceed (with a one-line verification note or a
 # "nothing mechanical to verify" note). Exit 1 = contradicted Class-1
@@ -46,10 +49,8 @@ while [ "$#" -gt 0 ]; do
   esac
 done
 
-# Absent fields are normal (most packet fields are optional). grep's
-# no-match must NOT abort the script under `set -euo pipefail` — otherwise
-# the contradiction/verbatim logic below is silently skipped and the
-# checker exits without doing its job. Swallow the no-match to empty.
+# Optional fields may be absent; keep grep's no-match from aborting under
+# `set -euo pipefail` and skipping the checks below.
 get() { { grep -iE "^$1:" "$pkt" || true; } | head -n1 | sed "s/^[^:]*: *//" | tr -d '\r'; }
 
 # Repeated keys are a malformed packet, never a silent first-wins: a
@@ -62,7 +63,9 @@ for k in packet_id packet_version packet_content_hash sender_run_id \
          acceptance_oracle_present reproduction_inputs_present \
          evaluator_schema_semantics_present prior_evidence_present \
          rejected_non_evidence_present authority_stop_boundaries_present \
-         exact_handoff_receipt_present; do
+         exact_handoff_receipt_present current_state_ref provenance_ref \
+         pending_effects_disposition authority_capability_ref \
+         discrepancy_state receiver_live_verification; do
   n="$({ grep -ciE "^$k:" "$pkt" || true; })"
   if [ "${n:-0}" -gt 1 ]; then
     fail "malformed packet: key '$k' appears $n times — one value per key"
@@ -119,6 +122,14 @@ if [ "$receiver_requires_reproduction" = yes ]; then
            exact_handoff_receipt_present; do
     value="$(get "$k")"
     [ "${value,,}" = yes ] || missing="$missing $k"
+  done
+  for k in current_state_ref provenance_ref pending_effects_disposition \
+           authority_capability_ref discrepancy_state \
+           receiver_live_verification; do
+    value="$(get "$k" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
+    case "${value,,}" in
+      ''|yes|no|true|false|present|absent|unknown) missing="$missing $k" ;;
+    esac
   done
   for k in prior_evidence_present rejected_non_evidence_present; do
     value="$(get "$k")"

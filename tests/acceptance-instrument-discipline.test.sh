@@ -39,6 +39,61 @@ else
   record_fail "deterministic control checker rejected the fixture bank"
 fi
 
+# S3E-W01: one bounded state-synthesis population composes the R31/R35
+# lineages.  It must stay trigger-selected; ordinary deterministic work remains
+# on the existing cheap path.
+s3e_contract_out="$tmp/s3e-w01-contract.out"
+if "${py_cmd[@]}" - "$fixture" \
+    skills/implementaudit/references/phase-design.md \
+    >"$s3e_contract_out" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+fixture = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+cases = fixture.get("state_synthesis_cases")
+expected = {
+    "S3E-W01-complete-triggered-state",
+    "S3E-W01-cheap-authoritative-discriminator",
+    "S3E-W01-health-proxy-not-required-function",
+    "S3E-W01-correlated-review-not-independent",
+    "S3E-W01-incomplete-proof-boundary",
+}
+if not isinstance(cases, list) or {case.get("id") for case in cases} != expected:
+    raise SystemExit("S3E-W01 RED: state-synthesis fixture population missing")
+phase = Path(sys.argv[2]).read_text(encoding="utf-8")
+if "Rule P4-17 — Triggered state-synthesis acceptance" not in phase:
+    raise SystemExit("S3E-W01 RED: phase-design missing triggered state-synthesis acceptance")
+PY
+then
+  record_pass
+else
+  record_fail "$(cat "$s3e_contract_out")"
+fi
+
+s3e_mutant="$tmp/s3e-w01-false-green.json"
+"${py_cmd[@]}" - "$fixture" "$s3e_mutant" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+source, target = map(Path, sys.argv[1:])
+fixture = json.loads(source.read_text(encoding="utf-8"))
+case = next(row for row in fixture["state_synthesis_cases"]
+            if row["id"] == "S3E-W01-complete-triggered-state")
+case["required_function"] = False
+target.write_text(json.dumps(fixture, indent=2) + "\n", encoding="utf-8")
+PY
+if bash scripts/check-acceptance-instrument-discipline.sh "$s3e_mutant" \
+    >"$tmp/s3e-w01-false-green.out" 2>&1; then
+  record_fail "S3E-W01 accepted local health without required-function semantics"
+elif grep -Fq 'S3E-W01-complete-triggered-state' \
+    "$tmp/s3e-w01-false-green.out"; then
+  record_pass
+else
+  record_fail "S3E-W01 negative did not identify its rejected cell"
+fi
+
 identity_proxy_fixture="$tmp/r35-nonresolving-identity-proxy.json"
 "${py_cmd[@]}" - "$fixture" "$identity_proxy_fixture" <<'PY'
 import json

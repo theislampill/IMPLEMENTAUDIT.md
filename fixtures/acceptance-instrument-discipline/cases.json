@@ -804,6 +804,13 @@
       "expected": {"activation": "TRIGGERED", "classification": "UNRESOLVED", "route": "PROXY_GREEN", "disposition": "FAIL"}
     }
   ],
+  "state_synthesis_cases": [
+    {"id": "S3E-W01-complete-triggered-state", "triggered": true, "authoritative_discriminator": false, "decision_consumer": true, "required_function": true, "current_state": true, "evaluator_fit": true, "evidence_boundaries": true, "independent_basis": true, "recovery": true, "expected": "PASS"},
+    {"id": "S3E-W01-cheap-authoritative-discriminator", "triggered": false, "authoritative_discriminator": true, "decision_consumer": false, "required_function": false, "current_state": false, "evaluator_fit": false, "evidence_boundaries": false, "independent_basis": false, "recovery": false, "expected": "PASS"},
+    {"id": "S3E-W01-health-proxy-not-required-function", "triggered": true, "authoritative_discriminator": false, "decision_consumer": true, "required_function": false, "current_state": true, "evaluator_fit": true, "evidence_boundaries": true, "independent_basis": true, "recovery": true, "expected": "FAIL"},
+    {"id": "S3E-W01-correlated-review-not-independent", "triggered": true, "authoritative_discriminator": false, "decision_consumer": true, "required_function": true, "current_state": true, "evaluator_fit": true, "evidence_boundaries": true, "independent_basis": false, "recovery": true, "expected": "FAIL"},
+    {"id": "S3E-W01-incomplete-proof-boundary", "triggered": true, "authoritative_discriminator": false, "decision_consumer": true, "required_function": true, "current_state": true, "evaluator_fit": true, "evidence_boundaries": false, "independent_basis": true, "recovery": true, "expected": "FAIL"}
+  ],
   "phase_cases": [
     {
       "id": "paired-controls-pass",
