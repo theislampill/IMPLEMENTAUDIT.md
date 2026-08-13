@@ -82,6 +82,14 @@ route_ok() {
     grep -q -- '--supersede-claim' "$2" && grep -q -- '--verify-resume-receipt' "$2"
 }
 route_ok "$skill" "$ref" || fail "runtime route omits controller discovery, transfer, or receipt verification"
+for tok in --invalidate-continuity --require-current-continuity; do
+  grep -q -- "$tok" "$ref" || fail "reference missing host-neutral currentness route: $tok"
+  grep -q -- "$tok" skills/implementaudit/scripts/claim-run.sh || fail "claim helper missing host-neutral currentness route: $tok"
+done
+contains_normalized "$ref" "generic no-native-hook fallback" ||
+  fail "reference missing generic no-native-hook fallback"
+contains_normalized "$ref" "native host signal is a trigger, never continuity authority" ||
+  fail "reference promotes or omits the optional host-signal boundary"
 cp "$skill" "$tmp/mutant-skill.md"; cp "$ref" "$tmp/mutant-continuity.md"
 sed -i 's/--current-controller/--lost-controller/' "$tmp/mutant-skill.md"
 route_ok "$tmp/mutant-skill.md" "$tmp/mutant-continuity.md" && fail "source-removal mutant retained a green continuity route"
@@ -256,15 +264,70 @@ receipt_record="$(git -C "$successor_repo" cat-file blob "$receipt_oid")"
 "${py_cmd[@]}" - "$receipt_record" "$successor_claim" "$successor_head" "$successor_tree" <<'PY' \
   || fail "continuity receipt omitted receiver-required currentness state"
 import sys
-schema,controller,owner_oid,claim,head,tree,state,roadmap,boundary,epoch,next_action=sys.argv[1].split("\t")
-assert schema=="implementaudit.continuity-receipt.v1" and controller=="release-v0333"
+schema,controller,owner_oid,claim,head,tree,state,roadmap,invalidation,boundary,epoch,next_action=sys.argv[1].split("\t")
+assert schema=="implementaudit.continuity-receipt.v2" and controller=="release-v0333"
 assert claim==sys.argv[2] and head==sys.argv[3] and tree==sys.argv[4]
 assert boundary=="host-reported-compaction" and epoch=="e2"
 assert next_action=="qualify the authoritative successor before release"
+assert invalidation=="none"
 assert len(owner_oid)==40 and len(state)==64 and len(roadmap)==64
 PY
 (cd "$successor_repo" && bash "$claim_helper" --verify-resume-receipt "$receipt") >/dev/null \
   || fail "fresh successor continuity receipt did not verify"
+
+current_receipt="$(cd "$successor_repo" && bash "$claim_helper" \
+  --require-current-continuity release-v0333 2>/dev/null)" \
+  || fail "current continuity gate rejected the fresh baseline receipt"
+[ "$current_receipt" = "$receipt" ] \
+  || fail "current continuity gate did not return the active receipt"
+
+invalidation="$(cd "$successor_repo" && bash "$claim_helper" \
+  --invalidate-continuity release-v0333 --boundary inferred-context-gap \
+  --event generic-no-native-hook-e3 2>/dev/null)" \
+  || fail "host-neutral continuity invalidation command is absent"
+case "$invalidation" in
+  refs/implementaudit/continuity-invalidations/release-v0333@[0-9a-f][0-9a-f]*) :;;
+  *) fail "continuity invalidation is not a ref-bound token: $invalidation";;
+esac
+same_invalidation="$(cd "$successor_repo" && bash "$claim_helper" \
+  --invalidate-continuity release-v0333 --boundary inferred-context-gap \
+  --event generic-no-native-hook-e3 2>/dev/null)" \
+  || fail "idempotent continuity invalidation failed"
+[ "$same_invalidation" = "$invalidation" ] \
+  || fail "same continuity event minted a second invalidation"
+if (cd "$successor_repo" && bash "$claim_helper" \
+    --require-current-continuity release-v0333) >/dev/null 2>&1; then
+  fail "POST_COMPACTION_WITHOUT_FRESH_CONTINUITY remained current"
+fi
+
+"${py_cmd[@]}" - "$successor_root/STATE.md" "$successor_rel" \
+  "$successor_head" "$successor_tree" <<'PY'
+import sys
+from pathlib import Path
+p=Path(sys.argv[1]); run,head,tree=sys.argv[2:]
+s=p.read_text(encoding="utf-8")
+s=s.replace("Current epoch: e2", "Current epoch: e3")
+s=s.replace("| Next action | qualify the authoritative successor before release |",
+            "| Next action | continue only after generic continuity recovery |")
+anchor="| Epoch | Boundary provenance | Established at | Repo identity | Reconciled | Notes |\n|---|---|---|---|---|---|"
+row=f"| e3 | inferred-context-gap | 2026-08-12T13:05:00Z | repo at `{head}` / `{tree}` | yes | generic fallback reconciliation complete |"
+p.write_text(s.replace(anchor, anchor+"\n"+row), encoding="utf-8")
+PY
+if (cd "$successor_repo" && bash "$claim_helper" \
+    --require-current-continuity release-v0333) >/dev/null 2>&1; then
+  fail "partial continuity recovery without separate ROADMAP state became current"
+fi
+printf '\nGeneric continuity recovery reconciled live state.\n' >> "$successor_root/ROADMAP.md"
+receipt_e3="$(cd "$successor_repo" && bash "$claim_helper" --resume-controller release-v0333 \
+  --boundary inferred-context-gap --epoch e3)" \
+  || fail "generic no-native-hook recovery did not mint a fresh receipt"
+(cd "$successor_repo" && bash "$claim_helper" --verify-resume-receipt "$receipt_e3") >/dev/null \
+  || fail "generic no-native-hook continuity receipt did not verify"
+current_receipt="$(cd "$successor_repo" && bash "$claim_helper" \
+  --require-current-continuity release-v0333)" \
+  || fail "fresh generic continuity recovery did not reopen governed mutation"
+[ "$current_receipt" = "$receipt_e3" ] \
+  || fail "generic continuity recovery returned the wrong receipt"
 if (cd "$successor_repo" && bash "$claim_helper" --resume-controller release-v0333 \
     --boundary host-reported-compaction --epoch e2) >/dev/null 2>&1; then
   fail "a second writer claimed the same continuity epoch"

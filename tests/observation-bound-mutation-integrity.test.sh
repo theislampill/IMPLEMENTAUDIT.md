@@ -81,6 +81,26 @@ setup() {
     cp "$repo_root/skills/implementaudit/templates/$promised" "$run_root/$promised"
   done
   sed -i '/^| 1 |  |  | - |  |  |  | open |$/d' "$run_root/ROADMAP.md"
+  if [ -n "$controller" ]; then
+    "$python_bin" - "$run_root/STATE.md" "${run_root#$fixture_repo/}" \
+      "$(git -C "$fixture_repo" rev-parse HEAD)" "$(git -C "$fixture_repo" rev-parse 'HEAD^{tree}')" <<'PY'
+import sys
+from pathlib import Path
+p=Path(sys.argv[1]); run,head,tree=sys.argv[2:]
+s=p.read_text(encoding='utf-8')
+s=s.replace('| Run root |  |',f'| Run root | `{run}` |')
+s=s.replace('| Next action |  |','| Next action | exercise governed mutation under current continuity |')
+anchor='| Epoch | Boundary provenance | Established at | Repo identity | Reconciled | Notes |\n|---|---|---|---|---|---|'
+row=f'| e1 | new-session | 2026-08-13T00:00:00Z | repo at `{head}` / `{tree}` | yes | fixture reconciliation complete |'
+p.write_text(s.replace(anchor,anchor+'\n'+row),encoding='utf-8')
+PY
+    receipt="$(cd "$fixture_repo" && bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" \
+      --resume-controller "$controller" --boundary new-session --epoch e1)" \
+      || fail 'controller fixture continuity receipt mint failed'
+    (cd "$fixture_repo" && bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" \
+      --verify-resume-receipt "$receipt") >/dev/null \
+      || fail 'controller fixture continuity receipt verification failed'
+  fi
   write_hex "$fixture_repo/target" 4142434445
   write_hex "$fixture_repo/a" 41; write_hex "$fixture_repo/b" 42
   write_hex "$fixture_repo/equal-one" 53414d45; write_hex "$fixture_repo/equal-two" 53414d45
@@ -127,6 +147,29 @@ text=text.replace('In scope: src/routes/settings.ts, tests/settings.test.ts, src
 Path(out).write_text(text,encoding='utf-8')
 PY
   printf '| %s | R36 observation-bound mutation fixture |\n' "$prepared_phase" >> "$run_root/ROADMAP.md"
+  if [ -f "$run_root/.controller" ]; then
+    local controller epoch receipt
+    controller="$(sed -n 's/^controller_id=//p' "$run_root/.controller")"
+    epoch="e$((phase_counter + 1))"
+    "$python_bin" - "$run_root/STATE.md" "$epoch" \
+      "$(git -C "$fixture_repo" rev-parse HEAD)" "$(git -C "$fixture_repo" rev-parse 'HEAD^{tree}')" <<'PY'
+import re,sys
+from pathlib import Path
+p=Path(sys.argv[1]); epoch,head,tree=sys.argv[2:]
+s=p.read_text(encoding='utf-8')
+s=re.sub(r'^Current epoch: .+$',f'Current epoch: {epoch}',s,flags=re.M)
+s=re.sub(r'^\| Next action \|.*\|$',f'| Next action | execute phase {epoch[1:]} under refreshed continuity |',s,flags=re.M)
+anchor='| Epoch | Boundary provenance | Established at | Repo identity | Reconciled | Notes |\n|---|---|---|---|---|---|'
+row=f'| {epoch} | manual-resume | 2026-08-13T00:01:00Z | repo at `{head}` / `{tree}` | yes | phase authority and roadmap reconciled |'
+p.write_text(s.replace(anchor,anchor+'\n'+row),encoding='utf-8')
+PY
+    receipt="$(cd "$fixture_repo" && bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" \
+      --resume-controller "$controller" --boundary manual-resume --epoch "$epoch")" \
+      || fail 'phase continuity receipt mint failed'
+    (cd "$fixture_repo" && bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" \
+      --verify-resume-receipt "$receipt") >/dev/null \
+      || fail 'phase continuity receipt verification failed'
+  fi
   bash "$repo_root/skills/implementaudit/scripts/validate-phase.sh" --mutation-authority "$phase_file" --phase "$prepared_phase" --step "$prepared_step" --repo-root "$fixture_repo" --run-root "$run_root" >/dev/null || fail "authority factory produced invalid phase $prepared_phase"
 }
 
@@ -1626,10 +1669,11 @@ controller_stale_heldout() {
   local controller=s3e-w02-stale old_claim successor pre cand stdout stderr actual
   setup "$controller"
   old_claim="$(sed -n 's/^claim_id=//p' "$run_root/.claimed")"
+  pre="$(artifact controller-stale-pre 4142434445)"; cand="$(artifact controller-stale-candidate 4e4557)"
+  prepare_authority replace target -
   successor="$(cd "$fixture_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" --controller "$controller" --supersede-claim "$old_claim" 's3e w02 successor' 2>/dev/null)" || fail 'S3E-W02 successor transfer fixture failed'
   [ -f "$fixture_repo/$successor/.claimed" ] || fail 'S3E-W02 successor root is absent'
-  pre="$(artifact controller-stale-pre 4142434445)"; cand="$(artifact controller-stale-candidate 4e4557)"
-  prepare_authority replace target -; stdout="$tmp/controller-stale.out"; stderr="$tmp/controller-stale.err"
+  stdout="$tmp/controller-stale.out"; stderr="$tmp/controller-stale.err"
   set +e; bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$prepared_phase" --step 1 --preimage "$pre" --candidate "$cand" >"$stdout" 2>"$stderr"; actual=$?; set -e
   if [ "$actual" -eq 0 ]; then fail 'S3E-W02 RED: stale controller reached governed mutation sink'; fi
   [ "$actual" -eq 77 ] || fail "S3E-W02 stale controller exit=$actual expected=77 stderr=$(<"$stderr")"
@@ -1641,13 +1685,77 @@ r=json.loads(Path(sys.argv[1]).read_text())
 assert r['status']=='UNSUPPORTED_OWNER_DECISION' and r['reason_code']=='STALE_CONTROLLER_CUSTODY'
 assert r['transaction_id'] is None and r['actual_effect_set']==[]
 PY
-  setup s3e-w02-malformed; printf 'controller_id=s3e-w02-malformed \n' >"$run_root/.controller"
+  setup s3e-w02-malformed
   pre="$(artifact controller-malformed-pre 4142434445)"; cand="$(artifact controller-malformed-candidate 4e4557)"
-  invoke S3E-W02-malformed UNSUPPORTED_OWNER_DECISION replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"
+  prepare_authority replace target -
+  printf 'controller_id=s3e-w02-malformed \n' >"$run_root/.controller"
+  set +e; bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$prepared_phase" --step 1 --preimage "$pre" --candidate "$cand" >"$tmp/S3E-W02-malformed.out" 2>"$tmp/S3E-W02-malformed.err"; actual=$?; set -e
+  [ "$actual" -eq 77 ] || fail "S3E-W02 malformed controller exit=$actual expected=77"
+  assert_hex S3E-W02-malformed "$fixture_repo/target" 4142434445
   "$python_bin" - "$tmp/S3E-W02-malformed.out" <<'PY' || fail 'S3E-W02 malformed controller record lacked named refusal'
 import json,sys
 from pathlib import Path
 assert json.loads(Path(sys.argv[1]).read_text())['reason_code']=='STALE_CONTROLLER_CUSTODY'
+PY
+}
+
+post_compaction_continuity_heldout() {
+  local controller=s3e-continuity claim controller_oid marker marker_ref pre cand stdout stderr actual
+  setup "$controller"
+  claim="$(sed -n 's/^claim_id=//p' "$run_root/.claimed")"
+  controller_oid="$(git -C "$fixture_repo" rev-parse "refs/implementaudit/controllers/$controller")"
+  marker_ref="refs/implementaudit/continuity-invalidations/$controller"
+  pre="$(artifact continuity-pre 4142434445)"; cand="$(artifact continuity-candidate 4e4557)"
+  prepare_authority replace target -
+  marker="$(printf 'implementaudit.continuity-invalidation.v1\t%s\t%s\t%s\thost-reported-compaction\tincident-e13\n' \
+    "$controller" "$controller_oid" "$claim" | git -C "$fixture_repo" hash-object -w --stdin)"
+  git -C "$fixture_repo" update-ref "$marker_ref" "$marker"
+  stdout="$tmp/continuity.out"; stderr="$tmp/continuity.err"
+  set +e; bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$prepared_phase" --step 1 --preimage "$pre" --candidate "$cand" >"$stdout" 2>"$stderr"; actual=$?; set -e
+  if [ "$actual" -eq 0 ]; then
+    fail 'POST_COMPACTION_WITHOUT_FRESH_CONTINUITY false-greened governed mutation'
+  fi
+  [ "$actual" -eq 77 ] || fail "post-compaction continuity refusal exit=$actual expected=77 stderr=$(<"$stderr")"
+  assert_hex post-compaction-continuity "$fixture_repo/target" 4142434445
+  [ ! -e "$run_root/mutation-transactions" ] || fail 'post-compaction continuity refusal created transaction state'
+  "$python_bin" - "$stdout" <<'PY' || fail 'post-compaction continuity refusal is not explicit'
+import json,sys
+from pathlib import Path
+r=json.loads(Path(sys.argv[1]).read_text())
+assert r['status']=='UNSUPPORTED_OWNER_DECISION' and r['reason_code']=='STALE_CONTINUITY_RECEIPT'
+assert r['transaction_id'] is None and r['actual_effect_set']==[]
+PY
+}
+
+post_compaction_marker_deletion_heldout() {
+  local controller=s3e-continuity-marker-deletion claim controller_oid marker marker_ref pre cand stdout stderr actual sibling
+  setup "$controller"
+  claim="$(sed -n 's/^claim_id=//p' "$run_root/.claimed")"
+  controller_oid="$(git -C "$fixture_repo" rev-parse "refs/implementaudit/controllers/$controller")"
+  marker_ref="refs/implementaudit/continuity-invalidations/$controller"
+  pre="$(artifact continuity-marker-pre 4142434445)"; cand="$(artifact continuity-marker-candidate 4e4557)"
+  prepare_authority replace target -
+  marker="$(printf 'implementaudit.continuity-invalidation.v1\t%s\t%s\t%s\thost-reported-compaction\tincident-e13\n' \
+    "$controller" "$controller_oid" "$claim" | git -C "$fixture_repo" hash-object -w --stdin)"
+  git -C "$fixture_repo" update-ref "$marker_ref" "$marker"
+  sibling="$(cd "$fixture_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" \
+    --controller s3e-continuity-sibling 's3e continuity sibling')" || fail 'sibling controller fixture failed'
+  [ -f "$fixture_repo/$sibling/.claimed" ] || fail 'sibling controller root is absent'
+  rm "$run_root/.controller"
+  stdout="$tmp/continuity-marker-deletion.out"; stderr="$tmp/continuity-marker-deletion.err"
+  set +e; bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$prepared_phase" --step 1 --preimage "$pre" --candidate "$cand" >"$stdout" 2>"$stderr"; actual=$?; set -e
+  if [ "$actual" -eq 0 ]; then
+    fail 'POST_COMPACTION_WITHOUT_FRESH_CONTINUITY marker deletion false-greened governed mutation'
+  fi
+  [ "$actual" -eq 77 ] || fail "post-compaction marker-deletion refusal exit=$actual expected=77 stderr=$(<"$stderr")"
+  assert_hex post-compaction-marker-deletion "$fixture_repo/target" 4142434445
+  [ ! -e "$run_root/mutation-transactions" ] || fail 'post-compaction marker-deletion refusal created transaction state'
+  "$python_bin" - "$stdout" <<'PY' || fail 'post-compaction marker-deletion refusal is not explicit'
+import json,sys
+from pathlib import Path
+r=json.loads(Path(sys.argv[1]).read_text())
+assert r['status']=='UNSUPPORTED_OWNER_DECISION' and r['reason_code']=='STALE_CONTROLLER_CUSTODY'
+assert r['transaction_id'] is None and r['actual_effect_set']==[]
 PY
 }
 
@@ -1659,7 +1767,7 @@ controller_transfer_race_heldout() {
   (IMPLEMENTAUDIT_R36_TEST_BARRIER_DIR="$barrier" IMPLEMENTAUDIT_R36_TEST_FAULT_STAGE=lock-aba bash "$derived" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$prepared_phase" --step 1 --preimage "$pre" --candidate "$cand" >"$barrier/helper.out" 2>"$barrier/helper.err") & helper_pid=$!
   owned_background_pids=("$helper_pid"); owned_release_path="$barrier/release"
   ticks=0; while [ ! -f "$barrier/paused" ] && [ "$ticks" -lt 500 ]; do sleep .02; ticks=$((ticks+1)); done
-  [ -f "$barrier/paused" ] || fail 'S3E-W02 controller race did not reach protected mutation boundary'
+  [ -f "$barrier/paused" ] || fail "S3E-W02 controller race did not reach protected mutation boundary: $(<"$barrier/helper.err")"
   (cd "$fixture_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" --controller "$controller" --supersede-claim "$old_claim" 's3e w02 raced successor' >"$barrier/transfer.out" 2>"$barrier/transfer.err") & transfer_pid=$!
   owned_background_pids+=("$transfer_pid")
   for _ in $(seq 1 100); do [ ! -s "$barrier/transfer.out" ] || break; sleep .02; done
@@ -1731,6 +1839,8 @@ PY
 }
 
 case "${1:-}" in
+  --post-compaction-marker-deletion-heldout) post_compaction_marker_deletion_heldout; printf 'HOST_NEUTRAL_CONTINUITY_MARKER_DELETION_HELDOUT=PASS\n'; exit 0;;
+  --post-compaction-continuity-heldout) post_compaction_continuity_heldout; printf 'HOST_NEUTRAL_CONTINUITY_HELDOUT=PASS\n'; exit 0;;
   --controller-stale-heldout) controller_stale_heldout; printf 'S3E_W02_STALE_CONTROLLER_HELDOUT=PASS\n'; exit 0;;
   --controller-transfer-race-heldout) controller_transfer_race_heldout; printf 'S3E_W02_CONTROLLER_TRANSFER_RACE_HELDOUT=PASS\n'; exit 0;;
   --window-interlock-heldouts) fixture_self_check; window_interlock_heldouts; printf 'R36_WINDOW_INTERLOCK_HELDOUTS=PASS\n'; exit 0;;

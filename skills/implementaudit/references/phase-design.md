@@ -293,8 +293,8 @@ discriminating held-outs. Changed contracts retain history, effective boundary,
 and migration/population effects; representation retains property equivalence
 and held-outs. `STIMULUS`/prompt/mock/secondary-instrument changes require
 independence, parity, liveness, and proof level. Record before/after missions,
-answers, forbidden phrases, distractors, and held-outs without exposing answers.
-Easier assertions, goldens, tolerances, denominators, populations, bypasses,
+answers, forbidden phrases, distractors, and held-outs without exposing answers/distractors.
+Easier assertions, goldens, answers, tolerances, denominators, populations, bypasses,
 skips, mocks, or prompts prove no unchanged semantics; literal retention or a
 complete form cannot defeat lost property or held-out failure. After owner,
 repair class, original/held-out discrimination, and coupled residual resolve,

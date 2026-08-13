@@ -66,6 +66,10 @@ if not isinstance(cases, list) or {case.get("id") for case in cases} != expected
 phase = Path(sys.argv[2]).read_text(encoding="utf-8")
 if "Rule P4-17 — Triggered state-synthesis acceptance" not in phase:
     raise SystemExit("S3E-W01 RED: phase-design missing triggered state-synthesis acceptance")
+if "held-outs without exposing answers/distractors" not in phase:
+    raise SystemExit("P4-16 RED: distractors missing from the non-exposure boundary")
+if "Easier assertions, goldens, answers," not in phase:
+    raise SystemExit("P4-16 RED: answers missing from the prohibited easing set")
 PY
 then
   record_pass
@@ -122,6 +126,33 @@ PY
     record_fail "S3E-W01 $action_axis negative did not identify its rejected cell"
   fi
 done
+
+automated_action_schema_mutant="$tmp/s3e-w01-automated-action-schema-removed.json"
+"${py_cmd[@]}" - "$fixture" "$automated_action_schema_mutant" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+source, target = map(Path, sys.argv[1:])
+fixture = json.loads(source.read_text(encoding="utf-8"))
+case = next(row for row in fixture["state_synthesis_cases"]
+            if row["id"] == "S3E-W01-automated-action-complete-risk-envelope")
+for key in ("automated_action", "false_alarm_cost", "missed_detection_cost",
+            "detection_latency", "diagnosis_confidence", "reversibility",
+            "action_authority"):
+    case.pop(key)
+target.write_text(json.dumps(fixture, indent=2) + "\n", encoding="utf-8")
+PY
+if bash scripts/check-acceptance-instrument-discipline.sh \
+    "$automated_action_schema_mutant" \
+    >"$tmp/s3e-w01-automated-action-schema-removed.out" 2>&1; then
+  record_fail "S3E-W01 required automated-action case accepted after its complete risk schema was removed"
+elif grep -Fq 'S3E-W01-automated-action-complete-risk-envelope' \
+    "$tmp/s3e-w01-automated-action-schema-removed.out"; then
+  record_pass
+else
+  record_fail "S3E-W01 removed automated-action schema did not identify its rejected cell"
+fi
 
 identity_proxy_fixture="$tmp/r35-nonresolving-identity-proxy.json"
 "${py_cmd[@]}" - "$fixture" "$identity_proxy_fixture" <<'PY'

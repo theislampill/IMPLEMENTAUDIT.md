@@ -665,26 +665,44 @@ def release_window_gate():
     return errors
 
 
-def current_controller_custody():
+def current_controller_failure():
     marker = RUN / ".controller"
     identity = path_identity(marker)
+    same = lambda l, r: os.path.normcase(os.path.abspath(native_input(l))) == os.path.normcase(os.path.abspath(r))
+    def record(controller):
+        completed = subprocess.run(
+            [BASH_EXE, bash_path(SCRIPT_DIR / "claim-run.sh"), "--current-controller", controller],
+            cwd=os.fspath(REPO), text=True, capture_output=True,
+        )
+        return completed.returncode, completed.stdout.rstrip("\n").split("\t")
     if identity.get("kind") == "absent":
-        return True
+        refs = subprocess.run(
+            ["git", "for-each-ref", "--format=%(refname:strip=3)", "refs/implementaudit/controllers/"],
+            cwd=os.fspath(REPO), text=True, capture_output=True,
+        )
+        if refs.returncode != 0:
+            return "STALE_CONTROLLER_CUSTODY"
+        for controller in refs.stdout.splitlines():
+            rc, fields = record(controller)
+            if rc == 0 and len(fields) == 4 and same(fields[1], REPO) and same(fields[2], RUN) and fields[3] == claim_id:
+                return "STALE_CONTROLLER_CUSTODY"
+        return None
     if identity.get("kind") != "regular" or identity.get("link_count") != 1 or not contained_regular(marker, RUN):
-        return False
+        return "STALE_CONTROLLER_CUSTODY"
     match = re.fullmatch(rb"controller_id=([a-z0-9](?:[a-z0-9-]{0,47}))\n", marker.read_bytes())
     if match is None:
-        return False
+        return "STALE_CONTROLLER_CUSTODY"
     controller = match.group(1).decode("ascii")
-    completed = subprocess.run(
-        [BASH_EXE, bash_path(SCRIPT_DIR / "claim-run.sh"), "--current-controller", controller],
-        cwd=os.fspath(REPO), text=True, capture_output=True, check=False,
+    rc, fields = record(controller)
+    if rc != 0 or len(fields) != 4:
+        return "STALE_CONTROLLER_CUSTODY"
+    if not (fields[0] == controller and same(fields[1], REPO) and same(fields[2], RUN) and fields[3] == claim_id):
+        return "STALE_CONTROLLER_CUSTODY"
+    current = subprocess.run(
+        [BASH_EXE, bash_path(SCRIPT_DIR / "claim-run.sh"), "--require-current-continuity", controller],
+        cwd=os.fspath(REPO), text=True, capture_output=True,
     )
-    fields = completed.stdout.rstrip("\n").split("\t")
-    if completed.returncode != 0 or len(fields) != 4:
-        return False
-    same = lambda left, right: os.path.normcase(os.path.abspath(native_input(left))) == os.path.normcase(os.path.abspath(right))
-    return fields[0] == controller and same(fields[1], REPO) and same(fields[2], RUN) and fields[3] == claim_id
+    return None if current.returncode == 0 else "STALE_CONTINUITY_RECEIPT"
 
 
 def window_intents():
@@ -1077,10 +1095,6 @@ def residue_row(path):
 
 
 def result_record(status, reason_code, residue_paths, effect_rows):
-    # A pre-product owner refusal can retain contained transaction/audit
-    # bookkeeping while product effects remain absent and residue is empty.
-    # Preserve those actual evidence rows; do not turn "no product mutation"
-    # into an empty-ledger claim.
     return {
         "schema": "implementaudit.observation_bound_mutation.v2",
         "transaction_id": transaction_id,
@@ -1172,10 +1186,11 @@ except WriterDomainBreach:
 except OSError as error:
     sys.stderr.write(f"apply-observed-mutation: namespace gate acquisition failed: {error}\n")
     emit_no_effect("MUTATION_FAILED_NO_STATE_CHANGE", "IO_FAILURE")
-if not current_controller_custody():
+controller_failure = current_controller_failure()
+if controller_failure is not None:
     if release_window_gate():
         emit_no_effect("ROLLBACK_FAILED_WITH_RESIDUE", "GATE_RELEASE_FAILURE")
-    emit_no_effect("UNSUPPORTED_OWNER_DECISION", "STALE_CONTROLLER_CUSTODY")
+    emit_no_effect("UNSUPPORTED_OWNER_DECISION", controller_failure)
 try:
     window_failure = verification_window_failure()
 except (OSError, RuntimeError, WriterDomainBreach) as error:
@@ -1334,9 +1349,6 @@ def release_locks():
 
 
 def release_lock_root():
-    # Shared acquisition namespace is durable. Removing it would recreate the
-    # same check/use problem as removing a lock: an external actor can replace
-    # an empty pathname after validation but before rmdir.
     return
 
 

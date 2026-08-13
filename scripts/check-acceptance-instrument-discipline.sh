@@ -597,7 +597,9 @@ def classify_state_synthesis(case):
     action_keys = {"automated_action", "false_alarm_cost",
                    "missed_detection_cost", "detection_latency",
                    "diagnosis_confidence", "reversibility", "action_authority"}
-    if "automated_action" in case:
+    if "automated_action" in case or case.get("id") in {
+            "S3E-W01-automated-action-complete-risk-envelope",
+            "S3E-W01-automated-action-incomplete-risk-envelope"}:
         keys |= action_keys
     require_exact(case, keys, case.get("id", "state synthesis case"))
     for key in keys - {"id", "expected"}:
