@@ -1014,13 +1014,17 @@ PY
   local actor=$! helper_pid ticks=0 actual status post record journal token
   while [ ! -f "$barrier/actor-ready" ] && [ "$ticks" -lt 250 ]; do sleep .02; ticks=$((ticks+1)); done
   [ "$ticks" -lt 250 ] || fail 'R36-DRIFT actor barrier timeout'
-  : >"$barrier/release"
   prepare_authority replace target -; local drift_phase="$prepared_phase"
+  : >"$barrier/release"
   (set +e; bash "$helper" --repo-root "$fixture_repo" --run-root "$run_root" --phase "$drift_phase" --step 1 --preimage "$pre" --candidate "$candidate" >"$stdout" 2>"$stderr"; echo $? >"$barrier/helper.exit") & helper_pid=$!
   wait_bounded "$helper_pid" 'R36-DRIFT helper'
   actual="$(<"$barrier/helper.exit")"
   wait_bounded "$actor" 'R36-DRIFT actor'
-  [ -f "$barrier/actor-fired" ] || fail 'R36-DRIFT actor did not fire'
+  if [ ! -f "$barrier/actor-fired" ]; then
+    printf 'R36-DRIFT helper exit: %s\n' "$actual" >&2
+    printf 'R36-DRIFT helper stderr: %s\n' "$(cat "$stderr")" >&2
+    fail 'R36-DRIFT actor did not fire'
+  fi
   status="$($python_bin - "$stdout" <<'PY'
 import json,sys
 print(json.loads(open(sys.argv[1],encoding='utf-8').read())['status'])
