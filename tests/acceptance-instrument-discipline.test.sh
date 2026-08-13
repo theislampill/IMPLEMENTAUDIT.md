@@ -45,6 +45,7 @@ fi
 s3e_contract_out="$tmp/s3e-w01-contract.out"
 if "${py_cmd[@]}" - "$fixture" \
     skills/implementaudit/references/phase-design.md \
+    skills/implementaudit/SKILL.md \
     >"$s3e_contract_out" <<'PY'
 import json
 import sys
@@ -64,8 +65,11 @@ expected = {
 if not isinstance(cases, list) or {case.get("id") for case in cases} != expected:
     raise SystemExit("S3E-W01 RED: state-synthesis fixture population missing")
 phase = Path(sys.argv[2]).read_text(encoding="utf-8")
+skill = Path(sys.argv[3]).read_text(encoding="utf-8")
 if "Rule P4-17 — Triggered state-synthesis acceptance" not in phase:
     raise SystemExit("S3E-W01 RED: phase-design missing triggered state-synthesis acceptance")
+if "triggered state-synthesis acceptance and automated-action risk bounds" not in " ".join(skill.split()):
+    raise SystemExit("S3E-W01 RED: bootloader does not route automated-action decisions to phase-design")
 if "held-outs without exposing answers/distractors" not in phase:
     raise SystemExit("P4-16 RED: distractors missing from the non-exposure boundary")
 if "Easier assertions, goldens, answers," not in phase:
