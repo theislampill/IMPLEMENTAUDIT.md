@@ -206,6 +206,17 @@ def cmd_init(args: argparse.Namespace) -> None:
     key_path = Path(args.key_file).resolve()
     source_root = Path(args.source_root).resolve(strict=True)
     runtime_root = Path(args.runtime_root).resolve(strict=True)
+    if source_root == runtime_root:
+        fail("source and installed runtime roots must be disjoint")
+    for candidate_root, containing_root in (
+        (source_root, runtime_root),
+        (runtime_root, source_root),
+    ):
+        try:
+            candidate_root.relative_to(containing_root)
+        except ValueError:
+            continue
+        fail("source and installed runtime roots must be disjoint")
     custody_paths = (context_path, journal_path, key_path)
     if len(set(custody_paths)) != len(custody_paths):
         fail("context, journal, and key paths must be distinct")
@@ -217,11 +228,19 @@ def cmd_init(args: argparse.Namespace) -> None:
                 continue
             fail("runner custody must remain outside model-readable source/runtime roots")
     reference = runtime_root / "references" / "transcript-contract.md"
+    runtime_carrier = runtime_root / "SKILL.md"
     broker = Path(__file__).resolve()
     event_schema = source_root / "fixtures" / "dogfood-bootstrap" / "typed-event.schema.json"
-    for name, path in (("dogfood reference", reference), ("broker", broker), ("event schema", event_schema)):
+    for name, path in (
+        ("installed runtime carrier", runtime_carrier),
+        ("dogfood reference", reference),
+        ("broker", broker),
+        ("event schema", event_schema),
+    ):
         if not path.is_file():
             fail(f"{name} is missing: {path}")
+    if sha256_file(runtime_carrier) != runtime:
+        fail("installed runtime carrier identity mismatch")
     if context_path.exists() or journal_path.exists() or key_path.exists():
         fail("context, journal, and key are create-once runner custody")
     key = secrets.token_bytes(32)
@@ -237,6 +256,7 @@ def cmd_init(args: argparse.Namespace) -> None:
         "runtime_sha256": runtime,
         "source_root": str(source_root),
         "runtime_root": str(runtime_root),
+        "runtime_carrier": str(runtime_carrier),
         "journal": str(journal_path),
         "key_file": str(key_path),
     }
@@ -309,11 +329,16 @@ def cmd_activate(args: argparse.Namespace) -> None:
     if not {"baseline-status", "baseline-head"}.issubset(actions):
         fail("temp runtime activation is not permitted before both baseline events")
     path = Path(args.path).resolve(strict=True)
+    runtime_carrier = Path(str(context["runtime_carrier"])).resolve(strict=True)
     role = path_role(context, path)
     digest = sha256_file(path)
     result = (
         "completed"
-        if role == "temp-installed-runtime" and digest == context["runtime_sha256"]
+        if (
+            role == "temp-installed-runtime"
+            and path == runtime_carrier
+            and digest == context["runtime_sha256"]
+        )
         else "blocked"
     )
     append_event(

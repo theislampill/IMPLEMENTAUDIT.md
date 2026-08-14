@@ -162,6 +162,56 @@ if python scripts/dogfood-evidence-broker.py init \
   exit 1
 fi
 
+# The source checkout and installed runtime are distinct evidence carriers.
+# A nested "runtime" can otherwise make the tracked source SKILL self-attest as
+# a successful temporary-home activation.
+nested_root="$tmp/nested-runtime-negative"
+if python scripts/dogfood-evidence-broker.py init \
+  --context "$nested_root/context.json" \
+  --journal "$nested_root/events.jsonl" \
+  --key-file "$nested_root/event.key" \
+  --session-id S3E-NESTED-RUNTIME-NEGATIVE \
+  --audit-object implementaudit-rc-self-release \
+  --candidate-commit "$candidate_commit" \
+  --candidate-tree "$candidate_tree" \
+  --package-sha256 "$package_sha" \
+  --runtime-sha256 "$(python - <<'PY'
+import hashlib
+from pathlib import Path
+print(hashlib.sha256(Path('skills/implementaudit/SKILL.md').read_bytes()).hexdigest())
+PY
+)" \
+  --source-root "$repo_root" \
+  --runtime-root "$repo_root/skills/implementaudit" \
+  >"$tmp/nested-runtime.out" 2>&1; then
+  printf 'dogfood-bootstrap-contract.test: nested source/runtime roots unexpectedly passed\n' >&2
+  exit 1
+fi
+
+carrier_root="$tmp/carrier-binding-negative"
+cp "$runtime_root/SKILL.md" "$runtime_root/alternate-runtime.md"
+python scripts/dogfood-evidence-broker.py init \
+  --context "$carrier_root/context.json" \
+  --journal "$carrier_root/events.jsonl" \
+  --key-file "$carrier_root/event.key" \
+  --session-id S3E-CARRIER-BINDING-NEGATIVE \
+  --audit-object implementaudit-rc-self-release \
+  --candidate-commit "$candidate_commit" \
+  --candidate-tree "$candidate_tree" \
+  --package-sha256 "$package_sha" \
+  --runtime-sha256 "$runtime_sha" \
+  --source-root "$repo_root" \
+  --runtime-root "$runtime_root"
+python scripts/dogfood-evidence-broker.py baseline-status --context "$carrier_root/context.json" >/dev/null
+python scripts/dogfood-evidence-broker.py baseline-head --context "$carrier_root/context.json" >/dev/null
+if python scripts/dogfood-evidence-broker.py activate \
+  --context "$carrier_root/context.json" \
+  --path "$runtime_root/alternate-runtime.md" \
+  >"$tmp/carrier-binding.out" 2>&1; then
+  printf 'dogfood-bootstrap-contract.test: non-carrier runtime activation unexpectedly passed\n' >&2
+  exit 1
+fi
+
 real_home_root="$tmp/real-home-evidence"
 python scripts/dogfood-evidence-broker.py init \
   --context "$real_home_root/context.json" \
