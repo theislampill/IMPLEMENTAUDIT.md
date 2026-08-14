@@ -212,6 +212,28 @@ if python scripts/dogfood-evidence-broker.py activate \
   exit 1
 fi
 
+declared_real_home="$tmp/declared-user/.codex/skills/implementaudit"
+mkdir -p "$declared_real_home/references"
+cp skills/implementaudit/SKILL.md "$declared_real_home/SKILL.md"
+cp skills/implementaudit/references/transcript-contract.md \
+  "$declared_real_home/references/transcript-contract.md"
+if python scripts/dogfood-evidence-broker.py init \
+  --context "$tmp/declared-real-home/context.json" \
+  --journal "$tmp/declared-real-home/events.jsonl" \
+  --key-file "$tmp/declared-real-home/event.key" \
+  --session-id S3E-DECLARED-REAL-HOME-NEGATIVE \
+  --audit-object implementaudit-rc-self-release \
+  --candidate-commit "$candidate_commit" \
+  --candidate-tree "$candidate_tree" \
+  --package-sha256 "$package_sha" \
+  --runtime-sha256 "$runtime_sha" \
+  --source-root "$repo_root" \
+  --runtime-root "$declared_real_home" \
+  >"$tmp/declared-real-home.out" 2>&1; then
+  printf 'dogfood-bootstrap-contract.test: declared real-home runtime unexpectedly passed\n' >&2
+  exit 1
+fi
+
 real_home_root="$tmp/real-home-evidence"
 python scripts/dogfood-evidence-broker.py init \
   --context "$real_home_root/context.json" \
@@ -231,8 +253,10 @@ python scripts/dogfood-evidence-broker.py activate \
   --context "$real_home_root/context.json" \
   --path "$runtime_root/SKILL.md"
 fake_real_home="$tmp/fake-user/.codex/skills/implementaudit"
-mkdir -p "$fake_real_home"
+mkdir -p "$fake_real_home/references"
 cp skills/implementaudit/SKILL.md "$fake_real_home/SKILL.md"
+cp skills/implementaudit/references/transcript-contract.md \
+  "$fake_real_home/references/transcript-contract.md"
 if python scripts/dogfood-evidence-broker.py read \
   --context "$real_home_root/context.json" \
   --path "$fake_real_home/SKILL.md" \
@@ -248,6 +272,23 @@ import sys
 event = json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8").splitlines()[-1])
 if (event.get("action"), event.get("target_role"), event.get("result")) != ("read", "real-home-runtime", "blocked"):
     raise SystemExit("real-home rejection was not emitted at the runner action boundary")
+PY
+
+if python scripts/dogfood-evidence-broker.py read \
+  --context "$real_home_root/context.json" \
+  --path "$fake_real_home/references/transcript-contract.md" \
+  --correlation-id real-home-reference-read \
+  >"$tmp/real-home-reference-read.out" 2>&1; then
+  printf 'dogfood-bootstrap-contract.test: real-home reference read unexpectedly completed\n' >&2
+  exit 1
+fi
+python - "$real_home_root/events.jsonl" <<'PY'
+import json
+import pathlib
+import sys
+event = json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8").splitlines()[-1])
+if (event.get("action"), event.get("target_role"), event.get("result")) != ("read", "real-home-runtime", "blocked"):
+    raise SystemExit("real-home descendant was not classified at the runner action boundary")
 PY
 
 cp "$typed_root/events.jsonl" "$typed_root/duplicate.jsonl"

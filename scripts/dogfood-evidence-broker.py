@@ -174,10 +174,21 @@ def phase(context: dict[str, object]) -> str:
     )
 
 
+def is_real_home_runtime(path: Path) -> bool:
+    parts = tuple(part.casefold() for part in path.resolve(strict=False).parts)
+    real_home_root = (".codex", "skills", "implementaudit")
+    return any(
+        parts[index : index + len(real_home_root)] == real_home_root
+        for index in range(len(parts) - len(real_home_root) + 1)
+    )
+
+
 def path_role(context: dict[str, object], path: Path) -> str:
     resolved = path.resolve(strict=False)
     source_root = Path(str(context["source_root"])).resolve()
     runtime_root = Path(str(context["runtime_root"])).resolve()
+    if is_real_home_runtime(resolved):
+        return "real-home-runtime"
     try:
         resolved.relative_to(runtime_root)
         return "temp-installed-runtime"
@@ -188,9 +199,6 @@ def path_role(context: dict[str, object], path: Path) -> str:
         return "source"
     except ValueError:
         pass
-    normalized = resolved.as_posix().casefold()
-    if "/.codex/skills/implementaudit" in normalized:
-        return "real-home-runtime"
     return "other"
 
 
@@ -206,6 +214,8 @@ def cmd_init(args: argparse.Namespace) -> None:
     key_path = Path(args.key_file).resolve()
     source_root = Path(args.source_root).resolve(strict=True)
     runtime_root = Path(args.runtime_root).resolve(strict=True)
+    if is_real_home_runtime(runtime_root):
+        fail("installed runtime root must not be a real-home runtime")
     if source_root == runtime_root:
         fail("source and installed runtime roots must be disjoint")
     for candidate_root, containing_root in (
