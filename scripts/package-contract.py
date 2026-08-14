@@ -32,6 +32,11 @@ EXPECTED_MANIFESTS = {
     "codex": ".codex-plugin/plugin.json",
     "claude": ".claude-plugin/plugin.json",
 }
+EXPECTED_PUBLISHER = {"name": "theislampill"}
+EXPECTED_MARKETPLACE = {
+    "name": "implementaudit",
+    "owner": EXPECTED_PUBLISHER,
+}
 EXPECTED_PROJECTIONS = {
     "canonical_plugin": {
         "artifact": "IMPLEMENTAUDIT.plugin.zip",
@@ -140,6 +145,7 @@ def validate_manifest(
         "version": contract["runtime_version"],
         "description": contract["description"],
         "skills": "./skills/",
+        "author": contract["publisher"],
     }
     require_equal(f"{manifest_path} content", manifest, expected)
 
@@ -149,6 +155,8 @@ def validate_contract(root: Path) -> dict[str, Any]:
     require_equal("schema_version", contract.get("schema_version"), 1)
     require_equal("logical_package", contract.get("logical_package"), "IMPLEMENTAUDIT_PLUGIN")
     require_equal("package_name", contract.get("package_name"), "implementaudit")
+    require_equal("publisher", contract.get("publisher"), EXPECTED_PUBLISHER)
+    require_equal("marketplace", contract.get("marketplace"), EXPECTED_MARKETPLACE)
     require_equal("runtime_version", contract.get("runtime_version"), "0.4.0")
     require_equal("release_family", contract.get("release_family"), "v0.4.0.0")
     require_equal("public_governor", contract.get("public_governor"), "implementaudit")
@@ -184,6 +192,23 @@ def validate_contract(root: Path) -> dict[str, Any]:
 
     for manifest_path in EXPECTED_MANIFESTS.values():
         validate_manifest(root, manifest_path, contract)
+    marketplace = load_json(root / ".claude-plugin/marketplace.json")
+    require_equal(
+        ".claude-plugin/marketplace.json content",
+        marketplace,
+        {
+            "name": contract["marketplace"]["name"],
+            "owner": contract["marketplace"]["owner"],
+            "description": contract["description"],
+            "plugins": [
+                {
+                    "name": contract["package_name"],
+                    "description": contract["description"],
+                    "source": "./",
+                }
+            ],
+        },
+    )
     for shared_root in EXPECTED_SHARED_ROOTS:
         if not (root / shared_root).is_dir():
             raise ContractError(f"missing shared resource root: {shared_root}")

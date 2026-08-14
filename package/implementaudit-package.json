@@ -3,6 +3,15 @@
   "logical_package": "IMPLEMENTAUDIT_PLUGIN",
   "package_name": "implementaudit",
   "description": "Audit-closure governance skill for bounded, verified repository changes.",
+  "publisher": {
+    "name": "theislampill"
+  },
+  "marketplace": {
+    "name": "implementaudit",
+    "owner": {
+      "name": "theislampill"
+    }
+  },
   "runtime_version": "0.4.0",
   "release_family": "v0.4.0.0",
   "public_governor": "implementaudit",

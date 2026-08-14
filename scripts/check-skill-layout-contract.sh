@@ -95,6 +95,8 @@ for manifest_path in (
         raise SystemExit(
             f"{manifest_path} must point source plugin discovery at ./skills/"
         )
+    if plugin.get("author") != {"name": "theislampill"}:
+        raise SystemExit(f"{manifest_path} author must bind publisher theislampill")
     host_plugins[manifest_path] = plugin
 if host_plugins[".codex-plugin/plugin.json"] != host_plugins[".claude-plugin/plugin.json"]:
     raise SystemExit("Codex and Claude plugin manifests must be identical projections")
@@ -102,6 +104,12 @@ if host_plugins[".codex-plugin/plugin.json"] != host_plugins[".claude-plugin/plu
 marketplace = json.loads(
     (root / ".claude-plugin/marketplace.json").read_text(encoding="utf-8")
 )
+if marketplace.get("name") != "implementaudit":
+    raise SystemExit("marketplace name must be implementaudit")
+if marketplace.get("owner") != {"name": "theislampill"}:
+    raise SystemExit("marketplace owner must be theislampill")
+if not isinstance(marketplace.get("description"), str) or not marketplace["description"].strip():
+    raise SystemExit("marketplace description is required")
 plugins = marketplace.get("plugins")
 if not isinstance(plugins, list) or not plugins:
     raise SystemExit(".claude-plugin/marketplace.json plugins list is required")

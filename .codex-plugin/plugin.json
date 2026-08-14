@@ -2,5 +2,8 @@
   "name": "implementaudit",
   "version": "0.4.0",
   "description": "Audit-closure governance skill for bounded, verified repository changes.",
-  "skills": "./skills/"
+  "skills": "./skills/",
+  "author": {
+    "name": "theislampill"
+  }
 }
