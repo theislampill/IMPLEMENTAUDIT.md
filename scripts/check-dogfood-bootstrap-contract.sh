@@ -213,6 +213,15 @@ def jsonl(path, label):
 
 def validate_ordinary_control():
     values = jsonl(activation_path, "ordinary activation trace")
+    ordinary_fields = {
+        "schema", "sequence", "actor", "action", "target_role", "result",
+    }
+    if any(
+        set(value) != ordinary_fields
+        or value.get("schema") != "implementaudit.activation-trace.v1"
+        for value in values
+    ):
+        raise SystemExit(f"{activation_path}: ordinary activation trace schema mismatch")
     ordinary_sequences = [value.get("sequence") for value in values]
     if any(type(sequence) is not int or sequence < 1 for sequence in ordinary_sequences):
         raise SystemExit(f"{activation_path}: ordinary activation trace sequence is invalid")
@@ -226,11 +235,16 @@ def validate_ordinary_control():
     ):
         raise SystemExit(f"{activation_path}: ordinary Execution Spine load is missing")
     forbidden_roles = {
-        "dogfood-reference", "dogfood-broker", "dogfood-event-schema",
+        "self-release-audit-object", "dogfood-reference", "dogfood-broker",
+        "dogfood-event-schema", "temp-installed-runtime", "real-home-runtime",
+    }
+    forbidden_actions = {
+        "self-dogfood-trigger", "load-reference", "load-broker",
+        "load-event-schema", "activate-runtime",
     }
     if any(
         value.get("target_role") in forbidden_roles
-        or value.get("action") == "self-dogfood-trigger"
+        or value.get("action") in forbidden_actions
         for value in values
     ):
         raise SystemExit(

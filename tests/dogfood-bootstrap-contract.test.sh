@@ -80,6 +80,46 @@ bash scripts/check-dogfood-bootstrap-contract.sh \
   --control ordinary \
   --activation-file fixtures/dogfood-bootstrap/typed/ordinary-control-activation.jsonl
 
+ordinary_runtime_activation="$tmp/ordinary-runtime-activation.jsonl"
+cp fixtures/dogfood-bootstrap/typed/ordinary-control-activation.jsonl \
+  "$ordinary_runtime_activation"
+printf '%s\n' '{"schema":"implementaudit.activation-trace.v1","sequence":2,"actor":"host","action":"activate-runtime","target_role":"temp-installed-runtime","result":"completed"}' \
+  >>"$ordinary_runtime_activation"
+if bash scripts/check-dogfood-bootstrap-contract.sh \
+  --control ordinary \
+  --activation-file "$ordinary_runtime_activation" \
+  >"$tmp/ordinary-runtime-activation.out" 2>&1; then
+  printf 'dogfood-bootstrap-contract.test: ordinary runtime activation unexpectedly passed\n' >&2
+  exit 1
+fi
+python - fixtures/dogfood-bootstrap/typed/ordinary-control-activation.jsonl "$tmp" <<'PY'
+import json
+import pathlib
+import sys
+source = pathlib.Path(sys.argv[1])
+target = pathlib.Path(sys.argv[2])
+event = json.loads(source.read_text(encoding="utf-8"))
+cases = {
+    "wrong-schema": dict(event, schema="attacker.activation-trace.v9"),
+    "missing-schema": {key: value for key, value in event.items() if key != "schema"},
+    "extra-identity": dict(event, target_identity="wrong"),
+}
+for name, value in cases.items():
+    (target / f"ordinary-{name}.jsonl").write_text(
+        json.dumps(value, separators=(",", ":"), sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+PY
+for ordinary_case in wrong-schema missing-schema extra-identity; do
+  if bash scripts/check-dogfood-bootstrap-contract.sh \
+    --control ordinary \
+    --activation-file "$tmp/ordinary-$ordinary_case.jsonl" \
+    >"$tmp/ordinary-$ordinary_case.out" 2>&1; then
+    printf 'dogfood-bootstrap-contract.test: invalid ordinary envelope unexpectedly passed: %s\n' "$ordinary_case" >&2
+    exit 1
+  fi
+done
+
 extra_observation="$typed_root/extra-observation.jsonl"
 cp fixtures/dogfood-bootstrap/typed/self-dogfood-corroboration.jsonl \
   "$extra_observation"
