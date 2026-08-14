@@ -380,7 +380,15 @@ def validate_self_dogfood():
     observed = jsonl(corroboration_path, "independent dogfood observation")
     observed_by_correlation = {}
     observed_correlations = []
+    observed_fields = {
+        "schema", "sequence", "correlation_id", "actor", "action",
+        "target_role", "result",
+    }
     for index, item in enumerate(observed, 1):
+        if set(item) != observed_fields or item.get("schema") != "implementaudit.observed-action.v1":
+            raise SystemExit(
+                "Andon: typed dogfood evidence contradicts independent observation"
+            )
         if item.get("sequence") != index:
             raise SystemExit(f"{corroboration_path}:{index}: observation sequence mismatch")
         correlation = item.get("correlation_id")

@@ -142,6 +142,44 @@ grep -F 'Andon: typed dogfood evidence contradicts independent observation' \
   exit 1
 }
 
+python - fixtures/dogfood-bootstrap/typed/self-dogfood-corroboration.jsonl "$tmp" <<'PY'
+import json
+import pathlib
+import sys
+source = pathlib.Path(sys.argv[1])
+target = pathlib.Path(sys.argv[2])
+events = [json.loads(line) for line in source.read_text(encoding="utf-8").splitlines()]
+
+wrong_schema = [dict(event, schema="attacker.observed-action.v9") for event in events]
+missing_schema = [dict(event) for event in events]
+missing_schema[0].pop("schema")
+extra_identity = [dict(event, target_identity="wrong") for event in events]
+
+for name, population in (
+    ("wrong-schema", wrong_schema),
+    ("missing-schema", missing_schema),
+    ("extra-identity", extra_identity),
+):
+    (target / f"typed-{name}.jsonl").write_text(
+        "\n".join(json.dumps(event, separators=(",", ":"), sort_keys=True) for event in population) + "\n",
+        encoding="utf-8",
+    )
+PY
+for observation_case in wrong-schema missing-schema extra-identity; do
+  if "${typed_check[@]}" \
+    --corroboration-file "$tmp/typed-$observation_case.jsonl" \
+    >"$tmp/typed-$observation_case.out" 2>&1; then
+    printf 'dogfood-bootstrap-contract.test: invalid corroboration envelope unexpectedly passed: %s\n' "$observation_case" >&2
+    exit 1
+  fi
+  grep -F 'Andon: typed dogfood evidence contradicts independent observation' \
+    "$tmp/typed-$observation_case.out" >/dev/null || {
+    printf 'dogfood-bootstrap-contract.test: expected corroboration-envelope Andon: %s\n' "$observation_case" >&2
+    cat "$tmp/typed-$observation_case.out" >&2
+    exit 1
+  }
+done
+
 prebaseline_root="$tmp/prebaseline-evidence"
 python scripts/dogfood-evidence-broker.py init \
   --context "$prebaseline_root/context.json" \
