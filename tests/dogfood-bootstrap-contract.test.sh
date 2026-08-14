@@ -180,6 +180,45 @@ for observation_case in wrong-schema missing-schema extra-identity; do
   }
 done
 
+python - \
+  fixtures/dogfood-bootstrap/typed/self-dogfood-corroboration.jsonl \
+  fixtures/dogfood-bootstrap/typed/ordinary-control-activation.jsonl \
+  "$tmp" <<'PY'
+import json
+import pathlib
+import sys
+observed_source = pathlib.Path(sys.argv[1])
+ordinary_source = pathlib.Path(sys.argv[2])
+target = pathlib.Path(sys.argv[3])
+observed = [json.loads(line) for line in observed_source.read_text(encoding="utf-8").splitlines()]
+ordinary = [json.loads(line) for line in ordinary_source.read_text(encoding="utf-8").splitlines()]
+for name, invalid in (("boolean", True), ("float", 1.0), ("string", "1")):
+    observed_case = [dict(event) for event in observed]
+    ordinary_case = [dict(event) for event in ordinary]
+    observed_case[0]["sequence"] = invalid
+    ordinary_case[0]["sequence"] = invalid
+    for prefix, population in (("observed", observed_case), ("ordinary", ordinary_case)):
+        (target / f"{prefix}-sequence-{name}.jsonl").write_text(
+            "\n".join(json.dumps(event, separators=(",", ":"), sort_keys=True) for event in population) + "\n",
+            encoding="utf-8",
+        )
+PY
+for sequence_case in boolean float string; do
+  if "${typed_check[@]}" \
+    --corroboration-file "$tmp/observed-sequence-$sequence_case.jsonl" \
+    >"$tmp/observed-sequence-$sequence_case.out" 2>&1; then
+    printf 'dogfood-bootstrap-contract.test: invalid observed sequence unexpectedly passed: %s\n' "$sequence_case" >&2
+    exit 1
+  fi
+  if bash scripts/check-dogfood-bootstrap-contract.sh \
+    --control ordinary \
+    --activation-file "$tmp/ordinary-sequence-$sequence_case.jsonl" \
+    >"$tmp/ordinary-sequence-$sequence_case.out" 2>&1; then
+    printf 'dogfood-bootstrap-contract.test: invalid ordinary sequence unexpectedly passed: %s\n' "$sequence_case" >&2
+    exit 1
+  fi
+done
+
 broker_duplicate_root="$tmp/broker-duplicate-journal"
 python scripts/dogfood-evidence-broker.py init \
   --context "$broker_duplicate_root/context.json" \

@@ -213,7 +213,10 @@ def jsonl(path, label):
 
 def validate_ordinary_control():
     values = jsonl(activation_path, "ordinary activation trace")
-    if [value.get("sequence") for value in values] != list(range(1, len(values) + 1)):
+    ordinary_sequences = [value.get("sequence") for value in values]
+    if any(type(sequence) is not int or sequence < 1 for sequence in ordinary_sequences):
+        raise SystemExit(f"{activation_path}: ordinary activation trace sequence is invalid")
+    if ordinary_sequences != list(range(1, len(values) + 1)):
         raise SystemExit(f"{activation_path}: ordinary activation trace is reordered")
     if not any(
         value.get("action") == "load"
@@ -403,8 +406,11 @@ def validate_self_dogfood():
             raise SystemExit(
                 "Andon: typed dogfood evidence contradicts independent observation"
             )
-        if item.get("sequence") != index:
-            raise SystemExit(f"{corroboration_path}:{index}: observation sequence mismatch")
+        sequence = item.get("sequence")
+        if type(sequence) is not int or sequence < 1 or sequence != index:
+            raise SystemExit(
+                "Andon: typed dogfood evidence contradicts independent observation"
+            )
         correlation = item.get("correlation_id")
         if not isinstance(correlation, str) or correlation in observed_by_correlation:
             raise SystemExit(f"{corroboration_path}:{index}: observation correlation is missing or duplicate")
