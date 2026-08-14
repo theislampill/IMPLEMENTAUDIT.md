@@ -46,6 +46,20 @@ new_host_root() {
   printf '%s\n' "$root"
 }
 
+make_directory_alias() {
+  local target="$1" alias_path="$2"
+  case "$(uname -s)" in
+    MINGW*|MSYS*|CYGWIN*)
+      local target_win alias_win
+      target_win="$(cygpath -w "$target")"
+      alias_win="$(cygpath -w "$alias_path")"
+      powershell.exe -NoProfile -NonInteractive -Command \
+        "New-Item -ItemType Junction -LiteralPath '$alias_win' -Target '$target_win' | Out-Null"
+      ;;
+    *) ln -s "$target" "$alias_path" ;;
+  esac
+}
+
 install_plugin() {
   local host="$1"
   local root="$2"
@@ -264,7 +278,7 @@ expect_install_failure "non-regular host-root sentinel" \
 # directory alias. Exercise this where the checkout host permits symlinks.
 aliased_root="$(new_host_root)"
 alias_target="$(mktemp -d "$tmp_parent/aliased-plugins-target.XXXXXX")"
-if ln -s "$alias_target" "$aliased_root/plugins" 2>/dev/null; then
+if make_directory_alias "$alias_target" "$aliased_root/plugins" 2>/dev/null; then
   expect_install_failure "aliased plugins transaction root" \
     install_plugin codex "$aliased_root" "$asset" "$checksums" --version 0.4.0
   [ ! -e "$alias_target/implementaudit" ] \
