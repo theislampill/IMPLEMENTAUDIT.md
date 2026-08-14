@@ -184,6 +184,20 @@ def canonical(value):
 def sha256_file(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
+def strict_json_loads(raw):
+    def unique_object(pairs):
+        value = {}
+        for key, item in pairs:
+            if key in value:
+                raise ValueError(f"duplicate JSON key: {key}")
+            value[key] = item
+        return value
+
+    value = json.loads(raw, object_pairs_hook=unique_object)
+    if not isinstance(value, dict):
+        raise ValueError("top-level JSON value must be an object")
+    return value
+
 def jsonl(path, label):
     if not path.is_file():
         raise SystemExit(f"missing {label}: {path}")
@@ -192,9 +206,9 @@ def jsonl(path, label):
         if not raw.strip():
             continue
         try:
-            values.append(json.loads(raw))
-        except json.JSONDecodeError as exc:
-            raise SystemExit(f"{path}:{line_number}: invalid JSONL: {exc.msg}")
+            values.append(strict_json_loads(raw))
+        except (json.JSONDecodeError, ValueError) as exc:
+            raise SystemExit(f"{path}:{line_number}: invalid JSONL: {exc}")
     return values
 
 def validate_ordinary_control():
@@ -462,9 +476,9 @@ for line_no, line in enumerate(transcript.splitlines(), 1):
     if not line.strip():
         continue
     try:
-        event = json.loads(line)
-    except json.JSONDecodeError as exc:
-        raise SystemExit(f"{transcript_path}:{line_no}: invalid JSONL: {exc.msg}")
+        event = strict_json_loads(line)
+    except (json.JSONDecodeError, ValueError) as exc:
+        raise SystemExit(f"{transcript_path}:{line_no}: invalid JSONL: {exc}")
     event_text = "\n".join(strings(event))
     events.append((line_no, event, event_text))
 

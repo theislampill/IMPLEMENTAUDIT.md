@@ -180,6 +180,74 @@ for observation_case in wrong-schema missing-schema extra-identity; do
   }
 done
 
+broker_duplicate_root="$tmp/broker-duplicate-journal"
+python scripts/dogfood-evidence-broker.py init \
+  --context "$broker_duplicate_root/context.json" \
+  --journal "$broker_duplicate_root/events.jsonl" \
+  --key-file "$broker_duplicate_root/event.key" \
+  --session-id S3E-BROKER-DUPLICATE-JOURNAL \
+  --audit-object implementaudit-rc-self-release \
+  --candidate-commit "$candidate_commit" \
+  --candidate-tree "$candidate_tree" \
+  --package-sha256 "$package_sha" \
+  --runtime-sha256 "$runtime_sha" \
+  --source-root "$repo_root" \
+  --runtime-root "$runtime_root"
+python scripts/dogfood-evidence-broker.py baseline-status \
+  --context "$broker_duplicate_root/context.json" >/dev/null
+python - "$broker_duplicate_root/events.jsonl" <<'PY'
+import pathlib
+import re
+import sys
+path = pathlib.Path(sys.argv[1])
+lines = path.read_text(encoding="utf-8").splitlines()
+matches = list(re.finditer(r'"result":"([^"]+)"', lines[0]))
+if len(matches) != 1:
+    raise SystemExit("broker journal first event lacks one result field")
+original = matches[0].group(0)
+value = matches[0].group(1)
+lines[0] = lines[0].replace(
+    original, f'"result":"ambiguous","result":"{value}"', 1
+)
+path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+PY
+if python scripts/dogfood-evidence-broker.py baseline-head \
+  --context "$broker_duplicate_root/context.json" \
+  >"$tmp/broker-duplicate-journal.out" 2>&1; then
+  printf 'dogfood-bootstrap-contract.test: broker duplicate-key journal unexpectedly passed\n' >&2
+  exit 1
+fi
+
+broker_context_root="$tmp/broker-duplicate-context"
+python scripts/dogfood-evidence-broker.py init \
+  --context "$broker_context_root/context.json" \
+  --journal "$broker_context_root/events.jsonl" \
+  --key-file "$broker_context_root/event.key" \
+  --session-id S3E-BROKER-DUPLICATE-CONTEXT \
+  --audit-object implementaudit-rc-self-release \
+  --candidate-commit "$candidate_commit" \
+  --candidate-tree "$candidate_tree" \
+  --package-sha256 "$package_sha" \
+  --runtime-sha256 "$runtime_sha" \
+  --source-root "$repo_root" \
+  --runtime-root "$runtime_root"
+python - "$broker_context_root/context.json" <<'PY'
+import pathlib
+import sys
+path = pathlib.Path(sys.argv[1])
+text = path.read_text(encoding="utf-8")
+needle = '"schema":"implementaudit.dogfood-broker-context.v1"'
+if text.count(needle) != 1:
+    raise SystemExit("broker context lacks one schema identity")
+path.write_text(text.replace(needle, '"schema":"attacker.context.v9",' + needle, 1), encoding="utf-8")
+PY
+if python scripts/dogfood-evidence-broker.py baseline-status \
+  --context "$broker_context_root/context.json" \
+  >"$tmp/broker-duplicate-context.out" 2>&1; then
+  printf 'dogfood-bootstrap-contract.test: broker duplicate-key context unexpectedly passed\n' >&2
+  exit 1
+fi
+
 prebaseline_root="$tmp/prebaseline-evidence"
 python scripts/dogfood-evidence-broker.py init \
   --context "$prebaseline_root/context.json" \
@@ -383,6 +451,7 @@ python - \
   "$typed_root/missing.jsonl" \
   "$typed_root/ambiguous.jsonl" \
   "$typed_root/invalid-schema.jsonl" \
+  "$typed_root/duplicate-key.jsonl" \
   "$typed_root/event.key" <<'PY'
 import hashlib
 import hmac
@@ -390,7 +459,7 @@ import json
 import pathlib
 import sys
 
-source, reordered, forged, missing, ambiguous, invalid_schema, key_path = map(pathlib.Path, sys.argv[1:])
+source, reordered, forged, missing, ambiguous, invalid_schema, duplicate_key, key_path = map(pathlib.Path, sys.argv[1:])
 lines = source.read_text(encoding="utf-8").splitlines()
 swapped = lines[:]
 swapped[-2], swapped[-1] = swapped[-1], swapped[-2]
@@ -399,6 +468,14 @@ events = [json.loads(line) for line in lines]
 events[-1]["target_role"] = "real-home-runtime"
 forged.write_text("\n".join(json.dumps(event, separators=(",", ":"), sort_keys=True) for event in events) + "\n", encoding="utf-8")
 missing.write_text("\n".join(lines[:2] + lines[3:]) + "\n", encoding="utf-8")
+duplicate_lines = lines[:]
+needle = '"result":"completed"'
+if duplicate_lines[0].count(needle) != 1:
+    raise SystemExit("typed journal first event lacks one completed result")
+duplicate_lines[0] = duplicate_lines[0].replace(
+    needle, '"result":"blocked","result":"completed"', 1
+)
+duplicate_key.write_text("\n".join(duplicate_lines) + "\n", encoding="utf-8")
 
 key = bytes.fromhex(key_path.read_text(encoding="ascii").strip())
 ambiguous_events = [json.loads(line) for line in lines]
@@ -430,7 +507,7 @@ invalid_schema.write_text(
 )
 PY
 
-for broken in reordered forged missing ambiguous invalid-schema; do
+for broken in reordered forged missing ambiguous invalid-schema duplicate-key; do
   if bash scripts/check-dogfood-bootstrap-contract.sh \
     --control self-dogfood \
     --event-file "$typed_root/$broken.jsonl" \

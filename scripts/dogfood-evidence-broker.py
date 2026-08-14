@@ -35,6 +35,21 @@ def canonical(value: dict[str, object]) -> bytes:
     ).encode("utf-8")
 
 
+def strict_json_loads(raw: str) -> dict[str, object]:
+    def unique_object(pairs: list[tuple[str, object]]) -> dict[str, object]:
+        value: dict[str, object] = {}
+        for key, item in pairs:
+            if key in value:
+                raise ValueError(f"duplicate JSON key: {key}")
+            value[key] = item
+        return value
+
+    value = json.loads(raw, object_pairs_hook=unique_object)
+    if not isinstance(value, dict):
+        raise ValueError("top-level JSON value must be an object")
+    return value
+
+
 def emit_text(value: str) -> None:
     if value:
         sys.stdout.buffer.write(value.encode("utf-8"))
@@ -59,8 +74,8 @@ def exclusive_write(path: Path, data: bytes, mode: int = 0o600) -> None:
 
 def load_context(path: Path) -> dict[str, object]:
     try:
-        context = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
+        context = strict_json_loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
         fail(f"cannot read context {path}: {exc}")
     if context.get("schema") != "implementaudit.dogfood-broker-context.v1":
         fail("context schema mismatch")
@@ -88,9 +103,9 @@ def existing_events(context: dict[str, object], key: bytes) -> list[dict[str, ob
         if not raw.strip():
             continue
         try:
-            event = json.loads(raw)
-        except json.JSONDecodeError as exc:
-            fail(f"journal line {line_number} is invalid JSON: {exc.msg}")
+            event = strict_json_loads(raw)
+        except (json.JSONDecodeError, ValueError) as exc:
+            fail(f"journal line {line_number} is invalid JSON: {exc}")
         signature = event.pop("hmac_sha256", None)
         expected = hmac.new(key, canonical(event), hashlib.sha256).hexdigest()
         event["hmac_sha256"] = signature
