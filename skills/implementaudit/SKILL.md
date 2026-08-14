@@ -22,23 +22,25 @@ Every finding closes. No orphan items. No unsafe actions. No proof claim
 without evidence. Continue until every item is terminally `done`, `changed`,
 `blocked`, `deferred`, or `unverified`.
 
-First executable dogfood rule: Do not read this entire skill or installed
-payload. Baseline the target repo first, then use progressive disclosure for
-only the owner/source sections required by the current gate.
+First executable dogfood rule: Before any model tool reads the installed
+skill/payload, the runner records target status and identity. Host activation
+delivers instructions, not model-visible dogfood readback. Then inspect only
+needed owner/source sections.
 
 ---
 
 ## Dogfood Bootstrap / Read Map
 
-Do not read this entire installed `SKILL.md` before acting, and do not chunk
-through a truncated payload. Baseline first, discover actual host syntax, then
-use headings and targeted `rg`/grep for the live owner/source files. Package proof uses deterministic checks, not model-visible full-file readback:
+Before runner baseline, no model tool reads or chunks this entire installed
+`SKILL.md`; host activation is not readback. After baseline use targeted
+`rg`/grep for live owner/source files.
+Package proof uses deterministic checks, not model-visible full-file readback:
 manifests, archive listing, checksums, `build-release-asset.sh --check`, installed
 file existence, and `verify-package.sh`.
 
-Full installed-payload readback is non-evidence for dogfood proof unless a
-specific owner/source section is the audit target. Do not reproduce secrets,
-tokens, credentials, auth files, or private diagnostic contents in transcripts.
+Full installed-payload readback is non-evidence. Read an owner/source section
+only when it is the audit target. Never reproduce secrets, credentials, auth
+files, or private diagnostics.
 
 ### Dogfood Runner Contract
 
