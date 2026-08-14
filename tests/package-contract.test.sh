@@ -25,6 +25,7 @@ make_fixture() {
   cp package/implementaudit-package.json "$target/package/"
   cp .codex-plugin/plugin.json "$target/.codex-plugin/"
   cp .claude-plugin/plugin.json "$target/.claude-plugin/"
+  cp .claude-plugin/marketplace.json "$target/.claude-plugin/"
   cp skills/implementaudit/SKILL.md "$target/skills/implementaudit/"
 }
 
@@ -69,6 +70,36 @@ missing_manifest="$tmp/missing-manifest"
 make_fixture "$missing_manifest"
 rm "$missing_manifest/.codex-plugin/plugin.json"
 expect_reject missing-codex-manifest "$missing_manifest"
+
+missing_author="$tmp/missing-author"
+make_fixture "$missing_author"
+python - "$missing_author/.codex-plugin/plugin.json" \
+  "$missing_author/.claude-plugin/plugin.json" <<'PY'
+import json
+import pathlib
+import sys
+
+for raw_path in sys.argv[1:]:
+    path = pathlib.Path(raw_path)
+    data = json.loads(path.read_text(encoding="utf-8"))
+    data.pop("author", None)
+    path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+PY
+expect_reject missing-publisher-author "$missing_author"
+
+wrong_owner="$tmp/wrong-marketplace-owner"
+make_fixture "$wrong_owner"
+python - "$wrong_owner/.claude-plugin/marketplace.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+data = json.loads(path.read_text(encoding="utf-8"))
+data["owner"] = {"name": "unbound-owner"}
+path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+PY
+expect_reject wrong-marketplace-owner "$wrong_owner"
 
 changed_cap="$tmp/changed-cap"
 make_fixture "$changed_cap"

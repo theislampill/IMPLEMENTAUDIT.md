@@ -29,11 +29,11 @@ Runtime paths use `references/routing.md`,
 `scripts/claim-run.sh`, and `templates/PROTOCOL.md`.
 EOF
   cat >"$dir/.claude-plugin/plugin.json" <<'EOF'
-{"name":"implementaudit","version":"0.3.2","skills":"./skills/"}
+{"name":"implementaudit","version":"0.3.2","skills":"./skills/","author":{"name":"theislampill"}}
 EOF
   cp "$dir/.claude-plugin/plugin.json" "$dir/.codex-plugin/plugin.json"
   cat >"$dir/.claude-plugin/marketplace.json" <<'EOF'
-{"plugins":[{"name":"implementaudit","source":"./"}]}
+{"name":"implementaudit","owner":{"name":"theislampill"},"description":"Audit package.","plugins":[{"name":"implementaudit","source":"./"}]}
 EOF
   cat >"$dir/scripts/build-release-asset.sh" <<'EOF'
 scripts/package-contract.py --build "$out_dir"
@@ -84,6 +84,29 @@ fi
 grep -F "must point source plugin discovery at ./skills/" "$tmp/source-manifest.out" >/dev/null || {
   printf 'skill-layout-contract.test: expected source-manifest diagnostic\n' >&2
   cat "$tmp/source-manifest.out" >&2
+  exit 1
+}
+
+marketplace_owner="$tmp/marketplace-owner"
+make_minimal_repo "$marketplace_owner"
+python - "$marketplace_owner/.claude-plugin/marketplace.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+data = json.loads(path.read_text(encoding="utf-8"))
+data["owner"] = {"name": "unbound-owner"}
+path.write_text(json.dumps(data) + "\n", encoding="utf-8")
+PY
+if bash scripts/check-skill-layout-contract.sh --repo-root "$marketplace_owner" \
+    >"$tmp/marketplace-owner.out" 2>&1; then
+  printf 'skill-layout-contract.test: unbound marketplace owner unexpectedly passed\n' >&2
+  exit 1
+fi
+grep -F "marketplace owner must be theislampill" "$tmp/marketplace-owner.out" >/dev/null || {
+  printf 'skill-layout-contract.test: expected marketplace-owner diagnostic\n' >&2
+  cat "$tmp/marketplace-owner.out" >&2
   exit 1
 }
 
