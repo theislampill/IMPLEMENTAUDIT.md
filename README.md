@@ -15,15 +15,20 @@ implementation plans into bounded, verified repository changes. It plans deeply
 and executes verified repo work phase-by-phase until terminal auditable closure 
 or an explicit audited handoff.
 
-It is reusable meta-engineering packaged as `IMPLEMENTAUDIT.skill`: sustained
-engineering discipline for planning, designing, implementing, improving,
-reviewing, recovering, integrating, and closing repository work—not only a
-one-off code audit. A skill or agent-tooling repository can itself be the audit
-object, so the method can improve skills-about-skills through the same
-owner/source, evidence, and closure gates. This repository dogfoods that
-self-application; it does not establish effectiveness across every agent, host,
-repository, or external ecosystem. Here, `.skill` is the release-asset name and
-import layout, not a claimed universal host standard.
+It is reusable meta-engineering distributed as one atomic dual-host plugin
+package: sustained engineering discipline for planning, designing,
+implementing, improving, reviewing, recovering, integrating, and closing
+repository work—not only a one-off code audit. `/implementaudit` remains the
+sole stable public/default governor; v0.4 ships no child skills, and its
+references, templates, and helper scripts form one shared deterministic
+substrate. A skill or agent-tooling repository can itself be the audit object,
+so the method can improve skills-about-skills through the same owner/source,
+evidence, and closure gates. This repository dogfoods that self-application; it
+does not establish effectiveness across every agent, host, repository, or
+external ecosystem. `IMPLEMENTAUDIT.plugin.zip` is the canonical generated
+release projection. `IMPLEMENTAUDIT.skill` is a generated, checksummed
+standalone compatibility projection, not the canonical topology or a claimed
+universal host standard.
 
 It can plan, design, implement, improve, 
 review, recover, integrate, and close repo work. 
@@ -849,14 +854,16 @@ separately authorized, are built from the repo-supported release-asset script
 and validated by extraction. Release artifacts and checksum manifests are not
 ordinary audit outputs.
 
-The `.skill` release archive contains only the runtime skill payload
-(`SKILL.md`, `references/`, `scripts/`, `templates/`) and plugin metadata
-(`.claude-plugin/`). Repo docs, tests, fixtures, release tooling, audit
-ledgers, run roots, and sidecar stores are excluded from the archive.
+The canonical plugin archive contains both host manifests, package/inventory
+metadata, and the runtime tree under `skills/implementaudit/`. The standalone
+`.skill` compatibility archive contains the flattened runtime payload plus the
+same package/inventory metadata, but no host manifests. Repo docs, tests,
+fixtures, release tooling, audit ledgers, run roots, and sidecar stores are
+excluded from both projections.
 
 ## Skill internals / repository layout
 
-### Source layout vs release archive layout
+### Source layout vs release package projections
 
 This repo uses the conventional name-matched source skill layout:
 
@@ -867,28 +874,38 @@ skills/implementaudit/scripts/
 skills/implementaudit/templates/
 ```
 
-`skills/implementaudit/SKILL.md` is the canonical source behavior entry.
-The release archive intentionally flattens that source directory only as a
-build artifact: the archive contains SKILL.md at archive root with sibling
-`references/`, `scripts/`, and `templates/`, plus generated archive-local
-plugin metadata. Source metadata keeps `.claude-plugin/plugin.json` pointing at
-`./skills/`; release-asset tests prove the archive metadata points at `./`.
-There is intentionally no tracked root `IMPLEMENTAUDIT.md` file; validators fail
-if one is recreated. Audit handoff inputs named `AUDIT.md` remain valid.
+`skills/implementaudit/SKILL.md` is the canonical source behavior entry and
+`/implementaudit` is the sole stable public/default governor. The v0.4 package
+contains exactly that one model-facing skill—zero child skills—and keeps its
+references, scripts, and templates as shared resources rather than duplicating
+them into lifecycle-shaped skill directories.
 
-Package metadata lives under `.claude-plugin/`:
+`package/implementaudit-package.json` owns the single-package contract. The
+canonical `IMPLEMENTAUDIT.plugin.zip` projection preserves the conventional
+`skills/implementaudit/` tree and both host manifests. The generated,
+checksummed `IMPLEMENTAUDIT.skill` compatibility projection alone flattens the
+runtime tree to archive-root `SKILL.md`, `references/`, `scripts/`, and
+`templates/`; it carries package/inventory metadata but no plugin manifests or
+nested `skills/` directory. There is intentionally no tracked root
+`IMPLEMENTAUDIT.md` file; validators fail if one is recreated. Audit handoff
+inputs named `AUDIT.md` remain valid.
+
+Host metadata is dual-host and version-coherent inside the one package:
 
 ```text
+.codex-plugin/plugin.json
 .claude-plugin/plugin.json
 .claude-plugin/marketplace.json
 ```
 
-The manifest JSON is validated by `scripts/verify-package.sh`. This README
+Both plugin manifests point to `./skills/`; the package contract and manifest
+JSON are validated by `scripts/verify-package.sh`. This README
 records the bounded historical `v0.3.3.3` publication and the final corrected
 same-identity release below. It claims the in-place asset, checksum, body, and
 tag correction only after independent public readback, and does not claim
-Claude Code marketplace behaviour, passive update, active-user installation,
-universal host loading, or provenance.
+Codex or Claude native plugin discovery, Claude Code marketplace behaviour,
+passive update, active-user installation, universal host loading, or provenance
+without the corresponding host or public evidence.
 
 ## Version and release notes
 
@@ -1031,6 +1048,14 @@ mirror. When ActiveGraph is absent, Markdown state and final reports are the
 first-class fallback. The detailed event, backfill, and custody rules live in
 [`references/sidecars.md`](skills/implementaudit/references/sidecars.md).
 
+That is the generic product boundary: ActiveGraph is optional, non-authoritative,
+and not a package dependency. This repository's final governed self-dogfood is
+stricter by design. It must use an isolated, exact-state-bound ActiveGraph
+sidecar on the latest independently verified published release available when
+that gate executes. The self-dogfood requirement neither changes generic
+`/implementaudit` semantics nor permits ActiveGraph to replace live-file,
+run-root, package, test, or host evidence.
+
 ## Evidence boundaries
 
 Interop boundaries are explicit:
@@ -1083,13 +1108,18 @@ To choose the right invocation shape, see the chooser table in
 
 ## Install notes
 
-Install flows are evidence-bounded. This repo can locally validate the release
-asset-to-Codex-install path into a temporary Codex home. It does not claim passive auto-update, universal host support, marketplace verification, or public GitHub release download verification unless those checks are run and recorded.
+Install flows are evidence-bounded. The normal release/install unit is the one
+atomic dual-host plugin artifact `IMPLEMENTAUDIT.plugin.zip`; the generated
+`IMPLEMENTAUDIT.skill` remains available only as a standalone compatibility
+projection. This repo can locally validate artifact shape, checksum identity,
+staged plugin copy, and standalone temporary-install paths. None of those alone
+proves native host discovery, invocation, passive update, universal host
+support, marketplace verification, or public GitHub release download.
 
 **Release/contract alignment:** the candidate public identity is `v0.4.0.0`,
-with plugin/runtime version `0.4.0`. Candidate bytes and SHA-256 are bound by a
-fresh exact-tree build; the release URL is not treated as serving them until
-publication and fresh public download/readback complete.
+with plugin/runtime version `0.4.0`. Each candidate artifact's bytes, inventory,
+and SHA-256 are bound by a fresh exact-tree build; release URLs are not treated
+as serving them until publication and fresh public download/readback complete.
 
 A checkout of `main` may contain post-release source changes. Installing from a
 checkout or through a CLI that resolves current `main` uses source-checkout
@@ -1099,9 +1129,9 @@ asset. Re-verify this paragraph at every release gate.
 ### Quick install via the skills CLI
 
 The repo layout is compatible with the open [skills CLI](https://skills.sh)
-(verified 2026-08-05: discovery finds the one skill `implementaudit`; both
-agent targets install the full payload — `SKILL.md` + `references/` +
-`scripts/` + `templates/` — plus a `skills-lock.json`):
+(verified 2026-08-05: source discovery finds the one skill `implementaudit`;
+both agent targets install the full runtime payload — `SKILL.md` +
+`references/` + `scripts/` + `templates/` — plus a `skills-lock.json`):
 
 ```bash
 npx --yes skills add theislampill/IMPLEMENTAUDIT.md                              # interactive
@@ -1135,9 +1165,45 @@ discipline, and optional freshness-aware Graphify terrain. The canonical
 runtime references define those behaviours; the
 [`v0.4.0.0` release report](docs/audits/archive/v0.4.0.0-release-report.md)
 keeps source, package, install, hosted and public evidence separate.
-`/dashboard/` is not part of the `.skill` package.
+`/dashboard/` is not part of either generated package projection.
 
-### Install / update for Codex
+### Install / update the canonical dual-host plugin
+
+`IMPLEMENTAUDIT.plugin.zip` is the primary atomic package for Codex and Claude.
+It contains both host manifests, package/inventory metadata, and exactly one
+skill, `implementaudit`, under `skills/implementaudit/`. Use the current native
+plugin installation route documented by the host, then verify that the host
+discovers `/implementaudit` from the expected version before claiming a loaded
+installation. The presence of a manifest or copied files is not host-load proof.
+
+For a local candidate, build and checksum both generated projections:
+
+```bash
+bash scripts/build-release-asset.sh
+bash scripts/write-release-checksums.sh --all dist dist/CHECKSUMS.txt
+bash scripts/write-release-checksums.sh --check --all dist dist/CHECKSUMS.txt
+```
+
+The repository's plugin installer is deliberately an isolated staged-copy
+proof, not a native-host installer. Point it only at a disposable directory
+containing `.implementaudit-isolated-host-root`:
+
+```bash
+bash scripts/install-plugin-from-release.sh \
+  --asset dist/IMPLEMENTAUDIT.plugin.zip \
+  --checksum dist/CHECKSUMS.txt \
+  --host codex \
+  --host-root "<isolated-host-root>" \
+  --version 0.4.0
+```
+
+Repeat with `--host claude` for the separate staged Claude projection check.
+Passing either command proves checked package copy, inventory, update, rollback,
+and post-readback behaviour only. Native discovery and invocation remain host
+evidence; public-download identity remains pending publication and fresh
+readback.
+
+### Standalone compatibility install / update for Codex
 
 Codex manual installs copy the packaged skill payload into a Codex-style skill
 directory. A public GitHub release by itself cannot update a local copied skill.
@@ -1157,12 +1223,13 @@ New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills\implementaud
 Copy-Item -Recurse -Force .\skills\implementaudit\* "$env:USERPROFILE\.codex\skills\implementaudit\"
 ```
 
-For a local release asset, build the asset, write checksums, and install with
-checksum verification:
+For the generated standalone compatibility artifact, build both projections,
+write the shared checksum manifest, and install `.skill` with checksum
+verification:
 
 ```bash
 bash scripts/build-release-asset.sh
-bash scripts/write-release-checksums.sh dist/IMPLEMENTAUDIT.skill dist/CHECKSUMS.txt
+bash scripts/write-release-checksums.sh --all dist dist/CHECKSUMS.txt
 bash scripts/install-codex-from-release.sh \
   --asset dist/IMPLEMENTAUDIT.skill \
   --checksum dist/CHECKSUMS.txt \
@@ -1180,14 +1247,14 @@ bash scripts/install-codex-from-release.sh \
   --version 0.4.0
 ```
 
-The candidate archive has 51 members; the Codex copy intentionally excludes the
-two archive-local plugin manifests and must contain exactly 49 installed payload
-files. These local receipts do not claim passive update or public availability.
-They do not claim universal host support or host-load behaviour. For local verification, download
+The compatibility archive is a flattened projection with package/inventory
+metadata and no plugin manifests. Its local install receipt does not claim
+canonical plugin installation, passive update, public availability, universal
+host support, or host-load behaviour. For local verification, download
 `CHECKSUMS.txt` alongside `IMPLEMENTAUDIT.skill` and use the `--asset` plus
 `--checksum` form shown above.
 
-### Install / update for Claude Desktop
+### Standalone compatibility install / update for Claude Desktop
 
 Claude Desktop (v0.2.5.0 tested target) stores session-managed skills in a
 session-specific directory. The stable public path to the session skill store is:
@@ -1228,12 +1295,14 @@ use Claude Desktop's built-in skill management UI to update the skill.
 This repo does not claim marketplace auto-update, passive install, universal host
 support, or Claude Desktop behavior beyond what is empirically recorded as evidence.
 
-### Install / update for Claude Code (plugin path)
+### Native Claude Code plugin path
 
 Claude Code plugin consumers should use the host's current plugin instructions
-with `.claude-plugin/plugin.json` as package metadata. This repo validates the
-JSON shape only; it does not claim host install or marketplace behavior was
-tested.
+with canonical `IMPLEMENTAUDIT.plugin.zip`. Its
+`.claude-plugin/plugin.json` points to the same `./skills/` tree as the Codex
+manifest. Package validation and an isolated staged-copy receipt do not by
+themselves prove native host install, discovery, invocation, or marketplace
+behavior.
 
 For public clone/plugin setup, an HTTPS repository URL is usually the simplest
 path because it does not require local SSH key configuration. SSH URLs are fine
@@ -1241,41 +1310,49 @@ when the user already has working GitHub SSH authentication in that host.
 
 ## Upgrade / reinstall
 
-After a release, reinstall or update the skill in the host you use. Do not
-assume a local copied skill has updated just because the GitHub repo has a new
-release.
+After a release, reinstall or update the plugin in the host you use. Do not
+assume a local plugin or standalone compatibility copy has updated just because
+the GitHub repo has a new release.
 
-There is no marketplace auto-update path documented for a manually copied Codex
-skill; repeat the chosen copy or release-asset install route. Claude Desktop
-users should repeat its release-asset install and restart the application.
-Claude Code/plugin users should follow the host's current plugin update or
-reload instructions. Return to [Install notes](#install-notes) for the commands
-and evidence boundaries.
+No passive or marketplace auto-update is claimed for either host. Canonical
+plugin users should follow the host's current update/reload route and verify the
+loaded version. Standalone compatibility users must repeat the chosen copy or
+`.skill` install route; Claude Desktop users should then restart the
+application. Return to [Install notes](#install-notes) for the commands and
+evidence boundaries.
 
 ## Release asset notes
 
-The GitHub release asset name is `IMPLEMENTAUDIT.skill`.
-
-No local evidence proves `.skill` is a universal host-standard archive format.
-In this repo, `IMPLEMENTAUDIT.skill` is the GitHub release artifact name. It is
-a ZIP-format archive containing the installable skill payload:
+The primary GitHub release asset name is `IMPLEMENTAUDIT.plugin.zip`. It is one
+atomic, version-coherent dual-host plugin package:
 
 ```text
-SKILL.md
-references/
-scripts/
-templates/
+.codex-plugin/plugin.json  (skills: "./skills/")
 .claude-plugin/
-.claude-plugin/plugin.json  (skills: "./")
+.claude-plugin/plugin.json  (skills: "./skills/")
+.claude-plugin/marketplace.json
+IMPLEMENTAUDIT_PACKAGE.json
+IMPLEMENTAUDIT_INVENTORY.json
+skills/implementaudit/SKILL.md
+skills/implementaudit/references/
+skills/implementaudit/scripts/
+skills/implementaudit/templates/
 ```
 
-The release asset intentionally excludes repo-maintenance material such as
+It exposes only `/implementaudit` as the stable public/default governor and has
+zero child skills in v0.4. `IMPLEMENTAUDIT.skill` is generated and checksummed
+from the same source as a flattened standalone compatibility artifact. It is
+not the canonical topology, a second independently versioned package, or proof
+that `.skill` is a universal host-standard archive format.
+
+Both release projections intentionally exclude repo-maintenance material such as
 README sources, audit ledgers, fixtures, tests, CI configuration, Git metadata,
 run roots, Graphify outputs, ActiveGraph stores, and root validation scripts.
 Those remain repository-side evidence or maintenance surfaces, not installed
 runtime payload.
 
-A published `CHECKSUMS.txt` proves only the integrity of the named asset bytes;
+A published `CHECKSUMS.txt` proves only the integrity of the named plugin and
+compatibility-asset bytes;
 it is not a signature, attestation, SBOM, licence, marketplace verification,
 install proof, or provenance claim. Building, uploading, or replacing an asset
 is a separate authorised release operation. Maintainer build and publication

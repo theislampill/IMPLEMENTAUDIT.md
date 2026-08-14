@@ -41,10 +41,21 @@ workflows, Pages and fresh public-download installation remain separate gates.
 
 ### Package boundary
 
-- The release archive retains 51 members. Codex installation intentionally
-  excludes the two archive-local `.claude-plugin` manifests and therefore
-  projects 49 installed payload files. Final bytes and SHA-256 are recorded
-  only after the exact candidate build.
+- The release topology is one atomic dual-host plugin package. Its canonical
+  generated artifact is `IMPLEMENTAUDIT.plugin.zip`, with equal Codex and
+  Claude manifests, one version-coherent `skills/implementaudit/` governor,
+  shared references/templates/scripts, and package/inventory metadata.
+- `/implementaudit` remains the sole stable public/default governor. No child
+  skill is shipped in v0.4; internal decomposition remains evidence-gated rather
+  than inferred from the operational loop names.
+- `IMPLEMENTAUDIT.skill` remains a generated, checksummed flattened standalone
+  compatibility artifact. It is not the canonical package topology and does
+  not create a second independently versioned package.
+- Generic use keeps ActiveGraph optional and non-authoritative. The final
+  repository self-dogfood gate separately requires an isolated, exact-state-
+  bound ActiveGraph sidecar on the latest independently verified published
+  release. Final artifact bytes, SHA-256 values, native-host results, hosted
+  checks, and public readbacks remain pending their exact gates.
 
 ## [v0.3.3.3 final correction candidate] - 2026-08-12
 
