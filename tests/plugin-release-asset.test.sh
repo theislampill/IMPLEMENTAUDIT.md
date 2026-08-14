@@ -1,0 +1,401 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+checker="$repo_root/scripts/check-package-contract.sh"
+
+fail() {
+  printf 'plugin-release-asset.test: %s\n' "$*" >&2
+  exit 1
+}
+
+if command -v python >/dev/null 2>&1; then
+  py_cmd=(python)
+elif command -v python3 >/dev/null 2>&1; then
+  py_cmd=(python3)
+elif command -v py >/dev/null 2>&1; then
+  py_cmd=(py -3)
+else
+  fail "python, python3, or py -3 is required"
+fi
+
+[ -f "$checker" ] || fail "package-contract checker is absent"
+
+source_commit="$(git -C "$repo_root" rev-parse HEAD^{commit})"
+source_tree="$(git -C "$repo_root" rev-parse "${source_commit}^{tree}")"
+tmp="$(mktemp -d)"
+trap 'rm -rf "$tmp"' EXIT
+
+clone_candidate() {
+  local lane="$1" target="$tmp/checkout-$lane"
+  git clone --quiet --no-local --no-checkout "$repo_root" "$target"
+  git -C "$target" checkout --quiet --detach "$source_commit"
+  [ -z "$(git -C "$target" status --porcelain)" ] \
+    || fail "$lane candidate is not clean"
+}
+
+build_candidate() {
+  local lane="$1" timezone="$2"
+  local root="$tmp/checkout-$lane" out="$tmp/out-$lane"
+  mkdir -p "$out"
+  if ! SOURCE_DATE_EPOCH=315532800 TZ="$timezone" LC_ALL=C \
+      bash "$root/scripts/build-release-asset.sh" "$out" \
+      >"$tmp/build-$lane.log" 2>&1; then
+    tail -n 8 "$tmp/build-$lane.log" >&2
+    fail "$lane build failed"
+  fi
+  [ -f "$out/IMPLEMENTAUDIT.plugin.zip" ] \
+    || fail "$lane build did not produce IMPLEMENTAUDIT.plugin.zip"
+  [ -f "$out/IMPLEMENTAUDIT.skill" ] \
+    || fail "$lane build did not produce IMPLEMENTAUDIT.skill"
+}
+
+validate_pair() {
+  local root="$1" out="$2" expected_state="$3"
+  "${py_cmd[@]}" - \
+    "$root/package/implementaudit-package.json" \
+    "$out/IMPLEMENTAUDIT.plugin.zip" \
+    "$out/IMPLEMENTAUDIT.skill" \
+    "$source_commit" "$source_tree" "$expected_state" <<'PY'
+import hashlib
+import json
+import stat
+import sys
+import zipfile
+from pathlib import Path, PurePosixPath
+
+(
+    source_package_path,
+    canonical_path,
+    standalone_path,
+    expected_commit,
+    expected_tree,
+    expected_state,
+) = sys.argv[1:]
+
+source_package = json.loads(
+    Path(source_package_path).read_text(encoding="utf-8")
+)
+if source_package.get("required_skills") != ["implementaudit"]:
+    raise SystemExit("required_skills must equal ['implementaudit']")
+
+expected_identity = {
+    "logical_package": "IMPLEMENTAUDIT_PLUGIN",
+    "package_name": "implementaudit",
+    "runtime_version": "0.4.0",
+    "release_family": "v0.4.0.0",
+    "public_governor": "implementaudit",
+    "required_skills": ["implementaudit"],
+}
+observed_identity = {
+    key: source_package.get(key) for key in expected_identity
+}
+if observed_identity != expected_identity:
+    raise SystemExit("source package identity is not the admitted v0.4.0 identity")
+
+expected_timestamp = (1980, 1, 1, 0, 0, 0)
+inventory_name = "IMPLEMENTAUDIT_INVENTORY.json"
+package_name = "IMPLEMENTAUDIT_PACKAGE.json"
+
+
+def validate_archive(raw_path, role):
+    path = Path(raw_path)
+    cap = source_package["budgets"][role]["cap_bytes"]
+    if cap != 327680:
+        raise SystemExit(f"{role} cap is not the predeclared 327680 bytes")
+    if path.stat().st_size > cap:
+        raise SystemExit(f"{role} exceeds its predeclared size cap")
+
+    with zipfile.ZipFile(path) as archive:
+        infos = archive.infolist()
+        names = [info.filename for info in infos]
+        if names != sorted(names):
+            raise SystemExit(f"{role} members are not in deterministic order")
+        if len(names) != len(set(names)):
+            raise SystemExit(f"{role} contains duplicate members")
+        if archive.comment:
+            raise SystemExit(f"{role} has an archive comment")
+
+        payloads = {}
+        for info in infos:
+            member = PurePosixPath(info.filename)
+            if (
+                info.is_dir()
+                or "\\" in info.filename
+                or member.is_absolute()
+                or ".." in member.parts
+            ):
+                raise SystemExit(f"{role} has a non-canonical member path")
+            if info.date_time != expected_timestamp:
+                raise SystemExit(f"{role} has an unpinned member timestamp")
+            if info.create_system != 3 or info.create_version != 20:
+                raise SystemExit(f"{role} has an unpinned ZIP creator")
+            if info.compress_type != zipfile.ZIP_DEFLATED:
+                raise SystemExit(f"{role} has a non-DEFLATE member")
+            if info.extra or info.comment:
+                raise SystemExit(f"{role} has unexpected member metadata")
+            mode = (info.external_attr >> 16) & 0o777
+            executable = (
+                info.filename.startswith("scripts/")
+                or info.filename.startswith("skills/implementaudit/scripts/")
+            )
+            expected_mode = 0o755 if executable else 0o644
+            if mode != expected_mode:
+                raise SystemExit(f"{role} has an incorrect member mode")
+            payloads[info.filename] = archive.read(info.filename)
+
+    required_metadata = {package_name, inventory_name}
+    missing_metadata = sorted(required_metadata - payloads.keys())
+    if missing_metadata:
+        raise SystemExit(f"{role} is missing embedded package metadata")
+
+    embedded_package = json.loads(payloads[package_name].decode("utf-8"))
+    if embedded_package != source_package:
+        raise SystemExit(f"{role} embedded package identity differs from source")
+
+    inventory = json.loads(payloads[inventory_name].decode("utf-8"))
+    expected_format = source_package["inventory_contract"]["format"]
+    if inventory.get("schema") != expected_format:
+        raise SystemExit(f"{role} inventory format is incorrect")
+    if inventory.get("artifact_role") != role:
+        raise SystemExit(f"{role} inventory role is incorrect")
+
+    binding = inventory.get("source")
+    expected_binding = {
+        "commit": expected_commit,
+        "tree": expected_tree,
+        "worktree_state": expected_state,
+    }
+    if binding != expected_binding:
+        raise SystemExit(f"{role} source binding is incorrect")
+
+    members = inventory.get("members")
+    if not isinstance(members, list):
+        raise SystemExit(f"{role} inventory members must be a list")
+    expected_members = []
+    for member_path in sorted(set(payloads) - {inventory_name}):
+        data = payloads[member_path]
+        expected_members.append({
+            "path": member_path,
+            "bytes": len(data),
+            "sha256": hashlib.sha256(data).hexdigest(),
+        })
+    if members != expected_members:
+        raise SystemExit(f"{role} inventory does not match exact archive members")
+
+    top_level = {PurePosixPath(name).parts[0] for name in payloads}
+    if role == "canonical_plugin":
+        expected_top_level = {
+            ".codex-plugin",
+            ".claude-plugin",
+            "skills",
+            package_name,
+            inventory_name,
+        }
+        if top_level != expected_top_level:
+            raise SystemExit("canonical plugin top-level layout is incorrect")
+        required = {
+            ".codex-plugin/plugin.json",
+            ".claude-plugin/plugin.json",
+            ".claude-plugin/marketplace.json",
+            "skills/implementaudit/SKILL.md",
+        }
+        if not required.issubset(payloads):
+            raise SystemExit("canonical plugin is missing required plugin-root members")
+        skill_members = [name for name in payloads if name.startswith("skills/")]
+        if not skill_members or any(
+            not name.startswith("skills/implementaudit/")
+            for name in skill_members
+        ):
+            raise SystemExit("canonical plugin has a flattened or extra child skill")
+        for prefix in (
+            "skills/implementaudit/references/",
+            "skills/implementaudit/scripts/",
+            "skills/implementaudit/templates/",
+        ):
+            if not any(name.startswith(prefix) for name in payloads):
+                raise SystemExit(f"canonical plugin is missing {prefix}")
+        if any(
+            name == "SKILL.md"
+            or name.startswith(("references/", "scripts/", "templates/"))
+            for name in payloads
+        ):
+            raise SystemExit("canonical plugin contains flattened skill payload")
+    else:
+        expected_top_level = {
+            "SKILL.md",
+            "references",
+            "scripts",
+            "templates",
+            package_name,
+            inventory_name,
+        }
+        if top_level != expected_top_level:
+            raise SystemExit("standalone top-level layout is incorrect")
+        if any(
+            name.startswith(("skills/", ".codex-plugin/", ".claude-plugin/"))
+            for name in payloads
+        ):
+            raise SystemExit("standalone contains nested skills or host manifests")
+        for required in (
+            "SKILL.md", "references/", "scripts/", "templates/"
+        ):
+            if required.endswith("/"):
+                present = any(name.startswith(required) for name in payloads)
+            else:
+                present = required in payloads
+            if not present:
+                raise SystemExit(f"standalone is missing {required}")
+
+    return embedded_package
+
+
+canonical_package = validate_archive(canonical_path, "canonical_plugin")
+standalone_package = validate_archive(
+    standalone_path, "standalone_compatibility"
+)
+if canonical_package != standalone_package:
+    raise SystemExit("embedded package identities disagree between artifacts")
+PY
+}
+
+verify_artifact() {
+  local role="$1" path="$2" clean="${3:-}"
+  local args=(--verify-artifact "$role" "$path")
+  [ "$clean" != clean ] || args+=(--require-clean-source)
+  bash "$checker" "${args[@]}" \
+    || fail "checker rejected clean $role artifact"
+}
+
+expect_reject() {
+  local label="$1" role="$2" path="$3" clean="${4:-}"
+  local args=(--verify-artifact "$role" "$path")
+  [ "$clean" != clean ] || args+=(--require-clean-source)
+  if bash "$checker" "${args[@]}" \
+      >"$tmp/check-$label.log" 2>&1; then
+    fail "checker accepted negative artifact: $label"
+  fi
+}
+
+mutate_archive() {
+  local operation="$1" source="$2" target="$3"
+  "${py_cmd[@]}" - "$operation" "$source" "$target" <<'PY'
+import stat
+import sys
+import zipfile
+from pathlib import Path
+
+operation, source_arg, target_arg = sys.argv[1:]
+source = Path(source_arg)
+target = Path(target_arg)
+
+with zipfile.ZipFile(source) as archive:
+    rows = {
+        info.filename: (info, archive.read(info.filename))
+        for info in archive.infolist()
+    }
+
+if operation == "missing-member":
+    del rows["skills/implementaudit/SKILL.md"]
+elif operation == "extra-member":
+    rows["UNDECLARED.txt"] = (None, b"undeclared\n")
+elif operation == "hash-mismatch":
+    info, data = rows["SKILL.md"]
+    rows["SKILL.md"] = (info, data + b"\nmutation\n")
+elif operation == "changed-manifest":
+    info, data = rows["IMPLEMENTAUDIT_PACKAGE.json"]
+    rows["IMPLEMENTAUDIT_PACKAGE.json"] = (info, data + b"\n")
+elif operation == "extra-child":
+    rows["skills/invented/SKILL.md"] = (None, b"---\nname: invented\n---\n")
+else:
+    raise SystemExit(f"unknown mutation: {operation}")
+
+
+def canonical_info(name, original):
+    timestamp = original.date_time if original else (1980, 1, 1, 0, 0, 0)
+    info = zipfile.ZipInfo(name, date_time=timestamp)
+    info.create_system = 3
+    info.create_version = 20
+    info.extract_version = 20
+    if original:
+        info.external_attr = original.external_attr
+    else:
+        info.external_attr = (stat.S_IFREG | 0o644) << 16
+    info.internal_attr = 0
+    info.compress_type = zipfile.ZIP_DEFLATED
+    info.flag_bits = 0
+    info.extra = b""
+    info.comment = b""
+    return info
+
+
+with zipfile.ZipFile(
+    target, "w", compression=zipfile.ZIP_DEFLATED, strict_timestamps=True
+) as archive:
+    for name in sorted(rows):
+        original, data = rows[name]
+        archive.writestr(canonical_info(name, original), data)
+PY
+}
+
+clone_candidate clean-a
+clone_candidate clean-b
+build_candidate clean-a UTC
+build_candidate clean-b America/New_York
+
+validate_pair "$tmp/checkout-clean-a" "$tmp/out-clean-a" clean
+validate_pair "$tmp/checkout-clean-b" "$tmp/out-clean-b" clean
+
+for artifact in IMPLEMENTAUDIT.plugin.zip IMPLEMENTAUDIT.skill; do
+  cmp -s "$tmp/out-clean-a/$artifact" "$tmp/out-clean-b/$artifact" \
+    || fail "$artifact is not deterministic across clean builds"
+done
+
+verify_artifact canonical_plugin \
+  "$tmp/out-clean-a/IMPLEMENTAUDIT.plugin.zip"
+verify_artifact standalone_compatibility \
+  "$tmp/out-clean-a/IMPLEMENTAUDIT.skill"
+
+clone_candidate dirty
+printf '\n' >> "$tmp/checkout-dirty/skills/implementaudit/SKILL.md"
+[ -n "$(git -C "$tmp/checkout-dirty" status --porcelain)" ] \
+  || fail "dirty candidate was not marked dirty"
+build_candidate dirty UTC
+validate_pair "$tmp/checkout-dirty" "$tmp/out-dirty" dirty
+expect_reject dirty-canonical canonical_plugin \
+  "$tmp/out-dirty/IMPLEMENTAUDIT.plugin.zip" clean
+expect_reject dirty-standalone standalone_compatibility \
+  "$tmp/out-dirty/IMPLEMENTAUDIT.skill" clean
+
+canonical="$tmp/out-clean-a/IMPLEMENTAUDIT.plugin.zip"
+standalone="$tmp/out-clean-a/IMPLEMENTAUDIT.skill"
+
+mkdir -p "$tmp/missing-member" "$tmp/extra-member" "$tmp/hash-mismatch" \
+  "$tmp/changed-manifest" "$tmp/extra-child"
+mutate_archive missing-member "$canonical" \
+  "$tmp/missing-member/IMPLEMENTAUDIT.plugin.zip"
+expect_reject missing-member canonical_plugin \
+  "$tmp/missing-member/IMPLEMENTAUDIT.plugin.zip"
+
+mutate_archive extra-member "$standalone" \
+  "$tmp/extra-member/IMPLEMENTAUDIT.skill"
+expect_reject extra-member standalone_compatibility \
+  "$tmp/extra-member/IMPLEMENTAUDIT.skill"
+
+mutate_archive hash-mismatch "$standalone" \
+  "$tmp/hash-mismatch/IMPLEMENTAUDIT.skill"
+expect_reject hash-mismatch standalone_compatibility \
+  "$tmp/hash-mismatch/IMPLEMENTAUDIT.skill"
+
+mutate_archive changed-manifest "$canonical" \
+  "$tmp/changed-manifest/IMPLEMENTAUDIT.plugin.zip"
+expect_reject changed-manifest canonical_plugin \
+  "$tmp/changed-manifest/IMPLEMENTAUDIT.plugin.zip"
+
+mutate_archive extra-child "$canonical" \
+  "$tmp/extra-child/IMPLEMENTAUDIT.plugin.zip"
+expect_reject extra-child canonical_plugin \
+  "$tmp/extra-child/IMPLEMENTAUDIT.plugin.zip"
+
+printf 'plugin-release-asset.test: ok commit=%s tree=%s\n' \
+  "$source_commit" "$source_tree"

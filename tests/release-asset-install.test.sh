@@ -78,12 +78,17 @@ do
 done
 
 installed_count="$(find "$installed" -type f | wc -l | tr -d '[:space:]')"
-[ "$installed_count" -eq 49 ] || {
-  printf 'release-asset-install.test: expected 49 installed files after excluding two plugin manifests, got %s\n' "$installed_count" >&2
+[ "$installed_count" -eq 51 ] || {
+  printf 'release-asset-install.test: expected 51 installed files including package identity/inventory, got %s\n' "$installed_count" >&2
   exit 1
 }
 [ ! -e "$installed/.claude-plugin/plugin.json" ] && [ ! -e "$installed/.claude-plugin/marketplace.json" ] || {
   printf 'release-asset-install.test: Codex projection must exclude both plugin manifests\n' >&2
+  exit 1
+}
+[ -f "$installed/IMPLEMENTAUDIT_PACKAGE.json" ] \
+  && [ -f "$installed/IMPLEMENTAUDIT_INVENTORY.json" ] || {
+  printf 'release-asset-install.test: package identity/inventory not installed\n' >&2
   exit 1
 }
 

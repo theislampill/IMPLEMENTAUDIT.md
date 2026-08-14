@@ -83,13 +83,21 @@ if skill_files != ["skills/implementaudit/SKILL.md"]:
         + ", ".join(skill_files or ["<none>"])
     )
 
-plugin = json.loads((root / ".claude-plugin/plugin.json").read_text(encoding="utf-8"))
-if plugin.get("name") != "implementaudit":
-    raise SystemExit(".claude-plugin/plugin.json name must be implementaudit")
-if plugin.get("skills") != "./skills/":
-    raise SystemExit(
-        ".claude-plugin/plugin.json must point source plugin discovery at ./skills/"
-    )
+host_plugins = {}
+for manifest_path in (
+    ".codex-plugin/plugin.json",
+    ".claude-plugin/plugin.json",
+):
+    plugin = json.loads((root / manifest_path).read_text(encoding="utf-8"))
+    if plugin.get("name") != "implementaudit":
+        raise SystemExit(f"{manifest_path} name must be implementaudit")
+    if plugin.get("skills") != "./skills/":
+        raise SystemExit(
+            f"{manifest_path} must point source plugin discovery at ./skills/"
+        )
+    host_plugins[manifest_path] = plugin
+if host_plugins[".codex-plugin/plugin.json"] != host_plugins[".claude-plugin/plugin.json"]:
+    raise SystemExit("Codex and Claude plugin manifests must be identical projections")
 
 marketplace = json.loads(
     (root / ".claude-plugin/marketplace.json").read_text(encoding="utf-8")
@@ -107,10 +115,7 @@ if "path" in entry:
 
 builder = (root / "scripts/build-release-asset.sh").read_text(encoding="utf-8")
 for token in [
-    'source_skill_dir = repo / "skills" / "implementaudit"',
-    'archive_plugin["skills"] = "./"',
-    'plugin["path"] = ".."',
-    'if "skills/implementaudit/SKILL.md" in names:',
+    'scripts/package-contract.py --build "$out_dir"',
 ]:
     if token not in builder:
         raise SystemExit(f"scripts/build-release-asset.sh missing layout token: {token}")

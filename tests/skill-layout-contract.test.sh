@@ -15,6 +15,7 @@ make_minimal_repo() {
     "$dir/skills/implementaudit/references" \
     "$dir/skills/implementaudit/scripts" \
     "$dir/skills/implementaudit/templates" \
+    "$dir/.codex-plugin" \
     "$dir/.claude-plugin" \
     "$dir/scripts" \
     "$dir/docs/audits"
@@ -30,14 +31,12 @@ EOF
   cat >"$dir/.claude-plugin/plugin.json" <<'EOF'
 {"name":"implementaudit","version":"0.3.2","skills":"./skills/"}
 EOF
+  cp "$dir/.claude-plugin/plugin.json" "$dir/.codex-plugin/plugin.json"
   cat >"$dir/.claude-plugin/marketplace.json" <<'EOF'
 {"plugins":[{"name":"implementaudit","source":"./"}]}
 EOF
   cat >"$dir/scripts/build-release-asset.sh" <<'EOF'
-source_skill_dir = repo / "skills" / "implementaudit"
-archive_plugin["skills"] = "./"
-plugin["path"] = ".."
-if "skills/implementaudit/SKILL.md" in names:
+scripts/package-contract.py --build "$out_dir"
 EOF
   cat >"$dir/README.md" <<'EOF'
 # README

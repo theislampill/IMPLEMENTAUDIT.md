@@ -80,6 +80,12 @@ if [ -e "$claude_skills_dir/IMPLEMENTAUDIT.md" ]; then
   exit 1
 fi
 
+[ -f "$claude_skills_dir/IMPLEMENTAUDIT_PACKAGE.json" ] \
+  && [ -f "$claude_skills_dir/IMPLEMENTAUDIT_INVENTORY.json" ] || {
+  printf 'release-asset-install-claude.test: package identity/inventory not installed\n' >&2
+  exit 1
+}
+
 stale="$out_dir/STALE-CHECKSUMS.txt"
 printf 'sha256  %064d  IMPLEMENTAUDIT.skill\n' 0 > "$stale"
 

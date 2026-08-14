@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "logical_package": "IMPLEMENTAUDIT_PLUGIN",
+  "package_name": "implementaudit",
+  "description": "Audit-closure governance skill for bounded, verified repository changes.",
+  "runtime_version": "0.4.0",
+  "release_family": "v0.4.0.0",
+  "public_governor": "implementaudit",
+  "public_entrypoint": "/implementaudit",
+  "required_skills": [
+    "implementaudit"
+  ],
+  "shared_resource_roots": [
+    "skills/implementaudit/references",
+    "skills/implementaudit/scripts",
+    "skills/implementaudit/templates"
+  ],
+  "host_manifests": {
+    "codex": ".codex-plugin/plugin.json",
+    "claude": ".claude-plugin/plugin.json"
+  },
+  "generated_projections": {
+    "canonical_plugin": {
+      "artifact": "IMPLEMENTAUDIT.plugin.zip",
+      "layout": "plugin-root"
+    },
+    "standalone_compatibility": {
+      "artifact": "IMPLEMENTAUDIT.skill",
+      "layout": "flattened-skill"
+    }
+  },
+  "inventory_contract": {
+    "format": "implementaudit.package-inventory.v1",
+    "sort": "utf8-posix-path",
+    "fields": [
+      "path",
+      "bytes",
+      "sha256"
+    ],
+    "source_binding": [
+      "commit",
+      "tree",
+      "worktree_state"
+    ]
+  },
+  "budgets": {
+    "canonical_plugin": {
+      "artifact_role": "canonical_plugin",
+      "measurement": "final_deterministic_compressed_bytes",
+      "p0_baseline_bytes": 257985,
+      "prototype_added_raw_bytes": 11263,
+      "zip_path_header_allowance_bytes": 2504,
+      "rounding_unit_bytes": 65536,
+      "cap_bytes": 327680,
+      "owner": "R33",
+      "reviewed_work_order_sha256": "a79eecd328da14874f4dd305ac35541f77ef3153a1d36cd814a457c4cd821db1",
+      "locked_before_builder_change": true
+    },
+    "standalone_compatibility": {
+      "artifact_role": "standalone_compatibility",
+      "measurement": "final_deterministic_compressed_bytes",
+      "p0_baseline_bytes": 257985,
+      "prototype_added_raw_bytes": 9465,
+      "zip_path_header_allowance_bytes": 222,
+      "rounding_unit_bytes": 65536,
+      "cap_bytes": 327680,
+      "owner": "R33",
+      "reviewed_work_order_sha256": "a79eecd328da14874f4dd305ac35541f77ef3153a1d36cd814a457c4cd821db1",
+      "locked_before_builder_change": true
+    }
+  },
+  "generic_activegraph_dependency": false
+}

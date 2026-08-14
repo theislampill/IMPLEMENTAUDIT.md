@@ -51,9 +51,13 @@ require_file CLAUDE.md
 require_file CONTRIBUTING.md
 require_file .gitattributes
 require_file .gitignore
+require_file .codex-plugin/plugin.json
 require_file .claude-plugin/plugin.json
 require_file .claude-plugin/marketplace.json
+require_file package/implementaudit-package.json
 require_file scripts/build-release-asset.sh
+require_file scripts/package-contract.py
+require_file scripts/check-package-contract.sh
 if [ "${#release_identity_args[@]}" -gt 0 ]; then
   release_identity_tmp="$(mktemp -d)"
   bash scripts/build-release-asset.sh "$release_identity_tmp"
@@ -86,6 +90,7 @@ require_file scripts/generate-readme-diagrams.sh
 require_file scripts/verify-readme-diagrams-rendered.sh
 require_file scripts/install-claude-from-release.sh
 require_file scripts/install-codex-from-release.sh
+require_file scripts/install-plugin-from-release.sh
 require_file scripts/write-release-checksums.sh
 require_file skills/implementaudit/SKILL.md
 require_file skills/implementaudit/references/planning-depth.md
@@ -311,6 +316,8 @@ require_file tests/release-asset.test.sh
 require_file tests/reproducible-release-asset.test.sh
 require_file tests/release-asset-install.test.sh
 require_file tests/release-asset-install-claude.test.sh
+require_file tests/plugin-release-asset.test.sh
+require_file tests/plugin-install.test.sh
 require_file tests/install-copy-smoke.test.sh
 require_file tests/routing.test.sh
 require_file tests/repo-state.test.sh
@@ -336,6 +343,7 @@ require_file tests/issues-deferred-gate.test.sh
 require_file tests/audit-object-routing-contract.test.sh
 require_file tests/native-integration.test.sh
 require_file tests/package-shape-claims.test.sh
+require_file tests/package-contract.test.sh
 require_file tests/terminology-integration.test.sh
 require_file tests/read-only-plans-lane.test.sh
 require_file tests/source-evidence-pack-runnable.test.sh
@@ -661,6 +669,7 @@ bash scripts/check-installed-payload-self-contained.sh
 bash scripts/check-sidecar-boundaries.sh
 bash scripts/check-public-claim-boundaries.sh
 bash scripts/check-package-shape-claims.sh
+bash scripts/check-package-contract.sh
 bash scripts/check-plan-quality-contract.sh
 bash scripts/check-skill-layout-contract.sh
 bash scripts/check-skill-bootstrap-budget.sh
@@ -690,6 +699,8 @@ bash tests/release-asset.test.sh
 bash tests/reproducible-release-asset.test.sh
 bash tests/release-asset-install.test.sh
 bash tests/release-asset-install-claude.test.sh
+bash tests/plugin-release-asset.test.sh
+bash tests/plugin-install.test.sh
 bash tests/install-copy-smoke.test.sh
 bash tests/routing.test.sh
 bash tests/repo-state.test.sh
@@ -712,6 +723,7 @@ bash tests/issues-deferred-gate.test.sh
 bash tests/audit-object-routing-contract.test.sh
 bash tests/native-integration.test.sh
 bash tests/package-shape-claims.test.sh
+bash tests/package-contract.test.sh
 bash tests/terminology-integration.test.sh
 bash tests/read-only-plans-lane.test.sh
 bash tests/source-evidence-pack-runnable.test.sh

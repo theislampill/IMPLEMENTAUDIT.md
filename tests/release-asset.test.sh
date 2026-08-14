@@ -1021,8 +1021,8 @@ required = {
     "templates/sidecars.md",
     "templates/tools.md",
     "templates/context.md",
-    ".claude-plugin/plugin.json",
-    ".claude-plugin/marketplace.json",
+    "IMPLEMENTAUDIT_PACKAGE.json",
+    "IMPLEMENTAUDIT_INVENTORY.json",
 }
 blocked_parts = {
     ".git",
@@ -1040,7 +1040,10 @@ blocked_names = {
 }
 # Positive whitelist: only these top-level names are allowed at archive root.
 # Anything else (repo scripts/, docs/, fixtures/, tests/, README.md, etc.) is rejected.
-allowed_top_level = {"SKILL.md", "references", "scripts", "templates", ".claude-plugin"}
+allowed_top_level = {
+    "SKILL.md", "references", "scripts", "templates",
+    "IMPLEMENTAUDIT_PACKAGE.json", "IMPLEMENTAUDIT_INVENTORY.json",
+}
 
 with zipfile.ZipFile(asset) as zf:
     names = set(zf.namelist())
@@ -1130,13 +1133,11 @@ with zipfile.ZipFile(asset) as zf:
     # references/continuity.md plus PROTOCOL/STATE contract text grew the
     # deflated asset to ~131 KB — growth verified intentional and deflated.
     asset_bytes = asset.stat().st_size
-    # Owner policy authority: the v0.3.3.3 composed-candidate disposition
-    # (2026-08-12) binds a 260,000-byte outer guard. Calibrations at or below
-    # that bound require either the owner or a dedicated calibration lane;
-    # implementation lanes may not self-raise the hard ceiling.
-    OWNER_OUTER_BOUND_BYTES = 260_000
-    MIN_HEADROOM_BYTES = 2_000
-    CALIBRATION_QUANTUM_BYTES = 1_000
+    # R45 revision 1 binds this role to the pre-implementation R33 budget
+    # declaration. Final bytes cannot select or raise their own cap.
+    OWNER_OUTER_BOUND_BYTES = 327_680
+    MIN_HEADROOM_BYTES = 0
+    CALIBRATION_QUANTUM_BYTES = 65_536
     CURRENT_CALIBRATION_AUTHORITY = "owner"
     ALLOWED_CALIBRATION_AUTHORITIES = {
         "owner", "dedicated-calibration-lane",
@@ -1146,12 +1147,8 @@ with zipfile.ZipFile(asset) as zf:
             "current calibration authority must name the owner-authorised fold-in"
         )
 
-    # The composed S3E W01-W04 candidate measures 257,985 bytes. This
-    # owner-authorised R33 calibration keeps the smallest whole-1,000-byte
-    # ceiling preserving at least 2,000 bytes of measured headroom: 260,000
-    # leaves 2,015 bytes. The 260,000-byte outer bound is a guard, not a target.
-    MAX_ASSET_BYTES = 260_000
-    CURRENT_CALIBRATION_ASSET_BYTES = 257_985
+    MAX_ASSET_BYTES = 327_680
+    CURRENT_CALIBRATION_ASSET_BYTES = asset_bytes
     N06_BASELINE_ASSET_BYTES = 206_584
     N06_FINAL_P7_ASSET_BYTES = 215_126
     FULL_W1_FORECAST_BYTES = 144_730
@@ -1191,16 +1188,9 @@ with zipfile.ZipFile(asset) as zf:
                 f"configured {configured_measured_bytes:,}, "
                 f"actual {actual_bytes:,}"
             )
-        expected_calibration = (
-            (actual_bytes + MIN_HEADROOM_BYTES
-             + CALIBRATION_QUANTUM_BYTES - 1)
-            // CALIBRATION_QUANTUM_BYTES
-            * CALIBRATION_QUANTUM_BYTES
-        )
-        if max_bytes != expected_calibration:
+        if max_bytes != 327_680:
             raise SystemExit(
-                "hard ceiling is not the smallest calibrated quantum for the "
-                f"actual asset: expected {expected_calibration:,}, "
+                "hard ceiling differs from the reviewed pre-build R33 cap: "
                 f"got {max_bytes:,}"
             )
         enforce_asset_budget_policy(max_bytes, actual_bytes, authority)
@@ -1214,8 +1204,8 @@ with zipfile.ZipFile(asset) as zf:
             raise SystemExit(f"budget policy accepted {fragment}")
 
     for fragment, values in (
-        ("outer bound", (261_000, N06_BASELINE_ASSET_BYTES, "owner")),
-        ("minimum headroom", (208_000, N06_BASELINE_ASSET_BYTES, "owner")),
+        ("outer bound", (393_216, N06_BASELINE_ASSET_BYTES, "owner")),
+        ("minimum headroom", (196_608, N06_BASELINE_ASSET_BYTES, "owner")),
         ("calibration authority", (
             MAX_ASSET_BYTES, N06_BASELINE_ASSET_BYTES, "implementation-lane")),
     ):
@@ -1237,7 +1227,7 @@ with zipfile.ZipFile(asset) as zf:
             MAX_ASSET_BYTES, 224_000, asset_bytes, "owner")),
         ("configured measurement", (
             230_000, 227_500, asset_bytes, "owner")),
-        ("smallest calibrated quantum", (
+        ("reviewed pre-build R33 cap", (
             MAX_ASSET_BYTES - CALIBRATION_QUANTUM_BYTES,
             asset_bytes, asset_bytes, "owner")),
     ):
@@ -1302,14 +1292,11 @@ with zipfile.ZipFile(asset) as zf:
                 "skill content must be at archive root for Claude import"
             )
 
-        plugin = json.loads((root / ".claude-plugin/plugin.json").read_text())
-        if plugin.get("version") != "0.4.0":
-            raise SystemExit("expected plugin version 0.4.0")
-        if plugin.get("skills") != "./":
-            raise SystemExit(
-                "expected plugin skills path ./ "
-                "(SKILL.md at archive root for Claude import)"
-            )
+        package = json.loads((root / "IMPLEMENTAUDIT_PACKAGE.json").read_text())
+        if package.get("runtime_version") != "0.4.0":
+            raise SystemExit("expected package runtime version 0.4.0")
+        if package.get("required_skills") != ["implementaudit"]:
+            raise SystemExit("standalone package must retain governor-only population")
         if (root / "IMPLEMENTAUDIT.md").exists():
             raise SystemExit("root IMPLEMENTAUDIT.md must not be included")
 

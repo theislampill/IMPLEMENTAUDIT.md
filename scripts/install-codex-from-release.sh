@@ -126,6 +126,9 @@ if [ -n "$checksum_url" ]; then
   curl --fail --location --show-error --silent "$checksum_url" --output "$checksum"
 fi
 
+bash scripts/check-package-contract.sh --verify-artifact \
+  standalone_compatibility "$asset"
+
 "${py_cmd[@]}" - "$asset" "$checksum" "$codex_home" "$expected_version" <<'PY'
 import hashlib
 import json
@@ -215,8 +218,8 @@ required_archive = {
     "templates/sidecars.md",
     "templates/tools.md",
     "templates/context.md",
-    ".claude-plugin/plugin.json",
-    ".claude-plugin/marketplace.json",
+    "IMPLEMENTAUDIT_PACKAGE.json",
+    "IMPLEMENTAUDIT_INVENTORY.json",
 }
 
 with zipfile.ZipFile(asset) as zf:
@@ -234,7 +237,10 @@ with zipfile.ZipFile(asset) as zf:
         raise SystemExit("asset missing required entries: " + ", ".join(missing))
 
     # Only allowed top-level entries may appear.
-    allowed_top_level = {"SKILL.md", "references", "scripts", "templates", ".claude-plugin"}
+    allowed_top_level = {
+        "SKILL.md", "references", "scripts", "templates",
+        "IMPLEMENTAUDIT_PACKAGE.json", "IMPLEMENTAUDIT_INVENTORY.json",
+    }
     top_level = {Path(name).parts[0] for name in names if Path(name).parts}
     extra_top_level = sorted(top_level - allowed_top_level)
     if extra_top_level:
@@ -256,15 +262,15 @@ with zipfile.ZipFile(asset) as zf:
     with tempfile.TemporaryDirectory() as temp_dir:
         root = Path(temp_dir)
         zf.extractall(root)
-        plugin = json.loads((root / ".claude-plugin/plugin.json").read_text(encoding="utf-8"))
-        if plugin.get("name") != "implementaudit":
-            raise SystemExit("plugin name must be implementaudit")
-        if plugin.get("version") != expected_version:
+        package = json.loads((root / "IMPLEMENTAUDIT_PACKAGE.json").read_text(encoding="utf-8"))
+        if package.get("package_name") != "implementaudit":
+            raise SystemExit("package name must be implementaudit")
+        if package.get("runtime_version") != expected_version:
             raise SystemExit(
-                f"plugin version must be {expected_version}, got {plugin.get('version')}"
+                f"package version must be {expected_version}, got {package.get('runtime_version')}"
             )
-        if plugin.get("skills") != "./":
-            raise SystemExit("plugin skills path must be ./ (SKILL.md at archive root)")
+        if package.get("required_skills") != ["implementaudit"]:
+            raise SystemExit("standalone package must contain only the implementaudit governor")
         if (root / "IMPLEMENTAUDIT.md").exists():
             raise SystemExit("root IMPLEMENTAUDIT.md must be absent")
         if not (root / "SKILL.md").is_file():
@@ -287,10 +293,8 @@ with zipfile.ZipFile(asset) as zf:
             shutil.rmtree(tmp_target)
         tmp_target.mkdir(parents=True)
 
-        # Copy skill content from archive root to tmp_target (skip .claude-plugin/).
+        # Copy the standalone projection including package identity/inventory.
         for child in root.iterdir():
-            if child.name == ".claude-plugin":
-                continue
             dest = tmp_target / child.name
             if child.is_file():
                 shutil.copy2(child, dest)
@@ -340,10 +344,10 @@ with zipfile.ZipFile(asset) as zf:
         installed_files = [path for path in tmp_target.rglob("*") if path.is_file()]
         if len(names) != 51:
             raise SystemExit(f"release archive must contain 51 members, got {len(names)}")
-        if len(installed_files) != 49:
+        if len(installed_files) != 51:
             raise SystemExit(
-                "Codex projection must contain 49 files after excluding the two "
-                f".claude-plugin manifests, got {len(installed_files)}"
+                "Codex standalone projection must contain 51 files including "
+                f"package identity and inventory, got {len(installed_files)}"
             )
 
         if target.exists():
