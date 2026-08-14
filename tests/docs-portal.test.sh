@@ -172,6 +172,84 @@ else
   fail_check "metadata/site nav/page shell mismatch"
 fi
 
+candidate_asset_dir="$tmp/current-candidate-package"
+if bash scripts/build-release-asset.sh "$candidate_asset_dir" >/dev/null && \
+    "${py_cmd[@]}" - "$candidate_asset_dir/IMPLEMENTAUDIT.skill" <<'PY'
+import hashlib
+import re
+import sys
+from pathlib import Path
+
+asset = Path(sys.argv[1])
+asset_bytes = asset.stat().st_size
+asset_sha = hashlib.sha256(asset.read_bytes()).hexdigest()
+report = Path("docs/audits/archive/v0.4.0.0-release-report.md").read_text(encoding="utf-8")
+page = Path("docs/portal/pages/audit-trail.html").read_text(encoding="utf-8")
+
+report_match = re.search(
+    r"\| Candidate archive \|[^\n]*\| ([0-9,]+) bytes; SHA-256 `([0-9a-f]{64})`; "
+    r"([0-9]+) members; ([0-9,]+)-byte reserve under the 260000-byte outer bound \|",
+    report,
+)
+if not report_match:
+    raise SystemExit("release report candidate package row is missing or malformed")
+report_bytes = int(report_match.group(1).replace(",", ""))
+report_sha = report_match.group(2)
+report_members = int(report_match.group(3))
+report_reserve = int(report_match.group(4).replace(",", ""))
+
+page_match = re.search(
+    r"<tr><td>v0\.4\.0\.0 candidate package</td><td>([0-9,]+)-byte local archive; "
+    r"([0-9]+) archive members and ([0-9]+) Codex-installed payload files</td>"
+    r"<td>Local SHA-256 <code>([0-9a-f]{64})</code>",
+    page,
+)
+if not page_match:
+    raise SystemExit("audit-trail candidate package row is missing or malformed")
+page_bytes = int(page_match.group(1).replace(",", ""))
+page_archive_members = int(page_match.group(2))
+page_install_members = int(page_match.group(3))
+page_sha = page_match.group(4)
+
+expected = {
+    "bytes": asset_bytes,
+    "sha": asset_sha,
+    "archive_members": 51,
+    "install_members": 49,
+    "reserve": 260_000 - asset_bytes,
+}
+observed = {
+    "report_bytes": report_bytes,
+    "report_sha": report_sha,
+    "report_members": report_members,
+    "report_reserve": report_reserve,
+    "page_bytes": page_bytes,
+    "page_sha": page_sha,
+    "page_archive_members": page_archive_members,
+    "page_install_members": page_install_members,
+}
+required = {
+    "report_bytes": expected["bytes"],
+    "report_sha": expected["sha"],
+    "report_members": expected["archive_members"],
+    "report_reserve": expected["reserve"],
+    "page_bytes": expected["bytes"],
+    "page_sha": expected["sha"],
+    "page_archive_members": expected["archive_members"],
+    "page_install_members": expected["install_members"],
+}
+if observed != required:
+    raise SystemExit(
+        "tracked candidate package identity is stale: "
+        f"expected={required!r} observed={observed!r}"
+    )
+PY
+then
+  ok "tracked release report and portal bind the deterministic current candidate package"
+else
+  fail_check "tracked candidate package identity is stale or unbound"
+fi
+
 if "${py_cmd[@]}" - <<'PY'
 from pathlib import Path
 
