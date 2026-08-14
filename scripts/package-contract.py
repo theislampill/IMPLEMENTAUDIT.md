@@ -607,6 +607,12 @@ def install_plugin(
 
     plugins_root = host_root / "plugins"
     plugins_root.mkdir(parents=True, exist_ok=True)
+    if (
+        plugins_root.is_symlink()
+        or not plugins_root.is_dir()
+        or plugins_root.resolve(strict=True) != plugins_root
+    ):
+        raise ContractError("isolated plugins transaction root must be a real non-aliased directory")
     target = plugins_root / "implementaudit"
     stage = plugins_root / f".implementaudit-stage-{os.getpid()}"
     backup = plugins_root / f".implementaudit-backup-{os.getpid()}"
@@ -620,11 +626,6 @@ def install_plugin(
         prior_package, prior_inventory = predecessor
         prior_version = numeric_version(prior_package.get("runtime_version"))
         next_version = numeric_version(incoming_package.get("runtime_version"))
-        if prior_version > next_version and not allow_downgrade:
-            raise ContractError(
-                f"unauthorized downgrade rejected: {prior_package.get('runtime_version')} "
-                f"-> {incoming_package.get('runtime_version')}"
-            )
         prior_digest = hashlib.sha256((target / INVENTORY_NAME).read_bytes()).hexdigest()
         incoming_digest = hashlib.sha256(
             (json.dumps(incoming_inventory, indent=2, sort_keys=True) + "\n").encode("utf-8")
@@ -635,6 +636,15 @@ def install_plugin(
                 f"host={host} target={target} inventory_sha256={prior_digest}"
             )
             return
+        if prior_version == next_version:
+            raise ContractError(
+                "same-version plugin source/package identity differs from the installed predecessor"
+            )
+        if prior_version > next_version and not allow_downgrade:
+            raise ContractError(
+                f"unauthorized downgrade rejected: {prior_package.get('runtime_version')} "
+                f"-> {incoming_package.get('runtime_version')}"
+            )
 
     fault = os.environ.get("IMPLEMENTAUDIT_INSTALL_FAULT", "")
     if fault not in {"", "before-swap", "during-swap", "remove-staged-member"}:
