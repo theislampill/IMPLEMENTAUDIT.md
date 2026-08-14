@@ -58,6 +58,7 @@ require_file package/implementaudit-package.json
 require_file scripts/build-release-asset.sh
 require_file scripts/package-contract.py
 require_file scripts/check-package-contract.sh
+require_file scripts/install-plugin-from-release.sh
 if [ "${#release_identity_args[@]}" -gt 0 ]; then
   release_identity_tmp="$(mktemp -d)"
   bash scripts/build-release-asset.sh "$release_identity_tmp"
@@ -589,12 +590,13 @@ grep -R "Stage 6.ii - Pre-flight smoke" -n skills/implementaudit/SKILL.md >/dev/
 grep -R "<run-root>/THINKING.md" -n skills/implementaudit/templates/THINKING.md skills/implementaudit/templates/PROTOCOL.md skills/implementaudit/templates/phase-goal.txt >/dev/null || fail "THINKING runtime artifact coverage is missing"
 grep -R "install-codex-from-release.sh" -n README.md AGENTS.md scripts tests >/dev/null || fail "release-asset Codex install path is not documented/validated"
 grep -R "install-claude-from-release.sh" -n README.md AGENTS.md scripts tests >/dev/null || fail "release-asset Claude install path is not documented/validated"
+grep -R "install-plugin-from-release.sh" -n README.md AGENTS.md scripts tests >/dev/null || fail "canonical plugin staged-install path is not documented/validated"
 grep -R "LIVE_V0_2_5_0_CLAUDE_INSTALL_BROKEN" -n AGENTS.md >/dev/null || fail "Claude install anti-repeat rule LIVE_V0_2_5_0_CLAUDE_INSTALL_BROKEN is missing from AGENTS.md"
 grep -R "release-asset-install-claude.test.sh" -n AGENTS.md scripts >/dev/null || fail "Claude install smoke test is not referenced in AGENTS.md or scripts"
 grep -R "stale checksum" -in tests/release-asset-install.test.sh scripts/install-codex-from-release.sh >/dev/null || fail "stale checksum install failure coverage is missing"
 grep -R "auto-update" -in README.md CHANGELOG.md AGENTS.md | grep -i "no marketplace auto-update\|does not auto-update\|do not assume\|do not claim" >/dev/null || fail "auto-update boundary must remain explicit"
-grep -n "bash scripts/write-release-checksums.sh dist/IMPLEMENTAUDIT.skill dist/CHECKSUMS.txt" CONTRIBUTING.md >/dev/null || fail "CONTRIBUTING release validation must write CHECKSUMS.txt before --check"
-grep -n "bash scripts/write-release-checksums.sh --check" CONTRIBUTING.md >/dev/null || fail "CONTRIBUTING release validation must include checksum check"
+grep -n "bash scripts/write-release-checksums.sh --all dist dist/CHECKSUMS.txt" CONTRIBUTING.md >/dev/null || fail "CONTRIBUTING release validation must write the dual-asset CHECKSUMS.txt before --check"
+grep -n "bash scripts/write-release-checksums.sh --check --all dist dist/CHECKSUMS.txt" CONTRIBUTING.md >/dev/null || fail "CONTRIBUTING release validation must check the dual-asset checksum manifest"
 grep -R "v0.2.4.5" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.4.5 is not documented"
 grep -R "v0.2.8.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.8.0 is not documented"
 grep -R "v0.2.7.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.7.0 is not documented"
