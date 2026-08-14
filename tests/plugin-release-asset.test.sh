@@ -27,7 +27,8 @@ tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
 clone_candidate() {
-  local lane="$1" target="$tmp/checkout-$lane"
+  local lane="$1"
+  local target="$tmp/checkout-$lane"
   git clone --quiet --no-local --no-checkout "$repo_root" "$target"
   git -C "$target" checkout --quiet --detach "$source_commit"
   [ -z "$(git -C "$target" status --porcelain)" ] \
