@@ -379,6 +379,7 @@ def validate_self_dogfood():
         raise SystemExit("self-dogfood qualification requires independent corroboration")
     observed = jsonl(corroboration_path, "independent dogfood observation")
     observed_by_correlation = {}
+    observed_correlations = []
     for index, item in enumerate(observed, 1):
         if item.get("sequence") != index:
             raise SystemExit(f"{corroboration_path}:{index}: observation sequence mismatch")
@@ -386,15 +387,16 @@ def validate_self_dogfood():
         if not isinstance(correlation, str) or correlation in observed_by_correlation:
             raise SystemExit(f"{corroboration_path}:{index}: observation correlation is missing or duplicate")
         observed_by_correlation[correlation] = item
+        observed_correlations.append(correlation)
     corroborated_actions = {
         "baseline-status", "baseline-head", "activate-runtime", "read", "search"
     }
-    typed_correlations = {
+    typed_correlations = [
         event["correlation_id"]
         for event in values
         if event["action"] in corroborated_actions
-    }
-    if set(observed_by_correlation) != typed_correlations:
+    ]
+    if observed_correlations != typed_correlations:
         raise SystemExit(
             "Andon: typed dogfood evidence contradicts independent observation"
         )

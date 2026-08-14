@@ -111,6 +111,37 @@ grep -F 'Andon: typed dogfood evidence contradicts independent observation' \
   exit 1
 }
 
+renumbered_reorder="$tmp/typed-renumbered-reorder.jsonl"
+python - \
+  fixtures/dogfood-bootstrap/typed/self-dogfood-corroboration.jsonl \
+  "$renumbered_reorder" <<'PY'
+import json
+import pathlib
+import sys
+source = pathlib.Path(sys.argv[1])
+target = pathlib.Path(sys.argv[2])
+events = [json.loads(line) for line in source.read_text(encoding="utf-8").splitlines()]
+events[0], events[1] = events[1], events[0]
+for sequence, event in enumerate(events, 1):
+    event["sequence"] = sequence
+target.write_text(
+    "\n".join(json.dumps(event, separators=(",", ":"), sort_keys=True) for event in events) + "\n",
+    encoding="utf-8",
+)
+PY
+if "${typed_check[@]}" \
+  --corroboration-file "$renumbered_reorder" \
+  >"$tmp/typed-renumbered-reorder.out" 2>&1; then
+  printf 'dogfood-bootstrap-contract.test: renumbered corroboration reorder unexpectedly passed\n' >&2
+  exit 1
+fi
+grep -F 'Andon: typed dogfood evidence contradicts independent observation' \
+  "$tmp/typed-renumbered-reorder.out" >/dev/null || {
+  printf 'dogfood-bootstrap-contract.test: expected corroboration-order Andon\n' >&2
+  cat "$tmp/typed-renumbered-reorder.out" >&2
+  exit 1
+}
+
 prebaseline_root="$tmp/prebaseline-evidence"
 python scripts/dogfood-evidence-broker.py init \
   --context "$prebaseline_root/context.json" \
