@@ -149,7 +149,8 @@ Load references only when the current gate needs them:
 - `references/routing.md`: repo/content routing and governed casual-build intake.
 - `references/planning-depth.md`: goal choice and warranted action depth.
 - `references/phase-design.md`: phase slicing, critique, quality, triggered
-  state-synthesis acceptance and automated-action risk bounds.
+  state-synthesis acceptance and automated-action risk bounds. It owns the
+  six-axis fail-closed gate for automated and automation-proposed action.
 - `references/goal-format.md`: `/goal`, response, and marker shape.
 - `references/transcript-contract.md`: marker order and handoff exclusivity.
 - `references/continuity.md`: controller currentness, epochs, replay refusal,

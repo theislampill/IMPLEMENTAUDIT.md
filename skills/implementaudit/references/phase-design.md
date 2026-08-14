@@ -304,11 +304,13 @@ absorb evidence and retire the row—no permanent evaluator registry/worksheet.
 For material currentness, receiver, evaluator, proof, consequence or recovery,
 record only decision-changing: decision/consumer; required function, not health
 proxy; current authority/state; evaluator fitness; evidence limits; independent
-basis against self-confirmation; recovery/reopen. Automation bounds false-alarm
-and missed-detection cost, latency, diagnosis confidence, reversibility and
-authority. Keep conformance, translation, correspondence/environment,
-tool/result class and replay/currentness distinct; no green leg promotes
-another. Reviewer/replica/run/score counts are not independence. One
+basis against self-confirmation; recovery/reopen. Before an automated or
+automation-proposed consequential action, explicitly bound all six: false-alarm
+cost, missed-detection cost, latency, diagnosis confidence, reversibility, and
+authority; if any is unbounded, block the action. Keep conformance, translation,
+correspondence/environment, tool/result class and replay/currentness distinct;
+no green leg promotes another. Reviewer/replica/run/score counts are not
+independence. One
 authoritative deterministic discriminator keeps small reversible work on
 inspect → act → verify → done. Reuse surfaces; add no mode, worksheet or audit
 object.

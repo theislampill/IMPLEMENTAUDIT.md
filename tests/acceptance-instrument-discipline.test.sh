@@ -70,6 +70,12 @@ if "Rule P4-17 — Triggered state-synthesis acceptance" not in phase:
     raise SystemExit("S3E-W01 RED: phase-design missing triggered state-synthesis acceptance")
 if "triggered state-synthesis acceptance and automated-action risk bounds" not in " ".join(skill.split()):
     raise SystemExit("S3E-W01 RED: bootloader does not route automated-action decisions to phase-design")
+normalized_phase = " ".join(phase.split())
+if ("automated or automation-proposed consequential action" not in normalized_phase or
+        "if any is unbounded, block the action" not in normalized_phase):
+    raise SystemExit("S3E-W01 RED: six-axis action envelope is not fail-closed for automation-proposed action")
+if "six-axis fail-closed gate" not in " ".join(skill.split()):
+    raise SystemExit("S3E-W01 RED: bootloader route does not expose the fail-closed action gate")
 if "held-outs without exposing answers/distractors" not in phase:
     raise SystemExit("P4-16 RED: distractors missing from the non-exposure boundary")
 if "Easier assertions, goldens, answers," not in phase:
