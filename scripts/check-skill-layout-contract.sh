@@ -152,15 +152,17 @@ for forbidden in [
 
 docs = {
     "README.md": [
-        "Source layout vs release archive layout",
+        "Source layout vs release package projections",
         "skills/implementaudit/SKILL.md",
-        "release archive",
-        "SKILL.md at archive root",
+        "IMPLEMENTAUDIT.plugin.zip",
+        "IMPLEMENTAUDIT.skill",
+        "archive-root `SKILL.md`",
     ],
     "AGENTS.md": [
         "skills/implementaudit/SKILL.md",
-        "release archive",
-        "archive root",
+        "IMPLEMENTAUDIT.plugin.zip",
+        "IMPLEMENTAUDIT.skill",
+        "archive root as `SKILL.md`",
     ],
 }
 for path, tokens in docs.items():

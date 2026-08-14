@@ -41,12 +41,13 @@ EOF
   cat >"$dir/README.md" <<'EOF'
 # README
 
-Source layout vs release archive layout: source is
-`skills/implementaudit/SKILL.md`; the release archive keeps SKILL.md at archive root.
+Source layout vs release package projections: source is
+`skills/implementaudit/SKILL.md`; `IMPLEMENTAUDIT.plugin.zip` preserves the
+source tree and `IMPLEMENTAUDIT.skill` flattens it to archive-root `SKILL.md`.
 EOF
   cat >"$dir/AGENTS.md" <<'EOF'
-Use `skills/implementaudit/SKILL.md`. The release archive keeps SKILL.md at
-archive root.
+Use `skills/implementaudit/SKILL.md`. `IMPLEMENTAUDIT.plugin.zip` preserves the
+source tree; `IMPLEMENTAUDIT.skill` flattens it to archive root as `SKILL.md`.
 EOF
   cat >"$dir/CONTRIBUTING.md" <<'EOF'
 No stale flat layout references.
@@ -126,8 +127,8 @@ grep -F "must use installed-relative payload paths" "$tmp/payload.out" >/dev/nul
 tree="$tmp/tree"
 make_minimal_repo "$tree"
 cat >"$tree/AGENTS.md" <<'EOF'
-Use `skills/implementaudit/SKILL.md`. The release archive keeps SKILL.md at
-archive root.
+Use `skills/implementaudit/SKILL.md`. `IMPLEMENTAUDIT.plugin.zip` preserves the
+source tree; `IMPLEMENTAUDIT.skill` flattens it to archive root as `SKILL.md`.
 
 ## Repo layout
 
