@@ -163,8 +163,8 @@ PY
 }
 
 rewrite_valid_predecessor() {
-  local target="$1" version="$2" witness="${3:-}"
-  "${py_cmd[@]}" - "$target" "$version" "$witness" <<'PY'
+  local target="$1" version="$2" witness="${3:-}" source_commit="${4:-}"
+  "${py_cmd[@]}" - "$target" "$version" "$witness" "$source_commit" <<'PY'
 import hashlib
 import json
 import sys
@@ -173,12 +173,15 @@ from pathlib import Path
 target = Path(sys.argv[1])
 version = sys.argv[2]
 witness = sys.argv[3]
+source_commit = sys.argv[4]
 package_path = target / "IMPLEMENTAUDIT_PACKAGE.json"
 inventory_path = target / "IMPLEMENTAUDIT_INVENTORY.json"
 package = json.loads(package_path.read_text(encoding="utf-8"))
 inventory = json.loads(inventory_path.read_text(encoding="utf-8"))
 package["runtime_version"] = version
 inventory["runtime_version"] = version
+if source_commit:
+    inventory["source"]["commit"] = source_commit
 package_path.write_text(
     json.dumps(package, indent=2) + "\n", encoding="utf-8", newline="\n"
 )
@@ -257,6 +260,17 @@ expect_install_failure "non-regular host-root sentinel" \
 [ ! -e "$bad_sentinel_root/plugins/implementaudit" ] \
   || fail "sentinel rejection created a plugin target"
 
+# The transaction root itself must not escape the isolated host through a
+# directory alias. Exercise this where the checkout host permits symlinks.
+aliased_root="$(new_host_root)"
+alias_target="$(mktemp -d "$tmp_parent/aliased-plugins-target.XXXXXX")"
+if ln -s "$alias_target" "$aliased_root/plugins" 2>/dev/null; then
+  expect_install_failure "aliased plugins transaction root" \
+    install_plugin codex "$aliased_root" "$asset" "$checksums" --version 0.4.0
+  [ ! -e "$alias_target/implementaudit" ] \
+    || fail "aliased plugins root escaped the isolated host"
+fi
+
 # Both host selectors install the same canonical plugin tree. Reinstalling the
 # exact version must be idempotent, and the host-visible claim stays staged-copy.
 for host in codex claude; do
@@ -334,6 +348,19 @@ expect_install_failure "unauthorized downgrade" \
   install_plugin codex "$root" "$asset" "$checksums" --version 0.4.0
 [ "$(tree_digest "$target")" = "$downgrade_before" ] \
   || fail "unauthorized downgrade changed its predecessor"
+
+# The same runtime label with a different source identity is not an idempotent
+# reinstall and must not silently replace the current exact package.
+root="$(new_host_root)"
+install_plugin codex "$root" "$asset" "$checksums" --version 0.4.0 \
+  >"$tmp_parent/same-label-setup.out"
+target="$root/plugins/implementaudit"
+rewrite_valid_predecessor "$target" 0.4.0 "" ffffffffffffffffffffffffffffffffffffffff
+same_label_before="$(tree_digest "$target")"
+expect_install_failure "same-label changed source" \
+  install_plugin codex "$root" "$asset" "$checksums" --version 0.4.0
+[ "$(tree_digest "$target")" = "$same_label_before" ] \
+  || fail "same-label rejection changed its predecessor"
 
 for fault in before-swap during-swap remove-staged-member; do
   root="$(new_host_root)"
