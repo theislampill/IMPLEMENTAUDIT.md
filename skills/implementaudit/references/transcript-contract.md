@@ -290,9 +290,13 @@ Rules:
   Do not replay a completion marker in a later summary or final response. Once
   emitted at its transition, later prose may describe the state but must not
   print that marker again.
-- `AUDIT_START` carries `Skill version:` — the plugin manifest version of the
-  payload that produced the run (`unknown` when unresolvable, never guessed) —
-  so any transcript can be attributed to its contract version.
+- `AUDIT_START` carries `Skill version:` — the package identity version of the
+  payload that produced the run, resolved by
+  `scripts/detect-env.sh --package-version` across canonical-plugin,
+  standalone-compatibility, or source layouts. Contradictory/malformed package
+  identities stop the gate; `unknown` is reserved for an unresolvable identity
+  or unavailable JSON-capable interpreter and is never guessed. This keeps the
+  transcript attributable without making a host manifest the semantic owner.
 - `AUDIT_COMPLETE` must precede `IMPLEMENTAUDIT_RUN_COMPLETE`.
 - `AUDIT_COMPLETE` means the audit object reached terminal verified closure; it
   does not merely mean the runtime performed an audit operation.

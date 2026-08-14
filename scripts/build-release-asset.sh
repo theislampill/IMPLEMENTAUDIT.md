@@ -20,6 +20,7 @@ else
 fi
 
 asset_name="IMPLEMENTAUDIT.skill"
+release_asset_names=("IMPLEMENTAUDIT.plugin.zip" "IMPLEMENTAUDIT.skill")
 cleanup_dir=""
 
 check_release_identity() {
@@ -611,6 +612,27 @@ print(f"build-release-asset: ignored build artifact is not superseded ({digest})
 PY
 }
 
+check_stale_release_set() {
+  local surface="${1:-}" artifact_dir="${2:-}" changelog="${3:-}"
+  [ -n "$surface" ] && [ -n "$artifact_dir" ] && [ -n "$changelog" ] \
+    || fail "--check-stale-release-set requires <source|package|release> <artifact-dir> <changelog>"
+  case "$surface" in
+    source)
+      printf 'build-release-asset: source surface adds no stale package-artifact obligation\n'
+      return 0
+      ;;
+    package|release) : ;;
+    *) fail "stale release-set surface must be source, package, or release" ;;
+  esac
+  [ -e "$artifact_dir" ] || return 0
+  [ -d "$artifact_dir" ] && [ ! -L "$artifact_dir" ] \
+    || fail "stale release-set target must be a regular non-symlink directory"
+  local artifact
+  for artifact in "${release_asset_names[@]}"; do
+    check_stale_artifact "$surface" "$artifact_dir/$artifact" "$changelog"
+  done
+}
+
 case "${1:-}" in
   --check-release-identity)
     shift
@@ -627,10 +649,15 @@ case "${1:-}" in
     check_stale_artifact "$@"
     exit $?
     ;;
+  --check-stale-release-set)
+    shift
+    check_stale_release_set "$@"
+    exit $?
+    ;;
 esac
 
 if [ "${1:-}" = "--check" ]; then
-  check_stale_artifact package "$repo_root/dist/$asset_name" "$repo_root/CHANGELOG.md"
+  check_stale_release_set package "$repo_root/dist" "$repo_root/CHANGELOG.md"
   out_dir="$(mktemp -d)"
   cleanup_dir="$out_dir"
 else
@@ -643,3 +670,9 @@ mkdir -p "$out_dir"
 bash scripts/check-package-contract.sh
 "${py_cmd[@]}" scripts/package-contract.py --build "$out_dir"
 bash scripts/write-release-checksums.sh --all "$out_dir" "$out_dir/CHECKSUMS.txt"
+"${py_cmd[@]}" scripts/package-contract.py --verify-artifact \
+  canonical_plugin "$out_dir/IMPLEMENTAUDIT.plugin.zip"
+"${py_cmd[@]}" scripts/package-contract.py --verify-artifact \
+  standalone_compatibility "$out_dir/IMPLEMENTAUDIT.skill"
+bash scripts/write-release-checksums.sh --check --all \
+  "$out_dir" "$out_dir/CHECKSUMS.txt"

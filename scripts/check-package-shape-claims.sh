@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Public/doc package-shape gate. Source uses skills/implementaudit/ while the
-# built .skill archive remains flat with SKILL.md at archive root and generated
-# archive metadata skills="./"; repo docs must keep that distinction explicit.
+# Validate the current v0.4 package-topology claims against their semantic
+# owners. Historical release reports and changelog sections are deliberately
+# outside this gate: older standalone-skill evidence remains valid history.
 #
 # Usage: check-package-shape-claims.sh [--scan-root <dir>]
 
@@ -22,9 +22,7 @@ while [ "$#" -gt 0 ]; do
       scan_root="$2"
       shift 2
       ;;
-    *)
-      fail "unknown argument: $1"
-      ;;
+    *) fail "unknown argument: $1" ;;
   esac
 done
 
@@ -46,106 +44,141 @@ import re
 import sys
 from pathlib import Path
 
-manifest_path = Path(".claude-plugin/plugin.json")
-if not manifest_path.is_file():
-    raise SystemExit("missing .claude-plugin/plugin.json")
 
-manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-if manifest.get("skills") != "./skills/":
-    raise SystemExit('source plugin manifest skills path must be "./skills/"')
+def load_object(path: str) -> dict:
+    source = Path(path)
+    if not source.is_file():
+        raise SystemExit(f"missing {path}")
+    try:
+        value = json.loads(source.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        raise SystemExit(f"invalid JSON in {path}: {exc}") from exc
+    if not isinstance(value, dict):
+        raise SystemExit(f"{path} must contain a JSON object")
+    return value
 
-scanned = [
-    Path("AGENTS.md"),
-    Path("README.md"),
-    Path("CHANGELOG.md"),
-    Path("CONTRIBUTING.md"),
-    Path("docs/portal/site.json"),
-]
 
-for base in [Path("skills"), Path("docs/portal/pages")]:
-    if base.is_dir():
-        scanned.extend(p for p in sorted(base.rglob("*")) if p.is_file())
+contract_path = "package/implementaudit-package.json"
+codex_path = ".codex-plugin/plugin.json"
+claude_path = ".claude-plugin/plugin.json"
+contract = load_object(contract_path)
+codex = load_object(codex_path)
+claude = load_object(claude_path)
 
-for required in ["AGENTS.md"]:
-    if not Path(required).is_file():
-        raise SystemExit(f"missing {required}")
+expected_contract = {
+    "logical_package": "IMPLEMENTAUDIT_PLUGIN",
+    "package_name": "implementaudit",
+    "public_governor": "implementaudit",
+    "public_entrypoint": "/implementaudit",
+    "required_skills": ["implementaudit"],
+    "host_manifests": {"codex": codex_path, "claude": claude_path},
+    "generated_projections": {
+        "canonical_plugin": {
+            "artifact": "IMPLEMENTAUDIT.plugin.zip",
+            "layout": "plugin-root",
+        },
+        "standalone_compatibility": {
+            "artifact": "IMPLEMENTAUDIT.skill",
+            "layout": "flattened-skill",
+        },
+    },
+}
+for key, expected in expected_contract.items():
+    if contract.get(key) != expected:
+        raise SystemExit(
+            f"{contract_path} {key} mismatch: expected {expected!r}, got {contract.get(key)!r}"
+        )
 
-bad_patterns = [
-    (re.compile(r'source\s+manifest.{0,80}skills:\s*["`]?\./["`]', re.I), 'source manifest must not claim archive-root skills: "./"'),
-    (re.compile(r'artifact contains .*skills/', re.I), "stale archive contains skills/ claim"),
-    (re.compile(r'must include the `skills/` layout', re.I), "stale required skills/ layout claim"),
-    (re.compile(r'everything under `skills/`', re.I), "stale consumer payload scope claim"),
-    (re.compile(r'package includes `skills/(?:references|templates|scripts)/', re.I), "stale installed package path uses skills/ prefix"),
-    (re.compile(r'packaged templates under `skills/implementaudit/templates/`', re.I), "stale installed template path uses skills/ prefix"),
-]
+if codex != claude:
+    raise SystemExit("Codex and Claude plugin manifests must be identical")
+expected_manifest = {
+    "name": contract["package_name"],
+    "version": contract.get("runtime_version"),
+    "description": contract.get("description"),
+    "skills": "./skills/",
+    "author": contract.get("publisher"),
+}
+if codex != expected_manifest:
+    raise SystemExit(
+        "host manifests must exactly match package name/version/description/publisher and skills='./skills/'"
+    )
 
-bad_document_patterns = [
-    (re.compile(r'artifact\s+contains.{0,160}?old\s+skills/', re.I | re.S), "stale archive contains skills/ claim"),
-    (re.compile(r'must\s+include\s+the\s+`skills/`\s+layout', re.I | re.S), "stale required skills/ layout claim"),
-    (re.compile(r'everything\s+under\s+`skills/`', re.I | re.S), "stale consumer payload scope claim"),
-    (
-        re.compile(
-            r'zip-format\s+archive\s+containing.{0,260}?```(?:text)?\s*skills/\s*\.claude-plugin/',
-            re.I | re.S,
-        ),
-        "stale release-archive tree claims skills/ at archive root",
-    ),
-    (
-        re.compile(r'```(?:text)?\s*skills/\s*\.claude-plugin/\s*```', re.I | re.S),
-        "stale bare release-archive tree claims skills/ at archive root",
-    ),
-    (
-        re.compile(r'package\s+includes\s+`skills/(?:references|templates|scripts)/', re.I | re.S),
-        "stale installed package path uses skills/ prefix",
-    ),
-    (
-        re.compile(r'packaged\s+templates\s+under\s+`skills/implementaudit/templates/`', re.I | re.S),
-        "stale installed template path uses skills/ prefix",
-    ),
-]
+skill_entries = sorted(
+    path.parent.name for path in Path("skills").glob("*/SKILL.md") if path.is_file()
+)
+if skill_entries != contract["required_skills"]:
+    raise SystemExit(
+        f"model-facing skill population mismatch: expected {contract['required_skills']!r}, got {skill_entries!r}"
+    )
+
+current_docs = {
+    "AGENTS.md": [
+        "one atomic dual-host plugin package",
+        "IMPLEMENTAUDIT.plugin.zip",
+        "IMPLEMENTAUDIT.skill",
+        "sole stable public/default governor",
+        "zero child skills",
+        "native host-discovery proof",
+    ],
+    "README.md": [
+        "one atomic dual-host plugin",
+        "IMPLEMENTAUDIT.plugin.zip",
+        "IMPLEMENTAUDIT.skill",
+        "sole stable public/default governor",
+        "zero child skills",
+        "package/implementaudit-package.json",
+    ],
+    "CONTRIBUTING.md": [
+        "package/implementaudit-package.json",
+        ".codex-plugin/plugin.json",
+        ".claude-plugin/plugin.json",
+        "--check --all dist dist/CHECKSUMS.txt",
+    ],
+    "docs/portal/pages/package-contents.html": [
+        "One atomic package, two generated projections.",
+        "IMPLEMENTAUDIT.plugin.zip",
+        "IMPLEMENTAUDIT.skill",
+        "zero child skills",
+        "not evidence that marketplace discovery",
+    ],
+}
 
 violations = []
-for path in scanned:
+for path, claims in current_docs.items():
+    source = Path(path)
+    if not source.is_file():
+        violations.append(f"missing {path}")
+        continue
+    text = source.read_text(encoding="utf-8")
+    for claim in claims:
+        if claim not in text:
+            violations.append(f"{path}: missing current package claim: {claim}")
+
+# These are affirmative current-topology/native-host claims, not historical
+# references. Keep the scope narrow so append-only v0.2/v0.3 evidence survives.
+current_surfaces = [
+    Path("AGENTS.md"),
+    Path("CONTRIBUTING.md"),
+    Path("docs/portal/site.json"),
+    *sorted(Path("docs/portal/pages").glob("*.html")),
+]
+forbidden = [
+    (re.compile(r"IMPLEMENTAUDIT\.skill\s+is\s+the\s+(?:canonical|primary)\s+(?:package|release)", re.I),
+     "standalone compatibility artifact promoted to canonical package"),
+    (re.compile(r"(?:Codex|Claude)\s+(?:natively\s+)?(?:discovers|loads|installs)\s+(?:the\s+)?plugin", re.I),
+     "native host behavior claimed without a bound host witness"),
+    (re.compile(r"(?:published|listed)\s+(?:to|on)\s+the\s+marketplace", re.I),
+     "marketplace publication claimed without public evidence"),
+]
+for path in current_surfaces:
     if not path.is_file():
         continue
-    try:
-        lines = path.read_text(encoding="utf-8").splitlines()
-    except UnicodeDecodeError:
-        continue
-    for lineno, line in enumerate(lines, 1):
-        for pattern, reason in bad_patterns:
-            if pattern.search(line):
-                violations.append(f"{path.as_posix()}:{lineno}: {reason}: {line.strip()}")
-    joined = "\n".join(lines)
-    for pattern, reason in bad_document_patterns:
-        if pattern.search(joined):
-            violations.append(f"{path.as_posix()}: document-level: {reason}")
-
-agents = Path("AGENTS.md").read_text(encoding="utf-8")
-required_claims = [
-    'Source plugin metadata declares `skills: "./skills/"`',
-    'archive-local metadata with `skills: "./"`',
-    "flat archive",
-    "SKILL.md at archive root",
-    "skills/implementaudit/",
-]
-for claim in required_claims:
-    if claim not in agents:
-        violations.append(f"AGENTS.md: missing required package-shape claim: {claim}")
-
-readme = Path("README.md")
-if readme.is_file():
-    readme_text = readme.read_text(encoding="utf-8")
-    for claim in [
-        "SKILL.md",
-        "references/",
-        "scripts/",
-        "templates/",
-        '.claude-plugin/plugin.json  (skills: "./")',
-        "Source layout vs release archive layout",
-    ]:
-        if claim not in readme_text:
-            violations.append(f"README.md: missing release-asset tree claim: {claim}")
+    text = path.read_text(encoding="utf-8")
+    for pattern, reason in forbidden:
+        match = pattern.search(text)
+        if match:
+            line = text.count("\n", 0, match.start()) + 1
+            violations.append(f"{path.as_posix()}:{line}: {reason}")
 
 if violations:
     sys.stderr.write("\n".join(violations) + "\n")

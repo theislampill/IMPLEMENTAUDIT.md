@@ -49,6 +49,16 @@ build_candidate() {
     || fail "$lane build did not produce IMPLEMENTAUDIT.plugin.zip"
   [ -f "$out/IMPLEMENTAUDIT.skill" ] \
     || fail "$lane build did not produce IMPLEMENTAUDIT.skill"
+  [ -f "$out/CHECKSUMS.txt" ] \
+    || fail "$lane build did not produce CHECKSUMS.txt"
+  bash "$root/scripts/write-release-checksums.sh" --check --all \
+    "$out" "$out/CHECKSUMS.txt" \
+    || fail "$lane build produced a non-canonical checksum manifest"
+  [ "$(wc -l < "$out/CHECKSUMS.txt" | tr -d '[:space:]')" -eq 2 ] \
+    || fail "$lane checksum manifest does not contain exactly two entries"
+  [ "$(awk '{print $3}' "$out/CHECKSUMS.txt")" = \
+      "$(printf '%s\n' IMPLEMENTAUDIT.plugin.zip IMPLEMENTAUDIT.skill)" ] \
+    || fail "$lane checksum manifest is not sorted by the exact artifact names"
 }
 
 validate_pair() {
@@ -350,6 +360,22 @@ validate_pair "$tmp/checkout-clean-b" "$tmp/out-clean-b" clean
 for artifact in IMPLEMENTAUDIT.plugin.zip IMPLEMENTAUDIT.skill; do
   cmp -s "$tmp/out-clean-a/$artifact" "$tmp/out-clean-b/$artifact" \
     || fail "$artifact is not deterministic across clean builds"
+done
+cmp -s "$tmp/out-clean-a/CHECKSUMS.txt" "$tmp/out-clean-b/CHECKSUMS.txt" \
+  || fail "CHECKSUMS.txt is not deterministic across clean builds"
+
+for mutation in missing extra duplicate; do
+  cp "$tmp/out-clean-a/CHECKSUMS.txt" "$tmp/CHECKSUMS-$mutation.txt"
+  case "$mutation" in
+    missing) sed -i '1d' "$tmp/CHECKSUMS-$mutation.txt" ;;
+    extra) printf 'sha256  %064d  UNDECLARED.zip\n' 0 >> "$tmp/CHECKSUMS-$mutation.txt" ;;
+    duplicate) head -n 1 "$tmp/CHECKSUMS-$mutation.txt" >> "$tmp/CHECKSUMS-$mutation.txt" ;;
+  esac
+  if bash "$tmp/checkout-clean-a/scripts/write-release-checksums.sh" \
+      --check --all "$tmp/out-clean-a" "$tmp/CHECKSUMS-$mutation.txt" \
+      >"$tmp/checksums-$mutation.log" 2>&1; then
+    fail "checksum checker accepted a $mutation release-set row"
+  fi
 done
 
 verify_artifact canonical_plugin \

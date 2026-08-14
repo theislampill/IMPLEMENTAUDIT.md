@@ -8,6 +8,7 @@ tool available without a detection result.
 | Field | Value |
 |---|---|
 | IMPLEMENTAUDIT_SKILL_DIR | (resolved path, or `skills` default in the source repo) |
+| IMPLEMENTAUDIT package version | (`detect-env.sh --package-version`; exact value or `unknown`) |
 | Helper layer (bash) | available / unavailable — if unavailable, name the weaker-evidence fallback in use |
 | IMPLEMENTAUDIT_BASE (run-root base) |  |
 | Language runtimes / package managers |  |

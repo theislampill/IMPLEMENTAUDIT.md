@@ -918,11 +918,14 @@ round cap. Each round prints one of: `AUDIT_COMPLETE` (success) or
 ### AUDIT_START
 
 Print `AUDIT_START` with:
-- Skill version: read from
-  `"${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit}"/.claude-plugin/plugin.json` when
-  present (installed payload), else the source repo's
-  `.claude-plugin/plugin.json`, else `unknown` — never guess. This makes every
-  transcript attributable to the payload version that produced it
+- Skill version: run
+  `bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit}/scripts/detect-env.sh" --package-version "${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit}"`.
+  The deterministic helper resolves `IMPLEMENTAUDIT_PACKAGE.json` in the
+  standalone projection, the canonical plugin root, or
+  `package/implementaudit-package.json` in a source checkout. Contradictory or
+  malformed identities stop the gate; an unavailable identity or JSON-capable
+  interpreter yields `unknown` — never guess. This makes every transcript
+  attributable to the package payload that produced it
 - Round number (1-based)
 - Criteria count: total acceptance criteria being re-verified across all phases
 - Command list: deduplicated mandatory commands to re-run

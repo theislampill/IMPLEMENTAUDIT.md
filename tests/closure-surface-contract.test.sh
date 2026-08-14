@@ -62,6 +62,64 @@ EOF
   fi
 }
 
+v0400_release_asset_set_controls() {
+  local work="$1" validator="$1/validate-v0400-assets.py" report
+  report="docs/audits/archive/v0.4.0.0-release-report.md"
+  cat > "$validator" <<'PY'
+import json
+import re
+import sys
+from pathlib import Path
+
+report_path = Path(sys.argv[1])
+contract_path = Path(sys.argv[2])
+contract = json.loads(contract_path.read_text(encoding="utf-8"))
+expected = {
+    contract["generated_projections"]["canonical_plugin"]["artifact"],
+    contract["generated_projections"]["standalone_compatibility"]["artifact"],
+    "CHECKSUMS.txt",
+}
+text = report_path.read_text(encoding="utf-8")
+match = re.search(r"attach exactly (?P<assets>.*?); read back", text, re.DOTALL)
+if not match:
+    raise SystemExit("missing exact public release asset declaration")
+declared = re.findall(r"`([^`]+)`", match.group("assets"))
+if len(declared) != 3 or set(declared) != expected:
+    raise SystemExit(f"public release asset set mismatch: expected={sorted(expected)!r} got={declared!r}")
+if "download all three into a fresh empty directory" not in text:
+    raise SystemExit("public readback must freshly download all three assets")
+if "verify both checksums" not in text or "exact inventories" not in text:
+    raise SystemExit("public readback must verify both archive checksums and inventories")
+if "Native host loading requires its own receipt." not in text:
+    raise SystemExit("publication evidence must not be promoted to native host proof")
+PY
+
+  python "$validator" "$report" package/implementaudit-package.json \
+    || fail 'v0.4.0.0 exact three-asset publication contract was rejected'
+
+  sed 's/`IMPLEMENTAUDIT.plugin.zip`/`IMPLEMENTAUDIT.skill`/' "$report" > "$work/missing-plugin.md"
+  if python "$validator" "$work/missing-plugin.md" package/implementaudit-package.json >/dev/null 2>&1; then
+    fail 'release asset set accepted a missing plugin and duplicate compatibility asset'
+  fi
+
+  sed 's/`CHECKSUMS.txt`;/`CHECKSUMS.txt`, `SBOM.json`;/' "$report" > "$work/extra-asset.md"
+  if python "$validator" "$work/extra-asset.md" package/implementaudit-package.json >/dev/null 2>&1; then
+    fail 'release asset set accepted an undeclared fourth asset'
+  fi
+
+  sed 's/download all three into a fresh empty directory/download only the plugin into an existing directory/' \
+    "$report" > "$work/incomplete-readback.md"
+  if python "$validator" "$work/incomplete-readback.md" package/implementaudit-package.json >/dev/null 2>&1; then
+    fail 'release gate accepted incomplete or non-fresh public asset readback'
+  fi
+
+  sed 's/Native host loading requires its own receipt\./Native host loading is verified./' \
+    "$report" > "$work/native-overclaim.md"
+  if python "$validator" "$work/native-overclaim.md" package/implementaudit-package.json >/dev/null 2>&1; then
+    fail 'release publication evidence was promoted to native host proof'
+  fi
+}
+
 external_composition_controls() {
   local root="$1" work="$1/records" candidate="$1/candidate" operator="$1/operator"
   local output failures=0 candidate_native operator_native transport nested_transport
@@ -374,6 +432,14 @@ if [ "${1:-}" = "--publication-identity-only" ]; then
   exit 0
 fi
 
+if [ "${1:-}" = "--v0400-release-assets-only" ]; then
+  focused_tmp="$(mktemp -d)"
+  trap 'rm -rf "$focused_tmp"' EXIT
+  v0400_release_asset_set_controls "$focused_tmp"
+  printf 'closure-surface-contract: v0400-release-assets-only ok\n'
+  exit 0
+fi
+
 if [ "${1:-}" = "--w03-state-only" ]; then
   repo_state_flat="$(tr '\n' ' ' < skills/implementaudit/references/repo-state-comparison.md | tr -s ' ')"
   printf '%s' "$repo_state_flat" | grep -Fq 'intended world effect and its terminal, failure, or reversion state' \
@@ -398,6 +464,15 @@ fi
 flat="$(tr '\n' ' ' < "$proto" | tr -s ' ')"
 state_flat="$(tr '\n' ' ' < "$state_template" | tr -s ' ')"
 repo_state_flat="$(tr '\n' ' ' < skills/implementaudit/references/repo-state-comparison.md | tr -s ' ')"
+v0400_asset_tmp="$(mktemp -d)"
+cleanup_full() {
+  rm -rf "$v0400_asset_tmp"
+  if [ -n "${tmp:-}" ]; then
+    rm -rf "$tmp"
+  fi
+}
+trap cleanup_full EXIT
+v0400_release_asset_set_controls "$v0400_asset_tmp"
 printf '%s' "$flat" | grep -qi 'Closure-claims table' \
   || fail "PROTOCOL missing closure-claims table"
 printf '%s' "$flat" | grep -qi 'never promoted into a higher-surface claim' \
@@ -850,7 +925,7 @@ expect_fail_diag 'fixtures/claim-boundaries/negative-proposed-block-omitted-anch
   'an anchor outside the proposed commit block was accepted'
 
 # --- Fable review of PR #31: adversarial regressions -----------------------
-tmp="$(mktemp -d)"; trap 'rm -rf "$tmp"' EXIT
+tmp="$(mktemp -d)"
 
 # Derive one-field mutations from the positive witness so target binding,
 # zero-exit postconditions, digest identity, and path containment each have an

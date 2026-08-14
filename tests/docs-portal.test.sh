@@ -126,6 +126,12 @@ assert meta["worktree_state"] in {"clean", "dirty", "unknown"}
 assert isinstance(meta["worktree_dirty"], bool)
 assert meta["project_milestone"] == site["release"]["milestone"]
 assert meta["plugin_manifest_version"] == site["release"]["manifest_version"]
+assert meta["package_identity"]["logical_package"] == "IMPLEMENTAUDIT_PLUGIN"
+assert meta["package_identity"]["required_skills"] == ["implementaudit"]
+assert meta["package_identity"]["generated_projections"] == {
+    "canonical_plugin": {"artifact": "IMPLEMENTAUDIT.plugin.zip", "layout": "plugin-root"},
+    "standalone_compatibility": {"artifact": "IMPLEMENTAUDIT.skill", "layout": "flattened-skill"},
+}
 assert meta["release_url"] == site["release"]["url"]
 assert site["release"]["milestone"] == "v0.4.0.0"
 assert site["release"]["manifest_version"] == "0.4.0"
@@ -154,6 +160,9 @@ required = {
     "docs/portal/pages/research-lineage-statistical-engineering.html",
     "docs/portal/pages/research-lineage-systems-safety.html",
     "docs/portal/pages/research-lineage-s3e.html",
+    ".codex-plugin/plugin.json",
+    ".claude-plugin/plugin.json",
+    "package/implementaudit-package.json",
 }
 assert required.issubset(set(meta["source_files_used"]))
 for page_id in ordered:
@@ -172,82 +181,37 @@ else
   fail_check "metadata/site nav/page shell mismatch"
 fi
 
-candidate_asset_dir="$tmp/current-candidate-package"
-if bash scripts/build-release-asset.sh "$candidate_asset_dir" >/dev/null && \
-    "${py_cmd[@]}" - "$candidate_asset_dir/IMPLEMENTAUDIT.skill" <<'PY'
-import hashlib
-import re
-import sys
+if "${py_cmd[@]}" - <<'PY'
+import json
 from pathlib import Path
 
-asset = Path(sys.argv[1])
-asset_bytes = asset.stat().st_size
-asset_sha = hashlib.sha256(asset.read_bytes()).hexdigest()
+contract = json.loads(Path("package/implementaudit-package.json").read_text(encoding="utf-8"))
 report = Path("docs/audits/archive/v0.4.0.0-release-report.md").read_text(encoding="utf-8")
 page = Path("docs/portal/pages/audit-trail.html").read_text(encoding="utf-8")
-
-report_match = re.search(
-    r"\| Candidate archive \|[^\n]*\| ([0-9,]+) bytes; SHA-256 `([0-9a-f]{64})`; "
-    r"([0-9]+) members; ([0-9,]+)-byte reserve under the 260000-byte outer bound \|",
-    report,
-)
-if not report_match:
-    raise SystemExit("release report candidate package row is missing or malformed")
-report_bytes = int(report_match.group(1).replace(",", ""))
-report_sha = report_match.group(2)
-report_members = int(report_match.group(3))
-report_reserve = int(report_match.group(4).replace(",", ""))
-
-page_match = re.search(
-    r"<tr><td>v0\.4\.0\.0 candidate package</td><td>([0-9,]+)-byte local archive; "
-    r"([0-9]+) archive members and ([0-9]+) Codex-installed payload files</td>"
-    r"<td>Local SHA-256 <code>([0-9a-f]{64})</code>",
-    page,
-)
-if not page_match:
-    raise SystemExit("audit-trail candidate package row is missing or malformed")
-page_bytes = int(page_match.group(1).replace(",", ""))
-page_archive_members = int(page_match.group(2))
-page_install_members = int(page_match.group(3))
-page_sha = page_match.group(4)
-
+report_flat = " ".join(report.split())
 expected = {
-    "bytes": asset_bytes,
-    "sha": asset_sha,
-    "archive_members": 51,
-    "install_members": 49,
-    "reserve": 260_000 - asset_bytes,
+    contract["generated_projections"]["canonical_plugin"]["artifact"],
+    contract["generated_projections"]["standalone_compatibility"]["artifact"],
 }
-observed = {
-    "report_bytes": report_bytes,
-    "report_sha": report_sha,
-    "report_members": report_members,
-    "report_reserve": report_reserve,
-    "page_bytes": page_bytes,
-    "page_sha": page_sha,
-    "page_archive_members": page_archive_members,
-    "page_install_members": page_install_members,
-}
-required = {
-    "report_bytes": expected["bytes"],
-    "report_sha": expected["sha"],
-    "report_members": expected["archive_members"],
-    "report_reserve": expected["reserve"],
-    "page_bytes": expected["bytes"],
-    "page_sha": expected["sha"],
-    "page_archive_members": expected["archive_members"],
-    "page_install_members": expected["install_members"],
-}
-if observed != required:
-    raise SystemExit(
-        "tracked candidate package identity is stale: "
-        f"expected={required!r} observed={observed!r}"
-    )
+for artifact in expected:
+    if artifact not in report or artifact not in page:
+        raise SystemExit(f"release report or portal omits projection {artifact}")
+if "exact members, bytes, SHA-256, source commit/tree, and clean-state binding `PENDING`" not in report:
+    raise SystemExit("release report does not preserve exact-candidate identity as pending")
+if "attach exactly `IMPLEMENTAUDIT.plugin.zip`,\n`IMPLEMENTAUDIT.skill`, and `CHECKSUMS.txt`" not in report:
+    raise SystemExit("release report does not require the exact three public assets")
+nonclaim = (
+    "no v0.4.0.0 tag, GitHub Release, public asset, Pages deployment, public download, "
+    "marketplace state, native Codex or Claude plugin load, provenance, signature, "
+    "attestation, SBOM, licence, or universal host behaviour is claimed."
+)
+if nonclaim not in report_flat:
+    raise SystemExit("release report does not preserve the native-host nonclaim")
 PY
 then
-  ok "tracked release report and portal bind the deterministic current candidate package"
+  ok "release report and portal bind both projections without preclaiming final bytes or native hosts"
 else
-  fail_check "tracked candidate package identity is stale or unbound"
+  fail_check "release report or portal projection/currentness boundary is stale"
 fi
 
 if "${py_cmd[@]}" - <<'PY'
@@ -302,7 +266,11 @@ site = json.loads(site_path.read_text(encoding="utf-8"))
 rel_sources = set(site.get("semantic_sources", []))
 for page in site["pages"].values():
     rel_sources.update(page.get("sources", []))
-rel_sources.add(".claude-plugin/plugin.json")
+rel_sources.update({
+    ".codex-plugin/plugin.json",
+    ".claude-plugin/plugin.json",
+    "package/implementaudit-package.json",
+})
 for rel in rel_sources:
     source = source_root / rel
     target = fixture_root / rel
@@ -325,6 +293,40 @@ valid = subprocess.run(
 assert valid.returncode == 0, valid.stderr
 metadata = json.loads((fixture_root / "dist" / "docs-portal" / "docs-metadata.json").read_text(encoding="utf-8"))
 assert metadata["project_milestone"] == "v0.4.0.0", metadata["project_milestone"]
+assert metadata["package_identity"]["required_skills"] == ["implementaudit"]
+for owner in (
+    ".codex-plugin/plugin.json",
+    ".claude-plugin/plugin.json",
+    "package/implementaudit-package.json",
+):
+    assert owner in metadata["source_files_used"]
+    assert owner in metadata["source_sha256s"]
+
+def run_build():
+    return subprocess.run(
+        [sys.executable, str(fixture_root / "scripts" / "build-docs-portal.py"), "--out", str(fixture_root / "dist" / "docs-portal")],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+
+codex_path = fixture_root / ".codex-plugin" / "plugin.json"
+codex = json.loads(codex_path.read_text(encoding="utf-8"))
+codex["version"] = "9.9.9"
+codex_path.write_text(json.dumps(codex) + "\n", encoding="utf-8")
+host_drift = run_build()
+assert host_drift.returncode != 0
+assert "Codex and Claude plugin manifests disagree" in host_drift.stderr
+shutil.copy2(source_root / ".codex-plugin" / "plugin.json", codex_path)
+
+contract_path = fixture_root / "package" / "implementaudit-package.json"
+contract = json.loads(contract_path.read_text(encoding="utf-8"))
+contract["runtime_version"] = "9.9.9"
+contract_path.write_text(json.dumps(contract) + "\n", encoding="utf-8")
+contract_drift = run_build()
+assert contract_drift.returncode != 0
+assert "package contract runtime version" in contract_drift.stderr
+shutil.copy2(source_root / "package" / "implementaudit-package.json", contract_path)
 
 site["release"]["milestone"] = "v0.4.1.0"
 site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
@@ -444,13 +446,18 @@ required = [
     "package-bound",
     "visual/browser",
     "--onboard-tools",
-    "bash scripts/write-release-checksums.sh --check dist/IMPLEMENTAUDIT.skill dist/CHECKSUMS.txt",
+    "bash scripts/write-release-checksums.sh --check --all dist dist/CHECKSUMS.txt",
+    "IMPLEMENTAUDIT.plugin.zip",
+    "package/implementaudit-package.json",
+    ".codex-plugin/plugin.json",
+    "zero child skills",
 ]
 missing = [item for item in required if item not in html]
 if missing:
     raise SystemExit(f"missing parity concepts: {missing}")
 required_patterns = [
     r"IMPLEMENTAUDIT\.skill/(?:<br>|\s+)SKILL\.md",
+    r"IMPLEMENTAUDIT\.plugin\.zip/(?:<br>|\s+)\.codex-plugin/plugin\.json",
 ]
 missing_patterns = [pattern for pattern in required_patterns if not re.search(pattern, html, re.IGNORECASE)]
 if missing_patterns:

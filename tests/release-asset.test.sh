@@ -8,8 +8,12 @@ tmp_parent="$(mktemp -d)"
 stray_file="skills/implementaudit/zz-package-parity-stray-test.txt"
 trap 'rm -rf "$tmp_parent"; rm -f "$stray_file"' EXIT
 
+fail() {
+  printf 'release-asset.test: %s\n' "$*" >&2
+  exit 1
+}
+
 if [ "${1:-}" = "--identity-only" ]; then
-  fail() { printf 'release-asset.test: %s\n' "$*" >&2; exit 1; }
   canonical_receipt='fixtures/release-identity/current-public-v0.3.3.3.json'
   [ -f "$canonical_receipt" ] \
     || fail 'canonical current-public receipt is absent from the real worktree'
@@ -25,6 +29,8 @@ if [ "${1:-}" = "--identity-only" ]; then
     || fail 'release-identity checker mode is missing'
   grep -Fq -- '--check-stale-artifact' scripts/build-release-asset.sh \
     || fail 'stale-artifact checker mode is missing'
+  grep -Fq -- '--check-stale-release-set' scripts/build-release-asset.sh \
+    || fail 'dual-artifact stale release-set checker mode is missing'
   a_digest='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
   b_digest='bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
 
@@ -905,6 +911,20 @@ if [ "${1:-}" = "--identity-only" ]; then
     package "$stale_root/dist/pkg.skill" "$stale_root/CHANGELOG.md" >/dev/null \
     || fail 'non-superseded package artifact was rejected'
 
+  printf 'withdrawn primary plugin bytes\n' > "$stale_root/dist/IMPLEMENTAUDIT.plugin.zip"
+  printf 'current compatibility bytes\n' > "$stale_root/dist/IMPLEMENTAUDIT.skill"
+  stale_plugin_digest="$(sha256sum "$stale_root/dist/IMPLEMENTAUDIT.plugin.zip" | awk '{print $1}')"
+  printf '# Changelog\n- plugin: superseded `%s` -> superseding `%s`.\n' \
+    "$stale_plugin_digest" "$b_digest" > "$stale_root/CHANGELOG.md"
+  if bash scripts/build-release-asset.sh --check-stale-release-set \
+      package "$stale_root/dist" "$stale_root/CHANGELOG.md" >/dev/null 2>&1; then
+    fail 'release-set stale check ignored a withdrawn primary plugin artifact'
+  fi
+  printf 'current primary plugin bytes\n' > "$stale_root/dist/IMPLEMENTAUDIT.plugin.zip"
+  bash scripts/build-release-asset.sh --check-stale-release-set \
+    package "$stale_root/dist" "$stale_root/CHANGELOG.md" >/dev/null \
+    || fail 'non-superseded dual-artifact release set was rejected'
+
   printf 'release-asset.test: identity-only ok\n'
   exit 0
 fi
@@ -945,14 +965,23 @@ mkdir -p "$out_dir"
 
 bash scripts/build-release-asset.sh "$out_dir"
 
+plugin_asset="$out_dir/IMPLEMENTAUDIT.plugin.zip"
 asset="$out_dir/IMPLEMENTAUDIT.skill"
-[ -f "$asset" ] || {
-  printf 'release-asset.test: missing asset\n' >&2
-  exit 1
-}
+checksums="$out_dir/CHECKSUMS.txt"
+for required in "$plugin_asset" "$asset" "$checksums"; do
+  [ -f "$required" ] || {
+    printf 'release-asset.test: missing release-set member %s\n' "$required" >&2
+    exit 1
+  }
+done
 
-bash scripts/write-release-checksums.sh "$asset" "$out_dir/CHECKSUMS.txt"
-bash scripts/write-release-checksums.sh --check "$asset" "$out_dir/CHECKSUMS.txt"
+bash scripts/write-release-checksums.sh --check --all "$out_dir" "$checksums"
+[ "$(wc -l < "$checksums" | tr -d '[:space:]')" -eq 2 ] \
+  || fail 'canonical checksum manifest does not have exactly two entries'
+expected_checksum_names="$(printf '%s\n' IMPLEMENTAUDIT.plugin.zip IMPLEMENTAUDIT.skill)"
+actual_checksum_names="$(awk '{print $3}' "$checksums")"
+[ "$actual_checksum_names" = "$expected_checksum_names" ] \
+  || fail 'canonical checksum manifest is not the sorted dual-artifact set'
 
 if command -v python >/dev/null 2>&1; then
   py_cmd=(python)

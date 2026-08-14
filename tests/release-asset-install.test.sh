@@ -26,7 +26,7 @@ bash scripts/build-release-asset.sh "$out_dir"
 asset="$out_dir/IMPLEMENTAUDIT.skill"
 checksums="$out_dir/CHECKSUMS.txt"
 
-bash scripts/write-release-checksums.sh "$asset" "$checksums"
+bash scripts/write-release-checksums.sh --check --all "$out_dir" "$checksums"
 bash scripts/install-codex-from-release.sh \
   --asset "$asset" \
   --checksum "$checksums" \
@@ -125,7 +125,7 @@ fi
 overbroad_dir="$tmp_parent/overbroad asset"
 mkdir -p "$overbroad_dir"
 overbroad="$overbroad_dir/IMPLEMENTAUDIT.skill"
-overbroad_checksums="$overbroad_dir/CHECKSUMS.txt"
+overbroad_checksums="$overbroad_dir/OVERBROAD-CHECKSUMS.txt"
 "${py_cmd[@]}" - "$asset" "$overbroad" <<'PY'
 import sys
 import zipfile
@@ -155,7 +155,7 @@ fi
 sidecar_dir="$tmp_parent/sidecar asset"
 mkdir -p "$sidecar_dir"
 sidecar="$sidecar_dir/IMPLEMENTAUDIT.skill"
-sidecar_checksums="$sidecar_dir/CHECKSUMS.txt"
+sidecar_checksums="$sidecar_dir/SIDECAR-CHECKSUMS.txt"
 "${py_cmd[@]}" - "$asset" "$sidecar" <<'PY'
 import sys
 import zipfile

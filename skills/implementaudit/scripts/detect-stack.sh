@@ -108,6 +108,8 @@ check ansible
 printf '\nrelease-and-provenance-surfaces:\n'
 check scripts/build-release-asset.sh
 check scripts/write-release-checksums.sh
+check package/implementaudit-package.json
+check .codex-plugin/plugin.json
 check .claude-plugin/plugin.json
 check .claude-plugin/marketplace.json
 

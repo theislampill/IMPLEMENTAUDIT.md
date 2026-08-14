@@ -27,6 +27,7 @@ REQUIRED_METADATA_FIELDS = [
     "generated_at",
     "project_milestone",
     "plugin_manifest_version",
+    "package_identity",
     "release_url",
     "audit_ledger_url",
     "checksum_boundary",
@@ -172,10 +173,16 @@ REQUIRED_CONCEPTS = [
     "local installs do not auto-update",
     "Slash commands fire only when the user submits them.",
     "IMPLEMENTAUDIT_SKILL_DIR",
+    "IMPLEMENTAUDIT.plugin.zip",
+    "package/implementaudit-package.json",
+    ".codex-plugin/plugin.json",
+    "zero child skills",
+    "--check --all dist dist/CHECKSUMS.txt",
 ]
 
 REQUIRED_CONCEPT_PATTERNS = [
     re.compile(r"IMPLEMENTAUDIT\.skill/(?:<br>|\s+)SKILL\.md", re.IGNORECASE),
+    re.compile(r"IMPLEMENTAUDIT\.plugin\.zip/(?:<br>|\s+)\.codex-plugin/plugin\.json", re.IGNORECASE),
     re.compile(r"\$\{IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit\}/scripts/", re.IGNORECASE),
 ]
 
@@ -295,6 +302,40 @@ def sha256_file(path: Path) -> str:
         for chunk in iter(lambda: f.read(65536), b""):
             h.update(chunk)
     return h.hexdigest()
+
+
+def current_package_identity(root: Path) -> dict:
+    contract = read_json(root / "package" / "implementaudit-package.json")
+    codex = read_json(root / ".codex-plugin" / "plugin.json")
+    claude = read_json(root / ".claude-plugin" / "plugin.json")
+    if not contract or not codex or not claude:
+        return {}
+    if codex != claude:
+        fail("Codex and Claude plugin manifests disagree")
+    comparisons = {
+        "package name": (contract.get("package_name"), codex.get("name")),
+        "runtime version": (contract.get("runtime_version"), codex.get("version")),
+        "description": (contract.get("description"), codex.get("description")),
+        "publisher": (contract.get("publisher"), codex.get("author")),
+    }
+    for label, (contract_value, manifest_value) in comparisons.items():
+        if contract_value != manifest_value:
+            fail(
+                f"package contract {label} {contract_value!r} does not match host manifests {manifest_value!r}"
+            )
+    if contract.get("required_skills") != [contract.get("public_governor")]:
+        fail("package contract must declare exactly one governor and zero child skills")
+    return {
+        "logical_package": contract.get("logical_package"),
+        "package_name": contract.get("package_name"),
+        "runtime_version": contract.get("runtime_version"),
+        "release_family": contract.get("release_family"),
+        "public_governor": contract.get("public_governor"),
+        "public_entrypoint": contract.get("public_entrypoint"),
+        "required_skills": contract.get("required_skills"),
+        "host_manifests": contract.get("host_manifests"),
+        "generated_projections": contract.get("generated_projections"),
+    }
 
 
 def load_site(root: Path) -> tuple[dict, list[dict], dict]:
@@ -963,6 +1004,9 @@ def validate_metadata(out_dir: Path, site: dict, ordered: list[dict]) -> None:
         fail(f"docs-metadata.json worktree_state should be clean, dirty, or unknown, got {metadata.get('worktree_state')!r}")
     if not isinstance(metadata.get("worktree_dirty"), bool):
         fail(f"docs-metadata.json worktree_dirty should be boolean, got {metadata.get('worktree_dirty')!r}")
+    expected_identity = current_package_identity(repo_root())
+    if metadata.get("package_identity") != expected_identity:
+        fail("docs-metadata.json package_identity does not match the current package contract and host manifests")
     if metadata.get("worktree_state") in {"clean", "dirty"} and metadata.get("worktree_dirty") != (metadata.get("worktree_state") == "dirty"):
         fail("docs-metadata.json worktree_dirty does not match worktree_state")
     release = site.get("release", {})
@@ -1005,6 +1049,9 @@ def validate_metadata(out_dir: Path, site: dict, ordered: list[dict]) -> None:
     # Keep the unrendered DESIGN.md under freshness protection too. It explains
     # the portal contract that the generator and checker are enforcing.
     required_sources = {
+        ".codex-plugin/plugin.json",
+        ".claude-plugin/plugin.json",
+        "package/implementaudit-package.json",
         "docs/portal/site.json",
         "docs/portal/DESIGN.md",
         "docs/portal/assets/draft-v2.css",

@@ -159,7 +159,7 @@ printf '\nfixtures-and-examples:\n'
 find fixtures -maxdepth 3 -type f 2>/dev/null | sort | sed -n '1,120p' || true
 
 printf '\nrelease-boundaries:\n'
-for path in scripts/build-release-asset.sh scripts/write-release-checksums.sh dist .claude-plugin/plugin.json .claude-plugin/marketplace.json; do
+for path in scripts/build-release-asset.sh scripts/write-release-checksums.sh dist package/implementaudit-package.json .codex-plugin/plugin.json .claude-plugin/plugin.json .claude-plugin/marketplace.json; do
   if [ -e "$path" ]; then printf '%s\n' "$path"; fi
 done
 

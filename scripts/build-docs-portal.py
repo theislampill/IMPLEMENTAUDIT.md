@@ -152,12 +152,56 @@ def git_worktree_state(root: Path) -> str:
     return "dirty" if status else "clean"
 
 
-def plugin_version(root: Path) -> str:
-    try:
-        data = load_json_no_duplicates(root / ".claude-plugin" / "plugin.json")
-        return str(data.get("version", "unknown"))
-    except Exception:
-        return "unknown"
+def package_identity(root: Path) -> dict:
+    contract_path = root / "package" / "implementaudit-package.json"
+    codex_path = root / ".codex-plugin" / "plugin.json"
+    claude_path = root / ".claude-plugin" / "plugin.json"
+    contract = load_json_no_duplicates(contract_path)
+    codex = load_json_no_duplicates(codex_path)
+    claude = load_json_no_duplicates(claude_path)
+
+    if codex != claude:
+        raise SystemExit("Codex and Claude plugin manifests disagree")
+    expected_host_manifests = {
+        "codex": ".codex-plugin/plugin.json",
+        "claude": ".claude-plugin/plugin.json",
+    }
+    if contract.get("host_manifests") != expected_host_manifests:
+        raise SystemExit("package contract host_manifests do not name both canonical host manifests")
+
+    comparisons = {
+        "package name": (contract.get("package_name"), codex.get("name")),
+        "runtime version": (contract.get("runtime_version"), codex.get("version")),
+        "description": (contract.get("description"), codex.get("description")),
+        "publisher": (contract.get("publisher"), codex.get("author")),
+    }
+    for label, (contract_value, manifest_value) in comparisons.items():
+        if contract_value != manifest_value:
+            raise SystemExit(
+                f"package contract {label} {contract_value!r} does not match host manifests {manifest_value!r}"
+            )
+    if codex.get("skills") != "./skills/":
+        raise SystemExit('host manifests must declare skills="./skills/"')
+    if contract.get("logical_package") != "IMPLEMENTAUDIT_PLUGIN":
+        raise SystemExit("package contract logical_package must be IMPLEMENTAUDIT_PLUGIN")
+    if contract.get("public_governor") != contract.get("package_name"):
+        raise SystemExit("package contract public governor must equal the package name")
+    if contract.get("public_entrypoint") != f"/{contract.get('public_governor', '')}":
+        raise SystemExit("package contract public entrypoint must route to the governor")
+    if contract.get("required_skills") != [contract.get("public_governor")]:
+        raise SystemExit("package contract must declare exactly one governor and zero child skills")
+
+    return {
+        "logical_package": contract["logical_package"],
+        "package_name": contract["package_name"],
+        "runtime_version": contract["runtime_version"],
+        "release_family": contract.get("release_family"),
+        "public_governor": contract["public_governor"],
+        "public_entrypoint": contract["public_entrypoint"],
+        "required_skills": contract["required_skills"],
+        "host_manifests": contract["host_manifests"],
+        "generated_projections": contract.get("generated_projections"),
+    }
 
 
 def validate_project_milestone(milestone: str, runtime_version: str) -> None:
@@ -275,12 +319,11 @@ def source_url(rel_path: str) -> str:
     return f"{REPO_URL}/blob/main/{rel_path}"
 
 
-def release_info(site: dict, root: Path) -> dict:
-    version = plugin_version(root)
+def release_info(site: dict, runtime_version: str) -> dict:
     release = dict(DEFAULT_RELEASE)
     release.update(site.get("release", {}))
     if release.get("manifest_version") in (None, "unknown"):
-        release["manifest_version"] = version
+        release["manifest_version"] = runtime_version
     if release.get("milestone") in (None, "unknown"):
         raise SystemExit("docs/portal/site.json must declare an explicit release milestone")
     validate_project_milestone(str(release["milestone"]), str(release["manifest_version"]))
@@ -561,7 +604,13 @@ def collect_source_files(root: Path, source_dir: Path, site: dict, ordered: list
     # The metadata manifest is the portal's stale-output tripwire. Include the
     # design contract as source even though it is not rendered, because changes
     # there affect the generator/checker obligations future maintainers rely on.
-    source_files = [source_dir / "site.json", root / "scripts" / "build-docs-portal.py"]
+    source_files = [
+        source_dir / "site.json",
+        root / "scripts" / "build-docs-portal.py",
+        root / "package" / "implementaudit-package.json",
+        root / ".codex-plugin" / "plugin.json",
+        root / ".claude-plugin" / "plugin.json",
+    ]
     source_files.extend(sorted(source_dir.glob("*.md")))
     source_files.extend(sorted((source_dir / "pages").glob("*.html")))
     source_files.extend(sorted((source_dir / "assets").glob("*")))
@@ -595,13 +644,13 @@ def build_portal(out_dir: Path) -> None:
     source_dir = root / "docs" / "portal"
     ordered, site = load_site(source_dir)
     pages_by_id = {p["id"]: p for p in ordered}
-    release = release_info(site, root)
+    identity = package_identity(root)
+    release = release_info(site, identity["runtime_version"])
     versions = asset_versions(source_dir)
-    manifest_version = plugin_version(root)
-    if release.get("manifest_version") != manifest_version:
+    if release.get("manifest_version") != identity["runtime_version"]:
         raise SystemExit(
             f"site release manifest_version {release.get('manifest_version')!r} "
-            f"does not match .claude-plugin/plugin.json {manifest_version!r}"
+            f"does not match package/host runtime version {identity['runtime_version']!r}"
         )
 
     assert_safe_out_dir(root, source_dir, out_dir)
@@ -626,7 +675,6 @@ def build_portal(out_dir: Path) -> None:
         path.write_text(rendered, encoding="utf-8")
 
     source_files = collect_source_files(root, source_dir, site, ordered)
-    version = plugin_version(root)
     # Store every input and hash that can affect the generated portal. The
     # checker compares this back to the current tree so local dist output cannot
     # masquerade as fresh after source, asset, or design-contract changes.
@@ -639,6 +687,7 @@ def build_portal(out_dir: Path) -> None:
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "project_milestone": release["milestone"],
         "plugin_manifest_version": release["manifest_version"],
+        "package_identity": identity,
         "release_url": release.get("url", REPO_URL),
         "audit_ledger_url": release.get("audit_ledger_url", DEFAULT_RELEASE["audit_ledger_url"]),
         "checksum_boundary": release.get("checksum_boundary", DEFAULT_RELEASE["checksum_boundary"]),
