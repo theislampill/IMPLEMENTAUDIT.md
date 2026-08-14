@@ -738,9 +738,9 @@ if grep -R -Ei "canonical proof unless|promotes? .*proof|proof .*unless.*sidecar
   skills/implementaudit/SKILL.md skills/implementaudit/references skills/implementaudit/templates README.md AGENTS.md docs/portal/pages >/dev/null; then
   fail "sidecar proof-promotion wording is present"
 fi
-grep -R "graph.json" -n scripts/build-release-asset.sh tests/release-asset-install.test.sh >/dev/null ||
+grep -R "graph.json" -n scripts/package-contract.py tests/release-asset-install.test.sh >/dev/null ||
   fail "release asset sidecar debris rejection is missing"
-grep -R "quickstart_demo_run.db" -n scripts/build-release-asset.sh tests/release-asset-install.test.sh >/dev/null ||
+grep -R "quickstart_demo_run.db" -n scripts/package-contract.py tests/release-asset.test.sh >/dev/null ||
   fail "ActiveGraph store rejection is missing"
 
 # The boundary (V0270-SIDECAR-OUTPUTS-EXCLUDED) is tracked source and the
