@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://implementaudit.dev/schemas/dogfood-runner-event-v1.json",
+  "title": "IMPLEMENTAUDIT runner-owned dogfood event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "session_id",
+    "sequence",
+    "event_id",
+    "previous_event_id",
+    "correlation_id",
+    "actor",
+    "action",
+    "target_role",
+    "phase",
+    "result",
+    "candidate_commit",
+    "candidate_tree",
+    "package_sha256",
+    "runtime_sha256",
+    "target_identity",
+    "hmac_sha256"
+  ],
+  "properties": {
+    "schema": {"const": "implementaudit.dogfood-event.v1"},
+    "session_id": {"type": "string", "minLength": 1},
+    "sequence": {"type": "integer", "minimum": 1},
+    "event_id": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "previous_event_id": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "actor": {"enum": ["runner", "host", "model"]},
+    "action": {
+      "enum": [
+        "self-dogfood-trigger",
+        "load-reference",
+        "load-broker",
+        "load-event-schema",
+        "baseline-status",
+        "baseline-head",
+        "activate-runtime",
+        "read",
+        "search"
+      ]
+    },
+    "target_role": {
+      "enum": [
+        "self-release-audit-object",
+        "dogfood-reference",
+        "dogfood-broker",
+        "dogfood-event-schema",
+        "source",
+        "temp-installed-runtime",
+        "real-home-runtime",
+        "other"
+      ]
+    },
+    "phase": {"enum": ["pre-baseline", "post-baseline"]},
+    "result": {"enum": ["completed", "blocked", "ambiguous"]},
+    "candidate_commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+    "candidate_tree": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+    "package_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "runtime_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "target_identity": {"type": "string", "minLength": 1},
+    "target_path": {"type": "string", "minLength": 1},
+    "content_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "hmac_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

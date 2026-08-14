@@ -1,0 +1,1 @@
+{"schema":"implementaudit.activation-trace.v1","sequence":1,"actor":"host","action":"load","target_role":"execution-spine","result":"completed"}

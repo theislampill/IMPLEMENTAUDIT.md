@@ -12,6 +12,15 @@ cd "$repo_root"
 skill_file="skills/implementaudit/SKILL.md"
 audit_file=""
 transcript_file="fixtures/dogfood-bootstrap/positive/baseline-first-transcript.jsonl"
+control=""
+event_file=""
+event_key_file=""
+expected_candidate=""
+expected_tree=""
+expected_package=""
+expected_runtime=""
+corroboration_file=""
+activation_file=""
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
@@ -30,6 +39,25 @@ while [ "$#" -gt 0 ]; do
       transcript_file="$2"
       shift 2
       ;;
+    --control)
+      [ "$#" -ge 2 ] || fail "--control requires self-dogfood or ordinary"
+      control="$2"
+      shift 2
+      ;;
+    --event-file|--event-key-file|--expected-candidate|--expected-tree|--expected-package|--expected-runtime|--corroboration-file|--activation-file)
+      [ "$#" -ge 2 ] || fail "$1 requires a path or identity"
+      case "$1" in
+        --event-file) event_file="$2" ;;
+        --event-key-file) event_key_file="$2" ;;
+        --expected-candidate) expected_candidate="$2" ;;
+        --expected-tree) expected_tree="$2" ;;
+        --expected-package) expected_package="$2" ;;
+        --expected-runtime) expected_runtime="$2" ;;
+        --corroboration-file) corroboration_file="$2" ;;
+        --activation-file) activation_file="$2" ;;
+      esac
+      shift 2
+      ;;
     *)
       fail "unknown argument: $1"
       ;;
@@ -46,7 +74,13 @@ else
   fail "python, python3, or py -3 is required"
 fi
 
-"${py_cmd[@]}" - "$skill_file" "$audit_file" "$transcript_file" <<'PY'
+"${py_cmd[@]}" - \
+  "$skill_file" "$audit_file" "$transcript_file" "$control" \
+  "$event_file" "$event_key_file" "$expected_candidate" "$expected_tree" \
+  "$expected_package" "$expected_runtime" "$corroboration_file" \
+  "$activation_file" <<'PY'
+import hashlib
+import hmac
 import json
 import re
 import shlex
@@ -56,6 +90,15 @@ from pathlib import Path
 skill_path = Path(sys.argv[1])
 audit_path = Path(sys.argv[2])
 transcript_path = Path(sys.argv[3])
+control = sys.argv[4]
+event_path = Path(sys.argv[5])
+event_key_path = Path(sys.argv[6])
+expected_candidate = sys.argv[7]
+expected_tree = sys.argv[8]
+expected_package = sys.argv[9]
+expected_runtime = sys.argv[10]
+corroboration_path = Path(sys.argv[11])
+activation_path = Path(sys.argv[12])
 
 if not skill_path.is_file():
     raise SystemExit(f"missing skill file: {skill_path}")
@@ -68,45 +111,56 @@ skill = skill_path.read_text(encoding="utf-8")
 audit = audit_path.read_text(encoding="utf-8") if str(audit_path) != "." else ""
 transcript = transcript_path.read_text(encoding="utf-8")
 
-heading = "## Dogfood Bootstrap / Read Map"
+heading = "## State-derived RC self-dogfood route"
 if heading not in skill:
     raise SystemExit(f"{skill_path}: missing {heading}")
 
-line_no = skill[: skill.index(heading)].count("\n") + 1
-if line_no > 40:
-    raise SystemExit(f"{skill_path}: dogfood bootstrap must appear before line 40")
+execution_heading = "## Execution Spine"
+if execution_heading not in skill:
+    raise SystemExit(f"{skill_path}: missing {execution_heading}")
+if skill.index(execution_heading) > skill.index(heading):
+    raise SystemExit(f"{skill_path}: generic Execution Spine must remain primary")
 
 required_skill_tokens = [
-    "First executable dogfood rule: Before any model tool reads the installed",
-    "skill/payload, the runner records target status and identity",
-    "Host activation",
-    "model-visible dogfood readback",
-    "Before runner baseline, no model tool reads or chunks this entire installed",
-    "host activation is not readback",
-    "After baseline",
-    "progressive disclosure",
-    "owner/source sections",
-    "`rg`/grep for live owner/source files",
-    "Package proof uses deterministic checks",
-    "not model-visible full-file",
+    "`SELF_DOGFOOD_TRIGGER`",
+    "IMPLEMENTAUDIT RC/self-release candidate",
+    "Baseline the target repo first",
+    "references/transcript-contract.md",
+    "progressively discloses",
+    "runner reference, broker, typed event schema",
+    "independent corroboration",
+    "It is not a user-selected mode",
     "Full installed-payload readback is non-evidence",
-    "### Dogfood Runner Contract",
-    "Baseline/read-only checks first",
-    "Repo-local validation after the read map is satisfied",
-    "`--ask-for-approval never` is valid only when every required command is already",
-    "`--ask-for-approval on-request` with `--sandbox workspace-write`",
-    "Do not use `--dangerously-bypass-approvals-and-sandbox`",
-    "Real-home installed skill readback is non-evidence",
-    "temp `CODEX_HOME`",
-    "installed skill path under that temp home",
-    "installed `SKILL.md` line/byte count",
-    "exact command proving Codex used that temp home",
-    "stale-installed-skill /",
-    "real-home-contamination",
+    "`ORDINARY_IMPLEMENTAUDIT_CONTROL`",
+    "do not load or activate the dogfood reference, broker, or event schema",
+    "inspect -> act -> verify -> done",
 ]
 for token in required_skill_tokens:
     if token not in skill:
         raise SystemExit(f"{skill_path}: missing dogfood bootstrap token: {token}")
+
+contract_path = Path("skills/implementaudit/references/transcript-contract.md")
+if not contract_path.is_file():
+    raise SystemExit(f"missing dogfood evidence owner: {contract_path}")
+contract = contract_path.read_text(encoding="utf-8")
+for token in [
+    "## RC self-dogfood evidence contract",
+    "runner-owned action boundary",
+    "candidate commit, candidate tree, package SHA-256, and installed runtime SHA-256",
+    "an event cannot qualify itself",
+    "monotonically increasing sequence",
+    "previous event identity",
+    "HMAC produced with runner custody unavailable to the audited model",
+    "Validation fails closed on a missing event",
+    "sequence/correlation/event identity",
+    "blocked/ambiguous result",
+    "Typed runner events are the primary semantic evidence, not sole authority",
+    "independently parsed adversarial",
+    "Andon: typed dogfood evidence contradicts independent observation",
+    "`ORDINARY_IMPLEMENTAUDIT_CONTROL`",
+]:
+    if token not in contract:
+        raise SystemExit(f"{contract_path}: missing dogfood evidence token: {token}")
 
 if audit:
     for token in [
@@ -121,6 +175,256 @@ builder = Path("scripts/build-release-asset.sh").read_text(encoding="utf-8")
 for token in ['"skills/implementaudit/SKILL.md"', '"SKILL.md"']:
     if token not in builder:
         raise SystemExit(f"scripts/build-release-asset.sh: missing archive token: {token}")
+
+def canonical(value):
+    return json.dumps(
+        value, ensure_ascii=True, separators=(",", ":"), sort_keys=True
+    ).encode("utf-8")
+
+def sha256_file(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+def jsonl(path, label):
+    if not path.is_file():
+        raise SystemExit(f"missing {label}: {path}")
+    values = []
+    for line_number, raw in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+        if not raw.strip():
+            continue
+        try:
+            values.append(json.loads(raw))
+        except json.JSONDecodeError as exc:
+            raise SystemExit(f"{path}:{line_number}: invalid JSONL: {exc.msg}")
+    return values
+
+def validate_ordinary_control():
+    values = jsonl(activation_path, "ordinary activation trace")
+    if [value.get("sequence") for value in values] != list(range(1, len(values) + 1)):
+        raise SystemExit(f"{activation_path}: ordinary activation trace is reordered")
+    if not any(
+        value.get("action") == "load"
+        and value.get("target_role") == "execution-spine"
+        and value.get("result") == "completed"
+        for value in values
+    ):
+        raise SystemExit(f"{activation_path}: ordinary Execution Spine load is missing")
+    forbidden_roles = {
+        "dogfood-reference", "dogfood-broker", "dogfood-event-schema",
+    }
+    if any(
+        value.get("target_role") in forbidden_roles
+        or value.get("action") == "self-dogfood-trigger"
+        for value in values
+    ):
+        raise SystemExit(
+            f"{activation_path}: ORDINARY_IMPLEMENTAUDIT_CONTROL activated dogfood machinery"
+        )
+    sys.stdout.write("check-dogfood-bootstrap-contract: ordinary control ok\n")
+
+def validate_self_dogfood():
+    required_inputs = {
+        "event file": event_path,
+        "event key file": event_key_path,
+    }
+    for label, path in required_inputs.items():
+        if not path.is_file():
+            raise SystemExit(f"missing {label}: {path}")
+    identities = {
+        "candidate_commit": expected_candidate,
+        "candidate_tree": expected_tree,
+        "package_sha256": expected_package,
+        "runtime_sha256": expected_runtime,
+    }
+    patterns = {
+        "candidate_commit": r"[a-f0-9]{40}",
+        "candidate_tree": r"[a-f0-9]{40}",
+        "package_sha256": r"[a-f0-9]{64}",
+        "runtime_sha256": r"[a-f0-9]{64}",
+    }
+    for name, value in identities.items():
+        if not re.fullmatch(patterns[name], value):
+            raise SystemExit(f"expected {name} has invalid identity syntax")
+    try:
+        key = bytes.fromhex(event_key_path.read_text(encoding="ascii").strip())
+    except (OSError, ValueError) as exc:
+        raise SystemExit(f"cannot read runner event key: {exc}")
+    if len(key) != 32:
+        raise SystemExit("runner event key must be 32 bytes")
+    values = jsonl(event_path, "typed dogfood journal")
+    if not values:
+        raise SystemExit(f"{event_path}: missing typed dogfood events")
+    required_fields = {
+        "schema", "session_id", "sequence", "event_id", "previous_event_id",
+        "correlation_id", "actor", "action", "target_role", "phase", "result",
+        "candidate_commit", "candidate_tree", "package_sha256", "runtime_sha256",
+        "target_identity", "hmac_sha256",
+    }
+    optional_fields = {"target_path", "content_sha256"}
+    allowed_values = {
+        "actor": {"runner", "host", "model"},
+        "action": {
+            "self-dogfood-trigger", "load-reference", "load-broker",
+            "load-event-schema", "baseline-status", "baseline-head",
+            "activate-runtime", "read", "search",
+        },
+        "target_role": {
+            "self-release-audit-object", "dogfood-reference",
+            "dogfood-broker", "dogfood-event-schema", "source",
+            "temp-installed-runtime", "real-home-runtime", "other",
+        },
+        "phase": {"pre-baseline", "post-baseline"},
+        "result": {"completed", "blocked", "ambiguous"},
+    }
+    seen_events = set()
+    seen_correlations = set()
+    previous = "0" * 64
+    for index, event in enumerate(values, 1):
+        missing = required_fields - set(event)
+        extra = set(event) - required_fields - optional_fields
+        if missing or extra:
+            raise SystemExit(
+                f"{event_path}:{index}: typed event schema mismatch; missing={sorted(missing)} extra={sorted(extra)}"
+            )
+        if event["schema"] != "implementaudit.dogfood-event.v1":
+            raise SystemExit(f"{event_path}:{index}: typed event schema identity mismatch")
+        if type(event["sequence"]) is not int or event["sequence"] < 1:
+            raise SystemExit(f"{event_path}:{index}: typed event sequence is invalid")
+        for field, allowed in allowed_values.items():
+            if event[field] not in allowed:
+                raise SystemExit(f"{event_path}:{index}: typed event {field} is invalid")
+        for field in ("session_id", "correlation_id", "target_identity"):
+            if not isinstance(event[field], str) or not event[field]:
+                raise SystemExit(f"{event_path}:{index}: typed event {field} is invalid")
+        for field in ("event_id", "previous_event_id", "package_sha256", "runtime_sha256", "hmac_sha256"):
+            if not isinstance(event[field], str) or not re.fullmatch(r"[a-f0-9]{64}", event[field]):
+                raise SystemExit(f"{event_path}:{index}: typed event {field} is invalid")
+        for field in ("candidate_commit", "candidate_tree"):
+            if not isinstance(event[field], str) or not re.fullmatch(r"[a-f0-9]{40}", event[field]):
+                raise SystemExit(f"{event_path}:{index}: typed event {field} is invalid")
+        if "target_path" in event and (
+            not isinstance(event["target_path"], str) or not event["target_path"]
+        ):
+            raise SystemExit(f"{event_path}:{index}: typed event target_path is invalid")
+        if "content_sha256" in event and (
+            not isinstance(event["content_sha256"], str)
+            or not re.fullmatch(r"[a-f0-9]{64}", event["content_sha256"])
+        ):
+            raise SystemExit(f"{event_path}:{index}: typed event content_sha256 is invalid")
+        if event["sequence"] != index or event["previous_event_id"] != previous:
+            raise SystemExit(f"{event_path}:{index}: typed events are missing, duplicate, or reordered")
+        if event["event_id"] in seen_events or event["correlation_id"] in seen_correlations:
+            raise SystemExit(f"{event_path}:{index}: duplicate typed event or correlation identity")
+        seen_events.add(event["event_id"])
+        seen_correlations.add(event["correlation_id"])
+        previous = event["event_id"]
+        supplied = event.pop("hmac_sha256")
+        expected_hmac = hmac.new(key, canonical(event), hashlib.sha256).hexdigest()
+        event["hmac_sha256"] = supplied
+        if not isinstance(supplied, str) or not hmac.compare_digest(supplied, expected_hmac):
+            raise SystemExit(f"{event_path}:{index}: forged typed event HMAC")
+        for name, expected in identities.items():
+            if event.get(name) != expected:
+                raise SystemExit(f"{event_path}:{index}: {name} identity mismatch")
+        if event["result"] != "completed":
+            raise SystemExit(f"{event_path}:{index}: blocked or ambiguous typed event cannot qualify")
+
+    required_actions = [
+        "self-dogfood-trigger", "load-reference", "load-broker",
+        "load-event-schema", "baseline-status", "baseline-head",
+        "activate-runtime",
+    ]
+    action_positions = {}
+    for action in required_actions:
+        positions = [index for index, event in enumerate(values) if event["action"] == action]
+        if len(positions) != 1:
+            raise SystemExit(f"{event_path}: required typed action {action} must occur exactly once")
+        action_positions[action] = positions[0]
+    if [action_positions[action] for action in required_actions] != sorted(
+        action_positions[action] for action in required_actions
+    ):
+        raise SystemExit(f"{event_path}: typed self-dogfood actions are reordered")
+    if not any(event["action"] in {"read", "search"} for event in values):
+        raise SystemExit(f"{event_path}: targeted model read/search evidence is missing")
+    expected_roles = {
+        "self-dogfood-trigger": "self-release-audit-object",
+        "load-reference": "dogfood-reference",
+        "load-broker": "dogfood-broker",
+        "load-event-schema": "dogfood-event-schema",
+        "baseline-status": "source",
+        "baseline-head": "source",
+        "activate-runtime": "temp-installed-runtime",
+    }
+    for event in values:
+        expected_role = expected_roles.get(event["action"])
+        if expected_role and event["target_role"] != expected_role:
+            raise SystemExit(f"{event_path}: {event['action']} target role mismatch")
+        if event["target_role"] == "real-home-runtime":
+            raise SystemExit(f"{event_path}: real-home event cannot qualify")
+        if event["actor"] == "model" and event["phase"] != "post-baseline":
+            raise SystemExit(f"{event_path}: model read/search occurred before baseline")
+
+    source_identities = {
+        "load-reference": sha256_file(contract_path),
+        "load-broker": sha256_file(Path("scripts/dogfood-evidence-broker.py")),
+        "load-event-schema": sha256_file(Path("fixtures/dogfood-bootstrap/typed-event.schema.json")),
+        "self-dogfood-trigger": f"{expected_candidate}:{expected_tree}",
+        "activate-runtime": expected_runtime,
+    }
+    for action, expected in source_identities.items():
+        event = values[action_positions[action]]
+        if event["target_identity"] != expected:
+            raise SystemExit(f"{event_path}: {action} target identity mismatch")
+
+    if not corroboration_path.is_file():
+        raise SystemExit("self-dogfood qualification requires independent corroboration")
+    observed = jsonl(corroboration_path, "independent dogfood observation")
+    observed_by_correlation = {}
+    for index, item in enumerate(observed, 1):
+        if item.get("sequence") != index:
+            raise SystemExit(f"{corroboration_path}:{index}: observation sequence mismatch")
+        correlation = item.get("correlation_id")
+        if not isinstance(correlation, str) or correlation in observed_by_correlation:
+            raise SystemExit(f"{corroboration_path}:{index}: observation correlation is missing or duplicate")
+        observed_by_correlation[correlation] = item
+    corroborated_actions = {
+        "baseline-status", "baseline-head", "activate-runtime", "read", "search"
+    }
+    typed_correlations = {
+        event["correlation_id"]
+        for event in values
+        if event["action"] in corroborated_actions
+    }
+    if set(observed_by_correlation) != typed_correlations:
+        raise SystemExit(
+            "Andon: typed dogfood evidence contradicts independent observation"
+        )
+    for event in values:
+        if event["action"] not in corroborated_actions:
+            continue
+        observed_event = observed_by_correlation.get(event["correlation_id"])
+        expected_tuple = (
+            event["actor"], event["action"], event["target_role"], event["result"]
+        )
+        actual_tuple = (
+            observed_event.get("actor") if observed_event else None,
+            observed_event.get("action") if observed_event else None,
+            observed_event.get("target_role") if observed_event else None,
+            observed_event.get("result") if observed_event else None,
+        )
+        if actual_tuple != expected_tuple:
+            raise SystemExit(
+                "Andon: typed dogfood evidence contradicts independent observation"
+            )
+    sys.stdout.write("check-dogfood-bootstrap-contract: typed self-dogfood ok\n")
+
+if control:
+    if control == "ordinary":
+        validate_ordinary_control()
+        raise SystemExit(0)
+    if control == "self-dogfood":
+        validate_self_dogfood()
+        raise SystemExit(0)
+    raise SystemExit(f"unknown dogfood control: {control}")
 
 baseline_tokens = [
     "git status --short --branch --untracked-files=all",

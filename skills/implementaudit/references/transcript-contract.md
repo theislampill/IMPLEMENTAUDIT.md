@@ -33,6 +33,18 @@ AUDIT_VERIFY         -> checks object state against evidence
 AUDIT_COMPLETE       -> terminal verified closure of the object
 ```
 
+## RC self-dogfood evidence contract
+
+Only exact RC/self-release `SELF_DOGFOOD_TRIGGER` loads this;
+`ORDINARY_IMPLEMENTAUDIT_CONTROL` loads no dogfood owner/broker/schema. Runner
+creates a temporary `CODEX_HOME`, binds candidate commit, candidate tree, package SHA-256, and installed runtime SHA-256, and isolates context/journal/key from model roots; an event cannot qualify itself. Repo-only broker is the runner-owned action boundary, never installed/ordinary I/O.
+
+`implementaudit.dogfood-event.v1` records session, monotonically increasing sequence, unique sequence/correlation/event identity, previous event identity, actor/action/role/phase/result, target/content identity, and an HMAC produced with runner custody unavailable to the audited model. Validation fails closed on a missing event/action, duplicate/reorder, broken chain, invalid HMAC/schema, blocked/ambiguous result, pre-baseline/real-home read, or identity mismatch. Order: trigger -> contract/broker/schema -> successful status/HEAD -> temp activation -> targeted read/search.
+
+Typed runner events are the primary semantic evidence, not sole authority; transcript remains independently parsed adversarial corroboration. Require bijective correlations and equal action facts; mismatch is `Andon: typed dogfood evidence contradicts independent observation`.
+
+Host activation is not readback. Read only owners; prove package/checksum/install parity. Real-home installed skill readback is non-evidence; later temp proof cannot cure it. Policy rejection blocks; never bypass policy, use real home/broad globs, or weaken proof.
+
 ## Planner markers
 
 Planner markers appear before a user starts a generated `/goal` handoff.

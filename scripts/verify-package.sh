@@ -67,6 +67,7 @@ require_file scripts/check-agents-bootstrap-budget.sh
 require_file scripts/check-audit-object-routing-contract.sh
 require_file scripts/check-capability-parity-contract.sh
 require_file scripts/check-dogfood-bootstrap-contract.sh
+require_file scripts/dogfood-evidence-broker.py
 require_file scripts/check-marker-order.sh
 require_file scripts/check-installed-payload-self-contained.sh
 require_file scripts/check-native-integration.sh
@@ -374,6 +375,10 @@ require_file fixtures/dogfood-bootstrap/positive/baseline-first-transcript.jsonl
 require_file fixtures/dogfood-bootstrap/negative/installed-readback-before-baseline-transcript.jsonl
 require_file fixtures/dogfood-bootstrap/negative/chunking-readback-before-baseline-transcript.jsonl
 require_file fixtures/dogfood-bootstrap/negative/real-home-readback-before-temp-home-transcript.jsonl
+require_file fixtures/dogfood-bootstrap/typed-event.schema.json
+require_file fixtures/dogfood-bootstrap/typed/ordinary-control-activation.jsonl
+require_file fixtures/dogfood-bootstrap/typed/self-dogfood-corroboration.jsonl
+require_file fixtures/dogfood-bootstrap/typed/self-dogfood-contradiction.jsonl
 require_file fixtures/skill-bootstrap-budget/negative-full-read-installed-payload.md
 require_file fixtures/terminology-integration/full-stack-integration.md
 require_file fixtures/terminology-integration/negative-glossary-orphan.md

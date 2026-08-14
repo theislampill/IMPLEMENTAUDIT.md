@@ -22,53 +22,6 @@ Every finding closes. No orphan items. No unsafe actions. No proof claim
 without evidence. Continue until every item is terminally `done`, `changed`,
 `blocked`, `deferred`, or `unverified`.
 
-First executable dogfood rule: Before any model tool reads the installed
-skill/payload, the runner records target status and identity. Host activation
-delivers instructions, not model-visible dogfood readback. Then inspect only
-needed owner/source sections.
-
----
-
-## Dogfood Bootstrap / Read Map
-
-Before runner baseline, no model tool reads or chunks this entire installed
-`SKILL.md`; host activation is not readback. After baseline use targeted
-`rg`/grep for live owner/source files.
-Package proof uses deterministic checks, not model-visible full-file readback:
-manifests, archive listing, checksums, `build-release-asset.sh --check`, installed
-file existence, and `verify-package.sh`.
-
-Full installed-payload readback is non-evidence. Read an owner/source section
-only when it is the audit target. Never reproduce secrets, credentials, auth
-files, or private diagnostics.
-
-### Dogfood Runner Contract
-
-Live Codex self-dogfood proves only the runner that actually ran. Use a locally
-built payload in a temp `CODEX_HOME`; never install proof into a real home.
-Real-home installed skill readback is non-evidence for release-candidate
-dogfood. Before Codex runs, record the temp `CODEX_HOME`, installed skill path under that temp home, installed `SKILL.md` line/byte count, and exact command proving Codex used that temp home. Earlier real-home access registers `ANDON_PROBE` (evidence-mismatch:
-stale-installed-skill / real-home-contamination) and supplies no dogfood proof.
-
-Runner order:
-
-1. Baseline/read-only checks first: `git status --short --branch --untracked-files=all`
-   and `git rev-parse HEAD` when permitted.
-2. Targeted owner/source reads next: headings, file-specific `rg`/grep, and named
-   docs, scripts, tests, fixtures, manifests, or ledgers.
-3. Repo-local validation after the read map is satisfied: run the requested safe
-   source-checkout checks; repo-root checkers are not installed runtime payload.
-4. Record blocked commands exactly; without an authorised runner or narrow
-   allowlist for a required command, dogfood is blocked.
-
-`--ask-for-approval never` is valid only when every required command is already
-trusted by the host policy. If it rejects needed baseline or validation
-commands, use `--ask-for-approval on-request` with `--sandbox workspace-write`
-and owner-present approval, or an explicit narrow exec-policy allowlist for
-those commands. Do not use `--dangerously-bypass-approvals-and-sandbox`,
-`danger-full-access`, real-home installs, broad shell globs, or policy bypass
-as dogfood proof.
-
 ---
 
 ## Execution Spine
@@ -102,6 +55,19 @@ Run invariants:
 - Graphify output is orientation evidence, not proof. ActiveGraph custody is not correctness proof. Sidecars are optional unless a repo says otherwise; their presence authorizes no install, indexing, setup, config, export, or sidecar mutation.
 - Capability Ledger entries, when configured, are derived from recorded gate
   passages only. Do not claim general competence from one run.
+
+## State-derived RC self-dogfood route
+
+`SELF_DOGFOOD_TRIGGER` applies only when the audit object is the exact
+IMPLEMENTAUDIT RC/self-release candidate. Baseline the target repo first, then
+load the RC self-dogfood evidence contract in
+`references/transcript-contract.md`; it progressively discloses the bounded
+runner reference, broker, typed event schema, and independent corroboration.
+It is not a user-selected mode. Full installed-payload readback is non-evidence.
+
+`ORDINARY_IMPLEMENTAUDIT_CONTROL` keeps the Execution Spine above as the whole
+route: do not load or activate the dogfood reference, broker, or event schema.
+Ordinary cheap work remains inspect -> act -> verify -> done.
 
 ---
 
@@ -154,7 +120,8 @@ Load references only when the current gate needs them:
   state-synthesis acceptance and automated-action risk bounds. It owns the
   six-axis fail-closed gate for automated and automation-proposed action.
 - `references/goal-format.md`: `/goal`, response, and marker shape.
-- `references/transcript-contract.md`: marker order and handoff exclusivity.
+- `references/transcript-contract.md`: marker order, handoff exclusivity, and
+  the state-derived RC self-dogfood evidence contract when triggered.
 - `references/continuity.md`: controller currentness, epochs, replay refusal,
   receiver receipts, and post-boundary reconciliation before mutation.
 - `references/repo-state-comparison.md`: baseline/final and helper dispatch.

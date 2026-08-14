@@ -9,6 +9,297 @@ trap 'rm -rf "$tmp"' EXIT
 
 bash scripts/check-dogfood-bootstrap-contract.sh
 
+# Structural self-dogfood evidence is state-derived and runner-owned. This
+# section deliberately precedes the legacy transcript pressure bank: typed
+# evidence becomes the primary semantic surface without deleting or weakening
+# any independent transcript fixture below.
+typed_root="$tmp/typed-evidence"
+runtime_root="$typed_root/temp-codex-home/skills/implementaudit"
+mkdir -p "$runtime_root/references"
+cp skills/implementaudit/SKILL.md "$runtime_root/SKILL.md"
+cp skills/implementaudit/references/transcript-contract.md \
+  "$runtime_root/references/transcript-contract.md"
+
+candidate_commit="$(git rev-parse HEAD)"
+candidate_tree="$(git rev-parse 'HEAD^{tree}')"
+package_sha="1111111111111111111111111111111111111111111111111111111111111111"
+runtime_sha="$(python - "$runtime_root/SKILL.md" <<'PY'
+import hashlib
+import pathlib
+import sys
+print(hashlib.sha256(pathlib.Path(sys.argv[1]).read_bytes()).hexdigest())
+PY
+)"
+
+if ! python scripts/dogfood-evidence-broker.py init \
+  --context "$typed_root/context.json" \
+  --journal "$typed_root/events.jsonl" \
+  --key-file "$typed_root/event.key" \
+  --session-id S3E-SELF-DOGFOOD-TDD \
+  --audit-object implementaudit-rc-self-release \
+  --candidate-commit "$candidate_commit" \
+  --candidate-tree "$candidate_tree" \
+  --package-sha256 "$package_sha" \
+  --runtime-sha256 "$runtime_sha" \
+  --source-root "$repo_root" \
+  --runtime-root "$runtime_root"; then
+  printf 'S3E DOGFOOD STRUCTURAL RED: runner-owned typed evidence interface is absent\n' >&2
+  exit 1
+fi
+
+python scripts/dogfood-evidence-broker.py baseline-status --context "$typed_root/context.json"
+python scripts/dogfood-evidence-broker.py baseline-head --context "$typed_root/context.json"
+python scripts/dogfood-evidence-broker.py activate \
+  --context "$typed_root/context.json" \
+  --path "$runtime_root/SKILL.md"
+python scripts/dogfood-evidence-broker.py read \
+  --context "$typed_root/context.json" \
+  --path "$runtime_root/references/transcript-contract.md" \
+  --correlation-id read-contract >/dev/null
+python scripts/dogfood-evidence-broker.py search \
+  --context "$typed_root/context.json" \
+  --path "skills/implementaudit/SKILL.md" \
+  --fixed-string 'Execution Spine' \
+  --correlation-id search-source >/dev/null
+
+typed_check=(
+  bash scripts/check-dogfood-bootstrap-contract.sh
+  --control self-dogfood
+  --event-file "$typed_root/events.jsonl"
+  --event-key-file "$typed_root/event.key"
+  --expected-candidate "$candidate_commit"
+  --expected-tree "$candidate_tree"
+  --expected-package "$package_sha"
+  --expected-runtime "$runtime_sha"
+)
+
+"${typed_check[@]}" \
+  --corroboration-file fixtures/dogfood-bootstrap/typed/self-dogfood-corroboration.jsonl
+
+bash scripts/check-dogfood-bootstrap-contract.sh \
+  --control ordinary \
+  --activation-file fixtures/dogfood-bootstrap/typed/ordinary-control-activation.jsonl
+
+extra_observation="$typed_root/extra-observation.jsonl"
+cp fixtures/dogfood-bootstrap/typed/self-dogfood-corroboration.jsonl \
+  "$extra_observation"
+printf '%s\n' '{"schema":"implementaudit.observed-action.v1","sequence":6,"correlation_id":"unbrokered-read","actor":"model","action":"read","target_role":"real-home-runtime","result":"completed"}' \
+  >>"$extra_observation"
+if "${typed_check[@]}" \
+  --corroboration-file "$extra_observation" \
+  >"$tmp/typed-extra-observation.out" 2>&1; then
+  printf 'dogfood-bootstrap-contract.test: untyped observed action unexpectedly passed\n' >&2
+  exit 1
+fi
+grep -F 'Andon: typed dogfood evidence contradicts independent observation' \
+  "$tmp/typed-extra-observation.out" >/dev/null || {
+  printf 'dogfood-bootstrap-contract.test: expected extra-observation Andon\n' >&2
+  cat "$tmp/typed-extra-observation.out" >&2
+  exit 1
+}
+
+if "${typed_check[@]}" \
+  --corroboration-file fixtures/dogfood-bootstrap/typed/self-dogfood-contradiction.jsonl \
+  >"$tmp/typed-contradiction.out" 2>&1; then
+  printf 'dogfood-bootstrap-contract.test: typed/transcript contradiction unexpectedly passed\n' >&2
+  exit 1
+fi
+grep -F 'Andon: typed dogfood evidence contradicts independent observation' \
+  "$tmp/typed-contradiction.out" >/dev/null || {
+  printf 'dogfood-bootstrap-contract.test: expected contradiction Andon\n' >&2
+  cat "$tmp/typed-contradiction.out" >&2
+  exit 1
+}
+
+prebaseline_root="$tmp/prebaseline-evidence"
+python scripts/dogfood-evidence-broker.py init \
+  --context "$prebaseline_root/context.json" \
+  --journal "$prebaseline_root/events.jsonl" \
+  --key-file "$prebaseline_root/event.key" \
+  --session-id S3E-PREBASELINE-NEGATIVE \
+  --audit-object implementaudit-rc-self-release \
+  --candidate-commit "$candidate_commit" \
+  --candidate-tree "$candidate_tree" \
+  --package-sha256 "$package_sha" \
+  --runtime-sha256 "$runtime_sha" \
+  --source-root "$repo_root" \
+  --runtime-root "$runtime_root"
+if python scripts/dogfood-evidence-broker.py read \
+  --context "$prebaseline_root/context.json" \
+  --path "$runtime_root/references/transcript-contract.md" \
+  --correlation-id prebaseline-read \
+  >"$tmp/prebaseline-read.out" 2>&1; then
+  printf 'dogfood-bootstrap-contract.test: pre-baseline broker read unexpectedly completed\n' >&2
+  exit 1
+fi
+python - "$prebaseline_root/events.jsonl" <<'PY'
+import json
+import pathlib
+import sys
+event = json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8").splitlines()[-1])
+if (event.get("action"), event.get("phase"), event.get("result")) != ("read", "pre-baseline", "blocked"):
+    raise SystemExit("pre-baseline rejection was not emitted at the runner action boundary")
+PY
+
+readable_source_root="$tmp/model-readable-source"
+mkdir -p "$readable_source_root/fixtures/dogfood-bootstrap"
+cp fixtures/dogfood-bootstrap/typed-event.schema.json \
+  "$readable_source_root/fixtures/dogfood-bootstrap/typed-event.schema.json"
+if python scripts/dogfood-evidence-broker.py init \
+  --context "$readable_source_root/custody/context.json" \
+  --journal "$readable_source_root/custody/events.jsonl" \
+  --key-file "$readable_source_root/custody/event.key" \
+  --session-id S3E-MODEL-READABLE-CUSTODY-NEGATIVE \
+  --audit-object implementaudit-rc-self-release \
+  --candidate-commit "$candidate_commit" \
+  --candidate-tree "$candidate_tree" \
+  --package-sha256 "$package_sha" \
+  --runtime-sha256 "$runtime_sha" \
+  --source-root "$readable_source_root" \
+  --runtime-root "$runtime_root" \
+  >"$tmp/model-readable-custody.out" 2>&1; then
+  printf 'dogfood-bootstrap-contract.test: model-readable runner custody unexpectedly passed\n' >&2
+  exit 1
+fi
+
+real_home_root="$tmp/real-home-evidence"
+python scripts/dogfood-evidence-broker.py init \
+  --context "$real_home_root/context.json" \
+  --journal "$real_home_root/events.jsonl" \
+  --key-file "$real_home_root/event.key" \
+  --session-id S3E-REAL-HOME-NEGATIVE \
+  --audit-object implementaudit-rc-self-release \
+  --candidate-commit "$candidate_commit" \
+  --candidate-tree "$candidate_tree" \
+  --package-sha256 "$package_sha" \
+  --runtime-sha256 "$runtime_sha" \
+  --source-root "$repo_root" \
+  --runtime-root "$runtime_root"
+python scripts/dogfood-evidence-broker.py baseline-status --context "$real_home_root/context.json" >/dev/null
+python scripts/dogfood-evidence-broker.py baseline-head --context "$real_home_root/context.json" >/dev/null
+python scripts/dogfood-evidence-broker.py activate \
+  --context "$real_home_root/context.json" \
+  --path "$runtime_root/SKILL.md"
+fake_real_home="$tmp/fake-user/.codex/skills/implementaudit"
+mkdir -p "$fake_real_home"
+cp skills/implementaudit/SKILL.md "$fake_real_home/SKILL.md"
+if python scripts/dogfood-evidence-broker.py read \
+  --context "$real_home_root/context.json" \
+  --path "$fake_real_home/SKILL.md" \
+  --correlation-id real-home-read \
+  >"$tmp/real-home-read.out" 2>&1; then
+  printf 'dogfood-bootstrap-contract.test: real-home broker read unexpectedly completed\n' >&2
+  exit 1
+fi
+python - "$real_home_root/events.jsonl" <<'PY'
+import json
+import pathlib
+import sys
+event = json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8").splitlines()[-1])
+if (event.get("action"), event.get("target_role"), event.get("result")) != ("read", "real-home-runtime", "blocked"):
+    raise SystemExit("real-home rejection was not emitted at the runner action boundary")
+PY
+
+cp "$typed_root/events.jsonl" "$typed_root/duplicate.jsonl"
+tail -n 1 "$typed_root/events.jsonl" >>"$typed_root/duplicate.jsonl"
+if bash scripts/check-dogfood-bootstrap-contract.sh \
+  --control self-dogfood \
+  --event-file "$typed_root/duplicate.jsonl" \
+  --event-key-file "$typed_root/event.key" \
+  --expected-candidate "$candidate_commit" \
+  --expected-tree "$candidate_tree" \
+  --expected-package "$package_sha" \
+  --expected-runtime "$runtime_sha" \
+  --corroboration-file fixtures/dogfood-bootstrap/typed/self-dogfood-corroboration.jsonl \
+  >"$tmp/typed-duplicate.out" 2>&1; then
+  printf 'dogfood-bootstrap-contract.test: duplicate typed event unexpectedly passed\n' >&2
+  exit 1
+fi
+
+python - \
+  "$typed_root/events.jsonl" \
+  "$typed_root/reordered.jsonl" \
+  "$typed_root/forged.jsonl" \
+  "$typed_root/missing.jsonl" \
+  "$typed_root/ambiguous.jsonl" \
+  "$typed_root/invalid-schema.jsonl" \
+  "$typed_root/event.key" <<'PY'
+import hashlib
+import hmac
+import json
+import pathlib
+import sys
+
+source, reordered, forged, missing, ambiguous, invalid_schema, key_path = map(pathlib.Path, sys.argv[1:])
+lines = source.read_text(encoding="utf-8").splitlines()
+swapped = lines[:]
+swapped[-2], swapped[-1] = swapped[-1], swapped[-2]
+reordered.write_text("\n".join(swapped) + "\n", encoding="utf-8")
+events = [json.loads(line) for line in lines]
+events[-1]["target_role"] = "real-home-runtime"
+forged.write_text("\n".join(json.dumps(event, separators=(",", ":"), sort_keys=True) for event in events) + "\n", encoding="utf-8")
+missing.write_text("\n".join(lines[:2] + lines[3:]) + "\n", encoding="utf-8")
+
+key = bytes.fromhex(key_path.read_text(encoding="ascii").strip())
+ambiguous_events = [json.loads(line) for line in lines]
+ambiguous_events[-1]["result"] = "ambiguous"
+unsigned = dict(ambiguous_events[-1])
+unsigned.pop("hmac_sha256")
+ambiguous_events[-1]["hmac_sha256"] = hmac.new(
+    key,
+    json.dumps(unsigned, ensure_ascii=True, separators=(",", ":"), sort_keys=True).encode("utf-8"),
+    hashlib.sha256,
+).hexdigest()
+ambiguous.write_text(
+    "\n".join(json.dumps(event, separators=(",", ":"), sort_keys=True) for event in ambiguous_events) + "\n",
+    encoding="utf-8",
+)
+
+invalid_events = [json.loads(line) for line in lines]
+invalid_events[2]["actor"] = "intruder"
+unsigned = dict(invalid_events[2])
+unsigned.pop("hmac_sha256")
+invalid_events[2]["hmac_sha256"] = hmac.new(
+    key,
+    json.dumps(unsigned, ensure_ascii=True, separators=(",", ":"), sort_keys=True).encode("utf-8"),
+    hashlib.sha256,
+).hexdigest()
+invalid_schema.write_text(
+    "\n".join(json.dumps(event, separators=(",", ":"), sort_keys=True) for event in invalid_events) + "\n",
+    encoding="utf-8",
+)
+PY
+
+for broken in reordered forged missing ambiguous invalid-schema; do
+  if bash scripts/check-dogfood-bootstrap-contract.sh \
+    --control self-dogfood \
+    --event-file "$typed_root/$broken.jsonl" \
+    --event-key-file "$typed_root/event.key" \
+    --expected-candidate "$candidate_commit" \
+    --expected-tree "$candidate_tree" \
+    --expected-package "$package_sha" \
+    --expected-runtime "$runtime_sha" \
+    --corroboration-file fixtures/dogfood-bootstrap/typed/self-dogfood-corroboration.jsonl \
+    >"$tmp/typed-$broken.out" 2>&1; then
+    printf 'dogfood-bootstrap-contract.test: %s typed evidence unexpectedly passed\n' "$broken" >&2
+    exit 1
+  fi
+done
+
+if bash scripts/check-dogfood-bootstrap-contract.sh \
+  --control self-dogfood \
+  --event-file "$typed_root/events.jsonl" \
+  --event-key-file "$typed_root/event.key" \
+  --expected-candidate "$candidate_commit" \
+  --expected-tree "$candidate_tree" \
+  --expected-package "2222222222222222222222222222222222222222222222222222222222222222" \
+  --expected-runtime "$runtime_sha" \
+  --corroboration-file fixtures/dogfood-bootstrap/typed/self-dogfood-corroboration.jsonl \
+  >"$tmp/typed-identity.out" 2>&1; then
+  printf 'dogfood-bootstrap-contract.test: identity-mismatched typed evidence unexpectedly passed\n' >&2
+  exit 1
+fi
+
 if ! bash scripts/check-dogfood-bootstrap-contract.sh \
   --transcript-file fixtures/dogfood-bootstrap/positive/host-activation-before-baseline-transcript.jsonl \
   >/tmp/dogfood-bootstrap-host-activation.out 2>&1; then
@@ -149,7 +440,7 @@ if bash scripts/check-dogfood-bootstrap-contract.sh \
   exit 1
 fi
 
-grep -F "missing ## Dogfood Bootstrap / Read Map" /tmp/dogfood-bootstrap.out >/dev/null || {
+grep -F "missing ## State-derived RC self-dogfood route" /tmp/dogfood-bootstrap.out >/dev/null || {
   printf 'dogfood-bootstrap-contract.test: expected missing-bootstrap diagnostic\n' >&2
   cat /tmp/dogfood-bootstrap.out >&2
   exit 1
