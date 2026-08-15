@@ -121,4 +121,12 @@ with zipfile.ZipFile(sys.argv[1], "w") as archive:
 PY
 expect_failure "genealogy content entered distributable package" python "$CHECKER" --root "$ROOT" --package "$TMP/fake-package.zip"
 
+mkdir -p "$TMP/claims/scripts" "$TMP/claims/docs/research/genealogy/law/evolved-lean/corpus"
+cp "$ROOT/scripts/check-public-claim-boundaries.sh" "$TMP/claims/scripts/check-public-claim-boundaries.sh"
+printf 'historical discussion of a signed %s\n' 'release' > "$TMP/claims/docs/research/genealogy/law/evolved-lean/corpus/source.md"
+bash "$TMP/claims/scripts/check-public-claim-boundaries.sh" >/dev/null
+
+printf 'the current product has a signed %s\n' 'release' > "$TMP/claims/docs/research/genealogy/law/evolved-lean/README.md"
+expect_failure "signing claim requires a signature artifact" bash "$TMP/claims/scripts/check-public-claim-boundaries.sh"
+
 echo "genealogy corpus positive and negative controls: PASS"
