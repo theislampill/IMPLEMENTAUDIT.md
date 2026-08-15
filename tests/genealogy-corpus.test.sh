@@ -129,6 +129,9 @@ cp "$ROOT/docs/portal/pages/research-lineage-s3e.html" \
   "$TMP/claims/docs/portal/pages/research-lineage-s3e.html"
 cp "$ROOT/docs/portal/pages/research-lineage-evolved-css.html" \
   "$TMP/claims/docs/portal/pages/research-lineage-evolved-css.html"
+cp "$ROOT/docs/portal/pages/reference-index.html" \
+  "$TMP/claims/docs/portal/pages/reference-index.html"
+cp "$ROOT/README.md" "$TMP/claims/README.md"
 printf 'historical discussion of a signed %s\n' 'release' > "$TMP/claims/docs/research/genealogy/law/evolved-lean/corpus/source.md"
 bash "$TMP/claims/scripts/check-public-claim-boundaries.sh" >/dev/null
 
