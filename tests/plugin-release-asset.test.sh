@@ -464,6 +464,15 @@ elif operation == "stale-standalone-governor":
 elif operation == "stale-shared-reference":
     member = "references/continuity.md"
     replace_and_reinventory(member, rows[member][1] + b"\nsource-divergence\n")
+elif operation == "forged-source-binding":
+    inventory_info, inventory_data = rows["IMPLEMENTAUDIT_INVENTORY.json"]
+    inventory = json.loads(inventory_data.decode("utf-8"))
+    inventory["source"]["commit"] = "f" * 40
+    inventory["source"]["tree"] = "e" * 40
+    rows["IMPLEMENTAUDIT_INVENTORY.json"] = (
+        inventory_info,
+        (json.dumps(inventory, indent=2, sort_keys=True) + "\n").encode("utf-8"),
+    )
 else:
     raise SystemExit(f"unknown mutation: {operation}")
 
@@ -547,7 +556,8 @@ mkdir -p "$tmp/missing-member" "$tmp/extra-member" "$tmp/hash-mismatch" \
   "$tmp/changed-manifest" "$tmp/extra-child" "$tmp/missing-projection" \
   "$tmp/stale-projection"
 mkdir -p "$tmp/stale-plugin-governor" "$tmp/stale-host-manifest" \
-  "$tmp/stale-standalone-governor" "$tmp/stale-shared-reference"
+  "$tmp/stale-standalone-governor" "$tmp/stale-shared-reference" \
+  "$tmp/forged-source-binding"
 mutate_archive missing-member "$canonical" \
   "$tmp/missing-member/IMPLEMENTAUDIT.plugin.zip"
 expect_reject missing-member canonical_plugin \
@@ -602,6 +612,11 @@ mutate_archive stale-shared-reference "$standalone" \
   "$tmp/stale-shared-reference/IMPLEMENTAUDIT.skill"
 expect_reject stale-shared-reference standalone_compatibility \
   "$tmp/stale-shared-reference/IMPLEMENTAUDIT.skill"
+
+mutate_archive forged-source-binding "$canonical" \
+  "$tmp/forged-source-binding/IMPLEMENTAUDIT.plugin.zip"
+expect_reject forged-source-binding canonical_plugin \
+  "$tmp/forged-source-binding/IMPLEMENTAUDIT.plugin.zip" clean
 
 printf 'plugin-release-asset.test: ok commit=%s tree=%s\n' \
   "$source_commit" "$source_tree"

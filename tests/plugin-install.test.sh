@@ -299,6 +299,15 @@ elif mode == "extra-child":
         None,
         b"---\nname: invented\nmetadata:\n  version: \"0.4.0\"\n---\n",
     )
+elif mode == "forged-source-binding":
+    inventory_info, inventory_data = rows["IMPLEMENTAUDIT_INVENTORY.json"]
+    inventory = json.loads(inventory_data.decode("utf-8"))
+    inventory["source"]["commit"] = "f" * 40
+    inventory["source"]["tree"] = "e" * 40
+    rows["IMPLEMENTAUDIT_INVENTORY.json"] = (
+        inventory_info,
+        (json.dumps(inventory, indent=2, sort_keys=True) + "\n").encode("utf-8"),
+    )
 else:
     raise SystemExit(f"unknown mutation mode: {mode}")
 
@@ -389,7 +398,7 @@ expect_install_failure "stale checksum" \
   install_plugin codex "$root" "$asset" "$stale_checksum" --version 0.4.0
 [ ! -e "$root/plugins/implementaudit" ] || fail "stale checksum created a plugin target"
 
-for mutation in missing-child extra-child changed-child-hash stale-child mixed-version; do
+for mutation in missing-child extra-child changed-child-hash stale-child mixed-version forged-source-binding; do
   mutation_dir="$(mktemp -d "$tmp_parent/$mutation-archive.XXXXXX")"
   mutated_asset="$mutation_dir/IMPLEMENTAUDIT.plugin.zip"
   mutated_checksums="$mutation_dir/CHECKSUMS.txt"

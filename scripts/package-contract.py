@@ -599,6 +599,7 @@ def verify_artifact(
             r"[0-9a-f]{40}", str(source["tree"])
         ):
             raise ContractError("inventory commit/tree identity is malformed")
+        require_equal("inventory source binding", source, source_identity(root))
 
         observed_members = []
         for name in names:
