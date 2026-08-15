@@ -15,11 +15,12 @@ trap 'rm -rf -- "$tmp"' EXIT
 make_candidate() {
   local name="$1"
   local candidate="$tmp/$name"
-  mkdir -p "$candidate/scripts" "$candidate/tests" \
+  mkdir -p "$candidate/scripts" "$candidate/package" "$candidate/tests" \
     "$candidate/fixtures/scarce-resource-rehearsal" \
     "$candidate/fixtures/run-root-example/phases"
   cp -R "$repo_root/skills" "$candidate/skills"
-  cp "$repo_root/scripts/build-release-asset.sh" "$candidate/scripts/build-release-asset.sh"
+  cp "$repo_root/scripts/package-contract.py" "$candidate/scripts/package-contract.py"
+  cp "$repo_root/package/implementaudit-package.json" "$candidate/package/implementaudit-package.json"
   cp "$repo_root/tests/scarce-resource-rehearsal-contract.test.sh" "$candidate/tests/"
   cp "$repo_root/fixtures/scarce-resource-rehearsal/cases.json" \
     "$candidate/fixtures/scarce-resource-rehearsal/"
@@ -81,14 +82,14 @@ PY
 }
 
 positive_output="$(bash "$checker" --repo-root "$repo_root")"
-grep -Fq 'HELPER_REACHABILITY=PASS population=19 examined=19 modes=5/5 enumeration=build-release-asset.required_archive' \
+grep -Fq 'HELPER_REACHABILITY=PASS population=19 examined=19 modes=5/5 enumeration=package-contract.shared_resource_roots' \
   <<<"$positive_output" || {
     printf 'helper-reachability.test: live positive census did not prove 19/19\n%s\n' "$positive_output" >&2
     exit 1
 }
 
 census_output="$(bash "$checker" --census-only --repo-root "$repo_root")"
-grep -Fq 'HELPER_REACHABILITY_CENSUS=PASS population=19 examined=19 modes=5/5 enumeration=build-release-asset.required_archive' \
+grep -Fq 'HELPER_REACHABILITY_CENSUS=PASS population=19 examined=19 modes=5/5 enumeration=package-contract.shared_resource_roots' \
   <<<"$census_output" || {
     printf 'helper-reachability.test: census-only result was not distinctly nonterminal\n%s\n' "$census_output" >&2
     exit 1
@@ -339,26 +340,6 @@ expect_fail R30-F8 \
 future_helper="$(make_candidate future-helper)"
 cp "$future_helper/skills/implementaudit/scripts/detect-stack.sh" \
   "$future_helper/skills/implementaudit/scripts/future-helper.sh"
-python - "$future_helper/scripts/build-release-asset.sh" <<'PY'
-import sys
-from pathlib import Path
-
-path = Path(sys.argv[1])
-text = path.read_text(encoding="utf-8")
-text = text.replace(
-    '    "skills/implementaudit/scripts/validate-run-root.sh",',
-    '    "skills/implementaudit/scripts/validate-run-root.sh",\n'
-    '    "skills/implementaudit/scripts/future-helper.sh",',
-    1,
-)
-text = text.replace(
-    '    "scripts/validate-run-root.sh",',
-    '    "scripts/validate-run-root.sh",\n'
-    '    "scripts/future-helper.sh",',
-    1,
-)
-path.write_text(text, encoding="utf-8")
-PY
 expect_fail R30-F20 'missing applicability rows: future-helper.sh (population=20 examined=19)' "$future_helper"
 
 extra_row="$(make_candidate extra-row)"

@@ -173,9 +173,10 @@ if [ "$(<"$tmp/hardlink-victim.txt")" != "do-not-overwrite" ]; then failures+=("
 
 seed_candidate() {
   local candidate="$tmp/$1"
-  mkdir -p "$candidate/scripts" "$candidate/tests" "$candidate/fixtures/scarce-resource-rehearsal" "$candidate/fixtures/run-root-example/phases"
+  mkdir -p "$candidate/scripts" "$candidate/package" "$candidate/tests" "$candidate/fixtures/scarce-resource-rehearsal" "$candidate/fixtures/run-root-example/phases"
   cp -R skills "$candidate/skills"
-  cp scripts/build-release-asset.sh "$candidate/scripts/build-release-asset.sh"
+  cp scripts/package-contract.py "$candidate/scripts/package-contract.py"
+  cp package/implementaudit-package.json "$candidate/package/implementaudit-package.json"
   cp tests/scarce-resource-rehearsal-contract.test.sh "$candidate/tests/"
   cp fixtures/scarce-resource-rehearsal/cases.json "$candidate/fixtures/scarce-resource-rehearsal/"
   cp fixtures/run-root-example/phases/phase-1.md "$candidate/fixtures/run-root-example/phases/"
@@ -217,7 +218,7 @@ from pathlib import Path
 
 path = Path(sys.argv[1])
 text = path.read_text(encoding="utf-8")
-injection = 'printf "outer-timeout-diagnostic\\n" >&2\nsleep 60 &\nprintf "%s\\n" "$!" > "$PWD/.outer-timeout-child.pid"\nwait\n'
+injection = 'printf "outer-timeout-diagnostic\\n" >&2\nsleep 60 &\npid_file="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/.outer-timeout-child.pid"\nprintf "%s\\n" "$!" > "$pid_file"\nwait\n'
 if text.count("checker=") != 1:
     raise SystemExit("expected one checker binding")
 path.write_text(text.replace("checker=", injection + "checker="), encoding="utf-8")
@@ -258,7 +259,7 @@ if [ "$outer_timeout_only" -eq 1 ]; then
   stall_probe_authority "$stalled_authority"
   expect_authority_probe_timeout stalled-authority-process-tree \
     'outer-timeout-diagnostic' "$stalled_consumer" "$stalled_authority"
-  expect_no_pid stalled-candidate-process-tree "$stalled_consumer/.outer-timeout-child.pid"
+  expect_no_pid stalled-authority-process-tree "$stalled_authority/.outer-timeout-child.pid"
   if [ "${#failures[@]}" -gt 0 ]; then
     printf 'r11-r30-review-heldouts: GAP-REVISE reproduced: %s\n' "${failures[*]}" >&2
     exit 1
@@ -333,7 +334,7 @@ stalled_authority="$(seed_probe_authority stalled-authority)"
 stall_probe_authority "$stalled_authority"
 expect_authority_probe_timeout stalled-authority-process-tree \
   'outer-timeout-diagnostic' "$stalled_consumer" "$stalled_authority"
-expect_no_pid stalled-authority-process-tree "$stalled_consumer/.outer-timeout-child.pid"
+expect_no_pid stalled-authority-process-tree "$stalled_authority/.outer-timeout-child.pid"
 
 inert="$(seed_candidate inert-deferred)"
 sed -i '/^mediator_thread\.start()$/i deferred_lambda = lambda: sys.exit(0)\ndeferred_generator = (sys.exit(0) for _ in ())\n[sys.exit(0) for _ in []]' "$inert/skills/implementaudit/scripts/check-authorization-binding.sh"

@@ -29,6 +29,7 @@ fi
 
 "${py_cmd[@]}" - "$repo_root" "$authority_root" "$BASH" "$census_only" <<'PY'
 import os
+import json
 import re
 import signal
 import subprocess
@@ -71,22 +72,40 @@ root = Path(sys.argv[1]).resolve()
 authority_root = Path(sys.argv[2]).resolve()
 bash_runner = sys.argv[3]
 census_only = sys.argv[4] == "1"
-builder = root / "scripts" / "build-release-asset.sh"
+builder = root / "scripts" / "package-contract.py"
+package_contract = root / "package" / "implementaudit-package.json"
 skill_root = root / "skills" / "implementaudit"
 contract = skill_root / "references" / "repo-state-comparison.md"
-for path in (builder, skill_root, contract):
+for path in (builder, package_contract, skill_root, contract):
     if not path.exists():
         raise SystemExit(f"check-helper-reachability: missing owner: {path}")
 
 builder_text = builder.read_text(encoding="utf-8")
-match = re.search(r"(?ms)^required_archive\s*=\s*\[(.*?)^\]", builder_text)
-if not match:
-    raise SystemExit("check-helper-reachability: required_archive manifest is unreadable")
-archive_entries = re.findall(r'"([^"]+)"', match.group(1))
-helpers = sorted(entry.removeprefix("scripts/") for entry in archive_entries
-                 if re.fullmatch(r"scripts/[^/]+\.sh", entry))
+try:
+    package = json.loads(package_contract.read_text(encoding="utf-8"))
+except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+    raise SystemExit(f"check-helper-reachability: package contract is unreadable: {exc}") from exc
+shared_roots = package.get("shared_resource_roots")
+if not isinstance(shared_roots, list) or "skills/implementaudit/scripts" not in shared_roots:
+    raise SystemExit("check-helper-reachability: package contract omits the shared helper root")
+if "EXPECTED_SHARED_ROOTS" not in builder_text or "contract.get(\"shared_resource_roots\")" not in builder_text:
+    raise SystemExit("check-helper-reachability: package builder does not enforce shared resources")
+archive_entries = {"SKILL.md"}
+for shared_root in shared_roots:
+    prefix = "skills/implementaudit/"
+    if not isinstance(shared_root, str) or not shared_root.startswith(prefix):
+        raise SystemExit("check-helper-reachability: package shared root escapes the governor")
+    source_root = root / shared_root
+    if not source_root.is_dir():
+        raise SystemExit(f"check-helper-reachability: missing package shared root: {shared_root}")
+    archive_entries.update(
+        path.relative_to(skill_root).as_posix()
+        for path in source_root.rglob("*")
+        if path.is_file()
+    )
+helpers = sorted(path.name for path in (skill_root / "scripts").glob("*.sh") if path.is_file())
 if len(helpers) != len(set(helpers)):
-    raise SystemExit("check-helper-reachability: duplicate helper in required_archive")
+    raise SystemExit("check-helper-reachability: duplicate helper in package shared root")
 
 contract_text = contract.read_text(encoding="utf-8")
 rows, mode_rows = {}, {}
@@ -351,5 +370,5 @@ if not census_only:
 print(("HELPER_REACHABILITY_CENSUS=PASS " if census_only else "HELPER_REACHABILITY=PASS ") +
       f"population={len(helpers)} examined={len(rows)} "
       f"modes={len(mode_rows)}/{sum(len(modes) for modes in implemented_mode_sets.values())} "
-      "enumeration=build-release-asset.required_archive")
+      "enumeration=package-contract.shared_resource_roots")
 PY
