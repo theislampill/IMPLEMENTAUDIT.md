@@ -28,4 +28,31 @@ grep -F "repo-only path reference" /tmp/payload-self-contained.out >/dev/null ||
   exit 1
 }
 
+for variant in backslash mixed; do
+  variant_root="$tmp/$variant"
+  mkdir -p "$variant_root/skills/implementaudit"
+  case "$variant" in
+    backslash)
+      printf '%s\n' 'Use skills\implementaudit\scripts\repo-state.sh after install.' \
+        >"$variant_root/skills/implementaudit/SKILL.md"
+      ;;
+    mixed)
+      printf '%s\n' 'Use skills/implementaudit\scripts/repo-state.sh after install.' \
+        >"$variant_root/skills/implementaudit/SKILL.md"
+      ;;
+  esac
+  if bash scripts/check-installed-payload-self-contained.sh \
+      --scan-root "$variant_root" >"$tmp/$variant.out" 2>&1; then
+    printf 'installed-payload-self-contained.test: %s path unexpectedly passed\n' \
+      "$variant" >&2
+    exit 1
+  fi
+  grep -F "repo-only path reference" "$tmp/$variant.out" >/dev/null || {
+    printf 'installed-payload-self-contained.test: missing %s diagnostic\n' \
+      "$variant" >&2
+    cat "$tmp/$variant.out" >&2
+    exit 1
+  }
+done
+
 printf 'installed-payload-self-contained.test: ok\n'
