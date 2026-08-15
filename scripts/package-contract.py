@@ -451,7 +451,12 @@ def standalone_internal_procedure_entries(
         projected, count = re.subn(r"\A---\n.*?\n---\n+", "", text, count=1, flags=re.S)
         if count != 1:
             raise ContractError(f"internal skill frontmatter cannot be projected: {source_name}")
-        projected = projected.replace("../implementaudit/", "../")
+        projected = re.sub(
+            r"\.\.[\\/]+implementaudit[\\/]+"
+            r"((?:references|scripts|templates)[\\/]+[^`\r\n]+)",
+            lambda match: "../" + match.group(1).replace("\\", "/"),
+            projected,
+        )
         projections.append((f"internal-procedures/{skill_name}.md", projected.encode("utf-8"), 0o644))
     return projections
 
@@ -639,7 +644,7 @@ def verify_artifact(
                     raise ContractError(
                         f"standalone internal procedure retains discoverable frontmatter: {name}"
                     )
-                if b"../implementaudit/" in procedure:
+                if re.search(rb"\.\.[\\/]+implementaudit[\\/]+", procedure):
                     raise ContractError(
                         f"standalone internal procedure retains plugin-relative owner path: {name}"
                     )

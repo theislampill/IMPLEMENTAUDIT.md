@@ -21,6 +21,28 @@ fi
 
 [ -f "$checker" ] || fail "package-contract checker is absent"
 
+"${py_cmd[@]}" - "$repo_root/scripts/package-contract.py" <<'PY' \
+  || fail "standalone projection does not normalize plugin-relative separator variants"
+import importlib.util
+import sys
+
+spec = importlib.util.spec_from_file_location("package_contract", sys.argv[1])
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+
+frontmatter = b"---\nname: audit-state\n---\n"
+cases = {
+    rb"`..\implementaudit\references\continuity.md`": b"`../references/continuity.md`",
+    rb"`../implementaudit\scripts/claim-run.sh`": b"`../scripts/claim-run.sh`",
+}
+for source_path, expected_path in cases.items():
+    rows = module.standalone_internal_procedure_entries(
+        [("skills/audit-state/SKILL.md", frontmatter + source_path + b"\n", 0o644)]
+    )
+    if rows[0][1] != expected_path + b"\n":
+        raise SystemExit(f"separator variant was not normalized: {source_path!r}")
+PY
+
 source_commit="$(git -C "$repo_root" rev-parse HEAD^{commit})"
 source_tree="$(git -C "$repo_root" rev-parse "${source_commit}^{tree}")"
 tmp="$(mktemp -d)"
@@ -312,7 +334,7 @@ def validate_archive(raw_path, role):
             procedure = payloads[name]
             if procedure.startswith(b"---\n"):
                 raise SystemExit("standalone internal procedure must not retain skill frontmatter")
-            if b"../implementaudit/" in procedure:
+            if re.search(rb"\.\.[\\/]+implementaudit[\\/]+", procedure):
                 raise SystemExit(
                     f"standalone internal procedure retains plugin-relative owner path: {name}"
                 )
@@ -323,7 +345,12 @@ def validate_archive(raw_path, role):
             projected_text, count = re.subn(
                 r"\A---\n.*?\n---\n+", "", source_text, count=1, flags=re.S
             )
-            projected_text = projected_text.replace("../implementaudit/", "../")
+            projected_text = re.sub(
+                r"\.\.[\\/]+implementaudit[\\/]+"
+                r"((?:references|scripts|templates)[\\/]+[^`\r\n]+)",
+                lambda match: "../" + match.group(1).replace("\\", "/"),
+                projected_text,
+            )
             if count != 1 or procedure != projected_text.encode("utf-8"):
                 raise SystemExit(f"standalone projection is stale or non-deterministic: {name}")
             for relative in re.findall(
