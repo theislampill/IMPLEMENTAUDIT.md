@@ -415,6 +415,25 @@ with zipfile.ZipFile(source) as archive:
         for info in archive.infolist()
     }
 
+
+def replace_and_reinventory(member_path, replacement):
+    info, _data = rows[member_path]
+    rows[member_path] = (info, replacement)
+    inventory_info, inventory_data = rows["IMPLEMENTAUDIT_INVENTORY.json"]
+    inventory = json.loads(inventory_data.decode("utf-8"))
+    for member in inventory["members"]:
+        if member["path"] == member_path:
+            member["bytes"] = len(replacement)
+            member["sha256"] = hashlib.sha256(replacement).hexdigest()
+            break
+    else:
+        raise SystemExit(f"test fixture could not find inventory row: {member_path}")
+    rows["IMPLEMENTAUDIT_INVENTORY.json"] = (
+        inventory_info,
+        (json.dumps(inventory, indent=2, sort_keys=True) + "\n").encode("utf-8"),
+    )
+
+
 if operation == "missing-member":
     del rows["skills/audit-state/SKILL.md"]
 elif operation == "extra-member":
@@ -431,22 +450,20 @@ elif operation == "missing-projection":
     del rows["internal-procedures/audit-state.md"]
 elif operation == "stale-projection":
     projection = "internal-procedures/audit-state.md"
-    info, _data = rows[projection]
     replacement = rows["internal-procedures/audit-assess.md"][1]
-    rows[projection] = (info, replacement)
-    inventory_info, inventory_data = rows["IMPLEMENTAUDIT_INVENTORY.json"]
-    inventory = json.loads(inventory_data.decode("utf-8"))
-    for member in inventory["members"]:
-        if member["path"] == projection:
-            member["bytes"] = len(replacement)
-            member["sha256"] = hashlib.sha256(replacement).hexdigest()
-            break
-    else:
-        raise SystemExit("test fixture could not find projection inventory row")
-    rows["IMPLEMENTAUDIT_INVENTORY.json"] = (
-        inventory_info,
-        (json.dumps(inventory, indent=2, sort_keys=True) + "\n").encode("utf-8"),
-    )
+    replace_and_reinventory(projection, replacement)
+elif operation == "stale-plugin-governor":
+    member = "skills/implementaudit/SKILL.md"
+    replace_and_reinventory(member, rows[member][1] + b"\nsource-divergence\n")
+elif operation == "stale-host-manifest":
+    member = ".codex-plugin/plugin.json"
+    replace_and_reinventory(member, rows[member][1] + b"\n")
+elif operation == "stale-standalone-governor":
+    member = "SKILL.md"
+    replace_and_reinventory(member, rows[member][1] + b"\nsource-divergence\n")
+elif operation == "stale-shared-reference":
+    member = "references/continuity.md"
+    replace_and_reinventory(member, rows[member][1] + b"\nsource-divergence\n")
 else:
     raise SystemExit(f"unknown mutation: {operation}")
 
@@ -529,6 +546,8 @@ standalone="$tmp/out-clean-a/IMPLEMENTAUDIT.skill"
 mkdir -p "$tmp/missing-member" "$tmp/extra-member" "$tmp/hash-mismatch" \
   "$tmp/changed-manifest" "$tmp/extra-child" "$tmp/missing-projection" \
   "$tmp/stale-projection"
+mkdir -p "$tmp/stale-plugin-governor" "$tmp/stale-host-manifest" \
+  "$tmp/stale-standalone-governor" "$tmp/stale-shared-reference"
 mutate_archive missing-member "$canonical" \
   "$tmp/missing-member/IMPLEMENTAUDIT.plugin.zip"
 expect_reject missing-member canonical_plugin \
@@ -563,6 +582,26 @@ mutate_archive stale-projection "$standalone" \
   "$tmp/stale-projection/IMPLEMENTAUDIT.skill"
 expect_reject stale-projection standalone_compatibility \
   "$tmp/stale-projection/IMPLEMENTAUDIT.skill"
+
+mutate_archive stale-plugin-governor "$canonical" \
+  "$tmp/stale-plugin-governor/IMPLEMENTAUDIT.plugin.zip"
+expect_reject stale-plugin-governor canonical_plugin \
+  "$tmp/stale-plugin-governor/IMPLEMENTAUDIT.plugin.zip"
+
+mutate_archive stale-host-manifest "$canonical" \
+  "$tmp/stale-host-manifest/IMPLEMENTAUDIT.plugin.zip"
+expect_reject stale-host-manifest canonical_plugin \
+  "$tmp/stale-host-manifest/IMPLEMENTAUDIT.plugin.zip"
+
+mutate_archive stale-standalone-governor "$standalone" \
+  "$tmp/stale-standalone-governor/IMPLEMENTAUDIT.skill"
+expect_reject stale-standalone-governor standalone_compatibility \
+  "$tmp/stale-standalone-governor/IMPLEMENTAUDIT.skill"
+
+mutate_archive stale-shared-reference "$standalone" \
+  "$tmp/stale-shared-reference/IMPLEMENTAUDIT.skill"
+expect_reject stale-shared-reference standalone_compatibility \
+  "$tmp/stale-shared-reference/IMPLEMENTAUDIT.skill"
 
 printf 'plugin-release-asset.test: ok commit=%s tree=%s\n' \
   "$source_commit" "$source_tree"

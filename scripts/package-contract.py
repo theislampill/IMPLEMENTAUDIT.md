@@ -461,31 +461,57 @@ def standalone_internal_procedure_entries(
     return projections
 
 
-def build_artifacts(root: Path, output_dir: Path, contract: dict[str, Any]) -> list[Path]:
-    identity = source_identity(root)
+def artifact_payload_entries(
+    root: Path,
+    role: str,
+    contract: dict[str, Any],
+) -> list[tuple[str, bytes, int]]:
+    """Derive every non-inventory member for one artifact from canonical source."""
     skill_entries = source_skill_entries(root)
     child_entries = internal_skill_entries(root)
     package_data = normalized_bytes(root / CONTRACT_PATH)
+    if role == "canonical_plugin":
+        entries: list[tuple[str, bytes, int]] = [
+            (
+                ".codex-plugin/plugin.json",
+                normalized_bytes(root / ".codex-plugin/plugin.json"),
+                0o644,
+            ),
+            (
+                ".claude-plugin/plugin.json",
+                normalized_bytes(root / ".claude-plugin/plugin.json"),
+                0o644,
+            ),
+            (
+                ".claude-plugin/marketplace.json",
+                normalized_bytes(root / ".claude-plugin/marketplace.json"),
+                0o644,
+            ),
+            (PACKAGE_NAME, package_data, 0o644),
+        ]
+        entries.extend(
+            (f"skills/implementaudit/{relative.as_posix()}", data, mode)
+            for relative, data, mode in skill_entries
+        )
+        entries.extend(child_entries)
+        return entries
+    if role == "standalone_compatibility":
+        entries = [(PACKAGE_NAME, package_data, 0o644)]
+        entries.extend(
+            (relative.as_posix(), data, mode) for relative, data, mode in skill_entries
+        )
+        entries.extend(standalone_internal_procedure_entries(child_entries))
+        return entries
+    raise ContractError(f"unknown artifact role: {role}")
 
-    plugin_entries: list[tuple[str, bytes, int]] = [
-        (".codex-plugin/plugin.json", normalized_bytes(root / ".codex-plugin/plugin.json"), 0o644),
-        (".claude-plugin/plugin.json", normalized_bytes(root / ".claude-plugin/plugin.json"), 0o644),
-        (".claude-plugin/marketplace.json", normalized_bytes(root / ".claude-plugin/marketplace.json"), 0o644),
-        (PACKAGE_NAME, package_data, 0o644),
-    ]
-    plugin_entries.extend(
-        (f"skills/implementaudit/{relative.as_posix()}", data, mode)
-        for relative, data, mode in skill_entries
-    )
-    plugin_entries.extend(child_entries)
+
+def build_artifacts(root: Path, output_dir: Path, contract: dict[str, Any]) -> list[Path]:
+    identity = source_identity(root)
+    plugin_entries = artifact_payload_entries(root, "canonical_plugin", contract)
     plugin_inventory = inventory_bytes("canonical_plugin", contract, identity, plugin_entries)
     plugin_entries.append((INVENTORY_NAME, plugin_inventory, 0o644))
 
-    standalone_entries: list[tuple[str, bytes, int]] = [(PACKAGE_NAME, package_data, 0o644)]
-    standalone_entries.extend(
-        (relative.as_posix(), data, mode) for relative, data, mode in skill_entries
-    )
-    standalone_entries.extend(standalone_internal_procedure_entries(child_entries))
+    standalone_entries = artifact_payload_entries(root, "standalone_compatibility", contract)
     standalone_inventory = inventory_bytes(
         "standalone_compatibility", contract, identity, standalone_entries
     )
@@ -583,6 +609,22 @@ def verify_artifact(
                 {"path": name, "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest()}
             )
         require_equal("inventory members", inventory.get("members"), observed_members)
+
+        expected_entries = artifact_payload_entries(root, role, contract)
+        expected_member_data = {
+            name: data for name, data, _mode in expected_entries
+        }
+        require_equal(
+            f"{role} source member population",
+            sorted(name for name in names if name != INVENTORY_NAME),
+            sorted(expected_member_data),
+        )
+        for name, expected_data in expected_member_data.items():
+            require_equal(
+                f"{role} source parity for {name}",
+                zf.read(name),
+                expected_data,
+            )
 
         if role == "canonical_plugin":
             required = {
