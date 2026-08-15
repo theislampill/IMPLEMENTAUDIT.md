@@ -4,6 +4,9 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
+tmp="$(mktemp -d)"
+trap 'rm -rf "$tmp"' EXIT
+
 python - <<'PY'
 from pathlib import Path
 import re
@@ -74,6 +77,11 @@ governor_tokens = [
     "CHILD_AUTHORITY_OR_CLOSURE_OUTPUT=REJECTED",
     "CHILD_RESULT_AUTHORITY=NONE",
     "CHILD_RESULT_CLOSURE=NONE",
+    "INTERNAL_SKILL_RESOLVER=scripts/resolve-internal-skill.py",
+    "CANONICAL_CHILD_PATH=../<child>/SKILL.md",
+    "STANDALONE_CHILD_PATH=internal-procedures/<child>.md",
+    "ROUTE_LAYOUT=SOURCE_OR_CANONICAL_PLUGIN_OR_STANDALONE",
+    "ROUTE_POPULATION=EXACT_AND_COMPLETE",
     "references/planning-depth.md",
     "references/plan-lifecycle.md",
 ]
@@ -166,3 +174,78 @@ for name, contract in children.items():
 
 print("internal-skill-routing.test: ok")
 PY
+
+resolver="skills/implementaudit/scripts/resolve-internal-skill.py"
+expected_source="$(python - <<'PY'
+from pathlib import Path
+print((Path('skills') / 'audit-state' / 'SKILL.md').resolve())
+PY
+)"
+observed_source="$(python "$resolver" \
+  --governor skills/implementaudit/SKILL.md \
+  --child audit-state)"
+[ "$observed_source" = "$expected_source" ] || {
+  printf 'internal-skill-routing.test: source-layout resolution mismatch\n' >&2
+  exit 1
+}
+
+standalone="$tmp/standalone-host/skills/implementaudit"
+mkdir -p "$standalone/internal-procedures" "$standalone/scripts"
+cp skills/implementaudit/SKILL.md "$standalone/SKILL.md"
+cp "$resolver" "$standalone/scripts/resolve-internal-skill.py"
+for child in audit-state audit-assess audit-implement audit-andon; do
+  cp "skills/$child/SKILL.md" "$standalone/internal-procedures/$child.md"
+done
+mkdir -p "$tmp/standalone-host/skills/unrelated-skill"
+printf '%s\n' '# unrelated installed skill' > "$tmp/standalone-host/skills/unrelated-skill/SKILL.md"
+observed_standalone="$(python "$standalone/scripts/resolve-internal-skill.py" \
+  --governor "$standalone/SKILL.md" \
+  --child audit-andon)"
+[ "$observed_standalone" = "$(python - "$standalone/internal-procedures/audit-andon.md" <<'PY'
+from pathlib import Path
+import sys
+print(Path(sys.argv[1]).resolve())
+PY
+)" ] || {
+  printf 'internal-skill-routing.test: standalone-layout resolution mismatch\n' >&2
+  exit 1
+}
+
+missing="$tmp/missing-host/skills/implementaudit"
+mkdir -p "$(dirname "$missing")"
+cp -R "$standalone" "$missing"
+rm "$missing/internal-procedures/audit-state.md"
+if python "$missing/scripts/resolve-internal-skill.py" \
+  --governor "$missing/SKILL.md" \
+  --child audit-assess >/dev/null 2>&1; then
+  printf 'internal-skill-routing.test: incomplete standalone population unexpectedly resolved\n' >&2
+  exit 1
+fi
+
+extra="$tmp/extra-host/skills/implementaudit"
+mkdir -p "$(dirname "$extra")"
+cp -R "$standalone" "$extra"
+printf '%s\n' '# unexpected child' > "$extra/internal-procedures/audit-extra.md"
+if python "$extra/scripts/resolve-internal-skill.py" \
+  --governor "$extra/SKILL.md" \
+  --child audit-assess >/dev/null 2>&1; then
+  printf 'internal-skill-routing.test: extra standalone population unexpectedly resolved\n' >&2
+  exit 1
+fi
+
+plugin="$tmp/ambiguous-host/plugins/implementaudit"
+mkdir -p "$plugin/skills"
+cp -R skills/implementaudit "$plugin/skills/implementaudit"
+for child in audit-state audit-assess audit-implement audit-andon; do
+  cp -R "skills/$child" "$plugin/skills/$child"
+done
+mkdir -p "$tmp/ambiguous-host/skills"
+cp -R "$standalone" "$tmp/ambiguous-host/skills/implementaudit"
+if python "$plugin/skills/implementaudit/scripts/resolve-internal-skill.py" \
+  --governor "$plugin/skills/implementaudit/SKILL.md" \
+  --child audit-state >/dev/null 2>&1; then
+  printf 'internal-skill-routing.test: ambiguous plugin/standalone precedence unexpectedly resolved\n' >&2
+  exit 1
+fi
+
+printf 'internal-skill-routing.test: resolver controls ok\n'

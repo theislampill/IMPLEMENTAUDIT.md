@@ -38,6 +38,9 @@ This is one atomic dual-host plugin. IMPLEMENTAUDIT.plugin.zip is canonical.
 IMPLEMENTAUDIT.skill is compatibility-only. /implementaudit is the sole stable public/default governor.
 The package has exactly four child skills: audit-state, audit-assess, audit-implement, and audit-andon.
 It is owned by package/implementaudit-package.json.
+The children are cross-cutting cognitive capabilities, not L1-L5 stages.
+DAG agents provide horizontal, dependency-correct work lanes; children provide vertical progressive cognitive disclosure.
+The standalone governor resolves internal-procedures/ and package structure and routing checks do not by themselves prove host activation.
 EOF
   cat > "$root/CONTRIBUTING.md" <<'EOF'
 Package owner: package/implementaudit-package.json.
@@ -109,6 +112,26 @@ bad_host_claim="$tmp/bad-host-claim"
 cp -R "$good" "$bad_host_claim"
 printf '%s\n' 'Codex natively discovers the plugin.' >> "$bad_host_claim/docs/portal/pages/package-contents.html"
 expect_fail "$bad_host_claim" "native host overclaim"
+
+for readme_case in stale-three-child wrong-child-name child-chain one-skill-per-loop standalone-direct-route child-authority; do
+  root="$tmp/readme-$readme_case"
+  cp -R "$good" "$root"
+  case "$readme_case" in
+    stale-three-child)
+      printf '%s\n' 'The current package has three child skills.' >> "$root/README.md" ;;
+    wrong-child-name)
+      printf '%s\n' 'The current children are audit-state, audit-assess, and audit-trace.' >> "$root/README.md" ;;
+    child-chain)
+      printf '%s\n' 'Children route directly from audit-state -> audit-assess -> audit-implement.' >> "$root/README.md" ;;
+    one-skill-per-loop)
+      printf '%s\n' 'The architecture assigns one skill per L1-L5 loop.' >> "$root/README.md" ;;
+    standalone-direct-route)
+      printf '%s\n' 'The standalone projection directly exposes audit-andon as a discoverable child command.' >> "$root/README.md" ;;
+    child-authority)
+      printf '%s\n' 'A child skill may grant PASS and advance lifecycle state.' >> "$root/README.md" ;;
+  esac
+  expect_fail "$root" "README public-contract regression: $readme_case"
+done
 
 # Historical standalone-skill evidence is append-only and intentionally not a
 # current topology owner, so it must not make the current-shape gate fail.

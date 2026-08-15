@@ -308,6 +308,7 @@ def validate_archive(raw_path, role):
             raise SystemExit("standalone contains nested skills or host manifests")
         for required in (
             "SKILL.md", "references/", "scripts/", "templates/",
+            "scripts/resolve-internal-skill.py",
             "internal-procedures/audit-state.md",
             "internal-procedures/audit-assess.md",
             "internal-procedures/audit-implement.md",

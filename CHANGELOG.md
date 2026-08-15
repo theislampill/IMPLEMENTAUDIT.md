@@ -31,8 +31,8 @@ workflows, Pages and fresh public-download installation remain separate gates.
   Evolved-DRF as property genealogy for one native substrate. It adds no
   lineage selector, runtime mode, fixed ceremony, or methodology-conformance
   claim.
-- The 552-row research population is reported as 552/552 disposition
-  accounting, not as 552 source changes. Negative, rejected, unresolved,
+- The 658-row research population is reported as 658/658 disposition
+  accounting, not as 658 source changes. Negative, rejected, unresolved,
   residual and owner-decision outcomes remain visible.
 - Release identity qualification now has an explicit cross-family path that
   binds predecessor public `v0.3.3.3`/runtime `0.3.3` to candidate public

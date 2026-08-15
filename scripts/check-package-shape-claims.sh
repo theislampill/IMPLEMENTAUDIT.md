@@ -137,6 +137,11 @@ current_docs = {
         "audit-implement",
         "audit-andon",
         "package/implementaudit-package.json",
+        "cross-cutting cognitive capabilities",
+        "horizontal, dependency-correct work lanes",
+        "progressive cognitive disclosure",
+        "internal-procedures/",
+        "routing checks do not by themselves prove host activation",
     ],
     "CONTRIBUTING.md": [
         "package/implementaudit-package.json",
@@ -170,6 +175,7 @@ for path, claims in current_docs.items():
 # references. Keep the scope narrow so append-only v0.2/v0.3 evidence survives.
 current_surfaces = [
     Path("AGENTS.md"),
+    Path("README.md"),
     Path("CONTRIBUTING.md"),
     Path("docs/portal/site.json"),
     *sorted(Path("docs/portal/pages").glob("*.html")),
@@ -181,6 +187,18 @@ forbidden = [
      "native host behavior claimed without a bound host witness"),
     (re.compile(r"(?:published|listed)\s+(?:to|on)\s+the\s+marketplace", re.I),
      "marketplace publication claimed without public evidence"),
+    (re.compile(r"current package has (?:zero|three) child skills", re.I),
+     "README exposes a stale child population"),
+    (re.compile(r"current children are[^\n]*(?:audit-trace|audit-hqyqh|audit-admit)", re.I),
+     "README exposes a superseded child name"),
+    (re.compile(r"children route directly from[^\n]*->", re.I),
+     "README creates a child-to-child route"),
+    (re.compile(r"assigns one skill per (?:L1-L5|loop)", re.I),
+     "README collapses cross-cutting cognition into one-skill-per-loop ownership"),
+    (re.compile(r"standalone projection directly exposes audit-andon as a discoverable child command", re.I),
+     "README overclaims standalone direct child reachability"),
+    (re.compile(r"child skill may grant PASS and advance lifecycle state", re.I),
+     "README grants child authority"),
 ]
 for path in current_surfaces:
     if not path.is_file():

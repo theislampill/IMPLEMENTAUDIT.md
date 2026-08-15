@@ -91,12 +91,22 @@ AUTHORITY_CEILING=BOUND
 SELECTED_CHILD=EXACTLY_ONE
 CHILD_RESULT_AUTHORITY=NONE
 CHILD_RESULT_CLOSURE=NONE
+INTERNAL_SKILL_RESOLVER=scripts/resolve-internal-skill.py
+CANONICAL_CHILD_PATH=../<child>/SKILL.md
+STANDALONE_CHILD_PATH=internal-procedures/<child>.md
+ROUTE_LAYOUT=SOURCE_OR_CANONICAL_PLUGIN_OR_STANDALONE
+ROUTE_POPULATION=EXACT_AND_COMPLETE
 ```
 
 Before loading one child, the governor verifies the executing package and
 unambiguous plugin/standalone precedence, binds the current audit object and
 authority ceiling, applies the route-specific currentness/independence gate,
-and names exactly one child. A child result returns here as evidence input; the
+and names exactly one child. Resolve that name relative to this governor with
+`scripts/resolve-internal-skill.py --governor SKILL.md --child <child>`: source
+and canonical-plugin layouts load `../<child>/SKILL.md`; the flattened
+standalone layout loads `internal-procedures/<child>.md`. The resolver refuses a
+missing or extra child projection and an ambiguous plugin/standalone sibling;
+do not infer a route from discovery or search order. A child result returns here as evidence input; the
 governor re-derives current state before any later route or transition. Child
 output that claims authority, closure, lifecycle change, mutation, currentness,
 release, or `AUDIT_COMPLETE` is rejected.

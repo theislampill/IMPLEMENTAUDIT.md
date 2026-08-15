@@ -21,8 +21,10 @@ implementing, improving, reviewing, recovering, integrating, and closing
 repository work—not only a one-off code audit. `/implementaudit` remains the
 sole stable public/default governor; v0.4 ships exactly four model-facing child
 skills: `audit-state`, `audit-assess`, maintainer-only `audit-implement`, and
-dual-entry `audit-andon`. Governed child use is routed by the governor; only an
-explicit Andon cord-pull may directly invoke `audit-andon`. They form no
+dual-entry `audit-andon`. Governed child use is routed by the governor; where a
+capable host discovers the canonical child, an explicit Andon cord-pull may
+directly invoke `audit-andon`, while the standalone projection routes the same
+request through `/implementaudit`. They form no
 child lifecycle and own no authority, currentness, mutation, release, closure,
 or `AUDIT_COMPLETE`; references, templates, and helper scripts remain one
 shared deterministic substrate. A skill or agent-tooling repository can itself
@@ -67,6 +69,7 @@ Each action requires separate explicit authorisation.
 
 - [Quick start](#quick-start)
 - [Runtime at a glance](#runtime-at-a-glance)
+- [Governor, specialised cognition, and work topology](#governor-specialised-cognition-and-work-topology)
 - [Why IMPLEMENTAUDIT is stronger than a bare `/goal`](#why-implementaudit-is-stronger-than-a-bare-goal)
 - [What it is](#what-it-is)
 - [Quick vocabulary, not authority](#quick-vocabulary-not-authority)
@@ -166,6 +169,41 @@ the run advances through resumable phases;
 each phase executes and verifies a bounded unit; 
 Andon can stop and correct any other loop; 
 and the final audit-fix loop alone can establish terminal closure.
+
+### Governor, specialised cognition, and work topology
+
+`/implementaudit` remains the stable public/default governor. It derives the
+current condition, keeps authority and lifecycle control, and progressively
+loads at most one specialised child for that derivation when the extra cognition
+earns its context cost:
+
+| Child skill | Bounded question it helps answer |
+|---|---|
+| `audit-state` | What state is decision-usably current after restart, handoff, compaction, or identity ambiguity? |
+| `audit-assess` | What does an independent, adversarial examination find about the work or evidence? |
+| `audit-implement` | What implementation is actually realised for this exact candidate and claim across the applicable evidence surfaces? |
+| `audit-andon` | What diagnosis, local-vs-systemic classification, countermeasure, and follow-up does an established abnormality warrant? |
+
+These are cross-cutting cognitive capabilities, not L1-L5 stages and not a
+child-to-child pipeline. Each returns a bounded result to the governor (or, for
+an explicit `audit-andon` cord-pull, to the actual caller) and cannot grant
+currentness, mutation authority, lifecycle progress, `PASS`, release, or
+terminal closure. The five L1-L5 loops remain the operational control system.
+
+Work topology is a separate dimension. The state-derived DAG and child agents
+provide horizontal, dependency-correct work lanes; child skills provide vertical
+progressive cognitive disclosure inside one governor derivation. A JOIN belongs
+to the governor/DAG machinery. After evidence changes, the governor re-derives
+the current state and READY/BLOCKED frontier instead of blindly following a
+stale plan.
+
+The canonical plugin exposes the four child skill files to a capable host. The
+generated standalone compatibility projection deliberately exposes only the
+governor `SKILL.md`; its exact resolver maps governed requests to the four
+non-discoverable `internal-procedures/` projections and fails closed on a
+missing, extra, or ambiguous population. Where a host does not independently
+discover `audit-andon`, a cord-pull enters through `/implementaudit`; package
+structure and routing checks do not by themselves prove host activation.
 
 ## Why IMPLEMENTAUDIT is stronger than a bare `/goal`
 
@@ -890,8 +928,10 @@ contains exactly four child skills—`audit-state`, `audit-assess`, maintainer-o
 as shared resources rather than duplicating deterministic substrate. Each
 internal skill returns bounded cognition and grants no lifecycle, mutation,
 release, closure, or `AUDIT_COMPLETE` authority. Governor-routed use returns to
-the governor; direct `audit-andon` returns to the actual caller and grants no
-new authority. Planning and execution/repair
+the governor; a directly discovered canonical `audit-andon` returns to the
+actual caller and grants no new authority. The standalone projection keeps only
+the governor discoverable and resolves cord-pull requests through its bounded
+internal procedure. Planning and execution/repair
 remain progressively loaded governor/reference cognition, not child skills.
 
 `package/implementaudit-package.json` owns the single-package contract. The
@@ -1223,20 +1263,11 @@ readback.
 Codex manual installs copy the packaged skill payload into a Codex-style skill
 directory. A public GitHub release by itself cannot update a local copied skill.
 
-From a repo checkout, the simplest manual copy is:
-
-
-```bash
-mkdir -p ~/.codex/skills/implementaudit
-cp -R skills/implementaudit/* ~/.codex/skills/implementaudit/
-```
-
-PowerShell equivalent:
-
-```powershell
-New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills\implementaudit" | Out-Null
-Copy-Item -Recurse -Force .\skills\implementaudit\* "$env:USERPROFILE\.codex\skills\implementaudit\"
-```
+Do not copy only `skills/implementaudit/` from the source tree: that subtree is
+the governor plus shared substrate and omits the four required child sources.
+Use the generated standalone artifact and installer below so the exact flattened
+population, package identity, update policy, readback, and rollback are checked
+as one transaction.
 
 For the generated standalone compatibility artifact, build both projections,
 write the shared checksum manifest, and install `.skill` with checksum
@@ -1460,7 +1491,11 @@ release reports.
 The repository's
 [Research & Engineering Lineage source](docs/portal/pages/research-lineage-overview.html)
 explains Evolved-LAW, Evolved-CSS, Evolved-SSD and Evolved-DRF at property level.
-The integrated S³E route reports 552/552 disposition accounting, not 552 source
+The [repository genealogy corpus](docs/research/genealogy/README.md) is retained
+in the v0.4.0.0 source tree as exact research memory, remains excluded from both
+runtime package projections, and does not activate the deferred v0.4.1
+reabsorption campaign.
+The integrated research route reports 658/658 property disposition accounting, not 658 source
 changes. It preserves rejected, unresolved and owner-decision evidence and adds
 no nine runtimes, lineage selector, methodology mode, or universal-effectiveness
 claim. Hosted-current status still requires separate Pages publication and
