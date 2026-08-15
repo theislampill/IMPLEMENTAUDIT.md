@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 import os
+import posixpath
 import re
 import shutil
 import stat
@@ -450,6 +451,7 @@ def standalone_internal_procedure_entries(
         projected, count = re.subn(r"\A---\n.*?\n---\n+", "", text, count=1, flags=re.S)
         if count != 1:
             raise ContractError(f"internal skill frontmatter cannot be projected: {source_name}")
+        projected = projected.replace("../implementaudit/", "../")
         projections.append((f"internal-procedures/{skill_name}.md", projected.encode("utf-8"), 0o644))
     return projections
 
@@ -632,10 +634,27 @@ def verify_artifact(
                 expected_procedures,
             )
             for name in observed_procedures:
-                if zf.read(name).startswith(b"---\n"):
+                procedure = zf.read(name)
+                if procedure.startswith(b"---\n"):
                     raise ContractError(
                         f"standalone internal procedure retains discoverable frontmatter: {name}"
                     )
+                if b"../implementaudit/" in procedure:
+                    raise ContractError(
+                        f"standalone internal procedure retains plugin-relative owner path: {name}"
+                    )
+                for relative in re.findall(
+                    r"`(\.\./(?:references|scripts|templates)/[^`]+)`",
+                    procedure.decode("utf-8"),
+                ):
+                    resolved = posixpath.normpath(
+                        posixpath.join(PurePosixPath(name).parent.as_posix(), relative)
+                    )
+                    if resolved not in names:
+                        raise ContractError(
+                            "standalone internal procedure reference is unreachable: "
+                            f"{name} -> {relative}"
+                        )
             expected_projection_entries = standalone_internal_procedure_entries(
                 internal_skill_entries(root)
             )

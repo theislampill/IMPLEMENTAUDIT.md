@@ -70,6 +70,7 @@ validate_pair() {
     "$source_commit" "$source_tree" "$expected_state" <<'PY'
 import hashlib
 import json
+import posixpath
 import re
 import stat
 import sys
@@ -308,8 +309,13 @@ def validate_archive(raw_path, role):
         if observed_procedures != expected_procedures:
             raise SystemExit("standalone internal procedure projection is not exact")
         for name in observed_procedures:
-            if payloads[name].startswith(b"---\n"):
+            procedure = payloads[name]
+            if procedure.startswith(b"---\n"):
                 raise SystemExit("standalone internal procedure must not retain skill frontmatter")
+            if b"../implementaudit/" in procedure:
+                raise SystemExit(
+                    f"standalone internal procedure retains plugin-relative owner path: {name}"
+                )
             skill_name = PurePosixPath(name).stem
             source_text = (
                 source_root / "skills" / skill_name / "SKILL.md"
@@ -317,8 +323,20 @@ def validate_archive(raw_path, role):
             projected_text, count = re.subn(
                 r"\A---\n.*?\n---\n+", "", source_text, count=1, flags=re.S
             )
-            if count != 1 or payloads[name] != projected_text.encode("utf-8"):
+            projected_text = projected_text.replace("../implementaudit/", "../")
+            if count != 1 or procedure != projected_text.encode("utf-8"):
                 raise SystemExit(f"standalone projection is stale or non-deterministic: {name}")
+            for relative in re.findall(
+                r"`(\.\./(?:references|scripts|templates)/[^`]+)`",
+                procedure.decode("utf-8"),
+            ):
+                resolved = posixpath.normpath(
+                    posixpath.join(PurePosixPath(name).parent.as_posix(), relative)
+                )
+                if resolved not in payloads:
+                    raise SystemExit(
+                        f"standalone internal procedure reference is unreachable: {name} -> {relative}"
+                    )
 
     return embedded_package
 
