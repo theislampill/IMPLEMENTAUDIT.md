@@ -56,7 +56,7 @@ fi
 # Source-coupled S³E held-outs: changing a public owner and the declarative
 # fixture together must still fail against independent checker anchors.
 s3e_source_coupling_ok=true
-for mutation in canonical-title no-methodology-mode cheap-path; do
+for mutation in canonical-title no-methodology-mode cheap-path package-projection; do
   root="$tmp/s3e-source-coupling-$mutation"
   mkdir -p "$root/scripts" "$root/fixtures/public-projection" "$root/docs/portal/pages"
   cp "$checker" "$root/scripts/check-census-discipline.sh"
@@ -89,7 +89,7 @@ elif mutation == "no-methodology-mode":
         by_id["S3E-W04-F2"][field] = "The lineage families create selectable methodology modes."
     by_id["S3E-W04-F2"]["readme_facts"] = ["selectable-methodology-modes"]
     by_id["S3E-W04-F2"]["docs_facts"] = ["selectable-methodology-modes"]
-else:
+elif mutation == "cheap-path":
     css.write_text(css.read_text(encoding="utf-8").replace(
         "When one authoritative deterministic discriminator settles ordinary bounded work, use it and stop. No trigger means no added ceremony, record, or family machinery.",
         "Every bounded task requires added lineage ceremony, records, and family machinery."), encoding="utf-8")
@@ -97,6 +97,14 @@ else:
         by_id["S3E-W04-F2"][field] = "Every bounded task requires lineage ceremony."
     by_id["S3E-W04-F2"]["readme_facts"] = ["ceremony-required"]
     by_id["S3E-W04-F2"]["docs_facts"] = ["ceremony-required"]
+else:
+    s3e.write_text(s3e.read_text(encoding="utf-8").replace(
+        "The canonical plugin and standalone compatibility projections are mechanically checked independently; they are not literal member-for-member copies.",
+        "The two projections are interchangeable and have identical members."), encoding="utf-8")
+    for field in ("readme_wording", "docs_wording"):
+        by_id["S3E-W04-F4"][field] = "The two projections are interchangeable and have identical members."
+    by_id["S3E-W04-F4"]["readme_facts"] = ["identical-members"]
+    by_id["S3E-W04-F4"]["docs_facts"] = ["identical-members"]
 bank_path.write_text(json.dumps(bank, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 PY
   if (cd "$root" && bash scripts/check-census-discipline.sh fixtures/public-projection/cases.json >/dev/null 2>&1); then
@@ -106,6 +114,56 @@ PY
 done
 if [ "$s3e_source_coupling_ok" = true ]; then
   record_pass
+fi
+
+# Bind the S³E projection semantics to freshly built artifact bytes rather than
+# a synchronized prose/fixture count. Member totals may evolve; these semantic
+# distinctions must not.
+projection_out="$tmp/current-package-projections"
+if bash scripts/build-release-asset.sh "$projection_out" >/dev/null &&
+   "${py_cmd[@]}" - "$projection_out/IMPLEMENTAUDIT.plugin.zip" \
+     "$projection_out/IMPLEMENTAUDIT.skill" <<'PY'
+import sys
+import zipfile
+
+plugin_path, standalone_path = sys.argv[1:]
+with zipfile.ZipFile(plugin_path) as archive:
+    plugin = {name for name in archive.namelist() if not name.endswith("/")}
+with zipfile.ZipFile(standalone_path) as archive:
+    standalone = {name for name in archive.namelist() if not name.endswith("/")}
+
+plugin_manifests = {
+    ".claude-plugin/marketplace.json",
+    ".claude-plugin/plugin.json",
+}
+plugin_skills = {
+    "skills/implementaudit/SKILL.md",
+    "skills/audit-state/SKILL.md",
+    "skills/audit-assess/SKILL.md",
+    "skills/audit-implement/SKILL.md",
+    "skills/audit-andon/SKILL.md",
+}
+standalone_children = {
+    "internal-procedures/audit-state.md",
+    "internal-procedures/audit-assess.md",
+    "internal-procedures/audit-implement.md",
+    "internal-procedures/audit-andon.md",
+}
+if not plugin_manifests <= plugin:
+    raise SystemExit("canonical plugin lost dual-host manifest population")
+if not plugin_skills <= plugin:
+    raise SystemExit("canonical plugin lost governor/four-child skill population")
+if any(name.startswith(".claude-plugin/") for name in standalone):
+    raise SystemExit("standalone compatibility projection retained plugin manifests")
+if "SKILL.md" not in standalone or not standalone_children <= standalone:
+    raise SystemExit("standalone projection lost governor/four internal procedures")
+if plugin == standalone:
+    raise SystemExit("canonical and standalone projections became identical")
+PY
+then
+  record_pass
+else
+  record_fail "fresh artifact projection semantics are not mechanically bound"
 fi
 
 # Package-pressure compaction once weakened the omission assertion to generic

@@ -845,10 +845,10 @@
     {
       "id": "S3E-W04-F4",
       "kind": "factual-parity",
-      "readme_wording": "The archive has 51 members; Codex installs 49 payload files after excluding two plugin manifests.",
-      "docs_wording": "Archive membership is 51 while the intentional Codex copy projection is 49 files.",
-      "readme_facts": ["archive-51", "codex-install-49", "two-manifest-exclusion"],
-      "docs_facts": ["archive-51", "codex-install-49", "two-manifest-exclusion"],
+      "readme_wording": "The canonical plugin carries dual-host manifests; the standalone compatibility projection omits plugin manifests and projects four internal procedures under the governor.",
+      "docs_wording": "Canonical plugin and standalone compatibility projections have distinct, mechanically checked semantics and are not member-for-member copies.",
+      "readme_facts": ["canonical-plugin-dual-host-manifests", "standalone-no-plugin-manifests", "standalone-four-internal-procedures", "not-member-for-member-parity"],
+      "docs_facts": ["canonical-plugin-dual-host-manifests", "standalone-no-plugin-manifests", "standalone-four-internal-procedures", "not-member-for-member-parity"],
       "expected": "PASS"
     },
     {

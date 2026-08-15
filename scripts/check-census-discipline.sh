@@ -688,6 +688,9 @@ if schema == "implementaudit-public-projection-fixtures-v1":
         "ordinary-work-cheap-path": (
             "css",
             "When one authoritative deterministic discriminator settles ordinary bounded work, use it and stop. No trigger means no added ceremony, record, or family machinery."),
+        "current-package-projection-boundary": (
+            "s3e",
+            "The canonical plugin and standalone compatibility projections are mechanically checked independently; they are not literal member-for-member copies."),
     }
 
     def missing_source_anchors(text_by_owner):
