@@ -1,0 +1,80 @@
+{
+  "analytical_label": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING",
+  "freeze_date": "2026-08-12",
+  "freeze_revision": "REPLACEMENT_FREEZE_DEPTH_REPAIR_2026-08-12",
+  "research_state": "FROZEN",
+  "property_population_total": 50,
+  "property_population_examined": 50,
+  "property_coverage": "50/50",
+  "denominator_change": {
+    "baseline_population": 50,
+    "retained": 50,
+    "split": 0,
+    "merged": 0,
+    "added": 0,
+    "final_population": 50,
+    "decision": "NO_CHANGE_DEPTH_REPAIR_ONLY"
+  },
+  "source_count": 113,
+  "syntax_only_normalisation": [
+    "UTF-8",
+    "LF line endings",
+    "two-space JSON indentation",
+    "deterministic property/source ordering"
+  ],
+  "files": [
+    {
+      "filename": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_FROZEN_REPORT.md",
+      "byte_count": 484610,
+      "sha256": "6f45bf9a15366820916327d617183d9c4b8c9d5c18309cdb2f8bd22b9b24f687"
+    },
+    {
+      "filename": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "byte_count": 466039,
+      "sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12"
+    },
+    {
+      "filename": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_SOURCE_TABLE.json",
+      "byte_count": 139910,
+      "sha256": "e030f4580b647ab27c4932d8352e26060c74cfa02384c702bf1437c1aa1b0794"
+    },
+    {
+      "filename": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_AUDIT_INTAKE.md",
+      "byte_count": 646116,
+      "sha256": "3061c1e5c7090a12b60bf0858e644a303d128e1e59d2fc6eae722fd8f285de86"
+    },
+    {
+      "filename": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "byte_count": 18551,
+      "sha256": "233530d8f4dbef2de02593b0082d7d8cfc10044c32f4a356c9fabde500132d3d"
+    }
+  ],
+  "manifest_self_hash_boundary": {
+    "filename": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_FROZEN_MANIFEST.json",
+    "byte_count": "RECORDED_BY_FILESYSTEM_AFTER_SERIALISATION",
+    "sha256": "DETACHED_IN_ZIP_COMMENT_AND_TERMINAL_OUTPUT",
+    "reason": "Embedding a file’s own final SHA-256 changes the file and creates a circular fixed-point requirement."
+  },
+  "packet_hash_boundary": {
+    "filename": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_FROZEN_PACKET.zip",
+    "byte_count": "RECORDED_AFTER_PACKET_CREATION",
+    "sha256": "DETACHED_IN_TERMINAL_OUTPUT",
+    "reason": "The packet contains this manifest and therefore its own hash cannot be embedded in the contained manifest without recursion."
+  },
+  "completion_gates": {
+    "historical_genealogy_complete": "YES",
+    "major_school_relationships_dispositioned": "YES",
+    "major_criticism_families_searched": "YES",
+    "current_state_and_recent_frontier_searched": "YES",
+    "all_requested_profile_fields_individualised": "YES_50_OF_50",
+    "property_specific_evidence_partitions_complete": "YES_50_OF_50",
+    "final_property_population_frozen": "YES",
+    "all_properties_dispositioned": "YES",
+    "source_table_complete": "YES",
+    "audit_intake_complete": "YES",
+    "public_documentation_intake_complete": "YES",
+    "frozen_artifacts_packaged": "YES",
+    "manifest_hashes_complete": "YES_WITH_EXPLICIT_NONCIRCULAR_SELF_HASH_BOUNDARY"
+  },
+  "terminal_receipt": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_RESEARCH_STATE: FROZEN\nPROPERTY_POPULATION_TOTAL: 50\nPROPERTY_POPULATION_EXAMINED: 50\nPROPERTY_COVERAGE: 50/50\nEVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_AUDIT_INTAKE: COMPLETE\nPUBLIC_DOCUMENTATION_INTAKE: COMPLETE\nFROZEN_PACKET_PACKAGED: YES\nEXTERNAL_RESEARCH_READY_FOR_REPOSITORY_CROSSWALK: YES"
+}

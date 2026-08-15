@@ -1,0 +1,38 @@
+{
+  "embedded_manifest": {
+    "declared_digest_fields": [],
+    "member": null,
+    "status": "NOT_PRESENT_IN_PACKET"
+  },
+  "lineage_id": "EVOLVED_LEAN",
+  "lineage_name": "Evolved Lean",
+  "members": [
+    {
+      "bytes": 435938,
+      "member": "EVOLVED_LEAN_PROPERTY_LEDGER.json",
+      "path": "docs/research/genealogy/law/evolved-lean/corpus/EVOLVED_LEAN_PROPERTY_LEDGER.json",
+      "sha256": "5d82d354bbd0dc0bfbc2dd2020f15556dfc5fee964a5d61e68be06abe5eb6d3a"
+    },
+    {
+      "bytes": 401879,
+      "member": "EVOLVED_LEAN_FROZEN_REPORT.md",
+      "path": "docs/research/genealogy/law/evolved-lean/corpus/EVOLVED_LEAN_FROZEN_REPORT.md",
+      "sha256": "b0edffb7d09971ae5bf1f4b2c6c4cabd968d016563504597553d66aa7db1ccf0"
+    }
+  ],
+  "packet": {
+    "bytes": 222053,
+    "identity_kind": "RAW_DELIVERED_ZIP_BYTES",
+    "path": "docs/research/genealogy/law/evolved-lean/packet/EVOLVED_LEAN_FROZEN_PACKET.zip",
+    "sha256": "98ef23e0c8f1de7a19af979a2771d9aa9da2baa836cd91c49c948cb8bedcef3a"
+  },
+  "property_ledger": {
+    "bytes": 435938,
+    "member": "EVOLVED_LEAN_PROPERTY_LEDGER.json",
+    "properties": 40,
+    "root": "EVOLVED_LEAN_PROPERTY_LEDGER",
+    "sha256": "5d82d354bbd0dc0bfbc2dd2020f15556dfc5fee964a5d61e68be06abe5eb6d3a"
+  },
+  "schema": "implementaudit-engineering-genealogy-lineage-manifest-v1",
+  "trifecta": "law"
+}

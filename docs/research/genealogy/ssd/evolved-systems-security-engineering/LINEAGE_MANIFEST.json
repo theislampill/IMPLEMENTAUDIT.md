@@ -1,0 +1,86 @@
+{
+  "embedded_manifest": {
+    "bytes": 2272,
+    "declared_digest_fields": [
+      {
+        "field": "artifacts[0].sha256",
+        "value": "b19883e97231b3d09ac4bbcfe5dd8010138ea1d06d069beee7a1c6cb38e900b5"
+      },
+      {
+        "field": "artifacts[1].sha256",
+        "value": "52286c3b6e8c993ba6c0d62844b384f789550b46514e63856ec79ea71cd86b3a"
+      },
+      {
+        "field": "artifacts[2].sha256",
+        "value": "53ef5ecb4667a06747fdb93b304f261eb5136212798578b62648141947432ef4"
+      },
+      {
+        "field": "artifacts[3].sha256",
+        "value": "0975c8ad9bdab63ebcd6a5986c4dc8258d37e04d8f7f80bbdf6845e28aad15b0"
+      },
+      {
+        "field": "artifacts[4].sha256",
+        "value": "83159cc7735ca14a54c1d9318cc712866a759e281f85804950af0779a440f112"
+      }
+    ],
+    "identity_note": "Declared packet/content digests retain their source-defined scope and are not treated as the raw delivered ZIP SHA-256 unless the source explicitly says so.",
+    "member": "EVOLVED_SYSTEMS_SECURITY_ENGINEERING_FROZEN_MANIFEST.json",
+    "sha256": "5753153224b8c0bf389d3743f79febadeeb946f06fe8e2b2d4edd7ac0f34db10",
+    "status": "PRESENT"
+  },
+  "lineage_id": "EVOLVED_SYSTEMS_SECURITY_ENGINEERING",
+  "lineage_name": "Evolved Systems Security Engineering",
+  "members": [
+    {
+      "bytes": 1019984,
+      "member": "EVOLVED_SYSTEMS_SECURITY_ENGINEERING_FROZEN_REPORT.md",
+      "path": "docs/research/genealogy/ssd/evolved-systems-security-engineering/corpus/EVOLVED_SYSTEMS_SECURITY_ENGINEERING_FROZEN_REPORT.md",
+      "sha256": "b19883e97231b3d09ac4bbcfe5dd8010138ea1d06d069beee7a1c6cb38e900b5"
+    },
+    {
+      "bytes": 314631,
+      "member": "EVOLVED_SYSTEMS_SECURITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "path": "docs/research/genealogy/ssd/evolved-systems-security-engineering/corpus/EVOLVED_SYSTEMS_SECURITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "sha256": "52286c3b6e8c993ba6c0d62844b384f789550b46514e63856ec79ea71cd86b3a"
+    },
+    {
+      "bytes": 128512,
+      "member": "EVOLVED_SYSTEMS_SECURITY_ENGINEERING_SOURCE_TABLE.json",
+      "path": "docs/research/genealogy/ssd/evolved-systems-security-engineering/corpus/EVOLVED_SYSTEMS_SECURITY_ENGINEERING_SOURCE_TABLE.json",
+      "sha256": "53ef5ecb4667a06747fdb93b304f261eb5136212798578b62648141947432ef4"
+    },
+    {
+      "bytes": 300201,
+      "member": "EVOLVED_SYSTEMS_SECURITY_ENGINEERING_AUDIT_INTAKE.md",
+      "path": "docs/research/genealogy/ssd/evolved-systems-security-engineering/corpus/EVOLVED_SYSTEMS_SECURITY_ENGINEERING_AUDIT_INTAKE.md",
+      "sha256": "0975c8ad9bdab63ebcd6a5986c4dc8258d37e04d8f7f80bbdf6845e28aad15b0"
+    },
+    {
+      "bytes": 29541,
+      "member": "EVOLVED_SYSTEMS_SECURITY_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "path": "docs/research/genealogy/ssd/evolved-systems-security-engineering/corpus/EVOLVED_SYSTEMS_SECURITY_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "83159cc7735ca14a54c1d9318cc712866a759e281f85804950af0779a440f112"
+    },
+    {
+      "bytes": 2272,
+      "member": "EVOLVED_SYSTEMS_SECURITY_ENGINEERING_FROZEN_MANIFEST.json",
+      "path": "docs/research/genealogy/ssd/evolved-systems-security-engineering/corpus/EVOLVED_SYSTEMS_SECURITY_ENGINEERING_FROZEN_MANIFEST.json",
+      "sha256": "5753153224b8c0bf389d3743f79febadeeb946f06fe8e2b2d4edd7ac0f34db10"
+    }
+  ],
+  "packet": {
+    "bytes": 420747,
+    "identity_kind": "RAW_DELIVERED_ZIP_BYTES",
+    "path": "docs/research/genealogy/ssd/evolved-systems-security-engineering/packet/EVOLVED_SYSTEMS_SECURITY_ENGINEERING_FROZEN_PACKET.zip",
+    "sha256": "8344c8083e2812163166869feaacbaf072447c12301082bcb4594786bbf3f5f3"
+  },
+  "property_ledger": {
+    "bytes": 314631,
+    "member": "EVOLVED_SYSTEMS_SECURITY_ENGINEERING_PROPERTY_LEDGER.json",
+    "properties": 60,
+    "root": "properties",
+    "sha256": "52286c3b6e8c993ba6c0d62844b384f789550b46514e63856ec79ea71cd86b3a"
+  },
+  "schema": "implementaudit-engineering-genealogy-lineage-manifest-v1",
+  "trifecta": "ssd"
+}

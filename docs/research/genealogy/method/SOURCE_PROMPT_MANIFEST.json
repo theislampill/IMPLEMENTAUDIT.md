@@ -1,0 +1,30 @@
+{
+  "authority_boundary": "Exact source-prompt identity inventory; generalised templates are separate derived method aids.",
+  "files": [
+    {
+      "bytes": 43633,
+      "path": "docs/research/genealogy/method/source-prompts/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PRO_RESEARCH_PROMPT.md",
+      "role": "source_prompt",
+      "sha256": "e4018df499b2e3c4f5ef8d89ba6f872d46e02af23aa168bb85ed899d91c890e8"
+    },
+    {
+      "bytes": 1004,
+      "path": "docs/research/genealogy/method/source-prompts/EVOLVED_DRF_PRO_RESEARCH_PROMPTS_MANIFEST.json",
+      "role": "source_prompt_manifest",
+      "sha256": "80ad4e7b42e37142f63c939c4f7d89eec6e3347b1de5a971ffc1987c14f61490"
+    },
+    {
+      "bytes": 44184,
+      "path": "docs/research/genealogy/method/source-prompts/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PRO_RESEARCH_PROMPT.md",
+      "role": "source_prompt",
+      "sha256": "96a6ad7ed54124d90abe553bdf80e9db60f321abf2d5a9f57f619c19a511f812"
+    },
+    {
+      "bytes": 43074,
+      "path": "docs/research/genealogy/method/source-prompts/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PRO_RESEARCH_PROMPT.md",
+      "role": "source_prompt",
+      "sha256": "491a8402fc1553f7cd8643c9b560b872101db4b25280b6471966f60a5dc2bf30"
+    }
+  ],
+  "schema": "implementaudit-engineering-genealogy-source-prompt-manifest-v1"
+}

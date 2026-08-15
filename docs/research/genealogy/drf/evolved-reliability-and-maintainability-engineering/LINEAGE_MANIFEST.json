@@ -1,0 +1,102 @@
+{
+  "embedded_manifest": {
+    "bytes": 5101,
+    "declared_digest_fields": [
+      {
+        "field": "packaged_members[0].sha256",
+        "value": "902715c7b5dec645ede1bb6e899f045bde3d8c46a3cb987e8fc49b6f5823d3b2"
+      },
+      {
+        "field": "packaged_members[1].sha256",
+        "value": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2"
+      },
+      {
+        "field": "packaged_members[2].sha256",
+        "value": "4a17c8b2e36b1b8228d0cc4002e69fc12a67ad77f78eceed5cade5ee55226f4a"
+      },
+      {
+        "field": "packaged_members[3].sha256",
+        "value": "1ce795d9dffb28eece7f97df9484484e9466d372025bf363c192f0d3db3ad3c3"
+      },
+      {
+        "field": "packaged_members[4].sha256",
+        "value": "c650657428d6297eb6711f643f20388a4c8b3779416e8dbc9d0ae57368235cde"
+      },
+      {
+        "field": "packaged_members[5].sha256",
+        "value": "f347bdbfdf37f73861500fe524cc34d1972d86dca1376b872d8e97df3eb6e44f"
+      },
+      {
+        "field": "manifest_self_integrity.sha256",
+        "value": "f347bdbfdf37f73861500fe524cc34d1972d86dca1376b872d8e97df3eb6e44f"
+      },
+      {
+        "field": "outer_archive.sha256",
+        "value": null
+      },
+      {
+        "field": "outer_archive.archive_content_digest_sha256",
+        "value": "ffbce173fcc53e3615e30ab16b261575fc8551846eba559604533baa3a51469b"
+      }
+    ],
+    "identity_note": "Declared packet/content digests retain their source-defined scope and are not treated as the raw delivered ZIP SHA-256 unless the source explicitly says so.",
+    "member": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_FROZEN_MANIFEST.json",
+    "sha256": "314c035c1064bfef28d112a3249fff2ddadfb87765973cb86418e648eef97334",
+    "status": "PRESENT"
+  },
+  "lineage_id": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING",
+  "lineage_name": "Evolved Reliability and Maintainability Engineering",
+  "members": [
+    {
+      "bytes": 339623,
+      "member": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_AUDIT_INTAKE.md",
+      "path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_AUDIT_INTAKE.md",
+      "sha256": "1ce795d9dffb28eece7f97df9484484e9466d372025bf363c192f0d3db3ad3c3"
+    },
+    {
+      "bytes": 5101,
+      "member": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_FROZEN_MANIFEST.json",
+      "path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_FROZEN_MANIFEST.json",
+      "sha256": "314c035c1064bfef28d112a3249fff2ddadfb87765973cb86418e648eef97334"
+    },
+    {
+      "bytes": 1191942,
+      "member": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_FROZEN_REPORT.md",
+      "path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_FROZEN_REPORT.md",
+      "sha256": "902715c7b5dec645ede1bb6e899f045bde3d8c46a3cb987e8fc49b6f5823d3b2"
+    },
+    {
+      "bytes": 599311,
+      "member": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2"
+    },
+    {
+      "bytes": 28910,
+      "member": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "c650657428d6297eb6711f643f20388a4c8b3779416e8dbc9d0ae57368235cde"
+    },
+    {
+      "bytes": 90702,
+      "member": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_SOURCE_TABLE.json",
+      "path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_SOURCE_TABLE.json",
+      "sha256": "4a17c8b2e36b1b8228d0cc4002e69fc12a67ad77f78eceed5cade5ee55226f4a"
+    }
+  ],
+  "packet": {
+    "bytes": 343118,
+    "identity_kind": "RAW_DELIVERED_ZIP_BYTES",
+    "path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/packet/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_FROZEN_PACKET.zip",
+    "sha256": "bd38d2079a1d33768d49533e959971973a11dd6562ccfd950f4b6138667f1422"
+  },
+  "property_ledger": {
+    "bytes": 599311,
+    "member": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+    "properties": 55,
+    "root": "properties",
+    "sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2"
+  },
+  "schema": "implementaudit-engineering-genealogy-lineage-manifest-v1",
+  "trifecta": "drf"
+}

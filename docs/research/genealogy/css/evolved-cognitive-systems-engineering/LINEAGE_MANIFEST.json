@@ -1,0 +1,122 @@
+{
+  "embedded_manifest": {
+    "bytes": 3676,
+    "declared_digest_fields": [
+      {
+        "field": "artefacts[0].sha256",
+        "value": "e1a366ba2ba585b78abcb8e5d26f2bf91ddc5bf74ebb9b05b078c1caeed0daca"
+      },
+      {
+        "field": "artefacts[0].sha256_basis",
+        "value": "RAW_FILE_BYTES"
+      },
+      {
+        "field": "artefacts[1].sha256",
+        "value": "b036e57b18548047a27ed90201cb37c55ccea7b0aae67f43103d0dbc3a8e1606"
+      },
+      {
+        "field": "artefacts[1].sha256_basis",
+        "value": "RAW_FILE_BYTES"
+      },
+      {
+        "field": "artefacts[2].sha256",
+        "value": "75be8e817b3b128f3aa8ea41f1818772a84ac3ae421f265abd3de7f34e53c1eb"
+      },
+      {
+        "field": "artefacts[2].sha256_basis",
+        "value": "RAW_FILE_BYTES"
+      },
+      {
+        "field": "artefacts[3].sha256",
+        "value": "69d11f96b23ef392b9698cf1cdfaa8a7549d5c730d7abacf51b7785a4704f740"
+      },
+      {
+        "field": "artefacts[3].sha256_basis",
+        "value": "RAW_FILE_BYTES"
+      },
+      {
+        "field": "artefacts[4].sha256",
+        "value": "aaff035ecbe3605cd577edce1c5a0e9db0decefe267373c976e54b6c71057cb2"
+      },
+      {
+        "field": "artefacts[4].sha256_basis",
+        "value": "RAW_FILE_BYTES"
+      },
+      {
+        "field": "artefacts[5].sha256",
+        "value": "e5c7a562b6ed322374fa18d5cd251908a31bb1d9e75a9654da01d7f4333af71a"
+      },
+      {
+        "field": "artefacts[5].sha256_basis",
+        "value": "CANONICAL_MANIFEST_WITH_SELF_AND_PACKET_SHA256_ZEROED"
+      },
+      {
+        "field": "artefacts[6].sha256",
+        "value": "ed325cdcb9e9e6e6da10fb50a84fcba95c6e62a585aa569e05ec8e6670d4f120"
+      },
+      {
+        "field": "artefacts[6].sha256_basis",
+        "value": "DETERMINISTIC_PACKET_WITH_NORMALIZED_MANIFEST"
+      }
+    ],
+    "identity_note": "Declared packet/content digests retain their source-defined scope and are not treated as the raw delivered ZIP SHA-256 unless the source explicitly says so.",
+    "member": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_FROZEN_MANIFEST.json",
+    "sha256": "4d35ef76b2b59d2945118fc0e15ba6a76501f6ad2de764eb5b41ebe408575721",
+    "status": "PRESENT"
+  },
+  "lineage_id": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING",
+  "lineage_name": "Evolved Cognitive Systems Engineering",
+  "members": [
+    {
+      "bytes": 371847,
+      "member": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_AUDIT_INTAKE.md",
+      "path": "docs/research/genealogy/css/evolved-cognitive-systems-engineering/corpus/EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_AUDIT_INTAKE.md",
+      "sha256": "69d11f96b23ef392b9698cf1cdfaa8a7549d5c730d7abacf51b7785a4704f740"
+    },
+    {
+      "bytes": 3676,
+      "member": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_FROZEN_MANIFEST.json",
+      "path": "docs/research/genealogy/css/evolved-cognitive-systems-engineering/corpus/EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_FROZEN_MANIFEST.json",
+      "sha256": "4d35ef76b2b59d2945118fc0e15ba6a76501f6ad2de764eb5b41ebe408575721"
+    },
+    {
+      "bytes": 1160592,
+      "member": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_FROZEN_REPORT.md",
+      "path": "docs/research/genealogy/css/evolved-cognitive-systems-engineering/corpus/EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_FROZEN_REPORT.md",
+      "sha256": "e1a366ba2ba585b78abcb8e5d26f2bf91ddc5bf74ebb9b05b078c1caeed0daca"
+    },
+    {
+      "bytes": 613718,
+      "member": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "path": "docs/research/genealogy/css/evolved-cognitive-systems-engineering/corpus/EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "sha256": "b036e57b18548047a27ed90201cb37c55ccea7b0aae67f43103d0dbc3a8e1606"
+    },
+    {
+      "bytes": 21050,
+      "member": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "path": "docs/research/genealogy/css/evolved-cognitive-systems-engineering/corpus/EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "aaff035ecbe3605cd577edce1c5a0e9db0decefe267373c976e54b6c71057cb2"
+    },
+    {
+      "bytes": 110335,
+      "member": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_SOURCE_TABLE.json",
+      "path": "docs/research/genealogy/css/evolved-cognitive-systems-engineering/corpus/EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_SOURCE_TABLE.json",
+      "sha256": "75be8e817b3b128f3aa8ea41f1818772a84ac3ae421f265abd3de7f34e53c1eb"
+    }
+  ],
+  "packet": {
+    "bytes": 2282388,
+    "identity_kind": "RAW_DELIVERED_ZIP_BYTES",
+    "path": "docs/research/genealogy/css/evolved-cognitive-systems-engineering/packet/EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_FROZEN_PACKET.zip",
+    "sha256": "3de33648e6261d1e827f63ffa72f028892e6e19755f34fdf77beb0e3dcb9801e"
+  },
+  "property_ledger": {
+    "bytes": 613718,
+    "member": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+    "properties": 62,
+    "root": "PROPERTIES",
+    "sha256": "b036e57b18548047a27ed90201cb37c55ccea7b0aae67f43103d0dbc3a8e1606"
+  },
+  "schema": "implementaudit-engineering-genealogy-lineage-manifest-v1",
+  "trifecta": "css"
+}
