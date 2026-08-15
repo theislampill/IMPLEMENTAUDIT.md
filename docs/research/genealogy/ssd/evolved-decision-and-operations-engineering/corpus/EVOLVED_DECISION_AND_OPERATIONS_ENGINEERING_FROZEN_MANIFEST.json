@@ -1,0 +1,86 @@
+{
+  "analytical_label": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING",
+  "archive_payload_sha256": "4008dd45f8a2e583a5584a55d29b66c7aa9e0cff47f81a75b07812884852e092",
+  "archive_payload_sha256_definition": "SHA-256 over UTF-8 sorted lines: filename<TAB>byte_count<TAB>raw_file_sha256 for substantive content members.",
+  "manifest_self": {
+    "byte_count": 4423,
+    "definition": "Canonical UTF-8 JSON (sorted keys, indent=2, trailing LF) with only manifest_self.sha256 replaced by 64 zero characters; the stable final byte_count and outer_archive normalized hash are retained.",
+    "filename": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_FROZEN_MANIFEST.json",
+    "sha256": "c90fd338fb0a64ef0cb260492fc1e3add2a6c4094eb4aec93a4e00b203b25172",
+    "sha256_mode": "NORMALIZED_SELF_HASH_WITH_MANIFEST_SHA256_FIELD_ZEROED"
+  },
+  "outer_archive": {
+    "byte_count": 325417,
+    "definition": "SHA-256 of the deterministic ZIP after replacing manifest_self.sha256 and outer_archive.sha256 in its stored manifest member by 64 zero characters. Other member bytes and ZIP metadata remain as declared.",
+    "filename": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_FROZEN_PACKET.zip",
+    "raw_file_sha256": "EMITTED_IN_USER_FACING_TERMINAL_RECEIPT",
+    "raw_hash_reason": "Embedding a raw archive hash inside that archive changes the archive; the normalized digest is self-verifiable and the raw digest is detached.",
+    "sha256": "e1c24307c7ab5c320e3217a4c698a34393ef65b337886489aa6936bbb2080436",
+    "sha256_mode": "NORMALIZED_ZIP_SHA256_WITH_BOTH_DECLARED_SELF_HASH_FIELDS_ZEROED",
+    "zip_normalization_parameters": {
+      "comment": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING; NORMALIZED_SELF_HASHES_DECLARED_IN_MANIFEST",
+      "manifest_member_compression": "STORED",
+      "member_order": [
+        "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_FROZEN_REPORT.md",
+        "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_PROPERTY_LEDGER.json",
+        "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_SOURCE_TABLE.json",
+        "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_AUDIT_INTAKE.md",
+        "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+        "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_FROZEN_MANIFEST.json"
+      ],
+      "member_timestamp": "2026-08-12T00:00:00 (ZIP local timestamp fields)",
+      "substantive_member_compression": "DEFLATE level 9",
+      "unix_mode": "0100644"
+    }
+  },
+  "packaged_content_entries": [
+    {
+      "byte_count": 1216577,
+      "filename": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_FROZEN_REPORT.md",
+      "sha256": "b612b68155dcd3bcb89766c373dcb839926af5c0496128ce104f6ad2d3734fa0",
+      "sha256_mode": "RAW_FILE_SHA256"
+    },
+    {
+      "byte_count": 486400,
+      "filename": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_PROPERTY_LEDGER.json",
+      "sha256": "2aec48f14cf99d12163d5909fc5597239eba300a0bdab2ac1fcf39c85d726b34",
+      "sha256_mode": "RAW_FILE_SHA256"
+    },
+    {
+      "byte_count": 139341,
+      "filename": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_SOURCE_TABLE.json",
+      "sha256": "f869fe814ccc4521fd8856fec72c6d87a2d49e5badec0758d5caf8ee5b0ecaf2",
+      "sha256_mode": "RAW_FILE_SHA256"
+    },
+    {
+      "byte_count": 342113,
+      "filename": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_AUDIT_INTAKE.md",
+      "sha256": "f77cfeba65655c1d40a1ab45554ebb81581c509deca2d4e0d776f53941c548ef",
+      "sha256_mode": "RAW_FILE_SHA256"
+    },
+    {
+      "byte_count": 17022,
+      "filename": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "e3bfd147f9ae344a3846a81ea53d65034366b56e1d66beb096e2a32f0b3bbafb",
+      "sha256_mode": "RAW_FILE_SHA256"
+    }
+  ],
+  "property_coverage": "66/66",
+  "property_population_examined": 66,
+  "property_population_total": 66,
+  "receipt": [
+    "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_RESEARCH_STATE: FROZEN",
+    "PROPERTY_POPULATION_TOTAL: 66",
+    "PROPERTY_POPULATION_EXAMINED: 66",
+    "PROPERTY_COVERAGE: 66/66",
+    "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_AUDIT_INTAKE: COMPLETE",
+    "PUBLIC_DOCUMENTATION_INTAKE: COMPLETE",
+    "FROZEN_PACKET_PACKAGED: YES",
+    "EXTERNAL_RESEARCH_READY_FOR_REPOSITORY_CROSSWALK: YES"
+  ],
+  "research_reopened_for_packaging": false,
+  "research_state": "FROZEN",
+  "run_date": "2026-08-12",
+  "source_population_total": 124,
+  "syntax_normalisation_only": true
+}

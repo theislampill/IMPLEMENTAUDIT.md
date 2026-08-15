@@ -1,0 +1,100 @@
+{
+  "analytical_label": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING",
+  "research_state": "FROZEN",
+  "run_date": "2026-08-12",
+  "freeze_timestamp": "2026-08-12T12:00:00Z",
+  "population": {
+    "total": 55,
+    "examined": 55,
+    "coverage": "55/55"
+  },
+  "hash_algorithm": "SHA-256",
+  "syntax_only_normalisation": "UTF-8, LF line endings, deterministic JSON indentation and deterministic ZIP timestamps/order. Research content was not reopened.",
+  "packaged_members": [
+    {
+      "filename": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_FROZEN_REPORT.md",
+      "byte_count": 1191942,
+      "sha256": "902715c7b5dec645ede1bb6e899f045bde3d8c46a3cb987e8fc49b6f5823d3b2",
+      "hash_basis": "Literal file bytes."
+    },
+    {
+      "filename": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "byte_count": 599311,
+      "sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "hash_basis": "Literal file bytes."
+    },
+    {
+      "filename": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_SOURCE_TABLE.json",
+      "byte_count": 90702,
+      "sha256": "4a17c8b2e36b1b8228d0cc4002e69fc12a67ad77f78eceed5cade5ee55226f4a",
+      "hash_basis": "Literal file bytes."
+    },
+    {
+      "filename": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_AUDIT_INTAKE.md",
+      "byte_count": 339623,
+      "sha256": "1ce795d9dffb28eece7f97df9484484e9466d372025bf363c192f0d3db3ad3c3",
+      "hash_basis": "Literal file bytes."
+    },
+    {
+      "filename": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "byte_count": 28910,
+      "sha256": "c650657428d6297eb6711f643f20388a4c8b3779416e8dbc9d0ae57368235cde",
+      "hash_basis": "Literal file bytes."
+    },
+    {
+      "filename": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_FROZEN_MANIFEST.json",
+      "byte_count": 5101,
+      "sha256": "f347bdbfdf37f73861500fe524cc34d1972d86dca1376b872d8e97df3eb6e44f",
+      "hash_basis": "Canonical self-digest: SHA-256 of this manifest with manifest_self_integrity.sha256 and outer_archive.archive_content_digest_sha256 normalised to 64 zeroes. The byte_count is the literal final manifest byte count."
+    }
+  ],
+  "manifest_self_integrity": {
+    "filename": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_FROZEN_MANIFEST.json",
+    "byte_count": 5101,
+    "sha256": "f347bdbfdf37f73861500fe524cc34d1972d86dca1376b872d8e97df3eb6e44f",
+    "hash_basis": "Canonical self-digest with this sha256 and outer_archive.archive_content_digest_sha256 set to 64 zeroes."
+  },
+  "outer_archive": {
+    "filename": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_FROZEN_PACKET.zip",
+    "byte_count": null,
+    "sha256": null,
+    "archive_content_digest_sha256": "ffbce173fcc53e3615e30ab16b261575fc8551846eba559604533baa3a51469b",
+    "hash_basis": "archive_content_digest_sha256 is SHA-256 of a canonical list of all archive member identities, using literal payload hashes and the canonical manifest self-digest. Literal outer-ZIP byte_count/SHA-256 are necessarily external because an archive cannot contain its own literal identity without recursion; they are emitted by the build and reported with the download."
+  },
+  "self_reference_boundary": {
+    "manifest_literal_self_hash_embedded": false,
+    "outer_zip_literal_self_hash_embedded": false,
+    "reason": "Embedding a file’s literal hash in itself, or an archive’s literal hash inside an included manifest, is self-referential. Canonical self/content digests and the external literal ZIP digest provide deterministic integrity without a false fixed-point claim."
+  },
+  "completion_gates": {
+    "historical_genealogy_complete": "YES",
+    "major_school_relationships_dispositioned": "YES",
+    "major_criticism_families_searched": "YES",
+    "current_state_and_recent_frontier_searched": "YES",
+    "mission_failure_model_complete": "YES",
+    "reliability_availability_maintainability_model_complete": "YES",
+    "failure_propagation_model_complete": "YES",
+    "life_and_repairable_system_model_complete": "YES",
+    "redundancy_common_cause_model_complete": "YES",
+    "diagnostic_coverage_model_complete": "YES",
+    "graceful_degradation_model_complete": "YES",
+    "recovery_restoration_model_complete": "YES",
+    "maintainability_repairability_model_complete": "YES",
+    "maintenance_policy_model_complete": "YES",
+    "reliability_growth_fracas_model_complete": "YES",
+    "reliability_evidence_model_complete": "YES",
+    "software_service_reliability_model_complete": "YES",
+    "dependency_correlation_model_complete": "YES",
+    "metric_proxy_model_complete": "YES",
+    "ceremony_stripping_complete": "YES",
+    "final_property_population_frozen": "YES",
+    "all_properties_dispositioned": "YES",
+    "source_table_complete": "YES",
+    "criticism_ledger_complete": "YES",
+    "internal_tensions_complete": "YES",
+    "audit_intake_complete": "YES",
+    "public_documentation_intake_complete": "YES",
+    "frozen_artifacts_packaged": "YES",
+    "manifest_hashes_complete": "YES"
+  }
+}

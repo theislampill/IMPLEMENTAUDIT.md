@@ -1,0 +1,11 @@
+{
+  "authority_boundary": "Frozen historical crosswalk occurrence only; it is not present-v0.4 implementation or reabsorption authority.",
+  "bytes": 36194594,
+  "logical_path": ".IMPLEMENTAUDIT/runs/v0400-s3e-release-controller-KYxl3h/architecture/composable-skills-library-audit/V0400_CANONICAL_RESEARCH_PROPERTY_RXX_CROSSWALK.pre-post-implementation.json",
+  "rows": 658,
+  "schema": "implementaudit-historical-absorption-source-identity-v1",
+  "sha256": "9b8e088094c208cf07601ca0f44c66c8062364055b82c976d66043de5b7ce7be",
+  "source_generated_at_utc": "2026-08-15T02:21:08.229080+00:00",
+  "source_schema": "implementaudit-v0400-canonical-research-rxx-crosswalk-v1",
+  "source_state": "RELATION_TOPOLOGY_GENEALOGY_CURRENTNESS_RECONCILED_PENDING_TERMINAL_SET_PASS"
+}

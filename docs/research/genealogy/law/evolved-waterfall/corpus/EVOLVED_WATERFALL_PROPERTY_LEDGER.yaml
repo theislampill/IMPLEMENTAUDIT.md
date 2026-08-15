@@ -1,0 +1,1984 @@
+schema: EVOLVED_WATERFALL_PROPERTY_LEDGER_v1
+research_state: FROZEN
+access_date: '2026-08-11'
+property_population_total: 38
+property_population_examined: 38
+property_coverage: 38/38
+properties:
+- PROPERTY_ID: EW-P001
+  PROPERTY_NAME: Authoritative, revisable intent and requirements state
+  HISTORICAL_ORIGIN: Early large-system specifications; Royce; defence/aerospace requirements management; modern ISO/NASA
+    lifecycle processes.
+  ORIGINAL_FORM: Approved requirements specifications and controlled revisions, often document-centred.
+  PROBLEM_IT_ADDRESSED: Multiple groups need to know what behaviour, constraints and obligations currently govern.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Conflicting interpretations, invisible requirement drift, implementation against obsolete
+    intent, or unowned requirements.
+  MECHANISM: Identify the current authoritative requirement state, its version, owners, rationale, assumptions, status and
+    approved changes; preserve history without treating the baseline as immutable truth.
+  TRIGGER_OR_CONTEXT: Shared or externally committed intent; multiple teams or suppliers; long-lived product; acceptance,
+    safety or regulatory obligations; non-local change impact.
+  NON_TRIGGER_OR_CHEAP_PATH: For a single team exploring a local reversible feature, a lightweight backlog item, executable
+    example and version history may be enough; do not baseline speculative detail merely to appear complete.
+  DEPENDENCIES_OR_PRECONDITIONS: Named authority; accessible current representation; change path; stakeholder participation;
+    ability to mark uncertainty and supersession; configuration linkage.
+  EXPECTED_ENGINEERING_PAYOFF: Fewer version disputes, clearer design/test basis, visible scope change and more reliable impact
+    analysis.
+  KNOWN_FAILURE_MODES: Baselining wrong or premature requirements; stale authorised documents; shadow requirements in chat
+    or tickets; authority so centralised that learning stalls.
+  IMPORTANT_CRITICISMS: Requirements cannot be fully known up front; a stable baseline can preserve error and create political
+    resistance to change.
+  HOW_THE_PROPERTY_EVOLVED: From presumed-complete giant specifications to incremental, revisable, uncertainty-aware requirement
+    authority linked to evidence and releases.
+  MATURE_OR_EVOLVED_FORM: A living authoritative requirement state that distinguishes proposed, approved, implemented, verified
+    and retired obligations and allows risk-proportional change.
+  CEREMONY_VS_PROPERTY: The property is authority and state identity; a single giant requirements document, fixed template
+    or requirements-complete gate is not required.
+  CURRENT_STATUS: RETAINED_IN_EVOLVED_FORM
+  EVIDENCE_STRENGTH: B_STRONG_PRIMARY_AND_DOMAIN_SUPPORT
+  PRIMARY_SOURCES:
+  - S001
+  - S003
+  - S004
+  - S018
+  - S019
+  - S022
+  CRITICAL_SOURCES:
+  - S006
+  - S007
+  - S016
+  - S017
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Bell–Thayer and the Ericsson case show requirements defects and version confusion; aerospace
+    and regulated regimes retain identified requirement states but permit iteration.
+  OPEN_QUESTIONS: How much structure pays off at each scale? When should an exploratory statement acquire authoritative status?
+  REVERSIBILITY_PROFILE: 'R1–R4: value rises with shared scope, external commitment, coupling and evidence obligations; R0
+    generally needs only lightweight versioned intent.'
+  LINEAGE_CLASSIFICATION:
+  - DIRECT_LINEAGE
+  - RELATED_PLAN_DRIVEN_TRADITION
+  - HYBRID
+  RELATION_TO_ADAPTIVE_METHODS: HYBRID_RESOLUTION
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Is there one discoverable authoritative intent state, or do specifications, tickets and implementation disagree?
+  - Does the system distinguish proposed, approved, implemented and retired requirements without freezing discovery?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P002 adaptability; EW-P024 tailoring; excessive stability can conflict with rapid learning.
+- PROPERTY_ID: EW-P002
+  PROPERTY_NAME: Explicit requirements uncertainty, assumptions and learning obligations
+  HISTORICAL_ORIGIN: NATO-era simulation/prototyping; Bell–Thayer defect evidence; Parnas/Clements; spiral risk management.
+  ORIGINAL_FORM: Uncertainty was often hidden inside provisional specifications or handled through informal redesign.
+  PROBLEM_IT_ADDRESSED: Teams must distinguish known obligations from hypotheses, assumptions, unresolved choices and environmental
+    uncertainty.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: False completeness, premature contractual/design commitment, unplanned rework and validation
+    against assumptions nobody remembers.
+  MECHANISM: Record uncertainty, confidence, assumptions, decision deadlines, owners and planned evidence-generating activities;
+    promote items to baseline only when warranted.
+  TRIGGER_OR_CONTEXT: Novel problem, volatile environment, ambiguous user need, uncertain technology, emergent operations
+    or weak observability.
+  NON_TRIGGER_OR_CHEAP_PATH: Routine replacement with stable, externally specified behaviour can use a short assumption list
+    and normal change handling.
+  DEPENDENCIES_OR_PRECONDITIONS: Psychological safety to admit uncertainty; decision owners; access to prototypes/users/data;
+    expiry and review mechanisms.
+  EXPECTED_ENGINEERING_PAYOFF: Better experiment selection, preserved options, less false precision and earlier discovery
+    of invalid premises.
+  KNOWN_FAILURE_MODES: An uncertainty register that never changes decisions; endless analysis; treating every requirement
+    as tentative; unowned assumptions.
+  IMPORTANT_CRITICISMS: Can become administrative risk-register theatre or an excuse to avoid commitment.
+  HOW_THE_PROPERTY_EVOLVED: From pretending specification completion to making uncertainty an explicit governed engineering
+    object tied to evidence and decisions.
+  MATURE_OR_EVOLVED_FORM: An assumption/uncertainty ledger integrated with requirements, architecture, hazards and experiments,
+    with expiry and promotion/retirement rules.
+  CEREMONY_VS_PROPERTY: The property is explicit epistemic status and planned learning; a standing risk meeting or large spreadsheet
+    is optional.
+  CURRENT_STATUS: CONTEXT_DEPENDENT
+  EVIDENCE_STRENGTH: B_STRONG_HISTORICAL_AND_MECHANISTIC_SUPPORT
+  PRIMARY_SOURCES:
+  - S002
+  - S004
+  - S006
+  - S008
+  CRITICAL_SOURCES:
+  - S016
+  - S050
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Historical and case evidence repeatedly shows requirements continue to change; spiral and
+    modern iterative standards operationalise risk-driven learning.
+  OPEN_QUESTIONS: Empirical thresholds for the optimal amount of uncertainty bookkeeping remain weak.
+  REVERSIBILITY_PROFILE: 'R0–R3: most valuable before hard commitment; should shrink or change form as evidence and external
+    obligations accumulate.'
+  LINEAGE_CLASSIFICATION:
+  - REACTION_TO_WATERFALL
+  - HYBRID
+  RELATION_TO_ADAPTIVE_METHODS: ADAPTIVE_IMPORT
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Are assumptions and unknowns visible as such, or silently encoded as requirements?
+  - Does each material uncertainty have a decision owner and an economical path to evidence?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P001 baseline authority; EW-P022 staged commitment; too much tentativeness can undermine
+    coordination.
+- PROPERTY_ID: EW-P003
+  PROPERTY_NAME: Early architecture and feasibility before hard commitment
+  HISTORICAL_ORIGIN: Royce preliminary programme design; SAGE interface discipline; systems Vee and knowledge-based acquisition.
+  ORIGINAL_FORM: Preliminary and critical design work before full implementation or production commitment.
+  PROBLEM_IT_ADDRESSED: Some cross-cutting constraints—timing, mass, power, safety, data, interfaces, manufacturability—cannot
+    be resolved by local implementation alone.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Committing requirements, suppliers, tooling or production before the system concept can
+    satisfy dominant constraints.
+  MECHANISM: Perform enough cross-disciplinary architecture, trade study, modelling and interface analysis to falsify high-cost
+    assumptions and expose system budgets.
+  TRIGGER_OR_CONTEXT: High coupling; hardware/physical constraints; scarce test facilities; safety; long lead items; multiple
+    suppliers; expensive migration or platform commitment.
+  NON_TRIGGER_OR_CHEAP_PATH: Local, modular, quickly deployable software can use a thin architecture sketch, automated fitness
+    functions and evolutionary design.
+  DEPENDENCIES_OR_PRECONDITIONS: Representative constraints/data; accountable system architect or integrator; willingness
+    to change requirements; prototypes/models validated for the question asked.
+  EXPECTED_ENGINEERING_PAYOFF: Earlier discovery of infeasible combinations, protected interfaces and reduced commitment-unwind
+    cost.
+  KNOWN_FAILURE_MODES: Big Design Up Front; architecture prestige without executable evidence; premature standardisation;
+    models detached from implementation.
+  IMPORTANT_CRITICISMS: Up-front architecture can delay learning and lock in wrong abstractions; architecture documents may
+    become authority without reality.
+  HOW_THE_PROPERTY_EVOLVED: From complete design before coding to risk-targeted architecture before specific irreversible
+    commitments, revisited incrementally.
+  MATURE_OR_EVOLVED_FORM: Minimum sufficient architecture and constraint evidence, paired with prototypes and continuously
+    reconciled with the realised system.
+  CEREMONY_VS_PROPERTY: The property is early falsification of system-level constraints; a fixed CDR package or months-long
+    architecture phase is not inherently required.
+  CURRENT_STATUS: RETAINED_IN_EVOLVED_FORM
+  EVIDENCE_STRENGTH: B_STRONG_DOMAIN_SUPPORT_MIXED_GENERAL_EVIDENCE
+  PRIMARY_SOURCES:
+  - S003
+  - S011
+  - S012
+  - S037
+  - S060
+  CRITICAL_SOURCES:
+  - S006
+  - S039
+  - S048
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: GAO defence acquisition work repeatedly links immature technology/design to later cost and
+    schedule exposure; the strongest evidence is for complex physical systems.
+  OPEN_QUESTIONS: How can architecture effort be calibrated before the relevant commitment rather than by programme size alone?
+  REVERSIBILITY_PROFILE: R0 light; R1 targeted; R2–R4 increasingly valuable where downstream physical, supplier or regulatory
+    commitments are costly.
+  LINEAGE_CLASSIFICATION:
+  - DIRECT_LINEAGE
+  - RELATED_PLAN_DRIVEN_TRADITION
+  - HYBRID
+  RELATION_TO_ADAPTIVE_METHODS: CONVERGENT_PROPERTY
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Does architecture work retire a named expensive risk, or merely produce preferred diagrams?
+  - Are architectural claims tested and reconciled with the implementation before the relevant commitment?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P004 executable learning; EW-P022 option preservation; can conflict with emergent design
+    and feedback speed.
+- PROPERTY_ID: EW-P004
+  PROPERTY_NAME: Executable risk retirement through prototypes, pilots, simulation and thin increments
+  HISTORICAL_ORIGIN: Benington/SAGE prototype; NATO simulation; Royce 'do it twice'; Boehm spiral; evolutionary acquisition.
+  ORIGINAL_FORM: A separate pilot or prototype before the delivered system, sometimes a substantial miniature lifecycle.
+  PROBLEM_IT_ADDRESSED: Critical operational, performance, interface and usability assumptions may remain invisible in documents
+    and component tests.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Late discovery of infeasibility, wrong user need, integration behaviour or operational
+    mismatch after most options are gone.
+  MECHANISM: 'Choose the cheapest representative executable experiment that can discriminate the material risk: prototype,
+    simulation, hardware-in-the-loop, pilot, test article or thin deployed increment.'
+  TRIGGER_OR_CONTEXT: Novelty, uncertainty, difficult integration, unproven technology, weak requirements confidence, expensive
+    final test or high consequence.
+  NON_TRIGGER_OR_CHEAP_PATH: For known repeat builds or low-risk local changes, ordinary automated tests or a small spike
+    may suffice; avoid a ceremonial prototype that cannot affect the design.
+  DEPENDENCIES_OR_PRECONDITIONS: Explicit hypothesis and decision; representative enough environment; protected budget/time;
+    criteria for learning; no confusion between prototype evidence and qualified product evidence.
+  EXPECTED_ENGINEERING_PAYOFF: Earlier risk retirement, better requirements and architecture, reduced late surprise and preserved
+    options.
+  KNOWN_FAILURE_MODES: Prototype becomes production without hardening; demo optimism; unrepresentative environment; pilot
+    treated as schedule theatre; repeated experimentation without decision.
+  IMPORTANT_CRITICISMS: A prototype may create false confidence and duplicate cost; not every project needs a separate full
+    pilot.
+  HOW_THE_PROPERTY_EVOLVED: From Royce's formal second pass to continuous risk-targeted experiments and incremental operational
+    learning.
+  MATURE_OR_EVOLVED_FORM: Executable evidence is selected by risk and commitment, with clear limits on what the experiment
+    proves and explicit promotion criteria.
+  CEREMONY_VS_PROPERTY: The property is empirical discrimination before commitment; a mandated prototype phase or 'MVP' label
+    is not required.
+  CURRENT_STATUS: STRONGLY_RETAINED
+  EVIDENCE_STRENGTH: A_STRONG_HISTORICAL_DOMAIN_AND_CROSS_METHOD_SUPPORT
+  PRIMARY_SOURCES:
+  - S001
+  - S002
+  - S003
+  - S008
+  - S060
+  CRITICAL_SOURCES:
+  - S047
+  - S048
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Historical aerospace practice, spiral, iterative development and modern acquisition all converge
+    on early executable learning; effect size remains context-specific.
+  OPEN_QUESTIONS: How representative must an experiment be for each risk, and when does pilot evidence become qualification
+    evidence?
+  REVERSIBILITY_PROFILE: 'R0–R4: useful throughout, but experiment cost and evidential rigour rise as consequences and commitments
+    rise.'
+  LINEAGE_CLASSIFICATION:
+  - RELATED_PLAN_DRIVEN_TRADITION
+  - REACTION_TO_WATERFALL
+  - HYBRID
+  RELATION_TO_ADAPTIVE_METHODS: CONVERGENT_PROPERTY
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Are the highest-cost assumptions tested by executable evidence before commitment?
+  - Does each prototype have a decision it can change and an explicit limit on what it proves?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P003 architecture; EW-P013 qualification; rapid experiments can conflict with formal evidence
+    boundaries.
+- PROPERTY_ID: EW-P005
+  PROPERTY_NAME: Current, transferable engineering knowledge and decision rationale
+  HISTORICAL_ORIGIN: Royce documentation; Benington records; Parnas/Clements rational design records; modern technical-data/model
+    practices.
+  ORIGINAL_FORM: Large specifications, design descriptions, review records and manuals.
+  PROBLEM_IT_ADDRESSED: Complex systems outlive individuals and cross organisational boundaries; decisions and constraints
+    must remain understandable.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Tacit rationale loss, repeated mistakes, unsafe maintenance, inability to review or transfer
+    responsibility, and divergence between intent and implementation.
+  MECHANISM: Capture current decisions, rationale, assumptions, interfaces, evidence and operating constraints in accessible
+    forms linked to the relevant configuration.
+  TRIGGER_OR_CONTEXT: Long-lived systems; turnover; suppliers; safety/certification; difficult maintenance; asynchronous or
+    geographically distributed work.
+  NON_TRIGGER_OR_CHEAP_PATH: Small co-located reversible work can rely on tests, code, short decision records and version
+    history; document only durable or non-obvious knowledge.
+  DEPENDENCIES_OR_PRECONDITIONS: Information ownership; update triggers; integration with work; discoverability; configuration
+    links; deletion/retirement discipline.
+  EXPECTED_ENGINEERING_PAYOFF: Faster review and maintenance, continuity across handoffs, auditable decisions and less reconstruction
+    error.
+  KNOWN_FAILURE_MODES: Documentation debt; write-only repositories; prose duplicated from code/models; volume obscures critical
+    facts; rationale rationalised after the fact.
+  IMPORTANT_CRITICISMS: Documentation can consume resources, slow feedback and create false assurance if it is approved but
+    stale.
+  HOW_THE_PROPERTY_EVOLVED: From prescribed volumes to information-item outcomes, living models/data, concise records and
+    automated evidence.
+  MATURE_OR_EVOLVED_FORM: Minimum sufficient, current and configuration-linked engineering knowledge whose maintenance cost
+    is justified by future decisions.
+  CEREMONY_VS_PROPERTY: The property is durable usable knowledge; page count, template completion and separate document ownership
+    are not the property.
+  CURRENT_STATUS: USEFUL_BUT_EASILY_BUREAUCRATISED
+  EVIDENCE_STRENGTH: B_STRONG_MECHANISTIC_AND_DOMAIN_SUPPORT
+  PRIMARY_SOURCES:
+  - S003
+  - S006
+  - S014
+  - S018
+  - S019
+  CRITICAL_SOURCES:
+  - S016
+  - S039
+  - S040
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Modern standards explicitly separate required information from format; evidence for optimal
+    documentation amount is weak and highly contextual.
+  OPEN_QUESTIONS: What information has enough expected future value to maintain, and how can staleness be detected automatically?
+  REVERSIBILITY_PROFILE: R0 minimal; R1 concise; R2–R4 stronger where lifetime, handoffs, hazards and authority increase.
+  LINEAGE_CLASSIFICATION:
+  - DIRECT_LINEAGE
+  - RELATED_PLAN_DRIVEN_TRADITION
+  - HYBRID
+  RELATION_TO_ADAPTIVE_METHODS: HYBRID_RESOLUTION
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Can a new maintainer reconstruct why consequential decisions were made and which configuration they govern?
+  - Is documentation generated and checked against live state, or independently approved and stale?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P031 automation; EW-P030 model authority; continuity competes with maintenance burden.
+- PROPERTY_ID: EW-P006
+  PROPERTY_NAME: Configuration identification and baseline authority
+  HISTORICAL_ORIGIN: Military/aerospace configuration management; formal baselines; later IEEE/NASA CM; software version and
+    release engineering.
+  ORIGINAL_FORM: Named configuration items, approved baselines, status accounting, audits and formal change control.
+  PROBLEM_IT_ADDRESSED: Teams must know exactly which requirement, design, component, build and evidence set constitutes a
+    proposed, tested, released or accepted system.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Wrong or unapproved item released; incompatible evidence; inability to reproduce a build;
+    hidden drift; version disputes.
+  MECHANISM: Identify configuration items and immutable or reproducible versions; record baseline purpose/status; control
+    promotion and preserve provenance.
+  TRIGGER_OR_CONTEXT: Multiple deployable versions; supplier or physical items; safety/certification; regulated evidence;
+    long-lived support; distributed teams.
+  NON_TRIGGER_OR_CHEAP_PATH: For ephemeral local work, ordinary version control branches and automated build identity are
+    enough; not every intermediate file needs formal CI status.
+  DEPENDENCIES_OR_PRECONDITIONS: Versionable artefacts; reproducible build/deployment process; named authority; status model;
+    access control; retention policy.
+  EXPECTED_ENGINEERING_PAYOFF: Reproducibility, controlled release, reliable evidence attribution, safer change and clearer
+    responsibility.
+  KNOWN_FAILURE_MODES: Baseline becomes freeze; documents controlled but live system not; too many configuration items; manual
+    status accounting; shadow releases.
+  IMPORTANT_CRITICISMS: Heavy CM can impede harmless change and create bureaucratic latency without preserving actual integrity.
+  HOW_THE_PROPERTY_EVOLVED: From document baselines and boards to version control, immutable builds, signed artefacts, automated
+    inventories and risk-triggered approval.
+  MATURE_OR_EVOLVED_FORM: Authoritative identity across intent, source/model, build, test evidence and release, with proportionate
+    promotion controls.
+  CEREMONY_VS_PROPERTY: The property is identifiable authoritative state; a paper baseline, standing CCB or universal freeze
+    is not required.
+  CURRENT_STATUS: RETAINED_IN_EVOLVED_FORM
+  EVIDENCE_STRENGTH: A_STRONG_MULTI_DOMAIN_NORMATIVE_AND_FAILURE_SUPPORT
+  PRIMARY_SOURCES:
+  - S009
+  - S021
+  - S023
+  - S026
+  - S029
+  CRITICAL_SOURCES:
+  - S016
+  - S048
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: NASA warns improper CM can release incorrect or unsafe products; regulatory and software-update
+    regimes require identified configurations, while software supplies cheaper automation.
+  OPEN_QUESTIONS: How fine should configuration-item granularity be, and how long should evidence/configurations be retained?
+  REVERSIBILITY_PROFILE: R1–R4; R0 uses normal VCS. Value rises with multiple representations, releases, suppliers, certification
+    and rollback difficulty.
+  LINEAGE_CLASSIFICATION:
+  - RELATED_PLAN_DRIVEN_TRADITION
+  - CONVERGENT_ENGINEERING
+  - HYBRID
+  RELATION_TO_ADAPTIVE_METHODS: CONVERGENT_PROPERTY
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Can the system identify exactly what was proposed, built, tested, deployed and accepted?
+  - Can an evidence result be tied to a reproducible configuration rather than a mutable branch or document set?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P008 rapid change; EW-P031 continuous delivery; control can conflict with developer flow
+    if promotion boundaries are unclear.
+- PROPERTY_ID: EW-P007
+  PROPERTY_NAME: As-designed, as-built, as-tested and as-deployed reconciliation
+  HISTORICAL_ORIGIN: Configuration audits, acceptance data packages, installation/checkout, operational readiness and digital-authority
+    initiatives.
+  ORIGINAL_FORM: Physical configuration audits, release records, installation audits and as-built drawings.
+  PROBLEM_IT_ADDRESSED: Controlled plans or models can diverge from the item actually fabricated, tested, installed or operating.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Evidence proves a different system; field modifications are invisible; operations use
+    unknown state; rollback or incident analysis is unreliable.
+  MECHANISM: Continuously or at commitment points reconcile intended, realised, tested and deployed states; record deviations,
+    waivers and environment identity.
+  TRIGGER_OR_CONTEXT: Physical construction; fielded fleets; infrastructure; data migrations; certified releases; complex
+    deployment environments.
+  NON_TRIGGER_OR_CHEAP_PATH: For stateless, automatically deployed services, deployment manifests, telemetry and immutable
+    image identity may supply the cheap path.
+  DEPENDENCIES_OR_PRECONDITIONS: Observable deployed state; trustworthy inventory/telemetry; configuration identifiers; authority
+    to resolve drift; environment capture.
+  EXPECTED_ENGINEERING_PAYOFF: Acceptance evidence applies to reality, safer operations and maintenance, faster incident reconstruction,
+    fewer undocumented modifications.
+  KNOWN_FAILURE_MODES: Digital twin/model assumed correct without readback; inventory lag; manual audits only; uncontrolled
+    emergency fixes; environment excluded.
+  IMPORTANT_CRITICISMS: Reconciliation can be expensive or impossible under partial observability; excessive audit frequency
+    can become theatre.
+  HOW_THE_PROPERTY_EVOLVED: From occasional physical audits to automated provenance, software bills of materials, deployment
+    attestations, telemetry and periodic physical confirmation.
+  MATURE_OR_EVOLVED_FORM: Evidence-backed correspondence among authoritative models/data and actual built, tested and operating
+    configurations, with explicit residual unknowns.
+  CEREMONY_VS_PROPERTY: The property is correspondence to reality; an 'as-built' document or authoritative-source label is
+    insufficient.
+  CURRENT_STATUS: HIGH_CONSEQUENCE_CONTEXT_PROPERTY
+  EVIDENCE_STRENGTH: B_STRONG_DOMAIN_SUPPORT_LIMITED_GENERAL_EMPIRICS
+  PRIMARY_SOURCES:
+  - S023
+  - S026
+  - S032
+  - S057
+  - S059
+  CRITICAL_SOURCES:
+  - S038
+  - S039
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Operational-readiness and configuration guidance explicitly require actual-state correspondence;
+    digital-engineering research identifies authority and interoperability gaps.
+  OPEN_QUESTIONS: How should confidence be represented when deployed or physical state cannot be fully observed?
+  REVERSIBILITY_PROFILE: R2–R4 strongest; R1 often automated; R0 generally unnecessary beyond normal build/run identity.
+  LINEAGE_CLASSIFICATION:
+  - RELATED_PLAN_DRIVEN_TRADITION
+  - HYBRID
+  - CONVERGENT_ENGINEERING
+  RELATION_TO_ADAPTIVE_METHODS: HYBRID_RESOLUTION
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Does controlled documentation describe the actual running/built system, and what evidence establishes that correspondence?
+  - Are emergency or field changes reconciled into authority before their evidence is reused?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P030 digital model authority; EW-P031 speed; reconciliation depth can conflict with delivery
+    latency.
+- PROPERTY_ID: EW-P008
+  PROPERTY_NAME: Change visibility, impact analysis and risk-proportional authorisation
+  HISTORICAL_ORIGIN: Formal change control and CCBs; configuration management; nuclear graded-change rules; modern automated
+    dependency analysis.
+  ORIGINAL_FORM: Change requests evaluated and approved by a standing board before baseline modification.
+  PROBLEM_IT_ADDRESSED: Consequential changes can propagate across interfaces, evidence, suppliers, operations and regulatory
+    commitments.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Unseen side effects, invalidated qualification/certification, incompatible releases, unauthorised
+    risk acceptance or loss of provenance.
+  MECHANISM: Expose proposed change, affected configurations/dependencies/evidence, consequence and rollback; route authority
+    according to thresholds rather than uniformly.
+  TRIGGER_OR_CONTEXT: Shared baselines; high coupling; external interfaces; safety/security/privacy; certified state; expensive
+    recovery; contractual commitments.
+  NON_TRIGGER_OR_CHEAP_PATH: Local reversible changes with strong automated tests can be pre-authorised under policy and merged
+    through normal peer review/CI.
+  DEPENDENCIES_OR_PRECONDITIONS: Dependency/trace information; clear delegated authority; risk criteria; timely reviewers;
+    emergency path; audit trail.
+  EXPECTED_ENGINEERING_PAYOFF: Safer consequential change, less surprise, preserved external commitments and clearer accountability.
+  KNOWN_FAILURE_MODES: Standing board bottleneck; rubber-stamp approvals; impact analysis based on stale links; hidden workarounds;
+    change avoidance; security patch delay.
+  IMPORTANT_CRITICISMS: Change control can cost more than the change and can turn adaptation into exception processing.
+  HOW_THE_PROPERTY_EVOLVED: From universal board approval to delegated, automated and risk-triggered control with post-change
+    monitoring.
+  MATURE_OR_EVOLVED_FORM: Policy-based change classes, automated impact evidence, named escalation thresholds and explicit
+    acceptance of residual risk.
+  CEREMONY_VS_PROPERTY: The property is visible authorised consequence management; a standing committee and meeting are not
+    generally required.
+  CURRENT_STATUS: RETAINED_IN_EVOLVED_FORM
+  EVIDENCE_STRENGTH: A_STRONG_CROSS_DOMAIN_NORMATIVE_SUPPORT
+  PRIMARY_SOURCES:
+  - S021
+  - S023
+  - S024
+  - S031
+  - S036
+  CRITICAL_SOURCES:
+  - S016
+  - S050
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Nuclear rules explicitly permit some evaluated changes without prior regulator approval, demonstrating
+    graded rather than universal control; DevSecOps uses automated evidence and continuous risk.
+  OPEN_QUESTIONS: Reliable quantitative escalation thresholds remain unresolved; cyber urgency may invert normal approval
+    timing.
+  REVERSIBILITY_PROFILE: R0 pre-authorised; R1 automated/peer controlled; R2–R4 increasing analysis and authority, but emergency
+    response must remain fast.
+  LINEAGE_CLASSIFICATION:
+  - RELATED_PLAN_DRIVEN_TRADITION
+  - HYBRID
+  RELATION_TO_ADAPTIVE_METHODS: HYBRID_RESOLUTION
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Are harmless reversible changes pre-authorised while consequential changes receive real impact analysis?
+  - Can the change process handle urgent remediation without bypassing identity and post-change evidence?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P031 flow and fast feedback; EW-P033 proportional control; authority can conflict with
+    responsiveness.
+- PROPERTY_ID: EW-P009
+  PROPERTY_NAME: Interface definition, ownership and compatibility control
+  HISTORICAL_ORIGIN: SAGE interface policing; aerospace/defence ICD traditions; systems engineering interface management;
+    modular/open systems.
+  ORIGINAL_FORM: Formal interface requirements and ICDs controlled by interface-control working groups or boards.
+  PROBLEM_IT_ADDRESSED: Components developed by different teams, suppliers or disciplines must agree on semantics, units,
+    timing, physical, data and operational contracts.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Late integration incompatibility, unsafe assumptions, responsibility gaps, local optimisation
+    and cascading redesign.
+  MECHANISM: Identify externally consequential interfaces, their semantics and owners; verify both sides; version changes;
+    test compatibility in representative integration environments.
+  TRIGGER_OR_CONTEXT: Organisational/supplier boundary; independently released components; fixed physical interfaces; long
+    integration latency; safety or interoperability consequence.
+  NON_TRIGGER_OR_CHEAP_PATH: Private local interfaces can evolve through code, types and tests without formal cross-organisational
+    approval.
+  DEPENDENCIES_OR_PRECONDITIONS: Two-sided ownership and access; semantic precision; change notification; configuration links;
+    integration testability; dispute authority.
+  EXPECTED_ENGINEERING_PAYOFF: Fewer integration surprises, parallel work with clearer contracts and contained change impact.
+  KNOWN_FAILURE_MODES: ICD becomes stale; unanimous approval blocks evolution; interface is specified syntactically but not
+    behaviourally; undocumented operational coupling.
+  IMPORTANT_CRITICISMS: Formal interface control can over-centralise architecture and slow local refactoring; documents cannot
+    replace integration tests.
+  HOW_THE_PROPERTY_EVOLVED: From static ICDs and boards to versioned schemas/APIs, contract tests, compatibility policies,
+    shared models and targeted governance.
+  MATURE_OR_EVOLVED_FORM: Authoritative, testable and owned contracts for consequential boundaries, with automated compatibility
+    evidence where possible.
+  CEREMONY_VS_PROPERTY: The property is controlled compatibility at real boundaries; every internal function does not need
+    an ICD or interface board.
+  CURRENT_STATUS: CONTEXT_DEPENDENT
+  EVIDENCE_STRENGTH: A_STRONG_MECHANISTIC_AND_DOMAIN_FAILURE_SUPPORT
+  PRIMARY_SOURCES:
+  - S001
+  - S024
+  - S025
+  - S037
+  CRITICAL_SOURCES:
+  - S016
+  - S038
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Mars Climate Orbiter is a concrete interface/units/system-verification failure; NASA guidance
+    treats interface change as shared authority.
+  OPEN_QUESTIONS: How to identify hidden socio-technical interfaces and avoid freezing modular evolution?
+  REVERSIBILITY_PROFILE: R1 at independently released software boundary; R2–R4 strong where suppliers, physical fit, units,
+    timing or safety matter; R0 cheap.
+  LINEAGE_CLASSIFICATION:
+  - RELATED_PLAN_DRIVEN_TRADITION
+  - CONVERGENT_ENGINEERING
+  - HYBRID
+  RELATION_TO_ADAPTIVE_METHODS: CONVERGENT_PROPERTY
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Which interfaces cross authority or release boundaries and who owns compatibility on both sides?
+  - Are interface semantics verified in integration, or only recorded in a document?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P003 architecture; EW-P008 change flow; strict interface stability can conflict with refactoring.
+- PROPERTY_ID: EW-P010
+  PROPERTY_NAME: Verification planning and requirement testability
+  HISTORICAL_ORIGIN: Royce early test planning; Boehm V-chart; V-model traditions; IEEE/NASA V&V.
+  ORIGINAL_FORM: Verification plans and procedures prepared against baselined requirements before final test.
+  PROBLEM_IT_ADDRESSED: Requirements may be ambiguous, infeasible or unevaluable until too late; environments, fixtures and
+    data may have long lead times.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Unverifiable requirements, missing evidence, late test redesign, false pass criteria and
+    qualification schedule collapse.
+  MECHANISM: For each consequential requirement, define evaluation method, level, article/configuration, environment, success
+    criteria and independence early enough to change the requirement/design.
+  TRIGGER_OR_CONTEXT: Acceptance/certification obligation; difficult environment; scarce facility; performance/safety margin;
+    supplier evidence; long test lead.
+  NON_TRIGGER_OR_CHEAP_PATH: Low-risk software can encode acceptance examples and automated tests alongside implementation
+    without a separate verification plan document.
+  DEPENDENCIES_OR_PRECONDITIONS: Testable requirement; representative environment; instrumentation; configuration identity;
+    resources; ownership; anomaly process.
+  EXPECTED_ENGINEERING_PAYOFF: Earlier ambiguity detection, planned evidence coverage, lower late test surprise and more meaningful
+    completion criteria.
+  KNOWN_FAILURE_MODES: Test plan mirrors bad requirements; test design overfits expected behaviour; coverage matrix substitutes
+    for challenge; expensive plans become stale.
+  IMPORTANT_CRITICISMS: Planning tests early can prematurely lock the design or optimise only for stated requirements.
+  HOW_THE_PROPERTY_EVOLVED: From a final test phase to evaluation planning during definition and continuous updating of executable
+    evidence.
+  MATURE_OR_EVOLVED_FORM: Risk-proportional verification design integrated with requirements and architecture, with automated
+    evidence where appropriate.
+  CEREMONY_VS_PROPERTY: The property is planned evaluability and evidence sufficiency; a monolithic master test plan is not
+    universally required.
+  CURRENT_STATUS: RETAINED_IN_EVOLVED_FORM
+  EVIDENCE_STRENGTH: A_STRONG_PRIMARY_STANDARD_AND_DOMAIN_SUPPORT
+  PRIMARY_SOURCES:
+  - S003
+  - S005
+  - S020
+  - S022
+  - S026
+  CRITICAL_SOURCES:
+  - S006
+  - S016
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Standards and domain practice consistently pair definition with planned evaluation; empirical
+    effect size is less directly measured.
+  OPEN_QUESTIONS: When does early test definition constrain beneficial requirement discovery or invite teaching to the test?
+  REVERSIBILITY_PROFILE: R0 executable examples; R1 continuous tests; R2–R4 formal environment/article/evidence planning.
+  LINEAGE_CLASSIFICATION:
+  - DIRECT_LINEAGE
+  - SOFTWARE_V_FAMILY
+  - RELATED_PLAN_DRIVEN_TRADITION
+  - HYBRID
+  RELATION_TO_ADAPTIVE_METHODS: CONVERGENT_PROPERTY
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Can every consequential requirement be evaluated with a named method, configuration and criterion?
+  - Did verification planning reveal requirements that are ambiguous or infeasible before commitment?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P002 uncertainty; EW-P012 validation; specification compliance can crowd out user-need
+    learning.
+- PROPERTY_ID: EW-P011
+  PROPERTY_NAME: Multi-level verification and integration evidence
+  HISTORICAL_ORIGIN: Independent staged testing in SAGE; Royce integrated-test concern; software V-chart; systems Vee.
+  ORIGINAL_FORM: Unit, component, subsystem, integration and system tests conducted in progressively broader environments.
+  PROBLEM_IT_ADDRESSED: Local conformance does not establish interactions, timing, load, emergent behaviour or end-to-end
+    correctness.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Components pass alone but fail together; local phase completion is mistaken for system
+    readiness; integration arrives too late.
+  MECHANISM: Evaluate at the level where the relevant failure can manifest, integrate early and repeatedly, and preserve evidence
+    linking failures to configuration and interfaces.
+  TRIGGER_OR_CONTEXT: Distributed components; cyber-physical behaviour; performance/load; external services; multiple suppliers;
+    system-of-systems.
+  NON_TRIGGER_OR_CHEAP_PATH: For a small monolith or local change, one automated end-to-end path plus focused component tests
+    may be enough.
+  DEPENDENCIES_OR_PRECONDITIONS: Integration environment; representative data/load; observability; version identity; interface
+    contracts; anomaly handling.
+  EXPECTED_ENGINEERING_PAYOFF: Earlier cross-component failure detection, credible system evidence and reduced final-integration
+    surprise.
+  KNOWN_FAILURE_MODES: Test pyramid dogma; duplicated evidence; brittle environments; integration theatre with mocks; system
+    tests too slow to guide development.
+  IMPORTANT_CRITICISMS: More levels do not automatically add information; slow suites can delay feedback and encourage batching.
+  HOW_THE_PROPERTY_EVOLVED: From terminal integration/test phases to continuous integration plus staged representative system
+    and operational evaluation.
+  MATURE_OR_EVOLVED_FORM: Layered evidence selected by failure observability, with fast lower-level feedback and periodic
+    higher-fidelity integration.
+  CEREMONY_VS_PROPERTY: The property is evaluation at the correct system level; a fixed number of test phases or a V diagram
+    is not required.
+  CURRENT_STATUS: STRONGLY_RETAINED
+  EVIDENCE_STRENGTH: A_STRONG_HISTORICAL_DOMAIN_AND_MODERN_SUPPORT
+  PRIMARY_SOURCES:
+  - S001
+  - S003
+  - S005
+  - S011
+  - S022
+  - S035
+  CRITICAL_SOURCES:
+  - S016
+  - S048
+  - S054
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Historical failures and modern DevSecOps guidance converge on early integration; exact optimal
+    cadence is system-specific.
+  OPEN_QUESTIONS: How should slow, scarce or destructive integration tests be scheduled against fast local feedback?
+  REVERSIBILITY_PROFILE: R0–R1 continuous and cheap; R2–R4 staged higher-fidelity evidence added where interactions and consequences
+    demand it.
+  LINEAGE_CLASSIFICATION:
+  - RELATED_PLAN_DRIVEN_TRADITION
+  - SOFTWARE_V_FAMILY
+  - HYBRID
+  RELATION_TO_ADAPTIVE_METHODS: CONVERGENT_PROPERTY
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Does the evidence exercise the level at which the claimed behaviour can fail?
+  - Are system integration results early enough to change architecture rather than merely qualify the finished design?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P031 delivery speed; EW-P013 qualification; higher-fidelity testing can be slow and scarce.
+- PROPERTY_ID: EW-P012
+  PROPERTY_NAME: Intended-use and operational-context validation
+  HISTORICAL_ORIGIN: Early customer/operational evaluation; Royce customer involvement; Boehm V&V distinction; NASA/IEEE validation.
+  ORIGINAL_FORM: Formal validation or acceptance testing after implementation against a concept of operations.
+  PROBLEM_IT_ADDRESSED: A system can satisfy its specification yet fail stakeholder need, mission, workflow or actual environment.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Correct implementation of wrong requirements; unusable or operationally unsuitable system;
+    hidden human/environment assumptions.
+  MECHANISM: Evaluate representative users, missions, workflows, environments and outcomes throughout development and again
+    on the integrated system.
+  TRIGGER_OR_CONTEXT: Novel user need; socio-technical change; safety/mission consequence; operational environment unlike
+    development; procurement handoff.
+  NON_TRIGGER_OR_CHEAP_PATH: For familiar low-risk changes, telemetry, user tests and rapid reversible deployment can supply
+    continuous validation.
+  DEPENDENCIES_OR_PRECONDITIONS: Real stakeholders and operators; representative context; explicit intended use; outcome measures;
+    ability to change requirements.
+  EXPECTED_ENGINEERING_PAYOFF: Reduced wrong-system risk, better operational fit and clearer distinction between conformance
+    and usefulness.
+  KNOWN_FAILURE_MODES: Proxy users; scripted demonstration; confirmation bias; validation too late; stakeholder sign-off obtained
+    without representative use.
+  IMPORTANT_CRITICISMS: Users may ask for local preferences rather than system value; validation can become acceptance theatre.
+  HOW_THE_PROPERTY_EVOLVED: From final customer demonstration to continuous discovery, simulation, operational experiments
+    and independent operational evaluation.
+  MATURE_OR_EVOLVED_FORM: Repeated context-validity evidence, with final claims tied to an identified configuration and intended-use
+    envelope.
+  CEREMONY_VS_PROPERTY: The property is evidence of fitness for intended purpose; a UAT meeting or customer signature alone
+    is not enough.
+  CURRENT_STATUS: STRONGLY_RETAINED
+  EVIDENCE_STRENGTH: A_STRONG_CROSS_DOMAIN_CONCEPTUAL_AND_PRACTICE_SUPPORT
+  PRIMARY_SOURCES:
+  - S002
+  - S003
+  - S005
+  - S020
+  - S022
+  - S035
+  CRITICAL_SOURCES:
+  - S006
+  - S007
+  - S016
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Definitions are stable across modern NASA/IEEE practice; direct comparative lifecycle evidence
+    is limited but wrong-system failures are well established.
+  OPEN_QUESTIONS: How representative must operational evaluation be, and how should conflicting stakeholder goals be adjudicated?
+  REVERSIBILITY_PROFILE: R0 continuous cheap validation; R1 operational telemetry; R2–R4 increasingly representative and independently
+    witnessed contexts.
+  LINEAGE_CLASSIFICATION:
+  - DIRECT_LINEAGE
+  - SOFTWARE_V_FAMILY
+  - RELATED_PLAN_DRIVEN_TRADITION
+  - HYBRID
+  RELATION_TO_ADAPTIVE_METHODS: CONVERGENT_PROPERTY
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Does the system separately establish conformance to requirements and fitness for actual use?
+  - Are real operators/environments represented before final acceptance?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P001 requirement authority; EW-P014 acceptance; stakeholder feedback can conflict with
+    stable external commitments.
+- PROPERTY_ID: EW-P013
+  PROPERTY_NAME: Qualification envelope and margin evidence
+  HISTORICAL_ORIGIN: Aerospace test traditions; environmental qualification; safety-critical hardware/software assurance.
+  ORIGINAL_FORM: Qualification test articles exposed to environmental/performance extremes, often once per design type.
+  PROBLEM_IT_ADDRESSED: A design may pass nominal tests yet fail across required environmental, load, timing or durability
+    envelopes.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Field failure outside nominal conditions; manufacturing/design margin unknown; certification
+    basis unsupported.
+  MECHANISM: Demonstrate that a design or type meets a defined envelope and margin using analysis, test, similarity or inspection
+    on representative configurations.
+  TRIGGER_OR_CONTEXT: Safety/mission-critical product; physical environment; production of multiple units; scarce opportunities
+    for field correction; certification requirement.
+  NON_TRIGGER_OR_CHEAP_PATH: Ordinary web/software features with reversible deployment do not need a separate qualification
+    programme; targeted performance/security tests may suffice.
+  DEPENDENCIES_OR_PRECONDITIONS: Defined envelope and margins; representative article; validated models; configuration control;
+    calibrated equipment; anomaly disposition.
+  EXPECTED_ENGINEERING_PAYOFF: Confidence that the design, not merely one unit, can tolerate required conditions; reusable
+    basis for accepting later units.
+  KNOWN_FAILURE_MODES: Over-testing unrepresentative articles; destructive expense; qualification invalidated by design drift;
+    passing envelope treated as proof of all use.
+  IMPORTANT_CRITICISMS: Domain-specific and expensive; qualification can delay safer incremental improvements and is not synonymous
+    with validation.
+  HOW_THE_PROPERTY_EVOLVED: From one terminal campaign to staged component/system qualification, model-supported evidence
+    and incremental requalification after bounded change.
+  MATURE_OR_EVOLVED_FORM: Configuration-linked evidence for a defined design envelope, with explicit assumptions, margins
+    and change-trigger rules.
+  CEREMONY_VS_PROPERTY: The property is demonstrated capability over an envelope; a fixed test campaign or one qualification
+    document is domain-specific.
+  CURRENT_STATUS: HIGH_CONSEQUENCE_CONTEXT_PROPERTY
+  EVIDENCE_STRENGTH: A_STRONG_DOMAIN_STANDARD_AND_PRACTICE_SUPPORT
+  PRIMARY_SOURCES:
+  - S022
+  - S026
+  - S028
+  - S032
+  CRITICAL_SOURCES:
+  - S039
+  - S048
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: NASA explicitly distinguishes qualification from acceptance; aerospace/automotive regimes
+    retain design-envelope evidence.
+  OPEN_QUESTIONS: How much model-based credit is justified, and which changes invalidate prior qualification?
+  REVERSIBILITY_PROFILE: Mostly R3–R4; selected R2 performance/security contexts. Usually no trigger for R0–R1 ordinary software.
+  LINEAGE_CLASSIFICATION:
+  - DOMAIN_SPECIFIC
+  - RELATED_PLAN_DRIVEN_TRADITION
+  RELATION_TO_ADAPTIVE_METHODS: PLAN_DRIVEN_NATIVE
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Is there a defined operational/environmental envelope that must be demonstrated beyond nominal tests?
+  - Can the system state exactly which design changes invalidate or require supplementation of qualification evidence?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P004 prototype speed; EW-P031 continuous change; qualification stability can conflict
+    with frequent releases.
+- PROPERTY_ID: EW-P014
+  PROPERTY_NAME: Acceptance criteria, authority and provenance
+  HISTORICAL_ORIGIN: Contractual acceptance, acceptance testing, flight-unit acceptance and transition-to-service practices.
+  ORIGINAL_FORM: Formal customer acceptance test and signed delivery against a specified baseline.
+  PROBLEM_IT_ADDRESSED: Delivery status can be ambiguous when technical evidence, contractual scope, exceptions and authority
+    are disconnected.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Unauthorised declaration of completion; acceptance of wrong configuration; unresolved
+    exceptions hidden; later dispute over obligations.
+  MECHANISM: Name the acceptance authority, criteria, evidence, accepted configuration, exceptions/waivers and effective transition
+    of responsibility.
+  TRIGGER_OR_CONTEXT: External acquirer/operator; regulated or safety system; contractual deliverable; irreversible cutover;
+    transfer between organisations.
+  NON_TRIGGER_OR_CHEAP_PATH: Internal reversible software release can use automated release criteria and product-owner/operational
+    approval without a separate ceremony.
+  DEPENDENCIES_OR_PRECONDITIONS: Identified deliverable; criteria agreed before decision; verification/validation evidence;
+    authority; exception disposition; audit trail.
+  EXPECTED_ENGINEERING_PAYOFF: Clear transfer of custody and obligations, fewer disputes, operational accountability and evidence
+    provenance.
+  KNOWN_FAILURE_MODES: Signature without technical understanding; acceptance used to force schedule; criteria changed retrospectively;
+    accepted documents differ from deployed system.
+  IMPORTANT_CRITICISMS: Acceptance can be legal/formal rather than engineering truth; buyer sign-off does not prove fitness
+    or certification.
+  HOW_THE_PROPERTY_EVOLVED: From one final event to incremental acceptance of capability/configurations and continuous service-level
+    acceptance evidence.
+  MATURE_OR_EVOLVED_FORM: Explicit, configuration-specific decision by empowered authority, based on current evidence and
+    recorded residual obligations.
+  CEREMONY_VS_PROPERTY: The property is authorised transfer over an identified state; a final meeting, certificate or customer
+    signature form is not inherently sufficient.
+  CURRENT_STATUS: CONTEXT_DEPENDENT
+  EVIDENCE_STRENGTH: B_STRONG_DOMAIN_AND_CONTRACTUAL_SUPPORT
+  PRIMARY_SOURCES:
+  - S002
+  - S022
+  - S026
+  - S057
+  CRITICAL_SOURCES:
+  - S016
+  - S017
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: NASA distinguishes acceptance of each flight unit from design qualification; procurement failures
+    show that formal milestones can lack operational evidence.
+  OPEN_QUESTIONS: How should continuous services represent partial, conditional or revocable acceptance?
+  REVERSIBILITY_PROFILE: R2–R4 strong where custody, liability or operations transfer; R0–R1 can use lightweight automated
+    promotion.
+  LINEAGE_CLASSIFICATION:
+  - RELATED_PLAN_DRIVEN_TRADITION
+  - DOMAIN_SPECIFIC
+  - HYBRID
+  RELATION_TO_ADAPTIVE_METHODS: HYBRID_RESOLUTION
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Who is empowered to accept which exact configuration, under what criteria and exceptions?
+  - Is acceptance evidence separate from verification, validation and certification rather than collapsed into 'passed tests'?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P012 validation; EW-P015 certification; formal acceptance can conflict with continuous
+    deployment.
+- PROPERTY_ID: EW-P015
+  PROPERTY_NAME: Certification basis and regulatory-authority coupling
+  HISTORICAL_ORIGIN: Airworthiness, nuclear licensing, medical-device regulation, rail safety and other external assurance
+    regimes.
+  ORIGINAL_FORM: Evidence package and formal application demonstrating compliance with prescribed objectives to an empowered
+    authority.
+  PROBLEM_IT_ADDRESSED: Some systems create public/third-party risk that cannot be accepted solely by the developer or acquirer.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Operating without legal authority; evidence not aligned to certification basis; changes
+    invalidate approval; authority sees changes too late.
+  MECHANISM: Identify applicable certification basis, means of compliance, authority interfaces, evidence/configuration boundaries
+    and change/reapproval triggers.
+  TRIGGER_OR_CONTEXT: Legally regulated system; safety or environmental externality; airworthiness/type approval/licensing;
+    public infrastructure.
+  NON_TRIGGER_OR_CHEAP_PATH: No trigger where no empowered external certification regime applies; do not invent an internal
+    'certification' label.
+  DEPENDENCIES_OR_PRECONDITIONS: Correct legal/domain expertise; early authority agreement; configuration/evidence trace;
+    independent assessment where required; change visibility.
+  EXPECTED_ENGINEERING_PAYOFF: Reduced approval surprise, lawful operation, clearer public-risk accountability and reusable
+    compliance evidence.
+  KNOWN_FAILURE_MODES: Compliance theatre; regulator capture; certification treated as proof of zero risk; excessive conservatism;
+    obsolete rules; duplicated evidence.
+  IMPORTANT_CRITICISMS: Domain-specific obligations cannot be generalised; authority approval may lag technical reality or
+    inhibit beneficial change.
+  HOW_THE_PROPERTY_EVOLVED: From terminal dossiers toward early authority engagement, modular/incremental evidence, update-management
+    systems and continuous monitoring—without eliminating legal decisions.
+  MATURE_OR_EVOLVED_FORM: Lifecycle-neutral engineering that satisfies a specific certification basis for identified configurations
+    and maintains authority after change.
+  CEREMONY_VS_PROPERTY: The property is alignment with an actual empowered regime; an internal badge, generic compliance checklist
+    or 'certified' document is not general engineering.
+  CURRENT_STATUS: HIGH_CONSEQUENCE_CONTEXT_PROPERTY
+  EVIDENCE_STRENGTH: A_STRONG_DOMAIN_LEGAL_AND_STANDARD_SUPPORT
+  PRIMARY_SOURCES:
+  - S026
+  - S027
+  - S028
+  - S029
+  - S030
+  - S031
+  - S061
+  CRITICAL_SOURCES:
+  - S033
+  - S039
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Current aerospace, automotive, medical, rail and nuclear regimes vary but all bind evidence/configuration/change
+    to external authority.
+  OPEN_QUESTIONS: How far can certification become continuous without weakening independent public authority?
+  REVERSIBILITY_PROFILE: R3–R4; sometimes R2 for regulated digital services. No general R0–R1 trigger.
+  LINEAGE_CLASSIFICATION:
+  - DOMAIN_SPECIFIC
+  - HYBRID
+  RELATION_TO_ADAPTIVE_METHODS: CONTEXT_SWITCH
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Is an actual external authority and certification basis present, or is 'certification' being used rhetorically?
+  - Are changes mapped to reapproval/continued-authority obligations for the exact deployed configuration?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P031 delivery speed; EW-P008 change control; legal authority can conflict with rapid iteration.
+- PROPERTY_ID: EW-P016
+  PROPERTY_NAME: Independent technical challenge and IV&V
+  HISTORICAL_ORIGIN: Independent testing in SAGE; defence/nuclear IV&V; IEEE 1012; independent operational test and safety
+    assessment.
+  ORIGINAL_FORM: Separate organisation performs verification/validation with technical, managerial and financial independence.
+  PROBLEM_IT_ADDRESSED: Developer incentives, familiarity and group assumptions can suppress or miss consequential defects
+    and invalid claims.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Self-confirming evidence, conflicted risk acceptance, unchallenged assumptions, management
+    pressure and false closure.
+  MECHANISM: Provide technically competent challenge with sufficient separation of responsibility and authority, focused on
+    critical claims, while preserving timely access and feedback.
+  TRIGGER_OR_CONTEXT: High criticality; novel or complex system; public/third-party risk; strong schedule incentives; many
+    suppliers; opaque evidence; regulatory mandate.
+  NON_TRIGGER_OR_CHEAP_PATH: Low-consequence reversible work can use peer review, rotation, automated checks and occasional
+    external review rather than a standing IV&V organisation.
+  DEPENDENCIES_OR_PRECONDITIONS: Access to products/data; competence; protected escalation; technical/managerial/financial
+    independence proportionate to risk; coordination and feedback channel.
+  EXPECTED_ENGINEERING_PAYOFF: Unique defect discovery, reduced confirmation bias, stronger evidence credibility and independent
+    information for authorities.
+  KNOWN_FAILURE_MODES: 10–30% added cost in older studies; duplicate work; paperwork; late findings; adversarial separation;
+    reviewers lack context; nominal independence without authority.
+  IMPORTANT_CRITICISMS: Comparative outcome and return-on-cost evidence are mixed; independence can reduce feedback speed
+    and may not improve reliability.
+  HOW_THE_PROPERTY_EVOLVED: From universal separate organisation to integrity/risk-scaled scopes, embedded-independent roles,
+    focused IV&V and continuous independent operational evaluation.
+  MATURE_OR_EVOLVED_FORM: Independence is a designed property—responsibility, incentives, funding, reporting and corrective-action
+    authority—scaled to consequence and integrated early.
+  CEREMONY_VS_PROPERTY: The property is credible independent challenge; a different team name, audit meeting or mandatory
+    full duplicate lifecycle is not sufficient.
+  CURRENT_STATUS: HIGH_CONSEQUENCE_CONTEXT_PROPERTY
+  EVIDENCE_STRENGTH: C_MIXED_EMPIRICAL_STRONG_DOMAIN_RATIONALE
+  PRIMARY_SOURCES:
+  - S020
+  - S045
+  - S046
+  - S062
+  - S035
+  CRITICAL_SOURCES:
+  - S045
+  - S046
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Small NASA-project evidence found earlier detection but no reliability/fix-cost gain and lower
+    productivity; larger defence/avionics cases reported substantial early detection and possible cost recovery, with weak
+    comparability.
+  OPEN_QUESTIONS: Which independence dimensions and scope yield net value by risk class? Modern comparative evidence remains
+    sparse.
+  REVERSIBILITY_PROFILE: R3–R4 strongest; R2 where security/public risk or conflict exists; R0–R1 usually lightweight challenge.
+  LINEAGE_CLASSIFICATION:
+  - RELATED_PLAN_DRIVEN_TRADITION
+  - DOMAIN_SPECIFIC
+  - HYBRID
+  RELATION_TO_ADAPTIVE_METHODS: CONTEXT_SWITCH
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Could the people making the claim suppress, redefine or accept their own failure evidence?
+  - Is reviewer independence sufficient for challenge but close enough for timely access and feedback?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P031 team flow; EW-P024 proportionality; separation can conflict with rapid collaborative
+    feedback.
+- PROPERTY_ID: EW-P017
+  PROPERTY_NAME: Demonstrable bidirectional traceability
+  HISTORICAL_ORIGIN: Requirements-to-design/code/test matrices in defence/aerospace; V-model correspondence; modern linked
+    lifecycle data.
+  ORIGINAL_FORM: Manual traceability matrices showing forward and backward links among requirements, design, implementation
+    and tests.
+  PROBLEM_IT_ADDRESSED: Authorities and maintainers need to know why an element exists, what a change affects and whether
+    obligations have evidence.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Orphan requirements, unexplained implementation, untested obligations, missed impact and
+    evidence attached to wrong requirement/configuration.
+  MECHANISM: Maintain decision-useful, queryable and configuration-aware relations among consequential intent, design, implementation,
+    hazards, changes and evidence; monitor link quality and decay.
+  TRIGGER_OR_CONTEXT: Certification; high coupling; long-lived system; supplier handoff; safety/hazard chains; expensive impact
+    analysis; many variants.
+  NON_TRIGGER_OR_CHEAP_PATH: For small rapidly changing software, issue/commit/test naming, executable specifications, types
+    and dependency graphs may provide sufficient native trace.
+  DEPENDENCIES_OR_PRECONDITIONS: Stable identifiers; clear semantics; automated capture where possible; ownership; quality
+    checks; actual use in decisions; cost budget.
+  EXPECTED_ENGINEERING_PAYOFF: Faster and more correct maintenance/impact tasks, coverage visibility, evidence provenance
+    and defect prevention in some settings.
+  KNOWN_FAILURE_MODES: Stale or false links; exhaustive matrices no one uses; high creation/maintenance cost; link-count compliance;
+    generated links overwhelm users.
+  IMPORTANT_CRITICISMS: Laboratory benefits assume correct complete traces; industrial causal evidence and net lifecycle return
+    remain limited.
+  HOW_THE_PROPERTY_EVOLVED: From manual matrices to selective, automated, queryable graph relations with staleness detection
+    and use-based scope.
+  MATURE_OR_EVOLVED_FORM: Trace the claims whose loss would impair a real decision; maintain evidence of link quality rather
+    than maximising link count.
+  CEREMONY_VS_PROPERTY: The property is demonstrable relation for a decision; a spreadsheet or universal end-to-end matrix
+    is not required.
+  CURRENT_STATUS: USEFUL_BUT_EASILY_BUREAUCRATISED
+  EVIDENCE_STRENGTH: C_MIXED_EMPIRICAL_SUPPORT
+  PRIMARY_SOURCES:
+  - S005
+  - S026
+  - S041
+  - S042
+  - S043
+  - S044
+  CRITICAL_SOURCES:
+  - S039
+  - S044
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Controlled studies report roughly 21–24% faster tasks and 50–60% more correct solutions under
+    ideal traces; an observational study associates completeness with fewer defects; reviews identify maintenance cost and
+    weak general industrial evidence.
+  OPEN_QUESTIONS: What is the minimum valuable trace set, how should decay be measured, and when do native executable links
+    outperform explicit links?
+  REVERSIBILITY_PROFILE: R0 native/light; R1 selective; R2–R4 stronger where impact/evidence decisions are costly, but maintenance
+    burden also rises.
+  LINEAGE_CLASSIFICATION:
+  - RELATED_PLAN_DRIVEN_TRADITION
+  - HYBRID
+  RELATION_TO_ADAPTIVE_METHODS: HYBRID_RESOLUTION
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Which concrete decisions consume each trace relation, and what happens if it is stale?
+  - Can trace completeness and correctness be checked against live configurations rather than a manually maintained matrix?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P031 automation; EW-P005 documentation burden; exhaustive traceability conflicts with
+    change speed.
+- PROPERTY_ID: EW-P018
+  PROPERTY_NAME: Safety and hazard analysis with tracked risk controls
+  HISTORICAL_ORIGIN: System-safety engineering, nuclear/aerospace hazard analyses, automotive functional safety and rail risk
+    assessment.
+  ORIGINAL_FORM: Hazard analyses, safety requirements, control verification and hazard logs maintained through staged reviews.
+  PROBLEM_IT_ADDRESSED: Normal requirements and tests may omit hazardous interactions, misuse, degraded modes and organisational/operational
+    causes.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Catastrophic harm despite specification compliance; safety control lost during change;
+    hazard accepted without authority.
+  MECHANISM: Identify hazards and causal scenarios; assign controls across design, operation and organisation; verify controls;
+    track residual risk and changes through life.
+  TRIGGER_OR_CONTEXT: Potential death/injury, environmental harm, major public loss, high-energy physical system, safety-related
+    software or infrastructure.
+  NON_TRIGGER_OR_CHEAP_PATH: No trigger for ordinary low-consequence functionality; proportionate product/security risk analysis
+    may replace formal system-safety machinery.
+  DEPENDENCIES_OR_PRECONDITIONS: Competent multidisciplinary analysis; operational input; authority; configuration/trace links;
+    incident learning; credible severity/likelihood treatment.
+  EXPECTED_ENGINEERING_PAYOFF: Earlier hazard elimination, explicit safety constraints, visible residual risk and change-sensitive
+    protection.
+  KNOWN_FAILURE_MODES: Checklist hazard analysis; implausible probabilities; paper controls not implemented; hazard log stale;
+    safety treated as separate team.
+  IMPORTANT_CRITICISMS: Formal analyses can create false precision and omit unknown/organisational hazards; compliance can
+    displace real challenge.
+  HOW_THE_PROPERTY_EVOLVED: From one-time hazard reports to through-life hazard records, model-based analyses, operational
+    monitoring and risk-triggered reassessment.
+  MATURE_OR_EVOLVED_FORM: Living hazard/control claims tied to actual configurations, operations, evidence and residual-risk
+    authority.
+  CEREMONY_VS_PROPERTY: The property is active hazard control; a hazard-log template or safety review board is not sufficient.
+  CURRENT_STATUS: HIGH_CONSEQUENCE_CONTEXT_PROPERTY
+  EVIDENCE_STRENGTH: A_STRONG_DOMAIN_LEGAL_AND_FAILURE_SUPPORT
+  PRIMARY_SOURCES:
+  - S028
+  - S030
+  - S031
+  - S032
+  - S033
+  CRITICAL_SOURCES:
+  - S025
+  - S039
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Multiple high-consequence domains require hazard/risk control and independent assessment;
+    outcome attribution to specific artefacts is difficult.
+  OPEN_QUESTIONS: How should unknown hazards and socio-technical interactions be represented without false quantification?
+  REVERSIBILITY_PROFILE: R4 primary; R3 where public/regulated consequences; selected R2 security/privacy. No general R0 trigger.
+  LINEAGE_CLASSIFICATION:
+  - RELATED_PLAN_DRIVEN_TRADITION
+  - DOMAIN_SPECIFIC
+  RELATION_TO_ADAPTIVE_METHODS: PLAN_DRIVEN_NATIVE
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Are material hazards linked to implemented controls and evidence on the actual system?
+  - Who is authorised to accept residual risk, and is that acceptance revisited after change or operational evidence?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P031 speed; EW-P019 assurance case; formal safety burden can conflict with adaptation.
+- PROPERTY_ID: EW-P019
+  PROPERTY_NAME: Assurance or safety case as a living claims–argument–evidence structure
+  HISTORICAL_ORIGIN: UK goal-setting safety regulation; nuclear/offshore/defence safety cases; assurance-case research.
+  ORIGINAL_FORM: Large safety-case report or dossier submitted at programme milestones.
+  PROBLEM_IT_ADDRESSED: Complex safety/assurance conclusions depend on many heterogeneous claims, assumptions and evidence
+    that a checklist cannot expose.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Evidence warehouse without a coherent claim; unsupported leaps; hidden assumptions; authority
+    cannot see why evidence is sufficient.
+  MECHANISM: Maintain an explicit, challengeable argument linking top claims, contexts, defeaters/uncertainty and configuration-specific
+    evidence throughout life.
+  TRIGGER_OR_CONTEXT: Novel high-consequence system; non-prescriptive regulation; heterogeneous evidence; residual risk requiring
+    an accountable judgement.
+  NON_TRIGGER_OR_CHEAP_PATH: Stable low-risk products can use concise control/evidence summaries; do not construct a graphical
+    assurance case merely to satisfy a style.
+  DEPENDENCIES_OR_PRECONDITIONS: Claims with scope; credible evidence; independent challenge; configuration/version links;
+    operational updates; willingness to record doubt and counterevidence.
+  EXPECTED_ENGINEERING_PAYOFF: Transparent reasoning, focused evidence gaps, through-life risk decisions and better communication
+    across disciplines and authority.
+  KNOWN_FAILURE_MODES: Persuasive brief rather than inquiry; confirmation bias; after-the-fact rationalisation; static report;
+    duplicated document warehouse; graphical complexity.
+  IMPORTANT_CRITICISMS: Direct comparative outcome evidence is weak; a polished argument can launder weak premises and consume
+    disproportionate effort.
+  HOW_THE_PROPERTY_EVOLVED: From terminal report to living, configuration-linked, falsification-oriented assurance reasoning
+    with continuous evidence.
+  MATURE_OR_EVOLVED_FORM: Use structured argument only where it changes risk decisions, expose assumptions/defeaters, and
+    distinguish the case from its report.
+  CEREMONY_VS_PROPERTY: The property is challengeable assurance reasoning; a large report, graphical notation or fixed milestone
+    submission is not inherently required.
+  CURRENT_STATUS: USEFUL_BUT_EASILY_BUREAUCRATISED
+  EVIDENCE_STRENGTH: C_STRONG_DOMAIN_GUIDANCE_WEAK_OUTCOME_EVIDENCE
+  PRIMARY_SOURCES:
+  - S033
+  - S036
+  CRITICAL_SOURCES:
+  - S033
+  - S039
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: 'MOD guidance explicitly records both intended benefits and pathologies: compliance-only production,
+    stale reports, process-focused audits and late apologetic cases.'
+  OPEN_QUESTIONS: Does a structured case measurably outperform well-designed hazard/evidence management, and how should uncertainty/defeaters
+    be represented?
+  REVERSIBILITY_PROFILE: R3–R4; sometimes R2 for consequential security/AI/public systems. Usually no R0–R1 trigger.
+  LINEAGE_CLASSIFICATION:
+  - DOMAIN_SPECIFIC
+  - CONVERGENT_ENGINEERING
+  - HYBRID
+  RELATION_TO_ADAPTIVE_METHODS: HYBRID_RESOLUTION
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Is the assurance case a live argument that can reveal a failed claim, or a static persuasive dossier?
+  - Are evidence and assumptions tied to the current configuration and operational context?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P031 continuous evidence; EW-P005 documentation burden; argument completeness can conflict
+    with delivery latency.
+- PROPERTY_ID: EW-P020
+  PROPERTY_NAME: Anomaly, problem-report, deviation, waiver and corrective-action provenance
+  HISTORICAL_ORIGIN: SAGE problem records; Royce test control; defence problem reports; quality/safety corrective-action systems.
+  ORIGINAL_FORM: Formal problem reports, discrepancy review boards, waivers/deviations and corrective-action records.
+  PROBLEM_IT_ADDRESSED: Failures, accepted exceptions and recurring causes must remain visible across releases and authority
+    changes.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Defect silently deferred; waiver applied to wrong configuration; recurring failure; test
+    pass obtained by changing expectation; root cause never addressed.
+  MECHANISM: Give each material anomaly identity, affected configuration, severity, evidence, disposition, authority, corrective
+    action and verification of closure; retain accepted residuals.
+  TRIGGER_OR_CONTEXT: Safety/mission/quality consequence; repeated releases; supplier defects; certification/acceptance exceptions;
+    operational incidents.
+  NON_TRIGGER_OR_CHEAP_PATH: Low-risk local bugs can use an issue tracker and automated regression test; do not convene a
+    discrepancy board for every defect.
+  DEPENDENCIES_OR_PRECONDITIONS: Non-punitive reporting; configuration identity; severity criteria; closure authority; root-cause
+    competence; feedback into requirements/hazards/tests.
+  EXPECTED_ENGINEERING_PAYOFF: Prevents silent loss, supports recurrence analysis, preserves exceptions and demonstrates closure
+    on the correct state.
+  KNOWN_FAILURE_MODES: Ticket closure without fix; backlog graveyard; root-cause theatre; excessive paperwork; waiver normalisation;
+    metrics gaming.
+  IMPORTANT_CRITICISMS: Formal corrective-action systems can prioritise closure statistics over learning and impose disproportionate
+    burden.
+  HOW_THE_PROPERTY_EVOLVED: From paper discrepancy boards to integrated issue/evidence/provenance systems, automated regression
+    and risk-triggered escalation.
+  MATURE_OR_EVOLVED_FORM: One material problem identity from detection through authorised disposition and verified correction,
+    linked to configuration and evidence.
+  CEREMONY_VS_PROPERTY: The property is durable problem/exception provenance and closure; a standing board or mandatory form
+    is not required.
+  CURRENT_STATUS: RETAINED_IN_EVOLVED_FORM
+  EVIDENCE_STRENGTH: B_STRONG_CROSS_DOMAIN_MECHANISTIC_SUPPORT
+  PRIMARY_SOURCES:
+  - S001
+  - S005
+  - S022
+  - S026
+  - S033
+  CRITICAL_SOURCES:
+  - S016
+  - S050
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Historical and current assurance regimes consistently preserve anomaly and corrective-action
+    records; controlled net-benefit evidence is limited.
+  OPEN_QUESTIONS: How should organisations prevent backlog and waiver normalisation without over-classifying minor defects?
+  REVERSIBILITY_PROFILE: R1–R4 progressively stronger; R0 normal issue/test path.
+  LINEAGE_CLASSIFICATION:
+  - RELATED_PLAN_DRIVEN_TRADITION
+  - CONVERGENT_ENGINEERING
+  - HYBRID
+  RELATION_TO_ADAPTIVE_METHODS: CONVERGENT_PROPERTY
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Can every accepted deviation or unresolved anomaly be tied to the exact configuration and authority?
+  - Is closure verified by evidence, or inferred from ticket status and meeting approval?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P031 flow; EW-P024 proportionality; full provenance can burden minor issue handling.
+- PROPERTY_ID: EW-P021
+  PROPERTY_NAME: Evidence-backed, event-driven commitment reviews
+  HISTORICAL_ORIGIN: Design reviews, phase gates, acquisition milestones and technical review traditions.
+  ORIGINAL_FORM: Calendar-scheduled preliminary/critical design reviews and phase-gate meetings approving documents before
+    the next phase.
+  PROBLEM_IT_ADDRESSED: Large commitments need explicit decisions, but calendar progress and document completion are weak
+    proxies for technical readiness.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Production, deployment, procurement or certification commitment without enough knowledge;
+    gate passes because stopping is politically impossible.
+  MECHANISM: Define the irreversible decision, entrance/exit evidence, residual risks and decision rights; review when evidence
+    is ready and preserve a real stop/redirect option.
+  TRIGGER_OR_CONTEXT: Capital, production, long-lead procurement, fleet deployment, irreversible migration, safety authority,
+    major supplier or contractual commitment.
+  NON_TRIGGER_OR_CHEAP_PATH: Continuous low-risk software work can use automated promotion rules and lightweight asynchronous
+    review; no milestone meeting is needed.
+  DEPENDENCIES_OR_PRECONDITIONS: Decision authority able to stop/change course; independent challenge; current actual-state
+    evidence; transparent criteria; no automatic schedule pass.
+  EXPECTED_ENGINEERING_PAYOFF: Better-timed commitment, risk visibility, option preservation and accountability for residual
+    uncertainty.
+  KNOWN_FAILURE_MODES: Milestone gaming; slideware; sunk-cost escalation; duplicate boards; criteria waived at the meeting;
+    gate after commitment already made.
+  IMPORTANT_CRITICISMS: Phase gates can certify documents rather than products, batch feedback and reward concealment; the
+    review may add no new decision information.
+  HOW_THE_PROPERTY_EVOLVED: From fixed phase completion to event-driven, risk-based knowledge points, continuous evidence
+    and overlapping work.
+  MATURE_OR_EVOLVED_FORM: A commitment decision—not a lifecycle phase—whose strength matches the cost and consequence of being
+    wrong.
+  CEREMONY_VS_PROPERTY: The property is a consequential decision based on discriminating evidence with real authority; a board,
+    meeting, colour status or named review is optional.
+  CURRENT_STATUS: CONTEXT_DEPENDENT
+  EVIDENCE_STRENGTH: B_STRONG_DOMAIN_AND_CRITICAL_SUPPORT
+  PRIMARY_SOURCES:
+  - S003
+  - S037
+  - S049
+  - S060
+  CRITICAL_SOURCES:
+  - S017
+  - S050
+  - S016
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: GAO and DoD guidance favour knowledge/event-driven reviews; escalation research and institutional
+    reports show that formal milestones can reinforce sunk cost.
+  OPEN_QUESTIONS: Which decision criteria predict better outcomes, and how often do gates truly stop or redirect programmes?
+  REVERSIBILITY_PROFILE: R3–R4 primary; selected R2 cutovers. R0–R1 should normally use continuous policy gates.
+  LINEAGE_CLASSIFICATION:
+  - RELATED_PLAN_DRIVEN_TRADITION
+  - REFINED
+  - HYBRID
+  RELATION_TO_ADAPTIVE_METHODS: HYBRID_RESOLUTION
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - What irreversible or externally consequential commitment does each gate control?
+  - Could the review genuinely stop or redirect work, and does its evidence describe the actual system rather than completed
+    documents?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P031 flow; EW-P004 experimentation; strong gates can conflict with short feedback and
+    option exploration.
+- PROPERTY_ID: EW-P022
+  PROPERTY_NAME: Staged and incremental commitment with option preservation
+  HISTORICAL_ORIGIN: Pilot systems, spiral risk management, evolutionary acquisition, incremental Vee and knowledge-based
+    product development.
+  ORIGINAL_FORM: Sequentially commit requirements, design, production and deployment after major reviews.
+  PROBLEM_IT_ADDRESSED: Uncertainty and irreversible downstream choices make all-at-once commitment hazardous, yet unlimited
+    provisional work prevents coordination.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Too much capital/supplier/design commitment before evidence; or endless experimentation
+    without converging on an operational system.
+  MECHANISM: Break commitments into independently valuable or risk-retiring increments; delay irreversible choices until evidence
+    warrants them; explicitly price retained options.
+  TRIGGER_OR_CONTEXT: High uncertainty plus expensive downstream commitment; modular capability; long lead; production tooling;
+    migration waves; certification increments.
+  NON_TRIGGER_OR_CHEAP_PATH: For cheap reversible changes, ship/test/revert directly rather than inventing formal commitment
+    stages.
+  DEPENDENCIES_OR_PRECONDITIONS: Modular architecture or separable decisions; incremental acceptance/evidence; funding and
+    contracts that permit revision; explicit option-expiry decisions.
+  EXPECTED_ENGINEERING_PAYOFF: Reduced exposure to wrong assumptions, earlier value/learning and bounded cancellation or redesign
+    cost.
+  KNOWN_FAILURE_MODES: Pseudo-increments that integrate only at end; permanent temporary architecture; partial capability
+    with full overhead; option preservation used to avoid decisions.
+  IMPORTANT_CRITICISMS: Incrementalisation can increase integration and certification overhead or be impossible for tightly
+    coupled physical systems.
+  HOW_THE_PROPERTY_EVOLVED: From one large phase sequence to risk-ordered increments, progressive baselines, modular certification
+    and rolling investment decisions.
+  MATURE_OR_EVOLVED_FORM: Commit evidence, money and authority in slices sized by uncertainty, coupling and reversibility,
+    while preserving coherent system integration.
+  CEREMONY_VS_PROPERTY: The property is bounded commitment and retained alternatives; arbitrary phases, quarterly gates or
+    a fixed increment length are not required.
+  CURRENT_STATUS: RETAINED_IN_EVOLVED_FORM
+  EVIDENCE_STRENGTH: A_STRONG_CROSS_TRADITION_AND_DOMAIN_SUPPORT
+  PRIMARY_SOURCES:
+  - S008
+  - S012
+  - S014
+  - S018
+  - S019
+  - S060
+  CRITICAL_SOURCES:
+  - S017
+  - S048
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Spiral, incremental Vee, current lifecycle standards and acquisition evidence converge; exact
+    economic benefit depends on separability and overhead.
+  OPEN_QUESTIONS: How should option value and increment boundaries be measured in tightly coupled systems?
+  REVERSIBILITY_PROFILE: Useful from R1–R4; strongest before R3–R4 commitment. R0 naturally preserves options without formal
+    staging.
+  LINEAGE_CLASSIFICATION:
+  - REACTION_TO_WATERFALL
+  - HYBRID
+  - RELATED_PLAN_DRIVEN_TRADITION
+  RELATION_TO_ADAPTIVE_METHODS: HYBRID_RESOLUTION
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Does the lifecycle delay the specific irreversible choices that uncertainty makes dangerous?
+  - Are increments independently integrable/evaluable, or merely administrative slices of one late integration?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P009 interface stability; EW-P013 qualification; increment overhead can conflict with
+    economies of scale.
+- PROPERTY_ID: EW-P023
+  PROPERTY_NAME: Incremental, concurrent and recursive lifecycle application
+  HISTORICAL_ORIGIN: Early iterative practice; spiral; incremental Vee; MIL-STD-498; modern ISO lifecycle standards.
+  ORIGINAL_FORM: Apply one sequence of requirements, design, implementation and test once to the whole system.
+  PROBLEM_IT_ADDRESSED: Systems contain levels, increments and elements at different maturity; a single project-wide phase
+    order batches learning and hides recursive dependencies.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: One giant final integration, subsystem handoffs, local completion without system progress
+    and inability to adapt lifecycle to element risk.
+  MECHANISM: Apply lifecycle responsibilities concurrently, iteratively and recursively at system, element, increment and
+    sustainment levels; coordinate their baselines and evidence.
+  TRIGGER_OR_CONTEXT: Any non-trivial system with elements/increments, especially differing technologies, suppliers or release
+    cadences.
+  NON_TRIGGER_OR_CHEAP_PATH: A tiny product need not model recursive lifecycle structure explicitly; normal iterative work
+    can realise the property.
+  DEPENDENCIES_OR_PRECONDITIONS: Clear system boundaries; integration cadence; shared configuration/evidence; ownership across
+    levels; tailored coordination.
+  EXPECTED_ENGINEERING_PAYOFF: Earlier learning, parallel progress, repeated integration and preservation of assurance responsibilities
+    without a fixed global phase sequence.
+  KNOWN_FAILURE_MODES: Fractal process bureaucracy; each subsystem creates full document stack; asynchronous increments drift;
+    local optimisation.
+  IMPORTANT_CRITICISMS: Concurrency can create rework and coordination load; recursion is not free and does not eliminate
+    architecture dependencies.
+  HOW_THE_PROPERTY_EVOLVED: Explicitly incorporated into ISO 15288/12207, incremental Vee and hybrid safety/DevSecOps practice.
+  MATURE_OR_EVOLVED_FORM: Lifecycle processes are obligations and feedback loops applied where needed, not calendar phases
+    traversed once.
+  CEREMONY_VS_PROPERTY: The property is repeated/recursive fulfilment of responsibilities; separate mini-waterfalls and duplicated
+    stage artefacts are not required.
+  CURRENT_STATUS: STRONGLY_RETAINED
+  EVIDENCE_STRENGTH: A_STRONG_PRIMARY_STANDARDS_AND_HISTORICAL_SUPPORT
+  PRIMARY_SOURCES:
+  - S008
+  - S012
+  - S014
+  - S018
+  - S019
+  - S035
+  CRITICAL_SOURCES:
+  - S016
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Current system/software lifecycle standards explicitly allow concurrent, iterative, recursive
+    and incremental use.
+  OPEN_QUESTIONS: How should cross-level cadence and evidence inheritance be optimised in very large systems?
+  REVERSIBILITY_PROFILE: All bands; degree of formal coordination increases from R1 to R4.
+  LINEAGE_CLASSIFICATION:
+  - HYBRID
+  - RELATED_PLAN_DRIVEN_TRADITION
+  - REACTION_TO_WATERFALL
+  RELATION_TO_ADAPTIVE_METHODS: CONVERGENT_PROPERTY
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Are lifecycle obligations applied per risk/increment/element, or imposed as one project-wide phase sequence?
+  - Can evidence and baselines be inherited or reused without duplicating full process stacks?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P006 baseline coordination; EW-P031 cadence; concurrency can conflict with stable shared
+    interfaces.
+- PROPERTY_ID: EW-P024
+  PROPERTY_NAME: Tailoring and proportionality
+  HISTORICAL_ORIGIN: Royce cost caveat; defence standard tailoring; V-Modell XT; ISO lifecycle standards; integrity/risk-based
+    assurance.
+  ORIGINAL_FORM: Programme-specific tailoring of standard activities, documents and reviews, often requiring formal approval.
+  PROBLEM_IT_ADDRESSED: Uniform process imposes low-value burden on small/reversible work and may under-control novel/high-consequence
+    work.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Ceremony independent of risk; skipped critical evidence because template says optional;
+    inconsistent tailoring hidden from authorities.
+  MECHANISM: Scale depth, independence, documentation, traceability, review and authority to consequence, uncertainty, coupling,
+    reversibility, feedback latency and external obligation; record rationale.
+  TRIGGER_OR_CONTEXT: Always as a meta-property whenever a lifecycle or assurance control is considered.
+  NON_TRIGGER_OR_CHEAP_PATH: Default lightweight path for local reversible work, with pre-defined escalation triggers rather
+    than case-by-case bureaucracy.
+  DEPENDENCIES_OR_PRECONDITIONS: Credible risk/context classification; authority to tailor; feedback on whether controls work;
+    minimum non-tailorable legal obligations identified.
+  EXPECTED_ENGINEERING_PAYOFF: Lower process waste, stronger focus on critical risks and greater legitimacy/compliance with
+    necessary controls.
+  KNOWN_FAILURE_MODES: '''Tailoring'' means deleting unpopular checks without analysis; approval to tailor is itself heavy;
+    risk scores manipulated; over-customisation destroys comparability.'
+  IMPORTANT_CRITICISMS: Risk classification is uncertain and can be gamed; proportionality can become vague permission for
+    inconsistency.
+  HOW_THE_PROPERTY_EVOLVED: From selecting documents from a standard to dynamic, policy-based assurance profiles and integrity
+    levels.
+  MATURE_OR_EVOLVED_FORM: A transparent control-selection rule with cheap defaults, explicit escalation factors, mandatory
+    legal minima and post-outcome learning.
+  CEREMONY_VS_PROPERTY: The property is proportional control selection; a tailoring plan or approval board is not inherently
+    required.
+  CURRENT_STATUS: STRONGLY_RETAINED
+  EVIDENCE_STRENGTH: A_STRONG_CROSS_STANDARD_AND_DOMAIN_CONVERGENCE
+  PRIMARY_SOURCES:
+  - S003
+  - S009
+  - S013
+  - S014
+  - S018
+  - S019
+  - S020
+  - S027
+  - S030
+  CRITICAL_SOURCES:
+  - S045
+  - S048
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Multiple independent standards and regulatory regimes converge on tailoring/integrity/risk
+    scaling; exact thresholds remain underdetermined.
+  OPEN_QUESTIONS: How can trigger thresholds be calibrated and audited without recreating universal process?
+  REVERSIBILITY_PROFILE: Meta-profile across R0–R4; establishes the cheap path and escalation.
+  LINEAGE_CLASSIFICATION:
+  - DIRECT_LINEAGE
+  - RELATED_PLAN_DRIVEN_TRADITION
+  - HYBRID
+  RELATION_TO_ADAPTIVE_METHODS: CONVERGENT_PROPERTY
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Does every control have a cheap non-trigger path and an explicit escalation rationale?
+  - Are legal/safety minima distinguished from optional inherited ceremony?
+  POSSIBLE_CONFLICTING_PROPERTY: Potentially conflicts with standardisation, comparability and segregation of duties if tailoring
+    authority is unchecked.
+- PROPERTY_ID: EW-P025
+  PROPERTY_NAME: Rolling planning, estimate uncertainty and outside-view challenge
+  HISTORICAL_ORIGIN: Predictive programme planning, cost/schedule baselines, later empirical estimation research and reference-class
+    forecasting.
+  ORIGINAL_FORM: Detailed up-front work breakdown, deterministic schedule/cost baseline and variance control.
+  PROBLEM_IT_ADDRESSED: Funding, suppliers and coordination require forecasts, but uncertain development cannot be represented
+    honestly by one precise plan.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: False certainty, narrow intervals, political estimates, local optimism, plan treated as
+    contract with reality, and continued funding because baseline sunk cost is large.
+  MECHANISM: Use ranges, assumptions, scenarios, base rates/reference classes, independent estimates and rolling updates from
+    actual performance; separate target, forecast and commitment.
+  TRIGGER_OR_CONTEXT: Budget or contract decision; long lead; portfolio trade-off; external dependency; irreversible investment;
+    capacity planning.
+  NON_TRIGGER_OR_CHEAP_PATH: Small reversible work can use short-horizon forecasts and throughput history; avoid elaborate
+    earned-value machinery.
+  DEPENDENCIES_OR_PRECONDITIONS: Comparable data; transparent assumptions; incentives to report bad news; update cadence;
+    distinction between estimate and target; independent challenge.
+  EXPECTED_ENGINEERING_PAYOFF: More honest decisions, visible uncertainty, earlier replan and less surprise from deterministic
+    commitments.
+  KNOWN_FAILURE_MODES: Pseudo-precision; reference class chosen strategically; ranges ignored; baseline used to punish learning;
+    constant replanning hides lack of progress.
+  IMPORTANT_CRITICISMS: Estimation evidence is fragmented; outside views do not remove novelty or strategic behaviour; planning
+    overhead may exceed value.
+  HOW_THE_PROPERTY_EVOLVED: From fixed master plan to probabilistic, rolling and evidence-updated forecasts coupled to staged
+    commitment.
+  MATURE_OR_EVOLVED_FORM: A decision model that exposes uncertainty and changes with evidence, while retaining accountable
+    external commitments where necessary.
+  CEREMONY_VS_PROPERTY: The property is decision-relevant forecasting and uncertainty; a massive schedule, single completion
+    date or mandated estimation method is not required.
+  CURRENT_STATUS: CONTEXT_DEPENDENT
+  EVIDENCE_STRENGTH: B_STRONG_CRITICAL_LITERATURE_WEAK_UNIVERSAL_PREDICTION
+  PRIMARY_SOURCES:
+  - S051
+  - S052
+  - S053
+  CRITICAL_SOURCES:
+  - S050
+  - S051
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Systematic review shows fragmented methods; uncertainty research documents overconfidence;
+    GAO guidance requires risk, sensitivity, independent review and actuals.
+  OPEN_QUESTIONS: Which estimation practices improve real decisions rather than reported calibration, especially in novel
+    programmes?
+  REVERSIBILITY_PROFILE: R2–R4 stronger because coordination/commitment needs forecasts; R0–R1 short-horizon lightweight.
+  LINEAGE_CLASSIFICATION:
+  - RELATED_PLAN_DRIVEN_TRADITION
+  - REFINED
+  RELATION_TO_ADAPTIVE_METHODS: HYBRID_RESOLUTION
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Are targets, commitments and probabilistic forecasts explicitly different objects?
+  - Are estimates updated from actuals and challenged by outside/base-rate evidence rather than protected as sunk commitments?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P002 uncertainty; EW-P021 commitment; forecast stability can conflict with adaptation.
+- PROPERTY_ID: EW-P026
+  PROPERTY_NAME: Supplier, long-lead and dependency coordination
+  HISTORICAL_ORIGIN: Aerospace/defence systems integration, acquisition/supply processes, interface/configuration management
+    and production planning.
+  ORIGINAL_FORM: Contract specifications, supplier reviews, data-item deliveries, interface boards and long-lead procurement
+    approvals.
+  PROBLEM_IT_ADDRESSED: Independent organisations and physical lead times create commitments and information boundaries that
+    local team practices cannot dissolve.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Supplier builds to obsolete baseline; data rights missing; long-lead purchase before design
+    maturity; integration mismatch; single-source obsolescence.
+  MECHANISM: Identify external dependencies, owners, lead times, data/rights, interface and evidence obligations; synchronise
+    baselines and stage procurement by demonstrated knowledge.
+  TRIGGER_OR_CONTEXT: Multiple legal organisations/suppliers; custom hardware; long lead; scarce materials; safety evidence
+    from vendors; sustainment dependence.
+  NON_TRIGGER_OR_CHEAP_PATH: Single-team commodity/software dependencies can use lockfiles, service contracts, automated compatibility
+    tests and normal vendor management.
+  DEPENDENCIES_OR_PRECONDITIONS: Commercial/legal authority; accessible technical data; interface/configuration identity;
+    supplier incentives; alternative/contingency analysis.
+  EXPECTED_ENGINEERING_PAYOFF: Reduced integration and schedule surprise, clearer accountability, protected sustainment and
+    less premature procurement commitment.
+  KNOWN_FAILURE_MODES: Prime-contractor bureaucracy; data-item overload; supplier lock-in; approvals conceal poor technical
+    visibility; local autonomy destroyed.
+  IMPORTANT_CRITICISMS: Heavy supplier governance can reduce innovation and competition; requirements may be frozen to protect
+    contracts.
+  HOW_THE_PROPERTY_EVOLVED: Toward modular/open interfaces, digital data exchange, incremental contracts, shared evidence
+    and risk-based supplier surveillance.
+  MATURE_OR_EVOLVED_FORM: Govern external dependency commitments and evidence at the boundary, while minimising imposed internal
+    process.
+  CEREMONY_VS_PROPERTY: The property is cross-authority dependency control; supplier meetings, mandated data volumes and a
+    universal prime/sub hierarchy are not inherently required.
+  CURRENT_STATUS: CONTEXT_DEPENDENT
+  EVIDENCE_STRENGTH: B_STRONG_DOMAIN_AND_INSTITUTIONAL_SUPPORT
+  PRIMARY_SOURCES:
+  - S018
+  - S024
+  - S059
+  - S060
+  CRITICAL_SOURCES:
+  - S017
+  - S038
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Complex acquisition audits and cross-case infrastructure/aerospace research show supplier,
+    interface, data and long-lead exposure; causal isolation is difficult.
+  OPEN_QUESTIONS: Which contract and data-right structures preserve learning without transferring uncontrolled risk?
+  REVERSIBILITY_PROFILE: R3–R4 primary; R2 for external cloud/services; R0–R1 usually cheap.
+  LINEAGE_CLASSIFICATION:
+  - RELATED_PLAN_DRIVEN_TRADITION
+  - CONVERGENT_ENGINEERING
+  RELATION_TO_ADAPTIVE_METHODS: CONTEXT_SWITCH
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Which dependencies cross organisational/legal boundaries, and what commitments become costly before evidence exists?
+  - Can suppliers exchange authoritative interface/configuration/evidence data without adopting all internal ceremony?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P002 learning; EW-P009 interface stability; contracts can conflict with requirement evolution.
+- PROPERTY_ID: EW-P027
+  PROPERTY_NAME: Transition, operational readiness and cutover control
+  HISTORICAL_ORIGIN: Installation/checkout, acceptance, flight/mission readiness reviews, commissioning and transition-to-service
+    practice.
+  ORIGINAL_FORM: Formal operational readiness review before launch, startup, fielding or handover.
+  PROBLEM_IT_ADDRESSED: A technically verified product can fail because deployment, data, people, procedures, support or operational
+    authority are unready.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Successful component/system test followed by failed cutover, unsafe startup, missing support,
+    wrong configuration or untrained operators.
+  MECHANISM: Evaluate the actual deployment configuration, environment, data, people, procedures, support, unresolved anomalies
+    and authority; rehearse critical transitions.
+  TRIGGER_OR_CONTEXT: Irreversible or high-impact cutover; physical startup; safety/mission operations; major migration; transfer
+    to a separate operations organisation.
+  NON_TRIGGER_OR_CHEAP_PATH: Small reversible deployments can use automated readiness checks, canaries and on-call confirmation
+    without a review meeting.
+  DEPENDENCIES_OR_PRECONDITIONS: As-deployed identity; rollback/contingency; operational owner; realistic rehearsal; support
+    resources; decision authority.
+  EXPECTED_ENGINEERING_PAYOFF: Fewer transition failures, clearer operational ownership, verified support and safer startup.
+  KNOWN_FAILURE_MODES: Checklist meeting after deployment decision; nominal training; staged demo; readiness package detached
+    from live environment; issues accepted by schedule pressure.
+  IMPORTANT_CRITICISMS: Readiness reviews can batch releases and become sign-off theatre; continuous services may never have
+    a single transition moment.
+  HOW_THE_PROPERTY_EVOLVED: From one handover event to progressive delivery, rehearsed migration waves, automated readiness
+    evidence and continuous operational acceptance.
+  MATURE_OR_EVOLVED_FORM: A risk-scaled decision that actual capability and enabling system are ready, with explicit rollback
+    and residual-risk authority.
+  CEREMONY_VS_PROPERTY: The property is actual operational readiness; an ORR meeting, slide deck or ceremonial handover is
+    not required.
+  CURRENT_STATUS: HIGH_CONSEQUENCE_CONTEXT_PROPERTY
+  EVIDENCE_STRENGTH: A_STRONG_DOMAIN_AND_FAILURE_MECHANISM_SUPPORT
+  PRIMARY_SOURCES:
+  - S022
+  - S032
+  - S057
+  - S035
+  CRITICAL_SOURCES:
+  - S017
+  - S048
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: NASA and DOE explicitly require correspondence among actual system, people, procedures and
+    deployed state before operation in high-consequence contexts.
+  OPEN_QUESTIONS: How should continuous services represent readiness when deployment is frequent and partial?
+  REVERSIBILITY_PROFILE: R2–R4; strength rises with cutover irreversibility, data effects, hazard and recovery time.
+  LINEAGE_CLASSIFICATION:
+  - RELATED_PLAN_DRIVEN_TRADITION
+  - DOMAIN_SPECIFIC
+  - HYBRID
+  RELATION_TO_ADAPTIVE_METHODS: HYBRID_RESOLUTION
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Does readiness evidence cover the actual deployment, people, data, procedures and support—not just product test results?
+  - Is there a credible abort/rollback decision before the cutover's irreversible point?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P031 deployment cadence; EW-P014 acceptance; readiness control can conflict with continuous
+    flow.
+- PROPERTY_ID: EW-P028
+  PROPERTY_NAME: Rollback, contingency and recovery readiness
+  HISTORICAL_ORIGIN: Contingency planning, mission abort/backup, disaster recovery and modern progressive-delivery practice.
+  ORIGINAL_FORM: Contingency plans, backup systems and recovery procedures prepared before operation.
+  PROBLEM_IT_ADDRESSED: Some failures cannot be prevented economically; control value depends on whether damage can be contained
+    and service restored.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Change is labelled reversible but rollback loses data, worsens hazard, depends on unavailable
+    people/tools or has never been tested.
+  MECHANISM: Define recovery objectives, backups, fallback/abort paths, state reconciliation and decision authority; test
+    them under representative conditions.
+  TRIGGER_OR_CONTEXT: Operational/data change; service dependency; cyber threat; migration; remote/physical operation; significant
+    outage or safety consequence.
+  NON_TRIGGER_OR_CHEAP_PATH: Truly stateless low-impact experiments may need only one-click revert and normal version history.
+  DEPENDENCIES_OR_PRECONDITIONS: Known state model; backups/alternate capability; observability; access; rehearsals; ownership;
+    time and safety limits.
+  EXPECTED_ENGINEERING_PAYOFF: Reduced failure/recovery cost, safer experimentation, bounded outages and honest reversibility
+    classification.
+  KNOWN_FAILURE_MODES: Untested plan; backup corrupt or inaccessible; rollback incompatible with migrated data; fallback shares
+    same failure; recovery metrics unrealistic.
+  IMPORTANT_CRITICISMS: Redundancy and rehearsal cost can be high; fallback can increase complexity and attack surface.
+  HOW_THE_PROPERTY_EVOLVED: From static disaster-recovery binders to automated rollback, canary/progressive delivery, chaos
+    exercises and continuously tested recovery.
+  MATURE_OR_EVOLVED_FORM: Demonstrated recovery capability whose evidence is tied to the current architecture, data and operational
+    configuration.
+  CEREMONY_VS_PROPERTY: The property is working recoverability; a contingency document, checkbox backup or claimed rollback
+    is not enough.
+  CURRENT_STATUS: CONTEXT_DEPENDENT
+  EVIDENCE_STRENGTH: B_STRONG_RESILIENCE_PRACTICE_SUPPORT
+  PRIMARY_SOURCES:
+  - S056
+  - S035
+  - S036
+  CRITICAL_SOURCES:
+  - S048
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: NIST and modern delivery practice require recovery strategies and tests; comparative thresholds
+    are context-specific.
+  OPEN_QUESTIONS: How should recovery tests cover correlated and irreversible data/physical effects?
+  REVERSIBILITY_PROFILE: Central to classifying R1–R3; R4 often cannot be rolled back and needs prevention/containment instead.
+  LINEAGE_CLASSIFICATION:
+  - CONVERGENT_ENGINEERING
+  - HYBRID
+  RELATION_TO_ADAPTIVE_METHODS: CONVERGENT_PROPERTY
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - What evidence shows rollback or recovery works for the current state, including data and dependencies?
+  - Does the claimed reversibility stop at an irreversible side effect such as disclosure, physical action or external transaction?
+  POSSIBLE_CONFLICTING_PROPERTY: Redundancy/complexity can conflict with simplicity and cost; rollback may conflict with forward-only
+    migrations.
+- PROPERTY_ID: EW-P029
+  PROPERTY_NAME: Sustainment, obsolescence and support continuity
+  HISTORICAL_ORIGIN: Full-lifecycle systems engineering, logistics/product support, configuration management and maintenance.
+  ORIGINAL_FORM: Logistics support plans, technical manuals, spares, depot arrangements and periodic sustainment reviews.
+  PROBLEM_IT_ADDRESSED: Delivery/acceptance is not the end of system life; support data, skills, suppliers and components
+    decay.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Unsupportable fielded system, obsolete components, missing data rights, unknown fleet
+    configurations, cost growth invisible without baseline.
+  MECHANISM: Plan and monitor support concept, technical data, configuration fleet state, skills, obsolescence, supply chain,
+    service levels and retirement; update from operations.
+  TRIGGER_OR_CONTEXT: Long-lived asset; fleet; regulated/safety system; custom hardware; external supplier; high replacement/cutover
+    cost.
+  NON_TRIGGER_OR_CHEAP_PATH: Short-lived commodity software can rely on maintained dependencies, observability and explicit
+    end-of-life policy.
+  DEPENDENCIES_OR_PRECONDITIONS: Lifecycle ownership/funding; operational data; configuration baseline; supplier/data rights;
+    retirement authority.
+  EXPECTED_ENGINEERING_PAYOFF: Higher availability, controlled lifecycle cost, safer maintenance, upgradeability and deliberate
+    retirement.
+  KNOWN_FAILURE_MODES: Support plan written before real operations; cost baseline absent; sustainment deferred to future owner;
+    vendor lock-in; obsolete documentation.
+  IMPORTANT_CRITICISMS: Long-range sustainment plans are highly uncertain and may entrench legacy systems; review metrics
+    can be gamed.
+  HOW_THE_PROPERTY_EVOLVED: From static logistics plans to telemetry-informed product support, modular/open systems, continuous
+    patching and explicit decommissioning.
+  MATURE_OR_EVOLVED_FORM: Through-life ownership and evidence for maintaining, modifying and retiring the actual fielded configuration.
+  CEREMONY_VS_PROPERTY: The property is continuing capability and authority; a logistics document or annual review alone is
+    not sufficient.
+  CURRENT_STATUS: CONTEXT_DEPENDENT
+  EVIDENCE_STRENGTH: B_STRONG_DOMAIN_AND_CURRENT_AUDIT_SUPPORT
+  PRIMARY_SOURCES:
+  - S018
+  - S022
+  - S029
+  - S058
+  - S060
+  CRITICAL_SOURCES:
+  - S058
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: GAO reports show missing sustainment baselines can prevent cost-growth determination and identify
+    obsolescence/supply problems.
+  OPEN_QUESTIONS: Which early design/supplier controls reliably reduce lifecycle cost without locking in speculative forecasts?
+  REVERSIBILITY_PROFILE: R3–R4 primary; R2 for durable platforms/services; R0–R1 minimal.
+  LINEAGE_CLASSIFICATION:
+  - RELATED_PLAN_DRIVEN_TRADITION
+  - DOMAIN_SPECIFIC
+  - HYBRID
+  RELATION_TO_ADAPTIVE_METHODS: CONVERGENT_PROPERTY
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Who owns support, obsolescence and retirement after initial acceptance?
+  - Can the current fielded fleet/configuration and its support obligations be reconstructed?
+  POSSIBLE_CONFLICTING_PROPERTY: Long-term stability can conflict with rapid technology refresh; sustainment investment competes
+    with replacement.
+- PROPERTY_ID: EW-P030
+  PROPERTY_NAME: Digital authoritative engineering environment and model governance
+  HISTORICAL_ORIGIN: Technical-data management, CAD/CAE, MBSE, digital engineering and authoritative-source initiatives.
+  ORIGINAL_FORM: Replace or supplement document sets with integrated models and a designated authoritative source of truth.
+  PROBLEM_IT_ADDRESSED: Disconnected documents and tools produce handoff loss, duplicate data and inconsistent views of system
+    state.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Different disciplines act on incompatible models; model is stale or unvalidated; authority
+    is ambiguous; proprietary tool blocks access; model approval substitutes for reality.
+  MECHANISM: Govern authoritative data/model domains, semantics, ownership, versioning, validation, interoperability, access
+    and reconciliation to built/deployed state.
+  TRIGGER_OR_CONTEXT: Many disciplines/models; complex interfaces; long lifecycle; supplier data exchange; expensive manual
+    consistency checking.
+  NON_TRIGGER_OR_CHEAP_PATH: Small software products can use source, tests, schemas and deployment manifests as native authoritative
+    artefacts without an MBSE platform.
+  DEPENDENCIES_OR_PRECONDITIONS: Clear authority boundaries; common identifiers/semantics; tool interoperability; model validation;
+    configuration management; culture/workflow adoption; physical readback.
+  EXPECTED_ENGINEERING_PAYOFF: Earlier consistency checks, reusable data, reduced handoff duplication, computational analysis
+    and more current evidence.
+  KNOWN_FAILURE_MODES: '''Single source of truth'' slogan; federated models silently disagree; visual completeness; vendor
+    lock-in; access barriers; model/data debt.'
+  IMPORTANT_CRITICISMS: Systematic reviews find many benefits are perceived rather than measured; digital models can become
+    more opaque ceremony than documents.
+  HOW_THE_PROPERTY_EVOLVED: From one central database ideal to governed federations of authoritative sources, digital threads
+    and explicit confidence/reconciliation.
+  MATURE_OR_EVOLVED_FORM: A configuration-controlled, queryable engineering evidence environment with scoped authority and
+    verified correspondence to reality.
+  CEREMONY_VS_PROPERTY: The property is governed authoritative information and consistency; buying an MBSE tool, drawing SysML
+    or declaring an ASoT is not the property.
+  CURRENT_STATUS: USEFUL_BUT_EASILY_BUREAUCRATISED
+  EVIDENCE_STRENGTH: C_MIXED_EMPIRICAL_AND_PRACTICE_EVIDENCE
+  PRIMARY_SOURCES:
+  - S037
+  - S038
+  - S039
+  - S040
+  CRITICAL_SOURCES:
+  - S038
+  - S039
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Reviews report many claimed benefits but sparse measured comparisons; government-sponsored
+    work identifies authority, interoperability and cultural failure modes.
+  OPEN_QUESTIONS: What measurable decision/outcome improvements justify model cost, and how should confidence and physical/deployed
+    divergence be represented?
+  REVERSIBILITY_PROFILE: R2–R4 more likely to justify investment; R0–R1 usually native code/data tools.
+  LINEAGE_CLASSIFICATION:
+  - CONVERGENT_ENGINEERING
+  - HYBRID
+  RELATION_TO_ADAPTIVE_METHODS: HYBRID_RESOLUTION
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Which data/model is authoritative for which claim, and how is disagreement reconciled?
+  - What proves that the model corresponds to the as-built/as-deployed system rather than only to approved intent?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P005 maintenance burden; EW-P031 lightweight tooling; central model authority can conflict
+    with local autonomy.
+- PROPERTY_ID: EW-P031
+  PROPERTY_NAME: Continuous integration, automated evidence and continuous assurance
+  HISTORICAL_ORIGIN: Incremental development, software configuration management, CI/CD, DevSecOps and continuous authorisation.
+  ORIGINAL_FORM: Periodic builds, formal test campaigns and manually assembled evidence packages at release gates.
+  PROBLEM_IT_ADDRESSED: Late integration and episodic assurance delay defects and make evidence stale relative to rapidly
+    changing software.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Assurance package proves an old build; integration errors accumulate; security/operational
+    feedback arrives after release; manual evidence cannot keep pace.
+  MECHANISM: Continuously integrate identified configurations, run risk-relevant automated evaluation, preserve provenance,
+    monitor operations and feed evidence to promotion/authority decisions.
+  TRIGGER_OR_CONTEXT: Frequent software change; automatable tests; digital deployment; cyber threat; many integrations; need
+    for rapid remediation.
+  NON_TRIGGER_OR_CHEAP_PATH: Where deployment is rare/physical and tests cannot be automated, use periodic integration but
+    automate provenance and repeatable analyses where possible.
+  DEPENDENCIES_OR_PRECONDITIONS: Reliable tests and environments; reproducible builds; secure pipeline; evidence semantics;
+    observability; segregation/authority where needed; human review of non-automatable claims.
+  EXPECTED_ENGINEERING_PAYOFF: Shorter feedback, less stale evidence, faster safe delivery and reuse of test/compliance results.
+  KNOWN_FAILURE_MODES: Fast pipeline for wrong tests; flaky suites; automation monoculture; compromised pipeline; dashboard
+    theatre; production monitoring used to justify under-testing.
+  IMPORTANT_CRITICISMS: CI/CD empirical evidence is heterogeneous; continuous does not mean complete, independent or certified,
+    and infrastructure cost can be large.
+  HOW_THE_PROPERTY_EVOLVED: Plan-driven evidence obligations are generated continuously and attached to immutable releases;
+    independent and regulatory decisions consume rather than recreate evidence.
+  MATURE_OR_EVOLVED_FORM: Continuous, configuration-linked evidence with explicit coverage limits, risk gates, monitoring
+    and human/independent authority at consequential boundaries.
+  CEREMONY_VS_PROPERTY: The property is fresh reproducible evidence and rapid integration; a branded DevSecOps platform, dashboard
+    or 'continuous compliance' claim is not enough.
+  CURRENT_STATUS: RETAINED_IN_EVOLVED_FORM
+  EVIDENCE_STRENGTH: B_STRONG_MODERN_GUIDANCE_MIXED_EMPIRICAL_OUTCOMES
+  PRIMARY_SOURCES:
+  - S026
+  - S034
+  - S035
+  - S036
+  - S054
+  - S055
+  CRITICAL_SOURCES:
+  - S039
+  - S048
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: DoD and RTCA explicitly combine iterative delivery with baselines/evidence/independence; systematic
+    reviews report benefits and recurring technical/organisational constraints.
+  OPEN_QUESTIONS: Which assurance claims can safely be automated, and how should evidence independence and tool qualification
+    be handled?
+  REVERSIBILITY_PROFILE: R1–R3 strongest for software; supports R4 evidence but cannot remove physical/certification constraints.
+  LINEAGE_CLASSIFICATION:
+  - HYBRID
+  - ADAPTIVE_IMPORT
+  - CONVERGENT_ENGINEERING
+  RELATION_TO_ADAPTIVE_METHODS: HYBRID_RESOLUTION
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Is evidence generated from the exact immutable release and kept fresh as it changes?
+  - Which high-consequence claims still require independent or non-automated judgement beyond pipeline pass/fail?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P016 independence; EW-P015 certification; cadence can conflict with review and qualification
+    latency.
+- PROPERTY_ID: EW-P032
+  PROPERTY_NAME: Risk ownership, residual-risk decision and operational authority
+  HISTORICAL_ORIGIN: Safety cases, acquisition decision authority, acceptance/certification, nuclear readiness and ATO/cATO.
+  ORIGINAL_FORM: Named programme manager, safety authority, certification authority or operational commander signs risk/acceptance
+    decision.
+  PROBLEM_IT_ADDRESSED: Evidence cannot eliminate all uncertainty; someone empowered and accountable must decide whether remaining
+    risk is tolerable for a specific use/configuration.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Risk implicitly accepted by developers, responsibility diffused, authority signs without
+    evidence, or operation continues outside approved context.
+  MECHANISM: Name risk owners and decision authority; state scope/configuration, residual risk, conditions, expiry and monitoring;
+    separate evidence production from acceptance where warranted.
+  TRIGGER_OR_CONTEXT: Material safety, security, privacy, mission, financial or public risk; operation beyond local team;
+    conditional/temporary approval.
+  NON_TRIGGER_OR_CHEAP_PATH: Low-consequence reversible changes can operate under pre-authorised risk tolerances with automated
+    monitoring.
+  DEPENDENCIES_OR_PRECONDITIONS: Authority actually controls operation/resources; current evidence; transparent criteria;
+    escalation/stop power; operational monitoring; independence where needed.
+  EXPECTED_ENGINEERING_PAYOFF: Clear accountability, explicit residuals, bounded authority and faster action when conditions
+    change.
+  KNOWN_FAILURE_MODES: Signature shield; authority too remote; risk language vague; ownership without power; permanent temporary
+    waivers; risk accepted after de facto deployment.
+  IMPORTANT_CRITICISMS: Individual sign-off can centralise power, encourage blame and add latency; no authority can make unknown
+    risk safe by declaration.
+  HOW_THE_PROPERTY_EVOLVED: From episodic approval to bounded, revocable and continuously informed authority with delegated
+    tolerances.
+  MATURE_OR_EVOLVED_FORM: Configuration- and context-specific authority that consumes fresh evidence, records residual risk
+    and can stop or constrain operation.
+  CEREMONY_VS_PROPERTY: The property is accountable authority over real operation; a signature block or governance title alone
+    is not enough.
+  CURRENT_STATUS: HIGH_CONSEQUENCE_CONTEXT_PROPERTY
+  EVIDENCE_STRENGTH: A_STRONG_CROSS_DOMAIN_AUTHORITY_SUPPORT
+  PRIMARY_SOURCES:
+  - S030
+  - S031
+  - S032
+  - S033
+  - S036
+  CRITICAL_SOURCES:
+  - S050
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Rail, nuclear, defence safety and cATO schemes all preserve explicit independent/operational
+    risk authority while varying cadence and form.
+  OPEN_QUESTIONS: How should authority be distributed to preserve speed while preventing conflicted self-approval?
+  REVERSIBILITY_PROFILE: R2–R4 according to consequence; R0–R1 usually delegated tolerances.
+  LINEAGE_CLASSIFICATION:
+  - DOMAIN_SPECIFIC
+  - RELATED_PLAN_DRIVEN_TRADITION
+  - HYBRID
+  RELATION_TO_ADAPTIVE_METHODS: CONTEXT_SWITCH
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Who can accept residual risk for the exact operation/configuration, and do they possess stop authority?
+  - Is approval bounded by conditions, expiry and monitoring, or treated as permanent absolution?
+  POSSIBLE_CONFLICTING_PROPERTY: EW-P031 flow; EW-P024 delegated tailoring; authority can conflict with team autonomy.
+- PROPERTY_ID: EW-P033
+  PROPERTY_NAME: Reversibility- and commitment-sensitive control strength
+  HISTORICAL_ORIGIN: Royce late-integration argument; spiral risk; graded nuclear/rail/medical assurance; modern continuous
+    delivery and recovery practice.
+  ORIGINAL_FORM: Increase formality by project phase, size or prescribed safety class, often using a presumed rising cost-of-change
+    curve.
+  PROBLEM_IT_ADDRESSED: 'Neither universal heavy control nor universal rapid change is rational: the value of evidence and
+    authority depends on what can be undone and what harm can occur.'
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Over-control cheap experiments; under-control irreversible/public changes; confuse edit
+    cost with propagation, commitment-unwind or failure/recovery cost.
+  MECHANISM: Classify a decision/change by consequence, reversibility/recovery, coupling, observability latency, external
+    commitment, test scarcity and adversarial urgency; select the least burdensome control that closes the failure mode.
+  TRIGGER_OR_CONTEXT: This is a meta-property applied whenever choosing baseline, trace, review, independence, qualification
+    or authorisation strength.
+  NON_TRIGGER_OR_CHEAP_PATH: Default pre-authorised path for local, low-consequence, rapidly observable and genuinely reversible
+    work.
+  DEPENDENCIES_OR_PRECONDITIONS: Operational definition of reversibility; tested recovery; impact visibility; clear thresholds;
+    feedback on false positives/negatives; legal minima.
+  EXPECTED_ENGINEERING_PAYOFF: Controls concentrate where mistakes are costly while preserving learning and flow elsewhere.
+  KNOWN_FAILURE_MODES: Risk scoring theatre; reversibility claimed without data/side-effect analysis; consequence ignored
+    because rollback is easy; all high-risk work receives every control; thresholds manipulated.
+  IMPORTANT_CRITICISMS: Evidence does not support one universal monotonic formula; irreversible systems can still be harmed
+    by bureaucracy, and reversible software can create irreversible disclosure or transaction effects.
+  HOW_THE_PROPERTY_EVOLVED: From calendar-phase severity and universal late-change curves to multidimensional commitment/risk
+    profiles and dynamic evidence.
+  MATURE_OR_EVOLVED_FORM: 'A falsifiable control-selection policy: identify the failure mode, trigger dimensions, cheap path,
+    required evidence and residual risk; re-evaluate after operational feedback.'
+  CEREMONY_VS_PROPERTY: The property is proportional selection tied to a real failure mode; a risk matrix, phase label or
+    'high assurance' designation is not sufficient.
+  CURRENT_STATUS: CONTEXT_DEPENDENT
+  EVIDENCE_STRENGTH: B_STRONG_CROSS_DOMAIN_CONVERGENCE_THRESHOLD_UNRESOLVED
+  PRIMARY_SOURCES:
+  - S003
+  - S008
+  - S027
+  - S030
+  - S031
+  - S047
+  - S048
+  CRITICAL_SOURCES:
+  - S048
+  - S045
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: High-consequence domains scale controls by safety/risk significance; Menzies et al. refute
+    a universal delayed-software-defect law; aerospace-like systems show large but variable commitment costs.
+  OPEN_QUESTIONS: No validated general threshold function exists. Domain-specific calibration, interactions and automation
+    effects remain unresolved.
+  REVERSIBILITY_PROFILE: Meta-profile R0–R4; consequence, coupling and irreversible effects can override technical rollback.
+  LINEAGE_CLASSIFICATION:
+  - HISTORICAL_INFERENCE
+  - HYBRID
+  - CONVERGENT_ENGINEERING
+  RELATION_TO_ADAPTIVE_METHODS: HYBRID_RESOLUTION
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Does control strength rise because a named failure becomes harder or more consequential—not merely because a phase is
+    later?
+  - Is there a genuinely cheap path for local reversible work, and are irreversible side effects distinguished from code rollback?
+  POSSIBLE_CONFLICTING_PROPERTY: Stability versus adaptability; assurance latency versus threat/feedback speed; standardisation
+    versus tailoring.
+- PROPERTY_ID: EW-P034
+  PROPERTY_NAME: Fixed one-pass lifecycle sequencing
+  HISTORICAL_ORIGIN: Later simplifications of staged development and some real contract/organisation implementations.
+  ORIGINAL_FORM: Requirements complete, then design complete, then implementation, then testing, with phases closed against
+    return.
+  PROBLEM_IT_ADDRESSED: Attempted to create management order and contractual predictability in large projects.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Its own failure mode is late feedback, late integration, frozen error, handoff loss and
+    inability to learn.
+  MECHANISM: Predetermine one global phase order and treat return as exception.
+  TRIGGER_OR_CONTEXT: No general trigger established; logical dependencies may exist, but they do not justify one global calendar
+    sequence.
+  NON_TRIGGER_OR_CHEAP_PATH: Use iterative, concurrent and recursive lifecycle obligations; preserve only real dependency/commitment
+    order.
+  DEPENDENCIES_OR_PRECONDITIONS: Would require stable complete knowledge and negligible learning value—conditions rarely true
+    for non-trivial novel development.
+  EXPECTED_ENGINEERING_PAYOFF: Can simplify scheduling for genuinely repeatable production, but that is production planning
+    rather than a general development lifecycle.
+  KNOWN_FAILURE_MODES: All canonical sequentiality failures; local phase completion without system evidence; change suppression.
+  IMPORTANT_CRITICISMS: Royce himself called the unmodified form risky; current ISO standards do not prescribe it; empirical
+    cases show requirements/testing/handoff problems.
+  HOW_THE_PROPERTY_EVOLVED: Rejected as a universal development model; replaced by tailored iterative/incremental lifecycles
+    and event-driven commitments.
+  MATURE_OR_EVOLVED_FORM: No mature general form. Preserve actual causal dependencies and commitment boundaries, not the phase
+    diagram.
+  CEREMONY_VS_PROPERTY: The Waterfall diagram is not a surviving engineering property.
+  CURRENT_STATUS: REJECTED_OR_DISFAVOURED
+  EVIDENCE_STRENGTH: A_STRONG_HISTORICAL_STANDARDS_AND_CRITICAL_SUPPORT
+  PRIMARY_SOURCES:
+  - S003
+  - S018
+  - S019
+  CRITICAL_SOURCES:
+  - S006
+  - S016
+  - S017
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Historical sources and current standards reject the universal one-pass interpretation; deployed
+    sequential practice produced documented failures.
+  OPEN_QUESTIONS: A narrow repeat-production context may still have ordered work, but that does not rehabilitate the development
+    caricature.
+  REVERSIBILITY_PROFILE: No general profile; harmful especially where uncertainty and feedback value are high.
+  LINEAGE_CLASSIFICATION:
+  - LATER_TEXTBOOK_CARICATURE
+  - REAL_DEPLOYED_PRACTICE
+  RELATION_TO_ADAPTIVE_METHODS: REJECTED
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Does any lifecycle rule require completing one global phase before evidence from the next can be obtained?
+  - Is an apparent sequence a real physical dependency or inherited diagram ceremony?
+  POSSIBLE_CONFLICTING_PROPERTY: Conflicts with EW-P004, EW-P023 and EW-P031.
+- PROPERTY_ID: EW-P035
+  PROPERTY_NAME: Complete up-front requirements as a precondition to development
+  HISTORICAL_ORIGIN: Contractual specification practices and simplified Waterfall pedagogy.
+  ORIGINAL_FORM: Freeze a complete requirement set before architecture, implementation or user feedback.
+  PROBLEM_IT_ADDRESSED: Attempted to bound scope and enable contract, design and test planning.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Wrong or unknowable requirements become authoritative; learning is treated as non-compliance;
+    validation arrives too late.
+  MECHANISM: Delay implementation/evidence until requirement completeness is declared.
+  TRIGGER_OR_CONTEXT: No general development trigger; externally imposed fixed obligations may be baselined, but unknowns
+    must remain explicit.
+  NON_TRIGGER_OR_CHEAP_PATH: Baseline only stable constraints and next-decision intent; use prototypes and incremental validation
+    for uncertain needs.
+  DEPENDENCIES_OR_PRECONDITIONS: Would require a stable environment, fully knowable need and negligible feedback value.
+  EXPECTED_ENGINEERING_PAYOFF: May aid repeat procurement against a mature product, but not novel development.
+  KNOWN_FAILURE_MODES: False completeness, requirement churn hidden as defects, costly contract changes, specification–implementation
+    divergence.
+  IMPORTANT_CRITICISMS: Contradicted by Bell–Thayer, Parnas/Clements, Brooks, spiral and modern lifecycle standards.
+  HOW_THE_PROPERTY_EVOLVED: Superseded by authoritative but revisable requirements plus explicit uncertainty and staged commitment.
+  MATURE_OR_EVOLVED_FORM: EW-P001 and EW-P002 replace this candidate.
+  CEREMONY_VS_PROPERTY: A requirements-complete gate or giant signed specification is not a general property.
+  CURRENT_STATUS: REJECTED_OR_DISFAVOURED
+  EVIDENCE_STRENGTH: A_STRONG_HISTORICAL_AND_CRITICAL_SUPPORT
+  PRIMARY_SOURCES:
+  - S004
+  - S006
+  - S007
+  - S008
+  CRITICAL_SOURCES:
+  - S016
+  - S017
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Historical and empirical sources repeatedly document requirement learning after development
+    begins.
+  OPEN_QUESTIONS: Stable regulatory or interface constraints remain real; the rejected claim is completeness as a universal
+    prerequisite.
+  REVERSIBILITY_PROFILE: Most harmful before R0–R2 learning; stable R3–R4 obligations still require controlled change rather
+    than fictional completeness.
+  LINEAGE_CLASSIFICATION:
+  - LATER_TEXTBOOK_CARICATURE
+  - REAL_DEPLOYED_PRACTICE
+  RELATION_TO_ADAPTIVE_METHODS: REJECTED
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Does the system require declaring requirements complete before it can obtain evidence?
+  - Are fixed obligations separated from hypotheses and discoverable user needs?
+  POSSIBLE_CONFLICTING_PROPERTY: Conflicts with EW-P002, EW-P004 and EW-P012.
+- PROPERTY_ID: EW-P036
+  PROPERTY_NAME: Document-completion phase gates and fixed review ceremonies
+  HISTORICAL_ORIGIN: Formal design reviews, procurement milestones and Stage-Gate implementations.
+  ORIGINAL_FORM: Named board/meeting at a calendar phase approves a prescribed document set.
+  PROBLEM_IT_ADDRESSED: Attempted to create oversight and prevent premature progression.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Documents pass while system evidence is weak; milestone gaming; batch latency; decision
+    already irreversible.
+  MECHANISM: Use document completion and meeting approval as proxy for readiness.
+  TRIGGER_OR_CONTEXT: No general trigger for the artefact; only EW-P021's underlying commitment decision may trigger.
+  NON_TRIGGER_OR_CHEAP_PATH: Asynchronous evidence review, automated policy gates or no gate where no consequential commitment
+    exists.
+  DEPENDENCIES_OR_PRECONDITIONS: For any benefit, a real decision, stop authority and discriminating evidence would be required—turning
+    it into EW-P021.
+  EXPECTED_ENGINEERING_PAYOFF: Can convene cross-disciplinary attention, but the meeting/document form has no independent
+    general payoff.
+  KNOWN_FAILURE_MODES: Slideware, rubber stamp, duplicate governance, sunk-cost escalation, calendar pressure.
+  IMPORTANT_CRITICISMS: NRC/GAO and Stage-Gate's own evolution recognise linearity and bureaucracy.
+  HOW_THE_PROPERTY_EVOLVED: Superseded by event-driven, evidence-backed and risk-proportional commitment decisions.
+  MATURE_OR_EVOLVED_FORM: EW-P021; the fixed ceremony itself is not retained.
+  CEREMONY_VS_PROPERTY: This candidate is the ceremony, not the property.
+  CURRENT_STATUS: CEREMONY_NOT_GENERAL_PROPERTY
+  EVIDENCE_STRENGTH: A_STRONG_CRITICAL_AND_EVOLUTIONARY_SUPPORT
+  PRIMARY_SOURCES:
+  - S037
+  - S049
+  CRITICAL_SOURCES:
+  - S017
+  - S050
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Institutional reviews and Stage-Gate evolution document gate bureaucracy and milestone pathologies.
+  OPEN_QUESTIONS: Some high-consequence decisions still benefit from synchronous challenge; format remains contextual.
+  REVERSIBILITY_PROFILE: Only justified indirectly at R3–R4 commitments, never merely by phase/calendar.
+  LINEAGE_CLASSIFICATION:
+  - REAL_DEPLOYED_PRACTICE
+  - CEREMONIAL_COMPLIANCE
+  RELATION_TO_ADAPTIVE_METHODS: REPLACED
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - What decision would be different if this meeting or document package did not exist?
+  - Can the same property be obtained continuously or asynchronously with fresher evidence?
+  POSSIBLE_CONFLICTING_PROPERTY: Conflicts with EW-P021, EW-P024 and EW-P031.
+- PROPERTY_ID: EW-P037
+  PROPERTY_NAME: Uniform exhaustive manual traceability and central change-board control
+  HISTORICAL_ORIGIN: Document-heavy defence/regulated implementations of traceability and configuration control.
+  ORIGINAL_FORM: Trace every artefact to every neighbouring artefact in spreadsheets and route every baseline change through
+    a standing CCB.
+  PROBLEM_IT_ADDRESSED: Attempted to guarantee coverage, impact visibility and authority.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Link decay, matrix maintenance burden, rubber-stamp approval, workarounds, delayed remediation
+    and false completeness.
+  MECHANISM: Maximise explicit links and central approvals regardless of consequence or reversibility.
+  TRIGGER_OR_CONTEXT: No general trigger; selective traceability and risk-proportional authorisation survive separately as
+    EW-P017 and EW-P008.
+  NON_TRIGGER_OR_CHEAP_PATH: Native version/test/dependency links and pre-authorised change paths for reversible work.
+  DEPENDENCIES_OR_PRECONDITIONS: Would require low maintenance cost and uniformly high consequence, conditions not generally
+    present.
+  EXPECTED_ENGINEERING_PAYOFF: May provide coverage in a bounded certification scope, but exhaustive/manual/central form is
+    not independently justified.
+  KNOWN_FAILURE_MODES: Stale links, approval queues, change avoidance, link-count compliance, authority disconnected from
+    actual deployment.
+  IMPORTANT_CRITICISMS: Traceability studies expose maintenance cost and ideal-link assumptions; nuclear practice itself uses
+    graded change thresholds.
+  HOW_THE_PROPERTY_EVOLVED: Replaced by selective automated relations, policy-based promotion and risk-triggered escalation.
+  MATURE_OR_EVOLVED_FORM: EW-P008 and EW-P017.
+  CEREMONY_VS_PROPERTY: Manual matrix and standing board are artefacts, not universal properties.
+  CURRENT_STATUS: CEREMONY_NOT_GENERAL_PROPERTY
+  EVIDENCE_STRENGTH: A_STRONG_MIXED_EMPIRICAL_AND_DOMAIN_SUPPORT
+  PRIMARY_SOURCES:
+  - S031
+  - S041
+  - S042
+  - S044
+  CRITICAL_SOURCES:
+  - S044
+  - S048
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Traceability has task benefits under good links, but maintenance is its main cost; graded
+    nuclear change control disproves universal prior approval.
+  OPEN_QUESTIONS: Certain certification schemas may still require dense explicit traces; the general artefact claim remains
+    rejected.
+  REVERSIBILITY_PROFILE: Disproportionate in R0–R1; selective value rises R2–R4.
+  LINEAGE_CLASSIFICATION:
+  - REAL_DEPLOYED_PRACTICE
+  - CEREMONIAL_COMPLIANCE
+  RELATION_TO_ADAPTIVE_METHODS: REPLACED
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Are trace and approval obligations selected by a concrete decision/failure mode, or applied uniformly?
+  - Could automation and delegated policy preserve authority with less latency?
+  POSSIBLE_CONFLICTING_PROPERTY: Conflicts with EW-P008, EW-P017, EW-P024 and EW-P031.
+- PROPERTY_ID: EW-P038
+  PROPERTY_NAME: Universal exponential late-change cost rule
+  HISTORICAL_ORIGIN: Popularised lifecycle cost-of-change curves and retrospective defect-cost claims.
+  ORIGINAL_FORM: Assume every change or defect becomes exponentially more expensive with each later phase, justifying maximal
+    up-front control.
+  PROBLEM_IT_ADDRESSED: Attempted to motivate early defect prevention and planning.
+  FAILURE_MODE_IT_TRIES_TO_PREVENT: Misallocates control, discourages cheap late improvement, confuses code edit with propagation,
+    commitment-unwind and failure/recovery cost.
+  MECHANISM: Use calendar lateness or phase as a universal proxy for change cost.
+  TRIGGER_OR_CONTEXT: None; context-specific commitment and consequence evidence must be measured instead.
+  NON_TRIGGER_OR_CHEAP_PATH: Assess edit, propagation, commitment-unwind and failure/recovery cost separately.
+  DEPENDENCIES_OR_PRECONDITIONS: A universal law would require stable cross-domain cost definitions and effects, which evidence
+    does not supply.
+  EXPECTED_ENGINEERING_PAYOFF: The warning is directionally useful in some hardware/certification contexts, but the universal
+    curve is false.
+  KNOWN_FAILURE_MODES: BDUF, sunk-cost protection, avoidance of beneficial change, inflated process burden.
+  IMPORTANT_CRITICISMS: Aerospace-like studies show large but wildly variable escalation; 171 software projects found no consistent
+    substantial delayed-issue effect.
+  HOW_THE_PROPERTY_EVOLVED: Replaced by EW-P033's multidimensional reversibility/commitment profile.
+  MATURE_OR_EVOLVED_FORM: No universal curve; use domain-specific evidence and tested recovery.
+  CEREMONY_VS_PROPERTY: Citing a generic cost curve is not engineering evidence for a control.
+  CURRENT_STATUS: REJECTED_OR_DISFAVOURED
+  EVIDENCE_STRENGTH: A_STRONG_DIRECT_COUNTEREVIDENCE_TO_UNIVERSALITY
+  PRIMARY_SOURCES:
+  - S047
+  - S048
+  CRITICAL_SOURCES:
+  - S048
+  EMPIRICAL_OR_DOMAIN_EVIDENCE: Haskins et al. support escalation in aerospace-like systems with multipliers varying from
+    29 to over 1,500 by method; Menzies et al. reject a global software effect.
+  OPEN_QUESTIONS: Domain-specific thresholds remain open and are retained under EW-P033.
+  REVERSIBILITY_PROFILE: Replaced by R0–R4 profiles; calendar phase alone is not a trigger.
+  LINEAGE_CLASSIFICATION:
+  - LATER_SIMPLIFICATION
+  - PREDICTIVE_ESTIMATION
+  RELATION_TO_ADAPTIVE_METHODS: REJECTED
+  QUESTIONS_FOR_REPOSITORY_AUDIT:
+  - Is a control justified by measured commitment/consequence, or by an uncited generic late-change curve?
+  - Are edit, propagation, unwind and failure/recovery costs distinguished?
+  POSSIBLE_CONFLICTING_PROPERTY: Conflicts with EW-P033 and EW-P024.

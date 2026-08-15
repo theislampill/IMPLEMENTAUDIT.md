@@ -1,0 +1,94 @@
+{
+  "embedded_manifest": {
+    "bytes": 4206,
+    "declared_digest_fields": [
+      {
+        "field": "PACKAGED_PAYLOAD_ARTIFACTS[0].sha256",
+        "value": "a1abf4c35cf846fc743107d4f8a5469df7aff6679159e9cec2efb4232933ee12"
+      },
+      {
+        "field": "PACKAGED_PAYLOAD_ARTIFACTS[1].sha256",
+        "value": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9"
+      },
+      {
+        "field": "PACKAGED_PAYLOAD_ARTIFACTS[2].sha256",
+        "value": "02b63db467a8f6d19262cbb16c20de899a09248f546cc35d1e9900226ff85e31"
+      },
+      {
+        "field": "PACKAGED_PAYLOAD_ARTIFACTS[3].sha256",
+        "value": "19e11a56d629f4a9f94444cc9be7ab4b3f0db4dbe768fa8d1ca03bde73241c9a"
+      },
+      {
+        "field": "PACKAGED_PAYLOAD_ARTIFACTS[4].sha256",
+        "value": "5b3fff014187949e0a76e8d93b004458babf6a51175ba7a95b7c25e85b22b81b"
+      },
+      {
+        "field": "PACKAGING_METADATA_ARTIFACTS[0].sha256",
+        "value": null
+      },
+      {
+        "field": "PACKAGING_METADATA_ARTIFACTS[1].sha256",
+        "value": null
+      }
+    ],
+    "identity_note": "Declared packet/content digests retain their source-defined scope and are not treated as the raw delivered ZIP SHA-256 unless the source explicitly says so.",
+    "member": "EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_FROZEN_MANIFEST.json",
+    "sha256": "5457def3428735337f11efd88da865275b1060459e4a275ad1a12ddf48ed66a0",
+    "status": "PRESENT"
+  },
+  "lineage_id": "EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING",
+  "lineage_name": "Evolved Distributed Systems Engineering",
+  "members": [
+    {
+      "bytes": 727682,
+      "member": "EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_FROZEN_REPORT.md",
+      "path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_FROZEN_REPORT.md",
+      "sha256": "a1abf4c35cf846fc743107d4f8a5469df7aff6679159e9cec2efb4232933ee12"
+    },
+    {
+      "bytes": 510298,
+      "member": "EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9"
+    },
+    {
+      "bytes": 105252,
+      "member": "EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_SOURCE_TABLE.json",
+      "path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_SOURCE_TABLE.json",
+      "sha256": "02b63db467a8f6d19262cbb16c20de899a09248f546cc35d1e9900226ff85e31"
+    },
+    {
+      "bytes": 286167,
+      "member": "EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_AUDIT_INTAKE.md",
+      "path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_AUDIT_INTAKE.md",
+      "sha256": "19e11a56d629f4a9f94444cc9be7ab4b3f0db4dbe768fa8d1ca03bde73241c9a"
+    },
+    {
+      "bytes": 17252,
+      "member": "EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "5b3fff014187949e0a76e8d93b004458babf6a51175ba7a95b7c25e85b22b81b"
+    },
+    {
+      "bytes": 4206,
+      "member": "EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_FROZEN_MANIFEST.json",
+      "path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_FROZEN_MANIFEST.json",
+      "sha256": "5457def3428735337f11efd88da865275b1060459e4a275ad1a12ddf48ed66a0"
+    }
+  ],
+  "packet": {
+    "bytes": 261109,
+    "identity_kind": "RAW_DELIVERED_ZIP_BYTES",
+    "path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/packet/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_FROZEN_PACKET.zip",
+    "sha256": "5cb8b437d2091c243313a07c9de77a69fdcc07c1ca01adcd876464e72c1f72b9"
+  },
+  "property_ledger": {
+    "bytes": 510298,
+    "member": "EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+    "properties": 54,
+    "root": "PROPERTIES",
+    "sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9"
+  },
+  "schema": "implementaudit-engineering-genealogy-lineage-manifest-v1",
+  "trifecta": "drf"
+}

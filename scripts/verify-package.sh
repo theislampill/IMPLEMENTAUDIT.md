@@ -231,9 +231,17 @@ require_file docs/portal/pages/installation.html
 require_file docs/portal/pages/audit-trail.html
 require_file docs/portal/assets/draft-v2.css
 require_file docs/portal/assets/draft-v2.js
+require_file docs/research/genealogy/CORPUS_SOURCE_LOCK.json
+require_file docs/research/genealogy/CORPUS_MANIFEST.json
+require_file docs/research/genealogy/PROPERTY_MASTER_INDEX.json
+require_file docs/research/implementaudit/historical-absorption-baseline/HISTORICAL_ABSORPTION_BASELINE.json
 require_file scripts/build-docs-portal.py
 require_file scripts/check-docs-portal.py
+require_file scripts/build-genealogy-corpus.py
+require_file scripts/check-genealogy-corpus.py
+require_file scripts/check-historical-absorption-baseline.py
 require_file tests/docs-portal.test.sh
+require_file tests/genealogy-corpus.test.sh
 require_file tests/eval-harness.test.sh
 require_file eval/campaign_freeze_preflight.py
 require_file eval/test_campaign_freeze_preflight.py
@@ -755,6 +763,7 @@ bash tests/shipped-scripts-smoke.test.sh
 bash tests/run-root-validation.test.sh
 bash tests/custody-append.test.sh
 bash tests/docs-portal.test.sh
+bash tests/genealogy-corpus.test.sh
 bash scripts/check-validation-registry.sh
 bash tests/validation-registry.test.sh
 bash scripts/build-release-asset.sh --check

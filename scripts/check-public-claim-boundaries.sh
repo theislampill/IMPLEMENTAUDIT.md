@@ -218,6 +218,16 @@ if Path("docs/portal/pages").is_dir():
         p for p in sorted(Path("docs/portal/pages").rglob("*")) if p.is_file()
     )
 
+
+def is_frozen_research_source(path):
+    """Exact source material is evidence, not a live repository claim surface."""
+    posix = path.as_posix()
+    if not posix.startswith("docs/research/genealogy/"):
+        return False
+    return "/corpus/" in f"/{posix}" or posix.startswith(
+        "docs/research/genealogy/method/source-prompts/"
+    )
+
 for path in current_reader_paths:
     if not path.is_file():
         continue
@@ -234,6 +244,8 @@ for path in Path(".").rglob("*"):
     if not path.is_file():
         continue
     if path.as_posix() == "scripts/check-public-claim-boundaries.sh":
+        continue
+    if is_frozen_research_source(path):
         continue
     if len(path.parts) >= 2 and path.parts[0] == "docs" and path.parts[1] == "audits":
         continue

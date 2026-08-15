@@ -1,0 +1,134 @@
+{
+  "embedded_manifest": {
+    "bytes": 4423,
+    "declared_digest_fields": [
+      {
+        "field": "archive_payload_sha256",
+        "value": "4008dd45f8a2e583a5584a55d29b66c7aa9e0cff47f81a75b07812884852e092"
+      },
+      {
+        "field": "archive_payload_sha256_definition",
+        "value": "SHA-256 over UTF-8 sorted lines: filename<TAB>byte_count<TAB>raw_file_sha256 for substantive content members."
+      },
+      {
+        "field": "manifest_self.sha256",
+        "value": "c90fd338fb0a64ef0cb260492fc1e3add2a6c4094eb4aec93a4e00b203b25172"
+      },
+      {
+        "field": "manifest_self.sha256_mode",
+        "value": "NORMALIZED_SELF_HASH_WITH_MANIFEST_SHA256_FIELD_ZEROED"
+      },
+      {
+        "field": "outer_archive.raw_file_sha256",
+        "value": "EMITTED_IN_USER_FACING_TERMINAL_RECEIPT"
+      },
+      {
+        "field": "outer_archive.sha256",
+        "value": "e1c24307c7ab5c320e3217a4c698a34393ef65b337886489aa6936bbb2080436"
+      },
+      {
+        "field": "outer_archive.sha256_mode",
+        "value": "NORMALIZED_ZIP_SHA256_WITH_BOTH_DECLARED_SELF_HASH_FIELDS_ZEROED"
+      },
+      {
+        "field": "packaged_content_entries[0].sha256",
+        "value": "b612b68155dcd3bcb89766c373dcb839926af5c0496128ce104f6ad2d3734fa0"
+      },
+      {
+        "field": "packaged_content_entries[0].sha256_mode",
+        "value": "RAW_FILE_SHA256"
+      },
+      {
+        "field": "packaged_content_entries[1].sha256",
+        "value": "2aec48f14cf99d12163d5909fc5597239eba300a0bdab2ac1fcf39c85d726b34"
+      },
+      {
+        "field": "packaged_content_entries[1].sha256_mode",
+        "value": "RAW_FILE_SHA256"
+      },
+      {
+        "field": "packaged_content_entries[2].sha256",
+        "value": "f869fe814ccc4521fd8856fec72c6d87a2d49e5badec0758d5caf8ee5b0ecaf2"
+      },
+      {
+        "field": "packaged_content_entries[2].sha256_mode",
+        "value": "RAW_FILE_SHA256"
+      },
+      {
+        "field": "packaged_content_entries[3].sha256",
+        "value": "f77cfeba65655c1d40a1ab45554ebb81581c509deca2d4e0d776f53941c548ef"
+      },
+      {
+        "field": "packaged_content_entries[3].sha256_mode",
+        "value": "RAW_FILE_SHA256"
+      },
+      {
+        "field": "packaged_content_entries[4].sha256",
+        "value": "e3bfd147f9ae344a3846a81ea53d65034366b56e1d66beb096e2a32f0b3bbafb"
+      },
+      {
+        "field": "packaged_content_entries[4].sha256_mode",
+        "value": "RAW_FILE_SHA256"
+      }
+    ],
+    "identity_note": "Declared packet/content digests retain their source-defined scope and are not treated as the raw delivered ZIP SHA-256 unless the source explicitly says so.",
+    "member": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_FROZEN_MANIFEST.json",
+    "sha256": "60f3a5620e9bfdee02d71829bcc037ab93608a53417a6bd791119dedc4420e64",
+    "status": "PRESENT"
+  },
+  "lineage_id": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING",
+  "lineage_name": "Evolved Decision and Operations Engineering",
+  "members": [
+    {
+      "bytes": 1216577,
+      "member": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_FROZEN_REPORT.md",
+      "path": "docs/research/genealogy/ssd/evolved-decision-and-operations-engineering/corpus/EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_FROZEN_REPORT.md",
+      "sha256": "b612b68155dcd3bcb89766c373dcb839926af5c0496128ce104f6ad2d3734fa0"
+    },
+    {
+      "bytes": 486400,
+      "member": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_PROPERTY_LEDGER.json",
+      "path": "docs/research/genealogy/ssd/evolved-decision-and-operations-engineering/corpus/EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_PROPERTY_LEDGER.json",
+      "sha256": "2aec48f14cf99d12163d5909fc5597239eba300a0bdab2ac1fcf39c85d726b34"
+    },
+    {
+      "bytes": 139341,
+      "member": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_SOURCE_TABLE.json",
+      "path": "docs/research/genealogy/ssd/evolved-decision-and-operations-engineering/corpus/EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_SOURCE_TABLE.json",
+      "sha256": "f869fe814ccc4521fd8856fec72c6d87a2d49e5badec0758d5caf8ee5b0ecaf2"
+    },
+    {
+      "bytes": 342113,
+      "member": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_AUDIT_INTAKE.md",
+      "path": "docs/research/genealogy/ssd/evolved-decision-and-operations-engineering/corpus/EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_AUDIT_INTAKE.md",
+      "sha256": "f77cfeba65655c1d40a1ab45554ebb81581c509deca2d4e0d776f53941c548ef"
+    },
+    {
+      "bytes": 17022,
+      "member": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "path": "docs/research/genealogy/ssd/evolved-decision-and-operations-engineering/corpus/EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "e3bfd147f9ae344a3846a81ea53d65034366b56e1d66beb096e2a32f0b3bbafb"
+    },
+    {
+      "bytes": 4423,
+      "member": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_FROZEN_MANIFEST.json",
+      "path": "docs/research/genealogy/ssd/evolved-decision-and-operations-engineering/corpus/EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_FROZEN_MANIFEST.json",
+      "sha256": "60f3a5620e9bfdee02d71829bcc037ab93608a53417a6bd791119dedc4420e64"
+    }
+  ],
+  "packet": {
+    "bytes": 325417,
+    "identity_kind": "RAW_DELIVERED_ZIP_BYTES",
+    "path": "docs/research/genealogy/ssd/evolved-decision-and-operations-engineering/packet/EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_FROZEN_PACKET.zip",
+    "sha256": "52d9b73908e00be450c388b18d4a8f64d1243db50a0d49a5397300a702f51ac4"
+  },
+  "property_ledger": {
+    "bytes": 486400,
+    "member": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_PROPERTY_LEDGER.json",
+    "properties": 66,
+    "root": "properties",
+    "sha256": "2aec48f14cf99d12163d5909fc5597239eba300a0bdab2ac1fcf39c85d726b34"
+  },
+  "schema": "implementaudit-engineering-genealogy-lineage-manifest-v1",
+  "trifecta": "ssd"
+}

@@ -1,0 +1,862 @@
+EVOLVED_WATERFALL_AUDIT_INTAKE:
+  RESEARCH_STATE: FROZEN
+  PROPERTY_POPULATION_TOTAL: 38
+  PROPERTY_POPULATION_EXAMINED: 38
+  PROPERTY_COVERAGE: 38/38
+  CROSSWALK_WORTHY_PROPERTY_TOTAL: 33
+  REJECTED_OR_CEREMONIAL_CANDIDATE_TOTAL: 5
+  TOP_CROSSWALK_PROPERTIES:
+  - EW-P001
+  - EW-P004
+  - EW-P006
+  - EW-P007
+  - EW-P008
+  - EW-P009
+  - EW-P010
+  - EW-P011
+  - EW-P012
+  - EW-P017
+  - EW-P020
+  - EW-P021
+  - EW-P022
+  - EW-P023
+  - EW-P024
+  - EW-P027
+  - EW-P028
+  - EW-P031
+  - EW-P032
+  - EW-P033
+  CROSSWALK_PROPERTIES:
+  - PROPERTY_ID: EW-P001
+    PROPERTY_NAME: Authoritative, revisable intent and requirements state
+    FAILURE_MODE: Conflicting interpretations, invisible requirement drift, implementation against obsolete intent, or unowned
+      requirements.
+    MATURE_FORM: A living authoritative requirement state that distinguishes proposed, approved, implemented, verified and
+      retired obligations and allows risk-proportional change.
+    TRIGGER: Shared or externally committed intent; multiple teams or suppliers; long-lived product; acceptance, safety or
+      regulatory obligations; non-local change impact.
+    CHEAP_PATH: For a single team exploring a local reversible feature, a lightweight backlog item, executable example and
+      version history may be enough; do not baseline speculative detail merely to appear complete.
+    REVERSIBILITY_PROFILE: 'R1–R4: value rises with shared scope, external commitment, coupling and evidence obligations;
+      R0 generally needs only lightweight versioned intent.'
+    REQUIRED_PRECONDITIONS: Named authority; accessible current representation; change path; stakeholder participation; ability
+      to mark uncertainty and supersession; configuration linkage.
+    EVIDENCE_STRENGTH: B_STRONG_PRIMARY_AND_DOMAIN_SUPPORT
+    CRITICISMS: Requirements cannot be fully known up front; a stable baseline can preserve error and create political resistance
+      to change.
+    ANTI_CEREMONY_BOUNDARY: The property is authority and state identity; a single giant requirements document, fixed template
+      or requirements-complete gate is not required.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P002 adaptability; EW-P024 tailoring; excessive stability can conflict with rapid learning.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Is there one discoverable authoritative intent state, or do specifications, tickets and implementation disagree?
+    - Does the system distinguish proposed, approved, implemented and retired requirements without freezing discovery?
+  - PROPERTY_ID: EW-P002
+    PROPERTY_NAME: Explicit requirements uncertainty, assumptions and learning obligations
+    FAILURE_MODE: False completeness, premature contractual/design commitment, unplanned rework and validation against assumptions
+      nobody remembers.
+    MATURE_FORM: An assumption/uncertainty ledger integrated with requirements, architecture, hazards and experiments, with
+      expiry and promotion/retirement rules.
+    TRIGGER: Novel problem, volatile environment, ambiguous user need, uncertain technology, emergent operations or weak observability.
+    CHEAP_PATH: Routine replacement with stable, externally specified behaviour can use a short assumption list and normal
+      change handling.
+    REVERSIBILITY_PROFILE: 'R0–R3: most valuable before hard commitment; should shrink or change form as evidence and external
+      obligations accumulate.'
+    REQUIRED_PRECONDITIONS: Psychological safety to admit uncertainty; decision owners; access to prototypes/users/data; expiry
+      and review mechanisms.
+    EVIDENCE_STRENGTH: B_STRONG_HISTORICAL_AND_MECHANISTIC_SUPPORT
+    CRITICISMS: Can become administrative risk-register theatre or an excuse to avoid commitment.
+    ANTI_CEREMONY_BOUNDARY: The property is explicit epistemic status and planned learning; a standing risk meeting or large
+      spreadsheet is optional.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P001 baseline authority; EW-P022 staged commitment; too much tentativeness can undermine
+      coordination.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Are assumptions and unknowns visible as such, or silently encoded as requirements?
+    - Does each material uncertainty have a decision owner and an economical path to evidence?
+  - PROPERTY_ID: EW-P003
+    PROPERTY_NAME: Early architecture and feasibility before hard commitment
+    FAILURE_MODE: Committing requirements, suppliers, tooling or production before the system concept can satisfy dominant
+      constraints.
+    MATURE_FORM: Minimum sufficient architecture and constraint evidence, paired with prototypes and continuously reconciled
+      with the realised system.
+    TRIGGER: High coupling; hardware/physical constraints; scarce test facilities; safety; long lead items; multiple suppliers;
+      expensive migration or platform commitment.
+    CHEAP_PATH: Local, modular, quickly deployable software can use a thin architecture sketch, automated fitness functions
+      and evolutionary design.
+    REVERSIBILITY_PROFILE: R0 light; R1 targeted; R2–R4 increasingly valuable where downstream physical, supplier or regulatory
+      commitments are costly.
+    REQUIRED_PRECONDITIONS: Representative constraints/data; accountable system architect or integrator; willingness to change
+      requirements; prototypes/models validated for the question asked.
+    EVIDENCE_STRENGTH: B_STRONG_DOMAIN_SUPPORT_MIXED_GENERAL_EVIDENCE
+    CRITICISMS: Up-front architecture can delay learning and lock in wrong abstractions; architecture documents may become
+      authority without reality.
+    ANTI_CEREMONY_BOUNDARY: The property is early falsification of system-level constraints; a fixed CDR package or months-long
+      architecture phase is not inherently required.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P004 executable learning; EW-P022 option preservation; can conflict with emergent design
+      and feedback speed.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Does architecture work retire a named expensive risk, or merely produce preferred diagrams?
+    - Are architectural claims tested and reconciled with the implementation before the relevant commitment?
+  - PROPERTY_ID: EW-P004
+    PROPERTY_NAME: Executable risk retirement through prototypes, pilots, simulation and thin increments
+    FAILURE_MODE: Late discovery of infeasibility, wrong user need, integration behaviour or operational mismatch after most
+      options are gone.
+    MATURE_FORM: Executable evidence is selected by risk and commitment, with clear limits on what the experiment proves and
+      explicit promotion criteria.
+    TRIGGER: Novelty, uncertainty, difficult integration, unproven technology, weak requirements confidence, expensive final
+      test or high consequence.
+    CHEAP_PATH: For known repeat builds or low-risk local changes, ordinary automated tests or a small spike may suffice;
+      avoid a ceremonial prototype that cannot affect the design.
+    REVERSIBILITY_PROFILE: 'R0–R4: useful throughout, but experiment cost and evidential rigour rise as consequences and commitments
+      rise.'
+    REQUIRED_PRECONDITIONS: Explicit hypothesis and decision; representative enough environment; protected budget/time; criteria
+      for learning; no confusion between prototype evidence and qualified product evidence.
+    EVIDENCE_STRENGTH: A_STRONG_HISTORICAL_DOMAIN_AND_CROSS_METHOD_SUPPORT
+    CRITICISMS: A prototype may create false confidence and duplicate cost; not every project needs a separate full pilot.
+    ANTI_CEREMONY_BOUNDARY: The property is empirical discrimination before commitment; a mandated prototype phase or 'MVP'
+      label is not required.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P003 architecture; EW-P013 qualification; rapid experiments can conflict with formal
+      evidence boundaries.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Are the highest-cost assumptions tested by executable evidence before commitment?
+    - Does each prototype have a decision it can change and an explicit limit on what it proves?
+  - PROPERTY_ID: EW-P005
+    PROPERTY_NAME: Current, transferable engineering knowledge and decision rationale
+    FAILURE_MODE: Tacit rationale loss, repeated mistakes, unsafe maintenance, inability to review or transfer responsibility,
+      and divergence between intent and implementation.
+    MATURE_FORM: Minimum sufficient, current and configuration-linked engineering knowledge whose maintenance cost is justified
+      by future decisions.
+    TRIGGER: Long-lived systems; turnover; suppliers; safety/certification; difficult maintenance; asynchronous or geographically
+      distributed work.
+    CHEAP_PATH: Small co-located reversible work can rely on tests, code, short decision records and version history; document
+      only durable or non-obvious knowledge.
+    REVERSIBILITY_PROFILE: R0 minimal; R1 concise; R2–R4 stronger where lifetime, handoffs, hazards and authority increase.
+    REQUIRED_PRECONDITIONS: Information ownership; update triggers; integration with work; discoverability; configuration
+      links; deletion/retirement discipline.
+    EVIDENCE_STRENGTH: B_STRONG_MECHANISTIC_AND_DOMAIN_SUPPORT
+    CRITICISMS: Documentation can consume resources, slow feedback and create false assurance if it is approved but stale.
+    ANTI_CEREMONY_BOUNDARY: The property is durable usable knowledge; page count, template completion and separate document
+      ownership are not the property.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P031 automation; EW-P030 model authority; continuity competes with maintenance burden.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Can a new maintainer reconstruct why consequential decisions were made and which configuration they govern?
+    - Is documentation generated and checked against live state, or independently approved and stale?
+  - PROPERTY_ID: EW-P006
+    PROPERTY_NAME: Configuration identification and baseline authority
+    FAILURE_MODE: Wrong or unapproved item released; incompatible evidence; inability to reproduce a build; hidden drift;
+      version disputes.
+    MATURE_FORM: Authoritative identity across intent, source/model, build, test evidence and release, with proportionate
+      promotion controls.
+    TRIGGER: Multiple deployable versions; supplier or physical items; safety/certification; regulated evidence; long-lived
+      support; distributed teams.
+    CHEAP_PATH: For ephemeral local work, ordinary version control branches and automated build identity are enough; not every
+      intermediate file needs formal CI status.
+    REVERSIBILITY_PROFILE: R1–R4; R0 uses normal VCS. Value rises with multiple representations, releases, suppliers, certification
+      and rollback difficulty.
+    REQUIRED_PRECONDITIONS: Versionable artefacts; reproducible build/deployment process; named authority; status model; access
+      control; retention policy.
+    EVIDENCE_STRENGTH: A_STRONG_MULTI_DOMAIN_NORMATIVE_AND_FAILURE_SUPPORT
+    CRITICISMS: Heavy CM can impede harmless change and create bureaucratic latency without preserving actual integrity.
+    ANTI_CEREMONY_BOUNDARY: The property is identifiable authoritative state; a paper baseline, standing CCB or universal
+      freeze is not required.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P008 rapid change; EW-P031 continuous delivery; control can conflict with developer
+      flow if promotion boundaries are unclear.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Can the system identify exactly what was proposed, built, tested, deployed and accepted?
+    - Can an evidence result be tied to a reproducible configuration rather than a mutable branch or document set?
+  - PROPERTY_ID: EW-P007
+    PROPERTY_NAME: As-designed, as-built, as-tested and as-deployed reconciliation
+    FAILURE_MODE: Evidence proves a different system; field modifications are invisible; operations use unknown state; rollback
+      or incident analysis is unreliable.
+    MATURE_FORM: Evidence-backed correspondence among authoritative models/data and actual built, tested and operating configurations,
+      with explicit residual unknowns.
+    TRIGGER: Physical construction; fielded fleets; infrastructure; data migrations; certified releases; complex deployment
+      environments.
+    CHEAP_PATH: For stateless, automatically deployed services, deployment manifests, telemetry and immutable image identity
+      may supply the cheap path.
+    REVERSIBILITY_PROFILE: R2–R4 strongest; R1 often automated; R0 generally unnecessary beyond normal build/run identity.
+    REQUIRED_PRECONDITIONS: Observable deployed state; trustworthy inventory/telemetry; configuration identifiers; authority
+      to resolve drift; environment capture.
+    EVIDENCE_STRENGTH: B_STRONG_DOMAIN_SUPPORT_LIMITED_GENERAL_EMPIRICS
+    CRITICISMS: Reconciliation can be expensive or impossible under partial observability; excessive audit frequency can become
+      theatre.
+    ANTI_CEREMONY_BOUNDARY: The property is correspondence to reality; an 'as-built' document or authoritative-source label
+      is insufficient.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P030 digital model authority; EW-P031 speed; reconciliation depth can conflict with
+      delivery latency.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Does controlled documentation describe the actual running/built system, and what evidence establishes that correspondence?
+    - Are emergency or field changes reconciled into authority before their evidence is reused?
+  - PROPERTY_ID: EW-P008
+    PROPERTY_NAME: Change visibility, impact analysis and risk-proportional authorisation
+    FAILURE_MODE: Unseen side effects, invalidated qualification/certification, incompatible releases, unauthorised risk acceptance
+      or loss of provenance.
+    MATURE_FORM: Policy-based change classes, automated impact evidence, named escalation thresholds and explicit acceptance
+      of residual risk.
+    TRIGGER: Shared baselines; high coupling; external interfaces; safety/security/privacy; certified state; expensive recovery;
+      contractual commitments.
+    CHEAP_PATH: Local reversible changes with strong automated tests can be pre-authorised under policy and merged through
+      normal peer review/CI.
+    REVERSIBILITY_PROFILE: R0 pre-authorised; R1 automated/peer controlled; R2–R4 increasing analysis and authority, but emergency
+      response must remain fast.
+    REQUIRED_PRECONDITIONS: Dependency/trace information; clear delegated authority; risk criteria; timely reviewers; emergency
+      path; audit trail.
+    EVIDENCE_STRENGTH: A_STRONG_CROSS_DOMAIN_NORMATIVE_SUPPORT
+    CRITICISMS: Change control can cost more than the change and can turn adaptation into exception processing.
+    ANTI_CEREMONY_BOUNDARY: The property is visible authorised consequence management; a standing committee and meeting are
+      not generally required.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P031 flow and fast feedback; EW-P033 proportional control; authority can conflict with
+      responsiveness.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Are harmless reversible changes pre-authorised while consequential changes receive real impact analysis?
+    - Can the change process handle urgent remediation without bypassing identity and post-change evidence?
+  - PROPERTY_ID: EW-P009
+    PROPERTY_NAME: Interface definition, ownership and compatibility control
+    FAILURE_MODE: Late integration incompatibility, unsafe assumptions, responsibility gaps, local optimisation and cascading
+      redesign.
+    MATURE_FORM: Authoritative, testable and owned contracts for consequential boundaries, with automated compatibility evidence
+      where possible.
+    TRIGGER: Organisational/supplier boundary; independently released components; fixed physical interfaces; long integration
+      latency; safety or interoperability consequence.
+    CHEAP_PATH: Private local interfaces can evolve through code, types and tests without formal cross-organisational approval.
+    REVERSIBILITY_PROFILE: R1 at independently released software boundary; R2–R4 strong where suppliers, physical fit, units,
+      timing or safety matter; R0 cheap.
+    REQUIRED_PRECONDITIONS: Two-sided ownership and access; semantic precision; change notification; configuration links;
+      integration testability; dispute authority.
+    EVIDENCE_STRENGTH: A_STRONG_MECHANISTIC_AND_DOMAIN_FAILURE_SUPPORT
+    CRITICISMS: Formal interface control can over-centralise architecture and slow local refactoring; documents cannot replace
+      integration tests.
+    ANTI_CEREMONY_BOUNDARY: The property is controlled compatibility at real boundaries; every internal function does not
+      need an ICD or interface board.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P003 architecture; EW-P008 change flow; strict interface stability can conflict with
+      refactoring.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Which interfaces cross authority or release boundaries and who owns compatibility on both sides?
+    - Are interface semantics verified in integration, or only recorded in a document?
+  - PROPERTY_ID: EW-P010
+    PROPERTY_NAME: Verification planning and requirement testability
+    FAILURE_MODE: Unverifiable requirements, missing evidence, late test redesign, false pass criteria and qualification schedule
+      collapse.
+    MATURE_FORM: Risk-proportional verification design integrated with requirements and architecture, with automated evidence
+      where appropriate.
+    TRIGGER: Acceptance/certification obligation; difficult environment; scarce facility; performance/safety margin; supplier
+      evidence; long test lead.
+    CHEAP_PATH: Low-risk software can encode acceptance examples and automated tests alongside implementation without a separate
+      verification plan document.
+    REVERSIBILITY_PROFILE: R0 executable examples; R1 continuous tests; R2–R4 formal environment/article/evidence planning.
+    REQUIRED_PRECONDITIONS: Testable requirement; representative environment; instrumentation; configuration identity; resources;
+      ownership; anomaly process.
+    EVIDENCE_STRENGTH: A_STRONG_PRIMARY_STANDARD_AND_DOMAIN_SUPPORT
+    CRITICISMS: Planning tests early can prematurely lock the design or optimise only for stated requirements.
+    ANTI_CEREMONY_BOUNDARY: The property is planned evaluability and evidence sufficiency; a monolithic master test plan is
+      not universally required.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P002 uncertainty; EW-P012 validation; specification compliance can crowd out user-need
+      learning.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Can every consequential requirement be evaluated with a named method, configuration and criterion?
+    - Did verification planning reveal requirements that are ambiguous or infeasible before commitment?
+  - PROPERTY_ID: EW-P011
+    PROPERTY_NAME: Multi-level verification and integration evidence
+    FAILURE_MODE: Components pass alone but fail together; local phase completion is mistaken for system readiness; integration
+      arrives too late.
+    MATURE_FORM: Layered evidence selected by failure observability, with fast lower-level feedback and periodic higher-fidelity
+      integration.
+    TRIGGER: Distributed components; cyber-physical behaviour; performance/load; external services; multiple suppliers; system-of-systems.
+    CHEAP_PATH: For a small monolith or local change, one automated end-to-end path plus focused component tests may be enough.
+    REVERSIBILITY_PROFILE: R0–R1 continuous and cheap; R2–R4 staged higher-fidelity evidence added where interactions and
+      consequences demand it.
+    REQUIRED_PRECONDITIONS: Integration environment; representative data/load; observability; version identity; interface
+      contracts; anomaly handling.
+    EVIDENCE_STRENGTH: A_STRONG_HISTORICAL_DOMAIN_AND_MODERN_SUPPORT
+    CRITICISMS: More levels do not automatically add information; slow suites can delay feedback and encourage batching.
+    ANTI_CEREMONY_BOUNDARY: The property is evaluation at the correct system level; a fixed number of test phases or a V diagram
+      is not required.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P031 delivery speed; EW-P013 qualification; higher-fidelity testing can be slow and
+      scarce.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Does the evidence exercise the level at which the claimed behaviour can fail?
+    - Are system integration results early enough to change architecture rather than merely qualify the finished design?
+  - PROPERTY_ID: EW-P012
+    PROPERTY_NAME: Intended-use and operational-context validation
+    FAILURE_MODE: Correct implementation of wrong requirements; unusable or operationally unsuitable system; hidden human/environment
+      assumptions.
+    MATURE_FORM: Repeated context-validity evidence, with final claims tied to an identified configuration and intended-use
+      envelope.
+    TRIGGER: Novel user need; socio-technical change; safety/mission consequence; operational environment unlike development;
+      procurement handoff.
+    CHEAP_PATH: For familiar low-risk changes, telemetry, user tests and rapid reversible deployment can supply continuous
+      validation.
+    REVERSIBILITY_PROFILE: R0 continuous cheap validation; R1 operational telemetry; R2–R4 increasingly representative and
+      independently witnessed contexts.
+    REQUIRED_PRECONDITIONS: Real stakeholders and operators; representative context; explicit intended use; outcome measures;
+      ability to change requirements.
+    EVIDENCE_STRENGTH: A_STRONG_CROSS_DOMAIN_CONCEPTUAL_AND_PRACTICE_SUPPORT
+    CRITICISMS: Users may ask for local preferences rather than system value; validation can become acceptance theatre.
+    ANTI_CEREMONY_BOUNDARY: The property is evidence of fitness for intended purpose; a UAT meeting or customer signature
+      alone is not enough.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P001 requirement authority; EW-P014 acceptance; stakeholder feedback can conflict with
+      stable external commitments.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Does the system separately establish conformance to requirements and fitness for actual use?
+    - Are real operators/environments represented before final acceptance?
+  - PROPERTY_ID: EW-P013
+    PROPERTY_NAME: Qualification envelope and margin evidence
+    FAILURE_MODE: Field failure outside nominal conditions; manufacturing/design margin unknown; certification basis unsupported.
+    MATURE_FORM: Configuration-linked evidence for a defined design envelope, with explicit assumptions, margins and change-trigger
+      rules.
+    TRIGGER: Safety/mission-critical product; physical environment; production of multiple units; scarce opportunities for
+      field correction; certification requirement.
+    CHEAP_PATH: Ordinary web/software features with reversible deployment do not need a separate qualification programme;
+      targeted performance/security tests may suffice.
+    REVERSIBILITY_PROFILE: Mostly R3–R4; selected R2 performance/security contexts. Usually no trigger for R0–R1 ordinary
+      software.
+    REQUIRED_PRECONDITIONS: Defined envelope and margins; representative article; validated models; configuration control;
+      calibrated equipment; anomaly disposition.
+    EVIDENCE_STRENGTH: A_STRONG_DOMAIN_STANDARD_AND_PRACTICE_SUPPORT
+    CRITICISMS: Domain-specific and expensive; qualification can delay safer incremental improvements and is not synonymous
+      with validation.
+    ANTI_CEREMONY_BOUNDARY: The property is demonstrated capability over an envelope; a fixed test campaign or one qualification
+      document is domain-specific.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P004 prototype speed; EW-P031 continuous change; qualification stability can conflict
+      with frequent releases.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Is there a defined operational/environmental envelope that must be demonstrated beyond nominal tests?
+    - Can the system state exactly which design changes invalidate or require supplementation of qualification evidence?
+  - PROPERTY_ID: EW-P014
+    PROPERTY_NAME: Acceptance criteria, authority and provenance
+    FAILURE_MODE: Unauthorised declaration of completion; acceptance of wrong configuration; unresolved exceptions hidden;
+      later dispute over obligations.
+    MATURE_FORM: Explicit, configuration-specific decision by empowered authority, based on current evidence and recorded
+      residual obligations.
+    TRIGGER: External acquirer/operator; regulated or safety system; contractual deliverable; irreversible cutover; transfer
+      between organisations.
+    CHEAP_PATH: Internal reversible software release can use automated release criteria and product-owner/operational approval
+      without a separate ceremony.
+    REVERSIBILITY_PROFILE: R2–R4 strong where custody, liability or operations transfer; R0–R1 can use lightweight automated
+      promotion.
+    REQUIRED_PRECONDITIONS: Identified deliverable; criteria agreed before decision; verification/validation evidence; authority;
+      exception disposition; audit trail.
+    EVIDENCE_STRENGTH: B_STRONG_DOMAIN_AND_CONTRACTUAL_SUPPORT
+    CRITICISMS: Acceptance can be legal/formal rather than engineering truth; buyer sign-off does not prove fitness or certification.
+    ANTI_CEREMONY_BOUNDARY: The property is authorised transfer over an identified state; a final meeting, certificate or
+      customer signature form is not inherently sufficient.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P012 validation; EW-P015 certification; formal acceptance can conflict with continuous
+      deployment.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Who is empowered to accept which exact configuration, under what criteria and exceptions?
+    - Is acceptance evidence separate from verification, validation and certification rather than collapsed into 'passed tests'?
+  - PROPERTY_ID: EW-P015
+    PROPERTY_NAME: Certification basis and regulatory-authority coupling
+    FAILURE_MODE: Operating without legal authority; evidence not aligned to certification basis; changes invalidate approval;
+      authority sees changes too late.
+    MATURE_FORM: Lifecycle-neutral engineering that satisfies a specific certification basis for identified configurations
+      and maintains authority after change.
+    TRIGGER: Legally regulated system; safety or environmental externality; airworthiness/type approval/licensing; public
+      infrastructure.
+    CHEAP_PATH: No trigger where no empowered external certification regime applies; do not invent an internal 'certification'
+      label.
+    REVERSIBILITY_PROFILE: R3–R4; sometimes R2 for regulated digital services. No general R0–R1 trigger.
+    REQUIRED_PRECONDITIONS: Correct legal/domain expertise; early authority agreement; configuration/evidence trace; independent
+      assessment where required; change visibility.
+    EVIDENCE_STRENGTH: A_STRONG_DOMAIN_LEGAL_AND_STANDARD_SUPPORT
+    CRITICISMS: Domain-specific obligations cannot be generalised; authority approval may lag technical reality or inhibit
+      beneficial change.
+    ANTI_CEREMONY_BOUNDARY: The property is alignment with an actual empowered regime; an internal badge, generic compliance
+      checklist or 'certified' document is not general engineering.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P031 delivery speed; EW-P008 change control; legal authority can conflict with rapid
+      iteration.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Is an actual external authority and certification basis present, or is 'certification' being used rhetorically?
+    - Are changes mapped to reapproval/continued-authority obligations for the exact deployed configuration?
+  - PROPERTY_ID: EW-P016
+    PROPERTY_NAME: Independent technical challenge and IV&V
+    FAILURE_MODE: Self-confirming evidence, conflicted risk acceptance, unchallenged assumptions, management pressure and
+      false closure.
+    MATURE_FORM: Independence is a designed property—responsibility, incentives, funding, reporting and corrective-action
+      authority—scaled to consequence and integrated early.
+    TRIGGER: High criticality; novel or complex system; public/third-party risk; strong schedule incentives; many suppliers;
+      opaque evidence; regulatory mandate.
+    CHEAP_PATH: Low-consequence reversible work can use peer review, rotation, automated checks and occasional external review
+      rather than a standing IV&V organisation.
+    REVERSIBILITY_PROFILE: R3–R4 strongest; R2 where security/public risk or conflict exists; R0–R1 usually lightweight challenge.
+    REQUIRED_PRECONDITIONS: Access to products/data; competence; protected escalation; technical/managerial/financial independence
+      proportionate to risk; coordination and feedback channel.
+    EVIDENCE_STRENGTH: C_MIXED_EMPIRICAL_STRONG_DOMAIN_RATIONALE
+    CRITICISMS: Comparative outcome and return-on-cost evidence are mixed; independence can reduce feedback speed and may
+      not improve reliability.
+    ANTI_CEREMONY_BOUNDARY: The property is credible independent challenge; a different team name, audit meeting or mandatory
+      full duplicate lifecycle is not sufficient.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P031 team flow; EW-P024 proportionality; separation can conflict with rapid collaborative
+      feedback.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Could the people making the claim suppress, redefine or accept their own failure evidence?
+    - Is reviewer independence sufficient for challenge but close enough for timely access and feedback?
+  - PROPERTY_ID: EW-P017
+    PROPERTY_NAME: Demonstrable bidirectional traceability
+    FAILURE_MODE: Orphan requirements, unexplained implementation, untested obligations, missed impact and evidence attached
+      to wrong requirement/configuration.
+    MATURE_FORM: Trace the claims whose loss would impair a real decision; maintain evidence of link quality rather than maximising
+      link count.
+    TRIGGER: Certification; high coupling; long-lived system; supplier handoff; safety/hazard chains; expensive impact analysis;
+      many variants.
+    CHEAP_PATH: For small rapidly changing software, issue/commit/test naming, executable specifications, types and dependency
+      graphs may provide sufficient native trace.
+    REVERSIBILITY_PROFILE: R0 native/light; R1 selective; R2–R4 stronger where impact/evidence decisions are costly, but maintenance
+      burden also rises.
+    REQUIRED_PRECONDITIONS: Stable identifiers; clear semantics; automated capture where possible; ownership; quality checks;
+      actual use in decisions; cost budget.
+    EVIDENCE_STRENGTH: C_MIXED_EMPIRICAL_SUPPORT
+    CRITICISMS: Laboratory benefits assume correct complete traces; industrial causal evidence and net lifecycle return remain
+      limited.
+    ANTI_CEREMONY_BOUNDARY: The property is demonstrable relation for a decision; a spreadsheet or universal end-to-end matrix
+      is not required.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P031 automation; EW-P005 documentation burden; exhaustive traceability conflicts with
+      change speed.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Which concrete decisions consume each trace relation, and what happens if it is stale?
+    - Can trace completeness and correctness be checked against live configurations rather than a manually maintained matrix?
+  - PROPERTY_ID: EW-P018
+    PROPERTY_NAME: Safety and hazard analysis with tracked risk controls
+    FAILURE_MODE: Catastrophic harm despite specification compliance; safety control lost during change; hazard accepted without
+      authority.
+    MATURE_FORM: Living hazard/control claims tied to actual configurations, operations, evidence and residual-risk authority.
+    TRIGGER: Potential death/injury, environmental harm, major public loss, high-energy physical system, safety-related software
+      or infrastructure.
+    CHEAP_PATH: No trigger for ordinary low-consequence functionality; proportionate product/security risk analysis may replace
+      formal system-safety machinery.
+    REVERSIBILITY_PROFILE: R4 primary; R3 where public/regulated consequences; selected R2 security/privacy. No general R0
+      trigger.
+    REQUIRED_PRECONDITIONS: Competent multidisciplinary analysis; operational input; authority; configuration/trace links;
+      incident learning; credible severity/likelihood treatment.
+    EVIDENCE_STRENGTH: A_STRONG_DOMAIN_LEGAL_AND_FAILURE_SUPPORT
+    CRITICISMS: Formal analyses can create false precision and omit unknown/organisational hazards; compliance can displace
+      real challenge.
+    ANTI_CEREMONY_BOUNDARY: The property is active hazard control; a hazard-log template or safety review board is not sufficient.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P031 speed; EW-P019 assurance case; formal safety burden can conflict with adaptation.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Are material hazards linked to implemented controls and evidence on the actual system?
+    - Who is authorised to accept residual risk, and is that acceptance revisited after change or operational evidence?
+  - PROPERTY_ID: EW-P019
+    PROPERTY_NAME: Assurance or safety case as a living claims–argument–evidence structure
+    FAILURE_MODE: Evidence warehouse without a coherent claim; unsupported leaps; hidden assumptions; authority cannot see
+      why evidence is sufficient.
+    MATURE_FORM: Use structured argument only where it changes risk decisions, expose assumptions/defeaters, and distinguish
+      the case from its report.
+    TRIGGER: Novel high-consequence system; non-prescriptive regulation; heterogeneous evidence; residual risk requiring an
+      accountable judgement.
+    CHEAP_PATH: Stable low-risk products can use concise control/evidence summaries; do not construct a graphical assurance
+      case merely to satisfy a style.
+    REVERSIBILITY_PROFILE: R3–R4; sometimes R2 for consequential security/AI/public systems. Usually no R0–R1 trigger.
+    REQUIRED_PRECONDITIONS: Claims with scope; credible evidence; independent challenge; configuration/version links; operational
+      updates; willingness to record doubt and counterevidence.
+    EVIDENCE_STRENGTH: C_STRONG_DOMAIN_GUIDANCE_WEAK_OUTCOME_EVIDENCE
+    CRITICISMS: Direct comparative outcome evidence is weak; a polished argument can launder weak premises and consume disproportionate
+      effort.
+    ANTI_CEREMONY_BOUNDARY: The property is challengeable assurance reasoning; a large report, graphical notation or fixed
+      milestone submission is not inherently required.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P031 continuous evidence; EW-P005 documentation burden; argument completeness can conflict
+      with delivery latency.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Is the assurance case a live argument that can reveal a failed claim, or a static persuasive dossier?
+    - Are evidence and assumptions tied to the current configuration and operational context?
+  - PROPERTY_ID: EW-P020
+    PROPERTY_NAME: Anomaly, problem-report, deviation, waiver and corrective-action provenance
+    FAILURE_MODE: Defect silently deferred; waiver applied to wrong configuration; recurring failure; test pass obtained by
+      changing expectation; root cause never addressed.
+    MATURE_FORM: One material problem identity from detection through authorised disposition and verified correction, linked
+      to configuration and evidence.
+    TRIGGER: Safety/mission/quality consequence; repeated releases; supplier defects; certification/acceptance exceptions;
+      operational incidents.
+    CHEAP_PATH: Low-risk local bugs can use an issue tracker and automated regression test; do not convene a discrepancy board
+      for every defect.
+    REVERSIBILITY_PROFILE: R1–R4 progressively stronger; R0 normal issue/test path.
+    REQUIRED_PRECONDITIONS: Non-punitive reporting; configuration identity; severity criteria; closure authority; root-cause
+      competence; feedback into requirements/hazards/tests.
+    EVIDENCE_STRENGTH: B_STRONG_CROSS_DOMAIN_MECHANISTIC_SUPPORT
+    CRITICISMS: Formal corrective-action systems can prioritise closure statistics over learning and impose disproportionate
+      burden.
+    ANTI_CEREMONY_BOUNDARY: The property is durable problem/exception provenance and closure; a standing board or mandatory
+      form is not required.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P031 flow; EW-P024 proportionality; full provenance can burden minor issue handling.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Can every accepted deviation or unresolved anomaly be tied to the exact configuration and authority?
+    - Is closure verified by evidence, or inferred from ticket status and meeting approval?
+  - PROPERTY_ID: EW-P021
+    PROPERTY_NAME: Evidence-backed, event-driven commitment reviews
+    FAILURE_MODE: Production, deployment, procurement or certification commitment without enough knowledge; gate passes because
+      stopping is politically impossible.
+    MATURE_FORM: A commitment decision—not a lifecycle phase—whose strength matches the cost and consequence of being wrong.
+    TRIGGER: Capital, production, long-lead procurement, fleet deployment, irreversible migration, safety authority, major
+      supplier or contractual commitment.
+    CHEAP_PATH: Continuous low-risk software work can use automated promotion rules and lightweight asynchronous review; no
+      milestone meeting is needed.
+    REVERSIBILITY_PROFILE: R3–R4 primary; selected R2 cutovers. R0–R1 should normally use continuous policy gates.
+    REQUIRED_PRECONDITIONS: Decision authority able to stop/change course; independent challenge; current actual-state evidence;
+      transparent criteria; no automatic schedule pass.
+    EVIDENCE_STRENGTH: B_STRONG_DOMAIN_AND_CRITICAL_SUPPORT
+    CRITICISMS: Phase gates can certify documents rather than products, batch feedback and reward concealment; the review
+      may add no new decision information.
+    ANTI_CEREMONY_BOUNDARY: The property is a consequential decision based on discriminating evidence with real authority;
+      a board, meeting, colour status or named review is optional.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P031 flow; EW-P004 experimentation; strong gates can conflict with short feedback and
+      option exploration.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - What irreversible or externally consequential commitment does each gate control?
+    - Could the review genuinely stop or redirect work, and does its evidence describe the actual system rather than completed
+      documents?
+  - PROPERTY_ID: EW-P022
+    PROPERTY_NAME: Staged and incremental commitment with option preservation
+    FAILURE_MODE: Too much capital/supplier/design commitment before evidence; or endless experimentation without converging
+      on an operational system.
+    MATURE_FORM: Commit evidence, money and authority in slices sized by uncertainty, coupling and reversibility, while preserving
+      coherent system integration.
+    TRIGGER: High uncertainty plus expensive downstream commitment; modular capability; long lead; production tooling; migration
+      waves; certification increments.
+    CHEAP_PATH: For cheap reversible changes, ship/test/revert directly rather than inventing formal commitment stages.
+    REVERSIBILITY_PROFILE: Useful from R1–R4; strongest before R3–R4 commitment. R0 naturally preserves options without formal
+      staging.
+    REQUIRED_PRECONDITIONS: Modular architecture or separable decisions; incremental acceptance/evidence; funding and contracts
+      that permit revision; explicit option-expiry decisions.
+    EVIDENCE_STRENGTH: A_STRONG_CROSS_TRADITION_AND_DOMAIN_SUPPORT
+    CRITICISMS: Incrementalisation can increase integration and certification overhead or be impossible for tightly coupled
+      physical systems.
+    ANTI_CEREMONY_BOUNDARY: The property is bounded commitment and retained alternatives; arbitrary phases, quarterly gates
+      or a fixed increment length are not required.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P009 interface stability; EW-P013 qualification; increment overhead can conflict with
+      economies of scale.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Does the lifecycle delay the specific irreversible choices that uncertainty makes dangerous?
+    - Are increments independently integrable/evaluable, or merely administrative slices of one late integration?
+  - PROPERTY_ID: EW-P023
+    PROPERTY_NAME: Incremental, concurrent and recursive lifecycle application
+    FAILURE_MODE: One giant final integration, subsystem handoffs, local completion without system progress and inability
+      to adapt lifecycle to element risk.
+    MATURE_FORM: Lifecycle processes are obligations and feedback loops applied where needed, not calendar phases traversed
+      once.
+    TRIGGER: Any non-trivial system with elements/increments, especially differing technologies, suppliers or release cadences.
+    CHEAP_PATH: A tiny product need not model recursive lifecycle structure explicitly; normal iterative work can realise
+      the property.
+    REVERSIBILITY_PROFILE: All bands; degree of formal coordination increases from R1 to R4.
+    REQUIRED_PRECONDITIONS: Clear system boundaries; integration cadence; shared configuration/evidence; ownership across
+      levels; tailored coordination.
+    EVIDENCE_STRENGTH: A_STRONG_PRIMARY_STANDARDS_AND_HISTORICAL_SUPPORT
+    CRITICISMS: Concurrency can create rework and coordination load; recursion is not free and does not eliminate architecture
+      dependencies.
+    ANTI_CEREMONY_BOUNDARY: The property is repeated/recursive fulfilment of responsibilities; separate mini-waterfalls and
+      duplicated stage artefacts are not required.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P006 baseline coordination; EW-P031 cadence; concurrency can conflict with stable shared
+      interfaces.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Are lifecycle obligations applied per risk/increment/element, or imposed as one project-wide phase sequence?
+    - Can evidence and baselines be inherited or reused without duplicating full process stacks?
+  - PROPERTY_ID: EW-P024
+    PROPERTY_NAME: Tailoring and proportionality
+    FAILURE_MODE: Ceremony independent of risk; skipped critical evidence because template says optional; inconsistent tailoring
+      hidden from authorities.
+    MATURE_FORM: A transparent control-selection rule with cheap defaults, explicit escalation factors, mandatory legal minima
+      and post-outcome learning.
+    TRIGGER: Always as a meta-property whenever a lifecycle or assurance control is considered.
+    CHEAP_PATH: Default lightweight path for local reversible work, with pre-defined escalation triggers rather than case-by-case
+      bureaucracy.
+    REVERSIBILITY_PROFILE: Meta-profile across R0–R4; establishes the cheap path and escalation.
+    REQUIRED_PRECONDITIONS: Credible risk/context classification; authority to tailor; feedback on whether controls work;
+      minimum non-tailorable legal obligations identified.
+    EVIDENCE_STRENGTH: A_STRONG_CROSS_STANDARD_AND_DOMAIN_CONVERGENCE
+    CRITICISMS: Risk classification is uncertain and can be gamed; proportionality can become vague permission for inconsistency.
+    ANTI_CEREMONY_BOUNDARY: The property is proportional control selection; a tailoring plan or approval board is not inherently
+      required.
+    POSSIBLE_CONFLICTING_PROPERTY: Potentially conflicts with standardisation, comparability and segregation of duties if
+      tailoring authority is unchecked.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Does every control have a cheap non-trigger path and an explicit escalation rationale?
+    - Are legal/safety minima distinguished from optional inherited ceremony?
+  - PROPERTY_ID: EW-P025
+    PROPERTY_NAME: Rolling planning, estimate uncertainty and outside-view challenge
+    FAILURE_MODE: False certainty, narrow intervals, political estimates, local optimism, plan treated as contract with reality,
+      and continued funding because baseline sunk cost is large.
+    MATURE_FORM: A decision model that exposes uncertainty and changes with evidence, while retaining accountable external
+      commitments where necessary.
+    TRIGGER: Budget or contract decision; long lead; portfolio trade-off; external dependency; irreversible investment; capacity
+      planning.
+    CHEAP_PATH: Small reversible work can use short-horizon forecasts and throughput history; avoid elaborate earned-value
+      machinery.
+    REVERSIBILITY_PROFILE: R2–R4 stronger because coordination/commitment needs forecasts; R0–R1 short-horizon lightweight.
+    REQUIRED_PRECONDITIONS: Comparable data; transparent assumptions; incentives to report bad news; update cadence; distinction
+      between estimate and target; independent challenge.
+    EVIDENCE_STRENGTH: B_STRONG_CRITICAL_LITERATURE_WEAK_UNIVERSAL_PREDICTION
+    CRITICISMS: Estimation evidence is fragmented; outside views do not remove novelty or strategic behaviour; planning overhead
+      may exceed value.
+    ANTI_CEREMONY_BOUNDARY: The property is decision-relevant forecasting and uncertainty; a massive schedule, single completion
+      date or mandated estimation method is not required.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P002 uncertainty; EW-P021 commitment; forecast stability can conflict with adaptation.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Are targets, commitments and probabilistic forecasts explicitly different objects?
+    - Are estimates updated from actuals and challenged by outside/base-rate evidence rather than protected as sunk commitments?
+  - PROPERTY_ID: EW-P026
+    PROPERTY_NAME: Supplier, long-lead and dependency coordination
+    FAILURE_MODE: Supplier builds to obsolete baseline; data rights missing; long-lead purchase before design maturity; integration
+      mismatch; single-source obsolescence.
+    MATURE_FORM: Govern external dependency commitments and evidence at the boundary, while minimising imposed internal process.
+    TRIGGER: Multiple legal organisations/suppliers; custom hardware; long lead; scarce materials; safety evidence from vendors;
+      sustainment dependence.
+    CHEAP_PATH: Single-team commodity/software dependencies can use lockfiles, service contracts, automated compatibility
+      tests and normal vendor management.
+    REVERSIBILITY_PROFILE: R3–R4 primary; R2 for external cloud/services; R0–R1 usually cheap.
+    REQUIRED_PRECONDITIONS: Commercial/legal authority; accessible technical data; interface/configuration identity; supplier
+      incentives; alternative/contingency analysis.
+    EVIDENCE_STRENGTH: B_STRONG_DOMAIN_AND_INSTITUTIONAL_SUPPORT
+    CRITICISMS: Heavy supplier governance can reduce innovation and competition; requirements may be frozen to protect contracts.
+    ANTI_CEREMONY_BOUNDARY: The property is cross-authority dependency control; supplier meetings, mandated data volumes and
+      a universal prime/sub hierarchy are not inherently required.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P002 learning; EW-P009 interface stability; contracts can conflict with requirement
+      evolution.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Which dependencies cross organisational/legal boundaries, and what commitments become costly before evidence exists?
+    - Can suppliers exchange authoritative interface/configuration/evidence data without adopting all internal ceremony?
+  - PROPERTY_ID: EW-P027
+    PROPERTY_NAME: Transition, operational readiness and cutover control
+    FAILURE_MODE: Successful component/system test followed by failed cutover, unsafe startup, missing support, wrong configuration
+      or untrained operators.
+    MATURE_FORM: A risk-scaled decision that actual capability and enabling system are ready, with explicit rollback and residual-risk
+      authority.
+    TRIGGER: Irreversible or high-impact cutover; physical startup; safety/mission operations; major migration; transfer to
+      a separate operations organisation.
+    CHEAP_PATH: Small reversible deployments can use automated readiness checks, canaries and on-call confirmation without
+      a review meeting.
+    REVERSIBILITY_PROFILE: R2–R4; strength rises with cutover irreversibility, data effects, hazard and recovery time.
+    REQUIRED_PRECONDITIONS: As-deployed identity; rollback/contingency; operational owner; realistic rehearsal; support resources;
+      decision authority.
+    EVIDENCE_STRENGTH: A_STRONG_DOMAIN_AND_FAILURE_MECHANISM_SUPPORT
+    CRITICISMS: Readiness reviews can batch releases and become sign-off theatre; continuous services may never have a single
+      transition moment.
+    ANTI_CEREMONY_BOUNDARY: The property is actual operational readiness; an ORR meeting, slide deck or ceremonial handover
+      is not required.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P031 deployment cadence; EW-P014 acceptance; readiness control can conflict with continuous
+      flow.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Does readiness evidence cover the actual deployment, people, data, procedures and support—not just product test results?
+    - Is there a credible abort/rollback decision before the cutover's irreversible point?
+  - PROPERTY_ID: EW-P028
+    PROPERTY_NAME: Rollback, contingency and recovery readiness
+    FAILURE_MODE: Change is labelled reversible but rollback loses data, worsens hazard, depends on unavailable people/tools
+      or has never been tested.
+    MATURE_FORM: Demonstrated recovery capability whose evidence is tied to the current architecture, data and operational
+      configuration.
+    TRIGGER: Operational/data change; service dependency; cyber threat; migration; remote/physical operation; significant
+      outage or safety consequence.
+    CHEAP_PATH: Truly stateless low-impact experiments may need only one-click revert and normal version history.
+    REVERSIBILITY_PROFILE: Central to classifying R1–R3; R4 often cannot be rolled back and needs prevention/containment instead.
+    REQUIRED_PRECONDITIONS: Known state model; backups/alternate capability; observability; access; rehearsals; ownership;
+      time and safety limits.
+    EVIDENCE_STRENGTH: B_STRONG_RESILIENCE_PRACTICE_SUPPORT
+    CRITICISMS: Redundancy and rehearsal cost can be high; fallback can increase complexity and attack surface.
+    ANTI_CEREMONY_BOUNDARY: The property is working recoverability; a contingency document, checkbox backup or claimed rollback
+      is not enough.
+    POSSIBLE_CONFLICTING_PROPERTY: Redundancy/complexity can conflict with simplicity and cost; rollback may conflict with
+      forward-only migrations.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - What evidence shows rollback or recovery works for the current state, including data and dependencies?
+    - Does the claimed reversibility stop at an irreversible side effect such as disclosure, physical action or external transaction?
+  - PROPERTY_ID: EW-P029
+    PROPERTY_NAME: Sustainment, obsolescence and support continuity
+    FAILURE_MODE: Unsupportable fielded system, obsolete components, missing data rights, unknown fleet configurations, cost
+      growth invisible without baseline.
+    MATURE_FORM: Through-life ownership and evidence for maintaining, modifying and retiring the actual fielded configuration.
+    TRIGGER: Long-lived asset; fleet; regulated/safety system; custom hardware; external supplier; high replacement/cutover
+      cost.
+    CHEAP_PATH: Short-lived commodity software can rely on maintained dependencies, observability and explicit end-of-life
+      policy.
+    REVERSIBILITY_PROFILE: R3–R4 primary; R2 for durable platforms/services; R0–R1 minimal.
+    REQUIRED_PRECONDITIONS: Lifecycle ownership/funding; operational data; configuration baseline; supplier/data rights; retirement
+      authority.
+    EVIDENCE_STRENGTH: B_STRONG_DOMAIN_AND_CURRENT_AUDIT_SUPPORT
+    CRITICISMS: Long-range sustainment plans are highly uncertain and may entrench legacy systems; review metrics can be gamed.
+    ANTI_CEREMONY_BOUNDARY: The property is continuing capability and authority; a logistics document or annual review alone
+      is not sufficient.
+    POSSIBLE_CONFLICTING_PROPERTY: Long-term stability can conflict with rapid technology refresh; sustainment investment
+      competes with replacement.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Who owns support, obsolescence and retirement after initial acceptance?
+    - Can the current fielded fleet/configuration and its support obligations be reconstructed?
+  - PROPERTY_ID: EW-P030
+    PROPERTY_NAME: Digital authoritative engineering environment and model governance
+    FAILURE_MODE: Different disciplines act on incompatible models; model is stale or unvalidated; authority is ambiguous;
+      proprietary tool blocks access; model approval substitutes for reality.
+    MATURE_FORM: A configuration-controlled, queryable engineering evidence environment with scoped authority and verified
+      correspondence to reality.
+    TRIGGER: Many disciplines/models; complex interfaces; long lifecycle; supplier data exchange; expensive manual consistency
+      checking.
+    CHEAP_PATH: Small software products can use source, tests, schemas and deployment manifests as native authoritative artefacts
+      without an MBSE platform.
+    REVERSIBILITY_PROFILE: R2–R4 more likely to justify investment; R0–R1 usually native code/data tools.
+    REQUIRED_PRECONDITIONS: Clear authority boundaries; common identifiers/semantics; tool interoperability; model validation;
+      configuration management; culture/workflow adoption; physical readback.
+    EVIDENCE_STRENGTH: C_MIXED_EMPIRICAL_AND_PRACTICE_EVIDENCE
+    CRITICISMS: Systematic reviews find many benefits are perceived rather than measured; digital models can become more opaque
+      ceremony than documents.
+    ANTI_CEREMONY_BOUNDARY: The property is governed authoritative information and consistency; buying an MBSE tool, drawing
+      SysML or declaring an ASoT is not the property.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P005 maintenance burden; EW-P031 lightweight tooling; central model authority can conflict
+      with local autonomy.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Which data/model is authoritative for which claim, and how is disagreement reconciled?
+    - What proves that the model corresponds to the as-built/as-deployed system rather than only to approved intent?
+  - PROPERTY_ID: EW-P031
+    PROPERTY_NAME: Continuous integration, automated evidence and continuous assurance
+    FAILURE_MODE: Assurance package proves an old build; integration errors accumulate; security/operational feedback arrives
+      after release; manual evidence cannot keep pace.
+    MATURE_FORM: Continuous, configuration-linked evidence with explicit coverage limits, risk gates, monitoring and human/independent
+      authority at consequential boundaries.
+    TRIGGER: Frequent software change; automatable tests; digital deployment; cyber threat; many integrations; need for rapid
+      remediation.
+    CHEAP_PATH: Where deployment is rare/physical and tests cannot be automated, use periodic integration but automate provenance
+      and repeatable analyses where possible.
+    REVERSIBILITY_PROFILE: R1–R3 strongest for software; supports R4 evidence but cannot remove physical/certification constraints.
+    REQUIRED_PRECONDITIONS: Reliable tests and environments; reproducible builds; secure pipeline; evidence semantics; observability;
+      segregation/authority where needed; human review of non-automatable claims.
+    EVIDENCE_STRENGTH: B_STRONG_MODERN_GUIDANCE_MIXED_EMPIRICAL_OUTCOMES
+    CRITICISMS: CI/CD empirical evidence is heterogeneous; continuous does not mean complete, independent or certified, and
+      infrastructure cost can be large.
+    ANTI_CEREMONY_BOUNDARY: The property is fresh reproducible evidence and rapid integration; a branded DevSecOps platform,
+      dashboard or 'continuous compliance' claim is not enough.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P016 independence; EW-P015 certification; cadence can conflict with review and qualification
+      latency.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Is evidence generated from the exact immutable release and kept fresh as it changes?
+    - Which high-consequence claims still require independent or non-automated judgement beyond pipeline pass/fail?
+  - PROPERTY_ID: EW-P032
+    PROPERTY_NAME: Risk ownership, residual-risk decision and operational authority
+    FAILURE_MODE: Risk implicitly accepted by developers, responsibility diffused, authority signs without evidence, or operation
+      continues outside approved context.
+    MATURE_FORM: Configuration- and context-specific authority that consumes fresh evidence, records residual risk and can
+      stop or constrain operation.
+    TRIGGER: Material safety, security, privacy, mission, financial or public risk; operation beyond local team; conditional/temporary
+      approval.
+    CHEAP_PATH: Low-consequence reversible changes can operate under pre-authorised risk tolerances with automated monitoring.
+    REVERSIBILITY_PROFILE: R2–R4 according to consequence; R0–R1 usually delegated tolerances.
+    REQUIRED_PRECONDITIONS: Authority actually controls operation/resources; current evidence; transparent criteria; escalation/stop
+      power; operational monitoring; independence where needed.
+    EVIDENCE_STRENGTH: A_STRONG_CROSS_DOMAIN_AUTHORITY_SUPPORT
+    CRITICISMS: Individual sign-off can centralise power, encourage blame and add latency; no authority can make unknown risk
+      safe by declaration.
+    ANTI_CEREMONY_BOUNDARY: The property is accountable authority over real operation; a signature block or governance title
+      alone is not enough.
+    POSSIBLE_CONFLICTING_PROPERTY: EW-P031 flow; EW-P024 delegated tailoring; authority can conflict with team autonomy.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Who can accept residual risk for the exact operation/configuration, and do they possess stop authority?
+    - Is approval bounded by conditions, expiry and monitoring, or treated as permanent absolution?
+  - PROPERTY_ID: EW-P033
+    PROPERTY_NAME: Reversibility- and commitment-sensitive control strength
+    FAILURE_MODE: Over-control cheap experiments; under-control irreversible/public changes; confuse edit cost with propagation,
+      commitment-unwind or failure/recovery cost.
+    MATURE_FORM: 'A falsifiable control-selection policy: identify the failure mode, trigger dimensions, cheap path, required
+      evidence and residual risk; re-evaluate after operational feedback.'
+    TRIGGER: This is a meta-property applied whenever choosing baseline, trace, review, independence, qualification or authorisation
+      strength.
+    CHEAP_PATH: Default pre-authorised path for local, low-consequence, rapidly observable and genuinely reversible work.
+    REVERSIBILITY_PROFILE: Meta-profile R0–R4; consequence, coupling and irreversible effects can override technical rollback.
+    REQUIRED_PRECONDITIONS: Operational definition of reversibility; tested recovery; impact visibility; clear thresholds;
+      feedback on false positives/negatives; legal minima.
+    EVIDENCE_STRENGTH: B_STRONG_CROSS_DOMAIN_CONVERGENCE_THRESHOLD_UNRESOLVED
+    CRITICISMS: Evidence does not support one universal monotonic formula; irreversible systems can still be harmed by bureaucracy,
+      and reversible software can create irreversible disclosure or transaction effects.
+    ANTI_CEREMONY_BOUNDARY: The property is proportional selection tied to a real failure mode; a risk matrix, phase label
+      or 'high assurance' designation is not sufficient.
+    POSSIBLE_CONFLICTING_PROPERTY: Stability versus adaptability; assurance latency versus threat/feedback speed; standardisation
+      versus tailoring.
+    QUESTIONS_FOR_REPOSITORY_AUDIT:
+    - Does control strength rise because a named failure becomes harder or more consequential—not merely because a phase is
+      later?
+    - Is there a genuinely cheap path for local reversible work, and are irreversible side effects distinguished from code
+      rollback?
+  CEREMONIES_TO_NOT_BLINDLY_ADOPT:
+  - Giant requirements specification
+  - Requirements-complete gate
+  - Preliminary/Critical Design Review meeting
+  - Fixed phase gate
+  - Traceability matrix spreadsheet
+  - Standing Change-Control Board
+  - Static configuration baseline document
+  - Interface Control Document
+  - Interface Control Working Group/Board
+  - Monolithic final test phase
+  - Independent V&V organisation
+  - Safety-case report / GSN diagram
+  - Formal evidence package
+  - Pilot project / MVP phase
+  - Qualification campaign
+  - Acceptance certificate/signature
+  - Operational Readiness Review meeting
+  - Contingency/rollback plan document
+  - MBSE platform / 'single source of truth'
+  - Continuous-compliance dashboard
+  CONTEXTS_WHERE_PROPERTY_SHOULD_NOT_TRIGGER:
+  - Disposable local exploration with no external promise, shared dependency, persistent data effect or material consequence.
+  - Changes that are rapidly observable, automatically verifiable and genuinely reversible in both technical state and external
+    effect.
+  - Low-coupling work where ordinary version control, tests and peer review already provide the required identity and evidence.
+  - Exploratory requirements or architectures not yet promoted to an authoritative commitment.
+  - Situations where the control would delay security, safety or operational remediation more than it reduces risk.
+  - Contexts lacking the preconditions that make the evidence truthful—current configuration identity, maintained links, competent
+    reviewers or an actual acceptance authority.
+  HIGH_CONSEQUENCE_ONLY_PROPERTIES:
+  - EW-P007
+  - EW-P013
+  - EW-P015
+  - EW-P016
+  - EW-P018
+  - EW-P019
+  - EW-P027
+  - EW-P032
+  PROPERTIES_WITH_STRONG_EMPIRICAL_OR_DOMAIN_SUPPORT:
+  - EW-P004
+  - EW-P006
+  - EW-P008
+  - EW-P009
+  - EW-P010
+  - EW-P011
+  - EW-P012
+  - EW-P013
+  - EW-P015
+  - EW-P018
+  - EW-P022
+  - EW-P023
+  - EW-P024
+  - EW-P027
+  - EW-P032
+  PROPERTIES_WITH_MIXED_OR_WEAK_SUPPORT:
+  - EW-P016
+  - EW-P017
+  - EW-P019
+  - EW-P030
+  - EW-P025
+  - EW-P033
+  UNRESOLVED_PROPERTIES:
+  - EW-P016
+  - EW-P017
+  - EW-P019
+  - EW-P025
+  - EW-P030
+  - EW-P033
+  REJECTED_OR_SUPERSEDED_PRACTICES:
+  - PROPERTY_ID: EW-P034
+    PROPERTY_NAME: Fixed one-pass lifecycle sequencing
+    STATUS: REJECTED_OR_DISFAVOURED
+    REASON: No mature general form. Preserve actual causal dependencies and commitment boundaries, not the phase diagram.
+  - PROPERTY_ID: EW-P035
+    PROPERTY_NAME: Complete up-front requirements as a precondition to development
+    STATUS: REJECTED_OR_DISFAVOURED
+    REASON: EW-P001 and EW-P002 replace this candidate.
+  - PROPERTY_ID: EW-P036
+    PROPERTY_NAME: Document-completion phase gates and fixed review ceremonies
+    STATUS: CEREMONY_NOT_GENERAL_PROPERTY
+    REASON: EW-P021; the fixed ceremony itself is not retained.
+  - PROPERTY_ID: EW-P037
+    PROPERTY_NAME: Uniform exhaustive manual traceability and central change-board control
+    STATUS: CEREMONY_NOT_GENERAL_PROPERTY
+    REASON: EW-P008 and EW-P017.
+  - PROPERTY_ID: EW-P038
+    PROPERTY_NAME: Universal exponential late-change cost rule
+    STATUS: REJECTED_OR_DISFAVOURED
+    REASON: No universal curve; use domain-specific evidence and tested recovery.
+  SOURCE_REGISTER_FILE: EVOLVED_WATERFALL_SOURCE_REGISTER.json
+  ACCESS_DATE: '2026-08-11'

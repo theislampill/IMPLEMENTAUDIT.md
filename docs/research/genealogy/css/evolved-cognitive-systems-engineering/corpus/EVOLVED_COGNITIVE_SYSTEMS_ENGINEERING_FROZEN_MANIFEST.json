@@ -1,0 +1,71 @@
+{
+  "ANALYTICAL_LABEL": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING",
+  "FREEZE_TIMESTAMP": "2026-08-12T00:00:00-04:00",
+  "HASH_ALGORITHM": "SHA-256",
+  "NORMALISATION_NOTE": "Raw SHA-256 values are supplied for all five judgement-bearing payload files. A file cannot contain its own raw digest, and a ZIP cannot contain its own raw digest. Therefore the manifest and packet entries use an explicit canonical normalisation: set both self/packet sha256 fields to 64 zeroes, preserve all other final fields and byte counts, serialize canonical sorted UTF-8 JSON, and for the packet build the deterministic ZIP from that normalized manifest plus unchanged payloads. The final raw transport digests are also recorded outside the self-referential manifest in the user-facing delivery receipt.",
+  "PACKET_CONTENTS": [
+    "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_AUDIT_INTAKE.md",
+    "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_FROZEN_MANIFEST.json",
+    "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_FROZEN_REPORT.md",
+    "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+    "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+    "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_SOURCE_TABLE.json"
+  ],
+  "RESEARCH_STATE": "FROZEN",
+  "SYNTAX_ONLY_NORMALISATION": "Canonical JSON serialization for integrity calculation changes no research judgement.",
+  "TERMINAL_RECEIPT": [
+    "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_RESEARCH_STATE: FROZEN",
+    "PROPERTY_POPULATION_TOTAL: 62",
+    "PROPERTY_POPULATION_EXAMINED: 62",
+    "PROPERTY_COVERAGE: 62/62",
+    "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_AUDIT_INTAKE: COMPLETE",
+    "PUBLIC_DOCUMENTATION_INTAKE: COMPLETE",
+    "FROZEN_PACKET_PACKAGED: YES",
+    "EXTERNAL_RESEARCH_READY_FOR_REPOSITORY_CROSSWALK: YES"
+  ],
+  "ZIP_FORMAT": "deterministic ZIP_STORED; lexical filename order; 1980-01-01T00:00:00 timestamps; mode 0644",
+  "artefacts": [
+    {
+      "byte_count": 1160592,
+      "filename": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_FROZEN_REPORT.md",
+      "sha256": "e1a366ba2ba585b78abcb8e5d26f2bf91ddc5bf74ebb9b05b078c1caeed0daca",
+      "sha256_basis": "RAW_FILE_BYTES"
+    },
+    {
+      "byte_count": 613718,
+      "filename": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "sha256": "b036e57b18548047a27ed90201cb37c55ccea7b0aae67f43103d0dbc3a8e1606",
+      "sha256_basis": "RAW_FILE_BYTES"
+    },
+    {
+      "byte_count": 110335,
+      "filename": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_SOURCE_TABLE.json",
+      "sha256": "75be8e817b3b128f3aa8ea41f1818772a84ac3ae421f265abd3de7f34e53c1eb",
+      "sha256_basis": "RAW_FILE_BYTES"
+    },
+    {
+      "byte_count": 371847,
+      "filename": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_AUDIT_INTAKE.md",
+      "sha256": "69d11f96b23ef392b9698cf1cdfaa8a7549d5c730d7abacf51b7785a4704f740",
+      "sha256_basis": "RAW_FILE_BYTES"
+    },
+    {
+      "byte_count": 21050,
+      "filename": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "aaff035ecbe3605cd577edce1c5a0e9db0decefe267373c976e54b6c71057cb2",
+      "sha256_basis": "RAW_FILE_BYTES"
+    },
+    {
+      "byte_count": 3676,
+      "filename": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_FROZEN_MANIFEST.json",
+      "sha256": "e5c7a562b6ed322374fa18d5cd251908a31bb1d9e75a9654da01d7f4333af71a",
+      "sha256_basis": "CANONICAL_MANIFEST_WITH_SELF_AND_PACKET_SHA256_ZEROED"
+    },
+    {
+      "byte_count": 2282388,
+      "filename": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_FROZEN_PACKET.zip",
+      "sha256": "ed325cdcb9e9e6e6da10fb50a84fcba95c6e62a585aa569e05ec8e6670d4f120",
+      "sha256_basis": "DETERMINISTIC_PACKET_WITH_NORMALIZED_MANIFEST"
+    }
+  ]
+}

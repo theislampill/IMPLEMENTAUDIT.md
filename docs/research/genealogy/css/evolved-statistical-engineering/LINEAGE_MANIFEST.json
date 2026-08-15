@@ -1,0 +1,122 @@
+{
+  "embedded_manifest": {
+    "bytes": 3639,
+    "declared_digest_fields": [
+      {
+        "field": "files[0].sha256",
+        "value": "e76f75acfbafb1d1c7c21c82753d6ae0c8b9e3acd06bf7c76e7efb4766be716d"
+      },
+      {
+        "field": "files[0].sha256_mode",
+        "value": "exact_file_sha256"
+      },
+      {
+        "field": "files[1].sha256",
+        "value": "a214527c1859133d2745e9c97e63b021ff09f50cba3f8f5a4d026e5d20ee7de9"
+      },
+      {
+        "field": "files[1].sha256_mode",
+        "value": "exact_file_sha256"
+      },
+      {
+        "field": "files[2].sha256",
+        "value": "128ac878b92d9335d617ae10aabd79ee9d9029d411101e09472219c9a3c40606"
+      },
+      {
+        "field": "files[2].sha256_mode",
+        "value": "exact_file_sha256"
+      },
+      {
+        "field": "files[3].sha256",
+        "value": "1b242a2f0642a9e3f89f9006a6eb48e3c6c8812c18ad4385f24a8ca920075cca"
+      },
+      {
+        "field": "files[3].sha256_mode",
+        "value": "exact_file_sha256"
+      },
+      {
+        "field": "files[4].sha256",
+        "value": "774d29a07abb1a0d590be397deca56d2648eba78a4ead778dcad8f8b12a064e5"
+      },
+      {
+        "field": "files[4].sha256_mode",
+        "value": "exact_file_sha256"
+      },
+      {
+        "field": "files[5].sha256",
+        "value": "3ce2b06eacce204c20d78a0ad934c194ae4ecbd5d1ce1d2ac3980186e3068030"
+      },
+      {
+        "field": "files[5].sha256_mode",
+        "value": "canonical_self_excluding_sha256"
+      },
+      {
+        "field": "files[6].sha256",
+        "value": "5e6061529e3f1e74fbd2ee1b3a99f4173afb0a3611f488a6da16a9c26ed541a0"
+      },
+      {
+        "field": "files[6].sha256_mode",
+        "value": "normalized_archive_sha256"
+      }
+    ],
+    "identity_note": "Declared packet/content digests retain their source-defined scope and are not treated as the raw delivered ZIP SHA-256 unless the source explicitly says so.",
+    "member": "EVOLVED_STATISTICAL_ENGINEERING_FROZEN_MANIFEST.json",
+    "sha256": "3ec6a5e8e44e9577989ca2a82dd1723173c55af0db27e84ddde516350e5b83be",
+    "status": "PRESENT"
+  },
+  "lineage_id": "EVOLVED_STATISTICAL_ENGINEERING",
+  "lineage_name": "Evolved Statistical Engineering",
+  "members": [
+    {
+      "bytes": 263027,
+      "member": "EVOLVED_STATISTICAL_ENGINEERING_AUDIT_INTAKE.md",
+      "path": "docs/research/genealogy/css/evolved-statistical-engineering/corpus/EVOLVED_STATISTICAL_ENGINEERING_AUDIT_INTAKE.md",
+      "sha256": "1b242a2f0642a9e3f89f9006a6eb48e3c6c8812c18ad4385f24a8ca920075cca"
+    },
+    {
+      "bytes": 3639,
+      "member": "EVOLVED_STATISTICAL_ENGINEERING_FROZEN_MANIFEST.json",
+      "path": "docs/research/genealogy/css/evolved-statistical-engineering/corpus/EVOLVED_STATISTICAL_ENGINEERING_FROZEN_MANIFEST.json",
+      "sha256": "3ec6a5e8e44e9577989ca2a82dd1723173c55af0db27e84ddde516350e5b83be"
+    },
+    {
+      "bytes": 526917,
+      "member": "EVOLVED_STATISTICAL_ENGINEERING_FROZEN_REPORT.md",
+      "path": "docs/research/genealogy/css/evolved-statistical-engineering/corpus/EVOLVED_STATISTICAL_ENGINEERING_FROZEN_REPORT.md",
+      "sha256": "e76f75acfbafb1d1c7c21c82753d6ae0c8b9e3acd06bf7c76e7efb4766be716d"
+    },
+    {
+      "bytes": 386050,
+      "member": "EVOLVED_STATISTICAL_ENGINEERING_PROPERTY_LEDGER.json",
+      "path": "docs/research/genealogy/css/evolved-statistical-engineering/corpus/EVOLVED_STATISTICAL_ENGINEERING_PROPERTY_LEDGER.json",
+      "sha256": "a214527c1859133d2745e9c97e63b021ff09f50cba3f8f5a4d026e5d20ee7de9"
+    },
+    {
+      "bytes": 14023,
+      "member": "EVOLVED_STATISTICAL_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "path": "docs/research/genealogy/css/evolved-statistical-engineering/corpus/EVOLVED_STATISTICAL_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "774d29a07abb1a0d590be397deca56d2648eba78a4ead778dcad8f8b12a064e5"
+    },
+    {
+      "bytes": 107390,
+      "member": "EVOLVED_STATISTICAL_ENGINEERING_SOURCE_TABLE.json",
+      "path": "docs/research/genealogy/css/evolved-statistical-engineering/corpus/EVOLVED_STATISTICAL_ENGINEERING_SOURCE_TABLE.json",
+      "sha256": "128ac878b92d9335d617ae10aabd79ee9d9029d411101e09472219c9a3c40606"
+    }
+  ],
+  "packet": {
+    "bytes": 316068,
+    "identity_kind": "RAW_DELIVERED_ZIP_BYTES",
+    "path": "docs/research/genealogy/css/evolved-statistical-engineering/packet/EVOLVED_STATISTICAL_ENGINEERING_FROZEN_PACKET.zip",
+    "sha256": "fc6df294675249d3241bb3ec6c08eec062d90c60c859479731e7cfdef1925d2d"
+  },
+  "property_ledger": {
+    "bytes": 386050,
+    "member": "EVOLVED_STATISTICAL_ENGINEERING_PROPERTY_LEDGER.json",
+    "properties": 65,
+    "root": "properties",
+    "sha256": "a214527c1859133d2745e9c97e63b021ff09f50cba3f8f5a4d026e5d20ee7de9"
+  },
+  "schema": "implementaudit-engineering-genealogy-lineage-manifest-v1",
+  "trifecta": "css"
+}
