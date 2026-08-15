@@ -21,7 +21,7 @@ fi
 
 [ -f "$checker" ] || fail "package-contract checker is absent"
 
-"${py_cmd[@]}" - "$repo_root/scripts/package-contract.py" <<'PY' \
+PYTHONDONTWRITEBYTECODE=1 "${py_cmd[@]}" - "$repo_root/scripts/package-contract.py" <<'PY' \
   || fail "standalone projection does not normalize plugin-relative separator variants"
 import importlib.util
 import sys
