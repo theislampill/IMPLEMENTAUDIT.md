@@ -836,10 +836,10 @@
     {
       "id": "S3E-W04-F3",
       "kind": "factual-parity",
-      "readme_wording": "552/552 is property-disposition accounting, not 552 source changes.",
-      "docs_wording": "The 552-row denominator records dispositions and must not be read as a source-change count.",
-      "readme_facts": ["552-dispositions", "not-source-change-count"],
-      "docs_facts": ["552-dispositions", "not-source-change-count"],
+      "readme_wording": "658/658 is property-disposition accounting, not 658 source changes.",
+      "docs_wording": "The 658-row denominator records dispositions and must not be read as a source-change count.",
+      "readme_facts": ["658-dispositions", "not-source-change-count"],
+      "docs_facts": ["658-dispositions", "not-source-change-count"],
       "expected": "PASS"
     },
     {
