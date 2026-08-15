@@ -1,0 +1,343 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/theislampill/IMPLEMENTAUDIT.md/schemas/v0410-current-disposition-v1",
+  "title": "IMPLEMENTAUDIT v0.4.1 current 658-property disposition ledger",
+  "description": "Execution schema for comparing each frozen historical property disposition with exact released v0.4.0.0. Before public v0.4.0.0 readback, every released-v0.4-dependent field remains DEFER_TO_V0410_BASELINE.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA",
+    "STATUS",
+    "BASELINE_RELEASE",
+    "SOURCE_IDENTITIES",
+    "COUNTS",
+    "ROWS"
+  ],
+  "properties": {
+    "SCHEMA": {
+      "const": "implementaudit-v0410-current-disposition-v1"
+    },
+    "STATUS": {
+      "enum": [
+        "PRE_BASELINE_DEFERRED",
+        "CURRENT_658_DISPOSITION_COMPLETE"
+      ]
+    },
+    "BASELINE_RELEASE": {
+      "$ref": "#/$defs/deferredFact"
+    },
+    "SOURCE_IDENTITIES": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "PROPERTY_MASTER_INDEX_SHA256",
+        "HISTORICAL_BASELINE_SHA256",
+        "RELEASED_V0400_COMMIT",
+        "RELEASED_V0400_TREE",
+        "RELEASED_V0400_TAG_OBJECT",
+        "RELEASED_V0400_ASSET_SHA256",
+        "RXX_GENEALOGY_SNAPSHOT_SHA256"
+      ],
+      "properties": {
+        "PROPERTY_MASTER_INDEX_SHA256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "HISTORICAL_BASELINE_SHA256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "RELEASED_V0400_COMMIT": {
+          "$ref": "#/$defs/deferredFact"
+        },
+        "RELEASED_V0400_TREE": {
+          "$ref": "#/$defs/deferredFact"
+        },
+        "RELEASED_V0400_TAG_OBJECT": {
+          "$ref": "#/$defs/deferredFact"
+        },
+        "RELEASED_V0400_ASSET_SHA256": {
+          "$ref": "#/$defs/deferredFact"
+        },
+        "RXX_GENEALOGY_SNAPSHOT_SHA256": {
+          "$ref": "#/$defs/deferredFact"
+        }
+      }
+    },
+    "COUNTS": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "EXPECTED_PROPERTIES",
+        "DISPOSITIONED_PROPERTIES",
+        "UNIQUE_GLOBAL_PROPERTY_KEYS",
+        "DANGLING_SOURCE_LOCATORS",
+        "DANGLING_RXX_REFERENCES",
+        "DEFERRED_RELEASE_FACTS"
+      ],
+      "properties": {
+        "EXPECTED_PROPERTIES": {
+          "const": 658
+        },
+        "DISPOSITIONED_PROPERTIES": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 658
+        },
+        "UNIQUE_GLOBAL_PROPERTY_KEYS": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 658
+        },
+        "DANGLING_SOURCE_LOCATORS": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "DANGLING_RXX_REFERENCES": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "DEFERRED_RELEASE_FACTS": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "ROWS": {
+      "type": "array",
+      "minItems": 658,
+      "maxItems": 658,
+      "items": {
+        "$ref": "#/$defs/propertyDisposition"
+      }
+    }
+  },
+  "$defs": {
+    "evidenceBoundValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "VALUE",
+        "EVIDENCE",
+        "EVIDENCE_IDENTITY",
+        "CURRENTNESS_CHECK",
+        "LIMIT"
+      ],
+      "properties": {
+        "VALUE": {},
+        "EVIDENCE": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "EVIDENCE_IDENTITY": {
+          "type": "string",
+          "minLength": 1
+        },
+        "CURRENTNESS_CHECK": {
+          "type": "string",
+          "minLength": 1
+        },
+        "LIMIT": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "deferredFact": {
+      "oneOf": [
+        {
+          "const": "DEFER_TO_V0410_BASELINE"
+        },
+        {
+          "$ref": "#/$defs/evidenceBoundValue"
+        }
+      ]
+    },
+    "destination": {
+      "enum": [
+        "NO_CHANGE_ALREADY_COMPLETE",
+        "DETERMINISTIC_SUBSTRATE",
+        "GOVERNOR_OR_L1_L5",
+        "AUDIT_STATE",
+        "AUDIT_ASSESS",
+        "AUDIT_IMPLEMENT",
+        "AUDIT_ANDON",
+        "EXISTING_CHILD_REFERENCE_OR_TRIGGER_REFINEMENT",
+        "CANDIDATE_NEW_CHILD_SKILL",
+        "DAG_CHILD_AGENT_ORCHESTRATION",
+        "REFERENCE",
+        "TEMPLATE_OR_SCHEMA",
+        "CHECKER_OR_FIXTURE",
+        "PACKAGE_OR_REACHABILITY",
+        "BEHAVIOURAL_PROOF_ONLY",
+        "EXISTING_RXX_AMENDMENT",
+        "GENUINE_UNOWNED_RESIDUAL",
+        "STILL_REJECTED",
+        "STILL_ASSUMPTION_BOUND",
+        "STILL_DOMAIN_BOUND",
+        "UNRESOLVED"
+      ]
+    },
+    "deferredDestination": {
+      "oneOf": [
+        {
+          "const": "DEFER_TO_V0410_BASELINE"
+        },
+        {
+          "$ref": "#/$defs/destination"
+        }
+      ]
+    },
+    "historicalDisposition": {
+      "enum": [
+        "HISTORICALLY_ABSORBED_COMPLETE",
+        "HISTORICALLY_ABSORBED_PARTIAL",
+        "HISTORICALLY_EXISTING_OWNER_NEEDS_AMENDMENT",
+        "HISTORICALLY_LINEAGE_NATIVE_RESIDUAL",
+        "HISTORICALLY_IMPLEMENTATION_OR_REACHABILITY_GAP",
+        "HISTORICALLY_BEHAVIOURAL_PROOF_GAP",
+        "HISTORICALLY_ASSUMPTION_BOUND",
+        "HISTORICALLY_DOMAIN_BOUND",
+        "HISTORICALLY_REJECTED_OR_SUPERSEDED",
+        "HISTORICALLY_UNRESOLVED"
+      ]
+    },
+    "propertyDisposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "GLOBAL_PROPERTY_KEY",
+        "TRIFECTA",
+        "LINEAGE_ID",
+        "SOURCE_PROPERTY_ID",
+        "PROPERTY_NAME",
+        "HISTORICAL_DISPOSITION",
+        "HISTORICAL_OWNER",
+        "HISTORICAL_NONADOPTION_OR_PARTIAL_BASIS",
+        "RELEASED_V0400_EXACT_OWNER",
+        "SOURCE_IMPLEMENTATION",
+        "PACKAGE_STATE",
+        "PROGRESSIVE_DISCLOSURE_REACHABILITY",
+        "BEHAVIOURAL_ACTIVATION",
+        "CURRENTNESS_AUTHORITY",
+        "DETERMINISTIC_DISCRIMINATOR",
+        "COGNITIVE_OWNER",
+        "DAG_WORK_TOPOLOGY_RELATION",
+        "CURRENT_COST_CEREMONY",
+        "CURRENT_EVIDENCE_LIMIT",
+        "CURRENT_CAPABILITY_CHANGE",
+        "CURRENT_DESTINATION",
+        "CURRENT_ACTION",
+        "CURRENT_CHEAP_PATH_OR_NON_TRIGGER",
+        "RXX_GENEALOGY",
+        "EVIDENCE_REFS",
+        "REVIEW_STATUS"
+      ],
+      "properties": {
+        "GLOBAL_PROPERTY_KEY": {
+          "type": "string",
+          "pattern": "^[A-Z0-9_]+::[^:]+$"
+        },
+        "TRIFECTA": {
+          "enum": [
+            "law",
+            "css",
+            "ssd",
+            "drf"
+          ]
+        },
+        "LINEAGE_ID": {
+          "type": "string",
+          "minLength": 1
+        },
+        "SOURCE_PROPERTY_ID": {
+          "type": "string",
+          "minLength": 1
+        },
+        "PROPERTY_NAME": {
+          "type": "string",
+          "minLength": 1
+        },
+        "HISTORICAL_DISPOSITION": {
+          "$ref": "#/$defs/historicalDisposition"
+        },
+        "HISTORICAL_OWNER": {
+          "type": "object"
+        },
+        "HISTORICAL_NONADOPTION_OR_PARTIAL_BASIS": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "RELEASED_V0400_EXACT_OWNER": {
+          "$ref": "#/$defs/deferredFact"
+        },
+        "SOURCE_IMPLEMENTATION": {
+          "$ref": "#/$defs/deferredFact"
+        },
+        "PACKAGE_STATE": {
+          "$ref": "#/$defs/deferredFact"
+        },
+        "PROGRESSIVE_DISCLOSURE_REACHABILITY": {
+          "$ref": "#/$defs/deferredFact"
+        },
+        "BEHAVIOURAL_ACTIVATION": {
+          "$ref": "#/$defs/deferredFact"
+        },
+        "CURRENTNESS_AUTHORITY": {
+          "$ref": "#/$defs/deferredFact"
+        },
+        "DETERMINISTIC_DISCRIMINATOR": {
+          "$ref": "#/$defs/deferredFact"
+        },
+        "COGNITIVE_OWNER": {
+          "$ref": "#/$defs/deferredFact"
+        },
+        "DAG_WORK_TOPOLOGY_RELATION": {
+          "$ref": "#/$defs/deferredFact"
+        },
+        "CURRENT_COST_CEREMONY": {
+          "$ref": "#/$defs/deferredFact"
+        },
+        "CURRENT_EVIDENCE_LIMIT": {
+          "$ref": "#/$defs/deferredFact"
+        },
+        "CURRENT_CAPABILITY_CHANGE": {
+          "$ref": "#/$defs/deferredFact"
+        },
+        "CURRENT_DESTINATION": {
+          "$ref": "#/$defs/deferredDestination"
+        },
+        "CURRENT_ACTION": {
+          "$ref": "#/$defs/deferredFact"
+        },
+        "CURRENT_CHEAP_PATH_OR_NON_TRIGGER": {
+          "$ref": "#/$defs/deferredFact"
+        },
+        "RXX_GENEALOGY": {
+          "$ref": "#/$defs/deferredFact"
+        },
+        "EVIDENCE_REFS": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "REVIEW_STATUS": {
+          "enum": [
+            "DEFER_TO_V0410_BASELINE",
+            "UNREVIEWED",
+            "REVIEWED_PASS",
+            "GAP_REVISE",
+            "BLOCKED"
+          ]
+        }
+      }
+    }
+  }
+}

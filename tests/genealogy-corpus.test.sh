@@ -5,8 +5,20 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CHECKER="$ROOT/scripts/check-genealogy-corpus.py"
 HISTORICAL_CHECKER="$ROOT/scripts/check-historical-absorption-baseline.py"
 
-python "$CHECKER" --root "$ROOT"
-python "$HISTORICAL_CHECKER" --root "$ROOT"
+fail() { printf 'genealogy-corpus.test: %s\n' "$*" >&2; exit 1; }
+
+if command -v python >/dev/null 2>&1; then
+  py_cmd=(python)
+elif command -v python3 >/dev/null 2>&1; then
+  py_cmd=(python3)
+elif command -v py >/dev/null 2>&1; then
+  py_cmd=(py -3)
+else
+  fail "python, python3, or py -3 is required"
+fi
+
+"${py_cmd[@]}" "$CHECKER" --root "$ROOT"
+"${py_cmd[@]}" "$HISTORICAL_CHECKER" --root "$ROOT"
 
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
@@ -38,88 +50,88 @@ expect_failure() {
 }
 
 fresh_fixture
-python - "$TMP/repo/docs/research/genealogy/law/evolved-lean/packet/EVOLVED_LEAN_FROZEN_PACKET.zip" <<'PY'
+"${py_cmd[@]}" - "$TMP/repo/docs/research/genealogy/law/evolved-lean/packet/EVOLVED_LEAN_FROZEN_PACKET.zip" <<'PY'
 import pathlib, sys
 p = pathlib.Path(sys.argv[1])
 data = bytearray(p.read_bytes())
 data[0] ^= 1
 p.write_bytes(data)
 PY
-expect_failure "packet SHA-256 mismatch" python "$CHECKER" --root "$TMP/repo"
+expect_failure "packet SHA-256 mismatch" "${py_cmd[@]}" "$CHECKER" --root "$TMP/repo"
 
 fresh_fixture
 rm "$TMP/repo/docs/research/genealogy/law/evolved-lean/corpus/EVOLVED_LEAN_FROZEN_REPORT.md"
-expect_failure "missing extracted member" python "$CHECKER" --root "$TMP/repo"
+expect_failure "missing extracted member" "${py_cmd[@]}" "$CHECKER" --root "$TMP/repo"
 
 fresh_fixture
 rm -rf "$TMP/repo/docs/research/genealogy/css/evolved-systems-safety"
-expect_failure "lineage population mismatch" python "$CHECKER" --root "$TMP/repo"
+expect_failure "lineage population mismatch" "${py_cmd[@]}" "$CHECKER" --root "$TMP/repo"
 
 fresh_fixture
 rm "$TMP/repo/docs/research/genealogy/css/evolved-systems-safety/README.md"
-expect_failure "missing required genealogy documentation" python "$CHECKER" --root "$TMP/repo"
+expect_failure "missing required genealogy documentation" "${py_cmd[@]}" "$CHECKER" --root "$TMP/repo"
 
 fresh_fixture
-python - "$TMP/repo/docs/research/genealogy/PROPERTY_MASTER_INDEX.json" <<'PY'
+"${py_cmd[@]}" - "$TMP/repo/docs/research/genealogy/PROPERTY_MASTER_INDEX.json" <<'PY'
 import json, pathlib, sys
 p = pathlib.Path(sys.argv[1])
 d = json.loads(p.read_text(encoding="utf-8"))
 d["properties"].append(d["properties"][0])
 p.write_text(json.dumps(d, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 PY
-expect_failure "duplicate global property key" python "$CHECKER" --root "$TMP/repo"
+expect_failure "duplicate global property key" "${py_cmd[@]}" "$CHECKER" --root "$TMP/repo"
 
 fresh_fixture
-python - "$TMP/repo/docs/research/genealogy/PROPERTY_MASTER_INDEX.json" <<'PY'
+"${py_cmd[@]}" - "$TMP/repo/docs/research/genealogy/PROPERTY_MASTER_INDEX.json" <<'PY'
 import json, pathlib, sys
 p = pathlib.Path(sys.argv[1])
 d = json.loads(p.read_text(encoding="utf-8"))
 d["properties"][0]["source_locator"]["member"] = "DOES_NOT_EXIST.json"
 p.write_text(json.dumps(d, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 PY
-expect_failure "dangling source locator" python "$CHECKER" --root "$TMP/repo"
+expect_failure "dangling source locator" "${py_cmd[@]}" "$CHECKER" --root "$TMP/repo"
 
 fresh_fixture
-python - "$TMP/repo/docs/research/genealogy/CORPUS_MANIFEST.json" <<'PY'
+"${py_cmd[@]}" - "$TMP/repo/docs/research/genealogy/CORPUS_MANIFEST.json" <<'PY'
 import json, pathlib, sys
 p = pathlib.Path(sys.argv[1])
 d = json.loads(p.read_text(encoding="utf-8"))
 d["files"][0]["path"] = "C:/Users/example/private.txt"
 p.write_text(json.dumps(d, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 PY
-expect_failure "absolute local path" python "$CHECKER" --root "$TMP/repo"
+expect_failure "absolute local path" "${py_cmd[@]}" "$CHECKER" --root "$TMP/repo"
 
 fresh_fixture
 printf '\nCurrent RXX owner is R51.\n' >> "$TMP/repo/docs/research/genealogy/law/evolved-lean/README.md"
-expect_failure "IMPLEMENTAUDIT-specific disposition in neutral README" python "$CHECKER" --root "$TMP/repo"
+expect_failure "IMPLEMENTAUDIT-specific disposition in neutral README" "${py_cmd[@]}" "$CHECKER" --root "$TMP/repo"
 
 fresh_historical_fixture
-python - "$TMP/repo/docs/research/implementaudit/historical-absorption-baseline/HISTORICAL_ABSORPTION_BASELINE.json" <<'PY'
+"${py_cmd[@]}" - "$TMP/repo/docs/research/implementaudit/historical-absorption-baseline/HISTORICAL_ABSORPTION_BASELINE.json" <<'PY'
 import json, pathlib, sys
 p = pathlib.Path(sys.argv[1])
 d = json.loads(p.read_text(encoding="utf-8"))
 d["rows"].pop()
 p.write_text(json.dumps(d, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 PY
-expect_failure "historical baseline property denominator mismatch" python "$HISTORICAL_CHECKER" --root "$TMP/repo"
+expect_failure "historical baseline property denominator mismatch" "${py_cmd[@]}" "$HISTORICAL_CHECKER" --root "$TMP/repo"
 
 fresh_historical_fixture
-python - "$TMP/repo/docs/research/implementaudit/historical-absorption-baseline/HISTORICAL_ABSORPTION_BASELINE.json" <<'PY'
+"${py_cmd[@]}" - "$TMP/repo/docs/research/implementaudit/historical-absorption-baseline/HISTORICAL_ABSORPTION_BASELINE.json" <<'PY'
 import json, pathlib, sys
 p = pathlib.Path(sys.argv[1])
 d = json.loads(p.read_text(encoding="utf-8"))
 d["rows"][0]["V0400_CHANGE_DISPOSITION"] = "CHANGED_WITHOUT_BASELINE"
 p.write_text(json.dumps(d, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 PY
-expect_failure "non-deferred v0.4 disposition" python "$HISTORICAL_CHECKER" --root "$TMP/repo"
+expect_failure "non-deferred v0.4 disposition" "${py_cmd[@]}" "$HISTORICAL_CHECKER" --root "$TMP/repo"
 
 fresh_fixture
-python - "$TMP/fake-package.zip" <<'PY'
+"${py_cmd[@]}" - "$TMP/fake-package.zip" <<'PY'
 import sys, zipfile
 with zipfile.ZipFile(sys.argv[1], "w") as archive:
     archive.writestr("docs/research/genealogy/README.md", "must not ship")
 PY
-expect_failure "genealogy content entered distributable package" python "$CHECKER" --root "$ROOT" --package "$TMP/fake-package.zip"
+expect_failure "genealogy content entered distributable package" "${py_cmd[@]}" "$CHECKER" --root "$ROOT" --package "$TMP/fake-package.zip"
 
 mkdir -p "$TMP/claims/scripts" "$TMP/claims/docs/research/genealogy/law/evolved-lean/corpus"
 cp "$ROOT/scripts/check-public-claim-boundaries.sh" "$TMP/claims/scripts/check-public-claim-boundaries.sh"

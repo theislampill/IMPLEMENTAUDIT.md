@@ -1,0 +1,218 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/theislampill/IMPLEMENTAUDIT.md/schemas/v0410-child-skill-admission-v1",
+  "title": "IMPLEMENTAUDIT v0.4.1 candidate child-skill admission record",
+  "description": "A neutral skill-boundary test. Research lineage labels and desired population counts supply no admission evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA",
+    "CAPABILITY_ID",
+    "ADMISSION_DISPOSITION",
+    "SOURCE_PROPERTY_KEYS",
+    "TRIGGER",
+    "NON_TRIGGER",
+    "CONSUMER",
+    "BOUNDED_INPUT",
+    "OWNED_COGNITIVE_PROCEDURE",
+    "IRREDUCIBLE_MODEL_JUDGEMENT",
+    "BOUNDED_OUTPUT_POSTCONDITION",
+    "STATE_CHANGE_IF_ANY",
+    "SHARED_SUBSTRATE_DEPENDENCIES",
+    "WHAT_REMAINS_DETERMINISTIC_SUBSTRATE",
+    "EXISTING_SEMANTIC_OWNER",
+    "EXISTING_CHILD_OVERLAP",
+    "WHY_INDEPENDENTLY_MEANINGFUL",
+    "CONTEXT_REASONING_PAYOFF",
+    "REPEATED_VALUE_EVIDENCE",
+    "NOT_REFERENCE_ONLY",
+    "NOT_DETERMINISTIC_SUBSTRATE",
+    "NOT_ALREADY_OWNED_BY_EXISTING_CHILD",
+    "NOT_DISCIPLINE_LABEL",
+    "GOVERNOR_AUTHORITY_FENCE",
+    "DIRECT_ENTRY_RELATION",
+    "DISCOVERY_ROUTING_REQUIREMENTS",
+    "MISROUTING_FAILURE",
+    "CHEAP_PATH_EFFECT",
+    "PACKAGE_INSTALL_HOST_COST",
+    "MAINTENANCE_COST",
+    "RETIREMENT_CONDITION",
+    "POSITIVE_NEGATIVE_BOUNDARY_HELD_OUT_EVIDENCE",
+    "COLD_REVIEW"
+  ],
+  "properties": {
+    "SCHEMA": {
+      "const": "implementaudit-v0410-child-skill-admission-v1"
+    },
+    "CAPABILITY_ID": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ADMISSION_DISPOSITION": {
+      "enum": [
+        "DEFER_TO_V0410_BASELINE",
+        "CANDIDATE_PENDING_EVIDENCE",
+        "ADMIT_CHILD_SKILL",
+        "REFERENCE_ONLY",
+        "GOVERNOR_OWNED",
+        "DETERMINISTIC_SUBSTRATE",
+        "MERGE_EXISTING_CHILD",
+        "REJECT_NO_PAYOFF",
+        "UNRESOLVED"
+      ]
+    },
+    "SOURCE_PROPERTY_KEYS": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z0-9_]+::[^:]+$"
+      }
+    },
+    "TRIGGER": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "NON_TRIGGER": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "CONSUMER": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "BOUNDED_INPUT": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "OWNED_COGNITIVE_PROCEDURE": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "IRREDUCIBLE_MODEL_JUDGEMENT": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "BOUNDED_OUTPUT_POSTCONDITION": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "STATE_CHANGE_IF_ANY": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "SHARED_SUBSTRATE_DEPENDENCIES": {
+      "$ref": "#/$defs/deferredArray"
+    },
+    "WHAT_REMAINS_DETERMINISTIC_SUBSTRATE": {
+      "$ref": "#/$defs/deferredArray"
+    },
+    "EXISTING_SEMANTIC_OWNER": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "EXISTING_CHILD_OVERLAP": {
+      "$ref": "#/$defs/deferredArray"
+    },
+    "WHY_INDEPENDENTLY_MEANINGFUL": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "CONTEXT_REASONING_PAYOFF": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "REPEATED_VALUE_EVIDENCE": {
+      "$ref": "#/$defs/deferredArray"
+    },
+    "NOT_REFERENCE_ONLY": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "NOT_DETERMINISTIC_SUBSTRATE": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "NOT_ALREADY_OWNED_BY_EXISTING_CHILD": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "NOT_DISCIPLINE_LABEL": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "GOVERNOR_AUTHORITY_FENCE": {
+      "$ref": "#/$defs/deferredArray"
+    },
+    "DIRECT_ENTRY_RELATION": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "DISCOVERY_ROUTING_REQUIREMENTS": {
+      "$ref": "#/$defs/deferredArray"
+    },
+    "MISROUTING_FAILURE": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "CHEAP_PATH_EFFECT": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "PACKAGE_INSTALL_HOST_COST": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "MAINTENANCE_COST": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "RETIREMENT_CONDITION": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "POSITIVE_NEGATIVE_BOUNDARY_HELD_OUT_EVIDENCE": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "POSITIVE",
+        "NEGATIVE",
+        "BOUNDARY",
+        "ADJACENT",
+        "HELD_OUT"
+      ],
+      "properties": {
+        "POSITIVE": {
+          "$ref": "#/$defs/deferredArray"
+        },
+        "NEGATIVE": {
+          "$ref": "#/$defs/deferredArray"
+        },
+        "BOUNDARY": {
+          "$ref": "#/$defs/deferredArray"
+        },
+        "ADJACENT": {
+          "$ref": "#/$defs/deferredArray"
+        },
+        "HELD_OUT": {
+          "$ref": "#/$defs/deferredArray"
+        }
+      }
+    },
+    "COLD_REVIEW": {
+      "enum": [
+        "DEFER_TO_V0410_BASELINE",
+        "NOT_REVIEWED",
+        "PASS",
+        "GAP_REVISE",
+        "BLOCKED"
+      ]
+    }
+  },
+  "$defs": {
+    "deferredText": {
+      "oneOf": [
+        {
+          "const": "DEFER_TO_V0410_BASELINE"
+        },
+        {
+          "type": "string",
+          "minLength": 1
+        }
+      ]
+    },
+    "deferredArray": {
+      "oneOf": [
+        {
+          "const": "DEFER_TO_V0410_BASELINE"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      ]
+    }
+  }
+}

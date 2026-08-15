@@ -1,0 +1,286 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/theislampill/IMPLEMENTAUDIT.md/schemas/v0410-rxx-admission-v1",
+  "title": "IMPLEMENTAUDIT v0.4.1 provisional RXX admission record",
+  "description": "A candidate record, not allocation or publication authority. Before exact public v0.4.0.0 evidence, release-dependent facts remain deferred and disposition remains pending.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA",
+    "RXX_ID",
+    "DISPOSITION",
+    "SOURCE_DELTA_REQUIRED",
+    "CURRENT_IMPLEMENTATION_ALREADY_SATISFIES",
+    "SOURCE_PROPERTY_KEYS",
+    "GENEALOGY_EXISTING_RXXS",
+    "OVERLAPPING_EXISTING_RXXS",
+    "DEPENDENCY_RXXS",
+    "AUTHORITY_NEIGHBOURS",
+    "SUPERSEDED_ASSUMPTIONS",
+    "CONFLICTS",
+    "REQUIRED_AMENDMENTS_TO_OLDER_RXXS",
+    "WHY_THIS_IS_NOT_MERELY_DUPLICATE_OF_EXISTING_RXXS",
+    "ROOT_PROBLEM",
+    "OBSERVED_FAILURE_OR_CURRENT_GAP",
+    "GENUINE_UNOWNED_RESIDUAL",
+    "CONSUMER",
+    "ENGINEERING_PAYOFF",
+    "TRIGGER",
+    "NON_TRIGGER_CHEAP_PATH",
+    "AUTHORITY",
+    "STATE",
+    "NATIVE_OWNER",
+    "ORDERED_WORK",
+    "CONTROLS",
+    "ANTI_GAMING",
+    "NO_REGRESSION",
+    "NO_BLOAT",
+    "ROLLBACK_RETIREMENT",
+    "PACKAGE_REACHABILITY",
+    "BEHAVIOURAL_ACCEPTANCE",
+    "TERMINAL_ACCEPTANCE",
+    "ACCEPTANCE_INHERITANCE",
+    "COLD_REVIEW"
+  ],
+  "properties": {
+    "SCHEMA": {
+      "const": "implementaudit-v0410-rxx-admission-v1"
+    },
+    "RXX_ID": {
+      "oneOf": [
+        {
+          "const": "UNALLOCATED"
+        },
+        {
+          "type": "string",
+          "pattern": "^R[0-9]{2,}$"
+        }
+      ]
+    },
+    "DISPOSITION": {
+      "enum": [
+        "CANDIDATE_PENDING_RELEASED_V0400_EVIDENCE",
+        "NEW_RXX_REQUIRED",
+        "AMEND_EXISTING_RXX",
+        "COMPOSED_EXISTING_OWNERS",
+        "NO_RXX_REQUIRED",
+        "REJECT_DUPLICATE_OR_WEAKER",
+        "UNRESOLVED"
+      ]
+    },
+    "SOURCE_DELTA_REQUIRED": {
+      "enum": [
+        "DEFER_TO_V0410_BASELINE",
+        "YES",
+        "NO"
+      ]
+    },
+    "CURRENT_IMPLEMENTATION_ALREADY_SATISFIES": {
+      "enum": [
+        "DEFER_TO_V0410_BASELINE",
+        "YES",
+        "NO",
+        "PARTIAL"
+      ]
+    },
+    "SOURCE_PROPERTY_KEYS": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z0-9_]+::[^:]+$"
+      }
+    },
+    "GENEALOGY_EXISTING_RXXS": {
+      "$ref": "#/$defs/deferredStringArray"
+    },
+    "OVERLAPPING_EXISTING_RXXS": {
+      "$ref": "#/$defs/deferredStringArray"
+    },
+    "DEPENDENCY_RXXS": {
+      "$ref": "#/$defs/deferredStringArray"
+    },
+    "AUTHORITY_NEIGHBOURS": {
+      "$ref": "#/$defs/deferredStringArray"
+    },
+    "SUPERSEDED_ASSUMPTIONS": {
+      "$ref": "#/$defs/deferredStringArray"
+    },
+    "CONFLICTS": {
+      "$ref": "#/$defs/deferredStringArray"
+    },
+    "REQUIRED_AMENDMENTS_TO_OLDER_RXXS": {
+      "$ref": "#/$defs/deferredStringArray"
+    },
+    "WHY_THIS_IS_NOT_MERELY_DUPLICATE_OF_EXISTING_RXXS": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "ROOT_PROBLEM": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "OBSERVED_FAILURE_OR_CURRENT_GAP": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "GENUINE_UNOWNED_RESIDUAL": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "CONSUMER": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "ENGINEERING_PAYOFF": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "TRIGGER": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "NON_TRIGGER_CHEAP_PATH": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "AUTHORITY": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "STATE": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "NATIVE_OWNER": {
+      "$ref": "#/$defs/deferredText"
+    },
+    "ORDERED_WORK": {
+      "$ref": "#/$defs/deferredStringArray"
+    },
+    "CONTROLS": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "POSITIVE",
+        "NEGATIVE",
+        "BOUNDARY",
+        "ADJACENT",
+        "HELD_OUT"
+      ],
+      "properties": {
+        "POSITIVE": {
+          "$ref": "#/$defs/deferredStringArray"
+        },
+        "NEGATIVE": {
+          "$ref": "#/$defs/deferredStringArray"
+        },
+        "BOUNDARY": {
+          "$ref": "#/$defs/deferredStringArray"
+        },
+        "ADJACENT": {
+          "$ref": "#/$defs/deferredStringArray"
+        },
+        "HELD_OUT": {
+          "$ref": "#/$defs/deferredStringArray"
+        }
+      }
+    },
+    "ANTI_GAMING": {
+      "$ref": "#/$defs/deferredStringArray"
+    },
+    "NO_REGRESSION": {
+      "$ref": "#/$defs/deferredStringArray"
+    },
+    "NO_BLOAT": {
+      "$ref": "#/$defs/deferredStringArray"
+    },
+    "ROLLBACK_RETIREMENT": {
+      "$ref": "#/$defs/deferredStringArray"
+    },
+    "PACKAGE_REACHABILITY": {
+      "$ref": "#/$defs/deferredStringArray"
+    },
+    "BEHAVIOURAL_ACCEPTANCE": {
+      "$ref": "#/$defs/deferredStringArray"
+    },
+    "TERMINAL_ACCEPTANCE": {
+      "$ref": "#/$defs/deferredStringArray"
+    },
+    "ACCEPTANCE_INHERITANCE": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/inheritanceRow"
+      }
+    },
+    "COLD_REVIEW": {
+      "enum": [
+        "DEFER_TO_V0410_BASELINE",
+        "NOT_REVIEWED",
+        "PASS",
+        "GAP_REVISE",
+        "BLOCKED"
+      ]
+    }
+  },
+  "$defs": {
+    "deferredText": {
+      "oneOf": [
+        {
+          "const": "DEFER_TO_V0410_BASELINE"
+        },
+        {
+          "type": "string",
+          "minLength": 1
+        }
+      ]
+    },
+    "deferredStringArray": {
+      "oneOf": [
+        {
+          "const": "DEFER_TO_V0410_BASELINE"
+        },
+        {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      ]
+    },
+    "inheritanceRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "NEW_REQUIREMENT",
+        "EXISTING_OWNERS",
+        "EXISTING_ACCEPTANCE_INHERITED",
+        "ADDITIONAL_FAILURE_MODE",
+        "ADDITIONAL_DISCRIMINATOR",
+        "ADDITIONAL_ACCEPTANCE_BURDEN"
+      ],
+      "properties": {
+        "NEW_REQUIREMENT": {
+          "type": "string",
+          "minLength": 1
+        },
+        "EXISTING_OWNERS": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "EXISTING_ACCEPTANCE_INHERITED": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ADDITIONAL_FAILURE_MODE": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ADDITIONAL_DISCRIMINATOR": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ADDITIONAL_ACCEPTANCE_BURDEN": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

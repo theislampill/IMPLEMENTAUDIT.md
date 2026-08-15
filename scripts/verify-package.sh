@@ -741,6 +741,7 @@ bash tests/run-root-validation.test.sh
 bash tests/custody-append.test.sh
 bash tests/docs-portal.test.sh
 bash tests/genealogy-corpus.test.sh
+bash tests/v0410-reabsorption-preparation.test.sh
 bash scripts/check-validation-registry.sh
 bash tests/validation-registry.test.sh
 bash scripts/build-release-asset.sh --check
