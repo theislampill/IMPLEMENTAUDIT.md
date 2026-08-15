@@ -215,6 +215,19 @@ nonclaim = (
 )
 if nonclaim not in report_flat:
     raise SystemExit("release report does not preserve the native-host nonclaim")
+required_skills = contract["required_skills"]
+governor = contract["public_governor"]
+children = [skill["name"] for skill in contract["internal_skills"]]
+if required_skills != [governor, *children] or len(children) != 4:
+    raise SystemExit("package contract does not expose one governor plus four children")
+for surface_name, surface in (("release report", report_flat), ("audit trail", page)):
+    if "one public/default governor and four child skills" not in surface:
+        raise SystemExit(f"{surface_name} does not state the current governor/child population")
+    for skill in required_skills:
+        if skill not in surface:
+            raise SystemExit(f"{surface_name} omits required skill {skill}")
+    if "zero v0.4 child skills" in surface or "one required skill" in surface:
+        raise SystemExit(f"{surface_name} retains the superseded zero-child topology")
 PY
 then
   ok "release report and portal bind both projections without preclaiming final bytes or native hosts"
