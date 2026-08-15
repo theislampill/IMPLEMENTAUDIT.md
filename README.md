@@ -1283,8 +1283,9 @@ bash scripts/install-codex-from-release.sh \
   --version 0.4.0
 ```
 
-Only after v0.4.0.0 is published and independently read back may this public-tag
-form be treated as current; until then, use the locally qualified asset route:
+Only after v0.4.0.0 is published and independently read back may the following
+public-tag form be treated as current; until then, use the locally qualified
+asset route shown above:
 
 ```bash
 bash scripts/install-codex-from-release.sh \
