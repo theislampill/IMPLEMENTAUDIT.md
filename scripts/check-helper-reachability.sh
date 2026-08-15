@@ -331,8 +331,12 @@ if not census_only:
         probe_job = _KillOnCloseJob()
         probe_job.assign(probe)
     timed_out = False
+    # The candidate's production rehearsal remains bounded to 10 seconds by
+    # run_phase_with_timeout. This outer envelope also covers copying the
+    # packaged skill population and verifier-owned setup/cleanup on slower hosts.
+    outer_probe_timeout = 20
     try:
-        probe_stdout, probe_stderr = probe.communicate(timeout=12)
+        probe_stdout, probe_stderr = probe.communicate(timeout=outer_probe_timeout)
     except subprocess.TimeoutExpired:
         timed_out = True
         if os.name == "nt":
@@ -361,7 +365,9 @@ if not census_only:
     diagnostic = probe_stderr.decode("utf-8", errors="replace")[-8192:]
     diagnostic = re.sub(r"(?im)^([A-Z_]*(?:TOKEN|SECRET|PASSWORD|API_KEY)[A-Z_]*=).*?$", r"\1<redacted>", diagnostic)
     if timed_out:
-        raise SystemExit("check-helper-reachability: candidate-bound R30 rehearsal probe timed out after 12s" +
+        raise SystemExit(
+            "check-helper-reachability: candidate-bound R30 rehearsal probe "
+            f"timed out after {outer_probe_timeout}s" +
                          ("\n" + diagnostic if diagnostic else ""))
     if probe.returncode != 0:
         raise SystemExit("check-helper-reachability: candidate-bound R30 rehearsal probe failed" +
