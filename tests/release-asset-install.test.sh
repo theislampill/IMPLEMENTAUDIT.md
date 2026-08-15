@@ -15,6 +15,136 @@ else
   exit 1
 fi
 
+fail() {
+  printf 'release-asset-install.test: %s\n' "$*" >&2
+  exit 1
+}
+
+install_codex() {
+  local install_home="$1"
+  shift
+  bash scripts/install-codex-from-release.sh \
+    --asset "$asset" \
+    --checksum "$checksums" \
+    --codex-home "$install_home" \
+    --version 0.4.0 \
+    "$@"
+}
+
+expect_install_failure() {
+  local label="$1"
+  shift
+  if "$@" >"$tmp_parent/rejected.out" 2>&1; then
+    fail "$label unexpectedly passed"
+  fi
+}
+
+tree_digest() {
+  "${py_cmd[@]}" - "$1" <<'PY'
+import hashlib
+import os
+import stat
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+digest = hashlib.sha256()
+if not root.exists():
+    digest.update(b"<absent>\0")
+else:
+    for path in sorted(root.rglob("*"), key=lambda item: item.relative_to(root).as_posix()):
+        relative = path.relative_to(root).as_posix().encode("utf-8")
+        metadata = path.lstat()
+        digest.update(relative + b"\0")
+        digest.update(f"{stat.S_IMODE(metadata.st_mode):04o}".encode("ascii") + b"\0")
+        if path.is_symlink():
+            digest.update(b"L\0" + os.readlink(path).encode("utf-8") + b"\0")
+        elif path.is_dir():
+            digest.update(b"D\0")
+        elif path.is_file():
+            digest.update(b"F\0" + hashlib.sha256(path.read_bytes()).digest())
+        else:
+            digest.update(b"O\0")
+print(digest.hexdigest())
+PY
+}
+
+path_identity() {
+  "${py_cmd[@]}" - "$1" <<'PY'
+import sys
+from pathlib import Path
+
+metadata = Path(sys.argv[1]).stat()
+print(f"{metadata.st_dev}:{metadata.st_ino}:{metadata.st_ctime_ns}")
+PY
+}
+
+rewrite_valid_predecessor() {
+  local target="$1" version="$2" witness="${3:-}" source_commit="${4:-}" package_name="${5:-}"
+  "${py_cmd[@]}" - "$target" "$version" "$witness" "$source_commit" "$package_name" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+target = Path(sys.argv[1])
+version = sys.argv[2]
+witness = sys.argv[3]
+source_commit = sys.argv[4]
+package_name = sys.argv[5]
+package_path = target / "IMPLEMENTAUDIT_PACKAGE.json"
+inventory_path = target / "IMPLEMENTAUDIT_INVENTORY.json"
+package = json.loads(package_path.read_text(encoding="utf-8"))
+inventory = json.loads(inventory_path.read_text(encoding="utf-8"))
+package["runtime_version"] = version
+inventory["runtime_version"] = version
+if source_commit:
+    inventory["source"]["commit"] = source_commit
+if package_name:
+    package["package_name"] = package_name
+    inventory["package_name"] = package_name
+package_path.write_text(
+    json.dumps(package, indent=2) + "\n", encoding="utf-8", newline="\n"
+)
+if witness:
+    (target / "PREDECESSOR-WITNESS.txt").write_text(
+        witness + "\n", encoding="utf-8", newline="\n"
+    )
+members = []
+for path in sorted(target.rglob("*"), key=lambda item: item.relative_to(target).as_posix()):
+    if not path.is_file() or path == inventory_path:
+        continue
+    data = path.read_bytes()
+    members.append({
+        "path": path.relative_to(target).as_posix(),
+        "bytes": len(data),
+        "sha256": hashlib.sha256(data).hexdigest(),
+    })
+inventory["members"] = members
+inventory_path.write_text(
+    json.dumps(inventory, indent=2, sort_keys=True) + "\n",
+    encoding="utf-8",
+    newline="\n",
+)
+PY
+}
+
+assert_no_transaction_residue() {
+  "${py_cmd[@]}" - "$1" <<'PY'
+import sys
+from pathlib import Path
+
+skills_root = Path(sys.argv[1]) / "skills"
+residue = sorted(
+    path.name
+    for pattern in (".implementaudit-stage-*", ".implementaudit-backup-*")
+    for path in skills_root.glob(pattern)
+)
+if residue:
+    raise SystemExit(f"stale standalone install transaction residue: {residue}")
+PY
+}
+
 tmp_parent="$(mktemp -d)"
 trap 'rm -rf "$tmp_parent"' EXIT
 
@@ -52,6 +182,7 @@ for file in \
   scripts/detect-env.sh \
   scripts/detect-stack.sh \
   scripts/repo-state.sh \
+  scripts/resolve-internal-skill.py \
   scripts/summarize-repo.sh \
   scripts/validate-audit-spec.sh \
   scripts/validate-phase.sh \
@@ -132,6 +263,89 @@ if [ -e "$installed/IMPLEMENTAUDIT.md" ]; then
   printf 'release-asset-install.test: root behavior file must not be installed\n' >&2
   exit 1
 fi
+
+# An existing standalone target is an update predecessor, not disposable
+# staging. It must be exact before any transaction path is created.
+partial_home="$tmp_parent/partial predecessor home"
+partial_target="$partial_home/skills/implementaudit"
+mkdir -p "$partial_target/nested"
+printf '%s\n' 'stale partial predecessor' > "$partial_target/nested/witness.txt"
+partial_before="$(tree_digest "$partial_target")"
+expect_install_failure "stale partial predecessor" install_codex "$partial_home"
+[ "$(tree_digest "$partial_target")" = "$partial_before" ] \
+  || fail "rejected stale partial predecessor was not preserved exactly"
+assert_no_transaction_residue "$partial_home"
+
+# A self-consistent inventory for another package role is not an admissible
+# predecessor and must be rejected before update policy or staging begins.
+foreign_home="$tmp_parent/foreign package predecessor home"
+install_codex "$foreign_home" >"$tmp_parent/foreign-setup.out"
+foreign_target="$foreign_home/skills/implementaudit"
+rewrite_valid_predecessor "$foreign_target" 0.3.9 "" "" not-implementaudit
+foreign_before="$(tree_digest "$foreign_target")"
+expect_install_failure "foreign package predecessor" install_codex "$foreign_home"
+[ "$(tree_digest "$foreign_target")" = "$foreign_before" ] \
+  || fail "foreign package rejection changed its predecessor"
+assert_no_transaction_residue "$foreign_home"
+
+# Reinstalling the exact package is a no-op: content and filesystem identity
+# remain unchanged, proving the target was not deleted and recopied.
+idempotent_before="$(tree_digest "$installed")"
+idempotent_path_before="$(path_identity "$installed")"
+install_codex "$codex_home" >"$tmp_parent/idempotent.out"
+[ "$(tree_digest "$installed")" = "$idempotent_before" ] \
+  || fail "exact reinstall changed installed content"
+[ "$(path_identity "$installed")" = "$idempotent_path_before" ] \
+  || fail "exact reinstall churned the installed target"
+assert_no_transaction_residue "$codex_home"
+
+# The same runtime label with a different exact package identity is neither a
+# no-op nor an authorized replacement.
+same_version_home="$tmp_parent/same version changed identity home"
+install_codex "$same_version_home" >"$tmp_parent/same-version-setup.out"
+same_version_target="$same_version_home/skills/implementaudit"
+rewrite_valid_predecessor \
+  "$same_version_target" 0.4.0 "" ffffffffffffffffffffffffffffffffffffffff
+same_version_before="$(tree_digest "$same_version_target")"
+expect_install_failure "same-version changed identity" install_codex "$same_version_home"
+[ "$(tree_digest "$same_version_target")" = "$same_version_before" ] \
+  || fail "same-version identity rejection changed its predecessor"
+assert_no_transaction_residue "$same_version_home"
+
+# Downgrades are rejected by default and require the explicit reviewed flag.
+downgrade_home="$tmp_parent/downgrade home"
+install_codex "$downgrade_home" >"$tmp_parent/downgrade-setup.out"
+downgrade_target="$downgrade_home/skills/implementaudit"
+rewrite_valid_predecessor "$downgrade_target" 0.5.0 "later predecessor witness"
+downgrade_before="$(tree_digest "$downgrade_target")"
+expect_install_failure "unauthorized downgrade" install_codex "$downgrade_home"
+[ "$(tree_digest "$downgrade_target")" = "$downgrade_before" ] \
+  || fail "unauthorized downgrade changed its predecessor"
+install_codex "$downgrade_home" --allow-downgrade >"$tmp_parent/downgrade-approved.out"
+[ "$(tree_digest "$downgrade_target")" = "$idempotent_before" ] \
+  || fail "reviewed downgrade did not install the exact incoming package"
+assert_no_transaction_residue "$downgrade_home"
+
+# Each scoped failure point must preserve the exact validated predecessor,
+# including the shared internal-skill resolver, and remove owned transaction
+# paths. remove-staged-member specifically proves staged validation precedes
+# swapping; post-readback proves rollback after the incoming target is visible.
+for fault in remove-staged-member before-swap during-swap post-readback; do
+  fault_home="$tmp_parent/fault $fault home"
+  install_codex "$fault_home" >"$tmp_parent/fault-setup-$fault.out"
+  fault_target="$fault_home/skills/implementaudit"
+  rewrite_valid_predecessor "$fault_target" 0.3.9 "$fault predecessor witness"
+  fault_before="$(tree_digest "$fault_target")"
+  if IMPLEMENTAUDIT_CODEX_INSTALL_FAULT="$fault" \
+    install_codex "$fault_home" >"$tmp_parent/fault-$fault.out" 2>&1; then
+    fail "fault injection $fault unexpectedly passed"
+  fi
+  [ "$(tree_digest "$fault_target")" = "$fault_before" ] \
+    || fail "fault injection $fault did not restore the exact predecessor"
+  [ -f "$fault_target/scripts/resolve-internal-skill.py" ] \
+    || fail "fault injection $fault lost the predecessor resolver helper"
+  assert_no_transaction_residue "$fault_home"
+done
 
 # The standalone direction rejects a same-identity canonical plugin sibling.
 ambiguous_home="$tmp_parent/ambiguous codex home"

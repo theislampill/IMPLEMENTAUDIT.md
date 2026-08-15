@@ -39,6 +39,7 @@
         "load-event-schema",
         "baseline-status",
         "baseline-head",
+        "baseline-tree",
         "activate-runtime",
         "read",
         "search"

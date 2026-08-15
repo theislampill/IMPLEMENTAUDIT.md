@@ -184,7 +184,7 @@ def phase(context: dict[str, object]) -> str:
     actions = completed_actions(context)
     return (
         "post-baseline"
-        if {"baseline-status", "baseline-head"}.issubset(actions)
+        if {"baseline-status", "baseline-head", "baseline-tree"}.issubset(actions)
         else "pre-baseline"
     )
 
@@ -326,10 +326,18 @@ def run_git(context: dict[str, object], action: str, command: list[str]) -> None
         encoding="utf-8",
         errors="replace",
     )
-    output = completed.stdout.rstrip("\n")
+    output = completed.stdout.rstrip("\r\n")
     result = "completed" if completed.returncode == 0 else "blocked"
-    if action == "baseline-head" and output != context["candidate_commit"]:
+    if action == "baseline-status" and output:
         result = "blocked"
+    elif action == "baseline-head" and output != context["candidate_commit"]:
+        result = "blocked"
+    elif action == "baseline-tree" and output != context["candidate_tree"]:
+        result = "blocked"
+    content_identity = hashlib.sha256(output.encode("utf-8")).hexdigest()
+    target_identity = (
+        output if action in {"baseline-head", "baseline-tree"} else content_identity
+    )
     append_event(
         context,
         actor="runner",
@@ -338,9 +346,9 @@ def run_git(context: dict[str, object], action: str, command: list[str]) -> None
         phase="pre-baseline",
         result=result,
         correlation_id=action,
-        target_identity=hashlib.sha256(output.encode("utf-8")).hexdigest(),
+        target_identity=target_identity,
         target_path=str(source_root),
-        content_sha256=hashlib.sha256(output.encode("utf-8")).hexdigest(),
+        content_sha256=content_identity,
     )
     if output:
         emit_text(output)
@@ -351,8 +359,8 @@ def run_git(context: dict[str, object], action: str, command: list[str]) -> None
 def cmd_activate(args: argparse.Namespace) -> None:
     context = load_context(Path(args.context))
     actions = completed_actions(context)
-    if not {"baseline-status", "baseline-head"}.issubset(actions):
-        fail("temp runtime activation is not permitted before both baseline events")
+    if not {"baseline-status", "baseline-head", "baseline-tree"}.issubset(actions):
+        fail("temp runtime activation is not permitted before all baseline events")
     path = Path(args.path).resolve(strict=True)
     runtime_carrier = Path(str(context["runtime_carrier"])).resolve(strict=True)
     role = path_role(context, path)
@@ -389,7 +397,9 @@ def read_target(args: argparse.Namespace, action: str) -> None:
     resolved_for_gate = path.resolve(strict=False)
     actions = completed_actions(context)
     current_phase = phase(context)
-    if not {"baseline-status", "baseline-head", "activate-runtime"}.issubset(actions):
+    if not {
+        "baseline-status", "baseline-head", "baseline-tree", "activate-runtime"
+    }.issubset(actions):
         append_event(
             context,
             actor="model",
@@ -479,8 +489,9 @@ def parser() -> argparse.ArgumentParser:
         init.add_argument(f"--{name}", required=True)
     init.set_defaults(handler=cmd_init)
     for name, command in (
-        ("baseline-status", ["git", "status", "--short", "--branch", "--untracked-files=all"]),
+        ("baseline-status", ["git", "status", "--porcelain=v2", "--untracked-files=all"]),
         ("baseline-head", ["git", "rev-parse", "HEAD"]),
+        ("baseline-tree", ["git", "rev-parse", "HEAD^{tree}"]),
     ):
         sub = commands.add_parser(name)
         sub.add_argument("--context", required=True)

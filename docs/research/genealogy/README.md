@@ -4,6 +4,10 @@ This directory preserves a repository-neutral research corpus covering four engi
 
 The corpus is research evidence, not implementation authority. It does not assign properties to a target repository, prescribe a runtime topology, or establish release status. `CORPUS_MANIFEST.json` records file identities; `PROPERTY_MASTER_INDEX.json` provides navigational locators back to the authoritative frozen property ledgers.
 
+This retention layer is included in the v0.4.0.0 repository/source state,
+remains excluded from both plugin and standalone runtime payloads, and does not
+activate the deferred v0.4.1 reabsorption campaign.
+
 ## Trifectas
 
 | Trifecta | Lineages | Properties |

@@ -1,5 +1,6 @@
-{"schema":"implementaudit.observed-action.v1","sequence":1,"correlation_id":"baseline-status","actor":"runner","action":"baseline-status","target_role":"source","result":"completed"}
-{"schema":"implementaudit.observed-action.v1","sequence":2,"correlation_id":"baseline-head","actor":"runner","action":"baseline-head","target_role":"source","result":"completed"}
-{"schema":"implementaudit.observed-action.v1","sequence":3,"correlation_id":"activate-runtime","actor":"host","action":"activate-runtime","target_role":"temp-installed-runtime","result":"completed"}
-{"schema":"implementaudit.observed-action.v1","sequence":4,"correlation_id":"read-contract","actor":"model","action":"read","target_role":"temp-installed-runtime","result":"completed"}
-{"schema":"implementaudit.observed-action.v1","sequence":5,"correlation_id":"search-source","actor":"model","action":"search","target_role":"source","result":"completed"}
+{"schema":"implementaudit.observed-action.v1","sequence":1,"correlation_id":"baseline-status","actor":"runner","action":"baseline-status","target_role":"source","result":"completed","command":"git status --porcelain=v2 --untracked-files=all"}
+{"schema":"implementaudit.observed-action.v1","sequence":2,"correlation_id":"baseline-head","actor":"runner","action":"baseline-head","target_role":"source","result":"completed","command":"git rev-parse HEAD"}
+{"schema":"implementaudit.observed-action.v1","sequence":3,"correlation_id":"baseline-tree","actor":"runner","action":"baseline-tree","target_role":"source","result":"completed","command":"git rev-parse HEAD^{tree}"}
+{"schema":"implementaudit.observed-action.v1","sequence":4,"correlation_id":"activate-runtime","actor":"host","action":"activate-runtime","target_role":"temp-installed-runtime","result":"completed"}
+{"schema":"implementaudit.observed-action.v1","sequence":5,"correlation_id":"read-contract","actor":"model","action":"read","target_role":"temp-installed-runtime","result":"completed"}
+{"schema":"implementaudit.observed-action.v1","sequence":6,"correlation_id":"search-source","actor":"model","action":"search","target_role":"source","result":"completed"}

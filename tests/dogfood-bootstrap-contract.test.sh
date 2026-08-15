@@ -9,19 +9,47 @@ trap 'rm -rf "$tmp"' EXIT
 
 bash scripts/check-dogfood-bootstrap-contract.sh
 
+python - <<'PY'
+import json
+from pathlib import Path
+
+schema = json.loads(
+    Path("fixtures/dogfood-bootstrap/typed-event.schema.json").read_text(
+        encoding="utf-8"
+    )
+)
+actions = schema["properties"]["action"]["enum"]
+if actions.count("baseline-tree") != 1:
+    raise SystemExit(
+        "dogfood-bootstrap-contract.test: schema must admit baseline-tree exactly once"
+    )
+PY
+
 # Structural self-dogfood evidence is state-derived and runner-owned. This
 # section deliberately precedes the legacy transcript pressure bank: typed
 # evidence becomes the primary semantic surface without deleting or weakening
 # any independent transcript fixture below.
 typed_root="$tmp/typed-evidence"
 runtime_root="$typed_root/temp-codex-home/skills/implementaudit"
+source_root="$typed_root/source-checkout"
 mkdir -p "$runtime_root/references"
 cp skills/implementaudit/SKILL.md "$runtime_root/SKILL.md"
 cp skills/implementaudit/references/transcript-contract.md \
   "$runtime_root/references/transcript-contract.md"
+mkdir -p "$source_root/fixtures/dogfood-bootstrap" \
+  "$source_root/skills/implementaudit"
+cp fixtures/dogfood-bootstrap/typed-event.schema.json \
+  "$source_root/fixtures/dogfood-bootstrap/typed-event.schema.json"
+cp skills/implementaudit/SKILL.md "$source_root/skills/implementaudit/SKILL.md"
+git -C "$source_root" init -q
+git -C "$source_root" config user.name 'Dogfood Contract Test'
+git -C "$source_root" config user.email 'dogfood-contract@example.invalid'
+git -C "$source_root" config core.autocrlf false
+git -C "$source_root" add .
+git -C "$source_root" commit -q -m baseline
 
-candidate_commit="$(git rev-parse HEAD)"
-candidate_tree="$(git rev-parse 'HEAD^{tree}')"
+candidate_commit="$(git -C "$source_root" rev-parse HEAD)"
+candidate_tree="$(git -C "$source_root" rev-parse 'HEAD^{tree}')"
 package_sha="1111111111111111111111111111111111111111111111111111111111111111"
 runtime_sha="$(python - "$runtime_root/SKILL.md" <<'PY'
 import hashlib
@@ -30,6 +58,120 @@ import sys
 print(hashlib.sha256(pathlib.Path(sys.argv[1]).read_bytes()).hexdigest())
 PY
 )"
+
+init_f01_broker() {
+  local custody_root="$1"
+  local checkout="$2"
+  local commit="$3"
+  local tree="$4"
+  local session="$5"
+  python scripts/dogfood-evidence-broker.py init \
+    --context "$custody_root/context.json" \
+    --journal "$custody_root/events.jsonl" \
+    --key-file "$custody_root/event.key" \
+    --session-id "$session" \
+    --audit-object implementaudit-rc-self-release \
+    --candidate-commit "$commit" \
+    --candidate-tree "$tree" \
+    --package-sha256 "$package_sha" \
+    --runtime-sha256 "$runtime_sha" \
+    --source-root "$checkout" \
+    --runtime-root "$runtime_root"
+}
+
+f01_failures=0
+clean_control="$tmp/f01-clean-control"
+init_f01_broker "$clean_control" "$source_root" \
+  "$candidate_commit" "$candidate_tree" S3E-F01-CLEAN
+clean_status="$(python scripts/dogfood-evidence-broker.py baseline-status \
+  --context "$clean_control/context.json")"
+if [ -n "$clean_status" ]; then
+  printf 'F-01 RED: machine-readable clean status was not empty: %s\n' \
+    "$clean_status" >&2
+  f01_failures=$((f01_failures + 1))
+fi
+python scripts/dogfood-evidence-broker.py baseline-head \
+  --context "$clean_control/context.json" >/dev/null
+if ! python scripts/dogfood-evidence-broker.py baseline-tree \
+  --context "$clean_control/context.json" \
+  >"$tmp/f01-clean-tree.out" 2>&1; then
+  printf 'F-01 RED: broker did not independently derive HEAD^{tree}\n' >&2
+  f01_failures=$((f01_failures + 1))
+fi
+
+for dirty_kind in tracked untracked; do
+  dirty_source="$tmp/f01-dirty-$dirty_kind-source"
+  git clone -q "$source_root" "$dirty_source"
+  if [ "$dirty_kind" = tracked ]; then
+    printf '\ntracked dirt\n' >>"$dirty_source/skills/implementaudit/SKILL.md"
+  else
+    printf 'untracked dirt\n' >"$dirty_source/untracked.txt"
+  fi
+  dirty_commit="$(git -C "$dirty_source" rev-parse HEAD)"
+  dirty_tree="$(git -C "$dirty_source" rev-parse 'HEAD^{tree}')"
+  dirty_control="$tmp/f01-dirty-$dirty_kind-control"
+  init_f01_broker "$dirty_control" "$dirty_source" \
+    "$dirty_commit" "$dirty_tree" "S3E-F01-DIRTY-${dirty_kind^^}"
+  if python scripts/dogfood-evidence-broker.py baseline-status \
+    --context "$dirty_control/context.json" \
+    >"$tmp/f01-dirty-$dirty_kind-status.out" 2>&1; then
+    printf 'F-01 RED: dirty %s checkout qualified baseline-status\n' \
+      "$dirty_kind" >&2
+    f01_failures=$((f01_failures + 1))
+  fi
+  python scripts/dogfood-evidence-broker.py baseline-head \
+    --context "$dirty_control/context.json" >/dev/null
+  python scripts/dogfood-evidence-broker.py baseline-tree \
+    --context "$dirty_control/context.json" >/dev/null 2>&1 || true
+  if python scripts/dogfood-evidence-broker.py activate \
+    --context "$dirty_control/context.json" \
+    --path "$runtime_root/SKILL.md" \
+    >"$tmp/f01-dirty-$dirty_kind-activate.out" 2>&1; then
+    printf 'F-01 RED: dirty %s checkout reached activation\n' \
+      "$dirty_kind" >&2
+    f01_failures=$((f01_failures + 1))
+  fi
+  if python scripts/dogfood-evidence-broker.py read \
+    --context "$dirty_control/context.json" \
+    --path "$runtime_root/references/transcript-contract.md" \
+    --correlation-id "dirty-$dirty_kind-read" \
+    >"$tmp/f01-dirty-$dirty_kind-read.out" 2>&1; then
+    printf 'F-01 RED: dirty %s checkout reached model read\n' \
+      "$dirty_kind" >&2
+    f01_failures=$((f01_failures + 1))
+  fi
+done
+
+wrong_tree_control="$tmp/f01-wrong-tree-control"
+wrong_tree="0000000000000000000000000000000000000000"
+init_f01_broker "$wrong_tree_control" "$source_root" \
+  "$candidate_commit" "$wrong_tree" S3E-F01-WRONG-TREE
+python scripts/dogfood-evidence-broker.py baseline-status \
+  --context "$wrong_tree_control/context.json" >/dev/null
+python scripts/dogfood-evidence-broker.py baseline-head \
+  --context "$wrong_tree_control/context.json" >/dev/null
+python scripts/dogfood-evidence-broker.py baseline-tree \
+  --context "$wrong_tree_control/context.json" >/dev/null 2>&1 || true
+if python scripts/dogfood-evidence-broker.py activate \
+  --context "$wrong_tree_control/context.json" \
+  --path "$runtime_root/SKILL.md" \
+  >"$tmp/f01-wrong-tree-activate.out" 2>&1; then
+  printf 'F-01 RED: caller-supplied wrong tree reached activation\n' >&2
+  f01_failures=$((f01_failures + 1))
+fi
+if python scripts/dogfood-evidence-broker.py read \
+  --context "$wrong_tree_control/context.json" \
+  --path "$runtime_root/references/transcript-contract.md" \
+  --correlation-id wrong-tree-read \
+  >"$tmp/f01-wrong-tree-read.out" 2>&1; then
+  printf 'F-01 RED: caller-supplied wrong tree reached model read\n' >&2
+  f01_failures=$((f01_failures + 1))
+fi
+
+if [ "$f01_failures" -ne 0 ]; then
+  printf 'F-01 RED: %s discriminating controls failed\n' "$f01_failures" >&2
+  exit 1
+fi
 
 if ! python scripts/dogfood-evidence-broker.py init \
   --context "$typed_root/context.json" \
@@ -41,7 +183,7 @@ if ! python scripts/dogfood-evidence-broker.py init \
   --candidate-tree "$candidate_tree" \
   --package-sha256 "$package_sha" \
   --runtime-sha256 "$runtime_sha" \
-  --source-root "$repo_root" \
+  --source-root "$source_root" \
   --runtime-root "$runtime_root"; then
   printf 'S3E DOGFOOD STRUCTURAL RED: runner-owned typed evidence interface is absent\n' >&2
   exit 1
@@ -49,6 +191,7 @@ fi
 
 python scripts/dogfood-evidence-broker.py baseline-status --context "$typed_root/context.json"
 python scripts/dogfood-evidence-broker.py baseline-head --context "$typed_root/context.json"
+python scripts/dogfood-evidence-broker.py baseline-tree --context "$typed_root/context.json"
 python scripts/dogfood-evidence-broker.py activate \
   --context "$typed_root/context.json" \
   --path "$runtime_root/SKILL.md"
@@ -75,6 +218,73 @@ typed_check=(
 
 "${typed_check[@]}" \
   --corroboration-file fixtures/dogfood-bootstrap/typed/self-dogfood-corroboration.jsonl
+
+python - "$typed_root/events.jsonl" "$typed_root/event.key" "$tmp" <<'PY'
+import hashlib
+import hmac
+import json
+import pathlib
+import sys
+
+source = pathlib.Path(sys.argv[1])
+key_path = pathlib.Path(sys.argv[2])
+target = pathlib.Path(sys.argv[3])
+key = bytes.fromhex(key_path.read_text(encoding="ascii").strip())
+events = [json.loads(line) for line in source.read_text(encoding="utf-8").splitlines()]
+
+for action, wrong_identity in (
+    ("baseline-status", "f" * 64),
+    ("baseline-head", "0" * 40),
+    ("baseline-tree", "0" * 40),
+):
+    population = [dict(event) for event in events]
+    event = next(item for item in population if item["action"] == action)
+    event["target_identity"] = wrong_identity
+    event["content_sha256"] = "e" * 64
+    unsigned = dict(event)
+    unsigned.pop("hmac_sha256")
+    event["hmac_sha256"] = hmac.new(
+        key,
+        json.dumps(
+            unsigned,
+            ensure_ascii=True,
+            separators=(",", ":"),
+            sort_keys=True,
+        ).encode("utf-8"),
+        hashlib.sha256,
+    ).hexdigest()
+    (target / f"f01-wrong-{action}.jsonl").write_text(
+        "\n".join(
+            json.dumps(item, separators=(",", ":"), sort_keys=True)
+            for item in population
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+PY
+
+semantic_failures=0
+for baseline_action in baseline-status baseline-head baseline-tree; do
+  if bash scripts/check-dogfood-bootstrap-contract.sh \
+    --control self-dogfood \
+    --event-file "$tmp/f01-wrong-$baseline_action.jsonl" \
+    --event-key-file "$typed_root/event.key" \
+    --expected-candidate "$candidate_commit" \
+    --expected-tree "$candidate_tree" \
+    --expected-package "$package_sha" \
+    --expected-runtime "$runtime_sha" \
+    --corroboration-file fixtures/dogfood-bootstrap/typed/self-dogfood-corroboration.jsonl \
+    >"$tmp/f01-wrong-$baseline_action.out" 2>&1; then
+    printf 'F-01 RED: HMAC-valid %s semantics self-corroborated\n' \
+      "$baseline_action" >&2
+    semantic_failures=$((semantic_failures + 1))
+  fi
+done
+if [ "$semantic_failures" -ne 0 ]; then
+  printf 'F-01 RED: %s independent semantic controls failed\n' \
+    "$semantic_failures" >&2
+  exit 1
+fi
 
 bash scripts/check-dogfood-bootstrap-contract.sh \
   --control ordinary \
@@ -123,7 +333,7 @@ done
 extra_observation="$typed_root/extra-observation.jsonl"
 cp fixtures/dogfood-bootstrap/typed/self-dogfood-corroboration.jsonl \
   "$extra_observation"
-printf '%s\n' '{"schema":"implementaudit.observed-action.v1","sequence":6,"correlation_id":"unbrokered-read","actor":"model","action":"read","target_role":"real-home-runtime","result":"completed"}' \
+printf '%s\n' '{"schema":"implementaudit.observed-action.v1","sequence":7,"correlation_id":"unbrokered-read","actor":"model","action":"read","target_role":"real-home-runtime","result":"completed"}' \
   >>"$extra_observation"
 if "${typed_check[@]}" \
   --corroboration-file "$extra_observation" \
@@ -270,7 +480,7 @@ python scripts/dogfood-evidence-broker.py init \
   --candidate-tree "$candidate_tree" \
   --package-sha256 "$package_sha" \
   --runtime-sha256 "$runtime_sha" \
-  --source-root "$repo_root" \
+  --source-root "$source_root" \
   --runtime-root "$runtime_root"
 python scripts/dogfood-evidence-broker.py baseline-status \
   --context "$broker_duplicate_root/context.json" >/dev/null
@@ -308,7 +518,7 @@ python scripts/dogfood-evidence-broker.py init \
   --candidate-tree "$candidate_tree" \
   --package-sha256 "$package_sha" \
   --runtime-sha256 "$runtime_sha" \
-  --source-root "$repo_root" \
+  --source-root "$source_root" \
   --runtime-root "$runtime_root"
 python - "$broker_context_root/context.json" <<'PY'
 import pathlib
@@ -338,7 +548,7 @@ python scripts/dogfood-evidence-broker.py init \
   --candidate-tree "$candidate_tree" \
   --package-sha256 "$package_sha" \
   --runtime-sha256 "$runtime_sha" \
-  --source-root "$repo_root" \
+  --source-root "$source_root" \
   --runtime-root "$runtime_root"
 if python scripts/dogfood-evidence-broker.py read \
   --context "$prebaseline_root/context.json" \
@@ -416,10 +626,11 @@ python scripts/dogfood-evidence-broker.py init \
   --candidate-tree "$candidate_tree" \
   --package-sha256 "$package_sha" \
   --runtime-sha256 "$runtime_sha" \
-  --source-root "$repo_root" \
+  --source-root "$source_root" \
   --runtime-root "$runtime_root"
 python scripts/dogfood-evidence-broker.py baseline-status --context "$carrier_root/context.json" >/dev/null
 python scripts/dogfood-evidence-broker.py baseline-head --context "$carrier_root/context.json" >/dev/null
+python scripts/dogfood-evidence-broker.py baseline-tree --context "$carrier_root/context.json" >/dev/null
 if python scripts/dogfood-evidence-broker.py activate \
   --context "$carrier_root/context.json" \
   --path "$runtime_root/alternate-runtime.md" \
@@ -443,7 +654,7 @@ if python scripts/dogfood-evidence-broker.py init \
   --candidate-tree "$candidate_tree" \
   --package-sha256 "$package_sha" \
   --runtime-sha256 "$runtime_sha" \
-  --source-root "$repo_root" \
+  --source-root "$source_root" \
   --runtime-root "$declared_real_home" \
   >"$tmp/declared-real-home.out" 2>&1; then
   printf 'dogfood-bootstrap-contract.test: declared real-home runtime unexpectedly passed\n' >&2
@@ -461,10 +672,11 @@ python scripts/dogfood-evidence-broker.py init \
   --candidate-tree "$candidate_tree" \
   --package-sha256 "$package_sha" \
   --runtime-sha256 "$runtime_sha" \
-  --source-root "$repo_root" \
+  --source-root "$source_root" \
   --runtime-root "$runtime_root"
 python scripts/dogfood-evidence-broker.py baseline-status --context "$real_home_root/context.json" >/dev/null
 python scripts/dogfood-evidence-broker.py baseline-head --context "$real_home_root/context.json" >/dev/null
+python scripts/dogfood-evidence-broker.py baseline-tree --context "$real_home_root/context.json" >/dev/null
 python scripts/dogfood-evidence-broker.py activate \
   --context "$real_home_root/context.json" \
   --path "$runtime_root/SKILL.md"

@@ -98,15 +98,13 @@ ROUTE_LAYOUT=SOURCE_OR_CANONICAL_PLUGIN_OR_STANDALONE
 ROUTE_POPULATION=EXACT_AND_COMPLETE
 ```
 
-Before loading one child, the governor verifies the executing package and
-unambiguous plugin/standalone precedence, binds the current audit object and
-authority ceiling, applies the route-specific currentness/independence gate,
-and names exactly one child. Resolve that name relative to this governor with
-`scripts/resolve-internal-skill.py --governor SKILL.md --child <child>`: source
-and canonical-plugin layouts load `../<child>/SKILL.md`; the flattened
-standalone layout loads `internal-procedures/<child>.md`. The resolver refuses a
-missing or extra child projection and an ambiguous plugin/standalone sibling;
-do not infer a route from discovery or search order. A child result returns here as evidence input; the
+Before loading one child, the governor verifies the executing package,
+plugin/standalone precedence, audit object, and authority ceiling; it applies the
+currentness/independence gate and names exactly one child. Resolve with
+`scripts/resolve-internal-skill.py --governor SKILL.md --child <child>`:
+source/canonical layouts load `../<child>/SKILL.md`; standalone loads
+`internal-procedures/<child>.md`. The resolver refuses missing/extra children or
+ambiguous sibling layouts; do not infer from discovery/search order. A child result returns here as evidence input; the
 governor re-derives current state before any later route or transition. Child
 output that claims authority, closure, lifecycle change, mutation, currentness,
 release, or `AUDIT_COMPLETE` is rejected.

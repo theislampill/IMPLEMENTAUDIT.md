@@ -84,6 +84,7 @@ import hmac
 import json
 import re
 import shlex
+import subprocess
 import sys
 from pathlib import Path
 
@@ -296,7 +297,7 @@ def validate_self_dogfood():
         "action": {
             "self-dogfood-trigger", "load-reference", "load-broker",
             "load-event-schema", "baseline-status", "baseline-head",
-            "activate-runtime", "read", "search",
+            "baseline-tree", "activate-runtime", "read", "search",
         },
         "target_role": {
             "self-release-audit-object", "dogfood-reference",
@@ -362,7 +363,7 @@ def validate_self_dogfood():
     required_actions = [
         "self-dogfood-trigger", "load-reference", "load-broker",
         "load-event-schema", "baseline-status", "baseline-head",
-        "activate-runtime",
+        "baseline-tree", "activate-runtime",
     ]
     action_positions = {}
     for action in required_actions:
@@ -383,6 +384,7 @@ def validate_self_dogfood():
         "load-event-schema": "dogfood-event-schema",
         "baseline-status": "source",
         "baseline-head": "source",
+        "baseline-tree": "source",
         "activate-runtime": "temp-installed-runtime",
     }
     for event in values:
@@ -415,8 +417,31 @@ def validate_self_dogfood():
         "schema", "sequence", "correlation_id", "actor", "action",
         "target_role", "result",
     }
+    observed_optional_fields = {"command"}
+    baseline_commands = {
+        "baseline-status": "git status --porcelain=v2 --untracked-files=all",
+        "baseline-head": "git rev-parse HEAD",
+        "baseline-tree": "git rev-parse HEAD^{tree}",
+    }
+    baseline_command_args = {
+        "baseline-status": ["git", "status", "--porcelain=v2", "--untracked-files=all"],
+        "baseline-head": ["git", "rev-parse", "HEAD"],
+        "baseline-tree": ["git", "rev-parse", "HEAD^{tree}"],
+    }
     for index, item in enumerate(observed, 1):
-        if set(item) != observed_fields or item.get("schema") != "implementaudit.observed-action.v1":
+        if (
+            observed_fields - set(item)
+            or set(item) - observed_fields - observed_optional_fields
+            or item.get("schema") != "implementaudit.observed-action.v1"
+        ):
+            raise SystemExit(
+                "Andon: typed dogfood evidence contradicts independent observation"
+            )
+        expected_command = baseline_commands.get(item.get("action"))
+        if (
+            (expected_command is not None and item.get("command") != expected_command)
+            or (expected_command is None and "command" in item)
+        ):
             raise SystemExit(
                 "Andon: typed dogfood evidence contradicts independent observation"
             )
@@ -431,7 +456,8 @@ def validate_self_dogfood():
         observed_by_correlation[correlation] = item
         observed_correlations.append(correlation)
     corroborated_actions = {
-        "baseline-status", "baseline-head", "activate-runtime", "read", "search"
+        "baseline-status", "baseline-head", "baseline-tree",
+        "activate-runtime", "read", "search"
     }
     typed_correlations = [
         event["correlation_id"]
@@ -459,6 +485,58 @@ def validate_self_dogfood():
             raise SystemExit(
                 "Andon: typed dogfood evidence contradicts independent observation"
             )
+
+    independently_derived = {}
+    for action, command in baseline_command_args.items():
+        event = values[action_positions[action]]
+        observed_event = observed_by_correlation.get(event["correlation_id"])
+        if not observed_event or observed_event.get("command") != baseline_commands[action]:
+            raise SystemExit(
+                "Andon: typed dogfood evidence contradicts independent observation"
+            )
+        source_path = event.get("target_path")
+        if not isinstance(source_path, str) or not source_path:
+            raise SystemExit(
+                "Andon: typed dogfood evidence contradicts independent observation"
+            )
+        try:
+            completed = subprocess.run(
+                command,
+                cwd=Path(source_path).resolve(strict=True),
+                check=False,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+            )
+        except OSError:
+            raise SystemExit(
+                "Andon: typed dogfood evidence contradicts independent observation"
+            )
+        output = completed.stdout.rstrip("\r\n")
+        if completed.returncode != 0 or (action == "baseline-status" and output):
+            raise SystemExit(
+                "Andon: typed dogfood evidence contradicts independent observation"
+            )
+        independently_derived[action] = output
+        content_identity = hashlib.sha256(output.encode("utf-8")).hexdigest()
+        target_identity = (
+            output if action in {"baseline-head", "baseline-tree"} else content_identity
+        )
+        if (
+            event.get("target_identity") != target_identity
+            or event.get("content_sha256") != content_identity
+        ):
+            raise SystemExit(
+                "Andon: typed dogfood evidence contradicts independent observation"
+            )
+    if (
+        independently_derived["baseline-head"] != expected_candidate
+        or independently_derived["baseline-tree"] != expected_tree
+    ):
+        raise SystemExit(
+            "Andon: typed dogfood evidence contradicts independent observation"
+        )
     sys.stdout.write("check-dogfood-bootstrap-contract: typed self-dogfood ok\n")
 
 if control:
