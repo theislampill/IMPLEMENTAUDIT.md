@@ -176,7 +176,9 @@ REQUIRED_CONCEPTS = [
     "IMPLEMENTAUDIT.plugin.zip",
     "package/implementaudit-package.json",
     ".codex-plugin/plugin.json",
-    "zero child skills",
+    "exactly four child skills",
+    "audit-implement",
+    "audit-andon",
     "--check --all dist dist/CHECKSUMS.txt",
 ]
 
@@ -323,8 +325,17 @@ def current_package_identity(root: Path) -> dict:
             fail(
                 f"package contract {label} {contract_value!r} does not match host manifests {manifest_value!r}"
             )
-    if contract.get("required_skills") != [contract.get("public_governor")]:
-        fail("package contract must declare exactly one governor and zero child skills")
+    expected_required = ["implementaudit", "audit-state", "audit-assess", "audit-implement", "audit-andon"]
+    expected_internal = [
+        {"name": "audit-state", "maintainer_only": False, "directly_invocable": False},
+        {"name": "audit-assess", "maintainer_only": False, "directly_invocable": False},
+        {"name": "audit-implement", "maintainer_only": True, "directly_invocable": False},
+        {"name": "audit-andon", "maintainer_only": False, "directly_invocable": True},
+    ]
+    if contract.get("required_skills") != expected_required:
+        fail("package contract must declare one governor and the exact four child skills")
+    if contract.get("internal_skills") != expected_internal:
+        fail("package contract internal skill metadata is incomplete or incoherent")
     return {
         "logical_package": contract.get("logical_package"),
         "package_name": contract.get("package_name"),
@@ -333,6 +344,7 @@ def current_package_identity(root: Path) -> dict:
         "public_governor": contract.get("public_governor"),
         "public_entrypoint": contract.get("public_entrypoint"),
         "required_skills": contract.get("required_skills"),
+        "internal_skills": contract.get("internal_skills"),
         "host_manifests": contract.get("host_manifests"),
         "generated_projections": contract.get("generated_projections"),
     }

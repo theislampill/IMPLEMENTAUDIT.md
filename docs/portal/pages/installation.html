@@ -9,10 +9,10 @@
         <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Skills CLI</em><span class="term-badge">source</span></div>
         <pre><span class="k-cyan">$ npx --yes skills add theislampill/IMPLEMENTAUDIT.md</span></pre>
       </div>
-      <p>This route follows the repository's current source and discovers the one skill <code>implementaudit</code>. It is distinct from the canonical plugin release artifact and from a checksum-verified GitHub release asset. It does not prove refresh behavior, auto-update, marketplace verification, release-byte identity, or host loading.</p>
+      <p>This route follows the repository's current source and may expose the public governor plus its four child skills to a capable host. Invoke <code>/implementaudit</code>; discovery is not routing or authority. <code>audit-state</code>, <code>audit-assess</code>, and <code>audit-implement</code> refuse direct entry; an explicit <code>audit-andon</code> cord-pull returns bounded cognition to its caller without new authority. This route is distinct from the canonical plugin release artifact and from a checksum-verified GitHub release asset. It does not prove refresh behavior, auto-update, marketplace verification, release-byte identity, or host loading.</p>
 
       <h2 id="plugin">Canonical dual-host plugin path</h2>
-      <p>Use the host's current native plugin installation route with <code>IMPLEMENTAUDIT.plugin.zip</code>, then verify that the expected host discovers <code>/implementaudit</code> at version <code>0.4.0</code>. The atomic package carries equal Codex and Claude manifests, package/inventory metadata, and one <code>skills/implementaudit/</code> governor with shared references, templates, and helper scripts. v0.4 has zero child skills.</p>
+      <p>Use the host's current native plugin installation route with <code>IMPLEMENTAUDIT.plugin.zip</code>, then verify that the expected host discovers <code>/implementaudit</code> at version <code>0.4.0</code>. The atomic package carries equal Codex and Claude manifests, package/inventory metadata, one <code>skills/implementaudit/</code> governor with shared references/templates/scripts, and exactly four child skills: <code>audit-state</code>, <code>audit-assess</code>, maintainer-only <code>audit-implement</code>, and dual-entry <code>audit-andon</code>.</p>
       <p>The repository helper below is intentionally limited to isolated staged-copy, update, rollback, inventory, and readback proof. The target must be a disposable directory containing <code>.implementaudit-isolated-host-root</code>; it is not a native host install command:</p>
       <div class="term-window example-console">
         <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Canonical plugin staged copy</em><span class="term-badge">local evidence</span></div>
@@ -44,19 +44,8 @@
 <span class="k-cyan">  --codex-home "$HOME/.codex" \</span>
 <span class="k-cyan">  --version 0.4.0</span></pre>
       </div>
-      <p>The local checksum check verifies artefact integrity when a checksum manifest is supplied.<br>The compatibility artifact is a flattened one-skill projection with package/inventory metadata and no host manifests. Final members, bytes, and SHA-256 come only from the fresh exact-tree build. These facts are not canonical-plugin install proof, a signature, attestation, SBOM, provenance chain, public-release claim, or host-load proof.</p>
-      <p>For a manual Codex copy from a checkout, repeat the copy when the package changes:</p>
-      <div class="term-window example-console">
-        <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Manual Codex copy</em><span class="term-badge">unix</span></div>
-        <pre><span class="k-cyan">$ mkdir -p ~/.codex/skills/implementaudit</span>
-<span class="k-cyan">$ cp -R skills/implementaudit/* ~/.codex/skills/implementaudit/</span></pre>
-      </div>
-      <p>On Windows PowerShell, the same shape is:</p>
-      <div class="term-window example-console">
-        <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Manual Codex copy</em><span class="term-badge">powershell</span></div>
-        <pre><span class="k-cyan">PS&gt; New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills\implementaudit" | Out-Null</span>
-<span class="k-cyan">PS&gt; Copy-Item -Recurse -Force .\skills\implementaudit\* "$env:USERPROFILE\.codex\skills\implementaudit\"</span></pre>
-      </div>
+      <p>The local checksum check verifies artefact integrity when a checksum manifest is supplied.<br>The compatibility artifact is one flattened public governor with deterministic projections of the four internal procedures, package/inventory metadata, and no host manifests or independently discoverable child packages. Final members, bytes, and SHA-256 come only from the fresh exact-tree build. These facts are not canonical-plugin install proof, a signature, attestation, SBOM, provenance chain, public-release claim, or host-load proof.</p>
+      <p>Do not manually copy only <code>skills/implementaudit/</code> from a v0.4 checkout: that would omit the package's required internal skill population. Build the exact package and use the isolated plugin or standalone compatibility installer so partial installation fails closed.</p>
 
       <h2 id="source-checkout">Source checkout path</h2>
       <p>When installing from a local checkout instead of a release tag, build and check both generated projections before choosing the canonical plugin route or standalone compatibility route:</p>

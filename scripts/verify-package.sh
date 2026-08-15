@@ -345,6 +345,8 @@ require_file tests/audit-object-routing-contract.test.sh
 require_file tests/native-integration.test.sh
 require_file tests/package-shape-claims.test.sh
 require_file tests/package-contract.test.sh
+require_file tests/internal-skill-topology.test.sh
+require_file tests/internal-skill-routing.test.sh
 require_file tests/terminology-integration.test.sh
 require_file tests/read-only-plans-lane.test.sh
 require_file tests/source-evidence-pack-runnable.test.sh
@@ -610,7 +612,7 @@ grep -R "v0.2.0.0" -n CHANGELOG.md README.md AGENTS.md >/dev/null || fail "proje
 grep -R "v0.1.0" -n CHANGELOG.md >/dev/null || fail "reconstructed v0.1.0 changelog entry missing"
 grep -R "v0.0.1" -n CHANGELOG.md >/dev/null || fail "reconstructed v0.0.1 changelog entry missing"
 
-if grep -R -n -I --exclude-dir=.git --exclude-dir=graphify-out \
+if grep -R -n -I --exclude-dir=.git --exclude-dir=.IMPLEMENTAUDIT --exclude-dir=graphify-out \
   --exclude-dir=.graphify --exclude-dir=.activegraph --exclude=verify-package.sh \
   -e "read root IMPLEMENTAUDIT.md" \
   -e "read .*IMPLEMENTAUDIT.md.*behavior source" \
@@ -632,7 +634,7 @@ child_lower_a="child"
 child_lower_b="agents"
 child_upper_name="${child_upper_a}_${child_upper_b}"
 child_lower_name="${child_lower_a}_${child_lower_b}"
-if grep -R -n -I --exclude-dir=.git --exclude-dir=graphify-out \
+if grep -R -n -I --exclude-dir=.git --exclude-dir=.IMPLEMENTAUDIT --exclude-dir=graphify-out \
   --exclude-dir=.graphify --exclude-dir=.activegraph \
   -e "$child_upper_name" -e "$child_lower_name" . >/tmp/implementaudit-child-agents-grep.txt; then
   cat /tmp/implementaudit-child-agents-grep.txt >&2
@@ -726,6 +728,8 @@ bash tests/audit-object-routing-contract.test.sh
 bash tests/native-integration.test.sh
 bash tests/package-shape-claims.test.sh
 bash tests/package-contract.test.sh
+bash tests/internal-skill-topology.test.sh
+bash tests/internal-skill-routing.test.sh
 bash tests/terminology-integration.test.sh
 bash tests/read-only-plans-lane.test.sh
 bash tests/source-evidence-pack-runnable.test.sh

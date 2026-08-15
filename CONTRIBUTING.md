@@ -30,7 +30,7 @@ chain.
 
 | Surface | Authority and maintenance rule |
 | --- | --- |
-| Runtime behaviour | `skills/implementaudit/SKILL.md` plus its packaged `references/`, `templates/` and `scripts/`. `/implementaudit` is the sole stable public/default governor; v0.4 has zero child skills. Keep the governor bootloader concise and put progressive detail in the appropriate shared packaged owner. |
+| Runtime behaviour | `skills/implementaudit/SKILL.md` is the sole stable public/default governor and owns routing, authority, currentness, lifecycle and closure. v0.4 ships exactly four child skills: `audit-state`, `audit-assess`, maintainer-only `audit-implement`, and dual-entry `audit-andon`. Governed routes return bounded cognition to the governor and never chain; direct `audit-andon` returns to the actual caller and grants no new authority. Planning/execution stay progressively loaded governor/reference cognition. Shared `references/`, `templates/` and `scripts/` remain under `skills/implementaudit/`. |
 | Package topology | `package/implementaudit-package.json` owns one atomic dual-host plugin package, its exact skill population, shared resources, generated projections, inventories, and budgets. |
 | Plugin/runtime metadata | `.codex-plugin/plugin.json` and `.claude-plugin/plugin.json` are equal host manifests pointing to `./skills/`; `.claude-plugin/marketplace.json` remains Claude marketplace metadata. |
 | New-user public entry | `README.md`. Keep current product orientation, installation, use, boundaries and routes to deeper owners there; do not turn it into release chronology or a maintainer manual. |

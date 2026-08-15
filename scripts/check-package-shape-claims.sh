@@ -70,7 +70,13 @@ expected_contract = {
     "package_name": "implementaudit",
     "public_governor": "implementaudit",
     "public_entrypoint": "/implementaudit",
-    "required_skills": ["implementaudit"],
+    "required_skills": ["implementaudit", "audit-state", "audit-assess", "audit-implement", "audit-andon"],
+    "internal_skills": [
+        {"name": "audit-state", "maintainer_only": False, "directly_invocable": False},
+        {"name": "audit-assess", "maintainer_only": False, "directly_invocable": False},
+        {"name": "audit-implement", "maintainer_only": True, "directly_invocable": False},
+        {"name": "audit-andon", "maintainer_only": False, "directly_invocable": True},
+    ],
     "host_manifests": {"codex": codex_path, "claude": claude_path},
     "generated_projections": {
         "canonical_plugin": {
@@ -106,7 +112,7 @@ if codex != expected_manifest:
 skill_entries = sorted(
     path.parent.name for path in Path("skills").glob("*/SKILL.md") if path.is_file()
 )
-if skill_entries != contract["required_skills"]:
+if skill_entries != sorted(contract["required_skills"]):
     raise SystemExit(
         f"model-facing skill population mismatch: expected {contract['required_skills']!r}, got {skill_entries!r}"
     )
@@ -117,7 +123,9 @@ current_docs = {
         "IMPLEMENTAUDIT.plugin.zip",
         "IMPLEMENTAUDIT.skill",
         "sole stable public/default governor",
-        "zero child skills",
+        "exactly four model-facing child skills",
+        "audit-implement",
+        "audit-andon",
         "native host-discovery proof",
     ],
     "README.md": [
@@ -125,7 +133,9 @@ current_docs = {
         "IMPLEMENTAUDIT.plugin.zip",
         "IMPLEMENTAUDIT.skill",
         "sole stable public/default governor",
-        "zero child skills",
+        "exactly four child skills",
+        "audit-implement",
+        "audit-andon",
         "package/implementaudit-package.json",
     ],
     "CONTRIBUTING.md": [
@@ -138,7 +148,9 @@ current_docs = {
         "One atomic package, two generated projections.",
         "IMPLEMENTAUDIT.plugin.zip",
         "IMPLEMENTAUDIT.skill",
-        "zero child skills",
+        "exactly four child skills",
+        "audit-implement",
+        "audit-andon",
         "not evidence that marketplace discovery",
     ],
 }

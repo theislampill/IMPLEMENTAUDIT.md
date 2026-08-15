@@ -46,8 +46,13 @@ workflows, Pages and fresh public-download installation remain separate gates.
   Claude manifests, one version-coherent `skills/implementaudit/` governor,
   shared references/templates/scripts, and package/inventory metadata.
 - `/implementaudit` remains the sole stable public/default governor. No child
-  skill is shipped in v0.4; internal decomposition remains evidence-gated rather
-  than inferred from the operational loop names.
+  lifecycle is created; v0.4 ships exactly four evidence-selected child skills:
+  `audit-state`, `audit-assess`, maintainer-only `audit-implement`, and
+  dual-entry `audit-andon`. Governed routes return to the governor; an explicit
+  `audit-andon` cord-pull returns to its caller. Neither route grants state,
+  authority, transition, release, closure, or `AUDIT_COMPLETE` ownership.
+  Planning and execution/repair remain progressively loaded references rather
+  than inferred child skills.
 - `IMPLEMENTAUDIT.skill` remains a generated, checksummed flattened standalone
   compatibility artifact. It is not the canonical package topology and does
   not create a second independently versioned package.

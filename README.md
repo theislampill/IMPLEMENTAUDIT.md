@@ -19,9 +19,14 @@ It is reusable meta-engineering distributed as one atomic dual-host plugin
 package: sustained engineering discipline for planning, designing,
 implementing, improving, reviewing, recovering, integrating, and closing
 repository work—not only a one-off code audit. `/implementaudit` remains the
-sole stable public/default governor; v0.4 ships no child skills, and its
-references, templates, and helper scripts form one shared deterministic
-substrate. A skill or agent-tooling repository can itself be the audit object,
+sole stable public/default governor; v0.4 ships exactly four model-facing child
+skills: `audit-state`, `audit-assess`, maintainer-only `audit-implement`, and
+dual-entry `audit-andon`. Governed child use is routed by the governor; only an
+explicit Andon cord-pull may directly invoke `audit-andon`. They form no
+child lifecycle and own no authority, currentness, mutation, release, closure,
+or `AUDIT_COMPLETE`; references, templates, and helper scripts remain one
+shared deterministic substrate. A skill or agent-tooling repository can itself
+be the audit object,
 so the method can improve skills-about-skills through the same owner/source,
 evidence, and closure gates. This repository dogfoods that self-application; it
 does not establish effectiveness across every agent, host, repository, or
@@ -869,6 +874,10 @@ This repo uses the conventional name-matched source skill layout:
 
 ```text
 skills/implementaudit/SKILL.md
+skills/audit-state/SKILL.md
+skills/audit-assess/SKILL.md
+skills/audit-implement/SKILL.md
+skills/audit-andon/SKILL.md
 skills/implementaudit/references/
 skills/implementaudit/scripts/
 skills/implementaudit/templates/
@@ -876,17 +885,23 @@ skills/implementaudit/templates/
 
 `skills/implementaudit/SKILL.md` is the canonical source behavior entry and
 `/implementaudit` is the sole stable public/default governor. The v0.4 package
-contains exactly that one model-facing skill—zero child skills—and keeps its
-references, scripts, and templates as shared resources rather than duplicating
-them into lifecycle-shaped skill directories.
+contains exactly four child skills—`audit-state`, `audit-assess`, maintainer-only
+`audit-implement`, and dual-entry `audit-andon`—while keeping references, scripts, and templates
+as shared resources rather than duplicating deterministic substrate. Each
+internal skill returns bounded cognition and grants no lifecycle, mutation,
+release, closure, or `AUDIT_COMPLETE` authority. Governor-routed use returns to
+the governor; direct `audit-andon` returns to the actual caller and grants no
+new authority. Planning and execution/repair
+remain progressively loaded governor/reference cognition, not child skills.
 
 `package/implementaudit-package.json` owns the single-package contract. The
 canonical `IMPLEMENTAUDIT.plugin.zip` projection preserves the conventional
 `skills/implementaudit/` tree and both host manifests. The generated,
 checksummed `IMPLEMENTAUDIT.skill` compatibility projection alone flattens the
 runtime tree to archive-root `SKILL.md`, `references/`, `scripts/`, and
-`templates/`; it carries package/inventory metadata but no plugin manifests or
-nested `skills/` directory. There is intentionally no tracked root
+`templates/`; it carries deterministic projections of the four internal
+procedures and package/inventory metadata but no plugin manifests, nested
+`skills/` directory, or independently discoverable child packages. There is intentionally no tracked root
 `IMPLEMENTAUDIT.md` file; validators fail if one is recreated. Audit handoff
 inputs named `AUDIT.md` remain valid.
 
@@ -1314,7 +1329,7 @@ After a release, reinstall or update the plugin in the host you use. Do not
 assume a local plugin or standalone compatibility copy has updated just because
 the GitHub repo has a new release.
 
-No passive or marketplace auto-update is claimed for either host. Canonical
+No marketplace auto-update or passive auto-update is claimed for either host. Canonical
 plugin users should follow the host's current update/reload route and verify the
 loaded version. Standalone compatibility users must repeat the chosen copy or
 `.skill` install route; Claude Desktop users should then restart the
@@ -1334,13 +1349,18 @@ atomic, version-coherent dual-host plugin package:
 IMPLEMENTAUDIT_PACKAGE.json
 IMPLEMENTAUDIT_INVENTORY.json
 skills/implementaudit/SKILL.md
+skills/audit-state/SKILL.md
+skills/audit-assess/SKILL.md
+skills/audit-implement/SKILL.md
+skills/audit-andon/SKILL.md
 skills/implementaudit/references/
 skills/implementaudit/scripts/
 skills/implementaudit/templates/
 ```
 
 It exposes only `/implementaudit` as the stable public/default governor and has
-zero child skills in v0.4. `IMPLEMENTAUDIT.skill` is generated and checksummed
+exactly four child skills in v0.4: `audit-state`, `audit-assess`, maintainer-only
+`audit-implement`, and dual-entry `audit-andon`. `IMPLEMENTAUDIT.skill` is generated and checksummed
 from the same source as a flattened standalone compatibility artifact. It is
 not the canonical topology, a second independently versioned package, or proof
 that `.skill` is a universal host-standard archive format.

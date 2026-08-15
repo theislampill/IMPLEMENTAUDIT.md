@@ -149,37 +149,40 @@ def parse_builder_manifest(
         except (SyntaxError, ValueError) as error:
             raise FixtureError(f"builder {name} is not a literal collection") from error
 
-    required_source_raw = assignment("required_source", "[", "]")
-    required_archive_raw = assignment("required_archive", "[", "]")
-    blocked_parts_raw = assignment("blocked_parts", "{", "}")
-    if not isinstance(required_source_raw, list) or not all(
-        isinstance(item, str) for item in required_source_raw
+    required_skills_raw = assignment("EXPECTED_REQUIRED_SKILLS", "[", "]")
+    shared_roots_raw = assignment("EXPECTED_SHARED_ROOTS", "[", "]")
+    blocked_parts_raw = assignment("BLOCKED_PARTS", "{", "}")
+    if not isinstance(required_skills_raw, list) or not all(
+        isinstance(item, str) for item in required_skills_raw
     ):
-        raise FixtureError("builder required_source must be a literal string list")
+        raise FixtureError("builder EXPECTED_REQUIRED_SKILLS must be a literal string list")
+    if not isinstance(shared_roots_raw, list) or not all(
+        isinstance(item, str) for item in shared_roots_raw
+    ):
+        raise FixtureError("builder EXPECTED_SHARED_ROOTS must be a literal string list")
     if not isinstance(blocked_parts_raw, set) or not all(
         isinstance(item, str) for item in blocked_parts_raw
     ):
         raise FixtureError("builder blocked_parts must be a literal string set")
-    if not isinstance(required_archive_raw, list) or not all(
-        isinstance(item, str) for item in required_archive_raw
-    ):
-        raise FixtureError("builder required_archive must be a literal string list")
-    required_archive = set(required_archive_raw)
     required_source: dict[str, str] = {}
-    for source_path in required_source_raw:
-        if source_path.startswith("skills/implementaudit/"):
-            archive_path = source_path.removeprefix("skills/implementaudit/")
-        elif source_path.startswith(".claude-plugin/"):
-            archive_path = source_path
-        else:
-            raise FixtureError(
-                f"builder required source lacks an archive mapping: {source_path}"
-            )
-        if archive_path not in required_archive:
-            raise FixtureError(
-                f"builder archive manifest omits required source: {source_path}"
-            )
+    for skill_name in required_skills_raw:
+        source_path = f"skills/{skill_name}/SKILL.md"
+        archive_path = (
+            "SKILL.md"
+            if skill_name == "implementaudit"
+            else f"internal-procedures/{skill_name}.md"
+        )
+        if read_revision(repo, source_path, "WORKTREE") is None:
+            raise FixtureError(f"builder-required skill is absent: {source_path}")
         required_source[source_path] = archive_path
+    for shared_root in shared_roots_raw:
+        root_path = repo / shared_root
+        if not root_path.is_dir():
+            raise FixtureError(f"builder-required shared root is absent: {shared_root}")
+        for path in sorted(item for item in root_path.rglob("*") if item.is_file()):
+            source_path = path.relative_to(repo).as_posix()
+            archive_path = source_path.removeprefix("skills/implementaudit/")
+            required_source[source_path] = archive_path
     blocked_parts = set(blocked_parts_raw)
 
     repo_only = evidence["repo_only_instrumentation"]

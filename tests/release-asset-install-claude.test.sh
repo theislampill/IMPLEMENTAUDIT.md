@@ -19,7 +19,8 @@ tmp_parent="$(mktemp -d)"
 trap 'rm -rf "$tmp_parent"' EXIT
 
 out_dir="$tmp_parent/release asset with spaces"
-claude_skills_dir="$tmp_parent/claude skill dir with spaces/implementaudit"
+claude_host_root="$tmp_parent/claude host root with spaces"
+claude_skills_dir="$claude_host_root/skills/implementaudit"
 mkdir -p "$out_dir" "$claude_skills_dir"
 
 bash scripts/build-release-asset.sh "$out_dir"
@@ -67,7 +68,11 @@ for file in \
   templates/host-notes.md \
   templates/sidecars.md \
   templates/tools.md \
-  templates/context.md
+  templates/context.md \
+  internal-procedures/audit-state.md \
+  internal-procedures/audit-assess.md \
+  internal-procedures/audit-implement.md \
+  internal-procedures/audit-andon.md
 do
   [ -f "$claude_skills_dir/$file" ] || {
     printf 'release-asset-install-claude.test: missing installed file: %s\n' "$file" >&2
@@ -85,6 +90,60 @@ fi
   printf 'release-asset-install-claude.test: package identity/inventory not installed\n' >&2
   exit 1
 }
+
+"${py_cmd[@]}" - "$claude_skills_dir" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+package = json.loads((root / "IMPLEMENTAUDIT_PACKAGE.json").read_text(encoding="utf-8"))
+inventory = json.loads((root / "IMPLEMENTAUDIT_INVENTORY.json").read_text(encoding="utf-8"))
+expected_required = ["implementaudit", "audit-state", "audit-assess", "audit-implement", "audit-andon"]
+expected_internal = [
+    {"name": "audit-state", "maintainer_only": False, "directly_invocable": False},
+    {"name": "audit-assess", "maintainer_only": False, "directly_invocable": False},
+    {"name": "audit-implement", "maintainer_only": True, "directly_invocable": False},
+    {"name": "audit-andon", "maintainer_only": False, "directly_invocable": True},
+]
+for owner in (package, inventory):
+    if owner.get("public_governor") != "implementaudit":
+        raise SystemExit("standalone public governor identity mismatch")
+    if owner.get("required_skills") != expected_required:
+        raise SystemExit("standalone required skill population mismatch")
+    if owner.get("internal_skills") != expected_internal:
+        raise SystemExit("standalone internal skill population mismatch")
+expected_paths = {"IMPLEMENTAUDIT_INVENTORY.json"}
+for member in inventory.get("members", []):
+    path = root / member["path"]
+    data = path.read_bytes()
+    if len(data) != member["bytes"] or hashlib.sha256(data).hexdigest() != member["sha256"]:
+        raise SystemExit(f"installed inventory mismatch: {member['path']}")
+    expected_paths.add(member["path"])
+observed_paths = {path.relative_to(root).as_posix() for path in root.rglob("*") if path.is_file()}
+if observed_paths != expected_paths:
+    raise SystemExit("installed standalone population differs from exact inventory")
+skill_docs = [path for path in root.rglob("SKILL.md") if path.is_file()]
+if skill_docs != [root / "SKILL.md"]:
+    raise SystemExit("standalone install exposed a discoverable child skill")
+PY
+
+# The standalone direction rejects a same-identity canonical plugin sibling.
+ambiguous_root="$tmp_parent/ambiguous claude host"
+mkdir -p "$ambiguous_root/plugins/implementaudit" "$ambiguous_root/skills"
+printf '%s\n' 'plugin predecessor' > "$ambiguous_root/plugins/implementaudit/WITNESS.txt"
+if bash scripts/install-claude-from-release.sh \
+  --asset "$asset" \
+  --checksum "$checksums" \
+  --claude-skills-dir "$ambiguous_root/skills/implementaudit" >/dev/null 2>&1; then
+  printf 'release-asset-install-claude.test: ambiguous plugin plus standalone unexpectedly passed\n' >&2
+  exit 1
+fi
+[ -f "$ambiguous_root/plugins/implementaudit/WITNESS.txt" ] \
+  || { printf 'release-asset-install-claude.test: ambiguity rejection changed plugin predecessor\n' >&2; exit 1; }
+[ ! -e "$ambiguous_root/skills/implementaudit" ] \
+  || { printf 'release-asset-install-claude.test: ambiguity rejection created standalone target\n' >&2; exit 1; }
 
 stale="$out_dir/STALE-CHECKSUMS.txt"
 printf 'sha256  %064d  IMPLEMENTAUDIT.skill\n' 0 > "$stale"

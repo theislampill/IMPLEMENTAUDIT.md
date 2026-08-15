@@ -70,6 +70,7 @@ validate_pair() {
     "$source_commit" "$source_tree" "$expected_state" <<'PY'
 import hashlib
 import json
+import re
 import stat
 import sys
 import zipfile
@@ -87,8 +88,24 @@ from pathlib import Path, PurePosixPath
 source_package = json.loads(
     Path(source_package_path).read_text(encoding="utf-8")
 )
-if source_package.get("required_skills") != ["implementaudit"]:
-    raise SystemExit("required_skills must equal ['implementaudit']")
+source_root = Path(source_package_path).resolve().parents[1]
+expected_required_skills = [
+    "implementaudit",
+    "audit-state",
+    "audit-assess",
+    "audit-implement",
+    "audit-andon",
+]
+expected_internal_skills = [
+    {"name": "audit-state", "maintainer_only": False, "directly_invocable": False},
+    {"name": "audit-assess", "maintainer_only": False, "directly_invocable": False},
+    {"name": "audit-implement", "maintainer_only": True, "directly_invocable": False},
+    {"name": "audit-andon", "maintainer_only": False, "directly_invocable": True},
+]
+if source_package.get("required_skills") != expected_required_skills:
+    raise SystemExit("required_skills does not bind the exact five-skill population")
+if source_package.get("internal_skills") != expected_internal_skills:
+    raise SystemExit("internal_skills does not bind the exact four-child population")
 
 expected_identity = {
     "logical_package": "IMPLEMENTAUDIT_PLUGIN",
@@ -96,7 +113,8 @@ expected_identity = {
     "runtime_version": "0.4.0",
     "release_family": "v0.4.0.0",
     "public_governor": "implementaudit",
-    "required_skills": ["implementaudit"],
+    "required_skills": expected_required_skills,
+    "internal_skills": expected_internal_skills,
 }
 observed_identity = {
     key: source_package.get(key) for key in expected_identity
@@ -170,6 +188,9 @@ def validate_archive(raw_path, role):
         raise SystemExit(f"{role} inventory format is incorrect")
     if inventory.get("artifact_role") != role:
         raise SystemExit(f"{role} inventory role is incorrect")
+    for field in ("public_governor", "required_skills", "internal_skills"):
+        if inventory.get(field) != source_package.get(field):
+            raise SystemExit(f"{role} inventory {field} differs from package identity")
 
     binding = inventory.get("source")
     expected_binding = {
@@ -210,15 +231,28 @@ def validate_archive(raw_path, role):
             ".claude-plugin/plugin.json",
             ".claude-plugin/marketplace.json",
             "skills/implementaudit/SKILL.md",
+            "skills/audit-state/SKILL.md",
+            "skills/audit-assess/SKILL.md",
+            "skills/audit-implement/SKILL.md",
+            "skills/audit-andon/SKILL.md",
         }
         if not required.issubset(payloads):
             raise SystemExit("canonical plugin is missing required plugin-root members")
-        skill_members = [name for name in payloads if name.startswith("skills/")]
-        if not skill_members or any(
-            not name.startswith("skills/implementaudit/")
-            for name in skill_members
-        ):
-            raise SystemExit("canonical plugin has a flattened or extra child skill")
+        observed_skills = sorted(
+            PurePosixPath(name).parts[1]
+            for name in payloads
+            if len(PurePosixPath(name).parts) == 3
+            and PurePosixPath(name).parts[0] == "skills"
+            and PurePosixPath(name).name == "SKILL.md"
+        )
+        if observed_skills != sorted(expected_required_skills):
+            raise SystemExit("canonical plugin skill population is not exact")
+        child_prefixes = {
+            f"skills/{name}/" for name in expected_required_skills if name != "implementaudit"
+        }
+        for name in payloads:
+            if any(name.startswith(prefix) for prefix in child_prefixes) and not name.endswith("/SKILL.md"):
+                raise SystemExit("canonical plugin child owns duplicated substrate")
         for prefix in (
             "skills/implementaudit/references/",
             "skills/implementaudit/scripts/",
@@ -238,6 +272,7 @@ def validate_archive(raw_path, role):
             "references",
             "scripts",
             "templates",
+            "internal-procedures",
             package_name,
             inventory_name,
         }
@@ -249,7 +284,11 @@ def validate_archive(raw_path, role):
         ):
             raise SystemExit("standalone contains nested skills or host manifests")
         for required in (
-            "SKILL.md", "references/", "scripts/", "templates/"
+            "SKILL.md", "references/", "scripts/", "templates/",
+            "internal-procedures/audit-state.md",
+            "internal-procedures/audit-assess.md",
+            "internal-procedures/audit-implement.md",
+            "internal-procedures/audit-andon.md",
         ):
             if required.endswith("/"):
                 present = any(name.startswith(required) for name in payloads)
@@ -257,6 +296,29 @@ def validate_archive(raw_path, role):
                 present = required in payloads
             if not present:
                 raise SystemExit(f"standalone is missing {required}")
+        skill_documents = [name for name in payloads if PurePosixPath(name).name == "SKILL.md"]
+        if skill_documents != ["SKILL.md"]:
+            raise SystemExit("standalone must expose exactly one discoverable governor SKILL.md")
+        observed_procedures = sorted(
+            name for name in payloads if name.startswith("internal-procedures/")
+        )
+        expected_procedures = sorted(
+            f"internal-procedures/{name}.md" for name in expected_required_skills[1:]
+        )
+        if observed_procedures != expected_procedures:
+            raise SystemExit("standalone internal procedure projection is not exact")
+        for name in observed_procedures:
+            if payloads[name].startswith(b"---\n"):
+                raise SystemExit("standalone internal procedure must not retain skill frontmatter")
+            skill_name = PurePosixPath(name).stem
+            source_text = (
+                source_root / "skills" / skill_name / "SKILL.md"
+            ).read_text(encoding="utf-8").replace("\r\n", "\n")
+            projected_text, count = re.subn(
+                r"\A---\n.*?\n---\n+", "", source_text, count=1, flags=re.S
+            )
+            if count != 1 or payloads[name] != projected_text.encode("utf-8"):
+                raise SystemExit(f"standalone projection is stale or non-deterministic: {name}")
 
     return embedded_package
 
@@ -291,6 +353,8 @@ expect_reject() {
 mutate_archive() {
   local operation="$1" source="$2" target="$3"
   "${py_cmd[@]}" - "$operation" "$source" "$target" <<'PY'
+import hashlib
+import json
 import stat
 import sys
 import zipfile
@@ -307,7 +371,7 @@ with zipfile.ZipFile(source) as archive:
     }
 
 if operation == "missing-member":
-    del rows["skills/implementaudit/SKILL.md"]
+    del rows["skills/audit-state/SKILL.md"]
 elif operation == "extra-member":
     rows["UNDECLARED.txt"] = (None, b"undeclared\n")
 elif operation == "hash-mismatch":
@@ -318,6 +382,26 @@ elif operation == "changed-manifest":
     rows["IMPLEMENTAUDIT_PACKAGE.json"] = (info, data + b"\n")
 elif operation == "extra-child":
     rows["skills/invented/SKILL.md"] = (None, b"---\nname: invented\n---\n")
+elif operation == "missing-projection":
+    del rows["internal-procedures/audit-state.md"]
+elif operation == "stale-projection":
+    projection = "internal-procedures/audit-state.md"
+    info, _data = rows[projection]
+    replacement = rows["internal-procedures/audit-assess.md"][1]
+    rows[projection] = (info, replacement)
+    inventory_info, inventory_data = rows["IMPLEMENTAUDIT_INVENTORY.json"]
+    inventory = json.loads(inventory_data.decode("utf-8"))
+    for member in inventory["members"]:
+        if member["path"] == projection:
+            member["bytes"] = len(replacement)
+            member["sha256"] = hashlib.sha256(replacement).hexdigest()
+            break
+    else:
+        raise SystemExit("test fixture could not find projection inventory row")
+    rows["IMPLEMENTAUDIT_INVENTORY.json"] = (
+        inventory_info,
+        (json.dumps(inventory, indent=2, sort_keys=True) + "\n").encode("utf-8"),
+    )
 else:
     raise SystemExit(f"unknown mutation: {operation}")
 
@@ -398,7 +482,8 @@ canonical="$tmp/out-clean-a/IMPLEMENTAUDIT.plugin.zip"
 standalone="$tmp/out-clean-a/IMPLEMENTAUDIT.skill"
 
 mkdir -p "$tmp/missing-member" "$tmp/extra-member" "$tmp/hash-mismatch" \
-  "$tmp/changed-manifest" "$tmp/extra-child"
+  "$tmp/changed-manifest" "$tmp/extra-child" "$tmp/missing-projection" \
+  "$tmp/stale-projection"
 mutate_archive missing-member "$canonical" \
   "$tmp/missing-member/IMPLEMENTAUDIT.plugin.zip"
 expect_reject missing-member canonical_plugin \
@@ -423,6 +508,16 @@ mutate_archive extra-child "$canonical" \
   "$tmp/extra-child/IMPLEMENTAUDIT.plugin.zip"
 expect_reject extra-child canonical_plugin \
   "$tmp/extra-child/IMPLEMENTAUDIT.plugin.zip"
+
+mutate_archive missing-projection "$standalone" \
+  "$tmp/missing-projection/IMPLEMENTAUDIT.skill"
+expect_reject missing-projection standalone_compatibility \
+  "$tmp/missing-projection/IMPLEMENTAUDIT.skill"
+
+mutate_archive stale-projection "$standalone" \
+  "$tmp/stale-projection/IMPLEMENTAUDIT.skill"
+expect_reject stale-projection standalone_compatibility \
+  "$tmp/stale-projection/IMPLEMENTAUDIT.skill"
 
 printf 'plugin-release-asset.test: ok commit=%s tree=%s\n' \
   "$source_commit" "$source_tree"

@@ -127,7 +127,15 @@ assert isinstance(meta["worktree_dirty"], bool)
 assert meta["project_milestone"] == site["release"]["milestone"]
 assert meta["plugin_manifest_version"] == site["release"]["manifest_version"]
 assert meta["package_identity"]["logical_package"] == "IMPLEMENTAUDIT_PLUGIN"
-assert meta["package_identity"]["required_skills"] == ["implementaudit"]
+assert meta["package_identity"]["required_skills"] == [
+    "implementaudit", "audit-state", "audit-assess", "audit-implement", "audit-andon"
+]
+assert meta["package_identity"]["internal_skills"] == [
+    {"name": "audit-state", "maintainer_only": False, "directly_invocable": False},
+    {"name": "audit-assess", "maintainer_only": False, "directly_invocable": False},
+    {"name": "audit-implement", "maintainer_only": True, "directly_invocable": False},
+    {"name": "audit-andon", "maintainer_only": False, "directly_invocable": True},
+]
 assert meta["package_identity"]["generated_projections"] == {
     "canonical_plugin": {"artifact": "IMPLEMENTAUDIT.plugin.zip", "layout": "plugin-root"},
     "standalone_compatibility": {"artifact": "IMPLEMENTAUDIT.skill", "layout": "flattened-skill"},
@@ -293,7 +301,9 @@ valid = subprocess.run(
 assert valid.returncode == 0, valid.stderr
 metadata = json.loads((fixture_root / "dist" / "docs-portal" / "docs-metadata.json").read_text(encoding="utf-8"))
 assert metadata["project_milestone"] == "v0.4.0.0", metadata["project_milestone"]
-assert metadata["package_identity"]["required_skills"] == ["implementaudit"]
+assert metadata["package_identity"]["required_skills"] == [
+    "implementaudit", "audit-state", "audit-assess", "audit-implement", "audit-andon"
+]
 for owner in (
     ".codex-plugin/plugin.json",
     ".claude-plugin/plugin.json",
@@ -450,7 +460,9 @@ required = [
     "IMPLEMENTAUDIT.plugin.zip",
     "package/implementaudit-package.json",
     ".codex-plugin/plugin.json",
-    "zero child skills",
+    "exactly four child skills",
+    "audit-implement",
+    "audit-andon",
 ]
 missing = [item for item in required if item not in html]
 if missing:

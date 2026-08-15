@@ -69,6 +69,75 @@ It is not a user-selected mode. Full installed-payload readback is non-evidence.
 route: do not load or activate the dogfood reference, broker, or event schema.
 Ordinary cheap work remains inspect -> act -> verify -> done.
 
+## Governor-routed internal cognition
+
+`/implementaudit remains the sole stable public/default governor`. The atomic
+plugin also carries four model-facing child skills; their descriptions are
+discovery hints, never route authority:
+
+```text
+INTERNAL_SKILL_POPULATION=audit-state,audit-assess,audit-implement,audit-andon
+INTERNAL_SKILL_ROUTE_MAX=1
+CHILD_TO_CHILD_ROUTING=FORBIDDEN
+CHILD_RETURN=GOVERNOR_REQUIRED
+DIRECT_CHILD_ENTRY=CAPABILITY_SPECIFIC
+DIRECT_ENTRY_DEFAULT=REFUSE_OR_RETURN_TO_GOVERNOR
+AUDIT_ANDON_DIRECT_ENTRY=ALLOWED_BOUNDED_CORD_PULL
+GOVERNOR_ROUTE_ENVELOPE=REQUIRED
+EXECUTING_PACKAGE_IDENTITY=VERIFIED
+PACKAGE_PRECEDENCE=UNAMBIGUOUS
+AUDIT_OBJECT=BOUND
+AUTHORITY_CEILING=BOUND
+SELECTED_CHILD=EXACTLY_ONE
+CHILD_RESULT_AUTHORITY=NONE
+CHILD_RESULT_CLOSURE=NONE
+```
+
+Before loading one child, the governor verifies the executing package and
+unambiguous plugin/standalone precedence, binds the current audit object and
+authority ceiling, applies the route-specific currentness/independence gate,
+and names exactly one child. A child result returns here as evidence input; the
+governor re-derives current state before any later route or transition. Child
+output that claims authority, closure, lifecycle change, mutation, currentness,
+release, or `AUDIT_COMPLETE` is rejected.
+
+```text
+PACKAGE_GATE_SUBJECT=EXECUTING_IMPLEMENTAUDIT_PACKAGE
+TARGET_UNDER_AUDIT_FAILURE=BOUND_GATE_FAILURE_NOT_EXECUTING_PACKAGE_FAILURE
+INCOMPLETE_EXECUTING_PACKAGE=FAIL_CLOSED
+AMBIGUOUS_PLUGIN_STANDALONE_PRECEDENCE=FAIL_CLOSED
+ORDINARY_CHEAP_PATH=GOVERNOR_ONLY
+PLANNING_COGNITION=GOVERNOR_PROGRESSIVE_REFERENCE
+EXECUTION_REPAIR_COGNITION=GOVERNOR_PROGRESSIVE_REFERENCE
+STATE_ROUTE_CURRENTNESS=MECHANICALLY_VERIFIED_REQUIRED
+REVIEW_ROUTE_PACKET=IMMUTABLE_DIGEST_BOUND_REQUIRED
+REVIEW_ROUTE_INDEPENDENCE=GOVERNOR_PROVED_REQUIRED
+MAINTAINER_ROUTE_CURRENTNESS=MECHANICALLY_VERIFIED_REQUIRED
+MAINTAINER_ROUTE_NOT_APPLICABLE_CURRENTNESS=REJECTED
+STALE_OR_ABSENT_CURRENTNESS=FAIL_CLOSED
+CHILD_AUTHORITY_OR_CLOSURE_OUTPUT=REJECTED
+```
+
+Route `audit-state` only after a real compaction, restart, transfer, or
+stale-context boundary and the mechanical continuity/currentness gate in
+`references/continuity.md`. Route `audit-assess` only for a digest-bound
+immutable packet under the independence contract in
+`references/plan-lifecycle.md`. Route maintainer-only `audit-implement` only for an
+exact candidate after mechanically verified release currentness under
+`references/transcript-contract.md`; `NOT_APPLICABLE` is invalid there. Route
+`audit-andon` from L4 only after a non-trivial Andon is established and bounded
+diagnosis can change the response; it returns to L4/governor. An explicit
+direct cord-pull may invoke the same bounded cognition and returns to the actual
+caller without creating lifecycle, currentness, mutation, RXX or closure
+authority. Cheap deterministic Andons bypass the child.
+
+A missing gate refuses child loading. An ordinary cheap-path action stays on
+the Execution Spine. Planning remains progressively owned by
+`references/planning-depth.md`; execution/repair remains progressively owned by
+the Runtime Loop and `references/plan-lifecycle.md`. A verifier failure in the
+target package is a bound audit gate failure, not evidence that the executing
+IMPLEMENTAUDIT package is partial.
+
 ---
 
 ## Audit Object And Invocation

@@ -160,6 +160,42 @@ if observed != expected:
 PY
 }
 
+assert_four_skill_identity() {
+  "${py_cmd[@]}" - "$1" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+target = Path(sys.argv[1])
+package = json.loads((target / "IMPLEMENTAUDIT_PACKAGE.json").read_text(encoding="utf-8"))
+inventory = json.loads((target / "IMPLEMENTAUDIT_INVENTORY.json").read_text(encoding="utf-8"))
+expected_required = ["implementaudit", "audit-state", "audit-assess", "audit-implement", "audit-andon"]
+expected_internal = [
+    {"name": "audit-state", "maintainer_only": False, "directly_invocable": False},
+    {"name": "audit-assess", "maintainer_only": False, "directly_invocable": False},
+    {"name": "audit-implement", "maintainer_only": True, "directly_invocable": False},
+    {"name": "audit-andon", "maintainer_only": False, "directly_invocable": True},
+]
+for owner in (package, inventory):
+    if owner.get("public_governor") != "implementaudit":
+        raise SystemExit("installed plugin public governor mismatch")
+    if owner.get("required_skills") != expected_required:
+        raise SystemExit("installed plugin required population mismatch")
+    if owner.get("internal_skills") != expected_internal:
+        raise SystemExit("installed plugin internal population mismatch")
+observed = sorted(
+    path.parent.name for path in (target / "skills").glob("*/SKILL.md") if path.is_file()
+)
+if observed != sorted(expected_required):
+    raise SystemExit(f"installed plugin skill population mismatch: {observed}")
+for child in expected_required[1:]:
+    child_root = target / "skills" / child
+    files = [path for path in child_root.rglob("*") if path.is_file()]
+    if files != [child_root / "SKILL.md"]:
+        raise SystemExit(f"installed child owns duplicated substrate: {child}")
+PY
+}
+
 write_checksum() {
   "${py_cmd[@]}" - "$1" "$2" <<'PY'
 import hashlib
@@ -224,6 +260,9 @@ PY
 
 mutate_archive() {
   "${py_cmd[@]}" - "$1" "$2" "$3" <<'PY'
+import hashlib
+import json
+import re
 import sys
 import zipfile
 from pathlib import Path
@@ -231,24 +270,63 @@ from pathlib import Path
 mode = sys.argv[1]
 source = Path(sys.argv[2])
 target = Path(sys.argv[3])
-changed_member = "skills/implementaudit/SKILL.md"
+changed_member = "skills/audit-state/SKILL.md"
 
-with zipfile.ZipFile(source) as src, zipfile.ZipFile(
-    target, "w", compression=zipfile.ZIP_DEFLATED
-) as dst:
-    for info in src.infolist():
-        if mode == "missing" and info.filename == changed_member:
-            continue
-        data = src.read(info.filename)
-        if mode == "drift" and info.filename == changed_member:
-            data += b"\n# test-only archive hash drift\n"
+with zipfile.ZipFile(source) as src:
+    rows = {info.filename: (info, src.read(info.filename)) for info in src.infolist()}
+
+if mode == "missing-child":
+    del rows[changed_member]
+elif mode == "changed-child-hash":
+    info, data = rows[changed_member]
+    rows[changed_member] = (info, data + b"\n# test-only archive hash drift\n")
+elif mode == "stale-child":
+    info, _data = rows[changed_member]
+    rows[changed_member] = (info, rows["skills/audit-assess/SKILL.md"][1])
+elif mode == "mixed-version":
+    info, data = rows[changed_member]
+    changed = re.sub(
+        rb'(?m)^(\s+version:\s*["\']?)0\.4\.0(["\']?\s*)$',
+        rb'\g<1>0.3.9\g<2>',
+        data,
+        count=1,
+    )
+    if changed == data:
+        raise SystemExit("test fixture could not change child runtime version")
+    rows[changed_member] = (info, changed)
+elif mode == "extra-child":
+    rows["skills/invented/SKILL.md"] = (
+        None,
+        b"---\nname: invented\nmetadata:\n  version: \"0.4.0\"\n---\n",
+    )
+else:
+    raise SystemExit(f"unknown mutation mode: {mode}")
+
+if mode in {"stale-child", "mixed-version"}:
+    inventory_info, inventory_data = rows["IMPLEMENTAUDIT_INVENTORY.json"]
+    inventory = json.loads(inventory_data.decode("utf-8"))
+    replacement = rows[changed_member][1]
+    for member in inventory["members"]:
+        if member["path"] == changed_member:
+            member["bytes"] = len(replacement)
+            member["sha256"] = hashlib.sha256(replacement).hexdigest()
+            break
+    else:
+        raise SystemExit("test fixture could not find changed child inventory row")
+    rows["IMPLEMENTAUDIT_INVENTORY.json"] = (
+        inventory_info,
+        (json.dumps(inventory, indent=2, sort_keys=True) + "\n").encode("utf-8"),
+    )
+
+with zipfile.ZipFile(target, "w", compression=zipfile.ZIP_DEFLATED) as dst:
+    for name in sorted(rows):
+        info, data = rows[name]
+        if info is None:
+            info = zipfile.ZipInfo(name, next(iter(rows.values()))[0].date_time)
+            info.create_system = 3
+            info.external_attr = (0o100644 << 16)
+            info.compress_type = zipfile.ZIP_DEFLATED
         dst.writestr(info, data)
-    if mode == "extra":
-        info = zipfile.ZipInfo("zz-unexpected-test-member.txt", src.infolist()[0].date_time)
-        info.create_system = 3
-        info.external_attr = (0o100644 << 16)
-        info.compress_type = zipfile.ZIP_DEFLATED
-        dst.writestr(info, b"unexpected\n")
 PY
 }
 
@@ -295,6 +373,7 @@ for host in codex claude; do
     || fail "$host install did not identify its result as staged-copy proof"
   target="$root/plugins/implementaudit"
   assert_exact_archive_tree "$asset" "$target"
+  assert_four_skill_identity "$target"
   before="$(tree_digest "$target")"
   install_plugin "$host" "$root" "$asset" "$checksums" --version 0.4.0 \
     >"$tmp_parent/idempotent-$host.out"
@@ -310,7 +389,7 @@ expect_install_failure "stale checksum" \
   install_plugin codex "$root" "$asset" "$stale_checksum" --version 0.4.0
 [ ! -e "$root/plugins/implementaudit" ] || fail "stale checksum created a plugin target"
 
-for mutation in missing extra drift; do
+for mutation in missing-child extra-child changed-child-hash stale-child mixed-version; do
   mutation_dir="$(mktemp -d "$tmp_parent/$mutation-archive.XXXXXX")"
   mutated_asset="$mutation_dir/IMPLEMENTAUDIT.plugin.zip"
   mutated_checksums="$mutation_dir/CHECKSUMS.txt"
@@ -336,19 +415,17 @@ expect_install_failure "ambiguous standalone co-install" \
 [ ! -e "$root/plugins/implementaudit" ] \
   || fail "co-install rejection created a plugin target"
 
-# A stale partial target may be atomically replaced or rejected unchanged.
+# A stale partial target is not an admissible predecessor and must be rejected
+# unchanged rather than blessed as an update source.
 root="$(new_host_root)"
 target="$root/plugins/implementaudit"
 mkdir -p "$target/nested"
 printf '%s\n' 'stale partial predecessor' > "$target/nested/witness.txt"
 partial_before="$(tree_digest "$target")"
-if install_plugin codex "$root" "$asset" "$checksums" --version 0.4.0 \
-  >"$tmp_parent/stale-partial.out" 2>&1; then
-  assert_exact_archive_tree "$asset" "$target"
-else
-  [ "$(tree_digest "$target")" = "$partial_before" ] \
-    || fail "rejected stale partial target was not preserved exactly"
-fi
+expect_install_failure "stale partial target" \
+  install_plugin codex "$root" "$asset" "$checksums" --version 0.4.0
+[ "$(tree_digest "$target")" = "$partial_before" ] \
+  || fail "rejected stale partial target was not preserved exactly"
 
 # Fabricate a self-consistent installed predecessor inventory at a later version
 # to exercise the downgrade decision without accepting a second release asset.

@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "package_evidence": {
-    "builder_path": "scripts/build-release-asset.sh",
-    "builder_sha256": "b627462f6c2d696c727a4165ef92df99c460f8ef7240d16c21c90c754e2aa513",
+    "builder_path": "scripts/package-contract.py",
+    "builder_sha256": "3ce81cc46d5efa0f4c6b64fe30613b4e009c9e053c56d65251d2029a5e0582f7",
     "repo_only_instrumentation": [
       "fixtures/semantic-preservation/cases.json",
       "fixtures/semantic-preservation/evaluate.py",
@@ -15,7 +15,7 @@
       "owner": {
         "path": "skills/implementaudit/SKILL.md",
         "revision": "WORKTREE",
-        "sha256": "91407da02e1797853caf358f7126f8b36c38db29bf5684a08200376b8c9a9fb3",
+        "sha256": "5b051c0a7f6f9430704cc012db26392d37fc0bda62aa4fd404a3ed05f1fd07c0",
         "anchor": "IMPLEMENTAUDIT_RUN_COMPLETE"
       },
       "consumer": {
@@ -28,87 +28,87 @@
   },
   "evidence_profiles": {
     "lean-current": {
-      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "62bf7f6eff4036d78fa3266125a1a14e660f1968574ad8820a48b924eb4dba1f", "anchor": "Package semantic preservation"},
-      "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "62bf7f6eff4036d78fa3266125a1a14e660f1968574ad8820a48b924eb4dba1f", "anchor": "Package semantic preservation"},
+      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "ce38b9b2cfb32fcb892e3666c3daf7e06fcd1629b691cc1cd7ebfa8ebe38788e", "anchor": "Package semantic preservation"},
+      "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "ce38b9b2cfb32fcb892e3666c3daf7e06fcd1629b691cc1cd7ebfa8ebe38788e", "anchor": "Package semantic preservation"},
       "consumers": [
-        {"kind": "runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "91407da02e1797853caf358f7126f8b36c38db29bf5684a08200376b8c9a9fb3", "route_anchor": "references/lean-operating-discipline.md"}
+        {"kind": "runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "5b051c0a7f6f9430704cc012db26392d37fc0bda62aa4fd404a3ed05f1fd07c0", "route_anchor": "references/lean-operating-discipline.md"}
       ]
     },
     "lean-same-owner-equivalent": {
-      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "62bf7f6eff4036d78fa3266125a1a14e660f1968574ad8820a48b924eb4dba1f", "anchor": "Engineering-value admission, retention, and retirement"},
-      "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "62bf7f6eff4036d78fa3266125a1a14e660f1968574ad8820a48b924eb4dba1f", "anchor": "Package semantic preservation"},
+      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "ce38b9b2cfb32fcb892e3666c3daf7e06fcd1629b691cc1cd7ebfa8ebe38788e", "anchor": "Engineering-value admission, retention, and retirement"},
+      "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "ce38b9b2cfb32fcb892e3666c3daf7e06fcd1629b691cc1cd7ebfa8ebe38788e", "anchor": "Package semantic preservation"},
       "consumers": [
-        {"kind": "runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "91407da02e1797853caf358f7126f8b36c38db29bf5684a08200376b8c9a9fb3", "route_anchor": "references/lean-operating-discipline.md"}
+        {"kind": "runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "5b051c0a7f6f9430704cc012db26392d37fc0bda62aa4fd404a3ed05f1fd07c0", "route_anchor": "references/lean-operating-discipline.md"}
       ]
     },
     "lean-lost": {
-      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "62bf7f6eff4036d78fa3266125a1a14e660f1968574ad8820a48b924eb4dba1f", "anchor": "Package semantic preservation"},
-      "after": {"path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "91407da02e1797853caf358f7126f8b36c38db29bf5684a08200376b8c9a9fb3", "anchor": "Package semantic preservation"},
+      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "ce38b9b2cfb32fcb892e3666c3daf7e06fcd1629b691cc1cd7ebfa8ebe38788e", "anchor": "Package semantic preservation"},
+      "after": {"path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "5b051c0a7f6f9430704cc012db26392d37fc0bda62aa4fd404a3ed05f1fd07c0", "anchor": "Package semantic preservation"},
       "consumers": [
         {"kind": "checker", "required": true, "path": "scripts/check-lean-discipline.sh", "revision": "WORKTREE", "sha256": "869bb31cb92fb237570c059a9e2f46133cb8cedd1a35f7ecd22ced0f48e490ae", "route_anchor": "Package semantic preservation", "held_out": {"path": "scripts/check-lean-discipline.sh", "revision": "WORKTREE", "sha256": "869bb31cb92fb237570c059a9e2f46133cb8cedd1a35f7ecd22ced0f48e490ae", "anchor": "Package semantic preservation"}}
       ]
     },
     "unshipped-owner": {
-      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "62bf7f6eff4036d78fa3266125a1a14e660f1968574ad8820a48b924eb4dba1f", "anchor": "Package semantic preservation"},
-      "after": {"path": "CONTRIBUTING.md", "revision": "WORKTREE", "sha256": "d7a3c1852202aa6a564641af6835f554662b34dd4ab654ce75f8edda4bf9b30d", "anchor": "# Contributing"},
+      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "ce38b9b2cfb32fcb892e3666c3daf7e06fcd1629b691cc1cd7ebfa8ebe38788e", "anchor": "Package semantic preservation"},
+      "after": {"path": "CONTRIBUTING.md", "revision": "WORKTREE", "sha256": "e33e5b6c306f44b4c04e09e02d6026806fa5d823f498abb5379dadcf63c4172e", "anchor": "# Contributing"},
       "consumers": [
-        {"kind": "runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "91407da02e1797853caf358f7126f8b36c38db29bf5684a08200376b8c9a9fb3", "route_anchor": "references/lean-operating-discipline.md"}
+        {"kind": "runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "5b051c0a7f6f9430704cc012db26392d37fc0bda62aa4fd404a3ed05f1fd07c0", "route_anchor": "references/lean-operating-discipline.md"}
       ]
     },
     "nonexistent-owner": {
-      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "62bf7f6eff4036d78fa3266125a1a14e660f1968574ad8820a48b924eb4dba1f", "anchor": "Package semantic preservation"},
+      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "ce38b9b2cfb32fcb892e3666c3daf7e06fcd1629b691cc1cd7ebfa8ebe38788e", "anchor": "Package semantic preservation"},
       "after": {"path": "references/definitely-not-shipped.md", "revision": "WORKTREE", "sha256": null, "anchor": null},
       "consumers": [
-        {"kind": "runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "91407da02e1797853caf358f7126f8b36c38db29bf5684a08200376b8c9a9fb3", "route_anchor": "references/lean-operating-discipline.md"}
+        {"kind": "runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "5b051c0a7f6f9430704cc012db26392d37fc0bda62aa4fd404a3ed05f1fd07c0", "route_anchor": "references/lean-operating-discipline.md"}
       ]
     },
     "broken-consumer": {
-      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "62bf7f6eff4036d78fa3266125a1a14e660f1968574ad8820a48b924eb4dba1f", "anchor": "Package semantic preservation"},
-      "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "62bf7f6eff4036d78fa3266125a1a14e660f1968574ad8820a48b924eb4dba1f", "anchor": "Package semantic preservation"},
+      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "ce38b9b2cfb32fcb892e3666c3daf7e06fcd1629b691cc1cd7ebfa8ebe38788e", "anchor": "Package semantic preservation"},
+      "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "ce38b9b2cfb32fcb892e3666c3daf7e06fcd1629b691cc1cd7ebfa8ebe38788e", "anchor": "Package semantic preservation"},
       "consumers": [
-        {"kind": "runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "91407da02e1797853caf358f7126f8b36c38db29bf5684a08200376b8c9a9fb3", "route_anchor": "references/definitely-not-shipped.md"}
+        {"kind": "runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "5b051c0a7f6f9430704cc012db26392d37fc0bda62aa4fd404a3ed05f1fd07c0", "route_anchor": "references/definitely-not-shipped.md"}
       ]
     },
     "invented-consumer": {
-      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "62bf7f6eff4036d78fa3266125a1a14e660f1968574ad8820a48b924eb4dba1f", "anchor": "Package semantic preservation"},
-      "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "62bf7f6eff4036d78fa3266125a1a14e660f1968574ad8820a48b924eb4dba1f", "anchor": "Package semantic preservation"},
+      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "ce38b9b2cfb32fcb892e3666c3daf7e06fcd1629b691cc1cd7ebfa8ebe38788e", "anchor": "Package semantic preservation"},
+      "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "ce38b9b2cfb32fcb892e3666c3daf7e06fcd1629b691cc1cd7ebfa8ebe38788e", "anchor": "Package semantic preservation"},
       "consumers": [
         {"kind": "runtime", "required": true, "path": "scripts/invented-consumer.sh", "revision": "WORKTREE", "sha256": null, "route_anchor": null}
       ]
     },
     "safe-progressive": {
-      "before": {"path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "91407da02e1797853caf358f7126f8b36c38db29bf5684a08200376b8c9a9fb3", "anchor": "references/lean-operating-discipline.md"},
-      "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "62bf7f6eff4036d78fa3266125a1a14e660f1968574ad8820a48b924eb4dba1f", "anchor": "Package semantic preservation"},
+      "before": {"path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "5b051c0a7f6f9430704cc012db26392d37fc0bda62aa4fd404a3ed05f1fd07c0", "anchor": "references/lean-operating-discipline.md"},
+      "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "ce38b9b2cfb32fcb892e3666c3daf7e06fcd1629b691cc1cd7ebfa8ebe38788e", "anchor": "Package semantic preservation"},
       "consumers": [
-        {"kind": "runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "91407da02e1797853caf358f7126f8b36c38db29bf5684a08200376b8c9a9fb3", "route_anchor": "references/lean-operating-discipline.md", "held_out": {"path": "scripts/install-codex-from-release.sh", "revision": "WORKTREE", "sha256": "7a5674aba645171a3a7008286acf316664cd3bd67d697c20f665a7db007b1980", "anchor": "references/lean-operating-discipline.md"}}
+        {"kind": "runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "5b051c0a7f6f9430704cc012db26392d37fc0bda62aa4fd404a3ed05f1fd07c0", "route_anchor": "references/lean-operating-discipline.md", "held_out": {"path": "scripts/install-codex-from-release.sh", "revision": "WORKTREE", "sha256": "dc159e81fbd7680f0ff923da5335d78f49a9b54493b058fc542777b3543b3add", "anchor": "references/lean-operating-discipline.md"}}
       ]
     },
     "exact-marker-changed": {
-      "before": {"path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "91407da02e1797853caf358f7126f8b36c38db29bf5684a08200376b8c9a9fb3", "anchor": "IMPLEMENTAUDIT_RUN_COMPLETE"},
-      "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "62bf7f6eff4036d78fa3266125a1a14e660f1968574ad8820a48b924eb4dba1f", "anchor": "Package semantic preservation"},
+      "before": {"path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "5b051c0a7f6f9430704cc012db26392d37fc0bda62aa4fd404a3ed05f1fd07c0", "anchor": "IMPLEMENTAUDIT_RUN_COMPLETE"},
+      "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "ce38b9b2cfb32fcb892e3666c3daf7e06fcd1629b691cc1cd7ebfa8ebe38788e", "anchor": "Package semantic preservation"},
       "consumers": [
         {"kind": "parser", "required": true, "path": "scripts/check-marker-order.sh", "revision": "WORKTREE", "sha256": "9764979aa3e1324e217828684e45ef67f40f14427537502a62ce3d66b6872b31", "route_anchor": "IMPLEMENTAUDIT_RUN_COMPLETE"}
       ]
     },
     "exact-marker-broken-consumer": {
-      "before": {"path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "91407da02e1797853caf358f7126f8b36c38db29bf5684a08200376b8c9a9fb3", "anchor": "IMPLEMENTAUDIT_RUN_COMPLETE"},
-      "after": {"path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "91407da02e1797853caf358f7126f8b36c38db29bf5684a08200376b8c9a9fb3", "anchor": "IMPLEMENTAUDIT_RUN_COMPLETE"},
+      "before": {"path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "5b051c0a7f6f9430704cc012db26392d37fc0bda62aa4fd404a3ed05f1fd07c0", "anchor": "IMPLEMENTAUDIT_RUN_COMPLETE"},
+      "after": {"path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "5b051c0a7f6f9430704cc012db26392d37fc0bda62aa4fd404a3ed05f1fd07c0", "anchor": "IMPLEMENTAUDIT_RUN_COMPLETE"},
       "consumers": [
         {"kind": "parser", "required": true, "path": "scripts/check-marker-order.sh", "revision": "WORKTREE", "sha256": "9764979aa3e1324e217828684e45ef67f40f14427537502a62ce3d66b6872b31", "route_anchor": "DEFINITELY_NOT_A_MARKER"}
       ]
     },
     "held-out-fails": {
-      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "62bf7f6eff4036d78fa3266125a1a14e660f1968574ad8820a48b924eb4dba1f", "anchor": "Package semantic preservation"},
-      "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "62bf7f6eff4036d78fa3266125a1a14e660f1968574ad8820a48b924eb4dba1f", "anchor": "Package semantic preservation"},
+      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "ce38b9b2cfb32fcb892e3666c3daf7e06fcd1629b691cc1cd7ebfa8ebe38788e", "anchor": "Package semantic preservation"},
+      "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "ce38b9b2cfb32fcb892e3666c3daf7e06fcd1629b691cc1cd7ebfa8ebe38788e", "anchor": "Package semantic preservation"},
       "consumers": [
-        {"kind": "held-out-runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "91407da02e1797853caf358f7126f8b36c38db29bf5684a08200376b8c9a9fb3", "route_anchor": "references/lean-operating-discipline.md", "held_out": {"path": "scripts/check-lean-discipline.sh", "revision": "WORKTREE", "sha256": "869bb31cb92fb237570c059a9e2f46133cb8cedd1a35f7ecd22ced0f48e490ae", "anchor": "DEFINITELY_NOT_A_HELD_OUT_ASSERTION"}}
+        {"kind": "held-out-runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "5b051c0a7f6f9430704cc012db26392d37fc0bda62aa4fd404a3ed05f1fd07c0", "route_anchor": "references/lean-operating-discipline.md", "held_out": {"path": "scripts/check-lean-discipline.sh", "revision": "WORKTREE", "sha256": "869bb31cb92fb237570c059a9e2f46133cb8cedd1a35f7ecd22ced0f48e490ae", "anchor": "DEFINITELY_NOT_A_HELD_OUT_ASSERTION"}}
       ]
     },
     "optional-only": {
-      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "62bf7f6eff4036d78fa3266125a1a14e660f1968574ad8820a48b924eb4dba1f", "anchor": "Package semantic preservation"},
-      "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "62bf7f6eff4036d78fa3266125a1a14e660f1968574ad8820a48b924eb4dba1f", "anchor": "Package semantic preservation"},
+      "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "ce38b9b2cfb32fcb892e3666c3daf7e06fcd1629b691cc1cd7ebfa8ebe38788e", "anchor": "Package semantic preservation"},
+      "after": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "ce38b9b2cfb32fcb892e3666c3daf7e06fcd1629b691cc1cd7ebfa8ebe38788e", "anchor": "Package semantic preservation"},
       "consumers": [
-        {"kind": "advisory-note", "required": false, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "91407da02e1797853caf358f7126f8b36c38db29bf5684a08200376b8c9a9fb3", "route_anchor": "references/lean-operating-discipline.md"}
+        {"kind": "advisory-note", "required": false, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "5b051c0a7f6f9430704cc012db26392d37fc0bda62aa4fd404a3ed05f1fd07c0", "route_anchor": "references/lean-operating-discipline.md"}
       ]
     }
   },

@@ -76,12 +76,42 @@ if (root / ".git").exists():
     if tracked.returncode == 0:
         raise SystemExit("flat canonical source skill file must not be tracked: skills/SKILL.md")
 
+expected_skill_files = [
+    "skills/audit-andon/SKILL.md",
+    "skills/audit-assess/SKILL.md",
+    "skills/audit-implement/SKILL.md",
+    "skills/audit-state/SKILL.md",
+    "skills/implementaudit/SKILL.md",
+]
 skill_files = sorted(p.relative_to(root).as_posix() for p in (root / "skills").glob("*/SKILL.md"))
-if skill_files != ["skills/implementaudit/SKILL.md"]:
+if skill_files != expected_skill_files:
     raise SystemExit(
-        "expected exactly one name-matched source skill: "
+        "expected exact source skill population: "
         + ", ".join(skill_files or ["<none>"])
     )
+
+for skill_file in skill_files:
+    text = (root / skill_file).read_text(encoding="utf-8")
+    name = Path(skill_file).parent.name
+    if not text.startswith("---\n"):
+        raise SystemExit(f"{skill_file} must have YAML frontmatter")
+    frontmatter = text.split("---\n", 2)[1]
+    if not re.search(rf"(?m)^name:\s*{re.escape(name)}\s*$", frontmatter):
+        raise SystemExit(f"{skill_file} frontmatter name must be {name}")
+    if not re.search(r'(?m)^\s*version:\s*["\']?0\.4\.0["\']?\s*$', frontmatter):
+        raise SystemExit(f"{skill_file} metadata.version must be 0.4.0")
+
+for child in ("audit-state", "audit-assess", "audit-implement", "audit-andon"):
+    child_root = root / "skills" / child
+    extras = sorted(
+        p.relative_to(root).as_posix()
+        for p in child_root.iterdir()
+        if p.name != "SKILL.md"
+    )
+    if extras:
+        raise SystemExit(
+            f"skills/{child} must not duplicate shared substrate: " + ", ".join(extras)
+        )
 
 host_plugins = {}
 for manifest_path in (

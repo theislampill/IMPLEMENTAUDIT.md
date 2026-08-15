@@ -22,7 +22,19 @@ from typing import Any
 
 
 CONTRACT_PATH = Path("package/implementaudit-package.json")
-EXPECTED_REQUIRED_SKILLS = ["implementaudit"]
+EXPECTED_REQUIRED_SKILLS = [
+    "implementaudit",
+    "audit-state",
+    "audit-assess",
+    "audit-implement",
+    "audit-andon",
+]
+EXPECTED_INTERNAL_SKILLS = [
+    {"name": "audit-state", "maintainer_only": False, "directly_invocable": False},
+    {"name": "audit-assess", "maintainer_only": False, "directly_invocable": False},
+    {"name": "audit-implement", "maintainer_only": True, "directly_invocable": False},
+    {"name": "audit-andon", "maintainer_only": False, "directly_invocable": True},
+]
 EXPECTED_SHARED_ROOTS = [
     "skills/implementaudit/references",
     "skills/implementaudit/scripts",
@@ -120,19 +132,20 @@ def require_equal(label: str, observed: Any, expected: Any) -> None:
 
 
 def skill_runtime_version(skill_path: Path) -> str:
+    skill_name = skill_path.parent.name
     try:
         text = skill_path.read_text(encoding="utf-8")
     except FileNotFoundError as exc:
-        raise ContractError(f"missing governor skill: {skill_path.as_posix()}") from exc
+        raise ContractError(f"missing required skill: {skill_path.as_posix()}") from exc
     frontmatter = re.match(r"---\n(?P<body>.*?)\n---\n", text, re.S)
     if not frontmatter:
-        raise ContractError("governor SKILL.md has no YAML frontmatter")
+        raise ContractError(f"{skill_name} SKILL.md has no YAML frontmatter")
     version = re.search(
         r'(?m)^\s+version:\s*["\']?([^"\'\n]+)["\']?\s*$',
         frontmatter.group("body"),
     )
     if not version:
-        raise ContractError("governor SKILL.md metadata.version is missing")
+        raise ContractError(f"{skill_name} SKILL.md metadata.version is missing")
     return version.group(1).strip()
 
 
@@ -162,6 +175,7 @@ def validate_contract(root: Path) -> dict[str, Any]:
     require_equal("public_governor", contract.get("public_governor"), "implementaudit")
     require_equal("public_entrypoint", contract.get("public_entrypoint"), "/implementaudit")
     require_equal("required_skills", contract.get("required_skills"), EXPECTED_REQUIRED_SKILLS)
+    require_equal("internal_skills", contract.get("internal_skills"), EXPECTED_INTERNAL_SKILLS)
     require_equal(
         "shared_resource_roots",
         contract.get("shared_resource_roots"),
@@ -180,15 +194,23 @@ def validate_contract(root: Path) -> dict[str, Any]:
         False,
     )
 
-    version = skill_runtime_version(root / "skills/implementaudit/SKILL.md")
-    require_equal("governor runtime version", version, contract["runtime_version"])
-
     observed_skills = sorted(
         path.parent.name
         for path in (root / "skills").glob("*/SKILL.md")
         if path.is_file()
     )
-    require_equal("model-facing skill population", observed_skills, EXPECTED_REQUIRED_SKILLS)
+    require_equal(
+        "model-facing skill population",
+        observed_skills,
+        sorted(contract["required_skills"]),
+    )
+    for skill_name in contract["required_skills"]:
+        version = skill_runtime_version(root / f"skills/{skill_name}/SKILL.md")
+        require_equal(
+            f"{skill_name} runtime version",
+            version,
+            contract["runtime_version"],
+        )
 
     for manifest_path in EXPECTED_MANIFESTS.values():
         validate_manifest(root, manifest_path, contract)
@@ -275,6 +297,7 @@ def inventory_bytes(
         "release_family": contract["release_family"],
         "public_governor": contract["public_governor"],
         "required_skills": contract["required_skills"],
+        "internal_skills": contract["internal_skills"],
         "source": identity,
         "members": members,
     }
@@ -399,9 +422,42 @@ def source_skill_entries(root: Path) -> list[tuple[Path, bytes, int]]:
     return entries
 
 
+def internal_skill_entries(root: Path) -> list[tuple[str, bytes, int]]:
+    """Return canonical plugin members for the exact internal skill population."""
+    tracked = set(git_output(root, "ls-files", "--", "skills").splitlines())
+    entries: list[tuple[str, bytes, int]] = []
+    for skill_name in EXPECTED_REQUIRED_SKILLS[1:]:
+        relative = f"skills/{skill_name}/SKILL.md"
+        if relative not in tracked:
+            raise ContractError(
+                f"untracked package member cannot bless its own inventory: {relative}"
+            )
+        path = root / relative
+        if path.is_symlink() or not path.is_file():
+            raise ContractError(f"required internal skill is missing or non-regular: {relative}")
+        entries.append((relative, normalized_bytes(path), 0o644))
+    return entries
+
+
+def standalone_internal_procedure_entries(
+    plugin_child_entries: list[tuple[str, bytes, int]],
+) -> list[tuple[str, bytes, int]]:
+    """Project child cognition without exposing standalone child SKILL.md files."""
+    projections: list[tuple[str, bytes, int]] = []
+    for source_name, source_data, _mode in plugin_child_entries:
+        skill_name = PurePosixPath(source_name).parts[1]
+        text = source_data.decode("utf-8")
+        projected, count = re.subn(r"\A---\n.*?\n---\n+", "", text, count=1, flags=re.S)
+        if count != 1:
+            raise ContractError(f"internal skill frontmatter cannot be projected: {source_name}")
+        projections.append((f"internal-procedures/{skill_name}.md", projected.encode("utf-8"), 0o644))
+    return projections
+
+
 def build_artifacts(root: Path, output_dir: Path, contract: dict[str, Any]) -> list[Path]:
     identity = source_identity(root)
     skill_entries = source_skill_entries(root)
+    child_entries = internal_skill_entries(root)
     package_data = normalized_bytes(root / CONTRACT_PATH)
 
     plugin_entries: list[tuple[str, bytes, int]] = [
@@ -414,6 +470,7 @@ def build_artifacts(root: Path, output_dir: Path, contract: dict[str, Any]) -> l
         (f"skills/implementaudit/{relative.as_posix()}", data, mode)
         for relative, data, mode in skill_entries
     )
+    plugin_entries.extend(child_entries)
     plugin_inventory = inventory_bytes("canonical_plugin", contract, identity, plugin_entries)
     plugin_entries.append((INVENTORY_NAME, plugin_inventory, 0o644))
 
@@ -421,6 +478,7 @@ def build_artifacts(root: Path, output_dir: Path, contract: dict[str, Any]) -> l
     standalone_entries.extend(
         (relative.as_posix(), data, mode) for relative, data, mode in skill_entries
     )
+    standalone_entries.extend(standalone_internal_procedure_entries(child_entries))
     standalone_inventory = inventory_bytes(
         "standalone_compatibility", contract, identity, standalone_entries
     )
@@ -488,7 +546,14 @@ def verify_artifact(
         inventory = json.loads(zf.read(INVENTORY_NAME).decode("utf-8"))
         require_equal("inventory schema", inventory.get("schema"), contract["inventory_contract"]["format"])
         require_equal("inventory role", inventory.get("artifact_role"), role)
-        for field in ("package_name", "runtime_version", "release_family", "public_governor", "required_skills"):
+        for field in (
+            "package_name",
+            "runtime_version",
+            "release_family",
+            "public_governor",
+            "required_skills",
+            "internal_skills",
+        ):
             require_equal(f"inventory {field}", inventory.get(field), contract[field])
         source = inventory.get("source")
         if not isinstance(source, dict) or set(source) != {"commit", "tree", "worktree_state"}:
@@ -528,12 +593,61 @@ def verify_artifact(
                 and PurePosixPath(name).parts[0] == "skills"
                 and PurePosixPath(name).name == "SKILL.md"
             )
-            require_equal("canonical plugin skill population", skill_names, EXPECTED_REQUIRED_SKILLS)
+            require_equal(
+                "canonical plugin skill population",
+                skill_names,
+                sorted(EXPECTED_REQUIRED_SKILLS),
+            )
+            for child in EXPECTED_REQUIRED_SKILLS[1:]:
+                prefix = f"skills/{child}/"
+                child_members = [name for name in names if name.startswith(prefix)]
+                require_equal(
+                    f"canonical plugin {child} member population",
+                    child_members,
+                    [f"{prefix}SKILL.md"],
+                )
+            expected_children = {
+                name: data for name, data, _mode in internal_skill_entries(root)
+            }
+            for name, expected_data in expected_children.items():
+                require_equal(
+                    f"canonical plugin source parity for {name}",
+                    zf.read(name),
+                    expected_data,
+                )
         else:
             if "SKILL.md" not in names or any(name.startswith("skills/") for name in names):
                 raise ContractError("standalone projection must flatten the governor to archive root")
             if any(name.startswith(".codex-plugin/") or name.startswith(".claude-plugin/") for name in names):
                 raise ContractError("standalone projection must exclude host plugin manifests")
+            expected_procedures = sorted(
+                f"internal-procedures/{name}.md" for name in EXPECTED_REQUIRED_SKILLS[1:]
+            )
+            observed_procedures = sorted(
+                name for name in names if name.startswith("internal-procedures/")
+            )
+            require_equal(
+                "standalone internal procedure population",
+                observed_procedures,
+                expected_procedures,
+            )
+            for name in observed_procedures:
+                if zf.read(name).startswith(b"---\n"):
+                    raise ContractError(
+                        f"standalone internal procedure retains discoverable frontmatter: {name}"
+                    )
+            expected_projection_entries = standalone_internal_procedure_entries(
+                internal_skill_entries(root)
+            )
+            expected_projection_data = {
+                name: data for name, data, _mode in expected_projection_entries
+            }
+            for name, expected_data in expected_projection_data.items():
+                require_equal(
+                    f"standalone internal procedure source parity for {name}",
+                    zf.read(name),
+                    expected_data,
+                )
 
     size = asset.stat().st_size
     cap = contract["budgets"][role]["cap_bytes"]
@@ -556,6 +670,7 @@ def read_installed_inventory(target: Path) -> tuple[dict[str, Any], dict[str, An
         "release_family",
         "public_governor",
         "required_skills",
+        "internal_skills",
     ):
         if inventory.get(field) != package.get(field):
             raise ContractError(f"installed package/inventory disagree on {field}")

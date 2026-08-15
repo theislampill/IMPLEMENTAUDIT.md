@@ -137,7 +137,7 @@ import shutil
 import sys
 import tempfile
 import zipfile
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 asset = Path(sys.argv[1]).expanduser()
 checksum = Path(sys.argv[2]).expanduser() if sys.argv[2] else None
@@ -220,10 +220,17 @@ required_archive = {
     "templates/context.md",
     "IMPLEMENTAUDIT_PACKAGE.json",
     "IMPLEMENTAUDIT_INVENTORY.json",
+    "internal-procedures/audit-state.md",
+    "internal-procedures/audit-assess.md",
+    "internal-procedures/audit-implement.md",
+    "internal-procedures/audit-andon.md",
 }
 
 with zipfile.ZipFile(asset) as zf:
-    names = set(zf.namelist())
+    name_list = zf.namelist()
+    names = set(name_list)
+    if len(name_list) != len(names):
+        raise SystemExit("archive contains duplicate member paths")
 
     # Regression guard: wrong-shape archive must be rejected.
     if "skills/implementaudit/SKILL.md" in names:
@@ -238,7 +245,7 @@ with zipfile.ZipFile(asset) as zf:
 
     # Only allowed top-level entries may appear.
     allowed_top_level = {
-        "SKILL.md", "references", "scripts", "templates",
+        "SKILL.md", "references", "scripts", "templates", "internal-procedures",
         "IMPLEMENTAUDIT_PACKAGE.json", "IMPLEMENTAUDIT_INVENTORY.json",
     }
     top_level = {Path(name).parts[0] for name in names if Path(name).parts}
@@ -263,14 +270,50 @@ with zipfile.ZipFile(asset) as zf:
         root = Path(temp_dir)
         zf.extractall(root)
         package = json.loads((root / "IMPLEMENTAUDIT_PACKAGE.json").read_text(encoding="utf-8"))
+        inventory = json.loads((root / "IMPLEMENTAUDIT_INVENTORY.json").read_text(encoding="utf-8"))
+        expected_required = ["implementaudit", "audit-state", "audit-assess", "audit-implement", "audit-andon"]
+        expected_internal = [
+            {"name": "audit-state", "maintainer_only": False, "directly_invocable": False},
+            {"name": "audit-assess", "maintainer_only": False, "directly_invocable": False},
+            {"name": "audit-implement", "maintainer_only": True, "directly_invocable": False},
+            {"name": "audit-andon", "maintainer_only": False, "directly_invocable": True},
+        ]
         if package.get("package_name") != "implementaudit":
             raise SystemExit("package name must be implementaudit")
         if package.get("runtime_version") != expected_version:
             raise SystemExit(
                 f"package version must be {expected_version}, got {package.get('runtime_version')}"
             )
-        if package.get("required_skills") != ["implementaudit"]:
-            raise SystemExit("standalone package must contain only the implementaudit governor")
+        if package.get("public_governor") != "implementaudit":
+            raise SystemExit("standalone public governor must be implementaudit")
+        if package.get("required_skills") != expected_required:
+            raise SystemExit("standalone package must bind the exact five-skill population")
+        if package.get("internal_skills") != expected_internal:
+            raise SystemExit("standalone package must bind the exact four-child population")
+        if inventory.get("artifact_role") != "standalone_compatibility":
+            raise SystemExit("standalone inventory role is invalid")
+        for field in (
+            "package_name", "runtime_version", "release_family", "public_governor",
+            "required_skills", "internal_skills",
+        ):
+            if inventory.get(field) != package.get(field):
+                raise SystemExit(f"standalone package/inventory disagree on {field}")
+        members = inventory.get("members")
+        if not isinstance(members, list):
+            raise SystemExit("standalone inventory members must be a list")
+        expected_paths = {"IMPLEMENTAUDIT_INVENTORY.json"}
+        for member in members:
+            if not isinstance(member, dict) or set(member) != {"path", "bytes", "sha256"}:
+                raise SystemExit("standalone inventory member shape is invalid")
+            relative = PurePosixPath(str(member["path"]))
+            if relative.is_absolute() or ".." in relative.parts or "\\" in str(member["path"]):
+                raise SystemExit(f"unsafe standalone inventory path: {relative}")
+            expected_paths.add(relative.as_posix())
+            data = root.joinpath(*relative.parts).read_bytes()
+            if len(data) != member["bytes"] or hashlib.sha256(data).hexdigest() != member["sha256"]:
+                raise SystemExit(f"standalone inventory member identity mismatch: {relative}")
+        if names != expected_paths:
+            raise SystemExit("standalone archive population differs from exact inventory")
         if (root / "IMPLEMENTAUDIT.md").exists():
             raise SystemExit("root IMPLEMENTAUDIT.md must be absent")
         if not (root / "SKILL.md").is_file():
@@ -280,12 +323,31 @@ with zipfile.ZipFile(asset) as zf:
                 "skills/ subdirectory must not exist at archive root; "
                 "skill content must be at archive root"
             )
+        procedure_names = sorted(
+            path.relative_to(root).as_posix()
+            for path in (root / "internal-procedures").glob("*.md")
+            if path.is_file()
+        )
+        expected_procedures = sorted(
+            f"internal-procedures/{name}.md" for name in expected_required[1:]
+        )
+        if procedure_names != expected_procedures:
+            raise SystemExit("standalone internal procedure population is not exact")
+        for procedure in procedure_names:
+            if (root / procedure).read_bytes().startswith(b"---\n"):
+                raise SystemExit("standalone internal procedure retains discoverable skill frontmatter")
+        skill_documents = [path for path in root.rglob("SKILL.md") if path.is_file()]
+        if skill_documents != [root / "SKILL.md"]:
+            raise SystemExit("standalone projection must expose only the governor SKILL.md")
 
         target = codex_home / "skills" / "implementaudit"
         resolved_home = codex_home.resolve(strict=False)
         resolved_target = target.resolve(strict=False)
-        if not str(resolved_target).startswith(str(resolved_home)):
+        if os.path.commonpath((resolved_home, resolved_target)) != str(resolved_home):
             raise SystemExit("target path escapes codex home")
+        plugin_target = codex_home / "plugins" / "implementaudit"
+        if plugin_target.exists() or plugin_target.is_symlink():
+            raise SystemExit("ambiguous same-identity plugin and standalone co-install is forbidden")
 
         target.parent.mkdir(parents=True, exist_ok=True)
         tmp_target = target.parent / f".implementaudit-install-{os.getpid()}"
@@ -341,14 +403,13 @@ with zipfile.ZipFile(asset) as zf:
             if not (tmp_target / rel).is_file():
                 raise SystemExit(f"installed skill missing required file: {rel}")
 
-        installed_files = [path for path in tmp_target.rglob("*") if path.is_file()]
-        if len(names) != 51:
-            raise SystemExit(f"release archive must contain 51 members, got {len(names)}")
-        if len(installed_files) != 51:
-            raise SystemExit(
-                "Codex standalone projection must contain 51 files including "
-                f"package identity and inventory, got {len(installed_files)}"
-            )
+        observed_paths = {
+            path.relative_to(tmp_target).as_posix()
+            for path in tmp_target.rglob("*")
+            if path.is_file() or path.is_symlink()
+        }
+        if observed_paths != expected_paths:
+            raise SystemExit("installed standalone population differs from exact inventory")
 
         if target.exists():
             shutil.rmtree(target)

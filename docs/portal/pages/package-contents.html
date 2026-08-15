@@ -4,8 +4,8 @@
       <div class="hero-card"><h2>One atomic package, two generated projections.</h2><p><code>IMPLEMENTAUDIT.plugin.zip</code> is the canonical dual-host package. <code>IMPLEMENTAUDIT.skill</code> is a generated, checksummed standalone compatibility artifact, not a second package topology.<br>Repo docs, tests, fixtures, release ledgers, generated portal output, and local run artifacts remain maintenance material.</p></div>
 
       <h2 id="contents">Contents</h2>
-      <p>The canonical plugin preserves <code>skills/implementaudit/</code>, equal <code>.codex-plugin/plugin.json</code> and <code>.claude-plugin/plugin.json</code> host manifests pointing to <code>./skills/</code>, Claude marketplace metadata, and generated package/inventory metadata.<br>It exposes exactly one model-facing skill in v0.4: the stable public/default <code>/implementaudit</code> governor. There are zero child skills. Its <code>references/</code>, <code>templates/</code>, and helper <code>scripts/</code> are one shared deterministic substrate.</p>
-      <p>The standalone <code>IMPLEMENTAUDIT.skill</code> compatibility artifact is generated from the same source and version. It flattens <code>skills/implementaudit/</code> to archive-root <code>SKILL.md</code>, <code>references/</code>, <code>templates/</code>, and <code>scripts/</code>, retains package/inventory metadata, and carries no host manifests or nested <code>skills/</code> tree.<br>Optional <code>/dashboard/</code> content is in neither projection. Exact members, bytes, and digests belong to the fresh exact-tree build receipt, not this descriptive page.</p>
+      <p>The canonical plugin preserves <code>skills/implementaudit/</code>, equal <code>.codex-plugin/plugin.json</code> and <code>.claude-plugin/plugin.json</code> host manifests pointing to <code>./skills/</code>, Claude marketplace metadata, and generated package/inventory metadata.<br>It exposes the stable public/default <code>/implementaudit</code> governor plus exactly four child skills: <code>audit-state</code>, <code>audit-assess</code>, maintainer-only <code>audit-implement</code>, and dual-entry <code>audit-andon</code>. A governor derivation loads at most one child; children return bounded cognition, never chain, and own no authority, currentness, mutation, lifecycle, release, closure, or <code>AUDIT_COMPLETE</code>. A direct <code>audit-andon</code> cord-pull returns to its caller and grants no new authority. The governor's <code>references/</code>, <code>templates/</code>, and helper <code>scripts/</code> remain one shared deterministic substrate.</p>
+      <p>The standalone <code>IMPLEMENTAUDIT.skill</code> compatibility artifact is generated from the same source and version. It flattens <code>skills/implementaudit/</code> to archive-root <code>SKILL.md</code>, <code>references/</code>, <code>templates/</code>, and <code>scripts/</code>, carries deterministic internal-procedure projections for the four children, retains package/inventory metadata, and carries no host manifests, nested <code>skills/</code> tree, or independently discoverable child packages.<br>Optional <code>/dashboard/</code> content is in neither projection. Exact members, bytes, and digests belong to the fresh exact-tree build receipt, not this descriptive page.</p>
 
       <h2 id="scripts">Shipped scripts</h2>
       <p>These helper scripts live in the repo and canonical plugin under <code>skills/implementaudit/scripts/</code>; the standalone compatibility projection ships the same files as root <code>scripts/</code>.</p>
@@ -60,18 +60,26 @@
 IMPLEMENTAUDIT_PACKAGE.json
 IMPLEMENTAUDIT_INVENTORY.json
 skills/implementaudit/SKILL.md
+skills/audit-state/SKILL.md
+skills/audit-assess/SKILL.md
+skills/audit-implement/SKILL.md
+skills/audit-andon/SKILL.md
 skills/implementaudit/references/
 skills/implementaudit/templates/
 skills/implementaudit/scripts/
 
 IMPLEMENTAUDIT.skill/
 SKILL.md
+internal-procedures/audit-state.md
+internal-procedures/audit-assess.md
+internal-procedures/audit-implement.md
+internal-procedures/audit-andon.md
 references/
 templates/
 scripts/
 IMPLEMENTAUDIT_PACKAGE.json
 IMPLEMENTAUDIT_INVENTORY.json</code></pre>
-      <p>The canonical plugin must preserve the nested <code>skills/implementaudit/</code> tree. The standalone compatibility projection must flatten that tree and must not carry plugin manifests or a nested <code>skills/</code> directory. In particular, legacy archive-local manifest metadata with <code>skills: "./"</code> is deliberately absent from the compatibility artifact; flattening is a generated layout, not a second plugin manifest. Both projections are generated and checked against one package contract and source identity.</p>
+      <p>The canonical plugin must preserve the exact five-skill population and the nested <code>skills/implementaudit/</code> shared substrate. The standalone compatibility projection must flatten the governor tree, project the four internal procedures under <code>internal-procedures/</code>, and must not carry plugin manifests, a nested <code>skills/</code> directory, or independently discoverable child packages. In particular, legacy archive-local manifest metadata with <code>skills: "./"</code> is deliberately absent from the compatibility artifact; flattening is a generated layout, not a second plugin manifest. Both projections are generated and checked against one package contract and source identity.</p>
 
       <h2 id="repo-only-material">Repo-only material</h2>
       <p><code>README.md</code>, <code>CHANGELOG.md</code>, <code>fixtures/</code>, <code>tests/</code>, release ledgers, generated portal output, and local run artifacts are repo-side maintenance material unless a future owner decision changes the package boundary.</p>

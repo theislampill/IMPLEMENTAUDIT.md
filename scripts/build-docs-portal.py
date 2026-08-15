@@ -188,8 +188,17 @@ def package_identity(root: Path) -> dict:
         raise SystemExit("package contract public governor must equal the package name")
     if contract.get("public_entrypoint") != f"/{contract.get('public_governor', '')}":
         raise SystemExit("package contract public entrypoint must route to the governor")
-    if contract.get("required_skills") != [contract.get("public_governor")]:
-        raise SystemExit("package contract must declare exactly one governor and zero child skills")
+    expected_required = ["implementaudit", "audit-state", "audit-assess", "audit-implement", "audit-andon"]
+    expected_internal = [
+        {"name": "audit-state", "maintainer_only": False, "directly_invocable": False},
+        {"name": "audit-assess", "maintainer_only": False, "directly_invocable": False},
+        {"name": "audit-implement", "maintainer_only": True, "directly_invocable": False},
+        {"name": "audit-andon", "maintainer_only": False, "directly_invocable": True},
+    ]
+    if contract.get("required_skills") != expected_required:
+        raise SystemExit("package contract must declare one governor and the exact four child skills")
+    if contract.get("internal_skills") != expected_internal:
+        raise SystemExit("package contract internal skill metadata is incomplete or incoherent")
 
     return {
         "logical_package": contract["logical_package"],
@@ -199,6 +208,7 @@ def package_identity(root: Path) -> dict:
         "public_governor": contract["public_governor"],
         "public_entrypoint": contract["public_entrypoint"],
         "required_skills": contract["required_skills"],
+        "internal_skills": contract["internal_skills"],
         "host_manifests": contract["host_manifests"],
         "generated_projections": contract.get("generated_projections"),
     }

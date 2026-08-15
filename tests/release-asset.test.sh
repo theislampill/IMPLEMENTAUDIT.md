@@ -1052,6 +1052,10 @@ required = {
     "templates/context.md",
     "IMPLEMENTAUDIT_PACKAGE.json",
     "IMPLEMENTAUDIT_INVENTORY.json",
+    "internal-procedures/audit-state.md",
+    "internal-procedures/audit-assess.md",
+    "internal-procedures/audit-implement.md",
+    "internal-procedures/audit-andon.md",
 }
 blocked_parts = {
     ".git",
@@ -1070,7 +1074,7 @@ blocked_names = {
 # Positive whitelist: only these top-level names are allowed at archive root.
 # Anything else (repo scripts/, docs/, fixtures/, tests/, README.md, etc.) is rejected.
 allowed_top_level = {
-    "SKILL.md", "references", "scripts", "templates",
+    "SKILL.md", "references", "scripts", "templates", "internal-procedures",
     "IMPLEMENTAUDIT_PACKAGE.json", "IMPLEMENTAUDIT_INVENTORY.json",
 }
 
@@ -1324,8 +1328,22 @@ with zipfile.ZipFile(asset) as zf:
         package = json.loads((root / "IMPLEMENTAUDIT_PACKAGE.json").read_text())
         if package.get("runtime_version") != "0.4.0":
             raise SystemExit("expected package runtime version 0.4.0")
-        if package.get("required_skills") != ["implementaudit"]:
-            raise SystemExit("standalone package must retain governor-only population")
+        expected_required = ["implementaudit", "audit-state", "audit-assess", "audit-implement", "audit-andon"]
+        expected_internal = [
+            {"name": "audit-state", "maintainer_only": False, "directly_invocable": False},
+            {"name": "audit-assess", "maintainer_only": False, "directly_invocable": False},
+            {"name": "audit-implement", "maintainer_only": True, "directly_invocable": False},
+            {"name": "audit-andon", "maintainer_only": False, "directly_invocable": True},
+        ]
+        if package.get("public_governor") != "implementaudit":
+            raise SystemExit("standalone package must retain the implementaudit governor")
+        if package.get("required_skills") != expected_required:
+            raise SystemExit("standalone package must bind the exact five-skill population")
+        if package.get("internal_skills") != expected_internal:
+            raise SystemExit("standalone package must bind the exact four-child population")
+        skill_documents = [path for path in root.rglob("SKILL.md") if path.is_file()]
+        if skill_documents != [root / "SKILL.md"]:
+            raise SystemExit("standalone package must expose exactly one public SKILL.md")
         if (root / "IMPLEMENTAUDIT.md").exists():
             raise SystemExit("root IMPLEMENTAUDIT.md must not be included")
 

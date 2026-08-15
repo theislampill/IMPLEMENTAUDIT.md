@@ -12,6 +12,10 @@ bash scripts/check-skill-layout-contract.sh
 make_minimal_repo() {
   local dir="$1"
   mkdir -p \
+    "$dir/skills/audit-state" \
+    "$dir/skills/audit-assess" \
+    "$dir/skills/audit-implement" \
+    "$dir/skills/audit-andon" \
     "$dir/skills/implementaudit/references" \
     "$dir/skills/implementaudit/scripts" \
     "$dir/skills/implementaudit/templates" \
@@ -21,12 +25,51 @@ make_minimal_repo() {
     "$dir/docs/audits"
 
   cat >"$dir/skills/implementaudit/SKILL.md" <<'EOF'
+---
+name: implementaudit
+description: Fixture governor.
+metadata:
+  version: "0.4.0"
+---
+
 # /implementaudit
 
 Source checkout layout is conventional and name-matched:
 `skills/implementaudit/SKILL.md`. Release archives flatten that directory only as a build artifact.
 Runtime paths use `references/routing.md`,
 `scripts/claim-run.sh`, and `templates/PROTOCOL.md`.
+EOF
+  cat >"$dir/skills/audit-state/SKILL.md" <<'EOF'
+---
+name: audit-state
+description: Internal bounded state-recovery cognition routed by /implementaudit.
+metadata:
+  version: "0.4.0"
+---
+EOF
+  cat >"$dir/skills/audit-assess/SKILL.md" <<'EOF'
+---
+name: audit-assess
+description: Internal bounded independent assessment routed by /implementaudit.
+metadata:
+  version: "0.4.0"
+---
+EOF
+  cat >"$dir/skills/audit-implement/SKILL.md" <<'EOF'
+---
+name: audit-implement
+description: Internal maintainer qualification cognition routed by /implementaudit.
+metadata:
+  version: "0.4.0"
+---
+EOF
+  cat >"$dir/skills/audit-andon/SKILL.md" <<'EOF'
+---
+name: audit-andon
+description: Bounded Andon-response cognition.
+metadata:
+  version: "0.4.0"
+---
 EOF
   cat >"$dir/.claude-plugin/plugin.json" <<'EOF'
 {"name":"implementaudit","version":"0.3.2","skills":"./skills/","author":{"name":"theislampill"}}
@@ -57,6 +100,35 @@ EOF
 positive="$tmp/positive"
 make_minimal_repo "$positive"
 bash scripts/check-skill-layout-contract.sh --repo-root "$positive"
+
+missing_child="$tmp/missing-child"
+make_minimal_repo "$missing_child"
+rm "$missing_child/skills/audit-andon/SKILL.md"
+if bash scripts/check-skill-layout-contract.sh --repo-root "$missing_child" \
+    >"$tmp/missing-child.out" 2>&1; then
+  printf 'skill-layout-contract.test: missing child unexpectedly passed\n' >&2
+  exit 1
+fi
+grep -F "expected exact source skill population" "$tmp/missing-child.out" >/dev/null || {
+  printf 'skill-layout-contract.test: expected missing-child population diagnostic\n' >&2
+  cat "$tmp/missing-child.out" >&2
+  exit 1
+}
+
+extra_child="$tmp/extra-child"
+make_minimal_repo "$extra_child"
+mkdir -p "$extra_child/skills/invented-child"
+cp "$extra_child/skills/audit-state/SKILL.md" "$extra_child/skills/invented-child/SKILL.md"
+if bash scripts/check-skill-layout-contract.sh --repo-root "$extra_child" \
+    >"$tmp/extra-child.out" 2>&1; then
+  printf 'skill-layout-contract.test: extra child unexpectedly passed\n' >&2
+  exit 1
+fi
+grep -F "expected exact source skill population" "$tmp/extra-child.out" >/dev/null || {
+  printf 'skill-layout-contract.test: expected extra-child population diagnostic\n' >&2
+  cat "$tmp/extra-child.out" >&2
+  exit 1
+}
 
 flat="$tmp/flat"
 make_minimal_repo "$flat"

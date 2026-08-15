@@ -67,11 +67,19 @@ credential type only, and recommend rotation when exposure may have occurred.
 The normal release/install unit is one atomic dual-host plugin package. Its
 canonical generated release projection is `IMPLEMENTAUDIT.plugin.zip`.
 `/implementaudit` remains the sole stable public/default governor, and v0.4
-ships zero child skills. References, templates, and helper scripts remain one
-shared deterministic substrate under the governor:
+ships exactly four model-facing child skills: `audit-state`, `audit-assess`,
+maintainer-only `audit-implement`, and dual-entry `audit-andon`. They are bounded cognition,
+not public lifecycle stages: no child routes to another child or owns authority,
+currentness, mutation, transition, release, closure, or `AUDIT_COMPLETE`.
+References, templates, and helper scripts remain one shared deterministic
+substrate under the governor:
 
 ```text
 skills/implementaudit/SKILL.md
+skills/audit-state/SKILL.md
+skills/audit-assess/SKILL.md
+skills/audit-implement/SKILL.md
+skills/audit-andon/SKILL.md
 skills/implementaudit/references/
 skills/implementaudit/scripts/
 skills/implementaudit/templates/
@@ -86,6 +94,10 @@ The canonical plugin projection preserves the plugin-root topology:
 IMPLEMENTAUDIT_PACKAGE.json
 IMPLEMENTAUDIT_INVENTORY.json
 skills/implementaudit/SKILL.md
+skills/audit-state/SKILL.md
+skills/audit-assess/SKILL.md
+skills/audit-implement/SKILL.md
+skills/audit-andon/SKILL.md
 skills/implementaudit/references/
 skills/implementaudit/scripts/
 skills/implementaudit/templates/
@@ -95,8 +107,10 @@ Both source and plugin-archive manifests declare `skills: "./skills/"`.
 `IMPLEMENTAUDIT.skill` is a generated, checksummed standalone compatibility
 projection, not the canonical package topology. It flattens only
 `skills/implementaudit/` to archive root as `SKILL.md`, `references/`,
-`scripts/`, and `templates/`, with package and inventory metadata; it does not
-carry plugin manifests or a nested `skills/` directory. Root documentation,
+`scripts/`, and `templates/`, adds deterministic internal-procedure projections
+for the four children, and carries package and inventory metadata; it does not
+carry plugin manifests, a nested `skills/` directory, or independently
+discoverable child packages. Root documentation,
 root scripts, fixtures, tests, CI config, audit ledgers, and maintenance docs
 are repo-only unless a future owner decision proves otherwise.
 

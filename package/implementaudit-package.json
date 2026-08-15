@@ -17,7 +17,33 @@
   "public_governor": "implementaudit",
   "public_entrypoint": "/implementaudit",
   "required_skills": [
-    "implementaudit"
+    "implementaudit",
+    "audit-state",
+    "audit-assess",
+    "audit-implement",
+    "audit-andon"
+  ],
+  "internal_skills": [
+    {
+      "name": "audit-state",
+      "maintainer_only": false,
+      "directly_invocable": false
+    },
+    {
+      "name": "audit-assess",
+      "maintainer_only": false,
+      "directly_invocable": false
+    },
+    {
+      "name": "audit-implement",
+      "maintainer_only": true,
+      "directly_invocable": false
+    },
+    {
+      "name": "audit-andon",
+      "maintainer_only": false,
+      "directly_invocable": true
+    }
   ],
   "shared_resource_roots": [
     "skills/implementaudit/references",

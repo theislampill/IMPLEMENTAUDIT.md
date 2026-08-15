@@ -13,22 +13,31 @@ make_fixture() {
   local root="$1"
   mkdir -p \
     "$root/package" "$root/.codex-plugin" "$root/.claude-plugin" \
-    "$root/skills/implementaudit" "$root/docs/portal/pages"
+    "$root/skills/implementaudit" "$root/skills/audit-state" \
+    "$root/skills/audit-assess" "$root/skills/audit-implement" \
+    "$root/skills/audit-andon" \
+    "$root/docs/portal/pages"
   cp package/implementaudit-package.json "$root/package/implementaudit-package.json"
   cp .codex-plugin/plugin.json "$root/.codex-plugin/plugin.json"
   cp .claude-plugin/plugin.json "$root/.claude-plugin/plugin.json"
   printf '%s\n' '---' 'name: implementaudit' '---' > "$root/skills/implementaudit/SKILL.md"
+  printf '%s\n' '---' 'name: audit-state' '---' > "$root/skills/audit-state/SKILL.md"
+  printf '%s\n' '---' 'name: audit-assess' '---' > "$root/skills/audit-assess/SKILL.md"
+  printf '%s\n' '---' 'name: audit-implement' '---' > "$root/skills/audit-implement/SKILL.md"
+  printf '%s\n' '---' 'name: audit-andon' '---' > "$root/skills/audit-andon/SKILL.md"
   cat > "$root/AGENTS.md" <<'EOF'
 The normal release/install unit is one atomic dual-host plugin package.
 The canonical generated artifact is IMPLEMENTAUDIT.plugin.zip.
 IMPLEMENTAUDIT.skill is the standalone compatibility projection.
-/implementaudit is the sole stable public/default governor and v0.4 has zero child skills.
+/implementaudit is the sole stable public/default governor with exactly four model-facing child skills.
+They are audit-state, audit-assess, audit-implement, and audit-andon.
 Local staged-copy evidence is not native host-discovery proof.
 EOF
   cat > "$root/README.md" <<'EOF'
 This is one atomic dual-host plugin. IMPLEMENTAUDIT.plugin.zip is canonical.
 IMPLEMENTAUDIT.skill is compatibility-only. /implementaudit is the sole stable public/default governor.
-The package has zero child skills and is owned by package/implementaudit-package.json.
+The package has exactly four child skills: audit-state, audit-assess, audit-implement, and audit-andon.
+It is owned by package/implementaudit-package.json.
 EOF
   cat > "$root/CONTRIBUTING.md" <<'EOF'
 Package owner: package/implementaudit-package.json.
@@ -41,7 +50,8 @@ EOF
   cat > "$root/docs/portal/pages/package-contents.html" <<'EOF'
 One atomic package, two generated projections.
 IMPLEMENTAUDIT.plugin.zip is canonical; IMPLEMENTAUDIT.skill is compatibility-only.
-The governor has zero child skills. Manifest presence is not evidence that marketplace discovery works.
+The governor routes exactly four child skills: audit-state, audit-assess, audit-implement, and audit-andon.
+Manifest presence is not evidence that marketplace discovery works.
 EOF
 }
 
