@@ -3,8 +3,10 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CHECKER="$ROOT/scripts/check-genealogy-corpus.py"
+HISTORICAL_CHECKER="$ROOT/scripts/check-historical-absorption-baseline.py"
 
 python "$CHECKER" --root "$ROOT"
+python "$HISTORICAL_CHECKER" --root "$ROOT"
 
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
@@ -13,6 +15,11 @@ fresh_fixture() {
   rm -rf "$TMP/repo"
   mkdir -p "$TMP/repo/docs/research"
   cp -R "$ROOT/docs/research/genealogy" "$TMP/repo/docs/research/genealogy"
+}
+
+fresh_historical_fixture() {
+  fresh_fixture
+  cp -R "$ROOT/docs/research/implementaudit" "$TMP/repo/docs/research/implementaudit"
 }
 
 expect_failure() {
@@ -85,6 +92,26 @@ expect_failure "absolute local path" python "$CHECKER" --root "$TMP/repo"
 fresh_fixture
 printf '\nCurrent RXX owner is R51.\n' >> "$TMP/repo/docs/research/genealogy/law/evolved-lean/README.md"
 expect_failure "IMPLEMENTAUDIT-specific disposition in neutral README" python "$CHECKER" --root "$TMP/repo"
+
+fresh_historical_fixture
+python - "$TMP/repo/docs/research/implementaudit/historical-absorption-baseline/HISTORICAL_ABSORPTION_BASELINE.json" <<'PY'
+import json, pathlib, sys
+p = pathlib.Path(sys.argv[1])
+d = json.loads(p.read_text(encoding="utf-8"))
+d["rows"].pop()
+p.write_text(json.dumps(d, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+PY
+expect_failure "historical baseline property denominator mismatch" python "$HISTORICAL_CHECKER" --root "$TMP/repo"
+
+fresh_historical_fixture
+python - "$TMP/repo/docs/research/implementaudit/historical-absorption-baseline/HISTORICAL_ABSORPTION_BASELINE.json" <<'PY'
+import json, pathlib, sys
+p = pathlib.Path(sys.argv[1])
+d = json.loads(p.read_text(encoding="utf-8"))
+d["rows"][0]["V0400_CHANGE_DISPOSITION"] = "CHANGED_WITHOUT_BASELINE"
+p.write_text(json.dumps(d, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+PY
+expect_failure "non-deferred v0.4 disposition" python "$HISTORICAL_CHECKER" --root "$TMP/repo"
 
 fresh_fixture
 python - "$TMP/fake-package.zip" <<'PY'

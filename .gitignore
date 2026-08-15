@@ -18,6 +18,8 @@ graphify-out/
 # Local diagnostics and smoke debris
 *.log
 *.tmp
+__pycache__/
+*.py[cod]
 tmp/
 temp/
 
