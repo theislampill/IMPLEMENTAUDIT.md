@@ -129,4 +129,17 @@ bash "$TMP/claims/scripts/check-public-claim-boundaries.sh" >/dev/null
 printf 'the current product has a signed %s\n' 'release' > "$TMP/claims/docs/research/genealogy/law/evolved-lean/README.md"
 expect_failure "signing claim requires a signature artifact" bash "$TMP/claims/scripts/check-public-claim-boundaries.sh"
 
+corpus_whitespace="$(git check-attr whitespace -- \
+  docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_FROZEN_REPORT.md)"
+case "$corpus_whitespace" in
+  *'whitespace: -trailing-space') ;;
+  *) fail "exact frozen corpus is not exempt from trailing-space normalization" ;;
+esac
+
+authored_whitespace="$(git check-attr whitespace -- docs/research/genealogy/README.md)"
+case "$authored_whitespace" in
+  *'whitespace: unspecified') ;;
+  *) fail "authored genealogy documentation lost normal whitespace enforcement" ;;
+esac
+
 echo "genealogy corpus positive and negative controls: PASS"
