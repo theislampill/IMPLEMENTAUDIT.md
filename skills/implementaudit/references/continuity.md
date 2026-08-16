@@ -10,19 +10,41 @@ A boundary starts a CONTEXT EPOCH in STATE.md with provenance
 `inferred-context-gap`. Never fabricate compaction; doubtful continuity without
 a host signal is `inferred-context-gap`. An uninterrupted turn adds no ceremony.
 
+```text
+POST_BOUNDARY_FIRST_SUBSTANTIVE_MESSAGE=VERIFIED_CONTINUITY_RECEIPT
+POST_BOUNDARY_NEW_EXECUTION=REFUSE_UNTIL_CURRENT
+PREBOUNDARY_PROCESS=WAIT_OR_TERMINATE_ONLY
+STANDING_CONSTRAINT_ROLE=DO_NOT_PROMOTE_WITHOUT_LIVE_STATE
+```
+
+The boundary is an ordered stop-the-line gate. Before ordinary task narration,
+new commands, audit-artifact writes, package builds, source effects or external
+effects, discover the controller and immediately record the real boundary with
+`claim-run.sh --invalidate-continuity <id> --boundary <provenance> --event
+<opaque-event-id>`. This makes an older receipt mechanically stale before any
+reconstructed summary can route work. A pre-boundary process may only be waited
+on or terminated for containment. Its terminal output is classified after
+reconciliation against the exact process/candidate; do not start a replacement
+or promote the result before currentness.
+
 Before repository mutation:
 
 1. Use `scripts/claim-run.sh --current-controller [controller-id]`; missing,
    ambiguous, invalid, foreign, or stale custody refuses—never guess.
-2. Reread ROADMAP.md, STATE.md, optional `.IMPLEMENTAUDIT/host-notes.md`, live
+2. Issue the fresh `--invalidate-continuity` event described above. If the host
+   did not supply a native boundary, use the honest fallback provenance rather
+   than silently retaining an old receipt.
+3. Reread STATE.md, ROADMAP.md, optional `.IMPLEMENTAUDIT/host-notes.md`, live
    repository/external/process/background state, and terminal evidence. Each
    durable file needs its own completed host action; evidence reads must not use
    ';', '&&', pipelines, multi-stage shell composition, or batching.
-3. Classify critical instructions by kind/status/target. LIVE STATE WINS over
+4. Classify critical instructions by kind/status/target. LIVE STATE WINS over
    reconstructed context.
-4. Refuse a satisfied/superseded one-shot: `Target already satisfied at
+   A true standing constraint remains binding but cannot become the ACTIVE work
+   cell merely because compaction retained it prominently.
+5. Refuse a satisfied/superseded one-shot: `Target already satisfied at
    <evidence>; no duplicate action taken.`
-5. Record the reconciled epoch and Next action; otherwise hand off exact evidence.
+6. Record the reconciled epoch and Next action; otherwise hand off exact evidence.
 
 At a boundary call `claim-run.sh --invalidate-continuity <id> --boundary
 <provenance> --event <opaque-event-id>`. A native host signal is a trigger,
@@ -34,7 +56,14 @@ After separate reads mint `--resume-controller <id> --boundary <provenance>
 --epoch <epoch>`, then `--verify-resume-receipt`. This binds controller/claim,
 HEAD/tree, STATE/ROADMAP hashes, invalidation, boundary, epoch, and Next action.
 `--require-current-continuity <id>` verifies the binding under the shared writer
-gate before effects. Legacy v1 receipts work only without invalidation.
+gate before effects. The first substantive post-boundary message reports the
+verified receipt, controller/epoch, exact ACTIVE/READY/BLOCKED frontier and any
+discrepancy. Only then may ordinary task narration or new execution resume.
+Legacy v1 receipts work only without invalidation.
+
+`audit-state` is downstream cognition, never the gate: route it only after the
+receipt is mechanically current when stale-context reconstruction still needs
+model judgement. It cannot mint the invalidation/receipt or authorise an effect.
 
 Transfer by expected-claim CAS:
 

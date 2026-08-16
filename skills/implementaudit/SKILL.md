@@ -1,6 +1,6 @@
 ---
 name: implementaudit
-description: Execute audit-governed work to closure or handoff. Activate for /implementaudit and audit closure. For scheduling/dispatch/resource ceilings, read references/child-agents.md.
+description: "For /implementaudit/audit closure. After a host-reported compaction, before any response or repo inspection: through Bash --current-controller; then separate command --invalidate-continuity <controller> --boundary host-reported-compaction --event <opaque-event>. STATE.md then ROADMAP.md; update epoch; --resume-controller <controller> --boundary host-reported-compaction --epoch <next-epoch>, --verify-resume-receipt <receipt>, --require-current-continuity <controller>. No response until the verified receipt; only then emit the first message."
 metadata:
   version: "0.4.0"
 ---
@@ -325,20 +325,14 @@ second `/goal` inside an existing `/goal` run.
 
 ## Runtime Loop
 
-0. Continuity boundary (when resuming): after `host-reported-compaction`,
-   `new-session`, `handoff-resume`, `manual-resume`, or
-   `inferred-context-gap` — never a fabricated compaction — FIRST use
-   `scripts/claim-run.sh --current-controller` to discover the unique live
-   controller; missing, ambiguous, or stale custody refuses mutation. Reread
-   its STATE.md and ROADMAP.md from disk, each in its own completed host action;
-   evidence-bearing reads must not use ';', '&&', pipelines, multi-stage shell
-   composition, or batching. A reconstructed summary is an observation of
-   history and live state wins. Record the STATE epoch row, classify remembered
-   steers, and refuse a satisfied one-shot: "Target already satisfied at
-   <evidence>; no duplicate action taken." Then create and verify the
-   `--resume-controller` receipt before mutation and continue from the live Next
-   action. Standing constraints/authorizations survive; an uninterrupted turn
-   skips this step. Details: `references/continuity.md`.
+0. Continuity boundary (when resuming): STOP narration/effects at
+   host-reported-compaction/new-session/handoff-resume/manual-resume/inferred-context-gap.
+   `--current-controller`; separate `--invalidate-continuity`; pre-boundary wait/contain only.
+   Read STATE.md then ROADMAP.md, each in its own completed host action; evidence reads must not use ';', '&&', pipelines, multi-stage shell composition, or batching.
+   Live state wins; record the epoch row; refuse: "Target already satisfied at <evidence>; no duplicate action taken."
+   `--resume-controller`; `--verify-resume-receipt`; `--require-current-continuity`; first message: receipt/frontier/discrepancies.
+   `POST_BOUNDARY_NEW_EXECUTION=REFUSE_UNTIL_CURRENT`; `PREBOUNDARY_PROCESS=WAIT_OR_TERMINATE_ONLY`;
+   `STANDING_CONSTRAINT_ROLE=DO_NOT_PROMOTE_WITHOUT_LIVE_STATE`; `POST_BOUNDARY_FIRST_SUBSTANTIVE_MESSAGE=VERIFIED_CONTINUITY_RECEIPT`.
 1. Safety read: `AGENTS.md`, README/CONTRIBUTING/docs/workflows, existing audit
    docs, generator/source ownership, and authorization chain.
 2. Input gate: stop on empty, malformed, unsafe, unsupported, or non-audit

@@ -272,6 +272,14 @@ after a host-reported compaction without a reconciliation record, or that
 re-executes a one-shot instruction whose status is `satisfied`, violates
 this contract even though every marker is well-ordered.
 
+The first substantive post-boundary assistant message must be the verified
+continuity receipt/current-frontier report. Waiting on or terminating an
+already-running pre-boundary process is containment, not permission to start a
+new command. Ordinary task narration, a new check, an audit-artifact write, a
+package build or a commit before fresh invalidation, receipt verification and
+currentness is a continuity violation. A remembered standing constraint remains
+binding but does not become the active frontier without live-state evidence.
+
 ## Final audit markers
 
 ```text

@@ -82,6 +82,81 @@ route_ok() {
     grep -q -- '--supersede-claim' "$2" && grep -q -- '--verify-resume-receipt' "$2"
 }
 route_ok "$skill" "$ref" || fail "runtime route omits controller discovery, transfer, or receipt verification"
+
+# e61 ecological RED: after an automatic compaction the model retained a true
+# standing README constraint but promoted it into the active work cell, then
+# launched checks and committed before a fresh host-compaction invalidation and
+# receipt. The bootloader must carry the complete ordered entry fence; a deep
+# reference or cooperating mutation helper is not enough for first-turn routing.
+"${py_cmd[@]}" - "$skill" <<'PY' || fail "SKILL.md discovery description missing pre-load continuity fence"
+import sys
+from pathlib import Path
+
+text = Path(sys.argv[1]).read_text(encoding="utf-8")
+frontmatter = text.split("---", 2)[1]
+description_lines = [
+    line for line in frontmatter.splitlines() if line.startswith("description:")
+]
+if len(description_lines) != 1:
+    raise SystemExit(1)
+description_value = description_lines[0].split(":", 1)[1].strip()
+if not (description_value.startswith('"') and description_value.endswith('"')):
+    raise SystemExit(1)
+required = (
+    "host-reported compaction",
+    "before any response or repo inspection",
+    "through bash",
+    "--current-controller",
+    "separate command",
+    "--invalidate-continuity <controller>",
+    "--boundary host-reported-compaction",
+    "--event <opaque-event>",
+    "state.md then roadmap.md",
+    "--resume-controller <controller> --boundary host-reported-compaction --epoch <next-epoch>",
+    "--verify-resume-receipt <receipt>",
+    "--require-current-continuity <controller>",
+    "no response until the verified receipt",
+    "only then emit the first message",
+    "verified receipt",
+)
+if any(item.lower() not in frontmatter.lower() for item in required):
+    raise SystemExit(1)
+PY
+for surface in "$skill" "$ref" "$proto"; do
+  for literal in \
+    'POST_BOUNDARY_FIRST_SUBSTANTIVE_MESSAGE=VERIFIED_CONTINUITY_RECEIPT' \
+    'POST_BOUNDARY_NEW_EXECUTION=REFUSE_UNTIL_CURRENT' \
+    'PREBOUNDARY_PROCESS=WAIT_OR_TERMINATE_ONLY' \
+    'STANDING_CONSTRAINT_ROLE=DO_NOT_PROMOTE_WITHOUT_LIVE_STATE'; do
+    grep -Fq "$literal" "$surface" ||
+      fail "$surface missing post-compaction frontier fence: $literal"
+  done
+done
+for tok in --invalidate-continuity --verify-resume-receipt --require-current-continuity; do
+  grep -q -- "$tok" "$skill" || fail "SKILL.md bootloader missing ordered continuity command: $tok"
+done
+"${py_cmd[@]}" - "$skill" <<'PY' || fail "SKILL.md post-boundary command order is not reconstructible"
+import sys
+from pathlib import Path
+
+text = Path(sys.argv[1]).read_text(encoding="utf-8")
+start = text.index("0. Continuity boundary (when resuming):")
+end = text.index("\n1. Safety read:", start)
+section = text[start:end]
+ordered = (
+    "--current-controller",
+    "--invalidate-continuity",
+    "STATE.md",
+    "ROADMAP.md",
+    "--resume-controller",
+    "--verify-resume-receipt",
+    "--require-current-continuity",
+    "POST_BOUNDARY_FIRST_SUBSTANTIVE_MESSAGE=VERIFIED_CONTINUITY_RECEIPT",
+)
+positions = [section.index(item) for item in ordered]
+if positions != sorted(positions) or len(set(positions)) != len(positions):
+    raise SystemExit(1)
+PY
 for tok in --invalidate-continuity --require-current-continuity; do
   grep -q -- "$tok" "$ref" || fail "reference missing host-neutral currentness route: $tok"
   grep -q -- "$tok" skills/implementaudit/scripts/claim-run.sh || fail "claim helper missing host-neutral currentness route: $tok"
