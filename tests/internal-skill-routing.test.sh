@@ -77,10 +77,7 @@ governor_tokens = [
     "CHILD_AUTHORITY_OR_CLOSURE_OUTPUT=REJECTED",
     "CHILD_RESULT_AUTHORITY=NONE",
     "CHILD_RESULT_CLOSURE=NONE",
-    "CHILD_SKILL_ROUTE_ANNOUNCEMENT=REQUIRED_AFTER_ACTUAL_LOAD",
-    "CHILD_SKILL_ROUTE_ANNOUNCEMENT_WITHOUT_LOAD=FORBIDDEN",
-    "CHILD_SKILL_ROUTE_FORMAT=CHILD_SKILL_ROUTE=<selected-child>",
-    "POST_RECEIPT_STATE_ROUTE_ANNOUNCEMENT=FIRST_PERMITTED_NARRATION",
+    "CHILD_ROUTE=LOADED_ONLY_VISIBLE_REQUIRED",
     "INTERNAL_SKILL_RESOLVER=scripts/resolve-internal-skill.py",
     "CANONICAL_CHILD_PATH=../<child>/SKILL.md",
     "STANDALONE_CHILD_PATH=internal-procedures/<child>.md",
@@ -109,6 +106,10 @@ for token in (
     "actual child load",
     "governor-only cases emit no child announcement",
     "verified receipt precedes",
+    "already-known cheap deterministic failure",
+    "new constraint defeats the selected countermeasure",
+    "fresh `audit-andon` route",
+    "fresh `audit-implement` route",
 ):
     require(transcript, token, transcript_path.as_posix())
 
@@ -384,4 +385,118 @@ for name, (expected, events) in cases.items():
         )
 
 print(f"internal-skill-routing.test: routing observability controls ok ({len(cases)}/{len(cases)})")
+
+
+def accepts_secondary_abnormality(events: list[Event]) -> bool:
+    active = ""
+    last_kind = ""
+    defeated = False
+    andon_after_defeat = False
+    repair_warranted = False
+    implement_after_repair = False
+    for index, event in enumerate(events):
+        if event.kind == "governor-route":
+            if active or event.value not in CHILDREN:
+                return False
+        elif event.kind == "child-loaded":
+            if active or last_kind != "governor-route" or events[index - 1].value != event.value:
+                return False
+            active = event.value
+            if defeated and event.value == "audit-andon":
+                andon_after_defeat = True
+            if repair_warranted and event.value == "audit-implement":
+                implement_after_repair = True
+        elif event.kind == "verification-result":
+            if active != "audit-implement":
+                return False
+            defeated = event.value == "countermeasure-defeated"
+        elif event.kind == "diagnosis":
+            if active != "audit-andon":
+                return False
+            repair_warranted = event.value == "repair-warranted"
+        elif event.kind == "child-return":
+            if not active:
+                return False
+            active = ""
+        elif event.kind == "governor-rederive":
+            if active or last_kind != "child-return":
+                return False
+        last_kind = event.kind
+    if active:
+        return False
+    if defeated and not andon_after_defeat:
+        return False
+    if repair_warranted and not implement_after_repair:
+        return False
+    return True
+
+
+secondary_cases = {
+    "known-cheap-report-needs-no-model-child": (
+        True,
+        [
+            Event("governor-route", "audit-implement"),
+            Event("child-loaded", "audit-implement"),
+            Event("verification-result", "known-deterministic"),
+            Event("child-return"),
+            Event("governor-rederive"),
+        ],
+    ),
+    "new-constraint-defeats-countermeasure-routes-andon": (
+        True,
+        [
+            Event("governor-route", "audit-implement"),
+            Event("child-loaded", "audit-implement"),
+            Event("verification-result", "countermeasure-defeated"),
+            Event("child-return"),
+            Event("governor-rederive"),
+            Event("governor-route", "audit-andon"),
+            Event("child-loaded", "audit-andon"),
+            Event("diagnosis", "no-repair"),
+            Event("child-return"),
+            Event("governor-rederive"),
+        ],
+    ),
+    "andon-warrants-fresh-governor-routed-implement": (
+        True,
+        [
+            Event("governor-route", "audit-implement"),
+            Event("child-loaded", "audit-implement"),
+            Event("verification-result", "countermeasure-defeated"),
+            Event("child-return"),
+            Event("governor-rederive"),
+            Event("governor-route", "audit-andon"),
+            Event("child-loaded", "audit-andon"),
+            Event("diagnosis", "repair-warranted"),
+            Event("child-return"),
+            Event("governor-rederive"),
+            Event("governor-route", "audit-implement"),
+            Event("child-loaded", "audit-implement"),
+            Event("child-return"),
+            Event("governor-rederive"),
+        ],
+    ),
+    "direct-child-to-child-is-red": (
+        False,
+        [
+            Event("governor-route", "audit-implement"),
+            Event("child-loaded", "audit-implement"),
+            Event("verification-result", "countermeasure-defeated"),
+            Event("child-loaded", "audit-andon"),
+        ],
+    ),
+}
+
+for name, (expected, events) in secondary_cases.items():
+    observed = accepts_secondary_abnormality(events)
+    if observed != expected:
+        raise SystemExit(
+            f"internal-skill-routing.test: secondary abnormality case {name}: "
+            f"expected {expected}, observed {observed}"
+        )
+
+print(
+    "internal-skill-routing.test: secondary abnormality controls ok "
+    f"({len(secondary_cases)}/{len(secondary_cases)})"
+)
 PY

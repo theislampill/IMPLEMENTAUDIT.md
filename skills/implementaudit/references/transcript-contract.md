@@ -306,6 +306,15 @@ after that receipt; it never displaces or precedes the receipt/currentness
 gate. The other children follow the same actual-load/visible-route bijection
 when their own governor gates genuinely select them.
 
+Verification inside a child may report an already-known cheap deterministic failure;
+after return, the governor may handle that result without another model child.
+If verification establishes that a new constraint defeats the selected countermeasure
+and materially changes the warranted response, the active child returns to the
+governor, the governor re-derives current state, and only then may it select and load a
+fresh `audit-andon` route. If that diagnosis warrants another bounded repair,
+`audit-andon` returns to the governor before a fresh `audit-implement` route. A direct
+child-to-child transition is a routing failure.
+
 ## Final audit markers
 
 ```text
