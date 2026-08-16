@@ -82,6 +82,100 @@ route_ok() {
     grep -q -- '--supersede-claim' "$2" && grep -q -- '--verify-resume-receipt' "$2"
 }
 route_ok "$skill" "$ref" || fail "runtime route omits controller discovery, transfer, or receipt verification"
+
+# e61 ecological RED: after an automatic compaction the model retained a true
+# standing README constraint but promoted it into the active work cell, then
+# launched checks and committed before a fresh host-compaction invalidation and
+# receipt. The bootloader must carry the complete ordered entry fence; a deep
+# reference or cooperating mutation helper is not enough for first-turn routing.
+"${py_cmd[@]}" - "$skill" <<'PY' || fail "SKILL.md discovery description missing pre-load continuity fence"
+import sys
+from pathlib import Path
+
+text = Path(sys.argv[1]).read_text(encoding="utf-8")
+frontmatter = text.split("---", 2)[1]
+description_lines = [
+    line for line in frontmatter.splitlines() if line.startswith("description:")
+]
+if len(description_lines) != 1:
+    raise SystemExit(1)
+description_value = description_lines[0].split(":", 1)[1].strip()
+if not (description_value.startswith('"') and description_value.endswith('"')):
+    raise SystemExit(1)
+required = (
+    "execute audit-governed work to closure or handoff",
+    "activate for /implementaudit and audit closure",
+    "host-reported compaction",
+    "before any response or repo inspection",
+    "through bash",
+    "--current-controller",
+    "separate command",
+    "--invalidate-continuity <controller>",
+    "--boundary host-reported-compaction",
+    "--event <opaque-event>",
+    "state.md then roadmap.md",
+    "--resume-controller <controller> --boundary host-reported-compaction --epoch <next-epoch>",
+    "--verify-resume-receipt <receipt>",
+    "--require-current-continuity <controller>",
+    "no response until the verified receipt",
+    "only then emit the first message",
+    "verified receipt",
+)
+if any(item.lower() not in frontmatter.lower() for item in required):
+    raise SystemExit(1)
+description = description_value[1:-1].lower()
+if not description.startswith("host-reported compaction stop"):
+    raise SystemExit("compaction stop is not the first catalog-visible instruction")
+if "use only the host-supplied skill path" not in description:
+    raise SystemExit("description does not permit bounded skill loading")
+if "do not search or inspect the target first" not in description:
+    raise SystemExit("description does not forbid pre-custody target orientation")
+if description.index("--current-controller") > description.index("execute audit-governed work"):
+    raise SystemExit("ordinary activation precedes the compaction fence")
+PY
+for surface in "$skill" "$ref" "$proto"; do
+  for literal in \
+    'POST_BOUNDARY_FIRST_SUBSTANTIVE_MESSAGE=VERIFIED_CONTINUITY_RECEIPT' \
+    'POST_BOUNDARY_NEW_EXECUTION=REFUSE_UNTIL_CURRENT' \
+    'PREBOUNDARY_PROCESS=WAIT_OR_TERMINATE_ONLY' \
+    'STANDING_CONSTRAINT_ROLE=DO_NOT_PROMOTE_WITHOUT_LIVE_STATE'; do
+    grep -Fq "$literal" "$surface" ||
+      fail "$surface missing post-compaction frontier fence: $literal"
+  done
+done
+for tok in --invalidate-continuity --verify-resume-receipt --require-current-continuity; do
+  grep -q -- "$tok" "$skill" || fail "SKILL.md bootloader missing ordered continuity command: $tok"
+done
+"${py_cmd[@]}" - "$skill" <<'PY' || fail "SKILL.md post-boundary command order is not reconstructible"
+import sys
+from pathlib import Path
+
+text = Path(sys.argv[1]).read_text(encoding="utf-8")
+start = text.index("0. Continuity boundary (when resuming):")
+end = text.index("\n1. Safety read:", start)
+section = text[start:end]
+ordered = (
+    "--current-controller",
+    "--invalidate-continuity",
+    "STATE.md",
+    "ROADMAP.md",
+    "--resume-controller",
+    "--verify-resume-receipt",
+    "--require-current-continuity",
+    "POST_BOUNDARY_FIRST_SUBSTANTIVE_MESSAGE=VERIFIED_CONTINUITY_RECEIPT",
+)
+positions = [section.index(item) for item in ordered]
+if positions != sorted(positions) or len(set(positions)) != len(positions):
+    raise SystemExit(1)
+PY
+for tok in --invalidate-continuity --require-current-continuity; do
+  grep -q -- "$tok" "$ref" || fail "reference missing host-neutral currentness route: $tok"
+  grep -q -- "$tok" skills/implementaudit/scripts/claim-run.sh || fail "claim helper missing host-neutral currentness route: $tok"
+done
+contains_normalized "$ref" "generic no-native-hook fallback" ||
+  fail "reference missing generic no-native-hook fallback"
+contains_normalized "$ref" "native host signal is a trigger, never continuity authority" ||
+  fail "reference promotes or omits the optional host-signal boundary"
 cp "$skill" "$tmp/mutant-skill.md"; cp "$ref" "$tmp/mutant-continuity.md"
 sed -i 's/--current-controller/--lost-controller/' "$tmp/mutant-skill.md"
 route_ok "$tmp/mutant-skill.md" "$tmp/mutant-continuity.md" && fail "source-removal mutant retained a green continuity route"
@@ -155,6 +249,13 @@ epoch_case ok_standing \
 epoch_case bad_prov \
 "| e2 | assumed-compaction | 2026-07-18T02:00Z | repo@abc def | yes | - |" "" fail
 
+# Canonical rows are uppercase fixed-width HEX4; malformed or zero generations
+# must not evade validation merely because their spelling is unrecognised.
+epoch_case bad_generation \
+"| g0002 | host-reported-compaction | 2026-07-18T02:00Z | repo@abc def | yes | - |" "" fail
+epoch_case zero_generation \
+"| G0000 | host-reported-compaction | 2026-07-18T02:00Z | repo@abc def | yes | - |" "" fail
+
 # 5. Invalid instruction kind or status tokens fail.
 epoch_case bad_kind \
 "| e2 | manual-resume | 2026-07-18T02:00Z | repo@abc def | yes | - |" \
@@ -218,13 +319,13 @@ done
 import sys
 from pathlib import Path
 for state, run, head, tree, epoch, boundary, action in (
-    (*sys.argv[1:5], "e1", "new-session", "continue implementation in the controller worktree"),
-    (*sys.argv[5:9], "e2", "host-reported-compaction", "qualify the authoritative successor before release"),
+    (*sys.argv[1:5], "G0001", "new-session", "continue implementation in the controller worktree"),
+    (*sys.argv[5:9], "G0002", "host-reported-compaction", "qualify the authoritative successor before release"),
 ):
     p=Path(state); s=p.read_text(encoding="utf-8")
     s=s.replace("| Run root |  |", f"| Run root | `{run}` |")
     s=s.replace("| Next action |  |", f"| Next action | {action} |")
-    s=s.replace("Current epoch: e1", f"Current epoch: {epoch}")
+    s=s.replace("Current epoch: G0001", f"Current epoch: {epoch}")
     anchor="| Epoch | Boundary provenance | Established at | Repo identity | Reconciled | Notes |\n|---|---|---|---|---|---|"
     row=f"| {epoch} | {boundary} | 2026-08-12T13:00:00Z | repo at `{head}` / `{tree}` | yes | live readback complete |"
     p.write_text(s.replace(anchor, anchor+"\n"+row), encoding="utf-8")
@@ -243,30 +344,121 @@ assert controller=="release-v0333" and same(repo,expected_repo) and same(root,ex
 PY
 
 if (cd "$resume_repo" && bash "$claim_helper" --resume-controller release-v0333 \
-    --boundary host-reported-compaction --epoch e2) >/dev/null 2>&1; then
+    --boundary host-reported-compaction --epoch G0002) >/dev/null 2>&1; then
   fail "stale controller worktree emitted a successor continuity receipt"
 fi
 
+legacy_epoch_e2=e2
 receipt="$(cd "$successor_repo" && bash "$claim_helper" --resume-controller release-v0333 \
-  --boundary host-reported-compaction --epoch e2)" \
+  --boundary host-reported-compaction --epoch "$legacy_epoch_e2")" \
   || fail "current successor controller did not produce a continuity receipt"
-case "$receipt" in refs/implementaudit/continuity-receipts/release-v0333/e2@[0-9a-f][0-9a-f]*) :;; *) fail "continuity receipt is not a ref-bound token";; esac
+case "$receipt" in refs/implementaudit/continuity-receipts/release-v0333/G0002@[0-9a-f][0-9a-f]*) :;; *) fail "continuity receipt did not canonicalise the legacy generation input";; esac
 receipt_oid="${receipt##*@}"
 receipt_record="$(git -C "$successor_repo" cat-file blob "$receipt_oid")"
 "${py_cmd[@]}" - "$receipt_record" "$successor_claim" "$successor_head" "$successor_tree" <<'PY' \
   || fail "continuity receipt omitted receiver-required currentness state"
 import sys
-schema,controller,owner_oid,claim,head,tree,state,roadmap,boundary,epoch,next_action=sys.argv[1].split("\t")
-assert schema=="implementaudit.continuity-receipt.v1" and controller=="release-v0333"
+schema,controller,owner_oid,claim,head,tree,state,roadmap,invalidation,boundary,epoch,next_action=sys.argv[1].split("\t")
+assert schema=="implementaudit.continuity-receipt.v2" and controller=="release-v0333"
 assert claim==sys.argv[2] and head==sys.argv[3] and tree==sys.argv[4]
-assert boundary=="host-reported-compaction" and epoch=="e2"
+assert boundary=="host-reported-compaction" and epoch=="G0002"
 assert next_action=="qualify the authoritative successor before release"
+assert invalidation=="none"
 assert len(owner_oid)==40 and len(state)==64 and len(roadmap)==64
 PY
 (cd "$successor_repo" && bash "$claim_helper" --verify-resume-receipt "$receipt") >/dev/null \
   || fail "fresh successor continuity receipt did not verify"
+
+current_receipt="$(cd "$successor_repo" && bash "$claim_helper" \
+  --require-current-continuity release-v0333 2>/dev/null)" \
+  || fail "current continuity gate rejected the fresh baseline receipt"
+[ "$current_receipt" = "$receipt" ] \
+  || fail "current continuity gate did not return the active receipt"
+
+invalidation="$(cd "$successor_repo" && bash "$claim_helper" \
+  --invalidate-continuity release-v0333 --boundary inferred-context-gap \
+  --event generic-no-native-hook-e3 2>/dev/null)" \
+  || fail "host-neutral continuity invalidation command is absent"
+case "$invalidation" in
+  refs/implementaudit/continuity-invalidations/release-v0333@[0-9a-f][0-9a-f]*) :;;
+  *) fail "continuity invalidation is not a ref-bound token: $invalidation";;
+esac
+same_invalidation="$(cd "$successor_repo" && bash "$claim_helper" \
+  --invalidate-continuity release-v0333 --boundary inferred-context-gap \
+  --event generic-no-native-hook-e3 2>/dev/null)" \
+  || fail "idempotent continuity invalidation failed"
+[ "$same_invalidation" = "$invalidation" ] \
+  || fail "same continuity event minted a second invalidation"
+if (cd "$successor_repo" && bash "$claim_helper" \
+    --require-current-continuity release-v0333) >/dev/null 2>&1; then
+  fail "POST_COMPACTION_WITHOUT_FRESH_CONTINUITY remained current"
+fi
+
+"${py_cmd[@]}" - "$successor_root/STATE.md" "$successor_rel" \
+  "$successor_head" "$successor_tree" <<'PY'
+import sys
+from pathlib import Path
+p=Path(sys.argv[1]); run,head,tree=sys.argv[2:]
+s=p.read_text(encoding="utf-8")
+s=s.replace("Current epoch: G0002", "Current epoch: G0003")
+s=s.replace("| Next action | qualify the authoritative successor before release |",
+            "| Next action | continue only after generic continuity recovery |")
+anchor="| Epoch | Boundary provenance | Established at | Repo identity | Reconciled | Notes |\n|---|---|---|---|---|---|"
+row=f"| G0003 | inferred-context-gap | 2026-08-12T13:05:00Z | repo at `{head}` / `{tree}` | yes | generic fallback reconciliation complete |"
+p.write_text(s.replace(anchor, anchor+"\n"+row), encoding="utf-8")
+PY
+
+# The active invalidation boundary is part of deterministic currentness.  A
+# caller may not relabel the same interrupted event as a different accepted
+# provenance merely by writing a matching STATE row.
+"${py_cmd[@]}" - "$successor_root/STATE.md" <<'PY'
+import sys
+from pathlib import Path
+p = Path(sys.argv[1])
+s = p.read_text(encoding="utf-8")
+p.write_text(s.replace("| G0003 | inferred-context-gap |", "| G0003 | manual-resume |"), encoding="utf-8")
+PY
 if (cd "$successor_repo" && bash "$claim_helper" --resume-controller release-v0333 \
-    --boundary host-reported-compaction --epoch e2) >/dev/null 2>&1; then
+    --boundary manual-resume --epoch G0003) >/dev/null 2>&1; then
+  fail "invalidation-boundary mismatch minted a continuity receipt"
+fi
+"${py_cmd[@]}" - "$successor_root/STATE.md" <<'PY'
+import sys
+from pathlib import Path
+p = Path(sys.argv[1])
+s = p.read_text(encoding="utf-8")
+p.write_text(s.replace("| G0003 | manual-resume |", "| G0003 | inferred-context-gap |"), encoding="utf-8")
+PY
+if (cd "$successor_repo" && bash "$claim_helper" \
+    --require-current-continuity release-v0333) >/dev/null 2>&1; then
+  fail "partial continuity recovery without separate ROADMAP state became current"
+fi
+printf '\nGeneric continuity recovery reconciled live state.\n' >> "$successor_root/ROADMAP.md"
+receipt_e3="$(cd "$successor_repo" && bash "$claim_helper" --resume-controller release-v0333 \
+  --boundary inferred-context-gap --epoch G0003)" \
+  || fail "generic no-native-hook recovery did not mint a fresh receipt"
+(cd "$successor_repo" && bash "$claim_helper" --verify-resume-receipt "$receipt_e3") >/dev/null \
+  || fail "generic no-native-hook continuity receipt did not verify"
+receipt_e3_ref="${receipt_e3%@*}"
+receipt_e3_oid="${receipt_e3##*@}"
+receipt_e3_record="$(git -C "$successor_repo" cat-file blob "$receipt_e3_oid")"
+forged_e3_record="${receipt_e3_record/$'\tinferred-context-gap\tG0003\t'/$'\tmanual-resume\tG0003\t'}"
+[ "$forged_e3_record" != "$receipt_e3_record" ] \
+  || fail "could not construct cross-boundary receipt negative"
+forged_e3_oid="$(printf '%s' "$forged_e3_record" | git -C "$successor_repo" hash-object -w --stdin)"
+git -C "$successor_repo" update-ref "$receipt_e3_ref" "$forged_e3_oid" "$receipt_e3_oid"
+if (cd "$successor_repo" && bash "$claim_helper" \
+    --verify-resume-receipt "$receipt_e3_ref@$forged_e3_oid") >/dev/null 2>&1; then
+  fail "receipt verification accepted invalidation-boundary mismatch"
+fi
+git -C "$successor_repo" update-ref "$receipt_e3_ref" "$receipt_e3_oid" "$forged_e3_oid"
+current_receipt="$(cd "$successor_repo" && bash "$claim_helper" \
+  --require-current-continuity release-v0333)" \
+  || fail "fresh generic continuity recovery did not reopen governed mutation"
+[ "$current_receipt" = "$receipt_e3" ] \
+  || fail "generic continuity recovery returned the wrong receipt"
+if (cd "$successor_repo" && bash "$claim_helper" --resume-controller release-v0333 \
+    --boundary host-reported-compaction --epoch G0002) >/dev/null 2>&1; then
   fail "a second writer claimed the same continuity epoch"
 fi
 
@@ -396,12 +588,40 @@ p=Path(sys.argv[1]); run,head,tree=sys.argv[2:]
 s=p.read_text(encoding="utf-8").replace("| Run root |  |",f"| Run root | `{run}` |")
 s=s.replace("| Next action |  |","| Next action | resume the exact current checkpoint |")
 a="| Epoch | Boundary provenance | Established at | Repo identity | Reconciled | Notes |\n|---|---|---|---|---|---|"
-r=f"| e1 | host-reported-compaction | 2026-08-12T12:00:00Z | repo at `{head}` / `{tree}` | yes | separate live reads complete |"
+r=f"| G0001 | host-reported-compaction | 2026-08-12T12:00:00Z | repo at `{head}` / `{tree}` | yes | separate live reads complete |"
 p.write_text(s.replace(a,a+"\n"+r),encoding="utf-8")
 PY
 (cd "$positive_repo" && bash "$claim_helper" --resume-controller positive-n06 \
-  --boundary host-reported-compaction --epoch e1) >/dev/null \
+  --boundary host-reported-compaction --epoch G0001) >/dev/null \
   || fail "positive same-controller continuity case failed"
+
+# An unchanged historical state/receipt pair remains exactly verifiable. New
+# receipt minting canonicalises aliases, but verification never rewrites legacy
+# evidence in place.
+positive_claim="$(sed -n 's/^claim_id=//p' "$positive_root/.claimed")"
+positive_owner="$(git -C "$positive_repo" rev-parse refs/implementaudit/controllers/positive-n06)"
+positive_head="$(git -C "$positive_repo" rev-parse HEAD)"
+positive_tree="$(git -C "$positive_repo" rev-parse 'HEAD^{tree}')"
+"${py_cmd[@]}" - "$positive_root/STATE.md" <<'PY'
+import sys
+from pathlib import Path
+p=Path(sys.argv[1]); s=p.read_text(encoding="utf-8")
+s=s.replace("Current epoch: G0001", "Current epoch: e1")  # legacy spelling compatibility fixture
+s=s.replace("| G0001 | host-reported-compaction |", "| e1 | host-reported-compaction |")
+p.write_text(s,encoding="utf-8")
+PY
+positive_state_sha="$(sha256sum "$positive_root/STATE.md" | cut -d' ' -f1)"
+positive_road_sha="$(sha256sum "$positive_root/ROADMAP.md" | cut -d' ' -f1)"
+legacy_record="$(printf 'implementaudit.continuity-receipt.v1\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s' \
+  positive-n06 "$positive_owner" "$positive_claim" "$positive_head" "$positive_tree" \
+  "$positive_state_sha" "$positive_road_sha" host-reported-compaction e1 legacy-currentness)"
+legacy_oid="$(printf '%s' "$legacy_record" | git -C "$positive_repo" hash-object -w --stdin)"
+legacy_ref=refs/implementaudit/continuity-receipts/positive-n06/e1 # legacy spelling compatibility fixture
+git -C "$positive_repo" update-ref "$legacy_ref" "$legacy_oid"
+(cd "$positive_repo" && bash "$claim_helper" --verify-resume-receipt "$legacy_ref@$legacy_oid") >/dev/null \
+  || fail "unchanged legacy continuity receipt no longer verifies"
+(cd "$positive_repo" && bash "$claim_helper" --require-current-continuity positive-n06) >/dev/null \
+  || fail "unchanged legacy continuity state no longer rehydrates"
 
 # Ordinary bounded claims remain the no-registry cheap path.
 cheap_rel="$(cd "$positive_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs \

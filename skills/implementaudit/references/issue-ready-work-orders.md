@@ -104,12 +104,12 @@ independent review, owner sign-off, or separate readback.
   cross-links; command success is not readback.
 - Use non-closing PR links until the issue has its evidence comment, as owned
   by #141.
-- For release-facing work, invoke R29: derive and disposition README, public
+- For release-facing work, invoke R001D: derive and disposition README, public
   docs, generated owners, release/install states, and live readback. A generic
-  "update docs" line is not a disposition. Record `R29: applied`, or R29 not
+  "update docs" line is not a disposition. Record `R001D: applied`, or R001D not
   applicable with owner evidence for genuinely internal work. Refuse sign-off
   while any missing pair, citation, or public-surface disposition remains.
-- Any new shipped checker or helper must satisfy R30 applicability,
+- Any new shipped checker or helper must satisfy R001E applicability,
   reachability, same-run dispatch, package, and negative-control requirements.
   Do not add a checker merely to grade prose or count sections.
 

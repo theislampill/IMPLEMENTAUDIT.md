@@ -15,15 +15,32 @@ implementation plans into bounded, verified repository changes. It plans deeply
 and executes verified repo work phase-by-phase until terminal auditable closure 
 or an explicit audited handoff.
 
-It is reusable meta-engineering packaged as `IMPLEMENTAUDIT.skill`: sustained
-engineering discipline for planning, designing, implementing, improving,
-reviewing, recovering, integrating, and closing repository work—not only a
-one-off code audit. A skill or agent-tooling repository can itself be the audit
-object, so the method can improve skills-about-skills through the same
-owner/source, evidence, and closure gates. This repository dogfoods that
-self-application; it does not establish effectiveness across every agent, host,
-repository, or external ecosystem. Here, `.skill` is the release-asset name and
-import layout, not a claimed universal host standard.
+At its core, this is audit-governed agentic engineering: it derives the next
+justified work from current repository and evidence state, then externalises
+completion into independently checkable evidence rather than model
+self-certification.
+
+It is reusable meta-engineering distributed as one atomic dual-host plugin
+package: sustained engineering discipline for planning, designing,
+implementing, improving, reviewing, recovering, integrating, and closing
+repository work—not only a one-off code audit. `/implementaudit` remains the
+sole stable public/default governor; v0.4 ships exactly four model-facing child
+skills: `audit-state`, `audit-assess`, maintainer-only `audit-implement`, and
+dual-entry `audit-andon`. Governed child use is routed by the governor; where a
+capable host discovers the canonical child, an explicit Andon cord-pull may
+directly invoke `audit-andon`, while the standalone projection routes the same
+request through `/implementaudit`. They form no
+child lifecycle and own no authority, currentness, mutation, release, closure,
+or `AUDIT_COMPLETE`; references, templates, and helper scripts remain one
+shared deterministic substrate. A skill or agent-tooling repository can itself
+be the audit object,
+so the method can improve skills-about-skills through the same owner/source,
+evidence, and closure gates. This repository dogfoods that self-application; it
+does not establish effectiveness across every agent, host, repository, or
+external ecosystem. `IMPLEMENTAUDIT.plugin.zip` is the canonical generated
+release projection. `IMPLEMENTAUDIT.skill` is a generated, checksummed
+standalone compatibility projection, not the canonical topology or a claimed
+universal host standard.
 
 It can plan, design, implement, improve, 
 review, recover, integrate, and close repo work. 
@@ -57,6 +74,7 @@ Each action requires separate explicit authorisation.
 
 - [Quick start](#quick-start)
 - [Runtime at a glance](#runtime-at-a-glance)
+- [Governor, specialised cognition, and work topology](#governor-specialised-cognition-and-work-topology)
 - [Why IMPLEMENTAUDIT is stronger than a bare `/goal`](#why-implementaudit-is-stronger-than-a-bare-goal)
 - [What it is](#what-it-is)
 - [Quick vocabulary, not authority](#quick-vocabulary-not-authority)
@@ -87,10 +105,9 @@ Each action requires separate explicit authorisation.
 ## Quick start
 
 1. Choose the installation route in [Install notes](#install-notes). The
-   current release identity is `v0.3.3.3`; its host-facing runtime remains
-   `0.3.3`. The final correction candidate is a qualified 257,998-byte package
-   with SHA-256
-   `0e10a21600062c6f7cd440a6efb0ff3b795ce1a01067efb4005c7a176db02413`.
+   candidate public identity is `v0.4.0.0`; its host-facing runtime is `0.4.0`.
+   **State Synthesis Substrate Engineering: Evolved-SSDDRFCSS** (`S³E`) names
+   one native state-synthesis substrate, not selectable lineage modes.
    A checkout of `main`, a locally built archive, and the public release asset
    remain distinct until publication and byte-for-byte readback are complete.
 
@@ -158,6 +175,41 @@ each phase executes and verifies a bounded unit;
 Andon can stop and correct any other loop; 
 and the final audit-fix loop alone can establish terminal closure.
 
+### Governor, specialised cognition, and work topology
+
+`/implementaudit` remains the stable public/default governor. It derives the
+current condition, keeps authority and lifecycle control, and progressively
+loads at most one specialised child for that derivation when the extra cognition
+earns its context cost:
+
+| Child skill | Bounded question it helps answer |
+|---|---|
+| `audit-state` | What state is decision-usably current after restart, handoff, compaction, or identity ambiguity? |
+| `audit-assess` | What does an independent, adversarial examination find about the work or evidence? |
+| `audit-implement` | What implementation is actually realised for this exact candidate and claim across the applicable evidence surfaces? |
+| `audit-andon` | What diagnosis, local-vs-systemic classification, countermeasure, and follow-up does an established abnormality warrant? |
+
+These are cross-cutting cognitive capabilities, not L1-L5 stages and not a
+child-to-child pipeline. Each returns a bounded result to the governor (or, for
+an explicit `audit-andon` cord-pull, to the actual caller) and cannot grant
+currentness, mutation authority, lifecycle progress, `PASS`, release, or
+terminal closure. The five L1-L5 loops remain the operational control system.
+
+Work topology is a separate dimension. The state-derived DAG and child agents
+provide horizontal, dependency-correct work lanes; child skills provide vertical
+progressive cognitive disclosure inside one governor derivation. A JOIN belongs
+to the governor/DAG machinery. After evidence changes, the governor re-derives
+the current state and READY/BLOCKED frontier instead of blindly following a
+stale plan.
+
+The canonical plugin exposes the four child skill files to a capable host. The
+generated standalone compatibility projection deliberately exposes only the
+governor `SKILL.md`; its exact resolver maps governed requests to the four
+non-discoverable `internal-procedures/` projections and fails closed on a
+missing, extra, or ambiguous population. Where a host does not independently
+discover `audit-andon`, a cord-pull enters through `/implementaudit`; package
+structure and routing checks do not by themselves prove host activation.
+
 ## Why IMPLEMENTAUDIT is stronger than a bare `/goal`
 
 A bare `/goal` carries an intended end state. 
@@ -205,6 +257,10 @@ routes greenfield, brownfield, and mixed work through the warranted quality
 method, and proceeds phase by phase until verified terminal closure or an
 explicit audited handoff.
 
+It does not trust a plan merely because it survived in chat. After restart,
+handoff, or compaction, it re-establishes repository identity, owner and
+authority, currentness, and relevant evidence before acting.
+
 Read-only planning, audit, review, direction, and handoff modes may produce
 artifacts without mutating source. When implementation is authorized, changes
 must remain auditable, bounded, owner/source-grounded, reversible, and
@@ -224,7 +280,7 @@ justified by the live risk and evidence gap.
 
 Release chronology and exact campaign accounting belong in
 [`CHANGELOG.md`](CHANGELOG.md) and the
-[`v0.3.3.3` release report](docs/audits/archive/v0.3.3.3-release-report.md).
+[`v0.4.0.0` release report](docs/audits/archive/v0.4.0.0-release-report.md).
 The optional dashboard remains outside the shipped `.skill` package.
 
 The current bootloader architecture keeps weak-executor safeguards in
@@ -850,62 +906,84 @@ separately authorized, are built from the repo-supported release-asset script
 and validated by extraction. Release artifacts and checksum manifests are not
 ordinary audit outputs.
 
-The `.skill` release archive contains only the runtime skill payload
-(`SKILL.md`, `references/`, `scripts/`, `templates/`) and plugin metadata
-(`.claude-plugin/`). Repo docs, tests, fixtures, release tooling, audit
-ledgers, run roots, and sidecar stores are excluded from the archive.
+The canonical plugin archive contains both host manifests, package/inventory
+metadata, and the runtime tree under `skills/implementaudit/`. The standalone
+`.skill` compatibility archive contains the flattened runtime payload plus the
+same package/inventory metadata, but no host manifests. Repo docs, tests,
+fixtures, release tooling, audit ledgers, run roots, and sidecar stores are
+excluded from both projections.
 
 ## Skill internals / repository layout
 
-### Source layout vs release archive layout
+### Source layout vs release package projections
 
 This repo uses the conventional name-matched source skill layout:
 
 ```text
 skills/implementaudit/SKILL.md
+skills/audit-state/SKILL.md
+skills/audit-assess/SKILL.md
+skills/audit-implement/SKILL.md
+skills/audit-andon/SKILL.md
 skills/implementaudit/references/
 skills/implementaudit/scripts/
 skills/implementaudit/templates/
 ```
 
-`skills/implementaudit/SKILL.md` is the canonical source behavior entry.
-The release archive intentionally flattens that source directory only as a
-build artifact: the archive contains SKILL.md at archive root with sibling
-`references/`, `scripts/`, and `templates/`, plus generated archive-local
-plugin metadata. Source metadata keeps `.claude-plugin/plugin.json` pointing at
-`./skills/`; release-asset tests prove the archive metadata points at `./`.
-There is intentionally no tracked root `IMPLEMENTAUDIT.md` file; validators fail
-if one is recreated. Audit handoff inputs named `AUDIT.md` remain valid.
+`skills/implementaudit/SKILL.md` is the canonical source behavior entry and
+`/implementaudit` is the sole stable public/default governor. The v0.4 package
+contains exactly four child skills—`audit-state`, `audit-assess`, maintainer-only
+`audit-implement`, and dual-entry `audit-andon`—while keeping references, scripts, and templates
+as shared resources rather than duplicating deterministic substrate. Each
+internal skill returns bounded cognition and grants no lifecycle, mutation,
+release, closure, or `AUDIT_COMPLETE` authority. Governor-routed use returns to
+the governor; a directly discovered canonical `audit-andon` returns to the
+actual caller and grants no new authority. The standalone projection keeps only
+the governor discoverable and resolves cord-pull requests through its bounded
+internal procedure. Planning and execution/repair
+remain progressively loaded governor/reference cognition, not child skills.
 
-Package metadata lives under `.claude-plugin/`:
+`package/implementaudit-package.json` owns the single-package contract. The
+canonical `IMPLEMENTAUDIT.plugin.zip` projection preserves the conventional
+`skills/implementaudit/` tree and both host manifests. The generated,
+checksummed `IMPLEMENTAUDIT.skill` compatibility projection alone flattens the
+runtime tree to archive-root `SKILL.md`, `references/`, `scripts/`, and
+`templates/`; it carries deterministic projections of the four internal
+procedures and package/inventory metadata but no plugin manifests, nested
+`skills/` directory, or independently discoverable child packages. There is intentionally no tracked root
+`IMPLEMENTAUDIT.md` file; validators fail if one is recreated. Audit handoff
+inputs named `AUDIT.md` remain valid.
+
+Host metadata is dual-host and version-coherent inside the one package:
 
 ```text
+.codex-plugin/plugin.json
 .claude-plugin/plugin.json
 .claude-plugin/marketplace.json
 ```
 
-The manifest JSON is validated by `scripts/verify-package.sh`. This README
+Both plugin manifests point to `./skills/`; the package contract and manifest
+JSON are validated by `scripts/verify-package.sh`. This README
 records the bounded historical `v0.3.3.3` publication and the final corrected
 same-identity release below. It claims the in-place asset, checksum, body, and
 tag correction only after independent public readback, and does not claim
-Claude Code marketplace behaviour, passive update, active-user installation,
-universal host loading, or provenance.
+Codex or Claude native plugin discovery, Claude Code marketplace behaviour,
+passive update, active-user installation, universal host loading, or provenance
+without the corresponding host or public evidence.
 
 ## Version and release notes
 
-Current project milestone: final `v0.3.3.3` correction candidate; plugin/runtime version `0.3.3`.
+Current project milestone: prepublication `v0.4.0.0` candidate; plugin/runtime version `0.4.0`.
 
-`v0.3.3.3` is a corrective and completion release of the `v0.3.3` runtime
-family. It incorporates countermeasures found during `v0.3.3.0` qualification
-and immediate dogfood, while the host-facing manifest remains `0.3.3` because
-the supported manifest schema is three-component.
+The canonical title is **State Synthesis Substrate Engineering:
+Evolved-SSDDRFCSS**. The protected compact label is **S³E** wherever used. The
+four-component public milestone maps to the three-component runtime family;
+the source composition does not itself create a tag, GitHub Release, asset or
+Pages deployment.
 
-The first tag and assets were independently read back, but publication occurred
-before the final R29 correction. They are preserved as superseded historical
-evidence. The final candidate will replace the same `v0.3.3.3` tag, package,
-checksum, and body only after exact-main qualification. Exact old and final commit, tree, package,
-checksum, hosted-run, deployment, and public-install evidence belongs in the
-[`v0.3.3.3` release report](docs/audits/archive/v0.3.3.3-release-report.md);
+The prior `v0.3.3.3` tag and release remain append-only historical evidence.
+Candidate and later authorised publication evidence belongs in the
+[`v0.4.0.0` release report](docs/audits/archive/v0.4.0.0-release-report.md);
 release chronology and user-visible changes belong in
 [`CHANGELOG.md`](CHANGELOG.md). This README describes the current product and
 installation routes rather than duplicating either evidence record.
@@ -1034,6 +1112,14 @@ mirror. When ActiveGraph is absent, Markdown state and final reports are the
 first-class fallback. The detailed event, backfill, and custody rules live in
 [`references/sidecars.md`](skills/implementaudit/references/sidecars.md).
 
+That is the generic product boundary: ActiveGraph is optional, non-authoritative,
+and not a package dependency. This repository's final governed self-dogfood is
+stricter by design. It must use an isolated, exact-state-bound ActiveGraph
+sidecar on the latest independently verified published release available when
+that gate executes. The self-dogfood requirement neither changes generic
+`/implementaudit` semantics nor permits ActiveGraph to replace live-file,
+run-root, package, test, or host evidence.
+
 ## Evidence boundaries
 
 Interop boundaries are explicit:
@@ -1086,28 +1172,34 @@ To choose the right invocation shape, see the chooser table in
 
 ## Install notes
 
-Install flows are evidence-bounded. This repo can locally validate the release
-asset-to-Codex-install path into a temporary Codex home. It does not claim passive auto-update, universal host support, marketplace verification, or public GitHub release download verification unless those checks are run and recorded.
+Install flows are evidence-bounded. The normal release/install unit is the one
+atomic dual-host plugin artifact `IMPLEMENTAUDIT.plugin.zip`; the generated
+`IMPLEMENTAUDIT.skill` remains available only as a standalone compatibility
+projection. This repo can locally validate artifact shape, checksum identity,
+staged plugin copy, and standalone temporary-install paths. None of those alone
+proves native host discovery, invocation, passive update, universal host
+support, marketplace verification, or public GitHub release download.
 
-**Release/contract alignment:** the public identity is `v0.3.3.3`, with
-plugin/runtime version `0.3.3`. The final correction candidate is 257,998 bytes
-with SHA-256
-`0e10a21600062c6f7cd440a6efb0ff3b795ce1a01067efb4005c7a176db02413`.
-The release URL is not treated as current for those bytes until publication and
-fresh public download/readback complete. Exact qualification and replacement
-history belongs in the release report rather than this installation guide.
+**Release/contract alignment:** the candidate public identity is `v0.4.0.0`,
+with plugin/runtime version `0.4.0`. Each candidate artifact's bytes, inventory,
+and SHA-256 are bound by a fresh exact-tree build; release URLs are not treated
+as serving them until publication and fresh public download/readback complete.
 
 A checkout of `main` may contain post-release source changes. Installing from a
 checkout or through a CLI that resolves current `main` uses source-checkout
-semantics; it is not automatically byte-identical to the tagged `v0.3.3.3`
+semantics; it is not automatically byte-identical to a future tagged `v0.4.0.0`
 asset. Re-verify this paragraph at every release gate.
 
 ### Quick install via the skills CLI
 
 The repo layout is compatible with the open [skills CLI](https://skills.sh)
-(verified 2026-08-05: discovery finds the one skill `implementaudit`; both
-agent targets install the full payload — `SKILL.md` + `references/` +
-`scripts/` + `templates/` — plus a `skills-lock.json`):
+(verified 2026-08-05: source discovery finds the one skill `implementaudit`;
+both agent targets install the full runtime payload — `SKILL.md` +
+`references/` + `scripts/` + `templates/` — plus a `skills-lock.json`):
+
+That dated observation describes the prior source-discovery route; it neither
+describes the current canonical plugin population nor proves native host
+discovery or activation.
 
 ```bash
 npx --yes skills add theislampill/IMPLEMENTAUDIT.md                              # interactive
@@ -1126,10 +1218,9 @@ ecosystem's install-telemetry index, not by this repo.
 
 Choose the source deliberately:
 
-- the final `v0.3.3.3` correction candidate is the qualified 257,998-byte
-  package described by the release report, while public availability remains
-  pending publication and independent readback;
-- the current source contains the packaged R29 correction and later native
+- the `v0.4.0.0` source candidate must be built, qualified and independently
+  reviewed before any public availability can be claimed;
+- the current source contains the packaged R001D correction and later native
   runtime countermeasures;
 - a local archive is evidence only for the exact source tree from which it was
   built.
@@ -1140,65 +1231,91 @@ informational-independence controls, evaluator and candidate-controlled
 validation-policy integrity, package semantic preservation, public-projection
 discipline, and optional freshness-aware Graphify terrain. The canonical
 runtime references define those behaviours; the
-[`v0.3.3.3` release report](docs/audits/archive/v0.3.3.3-release-report.md)
-maps the superseded publication and final corrected release to their separate
-acceptance evidence. `/dashboard/` is not part of the `.skill` package.
+[`v0.4.0.0` release report](docs/audits/archive/v0.4.0.0-release-report.md)
+keeps source, package, install, hosted and public evidence separate.
+`/dashboard/` is not part of either generated package projection.
 
-### Install / update for Codex
+### Install / update the canonical dual-host plugin
+
+`IMPLEMENTAUDIT.plugin.zip` is the primary atomic package for Codex and Claude.
+It contains both host manifests, package/inventory metadata, one governor and
+exactly four child skills under `skills/`: `implementaudit`, `audit-state`,
+`audit-assess`, `audit-implement`, and `audit-andon`. Use the current native
+plugin installation route documented by the host, then verify that the host
+discovers `/implementaudit` from the expected version before claiming a loaded
+installation. The presence of a manifest or copied files is not host-load proof.
+
+For a local candidate, build and checksum both generated projections:
+
+```bash
+bash scripts/build-release-asset.sh
+bash scripts/write-release-checksums.sh --all dist dist/CHECKSUMS.txt
+bash scripts/write-release-checksums.sh --check --all dist dist/CHECKSUMS.txt
+```
+
+The repository's plugin installer is deliberately an isolated staged-copy
+proof, not a native-host installer. Point it only at a disposable directory
+containing `.implementaudit-isolated-host-root`:
+
+```bash
+bash scripts/install-plugin-from-release.sh \
+  --asset dist/IMPLEMENTAUDIT.plugin.zip \
+  --checksum dist/CHECKSUMS.txt \
+  --host codex \
+  --host-root "<isolated-host-root>" \
+  --version 0.4.0
+```
+
+Repeat with `--host claude` for the separate staged Claude projection check.
+Passing either command proves checked package copy, inventory, update, rollback,
+and post-readback behaviour only. Native discovery and invocation remain host
+evidence; public-download identity remains pending publication and fresh
+readback.
+
+### Standalone compatibility install / update for Codex
 
 Codex manual installs copy the packaged skill payload into a Codex-style skill
 directory. A public GitHub release by itself cannot update a local copied skill.
 
-From a repo checkout, the simplest manual copy is:
+Do not copy only `skills/implementaudit/` from the source tree: that subtree is
+the governor plus shared substrate and omits the four required child sources.
+Use the generated standalone artifact and installer below so the exact flattened
+population, package identity, update policy, readback, and rollback are checked
+as one transaction.
 
-
-```bash
-mkdir -p ~/.codex/skills/implementaudit
-cp -R skills/implementaudit/* ~/.codex/skills/implementaudit/
-```
-
-PowerShell equivalent:
-
-```powershell
-New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills\implementaudit" | Out-Null
-Copy-Item -Recurse -Force .\skills\implementaudit\* "$env:USERPROFILE\.codex\skills\implementaudit\"
-```
-
-For a local release asset, build the asset, write checksums, and install with
-checksum verification:
+For the generated standalone compatibility artifact, build both projections,
+write the shared checksum manifest, and install `.skill` with checksum
+verification:
 
 ```bash
 bash scripts/build-release-asset.sh
-bash scripts/write-release-checksums.sh dist/IMPLEMENTAUDIT.skill dist/CHECKSUMS.txt
+bash scripts/write-release-checksums.sh --all dist dist/CHECKSUMS.txt
 bash scripts/install-codex-from-release.sh \
   --asset dist/IMPLEMENTAUDIT.skill \
   --checksum dist/CHECKSUMS.txt \
   --codex-home "$HOME/.codex" \
-  --version 0.3.3
+  --version 0.4.0
 ```
 
-After the final correction is published and independently read back, this
-command installs the public `v0.3.3.3` bytes. Until then, use the locally
-qualified asset route above rather than inferring current availability from the
-release URL; download `CHECKSUMS.txt` alongside the public asset when checksum
-verification is required:
+Only after v0.4.0.0 is published and independently read back may the following
+public-tag form be treated as current; until then, use the locally qualified
+asset route shown above:
 
 ```bash
 bash scripts/install-codex-from-release.sh \
-  --url https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/download/v0.3.3.3/IMPLEMENTAUDIT.skill \
+  --url https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/download/v0.4.0.0/IMPLEMENTAUDIT.skill \
   --codex-home "$HOME/.codex" \
-  --version 0.3.3
+  --version 0.4.0
 ```
 
-The earlier release page, asset, checksum manifest, downloaded bytes, installed
-version, and 48-file installed payload were read back in a fresh temporary
-Codex home as historical evidence. The final correction requires its own fresh
-public readback. These receipts do not claim passive update, universal host
-support, or host-load behaviour. For local verification, download
+The compatibility archive is a flattened projection with package/inventory
+metadata and no plugin manifests. Its local install receipt does not claim
+canonical plugin installation, passive update, public availability, universal
+host support, or host-load behaviour. For local verification, download
 `CHECKSUMS.txt` alongside `IMPLEMENTAUDIT.skill` and use the `--asset` plus
 `--checksum` form shown above.
 
-### Install / update for Claude Desktop
+### Standalone compatibility install / update for Claude Desktop
 
 Claude Desktop (v0.2.5.0 tested target) stores session-managed skills in a
 session-specific directory. The stable public path to the session skill store is:
@@ -1220,11 +1337,11 @@ bash scripts/install-claude-from-release.sh \
   --claude-skills-dir "<claude-session-path>/skills/implementaudit"
 ```
 
-After final public readback, install the `v0.3.3.3` release asset with:
+After final public readback, install the `v0.4.0.0` release asset with:
 
 ```bash
 bash scripts/install-claude-from-release.sh \
-  --url https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/download/v0.3.3.3/IMPLEMENTAUDIT.skill \
+  --url https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/download/v0.4.0.0/IMPLEMENTAUDIT.skill \
   --claude-skills-dir "<claude-session-path>/skills/implementaudit"
 ```
 
@@ -1239,12 +1356,14 @@ use Claude Desktop's built-in skill management UI to update the skill.
 This repo does not claim marketplace auto-update, passive install, universal host
 support, or Claude Desktop behavior beyond what is empirically recorded as evidence.
 
-### Install / update for Claude Code (plugin path)
+### Native Claude Code plugin path
 
 Claude Code plugin consumers should use the host's current plugin instructions
-with `.claude-plugin/plugin.json` as package metadata. This repo validates the
-JSON shape only; it does not claim host install or marketplace behavior was
-tested.
+with canonical `IMPLEMENTAUDIT.plugin.zip`. Its
+`.claude-plugin/plugin.json` points to the same `./skills/` tree as the Codex
+manifest. Package validation and an isolated staged-copy receipt do not by
+themselves prove native host install, discovery, invocation, or marketplace
+behavior.
 
 For public clone/plugin setup, an HTTPS repository URL is usually the simplest
 path because it does not require local SSH key configuration. SSH URLs are fine
@@ -1252,41 +1371,54 @@ when the user already has working GitHub SSH authentication in that host.
 
 ## Upgrade / reinstall
 
-After a release, reinstall or update the skill in the host you use. Do not
-assume a local copied skill has updated just because the GitHub repo has a new
-release.
+After a release, reinstall or update the plugin in the host you use. Do not
+assume a local plugin or standalone compatibility copy has updated just because
+the GitHub repo has a new release.
 
-There is no marketplace auto-update path documented for a manually copied Codex
-skill; repeat the chosen copy or release-asset install route. Claude Desktop
-users should repeat its release-asset install and restart the application.
-Claude Code/plugin users should follow the host's current plugin update or
-reload instructions. Return to [Install notes](#install-notes) for the commands
-and evidence boundaries.
+No marketplace auto-update or passive auto-update is claimed for either host. Canonical
+plugin users should follow the host's current update/reload route and verify the
+loaded version. Standalone compatibility users must repeat the chosen copy or
+`.skill` install route; Claude Desktop users should then restart the
+application. Return to [Install notes](#install-notes) for the commands and
+evidence boundaries.
 
 ## Release asset notes
 
-The GitHub release asset name is `IMPLEMENTAUDIT.skill`.
-
-No local evidence proves `.skill` is a universal host-standard archive format.
-In this repo, `IMPLEMENTAUDIT.skill` is the GitHub release artifact name. It is
-a ZIP-format archive containing the installable skill payload:
+The primary GitHub release asset name is `IMPLEMENTAUDIT.plugin.zip`. It is one
+atomic, version-coherent dual-host plugin package:
 
 ```text
-SKILL.md
-references/
-scripts/
-templates/
+.codex-plugin/plugin.json  (skills: "./skills/")
 .claude-plugin/
-.claude-plugin/plugin.json  (skills: "./")
+.claude-plugin/plugin.json  (skills: "./skills/")
+.claude-plugin/marketplace.json
+IMPLEMENTAUDIT_PACKAGE.json
+IMPLEMENTAUDIT_INVENTORY.json
+skills/implementaudit/SKILL.md
+skills/audit-state/SKILL.md
+skills/audit-assess/SKILL.md
+skills/audit-implement/SKILL.md
+skills/audit-andon/SKILL.md
+skills/implementaudit/references/
+skills/implementaudit/scripts/
+skills/implementaudit/templates/
 ```
 
-The release asset intentionally excludes repo-maintenance material such as
+It exposes only `/implementaudit` as the stable public/default governor and has
+exactly four child skills in v0.4: `audit-state`, `audit-assess`, maintainer-only
+`audit-implement`, and dual-entry `audit-andon`. `IMPLEMENTAUDIT.skill` is generated and checksummed
+from the same source as a flattened standalone compatibility artifact. It is
+not the canonical topology, a second independently versioned package, or proof
+that `.skill` is a universal host-standard archive format.
+
+Both release projections intentionally exclude repo-maintenance material such as
 README sources, audit ledgers, fixtures, tests, CI configuration, Git metadata,
 run roots, Graphify outputs, ActiveGraph stores, and root validation scripts.
 Those remain repository-side evidence or maintenance surfaces, not installed
 runtime payload.
 
-A published `CHECKSUMS.txt` proves only the integrity of the named asset bytes;
+A published `CHECKSUMS.txt` proves only the integrity of the named plugin and
+compatibility-asset bytes;
 it is not a signature, attestation, SBOM, licence, marketplace verification,
 install proof, or provenance claim. Building, uploading, or replacing an asset
 is a separate authorised release operation. Maintainer build and publication
@@ -1306,9 +1438,9 @@ Ordinary non-layout-sensitive prose stays on the cheaper content path.
 
 The current evidence index is [`docs/audits/INDEX.md`](docs/audits/INDEX.md),
 with retention rules in [`docs/audits/RETENTION.md`](docs/audits/RETENTION.md).
-The exact historical publication record, final corrected qualification, and
-pending terminal `v0.3.3.3` publication readbacks are in its
-[release report](docs/audits/archive/v0.3.3.3-release-report.md). Contributor
+The exact candidate qualification and any later publication readbacks belong in
+the [`v0.4.0.0` release report](docs/audits/archive/v0.4.0.0-release-report.md).
+Contributor
 checks, package validation, generated-doc regeneration, and release boundaries
 belong in [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
@@ -1373,10 +1505,16 @@ release reports.
 
 The repository's
 [Research & Engineering Lineage source](docs/portal/pages/research-lineage-overview.html)
-explains why IMPLEMENTAUDIT uses visible Lean-derived vocabulary, what Agile
-and plan-driven assurance contributed, which properties were already native,
-which were sharpened in the `v0.3.3.3` source family, and which ceremonies or
-universal prescriptions were rejected. It is prepared for portal generation;
-hosted availability remains pending separate publication and readback.
-Evolved-LAW is a property-level research synthesis, not three methodology
-modes, a new runtime, or evidence of universal effectiveness.
+explains Evolved-LAW, Evolved-CSS, Evolved-SSD and Evolved-DRF at property level.
+The [repository genealogy corpus](docs/research/genealogy/README.md) is retained
+in the v0.4.0.0 source tree as exact research memory, remains excluded from both
+runtime package projections, and does not activate the deferred v0.4.1
+reabsorption campaign.
+The integrated research route reports 658/658 property disposition accounting, not 658 source
+changes. It preserves rejected, unresolved and owner-decision evidence and adds
+no nine runtimes, lineage selector, methodology mode, or universal-effectiveness
+claim. Hosted-current status still requires separate Pages publication and
+readback.
+Research guided accretion only where dogfood, failure witnesses, or exact checks
+could change a decision; the retained lineage is context and genealogy, not
+implementation proof.

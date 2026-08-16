@@ -38,6 +38,7 @@ bad_extra="$tmp/bad-extra-output"
 bad_raw_command="$tmp/bad-raw-command"
 bad_table_classes="$tmp/bad-table-classes"
 bad_footer_proof="$tmp/bad-footer-proof"
+bad_release_label="$tmp/bad-release-label"
 bad_overview_release="$tmp/bad-overview-release"
 bad_marker_taxonomy="$tmp/bad-marker-taxonomy"
 bad_slash_boundary="$tmp/bad-slash-boundary"
@@ -98,7 +99,26 @@ assert groups["Core model"] == ["runtime-model", "audit-gate-model", "invocation
 assert groups["Evidence"] == ["state-and-artifacts", "repo-state-comparison", "error-handling", "evidence-boundaries", "optional-tooling", "child-agent-review-loops"]
 assert groups["Closure"] == ["completion-semantics", "continuity-and-sidecars"]
 assert groups["Repository"] == ["repo-layout", "package-contents", "audit-trail"]
-assert groups["Research & Engineering Lineage"] == ["research-lineage-overview", "research-lineage-lean", "research-lineage-agile", "research-lineage-waterfall", "research-lineage-evolved-law"]
+assert groups["Research & Engineering Lineage"] == [
+    "research-lineage-overview",
+    "research-lineage-lean",
+    "research-lineage-agile",
+    "research-lineage-waterfall",
+    "research-lineage-evolved-law",
+    "research-lineage-systems-engineering",
+    "research-lineage-systems-security-engineering",
+    "research-lineage-decision-operations-engineering",
+    "research-lineage-evolved-ssd",
+    "research-lineage-distributed-systems-engineering",
+    "research-lineage-reliability-maintainability-engineering",
+    "research-lineage-formal-methods-verification-engineering",
+    "research-lineage-evolved-drf",
+    "research-lineage-cognitive-systems-engineering",
+    "research-lineage-statistical-engineering",
+    "research-lineage-systems-safety",
+    "research-lineage-evolved-css",
+    "research-lineage-s3e",
+]
 assert groups["References"] == ["terminology", "reference-index"]
 assert len(ordered) == meta["page_count"]
 assert meta["portal_version"] == "v2-multipage"
@@ -107,13 +127,52 @@ assert meta["worktree_state"] in {"clean", "dirty", "unknown"}
 assert isinstance(meta["worktree_dirty"], bool)
 assert meta["project_milestone"] == site["release"]["milestone"]
 assert meta["plugin_manifest_version"] == site["release"]["manifest_version"]
+assert meta["package_identity"]["logical_package"] == "IMPLEMENTAUDIT_PLUGIN"
+assert meta["package_identity"]["required_skills"] == [
+    "implementaudit", "audit-state", "audit-assess", "audit-implement", "audit-andon"
+]
+assert meta["package_identity"]["internal_skills"] == [
+    {"name": "audit-state", "maintainer_only": False, "directly_invocable": False},
+    {"name": "audit-assess", "maintainer_only": False, "directly_invocable": False},
+    {"name": "audit-implement", "maintainer_only": True, "directly_invocable": False},
+    {"name": "audit-andon", "maintainer_only": False, "directly_invocable": True},
+]
+assert meta["package_identity"]["generated_projections"] == {
+    "canonical_plugin": {"artifact": "IMPLEMENTAUDIT.plugin.zip", "layout": "plugin-root"},
+    "standalone_compatibility": {"artifact": "IMPLEMENTAUDIT.skill", "layout": "flattened-skill"},
+}
 assert meta["release_url"] == site["release"]["url"]
+assert meta["release_publication_state"] == "candidate"
+assert site["release"]["milestone"] == "v0.4.0.0"
+assert site["release"]["manifest_version"] == "0.4.0"
+assert site["release"]["audit_ledger_url"].endswith("/v0.4.0.0-release-report.md")
+audit_trail_source = Path("docs/portal/pages/audit-trail.html").read_text(encoding="utf-8")
+assert "39bf3006df81a12d3c2a32e956cab00c3b3384d9" in audit_trail_source
+assert "e7a733be10338a398d0112454088ae3dc2b56f60" in audit_trail_source
+assert "6d57060aeab3aeec1d0ad090c2fa7ab66ca9de67" not in audit_trail_source
+assert "3b5c300..." not in audit_trail_source
 required = {
     "docs/portal/site.json",
     "docs/portal/pages/overview.html",
     "docs/portal/pages/quick-start.html",
     "docs/portal/pages/runtime-model.html",
     "docs/portal/pages/reference-index.html",
+    "docs/portal/pages/research-lineage-evolved-css.html",
+    "docs/portal/pages/research-lineage-evolved-ssd.html",
+    "docs/portal/pages/research-lineage-evolved-drf.html",
+    "docs/portal/pages/research-lineage-systems-engineering.html",
+    "docs/portal/pages/research-lineage-systems-security-engineering.html",
+    "docs/portal/pages/research-lineage-decision-operations-engineering.html",
+    "docs/portal/pages/research-lineage-distributed-systems-engineering.html",
+    "docs/portal/pages/research-lineage-reliability-maintainability-engineering.html",
+    "docs/portal/pages/research-lineage-formal-methods-verification-engineering.html",
+    "docs/portal/pages/research-lineage-cognitive-systems-engineering.html",
+    "docs/portal/pages/research-lineage-statistical-engineering.html",
+    "docs/portal/pages/research-lineage-systems-safety.html",
+    "docs/portal/pages/research-lineage-s3e.html",
+    ".codex-plugin/plugin.json",
+    ".claude-plugin/plugin.json",
+    "package/implementaudit-package.json",
 }
 assert required.issubset(set(meta["source_files_used"]))
 for page_id in ordered:
@@ -125,11 +184,96 @@ for page_id in ordered:
     assert 'class="page-context"' not in text
     assert 'class="page-proof-strip"' in text
     assert text.find('class="page-proof-strip"') > text.find("<footer>")
+    assert "<dt>Candidate release</dt>" in text
+    assert "<dt>Release</dt>" not in text
+overview = (out / "index.html").read_text(encoding="utf-8")
+assert "<em>Candidate release</em>" in overview
+assert "<em>Release</em>" not in overview
 PY
 then
   ok "metadata, site nav, and page shell agree"
 else
   fail_check "metadata/site nav/page shell mismatch"
+fi
+
+if "${py_cmd[@]}" - <<'PY'
+import json
+from pathlib import Path
+
+contract = json.loads(Path("package/implementaudit-package.json").read_text(encoding="utf-8"))
+report = Path("docs/audits/archive/v0.4.0.0-release-report.md").read_text(encoding="utf-8")
+page = Path("docs/portal/pages/audit-trail.html").read_text(encoding="utf-8")
+report_flat = " ".join(report.split())
+expected = {
+    contract["generated_projections"]["canonical_plugin"]["artifact"],
+    contract["generated_projections"]["standalone_compatibility"]["artifact"],
+}
+for artifact in expected:
+    if artifact not in report or artifact not in page:
+        raise SystemExit(f"release report or portal omits projection {artifact}")
+if "exact members, bytes, SHA-256, source commit/tree, and clean-state binding `PENDING`" not in report:
+    raise SystemExit("release report does not preserve exact-candidate identity as pending")
+if "attach exactly `IMPLEMENTAUDIT.plugin.zip`,\n`IMPLEMENTAUDIT.skill`, and `CHECKSUMS.txt`" not in report:
+    raise SystemExit("release report does not require the exact three public assets")
+nonclaim = (
+    "no v0.4.0.0 tag, GitHub Release, public asset, Pages deployment, public download, "
+    "marketplace state, native Codex or Claude plugin load, provenance, signature, "
+    "attestation, SBOM, licence, or universal host behaviour is claimed."
+)
+if nonclaim not in report_flat:
+    raise SystemExit("release report does not preserve the native-host nonclaim")
+required_skills = contract["required_skills"]
+governor = contract["public_governor"]
+children = [skill["name"] for skill in contract["internal_skills"]]
+if required_skills != [governor, *children] or len(children) != 4:
+    raise SystemExit("package contract does not expose one governor plus four children")
+for surface_name, surface in (("release report", report_flat), ("audit trail", page)):
+    if "one public/default governor and four child skills" not in surface:
+        raise SystemExit(f"{surface_name} does not state the current governor/child population")
+    for skill in required_skills:
+        if skill not in surface:
+            raise SystemExit(f"{surface_name} omits required skill {skill}")
+    if "zero v0.4 child skills" in surface or "one required skill" in surface:
+        raise SystemExit(f"{surface_name} retains the superseded zero-child topology")
+PY
+then
+  ok "release report and portal bind both projections without preclaiming final bytes or native hosts"
+else
+  fail_check "release report or portal projection/currentness boundary is stale"
+fi
+
+if "${py_cmd[@]}" - <<'PY'
+from pathlib import Path
+
+sources = {
+    "s3e": Path("docs/portal/pages/research-lineage-s3e.html").read_text(encoding="utf-8"),
+    "css": Path("docs/portal/pages/research-lineage-evolved-css.html").read_text(encoding="utf-8"),
+}
+anchors = {
+    "canonical-title": (
+        "s3e", "State Synthesis Substrate Engineering: Evolved-SSDDRFCSS"),
+    "one-substrate-no-methodology-mode": (
+        "s3e", "They do not create nine runtimes, selectable methodology modes, or a fixed ceremony."),
+    "ordinary-work-cheap-path": (
+        "css", "When one authoritative deterministic discriminator settles ordinary bounded work, use it and stop. No trigger means no added ceremony, record, or family machinery."),
+}
+
+def missing(text_by_owner):
+    return [key for key, (owner, literal) in anchors.items()
+            if literal not in text_by_owner[owner]]
+
+if missing(sources):
+    raise SystemExit(f"live S³E docs anchors missing: {missing(sources)}")
+for key, (owner, literal) in anchors.items():
+    mutated = dict(sources)
+    mutated[owner] = mutated[owner].replace(literal, "CORRUPTED", 1)
+    if key not in missing(mutated):
+        raise SystemExit(f"held-out S³E docs mutation false-passed: {key}")
+PY
+then
+  ok "source-coupled S³E title/no-mode/cheap-path held-outs fail docs acceptance"
+else
+  fail_check "source-coupled S³E public boundary held-out failed"
 fi
 
 if "${py_cmd[@]}" - "$tmp/portal-release-identity" <<'PY'
@@ -150,18 +294,22 @@ site = json.loads(site_path.read_text(encoding="utf-8"))
 rel_sources = set(site.get("semantic_sources", []))
 for page in site["pages"].values():
     rel_sources.update(page.get("sources", []))
-rel_sources.add(".claude-plugin/plugin.json")
+rel_sources.update({
+    ".codex-plugin/plugin.json",
+    ".claude-plugin/plugin.json",
+    "package/implementaudit-package.json",
+})
 for rel in rel_sources:
     source = source_root / rel
     target = fixture_root / rel
     target.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(source, target)
 
-site["release"]["milestone"] = "v0.3.3.3"
-site["release"]["manifest_version"] = "0.3.3"
+site["release"]["milestone"] = "v0.4.0.0"
+site["release"]["manifest_version"] = "0.4.0"
 site["release"]["audit_ledger_url"] = (
     "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/"
-    "docs/audits/archive/v0.3.3.3-release-report.md"
+    "docs/audits/archive/v0.4.0.0-release-report.md"
 )
 site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
 valid = subprocess.run(
@@ -172,9 +320,45 @@ valid = subprocess.run(
 )
 assert valid.returncode == 0, valid.stderr
 metadata = json.loads((fixture_root / "dist" / "docs-portal" / "docs-metadata.json").read_text(encoding="utf-8"))
-assert metadata["project_milestone"] == "v0.3.3.3", metadata["project_milestone"]
+assert metadata["project_milestone"] == "v0.4.0.0", metadata["project_milestone"]
+assert metadata["package_identity"]["required_skills"] == [
+    "implementaudit", "audit-state", "audit-assess", "audit-implement", "audit-andon"
+]
+for owner in (
+    ".codex-plugin/plugin.json",
+    ".claude-plugin/plugin.json",
+    "package/implementaudit-package.json",
+):
+    assert owner in metadata["source_files_used"]
+    assert owner in metadata["source_sha256s"]
 
-site["release"]["milestone"] = "v0.3.4.3"
+def run_build():
+    return subprocess.run(
+        [sys.executable, str(fixture_root / "scripts" / "build-docs-portal.py"), "--out", str(fixture_root / "dist" / "docs-portal")],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+
+codex_path = fixture_root / ".codex-plugin" / "plugin.json"
+codex = json.loads(codex_path.read_text(encoding="utf-8"))
+codex["version"] = "9.9.9"
+codex_path.write_text(json.dumps(codex) + "\n", encoding="utf-8")
+host_drift = run_build()
+assert host_drift.returncode != 0
+assert "Codex and Claude plugin manifests disagree" in host_drift.stderr
+shutil.copy2(source_root / ".codex-plugin" / "plugin.json", codex_path)
+
+contract_path = fixture_root / "package" / "implementaudit-package.json"
+contract = json.loads(contract_path.read_text(encoding="utf-8"))
+contract["runtime_version"] = "9.9.9"
+contract_path.write_text(json.dumps(contract) + "\n", encoding="utf-8")
+contract_drift = run_build()
+assert contract_drift.returncode != 0
+assert "package contract runtime version" in contract_drift.stderr
+shutil.copy2(source_root / "package" / "implementaudit-package.json", contract_path)
+
+site["release"]["milestone"] = "v0.4.1.0"
 site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
 wrong_family = subprocess.run(
     [sys.executable, str(fixture_root / "scripts" / "build-docs-portal.py"), "--out", str(fixture_root / "dist" / "docs-portal")],
@@ -183,12 +367,12 @@ wrong_family = subprocess.run(
     stderr=subprocess.PIPE,
 )
 assert wrong_family.returncode != 0
-assert "does not belong to runtime family 0.3.3" in wrong_family.stderr
+assert "does not belong to runtime family 0.4.0" in wrong_family.stderr
 
-site["release"]["milestone"] = "v0.3.3.3"
+site["release"]["milestone"] = "v0.4.0.0"
 site["release"]["audit_ledger_url"] = (
     "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/"
-    "docs/audits/archive/v0.3.3.0-release-report.md"
+    "docs/audits/archive/v0.3.3.3-release-report.md"
 )
 site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
 stale_ledger = subprocess.run(
@@ -197,8 +381,8 @@ stale_ledger = subprocess.run(
     stdout=subprocess.PIPE,
     stderr=subprocess.PIPE,
 )
-assert stale_ledger.returncode != 0, "generator accepted a v0.3.3.0 audit ledger for v0.3.3.3"
-assert "must name a non-placeholder v0.3.3.3 markdown ledger" in stale_ledger.stderr
+assert stale_ledger.returncode != 0, "generator accepted a v0.3.3.3 audit ledger for v0.4.0.0"
+assert "must name a non-placeholder v0.4.0.0 markdown ledger" in stale_ledger.stderr
 
 site["release"]["audit_ledger_url"] = "unknown"
 site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
@@ -209,11 +393,11 @@ placeholder_ledger = subprocess.run(
     stderr=subprocess.PIPE,
 )
 assert placeholder_ledger.returncode != 0, "generator accepted a placeholder audit ledger"
-assert "must name a non-placeholder v0.3.3.3 markdown ledger" in placeholder_ledger.stderr
+assert "must name a non-placeholder v0.4.0.0 markdown ledger" in placeholder_ledger.stderr
 
 site["release"]["audit_ledger_url"] = (
     "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/"
-    "docs/audits/archive/placeholder-v0.3.3.3-TBD.md"
+    "docs/audits/archive/placeholder-v0.4.0.0-TBD.md"
 )
 site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
 exact_tag_placeholder_ledger = subprocess.run(
@@ -223,13 +407,13 @@ exact_tag_placeholder_ledger = subprocess.run(
     stderr=subprocess.PIPE,
 )
 assert exact_tag_placeholder_ledger.returncode != 0, (
-    "generator accepted placeholder-v0.3.3.3-TBD.md instead of the canonical ledger basename"
+    "generator accepted placeholder-v0.4.0.0-TBD.md instead of the canonical ledger basename"
 )
-assert "must name a non-placeholder v0.3.3.3 markdown ledger" in exact_tag_placeholder_ledger.stderr
+assert "must name a non-placeholder v0.4.0.0 markdown ledger" in exact_tag_placeholder_ledger.stderr
 
 site["release"]["audit_ledger_url"] = (
     "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/"
-    "docs/audits/archive/v0.3.3.30-release-report.md"
+    "docs/audits/archive/v0.4.0.00-release-report.md"
 )
 site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
 prefix_collision_ledger = subprocess.run(
@@ -238,8 +422,8 @@ prefix_collision_ledger = subprocess.run(
     stdout=subprocess.PIPE,
     stderr=subprocess.PIPE,
 )
-assert prefix_collision_ledger.returncode != 0, "generator accepted a v0.3.3.30 ledger for v0.3.3.3"
-assert "must name a non-placeholder v0.3.3.3 markdown ledger" in prefix_collision_ledger.stderr
+assert prefix_collision_ledger.returncode != 0, "generator accepted a v0.4.0.00 ledger for v0.4.0.0"
+assert "must name a non-placeholder v0.4.0.0 markdown ledger" in prefix_collision_ledger.stderr
 PY
 then
   ok "explicit portal milestone and matching non-placeholder ledger control release metadata"
@@ -292,13 +476,20 @@ required = [
     "package-bound",
     "visual/browser",
     "--onboard-tools",
-    "bash scripts/write-release-checksums.sh --check dist/IMPLEMENTAUDIT.skill dist/CHECKSUMS.txt",
+    "bash scripts/write-release-checksums.sh --check --all dist dist/CHECKSUMS.txt",
+    "IMPLEMENTAUDIT.plugin.zip",
+    "package/implementaudit-package.json",
+    ".codex-plugin/plugin.json",
+    "exactly four child skills",
+    "audit-implement",
+    "audit-andon",
 ]
 missing = [item for item in required if item not in html]
 if missing:
     raise SystemExit(f"missing parity concepts: {missing}")
 required_patterns = [
     r"IMPLEMENTAUDIT\.skill/(?:<br>|\s+)SKILL\.md",
+    r"IMPLEMENTAUDIT\.plugin\.zip/(?:<br>|\s+)\.codex-plugin/plugin\.json",
 ]
 missing_patterns = [pattern for pattern in required_patterns if not re.search(pattern, html, re.IGNORECASE)]
 if missing_patterns:
@@ -464,6 +655,24 @@ if "${py_cmd[@]}" scripts/check-docs-portal.py "$bad_footer_proof" >/dev/null 2>
   fail_check "check-docs-portal.py accepted footer proof Boundary cell or release-link order drift"
 else
   ok "check-docs-portal.py rejects footer proof Boundary cell and release-link order drift"
+fi
+
+cp -R "$out" "$bad_release_label"
+"${py_cmd[@]}" - "$bad_release_label" <<'PY'
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+for path in root.rglob("*.html"):
+    text = path.read_text(encoding="utf-8")
+    text = text.replace("<dt>Candidate release</dt>", "<dt>Release</dt>")
+    text = text.replace("<em>Candidate release</em>", "<em>Release</em>")
+    path.write_text(text, encoding="utf-8")
+PY
+if "${py_cmd[@]}" scripts/check-docs-portal.py "$bad_release_label" >/dev/null 2>&1; then
+  fail_check "check-docs-portal.py accepted a published Release label for candidate output"
+else
+  ok "check-docs-portal.py rejects a published Release label for candidate output"
 fi
 
 cp -R "$out" "$bad_overview_release"
@@ -813,6 +1022,14 @@ else
   fail_check "check-public-claim-boundaries.sh rejected negative local install update context"
 fi
 
+if grep -Fq 'S³E held-out source mutation false-passed' \
+     scripts/check-public-claim-boundaries.sh &&
+   bash scripts/check-public-claim-boundaries.sh >/dev/null 2>&1; then
+  ok "public-claim acceptance guards S³E title/no-mode/cheap-path held-outs"
+else
+  fail_check "public-claim acceptance lacks S³E source-coupled held-outs"
+fi
+
 "${py_cmd[@]}" - "$host_claim_fixture" <<'PY'
 import sys
 from pathlib import Path
@@ -862,15 +1079,15 @@ import sys
 from pathlib import Path
 
 Path(sys.argv[1]).write_text(
-    "R36 / #167 remains open and was not "
+    "R0024 / #167 remains open and was not "
     + "shipped or qualified in this release.\n",
     encoding="utf-8",
 )
 PY
 if bash scripts/check-public-claim-boundaries.sh >/dev/null 2>&1; then
-  fail_check "check-public-claim-boundaries.sh accepted the stale pre-R36 release claim"
+  fail_check "check-public-claim-boundaries.sh accepted the stale pre-R0024 release claim"
 else
-  ok "check-public-claim-boundaries.sh rejects the stale pre-R36 release claim"
+  ok "check-public-claim-boundaries.sh rejects the stale pre-R0024 release claim"
 fi
 
 if "${py_cmd[@]}" - <<'PY'

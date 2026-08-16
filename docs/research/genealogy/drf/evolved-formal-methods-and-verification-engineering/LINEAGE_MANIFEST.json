@@ -1,0 +1,94 @@
+{
+  "embedded_manifest": {
+    "bytes": 3631,
+    "declared_digest_fields": [
+      {
+        "field": "files[0].sha256",
+        "value": "6f45bf9a15366820916327d617183d9c4b8c9d5c18309cdb2f8bd22b9b24f687"
+      },
+      {
+        "field": "files[1].sha256",
+        "value": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12"
+      },
+      {
+        "field": "files[2].sha256",
+        "value": "e030f4580b647ab27c4932d8352e26060c74cfa02384c702bf1437c1aa1b0794"
+      },
+      {
+        "field": "files[3].sha256",
+        "value": "3061c1e5c7090a12b60bf0858e644a303d128e1e59d2fc6eae722fd8f285de86"
+      },
+      {
+        "field": "files[4].sha256",
+        "value": "233530d8f4dbef2de02593b0082d7d8cfc10044c32f4a356c9fabde500132d3d"
+      },
+      {
+        "field": "manifest_self_hash_boundary.sha256",
+        "value": "DETACHED_IN_ZIP_COMMENT_AND_TERMINAL_OUTPUT"
+      },
+      {
+        "field": "packet_hash_boundary.sha256",
+        "value": "DETACHED_IN_TERMINAL_OUTPUT"
+      }
+    ],
+    "identity_note": "Declared packet/content digests retain their source-defined scope and are not treated as the raw delivered ZIP SHA-256 unless the source explicitly says so.",
+    "member": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_FROZEN_MANIFEST.json",
+    "sha256": "b68b31b6f18b45e75c43bbb452dd1d9dbe3e2a80654f4d8c27833155f1d8e0b5",
+    "status": "PRESENT"
+  },
+  "lineage_id": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING",
+  "lineage_name": "Evolved Formal Methods and Verification Engineering",
+  "members": [
+    {
+      "bytes": 484610,
+      "member": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_FROZEN_REPORT.md",
+      "path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_FROZEN_REPORT.md",
+      "sha256": "6f45bf9a15366820916327d617183d9c4b8c9d5c18309cdb2f8bd22b9b24f687"
+    },
+    {
+      "bytes": 466039,
+      "member": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12"
+    },
+    {
+      "bytes": 139910,
+      "member": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_SOURCE_TABLE.json",
+      "path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_SOURCE_TABLE.json",
+      "sha256": "e030f4580b647ab27c4932d8352e26060c74cfa02384c702bf1437c1aa1b0794"
+    },
+    {
+      "bytes": 646116,
+      "member": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_AUDIT_INTAKE.md",
+      "path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_AUDIT_INTAKE.md",
+      "sha256": "3061c1e5c7090a12b60bf0858e644a303d128e1e59d2fc6eae722fd8f285de86"
+    },
+    {
+      "bytes": 18551,
+      "member": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "233530d8f4dbef2de02593b0082d7d8cfc10044c32f4a356c9fabde500132d3d"
+    },
+    {
+      "bytes": 3631,
+      "member": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_FROZEN_MANIFEST.json",
+      "path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_FROZEN_MANIFEST.json",
+      "sha256": "b68b31b6f18b45e75c43bbb452dd1d9dbe3e2a80654f4d8c27833155f1d8e0b5"
+    }
+  ],
+  "packet": {
+    "bytes": 359797,
+    "identity_kind": "RAW_DELIVERED_ZIP_BYTES",
+    "path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/packet/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_FROZEN_PACKET.zip",
+    "sha256": "2d6901f8d244bf4b71302099158fe9a27c957bdc4836781d4d40df83fcebb875"
+  },
+  "property_ledger": {
+    "bytes": 466039,
+    "member": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+    "properties": 50,
+    "root": "properties",
+    "sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12"
+  },
+  "schema": "implementaudit-engineering-genealogy-lineage-manifest-v1",
+  "trifecta": "drf"
+}

@@ -67,7 +67,7 @@ try:
  if not re.fullmatch(r'[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z',d['claimed_at_utc']): raise ValueError
  datetime.datetime.strptime(d['claimed_at_utc'],'%Y-%m-%dT%H:%M:%SZ')
 except ValueError: die('.claimed claimed_at_utc is not RFC3339 UTC whole seconds')
-if d['mode']!='full' or d['run_base']!='.IMPLEMENTAUDIT/runs': die('.claimed mode/base is not R36 strict custody')
+if d['mode']!='full' or d['run_base']!='.IMPLEMENTAUDIT/runs': die('.claimed mode/base is not R0024 strict custody')
 if canon(d['repo_root'])!=canon(repo) or canon(d['git_common_dir'])!=canon(common): die('.claimed repository or common-dir custody drift')
 if d['run_root']!=rel.as_posix() or d['run_name']!=run.name or len(rel.parts)!=3 or rel.parts[:2]!=('.IMPLEMENTAUDIT','runs'): die('.claimed run identity drift')
 if not re.fullmatch(r'[a-z0-9][a-z0-9-]*-[A-Za-z0-9]{6}',d['run_name']): die('.claimed run name is not claim-run shaped')
@@ -1102,9 +1102,13 @@ PY
 fi
 
 # The repository-side #86 successor/non-verdict parser is mandatory whenever a
-# live run root carries those prospective rows. Installed consumers without the
-# repo checker fail closed instead of silently treating the contract as optional.
-if grep -R -E -q --include='*.md' '^(successor-review:|lane-status: status: REVIEWER_RUNTIME_NON_VERDICT)' "$run_root" 2>/dev/null; then
+# live record root carries those prospective rows. Direct Markdown files are
+# the record surface; nested installs, frozen repositories, and fixture corpora
+# retain their own custody and must not activate the current root's parser.
+# Installed consumers without the repo checker still fail closed for an actual
+# direct live row instead of silently treating the contract as optional.
+if grep -E -q '^(successor-review:|lane-status: status: REVIEWER_RUNTIME_NON_VERDICT)' \
+  "$run_root"/*.md 2>/dev/null; then
   validator_repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." 2>/dev/null && pwd || true)"
   live_cold_checker="$validator_repo_root/scripts/check-cold-review-contract.sh" # source repo checker; absent from installed skill by design
   if [ -z "$validator_repo_root" ] || [ ! -f "$live_cold_checker" ] || [ -L "$live_cold_checker" ]; then
@@ -1115,10 +1119,26 @@ if grep -R -E -q --include='*.md' '^(successor-review:|lane-status: status: REVI
 fi
 
 if [ -f "$state" ] && grep -qi '^## Context epochs and instruction applicability' "$state"; then
+  current_epoch="$(sed -n 's/^Current epoch: //p' "$state")"
+  if ! printf '%s\n' "$current_epoch" | grep -Eq '^(e[1-9][0-9]*|G[0-9A-F]{4})$' \
+      || [ "$current_epoch" = G0000 ]; then
+    err "STATE.md Current epoch must be a positive legacy eNN identity or canonical G plus uppercase HEX4"
+  fi
+  bad_epoch_id="$(awk -F'|' '
+    /^## Context epochs and instruction applicability/ { f=1; next }
+    f && /^## / { f=0 }
+    f && /^\|/ {
+      e=$2; gsub(/^[ \t]+|[ \t]+$/, "", e)
+      if (e ~ /^[eGg]/ &&
+          (e !~ /^(e[1-9][0-9]*|G[0-9A-F]{4})$/ || e == "G0000")) print e
+    }' "$state")"
+  if [ -n "$bad_epoch_id" ]; then
+    err "STATE.md epoch row(s) use malformed durable generation identities: $(printf '%s' "$bad_epoch_id" | tr '\n' ' ')"
+  fi
   bad_prov="$(awk -F'|' '
     /^## Context epochs and instruction applicability/ { f=1; next }
     f && /^## / { f=0 }
-    f && /^\|[[:space:]]*e[0-9]+[[:space:]]*\|/ {
+    f && /^\|[[:space:]]*(e[1-9][0-9]*|G[0-9A-F]{4})[[:space:]]*\|/ {
       p=$3; gsub(/^[ \t]+|[ \t]+$/, "", p)
       e=$2; gsub(/^[ \t]+|[ \t]+$/, "", e)
       if (p !~ /^(host-reported-compaction|new-session|handoff-resume|manual-resume|inferred-context-gap)$/) print e

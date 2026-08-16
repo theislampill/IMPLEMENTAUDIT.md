@@ -39,12 +39,13 @@ else
   record_fail "deterministic control checker rejected the fixture bank"
 fi
 
-# S3E-W01: one bounded state-synthesis population composes the R31/R35
+# S3E-W01: one bounded state-synthesis population composes the R001F/R0023
 # lineages.  It must stay trigger-selected; ordinary deterministic work remains
 # on the existing cheap path.
 s3e_contract_out="$tmp/s3e-w01-contract.out"
 if "${py_cmd[@]}" - "$fixture" \
     skills/implementaudit/references/phase-design.md \
+    skills/implementaudit/SKILL.md \
     >"$s3e_contract_out" <<'PY'
 import json
 import sys
@@ -53,6 +54,8 @@ from pathlib import Path
 fixture = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
 cases = fixture.get("state_synthesis_cases")
 expected = {
+    "S3E-W01-automated-action-complete-risk-envelope",
+    "S3E-W01-automated-action-incomplete-risk-envelope",
     "S3E-W01-complete-triggered-state",
     "S3E-W01-cheap-authoritative-discriminator",
     "S3E-W01-health-proxy-not-required-function",
@@ -62,8 +65,21 @@ expected = {
 if not isinstance(cases, list) or {case.get("id") for case in cases} != expected:
     raise SystemExit("S3E-W01 RED: state-synthesis fixture population missing")
 phase = Path(sys.argv[2]).read_text(encoding="utf-8")
+skill = Path(sys.argv[3]).read_text(encoding="utf-8")
 if "Rule P4-17 — Triggered state-synthesis acceptance" not in phase:
     raise SystemExit("S3E-W01 RED: phase-design missing triggered state-synthesis acceptance")
+if "triggered state-synthesis acceptance and automated-action risk bounds" not in " ".join(skill.split()):
+    raise SystemExit("S3E-W01 RED: bootloader does not route automated-action decisions to phase-design")
+normalized_phase = " ".join(phase.split())
+if ("automated or automation-proposed consequential action" not in normalized_phase or
+        "if any is unbounded, block the action" not in normalized_phase):
+    raise SystemExit("S3E-W01 RED: six-axis action envelope is not fail-closed for automation-proposed action")
+if "six-axis fail-closed gate" not in " ".join(skill.split()):
+    raise SystemExit("S3E-W01 RED: bootloader route does not expose the fail-closed action gate")
+if "held-outs without exposing answers/distractors" not in phase:
+    raise SystemExit("P4-16 RED: distractors missing from the non-exposure boundary")
+if "Easier assertions, goldens, answers," not in phase:
+    raise SystemExit("P4-16 RED: answers missing from the prohibited easing set")
 PY
 then
   record_pass
@@ -92,6 +108,60 @@ elif grep -Fq 'S3E-W01-complete-triggered-state' \
   record_pass
 else
   record_fail "S3E-W01 negative did not identify its rejected cell"
+fi
+
+for action_axis in false_alarm_cost missed_detection_cost detection_latency \
+  diagnosis_confidence reversibility action_authority; do
+  automated_action_mutant="$tmp/s3e-w01-automated-action-$action_axis.json"
+  "${py_cmd[@]}" - "$fixture" "$automated_action_mutant" "$action_axis" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+source, target = map(Path, sys.argv[1:3])
+axis = sys.argv[3]
+fixture = json.loads(source.read_text(encoding="utf-8"))
+case = next(row for row in fixture["state_synthesis_cases"]
+            if row["id"] == "S3E-W01-automated-action-complete-risk-envelope")
+case[axis] = False
+target.write_text(json.dumps(fixture, indent=2) + "\n", encoding="utf-8")
+PY
+  if bash scripts/check-acceptance-instrument-discipline.sh \
+      "$automated_action_mutant" >"$tmp/s3e-w01-automated-action-$action_axis.out" 2>&1; then
+    record_fail "S3E-W01 accepted automated action without $action_axis"
+  elif grep -Fq 'S3E-W01-automated-action-complete-risk-envelope' \
+      "$tmp/s3e-w01-automated-action-$action_axis.out"; then
+    record_pass
+  else
+    record_fail "S3E-W01 $action_axis negative did not identify its rejected cell"
+  fi
+done
+
+automated_action_schema_mutant="$tmp/s3e-w01-automated-action-schema-removed.json"
+"${py_cmd[@]}" - "$fixture" "$automated_action_schema_mutant" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+source, target = map(Path, sys.argv[1:])
+fixture = json.loads(source.read_text(encoding="utf-8"))
+case = next(row for row in fixture["state_synthesis_cases"]
+            if row["id"] == "S3E-W01-automated-action-complete-risk-envelope")
+for key in ("automated_action", "false_alarm_cost", "missed_detection_cost",
+            "detection_latency", "diagnosis_confidence", "reversibility",
+            "action_authority"):
+    case.pop(key)
+target.write_text(json.dumps(fixture, indent=2) + "\n", encoding="utf-8")
+PY
+if bash scripts/check-acceptance-instrument-discipline.sh \
+    "$automated_action_schema_mutant" \
+    >"$tmp/s3e-w01-automated-action-schema-removed.out" 2>&1; then
+  record_fail "S3E-W01 required automated-action case accepted after its complete risk schema was removed"
+elif grep -Fq 'S3E-W01-automated-action-complete-risk-envelope' \
+    "$tmp/s3e-w01-automated-action-schema-removed.out"; then
+  record_pass
+else
+  record_fail "S3E-W01 removed automated-action schema did not identify its rejected cell"
 fi
 
 identity_proxy_fixture="$tmp/r35-nonresolving-identity-proxy.json"
@@ -134,14 +204,14 @@ if bash scripts/check-acceptance-instrument-discipline.sh \
 elif grep -Fq "R35-CP5-legitimate-policy-repair" "$identity_proxy_out"; then
   record_pass
 else
-  record_fail "R35 identity-proxy negative failed without identifying the rejected cell"
+  record_fail "R0023 identity-proxy negative failed without identifying the rejected cell"
   cat "$identity_proxy_out" >&2
 fi
 
 identity_repo="$tmp/r35-identity-repository"
 wrong_identity_repo="$tmp/r35-wrong-identity-repository"
 git init -q "$identity_repo"
-git -C "$identity_repo" config user.name "R35 Test"
+git -C "$identity_repo" config user.name "R0023 Test"
 git -C "$identity_repo" config user.email "r35@example.invalid"
 mkdir -p "$identity_repo/contracts"
 printf 'independent evaluator authority\n' >"$identity_repo/contracts/evaluator"
@@ -168,7 +238,7 @@ if [ "$(git -C "$identity_repo" rev-parse "$candidate_identity^")" = "$parent_id
 $adjacent_identity" ]; then
   record_pass
 else
-  record_fail "independent Git controls did not establish R35 identity and population relationships"
+  record_fail "independent Git controls did not establish R0023 identity and population relationships"
 fi
 
 repository_fixture="$tmp/r35-repository-evidence.json"
@@ -210,7 +280,7 @@ if bash scripts/check-acceptance-instrument-discipline.sh \
     >"$repository_fixture_out" 2>&1; then
   record_pass
 else
-  record_fail "valid repository-bound R35 evidence was rejected"
+  record_fail "valid repository-bound R0023 evidence was rejected"
   cat "$repository_fixture_out" >&2
 fi
 
@@ -254,11 +324,11 @@ for mutant_name in authority-candidate-equal authority-parent-substitution \
   if bash scripts/check-acceptance-instrument-discipline.sh \
       "$repository_mutants/$mutant_name.json" --repository "$identity_repo" \
       >"$mutant_out" 2>&1; then
-    record_fail "R35 repository mutant $mutant_name was accepted"
+    record_fail "R0023 repository mutant $mutant_name was accepted"
   elif grep -Fq "R35-CP5-legitimate-policy-repair" "$mutant_out"; then
     record_pass
   else
-    record_fail "R35 repository mutant $mutant_name failed without identifying the rejected cell"
+    record_fail "R0023 repository mutant $mutant_name failed without identifying the rejected cell"
     cat "$mutant_out" >&2
   fi
 done
@@ -267,11 +337,11 @@ wrong_repository_out="$tmp/r35-wrong-repository.out"
 if bash scripts/check-acceptance-instrument-discipline.sh \
     "$repository_fixture" --repository "$wrong_identity_repo" \
     >"$wrong_repository_out" 2>&1; then
-  record_fail "R35 repository evidence was accepted from the wrong object store"
+  record_fail "R0023 repository evidence was accepted from the wrong object store"
 elif grep -Fq "R35-CP5-legitimate-policy-repair" "$wrong_repository_out"; then
   record_pass
 else
-  record_fail "R35 wrong-repository negative failed without identifying the rejected cell"
+  record_fail "R0023 wrong-repository negative failed without identifying the rejected cell"
   cat "$wrong_repository_out" >&2
 fi
 
@@ -301,7 +371,7 @@ PY
 then
   record_pass
 else
-  record_fail "R35 bounded product/contract/evaluator state matrix is incomplete"
+  record_fail "R0023 bounded product/contract/evaluator state matrix is incomplete"
   cat "$state_matrix_out" >&2
 fi
 
@@ -325,7 +395,7 @@ if bash scripts/check-acceptance-instrument-discipline.sh \
 elif grep -Fq "R35-coupled-change-isolated" "$product_state_out"; then
   record_pass
 else
-  record_fail "R35 product-state mismatch failed without identifying the rejected cell"
+  record_fail "R0023 product-state mismatch failed without identifying the rejected cell"
   cat "$product_state_out" >&2
 fi
 
@@ -354,7 +424,7 @@ if bash scripts/check-acceptance-instrument-discipline.sh \
 elif grep -Fq "R35-completed-form-failing-held-out" "$gaming_out"; then
   record_pass
 else
-  record_fail "R35 anti-form negative failed without identifying the rejected cell"
+  record_fail "R0023 anti-form negative failed without identifying the rejected cell"
   cat "$gaming_out" >&2
 fi
 
@@ -383,7 +453,7 @@ if bash scripts/check-acceptance-instrument-discipline.sh \
 elif grep -Fq "R35-coupled-change-isolated" "$matrix_out"; then
   record_pass
 else
-  record_fail "R35 matrix negative failed without identifying the rejected cell"
+  record_fail "R0023 matrix negative failed without identifying the rejected cell"
   cat "$matrix_out" >&2
 fi
 
@@ -401,7 +471,7 @@ PY
 if bash scripts/check-acceptance-instrument-discipline.sh "$crossed_cause_fixture" >"$tmp/crossed.out" 2>&1; then
   record_fail "a product-effect matrix was accepted as an evaluator repair"
 elif grep -Fq "R35-legitimate-evaluator-repair" "$tmp/crossed.out"; then record_pass
-else record_fail "R35 crossed-cause negative did not identify its cell"; cat "$tmp/crossed.out" >&2; fi
+else record_fail "R0023 crossed-cause negative did not identify its cell"; cat "$tmp/crossed.out" >&2; fi
 
 coupled_cause_fixture="$tmp/r35-coupled-crossed-cause.json"
 "${py_cmd[@]}" - "$fixture" "$coupled_cause_fixture" <<'PY'
@@ -417,7 +487,7 @@ PY
 if bash scripts/check-acceptance-instrument-discipline.sh "$coupled_cause_fixture" >"$tmp/coupled-crossed.out" 2>&1; then
   record_fail "an evaluator-effect matrix was accepted as an isolated coupled repair"
 elif grep -Fq "R35-coupled-change-isolated" "$tmp/coupled-crossed.out"; then record_pass
-else record_fail "R35 coupled crossed-cause negative did not identify its cell"; cat "$tmp/coupled-crossed.out" >&2; fi
+else record_fail "R0023 coupled crossed-cause negative did not identify its cell"; cat "$tmp/coupled-crossed.out" >&2; fi
 
 phantom_contract_fixture="$tmp/r35-phantom-contract-record.json"
 "${py_cmd[@]}" - "$fixture" "$phantom_contract_fixture" <<'PY'
@@ -433,7 +503,7 @@ PY
 if bash scripts/check-acceptance-instrument-discipline.sh "$phantom_contract_fixture" >"$tmp/phantom.out" 2>&1; then
   record_fail "a contract record without a contract event was accepted"
 elif grep -Fq "R35-legitimate-evaluator-repair" "$tmp/phantom.out"; then record_pass
-else record_fail "R35 phantom-contract negative did not identify its cell"; cat "$tmp/phantom.out" >&2; fi
+else record_fail "R0023 phantom-contract negative did not identify its cell"; cat "$tmp/phantom.out" >&2; fi
 
 missing_contract_fixture="$tmp/r35-missing-contract-record.json"
 "${py_cmd[@]}" - "$fixture" "$missing_contract_fixture" <<'PY'
@@ -450,7 +520,7 @@ PY
 if bash scripts/check-acceptance-instrument-discipline.sh "$missing_contract_fixture" >"$tmp/missing-contract.out" 2>&1; then
   record_fail "a contract event without its structured record was accepted"
 elif grep -Fq "R35-authorised-contract-recalibration" "$tmp/missing-contract.out"; then record_pass
-else record_fail "R35 missing-contract negative did not identify its cell"; cat "$tmp/missing-contract.out" >&2; fi
+else record_fail "R0023 missing-contract negative did not identify its cell"; cat "$tmp/missing-contract.out" >&2; fi
 
 parity_fixture="$tmp/r35-live-instrument-without-parity.json"
 "${py_cmd[@]}" - "$fixture" "$parity_fixture" <<'PY'
@@ -466,7 +536,7 @@ PY
 if bash scripts/check-acceptance-instrument-discipline.sh "$parity_fixture" >"$tmp/parity.out" 2>&1; then
   record_fail "a live independent instrument was accepted without parity"
 elif grep -Fq "R35-legitimate-prompt-repair" "$tmp/parity.out"; then record_pass
-else record_fail "R35 parity negative did not identify its cell"; cat "$tmp/parity.out" >&2; fi
+else record_fail "R0023 parity negative did not identify its cell"; cat "$tmp/parity.out" >&2; fi
 
 mock_parity_fixture="$tmp/r35-mock-only-green.json"
 "${py_cmd[@]}" - "$fixture" "$mock_parity_fixture" <<'PY'
@@ -483,7 +553,7 @@ PY
 if bash scripts/check-acceptance-instrument-discipline.sh "$mock_parity_fixture" >"$tmp/mock-parity.out" 2>&1; then
   record_fail "mock-only green passed without an equal structured parity witness"
 elif grep -Fq "R35-mock-promotion" "$tmp/mock-parity.out"; then record_pass
-else record_fail "R35 mock-parity negative did not identify its cell"; cat "$tmp/mock-parity.out" >&2; fi
+else record_fail "R0023 mock-parity negative did not identify its cell"; cat "$tmp/mock-parity.out" >&2; fi
 
 parity_witness_fixture="$tmp/r35-missing-parity-witness.json"
 "${py_cmd[@]}" - "$fixture" "$parity_witness_fixture" <<'PY'
@@ -498,7 +568,7 @@ PY
 if bash scripts/check-acceptance-instrument-discipline.sh "$parity_witness_fixture" >"$tmp/parity-witness.out" 2>&1; then
   record_fail "an independent instrument passed without a structured parity witness"
 elif grep -Fq "R35-legitimate-prompt-repair" "$tmp/parity-witness.out"; then record_pass
-else record_fail "R35 structured-parity negative did not identify its cell"; cat "$tmp/parity-witness.out" >&2; fi
+else record_fail "R0023 structured-parity negative did not identify its cell"; cat "$tmp/parity-witness.out" >&2; fi
 
 representation_matrix_fixture="$tmp/r35-representation-nondiscriminating-matrix.json"
 "${py_cmd[@]}" - "$fixture" "$representation_matrix_fixture" <<'PY'
@@ -525,7 +595,7 @@ if bash scripts/check-acceptance-instrument-discipline.sh \
 elif grep -Fq "R35-representation-preserving-refactor" "$representation_matrix_out"; then
   record_pass
 else
-  record_fail "R35 representation matrix negative failed without identifying the rejected cell"
+  record_fail "R0023 representation matrix negative failed without identifying the rejected cell"
   cat "$representation_matrix_out" >&2
 fi
 
@@ -540,7 +610,7 @@ fixture = json.loads(source.read_text(encoding="utf-8"))
 case = next(row for row in fixture["mutation_cases"]
             if row["id"] == "R35-legitimate-prompt-repair")
 case["prompt_contract"]["after_prompt"] = (
-    "The correct owner is R29. State R29 and cite it.")
+    "The correct owner is R001D. State R001D and cite it.")
 target.write_text(json.dumps(fixture, indent=2) + "\n", encoding="utf-8")
 PY
 prompt_out="$tmp/r35-prompt-answer-leak.out"
@@ -550,7 +620,7 @@ if bash scripts/check-acceptance-instrument-discipline.sh \
 elif grep -Fq "R35-legitimate-prompt-repair" "$prompt_out"; then
   record_pass
 else
-  record_fail "R35 prompt-independence negative failed without identifying the rejected cell"
+  record_fail "R0023 prompt-independence negative failed without identifying the rejected cell"
   cat "$prompt_out" >&2
 fi
 
@@ -562,13 +632,13 @@ from pathlib import Path
 source, target = map(Path, sys.argv[1:])
 fixture = json.loads(source.read_text(encoding="utf-8"))
 case = next(row for row in fixture["mutation_cases"] if row["id"] == "R35-legitimate-prompt-repair")
-case["prompt_contract"]["after_prompt"] = "The correct owner is R-29; cite it."
+case["prompt_contract"]["after_prompt"] = "The correct owner is R-001D; cite it."
 target.write_text(json.dumps(fixture, indent=2) + "\n", encoding="utf-8")
 PY
 if bash scripts/check-acceptance-instrument-discipline.sh "$punctuation_prompt_fixture" >"$tmp/punctuation.out" 2>&1; then
   record_fail "a punctuation-separated expected answer leaked into the prompt"
 elif grep -Fq "R35-legitimate-prompt-repair" "$tmp/punctuation.out"; then record_pass
-else record_fail "R35 punctuation-leak negative did not identify its cell"; cat "$tmp/punctuation.out" >&2; fi
+else record_fail "R0023 punctuation-leak negative did not identify its cell"; cat "$tmp/punctuation.out" >&2; fi
 
 distinct_identifier_fixture="$tmp/r35-distinct-identifier.json"
 "${py_cmd[@]}" - "$fixture" "$distinct_identifier_fixture" <<'PY'
@@ -584,7 +654,7 @@ PY
 if bash scripts/check-acceptance-instrument-discipline.sh "$distinct_identifier_fixture" >"$tmp/distinct-identifier.out" 2>&1; then
   record_pass
 else
-  record_fail "a distinct identifier such as R290 was treated as leaked R29"
+  record_fail "a distinct identifier such as R290 was treated as leaked R001D"
   cat "$tmp/distinct-identifier.out" >&2
 fi
 
@@ -599,7 +669,7 @@ fixture = json.loads(source.read_text(encoding="utf-8"))
 case = next(row for row in fixture["mutation_cases"]
             if row["id"] == "R35-legitimate-prompt-repair")
 case["prompt_contract"]["before_prompt"] = (
-    "The correct owner is R29. State R29 and cite it.")
+    "The correct owner is R001D. State R001D and cite it.")
 target.write_text(json.dumps(fixture, indent=2) + "\n", encoding="utf-8")
 PY
 before_prompt_out="$tmp/r35-before-prompt-answer-leak.out"
@@ -609,7 +679,7 @@ if bash scripts/check-acceptance-instrument-discipline.sh \
 elif grep -Fq "R35-legitimate-prompt-repair" "$before_prompt_out"; then
   record_pass
 else
-  record_fail "R35 before-prompt negative failed without identifying the rejected cell"
+  record_fail "R0023 before-prompt negative failed without identifying the rejected cell"
   cat "$before_prompt_out" >&2
 fi
 
@@ -633,7 +703,7 @@ if bash scripts/check-acceptance-instrument-discipline.sh \
 elif grep -Fq "R35-legitimate-evaluator-repair" "$record_out"; then
   record_pass
 else
-  record_fail "R35 incomplete-record negative failed without identifying the rejected cell"
+  record_fail "R0023 incomplete-record negative failed without identifying the rejected cell"
   cat "$record_out" >&2
 fi
 
@@ -654,7 +724,7 @@ if bash scripts/check-acceptance-instrument-discipline.sh \
 elif grep -Fq "R35-legitimate-evaluator-repair" "$structural_record_out"; then
   record_pass
 else
-  record_fail "R35 structural-record negative failed without identifying the rejected cell"
+  record_fail "R0023 structural-record negative failed without identifying the rejected cell"
   cat "$structural_record_out" >&2
 fi
 
@@ -714,11 +784,11 @@ while IFS='|' read -r mutant_name case_id; do
   mutant_out="$tmp/r35-policy-$mutant_name.out"
   if bash scripts/check-acceptance-instrument-discipline.sh \
       "$policy_mutants/$mutant_name.json" >"$mutant_out" 2>&1; then
-    record_fail "R35 policy mutant $mutant_name was accepted"
+    record_fail "R0023 policy mutant $mutant_name was accepted"
   elif grep -Fq "$case_id" "$mutant_out"; then
     record_pass
   else
-    record_fail "R35 policy mutant $mutant_name failed without identifying $case_id"
+    record_fail "R0023 policy mutant $mutant_name failed without identifying $case_id"
     cat "$mutant_out" >&2
   fi
 done < <("${py_cmd[@]}" - "$fixture" <<'PY'
@@ -774,7 +844,7 @@ if bash scripts/check-acceptance-instrument-discipline.sh \
 elif grep -Fq "R35-legitimate-expected-answer-correction" "$answer_authority_out"; then
   record_pass
 else
-  record_fail "R35 expected-answer authority negative failed without identifying the rejected cell"
+  record_fail "R0023 expected-answer authority negative failed without identifying the rejected cell"
   cat "$answer_authority_out" >&2
 fi
 

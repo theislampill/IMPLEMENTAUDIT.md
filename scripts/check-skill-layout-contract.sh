@@ -76,24 +76,70 @@ if (root / ".git").exists():
     if tracked.returncode == 0:
         raise SystemExit("flat canonical source skill file must not be tracked: skills/SKILL.md")
 
+expected_skill_files = [
+    "skills/audit-andon/SKILL.md",
+    "skills/audit-assess/SKILL.md",
+    "skills/audit-implement/SKILL.md",
+    "skills/audit-state/SKILL.md",
+    "skills/implementaudit/SKILL.md",
+]
 skill_files = sorted(p.relative_to(root).as_posix() for p in (root / "skills").glob("*/SKILL.md"))
-if skill_files != ["skills/implementaudit/SKILL.md"]:
+if skill_files != expected_skill_files:
     raise SystemExit(
-        "expected exactly one name-matched source skill: "
+        "expected exact source skill population: "
         + ", ".join(skill_files or ["<none>"])
     )
 
-plugin = json.loads((root / ".claude-plugin/plugin.json").read_text(encoding="utf-8"))
-if plugin.get("name") != "implementaudit":
-    raise SystemExit(".claude-plugin/plugin.json name must be implementaudit")
-if plugin.get("skills") != "./skills/":
-    raise SystemExit(
-        ".claude-plugin/plugin.json must point source plugin discovery at ./skills/"
+for skill_file in skill_files:
+    text = (root / skill_file).read_text(encoding="utf-8")
+    name = Path(skill_file).parent.name
+    if not text.startswith("---\n"):
+        raise SystemExit(f"{skill_file} must have YAML frontmatter")
+    frontmatter = text.split("---\n", 2)[1]
+    if not re.search(rf"(?m)^name:\s*{re.escape(name)}\s*$", frontmatter):
+        raise SystemExit(f"{skill_file} frontmatter name must be {name}")
+    if not re.search(r'(?m)^\s*version:\s*["\']?0\.4\.0["\']?\s*$', frontmatter):
+        raise SystemExit(f"{skill_file} metadata.version must be 0.4.0")
+
+for child in ("audit-state", "audit-assess", "audit-implement", "audit-andon"):
+    child_root = root / "skills" / child
+    extras = sorted(
+        p.relative_to(root).as_posix()
+        for p in child_root.iterdir()
+        if p.name != "SKILL.md"
     )
+    if extras:
+        raise SystemExit(
+            f"skills/{child} must not duplicate shared substrate: " + ", ".join(extras)
+        )
+
+host_plugins = {}
+for manifest_path in (
+    ".codex-plugin/plugin.json",
+    ".claude-plugin/plugin.json",
+):
+    plugin = json.loads((root / manifest_path).read_text(encoding="utf-8"))
+    if plugin.get("name") != "implementaudit":
+        raise SystemExit(f"{manifest_path} name must be implementaudit")
+    if plugin.get("skills") != "./skills/":
+        raise SystemExit(
+            f"{manifest_path} must point source plugin discovery at ./skills/"
+        )
+    if plugin.get("author") != {"name": "theislampill"}:
+        raise SystemExit(f"{manifest_path} author must bind publisher theislampill")
+    host_plugins[manifest_path] = plugin
+if host_plugins[".codex-plugin/plugin.json"] != host_plugins[".claude-plugin/plugin.json"]:
+    raise SystemExit("Codex and Claude plugin manifests must be identical projections")
 
 marketplace = json.loads(
     (root / ".claude-plugin/marketplace.json").read_text(encoding="utf-8")
 )
+if marketplace.get("name") != "implementaudit":
+    raise SystemExit("marketplace name must be implementaudit")
+if marketplace.get("owner") != {"name": "theislampill"}:
+    raise SystemExit("marketplace owner must be theislampill")
+if not isinstance(marketplace.get("description"), str) or not marketplace["description"].strip():
+    raise SystemExit("marketplace description is required")
 plugins = marketplace.get("plugins")
 if not isinstance(plugins, list) or not plugins:
     raise SystemExit(".claude-plugin/marketplace.json plugins list is required")
@@ -107,10 +153,7 @@ if "path" in entry:
 
 builder = (root / "scripts/build-release-asset.sh").read_text(encoding="utf-8")
 for token in [
-    'source_skill_dir = repo / "skills" / "implementaudit"',
-    'archive_plugin["skills"] = "./"',
-    'plugin["path"] = ".."',
-    'if "skills/implementaudit/SKILL.md" in names:',
+    'scripts/package-contract.py --build "$out_dir"',
 ]:
     if token not in builder:
         raise SystemExit(f"scripts/build-release-asset.sh missing layout token: {token}")
@@ -139,15 +182,17 @@ for forbidden in [
 
 docs = {
     "README.md": [
-        "Source layout vs release archive layout",
+        "Source layout vs release package projections",
         "skills/implementaudit/SKILL.md",
-        "release archive",
-        "SKILL.md at archive root",
+        "IMPLEMENTAUDIT.plugin.zip",
+        "IMPLEMENTAUDIT.skill",
+        "archive-root `SKILL.md`",
     ],
     "AGENTS.md": [
         "skills/implementaudit/SKILL.md",
-        "release archive",
-        "archive root",
+        "IMPLEMENTAUDIT.plugin.zip",
+        "IMPLEMENTAUDIT.skill",
+        "archive root as `SKILL.md`",
     ],
 }
 for path, tokens in docs.items():

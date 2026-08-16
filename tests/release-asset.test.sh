@@ -8,8 +8,12 @@ tmp_parent="$(mktemp -d)"
 stray_file="skills/implementaudit/zz-package-parity-stray-test.txt"
 trap 'rm -rf "$tmp_parent"; rm -f "$stray_file"' EXIT
 
+fail() {
+  printf 'release-asset.test: %s\n' "$*" >&2
+  exit 1
+}
+
 if [ "${1:-}" = "--identity-only" ]; then
-  fail() { printf 'release-asset.test: %s\n' "$*" >&2; exit 1; }
   canonical_receipt='fixtures/release-identity/current-public-v0.3.3.3.json'
   [ -f "$canonical_receipt" ] \
     || fail 'canonical current-public receipt is absent from the real worktree'
@@ -25,6 +29,8 @@ if [ "${1:-}" = "--identity-only" ]; then
     || fail 'release-identity checker mode is missing'
   grep -Fq -- '--check-stale-artifact' scripts/build-release-asset.sh \
     || fail 'stale-artifact checker mode is missing'
+  grep -Fq -- '--check-stale-release-set' scripts/build-release-asset.sh \
+    || fail 'dual-artifact stale release-set checker mode is missing'
   a_digest='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
   b_digest='bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
 
@@ -77,6 +83,28 @@ if [ "${1:-}" = "--identity-only" ]; then
     mv "$root/CHANGELOG.md.next" "$root/CHANGELOG.md"
     git -C "$root" add payload.txt CHANGELOG.md docs/portal/site.json
     git -C "$root" -c user.email=t@example.invalid -c user.name=t commit -qm family-forward
+  }
+
+  make_cross_family_forward_fixture() {
+    local root="$1" previous_runtime="$2" previous_tag="$3" candidate_runtime="$4" candidate_tag="$5"
+    local site_milestone="${6:-$candidate_tag}"
+    local ledger_name="${7:-${site_milestone}-release-report.md}"
+    make_fixture "$root" "$previous_runtime" "$previous_tag"
+    mkdir -p "$root/docs/portal"
+    printf '{"version":"%s"}\n' "$candidate_runtime" > "$root/.claude-plugin/plugin.json"
+    sed -i "s/version: \"$previous_runtime\"/version: \"$candidate_runtime\"/" \
+      "$root/skills/implementaudit/SKILL.md"
+    printf '{"release":{"milestone":"%s","audit_ledger_url":"https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/archive/%s"}}\n' \
+      "$site_milestone" "$ledger_name" > "$root/docs/portal/site.json"
+    printf 'changed payload\n' > "$root/payload.txt"
+    {
+      printf '# Changelog\n\n## [%s] - 2026-08-13\n- Atomic public and runtime family transition.\n\n' "$candidate_tag"
+      tail -n +3 "$root/CHANGELOG.md"
+    } > "$root/CHANGELOG.md.next"
+    mv "$root/CHANGELOG.md.next" "$root/CHANGELOG.md"
+    git -C "$root" add .claude-plugin/plugin.json skills/implementaudit/SKILL.md \
+      payload.txt CHANGELOG.md docs/portal/site.json
+    git -C "$root" -c user.email=t@example.invalid -c user.name=t commit -qm cross-family-forward
   }
 
   make_same_tag_correction_fixture() {
@@ -603,6 +631,109 @@ if [ "${1:-}" = "--identity-only" ]; then
     family-forward v0.3.3.0 v0.3.3.3 HEAD "$family_forward" >/dev/null \
     || fail 'valid v0.3.3.3 public identity for runtime 0.3.3 was rejected'
 
+  cross_family_forward="$tmp_parent/cross-family-forward"
+  make_cross_family_forward_fixture \
+    "$cross_family_forward" 0.3.3 v0.3.3.3 0.4.0 v0.4.0.0
+  bash scripts/build-release-asset.sh --check-release-identity \
+    cross-family-forward v0.3.3.3 v0.4.0.0 HEAD "$cross_family_forward" >/dev/null \
+    || fail 'valid v0.3.3.3/0.3.3 to v0.4.0.0/0.4.0 transition was rejected'
+
+  cross_family_stale_previous="$tmp_parent/cross-family-stale-previous"
+  make_cross_family_forward_fixture \
+    "$cross_family_stale_previous" 0.3.3 v0.3.3.3 0.4.0 v0.4.0.0
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      cross-family-forward v0.3.3.2 v0.4.0.0 HEAD "$cross_family_stale_previous" >/dev/null 2>&1; then
+    fail 'cross-family-forward accepted a stale predecessor public tag'
+  fi
+
+  cross_family_wrong_previous_runtime="$tmp_parent/cross-family-wrong-previous-runtime"
+  make_cross_family_forward_fixture \
+    "$cross_family_wrong_previous_runtime" 0.3.2 v0.3.3.3 0.4.0 v0.4.0.0
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      cross-family-forward v0.3.3.3 v0.4.0.0 HEAD "$cross_family_wrong_previous_runtime" >/dev/null 2>&1; then
+    fail 'cross-family-forward accepted predecessor runtime 0.3.2 for v0.3.3.3'
+  fi
+
+  cross_family_wrong_candidate_runtime="$tmp_parent/cross-family-wrong-candidate-runtime"
+  make_cross_family_forward_fixture \
+    "$cross_family_wrong_candidate_runtime" 0.3.3 v0.3.3.3 0.4.1 v0.4.0.0
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      cross-family-forward v0.3.3.3 v0.4.0.0 HEAD "$cross_family_wrong_candidate_runtime" >/dev/null 2>&1; then
+    fail 'cross-family-forward accepted candidate runtime 0.4.1 for v0.4.0.0'
+  fi
+
+  cross_family_wrong_portal="$tmp_parent/cross-family-wrong-portal"
+  make_cross_family_forward_fixture \
+    "$cross_family_wrong_portal" 0.3.3 v0.3.3.3 0.4.0 v0.4.0.0 v0.4.0.1
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      cross-family-forward v0.3.3.3 v0.4.0.0 HEAD "$cross_family_wrong_portal" >/dev/null 2>&1; then
+    fail 'cross-family-forward accepted a candidate tag different from the portal milestone'
+  fi
+
+  cross_family_wrong_ledger="$tmp_parent/cross-family-wrong-ledger"
+  make_cross_family_forward_fixture \
+    "$cross_family_wrong_ledger" 0.3.3 v0.3.3.3 0.4.0 v0.4.0.0 v0.4.0.0 v0.3.3.3-release-report.md
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      cross-family-forward v0.3.3.3 v0.4.0.0 HEAD "$cross_family_wrong_ledger" >/dev/null 2>&1; then
+    fail 'cross-family-forward accepted the predecessor release ledger'
+  fi
+
+  cross_family_history_rewrite="$tmp_parent/cross-family-history-rewrite"
+  make_cross_family_forward_fixture \
+    "$cross_family_history_rewrite" 0.3.3 v0.3.3.3 0.4.0 v0.4.0.0
+  sed -i '/## \[v0.3.3.3\]/,$d' "$cross_family_history_rewrite/CHANGELOG.md"
+  git -C "$cross_family_history_rewrite" add CHANGELOG.md
+  git -C "$cross_family_history_rewrite" commit -qm rewrite-history
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      cross-family-forward v0.3.3.3 v0.4.0.0 HEAD "$cross_family_history_rewrite" >/dev/null 2>&1; then
+    fail 'cross-family-forward accepted removal of predecessor CHANGELOG authority'
+  fi
+
+  cross_family_backward="$tmp_parent/cross-family-backward"
+  make_cross_family_forward_fixture \
+    "$cross_family_backward" 0.4.0 v0.4.0.3 0.3.9 v0.3.9.0
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      cross-family-forward v0.4.0.3 v0.3.9.0 HEAD "$cross_family_backward" >/dev/null 2>&1; then
+    fail 'cross-family-forward accepted a backward runtime-family transition'
+  fi
+
+  for dirty_owner in \
+      .claude-plugin/plugin.json \
+      skills/implementaudit/SKILL.md \
+      CHANGELOG.md \
+      docs/portal/site.json; do
+    owner_slug="$(printf '%s' "$dirty_owner" | tr '/.' '--')"
+    dirty_owner_root="$tmp_parent/cross-family-dirty-owner-$owner_slug"
+    make_cross_family_forward_fixture \
+      "$dirty_owner_root" 0.3.3 v0.3.3.3 0.4.0 v0.4.0.0
+    printf '\n' >> "$dirty_owner_root/$dirty_owner"
+    if bash scripts/build-release-asset.sh --check-release-identity \
+        cross-family-forward v0.3.3.3 v0.4.0.0 HEAD "$dirty_owner_root" >/dev/null 2>&1; then
+      fail "cross-family-forward accepted dirty release identity owner $dirty_owner"
+    fi
+  done
+
+  cross_family_commit="$(git -C "$cross_family_forward" rev-parse HEAD)"
+  printf 'moved head\n' >> "$cross_family_forward/payload.txt"
+  git -C "$cross_family_forward" add payload.txt
+  git -C "$cross_family_forward" commit -qm moved-head
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      cross-family-forward v0.3.3.3 v0.4.0.0 "$cross_family_commit" "$cross_family_forward" >/dev/null 2>&1; then
+    fail 'cross-family-forward accepted a candidate commit after HEAD moved'
+  fi
+
+  cross_family_same_tree_head="$tmp_parent/cross-family-same-tree-head"
+  make_cross_family_forward_fixture \
+    "$cross_family_same_tree_head" 0.3.3 v0.3.3.3 0.4.0 v0.4.0.0
+  cross_family_same_tree_commit="$(git -C "$cross_family_same_tree_head" rev-parse HEAD)"
+  git -C "$cross_family_same_tree_head" \
+    -c user.email=t@example.invalid -c user.name=t commit --allow-empty -qm moved-head-same-tree
+  if bash scripts/build-release-asset.sh --check-release-identity \
+      cross-family-forward v0.3.3.3 v0.4.0.0 "$cross_family_same_tree_commit" \
+      "$cross_family_same_tree_head" >/dev/null 2>&1; then
+    fail 'cross-family-forward accepted a named release commit after HEAD moved to an empty same-tree commit'
+  fi
+
   dirty_candidate_owners="$tmp_parent/family-forward-dirty-candidate-owners"
   make_fixture "$dirty_candidate_owners" 0.3.3 v0.3.3.0
   printf '\n' >> "$dirty_candidate_owners/.claude-plugin/plugin.json"
@@ -780,6 +911,20 @@ if [ "${1:-}" = "--identity-only" ]; then
     package "$stale_root/dist/pkg.skill" "$stale_root/CHANGELOG.md" >/dev/null \
     || fail 'non-superseded package artifact was rejected'
 
+  printf 'withdrawn primary plugin bytes\n' > "$stale_root/dist/IMPLEMENTAUDIT.plugin.zip"
+  printf 'current compatibility bytes\n' > "$stale_root/dist/IMPLEMENTAUDIT.skill"
+  stale_plugin_digest="$(sha256sum "$stale_root/dist/IMPLEMENTAUDIT.plugin.zip" | awk '{print $1}')"
+  printf '# Changelog\n- plugin: superseded `%s` -> superseding `%s`.\n' \
+    "$stale_plugin_digest" "$b_digest" > "$stale_root/CHANGELOG.md"
+  if bash scripts/build-release-asset.sh --check-stale-release-set \
+      package "$stale_root/dist" "$stale_root/CHANGELOG.md" >/dev/null 2>&1; then
+    fail 'release-set stale check ignored a withdrawn primary plugin artifact'
+  fi
+  printf 'current primary plugin bytes\n' > "$stale_root/dist/IMPLEMENTAUDIT.plugin.zip"
+  bash scripts/build-release-asset.sh --check-stale-release-set \
+    package "$stale_root/dist" "$stale_root/CHANGELOG.md" >/dev/null \
+    || fail 'non-superseded dual-artifact release set was rejected'
+
   printf 'release-asset.test: identity-only ok\n'
   exit 0
 fi
@@ -820,14 +965,23 @@ mkdir -p "$out_dir"
 
 bash scripts/build-release-asset.sh "$out_dir"
 
+plugin_asset="$out_dir/IMPLEMENTAUDIT.plugin.zip"
 asset="$out_dir/IMPLEMENTAUDIT.skill"
-[ -f "$asset" ] || {
-  printf 'release-asset.test: missing asset\n' >&2
-  exit 1
-}
+checksums="$out_dir/CHECKSUMS.txt"
+for required in "$plugin_asset" "$asset" "$checksums"; do
+  [ -f "$required" ] || {
+    printf 'release-asset.test: missing release-set member %s\n' "$required" >&2
+    exit 1
+  }
+done
 
-bash scripts/write-release-checksums.sh "$asset" "$out_dir/CHECKSUMS.txt"
-bash scripts/write-release-checksums.sh --check "$asset" "$out_dir/CHECKSUMS.txt"
+bash scripts/write-release-checksums.sh --check --all "$out_dir" "$checksums"
+[ "$(wc -l < "$checksums" | tr -d '[:space:]')" -eq 2 ] \
+  || fail 'canonical checksum manifest does not have exactly two entries'
+expected_checksum_names="$(printf '%s\n' IMPLEMENTAUDIT.plugin.zip IMPLEMENTAUDIT.skill)"
+actual_checksum_names="$(awk '{print $3}' "$checksums")"
+[ "$actual_checksum_names" = "$expected_checksum_names" ] \
+  || fail 'canonical checksum manifest is not the sorted dual-artifact set'
 
 if command -v python >/dev/null 2>&1; then
   py_cmd=(python)
@@ -896,8 +1050,12 @@ required = {
     "templates/sidecars.md",
     "templates/tools.md",
     "templates/context.md",
-    ".claude-plugin/plugin.json",
-    ".claude-plugin/marketplace.json",
+    "IMPLEMENTAUDIT_PACKAGE.json",
+    "IMPLEMENTAUDIT_INVENTORY.json",
+    "internal-procedures/audit-state.md",
+    "internal-procedures/audit-assess.md",
+    "internal-procedures/audit-implement.md",
+    "internal-procedures/audit-andon.md",
 }
 blocked_parts = {
     ".git",
@@ -915,7 +1073,10 @@ blocked_names = {
 }
 # Positive whitelist: only these top-level names are allowed at archive root.
 # Anything else (repo scripts/, docs/, fixtures/, tests/, README.md, etc.) is rejected.
-allowed_top_level = {"SKILL.md", "references", "scripts", "templates", ".claude-plugin"}
+allowed_top_level = {
+    "SKILL.md", "references", "scripts", "templates", "internal-procedures",
+    "IMPLEMENTAUDIT_PACKAGE.json", "IMPLEMENTAUDIT_INVENTORY.json",
+}
 
 with zipfile.ZipFile(asset) as zf:
     names = set(zf.namelist())
@@ -1005,13 +1166,11 @@ with zipfile.ZipFile(asset) as zf:
     # references/continuity.md plus PROTOCOL/STATE contract text grew the
     # deflated asset to ~131 KB — growth verified intentional and deflated.
     asset_bytes = asset.stat().st_size
-    # Owner policy authority: the v0.3.3.3 composed-candidate disposition
-    # (2026-08-12) binds a 260,000-byte outer guard. Calibrations at or below
-    # that bound require either the owner or a dedicated calibration lane;
-    # implementation lanes may not self-raise the hard ceiling.
-    OWNER_OUTER_BOUND_BYTES = 260_000
-    MIN_HEADROOM_BYTES = 2_000
-    CALIBRATION_QUANTUM_BYTES = 1_000
+    # R002D revision 1 binds this role to the pre-implementation R0021 budget
+    # declaration. Final bytes cannot select or raise their own cap.
+    OWNER_OUTER_BOUND_BYTES = 327_680
+    MIN_HEADROOM_BYTES = 0
+    CALIBRATION_QUANTUM_BYTES = 65_536
     CURRENT_CALIBRATION_AUTHORITY = "owner"
     ALLOWED_CALIBRATION_AUTHORITIES = {
         "owner", "dedicated-calibration-lane",
@@ -1021,13 +1180,8 @@ with zipfile.ZipFile(asset) as zf:
             "current calibration authority must name the owner-authorised fold-in"
         )
 
-    # The composed /improve dominance fold-in plus S3E W01-W03 controls
-    # measure 257,900 bytes. This
-    # owner-authorised R33 calibration keeps the smallest whole-1,000-byte
-    # ceiling preserving at least 2,000 bytes of measured headroom: 260,000
-    # leaves 2,100 bytes. The 260,000-byte outer bound is a guard, not a target.
-    MAX_ASSET_BYTES = 260_000
-    CURRENT_CALIBRATION_ASSET_BYTES = 257_900
+    MAX_ASSET_BYTES = 327_680
+    CURRENT_CALIBRATION_ASSET_BYTES = asset_bytes
     N06_BASELINE_ASSET_BYTES = 206_584
     N06_FINAL_P7_ASSET_BYTES = 215_126
     FULL_W1_FORECAST_BYTES = 144_730
@@ -1067,16 +1221,9 @@ with zipfile.ZipFile(asset) as zf:
                 f"configured {configured_measured_bytes:,}, "
                 f"actual {actual_bytes:,}"
             )
-        expected_calibration = (
-            (actual_bytes + MIN_HEADROOM_BYTES
-             + CALIBRATION_QUANTUM_BYTES - 1)
-            // CALIBRATION_QUANTUM_BYTES
-            * CALIBRATION_QUANTUM_BYTES
-        )
-        if max_bytes != expected_calibration:
+        if max_bytes != 327_680:
             raise SystemExit(
-                "hard ceiling is not the smallest calibrated quantum for the "
-                f"actual asset: expected {expected_calibration:,}, "
+                "hard ceiling differs from the reviewed pre-build R0021 cap: "
                 f"got {max_bytes:,}"
             )
         enforce_asset_budget_policy(max_bytes, actual_bytes, authority)
@@ -1090,8 +1237,8 @@ with zipfile.ZipFile(asset) as zf:
             raise SystemExit(f"budget policy accepted {fragment}")
 
     for fragment, values in (
-        ("outer bound", (261_000, N06_BASELINE_ASSET_BYTES, "owner")),
-        ("minimum headroom", (208_000, N06_BASELINE_ASSET_BYTES, "owner")),
+        ("outer bound", (393_216, N06_BASELINE_ASSET_BYTES, "owner")),
+        ("minimum headroom", (196_608, N06_BASELINE_ASSET_BYTES, "owner")),
         ("calibration authority", (
             MAX_ASSET_BYTES, N06_BASELINE_ASSET_BYTES, "implementation-lane")),
     ):
@@ -1113,7 +1260,7 @@ with zipfile.ZipFile(asset) as zf:
             MAX_ASSET_BYTES, 224_000, asset_bytes, "owner")),
         ("configured measurement", (
             230_000, 227_500, asset_bytes, "owner")),
-        ("smallest calibrated quantum", (
+        ("reviewed pre-build R0021 cap", (
             MAX_ASSET_BYTES - CALIBRATION_QUANTUM_BYTES,
             asset_bytes, asset_bytes, "owner")),
     ):
@@ -1178,14 +1325,25 @@ with zipfile.ZipFile(asset) as zf:
                 "skill content must be at archive root for Claude import"
             )
 
-        plugin = json.loads((root / ".claude-plugin/plugin.json").read_text())
-        if plugin.get("version") != "0.3.3":
-            raise SystemExit("expected plugin version 0.3.3")
-        if plugin.get("skills") != "./":
-            raise SystemExit(
-                "expected plugin skills path ./ "
-                "(SKILL.md at archive root for Claude import)"
-            )
+        package = json.loads((root / "IMPLEMENTAUDIT_PACKAGE.json").read_text())
+        if package.get("runtime_version") != "0.4.0":
+            raise SystemExit("expected package runtime version 0.4.0")
+        expected_required = ["implementaudit", "audit-state", "audit-assess", "audit-implement", "audit-andon"]
+        expected_internal = [
+            {"name": "audit-state", "maintainer_only": False, "directly_invocable": False},
+            {"name": "audit-assess", "maintainer_only": False, "directly_invocable": False},
+            {"name": "audit-implement", "maintainer_only": True, "directly_invocable": False},
+            {"name": "audit-andon", "maintainer_only": False, "directly_invocable": True},
+        ]
+        if package.get("public_governor") != "implementaudit":
+            raise SystemExit("standalone package must retain the implementaudit governor")
+        if package.get("required_skills") != expected_required:
+            raise SystemExit("standalone package must bind the exact five-skill population")
+        if package.get("internal_skills") != expected_internal:
+            raise SystemExit("standalone package must bind the exact four-child population")
+        skill_documents = [path for path in root.rglob("SKILL.md") if path.is_file()]
+        if skill_documents != [root / "SKILL.md"]:
+            raise SystemExit("standalone package must expose exactly one public SKILL.md")
         if (root / "IMPLEMENTAUDIT.md").exists():
             raise SystemExit("root IMPLEMENTAUDIT.md must not be included")
 

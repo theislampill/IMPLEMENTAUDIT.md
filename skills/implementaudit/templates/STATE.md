@@ -167,7 +167,7 @@ under the requested identity before marking them bound.
 
 ## Context epochs and instruction applicability
 
-Current epoch: e1
+Current epoch: G0001
 
 One row per continuity boundary (see `references/continuity.md` and
 PROTOCOL.md §Continuity boundaries). Provenance is exactly one of:

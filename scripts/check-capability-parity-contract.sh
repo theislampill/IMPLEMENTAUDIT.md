@@ -52,6 +52,7 @@ required_files = [
     "skills/implementaudit/templates/final-report.md",
     "scripts/check-plan-quality-contract.sh",
     "scripts/check-dogfood-bootstrap-contract.sh",
+    "scripts/dogfood-evidence-broker.py",
     "scripts/check-installed-payload-self-contained.sh",
     "scripts/check-skill-bootstrap-budget.sh",
     "scripts/build-source-evidence-pack.sh",
@@ -93,14 +94,27 @@ for token in [
     require(read_only_plan, "skills/implementaudit/templates/read-only-plan.md", token)
 
 dogfood = require_file("skills/implementaudit/SKILL.md")
+dogfood_evidence = require_file("skills/implementaudit/references/transcript-contract.md")
 for token in [
-    "Dogfood Bootstrap / Read Map",
+    "State-derived RC self-dogfood route",
+    "SELF_DOGFOOD_TRIGGER",
+    "ORDINARY_IMPLEMENTAUDIT_CONTROL",
     "Baseline the target repo first",
     "progressive disclosure",
-    "Real-home installed skill readback is non-evidence",
-    "temp `CODEX_HOME`",
 ]:
     require(dogfood, "skills/implementaudit/SKILL.md", token)
+for token in [
+    "RC self-dogfood evidence contract",
+    "Real-home installed skill readback is non-evidence",
+    "temporary `CODEX_HOME`",
+    "runner-owned action boundary",
+    "Typed runner events are the primary semantic evidence, not sole authority",
+]:
+    require(
+        dogfood_evidence,
+        "skills/implementaudit/references/transcript-contract.md",
+        token,
+    )
 
 evidence_builder = require_file("scripts/build-source-evidence-pack.sh")
 for token in [
@@ -125,6 +139,10 @@ for path in [
     "fixtures/dogfood-bootstrap/negative/installed-readback-before-baseline-transcript.jsonl",
     "fixtures/dogfood-bootstrap/negative/chunking-readback-before-baseline-transcript.jsonl",
     "fixtures/dogfood-bootstrap/negative/real-home-readback-before-temp-home-transcript.jsonl",
+    "fixtures/dogfood-bootstrap/typed-event.schema.json",
+    "fixtures/dogfood-bootstrap/typed/ordinary-control-activation.jsonl",
+    "fixtures/dogfood-bootstrap/typed/self-dogfood-corroboration.jsonl",
+    "fixtures/dogfood-bootstrap/typed/self-dogfood-contradiction.jsonl",
 ]:
     require_file(path)
 

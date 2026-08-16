@@ -33,6 +33,18 @@ AUDIT_VERIFY         -> checks object state against evidence
 AUDIT_COMPLETE       -> terminal verified closure of the object
 ```
 
+## RC self-dogfood evidence contract
+
+Only exact RC/self-release `SELF_DOGFOOD_TRIGGER` loads this;
+`ORDINARY_IMPLEMENTAUDIT_CONTROL` loads no dogfood owner/broker/schema. Runner
+creates a temporary `CODEX_HOME`, binds candidate commit, candidate tree, package SHA-256, and installed runtime SHA-256, and isolates context/journal/key from model roots; an event cannot qualify itself. Repo-only broker is the runner-owned action boundary, never installed/ordinary I/O.
+
+`implementaudit.dogfood-event.v1` records session, monotonically increasing sequence, unique sequence/correlation/event identity, previous event identity, actor/action/role/phase/result, target/content identity, and an HMAC produced with runner custody unavailable to the audited model. Validation fails closed on a missing event/action, duplicate/reorder, broken chain, invalid HMAC/schema, blocked/ambiguous result, pre-baseline/real-home read, or identity mismatch. Order: trigger -> contract/broker/schema -> successful machine-readable clean status/HEAD/HEAD^{tree} -> temp activation -> targeted read/search; independent corroboration reruns those fixed Git observations against the runner-bound source root.
+
+Typed runner events are the primary semantic evidence, not sole authority; transcript remains independently parsed adversarial corroboration. Require bijective correlations and equal action facts; mismatch is `Andon: typed dogfood evidence contradicts independent observation`.
+
+Host activation is not readback. Read only owners; prove package/checksum/install parity. Real-home installed skill readback is non-evidence; later temp proof cannot cure it. Policy rejection blocks; never bypass policy, use real home/broad globs, or weaken proof.
+
 ## Planner markers
 
 Planner markers appear before a user starts a generated `/goal` handoff.
@@ -260,6 +272,49 @@ after a host-reported compaction without a reconciliation record, or that
 re-executes a one-shot instruction whose status is `satisfied`, violates
 this contract even though every marker is well-ordered.
 
+The first substantive post-boundary assistant message must be the verified
+continuity receipt/current-frontier report. Waiting on or terminating an
+already-running pre-boundary process is containment, not permission to start a
+new command. Ordinary task narration, a new check, an audit-artifact write, a
+package build or a commit before fresh invalidation, receipt verification and
+currentness is a continuity violation. A remembered standing constraint remains
+binding but does not become the active frontier without live-state evidence.
+
+## Child-skill routing observability
+
+A governed child route is user-visible only after the exact package gate,
+resolver selection, and actual child load have occurred. The route narration
+uses both lines:
+
+```text
+CHILD_SKILL_ROUTE=<selected-child>
+I'm using <selected-child> to <bounded reason for this route>.
+```
+
+The selected child is exactly one of `audit-state`, `audit-assess`,
+`audit-implement`, or `audit-andon`, and the announced identity must equal the
+resolved and loaded child. Child files merely being packaged or discoverable,
+or governor reasoning producing similar words or conclusions, is not a route.
+Those governor-only cases emit no child announcement. An actual child load
+without the announcement, an announcement without a load, a mismatched child,
+duplicate child announcements, or a retroactive announcement is a routing
+observability failure; none creates authority or closure.
+
+For a real continuity boundary, the verified receipt precedes the
+`audit-state` load. Its route line appears in the first narration permitted
+after that receipt; it never displaces or precedes the receipt/currentness
+gate. The other children follow the same actual-load/visible-route bijection
+when their own governor gates genuinely select them.
+
+Verification inside a child may report an already-known cheap deterministic failure;
+after return, the governor may handle that result without another model child.
+If verification establishes that a new constraint defeats the selected countermeasure
+and materially changes the warranted response, the active child returns to the
+governor, the governor re-derives current state, and only then may it select and load a
+fresh `audit-andon` route. If that diagnosis warrants another bounded repair,
+`audit-andon` returns to the governor before a fresh `audit-implement` route. A direct
+child-to-child transition is a routing failure.
+
 ## Final audit markers
 
 ```text
@@ -278,9 +333,13 @@ Rules:
   Do not replay a completion marker in a later summary or final response. Once
   emitted at its transition, later prose may describe the state but must not
   print that marker again.
-- `AUDIT_START` carries `Skill version:` — the plugin manifest version of the
-  payload that produced the run (`unknown` when unresolvable, never guessed) —
-  so any transcript can be attributed to its contract version.
+- `AUDIT_START` carries `Skill version:` — the package identity version of the
+  payload that produced the run, resolved by
+  `scripts/detect-env.sh --package-version` across canonical-plugin,
+  standalone-compatibility, or source layouts. Contradictory/malformed package
+  identities stop the gate; `unknown` is reserved for an unresolvable identity
+  or unavailable JSON-capable interpreter and is never guessed. This keeps the
+  transcript attributable without making a host manifest the semantic owner.
 - `AUDIT_COMPLETE` must precede `IMPLEMENTAUDIT_RUN_COMPLETE`.
 - `AUDIT_COMPLETE` means the audit object reached terminal verified closure; it
   does not merely mean the runtime performed an audit operation.

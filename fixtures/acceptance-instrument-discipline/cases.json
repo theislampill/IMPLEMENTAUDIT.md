@@ -285,10 +285,10 @@
       "prompt_contract": {
         "before_prompt": "Name the public projection owner.",
         "after_prompt": "Identify the issue owner responsible for public projection and cite repository evidence.",
-        "expected_answer_before": "R29",
-        "expected_answer_after": "R29",
-        "forbidden_mission_phrases": ["the correct owner is R29"],
-        "distractors": ["R30", "R31"],
+        "expected_answer_before": "R001D",
+        "expected_answer_after": "R001D",
+        "forbidden_mission_phrases": ["the correct owner is R001D"],
+        "distractors": ["R001E", "R001F"],
         "held_out_prompts": ["Which owner projects shipped behaviour?", "Which owner does not govern public projection?"]
       },
       "expected": {"activation": "TRIGGERED", "classification": "EVALUATOR_DEFECT", "route": "EVALUATOR_REPAIR", "disposition": "PASS"}
@@ -301,8 +301,8 @@
       "product_changed": false,
       "old_verdict": "FAIL",
       "new_verdict": "PASS",
-      "property_evidence": ["live owner source identifies R29", "old expected answer contradicted the owner source"],
-      "original_witness": "conforming R29 answer failed against the old R30 expectation",
+      "property_evidence": ["live owner source identifies R001D", "old expected answer contradicted the owner source"],
+      "original_witness": "conforming R001D answer failed against the old R001E expectation",
       "witness_retained": true,
       "matrix": null,
       "authoritative_instrument": "live owner-source adjudication",
@@ -315,10 +315,10 @@
       "prompt_contract": {
         "before_prompt": "Identify the issue owner responsible for public projection and cite repository evidence.",
         "after_prompt": "Identify the issue owner responsible for public projection and cite repository evidence.",
-        "expected_answer_before": "R30",
-        "expected_answer_after": "R29",
-        "forbidden_mission_phrases": ["the correct owner is R29"],
-        "distractors": ["R30", "R31"],
+        "expected_answer_before": "R001E",
+        "expected_answer_after": "R001D",
+        "forbidden_mission_phrases": ["the correct owner is R001D"],
+        "distractors": ["R001E", "R001F"],
         "held_out_prompts": ["Which owner projects shipped behaviour?", "Which owner does not govern public projection?"]
       },
       "expected": {"activation": "TRIGGERED", "classification": "EVALUATOR_DEFECT", "route": "EVALUATOR_REPAIR", "disposition": "PASS"}
@@ -680,11 +680,11 @@
       "record_complete": true,
       "prompt_contract": {
         "before_prompt": "Identify the issue owner responsible for public projection and cite repository evidence.",
-        "after_prompt": "The correct owner is R29. State R29 and cite it.",
-        "expected_answer_before": "R29",
-        "expected_answer_after": "R29",
-        "forbidden_mission_phrases": ["the correct owner is R29"],
-        "distractors": ["R30", "R31"],
+        "after_prompt": "The correct owner is R001D. State R001D and cite it.",
+        "expected_answer_before": "R001D",
+        "expected_answer_after": "R001D",
+        "forbidden_mission_phrases": ["the correct owner is R001D"],
+        "distractors": ["R001E", "R001F"],
         "held_out_prompts": ["Which owner projects shipped behaviour?", "Which owner does not govern public projection?"]
       },
       "expected": {"activation": "TRIGGERED", "classification": "UNRESOLVED", "route": "PROXY_GREEN", "disposition": "FAIL"}
@@ -711,10 +711,10 @@
       "prompt_contract": {
         "before_prompt": "Identify the issue owner responsible for public projection and cite repository evidence.",
         "after_prompt": "Identify the issue owner responsible for public projection and cite repository evidence.",
-        "expected_answer_before": "R29",
-        "expected_answer_after": "R30",
-        "forbidden_mission_phrases": ["the correct owner is R29"],
-        "distractors": ["R30", "R31"],
+        "expected_answer_before": "R001D",
+        "expected_answer_after": "R001E",
+        "forbidden_mission_phrases": ["the correct owner is R001D"],
+        "distractors": ["R001E", "R001F"],
         "held_out_prompts": ["Which owner projects shipped behaviour?", "Which owner does not govern public projection?"]
       },
       "expected": {"activation": "TRIGGERED", "classification": "UNRESOLVED", "route": "PROXY_GREEN", "disposition": "FAIL"}
@@ -805,6 +805,46 @@
     }
   ],
   "state_synthesis_cases": [
+    {
+      "id": "S3E-W01-automated-action-complete-risk-envelope",
+      "triggered": true,
+      "authoritative_discriminator": false,
+      "decision_consumer": true,
+      "required_function": true,
+      "current_state": true,
+      "evaluator_fit": true,
+      "evidence_boundaries": true,
+      "independent_basis": true,
+      "recovery": true,
+      "automated_action": true,
+      "false_alarm_cost": true,
+      "missed_detection_cost": true,
+      "detection_latency": true,
+      "diagnosis_confidence": true,
+      "reversibility": true,
+      "action_authority": true,
+      "expected": "PASS"
+    },
+    {
+      "id": "S3E-W01-automated-action-incomplete-risk-envelope",
+      "triggered": true,
+      "authoritative_discriminator": false,
+      "decision_consumer": true,
+      "required_function": true,
+      "current_state": true,
+      "evaluator_fit": true,
+      "evidence_boundaries": true,
+      "independent_basis": true,
+      "recovery": true,
+      "automated_action": true,
+      "false_alarm_cost": false,
+      "missed_detection_cost": false,
+      "detection_latency": false,
+      "diagnosis_confidence": true,
+      "reversibility": true,
+      "action_authority": true,
+      "expected": "FAIL"
+    },
     {"id": "S3E-W01-complete-triggered-state", "triggered": true, "authoritative_discriminator": false, "decision_consumer": true, "required_function": true, "current_state": true, "evaluator_fit": true, "evidence_boundaries": true, "independent_basis": true, "recovery": true, "expected": "PASS"},
     {"id": "S3E-W01-cheap-authoritative-discriminator", "triggered": false, "authoritative_discriminator": true, "decision_consumer": false, "required_function": false, "current_state": false, "evaluator_fit": false, "evidence_boundaries": false, "independent_basis": false, "recovery": false, "expected": "PASS"},
     {"id": "S3E-W01-health-proxy-not-required-function", "triggered": true, "authoritative_discriminator": false, "decision_consumer": true, "required_function": false, "current_state": true, "evaluator_fit": true, "evidence_boundaries": true, "independent_basis": true, "recovery": true, "expected": "FAIL"},

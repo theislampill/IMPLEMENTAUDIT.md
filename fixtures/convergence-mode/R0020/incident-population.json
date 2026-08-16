@@ -1,0 +1,291 @@
+{
+  "schema": "implementaudit-r32-incident-population-v1",
+  "evidence_boundary": "IMPLEMENTAUDIT self-dogfood review findings only; this corpus does not establish external validity or final R0020 adoption",
+  "population": {
+    "total": 48,
+    "included": 45,
+    "excluded": 3,
+    "duplicate": 0,
+    "ambiguous": 0
+  },
+  "campaign_counts": {
+    "#144": 29,
+    "R001E": 8,
+    "R001F": 11
+  },
+  "receipts": [
+    {
+      "id": "R30-O8",
+      "campaign": "R001E",
+      "head": "d08b8deab39ed0293cba9128445766c6fd6eba1d",
+      "tree": "5ec92d8b8804f9d53254d5b62f3d475450d7002d",
+      "locator": "four-issue-release-v0333-T7MPPN/STATE.md#O8",
+      "findings": [
+        {"id": "R30-F01", "summary": "bogus procedure fields, path-traversing caller and advisory-owner overclaim false-passed", "disposition": "included", "reason": "independent review reproduced reachable false-pass states", "owner": "scripts/check-helper-reachability.sh", "invariant": "packaged-helper-same-run-dispatch", "mechanism": "helper-caller-evidence-false-pass", "state_dimension": "owner-caller-field-binding"}
+      ]
+    },
+    {
+      "id": "R30-O11",
+      "campaign": "R001E",
+      "head": "9b75495398222ff7bba9334a043172d1fde50e05",
+      "tree": "ff28375dd4d1bdf1d473103b214ee62d5ce1a355",
+      "locator": "four-issue-release-v0333-T7MPPN/STATE.md#O11",
+      "findings": [
+        {"id": "R30-F02", "summary": "adjacent-line advisory owner overclaim escaped line-local scanning", "disposition": "included", "reason": "self-review reproduced an adjacent state in the same owner invariant", "owner": "scripts/check-helper-reachability.sh", "invariant": "packaged-helper-same-run-dispatch", "mechanism": "helper-caller-evidence-false-pass", "state_dimension": "adjacent-owner-context"}
+      ]
+    },
+    {
+      "id": "R30-O14",
+      "campaign": "R001E",
+      "head": "d64c75385b71b7742c3481c55f097ab6baf51d85",
+      "tree": "81685b3e49234f9325094777089aa13f8f869e22",
+      "locator": "four-issue-release-v0333-T7MPPN/STATE.md#O14",
+      "findings": [
+        {"id": "R30-F03", "summary": "empty trigger, non-flag arguments, packaged-reference caller and mention-only caller false-passed", "disposition": "included", "reason": "independent review reproduced four boundary states", "owner": "scripts/check-helper-reachability.sh", "invariant": "packaged-helper-same-run-dispatch", "mechanism": "helper-caller-evidence-false-pass", "state_dimension": "field-and-caller-boundaries"}
+      ]
+    },
+    {
+      "id": "R30-O17",
+      "campaign": "R001E",
+      "head": "f8293008cf14ffbd5d4e487b813af4ed520f2f93",
+      "tree": "688739a22de8de24933754976dfeaff3f81d5f2e",
+      "locator": "four-issue-release-v0333-T7MPPN/STATE.md#O17",
+      "findings": [
+        {"id": "R30-F04", "summary": "plausible decoys and commented commands satisfied document-wide regular expressions", "disposition": "included", "reason": "independent review reproduced relabelled and non-executing neighbours", "owner": "scripts/check-helper-reachability.sh", "invariant": "packaged-helper-same-run-dispatch", "mechanism": "helper-caller-evidence-false-pass", "state_dimension": "command-locality-and-comments"}
+      ]
+    },
+    {
+      "id": "R30-O19",
+      "campaign": "R001E",
+      "head": "132ab1a1eb8bdf4468e5314d936c5e19ab94cfdd",
+      "tree": "94716206c4cef85cfcb1e60bc5ab59fe12dc316b",
+      "locator": "four-issue-release-v0333-T7MPPN/STATE.md#O19",
+      "findings": [
+        {"id": "R30-F05", "summary": "swappable placeholders, truncated commands and echo or printf text false-passed", "disposition": "included", "reason": "independent review reproduced command-shape neighbours", "owner": "scripts/check-helper-reachability.sh", "invariant": "packaged-helper-same-run-dispatch", "mechanism": "helper-caller-evidence-false-pass", "state_dimension": "exact-command-shape"}
+      ]
+    },
+    {
+      "id": "R30-O21",
+      "campaign": "R001E",
+      "head": "b7996cb616f5e9e3a779df7c77afd06d24b4839e",
+      "tree": "c554c99767a38520d815ee71c1dcb94735bfe645",
+      "locator": "four-issue-release-v0333-T7MPPN/STATE.md#O21",
+      "findings": [
+        {"id": "R30-F06", "summary": "bash syntax check, exec echo and quoted bash text masqueraded as execution", "disposition": "included", "reason": "independent review reproduced non-executing shell forms", "owner": "scripts/check-helper-reachability.sh", "invariant": "packaged-helper-same-run-dispatch", "mechanism": "helper-caller-evidence-false-pass", "state_dimension": "executable-operand-position"}
+      ]
+    },
+    {
+      "id": "R30-O22",
+      "campaign": "R001E",
+      "head": "a57890a1eaf09127e1aa34d1e13613e53855f81a",
+      "tree": "221705eb71c27ea5356153ca4d8ed15838e425a1",
+      "locator": "four-issue-release-v0333-T7MPPN/STATE.md#O22",
+      "findings": [
+        {"id": "R30-F07", "summary": "operand basenames with helper-name prefixes or suffixes false-passed", "disposition": "included", "reason": "independent review reproduced basename-boundary neighbours", "owner": "scripts/check-helper-reachability.sh", "invariant": "packaged-helper-same-run-dispatch", "mechanism": "helper-caller-evidence-false-pass", "state_dimension": "basename-boundary"}
+      ]
+    },
+    {
+      "id": "R30-O23",
+      "campaign": "R001E",
+      "head": "164d75cd35da1ce7dcc1f36a9c71bb6fa0618da8",
+      "tree": "28b8ed81bb0929cc4fef3ed778f2b33dfc5cdbfd",
+      "locator": "four-issue-release-v0333-T7MPPN/STATE.md#O23",
+      "findings": [
+        {"id": "R30-F08", "summary": "variable assignments containing helper-name substrings false-passed", "disposition": "included", "reason": "independent review reproduced variable-binding boundary neighbours", "owner": "scripts/check-helper-reachability.sh", "invariant": "packaged-helper-same-run-dispatch", "mechanism": "helper-caller-evidence-false-pass", "state_dimension": "variable-binding-basename"}
+      ]
+    },
+    {
+      "id": "G144-8ED8D24",
+      "campaign": "#144",
+      "head": "8ed8d24fb94fa11675e0fcc93524aed9fc5f01b5",
+      "tree": "984acb032a77f80115c16653d6e22c34b87031c9",
+      "locator": "four-issue-release-v0333-T7MPPN/evidence/issue144-independent-review-8ed8d24.md",
+      "findings": [
+        {"id": "G144-F01", "summary": "undeclared Git exclusions hid newly in-scope files", "disposition": "included", "reason": "independent freshness false-pass", "owner": "skills/implementaudit/scripts/validate-run-root.sh", "invariant": "scope-population-freshness", "mechanism": "population-census-divergence", "state_dimension": "untracked-exclusion-source"},
+        {"id": "G144-F02", "summary": "disjoint same-size parent scope was accepted", "disposition": "included", "reason": "independent parent-selection false-pass", "owner": "skills/implementaudit/scripts/validate-run-root.sh", "invariant": "ordered-covering-parent", "mechanism": "parent-coverage-omission", "state_dimension": "parent-membership"},
+        {"id": "G144-F03", "summary": "missing-relation control grepped literals without executing fallback", "disposition": "included", "reason": "independent relation-route evidence gap", "owner": "tests/sidecars.test.sh", "invariant": "relation-omission-fallback", "mechanism": "static-only-control", "state_dimension": "fallback-execution"},
+        {"id": "G144-F04", "summary": "boolean count, nonexistent build and in-repo catalogue were accepted", "disposition": "included", "reason": "independent schema and provenance false-pass", "owner": "skills/implementaudit/scripts/validate-run-root.sh", "invariant": "catalogue-build-provenance", "mechanism": "weak-schema-validation", "state_dimension": "count-build-catalogue"},
+        {"id": "G144-F05", "summary": "editable user-facing prose retained American spelling", "disposition": "included", "reason": "independent public-prose defect outside protected literals", "owner": "skills/implementaudit/references/sidecars.md", "invariant": "british-user-facing-prose", "mechanism": "editable-prose-drift", "state_dimension": "spelling"}
+      ]
+    },
+    {
+      "id": "G144-94E0FBD",
+      "campaign": "#144",
+      "head": "94e0fbd7f9c700c4ed0b380b45ae9cdf619c28ec",
+      "tree": "91819c4080d8837264190ab94b9a8cfeb4e41cff",
+      "locator": "four-issue-release-v0333-T7MPPN/evidence/issue144-independent-rereview-94e0fbd.md",
+      "findings": [
+        {"id": "G144-F06", "summary": "indexed symlink resolved outside the repository", "disposition": "included", "reason": "independent containment false-pass", "owner": "skills/implementaudit/scripts/validate-run-root.sh", "invariant": "repository-contained-scope", "mechanism": "resolved-path-escape", "state_dimension": "indexed-symlink"},
+        {"id": "G144-F07", "summary": "disconnected commit passed as build provenance", "disposition": "included", "reason": "independent ancestry false-pass", "owner": "skills/implementaudit/scripts/validate-run-root.sh", "invariant": "catalogue-build-provenance", "mechanism": "ancestry-omission", "state_dimension": "build-commit-reachability"},
+        {"id": "G144-F08", "summary": "sidecar symlinks and digest-matching non-Graphify content were accepted", "disposition": "included", "reason": "independent containment and schema false-pass", "owner": "skills/implementaudit/scripts/validate-run-root.sh", "invariant": "trusted-graph-input", "mechanism": "lexical-only-path-and-digest", "state_dimension": "sidecar-target-and-schema"}
+      ]
+    },
+    {
+      "id": "G144-65D042D",
+      "campaign": "#144",
+      "head": "65d042dc92a67c93fcdc0befd3dbbf68eb41d1c5",
+      "tree": "6ea4ec18174f1c2bd752c62c23ca624f7f7d9cf5",
+      "locator": "four-issue-release-v0333-T7MPPN/evidence/issue144-independent-final-review-65d042d.md",
+      "findings": [
+        {"id": "G144-F09", "summary": "both ignore carriers were combined despite Graphify precedence", "disposition": "included", "reason": "independent false-fresh precedence state", "owner": "skills/implementaudit/scripts/validate-run-root.sh", "invariant": "scope-population-freshness", "mechanism": "population-census-divergence", "state_dimension": "ignore-carrier-precedence"}
+      ]
+    },
+    {
+      "id": "G144-3165E3F",
+      "campaign": "#144",
+      "head": "3165e3f1268d1071d92b8a2949336cbf6647ca36",
+      "tree": "fc0044dc2de4fe1a13bddaf00e20986d0990f717",
+      "locator": "four-issue-release-v0333-T7MPPN/evidence/issue144-successor-review-3165e3f.md",
+      "findings": [
+        {"id": "G144-F10", "summary": "tracked files ignored by Graphify were reintroduced by Git census", "disposition": "included", "reason": "independent false-stale population state", "owner": "skills/implementaudit/scripts/validate-run-root.sh", "invariant": "scope-population-freshness", "mechanism": "population-census-divergence", "state_dimension": "tracked-ignore-membership"},
+        {"id": "G144-F11", "summary": "new queried path was classified before population freshness", "disposition": "included", "reason": "independent ordering false-pass", "owner": "skills/implementaudit/scripts/validate-run-root.sh", "invariant": "freshness-before-query-classification", "mechanism": "validation-order-reversal", "state_dimension": "new-query-path"}
+      ]
+    },
+    {
+      "id": "G144-B77C802",
+      "campaign": "#144",
+      "head": "b77c802ef64f6814f0d2a951d550ce7a876ae296",
+      "tree": "5a5a71a81d6cebaf57c0e8cc3132ddccb65c16dc",
+      "locator": "four-issue-release-v0333-T7MPPN/evidence/issue144-final-successor-review-b77c802.md",
+      "findings": [
+        {"id": "G144-F12", "summary": "positive double-star ignore semantics diverged from Graphify", "disposition": "included", "reason": "independent root-file false-fresh state", "owner": "skills/implementaudit/scripts/validate-run-root.sh", "invariant": "scope-population-freshness", "mechanism": "population-census-divergence", "state_dimension": "double-star-root-match"}
+      ]
+    },
+    {
+      "id": "G144-F087036",
+      "campaign": "#144",
+      "head": "f087036338fdaa407f5032c21c81e8599cd0ff4c",
+      "tree": "135714d6342831e3c0dd10c82ce3e19a217800c7",
+      "locator": "four-issue-release-v0333-T7MPPN/evidence/issue144-acceptance-review-f087036.md",
+      "findings": [
+        {"id": "G144-F13", "summary": "post-build include and exclude narrowing concealed a new file", "disposition": "included", "reason": "independent build-identity false-fresh state", "owner": "skills/implementaudit/scripts/validate-run-root.sh", "invariant": "scope-population-freshness", "mechanism": "unbound-rule-drift", "state_dimension": "post-build-rule-narrowing"}
+      ]
+    },
+    {
+      "id": "G144-258930A",
+      "campaign": "#144",
+      "head": "258930ade81eb2e685641d429f3e1b295a5936ef",
+      "tree": "9bba3369ea1828294980da488dbd5005f24d8fb6",
+      "locator": "four-issue-release-v0333-T7MPPN/evidence/issue144-graph-binding-review-258930a.md",
+      "findings": [
+        {"id": "G144-F14", "summary": "catalogue metadata could change while graph bytes stayed unchanged", "disposition": "included", "reason": "independent graph-binding false-pass", "owner": "skills/implementaudit/scripts/validate-run-root.sh", "invariant": "catalogue-graph-binding", "mechanism": "unbound-graph-provenance", "state_dimension": "metadata-versus-graph-bytes"},
+        {"id": "G144-F15", "summary": "parent broadening skipped live child validation", "disposition": "included", "reason": "independent child-first ordering false-pass", "owner": "skills/implementaudit/scripts/validate-run-root.sh", "invariant": "freshness-before-parent-broadening", "mechanism": "validation-order-reversal", "state_dimension": "child-parent-order"},
+        {"id": "G144-F16", "summary": "boolean and float schema values and noncanonical ordering were accepted", "disposition": "included", "reason": "independent canonical-schema false-pass", "owner": "skills/implementaudit/scripts/validate-run-root.sh", "invariant": "canonical-catalogue-schema", "mechanism": "type-and-order-coercion", "state_dimension": "json-type-and-order"}
+      ]
+    },
+    {
+      "id": "G144-BAE9D41",
+      "campaign": "#144",
+      "head": "bae9d41c7fb42de29be022a28d918dddd946f955",
+      "tree": "6d898b80fc654da175ccd76bc93def2a117d13b4",
+      "locator": "four-issue-release-v0333-T7MPPN/evidence/issue144-duplicate-json-review-bae9d41.md",
+      "findings": [
+        {"id": "G144-F17", "summary": "duplicate JSON members passed at catalogue and graph boundaries", "disposition": "included", "reason": "independent parser false-pass", "owner": "skills/implementaudit/scripts/validate-run-root.sh", "invariant": "canonical-catalogue-schema", "mechanism": "duplicate-member-acceptance", "state_dimension": "json-member-multiplicity"},
+        {"id": "G144-F18", "summary": "focused tests assumed a python command absent on native WSL", "disposition": "included", "reason": "independent portability defect", "owner": "tests/sidecars.test.sh", "invariant": "supported-python-discovery", "mechanism": "hard-coded-interpreter-name", "state_dimension": "host-command-availability"},
+        {"id": "G144-F19", "summary": "new packaged prose used American spelling", "disposition": "included", "reason": "independent editable-prose defect", "owner": "skills/implementaudit/references/sidecars.md", "invariant": "british-user-facing-prose", "mechanism": "editable-prose-drift", "state_dimension": "spelling"}
+      ]
+    },
+    {
+      "id": "G144-915413E",
+      "campaign": "#144",
+      "head": "915413e0f25e2fe65beafcf73c610873903c1484",
+      "tree": "11ce4132ac1db17e20904e2ad251109b38b3eff8",
+      "locator": "four-issue-release-v0333-T7MPPN/evidence/issue144-fresh-schema-review-915413e.md",
+      "findings": [
+        {"id": "G144-F20", "summary": "nested Graphify configuration carriers were absent from scope identity", "disposition": "included", "reason": "independent configuration-drift false-pass", "owner": "skills/implementaudit/scripts/validate-run-root.sh", "invariant": "scope-population-freshness", "mechanism": "unbound-config-carrier", "state_dimension": "ancestor-scan-configuration"},
+        {"id": "G144-F21", "summary": "installed runtime lacked a reconstructible catalogue producer contract", "disposition": "included", "reason": "independent installed-executor gap", "owner": "skills/implementaudit/references/sidecars.md", "invariant": "installed-catalogue-reconstructibility", "mechanism": "repo-only-construction-algorithm", "state_dimension": "installed-owner-completeness"},
+        {"id": "G144-F22", "summary": "review flagged protected American canonical literals", "disposition": "excluded", "reason": "base comparison proved the literals pre-existing and checker-sensitive; owner authority required them unchanged"}
+      ]
+    },
+    {
+      "id": "G144-5EB45C2",
+      "campaign": "#144",
+      "head": "5eb45c234364665176abc6e5eac591dde5f7494d",
+      "tree": "0ed93547950eece9ff5f548097299565182c65e1",
+      "locator": "four-issue-release-v0333-T7MPPN/evidence/issue144-scanroot-review-5eb45c2.md",
+      "findings": [
+        {"id": "G144-F23", "summary": "graph source population was not compared with declared scope files", "disposition": "included", "reason": "independent graph-relabel false-pass", "owner": "skills/implementaudit/scripts/validate-run-root.sh", "invariant": "catalogue-graph-binding", "mechanism": "unbound-graph-population", "state_dimension": "source-file-membership"},
+        {"id": "G144-F24", "summary": "relation-omission returned before freshness validation", "disposition": "included", "reason": "independent failure-class ordering false-pass", "owner": "skills/implementaudit/scripts/validate-run-root.sh", "invariant": "freshness-before-relation-classification", "mechanism": "validation-order-reversal", "state_dimension": "relation-omission-route"},
+        {"id": "G144-F25", "summary": "installed canonicalisation omitted manifest row and non-ASCII details", "disposition": "included", "reason": "independent installed reconstruction gap", "owner": "skills/implementaudit/references/sidecars.md", "invariant": "installed-catalogue-reconstructibility", "mechanism": "underspecified-canonicalisation", "state_dimension": "manifest-path-and-encoding"}
+      ]
+    },
+    {
+      "id": "G144-98BD5CA",
+      "campaign": "#144",
+      "head": "98bd5cae724da5ef6ccac7e6090917e2a4e011d6",
+      "tree": "c3accf0187897eb035ac17373b2ebf5a8b4f46d4",
+      "locator": "four-issue-release-v0333-T7MPPN/evidence/issue144-graphpop-successor-review-98bd5ca.md",
+      "findings": [
+        {"id": "G144-F26", "summary": "R001E reachability did not prove each new graph submode", "disposition": "included", "reason": "independent mode-dispatch gap", "owner": "scripts/check-helper-reachability.sh", "invariant": "packaged-helper-mode-dispatch", "mechanism": "helper-mode-aggregation", "state_dimension": "graph-submode"},
+        {"id": "G144-F27", "summary": "failure taxonomy omitted wrong scope and semantic-path dispositions", "disposition": "included", "reason": "independent classification completeness gap", "owner": "skills/implementaudit/references/sidecars.md", "invariant": "five-class-sidecar-failure-model", "mechanism": "missing-taxonomy-branches", "state_dimension": "failure-class-population"},
+        {"id": "G144-F28", "summary": "focused sidecar tests leaked a disposable source tree", "disposition": "included", "reason": "independent cleanup defect", "owner": "tests/sidecars.test.sh", "invariant": "owned-temporary-cleanup", "mechanism": "missing-trap-member", "state_dimension": "temporary-directory-ownership"}
+      ]
+    },
+    {
+      "id": "G144-ACB4FEB",
+      "campaign": "#144",
+      "head": "acb4feb1309e9285a557f88b0453070885056492",
+      "tree": "1054b116ebf36f450a4b0900db50abf15aa9ff34",
+      "locator": "four-issue-release-v0333-T7MPPN/evidence/issue144-poststate-review-and-capability-gap-acb4feb.md",
+      "findings": [
+        {"id": "G144-F29", "summary": "package compression removed the Capability Ledger evidence-boundary canary", "disposition": "included", "reason": "controller reproduced the exact owner checker failure during review", "owner": "skills/implementaudit/references/lean-operating-discipline.md", "invariant": "governed-evidence-boundary-preservation", "mechanism": "semantic-compression-deletion", "state_dimension": "checker-owned-literal-consumer"}
+      ]
+    },
+    {
+      "id": "R31-B4C8E86",
+      "campaign": "R001F",
+      "head": "b4c8e8646c68a2975dd27c3872367176a40312e3",
+      "tree": "0e668f9d8c274a278f49c5f3c4e5973836e99502",
+      "locator": "issue158-parallel-implementation-gknnWZ/evidence/parallel-cold-review-b4c8e86.md",
+      "findings": [
+        {"id": "R31-F01", "summary": "materiality, completeness and triviality were self-labelled", "disposition": "included", "reason": "independent deterministic false-pass", "owner": "tests/issue-ready-work-orders.test.sh", "invariant": "observable-work-order-materiality", "mechanism": "self-labelled-state", "state_dimension": "materiality-and-completeness"},
+        {"id": "R31-F02", "summary": "pair actions, equivalent groups and soft ordering could be bypassed", "disposition": "included", "reason": "independent reconciliation false-pass", "owner": "tests/issue-ready-work-orders.test.sh", "invariant": "lossless-pair-reconciliation", "mechanism": "presence-only-pair-validation", "state_dimension": "pair-action-group-order"}
+      ]
+    },
+    {
+      "id": "R31-04D85FB",
+      "campaign": "R001F",
+      "head": "04d85fb659be20a167622f007b0c691ad87ada64",
+      "tree": "a6ef4170b46e66f0b0d7bc8525507fe1ca2e98e4",
+      "locator": "issue158-parallel-implementation-gknnWZ/evidence/parallel-cold-rereview-04d85fb.md",
+      "findings": [
+        {"id": "R31-F03", "summary": "truthy collision control bypassed owner and dependency conflicts", "disposition": "included", "reason": "independent reconciliation false-pass", "owner": "tests/issue-ready-work-orders.test.sh", "invariant": "lossless-pair-reconciliation", "mechanism": "truthy-collision-bypass", "state_dimension": "collision-control-structure"},
+        {"id": "R31-F04", "summary": "set and dictionary normalisation hid duplicate or conflicting rows", "disposition": "included", "reason": "independent multiplicity false-pass", "owner": "tests/issue-ready-work-orders.test.sh", "invariant": "lossless-pair-reconciliation", "mechanism": "lossy-normalisation", "state_dimension": "row-and-member-multiplicity"},
+        {"id": "R31-F05", "summary": "two missing invariants compared equal and permitted merge", "disposition": "included", "reason": "independent missing-value false-pass", "owner": "tests/issue-ready-work-orders.test.sh", "invariant": "lossless-pair-reconciliation", "mechanism": "missing-value-equality", "state_dimension": "invariant-presence"}
+      ]
+    },
+    {
+      "id": "R31-403F4C2",
+      "campaign": "R001F",
+      "head": "403f4c24fa275714ada0a2f08b62e36d1efd72aa",
+      "tree": "18fca525f7d5894eaff8def2f60fd0fbccd2fe2b",
+      "locator": "issue158-parallel-implementation-gknnWZ/evidence/post144-exact-cold-review-403f4c2.md",
+      "findings": [
+        {"id": "R31-F06", "summary": "six absent identity, native-spine, object-economy and public-owner neighbours false-passed", "disposition": "included", "reason": "independent bounded presence-state family", "owner": "tests/issue-ready-work-orders.test.sh", "invariant": "explicit-work-order-runtime-state", "mechanism": "presence-blind-default", "state_dimension": "identity-spine-object-public-owner"},
+        {"id": "R31-F07", "summary": "installed reference was stale while the receipt claimed exact-candidate evidence", "disposition": "included", "reason": "independent archive-install identity mismatch", "owner": "scripts/install-codex-from-release.sh", "invariant": "exact-installed-candidate-evidence", "mechanism": "stale-installed-reference", "state_dimension": "archive-install-parity"}
+      ]
+    },
+    {
+      "id": "R31-F559DF2",
+      "campaign": "R001F",
+      "head": "f559df284829d79fe5a8d9fbcf03de06b5782ceb",
+      "tree": "a4bf8eb373878933f78c4e52d824d9453c599b21",
+      "locator": "issue158-parallel-implementation-gknnWZ/evidence/fresh-exact-cold-review-f559df2.md",
+      "findings": [
+        {"id": "R31-F08", "summary": "model output omitted explicit R001D and complete refusal vocabulary", "disposition": "excluded", "reason": "review established an evidence-row owner decision, not a deterministic source, evaluator, package or install defect"},
+        {"id": "R31-F09", "summary": "candidate exceeded the prior package ceiling", "disposition": "excluded", "reason": "review established an owner calibration decision, not a same-family false-pass finding"}
+      ]
+    },
+    {
+      "id": "R31-8C7DB2D",
+      "campaign": "R001F",
+      "head": "8c7db2df214392c5e2837f895538138b9f0e1f79",
+      "tree": "fce0e0f801b57b9e90297a922e2db9c6d5a8b5a8",
+      "locator": "issue158-parallel-implementation-gknnWZ/evidence/r31-cold-review-false-pass-repair-5410eaf.md",
+      "findings": [
+        {"id": "R31-F10", "summary": "two-file one-owner materiality false-passed", "disposition": "included", "reason": "independent adjacent materiality state", "owner": "tests/issue-ready-work-orders.test.sh", "invariant": "observable-work-order-materiality", "mechanism": "incomplete-derived-materiality", "state_dimension": "unique-file-population"},
+        {"id": "R31-F11", "summary": "multiline and qualified auto-closing linkage false-passed", "disposition": "included", "reason": "independent adjacent linkage states", "owner": "tests/issue-ready-work-orders.test.sh", "invariant": "non-closing-pr-linkage", "mechanism": "start-anchored-pattern", "state_dimension": "full-field-closing-keyword-search"}
+      ]
+    }
+  ]
+}

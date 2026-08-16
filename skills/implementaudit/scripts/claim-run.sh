@@ -53,6 +53,23 @@ finally:
 PY
 }
 
+canonical_generation() {
+  local value="$1" digits ordinal
+  if [[ "$value" =~ ^G([0-9A-F]{4})$ ]]; then
+    digits="${BASH_REMATCH[1]}"
+    ordinal=$((16#$digits))
+    [ "$ordinal" -ge 1 ] || return 1
+  elif [[ "$value" =~ ^e([1-9][0-9]*)$ ]]; then
+    digits="${BASH_REMATCH[1]}"
+    [ "${#digits}" -le 5 ] || return 1
+    ordinal=$((10#$digits))
+    [ "$ordinal" -le 65535 ] || return 1
+  else
+    return 1
+  fi
+  printf 'G%04X\n' "$ordinal"
+}
+
 controller_io() {
   local a="$1" c="$2" repo common ref oid s rc rg root rr target_common; shift 2
   repo="$(git rev-parse --path-format=absolute --show-toplevel)" || return
@@ -74,6 +91,15 @@ controller_io() {
       bash "$(dirname "$0")/validate-run-root.sh" --claim-only "$root" --repo-root "$rr" >/dev/null 2>&1 &&
       grep -Fxq "claim_id=$rg" "$root/.claimed"
   }
+  load_invalidation() {
+    iref="refs/implementaudit/continuity-invalidations/$c"
+    ioid="$(git rev-parse --verify "$iref" 2>/dev/null || printf none)"
+    [ "$ioid" = none ] && return 0
+    IFS=$'\t' read -r is ic io irg ib ie <<< "$(git cat-file blob "$ioid")"
+    [ "$is:$ic:$io:$irg" = "implementaudit.continuity-invalidation.v1:$c:$oid:$rg" ] &&
+      case "$ib" in host-reported-compaction|new-session|handoff-resume|manual-resume|inferred-context-gap) true;; *) false;; esac &&
+      [ -n "$ie" ]
+  }
   case "$a" in
     bind)
       [ "$#" = 2 ] && [ "$base" = .IMPLEMENTAUDIT/runs ] || return 1
@@ -88,32 +114,65 @@ controller_io() {
         update_controller_ref "$ref" "$new" "$old" ;;
     current)
       load || return; printf '%s\t%s\t%s\t%s\n' "$c" "$rr" "$root" "$rg" ;;
-    resume|verify)
+    invalidate)
       load || return; [ "$repo" = "$rr" ] || return 1
-      local state="$root/STATE.md" road="$root/ROADMAP.md" token rref roid h t sh rh
+      local b="$1" event="$2" iref="refs/implementaudit/continuity-invalidations/$c" old new zero=0000000000000000000000000000000000000000
+      case "$b" in host-reported-compaction|new-session|handoff-resume|manual-resume|inferred-context-gap):;; *) return 1;; esac
+      case "$event" in ''|*$'\t'*|*$'\r'*|*$'\n'*) return 1;; esac
+      old="$(git rev-parse --verify "$iref" 2>/dev/null || printf %s "$zero")"
+      if [ "$old" != "$zero" ]; then
+        IFS=$'\t' read -r is ic io irg ib ie <<< "$(git cat-file blob "$old")"
+        [ "$is" = implementaudit.continuity-invalidation.v1 ] || return 1
+        if [ "$ic:$io:$irg:$ib:$ie" = "$c:$oid:$rg:$b:$event" ]; then printf '%s@%s\n' "$iref" "$old"; return; fi
+      fi
+      new="$(printf 'implementaudit.continuity-invalidation.v1\t%s\t%s\t%s\t%s\t%s\n' "$c" "$oid" "$rg" "$b" "$event" | git hash-object -w --stdin)" &&
+        update_controller_ref "$iref" "$new" "$old" || return
+      printf '%s@%s\n' "$iref" "$new" ;;
+    resume|verify|require)
+      load || return; [ "$repo" = "$rr" ] || return 1
+      local state="$root/STATE.md" road="$root/ROADMAP.md" token rref roid h t sh rh iref ioid is ic io irg ib ie
       h="$(git rev-parse HEAD)"; t="$(git rev-parse 'HEAD^{tree}')"
       sh="$(sha256sum "$state" | cut -d' ' -f1)"; rh="$(sha256sum "$road" | cut -d' ' -f1)"
+      load_invalidation || return
       if [ "$a" = resume ]; then
         local b="$1" e="$2" next newr zero=0000000000000000000000000000000000000000
         case "$b" in host-reported-compaction|new-session|handoff-resume|manual-resume|inferred-context-gap):;; *) return 1;; esac
+        e="$(canonical_generation "$e")" || return
+        [ "$ioid" = none ] || [ "$ib" = "$b" ] || return 1
         next="$(awk -F'|' -v e="$e" -v b="$b" -v h="$h" -v t="$t" 'function q(x){gsub(/^[ \t`]+|[ \t`]+$/, "", x);return x} /^Current epoch:/{ce=$0} q($2)=="Next action"{n=q($3)} q($2)==e&&q($3)==b&&q($6)=="yes"&&index($5,h)&&index($5,t){ok=1} END{if(ce=="Current epoch: "e&&ok&&n!=""&&n!="-"&&tolower(n)!="none"&&tolower(n)!="pending")print n;else exit 1}' "$state")" || return
         rref="refs/implementaudit/continuity-receipts/$c/$e"
-        newr="$(printf 'implementaudit.continuity-receipt.v1\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' "$c" "$oid" "$rg" "$h" "$t" "$sh" "$rh" "$b" "$e" "$next" | git hash-object -w --stdin)" &&
+        newr="$(printf 'implementaudit.continuity-receipt.v2\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' "$c" "$oid" "$rg" "$h" "$t" "$sh" "$rh" "$ioid" "$b" "$e" "$next" | git hash-object -w --stdin)" &&
           git update-ref "$rref" "$newr" "$zero" || return
         token="$rref@$newr"
       else
-        token="$1"; rref="${token%@*}"; roid="${token##*@}"
+        if [ "$a" = require ]; then
+          e2="$(sed -n 's/^Current epoch: //p' "$state")"
+          case "$e2" in ''|*[!a-zA-Z0-9-]*) return 1;; esac
+          rref="refs/implementaudit/continuity-receipts/$c/$e2"; roid="$(git rev-parse --verify "$rref" 2>/dev/null)" || return
+          token="$rref@$roid"
+        else token="$1"; rref="${token%@*}"; roid="${token##*@}"; fi
         [ "$(git rev-parse --verify "$rref" 2>/dev/null)" = "$roid" ] || return
-        IFS=$'\t' read -r s rc owner rg2 h2 t2 sh2 rh2 b2 e2 _ <<< "$(git cat-file blob "$roid")"
-        [ "$rref" = "refs/implementaudit/continuity-receipts/$c/$e2" ] &&
-          [ "$s:$rc:$owner:$rg2:$h2:$t2:$sh2:$rh2" = "implementaudit.continuity-receipt.v1:$c:$oid:$rg:$h:$t:$sh:$rh" ] || return
+        record="$(git cat-file blob "$roid")"; s="${record%%$'\t'*}"
+        case "$s" in
+          implementaudit.continuity-receipt.v1)
+            IFS=$'\t' read -r s rc owner rg2 h2 t2 sh2 rh2 b2 e2 _ <<< "$record"
+            [ "$ioid" = none ] && [ "$s:$rc:$owner:$rg2:$h2:$t2:$sh2:$rh2" = "implementaudit.continuity-receipt.v1:$c:$oid:$rg:$h:$t:$sh:$rh" ] || return ;;
+          implementaudit.continuity-receipt.v2)
+            IFS=$'\t' read -r s rc owner rg2 h2 t2 sh2 rh2 io2 b2 e2 next2 <<< "$record"
+            [ "$s:$rc:$owner:$rg2:$h2:$t2:$sh2:$rh2:$io2" = "implementaudit.continuity-receipt.v2:$c:$oid:$rg:$h:$t:$sh:$rh:$ioid" ] || return
+            [ "$io2" = none ] || [ "$ib" = "$b2" ] || return
+            state_next="$(awk -F'|' -v e="$e2" -v b="$b2" -v h="$h" -v t="$t" 'function q(x){gsub(/^[ \t`]+|[ \t`]+$/, "", x);return x} /^Current epoch:/{ce=$0} q($2)=="Next action"{n=q($3)} q($2)==e&&q($3)==b&&q($6)=="yes"&&index($5,h)&&index($5,t){ok=1} END{if(ce=="Current epoch: "e&&ok&&n!=""&&n!="-"&&tolower(n)!="none"&&tolower(n)!="pending")print n;else exit 1}' "$state")" || return
+            [ "$state_next" = "$next2" ] || return ;;
+          *) return 1;;
+        esac
+        [ "$rref" = "refs/implementaudit/continuity-receipts/$c/$e2" ] || return
       fi
       printf '%s\n' "$token" ;;
     *) return 1 ;;
   esac
 }
 
-controller='' supersede=''
+controller='' supersede='' deferred='' boundary='' event=''
 case "${1:-}" in
   --current-controller) controller_io current "${2:-}"; exit $? ;;
   --resume-controller)
@@ -123,6 +182,10 @@ case "${1:-}" in
   --verify-resume-receipt)
     receipt_arg="${2:-}"; controller="${receipt_arg%@*}"; controller="${controller#refs/implementaudit/continuity-receipts/}"; controller="${controller%/*}"
     controller_io verify "$controller" "$receipt_arg"; exit $? ;;
+  --require-current-continuity) controller_io require "${2:-}"; exit $? ;;
+  --invalidate-continuity)
+    controller="${2:-}"; shift 2; deferred=invalidate
+    while [ "$#" -gt 0 ]; do case "$1" in --boundary) boundary="${2:-}"; shift 2;; --event) event="${2:-}"; shift 2;; *) printf 'claim-run.sh: unknown invalidation argument: %s\n' "$1" >&2; exit 1;; esac; done ;;
   --controller)
     controller="${2:-}"; shift 2
     if [ "${1:-}" = --supersede-claim ]; then supersede="${2:-}"; shift 2; fi ;;
@@ -168,6 +231,10 @@ if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
     printf "claim-run.sh: governed-writer namespace gate is unsafe: '%s'\n" "$gate" >&2
     exit 1
   }
+fi
+
+if [ "$deferred" = invalidate ]; then
+  controller_io invalidate "$controller" "$boundary" "$event"; exit $?
 fi
 
 mkdir -p "$base" || {

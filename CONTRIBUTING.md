@@ -30,8 +30,9 @@ chain.
 
 | Surface | Authority and maintenance rule |
 | --- | --- |
-| Runtime behaviour | `skills/implementaudit/SKILL.md` plus its packaged `references/`, `templates/` and `scripts/`. Keep the skill bootloader concise and put progressive detail in the appropriate packaged owner. |
-| Plugin/runtime metadata | `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json`. The repository manifest points to `./skills/`; the built archive is deliberately flattened and points to `./`. |
+| Runtime behaviour | `skills/implementaudit/SKILL.md` is the sole stable public/default governor and owns routing, authority, currentness, lifecycle and closure. v0.4 ships exactly four child skills: `audit-state`, `audit-assess`, maintainer-only `audit-implement`, and dual-entry `audit-andon`. Governed routes return bounded cognition to the governor and never chain; direct `audit-andon` returns to the actual caller and grants no new authority. Planning/execution stay progressively loaded governor/reference cognition. Shared `references/`, `templates/` and `scripts/` remain under `skills/implementaudit/`. |
+| Package topology | `package/implementaudit-package.json` owns one atomic dual-host plugin package, its exact skill population, shared resources, generated projections, inventories, and budgets. |
+| Plugin/runtime metadata | `.codex-plugin/plugin.json` and `.claude-plugin/plugin.json` are equal host manifests pointing to `./skills/`; `.claude-plugin/marketplace.json` remains Claude marketplace metadata. |
 | New-user public entry | `README.md`. Keep current product orientation, installation, use, boundaries and routes to deeper owners there; do not turn it into release chronology or a maintainer manual. |
 | Contributor contract | This file. Keep repository workflow and authority boundaries here without duplicating the runtime specification. |
 | Release chronology | `CHANGELOG.md`. Exact release qualification and publication evidence belongs in the applicable release body/report, indexed by `docs/audits/INDEX.md`. |
@@ -40,11 +41,15 @@ chain.
 | Tests and validation | `tests/*.test.sh`, the checker or fixture owner being exercised, `scripts/verify-package.sh`, and `.github/workflows/validate.yml`. A new test must be registered in both suite registries. |
 | Current and historical evidence | `.IMPLEMENTAUDIT/runs/**` for local durable run state; `docs/audits/INDEX.md` for the compact repo evidence map; `docs/audits/archive/**` only for retained history that still has a consumer. |
 
-The source tree and a release archive are different products of the build. The
-archive contains only `SKILL.md`, `references/`, `scripts/`, `templates/`, and
-the archive-local `.claude-plugin/` metadata. Root documentation, tests,
-fixtures, CI configuration, audit ledgers, local run roots, and sidecar stores
-do not ship in `IMPLEMENTAUDIT.skill`.
+The source tree and generated release projections are different products of the
+build. `IMPLEMENTAUDIT.plugin.zip` is the canonical atomic package: it preserves
+both host manifests, the package/inventory metadata, and the conventional
+`skills/implementaudit/` tree. `IMPLEMENTAUDIT.skill` is a generated,
+checksummed standalone compatibility projection that flattens that same one
+skill to archive-root `SKILL.md`, `references/`, `scripts/`, and `templates/`
+plus package/inventory metadata. It is not the canonical topology. Root
+documentation, tests, fixtures, CI configuration, audit ledgers, local run
+roots, and sidecar stores ship in neither projection.
 
 ## Environment and file discipline
 
@@ -135,8 +140,8 @@ exact archive contents and bytes, and generate then check the checksum manifest:
 
 ```bash
 bash scripts/build-release-asset.sh
-bash scripts/write-release-checksums.sh dist/IMPLEMENTAUDIT.skill dist/CHECKSUMS.txt
-bash scripts/write-release-checksums.sh --check dist/IMPLEMENTAUDIT.skill dist/CHECKSUMS.txt
+bash scripts/write-release-checksums.sh --all dist dist/CHECKSUMS.txt
+bash scripts/write-release-checksums.sh --check --all dist dist/CHECKSUMS.txt
 ```
 
 Do not treat the package ceiling as a target. Preserve required headroom and the
@@ -200,7 +205,12 @@ trigger, scope and freshness contract holds. It is not repository truth or
 proof, and a missing relation routes back to authoritative files and mechanical
 search rather than semantic guesswork. ActiveGraph is likewise optional custody
 or fork/diff assistance; it does not replace the run root or live repository
-state. Ordinary contributions must remain possible without either sidecar.
+state. Ordinary contributions and generic `/implementaudit` use must remain
+possible without either sidecar. The repository's final self-dogfood gate is a
+separate maintainer control: it requires an exact-state-bound ActiveGraph
+sidecar on the latest independently verified published release in an isolated
+environment, while ActiveGraph remains non-authoritative and absent from the
+generic package dependency contract.
 
 For the current product model and installation paths, start with
 [`README.md`](README.md). For runtime behaviour, read

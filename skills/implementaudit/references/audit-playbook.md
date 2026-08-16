@@ -196,6 +196,9 @@ representation-dependent claims require rendered-consumer evidence and
 governed-detail preservation; source/generator green cannot close.
 Ordinary prose stays cheap; source-backed corrections, overclaim/omission and
 hosted readback remain.
+For integrated lineage, bind exact title, one substrate/no modes, disposition
+versus source-change counts, and archive versus install counts. Prepublication
+never proves tag, Release, asset, hosted CI, Pages or download truth.
 
 ## Direction / Design
 

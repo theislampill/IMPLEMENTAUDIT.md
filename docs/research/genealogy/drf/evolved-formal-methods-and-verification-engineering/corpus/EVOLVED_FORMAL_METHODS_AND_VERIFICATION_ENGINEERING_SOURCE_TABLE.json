@@ -1,0 +1,3007 @@
+{
+  "analytical_label": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING",
+  "freeze_date": "2026-08-12",
+  "source_count": 113,
+  "source_identity_reaudit": "COMPLETE",
+  "provisional_sources_retained_and_corrected": true,
+  "current_frontier_rechecked_through": "2026-08-12",
+  "sources": [
+    {
+      "SOURCE_ID": "S001",
+      "stable_url_or_locator": "https://www.cs.tau.ac.il/~nachumd/term/FloydMeaning.pdf",
+      "doi": null,
+      "author_or_organisation": "Robert W. Floyd",
+      "exact_title": "Assigning Meanings to Programs",
+      "date_version_edition": "1967",
+      "source_class": "original historical/primary paper",
+      "exact_section_page_theorem_table_figure_locator": "Proceedings of Symposia in Applied Mathematics 19 (1967), pp. 19–32; assertion placement, inductive assertion method, and verification-condition construction.",
+      "claim_supported": "Flowchart assertions and proof obligations establish early program-verification property formation.",
+      "relation_to_property": [
+        "P001",
+        "P004",
+        "P005",
+        "P006"
+      ],
+      "contrary_evidence_if_any": "Floyd assertions do not validate stakeholder meaning, environment, or proof maintenance.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S002",
+      "stable_url_or_locator": "https://doi.org/10.1145/363235.363259",
+      "doi": "10.1145/363235.363259",
+      "author_or_organisation": "C. A. R. Hoare",
+      "exact_title": "An Axiomatic Basis for Computer Programming",
+      "date_version_edition": "1969",
+      "source_class": "original historical/primary paper",
+      "exact_section_page_theorem_table_figure_locator": "Communications of the ACM 12(10), pp. 576–580 and 583; axioms and rules for assignment, sequencing, conditional, iteration, and consequence.",
+      "claim_supported": "Hoare triples make pre/post conditions and compositional program proof obligations explicit.",
+      "relation_to_property": [
+        "P001",
+        "P002",
+        "P005",
+        "P006",
+        "P009",
+        "P010",
+        "P011",
+        "P044"
+      ],
+      "contrary_evidence_if_any": "Correctness remains relative to the chosen specification and programming-language semantics.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S003",
+      "stable_url_or_locator": "https://doi.org/10.1145/360933.360975",
+      "doi": "10.1145/360933.360975",
+      "author_or_organisation": "Edsger W. Dijkstra",
+      "exact_title": "Guarded Commands, Nondeterminacy and Formal Derivation of Programs",
+      "date_version_edition": "1975",
+      "source_class": "original historical/primary paper",
+      "exact_section_page_theorem_table_figure_locator": "Communications of the ACM 18(8), pp. 453–457; guarded-command syntax, nondeterminacy, and weakest-precondition derivation.",
+      "claim_supported": "Weakest-precondition reasoning links derivation to explicit postconditions and nondeterministic program structure.",
+      "relation_to_property": [
+        "P001",
+        "P002",
+        "P004",
+        "P006",
+        "P010"
+      ],
+      "contrary_evidence_if_any": "Formal derivation does not prove the informal requirement or deployment setting.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S004",
+      "stable_url_or_locator": "https://www.cs.ox.ac.uk/people/christopher.strachey/",
+      "doi": "archival locator",
+      "author_or_organisation": "Dana Scott and Christopher Strachey",
+      "exact_title": "Toward a Mathematical Semantics for Computer Languages",
+      "date_version_edition": "1971/1977 lineage",
+      "source_class": "foundational semantics source",
+      "exact_section_page_theorem_table_figure_locator": "Oxford PRG Technical Monograph PRG-6 / Milne and Strachey edition; semantic functions, stores, continuations, and fixed-point treatment.",
+      "claim_supported": "Mathematical semantics give formal meaning to programming constructs before proving programs about them.",
+      "relation_to_property": [
+        "P001",
+        "P015",
+        "P022"
+      ],
+      "contrary_evidence_if_any": "Semantic model fidelity and implementation conformance remain separate burdens.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S005",
+      "stable_url_or_locator": "https://doi.org/10.1145/512950.512973",
+      "doi": "10.1145/512950.512973",
+      "author_or_organisation": "Patrick Cousot and Radhia Cousot",
+      "exact_title": "Abstract Interpretation: A Unified Lattice Model for Static Analysis of Programs by Construction or Approximation of Fixpoints",
+      "date_version_edition": "1977",
+      "source_class": "foundational mathematical/engineering paper",
+      "exact_section_page_theorem_table_figure_locator": "POPL 1977, pp. 238–252; abstract/concrete lattices, approximation, fixpoints, widening, and static-analysis construction.",
+      "claim_supported": "Static analysis can be treated as sound approximation over abstract domains.",
+      "relation_to_property": [
+        "P006",
+        "P009",
+        "P013",
+        "P019",
+        "P026"
+      ],
+      "contrary_evidence_if_any": "Approximation creates precision/scalability trade-offs and false positives.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S006",
+      "stable_url_or_locator": "https://doi.org/10.1109/SFCS.1977.32",
+      "doi": "10.1109/SFCS.1977.32",
+      "author_or_organisation": "Amir Pnueli",
+      "exact_title": "The Temporal Logic of Programs",
+      "date_version_edition": "1977",
+      "source_class": "foundational temporal-logic paper",
+      "exact_section_page_theorem_table_figure_locator": "FOCS 1977, pp. 46–57; temporal operators, program computation sequences, and proof principles for ongoing behaviour.",
+      "claim_supported": "Temporal logic formalises properties over executions, enabling safety/progress reasoning.",
+      "relation_to_property": [
+        "P002",
+        "P003",
+        "P004",
+        "P005",
+        "P007",
+        "P008",
+        "P009"
+      ],
+      "contrary_evidence_if_any": "Truth of a temporal formula depends on model and fairness assumptions.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S007",
+      "stable_url_or_locator": "https://doi.org/10.1145/2496906.2496972",
+      "doi": "10.1145/2496906.2496972",
+      "author_or_organisation": "E. M. Clarke, E. A. Emerson, and J. Sifakis",
+      "exact_title": "Model Checking: Algorithmic Verification and Debugging",
+      "date_version_edition": "2009; roots in 1981 work",
+      "source_class": "foundational retrospective by original contributors",
+      "exact_section_page_theorem_table_figure_locator": "Communications of the ACM 52(11), pp. 74–84; algorithmic model checking, counterexample generation, BDD/SAT evolution, and limitations.",
+      "claim_supported": "Model checking established algorithmic exploration of finite-state models with counterexamples.",
+      "relation_to_property": [
+        "P004",
+        "P006",
+        "P007",
+        "P016",
+        "P017",
+        "P018",
+        "P019",
+        "P045"
+      ],
+      "contrary_evidence_if_any": "Finite-state model exhaustion is not real-world behaviour exhaustion.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S008",
+      "stable_url_or_locator": "https://doi.org/10.1016/0890-5401(92)90017-A",
+      "doi": "10.1016/0890-5401(92)90017-A",
+      "author_or_organisation": "J. R. Burch, E. M. Clarke, K. L. McMillan, D. L. Dill, and L. J. Hwang",
+      "exact_title": "Symbolic Model Checking: 10^20 States and Beyond",
+      "date_version_edition": "1992",
+      "source_class": "foundational model-checking paper",
+      "exact_section_page_theorem_table_figure_locator": "Information and Computation 98(2), pp. 142–170; symbolic transition relations, BDD fixed points, and reported scaling examples.",
+      "claim_supported": "Symbolic encodings can greatly expand reachable model-checking scale for favourable systems.",
+      "relation_to_property": [
+        "P004",
+        "P007",
+        "P016",
+        "P019",
+        "P045"
+      ],
+      "contrary_evidence_if_any": "Symbolic scaling remains problem-structure dependent.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S009",
+      "stable_url_or_locator": "https://doi.org/10.1109/32.588521",
+      "doi": "10.1109/32.588521",
+      "author_or_organisation": "Gerard J. Holzmann",
+      "exact_title": "The Model Checker SPIN",
+      "date_version_edition": "1997",
+      "source_class": "peer-reviewed model-checking tool paper",
+      "exact_section_page_theorem_table_figure_locator": "IEEE Transactions on Software Engineering 23(5), pp. 279–295; Promela/SPIN execution semantics, search, partial-order reduction, and error trails.",
+      "claim_supported": "SPIN shows practical explicit-state model checking and counterexample traces for asynchronous systems.",
+      "relation_to_property": [
+        "P004",
+        "P016",
+        "P017",
+        "P019",
+        "P029",
+        "P045"
+      ],
+      "contrary_evidence_if_any": "The Promela model still needs correspondence to implementation and environment.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S010",
+      "stable_url_or_locator": "https://doi.org/10.1017/CBO9780511624162",
+      "doi": "10.1017/CBO9780511624162",
+      "author_or_organisation": "Jean-Raymond Abrial",
+      "exact_title": "The B-Book: Assigning Programs to Meanings",
+      "date_version_edition": "1996",
+      "source_class": "formal specification/refinement monograph",
+      "exact_section_page_theorem_table_figure_locator": "The B-Book, Parts I–III; abstract machines, invariant proof obligations, substitutions, refinement, and implementation.",
+      "claim_supported": "B treats abstract machines, invariant proof obligations, and refinement as engineering mechanisms.",
+      "relation_to_property": [
+        "P001",
+        "P002",
+        "P005",
+        "P006",
+        "P013",
+        "P014"
+      ],
+      "contrary_evidence_if_any": "B proof obligations do not solve wrong-specification risk.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S011",
+      "stable_url_or_locator": "https://link.springer.com/book/10.1007/978-3-642-14432-3",
+      "doi": "10.1007/978-3-642-14432-3",
+      "author_or_organisation": "Jean-Raymond Abrial",
+      "exact_title": "Modeling in Event-B: System and Software Engineering",
+      "date_version_edition": "2010",
+      "source_class": "formal modelling/refinement monograph",
+      "exact_section_page_theorem_table_figure_locator": "Modeling in Event-B, chs. 2, 5, 9, and 14; contexts, machines, invariants, events, refinement, and decomposition.",
+      "claim_supported": "Event-B continues state-machine modelling with proof obligations and refinement.",
+      "relation_to_property": [
+        "P001",
+        "P004",
+        "P005",
+        "P006",
+        "P013",
+        "P014"
+      ],
+      "contrary_evidence_if_any": "Tool proof and model selection remain assumption-sensitive.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S012",
+      "stable_url_or_locator": "https://spivey.oriel.ox.ac.uk/corner/Z_Reference_Manual",
+      "doi": null,
+      "author_or_organisation": "J. M. Spivey",
+      "exact_title": "The Z Notation: A Reference Manual",
+      "date_version_edition": "1992, 2nd ed.",
+      "source_class": "formal specification reference",
+      "exact_section_page_theorem_table_figure_locator": "The Z Notation, 2nd ed., chs. 2–7; mathematical toolkit, schemas, state, operation schemas, and refinement-related conventions.",
+      "claim_supported": "Z exemplifies mathematical schema-based state and operation specification.",
+      "relation_to_property": [
+        "P001",
+        "P013",
+        "P014"
+      ],
+      "contrary_evidence_if_any": "Precise schemas may still capture the wrong real-world requirement.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S013",
+      "stable_url_or_locator": "https://dl.acm.org/doi/10.5555/215223",
+      "doi": "10.5555/215223",
+      "author_or_organisation": "Dines Bjørner and Cliff B. Jones, eds.",
+      "exact_title": "The Vienna Development Method: The Meta-Language",
+      "date_version_edition": "1978",
+      "source_class": "VDM lineage source",
+      "exact_section_page_theorem_table_figure_locator": "LNCS 61 (1978); VDM meta-language chapters on domains, functions, states, operation definitions, and proof obligations.",
+      "claim_supported": "VDM contributed model-oriented specification and refinement traditions.",
+      "relation_to_property": [
+        "P001",
+        "P013",
+        "P014"
+      ],
+      "contrary_evidence_if_any": "Industrial use depends on modelling discipline and tool support.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S014",
+      "stable_url_or_locator": "https://doi.org/10.1007/978-1-4612-3920-3",
+      "doi": "10.1007/978-1-4612-3920-3",
+      "author_or_organisation": "John V. Guttag and James J. Horning",
+      "exact_title": "Larch: Languages and Tools for Formal Specification",
+      "date_version_edition": "1993",
+      "source_class": "formal specification monograph",
+      "exact_section_page_theorem_table_figure_locator": "Larch monograph, chs. 1–5 and interface-language chapters; traits, algebraic specifications, interface predicates, and tool support.",
+      "claim_supported": "Larch separates interface specification from implementation and supports specification-language toolchains.",
+      "relation_to_property": [
+        "P010",
+        "P011",
+        "P013"
+      ],
+      "contrary_evidence_if_any": "Interface specs can drift or omit environmental assumptions.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S015",
+      "stable_url_or_locator": "https://doi.org/10.1109/2.546599",
+      "doi": "10.1109/2.546599",
+      "author_or_organisation": "Daniel Jackson and Jeannette M. Wing",
+      "exact_title": "Lightweight Formal Methods",
+      "date_version_edition": "1996",
+      "source_class": "peer-reviewed position/practice paper",
+      "exact_section_page_theorem_table_figure_locator": "IEEE Computer 29(4), pp. 18–24; definition of lightweight formal methods and examples of partial, focused analysis.",
+      "claim_supported": "Focused partial formalisation can be valuable without full-system proof.",
+      "relation_to_property": [
+        "P005",
+        "P016",
+        "P037",
+        "P042",
+        "P043"
+      ],
+      "contrary_evidence_if_any": "Lightweight analysis is overclaimed when treated as full proof.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S016",
+      "stable_url_or_locator": "https://mitpress.mit.edu/9780262528900/software-abstractions/",
+      "doi": null,
+      "author_or_organisation": "Daniel Jackson",
+      "exact_title": "Software Abstractions: Logic, Language, and Analysis",
+      "date_version_edition": "2006/2012",
+      "source_class": "monograph/tool-method source",
+      "exact_section_page_theorem_table_figure_locator": "Software Abstractions, 2nd ed., chs. 1–6 and 12; relational logic, scope-bounded analysis, counterexamples, and modelling discipline.",
+      "claim_supported": "Alloy uses finite model finding to expose flaws in structural specifications.",
+      "relation_to_property": [
+        "P004",
+        "P016",
+        "P017",
+        "P018",
+        "P037",
+        "P045"
+      ],
+      "contrary_evidence_if_any": "Bounded scopes must be explicit.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S017",
+      "stable_url_or_locator": "https://doi.org/10.1145/177492.177726",
+      "doi": "10.1145/177492.177726",
+      "author_or_organisation": "Leslie Lamport",
+      "exact_title": "The Temporal Logic of Actions",
+      "date_version_edition": "1994",
+      "source_class": "foundational formal specification paper",
+      "exact_section_page_theorem_table_figure_locator": "ACM TOPLAS 16(3), pp. 872–923; actions, behaviours, stuttering, safety/liveness expression, and refinement mappings.",
+      "claim_supported": "TLA formalises action/temporal behaviours for concurrent systems.",
+      "relation_to_property": [
+        "P002",
+        "P003",
+        "P004",
+        "P006",
+        "P007",
+        "P008",
+        "P009",
+        "P014",
+        "P029"
+      ],
+      "contrary_evidence_if_any": "TLA+ models require model-code and environment correspondence.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S018",
+      "stable_url_or_locator": "https://doi.org/10.1145/359576.359585",
+      "doi": "10.1145/359576.359585",
+      "author_or_organisation": "C. A. R. Hoare",
+      "exact_title": "Communicating Sequential Processes",
+      "date_version_edition": "1978",
+      "source_class": "foundational process-algebra paper",
+      "exact_section_page_theorem_table_figure_locator": "Communications of the ACM 21(8), pp. 666–677; process syntax, communication, traces, and synchronisation examples.",
+      "claim_supported": "CSP structures communication, synchronisation, and deadlock reasoning.",
+      "relation_to_property": [
+        "P009",
+        "P012",
+        "P029"
+      ],
+      "contrary_evidence_if_any": "Process abstractions must correspond to actual communication semantics.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S019",
+      "stable_url_or_locator": "https://doi.org/10.1007/3-540-10235-3",
+      "doi": "10.1007/3-540-10235-3",
+      "author_or_organisation": "Robin Milner",
+      "exact_title": "A Calculus of Communicating Systems",
+      "date_version_edition": "1980",
+      "source_class": "foundational process-calculus monograph",
+      "exact_section_page_theorem_table_figure_locator": "LNCS 92 (1980), Parts I–II; labelled transition systems, operational rules, bisimulation-style behavioural reasoning.",
+      "claim_supported": "CCS advanced reasoning about interacting processes and behavioural equivalence.",
+      "relation_to_property": [
+        "P004",
+        "P009",
+        "P012",
+        "P014",
+        "P029"
+      ],
+      "contrary_evidence_if_any": "Equivalence proof depends on abstraction relation to the implementation.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S020",
+      "stable_url_or_locator": "https://doi.org/10.1016/0167-6423(87)90035-9",
+      "doi": "10.1016/0167-6423(87)90035-9",
+      "author_or_organisation": "David Harel",
+      "exact_title": "Statecharts: A Visual Formalism for Complex Systems",
+      "date_version_edition": "1987",
+      "source_class": "foundational state-machine paper",
+      "exact_section_page_theorem_table_figure_locator": "Science of Computer Programming 8(3), pp. 231–274; hierarchy, orthogonality, broadcast communication, and reactive-state semantics.",
+      "claim_supported": "Statecharts introduced hierarchical formal state machines for reactive systems.",
+      "relation_to_property": [
+        "P004",
+        "P016",
+        "P037"
+      ],
+      "contrary_evidence_if_any": "Visual notation does not guarantee unambiguous semantics or code correspondence.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S021",
+      "stable_url_or_locator": "https://doi.org/10.1109/CSF.2008.7",
+      "doi": "10.1109/CSF.2008.7",
+      "author_or_organisation": "Michael R. Clarkson and Fred B. Schneider",
+      "exact_title": "Hyperproperties",
+      "date_version_edition": "2008/2010",
+      "source_class": "foundational property-class paper",
+      "exact_section_page_theorem_table_figure_locator": "CSF 2008, pp. 51–65, plus JCS 18(6) extension; definitions of hyperproperties and hypersafety/hyperliveness.",
+      "claim_supported": "Hyperproperties show that some security/information-flow claims require sets of traces, not single traces.",
+      "relation_to_property": [
+        "P001",
+        "P002",
+        "P007",
+        "P009",
+        "P027",
+        "P029",
+        "P031"
+      ],
+      "contrary_evidence_if_any": "Hyperproperty verification can be more expensive and assumption-sensitive.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S022",
+      "stable_url_or_locator": "https://doi.org/10.1145/263699.263712",
+      "doi": "10.1145/263699.263712",
+      "author_or_organisation": "George C. Necula",
+      "exact_title": "Proof-Carrying Code",
+      "date_version_edition": "1997",
+      "source_class": "foundational proof-certificate paper",
+      "exact_section_page_theorem_table_figure_locator": "POPL 1997, pp. 106–119; safety policy, certifying compiler, proof producer, and small consumer-side checker.",
+      "claim_supported": "Code can carry a proof checked by a small consumer-side checker against a safety policy.",
+      "relation_to_property": [
+        "P002",
+        "P022",
+        "P035",
+        "P047"
+      ],
+      "contrary_evidence_if_any": "Certificate trust depends on policy, checker, and code/proof binding.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S023",
+      "stable_url_or_locator": "https://doi.org/10.1007/BFb0054170",
+      "doi": "10.1007/BFb0054170",
+      "author_or_organisation": "Amir Pnueli, Michael Siegel, and Eli Singerman",
+      "exact_title": "Translation Validation",
+      "date_version_edition": "1998",
+      "source_class": "foundational verified-toolchain paper",
+      "exact_section_page_theorem_table_figure_locator": "TACAS 1998, pp. 151–166; per-translation validation architecture and semantic-equivalence checking.",
+      "claim_supported": "A particular translation run can be checked rather than trusting a compiler globally.",
+      "relation_to_property": [
+        "P015",
+        "P034",
+        "P035"
+      ],
+      "contrary_evidence_if_any": "Validation does not establish source correctness or runtime assumptions.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S024",
+      "stable_url_or_locator": "https://doi.org/10.1145/1538788.1538814",
+      "doi": "10.1145/1538788.1538814",
+      "author_or_organisation": "Xavier Leroy",
+      "exact_title": "Formal Verification of a Realistic Compiler",
+      "date_version_edition": "2009",
+      "source_class": "verified compiler case study",
+      "exact_section_page_theorem_table_figure_locator": "Communications of the ACM 52(7), pp. 107–115; CompCert semantic-preservation theorem, passes, Coq proof, and trusted assumptions.",
+      "claim_supported": "CompCert shows machine-checked semantic preservation for a realistic C compiler.",
+      "relation_to_property": [
+        "P014",
+        "P015",
+        "P021",
+        "P022",
+        "P023",
+        "P033",
+        "P043",
+        "P044",
+        "P047",
+        "P050"
+      ],
+      "contrary_evidence_if_any": "Verified compiler correctness does not verify the source program or deployed binary provenance.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S025",
+      "stable_url_or_locator": "https://doi.org/10.1145/1629575.1629596",
+      "doi": "10.1145/1629575.1629596",
+      "author_or_organisation": "Gerwin Klein et al.",
+      "exact_title": "seL4: Formal Verification of an OS Kernel",
+      "date_version_edition": "2009",
+      "source_class": "major verified-systems case study",
+      "exact_section_page_theorem_table_figure_locator": "SOSP 2009, pp. 207–220; refinement layers, functional-correctness statement, proof effort, and assumptions.",
+      "claim_supported": "seL4 demonstrates functional-correctness proof for a production microkernel with explicit assumptions.",
+      "relation_to_property": [
+        "P002",
+        "P003",
+        "P006",
+        "P014",
+        "P015",
+        "P021",
+        "P022",
+        "P023",
+        "P033",
+        "P043",
+        "P044",
+        "P047",
+        "P050"
+      ],
+      "contrary_evidence_if_any": "Compiler, assembly, hardware, boot and device assumptions bound the claim.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S026",
+      "stable_url_or_locator": "https://sel4.systems/Verification/proofs.html",
+      "doi": null,
+      "author_or_organisation": "seL4 Foundation / seL4 project",
+      "exact_title": "seL4 Proofs and Proof Architecture",
+      "date_version_edition": "current site, accessed 2026-08-12",
+      "source_class": "official project documentation",
+      "exact_section_page_theorem_table_figure_locator": "“The seL4 Proofs”, “How Strong are the Proofs?”, and linked assumptions material.",
+      "claim_supported": "Later seL4 proof-stack work reduces some original trusted-base gaps under specific configurations.",
+      "relation_to_property": [
+        "P015",
+        "P022",
+        "P033",
+        "P050"
+      ],
+      "contrary_evidence_if_any": "Official claims must be tied to exact architecture/configuration/proof versions.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S027",
+      "stable_url_or_locator": "https://www.usenix.org/conference/osdi16/technical-sessions/presentation/gu",
+      "doi": "10.5555/3026877.3026893",
+      "author_or_organisation": "Ronghui Gu et al.",
+      "exact_title": "CertiKOS: An Extensible Architecture for Building Certified Concurrent OS Kernels",
+      "date_version_edition": "2016",
+      "source_class": "verified kernel case study",
+      "exact_section_page_theorem_table_figure_locator": "OSDI 2016, pp. 653–669; certified abstraction layers, concurrent kernel architecture, and contextual refinement.",
+      "claim_supported": "Layered abstraction can scale certified concurrent kernel proofs.",
+      "relation_to_property": [
+        "P006",
+        "P012",
+        "P014",
+        "P029"
+      ],
+      "contrary_evidence_if_any": "Layer correctness is relative to chosen layers and assumptions.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S028",
+      "stable_url_or_locator": "https://doi.org/10.1145/2815400.2815402",
+      "doi": "10.1145/2815400.2815402",
+      "author_or_organisation": "Haogang Chen et al.",
+      "exact_title": "Using Crash Hoare Logic for Certifying the FSCQ File System",
+      "date_version_edition": "2015",
+      "source_class": "verified file-system case study",
+      "exact_section_page_theorem_table_figure_locator": "SOSP 2015, pp. 18–37; crash Hoare logic, recovery semantics, FSCQ refinement, and evaluation.",
+      "claim_supported": "Domain logics can capture crash/recovery properties missed by ordinary functional correctness.",
+      "relation_to_property": [
+        "P003",
+        "P009",
+        "P014",
+        "P036",
+        "P044"
+      ],
+      "contrary_evidence_if_any": "Proof assumes crash and storage models.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S029",
+      "stable_url_or_locator": "https://doi.org/10.1145/2699417.2699419",
+      "doi": "10.1145/2699417.2699419",
+      "author_or_organisation": "Chris Newcombe et al.",
+      "exact_title": "How Amazon Web Services Uses Formal Methods",
+      "date_version_edition": "2015",
+      "source_class": "industrial case study",
+      "exact_section_page_theorem_table_figure_locator": "Communications of the ACM 58(4), pp. 66–73; AWS case descriptions, model scope, discovered design errors, and adoption rationale.",
+      "claim_supported": "AWS reported TLA+ models found subtle design bugs in distributed/cloud systems.",
+      "relation_to_property": [
+        "P001",
+        "P003",
+        "P004",
+        "P007",
+        "P009",
+        "P016",
+        "P017",
+        "P029",
+        "P037",
+        "P042",
+        "P043",
+        "P045"
+      ],
+      "contrary_evidence_if_any": "Case evidence is model-level and selective.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S030",
+      "stable_url_or_locator": "https://doi.org/10.1145/2815400.2815428",
+      "doi": "10.1145/2815400.2815428",
+      "author_or_organisation": "Chris Hawblitzel et al.",
+      "exact_title": "IronFleet: Proving Practical Distributed Systems Correct",
+      "date_version_edition": "2015",
+      "source_class": "verified distributed-systems case study",
+      "exact_section_page_theorem_table_figure_locator": "SOSP 2015, pp. 1–17; protocol specification, refinement, implementation proof, liveness and performance evaluation.",
+      "claim_supported": "IronFleet combines state-machine specification, refinement, and mechanized proof.",
+      "relation_to_property": [
+        "P002",
+        "P003",
+        "P004",
+        "P006",
+        "P007",
+        "P008",
+        "P012",
+        "P014",
+        "P021",
+        "P029",
+        "P030",
+        "P043",
+        "P044"
+      ],
+      "contrary_evidence_if_any": "Correctness is relative to network/failure models.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S031",
+      "stable_url_or_locator": "https://doi.org/10.1145/2737924.2737958",
+      "doi": "10.1145/2737924.2737958",
+      "author_or_organisation": "James R. Wilcox et al.",
+      "exact_title": "Verdi: A Framework for Implementing and Formally Verifying Distributed Systems",
+      "date_version_edition": "2015",
+      "source_class": "verified distributed-systems framework",
+      "exact_section_page_theorem_table_figure_locator": "PLDI 2015, pp. 357–368; verified system transformers, network semantics, fault models, and extracted implementations.",
+      "claim_supported": "Verdi modularises distributed proofs against explicit network semantics/fault models.",
+      "relation_to_property": [
+        "P002",
+        "P003",
+        "P004",
+        "P007",
+        "P008",
+        "P012",
+        "P029",
+        "P030"
+      ],
+      "contrary_evidence_if_any": "Chosen network semantics and extraction path remain assumptions.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S032",
+      "stable_url_or_locator": "https://www.astree.ens.fr/",
+      "doi": null,
+      "author_or_organisation": "Astrée project / Cousot lineage",
+      "exact_title": "Astrée static analyzer project materials",
+      "date_version_edition": "current accessed 2026-08-12",
+      "source_class": "tool/project documentation and peer-reviewed lineage",
+      "exact_section_page_theorem_table_figure_locator": "Astrée project documentation sections on sound over-approximation, abstract domains, target classes, alarms, and industrial use.",
+      "claim_supported": "Sound abstract interpretation can prove absence of runtime errors for restricted C programs under assumptions.",
+      "relation_to_property": [
+        "P005",
+        "P009",
+        "P013",
+        "P019",
+        "P026",
+        "P036"
+      ],
+      "contrary_evidence_if_any": "Industrial claims are domain/tool-scope dependent.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S033",
+      "stable_url_or_locator": "https://www.microsoft.com/en-us/research/publication/static-driver-verifier/",
+      "doi": null,
+      "author_or_organisation": "Microsoft Research / Windows",
+      "exact_title": "Static Driver Verifier and SLAM technology",
+      "date_version_edition": "2000s-current",
+      "source_class": "industrial static-analysis/model-checking case",
+      "exact_section_page_theorem_table_figure_locator": "Microsoft Research SLAM/SDV publications and project pages; predicate abstraction, CEGAR loop, API rules, and Windows driver deployment.",
+      "claim_supported": "Predicate abstraction/model checking can industrialise API protocol-rule checking for drivers.",
+      "relation_to_property": [
+        "P010",
+        "P013",
+        "P016",
+        "P019",
+        "P026",
+        "P037"
+      ],
+      "contrary_evidence_if_any": "Rule checking does not verify arbitrary driver functional correctness.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S034",
+      "stable_url_or_locator": "https://www.usenix.org/legacy/event/osdi08/tech/full_papers/cadar/cadar.pdf",
+      "doi": "10.5555/1855741.1855756",
+      "author_or_organisation": "Cristian Cadar, Daniel Dunbar, and Dawson Engler",
+      "exact_title": "KLEE: Unassisted and Automatic Generation of High-Coverage Tests for Complex Systems Programs",
+      "date_version_edition": "2008",
+      "source_class": "symbolic execution system paper",
+      "exact_section_page_theorem_table_figure_locator": "OSDI 2008, pp. 209–224; path exploration, constraint solving, test generation, coverage, and defect findings.",
+      "claim_supported": "Symbolic execution can generate high-coverage tests and find bugs.",
+      "relation_to_property": [
+        "P015",
+        "P017",
+        "P025",
+        "P036"
+      ],
+      "contrary_evidence_if_any": "Path and environment explosion limit completeness.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S035",
+      "stable_url_or_locator": "https://doi.org/10.1145/2408776.2408795",
+      "doi": "10.1145/2408776.2408795",
+      "author_or_organisation": "Cristian Cadar and Koushik Sen",
+      "exact_title": "Symbolic Execution for Software Testing: Three Decades Later",
+      "date_version_edition": "2013",
+      "source_class": "survey/retrospective",
+      "exact_section_page_theorem_table_figure_locator": "Communications of the ACM 56(2), pp. 82–90; path explosion, environment modelling, constraints, and modern symbolic-execution strategies.",
+      "claim_supported": "Symbolic execution remains valuable but constrained by path exploration and modelling.",
+      "relation_to_property": [
+        "P025",
+        "P036",
+        "P047"
+      ],
+      "contrary_evidence_if_any": "High path coverage is not full correctness.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S036",
+      "stable_url_or_locator": "https://doi.org/10.1007/3-540-49059-0_14",
+      "doi": "10.1007/3-540-49059-0_14",
+      "author_or_organisation": "Armin Biere, Alessandro Cimatti, Edmund Clarke, and Yunshan Zhu",
+      "exact_title": "Symbolic Model Checking without BDDs",
+      "date_version_edition": "1999",
+      "source_class": "bounded model checking foundation",
+      "exact_section_page_theorem_table_figure_locator": "TACAS 1999, pp. 193–207; SAT unrolling, bounded reachability encoding, and boundedness limits.",
+      "claim_supported": "SAT-based bounded model checking is powerful bug finding/checking under explicit bounds.",
+      "relation_to_property": [
+        "P018",
+        "P019",
+        "P024",
+        "P045"
+      ],
+      "contrary_evidence_if_any": "No counterexample within a bound is not unbounded proof.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S037",
+      "stable_url_or_locator": "https://doi.org/10.1007/978-3-540-24730-2_15",
+      "doi": "10.1007/978-3-540-24730-2_15",
+      "author_or_organisation": "Edmund Clarke, Daniel Kroening, and Flavio Lerda",
+      "exact_title": "A Tool for Checking ANSI-C Programs",
+      "date_version_edition": "2004",
+      "source_class": "bounded model checking tool paper",
+      "exact_section_page_theorem_table_figure_locator": "TACAS 2004, pp. 168–176; CBMC translation, bit-vector modelling, unwinding bounds, and property checks.",
+      "claim_supported": "CBMC encodes C program checks into bounded verification conditions.",
+      "relation_to_property": [
+        "P018",
+        "P024",
+        "P025"
+      ],
+      "contrary_evidence_if_any": "Bound and encoding correctness are decisive.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S038",
+      "stable_url_or_locator": "https://doi.org/10.1007/978-3-540-78800-3_24",
+      "doi": "10.1007/978-3-540-78800-3_24",
+      "author_or_organisation": "Leonardo de Moura and Nikolaj Bjørner",
+      "exact_title": "Z3: An Efficient SMT Solver",
+      "date_version_edition": "2008",
+      "source_class": "SMT solver system paper",
+      "exact_section_page_theorem_table_figure_locator": "TACAS 2008, pp. 337–340; Z3 architecture, supported theories, and SMT integration.",
+      "claim_supported": "SMT automates proof/search obligations over theories used in verification.",
+      "relation_to_property": [
+        "P009",
+        "P024",
+        "P025",
+        "P026"
+      ],
+      "contrary_evidence_if_any": "Solver results depend on encoding, theory, version, and trust boundary.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S039",
+      "stable_url_or_locator": "https://smt-lib.org/language.shtml",
+      "doi": null,
+      "author_or_organisation": "SMT-LIB initiative",
+      "exact_title": "The SMT-LIB Standard: Language and Logics",
+      "date_version_edition": "current accessed 2026-08-12",
+      "source_class": "standard/specification documentation",
+      "exact_section_page_theorem_table_figure_locator": "SMT-LIB current standard, command language and logic catalogues; declarations of SAT/UNSAT/UNKNOWN and theory fragments.",
+      "claim_supported": "SMT-based verification depends on precisely specified logics and theories.",
+      "relation_to_property": [
+        "P024"
+      ],
+      "contrary_evidence_if_any": "Standard syntax does not prove encoding correctness or solver soundness.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S040",
+      "stable_url_or_locator": "https://doi.org/10.1145/322128.322132",
+      "doi": "10.1145/322128.322132",
+      "author_or_organisation": "Greg Nelson and Derek C. Oppen",
+      "exact_title": "Simplification by Cooperating Decision Procedures",
+      "date_version_edition": "1979",
+      "source_class": "decision-procedure foundation",
+      "exact_section_page_theorem_table_figure_locator": "ACM TOPLAS 1(2), pp. 245–257; combination conditions for decision procedures over disjoint theories.",
+      "claim_supported": "Theory combination underlies solver-mediated verification.",
+      "relation_to_property": [
+        "P024"
+      ],
+      "contrary_evidence_if_any": "Combination theory does not remove quantifier/scalability or encoding issues.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S041",
+      "stable_url_or_locator": "https://doi.org/10.1145/368273.368557",
+      "doi": "10.1145/368273.368557",
+      "author_or_organisation": "Martin Davis, George Logemann, and Donald Loveland",
+      "exact_title": "A Machine Program for Theorem-Proving",
+      "date_version_edition": "1962",
+      "source_class": "SAT/ATP foundation",
+      "exact_section_page_theorem_table_figure_locator": "Communications of the ACM 5(7), pp. 394–397; DPLL search procedure and proof-search structure.",
+      "claim_supported": "DPLL underlies executable SAT reasoning used in verification.",
+      "relation_to_property": [
+        "P024",
+        "P041"
+      ],
+      "contrary_evidence_if_any": "SAT answers do not validate engineering encodings.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S042",
+      "stable_url_or_locator": "https://doi.org/10.1007/978-1-4471-3504-5",
+      "doi": "10.1007/978-1-4471-3504-5",
+      "author_or_organisation": "M. J. C. Gordon and T. F. Melham, eds.",
+      "exact_title": "Introduction to HOL: A Theorem Proving Environment for Higher Order Logic",
+      "date_version_edition": "1993",
+      "source_class": "theorem-proving monograph",
+      "exact_section_page_theorem_table_figure_locator": "Introduction to HOL, chs. 1–4 and kernel/derived-rule material; LCF-style inference and higher-order logic.",
+      "claim_supported": "LCF/HOL-style small-kernel theorem proving supports mechanically checked derivations.",
+      "relation_to_property": [
+        "P021",
+        "P022",
+        "P042",
+        "P047"
+      ],
+      "contrary_evidence_if_any": "Kernel soundness does not validate the specification or environment.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S043",
+      "stable_url_or_locator": "https://rocq-prover.org/",
+      "doi": null,
+      "author_or_organisation": "The Rocq/Coq proof assistant project",
+      "exact_title": "The Rocq Prover / Coq proof assistant documentation",
+      "date_version_edition": "current accessed 2026-08-12",
+      "source_class": "official proof-assistant documentation",
+      "exact_section_page_theorem_table_figure_locator": "Rocq Reference Manual sections on the Calculus of Inductive Constructions, kernel checking, axioms, modules, extraction, and unsafe commands.",
+      "claim_supported": "Coq/Rocq is a dependent-type proof assistant used in verified systems.",
+      "relation_to_property": [
+        "P021",
+        "P022",
+        "P028",
+        "P047"
+      ],
+      "contrary_evidence_if_any": "Trust depends on kernel, axioms, libraries, extraction and statement correctness.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S044",
+      "stable_url_or_locator": "https://doi.org/10.1007/3-540-45949-9",
+      "doi": "10.1007/3-540-45949-9",
+      "author_or_organisation": "Tobias Nipkow, Lawrence C. Paulson, and Markus Wenzel",
+      "exact_title": "Isabelle/HOL: A Proof Assistant for Higher-Order Logic",
+      "date_version_edition": "2002",
+      "source_class": "theorem-proving monograph",
+      "exact_section_page_theorem_table_figure_locator": "Isabelle/HOL, LNCS 2283, chs. 2–5; logical foundations, Isar proofs, simplification, classical reasoning, and code generation.",
+      "claim_supported": "Isabelle/HOL provides mechanised higher-order logic proof infrastructure.",
+      "relation_to_property": [
+        "P002",
+        "P006",
+        "P009",
+        "P021",
+        "P022",
+        "P047"
+      ],
+      "contrary_evidence_if_any": "Proofs inherit assumptions in libraries, logic, and formalisation.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S045",
+      "stable_url_or_locator": "https://archive-pml.github.io/martin-lof/pdfs/Bibliopolis-Book-retypeset-1984.pdf",
+      "doi": null,
+      "author_or_organisation": "Per Martin-Löf",
+      "exact_title": "Intuitionistic Type Theory",
+      "date_version_edition": "1984",
+      "source_class": "type theory monograph",
+      "exact_section_page_theorem_table_figure_locator": "Intuitionistic Type Theory, chs. 1–4; propositions-as-types, dependent products/sums, equality, and judgement forms.",
+      "claim_supported": "Dependent type theory underlies proofs-as-programs and specification-rich types.",
+      "relation_to_property": [
+        "P004",
+        "P009",
+        "P016",
+        "P018",
+        "P021",
+        "P027",
+        "P028",
+        "P046"
+      ],
+      "contrary_evidence_if_any": "Type-level proof remains relative to encoded statement and execution semantics.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S046",
+      "stable_url_or_locator": "https://doi.org/10.1145/3158154",
+      "doi": "10.1145/3158154",
+      "author_or_organisation": "Ralf Jung et al.",
+      "exact_title": "RustBelt: Securing the Foundations of the Rust Programming Language",
+      "date_version_edition": "2018",
+      "source_class": "type-safety/program-logic case study",
+      "exact_section_page_theorem_table_figure_locator": "POPL 2018, Article 66; Rust semantic model, ownership types, unsafe-code obligations, and library verification.",
+      "claim_supported": "Formal models can establish language safety boundaries for realistic type-system features.",
+      "relation_to_property": [
+        "P011",
+        "P027",
+        "P028",
+        "P046"
+      ],
+      "contrary_evidence_if_any": "Safety is not full functional correctness and unsafe-code contracts matter.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S047",
+      "stable_url_or_locator": "https://doi.org/10.1145/2628136.2628161",
+      "doi": "10.1145/2628136.2628161",
+      "author_or_organisation": "Niki Vazou et al.",
+      "exact_title": "Refinement Types for Haskell",
+      "date_version_edition": "2014",
+      "source_class": "refinement-type system paper",
+      "exact_section_page_theorem_table_figure_locator": "ICFP 2014, pp. 269–282; refinement-type inference/checking, SMT obligations, and Haskell case studies.",
+      "claim_supported": "Refinement types embed logical predicates into types for selected automatic checking.",
+      "relation_to_property": [
+        "P009",
+        "P010",
+        "P024",
+        "P027",
+        "P028",
+        "P046"
+      ],
+      "contrary_evidence_if_any": "Automation depends on decidable encodings and annotations.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S048",
+      "stable_url_or_locator": "https://doi.org/10.1109/LICS.2002.1029817",
+      "doi": "10.1109/LICS.2002.1029817",
+      "author_or_organisation": "John C. Reynolds",
+      "exact_title": "Separation Logic: A Logic for Shared Mutable Data Structures",
+      "date_version_edition": "2002",
+      "source_class": "foundational program-logic paper",
+      "exact_section_page_theorem_table_figure_locator": "LICS 2002, pp. 55–74; separating conjunction, heap predicates, frame rule, and mutable-data examples.",
+      "claim_supported": "Separation logic supports local heap/ownership reasoning.",
+      "relation_to_property": [
+        "P010",
+        "P011",
+        "P021"
+      ],
+      "contrary_evidence_if_any": "Local reasoning must connect to global requirements.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S049",
+      "stable_url_or_locator": "https://doi.org/10.1007/978-3-540-74407-8_1",
+      "doi": "10.1007/978-3-540-74407-8_1",
+      "author_or_organisation": "Peter W. O'Hearn",
+      "exact_title": "Resources, Concurrency, and Local Reasoning",
+      "date_version_edition": "2007",
+      "source_class": "concurrency separation-logic paper",
+      "exact_section_page_theorem_table_figure_locator": "CONCUR 2007, pp. 1–15; resource invariants, concurrency, ownership transfer, and local reasoning.",
+      "claim_supported": "Ownership/resource reasoning supports modular concurrent-program correctness.",
+      "relation_to_property": [
+        "P011",
+        "P012",
+        "P029"
+      ],
+      "contrary_evidence_if_any": "Memory model and interference assumptions matter.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S050",
+      "stable_url_or_locator": "https://vst.cs.princeton.edu/",
+      "doi": null,
+      "author_or_organisation": "Andrew W. Appel et al.",
+      "exact_title": "Verified Software Toolchain / Verifiable C materials",
+      "date_version_edition": "2010s-current",
+      "source_class": "verified software toolchain source",
+      "exact_section_page_theorem_table_figure_locator": "Verified Software Toolchain / Verifiable C manuals and papers; Clight semantics, separation-logic specifications, verification condition generation, and Coq proof replay.",
+      "claim_supported": "VST connects C program proofs to Coq and CompCert semantics.",
+      "relation_to_property": [
+        "P005",
+        "P006",
+        "P010",
+        "P011",
+        "P021",
+        "P023",
+        "P024",
+        "P033"
+      ],
+      "contrary_evidence_if_any": "Proof scope depends on annotations, libraries, compiler semantics, and environment.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S051",
+      "stable_url_or_locator": "https://www.faa.gov/documentLibrary/media/Advisory_Circular/AC_20-115D.pdf",
+      "doi": null,
+      "author_or_organisation": "Federal Aviation Administration",
+      "exact_title": "AC 20-115D: Airborne Software Development Assurance Using EUROCAE ED-12 and RTCA DO-178",
+      "date_version_edition": "2017",
+      "source_class": "authoritative aviation guidance",
+      "exact_section_page_theorem_table_figure_locator": "FAA AC 20-115D, §§6–12 and appendices; recognition of DO-178C supplements, tool qualification, lifecycle data, and certification credit.",
+      "claim_supported": "Formal methods are recognized through DO-333 as part of aviation assurance context.",
+      "relation_to_property": [
+        "P001",
+        "P015",
+        "P021",
+        "P023",
+        "P033",
+        "P034",
+        "P036",
+        "P038",
+        "P039",
+        "P041",
+        "P044",
+        "P047",
+        "P049"
+      ],
+      "contrary_evidence_if_any": "Guidance status is not project-specific effectiveness evidence.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S052",
+      "stable_url_or_locator": "https://my.rtca.org/productdetails?id=a1B36000001IcmWEAS",
+      "doi": null,
+      "author_or_organisation": "RTCA",
+      "exact_title": "DO-333 Formal Methods Supplement to DO-178C and DO-278A",
+      "date_version_edition": "2011",
+      "source_class": "industry standard supplement",
+      "exact_section_page_theorem_table_figure_locator": "RTCA DO-333, especially §§2–6 and Annexes; formal-method objectives, soundness, coverage, assumptions, and integration with DO-178C.",
+      "claim_supported": "Formal methods supplement certification objectives rather than replacing assurance wholesale.",
+      "relation_to_property": [
+        "P001",
+        "P002",
+        "P003",
+        "P004",
+        "P005",
+        "P006",
+        "P007",
+        "P008",
+        "P009",
+        "P010",
+        "P011",
+        "P012",
+        "P013",
+        "P014",
+        "P015",
+        "P016",
+        "P017",
+        "P018",
+        "P019",
+        "P020",
+        "P021",
+        "P022",
+        "P023",
+        "P024",
+        "P025",
+        "P026",
+        "P027",
+        "P028",
+        "P029",
+        "P030",
+        "P031",
+        "P032",
+        "P033",
+        "P034",
+        "P035",
+        "P036",
+        "P037",
+        "P038",
+        "P039",
+        "P040",
+        "P041",
+        "P042",
+        "P043",
+        "P044",
+        "P045",
+        "P046",
+        "P047",
+        "P048",
+        "P049"
+      ],
+      "contrary_evidence_if_any": "Standard compliance is not real-world correctness.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S053",
+      "stable_url_or_locator": "https://ntrs.nasa.gov/citations/19970011130",
+      "doi": null,
+      "author_or_organisation": "NASA",
+      "exact_title": "NASA Formal Methods Guidebook for Software and Computer Systems",
+      "date_version_edition": "1995/1998",
+      "source_class": "government guidance",
+      "exact_section_page_theorem_table_figure_locator": "NASA Formal Methods Guidebook, Vols. I–II; method selection, specification, verification, assurance planning, and case examples.",
+      "claim_supported": "NASA guidance frames formal methods for specification and verification of software/computer systems.",
+      "relation_to_property": [
+        "P001",
+        "P036",
+        "P037",
+        "P041",
+        "P042",
+        "P043",
+        "P044"
+      ],
+      "contrary_evidence_if_any": "Guidance is not comparative empirical proof.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S054",
+      "stable_url_or_locator": "https://ntrs.nasa.gov/citations/20140011124",
+      "doi": null,
+      "author_or_organisation": "NASA",
+      "exact_title": "Formal Methods Case Studies for DO-333",
+      "date_version_edition": "2014",
+      "source_class": "government case-study report",
+      "exact_section_page_theorem_table_figure_locator": "NASA/CR-2014-218244; DO-333 case-study objectives, proof/model-checking/abstract-interpretation evidence, and qualification lessons.",
+      "claim_supported": "DO-333 use must connect formal evidence to lifecycle objectives and qualification boundaries.",
+      "relation_to_property": [
+        "P001",
+        "P004",
+        "P005",
+        "P007",
+        "P009",
+        "P010",
+        "P013",
+        "P016",
+        "P017",
+        "P018",
+        "P019",
+        "P020",
+        "P021",
+        "P024",
+        "P026",
+        "P036",
+        "P041",
+        "P042",
+        "P044",
+        "P045"
+      ],
+      "contrary_evidence_if_any": "Case studies do not generalize automatically.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S055",
+      "stable_url_or_locator": "https://doi.org/10.1145/359104.359106",
+      "doi": "10.1145/359104.359106",
+      "author_or_organisation": "Richard A. De Millo, Richard J. Lipton, and Alan J. Perlis",
+      "exact_title": "Social Processes and Proofs of Theorems and Programs",
+      "date_version_edition": "1979",
+      "source_class": "serious criticism",
+      "exact_section_page_theorem_table_figure_locator": "Communications of the ACM 22(5), pp. 271–280; social-process critique and limits of treating program proofs like mathematical theorems.",
+      "claim_supported": "Program proof can lack mathematical social review and validation processes.",
+      "relation_to_property": [
+        "P001",
+        "P010",
+        "P012",
+        "P021",
+        "P038",
+        "P041",
+        "P043",
+        "P044"
+      ],
+      "contrary_evidence_if_any": "Later proof assistants partly answer mechanical checking but not specification/social validation.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S056",
+      "stable_url_or_locator": "https://doi.org/10.1145/42411.42420",
+      "doi": "10.1145/42411.42420",
+      "author_or_organisation": "James H. Fetzer",
+      "exact_title": "Program Verification: The Very Idea",
+      "date_version_edition": "1988",
+      "source_class": "serious criticism",
+      "exact_section_page_theorem_table_figure_locator": "Communications of the ACM 31(9), pp. 1048–1063; distinction among algorithm, program text, execution, and physical machine.",
+      "claim_supported": "A proof about an abstract algorithm is not automatically proof about physical execution.",
+      "relation_to_property": [
+        "P001",
+        "P003",
+        "P004",
+        "P015",
+        "P022",
+        "P036",
+        "P043",
+        "P049"
+      ],
+      "contrary_evidence_if_any": "Verified toolchains reduce but do not eliminate empirical premises.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S057",
+      "stable_url_or_locator": "https://doi.org/10.1109/52.57887",
+      "doi": "10.1109/52.57887",
+      "author_or_organisation": "Anthony Hall",
+      "exact_title": "Seven Myths of Formal Methods",
+      "date_version_edition": "1990",
+      "source_class": "balanced criticism/practice article",
+      "exact_section_page_theorem_table_figure_locator": "IEEE Software 7(5), pp. 11–19; seven myths, industrial examples, cost and specification arguments.",
+      "claim_supported": "Formal methods are neither a panacea nor necessarily impractical; selective use matters.",
+      "relation_to_property": [
+        "P037",
+        "P038",
+        "P041",
+        "P042",
+        "P043",
+        "P044"
+      ],
+      "contrary_evidence_if_any": "Older but still structurally relevant.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S058",
+      "stable_url_or_locator": "https://doi.org/10.1109/52.469759",
+      "doi": "10.1109/52.469759",
+      "author_or_organisation": "Jonathan P. Bowen and Michael G. Hinchey",
+      "exact_title": "Ten Commandments of Formal Methods",
+      "date_version_edition": "1995",
+      "source_class": "practice criticism/guidance",
+      "exact_section_page_theorem_table_figure_locator": "IEEE Computer 28(4), pp. 56–63; ten practice principles on proportionality, integration, tools, and education.",
+      "claim_supported": "Formal methods need proportionality, integration, and cost control.",
+      "relation_to_property": [
+        "P037",
+        "P038",
+        "P042",
+        "P043",
+        "P044",
+        "P050"
+      ],
+      "contrary_evidence_if_any": "Guidance rather than controlled trial.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S059",
+      "stable_url_or_locator": "https://doi.org/10.1007/3-540-63166-6_38",
+      "doi": "10.1007/3-540-63166-6_38",
+      "author_or_organisation": "Ilan Beer et al.",
+      "exact_title": "Efficient Detection of Vacuity in ACTL Formulas",
+      "date_version_edition": "1997",
+      "source_class": "vacuity technique/criticism",
+      "exact_section_page_theorem_table_figure_locator": "CAV 1997, pp. 279–290; ACTL vacuity definition, efficient detection, and examples.",
+      "claim_supported": "Properties may hold vacuously when assumptions/subformulae are irrelevant.",
+      "relation_to_property": [
+        "P001",
+        "P002",
+        "P005",
+        "P006",
+        "P016",
+        "P020",
+        "P038",
+        "P039"
+      ],
+      "contrary_evidence_if_any": "Vacuity detection does not guarantee requirement correctness.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S060",
+      "stable_url_or_locator": "https://doi.org/10.1007/s10009-003-0104-y",
+      "doi": "10.1007/s10009-003-0104-y",
+      "author_or_organisation": "Orna Kupferman and Moshe Y. Vardi",
+      "exact_title": "Vacuity Detection in Temporal Model Checking",
+      "date_version_edition": "2003",
+      "source_class": "vacuity technique/criticism",
+      "exact_section_page_theorem_table_figure_locator": "Software Tools for Technology Transfer 4, pp. 224–233; semantic vacuity, model-checking algorithms, and interpretation.",
+      "claim_supported": "Non-vacuity is a verification-quality property distinct from formula truth.",
+      "relation_to_property": [
+        "P001",
+        "P002",
+        "P005",
+        "P006",
+        "P016",
+        "P020",
+        "P039"
+      ],
+      "contrary_evidence_if_any": "Non-vacuity is weaker than specification strength.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S061",
+      "stable_url_or_locator": "https://doi.org/10.1007/3-540-46419-0_24",
+      "doi": "10.1007/3-540-46419-0_24",
+      "author_or_organisation": "Edmund Clarke, Orna Grumberg, Somesh Jha, Yuan Lu, and Helmut Veith",
+      "exact_title": "Counterexample-Guided Abstraction Refinement",
+      "date_version_edition": "2000",
+      "source_class": "model-checking abstraction technique",
+      "exact_section_page_theorem_table_figure_locator": "CAV 2000, pp. 154–169; abstract model, spurious counterexample test, predicate refinement, and iteration.",
+      "claim_supported": "CEGAR uses counterexamples to refine abstractions and distinguish spurious traces.",
+      "relation_to_property": [
+        "P013",
+        "P017",
+        "P019",
+        "P045"
+      ],
+      "contrary_evidence_if_any": "May be expensive or fail to converge.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S062",
+      "stable_url_or_locator": "https://doi.org/10.1145/1592434.1592436",
+      "doi": "10.1145/1592434.1592436",
+      "author_or_organisation": "Jim Woodcock, Peter Gorm Larsen, Juan Bicarregui, and John S. Fitzgerald",
+      "exact_title": "Formal Methods: Practice and Experience",
+      "date_version_edition": "2009",
+      "source_class": "systematic/experience survey",
+      "exact_section_page_theorem_table_figure_locator": "ACM Computing Surveys 41(4), Article 19, pp. 1–36; historical surveys, industrial cases, adoption barriers, and research agenda.",
+      "claim_supported": "Formal methods have significant practice evidence in selected industrial/critical settings.",
+      "relation_to_property": [
+        "P001",
+        "P002",
+        "P004",
+        "P006",
+        "P009",
+        "P012",
+        "P016",
+        "P017",
+        "P018",
+        "P019",
+        "P036",
+        "P037",
+        "P038",
+        "P041",
+        "P042",
+        "P045",
+        "P050"
+      ],
+      "contrary_evidence_if_any": "Evidence supports selective applicability, not universal adoption.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S063",
+      "stable_url_or_locator": "https://doi.org/10.1007/978-3-030-58298-2_1",
+      "doi": "10.1007/978-3-030-58298-2_1",
+      "author_or_organisation": "Hubert Garavel, Maurice H. ter Beek, and Jaco van de Pol",
+      "exact_title": "The 2020 Expert Survey on Formal Methods",
+      "date_version_edition": "2020",
+      "source_class": "expert survey",
+      "exact_section_page_theorem_table_figure_locator": "FMICS 2020, LNCS 12327, pp. 3–69; survey design, method/domain distributions, benefits, barriers, and expert priorities.",
+      "claim_supported": "The field is plural with diverse uses, benefits, and barriers reported by experts.",
+      "relation_to_property": [
+        "P037",
+        "P038",
+        "P041",
+        "P042",
+        "P043"
+      ],
+      "contrary_evidence_if_any": "Expert survey not controlled comparative trial.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S064",
+      "stable_url_or_locator": "https://doi.org/10.1007/s10664-020-09836-5",
+      "doi": "10.1007/s10664-020-09836-5",
+      "author_or_organisation": "Mario Gleirscher and Diego Marmsoler",
+      "exact_title": "Formal Methods in Dependable Systems Engineering: A Survey of Professionals from Europe and North America",
+      "date_version_edition": "2020",
+      "source_class": "empirical professional survey",
+      "exact_section_page_theorem_table_figure_locator": "Empirical Software Engineering 25, pp. 4473–4546; professional survey questions, adoption factors, perceived benefits and obstacles.",
+      "claim_supported": "Practitioners report usefulness but barriers in scalability, skills, and usability.",
+      "relation_to_property": [
+        "P013",
+        "P019",
+        "P023",
+        "P026",
+        "P027",
+        "P037",
+        "P038",
+        "P041",
+        "P042",
+        "P043",
+        "P046"
+      ],
+      "contrary_evidence_if_any": "Self-reported perception data.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S065",
+      "stable_url_or_locator": "https://doi.org/10.1145/3689374",
+      "doi": "10.1145/3689374",
+      "author_or_organisation": "Maurice H. ter Beek, Rod Chapman, Rance Cleaveland, Hubert Garavel, Rong Gu, Ivo ter Horst, Jeroen J. A. Keiren, Thierry Lecomte, Michael Leuschel, Kristin Yvonne Rozier, Augusto Sampaio, Cristina Seceleanu, Martyn Thomas, Tim A. C. Willemse, and Lijun Zhang",
+      "exact_title": "Formal Methods in Industry",
+      "date_version_edition": "2025",
+      "source_class": "current industry survey/special issue framing",
+      "exact_section_page_theorem_table_figure_locator": "Formal Aspects of Computing 37(1), Article 3, pp. 1–38; sections surveying industrial domains, methods, barriers, and future directions.",
+      "claim_supported": "Current industry practice remains heterogeneous across specification, verification, testing, and certification.",
+      "relation_to_property": [
+        "P001",
+        "P002",
+        "P003",
+        "P004",
+        "P005",
+        "P007",
+        "P008",
+        "P009",
+        "P010",
+        "P011",
+        "P012",
+        "P013",
+        "P014",
+        "P015",
+        "P016",
+        "P018",
+        "P019",
+        "P020",
+        "P022",
+        "P024",
+        "P026",
+        "P027",
+        "P028",
+        "P029",
+        "P030",
+        "P032",
+        "P033",
+        "P034",
+        "P035",
+        "P036",
+        "P037",
+        "P038",
+        "P039",
+        "P041",
+        "P042",
+        "P044",
+        "P045",
+        "P048"
+      ],
+      "contrary_evidence_if_any": "Examples do not eliminate adoption barriers.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S066",
+      "stable_url_or_locator": "https://doi.org/10.1016/j.jlap.2008.08.004",
+      "doi": "10.1016/j.jlap.2008.08.004",
+      "author_or_organisation": "Martin Leucker and Christian Schallhart",
+      "exact_title": "A Brief Account of Runtime Verification",
+      "date_version_edition": "2009",
+      "source_class": "runtime verification survey/tutorial",
+      "exact_section_page_theorem_table_figure_locator": "Journal of Logic and Algebraic Programming 78(5), pp. 293–303; RV definition, monitor construction, relation to testing/model checking, and limits.",
+      "claim_supported": "Runtime verification checks observed executions against formal properties and complements testing/proof.",
+      "relation_to_property": [
+        "P003",
+        "P005",
+        "P031",
+        "P032",
+        "P036"
+      ],
+      "contrary_evidence_if_any": "Monitoring sees only observed behaviour and has overhead/coverage issues.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S067",
+      "stable_url_or_locator": "https://doi.org/10.1145/381473.381515",
+      "doi": "10.1145/381473.381515",
+      "author_or_organisation": "Klaus Havelund and Grigore Roşu",
+      "exact_title": "Monitoring Programs Using Rewriting",
+      "date_version_edition": "2001",
+      "source_class": "runtime verification technique paper",
+      "exact_section_page_theorem_table_figure_locator": "ASE 2001, pp. 135–143; rewriting-based monitor generation and trace checking.",
+      "claim_supported": "Runtime monitors can check formal properties over traces.",
+      "relation_to_property": [
+        "P031",
+        "P036"
+      ],
+      "contrary_evidence_if_any": "Trace observation and monitor correctness remain necessary.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S068",
+      "stable_url_or_locator": "https://doi.org/10.1007/978-3-319-75632-5_6",
+      "doi": "10.1007/978-3-319-75632-5_6",
+      "author_or_organisation": "Adrian Francalanza, Jorge A. Pérez, and César Sánchez",
+      "exact_title": "Runtime Verification for Decentralised and Distributed Systems",
+      "date_version_edition": "2018",
+      "source_class": "runtime verification survey",
+      "exact_section_page_theorem_table_figure_locator": "Lectures on Runtime Verification, Chapter 6, pp. 176–210; taxonomy of distributed/decentralised monitoring, platform/specification/system dimensions, decomposition, communication, and observability limits.",
+      "claim_supported": "Distributed runtime verification must reason about partial order, communication, monitor placement, decomposition, and incomplete/local observations rather than assuming one authoritative total trace.",
+      "relation_to_property": [
+        "P003",
+        "P029",
+        "P031",
+        "P032"
+      ],
+      "contrary_evidence_if_any": "Survey maps difficulties, not universal solution.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S069",
+      "stable_url_or_locator": "https://doi.org/10.48550/arXiv.2505.23486",
+      "doi": "10.48550/arXiv.2505.23486",
+      "author_or_organisation": "Ke Weng, Lun Du, Sirui Li, Wangyue Lu, Haozhe Sun, Hengyu Liu, and Tiancheng Zhang",
+      "exact_title": "Autoformalization in the Era of Large Language Models: A Survey",
+      "date_version_edition": "2025",
+      "source_class": "current AI-assisted formalization survey",
+      "exact_section_page_theorem_table_figure_locator": "arXiv:2505.23486, survey sections on tasks, datasets, proof assistants, evaluation, and faithfulness limitations.",
+      "claim_supported": "LLM autoformalization is growing but translation correctness remains core risk.",
+      "relation_to_property": [
+        "P020",
+        "P021",
+        "P040"
+      ],
+      "contrary_evidence_if_any": "Checked proof validates formal statement, not informal translation.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S070",
+      "stable_url_or_locator": "https://doi.org/10.1145/3750038",
+      "doi": "10.1145/3750038",
+      "author_or_organisation": "Kaiyu Yang, Gabriel Poesia, Jingxuan He, Wenda Li, Kristin E. Lauter, Swarat Chaudhuri, and Dawn Song",
+      "exact_title": "Formal Reasoning Meets LLMs: Toward AI for Mathematics and Verification",
+      "date_version_edition": "2026",
+      "source_class": "current research overview",
+      "exact_section_page_theorem_table_figure_locator": "Communications of the ACM 69 (2026), article sections on theorem-proving agents, formal feedback, benchmarks, and open assurance problems.",
+      "claim_supported": "LLM-assisted formal reasoning targets proof search, feedback, and verification scale.",
+      "relation_to_property": [
+        "P021",
+        "P023",
+        "P040"
+      ],
+      "contrary_evidence_if_any": "Research overview not mature assurance evidence.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S071",
+      "stable_url_or_locator": "https://doi.org/10.48550/arXiv.2306.15626",
+      "doi": "10.48550/arXiv.2306.15626",
+      "author_or_organisation": "Kaiyu Yang, Aidan M. Swope, Alex Gu, Rahul Chalamala, Peiyang Song, Shixing Yu, Saad Godil, Ryan Prenger, and Anima Anandkumar",
+      "exact_title": "LeanDojo: Theorem Proving with Retrieval-Augmented Language Models",
+      "date_version_edition": "2023",
+      "source_class": "LLM theorem-proving benchmark/tool paper",
+      "exact_section_page_theorem_table_figure_locator": "NeurIPS 2023 / arXiv:2306.15626; repository extraction, retrieval, environment interaction, benchmark split, and evaluation.",
+      "claim_supported": "Retrieval and benchmark design matter for LLM-assisted theorem proving.",
+      "relation_to_property": [
+        "P021",
+        "P040"
+      ],
+      "contrary_evidence_if_any": "Benchmark success does not prove engineering formalisation quality.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S072",
+      "stable_url_or_locator": "https://doi.org/10.48550/arXiv.2205.12615",
+      "doi": "10.48550/arXiv.2205.12615",
+      "author_or_organisation": "Yuhuai Wu, Albert Q. Jiang, Wenda Li, Markus N. Rabe, Charles Staats, Mateja Jamnik, and Christian Szegedy",
+      "exact_title": "Autoformalization with Large Language Models",
+      "date_version_edition": "2022",
+      "source_class": "AI-assisted formalization paper",
+      "exact_section_page_theorem_table_figure_locator": "arXiv:2205.12615; informal-to-Isabelle translation task, prompting/fine-tuning experiments, and error analysis.",
+      "claim_supported": "LLMs can translate informal statements to formal languages with limited reliability.",
+      "relation_to_property": [
+        "P001",
+        "P040"
+      ],
+      "contrary_evidence_if_any": "Translation correctness requires human or independent checking.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S073",
+      "stable_url_or_locator": "https://doi.org/10.48550/arXiv.2506.06034",
+      "doi": "10.48550/arXiv.2506.06034",
+      "author_or_organisation": "Zhitao He, Zongwei Lyu, Dazhong Chen, Dadi Guo, and Yi R. Fung",
+      "exact_title": "MATP-BENCH: Can MLLM Be a Good Automated Theorem Prover for Multimodal Problems?",
+      "date_version_edition": "2025",
+      "source_class": "current benchmark/negative evidence",
+      "exact_section_page_theorem_table_figure_locator": "arXiv:2506.06034; 1,056 multimodal theorems with Lean 4, Coq and Isabelle formalizations, benchmark construction, model evaluation, and visual–symbolic proof limitations.",
+      "claim_supported": "Multimodal theorem-proving benchmarks expose substantial current limitations in jointly translating diagrams/text and generating valid formal proofs.",
+      "relation_to_property": [
+        "P040"
+      ],
+      "contrary_evidence_if_any": "Time-sensitive frontier evidence.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S074",
+      "stable_url_or_locator": "https://doi.org/10.1145/3453483.3454033",
+      "doi": "10.1145/3453483.3454033",
+      "author_or_organisation": "Talia Ringer, RanDair Porter, Nathaniel Yazdani, John Leo, and Dan Grossman",
+      "exact_title": "Proof Repair across Type Equivalences",
+      "date_version_edition": "2021",
+      "source_class": "proof-engineering research",
+      "exact_section_page_theorem_table_figure_locator": "PLDI 2021, pp. 987–1001; type-equivalence transport, proof breakage scenarios, repair algorithm, and evaluation.",
+      "claim_supported": "Proofs break under specification/type changes and can sometimes be repaired automatically.",
+      "relation_to_property": [
+        "P023",
+        "P040"
+      ],
+      "contrary_evidence_if_any": "Repair techniques are limited by change class and proof style.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S075",
+      "stable_url_or_locator": "https://doi.org/10.4230/LIPIcs.ITP.2023.26",
+      "doi": "10.4230/LIPIcs.ITP.2023.26",
+      "author_or_organisation": "Tom Reichel, R. Wesley Henderson, Andrew Touchet, Andrew Gardner, and Talia Ringer",
+      "exact_title": "Proof Repair Infrastructure for Supervised Models: Building a Large Proof Repair Dataset",
+      "date_version_edition": "2023",
+      "source_class": "proof-repair dataset/source",
+      "exact_section_page_theorem_table_figure_locator": "ITP 2023, LIPIcs 268, Article 26, pp. 26:1–26:20; aligned old/new Coq definitions and proofs across commits, dataset construction challenges, and threats to validity.",
+      "claim_supported": "Realistic proof-repair evaluation requires version-linked repository data and exposes substantial infrastructure and representativeness burdens.",
+      "relation_to_property": [
+        "P023",
+        "P040"
+      ],
+      "contrary_evidence_if_any": "Dataset scope limits transfer.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S076",
+      "stable_url_or_locator": "https://doi.org/10.1007/s10817-025-09720-1",
+      "doi": "10.1007/s10817-025-09720-1",
+      "author_or_organisation": "Ana de Almeida Borges, Annalí Casanueva Artís, Jean-Rémy Falleri, Emilio Jesús Gallego Arias, Érik Martin-Dorel, Karl Palmskog, Alexander Serebrenik, and Théo Zimmermann",
+      "exact_title": "Lessons for Interactive Theorem Proving Researchers from a Survey of Coq Users",
+      "date_version_edition": "2025",
+      "source_class": "current proof-assistant community survey",
+      "exact_section_page_theorem_table_figure_locator": "Journal of Automated Reasoning 69 (2025); survey instrument, user demographics, pain points, maintenance/library/tool findings.",
+      "claim_supported": "The largest Coq user survey found adoption/tool/library/usability concerns in ITP practice.",
+      "relation_to_property": [
+        "P021",
+        "P023",
+        "P028",
+        "P037"
+      ],
+      "contrary_evidence_if_any": "User survey not controlled effectiveness study.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S077",
+      "stable_url_or_locator": "https://doi.org/10.1109/SP40000.2020.00114",
+      "doi": "10.1109/SP40000.2020.00114",
+      "author_or_organisation": "Jonathan Protzenko et al.",
+      "exact_title": "EverCrypt: A Fast, Verified, Cross-Platform Cryptographic Provider",
+      "date_version_edition": "2020",
+      "source_class": "verified cryptographic library case study",
+      "exact_section_page_theorem_table_figure_locator": "IEEE Symposium on Security and Privacy 2020, pp. 983–1002; verified algorithm portfolio, Vale/F*/C extraction, agility, and performance.",
+      "claim_supported": "Verified cryptographic providers can combine proofs, generated code, and performance engineering.",
+      "relation_to_property": [
+        "P009",
+        "P027",
+        "P028",
+        "P033",
+        "P035",
+        "P050"
+      ],
+      "contrary_evidence_if_any": "Assurance depends on side-channel model, compiler path, and platform assumptions.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S078",
+      "stable_url_or_locator": "https://doi.org/10.1145/3133956.3134043",
+      "doi": "10.1145/3133956.3134043",
+      "author_or_organisation": "Jean-Karim Zinzindohoué et al.",
+      "exact_title": "HACL*: A Verified Modern Cryptographic Library",
+      "date_version_edition": "2017",
+      "source_class": "verified cryptographic library case study",
+      "exact_section_page_theorem_table_figure_locator": "CCS 2017, pp. 1789–1806; memory safety, functional correctness, secret independence, C extraction, and performance.",
+      "claim_supported": "HACL* verifies portable C crypto primitives for memory safety/functional correctness/secret independence.",
+      "relation_to_property": [
+        "P027",
+        "P028",
+        "P033",
+        "P050"
+      ],
+      "contrary_evidence_if_any": "Claim scope excludes all protocol/environment risks.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S079",
+      "stable_url_or_locator": "https://doi.org/10.1109/MSP.2016.123",
+      "doi": "10.1109/MSP.2016.123",
+      "author_or_organisation": "Karthikeyan Bhargavan et al.",
+      "exact_title": "miTLS: Verifying Protocol Implementations against Real-World Attacks",
+      "date_version_edition": "2016",
+      "source_class": "verified protocol implementation case",
+      "exact_section_page_theorem_table_figure_locator": "IEEE Security & Privacy 14(6), pp. 18–25; TLS model/implementation relationship, verified components, and attack-driven revisions.",
+      "claim_supported": "miTLS combines protocol proofs and implementation verification for TLS.",
+      "relation_to_property": [
+        "P029",
+        "P033",
+        "P050"
+      ],
+      "contrary_evidence_if_any": "Protocol proof still assumes cryptographic models and deployment configuration.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S080",
+      "stable_url_or_locator": "https://doi.org/10.1145/2535838.2535841",
+      "doi": "10.1145/2535838.2535841",
+      "author_or_organisation": "Ramana Kumar, Magnus O. Myreen, Michael Norrish, and Scott Owens",
+      "exact_title": "CakeML: A Verified Implementation of ML",
+      "date_version_edition": "2014",
+      "source_class": "verified language implementation case study",
+      "exact_section_page_theorem_table_figure_locator": "POPL 2014, pp. 179–192; CakeML semantics, verified compiler implementation, bootstrap path, and correctness theorem.",
+      "claim_supported": "CakeML demonstrates verified language semantics, implementation, and compilation path.",
+      "relation_to_property": [
+        "P021",
+        "P028",
+        "P033",
+        "P035",
+        "P050"
+      ],
+      "contrary_evidence_if_any": "Scope is language subset and exact semantics/toolchain.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S081",
+      "stable_url_or_locator": "https://doi.org/10.1145/237432.237434",
+      "doi": "10.1145/237432.237434",
+      "author_or_organisation": "Pamela Zave and Michael Jackson",
+      "exact_title": "Four Dark Corners of Requirements Engineering",
+      "date_version_edition": "1997",
+      "source_class": "requirements/specification problem paper",
+      "exact_section_page_theorem_table_figure_locator": "ICSE 1997, pp. 37–46; environment description, requirements, specification, control information, and the four “dark corners”.",
+      "claim_supported": "Requirements satisfaction depends on environment descriptions, domain knowledge, and control information.",
+      "relation_to_property": [
+        "P001",
+        "P002",
+        "P003",
+        "P039",
+        "P049"
+      ],
+      "contrary_evidence_if_any": "Formal precision does not ensure correct requirement/domain modelling.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S082",
+      "stable_url_or_locator": "https://mcs.open.ac.uk/mj665/icse17kn.pdf",
+      "doi": null,
+      "author_or_organisation": "Michael Jackson",
+      "exact_title": "The World and the Machine",
+      "date_version_edition": "1995/1997 lineage",
+      "source_class": "requirements/world-machine source",
+      "exact_section_page_theorem_table_figure_locator": "ICSE keynote/paper “The World and the Machine”; world/machine phenomena, shared interfaces, requirement relation, and domain assumptions.",
+      "claim_supported": "The machine-to-world boundary is central to software requirements and formal claims.",
+      "relation_to_property": [
+        "P001",
+        "P003",
+        "P015",
+        "P049"
+      ],
+      "contrary_evidence_if_any": "Boundary can be misunderstood or drift.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S083",
+      "stable_url_or_locator": "https://doi.org/10.1016/0167-6423(95)96871-J",
+      "doi": "10.1016/0167-6423(95)96871-J",
+      "author_or_organisation": "David L. Parnas and Jan Madey",
+      "exact_title": "Functional Documents for Computer Systems",
+      "date_version_edition": "1995",
+      "source_class": "specification documentation source",
+      "exact_section_page_theorem_table_figure_locator": "Science of Computer Programming 25(1), pp. 41–61; tabular functional relations, completeness/disjointness, and documentation review.",
+      "claim_supported": "Tabular/functional documentation can reduce ambiguity and support rigorous review.",
+      "relation_to_property": [
+        "P001",
+        "P049"
+      ],
+      "contrary_evidence_if_any": "Documentation can go stale without live checking.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S084",
+      "stable_url_or_locator": "https://doi.org/10.1145/336512.336546",
+      "doi": "10.1145/336512.336546",
+      "author_or_organisation": "Axel van Lamsweerde",
+      "exact_title": "Formal Specification: A Roadmap",
+      "date_version_edition": "2000",
+      "source_class": "formal specification survey/roadmap",
+      "exact_section_page_theorem_table_figure_locator": "ICSE 2000, pp. 147–159; specification paradigms, elicitation/validation, tool integration, scalability, and future agenda.",
+      "claim_supported": "Formal specification has multiple paradigms and persistent usability/reward challenges.",
+      "relation_to_property": [
+        "P001",
+        "P037",
+        "P041",
+        "P049"
+      ],
+      "contrary_evidence_if_any": "Roadmap evidence supports bounded adoption, not hype.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S085",
+      "stable_url_or_locator": "https://doi.org/10.1145/360248.360252",
+      "doi": "10.1145/360248.360252",
+      "author_or_organisation": "James C. King",
+      "exact_title": "Symbolic Execution and Program Testing",
+      "date_version_edition": "1976",
+      "source_class": "foundational symbolic execution paper",
+      "exact_section_page_theorem_table_figure_locator": "Communications of the ACM 19(7), pp. 385–394; symbolic states, path conditions, execution tree, test generation, and infeasible paths.",
+      "claim_supported": "Symbolic execution originated as a way to reason about paths and test generation symbolically.",
+      "relation_to_property": [
+        "P017",
+        "P025",
+        "P036"
+      ],
+      "contrary_evidence_if_any": "Path feasibility and environment modelling remain limits.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open URL or DOI landing page located; some publisher standards/full texts may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S086",
+      "stable_url_or_locator": "https://doi.org/10.1016/0020-0190(85)90056-0",
+      "doi": "10.1016/0020-0190(85)90056-0",
+      "author_or_organisation": "Bowen Alpern and Fred B. Schneider",
+      "exact_title": "Defining Liveness",
+      "date_version_edition": "1985",
+      "source_class": "foundational temporal-property paper",
+      "exact_section_page_theorem_table_figure_locator": "Information Processing Letters 21(4), pp. 181–185; decomposition of properties into safety and liveness and topological characterisation.",
+      "claim_supported": "Safety excludes finite bad prefixes; liveness requires that finite prefixes remain extensible to acceptable infinite behaviours.",
+      "relation_to_property": [
+        "P007",
+        "P008",
+        "P009"
+      ],
+      "contrary_evidence_if_any": "The classification does not itself validate fairness or environment assumptions.",
+      "access_date": "2026-08-12",
+      "open_access_status": "DOI landing page and author copies located.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S087",
+      "stable_url_or_locator": "https://doi.org/10.1007/BF00268134",
+      "doi": "10.1007/BF00268134",
+      "author_or_organisation": "Susan Owicki and David Gries",
+      "exact_title": "An Axiomatic Proof Technique for Parallel Programs I",
+      "date_version_edition": "1976",
+      "source_class": "foundational concurrent-program logic paper",
+      "exact_section_page_theorem_table_figure_locator": "Acta Informatica 6, pp. 319–340; interference freedom, local proofs, and global correctness conditions.",
+      "claim_supported": "Parallel-program proofs require obligations showing that one component does not invalidate another component’s assertions.",
+      "relation_to_property": [
+        "P011",
+        "P012",
+        "P029"
+      ],
+      "contrary_evidence_if_any": "Interference checks can scale poorly and presume an adequate shared-memory model.",
+      "access_date": "2026-08-12",
+      "open_access_status": "DOI landing page located; full text may require subscription.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S088",
+      "stable_url_or_locator": "https://doi.org/10.1145/69575.69577",
+      "doi": "10.1145/69575.69577",
+      "author_or_organisation": "Cliff B. Jones",
+      "exact_title": "Tentative Steps Toward a Development Method for Interfering Programs",
+      "date_version_edition": "1983",
+      "source_class": "foundational rely/guarantee paper",
+      "exact_section_page_theorem_table_figure_locator": "ACM TOPLAS 5(4), pp. 596–619; rely conditions, guarantee conditions, compositional development, and interference examples.",
+      "claim_supported": "Rely/guarantee conditions make environmental interference explicit for compositional concurrent reasoning.",
+      "relation_to_property": [
+        "P002",
+        "P008",
+        "P012",
+        "P029"
+      ],
+      "contrary_evidence_if_any": "Incorrect or non-composing rely conditions can merely relocate hidden assumptions.",
+      "access_date": "2026-08-12",
+      "open_access_status": "DOI landing page located.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S089",
+      "stable_url_or_locator": "https://doi.org/10.1145/197320.197383",
+      "doi": "10.1145/197320.197383",
+      "author_or_organisation": "Barbara H. Liskov and Jeannette M. Wing",
+      "exact_title": "A Behavioral Notion of Subtyping",
+      "date_version_edition": "1994",
+      "source_class": "foundational behavioural-subtyping paper",
+      "exact_section_page_theorem_table_figure_locator": "ACM TOPLAS 16(6), pp. 1811–1841; subtype requirement, history constraints, pre/postcondition variance, and examples.",
+      "claim_supported": "Safe substitution requires preservation of behavioural obligations, not merely syntactic or nominal type compatibility.",
+      "relation_to_property": [
+        "P010",
+        "P012",
+        "P027",
+        "P046"
+      ],
+      "contrary_evidence_if_any": "Behavioural specifications must still be complete and current.",
+      "access_date": "2026-08-12",
+      "open_access_status": "DOI landing page located.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S090",
+      "stable_url_or_locator": "https://doi.org/10.1145/78969.78972",
+      "doi": "10.1145/78969.78972",
+      "author_or_organisation": "Maurice P. Herlihy and Jeannette M. Wing",
+      "exact_title": "Linearizability: A Correctness Condition for Concurrent Objects",
+      "date_version_edition": "1990",
+      "source_class": "foundational concurrency-correctness paper",
+      "exact_section_page_theorem_table_figure_locator": "ACM TOPLAS 12(3), pp. 463–492; definition, locality, nonblocking character, examples, and proof method.",
+      "claim_supported": "Concurrent histories can be related to legal sequential histories while preserving real-time order.",
+      "relation_to_property": [
+        "P014",
+        "P029",
+        "P030"
+      ],
+      "contrary_evidence_if_any": "Linearizability does not imply progress, durability, availability, or application-level correctness.",
+      "access_date": "2026-08-12",
+      "open_access_status": "DOI landing page located.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S091",
+      "stable_url_or_locator": "https://doi.org/10.1145/322154.322158",
+      "doi": "10.1145/322154.322158",
+      "author_or_organisation": "Christos H. Papadimitriou",
+      "exact_title": "The Serializability of Concurrent Database Updates",
+      "date_version_edition": "1979",
+      "source_class": "foundational database-concurrency paper",
+      "exact_section_page_theorem_table_figure_locator": "Journal of the ACM 26(4), pp. 631–653; serial schedules, equivalence, conflict/dependency structure, and complexity results.",
+      "claim_supported": "Concurrent database schedules can be judged against equivalent serial executions under explicit transaction semantics.",
+      "relation_to_property": [
+        "P029",
+        "P030"
+      ],
+      "contrary_evidence_if_any": "Serializability alone omits real-time order, availability, durability, and application invariants.",
+      "access_date": "2026-08-12",
+      "open_access_status": "DOI landing page located.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S092",
+      "stable_url_or_locator": "https://doi.org/10.1145/3064176.3064183",
+      "doi": "10.1145/3064176.3064183",
+      "author_or_organisation": "Pedro Fonseca et al.",
+      "exact_title": "An Empirical Study on the Correctness of Formally Verified Distributed Systems",
+      "date_version_edition": "2017",
+      "source_class": "empirical failure/correspondence study",
+      "exact_section_page_theorem_table_figure_locator": "EuroSys 2017, pp. 328–343; methodology, sixteen defect/assumption findings across IronFleet, Verdi, and Chapar, root-cause classes, and implications.",
+      "claim_supported": "Strong protocol proofs can coexist with implementation, shim, configuration, or environmental defects outside the verified model.",
+      "relation_to_property": [
+        "P001",
+        "P002",
+        "P003",
+        "P004",
+        "P006",
+        "P007",
+        "P008",
+        "P009",
+        "P012",
+        "P013",
+        "P014",
+        "P015",
+        "P016",
+        "P017",
+        "P019",
+        "P020",
+        "P021",
+        "P023",
+        "P029",
+        "P030",
+        "P036",
+        "P038",
+        "P042",
+        "P043",
+        "P044",
+        "P045",
+        "P049"
+      ],
+      "contrary_evidence_if_any": "The study examines a small number of pioneering systems and does not negate their proved in-model properties.",
+      "access_date": "2026-08-12",
+      "open_access_status": "DOI and author copy located.",
+      "classification": [
+        "EMPIRICAL_OR_DOMAIN_FINDING",
+        "CONTRARY_EVIDENCE",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S093",
+      "stable_url_or_locator": "https://sel4.systems/Verification/assumptions.html",
+      "doi": null,
+      "author_or_organisation": "seL4 Project",
+      "exact_title": "What the Proofs Assume",
+      "date_version_edition": "current site, accessed 2026-08-12",
+      "source_class": "authoritative project scope/assumption statement",
+      "exact_section_page_theorem_table_figure_locator": "Sections on C/assembly/binary correspondence, hardware, DMA, machine interface, information side channels, proof logic, and physical assumptions.",
+      "claim_supported": "seL4 explicitly documents hardware, DMA, side-channel, low-level-code, configuration, and logical assumptions remaining outside particular proofs.",
+      "relation_to_property": [
+        "P002",
+        "P003",
+        "P014",
+        "P015",
+        "P022",
+        "P033",
+        "P036",
+        "P043",
+        "P044",
+        "P047",
+        "P050"
+      ],
+      "contrary_evidence_if_any": "The page also documents configurations where binary verification removes compiler/linker trust, showing assumptions are reducible rather than fixed.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open official project page.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S094",
+      "stable_url_or_locator": "https://doi.org/10.1007/978-3-030-99336-8_8",
+      "doi": "10.1007/978-3-030-99336-8_8",
+      "author_or_organisation": "David Monniaux and Sylvain Boulmé",
+      "exact_title": "The Trusted Computing Base of the CompCert Verified Compiler",
+      "date_version_edition": "2022",
+      "source_class": "verified-toolchain criticism/TCB analysis",
+      "exact_section_page_theorem_table_figure_locator": "ESOP 2022, LNCS 13240, pp. 204–233; source/target semantics, parser/printer, external algorithms, extraction, axioms, and possible loopholes.",
+      "claim_supported": "A verified compiler theorem has a nontrivial trusted and modelled boundary beyond the mechanically proved passes.",
+      "relation_to_property": [
+        "P002",
+        "P014",
+        "P015",
+        "P022",
+        "P024",
+        "P026",
+        "P033",
+        "P034",
+        "P035",
+        "P043",
+        "P046",
+        "P047",
+        "P050"
+      ],
+      "contrary_evidence_if_any": "The analysis narrows residual risk and proposes mitigations rather than rejecting verified compilation.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open arXiv/HAL copy and DOI located.",
+      "classification": [
+        "CRITIQUE_OF_MODEL_OR_ASSUMPTION",
+        "SOURCE_ESTABLISHED"
+      ]
+    },
+    {
+      "SOURCE_ID": "S095",
+      "stable_url_or_locator": "https://doi.org/10.1145/3715787",
+      "doi": "10.1145/3715787",
+      "author_or_organisation": "Xiaokun Luan, David Sanán, Zhe Hou, Qiyuan Xu, Chengwei Liu, Yufan Cai, Yang Liu, and Meng Sun",
+      "exact_title": "Why the Proof Fails in Different Versions of Theorem Provers: An Empirical Study of Compatibility Issues in Isabelle",
+      "date_version_edition": "2025",
+      "source_class": "empirical proof-maintenance study",
+      "exact_section_page_theorem_table_figure_locator": "Proceedings of the ACM on Software Engineering 2(FSE), pp. 1499–1521; regression framework, 12,079 compatibility issues, seven categories, root causes, and repair strategies.",
+      "claim_supported": "Proof replay can fail after prover/library version changes even when the intended theorem has not changed.",
+      "relation_to_property": [
+        "P002",
+        "P021",
+        "P023",
+        "P038",
+        "P039",
+        "P041",
+        "P042",
+        "P043",
+        "P044",
+        "P047",
+        "P048"
+      ],
+      "contrary_evidence_if_any": "The empirical sample is Isabelle/AFP-specific, so cross-prover frequencies remain uncertain.",
+      "access_date": "2026-08-12",
+      "open_access_status": "DOI, repository copy, and reproduction package located.",
+      "classification": [
+        "EMPIRICAL_OR_DOMAIN_FINDING",
+        "SOURCE_ESTABLISHED"
+      ]
+    },
+    {
+      "SOURCE_ID": "S096",
+      "stable_url_or_locator": "https://doi.org/10.1561/2500000045",
+      "doi": "10.1561/2500000045",
+      "author_or_organisation": "Talia Ringer, Karl Palmskog, Ilya Sergey, Milos Gligoric, and Zachary Tatlock",
+      "exact_title": "QED at Large: A Survey of Engineering of Formally Verified Software",
+      "date_version_edition": "2019",
+      "source_class": "proof-engineering survey",
+      "exact_section_page_theorem_table_figure_locator": "Foundations and Trends in Programming Languages 5(2–3), pp. 102–281; specification, proof architecture, automation, debugging, maintenance, reuse, and trusted base.",
+      "claim_supported": "Large verification projects are software-engineering artefacts with architecture, dependency, automation, maintenance, and usability burdens.",
+      "relation_to_property": [
+        "P006",
+        "P011",
+        "P012",
+        "P014",
+        "P021",
+        "P022",
+        "P023",
+        "P028",
+        "P037",
+        "P042",
+        "P043",
+        "P047",
+        "P048",
+        "P050"
+      ],
+      "contrary_evidence_if_any": "Survey evidence synthesises projects but is not a controlled cost comparison.",
+      "access_date": "2026-08-12",
+      "open_access_status": "DOI and author manuscript located.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "SOURCE_INTERPRETATION"
+      ]
+    },
+    {
+      "SOURCE_ID": "S097",
+      "stable_url_or_locator": "https://doi.org/10.1145/3428261",
+      "doi": "10.1145/3428261",
+      "author_or_organisation": "Dominik Winterer, Chengyu Zhang, and Zhendong Su",
+      "exact_title": "On the Unusual Effectiveness of Type-Aware Operator Mutations for Testing SMT Solvers",
+      "date_version_edition": "2020",
+      "source_class": "empirical solver-bug study",
+      "exact_section_page_theorem_table_figure_locator": "Proceedings of the ACM on Programming Languages 4(OOPSLA), Article 193; mutation method, campaign, 1,092 reports, 819 confirmed bugs, and 184 soundness bugs.",
+      "claim_supported": "Production SMT solvers can contain soundness bugs, so solver trust and certificates are material assurance boundaries.",
+      "relation_to_property": [
+        "P022",
+        "P024",
+        "P044",
+        "P047"
+      ],
+      "contrary_evidence_if_any": "Many bugs were fixed; the study does not imply every successful solver result is suspect.",
+      "access_date": "2026-08-12",
+      "open_access_status": "DOI and arXiv copy located.",
+      "classification": [
+        "EMPIRICAL_OR_DOMAIN_FINDING",
+        "CONTRARY_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S098",
+      "stable_url_or_locator": "https://doi.org/10.1145/3656438",
+      "doi": "10.1145/3656438",
+      "author_or_organisation": "Gaurav Parthasarathy, Thibault Dardinier, Benjamin Bonneau, Peter Müller, and Alexander J. Summers",
+      "exact_title": "Towards Trustworthy Automated Program Verifiers: Formally Validating Translations into an Intermediate Verification Language",
+      "date_version_edition": "2024",
+      "source_class": "primary certifying-verifier research",
+      "exact_section_page_theorem_table_figure_locator": "PLDI 2024, pp. 1510–1534; Viper/Boogie semantics, forward simulation, per-run Isabelle certificate generation, evaluation, and limitations.",
+      "claim_supported": "Verifier front-end translations can be validated per run with independently checkable proofs, reducing translation implementation trust.",
+      "relation_to_property": [
+        "P014",
+        "P015",
+        "P022",
+        "P024",
+        "P034",
+        "P035"
+      ],
+      "contrary_evidence_if_any": "The method covers a defined subset and does not validate the source specification or SMT back-end by itself.",
+      "access_date": "2026-08-12",
+      "open_access_status": "DOI, arXiv extended version, and artifact located.",
+      "classification": [
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S099",
+      "stable_url_or_locator": "https://doi.org/10.48550/arXiv.2604.26753",
+      "doi": "10.48550/arXiv.2604.26753",
+      "author_or_organisation": "Benedikt Bollig",
+      "exact_title": "Runtime Verification: Monitoring, Knowledge, and Uncertainty",
+      "date_version_edition": "2026, v1",
+      "source_class": "current runtime-verification lecture monograph",
+      "exact_section_page_theorem_table_figure_locator": "81-page lecture notes; chapters on monitorability, finite-prefix verdicts, partial observation, diagnosis, opacity, timed monitoring, and epistemic uncertainty.",
+      "claim_supported": "Runtime verification reasons from observed finite traces and may necessarily return inconclusive verdicts under partial observability.",
+      "relation_to_property": [
+        "P003",
+        "P005",
+        "P007",
+        "P008",
+        "P009",
+        "P031",
+        "P032",
+        "P036"
+      ],
+      "contrary_evidence_if_any": "The source is a 2026 preprint/lecture text rather than comparative industrial evidence.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open arXiv under CC licence.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "FORMAL_OR_THEORETICAL_RESULT"
+      ]
+    },
+    {
+      "SOURCE_ID": "S100",
+      "stable_url_or_locator": "https://doi.org/10.1145/3763181",
+      "doi": "10.1145/3763181",
+      "author_or_organisation": "Eric Mugnier, Yuanyuan Zhou, Ranjit Jhala, and Michael Coblenz",
+      "exact_title": "On the Impact of Formal Verification on Software Development",
+      "date_version_edition": "2025",
+      "source_class": "qualitative empirical software-engineering study",
+      "exact_section_page_theorem_table_figure_locator": "Proceedings of the ACM on Programming Languages 9(OOPSLA2), Article 403, pp. 3642–3668; grounded-theory interviews with fourteen experienced Dafny users; findings on specification, debugging, testing, review, workflow, and maintenance.",
+      "claim_supported": "Automated deductive verification changes development practice, but tests and review remain important for specification and integration errors the verifier does not flag.",
+      "relation_to_property": [
+        "P001",
+        "P002",
+        "P007",
+        "P010",
+        "P020",
+        "P021",
+        "P023",
+        "P036",
+        "P037",
+        "P038",
+        "P039",
+        "P042",
+        "P043",
+        "P044",
+        "P045",
+        "P046",
+        "P049",
+        "P050"
+      ],
+      "contrary_evidence_if_any": "Small self-selected interview sample; findings are qualitative rather than causal productivity estimates.",
+      "access_date": "2026-08-12",
+      "open_access_status": "DOI, author PDF, and artifact located.",
+      "classification": [
+        "EMPIRICAL_OR_DOMAIN_FINDING",
+        "SOURCE_ESTABLISHED"
+      ]
+    },
+    {
+      "SOURCE_ID": "S101",
+      "stable_url_or_locator": "https://doi.org/10.48550/arXiv.2607.19407",
+      "doi": "10.48550/arXiv.2607.19407",
+      "author_or_organisation": "Jiayi Wu, Robert Joseph George, and Anima Anandkumar",
+      "exact_title": "ITPEval: Benchmarking Formal Translation Across Interactive Theorem Provers",
+      "date_version_edition": "2026, v1",
+      "source_class": "current AI/formal-translation benchmark",
+      "exact_section_page_theorem_table_figure_locator": "arXiv:2607.19407; dataset design (1,560 files/6,848 theorems), twelve translation directions, pass@1 results, controlled/ecosystem split, and deterministic equivalence check.",
+      "claim_supported": "Native type-checking of translated statements can overstate semantic fidelity; ecosystem/library transfer remains a dominant bottleneck.",
+      "relation_to_property": [
+        "P001",
+        "P018",
+        "P020",
+        "P021",
+        "P023",
+        "P039",
+        "P040",
+        "P047",
+        "P049"
+      ],
+      "contrary_evidence_if_any": "Preprint benchmark; equivalence checker and selected theorem populations have their own scope.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open arXiv and released benchmark infrastructure.",
+      "classification": [
+        "EMPIRICAL_OR_DOMAIN_FINDING",
+        "CURRENT_FRONTIER"
+      ]
+    },
+    {
+      "SOURCE_ID": "S102",
+      "stable_url_or_locator": "https://doi.org/10.48550/arXiv.2604.25031",
+      "doi": "10.48550/arXiv.2604.25031",
+      "author_or_organisation": "Daneshvar Amrollahi, Jerry Lopez, and Clark Barrett",
+      "exact_title": "Faithful Autoformalization via Roundtrip Verification and Repair",
+      "date_version_edition": "2026, v1",
+      "source_class": "current autoformalisation/translation-validation research",
+      "exact_section_page_theorem_table_figure_locator": "arXiv:2604.25031v1; roundtrip pipeline, formal-equivalence test, diagnosis/repair algorithm, 150 Texas traffic rules, two-model ablation, Tables 1–2, residual semantic-drift analysis, and stated validity limits.",
+      "claim_supported": "Roundtrip and equivalence checks can reduce semantic drift in LLM-generated formalisation, but do not make fidelity universal.",
+      "relation_to_property": [
+        "P001",
+        "P020",
+        "P039",
+        "P040",
+        "P049"
+      ],
+      "contrary_evidence_if_any": "Domain and logic are constrained; equivalence reached 83–85% after repair rather than 100%.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open arXiv and OpenReview copy.",
+      "classification": [
+        "EMPIRICAL_OR_DOMAIN_FINDING",
+        "CURRENT_FRONTIER"
+      ]
+    },
+    {
+      "SOURCE_ID": "S103",
+      "stable_url_or_locator": "https://doi.org/10.4230/LIPIcs.CONCUR.2025.22",
+      "doi": "10.4230/LIPIcs.CONCUR.2025.22",
+      "author_or_organisation": "Frédéric Herbreteau, Sarah Larroze-Jardiné, and Igor Walukiewicz",
+      "exact_title": "Partial-Order Reduction Is Hard",
+      "date_version_edition": "2025",
+      "source_class": "current formal complexity result",
+      "exact_section_page_theorem_table_figure_locator": "CONCUR 2025, LIPIcs 348, Article 22, pp. 22:1–22:20; optimal-reduction problem definitions, complexity results, and implications.",
+      "claim_supported": "Obtaining maximally effective partial-order reductions can itself be computationally hard; reduction is not a free cure for state explosion.",
+      "relation_to_property": [
+        "P004",
+        "P013",
+        "P016",
+        "P019",
+        "P029",
+        "P045"
+      ],
+      "contrary_evidence_if_any": "Practical non-optimal reductions remain highly useful on many systems.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open-access DROPS article.",
+      "classification": [
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "CURRENT_FRONTIER"
+      ]
+    },
+    {
+      "SOURCE_ID": "S104",
+      "stable_url_or_locator": "https://doi.org/10.1145/3650212.3680400",
+      "doi": "10.1145/3650212.3680400",
+      "author_or_organisation": "Kevin Guan and Owolabi Legunsen",
+      "exact_title": "An In-Depth Study of Runtime Verification Overheads during Software Testing",
+      "date_version_edition": "2024",
+      "source_class": "empirical runtime-verification study",
+      "exact_section_page_theorem_table_figure_locator": "ISSTA 2024, pp. 1797–1809; benchmark design, instrumentation/monitor configurations, overhead measurements, causes, evolution-aware comparison, and limitations.",
+      "claim_supported": "Runtime-monitor overhead varies materially with instrumentation, monitored events, and implementation choices and must be measured in context.",
+      "relation_to_property": [
+        "P031",
+        "P032",
+        "P036",
+        "P042"
+      ],
+      "contrary_evidence_if_any": "Benchmark results do not determine overhead for every architecture or distributed monitor.",
+      "access_date": "2026-08-12",
+      "open_access_status": "DOI landing page and author materials located.",
+      "classification": [
+        "EMPIRICAL_OR_DOMAIN_FINDING"
+      ]
+    },
+    {
+      "SOURCE_ID": "S105",
+      "stable_url_or_locator": "https://doi.org/10.1145/3632877",
+      "doi": "10.1145/3632877",
+      "author_or_organisation": "Jingyi Yao, Runzhou Tao, Ronghui Gu, and Jason Nieh",
+      "exact_title": "Mostly Automated Verification of Liveness Properties for Distributed Protocols with Ranking Functions",
+      "date_version_edition": "2024",
+      "source_class": "primary distributed-liveness verification research",
+      "exact_section_page_theorem_table_figure_locator": "PACMPL 8(POPL), pp. 1028–1059; liveness framework, ranking functions, fairness/protocol conditions, automation, and case studies.",
+      "claim_supported": "Ranking-function frameworks can automate substantial parts of distributed liveness proofs while retaining explicit protocol and fairness obligations.",
+      "relation_to_property": [
+        "P007",
+        "P008",
+        "P009",
+        "P029"
+      ],
+      "contrary_evidence_if_any": "Method applicability and user-supplied invariants/rankings remain protocol-dependent.",
+      "access_date": "2026-08-12",
+      "open_access_status": "DOI and artifact located.",
+      "classification": [
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S106",
+      "stable_url_or_locator": "https://doi.org/10.1002/cpe.70484",
+      "doi": "10.1002/cpe.70484",
+      "author_or_organisation": "Roger C. Su and Robert J. Colvin",
+      "exact_title": "Weak Memory Model Formalisms: Introduction and Survey",
+      "date_version_edition": "2026, Concurrency and Computation: Practice and Experience 38(2)",
+      "source_class": "current peer-reviewed weak-memory survey",
+      "exact_section_page_theorem_table_figure_locator": "Sections introducing operational and axiomatic formalisms, hardware/compiler reorderings, verification tools, complexity, and open directions.",
+      "claim_supported": "Concurrent correctness depends on the exact hardware/language memory model; source-order interleavings are inadequate for weak-memory behaviours.",
+      "relation_to_property": [
+        "P003",
+        "P004",
+        "P006",
+        "P009",
+        "P011",
+        "P015",
+        "P029",
+        "P030",
+        "P045"
+      ],
+      "contrary_evidence_if_any": "Survey evidence maps formalisms rather than comparing end-to-end industrial effectiveness.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Self-archived arXiv version and publisher DOI located.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "CURRENT_FRONTIER"
+      ]
+    },
+    {
+      "SOURCE_ID": "S107",
+      "stable_url_or_locator": "https://doi.org/10.48550/arXiv.2503.13762",
+      "doi": "10.48550/arXiv.2503.13762",
+      "author_or_organisation": "Paschal C. Amusuo, Owen Cochell, Taylor Le Lievre, Parth V. Patil, Aravind Machiry, and James C. Davis",
+      "exact_title": "Do Unit Proofs Work? An Empirical Study of Compositional Bounded Model Checking for Memory Safety Verification",
+      "date_version_edition": "2025 preprint",
+      "source_class": "empirical lightweight-verification study",
+      "exact_section_page_theorem_table_figure_locator": "arXiv:2503.13762v1, §§3–7; 73 unit proofs for four embedded operating systems, recreated-defect results, additional defects, development/execution effort, generalisability, and threats to validity.",
+      "claim_supported": "Focused compositional bounded-model-checking obligations found 74% of recreated memory-safety defects at the baseline bounds, a further 9% at increased bounds, and 19 new defects in the studied systems, with reported nontrivial development and execution effort.",
+      "relation_to_property": [
+        "P005",
+        "P036",
+        "P037",
+        "P042"
+      ],
+      "contrary_evidence_if_any": "Preprint, selected systems/defects, and no universal ROI inference.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open arXiv preprint.",
+      "classification": [
+        "EMPIRICAL_OR_DOMAIN_FINDING",
+        "CURRENT_FRONTIER"
+      ]
+    },
+    {
+      "SOURCE_ID": "S108",
+      "stable_url_or_locator": "https://doi.org/10.4230/LIPIcs.ITP.2025.26",
+      "doi": "10.4230/LIPIcs.ITP.2025.26",
+      "author_or_organisation": "Hanna Lachnitt, Mathias Fleury, Haniel Barbosa, Jibiana Jakpor, Bruno Andreotti, Andrew Reynolds, Hans-Jörg Schurr, Clark Barrett, and Cesare Tinelli",
+      "exact_title": "Improving the SMT Proof Reconstruction Pipeline in Isabelle/HOL",
+      "date_version_edition": "2025",
+      "source_class": "proof-certificate reconstruction research",
+      "exact_section_page_theorem_table_figure_locator": "ITP 2025, LIPIcs 352, Article 26, pp. 26:1–26:22; cvc5 Alethe production, Isabelle reconstruction, format defects and fixes, evaluation, and limitations.",
+      "claim_supported": "SMT results can be accompanied by proof artefacts reconstructed in an independent proof assistant, reducing blind solver trust.",
+      "relation_to_property": [
+        "P022",
+        "P024",
+        "P035",
+        "P047"
+      ],
+      "contrary_evidence_if_any": "Coverage of solver rules/preprocessing and reconstruction performance remain evolving.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open-access DROPS article.",
+      "classification": [
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "CURRENT_FRONTIER"
+      ]
+    },
+    {
+      "SOURCE_ID": "S109",
+      "stable_url_or_locator": "https://doi.org/10.1007/978-3-032-32589-1_10",
+      "doi": "10.1007/978-3-032-32589-1_10",
+      "author_or_organisation": "Joseph E. Reeves, Haniel Barbosa, Andrew Reynolds, and Marijn J. H. Heule",
+      "exact_title": "A General Approach for SMT Proof Skeletons",
+      "date_version_edition": "2026",
+      "source_class": "current solver-certificate research",
+      "exact_section_page_theorem_table_figure_locator": "IJCAR 2026, LNCS/LNAI 16688, pp. 156–174; §§1–4 and 7; preprocessing/clausification/theory-lemma skeleton, external SAT reasoning, proof trimming, batched justification, evaluation, and stated theory limits.",
+      "claim_supported": "A useful SMT certificate must justify preprocessing and theory reasoning as well as the final SAT core.",
+      "relation_to_property": [
+        "P022",
+        "P024",
+        "P035"
+      ],
+      "contrary_evidence_if_any": "Current prototypes do not yet cover every solver optimisation or theory combination.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Publisher locator and author material located.",
+      "classification": [
+        "FORMAL_OR_THEORETICAL_RESULT",
+        "CURRENT_FRONTIER"
+      ]
+    },
+    {
+      "SOURCE_ID": "S110",
+      "stable_url_or_locator": "https://compcert.org/man/",
+      "doi": null,
+      "author_or_organisation": "CompCert project",
+      "exact_title": "CompCert C Reference Manual",
+      "date_version_edition": "current manual, accessed 2026-08-12",
+      "source_class": "authoritative tool scope documentation",
+      "exact_section_page_theorem_table_figure_locator": "Chapter 1 and language/target chapters; accepted ISO C subset, extensions/exclusions, supported architectures, compiler options, and semantic guarantees.",
+      "claim_supported": "Current CompCert guarantees apply to specified language subsets, targets, options, and source behaviours, not arbitrary C or arbitrary build chains.",
+      "relation_to_property": [
+        "P002",
+        "P033",
+        "P034",
+        "P050"
+      ],
+      "contrary_evidence_if_any": "Project documentation is authoritative for scope but not independent effectiveness evidence.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open official documentation.",
+      "classification": [
+        "SOURCE_ESTABLISHED",
+        "IMPLEMENTATION_OR_CASE_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S111",
+      "stable_url_or_locator": "https://doi.org/10.48550/arXiv.2602.18307",
+      "doi": "10.48550/arXiv.2602.18307",
+      "author_or_organisation": "Yutong Xin, Qiaochu Chen, Greg Durrett, and Işil Dillig",
+      "exact_title": "VeriSoftBench: Repository-Scale Formal Verification Benchmarks for Lean",
+      "date_version_edition": "2026 preprint",
+      "source_class": "current AI verification benchmark",
+      "exact_section_page_theorem_table_figure_locator": "arXiv:2602.18307v1; 500 obligations from 23 Lean repositories, repository/dependency-preserving benchmark construction, model/prover evaluation, context experiments, and threats to validity.",
+      "claim_supported": "Performance on mathematics-heavy or synthetic Lean benchmarks does not reliably transfer to real software-verification obligations.",
+      "relation_to_property": [
+        "P018",
+        "P039",
+        "P040",
+        "P042"
+      ],
+      "contrary_evidence_if_any": "Preprint benchmark size and repository selection bound generalisation.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open arXiv preprint.",
+      "classification": [
+        "EMPIRICAL_OR_DOMAIN_FINDING",
+        "CURRENT_FRONTIER"
+      ]
+    },
+    {
+      "SOURCE_ID": "S112",
+      "stable_url_or_locator": "https://doi.org/10.1002/smr.70069",
+      "doi": "10.1002/smr.70069",
+      "author_or_organisation": "Michele Chiari, Matteo Camilli, Marcello M. Bersani, Rutger van Beusekom, and Damian A. Tamburri",
+      "exact_title": "Reality Check on Formal Methods in Industry: A Study of Verum Dezyne",
+      "date_version_edition": "2025, Journal of Software: Evolution and Process 37(12)",
+      "source_class": "current empirical/critical industry study",
+      "exact_section_page_theorem_table_figure_locator": "Journal of Software: Evolution and Process 37(12), pp. 1–16; industrial Verum Dezyne case, practitioner survey/comparison, adoption and integration evidence, benefits, barriers, and validity limits.",
+      "claim_supported": "A detailed industrial case shows substantial but localised formal-method use whose value, scale and integration depend on organisational and domain conditions; it does not establish universal adoption or payoff.",
+      "relation_to_property": [
+        "P037",
+        "P038",
+        "P041",
+        "P042",
+        "P043"
+      ],
+      "contrary_evidence_if_any": "The study is centred on one formal framework and a bounded industrial population, so prevalence and causal effectiveness do not generalise automatically.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open repository copy and DOI located.",
+      "classification": [
+        "EMPIRICAL_OR_DOMAIN_FINDING",
+        "CONTRARY_EVIDENCE"
+      ]
+    },
+    {
+      "SOURCE_ID": "S113",
+      "stable_url_or_locator": "https://www.faa.gov/documentLibrary/media/Advisory_Circular/AC_20-148.pdf",
+      "doi": null,
+      "author_or_organisation": "Federal Aviation Administration",
+      "exact_title": "AC 20-148: Reusable Software Components",
+      "date_version_edition": "current guidance lineage, accessed 2026-08-12",
+      "source_class": "authoritative certification guidance",
+      "exact_section_page_theorem_table_figure_locator": "Sections on configuration control, usage domain, assumptions, verification credit, change impact, and reusable-component evidence.",
+      "claim_supported": "Reusable assurance evidence remains conditional on declared usage domains, configuration, assumptions, and change control.",
+      "relation_to_property": [
+        "P002",
+        "P003",
+        "P015",
+        "P023",
+        "P041",
+        "P048",
+        "P050"
+      ],
+      "contrary_evidence_if_any": "Certification guidance states obligations; it is not independent evidence that an implementation satisfies them.",
+      "access_date": "2026-08-12",
+      "open_access_status": "Open FAA PDF.",
+      "classification": [
+        "STANDARD_OR_GUIDANCE_REQUIREMENT"
+      ]
+    }
+  ]
+}

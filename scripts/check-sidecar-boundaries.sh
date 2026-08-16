@@ -584,7 +584,7 @@ grep -R "ActiveGraph status" -n skills/implementaudit/templates/THINKING.md skil
 grep -R "sidecars.md" -n skills/implementaudit/SKILL.md skills/implementaudit/templates README.md AGENTS.md >/dev/null ||
   fail "sidecars.md runtime artifact is missing"
 
-# R27 / #101: every narrowed carrier must preserve the same executable and
+# R001B / #101: every narrowed carrier must preserve the same executable and
 # evidence boundary. These exact literals are intentionally mutation-tested.
 require_literal skills/implementaudit/references/sidecars.md "terrain-shaped" "Graphify observable trigger"
 require_literal skills/implementaudit/references/sidecars.md "built_at_commit" "executable freshness contract"
@@ -738,9 +738,9 @@ if grep -R -Ei "canonical proof unless|promotes? .*proof|proof .*unless.*sidecar
   skills/implementaudit/SKILL.md skills/implementaudit/references skills/implementaudit/templates README.md AGENTS.md docs/portal/pages >/dev/null; then
   fail "sidecar proof-promotion wording is present"
 fi
-grep -R "graph.json" -n scripts/build-release-asset.sh tests/release-asset-install.test.sh >/dev/null ||
+grep -R "graph.json" -n scripts/package-contract.py tests/release-asset-install.test.sh >/dev/null ||
   fail "release asset sidecar debris rejection is missing"
-grep -R "quickstart_demo_run.db" -n scripts/build-release-asset.sh tests/release-asset-install.test.sh >/dev/null ||
+grep -R "quickstart_demo_run.db" -n scripts/package-contract.py tests/release-asset.test.sh >/dev/null ||
   fail "ActiveGraph store rejection is missing"
 
 # The boundary (V0270-SIDECAR-OUTPUTS-EXCLUDED) is tracked source and the

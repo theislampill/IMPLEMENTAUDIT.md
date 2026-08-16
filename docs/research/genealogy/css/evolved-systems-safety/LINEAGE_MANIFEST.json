@@ -1,0 +1,86 @@
+{
+  "embedded_manifest": {
+    "bytes": 3064,
+    "declared_digest_fields": [
+      {
+        "field": "PACKAGED_ARTIFACTS[0].sha256",
+        "value": "58f941bcf9e658b8f509d45ee60b4fa93496c461334c80bb29fb83d9f1eb154c"
+      },
+      {
+        "field": "PACKAGED_ARTIFACTS[1].sha256",
+        "value": "39f7209226bee0ebd65dbc028b021824529d9a90aec8013ab9e369ef77146626"
+      },
+      {
+        "field": "PACKAGED_ARTIFACTS[2].sha256",
+        "value": "e6022f29cacd735aa1e1fdd1da6405ad42fcf72808efb9d6184b1e6f306e1d0e"
+      },
+      {
+        "field": "PACKAGED_ARTIFACTS[3].sha256",
+        "value": "d8acc4c4127ffcaf263c72fc2d6a17e8a107d8229f5a1b30c9d58cd1247fee93"
+      },
+      {
+        "field": "PACKAGED_ARTIFACTS[4].sha256",
+        "value": "441a5254a87a2fe30a8fe1212d16588402c8a1a201e42b1618af20daafa3e24b"
+      }
+    ],
+    "identity_note": "Declared packet/content digests retain their source-defined scope and are not treated as the raw delivered ZIP SHA-256 unless the source explicitly says so.",
+    "member": "EVOLVED_SYSTEMS_SAFETY_FROZEN_MANIFEST.json",
+    "sha256": "dc305d8f60ac60a9a3c04970eb2ad537e906df33cce3cd6de58cc01f2a42784d",
+    "status": "PRESENT"
+  },
+  "lineage_id": "EVOLVED_SYSTEMS_SAFETY",
+  "lineage_name": "Evolved Systems Safety",
+  "members": [
+    {
+      "bytes": 1404068,
+      "member": "EVOLVED_SYSTEMS_SAFETY_FROZEN_REPORT.md",
+      "path": "docs/research/genealogy/css/evolved-systems-safety/corpus/EVOLVED_SYSTEMS_SAFETY_FROZEN_REPORT.md",
+      "sha256": "58f941bcf9e658b8f509d45ee60b4fa93496c461334c80bb29fb83d9f1eb154c"
+    },
+    {
+      "bytes": 608184,
+      "member": "EVOLVED_SYSTEMS_SAFETY_PROPERTY_LEDGER.json",
+      "path": "docs/research/genealogy/css/evolved-systems-safety/corpus/EVOLVED_SYSTEMS_SAFETY_PROPERTY_LEDGER.json",
+      "sha256": "39f7209226bee0ebd65dbc028b021824529d9a90aec8013ab9e369ef77146626"
+    },
+    {
+      "bytes": 122212,
+      "member": "EVOLVED_SYSTEMS_SAFETY_SOURCE_TABLE.json",
+      "path": "docs/research/genealogy/css/evolved-systems-safety/corpus/EVOLVED_SYSTEMS_SAFETY_SOURCE_TABLE.json",
+      "sha256": "e6022f29cacd735aa1e1fdd1da6405ad42fcf72808efb9d6184b1e6f306e1d0e"
+    },
+    {
+      "bytes": 428105,
+      "member": "EVOLVED_SYSTEMS_SAFETY_AUDIT_INTAKE.md",
+      "path": "docs/research/genealogy/css/evolved-systems-safety/corpus/EVOLVED_SYSTEMS_SAFETY_AUDIT_INTAKE.md",
+      "sha256": "d8acc4c4127ffcaf263c72fc2d6a17e8a107d8229f5a1b30c9d58cd1247fee93"
+    },
+    {
+      "bytes": 17283,
+      "member": "EVOLVED_SYSTEMS_SAFETY_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "path": "docs/research/genealogy/css/evolved-systems-safety/corpus/EVOLVED_SYSTEMS_SAFETY_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "441a5254a87a2fe30a8fe1212d16588402c8a1a201e42b1618af20daafa3e24b"
+    },
+    {
+      "bytes": 3064,
+      "member": "EVOLVED_SYSTEMS_SAFETY_FROZEN_MANIFEST.json",
+      "path": "docs/research/genealogy/css/evolved-systems-safety/corpus/EVOLVED_SYSTEMS_SAFETY_FROZEN_MANIFEST.json",
+      "sha256": "dc305d8f60ac60a9a3c04970eb2ad537e906df33cce3cd6de58cc01f2a42784d"
+    }
+  ],
+  "packet": {
+    "bytes": 390794,
+    "identity_kind": "RAW_DELIVERED_ZIP_BYTES",
+    "path": "docs/research/genealogy/css/evolved-systems-safety/packet/EVOLVED_SYSTEMS_SAFETY_FROZEN_PACKET.zip",
+    "sha256": "e2d25171f56d20ec2b3f4b190d83b7173ae16834786882d4644a683fd14dbca9"
+  },
+  "property_ledger": {
+    "bytes": 608184,
+    "member": "EVOLVED_SYSTEMS_SAFETY_PROPERTY_LEDGER.json",
+    "properties": 68,
+    "root": "PROPERTIES",
+    "sha256": "39f7209226bee0ebd65dbc028b021824529d9a90aec8013ab9e369ef77146626"
+  },
+  "schema": "implementaudit-engineering-genealogy-lineage-manifest-v1",
+  "trifecta": "css"
+}

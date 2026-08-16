@@ -25,10 +25,12 @@ jobs:
       - name: Validate whitespace
         run: git diff --check HEAD^ HEAD
 
-      - name: Validate plugin JSON
+      - name: Validate package-owner JSON
         run: |
+          python -m json.tool .codex-plugin/plugin.json >/dev/null
           python -m json.tool .claude-plugin/plugin.json >/dev/null
           python -m json.tool .claude-plugin/marketplace.json >/dev/null
+          python -m json.tool package/implementaudit-package.json >/dev/null
 
       - name: Verify package contract
         run: bash scripts/verify-package.sh

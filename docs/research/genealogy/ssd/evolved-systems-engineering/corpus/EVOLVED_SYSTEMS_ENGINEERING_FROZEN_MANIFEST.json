@@ -1,0 +1,72 @@
+{
+  "MANIFEST_ID": "EVOLVED_SYSTEMS_ENGINEERING_FROZEN_MANIFEST",
+  "RESEARCH_STATE": "FROZEN",
+  "RUN_DATE": "2026-08-12",
+  "PROPERTY_POPULATION_TOTAL": 72,
+  "PROPERTY_POPULATION_EXAMINED": 72,
+  "PROPERTY_COVERAGE": "72/72",
+  "HASH_SCHEME": {
+    "payload_files": "SHA-256 over exact UTF-8/file bytes.",
+    "manifest_self": "SHA-256 over the canonical manifest projection containing frozen identity and exact payload entries but excluding the manifest self-entry and archive entry; this avoids impossible self-reference.",
+    "archive": "SHA-256 over a canonical content-set projection containing each payload's exact byte hash and the manifest projection hash; this is archive-container-independent and avoids impossible archive self-reference.",
+    "external_byte_hashes": "Exact byte hashes of the final manifest and ZIP are computed and validated after creation but cannot be embedded in the manifest/ZIP without changing the bytes being hashed."
+  },
+  "FILES": [
+    {
+      "filename": "EVOLVED_SYSTEMS_ENGINEERING_AUDIT_INTAKE.md",
+      "byte_count": 937318,
+      "sha256": "e1005b3f561ee2f3664f7a5595ea6c1ed9e4d53c8788fe838c200a64d2a1e38e",
+      "hash_scope": "exact_file_bytes"
+    },
+    {
+      "filename": "EVOLVED_SYSTEMS_ENGINEERING_FROZEN_MANIFEST.json",
+      "byte_count": 3370,
+      "sha256": "96ae5ab67729c7cec8d8ba08c30f1c344cc6b2b98d682da84dea7f2c7cd6ec42",
+      "hash_scope": "sha256_of_canonical_manifest_projection_excluding_manifest_self_and_archive_entries"
+    },
+    {
+      "filename": "EVOLVED_SYSTEMS_ENGINEERING_FROZEN_PACKET.zip",
+      "byte_count": 453084,
+      "sha256": "02b2f53d419b91e902458875dbf0b96f84fba246d5877503cb1bbc670576a9f5",
+      "hash_scope": "sha256_of_canonical_archive_content_set; not the self-referential ZIP container byte stream"
+    },
+    {
+      "filename": "EVOLVED_SYSTEMS_ENGINEERING_FROZEN_REPORT.md",
+      "byte_count": 2402747,
+      "sha256": "e33bc3de14fad2f2f0cc5e5af487cce5f15d349c85362af1382f570044fcc6a1",
+      "hash_scope": "exact_file_bytes"
+    },
+    {
+      "filename": "EVOLVED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "byte_count": 1297956,
+      "sha256": "831e36b474b22dd3cb2cfbcff4f34bf3a83fc47ac7e342d276800ecc65e4dcd1",
+      "hash_scope": "exact_file_bytes"
+    },
+    {
+      "filename": "EVOLVED_SYSTEMS_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "byte_count": 32090,
+      "sha256": "2e3d133f5c16516514ee5a7c7959f1812b0f011c56da2ff24589a8861c0af2f4",
+      "hash_scope": "exact_file_bytes"
+    },
+    {
+      "filename": "EVOLVED_SYSTEMS_ENGINEERING_SOURCE_TABLE.json",
+      "byte_count": 132329,
+      "sha256": "53ed5fb82639ac369c35a011ca2a3f85b6d74ad609f49fc102745d5c2908483a",
+      "hash_scope": "exact_file_bytes"
+    }
+  ],
+  "PACKET_MEMBERS": [
+    "EVOLVED_SYSTEMS_ENGINEERING_AUDIT_INTAKE.md",
+    "EVOLVED_SYSTEMS_ENGINEERING_FROZEN_MANIFEST.json",
+    "EVOLVED_SYSTEMS_ENGINEERING_FROZEN_REPORT.md",
+    "EVOLVED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+    "EVOLVED_SYSTEMS_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+    "EVOLVED_SYSTEMS_ENGINEERING_SOURCE_TABLE.json"
+  ],
+  "ZIP_CONTAINS_COMPLETE_NON_ARCHIVE_ARTEFACT_SET": true,
+  "SYNTAX_ONLY_NORMALISATION": [
+    "Files use UTF-8 and LF newlines.",
+    "JSON uses two-space indentation.",
+    "ZIP member metadata is deterministic (fixed timestamp and permissions)."
+  ]
+}

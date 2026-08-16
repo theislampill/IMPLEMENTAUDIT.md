@@ -16,6 +16,43 @@ vrr="$repo_root/skills/implementaudit/scripts/validate-run-root.sh"
 
 fail() { printf 'evidence-anchoring: %s\n' "$*" >&2; exit 1; }
 
+# Package-version attribution must survive all generated layouts. The helper
+# resolves generated package identity, not an archive-local host manifest.
+[ "$(bash "$de" --package-version)" = "0.4.0" ] \
+  || fail "source package version did not resolve to 0.4.0"
+
+mkdir -p "$tmp/standalone" "$tmp/plugin/skills/implementaudit" \
+  "$tmp/plugin/package" "$tmp/missing"
+cp "$repo_root/package/implementaudit-package.json" \
+  "$tmp/standalone/IMPLEMENTAUDIT_PACKAGE.json"
+cp "$repo_root/package/implementaudit-package.json" \
+  "$tmp/plugin/IMPLEMENTAUDIT_PACKAGE.json"
+[ "$(bash "$de" --package-version "$tmp/standalone")" = "0.4.0" ] \
+  || fail "standalone package version did not resolve"
+[ "$(bash "$de" --package-version "$tmp/plugin/skills/implementaudit")" = "0.4.0" ] \
+  || fail "canonical plugin package version did not resolve"
+[ "$(bash "$de" --package-version "$tmp/missing")" = "unknown" ] \
+  || fail "missing package identity must resolve to unknown"
+
+cp "$repo_root/package/implementaudit-package.json" \
+  "$tmp/plugin/package/implementaudit-package.json"
+python - "$tmp/plugin/package/implementaudit-package.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+data = json.loads(path.read_text(encoding="utf-8"))
+data["runtime_version"] = "9.9.9"
+path.write_text(json.dumps(data) + "\n", encoding="utf-8")
+PY
+if bash "$de" --package-version "$tmp/plugin/skills/implementaudit" \
+    >"$tmp/package-version-conflict.out" 2>&1; then
+  fail "contradictory package versions unexpectedly resolved"
+fi
+grep -F "package version contradiction" "$tmp/package-version-conflict.out" >/dev/null \
+  || fail "package version contradiction diagnostic is missing"
+
 # --- detect-env fixture pair: WITHOUT upstream ------------------------------
 mkdir "$tmp/no-upstream" && cd "$tmp/no-upstream"
 git init -q . && git -c user.email=t@t -c user.name=t commit -q --allow-empty -m x

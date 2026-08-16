@@ -1,0 +1,86 @@
+{
+  "embedded_manifest": {
+    "bytes": 1140,
+    "declared_digest_fields": [
+      {
+        "field": "files[0].sha256",
+        "value": "f76ff4c710c1328e1ee528bc49f202ff6e0ee39d5fa5166a8f44010c9bfbc3ac"
+      },
+      {
+        "field": "files[1].sha256",
+        "value": "4e3d1cc8b5101b246d15f05b8d434a81b8902fa07a9bf85e873629d8fdf287ea"
+      },
+      {
+        "field": "files[2].sha256",
+        "value": "ef885b8f6f9489aded13f1498056aaa8ae83cdef622ec79ef4202d13566aae81"
+      },
+      {
+        "field": "files[3].sha256",
+        "value": "e569164cb5b987d80b23944b8cf6a8a8e0128903a6071ae8212ed9dad2a4a4b4"
+      },
+      {
+        "field": "files[4].sha256",
+        "value": "e3b97fbe9da9e58cd03f90e1112e2167562c2de1c129ae6f4a3d4650fd117be0"
+      }
+    ],
+    "identity_note": "Declared packet/content digests retain their source-defined scope and are not treated as the raw delivered ZIP SHA-256 unless the source explicitly says so.",
+    "member": "MANIFEST.json",
+    "sha256": "9a7e1994c3ddc6d700fed6aa945f42319298ea832cff8e233d7f05eafb155866",
+    "status": "PRESENT"
+  },
+  "lineage_id": "EVOLVED_WATERFALL",
+  "lineage_name": "Evolved Waterfall",
+  "members": [
+    {
+      "bytes": 309891,
+      "member": "EVOLVED_WATERFALL_FROZEN_REPORT.md",
+      "path": "docs/research/genealogy/law/evolved-waterfall/corpus/EVOLVED_WATERFALL_FROZEN_REPORT.md",
+      "sha256": "f76ff4c710c1328e1ee528bc49f202ff6e0ee39d5fa5166a8f44010c9bfbc3ac"
+    },
+    {
+      "bytes": 130173,
+      "member": "EVOLVED_WATERFALL_PROPERTY_LEDGER.yaml",
+      "path": "docs/research/genealogy/law/evolved-waterfall/corpus/EVOLVED_WATERFALL_PROPERTY_LEDGER.yaml",
+      "sha256": "4e3d1cc8b5101b246d15f05b8d434a81b8902fa07a9bf85e873629d8fdf287ea"
+    },
+    {
+      "bytes": 63348,
+      "member": "EVOLVED_WATERFALL_AUDIT_INTAKE.yaml",
+      "path": "docs/research/genealogy/law/evolved-waterfall/corpus/EVOLVED_WATERFALL_AUDIT_INTAKE.yaml",
+      "sha256": "ef885b8f6f9489aded13f1498056aaa8ae83cdef622ec79ef4202d13566aae81"
+    },
+    {
+      "bytes": 244805,
+      "member": "EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER.yaml",
+      "path": "docs/research/genealogy/law/evolved-waterfall/corpus/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER.yaml",
+      "sha256": "e569164cb5b987d80b23944b8cf6a8a8e0128903a6071ae8212ed9dad2a4a4b4"
+    },
+    {
+      "bytes": 51003,
+      "member": "EVOLVED_WATERFALL_SOURCE_REGISTER.json",
+      "path": "docs/research/genealogy/law/evolved-waterfall/corpus/EVOLVED_WATERFALL_SOURCE_REGISTER.json",
+      "sha256": "e3b97fbe9da9e58cd03f90e1112e2167562c2de1c129ae6f4a3d4650fd117be0"
+    },
+    {
+      "bytes": 1140,
+      "member": "MANIFEST.json",
+      "path": "docs/research/genealogy/law/evolved-waterfall/corpus/MANIFEST.json",
+      "sha256": "9a7e1994c3ddc6d700fed6aa945f42319298ea832cff8e233d7f05eafb155866"
+    }
+  ],
+  "packet": {
+    "bytes": 227035,
+    "identity_kind": "RAW_DELIVERED_ZIP_BYTES",
+    "path": "docs/research/genealogy/law/evolved-waterfall/packet/EVOLVED_WATERFALL_FROZEN_PACKET.zip",
+    "sha256": "2c8165bf872bd42a724069be51b69feb213cce62095acad80461924285dea2a6"
+  },
+  "property_ledger": {
+    "bytes": 130173,
+    "member": "EVOLVED_WATERFALL_PROPERTY_LEDGER.yaml",
+    "properties": 38,
+    "root": "properties",
+    "sha256": "4e3d1cc8b5101b246d15f05b8d434a81b8902fa07a9bf85e873629d8fdf287ea"
+  },
+  "schema": "implementaudit-engineering-genealogy-lineage-manifest-v1",
+  "trifecta": "law"
+}

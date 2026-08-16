@@ -594,6 +594,13 @@ def classify_state_synthesis(case):
             "decision_consumer", "required_function", "current_state",
             "evaluator_fit", "evidence_boundaries", "independent_basis",
             "recovery", "expected"}
+    action_keys = {"automated_action", "false_alarm_cost",
+                   "missed_detection_cost", "detection_latency",
+                   "diagnosis_confidence", "reversibility", "action_authority"}
+    if "automated_action" in case or case.get("id") in {
+            "S3E-W01-automated-action-complete-risk-envelope",
+            "S3E-W01-automated-action-incomplete-risk-envelope"}:
+        keys |= action_keys
     require_exact(case, keys, case.get("id", "state synthesis case"))
     for key in keys - {"id", "expected"}:
         if type(case[key]) is not bool:
@@ -603,7 +610,12 @@ def classify_state_synthesis(case):
     required = ("decision_consumer", "required_function", "current_state",
                 "evaluator_fit", "evidence_boundaries", "independent_basis",
                 "recovery")
-    return "PASS" if all(case[key] for key in required) else "FAIL"
+    if not all(case[key] for key in required):
+        return "FAIL"
+    if case.get("automated_action"):
+        action_required = action_keys - {"automated_action"}
+        return "PASS" if all(case[key] for key in action_required) else "FAIL"
+    return "PASS"
 
 
 path = Path(sys.argv[1])
@@ -872,6 +884,8 @@ for case in state_synthesis_cases:
     if actual != case["expected"]:
         failures.append(f"{case['id']}: expected {case['expected']!r}, got {actual!r}")
 required_state_ids = {
+    "S3E-W01-automated-action-complete-risk-envelope",
+    "S3E-W01-automated-action-incomplete-risk-envelope",
     "S3E-W01-complete-triggered-state",
     "S3E-W01-cheap-authoritative-discriminator",
     "S3E-W01-health-proxy-not-required-function",

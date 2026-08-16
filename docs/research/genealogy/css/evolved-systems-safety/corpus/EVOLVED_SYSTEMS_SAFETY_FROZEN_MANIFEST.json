@@ -1,0 +1,66 @@
+{
+  "ANALYTICAL_LABEL": "EVOLVED_SYSTEMS_SAFETY",
+  "RESEARCH_STATE": "FROZEN",
+  "FREEZE_DATE": "2026-08-11",
+  "MANIFEST_VERSION": "1.0",
+  "PROPERTY_POPULATION_TOTAL": 68,
+  "SOURCE_POPULATION_TOTAL": 116,
+  "HASH_ALGORITHM": "SHA-256",
+  "INTEGRITY_SCOPE": "Immutable frozen research payload files listed in PACKAGED_ARTIFACTS.",
+  "PACKAGED_ARTIFACTS": [
+    {
+      "filename": "EVOLVED_SYSTEMS_SAFETY_FROZEN_REPORT.md",
+      "byte_count": 1404068,
+      "sha256": "58f941bcf9e658b8f509d45ee60b4fa93496c461334c80bb29fb83d9f1eb154c"
+    },
+    {
+      "filename": "EVOLVED_SYSTEMS_SAFETY_PROPERTY_LEDGER.json",
+      "byte_count": 608184,
+      "sha256": "39f7209226bee0ebd65dbc028b021824529d9a90aec8013ab9e369ef77146626"
+    },
+    {
+      "filename": "EVOLVED_SYSTEMS_SAFETY_SOURCE_TABLE.json",
+      "byte_count": 122212,
+      "sha256": "e6022f29cacd735aa1e1fdd1da6405ad42fcf72808efb9d6184b1e6f306e1d0e"
+    },
+    {
+      "filename": "EVOLVED_SYSTEMS_SAFETY_AUDIT_INTAKE.md",
+      "byte_count": 428105,
+      "sha256": "d8acc4c4127ffcaf263c72fc2d6a17e8a107d8229f5a1b30c9d58cd1247fee93"
+    },
+    {
+      "filename": "EVOLVED_SYSTEMS_SAFETY_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "byte_count": 17283,
+      "sha256": "441a5254a87a2fe30a8fe1212d16588402c8a1a201e42b1618af20daafa3e24b"
+    }
+  ],
+  "ARCHIVE_MEMBERS": [
+    "EVOLVED_SYSTEMS_SAFETY_FROZEN_REPORT.md",
+    "EVOLVED_SYSTEMS_SAFETY_PROPERTY_LEDGER.json",
+    "EVOLVED_SYSTEMS_SAFETY_SOURCE_TABLE.json",
+    "EVOLVED_SYSTEMS_SAFETY_AUDIT_INTAKE.md",
+    "EVOLVED_SYSTEMS_SAFETY_PUBLIC_DOCUMENTATION_INTAKE.md",
+    "EVOLVED_SYSTEMS_SAFETY_FROZEN_MANIFEST.json"
+  ],
+  "SELF_REFERENCE_BOUNDARY": {
+    "MANIFEST": "An ordinary file cannot contain the SHA-256 of its own final bytes. Its final byte count and SHA-256 are supplied as an outer attestation in the user-facing receipt.",
+    "ZIP": "The ZIP contains this manifest, so embedding the final ZIP SHA-256 inside the contained manifest would be recursively self-referential. Its final byte count and SHA-256 are supplied as an outer attestation in the user-facing receipt.",
+    "COMPLETENESS": "All immutable research payload artefacts have byte counts and SHA-256 hashes in this manifest; the two packaging objects are externally attested after finalisation."
+  },
+  "SYNTAX_ONLY_NORMALISATION": [
+    "JSON key casing was normalised to the published machine schema.",
+    "The internal build-only _CATEGORY key was omitted from the property ledger.",
+    "UTF-8 encoding, LF newlines and deterministic ZIP metadata were used.",
+    "No source, property judgement, denominator, criticism or synthesis was reopened during packaging."
+  ],
+  "TERMINAL_RECEIPT": {
+    "EVOLVED_SYSTEMS_SAFETY_RESEARCH_STATE": "FROZEN",
+    "PROPERTY_POPULATION_TOTAL": 68,
+    "PROPERTY_POPULATION_EXAMINED": 68,
+    "PROPERTY_COVERAGE": "68/68",
+    "EVOLVED_SYSTEMS_SAFETY_AUDIT_INTAKE": "COMPLETE",
+    "PUBLIC_DOCUMENTATION_INTAKE": "COMPLETE",
+    "FROZEN_PACKET_PACKAGED": "YES",
+    "EXTERNAL_RESEARCH_READY_FOR_REPOSITORY_CROSSWALK": "YES"
+  }
+}

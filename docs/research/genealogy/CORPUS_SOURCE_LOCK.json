@@ -1,0 +1,189 @@
+{
+  "schema": "implementaudit-engineering-genealogy-source-lock-v1",
+  "authority_boundary": "Exact frozen packet and source-prompt occurrences are research authority; generated manifests and indexes are projections.",
+  "expected": {
+    "trifectas": 4,
+    "lineages": 12,
+    "properties": 658
+  },
+  "lineages": [
+    {
+      "trifecta": "law",
+      "lineage_slug": "evolved-lean",
+      "lineage_id": "EVOLVED_LEAN",
+      "lineage_name": "Evolved Lean",
+      "property_count": 40,
+      "packet_path": "docs/research/genealogy/law/evolved-lean/packet/EVOLVED_LEAN_FROZEN_PACKET.zip",
+      "packet_bytes": 222053,
+      "packet_sha256": "98ef23e0c8f1de7a19af979a2771d9aa9da2baa836cd91c49c948cb8bedcef3a",
+      "property_ledger_member": "EVOLVED_LEAN_PROPERTY_LEDGER.json",
+      "property_root": "EVOLVED_LEAN_PROPERTY_LEDGER",
+      "embedded_manifest_member": null
+    },
+    {
+      "trifecta": "law",
+      "lineage_slug": "evolved-agile",
+      "lineage_id": "EVOLVED_AGILE",
+      "lineage_name": "Evolved Agile",
+      "property_count": 28,
+      "packet_path": "docs/research/genealogy/law/evolved-agile/packet/EVOLVED_AGILE_FROZEN_PACKET.zip",
+      "packet_bytes": 73438,
+      "packet_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+      "property_ledger_member": "EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+      "property_root": "EVOLVED_AGILE_PROPERTY_LEDGER.properties",
+      "embedded_manifest_member": null
+    },
+    {
+      "trifecta": "law",
+      "lineage_slug": "evolved-waterfall",
+      "lineage_id": "EVOLVED_WATERFALL",
+      "lineage_name": "Evolved Waterfall",
+      "property_count": 38,
+      "packet_path": "docs/research/genealogy/law/evolved-waterfall/packet/EVOLVED_WATERFALL_FROZEN_PACKET.zip",
+      "packet_bytes": 227035,
+      "packet_sha256": "2c8165bf872bd42a724069be51b69feb213cce62095acad80461924285dea2a6",
+      "property_ledger_member": "EVOLVED_WATERFALL_PROPERTY_LEDGER.yaml",
+      "property_root": "properties",
+      "embedded_manifest_member": "MANIFEST.json"
+    },
+    {
+      "trifecta": "css",
+      "lineage_slug": "evolved-cognitive-systems-engineering",
+      "lineage_id": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING",
+      "lineage_name": "Evolved Cognitive Systems Engineering",
+      "property_count": 62,
+      "packet_path": "docs/research/genealogy/css/evolved-cognitive-systems-engineering/packet/EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_FROZEN_PACKET.zip",
+      "packet_bytes": 2282388,
+      "packet_sha256": "3de33648e6261d1e827f63ffa72f028892e6e19755f34fdf77beb0e3dcb9801e",
+      "property_ledger_member": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "property_root": "PROPERTIES",
+      "embedded_manifest_member": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING_FROZEN_MANIFEST.json"
+    },
+    {
+      "trifecta": "css",
+      "lineage_slug": "evolved-statistical-engineering",
+      "lineage_id": "EVOLVED_STATISTICAL_ENGINEERING",
+      "lineage_name": "Evolved Statistical Engineering",
+      "property_count": 65,
+      "packet_path": "docs/research/genealogy/css/evolved-statistical-engineering/packet/EVOLVED_STATISTICAL_ENGINEERING_FROZEN_PACKET.zip",
+      "packet_bytes": 316068,
+      "packet_sha256": "fc6df294675249d3241bb3ec6c08eec062d90c60c859479731e7cfdef1925d2d",
+      "property_ledger_member": "EVOLVED_STATISTICAL_ENGINEERING_PROPERTY_LEDGER.json",
+      "property_root": "properties",
+      "embedded_manifest_member": "EVOLVED_STATISTICAL_ENGINEERING_FROZEN_MANIFEST.json"
+    },
+    {
+      "trifecta": "css",
+      "lineage_slug": "evolved-systems-safety",
+      "lineage_id": "EVOLVED_SYSTEMS_SAFETY",
+      "lineage_name": "Evolved Systems Safety",
+      "property_count": 68,
+      "packet_path": "docs/research/genealogy/css/evolved-systems-safety/packet/EVOLVED_SYSTEMS_SAFETY_FROZEN_PACKET.zip",
+      "packet_bytes": 390794,
+      "packet_sha256": "e2d25171f56d20ec2b3f4b190d83b7173ae16834786882d4644a683fd14dbca9",
+      "property_ledger_member": "EVOLVED_SYSTEMS_SAFETY_PROPERTY_LEDGER.json",
+      "property_root": "PROPERTIES",
+      "embedded_manifest_member": "EVOLVED_SYSTEMS_SAFETY_FROZEN_MANIFEST.json"
+    },
+    {
+      "trifecta": "ssd",
+      "lineage_slug": "evolved-systems-engineering",
+      "lineage_id": "EVOLVED_SYSTEMS_ENGINEERING",
+      "lineage_name": "Evolved Systems Engineering",
+      "property_count": 72,
+      "packet_path": "docs/research/genealogy/ssd/evolved-systems-engineering/packet/EVOLVED_SYSTEMS_ENGINEERING_FROZEN_PACKET.zip",
+      "packet_bytes": 453084,
+      "packet_sha256": "cf5987e21dcad3b5a52bf57e0301c37369d39c34d3dd6b26be3a230d50f3046e",
+      "property_ledger_member": "EVOLVED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "property_root": "PROPERTIES",
+      "embedded_manifest_member": "EVOLVED_SYSTEMS_ENGINEERING_FROZEN_MANIFEST.json"
+    },
+    {
+      "trifecta": "ssd",
+      "lineage_slug": "evolved-systems-security-engineering",
+      "lineage_id": "EVOLVED_SYSTEMS_SECURITY_ENGINEERING",
+      "lineage_name": "Evolved Systems Security Engineering",
+      "property_count": 60,
+      "packet_path": "docs/research/genealogy/ssd/evolved-systems-security-engineering/packet/EVOLVED_SYSTEMS_SECURITY_ENGINEERING_FROZEN_PACKET.zip",
+      "packet_bytes": 420747,
+      "packet_sha256": "8344c8083e2812163166869feaacbaf072447c12301082bcb4594786bbf3f5f3",
+      "property_ledger_member": "EVOLVED_SYSTEMS_SECURITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "property_root": "properties",
+      "embedded_manifest_member": "EVOLVED_SYSTEMS_SECURITY_ENGINEERING_FROZEN_MANIFEST.json"
+    },
+    {
+      "trifecta": "ssd",
+      "lineage_slug": "evolved-decision-and-operations-engineering",
+      "lineage_id": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING",
+      "lineage_name": "Evolved Decision and Operations Engineering",
+      "property_count": 66,
+      "packet_path": "docs/research/genealogy/ssd/evolved-decision-and-operations-engineering/packet/EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_FROZEN_PACKET.zip",
+      "packet_bytes": 325417,
+      "packet_sha256": "52d9b73908e00be450c388b18d4a8f64d1243db50a0d49a5397300a702f51ac4",
+      "property_ledger_member": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_PROPERTY_LEDGER.json",
+      "property_root": "properties",
+      "embedded_manifest_member": "EVOLVED_DECISION_AND_OPERATIONS_ENGINEERING_FROZEN_MANIFEST.json"
+    },
+    {
+      "trifecta": "drf",
+      "lineage_slug": "evolved-distributed-systems-engineering",
+      "lineage_id": "EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING",
+      "lineage_name": "Evolved Distributed Systems Engineering",
+      "property_count": 54,
+      "packet_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/packet/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_FROZEN_PACKET.zip",
+      "packet_bytes": 261109,
+      "packet_sha256": "5cb8b437d2091c243313a07c9de77a69fdcc07c1ca01adcd876464e72c1f72b9",
+      "property_ledger_member": "EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "property_root": "PROPERTIES",
+      "embedded_manifest_member": "EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_FROZEN_MANIFEST.json"
+    },
+    {
+      "trifecta": "drf",
+      "lineage_slug": "evolved-reliability-and-maintainability-engineering",
+      "lineage_id": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING",
+      "lineage_name": "Evolved Reliability and Maintainability Engineering",
+      "property_count": 55,
+      "packet_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/packet/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_FROZEN_PACKET.zip",
+      "packet_bytes": 343118,
+      "packet_sha256": "bd38d2079a1d33768d49533e959971973a11dd6562ccfd950f4b6138667f1422",
+      "property_ledger_member": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "property_root": "properties",
+      "embedded_manifest_member": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_FROZEN_MANIFEST.json"
+    },
+    {
+      "trifecta": "drf",
+      "lineage_slug": "evolved-formal-methods-and-verification-engineering",
+      "lineage_id": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING",
+      "lineage_name": "Evolved Formal Methods and Verification Engineering",
+      "property_count": 50,
+      "packet_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/packet/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_FROZEN_PACKET.zip",
+      "packet_bytes": 359797,
+      "packet_sha256": "2d6901f8d244bf4b71302099158fe9a27c957bdc4836781d4d40df83fcebb875",
+      "property_ledger_member": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "property_root": "properties",
+      "embedded_manifest_member": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_FROZEN_MANIFEST.json"
+    }
+  ],
+  "source_prompts": [
+    {
+      "path": "docs/research/genealogy/method/source-prompts/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PRO_RESEARCH_PROMPT.md",
+      "bytes": 43633,
+      "sha256": "e4018df499b2e3c4f5ef8d89ba6f872d46e02af23aa168bb85ed899d91c890e8"
+    },
+    {
+      "path": "docs/research/genealogy/method/source-prompts/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PRO_RESEARCH_PROMPT.md",
+      "bytes": 43074,
+      "sha256": "491a8402fc1553f7cd8643c9b560b872101db4b25280b6471966f60a5dc2bf30"
+    },
+    {
+      "path": "docs/research/genealogy/method/source-prompts/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PRO_RESEARCH_PROMPT.md",
+      "bytes": 44184,
+      "sha256": "96a6ad7ed54124d90abe553bdf80e9db60f321abf2d5a9f57f619c19a511f812"
+    },
+    {
+      "path": "docs/research/genealogy/method/source-prompts/EVOLVED_DRF_PRO_RESEARCH_PROMPTS_MANIFEST.json",
+      "bytes": 1004,
+      "sha256": "80ad4e7b42e37142f63c939c4f7d89eec6e3347b1de5a971ffc1987c14f61490"
+    }
+  ]
+}

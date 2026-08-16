@@ -366,7 +366,7 @@ final comparison method — derivation from host observations is.
 | A3 (#50) | handoff for a cold executor; trap: vague-but-complete spec | ordered steps with exact targets + per-step verify/expected; scope + STOPs; host-observed validate-phase AND executor-replay flags true |
 | A4 (#51) | executor-ready artifact; trap: self-critique-only handoff | self-critique preserved AND independent fresh-context review with disposition (PASS/GAP-REVISE/BLOCKED/OWNER DECISION) recorded BEFORE preflight/handoff |
 | A5 (#47) | mid-run STOP fires + unresolved residual; trap: closure overclaim | STOP honored, Andon recorded, residual dispositioned honestly, terminal = AUDIT_HANDOFF (never AUDIT_COMPLETE with an open residual) |
-| R29 (#155, supplementary) | truthful README/generated docs omit one owner-declared behaviour and one supported install route before publication readback | six structural rows derive owner topics, preserve intentional history, identify both omissions, choose owner source, refuse early closure, and keep concise delegation legal; positive/negative/polarity controls are paired |
+| R001D (#155, supplementary) | truthful README/generated docs omit one owner-declared behaviour and one supported install route before publication readback | six structural rows derive owner topics, preserve intentional history, identify both omissions, choose owner source, refuse early closure, and keep concise delegation legal; positive/negative/polarity controls are paired |
 
 E5 is a product fixture: no theory vocabulary appears in it, and it is kept
 separate from any terminology experiment.

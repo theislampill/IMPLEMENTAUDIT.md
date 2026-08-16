@@ -407,13 +407,13 @@ PY
 identity_case identity_equal \
   'model-identity: requested_model: fable | actual_model: fable | evidence: self-report | claims: bound' no pass
 identity_case identity_unbound_missing_andon \
-  'model-identity: requested_model: fable | actual_model: opus | evidence: host-event:e1 | claims: IDENTITY_UNBOUND' no fail
+  'model-identity: requested_model: fable | actual_model: opus | evidence: host-event:G0001 | claims: IDENTITY_UNBOUND' no fail
 identity_case identity_unbound \
-  'model-identity: requested_model: fable | actual_model: opus | evidence: host-event:e1 | claims: IDENTITY_UNBOUND' e1 pass
+  'model-identity: requested_model: fable | actual_model: opus | evidence: host-event:G0001 | claims: IDENTITY_UNBOUND' G0001 pass
 identity_case identity_unbound_wrong_event \
-  'model-identity: requested_model: fable | actual_model: opus | evidence: host-event:missing-e1 | claims: IDENTITY_UNBOUND' e1 fail
+  'model-identity: requested_model: fable | actual_model: opus | evidence: host-event:missing-G0001 | claims: IDENTITY_UNBOUND' G0001 fail
 identity_case identity_mismatch_bound \
-  'model-identity: requested_model: fable | actual_model: opus | evidence: host-event:e1 | claims: bound' e1 fail
+  'model-identity: requested_model: fable | actual_model: opus | evidence: host-event:G0001 | claims: bound' G0001 fail
 identity_case identity_malformed \
   'model-identity: requested: fable | actual: fable | evidence: self-report | claims: bound' no fail
 
@@ -872,7 +872,7 @@ expect_cold_review_fail "$review_wrong_head" \
   "wrong attested head"
 
 review_model_substitution="$(review_case review-model-substitution)"
-sed -i 's/model-identity: requested_model: GPT-5 | actual_model: GPT-5 | evidence: self-report | claims: bound/model-identity: requested_model: GPT-5 | actual_model: other-model | evidence: host-event:e1 | claims: IDENTITY_UNBOUND/' \
+sed -i 's/model-identity: requested_model: GPT-5 | actual_model: GPT-5 | evidence: self-report | claims: bound/model-identity: requested_model: GPT-5 | actual_model: other-model | evidence: host-event:G0001 | claims: IDENTITY_UNBOUND/' \
   "$review_model_substitution/STATE.md"
 "${py_cmd[@]}" - "$review_model_substitution/STATE.md" <<'PY'
 import sys
@@ -880,7 +880,7 @@ from pathlib import Path
 path = Path(sys.argv[1])
 text = path.read_text(encoding="utf-8")
 marker = "|---|---|---|---|---|---|---|---|"
-row = "| 1 | o1 | 6 | transport-infrastructure | model substitution | preserve unbound claims | host-event:e1 | resolved |"
+row = "| 1 | o1 | 6 | transport-infrastructure | model substitution | preserve unbound claims | host-event:G0001 | resolved |"
 path.write_text(text.replace(marker, marker + "\n" + row, 1), encoding="utf-8")
 PY
 sed -i 's/- actual_model: GPT-5/- actual_model: other-model/' \
@@ -966,7 +966,30 @@ expect_cold_review_fail "$live_dropped_findings" \
   "live successor/non-verdict contract failed" \
   "live dropped provisional findings"
 
-# R36 strict claim-only custody: ordinary legacy run-root validation remains
+# Retained installed payloads and frozen repository fixtures are independent
+# custody planes, not additional live rows in the current record root. A
+# recursive scan would merge their intentionally positive and negative review
+# fixtures into one synthetic record and false-red an otherwise valid root.
+retained_review_fixtures="$(review_case retained-review-fixtures)"
+mkdir -p "$retained_review_fixtures/archive/banquet/repository/fixtures/cold-review"
+cp fixtures/cold-review/*.md \
+  "$retained_review_fixtures/archive/banquet/repository/fixtures/cold-review/"
+bash "$helper" "$retained_review_fixtures" >/dev/null || {
+  printf 'run-root-validation.test: retained nested review fixtures must not be merged into the live record root\n' >&2
+  exit 1
+}
+installed_validator_dir="$tmp/installed-validator/skills/implementaudit/scripts"
+installed_template_dir="$tmp/installed-validator/skills/implementaudit/templates"
+mkdir -p "$installed_validator_dir" "$installed_template_dir"
+cp "$helper" "$installed_validator_dir/validate-run-root.sh"
+cp skills/implementaudit/templates/* "$installed_template_dir/"
+bash "$installed_validator_dir/validate-run-root.sh" \
+  "$retained_review_fixtures" >/dev/null || {
+  printf 'run-root-validation.test: installed validator must not require the source checker for retained nested review fixtures\n' >&2
+  exit 1
+}
+
+# R0024 strict claim-only custody: ordinary legacy run-root validation remains
 # compatible, while destructive callers require an exact v2 Git-bound claim.
 claim_repo="$tmp/claim-only-repo"
 mkdir -p "$claim_repo"

@@ -1,4 +1,9 @@
 {
+  "name": "implementaudit",
+  "owner": {
+    "name": "theislampill"
+  },
+  "description": "Audit-closure governance skill for bounded, verified repository changes.",
   "plugins": [
     {
       "name": "implementaudit",

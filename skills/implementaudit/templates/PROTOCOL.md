@@ -367,28 +367,48 @@ one of `host-reported-compaction` / `new-session` / `handoff-resume` /
 `manual-resume` / `inferred-context-gap`; never a fabricated compaction —
 no repository mutation happens until reconciliation runs:
 
-1. establish the unique active run root and current repository identity
+```text
+POST_BOUNDARY_FIRST_SUBSTANTIVE_MESSAGE=VERIFIED_CONTINUITY_RECEIPT
+POST_BOUNDARY_NEW_EXECUTION=REFUSE_UNTIL_CURRENT
+PREBOUNDARY_PROCESS=WAIT_OR_TERMINATE_ONLY
+STANDING_CONSTRAINT_ROLE=DO_NOT_PROMOTE_WITHOUT_LIVE_STATE
+```
+
+1. establish the unique active run root and current repository identity with
+   `claim-run.sh --current-controller`
    (ambiguous/multiple roots => audited handoff; no root => truthful
    intake, no fabricated recovery);
-2. reread current ROADMAP.md, STATE.md, process/command state, and the
+2. immediately call `claim-run.sh --invalidate-continuity` with the real
+   boundary and event so every older receipt is stale before routing work;
+3. contain an already-running pre-boundary process by waiting or terminating
+   only. Do not start replacement work or promote its output before live-state
+   reconciliation;
+4. reread current STATE.md, ROADMAP.md, process/command state, and the
    relevant terminal evidence from disk. Each bound live durable-state file
    must be read in its own completed host action before the first mutation.
    Evidence-bearing read actions must not use ';', '&&', pipelines,
    multi-stage shell composition, or batching;
-3. classify continuity-critical instructions by lifecycle kind
+5. classify continuity-critical instructions by lifecycle kind
    (`one-shot-action` / `standing-constraint` / `standing-authorization` /
    `persistent-objective` / `query-or-information-request`) and status
    (`active` / `satisfied` / `superseded` / `revoked` / `expired` /
    `ambiguous`);
-4. compare reconstructed context with durable live state — live state
-   wins; a summary never reopens terminal evidence;
-5. REFUSE replay of a satisfied/superseded one-shot instruction, citing
+6. compare reconstructed context with durable live state — live state
+   wins; a summary never reopens terminal evidence or promotes a standing
+   constraint into ACTIVE work without independent live-state support;
+7. REFUSE replay of a satisfied/superseded one-shot instruction, citing
    its terminal evidence; standing constraints and authorizations are NOT
    consumed by boundaries — they bind until revoked/superseded/expired or
    their declared scope ends;
-6. restore the current next authorized action from STATE.md and continue
+8. restore the current next authorized action from STATE.md and continue
    from it — never restart the run because context was reconstructed;
-7. when continuity cannot be established, hand off rather than speculate.
+9. record the new epoch and Next action, mint with
+   `claim-run.sh --resume-controller`, independently run
+   `--verify-resume-receipt`, then run `--require-current-continuity`;
+10. make the verified continuity receipt, controller/epoch, exact frontier and
+    discrepancies the first substantive post-boundary message. Only then may
+    ordinary narration, new execution or effects resume. When continuity cannot
+    be established, hand off rather than speculate.
 
 At phase start and after each continuity boundary, record one canonical
 execution-identity row in STATE.md:
@@ -918,11 +938,14 @@ round cap. Each round prints one of: `AUDIT_COMPLETE` (success) or
 ### AUDIT_START
 
 Print `AUDIT_START` with:
-- Skill version: read from
-  `"${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit}"/.claude-plugin/plugin.json` when
-  present (installed payload), else the source repo's
-  `.claude-plugin/plugin.json`, else `unknown` — never guess. This makes every
-  transcript attributable to the payload version that produced it
+- Skill version: run
+  `bash "${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit}/scripts/detect-env.sh" --package-version "${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit}"`.
+  The deterministic helper resolves `IMPLEMENTAUDIT_PACKAGE.json` in the
+  standalone projection, the canonical plugin root, or
+  `package/implementaudit-package.json` in a source checkout. Contradictory or
+  malformed identities stop the gate; an unavailable identity or JSON-capable
+  interpreter yields `unknown` — never guess. This makes every transcript
+  attributable to the package payload that produced it
 - Round number (1-based)
 - Criteria count: total acceptance criteria being re-verified across all phases
 - Command list: deduplicated mandatory commands to re-run

@@ -147,7 +147,7 @@ for mutation in population absent-surface replay-count citation truncated-read c
     replay-count) sed -i 's/"recurring_shape_count": 3/"recurring_shape_count": 5/' "$copy/result.json" ;;
     citation) sed -i 's/"text": "SYNTHETIC_FAILURE"/"text": "MISSING_WITNESS"/' "$copy/result.json" ;;
     truncated-read) sed -i '0,/"start": 1/s//"start": 2/' "$copy/result.json" ;;
-    carrier-drift) sed -i 's/"draft": "R20"/"draft": "R21"/' "$copy/result.json" ;;
+    carrier-drift) sed -i 's/"draft": "R0014"/"draft": "R0015"/' "$copy/result.json" ;;
     single-session) sed -i 's/"fan_out": false/"fan_out": true/' "$copy/result.json" ;;
     compendium-order) sed -i 's/"compendium_complete_at": "2026-08-02T01:00:00Z"/"compendium_complete_at": "2026-08-02T03:00:00Z"/' "$copy/result.json" ;;
   esac

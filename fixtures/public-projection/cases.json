@@ -814,6 +814,49 @@
       "source_backed_correction_evidence": null,
       "cheap_path_reason": null,
       "expected": "FAIL"
+    },
+    {
+      "id": "S3E-W04-F1",
+      "kind": "language-owner-boundary",
+      "public_copy": "S³E — State Synthesis Substrate Engineering: Evolved-SSDDRFCSS preserves authorised behaviour.",
+      "public_copy_locale": "en-GB",
+      "generator_output_preserved": true,
+      "canonical_literals_preserved": true,
+      "expected": "PASS"
+    },
+    {
+      "id": "S3E-W04-F2",
+      "kind": "factual-parity",
+      "readme_wording": "One native state-synthesis substrate; the lineage families are not selectable modes.",
+      "docs_wording": "The four lineage families project into one native state-synthesis substrate, not nine runtimes or methodology modes.",
+      "readme_facts": ["one-substrate", "no-lineage-selector", "no-methodology-mode"],
+      "docs_facts": ["one-substrate", "no-lineage-selector", "no-methodology-mode"],
+      "expected": "PASS"
+    },
+    {
+      "id": "S3E-W04-F3",
+      "kind": "factual-parity",
+      "readme_wording": "658/658 is property-disposition accounting, not 658 source changes.",
+      "docs_wording": "The 658-row denominator records dispositions and must not be read as a source-change count.",
+      "readme_facts": ["658-dispositions", "not-source-change-count"],
+      "docs_facts": ["658-dispositions", "not-source-change-count"],
+      "expected": "PASS"
+    },
+    {
+      "id": "S3E-W04-F4",
+      "kind": "factual-parity",
+      "readme_wording": "The canonical plugin carries dual-host manifests; the standalone compatibility projection omits plugin manifests and projects four internal procedures under the governor.",
+      "docs_wording": "Canonical plugin and standalone compatibility projections have distinct, mechanically checked semantics and are not member-for-member copies.",
+      "readme_facts": ["canonical-plugin-dual-host-manifests", "standalone-no-plugin-manifests", "standalone-four-internal-procedures", "not-member-for-member-parity"],
+      "docs_facts": ["canonical-plugin-dual-host-manifests", "standalone-no-plugin-manifests", "standalone-four-internal-procedures", "not-member-for-member-parity"],
+      "expected": "PASS"
+    },
+    {
+      "id": "S3E-W04-F5",
+      "kind": "publication-transition",
+      "publication_state": "prepublication",
+      "public_wording_state": "prepublication-current",
+      "expected": "PASS"
     }
   ],
   "held_out_mutations": [

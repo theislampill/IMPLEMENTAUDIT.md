@@ -1,0 +1,94 @@
+{
+  "embedded_manifest": {
+    "bytes": 3370,
+    "declared_digest_fields": [
+      {
+        "field": "FILES[0].sha256",
+        "value": "e1005b3f561ee2f3664f7a5595ea6c1ed9e4d53c8788fe838c200a64d2a1e38e"
+      },
+      {
+        "field": "FILES[1].sha256",
+        "value": "96ae5ab67729c7cec8d8ba08c30f1c344cc6b2b98d682da84dea7f2c7cd6ec42"
+      },
+      {
+        "field": "FILES[2].sha256",
+        "value": "02b2f53d419b91e902458875dbf0b96f84fba246d5877503cb1bbc670576a9f5"
+      },
+      {
+        "field": "FILES[3].sha256",
+        "value": "e33bc3de14fad2f2f0cc5e5af487cce5f15d349c85362af1382f570044fcc6a1"
+      },
+      {
+        "field": "FILES[4].sha256",
+        "value": "831e36b474b22dd3cb2cfbcff4f34bf3a83fc47ac7e342d276800ecc65e4dcd1"
+      },
+      {
+        "field": "FILES[5].sha256",
+        "value": "2e3d133f5c16516514ee5a7c7959f1812b0f011c56da2ff24589a8861c0af2f4"
+      },
+      {
+        "field": "FILES[6].sha256",
+        "value": "53ed5fb82639ac369c35a011ca2a3f85b6d74ad609f49fc102745d5c2908483a"
+      }
+    ],
+    "identity_note": "Declared packet/content digests retain their source-defined scope and are not treated as the raw delivered ZIP SHA-256 unless the source explicitly says so.",
+    "member": "EVOLVED_SYSTEMS_ENGINEERING_FROZEN_MANIFEST.json",
+    "sha256": "0be6c2da3fed03ded42ff61fc6d5862d189d50fd86837c57b43ef904af6ba131",
+    "status": "PRESENT"
+  },
+  "lineage_id": "EVOLVED_SYSTEMS_ENGINEERING",
+  "lineage_name": "Evolved Systems Engineering",
+  "members": [
+    {
+      "bytes": 937318,
+      "member": "EVOLVED_SYSTEMS_ENGINEERING_AUDIT_INTAKE.md",
+      "path": "docs/research/genealogy/ssd/evolved-systems-engineering/corpus/EVOLVED_SYSTEMS_ENGINEERING_AUDIT_INTAKE.md",
+      "sha256": "e1005b3f561ee2f3664f7a5595ea6c1ed9e4d53c8788fe838c200a64d2a1e38e"
+    },
+    {
+      "bytes": 3370,
+      "member": "EVOLVED_SYSTEMS_ENGINEERING_FROZEN_MANIFEST.json",
+      "path": "docs/research/genealogy/ssd/evolved-systems-engineering/corpus/EVOLVED_SYSTEMS_ENGINEERING_FROZEN_MANIFEST.json",
+      "sha256": "0be6c2da3fed03ded42ff61fc6d5862d189d50fd86837c57b43ef904af6ba131"
+    },
+    {
+      "bytes": 2402747,
+      "member": "EVOLVED_SYSTEMS_ENGINEERING_FROZEN_REPORT.md",
+      "path": "docs/research/genealogy/ssd/evolved-systems-engineering/corpus/EVOLVED_SYSTEMS_ENGINEERING_FROZEN_REPORT.md",
+      "sha256": "e33bc3de14fad2f2f0cc5e5af487cce5f15d349c85362af1382f570044fcc6a1"
+    },
+    {
+      "bytes": 1297956,
+      "member": "EVOLVED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "path": "docs/research/genealogy/ssd/evolved-systems-engineering/corpus/EVOLVED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "sha256": "831e36b474b22dd3cb2cfbcff4f34bf3a83fc47ac7e342d276800ecc65e4dcd1"
+    },
+    {
+      "bytes": 32090,
+      "member": "EVOLVED_SYSTEMS_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "path": "docs/research/genealogy/ssd/evolved-systems-engineering/corpus/EVOLVED_SYSTEMS_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "sha256": "2e3d133f5c16516514ee5a7c7959f1812b0f011c56da2ff24589a8861c0af2f4"
+    },
+    {
+      "bytes": 132329,
+      "member": "EVOLVED_SYSTEMS_ENGINEERING_SOURCE_TABLE.json",
+      "path": "docs/research/genealogy/ssd/evolved-systems-engineering/corpus/EVOLVED_SYSTEMS_ENGINEERING_SOURCE_TABLE.json",
+      "sha256": "53ed5fb82639ac369c35a011ca2a3f85b6d74ad609f49fc102745d5c2908483a"
+    }
+  ],
+  "packet": {
+    "bytes": 453084,
+    "identity_kind": "RAW_DELIVERED_ZIP_BYTES",
+    "path": "docs/research/genealogy/ssd/evolved-systems-engineering/packet/EVOLVED_SYSTEMS_ENGINEERING_FROZEN_PACKET.zip",
+    "sha256": "cf5987e21dcad3b5a52bf57e0301c37369d39c34d3dd6b26be3a230d50f3046e"
+  },
+  "property_ledger": {
+    "bytes": 1297956,
+    "member": "EVOLVED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+    "properties": 72,
+    "root": "PROPERTIES",
+    "sha256": "831e36b474b22dd3cb2cfbcff4f34bf3a83fc47ac7e342d276800ecc65e4dcd1"
+  },
+  "schema": "implementaudit-engineering-genealogy-lineage-manifest-v1",
+  "trifecta": "ssd"
+}

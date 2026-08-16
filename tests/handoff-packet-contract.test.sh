@@ -158,7 +158,7 @@ exact_handoff_receipt_present: yes
 current_state_ref: git:HEAD
 provenance_ref: packet:preceiver
 pending_effects_disposition: unresolved-listed-above
-authority_capability_ref: owner:R31
+authority_capability_ref: owner:R001F
 discrepancy_state: acceptance-state-incomplete
 receiver_live_verification: command:git-rev-parse-HEAD
 has_state_claims: no
@@ -188,7 +188,7 @@ exact_handoff_receipt_present: yes
 current_state_ref: git:HEAD
 provenance_ref: packet:preceiver-complete
 pending_effects_disposition: none-observed
-authority_capability_ref: owner:R31
+authority_capability_ref: owner:R001F
 discrepancy_state: none-observed
 receiver_live_verification: command:git-rev-parse-HEAD
 has_state_claims: no

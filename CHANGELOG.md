@@ -13,7 +13,54 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ## [Unreleased]
 
-No changes are currently assigned beyond the final `v0.3.3.3` correction.
+No changes are currently assigned beyond the v0.4.0.0 candidate.
+
+## [v0.4.0.0] - 2026-08-13
+
+**State Synthesis Substrate Engineering: Evolved-SSDDRFCSS** (`S³E`) maps the
+four-component public milestone to plugin/runtime version `0.4.0`. This source
+entry is a prepublication candidate; tag, GitHub Release, assets, hosted
+workflows, Pages and fresh public-download installation remain separate gates.
+
+### Changed
+
+- Decision-state synthesis, current-controller custody, consequence-aware
+  action selection, evidence independence, semantic package preservation, and
+  observation/effect boundaries now compose through their landed native owners.
+- The public lineage route integrates Evolved-LAW, Evolved-CSS, Evolved-SSD and
+  Evolved-DRF as property genealogy for one native substrate. It adds no
+  lineage selector, runtime mode, fixed ceremony, or methodology-conformance
+  claim.
+- The 658-row research population is reported as 658/658 disposition
+  accounting, not as 658 source changes. Negative, rejected, unresolved,
+  residual and owner-decision outcomes remain visible.
+- Release identity qualification now has an explicit cross-family path that
+  binds predecessor public `v0.3.3.3`/runtime `0.3.3` to candidate public
+  `v0.4.0.0`/runtime `0.4.0`, the exact changelog/portal ledger and candidate
+  commit tree.
+
+### Package boundary
+
+- The release topology is one atomic dual-host plugin package. Its canonical
+  generated artifact is `IMPLEMENTAUDIT.plugin.zip`, with equal Codex and
+  Claude manifests, one version-coherent `skills/implementaudit/` governor,
+  shared references/templates/scripts, and package/inventory metadata.
+- `/implementaudit` remains the sole stable public/default governor. No child
+  lifecycle is created; v0.4 ships exactly four evidence-selected child skills:
+  `audit-state`, `audit-assess`, maintainer-only `audit-implement`, and
+  dual-entry `audit-andon`. Governed routes return to the governor; an explicit
+  `audit-andon` cord-pull returns to its caller. Neither route grants state,
+  authority, transition, release, closure, or `AUDIT_COMPLETE` ownership.
+  Planning and execution/repair remain progressively loaded references rather
+  than inferred child skills.
+- `IMPLEMENTAUDIT.skill` remains a generated, checksummed flattened standalone
+  compatibility artifact. It is not the canonical package topology and does
+  not create a second independently versioned package.
+- Generic use keeps ActiveGraph optional and non-authoritative. The final
+  repository self-dogfood gate separately requires an isolated, exact-state-
+  bound ActiveGraph sidecar on the latest independently verified published
+  release. Final artifact bytes, SHA-256 values, native-host results, hosted
+  checks, and public readbacks remain pending their exact gates.
 
 ## [v0.3.3.3 final correction candidate] - 2026-08-12
 
@@ -38,9 +85,9 @@ until the candidate is merged to authoritative `main` and the existing
   Trivial work remains serial and same-root; no fixed modes, fanout quotas, model
   hierarchy, or second lifecycle is introduced.
 - R33 package builds use pinned, deterministic Zopfli method-8 DEFLATE. The
-  exact 257,998-byte composed candidate is calibrated to the smallest
+  exact 257,985-byte composed candidate is calibrated to the smallest
   whole-1,000-byte ceiling retaining at least 2,000 bytes of headroom:
-  260,000 bytes, leaving 2,002 bytes. The 260,000-byte owner outer bound is a
+  260,000 bytes, leaving 2,015 bytes. The 260,000-byte owner outer bound is a
   guard, not a spending target; required governed runtime semantics were not
   deleted or weakened to recover bytes.
 - #101 narrowly adopts TokenSave as optional derived code navigation for
@@ -51,10 +98,10 @@ until the candidate is merged to authoritative `main` and the existing
 
 ### Package boundary
 
-- The exact qualified candidate is a 257,998-byte, 51-member
+- The exact qualified candidate is a 257,985-byte, 51-member
   `IMPLEMENTAUDIT.skill` with SHA-256
-  `0e10a21600062c6f7cd440a6efb0ff3b795ce1a01067efb4005c7a176db02413`.
-  Its 260,000-byte calibrated ceiling leaves 2,002 bytes of headroom and is
+  `a1bb323a826e015c04bcc4d34005d2e1a48e97f1e6468f06c72f5081841f46f2`.
+  Its 260,000-byte calibrated ceiling leaves 2,015 bytes of headroom and is
   also the owner-approved outer guard.
 - The earlier 227,999-byte public-asset receipt remains historical evidence.
   A fresh API census found that asset absent while the earlier checksum asset

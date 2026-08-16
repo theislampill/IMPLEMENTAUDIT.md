@@ -12,14 +12,26 @@ bash scripts/check-skill-layout-contract.sh
 make_minimal_repo() {
   local dir="$1"
   mkdir -p \
+    "$dir/skills/audit-state" \
+    "$dir/skills/audit-assess" \
+    "$dir/skills/audit-implement" \
+    "$dir/skills/audit-andon" \
     "$dir/skills/implementaudit/references" \
     "$dir/skills/implementaudit/scripts" \
     "$dir/skills/implementaudit/templates" \
+    "$dir/.codex-plugin" \
     "$dir/.claude-plugin" \
     "$dir/scripts" \
     "$dir/docs/audits"
 
   cat >"$dir/skills/implementaudit/SKILL.md" <<'EOF'
+---
+name: implementaudit
+description: Fixture governor.
+metadata:
+  version: "0.4.0"
+---
+
 # /implementaudit
 
 Source checkout layout is conventional and name-matched:
@@ -27,27 +39,58 @@ Source checkout layout is conventional and name-matched:
 Runtime paths use `references/routing.md`,
 `scripts/claim-run.sh`, and `templates/PROTOCOL.md`.
 EOF
-  cat >"$dir/.claude-plugin/plugin.json" <<'EOF'
-{"name":"implementaudit","version":"0.3.2","skills":"./skills/"}
+  cat >"$dir/skills/audit-state/SKILL.md" <<'EOF'
+---
+name: audit-state
+description: Internal bounded state-recovery cognition routed by /implementaudit.
+metadata:
+  version: "0.4.0"
+---
 EOF
+  cat >"$dir/skills/audit-assess/SKILL.md" <<'EOF'
+---
+name: audit-assess
+description: Internal bounded independent assessment routed by /implementaudit.
+metadata:
+  version: "0.4.0"
+---
+EOF
+  cat >"$dir/skills/audit-implement/SKILL.md" <<'EOF'
+---
+name: audit-implement
+description: Internal maintainer qualification cognition routed by /implementaudit.
+metadata:
+  version: "0.4.0"
+---
+EOF
+  cat >"$dir/skills/audit-andon/SKILL.md" <<'EOF'
+---
+name: audit-andon
+description: Bounded Andon-response cognition.
+metadata:
+  version: "0.4.0"
+---
+EOF
+  cat >"$dir/.claude-plugin/plugin.json" <<'EOF'
+{"name":"implementaudit","version":"0.3.2","skills":"./skills/","author":{"name":"theislampill"}}
+EOF
+  cp "$dir/.claude-plugin/plugin.json" "$dir/.codex-plugin/plugin.json"
   cat >"$dir/.claude-plugin/marketplace.json" <<'EOF'
-{"plugins":[{"name":"implementaudit","source":"./"}]}
+{"name":"implementaudit","owner":{"name":"theislampill"},"description":"Audit package.","plugins":[{"name":"implementaudit","source":"./"}]}
 EOF
   cat >"$dir/scripts/build-release-asset.sh" <<'EOF'
-source_skill_dir = repo / "skills" / "implementaudit"
-archive_plugin["skills"] = "./"
-plugin["path"] = ".."
-if "skills/implementaudit/SKILL.md" in names:
+scripts/package-contract.py --build "$out_dir"
 EOF
   cat >"$dir/README.md" <<'EOF'
 # README
 
-Source layout vs release archive layout: source is
-`skills/implementaudit/SKILL.md`; the release archive keeps SKILL.md at archive root.
+Source layout vs release package projections: source is
+`skills/implementaudit/SKILL.md`; `IMPLEMENTAUDIT.plugin.zip` preserves the
+source tree and `IMPLEMENTAUDIT.skill` flattens it to archive-root `SKILL.md`.
 EOF
   cat >"$dir/AGENTS.md" <<'EOF'
-Use `skills/implementaudit/SKILL.md`. The release archive keeps SKILL.md at
-archive root.
+Use `skills/implementaudit/SKILL.md`. `IMPLEMENTAUDIT.plugin.zip` preserves the
+source tree; `IMPLEMENTAUDIT.skill` flattens it to archive root as `SKILL.md`.
 EOF
   cat >"$dir/CONTRIBUTING.md" <<'EOF'
 No stale flat layout references.
@@ -57,6 +100,35 @@ EOF
 positive="$tmp/positive"
 make_minimal_repo "$positive"
 bash scripts/check-skill-layout-contract.sh --repo-root "$positive"
+
+missing_child="$tmp/missing-child"
+make_minimal_repo "$missing_child"
+rm "$missing_child/skills/audit-andon/SKILL.md"
+if bash scripts/check-skill-layout-contract.sh --repo-root "$missing_child" \
+    >"$tmp/missing-child.out" 2>&1; then
+  printf 'skill-layout-contract.test: missing child unexpectedly passed\n' >&2
+  exit 1
+fi
+grep -F "expected exact source skill population" "$tmp/missing-child.out" >/dev/null || {
+  printf 'skill-layout-contract.test: expected missing-child population diagnostic\n' >&2
+  cat "$tmp/missing-child.out" >&2
+  exit 1
+}
+
+extra_child="$tmp/extra-child"
+make_minimal_repo "$extra_child"
+mkdir -p "$extra_child/skills/invented-child"
+cp "$extra_child/skills/audit-state/SKILL.md" "$extra_child/skills/invented-child/SKILL.md"
+if bash scripts/check-skill-layout-contract.sh --repo-root "$extra_child" \
+    >"$tmp/extra-child.out" 2>&1; then
+  printf 'skill-layout-contract.test: extra child unexpectedly passed\n' >&2
+  exit 1
+fi
+grep -F "expected exact source skill population" "$tmp/extra-child.out" >/dev/null || {
+  printf 'skill-layout-contract.test: expected extra-child population diagnostic\n' >&2
+  cat "$tmp/extra-child.out" >&2
+  exit 1
+}
 
 flat="$tmp/flat"
 make_minimal_repo "$flat"
@@ -88,6 +160,29 @@ grep -F "must point source plugin discovery at ./skills/" "$tmp/source-manifest.
   exit 1
 }
 
+marketplace_owner="$tmp/marketplace-owner"
+make_minimal_repo "$marketplace_owner"
+python - "$marketplace_owner/.claude-plugin/marketplace.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+data = json.loads(path.read_text(encoding="utf-8"))
+data["owner"] = {"name": "unbound-owner"}
+path.write_text(json.dumps(data) + "\n", encoding="utf-8")
+PY
+if bash scripts/check-skill-layout-contract.sh --repo-root "$marketplace_owner" \
+    >"$tmp/marketplace-owner.out" 2>&1; then
+  printf 'skill-layout-contract.test: unbound marketplace owner unexpectedly passed\n' >&2
+  exit 1
+fi
+grep -F "marketplace owner must be theislampill" "$tmp/marketplace-owner.out" >/dev/null || {
+  printf 'skill-layout-contract.test: expected marketplace-owner diagnostic\n' >&2
+  cat "$tmp/marketplace-owner.out" >&2
+  exit 1
+}
+
 payload="$tmp/payload"
 make_minimal_repo "$payload"
 printf '\\nBad installed path: skills/implementaudit/references/routing.md\\n' >>"$payload/skills/implementaudit/SKILL.md"
@@ -104,8 +199,8 @@ grep -F "must use installed-relative payload paths" "$tmp/payload.out" >/dev/nul
 tree="$tmp/tree"
 make_minimal_repo "$tree"
 cat >"$tree/AGENTS.md" <<'EOF'
-Use `skills/implementaudit/SKILL.md`. The release archive keeps SKILL.md at
-archive root.
+Use `skills/implementaudit/SKILL.md`. `IMPLEMENTAUDIT.plugin.zip` preserves the
+source tree; `IMPLEMENTAUDIT.skill` flattens it to archive root as `SKILL.md`.
 
 ## Repo layout
 

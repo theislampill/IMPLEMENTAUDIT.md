@@ -57,10 +57,11 @@ for path in sorted(skills.rglob("*")):
     except UnicodeDecodeError:
         continue
     for lineno, line in enumerate(lines, 1):
-        if not repo_only_pattern.search(line):
+        normalized_line = line.replace("\\", "/")
+        if not repo_only_pattern.search(normalized_line):
             continue
         lower = line.lower()
-        if "skills/implementaudit/scripts/" in line:
+        if "skills/implementaudit/scripts/" in normalized_line:
             if "source repo" not in lower:
                 violations.append(
                     f"{path.as_posix()}:{lineno}: repo-only path reference "

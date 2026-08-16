@@ -17,6 +17,17 @@ copy="$work/repo"
 mkdir -p "$copy"
 (cd "$repo_root" && git ls-files -z | tar --null -T - -cf - ) | (cd "$copy" && tar -xf -)
 
+# The release builder binds every artifact to an exact Git commit/tree and
+# worktree state. This payload fixture intentionally copies only tracked files,
+# so establish a disposable repository identity instead of weakening that
+# production provenance requirement for a test-only checkout.
+git -C "$copy" init -q
+git -C "$copy" config user.name "IMPLEMENTAUDIT fixture"
+git -C "$copy" config user.email "implementaudit-fixture@example.invalid"
+git -C "$copy" config core.autocrlf false
+git -C "$copy" add --all
+git -C "$copy" commit -q -m "fixture baseline"
+
 bash "$copy/scripts/check-skill-layout-contract.sh" --repo-root "$copy" >/dev/null \
   || fail "clean payload unexpectedly rejected"
 

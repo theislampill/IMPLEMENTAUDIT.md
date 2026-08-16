@@ -139,7 +139,7 @@ action-selection or Muda/Mura/Muri record. No retain, admit, or owner-decision d
 Activate for a proposed permanent gate or artefact; repeated unchanged
 evidence, planning, or reporting; unclear artefact consumption; unexplained
 process-heavy work; avoidable serialisation; live-control retirement; or
-IMPLEMENTAUDIT self-modification. No activation factor means no R34 diagnostic or artefact.
+IMPLEMENTAUDIT self-modification. No activation factor means no R0022 diagnostic or artefact.
 Ordinary bounded work keeps its existing minimum Smoke A/B and
 self-check path without a worksheet, meta-work ratio, or per-command defence.
 
@@ -160,17 +160,17 @@ control depth is warranted by material consequence or hard-to-reverse action,
 not by a methodology label. Reuse the native action-selection record; do not
 add lifecycle ceremonies, mandatory buffers, sprint machinery, traceability
 matrices, or methodology-specific modes. When no proportionality pressure is
-live, create no R34 artefact.
+live, create no R0022 artefact.
 
-For consequential or degraded operation, the same decision accounts for
-coordination/peak-attention burden, remaining information value, downstream and
-recovery capacity, and the intervention chain's current access, competence,
-time, stop, containment, and recovery authority. High consequence requires a
-current target state, feedback, containment, and recovery; nominal override or
-a risk-matrix label is insufficient. Continue degraded only when stopping is
-itself hazardous and the degraded envelope is bounded and observable. Retire
-the control when its consumer or driver ends. Low-consequence reversible action
-with direct authoritative readback remains the serial cheap path.
+Assess consequential/degraded work for coordination/peak-attention burden,
+information/recovery capacity and current intervention capability/authority.
+High consequence needs a current target state, feedback, containment and
+recovery; nominal override or labels are insufficient. Degrade only if stopping
+is hazardous and the degraded envelope is bounded and observable. An
+authorised safe stop and no material trigger make a bounded control `CHEAP_PATH`
+although the material proposal is `BLOCK`; they differ. Retire the control when
+its consumer/driver ends. Reversible low-consequence work with
+direct readback is the serial cheap path.
 
 ## Conditional delegation and work-conserving execution
 

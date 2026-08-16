@@ -1,0 +1,48 @@
+{
+  "schema": "implementaudit.durable-identity-namespaces.v1",
+  "canonical": {
+    "form": "PREFIX_HEX4",
+    "hex_digits": 4,
+    "hex_case": "upper",
+    "ordinal_min": 1,
+    "ordinal_max": 65535
+  },
+  "namespaces": {
+    "R": {
+      "semantic_name": "Rockstar",
+      "meaning": "durable governed-work identity",
+      "allocation_owner": "R0004",
+      "allocated_ordinal_min": 1,
+      "allocated_ordinal_max": 55,
+      "next_unreserved_candidate": "R0038",
+      "legacy": {
+        "prefix": "R",
+        "radix": 10,
+        "digits": 2,
+        "ordinal_min": 1,
+        "ordinal_max": 55
+      }
+    },
+    "G": {
+      "semantic_name": "continuity generation",
+      "meaning": "run-local continuity/currentness generation",
+      "allocation_owner": "controller and run-root state",
+      "allocation_scope": "run-local",
+      "legacy": {
+        "prefix": "e",
+        "radix": 10,
+        "minimum_digits": 1,
+        "ordinal_min": 1,
+        "historical_alias_max_ordinal": 77
+      }
+    }
+  },
+  "non_namespaces": [
+    "counts and measurements",
+    "semantic versions",
+    "external issue and pull-request identities",
+    "content and hash identities",
+    "ephemeral or random run identities",
+    "local fixture and test labels"
+  ]
+}

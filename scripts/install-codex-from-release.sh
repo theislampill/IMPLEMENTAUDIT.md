@@ -9,9 +9,9 @@ fail() {
 usage() {
   cat <<'EOF'
 Usage:
-  scripts/install-codex-from-release.sh --asset PATH [--checksum PATH] [--codex-home PATH] [--version 0.3.3]
-  scripts/install-codex-from-release.sh --url URL [--checksum-url URL] [--codex-home PATH] [--version 0.3.3]
-  scripts/install-codex-from-release.sh --tag vX.Y.Z.W [--repo OWNER/REPO] [--codex-home PATH] [--version 0.3.3]
+  scripts/install-codex-from-release.sh --asset PATH [--checksum PATH] [--codex-home PATH] [--version 0.4.0] [--allow-downgrade]
+  scripts/install-codex-from-release.sh --url URL [--checksum-url URL] [--codex-home PATH] [--version 0.4.0] [--allow-downgrade]
+  scripts/install-codex-from-release.sh --tag vX.Y.Z.W [--repo OWNER/REPO] [--codex-home PATH] [--version 0.4.0] [--allow-downgrade]
 
 Installs IMPLEMENTAUDIT.skill into a Codex-style skill directory:
   $CODEX_HOME/skills/implementaudit
@@ -42,7 +42,8 @@ checksum_url=""
 tag=""
 repo="theislampill/IMPLEMENTAUDIT.md"
 codex_home="${CODEX_HOME:-$HOME/.codex}"
-expected_version="0.3.3"
+expected_version="0.4.0"
+allow_downgrade="0"
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
@@ -86,6 +87,10 @@ while [ "$#" -gt 0 ]; do
       expected_version="$2"
       shift 2
       ;;
+    --allow-downgrade)
+      allow_downgrade="1"
+      shift
+      ;;
     -h|--help)
       usage
       exit 0
@@ -126,20 +131,25 @@ if [ -n "$checksum_url" ]; then
   curl --fail --location --show-error --silent "$checksum_url" --output "$checksum"
 fi
 
-"${py_cmd[@]}" - "$asset" "$checksum" "$codex_home" "$expected_version" <<'PY'
+bash scripts/check-package-contract.sh --verify-artifact \
+  standalone_compatibility "$asset"
+
+"${py_cmd[@]}" - "$asset" "$checksum" "$codex_home" "$expected_version" "$allow_downgrade" <<'PY'
 import hashlib
 import json
 import os
+import re
 import shutil
 import sys
 import tempfile
 import zipfile
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 asset = Path(sys.argv[1]).expanduser()
 checksum = Path(sys.argv[2]).expanduser() if sys.argv[2] else None
 codex_home = Path(sys.argv[3]).expanduser()
 expected_version = sys.argv[4]
+allow_downgrade = sys.argv[5] == "1"
 
 if not asset.is_file():
     raise SystemExit(f"missing asset: {asset}")
@@ -178,6 +188,83 @@ blocked_names = {
 }
 blocked_suffixes = (".log", ".tmp", ".db", ".sqlite", ".sqlite3", ".jsonl")
 
+
+def numeric_version(value):
+    text = str(value)
+    if not re.fullmatch(r"[0-9]+(?:\.[0-9]+)*", text):
+        raise SystemExit(f"runtime version is not numeric dotted form: {text!r}")
+    return tuple(int(part) for part in text.split("."))
+
+
+def read_installed_standalone(root):
+    if root.is_symlink() or not root.is_dir():
+        raise SystemExit("installed standalone target must be a real directory")
+    try:
+        package = json.loads(
+            (root / "IMPLEMENTAUDIT_PACKAGE.json").read_text(encoding="utf-8")
+        )
+        inventory = json.loads(
+            (root / "IMPLEMENTAUDIT_INVENTORY.json").read_text(encoding="utf-8")
+        )
+    except (FileNotFoundError, json.JSONDecodeError) as exc:
+        raise SystemExit(f"installed standalone identity is missing or malformed: {exc}") from exc
+    if inventory.get("schema") != "implementaudit.package-inventory.v1":
+        raise SystemExit("installed standalone inventory schema is invalid")
+    if inventory.get("artifact_role") != "standalone_compatibility":
+        raise SystemExit("installed target is not the standalone compatibility role")
+    if package.get("package_name") != "implementaudit":
+        raise SystemExit("installed standalone package name is invalid")
+    if package.get("public_governor") != "implementaudit":
+        raise SystemExit("installed standalone public governor is invalid")
+    if package.get("required_skills") != expected_required:
+        raise SystemExit("installed standalone required skill population is invalid")
+    if package.get("internal_skills") != expected_internal:
+        raise SystemExit("installed standalone internal skill population is invalid")
+    for field in (
+        "package_name", "runtime_version", "release_family", "public_governor",
+        "required_skills", "internal_skills",
+    ):
+        if inventory.get(field) != package.get(field):
+            raise SystemExit(f"installed standalone package/inventory disagree on {field}")
+    source = inventory.get("source")
+    if not isinstance(source, dict) or set(source) != {"commit", "tree", "worktree_state"}:
+        raise SystemExit("installed standalone source binding is incomplete")
+    if not re.fullmatch(r"[0-9a-f]{40}", str(source["commit"])) or not re.fullmatch(
+        r"[0-9a-f]{40}", str(source["tree"])
+    ):
+        raise SystemExit("installed standalone source identity is malformed")
+    if source["worktree_state"] not in {"clean", "dirty"}:
+        raise SystemExit("installed standalone source state is invalid")
+    members = inventory.get("members")
+    if not isinstance(members, list):
+        raise SystemExit("installed standalone inventory members must be a list")
+    expected_paths = {"IMPLEMENTAUDIT_INVENTORY.json"}
+    for member in members:
+        if not isinstance(member, dict) or set(member) != {"path", "bytes", "sha256"}:
+            raise SystemExit("installed standalone inventory member shape is invalid")
+        relative = PurePosixPath(str(member["path"]))
+        if relative.is_absolute() or ".." in relative.parts or "\\" in str(member["path"]):
+            raise SystemExit(f"unsafe installed standalone inventory path: {relative}")
+        expected_paths.add(relative.as_posix())
+        path = root.joinpath(*relative.parts)
+        if path.is_symlink() or not path.is_file():
+            raise SystemExit(f"installed standalone member missing or non-regular: {relative}")
+        data = path.read_bytes()
+        if len(data) != member["bytes"] or hashlib.sha256(data).hexdigest() != member["sha256"]:
+            raise SystemExit(f"installed standalone member identity mismatch: {relative}")
+    observed_paths = {
+        path.relative_to(root).as_posix()
+        for path in root.rglob("*")
+        if path.is_file() or path.is_symlink()
+    }
+    if observed_paths != expected_paths:
+        extra = sorted(observed_paths - expected_paths)
+        missing = sorted(expected_paths - observed_paths)
+        raise SystemExit(
+            f"installed standalone population mismatch: missing={missing} extra={extra}"
+        )
+    return package, inventory
+
 # Required archive entries — skill content at root (no skills/ prefix).
 required_archive = {
     "SKILL.md",
@@ -198,6 +285,7 @@ required_archive = {
     "scripts/detect-env.sh",
     "scripts/detect-stack.sh",
     "scripts/repo-state.sh",
+    "scripts/resolve-internal-skill.py",
     "scripts/summarize-repo.sh",
     "scripts/validate-audit-spec.sh",
     "scripts/validate-phase.sh",
@@ -215,12 +303,19 @@ required_archive = {
     "templates/sidecars.md",
     "templates/tools.md",
     "templates/context.md",
-    ".claude-plugin/plugin.json",
-    ".claude-plugin/marketplace.json",
+    "IMPLEMENTAUDIT_PACKAGE.json",
+    "IMPLEMENTAUDIT_INVENTORY.json",
+    "internal-procedures/audit-state.md",
+    "internal-procedures/audit-assess.md",
+    "internal-procedures/audit-implement.md",
+    "internal-procedures/audit-andon.md",
 }
 
 with zipfile.ZipFile(asset) as zf:
-    names = set(zf.namelist())
+    name_list = zf.namelist()
+    names = set(name_list)
+    if len(name_list) != len(names):
+        raise SystemExit("archive contains duplicate member paths")
 
     # Regression guard: wrong-shape archive must be rejected.
     if "skills/implementaudit/SKILL.md" in names:
@@ -234,7 +329,10 @@ with zipfile.ZipFile(asset) as zf:
         raise SystemExit("asset missing required entries: " + ", ".join(missing))
 
     # Only allowed top-level entries may appear.
-    allowed_top_level = {"SKILL.md", "references", "scripts", "templates", ".claude-plugin"}
+    allowed_top_level = {
+        "SKILL.md", "references", "scripts", "templates", "internal-procedures",
+        "IMPLEMENTAUDIT_PACKAGE.json", "IMPLEMENTAUDIT_INVENTORY.json",
+    }
     top_level = {Path(name).parts[0] for name in names if Path(name).parts}
     extra_top_level = sorted(top_level - allowed_top_level)
     if extra_top_level:
@@ -256,15 +354,51 @@ with zipfile.ZipFile(asset) as zf:
     with tempfile.TemporaryDirectory() as temp_dir:
         root = Path(temp_dir)
         zf.extractall(root)
-        plugin = json.loads((root / ".claude-plugin/plugin.json").read_text(encoding="utf-8"))
-        if plugin.get("name") != "implementaudit":
-            raise SystemExit("plugin name must be implementaudit")
-        if plugin.get("version") != expected_version:
+        package = json.loads((root / "IMPLEMENTAUDIT_PACKAGE.json").read_text(encoding="utf-8"))
+        inventory = json.loads((root / "IMPLEMENTAUDIT_INVENTORY.json").read_text(encoding="utf-8"))
+        expected_required = ["implementaudit", "audit-state", "audit-assess", "audit-implement", "audit-andon"]
+        expected_internal = [
+            {"name": "audit-state", "maintainer_only": False, "directly_invocable": False},
+            {"name": "audit-assess", "maintainer_only": False, "directly_invocable": False},
+            {"name": "audit-implement", "maintainer_only": True, "directly_invocable": False},
+            {"name": "audit-andon", "maintainer_only": False, "directly_invocable": True},
+        ]
+        if package.get("package_name") != "implementaudit":
+            raise SystemExit("package name must be implementaudit")
+        if package.get("runtime_version") != expected_version:
             raise SystemExit(
-                f"plugin version must be {expected_version}, got {plugin.get('version')}"
+                f"package version must be {expected_version}, got {package.get('runtime_version')}"
             )
-        if plugin.get("skills") != "./":
-            raise SystemExit("plugin skills path must be ./ (SKILL.md at archive root)")
+        if package.get("public_governor") != "implementaudit":
+            raise SystemExit("standalone public governor must be implementaudit")
+        if package.get("required_skills") != expected_required:
+            raise SystemExit("standalone package must bind the exact five-skill population")
+        if package.get("internal_skills") != expected_internal:
+            raise SystemExit("standalone package must bind the exact four-child population")
+        if inventory.get("artifact_role") != "standalone_compatibility":
+            raise SystemExit("standalone inventory role is invalid")
+        for field in (
+            "package_name", "runtime_version", "release_family", "public_governor",
+            "required_skills", "internal_skills",
+        ):
+            if inventory.get(field) != package.get(field):
+                raise SystemExit(f"standalone package/inventory disagree on {field}")
+        members = inventory.get("members")
+        if not isinstance(members, list):
+            raise SystemExit("standalone inventory members must be a list")
+        expected_paths = {"IMPLEMENTAUDIT_INVENTORY.json"}
+        for member in members:
+            if not isinstance(member, dict) or set(member) != {"path", "bytes", "sha256"}:
+                raise SystemExit("standalone inventory member shape is invalid")
+            relative = PurePosixPath(str(member["path"]))
+            if relative.is_absolute() or ".." in relative.parts or "\\" in str(member["path"]):
+                raise SystemExit(f"unsafe standalone inventory path: {relative}")
+            expected_paths.add(relative.as_posix())
+            data = root.joinpath(*relative.parts).read_bytes()
+            if len(data) != member["bytes"] or hashlib.sha256(data).hexdigest() != member["sha256"]:
+                raise SystemExit(f"standalone inventory member identity mismatch: {relative}")
+        if names != expected_paths:
+            raise SystemExit("standalone archive population differs from exact inventory")
         if (root / "IMPLEMENTAUDIT.md").exists():
             raise SystemExit("root IMPLEMENTAUDIT.md must be absent")
         if not (root / "SKILL.md").is_file():
@@ -274,30 +408,76 @@ with zipfile.ZipFile(asset) as zf:
                 "skills/ subdirectory must not exist at archive root; "
                 "skill content must be at archive root"
             )
+        procedure_names = sorted(
+            path.relative_to(root).as_posix()
+            for path in (root / "internal-procedures").glob("*.md")
+            if path.is_file()
+        )
+        expected_procedures = sorted(
+            f"internal-procedures/{name}.md" for name in expected_required[1:]
+        )
+        if procedure_names != expected_procedures:
+            raise SystemExit("standalone internal procedure population is not exact")
+        for procedure in procedure_names:
+            if (root / procedure).read_bytes().startswith(b"---\n"):
+                raise SystemExit("standalone internal procedure retains discoverable skill frontmatter")
+        skill_documents = [path for path in root.rglob("SKILL.md") if path.is_file()]
+        if skill_documents != [root / "SKILL.md"]:
+            raise SystemExit("standalone projection must expose only the governor SKILL.md")
 
         target = codex_home / "skills" / "implementaudit"
         resolved_home = codex_home.resolve(strict=False)
         resolved_target = target.resolve(strict=False)
-        if not str(resolved_target).startswith(str(resolved_home)):
+        if os.path.commonpath((resolved_home, resolved_target)) != str(resolved_home):
             raise SystemExit("target path escapes codex home")
+        plugin_target = codex_home / "plugins" / "implementaudit"
+        if plugin_target.exists() or plugin_target.is_symlink():
+            raise SystemExit("ambiguous same-identity plugin and standalone co-install is forbidden")
 
         target.parent.mkdir(parents=True, exist_ok=True)
-        tmp_target = target.parent / f".implementaudit-install-{os.getpid()}"
-        if tmp_target.exists():
-            shutil.rmtree(tmp_target)
-        tmp_target.mkdir(parents=True)
+        stage = target.parent / f".implementaudit-stage-{os.getpid()}"
+        backup = target.parent / f".implementaudit-backup-{os.getpid()}"
+        for transient in (stage, backup):
+            if transient.exists() or transient.is_symlink():
+                raise SystemExit(f"stale standalone install transaction path exists: {transient.name}")
 
-        # Copy skill content from archive root to tmp_target (skip .claude-plugin/).
-        for child in root.iterdir():
-            if child.name == ".claude-plugin":
-                continue
-            dest = tmp_target / child.name
-            if child.is_file():
-                shutil.copy2(child, dest)
-            elif child.is_dir():
-                shutil.copytree(child, dest)
+        predecessor = None
+        if target.exists() or target.is_symlink():
+            predecessor = read_installed_standalone(target)
+            prior_package, _prior_inventory = predecessor
+            prior_version = numeric_version(prior_package.get("runtime_version"))
+            next_version = numeric_version(package.get("runtime_version"))
+            prior_digest = hashlib.sha256(
+                (target / "IMPLEMENTAUDIT_INVENTORY.json").read_bytes()
+            ).hexdigest()
+            incoming_digest = hashlib.sha256(
+                (root / "IMPLEMENTAUDIT_INVENTORY.json").read_bytes()
+            ).hexdigest()
+            if prior_digest == incoming_digest:
+                sys.stdout.write(
+                    "install-codex-from-release: standalone install idempotent "
+                    f"target={target} inventory_sha256={prior_digest}\n"
+                )
+                sys.stdout.write(f"install-codex-from-release: sha256 {digest}\n")
+                raise SystemExit(0)
+            if prior_version == next_version:
+                raise SystemExit(
+                    "same-version standalone source/package identity differs "
+                    "from the installed predecessor"
+                )
+            if prior_version > next_version and not allow_downgrade:
+                raise SystemExit(
+                    f"unauthorized downgrade rejected: {prior_package.get('runtime_version')} "
+                    f"-> {package.get('runtime_version')}"
+                )
 
-        for rel in [
+        fault = os.environ.get("IMPLEMENTAUDIT_CODEX_INSTALL_FAULT", "")
+        if fault not in {
+            "", "remove-staged-member", "before-swap", "during-swap", "post-readback",
+        }:
+            raise SystemExit(f"unknown standalone install fault injection: {fault}")
+
+        required_installed = [
             "SKILL.md",
             "references/planning-depth.md",
             "references/phase-design.md",
@@ -316,6 +496,7 @@ with zipfile.ZipFile(asset) as zf:
             "scripts/detect-env.sh",
             "scripts/detect-stack.sh",
             "scripts/repo-state.sh",
+            "scripts/resolve-internal-skill.py",
             "scripts/summarize-repo.sh",
             "scripts/validate-audit-spec.sh",
             "scripts/validate-phase.sh",
@@ -333,13 +514,52 @@ with zipfile.ZipFile(asset) as zf:
             "templates/sidecars.md",
             "templates/tools.md",
             "templates/context.md",
-        ]:
-            if not (tmp_target / rel).is_file():
-                raise SystemExit(f"installed skill missing required file: {rel}")
+        ]
 
-        if target.exists():
-            shutil.rmtree(target)
-        tmp_target.rename(target)
+        moved_predecessor = False
+        installed_new = False
+        try:
+            stage.mkdir()
+            # Copy the standalone projection including package identity/inventory.
+            for child in root.iterdir():
+                dest = stage / child.name
+                if child.is_file():
+                    shutil.copy2(child, dest)
+                elif child.is_dir():
+                    shutil.copytree(child, dest)
+
+            if fault == "remove-staged-member":
+                (stage / "SKILL.md").unlink()
+            staged_package, staged_inventory = read_installed_standalone(stage)
+            if staged_package != package or staged_inventory != inventory:
+                raise SystemExit("staged standalone package/inventory readback mismatch")
+            for rel in required_installed:
+                if not (stage / rel).is_file():
+                    raise SystemExit(f"installed skill missing required file: {rel}")
+            if fault == "before-swap":
+                raise SystemExit("injected standalone before-swap failure")
+            if target.exists() or target.is_symlink():
+                target.rename(backup)
+                moved_predecessor = True
+            if fault == "during-swap":
+                raise SystemExit("injected standalone during-swap failure")
+            stage.rename(target)
+            installed_new = True
+            installed_package, installed_inventory = read_installed_standalone(target)
+            if installed_package != package or installed_inventory != inventory:
+                raise SystemExit("post-swap standalone package/inventory readback mismatch")
+            if fault == "post-readback":
+                raise SystemExit("injected standalone post-readback failure")
+        except BaseException:
+            if installed_new and (target.exists() or target.is_symlink()):
+                shutil.rmtree(target)
+            if moved_predecessor and backup.exists():
+                backup.rename(target)
+            if stage.exists():
+                shutil.rmtree(stage)
+            raise
+        if backup.exists():
+            shutil.rmtree(backup)
 
 sys.stdout.write(f"install-codex-from-release: installed {asset.name} into {target}\n")
 sys.stdout.write(f"install-codex-from-release: sha256 {digest}\n")

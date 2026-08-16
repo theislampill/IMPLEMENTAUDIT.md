@@ -111,7 +111,7 @@ Standing gate owners: `check-action-selection-contract.sh`,
 ## v0.3.3.0 release evidence (previous public ledger)
 
 - `docs/audits/archive/v0.3.3.0-release-report.md` - exact package identity,
-  nonblocking R28/#117 and out-of-scope #144 boundaries, release integration,
+  nonblocking R001C/#117 and out-of-scope #144 boundaries, release integration,
   tag/assets/checksum readback, hosted validation, Pages deployment, and
   completed #97/milestone-2 accounting. It remains the historical publication
   ledger for the independently read-back v0.3.3.0 release.
@@ -121,11 +121,19 @@ Standing gate owners: `check-action-selection-contract.sh`,
 - `docs/audits/archive/v0.3.3.3-release-report.md` - corrective four-component
   public identity for runtime 0.3.3, the eight integrated countermeasures,
   custody of the premature tag/release/assets/body, the final corrected
-  package identity, PR #173 repository-owner and Pages completion, R31
-  `OWNER_ACCEPTED_PARTIAL`, bounded #144 deterministic adoption, open and
-  unshipped R36/#167, open #117, and dashboard exclusion. The final same-tag
+  package identity, PR #173 repository-owner and Pages completion, R001F
+  `OWNER_ACCEPTED_PARTIAL`, bounded #144 deterministic adoption, the shipped
+  portable R0024/#167 governed-writer boundary, open #117, and dashboard
+  exclusion. The final same-tag
   qualification, in-place asset/checksum/body/tag correction, public
-  download/install readback, and R29 row 14 owner waiver are recorded complete.
+  download/install readback, and R001D row 14 owner waiver are recorded complete.
+
+## v0.4.0.0 release evidence (candidate and future publication ledger)
+
+- `docs/audits/archive/v0.4.0.0-release-report.md` - candidate identity
+  `v0.4.0.0` / runtime `0.4.0`, S³E public composition, source/package/install
+  qualification, and placeholders for separately authorised hosted, Pages,
+  tag, Release, asset, public-download and tracker readbacks.
 
 ## Boundary
 

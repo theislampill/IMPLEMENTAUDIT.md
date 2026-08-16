@@ -1,0 +1,36 @@
+{
+  "packet": "EVOLVED_WATERFALL_FROZEN_PACKET",
+  "research_state": "FROZEN",
+  "access_date": "2026-08-11",
+  "property_population_total": 38,
+  "property_population_examined": 38,
+  "property_coverage": "38/38",
+  "crosswalk_worthy_properties": 33,
+  "files": [
+    {
+      "name": "EVOLVED_WATERFALL_FROZEN_REPORT.md",
+      "bytes": 309891,
+      "sha256": "f76ff4c710c1328e1ee528bc49f202ff6e0ee39d5fa5166a8f44010c9bfbc3ac"
+    },
+    {
+      "name": "EVOLVED_WATERFALL_PROPERTY_LEDGER.yaml",
+      "bytes": 130173,
+      "sha256": "4e3d1cc8b5101b246d15f05b8d434a81b8902fa07a9bf85e873629d8fdf287ea"
+    },
+    {
+      "name": "EVOLVED_WATERFALL_AUDIT_INTAKE.yaml",
+      "bytes": 63348,
+      "sha256": "ef885b8f6f9489aded13f1498056aaa8ae83cdef622ec79ef4202d13566aae81"
+    },
+    {
+      "name": "EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER.yaml",
+      "bytes": 244805,
+      "sha256": "e569164cb5b987d80b23944b8cf6a8a8e0128903a6071ae8212ed9dad2a4a4b4"
+    },
+    {
+      "name": "EVOLVED_WATERFALL_SOURCE_REGISTER.json",
+      "bytes": 51003,
+      "sha256": "e3b97fbe9da9e58cd03f90e1112e2167562c2de1c129ae6f4a3d4650fd117be0"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "analytical_label": "EVOLVED_SYSTEMS_SECURITY_ENGINEERING",
+  "research_state": "FROZEN",
+  "freeze_date": "2026-08-12",
+  "hash_algorithm": "SHA-256",
+  "hash_scope": "Each artifact record is the SHA-256 of the exact raw bytes of the named immutable payload file. The manifest cannot embed the SHA-256 of its own final bytes, and the containing ZIP cannot contain its own final hash without recursion. Their exact final raw-byte hashes are therefore supplied out-of-band in the user-facing terminal response.",
+  "syntax_only_normalisation": [
+    "Markdown written as UTF-8 with LF line endings.",
+    "JSON written as UTF-8 with two-space indentation, LF line endings and preserved key order.",
+    "No research conclusion, property disposition, source identity or evidence judgement changed during packaging."
+  ],
+  "packet_members": [
+    "EVOLVED_SYSTEMS_SECURITY_ENGINEERING_FROZEN_REPORT.md",
+    "EVOLVED_SYSTEMS_SECURITY_ENGINEERING_PROPERTY_LEDGER.json",
+    "EVOLVED_SYSTEMS_SECURITY_ENGINEERING_SOURCE_TABLE.json",
+    "EVOLVED_SYSTEMS_SECURITY_ENGINEERING_AUDIT_INTAKE.md",
+    "EVOLVED_SYSTEMS_SECURITY_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+    "EVOLVED_SYSTEMS_SECURITY_ENGINEERING_FROZEN_MANIFEST.json"
+  ],
+  "artifacts": [
+    {
+      "filename": "EVOLVED_SYSTEMS_SECURITY_ENGINEERING_FROZEN_REPORT.md",
+      "byte_count": 1019984,
+      "sha256": "b19883e97231b3d09ac4bbcfe5dd8010138ea1d06d069beee7a1c6cb38e900b5"
+    },
+    {
+      "filename": "EVOLVED_SYSTEMS_SECURITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "byte_count": 314631,
+      "sha256": "52286c3b6e8c993ba6c0d62844b384f789550b46514e63856ec79ea71cd86b3a"
+    },
+    {
+      "filename": "EVOLVED_SYSTEMS_SECURITY_ENGINEERING_SOURCE_TABLE.json",
+      "byte_count": 128512,
+      "sha256": "53ef5ecb4667a06747fdb93b304f261eb5136212798578b62648141947432ef4"
+    },
+    {
+      "filename": "EVOLVED_SYSTEMS_SECURITY_ENGINEERING_AUDIT_INTAKE.md",
+      "byte_count": 300201,
+      "sha256": "0975c8ad9bdab63ebcd6a5986c4dc8258d37e04d8f7f80bbdf6845e28aad15b0"
+    },
+    {
+      "filename": "EVOLVED_SYSTEMS_SECURITY_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "byte_count": 29541,
+      "sha256": "83159cc7735ca14a54c1d9318cc712866a759e281f85804950af0779a440f112"
+    }
+  ]
+}

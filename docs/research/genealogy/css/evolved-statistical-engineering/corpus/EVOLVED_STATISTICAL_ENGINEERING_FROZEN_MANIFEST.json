@@ -1,0 +1,75 @@
+{
+  "analytical_label": "EVOLVED_STATISTICAL_ENGINEERING",
+  "research_state": "FROZEN",
+  "created_date": "2026-08-11",
+  "encoding": "UTF-8; LF line endings for text/JSON artefacts",
+  "semantic_identity": "Packaging-only projection of the frozen 65-property/110-source result. No research judgement, property ID, denominator, source claim or synthesis changed during packaging.",
+  "normalisation": "JSON escaping, deterministic key/list rendering, and the documented compact-record criticism-field materialisation only.",
+  "hash_policy": {
+    "ordinary_files": "sha256 is the exact SHA-256 of the delivered file bytes.",
+    "manifest_self": "sha256 is SHA-256 of canonical UTF-8 JSON for this manifest with only the manifest entry sha256 replaced by 64 zeroes. The exact delivered-manifest SHA-256 is supplied in the delivery response.",
+    "archive": "sha256 is a normalized deterministic-archive SHA-256 computed with the manifest-self and archive sha256 fields replaced by 64 zeroes. The exact delivered-ZIP SHA-256 is supplied in the delivery response. This avoids impossible self-referential hashing while retaining reproducibility."
+  },
+  "zip_contents": [
+    "EVOLVED_STATISTICAL_ENGINEERING_AUDIT_INTAKE.md",
+    "EVOLVED_STATISTICAL_ENGINEERING_FROZEN_MANIFEST.json",
+    "EVOLVED_STATISTICAL_ENGINEERING_FROZEN_REPORT.md",
+    "EVOLVED_STATISTICAL_ENGINEERING_PROPERTY_LEDGER.json",
+    "EVOLVED_STATISTICAL_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+    "EVOLVED_STATISTICAL_ENGINEERING_SOURCE_TABLE.json"
+  ],
+  "files": [
+    {
+      "filename": "EVOLVED_STATISTICAL_ENGINEERING_FROZEN_REPORT.md",
+      "byte_count": 526917,
+      "sha256": "e76f75acfbafb1d1c7c21c82753d6ae0c8b9e3acd06bf7c76e7efb4766be716d",
+      "sha256_mode": "exact_file_sha256"
+    },
+    {
+      "filename": "EVOLVED_STATISTICAL_ENGINEERING_PROPERTY_LEDGER.json",
+      "byte_count": 386050,
+      "sha256": "a214527c1859133d2745e9c97e63b021ff09f50cba3f8f5a4d026e5d20ee7de9",
+      "sha256_mode": "exact_file_sha256"
+    },
+    {
+      "filename": "EVOLVED_STATISTICAL_ENGINEERING_SOURCE_TABLE.json",
+      "byte_count": 107390,
+      "sha256": "128ac878b92d9335d617ae10aabd79ee9d9029d411101e09472219c9a3c40606",
+      "sha256_mode": "exact_file_sha256"
+    },
+    {
+      "filename": "EVOLVED_STATISTICAL_ENGINEERING_AUDIT_INTAKE.md",
+      "byte_count": 263027,
+      "sha256": "1b242a2f0642a9e3f89f9006a6eb48e3c6c8812c18ad4385f24a8ca920075cca",
+      "sha256_mode": "exact_file_sha256"
+    },
+    {
+      "filename": "EVOLVED_STATISTICAL_ENGINEERING_PUBLIC_DOCUMENTATION_INTAKE.md",
+      "byte_count": 14023,
+      "sha256": "774d29a07abb1a0d590be397deca56d2648eba78a4ead778dcad8f8b12a064e5",
+      "sha256_mode": "exact_file_sha256"
+    },
+    {
+      "filename": "EVOLVED_STATISTICAL_ENGINEERING_FROZEN_MANIFEST.json",
+      "byte_count": 3639,
+      "sha256": "3ce2b06eacce204c20d78a0ad934c194ae4ecbd5d1ce1d2ac3980186e3068030",
+      "sha256_mode": "canonical_self_excluding_sha256"
+    },
+    {
+      "filename": "EVOLVED_STATISTICAL_ENGINEERING_FROZEN_PACKET.zip",
+      "byte_count": 316068,
+      "sha256": "5e6061529e3f1e74fbd2ee1b3a99f4173afb0a3611f488a6da16a9c26ed541a0",
+      "sha256_mode": "normalized_archive_sha256"
+    }
+  ],
+  "receipt": [
+    "EVOLVED_STATISTICAL_ENGINEERING_RESEARCH_STATE: FROZEN",
+    "PROPERTY_POPULATION_TOTAL: 65",
+    "PROPERTY_POPULATION_EXAMINED: 65",
+    "PROPERTY_COVERAGE: 65/65",
+    "EVOLVED_STATISTICAL_ENGINEERING_AUDIT_INTAKE: COMPLETE",
+    "PUBLIC_DOCUMENTATION_INTAKE: COMPLETE",
+    "FROZEN_PACKET_PACKAGED: YES",
+    "EXTERNAL_RESEARCH_READY_FOR_REPOSITORY_CROSSWALK: YES"
+  ]
+}

@@ -7,6 +7,15 @@ cd "$repo_root"
 bash scripts/check-capability-parity-contract.sh
 bash tests/source-evidence-pack.test.sh
 
+# Full-package verification imports genealogy helpers before building the
+# source-evidence pack. Bytecode created inside the repository is a blocked
+# source-evidence member, so the orchestrator must suppress it at source rather
+# than weakening the later fail-closed pack guard.
+grep -Fqx 'export PYTHONDONTWRITEBYTECODE=1' scripts/verify-package.sh || {
+  printf 'source-evidence-pack-runnable.test: verify-package must suppress repository bytecode\n' >&2
+  exit 1
+}
+
 pack_tmp="$(mktemp -d)"
 pack_path="$pack_tmp/source-evidence.zip"
 if command -v python >/dev/null 2>&1; then

@@ -1,13 +1,14 @@
 <div class="page-eyebrow">Repository</div>
       <h1>Package contents</h1>
-      <p class="lead">What ships in the skill package and which scripts support validation.</p>
-      <div class="hero-card"><h2>The skill package is smaller than the repo.</h2><p>The shipped payload is the skill, references, templates, helper scripts, and plugin metadata.<br>Repo docs, tests, fixtures, release ledgers, generated portal output, and local run artifacts are maintenance material unless the package boundary changes.</p></div>
+      <p class="lead">What ships in the canonical plugin and its standalone compatibility projection.</p>
+      <div class="hero-card"><h2>One atomic package, two generated projections.</h2><p><code>IMPLEMENTAUDIT.plugin.zip</code> is the canonical dual-host package. <code>IMPLEMENTAUDIT.skill</code> is a generated, checksummed standalone compatibility artifact, not a second package topology.<br>Repo docs, tests, fixtures, release ledgers, generated portal output, and local run artifacts remain maintenance material.</p></div>
 
       <h2 id="contents">Contents</h2>
-      <p>The package includes <code>SKILL.md</code>, <code>references/</code>, <code>templates/</code>, helper <code>scripts/</code>, and plugin metadata.<br>In the repository those files live under <code>skills/implementaudit/</code>; in the built <code>IMPLEMENTAUDIT.skill</code> archive the skill payload is at archive root.<br>The source <code>.claude-plugin/plugin.json</code> uses <code>skills: "./skills/"</code>; the release builder generates archive-local metadata with <code>skills: "./"</code> for that archive-root layout.<br>Optional <code>/dashboard/</code> content is not part of <code>IMPLEMENTAUDIT.skill</code>.</p>
+      <p>The canonical plugin preserves <code>skills/implementaudit/</code>, equal <code>.codex-plugin/plugin.json</code> and <code>.claude-plugin/plugin.json</code> host manifests pointing to <code>./skills/</code>, Claude marketplace metadata, and generated package/inventory metadata.<br>It exposes the stable public/default <code>/implementaudit</code> governor plus exactly four child skills: <code>audit-state</code>, <code>audit-assess</code>, maintainer-only <code>audit-implement</code>, and dual-entry <code>audit-andon</code>. A governor derivation loads at most one child; children return bounded cognition, never chain, and own no authority, currentness, mutation, lifecycle, release, closure, or <code>AUDIT_COMPLETE</code>. A direct <code>audit-andon</code> cord-pull returns to its caller and grants no new authority. The governor's <code>references/</code>, <code>templates/</code>, and helper <code>scripts/</code> remain one shared deterministic substrate.</p>
+      <p>The standalone <code>IMPLEMENTAUDIT.skill</code> compatibility artifact is generated from the same source and version. It flattens <code>skills/implementaudit/</code> to archive-root <code>SKILL.md</code>, <code>references/</code>, <code>templates/</code>, and <code>scripts/</code>, carries deterministic internal-procedure projections for the four children, retains package/inventory metadata, and carries no host manifests, nested <code>skills/</code> tree, or independently discoverable child packages.<br>Optional <code>/dashboard/</code> content is in neither projection. Exact members, bytes, and digests belong to the fresh exact-tree build receipt, not this descriptive page.</p>
 
       <h2 id="scripts">Shipped scripts</h2>
-      <p>These helper scripts live in the repo under <code>skills/implementaudit/scripts/</code> and ship in <code>IMPLEMENTAUDIT.skill</code> as root <code>scripts/</code>.</p>
+      <p>These helper scripts live in the repo and canonical plugin under <code>skills/implementaudit/scripts/</code>; the standalone compatibility projection ships the same files as root <code>scripts/</code>.</p>
       <table><thead><tr><th>Script</th><th>Plain role</th><th>Typical loop</th></tr></thead><tbody>
         <tr><td><code>claim-run.sh</code></td><td>Atomically create a namespaced run folder; may advise a gitignore update but does not write it.</td><td>L2 run-state control</td></tr>
         <tr><td><code>detect-env.sh</code></td><td>Record host/tool orientation.</td><td>L1/L2 planning</td></tr>
@@ -45,31 +46,53 @@
         <section class="artifact-card"><h3><code>phase-goal.txt</code></h3><dl><dt>Owner</dt><dd>Planner</dd><dt>Purpose</dt><dd>Provides the per-phase work, criteria, evidence, rollback/defer path, and command skeleton.</dd><dt>Proof boundary</dt><dd>Phase dispatch scaffold, not authorization to widen scope.</dd></dl></section>
         <section class="artifact-card"><h3><code>child-agent-report.md</code></h3><dl><dt>Owner</dt><dd>Reviewer</dd><dt>Purpose</dt><dd>Shapes read-only adversarial review output into findings, evidence, risks, and non-authority boundaries.</dd><dt>Proof boundary</dt><dd>Review input only; the parent run still verifies against source evidence.</dd></dl></section>
       </div>
-      <p>Graphify and ActiveGraph are not required package dependencies; their optional boundary is documented in <a href="../optional-tooling/">Optional tooling</a>.</p>
+      <p>Graphify and ActiveGraph are not generic package dependencies; their optional boundary is documented in <a href="../optional-tooling/">Optional tooling</a>. The final repository self-dogfood gate separately requires an isolated, exact-state-bound ActiveGraph sidecar on the latest independently verified published release. It remains non-authoritative and does not change generic <code>/implementaudit</code> behavior.</p>
 
       <h2 id="source-surfaces">Source surfaces</h2>
       <p><code>skills/implementaudit/scripts/*</code> and <code>skills/implementaudit/templates/*</code> describe shipped runtime surfaces.<br>Root <code>scripts/*</code> describe repo-only validation and release maintenance surfaces.</p>
-      <p>Canonical runtime behavior lives in <code>skills/implementaudit/SKILL.md</code> and the supporting references, templates, and helper scripts.<br>Do not recreate a tracked root <code>IMPLEMENTAUDIT.md</code> file; the package artifact is <code>IMPLEMENTAUDIT.skill</code>.<br><code>AUDIT.md</code> inputs remain valid work-record artifacts when a run points at findings.</p>
+      <p>Canonical runtime behavior lives in <code>skills/implementaudit/SKILL.md</code> and the supporting references, templates, and helper scripts. Canonical package topology lives in <code>package/implementaudit-package.json</code>.<br>Do not recreate a tracked root <code>IMPLEMENTAUDIT.md</code> file; the canonical generated artifact is <code>IMPLEMENTAUDIT.plugin.zip</code> and the standalone compatibility artifact is <code>IMPLEMENTAUDIT.skill</code>.<br><code>AUDIT.md</code> inputs remain valid work-record artifacts when a run points at findings.</p>
 
       <h2 id="package-tree">Package tree</h2>
-      <pre class="panel"><code>IMPLEMENTAUDIT.skill/
+      <pre class="panel"><code>IMPLEMENTAUDIT.plugin.zip/
+.codex-plugin/plugin.json  (skills: "./skills/")
+.claude-plugin/plugin.json  (skills: "./skills/")
+.claude-plugin/marketplace.json
+IMPLEMENTAUDIT_PACKAGE.json
+IMPLEMENTAUDIT_INVENTORY.json
+skills/implementaudit/SKILL.md
+skills/audit-state/SKILL.md
+skills/audit-assess/SKILL.md
+skills/audit-implement/SKILL.md
+skills/audit-andon/SKILL.md
+skills/implementaudit/references/
+skills/implementaudit/templates/
+skills/implementaudit/scripts/
+
+IMPLEMENTAUDIT.skill/
 SKILL.md
+internal-procedures/audit-state.md
+internal-procedures/audit-assess.md
+internal-procedures/audit-implement.md
+internal-procedures/audit-andon.md
 references/
 templates/
 scripts/
-.claude-plugin/
-.claude-plugin/plugin.json  (skills: "./")</code></pre>
-      <p>The archive must not contain a nested <code>skills/</code> directory.<br>The release builder rejects <code>skills/implementaudit/SKILL.md</code> in the archive because host import expects <code>SKILL.md</code> at archive root.</p>
+IMPLEMENTAUDIT_PACKAGE.json
+IMPLEMENTAUDIT_INVENTORY.json</code></pre>
+      <p>The canonical plugin must preserve the exact five-skill population and the nested <code>skills/implementaudit/</code> shared substrate. The standalone compatibility projection must flatten the governor tree, project the four internal procedures under <code>internal-procedures/</code>, and must not carry plugin manifests, a nested <code>skills/</code> directory, or independently discoverable child packages. In particular, legacy archive-local manifest metadata with <code>skills: "./"</code> is deliberately absent from the compatibility artifact; flattening is a generated layout, not a second plugin manifest. Both projections are generated and checked against one package contract and source identity.</p>
 
       <h2 id="repo-only-material">Repo-only material</h2>
       <p><code>README.md</code>, <code>CHANGELOG.md</code>, <code>fixtures/</code>, <code>tests/</code>, release ledgers, generated portal output, and local run artifacts are repo-side maintenance material unless a future owner decision changes the package boundary.</p>
-      <p>The marketplace entry at <code>.claude-plugin/marketplace.json</code> is package metadata.<br>Do not claim marketplace behavior was verified unless that host path was actually tested.</p>
+      <p>The marketplace entry at <code>.claude-plugin/marketplace.json</code> is canonical plugin metadata.<br>Its presence is not evidence that marketplace discovery, installation, or update behavior was verified.</p>
       <p>No <code>LICENSE</code> file exists until the owner selects a license and supplies license evidence.</p>
 
       <h2 id="release-maintenance-gates">Release maintenance gates</h2>
       <p>Release checks are repo-maintenance evidence, not permission to publish.</p>
       <ul>
-        <li><code>build-release-asset.sh</code> builds the archive and enforces the package allowlist.</li>
+        <li><code>package/implementaudit-package.json</code> defines the package identity, exact skill population, host manifests, shared roots, projections, inventories, and separate artifact budgets.</li>
+        <li><code>build-release-asset.sh</code> builds both deterministic projections and enforces the package contract.</li>
+        <li><code>install-plugin-from-release.sh</code> proves only isolated staged plugin copy, inventory, update, rollback, and post-readback behavior.</li>
+        <li>The current checksum check is <code>bash scripts/write-release-checksums.sh --check --all dist dist/CHECKSUMS.txt</code>. Do not reuse the legacy single-asset command <code>bash scripts/write-release-checksums.sh --check dist/IMPLEMENTAUDIT.skill dist/CHECKSUMS.txt</code> against the current two-asset manifest.</li>
         <li><code>verify-package.sh</code> runs the broad repository validation suite.</li>
         <li><code>tests/release-asset-install.test.sh</code> and <code>tests/release-asset-install-claude.test.sh</code> are separate release-gate checks; each proves only the checked Codex or Claude extraction/copy path unless live host load is also verified.</li>
         <li><code>check-no-terminal-cap.sh</code> guards terminal-capability overclaims.</li>
@@ -77,7 +100,7 @@ scripts/
       </ul>
 
       <h2 id="package-boundary">Package boundary</h2>
-      <p>Do not claim a repo-only document or generated portal output shipped in the skill package unless the release asset readback shows it.<br>A checksum match checks artifact integrity. A published checksum manifest can support a separately authorized release provenance gate, but it is not a signature, SBOM, marketplace check, install check, or host-load proof.</p>
+      <p>Do not claim a repo-only document or generated portal output shipped in either package projection unless exact artifact readback shows it.<br>A checksum match checks artifact integrity. A published checksum manifest can support a separately authorized release provenance gate, but it is not a signature, SBOM, marketplace check, native install check, or host-load proof.</p>
 
       <h2 id="semantic-preservation">Semantic preservation under footprint pressure</h2>
       <p>A smaller archive does not by itself close a package failure.<br>When footprint work changes shipped content, an owner, package membership, an installed path, generated/public material, or an evaluator surface, preserve exact before/after package identity and the owner-backed behaviours at risk.</p>

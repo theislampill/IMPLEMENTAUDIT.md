@@ -58,8 +58,8 @@ unsupported_claims = [
 ]
 stale_current_release_claims = [
     (
-        "r36 / #167 remains open and was not shipped or qualified in this release",
-        "current release surfaces must not retain the pre-R36 exclusion claim",
+        "r0024 / #167 remains open and was not shipped or qualified in this release",
+        "current release surfaces must not retain the pre-R0024 exclusion claim",
     ),
     (
         "do not replace bytes under an already-published tag",
@@ -116,6 +116,81 @@ if Path("LICENSE").exists():
     ]
 
 failures = []
+
+# W04 source-coupled public boundaries. These anchors are independent of the
+# declarative projection fixture so source plus fixture co-mutation cannot turn
+# a canonical-title, no-mode, or cheap-path reversal into a pass.
+s3e_source_paths = {
+    "s3e": Path("docs/portal/pages/research-lineage-s3e.html"),
+    "css": Path("docs/portal/pages/research-lineage-evolved-css.html"),
+    "reference-index": Path("docs/portal/pages/reference-index.html"),
+}
+s3e_source_anchors = {
+    "canonical-title": (
+        "s3e", "State Synthesis Substrate Engineering: Evolved-SSDDRFCSS"),
+    "one-substrate-no-methodology-mode": (
+        "s3e", "They do not create nine runtimes, selectable methodology modes, or a fixed ceremony."),
+    "ordinary-work-cheap-path": (
+        "css", "When one authoritative deterministic discriminator settles ordinary bounded work, use it and stop. No trigger means no added ceremony, record, or family machinery."),
+    "current-package-projection-boundary": (
+        "s3e", "The canonical plugin and standalone compatibility projections are mechanically checked independently; they are not literal member-for-member copies."),
+    "reference-index-current-package-projection": (
+        "reference-index", "independently checked package projections"),
+}
+
+
+def missing_s3e_source_anchors(text_by_owner):
+    return [
+        anchor_id for anchor_id, (owner, literal) in s3e_source_anchors.items()
+        if owner not in text_by_owner or literal not in text_by_owner[owner]
+    ]
+
+
+s3e_source_text = {}
+if any(not source.is_file() for source in s3e_source_paths.values()):
+    failures.append("S³E public source owner is missing")
+else:
+    s3e_source_text = {
+        key: source.read_text(encoding="utf-8")
+        for key, source in s3e_source_paths.items()
+    }
+    missing = missing_s3e_source_anchors(s3e_source_text)
+    if missing:
+        failures.append(f"S³E public source anchor missing: {missing}")
+    for anchor_id, (owner, literal) in s3e_source_anchors.items():
+        mutated = dict(s3e_source_text)
+        mutated[owner] = mutated[owner].replace(literal, "CORRUPTED", 1)
+        if anchor_id not in missing_s3e_source_anchors(mutated):
+            failures.append(f"S³E held-out source mutation false-passed: {anchor_id}")
+
+stale_projection_patterns = (
+    re.compile(r"\b\d+ archive members\b"),
+    re.compile(r"\b\d+ Codex-installed payload files\b"),
+    re.compile(r"\b\d+/\d+ package projection\b"),
+)
+for stale_projection_pattern in stale_projection_patterns:
+    for owner, text in s3e_source_text.items():
+        match = stale_projection_pattern.search(text)
+        if match:
+            failures.append(
+                f"{s3e_source_paths[owner]}: stale package projection claim: "
+                f"{match.group(0)}"
+            )
+
+readme_path = Path("README.md")
+if not readme_path.is_file():
+    failures.append("README.md is missing")
+else:
+    readme_flat = " ".join(readme_path.read_text(encoding="utf-8").split())
+    required_public_tag_boundary = (
+        "may the following public-tag form be treated as current; until then, "
+        "use the locally qualified asset route shown above"
+    )
+    if required_public_tag_boundary not in readme_flat:
+        failures.append(
+            "README.md: prepublication local-asset guidance does not clearly "
+            "separate the following post-publication URL command"
+        )
 
 # Proof-level discipline (#53, IA-PROOF-LEVELS): on active/current surfaces,
 # verdict-class wording must carry a same-line proof-level qualification
@@ -178,6 +253,16 @@ if Path("docs/portal/pages").is_dir():
         p for p in sorted(Path("docs/portal/pages").rglob("*")) if p.is_file()
     )
 
+
+def is_frozen_research_source(path):
+    """Exact source material is evidence, not a live repository claim surface."""
+    posix = path.as_posix()
+    if not posix.startswith("docs/research/genealogy/"):
+        return False
+    return "/corpus/" in f"/{posix}" or posix.startswith(
+        "docs/research/genealogy/method/source-prompts/"
+    )
+
 for path in current_reader_paths:
     if not path.is_file():
         continue
@@ -194,6 +279,8 @@ for path in Path(".").rglob("*"):
     if not path.is_file():
         continue
     if path.as_posix() == "scripts/check-public-claim-boundaries.sh":
+        continue
+    if is_frozen_research_source(path):
         continue
     if len(path.parts) >= 2 and path.parts[0] == "docs" and path.parts[1] == "audits":
         continue

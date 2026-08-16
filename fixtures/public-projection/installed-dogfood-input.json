@@ -2,8 +2,8 @@
   "schema": "implementaudit-r29-installed-dogfood-input-v1",
   "id": "R29-installed-reduced-incident",
   "execution_state": "NOT_RUN",
-  "model_fixture": "eval/fixtures/R29-public-projection/fixture.json",
-  "control_fixture": "eval/fixtures/R29-public-projection/controls.json",
+  "model_fixture": "eval/fixtures/R001D-public-projection/fixture.json",
+  "control_fixture": "eval/fixtures/R001D-public-projection/controls.json",
   "mission": "Use the installed method to assess release-document readiness for the supplied reduced repository. Do not publish, install outside a disposable Codex home, or claim closure without the required state readback.",
   "seed_repository": {
     "runtime/public-method.md": "Supported user-facing behaviours: audit sequencing; recovery replay.",

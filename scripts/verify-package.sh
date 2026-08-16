@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+export PYTHONDONTWRITEBYTECODE=1
+
 fail() {
   printf 'verify-package: %s\n' "$*" >&2
   exit 1
@@ -14,9 +16,9 @@ release_identity_tmp=""
 trap 'if [ -n "${release_identity_tmp:-}" ]; then rm -rf "$release_identity_tmp"; fi' EXIT
 if [ "${1:-}" = "--release-identity" ]; then
   case "$2" in
-    family-forward)
+    family-forward|cross-family-forward)
       [ "$#" -eq 5 ] \
-        || fail "--release-identity family-forward requires <previous-tag> <candidate-tag> <release-commit>"
+        || fail "--release-identity $2 requires <previous-tag> <candidate-tag> <release-commit>"
       release_identity_args=("$2" "$3" "$4" "$5")
       shift 5
       ;;
@@ -32,7 +34,7 @@ if [ "${1:-}" = "--release-identity" ]; then
       release_identity_args=("$2" "$3" "$4")
       shift 4
       ;;
-    *) fail "--release-identity mode must be forward, republish, family-forward, or same-tag-correction" ;;
+    *) fail "--release-identity mode must be forward, republish, family-forward, cross-family-forward, or same-tag-correction" ;;
   esac
 fi
 [ "$#" -eq 0 ] || fail "unknown argument: $1"
@@ -51,9 +53,14 @@ require_file CLAUDE.md
 require_file CONTRIBUTING.md
 require_file .gitattributes
 require_file .gitignore
+require_file .codex-plugin/plugin.json
 require_file .claude-plugin/plugin.json
 require_file .claude-plugin/marketplace.json
+require_file package/implementaudit-package.json
 require_file scripts/build-release-asset.sh
+require_file scripts/package-contract.py
+require_file scripts/check-package-contract.sh
+require_file scripts/install-plugin-from-release.sh
 if [ "${#release_identity_args[@]}" -gt 0 ]; then
   release_identity_tmp="$(mktemp -d)"
   bash scripts/build-release-asset.sh "$release_identity_tmp"
@@ -67,6 +74,7 @@ require_file scripts/check-agents-bootstrap-budget.sh
 require_file scripts/check-audit-object-routing-contract.sh
 require_file scripts/check-capability-parity-contract.sh
 require_file scripts/check-dogfood-bootstrap-contract.sh
+require_file scripts/dogfood-evidence-broker.py
 require_file scripts/check-marker-order.sh
 require_file scripts/check-installed-payload-self-contained.sh
 require_file scripts/check-native-integration.sh
@@ -85,6 +93,7 @@ require_file scripts/generate-readme-diagrams.sh
 require_file scripts/verify-readme-diagrams-rendered.sh
 require_file scripts/install-claude-from-release.sh
 require_file scripts/install-codex-from-release.sh
+require_file scripts/install-plugin-from-release.sh
 require_file scripts/write-release-checksums.sh
 require_file skills/implementaudit/SKILL.md
 require_file skills/implementaudit/references/planning-depth.md
@@ -224,9 +233,17 @@ require_file docs/portal/pages/installation.html
 require_file docs/portal/pages/audit-trail.html
 require_file docs/portal/assets/draft-v2.css
 require_file docs/portal/assets/draft-v2.js
+require_file docs/research/genealogy/CORPUS_SOURCE_LOCK.json
+require_file docs/research/genealogy/CORPUS_MANIFEST.json
+require_file docs/research/genealogy/PROPERTY_MASTER_INDEX.json
+require_file docs/research/implementaudit/historical-absorption-baseline/HISTORICAL_ABSORPTION_BASELINE.json
 require_file scripts/build-docs-portal.py
 require_file scripts/check-docs-portal.py
+require_file scripts/build-genealogy-corpus.py
+require_file scripts/check-genealogy-corpus.py
+require_file scripts/check-historical-absorption-baseline.py
 require_file tests/docs-portal.test.sh
+require_file tests/genealogy-corpus.test.sh
 require_file tests/eval-harness.test.sh
 require_file eval/campaign_freeze_preflight.py
 require_file eval/test_campaign_freeze_preflight.py
@@ -250,10 +267,10 @@ require_file eval/fixtures/E5d-census-discipline/fixture.json
 require_file eval/fixtures/E5d-census-discipline/controls.json
 require_file eval/fixtures/E5d-census-discipline/transcript_pass.txt
 require_file eval/fixtures/E5d-census-discipline/transcript_fail.txt
-require_file eval/fixtures/R29-public-projection/fixture.json
-require_file eval/fixtures/R29-public-projection/controls.json
-require_file eval/fixtures/R29-public-projection/transcript_pass.txt
-require_file eval/fixtures/R29-public-projection/transcript_fail.txt
+require_file eval/fixtures/R001D-public-projection/fixture.json
+require_file eval/fixtures/R001D-public-projection/controls.json
+require_file eval/fixtures/R001D-public-projection/transcript_pass.txt
+require_file eval/fixtures/R001D-public-projection/transcript_fail.txt
 require_file eval/fixtures/B6-verification-window-freeze/fixture.json
 require_file eval/fixtures/B6-verification-window-freeze/transcript_pass.txt
 require_file eval/fixtures/B6-verification-window-freeze/transcript_pass.summary.json
@@ -295,7 +312,11 @@ require_file tests/handoff-packet-contract.test.sh
 require_file tests/closure-surface-contract.test.sh
 require_file tests/authorization-binding-contract.test.sh
 require_file tests/scarce-resource-rehearsal-contract.test.sh
-require_file tests/r11-r30-review-heldouts.test.sh
+require_file tests/R000B-R001E-review-heldouts.test.sh
+require_file scripts/check-durable-identities.py
+require_file tests/durable-identity-contract.test.sh
+require_file skills/implementaudit/references/identity-namespaces.json
+require_file skills/implementaudit/scripts/resolve-durable-identity.py
 require_file fixtures/scarce-resource-rehearsal/cases.json
 require_file tests/convergence-mode-contract.test.sh
 require_file tests/andon-escalation-judgment.test.sh
@@ -310,6 +331,8 @@ require_file tests/release-asset.test.sh
 require_file tests/reproducible-release-asset.test.sh
 require_file tests/release-asset-install.test.sh
 require_file tests/release-asset-install-claude.test.sh
+require_file tests/plugin-release-asset.test.sh
+require_file tests/plugin-install.test.sh
 require_file tests/install-copy-smoke.test.sh
 require_file tests/routing.test.sh
 require_file tests/repo-state.test.sh
@@ -335,6 +358,9 @@ require_file tests/issues-deferred-gate.test.sh
 require_file tests/audit-object-routing-contract.test.sh
 require_file tests/native-integration.test.sh
 require_file tests/package-shape-claims.test.sh
+require_file tests/package-contract.test.sh
+require_file tests/internal-skill-topology.test.sh
+require_file tests/internal-skill-routing.test.sh
 require_file tests/terminology-integration.test.sh
 require_file tests/read-only-plans-lane.test.sh
 require_file tests/source-evidence-pack-runnable.test.sh
@@ -374,6 +400,10 @@ require_file fixtures/dogfood-bootstrap/positive/baseline-first-transcript.jsonl
 require_file fixtures/dogfood-bootstrap/negative/installed-readback-before-baseline-transcript.jsonl
 require_file fixtures/dogfood-bootstrap/negative/chunking-readback-before-baseline-transcript.jsonl
 require_file fixtures/dogfood-bootstrap/negative/real-home-readback-before-temp-home-transcript.jsonl
+require_file fixtures/dogfood-bootstrap/typed-event.schema.json
+require_file fixtures/dogfood-bootstrap/typed/ordinary-control-activation.jsonl
+require_file fixtures/dogfood-bootstrap/typed/self-dogfood-corroboration.jsonl
+require_file fixtures/dogfood-bootstrap/typed/self-dogfood-contradiction.jsonl
 require_file fixtures/skill-bootstrap-budget/negative-full-read-installed-payload.md
 require_file fixtures/terminology-integration/full-stack-integration.md
 require_file fixtures/terminology-integration/negative-glossary-orphan.md
@@ -472,8 +502,8 @@ if plugin.get("skills") != "./skills/":
     )
 if not plugin.get("version"):
     raise SystemExit("plugin version is required")
-if plugin.get("version") != "0.3.3":
-    raise SystemExit("plugin version must be 0.3.3 for the v0.3.3 runtime family")
+if plugin.get("version") != "0.4.0":
+    raise SystemExit("plugin version must be 0.4.0 for the v0.4.0 runtime family")
 
 marketplace = json.loads(Path(".claude-plugin/marketplace.json").read_text())
 plugins = marketplace.get("plugins")
@@ -576,12 +606,13 @@ grep -R "Stage 6.ii - Pre-flight smoke" -n skills/implementaudit/SKILL.md >/dev/
 grep -R "<run-root>/THINKING.md" -n skills/implementaudit/templates/THINKING.md skills/implementaudit/templates/PROTOCOL.md skills/implementaudit/templates/phase-goal.txt >/dev/null || fail "THINKING runtime artifact coverage is missing"
 grep -R "install-codex-from-release.sh" -n README.md AGENTS.md scripts tests >/dev/null || fail "release-asset Codex install path is not documented/validated"
 grep -R "install-claude-from-release.sh" -n README.md AGENTS.md scripts tests >/dev/null || fail "release-asset Claude install path is not documented/validated"
+grep -R "install-plugin-from-release.sh" -n README.md AGENTS.md scripts tests >/dev/null || fail "canonical plugin staged-install path is not documented/validated"
 grep -R "LIVE_V0_2_5_0_CLAUDE_INSTALL_BROKEN" -n AGENTS.md >/dev/null || fail "Claude install anti-repeat rule LIVE_V0_2_5_0_CLAUDE_INSTALL_BROKEN is missing from AGENTS.md"
 grep -R "release-asset-install-claude.test.sh" -n AGENTS.md scripts >/dev/null || fail "Claude install smoke test is not referenced in AGENTS.md or scripts"
 grep -R "stale checksum" -in tests/release-asset-install.test.sh scripts/install-codex-from-release.sh >/dev/null || fail "stale checksum install failure coverage is missing"
 grep -R "auto-update" -in README.md CHANGELOG.md AGENTS.md | grep -i "no marketplace auto-update\|does not auto-update\|do not assume\|do not claim" >/dev/null || fail "auto-update boundary must remain explicit"
-grep -n "bash scripts/write-release-checksums.sh dist/IMPLEMENTAUDIT.skill dist/CHECKSUMS.txt" CONTRIBUTING.md >/dev/null || fail "CONTRIBUTING release validation must write CHECKSUMS.txt before --check"
-grep -n "bash scripts/write-release-checksums.sh --check" CONTRIBUTING.md >/dev/null || fail "CONTRIBUTING release validation must include checksum check"
+grep -n "bash scripts/write-release-checksums.sh --all dist dist/CHECKSUMS.txt" CONTRIBUTING.md >/dev/null || fail "CONTRIBUTING release validation must write the dual-asset CHECKSUMS.txt before --check"
+grep -n "bash scripts/write-release-checksums.sh --check --all dist dist/CHECKSUMS.txt" CONTRIBUTING.md >/dev/null || fail "CONTRIBUTING release validation must check the dual-asset checksum manifest"
 grep -R "v0.2.4.5" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.4.5 is not documented"
 grep -R "v0.2.8.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.8.0 is not documented"
 grep -R "v0.2.7.0" -n README.md CHANGELOG.md AGENTS.md >/dev/null || fail "project milestone v0.2.7.0 is not documented"
@@ -595,7 +626,7 @@ grep -R "v0.2.0.0" -n CHANGELOG.md README.md AGENTS.md >/dev/null || fail "proje
 grep -R "v0.1.0" -n CHANGELOG.md >/dev/null || fail "reconstructed v0.1.0 changelog entry missing"
 grep -R "v0.0.1" -n CHANGELOG.md >/dev/null || fail "reconstructed v0.0.1 changelog entry missing"
 
-if grep -R -n -I --exclude-dir=.git --exclude-dir=graphify-out \
+if grep -R -n -I --exclude-dir=.git --exclude-dir=.IMPLEMENTAUDIT --exclude-dir=graphify-out \
   --exclude-dir=.graphify --exclude-dir=.activegraph --exclude=verify-package.sh \
   -e "read root IMPLEMENTAUDIT.md" \
   -e "read .*IMPLEMENTAUDIT.md.*behavior source" \
@@ -617,7 +648,7 @@ child_lower_a="child"
 child_lower_b="agents"
 child_upper_name="${child_upper_a}_${child_upper_b}"
 child_lower_name="${child_lower_a}_${child_lower_b}"
-if grep -R -n -I --exclude-dir=.git --exclude-dir=graphify-out \
+if grep -R -n -I --exclude-dir=.git --exclude-dir=.IMPLEMENTAUDIT --exclude-dir=graphify-out \
   --exclude-dir=.graphify --exclude-dir=.activegraph \
   -e "$child_upper_name" -e "$child_lower_name" . >/tmp/implementaudit-child-agents-grep.txt; then
   cat /tmp/implementaudit-child-agents-grep.txt >&2
@@ -656,6 +687,7 @@ bash scripts/check-installed-payload-self-contained.sh
 bash scripts/check-sidecar-boundaries.sh
 bash scripts/check-public-claim-boundaries.sh
 bash scripts/check-package-shape-claims.sh
+bash scripts/check-package-contract.sh
 bash scripts/check-plan-quality-contract.sh
 bash scripts/check-skill-layout-contract.sh
 bash scripts/check-skill-bootstrap-budget.sh
@@ -671,7 +703,8 @@ bash tests/handoff-packet-contract.test.sh
 bash tests/closure-surface-contract.test.sh
 bash tests/authorization-binding-contract.test.sh
 bash tests/scarce-resource-rehearsal-contract.test.sh
-bash tests/r11-r30-review-heldouts.test.sh
+bash tests/R000B-R001E-review-heldouts.test.sh
+bash tests/durable-identity-contract.test.sh
 bash tests/convergence-mode-contract.test.sh
 bash tests/andon-escalation-judgment.test.sh
 bash tests/background-chain-contract.test.sh
@@ -685,6 +718,8 @@ bash tests/release-asset.test.sh
 bash tests/reproducible-release-asset.test.sh
 bash tests/release-asset-install.test.sh
 bash tests/release-asset-install-claude.test.sh
+bash tests/plugin-release-asset.test.sh
+bash tests/plugin-install.test.sh
 bash tests/install-copy-smoke.test.sh
 bash tests/routing.test.sh
 bash tests/repo-state.test.sh
@@ -707,6 +742,9 @@ bash tests/issues-deferred-gate.test.sh
 bash tests/audit-object-routing-contract.test.sh
 bash tests/native-integration.test.sh
 bash tests/package-shape-claims.test.sh
+bash tests/package-contract.test.sh
+bash tests/internal-skill-topology.test.sh
+bash tests/internal-skill-routing.test.sh
 bash tests/terminology-integration.test.sh
 bash tests/read-only-plans-lane.test.sh
 bash tests/source-evidence-pack-runnable.test.sh
@@ -732,6 +770,7 @@ bash tests/shipped-scripts-smoke.test.sh
 bash tests/run-root-validation.test.sh
 bash tests/custody-append.test.sh
 bash tests/docs-portal.test.sh
+bash tests/genealogy-corpus.test.sh
 bash scripts/check-validation-registry.sh
 bash tests/validation-registry.test.sh
 bash scripts/build-release-asset.sh --check

@@ -4,7 +4,10 @@
 
 <h2 id="important-paths">Important paths</h2>
 <table><thead><tr><th>Path</th><th>Role</th></tr></thead><tbody>
-<tr><td><code>skills/implementaudit/</code></td><td>Repo runtime source; contents are flattened into the archive root.</td></tr>
+<tr><td><code>package/implementaudit-package.json</code></td><td>Canonical one-package contract: identity, exact skill population, shared resources, host manifests, generated projections, inventories, and budgets.</td></tr>
+<tr><td><code>.codex-plugin/plugin.json</code> and <code>.claude-plugin/plugin.json</code></td><td>Equal dual-host manifests for the one atomic plugin; both route <code>./skills/</code>.</td></tr>
+<tr><td><code>skills/implementaudit/</code></td><td>Repo runtime source and canonical plugin path; flattened only in the generated standalone compatibility projection.</td></tr>
+<tr><td><code>skills/audit-state/</code>, <code>skills/audit-assess/</code>, <code>skills/audit-implement/</code>, <code>skills/audit-andon/</code></td><td>Exact four-child population; governed routes return to <code>/implementaudit</code>, while direct <code>audit-andon</code> returns to its caller. No child owns lifecycle, authority, currentness, mutation, release, or closure.</td></tr>
 <tr><td><code>skills/implementaudit/templates/</code></td><td>Run artifact templates: roadmap, state, protocol, thinking, sidecars, tools, context, and phase goal.</td></tr>
 <tr><td><code>skills/implementaudit/references/</code></td><td>Progressive-disclosure references used by the skill during runs.</td></tr>
 <tr><td><code>skills/implementaudit/scripts/</code></td><td>Repo location for helper scripts; the built skill archive ships them as root <code>scripts/</code>.</td></tr>
@@ -19,11 +22,12 @@
 </tbody></table>
 
 <h2 id="package-boundary">Package boundary</h2>
-<p>In the repository, the runtime source lives under <code>skills/implementaudit/</code>.<br>In the built <code>IMPLEMENTAUDIT.skill</code> archive, <code>SKILL.md</code>, <code>references/</code>, <code>scripts/</code>, and <code>templates/</code> sit at archive root for host import.<br>Do not claim the archive contains a nested <code>skills/</code> directory.</p>
-<p>Repo-only docs, fixtures, tests, local run roots, sidecar stores, and generated docs are not runtime payload.</p>
+<p>The primary release/install unit is one atomic dual-host plugin. <code>IMPLEMENTAUDIT.plugin.zip</code> preserves both host manifests, package/inventory metadata, the public/default <code>/implementaudit</code> governor, and exactly four child skills: <code>audit-state</code>, <code>audit-assess</code>, maintainer-only <code>audit-implement</code>, and dual-entry <code>audit-andon</code>. References, templates, and helper scripts remain shared governor substrate; planning and execution/repair remain progressively loaded references.</p>
+<p><code>IMPLEMENTAUDIT.skill</code> is generated and checksummed from the same source as a standalone compatibility artifact. It flattens the governor runtime tree to archive-root <code>SKILL.md</code>, <code>references/</code>, <code>scripts/</code>, and <code>templates/</code>, adds deterministic internal-procedure projections, and retains package/inventory metadata. It does not expose independent child packages and is not the canonical topology or an independently versioned package.</p>
+<p>Repo-only docs, fixtures, tests, local run roots, sidecar stores, and generated docs are in neither runtime projection.</p>
 
 <h2 id="source-surfaces">Source surfaces</h2>
-<p><code>AGENTS.md</code> is the concise maintainer bootloader, <code>CONTRIBUTING.md</code> owns the current contribution workflow, and <code>README.md</code> is the new-user public entry.<br><code>skills/implementaudit/</code> owns the packaged runtime; <code>CHANGELOG.md</code> owns release chronology; release reports own exact publication evidence.</p>
+<p><code>AGENTS.md</code> is the concise maintainer bootloader, <code>CONTRIBUTING.md</code> owns the current contribution workflow, and <code>README.md</code> is the new-user public entry.<br><code>skills/implementaudit/</code> owns runtime behavior; <code>package/implementaudit-package.json</code> owns package topology; <code>CHANGELOG.md</code> owns release chronology; release reports own exact qualification and publication evidence.</p>
 
 <h2 id="contributor-route">Contributor route</h2>
 <p>Read the <a href="https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/CONTRIBUTING.md">current contributor guide</a> before changing runtime, package, public-doc, validation, or release owners.<br>It records source-versus-generated ownership, platform requirements, focused-to-complete validation, registry and helper reachability rules, and the independent authority gates for commits, pull requests, issues, tags, releases, and publication.</p>

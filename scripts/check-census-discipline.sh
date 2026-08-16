@@ -654,6 +654,8 @@ elif schema == "implementaudit-public-projection-fixtures-v1":
          "R29-F24", "R29-F25", "R29-F26", "R29-F27", "R29-F28",
          "R29-F29", "R29-F30", "R29-F31", "R29-F32", "R29-F33", "R29-F34",
          "R29-F35", "R29-F36", "R29-F37", "R29-F38", "R29-F39",
+         "S3E-W04-F1", "S3E-W04-F2", "S3E-W04-F3", "S3E-W04-F4",
+         "S3E-W04-F5",
     }
     classifier = classify_public_projection
 else:
@@ -664,6 +666,47 @@ if type(bank["controls"]) is not list or not bank["controls"]:
 ids = [case.get("id") for case in bank["controls"]]
 if set(ids) != required_ids or len(ids) != len(set(ids)):
     raise ValueError("fixture control identity set invalid")
+
+if schema == "implementaudit-public-projection-fixtures-v1":
+    source_paths = {
+        "s3e": Path("docs/portal/pages/research-lineage-s3e.html"),
+        "css": Path("docs/portal/pages/research-lineage-evolved-css.html"),
+    }
+    if any(not source.is_file() for source in source_paths.values()):
+        raise ValueError("S³E public source owner is missing")
+    source_text = {
+        key: source.read_text(encoding="utf-8")
+        for key, source in source_paths.items()
+    }
+    source_anchors = {
+        "canonical-title": (
+            "s3e",
+            "State Synthesis Substrate Engineering: Evolved-SSDDRFCSS"),
+        "one-substrate-no-methodology-mode": (
+            "s3e",
+            "They do not create nine runtimes, selectable methodology modes, or a fixed ceremony."),
+        "ordinary-work-cheap-path": (
+            "css",
+            "When one authoritative deterministic discriminator settles ordinary bounded work, use it and stop. No trigger means no added ceremony, record, or family machinery."),
+        "current-package-projection-boundary": (
+            "s3e",
+            "The canonical plugin and standalone compatibility projections are mechanically checked independently; they are not literal member-for-member copies."),
+    }
+
+    def missing_source_anchors(text_by_owner):
+        return [
+            anchor_id for anchor_id, (owner, literal) in source_anchors.items()
+            if literal not in text_by_owner[owner]
+        ]
+
+    missing = missing_source_anchors(source_text)
+    if missing:
+        raise ValueError(f"S³E public source anchor missing: {missing}")
+    for anchor_id, (owner, literal) in source_anchors.items():
+        mutated = dict(source_text)
+        mutated[owner] = mutated[owner].replace(literal, "CORRUPTED", 1)
+        if anchor_id not in missing_source_anchors(mutated):
+            raise ValueError(f"S³E held-out source mutation false-passed: {anchor_id}")
 
 failures = []
 for case in bank["controls"]:

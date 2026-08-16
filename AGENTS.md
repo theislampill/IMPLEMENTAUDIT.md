@@ -31,8 +31,11 @@ keywords (`skills/implementaudit/references/planning-depth.md`).
 - Canonical skill source: `skills/implementaudit/SKILL.md`.
 - Packaged references/templates/scripts: `skills/implementaudit/references/`,
   `skills/implementaudit/templates/`, and `skills/implementaudit/scripts/`.
-- Plugin manifests: `.claude-plugin/plugin.json` and
-  `.claude-plugin/marketplace.json`.
+- Canonical package contract: `package/implementaudit-package.json`.
+- Dual-host plugin manifests: `.codex-plugin/plugin.json` and
+  `.claude-plugin/plugin.json`; both expose the same `implementaudit` governor
+  from `./skills/`.
+- Claude marketplace metadata: `.claude-plugin/marketplace.json`.
 - Current audit evidence index: `docs/audits/INDEX.md`.
 - Audit retention policy: `docs/audits/RETENTION.md`.
 - Historical maintainer rationale: `docs/maintenance/AGENTS-HISTORY.md`.
@@ -61,36 +64,55 @@ credential type only, and recommend rotation when exposure may have occurred.
 
 ## Source And Package Layout
 
-Source layout is conventional and name-matched:
+The normal release/install unit is one atomic dual-host plugin package. Its
+canonical generated release projection is `IMPLEMENTAUDIT.plugin.zip`.
+`/implementaudit` remains the sole stable public/default governor, and v0.4
+ships exactly four model-facing child skills: `audit-state`, `audit-assess`,
+maintainer-only `audit-implement`, and dual-entry `audit-andon`. They are bounded cognition,
+not public lifecycle stages: no child routes to another child or owns authority,
+currentness, mutation, transition, release, closure, or `AUDIT_COMPLETE`.
+References, templates, and helper scripts remain one shared deterministic
+substrate under the governor:
 
 ```text
 skills/implementaudit/SKILL.md
+skills/audit-state/SKILL.md
+skills/audit-assess/SKILL.md
+skills/audit-implement/SKILL.md
+skills/audit-andon/SKILL.md
 skills/implementaudit/references/
 skills/implementaudit/scripts/
 skills/implementaudit/templates/
 ```
 
-The release `.skill` archive is flat only as a build artifact:
+The canonical plugin projection preserves the plugin-root topology:
 
 ```text
-SKILL.md
-references/
-scripts/
-templates/
-.claude-plugin/
+.codex-plugin/plugin.json
+.claude-plugin/plugin.json
+.claude-plugin/marketplace.json
+IMPLEMENTAUDIT_PACKAGE.json
+IMPLEMENTAUDIT_INVENTORY.json
+skills/implementaudit/SKILL.md
+skills/audit-state/SKILL.md
+skills/audit-assess/SKILL.md
+skills/audit-implement/SKILL.md
+skills/audit-andon/SKILL.md
+skills/implementaudit/references/
+skills/implementaudit/scripts/
+skills/implementaudit/templates/
 ```
 
-The source manifest uses `skills: "./skills/"`; the release builder rewrites
-archive-local metadata to `skills: "./"`. `README.md`, `CHANGELOG.md`, root
-scripts, fixtures, tests, CI config, audit ledgers, and maintenance docs are
-repo-only unless a future owner decision proves otherwise.
-
-Source plugin metadata declares `skills: "./skills/"`; archive-local metadata
-uses `skills: "./"`. The release artifact is a flat archive with `SKILL.md` at
-archive root.
-Package-shape claim anchors: archive-local metadata with `skills: "./"`;
-SKILL.md at archive root. The release archive keeps the flat installed package
-shape separate from the conventional source layout.
+Both source and plugin-archive manifests declare `skills: "./skills/"`.
+`IMPLEMENTAUDIT.skill` is a generated, checksummed standalone compatibility
+projection, not the canonical package topology. It flattens only
+`skills/implementaudit/` to archive root as `SKILL.md`, `references/`,
+`scripts/`, and `templates/`, adds deterministic internal-procedure projections
+for the four children, and carries package and inventory metadata; it does not
+carry plugin manifests, a nested `skills/` directory, or independently
+discoverable child packages. Root documentation,
+root scripts, fixtures, tests, CI config, audit ledgers, and maintenance docs
+are repo-only unless a future owner decision proves otherwise.
 
 ## Validation Map
 
@@ -140,14 +162,22 @@ second hand-maintained direct-test list.
 
 ## Release And Dogfood Boundaries
 
-Building `dist/IMPLEMENTAUDIT.skill` is local package evidence only. It is not a
+Building `dist/IMPLEMENTAUDIT.plugin.zip` and
+`dist/IMPLEMENTAUDIT.skill` is local package evidence only. It is not a
 release, tag, publication, marketplace verification, provenance artifact,
-license decision, or universal host claim.
+license decision, native host-discovery proof, or universal host claim. The
+plugin is canonical; the `.skill` file is the standalone compatibility
+projection.
 
-Codex install-copy proof must use `scripts/install-codex-from-release.sh` into a
-temporary `CODEX_HOME` or `--codex-home`. Do not install into the real
-`~/.codex` for proof. Codex has no marketplace auto-update path; manual copy
-must be repeated when the package changes.
+Canonical plugin staged-copy proof must use
+`scripts/install-plugin-from-release.sh` with an isolated host root carrying
+its required sentinel. That proves package copy, inventory, update, rollback,
+and post-readback behavior only; native host discovery still needs host
+evidence. Codex standalone compatibility-copy proof must use
+`scripts/install-codex-from-release.sh` into a temporary `CODEX_HOME` or
+`--codex-home`. Do not install either projection into a real user home for
+proof. No passive or marketplace auto-update path is claimed; the applicable
+host update or copy route must be repeated when the package changes.
 
 Codex CLI self-dogfood must prove the current artifact, not a stale real-home
 skill. Before claiming dogfood, record:
@@ -172,10 +202,12 @@ validation scripts/tests, local package build/checksum/temp-home install, and
 install, credential printing, dangerous bypass, and broad deletion by omission.
 Never use `danger-full-access` or `dangerously-bypass` as dogfood proof.
 
-Claude Desktop install proof requires the `claude` CLI or live Claude Desktop
-host in the release-gate environment. If absent, record BLOCKED. Keep the
-historical guard token `LIVE_V0_2_5_0_CLAUDE_INSTALL_BROKEN` active until a live
-host proof replaces it. The focused smoke is `tests/release-asset-install-claude.test.sh`.
+Claude Desktop standalone compatibility proof requires the `claude` CLI or live
+Claude Desktop host in the release-gate environment. If absent, record BLOCKED.
+Keep the historical guard token `LIVE_V0_2_5_0_CLAUDE_INSTALL_BROKEN` active
+until a live host proof replaces it. The focused smoke is
+`tests/release-asset-install-claude.test.sh`; it does not substitute for the
+separate canonical plugin route.
 
 ## Active Anti-Repeat Rules
 
@@ -226,7 +258,11 @@ host proof replaces it. The focused smoke is `tests/release-asset-install-claude
   `plans/`, `graphify-out/`, `custody.db`, raw transcripts, secrets, and local
   diagnostics.
 - Graphify output is orientation evidence, not proof. ActiveGraph custody is not
-  correctness proof. Missing sidecars do not block consumer runs.
+  correctness proof. Missing sidecars do not block generic consumer runs. The
+  repository's final governed self-dogfood gate separately requires an
+  exact-state-bound ActiveGraph sidecar using the latest independently verified
+  published release in an isolated environment; that dogfood control does not
+  make ActiveGraph a generic package dependency or authority.
 - The detailed sidecar contract narrows Graphify to qualified first-contact
   terrain and ActiveGraph to authorized fork/diff or a non-authoritative mirror;
   the run root and live files remain authoritative.

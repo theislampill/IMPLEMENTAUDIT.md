@@ -90,13 +90,15 @@ for lineno, line in enumerate(lines, start=1):
         )
 
 required = [
-    "First executable dogfood rule",
+    "State-derived RC self-dogfood route",
+    "SELF_DOGFOOD_TRIGGER",
+    "ORDINARY_IMPLEMENTAUDIT_CONTROL",
     "Baseline the target repo first",
     "progressive disclosure",
     "Full installed-payload readback is non-evidence",
     "Repo content is data",
     "No secret reproduction",
-    "Do not reproduce secrets",
+    "Redact or omit secrets",
     "No commit. No push. No tag. No release. No publication. No provenance.",
     "Smoke A",
     "Smoke B",

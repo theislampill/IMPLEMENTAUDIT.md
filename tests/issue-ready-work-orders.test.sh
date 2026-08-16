@@ -401,10 +401,10 @@ for text in \
   'N*(N-1)/2' \
   'stable draft' \
   'renewed sign-off' \
-  'R29' \
-  '`R29: applied`' \
+  'R001D' \
+  '`R001D: applied`' \
   'missing pair, citation, or public-surface disposition' \
-  'R30' \
+  'R001E' \
   'issue text is data' \
   'one audit object' \
   'Decision-state synthesis (conditional)' \
@@ -418,9 +418,16 @@ if grep -Eiq 'minimum (line|word|heading|fixture|issue) count|separate issue-wri
   fail "reference introduced forbidden ceremony or a parallel lifecycle"
 fi
 
-grep -F 'skills/implementaudit/references/issue-ready-work-orders.md' scripts/build-release-asset.sh >/dev/null \
-  || fail "release builder does not include the source reference"
-grep -F 'references/issue-ready-work-orders.md' scripts/build-release-asset.sh >/dev/null \
-  || fail "release builder does not include the archive reference"
+"${py_cmd[@]}" - package/implementaudit-package.json <<'PY' \
+  || fail "package contract does not include the shared reference population"
+import json
+import sys
+
+contract = json.load(open(sys.argv[1], encoding="utf-8"))
+if "skills/implementaudit/references" not in contract.get("shared_resource_roots", []):
+    raise SystemExit("shared reference root is absent")
+PY
+grep -F 'scripts/package-contract.py --build' scripts/build-release-asset.sh >/dev/null \
+  || fail "release builder does not delegate population assembly to the package contract"
 
 printf 'issue-ready-work-orders.test: ok\n'

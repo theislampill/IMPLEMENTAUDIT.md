@@ -14,7 +14,7 @@ semantic_fixture="fixtures/public-projection/semantic-preservation.json"
 lineage_fixture="fixtures/public-projection/lineage-reader-questions.json"
 base="fixtures/phase-validation/valid-full-spec.md"
 eval_fixture="eval/fixtures/E5d-census-discipline"
-r29_eval_fixture="eval/fixtures/R29-public-projection"
+r29_eval_fixture="eval/fixtures/R001D-public-projection"
 r29_dogfood_input="fixtures/public-projection/installed-dogfood-input.json"
 checker="scripts/check-census-discipline.sh"
 pass=0
@@ -53,8 +53,121 @@ else
   record_fail "reused census checker rejected R29-F1..R29-F39"
 fi
 
+# Source-coupled S³E held-outs: changing a public owner and the declarative
+# fixture together must still fail against independent checker anchors.
+s3e_source_coupling_ok=true
+for mutation in canonical-title no-methodology-mode cheap-path package-projection; do
+  root="$tmp/s3e-source-coupling-$mutation"
+  mkdir -p "$root/scripts" "$root/fixtures/public-projection" "$root/docs/portal/pages"
+  cp "$checker" "$root/scripts/check-census-discipline.sh"
+  cp "$public_projection_fixture" "$root/fixtures/public-projection/cases.json"
+  cp docs/portal/pages/research-lineage-s3e.html "$root/docs/portal/pages/"
+  cp docs/portal/pages/research-lineage-evolved-css.html "$root/docs/portal/pages/"
+  "${py_cmd[@]}" - "$root" "$mutation" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+mutation = sys.argv[2]
+bank_path = root / "fixtures/public-projection/cases.json"
+bank = json.loads(bank_path.read_text(encoding="utf-8"))
+by_id = {row["id"]: row for row in bank["controls"]}
+s3e = root / "docs/portal/pages/research-lineage-s3e.html"
+css = root / "docs/portal/pages/research-lineage-evolved-css.html"
+if mutation == "canonical-title":
+    s3e.write_text(s3e.read_text(encoding="utf-8").replace(
+        "State Synthesis Substrate Engineering: Evolved-SSDDRFCSS",
+        "State System Substrate Engineering: Evolved-SSDDRFCSS"), encoding="utf-8")
+    by_id["S3E-W04-F1"]["public_copy"] = by_id["S3E-W04-F1"]["public_copy"].replace(
+        "State Synthesis", "State System")
+elif mutation == "no-methodology-mode":
+    s3e.write_text(s3e.read_text(encoding="utf-8").replace(
+        "They do not create nine runtimes, selectable methodology modes, or a fixed ceremony.",
+        "They create nine runtimes, selectable methodology modes, and a fixed ceremony."), encoding="utf-8")
+    for field in ("readme_wording", "docs_wording"):
+        by_id["S3E-W04-F2"][field] = "The lineage families create selectable methodology modes."
+    by_id["S3E-W04-F2"]["readme_facts"] = ["selectable-methodology-modes"]
+    by_id["S3E-W04-F2"]["docs_facts"] = ["selectable-methodology-modes"]
+elif mutation == "cheap-path":
+    css.write_text(css.read_text(encoding="utf-8").replace(
+        "When one authoritative deterministic discriminator settles ordinary bounded work, use it and stop. No trigger means no added ceremony, record, or family machinery.",
+        "Every bounded task requires added lineage ceremony, records, and family machinery."), encoding="utf-8")
+    for field in ("readme_wording", "docs_wording"):
+        by_id["S3E-W04-F2"][field] = "Every bounded task requires lineage ceremony."
+    by_id["S3E-W04-F2"]["readme_facts"] = ["ceremony-required"]
+    by_id["S3E-W04-F2"]["docs_facts"] = ["ceremony-required"]
+else:
+    s3e.write_text(s3e.read_text(encoding="utf-8").replace(
+        "The canonical plugin and standalone compatibility projections are mechanically checked independently; they are not literal member-for-member copies.",
+        "The two projections are interchangeable and have identical members."), encoding="utf-8")
+    for field in ("readme_wording", "docs_wording"):
+        by_id["S3E-W04-F4"][field] = "The two projections are interchangeable and have identical members."
+    by_id["S3E-W04-F4"]["readme_facts"] = ["identical-members"]
+    by_id["S3E-W04-F4"]["docs_facts"] = ["identical-members"]
+bank_path.write_text(json.dumps(bank, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+PY
+  if (cd "$root" && bash scripts/check-census-discipline.sh fixtures/public-projection/cases.json >/dev/null 2>&1); then
+    record_fail "source-coupled $mutation corruption false-passed the public census checker"
+    s3e_source_coupling_ok=false
+  fi
+done
+if [ "$s3e_source_coupling_ok" = true ]; then
+  record_pass
+fi
+
+# Bind the S³E projection semantics to freshly built artifact bytes rather than
+# a synchronized prose/fixture count. Member totals may evolve; these semantic
+# distinctions must not.
+projection_out="$tmp/current-package-projections"
+if bash scripts/build-release-asset.sh "$projection_out" >/dev/null &&
+   "${py_cmd[@]}" - "$projection_out/IMPLEMENTAUDIT.plugin.zip" \
+     "$projection_out/IMPLEMENTAUDIT.skill" <<'PY'
+import sys
+import zipfile
+
+plugin_path, standalone_path = sys.argv[1:]
+with zipfile.ZipFile(plugin_path) as archive:
+    plugin = {name for name in archive.namelist() if not name.endswith("/")}
+with zipfile.ZipFile(standalone_path) as archive:
+    standalone = {name for name in archive.namelist() if not name.endswith("/")}
+
+plugin_manifests = {
+    ".claude-plugin/marketplace.json",
+    ".claude-plugin/plugin.json",
+}
+plugin_skills = {
+    "skills/implementaudit/SKILL.md",
+    "skills/audit-state/SKILL.md",
+    "skills/audit-assess/SKILL.md",
+    "skills/audit-implement/SKILL.md",
+    "skills/audit-andon/SKILL.md",
+}
+standalone_children = {
+    "internal-procedures/audit-state.md",
+    "internal-procedures/audit-assess.md",
+    "internal-procedures/audit-implement.md",
+    "internal-procedures/audit-andon.md",
+}
+if not plugin_manifests <= plugin:
+    raise SystemExit("canonical plugin lost dual-host manifest population")
+if not plugin_skills <= plugin:
+    raise SystemExit("canonical plugin lost governor/four-child skill population")
+if any(name.startswith(".claude-plugin/") for name in standalone):
+    raise SystemExit("standalone compatibility projection retained plugin manifests")
+if "SKILL.md" not in standalone or not standalone_children <= standalone:
+    raise SystemExit("standalone projection lost governor/four internal procedures")
+if plugin == standalone:
+    raise SystemExit("canonical and standalone projections became identical")
+PY
+then
+  record_pass
+else
+  record_fail "fresh artifact projection semantics are not mechanically bound"
+fi
+
 # Package-pressure compaction once weakened the omission assertion to generic
-# overclaim/omission wording. R33/R35 review rejected that evaluator mutation;
+# overclaim/omission wording. R0021/R0023 review rejected that evaluator mutation;
 # keep the material owner-sourced omission predicate exact here.
 if grep -Fq "### Public capability projection" \
      skills/implementaudit/references/audit-playbook.md &&
@@ -121,7 +234,7 @@ else
 fi
 
 # Bind each owner-supplied reader question to a named public owner and a small
-# evidence set.  The existing R29 positive/negative/cheap/held-out controls
+# evidence set.  The existing R001D positive/negative/cheap/held-out controls
 # remain the generic semantic discriminator; this cell owns lineage routing,
 # classifications, non-claims, and native-control distinctions.
 if "${py_cmd[@]}" - "$lineage_fixture" <<'PY'
@@ -132,12 +245,12 @@ from pathlib import Path
 fixture = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
 site = json.loads(Path("docs/portal/site.json").read_text(encoding="utf-8"))
 
-if fixture.get("schema") != "implementaudit-research-lineage-reader-questions-v1":
+if fixture.get("schema") != "implementaudit-research-lineage-reader-questions-v2":
     raise SystemExit("lineage reader-question schema invalid")
 questions = fixture.get("questions", [])
-if len(questions) != 10 or len({row.get("id") for row in questions}) != 10:
-    raise SystemExit("lineage reader-question population must be exactly ten unique owner questions")
-if [row.get("id") for row in questions] != [f"R29-LQ{i}" for i in range(1, 11)]:
+if len(questions) != 23 or len({row.get("id") for row in questions}) != 23:
+    raise SystemExit("lineage reader-question population must be exactly twenty-three unique owner questions")
+if [row.get("id") for row in questions] != [f"R29-LQ{i}" for i in range(1, 24)]:
     raise SystemExit("lineage reader-question identity/order drift")
 
 groups = [group.get("group") for group in site.get("nav", [])]
@@ -166,11 +279,70 @@ for row in questions:
     if missing:
         raise SystemExit(f"{row['id']}: reader answer missing {missing}")
 
+contract = fixture.get("first_reader_contract", {})
+section_ids = contract.get("section_ids")
+if section_ids != ["contribution", "changed", "already-native", "rejected", "unverified", "provenance"]:
+    raise SystemExit("lineage first-reader section order drift")
+individual_pages = contract.get("individual_pages", [])
+if len(individual_pages) != 9 or len({row.get("page") for row in individual_pages}) != 9:
+    raise SystemExit("lineage individual-page population must be exactly nine")
+if [row.get("review_tier") for row in individual_pages].count("cold-review") != 3:
+    raise SystemExit("lineage cold-review population must be exactly three")
+if [row.get("review_tier") for row in individual_pages].count("shared-template-census") != 6:
+    raise SystemExit("lineage shared-template census population must be exactly six")
+for row in individual_pages:
+    page = site["pages"].get(row["page"], {})
+    if page.get("title") != row["title"] or page.get("path") != row["route"]:
+        raise SystemExit(f"{row['page']}: title or route drift")
+    text = page_text[row["page"]]
+    positions = [text.find(f'id="{section_id}"') for section_id in section_ids]
+    if any(position < 0 for position in positions) or positions != sorted(positions):
+        raise SystemExit(f"{row['page']}: first-reader section population/order drift")
+    visible = __import__("re").sub(r"<[^>]+>", " ", text)
+    if len(visible.split()) < contract["minimum_visible_words"]:
+        raise SystemExit(f"{row['page']}: substantive first-reader content is too short")
+
+def held_out_failures(candidate_site, candidate_text):
+    failures = set()
+    lineage_pages = next(
+        (group.get("pages") for group in candidate_site.get("nav", [])
+         if group.get("group") == "Research & Engineering Lineage"), None)
+    if lineage_pages != fixture["public_pages"]:
+        failures.add("nav-population")
+    for row in individual_pages:
+        page = candidate_site.get("pages", {}).get(row["page"])
+        if not page:
+            failures.add("page-owner-population")
+            continue
+        text = candidate_text.get(row["page"], "")
+        positions = [text.find(f'id="{section_id}"') for section_id in section_ids]
+        visible = __import__("re").sub(r"<[^>]+>", " ", text)
+        if (any(position < 0 for position in positions)
+                or positions != sorted(positions)
+                or len(visible.split()) < contract["minimum_visible_words"]):
+            failures.add("first-reader-substance")
+    return failures
+
+import copy
+nav_mutant = copy.deepcopy(site)
+next(group for group in nav_mutant["nav"]
+     if group["group"] == "Research & Engineering Lineage")["pages"].pop(5)
+if "nav-population" not in held_out_failures(nav_mutant, page_text):
+    raise SystemExit("held-out missing lineage nav member false-passed")
+page_mutant = copy.deepcopy(site)
+page_mutant["pages"].pop(individual_pages[0]["page"])
+if "page-owner-population" not in held_out_failures(page_mutant, page_text):
+    raise SystemExit("held-out missing lineage page owner false-passed")
+text_mutant = dict(page_text)
+text_mutant[individual_pages[0]["page"]] = "<h1>Collapsed lineage page</h1>"
+if "first-reader-substance" not in held_out_failures(site, text_mutant):
+    raise SystemExit("held-out collapsed lineage prose false-passed")
+
 synthesis = page_text["research-lineage-evolved-law"]
 for literal in fixture["classification_literals"]:
     if literal not in synthesis:
         raise SystemExit(f"lineage synthesis missing classification {literal}")
-for issue in ("R37 / #186", "R38 / #187", "R39 / #188"):
+for issue in ("R0025 / #186", "R0026 / #187", "R0027 / #188"):
     if issue not in synthesis:
         raise SystemExit(f"lineage synthesis missing evidence owner {issue}")
 
@@ -188,10 +360,10 @@ for boundary in (
 
 readme = Path("README.md").read_text(encoding="utf-8")
 changelog = Path("CHANGELOG.md").read_text(encoding="utf-8")
-report = Path("docs/audits/archive/v0.3.3.3-release-report.md").read_text(encoding="utf-8")
+report = Path("docs/audits/archive/v0.4.0.0-release-report.md").read_text(encoding="utf-8")
 title = fixture["release_title"]
 if title not in changelog or title not in report:
-    raise SystemExit("SORME working release title is not owned by changelog/report")
+    raise SystemExit("S³E canonical release title is not owned by changelog/report")
 if "Research & Engineering Lineage" not in readme:
     raise SystemExit("README does not route readers to lineage owners")
 lineage_hosted_route = (
@@ -209,8 +381,8 @@ if lineage_pending in " ".join(changelog.split()):
         raise SystemExit("README preclaims the pending hosted lineage route")
     if lineage_source_route not in readme:
         raise SystemExit("README does not route pending lineage readers to repository source")
-if fixture["compact_label"] not in synthesis:
-    raise SystemExit("compact SORME label missing from synthesis")
+if fixture["compact_label"] not in page_text["research-lineage-s3e"]:
+    raise SystemExit("protected S³E label missing from synthesis")
 if "Semantica" in readme + changelog + report:
     raise SystemExit("internal comparative corpus branding leaked to public owners")
 
@@ -230,7 +402,7 @@ PY
 then
   record_pass
 else
-  record_fail "R29 ten-question research-lineage comprehension contract failed"
+  record_fail "R001D twenty-three-question research-lineage comprehension contract failed"
 fi
 
 # Bind the repaired repository projection as a positive example without
@@ -254,7 +426,7 @@ def projection_fits(readme_text, contributing_text, site_data, diagram_texts):
     readme_routes = (
         "[`CONTRIBUTING.md`](CONTRIBUTING.md)",
         "[`CHANGELOG.md`](CHANGELOG.md)",
-        "[release report](docs/audits/archive/v0.3.3.3-release-report.md)",
+        "[`v0.4.0.0` release report](docs/audits/archive/v0.4.0.0-release-report.md)",
         "[`docs portal`](https://theislampill.github.io/IMPLEMENTAUDIT.md/)",
     )
     readme_model = (
@@ -499,14 +671,14 @@ property_ids = {row[1] for row in required_tuples}
 
 def validate_model_contract(candidate):
     if candidate.get("id") != "R29-public-projection":
-        raise SystemExit("R29 model-cell identity invalid")
+        raise SystemExit("R001D model-cell identity invalid")
     mission = candidate.get("mission", "").casefold()
     fields = candidate.get("matrix_instruction_contract", {}).get("fields", [])
     properties = candidate.get("properties", [])
     if [row.get("field") for row in fields] != [row[0] for row in required_tuples]:
-        raise SystemExit("R29 model-cell field identity set invalid")
+        raise SystemExit("R001D model-cell field identity set invalid")
     if [row.get("name") for row in properties] != [row[1] for row in required_tuples]:
-        raise SystemExit("R29 model-cell scorer property set invalid")
+        raise SystemExit("R001D model-cell scorer property set invalid")
     for field, prop, required in zip(fields, properties, required_tuples):
         label = required[0]
         distractors, forbidden = required[6:]
@@ -522,13 +694,13 @@ def validate_model_contract(candidate):
             raise SystemExit(f"{label}: exact acceptance tuple invalid")
         for phrase in forbidden:
             if phrase.casefold() in mission:
-                raise SystemExit(f"R29 model-cell mission leaks forbidden phrase: {phrase}")
+                raise SystemExit(f"R001D model-cell mission leaks forbidden phrase: {phrase}")
     for prop in properties:
         rule = prop.get("rule", {})
         patterns = [rule.get("pattern", "")]
         patterns += [child.get("pattern", "") for child in rule.get("rules", [])]
         if any("|" in pattern for pattern in patterns):
-            raise SystemExit("R29 model-cell scorer uses a synonym list")
+            raise SystemExit("R001D model-cell scorer uses a synonym list")
 
 
 validate_model_contract(fixture)
@@ -539,7 +711,7 @@ def require_rejection(candidate, mutation):
         validate_model_contract(candidate)
     except SystemExit:
         return
-    raise SystemExit(f"R29 model-cell accepted {mutation}")
+    raise SystemExit(f"R001D model-cell accepted {mutation}")
 
 
 for index, required in enumerate(required_tuples):
@@ -590,7 +762,7 @@ base_seed = {
     "internal/cache.md": "Internal-only cache compaction is not user-facing.",
 }
 if fixture.get("seed_repository") != base_seed:
-    raise SystemExit("R29 model-cell base seed binding invalid")
+    raise SystemExit("R001D model-cell base seed binding invalid")
 
 control_contracts = {
     "positive-paraphrase": {
@@ -639,7 +811,7 @@ control_contracts = {
 def validate_control(row):
     control_id = row.get("id")
     if control_id not in control_contracts:
-        raise SystemExit("R29 model-cell control identity invalid")
+        raise SystemExit("R001D model-cell control identity invalid")
     contract = control_contracts[control_id]
     if set(row) != {
             "id", "repository_identity", "polarity", "expected_pass",
@@ -668,15 +840,15 @@ def require_control_rejection(candidate, mutation):
         validate_control(candidate)
     except SystemExit:
         return
-    raise SystemExit(f"R29 model-cell accepted {mutation}")
+    raise SystemExit(f"R001D model-cell accepted {mutation}")
 
 
 if set(controls) != {"schema", "cases"} or controls.get("schema") != "implementaudit-r29-model-controls-v2":
-    raise SystemExit("R29 model-cell controls schema invalid")
+    raise SystemExit("R001D model-cell controls schema invalid")
 cases = controls.get("cases", [])
 if [row.get("id") for row in cases] != [
         "positive-paraphrase", "negative-internal-only", "polarity-denial"]:
-    raise SystemExit("R29 model-cell controls must be positive/negative/polarity paired")
+    raise SystemExit("R001D model-cell controls must be positive/negative/polarity paired")
 for row in cases:
     validate_control(row)
     local_fixture = dict(fixture)
@@ -717,13 +889,13 @@ for index, row in enumerate(cases):
     require_control_rejection(mutated, f"{control_id} transcript substitution")
 
 if dogfood.get("schema") != "implementaudit-r29-installed-dogfood-input-v1":
-    raise SystemExit("R29 installed-dogfood input schema invalid")
+    raise SystemExit("R001D installed-dogfood input schema invalid")
 if dogfood.get("execution_state") != "NOT_RUN":
-    raise SystemExit("R29 installed dogfood must remain unexecuted in this repair")
-if dogfood.get("model_fixture") != "eval/fixtures/R29-public-projection/fixture.json":
-    raise SystemExit("R29 dogfood input does not bind the distinct model fixture")
+    raise SystemExit("R001D installed dogfood must remain unexecuted in this repair")
+if dogfood.get("model_fixture") != "eval/fixtures/R001D-public-projection/fixture.json":
+    raise SystemExit("R001D dogfood input does not bind the distinct model fixture")
 if set(dogfood.get("expected_properties", [])) != property_ids:
-    raise SystemExit("R29 dogfood input lost a live scored property")
+    raise SystemExit("R001D dogfood input lost a live scored property")
 boundary = dogfood.get("execution_boundary", {})
 if boundary != {
         "disposable_codex_home_required": True,
@@ -732,12 +904,12 @@ if boundary != {
         "installed_dogfood_authorised": False,
         "publication_authorised": False,
 }:
-    raise SystemExit("R29 dogfood execution boundary invalid")
+    raise SystemExit("R001D dogfood execution boundary invalid")
 PY
 then
   record_pass
 else
-  record_fail "R29 prompt-independent model/install-dogfood input contract failed"
+  record_fail "R001D prompt-independent model/install-dogfood input contract failed"
 fi
 
 selftest_out="$tmp/eval-selftest.out"

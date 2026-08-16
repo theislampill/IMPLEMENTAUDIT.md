@@ -1,0 +1,5 @@
+{"type":"host.skill.loaded","skill_path":"C:\\Users\\runner\\AppData\\Local\\Temp\\candidate-home\\skills\\implementaudit\\SKILL.md","purpose":"instruction activation; not model-visible readback"}
+{"type":"item.completed","item":{"type":"command_execution","command":"git status --short --branch --untracked-files=all","exit_code":0}}
+{"type":"item.completed","item":{"type":"command_execution","command":"git rev-parse HEAD","exit_code":0}}
+{"type":"item.completed","item":{"type":"command_execution","command":"rg -n \"Dogfood Runner Contract\" C:\\Users\\runner\\AppData\\Local\\Temp\\candidate-home\\skills\\implementaudit\\SKILL.md","exit_code":0}}
+{"type":"item.completed","item":{"type":"agent_message","text":"The host activated the bootloader, the runner baselined the target, and only then did a model tool read a targeted owner section."}}

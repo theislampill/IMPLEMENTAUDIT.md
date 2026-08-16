@@ -1,0 +1,38 @@
+{
+  "embedded_manifest": {
+    "declared_digest_fields": [],
+    "member": null,
+    "status": "NOT_PRESENT_IN_PACKET"
+  },
+  "lineage_id": "EVOLVED_AGILE",
+  "lineage_name": "Evolved Agile",
+  "members": [
+    {
+      "bytes": 158201,
+      "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+      "path": "docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_FROZEN_REPORT.md",
+      "sha256": "d3380082a7981ec1ccfdf411ac0a77cdb5e82dac7357937872c0bf9a759617c4"
+    },
+    {
+      "bytes": 96057,
+      "member": "EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+      "path": "docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+      "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219"
+    }
+  ],
+  "packet": {
+    "bytes": 73438,
+    "identity_kind": "RAW_DELIVERED_ZIP_BYTES",
+    "path": "docs/research/genealogy/law/evolved-agile/packet/EVOLVED_AGILE_FROZEN_PACKET.zip",
+    "sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0"
+  },
+  "property_ledger": {
+    "bytes": 96057,
+    "member": "EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+    "properties": 28,
+    "root": "EVOLVED_AGILE_PROPERTY_LEDGER.properties",
+    "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219"
+  },
+  "schema": "implementaudit-engineering-genealogy-lineage-manifest-v1",
+  "trifecta": "law"
+}

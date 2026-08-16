@@ -716,7 +716,7 @@ path.write_text(json.dumps(payload), encoding="utf-8")
 PY
 expect_fail "generic plan shape replaced exact current state"
 
-# 46. The executable discriminator remains bound to the R31 lifecycle owner.
+# 46. The executable discriminator remains bound to the R001F lifecycle owner.
 reset_sandbox
 grep -v "cannot claim READY" \
   "$tmp_root/skills/implementaudit/references/plan-lifecycle.md" \
@@ -827,5 +827,33 @@ case["expected"] = "SELECT_CONSEQUENCE_CONTROL"
 path.write_text(json.dumps(payload), encoding="utf-8")
 PY
 expect_fail "risk-matrix label accepted as sufficient control evidence"
+
+# 56. A bounded control with an established safe stop and no material trigger
+# is the cheap path; it must not inherit BLOCK from the rejected material case.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R34-C146-safe-stop-control-cheap-path")
+case["expected"] = "BLOCK"
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "safe-stop control inherited material BLOCK"
+
+# 57. A nominal override remains insufficient even when every other field
+# resembles the safe-stop control cheap path.
+reset_sandbox
+"${py_cmd[@]}" - \
+  "$tmp_root/fixtures/audit-action-selection/engineering-value-cases.json" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+payload = json.loads(path.read_text(encoding="utf-8"))
+case = next(x for x in payload["cases"] if x["id"] == "R34-C146-safe-stop-control-cheap-path")
+case["observations"]["nominal_override_only"] = True
+path.write_text(json.dumps(payload), encoding="utf-8")
+PY
+expect_fail "nominal override accepted as safe-stop cheap path"
 
 printf 'action-selection-contract.test: ok\n'

@@ -33,7 +33,7 @@ no new lifecycle or marker family.
 
 ## Materially ambiguous family evidence
 
-R32 owns family classification. When it remains **materially ambiguous**
+R0020 owns family classification. When it remains **materially ambiguous**
 between multiple plausible mechanisms, no authoritative deterministic
 discriminator settles it, and seeding the favoured explanation could correlate
 the evidence, progressively load `child-agents.md` and use its R34-owned
@@ -54,12 +54,12 @@ evidence, or plausible mechanism, stop and preserve `unresolved-family`.
 - **Temporal:** preserve Smoke A, the governed intervention, and Smoke B as the
   before/after comparison. A retrospective family model does not recreate the
   pre-state.
-- **Structural:** R32 owns the invariant, dimensions, equivalence classes,
+- **Structural:** R0020 owns the invariant, dimensions, equivalence classes,
   malformed and boundary states, adjacent and held-out mutations, distractor
   exclusions, coherent repair, and outer qualification.
-- **Epistemic, only when triggered:** R34 owns the informational independence
+- **Epistemic, only when triggered:** R0022 owns the informational independence
   and marginal value of exploratory passes.
-- **Measurement:** R35 owns the original failing witness, evaluator identity,
+- **Measurement:** R0023 owns the original failing witness, evaluator identity,
   and independent justification for a changed measurement surface under Rule
   P4-16 in `phase-design.md`.
 
@@ -119,12 +119,12 @@ model.
 
 Pre-candidate RED-first fixture authoring stays ordinary. After failure, changing
 the classifier, expected route, fixture population, checker, prompt, threshold,
-or evaluator for the same claim activates R35 Rule P4-16. Preserve the original
+or evaluator for the same claim activates R0023 Rule P4-16. Preserve the original
 failing witness and evaluator identity; classify product, evaluator, coupled, or
 unresolved change; and use the old/new candidate-by-evaluator matrix or an
 authoritative independent instrument as required. New green alone proves
 nothing. Prefer mechanical evidence. A prompt-independent model cell may review
-residual ambiguity under R35, but never replaces repository truth or live-owner
+residual ambiguity under R0023, but never replaces repository truth or live-owner
 verification.
 
 ## Exit and marginal review yield
@@ -143,7 +143,7 @@ reopen the loop; a round count never substitutes for evidence.
 
 ## Qualification evidence and limits
 
-R32 recovered 48 findings across R30, #144, and R31: 45 included, three reasoned
+R0020 recovered 48 findings across R001E, #144, and R001F: 45 included, three reasoned
 exclusions, zero duplicates or ambiguities. Fourteen deterministic cases cover
 convergence, duplicate, unrelated, unresolved-family, and cheap-path routes;
 relabelled, overbroad, owner-substitution, missing-held-out, failing-held-out,
@@ -151,4 +151,4 @@ and unpriced-repeat controls reject. The three-dimension positive and
 single-fault negative remain evidence. This qualifies narrow progressive
 IMPLEMENTAUDIT adoption, not an optimal trigger in every repository, automated
 family judgement, or benefit across other agents, hosts, repositories, or skill
-ecosystems. R29 owns that public boundary.
+ecosystems. R001D owns that public boundary.

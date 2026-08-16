@@ -95,7 +95,7 @@ do
   require "$child_ref" "$text"
 done
 
-# --- engineering-value admission and retirement contract (#163 / R34) ---
+# --- engineering-value admission and retirement contract (#163 / R0022) ---
 for text in \
   "## Engineering-value admission and control lifecycle" \
   "Preserve the gate or engineering obligation where warranted" \
@@ -117,8 +117,11 @@ for text in \
   "coordination/peak-attention burden" \
   "nominal override or" \
   "degraded envelope is bounded and observable" \
+  "authorised safe stop and no material trigger" \
+  'bounded control `CHEAP_PATH`' \
+  'material proposal is `BLOCK`' \
   "serial cheap path" \
-  "No activation factor means no R34 diagnostic or artefact" \
+  "No activation factor means no R0022 diagnostic or artefact" \
   "actual dependency, write," \
   "acceptance, resource, authority, and composed-only boundaries" \
   'ready-cell frontier in `child-agents.md`'
@@ -334,6 +337,7 @@ required_ids.update({
     "R44-C143-low-consequence-cheap-path",
     "R44-C144-bounded-degraded-operation",
     "R44-C145-risk-matrix-insufficient",
+    "R34-C146-safe-stop-control-cheap-path",
 })
 ids = [case.get("id") for case in cases if isinstance(case, dict)]
 if len(ids) != len(set(ids)) or set(ids) != required_ids:
@@ -553,11 +557,16 @@ def decide(case):
         booleans(o, fields)
         if o["method_only"]:
             return "REJECT"
-        if o["low_consequence_reversible"] and o["direct_readback"] and not o["high_consequence"]:
-            return "SERIAL_CHEAP_PATH"
         if o["nominal_override_only"] or not o["capable_intervention_chain"]:
             return "STOP_AND_ESCALATE"
         complete = all(o[name] for name in ("target_state", "feedback", "containment", "recovery"))
+        no_material_trigger = not any(o[name] for name in (
+            "live_pressure", "high_consequence", "coordination_or_attention_burden",
+            "information_value_remaining", "bounded_degraded_operation"))
+        if complete and o["capable_intervention_chain"] and not o["stopping_hazardous"] and no_material_trigger:
+            return "CHEAP_PATH"
+        if o["low_consequence_reversible"] and o["direct_readback"] and not o["high_consequence"]:
+            return "SERIAL_CHEAP_PATH"
         if o["high_consequence"]:
             if not complete:
                 return "DEFER"

@@ -1,6 +1,75 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+resolve_package_version() {
+  local skill_dir="${1:-}"
+  if [ -z "$skill_dir" ]; then
+    skill_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
+  elif [ -d "$skill_dir" ]; then
+    skill_dir="$(cd "$skill_dir" && pwd -P)"
+  else
+    printf 'detect-env: skill directory does not exist: %s\n' "$skill_dir" >&2
+    return 1
+  fi
+
+  local -a py_cmd=()
+  if command -v python >/dev/null 2>&1; then
+    py_cmd=(python)
+  elif command -v python3 >/dev/null 2>&1; then
+    py_cmd=(python3)
+  elif command -v py >/dev/null 2>&1; then
+    py_cmd=(py -3)
+  else
+    printf 'unknown\n'
+    return 0
+  fi
+
+  "${py_cmd[@]}" - \
+    "$skill_dir/IMPLEMENTAUDIT_PACKAGE.json" \
+    "$skill_dir/../../IMPLEMENTAUDIT_PACKAGE.json" \
+    "$skill_dir/../../package/implementaudit-package.json" <<'PY'
+import json
+import re
+import sys
+from pathlib import Path
+
+observed = []
+for raw_path in sys.argv[1:]:
+    path = Path(raw_path).resolve()
+    if not path.is_file():
+        continue
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        raise SystemExit(f"detect-env: invalid package identity {path}: {exc}")
+    version = value.get("runtime_version") if isinstance(value, dict) else None
+    if not isinstance(version, str) or not re.fullmatch(r"[0-9]+(?:\.[0-9]+)*", version):
+        raise SystemExit(f"detect-env: invalid package runtime_version in {path}")
+    observed.append((path, version))
+
+if not observed:
+    print("unknown")
+elif len({version for _, version in observed}) != 1:
+    detail = ", ".join(f"{path}={version}" for path, version in observed)
+    raise SystemExit(f"detect-env: package version contradiction: {detail}")
+else:
+    print(observed[0][1])
+PY
+}
+
+if [ "${1:-}" = "--package-version" ]; then
+  [ "$#" -le 2 ] || {
+    printf 'detect-env: --package-version accepts at most one skill directory\n' >&2
+    exit 1
+  }
+  resolve_package_version "${2:-}"
+  exit $?
+fi
+[ "$#" -eq 0 ] || {
+  printf 'detect-env: unknown argument: %s\n' "$1" >&2
+  exit 1
+}
+
 printf 'implementaudit.detect-env\n'
 printf 'pwd=%s\n' "$(pwd)"
 printf 'os=%s\n' "$(uname -s 2>/dev/null || printf unknown)"
@@ -77,6 +146,7 @@ printf 'codex_home=%s\n' "${CODEX_HOME:-unset}"
 printf 'claude_config_dir=%s\n' "${CLAUDE_CONFIG_DIR:-unset}"
 printf 'implementaudit_base=%s\n' "${IMPLEMENTAUDIT_BASE:-.IMPLEMENTAUDIT/runs}"
 printf 'implementaudit_skill_dir=%s\n' "${IMPLEMENTAUDIT_SKILL_DIR:-skills/implementaudit (default; set to the installed skill directory)}"
+printf 'implementaudit_package_version=%s\n' "$(resolve_package_version "${IMPLEMENTAUDIT_SKILL_DIR:-}")"
 printf 'implementaudit_run_root=%s\n' "${IMPLEMENTAUDIT_RUN_ROOT:-unset}"
 printf 'implementaudit_baseline_ref=%s\n' "${IMPLEMENTAUDIT_BASELINE_REF:-unset}"
 if command -v bash >/dev/null 2>&1; then
