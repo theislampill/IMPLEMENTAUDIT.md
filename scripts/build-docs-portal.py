@@ -31,9 +31,15 @@ CHANGELOG_URL = "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/CHA
 DEFAULT_RELEASE = {
     "milestone": "unknown",
     "manifest_version": "unknown",
+    "publication_state": "unknown",
     "url": REPO_URL,
     "audit_ledger_url": f"{REPO_URL}/tree/main/docs/audits",
     "checksum_boundary": "checksum manifest verifies artifact integrity; release provenance still needs a separate authorized gate",
+}
+
+PUBLICATION_LABELS = {
+    "candidate": "Candidate release",
+    "published": "Release",
 }
 
 TOP_NAV = [
@@ -336,6 +342,12 @@ def release_info(site: dict, runtime_version: str) -> dict:
         release["manifest_version"] = runtime_version
     if release.get("milestone") in (None, "unknown"):
         raise SystemExit("docs/portal/site.json must declare an explicit release milestone")
+    publication_state = str(release.get("publication_state", "")).strip().lower()
+    if publication_state not in PUBLICATION_LABELS:
+        raise SystemExit(
+            "docs/portal/site.json release publication_state must be candidate or published"
+        )
+    release["publication_state"] = publication_state
     validate_project_milestone(str(release["milestone"]), str(release["manifest_version"]))
     validate_release_ledger(str(release["milestone"]), str(release.get("audit_ledger_url", "")))
     return release
@@ -479,10 +491,11 @@ def page_proof_strip(current: dict, release: dict) -> str:
     rel_source = f'docs/portal/pages/{current["source"]}'
     milestone = str(release.get("milestone", "unknown"))
     release_url = str(release.get("url", REPO_URL))
+    release_label = PUBLICATION_LABELS[str(release["publication_state"])]
     return (
         '<dl class="page-proof-strip" aria-label="Page source and release links">'
         f'<div><dt>Page source</dt><dd><code>{html.escape(rel_source)}</code></dd></div>'
-        f'<div><dt>Release</dt><dd class="release-proof-links">'
+        f'<div><dt>{release_label}</dt><dd class="release-proof-links">'
         f'<span class="release-version"><a href="{html.escape(release_url)}">{html.escape(milestone)}</a></span>'
         f'<span class="release-secondary"><a href="{html.escape(REPO_URL)}">Source</a> - <a href="{html.escape(CHANGELOG_URL)}">Changelog</a></span>'
         f'</dd></div>'
@@ -697,6 +710,7 @@ def build_portal(out_dir: Path) -> None:
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "project_milestone": release["milestone"],
         "plugin_manifest_version": release["manifest_version"],
+        "release_publication_state": release["publication_state"],
         "package_identity": identity,
         "release_url": release.get("url", REPO_URL),
         "audit_ledger_url": release.get("audit_ledger_url", DEFAULT_RELEASE["audit_ledger_url"]),

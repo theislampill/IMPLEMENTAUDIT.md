@@ -38,6 +38,7 @@ bad_extra="$tmp/bad-extra-output"
 bad_raw_command="$tmp/bad-raw-command"
 bad_table_classes="$tmp/bad-table-classes"
 bad_footer_proof="$tmp/bad-footer-proof"
+bad_release_label="$tmp/bad-release-label"
 bad_overview_release="$tmp/bad-overview-release"
 bad_marker_taxonomy="$tmp/bad-marker-taxonomy"
 bad_slash_boundary="$tmp/bad-slash-boundary"
@@ -141,6 +142,7 @@ assert meta["package_identity"]["generated_projections"] == {
     "standalone_compatibility": {"artifact": "IMPLEMENTAUDIT.skill", "layout": "flattened-skill"},
 }
 assert meta["release_url"] == site["release"]["url"]
+assert meta["release_publication_state"] == "candidate"
 assert site["release"]["milestone"] == "v0.4.0.0"
 assert site["release"]["manifest_version"] == "0.4.0"
 assert site["release"]["audit_ledger_url"].endswith("/v0.4.0.0-release-report.md")
@@ -182,6 +184,11 @@ for page_id in ordered:
     assert 'class="page-context"' not in text
     assert 'class="page-proof-strip"' in text
     assert text.find('class="page-proof-strip"') > text.find("<footer>")
+    assert "<dt>Candidate release</dt>" in text
+    assert "<dt>Release</dt>" not in text
+overview = (out / "index.html").read_text(encoding="utf-8")
+assert "<em>Candidate release</em>" in overview
+assert "<em>Release</em>" not in overview
 PY
 then
   ok "metadata, site nav, and page shell agree"
@@ -648,6 +655,24 @@ if "${py_cmd[@]}" scripts/check-docs-portal.py "$bad_footer_proof" >/dev/null 2>
   fail_check "check-docs-portal.py accepted footer proof Boundary cell or release-link order drift"
 else
   ok "check-docs-portal.py rejects footer proof Boundary cell and release-link order drift"
+fi
+
+cp -R "$out" "$bad_release_label"
+"${py_cmd[@]}" - "$bad_release_label" <<'PY'
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+for path in root.rglob("*.html"):
+    text = path.read_text(encoding="utf-8")
+    text = text.replace("<dt>Candidate release</dt>", "<dt>Release</dt>")
+    text = text.replace("<em>Candidate release</em>", "<em>Release</em>")
+    path.write_text(text, encoding="utf-8")
+PY
+if "${py_cmd[@]}" scripts/check-docs-portal.py "$bad_release_label" >/dev/null 2>&1; then
+  fail_check "check-docs-portal.py accepted a published Release label for candidate output"
+else
+  ok "check-docs-portal.py rejects a published Release label for candidate output"
 fi
 
 cp -R "$out" "$bad_overview_release"

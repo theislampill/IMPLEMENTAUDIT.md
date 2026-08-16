@@ -27,6 +27,7 @@ REQUIRED_METADATA_FIELDS = [
     "generated_at",
     "project_milestone",
     "plugin_manifest_version",
+    "release_publication_state",
     "package_identity",
     "release_url",
     "audit_ledger_url",
@@ -37,6 +38,11 @@ REQUIRED_METADATA_FIELDS = [
     "source_sha256s",
     "rough_draft_used",
 ]
+
+PUBLICATION_LABELS = {
+    "candidate": "Candidate release",
+    "published": "Release",
+}
 
 REQUIRED_GROUPS = [
     "Overview",
@@ -635,6 +641,8 @@ def validate_page_shell(out_dir: Path, site: dict, ordered: list[dict], pages_by
         if page["id"] == "overview":
             release = site.get("release", {})
             milestone = str(release.get("milestone", ""))
+            publication_state = str(release.get("publication_state", ""))
+            release_label = PUBLICATION_LABELS.get(publication_state)
             audit_ledger_url = str(release.get("audit_ledger_url", ""))
             hero = first_region(html_text, "hero", tag="section")
             meta_row = first_region(hero, "meta-row", tag="div")
@@ -643,6 +651,8 @@ def validate_page_shell(out_dir: Path, site: dict, ordered: list[dict], pages_by
             else:
                 if milestone and milestone not in meta_row:
                     fail(f"{rel}: overview hero current release does not match docs/portal/site.json")
+                if release_label and f"<em>{release_label}</em>" not in meta_row:
+                    fail(f"{rel}: overview hero release label does not match publication state")
                 if audit_ledger_url and audit_ledger_url not in hero:
                     fail(f"{rel}: overview hero evidence link does not match docs/portal/site.json")
         if len(html_text) < 800:
@@ -755,6 +765,8 @@ def validate_page_shell(out_dir: Path, site: dict, ordered: list[dict], pages_by
         else:
             proof = first_region(html_text[footer_index:], "page-proof-strip", tag="dl")
             release = site.get("release", {})
+            publication_state = str(release.get("publication_state", ""))
+            release_label = PUBLICATION_LABELS.get(publication_state)
             rel_source = f"docs/portal/pages/{page['source']}"
             if release and str(release.get("milestone", "")) not in proof:
                 fail(f"{rel}: proof strip missing release milestone")
@@ -766,8 +778,11 @@ def validate_page_shell(out_dir: Path, site: dict, ordered: list[dict], pages_by
                 fail(f"{rel}: proof strip should not render a redundant Boundary cell")
             if "Changelog" not in proof or "Source" not in proof:
                 fail(f"{rel}: proof strip release cell should carry Changelog and Source links")
-            if proof.find("<dt>Page source</dt>") > proof.find("<dt>Release</dt>"):
-                fail(f"{rel}: proof strip should place Page source before Release")
+            expected_release_term = f"<dt>{release_label}</dt>" if release_label else ""
+            if not expected_release_term or expected_release_term not in proof:
+                fail(f"{rel}: proof strip release label does not match publication state")
+            elif proof.find("<dt>Page source</dt>") > proof.find(expected_release_term):
+                fail(f"{rel}: proof strip should place Page source before the release route")
             if proof.find(">Source</a>") > proof.find(">Changelog</a>"):
                 fail(f"{rel}: proof strip should place Source before Changelog")
             foot_inner = first_region(html_text[footer_index:], "foot-inner", tag="div")
@@ -1027,10 +1042,17 @@ def validate_metadata(out_dir: Path, site: dict, ordered: list[dict]) -> None:
             fail("docs-metadata.json project_milestone does not match docs/portal/site.json release")
         if metadata.get("plugin_manifest_version") != release.get("manifest_version"):
             fail("docs-metadata.json plugin_manifest_version does not match docs/portal/site.json release")
+        publication_state = str(release.get("publication_state", ""))
+        if publication_state not in PUBLICATION_LABELS:
+            fail("docs/portal/site.json release publication_state must be candidate or published")
+        if metadata.get("release_publication_state") != publication_state:
+            fail("docs-metadata.json release_publication_state does not match docs/portal/site.json release")
         if metadata.get("release_url") != release.get("url"):
             fail("docs-metadata.json release_url does not match docs/portal/site.json release")
         release_url = str(release.get("url", ""))
         release_status = str(release.get("status", "")).lower()
+        if publication_state == "candidate" and "candidate" not in release_status:
+            fail("candidate release publication_state requires candidate status wording")
         expected_release_prefix = "https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/tag/"
         source_checkout_only = (
             release_url == ""
