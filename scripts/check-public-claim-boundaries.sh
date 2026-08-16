@@ -183,13 +183,13 @@ if not readme_path.is_file():
 else:
     readme_flat = " ".join(readme_path.read_text(encoding="utf-8").split())
     required_public_tag_boundary = (
-        "may the following public-tag form be treated as current; until then, "
-        "use the locally qualified asset route shown above"
+        "The published `v0.4.0.0` asset below is current because public download, "
+        "checksum and isolated install readback reproduced its frozen identity"
     )
     if required_public_tag_boundary not in readme_flat:
         failures.append(
-            "README.md: prepublication local-asset guidance does not clearly "
-            "separate the following post-publication URL command"
+            "README.md: published release-asset guidance does not bind the "
+            "URL command to independent download/checksum/install readback"
         )
 
 # Proof-level discipline (#53, IA-PROOF-LEVELS): on active/current surfaces,

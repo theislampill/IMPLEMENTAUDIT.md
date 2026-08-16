@@ -44,6 +44,7 @@ else
 fi
 
 "${py_cmd[@]}" - <<'PY'
+import re
 import sys
 from pathlib import Path
 
@@ -56,9 +57,6 @@ SCAN_FILES = ["README.md", "AGENTS.md"]
 # retry/revision/round/strike limit as behavior. Historical mentions stay valid
 # only in exempt surfaces (CHANGELOG.md and docs/audits/ are never scanned).
 FORBIDDEN = [
-    "strike",
-    "strikes",
-    "three-strike",
     "recovery ladder",
     "failure ladder",
     "up to 3 rounds",
@@ -81,6 +79,23 @@ FORBIDDEN = [
     "failure_probe",
     "failure_escalate",
     "failure_handoff",
+]
+
+# Reject counted/capped strike policies without banning a proper noun or an
+# ordinary English use of "strike". The architecture forbids finite-count
+# termination semantics, not the token itself.
+COUNTED_STRIKE = (
+    r"\b(?:single|double|triple|quad|quadruple|one|two|three|four|five|n|[1-9][0-9]*)[ -]strikes?\b"
+    r"|\b(?:first|second|third|fourth|fifth)\s+strikes?\b"
+)
+STRIKE_POLICY_CONTEXT = (
+    r"\b(?:policy|rule|sequence|ladder|counter|count|cap|limit|attack\s+count|termination)\b"
+    r"|\b(?:stop|stops|block|blocks|terminate|terminates)\s+(?:the\s+)?(?:run|work|loop|audit|closure|progress)\b"
+    r"|\b(?:handoff|hands\s+off)\b"
+)
+DIRECT_STRIKE_CAP_PATTERNS = [
+    r"\bstrikes?\s+(?:counter|count|cap|limit)\b",
+    r"\bafter\s+(?:one|two|three|four|five|six|seven|eight|nine|ten|n|[1-9][0-9]*)\s+strikes?\b.*\b(?:stop|stops|block|blocks|handoff|hands\s+off|terminate|terminates|fail|fails|close|closes)\b",
 ]
 
 ALWAYS_FORBIDDEN = [
@@ -125,6 +140,16 @@ for path in paths:
         for term in FORBIDDEN:
             if term in lowered and not any(context in lowered for context in NEGATED_CONTEXT):
                 violations.append(f"{path.as_posix()}:{lineno}: disallowed public-claim terminal-cap wording: {term!r}")
+        counted_strike_policy = re.search(COUNTED_STRIKE, lowered) and re.search(
+            STRIKE_POLICY_CONTEXT, lowered
+        )
+        direct_strike_cap = any(re.search(pattern, lowered) for pattern in DIRECT_STRIKE_CAP_PATTERNS)
+        if (counted_strike_policy or direct_strike_cap) and not any(
+            context in lowered for context in NEGATED_CONTEXT
+        ):
+            violations.append(
+                f"{path.as_posix()}:{lineno}: disallowed public-claim terminal-cap wording: counted/capped strike policy"
+            )
         if (
             "first" in lowered
             and "second" in lowered

@@ -7,10 +7,23 @@ cd "$repo_root"
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
-# 1. The live repo must pass the gate.
+# 1. A source-backed proper noun containing "strike" is not a strike-counter
+#    contract and must remain valid public documentation.
+mkdir -p "$tmp/good-proper-noun/docs/portal/pages"
+cat >"$tmp/good-proper-noun/docs/portal/pages/reliability.html" <<'EOF'
+The CrowdStrike post-incident report documents a correlated update failure.
+A lightning strike can interrupt service; recovery follows observed evidence.
+A single strike damaged the unprotected sensor.
+The first strike damaged the transformer; the second hit an isolated feeder.
+Strike the stale observation from the record only after independent readback.
+Hansei may follow any strike, regression, or evidence mismatch.
+EOF
+bash scripts/check-no-terminal-cap.sh --scan-root "$tmp/good-proper-noun"
+
+# 2. The live repo must pass the gate.
 bash scripts/check-no-terminal-cap.sh
 
-# 2. Terminal-cap wording in a shipped runtime doc must fail.
+# 3. Terminal-cap wording in a shipped runtime doc must fail.
 mkdir -p "$tmp/bad-strike/skills/implementaudit/references"
 cat >"$tmp/bad-strike/skills/implementaudit/references/transcript-contract.md" <<'EOF'
 The three-strike sequence stops the run on Strike 3.
@@ -32,16 +45,28 @@ if bash scripts/check-no-terminal-cap.sh --scan-root "$tmp/bad-rounds" >/dev/nul
   exit 1
 fi
 
-# 3b. Bare strike-counter wording (no number attached) must fail.
-mkdir -p "$tmp/bad-bare-strike/skills/implementaudit/templates"
-cat >"$tmp/bad-bare-strike/skills/implementaudit/templates/PROTOCOL.md" <<'EOF'
-Hansei is required after any strike or substitution.
+# 3b. Counted/capped strike semantics must fail without banning ordinary uses.
+strike_case=0
+while IFS= read -r wording; do
+  strike_case=$((strike_case + 1))
+  dir="$tmp/bad-counted-strike-$strike_case"
+  mkdir -p "$dir/skills/implementaudit/templates"
+  printf '%s\n' "$wording" >"$dir/skills/implementaudit/templates/PROTOCOL.md"
+  if bash scripts/check-no-terminal-cap.sh --scan-root "$dir" >/dev/null 2>&1; then
+    printf 'no-terminal-cap.test: expected counted strike wording to fail: %s\n' "$wording" >&2
+    exit 1
+  fi
+done <<'EOF'
+The double-strike policy stops work.
+The triple-strike rule hands off the run.
+The quad-strike attack count terminates the run.
+An N-strike attack count blocks closure.
+A strike counter terminates at its limit.
+The strike count is capped at four.
+The strike limit hands off the run.
+After 4 strikes, stop and hand off.
+After three strikes, stop and hand off.
 EOF
-
-if bash scripts/check-no-terminal-cap.sh --scan-root "$tmp/bad-bare-strike" >/dev/null 2>&1; then
-  printf 'no-terminal-cap.test: expected bare strike wording to fail\n' >&2
-  exit 1
-fi
 
 # 4. Run-stopping wording and legacy marker spellings must fail.
 mkdir -p "$tmp/bad-legacy/skills/implementaudit/references"
