@@ -105,11 +105,11 @@ Each action requires separate explicit authorisation.
 ## Quick start
 
 1. Choose the installation route in [Install notes](#install-notes). The
-   candidate public identity is `v0.4.0.0`; its host-facing runtime is `0.4.0`.
+   published public identity is `v0.4.0.0`; its host-facing runtime is `0.4.0`.
    **State Synthesis Substrate Engineering: Evolved-SSDDRFCSS** (`S³E`) names
    one native state-synthesis substrate, not selectable lineage modes.
-   A checkout of `main`, a locally built archive, and the public release asset
-   remain distinct until publication and byte-for-byte readback are complete.
+   A checkout of `main`, a locally built archive, and the independently read-back
+   public release asset remain distinct sources and are not assumed byte-identical.
 
 2. Invoke `/implementaudit` with a bounded repository target. Common shapes
    include:
@@ -973,7 +973,7 @@ without the corresponding host or public evidence.
 
 ## Version and release notes
 
-Current project milestone: prepublication `v0.4.0.0` candidate; plugin/runtime version `0.4.0`.
+Current published milestone: `v0.4.0.0`; plugin/runtime version `0.4.0`.
 
 The canonical title is **State Synthesis Substrate Engineering:
 Evolved-SSDDRFCSS**. The protected compact label is **S³E** wherever used. The
@@ -982,7 +982,7 @@ the source composition does not itself create a tag, GitHub Release, asset or
 Pages deployment.
 
 The prior `v0.3.3.3` tag and release remain append-only historical evidence.
-Candidate and later authorised publication evidence belongs in the
+Qualification and authorised publication evidence belongs in the
 [`v0.4.0.0` release report](docs/audits/archive/v0.4.0.0-release-report.md);
 release chronology and user-visible changes belong in
 [`CHANGELOG.md`](CHANGELOG.md). This README describes the current product and
@@ -1180,14 +1180,15 @@ staged plugin copy, and standalone temporary-install paths. None of those alone
 proves native host discovery, invocation, passive update, universal host
 support, marketplace verification, or public GitHub release download.
 
-**Release/contract alignment:** the candidate public identity is `v0.4.0.0`,
-with plugin/runtime version `0.4.0`. Each candidate artifact's bytes, inventory,
-and SHA-256 are bound by a fresh exact-tree build; release URLs are not treated
-as serving them until publication and fresh public download/readback complete.
+**Release/contract alignment:** the published public identity is `v0.4.0.0`,
+with plugin/runtime version `0.4.0`. The release assets' bytes, inventories,
+and SHA-256 values are bound by the qualified exact-tree build, public
+<code>CHECKSUMS.txt</code>, and independent download/readback. Current <code>main</code>
+may contain later source or documentation changes without rewriting those assets.
 
 A checkout of `main` may contain post-release source changes. Installing from a
 checkout or through a CLI that resolves current `main` uses source-checkout
-semantics; it is not automatically byte-identical to a future tagged `v0.4.0.0`
+semantics; it is not automatically byte-identical to the published `v0.4.0.0`
 asset. Re-verify this paragraph at every release gate.
 
 ### Quick install via the skills CLI
@@ -1218,8 +1219,8 @@ ecosystem's install-telemetry index, not by this repo.
 
 Choose the source deliberately:
 
-- the `v0.4.0.0` source candidate must be built, qualified and independently
-  reviewed before any public availability can be claimed;
+- the published `v0.4.0.0` artifacts were built, qualified, independently
+  reviewed, downloaded, checksum-verified, and installed in isolated projections;
 - the current source contains the packaged R001D correction and later native
   runtime countermeasures;
 - a local archive is evidence only for the exact source tree from which it was
@@ -1269,8 +1270,8 @@ bash scripts/install-plugin-from-release.sh \
 Repeat with `--host claude` for the separate staged Claude projection check.
 Passing either command proves checked package copy, inventory, update, rollback,
 and post-readback behaviour only. Native discovery and invocation remain host
-evidence; public-download identity remains pending publication and fresh
-readback.
+evidence; the tagged public-download identity has independent readback, while
+native host discovery and invocation still require their own host evidence.
 
 ### Standalone compatibility install / update for Codex
 
@@ -1297,9 +1298,9 @@ bash scripts/install-codex-from-release.sh \
   --version 0.4.0
 ```
 
-Only after v0.4.0.0 is published and independently read back may the following
-public-tag form be treated as current; until then, use the locally qualified
-asset route shown above:
+The published v0.4.0.0 public-tag command below installs the independently
+read-back standalone release asset. Use the local route above only when you
+deliberately want an exact locally built source projection instead:
 
 ```bash
 bash scripts/install-codex-from-release.sh \
@@ -1337,7 +1338,7 @@ bash scripts/install-claude-from-release.sh \
   --claude-skills-dir "<claude-session-path>/skills/implementaudit"
 ```
 
-After final public readback, install the `v0.4.0.0` release asset with:
+Install the independently read-back `v0.4.0.0` release asset with:
 
 ```bash
 bash scripts/install-claude-from-release.sh \

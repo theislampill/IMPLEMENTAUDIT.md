@@ -318,8 +318,11 @@ def current_package_identity(root: Path) -> dict:
     claude = read_json(root / ".claude-plugin" / "plugin.json")
     if not contract or not codex or not claude:
         return {}
-    if codex != claude:
-        fail("Codex and Claude plugin manifests disagree")
+    shared_manifest_fields = ("name", "version", "description", "skills", "author")
+    codex_shared = {key: codex.get(key) for key in shared_manifest_fields}
+    claude_shared = {key: claude.get(key) for key in shared_manifest_fields}
+    if codex_shared != claude_shared:
+        fail("Codex and Claude plugin manifests must preserve equal shared semantics")
     comparisons = {
         "package name": (contract.get("package_name"), codex.get("name")),
         "runtime version": (contract.get("runtime_version"), codex.get("version")),
@@ -1053,6 +1056,12 @@ def validate_metadata(out_dir: Path, site: dict, ordered: list[dict]) -> None:
         release_status = str(release.get("status", "")).lower()
         if publication_state == "candidate" and "candidate" not in release_status:
             fail("candidate release publication_state requires candidate status wording")
+        if publication_state == "published" and (
+            "published" not in release_status
+            or "candidate public identity" in release_status
+            or "prepublication" in release_status
+        ):
+            fail("published release status must describe published current truth")
         expected_release_prefix = "https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/tag/"
         source_checkout_only = (
             release_url == ""

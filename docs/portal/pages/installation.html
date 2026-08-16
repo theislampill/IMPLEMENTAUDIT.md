@@ -1,7 +1,7 @@
 <div class="page-eyebrow">First run</div>
       <h1>Installation</h1>
       <p class="lead">The normal release/install unit is one atomic dual-host plugin package.<br>Package shape, staged copy, native host loading, and audit correctness remain separate evidence.</p>
-      <p>The <code>v0.4.0.0</code> URLs below are candidate release routes, not evidence that a public release already exists. The runtime version is <code>0.4.0</code>. <code>IMPLEMENTAUDIT.plugin.zip</code> is the canonical generated projection; <code>IMPLEMENTAUDIT.skill</code> is a generated, checksummed standalone compatibility projection. Until publication and readback complete, use locally built, checksum-verified candidate artifacts.</p>
+      <p>The <code>v0.4.0.0</code> URLs below are published, independently read-back release routes for runtime <code>0.4.0</code>. <code>IMPLEMENTAUDIT.plugin.zip</code> is the canonical generated projection; <code>IMPLEMENTAUDIT.skill</code> is a generated, checksummed standalone compatibility projection. A current-source build may differ from those immutable release assets and must be identified as a local projection.</p>
 
       <h2 id="skills-cli">Skills CLI path</h2>
       <p>The repository is discoverable through the open <a href="https://skills.sh/theislampill/IMPLEMENTAUDIT.md">skills CLI directory</a>. Install from the current repository source with:</p>
@@ -12,7 +12,7 @@
       <p>This route follows the repository's current source and may expose the public governor plus its four child skills to a capable host. Invoke <code>/implementaudit</code>; discovery is not routing or authority. <code>audit-state</code>, <code>audit-assess</code>, and <code>audit-implement</code> refuse direct entry; an explicit <code>audit-andon</code> cord-pull returns bounded cognition to its caller without new authority. This route is distinct from the canonical plugin release artifact and from a checksum-verified GitHub release asset. It does not prove refresh behavior, auto-update, marketplace verification, release-byte identity, or host loading.</p>
 
       <h2 id="plugin">Canonical dual-host plugin path</h2>
-      <p>Use the host's current native plugin installation route with <code>IMPLEMENTAUDIT.plugin.zip</code>, then verify that the expected host discovers <code>/implementaudit</code> at version <code>0.4.0</code>. The atomic package carries equal Codex and Claude manifests, package/inventory metadata, one <code>skills/implementaudit/</code> governor with shared references/templates/scripts, and exactly four child skills: <code>audit-state</code>, <code>audit-assess</code>, maintainer-only <code>audit-implement</code>, and dual-entry <code>audit-andon</code>.</p>
+      <p>Use the host's current native plugin installation route with <code>IMPLEMENTAUDIT.plugin.zip</code>, then verify that the expected host discovers <code>/implementaudit</code> at version <code>0.4.0</code>. The atomic package carries Codex and Claude manifests with equal shared package semantics while permitting host-owned extensions, package/inventory metadata, one <code>skills/implementaudit/</code> governor with shared references/templates/scripts, and exactly four child skills: <code>audit-state</code>, <code>audit-assess</code>, maintainer-only <code>audit-implement</code>, and dual-entry <code>audit-andon</code>.</p>
       <p>The repository helper below is intentionally limited to isolated staged-copy, update, rollback, inventory, and readback proof. The target must be a disposable directory containing <code>.implementaudit-isolated-host-root</code>; it is not a native host install command:</p>
       <div class="term-window example-console">
         <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><em>Canonical plugin staged copy</em><span class="term-badge">local evidence</span></div>
@@ -82,7 +82,7 @@
       <ul>
         <li>The release tag exists.</li>
         <li>Both declared assets can be read.</li>
-        <li><code>CHECKSUMS.txt</code> verifies the named <code>IMPLEMENTAUDIT.plugin.zip</code> and <code>IMPLEMENTAUDIT.skill</code> bytes when supplied; <code>v0.4.0.0</code> release-page, checksum, and fresh-download digests remain pending until publication readback is recorded.</li>
+        <li><code>CHECKSUMS.txt</code> verifies the named <code>IMPLEMENTAUDIT.plugin.zip</code> and <code>IMPLEMENTAUDIT.skill</code> bytes when supplied; the published <code>v0.4.0.0</code> release page, checksums and fresh-download digests have independent readback.</li>
         <li>Pages is current only after deploy success.</li>
         <li>Local installs do not auto-update.</li>
       </ul>

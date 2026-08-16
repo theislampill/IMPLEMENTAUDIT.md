@@ -128,12 +128,14 @@ Standing gate owners: `check-action-selection-contract.sh`,
   qualification, in-place asset/checksum/body/tag correction, public
   download/install readback, and R001D row 14 owner waiver are recorded complete.
 
-## v0.4.0.0 release evidence (candidate and future publication ledger)
+## v0.4.0.0 release evidence
 
-- `docs/audits/archive/v0.4.0.0-release-report.md` - candidate identity
-  `v0.4.0.0` / runtime `0.4.0`, S³E public composition, source/package/install
-  qualification, and placeholders for separately authorised hosted, Pages,
-  tag, Release, asset, public-download and tracker readbacks.
+- `docs/audits/archive/v0.4.0.0-release-report.md` - qualified identity
+  `v0.4.0.0` / runtime `0.4.0`, S³E public composition and the source/package/
+  install qualification ledger used by the release campaign. The published tag,
+  Release, three assets, hosted validation, Pages, public-download/install and
+  tracker readbacks are complete in the durable campaign record; retained
+  prepublication rows in this archive remain historical qualification evidence.
 
 ## Boundary
 

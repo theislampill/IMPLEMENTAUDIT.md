@@ -5,7 +5,7 @@
 <h2 id="important-paths">Important paths</h2>
 <table><thead><tr><th>Path</th><th>Role</th></tr></thead><tbody>
 <tr><td><code>package/implementaudit-package.json</code></td><td>Canonical one-package contract: identity, exact skill population, shared resources, host manifests, generated projections, inventories, and budgets.</td></tr>
-<tr><td><code>.codex-plugin/plugin.json</code> and <code>.claude-plugin/plugin.json</code></td><td>Equal dual-host manifests for the one atomic plugin; both route <code>./skills/</code>.</td></tr>
+<tr><td><code>.codex-plugin/plugin.json</code> and <code>.claude-plugin/plugin.json</code></td><td>Dual-host manifests with equal shared package semantics and permitted host-owned extensions; both route <code>./skills/</code>.</td></tr>
 <tr><td><code>skills/implementaudit/</code></td><td>Repo runtime source and canonical plugin path; flattened only in the generated standalone compatibility projection.</td></tr>
 <tr><td><code>skills/audit-state/</code>, <code>skills/audit-assess/</code>, <code>skills/audit-implement/</code>, <code>skills/audit-andon/</code></td><td>Exact four-child population; governed routes return to <code>/implementaudit</code>, while direct <code>audit-andon</code> returns to its caller. No child owns lifecycle, authority, currentness, mutation, release, or closure.</td></tr>
 <tr><td><code>skills/implementaudit/templates/</code></td><td>Run artifact templates: roadmap, state, protocol, thinking, sidecars, tools, context, and phase goal.</td></tr>
