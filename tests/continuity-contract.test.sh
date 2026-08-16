@@ -103,6 +103,8 @@ description_value = description_lines[0].split(":", 1)[1].strip()
 if not (description_value.startswith('"') and description_value.endswith('"')):
     raise SystemExit(1)
 required = (
+    "execute audit-governed work to closure or handoff",
+    "activate for /implementaudit and audit closure",
     "host-reported compaction",
     "before any response or repo inspection",
     "through bash",
@@ -388,6 +390,28 @@ anchor="| Epoch | Boundary provenance | Established at | Repo identity | Reconci
 row=f"| e3 | inferred-context-gap | 2026-08-12T13:05:00Z | repo at `{head}` / `{tree}` | yes | generic fallback reconciliation complete |"
 p.write_text(s.replace(anchor, anchor+"\n"+row), encoding="utf-8")
 PY
+
+# The active invalidation boundary is part of deterministic currentness.  A
+# caller may not relabel the same interrupted event as a different accepted
+# provenance merely by writing a matching STATE row.
+"${py_cmd[@]}" - "$successor_root/STATE.md" <<'PY'
+import sys
+from pathlib import Path
+p = Path(sys.argv[1])
+s = p.read_text(encoding="utf-8")
+p.write_text(s.replace("| e3 | inferred-context-gap |", "| e3 | manual-resume |"), encoding="utf-8")
+PY
+if (cd "$successor_repo" && bash "$claim_helper" --resume-controller release-v0333 \
+    --boundary manual-resume --epoch e3) >/dev/null 2>&1; then
+  fail "invalidation-boundary mismatch minted a continuity receipt"
+fi
+"${py_cmd[@]}" - "$successor_root/STATE.md" <<'PY'
+import sys
+from pathlib import Path
+p = Path(sys.argv[1])
+s = p.read_text(encoding="utf-8")
+p.write_text(s.replace("| e3 | manual-resume |", "| e3 | inferred-context-gap |"), encoding="utf-8")
+PY
 if (cd "$successor_repo" && bash "$claim_helper" \
     --require-current-continuity release-v0333) >/dev/null 2>&1; then
   fail "partial continuity recovery without separate ROADMAP state became current"
@@ -398,6 +422,19 @@ receipt_e3="$(cd "$successor_repo" && bash "$claim_helper" --resume-controller r
   || fail "generic no-native-hook recovery did not mint a fresh receipt"
 (cd "$successor_repo" && bash "$claim_helper" --verify-resume-receipt "$receipt_e3") >/dev/null \
   || fail "generic no-native-hook continuity receipt did not verify"
+receipt_e3_ref="${receipt_e3%@*}"
+receipt_e3_oid="${receipt_e3##*@}"
+receipt_e3_record="$(git -C "$successor_repo" cat-file blob "$receipt_e3_oid")"
+forged_e3_record="${receipt_e3_record/$'\tinferred-context-gap\te3\t'/$'\tmanual-resume\te3\t'}"
+[ "$forged_e3_record" != "$receipt_e3_record" ] \
+  || fail "could not construct cross-boundary receipt negative"
+forged_e3_oid="$(printf '%s' "$forged_e3_record" | git -C "$successor_repo" hash-object -w --stdin)"
+git -C "$successor_repo" update-ref "$receipt_e3_ref" "$forged_e3_oid" "$receipt_e3_oid"
+if (cd "$successor_repo" && bash "$claim_helper" \
+    --verify-resume-receipt "$receipt_e3_ref@$forged_e3_oid") >/dev/null 2>&1; then
+  fail "receipt verification accepted invalidation-boundary mismatch"
+fi
+git -C "$successor_repo" update-ref "$receipt_e3_ref" "$receipt_e3_oid" "$forged_e3_oid"
 current_receipt="$(cd "$successor_repo" && bash "$claim_helper" \
   --require-current-continuity release-v0333)" \
   || fail "fresh generic continuity recovery did not reopen governed mutation"

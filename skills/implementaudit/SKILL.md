@@ -1,6 +1,6 @@
 ---
 name: implementaudit
-description: "For /implementaudit/audit closure. For scheduling/dispatch/resource ceilings, read references/child-agents.md. After a host-reported compaction, before any response or repo inspection: through Bash --current-controller; then separate command --invalidate-continuity <controller> --boundary host-reported-compaction --event <opaque-event>. STATE.md then ROADMAP.md; update epoch; --resume-controller <controller> --boundary host-reported-compaction --epoch <next-epoch>, --verify-resume-receipt <receipt>, --require-current-continuity <controller>. No response until the verified receipt; only then emit the first message."
+description: "Execute audit-governed work to closure or handoff. Activate for /implementaudit and audit closure. For scheduling/dispatch/resource ceilings, read references/child-agents.md. Host-reported compaction, before any response or repo inspection: through Bash --current-controller; separate command --invalidate-continuity <controller> --boundary host-reported-compaction --event <opaque-event>. STATE.md then ROADMAP.md; --resume-controller <controller> --boundary host-reported-compaction --epoch <next-epoch>, --verify-resume-receipt <receipt>, --require-current-continuity <controller>. No response until the verified receipt; only then emit the first message."
 metadata:
   version: "0.4.0"
 ---
