@@ -95,8 +95,6 @@ for key, expected in expected_contract.items():
             f"{contract_path} {key} mismatch: expected {expected!r}, got {contract.get(key)!r}"
         )
 
-if codex != claude:
-    raise SystemExit("Codex and Claude plugin manifests must be identical")
 expected_manifest = {
     "name": contract["package_name"],
     "version": contract.get("runtime_version"),
@@ -104,10 +102,15 @@ expected_manifest = {
     "skills": "./skills/",
     "author": contract.get("publisher"),
 }
-if codex != expected_manifest:
-    raise SystemExit(
-        "host manifests must exactly match package name/version/description/publisher and skills='./skills/'"
-    )
+for manifest_path, manifest in ((codex_path, codex), (claude_path, claude)):
+    observed_manifest_projection = {
+        key: manifest.get(key) for key in expected_manifest
+    }
+    if observed_manifest_projection != expected_manifest:
+        raise SystemExit(
+            f"{manifest_path} must match package name/version/description/publisher "
+            "and skills='./skills/'"
+        )
 
 skill_entries = sorted(
     path.parent.name for path in Path("skills").glob("*/SKILL.md") if path.is_file()

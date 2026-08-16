@@ -128,8 +128,19 @@ for manifest_path in (
     if plugin.get("author") != {"name": "theislampill"}:
         raise SystemExit(f"{manifest_path} author must bind publisher theislampill")
     host_plugins[manifest_path] = plugin
-if host_plugins[".codex-plugin/plugin.json"] != host_plugins[".claude-plugin/plugin.json"]:
-    raise SystemExit("Codex and Claude plugin manifests must be identical projections")
+shared_manifest_fields = ("name", "version", "description", "skills", "author")
+codex_shared = {
+    key: host_plugins[".codex-plugin/plugin.json"].get(key)
+    for key in shared_manifest_fields
+}
+claude_shared = {
+    key: host_plugins[".claude-plugin/plugin.json"].get(key)
+    for key in shared_manifest_fields
+}
+if codex_shared != claude_shared:
+    raise SystemExit(
+        "Codex and Claude plugin manifests must preserve equal shared semantics"
+    )
 
 marketplace = json.loads(
     (root / ".claude-plugin/marketplace.json").read_text(encoding="utf-8")

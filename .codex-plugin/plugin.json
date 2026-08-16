@@ -5,5 +5,22 @@
   "skills": "./skills/",
   "author": {
     "name": "theislampill"
+  },
+  "interface": {
+    "displayName": "IMPLEMENTAUDIT",
+    "shortDescription": "Govern implementation from audit to verified closure.",
+    "longDescription": "Turn audits, handoffs, checklists, reviews, goals, tasks, gaps, and plans into bounded, verified repository changes.",
+    "developerName": "theislampill",
+    "category": "Productivity",
+    "capabilities": [
+      "Audit governance",
+      "Implementation",
+      "Verification"
+    ],
+    "defaultPrompt": [
+      "Use /implementaudit to govern this task through verified closure.",
+      "Audit this implementation and close every supported finding.",
+      "Reconstruct the current audit state and identify the next safe action."
+    ]
   }
 }
