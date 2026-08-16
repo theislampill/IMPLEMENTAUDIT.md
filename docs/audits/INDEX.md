@@ -128,14 +128,14 @@ Standing gate owners: `check-action-selection-contract.sh`,
   qualification, in-place asset/checksum/body/tag correction, public
   download/install readback, and R001D row 14 owner waiver are recorded complete.
 
-## v0.4.0.0 release evidence
+## v0.4.0.0 published release evidence
 
-- `docs/audits/archive/v0.4.0.0-release-report.md` - qualified identity
-  `v0.4.0.0` / runtime `0.4.0`, S³E public composition and the source/package/
-  install qualification ledger used by the release campaign. The published tag,
-  Release, three assets, hosted validation, Pages, public-download/install and
-  tracker readbacks are complete in the durable campaign record; retained
-  prepublication rows in this archive remain historical qualification evidence.
+- `docs/audits/archive/v0.4.0.0-release-report.md` - published identity
+  `v0.4.0.0` / runtime `0.4.0`, S³E public composition, exact qualified
+  source/tree, frozen package identities, hosted/Pages/tag/Release receipts,
+  public asset/download/install readback, maintained-live Rockstar migration
+  and truthful open/nonblocking R001C disposition. Retained prepublication rows
+  in the archive remain historical qualification evidence.
 
 ## Boundary
 

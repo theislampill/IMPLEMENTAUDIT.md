@@ -25,7 +25,7 @@ import sys
 from pathlib import Path
 
 readme = Path("README.md")
-text = readme.read_text()
+text = readme.read_text(encoding="utf-8")
 
 match = re.search(r"^## Contents\n(?P<body>.*?)(?=^## )", text, re.M | re.S)
 if not match:

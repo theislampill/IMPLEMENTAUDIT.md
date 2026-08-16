@@ -162,6 +162,9 @@
   ],
   "first_reader_contract": {
     "section_ids": ["contribution", "changed", "already-native", "rejected", "unverified", "provenance"],
+    "depth_section_ids": ["genealogy", "selected-sources"],
+    "minimum_selected_source_links": 4,
+    "claim_limit_literal": "Does not establish",
     "minimum_visible_words": 180,
     "individual_pages": [
       {"page": "research-lineage-systems-engineering", "title": "Systems Engineering", "route": "research-engineering-lineage/systems-engineering/", "family": "SSD", "rxx": "R002D", "review_tier": "cold-review"},
@@ -173,6 +176,12 @@
       {"page": "research-lineage-cognitive-systems-engineering", "title": "Cognitive Systems Engineering", "route": "research-engineering-lineage/cognitive-systems-engineering/", "family": "CSS", "rxx": "R002A", "review_tier": "cold-review"},
       {"page": "research-lineage-statistical-engineering", "title": "Statistical Engineering", "route": "research-engineering-lineage/statistical-engineering/", "family": "CSS", "rxx": "R002B", "review_tier": "shared-template-census"},
       {"page": "research-lineage-systems-safety", "title": "Systems Safety", "route": "research-engineering-lineage/systems-safety/", "family": "CSS", "rxx": "R002C", "review_tier": "shared-template-census"}
+    ],
+    "synthesis_pages": [
+      {"page": "research-lineage-evolved-css", "depth_section_ids": ["family-genealogy", "contribution", "tensions", "rejected", "unverified", "provenance"]},
+      {"page": "research-lineage-evolved-ssd", "depth_section_ids": ["family-genealogy", "contribution", "tensions", "rejected", "unverified", "provenance"]},
+      {"page": "research-lineage-evolved-drf", "depth_section_ids": ["family-genealogy", "contribution", "tensions", "rejected", "unverified", "provenance"]},
+      {"page": "research-lineage-s3e", "depth_section_ids": ["s3e-genealogy", "contribution", "tensions", "rejected", "unverified", "package-projection", "provenance"]}
     ]
   },
   "classification_literals": [

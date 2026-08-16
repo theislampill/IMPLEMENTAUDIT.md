@@ -211,14 +211,23 @@ expected = {
 for artifact in expected:
     if artifact not in report or artifact not in page:
         raise SystemExit(f"release report or portal omits projection {artifact}")
-if "exact members, bytes, SHA-256, source commit/tree, and clean-state binding `PENDING`" not in report:
-    raise SystemExit("release report does not preserve exact-candidate identity as pending")
-if "attach exactly `IMPLEMENTAUDIT.plugin.zip`,\n`IMPLEMENTAUDIT.skill`, and `CHECKSUMS.txt`" not in report:
-    raise SystemExit("release report does not require the exact three public assets")
+required_release_literals = (
+    "State: **PUBLISHED; PUBLIC ASSETS AND INSTALL PROJECTIONS READ BACK**",
+    "71a7101ade904f5482cbc25c5154e1eadea0c7be",
+    "cc9771854689337d839c2a2e37040dc3ac2caa0d",
+    "4414d897d40298bc3e0a7778b7ca1b05ca680621",
+    "416dd85d7f925695ff4b05ae9ddfb8348b04e7351234d19b679f866674a33dcd",
+    "933934eed93314dcef8fc8fc25cbe316c94c92fc6eddea39635f86d492d3dfe3",
+    "b5ea3ac3753132cec4881074658b420b4b96db6d8619da42d4a968dec9b349cc",
+)
+for literal in required_release_literals:
+    if literal not in report:
+        raise SystemExit(f"release report omits published identity {literal}")
+if "Publication attached exactly `IMPLEMENTAUDIT.plugin.zip`,\n`IMPLEMENTAUDIT.skill`, and `CHECKSUMS.txt`" not in report:
+    raise SystemExit("release report does not record the exact three public assets")
 nonclaim = (
-    "no v0.4.0.0 tag, GitHub Release, public asset, Pages deployment, public download, "
-    "marketplace state, native Codex or Claude plugin load, provenance, signature, "
-    "attestation, SBOM, licence, or universal host behaviour is claimed."
+    "No marketplace state, native Codex or Claude plugin load, signature, "
+    "attestation, SBOM, licence, universal host behaviour or provenance chain is claimed."
 )
 if nonclaim not in report_flat:
     raise SystemExit("release report does not preserve the native-host nonclaim")
@@ -237,7 +246,7 @@ for surface_name, surface in (("release report", report_flat), ("audit trail", p
         raise SystemExit(f"{surface_name} retains the superseded zero-child topology")
 PY
 then
-  ok "release report and portal bind both projections without preclaiming final bytes or native hosts"
+  ok "release report and portal bind published projections without claiming native hosts"
 else
   fail_check "release report or portal projection/currentness boundary is stale"
 fi

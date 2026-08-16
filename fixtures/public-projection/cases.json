@@ -854,8 +854,8 @@
     {
       "id": "S3E-W04-F5",
       "kind": "publication-transition",
-      "publication_state": "prepublication",
-      "public_wording_state": "prepublication-current",
+      "publication_state": "postpublication",
+      "public_wording_state": "postpublication-current",
       "expected": "PASS"
     }
   ],

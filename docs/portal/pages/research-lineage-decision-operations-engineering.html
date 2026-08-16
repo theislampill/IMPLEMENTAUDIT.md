@@ -1,23 +1,63 @@
-<p class="eyebrow">Research &amp; Engineering Lineage · Evolved-SSD</p>
+<div class="page-eyebrow">Research &amp; Engineering Lineage · Evolved-SSD</div>
 <h1>Decision &amp; Operations Engineering</h1>
-<p class="lead">Use this lineage to select the least costly action that can still change a named decision or protect a real consequence.</p>
+<p class="lead">The durable inheritance is decision-relative analysis: frame the consequence and authority first, then use the least costly model that can still change a real action.</p>
 
-<h2 id="contribution">What this lineage contributes</h2>
-<p>Decision &amp; Operations Engineering names the decision owner, consumer, deadline and action authority before selecting a model. It preserves meaningful alternatives, distinguishes hard constraints from preferences, resists proxy substitution, and keeps reversibility and option value visible.</p>
-<p>A cheap authoritative discriminator takes precedence when it settles the decision. More analysis is justified only while its expected information value exceeds cost and a capable consumer can still act.</p>
+<h2 id="genealogy">Genealogy</h2>
+<ol>
+  <li>Early teletraffic theory treated calls, capacity, loss and waiting as stochastic operating phenomena. Inventory theory formalised the cost of replenishment, shortage and holding. These were distinct operational lineages, not one optimisation doctrine.</li>
+  <li>Wartime operations research joined multidisciplinary analysis to mission-facing decisions; post-war operations research and management science broadened into a plural field concerned with formulation, evidence, implementation and formal methods.</li>
+  <li>Linear, integer and network programming made objectives, alternatives, scarce resources and constraints explicit. Dynamic programming and Markov decision models made the distinction between a fixed plan and a state-contingent policy explicit.</li>
+  <li>PERT, CPM and machine-scheduling traditions represented precedence, resources and timing. Later resource-constrained, stochastic and rolling methods exposed why a published critical path is conditional and can become stale.</li>
+  <li>Monte Carlo and discrete-event simulation enabled controlled counterfactual experiments when analytical solutions were unavailable. Decision analysis formalised alternatives, consequences, preferences and information value; multi-criteria schools made value conflict visible without making it objective.</li>
+  <li>Stochastic, robust, distributionally robust, online and data-driven optimisation added different treatments of uncertainty and feedback. Reinforcement learning and decision-focused learning are modern translations, not replacements for problem formulation, authority, validation or implementation.</li>
+</ol>
 
-<h2 id="changed">What changed</h2>
-<p>The landed v0.4.0 composition unifies proportionality, ready-frontier scheduling and consequence-aware intervention in existing action-selection owners. Work fans out only when independent cells, capacity and expected value justify it; shared writes serialise without forcing unrelated cells to wait.</p>
-<p>Consequential action now accounts for current target state, feedback, containment, recovery and the intervention chain’s actual capability. Low-consequence reversible work with direct readback remains serial.</p>
+<h2 id="selected-sources">Selected sources and claim limits</h2>
+<table>
+  <thead><tr><th>Source</th><th>Supports</th><th>Does not establish</th></tr></thead>
+  <tbody>
+    <tr><td>Erlang, <a href="https://link.springer.com/rwe/10.1007/978-3-662-69359-9_204">The Theory of Probabilities and Telephone Conversations</a></td><td>The historical treatment of telephone traffic as a stochastic service and capacity problem.</td><td>That one queueing formula transfers to bursty, strategic, heterogeneous or non-stationary work.</td></tr>
+    <tr><td>Harris, <a href="https://doi.org/10.1287/opre.38.6.947">How Many Parts to Make at Once</a></td><td>The early lot-size trade-off between setup or ordering cost and holding cost.</td><td>A universal batch size, inventory policy or modern supply-chain model.</td></tr>
+    <tr><td>INFORMS, <a href="https://www.informs.org/Explore/History-of-O.R.-Excellence/Origins-of-Operations-Research">Origins of Operations Research</a></td><td>British wartime operations research as multidisciplinary, empirical and attached to mission decisions.</td><td>One uncontested origin, or that the whole field is equivalent to optimisation.</td></tr>
+    <tr><td>Dantzig, <a href="https://doi.org/10.7249/R366"><em>Linear Programming and Extensions</em></a></td><td>Explicit represented objectives, scarcity, constraints, dual values and sensitivity.</td><td>That the objective, feasible set, data or implementation correctly represents the real decision.</td></tr>
+    <tr><td>Little, <a href="https://doi.org/10.1287/opre.9.3.383">A Proof for the Queuing Formula: L = &lambda;W</a></td><td>A long-run relation among average work in process, throughput and flow time under stated conditions.</td><td>A validated arrival distribution, service model, transient policy or local formula for every system.</td></tr>
+    <tr><td>Malcolm et al., <a href="https://doi.org/10.1287/opre.7.5.646">the original PERT paper</a></td><td>A precedence network with three-point estimates for a particular research-and-development programme context.</td><td>A fixed future critical path, independent durations or resource-feasible execution.</td></tr>
+    <tr><td>Raiffa and Schlaifer, <a href="https://www.wiley.com/en-us/Applied+Statistical+Decision+Theory-p-9780471383497"><em>Applied Statistical Decision Theory</em></a></td><td>A formal connection among beliefs, losses, actions and information.</td><td>Stable preferences, objective values or a model class that necessarily fits the live decision.</td></tr>
+    <tr><td>Smith and Winkler, <a href="https://doi.org/10.1287/mnsc.1050.0451">The Optimizer&rsquo;s Curse</a></td><td>Selection of the largest estimated value can induce optimism and post-decision disappointment.</td><td>A correction for omitted alternatives, wrong objectives, model-form error or infeasible implementation.</td></tr>
+    <tr><td>Barton, Nelson and Xie, <a href="https://doi.org/10.1287/ijoc.2013.0548">A Framework for Input Uncertainty Analysis</a></td><td>Input estimation can materially widen simulation-output uncertainty and alter selected designs.</td><td>That more replications remove input, structural or intended-use uncertainty.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="contribution">What survives after criticism</h2>
+<p>The mature residue begins with a named decision owner, consumer, deadline, consequence and authority to act. It keeps meaningful alternatives open long enough to compare them, separates enforceable hard constraints from preferences, resists proxy substitution, and treats objectives and metrics as challengeable representations rather than neutral facts. A model is selected only after that frame exists.</p>
+<ul>
+  <li>Prefer a cheap authoritative discriminator or validated simple rule when it settles the decision.</li>
+  <li>State assumptions and validity domain as part of every analytical claim; separate solver optimality from real-decision validity.</li>
+  <li>Represent arrivals, service, capacity and variability before claiming that utilisation or staffing is efficient.</li>
+  <li>Optimise end-to-end consequence rather than local busyness; price slack and reserve as both cost and recovery option.</li>
+  <li>Schedule parallel work from real precedence, resource and acceptance conflicts, then recompute after material state change.</li>
+  <li>Distinguish variability, parameter uncertainty, ambiguity, model-form error and non-stationarity; preserve recourse and reopening where credible.</li>
+  <li>Validate models in the deployed decision loop, monitor realised consequences, and retire a forecast, schedule or metric that no longer has a live consumer.</li>
+</ul>
+<p>Criticism changed the field from deterministic one-shot optimisation towards uncertainty-aware, adaptive decision engineering. Stochastic methods model probability and recourse; robust methods protect against bounded ambiguity; distributionally robust methods add uncertainty over probability laws; rolling and online methods re-decide as state changes. Each adds a different assumption and evidence burden. Formal guarantees under a representation do not prove that its objective, probabilities, ambiguity set or deployment feedback fits reality.</p>
+<p>The hard tensions cannot be solved by ceremony. Near-full utilisation may reduce unit cost while exploding waiting time. Stability protects coordination while replanning responds to changed state. Robustness limits downside while over-conservatism destroys opportunity. Expected value permits trade-offs while irreversible or tail consequences may be non-compensable. A simple rule is legible and cheap but can drift; a complex model can discriminate close alternatives but amplifies data and governance errors.</p>
+
+<h2 id="changed">How IMPLEMENTAUDIT translates it</h2>
+<p>IMPLEMENTAUDIT translates this lineage into factor-derived action depth, a live consequence-bearing owner, explicit alternatives and STOP conditions, the cheapest discriminating evidence, and schedules derived from current dependencies, shared writers, capacity and acceptance conflicts. Independent work may proceed in parallel; shared writes and dependent conclusions wait for current inputs. Failed hypotheses reopen alternatives, while additional analysis stops when it cannot change action enough to justify cost or delay.</p>
+<p>The accepted current crosswalk records no new v0.4 runtime change for any of the 66 Decision &amp; Operations rows. Instead, it verifies that the v0.4 architecture keeps recommendation separate from decision authority, reveals analytical depth only when consequence warrants it, parallelises only genuinely independent work, combines specialised contributions under one accountable workflow, and allows later evidence to reopen an earlier plan. These are bounded convergences with the lineage, not proof that IMPLEMENTAUDIT contains an optimiser or that its scheduling rules are globally optimal.</p>
 
 <h2 id="already-native">What was already native</h2>
-<p>IMPLEMENTAUDIT already required a live consumer, explicit acceptance, bounded phases, alternatives after failed hypotheses and STOP when evidence could not support the next action. The crosswalk found many decision properties already stronger in native controls.</p>
+<p>IMPLEMENTAUDIT already required a live consumer, a bounded objective, explicit acceptance, evidence before transition, alternatives after a failed hypothesis, and refusal when evidence cannot support the next action. Its ready-work logic already distinguished real dependency or write conflict from mere membership in the same issue, and its proportionality rules already kept low-consequence reversible work on a short path.</p>
+<p>The crosswalk therefore composes decision properties with existing planning, phase, capacity, evidence and closure owners rather than duplicating them. A solver, model or agent may establish a bounded fact or recommendation; the authorised owner still decides whether the consequence warrants action.</p>
 
-<h2 id="rejected">What was rejected</h2>
-<p>No optimisation oracle, mandatory scoring matrix, fixed fanout target, numerical value threshold or planning ceremony was adopted. Process volume, reviewer count and utilisation are not value evidence. A shared issue or milestone does not by itself create a dependency.</p>
+<h2 id="rejected">What was deliberately not imported</h2>
+<p>No optimisation oracle, mandatory scorecard, fixed utility function, universal reserve percentage, one-hundred-percent utilisation target, deterministic Gantt authority, fixed fan-out target, simulation-run quota, numerical value threshold or planning worksheet was added. Process volume, worker count and utilisation are not value evidence.</p>
+<p>A named solver is a technique, not a general engineering property. Reinforcement learning, predictive maintenance, giant integrated models and parametric queue formulae remain domain translations that require credible state, failure, workload and feedback models. For knowledge or agent work, direct backlog, elapsed-time, bottleneck and conflict observations are safer than unvalidated distributional formulae.</p>
 
-<h2 id="unverified">What remains unverified</h2>
-<p>This route does not prove globally optimal decisions, calibrated utility, complete stakeholder representation or universal scheduling gains. It establishes bounded action-selection contracts and deterministic cases in this repository; other environments require their own observations.</p>
+<h2 id="unverified">Tensions, assumptions and evidence limits</h2>
+<p>Formal results are often strong inside their assumptions; external validity is the weaker bridge. Queueing formulae depend on arrival, service and regime assumptions. Forecast error can be amplified by the optimisation layer. PERT-style estimates understate correlation and resource coupling. Multi-criteria rankings can reverse with weights, scales, normalisation or candidate set. Simulation replications reduce Monte Carlo error, not input or structural error. Implementation resistance may reveal missing constraints rather than irrational users.</p>
+<p>This route does not prove globally optimal choices, calibrated utilities, complete stakeholder representation, stable deployed preferences, universal scheduling gains or safe transfer of OR formulae across domains. It also does not establish that distributionally robust optimisation, decision-focused learning, reinforcement learning, digital twins or AI&ndash;OR integration is a mature universal endpoint.</p>
 
-<h2 id="provenance">Provenance</h2>
-<p>The frozen Decision &amp; Operations Engineering population is reconciled through the R002F composition. Current claims resolve to landed planning-depth, lean operating-discipline and ready-frontier owners. See the <a href="../evolved-ssd/">Evolved-SSD synthesis</a> for the family-level claim boundary.</p>
+<h2 id="provenance">Provenance and generalisation boundary</h2>
+<p>The frozen lineage manifest binds a 66-property ledger and 124-source table. The frozen lineage-to-repository integration record and the accepted current 658-row research-property crosswalk describe how those properties compose with existing IMPLEMENTAUDIT owners. They are routing and preservation evidence, not proof that a model is valid, a recommendation is effective or a technique transfers to another operating environment.</p>
+<p>See the <a href="../evolved-ssd/">Evolved-SSD synthesis</a> for the family-level boundary. The public route selects representative historical, formal and critical sources; the frozen corpus remains the complete claim-and-limit record.</p>
