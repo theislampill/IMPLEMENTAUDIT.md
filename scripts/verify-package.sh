@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+export PYTHONDONTWRITEBYTECODE=1
+
 fail() {
   printf 'verify-package: %s\n' "$*" >&2
   exit 1
