@@ -158,6 +158,11 @@ current_docs = {
         "audit-andon",
         "not evidence that marketplace discovery",
     ],
+    "docs/portal/pages/what-it-is.html": [
+        "one atomic dual-host plugin package",
+        "IMPLEMENTAUDIT.skill",
+        "generated standalone compatibility projection",
+    ],
 }
 
 violations = []
@@ -183,6 +188,8 @@ current_surfaces = [
 forbidden = [
     (re.compile(r"IMPLEMENTAUDIT\.skill\s+is\s+the\s+(?:canonical|primary)\s+(?:package|release)", re.I),
      "standalone compatibility artifact promoted to canonical package"),
+    (re.compile(r"packaged\s+as\s+(?:<code>)?IMPLEMENTAUDIT\.skill(?:</code>)?", re.I),
+     "standalone compatibility artifact presented as the package identity"),
     (re.compile(r"(?:Codex|Claude)\s+(?:natively\s+)?(?:discovers|loads|installs)\s+(?:the\s+)?plugin", re.I),
      "native host behavior claimed without a bound host witness"),
     (re.compile(r"(?:published|listed)\s+(?:to|on)\s+the\s+marketplace", re.I),

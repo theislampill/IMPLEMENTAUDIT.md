@@ -56,6 +56,10 @@ IMPLEMENTAUDIT.plugin.zip is canonical; IMPLEMENTAUDIT.skill is compatibility-on
 The governor routes exactly four child skills: audit-state, audit-assess, audit-implement, and audit-andon.
 Manifest presence is not evidence that marketplace discovery works.
 EOF
+  cat > "$root/docs/portal/pages/what-it-is.html" <<'EOF'
+IMPLEMENTAUDIT is distributed as one atomic dual-host plugin package.
+IMPLEMENTAUDIT.skill is the generated standalone compatibility projection.
+EOF
 }
 
 expect_fail() {
@@ -107,6 +111,14 @@ bad_primary="$tmp/bad-primary"
 cp -R "$good" "$bad_primary"
 printf '%s\n' 'IMPLEMENTAUDIT.skill is the primary release package.' >> "$bad_primary/AGENTS.md"
 expect_fail "$bad_primary" "compatibility artifact promoted to primary"
+
+bad_packaged_as_skill="$tmp/bad-packaged-as-skill"
+cp -R "$good" "$bad_packaged_as_skill"
+cat > "$bad_packaged_as_skill/docs/portal/pages/what-it-is.html" <<'EOF'
+It is reusable meta-engineering packaged as <code>IMPLEMENTAUDIT.skill</code>.
+In this project, <code>.skill</code> names the release asset and import layout.
+EOF
+expect_fail "$bad_packaged_as_skill" "standalone compatibility artifact presented as the package identity"
 
 bad_host_claim="$tmp/bad-host-claim"
 cp -R "$good" "$bad_host_claim"
