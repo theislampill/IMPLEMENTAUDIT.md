@@ -1,24 +1,60 @@
 <p class="eyebrow">Research &amp; Engineering Lineage</p>
 <h1>Evolved-DRF</h1>
-<p class="lead">Distributed Systems Engineering, Reliability &amp; Maintainability Engineering, and Formal Methods &amp; Verification Engineering contribute bounded coordination, consequence, and proof properties.</p>
+<p class="lead">Evolved-DRF joins Distributed Systems Engineering, Reliability &amp; Maintainability Engineering, and Formal Methods &amp; Verification Engineering so that partial failure remains visible, recovery restores the required function, and proof claims stay bound to the exact property and system state checked.</p>
 <p>The protected family names are Reliability &amp; Maintainability Engineering and Formal Methods &amp; Verification Engineering. The route retains negative evidence rather than converting it into an optimistic pass.</p>
 
 <div class="callout"><strong>Boundary:</strong> Negative evidence and an owner decision remain first-class outcomes. Evolved-DRF does not claim consensus, fault tolerance, formal verification, reliability, or host-wide exclusion where the exact tested owner does not establish it.</div>
 
-<h2 id="contribution">What this family contributes</h2>
-<p><a href="../distributed-systems-engineering/">Distributed Systems Engineering</a> contributes partial-failure, currentness and fenced-effect semantics. <a href="../reliability-maintainability-engineering/">Reliability &amp; Maintainability Engineering</a> contributes required-function, common-cause, degradation and restoration boundaries. <a href="../formal-methods-verification-engineering/">Formal Methods &amp; Verification Engineering</a> contributes precise properties, invariants and proof currentness.</p>
+<h2 id="family-genealogy">Three traditions, joined at the failure boundary</h2>
+<p>Distributed Systems Engineering developed through message passing, causal order, snapshots, agreement and impossibility results, transactions, replication, durable logs, workflows, overload control and observability. Reliability &amp; Maintainability Engineering combines life-data and renewal theory, mission reliability, failure analysis, maintainability and supportability, reliability growth, fault tolerance and restoration. Formal Methods &amp; Verification Engineering draws from program logic, specification and refinement, temporal reasoning, model checking, static analysis, theorem proving, contracts, runtime verification and verified toolchains. These are plural histories with imports and convergences; no frozen report claims a single ancestry.</p>
+<p>The family joins them where ordinary success language breaks down. A remote operation may have an unknown outcome; redundant components may share one failure cause; a restore may return a process without restoring its required function; and a mechanically checked theorem may prove the wrong abstraction. Distributed reasoning supplies the uncertainty and effect boundaries, reliability reasoning supplies the mission and restoration boundary, and formal verification supplies the exact claim and assumption boundary.</p>
+<table>
+  <thead><tr><th>Tradition</th><th>Primary contribution</th><th>What its evidence does not establish</th></tr></thead>
+  <tbody>
+    <tr><td><a href="../distributed-systems-engineering/">Distributed Systems Engineering</a><br>54 frozen properties; 102-source table</td><td>Partial failure, unknown outcome, causal order, consistency and membership contracts, fencing, duplicate-safe effects, finite capacity and external-state reconciliation.</td><td>That an acknowledgement is the effect, a quorum is current, a lock prevents stale action, or a platform label provides exactly-once business behaviour.</td></tr>
+    <tr><td><a href="../reliability-maintainability-engineering/">Reliability &amp; Maintainability Engineering</a><br>55 frozen properties; 85-source table</td><td>Required function, operational profile, explicit degraded and latent states, common cause, diagnostic coverage, repairability, recurrence control and validated restoration.</td><td>That MTBF, repeated success, component health, replica count, backup completion or one exercise establishes reliability or recoverability.</td></tr>
+    <tr><td><a href="../formal-methods-verification-engineering/">Formal Methods &amp; Verification Engineering</a><br>50 frozen properties; 113-source table</td><td>Precise property, explicit assumptions, invariants and temporal claims, sound abstraction, correspondence, vacuity checks, replay and hybrid evidence.</td><td>That formal appearance, type checking, solver success or proof of a model establishes the intended requirement or deployed environment.</td></tr>
+  </tbody>
+</table>
 
-<h2 id="changed">What changed</h2>
-<p>The landed composition sharpens current-controller custody, cooperating-writer mutation gates, work-conserving scheduling, consequence-aware intervention, exact identity comparison and independent effect evidence. Each control remains bounded to its tested owner.</p>
+<h2 id="contribution">What survives in combination</h2>
+<p>The combined property is <strong>failure-aware, evidence-bounded closure</strong>. Work is complete only when the required postcondition is established at the boundary that matters. If a remote effect is unresolved, the state remains pending or unknown. If recovery restores service but not authoritative data, trust or required function, recovery is incomplete. If a proof no longer matches the candidate, assumptions or environment, it is stale evidence rather than timeless assurance.</p>
+<table>
+  <thead><tr><th>Combined property</th><th>Native meaning</th><th>Boundary</th></tr></thead>
+  <tbody>
+    <tr><td>Explicit non-success states</td><td>Distinguish not started, pending, committed, completed, failed, degraded, reverted and unknown when those differences change retry, takeover, containment or acceptance.</td><td>A synchronous local operation with immediate authoritative readback does not need distributed-state ceremony.</td></tr>
+    <tr><td>Current authority at the effect boundary</td><td>Bind the authorised actor, configuration or generation to the effect and reject stale cooperating writers; preserve identity across retry, re-dispatch and failover.</td><td>The tested fence does not exclude a non-cooperating process with equivalent host authority.</td></tr>
+    <tr><td>Required-function recovery</td><td>Define the function, operating context and acceptable degraded state; verify data, dependencies, authority and consumer-visible behaviour after restore or repair.</td><td>A restart, rollback, failover or closed ticket is not recovery evidence by itself.</td></tr>
+    <tr><td>Common-cause-aware evidence</td><td>Disclose shared data, tools, assumptions, control planes and recovery roots before claiming independence from repetitions, replicas or reviewers.</td><td>Copies count as one failure domain when credible independence cannot be shown.</td></tr>
+    <tr><td>Property- and identity-bound proof</td><td>State the exact claim and assumptions, challenge vacuity and known bad cases, and bind replay or deterministic checks to the current model, source, package and environment.</td><td>Proof validity and requirement or world validity remain separate statuses.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="tensions">Complementary mechanisms and real tensions</h2>
+<ul>
+  <li><strong>Coordination versus availability and latency.</strong> Strong coordination protects selected non-confluent invariants, but can block progress under delay or partition. Weaker coordination is safe only when the operation and invariant support it.</li>
+  <li><strong>Retry and failover versus duplication and overload.</strong> A second attempt can improve availability or race an unknown first effect, repeat harm and consume the capacity needed for recovery.</li>
+  <li><strong>Redundancy versus common-cause complexity.</strong> More copies can add tolerance only when failure domains, detection, switchover, state and capacity are credible; otherwise they replicate corruption or management error.</li>
+  <li><strong>Graceful degradation versus safe stop.</strong> Reduced service is useful only when its protected functions, sacrificed functions, duration, observability and exit conditions are explicit. Some consequences require stopping rather than improvising.</li>
+  <li><strong>Proof strength versus correspondence and maintenance.</strong> A stronger theorem can narrow one uncertainty while adding specification, abstraction, toolchain and upkeep burdens. The smallest sound check that removes the material failure class is often the mature choice.</li>
+  <li><strong>Recovery speed versus diagnosis.</strong> Rapid restoration can erase evidence or reintroduce corrupted state; extended investigation can prolong harm. The required evidence minimum and clean recovery path must be chosen before the incident where consequence warrants it.</li>
+</ul>
+
+<h2 id="changed">What IMPLEMENTAUDIT translated</h2>
+<p>IMPLEMENTAUDIT translated these properties into existing continuity, repository-state, planning, evaluator, consequence, recovery and closure owners. Asynchronous or external work retains an unresolved state until independent readback establishes the intended effect. Cooperating destructive writers are bound to the currently authorised governor and a checked mutation window. Exact source, package and release identity prevent evidence from silently moving to a different candidate.</p>
+<p>Recovery closes on explicit postconditions rather than on the recovery command. Acceptance distinguishes component health from required function, repeated evidence from independent evidence, and a deterministic checker from the wider claim it is qualified to establish. Negative findings, unresolved evidence and an owner decision are lawful outcomes; none is rewritten as success to keep a workflow moving.</p>
 
 <h2 id="already-native">What was already native</h2>
-<p>Repository currentness checks, pending-effect states, recovery, deterministic fixtures, package identity and negative evidence already existed. A shared issue, branch, milestone, package or public surface is not itself a dependency.</p>
+<p>Repository currentness checks, pending-effect states, rollback and recovery, deterministic fixtures, exact package identity, negative evidence, STOP and independent review existed before this synthesis. The 159-property crosswalk therefore includes many pre-existing or composed native owners alongside bounded tensions, rejected claims and domain obligations. A property row records disposition, not a source-code delta or a general proof.</p>
+<p>Bounded serial work remains serial. Work-conserving parallelism applies only where current dependency, write, resource, authority and acceptance evidence permits it; a shared issue, branch, milestone, package or public surface is not itself a dependency.</p>
 
-<h2 id="rejected">What was rejected</h2>
-<p>No consensus layer, reliability score, formalisation mandate, universal retry loop, lineage questionnaire or extra runtime was added. Bounded serial work remains serial.</p>
+<h2 id="rejected">Deliberate non-imports</h2>
+<p>No distributed runtime, consensus layer, universal retry loop, quorum or lease ceremony, reliability score, fixed uptime target, mandatory FMEA, redundancy quota, theorem-prover requirement, proof-count target, universal formalisation or family selector was added. No claim of exactly-once external effects, unconditional fault tolerance, host-wide exclusion or formal verification follows from the vocabulary.</p>
+<p>Consensus, stochastic reliability models, fault injection, detailed recovery exercises, model checking and theorem proving remain valid specialised mechanisms when a named property, model and consumer justify them. They are not generic process requirements, and failure to invoke them for simple deterministic work is not immaturity.</p>
 
-<h2 id="unverified">What remains unverified</h2>
-<p>Non-cooperating same-principal writers remain outside the governed-writer exclusion claim. The family name does not establish consensus, fault tolerance, measured reliability, formal verification, exactly-once effects or external-host behaviour.</p>
+<h2 id="unverified">Evidence and generalisation limits</h2>
+<p>The frozen sources include mathematical and formal results, standards and guidance, system implementations, field and incident evidence, reviews and tool studies. A theorem establishes a result under its model; an incident exposes a concrete failure mechanism; a successful exercise supplies evidence for its tested hypothesis, configuration and recovery path. Repetition across those forms does not erase their different assumptions or create universal effect evidence.</p>
+<p>This family does not establish consensus, linearizability, fault tolerance, exactly-once effects, measured reliability or availability, diagnostic coverage, recovery time, formal verification, toolchain soundness, arbitrary-process exclusion or external-host behaviour. Distributed AI, predictive maintenance and AI-assisted proof remain assumption-sensitive domain translations rather than mature general guarantees.</p>
 
-<h2 id="provenance">Provenance</h2>
-<p>The frozen reviewed crosswalks and R0030–R0032 compositions supply property genealogy. Current public claims resolve through landed continuity, repository-state, planning, consequence and evaluator owners; the <a href="../s3e/">S³E synthesis</a> records the combined claim ceiling.</p>
+<h2 id="provenance">Provenance and further reading</h2>
+<p>The frozen reviewed crosswalks and family composition records supply property genealogy. Current public claims resolve through landed continuity, repository-state, planning, consequence and evaluator owners; the <a href="../s3e/">S&sup3;E synthesis</a> records the combined claim ceiling. Read <a href="../distributed-systems-engineering/">Distributed Systems Engineering</a>, <a href="../reliability-maintainability-engineering/">Reliability &amp; Maintainability Engineering</a>, and <a href="../formal-methods-verification-engineering/">Formal Methods &amp; Verification Engineering</a> for child-level sources, criticism and proof limits.</p>

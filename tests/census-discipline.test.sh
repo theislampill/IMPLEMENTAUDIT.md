@@ -283,6 +283,9 @@ contract = fixture.get("first_reader_contract", {})
 section_ids = contract.get("section_ids")
 if section_ids != ["contribution", "changed", "already-native", "rejected", "unverified", "provenance"]:
     raise SystemExit("lineage first-reader section order drift")
+depth_section_ids = contract.get("depth_section_ids")
+if depth_section_ids != ["genealogy", "selected-sources"]:
+    raise SystemExit("lineage depth section contract drift")
 individual_pages = contract.get("individual_pages", [])
 if len(individual_pages) != 9 or len({row.get("page") for row in individual_pages}) != 9:
     raise SystemExit("lineage individual-page population must be exactly nine")
@@ -295,12 +298,26 @@ for row in individual_pages:
     if page.get("title") != row["title"] or page.get("path") != row["route"]:
         raise SystemExit(f"{row['page']}: title or route drift")
     text = page_text[row["page"]]
-    positions = [text.find(f'id="{section_id}"') for section_id in section_ids]
+    positions = [text.find(f'id="{section_id}"') for section_id in depth_section_ids + section_ids]
     if any(position < 0 for position in positions) or positions != sorted(positions):
-        raise SystemExit(f"{row['page']}: first-reader section population/order drift")
+        raise SystemExit(f"{row['page']}: lineage depth section population/order drift")
+    source_section = text[positions[1]:positions[2]]
+    if source_section.count("<a href=") < contract["minimum_selected_source_links"]:
+        raise SystemExit(f"{row['page']}: selected-source visibility is too thin")
+    if contract["claim_limit_literal"] not in source_section:
+        raise SystemExit(f"{row['page']}: selected sources omit explicit claim limits")
     visible = __import__("re").sub(r"<[^>]+>", " ", text)
     if len(visible.split()) < contract["minimum_visible_words"]:
         raise SystemExit(f"{row['page']}: substantive first-reader content is too short")
+
+synthesis_pages = contract.get("synthesis_pages", [])
+if len(synthesis_pages) != 4 or len({row.get("page") for row in synthesis_pages}) != 4:
+    raise SystemExit("lineage synthesis depth population must be exactly four")
+for row in synthesis_pages:
+    text = page_text[row["page"]]
+    positions = [text.find(f'id="{section_id}"') for section_id in row["depth_section_ids"]]
+    if any(position < 0 for position in positions) or positions != sorted(positions):
+        raise SystemExit(f"{row['page']}: synthesis depth section population/order drift")
 
 def held_out_failures(candidate_site, candidate_text):
     failures = set()
@@ -315,12 +332,19 @@ def held_out_failures(candidate_site, candidate_text):
             failures.add("page-owner-population")
             continue
         text = candidate_text.get(row["page"], "")
-        positions = [text.find(f'id="{section_id}"') for section_id in section_ids]
+        positions = [text.find(f'id="{section_id}"') for section_id in depth_section_ids + section_ids]
         visible = __import__("re").sub(r"<[^>]+>", " ", text)
         if (any(position < 0 for position in positions)
                 or positions != sorted(positions)
+                or text[positions[1]:positions[2]].count("<a href=") < contract["minimum_selected_source_links"]
+                or contract["claim_limit_literal"] not in text[positions[1]:positions[2]]
                 or len(visible.split()) < contract["minimum_visible_words"]):
             failures.add("first-reader-substance")
+    for row in synthesis_pages:
+        text = candidate_text.get(row["page"], "")
+        positions = [text.find(f'id="{section_id}"') for section_id in row["depth_section_ids"]]
+        if any(position < 0 for position in positions) or positions != sorted(positions):
+            failures.add("synthesis-depth")
     return failures
 
 import copy
@@ -337,6 +361,16 @@ text_mutant = dict(page_text)
 text_mutant[individual_pages[0]["page"]] = "<h1>Collapsed lineage page</h1>"
 if "first-reader-substance" not in held_out_failures(site, text_mutant):
     raise SystemExit("held-out collapsed lineage prose false-passed")
+source_mutant = dict(page_text)
+source_mutant[individual_pages[0]["page"]] = source_mutant[individual_pages[0]["page"]].replace(
+    'id="selected-sources"', 'id="integration-summary"', 1)
+if "first-reader-substance" not in held_out_failures(site, source_mutant):
+    raise SystemExit("held-out missing lineage source/claim-limit depth false-passed")
+synthesis_mutant = dict(page_text)
+synthesis_mutant[synthesis_pages[0]["page"]] = synthesis_mutant[synthesis_pages[0]["page"]].replace(
+    'id="tensions"', 'id="integration-summary"', 1)
+if "synthesis-depth" not in held_out_failures(site, synthesis_mutant):
+    raise SystemExit("held-out missing synthesis tension depth false-passed")
 
 synthesis = page_text["research-lineage-evolved-law"]
 for literal in fixture["classification_literals"]:
