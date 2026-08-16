@@ -431,7 +431,9 @@ def projection_fits(readme_text, contributing_text, site_data, diagram_texts):
     )
     readme_model = (
         "reusable meta-engineering",
-        "skills-about-skills",
+        "audit-governed agentic-engineering",
+        "independently checkable evidence",
+        "intent → implementation → evidence-backed terminal state",
         "## Why IMPLEMENTAUDIT is stronger than a bare `/goal`",
         "## Invocation modes",
         "## Evidence boundaries",
@@ -480,6 +482,13 @@ if not projection_fits(readme, contributing, site, diagrams):
     raise SystemExit("current substantial public projection is not audience/owner fit")
 
 mutations = {
+    "missing-owner-approved-lead": (
+        readme.replace(
+            "audit-governed agentic-engineering",
+            "generic engineering",
+            1,
+        ),
+        contributing, site, diagrams),
     "missing-contributor-route": (
         readme.replace("[`CONTRIBUTING.md`](CONTRIBUTING.md)", "CONTRIBUTING"),
         contributing, site, diagrams),

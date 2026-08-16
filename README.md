@@ -1,56 +1,47 @@
 # IMPLEMENTAUDIT.md
 [![skills.sh](https://skills.sh/b/theislampill/IMPLEMENTAUDIT.md)](https://skills.sh/theislampill/IMPLEMENTAUDIT.md)
-> A self-correcting system of nested engineering loops: 
-> plan & execute repo work; safely implement audit findings; 
-> design greenfield & improve brownfield; learn from failures; 
+> A self-correcting system of nested engineering loops:
+>
+> plan & execute repo work; safely implement audit findings;
+>
+> design greenfield & improve brownfield; learn from failures;
+>
 > re-verify until closure.
 
 `IMPLEMENTAUDIT.md` names this repo and workflow: audited implementation driven
-by an `AUDIT.md`-style evidence/input artifact. 
+by an `AUDIT.md`-style evidence/input artifact.
 The `.md` in the repo name is branding and lineage, not a required root behavior file.
 
-`skills/implementaudit/SKILL.md` defines `/implementaudit`: a repo-generic method 
+`skills/implementaudit/SKILL.md` defines `/implementaudit`: a repo-generic method
 for turning audit findings, handoffs, checklists, reviews, goals, tasks, gaps, and
-implementation plans into bounded, verified repository changes. It plans deeply
-and executes verified repo work phase-by-phase until terminal auditable closure 
-or an explicit audited handoff.
+implementation plans into bounded, verified repository changes.
 
-At its core, this is audit-governed agentic engineering: it derives the next
-justified work from current repository and evidence state, then externalises
-completion into independently checkable evidence rather than model
-self-certification.
+At its core, this is audit-governed agentic-engineering: it derives and governs
+the right work against the right current state, under the right authority,
+recovers proportionally when reality contradicts the plan,
+and moves “done” out of model self-assessment and into independently checkable evidence.
+Generated output, effort, and successful tool calls are insufficient evidence of completion by themselves.
+The system-state counts as complete when it survives audit; otherwise the run stops at an explicit audited handoff.
 
-It is reusable meta-engineering distributed as one atomic dual-host plugin
-package: sustained engineering discipline for planning, designing,
-implementing, improving, reviewing, recovering, integrating, and closing
-repository work—not only a one-off code audit. `/implementaudit` remains the
-sole stable public/default governor; v0.4 ships exactly four model-facing child
-skills: `audit-state`, `audit-assess`, maintainer-only `audit-implement`, and
-dual-entry `audit-andon`. Governed child use is routed by the governor; where a
-capable host discovers the canonical child, an explicit Andon cord-pull may
-directly invoke `audit-andon`, while the standalone projection routes the same
-request through `/implementaudit`. They form no
-child lifecycle and own no authority, currentness, mutation, release, closure,
-or `AUDIT_COMPLETE`; references, templates, and helper scripts remain one
-shared deterministic substrate. A skill or agent-tooling repository can itself
-be the audit object,
-so the method can improve skills-about-skills through the same owner/source,
-evidence, and closure gates. This repository dogfoods that self-application; it
-does not establish effectiveness across every agent, host, repository, or
-external ecosystem. `IMPLEMENTAUDIT.plugin.zip` is the canonical generated
-release projection. `IMPLEMENTAUDIT.skill` is a generated, checksummed
-standalone compatibility projection, not the canonical topology or a claimed
-universal host standard.
+Instead of relying on model “willpower”, it externalises that discipline into persistent state,
+executable checks, bounded decomposition, independent re-verification, and evidence-backed completion.
 
-It can plan, design, implement, improve, 
-review, recover, integrate, and close repo work. 
-Greenfield and replacement work can route through DMADV; 
-brownfield improvement can route through DMAIC; 
-mixed work can use both where warranted.
-Across those routes, nested planner, run, phase, Andon, 
-and audit-fix loops inspect the live repository, identify owner/source, 
-make the smallest warranted change, learn from failures, 
-and re-verify until terminal closure or an explicit audited handoff.
+It is reusable meta-engineering for sustained repository work:
+
+engineering discipline for planning, designing, implementing,
+improving, reviewing, recovering, integrating,
+and closing work from intent → implementation → evidence-backed terminal state
+— not merely a one-off code audit.
+
+IMPLEMENTAUDIT is the product of an autodidactic, research-guided accretion
+process rather than a single internally designed theory of agent workflow:
+established engineering traditions were progressively translated, recombined,
+tested and adapted to agentic-engineering workflows.
+Its architecture develops through repeat dogfooding and anomaly-responsive
+source refinement: retaining, changing, or discarding practices
+according to their demonstrated durability under real repository work.
+
+IMPLEMENTAUDIT is therefore an agentic-engineering emergence through the convergence of auditing and implementing engineering ideas into IMPLEMENTAUDIT.
 
 The method scales its ceremony to consequence. Small reversible work can stay
 compact; deeper planning, durable run state, independent review, package checks,
@@ -58,11 +49,9 @@ or external readback activate only when scope, risk, dependencies, or the claime
 evidence surface warrant them. Process volume alone is not engineering value.
 
 It is not an ungated autonomous build loop, release bot, package publisher, or
-provenance system. Blocked work ends in an explicit audited handoff, not fake
-completion.
+provenance system.
 
-It does not assume a framework, language, CI system, release convention, package
-host, or optional toolchain. Its default authorisation stance is:
+Its default authorisation stance is:
 
 ```text
 No commit. No push. No tag. No release. No publication. No provenance.
@@ -105,11 +94,11 @@ Each action requires separate explicit authorisation.
 ## Quick start
 
 1. Choose the installation route in [Install notes](#install-notes). The
-   candidate public identity is `v0.4.0.0`; its host-facing runtime is `0.4.0`.
+   published public identity is `v0.4.0.0`; its host-facing runtime is `0.4.0`.
    **State Synthesis Substrate Engineering: Evolved-SSDDRFCSS** (`S³E`) names
    one native state-synthesis substrate, not selectable lineage modes.
-   A checkout of `main`, a locally built archive, and the public release asset
-   remain distinct until publication and byte-for-byte readback are complete.
+   The public release assets passed byte-for-byte download/readback; a checkout
+   of `main`, a locally built archive, and those tagged assets remain distinct.
 
 2. Invoke `/implementaudit` with a bounded repository target. Common shapes
    include:
@@ -973,13 +962,14 @@ without the corresponding host or public evidence.
 
 ## Version and release notes
 
-Current project milestone: prepublication `v0.4.0.0` candidate; plugin/runtime version `0.4.0`.
+Current project milestone: published `v0.4.0.0`; plugin/runtime version `0.4.0`.
 
 The canonical title is **State Synthesis Substrate Engineering:
 Evolved-SSDDRFCSS**. The protected compact label is **S³E** wherever used. The
-four-component public milestone maps to the three-component runtime family;
-the source composition does not itself create a tag, GitHub Release, asset or
-Pages deployment.
+four-component public milestone maps to the three-component runtime family.
+The annotated tag, GitHub Release, three exact assets and Pages deployment are
+published and independently read back; source composition alone would not have
+established those effects.
 
 The prior `v0.3.3.3` tag and release remain append-only historical evidence.
 Candidate and later authorised publication evidence belongs in the
@@ -1172,23 +1162,23 @@ To choose the right invocation shape, see the chooser table in
 
 ## Install notes
 
-Install flows are evidence-bounded. The normal release/install unit is the one
-atomic dual-host plugin artifact `IMPLEMENTAUDIT.plugin.zip`; the generated
+Install flows are evidence-bounded. The normal release/install unit is one atomic dual-host plugin
+artifact `IMPLEMENTAUDIT.plugin.zip`; the generated
 `IMPLEMENTAUDIT.skill` remains available only as a standalone compatibility
 projection. This repo can locally validate artifact shape, checksum identity,
 staged plugin copy, and standalone temporary-install paths. None of those alone
 proves native host discovery, invocation, passive update, universal host
 support, marketplace verification, or public GitHub release download.
 
-**Release/contract alignment:** the candidate public identity is `v0.4.0.0`,
-with plugin/runtime version `0.4.0`. Each candidate artifact's bytes, inventory,
-and SHA-256 are bound by a fresh exact-tree build; release URLs are not treated
-as serving them until publication and fresh public download/readback complete.
+**Release/contract alignment:** the published public identity is `v0.4.0.0`,
+with plugin/runtime version `0.4.0`. Fresh public download/readback reproduced
+the frozen exact-tree asset bytes, inventories and SHA-256 values recorded in
+the release report. That does not establish native host loading or provenance.
 
 A checkout of `main` may contain post-release source changes. Installing from a
 checkout or through a CLI that resolves current `main` uses source-checkout
-semantics; it is not automatically byte-identical to a future tagged `v0.4.0.0`
-asset. Re-verify this paragraph at every release gate.
+semantics; it is not automatically byte-identical to the tagged `v0.4.0.0`
+assets. Re-verify this paragraph at every release gate.
 
 ### Quick install via the skills CLI
 
@@ -1218,8 +1208,8 @@ ecosystem's install-telemetry index, not by this repo.
 
 Choose the source deliberately:
 
-- the `v0.4.0.0` source candidate must be built, qualified and independently
-  reviewed before any public availability can be claimed;
+- the tagged `v0.4.0.0` source tree was built, qualified, independently reviewed,
+  published and independently read back;
 - the current source contains the packaged R001D correction and later native
   runtime countermeasures;
 - a local archive is evidence only for the exact source tree from which it was
@@ -1297,9 +1287,8 @@ bash scripts/install-codex-from-release.sh \
   --version 0.4.0
 ```
 
-Only after v0.4.0.0 is published and independently read back may the following
-public-tag form be treated as current; until then, use the locally qualified
-asset route shown above:
+The published `v0.4.0.0` asset below is current because public download,
+checksum and isolated install readback reproduced its frozen identity:
 
 ```bash
 bash scripts/install-codex-from-release.sh \
@@ -1337,7 +1326,7 @@ bash scripts/install-claude-from-release.sh \
   --claude-skills-dir "<claude-session-path>/skills/implementaudit"
 ```
 
-After final public readback, install the `v0.4.0.0` release asset with:
+Install the independently read-back `v0.4.0.0` release asset with:
 
 ```bash
 bash scripts/install-claude-from-release.sh \
