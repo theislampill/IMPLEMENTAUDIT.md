@@ -749,7 +749,7 @@ grep -Fq 'planned path population' "$tmp/f41.out" \
 ok
 
 # R2-F42--F46: only the governed transition route may publish open/closed
-# state. It binds exact identities while holding the same persistent gate R36
+# state. It binds exact identities while holding the same persistent gate R0024
 # uses, and refuses premature closure, selector drift, and wrong custody.
 new_repo f42-transition-open
 transition_run_rel="$(cd "$case_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$repo_root/skills/implementaudit/scripts/claim-run.sh" window 2>/dev/null)"

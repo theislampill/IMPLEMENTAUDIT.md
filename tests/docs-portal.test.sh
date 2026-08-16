@@ -1079,15 +1079,15 @@ import sys
 from pathlib import Path
 
 Path(sys.argv[1]).write_text(
-    "R36 / #167 remains open and was not "
+    "R0024 / #167 remains open and was not "
     + "shipped or qualified in this release.\n",
     encoding="utf-8",
 )
 PY
 if bash scripts/check-public-claim-boundaries.sh >/dev/null 2>&1; then
-  fail_check "check-public-claim-boundaries.sh accepted the stale pre-R36 release claim"
+  fail_check "check-public-claim-boundaries.sh accepted the stale pre-R0024 release claim"
 else
-  ok "check-public-claim-boundaries.sh rejects the stale pre-R36 release claim"
+  ok "check-public-claim-boundaries.sh rejects the stale pre-R0024 release claim"
 fi
 
 if "${py_cmd[@]}" - <<'PY'

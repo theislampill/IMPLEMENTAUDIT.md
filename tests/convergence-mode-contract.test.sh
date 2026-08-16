@@ -12,7 +12,7 @@ cd "$repo_root"
 ref="skills/implementaudit/references/convergence-mode.md"
 skill="skills/implementaudit/SKILL.md"
 fx="fixtures/convergence-mode"
-r32="$fx/r32"
+r32="$fx/R0020"
 fail() { printf 'convergence-mode-contract: %s\n' "$*" >&2; exit 1; }
 
 if command -v python >/dev/null 2>&1; then
@@ -22,7 +22,7 @@ elif command -v python3 >/dev/null 2>&1; then
 elif command -v py >/dev/null 2>&1; then
   py_cmd=(py -3)
 else
-  fail "Python 3 is required for R32 deterministic fixture validation"
+  fail "Python 3 is required for R0020 deterministic fixture validation"
 fi
 
 [ -f "$ref" ] || fail "optional reference $ref missing"
@@ -61,19 +61,19 @@ printf '%s' "$flat" | grep -qi 'escalate-to-convergence-mode' \
 printf '%s' "$flat" | grep -qi 'materially ambiguous' \
   || fail "material family ambiguity trigger missing"
 printf '%s' "$flat" | grep -qi 'exploratory hypothesis discrimination' \
-  || fail "R34 informational-independence delegation missing"
+  || fail "R0022 informational-independence delegation missing"
 printf '%s' "$flat" | grep -qi 'authoritative common facts' \
-  || fail "R34 common-facts boundary missing"
+  || fail "R0022 common-facts boundary missing"
 printf '%s' "$flat" | grep -qi 'conclusion-neutral' \
-  || fail "R34 conclusion-neutral first-pass boundary missing"
+  || fail "R0022 conclusion-neutral first-pass boundary missing"
 printf '%s' "$flat" | grep -qi 'Smoke A.*Smoke B' \
   || fail "temporal Smoke A/B axis missing"
 printf '%s' "$flat" | grep -qi 'original failing witness' \
-  || fail "R35 original-witness boundary missing"
+  || fail "R0023 original-witness boundary missing"
 printf '%s' "$flat" | grep -qi 'evaluator identity' \
-  || fail "R35 evaluator-identity boundary missing"
+  || fail "R0023 evaluator-identity boundary missing"
 printf '%s' "$flat" | grep -Fqi 'P4-16' \
-  || fail "R35 post-failure evaluator route missing"
+  || fail "R0023 post-failure evaluator route missing"
 printf '%s' "$flat" | grep -qi 'external.*unproved\|unproved.*external' \
   || fail "external-validity limit missing"
 
@@ -98,12 +98,12 @@ grep -q '^expected_enumeration_dimensions: 3' "$fx/under-specified-3d.md" \
 grep -q '^expected_trigger: no' "$fx/single-fault-control.md" \
   || fail "negative control must declare expected_trigger: no"
 
-# R32 independent qualification bank. The fixtures are repo-only evidence;
+# R0020 independent qualification bank. The fixtures are repo-only evidence;
 # the shipped reference and load route carry the final narrow activation.
 incident_bank="$r32/incident-population.json"
 case_bank="$r32/cases.json"
-[ -f "$incident_bank" ] || fail "R32 incident population missing: $incident_bank"
-[ -f "$case_bank" ] || fail "R32 deterministic case bank missing: $case_bank"
+[ -f "$incident_bank" ] || fail "R0020 incident population missing: $incident_bank"
+[ -f "$case_bank" ] || fail "R0020 deterministic case bank missing: $case_bank"
 
 "${py_cmd[@]}" - "$incident_bank" "$case_bank" <<'PY'
 import json
@@ -139,10 +139,10 @@ incidents = load(sys.argv[1])
 cases = load(sys.argv[2])
 
 if cases.get("schema") != "implementaudit-r32-deterministic-cases-v2":
-    die("R32 case bank schema does not identify the reconstructible state model")
+    die("R0020 case bank schema does not identify the reconstructible state model")
 evidence_boundary = cases.get("evidence_boundary", "")
 if "qualified optional" not in evidence_boundary or "external effectiveness unproved" not in evidence_boundary:
-    die("R32 case bank evidence boundary is stale or overclaims external validity")
+    die("R0020 case bank evidence boundary is stale or overclaims external validity")
 
 # A denominator is an enumerated population, never a declared number alone.
 receipts = incidents.get("receipts")
@@ -221,7 +221,7 @@ if declared != observed:
     die(f"incident denominator mismatch: declared={declared} observed={observed}")
 
 by_campaign = Counter(receipt.get("campaign") for receipt, _ in claims)
-expected_campaign_counts = {"#144": 29, "R30": 8, "R31": 11}
+expected_campaign_counts = {"#144": 29, "R001E": 8, "R001F": 11}
 if dict(sorted(by_campaign.items())) != expected_campaign_counts:
     die("enumerated campaign counts differ from the audited population")
 if incidents.get("campaign_counts") != expected_campaign_counts:
@@ -520,10 +520,10 @@ def validate_record(case, route):
 
 rows = cases.get("cases")
 if not isinstance(rows, list) or not rows:
-    die("R32 deterministic cases must be a nonempty list")
+    die("R0020 deterministic cases must be a nonempty list")
 ids = [row.get("id") for row in rows]
 if len(ids) != len(set(ids)) or any(not value for value in ids):
-    die("R32 deterministic case ids must be unique and nonempty")
+    die("R0020 deterministic case ids must be unique and nonempty")
 required_case_ids = {
     "R32-C01-second-same-family",
     "R32-C02-renamed-rephrased-same-family",
@@ -541,9 +541,9 @@ required_case_ids = {
     "R32-C14-record-owner-substitution-rejected",
 }
 if set(ids) != required_case_ids:
-    die("R32 deterministic case population is incomplete or substituted")
+    die("R0020 deterministic case population is incomplete or substituted")
 if any(case.get("model_call") for case in rows):
-    die("deterministic R32 bank must not invoke a model")
+    die("deterministic R0020 bank must not invoke a model")
 
 routes = Counter()
 record_verdicts = Counter()
@@ -589,7 +589,7 @@ required_negative_ids = {
     "R32-N10-unverified-included-member-unbound",
 }
 if not isinstance(negative_rows, list) or {row.get("id") for row in negative_rows} != required_negative_ids:
-    die("R32 adversarial state-model population is incomplete or substituted")
+    die("R0020 adversarial state-model population is incomplete or substituted")
 base_case = next(row for row in rows if row["id"] == "R32-C01-second-same-family")
 for negative in negative_rows:
     probe = copy.deepcopy(base_case)
@@ -652,4 +652,4 @@ print(
 )
 PY
 
-printf 'convergence-mode-contract: ok (qualified optional reference + R32 deterministic bank)\n'
+printf 'convergence-mode-contract: ok (qualified optional reference + R0020 deterministic bank)\n'

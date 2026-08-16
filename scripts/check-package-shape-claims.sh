@@ -132,6 +132,8 @@ current_docs = {
         "one atomic dual-host plugin",
         "IMPLEMENTAUDIT.plugin.zip",
         "IMPLEMENTAUDIT.skill",
+        "one governor and",
+        "exactly four child skills",
         "sole stable public/default governor",
         "exactly four child skills",
         "audit-implement",
@@ -204,6 +206,8 @@ forbidden = [
      "README collapses cross-cutting cognition into one-skill-per-loop ownership"),
     (re.compile(r"standalone projection directly exposes audit-andon as a discoverable child command", re.I),
      "README overclaims standalone direct child reachability"),
+    (re.compile(r"canonical plugin(?:\s+package)?(?:\s+contains|\s+has)?[^\n]*exactly one skill", re.I),
+     "canonical plugin population collapsed to one skill"),
     (re.compile(r"child skill may grant PASS and advance lifecycle state", re.I),
      "README grants child authority"),
 ]

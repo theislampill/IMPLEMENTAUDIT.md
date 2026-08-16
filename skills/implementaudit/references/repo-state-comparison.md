@@ -263,7 +263,7 @@ When the native audit object opens a scarce-resource phase, `validate-phase.sh` 
 Before publishing a governed verification window, invoke
 `check-evidence-anchor.sh --window-transition <transition> <launch-intent> --entry <n> --repo-root <repo>`.
 Its governed-window-publication boundary serialises the prepared/open/closed
-identity transition with R36 mutation; it does not claim exclusion against a
+identity transition with R0024 mutation; it does not claim exclusion against a
 non-cooperating same-principal writer.
 
 A validated destructive mutation is required to run through

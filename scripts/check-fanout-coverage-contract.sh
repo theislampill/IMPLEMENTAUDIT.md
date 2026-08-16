@@ -80,7 +80,7 @@ do
   require "$child_ref" "$text"
 done
 
-# --- narrow exploratory-discrimination variant (#163, R34) ---
+# --- narrow exploratory-discrimination variant (#163, R0022) ---
 for text in \
   "all five conditions hold" \
   "material unresolved causal or design uncertainty" \

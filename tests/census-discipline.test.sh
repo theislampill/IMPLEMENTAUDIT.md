@@ -14,7 +14,7 @@ semantic_fixture="fixtures/public-projection/semantic-preservation.json"
 lineage_fixture="fixtures/public-projection/lineage-reader-questions.json"
 base="fixtures/phase-validation/valid-full-spec.md"
 eval_fixture="eval/fixtures/E5d-census-discipline"
-r29_eval_fixture="eval/fixtures/R29-public-projection"
+r29_eval_fixture="eval/fixtures/R001D-public-projection"
 r29_dogfood_input="fixtures/public-projection/installed-dogfood-input.json"
 checker="scripts/check-census-discipline.sh"
 pass=0
@@ -167,7 +167,7 @@ else
 fi
 
 # Package-pressure compaction once weakened the omission assertion to generic
-# overclaim/omission wording. R33/R35 review rejected that evaluator mutation;
+# overclaim/omission wording. R0021/R0023 review rejected that evaluator mutation;
 # keep the material owner-sourced omission predicate exact here.
 if grep -Fq "### Public capability projection" \
      skills/implementaudit/references/audit-playbook.md &&
@@ -234,7 +234,7 @@ else
 fi
 
 # Bind each owner-supplied reader question to a named public owner and a small
-# evidence set.  The existing R29 positive/negative/cheap/held-out controls
+# evidence set.  The existing R001D positive/negative/cheap/held-out controls
 # remain the generic semantic discriminator; this cell owns lineage routing,
 # classifications, non-claims, and native-control distinctions.
 if "${py_cmd[@]}" - "$lineage_fixture" <<'PY'
@@ -342,7 +342,7 @@ synthesis = page_text["research-lineage-evolved-law"]
 for literal in fixture["classification_literals"]:
     if literal not in synthesis:
         raise SystemExit(f"lineage synthesis missing classification {literal}")
-for issue in ("R37 / #186", "R38 / #187", "R39 / #188"):
+for issue in ("R0025 / #186", "R0026 / #187", "R0027 / #188"):
     if issue not in synthesis:
         raise SystemExit(f"lineage synthesis missing evidence owner {issue}")
 
@@ -402,7 +402,7 @@ PY
 then
   record_pass
 else
-  record_fail "R29 twenty-three-question research-lineage comprehension contract failed"
+  record_fail "R001D twenty-three-question research-lineage comprehension contract failed"
 fi
 
 # Bind the repaired repository projection as a positive example without
@@ -671,14 +671,14 @@ property_ids = {row[1] for row in required_tuples}
 
 def validate_model_contract(candidate):
     if candidate.get("id") != "R29-public-projection":
-        raise SystemExit("R29 model-cell identity invalid")
+        raise SystemExit("R001D model-cell identity invalid")
     mission = candidate.get("mission", "").casefold()
     fields = candidate.get("matrix_instruction_contract", {}).get("fields", [])
     properties = candidate.get("properties", [])
     if [row.get("field") for row in fields] != [row[0] for row in required_tuples]:
-        raise SystemExit("R29 model-cell field identity set invalid")
+        raise SystemExit("R001D model-cell field identity set invalid")
     if [row.get("name") for row in properties] != [row[1] for row in required_tuples]:
-        raise SystemExit("R29 model-cell scorer property set invalid")
+        raise SystemExit("R001D model-cell scorer property set invalid")
     for field, prop, required in zip(fields, properties, required_tuples):
         label = required[0]
         distractors, forbidden = required[6:]
@@ -694,13 +694,13 @@ def validate_model_contract(candidate):
             raise SystemExit(f"{label}: exact acceptance tuple invalid")
         for phrase in forbidden:
             if phrase.casefold() in mission:
-                raise SystemExit(f"R29 model-cell mission leaks forbidden phrase: {phrase}")
+                raise SystemExit(f"R001D model-cell mission leaks forbidden phrase: {phrase}")
     for prop in properties:
         rule = prop.get("rule", {})
         patterns = [rule.get("pattern", "")]
         patterns += [child.get("pattern", "") for child in rule.get("rules", [])]
         if any("|" in pattern for pattern in patterns):
-            raise SystemExit("R29 model-cell scorer uses a synonym list")
+            raise SystemExit("R001D model-cell scorer uses a synonym list")
 
 
 validate_model_contract(fixture)
@@ -711,7 +711,7 @@ def require_rejection(candidate, mutation):
         validate_model_contract(candidate)
     except SystemExit:
         return
-    raise SystemExit(f"R29 model-cell accepted {mutation}")
+    raise SystemExit(f"R001D model-cell accepted {mutation}")
 
 
 for index, required in enumerate(required_tuples):
@@ -762,7 +762,7 @@ base_seed = {
     "internal/cache.md": "Internal-only cache compaction is not user-facing.",
 }
 if fixture.get("seed_repository") != base_seed:
-    raise SystemExit("R29 model-cell base seed binding invalid")
+    raise SystemExit("R001D model-cell base seed binding invalid")
 
 control_contracts = {
     "positive-paraphrase": {
@@ -811,7 +811,7 @@ control_contracts = {
 def validate_control(row):
     control_id = row.get("id")
     if control_id not in control_contracts:
-        raise SystemExit("R29 model-cell control identity invalid")
+        raise SystemExit("R001D model-cell control identity invalid")
     contract = control_contracts[control_id]
     if set(row) != {
             "id", "repository_identity", "polarity", "expected_pass",
@@ -840,15 +840,15 @@ def require_control_rejection(candidate, mutation):
         validate_control(candidate)
     except SystemExit:
         return
-    raise SystemExit(f"R29 model-cell accepted {mutation}")
+    raise SystemExit(f"R001D model-cell accepted {mutation}")
 
 
 if set(controls) != {"schema", "cases"} or controls.get("schema") != "implementaudit-r29-model-controls-v2":
-    raise SystemExit("R29 model-cell controls schema invalid")
+    raise SystemExit("R001D model-cell controls schema invalid")
 cases = controls.get("cases", [])
 if [row.get("id") for row in cases] != [
         "positive-paraphrase", "negative-internal-only", "polarity-denial"]:
-    raise SystemExit("R29 model-cell controls must be positive/negative/polarity paired")
+    raise SystemExit("R001D model-cell controls must be positive/negative/polarity paired")
 for row in cases:
     validate_control(row)
     local_fixture = dict(fixture)
@@ -889,13 +889,13 @@ for index, row in enumerate(cases):
     require_control_rejection(mutated, f"{control_id} transcript substitution")
 
 if dogfood.get("schema") != "implementaudit-r29-installed-dogfood-input-v1":
-    raise SystemExit("R29 installed-dogfood input schema invalid")
+    raise SystemExit("R001D installed-dogfood input schema invalid")
 if dogfood.get("execution_state") != "NOT_RUN":
-    raise SystemExit("R29 installed dogfood must remain unexecuted in this repair")
-if dogfood.get("model_fixture") != "eval/fixtures/R29-public-projection/fixture.json":
-    raise SystemExit("R29 dogfood input does not bind the distinct model fixture")
+    raise SystemExit("R001D installed dogfood must remain unexecuted in this repair")
+if dogfood.get("model_fixture") != "eval/fixtures/R001D-public-projection/fixture.json":
+    raise SystemExit("R001D dogfood input does not bind the distinct model fixture")
 if set(dogfood.get("expected_properties", [])) != property_ids:
-    raise SystemExit("R29 dogfood input lost a live scored property")
+    raise SystemExit("R001D dogfood input lost a live scored property")
 boundary = dogfood.get("execution_boundary", {})
 if boundary != {
         "disposable_codex_home_required": True,
@@ -904,12 +904,12 @@ if boundary != {
         "installed_dogfood_authorised": False,
         "publication_authorised": False,
 }:
-    raise SystemExit("R29 dogfood execution boundary invalid")
+    raise SystemExit("R001D dogfood execution boundary invalid")
 PY
 then
   record_pass
 else
-  record_fail "R29 prompt-independent model/install-dogfood input contract failed"
+  record_fail "R001D prompt-independent model/install-dogfood input contract failed"
 fi
 
 selftest_out="$tmp/eval-selftest.out"

@@ -280,6 +280,32 @@ package build or a commit before fresh invalidation, receipt verification and
 currentness is a continuity violation. A remembered standing constraint remains
 binding but does not become the active frontier without live-state evidence.
 
+## Child-skill routing observability
+
+A governed child route is user-visible only after the exact package gate,
+resolver selection, and actual child load have occurred. The route narration
+uses both lines:
+
+```text
+CHILD_SKILL_ROUTE=<selected-child>
+I'm using <selected-child> to <bounded reason for this route>.
+```
+
+The selected child is exactly one of `audit-state`, `audit-assess`,
+`audit-implement`, or `audit-andon`, and the announced identity must equal the
+resolved and loaded child. Child files merely being packaged or discoverable,
+or governor reasoning producing similar words or conclusions, is not a route.
+Those governor-only cases emit no child announcement. An actual child load
+without the announcement, an announcement without a load, a mismatched child,
+duplicate child announcements, or a retroactive announcement is a routing
+observability failure; none creates authority or closure.
+
+For a real continuity boundary, the verified receipt precedes the
+`audit-state` load. Its route line appears in the first narration permitted
+after that receipt; it never displaces or precedes the receipt/currentness
+gate. The other children follow the same actual-load/visible-route bijection
+when their own governor gates genuinely select them.
+
 ## Final audit markers
 
 ```text

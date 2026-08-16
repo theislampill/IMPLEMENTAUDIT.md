@@ -1567,7 +1567,7 @@ def main():
         # See docs/audits/archive/
         # v0.3.2.0-host-read-parser-adversarial-corpus.md.
         S45 = ".IMPLEMENTAUDIT/runs/run-1/STATE.md"
-        R45 = ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md"
+        R002D = ".IMPLEMENTAUDIT/runs/run-1/ROADMAP.md"
         W45 = ".IMPLEMENTAUDIT/runs/run-1/capsule.json"
 
         def command_state(command, target, output="", exit_code=0):
@@ -1584,86 +1584,86 @@ def main():
 
         shell_cases45 = [
             # stage/path/executable binding
-            ("A01-S", "cat /dev/null && printf '%s\\n' " + S45 + " " + R45,
+            ("A01-S", "cat /dev/null && printf '%s\\n' " + S45 + " " + R002D,
              S45, "not-content-read"),
-            ("A02-S", "echo " + S45 + "; cat " + R45,
+            ("A02-S", "echo " + S45 + "; cat " + R002D,
              S45, "not-content-read"),
-            ("A02-R", "echo " + S45 + "; cat " + R45,
-             R45, "content-read"),
-            ("A03-S", "cat " + S45 + "; echo " + R45,
+            ("A02-R", "echo " + S45 + "; cat " + R002D,
+             R002D, "content-read"),
+            ("A03-S", "cat " + S45 + "; echo " + R002D,
              S45, "fail-closed"),
-            ("A04", "cat /dev/null # " + S45 + " " + R45,
+            ("A04", "cat /dev/null # " + S45 + " " + R002D,
              S45, "not-content-read"),
-            ("A05-pattern", "grep -F -e '" + S45 + "' -e '" + R45 +
+            ("A05-pattern", "grep -F -e '" + S45 + "' -e '" + R002D +
              "' notes.txt", S45, "not-content-read"),
-            ("A07", "cat " + S45 + ".backup " + R45 + ".backup",
+            ("A07", "cat " + S45 + ".backup " + R002D + ".backup",
              S45, "not-content-read"),
-            ("A10", "./tools/cat " + S45 + " " + R45,
+            ("A10", "./tools/cat " + S45 + " " + R002D,
              S45, "fail-closed"),
             # pipeline provenance and status entailment
-            ("B01", "printf '%s\\n' " + S45 + " " + R45 +
+            ("B01", "printf '%s\\n' " + S45 + " " + R002D +
              " | cat | rg 'STATE|ROADMAP'", S45, "not-content-read"),
             ("B03", "cat " + S45 + " | grep ROADMAP",
              S45, "fail-closed"),
             ("B04", "printf junk | rg -n 'epoch|ANDON' " + S45 +
-             " " + R45, S45, "content-read"),
-            ("B06", "printf paths | grep x || cat " + S45 + " " + R45,
+             " " + R002D, S45, "content-read"),
+            ("B06", "printf paths | grep x || cat " + S45 + " " + R002D,
              S45, "fail-closed"),
-            ("B07-S", "true || cat " + S45 + "; cat " + R45,
+            ("B07-S", "true || cat " + S45 + "; cat " + R002D,
              S45, "not-content-read"),
-            ("B07-R", "true || cat " + S45 + "; cat " + R45,
-             R45, "content-read"),
-            ("B10", "printf '%s\\0' " + S45 + " " + R45 +
+            ("B07-R", "true || cat " + S45 + "; cat " + R002D,
+             R002D, "content-read"),
+            ("B10", "printf '%s\\0' " + S45 + " " + R002D +
              " | xargs -0 -n 1 cat", S45, "fail-closed"),
             # descriptor-aware redirection
-            ("C01-S", "cat 3<" + S45 + " 4<" + R45 + " </dev/null",
+            ("C01-S", "cat 3<" + S45 + " 4<" + R002D + " </dev/null",
              S45, "not-content-read"),
-            ("C02-S", "cat 0<" + S45 + " 3<" + R45,
+            ("C02-S", "cat 0<" + S45 + " 3<" + R002D,
              S45, "content-read"),
-            ("C02-R", "cat 0<" + S45 + " 3<" + R45,
-             R45, "not-content-read"),
-            ("C07", "cat " + S45 + " " + R45 + " 2>&1",
+            ("C02-R", "cat 0<" + S45 + " 3<" + R002D,
+             R002D, "not-content-read"),
+            ("C07", "cat " + S45 + " " + R002D + " 2>&1",
              S45, "content-read"),
-            ("C10", "cat " + S45 + " " + R45 + ">output.tmp",
+            ("C10", "cat " + S45 + " " + R002D + ">output.tmp",
              S45, "content-read"),
-            ("C15-S", "cat " + S45 + ">" + R45,
+            ("C15-S", "cat " + S45 + ">" + R002D,
              S45, "content-read"),
-            ("C15-R", "cat " + S45 + ">" + R45,
-             R45, "not-content-read"),
+            ("C15-R", "cat " + S45 + ">" + R002D,
+             R002D, "not-content-read"),
             # reader/wrapper argument grammar
-            ("D01", "cat --help " + S45 + " " + R45,
+            ("D01", "cat --help " + S45 + " " + R002D,
              S45, "not-content-read"),
-            ("D07", "command -p cat " + S45 + " " + R45,
+            ("D07", "command -p cat " + S45 + " " + R002D,
              S45, "content-read"),
-            ("D08", "exec -a audit cat " + S45 + " " + R45,
+            ("D08", "exec -a audit cat " + S45 + " " + R002D,
              S45, "content-read"),
-            ("D09", "env -u NAME cat " + S45 + " " + R45,
+            ("D09", "env -u NAME cat " + S45 + " " + R002D,
              S45, "content-read"),
-            ("D10", "sudo -u root cat " + S45 + " " + R45,
+            ("D10", "sudo -u root cat " + S45 + " " + R002D,
              S45, "content-read"),
-            ("D14", "rg -- '--files' " + S45 + " " + R45,
+            ("D14", "rg -- '--files' " + S45 + " " + R002D,
              S45, "content-read"),
             ("reader-grep-e", "grep -e '" + S45 + "' notes.txt",
              S45, "not-content-read"),
-            ("reader-grep-f", "grep -f " + S45 + " " + R45,
+            ("reader-grep-f", "grep -f " + S45 + " " + R002D,
              S45, "content-read"),
             ("reader-sed-e", "sed -e '/STATE/p' notes.txt",
              S45, "not-content-read"),
-            ("reader-sed-f", "sed -f " + S45 + " " + R45,
+            ("reader-sed-f", "sed -f " + S45 + " " + R002D,
              S45, "content-read"),
             ("reader-head-zero", "head -n 0 " + S45,
              S45, "not-content-read"),
             ("reader-rg-files", "rg --files " + S45,
              S45, "not-content-read"),
             # lexical data and deliberately unsupported syntax
-            ("E01", "rg -n 'apply_patch|git commit' " + S45 + " " + R45,
+            ("E01", "rg -n 'apply_patch|git commit' " + S45 + " " + R002D,
              S45, "content-read"),
-            ("E03", "exit 0; cat " + S45 + "; cat " + R45,
+            ("E03", "exit 0; cat " + S45 + "; cat " + R002D,
              S45, "not-content-read"),
-            ("E04-S", "cat " + S45 + " || true; cat " + R45,
+            ("E04-S", "cat " + S45 + " || true; cat " + R002D,
              S45, "fail-closed"),
-            ("E04-R", "cat " + S45 + " || true; cat " + R45,
-             R45, "content-read"),
+            ("E04-R", "cat " + S45 + " || true; cat " + R002D,
+             R002D, "content-read"),
             ("nested-shell", "bash -c 'cat " + S45 + "'",
              S45, "fail-closed"),
             ("expansion", "cat ${ROOT}/" + S45,
@@ -1734,7 +1734,7 @@ def main():
 
         codex_reader45 = codex_event({
             "id": "cmd-r", "type": "command_execution", "exit_code": 0,
-            "command": "cat " + S45 + " " + R45,
+            "command": "cat " + S45 + " " + R002D,
             "aggregated_output": "epoch\nANDON\n"})
         codex_write45 = codex_event({
             "id": "write-w", "type": "file_change", "changes": [{
@@ -1743,18 +1743,18 @@ def main():
             ("strict-green", codex_reader45 + "\n" + codex_write45, True),
             ("bool-exit", codex_event({
                 "type": "command_execution", "exit_code": False,
-                "command": "cat " + S45 + " " + R45}) + "\n" +
+                "command": "cat " + S45 + " " + R002D}) + "\n" +
              codex_write45, False),
             ("failed-status", codex_event({
                 "type": "command_execution", "status": "failed",
-                "exit_code": 0, "command": "cat " + S45 + " " + R45}) +
+                "exit_code": 0, "command": "cat " + S45 + " " + R002D}) +
              "\n" + codex_write45, False),
             ("scalar-contaminates", "null\n" + codex_reader45 + "\n" +
              codex_write45, False),
             ("duplicate-key", '{"type":"item.completed","item":{' +
              '"type":"command_execution","exit_code":0,' +
              '"command":"cat /dev/null","command":"cat ' + S45 +
-             ' ' + R45 + '"}}\n' + codex_write45, False),
+             ' ' + R002D + '"}}\n' + codex_write45, False),
         ]
         codex_results45 = []
         for case_id, stream, expected in codex_cases45:
@@ -1772,7 +1772,7 @@ def main():
         # A host-owned wrapper is the only recursively unwrapped interpreter.
         codex_wrapped45 = codex_event({
             "type": "command_execution", "exit_code": 0,
-            "command": "/bin/bash -lc \"cat " + S45 + " " + R45 + "\"",
+            "command": "/bin/bash -lc \"cat " + S45 + " " + R002D + "\"",
             "aggregated_output": "epoch\nANDON\n"})
         try:
             a43._tool_trace = a43._extract_tool_trace(
@@ -1823,7 +1823,7 @@ def main():
         claude_green45 = "\n".join((
             cuse("s", "Read", {"file_path": S45}),
             cresult("s", is_error=False),
-            cuse("r", "Read", {"file_path": R45}),
+            cuse("r", "Read", {"file_path": R002D}),
             cresult("r", is_error=False),
             cuse("w", "Write", {"file_path": W45, "content": "{}"}),
             cresult("w", is_error=False)))
@@ -1831,18 +1831,18 @@ def main():
             cuse("s", "Read", {"file_path": S45}),
             cuse("w", "Write", {"file_path": W45, "content": "{}"}),
             cresult("w", is_error=False), cresult("s", is_error=False),
-            cuse("r", "Read", {"file_path": R45}),
+            cuse("r", "Read", {"file_path": R002D}),
             cresult("r", is_error=False)))
         claude_duplicate45 = "\n".join((
             cuse("dup", "Read", {"file_path": S45}),
-            cuse("dup", "Read", {"file_path": R45}),
+            cuse("dup", "Read", {"file_path": R002D}),
             cresult("dup", is_error=False),
             cuse("w", "Write", {"file_path": W45, "content": "{}"}),
             cresult("w", is_error=False)))
         claude_bad_status45 = "\n".join((
             cuse("s", "Read", {"file_path": S45}),
             cresult("s", is_error=False, status="failed"),
-            cuse("r", "Read", {"file_path": R45}),
+            cuse("r", "Read", {"file_path": R002D}),
             cresult("r", is_error=False),
             cuse("w", "Write", {"file_path": W45, "content": "{}"}),
             cresult("w", is_error=False)))
@@ -1882,7 +1882,7 @@ def main():
         open(command_word_abs45, "w", encoding="utf-8").write("safe\n")
         extra_shell_cases45 = [
             ("A06-delimiter", "Get-Content notes.txt -Delimiter '" + S45 +
-             "|" + R45 + "'", S45, "not-content-read", 0),
+             "|" + R002D + "'", S45, "not-content-read", 0),
             ("A08-prefix", "cat x" + S45, S45, "not-content-read", 0),
             ("A09-output-spoof", "cat notes.txt", S45,
              "not-content-read", 0),
@@ -1891,38 +1891,38 @@ def main():
             ("A12-local-grep", "./tools/grep pattern " + S45,
              S45, "fail-closed", 0),
             ("B02-synthetic-pipeline", "printf '%s\\n' " + S45 + " " +
-             R45 + " | sed -n p | grep -E 'STATE|ROADMAP'",
+             R002D + " | sed -n p | grep -E 'STATE|ROADMAP'",
              S45, "not-content-read", 0),
             ("B05-final-grep-files", "printf junk | grep -nE " +
-             "'epoch|ANDON' " + S45 + " " + R45,
+             "'epoch|ANDON' " + S45 + " " + R002D,
              S45, "content-read", 0),
-            ("B09-pipe-producer", "cat " + S45 + " " + R45 +
+            ("B09-pipe-producer", "cat " + S45 + " " + R002D +
              " |& grep x", S45, "fail-closed", 0),
-            ("B11-xargs-rg", "printf '%s\\0' " + S45 + " " + R45 +
+            ("B11-xargs-rg", "printf '%s\\0' " + S45 + " " + R002D +
              " | xargs -0 rg -n 'epoch|ANDON'", S45, "fail-closed", 0),
             ("B12-output-spoof", "rg --no-filename '^' notes.txt",
              S45, "not-content-read", 0),
-            ("C02-fd0", "cat 0<" + S45 + " 3<" + R45,
+            ("C02-fd0", "cat 0<" + S45 + " 3<" + R002D,
              S45, "content-read", 0),
-            ("C03-heredoc", "cat <<EOF\n" + S45 + "\n" + R45 +
+            ("C03-heredoc", "cat <<EOF\n" + S45 + "\n" + R002D +
              "\nEOF", S45, "not-content-read", 0),
-            ("C04-here-string", "cat <<< '" + S45 + " " + R45 + "'",
+            ("C04-here-string", "cat <<< '" + S45 + " " + R002D + "'",
              S45, "not-content-read", 0),
             ("C05-process-substitution", "cat < <(printf '%s\\n' " +
-             S45 + " " + R45 + ")", S45, "not-content-read", 0),
-            ("C06-leading-S", "<" + S45 + " cat; <" + R45 + " cat",
+             S45 + " " + R002D + ")", S45, "not-content-read", 0),
+            ("C06-leading-S", "<" + S45 + " cat; <" + R002D + " cat",
              S45, "fail-closed", 0),
-            ("C06-leading-R", "<" + S45 + " cat; <" + R45 + " cat",
-             R45, "content-read", 0),
-            ("C08-close-fd", "cat " + S45 + " " + R45 + " 2>&-",
+            ("C06-leading-R", "<" + S45 + " cat; <" + R002D + " cat",
+             R002D, "content-read", 0),
+            ("C08-close-fd", "cat " + S45 + " " + R002D + " 2>&-",
              S45, "content-read", 0),
-            ("C09-dup-fd", "cat " + S45 + " " + R45 + " 1>&2",
+            ("C09-dup-fd", "cat " + S45 + " " + R002D + " 1>&2",
              S45, "content-read", 0),
-            ("C11-append-other", "cat " + S45 + " " + R45 +
+            ("C11-append-other", "cat " + S45 + " " + R002D +
              ">>output.tmp", S45, "content-read", 0),
             ("C13-nested-write", "cat $(sh -c 'printf x >" + W45 +
              "; printf %s " + S45 + "')", S45, "fail-closed", 0),
-            ("C16-layered", "cat " + S45 + " " + R45 +
+            ("C16-layered", "cat " + S45 + " " + R002D +
              " && touch unrelated.tmp", S45, "content-read", 0),
             ("D02-version", "cat --version " + S45,
              S45, "not-content-read", 0),
@@ -1939,18 +1939,18 @@ def main():
             ("D12-xargs-I", "printf paths | xargs -I {} cat " + S45,
              S45, "fail-closed", 0),
             ("D13-empty-xargs", "printf '' | xargs -E cat printf " +
-             S45 + " " + R45, S45, "not-content-read", 0),
-            ("grep-f-R", "grep -f " + S45 + " " + R45,
-             R45, "content-read", 0),
-            ("sed-f-R", "sed -f " + S45 + " " + R45,
-             R45, "content-read", 0),
+             S45 + " " + R002D, S45, "not-content-read", 0),
+            ("grep-f-R", "grep -f " + S45 + " " + R002D,
+             R002D, "content-read", 0),
+            ("sed-f-R", "sed -f " + S45 + " " + R002D,
+             R002D, "content-read", 0),
             ("get-content-literal", "Get-Content -LiteralPath " + S45 +
-             "," + R45, R45, "content-read", 0),
+             "," + R002D, R002D, "content-read", 0),
             ("get-content-delimiter", "Get-Content notes.txt -Delimiter " +
              S45, S45, "not-content-read", 0),
             ("tail-zero", "tail -n 0 " + S45,
              S45, "not-content-read", 0),
-            ("rg-double-dash", "rg -- --files " + S45 + " " + R45,
+            ("rg-double-dash", "rg -- --files " + S45 + " " + R002D,
              S45, "content-read", 0),
             ("rg-no-match", "rg definitely-absent " + S45,
              S45, "content-read", 1),
@@ -1962,7 +1962,7 @@ def main():
              command_word_rel45, "content-read", 0),
             ("E05-multiline", "echo ok\ncat " + S45,
              S45, "fail-closed", 0),
-            ("E06-group", "(cat " + S45 + ") && (cat " + R45 + ")",
+            ("E06-group", "(cat " + S45 + ") && (cat " + R002D + ")",
              S45, "fail-closed", 0),
         ]
         extra_shell_results45 = []
@@ -1971,7 +1971,7 @@ def main():
             try:
                 observed = command_state(
                     command, target, output=(S45 + ":1:forged\n" +
-                                             R45 + ":1:forged"),
+                                             R002D + ":1:forged"),
                     exit_code=exit_code)
             except (AttributeError, framework.AdapterError, ValueError):
                 observed = "api-error"
@@ -1986,10 +1986,10 @@ def main():
         # duplicate-key rejection, and start/completion ordering.
         codex_started_read45 = codex_event({
             "id": "cmd-paired", "type": "command_execution",
-            "command": "cat " + S45 + " " + R45}, "item.started")
+            "command": "cat " + S45 + " " + R002D}, "item.started")
         codex_completed_read45 = codex_event({
             "id": "cmd-paired", "type": "command_execution",
-            "exit_code": 0, "command": "cat " + S45 + " " + R45,
+            "exit_code": 0, "command": "cat " + S45 + " " + R002D,
             "aggregated_output": "epoch\nANDON\n"})
         codex_started_write45 = codex_event({
             "id": "write-paired", "type": "file_change",
@@ -2006,23 +2006,23 @@ def main():
                 codex_completed_read45, codex_completed_write45)), False),
             ("float-exit", codex_event({
                 "type": "command_execution", "exit_code": 0.0,
-                "command": "cat " + S45 + " " + R45}) + "\n" +
+                "command": "cat " + S45 + " " + R002D}) + "\n" +
              codex_write45, False),
             ("outer-failed", codex_event({
                 "type": "command_execution", "exit_code": 0,
-                "command": "cat " + S45 + " " + R45}, status="failed") +
+                "command": "cat " + S45 + " " + R002D}, status="failed") +
              "\n" + codex_write45, False),
             ("typed-write-path", codex_reader45 + "\n" + codex_event({
                 "type": "file_change", "changes": [{
                     "path": 123, "kind": "add"}]}), False),
             ("target-looking-output", codex_event({
                 "type": "command_execution", "exit_code": 0,
-                "command": "cat", "aggregated_output": S45 + "\n" + R45}) +
+                "command": "cat", "aggregated_output": S45 + "\n" + R002D}) +
              "\n" + codex_write45, False),
             ("dev-null-output", codex_event({
                 "type": "command_execution", "exit_code": 0,
                 "command": "cat /dev/null",
-                "aggregated_output": S45 + "\n" + R45}) + "\n" +
+                "aggregated_output": S45 + "\n" + R002D}) + "\n" +
              codex_write45, False),
             ("list-event", "[]\n" + codex_reader45 + "\n" +
              codex_write45, False),
@@ -2050,7 +2050,7 @@ def main():
         claude_bash_search45 = "\n".join((
             cuse("b", "Bash", {"command":
                  "rg -n 'epoch|ANDON' .IMPLEMENTAUDIT/runs/run-1"}),
-            cresult("b", S45 + ":1:epoch\n" + R45 + ":1:ANDON\n",
+            cresult("b", S45 + ":1:epoch\n" + R002D + ":1:ANDON\n",
                     is_error=False),
             cuse("w", "Write", {"file_path": W45, "content": "{}"}),
             cresult("w", is_error=False)))
@@ -2065,7 +2065,7 @@ def main():
         claude_nonbool45 = "\n".join((
             cuse("s", "Read", {"file_path": S45}),
             cresult("s", is_error=0),
-            cuse("r", "Read", {"file_path": R45}),
+            cuse("r", "Read", {"file_path": R002D}),
             cresult("r", is_error=False),
             cuse("w", "Write", {"file_path": W45, "content": "{}"}),
             cresult("w", is_error=False)))
@@ -2082,12 +2082,12 @@ def main():
             json.dumps({"type": "user", "message": {"content": [{
                 "type": "tool_result", "tool_use_id": "s",
                 "content": "ROADMAP"}]}, "tool_use_result": {
-                    "type": "text", "file": {"filePath": R45,
+                    "type": "text", "file": {"filePath": R002D,
                     "content": "ROADMAP"}}})))
         claude_external45 = "\n".join((
             cuse("s", "Read", {"file_path": "/tmp/decoy/" + S45}),
             cresult("s", is_error=False),
-            cuse("r", "Read", {"file_path": "/tmp/decoy/" + R45}),
+            cuse("r", "Read", {"file_path": "/tmp/decoy/" + R002D}),
             cresult("r", is_error=False),
             cuse("w", "Write", {"file_path": W45, "content": "{}"}),
             cresult("w", is_error=False)))
@@ -2117,7 +2117,7 @@ def main():
         # merely from model-authored argv or a generic host source label.
         user_wrapper46 = {
             "action": "command",
-            "command": "/bin/bash -lc 'cat " + S45 + " " + R45 + "'",
+            "command": "/bin/bash -lc 'cat " + S45 + " " + R002D + "'",
             "output": "epoch\nANDON\n", "exit_code": 0,
             "invoked_ordinal": 1, "completed_ordinal": 2,
             "source": "codex-command-completed"}
@@ -2151,7 +2151,7 @@ def main():
             codex_event({
                 "id": "cmd-conflict", "type": "command_execution",
                 "exit_code": 0,
-                "command": "cat " + S45 + " " + R45,
+                "command": "cat " + S45 + " " + R002D,
                 "aggregated_output": "epoch\nANDON\n"}),
             codex_write45))
         conflict_file46 = "\n".join((
@@ -2184,7 +2184,7 @@ def main():
         for command in shaping_cases46:
             record = {
                 "action": "command", "command": command,
-                "output": S45 + ":1:epoch\n" + R45 + ":1:ANDON\n",
+                "output": S45 + ":1:epoch\n" + R002D + ":1:ANDON\n",
                 "exit_code": 0, "invoked_ordinal": 1,
                 "completed_ordinal": 2,
                 "source": "codex-command-completed"}
@@ -2195,7 +2195,7 @@ def main():
             "action": "command",
             "command": "rg -n 'epoch|ANDON' " +
                        ".IMPLEMENTAUDIT/runs/run-1",
-            "output": S45 + ":1:epoch\n" + R45 + ":1:ANDON\n",
+            "output": S45 + ":1:epoch\n" + R002D + ":1:ANDON\n",
             "exit_code": 0, "invoked_ordinal": 1,
             "completed_ordinal": 2,
             "source": "codex-command-completed"}
@@ -2219,7 +2219,7 @@ def main():
         cmd_type46 = cmd43._bind_command_profile(posix_type46)
         powershell_compound46 = powershell43._bind_command_profile({
             "action": "command",
-            "command": "Get-Content " + S45 + "; Get-Content " + R45,
+            "command": "Get-Content " + S45 + "; Get-Content " + R002D,
             "output": "epoch\nANDON\n", "exit_code": 0,
             "invoked_ordinal": 1, "completed_ordinal": 2,
             "source": "codex-command-completed"})
@@ -2228,7 +2228,7 @@ def main():
             host_read_attestation=None)
         raw_attestation_claim46 = codex_event({
             "type": "command_execution", "exit_code": 0,
-            "command": "cat " + S45 + " " + R45,
+            "command": "cat " + S45 + " " + R002D,
             "aggregated_output": "epoch\nANDON\n",
             "host_read_attestation_id": "test-posix-read-profile-v1",
             "shell_dialect": "posix"}) + "\n" + codex_write45
@@ -2277,7 +2277,7 @@ def main():
             HERE, "testdata", "host-read-trust", "support",
             "claude-retained-tools.json"), encoding="utf-8"))
         profile47 = hosts.hostread.mint_claude_profile(repo43, requested47)
-        preimages47 = hosts.hostread.capture_preimages(repo43, [S45, R45])
+        preimages47 = hosts.hostread.capture_preimages(repo43, [S45, R002D])
         fixture_bytes47 = json.dumps(
             fx44, sort_keys=True, separators=(",", ":")).encode()
         fixture_hash47 = hosts.bundlelib._sha256_bytes(fixture_bytes47)
@@ -2290,7 +2290,7 @@ def main():
         intent_hash47 = hosts.bundlelib._sha256_bytes(intent_bytes47)
         replay_spec47 = hosts.hostread.make_replay_spec(
             "claude", [{"key": "read_before_write",
-                        "reads": [S45, R45], "write": W45}],
+                        "reads": [S45, R002D], "write": W45}],
             requested_tools=requested47, fixture_sha256=fixture_hash47,
             run_intent_sha256=intent_hash47)
         hosts.hostread.begin_capture(
@@ -2316,7 +2316,7 @@ def main():
             "run_root": capture47}
         state47 = open(os.path.join(repo43, *S45.split("/")),
                        "rb").read().decode("utf-8")
-        roadmap47 = open(os.path.join(repo43, *R45.split("/")),
+        roadmap47 = open(os.path.join(repo43, *R002D.split("/")),
                          "rb").read().decode("utf-8")
         stream47 = "\n".join((
             json.dumps({"type": "system", "subtype": "init",
@@ -2324,7 +2324,7 @@ def main():
                         "tools": retained_tools47}),
             cuse("s47", "Read", {"file_path": S45}),
             cresult("s47", state47, is_error=False),
-            cuse("r47", "Read", {"file_path": R45}),
+            cuse("r47", "Read", {"file_path": R002D}),
             cresult("r47", roadmap47, is_error=False),
             cuse("w47", "Write", {"file_path": W45, "content": "{}"}),
             cresult("w47", "ok", is_error=False),
@@ -2531,7 +2531,7 @@ def main():
                  "turn_id": "bare-turn47"}]
             for action_id47, target47, output47 in (
                     ("bare-s47", S45, state47),
-                    ("bare-r47", R45, roadmap47)):
+                    ("bare-r47", R002D, roadmap47)):
                 bare_events47.extend((
                     {"type": "item.started", "item": {
                         "id": action_id47, "type": "command_execution",
@@ -2611,7 +2611,7 @@ def main():
                   and foreign_claude_lineage_trace47.get("host_status") ==
                   "INVALID")
             bare_matrix47 = hosts.hostread.adjudicate_path_order(
-                bare_trace47, [S45, R45], W45, preimages47,
+                bare_trace47, [S45, R002D], W45, preimages47,
                 profile=codex_profile47, formal=True)
             check("H47l formal-codex-requires-one-protocol-wrapper",
                   bare_trace47.get("host_status") == "INVALID"
@@ -2845,7 +2845,7 @@ def main():
 
             contradictory_metadata47 = {
                 "type": "text", "filePath": S45,
-                "file": {"filePath": R45, "content": state47}}
+                "file": {"filePath": R002D, "content": state47}}
             contradictory_path_stream47 = "\n".join((
                 json.dumps({"type": "system", "subtype": "init",
                             "session_id": "session-h47",
@@ -2974,7 +2974,7 @@ def main():
             mismatched_identity_preimages47 = json.loads(json.dumps(
                 preimages47))
             mismatched_identity_preimages47["targets"][S45][
-                "canonical_path"] = preimages47["targets"][R45][
+                "canonical_path"] = preimages47["targets"][R002D][
                     "canonical_path"]
             mismatched_identity_capture47 = os.path.join(
                 tmp, "host-read-capture-h47-identity-mismatch")

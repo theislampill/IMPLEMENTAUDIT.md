@@ -433,7 +433,7 @@ for spec in fixtures/phase-design/dmadv-greenfield-phase.md \
 done
 
 # ------------------------------------------------------------------
-# R36 phase-derived destructive authority. The authority projection is a
+# R0024 phase-derived destructive authority. The authority projection is a
 # deterministic receipt from the validated phase, not caller-selected paths.
 # ------------------------------------------------------------------
 authority_run="$repo_root/.IMPLEMENTAUDIT/runs/authority-Ab3Kx9"

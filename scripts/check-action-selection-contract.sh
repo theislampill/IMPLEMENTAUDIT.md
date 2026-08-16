@@ -95,7 +95,7 @@ do
   require "$child_ref" "$text"
 done
 
-# --- engineering-value admission and retirement contract (#163 / R34) ---
+# --- engineering-value admission and retirement contract (#163 / R0022) ---
 for text in \
   "## Engineering-value admission and control lifecycle" \
   "Preserve the gate or engineering obligation where warranted" \
@@ -121,7 +121,7 @@ for text in \
   'bounded control `CHEAP_PATH`' \
   'material proposal is `BLOCK`' \
   "serial cheap path" \
-  "No activation factor means no R34 diagnostic or artefact" \
+  "No activation factor means no R0022 diagnostic or artefact" \
   "actual dependency, write," \
   "acceptance, resource, authority, and composed-only boundaries" \
   'ready-cell frontier in `child-agents.md`'

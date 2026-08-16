@@ -10,7 +10,7 @@
     {"path": "corpus/ordinary-3.jsonl", "start": 1, "end": 1, "total_lines": 1, "claim": "coverage"},
     {"path": "corpus/replay-b1.jsonl", "start": 2, "end": 2, "total_lines": 2, "claim": "orientation"}
   ],
-  "carrier_titles": {"working": "R20", "synthesis": "R20", "draft": "R20"},
+  "carrier_titles": {"working": "R0014", "synthesis": "R0014", "draft": "R0014"},
   "single_session": {"path": "corpus/ordinary-1.jsonl", "fan_out": false, "compendium": false},
   "compendium_files": ["compendium/evidence.md"],
   "compendium_complete_at": "2026-08-02T01:00:00Z",

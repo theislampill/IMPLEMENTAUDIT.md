@@ -55,6 +55,11 @@ governs with or without native support.
 After separate reads mint `--resume-controller <id> --boundary <provenance>
 --epoch <epoch>`, then `--verify-resume-receipt`. This binds controller/claim,
 HEAD/tree, STATE/ROADMAP hashes, invalidation, boundary, epoch, and Next action.
+New continuity generations use `G` plus four uppercase hexadecimal digits
+(`G0001`, `G000A`, `G0040`). A legacy `eNN` input is accepted only as an alias
+and is canonicalised before a new receipt is minted; unchanged historical
+`eNN` state and receipt records remain exact legacy evidence rather than being
+rewritten in place.
 `--require-current-continuity <id>` verifies the binding under the shared writer
 gate before effects. The first substantive post-boundary message reports the
 verified receipt, controller/epoch, exact ACTIVE/READY/BLOCKED frontier and any
@@ -64,6 +69,13 @@ Legacy v1 receipts work only without invalidation.
 `audit-state` is downstream cognition, never the gate: route it only after the
 receipt is mechanically current when stale-context reconstruction still needs
 model judgement. It cannot mint the invalidation/receipt or authorise an effect.
+When the governor then resolves and actually loads `audit-state`, the first
+permitted route narration must include `CHILD_SKILL_ROUTE=audit-state` and a
+plain-language reason for the selection. Do not emit that line for a
+deterministic/governor-only recovery, package discovery, similar vocabulary, or
+an intended-but-unloaded route. A route announcement before current receipt,
+after unrelated post-receipt narration, without an actual load, or under a
+different child name is non-evidence and violates the routing contract.
 
 Transfer by expected-claim CAS:
 

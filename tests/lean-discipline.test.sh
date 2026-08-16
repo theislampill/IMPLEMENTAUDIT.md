@@ -183,7 +183,7 @@ if ! bash "$T/scripts/check-lean-discipline.sh" >/dev/null 2>&1; then ok
 else fail_case "FAIL: should fail when Standard Work lacks stable repo-specific rule/template"; fi
 rm -rf "$T"
 
-# ── R33: semantic-preservation owner and deterministic controls ─────────────
+# ── R0021: semantic-preservation owner and deterministic controls ─────────────
 if bash fixtures/semantic-preservation/test-cases.sh >/dev/null 2>&1; then
   ok
 else

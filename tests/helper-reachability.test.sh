@@ -95,17 +95,17 @@ grep -Fq 'HELPER_REACHABILITY_CENSUS=PASS population=19 examined=19 modes=5/5 en
     exit 1
   }
 
-# R30 must count the scarce-resource rehearsal as a distinct governed mode,
+# R001E must count the scarce-resource rehearsal as a distinct governed mode,
 # rather than treating the authorization-record mode as its proxy.
 grep -Fqx \
   'helper-mode: check-authorization-binding.sh|--phase --rehearsal --launch|<phase> <receipt> <launch>|failed-rehearsal-blocks-launch|scripts/validate-phase.sh' \
   "$repo_root/skills/implementaudit/references/repo-state-comparison.md" || {
-    printf 'helper-reachability.test: R30 rehearsal mode is missing from the route population\n' >&2
+    printf 'helper-reachability.test: R001E rehearsal mode is missing from the route population\n' >&2
     exit 1
   }
 grep -Fq 'native audit object opens a scarce-resource phase' \
   "$repo_root/skills/implementaudit/references/repo-state-comparison.md" || {
-    printf 'helper-reachability.test: R30 rehearsal caller/trigger is missing\n' >&2
+    printf 'helper-reachability.test: R001E rehearsal caller/trigger is missing\n' >&2
     exit 1
   }
 

@@ -47,13 +47,13 @@
       "id": "R29-LQ8",
       "question": "Where do surviving properties live in native IMPLEMENTAUDIT controls?",
       "page": "research-lineage-evolved-law",
-      "evidence": ["property-to-native-owner", "R29", "R32", "R34", "R35"]
+      "evidence": ["property-to-native-owner", "R001D", "R0020", "R0022", "R0023"]
     },
     {
       "id": "R29-LQ9",
       "question": "What research and source evidence supports the explanation?",
       "page": "research-lineage-overview",
-      "evidence": ["primary history", "authoritative current guidance", "empirical evidence", "claim boundary", "R37"]
+      "evidence": ["primary history", "authoritative current guidance", "empirical evidence", "claim boundary", "R0025"]
     },
     {
       "id": "R29-LQ10",
@@ -164,15 +164,15 @@
     "section_ids": ["contribution", "changed", "already-native", "rejected", "unverified", "provenance"],
     "minimum_visible_words": 180,
     "individual_pages": [
-      {"page": "research-lineage-systems-engineering", "title": "Systems Engineering", "route": "research-engineering-lineage/systems-engineering/", "family": "SSD", "rxx": "R45", "review_tier": "cold-review"},
-      {"page": "research-lineage-systems-security-engineering", "title": "Systems Security Engineering", "route": "research-engineering-lineage/systems-security-engineering/", "family": "SSD", "rxx": "R46", "review_tier": "shared-template-census"},
-      {"page": "research-lineage-decision-operations-engineering", "title": "Decision & Operations Engineering", "route": "research-engineering-lineage/decision-operations-engineering/", "family": "SSD", "rxx": "R47", "review_tier": "shared-template-census"},
-      {"page": "research-lineage-distributed-systems-engineering", "title": "Distributed Systems Engineering", "route": "research-engineering-lineage/distributed-systems-engineering/", "family": "DRF", "rxx": "R48", "review_tier": "cold-review"},
-      {"page": "research-lineage-reliability-maintainability-engineering", "title": "Reliability & Maintainability Engineering", "route": "research-engineering-lineage/reliability-maintainability-engineering/", "family": "DRF", "rxx": "R49", "review_tier": "shared-template-census"},
-      {"page": "research-lineage-formal-methods-verification-engineering", "title": "Formal Methods & Verification Engineering", "route": "research-engineering-lineage/formal-methods-verification-engineering/", "family": "DRF", "rxx": "R50", "review_tier": "shared-template-census"},
-      {"page": "research-lineage-cognitive-systems-engineering", "title": "Cognitive Systems Engineering", "route": "research-engineering-lineage/cognitive-systems-engineering/", "family": "CSS", "rxx": "R42", "review_tier": "cold-review"},
-      {"page": "research-lineage-statistical-engineering", "title": "Statistical Engineering", "route": "research-engineering-lineage/statistical-engineering/", "family": "CSS", "rxx": "R43", "review_tier": "shared-template-census"},
-      {"page": "research-lineage-systems-safety", "title": "Systems Safety", "route": "research-engineering-lineage/systems-safety/", "family": "CSS", "rxx": "R44", "review_tier": "shared-template-census"}
+      {"page": "research-lineage-systems-engineering", "title": "Systems Engineering", "route": "research-engineering-lineage/systems-engineering/", "family": "SSD", "rxx": "R002D", "review_tier": "cold-review"},
+      {"page": "research-lineage-systems-security-engineering", "title": "Systems Security Engineering", "route": "research-engineering-lineage/systems-security-engineering/", "family": "SSD", "rxx": "R002E", "review_tier": "shared-template-census"},
+      {"page": "research-lineage-decision-operations-engineering", "title": "Decision & Operations Engineering", "route": "research-engineering-lineage/decision-operations-engineering/", "family": "SSD", "rxx": "R002F", "review_tier": "shared-template-census"},
+      {"page": "research-lineage-distributed-systems-engineering", "title": "Distributed Systems Engineering", "route": "research-engineering-lineage/distributed-systems-engineering/", "family": "DRF", "rxx": "R0030", "review_tier": "cold-review"},
+      {"page": "research-lineage-reliability-maintainability-engineering", "title": "Reliability & Maintainability Engineering", "route": "research-engineering-lineage/reliability-maintainability-engineering/", "family": "DRF", "rxx": "R0031", "review_tier": "shared-template-census"},
+      {"page": "research-lineage-formal-methods-verification-engineering", "title": "Formal Methods & Verification Engineering", "route": "research-engineering-lineage/formal-methods-verification-engineering/", "family": "DRF", "rxx": "R0032", "review_tier": "shared-template-census"},
+      {"page": "research-lineage-cognitive-systems-engineering", "title": "Cognitive Systems Engineering", "route": "research-engineering-lineage/cognitive-systems-engineering/", "family": "CSS", "rxx": "R002A", "review_tier": "cold-review"},
+      {"page": "research-lineage-statistical-engineering", "title": "Statistical Engineering", "route": "research-engineering-lineage/statistical-engineering/", "family": "CSS", "rxx": "R002B", "review_tier": "shared-template-census"},
+      {"page": "research-lineage-systems-safety", "title": "Systems Safety", "route": "research-engineering-lineage/systems-safety/", "family": "CSS", "rxx": "R002C", "review_tier": "shared-template-census"}
     ]
   },
   "classification_literals": [

@@ -69,7 +69,7 @@ EXPECTED_BUDGETS = {
         "zip_path_header_allowance_bytes": 2504,
         "rounding_unit_bytes": 65536,
         "cap_bytes": 327680,
-        "owner": "R33",
+        "owner": "R0021",
         "reviewed_work_order_sha256": (
             "a79eecd328da14874f4dd305ac35541f77ef3153a1d36cd814a457c4cd821db1"
         ),
@@ -83,7 +83,7 @@ EXPECTED_BUDGETS = {
         "zip_path_header_allowance_bytes": 222,
         "rounding_unit_bytes": 65536,
         "cap_bytes": 327680,
-        "owner": "R33",
+        "owner": "R0021",
         "reviewed_work_order_sha256": (
             "a79eecd328da14874f4dd305ac35541f77ef3153a1d36cd814a457c4cd821db1"
         ),

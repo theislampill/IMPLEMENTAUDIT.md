@@ -60,7 +60,7 @@ if missing:
     raise SystemExit("README ToC has unresolved anchors: " + ", ".join(missing))
 
 # Two-way parity: every level-2 section (except Contents itself) must appear
-# in the ToC. Audience/topic fitness is governed by the R29 projection bank;
+# in the ToC. Audience/topic fitness is governed by the R001D projection bank;
 # this navigation check must not freeze a historical README architecture.
 h2_slugs = []
 for heading in re.findall(r"^## (.+)$", text, re.M):

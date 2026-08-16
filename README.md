@@ -15,6 +15,11 @@ implementation plans into bounded, verified repository changes. It plans deeply
 and executes verified repo work phase-by-phase until terminal auditable closure 
 or an explicit audited handoff.
 
+At its core, this is audit-governed agentic engineering: it derives the next
+justified work from current repository and evidence state, then externalises
+completion into independently checkable evidence rather than model
+self-certification.
+
 It is reusable meta-engineering distributed as one atomic dual-host plugin
 package: sustained engineering discipline for planning, designing,
 implementing, improving, reviewing, recovering, integrating, and closing
@@ -251,6 +256,10 @@ tasks, gaps, plans, and natural-language repo-build requests. It plans deeply,
 routes greenfield, brownfield, and mixed work through the warranted quality
 method, and proceeds phase by phase until verified terminal closure or an
 explicit audited handoff.
+
+It does not trust a plan merely because it survived in chat. After restart,
+handoff, or compaction, it re-establishes repository identity, owner and
+authority, currentness, and relevant evidence before acting.
 
 Read-only planning, audit, review, direction, and handoff modes may produce
 artifacts without mutating source. When implementation is authorized, changes
@@ -1188,6 +1197,10 @@ The repo layout is compatible with the open [skills CLI](https://skills.sh)
 both agent targets install the full runtime payload — `SKILL.md` +
 `references/` + `scripts/` + `templates/` — plus a `skills-lock.json`):
 
+That dated observation describes the prior source-discovery route; it neither
+describes the current canonical plugin population nor proves native host
+discovery or activation.
+
 ```bash
 npx --yes skills add theislampill/IMPLEMENTAUDIT.md                              # interactive
 npx --yes skills add theislampill/IMPLEMENTAUDIT.md --skill '*' --agent claude-code --copy -y
@@ -1207,7 +1220,7 @@ Choose the source deliberately:
 
 - the `v0.4.0.0` source candidate must be built, qualified and independently
   reviewed before any public availability can be claimed;
-- the current source contains the packaged R29 correction and later native
+- the current source contains the packaged R001D correction and later native
   runtime countermeasures;
 - a local archive is evidence only for the exact source tree from which it was
   built.
@@ -1225,8 +1238,9 @@ keeps source, package, install, hosted and public evidence separate.
 ### Install / update the canonical dual-host plugin
 
 `IMPLEMENTAUDIT.plugin.zip` is the primary atomic package for Codex and Claude.
-It contains both host manifests, package/inventory metadata, and exactly one
-skill, `implementaudit`, under `skills/implementaudit/`. Use the current native
+It contains both host manifests, package/inventory metadata, one governor and
+exactly four child skills under `skills/`: `implementaudit`, `audit-state`,
+`audit-assess`, `audit-implement`, and `audit-andon`. Use the current native
 plugin installation route documented by the host, then verify that the host
 discovers `/implementaudit` from the expected version before claiming a loaded
 installation. The presence of a manifest or copied files is not host-load proof.
@@ -1501,3 +1515,6 @@ changes. It preserves rejected, unresolved and owner-decision evidence and adds
 no nine runtimes, lineage selector, methodology mode, or universal-effectiveness
 claim. Hosted-current status still requires separate Pages publication and
 readback.
+Research guided accretion only where dogfood, failure witnesses, or exact checks
+could change a decision; the retained lineage is context and genealogy, not
+implementation proof.

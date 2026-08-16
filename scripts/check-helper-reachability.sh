@@ -224,7 +224,7 @@ graph_helper = "validate-run-root.sh"
 graph_text = (skill_root / "scripts" / graph_helper).read_text(encoding="utf-8")
 implemented_mode_sets[graph_helper] = sorted(set(re.findall(r"--graph-[a-z0-9-]+", graph_text)))
 rehearsal_helper, rehearsal_mode = "check-authorization-binding.sh", "--phase --rehearsal --launch"
-# R32: static census records the declared mode; candidate-bound F10 below is
+# R0020: static census records the declared mode; candidate-bound F10 below is
 # the only execution authority for its parser, mediator, wrapper, and stub.
 implemented_mode_sets[rehearsal_helper] = [rehearsal_mode]
 implemented_mode_sets["check-evidence-anchor.sh"] = ["--window-transition"]
@@ -318,7 +318,7 @@ if not census_only:
     # program.  The checker invocation root is the authority for F10 behavior.
     r30_probe = authority_root / "tests" / "scarce-resource-rehearsal-contract.test.sh"
     if not r30_probe.is_file():
-        raise SystemExit("check-helper-reachability: missing independently rooted R30 rehearsal probe")
+        raise SystemExit("check-helper-reachability: missing independently rooted R001E rehearsal probe")
     probe_args = [bash_runner, str(r30_probe), "--r30-probe", "--repo-root", str(root)]
     probe_kwargs = {"cwd": authority_root, "stdout": subprocess.PIPE, "stderr": subprocess.PIPE}
     probe_job = None
@@ -366,11 +366,11 @@ if not census_only:
     diagnostic = re.sub(r"(?im)^([A-Z_]*(?:TOKEN|SECRET|PASSWORD|API_KEY)[A-Z_]*=).*?$", r"\1<redacted>", diagnostic)
     if timed_out:
         raise SystemExit(
-            "check-helper-reachability: candidate-bound R30 rehearsal probe "
+            "check-helper-reachability: candidate-bound R001E rehearsal probe "
             f"timed out after {outer_probe_timeout}s" +
                          ("\n" + diagnostic if diagnostic else ""))
     if probe.returncode != 0:
-        raise SystemExit("check-helper-reachability: candidate-bound R30 rehearsal probe failed" +
+        raise SystemExit("check-helper-reachability: candidate-bound R001E rehearsal probe failed" +
                          ("\n" + diagnostic if diagnostic else ""))
 
 print(("HELPER_REACHABILITY_CENSUS=PASS " if census_only else "HELPER_REACHABILITY=PASS ") +

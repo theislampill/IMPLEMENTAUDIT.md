@@ -189,7 +189,7 @@ Process volume is not value evidence. A consumer without a protected consequence
 a form without the property, optional-by-whim relabelling, or a split that does
 not lower real cost fails. Add no mandatory control ledger, numerical ceremony
 threshold, per-command defence, or large worksheet. Use the progressive path in
-`planning-depth.md`; when no factor fires, create no R34 record or model call.
+`planning-depth.md`; when no factor fires, create no R0022 record or model call.
 
 ## Package semantic preservation
 
@@ -200,7 +200,7 @@ installed path, follows the change into generated/public material, or changes
 a checker, fixture, threshold, golden, prompt, or expected answer because the
 candidate failed. Do not create a package-only lifecycle, ledger, or marker.
 
-The R34 admission rule still governs cost. Record the smallest evidence that
+The R0022 admission rule still governs cost. Record the smallest evidence that
 names the live driver, authoritative owner and consumer, protected consequence,
 cheapest sufficient discriminator, expected evidence, marginal cost, non-trigger
 path, and exit/retirement condition. If those fields do not support a permanent
@@ -232,7 +232,7 @@ migration and rollback; or a visible calibration/owner decision. Content in an
 unshipped or unreachable owner, a failed held-out consumer, or unresolved
 headroom conflict cannot become PASS.
 
-R35 governs every post-failure evaluator mutation. Preserve the original witness
+R0023 governs every post-failure evaluator mutation. Preserve the original witness
 and complete mutation record, and require independent property evidence
 before accepting a changed checker, fixture, threshold, golden, prompt, or
 expected answer. Weakening the measurement surface, leaking the expected answer,

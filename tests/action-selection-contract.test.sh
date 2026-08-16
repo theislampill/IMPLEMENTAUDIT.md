@@ -716,7 +716,7 @@ path.write_text(json.dumps(payload), encoding="utf-8")
 PY
 expect_fail "generic plan shape replaced exact current state"
 
-# 46. The executable discriminator remains bound to the R31 lifecycle owner.
+# 46. The executable discriminator remains bound to the R001F lifecycle owner.
 reset_sandbox
 grep -v "cannot claim READY" \
   "$tmp_root/skills/implementaudit/references/plan-lifecycle.md" \

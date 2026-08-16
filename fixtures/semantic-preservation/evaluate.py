@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Evaluate R33 fixtures against inspectable repository and package evidence."""
+"""Evaluate R0021 fixtures against inspectable repository and package evidence."""
 
 from __future__ import annotations
 

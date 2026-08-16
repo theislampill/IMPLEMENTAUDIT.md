@@ -90,7 +90,7 @@ PY
 expect_failure "absolute local path" python "$CHECKER" --root "$TMP/repo"
 
 fresh_fixture
-printf '\nCurrent RXX owner is R51.\n' >> "$TMP/repo/docs/research/genealogy/law/evolved-lean/README.md"
+printf '\nCurrent RXX owner is R0033.\n' >> "$TMP/repo/docs/research/genealogy/law/evolved-lean/README.md"
 expect_failure "IMPLEMENTAUDIT-specific disposition in neutral README" python "$CHECKER" --root "$TMP/repo"
 
 fresh_historical_fixture

@@ -584,7 +584,7 @@ grep -R "ActiveGraph status" -n skills/implementaudit/templates/THINKING.md skil
 grep -R "sidecars.md" -n skills/implementaudit/SKILL.md skills/implementaudit/templates README.md AGENTS.md >/dev/null ||
   fail "sidecars.md runtime artifact is missing"
 
-# R27 / #101: every narrowed carrier must preserve the same executable and
+# R001B / #101: every narrowed carrier must preserve the same executable and
 # evidence boundary. These exact literals are intentionally mutation-tested.
 require_literal skills/implementaudit/references/sidecars.md "terrain-shaped" "Graphify observable trigger"
 require_literal skills/implementaudit/references/sidecars.md "built_at_commit" "executable freshness contract"

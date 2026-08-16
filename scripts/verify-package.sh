@@ -267,10 +267,10 @@ require_file eval/fixtures/E5d-census-discipline/fixture.json
 require_file eval/fixtures/E5d-census-discipline/controls.json
 require_file eval/fixtures/E5d-census-discipline/transcript_pass.txt
 require_file eval/fixtures/E5d-census-discipline/transcript_fail.txt
-require_file eval/fixtures/R29-public-projection/fixture.json
-require_file eval/fixtures/R29-public-projection/controls.json
-require_file eval/fixtures/R29-public-projection/transcript_pass.txt
-require_file eval/fixtures/R29-public-projection/transcript_fail.txt
+require_file eval/fixtures/R001D-public-projection/fixture.json
+require_file eval/fixtures/R001D-public-projection/controls.json
+require_file eval/fixtures/R001D-public-projection/transcript_pass.txt
+require_file eval/fixtures/R001D-public-projection/transcript_fail.txt
 require_file eval/fixtures/B6-verification-window-freeze/fixture.json
 require_file eval/fixtures/B6-verification-window-freeze/transcript_pass.txt
 require_file eval/fixtures/B6-verification-window-freeze/transcript_pass.summary.json
@@ -312,7 +312,11 @@ require_file tests/handoff-packet-contract.test.sh
 require_file tests/closure-surface-contract.test.sh
 require_file tests/authorization-binding-contract.test.sh
 require_file tests/scarce-resource-rehearsal-contract.test.sh
-require_file tests/r11-r30-review-heldouts.test.sh
+require_file tests/R000B-R001E-review-heldouts.test.sh
+require_file scripts/check-durable-identities.py
+require_file tests/durable-identity-contract.test.sh
+require_file skills/implementaudit/references/identity-namespaces.json
+require_file skills/implementaudit/scripts/resolve-durable-identity.py
 require_file fixtures/scarce-resource-rehearsal/cases.json
 require_file tests/convergence-mode-contract.test.sh
 require_file tests/andon-escalation-judgment.test.sh
@@ -699,7 +703,8 @@ bash tests/handoff-packet-contract.test.sh
 bash tests/closure-surface-contract.test.sh
 bash tests/authorization-binding-contract.test.sh
 bash tests/scarce-resource-rehearsal-contract.test.sh
-bash tests/r11-r30-review-heldouts.test.sh
+bash tests/R000B-R001E-review-heldouts.test.sh
+bash tests/durable-identity-contract.test.sh
 bash tests/convergence-mode-contract.test.sh
 bash tests/andon-escalation-judgment.test.sh
 bash tests/background-chain-contract.test.sh

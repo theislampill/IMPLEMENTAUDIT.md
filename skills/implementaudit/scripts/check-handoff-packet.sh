@@ -106,7 +106,7 @@ fi
 owner="$(get owner_acceptance)"
 [ -n "$owner" ] && printf 'check-handoff-packet: Class-3 preserved verbatim: %s\n' "$owner"
 
-# Receiver-relative READY boundary (R31). The receiving continuation, not the
+# Receiver-relative READY boundary (R001F). The receiving continuation, not the
 # sender, decides whether independent reproduction is required. In that mode a
 # terminal handoff is incomplete unless its immutable implementation and
 # acceptance-state bundle is explicitly carried. Ordinary implementation-only

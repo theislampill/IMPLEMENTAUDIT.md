@@ -1166,7 +1166,7 @@ with zipfile.ZipFile(asset) as zf:
     # references/continuity.md plus PROTOCOL/STATE contract text grew the
     # deflated asset to ~131 KB — growth verified intentional and deflated.
     asset_bytes = asset.stat().st_size
-    # R45 revision 1 binds this role to the pre-implementation R33 budget
+    # R002D revision 1 binds this role to the pre-implementation R0021 budget
     # declaration. Final bytes cannot select or raise their own cap.
     OWNER_OUTER_BOUND_BYTES = 327_680
     MIN_HEADROOM_BYTES = 0
@@ -1223,7 +1223,7 @@ with zipfile.ZipFile(asset) as zf:
             )
         if max_bytes != 327_680:
             raise SystemExit(
-                "hard ceiling differs from the reviewed pre-build R33 cap: "
+                "hard ceiling differs from the reviewed pre-build R0021 cap: "
                 f"got {max_bytes:,}"
             )
         enforce_asset_budget_policy(max_bytes, actual_bytes, authority)
@@ -1260,7 +1260,7 @@ with zipfile.ZipFile(asset) as zf:
             MAX_ASSET_BYTES, 224_000, asset_bytes, "owner")),
         ("configured measurement", (
             230_000, 227_500, asset_bytes, "owner")),
-        ("reviewed pre-build R33 cap", (
+        ("reviewed pre-build R0021 cap", (
             MAX_ASSET_BYTES - CALIBRATION_QUANTUM_BYTES,
             asset_bytes, asset_bytes, "owner")),
     ):

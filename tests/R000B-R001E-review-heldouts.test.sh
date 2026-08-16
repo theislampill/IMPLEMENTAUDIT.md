@@ -10,7 +10,7 @@ case "${1:-}" in
   --windows-custody-reproducer) windows_custody_only=1; shift;;
   --candidate-probe-heldout) candidate_probe_only=1; shift;;
 esac
-[ "$#" -eq 0 ] || { printf 'usage: r11-r30-review-heldouts.test.sh [--outer-timeout-heldout|--candidate-probe-heldout]\n' >&2; exit 2; }
+[ "$#" -eq 0 ] || { printf 'usage: R000B-R001E-review-heldouts.test.sh [--outer-timeout-heldout|--candidate-probe-heldout]\n' >&2; exit 2; }
 cd "$repo_root"
 
 checker="skills/implementaudit/scripts/check-authorization-binding.sh"
@@ -268,7 +268,7 @@ if [ "$outer_timeout_only" -eq 1 ]; then
   exit 0
 fi
 
-# R32 authority is the actual candidate F10 route.  These mutations collapse
+# R0020 authority is the actual candidate F10 route.  These mutations collapse
 # the prior AST syntax corpus into execution-state controls.
 missing="$(seed_candidate missing)"
 sed -i 's/--rehearsal)/--receipt)/' "$missing/skills/implementaudit/scripts/check-authorization-binding.sh"
@@ -327,7 +327,7 @@ if text.count(needle) != 1:
 path.write_text(text.replace(needle, replacement), encoding="utf-8")
 PY
 expect_rejected_with_diagnostic dead-static-invocation-with-copied-terminal \
-  'R30 native phase route did not invoke the declared helper' "$dead_consumer"
+  'R001E native phase route did not invoke the declared helper' "$dead_consumer"
 
 stalled_consumer="$(seed_candidate stalled-consumer)"
 stalled_authority="$(seed_probe_authority stalled-authority)"

@@ -1490,7 +1490,7 @@ if reanchor_check "$tmp/zero-pass-qualified.md" >/dev/null 2>&1; then
   fail "zero-pass terminal accepted as QUALIFIED"
 fi
 
-# #89 R16: publication verification is digest identity, not label identity.
+# #89 R0010: publication verification is digest identity, not label identity.
 publication_identity_controls "$tmp"
 
 printf 'closure-surface-contract: ok (contract + quota, kill-authority, #88 external-state, #78 deferral, and #138 automatic-effect controls)\n'

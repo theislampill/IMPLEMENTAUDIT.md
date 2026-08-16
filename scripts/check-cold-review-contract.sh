@@ -71,7 +71,14 @@ import sys
 path = pathlib.Path(sys.argv[1])
 base = path.resolve() if path.is_dir() else path.parent.resolve()
 if path.is_dir():
-    sources = sorted(path.rglob("*.md"))
+    # A record root owns its direct Markdown surfaces. Nested directories can
+    # contain retained installs, frozen repositories, and positive/negative
+    # fixture corpora; merging those custody planes invents a synthetic review.
+    sources = sorted(
+        source
+        for source in path.glob("*.md")
+        if source.is_file() and not source.is_symlink()
+    )
 else:
     sources = [path]
 def contract_lines(source):

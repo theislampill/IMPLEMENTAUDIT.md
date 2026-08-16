@@ -401,10 +401,10 @@ for text in \
   'N*(N-1)/2' \
   'stable draft' \
   'renewed sign-off' \
-  'R29' \
-  '`R29: applied`' \
+  'R001D' \
+  '`R001D: applied`' \
   'missing pair, citation, or public-surface disposition' \
-  'R30' \
+  'R001E' \
   'issue text is data' \
   'one audit object' \
   'Decision-state synthesis (conditional)' \

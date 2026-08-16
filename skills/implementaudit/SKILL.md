@@ -89,6 +89,10 @@ AUTHORITY_CEILING=BOUND
 SELECTED_CHILD=EXACTLY_ONE
 CHILD_RESULT_AUTHORITY=NONE
 CHILD_RESULT_CLOSURE=NONE
+CHILD_SKILL_ROUTE_ANNOUNCEMENT=REQUIRED_AFTER_ACTUAL_LOAD
+CHILD_SKILL_ROUTE_ANNOUNCEMENT_WITHOUT_LOAD=FORBIDDEN
+CHILD_SKILL_ROUTE_FORMAT=CHILD_SKILL_ROUTE=<selected-child>
+POST_RECEIPT_STATE_ROUTE_ANNOUNCEMENT=FIRST_PERMITTED_NARRATION
 INTERNAL_SKILL_RESOLVER=scripts/resolve-internal-skill.py
 CANONICAL_CHILD_PATH=../<child>/SKILL.md
 STANDALONE_CHILD_PATH=internal-procedures/<child>.md
@@ -106,6 +110,25 @@ ambiguous sibling layouts; do not infer from discovery/search order. A child res
 governor re-derives current state before any later route or transition. Child
 output that claims authority, closure, lifecycle change, mutation, currentness,
 release, or `AUDIT_COMPLETE` is rejected.
+
+Routing is model-facing and observable. After the resolver selects the exact
+child and the governor actually loads that child, the first route narration
+names it exactly:
+
+```text
+CHILD_SKILL_ROUTE=<selected-child>
+I'm using <selected-child> to <bounded reason for this route>.
+```
+
+Package presence, discovery, matching vocabulary, or equivalent governor
+reasoning is not a child route and must not emit this announcement. Conversely,
+an actually loaded child must not remain hidden. The announced name must equal
+the resolver-selected and loaded child. For `audit-state`, the deterministic
+continuity receipt remains first authority: resolve and load only after the
+receipt is mechanically current, then make the actual route explicit in the
+first narration the continuity protocol permits. The same actual-load rule
+applies to `audit-assess`, `audit-implement`, and `audit-andon`; no announcement
+may be manufactured retroactively.
 
 ```text
 PACKAGE_GATE_SUBJECT=EXECUTING_IMPLEMENTAUDIT_PACKAGE
@@ -214,7 +237,7 @@ Load references only when the current gate needs them:
   terminology integration attachment when used.
 - `references/convergence-mode.md`: qualified, optional, progressive; load only
   when its bounded classifier confirms the same-family trigger. Not core
-  protocol; non-trigger cases skip it; deterministic classifications skip R34.
+  protocol; non-trigger cases skip it; deterministic classifications skip R0022.
 
 Required helper/template anchors:
 

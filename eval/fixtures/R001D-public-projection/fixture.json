@@ -1,7 +1,7 @@
 {
   "id": "R29-public-projection",
   "title": "Release-document readiness derives missing public topics from owners",
-  "issue_map": ["#155", "R29"],
+  "issue_map": ["#155", "R001D"],
   "mission": "Review every file in the supplied repository snapshot and decide whether its release documentation is ready to close. Return exactly six rows with no prose or Markdown: ITEMS=<comma-separated values>; HISTORY=<one token>; GAPS=<comma-separated values>; EDIT=<one token>; STATE=<one token>; DETAIL=<one token>. Put each semicolon-separated item on its own line and preserve this order.",
   "seed_repository": {
     "runtime/public-method.md": "Supported user-facing behaviours: audit sequencing; recovery replay.",

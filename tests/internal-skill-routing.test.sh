@@ -77,6 +77,10 @@ governor_tokens = [
     "CHILD_AUTHORITY_OR_CLOSURE_OUTPUT=REJECTED",
     "CHILD_RESULT_AUTHORITY=NONE",
     "CHILD_RESULT_CLOSURE=NONE",
+    "CHILD_SKILL_ROUTE_ANNOUNCEMENT=REQUIRED_AFTER_ACTUAL_LOAD",
+    "CHILD_SKILL_ROUTE_ANNOUNCEMENT_WITHOUT_LOAD=FORBIDDEN",
+    "CHILD_SKILL_ROUTE_FORMAT=CHILD_SKILL_ROUTE=<selected-child>",
+    "POST_RECEIPT_STATE_ROUTE_ANNOUNCEMENT=FIRST_PERMITTED_NARRATION",
     "INTERNAL_SKILL_RESOLVER=scripts/resolve-internal-skill.py",
     "CANONICAL_CHILD_PATH=../<child>/SKILL.md",
     "STANDALONE_CHILD_PATH=internal-procedures/<child>.md",
@@ -87,6 +91,26 @@ governor_tokens = [
 ]
 for token in governor_tokens:
     require(governor, token, governor_path.as_posix())
+
+continuity_path = Path("skills/implementaudit/references/continuity.md")
+continuity = continuity_path.read_text(encoding="utf-8")
+for token in (
+    "CHILD_SKILL_ROUTE=audit-state",
+    "deterministic/governor-only recovery",
+    "without an actual load",
+):
+    require(continuity, token, continuity_path.as_posix())
+
+transcript_path = Path("skills/implementaudit/references/transcript-contract.md")
+transcript = transcript_path.read_text(encoding="utf-8")
+for token in (
+    "## Child-skill routing observability",
+    "CHILD_SKILL_ROUTE=<selected-child>",
+    "actual child load",
+    "governor-only cases emit no child announcement",
+    "verified receipt precedes",
+):
+    require(transcript, token, transcript_path.as_posix())
 
 children = {
     "audit-state": {
@@ -249,3 +273,115 @@ if python "$plugin/skills/implementaudit/scripts/resolve-internal-skill.py" \
 fi
 
 printf 'internal-skill-routing.test: resolver controls ok\n'
+
+python - <<'PY'
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+
+CHILDREN = {"audit-state", "audit-assess", "audit-implement", "audit-andon"}
+
+
+@dataclass(frozen=True)
+class Event:
+    kind: str
+    value: str = ""
+    message: int = 0
+
+
+def accepts(events: list[Event]) -> bool:
+    loads = [(index, event) for index, event in enumerate(events) if event.kind == "child-loaded"]
+    announces = [(index, event) for index, event in enumerate(events) if event.kind == "route-announcement"]
+    if not loads:
+        return not announces
+    if len(loads) != 1 or len(announces) != 1:
+        return False
+    load_index, load = loads[0]
+    announce_index, announce = announces[0]
+    if load.value not in CHILDREN or announce.value != load.value or announce_index <= load_index:
+        return False
+    if load.value == "audit-state":
+        receipts = [(index, event) for index, event in enumerate(events) if event.kind == "verified-receipt"]
+        if len(receipts) != 1 or receipts[0][0] >= load_index:
+            return False
+        first_permitted_message = min(
+            (event.message for index, event in enumerate(events)
+             if index > receipts[0][0] and event.kind == "assistant-narration"),
+            default=announce.message,
+        )
+        if announce.message != first_permitted_message:
+            return False
+    return True
+
+
+cases = {
+    "state-route-after-receipt-visible": (
+        True,
+        [
+            Event("verified-receipt"),
+            Event("child-loaded", "audit-state"),
+            Event("route-announcement", "audit-state", 1),
+            Event("assistant-narration", message=1),
+        ],
+    ),
+    "state-route-before-receipt": (
+        False,
+        [
+            Event("child-loaded", "audit-state"),
+            Event("route-announcement", "audit-state", 1),
+            Event("verified-receipt"),
+        ],
+    ),
+    "state-route-announced-late": (
+        False,
+        [
+            Event("verified-receipt"),
+            Event("child-loaded", "audit-state"),
+            Event("assistant-narration", message=1),
+            Event("route-announcement", "audit-state", 2),
+        ],
+    ),
+    "governor-only-equivalent-reasoning": (
+        True,
+        [Event("verified-receipt"), Event("assistant-narration", "state-like", 1)],
+    ),
+    "false-route-announcement": (
+        False,
+        [Event("route-announcement", "audit-state", 1)],
+    ),
+    "loaded-child-missing-announcement": (
+        False,
+        [Event("child-loaded", "audit-assess"), Event("assistant-narration", message=1)],
+    ),
+    "wrong-child-announced": (
+        False,
+        [
+            Event("child-loaded", "audit-assess"),
+            Event("route-announcement", "audit-implement", 1),
+        ],
+    ),
+    "assess-route-visible": (
+        True,
+        [Event("child-loaded", "audit-assess"), Event("route-announcement", "audit-assess", 1)],
+    ),
+    "implement-route-visible": (
+        True,
+        [Event("child-loaded", "audit-implement"), Event("route-announcement", "audit-implement", 1)],
+    ),
+    "andon-route-visible": (
+        True,
+        [Event("child-loaded", "audit-andon"), Event("route-announcement", "audit-andon", 1)],
+    ),
+}
+
+for name, (expected, events) in cases.items():
+    observed = accepts(events)
+    if observed != expected:
+        raise SystemExit(
+            f"internal-skill-routing.test: observability case {name}: "
+            f"expected {expected}, observed {observed}"
+        )
+
+print(f"internal-skill-routing.test: routing observability controls ok ({len(cases)}/{len(cases)})")
+PY

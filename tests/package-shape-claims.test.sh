@@ -37,6 +37,7 @@ EOF
 This is one atomic dual-host plugin. IMPLEMENTAUDIT.plugin.zip is canonical.
 IMPLEMENTAUDIT.skill is compatibility-only. /implementaudit is the sole stable public/default governor.
 The package has exactly four child skills: audit-state, audit-assess, audit-implement, and audit-andon.
+The canonical plugin contains one governor and exactly four child skills.
 It is owned by package/implementaudit-package.json.
 The children are cross-cutting cognitive capabilities, not L1-L5 stages.
 DAG agents provide horizontal, dependency-correct work lanes; children provide vertical progressive cognitive disclosure.
@@ -144,6 +145,11 @@ for readme_case in stale-three-child wrong-child-name child-chain one-skill-per-
   esac
   expect_fail "$root" "README public-contract regression: $readme_case"
 done
+
+bad_plugin_population="$tmp/readme-one-plugin-skill"
+cp -R "$good" "$bad_plugin_population"
+printf '%s\n' 'The canonical plugin contains exactly one skill, implementaudit.' >> "$bad_plugin_population/README.md"
+expect_fail "$bad_plugin_population" "README canonical-plugin population collapsed to one skill"
 
 # Historical standalone-skill evidence is append-only and intentionally not a
 # current topology owner, so it must not make the current-shape gate fail.

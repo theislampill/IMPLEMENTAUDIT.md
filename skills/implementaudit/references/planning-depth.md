@@ -139,7 +139,7 @@ action-selection or Muda/Mura/Muri record. No retain, admit, or owner-decision d
 Activate for a proposed permanent gate or artefact; repeated unchanged
 evidence, planning, or reporting; unclear artefact consumption; unexplained
 process-heavy work; avoidable serialisation; live-control retirement; or
-IMPLEMENTAUDIT self-modification. No activation factor means no R34 diagnostic or artefact.
+IMPLEMENTAUDIT self-modification. No activation factor means no R0022 diagnostic or artefact.
 Ordinary bounded work keeps its existing minimum Smoke A/B and
 self-check path without a worksheet, meta-work ratio, or per-command defence.
 
@@ -160,7 +160,7 @@ control depth is warranted by material consequence or hard-to-reverse action,
 not by a methodology label. Reuse the native action-selection record; do not
 add lifecycle ceremonies, mandatory buffers, sprint machinery, traceability
 matrices, or methodology-specific modes. When no proportionality pressure is
-live, create no R34 artefact.
+live, create no R0022 artefact.
 
 Assess consequential/degraded work for coordination/peak-attention burden,
 information/recovery capacity and current intervention capability/authority.

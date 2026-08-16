@@ -365,7 +365,7 @@ r30_probe() {
   sentinel="$probe_skills/implementaudit/scripts/check-authorization-binding.sh"
   mv "$sentinel" "$real_helper"
   cmp -s "$real_helper" "$repo_root/skills/implementaudit/scripts/check-authorization-binding.sh" \
-    || fail "R30 probe relocated helper differs from candidate source"
+    || fail "R001E probe relocated helper differs from candidate source"
   nonce="$(python - <<'PY'
 import secrets
 print(secrets.token_hex(32))
@@ -394,10 +394,10 @@ EOF
     "$BASH" -c 'cd "$1" && exec bash validate-phase.sh "$2"' r30-probe \
     "$probe_skills/implementaudit/scripts" "$tmp/phase-consumer.md"; then
     cat "$log_path" >&2 || true
-    fail "R30 native phase consumer failed"
+    fail "R001E native phase consumer failed"
   fi
   python - "$marker" "$nonce" "$tmp/phase-consumer.md" "$tmp/receipt-consumer.json" "$tmp/launch-consumer.json" <<'PY' \
-    || fail "R30 native phase route did not invoke the declared helper"
+    || fail "R001E native phase route did not invoke the declared helper"
 import json, os, stat, sys
 from pathlib import Path
 
@@ -415,9 +415,9 @@ if observed.get("nonce") != str(nonce) or not identity:
     sys.stderr.write("r30 probe: verifier sentinel marker identity mismatch\n")
     raise SystemExit(1)
 PY
-  [ -f "$tmp/consumer-terminal.json" ] || fail "R30 native phase route did not bind terminal"
+  [ -f "$tmp/consumer-terminal.json" ] || fail "R001E native phase route did not bind terminal"
   python - "$tmp/launch-consumer.json" "$tmp/consumer-terminal.json" <<'PY' \
-    || fail "R30 probe did not retain the zero-meter terminal receipt"
+    || fail "R001E probe did not retain the zero-meter terminal receipt"
 import json, pathlib, sys
 launch = json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8"))
 terminal = json.loads(pathlib.Path(sys.argv[2]).read_text(encoding="utf-8"))
@@ -496,7 +496,7 @@ must_pass F7 run_production_rehearsal rehearse "$tmp/phase-budget.md" "$tmp/rece
 ! grep -q 'IMPLEMENTAUDIT_REHEARSAL_TERMINAL\|IMPLEMENTAUDIT_REHEARSAL_STUB_PROOF' \
   "$tmp/production-wrapper.py" || fail "F7 wrapper must not author proof or terminal"
 
-# F10/R30: the native phase validator consumes the same audit object and
+# F10/R001E: the native phase validator consumes the same audit object and
 # executes the declared checker route; this is not a direct-test/prose proxy.
 r30_probe
 

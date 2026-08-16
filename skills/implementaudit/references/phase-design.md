@@ -143,7 +143,7 @@ Absence without documentation is a gap, not a savings.
 **Rule P4-2 — Rendered-consumer evidence requirement.**
 For material representation-dependent output, require rendered-consumer
 evidence and preserve governed detail; source/unit green cannot close.
-Ordinary prose stays cheap (public/release: R29 in `audit-playbook.md`).
+Ordinary prose stays cheap (public/release: R001D in `audit-playbook.md`).
 
 **Rule P4-3 — Brownfield safety-net before risky mutation.**
 Before any risky brownfield mutation — schema migration, public API change,
@@ -328,8 +328,8 @@ authorised repair retains witness, contract, and four held-outs; genuinely new
 policy also needs external owner authority and independent discrimination.
 
 Moved validation owners remain normally discoverable; otherwise FAIL unless
-authoritative migration proves route and equivalent-or-stronger property (R30
-owns reachability). In R35 record full candidate/parent identities, exact changed
+authoritative migration proves route and equivalent-or-stronger property (R001E
+owns reachability). In R0023 record full candidate/parent identities, exact changed
 versus invoked owners, independent owner/contract/effective boundary and distinct
 authority identity, retained witness in the complete evidence population,
 classification, four baseline/candidate verdicts, discovery/migration, residual

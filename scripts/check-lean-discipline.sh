@@ -326,7 +326,7 @@ for needle in [
 ]:
     require(lean, needle, "ActiveGraph custody events section", lean_ref)
 
-# 13. R33 package semantic preservation stays on the existing Lean surface.
+# 13. R0021 package semantic preservation stays on the existing Lean surface.
 # The structural check binds the runtime owner and the fixture bank proves the
 # behavioural dispositions; this is not a universal protected-literal list.
 semantic = heading_section(lean, "Package semantic preservation", lean_ref)
@@ -343,10 +343,10 @@ for alternatives, label in [
      "unreachable-owner rejection"),
     (("calibration/owner decision", "owner decision"),
      "irreducible conflict route"),
-    (("r34 admission", "marginal cost", "exit/retirement"),
-     "R34 cost and lifecycle rule"),
-    (("r35 governs", "original witness", "independent property evidence"),
-     "R35 evaluator-mutation rule"),
+    (("r0022 admission", "marginal cost", "exit/retirement"),
+     "R0022 cost and lifecycle rule"),
+    (("r0023 governs", "original witness", "independent property evidence"),
+     "R0023 evaluator-mutation rule"),
     (("never recover headroom by deleting governed behaviour",),
      "semantic rollback boundary"),
 ]:

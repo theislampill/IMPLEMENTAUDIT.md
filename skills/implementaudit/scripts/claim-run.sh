@@ -53,6 +53,23 @@ finally:
 PY
 }
 
+canonical_generation() {
+  local value="$1" digits ordinal
+  if [[ "$value" =~ ^G([0-9A-F]{4})$ ]]; then
+    digits="${BASH_REMATCH[1]}"
+    ordinal=$((16#$digits))
+    [ "$ordinal" -ge 1 ] || return 1
+  elif [[ "$value" =~ ^e([1-9][0-9]*)$ ]]; then
+    digits="${BASH_REMATCH[1]}"
+    [ "${#digits}" -le 5 ] || return 1
+    ordinal=$((10#$digits))
+    [ "$ordinal" -le 65535 ] || return 1
+  else
+    return 1
+  fi
+  printf 'G%04X\n' "$ordinal"
+}
+
 controller_io() {
   local a="$1" c="$2" repo common ref oid s rc rg root rr target_common; shift 2
   repo="$(git rev-parse --path-format=absolute --show-toplevel)" || return
@@ -120,6 +137,7 @@ controller_io() {
       if [ "$a" = resume ]; then
         local b="$1" e="$2" next newr zero=0000000000000000000000000000000000000000
         case "$b" in host-reported-compaction|new-session|handoff-resume|manual-resume|inferred-context-gap):;; *) return 1;; esac
+        e="$(canonical_generation "$e")" || return
         [ "$ioid" = none ] || [ "$ib" = "$b" ] || return 1
         next="$(awk -F'|' -v e="$e" -v b="$b" -v h="$h" -v t="$t" 'function q(x){gsub(/^[ \t`]+|[ \t`]+$/, "", x);return x} /^Current epoch:/{ce=$0} q($2)=="Next action"{n=q($3)} q($2)==e&&q($3)==b&&q($6)=="yes"&&index($5,h)&&index($5,t){ok=1} END{if(ce=="Current epoch: "e&&ok&&n!=""&&n!="-"&&tolower(n)!="none"&&tolower(n)!="pending")print n;else exit 1}' "$state")" || return
         rref="refs/implementaudit/continuity-receipts/$c/$e"
