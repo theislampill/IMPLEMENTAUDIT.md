@@ -123,6 +123,15 @@ required = (
 )
 if any(item.lower() not in frontmatter.lower() for item in required):
     raise SystemExit(1)
+description = description_value[1:-1].lower()
+if not description.startswith("host-reported compaction stop"):
+    raise SystemExit("compaction stop is not the first catalog-visible instruction")
+if "use only the host-supplied skill path" not in description:
+    raise SystemExit("description does not permit bounded skill loading")
+if "do not search or inspect the target first" not in description:
+    raise SystemExit("description does not forbid pre-custody target orientation")
+if description.index("--current-controller") > description.index("execute audit-governed work"):
+    raise SystemExit("ordinary activation precedes the compaction fence")
 PY
 for surface in "$skill" "$ref" "$proto"; do
   for literal in \
