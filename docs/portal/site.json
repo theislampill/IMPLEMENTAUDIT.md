@@ -5,8 +5,8 @@
     "publication_state": "published",
     "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/releases/tag/v0.4.0.0",
     "audit_ledger_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/docs/audits/archive/v0.4.0.0-release-report.md",
-    "status": "v0.4.0.0 is published for runtime 0.4.0. The canonical release projection is one atomic dual-host IMPLEMENTAUDIT.plugin.zip package; IMPLEMENTAUDIT.skill is a generated standalone compatibility projection. Tag, GitHub Release, three exact public assets, checksum/package validation, four isolated install projections and Pages have independent readback; native host loading, marketplace state and provenance remain separate unclaimed gates",
-    "checksum_boundary": "fresh public downloads reproduced the frozen plugin, standalone compatibility and checksum-manifest bytes and SHA-256 values. A digest is artefact-integrity evidence, not a signature, attestation, SBOM or proof of provenance"
+    "status": "v0.4.0.0 is published and independently read back for runtime 0.4.0. The canonical release projection is one atomic dual-host IMPLEMENTAUDIT.plugin.zip package; IMPLEMENTAUDIT.skill is a generated standalone compatibility projection. Tag, GitHub Release, three assets, hosted validation, Pages, public downloads and isolated package installs passed their recorded gates. Current main documentation and marketplace source installation may advance without rewriting the immutable release tag or assets; native running-host and provenance evidence remain separate",
+    "checksum_boundary": "the published plugin and standalone compatibility asset bytes and SHA-256 values are bound by CHECKSUMS.txt and independent public-download readback. A digest is artefact-integrity evidence, not a signature, attestation, SBOM or proof of provenance"
   },
   "semantic_sources": [
     "README.md",

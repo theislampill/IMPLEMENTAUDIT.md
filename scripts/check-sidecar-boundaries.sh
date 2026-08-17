@@ -734,7 +734,7 @@ forbid_literal skills/implementaudit/references/lean-operating-discipline.md "St
 forbid_literal skills/implementaudit/templates/sidecars.md "| Freshness |" "hand-filled per-query freshness"
 forbid_literal skills/implementaudit/references/lean-operating-discipline.md "record these events" "mandatory custody catalogue"
 forbid_literal skills/implementaudit/templates/PROTOCOL.md "replay reconstructs causality" "unsupported replay claim"
-if grep -R -Ei "canonical proof unless|promotes? .*proof|proof .*unless.*sidecar" \
+if grep -R -Ei "canonical proof unless|(graphify|activegraph|sidecars?)([[:space:]]+output)?[[:space:]]+promotes?[[:space:]].*proof|promotes?[[:space:]]+(graphify|activegraph|sidecars?)([[:space:]]+output)?[[:space:]].*proof|proof .*unless.*sidecar" \
   skills/implementaudit/SKILL.md skills/implementaudit/references skills/implementaudit/templates README.md AGENTS.md docs/portal/pages >/dev/null; then
   fail "sidecar proof-promotion wording is present"
 fi

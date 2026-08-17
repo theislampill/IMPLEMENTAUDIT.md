@@ -161,7 +161,8 @@ def validate_manifest(
         "skills": "./skills/",
         "author": contract["publisher"],
     }
-    require_equal(f"{manifest_path} content", manifest, expected)
+    observed_projection = {key: manifest.get(key) for key in expected}
+    require_equal(f"{manifest_path} content", observed_projection, expected)
 
 
 def validate_contract(root: Path) -> dict[str, Any]:

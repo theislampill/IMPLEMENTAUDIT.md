@@ -87,6 +87,7 @@ FORBIDDEN = [
 COUNTED_STRIKE = (
     r"\b(?:single|double|triple|quad|quadruple|one|two|three|four|five|n|[1-9][0-9]*)[ -]strikes?\b"
     r"|\b(?:first|second|third|fourth|fifth)\s+strikes?\b"
+    r"|\bstrikes?\s+(?:number\s*|#\s*)?(?:one|two|three|four|five|n|first|second|third|fourth|fifth|[1-9][0-9]*)\b"
 )
 STRIKE_POLICY_CONTEXT = (
     r"\b(?:policy|rule|sequence|ladder|counter|count|cap|limit|attack\s+count|termination)\b"

@@ -285,6 +285,53 @@ else
   fail_check "source-coupled S³E public boundary held-out failed"
 fi
 
+if "${py_cmd[@]}" - <<'PY'
+import json
+from pathlib import Path
+
+site = json.loads(Path("docs/portal/site.json").read_text(encoding="utf-8"))
+release = site["release"]
+assert release["publication_state"] == "published"
+status = release["status"].lower()
+assert "published" in status and "independently read back" in status
+for stale in ("candidate public identity", "prepublication", "remain pending"):
+    assert stale not in status, stale
+
+for path, forbidden in {
+    "README.md": (
+        "candidate public identity is `v0.4.0.0`",
+        "Current project milestone: prepublication `v0.4.0.0` candidate",
+        "Only after v0.4.0.0 is published and independently read back",
+        "future tagged `v0.4.0.0` asset",
+    ),
+    "CHANGELOG.md": (
+        "No changes are currently assigned beyond the v0.4.0.0 candidate.",
+        "This source entry is a prepublication candidate",
+        "Final artifact bytes, SHA-256 values, native-host results, hosted checks, and public readbacks remain pending",
+    ),
+    "docs/portal/pages/overview.html": (
+        "v0.4.0.0 candidate",
+        "Candidate release",
+    ),
+    "docs/portal/pages/installation.html": (
+        "candidate release routes, not evidence that a public release already exists",
+        "release-page, checksum, and fresh-download digests remain pending",
+    ),
+    "docs/portal/pages/audit-trail.html": (
+        "Prepublication <code>v0.4.0.0</code> candidate",
+        "v0.4.0.0 final-main Pages qualification and public readback remain pending",
+    ),
+}.items():
+    text = Path(path).read_text(encoding="utf-8")
+    for stale in forbidden:
+        assert stale not in text, f"{path}: {stale}"
+PY
+then
+  ok "maintained v0.4 public owners reject stale candidate and pending-publication truth"
+else
+  fail_check "maintained v0.4 public owners retain stale candidate or pending-publication truth"
+fi
+
 if "${py_cmd[@]}" - "$tmp/portal-release-identity" <<'PY'
 import json
 import shutil
@@ -297,6 +344,7 @@ fixture_root = Path(sys.argv[1])
 shutil.copytree(source_root / "docs" / "portal", fixture_root / "docs" / "portal")
 (fixture_root / "scripts").mkdir(parents=True)
 shutil.copy2(source_root / "scripts" / "build-docs-portal.py", fixture_root / "scripts" / "build-docs-portal.py")
+shutil.copy2(source_root / "scripts" / "check-docs-portal.py", fixture_root / "scripts" / "check-docs-portal.py")
 
 site_path = fixture_root / "docs" / "portal" / "site.json"
 site = json.loads(site_path.read_text(encoding="utf-8"))
@@ -316,6 +364,8 @@ for rel in rel_sources:
 
 site["release"]["milestone"] = "v0.4.0.0"
 site["release"]["manifest_version"] = "0.4.0"
+site["release"]["publication_state"] = "published"
+site["release"]["status"] = "v0.4.0.0 is published and independently read back"
 site["release"]["audit_ledger_url"] = (
     "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/main/"
     "docs/audits/archive/v0.4.0.0-release-report.md"
@@ -349,13 +399,52 @@ def run_build():
         stderr=subprocess.PIPE,
     )
 
+def run_check():
+    return subprocess.run(
+        [sys.executable, str(fixture_root / "scripts" / "check-docs-portal.py"), str(fixture_root / "dist" / "docs-portal")],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+
 codex_path = fixture_root / ".codex-plugin" / "plugin.json"
+claude_path = fixture_root / ".claude-plugin" / "plugin.json"
+codex = json.loads(codex_path.read_text(encoding="utf-8"))
+claude = json.loads(claude_path.read_text(encoding="utf-8"))
+assert "interface" in codex
+assert "interface" not in claude
+
+codex["codex_only_heldout"] = {"allowed": True}
+codex_path.write_text(json.dumps(codex) + "\n", encoding="utf-8")
+codex_extension = run_build()
+assert codex_extension.returncode == 0, codex_extension.stderr
+codex_extension_check = run_check()
+assert codex_extension_check.returncode == 0, codex_extension_check.stderr
+shutil.copy2(source_root / ".codex-plugin" / "plugin.json", codex_path)
+
+claude["claude_only_heldout"] = {"allowed": True}
+claude_path.write_text(json.dumps(claude) + "\n", encoding="utf-8")
+claude_extension = run_build()
+assert claude_extension.returncode == 0, claude_extension.stderr
+claude_extension_check = run_check()
+assert claude_extension_check.returncode == 0, claude_extension_check.stderr
+shutil.copy2(source_root / ".claude-plugin" / "plugin.json", claude_path)
+
+published_status = site["release"]["status"]
+site["release"]["status"] = "v0.4.0.0 is the candidate public identity"
+site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
+wrong_publication_status = run_build()
+assert wrong_publication_status.returncode != 0
+assert "published release status must describe published current truth" in wrong_publication_status.stderr
+site["release"]["status"] = published_status
+site_path.write_text(json.dumps(site, indent=2) + "\n", encoding="utf-8")
+
 codex = json.loads(codex_path.read_text(encoding="utf-8"))
 codex["version"] = "9.9.9"
 codex_path.write_text(json.dumps(codex) + "\n", encoding="utf-8")
 host_drift = run_build()
 assert host_drift.returncode != 0
-assert "Codex and Claude plugin manifests disagree" in host_drift.stderr
+assert "Codex and Claude plugin manifests must preserve equal shared semantics" in host_drift.stderr
 shutil.copy2(source_root / ".codex-plugin" / "plugin.json", codex_path)
 
 contract_path = fixture_root / "package" / "implementaudit-package.json"
@@ -679,9 +768,9 @@ for path in root.rglob("*.html"):
     path.write_text(text, encoding="utf-8")
 PY
 if "${py_cmd[@]}" scripts/check-docs-portal.py "$bad_release_label" >/dev/null 2>&1; then
-  fail_check "check-docs-portal.py accepted a Candidate release label for published output"
+  fail_check "check-docs-portal.py accepted a candidate label for published output"
 else
-  ok "check-docs-portal.py rejects a Candidate release label for published output"
+  ok "check-docs-portal.py rejects a candidate label for published output"
 fi
 
 cp -R "$out" "$bad_overview_release"

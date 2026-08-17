@@ -972,7 +972,7 @@ published and independently read back; source composition alone would not have
 established those effects.
 
 The prior `v0.3.3.3` tag and release remain append-only historical evidence.
-Candidate and later authorised publication evidence belongs in the
+Qualification and authorised publication evidence belongs in the
 [`v0.4.0.0` release report](docs/audits/archive/v0.4.0.0-release-report.md);
 release chronology and user-visible changes belong in
 [`CHANGELOG.md`](CHANGELOG.md). This README describes the current product and
@@ -1208,8 +1208,8 @@ ecosystem's install-telemetry index, not by this repo.
 
 Choose the source deliberately:
 
-- the tagged `v0.4.0.0` source tree was built, qualified, independently reviewed,
-  published and independently read back;
+- the published `v0.4.0.0` artifacts were built, qualified, independently
+  reviewed, downloaded, checksum-verified, and installed in isolated projections;
 - the current source contains the packaged R001D correction and later native
   runtime countermeasures;
 - a local archive is evidence only for the exact source tree from which it was
@@ -1259,8 +1259,8 @@ bash scripts/install-plugin-from-release.sh \
 Repeat with `--host claude` for the separate staged Claude projection check.
 Passing either command proves checked package copy, inventory, update, rollback,
 and post-readback behaviour only. Native discovery and invocation remain host
-evidence; public-download identity remains pending publication and fresh
-readback.
+evidence; the tagged public-download identity has independent readback, while
+native host discovery and invocation still require their own host evidence.
 
 ### Standalone compatibility install / update for Codex
 
@@ -1287,8 +1287,9 @@ bash scripts/install-codex-from-release.sh \
   --version 0.4.0
 ```
 
-The published `v0.4.0.0` asset below is current because public download,
-checksum and isolated install readback reproduced its frozen identity:
+The published v0.4.0.0 public-tag command below installs the independently
+read-back standalone release asset. Use the local route above only when you
+deliberately want an exact locally built source projection instead:
 
 ```bash
 bash scripts/install-codex-from-release.sh \

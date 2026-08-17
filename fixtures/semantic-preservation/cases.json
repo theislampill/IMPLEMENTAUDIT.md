@@ -2,7 +2,7 @@
   "schema_version": 2,
   "package_evidence": {
     "builder_path": "scripts/package-contract.py",
-    "builder_sha256": "80fe5d768f0d79ff073773e8a9d0f768e49da8625058afa26f206acc26aacf65",
+    "builder_sha256": "e8640615c2e176a51bfbe214f318d3e8f5e77ef616c74099f28a676f87a15f1f",
     "repo_only_instrumentation": [
       "fixtures/semantic-preservation/cases.json",
       "fixtures/semantic-preservation/evaluate.py",
@@ -50,7 +50,7 @@
     },
     "unshipped-owner": {
       "before": {"path": "skills/implementaudit/references/lean-operating-discipline.md", "revision": "WORKTREE", "sha256": "3cad172a60a2c4d85903543d6b36a498cbb2bb58a4f15b044e876164abb2329c", "anchor": "Package semantic preservation"},
-      "after": {"path": "CONTRIBUTING.md", "revision": "WORKTREE", "sha256": "e33e5b6c306f44b4c04e09e02d6026806fa5d823f498abb5379dadcf63c4172e", "anchor": "# Contributing"},
+      "after": {"path": "CONTRIBUTING.md", "revision": "WORKTREE", "sha256": "c165468017372f55e906ece30be13205941bc1b03258bfc6213689767a308e4e", "anchor": "# Contributing"},
       "consumers": [
         {"kind": "runtime", "required": true, "path": "skills/implementaudit/SKILL.md", "revision": "WORKTREE", "sha256": "325cb0f7be5c89aa300d859b27b69f109dbcab65c29511dc69317c5315fa58b7", "route_anchor": "references/lean-operating-discipline.md"}
       ]

@@ -166,8 +166,13 @@ def package_identity(root: Path) -> dict:
     codex = load_json_no_duplicates(codex_path)
     claude = load_json_no_duplicates(claude_path)
 
-    if codex != claude:
-        raise SystemExit("Codex and Claude plugin manifests disagree")
+    shared_manifest_fields = ("name", "version", "description", "skills", "author")
+    codex_shared = {key: codex.get(key) for key in shared_manifest_fields}
+    claude_shared = {key: claude.get(key) for key in shared_manifest_fields}
+    if codex_shared != claude_shared:
+        raise SystemExit(
+            "Codex and Claude plugin manifests must preserve equal shared semantics"
+        )
     expected_host_manifests = {
         "codex": ".codex-plugin/plugin.json",
         "claude": ".claude-plugin/plugin.json",
@@ -348,6 +353,15 @@ def release_info(site: dict, runtime_version: str) -> dict:
             "docs/portal/site.json release publication_state must be candidate or published"
         )
     release["publication_state"] = publication_state
+    release_status = str(release.get("status", "")).strip().lower()
+    if publication_state == "candidate" and "candidate" not in release_status:
+        raise SystemExit("candidate release publication_state requires candidate status wording")
+    if publication_state == "published" and (
+        "published" not in release_status
+        or "candidate public identity" in release_status
+        or "prepublication" in release_status
+    ):
+        raise SystemExit("published release status must describe published current truth")
     validate_project_milestone(str(release["milestone"]), str(release["manifest_version"]))
     validate_release_ledger(str(release["milestone"]), str(release.get("audit_ledger_url", "")))
     return release

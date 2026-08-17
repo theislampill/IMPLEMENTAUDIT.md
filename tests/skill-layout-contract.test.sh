@@ -75,6 +75,16 @@ EOF
 {"name":"implementaudit","version":"0.3.2","skills":"./skills/","author":{"name":"theislampill"}}
 EOF
   cp "$dir/.claude-plugin/plugin.json" "$dir/.codex-plugin/plugin.json"
+  python - "$dir/.codex-plugin/plugin.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+data = json.loads(path.read_text(encoding="utf-8"))
+data["interface"] = {"displayName": "IMPLEMENTAUDIT"}
+path.write_text(json.dumps(data) + "\n", encoding="utf-8")
+PY
   cat >"$dir/.claude-plugin/marketplace.json" <<'EOF'
 {"name":"implementaudit","owner":{"name":"theislampill"},"description":"Audit package.","plugins":[{"name":"implementaudit","source":"./"}]}
 EOF
@@ -157,6 +167,28 @@ fi
 grep -F "must point source plugin discovery at ./skills/" "$tmp/source-manifest.out" >/dev/null || {
   printf 'skill-layout-contract.test: expected source-manifest diagnostic\n' >&2
   cat "$tmp/source-manifest.out" >&2
+  exit 1
+}
+
+shared_semantics="$tmp/shared-semantics"
+make_minimal_repo "$shared_semantics"
+python - "$shared_semantics/.codex-plugin/plugin.json" <<'PY'
+import json
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+data = json.loads(path.read_text(encoding="utf-8"))
+data["version"] = "9.9.9"
+path.write_text(json.dumps(data) + "\n", encoding="utf-8")
+PY
+if bash scripts/check-skill-layout-contract.sh --repo-root "$shared_semantics" >"$tmp/shared-semantics.out" 2>&1; then
+  printf 'skill-layout-contract.test: shared manifest semantic drift unexpectedly passed\n' >&2
+  exit 1
+fi
+grep -F "must preserve equal shared semantics" "$tmp/shared-semantics.out" >/dev/null || {
+  printf 'skill-layout-contract.test: expected shared-semantics diagnostic\n' >&2
+  cat "$tmp/shared-semantics.out" >&2
   exit 1
 }
 

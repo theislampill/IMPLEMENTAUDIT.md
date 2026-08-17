@@ -13,14 +13,23 @@ schema evidence proved four-component plugin manifest versions are accepted.
 
 ## [Unreleased]
 
-No changes are currently assigned beyond the v0.4.0.0 candidate.
+### Changed
 
-## [v0.4.0.0] - 2026-08-13
+- Current Codex source-plugin metadata may carry Codex-owned interface fields
+  while the Claude manifest remains strict-schema compatible. Both manifests
+  must preserve equal shared package semantics: name, version, description,
+  skills path, and author.
+- Maintained README and portal surfaces now distinguish the immutable published
+  v0.4.0.0 tag/assets from later current-main documentation and marketplace
+  source installation.
+
+## [v0.4.0.0] - 2026-08-16
 
 **State Synthesis Substrate Engineering: Evolved-SSDDRFCSS** (`S³E`) maps the
-four-component public milestone to plugin/runtime version `0.4.0`. This source
-entry is a prepublication candidate; tag, GitHub Release, assets, hosted
-workflows, Pages and fresh public-download installation remain separate gates.
+four-component public milestone to plugin/runtime version `0.4.0`. The tag,
+GitHub Release and three assets were published and independently read back.
+Hosted CI, Pages, public-download and isolated package-install gates passed
+their separately recorded evidence.
 
 ### Changed
 
@@ -35,16 +44,17 @@ workflows, Pages and fresh public-download installation remain separate gates.
   accounting, not as 658 source changes. Negative, rejected, unresolved,
   residual and owner-decision outcomes remain visible.
 - Release identity qualification now has an explicit cross-family path that
-  binds predecessor public `v0.3.3.3`/runtime `0.3.3` to candidate public
-  `v0.4.0.0`/runtime `0.4.0`, the exact changelog/portal ledger and candidate
-  commit tree.
+  binds predecessor public `v0.3.3.3`/runtime `0.3.3` to published public
+  `v0.4.0.0`/runtime `0.4.0`, the exact changelog/portal ledger and qualified
+  release commit tree.
 
 ### Package boundary
 
-- The release topology is one atomic dual-host plugin package. Its canonical
-  generated artifact is `IMPLEMENTAUDIT.plugin.zip`, with equal Codex and
-  Claude manifests, one version-coherent `skills/implementaudit/` governor,
-  shared references/templates/scripts, and package/inventory metadata.
+- The published release topology is one atomic dual-host plugin package. Its canonical
+  generated artifact is `IMPLEMENTAUDIT.plugin.zip`, with equal shared Codex
+  and Claude manifest semantics plus permitted host-owned extensions, one
+  version-coherent `skills/implementaudit/` governor, shared
+  references/templates/scripts, and package/inventory metadata.
 - `/implementaudit` remains the sole stable public/default governor. No child
   lifecycle is created; v0.4 ships exactly four evidence-selected child skills:
   `audit-state`, `audit-assess`, maintainer-only `audit-implement`, and
@@ -59,8 +69,9 @@ workflows, Pages and fresh public-download installation remain separate gates.
 - Generic use keeps ActiveGraph optional and non-authoritative. The final
   repository self-dogfood gate separately requires an isolated, exact-state-
   bound ActiveGraph sidecar on the latest independently verified published
-  release. Final artifact bytes, SHA-256 values, native-host results, hosted
-  checks, and public readbacks remain pending their exact gates.
+  release. Exact artifact bytes, SHA-256 values, hosted checks, Pages,
+  public-download and isolated-install readbacks are recorded complete; native
+  running-host behaviour and broader provenance remain separate evidence.
 
 ## [v0.3.3.3 final correction candidate] - 2026-08-12
 

@@ -134,7 +134,8 @@ Standing gate owners: `check-action-selection-contract.sh`,
   `v0.4.0.0` / runtime `0.4.0`, S³E public composition, exact qualified
   source/tree, frozen package identities, hosted/Pages/tag/Release receipts,
   public asset/download/install readback, maintained-live Rockstar migration
-  and truthful open/nonblocking R001C disposition.
+  and truthful open/nonblocking R001C disposition. Retained prepublication rows
+  in the archive remain historical qualification evidence.
 
 ## Boundary
 

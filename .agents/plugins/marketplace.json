@@ -1,0 +1,21 @@
+{
+  "name": "implementaudit",
+  "interface": {
+    "displayName": "IMPLEMENTAUDIT"
+  },
+  "plugins": [
+    {
+      "name": "implementaudit",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md.git",
+        "sha": "8d7b638be191e6d0a4304fef58477e1b3051016f"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

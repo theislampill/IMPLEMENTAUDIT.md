@@ -66,6 +66,7 @@ The strike count is capped at four.
 The strike limit hands off the run.
 After 4 strikes, stop and hand off.
 After three strikes, stop and hand off.
+Strike 3 stops the run.
 EOF
 
 # 4. Run-stopping wording and legacy marker spellings must fail.

@@ -183,13 +183,13 @@ if not readme_path.is_file():
 else:
     readme_flat = " ".join(readme_path.read_text(encoding="utf-8").split())
     required_public_tag_boundary = (
-        "The published `v0.4.0.0` asset below is current because public download, "
-        "checksum and isolated install readback reproduced its frozen identity"
+        "The published v0.4.0.0 public-tag command below installs the independently "
+        "read-back standalone release asset"
     )
     if required_public_tag_boundary not in readme_flat:
         failures.append(
-            "README.md: published release-asset guidance does not bind the "
-            "URL command to independent download/checksum/install readback"
+            "README.md: published public-tag guidance does not clearly separate "
+            "the immutable release asset from a locally built source projection"
         )
 
 # Proof-level discipline (#53, IA-PROOF-LEVELS): on active/current surfaces,
