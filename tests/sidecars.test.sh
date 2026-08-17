@@ -116,8 +116,43 @@ else
   check_pass "sidecar proof-promotion wording rejected" 1
 fi
 
+# Ordinary negative evidence prose may use "promote" and "proof" without
+# claiming that a sidecar becomes proof. Keep that language distinct from an
+# affirmative sidecar proof-promotion policy.
+tmp_proof_wording="$(mktemp -d)"
+trap 'rm -rf "$tmp" "$tmp_spine" "$tmp_promote" "$tmp_proof_wording"' EXIT
+cp -R skills README.md AGENTS.md CONTRIBUTING.md docs scripts tests "$tmp_proof_wording/"
+printf '\nA lineage page does not promote untested running-host behaviour or external-effect proof.\n' >> \
+  "$tmp_proof_wording/skills/implementaudit/references/routing.md"
+set +e
+ordinary_proof_output="$(cd "$tmp_proof_wording" && bash scripts/check-sidecar-boundaries.sh 2>&1)"
+ordinary_proof_status=$?
+set -e
+if [ "$ordinary_proof_status" -eq 0 ]; then
+  check_pass "ordinary non-sidecar promotion/proof wording accepted" 0
+else
+  printf 'sidecars.test: ordinary proof wording output: %s\n' "$ordinary_proof_output" >&2
+  check_pass "ordinary non-sidecar promotion/proof wording accepted" 1
+fi
+
+tmp_affirmative_proof="$(mktemp -d)"
+trap 'rm -rf "$tmp" "$tmp_spine" "$tmp_promote" "$tmp_proof_wording" "$tmp_affirmative_proof"' EXIT
+cp -R skills README.md AGENTS.md CONTRIBUTING.md docs scripts tests "$tmp_affirmative_proof/"
+printf '\nGraphify promotes its output to proof.\n' >> \
+  "$tmp_affirmative_proof/skills/implementaudit/references/routing.md"
+set +e
+affirmative_proof_output="$(cd "$tmp_affirmative_proof" && bash scripts/check-sidecar-boundaries.sh 2>&1)"
+affirmative_proof_status=$?
+set -e
+if [ "$affirmative_proof_status" -ne 0 ] && printf '%s' "$affirmative_proof_output" | grep -Fq "sidecar proof-promotion wording is present"; then
+  check_pass "affirmative sidecar proof-promotion wording rejected" 0
+else
+  printf 'sidecars.test: affirmative proof-promotion output: %s\n' "$affirmative_proof_output" >&2
+  check_pass "affirmative sidecar proof-promotion wording rejected" 1
+fi
+
 tmp_contract="$(mktemp -d)"
-trap 'rm -rf "$tmp" "$tmp_spine" "$tmp_promote" "$tmp_contract" "${scope_tmp:-}"' EXIT
+trap 'rm -rf "$tmp" "$tmp_spine" "$tmp_promote" "$tmp_proof_wording" "$tmp_affirmative_proof" "$tmp_contract" "${scope_tmp:-}"' EXIT
 cp -R skills README.md AGENTS.md CONTRIBUTING.md docs scripts tests "$tmp_contract/"
 perl -0pi -e 's/owner-named backend/auto-selected backend/g' \
   "$tmp_contract/skills/implementaudit/references/sidecars.md"
@@ -133,7 +168,7 @@ else
 fi
 
 tmp_activegraph="$(mktemp -d)"
-trap 'rm -rf "$tmp" "$tmp_spine" "$tmp_promote" "$tmp_contract" "$tmp_activegraph" "${scope_tmp:-}"' EXIT
+trap 'rm -rf "$tmp" "$tmp_spine" "$tmp_promote" "$tmp_proof_wording" "$tmp_affirmative_proof" "$tmp_contract" "$tmp_activegraph" "${scope_tmp:-}"' EXIT
 cp -R skills README.md AGENTS.md CONTRIBUTING.md docs scripts tests "$tmp_activegraph/"
 perl -0pi -e 's/independent evidence at that owner/local graph evidence/g' \
   "$tmp_activegraph/skills/implementaudit/references/sidecars.md"
@@ -1292,7 +1327,7 @@ else
 fi
 
 activegraph_tmp="$(mktemp -d)"
-trap 'rm -rf "$tmp" "$tmp_spine" "$tmp_promote" "$tmp_contract" "${scope_tmp:-}" "$activegraph_tmp"' EXIT
+trap 'rm -rf "$tmp" "$tmp_spine" "$tmp_promote" "$tmp_proof_wording" "$tmp_affirmative_proof" "$tmp_contract" "${scope_tmp:-}" "$activegraph_tmp"' EXIT
 
 "${py_cmd[@]}" - "$activegraph_fixture" "$activegraph_tmp/heldout.json" <<'PY'
 import copy, json, sys
@@ -1485,7 +1520,7 @@ else
   check_pass "scenario12: complete TokenSave claim population is classified" 1
 fi
 
-trap 'rm -rf "$tmp" "$tmp_spine" "$tmp_promote" "$tmp_contract" "${scope_tmp:-}" "$activegraph_tmp" "$tokensave_tmp" "$tokensave_public_tmp" "$tokensave_adapter_tmp"' EXIT
+trap 'rm -rf "$tmp" "$tmp_spine" "$tmp_promote" "$tmp_proof_wording" "$tmp_affirmative_proof" "$tmp_contract" "${scope_tmp:-}" "$activegraph_tmp" "$tokensave_tmp" "$tokensave_public_tmp" "$tokensave_adapter_tmp"' EXIT
 cp -R skills README.md AGENTS.md CONTRIBUTING.md docs scripts tests "$tokensave_public_tmp/"
 "${py_cmd[@]}" - "$tokensave_public_tmp/README.md" <<'PY'
 import pathlib, sys
