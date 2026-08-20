@@ -34,6 +34,7 @@ else
 fi
 
 "${py_cmd[@]}" - "$cases" <<'PY'
+import hashlib
 import itertools
 import json
 import re
@@ -352,9 +353,9 @@ print(f"fixture-census: ok ({len(cases)}/{len(cases)} + {len(controls)}/{len(con
 
 admission_cases = payload.get("admission_cases")
 admission_controls = payload.get("admission_controls")
-conditional_records = payload.get("conditional_records")
-if not isinstance(admission_cases, list) or not isinstance(admission_controls, list) or not isinstance(conditional_records, dict):
-    raise SystemExit("admission fixtures must contain cases, controls, and conditional records")
+conditional_record_locators = payload.get("conditional_record_locators")
+if not isinstance(admission_cases, list) or not isinstance(admission_controls, list) or not isinstance(conditional_record_locators, dict):
+    raise SystemExit("admission fixtures must contain cases, controls, and resolved record locators")
 
 expected_admission_ids = [f"R31-A{i}" for i in range(1, 7)]
 if [case.get("id") for case in admission_cases] != expected_admission_ids:
@@ -364,68 +365,72 @@ allowed_admission_actions = {
     "NO_ACTION", "SUPPORTING_ARTIFACT", "AMEND_EXISTING_OWNER",
     "AMEND_EXISTING_RXX", "DEFER", "NEW_RXX",
 }
-record_string_fields = {
-    "semantic_centre", "live_gap", "named_consumer", "owner_analysis",
-    "overlap_analysis", "dependency_analysis", "supersession_analysis",
-    "trigger", "non_trigger_cheap_path", "cheapest_discriminator",
-    "distinct_failure", "distinct_consumer", "distinct_owner",
-    "distinct_acceptance",
-}
-record_locator_fields = {
-    "open_closed_census", "genealogy", "owner", "overlap", "dependency",
-    "supersession", "outcome",
-}
+def resolve_pointer(value, pointer):
+    if not isinstance(pointer, str) or not pointer.startswith("/"):
+        return None
+    for segment in pointer[1:].split("/"):
+        if not isinstance(value, dict) or segment not in value:
+            return None
+        value = value[segment]
+    return value
 
-def has_current_conditional_record(case, action):
+def resolve_conditional_record(case):
     record_id = case.get("conditional_record_id")
     if not isinstance(record_id, str) or not record_id.strip():
-        return False
-    record = conditional_records.get(record_id)
-    if not isinstance(record, dict) or record.get("selected_outcome") != action:
-        return False
-    if not all(isinstance(record.get(key), str) and record[key].strip() for key in record_string_fields):
-        return False
-    locators = record.get("locators")
-    return (
-        record.get("locators_current") is True
-        and isinstance(locators, dict)
-        and set(locators) == record_locator_fields
-        and all(isinstance(locator, str) and locator.startswith("record://") for locator in locators.values())
-    )
+        return None
+    locator = conditional_record_locators.get(record_id)
+    required = {"path", "pointer", "record_id", "sha256", "current"}
+    if not isinstance(locator, dict) or set(locator) != required or locator["record_id"] != record_id or locator["current"] is not True:
+        return None
+    target = (Path.cwd() / locator["path"]).resolve()
+    if target != Path(sys.argv[1]).resolve() or not target.is_file():
+        return None
+    resolved = resolve_pointer(json.loads(target.read_text(encoding="utf-8")), locator["pointer"])
+    if not isinstance(resolved, dict) or resolved.get("id") != record_id:
+        return None
+    digest = hashlib.sha256(json.dumps(resolved, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest()
+    if digest != locator["sha256"] or digest != case.get("expected_digest", locator["sha256"]):
+        return None
+    return resolved
+
+def decision_action(record):
+    decision = record.get("decision")
+    if not isinstance(decision, dict) or not isinstance(decision.get("census"), dict):
+        return "REJECT"
+    if record.get("current") is False:
+        return "DEFER"
+    route = decision.get("route")
+    if route == "no-gap": return "NO_ACTION"
+    if route == "supporting-artifact" and decision.get("runtime_consumer") is False: return "SUPPORTING_ARTIFACT"
+    if route == "existing-owner" and isinstance(decision.get("owner"), str) and decision["owner"]: return "AMEND_EXISTING_OWNER"
+    if route == "existing-rxx" and isinstance(decision.get("owner"), str) and isinstance(decision.get("rxx"), str): return "AMEND_EXISTING_RXX"
+    distinct = decision.get("distinct", {})
+    if route == "unowned" and all(distinct.get(key) is True for key in ("failure", "consumer", "owner", "acceptance")): return "NEW_RXX"
+    return "REJECT"
 
 def admission_action(case):
-    state = case.get("state")
+    record = resolve_conditional_record(case)
+    if record is None:
+        return "REJECT"
+    action = decision_action(record)
+    if action == "REJECT" or record.get("selected_outcome") != action:
+        return "REJECT"
     allocated_rxx = case.get("allocated_rxx")
     has_number = isinstance(allocated_rxx, str) and bool(allocated_rxx.strip())
-    if not case.get("evidence_current") or not case.get("authority_confirmed"):
-        action = "DEFER"
-    elif state == "no-gap":
-        action = "NO_ACTION"
-    elif state == "cross-cutting-note-no-runtime-consumer" and case.get("runtime_consumer") is False:
-        action = "SUPPORTING_ARTIFACT"
-    elif state == "existing-owner-needs-amendment":
-        action = "AMEND_EXISTING_OWNER"
-    elif state == "existing-rxx-needs-amendment":
-        action = "AMEND_EXISTING_RXX"
-    elif state == "distinct-unowned-invariant":
-        action = "NEW_RXX"
-    else:
-        return "REJECT"
-    if not has_current_conditional_record(case, action):
-        return "REJECT"
     if action in {"AMEND_EXISTING_OWNER", "AMEND_EXISTING_RXX"}:
         existing_owner = case.get("existing_owner")
-        if not isinstance(existing_owner, str) or not existing_owner.strip() or case.get("new_owner"):
+        if existing_owner != record["decision"].get("owner") or case.get("new_owner"):
             return "REJECT"
     if action == "AMEND_EXISTING_RXX":
         existing_rxx = case.get("existing_rxx")
-        if not isinstance(existing_rxx, str) or not existing_rxx.strip():
+        if existing_rxx != record["decision"].get("rxx"):
             return "REJECT"
     if action == "NEW_RXX":
+        census = record["decision"]["census"]
         return action if (
             has_number
-            and case.get("complete_admission_census") is True
-            and case.get("current_open_and_closed_census") is True
+            and census.get("complete") is True
+            and census.get("open_closed") is True
         ) else "REJECT"
     return action if not has_number else "REJECT"
 

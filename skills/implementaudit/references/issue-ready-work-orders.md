@@ -87,6 +87,13 @@ record a cold-reconstructible conditional record before choosing exactly one of
 Reject a record with a missing or stale required field or locator; a synthetic
 state label cannot substitute for current durable evidence.
 
+For a fixture-backed admission check, the conditional record must be addressed
+by its stable record ID and a repository-relative target plus JSON pointer, and
+bound to its canonical JSON SHA-256. Resolve that target at evaluation time;
+reject a missing target or pointer, identity/currentness/digest mismatch, or a
+selected-outcome label that does not agree with the resolved decision semantics.
+Derive the route from those resolved semantics, never from a case state label.
+
 - `NO_ACTION` when current evidence establishes no distinct gap;
 - `SUPPORTING_ARTIFACT` when a bounded cross-cutting note has no runtime
   consumer and adds no owner;
