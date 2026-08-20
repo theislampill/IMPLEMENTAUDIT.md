@@ -26,7 +26,10 @@ boundary and scope to the live continuity invalidation and Next action, reads
 the current controller record and continuity receipt, validates the exact H0
 event, and hashes the live HEAD/tree, executing route sources and exact child
 source. Required triggers and judgement are derived from the admitted action,
-not caller booleans.
+not caller booleans. System executables must resolve through root/host-owned
+custody and are digest-bound; Git actions use exact no-optional-lock,
+no-fsmonitor, no-external-diff/no-textconv, ignored-submodule arguments and a
+sanitised Git environment. Risky configured filter helpers require judgement.
 Missing, mismatched, aliased or fabricated evidence stays `PENDING` or maps to
 `REQUIRED`; caller-selected class labels cannot mint the cheap path.
 
@@ -51,12 +54,14 @@ expiry fingerprint and current record identity.
 
 `NOT_REQUIRED` is a scoped one-shot receipt, not a global exemption. `decide`
 and `check` never authorize execution directly. `consume --expected-record
-<oid>` rechecks every owner, executes only the exact mechanically vetted action
-under the transaction, rechecks currentness again, then records a canonical
-`PENDING/action-completion` successor. It returns `ACTION_COMPLETE`, never an
-ephemeral allow that contradicts canonical PENDING. The completed fingerprint
-cannot be re-minted, so omission or replay cannot retain authority. This cheap
-action execution/completion is not H2B child completion. The receipt also
+<oid>` rechecks every owner and first consumes the receipt by CAS to canonical
+`PENDING/action-in-progress`. Only then does it execute the exact mechanically
+vetted action. Normal success rechecks currentness and records a second
+canonical `PENDING/action-completion` successor. Process loss at any point after
+the first CAS leaves unknown completion fail-closed and cannot automatically
+re-admit or replay the action. Normal completion returns `ACTION_COMPLETE`,
+never an ephemeral allow that contradicts canonical PENDING. This cheap action
+execution/completion is not H2B child completion. The receipt also
 expires on any next-action, scope, read-set, binding, continuity,
 package, child-source, owner, authority, dependency, effect, contradiction,
 invalidation or scope-expansion change. Re-run `check` immediately before

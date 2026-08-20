@@ -97,8 +97,8 @@ def fail(message: str, *, decision: str = "PENDING") -> NoReturn:
     raise SystemExit(2)
 
 
-def run(command: list[str], *, cwd: Path, label: str) -> str:
-    completed = subprocess.run(command, cwd=cwd, text=True, capture_output=True, check=False)
+def run(command: list[str], *, cwd: Path, label: str, environment: dict[str, str] | None = None) -> str:
+    completed = subprocess.run(command, cwd=cwd, env=environment, text=True, capture_output=True, check=False)
     if completed.returncode:
         detail = completed.stderr.strip() or completed.stdout.strip() or f"exit {completed.returncode}"
         fail(f"{label} failed: {detail}")
@@ -106,8 +106,10 @@ def run(command: list[str], *, cwd: Path, label: str) -> str:
 
 
 def git(repo: Path, *args: str, input_text: str | None = None, check: bool = True) -> str:
+    executable = trusted_host_executable(repo, "git")
     completed = subprocess.run(
-        ["git", *args], cwd=repo, text=True, input=input_text, capture_output=True, check=False
+        [str(executable), *args], cwd=repo, env=sanitized_action_environment(), text=True,
+        input=input_text, capture_output=True, check=False
     )
     if check and completed.returncode:
         fail(f"git {' '.join(args)} failed: {completed.stderr.strip() or completed.stdout.strip()}")
@@ -214,9 +216,13 @@ def mechanical_action_class(argv: list[str]) -> str | None:
         return "MECHANICAL_CURRENTNESS_ACTION"
     if (
         executable == "git"
-        and len(argv) >= 4
-        and argv[1:3] == ["diff", "--"]
-        and all(not value.startswith("-") and ".." not in Path(value).parts for value in argv[3:])
+        and len(argv) >= 12
+        and argv[1:11]
+        == [
+            "--no-optional-locks", "-c", "core.fsmonitor=false", "-c", "diff.external=",
+            "diff", "--no-ext-diff", "--no-textconv", "--ignore-submodules=all", "--",
+        ]
+        and all(not value.startswith("-") and ".." not in Path(value).parts for value in argv[11:])
     ):
         return "PURE_BOUNDED_READ_OR_VALIDATION"
     package_script = Path(argv[2]).resolve() if executable == "bash" and len(argv) == 3 and argv[1] == "-n" else None
@@ -226,7 +232,10 @@ def mechanical_action_class(argv: list[str]) -> str | None:
         and re.fullmatch(r"check-[a-z0-9-]+\.sh", package_script.name)
     ):
         return "EXACT_PACKAGE_OR_TOPOLOGY_VERIFICATION"
-    if executable == "git" and argv[1:] in (["status", "--short"], ["status", "--porcelain=v1"]):
+    if argv == [
+        "git", "--no-optional-locks", "-c", "core.fsmonitor=false", "status", "--short",
+        "--untracked-files=no", "--ignore-submodules=all", "--no-renames",
+    ]:
         return "SAFE_STATUS_OR_CONTAINMENT"
     if executable in {"sha256sum", "shasum"} and len(argv) == 2:
         return "EXACT_ALREADY_BOUND_DETERMINISTIC_ACTION"
@@ -240,6 +249,9 @@ def mechanical_required_reason(argv: list[str]) -> str | None:
 
 
 def classify(request: dict[str, Any], noncurrent: list[str]) -> tuple[str, str, list[str]]:
+    judgement = [item for item in noncurrent if item.endswith(":JUDGEMENT_REQUIRED")]
+    if judgement:
+        return "REQUIRED", "JUDGEMENT_REQUIRED", judgement
     if noncurrent:
         return "PENDING", "JUDGEMENT_REQUIRED", noncurrent
     required_reason = mechanical_required_reason(request["action"]["argv"])
@@ -297,14 +309,17 @@ def current_ref(repo: Path, controller: str) -> tuple[str | None, dict[str, Any]
 
 def current_controller(repo: Path, controller: str) -> dict[str, str]:
     claim = Path(__file__).with_name("claim-run.sh")
-    current = run(["bash", str(claim), "--current-controller", controller], cwd=repo, label="controller currentness")
+    bash = trusted_host_executable(repo, "bash")
+    environment = sanitized_action_environment()
+    current = run([str(bash), str(claim), "--current-controller", controller], cwd=repo, label="controller currentness", environment=environment)
     parts = current.split("\t")
     if len(parts) != 4 or parts[0] != controller:
         fail("controller currentness returned a foreign or malformed record")
     receipt = run(
-        ["bash", str(claim), "--require-current-continuity", controller],
+        [str(bash), str(claim), "--require-current-continuity", controller],
         cwd=repo,
         label="continuity currentness",
+        environment=environment,
     )
     prefix = f"refs/implementaudit/continuity-receipts/{controller}/"
     if not receipt.startswith(prefix) or "@" not in receipt:
@@ -352,6 +367,37 @@ def file_digest(path: Path) -> str:
     return f"sha256:{digest.hexdigest()}"
 
 
+def trusted_host_executable(repo: Path, name: str) -> Path:
+    selected = shutil.which(name)
+    if selected is None:
+        fail(f"trusted host executable is unavailable: {name}")
+    resolved = Path(selected).resolve()
+    try:
+        resolved.relative_to(repo)
+    except ValueError:
+        pass
+    else:
+        fail("system action executable resolves inside target-repository custody")
+    if os.name == "nt":
+        roots = [
+            Path(value).resolve()
+            for key in ("ProgramFiles", "ProgramFiles(x86)", "SystemRoot")
+            if (value := os.environ.get(key))
+        ]
+        if not any(str(resolved).casefold().startswith(str(root).casefold() + os.sep.casefold()) for root in roots):
+            fail("system action executable is outside trusted host custody")
+    else:
+        cursor = resolved
+        while True:
+            info = os.lstat(cursor)
+            if info.st_uid != 0 or info.st_mode & (stat.S_IWGRP | stat.S_IWOTH):
+                fail("system action executable is outside root-owned host custody")
+            if cursor.parent == cursor:
+                break
+            cursor = cursor.parent
+    return resolved
+
+
 def executable_evidence(repo: Path, argv: list[str]) -> dict[str, str]:
     if mechanical_required_reason(argv) is not None:
         return {"requested": "route-trigger", "resolved": "R0033:built-in", "digest": digest_json(argv)}
@@ -362,16 +408,7 @@ def executable_evidence(repo: Path, argv: list[str]) -> dict[str, str]:
     else:
         if argv[0] not in {"git", "bash", "sha256sum", "shasum"}:
             fail("action executable is not a closed trusted identity")
-        selected = shutil.which(argv[0])
-        if selected is None:
-            fail("action executable is unavailable")
-        resolved = Path(selected).resolve()
-        try:
-            resolved.relative_to(repo)
-        except ValueError:
-            pass
-        else:
-            fail("system action executable resolves inside target-repository custody")
+        resolved = trusted_host_executable(repo, argv[0])
     try:
         info = os.lstat(resolved)
     except OSError as exc:
@@ -380,16 +417,7 @@ def executable_evidence(repo: Path, argv: list[str]) -> dict[str, str]:
         fail("action executable is not a safe regular file")
     evidence = {"requested": argv[0], "resolved": str(resolved), "digest": file_digest(resolved)}
     if resolved.suffix.lower() == ".sh":
-        interpreter = shutil.which("bash")
-        if interpreter is None:
-            fail("shell action interpreter is unavailable")
-        interpreter_path = Path(interpreter).resolve()
-        try:
-            interpreter_path.relative_to(repo)
-        except ValueError:
-            pass
-        else:
-            fail("shell action interpreter resolves inside target-repository custody")
+        interpreter_path = trusted_host_executable(repo, "bash")
         interpreter_info = os.lstat(interpreter_path)
         if not stat.S_ISREG(interpreter_info.st_mode) or stat.S_ISLNK(interpreter_info.st_mode):
             fail("shell action interpreter is not a safe regular file")
@@ -402,10 +430,29 @@ def executable_evidence(repo: Path, argv: list[str]) -> dict[str, str]:
     return evidence
 
 
+def sanitized_action_environment() -> dict[str, str]:
+    environment = {key: value for key, value in os.environ.items() if not key.startswith("GIT_")}
+    environment.update(
+        {
+            "GIT_ATTR_NOSYSTEM": "1",
+            "GIT_CONFIG_GLOBAL": "NUL" if os.name == "nt" else "/dev/null",
+            "GIT_CONFIG_NOSYSTEM": "1",
+            "GIT_EXTERNAL_DIFF": "",
+            "GIT_OPTIONAL_LOCKS": "0",
+            "GIT_PAGER": "cat",
+            "LC_ALL": "C",
+            "PAGER": "cat",
+        }
+    )
+    return environment
+
+
 def worktree_read_set(repo: Path) -> dict[str, Any]:
+    git_executable = trusted_host_executable(repo, "git")
     raw_paths = subprocess.run(
-        ["git", "ls-files", "-c", "-o", "--exclude-standard", "-z"],
+        [str(git_executable), "ls-files", "-c", "-o", "--exclude-standard", "-z"],
         cwd=repo,
+        env=sanitized_action_environment(),
         capture_output=True,
         check=False,
     )
@@ -433,8 +480,51 @@ def worktree_read_set(repo: Path) -> dict[str, Any]:
             digest.update(file_digest(target).encode("ascii"))
         else:
             digest.update(b"NONREGULAR")
-    index = run(["git", "ls-files", "-s", "-z"], cwd=repo, label="index read-set")
-    return {"population": len(paths), "digest": f"sha256:{digest.hexdigest()}", "index_digest": digest_json(index)}
+    environment = sanitized_action_environment()
+    logical_index = run([str(git_executable), "ls-files", "-s", "-z"], cwd=repo, label="index read-set", environment=environment)
+    metadata: dict[str, str] = {}
+    for identity, git_path in (
+        ("raw_index", "index"),
+        ("repository_config", "config"),
+        ("worktree_config", "config.worktree"),
+        ("sparse_checkout", "info/sparse-checkout"),
+    ):
+        raw = run([str(git_executable), "rev-parse", "--git-path", git_path], cwd=repo, label=f"{identity} path", environment=environment)
+        candidate = Path(raw)
+        if not candidate.is_absolute():
+            candidate = repo / candidate
+        candidate = candidate.resolve()
+        try:
+            info = os.lstat(candidate)
+        except OSError:
+            metadata[identity] = "MISSING"
+        else:
+            metadata[identity] = file_digest(candidate) if stat.S_ISREG(info.st_mode) and not stat.S_ISLNK(info.st_mode) else "UNSAFE"
+    return {
+        "population": len(paths),
+        "digest": f"sha256:{digest.hexdigest()}",
+        "logical_index_digest": digest_json(logical_index),
+        "git_metadata": metadata,
+        "submodules": "IGNORED_BY_EXACT_ARGV",
+    }
+
+
+def git_environment_requires_judgement(repo: Path) -> bool:
+    git_executable = trusted_host_executable(repo, "git")
+    completed = subprocess.run(
+        [str(git_executable), "config", "--local", "--null", "--list"],
+        cwd=repo,
+        env=sanitized_action_environment(),
+        capture_output=True,
+        check=False,
+    )
+    if completed.returncode:
+        return True
+    for entry in completed.stdout.split(b"\0"):
+        key = entry.split(b"\n", 1)[0].decode("utf-8", "surrogateescape").casefold()
+        if key.startswith("filter."):
+            return True
+    return False
 
 
 def request_observations(
@@ -488,8 +578,10 @@ def request_observations(
     current_paths = {item["path"] for item in observed_inputs if item["status"] == "CURRENT"}
     argv = request["action"]["argv"]
     executable = argv[0].lower()
-    if executable == "git" and len(argv) >= 4 and argv[1:3] == ["diff", "--"]:
-        for action_path in argv[3:]:
+    if executable == "git" and git_environment_requires_judgement(repo):
+        invalidators.append("action-environment:JUDGEMENT_REQUIRED")
+    if mechanical_action_class(argv) == "PURE_BOUNDED_READ_OR_VALIDATION":
+        for action_path in argv[11:]:
             if action_path not in current_paths:
                 invalidators.append(f"action-input:{action_path}:MISSING")
     if executable in {"sha256sum", "shasum"} and len(argv) == 2 and argv[1] not in current_paths:
@@ -880,10 +972,12 @@ def command_decide(args: argparse.Namespace) -> None:
             old
             and current_context_matches
             and old.get("decision") == "PENDING"
-            and old.get("invalidators") == ["action-completion"]
+            and old.get("invalidators") in (["action-in-progress"], ["action-completion"])
             and old.get("expiry_fingerprint") == fingerprint
         ):
-            fail("the exact action receipt was consumed; change the action or scope before reclassification")
+            fail("the exact action receipt was consumed or has unknown completion; it cannot be re-admitted")
+        if old and old.get("decision") == "PENDING" and old.get("invalidators") == ["action-in-progress"]:
+            fail("an action-in-progress record has unknown completion and cannot be replaced in H2A")
         if old and old["decision"] == "REQUIRED" and old.get("route_state") == "UNSATISFIED":
             fail("an active same-controller route obligation cannot be downgraded or replaced in H2A", decision="REQUIRED")
         record_base: dict[str, Any] = {
@@ -921,7 +1015,8 @@ def command_decide(args: argparse.Namespace) -> None:
         raw = json.dumps(record, sort_keys=True, separators=(",", ":")) + "\n"
         new_oid = git(repo, "hash-object", "-w", "--stdin", input_text=raw)
         completed = subprocess.run(
-            ["git", "update-ref", ref_name(args.controller), new_oid, expected_oid], cwd=repo, capture_output=True, text=True
+            [str(trusted_host_executable(repo, "git")), "update-ref", ref_name(args.controller), new_oid, expected_oid],
+            cwd=repo, env=sanitized_action_environment(), capture_output=True, text=True
         )
         if completed.returncode:
             fail("route decision CAS lost the current-record race", decision=decision)
@@ -936,8 +1031,9 @@ def command_decide(args: argparse.Namespace) -> None:
             # current. A lost compensation race leaves a stale record that all
             # check paths reject; it never becomes advancement authority.
             subprocess.run(
-                ["git", "update-ref", ref_name(args.controller), expected_oid, new_oid],
+                [str(trusted_host_executable(repo, "git")), "update-ref", ref_name(args.controller), expected_oid, new_oid],
                 cwd=repo,
+                env=sanitized_action_environment(),
                 capture_output=True,
                 text=True,
                 check=False,
@@ -985,8 +1081,7 @@ def execute_exact_action(
         if file_digest(interpreter) != executable["interpreter_digest"]:
             fail("exact admitted action interpreter changed before execution")
         command = [str(interpreter), str(resolved), *argv[1:]]
-    environment = dict(os.environ)
-    environment.update({"GIT_PAGER": "cat", "PAGER": "cat", "GIT_EXTERNAL_DIFF": ""})
+    environment = sanitized_action_environment()
     try:
         completed = subprocess.run(
             command,
@@ -1034,22 +1129,62 @@ def command_consume(args: argparse.Namespace) -> None:
             or old.get("host_binding_generation") != args.binding_generation
         ):
             fail("action receipt is stale and cannot be consumed", decision=old["decision"])
+        in_progress_base = {
+            **{key: value for key, value in old.items() if key != "record_identity"},
+            "decision": "PENDING",
+            "classification": "JUDGEMENT_REQUIRED",
+            "invalidators": ["action-in-progress"],
+            "predecessor_record_oid": old_oid,
+            "route_transaction_id": digest_json(
+                {
+                    "kind": "action-in-progress",
+                    "record_oid": old_oid,
+                    "fingerprint": fingerprint,
+                    "controller_record_oid": current["controller_record_oid"],
+                    "continuity_receipt": current["continuity_receipt"],
+                    "host_binding_generation": args.binding_generation,
+                }
+            ),
+            "obligation_id": None,
+            "route_state": None,
+            "consumed_record_oid": old_oid,
+            "host_correlation_id": evidence["dependency"]["host_correlation_id"],
+        }
+        in_progress = {**in_progress_base, "record_identity": digest_json(in_progress_base)}
+        in_progress_raw = json.dumps(in_progress, sort_keys=True, separators=(",", ":")) + "\n"
+        in_progress_oid = git(repo, "hash-object", "-w", "--stdin", input_text=in_progress_raw)
+        admitted = subprocess.run(
+            [str(trusted_host_executable(repo, "git")), "update-ref", ref_name(args.controller), in_progress_oid, old_oid],
+            cwd=repo,
+            env=sanitized_action_environment(),
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if admitted.returncode:
+            fail("action-admission CAS lost the current-record race")
+        admitted_current = current_controller(repo, args.controller)
+        admitted_eval = evaluate(repo, common, args, admitted_current, request)
+        admitted_oid, _ = current_ref(repo, args.controller)
+        if admitted_current != current or admitted_eval[4] != fingerprint or admitted_oid != in_progress_oid:
+            fail("action admission lost currentness before execution", decision="PENDING")
+
         action_result = execute_exact_action(repo, request, evidence["package"]["action_executable"])
         post_action_current = current_controller(repo, args.controller)
         post_action_eval = evaluate(repo, common, args, post_action_current, request)
         post_action_oid, _ = current_ref(repo, args.controller)
-        if post_action_current != current or post_action_eval[4] != fingerprint or post_action_oid != old_oid:
+        if post_action_current != current or post_action_eval[4] != fingerprint or post_action_oid != in_progress_oid:
             fail("route authority changed while the exact action executed", decision="PENDING")
         successor_base = {
-            **{key: value for key, value in old.items() if key != "record_identity"},
+            **{key: value for key, value in in_progress.items() if key != "record_identity"},
             "decision": "PENDING",
             "classification": "JUDGEMENT_REQUIRED",
             "invalidators": ["action-completion"],
-            "predecessor_record_oid": old_oid,
+            "predecessor_record_oid": in_progress_oid,
             "route_transaction_id": digest_json(
                 {
-                    "kind": "action-consumption",
-                    "record_oid": old_oid,
+                    "kind": "action-completion",
+                    "record_oid": in_progress_oid,
                     "fingerprint": fingerprint,
                     "controller_record_oid": current["controller_record_oid"],
                     "continuity_receipt": current["continuity_receipt"],
@@ -1065,8 +1200,9 @@ def command_consume(args: argparse.Namespace) -> None:
         raw = json.dumps(successor, sort_keys=True, separators=(",", ":")) + "\n"
         new_oid = git(repo, "hash-object", "-w", "--stdin", input_text=raw)
         completed = subprocess.run(
-            ["git", "update-ref", ref_name(args.controller), new_oid, old_oid],
+            [str(trusted_host_executable(repo, "git")), "update-ref", ref_name(args.controller), new_oid, in_progress_oid],
             cwd=repo,
+            env=sanitized_action_environment(),
             capture_output=True,
             text=True,
             check=False,

@@ -207,9 +207,9 @@ def h(value): return "sha256:"+hashlib.sha256(json.dumps(value,sort_keys=True,se
 def file_hash(path): return "sha256:"+hashlib.sha256(open(path,"rb").read()).hexdigest()
 argv={
  "MECHANICAL_CURRENTNESS_ACTION":[sys.argv[5],"--require-current-continuity","controller-cheap"],
- "PURE_BOUNDED_READ_OR_VALIDATION":["git","diff","--","baseline.txt"],
+ "PURE_BOUNDED_READ_OR_VALIDATION":["git","--no-optional-locks","-c","core.fsmonitor=false","-c","diff.external=","diff","--no-ext-diff","--no-textconv","--ignore-submodules=all","--","baseline.txt"],
  "EXACT_PACKAGE_OR_TOPOLOGY_VERIFICATION":["bash","-n",sys.argv[6]],
- "SAFE_STATUS_OR_CONTAINMENT":["git","status","--short"],
+ "SAFE_STATUS_OR_CONTAINMENT":["git","--no-optional-locks","-c","core.fsmonitor=false","status","--short","--untracked-files=no","--ignore-submodules=all","--no-renames"],
  "EXACT_ALREADY_BOUND_DETERMINISTIC_ACTION":["sha256sum","baseline.txt"],
 }.get(sys.argv[2],["unknown-action"])
 if sys.argv[3]: argv=["route-trigger",sys.argv[3]]
@@ -230,11 +230,12 @@ PY
 
 mutate_request() {
   local source="$1" target="$2" expression="$3"
-  "${py[@]}" - "$source" "$target" "$expression" <<'PY'
+  "${py[@]}" - "$source" "$target" "$expression" "$tmp/repo" <<'PY'
 import hashlib,json,sys
 with open(sys.argv[1],encoding="utf-8") as f: value=json.load(f)
 def h(item): return "sha256:"+hashlib.sha256(json.dumps(item,sort_keys=True,separators=(",", ":")).encode()).hexdigest()
-exec(sys.argv[3], {"__builtins__": {}}, {"value":value,"h":h})
+def file_hash(path): return "sha256:"+hashlib.sha256(open(path,"rb").read()).hexdigest()
+exec(sys.argv[3], {"__builtins__": {}}, {"value":value,"h":h,"file_hash":file_hash,"repo":sys.argv[4]})
 with open(sys.argv[2],"w",encoding="utf-8",newline="\n") as f: json.dump(value,f,sort_keys=True); f.write("\n")
 PY
 }
@@ -245,6 +246,18 @@ pending_request="$tmp/pending.json"
 write_request "$required_request" PURE_BOUNDED_READ_OR_VALIDATION MAINTAINER_QUALIFICATION
 write_request "$cheap_request" PURE_BOUNDED_READ_OR_VALIDATION
 write_request "$pending_request" PURE_BOUNDED_READ_OR_VALIDATION
+
+mkdir -p "$tmp/evil-bin"
+printf '#!/usr/bin/env bash\nexit 0\n' > "$tmp/evil-bin/git"
+chmod +x "$tmp/evil-bin/git"
+"${py[@]}" - "$core" "$tmp/repo" "$tmp/evil-bin" >/dev/null <<'PY'
+import importlib.util, os, pathlib, sys
+spec=importlib.util.spec_from_file_location("route_transaction",sys.argv[1]); module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+os.environ["PATH"]=sys.argv[3]+os.pathsep+os.environ["PATH"]
+try: module.executable_evidence(pathlib.Path(sys.argv[2]),["git","--no-optional-locks","-c","core.fsmonitor=false","status","--short","--untracked-files=no","--ignore-submodules=all","--no-renames"])
+except SystemExit: pass
+else: raise SystemExit("caller-controlled PATH executable was accepted as trusted")
+PY
 
 # 1-5: omission, prose and projection are not authority; malformed authority blocks.
 printf 'route obligation REQUIRED\n' > "$run_root/route-prose.txt"
@@ -375,19 +388,59 @@ assert_json "$rebound_decide" "value[\"decision\"] == \"NOT_REQUIRED\" and value
 rebound_transaction="$(git -C "$tmp/repo" cat-file blob "$rebound_oid" | "${py[@]}" -c 'import json,sys;print(json.load(sys.stdin)["route_transaction_id"])')"
 [ "$old_transaction" != "$rebound_transaction" ] || fail "binding generation reused the route transaction identity"
 route controller-cheap session-cheap G0002 check --request "$cheap_request" >/dev/null
-consume_request="$tmp/consume-exact-action.json"
-write_request "$consume_request" EXACT_ALREADY_BOUND_DETERMINISTIC_ACTION
-consume_decide="$(route controller-cheap session-cheap G0002 decide --request "$consume_request" --expected-record "$rebound_oid")"
-consume_decide_oid="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$consume_decide")"
-route controller-cheap session-cheap G0002 check --request "$consume_request" >/dev/null
-consumed="$(route controller-cheap session-cheap G0002 consume --request "$consume_request" --expected-record "$consume_decide_oid")"
-consumed_oid="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$consumed")"
-assert_json "$consumed" "value[\"status\"] == \"ACTION_COMPLETE\" and value[\"decision\"] == \"PENDING\" and value[\"advance_allowed\"] is False and value[\"action_executed\"] is True and value[\"action_result\"][\"exit_code\"] == 0 and value[\"action_result\"][\"stdout_bytes\"] > 0 and value[\"consumed_record_oid\"] == \"$consume_decide_oid\""
-expect_blocked "consumed action cannot replay" route controller-cheap session-cheap G0002 check --request "$consume_request" >/dev/null
-expect_blocked "consumed action cannot be re-minted" route controller-cheap session-cheap G0002 decide --request "$consume_request" --expected-record "$consumed_oid" >/dev/null
+current_action_oid="$rebound_oid"
+for class in PURE_BOUNDED_READ_OR_VALIDATION MECHANICAL_CURRENTNESS_ACTION EXACT_PACKAGE_OR_TOPOLOGY_VERIFICATION SAFE_STATUS_OR_CONTAINMENT EXACT_ALREADY_BOUND_DETERMINISTIC_ACTION; do
+  consume_request="$tmp/consume-$class.json"
+  write_request "$consume_request" "$class"
+  consume_decide="$(route controller-cheap session-cheap G0002 decide --request "$consume_request" --expected-record "$current_action_oid")"
+  consume_decide_oid="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$consume_decide")"
+  route controller-cheap session-cheap G0002 check --request "$consume_request" >/dev/null
+  consumed="$(route controller-cheap session-cheap G0002 consume --request "$consume_request" --expected-record "$consume_decide_oid")"
+  current_action_oid="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$consumed")"
+  assert_json "$consumed" "value[\"status\"] == \"ACTION_COMPLETE\" and value[\"decision\"] == \"PENDING\" and value[\"advance_allowed\"] is False and value[\"action_executed\"] is True and value[\"action_result\"][\"exit_code\"] == 0 and value[\"consumed_record_oid\"] == \"$consume_decide_oid\""
+  expect_blocked "completed $class action cannot replay" route controller-cheap session-cheap G0002 check --request "$consume_request" >/dev/null
+done
+consumed_oid="$current_action_oid"
+
+# A process loss after admission consumption but before action completion must
+# leave canonical PENDING/action-in-progress, never reusable NOT_REQUIRED.
+truncate -s 268435456 "$tmp/repo/process-loss.bin"
+loss_request="$tmp/process-loss.json"
+write_request "$loss_request" EXACT_ALREADY_BOUND_DETERMINISTIC_ACTION
+mutate_request "$loss_request" "$loss_request.next" 'value["action"]["argv"]=["sha256sum","process-loss.bin"]; value["action"]["digest"]=h({"identity":value["action"]["identity"],"class":value["action"]["class"],"argv":value["action"]["argv"]}); value["inputs"]=[{"identity":"input:repository","path":"process-loss.bin","digest":file_hash(repo+"/process-loss.bin")}]'
+mv "$loss_request.next" "$loss_request"
+loss_decide="$(route controller-cheap session-cheap G0002 decide --request "$loss_request" --expected-record "$consumed_oid")"
+loss_decide_oid="$("${py[@]}" -c 'import json,sys;print(json.loads(sys.argv[1])["record_oid"])' "$loss_decide")"
+(
+  cd "$tmp/repo"
+  exec "${py[@]}" "$core" consume --request "$loss_request" --expected-record "$loss_decide_oid" \
+    --controller controller-cheap --store "$tmp/host-store" --host-id codex \
+    --host-session-id session-cheap --binding-generation G0002
+) >"$tmp/process-loss.out" 2>&1 &
+loss_pid=$!
+in_progress_oid=''
+for _ in $(seq 1 1000); do
+  candidate_oid="$(git -C "$tmp/repo" rev-parse --verify refs/implementaudit/route-decisions/controller-cheap)"
+  candidate_blob="$(git -C "$tmp/repo" cat-file blob "$candidate_oid")"
+  if assert_json "$candidate_blob" 'value["decision"] == "PENDING" and value["invalidators"] == ["action-in-progress"]' >/dev/null 2>&1; then
+    in_progress_oid="$candidate_oid"
+    kill -KILL "$loss_pid"
+    break
+  fi
+  sleep 0.01
+done
+[ -n "$in_progress_oid" ] || fail "action-in-progress CAS was not observable before exact action completion"
+set +e
+wait "$loss_pid" 2>/dev/null
+loss_status=$?
+set -e
+[ "$loss_status" -ne 0 ] || fail "process-loss control did not terminate the consumer"
+[ "$(git -C "$tmp/repo" rev-parse refs/implementaudit/route-decisions/controller-cheap)" = "$in_progress_oid" ] || fail "process loss did not preserve canonical action-in-progress"
+expect_blocked "process-loss action cannot replay" route controller-cheap session-cheap G0002 check --request "$loss_request" >/dev/null
+expect_blocked "process-loss action cannot be re-minted" route controller-cheap session-cheap G0002 decide --request "$loss_request" --expected-record "$in_progress_oid" >/dev/null
 assert_json "$required_check" 'value["advance_allowed"] is False'
 expect_blocked "STATE pending cannot override required" route controller-route route-red G0001 check --request "$required_request" >/dev/null
 assert_json "$required_blob" 'value["expires_on"] and "scope-expansion" in value["expires_on"] and "continuity-receipt-change" in value["expires_on"]'
 assert_json "$judgement_decide" 'value["record_oid"] and value["decision"] == "REQUIRED"'
 
-printf 'route-obligation-contract.test: ok (50/50 live H2A cases; first RED preserved)\n'
+printf 'route-obligation-contract.test: ok (57/57 live H2A cases; first RED preserved)\n'
